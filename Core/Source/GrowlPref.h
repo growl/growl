@@ -64,6 +64,7 @@
 	IBOutlet NSView					*displayDefaultPrefView;
 	IBOutlet NSTextField			*displayAuthor;
 	IBOutlet NSTextField			*displayVersion;
+	IBOutlet NSButton				*previewButton;
 
 	//"Network" tab pane
 	IBOutlet NSSecureTextField		*networkPassword;

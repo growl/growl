@@ -619,12 +619,12 @@
 		[newView setFrame:DISPLAY_PREF_FRAME];
 		[[displayPrefView superview] replaceSubview:displayPrefView with:newView];
 		displayPrefView = newView;
-		
+
 		if (pluginPrefPane) {
 			[pluginPrefPane didSelect];
 			// Hook up key view chain
 			[displayPluginsTable setNextKeyView:[pluginPrefPane firstKeyView]];
-			[[pluginPrefPane lastKeyView] setNextKeyView:tabView];
+			[[pluginPrefPane lastKeyView] setNextKeyView:previewButton];
 			//[[displayPluginsTable window] makeFirstResponder:[pluginPrefPane initialKeyView]];
 		} else {
 			[displayPluginsTable setNextKeyView:tabView];

@@ -30,6 +30,7 @@
                 growlVersionProgress = NSProgressIndicator; 
                 networkPassword = NSSecureTextField; 
                 notificationPriorityMenu = NSMenu; 
+                previewButton = NSButton; 
                 remove = NSButton; 
                 searchField = NSTextField; 
                 startStopGrowl = NSButton; 
