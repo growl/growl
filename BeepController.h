@@ -15,6 +15,7 @@
     IBOutlet NSButton		*_registered;						// The magic button that registers/unregisters
 	IBOutlet NSButton		*_addNotification;					// The button button that opens the add note pane
     IBOutlet NSButton		*_removeNotification;				// The remove button (TBR)
+	IBOutlet NSButton		*_sendButton;						// The button to send a notification
 	
 	//data
 	NSMutableArray			*_notifications;					// The Array of notifications

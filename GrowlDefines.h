@@ -24,6 +24,8 @@
 #define GROWL_PING						@"Honey, Mind Taking Out The Trash"
 #define GROWL_PONG						@"What Do You Want From Me, Woman"
 
+#define GROWL_IS_READY					@"Lend Me Some Sugar; I Am Your Neighbor!"
+
 @protocol GrowlPlugin
 - (id) loadPlugin;
 - (NSString *) author;

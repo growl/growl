@@ -103,6 +103,24 @@
 	}
 }
 
+//Post a notification when we are done launching so the application bridge can inform participating applications
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY 
+																   object:nil 
+																 userInfo:nil
+													   deliverImmediately:YES];
+}
+
+//Same as applicationDidFinishLaunching, called when we are asked to reopen (that is, we are already running)
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY 
+																   object:nil 
+																 userInfo:nil
+													   deliverImmediately:YES];
+	
+	return YES;
+}
+
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) theApplication {
 	return NO;
 }

@@ -64,7 +64,7 @@
 			children = (
 				CB1C5D95063E523F007052EE,
 				CBDBDEE506715DAF004622FA,
-				CBF073C80659A94F000B4B77,
+				34CEA3930680A77C00670E0D,
 				CB5F835E0638B67C00EADD7A,
 				CB5F836E0638B69900EADD7A,
 				CB5F84EB0638BFFF00EADD7A,
@@ -231,6 +231,56 @@
 //322
 //323
 //324
+//340
+//341
+//342
+//343
+//344
+		34CEA3930680A77C00670E0D = {
+			children = (
+				CBF073C80659A94F000B4B77,
+				34CEA39C0680A7BF00670E0D,
+				34CEA39D0680A7BF00670E0D,
+			);
+			isa = PBXGroup;
+			name = "Application Bridge";
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34CEA39C0680A7BF00670E0D = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlApplicationBridge.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34CEA39D0680A7BF00670E0D = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlApplicationBridge.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34CEA39E0680A7BF00670E0D = {
+			fileRef = 34CEA39C0680A7BF00670E0D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34CEA39F0680A7BF00670E0D = {
+			fileRef = 34CEA39D0680A7BF00670E0D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//340
+//341
+//342
+//343
+//344
 //520
 //521
 //522
@@ -957,6 +1007,7 @@
 			files = (
 				CBBC7F0106594F8E00684B79,
 				CBF073C90659A94F000B4B77,
+				34CEA39E0680A7BF00670E0D,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -974,6 +1025,7 @@
 			files = (
 				CBBC7E1E06593BFD00684B79,
 				CBBC7F0006594F8E00684B79,
+				34CEA39F0680A7BF00670E0D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

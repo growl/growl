@@ -1,6 +1,11 @@
 #import "BeepController.h"
+#import "GrowlApplicationBridge.h"
 
 #define GROWL_NOTIFICATION_DEFAULT @"NotificationDefault"
+
+@interface BeepController (PRIVATE)
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
+@end
 
 @implementation BeepController
 
@@ -14,6 +19,10 @@
 - (void) dealloc {
     [_notifications release];
     _notifications = nil;
+}
+
+- (void)awakeFromNib {
+	[self tableViewSelectionDidChange:nil];
 }
 
 #pragma mark -
@@ -63,37 +72,21 @@
 	}
 }
 
+//Called when the "Register" checkbox is selecteed
 - (IBAction)registerBeep:(id)sender {
     if ( [_registered state] == NSOnState ) {
         NSLog( @"Button on" );
-        NSMutableArray *defNotesArray = [NSMutableArray array];
-        NSMutableArray *allNotesArray = [NSMutableArray array];
-        NSEnumerator *defNotes = [_notifications objectEnumerator];
-        id def;
-        int k = 0;
-        
-        while ( def = [defNotes nextObject] ) {
-            if ( [(NSDictionary *)def objectForKey:GROWL_NOTIFICATION_DEFAULT] ) {
-                [defNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_TITLE]];
-            }
-        }
-        
-        for ( k=0; k < [_notifications count]; k++ ) {
-            [allNotesArray addObject:[[_notifications objectAtIndex:k] objectForKey:GROWL_NOTIFICATION_TITLE]];
-        }
-        
-        NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:   @"Beep", GROWL_APP_NAME, 
-            allNotesArray, GROWL_NOTIFICATIONS_ALL, 
-            defNotesArray, GROWL_NOTIFICATIONS_DEFAULT,
-            nil];
-        
-        [[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION 
-                                                                       object:nil 
-                                                                     userInfo:regDict];
 		
-		//Disable the add/remove buttons
-		[_addNotification setEnabled:NO];
-		[_removeNotification setEnabled:NO];
+		//Launch growl if possible
+		if ([GrowlApplicationBridge launchGrowlIfInstalledNotifyingTarget:self
+																 selector:@selector(growlDidLaunch:) 
+																  context:nil]){
+			//Disable the add/remove buttons
+			[_addNotification setEnabled:NO];
+			[_removeNotification setEnabled:NO];
+		}else{
+			NSLog(@"Bloody 'ell. Growl's not installed or couldn't be launched");
+		}
     } else {
         NSLog( @"Button off" );	
 		
@@ -103,13 +96,52 @@
     }
 }
 
-- (IBAction)sendNotification:(id)sender {
-	//send a notification for the selected table cell
-	id note = [_notifications objectAtIndex:[_notificationsTable selectedRow]];
+
+- (void)growlDidLaunch:(id)context {
 	
-	//NSLog( @"note - %@", note );
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:[note objectForKey:GROWL_NOTIFICATION_TITLE] object:nil userInfo:note deliverImmediately:YES];
-	//NSLog( @"sent it" );
+	NSLog(@"Growl engaged, Captain!");
+	
+	NSMutableArray *defNotesArray = [NSMutableArray array];
+	NSMutableArray *allNotesArray = [NSMutableArray array];
+	NSEnumerator *defNotes = [_notifications objectEnumerator];
+	id def;
+	int k = 0;
+	
+	while ( def = [defNotes nextObject] ) {
+		if ( [(NSDictionary *)def objectForKey:GROWL_NOTIFICATION_DEFAULT] ) {
+			[defNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_TITLE]];
+		}
+	}
+	
+	for ( k=0; k < [_notifications count]; k++ ) {
+		[allNotesArray addObject:[[_notifications objectAtIndex:k] objectForKey:GROWL_NOTIFICATION_TITLE]];
+	}
+	
+	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:   @"Beep", GROWL_APP_NAME, 
+		allNotesArray, GROWL_NOTIFICATIONS_ALL, 
+		defNotesArray, GROWL_NOTIFICATIONS_DEFAULT,
+		nil];
+	
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION 
+																   object:nil 
+																 userInfo:regDict];
+	
+}
+
+- (IBAction)sendNotification:(id)sender {
+	int selectedRow = [_notificationsTable selectedRow];
+	
+	if (selectedRow != -1){
+		//send a notification for the selected table cell
+		id note = [_notifications objectAtIndex:[_notificationsTable selectedRow]];
+		
+		//NSLog( @"note - %@", note );
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:[note objectForKey:GROWL_NOTIFICATION_TITLE] 
+																	   object:nil 
+																	 userInfo:note
+														   deliverImmediately:YES];
+		//NSLog( @"sent it" );
+	}
 }
 
 - (IBAction) endPanel:(id)sender {
@@ -132,5 +164,10 @@
     return NO;
 }
 
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
+	BOOL rowIsSelected = ([_notificationsTable selectedRow] != -1);
+	
+	[_sendButton setEnabled:rowIsSelected];
+}
 @end
 
