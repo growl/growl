@@ -21,7 +21,7 @@ enum {
 enum {
 	registerNotificationCmd   = 'ADDN',
 	unregisterNotificationCmd = 'DELN',
-	registerWithGrowlCmd	  = 'REGD'  //as in the Registered checkbox
+	registerWithGrowlCmd	  = 'REGD', //as in the Registered checkbox
 };
 
 OSStatus updateSendEnabledState(Boolean enabled);

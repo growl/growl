@@ -222,7 +222,7 @@ OSStatus handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef event, 
 
 								if(GetControl32BitValue(checkbox) != kControlCheckBoxUncheckedValue) {
 									//register as a Growl client.
-									struct CFnotification *registerNotification = CreateCFNotification(GROWL_APP_REGISTRATION, /*title*/ NULL, /*desc*/ NULL, /*imageData*/ NULL, /*isDefault*/ false);
+									struct CFnotification *registerNotification = CreateCFNotification(GROWL_APP_REGISTRATION, /*title*/ NULL, /*desc*/ NULL, /*priority*/ 0, /*imageData*/ NULL, /*isSticky*/ false, /*isDefault*/ false);
 									UpdateCFNotificationUserInfoForGrowl(registerNotification);
 
 									CFMutableArrayRef allNotifications     = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
@@ -291,7 +291,8 @@ OSStatus handleCommandInSheet(EventHandlerCallRef nextHandler, EventRef event, v
 						DataBrowserItemID item;
 						CFStringRef title = NULL, desc = NULL;
 						CFDataRef imageData = NULL;
-						Boolean isDefault = false;
+						Boolean isSticky = false, isDefault = false;
+						int priority = 0;
 						
 						switch(cmd.commandID) {
 #pragma mark Sheet, OK button
@@ -316,26 +317,40 @@ OSStatus handleCommandInSheet(EventHandlerCallRef nextHandler, EventRef event, v
 									CFRelease(desc);
 									desc = NULL;
 								}
-									
+
+								controlID.id = notificationSheetPriorityMenu; //priority pop-up menu
+								err = GetControlByID(window, &controlID, &control);
+								/*	priorities are in the range -2..+2.
+								 *	menu item indices are in the range 1.. .
+								 *	thus, a menu item index can be converted
+								 *	  into a priority by subtracting 3.
+								 */
+								priority = GetControl32BitValue(control) - 3;
+
 								controlID.id = notificationSheetDefaultCheckboxID; //default-notification checkbox
 								err = GetControlByID(window, &controlID, &control);
 								isDefault = (GetControl32BitValue(control) != kControlCheckBoxUncheckedValue);
 
-								controlID.id = notificationSheetIconWellID; //default-notification checkbox
+								controlID.id = notificationSheetStickyID; //sticky checkbox
+								err = GetControlByID(window, &controlID, &control);
+								isSticky = (GetControl32BitValue(control) != kControlCheckBoxUncheckedValue);
+
+								controlID.id = notificationSheetIconWellID; //image well
 								err = GetControlByID(window, &controlID, &control);
 								if(err == noErr) {
 									err = GetControlProperty(control, appSignature, 'ICON', sizeof(imageData), /*actualSize*/ NULL, &imageData);
 									RemoveControlProperty(control, appSignature, 'ICON');
 								}
 
-								notification = CreateCFNotification(GROWL_NOTIFICATION, title, desc, imageData, isDefault);
+								notification = CreateCFNotification(GROWL_NOTIFICATION, title, desc, priority, imageData, isSticky, isDefault);
 								if(imageData) CFRelease(imageData);
 								if(notification) {
 									UpdateCFNotificationUserInfoForGrowl(notification);
 
-									//it's worth pointing out that this next
-									//  GCBI call is for the main window, not
-									//  the sheet.
+									/*	it's worth pointing out that this next
+									 *	GCBI call is for the main window, not
+									 *	the sheet.
+									 */
 									controlID.id = mainWindowNotificationsBrowserID;
 									err = GetControlByID(mainWindow, &controlID, &control);
 
@@ -362,7 +377,7 @@ OSStatus handleCommandInSheet(EventHandlerCallRef nextHandler, EventRef event, v
 								}
 								err = HideSheetWindow(window);
 								break; //case kHICommandCancel
-								
+
 #pragma mark Sheet, default
 							default:
 								err = eventNotHandledErr;
@@ -384,9 +399,9 @@ OSStatus handleDragInSheet(EventHandlerCallRef nextHandler, EventRef event, void
 	switch(class) {
 		case kEventClassControl:
 			err = GetEventParameter(event, kEventParamDirectObject, typeControlRef, /*outActualType*/ NULL, sizeof(dropTarget), /*outActualSize*/ NULL, &dropTarget);
-			DEBUG_printf2("GEP (DirectObject): %i (%p)\n", err, dropTarget);
+			DEBUG_printf2("GEP (DirectObject): %i (%p)\n", (int)err, (void *)dropTarget);
 			GetEventParameter(event, kEventParamDragRef, typeDragRef, /*outActualType*/ NULL, sizeof(drag), /*outActualSize*/ NULL, &drag);
-			DEBUG_printf2("GEP (DragRef): %i (%p)\n", err, drag);
+			DEBUG_printf2("GEP (DragRef): %i (%p)\n", (int)err, (void *)drag);
 			err = eventNotHandledErr;
 
 			DragItemRef item = 0;
@@ -460,7 +475,7 @@ OSStatus handleDragInSheet(EventHandlerCallRef nextHandler, EventRef event, void
 					item = dragItemWithTypes(drag, wantDragTypes, &flavorIndex);
 					if(item == 0)
 						item = dragItemWithTypes(drag, tolerateDragTypes, &flavorIndex);
-					DEBUG_printf1("item: %u\n", item);
+					DEBUG_printf1("item: %u\n", (unsigned)item);
 					if(item) {
 						FlavorType flavorType;
 						err = GetFlavorType(drag, item, flavorIndex, &flavorType);
@@ -576,8 +591,13 @@ void clearFieldsInSheet(WindowRef sheet) {
 		//default-notification checkbox.
 		controlID.id = notificationSheetDefaultCheckboxID;
 		GetControlByID(sheet, &controlID, &control);
-		SetControl32BitValue(control, 0);
+		SetControl32BitValue(control, kControlCheckBoxCheckedValue);
 
+		//sticky checkbox.
+		controlID.id = notificationSheetStickyID;
+		GetControlByID(sheet, &controlID, &control);
+		SetControl32BitValue(control, kControlCheckBoxUncheckedValue);
+		
 		//image well.
 		{
 			controlID.id = notificationSheetIconWellID;

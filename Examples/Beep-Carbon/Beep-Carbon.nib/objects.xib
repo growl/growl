@@ -4,7 +4,7 @@
   <object name="rootObject" class="NSCustomObject" id="1">
     <string name="customClass">NSApplication</string>
   </object>
-  <array count="55" name="allObjects">
+  <array count="64" name="allObjects">
     <object class="IBCarbonMenu" id="29">
       <string name="title">Beep-Carbon</string>
       <array count="4" name="items">
@@ -338,9 +338,9 @@
       <boolean name="isConstrained">FALSE</boolean>
     </object>
     <object class="IBCarbonRootControl" id="201">
-      <string name="bounds">0 0 176 374 </string>
-      <string name="viewFrame">0 0 374 176 </string>
-      <array count="8" name="subviews">
+      <string name="bounds">0 0 184 374 </string>
+      <string name="viewFrame">0 0 374 184 </string>
+      <array count="11" name="subviews">
         <object class="IBCarbonStaticText" id="207">
           <string name="bounds">53 107 66 171 </string>
           <string name="viewFrame">107 53 64 13 </string>
@@ -410,8 +410,8 @@
           <boolean name="isUnicode">TRUE</boolean>
         </object>
         <object class="IBCarbonCheckBox" id="208">
-          <string name="bounds">138 20 154 159 </string>
-          <string name="viewFrame">20 138 139 16 </string>
+          <string name="bounds">146 20 162 159 </string>
+          <string name="viewFrame">20 146 139 16 </string>
           <ostype name="controlSignature">BEEP</ostype>
           <int name="controlID">2001</int>
           <string name="title">Allowed by Default</string>
@@ -419,10 +419,11 @@
             <int name="bindingLeftKind">1</int>
             <int name="bindingBottomKind">2</int>
           </object>
+          <int name="initialState">1</int>
         </object>
         <object class="IBCarbonButton" id="209">
-          <string name="bounds">136 284 156 354 </string>
-          <string name="viewFrame">284 136 70 20 </string>
+          <string name="bounds">144 284 164 354 </string>
+          <string name="viewFrame">284 144 70 20 </string>
           <ostype name="controlSignature">BEEP</ostype>
           <int name="controlID">4001</int>
           <string name="title">Add</string>
@@ -434,8 +435,8 @@
           <int name="buttonType">1</int>
         </object>
         <object class="IBCarbonButton" id="210">
-          <string name="bounds">136 202 156 272 </string>
-          <string name="viewFrame">202 136 70 20 </string>
+          <string name="bounds">144 202 164 272 </string>
+          <string name="viewFrame">202 144 70 20 </string>
           <ostype name="controlSignature">BEEP</ostype>
           <int name="controlID">4002</int>
           <string name="title">Cancel</string>
@@ -446,10 +447,55 @@
           </object>
           <int name="buttonType">2</int>
         </object>
+        <object class="IBCarbonPopupButton" id="215">
+          <string name="bounds">107 179 124 354 </string>
+          <string name="viewFrame">179 107 175 17 </string>
+          <ostype name="controlSignature">BEEP</ostype>
+          <int name="controlID">1003</int>
+          <boolean name="small">TRUE</boolean>
+          <int name="controlSize">1</int>
+          <int name="selectedItem">3</int>
+          <object name="menu" class="IBCarbonMenu" id="216">
+            <string name="title">Popup:</string>
+            <array count="5" name="items">
+              <object class="IBCarbonMenuItem" id="213">
+                <string name="title">Very Low</string>
+              </object>
+              <object class="IBCarbonMenuItem" id="212">
+                <string name="title">Moderate</string>
+              </object>
+              <object class="IBCarbonMenuItem" id="214">
+                <boolean name="checked">TRUE</boolean>
+                <string name="title">Normal</string>
+              </object>
+              <object class="IBCarbonMenuItem" id="217">
+                <string name="title">High</string>
+              </object>
+              <object class="IBCarbonMenuItem" id="218">
+                <string name="title">Emergency</string>
+              </object>
+            </array>
+          </object>
+        </object>
+        <object class="IBCarbonStaticText" id="219">
+          <string name="bounds">110 130 123 171 </string>
+          <string name="viewFrame">130 110 41 13 </string>
+          <boolean name="small">TRUE</boolean>
+          <int name="controlSize">1</int>
+          <string name="title">Priority:</string>
+          <int name="justification">-1</int>
+        </object>
+        <object class="IBCarbonCheckBox" id="220">
+          <string name="bounds">124 20 138 79 </string>
+          <string name="viewFrame">20 124 59 14 </string>
+          <ostype name="controlSignature">BEEP</ostype>
+          <int name="controlID">2002</int>
+          <string name="title">Sticky</string>
+        </object>
       </array>
     </object>
     <object class="IBCarbonWindow" id="202">
-      <string name="windowRect">789 691 965 1065 </string>
+      <string name="windowRect">785 581 969 955 </string>
       <string name="title">New Notification</string>
       <reference name="rootControl" idRef="201"/>
       <boolean name="receiveUpdates">FALSE</boolean>
@@ -470,8 +516,17 @@
     <reference idRef="209"/>
     <reference idRef="210"/>
     <reference idRef="211"/>
+    <reference idRef="212"/>
+    <reference idRef="213"/>
+    <reference idRef="214"/>
+    <reference idRef="215"/>
+    <reference idRef="216"/>
+    <reference idRef="217"/>
+    <reference idRef="218"/>
+    <reference idRef="219"/>
+    <reference idRef="220"/>
   </array>
-  <array count="55" name="allParents">
+  <array count="64" name="allParents">
     <reference idRef="1"/>
     <reference idRef="29"/>
     <reference idRef="131"/>
@@ -527,6 +582,15 @@
     <reference idRef="201"/>
     <reference idRef="201"/>
     <reference idRef="196"/>
+    <reference idRef="216"/>
+    <reference idRef="216"/>
+    <reference idRef="216"/>
+    <reference idRef="201"/>
+    <reference idRef="215"/>
+    <reference idRef="216"/>
+    <reference idRef="216"/>
+    <reference idRef="201"/>
+    <reference idRef="201"/>
   </array>
   <dictionary count="5" name="nameTable">
     <string>Files Owner</string>
@@ -540,5 +604,5 @@
     <string>NewNotification</string>
     <reference idRef="202"/>
   </dictionary>
-  <unsigned_int name="nextObjectID">212</unsigned_int>
+  <unsigned_int name="nextObjectID">221</unsigned_int>
 </object>

@@ -10,7 +10,9 @@ enum {
 enum {
 	notificationSheetTitleFieldID      = 1001,
 	notificationSheetDescFieldID       = 1002,
+	notificationSheetPriorityMenu      = 1003,
 	notificationSheetDefaultCheckboxID = 2001,
+	notificationSheetStickyID          = 2002,
 	notificationSheetIconWellID        = 3001,
 	notificationSheetAddButtonID       = 4001,
 	notificationSheetCancelButtonID    = 4002

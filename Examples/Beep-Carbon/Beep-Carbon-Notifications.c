@@ -23,16 +23,18 @@ static const void  *_RetainCFNotification   (CFAllocatorRef allocator, const voi
 static void         _ReleaseCFNotification  (CFAllocatorRef allocator, const void *notification);
 static CFStringRef  _CopyTitleOfNotification(const void *notification); //copy description
 
-struct CFnotification *CreateCFNotification(CFStringRef name, CFStringRef title, CFStringRef desc, CFDataRef imageData, Boolean isDefault) {
+struct CFnotification *CreateCFNotification(CFStringRef name, CFStringRef title, CFStringRef desc, int priority, CFDataRef imageData, Boolean isSticky, Boolean isDefault) {
 	struct CFnotification *notification = malloc(sizeof(struct CFnotification));
 	if(notification) {
 		notification->name  =              name      ? CFRetain(name)      : name;
 		notification->title =              title     ? CFRetain(title)     : title;
 		notification->desc  =              desc      ? CFRetain(desc)      : desc;
+		notification->priority = priority;
 		notification->imageData =          imageData ? CFRetain(imageData) : imageData;
 		notification->userInfo = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 		notification->refCount = 1; //because this was Created
 		notification->flags.reserved  = 0;
+		notification->isSticky = isSticky;
 		notification->flags.isDefault = isDefault;
 	}
 	return notification;
@@ -140,6 +142,16 @@ void UpdateCFNotificationUserInfoForGrowl(struct CFnotification *notification) {
 			CFDictionarySetValue(notification->userInfo, GROWL_NOTIFICATION_DESCRIPTION, notification->desc);
 		else
 			CFDictionaryRemoveValue(notification->userInfo, GROWL_NOTIFICATION_DESCRIPTION);
+
+		CFNumberRef number;
+
+		number = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &(notification->priority));
+		CFDictionarySetValue(notification->userInfo, GROWL_NOTIFICATION_PRIORITY, number);
+		CFRelease(number);
+
+		number = CFNumberCreate(kCFAllocatorDefault, kCFNumberCharType, &(notification->isSticky));
+		CFDictionarySetValue(notification->userInfo, GROWL_NOTIFICATION_STICKY, number);
+		CFRelease(number);
 
 		if(notification->imageData)
 			CFDictionarySetValue(notification->userInfo, GROWL_NOTIFICATION_ICON, notification->imageData);
