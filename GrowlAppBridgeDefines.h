@@ -1,5 +1,9 @@
+//
+//  GrowlAppBridgeDefines.h
+//
+
 /*!
-@header
+ @header
  @abstract   Defines all the notification keys
  @discussion Defines all the keys used for registration and growl notifications.
  */
