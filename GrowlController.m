@@ -102,6 +102,10 @@
 	}
 }
 
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) theApplication {
+	return NO;
+}
+
 @end
 
 #pragma mark -
@@ -128,7 +132,14 @@
 - (void) _registerApplication:(NSNotification *) note {
 	NSString *appName = [[note userInfo] objectForKey:GROWL_APP_NAME];
 	
-	NSImage *appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
+	NSImage *appIcon;
+	
+	NSData  *iconData = [[note userInfo] objectForKey:GROWL_APP_ICON];
+	if(iconData) {
+		appIcon = [[NSImage alloc] initWithData:iconData];
+	} else {
+		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
+	}
 	
 	NSArray * allNotes = [[note userInfo] objectForKey:GROWL_NOTIFICATIONS_ALL];
 	NSArray * defaultNotes = [[note userInfo] objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
