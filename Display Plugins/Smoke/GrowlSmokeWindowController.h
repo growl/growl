@@ -22,11 +22,11 @@
 }
 
 + (GrowlSmokeWindowController *) notify;
-+ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky depth:(unsigned int) depth;
++ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned int) depth;
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky depth:(unsigned int)depth;
+- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned int)depth;
 
 - (void) startFadeIn;
 - (void) startFadeOut;

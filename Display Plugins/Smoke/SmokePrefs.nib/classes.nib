@@ -2,10 +2,18 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {opacitySliderChanged = id; }; 
+            ACTIONS = {colorChanged = id; opacitySliderChanged = id; }; 
             CLASS = GrowlSmokePrefsController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {opacitySlider = NSSlider; "text_Opacity" = NSTextField; }; 
+            OUTLETS = {
+                "color_emergency" = NSColorWell; 
+                "color_high" = NSColorWell; 
+                "color_moderate" = NSColorWell; 
+                "color_normal" = NSColorWell; 
+                "color_veryLow" = NSColorWell; 
+                opacitySlider = NSSlider; 
+                "text_Opacity" = NSTextField; 
+            }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
         {

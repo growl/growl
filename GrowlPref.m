@@ -371,11 +371,10 @@
 	}
 	if (tableView == applicationNotifications) {
 		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
-		if([[column identifier] isEqualTo:@"enable"]) {
+		if ([[column identifier] isEqualTo:@"enable"])
 			return [NSNumber numberWithBool:[appTicket isNotificationEnabled:note]];
-		} else {
+        if ([[column identifier] isEqualTo:@"notification"])
 			return note;
-		}
 	}
 	if (tableView == displayPlugins) {
 		// only one column, but for the sake of cleanliness
@@ -422,7 +421,9 @@
 			return;
 		}
 		if ([[column identifier] isEqualTo:@"priority"]) {
-			[appTicket setPriority:[value intValue] forNotification:note];
+            NSLog(@"priority %d", [value intValue]-2);
+			[appTicket setPriority:([value intValue]-2) forNotification:note];
+			[self setPrefsChanged:YES];
 			return;
 		}
 	}
@@ -460,11 +461,9 @@
 	if (tableView == applicationNotifications) {
 		if ([[column identifier] isEqualTo:@"priority"]) {
 			[cell setMenu:[notificationPriorityMenu copy]];
-			
-			int priority=[appTicket priorityForNotification:[[appTicket allNotifications] objectAtIndex:row]];
-			if (priority == 0) // No priority set - give normal priority
-				priority = 3;
-			[cell selectItemAtIndex:priority -1];
+			NSLog(@"appTicket: %@", appTicket);
+			int priority = [appTicket priorityForNotification:[[appTicket allNotifications] objectAtIndex:row]];
+			[cell selectItemAtIndex:priority+2];
 			return;
 		}
 		return;

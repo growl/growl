@@ -134,6 +134,10 @@ static id _singleton = nil;
 	if (![aDict objectForKey:GROWL_NOTIFICATION_TITLE]) {
 		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_TITLE];
 	}
+    
+    //Retrieve and set the the priority of the notification
+    int priority = [ticket priorityForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]]; 
+    [aDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
 	
 	id <GrowlDisplayPlugin> display;
 	

@@ -86,9 +86,10 @@
 	[path setClip];
 
     // fill clipped graphics context with our background colour
-	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
-	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
-	[[NSColor colorWithCalibratedWhite:.1 alpha:backgroundAlpha] set];
+//	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
+//	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
+//	[[NSColor colorWithCalibratedWhite:.1 alpha:backgroundAlpha] set];
+    [_bgColor set];
 	NSRectFill( [self frame] );
 	
 	// revert to unclipped graphics context
@@ -197,6 +198,45 @@
 	_textHeight = 0;
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
+}
+
+- (void)setPriority:(int)priority {
+    NSString* key;
+    switch (priority) {
+        case -2:
+            key = GrowlSmokeVeryLowColor;
+            break;
+        case -1:
+            key = GrowlSmokeModerateColor;
+            break;
+        case 1:
+            key = GrowlSmokeHighColor;
+            break;
+        case 2:
+            key = GrowlSmokeEmergencyColor;
+            break;
+        case 0:
+        default:
+            key = GrowlSmokeNormalColor;
+            break;
+    }
+    NSArray *array;
+   
+	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
+	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
+
+    
+	_bgColor = [NSColor colorWithCalibratedWhite:.1 alpha:backgroundAlpha];
+    READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+    if (array && [array isKindOfClass:[NSArray class]]) {
+        _bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
+                                             green:[[array objectAtIndex:1] floatValue]
+                                              blue:[[array objectAtIndex:2] floatValue]
+                                             alpha:backgroundAlpha];
+        [array release];
+    }
+    [_bgColor retain];
+    
 }
 
 - (void)sizeToFit {

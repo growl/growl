@@ -71,6 +71,7 @@ static unsigned int smokeDepth = 0;
 	GrowlSmokeWindowController *controller = [GrowlSmokeWindowController notifyWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
 		      text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
 			  icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+          priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
 			 depth:smokeDepth];
 	// update the depth for the next notification with the depth given by this new one

@@ -29,8 +29,8 @@ static const double gMaxDisplayTime = 10.;
 	return [[[self alloc] init] autorelease];
 }
 
-+ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky depth:(unsigned int) depth {
-	return [[[self alloc] initWithTitle:title text:text icon:icon sticky:sticky depth:depth] autorelease];
++ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned int) depth {
+	return [[[self alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky depth:depth] autorelease];
 }
 
 #pragma mark Delegate Methods
@@ -105,7 +105,7 @@ static const double gMaxDisplayTime = 10.;
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky depth:(unsigned int) depth {
+- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned int) depth {
 	_id = globalId++;
 	_depth = depth;
 
@@ -141,6 +141,8 @@ static const double gMaxDisplayTime = 10.;
 	if( [text isKindOfClass:[NSString class]] ) [view setText:text];
 	else if( [text isKindOfClass:[NSAttributedString class]] ) [view setText:[text string]]; // we'll have no attributes here
 	
+    [view setPriority:priority];
+    
 	[view setIcon:icon];
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];

@@ -1,5 +1,12 @@
 #define GrowlSmokeLimitPref @"Smoke - Limit"
 #define GrowlSmokeAlphaPref @"Smoke - Alpha"
+
+#define GrowlSmokeVeryLowColor      @"Smoke-Priority-VeryLow-Color"
+#define GrowlSmokeModerateColor     @"Smoke-Priority-Moderate-Color"
+#define GrowlSmokeNormalColor       @"Smoke-Priority-Normal-Color"
+#define GrowlSmokeHighColor         @"Smoke-Priority-High-Color"
+#define GrowlSmokeEmergencyColor    @"Smoke-Priority-Emergency-Color"
+
 #define GrowlSmokePrefDomain @"com.growl.SmokeNotificationView"
 
 // the default value for the opacity preference

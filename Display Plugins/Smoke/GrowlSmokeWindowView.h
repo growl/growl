@@ -16,11 +16,15 @@
 	float				_textHeight;
 	SEL					_action;
 	id					_target;
+
+    NSColor             *_bgColor;
 }
 
 - (void)setIcon:(NSImage *)icon;
 - (void)setTitle:(NSString *)title;
 - (void)setText:(NSString *)text;
+
+- (void)setPriority:(int)priority;
 
 - (void)sizeToFit;
 - (int)textAreaWidth;

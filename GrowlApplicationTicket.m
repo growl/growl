@@ -30,6 +30,14 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	return _enabled;
 }
 
+- (void) disable {
+    [self setEnabled:NO];
+}
+
+- (void) enable {
+    [self setEnabled:YES];
+}
+
 - (void) setEnabled:(BOOL)yorn {
     _enabled = yorn;
 }
@@ -43,6 +51,10 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
     return dict;
 }
 
++ (GrowlApplicationNotification*) notificationWithName:(NSString*)name {
+    return [[[GrowlApplicationNotification alloc] initWithName:name priority:GP_normal enabled:YES] autorelease];
+}
+
 + (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict {
     NSString* name = [dict objectForKey:@"Name"];
     GrowlPriority priority = [[dict objectForKey:@"Priority"] intValue];
@@ -51,7 +63,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 }
 
 - (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled {
-    self = [super init];
+    [self init];
     _name = [name retain];
     _priority = priority;
     _enabled = enabled;
@@ -115,12 +127,22 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		  andNotifications:(NSArray *) inAllNotifications
 		   andDefaultNotes:(NSArray *) inDefaults {
 
+//    NSLog(@"initWithApplication: %@", inAppName);
 	if ( self = [super init] ) {
 		_appName	= [inAppName retain];
 		_icon		= [inIcon retain];
-		_allNotifications = [inAllNotifications retain];
+//		_allNotifications = [inAllNotifications retain];
+
+//        NSArray* allNotificationNames = [[[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL]] autorelease];
+        
+        NSEnumerator *notificationsEnum = [inAllNotifications objectEnumerator];
+        NSMutableDictionary *notificationDict = [NSMutableDictionary dictionary];
+        id obj; while (obj = [notificationsEnum nextObject]) {
+            [notificationDict setObject:[GrowlApplicationNotification notificationWithName:(NSString*)obj] forKey:obj];
+        }
+        _allNotificationsD = [[NSDictionary alloc] initWithDictionary:notificationDict];
 		_defaultNotifications = [inDefaults retain];
-		_allowedNotifications = [[NSMutableArray alloc] init];
+//		_allowedNotifications = [[NSMutableArray alloc] init];
 		[self setAllowedNotifications:inDefaults];
 		
 		usesCustomDisplay = NO;
@@ -144,6 +166,57 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 #pragma mark -
 - (id) initTicketFromPath:(NSString *) inPath {
+    id iconObject;
+    self = [super init];
+    
+    NSDictionary *ticketsList = [NSDictionary dictionaryWithContentsOfFile:inPath];
+    _appName = [[ticketsList objectForKey:GROWL_APP_NAME] retain];
+    _defaultNotifications = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
+
+    //Get all the notification names and the data about them
+    NSArray* allNotificationNames = [[[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL]] autorelease];
+    NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
+    NSMutableDictionary *notificationDict = [NSMutableDictionary dictionary];
+    id obj; while (obj = [notificationsEnum nextObject]) {
+        if ([obj isKindOfClass:[NSString class]]) {
+            NSLog(@"updatingTicketFromPath: %@", inPath);
+            [notificationDict setObject:[GrowlApplicationNotification notificationWithName:obj] forKey:obj];
+            [self setAllowedNotifications:[ticketsList objectForKey:GROWL_NOTIFICATIONS_USER_SET]];
+        } else {
+            [notificationDict setObject:[GrowlApplicationNotification notificationFromDict:obj] forKey:[obj objectForKey:@"Name"]];
+        }
+    }
+    _allNotificationsD = [[NSDictionary alloc] initWithDictionary:notificationDict];
+
+    if (iconObject = [ticketsList objectForKey:GROWL_APP_ICON]) {
+        _icon = [[NSImage alloc] initWithData:iconObject];
+    } else {
+        _icon = [[[NSWorkspace sharedWorkspace] iconForApplication:_appName] retain];
+    }
+    _useDefaults = [[ticketsList objectForKey:UseDefaultsKey] boolValue];
+
+    if ([ticketsList objectForKey:TicketEnabledKey]) {
+        ticketEnabled = [[ticketsList objectForKey:TicketEnabledKey] boolValue];
+    } else {
+        ticketEnabled = YES;
+    }
+    
+    if ([ticketsList objectForKey:UsesCustomDisplayKey]) {
+        usesCustomDisplay = [[ticketsList objectForKey:UsesCustomDisplayKey] boolValue];
+    } else {
+        usesCustomDisplay = NO;
+    }
+    
+    if ([ticketsList objectForKey:GrowlDisplayPluginKey]) {
+        [self setDisplayPluginNamed:[ticketsList objectForKey:GrowlDisplayPluginKey]];
+    } else {
+        displayPlugin = nil;
+    }
+    [self saveTicket];
+    return self;
+}
+
+- (id) initTicketFromPath_OLD:(NSString *) inPath {
 	//load a Plist file of this object to maintain configuration through launches
 	id iconObject;
 	if ( self = [super init] ) {
@@ -204,18 +277,25 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	// save a Plist file of this object to configure the prefs of apps that aren't running
 	// construct a dictionary of our state data then save that dictionary to a file.
 	NSString *savePath = [destDir stringByAppendingPathComponent:[_appName stringByAppendingPathExtension:@"growlTicket"]];
-	NSDictionary *saveDict = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableArray *saveNotifications = [NSMutableArray array];
+    NSEnumerator *notificationEnum = [_allNotificationsD objectEnumerator];
+    id obj; while (obj = [notificationEnum nextObject]) {
+        [saveNotifications addObject:[obj notificationAsDict]];
+    }
+
+    NSDictionary *saveDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		_appName, GROWL_APP_NAME,
 		_icon ? [_icon TIFFRepresentation] : [NSData data], GROWL_APP_ICON,
-		_allNotifications, GROWL_NOTIFICATIONS_ALL,
+//		_allNotifications, GROWL_NOTIFICATIONS_ALL,
+		saveNotifications, GROWL_NOTIFICATIONS_ALL,
 		_defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-		_allowedNotifications, GROWL_NOTIFICATIONS_USER_SET,
+//		_allowedNotifications, GROWL_NOTIFICATIONS_USER_SET,
 		[NSNumber numberWithBool:_useDefaults], UseDefaultsKey,
 		[NSNumber numberWithBool:ticketEnabled], TicketEnabledKey,
 		[NSNumber numberWithBool:usesCustomDisplay], UsesCustomDisplayKey,
 		[displayPlugin name], GrowlDisplayPluginKey,
 		nil];
-	
+//    NSLog(@"saveDict: %@", saveDict);
 	// NSString *aString = [saveDict description];
 	[saveDict writeToFile:savePath atomically:YES];
 }
@@ -269,7 +349,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 - (NSString *) description {
 	return [NSString stringWithFormat:@"<GrowlApplicationTicket: %p>{\n\tApplicationName: \"%@\"\n\ticon: %@\n\tAll Notifications: %@\n\tDefault Notifications: %@\n\tAllowed Notifications: %@\n\tUse Defaults: %@\n}",
-		self, _appName, _icon, _allNotifications, _defaultNotifications, _allowedNotifications, ( _useDefaults ? @"YES" : @"NO" )];
+		self, _appName, _icon, _allNotificationsD, _defaultNotifications, _allowedNotifications, ( _useDefaults ? @"YES" : @"NO" )];
 }
 
 #pragma mark -
@@ -282,16 +362,22 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		//if the application says to.
 		NSEnumerator		* enumerator;
 		NSString			* note;
-		
+		NSMutableDictionary *allNotesCopy = [[_allNotificationsD mutableCopy] autorelease];
+        
 		enumerator = [inDefaults objectEnumerator];
 		while(note = [enumerator nextObject]) {
+            if (![allNotesCopy objectForKey:note]) {
+                [allNotesCopy setObject:[GrowlApplicationNotification notificationWithName:note] forKey:note];
+            }
 			//For each new default ...
-			if(![_allNotifications containsObject:note]) {
+/*			if(![_allNotifications containsObject:note]) {
 				//Enable it only if we just found out about it now.
 				//If we already knew about it, respect the user's preferences
 				[self setNotificationEnabled:note];
-			}
+			}*/
 		}
+        [_allNotificationsD release];
+        _allNotifications = [[NSDictionary alloc] initWithDictionary:allNotesCopy];
 	}
 	
 	[self setAllNotifications:inAllNotes];
@@ -300,11 +386,35 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 }
 
 - (NSArray *) allNotifications {
-	return [[_allNotifications retain] autorelease];
+    return [[[_allNotificationsD allKeys] retain] autorelease];
+//	return [[_allNotifications retain] autorelease];
 }
 
 - (void) setAllNotifications:(NSArray *) inArray {
-	if ( inArray != _allNotifications ) {
+    NSMutableSet *new, *cur;
+    new = [NSMutableSet setWithArray:inArray];
+    
+    //We want to keep all of the old notification settings and create entries for the new ones
+    cur = [NSMutableSet setWithArray:[_allNotificationsD allKeys]];
+    [cur intersectSet:new];
+    NSEnumerator *newEnum = [new objectEnumerator];
+    NSMutableDictionary* tmp = [NSMutableDictionary dictionary];
+    id obj; while (obj = [newEnum nextObject]) {
+        if ([_allNotificationsD objectForKey:obj])
+            [tmp setObject:[_allNotificationsD objectForKey:obj] forKey:obj];
+        else
+            [tmp setObject:[GrowlApplicationNotification notificationWithName:obj] forKey:obj];
+    }
+    [_allNotificationsD release];
+    _allNotificationsD = [[NSDictionary dictionaryWithDictionary:tmp] retain];
+    
+    // And then make sure the list of default notifications also doesn't have any straglers...
+    cur = [NSMutableSet setWithArray:_defaultNotifications];
+    [cur intersectSet:new];
+    [_defaultNotifications autorelease];
+    _defaultNotifications = [[cur allObjects] retain];
+
+    /*if ( inArray != _allNotifications ) {
 		[_allNotifications release];
 		_allNotifications = [inArray retain];
 		
@@ -320,7 +430,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		[tmp intersectSet:inSet];
 		[_defaultNotifications autorelease];
 		_defaultNotifications = [[tmp allObjects] retain];
-	}
+	}*/
 }
 
 - (NSArray *) defaultNotifications {
@@ -333,15 +443,28 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	
 	if( _useDefaults ) {
 		[self setAllowedNotifications:inArray];
+        _useDefaults = YES;
 	}
 }
 
 - (NSArray *) allowedNotifications {
-	return [NSArray arrayWithArray:_allowedNotifications];
+    NSMutableArray* allowed = [NSMutableArray array];
+    NSEnumerator *notificationEnum = [_allNotificationsD objectEnumerator];
+    id obj; while (obj = [notificationEnum nextObject]) {
+        if ([obj enabled])
+            [allowed addObject:[obj name]];
+    }
+    return allowed;
+//	return [NSArray arrayWithArray:_allowedNotifications];
 }
 
 - (void) setAllowedNotifications:(NSArray *) inArray {
-	[_allowedNotifications setArray:inArray];
+    NSEnumerator *notificationEnum = [inArray objectEnumerator];
+    [[_allNotificationsD allValues] makeObjectsPerformSelector:@selector(disable)];
+    id obj; while (obj = [notificationEnum nextObject]) {
+        [[_allNotificationsD objectForKey:obj] enable];
+    }
+//	[_allowedNotifications setArray:inArray];
 	_useDefaults = NO;
 }
 
@@ -351,14 +474,17 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 }
 
 - (void) setNotificationEnabled:(NSString *) name {
-	if ( ! [_allowedNotifications containsObject:name] ) {
+/*	if ( ! [_allowedNotifications containsObject:name] ) {
 		[_allowedNotifications addObject:name];
 		_useDefaults = NO;
-	}
+	}*/
+    [[_allNotificationsD objectForKey:name] setEnabled: YES];
+    _useDefaults = NO;
 }
 
 - (void) setNotificationDisabled:(NSString *) name {
-	[_allowedNotifications removeObject:name];
+	/*[_allowedNotifications removeObject:name];*/
+    [[_allNotificationsD objectForKey:name] setEnabled: NO];
 	_useDefaults = NO;
 }
 
@@ -367,16 +493,18 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 }
 
 - (BOOL) isNotificationEnabled:(NSString *) name {
-	return [_allowedNotifications containsObject:name];
+    return [[_allNotificationsD objectForKey:name] enabled];
+//	return [_allowedNotifications containsObject:name];
 }
 
 #pragma mark Notification Priority
 
 - (int) priorityForNotification:(NSString *) name {
-	return 0;
+	return [[_allNotificationsD objectForKey:name] priority];
 }
 
 - (void) setPriority:(int)priority forNotification:(NSString *) name {
+    [[_allNotificationsD objectForKey:name] setPriority:(GrowlPriority)priority];
 	return;
 }
 @end
