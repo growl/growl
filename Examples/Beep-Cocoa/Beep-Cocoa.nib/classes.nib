@@ -18,6 +18,7 @@
                 "_newNotificationDescription" = NSTextField; 
                 "_newNotificationImage" = NSImageView; 
                 "_newNotificationPanel" = NSPanel; 
+                "_newNotificationPriority" = NSPopUpButton; 
                 "_newNotificationSticky" = NSButton; 
                 "_newNotificationTitle" = NSTextField; 
                 "_notificationsTable" = NSTableView; 
