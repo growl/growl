@@ -2391,6 +2391,12 @@
 			settings = {
 			};
 		};
+		3494427507BAF6C4000F2A03 = {
+			fileRef = 52861FEF06DC463E00D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		349D11C1079DDDB300911D48 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3194,6 +3200,7 @@
 				CB910DA7074E0A3A00278FC5,
 				097888CA076EC6DA00071EB6,
 				34E9DC17078FBF1B00662E8E,
+				3494427507BAF6C4000F2A03,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
