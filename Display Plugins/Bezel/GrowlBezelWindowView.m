@@ -54,7 +54,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	outData[0] = 1.0f;
 	outData[1] = 1.0f;
 	outData[2] = 1.0f;
-	outData[3] = (1.0f - inData[0]) * 0.25f;
+	outData[3] = inData[0] * 0.25f;
 }
 
 - (void)drawRect:(NSRect)rect {
@@ -145,8 +145,8 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 										 &shine_callbacks );
 			src.x = NSMidX( bounds );
 			src.y = NSMidY( bounds );
-			shading = CGShadingCreateRadial( cspace, src, 00.0f,
-											 src, 100.0f, function,
+			shading = CGShadingCreateRadial( cspace, src, 100.0f,
+											 src, 0.0f, function,
 											 false, false );	
 			
 			CGContextDrawShading( [graphicsContext graphicsPort], shading );
