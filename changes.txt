@@ -1,6 +1,7 @@
 0.6
 Bindings
 	- Java
+	- Ruby
 
 Prefpane
 	- General Tab
@@ -10,12 +11,13 @@ Prefpane
 		- Priority
 		- Sticky
 		- Remove button
+
+	- Network Tab
 New Displays
 	- Smoke
 	- Music Video
 	- NSLog
 	- MailMe
-	- Rendezvous (forwards notifications to another Mac on the local network)
 	- Speech
 
 Changes to current displays:

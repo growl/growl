@@ -42,25 +42,17 @@ For .7 or sooner
 
 
 - Network Notifications
-	- 2 interfaces for this, one Distributed Objects allowing GHA to send and recieve remote
-	  notifications, the other is a port for UDP messages with specially formatted messages for display
-	  - DO connections provide a distributed builds like Appearance where you choose to send, recieve or
-	  	both from remote machine discovered via rendezvous and manually added.
-	  - The UDP interface shall have a seperator ( | or \x05 ) Title|Message|OptionBits
-	  	- For obvious reasons this is off by default
+	- Add support to add remote machine names manually
 	- Support for the gnome notifications system if it ever adds a networking protocol for its notifications
-	- Pane in preferences for configuration of this when the user has actually turned it on
 	- Use a generic icon for incoming UDP notifications. Sending an icon over the network
 	  makes the packets too large.
-	- Optionally allow only notifications with a password which can be specified in the
-	  preference pane.
+	- Should we add password authentification to UDP notifications as well?
 
 - Preference pane redesign
 	- Apps tab switch to app centric with custom View for notifications using images to represent the available options
 	- first tab have Growl image and dev names, maybe even an easter egg, controls for turning features on/off 
 	  ie. (GrowlHelperApp, Network Notifications, Sound to accompany notifications, Speech, Menu Item, etc)
 	  And a passive update check system ( no user interaction necessary just a box for whether or not to check.
-	- Network tab modeled on the distributed builds system
 	- Display plugins tab with better looking prefs( the current ones aren't winning beauty awards )
 	- Add profiles. Choose which profile is currently uses via prefpane or menuling
 
@@ -148,6 +140,16 @@ Done
 --------------------
 
 Done:
+- Preference pane redesign
+	- Network tab modeled after the distributed builds system
+- Network Notifications
+	- Optionally allow only notifications with a password which can be specified in the
+	  preference pane.
+	- 2 interfaces for this, one Distributed Objects allowing GHA to send and recieve remote
+	  notifications, the other is a port for UDP messages with specially formatted messages for display
+	- DO connections provide a distributed builds like Appearance where you choose to send, receive or
+	  both from remote machine discovered via rendezvous and manually added.
+	- Pane in preferences for configuration of this when the user has actually turned it on
 - For all displays that should conform, priority
 - Move non-example applications in the Examples directory into an Extras directory.
 - Ask if user wants to "configure plugin now". If so, take to proper place to configure.

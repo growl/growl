@@ -1,1 +1,0 @@
-- FadingWindowController breaks Growl - its functionality needs to be moved into Growl or a Growl framework.
