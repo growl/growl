@@ -22,6 +22,8 @@
 - (void)setTitle:(NSString *)title;
 - (void)setText:(NSString *)text;
 
+- (void)sizeToFit;
+- (int)textAreaWidth;
 - (float)descriptionHeight;
 - (int)descriptionRowCount;
 

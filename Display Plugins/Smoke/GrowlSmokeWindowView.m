@@ -95,10 +95,23 @@
 
 	// Top of the drawing area. The eye candy takes up 10 pixels on 
 	// the top, so we've reserved some space for it.
-	float heightOffset = [self frame].size.height - 10.0f;
+	float heightOffset = [self frame].size.height - GrowlSmokePadding;
 
     // build an appropriate colour for the text
 	NSColor *textColour = [NSColor colorWithCalibratedWhite:1. alpha:1.];
+	
+	// If we are on Panther or better, pretty shadow
+	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
+	id textShadow = nil; // NSShadow
+	Class NSShadowClass = NSClassFromString(@"NSShadow");
+	if(pantherOrLater) {
+        textShadow = [[[NSShadowClass alloc] init] autorelease];
+        
+		NSSize shadowSize = NSMakeSize(0., -2.);
+        [textShadow setShadowOffset:shadowSize];
+        [textShadow setShadowBlurRadius:3.0];
+		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha: 1.0]];
+	}
 	
 	// make the description text white
 	NSMutableAttributedString *whiteText = [[[NSMutableAttributedString alloc] initWithString:_text] autorelease];
@@ -107,35 +120,43 @@
 	allText.length = [whiteText length];
 	[whiteText removeAttribute:NSForegroundColorAttributeName range:allText];
 	[whiteText addAttribute:NSForegroundColorAttributeName value:textColour range:allText];
+	if(pantherOrLater) [whiteText addAttribute:NSShadowAttributeName value:textShadow range:allText];
+		
+	// construct attributes for the title
+	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+		[NSFont boldSystemFontOfSize:13.], NSFontAttributeName,
+		textColour,                        NSForegroundColorAttributeName,
+		nil];
+	if(pantherOrLater) [titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	
     // draw the title and the text
-	[_title drawAtPoint:NSMakePoint( 55., heightOffset - 15. ) withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:13.], NSFontAttributeName, textColour, NSForegroundColorAttributeName, nil]];
+	[_title drawAtPoint:NSMakePoint( 55., heightOffset - 15. ) withAttributes:titleAttributes];
 	
-	[whiteText drawInRect:NSMakeRect( 55., 10., 200., heightOffset - 25. )];
+	[whiteText drawInRect:NSMakeRect( 55., GrowlSmokePadding, [self textAreaWidth], heightOffset - 25. )];
 
 	NSSize iconSize = [_icon size];
-	if( iconSize.width > 32. || iconSize.height > 32. ) {
+	if( iconSize.width > GrowlSmokeIconSize || iconSize.height > GrowlSmokeIconSize ) {
 
 		// scale the image appropriately
 		float newWidth, newHeight, newX, newY;
 		if( iconSize.width > iconSize.height ) {
-			newWidth = 32.;
-			newHeight = 32. / iconSize.width * iconSize.height;
+			newWidth = GrowlSmokeIconSize;
+			newHeight = GrowlSmokeIconSize / iconSize.width * iconSize.height;
 		} else if( iconSize.width < iconSize.height ) {
-			newWidth = 32. / iconSize.height * iconSize.width;
-			newHeight = 32.;
+			newWidth = GrowlSmokeIconSize / iconSize.height * iconSize.width;
+			newHeight = GrowlSmokeIconSize;
 		} else {
-			newWidth = 32.;
-			newHeight = 32.;
+			newWidth = GrowlSmokeIconSize;
+			newHeight = GrowlSmokeIconSize;
 		}
 		
-		newX = floorf((32.f - newWidth) / 2.f);
-		newY = floorf((32.f - newHeight) / 2.f);
+		newX = floorf((GrowlSmokeIconSize - newWidth) / 2.f);
+		newY = floorf((GrowlSmokeIconSize - newHeight) / 2.f);
 		
 		NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
 		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
 		[_icon autorelease];
-		_icon = [[NSImage alloc] initWithSize:NSMakeSize(32., 32.)];
+		_icon = [[NSImage alloc] initWithSize:NSMakeSize(GrowlSmokeIconSize, GrowlSmokeIconSize)];
 		[_icon lockFocus];
 		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
 		[sourceImageRep drawInRect:newBounds];
@@ -151,12 +172,14 @@
 - (void)setIcon:(NSImage *)icon {
 	[_icon autorelease];
 	_icon = [icon retain];
+	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
 - (void)setTitle:(NSString *)title {
 	[_title autorelease];
 	_title = [title copy];
+	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
@@ -164,7 +187,19 @@
 	[_text autorelease];
 	_text = [text copy];
 	_textHeight = 0;
+	[self sizeToFit];
 	[self setNeedsDisplay:YES];
+}
+
+- (void)sizeToFit {
+	NSRect rect = [self frame];
+	rect.size.height = (2 * GrowlSmokePadding) + 15 + [self descriptionHeight];
+	[self setFrame:rect];
+}
+
+- (int)textAreaWidth {
+	return GrowlSmokeNotificationWidth - (GrowlSmokePadding * 2)
+	       - GrowlSmokeIconSize - GrowlSmokeIconPadding;
 }
 
 - (float)descriptionHeight {
@@ -173,14 +208,17 @@
 	{
 		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:_text];
 		NSTextContainer* textContainer = [[[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize ( 143.0, 68. )] autorelease];
+			initWithContainerSize:NSMakeSize ( [self textAreaWidth], FLT_MAX )] autorelease];
 		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
-
+		
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
 		(void)[layoutManager glyphRangeForTextContainer:textContainer];
-	
+		
 		_textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+		
+		// for some reason, this code is using a 13-point line height for calculations, but the font 
+		// in fact renders in 14 points of space. Do some adjustments.
 		_textHeight = _textHeight / 13 * 14;
 	}
 	return MAX (_textHeight, 30);

@@ -23,7 +23,6 @@ static const double gFadeIncrement = 0.05;
 static const double gMinDisplayTime = 4.;
 static const double gAdditionalLinesDisplayTime = 0.5;
 static const double gMaxDisplayTime = 10.;
-static const double GrowlSmokePadding = 10.;
 
 #pragma mark -
 
@@ -80,7 +79,7 @@ static const double GrowlSmokePadding = 10.;
 												name:@"Glide"
 											  object:nil];
 	
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) 
+	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., GrowlSmokeNotificationWidth, 65. ) 
 												 styleMask:NSBorderlessWindowMask 
 												   backing:NSBackingStoreBuffered defer:NO] autorelease];
 	NSRect panelFrame = [panel frame];
@@ -127,14 +126,14 @@ static const double GrowlSmokePadding = 10.;
 	int rowCount = [view descriptionRowCount];
 	if (rowCount <= 2)
 		rowCount = 0;
-	BOOL limitPref = YES;
+	/*BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
-	if (!limitPref) {
+	if (!limitPref) {*/
 		_displayTime = MIN (gMinDisplayTime + rowCount * gAdditionalLinesDisplayTime, 
 							gMaxDisplayTime);
-	} else {
+	/*} else {
 		_displayTime = gMinDisplayTime;
-	}
+	}*/
 
 	[self setAutomaticallyFadesOut:!sticky];
 	
