@@ -288,6 +288,7 @@
 				6CCCECD307144ECB00C5B203,
 				6C4834CE07395F1B00F65193,
 				0A04291D0708ACC20058CBD0,
+				6C6E2B3F073A6D5400F1A95F,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -758,6 +759,32 @@
 			isa = PBXTargetDependency;
 			name = "MusicVideo (from Display Plugins.xcode)";
 			targetProxy = 6C566EFB0716F1D300E139BD;
+		};
+		6C6E2B3F073A6D5400F1A95F = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.cfbundle;
+			name = BubblesNotificationView.growlView;
+			path = "Display Plugins/build/BubblesNotificationView.growlView";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C6E2B54073A6D5D00F1A95F = {
+			fileRef = 6C6E2B3F073A6D5400F1A95F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6C6E2B55073A6D7600F1A95F = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 07694BE5073A4ADE0079D1E5;
+			remoteInfo = BubblesNotificationView;
+		};
+		6C6E2B56073A6D7600F1A95F = {
+			isa = PBXTargetDependency;
+			name = "BubblesNotificationView (from Display Plugins.xcode)";
+			targetProxy = 6C6E2B55073A6D7600F1A95F;
 		};
 		6CCCECD307144ECB00C5B203 = {
 			isa = PBXFileReference;
@@ -1297,6 +1324,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				6C6E2B54073A6D5D00F1A95F,
 				6C4834BA07395F1500F65193,
 				6CCCED0907144EF000C5B203,
 				6C1D527C06FA0CEB00A5D946,
@@ -1382,6 +1410,7 @@
 				6C566EFC0716F1D300E139BD,
 				6C4834DC07395F3100F65193,
 				6C4834DE07395F3400F65193,
+				6C6E2B56073A6D7600F1A95F,
 			);
 			isa = PBXNativeTarget;
 			name = GrowlHelperApp;
