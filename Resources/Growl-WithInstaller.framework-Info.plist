@@ -16,5 +16,7 @@
 	<string>GRRR</string>
 	<key>CFBundleVersion</key>
 	<string>0.7</string>
+	<key>NSPrincipalClass</key>
+	<string>GrowlApplicationBridge</string>
 </dict>
 </plist>

@@ -92,7 +92,7 @@ static Class growlApplicationBridge;
 - (id)init {
 	if ( (self = [super init]) ) {
 		NSString *growlPath = [[[GrowlMail bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
-		NSBundle *growlBundle = [[NSBundle alloc] initWithPath:growlPath];
+		NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
 		growlApplicationBridge = [growlBundle classNamed:@"GrowlApplicationBridge"];
 
 		if ( [growlApplicationBridge isGrowlInstalled] ) {
