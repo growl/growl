@@ -336,7 +336,9 @@
 				CB61E5180637763C00E0DDC7,
 				CB5F84DD0638BFDB00EADD7A,
 				6C1D526806FA0CE000A5D946,
+				6C4834B907395F1500F65193,
 				6CCCECD307144ECB00C5B203,
+				6C4834CE07395F1B00F65193,
 				0A04291D0708ACC20058CBD0,
 			);
 			isa = PBXGroup;
@@ -772,6 +774,58 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		6C4834B907395F1500F65193 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.cfbundle;
+			name = MailMe.growlView;
+			path = "Display Plugins/build/MailMe.growlView";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C4834BA07395F1500F65193 = {
+			fileRef = 6C4834B907395F1500F65193;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6C4834CE07395F1B00F65193 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.cfbundle;
+			name = NSLogging.growlView;
+			path = "Display Plugins/build/NSLogging.growlView";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C4834CF07395F1B00F65193 = {
+			fileRef = 6C4834CE07395F1B00F65193;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6C4834DB07395F3100F65193 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 5282FC6706DD9F2D00179624;
+			remoteInfo = NSLogging;
+		};
+		6C4834DC07395F3100F65193 = {
+			isa = PBXTargetDependency;
+			name = "NSLogging (from Display Plugins.xcode)";
+			targetProxy = 6C4834DB07395F3100F65193;
+		};
+		6C4834DD07395F3400F65193 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 07CC344606FFE5FC0029B83C;
+			remoteInfo = MailMe;
+		};
+		6C4834DE07395F3400F65193 = {
+			isa = PBXTargetDependency;
+			name = "MailMe (from Display Plugins.xcode)";
+			targetProxy = 6C4834DD07395F3400F65193;
 		};
 		6C566EFB0716F1D300E139BD = {
 			containerPortal = 6C1D4F6D06FA0C0500A5D946;
@@ -1547,9 +1601,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				6C4834BA07395F1500F65193,
 				6CCCED0907144EF000C5B203,
 				CB5FA1CF0638CA7300EADD7A,
 				6C1D527C06FA0CEB00A5D946,
+				6C4834CF07395F1B00F65193,
 				0A0429530708ACC70058CBD0,
 			);
 			isa = PBXCopyFilesBuildPhase;
@@ -1638,6 +1694,8 @@
 				6C1D4F7106FA0C7E00A5D946,
 				0A0429000708ACA10058CBD0,
 				6C566EFC0716F1D300E139BD,
+				6C4834DC07395F3100F65193,
+				6C4834DE07395F3400F65193,
 			);
 			isa = PBXNativeTarget;
 			name = GrowlHelperApp;
