@@ -15,10 +15,18 @@
 
 @implementation GrowlBezelWindowView
 
+- (id) initWithFrame:(NSRect) frame {
+	if ((self = [super initWithFrame:frame])) {
+		layoutManager = [[NSLayoutManager alloc] init];
+	}
+	return self;
+}
+
 - (void)dealloc {
-	[icon release];
-	[title release];
-	[text release];
+	[icon          release];
+	[title         release];
+	[text          release];
+	[layoutManager release];
 
 	[super dealloc];
 }
@@ -247,33 +255,21 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	[title drawInRect:titleRect withAttributes:titleAttributes];
 	[titleAttributes release];
 
+	NSFont *textFont = [NSFont systemFontOfSize:14.0f];
 	NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		[NSColor whiteColor],            NSForegroundColorAttributeName,
-		parrafo,                         NSParagraphStyleAttributeName,
-		[NSFont systemFontOfSize:14.0f], NSFontAttributeName,
-		textShadow,                      NSShadowAttributeName,
+		[NSColor whiteColor], NSForegroundColorAttributeName,
+		parrafo,              NSParagraphStyleAttributeName,
+		textFont,             NSFontAttributeName,
+		textShadow,           NSShadowAttributeName,
 		nil];
 	[textShadow release];
 	[parrafo release];
-	NSAttributedString *textAttributed;
-	NSArray *linesN = [text componentsSeparatedByString:@"\n"];
-	int rowCount = 0;
-	if ( [linesN count] > 1U ) {
-		NSEnumerator *stringEnum = [linesN objectEnumerator];
-		NSString *stringLine;
-		while ( (stringLine = [stringEnum nextObject] ) ) {
-			textAttributed = [[NSAttributedString alloc] initWithString:stringLine attributes:textAttributes];
-			rowCount += [self descriptionRowCount:textAttributed inRect:textRect];
-			[textAttributed release];
-			textHeight = 0.0f;
-		}
-	} else {
-		textAttributed = [[NSAttributedString alloc] initWithString:text attributes:textAttributes];
-		rowCount = [self descriptionRowCount:textAttributed inRect:textRect];
-		[textAttributed release];
-	}
 
-	if ( rowCount > maxRows ) {
+	float height = [self descriptionHeight:text attributes:textAttributes width:textRect.size.width];
+	float lineHeight = [layoutManager defaultLineHeightForFont:textFont];
+	int rowCount = height / lineHeight;
+	
+	if (rowCount > maxRows) {
 		[textAttributes setObject:[NSFont systemFontOfSize:12.0f] forKey:NSFontAttributeName];
 	}
 	[text drawInRect:textRect withAttributes:textAttributes];
@@ -286,49 +282,43 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 }
 
 - (void) setIcon:(NSImage *)anIcon {
-	[icon autorelease];
+	[icon release];
 	icon = [anIcon retain];
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setTitle:(NSString *)aTitle {
-	[title autorelease];
+	[title release];
 	title = [aTitle copy];
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setText:(NSString *)aText {
-	[text autorelease];
+	[text release];
 	text = [aText copy];
-	textHeight = 0.0f;
 	[self setNeedsDisplay:YES];
 }
 
-- (float) descriptionHeight:(NSAttributedString *)theText inRect:(NSRect)theRect {
-	if (!textHeight) {
-		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:theText];
-		theRect.size.height += 1000.0f;
-		NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:theRect.size];
-		NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
+- (float) descriptionHeight:(NSString *)theText attributes:(NSDictionary *)attributes width:(float)width {
+	NSSize containerSize;
+	containerSize.width = width;
+	containerSize.height = FLT_MAX;
+	NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:theText attributes:attributes];
+	NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
+	[textContainer setLineFragmentPadding:0.0f];
 
-		[layoutManager addTextContainer:textContainer];
-		[textStorage addLayoutManager:layoutManager];
-		[layoutManager glyphRangeForTextContainer:textContainer];
+	[layoutManager addTextContainer:textContainer];
+	[textStorage addLayoutManager:layoutManager];
+	[layoutManager glyphRangeForTextContainer:textContainer];	// force layout
 
-		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-		[layoutManager release];
-		[textContainer release];
-		[textStorage release];
-		textHeight = textHeight / 13.0f * 14.0f;
-	}
+	float textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+	[textContainer release];
+	[textStorage release];
+
 	return MAX (textHeight, 30.0f);
 }
 
-- (int) descriptionRowCount:(NSAttributedString *)theText inRect:(NSRect)theRect{
-	float height = [self descriptionHeight:theText inRect:theRect];
-	float lineHeight = [theText size].height;
-	return (int) (height / lineHeight);
-}
+#pragma mark -
 
 - (id) target {
 	return target;
@@ -351,7 +341,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 #pragma mark -
 
 - (void) mouseUp:(NSEvent *) event {
-	if ( target && action && [target respondsToSelector:action] ) {
+	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];
 	}
 }

@@ -285,7 +285,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	text = [aText copy];
 
 	if (!textStorage) {
-		NSSize containerSize;  
+		NSSize containerSize;
 		BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
 		containerSize.width = TEXT_AREA_WIDTH;

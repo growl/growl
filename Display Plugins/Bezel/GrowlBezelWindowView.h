@@ -9,20 +9,20 @@
 #import <Cocoa/Cocoa.h>
 
 @interface GrowlBezelWindowView : NSView {
-	NSImage		*icon;
-	NSString	*title;
-	NSString	*text;
-	float		textHeight;
-	SEL			action;
-	id			target;
+	NSImage			*icon;
+	NSString		*title;
+	NSString		*text;
+	SEL				action;
+	id				target;
+
+	NSLayoutManager	*layoutManager;
 }
 
 - (void) setIcon:(NSImage *)icon;
 - (void) setTitle:(NSString *)title;
 - (void) setText:(NSString *)text;
 
-- (float) descriptionHeight:(NSAttributedString *)text inRect:(NSRect)theRect;
-- (int) descriptionRowCount:(NSAttributedString *)text inRect:(NSRect)theRect;
+- (float) descriptionHeight:(NSString *)text attributes:(NSDictionary *)attributes width:(float)width;
 
 - (id) target;
 - (void) setTarget:(id)object;
