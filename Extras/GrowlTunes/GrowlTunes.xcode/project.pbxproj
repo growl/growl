@@ -44,6 +44,7 @@
 		};
 		07A2B56F07FBE67A009917B6 = {
 			children = (
+				DD3472C2080356ED00830628,
 				07A2B56907FBE671009917B6,
 				07A2B56A07FBE671009917B6,
 			);
@@ -457,12 +458,12 @@
 					ProjectRef = 0A8B617F070B303B00593A33;
 				},
 				{
-					ProductGroup = 0A8B6179070B303600593A33;
-					ProjectRef = 0A8B5F08070B140300593A33;
-				},
-				{
 					ProductGroup = 0A8B6174070B2F6A00593A33;
 					ProjectRef = 0A8B5F0F070B140C00593A33;
+				},
+				{
+					ProductGroup = 0A8B6179070B303600593A33;
+					ProjectRef = 0A8B5F08070B140300593A33;
 				},
 			);
 			targets = (
@@ -745,6 +746,7 @@
 		8D1107270486CEB800E47090 = {
 			buildActionMask = 2147483647;
 			files = (
+				DD3472C3080356ED00830628,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -912,6 +914,21 @@
 //DD2
 //DD3
 //DD4
+		DD3472C2080356ED00830628 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = CoreGraphicsServices.h;
+			path = /Users/diggory/Code/OpenSource/growl/Core/Source/CoreGraphicsServices.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		DD3472C3080356ED00830628 = {
+			fileRef = DD3472C2080356ED00830628;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		DD5BBFF907B7D50400048F1D = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
