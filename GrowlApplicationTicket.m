@@ -169,7 +169,10 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 #pragma mark -
 
 - (NSImage *) icon {
-	return _icon;
+	if (_icon)
+		return _icon;
+	return [[NSWorkspace sharedWorkspace] iconForFileType: NSFileTypeForHFSTypeCode(kGenericApplicationIcon)];
+
 }
 - (void) setIcon:(NSImage *) inIcon {
 	if ( _icon != inIcon ) {
