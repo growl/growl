@@ -6,6 +6,7 @@
 {
 }
 + (void)initialize;
++ (NSBundle *)bundle;
 + (NSString *)bundleVersion;
 + (BOOL)hasPreferencesPanel;
 + (NSString *)preferencesOwnerClassName;

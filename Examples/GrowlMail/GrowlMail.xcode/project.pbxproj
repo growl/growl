@@ -89,6 +89,7 @@
 		};
 		089C167CFE841241C02AAC07 = {
 			children = (
+				950A02470737CDD60075BDE4,
 				955347EA0732C14400D12875,
 				8D5B49B7048680CD000E48DA,
 				089C167DFE841241C02AAC07,
@@ -372,6 +373,7 @@
 				8D5B49B0048680CD000E48DA,
 				955347EC0732C14400D12875,
 				955348510732F84000D12875,
+				950A02480737CDD60075BDE4,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,6 +445,39 @@
 //952
 //953
 //954
+		950A023B0737CBDB0075BDE4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = English.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		950A02470737CDD60075BDE4 = {
+			children = (
+				950A023B0737CBDB0075BDE4,
+				950A02490737CDDA0075BDE4,
+			);
+			isa = PBXVariantGroup;
+			name = Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		950A02480737CDD60075BDE4 = {
+			fileRef = 950A02470737CDD60075BDE4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		950A02490737CDDA0075BDE4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = German;
+			path = German.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		950DAC0E0737AF630096F066 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;

@@ -12,14 +12,14 @@
 
 @implementation GrowlMail
 
-+ (NSString *)bundleVersion
-{
-	return( [[[NSBundle bundleForClass:self] infoDictionary] objectForKey:@"CFBundleVersion"] );
-}
-
-+ (NSBundle *) bundle
++ (NSBundle *)bundle
 {
 	return( [NSBundle bundleForClass:self] );
+}
+
++ (NSString *)bundleVersion
+{
+	return( [[[GrowlMail bundle] infoDictionary] objectForKey:@"CFBundleVersion"] );
 }
 
 + (void)initialize
@@ -42,7 +42,7 @@
 	[defaultsDictionary release];
 	[enabled release];
 
-	NSLog( @"Loaded GrowlMail %@", [self bundleVersion] );
+	NSLog( @"Loaded GrowlMail %@", [GrowlMail bundleVersion] );
 }
 
 + (BOOL)hasPreferencesPanel
@@ -74,9 +74,10 @@
 - (void)gabResponse:(id)context
 {
 	// Register our ticket with Growl
-	NSArray *allowedNotifications = [NSArray arrayWithObject:@"New mail"];
+	NSArray *allowedNotifications = [NSArray arrayWithObject:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")];
 	NSDictionary *ticket = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"GrowlMail", GROWL_APP_NAME,
+		[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_APP_ICON,
 		allowedNotifications, GROWL_NOTIFICATIONS_ALL,
 		allowedNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];

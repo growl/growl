@@ -7,6 +7,7 @@
 //
 
 #import "Message+GrowlMail.h"
+#import "GrowlMail.h"
 #import "GrowlDefines.h"
 
 @interface NSString(GrowlMail)
@@ -50,13 +51,14 @@
 	[addressManager fetchImageForAddress: senderAddress];
 	NSImage *image = [addressManager imageForMailAddress: senderAddress];
 	if( !image ) {
-//			NSLog(@"Image: Mail.app");
-//			icon = [[NSApp applicationIconImage] TIFFRepresentation];
-		NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-		image = [workspace iconForFile: [workspace fullPathForApplication: @"Mail"]];
+//		NSLog(@"Image: Mail.app");
+//		icon = [[NSApp applicationIconImage] TIFFRepresentation];
+//		NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+//		image = [workspace iconForFile: [workspace fullPathForApplication: @"Mail"]];
+		image = [NSImage imageNamed:@"NSApplicationIcon"];
 	}
 	NSDictionary *notif = [NSDictionary dictionaryWithObjectsAndKeys:
-		@"New mail", GROWL_NOTIFICATION_NAME,
+		NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @""), GROWL_NOTIFICATION_NAME,
 		@"GrowlMail", GROWL_APP_NAME,
 		title, GROWL_NOTIFICATION_TITLE,
 		[image TIFFRepresentation], GROWL_NOTIFICATION_ICON,
