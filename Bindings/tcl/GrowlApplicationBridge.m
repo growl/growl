@@ -1,1 +1,1 @@
-../../GrowlApplicationBridge.m
+../../Framework/Source/GrowlApplicationBridge.m
