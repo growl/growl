@@ -12,11 +12,10 @@ int main() {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
 
-	GrowlController *theOneRingToRuleThemAll = [[GrowlController alloc] init];
+	GrowlController *theOneRingToRuleThemAll = [[[GrowlController alloc] init] autorelease];
 	
 	[NSApp run];
 	
-	[theOneRingToRuleThemAll release];
 	[NSApp release];
 	[pool release];
 	

@@ -61,6 +61,7 @@
 		};
 		089C166AFE841209C02AAC07 = {
 			children = (
+				CB1C5D95063E523F007052EE,
 				CB5F835E0638B67C00EADD7A,
 				CB5F836E0638B69900EADD7A,
 				CB5F84EB0638BFFF00EADD7A,
@@ -391,6 +392,41 @@
 //CB2
 //CB3
 //CB4
+		CB1C5D1B063E432F007052EE = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlApplicationTicket.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB1C5D1C063E432F007052EE = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlApplicationTicket.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB1C5D1D063E432F007052EE = {
+			fileRef = CB1C5D1B063E432F007052EE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CB1C5D1E063E432F007052EE = {
+			fileRef = CB1C5D1C063E432F007052EE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CB1C5D95063E523F007052EE = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.rtf;
+			path = README.rtf;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		CB5D139B0638E25300D8F1E5 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -525,6 +561,8 @@
 			children = (
 				CB5F83890638B78200EADD7A,
 				CB5F838A0638B78200EADD7A,
+				CB1C5D1B063E432F007052EE,
+				CB1C5D1C063E432F007052EE,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -536,6 +574,7 @@
 			files = (
 				CB5D139F0638E25300D8F1E5,
 				CB5D13A10638E25300D8F1E5,
+				CB1C5D1D063E432F007052EE,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -552,6 +591,7 @@
 			files = (
 				CB5D13A00638E25300D8F1E5,
 				CB5D13A20638E25300D8F1E5,
+				CB1C5D1E063E432F007052EE,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
