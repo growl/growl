@@ -31,7 +31,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol GrowlTunesPlugin
+@protocol GrowlTunesPlugin <NSObject>
 - (NSImage *)artworkForTitle:(NSString *)track
 					byArtist:(NSString *)artist
 					 onAlbum:(NSString *)album
@@ -40,7 +40,7 @@
 - (BOOL) usesNetwork;
 @end
 
-@protocol GrowlTunesPluginArchive
+@protocol GrowlTunesPluginArchive <NSObject>
 - (BOOL)archiveImage:(NSImage *)image
 			track:(NSString *)track
 		   artist:(NSString *)artist

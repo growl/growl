@@ -144,11 +144,15 @@ enum {
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
 		[self createStatusItem];
 }
+- (void)applicationWillTerminate:(NSNotification *)notification {
+	[self release]; //the one in main() is never reached, and we have some important things in -dealloc.
+}
 
 - (void)dealloc {
-	[self tearDownStatusItem];
+	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 	[self stopTimer];
+	[self tearDownStatusItem];
 	
 	[pollScript release];
 	[playlistName release];
@@ -159,6 +163,24 @@ enum {
 		[archivePlugin release];
 
 	[super dealloc];
+}
+
+#pragma mark -
+
+- (NSString *)starsForRating:(unsigned)rating {
+	enum {
+		BLACK_STAR = 0x2605, WHITE_STAR = 0x2606,
+		numStars = 5,
+	};
+	unichar stars[2] = { WHITE_STAR, BLACK_STAR };
+	unichar starBuffer[numStars] = {
+		stars[rating >=  20],
+		stars[rating >=  40],
+		stars[rating >=  60],
+		stars[rating >=  80],
+		stars[rating >= 100],
+	};
+	return [NSString stringWithCharacters:starBuffer length:numStars];
 }
 
 - (void)songChanged:(NSNotification *)aNotification {
@@ -232,31 +254,12 @@ enum {
 		if ([newTrackURL hasPrefix:@"file:/"]) {
 			NSAppleEventDescriptor	* theDescriptor = [getInfoScript executeAndReturnError:&error];
 			NSAppleEventDescriptor  * curDescriptor;
-			
+
 			int ratingInt = [[userInfo objectForKey:@"Rating"] intValue];
-			rating = [NSNumber numberWithInt:ratingInt]; 
-			
-			switch ( ratingInt / 20 ) {
-				case 0:
-					ratingString = [NSString stringWithUTF8String:"☆☆☆☆☆"];
-					break;
-				case 1:
-					ratingString = [NSString stringWithUTF8String:"★☆☆☆☆"];
-					break;
-				case 2:
-					ratingString = [NSString stringWithUTF8String:"★★☆☆☆"];
-					break;
-				case 3:
-					ratingString = [NSString stringWithUTF8String:"★★★☆☆"];
-					break;
-				case 4:
-					ratingString = [NSString stringWithUTF8String:"★★★★☆"];
-					break;
-				case 5:
-					ratingString = [NSString stringWithUTF8String:"★★★★★"];
-					break;
-			}
-	
+			rating = [NSNumber numberWithInt:ratingInt];
+			if(ratingInt < 0) ratingInt = 0;
+			ratingString = [self starsForRating:ratingInt];
+
 			curDescriptor = [theDescriptor descriptorAtIndex:2];
 			playlistName = [curDescriptor stringValue];
 			curDescriptor = [theDescriptor descriptorAtIndex:1];
@@ -386,28 +389,9 @@ enum {
 		
 		if ( curDescriptor = [theDescriptor descriptorAtIndex:7] ) {
 			int ratingInt = [[curDescriptor stringValue] intValue];
-			rating = [NSNumber numberWithInt:ratingInt]; 
-			
-			switch ( ratingInt / 20 ) {
-				case 0:
-					ratingString = [NSString stringWithUTF8String:"☆☆☆☆☆"];
-					break;
-				case 1:
-					ratingString = [NSString stringWithUTF8String:"★☆☆☆☆"];
-					break;
-				case 2:
-					ratingString = [NSString stringWithUTF8String:"★★☆☆☆"];
-					break;
-				case 3:
-					ratingString = [NSString stringWithUTF8String:"★★★☆☆"];
-					break;
-				case 4:
-					ratingString = [NSString stringWithUTF8String:"★★★★☆"];
-					break;
-				case 5:
-					ratingString = [NSString stringWithUTF8String:"★★★★★"];
-					break;
-			}
+			rating = [NSNumber numberWithInt:ratingInt];
+			if(rating < 0) rating = 0;
+			ratingString = [self starsForRating:ratingInt];
 		}
 		
 		curDescriptor = [theDescriptor descriptorAtIndex:8];
@@ -506,6 +490,7 @@ enum {
 
 - (void)tearDownStatusItem {
 	if(statusItem) {
+		[[NSStatusBar systemStatusBar] removeStatusItem:statusItem]; //otherwise we leave a hole
 		[statusItem release];
 		statusItem = nil;
 	}
@@ -584,8 +569,7 @@ enum {
 								 keyEquivalent:@""];
 		[item setTarget:self];
 		[item setIndentationLevel:1];
-		[item setTag:k];
-		k++;
+		[item setTag:k++];
 	}
 	
 	[iTunesSubMenu addItem:[NSMenuItem separatorItem]];
@@ -704,7 +688,6 @@ enum {
 	NSString *jumpScript = [NSString stringWithFormat:@"tell application \"iTunes\"\nplay track \"%@\" of playlist \"%@\"\nend tell", 
 									[tuneDict objectForKey:@"name"],
 									[tuneDict objectForKey:@"playlist"]];
-	NSLog(@"%@", jumpScript);
 	NSAppleScript *as = [[[NSAppleScript alloc] initWithSource:jumpScript] autorelease];
 	[as executeAndReturnError:NULL];
 }
@@ -778,7 +761,7 @@ int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2,
 		[newPlugins autorelease];
 	}
 	// sort the plugins, putting the one that uses network last
-	return [[newPlugins sortedArrayUsingFunction:comparePlugins context:NULL] autorelease];
+	return (NSMutableArray *)[newPlugins sortedArrayUsingFunction:comparePlugins context:NULL];
 }
 
 @end
