@@ -20,6 +20,8 @@
 	<string>0.5</string>
 	<key>LSUIElement</key>
 	<true/>
+	<key>NSMainNibFile</key>
+	<string>GrowlTunes</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

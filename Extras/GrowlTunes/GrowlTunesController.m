@@ -69,18 +69,18 @@ enum {
 @implementation GrowlTunesController
 
 - (id)init {
-	
 	if ((self = [super init])) {
 		[GrowlApplicationBridge setGrowlDelegate:self];
 
-		[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		[defaults registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithDouble:DEFAULT_POLL_INTERVAL], pollIntervalKey,
 			[NSNumber numberWithInt:20], recentTrackCount,
 			nil]];
 		
 		state = itUNKNOWN;
 		playlistName = [[NSString alloc] init];
-		recentTracks = [[NSMutableArray alloc] init];
+		recentTracks = [[NSMutableArray alloc] initWithCapacity:[[defaults objectForKey:recentTrackCount] unsignedIntValue]];
 		archivePlugin = nil;
 		plugins = [[self loadPlugins] retain];
 		trackID = 0;
@@ -94,6 +94,13 @@ enum {
 	pollScript       = [self appleScriptNamed:@"jackItunesInfo"];
 	quitiTunesScript = [self appleScriptNamed:@"quitiTunes"];
 	getInfoScript    = [self appleScriptNamed:@"jackItunesArtwork"];
+
+	NSString *itunesPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"iTunes"];
+	if ([[[NSBundle bundleWithPath:itunesPath] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] floatValue] > 4.6) {
+		[self setPolling:NO];
+	} else {
+		[self setPolling:YES];
+	}
 	
 	if (polling) {
 		pollInterval = [[NSUserDefaults standardUserDefaults] floatForKey:pollIntervalKey];
@@ -120,24 +127,19 @@ enum {
 		[self createStatusItem];
 }
 - (void) applicationWillTerminate:(NSNotification *)notification {
-	[self release]; //the one in main() is never reached, and we have some important things in -dealloc.
-}
-
-- (void) dealloc {
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 	[self stopTimer];
 	[self tearDownStatusItem];
-	
-	[pollScript release];
-	[playlistName release];
-	[recentTracks release];
 
-	[plugins release];
-	if (archivePlugin)
-		[archivePlugin release];
+	[pollScript   release]; pollScript   = nil;
+	[playlistName release]; playlistName = nil;
+	[recentTracks release]; recentTracks = nil;
 
-	[super dealloc];
+	[plugins release]; plugins = nil;
+	if (archivePlugin) {
+		[archivePlugin release]; archivePlugin = nil;
+	}
 }
 
 #pragma mark -
@@ -146,8 +148,8 @@ enum {
 - (NSDictionary *) registrationDictionaryForGrowl {
 	NSArray			* allNotes = [NSArray arrayWithObjects: 
 		ITUNES_TRACK_CHANGED, 
-		//		ITUNES_PAUSED, 
-		//		ITUNES_STOPPED,
+//		ITUNES_PAUSED, 
+//		ITUNES_STOPPED,
 		ITUNES_PLAYING, 
 		nil];
 	NSImage			* iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:iTunesAppName];
@@ -496,7 +498,7 @@ enum {
 													selector:@selector(poll:)
 													userInfo:nil
 													 repeats:YES] retain];
-		NSLog(@"Polling started");
+		NSLog(@"%@", @"Polling started - upgrade to iTunes 4.7 or later already, would you?!");
 		[self poll:nil];
 	}
 }
@@ -506,7 +508,7 @@ enum {
 		[pollTimer invalidate];
 		[pollTimer release];
 		pollTimer = nil;
-		NSLog(@"Polling stopped");
+		NSLog(@"%@", @"Polling stopped");
 	}
 }
 
@@ -665,13 +667,14 @@ enum {
 
 - (void) addTuneToRecentTracks:(NSString *)inTune fromPlaylist:(NSString *)inPlaylist {
 	int trackLimit = [[[NSUserDefaults standardUserDefaults] objectForKey:recentTrackCount] intValue];
-	NSDictionary *tuneDict = [NSDictionary dictionaryWithObjectsAndKeys:inTune, @"name",
-																		inPlaylist, @"playlist", nil];
+	NSDictionary *tuneDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		inTune,     @"name",
+		inPlaylist, @"playlist",
+		nil];
+	signed long delta = ([recentTracks count] + 1U) - trackLimit;
+	if (delta > 0L)
+		[recentTracks removeObjectsInRange:NSMakeRange(0U, delta)];
 	[recentTracks addObject:tuneDict];
-	if ( [recentTracks count] > trackLimit ) {
-		int len = [recentTracks count] - trackLimit;
-		[recentTracks removeObjectsInRange:NSMakeRange( 0, len )];
-	}
 	
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
 		[self buildiTunesSubmenu];
