@@ -225,6 +225,20 @@
 			settings = {
 			};
 		};
+		0AEE179C0702C4960024B1A0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = ApplicationServices.framework;
+			path = /System/Library/Frameworks/ApplicationServices.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0AEE179D0702C4960024B1A0 = {
+			fileRef = 0AEE179C0702C4960024B1A0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //0A0
 //0A1
 //0A2
@@ -239,6 +253,7 @@
 			children = (
 				1058C7ADFEA557BF11CA2CBB,
 				F506C035013D953901CA16C8,
+				0AEE179C0702C4960024B1A0,
 			);
 			isa = PBXGroup;
 			name = "Linked Frameworks";
@@ -847,6 +862,7 @@
 			files = (
 				8D202CF30486D31800D8A456,
 				8D202CF40486D31800D8A456,
+				0AEE179D0702C4960024B1A0,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

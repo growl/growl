@@ -8,6 +8,7 @@
 #import "GrowlPref.h"
 #import "GrowlDisplayProtocol.h"
 #import "ACImageAndTextCell.h"
+#import <ApplicationServices/ApplicationServices.h>
 
 #define PING_TIMEOUT		3
 
@@ -180,7 +181,21 @@
 	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
 	
 	if(!growlIsRunning) {
-		growlIsRunning = [[NSWorkspace sharedWorkspace] launchApplication:helperPath];
+		//growlIsRunning = [[NSWorkspace sharedWorkspace] launchApplication:helperPath];
+		// We want to launch in background, so we have to resort to Carbon
+		LSLaunchFSRefSpec spec;
+		FSRef appRef;
+		OSStatus status = FSPathMakeRef([helperPath fileSystemRepresentation], &appRef, NULL);
+		if (status == noErr) {
+			spec.appRef = &appRef;
+			spec.numDocs = 0;
+			spec.itemRefs = NULL;
+			spec.passThruParams = NULL;
+			spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
+			spec.asyncRefCon = NULL;
+			status = LSOpenFromRefSpec(&spec, NULL);
+		}
+		growlIsRunning = (status == noErr);
 	} else {
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
 		growlIsRunning = NO;
