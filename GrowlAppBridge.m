@@ -121,17 +121,16 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	NSMutableDictionary *noteDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:	appName,	GROWL_APP_NAME,
 																						notifName,	GROWL_NOTIFICATION_NAME,
 																						nil];
-	
-	if (growlLaunched) {
-		
-		if (title)			[noteDict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
-		if (description)	[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
-		if (iconData)		[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON];
-		if (appIconData)	[noteDict setObject:appIconData forKey:GROWL_NOTIFICATION_APP_ICON];		
-		if (priority)		[noteDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
-		if (isSticky)		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];
-		if (clickContext)	[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 
+	if (title)			[noteDict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
+	if (description)	[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
+	if (iconData)		[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON];
+	if (appIconData)	[noteDict setObject:appIconData forKey:GROWL_NOTIFICATION_APP_ICON];		
+	if (priority)		[noteDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
+	if (isSticky)		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];
+	if (clickContext)	[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+
+	if (growlLaunched) {
 
 		//Post to Growl via NSDistributedNotificationCenter
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
