@@ -1,0 +1,46 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                apply = id; 
+                revert = id; 
+                selectDisplayPlugin = id; 
+                startGrowlAtLogin = id; 
+                startStopGrowl = id; 
+            }; 
+            CLASS = GrowlPref; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                allDisplayPlugins = NSPopUpButton; 
+                applicationNotifications = NSTableView; 
+                apply = NSButton; 
+                displayAuthor = NSTextField; 
+                displayDefaultPrefView = NSView; 
+                displayPlugins = NSTableView; 
+                displayPrefView = NSView; 
+                displayVersion = NSTextField; 
+                growlApplications = NSTableView; 
+                growlRunningProgress = NSProgressIndicator; 
+                growlRunningStatus = NSTextField; 
+                revert = NSButton; 
+                startGrowlAtLogin = NSButton; 
+                startStopGrowl = NSButton; 
+                tabView = NSTabView; 
+            }; 
+            SUPERCLASS = NSPreferencePane; 
+        }, 
+        {
+            CLASS = NSPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_firstKeyView" = id; 
+                "_initialKeyView" = id; 
+                "_lastKeyView" = id; 
+                "_window" = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

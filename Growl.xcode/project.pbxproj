@@ -22,7 +22,12 @@
 		06F27B31FFEEEFEF11CA0E56 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
@@ -971,6 +976,24 @@
 //8D2
 //8D3
 //8D4
+//950
+//951
+//952
+//953
+//954
+		950B97680737C44B00F76F16 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = German.lproj/GrowlPref.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//950
+//951
+//952
+//953
+//954
 //9E0
 //9E1
 //9E2
@@ -1695,6 +1718,7 @@
 		F506C042013D9D8C01CA16C8 = {
 			children = (
 				F506C043013D9D8C01CA16C8,
+				950B97680737C44B00F76F16,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlPref.nib;
