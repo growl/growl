@@ -9,6 +9,7 @@
 
 #import "GrowlController.h"
 #import "GrowlApplicationTicket.h"
+#import "GrowlApplicationNotification.h"
 #import "NSGrowlAdditions.h"
 #import <sys/socket.h>
 

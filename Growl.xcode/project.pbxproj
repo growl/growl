@@ -2019,6 +2019,7 @@
 				3433458B0790E3D600C84B15,
 				3433458C0790E3D600C84B15,
 				3433458D0790E3D600C84B15,
+				CB5C315107925B53007CC0D0,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2614,6 +2615,8 @@
 				52861EE406DBA95400D3A356,
 				CB1C5D1B063E432F007052EE,
 				CB1C5D1C063E432F007052EE,
+				CB5C30FF07925B53007CC0D0,
+				CB5C312807925B53007CC0D0,
 			);
 			isa = PBXGroup;
 			name = Controllers;
@@ -2920,6 +2923,7 @@
 				52861EE606DBA95400D3A356,
 				525277E706D9605D007BC87D,
 				525277AB06D95BED007BC87D,
+				CB9E378D07925D7A00F8937E,
 				8D202CF10486D31800D8A456,
 				5286205A06DC4C2F00D3A356,
 				A16BD22906FCC05F00BF033B,
@@ -3455,6 +3459,36 @@
 			settings = {
 			};
 		};
+		CB5C30FF07925B53007CC0D0 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlApplicationNotification.h;
+			path = Source/GrowlApplicationNotification.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		CB5C312807925B53007CC0D0 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlApplicationNotification.m;
+			path = Source/GrowlApplicationNotification.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		CB5C315107925B53007CC0D0 = {
+			fileRef = CB5C30FF07925B53007CC0D0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CB5C315C07925B53007CC0D0 = {
+			fileRef = CB5C312807925B53007CC0D0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		CB5F835E0638B67C00EADD7A = {
 			children = (
 				08FB77AFFE84173DC02AAC07,
@@ -3525,6 +3559,8 @@
 		};
 		CB5F847F0638BD6200EADD7A = {
 			children = (
+				CB5F83890638B78200EADD7A,
+				CB5F838A0638B78200EADD7A,
 				CB0EBFBA0790941300CA2157,
 				956ADAC607551C4500AF9545,
 				956ADACB07551C4500AF9545,
@@ -3534,8 +3570,6 @@
 				956ADADF07551C4500AF9545,
 				956ADAE407551C4500AF9545,
 				956ADAE907551C4500AF9545,
-				CB5F83890638B78200EADD7A,
-				CB5F838A0638B78200EADD7A,
 				F57BFE2C0669037C00DE5BFD,
 				F57BFE2D0669037C00DE5BFD,
 			);
@@ -3596,6 +3630,7 @@
 				956ADB0207551C4500AF9545,
 				956ADB0407551C4500AF9545,
 				3434E8EA0790D6E600A97A48,
+				CB5C315C07925B53007CC0D0,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3732,6 +3767,12 @@
 			name = "Global Resources";
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		CB9E378D07925D7A00F8937E = {
+			fileRef = CB5C312807925B53007CC0D0;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		CBF0743F0659B202000B4B77 = {
 			fileRef = CB1C5D1C063E432F007052EE;

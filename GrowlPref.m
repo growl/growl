@@ -9,6 +9,7 @@
 
 #import "GrowlPref.h"
 #import "GrowlDisplayProtocol.h"
+#import "GrowlApplicationNotification.h"
 #import "ACImageAndTextCell.h"
 #import "NSGrowlAdditions.h"
 #import <ApplicationServices/ApplicationServices.h>

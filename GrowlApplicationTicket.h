@@ -11,48 +11,6 @@
 #import <Foundation/Foundation.h>
 #import "GrowlDisplayProtocol.h"
 
-@class GrowlController;
-
-typedef enum GrowlPriority {
-	GP_unset		= -1000,
-	GP_verylow		= -2,
-	GP_low			= -1,
-	GP_normal		=  0,
-	GP_high         =  1,
-	GP_emergency	=  2
-} GrowlPriority;
-
-@interface GrowlApplicationNotification : NSObject {
-	NSString		*name;
-	GrowlPriority	 priority;
-	BOOL			 enabled;
-    int				 sticky;
-}
-
-+ (GrowlApplicationNotification*) notificationWithName:(NSString*)name;
-+ (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict;
-- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(int)sticky;
-- (NSDictionary*) notificationAsDict;
-
-#pragma mark -
-
-- (NSString*) name;
-
-- (GrowlPriority) priority;
-- (void) setPriority:(GrowlPriority)newPriority;
-- (void) resetPriority;
-
-- (BOOL) enabled;
-- (void) setEnabled:(BOOL)flag;
-- (void) enable;
-- (void) disable;
-
-- (int) sticky;
-- (void) setSticky:(int)sticky;
-@end
-
-#pragma mark -
-
 @interface GrowlApplicationTicket : NSObject {
 	NSString		*appName;					// The Applications's name for display by notifications that want it
 	NSImage			*icon;						// This app's icon for notifications and display methods that want it
@@ -94,8 +52,8 @@ typedef enum GrowlPriority {
 - (BOOL) ticketEnabled;
 - (void) setEnabled:(BOOL)inEnabled;
 
-- (BOOL)usesCustomDisplay;
-- (void)setUsesCustomDisplay: (BOOL)inUsesCustomDisplay;
+- (BOOL) usesCustomDisplay;
+- (void) setUsesCustomDisplay: (BOOL)inUsesCustomDisplay;
 
 - (id <GrowlDisplayPlugin>) displayPlugin;
 - (void) setDisplayPluginNamed: (NSString *)name;
