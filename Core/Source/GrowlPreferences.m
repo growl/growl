@@ -9,6 +9,7 @@
 
 
 #import "GrowlPreferences.h"
+#import "NSGrowlAdditions.h"
 
 static GrowlPreferences * sharedPreferences;
 
@@ -107,17 +108,33 @@ static GrowlPreferences * sharedPreferences;
 
 - (BOOL) startGrowlAtLogin {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	NSArray *autoLaunchArray = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
-	NSString *pathToGHA = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	NSArray        *loginItems = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
+
+	//get the prefpane bundle and find GHA within it.
+	NSString *pathToGHA      = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	//get an Alias (as in Alias Manager) representation of same.
+	NSURL    *URLToGHA       = [NSURL fileURLWithPath:pathToGHA];
+
 	BOOL foundIt = NO;
 
-	NSEnumerator *e = [autoLaunchArray objectEnumerator];
+	NSEnumerator *e = [loginItems objectEnumerator];
 	NSDictionary *item;
 	while ((item = [e nextObject])) {
-		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:pathToGHA]) {
-			foundIt = YES;
-			break;
+		/*first compare by alias.
+		 *we do this by converting to URL and comparing those.
+		 */
+		NSData *thisAliasData = [item objectForKey:@"AliasData"];
+		if (thisAliasData) {
+			NSURL *thisURL = [NSURL fileURLWithAliasData:thisAliasData];
+			foundIt = [thisURL isEqual:URLToGHA];
+		} else {
+			//nope, not the same alias. try comparing by path.
+			NSString *thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
+			foundIt = (thisPath && [thisPath isEqualToString:pathToGHA]);
 		}
+
+		if (foundIt)
+			break;
 	}
 
 	return foundIt;
@@ -125,26 +142,71 @@ static GrowlPreferences * sharedPreferences;
 
 - (void) setStartGrowlAtLogin:(BOOL)flag {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	NSString *pathToGHA = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+
+	//get the prefpane bundle and find GHA within it.
+	NSString *pathToGHA      = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	//get an Alias (as in Alias Manager) representation of same.
+	NSURL    *URLToGHA       = [NSURL fileURLWithPath:pathToGHA];
+	NSData   *aliasDataToGHA = [URLToGHA aliasData];
+
+	/*the start-at-login pref is an array of dictionaries, like so:
+	 *	{
+	 *		AliasData = <...>
+	 *		Hide = Boolean (maps to kLSLaunchAndHide)
+	 *		Path = POSIX path to the bundle, file, or folder (in that order of
+	 *			preference)
+	 *	}
+	 */
 	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
-	NSArray *loginItems = [loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"];
-	NSMutableArray *mutableLoginItems = [[loginItems mutableCopy] autorelease];
-	NSEnumerator *e = [loginItems objectEnumerator];
-	NSDictionary *item;
-	while ((item = [e nextObject])) {
-		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:pathToGHA]) {
-			[mutableLoginItems removeObject:item];
+	NSMutableArray      *loginItems = [[[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy] autorelease];
+
+	/*remove any previous mentions of this GHA in the start-at-login array.
+	 *note that other GHAs are ignored.
+	 */
+	BOOL foundOne = NO;
+
+	for (unsigned i = 0U, numItems = [loginItems count]; i < numItems; ) {
+		NSDictionary *item = [loginItems objectAtIndex:i];
+		BOOL thisIsUs = NO;
+
+		/*first compare by alias.
+		 *we do this by converting to URL and comparing those.
+		 */
+		NSString *thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
+		NSData *thisAliasData = [item objectForKey:@"AliasData"];
+		if (thisAliasData) {
+			NSURL *thisURL = [NSURL fileURLWithAliasData:thisAliasData];
+			thisIsUs = [thisURL isEqual:URLToGHA];
+		} else {
+			//nope, not the same alias. try comparing by path.
+			/*NSString **/thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
+			thisIsUs = (thisPath && [thisPath isEqualToString:pathToGHA]);
 		}
+
+		NSLog(@"thisPath: %@; thisIsUs: %u; flag: %u; foundOne: %u", thisPath, thisIsUs, flag, foundOne);
+
+		if (thisIsUs && ((!flag) || (!foundOne))) {
+			[loginItems removeObjectAtIndex:i];
+			--numItems;
+			foundOne = YES;
+		} else //only increment if we did not change the array
+			++i;
 	}
-	
-	if (flag) {
-		NSMutableDictionary *launchDict = [NSMutableDictionary dictionary];
-		[launchDict setObject:[NSNumber numberWithBool:NO] forKey:@"Hide"];
-		[launchDict setObject:pathToGHA forKey:@"Path"];
-		[mutableLoginItems addObject:launchDict];
+
+	if (flag && !foundOne) {
+		/*we were called with YES, and we weren't already in the start-at-login
+		 *	array, so add ourselves to its end.
+		 */
+		NSDictionary *launchDict = [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithBool:NO], @"Hide",
+			pathToGHA,                    @"Path",
+			aliasDataToGHA,               @"AliasData",
+			nil];
+		[loginItems addObject:launchDict];
 	}
-	
-	[loginWindowPrefs setObject:[NSArray arrayWithArray:mutableLoginItems] 
+
+	//save to disk.
+	[loginWindowPrefs setObject:[NSArray arrayWithArray:loginItems] 
 						 forKey:@"AutoLaunchedApplicationDictionary"];
 	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
 					  forName:@"loginwindow"];

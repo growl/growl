@@ -23,6 +23,10 @@
 
 @interface NSURL (GrowlAdditions)
 
+//'alias' as in the Alias Manager.
++ fileURLWithAliasData:(NSData *)aliasData;
+- (NSData *)aliasData;
+
 //these are the type of external representations used by Dock.app.
 + fileURLWithDockDescription:(NSDictionary *)dict;
 //-dockDescription returns nil for non-file: URLs.
