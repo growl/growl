@@ -81,29 +81,34 @@
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 
-	NSRect screen = [[self screen] visibleFrame];
 	NSPoint panelTopLeft;
 	int positionPref = BEZEL_POSITION_DEFAULT;
-	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);	
+	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
+	NSRect screen;
 	switch (positionPref) {
 		default:
 		case BEZEL_POSITION_DEFAULT:
+			screen = [[self screen] frame];
 			panelTopLeft.x = screen.origin.x + ceilf((NSWidth(screen) - NSWidth(panelFrame)) * 0.5f);
-			panelTopLeft.y = screen.origin.y + 140.0f + NSHeight(panelFrame);
+			panelTopLeft.y = screen.origin.y + 215.0f + NSHeight(panelFrame);
 			break;
 		case BEZEL_POSITION_TOPRIGHT:
+			screen = [[self screen] visibleFrame];
 			panelTopLeft.x = NSMaxX(screen) - NSWidth(panelFrame) - GrowlBezelPadding;
 			panelTopLeft.y = NSMaxY(screen) - GrowlBezelPadding;
 			break;
 		case BEZEL_POSITION_BOTTOMRIGHT:
+			screen = [[self screen] visibleFrame];
 			panelTopLeft.x = NSMaxX(screen) - NSWidth(panelFrame) - GrowlBezelPadding;
 			panelTopLeft.y = screen.origin.y + GrowlBezelPadding + NSHeight(panelFrame);
 			break;
 		case BEZEL_POSITION_BOTTOMLEFT:
+			screen = [[self screen] visibleFrame];
 			panelTopLeft.x = screen.origin.x + GrowlBezelPadding;
 			panelTopLeft.y = screen.origin.y + GrowlBezelPadding + NSHeight(panelFrame);
 			break;
 		case BEZEL_POSITION_TOPLEFT:
+			screen = [[self screen] visibleFrame];
 			panelTopLeft.x = screen.origin.x + GrowlBezelPadding;
 			panelTopLeft.y = NSMaxY(screen) - GrowlBezelPadding;
 			break;

@@ -50,29 +50,45 @@
 	NSSize maxIconSize;
 	NSSize iconSize = [icon size];
 	if (sizePref == BEZEL_SIZE_NORMAL) {
-		titleRect = NSMakeRect(12.0f, 90.0f, 187.0f, 30.0f);
-		textRect =  NSMakeRect(12.0f, 4.0f,  187.0f, 80.0f);
+		titleRect.origin.x = 12.0f;
+		titleRect.origin.y = 90.0f;
+		titleRect.size.width = 187.0f;
+		titleRect.size.height = 30.0f;
+		textRect.origin.x = 12.0f;
+		textRect.origin.y = 4.0f;
+		textRect.size.width = 187.0f;
+		textRect.size.height = 80.0f;
 		maxRows = 4;
-		maxIconSize = NSMakeSize(72.0f, 72.0f);
+		maxIconSize.width = 72.0f;
+		maxIconSize.height = 72.0f;
 		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
 		if ( iconSize.width < maxIconSize.width ) {
 			iconOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
 		}
-		iconPoint = NSMakePoint(70.0f + iconOffset, 120.0f);
+		iconPoint.x = 70.0f + iconOffset;
+		iconPoint.y = 120.0f;
 	} else {
-		titleRect = NSMakeRect(8.0f, 52.0f, 143.0f, 24.0f);
-		textRect =  NSMakeRect(8.0f, 4.0f,  143.0f, 49.0f);
+		titleRect.origin.x = 8.0f;
+		titleRect.origin.y = 52.0f;
+		titleRect.size.width = 143.0f;
+		titleRect.size.height = 24.0f;
+		textRect.origin.x = 8.0f;
+		textRect.origin.y = 4.0f;
+		textRect.size.width = 143.0f;
+		textRect.size.height = 49.0f;
 		maxRows = 2;
-		maxIconSize = NSMakeSize(48.0f, 48.0f);
+		maxIconSize.width = 48.0f;
+		maxIconSize.height = 48.0f;
 		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
 		if ( iconSize.width < maxIconSize.width ) {
 			iconOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
 		}
-		iconPoint = NSMakePoint(57.0f + iconOffset, 83.0f);
+		iconPoint.x = 57.0f + iconOffset;
+		iconPoint.y = 83.0f;
 	}
 
 	NSShadow *textShadow = [[[NSShadow alloc] init] autorelease];
-	NSSize shadowSize = NSMakeSize(0.0f, -2.0f);
+	NSSize shadowSize = {0.0f, -2.0f};
 	[textShadow setShadowOffset:shadowSize];
 	[textShadow setShadowBlurRadius:3.0f];
 	[textShadow setShadowColor:[NSColor blackColor]];
