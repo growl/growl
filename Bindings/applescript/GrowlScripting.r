@@ -14,7 +14,7 @@ resource 'aete' (0, "") {
 	english,
 	roman,
 	{
-				"Growl",
+				"Growl Suite",
 				"AppleScript for the Growl Notification System",
 				'Grwl',
 				1,

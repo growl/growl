@@ -133,6 +133,6 @@
 	<key>Description</key>
 	<string>AppleScript for the Growl Notification System</string>
 	<key>Name</key>
-	<string>Growl</string>
+	<string>Growl Suite</string>
 </dict>
 </plist>
