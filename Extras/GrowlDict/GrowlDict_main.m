@@ -46,19 +46,19 @@ int main (void) {
 	//Register us with Growl
 
 	NSDictionary *growlReg = [NSDictionary dictionaryWithObjectsAndKeys:
-	                                                                    @"GrowlDict", GROWL_APP_NAME,
-	                                                                    objects, GROWL_NOTIFICATIONS_ALL,
-	                                                                    objects, GROWL_NOTIFICATIONS_DEFAULT,
-	                                                                    nil];
+		@"GrowlDict", GROWL_APP_NAME,
+		objects, GROWL_NOTIFICATIONS_ALL,
+		objects, GROWL_NOTIFICATIONS_DEFAULT,
+		nil];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:growlReg];
 
 																 
 	NS_DURING
-	   [[NSRunLoop currentRunLoop] configureAsServer];
-	    [[NSRunLoop currentRunLoop] run];
+		[[NSRunLoop currentRunLoop] configureAsServer];
+		[[NSRunLoop currentRunLoop] run];
 		NSLog([[NSRunLoop currentRunLoop] currentMode]);
 	NS_HANDLER
-	    NSLog(@"%@", localException);
+		NSLog(@"%@", localException);
 	NS_ENDHANDLER
 
 	[serviceProvider release];
