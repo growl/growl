@@ -81,7 +81,6 @@
 struct GrowlNetworkPacket {
 	unsigned char version;
 	unsigned char type;
-	unsigned short passwordLen;
 };
 
 /*
@@ -94,7 +93,7 @@ struct GrowlNetworkRegistration {
 	unsigned char numDefaultNotifications;
 	/*
 	 *	Variable sized. Format:
-	 *	<application name><all notifications><default notifications><encrypted password>
+	 *	<application name><all notifications><default notifications><checksum>
 	 *	where <all notifications> and <default notifications> are of the form
 	 *	(<length><name>){num}.
 	 */
@@ -117,7 +116,7 @@ struct GrowlNetworkNotification {
 	unsigned short appNameLen;
 	/*
 	 *	Variable sized. Format:
-	 *	<notification name><title><description><application name><encrypted password>
+	 *	<notification name><title><description><application name><checksum>
 	 */
 	unsigned char data[];
 };

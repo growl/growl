@@ -90,9 +90,6 @@ int main(int argc, const char **argv) {
 	char *registrationPacket, *notificationPacket;
 	struct sockaddr_in to;
 	static char *password = NULL;
-	NSData *pwdData;
-	MD5_CTX ctx;
-	char digest[MD5_DIGEST_LENGTH];
 
 	struct option longopts[] = {
 		{ "help",		no_argument,		0,			'h' },
@@ -273,21 +270,12 @@ int main(int argc, const char **argv) {
 					to.sin_family = AF_INET;
 					to.sin_len = sizeof(to);
 				}
-				if( password ) {
-					MD5_Init( &ctx );
-					MD5_Update( &ctx, password, strlen( password ) );
-					MD5_Final( digest, &ctx );
-					pwdData = [[NSData alloc] initWithBytes:digest length:sizeof(digest)];
-				} else {
-					pwdData = nil;
-				}
 				registrationPacket = [GrowlUDPUtils registrationToPacket:registerInfo
-																password:pwdData
+																password:password
 															  packetSize:&registrationSize];
 				notificationPacket = [GrowlUDPUtils notificationToPacket:notificationInfo
-																password:pwdData
+																password:password
 															  packetSize:&notificationSize];
-				[pwdData release];
 				size = (registrationSize > notificationSize) ? registrationSize : notificationSize;
 				if (setsockopt( sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size) ) < 0) {
 					perror("setsockopt: SO_SNDBUF");

@@ -250,7 +250,6 @@
 		1058C7ACFEA557BF11CA2CBB = {
 			children = (
 				1058C7AEFEA557BF11CA2CBB,
-				0AEE179C0702C4960024B1A0,
 			);
 			isa = PBXGroup;
 			name = "Linked Frameworks";
@@ -259,6 +258,7 @@
 		};
 		1058C7AEFEA557BF11CA2CBB = {
 			children = (
+				0AEE179C0702C4960024B1A0,
 				95E678F307511471002BF4E6,
 				83282746073A6C110044A959,
 				83282741073A6BD70044A959,
@@ -887,7 +887,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-bundle -twolevel_namespace -lcrypto";
+				OTHER_LDFLAGS = "-bundle -twolevel_namespace";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Growl;
 				SECTORDER_FLAGS = "";
@@ -1322,6 +1322,24 @@
 			settings = {
 			};
 		};
+		95C36A620753299E009FAEA2 = {
+			fileRef = 95E678F307511471002BF4E6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95C36A630753299E009FAEA2 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95C36A640753299E009FAEA2 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95DD10C80748AE5100CC05A4 = {
 			explicitFileType = wrapper.cfbundle;
 			isa = PBXFileReference;
@@ -1714,6 +1732,9 @@
 		CB61E5160637763C00E0DDC7 = {
 			buildActionMask = 2147483647;
 			files = (
+				95C36A620753299E009FAEA2,
+				95C36A630753299E009FAEA2,
+				95C36A640753299E009FAEA2,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1748,7 +1769,7 @@
 				INFOPLIST_FILE = "GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_LDFLAGS = "-lcrypto";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = GrowlHelperApp;
 				SECTORDER_FLAGS = "";

@@ -14,7 +14,6 @@
 #import <ApplicationServices/ApplicationServices.h>
 #import <Security/SecKeychain.h>
 #import <Security/SecKeychainItem.h>
-#include <openssl/md5.h>
 
 #define PING_TIMEOUT		3
 
@@ -124,7 +123,7 @@ static const char *keychainAccountName = "Growl";
 		[networkPassword setStringValue:passwordString];
 		[passwordString release];
 		SecKeychainItemFreeContent( NULL, password );
-	} else {
+	} else if ( status != errSecItemNotFound ) {
 		NSLog( @"Failed to retrieve password from keychain. Error: %d", status );
 		[networkPassword setStringValue:@""];
 	}	
@@ -394,12 +393,8 @@ static const char *keychainAccountName = "Growl";
 }
 
 - (IBAction) setRemotePassword:(id)sender {
-	MD5_CTX ctx;
-	char digest[MD5_DIGEST_LENGTH];
-
 	const char *password = [[sender stringValue] UTF8String];
 	unsigned int length = strlen( password );
-	NSData *pwdData;
 	OSStatus status;
 	SecKeychainItemRef itemRef = nil;
 	status = SecKeychainFindGenericPassword( NULL,
@@ -434,16 +429,6 @@ static const char *keychainAccountName = "Growl";
 			NSLog( @"Failed to change password in keychain." );
 		}
 	}
-	if ( !length ) {
-		pwdData = nil;
-	} else {
-		MD5_Init( &ctx );
-		MD5_Update( &ctx, password, length );
-		MD5_Final( digest, &ctx );
-		pwdData = [[NSData alloc] initWithBytes:digest length:sizeof(digest)];
-	}
-
-	[[GrowlPreferences preferences] setObject:pwdData forKey:GrowlRemotePasswordKey];
 }
 
 - (IBAction)selectDisplayPlugin:(id)sender {

@@ -11,9 +11,15 @@
 #import "GrowlController.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlDefines.h"
+#import <Security/SecKeychain.h>
+#import <Security/SecKeychainItem.h>
 #include <netinet/in.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <openssl/md5.h>
+
+static const char *keychainServiceName = "Growl";
+static const char *keychainAccountName = "Growl";
 
 @implementation GrowlUDPServer
 
@@ -51,6 +57,35 @@
 }
 
 #pragma mark -
++ (BOOL) authenticatePacket:(const char *)packet length:(unsigned int)length
+{
+	char *password;
+	unsigned int messageLength;
+	UInt32 passwordLength;
+	OSStatus status;
+	MD5_CTX ctx;
+	char digest[MD5_DIGEST_LENGTH];
+
+	messageLength = length-MD5_DIGEST_LENGTH;
+	MD5_Init( &ctx );
+	MD5_Update( &ctx, packet, messageLength );
+	status = SecKeychainFindGenericPassword( NULL,
+											 strlen( keychainServiceName ), keychainServiceName,
+											 strlen( keychainAccountName ), keychainAccountName,
+											 &passwordLength, (void **)&password, NULL );
+
+	if ( status == noErr ) {
+		MD5_Update( &ctx, password, passwordLength );
+		SecKeychainItemFreeContent( NULL, password );
+	} else if ( status != errSecItemNotFound ) {
+		NSLog( @"Failed to retrieve password from keychain. Error: %d", status );
+	}
+	MD5_Final( digest, &ctx );
+
+	return !memcmp( digest, packet+messageLength, sizeof(digest) );
+}
+
+#pragma mark -
 
 - (void) fileHandleRead:(NSNotification *)aNotification {
 	char *notificationName;
@@ -58,9 +93,8 @@
 	char *description;
 	char *applicationName;
 	char *notification;
-	char *password;
 	unsigned int notificationNameLen, titleLen, descriptionLen, priority, applicationNameLen;
-	unsigned int length, num, i, size, passwordLen;
+	unsigned int length, num, i, size, packetSize;
 	BOOL isSticky;
 
 	NSDictionary *userInfo = [aNotification userInfo];
@@ -82,45 +116,47 @@
 								struct GrowlNetworkRegistration *nr = (struct GrowlNetworkRegistration *)packet;
 								applicationName = nr->data;
 								applicationNameLen = ntohs( nr->appNameLen );
+								packetSize = sizeof(*nr) + applicationNameLen + MD5_DIGEST_LENGTH;
 
 								// all notifications
 								num = nr->numAllNotifications;
 								notification = applicationName + applicationNameLen;
 								NSMutableArray *allNotifications = [[NSMutableArray alloc] initWithCapacity:num];
-								for( i=0; i<num; ++i ) {
+								for ( i=0; i<num; ++i ) {
 									size = ntohs( *(unsigned short *)notification );
 									notification += sizeof(unsigned short);
 									[allNotifications addObject:[NSString stringWithUTF8String:notification length:size]];
 									notification += size;
+									packetSize += size + sizeof(unsigned short);
 								}
 
 								// default notifications
 								num = nr->numDefaultNotifications;
 								NSMutableArray *defaultNotifications = [[NSMutableArray alloc] initWithCapacity:num];
-								for( i=0; i<num; ++i ) {
+								for ( i=0; i<num; ++i ) {
 									size = ntohs( *(unsigned short *)notification );
 									notification += sizeof(unsigned short);
 									[defaultNotifications addObject:[NSString stringWithUTF8String:notification length:size]];
 									notification += size;
+									packetSize += size + sizeof(unsigned short);
 								}
 
-								password = notification;
-								passwordLen = ntohs( nr->common.passwordLen );
-								NSData *remotePwd = [[GrowlPreferences preferences] objectForKey:GrowlRemotePasswordKey];
-								NSData *pwdData = [[NSData alloc] initWithBytes:password length:passwordLen];
-								if( !(remotePwd || passwordLen) || [pwdData isEqual:remotePwd] ) {
-									// TODO: generic icon
-									NSDictionary *registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-										[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
-										allNotifications, GROWL_NOTIFICATIONS_ALL,
-										defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-										nil];
+								if ( length == packetSize ) {
+									if ( [GrowlUDPServer authenticatePacket:(const char *)nr length:length] ) {
+										// TODO: generic icon
+										NSDictionary *registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+											[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
+											allNotifications, GROWL_NOTIFICATIONS_ALL,
+											defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+											nil];
 
-									[[GrowlController singleton] _registerApplicationWithDictionary:registerInfo];
+										[[GrowlController singleton] _registerApplicationWithDictionary:registerInfo];
+									} else {
+										NSLog( @"GrowlUDPServer: authentication failed." );
+									}
 								} else {
-									NSLog( @"GrowlUDPServer: invalid password" );
+									NSLog( @"GrowlUDPServer: received invalid registration packet." );
 								}
-								[pwdData release];
 							}
 						} else {
 							NSLog( @"GrowlUDPServer: received runt registration packet." );
@@ -140,14 +176,10 @@
 							descriptionLen = ntohs( nn->descriptionLen );
 							applicationName = description + descriptionLen;
 							applicationNameLen = ntohs( nn->appNameLen );
-							password = applicationName + applicationNameLen;
-							passwordLen = ntohs( nn->common.passwordLen );
+							packetSize = sizeof(*nn) + notificationNameLen + titleLen + descriptionLen + applicationNameLen + MD5_DIGEST_LENGTH;
 
-							if ( length == sizeof(struct GrowlNetworkNotification) + notificationNameLen
-									+ titleLen + descriptionLen + applicationNameLen + passwordLen ) {
-								NSData *remotePwd = [[GrowlPreferences preferences] objectForKey:GrowlRemotePasswordKey];
-								NSData *pwdData = [[NSData alloc] initWithBytes:password length:passwordLen];
-								if( !(remotePwd || passwordLen) || [pwdData isEqual:remotePwd] ) {
+							if ( length == packetSize ) {
+								if ( [GrowlUDPServer authenticatePacket:(const char *)nn length:length] ) {
 									NSDictionary *notificationInfo;
 									// TODO: generic icon
 									notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -161,9 +193,8 @@
 
 									[[GrowlController singleton] dispatchNotificationWithDictionary:notificationInfo];
 								} else {
-									NSLog( @"GrowlUDPServer: invalid password" );
+									NSLog( @"GrowlUDPServer: authentication failed." );
 								}
-								[pwdData release];
 							} else {
 								NSLog( @"GrowlUDPServer: received invalid notification packet." );
 							}
