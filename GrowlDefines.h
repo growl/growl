@@ -17,6 +17,7 @@
 #define GROWL_NOTIFICATION_TITLE		@"NotificationTitle"
 #define GROWL_NOTIFICATION_DESCRIPTION  @"NotificationDescription"
 #define GROWL_NOTIFICATION_ICON			@"NotificationIcon"
+#define GROWL_NOTIFICATION_STICKY		@"NotificationSticky"
 
 // Notifications
 #define GROWL_APP_REGISTRATION			@"GrowlApplicationRegistrationNotification"

@@ -44,7 +44,8 @@
 - (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {
 	KABubbleWindowController *nuBubble = [KABubbleWindowController bubbleWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
 																			  text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
-																			  icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]];
+																			  icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+																			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
 	[nuBubble startFadeIn];
 	NSLog( @"bubble - %@", nuBubble );
 }

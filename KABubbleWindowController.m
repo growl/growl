@@ -18,13 +18,13 @@ static unsigned int bubbleWindowDepth = 0;
 	return [[[self alloc] init] autorelease];
 }
 
-+ (KABubbleWindowController *) bubbleWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon {
-	return [[[self alloc] initWithTitle:title text:text icon:icon] autorelease];
++ (KABubbleWindowController *) bubbleWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky {
+	return [[[self alloc] initWithTitle:title text:text icon:icon sticky:sticky] autorelease];
 }
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon {
+- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky {
 	extern unsigned int bubbleWindowDepth;
 
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) 
@@ -79,6 +79,8 @@ static unsigned int bubbleWindowDepth = 0;
 		_displayTime = MIN_DISPLAY_TIME;
 	}
 
+	[self setAutomaticallyFadesOut:!sticky];
+	
 	return ( self = [super initWithWindow:panel] );
 }
 
