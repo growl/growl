@@ -1,6 +1,9 @@
+#include <CoreFoundation/CoreFoundation.h>
+#include <unistd.h>
+
 #include "GrowlVersionUtilities.h"
 
-static CFStringRef releaseTypeNames[] = {
+CFStringRef releaseTypeNames[numberOfReleaseTypes] = {
 	CFSTR(""), CFSTR(" SVN "), CFSTR("d"), CFSTR("a"), CFSTR("b"),
 };
 
@@ -9,7 +12,7 @@ static CFStringRef releaseTypeNames[] = {
 bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 	if(!string) return false;
 
-	unsigned myMajor = 0U, myMinor = 0U, myIncremental = 0U, myReleaseType = releaseReleaseType, myDevelopment = 0U;
+	unsigned myMajor = 0U, myMinor = 0U, myIncremental = 0U, myReleaseType = releaseType_release, myDevelopment = 0U;
 
 	CFIndex maxAllocation = getpagesize();
 	CFRange range = { 0, CFStringGetLength(string) };
@@ -78,16 +81,16 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 				char releaseTypeChar = tolower(buf[i++]);
 				switch(releaseTypeChar) {
 					case 'b':
-						myReleaseType = betaReleaseType;
+						myReleaseType = releaseType_beta;
 						break;
 					case 'a':
-						myReleaseType = alphaReleaseType;
+						myReleaseType = releaseType_alpha;
 						break;
 					case 'd':
-						myReleaseType = developmentReleaseType;
+						myReleaseType = releaseType_development;
 						break;
 					case 's':
-						myReleaseType = svnReleaseType;
+						myReleaseType = releaseType_svn;
 						if((i < length) && (buf[i] == 'v')) {
 							++i;
 							if((i < length) && (buf[i] == 'n'))
@@ -98,14 +101,14 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 
 				while((i < length) && isspace(buf[i])) ++i;
 				//for example: "0.6.2 SVN r1558". we want to skip the 'r'.
-				if((i < length) && (myReleaseType == svnReleaseType) && (tolower(buf[i]) == 'r'))
+				if((i < length) && (myReleaseType == releaseType_svn) && (tolower(buf[i]) == 'r'))
 					++i;
 
 				//if there's no development version,
 				//	default to 0 for releases and svn versions,
 				//	and 1 for development versions, alphas, and betas.
 				if(i == length)
-					myDevelopment = ((myReleaseType != releaseReleaseType) && (myReleaseType != svnReleaseType));
+					myDevelopment = ((myReleaseType != releaseType_release) && (myReleaseType != releaseType_svn));
 				else {
 					//development version
 					while(i < length) {
@@ -143,35 +146,34 @@ CFStringRef createVersionDescription(const struct Version v) {
 	 *	5 + 5 + 3 + 5 + 10 = 28.
 	 */
 	CFMutableStringRef str = CFStringCreateMutable(kCFAllocatorDefault, /*capacity*/ 28);
-	CFStringAppendFormat(CFSTR("%hu.%hu"), /*formatOptions*/ NULL, v.major, v.minor);
+	CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%hu.%hu"), v.major, v.minor);
 	if(v.incremental)
-		CFStringAppendFormat(CFSTR("%hhu"), /*formatOptions*/ NULL, v.incremental);
+		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%hhu"), v.incremental);
 	if(v.releaseType != releaseType_release)
-		CFStringAppendFormat(CFSTR("%@%hu"), /*formatOptions*/ NULL, v.development);
+		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%@%hu"), v.development);
 	return str;
 }
 
 #pragma mark -
 #pragma mark Comparison
 
-signed int compareVersions(unsigned major0, unsigned minor0, unsigned incremental0, unsigned releaseType0, unsigned development0, unsigned major1, unsigned minor1, unsigned incremental1, unsigned releaseType1, unsigned development1)
-{
-	if(major0       <  major1)       return -1;
-	if(major0        > major1)       return  1;
-	if(minor0       <  minor1)       return -1;
-	if(minor0        > minor1)       return  1;
-	if(incremental0 <  incremental1) return -1;
-	if(incremental0  > incremental1) return  1;
+signed int compareVersions(const struct Version a, const struct Version b) {
+	if(a.major       <  b.major)       return -1;
+	if(a.major        > b.major)       return  1;
+	if(a.minor       <  b.minor)       return -1;
+	if(a.minor        > b.minor)       return  1;
+	if(a.incremental <  b.incremental) return -1;
+	if(a.incremental  > b.incremental) return  1;
 
-	if(releaseType0 <  releaseType1) return -1;
-	if(releaseType0  > releaseType1) return  1;
-	if(development0 <  development1) return -1;
-	if(development0  > development1) return  1;
+	if(a.releaseType <  b.releaseType) return -1;
+	if(a.releaseType  > b.releaseType) return  1;
+	if(a.development <  b.development) return -1;
+	if(a.development  > b.development) return  1;
 
 	return 0;
 }
 
-static signed int compareVersionStrings(CFStringRef a, CFStringRef b) {
+signed int compareVersionStrings(CFStringRef a, CFStringRef b) {
 	if(a == b)  return  0;
 	else if(!a) return  1;
 	else if(!b) return -1;

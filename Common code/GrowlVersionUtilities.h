@@ -12,7 +12,9 @@ enum releaseType {
 	releaseType_alpha,
 	releaseType_beta,
 	releaseType_release,
+	numberOfReleaseTypes //must be last
 };
+extern STRING releaseTypeNames[numberOfReleaseTypes];
 
 #pragma options align=packed
 

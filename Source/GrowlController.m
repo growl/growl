@@ -29,7 +29,7 @@
 - (void) _postGrowlIsReady;
 @end
 
-static struct Version version = { 0U, 7U, 0U, svn, 0U, };
+static struct Version version = { 0U, 7U, 0U, releaseType_svn, 0U, };
 //XXX - update these constants whenever the version changes
 
 #pragma mark -
@@ -318,7 +318,7 @@ static id singleton = nil;
 
 - (NSDictionary *)versionDictionary {
 	if (!versionInfo) {
-		if(version.releaseType == svn)
+		if(version.releaseType == releaseType_svn)
 			version.development = SVN_REVISION;
 
 		const unsigned long long *versionNum = (const unsigned long long *)&version;

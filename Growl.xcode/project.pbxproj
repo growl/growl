@@ -94,18 +94,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0790135307D932140023B640 = {
-			fileRef = 0790135207D932140023B640;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0790135407D932140023B640 = {
-			fileRef = 0790135207D932140023B640;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0790135507D9321B0023B640 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -2485,12 +2473,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		34E9DC17078FBF1B00662E8E = {
-			fileRef = 34E9DC16078FBF1B00662E8E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		34E9DC1A078FBFA800662E8E = {
 			fileRef = 34E9DC16078FBF1B00662E8E;
 			isa = PBXBuildFile;
@@ -3198,10 +3180,8 @@
 				95BF837C0743675700306A77,
 				CB910DA7074E0A3A00278FC5,
 				097888CA076EC6DA00071EB6,
-				34E9DC17078FBF1B00662E8E,
 				3494427507BAF6C4000F2A03,
 				9532B0F807CE651F0028B2F1,
-				0790135307D932140023B640,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4050,7 +4030,6 @@
 				52861FF006DC463E00D3A356,
 				954F013D074135D400EA8AB5,
 				95BF837D0743675700306A77,
-				0790135407D932140023B640,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
