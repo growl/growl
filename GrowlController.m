@@ -80,6 +80,17 @@ static id _singleton = nil;
 	[super dealloc];
 }
 
+#pragma mark -
+
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
+{
+	if( [[filename pathExtension] isEqualToString:@"growlView"] ) {
+		[[GrowlPluginController controller] installPlugin:filename];
+		return( YES );
+	}
+
+	return( NO );
+}
 
 #pragma mark -
 
@@ -141,16 +152,18 @@ static id _singleton = nil;
 
     // Retrieve and set the sticky bit of the notification
     int sticky = [ticket stickyForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]];
-	if (ticket != nil && sticky >= 0)
+	if (ticket != nil && sticky >= 0) {
 		[aDict setObject:[NSNumber numberWithBool:(sticky ? YES : NO)]
 				  forKey:GROWL_NOTIFICATION_STICKY];
+	}
     
 	id <GrowlDisplayPlugin> display;
 	
-	if([ticket usesCustomDisplay])
+	if([ticket usesCustomDisplay]) {
 		display = [ticket displayPlugin];
-	else
+	} else {
 		display = displayController;
+	}
 	
 	[display displayNotificationWithInfo:aDict];
 }

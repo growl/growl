@@ -17,5 +17,7 @@
 
 - (NSArray *) allDisplayPlugins;
 - (id <GrowlDisplayPlugin>) displayPluginNamed:(NSString *)name;
+- (void)loadPlugin:(NSString *)path;
+- (void)installPlugin:(NSString *)filename;
 
 @end

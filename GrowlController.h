@@ -21,6 +21,8 @@
 
 + (id) singleton;
 
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename;
+
 - (void) dispatchNotification:(NSNotification *) note;
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict overrideCheck:(BOOL) override;
 
