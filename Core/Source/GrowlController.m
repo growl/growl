@@ -480,19 +480,14 @@ static id singleton = nil;
 	NSString *directory = [self screenshotsDirectory];
 	NSString *filename = nil;
 
-	NSSet *directoryContents = nil;
-	{
-		NSArray *origContents = [mgr directoryContentsAtPath:directory];
-		NSMutableArray *temp = [NSMutableArray arrayWithCapacity:[origContents count]];
+	NSArray *origContents = [mgr directoryContentsAtPath:directory];
+	NSMutableSet *directoryContents = [[NSMutableSet alloc] initWithCapacity:[origContents count]];
 
-		NSEnumerator *filesEnum = [origContents objectEnumerator];
-		NSString *existingFilename;
-		while ((existingFilename = [filesEnum nextObject])) {
-			existingFilename = [directory stringByAppendingPathComponent:[existingFilename stringByDeletingPathExtension]];
-			[temp addObject:existingFilename];
-		}
-
-		directoryContents = [NSSet setWithArray:temp];
+	NSEnumerator *filesEnum = [origContents objectEnumerator];
+	NSString *existingFilename;
+	while ((existingFilename = [filesEnum nextObject])) {
+		existingFilename = [directory stringByAppendingPathComponent:[existingFilename stringByDeletingPathExtension]];
+		[directoryContents addObject:existingFilename];
 	}
 
 	for (unsigned long i = 1UL; i < ULONG_MAX; ++i) {
@@ -503,6 +498,7 @@ static id singleton = nil;
 			break;
 		}
 	}
+	[directoryContents release];
 
 	return [filename autorelease];
 }
@@ -728,21 +724,26 @@ static id singleton = nil;
 }
 
 - (NSDictionary *) registrationDictionaryForGrowl {
-	NSArray *allNotifications = [NSArray arrayWithObjects:
+	NSArray *allNotifications = [[NSArray alloc] initWithObjects:
 		@"Growl update available",
 		@"Application registered",
 		@"Application re-registered",
 		nil];
 
-	NSArray *defaultNotifications = [NSArray arrayWithObjects:
+	NSArray *defaultNotifications = [[NSArray alloc] initWithObjects:
 		[NSNumber numberWithUnsignedInt:0U],
 		[NSNumber numberWithUnsignedInt:1U],
 		nil];
 
-	return [NSDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary *registrationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
 		allNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
+
+	[allNotifications     release];
+	[defaultNotifications release];
+
+	return registrationDictionary;
 }
 
 @end
@@ -775,8 +776,8 @@ static id singleton = nil;
 	[notificationQueue removeAllObjects];
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
-	
-	while ( (dict = [e nextObject] ) ) {
+
+	while ((dict = [e nextObject])) {
 		[self dispatchNotificationWithDictionary:dict];
 	}
 }
@@ -786,8 +787,8 @@ static id singleton = nil;
 	[registrationQueue removeAllObjects];
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
-	
-	while ( (dict = [e nextObject] ) ) {
+
+	while ((dict = [e nextObject])) {
 		[self registerApplicationWithDictionary:dict];
 	}
 }

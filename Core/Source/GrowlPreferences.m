@@ -87,28 +87,28 @@ static GrowlPreferences * sharedPreferences;
 
 #warning XXX - need to find someplace to put this code so it isnt duplicated --boredzo
 
-#define GROWL_PREFPANE_BUNDLE_IDENTIFIER	@"com.growl.prefpanel"
-#define GROWL_PREFPANE_NAME					@"Growl.prefPane"
-#define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY			@"PreferencePanes"
-#define PREFERENCE_PANE_EXTENSION						@"prefPane"
+#define GROWL_PREFPANE_BUNDLE_IDENTIFIER		@"com.growl.prefpanel"
+#define GROWL_PREFPANE_NAME						@"Growl.prefPane"
+#define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY	@"PreferencePanes"
+#define PREFERENCE_PANE_EXTENSION				@"prefPane"
 
 - (NSEnumerator *) _preferencePaneSearchEnumerator {
 	NSArray			*librarySearchPaths;
 	NSEnumerator	*searchPathEnumerator;
 	NSString		*preferencePanesSubfolder, *path;
 	NSMutableArray  *pathArray = [NSMutableArray arrayWithCapacity:4U];
-	
+
 	preferencePanesSubfolder = PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY;
-	
+
 	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
 	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES);
 	searchPathEnumerator = [librarySearchPaths objectEnumerator];
-	
+
 	//Copy each discovered path into the pathArray after adding our subfolder path
 	while ((path = [searchPathEnumerator nextObject])) {
 		[pathArray addObject:[path stringByAppendingPathComponent:preferencePanesSubfolder]];
 	}
-	
+
 	return [pathArray objectEnumerator];	
 }
 // Returns an array of paths to all user-installed .prefPane bundles
@@ -274,8 +274,8 @@ static GrowlPreferences * sharedPreferences;
 	 *			preference)
 	 *	}
 	 */
-	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
-	NSMutableArray      *loginItems = [[[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy] autorelease];
+	NSMutableDictionary *loginWindowPrefs = [[defs persistentDomainForName:@"loginwindow"] mutableCopy];
+	NSMutableArray      *loginItems = [[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy];
 
 	/*remove any previous mentions of this GHA in the start-at-login array.
 	 *note that other GHAs are ignored.
@@ -312,19 +312,22 @@ static GrowlPreferences * sharedPreferences;
 		/*we were called with YES, and we weren't already in the start-at-login
 		 *	array, so add ourselves to its end.
 		 */
-		NSDictionary *launchDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		NSDictionary *launchDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			[NSNumber numberWithBool:NO], @"Hide",
 			pathToGHA,                    @"Path",
 			aliasDataToGHA,               @"AliasData",
 			nil];
 		[loginItems addObject:launchDict];
+		[launchDict release];
 	}
 
 	//save to disk.
-	[loginWindowPrefs setObject:[NSArray arrayWithArray:loginItems] 
+	[loginWindowPrefs setObject:loginItems
 						 forKey:@"AutoLaunchedApplicationDictionary"];
+	[loginItems release];
 	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
 					  forName:@"loginwindow"];
+	[loginWindowPrefs release];
 	[defs synchronize];
 }
 

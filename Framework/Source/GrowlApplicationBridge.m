@@ -407,18 +407,18 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	NSEnumerator	*searchPathEnumerator;
 	NSString		*preferencePanesSubfolder, *path;
 	NSMutableArray  *pathArray = [NSMutableArray arrayWithCapacity:4U];
-	
+
 	preferencePanesSubfolder = PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY;
-	
+
 	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
 	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES);
 	searchPathEnumerator = [librarySearchPaths objectEnumerator];
-	
+
 	//Copy each discovered path into the pathArray after adding our subfolder path
 	while ((path = [searchPathEnumerator nextObject])) {
 		[pathArray addObject:[path stringByAppendingPathComponent:preferencePanesSubfolder]];
 	}
-	
+
 	return [pathArray objectEnumerator];	
 }
 

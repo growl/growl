@@ -180,6 +180,7 @@
 	[icon                 release];
 	[allNotifications     release];
 	[defaultNotifications release];
+	[allNotificationNames release];
 	
 	[super dealloc];
 }
@@ -238,7 +239,7 @@
 
 	id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
 
-	NSMutableDictionary *saveDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	NSMutableDictionary *saveDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		appName, GROWL_APP_NAME,
 		saveNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
@@ -263,6 +264,7 @@
 		NSLog(@"Error writing ticket for application %@: %@", appName, error);
 		[error release];
 	}
+	[saveDict release];
 }
 
 #pragma mark -
@@ -427,16 +429,12 @@
 
 - (void) setAllNotifications:(NSArray *) inArray {
 	if (allNotificationNames != inArray) {
-		[allNotificationNames autorelease];
-		allNotificationNames = [[NSArray alloc] initWithArray:inArray];
-		NSMutableSet *new, *cur;
-		new = [NSMutableSet setWithArray:inArray];
-		
+		[allNotificationNames release];
+		allNotificationNames = [inArray retain];
+
 		//We want to keep all of the old notification settings and create entries for the new ones
-		cur = [NSMutableSet setWithArray:[allNotifications allKeys]];
-		[cur intersectSet:new];
-		NSEnumerator *newEnum = [new objectEnumerator];
-		NSMutableDictionary *tmp = [NSMutableDictionary dictionary];
+		NSEnumerator *newEnum = [inArray objectEnumerator];
+		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] initWithCapacity:[inArray count]];
 		id key, obj;
 		while ((key = [newEnum nextObject])) {
 			obj = [allNotifications objectForKey:key];
@@ -447,13 +445,16 @@
 			}
 		}
 		[allNotifications release];
-		allNotifications = [[NSDictionary dictionaryWithDictionary:tmp] retain];
-	
+		allNotifications = tmp;
+
 		// And then make sure the list of default notifications also doesn't have any straglers...
-		cur = [NSMutableSet setWithArray:defaultNotifications];
+		NSMutableSet *cur = [[NSMutableSet alloc] initWithArray:defaultNotifications];
+		NSSet *new = [[NSSet alloc] initWithArray:allNotificationNames];
 		[cur intersectSet:new];
-		[defaultNotifications autorelease];
+		[defaultNotifications release];
 		defaultNotifications = [[cur allObjects] retain];
+		[cur release];
+		[new release];
 	}
 }
 
@@ -462,7 +463,7 @@
 }
 
 - (void) setDefaultNotifications:(id) inObject {
-	[defaultNotifications autorelease];
+	[defaultNotifications release];
 	if (!allNotifications) {
 		/*WARNING: if you try to pass an array containing numeric indices, and
 		 *	the all-notifications list has not been supplied yet, the indices

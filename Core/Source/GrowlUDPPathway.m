@@ -133,8 +133,8 @@ static const char *keychainAccountName = "Growl";
 								// all notifications
 								num = nr->numAllNotifications;
 								notification = applicationName + applicationNameLen;
-								NSMutableArray *allNotifications = [NSMutableArray arrayWithCapacity:num];
-								for ( i = 0U; i < num; ++i ) {
+								NSMutableArray *allNotifications = [[NSMutableArray alloc] initWithCapacity:num];
+								for (i = 0U; i < num; ++i) {
 									size = ntohs( *(unsigned short *)notification );
 									notification += sizeof(unsigned short);
 									[allNotifications addObject:[NSString stringWithUTF8String:notification length:size]];
@@ -145,18 +145,18 @@ static const char *keychainAccountName = "Growl";
 								// default notifications
 								num = nr->numDefaultNotifications;
 								packetSize += num;
-								NSMutableArray *defaultNotifications = [NSMutableArray arrayWithCapacity:num];
-								for ( i = 0U; i < num; ++i ) {
+								NSMutableArray *defaultNotifications = [[NSMutableArray alloc] initWithCapacity:num];
+								for (i = 0U; i < num; ++i) {
 									notificationIndex = *notification++;
-									if ( notificationIndex < nr->numAllNotifications ) {
+									if (notificationIndex < nr->numAllNotifications) {
 										[defaultNotifications addObject:[allNotifications objectAtIndex: notificationIndex]];
 									} else {
 										NSLog( @"GrowlUDPServer: Bad notification index: %u", notificationIndex );
 									}
 								}
 
-								if ( length == packetSize ) {
-									if ( [GrowlUDPPathway authenticatePacket:(const unsigned char *)nr length:length] ) {
+								if (length == packetSize) {
+									if ([GrowlUDPPathway authenticatePacket:(const unsigned char *)nr length:length]) {
 										NSDictionary *registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 											[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
 											allNotifications, GROWL_NOTIFICATIONS_ALL,
@@ -170,6 +170,9 @@ static const char *keychainAccountName = "Growl";
 								} else {
 									NSLog( @"GrowlUDPServer: received invalid registration packet." );
 								}
+
+								[allNotifications     release];
+								[defaultNotifications release];
 							}
 						} else {
 							NSLog( @"GrowlUDPServer: received runt registration packet." );

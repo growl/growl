@@ -842,7 +842,7 @@ static const char *keychainAccountName = "Growl";
 	unsigned count = [services count];
 	NSDictionary *currentEntry;
 
-	for( unsigned i = 0; i < count; ++i ) {
+	for (unsigned i = 0; i < count; ++i) {
 		currentEntry = [services objectAtIndex:i];
 		if ([[currentEntry objectForKey:@"netservice"] isEqual:aNetService]) {
 			[services removeObjectAtIndex:i];

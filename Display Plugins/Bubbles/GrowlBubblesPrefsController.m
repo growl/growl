@@ -125,13 +125,14 @@
 	}
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	array = [NSArray arrayWithObjects:
+	array = [[NSArray alloc] initWithObjects:
 		[NSNumber numberWithFloat:[color redComponent]],
 		[NSNumber numberWithFloat:[color greenComponent]],
 		[NSNumber numberWithFloat:[color blueComponent]],
 		[NSNumber numberWithFloat:[color alphaComponent]],
 		nil];
 	WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
+	[array release];
 
 	UPDATE_GROWL_PREFS();
 }
@@ -162,13 +163,14 @@
 	}
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	array = [NSArray arrayWithObjects:
+	array = [[NSArray alloc] initWithObjects:
 		[NSNumber numberWithFloat:[color redComponent]],
 		[NSNumber numberWithFloat:[color greenComponent]],
 		[NSNumber numberWithFloat:[color blueComponent]],
 		[NSNumber numberWithFloat:[color alphaComponent]],
 		nil];
 	WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
+	[array release];
 
 	//NSLog(@"color: %@ array: %@", color, array);
 
@@ -200,12 +202,13 @@
 	}
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	array = [NSArray arrayWithObjects:
+	array = [[NSArray alloc] initWithObjects:
 		[NSNumber numberWithFloat:[color redComponent]],
 		[NSNumber numberWithFloat:[color greenComponent]],
 		[NSNumber numberWithFloat:[color blueComponent]],
 		nil];
 	WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
+	[array release];
 
 	//NSLog(@"color: %@ array: %@", color, array);
 

@@ -123,13 +123,14 @@
     }
 
     color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-    array = [NSArray arrayWithObjects:
+    array = [[NSArray alloc] initWithObjects:
         [NSNumber numberWithFloat:[color redComponent]],
         [NSNumber numberWithFloat:[color greenComponent]],
         [NSNumber numberWithFloat:[color blueComponent]],
 		[NSNumber numberWithFloat:[color alphaComponent]],
 		nil];
     WRITE_GROWL_PREF_VALUE(key, array, GrowlBrushedPrefDomain);
+	[array release];
 
     // NSLog(@"color: %@ array: %@", color, array);
 	

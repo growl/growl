@@ -36,7 +36,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 	NSEnumerator *defaultEnum = [defaultNotifications objectEnumerator];
 	NSNumber *num;
 	Class NSNumberClass = [NSNumber class];
-	for(unsigned i = 0U; (num = [defaultEnum nextObject]); ++i) {
+	for (unsigned i = 0U; (num = [defaultEnum nextObject]); ++i) {
 		if ([num isKindOfClass:NSNumberClass]) {
 			//it's an index.
 			long value = [num longValue];
