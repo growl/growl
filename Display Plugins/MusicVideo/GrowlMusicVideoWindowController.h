@@ -18,6 +18,8 @@
 	id				_representedObject;
 	short			_displayTime;
 	float			topLeftPosition;
+	float			timerInterval;
+	float			fadeIncrement;
 }
 
 + (GrowlMusicVideoWindowController *)musicVideo;

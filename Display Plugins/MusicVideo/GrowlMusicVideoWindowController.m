@@ -12,8 +12,6 @@
 
 @implementation GrowlMusicVideoWindowController
 
-#define TIMER_INTERVAL (1. / 64.)
-#define FADE_INCREMENT 6.
 #define MIN_DISPLAY_TIME 4.
 #define ADDITIONAL_LINES_DISPLAY_TIME 0.5
 #define MAX_DISPLAY_TIME 10.
@@ -33,8 +31,12 @@
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, @"com.Growl.MusicVideo", &sizePref);
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 		sizeRect = NSMakeRect( 0., 0., NSWidth([[NSScreen mainScreen] visibleFrame]), 192. );
+		timerInterval = (1. / 128.);
+		fadeIncrement = 6.;
 	} else {
 		sizeRect = NSMakeRect( 0., 0., NSWidth([[NSScreen mainScreen] visibleFrame]), 96. );
+		timerInterval = (1. / 64.);
+		fadeIncrement = 6.;
 	}
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:sizeRect
 						styleMask:NSBorderlessWindowMask
@@ -136,7 +138,7 @@
 	NSWindow *myWindow = [self window];
 	NSRect theFrame = [myWindow frame];
 	if ( topLeftPosition < NSHeight(theFrame) ) {
-		topLeftPosition += FADE_INCREMENT;
+		topLeftPosition += fadeIncrement;
 		[myWindow setFrameTopLeftPoint:NSMakePoint(0., topLeftPosition)];
 	} else if ( _autoFadeOut ) {
 		if ( _delegate && [_delegate respondsToSelector:@selector( musicVideoDidFadeIn: )] ) {
@@ -149,7 +151,7 @@
 - (void)_fadeOut:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	if ( topLeftPosition > 0. ) {
-		topLeftPosition -= FADE_INCREMENT;
+		topLeftPosition -= fadeIncrement;
 		[myWindow setFrameTopLeftPoint:NSMakePoint(0., topLeftPosition)];
 	} else {
 		[self _stopTimer];
@@ -177,7 +179,7 @@
 	[self _stopTimer];
 	[[self window] setAlphaValue:1.];
 	if ( _doFadeIn ) {
-		_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
+		_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
 				  target:self
 				selector:@selector( _fadeIn: )
 				userInfo:nil
@@ -195,7 +197,7 @@
 		[_delegate musicVideoWillFadeOut:self];
 	}
 	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
+	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
 			  target:self
 			selector:@selector( _fadeOut: )
 			userInfo:nil
