@@ -919,9 +919,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = CoreGraphicsServices.h;
-			path = /Users/diggory/Code/OpenSource/growl/Core/Source/CoreGraphicsServices.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../Core/Source/CoreGraphicsServices.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		DD3472C3080356ED00830628 = {
 			fileRef = DD3472C2080356ED00830628;
