@@ -165,10 +165,11 @@
 			);
 			isa = PBXShellScriptBuildPhase;
 			outputPaths = (
+				$OBJROOT/include/SVNRevision.h,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "REVISION=`svn info | awk '/Revision:/ { print $2 }'`\necho \"#define SVN_REVISION $REVISION\" > SVNRevision.h";
+			shellScript = "REVISION=`svn info | awk '/Revision:/ { print $2 }'`\nmkdir -p $OBJROOT/include\necho \"#define SVN_REVISION $REVISION\" > $SCRIPT_OUTPUT_FILE_0";
 		};
 		07C2F34707D6F54E00B18524 = {
 			fileEncoding = 4;
