@@ -37,6 +37,8 @@ static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundle *growlPrefPan
 //this is not declared static because the GAB class uses it.
 CFStringRef _copyCurrentProcessName(void);
 
+static CFStringRef _copyTemporaryFolderPath(void);
+
 static const CFOptionFlags bundleIDComparisonFlags = kCFCompareCaseInsensitive | kCFCompareBackwards;
 
 static CFMutableArrayRef targetsToNotifyArray = NULL;
@@ -46,7 +48,6 @@ struct GrowlDelegate *delegate = NULL;
 //these functions are part of Foundation, and return NSStrings.
 //thanks to toll-free bridging, we can simply declare them like this, and use
 //	them as if they were pure CF functions.
-extern CFStringRef NSTemporaryDirectory(void);
 extern void NSLog(CFStringRef format, ...);
 
 #pragma mark -
@@ -295,7 +296,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 				 *	clicked 'Start Growl').
 				 */
 				//create the path: /tmp/$UID/$UUID.growlRegDict
-				CFStringRef tmp = NSTemporaryDirectory();
+				CFStringRef tmp = _copyTemporaryFolderPath();
 				CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
 				CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
 				CFRelease(uuid);
@@ -527,4 +528,12 @@ CFStringRef _copyCurrentProcessName(void) {
     	name = NULL;
 	}
 	return name;
+}
+
+static CFStringRef _copyTemporaryFolderPath(void) {
+	OSStatus err = FSFindFolder(kOnAppropriateDisk, kTemporaryFolderType, kCreateFolder, &ref);
+	CFURLRef url = CFURLCreateFromFSRef(kCFAllocatorDefault, &ref);
+	CFStringRef string = CFRetain(CFURLGetString(url));
+	CFRelease(url);
+	return string;
 }
