@@ -178,8 +178,8 @@
             key = GrowlBubblesNormalColor;
             break;
     }
-    
-    color = [sender color];
+
+    color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     array = [NSArray arrayWithObjects:
         [NSNumber numberWithFloat:[color redComponent]],
         [NSNumber numberWithFloat:[color greenComponent]],
@@ -218,8 +218,8 @@
             break;
     }
 
-    color = [sender color];
-    array = [NSArray arrayWithObjects:
+    color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	array = [NSArray arrayWithObjects:
         [NSNumber numberWithFloat:[color redComponent]],
         [NSNumber numberWithFloat:[color greenComponent]],
         [NSNumber numberWithFloat:[color blueComponent]], nil];

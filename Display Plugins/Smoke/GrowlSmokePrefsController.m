@@ -200,8 +200,8 @@
             key = GrowlSmokeNormalColor;
             break;
     }
-    
-    color = [sender color];
+
+    color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     array = [NSArray arrayWithObjects:
         [NSNumber numberWithFloat:[color redComponent]],
         [NSNumber numberWithFloat:[color greenComponent]],
@@ -238,8 +238,8 @@
             key = GrowlSmokeNormalTextColor;
             break;
     }
-    
-    color = [sender color];
+
+    color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     array = [NSArray arrayWithObjects:
         [NSNumber numberWithFloat:[color redComponent]],
         [NSNumber numberWithFloat:[color greenComponent]],
