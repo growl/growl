@@ -9,7 +9,7 @@
 
 #import "GrowlController.h"
 
-int main(int argc, const char *argv[]) {
+int main() {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
 
