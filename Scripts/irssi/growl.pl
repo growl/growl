@@ -11,7 +11,7 @@ use vars qw($VERSION %IRSSI $Notes $AppName);
 use Irssi;
 use Mac::Growl;
 
-$VERSION = '0.02';
+$VERSION = '0.03';
 %IRSSI = (
 	authors		=>	'Nelson Elhage, Toby Peterson',
 	contact		=>	'Hanji@users.sourceforge.net, toby@opendarwin.org',
@@ -19,21 +19,30 @@ $VERSION = '0.02';
 	description	=>	'Sends out Growl notifications for Irssi',
 	license		=>	'BSD',
 	url			=>	'http://growl.info/',
-	changed		=>	'$Date$',
 );
+
+sub cmd_growl ($$$) {
+	Irssi::print('%G>>%n Growl can be configured using two settings:');
+	Irssi::print('%G>>%n growl_show_privmsg : Notify about private messages.');
+	Irssi::print('%G>>%n growl_show_hilight : Notify when your name is hilighted.');
+}
 
 $Notes = ["privmsg", "hilight"];
 $AppName = "irssi";
 
 Mac::Growl::RegisterNotifications($AppName, $Notes, $Notes);
 
-sub sig_message_private {
+sub sig_message_private ($$$$) {
+	return unless Irssi::settings_get_bool('growl_show_privmsg');
+
 	my ($server, $data, $nick, $address) = @_;
 
 	Mac::Growl::PostNotification($AppName, "privmsg", "$nick", "$data");
 }
 
-sub sig_print_text {
+sub sig_print_text ($$$) {
+	return unless Irssi::settings_get_bool('growl_show_hilight');
+
 	my ($dest, $text, $stripped) = @_;
 
 	if ($dest->{level} & MSGLEVEL_HILIGHT) {
@@ -41,5 +50,12 @@ sub sig_print_text {
 	}
 }
 
+Irssi::command_bind('growl', 'cmd_growl');
+
 Irssi::signal_add_last('message private', \&sig_message_private);
 Irssi::signal_add_last('print text', \&sig_print_text);
+
+Irssi::settings_add_bool($IRSSI{'name'}, 'growl_show_privmsg', 1);
+Irssi::settings_add_bool($IRSSI{'name'}, 'growl_show_hilight', 1);
+
+Irssi::print('%G>>%n '.$IRSSI{name}.' '.$VERSION.' loaded (/growl for help)');
