@@ -11,39 +11,42 @@
 #import <GrowlDefinesInternal.h>
 
 @implementation GrowlLogPrefs
-- (NSString *) mainNibName
-{
+- (NSString *) mainNibName {
 	return @"GrowlLogPrefs";
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
 	[customHistArray release];
 	[super dealloc];
 }
 
-- (void) awakeFromNib
-{
-	int		typePref = 0;
-	NSString	*s = nil;
+- (void) awakeFromNib {
+	int         typePref = 0;
+	NSString   *s;
 	customHistArray = [[NSMutableArray alloc] init];
+
+	s = nil;
 	READ_GROWL_PREF_VALUE(customHistKey1, LogPrefDomain, NSString * , &s);
 //	NSLog(@"hist1 = %@", s);
 	if (s) {
 		[customHistArray addObject:s];
 		//NSLog(@"hist1 = %@", s);
 	}
+
+	s = nil;
 	READ_GROWL_PREF_VALUE(customHistKey2, LogPrefDomain, NSString *, &s);
 	if (s) {
 		[customHistArray addObject:s];
 		//NSLog(@"hist2 = %@", s);
 	}
+
+	s = nil;
 	READ_GROWL_PREF_VALUE(customHistKey3, LogPrefDomain, NSString *, &s);
 	if (s) {
 		[customHistArray addObject:s];
 		//NSLog(@"hist3 = %@", s);
 	}
-	
+
 	[self updatePopupMenu];
 
 	unsigned numHistItems = [customHistArray count];
@@ -59,7 +62,7 @@
 
 - (IBAction) typeChanged:(id)sender {
 	int		typePref;
-	
+
 	if (sender == fileType) {
 		typePref = [fileType selectedRow];
 		WRITE_GROWL_PREF_INT(logTypeKey, typePref, LogPrefDomain);
@@ -78,18 +81,21 @@
 		int selected = [customMenuButton indexOfSelectedItem];
 		//NSLog(@"custom %d", selected);
 		if (selected == [customMenuButton numberOfItems] - 1) {
-			NSSavePanel *sp;
-			int runResult;
-			sp = [NSSavePanel savePanel];
+			NSSavePanel *sp = [NSSavePanel savePanel];
 			[sp setRequiredFileType:@"log"];
 			[sp setCanSelectHiddenExtension:YES];
-			runResult = [sp runModalForDirectory:nil file:@""];
+
+			int runResult = [sp runModalForDirectory:nil file:@""];
 			NSString *saveFilename = [sp filename];
 			if (runResult == NSOKButton) {
-				int saveFilenameIndex = NSNotFound;
-				for(unsigned i = 0U, max = [customHistArray count]; i < max; i++) {
-					if ([[customHistArray objectAtIndex:i] isEqual:saveFilename]) {
-						saveFilenameIndex = i;
+				unsigned saveFilenameIndex = NSNotFound;
+				unsigned                 i = [customHistArray count];
+				if (i) {
+					while (--i) {
+						if ([[customHistArray objectAtIndex:i] isEqual:saveFilename]) {
+							saveFilenameIndex = i;
+							break;
+						}
 					}
 				}
 				if (saveFilenameIndex == NSNotFound) {
@@ -106,12 +112,11 @@
 			[customHistArray insertObject:temp atIndex:0U];
 			[temp release];
 		}
-		
-		NSString *s;
+
 		unsigned numHistItems = [customHistArray count];
 		//NSLog(@"CustomHistArray = %@", customHistArray);
-		if (numHistItems) {		
-			s = [customHistArray objectAtIndex:0U];
+		if (numHistItems) {
+			NSString *s = [customHistArray objectAtIndex:0U];
 			WRITE_GROWL_PREF_VALUE(customHistKey1, s, LogPrefDomain);
 			//NSLog(@"Writing %@ as hist1", s);
 
@@ -119,7 +124,7 @@
 				WRITE_GROWL_PREF_VALUE(customHistKey2, s, LogPrefDomain);
 				//NSLog(@"Writing %@ as hist2", s);
 			}
-			
+
 			if ((numHistItems > 2) && (s = [customHistArray objectAtIndex:2U])) {
 				WRITE_GROWL_PREF_VALUE(customHistKey3, s, LogPrefDomain);
 				//NSLog(@"Writing %@ as hist3", s);
@@ -131,7 +136,7 @@
 			[[fileType cellAtRow:1 column:0] setEnabled:YES];
 			[fileType selectCellAtRow:1 column:0];
 		}
-		
+
 		UPDATE_GROWL_PREFS();
 
 		[self updatePopupMenu];
@@ -142,7 +147,7 @@
 	[customMenuButton removeAllItems];
 
 	unsigned numHistItems = [customHistArray count];
-	for(unsigned i = 0U; i < numHistItems; i++) {
+	for (unsigned i = 0U; i < numHistItems; i++) {
 		NSArray *pathComponentry = [[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] pathComponents];
 		unsigned numPathComponents = [pathComponentry count];
 		if (numPathComponents > 2U) {
@@ -160,6 +165,7 @@
 	}
 	[[customMenuButton menu] addItem:[NSMenuItem separatorItem]];
 	[customMenuButton addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Browse menu item title", /*tableName*/ nil, [self bundle], /*comment*/ nil)];
+	//select first item, if any
 	[customMenuButton selectItemAtIndex:numHistItems ? 0 : -1];
 
 }
