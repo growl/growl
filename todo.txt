@@ -5,15 +5,7 @@ For .7
 -Functional plugins
 	- Design a way for functional plugins to work
 	- Move rendezvous out of display plugins into a functional plugin that would allow for any notification.
-		- Make a rendezvous/network tab
-		- Allow for adding hosts from outside the subnet/multicast area.
-		- Use rendezvous for discovery
-		- Use something decently secure
-	- Add a menu item/status item (menuling)
-		- For the logging and re-sending of notifications, if networking is on, maybe even forwarding recieved notifications
-		- Switch default display style on the fly
-		- Turn growl silent mode on, to squelch notifs but still log them
-	- Add a functional plugin that can display all notifications in a log. Make this accessable via the menuling
+
 
 - Uber passive registration
 	- A GrowlNotifications.plist resource in App bundles that we read on their launch/install to allow them to register
@@ -22,44 +14,21 @@ For .7
 	- Watching app launches and checking on apps for these resources
 - Provide a way to easily get version via command line
 
-Release related issues (.7)
- -Create a branch for the .7 release
-	- Everything needs to run on 10.3 and 10.4. 
-- DMG & PKG
-- Make sure we have user documentation on everything we have.
-
-
 For .8 (The Kitchen Sink) or sooner
 - Display plugins
-	- A preview button of some sort.
-	- Coalescing of notifications of similar type for notifications that can use it.
-	- Clicking notifications
-	- Bubbles
-		- Top background color colorwell
-	- Figure out an intuitive way to deal with multiple plugins named the same.
-	- Display positioning system needs to be implemented.
-		- Write an abstract way for plugins to expand. Horizontal and vertical expanding. Have these off by default for all plugins.
-	- New Display plugins
-		- A square
-	- Restructure all Display Plugins to inherit functionality from one global GrowlDisplayPlugin class residing in Growl.framework
-		- GrowlDisplayPlugin should take care of mPositionRect, a Rect in GrowlDisplayPlugin that can trigger KeyObservation calls to edit it to not intersect with any other currently active notifications
 
 - Preference pane redesign
 	- Apps tab switch to app centric with custom View for notifications using images to represent the available options
 	- first tab have Growl image and dev names, maybe even an easter egg, controls for turning features on/off 
 	  ie. (GrowlHelperApp, Network Notifications, Sound to accompany notifications, Speech, Menu Item, etc)
-	  And a passive update check system ( no user interaction necessary just a box for whether or not to check.
-	- Display plugins tab with better looking prefs( the current ones aren't winning beauty awards )
-	- Add profiles. Choose which profile is currently uses via prefpane or menuling
+
+
 
 - Other
-	- Make GrowlMail not run while applying rules if possible
-	- Growltunes needs preferences.
 
 For .9 or sooner
 - Downloads tab
 	- This will allow for display plugins to be distributed separate from Growl itself.
-	- For applications that bundle Growl, they will not have to add in multiple displays as a bad thing (due to size increase).
 	- Load information from a plist.
 	- Possibly allow for a webkit view to allow for artistic displays/easy previews.
 	- growlview:// (or something similar) for loading display plugins
