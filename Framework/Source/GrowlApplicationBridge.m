@@ -457,9 +457,11 @@ static BOOL				promptedToUpgradeGrowl = NO;
 
 	static const unsigned bundleIDComparisonFlags = NSCaseInsensitiveSearch | NSBackwardsSearch;
 
-	// First up, we'll have a look for Growl.prefPane, and if it exists, check it is our prefPane
-	// This is much faster than having to enumerate all preference panes, and can drop a significant
-	// amount of time off this code
+	/*First up, we'll have a look for Growl.prefPane, and if it exists, check
+	 *	whether it is our prefPane.
+	 *This is much faster than having to enumerate all preference panes, and
+	 *	can drop a significant amount of time off this code.
+	 */
 	preferencePanesPathsEnumerator = [self _preferencePaneSearchEnumerator];
 	while ((path = [preferencePanesPathsEnumerator nextObject])) {
 		path = [path stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
@@ -477,9 +479,14 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		}
 	}
 	
-	//Enumerate all installed preference panes, looking for the growl prefpane bundle identifier and stopping when we find it
-	//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
-	//of course will not.  If the user wants to destroy the info.plist file inside the bundle, he/she deserves not to have a working Growl installation.
+	/*Enumerate all installed preference panes, looking for the Growl prefpane
+	 *	bundle identifier and stopping when we find it.
+	 *Note that we check the bundle identifier because we should not insist
+	 *	that the user not rename his preference pane files, although most users
+	 *	of course will not.  If the user wants to mutilate the Info.plist file
+	 *	inside the bundle, he/she deserves to not have a working Growl
+	 *	installation.
+	 */
 	preferencePanesPathsEnumerator = [[GrowlApplicationBridge _allPreferencePaneBundles] objectEnumerator];
 	while ( (path = [preferencePanesPathsEnumerator nextObject] ) ) {
 		prefPaneBundle = [NSBundle bundleWithPath:path];
@@ -497,8 +504,9 @@ static BOOL				promptedToUpgradeGrowl = NO;
 }
 
 #ifdef GROWL_WITH_INSTALLER
-/* Sent to us by GrowlInstallationPrompt if the user clicks Cancel so we can avoid prompting again this session
- * (or ever if they checked Don't Ask Again) */
+/*Sent to us by GrowlInstallationPrompt if the user clicks Cancel so we can
+ *	avoid prompting again this session (or ever if they checked Don't Ask Again)
+ */
 + (void) _userChoseNotToInstallGrowl {
 	//Note the user's action so we stop queueing notifications, etc.
 	userChoseNotToInstallGrowl = YES;
