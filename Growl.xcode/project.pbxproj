@@ -400,12 +400,6 @@
 			remoteGlobalIDString = 34E9AFFB074C65A100D59950;
 			remoteInfo = GrowlDisplayPlugins;
 		};
-		34E9B09A074C688000D59950 = {
-			fileRef = 34E9AFFD074C65A500D59950;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		34E9B09F074C691A00D59950 = {
 			containerPortal = 6C1D4F6D06FA0C0500A5D946;
 			isa = PBXContainerItemProxy;
@@ -465,6 +459,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		34E9B11D074C6AA800D59950 = {
+			fileRef = 34E9B0E6074C69B400D59950;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34E9B152074C749400D59950 = {
+			buildActionMask = 2147483647;
+			files = (
+				34E9B153074C749A00D59950,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34E9B153074C749A00D59950 = {
 			fileRef = 34E9B0E6074C69B400D59950;
 			isa = PBXBuildFile;
 			settings = {
@@ -1732,27 +1740,20 @@
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CB61E5160637763C00E0DDC7 = {
-			buildActionMask = 2147483647;
-			files = (
-				34E9B09A074C688000D59950,
-			);
-			isa = PBXFrameworksBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CB61E5170637763C00E0DDC7 = {
 			buildPhases = (
 				CB61E5130637763C00E0DDC7,
 				CB61E5140637763C00E0DDC7,
 				CB61E5150637763C00E0DDC7,
-				CB61E5160637763C00E0DDC7,
 				CB5FA1CB0638CA6300EADD7A,
 				63C060F406C8946E00B0B7D4,
 				34E9B11C074C6A9900D59950,
+				34E9B152074C749400D59950,
 			);
 			buildRules = (
 			);
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "\"Display Plugins/build\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Growl_Prefix.pch;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;

@@ -1,9 +1,6 @@
 To-Do
 
 For .6
-- Resolve problem of the framework turning on gha without the users permission, should the user have turned off Growl.
-	- Make it so that applications can turn on gha to register, but gha turns back off.
-	- Make it so that if gha is off and turned on by an app, it doesn't display notifications.
 - Specify license in each file.
 	- Growl is BSD
 	- The framework is public domain
@@ -50,7 +47,7 @@ Done:
 	- add a timeout to the plugins using network to prevent locking the whole app when loosing connection
 	- Make GrowlTunes save images into ARTchive
 - Network notifications.
-
+- Resolve problem of the framework turning on gha without the users permission, should the user have turned off Growl.
 
 For .7 or sooner
 - Figure out an intuitive way to deal with multiple plugins named the same.
