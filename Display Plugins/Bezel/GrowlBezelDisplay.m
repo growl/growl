@@ -18,7 +18,7 @@
 @implementation GrowlBezelDisplay
 
 - (id)init {
-	if (self = [super init]) {
+	if( (self = [super init] ) ) {
 		bezelPrefPane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBezelPrefs class]]];
 	}
 	return self;

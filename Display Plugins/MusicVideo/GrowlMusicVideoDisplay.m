@@ -18,7 +18,7 @@
 @implementation GrowlMusicVideoDisplay
 
 - (id)init {
-	if (self = [super init]) {
+	if( (self = [super init] ) ) {
 		musicVideoPrefPane = [[GrowlMusicVideoPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMusicVideoPrefs class]]];
 	}
 	return self;

@@ -73,12 +73,9 @@ static unsigned int bubbleWindowDepth = 0;
 											 NSMaxY( screen ) - GrowlBubblesPadding - ( bubbleWindowDepth ) )];
 	
 	#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
-	if( (NSMaxY([panel frame]) - NSHeight([panel frame]) - [NSMenuView menuBarHeight]) < 0 )
-	{
+	if( (NSMaxY([panel frame]) - NSHeight([panel frame]) - [NSMenuView menuBarHeight]) < 0 ) {
 		_depth = bubbleWindowDepth = 0;
-	}
-	else
-	{
+	} else {
 		_depth = bubbleWindowDepth += NSHeight( panelFrame );
 	}
 	_autoFadeOut = YES;

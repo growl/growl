@@ -21,7 +21,7 @@ static unsigned int smokeDepth = 0;
 @implementation GrowlSmokeDisplay
 
 - (id) init {
-	if (self = [super init]) {
+	if( (self = [super init] ) ) {
 		preferencePane = [[GrowlSmokePrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlSmokePrefsController class]]];
 		[[NSNotificationCenter defaultCenter] addObserver:self 
 												 selector:@selector( _smokeGone: ) 

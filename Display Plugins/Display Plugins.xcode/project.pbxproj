@@ -78,7 +78,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BubblesNotificationView;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -177,14 +177,6 @@
 			path = BubblesNotificationView.growlView;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		07694BF8073A4ADE0079D1E5 = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			name = "Smoke-Info copy.plist";
-			path = "/Users/boredzo/Projects/growl/Display Plugins/Smoke-Info copy.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
 		};
 		07694BF9073A4B560079D1E5 = {
 			fileEncoding = 4;
@@ -362,7 +354,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MailMe;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -637,7 +629,6 @@
 				34C4486806F0FF5300855FBE,
 				07CC345906FFE5FC0029B83C,
 				6C7CEAE60707F41D00441A92,
-				07694BF8073A4ADE0079D1E5,
 				07694BFC073A4B560079D1E5,
 			);
 			isa = PBXGroup;
@@ -1010,7 +1001,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Smoke;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -1170,7 +1161,7 @@
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				PRODUCT_NAME = NSLogging;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -1316,7 +1307,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Bezel;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -1461,7 +1452,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MusicVideo;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (

@@ -19,7 +19,7 @@
 @implementation GrowlBezelWindowView
 
 - (id)initWithFrame:(NSRect)frame {
-	if ( self = [super initWithFrame:frame] ) {
+	if( ( self = [super initWithFrame:frame] ) ) {
 		_icon = nil;
 		_title = nil;
 		_text = nil;
@@ -187,7 +187,7 @@
 	if ( [linesN count] > 1 ) {
 		NSEnumerator *stringEnum = [linesN objectEnumerator];
 		NSString *stringLine;
-		while (stringLine = [stringEnum nextObject]) {
+		while( (stringLine = [stringEnum nextObject] ) ) {
 			_textAttributed = [[NSAttributedString alloc] initWithString:stringLine attributes:textAttributes];
 			rowCount += [self descriptionRowCount:_textAttributed inRect:textRect];
 			[_textAttributed release];

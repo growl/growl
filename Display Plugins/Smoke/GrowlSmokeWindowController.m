@@ -51,7 +51,7 @@ static const double gMaxDisplayTime = 10.;
 	}
 	
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:_id], @"ID",
+		[NSNumber numberWithUnsignedInt:_id], @"ID",
 		[NSNumber numberWithInt:_depth], @"Depth",
 		nil];
 	
@@ -63,16 +63,16 @@ static const double gMaxDisplayTime = 10.;
 
 - (void) _glideUp:(NSNotification *)note {
 	NSDictionary *userInfo = [note userInfo];
-//	NSLog(@"id: %d depth: %f", [[userInfo objectForKey:@"ID"] intValue], [[userInfo objectForKey:@"Depth"] floatValue]);
+//	NSLog(@"id: %d depth: %f", [[userInfo objectForKey:@"ID"] unsignedIntValue], [[userInfo objectForKey:@"Depth"] floatValue]);
 //	NSLog(@"self id: %d smokeWindowDepth: %d", _id, smokeWindowDepth);
-	if ([[userInfo objectForKey:@"ID"] intValue] < _id) {
+	if ([[userInfo objectForKey:@"ID"] unsignedIntValue] < _id) {
 		NSRect theFrame = [[self window] frame];
 		theFrame.origin.y += [[[note userInfo] objectForKey:@"Depth"] floatValue];
 		// don't allow notification to fly off the top of the screen
 		if(theFrame.origin.y < NSMaxY( [[NSScreen mainScreen] visibleFrame] ) - GrowlSmokePadding) {
 			[[self window] setFrame:theFrame display:NO animate:YES];
 			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-				[NSNumber numberWithInt:_id], @"ID",
+				[NSNumber numberWithUnsignedInt:_id], @"ID",
 				[NSValue valueWithRect:theFrame], @"Space",
 				nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];
@@ -82,7 +82,7 @@ static const double gMaxDisplayTime = 10.;
 
 - (void) _clearSpace:(NSNotification *)note {
 	NSDictionary *userInfo = [note userInfo];
-	unsigned int i = [[userInfo objectForKey:@"ID"] intValue];
+	unsigned int i = [[userInfo objectForKey:@"ID"] unsignedIntValue];
 	NSRect space = [[userInfo objectForKey:@"Space"] rectValue];
 	NSRect theFrame = [[self window] frame];
 	/*NSLog(@"Notification %u (%f, %f, %f, %f) received clear space message from notification %u (%f, %f, %f, %f)\n",
@@ -95,7 +95,7 @@ static const double gMaxDisplayTime = 10.;
 		//NSLog(@"New origin: (%f, %f)\n", theFrame.origin.x, theFrame.origin.y);
 		[[self window] setFrame:theFrame display:NO animate:YES];
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSNumber numberWithInt:_id], @"ID",
+			[NSNumber numberWithUnsignedInt:_id], @"ID",
 			[NSValue valueWithRect:theFrame], @"Space",
 			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];
@@ -177,10 +177,10 @@ static const double gMaxDisplayTime = 10.;
 
 	[self setAutomaticallyFadesOut:!sticky];
 	
-	if ( self = [super initWithWindow:panel] ) {
+	if( ( self = [super initWithWindow:panel] ) ) {
 		
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSNumber numberWithInt:_id], @"ID",
+			[NSNumber numberWithUnsignedInt:_id], @"ID",
 			[NSValue valueWithRect:[[self window] frame]], @"Space",
 			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];

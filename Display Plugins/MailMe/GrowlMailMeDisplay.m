@@ -25,7 +25,7 @@ static NSString *plainTextMessageFormat = /*for when there is no icon*/
 @implementation GrowlMailMeDisplay
 
 - (id)init {
-	if(self = [super init]) {
+	if( (self = [super init] ) ) {
 		prefPane = [[GrowlMailMePrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMailMePrefs class]]];
 	}
 	return self;
