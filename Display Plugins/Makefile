@@ -23,22 +23,24 @@ DEFAULT_BUILDSTYLE=Development
 CP=ditto --rsrc
 RM=rm
 
+.PHONY : all nslogging bezel smoke mailme musicvideo clean clean-nslogging clean-bezel clean-smoke clean-mailme clean-musicvideo install install-nslogging install-mailme uninstall uninstall-nslogging uninstall-smoke uninstall-mailme uninstall-musicvideo
+
 all:
 	xcodebuild -alltargets -buildstyle $(DEFAULT_BUILDSTYLE) build
 
-build-nslogging:
+nslogging:
 	xcodebuild -target NSLogging -buildstyle $(DEFAULT_BUILDSTYLE) build
 
-build-bezel:
+bezel:
 	xcodebuild -target Bezel -buildstyle $(DEFAULT_BUILDSTYLE) build
 
-build-smoke:
+smoke:
 	xcodebuild -target Smoke -buildstyle $(DEFAULT_BUILDSTYLE) build
 
-build-mailme:
+mailme:
 	xcodebuild -target MailMe -buildstyle $(DEFAULT_BUILDSTYLE) build
 
-build-musicvideo:
+musicvideo:
 	xcodebuild -target MusicVideo -buildstyle $(DEFAULT_BUILDSTYLE) build
 
 clean:
