@@ -3,6 +3,9 @@ Bindings
 	- Java
 
 Prefpane
+	- General Tab
+		- Check version button
+
 	- Applications Tab
 		- Priority
 		- Sticky
@@ -11,6 +14,14 @@ New Displays
 	- Music Video
 	- NSLog
 	- MailMe
+
+Changes to current displays:
+	Bubbles:
+	- Color changing abilities
+	- Support for priority (color change)
+
+	Bezel:
+	- Support for priority (brings higher priority items to the front of the queue)
 
 New Localizations
 	- German
