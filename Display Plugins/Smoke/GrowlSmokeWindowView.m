@@ -220,37 +220,33 @@
 
 	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
+	backgroundAlpha *= 0.01f;
 
 	[bgColor release];
 
-	Class NSArrayClass = [NSArray class];
-	NSArray *array = nil;
+	Class NSDataClass = [NSData class];
+	NSData *data = nil;
 
-	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, NSArray *, &array);
-	if (array && [array isKindOfClass:NSArrayClass]) {
-		bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-											green:[[array objectAtIndex:1U] floatValue]
-											 blue:[[array objectAtIndex:2U] floatValue]
-											alpha:backgroundAlpha];
+	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:NSDataClass]) {
+		bgColor = [NSUnarchiver unarchiveObjectWithData:data];
+		bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
 		bgColor = [NSColor colorWithCalibratedWhite:0.1f alpha:backgroundAlpha];
 	}
 	[bgColor retain];
-	[array release];
-	array = nil;
+	[data release];
+	data = nil;
 
 	[textColor release];
-	READ_GROWL_PREF_VALUE(textKey, GrowlSmokePrefDomain, NSArray *, &array);
-	if (array && [array isKindOfClass:NSArrayClass]) {
-		textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-											  green:[[array objectAtIndex:1U] floatValue]
-											   blue:[[array objectAtIndex:2U] floatValue]
-											  alpha:1.0f];
+	READ_GROWL_PREF_VALUE(textKey, GrowlSmokePrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:NSDataClass]) {
+		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		textColor = [NSColor whiteColor];
 	}
 	[textColor retain];
-	[array release];
+	[data release];
 
 	[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5f ofColor:[NSColor blackColor]]];
 }

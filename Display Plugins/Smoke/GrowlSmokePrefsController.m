@@ -10,7 +10,6 @@
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
 
-
 @implementation GrowlSmokePrefsController
 
 - (NSString *) mainNibName {
@@ -18,30 +17,25 @@
 }
 
 - (void) loadColorWell:(NSColorWell *)colorWell fromKey:(NSString *)key defaultColor:(NSColor *)defaultColor {
-	NSArray *array = nil;
+	NSData *data = nil;
 	NSColor *color;
-	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, NSArray *, &array);
-	if (array) {
-		float alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
-		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-										  green:[[array objectAtIndex:1U] floatValue]
-										   blue:[[array objectAtIndex:2U] floatValue]
-										  alpha:alpha];
-		[array release];
+	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:[NSData class]]) {
+		color = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		color = defaultColor;
 	}
 	[colorWell setColor:color];
+	[data release];
 }
 
 - (void) mainViewDidLoad {
 	[slider_opacity setAltIncrementValue:0.05];
 
 	// opacity
-	float alphaPref = GrowlSmokeAlphaPrefDefault;
-	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &alphaPref);
-	[slider_opacity setFloatValue:alphaPref];
-	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", (int)floorf(alphaPref * 100.0f)]];
+	opacity = GrowlSmokeAlphaPrefDefault;
+	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &opacity);
+	[self setOpacity:opacity];
 
 	// duration
 	duration = GrowlSmokeDurationPrefDefault;
@@ -49,22 +43,14 @@
 	[self setDuration:duration];
 
 	// float icon checkbox
-	BOOL floatIconPref = GrowlSmokeFloatIconPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIconPref);
-	if (floatIconPref) {
-		[floatIconSwitch setState:NSOnState];
-	} else {
-		[floatIconSwitch setState:NSOffState];
-	}
+	floatingIcon = GrowlSmokeFloatIconPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatingIcon);
+	[self setFloatingIcon:floatingIcon];
 
 	// limit
-	BOOL limitPref = GrowlSmokeLimitPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
-	if (limitPref) {
-		[limitCheck setState:NSOnState];
-	} else {
-		[limitCheck setState:NSOffState];
-	}
+	limit = GrowlSmokeLimitPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limit);
+	[self setLimit:limit];
 
 	// priority colour settings
 	NSColor *defaultColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
@@ -89,11 +75,16 @@
 	[combo_screen setIntValue:screenNumber];
 }
 
-- (IBAction) opacityChanged:(id)sender {
-	float newValue = [sender floatValue];
-	WRITE_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, newValue, GrowlSmokePrefDomain);
-	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", (int)floorf(newValue * 100.0f)]];
-	UPDATE_GROWL_PREFS();
+- (float) getOpacity {
+	return opacity;
+}
+
+- (void) setOpacity:(float)value {
+	if (opacity != value) {
+		opacity = value;
+		WRITE_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, value, GrowlSmokePrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
 }
 
 - (float) getDuration {
@@ -102,17 +93,13 @@
 
 - (void) setDuration:(float)value {
 	if (duration != value) {
+		duration = value;
 		WRITE_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, value, GrowlSmokePrefDomain);
 		UPDATE_GROWL_PREFS();
 	}
-	duration = value;
 }
 
 - (IBAction) colorChanged:(id)sender {
-
-	NSColor *color;
-	NSArray *array;
-
 	NSString *key;
 	switch ([sender tag]) {
 		case -2:
@@ -133,25 +120,12 @@
 			break;
 	}
 
-	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	array = [[NSArray alloc] initWithObjects:
-		[NSNumber numberWithFloat:[color redComponent]],
-		[NSNumber numberWithFloat:[color greenComponent]],
-		[NSNumber numberWithFloat:[color blueComponent]],
-		[NSNumber numberWithFloat:[color alphaComponent]],
-		nil];
-	WRITE_GROWL_PREF_VALUE(key, array, GrowlSmokePrefDomain);
-	[array release];
-
-	// NSLog(@"color: %@ array: %@", color, array);
-
+	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
+	WRITE_GROWL_PREF_VALUE(key, theData, GrowlSmokePrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
 - (IBAction) textColorChanged:(id)sender {
-	NSColor *color;
-	NSArray *array;
-
 	NSString *key;
 	switch ([sender tag]) {
 		case -2:
@@ -172,37 +146,40 @@
 			break;
 	}
 
-	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	array = [[NSArray alloc] initWithObjects:
-		[NSNumber numberWithFloat:[color redComponent]],
-		[NSNumber numberWithFloat:[color greenComponent]],
-		[NSNumber numberWithFloat:[color blueComponent]],
-		[NSNumber numberWithFloat:[color alphaComponent]],
-		nil];
-	WRITE_GROWL_PREF_VALUE(key, array, GrowlSmokePrefDomain);
-	[array release];
-
-	// NSLog(@"color: %@ array: %@", color, array);
-
+	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
+	WRITE_GROWL_PREF_VALUE(key, theData, GrowlSmokePrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
-- (IBAction) floatIconSwitchChanged:(id)sender {
-	BOOL pref = ([floatIconSwitch state] == NSOnState);
-	WRITE_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, pref, GrowlSmokePrefDomain);	
-	UPDATE_GROWL_PREFS();
+- (BOOL) isFloatingIcon {
+	return floatingIcon;
 }
 
-- (IBAction) setLimit:(id)sender {
-	WRITE_GROWL_PREF_BOOL(GrowlSmokeLimitPref, ([sender state] == NSOnState), GrowlSmokePrefDomain);
-	UPDATE_GROWL_PREFS();
+- (void) setFloatingIcon:(BOOL)value {
+	if (floatingIcon != value) {
+		floatingIcon = value;
+		WRITE_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, value, GrowlSmokePrefDomain);	
+		UPDATE_GROWL_PREFS();
+	}
 }
 
-- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+- (BOOL) getLimit {
+	return limit;
+}
+
+- (void) setLimit:(BOOL)value {
+	if (limit != value) {
+		limit = value;
+		WRITE_GROWL_PREF_BOOL(GrowlSmokeLimitPref, value, GrowlSmokePrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
+}
+
+- (int) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 	return [[NSScreen screens] count];
 }
 
-- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
 	return [NSNumber numberWithInt:idx];
 }
 

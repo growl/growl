@@ -33,15 +33,14 @@
 	IBOutlet NSColorWell	*text_emergency;
 
 	IBOutlet NSSlider		*slider_opacity;
-	IBOutlet NSTextField	*text_opacity;
 	IBOutlet NSComboBox		*combo_screen;
 }
 - (float) getDuration;
 - (void) setDuration:(float)value;
 - (float) getOpacity;
 - (void) setOpacity:(float)value;
-- (void) setLimit:(BOOL)value;
 - (BOOL) getLimit;
+- (void) setLimit:(BOOL)value;
 - (IBAction) colorChanged:(id)sender;
 - (IBAction) textColorChanged:(id)sender;
 - (IBAction) topColorChanged:(id)sender;

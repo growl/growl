@@ -22,7 +22,6 @@
                 "text_high" = NSColorWell; 
                 "text_moderate" = NSColorWell; 
                 "text_normal" = NSColorWell; 
-                "text_opacity" = NSTextField; 
                 "text_veryLow" = NSColorWell; 
                 "top_emergency" = NSColorWell; 
                 "top_high" = NSColorWell; 
