@@ -18,21 +18,26 @@ NSString		*NotifierVolumeUnmountedNotification	=	@"Volume Unmounted";
 	if ((self = [super init])) {
 		NSNotificationCenter *nc = [[NSWorkspace sharedWorkspace] notificationCenter];
 
-		[nc addObserver: self
-			   selector: @selector(volumeDidMount:)
-				   name: @"NSWorkspaceDidMountNotification"
-				 object: nil];
-		
-		[nc addObserver: self
-			   selector: @selector(volumeDidUnmount:)
-				   name: @"NSWorkspaceDidUnmountNotification"
-				 object: nil];
+		[nc addObserver:self
+			   selector:@selector(volumeDidMount:)
+				   name:NSWorkspaceDidMountNotification
+				 object:nil];
+
+		[nc addObserver:self
+			   selector:@selector(volumeDidUnmount:)
+				   name:NSWorkspaceDidUnmountNotification
+				 object:nil];
 	}
+
 	return self;	
 }
 
 -(void)dealloc
 {
+	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self
+																  name:nil
+																object:nil];
+
 	[super dealloc];
 }
 
@@ -40,14 +45,16 @@ NSString		*NotifierVolumeUnmountedNotification	=	@"Volume Unmounted";
 {
 //	NSLog(@"mount.");
 
-	[[NSNotificationCenter defaultCenter] postNotificationName: NotifierVolumeMountedNotification object: [[note userInfo] objectForKey:@"NSDevicePath"] ];
+	[[NSNotificationCenter defaultCenter] postNotificationName:NotifierVolumeMountedNotification
+														object:[[note userInfo] objectForKey:@"NSDevicePath"] ];
 }
 
 -(void)volumeDidUnmount:(NSNotification*) note
 {
 //	NSLog(@"unmount.");
 
-	[[NSNotificationCenter defaultCenter] postNotificationName: NotifierVolumeUnmountedNotification object: [[note userInfo] objectForKey:@"NSDevicePath"] ];
+	[[NSNotificationCenter defaultCenter] postNotificationName:NotifierVolumeUnmountedNotification
+														object:[[note userInfo] objectForKey:@"NSDevicePath"] ];
 }
 
 @end

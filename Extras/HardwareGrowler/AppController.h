@@ -18,6 +18,8 @@
 	NSData				*usbLogoData;
 	NSData				*airportIconData;
 	NSData				*ipIconData;
+
+	BOOL				sleeping;
 }
 
 - (IBAction)doSimpleHelp: (id)sender;

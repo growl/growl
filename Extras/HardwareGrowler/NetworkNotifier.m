@@ -79,10 +79,12 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 		NSString *media = [self getMediaForInterface:@"en0"];
 		NSString *desc = [NSString stringWithFormat:@"Interface:\ten0\nMedia:\t%@", media];
 		NSLog(@"Ethernet cable plugged");
-		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkLinkUpNotification object:desc];
+		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkLinkUpNotification
+															object:desc];
 	} else {
 		NSString *desc = @"Interface:\ten0";
-		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkLinkDownNotification object:desc];
+		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkLinkDownNotification
+															object:desc];
 	}		
 }
 
@@ -95,10 +97,12 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 		NSDictionary *ipv4Info = [scNotificationManager valueForKey:ipv4Key];
 		NSArray *addrs = [ipv4Info valueForKey:@"Addresses"];
 		NSAssert([addrs count] > 0, @"Empty address array");
-		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkIpAcquiredNotification object:[addrs objectAtIndex:0]];
+		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkIpAcquiredNotification
+															object:[addrs objectAtIndex:0]];
 	} else {
 		NSLog(@"No primary interface");
-		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkIpReleasedNotification object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkIpReleasedNotification
+															object:nil];
 	}
 }
 
@@ -109,7 +113,8 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 		if ([[newValue objectForKey:@"Link Status"] intValue] == AIRPORT_DISCONNECTED) {
 			NSString *desc = [NSString stringWithFormat:@"Left network %@.",
 				[airportStatus objectForKey:@"SSID"]];
-			[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkAirportDisconnectNotification object:desc];
+			[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkAirportDisconnectNotification
+																object:desc];
 		} else {
 			const unsigned char *bssidBytes = [[newValue objectForKey:@"BSSID"] bytes];
 			NSString *bssid = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
@@ -122,7 +127,8 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 			NSString *desc = [NSString stringWithFormat:@"Joined network.\nSSID:\t\t%@\nBSSID:\t%@",
 				[newValue objectForKey:@"SSID"],
 				bssid];
-			[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkAirportConnectNotification object:desc];
+			[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkAirportConnectNotification
+																object:desc];
 		}
 	}
 	airportStatus = [newValue retain];

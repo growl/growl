@@ -38,7 +38,6 @@ NSString *NotifierBluetoothDisconnectionNotification	=	@"Bluetooth Device Discon
 	[super dealloc];
 }
 
-
 /*
 -(void)channelOpened: (IOBluetoothUserNotification*)note withChannel: (IOBluetoothRFCOMMChannel *) chan
 {
@@ -52,17 +51,16 @@ NSString *NotifierBluetoothDisconnectionNotification	=	@"Bluetooth Device Discon
 
 }
 
-
 -(void)channelClosed: (IOBluetoothUserNotification*)note withChannel: (IOBluetoothRFCOMMChannel *) chan
 {
 	NSLog(@"BT Channel closed. %@" , note);
 }
 */
 
-
 -(void)bluetoothConnection: (IOBluetoothUserNotification*)note toDevice: (IOBluetoothDevice*)device
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName: NotifierBluetoothConnectionNotification object: [device name] ];
+	[[NSNotificationCenter defaultCenter] postNotificationName:NotifierBluetoothConnectionNotification
+														object:[device name] ];
 
 	// NSLog(@"BT Device connection: %@" , [device name]);	
 	[device registerForDisconnectNotification: self

@@ -116,7 +116,8 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 //		NSLog(@"got one new object.");
 		deviceName = [self nameForFireWireObject: thisObject];
 		// NSLog(@"FireWire Device Attached: %@" , deviceName);		
-		[[NSNotificationCenter defaultCenter] postNotificationName: NotifierFireWireConnectionNotification object: deviceName ];
+		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierFireWireConnectionNotification
+															object:deviceName];
 
 		IOObjectRelease(thisObject);
 	}
