@@ -13,10 +13,11 @@ int main() {
 	[NSApplication sharedApplication];
 
 	GrowlController *theOneRingToRuleThemAll;
-        theOneRingToRuleThemAll = [[[GrowlController alloc] init] autorelease];
+	theOneRingToRuleThemAll = [[GrowlController alloc] init];
 	
 	[NSApp run];
 	
+	[theOneRingToRuleThemAll release];
 	[NSApp release];
 	[pool release];
 	
