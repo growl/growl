@@ -116,13 +116,13 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	// Top of the drawing area. The eye candy takes up 10 pixels on 
 	// the top, so we've reserved some space for it.
 	float contentHeight = frame.size.height - 10.0f;
-	float titleHeight = [self titleHeight];
-	float titleYPosition = contentHeight - titleHeight;
+	float savedTitleHeight = [self titleHeight];
+	float titleYPosition = contentHeight - savedTitleHeight;
 	NSRect drawRect;
 	drawRect.origin.x = 55.0f;
 	drawRect.origin.y = titleYPosition;
 	drawRect.size.width = 200.0f;
-	drawRect.size.height = titleHeight;
+	drawRect.size.height = savedTitleHeight;
 
 	[title drawWithEllipsisInRect:drawRect withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
