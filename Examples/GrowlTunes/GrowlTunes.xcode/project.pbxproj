@@ -192,6 +192,8 @@
 		};
 		29B97317FDCFA39411CA2CEA = {
 			children = (
+				4C29096106A8CB8A00FDB6CE,
+				4C29096206A8CB8A00FDB6CE,
 				5275B5410687D634006F5704,
 				5275B5420687D634006F5704,
 				5275B5430687D634006F5704,
@@ -296,6 +298,42 @@
 //4A2
 //4A3
 //4A4
+//4C0
+//4C1
+//4C2
+//4C3
+//4C4
+		4C29096106A8CB8A00FDB6CE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			path = "growlTunes-selected.tif";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4C29096206A8CB8A00FDB6CE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			path = growlTunes.tif;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4C29096306A8CB8B00FDB6CE = {
+			fileRef = 4C29096106A8CB8A00FDB6CE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4C29096406A8CB8B00FDB6CE = {
+			fileRef = 4C29096206A8CB8A00FDB6CE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//4C0
+//4C1
+//4C2
+//4C3
+//4C4
 //520
 //521
 //522
@@ -517,6 +555,8 @@
 				5275B5480687D634006F5704,
 				5275B5AA068922A2006F5704,
 				07D08B22068D3DA800756873,
+				4C29096306A8CB8B00FDB6CE,
+				4C29096406A8CB8B00FDB6CE,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
