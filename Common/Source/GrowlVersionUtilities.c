@@ -225,6 +225,10 @@ signed int compareVersionStrings(CFStringRef a, CFStringRef b) {
 
 //this function is explained in the header.
 signed int compareVersionStringsTranslating1_0To0_5(CFStringRef a, CFStringRef b) {
+	if (a == b)  return  0;
+	else if (!a) return  1;
+	else if (!b) return -1;
+
 	CFStringRef  one_zero = CFSTR("1.0");
 	CFStringRef zero_five = CFSTR("0.5");
 	if (CFEqual(a, one_zero)) a = zero_five;
