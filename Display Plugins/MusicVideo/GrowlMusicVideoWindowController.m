@@ -13,11 +13,6 @@
 
 @implementation GrowlMusicVideoWindowController
 
-#define MIN_DISPLAY_TIME 4.0
-#define ADDITIONAL_LINES_DISPLAY_TIME 0.5
-#define MAX_DISPLAY_TIME 10.0
-#define GrowlMusicVideoPadding 10.0
-
 + (GrowlMusicVideoWindowController *)musicVideo {
 	return [[[GrowlMusicVideoWindowController alloc] init] autorelease];
 }
@@ -28,14 +23,20 @@
 }
 
 - (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
-	int sizePref;
+	int sizePref = MUSICVIDEO_SIZE_NORMAL;
+	float duration = MUSICVIDEO_DEFAULT_DURATION;
 	NSRect sizeRect;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
+	sizeRect.origin.x = 0.0f;
+	sizeRect.origin.y = 0.0f;
+	sizeRect.size.width = NSWidth([[NSScreen mainScreen] frame]);
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-		sizeRect = NSMakeRect( 0.0f, 0.0f, NSWidth([[NSScreen mainScreen]frame]), 192.0f );
+		sizeRect.size.height = 192.0f;
 	} else {
-		sizeRect = NSMakeRect( 0.0f, 0.0f, NSWidth([[NSScreen mainScreen]frame]), 96.0f );
+		sizeRect.size.height = 96.0f;
 	}
+	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, MusicVideoPrefDomain, &duration);
+	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:sizeRect
 						styleMask:NSBorderlessWindowMask
 						  backing:NSBackingStoreBuffered defer:NO] autorelease];
@@ -77,11 +78,7 @@
 
 	if ( (self = [super initWithWindow:panel]) ) {
 		autoFadeOut = YES;	// !sticky
-		target = nil;
-		action = NULL;
-		appName = nil;
-		clickContext = nil;
-		displayTime = MIN_DISPLAY_TIME;
+		displayTime = duration;
 		priority = prio;
 		if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 			timerInterval = (1.0 / 128.0);

@@ -379,26 +379,26 @@ static id singleton = nil;
 - (void) preferencesChanged: (NSNotification *) note {
 	//[note object] is the changed key. A nil key means reload our tickets.	
 	id object = [note object];
-	if (note == nil || [object isEqualTo:GrowlStartServerKey]) {
+	if (!note || [object isEqualTo:GrowlStartServerKey]) {
 		[self startStopServer];
 	}
-	if (note == nil || [object isEqualTo:GrowlUserDefaultsKey]) {
+	if (!note || [object isEqualTo:GrowlUserDefaultsKey]) {
 		[[GrowlPreferences preferences] synchronize];
 	}
-	if (note == nil || [object isEqualTo:GrowlEnabledKey]) {
+	if (!note || [object isEqualTo:GrowlEnabledKey]) {
 		growlIsEnabled = [[[GrowlPreferences preferences] objectForKey:GrowlEnabledKey] boolValue];
 	}
-	if (note == nil || [object isEqualTo:GrowlEnableForwardKey]) {
+	if (!note || [object isEqualTo:GrowlEnableForwardKey]) {
 		enableForward = [[[GrowlPreferences preferences] objectForKey:GrowlEnableForwardKey] boolValue];
 	}
-	if (note == nil || [object isEqualTo:GrowlForwardDestinationsKey]) {
+	if (!note || [object isEqualTo:GrowlForwardDestinationsKey]) {
 		destinations = [[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey];
 	}
-	if (note == nil || object == nil) {
+	if (!note || !object) {
 		[tickets removeAllObjects];
 		[self loadTickets];
 	}
-	if (note == nil || [object isEqualTo:GrowlDisplayPluginKey]) {
+	if (!note || [object isEqualTo:GrowlDisplayPluginKey]) {
 		[self loadDisplay];
 	}
 }

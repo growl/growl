@@ -564,9 +564,10 @@ static const char *keychainAccountName = "Growl";
 			[pluginPrefPane willSelect];
 		}
 	} else {
-		[pluginPrefPane release]; pluginPrefPane = nil;
+		[pluginPrefPane release];
+		pluginPrefPane = nil;
 	}
-	if (newView == nil) {
+	if (!newView) {
 		newView = displayDefaultPrefView;
 	}
 	if (displayPrefView != newView) {

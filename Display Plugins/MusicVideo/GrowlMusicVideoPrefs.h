@@ -13,6 +13,9 @@
 #define MUSICVIDEO_OPACITY_PREF			@"Opacity"
 #define MUSICVIDEO_DEFAULT_OPACITY		60
 
+#define MUSICVIDEO_DURATION_PREF		@"Duration"
+#define MUSICVIDEO_DEFAULT_DURATION		4.0f
+
 #define MUSICVIDEO_SIZE_PREF			@"Size"
 #define MUSICVIDEO_SIZE_NORMAL			0
 #define MUSICVIDEO_SIZE_HUGE			1
@@ -21,6 +24,8 @@
 	IBOutlet NSMatrix		*radio_Size;
 	IBOutlet NSSlider		*slider_Opacity;
 	IBOutlet NSTextField	*text_Opacity;
+	IBOutlet NSSlider		*slider_Duration;
+	IBOutlet NSTextField	*text_Duration;
 }
 
 - (IBAction) preferenceChanged:(id)sender;
