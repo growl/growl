@@ -1165,6 +1165,7 @@
 			files = (
 				0A7F5F620767C58E00E1C1E4,
 				0A7F5F630767C59000E1C1E4,
+				6CD175910800736B00154530,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3073,6 +3074,22 @@
 //632
 //633
 //634
+//6C0
+//6C1
+//6C2
+//6C3
+//6C4
+		6CD175910800736B00154530 = {
+			fileRef = 83282746073A6C110044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//6C0
+//6C1
+//6C2
+//6C3
+//6C4
 //830
 //831
 //832
