@@ -7,7 +7,7 @@
 
 #import "GrowlController.h"
 #import "GrowlApplicationTicket.h"
-#import "NSAdditions.h"
+#import "NSGrowlAdditions.h"
 
 @implementation GrowlController
 
