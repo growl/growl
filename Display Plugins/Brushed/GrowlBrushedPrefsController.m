@@ -17,6 +17,23 @@
 	return @"BrushedPrefs";
 }
 
+- (void) loadColorWell:(NSColorWell *)colorWell fromKey:(NSString *)key defaultColor:(NSColor *)defaultColor {
+	NSArray *array = nil;
+	NSColor *color;
+	READ_GROWL_PREF_VALUE(key, GrowlBrushedPrefDomain, NSArray *, &array);
+	if (array) {
+		float alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
+		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
+										  green:[[array objectAtIndex:1U] floatValue]
+										   blue:[[array objectAtIndex:2U] floatValue]
+										  alpha:alpha];
+		[array release];
+	} else {
+		color = defaultColor;
+	}
+	[colorWell setColor:color];
+}
+
 - (void) mainViewDidLoad {
 	// duration
 	float durationPref = GrowlBrushedDurationPrefDefault;
@@ -52,80 +69,13 @@
 	}
 	
 	// priority colour settings
-	NSArray *array = nil;
-	NSColor *color;
 	NSColor *defaultColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
-  	float alpha;
 
-	READ_GROWL_PREF_VALUE(GrowlBrushedVeryLowTextColor, GrowlBrushedPrefDomain, CFArrayRef, (CFArrayRef*)&array);
-	if (array) {
-		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
-		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-										  green:[[array objectAtIndex:1] floatValue]
-										   blue:[[array objectAtIndex:2] floatValue]
-										  alpha:alpha];
-		[array release];
-		array = nil;
-	} else {
-		color = defaultColor;
-	}
-	[text_veryLow setColor:color];
-	
-	READ_GROWL_PREF_VALUE(GrowlBrushedModerateTextColor, GrowlBrushedPrefDomain, CFArrayRef, (CFArrayRef*)&array);
-	if (array) {
-		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
-		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-										  green:[[array objectAtIndex:1] floatValue]
-										   blue:[[array objectAtIndex:2] floatValue]
-										  alpha:alpha];
-		[array release];
-		array = nil;
-	} else {
-		color = defaultColor;
-	}
-	[text_moderate setColor:color];
-	
-	READ_GROWL_PREF_VALUE(GrowlBrushedNormalTextColor, GrowlBrushedPrefDomain, CFArrayRef, (CFArrayRef*)&array);
-	if (array) {
-		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
-		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-										  green:[[array objectAtIndex:1] floatValue]
-										   blue:[[array objectAtIndex:2] floatValue]
-										  alpha:alpha];
-		[array release];
-		array = nil;
-	} else {
-		color = defaultColor;
-	}
-	[text_normal setColor:color];
-	
-	READ_GROWL_PREF_VALUE(GrowlBrushedHighTextColor, GrowlBrushedPrefDomain, CFArrayRef, (CFArrayRef*)&array);
-	if (array) {
-		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
-		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-										  green:[[array objectAtIndex:1] floatValue]
-										   blue:[[array objectAtIndex:2] floatValue]
-										  alpha:alpha];
-		[array release];
-		array = nil;
-	} else {
-		color = defaultColor;
-	}
-	[text_high setColor:color];
-	
-	READ_GROWL_PREF_VALUE(GrowlBrushedEmergencyTextColor, GrowlBrushedPrefDomain, CFArrayRef, (CFArrayRef*)&array);
-	if (array) {
-		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
-		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-										  green:[[array objectAtIndex:1] floatValue]
-										   blue:[[array objectAtIndex:2] floatValue]
-										  alpha:alpha];
-		[array release];
-		array = nil;
-	} else {
-		color = defaultColor;
-	}
-	[text_emergency setColor:color];
+	[self loadColorWell:text_veryLow fromKey:GrowlBrushedVeryLowTextColor defaultColor:defaultColor];
+	[self loadColorWell:text_moderate fromKey:GrowlBrushedModerateTextColor defaultColor:defaultColor];
+	[self loadColorWell:text_normal fromKey:GrowlBrushedNormalTextColor defaultColor:defaultColor];
+	[self loadColorWell:text_high fromKey:GrowlBrushedHighTextColor defaultColor:defaultColor];
+	[self loadColorWell:text_emergency fromKey:GrowlBrushedEmergencyTextColor defaultColor:defaultColor];
 }
 
 - (IBAction) durationChanged:(id)sender {

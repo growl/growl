@@ -62,11 +62,12 @@
  	if (typePref == 0) {
  		NSLog(logString);
  	} else {
- 		NSString *logFile;
+ 		NSString *logFile = nil;
  		BOOL written = NO;
  		READ_GROWL_PREF_VALUE(customHistKey1, LogPrefDomain, NSString *, &logFile);
- 		if (![[NSFileManager defaultManager] fileExistsAtPath:logFile])
+ 		if (![[NSFileManager defaultManager] fileExistsAtPath:logFile]) {
  			[[NSFileManager defaultManager] createFileAtPath:logFile contents:nil attributes:nil];
+		}
  		NSFileHandle *logHandle = [NSFileHandle fileHandleForWritingAtPath:logFile];
  		if (logHandle) {
  			[logHandle seekToEndOfFile];
