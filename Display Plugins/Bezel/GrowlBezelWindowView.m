@@ -126,7 +126,7 @@
 	
 	// If we are on Panther or better, pretty shadow
 	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
-	NSShadow *textShadow = nil;
+	id textShadow = nil; // NSShadow
 	Class NSShadowClass = NSClassFromString(@"NSShadow");
 	if ( pantherOrLater ) {
         textShadow = [[[NSShadowClass alloc] init] autorelease];
