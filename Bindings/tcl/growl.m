@@ -31,10 +31,12 @@
 
 #include <tcl.h>
 
-#include <Foundation/Foundation.h>
+#include <Cocoa/Cocoa.h>
 
-#include <GrowlDefines.h>
-#include <TclGrowler.h>
+#include "GrowlDefines.h"
+#include "GrowlApplicationBridge.h"
+
+#include "TclGrowler.h"
 
 static TclGrowler *tg = nil;
 
@@ -103,19 +105,17 @@ growl_post(int objc, Tcl_Obj *CONST objv[])
 		isSticky:NO
 		clickContext:nil];
 
-	if (notificationIcon != nil) {
-		[notificationIcon release];
-	}
+	[notificationIcon release];
 
 	return TCL_OK;
 }
-
 
 /*
  * GrowlCmd
  * Handles the Tcl 'growl' command.
  */
-int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
+int
+GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
 	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	NSString *action = nil;
@@ -141,7 +141,8 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 /* Growl_Init
  * Initialize the Tcl package, registering the 'growl' command.
  */
-int Growl_Init(Tcl_Interp *interp)
+int
+Growl_Init(Tcl_Interp *interp)
 {
 	if (Tcl_InitStubs(interp, "8.4", 0) == NULL) {
 		return TCL_ERROR;
@@ -154,4 +155,10 @@ int Growl_Init(Tcl_Interp *interp)
 	}
 
 	return TCL_OK;
+}
+
+int
+Growl_SafeInit(Tcl_Interp *interp)
+{
+	return Growl_Init(interp);
 }

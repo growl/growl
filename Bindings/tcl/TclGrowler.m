@@ -1,25 +1,29 @@
-#include <TclGrowler.h>
+#include <Cocoa/Cocoa.h>
+
+#include "GrowlApplicationBridge.h"
+
+#include "TclGrowler.h"
 
 @implementation TclGrowler
 
-- (id)initWithName:(NSString *)appName notifications:(NSArray *)notes icon:(NSImage *)appIcon
+- (id)initWithName:(NSString *)aName notifications:(NSArray *)notes icon:(NSImage *)aIcon
 {
-	[self init];
+	if ((self = [super init])) {
+		appName = [[NSString alloc] initWithString:aName];
+		allNotifications = [[NSArray alloc] initWithArray:notes];
+		appIcon = [[NSData alloc] initWithData:[aIcon TIFFRepresentation]];
 
-	_appName = [[NSString alloc] initWithString:appName];
-	_allNotifications = [[NSArray alloc] initWithArray:notes];
-	_appIcon = [[NSData alloc] initWithData:[appIcon TIFFRepresentation]];
-
-	[GrowlApplicationBridge setGrowlDelegate:self];
+		[GrowlApplicationBridge setGrowlDelegate:self];
+	}
 
 	return self;
 }
 
 - (void)dealloc
 {
-	[_appName release];
-	[_allNotifications release];
-	[_appIcon release];
+	[appName release];
+	[allNotifications release];
+	[appIcon release];
 	[super dealloc];
 }
 
@@ -28,19 +32,19 @@
 - (NSDictionary *)registrationDictionaryForGrowl
 {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		_allNotifications, GROWL_NOTIFICATIONS_ALL,
-		_allNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+		allNotifications, GROWL_NOTIFICATIONS_ALL,
+		allNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
 }
 
 - (NSString *)applicationNameForGrowl
 {
-	return _appName;
+	return appName;
 }
 
 - (NSData *)applicationIconDataForGrowl
 {
-	return _appIcon;
+	return appIcon;
 }
 
 - (void)growlIsReady
