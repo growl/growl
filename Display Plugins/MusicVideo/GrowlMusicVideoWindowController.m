@@ -103,6 +103,9 @@
 	[super dealloc];
 }
 
+#pragma mark -
+#pragma mark Fading and click feedback
+
 - (void) _fadeIn:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	NSRect screen = [[self screen] frame];
@@ -146,6 +149,7 @@
 }
 
 #pragma mark -
+#pragma mark Accessors
 
 - (id)target {
 	return target;
@@ -166,7 +170,7 @@
 	action = selector;
 }
 
-#pragma mark - 
+#pragma mark -
 
 - (NSString *)appName {
 	return appName;
