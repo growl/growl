@@ -23,7 +23,7 @@
 	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &alphaPref);
 	[opacitySlider setMinValue:0.05];
 	[opacitySlider setFloatValue:alphaPref];
-	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",(int)floor(alphaPref * 100.)]];
+	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",(int)floorf(alphaPref * 100.f)]];
   
 	// float icon checkbox
 	BOOL floatIconPref = GrowlSmokeFloatIconPrefDefault;
@@ -171,7 +171,7 @@
 - (IBAction) opacitySliderChanged:(id)sender {
 	float newValue = [opacitySlider floatValue];
 	WRITE_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, newValue, GrowlSmokePrefDomain);
-	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",(int)floor(newValue * 100.)]];
+	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",(int)floorf(newValue * 100.f)]];
 	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
