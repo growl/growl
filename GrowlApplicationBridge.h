@@ -184,13 +184,13 @@
  */
 @interface NSObject (GrowlApplicationBridgeDelegate_InformalProtocol)
 /* 
-	@method applicationIconData
+	@method applicationIconDataForGrowl
 	@abstract Return the NSData to treat as the application icon
 	@discussion The delegate may optionally return an NSData object to use as the application icon;
 	if this is not implemented, the application's own icon is used.  This is not generally needed.
 	@result The NSData to treat as the application icon
  */
-- (NSData *) applicationIconData;
+- (NSData *) applicationIconDataForGrowl;
 
 /*
 	@method growlIsReady
