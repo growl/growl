@@ -18,7 +18,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/zsh;
-			shellScript = "echo mkdir $BUILT_PRODUCTS_DIR/$PLUGINS_FOLDER_PATH\nmkdir $BUILT_PRODUCTS_DIR/$PLUGINS_FOLDER_PATH\n";
+			shellScript = "echo mkdir $BUILT_PRODUCTS_DIR/$PLUGINS_FOLDER_PATH\nmkdir $BUILT_PRODUCTS_DIR/$PLUGINS_FOLDER_PATH || true";
 		};
 		07C611BE068BE1C1007FEC77 = {
 			fileRef = 07D0C5EB068A50E40076D89A;
