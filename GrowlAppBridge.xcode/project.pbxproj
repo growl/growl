@@ -113,6 +113,8 @@
 		};
 		08FB77AEFE84172EC02AAC07 = {
 			children = (
+				957EF160079038740074BC2E,
+				957EF1360790364C0074BC2E,
 				344F4CE6078E146500226DFC,
 				344F4CE7078E146500226DFC,
 				344F4D00078E156300226DFC,
@@ -419,6 +421,8 @@
 				147E0237068A08D200ADA868,
 				344F4CE8078E146500226DFC,
 				344F4D02078E156300226DFC,
+				957EF13D0790364C0074BC2E,
+				957EF167079038740074BC2E,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -482,6 +486,34 @@
 			};
 			isa = PBXBuildStyle;
 			name = "Deployment - Tiger - G4";
+		};
+		957EF1360790364C0074BC2E = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlDefinesCarbon.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		957EF13D0790364C0074BC2E = {
+			fileRef = 957EF1360790364C0074BC2E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		957EF160079038740074BC2E = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlAppBridgeDefinesCarbon.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		957EF167079038740074BC2E = {
+			fileRef = 957EF160079038740074BC2E;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = 0867D690FE84028FC02AAC07;

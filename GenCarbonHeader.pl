@@ -8,15 +8,19 @@ use POSIX;
 #(1) Stripping the protocol information from the file, and
 #(2) Converting all @"String" forms into CFSTR("String")
 
-my $infile = shift || "GrowlDefines.h";
-my $outfile = shift || "GrowlDefinesCarbon.h";
-my $line;
+my @infiles = ("GrowlDefines.h", "GrowlAppBridgeDefines.h");
+my %outfiles = ("GrowlDefines.h" => "GrowlDefinesCarbon.h",
+		"GrowlAppBridgeDefines.h" => "GrowlAppBridgeDefinesCarbon.h");
 
-open(COCOA, "<", $infile) or die("Couldn't open $infile: $!");
-open(CARBON, ">", $outfile);
+foreach my $infile (@infiles) {
+	my $outfile = $outfiles{$infile};
+	my $line;
 
-my $date = POSIX::strftime("%a %b %Y", localtime);
-print CARBON <<ENDOFHEADER;
+	open(COCOA, "<", $infile) or die("Couldn't open $infile: $!");
+	open(CARBON, ">", $outfile);
+
+	my $date = POSIX::strftime("%a %b %Y", localtime);
+	print CARBON <<ENDOFHEADER;
 //
 // $outfile
 //
@@ -25,14 +29,18 @@ print CARBON <<ENDOFHEADER;
 
 ENDOFHEADER
 
-while(<COCOA> =~ m{^//}) {}	#Strip the initial comment header
+	while(<COCOA> =~ m{^//}) {}	#Strip the initial comment header
 
-#Loop until we hit the macros for plugins
-while(defined($line = <COCOA>) && ($line !~ m{/\* ---}))
-{
-	$line =~ s/@"([^"\r\n]*)"/CFSTR("$1")/g;
-	print CARBON $line;
+	#Loop until we hit the macros for plugins
+	while(defined($line = <COCOA>) && ($line !~ m{/\* ---})) {
+		$line =~ s/@"([^"\r\n]*)"/CFSTR("$1")/g;
+		foreach my $header (@infiles) {
+			$line =~ s/#import "$header"/#import "$outfiles{$header}"/g;
+		}
+		print CARBON $line;
+	}
+
+	close(CARBON);
+	close(COCOA);
 }
 
-close(CARBON);
-close(COCOA);
