@@ -9,6 +9,11 @@
 #import "GrowlApplicationTicket.h"
 #import "NSGrowlAdditions.h"
 
+@interface GrowlController (private)
+- (id <GrowlDisplayPlugin>) loadDisplay;
+- (void) _registerApplication:(NSNotification *) note;
+@end
+
 @implementation GrowlController
 
 - (id) init {
@@ -45,6 +50,17 @@
 
 #pragma mark -
 
+- (void) dispatchNotification:(NSNotification *) note {
+	//insert code here
+    NSLog( @"%@", note );
+    [_displayController displayNotificationWithInfo:[note userInfo]];
+}
+
+@end
+
+#pragma mark -
+
+@implementation GrowlController (private)
 - (id <GrowlDisplayPlugin>) loadDisplay {
 	id <GrowlDisplayPlugin> retVal;
 	NSString *viewPath = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"BubblesNotificationView.growlView" ];
@@ -94,14 +110,6 @@
 		[aApp setDefaultNotifications:defaultNotes];
 	}
 	
-}
-
-#pragma mark -
-
-- (void) dispatchNotification:(NSNotification *) note {
-	//insert code here
-	NSLog( @"%@", note );
-	[_displayController displayNotificationWithInfo:[note userInfo]];
 }
 
 @end
