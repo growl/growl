@@ -100,6 +100,54 @@ static GrowlPreferences * sharedPreferences;
 	return supportDir;
 }
 
+#pragma mark -
+- (BOOL) startGrowlAtLogin {
+	NSUserDefaults *defs = [[NSUserDefaults alloc] init];
+	NSArray *autoLaunchArray = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
+	NSEnumerator *e = [autoLaunchArray objectEnumerator];
+	NSString *appPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
+	NSDictionary *item;
+	while( (item = [e nextObject] ) ) {
+		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:appPath]) {
+			[defs release];
+			return YES;
+		}
+	}
+	[defs release];
+	
+	return NO;
+}
+
+- (void) setStartGrowlAtLogin:(BOOL)flag {
+	NSUserDefaults *defs = [[NSUserDefaults alloc] init];
+	NSString *appPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
+	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
+	NSArray *loginItems = [loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"];
+	NSMutableArray *mutableLoginItems = [[loginItems mutableCopy] autorelease];
+	NSEnumerator *e = [loginItems objectEnumerator];
+	NSDictionary *item;
+	while( (item = [e nextObject] ) ) {
+		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:appPath]) {
+			[mutableLoginItems removeObject:item];
+		}
+	}
+	
+	if ( flag ) {
+		NSMutableDictionary *launchDict = [NSMutableDictionary dictionary];
+		[launchDict setObject:[NSNumber numberWithBool:NO] forKey:@"Hide"];
+		[launchDict setObject:appPath forKey:@"Path"];
+		[mutableLoginItems addObject:launchDict];
+	}
+	
+	[loginWindowPrefs setObject:[NSArray arrayWithArray:mutableLoginItems] 
+						 forKey:@"AutoLaunchedApplicationDictionary"];
+	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
+					  forName:@"loginwindow"];
+	[defs synchronize];
+	[defs release];	
+}
+
+#pragma mark -
 - (void) dealloc {
 	[helperAppDefaults release];
 	

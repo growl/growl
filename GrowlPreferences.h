@@ -30,5 +30,7 @@ extern NSString * GrowlRemoteRegistrationKey;
 - (NSBundle *) helperAppBundle;
 - (NSString *) growlSupportDir;
 
+- (BOOL) startGrowlAtLogin;
+- (void) setStartGrowlAtLogin:(BOOL)flag;
 
 @end

@@ -17,6 +17,7 @@
 - (void) _processNotificationQueue;
 - (void) _processRegistrationQueue;
 - (void) _registerApplication:(NSNotification *) note;
+- (void) _postGrowlIsReady;
 @end
 
 #pragma mark -
@@ -37,13 +38,10 @@ static id _singleton = nil;
 - (id) init {
 	if ( (self = [super init]) ) {
 		NSDistributedNotificationCenter * NSDNC = [NSDistributedNotificationCenter defaultCenter];
+
 		[NSDNC addObserver:self 
 				  selector:@selector( _registerApplication: ) 
 					  name:GROWL_APP_REGISTRATION
-					object:nil];
-		[NSDNC addObserver:self
-				  selector:@selector( dispatchNotification: )
-					  name:GROWL_NOTIFICATION
 					object:nil];
 		[NSDNC addObserver:self
 				  selector:@selector( preferencesChanged: )
@@ -54,10 +52,14 @@ static id _singleton = nil;
 					  name:GROWL_SHUTDOWN
 					object:nil];
 		[NSDNC addObserver:self
+				  selector:@selector( dispatchNotification: )
+					  name:GROWL_NOTIFICATION
+					object:nil];
+		[NSDNC addObserver:self
 				  selector:@selector( replyToPing:)
 					  name:GROWL_PING
 					object:nil];
-		
+	
 		_tickets = [[NSMutableDictionary alloc] init];
 		_registrationLock = [[NSLock alloc] init];
 		_notificationQueue = [[NSMutableArray alloc] init];
@@ -131,12 +133,44 @@ static id _singleton = nil;
 #pragma mark -
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
-{
-	if( [[filename pathExtension] isEqualToString:@"growlView"] ) {
+{	
+	NSString *pathExtension = [filename pathExtension];
+	
+	if( [pathExtension isEqualToString:@"growlView"] ) {
 		[[GrowlPluginController controller] installPlugin:filename];
+		
+		[self _postGrowlIsReady];
+
+		return( YES );
+
+	} else if( [pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION] ) {						
+		NSDictionary	*regDict = [NSDictionary dictionaryWithContentsOfFile:filename];
+		
+		//Register this app using the indicated dictionary
+		if ([self _tryLockQueue]) {
+			[self _registerApplicationWithDictionary:regDict];
+			[self _unlockQueue];
+		} else {
+			[_registrationQueue addObject:regDict];
+		}
+
+		//If growl is not enabled and was not already running before (for example, via an autolaunch even
+		//though the user's last preference setting was to click "Stop Growl," setting enabled to NO),
+		//quit having registered; otherwise, we will remain running
+		if( !_growlIsEnabled &&  !_growlFinishedLaunching) {
+			//We want to hold in this thread until we can lock/unlock the queue and
+			//ensure our registration is sent
+			[_registrationLock lock]; [_registrationLock unlock];
+			[self _unlockQueue];
+			
+			[NSApp terminate:self];
+		} else {
+			[self _postGrowlIsReady];	
+		}
+
 		return( YES );
 	}
-
+	
 	return( NO );
 }
 
@@ -172,7 +206,7 @@ static id _singleton = nil;
 		icon = [[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]]
 					autorelease];
 	} else {
-		icon = [[NSImage alloc] initWithData:[[ticket icon] TIFFRepresentation]];
+		icon = [[[NSImage alloc] initWithData:[[ticket icon] TIFFRepresentation]] autorelease];
 	}
 	if (icon) {
 		[aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
@@ -229,19 +263,22 @@ static id _singleton = nil;
 }
 
 - (void) preferencesChanged: (NSNotification *) note {
-	//[note object] is the changed key. A nil key means reload our tickets.
+	//[note object] is the changed key. A nil key means reload our tickets.	
+	if(note == nil || [[note object] isEqualTo:GrowlStartServerKey]) {
+		[self startStopServer];
+	}
+	if(note == nil || [[note object] isEqualTo:GrowlUserDefaultsKey]) {
+		[[GrowlPreferences preferences] synchronize];
+	}
+	if(note == nil || [[note object] isEqualTo:GrowlEnabledKey]){
+		_growlIsEnabled = [[[GrowlPreferences preferences] objectForKey:GrowlEnabledKey] boolValue];
+	}
 	if(note == nil || [note object] == nil) {
 		[_tickets removeAllObjects];
 		[self loadTickets];
 	}
 	if(note == nil || [[note object] isEqualTo:GrowlDisplayPluginKey]) {
 		[self loadDisplay];
-	}
-	if(note == nil || [[note object] isEqualTo:GrowlUserDefaultsKey]) {
-		[[GrowlPreferences preferences] synchronize];
-	}
-	if(note == nil || [[note object] isEqualTo:GrowlStartServerKey]) {
-		[self startStopServer];
 	}
 }
 
@@ -254,7 +291,7 @@ static id _singleton = nil;
 }
 
 #pragma mark NSApplication Delegate Methods
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+- (void) applicationWillFinishLaunching:(NSNotification *)aNotification {
 //	BOOL dir;
 	NSFileManager *fs = [NSFileManager defaultManager];
 
@@ -275,19 +312,13 @@ static id _singleton = nil;
 }
 
 //Post a notification when we are done launching so the application bridge can inform participating applications
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY 
-																   object:nil 
-																 userInfo:nil
-													   deliverImmediately:YES];
+- (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
+	[self _postGrowlIsReady];
 }
 
 //Same as applicationDidFinishLaunching, called when we are asked to reopen (that is, we are already running)
-- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY 
-																   object:nil 
-																 userInfo:nil
-													   deliverImmediately:YES];
+- (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
+	[self _postGrowlIsReady];
 	
 	return YES;
 }
@@ -382,6 +413,15 @@ static id _singleton = nil;
 	} else {
 		[_registrationQueue addObject:[note userInfo]];
 	}
+}
+
+- (void) _postGrowlIsReady {
+	_growlFinishedLaunching = YES;
+	
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY 
+																   object:nil 
+																 userInfo:nil
+													   deliverImmediately:YES];	
 }
 
 @end

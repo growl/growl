@@ -18,6 +18,9 @@
 	NSNetService				*_service;
 
 	id<GrowlDisplayPlugin>		displayController;
+	
+	BOOL						_growlIsEnabled;
+	BOOL						_growlFinishedLaunching;
 }
 
 + (id) singleton;

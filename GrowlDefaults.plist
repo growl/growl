@@ -8,5 +8,7 @@
 	<false/>
 	<key>GrowlRemoteRegistration</key>
 	<false/>
+	<key>GrowlEnabled</key>
+	<true/>
 </dict>
 </plist>

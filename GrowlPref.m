@@ -173,19 +173,6 @@
 
 	[growlApplications reloadData];
 
-	[startGrowlAtLogin setState:NSOffState];
-	NSUserDefaults *defs = [[NSUserDefaults alloc] init];
-	NSArray *autoLaunchArray = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
-	NSEnumerator *e = [autoLaunchArray objectEnumerator];
-	NSDictionary *item;
-	while( (item = [e nextObject] ) ) {
-		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:[[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"]]) {
-			[startGrowlAtLogin setState:NSOnState];
-			break;
-		}
-	}
-	[defs release];
-
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
 	[allDisplayPlugins removeAllItems];
 	[allDisplayPlugins addItemsWithTitles:[[GrowlPluginController controller] allDisplayPlugins]];
@@ -204,6 +191,12 @@
 	} else {
 		[allowRemoteRegistration setState:NSOffState];
 	}
+
+	if( [preferences startGrowlAtLogin] ) {
+		[startGrowlAtLogin setState:NSOnState];
+	} else {
+		[startGrowlAtLogin setState:NSOffState];
+	}	
 	
 	[self buildMenus];
 	
@@ -316,12 +309,22 @@
 		[self updateRunningStatus];
 		return;
 	}
+
+	//Don't allow the button to be clicked while we update
+	[startStopGrowl setEnabled:NO];
+	[growlRunningProgress startAnimation:self];
+
+	//Our desired state is a toggle of the current state;
+	BOOL desiredGrowlState = !growlIsRunning;
 	
-	if(!growlIsRunning) {
+	//Store the desired running-state of the helper app for use by GHA. If we are autolaunching, this
+	//needs to be forced to YES.
+	[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:(desiredGrowlState || ([startGrowlAtLogin state] == NSOnState))]
+									   forKey:GrowlEnabledKey];
+
+	if(desiredGrowlState) {
 		//growlIsRunning = [[NSWorkspace sharedWorkspace] launchApplication:helperPath];
-		[startStopGrowl setEnabled:NO];
 		[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
-		[growlRunningProgress startAnimation:self];
 		// We want to launch in background, so we have to resort to Carbon
 		LSLaunchFSRefSpec spec;
 		FSRef appRef;
@@ -335,53 +338,22 @@
 			spec.asyncRefCon = NULL;
 			status = LSOpenFromRefSpec(&spec, NULL);
 		}
-		//growlIsRunning = (status == noErr);
+		
 	} else {
-		[startStopGrowl setEnabled:NO];
 		[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
-		[growlRunningProgress startAnimation:self];
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
-		//growlIsRunning = NO;
+		
+		[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:NO] forKey:GrowlEnabledKey];
 	}
-	//[self updateRunningStatus];
-	// After 5 seconds update status, in case growl didn't start/stop
-	startStopTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self
-													selector:@selector(startStopTimeout:)
-													userInfo:nil repeats:NO];
-}
 
-- (void) startStopTimeout:(NSTimer *)timer {
-	timer = nil;
-	[self checkGrowlRunning];
+	// After 5 seconds update status, in case growl didn't start/stop
+	[self performSelector:@selector(checkGrowlRunning)
+			   withObject:nil
+			   afterDelay:5.0];
 }
 
 - (IBAction) startGrowlAtLogin:(id) sender {
-	NSUserDefaults *defs = [[NSUserDefaults alloc] init];
-	NSString *appPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
-	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
-	NSArray *loginItems = [loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"];
-	NSMutableArray *mutableLoginItems = [[loginItems mutableCopy] autorelease];
-	NSEnumerator *e = [loginItems objectEnumerator];
-	NSDictionary *item;
-	while( (item = [e nextObject] ) ) {
-		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:appPath]) {
-			[mutableLoginItems removeObject:item];
-		}
-	}
-
-	if ( [startGrowlAtLogin state] == NSOnState ) {
-		NSMutableDictionary *launchDict = [NSMutableDictionary dictionary];
-		[launchDict setObject:[NSNumber numberWithBool:NO] forKey:@"Hide"];
-		[launchDict setObject:appPath forKey:@"Path"];
-		[mutableLoginItems addObject:launchDict];
-	}
-
-	[loginWindowPrefs setObject:[NSArray arrayWithArray:mutableLoginItems] 
-						 forKey:@"AutoLaunchedApplicationDictionary"];
-	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
-					  forName:@"loginwindow"];
-	[defs synchronize];
-	[defs release];
+	[[GrowlPreferences preferences] setStartGrowlAtLogin:([startGrowlAtLogin state] == NSOnState)];
 }
 
 - (IBAction)startGrowlServer:(id)sender
@@ -455,7 +427,8 @@
 			// Don't bother swapping anything
 			return;
 		} else {
-			pluginPrefPane = prefPane;
+			[pluginPrefPane release];
+			pluginPrefPane = [prefPane retain];
 			[oldPrefPane willUnselect];
 		}
 		if (pluginPrefPane) {
@@ -468,7 +441,7 @@
 			[pluginPrefPane willSelect];
 		}
 	} else {
-		pluginPrefPane = nil;
+		[pluginPrefPane release]; pluginPrefPane = nil;
 	}
 	if (newView == nil) {
 		newView = displayDefaultPrefView;
