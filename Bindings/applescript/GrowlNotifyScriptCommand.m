@@ -95,7 +95,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 			}
 		} else if (iconOfFile) {
 			//Command used the "icon of file" argument
-			if (!(url = [[self fileUrlForLocationReference: iconOfFile] autorelease])) {
+			if (!(url = [self fileUrlForLocationReference: iconOfFile])) {
 				//NSLog(@"That's a no go on that file's icon.");
 				NS_VALUERETURN(nil,id);
 			}
