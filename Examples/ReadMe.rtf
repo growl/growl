@@ -12,8 +12,8 @@
 These are all public\'d0domain (except where noted), for studying how to implement Growl in your app.\
 \
 --boredzo\
-\pard\tqc\tx5760\tx6480\tx7200\tx7920\tx8640\sl311\slmult1
-\cf0 \strike \strikec0 	\'ca\cf0 \strikec0 \'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\cf0 \strike0\striked0 \
+\pard\tqc\tx5760\tx6480\tx7200\tx7920\tx8640\sl311\slmult1\ql\qnatural
+\cf0 \strike \strikec0 	\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\strike0\striked0 \
 \pard\tqr\tx1440\tx1800\tx2880\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f2\b \cf0 Beep-Cocoa\
@@ -32,6 +32,8 @@ The original demo app using Cocoa NSNotifications and NSDistributedNotificationC
 
 \f1\b0 \cf0 \
 Reimplementation of Beep-Cocoa using Carbon and Core Foundation (specifically, CFDistributedNotificationCenter).\
+\
+Note: You must run the GenCarbonHeader.pl script before this project will build.\
 \
 	Libraries:	QuickTime (for image conversion), Carbon\
 	Author:	Mac-arena the Bored Zo\
