@@ -42,7 +42,22 @@ build-musicvideo:
 	xcodebuild -target MusicVideo -buildstyle $(DEFAULT_BUILDSTYLE) build
 
 clean:
-	xcodebuild -project "Display Plugins.xcode" -alltargets clean
+	xcodebuild -alltargets clean
+
+clean-nslogging:
+	xcodebuild -target NSLogging clean
+
+clean-bezel:
+	xcodebuild -target Bezel clean
+
+clean-smoke:
+	xcodebuild -target Smoke clean
+
+clean-mailme:
+	xcodebuild -target MailMe clean
+
+clean-musicvideo:
+	xcodebuild -target MusicVideo clean
 
 install:
 	killall GrowlHelperApp || true
