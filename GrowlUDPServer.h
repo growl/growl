@@ -15,15 +15,15 @@
 #define GROWL_TYPE_NOTIFICATION	1
 
 /*
- * This struct is common to all incoming network packets and identifies
- * the type of the packet.
+ *	This struct is common to all incoming network packets and identifies
+ *	the type of the packet.
  */
 struct GrowlNetworkPacket {
 	unsigned char type;
 };
 
 /*
- * A registration packet.
+ *	A registration packet.
  */
 struct GrowlNetworkRegistration {
 	struct GrowlNetworkPacket common;
@@ -37,13 +37,15 @@ struct GrowlNetworkRegistration {
 	unsigned int appIconLen;
 	/*
 	 * Variable sized. Format:
-	 * <application name><all notifications><default notifications>[application icon]
+	 *	<application name><all notifications><default notifications>[application icon]
+	 *	where <all notifications> and <default notifications> are of the form
+	 *	(<length><name>){num}.
 	 */
 	unsigned char data[];
 };
 
 /**
- * A notification packet.
+ *	A notification packet.
  */
 struct GrowlNetworkNotification {
 	struct GrowlNetworkPacket common;
@@ -60,8 +62,8 @@ struct GrowlNetworkNotification {
 	unsigned int appNameLen;
 	unsigned int iconLen;
 	/*
-	 * Variable sized. Format:
-	 * <notification name><title><description><application name>[icon]
+	 *	Variable sized. Format:
+	 *	<notification name><title><description><application name>[icon]
 	 */
 	unsigned char data[];
 };

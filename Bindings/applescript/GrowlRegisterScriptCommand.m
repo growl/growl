@@ -38,9 +38,9 @@ static const NSSize iconSize = {128.0f, 128.0f};
 
 	NS_DURING
 		NSImage* icon = nil;
-		if (iconOfApplication != nil) {
+		if (iconOfApplication) {
 			icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
-			if (icon != nil) {
+			if (icon) {
 				[icon setSize:iconSize];
 				[registerDict setObject:[icon TIFFRepresentation] forKey:GROWL_APP_ICON];
 			}
