@@ -151,25 +151,34 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	if (isSticky)		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];
 	if (clickContext)	[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 
-	if (growlLaunched) {
+	[self notifyWithDictionary:noteDict];
+}
 
++ (void) notifyWithDictionary:(NSDictionary *)userInfo {
+	if (growlLaunched) {
 		//Post to Growl via NSDistributedNotificationCenter
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																	   object:nil
-																	 userInfo:noteDict
+																	 userInfo:userInfo
 														   deliverImmediately:NO];
 	} else {
 #ifdef GROWL_WITH_INSTALLER
-		//Store this notification for posting if Growl launches if the user hasn't already said NO
+		/*if Growl launches, and the user hasn't already said NO to installing
+		 *	it, store this notification for posting
+		 */
 		if(!userChoseNotToInstallGrowl){
+			//in case the dictionary is mutable, make a copy.
+			userInfo = [userInfo copy];
+
 			if(!queuedGrowlNotifications) queuedGrowlNotifications = [[NSMutableArray alloc] init];
-			[queuedGrowlNotifications addObject:noteDict];
+			[queuedGrowlNotifications addObject:userInfo];
 			
-			//If we have not already asked the user to install Growl, do it now
+			//if we have not already asked the user to install Growl, do it now
 			if(!promptedToInstallGrowl){
 				[GrowlInstallationPrompt showInstallationPromptForUpdate:NO];
 				promptedToInstallGrowl = YES;
 			}
+			[userInfo release];
 		}
 #endif
 	}

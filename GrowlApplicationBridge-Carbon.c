@@ -98,6 +98,14 @@ struct Growl_Delegate *Growl_GetDelegate(void) {
 	return delegate;
 }
 
+void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
+	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+	                                     GROWL_NOTIFICATION,
+	                                     /*object*/ NULL,
+	                                     userInfo,
+	                                     /*deliverImmediately*/ false);
+}
+
 void Growl_PostNotification(const struct Growl_Notification *notification) {
 	if(!notification) {
 		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_PostNotification called with a NULL notification\n"));
@@ -157,11 +165,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 	                                              &kCFTypeDictionaryKeyCallBacks,
 	                                              &kCFTypeDictionaryValueCallBacks);
 
-	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
-	                                     GROWL_NOTIFICATION,
-	                                     /*object*/ NULL,
-	                                     userInfo,
-	                                     /*deliverImmediately*/ false);
+	Growl_PostNotificationWithDictionary(userInfo);
 
 	CFRelease(userInfo);
 	CFRelease(priorityNumber);

@@ -135,6 +135,22 @@
 				isSticky:(BOOL)isSticky
 			clickContext:(id)clickContext;
 
+/*!	@method	notifyWithDictionary:
+ *	@abstract	Notifies using a userInfo dictionary suitable for passing to
+ *	 NSDistributedNotificationCenter.
+ *	@param	userInfo	The dictionary to notify with.
+ *	@discussion	Before Growl 0.6, your application would have posted
+ *	 notifications using NSDistributedNotificationCenter by creating a userInfo
+ *	 dictionary with the notification data. This had the advantage of allowing
+ *	 you to add other data to the dictionary for programs besides Growl that
+ *	 might be listening.
+ *	 
+ *	 This method allows you to use such dictionaries without being restricted
+ *	 to using NSDistributedNotificationCenter. The keys for this dictionary
+ *	 can be found in GrowlDefines.h.
+ */
++ (void) notifyWithDictionary:(NSDictionary *)userInfo;
+
 /*!
  *	@method reregisterGrowlNotifications
  *	@abstract Reregister the notifications for this application.
