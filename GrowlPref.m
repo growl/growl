@@ -334,17 +334,18 @@ static const char *keychainAccountName = "Growl";
 	}
 	
 	NSArray *plugins = [[GrowlPluginController controller] allDisplayPlugins];
+	unsigned numPlugins = [plugins count];
 	
-	if (([displayPlugins selectedRow] < 0) && ([plugins count] > 0)) {
+	if (([displayPlugins selectedRow] < 0) && (numPlugins > 0U)) {
 		[displayPlugins selectRow:0 byExtendingSelection:NO];
 	}
 
-	if ([plugins count] > 0) {
+	if (numPlugins > 0U) {
 		currentPlugin = [[plugins objectAtIndex:[displayPlugins selectedRow]] retain];
 	}
 	
 	[self loadViewForDisplay:currentPlugin];
-	NSDictionary * info = [[[GrowlPluginController controller] displayPluginNamed:currentPlugin] pluginInfo];
+	NSDictionary *info = [[[GrowlPluginController controller] displayPluginNamed:currentPlugin] pluginInfo];
 	[displayAuthor setStringValue:[info objectForKey:@"Author"]];
 	[displayVersion setStringValue:[info objectForKey:@"Version"]];
 }
@@ -500,7 +501,7 @@ static const char *keychainAccountName = "Growl";
 
 #pragma mark "Display Options" tab pane
 //This is the frame of the preference view that we should get back.
-#define DISPLAY_PREF_FRAME NSMakeRect(165.f, 42.f, 354.f, 289.f)
+#define DISPLAY_PREF_FRAME NSMakeRect(165.0f, 42.0f, 354.0f, 289.0f)
 - (void)loadViewForDisplay:(NSString*)displayName {
 	NSView *newView = nil;
 	NSPreferencePane *prefPane = nil, *oldPrefPane = nil;
@@ -788,11 +789,10 @@ static const char *keychainAccountName = "Growl";
 - (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
 {
 	// This case is slightly more complicated. We need to find the object in the list and remove it.
-	unsigned i;
 	unsigned count = [services count];
 	NSDictionary *currentEntry;
 
-	for( i=0; i<count; ++i ) {
+	for( unsigned i = 0; i < count; ++i ) {
 		currentEntry = [services objectAtIndex:i];
 		if ([[currentEntry objectForKey:@"netservice"] isEqual:aNetService]) {
 			[services removeObjectAtIndex:i];
@@ -814,8 +814,8 @@ static const char *keychainAccountName = "Growl";
 
 - (void) netServiceDidResolveAddress:(NSNetService *)sender {
 	NSArray *addresses = [sender addresses];
-    if ([addresses count] > 0) {
-		NSData *address = [addresses objectAtIndex:0];
+    if ([addresses count] > 0U) {
+		NSData *address = [addresses objectAtIndex:0U];
 		NSMutableDictionary *entry = [services objectAtIndex:currentServiceIndex];
 		[entry setObject:address forKey:@"address"];
 		[entry removeObjectForKey:@"netservice"];
@@ -867,7 +867,7 @@ static const char *keychainAccountName = "Growl";
 
 // Refresh preferences when a new application registers with Growl
 - (void)appRegistered: (NSNotification *) note {
-	NSString * app = [note object];
+	NSString *app = [note object];
 	GrowlApplicationTicket * ticket = [[[GrowlApplicationTicket alloc] initTicketForApplication:app] autorelease];
 
 /*	if (![tickets objectForKey:app])
