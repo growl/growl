@@ -6,6 +6,12 @@ For .6
 	- The framework is public domain
 	- Examples are public domain unless specified
 - A way for applications to detect the current version of Growl which is being used.
+- Create a branch for the .6 release.
+	- Finalize things
+	- Fix minor visual problems
+	- Fix any bugs found
+	- Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
+	- Remove speech plugin. We need to rethink how this will appear to the user. Speech and visual notifications should work together. 
 
 Release related issues
 - Make sure all bindings register. I think this is already done, but we need to double check as this is now required.
@@ -14,6 +20,7 @@ Release related issues
 - Include uninstaller in the dmg
 - Include user documentation in the dmg
 - Include links to developer documentation in the dmg. Possibly include docs themselves.
+- Create graphics for developers to show that they have growl support in their application. Multiple different forms of this would be good.
 
 
 
