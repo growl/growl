@@ -33,21 +33,16 @@ static const char usage[] =
 "                  title because that's the default argument behaviour\n"
 "    -m,--message  Sets the message to the following instead of using stdin\n";
 
-int main(int argc, const char **argv)
-{
+int main(int argc, const char **argv) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	// options
 	extern char *optarg;
 	extern int optind;
 	int ch;
-	static BOOL isSticky = NO;
-	static char *appName = NULL;
-	char *appIcon = NULL;
-	char *iconExt = NULL;
-	char *iconPath = NULL;
-	char *imagePath = NULL;
-	static char *message = NULL;
+	BOOL isSticky = NO;
+	char *appName = NULL, *appIcon = NULL;
+	char *iconExt = NULL, *iconPath = NULL, *imagePath = NULL, *message = NULL;
 	int priority = 0;
 	int imageset;
 	struct option longopts[] = {
@@ -124,7 +119,7 @@ int main(int argc, const char **argv)
 	// Deal with image
 	// --image takes precedence over -I takes precedence over -i takes precedence over --a
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-	static NSImage *image = nil;
+	NSImage *image = nil;
 	if (imagePath) {
 		NSString *path = [[NSString stringWithUTF8String:imagePath] stringByStandardizingPath];
 		if (![path hasPrefix:@"/"]) {
@@ -205,6 +200,5 @@ int main(int argc, const char **argv)
 	[distCenter postNotificationName:GROWL_NOTIFICATION object:nil userInfo:userInfo];
 	
 	[pool release];
-
-	return EXIT_SUCCESS;
+	return 0;
 }
