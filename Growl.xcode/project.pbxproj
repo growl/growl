@@ -200,81 +200,6 @@
 			settings = {
 			};
 		};
-		07BB71AB07ACB69C00BFDD4A = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlAppBridge.h;
-			path = Framework/Source/GrowlAppBridge.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		07BB71AC07ACB69C00BFDD4A = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = GrowlAppBridge.m;
-			path = Framework/Source/GrowlAppBridge.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		07BB71AD07ACB69C00BFDD4A = {
-			fileRef = 07BB71AB07ACB69C00BFDD4A;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
-		07BB71AE07ACB69C00BFDD4A = {
-			fileRef = 07BB71AC07ACB69C00BFDD4A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		07BB71AF07ACB69C00BFDD4A = {
-			fileRef = 07BB71AB07ACB69C00BFDD4A;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
-		07BB71B007ACB69C00BFDD4A = {
-			fileRef = 07BB71AC07ACB69C00BFDD4A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		07BB71DD07ACC69C00BFDD4A = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = "GrowlAppBridge-Carbon.h";
-			path = "Framework/Source/GrowlAppBridge-Carbon.h";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		07BB71DE07ACC69C00BFDD4A = {
-			fileRef = 07BB71DD07ACC69C00BFDD4A;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
-		07BB71DF07ACC69C00BFDD4A = {
-			fileRef = 07BB71DD07ACC69C00BFDD4A;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
 		07C2F33207D6F45800B18524 = {
 			buildActionMask = 2147483647;
 			files = (
@@ -2534,11 +2459,8 @@
 				34F60EC2078E1D5600CECA86,
 				34F60EB8078E1D3E00CECA86,
 				34F60EB6078E1D3E00CECA86,
-				07BB71AB07ACB69C00BFDD4A,
-				07BB71AC07ACB69C00BFDD4A,
 				343353E90792F7CF00C84B15,
 				343353E80792F7CF00C84B15,
-				07BB71DD07ACC69C00BFDD4A,
 				95DBC07907C284F300DE4ACA,
 				3433500C079275A300C84B15,
 			);
@@ -2675,8 +2597,6 @@
 				34E9DC1A078FBFA800662E8E,
 				343353EB0792F7CF00C84B15,
 				343354C20792F96300C84B15,
-				07BB71AD07ACB69C00BFDD4A,
-				07BB71DE07ACC69C00BFDD4A,
 				070B910007E1AEFA00F10FA7,
 				9595190D07E48CBD004A4471,
 			);
@@ -2696,7 +2616,6 @@
 			files = (
 				34F60EBA078E1D3E00CECA86,
 				343353EA0792F7CF00C84B15,
-				07BB71AE07ACB69C00BFDD4A,
 				070B90FF07E1AEFA00F10FA7,
 				9595190E07E48CBE004A4471,
 			);
@@ -2850,8 +2769,6 @@
 				343354E50792FAFE00C84B15,
 				343354E70792FB0000C84B15,
 				343354EF0792FC3600C84B15,
-				07BB71AF07ACB69C00BFDD4A,
-				07BB71DF07ACC69C00BFDD4A,
 				0790135907D932300023B640,
 				070B910207E1AEFA00F10FA7,
 			);
@@ -2874,7 +2791,6 @@
 				34E9EE68079086E300662E8E,
 				34E9F1310790AF3800662E8E,
 				343354E60792FAFF00C84B15,
-				07BB71B007ACB69C00BFDD4A,
 				0790135807D932270023B640,
 				070B910107E1AEFA00F10FA7,
 			);
