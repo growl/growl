@@ -334,7 +334,11 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 #pragma mark -
 
- - (void) mouseUp:(NSEvent *) event {
+- (BOOL) acceptsFirstMouse:(NSEvent *) event {
+	return YES;
+}
+
+ - (void) mouseDown:(NSEvent *) event {
 	if( _target && _action && [_target respondsToSelector:_action] )
 		[_target performSelector:_action withObject:self];
 }
