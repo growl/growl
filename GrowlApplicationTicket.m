@@ -342,7 +342,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 #pragma mark -
 
--(void) reRegisterWithAllNotes:(NSArray *) inAllNotes defaults: (NSArray *) inDefaults icon:(NSImage *) inIcon {
+-(void) reregisterWithAllNotifications:(NSArray *) inAllNotes defaults: (NSArray *) inDefaults icon:(NSImage *) inIcon {
 	[self setIcon:inIcon];
 	if (!useDefaults) {
 		//We want to respect the user's preferences, but if the application has

@@ -292,7 +292,7 @@ static id singleton = nil;
 		[newApp autorelease];
 	} else {
 		newApp = [tickets objectForKey:appName];
-		[newApp reRegisterWithAllNotes:allNotes defaults:defaultNotes icon:appIcon];
+		[newApp reregisterWithAllNotifications:allNotes defaults:defaultNotes icon:appIcon];
 	}
 	
 	[newApp saveTicket];

@@ -101,7 +101,7 @@ typedef enum GrowlPriority {
 
 #pragma mark -
 
--(void)reRegisterWithAllNotes:(NSArray *) inAllNotes defaults: (NSArray *) inDefaults icon:(NSImage *) inIcon;
+-(void)reregisterWithAllNotifications:(NSArray *) inAllNotes defaults: (NSArray *) inDefaults icon:(NSImage *) inIcon;
 
 - (NSArray *) allNotifications;
 - (void) setAllNotifications:(NSArray *) inArray;
