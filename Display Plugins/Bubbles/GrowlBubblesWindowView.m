@@ -74,6 +74,10 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 }
 
 - (float)titleHeight {
+	if (!title || ![title length]) {
+		return 0.0f;
+	}
+
 	if ( !titleHeight ) {
 		titleHeight = [titleFont defaultLineHeightForFont];
 	}
@@ -142,34 +146,39 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	[path stroke];
 
 	float contentHeight = frame.size.height - PANEL_VSPACE_PX;
-	float savedTitleHeight = [self titleHeight];
-	float titleYPosition = contentHeight - savedTitleHeight;
 	NSRect drawRect;
 	drawRect.origin.x = PANEL_HSPACE_PX + ICON_SIZE_PX + ICON_HSPACE_PX;
-	drawRect.origin.y = titleYPosition;
 	drawRect.size.width = PANEL_WIDTH_PX - PANEL_HSPACE_PX - drawRect.origin.x;
-	drawRect.size.height = savedTitleHeight;
 
-	[title drawWithEllipsisInRect:drawRect withAttributes:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			titleFont, NSFontAttributeName,
-			textColor, NSForegroundColorAttributeName,
-			nil]];
+	float descriptionHeight = contentHeight;
+	if (title && [title length]) {
+		drawRect.size.height = [self titleHeight];
+		descriptionHeight -= drawRect.size.height;
+		drawRect.origin.y = descriptionHeight;
 
-	drawRect.origin.y = PANEL_VSPACE_PX;
-	drawRect.size.height = titleYPosition - TITLE_VSPACE_PX;
+		[title drawWithEllipsisInRect:drawRect withAttributes:
+			[NSDictionary dictionaryWithObjectsAndKeys:
+				titleFont, NSFontAttributeName,
+				textColor, NSForegroundColorAttributeName,
+				nil]];
+	}
 
-	[text drawInRect:drawRect withAttributes:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			textFont, NSFontAttributeName,
-			textColor, NSForegroundColorAttributeName,
-			nil]];
-	
+	if (text && [text length]) {
+		drawRect.origin.y = PANEL_VSPACE_PX;
+		drawRect.size.height = descriptionHeight - TITLE_VSPACE_PX;
+
+		[text drawInRect:drawRect withAttributes:
+			[NSDictionary dictionaryWithObjectsAndKeys:
+				textFont, NSFontAttributeName,
+				textColor, NSForegroundColorAttributeName,
+				nil]];
+	}
+
 	drawRect.origin.x = PANEL_HSPACE_PX;
 	drawRect.origin.y = contentHeight - ICON_SIZE_PX;
 	drawRect.size.width = ICON_SIZE_PX;
 	drawRect.size.height = ICON_SIZE_PX;
-	
+
 	[icon drawScaledInRect:drawRect
 				  operation:NSCompositeSourceAtop
 				   fraction:1.0f];
@@ -289,6 +298,10 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 }
 
 - (float) descriptionHeight {
+	if (!text || ![text length]) {
+		return 0.0f;
+	}
+	
 	if (!textHeight) {
 		textHeight = [self descriptionRowCount] * [textFont defaultLineHeightForFont];
 		textHeight = MAX(textHeight, MIN_TEXT_HEIGHT_PX);
@@ -354,7 +367,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	return YES;
 }
 
- - (void) mouseDown:(NSEvent *) event {
+- (void) mouseDown:(NSEvent *) event {
 	if ( target && action && [target respondsToSelector:action] ) {
 		[target performSelector:action withObject:self];
 	}

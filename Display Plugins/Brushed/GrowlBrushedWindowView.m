@@ -98,22 +98,28 @@ static float titleHeight;
 
 	// draw the title and the text
 	unsigned textXPosition = GrowlBrushedPadding + GrowlBrushedIconSize + GrowlBrushedIconTextPadding;
-	unsigned titleYPosition = notificationContentTop - [self titleHeight];
-	unsigned textYPosition = titleYPosition - ([self descriptionHeight] + GrowlBrushedTitleTextPadding);
 	NSRect drawRect;
 
 	drawRect.origin.x = textXPosition;
-	drawRect.origin.y = titleYPosition;
+	drawRect.origin.y = notificationContentTop;
 	drawRect.size.width = [self textAreaWidth];
-	drawRect.size.height = [self titleHeight];
 
-	[title drawWithEllipsisInRect:drawRect
-				   withAttributes:titleAttributes];
+	if (title && [title length]) {
+		drawRect.size.height = [self titleHeight];
+		drawRect.origin.y -= drawRect.size.height;
+		
+		[title drawWithEllipsisInRect:drawRect
+					   withAttributes:titleAttributes];
+		
+		drawRect.origin.y -= GrowlBrushedTitleTextPadding;
+	}
 
-	drawRect.origin.y = textYPosition;
-	drawRect.size.height = [self descriptionHeight];
-
-	[text drawInRect:drawRect withAttributes:descriptionAttributes];
+	if (text && [text length]) {
+		drawRect.origin.y -= [self descriptionHeight];
+		drawRect.size.height = [self descriptionHeight];
+		
+		[text drawInRect:drawRect withAttributes:descriptionAttributes];
+	}
 
 	drawRect.origin.x = GrowlBrushedPadding;
 	drawRect.origin.y = notificationContentTop - GrowlBrushedIconSize;
@@ -202,6 +208,10 @@ static float titleHeight;
 }
 
 - (float) titleHeight {
+	if (!title || ![title length]) {
+		return 0.0f;
+	}
+	
 	if ( !titleHeight ) {
 		NSLayoutManager *lm = [[NSLayoutManager alloc] init];
 		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlBrushedTitleFontSize]];
@@ -212,9 +222,12 @@ static float titleHeight;
 }
 
 - (float) descriptionHeight {
+	if (!text || ![text length]) {
+		return 0.0f;
+	}
+	
 	if (!textHeight) {
-		NSString *content = text ? text : @"";
-		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:content
+		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:text
 																attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 																	[NSFont systemFontOfSize:GrowlBrushedTextFontSize], NSFontAttributeName,
 																	nil]];

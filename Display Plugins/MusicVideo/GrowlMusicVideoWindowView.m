@@ -33,7 +33,7 @@
 
 	[[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:(opacityPref * 0.01f)] set];
 	[musicVideoPath fill];
-	
+
 	// rects and sizes
 	int sizePref = 0;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
@@ -100,18 +100,20 @@
 	// Draw the title, resize if text too big
 	NSMutableParagraphStyle *parrafo = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
 	[parrafo setAlignment:NSLeftTextAlignment];
-	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary *titleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSColor whiteColor], NSForegroundColorAttributeName,
 		parrafo, NSParagraphStyleAttributeName,
 		[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
-		textShadow, NSShadowAttributeName, nil];
+		textShadow, NSShadowAttributeName,
+		nil];
 	[title drawWithEllipsisInRect:titleRect withAttributes:titleAttributes];
 
 	NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSColor whiteColor], NSForegroundColorAttributeName,
 		parrafo, NSParagraphStyleAttributeName,
 		[NSFont messageFontOfSize:textFontSize], NSFontAttributeName,
-		textShadow, NSShadowAttributeName, nil];
+		textShadow, NSShadowAttributeName,
+		nil];
 	[text drawInRect:textRect withAttributes:textAttributes];
 
 	NSRect iconRect;
