@@ -1,0 +1,9 @@
+Apps that support Growl!, in alphabetical order:
+
+Adium
+Beep-Carbon
+Beep-Cocoa
+Fire
+GrowlNotify
+GrowlTunes
+irssi (in growl cvs is a howto for this)
