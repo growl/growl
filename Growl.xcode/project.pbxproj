@@ -691,7 +691,7 @@
 				INFOPLIST_FILE = "Display Plugins/Bubbles-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
-				OTHER_LDFLAGS = "-force_flat_namespace -undefined suppress";
+				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = Bubbles;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = growlView;
