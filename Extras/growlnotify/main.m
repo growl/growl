@@ -11,7 +11,7 @@ static NSString *notificationName = @"Command-Line Growl Notification";
 
 static const char usage[] = 
 "Usage: growlnotify [-hs] [-i ext] [-I filepath] [--image filepath]\n"
-"                   [-p priority] [title]\n"
+"                   [-p priority] [-H host] [title]\n"
 "Options:\n"
 "    -h,--help     Display this help\n"
 "    -n,--name     Set the name of the application that sends the notification\n"
@@ -22,6 +22,7 @@ static const char usage[] =
 "    -I,--iconpath Specify a filepath to be used for the icon\n"
 "    --image       Specify an image file to be used for the icon\n"
 "    -p,--priority Specify an int or named key (default is 0)\n"
+"    -H,--host     Specify a hostname to which to send a remote notification.\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
 "message given in the standard input.\n"
