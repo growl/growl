@@ -2039,6 +2039,7 @@
 //104
 		1058C7ACFEA557BF11CA2CBB = {
 			children = (
+				DA96AFDA0801795100326661,
 				95AA8653080065DE0045589D,
 				0AEE179C0702C4960024B1A0,
 				95E678F307511471002BF4E6,
@@ -4437,6 +4438,7 @@
 				95C36A630753299E009FAEA2,
 				95C36A640753299E009FAEA2,
 				95AA8654080065DE0045589D,
+				DA96AFDB0801795100326661,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4471,7 +4473,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OTHER_LDFLAGS = "-force_flat_namespace";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = GrowlHelperApp;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 			};
@@ -4604,6 +4606,30 @@
 //CB2
 //CB3
 //CB4
+//DA0
+//DA1
+//DA2
+//DA3
+//DA4
+		DA96AFDA0801795100326661 = {
+			isa = PBXFileReference;
+			lastKnownFileType = "compiled.mach-o.dylib";
+			name = libcrypto.0.9.7.dylib;
+			path = /usr/lib/libcrypto.0.9.7.dylib;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		DA96AFDB0801795100326661 = {
+			fileRef = DA96AFDA0801795100326661;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//DA0
+//DA1
+//DA2
+//DA3
+//DA4
 //DD0
 //DD1
 //DD2
