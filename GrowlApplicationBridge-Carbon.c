@@ -9,7 +9,7 @@
 //
 
 #include "GrowlApplicationBridge-Carbon.h"
-#include "GrowlDefinesCarbon.h"
+#include "GrowlDefines.h"
 
 #pragma mark Constants
 

@@ -460,7 +460,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification);
 *	 
 *	 This method allows you to use such dictionaries without being restricted
 *	 to using CFDistributedNotificationCenter. The keys for this dictionary
- *	 can be found in GrowlDefinesCarbon.h.
+ *	 can be found in GrowlDefines.h.
 */
 void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo);
 
