@@ -529,6 +529,7 @@ static const char *keychainAccountName = "Growl";
 }
 
 #pragma mark "Display Options" tab pane
+
 - (IBAction) showPreview:(id) sender {
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview object:currentPlugin];
 }
@@ -854,6 +855,7 @@ static const char *keychainAccountName = "Growl";
 }
 
 #pragma mark Growl Tab View Delegate Methods
+
 - (void) tabView:(NSTabView*)tab willSelectTabViewItem:(NSTabViewItem*)tabViewItem {
 	//NSLog(@"%s %@\n", __FUNCTION__, [tabViewItem label]);
 	if ([[tabViewItem identifier] isEqual:@"2"]) {
