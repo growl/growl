@@ -32,8 +32,7 @@
 }
 
 - (id) initWithUTF8String:(const char *)bytes length:(unsigned)len {
-	[self dealloc];
-	return (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, bytes, len, kCFStringEncodingUTF8, /*isExternalRepresentation*/ false);
+	return [self initWithBytes:bytes length:len encoding:NSUTF8StringEncoding];
 }
 
 - (BOOL) boolValue {
