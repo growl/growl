@@ -162,9 +162,14 @@
  */
 #define GROWL_NOTIFICATION_CLICK_CONTEXT			XSTR("NotificationClickContext")
 
-//add documentation comments
-#define GROWL_NOTIFICATION_FORCE_APP_LINK	XSTR("NotificationForceAppLink")
-#define GROWL_NOTIFICATION_LINKS			XSTR("NotificationLinks")
+/*!	@defined GROWL_DISPLAY_PLUGIN
+*	@discussion The name of a display plugin which should be used for this notification.
+*    Optional. If this key is not set or the specified display plugin does not
+*    exist, the display plugin stored in the application ticket is used. This key
+*    allows applications to use different default display plugins for their
+*    notifications. The user can still override those settings in the preference
+*    pane.
+*/
 #define GROWL_DISPLAY_PLUGIN				XSTR("NotificationDisplayPlugin")
 
 // Notifications
