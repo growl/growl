@@ -25,6 +25,8 @@
 			<string>Growl Display Plugin</string>
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
+			<key>LSTypeIsPackage</key>
+			<true/>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
