@@ -12,6 +12,7 @@
 #include "Beep-Carbon-DataBrowser.h"
 #include "Beep-Carbon-Notifications.h"
 #include "Beep-Carbon-Debugging.h"
+#include "GrowlApplicationBridge-Carbon.h"
 
 #include <syslog.h>
 #include <stdarg.h>
@@ -25,6 +26,7 @@ typedef OSStatus (*controlEnablerFunc)(ControlRef);
 OSStatus handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef event, void *refcon);
 OSStatus handleCommandInSheet(EventHandlerCallRef nextHandler, EventRef event, void *refcon);
 OSStatus handleDragInSheet(EventHandlerCallRef nextHandler, EventRef event, void *refcon);
+OSStatus handleOKToAbort(EventHandlerCallRef nextHandler, EventRef event, void *refcon);
 
 void clearFieldsInSheet(WindowRef sheet);
 
@@ -83,8 +85,26 @@ int main(void) {
 		}
 
 		if(mainWindowHandlerRef && sheetHandlerRef) {
+			DialogRef alertSheet = NULL;
+			Boolean success = LaunchGrowlIfInstalled(/*callback*/ NULL, /*context*/ NULL);
+			if(!success) {
+				const char msg[] = "Make sure you have installed the Growl preference pane in \xe2\x80\xa8~/Library/PreferencePanes, /Library/PreferencePanes, or \xe2\x80\xa8/Network/Library/PreferencePanes.";
+				CFStringRef msgstr = CFStringCreateWithCString(kCFAllocatorDefault, msg, kCFStringEncodingUTF8);
+				err = CreateStandardSheet(kAlertStopAlert, CFSTR("Could not launch Growl."), msgstr, /*param*/ NULL, GetApplicationEventTarget(), &alertSheet);
+				CFRelease(msgstr);
+
+				EventTypeSpec alertEventTypes[] = { { kEventClassCommand, kEventCommandProcess } };
+				InstallApplicationEventHandler(handleOKToAbort, GetEventTypeCount(alertEventTypes), alertEventTypes, /*refcon*/ NULL, /*outRef*/ NULL);
+			}
+
 			ShowWindow(mainWindow);
+			if(alertSheet)
+				err = ShowSheetWindow(GetDialogWindow(alertSheet), mainWindow);
+
 			RunApplicationEventLoop();
+
+			if(alertSheet)
+				ReleaseWindow((WindowRef)alertSheet);
 		}
 
 		if(mainWindowHandlerRef)
@@ -606,5 +626,40 @@ OSStatus updateDeleteEnabledState(Boolean enabled) {
 	if(err == noErr)
 		err = controlEnablerFuncs[enabled != false](btn);
 
+	return err;
+}
+
+OSStatus handleOKToAbort(EventHandlerCallRef nextHandler, EventRef event, void *refcon) {
+#pragma unused(refcon)
+	OSType class = GetEventClass(event); UInt32 kind = GetEventKind(event);
+	OSStatus err = eventNotHandledErr;
+	
+	switch(class) {
+		case kEventClassCommand:
+			switch(kind) {
+				case kEventCommandProcess:;
+					HICommand cmd;
+					err = GetEventParameter(event, kEventParamDirectObject, typeHICommand, /*outActualType*/ NULL, sizeof(cmd), /*outActualSize*/ NULL, &cmd);
+					if(err == noErr) {
+						
+						switch(cmd.commandID) {
+#pragma mark Abort sheet, OK button
+							case kHICommandOK:;
+								HICommand cmd;
+								cmd.attributes = 0;
+								cmd.commandID = kHICommandQuit;
+								cmd.menu.menuRef = NULL;
+								cmd.menu.menuItemIndex = 0;
+								err = ProcessHICommand(&cmd);
+								
+#pragma mark Abort sheet, default
+							default:
+								err = eventNotHandledErr;
+						} //switch(cmd.commandID)
+					} //if(err == noErr)
+			} //switch(kind) (kEventClassCommand)
+			break;
+	} //switch(class)
+	
 	return err;
 }
