@@ -70,6 +70,7 @@ static GrowlPreferences * sharedPreferences;
 
 - (void) synchronize {
 	[helperAppDefaults synchronize];
+	SYNCHRONIZE_GROWL_PREFS();
 }
 
 - (NSBundle *) helperAppBundle {

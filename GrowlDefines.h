@@ -63,12 +63,20 @@
 /* --- These following macros are intended for plugins --- */
 
 /*!
+	@function    SYNCHRONIZE_GROWL_PREFS
+	@abstract    Synchronizes Growl prefs so it's up-to-date
+	@discussion  This macro is intended for use by GrowlHelperApp and by
+	plugins (when the prefpane is selected).
+ */
+#define SYNCHRONIZE_GROWL_PREFS() CFPreferencesAppSynchronize(CFSTR("com.Growl.GrowlHelperApp"))
+
+/*!
 	@function    UPDATE_GROWL_PREFS
 	@abstract    Tells GrowlHelperApp to update its prefs
 	@discussion  This macro is intended for use by plugins.
 	It sends a notification to tell GrowlHelperApp to update its preferences.
  */
-#define UPDATE_GROWL_PREFS() { CFPreferencesAppSynchronize(CFSTR("com.Growl.GrowlHelperApp")); \
+#define UPDATE_GROWL_PREFS() { SYNCHRONIZE_GROWL_PREFS(); \
 	[[NSDistributedNotificationCenter defaultCenter] \
 		postNotificationName:@"GrowlPreferencesChanged" object:@"GrowlUserDefaults"]; }
 
