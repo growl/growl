@@ -73,7 +73,7 @@
 			priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
 	[nuBezel setDelegate:self];
-	if ( [notificationQueue count] > 0 ) {
+	if ( [notificationQueue count] > 0U ) {
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
 		GrowlBezelWindowController *aNotification;
 		BOOL	inserted = FALSE;
@@ -102,9 +102,9 @@
 
 - (void) didFadeOut:(id)sender {
 	GrowlBezelWindowController *olBezel;
-	[notificationQueue removeObjectAtIndex:0];
-	if ( [notificationQueue count] > 0 ) {
-		olBezel = [notificationQueue objectAtIndex:0];
+	[notificationQueue removeObjectAtIndex:0U];
+	if ( [notificationQueue count] > 0U ) {
+		olBezel = [notificationQueue objectAtIndex:0U];
 		[olBezel startFadeIn];
 	}
 }
