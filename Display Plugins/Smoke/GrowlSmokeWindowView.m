@@ -67,7 +67,7 @@ static float titleHeight;
 	// set up bezier path for rounded corners
 	NSBezierPath *path = [NSBezierPath roundedRectPath:shadedBounds
 												radius:GrowlSmokeBorderRadius
-											 lineWidth:1.f];
+											 lineWidth:1.0f];
 
 	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
 	[graphicsContext saveGraphicsState];
@@ -85,7 +85,7 @@ static float titleHeight;
 	float notificationContentTop = [self frame].size.height - GrowlSmokePadding;
 
 	// build an appropriate colour for the text
-	//NSColor *textColour = [NSColor colorWithCalibratedWhite:1.f alpha:1.f];
+	//NSColor *textColour = [NSColor whiteColor];
 
 	// If we are on Panther or better, pretty shadow
 	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
