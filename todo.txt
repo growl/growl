@@ -5,7 +5,6 @@ For .6 (Go Go Growl)
 	- Growl is BSD
 	- The framework is public domain
 	- Examples are public domain unless specified
-- A way for applications to detect the current version of Growl which is being used.
 - NSLog
 	- Rename NSLog to Log
 	- Add 2 radio buttons
@@ -200,3 +199,4 @@ Done:
 - Resolve problem of the framework turning on gha without the users permission, should the user have turned off Growl.
 - Specify license in each file.
 	- Extras will be BSD licensed
+- A way for applications to detect the current version of Growl which is being used.
