@@ -46,6 +46,7 @@
 //074
 		07C7692606831F1D0025D426 = {
 			children = (
+				DA9883A5078B525E007C0F47,
 				9526247C074F92F600C5F344,
 				95DD16770748E3B200CC05A4,
 				07C7692706831F250025D426,
@@ -99,6 +100,8 @@
 //084
 		08FB7793FE84155DC02AAC07 = {
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				SDKROOT = /Developer/SDKs/MacOSX10.2.8.sdk;
 			};
 			buildStyles = (
 				014CEA4F0018CE4811CA2923,
@@ -128,8 +131,9 @@
 		};
 		08FB7795FE84155DC02AAC07 = {
 			children = (
-				9526247D074F92F600C5F344,
+				DA988393078B5018007C0F47,
 				32A70AAB03705E1F00C91783,
+				9526247D074F92F600C5F344,
 				08FB7796FE84155DC02AAC07,
 			);
 			isa = PBXGroup;
@@ -290,6 +294,7 @@
 				07C7692806831F250025D426,
 				95DD16780748E3B200CC05A4,
 				9526247E074F92F600C5F344,
+				DA9883A6078B525E007C0F47,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,6 +310,7 @@
 			files = (
 				8DD76F9A0486AA7600D96B5E,
 				9526247F074F92F600C5F344,
+				DA988394078B5018007C0F47,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,9 +333,9 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8DD76FA10486AA7600D96B5E = {
+			explicitFileType = "compiled.mach-o.executable";
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			lastKnownFileType = "compiled.mach-o.executable";
 			path = growlnotify;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -400,6 +406,45 @@
 		};
 		95DD16780748E3B200CC05A4 = {
 			fileRef = 95DD16770748E3B200CC05A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//950
+//951
+//952
+//953
+//954
+//DA0
+//DA1
+//DA2
+//DA3
+//DA4
+		DA988393078B5018007C0F47 = {
+			explicitFileType = sourcecode.c.c;
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = getopt_long.c;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DA988394078B5018007C0F47 = {
+			fileRef = DA988393078B5018007C0F47;
+			isa = PBXBuildFile;
+			settings = {
+				COMPILER_FLAGS = "-D__FBSDID=__RCSID";
+			};
+		};
+		DA9883A5078B525E007C0F47 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = getopt.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DA9883A6078B525E007C0F47 = {
+			fileRef = DA9883A5078B525E007C0F47;
 			isa = PBXBuildFile;
 			settings = {
 			};
