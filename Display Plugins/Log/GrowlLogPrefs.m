@@ -25,7 +25,7 @@
 - (void) awakeFromNib
 {
 	int		typePref = 0;
-	NSString	*s;
+	NSString	*s = nil;
 	customHistArray = [[NSMutableArray alloc] init];
 	READ_GROWL_PREF_VALUE(customHistKey1, LogPrefDomain, NSString * , &s);
 //	NSLog(@"hist1 = %@", s);
@@ -48,9 +48,7 @@
 		
 	READ_GROWL_PREF_INT(logTypeKey, LogPrefDomain, &typePref);
 	[fileType selectCellAtRow:typePref column:0];
-	if (typePref == 0) {
-		[customMenuButton setEnabled:NO];
-	} else [customMenuButton setEnabled:YES];
+	[customMenuButton setEnabled:(typePref != 0)];
 }
 
 - (IBAction) typeChanged:(id)sender {
@@ -59,9 +57,7 @@
 	if (sender == fileType) {
 		typePref = [fileType selectedRow];
 		WRITE_GROWL_PREF_INT(logTypeKey, typePref, LogPrefDomain);
-		if (typePref == 0) {
-			[customMenuButton setEnabled:NO];
-		} else [customMenuButton setEnabled:YES];
+		[customMenuButton setEnabled:(typePref != 0)];
 		UPDATE_GROWL_PREFS();
 	}
 }
@@ -80,49 +76,48 @@
 			int runResult;
 			sp = [NSSavePanel savePanel];
 			[sp setRequiredFileType:@"log"];
+			NSString *saveFilename = [sp filename];
 			runResult = [sp runModalForDirectory:NSHomeDirectory() file:@""];
 			if (runResult == NSOKButton) {
 				int index = NSNotFound;
-				unsigned i = 0;
-				for(i = 0; i < [customHistArray count]; i++) {
-					if([[customHistArray objectAtIndex:i] isEqual:[sp filename]])
+				for(unsigned i = 0U, max = [customHistArray count]; i < max; i++) {
+					if([[customHistArray objectAtIndex:i] isEqual:saveFilename])
 						index = i;
 				}
 				if (index == NSNotFound) {
-					if ([customHistArray count] == 3)
+					if ([customHistArray count] == 3U)
 						[customHistArray removeLastObject];
 				} else {
 					[customHistArray removeObjectAtIndex:index];
 				}	
-			[customHistArray insertObject:[NSString stringWithString:[sp filename]] atIndex:0];
-			
+				[customHistArray insertObject:[NSString stringWithString:saveFilename] atIndex:0U];
 			}
 		} else {
 			NSString *temp = [[customHistArray objectAtIndex:selected] retain];
 			[customHistArray removeObjectAtIndex:selected];
-			[customHistArray insertObject:temp atIndex:0];
+			[customHistArray insertObject:temp atIndex:0U];
 			[temp release];
 		}
 		
 		NSString *s;
+		unsigned numHistItems = [customHistArray count];
 		//NSLog(@"CustomHistArray = %@", customHistArray);
-		s = [customHistArray objectAtIndex:0];
-		if (s) {		
+		if (numHistItems) {		
+			s = [customHistArray objectAtIndex:0U];
 			WRITE_GROWL_PREF_VALUE(customHistKey1, s, LogPrefDomain);
 			//NSLog(@"Writing %@ as hist1", s);
-			SYNCHRONIZE_GROWL_PREFS();
-		}
-		
-		if(([customHistArray count] > 1) && (s = [customHistArray objectAtIndex:1])) {
+
+			if((numHistItems > 1) && (s = [customHistArray objectAtIndex:1U])) {
 				WRITE_GROWL_PREF_VALUE(customHistKey2, s, LogPrefDomain);
 				//NSLog(@"Writing %@ as hist2", s);
-				SYNCHRONIZE_GROWL_PREFS();
+			}
+			
+			if((numHistItems > 2) && (s = [customHistArray objectAtIndex:2U])) {
+				WRITE_GROWL_PREF_VALUE(customHistKey3, s, LogPrefDomain);
+				//NSLog(@"Writing %@ as hist3", s);
+			}
 		}
 		
-		if(([customHistArray count] > 2) && (s = [customHistArray objectAtIndex:2])) {
-			WRITE_GROWL_PREF_VALUE(customHistKey3, s, LogPrefDomain);
-			//NSLog(@"Writing %@ as hist3", s);
-		}
 		SYNCHRONIZE_GROWL_PREFS();
 		UPDATE_GROWL_PREFS();
 
@@ -131,20 +126,19 @@
 }
 
 - (void) updatePopupMenu {
-	unsigned i = 0;
-	
 	[customMenuButton removeAllItems];
-	
-	for(i = 0; i < [customHistArray count]; i++) {
+
+	for(unsigned i = 0U, max = [customHistArray count]; i < max; i++) {
 		NSArray *pathComponentry = [[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] pathComponents];
-		if([pathComponentry count] > 2) {
+		unsigned numPathComponents = [pathComponentry count];
+		if(numPathComponents > 2) {
 			NSMutableString *arg = [[NSMutableString alloc] init];
-			unichar ellipse = 0x2026;
-			[arg setString:[NSMutableString stringWithCharacters:&ellipse length:1]];
+			unichar ellipsis = 0x2026;
+			[arg setString:[NSMutableString stringWithCharacters:&ellipsis length:1]];
 			[arg appendString:@"/"];
-			[arg appendString:[pathComponentry objectAtIndex:([pathComponentry count] - 2)]];
+			[arg appendString:[pathComponentry objectAtIndex:(numPathComponents - 2)]];
 			[arg appendString:@"/"];
-			[arg appendString:[pathComponentry objectAtIndex:([pathComponentry count] - 1)]];
+			[arg appendString:[pathComponentry objectAtIndex:(numPathComponents - 1)]];
 			[customMenuButton insertItemWithTitle:arg atIndex:i];
 		} else {
 			[customMenuButton insertItemWithTitle:[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] atIndex:i];
