@@ -10,7 +10,9 @@ CFStringRef releaseTypeNames[numberOfReleaseTypes] = {
 #pragma mark Parsing and unparsing
 
 bool parseVersionString(CFStringRef string, struct Version *outVersion) {
-	if(!string) return false;
+	if (!string) {
+		return false;
+	}
 
 	unsigned myMajor = 0U, myMinor = 0U, myIncremental = 0U, myReleaseType = releaseType_release, myDevelopment = 0U;
 
@@ -23,63 +25,81 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 											  /*buffer*/ NULL,
 											  maxAllocation,
 											  &maxAllocation);
-	if(!canConvert) return false;
+	if (!canConvert) {
+		return false;
+	}
 
 	char *buf = malloc(maxAllocation);
-	if(!buf) return false;
+	if (!buf) {
+		return false;
+	}
 
 	CFIndex length = 0;
 	canConvert = CFStringGetBytes(string, range,
 								  kCFStringEncodingUTF8,
 								  /*lossByte*/ 0U,
 								  /*isExternalRepresentation*/ false,
-								  buf,
+								  (UInt8 *)buf,
 								  maxAllocation,
 								  &length);
-	if(canConvert) {
+	if (canConvert) {
 		//converted to UTF-8 successfully. parse it.
 		CFIndex i = 0;
 
 		//major version
-		while(i < length) {
-			if(!isdigit(buf[i])) break;
+		while (i < length) {
+			if (!isdigit(buf[i])) {
+				break;
+			}
 			myMajor *= 10U;
 			myMajor += digittoint(buf[i++]);
 		}
-		if(i >= length) goto end;
+		if (i >= length) {
+			goto end;
+		}
 
 		//separator
-		if(buf[i] != '.') goto end;
+		if (buf[i] != '.') {
+			goto end;
+		}
 		++i;
 
 		//minor version
-		while(i < length) {
-			if(!isdigit(buf[i])) break;
+		while (i < length) {
+			if (!isdigit(buf[i])) {
+				break;
+			}
 			myMinor *= 10U;
 			myMinor += digittoint(buf[i++]);
 		}
-		if(i >= length) goto end;
+		if (i >= length) {
+			goto end;
+		}
 
 		//separator
-		if(buf[i] == '.') {
+		if (buf[i] == '.') {
 			++i;
 
 			//incremental version
-			while(i < length) {
-				if(!isdigit(buf[i])) break;
+			while (i < length) {
+				if (!isdigit(buf[i])) {
+					break;
+				}
 				myIncremental *= 10U;
 				myIncremental += digittoint(buf[i++]);
 			}
-			if(i >  length) goto end;
+			if (i >  length) {
+				goto end;
+			}
 		}
 
 		//release type
-		if(i != length) {
-			while((i < length) && isspace(buf[i])) ++i;
+		if (i != length) {
+			while ((i < length) && isspace(buf[i])) ++i;
 
-			if(i < length) {
+			if (i < length) {
 				char releaseTypeChar = tolower(buf[i++]);
-				switch(releaseTypeChar) {
+				switch (releaseTypeChar) {
 					case 'b':
 						myReleaseType = releaseType_beta;
 						break;
@@ -91,28 +111,34 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 						break;
 					case 's':
 						myReleaseType = releaseType_svn;
-						if((i < length) && (buf[i] == 'v')) {
+						if ((i < length) && (buf[i] == 'v')) {
 							++i;
-							if((i < length) && (buf[i] == 'n'))
+							if ((i < length) && (buf[i] == 'n')) {
 								++i;
+							}
 						}
 						break;
 				}
 
-				while((i < length) && isspace(buf[i])) ++i;
-				//for example: "0.6.2 SVN r1558". we want to skip the 'r'.
-				if((i < length) && (myReleaseType == releaseType_svn) && (tolower(buf[i]) == 'r'))
+				while ((i < length) && isspace(buf[i])) {
 					++i;
+				}
+				//for example: "0.6.2 SVN r1558". we want to skip the 'r'.
+				if ((i < length) && (myReleaseType == releaseType_svn) && (tolower(buf[i]) == 'r')) {
+					++i;
+				}
 
 				//if there's no development version,
 				//	default to 0 for releases and svn versions,
 				//	and 1 for development versions, alphas, and betas.
-				if(i == length)
+				if (i == length) {
 					myDevelopment = ((myReleaseType != releaseType_release) && (myReleaseType != releaseType_svn));
-				else {
+				} else {
 					//development version
-					while(i < length) {
-						if(!isdigit(buf[i])) break;
+					while (i < length) {
+						if (!isdigit(buf[i])) {
+							break;
+						}
 						myDevelopment *= 10U;
 						myDevelopment += digittoint(buf[i++]);
 					} //while(i < length)
@@ -124,7 +150,7 @@ bool parseVersionString(CFStringRef string, struct Version *outVersion) {
 end:
 	free(buf);
 
-	if(outVersion) {
+	if (outVersion) {
 		outVersion->major       = myMajor;
 		outVersion->minor       = myMinor;
 		outVersion->incremental = myIncremental;
@@ -147,10 +173,12 @@ CFStringRef createVersionDescription(const struct Version v) {
 	 */
 	CFMutableStringRef str = CFStringCreateMutable(kCFAllocatorDefault, /*capacity*/ 28);
 	CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%hu.%hu"), v.major, v.minor);
-	if(v.incremental)
+	if (v.incremental) {
 		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%hhu"), v.incremental);
-	if(v.releaseType != releaseType_release)
+	}
+	if (v.releaseType != releaseType_release) {
 		CFStringAppendFormat(str, /*formatOptions*/ NULL, CFSTR("%@%hu"), v.development);
+	}
 	return str;
 }
 
@@ -158,25 +186,25 @@ CFStringRef createVersionDescription(const struct Version v) {
 #pragma mark Comparison
 
 signed int compareVersions(const struct Version a, const struct Version b) {
-	if(a.major       <  b.major)       return -1;
-	if(a.major        > b.major)       return  1;
-	if(a.minor       <  b.minor)       return -1;
-	if(a.minor        > b.minor)       return  1;
-	if(a.incremental <  b.incremental) return -1;
-	if(a.incremental  > b.incremental) return  1;
+	if (a.major       <  b.major)       return -1;
+	if (a.major        > b.major)       return  1;
+	if (a.minor       <  b.minor)       return -1;
+	if (a.minor        > b.minor)       return  1;
+	if (a.incremental <  b.incremental) return -1;
+	if (a.incremental  > b.incremental) return  1;
 
-	if(a.releaseType <  b.releaseType) return -1;
-	if(a.releaseType  > b.releaseType) return  1;
-	if(a.development <  b.development) return -1;
-	if(a.development  > b.development) return  1;
+	if (a.releaseType <  b.releaseType) return -1;
+	if (a.releaseType  > b.releaseType) return  1;
+	if (a.development <  b.development) return -1;
+	if (a.development  > b.development) return  1;
 
 	return 0;
 }
 
 signed int compareVersionStrings(CFStringRef a, CFStringRef b) {
-	if(a == b)  return  0;
-	else if(!a) return  1;
-	else if(!b) return -1;
+	if (a == b)  return  0;
+	else if (!a) return  1;
+	else if (!b) return -1;
 
 	struct Version v_a, v_b;
 	bool parsed_a, parsed_b;
@@ -185,10 +213,12 @@ signed int compareVersionStrings(CFStringRef a, CFStringRef b) {
 	parsed_b = parseVersionString(b, &v_b);
 
 	//strings that could not be parsed sort above strings that could.
-	if(!parsed_a)
+	if (!parsed_a) {
 		return parsed_b ? -1 : 0;
-	else if(!parsed_b)
+	}
+	if (!parsed_b) {
 		return parsed_a ?  1 : 0;
+	}
 
 	return compareVersions(v_a, v_b);
 }
@@ -197,7 +227,7 @@ signed int compareVersionStrings(CFStringRef a, CFStringRef b) {
 signed int compareVersionStringsTranslating1_0To0_5(CFStringRef a, CFStringRef b) {
 	CFStringRef  one_zero = CFSTR("1.0");
 	CFStringRef zero_five = CFSTR("0.5");
-	if(CFEqual(a, one_zero)) a = zero_five;
-	if(CFEqual(b, one_zero)) b = zero_five;
+	if (CFEqual(a, one_zero)) a = zero_five;
+	if (CFEqual(b, one_zero)) b = zero_five;
 	return compareVersionStrings(a, b);
 }
