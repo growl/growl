@@ -6,6 +6,8 @@ Growl:
 	Growl Itself:
 		save to an Application Support Directory to be accessible from the Prefpane and app 
 		write the protocol to which Notification Plugins conform	
+		- Easy enough to do.  I will get on this, because I am adding some features to the pref pane, and want to make some standardized thing (graphite)
+		
 			then write the glue/controller for the bubbles notifications to work 
 		Decide what types of notifications we want to include (bezel, square, bubbles, speech, beeps, etc)
 			The default notification Plugin will be in Growl.syspref/Resources/
