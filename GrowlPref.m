@@ -54,6 +54,8 @@
 	tickets = [[GrowlApplicationTicket allSavedTickets] mutableCopy];
 	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
 
+	[self loadViewForDisplay:nil];
+	
 	[growlApplications reloadData];
 	if(currentApplication)
 		[growlApplications selectRow:[applications indexOfObject:currentApplication] byExtendingSelection:NO];
@@ -64,6 +66,7 @@
 	[allDisplayPlugins removeAllItems];
 	[allDisplayPlugins addItemsWithTitles:[[GrowlPluginController controller] allDisplayPlugins]];
 	[allDisplayPlugins selectItemWithTitle:[[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey]];
+	[displayPlugins reloadData];
 	
 	[self buildDisplayMenu];
 	
@@ -112,6 +115,15 @@
 	[applicationNotifications reloadData];
 	
 	[growlApplications reloadData];
+}
+
+- (void)reloadDisplayTab {
+	if (currentPlugin) [currentPlugin release];
+	
+	if ([displayPlugins selectedRow] < 0)
+		[displayPlugins selectRow:0 byExtendingSelection:NO];
+	currentPlugin = [[[[GrowlPluginController controller] allDisplayPlugins] objectAtIndex:[displayPlugins selectedRow]] retain];
+	[self loadViewForDisplay:currentPlugin];
 }
 
 #pragma mark "General" tab pane
@@ -172,15 +184,30 @@
 	[self setPrefsChanged:YES];
 }*/
 
+#pragma mark "Display Options" tab pane
+//This is the frame of the preference view that we should get back.
+#define DISPLAY_PREF_FRAME NSMakeRect(165., 20., 354., 311.)
+- (void)loadViewForDisplay:(NSString*)displayName
+{
+	if (displayName == nil)
+	{
+		[[displayPrefView superview] replaceSubview:displayPrefView with:displayDefaultPrefView];
+		return;
+	}
+}
+
 #pragma mark Notification and Application table view data source methods
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView {
 	if (tableView == growlApplications)
-	{
 		return [[GrowlApplicationTicket allSavedTickets] count];
-	}
-	else
+	if (tableView == applicationNotifications)
 		return [[appTicket allNotifications] count];
+	if (tableView == displayPlugins)
+	{
+		return [[[GrowlPluginController controller] allDisplayPlugins] count];
+	}
+	return 0;
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row {
@@ -204,6 +231,14 @@
 			return [NSNumber numberWithBool:[appTicket isNotificationEnabled:note]];
 		} else {
 			return note;
+		}
+	}
+	if (tableView == displayPlugins)
+	{
+		// only one column, but for the sake of cleanliness
+		if ([[column identifier] isEqualTo:@"plugins"])
+		{
+			return [[[GrowlPluginController controller] allDisplayPlugins] objectAtIndex:row];
 		}
 	}
 	return nil;
@@ -240,8 +275,9 @@
 			}
 		}
 		[self reloadAppTab];
+		return;
 	}
-	else
+	if (tableView == applicationNotifications)
 	{
 		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
 		if([value boolValue]) {
@@ -250,21 +286,28 @@
 			[appTicket setNotificationDisabled:note];
 		}
 		[self setPrefsChanged:YES];
+		return;
+	}
+	if (tableView == displayPlugins)
+	{
+		return;
 	}
 }
 
 #pragma mark Application TableView delegate methods
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+- (void)tableViewSelectionDidChange:(NSNotification *)theNote
 {
-	[self reloadAppTab];
+	if ([theNote object] == growlApplications)
+		return (void)[self reloadAppTab];
+	if ([theNote object] == displayPlugins)
+		return (void)[self reloadDisplayTab];
 }
 
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row
 {
-	if ([[column identifier] isEqualTo:@"display"])
+	if ((tableView == growlApplications) && [[column identifier] isEqualTo:@"display"])
 	{
 		[cell setMenu:[applicationDisplayPluginsMenu copy]];
-		NSLog(@"custom: %d test %@",[[tickets objectForKey: [applications objectAtIndex:row]] usesCustomDisplay], [[[tickets objectForKey: [applications objectAtIndex:row]] displayPlugin] name]);
 		if (![[tickets objectForKey: [applications objectAtIndex:row]] usesCustomDisplay])
 			[cell selectItemAtIndex:0]; // Default
 		else

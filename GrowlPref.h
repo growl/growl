@@ -16,6 +16,10 @@
 	//Properties of the app being configured
 	NSString				* currentApplication;
 	GrowlApplicationTicket	* appTicket;
+
+	//Properties of the plugin being configured
+	NSString				* currentPlugin;
+	id						* displayPrefController;
 	
 	BOOL					growlIsRunning;
 	BOOL					prefsHaveChanged;
@@ -31,6 +35,11 @@
 	IBOutlet NSTableView	* growlApplications;
 	NSMenu					* applicationDisplayPluginsMenu;
 	
+	//"Display Options" tab pane
+	IBOutlet NSTableView	* displayPlugins;
+	IBOutlet NSView			* displayPrefView;
+	IBOutlet NSView			* displayDefaultPrefView;
+	
 	IBOutlet NSButton		* apply;
 	IBOutlet NSButton		* revert;
 }
@@ -38,6 +47,7 @@
 - (void)reloadPreferences;
 - (void)updateRunningStatus;
 - (void)reloadAppTab;
+- (void)reloadDisplayTab;
 - (void)buildDisplayMenu;
 
 #pragma mark "General" tab pane
@@ -52,6 +62,9 @@
 
 //- (IBAction)useCustomDisplayPlugin:(id)sender;
 //- (IBAction)selectApplicationDisplayPlugin:(id)sender;
+
+#pragma mark "Display Options" tab pane
+- (void)loadViewForDisplay:(NSString*)displayName;
 
 #pragma mark Notification table view data source methods
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
