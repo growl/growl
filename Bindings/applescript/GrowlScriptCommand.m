@@ -15,11 +15,11 @@
 /*
  *  Some sample scripts:
  *	tell application "GrowlHelperApp"
- *		notify title "test" description "test description" icon of application "Mail.app"
+ *		notify with title "test" description "test description" icon of application "Mail.app"
  *	end tell
  *
  *	tell application "GrowlHelperApp"
- *		notify title "test" description "test description" icon of file "file:///Applications" sticky yes
+ *		notify with title "test" description "test description" icon of file "file:///Applications" sticky yes
  *	end tell
  */
 
@@ -31,7 +31,7 @@
 #import <AddressBook/AddressBook.h>
 
 
-#define KEY_TITLE				@"title"
+#define KEY_TITLE				@"withTitle"
 #define KEY_DESC				@"description"
 #define KEY_STICKY				@"sticky"
 #define KEY_IMAGE_URL			@"imageFromURL"

@@ -10,7 +10,7 @@
 		<commands>
 			<command name="notify" code="notifygr" description="Post a notification to be displayed via Growl">
 				<cocoa class="GrowlScriptCommand"/>
-				<parameter name="title" code="titl" type="string" description="title of the notification to display"/>
+				<parameter name="with title" code="titl" type="string" description="title of the notification to display"/>
 				<parameter name="description" code="desc" type="string" description="full text of the notification to display"/>
 				<parameter name="image from URL" optional="optional" code="iurl" type="string" description="URL of the icon to use for this notification. Currently limited to file:/// URLs."/>
 				<parameter name="icon of file" optional="optional" code="ifil" type="string" description="URL of the file whose icon should be used as the image for this notification. For example, 'file:///Applications'. Must be a file:/// URL."/>

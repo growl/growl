@@ -43,12 +43,12 @@
 					<key>Name</key>
 					<string>sticky</string>
 				</dict>
-				<key>title</key>
+				<key>withTitle</key>
 				<dict>
 					<key>Description</key>
 					<string>title of the notification to display</string>
 					<key>Name</key>
-					<string>title</string>
+					<string>with title</string>
 				</dict>
 			</dict>
 			<key>Description</key>

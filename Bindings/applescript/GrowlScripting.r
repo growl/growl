@@ -28,7 +28,7 @@ resource 'aete' (0, "") {
 			reply_none__,
 			dp_none__,
 			{
-				"title", 'titl', 'TEXT',
+				"with title", 'titl', 'TEXT',
 				"title of the notification to display",
 				required,
 				singleItem, notEnumerated, Reserved13,
