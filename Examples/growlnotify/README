@@ -1,0 +1,6 @@
+growlnotify is a command-line app for triggering Growl notifications.
+
+usage:
+growlnotify TITLE
+
+the description is read from stdin.
