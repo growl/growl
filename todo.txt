@@ -1,5 +1,42 @@
 To-Do
 
+
+For .6
+
+- Display version number.
+- A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.
+- For all displays that should conform, priority
+- 3 or 5 parts on priority, we need to decide this
+- Smoke needs to specify how many lines it allows to be displayed on screen.
+- Overlapping in smoke problems need to be addressed
+- Resolve problem of the framework turning on gha without the users permission, should the user have turned off Growl.
+- Make plugins double clickable bundles
+	- Make default install directory for display plugins ~/Library/Application Support/Growl/Plugins
+
+
+Release related issues
+- Make sure we have user documentation on everything we have. This was a sore point for us last release.
+- Look at creating a mpkg with GrowlMail, GrowlSafari, GrowlDict, Growl, growlnotify, GrowlTunes and possibly macyac
+- Include uninstaller in the dmg
+- Include user documentation in the dmg
+- Include links to developer documentation in the dmg. Possibly include docs themselves.
+
+
+For .7
+
+- Add a menu item/status item (menuling)
+- Add profiles. Choose which profile is currently uses via prefpane or menuling
+- Add a functional plugin that can display all notifications in a log. Make this accessable via the menuling
+- Display positioning system needs to be implemented.
+- Network notifications.
+- More displays if anyone wants to do one.
+- Write an abstract way for all plugins to print a ellipsis when text would spill past the edge of a notification.
+- Write an abstract way for all plugins to be moved arbitrarily by the user.
+- Write an abstract way for plugins to expand. Horizontal and vertical expanding. Have these off by default for all plugins.
+
+
+
+
 - Growl:
 	- PrefPane:
 	- Growl Itself:
@@ -10,13 +47,9 @@ To-Do
 			then write the glue/controller for the bubbles notifications to work 
 
 			The default notification Plugin will be in Growl.syspref/Resources/
-		Make default install directory for display plugins ~/Library/Application Support/Growl/Plugins
 		Add a define/macro to GrowlDefines that can get the display plugins
 
 	- Display Plugins
-		- Write an abstract way for all plugins to print a ellipsis when text would spill past the edge of a notification.
-		- Write an abstract way for all plugins to be moved arbitrarily by the user.
-		- Write an abstract way for plugins to expand. Horizontal and vertical expanding. Have these off by default for all plugins.
 		- Display types wanted:
 			- A square
 			- Speech
