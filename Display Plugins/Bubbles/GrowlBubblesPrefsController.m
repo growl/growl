@@ -18,11 +18,7 @@
 - (void) mainViewDidLoad {
 	BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
-	if (limitPref) {
-		[limitCheck setState:NSOnState];
-	} else {
-		[limitCheck setState:NSOffState];
-	}
+	[limitCheck setState:(limitPref ? NSOnState : NSOffState)];
 	
 	// priority colour settings
 	NSArray *array = nil;
