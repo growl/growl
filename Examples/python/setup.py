@@ -1,8 +1,13 @@
 from distutils.core import setup
 from distutils.command.install_scripts import install_scripts
-import os
-from distutils import log
-from stat import ST_MODE
+import sys
+
+try:
+	import Growl
+except ImportError:
+	sys.exit("Required module Growl not installed. Install it from ../../Bindings/python first.")
+else:
+	del Growl
 
 class appleLocalInstallWorkAround(install_scripts):
     # BAD BAD But this works :)
@@ -14,12 +19,11 @@ class appleLocalInstallWorkAround(install_scripts):
         return r
 
 setup(name="Growl",
-      version="0.0.1",
-      description="Python bindings for posting notifications to the Growl daemon",
-      author="Mark Rowe",
-      author_email="bdash@users.sourceforge.net",
+      version="0.1",
+      description="A command-line interface to Growl written in Python",
+      author="Jeremy Rossi",
+      author_email="jeremy@jeremyrossi.com",
       url="http://Growl.info",
-      scripts=["bin/gnotify"],
-      cmdclass={'install_scripts':appleLocalInstallWorkAround},
-      py_modules=["Growl"])
+      scripts=["gnotify"],
+      cmdclass={'install_scripts':appleLocalInstallWorkAround})
 
