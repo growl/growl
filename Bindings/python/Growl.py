@@ -1,6 +1,6 @@
 """
 A Python module that enables posting notifications to the Growl daemon.
-See <http://sourceforge.net/projects/growl/> for more information.
+See <http://growl.info/> for more information.
 """
 __version__ = "0.7" 
 __author__ = "Mark Rowe <bdash@users.sourceforge.net>"
