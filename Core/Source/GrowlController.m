@@ -712,25 +712,29 @@ static id singleton = nil;
 		NSDictionary *ticket = [[NSDictionary alloc] initWithContentsOfFile:ticketPath];
 
 		if (ticket) {
-			if ([GrowlApplicationTicket isValidTicketDictionary:ticket]) {
-				NSLog(@"Found registration ticket in %@ (located at %@)", appName, appPath);
+			//set the app's name in the dictionary, if it's not present already.
+			NSMutableDictionary *mTicket = [ticket mutableCopy];
+			if (![mTicket objectForKey:GROWL_APP_NAME])
+				[mTicket setObject:appName forKey:GROWL_APP_NAME];
+			[ticket release];
+			ticket = mTicket;
 
-				//set the app's location in the dictionary, avoiding costly lookups later.
+			if ([GrowlApplicationTicket isValidTicketDictionary:ticket]) {
+				NSLog(@"Auto-discovered registration ticket in %@ (located at %@)", appName, appPath);
+
+				/*set the app's location in the dictionary, avoiding costly
+				 *	lookups later.
+				 */
 				{
 					NSURL *URL = [NSURL fileURLWithPath:appPath];
 					NSDictionary *file_data = [URL dockDescription];
 					id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
-
-					NSMutableDictionary *mTicket = [ticket mutableCopy];
 					[mTicket setObject:location forKey:GROWL_APP_LOCATION];
-					[ticket release];
-					ticket = mTicket;
 
 					//write the new ticket to disk, and be sure to launch this ticket instead of the one in the app bundle.
 					NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
 					ticketPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:UUID] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 					BOOL success = [ticket writeToFile:ticketPath atomically:NO];
-					NSLog(@"wrote to %@: (success = %u)\n%@", ticketPath, success, ticket);
 				}
 
 				/*open the ticket with ourselves.

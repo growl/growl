@@ -266,7 +266,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 				spec.numDocs = (passRegDict != NO);
 				spec.itemRefs = (passRegDict ? &regItemRef : NULL);
 				spec.passThruParams = NULL;
-				spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
+				spec.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchNoParams | kLSLaunchAsync;
 				spec.asyncRefCon = NULL;
 				status = LSOpenFromRefSpec( &spec, NULL );
 				
@@ -308,7 +308,21 @@ static BOOL				promptedToUpgradeGrowl = NO;
 
 + (NSDictionary *) _registrationDictionary {
 	NSDictionary *registrationDictionary = [delegate registrationDictionaryForGrowl];
-	
+
+	if (!registrationDictionary) {
+		/*delegate didn't supply one.
+		 *look for an auto-discoverable plist in the app bundle.
+		 */
+		NSBundle *bundle = [NSBundle mainBundle];
+		NSString *regDictPath = [bundle pathForResource:@"Growl Registration Ticket" ofType:GROWL_REG_DICT_EXTENSION];
+		if (regDictPath) {
+			registrationDictionary = [NSDictionary dictionaryWithContentsOfFile:regDictPath];
+			if (!registrationDictionary)
+				NSLog(@"GrowlApplicationBridge: Delegate did not supply a registration dictionary, and it could not be loaded from %@", regDictPath);
+		} else
+			NSLog(@"GrowlApplicationBridge: Delegate did not supply a registration dictionary, and the app bundle at %@ does not have one", [bundle bundlePath]);
+	}
+
 	//Ensure the registration dictionary has the GROWL_APP_NAME specified
 	if (![registrationDictionary objectForKey:GROWL_APP_NAME]) {
 		NSMutableDictionary	*properRegistrationDictionary = [[registrationDictionary mutableCopy] autorelease];

@@ -465,7 +465,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "../../build /Users/boredzo/Projects/otherpeoplesprojects/Growl/build /Users/boredzo/Projects/otherpeoplesprojects/Growl/Examples/Beep-Carbon/build/Beep-Carbon.app/Contents/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = "../../build ./build/Beep-Carbon.app/Contents/Frameworks";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;

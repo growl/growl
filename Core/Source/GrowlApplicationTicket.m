@@ -74,7 +74,6 @@
 	NSNumber *versionNum = [dict objectForKey:GROWL_TICKET_VERSION];
 	if ([versionNum intValue] == 1) {
 		return [dict objectForKey:GROWL_NOTIFICATIONS_ALL]
-			&& [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT]
 			&& [dict objectForKey:GROWL_APP_NAME];
 	} else {
 		return NO;
@@ -82,7 +81,8 @@
 }
 
 + (BOOL)isKnownTicketVersion:(NSDictionary *)dict {
-	return ([[dict objectForKey:GROWL_TICKET_VERSION] intValue] == 1);
+	id version = [dict objectForKey:GROWL_TICKET_VERSION];
+	return version && ([version intValue] == 1);
 }
 
 #pragma mark -
@@ -418,8 +418,11 @@
 	}
 
 	//XXX - should assimilate reregisterWithAllNotifications:defaults:icon: here
-	[self reregisterWithAllNotifications:[dict objectForKey:GROWL_NOTIFICATIONS_ALL]
-								defaults:[dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT]
+	NSArray *all      = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
+	NSArray *defaults = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	if(!defaults) defaults = all;
+	[self reregisterWithAllNotifications:all
+								defaults:defaults
 									icon:theIcon];
 
 	NSString *fullPath = nil;

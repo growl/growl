@@ -29,6 +29,8 @@ static CFArrayRef _copyAllPreferencePaneBundles(void);
 //	search-path.
 static CFBundleRef _copyGrowlPrefPaneBundle(void);
 
+static CFDictionaryRef _copyRegistrationDictionaryForBundle(CFBundleRef bundle);
+
 //notification callback.
 static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
 
@@ -70,16 +72,30 @@ static struct Growl_Delegate *delegate = NULL;
  */
 extern void NSLog(CFStringRef format, ...);
 
+
 #pragma mark -
 #pragma mark Public API
 
 Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 	if (newDelegate) {
-		if (!(newDelegate->registrationDictionary)
-		||  !CFDictionaryContainsKey(newDelegate->registrationDictionary, GROWL_NOTIFICATIONS_ALL))
-		{
-			return false;
+		Boolean hasAllNotificationsList = false;
+		CFDictionaryRef regDict = newDelegate->registrationDictionary;
+		if (regDict)
+			regDict = CFRetain(regDict);
+		else {
+			/*delegate didn't supply one.
+			 *look for an auto-discoverable plist in the app bundle.
+			 */
+			regDict = _copyRegistrationDictionaryForBundle(CFBundleGetMainBundle());
 		}
+
+		if (regDict) {
+			hasAllNotificationsList = CFDictionaryContainsKey(regDict, GROWL_NOTIFICATIONS_ALL);
+			CFRelease(regDict);
+		}
+
+		if (!hasAllNotificationsList)
+			return false;
 	}
 
 	if (delegate == newDelegate) {
@@ -118,9 +134,8 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		return;
 	}
 	CFStringRef appName = delegate->applicationName;
-	if (!appName) {
+	if ((!appName) && (delegate->registrationDictionary))
 		appName = CFDictionaryGetValue(delegate->registrationDictionary, GROWL_APP_NAME);
-	}
 	if (!appName) {
 		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_PostNotification called, but no application name was found in the delegate"));
 		return;
@@ -219,8 +234,23 @@ void Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
 }
 
 void Growl_Reregister(void) {
-	if (delegate && delegate->registrationDictionary)
-		Growl_LaunchIfInstalled(/*callback*/ NULL, /*context*/ NULL);
+	CFDictionaryRef regDict = NULL;
+	if (delegate) {
+		regDict = delegate->registrationDictionary;
+		if (regDict)
+			regDict = CFRetain(regDict);
+		else {
+			/*delegate didn't supply one.
+			 *look for an auto-discoverable plist in the app bundle.
+			 */
+			regDict = _copyRegistrationDictionaryForBundle(CFBundleGetMainBundle());
+		}
+
+		if (regDict) {
+			Growl_LaunchIfInstalled(/*callback*/ NULL, /*context*/ NULL);
+			CFRelease(regDict);
+		}
+	}
 }
 
 /*Growl_IsInstalled
@@ -256,51 +286,70 @@ Boolean Growl_IsRunning(void) {
 }
 
 Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
-	CFMutableDictionaryRef regDict = NULL;
-	if (delegate && (delegate->registrationDictionary)) {
-		//create the registration dictionary.
-		//this is the same as the one in the delegate, but it must have
-		//	GROWL_APP_NAME in it.
-		regDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, delegate->registrationDictionary);
-
-		if (delegate->applicationName) {
-			CFDictionarySetValue(regDict, GROWL_APP_NAME, delegate->applicationName);
-		} else {
-			CFStringRef processName = _copyCurrentProcessName();
-			if (processName)
-				CFDictionarySetValue(regDict, GROWL_APP_NAME, processName);
-			else
-				NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined"));
+	CFDictionaryRef regDict = NULL;
+	if (delegate) {
+		/*create the registration dictionary.
+		 *this is the same as the one in the delegate or the main bundle, but
+		 *	it must have GROWL_APP_NAME in it.
+		 */
+		regDict = delegate->registrationDictionary;
+		if (regDict)
+			regDict = CFRetain(regDict);
+		else {
+			/*delegate didn't supply one.
+			 *look for an auto-discoverable plist in the app bundle.
+			 */
+			regDict = _copyRegistrationDictionaryForBundle(CFBundleGetMainBundle());
 		}
-		if (!CFDictionaryContainsKey(regDict, GROWL_APP_NAME)
-		||  !CFDictionaryContainsKey(regDict, GROWL_NOTIFICATIONS_ALL))
-		{
-			//no registering for us, it seems.
+
+		if (regDict) {
+			CFMutableDictionaryRef mRegDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, regDict);
 			CFRelease(regDict);
-			regDict = NULL;
-		}
-
-		//we also want to put the path in it, if possible.
-		//but don't rely on the application to give us a path; we should get it ourselves.
-		Boolean gotIt = false;
-		CFURLRef myURL = _copyCurrentProcessURL();
-		if (myURL) {
-			CFDictionaryRef file_data = _createDockDescriptionForURL(myURL);
-			if (file_data) {
-				const void *locationKeys[] = { CFSTR("file-data") };
-				const void *locationVals[] = { file_data };
-				CFDictionaryRef location = CFDictionaryCreate(kCFAllocatorDefault, locationKeys, locationVals, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-				if (location) {
-					CFDictionarySetValue(regDict, GROWL_APP_LOCATION, location);
-					gotIt = true;
-					CFRelease(location);
-				}
-				CFRelease(file_data);
+	
+			if (delegate->applicationName) {
+				CFDictionarySetValue(mRegDict, GROWL_APP_NAME, delegate->applicationName);
+			} else {
+				CFStringRef processName = _copyCurrentProcessName();
+				if (processName)
+					CFDictionarySetValue(mRegDict, GROWL_APP_NAME, processName);
+				else
+					NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined"));
 			}
-			CFRelease(myURL);
+	
+			if (!CFDictionaryContainsKey(mRegDict, GROWL_APP_NAME)
+			||  !CFDictionaryContainsKey(mRegDict, GROWL_NOTIFICATIONS_ALL))
+			{
+				//no registering for us, it seems.
+				CFRelease(mRegDict);
+				mRegDict = NULL;
+			} else {
+				/*we also want to put the location in it, if possible.
+				 *but don't rely on the application to give us a path; we should
+				 *	get it ourselves.
+				 */
+				Boolean gotIt = false;
+				CFURLRef myURL = _copyCurrentProcessURL();
+				if (myURL) {
+					CFDictionaryRef file_data = _createDockDescriptionForURL(myURL);
+					if (file_data) {
+						const void *locationKeys[] = { CFSTR("file-data") };
+						const void *locationVals[] = { file_data };
+						CFDictionaryRef location = CFDictionaryCreate(kCFAllocatorDefault, locationKeys, locationVals, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+						if (location) {
+							CFDictionarySetValue(mRegDict, GROWL_APP_LOCATION, location);
+							gotIt = true;
+							CFRelease(location);
+						}
+						CFRelease(file_data);
+					}
+					CFRelease(myURL);
+				}
+				if (!gotIt)
+					CFDictionaryRemoveValue(mRegDict, GROWL_APP_LOCATION);
+			}
+
+			regDict = mRegDict;
 		}
-		if (!gotIt)
-			CFDictionaryRemoveValue(regDict, GROWL_APP_LOCATION);
 	}
 
 	CFArrayRef		prefPanes;
@@ -309,10 +358,15 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 	CFBundleRef		prefPaneBundle;
 	CFBundleRef		growlPrefPaneBundle = NULL;
 	Boolean			success = false;
-	
-	//Enumerate all installed preference panes, looking for the growl prefpane bundle identifier and stopping when we find it
-	//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
-	//of course will not.  If the user wants to destroy the info.plist file inside the bundle, he/she deserves not to have a working Growl installation.
+
+	/*Enumerate all installed preference panes, looking for the Growl prefpane
+	 *	bundle identifier and stopping when we find it.
+	 *Note that we check the bundle identifier because we should not insist
+	 *	that the user not rename his preference pane files, although most users
+	 *	of course will not.  If the user wants to mutilate the Info.plist file
+	 *	inside the bundle, he/she deserves to not have a working Growl
+	 *	installation.
+	 */
 	prefPanes = _copyAllPreferencePaneBundles();
 	if (prefPanes) {
 		numPrefPanes = CFArrayGetCount(prefPanes);
@@ -320,7 +374,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 		while (prefPaneIndex < numPrefPanes) {
 			prefPaneBundle = (CFBundleRef)CFArrayGetValueAtIndex(prefPanes, prefPaneIndex++);
 
-			if (prefPaneBundle){
+			if (prefPaneBundle) {
 				bundleIdentifier = CFBundleGetIdentifier(prefPaneBundle);
 
 				if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, kCFCompareCaseInsensitive | kCFCompareBackwards) == kCFCompareEqualTo)) {
@@ -335,12 +389,12 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 
 	if (growlPrefPaneBundle) {
 		/*Here we could check against a current version number and ensure the
-		 *	installed Growl pane is the newest
+		 *	installed Growl pane is the newest.
 		 */
 		
 		CFURLRef	growlHelperAppURL = NULL;
 
-		//Extract the path to the Growl helper app from the pref pane's bundle
+		//Extract the path to the Growl helper app from the prefpane's bundle
 		growlHelperAppURL = CFBundleCopyResourceURL(growlPrefPaneBundle, CFSTR("GrowlHelperApp"), CFSTR("app"), /*subDirName*/ NULL);
 
 		if (growlHelperAppURL) {
@@ -422,22 +476,18 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 				.appURL = growlHelperAppURL,
 				.itemURLs = itemsToOpen,
 				.passThruParams = NULL,
-				.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchNoParams,
+				.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchNoParams | kLSLaunchAsync,
 				.asyncRefCon = NULL,
 			};
 			success = (LSOpenFromURLSpec(&launchSpec, /*outLaunchedURL*/ NULL) == noErr);
 			CFRelease(growlHelperAppURL);
-			if (itemsToOpen) {
-				CFRelease(itemsToOpen);
-			}
+			if (itemsToOpen) CFRelease(itemsToOpen);
 		} //if (growlHelperAppURL)
 
 		CFRelease(growlPrefPaneBundle);
 	} //if (growlPrefPaneBundle)
 
-	if (regDict) {
-		CFRelease(regDict);
-	}
+	if (regDict) CFRelease(regDict);
 
 	return success;
 }
@@ -592,4 +642,65 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 	}
 
 	return growlPrefPaneBundle;
+}
+
+static CFDictionaryRef _copyRegistrationDictionaryForBundle(CFBundleRef bundle) {
+	CFDictionaryRef regDict = NULL;
+	CFURLRef regDictURL = CFBundleCopyResourceURL(bundle, CFSTR("Growl Registration Ticket"), GROWL_REG_DICT_EXTENSION, /*subDirName*/ NULL);
+	CFStringRef regDictPath = NULL;
+	if (!regDictURL) {
+		/*get the location of the bundle, so we can log that it doesn't
+		 *	have an auto-discoverable plist.
+		 */
+		CFURLRef bundleURL = CFBundleCopyBundleURL(bundle);
+		if (bundleURL) {
+			CFStringRef bundlePath = CFURLCopyFileSystemPath(bundleURL, kCFURLPOSIXPathStyle);
+			if (!bundlePath) bundlePath = CFRetain(bundleURL);
+			CFRelease(bundleURL);
+			if (bundlePath) {
+				NSLog(CFSTR("GrowlApplicationBridge: Delegate did not supply a registration dictionary, and the app bundle at %@ does not have one"), bundlePath);
+				CFRelease(bundlePath);
+			}
+		}
+	} else {
+		//get the path, for error messages.
+		regDictPath = CFURLCopyFileSystemPath(regDictURL, kCFURLPOSIXPathStyle);
+		if (!regDictPath) regDictPath = CFRetain(regDictURL);
+
+		//read the plist.
+		CFReadStreamRef stream = CFReadStreamCreateWithFile(kCFAllocatorDefault, regDictURL);
+		if (stream) {
+			CFReadStreamOpen(stream);
+
+			CFPropertyListFormat format_noOneCares;
+			CFStringRef errorString = NULL;
+			regDict = CFPropertyListCreateFromStream(kCFAllocatorDefault,
+													 stream,
+									/*streamLength*/ 0, //read to EOF
+													 kCFPropertyListImmutable,
+													 &format_noOneCares,
+													 &errorString);
+
+			CFReadStreamClose(stream);
+			CFRelease(stream);
+			if (errorString) {
+				NSLog(CFSTR("GrowlApplicationBridge: Got error reading property list at %@: %@"), regDictPath, errorString);
+				CFRelease(errorString);
+			}
+		}
+
+		if (!regDict) {
+			NSLog(CFSTR("GrowlApplicationBridge: Delegate did not supply a registration dictionary, and it could not be loaded from %@"), regDictPath);
+		} else {
+			if (CFGetTypeID(regDict) != CFDictionaryGetTypeID()) {
+				//this isn't a dictionary. reject it.
+				NSLog(CFSTR("GrowlApplicationBridge: Registration dictionary file at %@ didn't contain a dictionary (dictionary type ID is '%@' whereas the file contained '%@'); description of object follows\n%@"), regDictPath, CFCopyTypeIDDescription(CFDictionaryGetTypeID()), CFCopyTypeIDDescription(CFGetTypeID(regDict)), regDict);
+				CFRelease(regDict);
+				regDict = NULL;
+			}
+		}
+		CFRelease(regDictPath);
+		CFRelease(regDictURL);
+	}
+	return regDict;
 }
