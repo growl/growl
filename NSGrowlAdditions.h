@@ -12,3 +12,4 @@
 @interface NSWorkspace (GrowlAdditions) 
 - (NSImage *) iconForApplication:(NSString *) inName;
 @end
+

@@ -54,3 +54,4 @@
 - (void) bubbleWillFadeOut:(KABubbleWindowController *) bubble;
 - (void) bubbleDidFadeOut:(KABubbleWindowController *) bubble;
 @end
+

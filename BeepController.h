@@ -1,6 +1,5 @@
 /* BeepController */
 
-#import <Cocoa/Cocoa.h>
 
 @interface BeepController : NSObject {
 	//add notification sheet fields
@@ -27,3 +26,4 @@
 - (IBAction)sendNotification:(id)sender;
 - (IBAction) endPanel:(id)sender;
 @end
+
