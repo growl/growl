@@ -47,6 +47,45 @@
 	return( [[[self bundle] infoDictionary] objectForKey:@"CFBundleVersion"] );
 }
 
+- (IBAction)checkVersion:(id)sender
+{
+	[self checkVersionAtURL:@"http://growl.info/version.xml" 
+				displayText:NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @"")
+				downloadURL:@"http://growl.info"];
+}
+
+- (void)checkVersionAtURL:(NSString *)url displayText:(NSString *)message downloadURL:(NSString *)goURL
+{
+	NSBundle *bundle = [self bundle];
+	NSString *currVersionNumber = [[bundle infoDictionary] objectForKey:@"CFBundleVersion"];
+	NSDictionary *productVersionDict = [NSDictionary dictionaryWithContentsOfURL: [NSURL URLWithString:url]];
+	NSString *latestVersionNumber = [productVersionDict valueForKey:
+		[[[self bundle] infoDictionary] objectForKey:@"CFBundleExecutable"] ];
+	
+	/*
+	NSLog([[[NSBundle bundleForClass:[self class]] infoDictionary] objectForKey:@"CFBundleExecutable"] );
+	NSLog(currVersionNumber);
+	NSLog(latestVersionNumber);
+	*/
+
+	// do nothing--be quiet if there is no active connection or if the
+	// version number could not be downloaded
+	if( (latestVersionNumber != nil) && (![latestVersionNumber isEqualToString: currVersionNumber]) ) {
+		NSBeginAlertSheet(NSLocalizedStringFromTableInBundle(@"Update Available", nil, bundle, @""),
+						  NSLocalizedStringFromTableInBundle(@"OK", nil, bundle, @""), 
+						  NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
+						  nil, nil, self, NULL,
+						  @selector(downloadSelector:returnCode:contextInfo:), goURL, message, nil);
+	}
+}
+
+- (void)downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(id)contextInfo
+{
+	if( returnCode == NSAlertDefaultReturn ) { 
+		[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: contextInfo]];
+	}
+}
+
 - (void)awakeFromNib {
 	NSTableColumn* tableColumn = [growlApplications tableColumnWithIdentifier: @"application"];
 	ACImageAndTextCell* imageAndTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
@@ -80,12 +119,18 @@
 
 - (NSPreferencePaneUnselectReply)shouldUnselect {
 	if(prefsHaveChanged) {
-		NSBeginAlertSheet(@"Apply Changes?",@"Apply Changes",@"Discard Changes",@"Cancel",
-								[[self mainView] window],self,@selector(sheetDidEnd:returnCode:contextInfo:),
-								NULL,NULL,@"You have made changes, but have not applied them. Would you like to apply them, discard them, or cancel?");
-		return NSUnselectLater;
+		NSBundle *bundle = [self bundle];
+		NSBeginAlertSheet(
+			NSLocalizedStringFromTableInBundle(@"Apply Changes?", nil, bundle, @""),
+			NSLocalizedStringFromTableInBundle(@"Apply Changes", nil, bundle, @""),
+			NSLocalizedStringFromTableInBundle(@"Discard Changes", nil, bundle, @""),
+			NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
+			[[self mainView] window], self, @selector(sheetDidEnd:returnCode:contextInfo:),
+			NULL, NULL,
+			NSLocalizedStringFromTableInBundle(@"You have made changes, but have not applied them. Would you like to apply them, discard them, or cancel?", nil, bundle, @""));
+		return( NSUnselectLater );
 	} else {
-		return NSUnselectNow;
+		return( NSUnselectNow );
 	}
 }
 

@@ -14,5 +14,23 @@
 	<string>Stop Growl</string>
 	<key>Terminating Growl...</key>
 	<string>Terminating Growl…</string>
+	<key>Apply Changes?</key>
+	<string>Apply Changes?</string>
+	<key>Apply Changes</key>
+	<string>Apply Changes</string>
+	<key>Discard Changes</key>
+	<string>Discard Changes</string>
+	<key>Cancel</key>
+	<string>Cancel</string>
+	<key>You have made changes, but have not applied them. Would you like to apply them, discard them, or cancel?</key>
+	<string>You have made changes, but have not applied them. Would you like to apply them, discard them, or cancel?</string>
+	<key>A newer version of Growl is available online. Would you like to download it now?</key>
+	<string>A newer version of Growl is available online. Would you like to download it now?</string>
+	<key>Update Available</key>
+	<string>Update Available</string>
+	<key>OK</key>
+	<string>OK</string>
+	<key>Cancel</key>
+	<string>Cancel</string>
 </dict>
 </plist>

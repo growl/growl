@@ -4,6 +4,7 @@
         {
             ACTIONS = {
                 apply = id; 
+                checkVersion = id; 
                 revert = id; 
                 selectDisplayPlugin = id; 
                 startGrowlAtLogin = id; 

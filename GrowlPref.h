@@ -54,6 +54,11 @@
 	IBOutlet NSButton		* revert;
 }
 
+- (NSString *)bundleVersion;
+- (IBAction)checkVersion:(id)sender;
+- (void)checkVersionAtURL:(NSString *)url displayText:(NSString *)message downloadURL:(NSString *)goURL;
+- (void)downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(id)contextInfo;
+
 - (void)reloadPreferences;
 - (void)updateRunningStatus;
 - (void)reloadAppTab;
@@ -95,6 +100,5 @@
 - (void)checkGrowlRunning;
 
 - (void)appRegistered: (NSNotification *) note;
-- (NSString *)bundleVersion;
 
 @end

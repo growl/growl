@@ -14,5 +14,23 @@
 	<string>Growl stoppen</string>
 	<key>Terminating Growl...</key>
 	<string>Beende Growl…</string>
+	<key>Apply Changes?</key>
+	<string>Änderungen anwenden?</string>
+	<key>Apply Changes</key>
+	<string>Änderungen anwenden</string>
+	<key>Discard Changes</key>
+	<string>Änderungen verwerfen</string>
+	<key>Cancel</key>
+	<string>Abbrechen</string>
+	<key>You have made changes, but have not applied them. Would you like to apply them, discard them, or cancel?</key>
+	<string>Sie haben Änderungen vorgenommen aber noch nicht angewendet. Möchten Sie sie nun anwenden, verwerfen oder abbrechen?</string>
+	<key>A newer version of Growl is available online. Would you like to download it now?</key>
+	<string>Eine neue Version von Growl is online verfügbar. Möchten Sie sie nun downloaden?</string>
+	<key>Update Available</key>
+	<string>Update verfügbar</string>
+	<key>OK</key>
+	<string>OK</string>
+	<key>Cancel</key>
+	<string>Abbrechen</string>
 </dict>
 </plist>
