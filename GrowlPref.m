@@ -72,14 +72,15 @@
 }
 
 - (void)reloadAppTab {
-	currentApplication = [growlApplications titleOfSelectedItem];
+	if(currentApplication) [currentApplication release];
+	currentApplication = [[growlApplications titleOfSelectedItem] retain];
 
 	appTicket = [tickets objectForKey: currentApplication];
 	
 	[applicationEnabled setState: [appTicket ticketEnabled]];
 	[applicationEnabled setTitle: [NSString stringWithFormat:@"Enable notifications for %@",currentApplication]];
 	
-	[applicationNotifications setEnabled:[appTicket ticketEnabled]];
+	[[[applicationNotifications tableColumnWithIdentifier:@"enable"] dataCell] setEnabled:[appTicket ticketEnabled]];
 	[applicationNotifications reloadData];
 }
 
@@ -111,8 +112,8 @@
 
 - (IBAction)enableApplication:(id)sender {
 	[appTicket setEnabled:[applicationEnabled state]];
-	[applicationNotifications setEnabled:[applicationEnabled state]];
 	[self setPrefsChanged:YES];
+	[self reloadAppTab];
 }
 
 #pragma mark Notification table view data source methods
@@ -181,6 +182,7 @@
 	if(cachedGrowlHelperAppDescription)
 		[cachedGrowlHelperAppDescription release];
 	if(tickets) [tickets release];
+	if(currentApplication) [currentApplication release];
 }
 
 - (NSDictionary *)growlHelperAppDescription {
