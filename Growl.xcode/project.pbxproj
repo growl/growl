@@ -120,6 +120,7 @@
 		089C167DFE841241C02AAC07 = {
 			children = (
 				089C167EFE841241C02AAC07,
+				9527F2A1073F5A33004727A0,
 			);
 			isa = PBXVariantGroup;
 			name = InfoPlist.strings;
@@ -1023,6 +1024,14 @@
 			lastKnownFileType = wrapper.nib;
 			name = German;
 			path = German.lproj/GrowlPref.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9527F2A1073F5A33004727A0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = German;
+			path = German.lproj/InfoPlist.strings;
 			refType = 4;
 			sourceTree = "<group>";
 		};

@@ -17,7 +17,7 @@
 	<key>CFBundleSignature</key>
 	<string>GPAN</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>0.6</string>
 	<key>NSMainNibFile</key>
 	<string>GrowlPref</string>
 	<key>NSPrefPaneIconFile</key>

@@ -42,6 +42,11 @@
 	[super dealloc];
 }
 
+- (NSString *)bundleVersion
+{
+	return( [[[self bundle] infoDictionary] objectForKey:@"CFBundleVersion"] );
+}
+
 - (void)awakeFromNib {
 	NSTableColumn* tableColumn = [growlApplications tableColumnWithIdentifier: @"application"];
 	ACImageAndTextCell* imageAndTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
@@ -50,6 +55,7 @@
 	NSButtonCell *cell = [[applicationNotifications tableColumnWithIdentifier:@"sticky"] dataCell];
 	[cell setAllowsMixedState:YES];
 	[growlRunningProgress setDisplayedWhenStopped:NO];
+	[growlVersion setStringValue:[self bundleVersion]];
 }
 
 - (void) mainViewDidLoad {
@@ -151,8 +157,13 @@
 	[startStopTimer invalidate];
 	startStopTimer = nil;
 	[startStopGrowl setEnabled:YES];
-	[startStopGrowl setTitle:growlIsRunning?NSLocalizedStringFromTableInBundle(@"Stop Growl",nil,[self bundle],@""):NSLocalizedStringFromTableInBundle(@"Start Growl",nil,[self bundle],@"")];
-	[growlRunningStatus setStringValue:growlIsRunning?NSLocalizedStringFromTableInBundle(@"Growl is running.",nil,[self bundle],@""):NSLocalizedStringFromTableInBundle(@"Growl is stopped.",nil,[self bundle],@"")];
+	NSBundle *bundle = [self bundle];
+	[startStopGrowl setTitle:
+		growlIsRunning ? NSLocalizedStringFromTableInBundle(@"Stop Growl",nil,bundle,@"")
+					   : NSLocalizedStringFromTableInBundle(@"Start Growl",nil,bundle,@"")];
+	[growlRunningStatus setStringValue:
+		growlIsRunning ? NSLocalizedStringFromTableInBundle(@"Growl is running.",nil,bundle,@"")
+					   : NSLocalizedStringFromTableInBundle(@"Growl is stopped.",nil,bundle,@"")];
 	[growlRunningProgress stopAnimation:self];
 }
 
@@ -177,11 +188,13 @@
 - (void)reloadDisplayTab {
 	if (currentPlugin) [currentPlugin release];
 	
-	if (([displayPlugins selectedRow] < 0) && ([[[GrowlPluginController controller] allDisplayPlugins] count] > 0))
+	if (([displayPlugins selectedRow] < 0) && ([[[GrowlPluginController controller] allDisplayPlugins] count] > 0)) {
 		[displayPlugins selectRow:0 byExtendingSelection:NO];
+	}
 	
-	if ([[[GrowlPluginController controller] allDisplayPlugins] count] > 0)
+	if ([[[GrowlPluginController controller] allDisplayPlugins] count] > 0) {
 		currentPlugin = [[[[GrowlPluginController controller] allDisplayPlugins] objectAtIndex:[displayPlugins selectedRow]] retain];
+	}
 	[self loadViewForDisplay:currentPlugin];
 	NSDictionary * info = [[[GrowlPluginController controller] displayPluginNamed:currentPlugin] pluginInfo];
 	[displayAuthor setStringValue:[info objectForKey:@"Author"]];

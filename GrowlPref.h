@@ -35,7 +35,8 @@
 	IBOutlet NSTextField			* growlRunningStatus;
 	IBOutlet NSProgressIndicator	* growlRunningProgress;
 	IBOutlet NSPopUpButton			* allDisplayPlugins;
-	
+	IBOutlet NSTextField			* growlVersion;
+
 	//"Applications" tab pane
 	IBOutlet NSTableView	* applicationNotifications;
 	IBOutlet NSTableView	* growlApplications;
@@ -94,5 +95,6 @@
 - (void)checkGrowlRunning;
 
 - (void)appRegistered: (NSNotification *) note;
+- (NSString *)bundleVersion;
 
 @end
