@@ -107,21 +107,14 @@
 }
 
 - (void) willFadeOut:(FadingWindowController *)sender {
-	GrowlMusicVideoWindowController *olMusicVideo;
+	GrowlMusicVideoWindowController *next = (GrowlMusicVideoWindowController *)sender;
 	if ( [notificationQueue count] > 1U ) {
-		olMusicVideo = (GrowlMusicVideoWindowController *)sender;
-		[olMusicVideo setFlipOut:YES];
+		[[notificationQueue objectAtIndex:1U] startFadeIn];
 	}
 }
 
 - (void) didFadeOut:(FadingWindowController *)sender {
-	GrowlMusicVideoWindowController *olMusicVideo;
 	[notificationQueue removeObjectAtIndex:0U];
-	if ( [notificationQueue count] > 0U ) {
-		olMusicVideo = [notificationQueue objectAtIndex:0U];
-		[olMusicVideo setFlipIn:YES];
-		[olMusicVideo startFadeIn];
-	}
 }
 
 - (void) _musicVideoClicked:(GrowlMusicVideoWindowController *)musicVideo {

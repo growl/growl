@@ -59,6 +59,8 @@
 			nil];
 		[paragraphStyle release];
 		[textShadow release];
+
+		needsDisplay = YES;
 	}
 
 	return self;
@@ -141,19 +143,19 @@
 - (void) setIcon:(NSImage *)anIcon {
 	[icon autorelease];
 	icon = [anIcon retain];
-	[self setNeedsDisplay:YES];
+	[self setNeedsDisplay:(needsDisplay = YES)];
 }
 
 - (void) setTitle:(NSString *)aTitle {
 	[title autorelease];
 	title = [aTitle copy];
-	[self setNeedsDisplay:YES];
+	[self setNeedsDisplay:(needsDisplay = YES)];
 }
 
 - (void) setText:(NSString *)aText {
 	[text autorelease];
 	text = [aText copy];
-	[self setNeedsDisplay:YES];
+	[self setNeedsDisplay:(needsDisplay = YES)];
 }
 
 - (id) target {
@@ -172,6 +174,19 @@
 
 - (void) setAction:(SEL) selector {
 	action = selector;
+}
+
+#pragma mark -
+
+- (BOOL)needsDisplay {
+	return needsDisplay;
+}
+
+- (void)displayIfNeeded {
+	if(needsDisplay) {
+		[super displayIfNeeded];
+		needsDisplay = NO;
+	}
 }
 
 #pragma mark -

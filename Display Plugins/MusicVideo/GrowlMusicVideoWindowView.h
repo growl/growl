@@ -17,6 +17,7 @@
 	NSColor				*backgroundColor;
 	SEL					action;
 	id					target;
+	BOOL				needsDisplay;
 }
 
 - (void) setIcon:(NSImage *)icon;
