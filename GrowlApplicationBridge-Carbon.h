@@ -8,15 +8,13 @@
 //    program.
 //
 
-#ifndef _GROWLAPPLICATIONBRIDGE_CARBON_H
-#define _GROWLAPPLICATIONBRIDGE_CARBON_H
+#ifndef _GROWLAPPLICATIONBRIDGE_CARBON_H_
+#define _GROWLAPPLICATIONBRIDGE_CARBON_H_
 
+#include <sys/cdefs.h>
 #include <Carbon/Carbon.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+__BEGIN_DECLS
 typedef struct GrowlDelegate {
 	size_t size; //should be sizeof(struct GrowlDelegate).
 
@@ -342,9 +340,6 @@ Boolean LaunchGrowlIfInstalled(GrowlLaunchCallback callback, void *context);
 #pragma mark Constants
 
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER	CFSTR("com.growl.prefpanel")
+__END_DECLS
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif //ndef _GROWLAPPLICATIONBRIDGE_CARBON_H
+#endif /* _GROWLAPPLICATIONBRIDGE_CARBON_H_ */
