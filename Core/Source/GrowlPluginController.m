@@ -179,7 +179,6 @@ static GrowlPluginController *sharedController;
 			[plugin loadPlugin];
 			[allDisplayPlugins setObject:plugin forKey:name];
 			[plugin release];
-			NSLog(@"loaded %@", name);
 		} else {
 			NSLog(@"Could not load %@", name);
 		}

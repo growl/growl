@@ -130,6 +130,8 @@ static const double gMaxDisplayTime = 10.;
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
+	[panel setOneShot:YES];
+	[panel setMovableByWindowBackground:NO];
 	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
 	//[panel setDelegate:self];
 
