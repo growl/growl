@@ -271,7 +271,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INSTALL_PATH = /usr/local/bin;
+				INSTALL_PATH = /opt/growl/bin;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = growlnotify;
 				WARNING_CFLAGS = "-W -Wall";
@@ -331,9 +331,9 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8DD76FA10486AA7600D96B5E = {
+			explicitFileType = "compiled.mach-o.executable";
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			lastKnownFileType = "compiled.mach-o.executable";
 			path = growlnotify;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
