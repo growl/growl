@@ -79,7 +79,7 @@
 	[nuMusicVideo setAction:@selector(_musicVideoClicked:)];
 	[nuMusicVideo setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[nuMusicVideo setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];	
-	
+	[nuMusicVideo setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 	
 	if ( [notificationQueue count] > 0U ) {
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
