@@ -110,7 +110,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	NSDictionary *ticketsList = [NSDictionary dictionaryWithContentsOfFile:inPath];
 	appName = [[ticketsList objectForKey:GROWL_APP_NAME] retain];
 	defaultNotifications = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT] retain];
-	NSAssert(defaultNotifications != nil, @"Ticket dictionaries must contain a list of default notifications (either names, or indices into the all-notifications list)");"
+	NSAssert(defaultNotifications != nil, @"Ticket dictionaries must contain a list of default notifications (either names, or indices into the all-notifications list)");
 
 	//Get all the notification names and the data about them
 	allNotificationNames = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL] retain];
