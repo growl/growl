@@ -37,9 +37,6 @@
 }
 
 - (void)drawRect:(NSRect)rect {
-
-	
-	
 	NSRect bounds = [self bounds];
 	
 	// clear the window
@@ -47,12 +44,12 @@
 	NSRectFill( [self frame] );
 
     // set up bezier path for rounded corners
-	float lineWidth = 1.;
+	float lineWidth = 1.f;
 	NSBezierPath *path = [NSBezierPath bezierPath];
 	[path setLineWidth:lineWidth];
 
     // draw bezier path for rounded corners
-	float radius = 5.;
+	float radius = 5.f;
 	unsigned int sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding / 2);
 	
 	// calculate bounds based on icon-float pref on or off
@@ -66,31 +63,31 @@
 	else shadedBounds = bounds;
 	
 	NSRect irect = NSInsetRect(shadedBounds, radius + lineWidth, radius + lineWidth);
+	float minX = NSMinX( irect );
+	float minY = NSMinY( irect );
+	float maxX = NSMaxX( irect );
+	float maxY = NSMaxY( irect );
 	
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMinX( irect ), 
-														 NSMinY( irect ) ) 
+	[path appendBezierPathWithArcWithCenter:NSMakePoint( minX, minY )
 									 radius:radius 
-								 startAngle:180. 
-								   endAngle:270.];
+								 startAngle:180.f
+								   endAngle:270.f];
 	
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMaxX( irect ), 
-														 NSMinY( irect ) ) 
+	[path appendBezierPathWithArcWithCenter:NSMakePoint( maxX, minY )
 									 radius:radius 
-								 startAngle:270. 
-								   endAngle:360.];
-	
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMaxX( irect ), 
-														 NSMaxY( irect ) ) 
+								 startAngle:270.f
+								   endAngle:360.f];
+
+	[path appendBezierPathWithArcWithCenter:NSMakePoint( maxX, maxY )
 									 radius:radius 
-								 startAngle:0. 
-								   endAngle:90.];
-	
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMinX( irect ), 
-														 NSMaxY( irect ) ) 
+								 startAngle:0.f
+								   endAngle:90.f];
+
+	[path appendBezierPathWithArcWithCenter:NSMakePoint( minX, maxY )
 									 radius:radius 
-								 startAngle:90. 
-								   endAngle:180.];
-	
+								 startAngle:90.f
+								   endAngle:180.f];
+
 	[path closePath];
 
 	[[NSGraphicsContext currentContext] saveGraphicsState];
@@ -110,7 +107,7 @@
 	float heightOffset = [self frame].size.height - GrowlSmokePadding;
 
     // build an appropriate colour for the text
-	NSColor *textColour = [NSColor colorWithCalibratedWhite:1. alpha:1.];
+	NSColor *textColour = [NSColor colorWithCalibratedWhite:1.f alpha:1.f];
 	
 	// If we are on Panther or better, pretty shadow
 	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
@@ -119,10 +116,10 @@
 	if(pantherOrLater) {
         textShadow = [[[NSShadowClass alloc] init] autorelease];
         
-		NSSize shadowSize = NSMakeSize(0., -2.);
+		NSSize shadowSize = NSMakeSize(0.f, -2.f);
         [textShadow setShadowOffset:shadowSize];
-        [textShadow setShadowBlurRadius:3.0];
-		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha: 1.0]];
+        [textShadow setShadowBlurRadius:3.0f];
+		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha: 1.0f]];
 	}
 	
 	// make the description text white
@@ -133,18 +130,19 @@
 	[whiteText removeAttribute:NSForegroundColorAttributeName range:allText];
 	[whiteText addAttribute:NSForegroundColorAttributeName value:textColour range:allText];
 	[whiteText addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:GrowlSmokeTextFontSize] range:allText];
-	if(pantherOrLater) [whiteText addAttribute:NSShadowAttributeName value:textShadow range:allText];
-	
+	if(pantherOrLater) {
+		[whiteText addAttribute:NSShadowAttributeName value:textShadow range:allText];
+	}
 
-	
 	// construct attributes for the title
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSFont boldSystemFontOfSize:13.], NSFontAttributeName,
 		textColour,                        NSForegroundColorAttributeName,
 		nil];
  
-	if(pantherOrLater)
+	if(pantherOrLater) {
 		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
+	}
 	
     // draw the title and the text
 	unsigned int textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
@@ -169,9 +167,9 @@
 			newHeight = GrowlSmokeIconSize;
 		}
 		
-		newX = floorf((GrowlSmokeIconSize - newWidth) / 2.f);
-		newY = floorf((GrowlSmokeIconSize - newHeight) / 2.f);
-		
+		newX = floorf((GrowlSmokeIconSize - newWidth) * 0.5f);
+		newY = floorf((GrowlSmokeIconSize - newHeight) * 0.5f);
+
 		NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
 		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
 		[_icon autorelease];
@@ -186,7 +184,6 @@
 				  operation:NSCompositeSourceOver fraction:1.];
 
 	[[self window] invalidateShadow];
-
 }
 
 - (void)setIcon:(NSImage *)icon {

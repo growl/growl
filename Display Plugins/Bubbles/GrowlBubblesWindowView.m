@@ -94,11 +94,11 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	[path setLineWidth:lineWidth];
 
 	float radius = 9.f;
+	NSRect irect = NSInsetRect( bounds, radius + lineWidth, radius + lineWidth );
 	float minX = NSMinX( irect );
 	float minY = NSMinY( irect );
 	float maxX = NSMaxX( irect );
 	float maxY = NSMaxY( irect );
-	NSRect irect = NSInsetRect( bounds, radius + lineWidth, radius + lineWidth );
 	[path appendBezierPathWithArcWithCenter:NSMakePoint( minX, minY )
 									 radius:radius 
 								 startAngle:180.f
