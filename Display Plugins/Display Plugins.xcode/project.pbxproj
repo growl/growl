@@ -380,6 +380,7 @@
 				6C86F88F06F0620D008EA344,
 				6CEC911006F6F85F00198405,
 				6CEC912E06F7099900198405,
+				6C7F69C906F9ACE10012FC7D,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -471,6 +472,7 @@
 		};
 		6C60D7C206F044A30025909F = {
 			children = (
+				6C7F69C806F9ACE10012FC7D,
 				6CEC912D06F7099900198405,
 				6CEC910E06F6F85F00198405,
 				6CEC910F06F6F85F00198405,
@@ -512,6 +514,20 @@
 		};
 		6C60D7C606F044D60025909F = {
 			fileRef = 6C60D7C406F044D60025909F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6C7F69C806F9ACE10012FC7D = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			name = aquabackground.png;
+			path = Bezel/aquabackground.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C7F69C906F9ACE10012FC7D = {
+			fileRef = 6C7F69C806F9ACE10012FC7D;
 			isa = PBXBuildFile;
 			settings = {
 			};
