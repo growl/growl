@@ -6,6 +6,8 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
+#import "GrowlTunesPlugin.h"
+
 #define ITUNES_TRACK_CHANGED	@"Changed Tracks"
 #define ITUNES_PAUSED			@"Paused"
 #define ITUNES_STOPPED			@"Stopped"
@@ -30,6 +32,7 @@ typedef enum {
 	NSString			*playlistName;
 	NSMutableArray		*recentTracks;
 	NSMenu				*iTunesSubMenu;
+	id <GrowlTunesPluginArchive> archivePlugin;
 	
 	iTunesState			state;
 	BOOL				_polling;

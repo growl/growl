@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GrowlTunesPlugin.h"
 
-@interface ARTchiveIconSource : NSObject <GrowlTunesPlugin> {
+@interface ARTchiveIconSource : NSObject <GrowlTunesPlugin, GrowlTunesPluginArchive> {
 	NSString *libraryLocation;
 	NSString *preferredImage;
 	NSString *artworkSubdirectory;

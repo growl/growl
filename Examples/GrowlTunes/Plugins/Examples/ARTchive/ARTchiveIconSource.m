@@ -120,4 +120,52 @@
 	
 	return path;
 }
+
+- (BOOL) usesNetwork {
+	return NO;
+}
+
+- (BOOL) createDirectoriesAtPath:(NSString *)inPath attributes:(NSDictionary *)inAttributes {
+	NSArray *components = [inPath pathComponents];
+	int i;
+	BOOL result = YES;
+	NSFileManager *manager = [NSFileManager defaultManager];
+
+	for (i = 1 ; i <= [components count] ; i++ ) {
+		NSArray *subComponents = [components subarrayWithRange:NSMakeRange(0,i)];
+		NSString *subPath = [NSString pathWithComponents:subComponents];
+		BOOL isDir;
+		BOOL exists = [manager fileExistsAtPath:subPath isDirectory:&isDir];
+
+		if (!exists) {
+			result = [manager createDirectoryAtPath:subPath attributes:inAttributes];
+			if (!result)
+				return result;
+		}
+	}
+	return result;
+}
+
+
+- (BOOL)archiveImage:(NSImage *)image track:(NSString *)track artist:(NSString *)artist album:(NSString *)album compilation:(BOOL)compilation {
+	NSFileManager *manager = [NSFileManager defaultManager];
+	NSString *fullPath = nil;
+	NSString *artworkDir = [self pathForTrack:track artist:artist album:album compilation:compilation];
+	if ([album length]) {
+		fullPath = [artworkDir stringByAppendingPathComponent:@"Cover.tiff"];
+	} else {
+		NSArray *components = [NSArray arrayWithObjects:artworkDir, @"Tracks", track, @"Track.tiff", nil];
+		fullPath = [NSString pathWithComponents:components];
+	}
+	NSLog(@"Archiving artwork at %@", fullPath);
+	if ([manager fileExistsAtPath:fullPath])
+		NSLog(@"Error, should not happen ! The ARTchive plugin should have returned the artwork, as it already exists !");
+	else
+		return ([self createDirectoriesAtPath:[fullPath stringByDeletingLastPathComponent] attributes:NULL] && 
+			[manager createFileAtPath:fullPath
+							 contents:[image TIFFRepresentation]
+						   attributes:NULL]);
+	return NO;
+}
+
 @end

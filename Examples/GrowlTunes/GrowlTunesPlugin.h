@@ -14,4 +14,14 @@
 					byArtist:(NSString *)artist
 					 onAlbum:(NSString *)album
 			   isCompilation:(BOOL)compilation;
+			   
+- (BOOL) usesNetwork;
+@end
+
+@protocol GrowlTunesPluginArchive
+- (BOOL)archiveImage:(NSImage *)image
+			track:(NSString *)track
+		   artist:(NSString *)artist
+			album:(NSString *)album
+	  compilation:(BOOL)compilation;
 @end

@@ -10,7 +10,6 @@
 #import "GrowlDefines.h"
 #import <GrowlAppBridge/GrowlApplicationBridge.h>
 #import "NSGrowlAdditions.h"
-#import "GrowlTunesPlugin.h"
 
 #define ONLINE_HELP_URL		    @"http://growl.info/documentation/growltunes.php"
 
@@ -62,6 +61,7 @@ enum {
 		state = itUNKNOWN;
 		playlistName = [[NSString alloc] init];
 		recentTracks = [[NSMutableArray alloc] init];
+		archivePlugin = nil;
 		plugins = [[self loadPlugins] retain];
 		trackID = 0;
 		trackURL = @"";
@@ -132,6 +132,8 @@ enum {
 	[recentTracks release];
 
 	[plugins release];
+	if (archivePlugin)
+		[archivePlugin release];
 
 	[super dealloc];
 }
@@ -251,6 +253,9 @@ enum {
 											byArtist:artist
 											onAlbum:album
 										isCompilation:(compilation ? compilation : NO)];
+					if (artwork && [plugin usesNetwork]) {
+						[archivePlugin archiveImage:artwork	track:track artist:artist album:album compilation:compilation];
+					}
 				}
 			
 			}
@@ -394,6 +399,9 @@ enum {
 										 byArtist:artist
 										  onAlbum:album
 									isCompilation:compilation];
+				if (artwork && [plugin usesNetwork]) {
+					[archivePlugin archiveImage:artwork	track:track artist:artist album:album compilation:compilation];
+				}
 			}
 			
 		}
@@ -401,7 +409,6 @@ enum {
 		if( !artwork ) {
 			if ( !error ) {
 				NSLog(@"Error getting artwork: %@", [error objectForKey:NSAppleScriptErrorMessage]);
-				
 				if ( [plugins count] ) NSLog(@"No plug-ins found anything either, or you wouldn't have this message.");
 			}
 			
@@ -688,6 +695,18 @@ enum {
 
 #pragma mark Plug-ins
 
+// This function is used to sort plugins, trying first the local ones, and then the network ones
+int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2, void *context) {
+	BOOL b1 = [plugin1 usesNetwork];
+	BOOL b2 = [plugin2 usesNetwork];
+	if ((b1 && b2) || (!b1 && !b2)) //both plugins have the same behaviour
+		return NSOrderedSame;
+	else if (b1 && !b2) // b1 is using network but not b2 so plugin2 should be smaller than 1
+		return NSOrderedDescending;
+	else
+		return NSOrderedAscending;
+}
+
 - (NSMutableArray *)loadPlugins {
 	NSMutableArray *newPlugins = [[NSMutableArray alloc] init];
 	NSMutableArray *lastPlugins = [[NSMutableArray alloc] init];
@@ -711,14 +730,13 @@ enum {
 						Class principalClass = [plugin principalClass];
 						if ([principalClass conformsToProtocol:@protocol(GrowlTunesPlugin)]) {
 							id instance = [[principalClass alloc] init];
-							if ([[[plugin infoDictionary] objectForKey:@"LoadLast"] boolValue]) {
-								// This is a workaround so the Amazon plugin comes last
-								[lastPlugins addObject:instance];
-							} else {
-								[newPlugins addObject:instance];
+							[newPlugins addObject:instance];
+							if (!archivePlugin && ([principalClass conformsToProtocol:@protocol(GrowlTunesPluginArchive)])) {
+								archivePlugin = [instance retain];
+//								NSLog(@"plug-in %@ is archive-Plugin with id %p", [curPath lastPathComponent], instance);
 							}
 							[instance release];
-							NSLog(@"Loaded plug-in \"%@\" with id %p", [curPath lastPathComponent], instance);
+//							NSLog(@"Loaded plug-in \"%@\" with id %p", [curPath lastPathComponent], instance);
 						} else {
 							NSLog(@"Loaded plug-in \"%@\" does not conform to protocol", [curPath lastPathComponent]);
 						}
@@ -734,7 +752,8 @@ enum {
 		[lastPlugins release];
 		[newPlugins autorelease];
 	}
-	return newPlugins;
+	// sort the plugins, putting the one that uses network last
+	return [[newPlugins sortedArrayUsingFunction:comparePlugins context:NULL] autorelease];
 }
 
 @end

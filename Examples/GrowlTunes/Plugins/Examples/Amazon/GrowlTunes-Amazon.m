@@ -61,4 +61,8 @@
 	
 	return artwork;
 }
+
+- (BOOL) usesNetwork {
+	return YES;
+}
 @end
