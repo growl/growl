@@ -410,19 +410,23 @@ enum {
 	if(newPlugins) {
 		NSBundle *myBundle = [NSBundle mainBundle];
 		NSString *pluginsPath = [myBundle builtInPlugInsPath];
-		static NSString *pluginPathExtension = @"plugin";
-
+		NSString *applicationSupportPath = [@"~/Library/Application Support/GrowlTunes/Plugins" stringByExpandingTildeInPath];
+		NSArray *loadPathsArray = [NSArray arrayWithObjects:pluginsPath, applicationSupportPath, nil];
+		NSEnumerator *loadPathsEnum = [loadPathsArray objectEnumerator];
+		NSString *loadPath;
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-		NSDirectoryEnumerator *pluginEnum = [[NSFileManager defaultManager] enumeratorAtPath:pluginsPath];
-		NSString *curPath;
-		while(curPath = [pluginEnum nextObject]) {
-			if([[curPath pathExtension] isEqualToString:pluginPathExtension]) {
-				curPath = [pluginsPath stringByAppendingPathComponent:curPath];
-				NSBundle *plugin = [NSBundle bundleWithPath:curPath];
-				id instance = [[[[plugin principalClass] alloc] init] autorelease];
-				[newPlugins addObject:instance];
-				NSLog(@"Loaded plug-in \"%@\" with id %p", [curPath lastPathComponent], instance);
+		static NSString *pluginPathExtension = @"plugin";
+		while (loadPath = [loadPathsEnum nextObject]) {
+			NSEnumerator *pluginEnum = [[[NSFileManager defaultManager] directoryContentsAtPath:loadPath] objectEnumerator];
+			NSString *curPath;
+			while(curPath = [pluginEnum nextObject]) {
+				if([[curPath pathExtension] isEqualToString:pluginPathExtension]) {
+					curPath = [pluginsPath stringByAppendingPathComponent:curPath];
+					NSBundle *plugin = [NSBundle bundleWithPath:curPath];
+					id instance = [[[[plugin principalClass] alloc] init] autorelease];
+					[newPlugins addObject:instance];
+					NSLog(@"Loaded plug-in \"%@\" with id %p", [curPath lastPathComponent], instance);
+				}
 			}
 		}
 
