@@ -1,0 +1,61 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                allowRemoteRegistration = id; 
+                apply = id; 
+                checkVersion = id; 
+                deleteTicket = id; 
+                revert = id; 
+                selectDisplayPlugin = id; 
+                setEnableForward = id; 
+                setRemotePassword = id; 
+                startGrowlAtLogin = id; 
+                startGrowlServer = id; 
+                startStopGrowl = id; 
+            }; 
+            CLASS = GrowlPref; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                allDisplayPlugins = NSPopUpButton; 
+                allowRemoteRegistration = NSButton; 
+                applicationNotifications = NSTableView; 
+                apply = NSButton; 
+                displayAuthor = NSTextField; 
+                displayDefaultPrefView = NSView; 
+                displayPlugins = NSTableView; 
+                displayPrefView = NSView; 
+                displayVersion = NSTextField; 
+                enableForward = NSButton; 
+                growlApplications = NSTableView; 
+                growlRunningProgress = NSProgressIndicator; 
+                growlRunningStatus = NSTextField; 
+                growlServiceList = NSTableView; 
+                growlVersion = NSTextField; 
+                growlVersionProgress = NSProgressIndicator; 
+                networkPassword = NSSecureTextField; 
+                remove = NSButton; 
+                revert = NSButton; 
+                startGrowlAtLogin = NSButton; 
+                startGrowlServer = NSButton; 
+                startStopGrowl = NSButton; 
+                tabView = NSTabView; 
+            }; 
+            SUPERCLASS = NSPreferencePane; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            CLASS = NSPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_firstKeyView" = id; 
+                "_initialKeyView" = id; 
+                "_lastKeyView" = id; 
+                "_window" = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

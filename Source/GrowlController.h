@@ -51,8 +51,8 @@
 - (void) dispatchNotificationWithDictionary:(NSDictionary *)dict;
 - (void) registerApplicationWithDictionary:(NSDictionary *) userInfo;
 
-- (NSDictionary *)versionDictionary;
-- (NSString *)stringWithVersionDictionary:(NSDictionary *)d;
+- (NSDictionary *) versionDictionary;
+- (NSString *) stringWithVersionDictionary:(NSDictionary *)d;
 
 - (void) loadTickets;
 - (void) saveTickets;
