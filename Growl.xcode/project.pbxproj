@@ -3200,7 +3200,7 @@
 				INFOPLIST_FILE = "GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-lcrypto.0.9";
+				OTHER_LDFLAGS = "-lcrypto.0.9 -bind_at_load";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = GrowlHelperApp;
 				SECTORDER_FLAGS = "";
