@@ -9,21 +9,7 @@
 
 #import "NSGrowlAdditions.h"
 
-@implementation NSWorkspace (GrowlAdditions)
-
-- (NSImage *) iconForApplication:(NSString *) inName {
-	NSString *path = [self fullPathForApplication:inName];
-	NSImage *appIcon = path ? [self iconForFile:path] : nil;
-	
-	if ( appIcon ) {
-		[appIcon setSize:NSMakeSize(128.0f,128.0f)];
-	}
-	return appIcon;
-}
-
-@end
-
-#pragma mark -
+#pragma mark Foundation
 
 @implementation NSString (GrowlAdditions)
 
@@ -53,6 +39,131 @@
 	NSMutableDictionary *md = [NSMutableDictionary dictionaryWithDictionary:attributes];
 	[md setObject:ellipsisingStyle forKey:NSParagraphStyleAttributeName];
 	[self drawInRect:rect withAttributes:md];
+}
+
+@end
+
+#pragma mark -
+
+static NSString *_CFURLAliasDataKey  = @"_CFURLAliasData";
+static NSString *_CFURLStringKey     = @"_CFURLString";
+static NSString *_CFURLStringTypeKey = @"_CFURLStringType";
+
+@implementation NSURL (GrowlAdditions)
+
+//these are the type of external representations used by Dock.app.
++ fileURLWithDockDescription:(NSDictionary *)dict {
+	NSURL *URL = nil;
+
+	NSString *path      = [dict objectForKey:_CFURLStringKey];
+	NSData   *aliasData = [dict objectForKey:_CFURLAliasDataKey];
+
+	if(aliasData) {
+		AliasHandle alias = NULL;
+		OSStatus err = PtrToHand([aliasData bytes], (Handle *)&alias, [aliasData length]);
+		if(err != noErr) {
+			NSLog(@"in +[NSURL(GrowlAdditions) URLWithDockDescription:]: Could not allocate an alias handle from %u bytes of alias data in Dock-description (data follows) because PtrToHand returned %li - will try looking it up by path\n%@", [aliasData length], aliasData, (long)err);
+		} else {
+			FSRef fsref;
+			Boolean isDir = true;
+			Boolean nobodyCares;
+			err = FSResolveAlias(/*fromFile*/ NULL, alias, &fsref, /*wasChanged*/ &nobodyCares);
+			if(err != noErr) {
+				if(err != fnfErr) //ignore file-not-found; it's harmless
+					NSLog(@"in +[NSURL(GrowlAdditions) URLWithDockDescription:]: Could not resolve alias in Dock-description (data follows) because FSResolveAlias returned %li - will try path\n%@", (long)err, aliasData);
+			} else {
+				URL = (NSURL *)CFURLCreateFromFSRef(kCFAllocatorDefault, &fsref);
+			}
+		}
+	}
+
+	if(!URL) {
+		if(path) {
+			NSNumber *pathStyleNum = [dict objectForKey:_CFURLStringTypeKey];
+			CFURLPathStyle pathStyle = pathStyleNum ? [pathStyleNum intValue] : kCFURLPOSIXPathStyle;
+
+			BOOL isDir = YES;
+			BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
+
+			if(exists)
+				URL = (NSURL *)CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)path, pathStyle, /*isDirectory*/ isDir);
+		}
+	}
+
+	return [URL autorelease];
+}
+
+- (NSDictionary *)dockDescription {
+	//return nil for non-file: URLs.
+	if([[self scheme] caseInsensitiveCompare:@"file"] != NSOrderedSame)
+		return nil;
+
+	NSDictionary *dict = nil;
+	NSString *path     = nil;
+	NSData *aliasData  = nil;
+
+	CFURLRef CFself = (CFURLRef)self;
+	FSRef    fsref;
+	if(CFURLGetFSRef(CFself, &fsref)) {
+		AliasHandle alias = NULL;
+		OSStatus    err   = FSNewAlias(/*fromFile*/ NULL, &fsref, &alias);
+		if(err != noErr) {
+			NSLog(@"in -[NSURL(GrowlAdditions) dockDescription]: FSNewAlias for %@ returned %li", self, (long)err);
+		} else {
+			HLock((Handle)alias);
+
+			err = FSCopyAliasInfo(alias, /*targetName*/ NULL, /*volumeName*/ NULL, (CFStringRef *)&path, /*whichInfo*/ NULL, /*info*/ NULL);
+			if(err != noErr)
+				NSLog(@"in -[NSURL(GrowlAdditions) dockDescription]: FSCopyAliasInfo for %@ returned %li", self, (long)err);
+			else
+				path = [path autorelease];
+
+			aliasData = [NSData dataWithBytes:*alias length:GetHandleSize((Handle)alias)];
+
+			HUnlock((Handle)alias);
+			DisposeHandle((Handle)alias);
+		}
+	}
+
+	if(!path)
+		path = [self path];
+
+	if(path || aliasData) {
+		NSMutableDictionary *temp = [NSMutableDictionary dictionary];
+
+		if(path) {
+			[temp setObject:path
+			         forKey:_CFURLStringKey];
+			[temp setObject:[NSNumber numberWithInt:kCFURLPOSIXPathStyle]
+			         forKey:_CFURLStringTypeKey];
+		}
+
+		if(aliasData) {
+			[temp setObject:aliasData
+			         forKey:_CFURLAliasDataKey];
+		}
+
+		dict = temp;
+	}
+
+	return dict;
+}
+
+@end
+
+#pragma mark -
+#pragma mark AppKit
+
+@implementation NSWorkspace (GrowlAdditions)
+
+- (NSImage *) iconForApplication:(NSString *) inName {
+	NSString *path = [self fullPathForApplication:inName];
+	NSImage *appIcon = path ? [self iconForFile:path] : nil;
+	
+	if ( appIcon ) {
+		[appIcon setSize:NSMakeSize(128.0f,128.0f)];
+	}
+	return appIcon;
 }
 
 @end
@@ -95,7 +206,5 @@ OSStatus CGSSetWindowTags(CGSConnection cid,CGSWindow window,int *tags,int other
 		retVal = CGSSetWindowTags(cid, wid, tags, 32);
 	}
 }
-
-
 
 @end

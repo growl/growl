@@ -9,11 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface NSWorkspace (GrowlAdditions)
-
-- (NSImage *) iconForApplication:(NSString *) inName;
-
-@end
+#pragma mark Foundation
 
 @interface NSString (GrowlAdditions)
 
@@ -25,8 +21,25 @@
 
 @end
 
+@interface NSURL (GrowlAdditions)
+
+//these are the type of external representations used by Dock.app.
++ fileURLWithDockDescription:(NSDictionary *)dict;
+//-dockDescription returns nil for non-file: URLs.
+- (NSDictionary *)dockDescription;
+
+@end
+
+#pragma mark AppKit
+
 @interface NSWindow (GrowlAdditions)
 
 - (void) setSticky:(BOOL)flag;
+
+@end
+
+@interface NSWorkspace (GrowlAdditions)
+
+- (NSImage *) iconForApplication:(NSString *) inName;
 
 @end
