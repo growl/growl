@@ -13,19 +13,20 @@ static GrowlApplicationBridgePathway *_theOneTrueGrowlApplicationBridgePathway;
 @implementation GrowlApplicationBridgePathway
 
 + (GrowlApplicationBridgePathway *) standardPathway {
-	if ( ! _theOneTrueGrowlApplicationBridgePathway ) 
+	if ( ! _theOneTrueGrowlApplicationBridgePathway ) {
 		_theOneTrueGrowlApplicationBridgePathway = [[self alloc] init];
+	}
 	
 	return _theOneTrueGrowlApplicationBridgePathway;
 }
 
 - (id) init {
-	if(_theOneTrueGrowlApplicationBridgePathway) {
+	if (_theOneTrueGrowlApplicationBridgePathway) {
 		[self release];
 		return _theOneTrueGrowlApplicationBridgePathway;
 	}
 
-	if((self = [super init])) {
+	if ((self = [super init])) {
 		/*This uses the default connection since it's assumed that we need to
 		 *	talk to apps, hence making this connection more important than the rest
 		 */

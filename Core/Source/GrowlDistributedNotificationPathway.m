@@ -12,7 +12,7 @@
 @implementation GrowlDistributedNotificationPathway
 
 - (id)init {
-	if((self = [super init])) {
+	if ((self = [super init])) {
 		NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
 		[dnc addObserver:self
 				selector:@selector(gotGrowlRegistration:)

@@ -13,8 +13,9 @@
 
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
 	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
-	if(enabled)
+	if (enabled) {
 		[super registerApplicationWithDictionary:dict];
+	}
 }
 
 @end

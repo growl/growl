@@ -58,35 +58,36 @@ static NSString *_CFURLStringTypeKey = @"_CFURLStringType";
 	NSString *path      = [dict objectForKey:_CFURLStringKey];
 	NSData   *aliasData = [dict objectForKey:_CFURLAliasDataKey];
 
-	if(aliasData) {
+	if (aliasData) {
 		AliasHandle alias = NULL;
 		OSStatus err = PtrToHand([aliasData bytes], (Handle *)&alias, [aliasData length]);
-		if(err != noErr) {
+		if (err != noErr) {
 			NSLog(@"in +[NSURL(GrowlAdditions) URLWithDockDescription:]: Could not allocate an alias handle from %u bytes of alias data in Dock-description (data follows) because PtrToHand returned %li - will try looking it up by path\n%@", [aliasData length], aliasData, (long)err);
 		} else {
 			FSRef fsref;
-			Boolean isDir = true;
 			Boolean nobodyCares;
 			err = FSResolveAlias(/*fromFile*/ NULL, alias, &fsref, /*wasChanged*/ &nobodyCares);
-			if(err != noErr) {
-				if(err != fnfErr) //ignore file-not-found; it's harmless
+			if (err != noErr) {
+				if (err != fnfErr) { //ignore file-not-found; it's harmless
 					NSLog(@"in +[NSURL(GrowlAdditions) URLWithDockDescription:]: Could not resolve alias in Dock-description (data follows) because FSResolveAlias returned %li - will try path\n%@", (long)err, aliasData);
+				}
 			} else {
 				URL = (NSURL *)CFURLCreateFromFSRef(kCFAllocatorDefault, &fsref);
 			}
 		}
 	}
 
-	if(!URL) {
-		if(path) {
+	if (!URL) {
+		if (path) {
 			NSNumber *pathStyleNum = [dict objectForKey:_CFURLStringTypeKey];
 			CFURLPathStyle pathStyle = pathStyleNum ? [pathStyleNum intValue] : kCFURLPOSIXPathStyle;
 
 			BOOL isDir = YES;
 			BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir];
 
-			if(exists)
+			if (exists) {
 				URL = (NSURL *)CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)path, pathStyle, /*isDirectory*/ isDir);
+			}
 		}
 	}
 
@@ -95,8 +96,9 @@ static NSString *_CFURLStringTypeKey = @"_CFURLStringType";
 
 - (NSDictionary *)dockDescription {
 	//return nil for non-file: URLs.
-	if([[self scheme] caseInsensitiveCompare:@"file"] != NSOrderedSame)
+	if ([[self scheme] caseInsensitiveCompare:@"file"] != NSOrderedSame) {
 		return nil;
+	}
 
 	NSDictionary *dict = nil;
 	NSString *path     = nil;
@@ -104,19 +106,20 @@ static NSString *_CFURLStringTypeKey = @"_CFURLStringType";
 
 	CFURLRef CFself = (CFURLRef)self;
 	FSRef    fsref;
-	if(CFURLGetFSRef(CFself, &fsref)) {
+	if (CFURLGetFSRef(CFself, &fsref)) {
 		AliasHandle alias = NULL;
 		OSStatus    err   = FSNewAlias(/*fromFile*/ NULL, &fsref, &alias);
-		if(err != noErr) {
+		if (err != noErr) {
 			NSLog(@"in -[NSURL(GrowlAdditions) dockDescription]: FSNewAlias for %@ returned %li", self, (long)err);
 		} else {
 			HLock((Handle)alias);
 
 			err = FSCopyAliasInfo(alias, /*targetName*/ NULL, /*volumeName*/ NULL, (CFStringRef *)&path, /*whichInfo*/ NULL, /*info*/ NULL);
-			if(err != noErr)
+			if (err != noErr) {
 				NSLog(@"in -[NSURL(GrowlAdditions) dockDescription]: FSCopyAliasInfo for %@ returned %li", self, (long)err);
-			else
+			} else {
 				path = [path autorelease];
+			}
 
 			aliasData = [NSData dataWithBytes:*alias length:GetHandleSize((Handle)alias)];
 
@@ -125,20 +128,21 @@ static NSString *_CFURLStringTypeKey = @"_CFURLStringType";
 		}
 	}
 
-	if(!path)
+	if (!path) {
 		path = [self path];
+	}
 
-	if(path || aliasData) {
+	if (path || aliasData) {
 		NSMutableDictionary *temp = [NSMutableDictionary dictionary];
 
-		if(path) {
+		if (path) {
 			[temp setObject:path
 			         forKey:_CFURLStringKey];
 			[temp setObject:[NSNumber numberWithInt:kCFURLPOSIXPathStyle]
 			         forKey:_CFURLStringTypeKey];
 		}
 
-		if(aliasData) {
+		if (aliasData) {
 			[temp setObject:aliasData
 			         forKey:_CFURLAliasDataKey];
 		}

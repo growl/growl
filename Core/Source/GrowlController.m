@@ -129,12 +129,12 @@ static id singleton = nil;
 	server = [[GrowlRemotePathway alloc] init];
 	[serverConnection setRootObject:server];
 	[serverConnection setDelegate:self];
-	
+
 	// register with the default NSPortNameServer on the local host
 	if ( ![serverConnection registerName:@"GrowlServer"] ) {
 		NSLog( @"Could not register Growl server." );
 	}
-	
+
 	// configure and publish the Rendezvous service
 	service = [[NSNetService alloc] initWithDomain:@""	// use local registration domain
 											  type:@"_growl._tcp."
@@ -624,8 +624,9 @@ static id singleton = nil;
 					.asyncRefCon = NULL,
 				};
 				OSStatus err = LSOpenFromURLSpec(&spec, /*outLaunchedURL*/ NULL);
-				if(err != noErr)
+				if (err != noErr) {
 					NSLog(@"The registration ticket for %@ could not be opened (LSOpenFromURLSpec returned %li). Pathname for the ticket file: %@", appName, (long)err, ticketPath);
+				}
 			} else if ([GrowlApplicationTicket isKnownTicketVersion:ticket]) {
 				NSLog(@"%@ (located at %@) contains an invalid registration ticket - developer, please consult Growl developer documentation (http://growl.info/documentation/developer/)", appName, appPath);
 			} else {

@@ -6,7 +6,6 @@
 //  Copyright 2005 The Growl Project. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "GrowlPathway.h"
 
 @interface GrowlDistributedNotificationPathway: GrowlPathway {
