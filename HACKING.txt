@@ -206,11 +206,11 @@ Comments
 // C99 single-line comments are allowed.
 // Put a space after the //.
 
-/*	Multi-line ('winged') comments should be used whenever a comment spans
- *	multiple lines, like this one.
- *	Be sure the stars line up in a nice column, and that the end wing is on its
- *	own line.
- *	Also make sure you use a tab after the column of stars.
+/* Multi-line ('winged') comments should be used whenever a comment spans
+ * multiple lines, like this one.
+ * Be sure the stars line up in a nice column, and that the end wing is on its
+ * own line.
+ * Also make sure you use a space after the column of stars.
  */
 
 A single-line comment can appear on the same line as the statement to which it 
