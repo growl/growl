@@ -65,7 +65,7 @@
 #define GROWL_IS_READY					@"Lend Me Some Sugar; I Am Your Neighbor!"
 
 /*! The listen port for Growl notification servers. */
-#define GROWL_TCP_PORT	63052
+#define GROWL_TCP_PORT	23052
 
 #define GROWL_UDP_PORT	9887
 
