@@ -270,8 +270,8 @@ int main(int argc, const char **argv) {
 					perror("setsockopt: SO_SNDBUF");
 				}
 				//printf( "sendbuf: %d\n", size );
-				//printf( "notification packet length: %d\n", notificationSize );
 				//printf( "registration packet length: %d\n", registrationSize );
+				//printf( "notification packet length: %d\n", notificationSize );
 				if ( sendto( sock, registrationPacket, registrationSize, 0, (struct sockaddr *)&to, sizeof(to) ) < 0 ) {
 					perror( "sendto" );
 					code = EXIT_FAILURE;

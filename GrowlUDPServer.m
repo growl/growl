@@ -57,10 +57,9 @@
 	char *title;
 	char *description;
 	char *applicationName;
-	char *icon;
 	char *notification;
 	unsigned int notificationNameLen, titleLen, descriptionLen, priority, applicationNameLen;
-	unsigned int iconLen, length, num, i, size;
+	unsigned int length, num, i, size;
 	BOOL isSticky;
 
 	NSDictionary *userInfo = [aNotification userInfo];
@@ -77,49 +76,39 @@
 					case GROWL_TYPE_REGISTRATION:
 						if ( length >= sizeof(struct GrowlNetworkRegistration) ) {
 							BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
-							
+
 							if ( enabled ) {
 								struct GrowlNetworkRegistration *nr = (struct GrowlNetworkRegistration *)packet;
 								applicationName = nr->data;
-								applicationNameLen = ntohl( nr->appNameLen );
+								applicationNameLen = ntohs( nr->appNameLen );
 
 								// all notifications
-								num = ntohl( nr->numAllNotifications );
+								num = nr->numAllNotifications;
 								notification = applicationName + applicationNameLen;
 								NSMutableArray *allNotifications = [[NSMutableArray alloc] initWithCapacity:num];
 								for( i=0; i<num; ++i ) {
-									size = ntohl( *(unsigned int *)notification );
-									notification += sizeof(unsigned int);
+									size = ntohs( *(unsigned short *)notification );
+									notification += sizeof(unsigned short);
 									[allNotifications addObject:[NSString stringWithUTF8String:notification length:size]];
 									notification += size;
 								}
 
 								// default notifications
-								num = ntohl( nr->numDefaultNotifications );
+								num = nr->numDefaultNotifications;
 								NSMutableArray *defaultNotifications = [[NSMutableArray alloc] initWithCapacity:num];
 								for( i=0; i<num; ++i ) {
-									size = ntohl( *(unsigned int *)notification );
-									notification += sizeof(unsigned int);
+									size = ntohs( *(unsigned short *)notification );
+									notification += sizeof(unsigned short);
 									[defaultNotifications addObject:[NSString stringWithUTF8String:notification length:size]];
 									notification += size;
 								}
 
-								NSMutableDictionary *registerInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+								// TODO: generic icon
+								NSDictionary *registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 									[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
 									allNotifications, GROWL_NOTIFICATIONS_ALL,
 									defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 									nil];
-
-								icon = notification;
-								iconLen = ntohl( nr->appIconLen );
-
-								if (iconLen) {
-									NSData *image = [[NSData alloc] initWithBytes:icon length:iconLen];
-									if (image) {
-										[registerInfo setObject:image forKey:GROWL_APP_ICON];
-										[image release];
-									}
-								}
 
 								[[GrowlController singleton] _registerApplicationWithDictionary:registerInfo];
 							}
@@ -134,20 +123,19 @@
 							priority = nn->flags.priority;
 							isSticky = nn->flags.sticky;
 							notificationName = nn->data;
-							notificationNameLen = ntohl( nn->nameLen );
+							notificationNameLen = ntohs( nn->nameLen );
 							title = notificationName + notificationNameLen;
-							titleLen = ntohl( nn->titleLen );
+							titleLen = ntohs( nn->titleLen );
 							description = title + titleLen;
-							descriptionLen = ntohl( nn->descriptionLen );
+							descriptionLen = ntohs( nn->descriptionLen );
 							applicationName = description + descriptionLen;
-							applicationNameLen = ntohl( nn->appNameLen );
-							icon = applicationName + applicationNameLen;
-							iconLen = ntohl( nn->iconLen );
+							applicationNameLen = ntohs( nn->appNameLen );
 
 							if ( length >= sizeof(struct GrowlNetworkNotification) + notificationNameLen
-									+ titleLen + descriptionLen + applicationNameLen + iconLen ) {
-								NSMutableDictionary *notificationInfo;
-								notificationInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+									+ titleLen + descriptionLen + applicationNameLen ) {
+								NSDictionary *notificationInfo;
+								// TODO: generic icon
+								notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 									[NSString stringWithUTF8String:notificationName length:notificationNameLen], GROWL_NOTIFICATION_NAME,
 									[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
 									[NSString stringWithUTF8String:title length:titleLen], GROWL_NOTIFICATION_TITLE,
@@ -156,13 +144,6 @@
 									[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
 									nil];
 
-								if (iconLen) {
-									NSData *image = [[NSData alloc] dataWithBytes:icon length:iconLen];
-									if (image) {
-										[notificationInfo setObject:image forKey:GROWL_NOTIFICATION_ICON];
-										[image release];
-									}
-								}
 								[[GrowlController singleton] dispatchNotificationWithDictionary:notificationInfo];
 							} else {
 								NSLog( @"GrowlUDPServer: received invalid notification packet." );

@@ -14,23 +14,19 @@
 	struct GrowlNetworkNotification *nn;
 	char *data;
 	unsigned int length;
-	unsigned int notificationNameLen, titleLen, descriptionLen, applicationNameLen, iconLen;
-	
+	unsigned short notificationNameLen, titleLen, descriptionLen, applicationNameLen;
+
 	const char *notificationName = [[aNotification objectForKey:GROWL_NOTIFICATION_NAME] UTF8String];
 	const char *applicationName = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
 	const char *title = [[aNotification objectForKey:GROWL_NOTIFICATION_TITLE] UTF8String];
 	const char *description = [[aNotification objectForKey:GROWL_NOTIFICATION_DESCRIPTION] UTF8String];
 	NSNumber *priority = [aNotification objectForKey:GROWL_NOTIFICATION_PRIORITY];
 	NSNumber *isSticky = [aNotification objectForKey:GROWL_NOTIFICATION_STICKY];
-	NSData *icon = [aNotification objectForKey:GROWL_NOTIFICATION_ICON];
-	// TODO: disable icon data as it results in packets that are too large
-	icon = nil;
 	notificationNameLen = strlen( notificationName );
 	applicationNameLen = strlen( applicationName );
 	titleLen = strlen( title );
 	descriptionLen = strlen( description );
-	iconLen = [icon length];
-	length = sizeof(*nn) + notificationNameLen + applicationNameLen + titleLen + descriptionLen + iconLen;
+	length = sizeof(*nn) + notificationNameLen + applicationNameLen + titleLen + descriptionLen;
 
 	nn = (struct GrowlNetworkNotification *)malloc( length );
 	nn->common.version = GROWL_PROTOCOL_VERSION;
@@ -38,11 +34,10 @@
 	nn->flags.reserved = 0;
 	nn->flags.priority = [priority intValue];
 	nn->flags.sticky = [isSticky boolValue];
-	nn->nameLen = htonl( notificationNameLen );
-	nn->titleLen = htonl( titleLen );
-	nn->descriptionLen = htonl( descriptionLen );
-	nn->appNameLen = htonl( applicationNameLen );
-	nn->iconLen = htonl( iconLen );
+	nn->nameLen = htons( notificationNameLen );
+	nn->titleLen = htons( titleLen );
+	nn->descriptionLen = htons( descriptionLen );
+	nn->appNameLen = htons( applicationNameLen );
 	data = nn->data;
 	memcpy( data, notificationName, notificationNameLen );
 	data += notificationNameLen;
@@ -52,7 +47,6 @@
 	data += descriptionLen;
 	memcpy( data, applicationName, applicationNameLen );
 	data += applicationNameLen;
-	[icon getBytes:data];
 
 	*packetSize = length;
 	
@@ -64,22 +58,18 @@
 	char *data;
 	const char *notification;
 	unsigned int i, length, size;
-	unsigned int applicationNameLen;
-	unsigned int numAllNotifications, numDefaultNotifications, iconLen;
+	unsigned short applicationNameLen;
+	unsigned int numAllNotifications, numDefaultNotifications;
 	
 	const char *applicationName = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
 	NSArray *allNotifications = [aNotification objectForKey:GROWL_NOTIFICATIONS_ALL];
 	NSArray *defaultNotifications = [aNotification objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
-	NSData *icon = [aNotification objectForKey:GROWL_APP_ICON];
-	// TODO: disable icon data as it results in packets that are too large
-	icon = nil;
 	applicationNameLen = strlen( applicationName );
 	numAllNotifications = [allNotifications count];
 	numDefaultNotifications = [allNotifications count];
-	iconLen = [icon length];
 
 	// compute packet size
-	length = sizeof(*nr) + applicationNameLen + iconLen;
+	length = sizeof(*nr) + applicationNameLen;
 	for ( i=0; i<numAllNotifications; ++i ) {
 		notification = [[allNotifications objectAtIndex:i] UTF8String];
 		length += sizeof(unsigned int) + strlen( notification );
@@ -92,30 +82,28 @@
 	nr = (struct GrowlNetworkRegistration *)malloc( length );
 	nr->common.version = GROWL_PROTOCOL_VERSION;
 	nr->common.type = GROWL_TYPE_REGISTRATION;
-	nr->appNameLen = htonl( applicationNameLen );
-	nr->numAllNotifications = htonl( numAllNotifications );
-	nr->numDefaultNotifications = htonl( numDefaultNotifications );
-	nr->appIconLen = htonl( iconLen );
+	nr->appNameLen = htons( applicationNameLen );
+	nr->numAllNotifications = (unsigned char)numAllNotifications;
+	nr->numDefaultNotifications = (unsigned char)numDefaultNotifications;
 	data = nr->data;
 	memcpy( data, applicationName, applicationNameLen );
 	data += applicationNameLen;
 	for ( i=0; i<numAllNotifications; ++i ) {
 		notification = [[allNotifications objectAtIndex:i] UTF8String];
 		size = strlen( notification );
-		*(unsigned int *)data = htonl( size );
-		data += sizeof(unsigned int);
+		*(unsigned short *)data = htons( size );
+		data += sizeof(unsigned short);
 		memcpy( data, notification, size );
 		data += size;
 	}
 	for ( i=0; i<numDefaultNotifications; ++i ) {
 		notification = [[defaultNotifications objectAtIndex:i] UTF8String];
 		size = strlen( notification );
-		*(unsigned int *)data = htonl( size );
-		data += sizeof(unsigned int);
+		*(unsigned short *)data = htons( size );
+		data += sizeof(unsigned short);
 		memcpy( data, notification, size );
 		data += size;
 	}
-	[icon getBytes:data];
 	
 	*packetSize = length;
 	

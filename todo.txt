@@ -42,7 +42,10 @@ For .7 or sooner
 	  	- For obvious reasons this is off by default
 	- Support for the gnome notifications system if it ever adds a networking protocol for its notifications
 	- Pane in preferences for configuration of this when the user has actually turned it on
-
+	- Use a generic icon for incoming UDP notifications. Sending an icon over the network
+	  makes the packets too large.
+	- Optionally allow only notifications with a password which can be specified in the
+	  preference pane.
 
 - Preference pane redesign
 	- Apps tab switch to app centric with custom View for notifications using images to represent the available options

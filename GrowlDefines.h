@@ -88,13 +88,12 @@ struct GrowlNetworkPacket {
  */
 struct GrowlNetworkRegistration {
 	struct GrowlNetworkPacket common;
-	unsigned int appNameLen;
-	unsigned int numAllNotifications;
-	unsigned int numDefaultNotifications;
-	unsigned int appIconLen;	// 0 -> no icon
+	unsigned short appNameLen;
+	unsigned char numAllNotifications;
+	unsigned char numDefaultNotifications;
 	/*
 	 * Variable sized. Format:
-	 *	<application name><all notifications><default notifications>[application icon]
+	 *	<application name><all notifications><default notifications>
 	 *	where <all notifications> and <default notifications> are of the form
 	 *	(<length><name>){num}.
 	 */
@@ -102,7 +101,7 @@ struct GrowlNetworkRegistration {
 };
 
 /**
-*	A notification packet.
+ *	A notification packet.
  */
 struct GrowlNetworkNotification {
 	struct GrowlNetworkPacket common;
@@ -111,14 +110,13 @@ struct GrowlNetworkNotification {
 		signed   priority: 3;
 		unsigned sticky:   1;
 	} flags; //size = 32 (28 + 3 + 1)
-	unsigned int nameLen;
-	unsigned int titleLen;
-	unsigned int descriptionLen;
-	unsigned int appNameLen;
-	unsigned int iconLen;	// 0 -> no icon
+	unsigned short nameLen;
+	unsigned short titleLen;
+	unsigned short descriptionLen;
+	unsigned short appNameLen;
 	/*
 	 *	Variable sized. Format:
-	 *	<notification name><title><description><application name>[icon]
+	 *	<notification name><title><description><application name>
 	 */
 	unsigned char data[];
 };
