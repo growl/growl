@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>HardwareGrowler</string>
 	<key>CFBundleIconFile</key>
-	<string></string>
+	<string>hwGrowlerIcon</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.monkeyfood.hardwaregrowler</string>
 	<key>CFBundleInfoDictionaryVersion</key>

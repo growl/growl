@@ -14,5 +14,11 @@ FileSystem Volumes
 
 
 Bugs:
-I can't  get the name of many FireWire devices - it may be that they don't even have them.
+
+	I can't  get the name of many FireWire devices - it may be that they don't even have them.
 Should probably run without appearing in the dock.
+
+	Terrible Icon.
+	
+	Should probably have some kind of preferences UI where the user can disable start-up notifications.
+	

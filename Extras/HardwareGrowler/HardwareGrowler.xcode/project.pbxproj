@@ -170,6 +170,7 @@
 		};
 		29B97317FDCFA39411CA2CEA = {
 			children = (
+				DD1E113E07C7558B005BD5FC,
 				DDF9B70607BC1D5D0007B5B7,
 				DDF9B6FA07BC1C800007B5B7,
 				DDF9B6D007BC16E30007B5B7,
@@ -325,6 +326,7 @@
 				PRODUCT_NAME = HardwareGrowler;
 				WRAPPER_EXTENSION = app;
 			};
+			comments = "Rawr!!..\n\n";
 			dependencies = (
 			);
 			isa = PBXNativeTarget;
@@ -351,6 +353,7 @@
 				DDF9B6FB07BC1C800007B5B7,
 				DDF9B70707BC1D5D0007B5B7,
 				DDF9B81107BC20630007B5B7,
+				DD1E113F07C7558B005BD5FC,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,9 +422,9 @@
 			sourceTree = "<group>";
 		};
 		8D1107320486CEB800E47090 = {
+			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			lastKnownFileType = wrapper.application;
 			path = HardwareGrowler.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -571,6 +574,19 @@
 //DD2
 //DD3
 //DD4
+		DD1E113E07C7558B005BD5FC = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			path = hwGrowlerIcon.icns;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD1E113F07C7558B005BD5FC = {
+			fileRef = DD1E113E07C7558B005BD5FC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		DD54996E07BA5E420010BE54 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
