@@ -79,10 +79,10 @@ static id singleton = nil;
 													 name:GROWL_NOTIFICATION_CLICKED
 												   object:nil];
 
-		tickets = [[NSMutableDictionary alloc] init];
-		registrationLock = [[NSLock alloc] init];
-		notificationQueue = [[NSMutableArray alloc] init];
-		registrationQueue = [[NSMutableArray alloc] init];
+		tickets           = [[NSMutableDictionary alloc] init];
+		registrationLock  = [[NSLock              alloc] init];
+		notificationQueue = [[NSMutableArray      alloc] init];
+		registrationQueue = [[NSMutableArray      alloc] init];
 
 		[self versionDictionary];
 
@@ -97,7 +97,7 @@ static id singleton = nil;
 																 object:nil];
 
 		growlIcon = [[NSImage imageNamed:@"NSApplicationIcon"] retain];
-		growlIconData = [growlIcon TIFFRepresentation];
+		growlIconData = [[growlIcon TIFFRepresentation] retain];
 
 		[GrowlApplicationBridge setGrowlDelegate:self];
 
@@ -112,11 +112,14 @@ static id singleton = nil;
 - (void) dealloc {
 	//free your world
 	[self stopServer];
-	[tickets release];
-	[registrationLock release];
+
+	[tickets           release];
+	[registrationLock  release];
 	[notificationQueue release];
 	[registrationQueue release];
-	[growlIcon release];
+
+	[growlIcon     release];
+	[growlIconData release];
 
 	[super dealloc];
 }
