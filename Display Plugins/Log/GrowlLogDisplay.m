@@ -25,18 +25,18 @@
 	return preferencePane;
 }
 
-- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {
+- (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
 	NSString *logString = [NSString stringWithFormat:@"%@ %@: %@ (%@) - Priority %d",
 							[[NSDate date] description],
  							[noteDict objectForKey:GROWL_APP_NAME],
-  							[noteDict objectForKey:GROWL_NOTIFICATION_TITLE], 
+							[noteDict objectForKey:GROWL_NOTIFICATION_TITLE], 
  							[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION],
-							[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue] ];
+							[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
 							
  	int typePref = 0;
  	READ_GROWL_PREF_INT(logTypeKey, LogPrefDomain, &typePref);
  	if (typePref == 0) {
- 		NSLog(logString);
+ 		NSLog(@"%@", logString);
  	} else {
  		NSString *logFile = nil;
  		BOOL written = NO;
@@ -56,8 +56,8 @@
 			if (logFile) {
 				NSLog(@"Failed to write notification to file %@", logFile);
 			}
- 			NSLog(logString);
- 		}
- 	}
-  }
+			NSLog(@"%@", logString);
+		}
+	}
+}
 @end
