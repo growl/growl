@@ -45,6 +45,7 @@
 	NSLog(@"checkbox %u; on %u; off %u; mixed %u", [_newNotificationDefault state], NSOnState, NSOffState, NSMixedState);
 	NSNumber *defaultValue = [NSNumber numberWithBool:[_newNotificationDefault state] == NSOnState];
 	NSNumber *stickyValue = [NSNumber numberWithBool:[_newNotificationSticky state] == NSOnState];
+	NSNumber *priority = [NSNumber numberWithInt:[[_newNotificationPriority selectedItem] tag]];
 	NSData *image = nil;
 	if ( [_newNotificationImage image] ) {
 		image = [[_newNotificationImage image] TIFFRepresentation];
@@ -54,6 +55,7 @@
 		[_newNotificationTitle stringValue], GROWL_NOTIFICATION_NAME,
 		[_newNotificationTitle stringValue], GROWL_NOTIFICATION_TITLE,
 		[_newNotificationDescription stringValue], GROWL_NOTIFICATION_DESCRIPTION,
+		priority, GROWL_NOTIFICATION_PRIORITY,
 		@"Beep-Cocoa", GROWL_APP_NAME,
 		defaultValue, GROWL_NOTIFICATION_DEFAULT,
 		stickyValue, GROWL_NOTIFICATION_STICKY,
