@@ -132,10 +132,10 @@ static BOOL				promptedToUpgradeGrowl = NO;
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
 			clickContext:(id)clickContext {
-	NSAssert(delegate != nil, @"+[GrowlApplicationBridge setGrowlDelegate:] must be called before using this method.");
+	NSAssert(delegate, @"+[GrowlApplicationBridge setGrowlDelegate:] must be called before using this method.");
 	
-	NSParameterAssert(notifName != nil);	//Notification name is required.
-	NSParameterAssert((title != nil) || (description != nil));	//At least one of title or description is required.
+	NSParameterAssert(notifName);	//Notification name is required.
+	NSParameterAssert(title || description);	//At least one of title or description is required.
 
 	// Build our noteDict from all passed parameters
 	NSMutableDictionary *noteDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:	appName,	GROWL_APP_NAME,
@@ -251,7 +251,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 }
 
 + (BOOL) isGrowlInstalled {
-	return( [GrowlApplicationBridge growlPrefPaneBundle] != nil );
+	return( [GrowlApplicationBridge growlPrefPaneBundle] );
 }
 
 + (BOOL) isGrowlRunning {
