@@ -46,10 +46,9 @@ static const NSSize iconSize = {128.0f, 128.0f};
 			} else if (value > 0) {
 				--value;
 			} else {
-#warning this needs to be a real AppleScript error
-				[[NSException exceptionWithName:NSRangeException
-										 reason:@"Can't get item 0 of notifications."
-									   userInfo:nil] raise];
+				[self setScriptErrorNumber:errAEIllegalIndex];
+				[self setScriptErrorString:@"Can't get item 0 of notifications."];
+				return nil;
 			}
 			[temp replaceObjectAtIndex:i withObject:[NSNumber numberWithUnsignedInt:value]];
 		}
