@@ -17,13 +17,16 @@ class appleLocalInstallWorkAround(install_scripts):
         r = install_scripts.run(self)
         self.install_dir = hold_dir
         return r
-
-setup(name="Growl",
-      version="0.1",
+if sys.platform.startswith("darwin"):
+    myCmdClass={'install_scripts':appleLocalInstallWorkAround}
+else:
+    myCmdClass=None
+setup(name="Growl-tools",
+      version="0.0.2",
       description="A command-line interface to Growl written in Python",
       author="Jeremy Rossi",
       author_email="jeremy@jeremyrossi.com",
       url="http://Growl.info",
       scripts=["gnotify", "gtime"],
-      cmdclass={'install_scripts':appleLocalInstallWorkAround})
+      cmdclass=myCmdClass)
 
