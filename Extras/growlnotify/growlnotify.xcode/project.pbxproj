@@ -351,7 +351,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlUDPUtils.h;
-			path = ../../GrowlUDPUtils.h;
+			path = ../../Source/GrowlUDPUtils.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -360,7 +360,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlUDPUtils.m;
-			path = ../../GrowlUDPUtils.m;
+			path = ../../Source/GrowlUDPUtils.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
