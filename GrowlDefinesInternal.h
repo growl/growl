@@ -7,7 +7,6 @@
 //
 
 #import <CoreFoundation/CoreFoundation.h>
-#import "GrowlDefinesInternal.h"
 
 /*!
     @header
