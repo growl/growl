@@ -203,7 +203,7 @@ static id singleton = nil;
 		icon = [[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]]
 					autorelease];
 	} else {
-		icon = [[[NSImage alloc] initWithData:[[ticket icon] TIFFRepresentation]] autorelease];
+		icon = [ticket icon];
 	}
 	if (icon) {
 		[aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
@@ -213,9 +213,9 @@ static id singleton = nil;
 
 	// If app icon present, convert to NSImage
 	if ([aDict objectForKey:GROWL_NOTIFICATION_APP_ICON]) {
-		icon = [[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_APP_ICON]];
-		[aDict setObject:icon forKey:GROWL_NOTIFICATION_APP_ICON];
-		[icon release]; icon = nil;
+		NSImage *appIcon = [[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_APP_ICON]];
+		[aDict setObject:appIcon forKey:GROWL_NOTIFICATION_APP_ICON];
+		[appIcon release];
 	}
 	
 	// To avoid potential exceptions, make sure we have both text and title
