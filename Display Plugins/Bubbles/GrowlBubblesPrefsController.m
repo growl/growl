@@ -27,7 +27,7 @@
 	// priority colour settings
 	NSArray *array = nil;
 	NSColor *color;
-	NSColor *defaultColor = [NSColor colorWithCalibratedRed: .69412f green:.83147f blue:.96078f alpha:.95f];
+	NSColor *defaultColor = [NSColor colorWithCalibratedRed:0.69412f green:0.83147f blue:0.96078f alpha:0.95f];
 	float alpha;
 
 	READ_GROWL_PREF_VALUE(GrowlBubblesVeryLowColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
@@ -206,7 +206,9 @@
     array = [NSArray arrayWithObjects:
         [NSNumber numberWithFloat:[color redComponent]],
         [NSNumber numberWithFloat:[color greenComponent]],
-        [NSNumber numberWithFloat:[color blueComponent]], nil];
+        [NSNumber numberWithFloat:[color blueComponent]],
+        [NSNumber numberWithFloat:[color alphaComponent]],
+		nil];
     WRITE_GROWL_PREF_VALUE(key, (CFArrayRef)array, GrowlBubblesPrefDomain);
 
 	//NSLog(@"color: %@ array: %@", color, array);
@@ -245,7 +247,9 @@
 	array = [NSArray arrayWithObjects:
         [NSNumber numberWithFloat:[color redComponent]],
         [NSNumber numberWithFloat:[color greenComponent]],
-        [NSNumber numberWithFloat:[color blueComponent]], nil];
+        [NSNumber numberWithFloat:[color blueComponent]],
+        [NSNumber numberWithFloat:[color alphaComponent]],
+		nil];
     WRITE_GROWL_PREF_VALUE(key, (CFArrayRef)array, GrowlBubblesPrefDomain);
 
 	//NSLog(@"color: %@ array: %@", color, array);
