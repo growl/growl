@@ -10,7 +10,8 @@
 #import "GrowlRendezvousDefines.h"
 
 @implementation GrowlRendezvousPrefs
-- (NSString *)mainNibName {
+- (NSString *)mainNibName
+{
 	return( @"GrowlRendezvousPrefs" );
 }
 
@@ -26,6 +27,7 @@
 {
 	[browser release];
 	[services release];
+	[super dealloc];
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
@@ -83,7 +85,7 @@
 		serviceBeingResolved = nil;
 	}
 
-    if(-1 != row) {
+    if( -1 != row ) {
 		serviceBeingResolved = [services objectAtIndex:row];
 		[serviceBeingResolved retain];
 		[serviceBeingResolved setDelegate:self];
@@ -95,6 +97,8 @@
 {
     if ([[sender addresses] count] > 0) {
 		WRITE_GROWL_PREF_VALUE(GrowlRendezvousRecipientPref, (CFDataRef)[[sender addresses] objectAtIndex:0], GrowlRendezvousPrefDomain );
+		SYNCHRONIZE_GROWL_PREFS();
+		UPDATE_GROWL_PREFS();
 	}
 }
 

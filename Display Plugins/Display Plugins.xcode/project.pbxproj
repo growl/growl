@@ -84,9 +84,7 @@
 				INFOPLIST_FILE = "Bubbles-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Bubbles;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
@@ -595,10 +593,12 @@
 				07CC344606FFE5FC0029B83C,
 				6C7CEAE40707F41D00441A92,
 				9594781307489C2F00B8B23E,
+				95DD1A8707491AB700CC05A4,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
 			children = (
+				95DD1A4E07491A3B00CC05A4,
 				5282FC4C06DD9BB200179624,
 				6C60D7C206F044A30025909F,
 				07CC346106FFE6FA0029B83C,
@@ -645,6 +645,7 @@
 				07CC345906FFE5FC0029B83C,
 				6C7CEAE60707F41D00441A92,
 				9594782107489C2F00B8B23E,
+				95DD1A9007491AB700CC05A4,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -745,6 +746,7 @@
 				6C7CEAE50707F41D00441A92,
 				07694BF7073A4ADE0079D1E5,
 				9594781407489C2F00B8B23E,
+				95DD1A8807491AB700CC05A4,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -2239,6 +2241,218 @@
 			lastKnownFileType = wrapper.nib;
 			name = German;
 			path = Rendezvous/German.lproj/GrowlRendezvousPrefs.nib;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95DD1A4E07491A3B00CC05A4 = {
+			children = (
+				95DD1B0207491B7600CC05A4,
+				95DD1B2307491B7600CC05A4,
+				95DD1B4407491B7600CC05A4,
+				95DD1B6507491B7600CC05A4,
+				95DD1B8607491B7600CC05A4,
+				95DD1CA60749259800CC05A4,
+			);
+			isa = PBXGroup;
+			name = Speech;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95DD1A8407491AB700CC05A4 = {
+			buildActionMask = 2147483647;
+			files = (
+				95DD1CB00749259800CC05A4,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95DD1A8507491AB700CC05A4 = {
+			buildActionMask = 2147483647;
+			files = (
+				95DD1BF007491B7600CC05A4,
+				95DD1BF207491B7600CC05A4,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95DD1A8607491AB700CC05A4 = {
+			buildActionMask = 2147483647;
+			files = (
+				95DD1C2E07491DEC00CC05A4,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95DD1A8707491AB700CC05A4 = {
+			buildPhases = (
+				95DD1A8407491AB700CC05A4,
+				95DD1A8507491AB700CC05A4,
+				95DD1A8607491AB700CC05A4,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Display Plugins_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Speech-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				PRODUCT_NAME = Speech;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = Speech;
+			productName = Speech;
+			productReference = 95DD1A8807491AB700CC05A4;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Speech</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Speech</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>CSResourcesFileMapped</key>
+	<string>yes</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
+		95DD1A8807491AB700CC05A4 = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = Speech.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95DD1A9007491AB700CC05A4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = "Speech-Info.plist";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95DD1B0207491B7600CC05A4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlSpeechDefines.h;
+			path = Speech/GrowlSpeechDefines.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95DD1B2307491B7600CC05A4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlSpeechDisplay.h;
+			path = Speech/GrowlSpeechDisplay.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95DD1B4407491B7600CC05A4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlSpeechDisplay.m;
+			path = Speech/GrowlSpeechDisplay.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95DD1B6507491B7600CC05A4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlSpeechPrefs.h;
+			path = Speech/GrowlSpeechPrefs.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95DD1B8607491B7600CC05A4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlSpeechPrefs.m;
+			path = Speech/GrowlSpeechPrefs.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95DD1BF007491B7600CC05A4 = {
+			fileRef = 95DD1B4407491B7600CC05A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95DD1BF207491B7600CC05A4 = {
+			fileRef = 95DD1B8607491B7600CC05A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95DD1C2E07491DEC00CC05A4 = {
+			fileRef = 6C8886E906F84C8A00FD051E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95DD1C4B0749258400CC05A4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = Speech/English.lproj/GrowlSpeechPrefs.nib;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95DD1CA60749259800CC05A4 = {
+			children = (
+				95DD1C4B0749258400CC05A4,
+				95DD1D6F0749262900CC05A4,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlSpeechPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95DD1CB00749259800CC05A4 = {
+			fileRef = 95DD1CA60749259800CC05A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95DD1D6F0749262900CC05A4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = Speech/German.lproj/GrowlSpeechPrefs.nib;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};

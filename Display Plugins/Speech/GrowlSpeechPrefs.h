@@ -1,0 +1,18 @@
+//
+//  GrowlSpeechPrefs.h
+//  Display Plugins
+//
+//  Created by Ingmar Stein on 15.11.04.
+//  Copyright 2004 __MyCompanyName__. All rights reserved.
+//
+
+#import <PreferencePanes/PreferencePanes.h>
+
+@interface GrowlSpeechPrefs : NSPreferencePane
+{
+	IBOutlet NSTableView	*voiceList;
+	NSArray					*voices;
+}
+- (IBAction)voiceClicked:(id)sender;
+
+@end
