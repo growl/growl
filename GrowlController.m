@@ -127,6 +127,14 @@ static id _singleton = nil;
 		[icon release]; icon = nil;
 	}
 	
+	// To avoid potential exceptions, make sure we have both text and title
+	if (![aDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]) {
+		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_DESCRIPTION];
+	}
+	if (![aDict objectForKey:GROWL_NOTIFICATION_TITLE]) {
+		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_TITLE];
+	}
+	
 	id <GrowlDisplayPlugin> display;
 	
 	if([ticket usesCustomDisplay])
