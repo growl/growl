@@ -72,6 +72,7 @@
 	[enabledButton setState:([mailBundle isEnabled] ? NSOnState : NSOffState)];
 	[junkButton setState:([mailBundle isIgnoreJunk] ? NSOnState : NSOffState)];
 	[summaryButton setState:([mailBundle showSummary] ? NSOnState : NSOffState)];
+	[ignoreClickHandler setState:([mailBundle ignoreClickHandler] ? NSOnState : NSOffState)];
 }
 
 - (NSString *)preferencesNibName
