@@ -65,7 +65,7 @@ static NSString *description = @"Speak notifications.";
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
-	NSString *voice;
+	NSString *voice = [NSSpeechSynthesizer defaultVoice];
 
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
 

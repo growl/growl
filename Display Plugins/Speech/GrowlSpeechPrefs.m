@@ -8,7 +8,7 @@
 
 #import "GrowlSpeechPrefs.h"
 #import "GrowlSpeechDefines.h"
-#import "AppKit/NSSpeechSynthesizer.h"
+#import <AppKit/NSSpeechSynthesizer.h>
 
 @implementation GrowlSpeechPrefs
 - (NSString *) mainNibName
@@ -20,6 +20,11 @@
 {
 	voices = [[NSSpeechSynthesizer availableVoices] retain];
 	[voiceList reloadData];
+	NSString *voice = [NSSpeechSynthesizer defaultVoice];	
+	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
+	int row = [voices indexOfObject:voice];
+	[voiceList selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+	[voiceList scrollRowToVisible:row];
 }
 
 - (void) dealloc
