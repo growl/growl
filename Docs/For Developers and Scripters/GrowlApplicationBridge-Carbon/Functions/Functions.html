@@ -1,0 +1,521 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><head>
+    <title>Functions</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style></head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
+<a name="HeaderDoc_functions"></a>
+<dl>
+<dt><tt><a href="Functions.html#//apple_ref/c/func/Growl_Delegate" target="doc">Growl_Delegate (meaning, if it is not NULL). This should be sizeof(struct Growl_Delegate). "SurfWriter Lite" are not. be sure to call Growl_Reregister. its application name. this member is ignored. this member is ignored. this member is ignored. this member is ignored. (if non-NULL). For a delegate allocated with malloc, this member would be free(3). take actions with the knowledge that Growl is installed and functional. Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext. (meaning, if it is not NULL).</a></tt></dt>
+<dd>Identifies the notification.
+</dd>
+<dt><tt><a href="Functions.html#//apple_ref/c/func/%92" target="doc">\</a></tt></dt>
+<dd>Identifies the notification.
+</dd>
+</dl>
+<hr><!-- headerDoc=func; uid=//apple_ref/c/func/Growl_Delegate; name=Growl_Delegate -->
+<a name="//apple_ref/c/func/Growl_Delegate"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="Growl_Delegate%32(meaning%44%32if%32it%32is%32not%32NULL).%32This%32should%32be%32sizeof(struct%32Growl_Delegate).%32%34SurfWriter%32Lite%34%32are%32not.%32be%32sure%32to%32call%32Growl_Reregister.%32its%32application%32name.%32this%32member%32is%32ignored.%32this%32member%32is%32ignored.%32this%32member%32is%32ignored.%32this%32member%32is%32ignored.%32(if%32non-NULL).%32For%32a%32delegate%32allocated%32with%32malloc%44%32this%32member%32would%32be%32free(3).%32take%32actions%32with%32the%32knowledge%32that%32Growl%32is%32installed%32and%32functional.%32Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext.%32(meaning%44%32if%32it%32is%32not%32NULL).">Growl_Delegate (meaning, if it is not NULL). This should be sizeof(struct Growl_Delegate). "SurfWriter Lite" are not. be sure to call Growl_Reregister. its application name. this member is ignored. this member is ignored. this member is ignored. this member is ignored. (if non-NULL). For a delegate allocated with malloc, this member would be free(3). take actions with the knowledge that Growl is installed and functional. Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext. (meaning, if it is not NULL).</a></h3>
+</td></tr></table><hr><dl></dl><p>Identifies the notification.
+</p>
+<b>See Also:</b><dl>
+<dt><!-- a logicalPath="//apple_ref/c/tag/Growl_Delegate" -->Growl_Delegate<!-- /a --></dt><dd></dd></dl>
+<blockquote><pre><font class="keyword">struct</font> <!-- a logicalPath="//apple_ref/c/cl/Growl_Delegate //apple_ref/c/cl/Growl_Delegate //apple_ref/c/tdef/Growl_Delegate //apple_ref/c/tag/Growl_Delegate //apple_ref/c/econst/Growl_Delegate //apple_ref/c/struct/Growl_Delegate //apple_ref/c/clconst/Growl_Delegate" --><font class="type">Growl_Delegate</font><!-- /a --> {  
+    <!-- a logicalPath="//apple_ref/c/cl/size_t //apple_ref/c/cl/size_t //apple_ref/c/tdef/size_t //apple_ref/c/tag/size_t //apple_ref/c/econst/size_t //apple_ref/c/struct/size_t //apple_ref/c/clconst/size_t" --><font class="type">size_t</font><!-- /a --> <font class="var">size</font>;  
+    <font class="comment">/*Required attributes. Setting the Growl delegate will fail if any of these
+* is NULL.</font>
+        <font class="comment">*/</font> 
+    <!-- a logicalPath="//apple_ref/c/cl/CFStringRef //apple_ref/c/cl/CFStringRef //apple_ref/c/tdef/CFStringRef //apple_ref/c/tag/CFStringRef //apple_ref/c/econst/CFStringRef //apple_ref/c/struct/CFStringRef //apple_ref/c/clconst/CFStringRef" --><font class="type">CFStringRef</font><!-- /a --> <font class="var">applicationName</font>;  
+    <font class="comment">//Optional attributes. These can be NULL.</font>   
+    <!-- a logicalPath="//apple_ref/c/cl/CFDictionaryRef //apple_ref/c/cl/CFDictionaryRef //apple_ref/c/tdef/CFDictionaryRef //apple_ref/c/tag/CFDictionaryRef //apple_ref/c/econst/CFDictionaryRef //apple_ref/c/struct/CFDictionaryRef //apple_ref/c/clconst/CFDictionaryRef" --><font class="type">CFDictionaryRef</font><!-- /a --> <font class="var">registrationDictionary</font>;   
+    <!-- a logicalPath="//apple_ref/c/cl/CFDataRef //apple_ref/c/cl/CFDataRef //apple_ref/c/tdef/CFDataRef //apple_ref/c/tag/CFDataRef //apple_ref/c/econst/CFDataRef //apple_ref/c/struct/CFDataRef //apple_ref/c/clconst/CFDataRef" --><font class="type">CFDataRef</font><!-- /a --> <font class="var">applicationIconData</font>;  
+    <font class="comment">/*Installer display attributes
+*
+*These four attributes are used by the Growl installer, if this framework
+* supports it.
+*For any of these being NULL, a localised default will be supplied.</font>
+        <font class="comment">*/</font> 
+    <!-- a logicalPath="//apple_ref/c/cl/CFStringRef //apple_ref/c/cl/CFStringRef //apple_ref/c/tdef/CFStringRef //apple_ref/c/tag/CFStringRef //apple_ref/c/econst/CFStringRef //apple_ref/c/struct/CFStringRef //apple_ref/c/clconst/CFStringRef" --><font class="type">CFStringRef</font><!-- /a --> <font class="var">growlInstallationWindowTitle</font>;  
+    <!-- a logicalPath="//apple_ref/c/cl/CFStringRef //apple_ref/c/cl/CFStringRef //apple_ref/c/tdef/CFStringRef //apple_ref/c/tag/CFStringRef //apple_ref/c/econst/CFStringRef //apple_ref/c/struct/CFStringRef //apple_ref/c/clconst/CFStringRef" --><font class="type">CFStringRef</font><!-- /a --> <font class="var">growlInstallationInformation</font>;  
+    <!-- a logicalPath="//apple_ref/c/cl/CFStringRef //apple_ref/c/cl/CFStringRef //apple_ref/c/tdef/CFStringRef //apple_ref/c/tag/CFStringRef //apple_ref/c/econst/CFStringRef //apple_ref/c/struct/CFStringRef //apple_ref/c/clconst/CFStringRef" --><font class="type">CFStringRef</font><!-- /a --> <font class="var">growlUpdateWindowTitle</font>;  
+    <!-- a logicalPath="//apple_ref/c/cl/CFStringRef //apple_ref/c/cl/CFStringRef //apple_ref/c/tdef/CFStringRef //apple_ref/c/tag/CFStringRef //apple_ref/c/econst/CFStringRef //apple_ref/c/struct/CFStringRef //apple_ref/c/clconst/CFStringRef" --><font class="type">CFStringRef</font><!-- /a --> <font class="var">growlUpdateInformation</font>;   
+    <font class="keyword">unsigned</font> <font class="var">referenceCount</font>;  
+    <font class="comment">//Functions. Currently all of these are optional (any of them can be NULL).</font>  
+    &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* retain and release
+*
+* When you call Growl_SetDelegate(newDelegate), it will call
+* oldDelegate-&gt;release(oldDelegate), and then it will call
+* newDelegate-&gt;retain(newDelegate), and the return value from retain
+* is what will be set as the delegate.</font>
+                <font class="comment">NSObject retain]
+* These members are optional (they can be NULL).
+* For a delegate allocated with malloc, retain would be NULL, and
+* release would be free(3).
+=======
+/*! @field retain
+@abstract Called when GrowlApplicationBridge receives this delegate.
+@discussion 
+When you call Growl_SetDelegate(newDelegate), it will call
+oldDelegate-&gt;release(oldDelegate), and then it will call
+newDelegate-&gt;retain(newDelegate), and the return value from retain
+is what will be set as the delegate.</font>
+                <font class="comment">NSObject retain]
+This member is optional (it can be NULL).
+For a delegate allocated with malloc, this member would be NULL.
+@result A delegate to which GrowlApplicationBridge holds a reference.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+            <font class="comment">*/</font>
+        <font class="template">void</font> <font class="type">*</font>(<font class="template">*</font><font class="template">retain</font>)(
+            <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void" --><font class="type">void</font><!-- /a --> <font class="type">*</font>);  <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void" --><font class="type">void</font><!-- /a --> (<font class="template">*</font><font class="template">release</font>)(
+            <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void" --><font class="type">void</font><!-- /a --> <font class="type">*</font>);   <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void" --><font class="type">void</font><!-- /a --> (<font class="template">*</font><font class="template">growlIsReady</font>)(
+            <font class="param">void</font>);   <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void" --><font class="type">void</font><!-- /a --> (<font class="template">*</font><font class="template">growlNotificationWasClicked</font>)(
+            <!-- a logicalPath="//apple_ref/c/cl/CFPropertyListRef //apple_ref/c/cl/CFPropertyListRef //apple_ref/c/tdef/CFPropertyListRef //apple_ref/c/tag/CFPropertyListRef //apple_ref/c/econst/CFPropertyListRef //apple_ref/c/struct/CFPropertyListRef //apple_ref/c/clconst/CFPropertyListRef" --><font class="type">CFPropertyListRef</font><!-- /a --> <font class="param">clickContext</font>); 
+        };    
+    &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* The name is used to uniquely identify the notification, e.g.
+* 'Download finished'.
+=======
+struct Growl_Notification {
+/*! @field size
+@abstract The size of the notification structure.
+@discussion This should be sizeof(struct Growl_Notification).</font>
+            <font class="comment">*/</font>
+        <font class="template">size_t</font> <font class="template">size</font>;   <font class="template">CFStringRef</font> <font class="template">name</font>; &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* The title is a short synopsis of the notification, e.g.
+* 'Downloaded Growl-0.6.dmg'.
+* The title can be the same as the name.
+=======
+
+/*! @field title
+@abstract Short synopsis of the notification.
+@discussion A notification's title describes the notification briefly.
+It should be easy to read quickly by the user. 
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                <font class="comment">*/</font>
+            <font class="template">CFStringRef</font> <font class="template">title</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* The description generally supplements the title, e.g. '4 MB in 5 minutes'.
+=======
+/*! @field description
+@abstract Additional text.
+@discussion The description supplements the title with more
+information. It is usually longer and sometimes involves a list of
+subjects. For example, for a 'Download complete' notification, the
+description might have one filename per line. GrowlMail in Growl 0.6
+uses a description of '%d new mail(s)' (formatted with the number of
+messages).
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                    <font class="comment">*/</font>
+                <font class="template">CFStringRef</font> <font class="template">description</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* iconData contains image data in .icns, TIFF, JPEG, GIF, PNG, PDF, or PICT format.
+* (Possibly others - whatever Cocoa's NSImage class supports.)
+=======
+/*! @field iconData
+@abstract An icon for the notification.
+@discussion The notification icon usually indicates either what
+happened (it may have the same icon as e.g. a toolbar item that
+started the process that led to the notification), or what it happened
+to (e.g. a document icon).
+
+The icon data is optional, so it can be NULL. In that case, the
+application icon is used by itself. Not all displays support icons.
+
+The data can be in any format supported by NSImage. As of Mac OS X
+10.3, this includes the .icns, TIFF, JPEG, GIF, PNG, PDF, and PICT form
+ats.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                        <font class="comment">*/</font>
+                    <font class="template">CFDataRef</font> <font class="template">iconData</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* The priority of the notification. The default value is 0; positive values
+* are higher priority and negative values are lower priority.
+* Not all Growl displays support priority.
+=======
+/*! @field priority
+@abstract An indicator of the notification's importance.
+@discussion Priority is new in Growl 0.6, and is represented as a
+signed integer from -2 to +2. 0 is Normal priority, -2 is Very Low
+priority, and +2 is Very High priority.
+
+Not all displays support priority. If you do not wish to assign a
+priority to your notification, assign 0.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                            <font class="comment">*/</font>
+                        <font class="template">signed</font> <font class="template">int</font> <font class="template">priority</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* These bits should be set to 0.
+=======
+/*! @field reserved
+@abstract Bits reserved for future usage.
+@discussion These bits are not used in Growl 0.6. Set them to 0.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                                <font class="comment">*/</font>
+                            <font class="template">unsigned</font> <font class="template">reserved</font>: <font class="number">31</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* A sticky notification stays on-screen until it is dismissed explicitly by
+* the user.
+* Not all Growl displays support sticky notifications.
+=======
+/*! @field sticky
+@abstract Requests that a notification stay on-screen until dismissed
+explicitly.
+@discussion When the sticky bit is clear, in most displays,
+notifications disappear after a certain amount of time. Sticky
+notifications, however, remain on-screen until the user dismisses them
+explicitly, usually by clicking them.
+
+Sticky notifications were introduced in Growl 0.6. Most notifications
+should not be sticky. Not all displays support sticky notifications,
+and the user may choose in Growl's preference pane to force the
+notification to be sticky or non-sticky, in which case the sticky bit
+in the notification will be ignored.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                                    <font class="comment">*/</font>
+                                <font class="template">unsigned</font> <font class="template">isSticky</font>: <font class="number">1</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* This value will be passed to your growlNotificationWasClicked callback
+* (see GrowlDelegate above) when your notification is clicked by the user.
+* It can safely be NULL.
+=======
+/*! @field clickContext
+@abstract An identifier to be passed to your click callback when a
+notification is clicked.
+@discussion If this is not NULL, and your click callback is not
+NULL either, this will be passed to the callback when your
+notification is clicked by the user.
+
+Click feedback was introduced in Growl 0.6, and it is optional. Not
+all displays support click feedback.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                                        <font class="comment">*/</font>
+                                    <font class="template">CFPropertyListRef</font> <font class="template">clickContext</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* If this member is not NULL, it will be called instead of the
+* GrowlDelegate's growlNotificationWasClicked member.
+=======
+/*! @field clickCallback
+@abstract A callback to call when the notification is clicked.
+@discussion If this is not NULL, it will be called instead of the
+Growl delegate's click callback when clickContext is non-NULL and the
+notification is clicked on by the user.
+
+Click feedback was introduced in Growl 0.6, and it is optional. Not
+all displays support click feedback.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                                            <font class="comment">*/</font>
+                                        <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void" --><font class="type">void</font><!-- /a --> (<font class="template">*</font><font class="template">clickCallback</font>)(
+                                            <!-- a logicalPath="//apple_ref/c/cl/CFPropertyListRef //apple_ref/c/cl/CFPropertyListRef //apple_ref/c/tdef/CFPropertyListRef //apple_ref/c/tag/CFPropertyListRef //apple_ref/c/econst/CFPropertyListRef //apple_ref/c/struct/CFPropertyListRef //apple_ref/c/clconst/CFPropertyListRef" --><font class="type">CFPropertyListRef</font><!-- /a --> <font class="param">clickContext</font>); 
+                                                                        };  #<font class="template">pragma</font> <font class="template">mark</font> -  #pragma <font class="template">mark</font> <font class="template">Easy</font> <font class="template">initialisers</font>  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* InitGrowlDelegate(struct GrowlDelegate *delegate)
+*
+* Sets the delegate's size to sizeof(struct GrowlDelegate) and all its other
+* members to 0/NULL, except referenceCount, which it sets to 1.
+=======
+/*! @defined InitGrowlDelegate
+@abstract Callable macro. Initializes a Growl delegate structure to defaults.
+@discussion Call with a pointer to a struct Growl_Delegate. All of the
+members of the structure will be set to 0 or NULL, except for size (which
+will be set to sizeof(struct Growl_Delegate)) and referenceCount (which
+will be set to 1).
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                                            <font class="comment">*/</font>
+                                        #<font class="template">define</font> <!-- a logicalPath="//apple_ref/c/instm/InitGrowlDelegate //apple_ref/c/clm/InitGrowlDelegate //apple_ref/c/intfcm/InitGrowlDelegate //apple_ref/c/func/InitGrowlDelegate //apple_ref/c/ftmplt/InitGrowlDelegate //apple_ref/c/defn/InitGrowlDelegate //apple_ref/c/macro/InitGrowlDelegate" --><font class="function">InitGrowlDelegate</font><!-- /a -->(
+                                            <font class="param">delegate</font>) \ <!-- a logicalPath="//apple_ref/c/cl/do //apple_ref/c/cl/do //apple_ref/c/tdef/do //apple_ref/c/tag/do //apple_ref/c/econst/do //apple_ref/c/struct/do //apple_ref/c/clconst/do" --><font class="type">do</font><!-- /a --> {
+                                            \ <!-- a logicalPath="//apple_ref/c/instm/if //apple_ref/c/clm/if //apple_ref/c/intfcm/if //apple_ref/c/func/if //apple_ref/c/ftmplt/if //apple_ref/c/defn/if //apple_ref/c/macro/if" --><font class="function">if</font><!-- /a -->((
+                                                    <font class="param">delegate</font>) != <font class="keyword">NULL</font>) {
+                                                \ (
+                                                    <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/size //apple_ref/c/cl/size //apple_ref/c/tdef/size //apple_ref/c/tag/size //apple_ref/c/econst/size //apple_ref/c/struct/size //apple_ref/c/clconst/size" --><font class="type">size</font><!-- /a --> = <!-- a logicalPath="//apple_ref/c/instm/sizeof //apple_ref/c/clm/sizeof //apple_ref/c/intfcm/sizeof //apple_ref/c/func/sizeof //apple_ref/c/ftmplt/sizeof //apple_ref/c/defn/sizeof //apple_ref/c/macro/sizeof" --><font class="function">sizeof</font><!-- /a -->(
+                                                <font class="keyword">struct</font> <font class="param">Growl_Delegate</font>);
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/applicationName //apple_ref/c/cl/applicationName //apple_ref/c/tdef/applicationName //apple_ref/c/tag/applicationName //apple_ref/c/econst/applicationName //apple_ref/c/struct/applicationName //apple_ref/c/clconst/applicationName" --><font class="type">applicationName</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/registrationDictionary //apple_ref/c/cl/registrationDictionary //apple_ref/c/tdef/registrationDictionary //apple_ref/c/tag/registrationDictionary //apple_ref/c/econst/registrationDictionary //apple_ref/c/struct/registrationDictionary //apple_ref/c/clconst/registrationDictionary" --><font class="type">registrationDictionary</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/applicationIconData //apple_ref/c/cl/applicationIconData //apple_ref/c/tdef/applicationIconData //apple_ref/c/tag/applicationIconData //apple_ref/c/econst/applicationIconData //apple_ref/c/struct/applicationIconData //apple_ref/c/clconst/applicationIconData" --><font class="type">applicationIconData</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/growlInstallationWindowTitle //apple_ref/c/cl/growlInstallationWindowTitle //apple_ref/c/tdef/growlInstallationWindowTitle //apple_ref/c/tag/growlInstallationWindowTitle //apple_ref/c/econst/growlInstallationWindowTitle //apple_ref/c/struct/growlInstallationWindowTitle //apple_ref/c/clconst/growlInstallationWindowTitle" --><font class="type">growlInstallationWindowTitle</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/growlInstallationInformation //apple_ref/c/cl/growlInstallationInformation //apple_ref/c/tdef/growlInstallationInformation //apple_ref/c/tag/growlInstallationInformation //apple_ref/c/econst/growlInstallationInformation //apple_ref/c/struct/growlInstallationInformation //apple_ref/c/clconst/growlInstallationInformation" --><font class="type">growlInstallationInformation</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/growlUpdateWindowTitle //apple_ref/c/cl/growlUpdateWindowTitle //apple_ref/c/tdef/growlUpdateWindowTitle //apple_ref/c/tag/growlUpdateWindowTitle //apple_ref/c/econst/growlUpdateWindowTitle //apple_ref/c/struct/growlUpdateWindowTitle //apple_ref/c/clconst/growlUpdateWindowTitle" --><font class="type">growlUpdateWindowTitle</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/growlUpdateInformation //apple_ref/c/cl/growlUpdateInformation //apple_ref/c/tdef/growlUpdateInformation //apple_ref/c/tag/growlUpdateInformation //apple_ref/c/econst/growlUpdateInformation //apple_ref/c/struct/growlUpdateInformation //apple_ref/c/clconst/growlUpdateInformation" --><font class="type">growlUpdateInformation</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/referenceCount //apple_ref/c/cl/referenceCount //apple_ref/c/tdef/referenceCount //apple_ref/c/tag/referenceCount //apple_ref/c/econst/referenceCount //apple_ref/c/struct/referenceCount //apple_ref/c/clconst/referenceCount" --><font class="type">referenceCount</font><!-- /a --> = <font class="var">1U</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/retain //apple_ref/c/cl/retain //apple_ref/c/tdef/retain //apple_ref/c/tag/retain //apple_ref/c/econst/retain //apple_ref/c/struct/retain //apple_ref/c/clconst/retain" --><font class="type">retain</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/release //apple_ref/c/cl/release //apple_ref/c/tdef/release //apple_ref/c/tag/release //apple_ref/c/econst/release //apple_ref/c/struct/release //apple_ref/c/clconst/release" --><font class="type">release</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/growlIsReady //apple_ref/c/cl/growlIsReady //apple_ref/c/tdef/growlIsReady //apple_ref/c/tag/growlIsReady //apple_ref/c/econst/growlIsReady //apple_ref/c/struct/growlIsReady //apple_ref/c/clconst/growlIsReady" --><font class="type">growlIsReady</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/growlNotificationWasClicked //apple_ref/c/cl/growlNotificationWasClicked //apple_ref/c/tdef/growlNotificationWasClicked //apple_ref/c/tag/growlNotificationWasClicked //apple_ref/c/econst/growlNotificationWasClicked //apple_ref/c/struct/growlNotificationWasClicked //apple_ref/c/clconst/growlNotificationWasClicked" --><font class="type">growlNotificationWasClicked</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ 
+                                                                                } \ 
+                                                                        } <!-- a logicalPath="//apple_ref/c/instm/while //apple_ref/c/clm/while //apple_ref/c/intfcm/while //apple_ref/c/func/while //apple_ref/c/ftmplt/while //apple_ref/c/defn/while //apple_ref/c/macro/while" --><font class="function">while</font><!-- /a -->(<font class="number">0</font>)  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* InitGrowlNotification(struct GrowlNotification *notification)
+*
+* Sets the notification's size to sizeof(struct GrowlNotification) and all its
+* other members to 0/NULL.
+=======
+/*! @defined InitGrowlNotification
+@abstract Callable macro. Initializes a Growl notification structure to defaults.
+@discussion Call with a pointer to a struct Growl_Notification. All of
+the members of the structure will be set to 0 or NULL, except for size
+(which will be set to sizeof(struct Growl_Notification)).
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                                            <font class="comment">*/</font>
+                                        #<font class="template">define</font> <!-- a logicalPath="//apple_ref/c/instm/InitGrowlNotification //apple_ref/c/clm/InitGrowlNotification //apple_ref/c/intfcm/InitGrowlNotification //apple_ref/c/func/InitGrowlNotification //apple_ref/c/ftmplt/InitGrowlNotification //apple_ref/c/defn/InitGrowlNotification //apple_ref/c/macro/InitGrowlNotification" --><font class="function">InitGrowlNotification</font><!-- /a -->(
+                                            <font class="param">notification</font>) \ <font class="template">do</font>     </pre></blockquote>
+<dl><h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The notification name distinguishes one type of
+notification from another. The name should be human-readable, as it
+will be displayed in the Growl preference pane.
+>>>>>>> .r1347<br>
+<<<<<<< .mine
+It should be human-readable, as it will be displayed in the Growl
+preference pane.
+=======
+The name is used in the GROWL_NOTIFICATIONS_ALL and
+GROWL_NOTIFICATIONS_DEFAULT arrays in the registration dictionary, and
+in this member of the Growl_Notification structure.
+>>>>>>> .r1347
+ </p>
+</dl>
+<hr><!-- headerDoc=func; uid=//apple_ref/c/func/%92; name=\ -->
+<a name="//apple_ref/c/func/%92"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="%92">\</a></h3>
+</td></tr></table><hr><dl></dl><p>Identifies the notification.
+</p>
+<b>See Also:</b><dl>
+<dt><!-- a logicalPath="//apple_ref/c/tag/Growl_Delegate" -->Growl_Delegate Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext. (meaning, if it is not NULL).<!-- /a --></dt><dd></dd></dl>
+<blockquote><pre><font class="keyword">struct</font> <!-- a logicalPath="//apple_ref/c/cl/Growl_Delegate //apple_ref/c/cl/Growl_Delegate //apple_ref/c/tdef/Growl_Delegate //apple_ref/c/tag/Growl_Delegate //apple_ref/c/econst/Growl_Delegate //apple_ref/c/struct/Growl_Delegate //apple_ref/c/clconst/Growl_Delegate" --><font class="type">Growl_Delegate</font><!-- /a --> {  
+    <!-- a logicalPath="//apple_ref/c/cl/size_t //apple_ref/c/cl/size_t //apple_ref/c/tdef/size_t //apple_ref/c/tag/size_t //apple_ref/c/econst/size_t //apple_ref/c/struct/size_t //apple_ref/c/clconst/size_t" --><font class="type">size_t</font><!-- /a --> <font class="var">size</font>;  
+    <font class="comment">/*Required attributes. Setting the Growl delegate will fail if any of these
+* is NULL.</font>
+        <font class="comment">*/</font> 
+    <!-- a logicalPath="//apple_ref/c/cl/CFStringRef //apple_ref/c/cl/CFStringRef //apple_ref/c/tdef/CFStringRef //apple_ref/c/tag/CFStringRef //apple_ref/c/econst/CFStringRef //apple_ref/c/struct/CFStringRef //apple_ref/c/clconst/CFStringRef" --><font class="type">CFStringRef</font><!-- /a --> <font class="var">applicationName</font>;  
+    <font class="comment">//Optional attributes. These can be NULL.</font>   
+    <!-- a logicalPath="//apple_ref/c/cl/CFDictionaryRef //apple_ref/c/cl/CFDictionaryRef //apple_ref/c/tdef/CFDictionaryRef //apple_ref/c/tag/CFDictionaryRef //apple_ref/c/econst/CFDictionaryRef //apple_ref/c/struct/CFDictionaryRef //apple_ref/c/clconst/CFDictionaryRef" --><font class="type">CFDictionaryRef</font><!-- /a --> <font class="var">registrationDictionary</font>;   
+    <!-- a logicalPath="//apple_ref/c/cl/CFDataRef //apple_ref/c/cl/CFDataRef //apple_ref/c/tdef/CFDataRef //apple_ref/c/tag/CFDataRef //apple_ref/c/econst/CFDataRef //apple_ref/c/struct/CFDataRef //apple_ref/c/clconst/CFDataRef" --><font class="type">CFDataRef</font><!-- /a --> <font class="var">applicationIconData</font>;  
+    <font class="comment">/*Installer display attributes
+*
+*These four attributes are used by the Growl installer, if this framework
+* supports it.
+*For any of these being NULL, a localised default will be supplied.</font>
+        <font class="comment">*/</font> 
+    <!-- a logicalPath="//apple_ref/c/cl/CFStringRef //apple_ref/c/cl/CFStringRef //apple_ref/c/tdef/CFStringRef //apple_ref/c/tag/CFStringRef //apple_ref/c/econst/CFStringRef //apple_ref/c/struct/CFStringRef //apple_ref/c/clconst/CFStringRef" --><font class="type">CFStringRef</font><!-- /a --> <font class="var">growlInstallationWindowTitle</font>;  
+    <!-- a logicalPath="//apple_ref/c/cl/CFStringRef //apple_ref/c/cl/CFStringRef //apple_ref/c/tdef/CFStringRef //apple_ref/c/tag/CFStringRef //apple_ref/c/econst/CFStringRef //apple_ref/c/struct/CFStringRef //apple_ref/c/clconst/CFStringRef" --><font class="type">CFStringRef</font><!-- /a --> <font class="var">growlInstallationInformation</font>;  
+    <!-- a logicalPath="//apple_ref/c/cl/CFStringRef //apple_ref/c/cl/CFStringRef //apple_ref/c/tdef/CFStringRef //apple_ref/c/tag/CFStringRef //apple_ref/c/econst/CFStringRef //apple_ref/c/struct/CFStringRef //apple_ref/c/clconst/CFStringRef" --><font class="type">CFStringRef</font><!-- /a --> <font class="var">growlUpdateWindowTitle</font>;  
+    <!-- a logicalPath="//apple_ref/c/cl/CFStringRef //apple_ref/c/cl/CFStringRef //apple_ref/c/tdef/CFStringRef //apple_ref/c/tag/CFStringRef //apple_ref/c/econst/CFStringRef //apple_ref/c/struct/CFStringRef //apple_ref/c/clconst/CFStringRef" --><font class="type">CFStringRef</font><!-- /a --> <font class="var">growlUpdateInformation</font>;   
+    <font class="keyword">unsigned</font> <font class="var">referenceCount</font>;  
+    <font class="comment">//Functions. Currently all of these are optional (any of them can be NULL).</font>  
+    &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* retain and release
+*
+* When you call Growl_SetDelegate(newDelegate), it will call
+* oldDelegate-&gt;release(oldDelegate), and then it will call
+* newDelegate-&gt;retain(newDelegate), and the return value from retain
+* is what will be set as the delegate.</font>
+                <font class="comment">NSObject retain]
+* These members are optional (they can be NULL).
+* For a delegate allocated with malloc, retain would be NULL, and
+* release would be free(3).
+=======
+/*! @field retain
+@abstract Called when GrowlApplicationBridge receives this delegate.
+@discussion 
+When you call Growl_SetDelegate(newDelegate), it will call
+oldDelegate-&gt;release(oldDelegate), and then it will call
+newDelegate-&gt;retain(newDelegate), and the return value from retain
+is what will be set as the delegate.</font>
+                <font class="comment">NSObject retain]
+This member is optional (it can be NULL).
+For a delegate allocated with malloc, this member would be NULL.
+@result A delegate to which GrowlApplicationBridge holds a reference.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+            <font class="comment">*/</font>
+        <font class="template">void</font> <font class="type">*</font>(<font class="template">*</font><font class="template">retain</font>)(
+            <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void" --><font class="type">void</font><!-- /a --> <font class="type">*</font>);  <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void" --><font class="type">void</font><!-- /a --> (<font class="template">*</font><font class="template">release</font>)(
+            <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void" --><font class="type">void</font><!-- /a --> <font class="type">*</font>);   <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void" --><font class="type">void</font><!-- /a --> (<font class="template">*</font><font class="template">growlIsReady</font>)(
+            <font class="param">void</font>);   <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void" --><font class="type">void</font><!-- /a --> (<font class="template">*</font><font class="template">growlNotificationWasClicked</font>)(
+            <!-- a logicalPath="//apple_ref/c/cl/CFPropertyListRef //apple_ref/c/cl/CFPropertyListRef //apple_ref/c/tdef/CFPropertyListRef //apple_ref/c/tag/CFPropertyListRef //apple_ref/c/econst/CFPropertyListRef //apple_ref/c/struct/CFPropertyListRef //apple_ref/c/clconst/CFPropertyListRef" --><font class="type">CFPropertyListRef</font><!-- /a --> <font class="param">clickContext</font>); 
+        };    
+    &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* The name is used to uniquely identify the notification, e.g.
+* 'Download finished'.
+=======
+struct Growl_Notification {
+/*! @field size
+@abstract The size of the notification structure.
+@discussion This should be sizeof(struct Growl_Notification).</font>
+            <font class="comment">*/</font>
+        <font class="template">size_t</font> <font class="template">size</font>;   <font class="template">CFStringRef</font> <font class="template">name</font>; &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* The title is a short synopsis of the notification, e.g.
+* 'Downloaded Growl-0.6.dmg'.
+* The title can be the same as the name.
+=======
+
+/*! @field title
+@abstract Short synopsis of the notification.
+@discussion A notification's title describes the notification briefly.
+It should be easy to read quickly by the user. 
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                <font class="comment">*/</font>
+            <font class="template">CFStringRef</font> <font class="template">title</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* The description generally supplements the title, e.g. '4 MB in 5 minutes'.
+=======
+/*! @field description
+@abstract Additional text.
+@discussion The description supplements the title with more
+information. It is usually longer and sometimes involves a list of
+subjects. For example, for a 'Download complete' notification, the
+description might have one filename per line. GrowlMail in Growl 0.6
+uses a description of '%d new mail(s)' (formatted with the number of
+messages).
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                    <font class="comment">*/</font>
+                <font class="template">CFStringRef</font> <font class="template">description</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* iconData contains image data in .icns, TIFF, JPEG, GIF, PNG, PDF, or PICT format.
+* (Possibly others - whatever Cocoa's NSImage class supports.)
+=======
+/*! @field iconData
+@abstract An icon for the notification.
+@discussion The notification icon usually indicates either what
+happened (it may have the same icon as e.g. a toolbar item that
+started the process that led to the notification), or what it happened
+to (e.g. a document icon).
+
+The icon data is optional, so it can be NULL. In that case, the
+application icon is used by itself. Not all displays support icons.
+
+The data can be in any format supported by NSImage. As of Mac OS X
+10.3, this includes the .icns, TIFF, JPEG, GIF, PNG, PDF, and PICT form
+ats.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                        <font class="comment">*/</font>
+                    <font class="template">CFDataRef</font> <font class="template">iconData</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* The priority of the notification. The default value is 0; positive values
+* are higher priority and negative values are lower priority.
+* Not all Growl displays support priority.
+=======
+/*! @field priority
+@abstract An indicator of the notification's importance.
+@discussion Priority is new in Growl 0.6, and is represented as a
+signed integer from -2 to +2. 0 is Normal priority, -2 is Very Low
+priority, and +2 is Very High priority.
+
+Not all displays support priority. If you do not wish to assign a
+priority to your notification, assign 0.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                            <font class="comment">*/</font>
+                        <font class="template">signed</font> <font class="template">int</font> <font class="template">priority</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* These bits should be set to 0.
+=======
+/*! @field reserved
+@abstract Bits reserved for future usage.
+@discussion These bits are not used in Growl 0.6. Set them to 0.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                                <font class="comment">*/</font>
+                            <font class="template">unsigned</font> <font class="template">reserved</font>: <font class="number">31</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* A sticky notification stays on-screen until it is dismissed explicitly by
+* the user.
+* Not all Growl displays support sticky notifications.
+=======
+/*! @field sticky
+@abstract Requests that a notification stay on-screen until dismissed
+explicitly.
+@discussion When the sticky bit is clear, in most displays,
+notifications disappear after a certain amount of time. Sticky
+notifications, however, remain on-screen until the user dismisses them
+explicitly, usually by clicking them.
+
+Sticky notifications were introduced in Growl 0.6. Most notifications
+should not be sticky. Not all displays support sticky notifications,
+and the user may choose in Growl's preference pane to force the
+notification to be sticky or non-sticky, in which case the sticky bit
+in the notification will be ignored.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                                    <font class="comment">*/</font>
+                                <font class="template">unsigned</font> <font class="template">isSticky</font>: <font class="number">1</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* This value will be passed to your growlNotificationWasClicked callback
+* (see GrowlDelegate above) when your notification is clicked by the user.
+* It can safely be NULL.
+=======
+/*! @field clickContext
+@abstract An identifier to be passed to your click callback when a
+notification is clicked.
+@discussion If this is not NULL, and your click callback is not
+NULL either, this will be passed to the callback when your
+notification is clicked by the user.
+
+Click feedback was introduced in Growl 0.6, and it is optional. Not
+all displays support click feedback.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                                        <font class="comment">*/</font>
+                                    <font class="template">CFPropertyListRef</font> <font class="template">clickContext</font>;  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* If this member is not NULL, it will be called instead of the
+* GrowlDelegate's growlNotificationWasClicked member.
+=======
+/*! @field clickCallback
+@abstract A callback to call when the notification is clicked.
+@discussion If this is not NULL, it will be called instead of the
+Growl delegate's click callback when clickContext is non-NULL and the
+notification is clicked on by the user.
+
+Click feedback was introduced in Growl 0.6, and it is optional. Not
+all displays support click feedback.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                                            <font class="comment">*/</font>
+                                        <!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/econst/void //apple_ref/c/struct/void //apple_ref/c/clconst/void" --><font class="type">void</font><!-- /a --> (<font class="template">*</font><font class="template">clickCallback</font>)(
+                                            <!-- a logicalPath="//apple_ref/c/cl/CFPropertyListRef //apple_ref/c/cl/CFPropertyListRef //apple_ref/c/tdef/CFPropertyListRef //apple_ref/c/tag/CFPropertyListRef //apple_ref/c/econst/CFPropertyListRef //apple_ref/c/struct/CFPropertyListRef //apple_ref/c/clconst/CFPropertyListRef" --><font class="type">CFPropertyListRef</font><!-- /a --> <font class="param">clickContext</font>); 
+                                                                        };  #<font class="template">pragma</font> <font class="template">mark</font> -  #pragma <font class="template">mark</font> <font class="template">Easy</font> <font class="template">initialisers</font>  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* InitGrowlDelegate(struct GrowlDelegate *delegate)
+*
+* Sets the delegate's size to sizeof(struct GrowlDelegate) and all its other
+* members to 0/NULL, except referenceCount, which it sets to 1.
+=======
+/*! @defined InitGrowlDelegate
+@abstract Callable macro. Initializes a Growl delegate structure to defaults.
+@discussion Call with a pointer to a struct Growl_Delegate. All of the
+members of the structure will be set to 0 or NULL, except for size (which
+will be set to sizeof(struct Growl_Delegate)) and referenceCount (which
+will be set to 1).
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                                            <font class="comment">*/</font>
+                                        #<font class="template">define</font> <!-- a logicalPath="//apple_ref/c/instm/InitGrowlDelegate //apple_ref/c/clm/InitGrowlDelegate //apple_ref/c/intfcm/InitGrowlDelegate //apple_ref/c/func/InitGrowlDelegate //apple_ref/c/ftmplt/InitGrowlDelegate //apple_ref/c/defn/InitGrowlDelegate //apple_ref/c/macro/InitGrowlDelegate" --><font class="function">InitGrowlDelegate</font><!-- /a -->(
+                                            <font class="param">delegate</font>) \ <!-- a logicalPath="//apple_ref/c/cl/do //apple_ref/c/cl/do //apple_ref/c/tdef/do //apple_ref/c/tag/do //apple_ref/c/econst/do //apple_ref/c/struct/do //apple_ref/c/clconst/do" --><font class="type">do</font><!-- /a --> {
+                                            \ <!-- a logicalPath="//apple_ref/c/instm/if //apple_ref/c/clm/if //apple_ref/c/intfcm/if //apple_ref/c/func/if //apple_ref/c/ftmplt/if //apple_ref/c/defn/if //apple_ref/c/macro/if" --><font class="function">if</font><!-- /a -->((
+                                                    <font class="param">delegate</font>) != <font class="keyword">NULL</font>) {
+                                                \ (
+                                                    <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/size //apple_ref/c/cl/size //apple_ref/c/tdef/size //apple_ref/c/tag/size //apple_ref/c/econst/size //apple_ref/c/struct/size //apple_ref/c/clconst/size" --><font class="type">size</font><!-- /a --> = <!-- a logicalPath="//apple_ref/c/instm/sizeof //apple_ref/c/clm/sizeof //apple_ref/c/intfcm/sizeof //apple_ref/c/func/sizeof //apple_ref/c/ftmplt/sizeof //apple_ref/c/defn/sizeof //apple_ref/c/macro/sizeof" --><font class="function">sizeof</font><!-- /a -->(
+                                                <font class="keyword">struct</font> <font class="param">Growl_Delegate</font>);
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/applicationName //apple_ref/c/cl/applicationName //apple_ref/c/tdef/applicationName //apple_ref/c/tag/applicationName //apple_ref/c/econst/applicationName //apple_ref/c/struct/applicationName //apple_ref/c/clconst/applicationName" --><font class="type">applicationName</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/registrationDictionary //apple_ref/c/cl/registrationDictionary //apple_ref/c/tdef/registrationDictionary //apple_ref/c/tag/registrationDictionary //apple_ref/c/econst/registrationDictionary //apple_ref/c/struct/registrationDictionary //apple_ref/c/clconst/registrationDictionary" --><font class="type">registrationDictionary</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/applicationIconData //apple_ref/c/cl/applicationIconData //apple_ref/c/tdef/applicationIconData //apple_ref/c/tag/applicationIconData //apple_ref/c/econst/applicationIconData //apple_ref/c/struct/applicationIconData //apple_ref/c/clconst/applicationIconData" --><font class="type">applicationIconData</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/growlInstallationWindowTitle //apple_ref/c/cl/growlInstallationWindowTitle //apple_ref/c/tdef/growlInstallationWindowTitle //apple_ref/c/tag/growlInstallationWindowTitle //apple_ref/c/econst/growlInstallationWindowTitle //apple_ref/c/struct/growlInstallationWindowTitle //apple_ref/c/clconst/growlInstallationWindowTitle" --><font class="type">growlInstallationWindowTitle</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/growlInstallationInformation //apple_ref/c/cl/growlInstallationInformation //apple_ref/c/tdef/growlInstallationInformation //apple_ref/c/tag/growlInstallationInformation //apple_ref/c/econst/growlInstallationInformation //apple_ref/c/struct/growlInstallationInformation //apple_ref/c/clconst/growlInstallationInformation" --><font class="type">growlInstallationInformation</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/growlUpdateWindowTitle //apple_ref/c/cl/growlUpdateWindowTitle //apple_ref/c/tdef/growlUpdateWindowTitle //apple_ref/c/tag/growlUpdateWindowTitle //apple_ref/c/econst/growlUpdateWindowTitle //apple_ref/c/struct/growlUpdateWindowTitle //apple_ref/c/clconst/growlUpdateWindowTitle" --><font class="type">growlUpdateWindowTitle</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/growlUpdateInformation //apple_ref/c/cl/growlUpdateInformation //apple_ref/c/tdef/growlUpdateInformation //apple_ref/c/tag/growlUpdateInformation //apple_ref/c/econst/growlUpdateInformation //apple_ref/c/struct/growlUpdateInformation //apple_ref/c/clconst/growlUpdateInformation" --><font class="type">growlUpdateInformation</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/referenceCount //apple_ref/c/cl/referenceCount //apple_ref/c/tdef/referenceCount //apple_ref/c/tag/referenceCount //apple_ref/c/econst/referenceCount //apple_ref/c/struct/referenceCount //apple_ref/c/clconst/referenceCount" --><font class="type">referenceCount</font><!-- /a --> = <font class="var">1U</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/retain //apple_ref/c/cl/retain //apple_ref/c/tdef/retain //apple_ref/c/tag/retain //apple_ref/c/econst/retain //apple_ref/c/struct/retain //apple_ref/c/clconst/retain" --><font class="type">retain</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/release //apple_ref/c/cl/release //apple_ref/c/tdef/release //apple_ref/c/tag/release //apple_ref/c/econst/release //apple_ref/c/struct/release //apple_ref/c/clconst/release" --><font class="type">release</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/growlIsReady //apple_ref/c/cl/growlIsReady //apple_ref/c/tdef/growlIsReady //apple_ref/c/tag/growlIsReady //apple_ref/c/econst/growlIsReady //apple_ref/c/struct/growlIsReady //apple_ref/c/clconst/growlIsReady" --><font class="type">growlIsReady</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ (
+                                                <font class="param">delegate</font>)-&gt;<!-- a logicalPath="//apple_ref/c/cl/growlNotificationWasClicked //apple_ref/c/cl/growlNotificationWasClicked //apple_ref/c/tdef/growlNotificationWasClicked //apple_ref/c/tag/growlNotificationWasClicked //apple_ref/c/econst/growlNotificationWasClicked //apple_ref/c/struct/growlNotificationWasClicked //apple_ref/c/clconst/growlNotificationWasClicked" --><font class="type">growlNotificationWasClicked</font><!-- /a --> = <font class="keyword">NULL</font>;
+                                            \ 
+                                                                                } \ 
+                                                                        } <!-- a logicalPath="//apple_ref/c/instm/while //apple_ref/c/clm/while //apple_ref/c/intfcm/while //apple_ref/c/func/while //apple_ref/c/ftmplt/while //apple_ref/c/defn/while //apple_ref/c/macro/while" --><font class="function">while</font><!-- /a -->(<font class="number">0</font>)  &lt;&lt;&lt;&lt;&lt;&lt;&lt; .<font class="template">mine</font> <font class="comment">/* InitGrowlNotification(struct GrowlNotification *notification)
+*
+* Sets the notification's size to sizeof(struct GrowlNotification) and all its
+* other members to 0/NULL.
+=======
+/*! @defined InitGrowlNotification
+@abstract Callable macro. Initializes a Growl notification structure to defaults.
+@discussion Call with a pointer to a struct Growl_Notification. All of
+the members of the structure will be set to 0 or NULL, except for size
+(which will be set to sizeof(struct Growl_Notification)).
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r1347</font>
+                                            <font class="comment">*/</font>
+                                        #<font class="template">define</font> <!-- a logicalPath="//apple_ref/c/instm/InitGrowlNotification //apple_ref/c/clm/InitGrowlNotification //apple_ref/c/intfcm/InitGrowlNotification //apple_ref/c/func/InitGrowlNotification //apple_ref/c/ftmplt/InitGrowlNotification //apple_ref/c/defn/InitGrowlNotification //apple_ref/c/macro/InitGrowlNotification" --><font class="function">InitGrowlNotification</font><!-- /a -->(
+                                            <font class="param">notification</font>) \ <font class="template">do</font>     </pre></blockquote>
+<dl><h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The notification name distinguishes one type of
+notification from another. The name should be human-readable, as it
+will be displayed in the Growl preference pane.
+>>>>>>> .r1347<br>
+<<<<<<< .mine
+It should be human-readable, as it will be displayed in the Growl
+preference pane.
+=======
+The name is used in the GROWL_NOTIFICATIONS_ALL and
+GROWL_NOTIFICATIONS_DEFAULT arrays in the registration dictionary, and
+in this member of the Growl_Notification structure.
+>>>>>>> .r1347
+ </p>
+</dl>
+<p>(Last Updated )
+</p></body></html>

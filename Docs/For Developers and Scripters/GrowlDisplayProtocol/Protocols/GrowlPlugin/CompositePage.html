@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><head>
+    <title>GrowlPlugin</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style></head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">GrowlPlugin</font></h1><br>
+<a name="//apple_ref/doc/protocol/GrowlPlugin" title="GrowlPlugin"></a>
+<h2>Abstract</h2>
+	The base plug-in protocol.
+<h2>Discussion</h2>
+	The methods declared in this protocol are supported by all
+Growl plug-ins.
+ <hr><br><h2>Methods</h2>
+<a name="HeaderDoc_methods"></a>
+<dl>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/GrowlPlugin/loadPlugin" target="_top">-loadPlugin</a></tt></dt>
+<dd>Tells the plugin to initialize itself.
+ </dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/GrowlPlugin/author" target="_top">-author</a></tt></dt>
+<dd>Returns the name of the author of the plug-in.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/GrowlPlugin/name" target="_top">-name</a></tt></dt>
+<dd>Returns the name of the plug-in.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/GrowlPlugin/userDescription" target="_top">-userDescription</a></tt></dt>
+<dd>A plug-in's description should tell the user what the plug-in does.
+In a display plug-in, it should describe the display in a few words.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/GrowlPlugin/version" target="_top">-version</a></tt></dt>
+<dd>Returns the version of the plug-in.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/GrowlPlugin/pluginInfo" target="_top">-pluginInfo</a></tt></dt>
+<dd>Returns a dictionary describing the plug-in.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/GrowlPlugin/unloadPlugin" target="_top">-unloadPlugin</a></tt></dt>
+<dd>Tells the plug-in to uninitialize itself. This is the inverse of -loadPlugin.
+ </dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/GrowlPlugin/preferencePane" target="_top">-preferencePane</a></tt></dt>
+<dd>Return an NSPreferencePane instance that manages the plugin's
+preferences.
+</dd>
+</dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/GrowlPlugin/loadPlugin; name=GrowlPlugin::loadPlugin -->
+<a name="//apple_ref/occ/instm/GrowlPlugin/loadPlugin"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="loadPlugin">loadPlugin</a></h3>
+</td></tr></table><hr><dl></dl><p>Tells the plugin to initialize itself.
+ </p>
+<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void" --><font class="type">void</font><!-- /a -->) <font class="param">loadPlugin</font> </pre></blockquote>
+<dl></dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/GrowlPlugin/author; name=GrowlPlugin::author -->
+<a name="//apple_ref/occ/instm/GrowlPlugin/author"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="author">author</a></h3>
+</td></tr></table><hr><dl></dl><p>Returns the name of the author of the plug-in.
+</p>
+<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString" --><font class="type">NSString</font><!-- /a --> <font class="type">*</font>) <font class="param">author</font>;</pre></blockquote>
+<dl><dt><i>method result</i></dt><dd>The author's name.
+ </dd>
+</dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/GrowlPlugin/name; name=GrowlPlugin::name -->
+<a name="//apple_ref/occ/instm/GrowlPlugin/name"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="name">name</a></h3>
+</td></tr></table><hr><dl></dl><p>Returns the name of the plug-in.
+</p>
+<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString" --><font class="type">NSString</font><!-- /a --> <font class="type">*</font>) <font class="param">name</font>;</pre></blockquote>
+<dl><dt><i>method result</i></dt><dd>The plug-in's name.
+ </dd>
+</dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/GrowlPlugin/userDescription; name=GrowlPlugin::userDescription -->
+<a name="//apple_ref/occ/instm/GrowlPlugin/userDescription"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="userDescription">userDescription</a></h3>
+</td></tr></table><hr><dl></dl><p>A plug-in's description should tell the user what the plug-in does.
+In a display plug-in, it should describe the display in a few words.
+</p>
+<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString" --><font class="type">NSString</font><!-- /a --> <font class="type">*</font>) <font class="param">userDescription</font>;</pre></blockquote>
+<dl><dt><i>method result</i></dt><dd>The plug-in's description.
+ </dd>
+</dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/GrowlPlugin/version; name=GrowlPlugin::version -->
+<a name="//apple_ref/occ/instm/GrowlPlugin/version"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="version">version</a></h3>
+</td></tr></table><hr><dl></dl><p>Returns the version of the plug-in.
+</p>
+<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString" --><font class="type">NSString</font><!-- /a --> <font class="type">*</font>) <font class="param">version</font>;</pre></blockquote>
+<dl><dt><i>method result</i></dt><dd>The plug-in's version as a string.
+ </dd>
+</dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/GrowlPlugin/pluginInfo; name=GrowlPlugin::pluginInfo -->
+<a name="//apple_ref/occ/instm/GrowlPlugin/pluginInfo"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="pluginInfo">pluginInfo</a></h3>
+</td></tr></table><hr><dl></dl><p>Returns a dictionary describing the plug-in.
+</p>
+<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSDictionary //apple_ref/occ/cl/NSDictionary //apple_ref/occ/tdef/NSDictionary //apple_ref/occ/tag/NSDictionary //apple_ref/occ/econst/NSDictionary //apple_ref/occ/struct/NSDictionary //apple_ref/occ/clconst/NSDictionary" --><font class="type">NSDictionary</font><!-- /a --> <font class="type">*</font>) <font class="param">pluginInfo</font>;</pre></blockquote>
+<dl><dt><i>method result</i></dt><dd>The info dictionary.
+ </dd>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The dictionary must contain at least these keys: Author, Name,
+Description, and Version. They correspond to the -author, -name,
+-userDescription, and -version methods. The objects in the dictionary
+should be the same as (or at least equal to) the objects returned by the
+individual methods.
+</p>
+</dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/GrowlPlugin/unloadPlugin; name=GrowlPlugin::unloadPlugin -->
+<a name="//apple_ref/occ/instm/GrowlPlugin/unloadPlugin"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="unloadPlugin">unloadPlugin</a></h3>
+</td></tr></table><hr><dl></dl><p>Tells the plug-in to uninitialize itself. This is the inverse of -loadPlugin.
+ </p>
+<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void" --><font class="type">void</font><!-- /a -->) <font class="param">unloadPlugin</font>;</pre></blockquote>
+<dl></dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/GrowlPlugin/preferencePane; name=GrowlPlugin::preferencePane -->
+<a name="//apple_ref/occ/instm/GrowlPlugin/preferencePane"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="preferencePane">preferencePane</a></h3>
+</td></tr></table><hr><dl></dl><p>Return an NSPreferencePane instance that manages the plugin's
+preferences.
+</p>
+<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSPreferencePane //apple_ref/occ/cl/NSPreferencePane //apple_ref/occ/tdef/NSPreferencePane //apple_ref/occ/tag/NSPreferencePane //apple_ref/occ/econst/NSPreferencePane //apple_ref/occ/struct/NSPreferencePane //apple_ref/occ/clconst/NSPreferencePane" --><font class="type">NSPreferencePane</font><!-- /a --> <font class="type">*</font>) <font class="param">preferencePane</font>;</pre></blockquote>
+<dl><dt><i>method result</i></dt><dd>The preference pane.
+ </dd>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Your plug-in should put the controls for its preferences in
+this preference pane.<br>
+The size of the preference pane's view should be 354 pixels by 289 pixels.
+This is because that's all the available space right now. We haven't yet
+figured out what to do if there are more options than fit in that space.
+You should set the springs of the view and its subviews under the
+assumption that it can be resized horizontally and vertically to any size.
+</p>
+</dl>
+<p>(Last Updated )
+</p></body></html>

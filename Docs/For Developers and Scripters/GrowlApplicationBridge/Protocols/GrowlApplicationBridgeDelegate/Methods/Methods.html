@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><head>
+    <title>Methods</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style></head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Methods</font></h1><br>
+<a name="HeaderDoc_methods"></a>
+<dl>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/GrowlApplicationBridgeDelegate/registrationDictionaryForGrowl" target="doc">-registrationDictionaryForGrowl</a></tt></dt>
+<dd>Return the dictionary used to register this application with Growl.
+</dd>
+</dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/GrowlApplicationBridgeDelegate/registrationDictionaryForGrowl; name=GrowlApplicationBridgeDelegate::registrationDictionaryForGrowl -->
+<a name="//apple_ref/occ/instm/GrowlApplicationBridgeDelegate/registrationDictionaryForGrowl"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="registrationDictionaryForGrowl">registrationDictionaryForGrowl</a></h3>
+</td></tr></table><hr><dl></dl><p>Return the dictionary used to register this application with Growl.
+</p>
+<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSDictionary //apple_ref/occ/cl/NSDictionary //apple_ref/occ/tdef/NSDictionary //apple_ref/occ/tag/NSDictionary //apple_ref/occ/econst/NSDictionary //apple_ref/occ/struct/NSDictionary //apple_ref/occ/clconst/NSDictionary" --><font class="type">NSDictionary</font><!-- /a --> <font class="type">*</font>) <font class="param">registrationDictionaryForGrowl</font>;</pre></blockquote>
+<dl><dt><i>method result</i></dt><dd>The NSDictionary to use for registration.
+ </dd>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The returned dictionary gives Growl the complete list of
+notifications this application will ever send, and it also specifies which
+applications should be enabled by default. Each is specified by an array
+of NSString objects.<br>
+For most applications, these two arrays can be the same (if all sent
+notifications should be displayed by default).<br>
+The NSString objects of these arrays will corresopnd to the
+notificationName: parameter passed in +[ calls.GrowlApplicationBridge
+notifyWithTitle:description:notificationName:iconData:priority:isSticky:
+clickContext:]<br>
+The dictionary should have 2 key object pairs:
+key: GROWL_NOTIFICATIONS_ALL object: NSArray of NSString objects
+key: GROWL_NOTIFICATIONS_DEFAULT object: NSArray of NSString objects<br>
+</p>
+</dl>
+<p>(Last Updated )
+</p></body></html>

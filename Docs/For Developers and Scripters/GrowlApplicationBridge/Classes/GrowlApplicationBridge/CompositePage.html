@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><head>
+    <title>GrowlApplicationBridge</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <meta name="generator" content="HeaderDoc">
+<style type="text/css"><!--a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style></head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">GrowlApplicationBridge</font></h1><br>
+<a name="//apple_ref/doc/class/GrowlApplicationBridge" title="GrowlApplicationBridge"></a>
+<h2>Abstract</h2>
+   A class used to interface with Growl.
+<h2>Discussion</h2>
+ This class provides a means to interface with Growl.
+<br><br>
+Currently it provides a way to detect if Growl is installed and launch the
+GrowlHelperApp if it's not already running.
+ <hr><br><h2>Methods</h2>
+<a name="HeaderDoc_methods"></a>
+<dl>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/clm/GrowlApplicationBridge/isGrowlInstalled" target="_top">+isGrowlInstalled</a></tt></dt>
+<dd>Detects whether Growl is installed.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/clm/GrowlApplicationBridge/isGrowlRunning" target="_top">+isGrowlRunning</a></tt></dt>
+<dd>Detects whether GrowlHelperApp is currently running.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/clm/GrowlApplicationBridge/setGrowlDelegate:" target="_top">+setGrowlDelegate:</a></tt></dt>
+<dd>Set the object which will be responsible for providing and receiving Growl information.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/clm/GrowlApplicationBridge/growlDelegate" target="_top">+growlDelegate</a></tt></dt>
+<dd>Return the object responsible for providing and receiving Growl information.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/clm/GrowlApplicationBridge/notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:" target="_top">+notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:</a></tt></dt>
+<dd>Send a Growl notification.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/clm/GrowlApplicationBridge/notifyWithDictionary:" target="_top">+notifyWithDictionary:</a></tt></dt>
+<dd>Notifies using a userInfo dictionary suitable for passing to
+NSDistributedNotificationCenter.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/occ/clm/GrowlApplicationBridge/reregisterGrowlNotifications" target="_top">+reregisterGrowlNotifications</a></tt></dt>
+<dd>Reregister the notifications for this application.
+</dd>
+</dl>
+<hr><!-- headerDoc=clm; uid=//apple_ref/occ/clm/GrowlApplicationBridge/isGrowlInstalled; name=GrowlApplicationBridge::isGrowlInstalled -->
+<a name="//apple_ref/occ/clm/GrowlApplicationBridge/isGrowlInstalled"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="isGrowlInstalled">isGrowlInstalled</a></h3>
+</td></tr></table><hr><dl></dl><p>Detects whether Growl is installed.
+</p>
+<blockquote><pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL" --><font class="type">BOOL</font><!-- /a -->) <font class="param">isGrowlInstalled</font>;</pre></blockquote>
+<dl><dt><i>method result</i></dt><dd>Returns YES if Growl is installed, NO otherwise.
+ </dd>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determines if the Growl prefpane and its helper app are installed.
+</p>
+</dl>
+<hr><!-- headerDoc=clm; uid=//apple_ref/occ/clm/GrowlApplicationBridge/isGrowlRunning; name=GrowlApplicationBridge::isGrowlRunning -->
+<a name="//apple_ref/occ/clm/GrowlApplicationBridge/isGrowlRunning"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="isGrowlRunning">isGrowlRunning</a></h3>
+</td></tr></table><hr><dl></dl><p>Detects whether GrowlHelperApp is currently running.
+</p>
+<blockquote><pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL" --><font class="type">BOOL</font><!-- /a -->) <font class="param">isGrowlRunning</font>;</pre></blockquote>
+<dl><dt><i>method result</i></dt><dd>Returns YES if GrowlHelperApp is running, NO otherwise.
+ </dd>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Cycles through the process list to find whether GrowlHelperApp is running and returns its findings.
+</p>
+</dl>
+<hr><!-- headerDoc=clm; uid=//apple_ref/occ/clm/GrowlApplicationBridge/setGrowlDelegate:; name=GrowlApplicationBridge::setGrowlDelegate: -->
+<a name="//apple_ref/occ/clm/GrowlApplicationBridge/setGrowlDelegate:"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="setGrowlDelegate:">setGrowlDelegate:</a></h3>
+</td></tr></table><hr><dl></dl><p>Set the object which will be responsible for providing and receiving Growl information.
+</p>
+<blockquote><pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void" --><font class="type">void</font><!-- /a -->) <!-- a logicalPath="//apple_ref/occ/instm/setGrowlDelegate //apple_ref/occ/clm/setGrowlDelegate //apple_ref/occ/intfcm/setGrowlDelegate //apple_ref/occ/func/setGrowlDelegate //apple_ref/occ/ftmplt/setGrowlDelegate //apple_ref/occ/defn/setGrowlDelegate //apple_ref/occ/macro/setGrowlDelegate" --><font class="function">setGrowlDelegate</font><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSObject //apple_ref/occ/cl/NSObject //apple_ref/occ/tdef/NSObject //apple_ref/occ/tag/NSObject //apple_ref/occ/econst/NSObject //apple_ref/occ/struct/NSObject //apple_ref/occ/clconst/NSObject" --><font class="type">NSObject</font><!-- /a -->&lt;<font class="param">GrowlApplicationBridgeDelegate</font>&gt; <font class="type">*</font>)<font class="param">inDelegate</font>;</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><code><i>inDelegate</i></code></dt><dd>The delegate for the GrowlApplicationBridge. It must conform to the GrowlApplicationBridgeDelegate protocol.</dd>
+</dl>
+</blockquote>
+<dl><h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This must be called before using GrowlApplicationBridge.<br>
+The methods in the GrowlApplicationBridgeDelegate protocol are required
+and return the basic information needed to register with Growl.<br>
+The methods in the GrowlApplicationBridgeDelegate_InformalProtocol
+informal protocol are individually optional. They provide a greater
+degree of interaction between the application and growl such as informing
+the application when one of its Growl notifications is clicked by the user.<br>
+The methods in the GrowlApplicationBridgeDelegate_Installation_InformalProtocol
+informal protocol are individually optional and are only applicable when
+using the Growl-WithInstaller.framework which allows for automated Growl
+installation.<br>
+When this method is called, data will be collected from inDelegate, Growl
+will be launched if it is not already running, and the application will be
+registered with Growl.<br>
+If using the Growl-WithInstaller framework, if Growl is already installed
+but this copy of the framework has an updated version of Growl, the user
+will be prompted to update automatically.<br>
+</p>
+</dl>
+<hr><!-- headerDoc=clm; uid=//apple_ref/occ/clm/GrowlApplicationBridge/growlDelegate; name=GrowlApplicationBridge::growlDelegate -->
+<a name="//apple_ref/occ/clm/GrowlApplicationBridge/growlDelegate"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="growlDelegate">growlDelegate</a></h3>
+</td></tr></table><hr><dl></dl><p>Return the object responsible for providing and receiving Growl information.
+</p>
+<blockquote><pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/NSObject //apple_ref/occ/cl/NSObject //apple_ref/occ/tdef/NSObject //apple_ref/occ/tag/NSObject //apple_ref/occ/econst/NSObject //apple_ref/occ/struct/NSObject //apple_ref/occ/clconst/NSObject" --><font class="type">NSObject</font><!-- /a -->&lt;<font class="param">GrowlApplicationBridgeDelegate</font>&gt; <font class="type">*</font>) <font class="param">growlDelegate</font>;</pre></blockquote>
+<dl><dt><i>method result</i></dt><dd>The Growl delegate.
+ </dd>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>See setGrowlDelegate: for details.
+</p>
+</dl>
+<hr><!-- headerDoc=clm; uid=//apple_ref/occ/clm/GrowlApplicationBridge/notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:; name=GrowlApplicationBridge::notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext: -->
+<a name="//apple_ref/occ/clm/GrowlApplicationBridge/notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:">notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:</a></h3>
+</td></tr></table><hr><dl></dl><p>Send a Growl notification.
+</p>
+<blockquote><pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void" --><font class="type">void</font><!-- /a -->) <!-- a logicalPath="//apple_ref/occ/instm/notifyWithTitle //apple_ref/occ/clm/notifyWithTitle //apple_ref/occ/intfcm/notifyWithTitle //apple_ref/occ/func/notifyWithTitle //apple_ref/occ/ftmplt/notifyWithTitle //apple_ref/occ/defn/notifyWithTitle //apple_ref/occ/macro/notifyWithTitle" --><font class="function">notifyWithTitle</font><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString" --><font class="type">NSString</font><!-- /a --> <font class="type">*</font>)<font class="param">title</font> <!-- a logicalPath="//apple_ref/occ/instm/description //apple_ref/occ/clm/description //apple_ref/occ/intfcm/description //apple_ref/occ/func/description //apple_ref/occ/ftmplt/description //apple_ref/occ/defn/description //apple_ref/occ/macro/description" --><font class="function">description</font><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString" --><font class="type">NSString</font><!-- /a --> <font class="type">*</font>)<font class="param">description</font> <!-- a logicalPath="//apple_ref/occ/instm/notificationName //apple_ref/occ/clm/notificationName //apple_ref/occ/intfcm/notificationName //apple_ref/occ/func/notificationName //apple_ref/occ/ftmplt/notificationName //apple_ref/occ/defn/notificationName //apple_ref/occ/macro/notificationName" --><font class="function">notificationName</font><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString" --><font class="type">NSString</font><!-- /a --> <font class="type">*</font>)<font class="param">notifName</font> <!-- a logicalPath="//apple_ref/occ/instm/iconData //apple_ref/occ/clm/iconData //apple_ref/occ/intfcm/iconData //apple_ref/occ/func/iconData //apple_ref/occ/ftmplt/iconData //apple_ref/occ/defn/iconData //apple_ref/occ/macro/iconData" --><font class="function">iconData</font><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSData //apple_ref/occ/cl/NSData //apple_ref/occ/tdef/NSData //apple_ref/occ/tag/NSData //apple_ref/occ/econst/NSData //apple_ref/occ/struct/NSData //apple_ref/occ/clconst/NSData" --><font class="type">NSData</font><!-- /a --> <font class="type">*</font>)<font class="param">iconData</font> <!-- a logicalPath="//apple_ref/occ/instm/priority //apple_ref/occ/clm/priority //apple_ref/occ/intfcm/priority //apple_ref/occ/func/priority //apple_ref/occ/ftmplt/priority //apple_ref/occ/defn/priority //apple_ref/occ/macro/priority" --><font class="function">priority</font><!-- /a -->:(<font class="keyword">signed</font> <!-- a logicalPath="//apple_ref/occ/cl/int //apple_ref/occ/cl/int //apple_ref/occ/tdef/int //apple_ref/occ/tag/int //apple_ref/occ/econst/int //apple_ref/occ/struct/int //apple_ref/occ/clconst/int" --><font class="type">int</font><!-- /a -->)<font class="param">priority</font> <!-- a logicalPath="//apple_ref/occ/instm/isSticky //apple_ref/occ/clm/isSticky //apple_ref/occ/intfcm/isSticky //apple_ref/occ/func/isSticky //apple_ref/occ/ftmplt/isSticky //apple_ref/occ/defn/isSticky //apple_ref/occ/macro/isSticky" --><font class="function">isSticky</font><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/econst/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/clconst/BOOL" --><font class="type">BOOL</font><!-- /a -->)<font class="param">isSticky</font> <!-- a logicalPath="//apple_ref/occ/instm/clickContext //apple_ref/occ/clm/clickContext //apple_ref/occ/intfcm/clickContext //apple_ref/occ/func/clickContext //apple_ref/occ/ftmplt/clickContext //apple_ref/occ/defn/clickContext //apple_ref/occ/macro/clickContext" --><font class="function">clickContext</font><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/id //apple_ref/occ/cl/id //apple_ref/occ/tdef/id //apple_ref/occ/tag/id //apple_ref/occ/econst/id //apple_ref/occ/struct/id //apple_ref/occ/clconst/id" --><font class="type">id</font><!-- /a -->)<font class="param">clickContext</font>;</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><code><i>title</i></code></dt><dd>The title of the notification displayed to the user.</dd>
+<dt><code><i>description</i></code></dt><dd>The full description of the notification displayed to the user.</dd>
+<dt><code><i>notifName</i></code></dt><dd>The internal name of the notification. Should be human-readable, as it will be displayed in the Growl preference pane.</dd>
+<dt><code><i>iconData</i></code></dt><dd>NSData object to show with the notification as its icon. If nil, the application's icon will be used instead.</dd>
+<dt><code><i>priority</i></code></dt><dd>The priority of the notification. The default value is 0; positive values are higher priority and negative values are lower priority. Not all Growl displays support priority.</dd>
+<dt><code><i>isSticky</i></code></dt><dd>If YES, the notification will remain on screen until clicked. Not all Growl displays support sticky notifications.</dd>
+<dt><code><i>clickContext</i></code></dt><dd>A context passed back to the Growl delegate if it implements -(void)growlNotificationWasClicked: and the notification is clicked. Not all display plugins support clicking. The clickContext must be plist-encodable (completely of NSString, NSArray, NSNumber, NSDictionary, and NSData types).</dd>
+</dl>
+</blockquote>
+<dl><h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This is the preferred means for sending a Growl notification.
+The notification name and at least one of the title and description are
+required (all three are preferred). All other parameters may be nil
+(or 0 or NO as appropriate) to accept default values.<br>
+If using the Growl-WithInstaller framework, if Growl is not installed the
+user will be prompted to install Growl. If the user cancels, this method
+will have no effect until the next application session, at which time when
+it is called the user will be prompted again. The user is also given the
+option to not be prompted again. If the user does choose to install Growl,
+the requested notification will be displayed once Growl is installed and
+running.<br>
+</p>
+</dl>
+<hr><!-- headerDoc=clm; uid=//apple_ref/occ/clm/GrowlApplicationBridge/notifyWithDictionary:; name=GrowlApplicationBridge::notifyWithDictionary: -->
+<a name="//apple_ref/occ/clm/GrowlApplicationBridge/notifyWithDictionary:"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="notifyWithDictionary:">notifyWithDictionary:</a></h3>
+</td></tr></table><hr><dl></dl><p>Notifies using a userInfo dictionary suitable for passing to
+NSDistributedNotificationCenter.
+</p>
+<blockquote><pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void" --><font class="type">void</font><!-- /a -->) <!-- a logicalPath="//apple_ref/occ/instm/notifyWithDictionary //apple_ref/occ/clm/notifyWithDictionary //apple_ref/occ/intfcm/notifyWithDictionary //apple_ref/occ/func/notifyWithDictionary //apple_ref/occ/ftmplt/notifyWithDictionary //apple_ref/occ/defn/notifyWithDictionary //apple_ref/occ/macro/notifyWithDictionary" --><font class="function">notifyWithDictionary</font><!-- /a -->:(<!-- a logicalPath="//apple_ref/occ/cl/NSDictionary //apple_ref/occ/cl/NSDictionary //apple_ref/occ/tdef/NSDictionary //apple_ref/occ/tag/NSDictionary //apple_ref/occ/econst/NSDictionary //apple_ref/occ/struct/NSDictionary //apple_ref/occ/clconst/NSDictionary" --><font class="type">NSDictionary</font><!-- /a --> <font class="type">*</font>)<font class="param">userInfo</font>;</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><code><i>userInfo</i></code></dt><dd>The dictionary to notify with.</dd>
+</dl>
+</blockquote>
+<dl><h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Before Growl 0.6, your application would have posted
+notifications using NSDistributedNotificationCenter by creating a userInfo
+dictionary with the notification data. This had the advantage of allowing
+you to add other data to the dictionary for programs besides Growl that
+might be listening.<br>
+This method allows you to use such dictionaries without being restricted
+to using NSDistributedNotificationCenter. The keys for this dictionary
+can be found in GrowlDefines.h.
+ </p>
+</dl>
+<hr><!-- headerDoc=clm; uid=//apple_ref/occ/clm/GrowlApplicationBridge/reregisterGrowlNotifications; name=GrowlApplicationBridge::reregisterGrowlNotifications -->
+<a name="//apple_ref/occ/clm/GrowlApplicationBridge/reregisterGrowlNotifications"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="reregisterGrowlNotifications">reregisterGrowlNotifications</a></h3>
+</td></tr></table><hr><dl></dl><p>Reregister the notifications for this application.
+</p>
+<blockquote><pre>+ (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/econst/void //apple_ref/occ/struct/void //apple_ref/occ/clconst/void" --><font class="type">void</font><!-- /a -->) <font class="param">reregisterGrowlNotifications</font>;</pre></blockquote>
+<dl><h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method does not normally need to be called. If your
+application changes what notifications it is registering with Growl,
+call this method to have the Growl delegate's
+-registrationDictionaryForGrowl method called again and the Growl
+registration information updated.
+ </p>
+</dl>
+<p>(Last Updated )
+</p></body></html>
