@@ -6,6 +6,9 @@ NSLOGGING_PATH=$(PLUGINS_DIR)/$(NSLOGGING_NAME)
 SMOKE_NAME=Smoke.growlView
 SMOKE_BUILD=$(BUILD_DIR)/$(SMOKE_NAME)
 SMOKE_PATH=$(PLUGINS_DIR)/$(SMOKE_NAME)
+MAILME_NAME=MailMe.growlView
+MAILME_BUILD=$(BUILD_DIR)/$(MAILME_NAME)
+MAILME_PATH=$(PLUGINS_DIR)/$(MAILME_NAME)
 
 PREFERENCEPANES_DIR=$(HOME)/Library/PreferencePanes
 GROWL_PREFPANE=Growl.prefPane
@@ -20,23 +23,27 @@ RM=rm
 all:
 	xcodebuild -alltargets -buildstyle $(DEFAULT_BUILDSTYLE) build
 
-nslogging:
+nslogging: *
 	xcodebuild -target NSLogging -buildstyle $(DEFAULT_BUILDSTYLE) build
 
-bezel:
+bezel: *
 	xcodebuild -target Bezel -buildstyle $(DEFAULT_BUILDSTYLE) build
 
-smoke:
+smoke: *
 	xcodebuild -target Smoke -buildstyle $(DEFAULT_BUILDSTYLE) build
+
+mailme: *
+	xcodebuild -target MailMe -buildstyle $(DEFAULT_BUILDSTYLE) build
 
 clean:
 	xcodebuild -project "Display Plugins.xcode" -alltargets clean
 
 install:
 	killall GrowlHelperApp || true
-	-$(RM) -rf "$(NSLOGGING_PATH)" "$(SMOKE_PATH)"
+	-$(RM) -rf "$(NSLOGGING_PATH)" "$(SMOKE_PATH)" "$(MAILME_PATH)"
 	if [[ -d $(NSLOGGING_BUILD) ]]; then $(CP) $(NSLOGGING_BUILD) "$(NSLOGGING_PATH)"; fi
 	if [[ -d $(SMOKE_BUILD) ]]; then $(CP) $(SMOKE_BUILD) "$(SMOKE_PATH)"; fi
+	if [[ -d $(MAILME_BUILD) ]]; then $(CP) $(MAILME_BUILD) "$(MAILME_PATH)"; fi
 	open $(GROWL_HELPER_APP)
 
 install-nslogging:
@@ -49,4 +56,10 @@ install-smoke:
 	killall GrowlHelperApp || true
 	-$(RM) -rf "$(SMOKE_PATH)"
 	$(CP) $(SMOKE_BUILD) "$(SMOKE_PATH)"
+	open $(GROWL_HELPER_APP)
+
+install-mailme:
+	killall GrowlHelperApp || true
+	-$(RM) -rf "$(MAILME_PATH)"
+	$(CP) $(MAILME_BUILD) "$(MAILME_PATH)"
 	open $(GROWL_HELPER_APP)
