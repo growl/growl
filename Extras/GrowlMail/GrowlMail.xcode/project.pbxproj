@@ -47,30 +47,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				07944BBE07C3C556002D0BAF,
+				95014E0D07C91BC400A7A86C,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		07944BBE07C3C556002D0BAF = {
-			fileRef = 0A8329A206B854F700F4F4EE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		07944BCB07C3C590002D0BAF = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = Growl.framework;
-			path = build/GrowlMail.mailbundle/Contents/Frameworks/Growl.framework;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		07944BCC07C3C590002D0BAF = {
-			fileRef = 07944BCB07C3C590002D0BAF;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 //070
 //071
@@ -193,24 +173,6 @@
 //082
 //083
 //084
-//0A0
-//0A1
-//0A2
-//0A3
-//0A4
-		0A8329A206B854F700F4F4EE = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = Growl.framework;
-			path = ../../build/Growl.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-//0A0
-//0A1
-//0A2
-//0A3
-//0A4
 //100
 //101
 //102
@@ -218,7 +180,6 @@
 //104
 		1058C7ACFEA557BF11CA2CBB = {
 			children = (
-				07944BCB07C3C590002D0BAF,
 				4B2E729506B5776B00386BF2,
 				1058C7ADFEA557BF11CA2CBB,
 			);
@@ -237,7 +198,7 @@
 		};
 		1058C7AEFEA557BF11CA2CBB = {
 			children = (
-				0A8329A206B854F700F4F4EE,
+				950148C707C9110B00A7A86C,
 				089C1672FE841209C02AAC07,
 				089C167FFE841241C02AAC07,
 			);
@@ -305,12 +266,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		4B7E5EA706B6AC1700137892 = {
-			fileRef = 4B7E5EA206B6AC1700137892;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		4B7E5EA806B6AC1700137892 = {
 			fileRef = 4B7E5EA306B6AC1700137892;
 			isa = PBXBuildFile;
@@ -325,12 +280,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		4BF8974E06B6A7EF00C30E88 = {
-			fileRef = 4BF8974D06B6A7EF00C30E88;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 //4B0
 //4B1
 //4B2
@@ -343,7 +292,6 @@
 //8D4
 		8D5B49AC048680CD000E48DA = {
 			buildPhases = (
-				8D5B49AD048680CD000E48DA,
 				8D5B49AF048680CD000E48DA,
 				07944BBB07C3C540002D0BAF,
 				8D5B49B1048680CD000E48DA,
@@ -353,7 +301,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "../../build ./build/GrowlMail.mailbundle/Contents/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = ../../build;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -387,22 +335,6 @@
 			productName = MailGrowl;
 			productReference = 8D5B49B6048680CD000E48DA;
 			productType = "com.apple.product-type.bundle";
-		};
-		8D5B49AD048680CD000E48DA = {
-			buildActionMask = 2147483647;
-			files = (
-				4BF8974E06B6A7EF00C30E88,
-				4B7E5EA706B6AC1700137892,
-				95BF545A072F9D6300834811,
-				95BF5482072FB08000834811,
-				9553469E0732BD4800D12875,
-				955347DF0732BFE200D12875,
-				9553485F0732F93600D12875,
-				955348670732FA2500D12875,
-				9594E8E607A18C5600EC79BF,
-			);
-			isa = PBXHeadersBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8D5B49AF048680CD000E48DA = {
 			buildActionMask = 2147483647;
@@ -438,7 +370,6 @@
 			files = (
 				8D5B49B4048680CD000E48DA,
 				4B2E729606B5776B00386BF2,
-				07944BCC07C3C590002D0BAF,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -482,6 +413,20 @@
 //952
 //953
 //954
+		950148C707C9110B00A7A86C = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Growl.framework;
+			path = ../../build/Growl.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95014E0D07C91BC400A7A86C = {
+			fileRef = 950148C707C9110B00A7A86C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		950A023B0737CBDB0075BDE4 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -560,12 +505,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		9553469E0732BD4800D12875 = {
-			fileRef = 9553469C0732BD4800D12875;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		9553469F0732BD4800D12875 = {
 			fileRef = 9553469D0732BD4800D12875;
 			isa = PBXBuildFile;
@@ -579,12 +518,6 @@
 			path = NSPreferencesModule.h;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		955347DF0732BFE200D12875 = {
-			fileRef = 955347DE0732BFE200D12875;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		955347E10732BFEF00D12875 = {
 			children = (
@@ -638,12 +571,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		9553485F0732F93600D12875 = {
-			fileRef = 9553485D0732F93600D12875;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		955348600732F93600D12875 = {
 			fileRef = 9553485E0732F93600D12875;
 			isa = PBXBuildFile;
@@ -657,12 +584,6 @@
 			path = NSPreferences.h;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		955348670732FA2500D12875 = {
-			fileRef = 955348660732FA2500D12875;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		9564FAD707438EA100F1CCE5 = {
 			buildSettings = {
@@ -686,12 +607,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		9594E8E607A18C5600EC79BF = {
-			fileRef = 9594E8DF07A18C5600EC79BF;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		95BF5458072F9D6300834811 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -707,12 +622,6 @@
 			path = GrowlMessageStore.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		95BF545A072F9D6300834811 = {
-			fileRef = 95BF5458072F9D6300834811;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		95BF545B072F9D6300834811 = {
 			fileRef = 95BF5459072F9D6300834811;
@@ -735,12 +644,6 @@
 			path = "Message+GrowlMail.m";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		95BF5482072FB08000834811 = {
-			fileRef = 95BF5480072FB08000834811;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		95BF5483072FB08000834811 = {
 			fileRef = 95BF5481072FB08000834811;

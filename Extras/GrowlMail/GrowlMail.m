@@ -36,21 +36,20 @@
 #import "GrowlMail.h"
 #import <Growl/Growl.h>
 
+static Class growlApplicationBridge;
+
 @implementation GrowlMail
 
-+ (NSBundle *)bundle
-{
++ (NSBundle *)bundle {
 	return [NSBundle bundleForClass:self];
 }
 
-+ (NSString *)bundleVersion
-{
++ (NSString *)bundleVersion {
 	return [[[GrowlMail bundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 }
 
-+ (void)initialize
-{
-	NSBundle	*myBundle;
++ (void)initialize {
+	NSBundle *myBundle;
 
 	[super initialize];
 
@@ -74,38 +73,61 @@
 	NSLog( @"Loaded GrowlMail %@", [GrowlMail bundleVersion] );
 }
 
-+ (BOOL)hasPreferencesPanel
-{
++ (Class)growlApplicationBridge {
+	return growlApplicationBridge;
+}
+
++ (BOOL)hasPreferencesPanel {
 	return YES;
 }
 
-+ (NSString *)preferencesOwnerClassName
-{
++ (NSString *)preferencesOwnerClassName {
 	return @"GrowlMailPreferencesModule";
 }
 
-+ (NSString *)preferencesPanelName
-{
++ (NSString *)preferencesPanelName {
 	return @"GrowlMail";
 }
 
-- (id)init
-{
+- (id)init {
 	if ( (self = [super init]) ) {
-		// Register our ticket with Growl
-		NSArray *allowedNotifications = [NSArray arrayWithObject:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")];
-		NSDictionary *ticket = [NSDictionary dictionaryWithObjectsAndKeys:
-			@"GrowlMail", GROWL_APP_NAME,
-			allowedNotifications, GROWL_NOTIFICATIONS_ALL,
-			allowedNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-			[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_APP_ICON,
-			nil];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION
-																	   object:nil
-																	 userInfo:ticket];
+		NSString *growlPath = [[[GrowlMail bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
+		NSBundle *growlBundle = [[NSBundle alloc] initWithPath:growlPath];
+		growlApplicationBridge = [growlBundle classNamed:@"GrowlApplicationBridge"];
+
+		if ( [growlApplicationBridge isGrowlInstalled] ) {
+			// Register ourselves as a Growl delegate
+			[growlApplicationBridge setGrowlDelegate:self];
+		} else {
+			NSLog( @"Growl not installed, GrowlMail disabled" );
+		}
 	}
 
 	return self;
+}
+
+- (NSString *) applicationNameForGrowl {
+	return @"GrowlMail";
+}
+
+- (NSData *) applicationIconDataForGrowl {
+	return [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
+}
+
+- (void) growlNotificationWasClicked:(id)clickContext {
+	// TODO: open a specific message if not in summary mode
+	[NSApp activateIgnoringOtherApps:YES];
+}
+
+- (NSDictionary *) registrationDictionaryForGrowl {
+	// Register our ticket with Growl
+	NSArray *allowedNotifications = [NSArray arrayWithObject:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")];
+	NSDictionary *ticket = [NSDictionary dictionaryWithObjectsAndKeys:
+		allowedNotifications, GROWL_NOTIFICATIONS_ALL,
+		allowedNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+		nil];
+
+	return ticket;
 }
 
 // preferences
@@ -120,25 +142,21 @@
 	[[NSUserDefaults standardUserDefaults] setBool:yesOrNo forKey:@"GMEnableGrowlMailBundle"];
 }
 
-- (BOOL)isIgnoreJunk
-{
+- (BOOL)isIgnoreJunk {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMIgnoreJunk"];
 }
 
-- (void)setIgnoreJunk:(BOOL)yesOrNo
-{
+- (void)setIgnoreJunk:(BOOL)yesOrNo {
 	[[NSUserDefaults standardUserDefaults] setBool:yesOrNo forKey:@"GMIgnoreJunk"];
 }
 
-- (BOOL)isAccountEnabled:(NSString *)path
-{
+- (BOOL)isAccountEnabled:(NSString *)path {
 	NSDictionary *accountSettings = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"GMAccounts"];
 	NSNumber *isEnabled = (NSNumber *)[accountSettings objectForKey:path];
 	return isEnabled ? [isEnabled boolValue] : YES;
 }
 
-- (void)setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path;
-{
+- (void)setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path {
 	NSDictionary *accountSettings = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"GMAccounts"];
 	NSMutableDictionary *newSettings;
 	if ( accountSettings ) {
@@ -151,13 +169,11 @@
 	[newSettings release];
 }
 
-- (BOOL)showSummary
-{
+- (BOOL)showSummary {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMShowSummary"];
 }
 
-- (void)setShowSummary:(BOOL)yesOrNo
-{
+- (void)setShowSummary:(BOOL)yesOrNo {
 	[[NSUserDefaults standardUserDefaults] setBool:yesOrNo forKey:@"GMShowSummary"];
 }
 

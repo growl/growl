@@ -38,6 +38,7 @@
 + (BOOL)hasPreferencesPanel;
 + (NSString *)preferencesOwnerClassName;
 + (NSString *)preferencesPanelName;
++ (Class)growlApplicationBridge;
 - (id)init;
 - (BOOL)isEnabled;
 - (void)setEnabled:(BOOL)yesOrNo;

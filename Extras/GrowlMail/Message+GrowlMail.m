@@ -99,15 +99,13 @@
 //		image = [workspace iconForFile: [workspace fullPathForApplication: @"Mail"]];
 		image = [NSImage imageNamed:@"NSApplicationIcon"];
 	}
-	NSDictionary *notif = [NSDictionary dictionaryWithObjectsAndKeys:
-		NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @""), GROWL_NOTIFICATION_NAME,
-		@"GrowlMail", GROWL_APP_NAME,
-		title, GROWL_NOTIFICATION_TITLE,
-		[image TIFFRepresentation], GROWL_NOTIFICATION_ICON,
-		description, GROWL_NOTIFICATION_DESCRIPTION,
-		nil];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																   object:nil
-																 userInfo:notif];
+	Class gab = [GrowlMail growlApplicationBridge];
+	[gab notifyWithTitle:title
+			 description:description
+		notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")
+				iconData:[image TIFFRepresentation]
+				priority:0
+				isSticky:NO
+			clickContext:@""];	// non-nil click context
 }
 @end

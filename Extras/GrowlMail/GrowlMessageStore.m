@@ -79,20 +79,19 @@
 			NSEnumerator *enumerator = [accountSummary keyEnumerator];
 			NSBundle *bundle = [GrowlMail bundle];
 			NSString *title = NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"");
+			NSData *iconData = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
+			Class gab = [GrowlMail growlApplicationBridge];
 			NSString *key;
 			while( (key = [enumerator nextObject]) ) {
 				NSNumber *count = [accountSummary objectForKey:key];
 				NSString *description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n%d new mail(s)", nil, bundle, @""), key, [count intValue]];
-				NSDictionary *notif = [NSDictionary dictionaryWithObjectsAndKeys:
-					title, GROWL_NOTIFICATION_NAME,
-					@"GrowlMail", GROWL_APP_NAME,
-					title, GROWL_NOTIFICATION_TITLE,
-					description, GROWL_NOTIFICATION_DESCRIPTION,
-					[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_NOTIFICATION_ICON,
-					nil];
-				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																			   object:nil
-																			 userInfo:notif];
+				[gab notifyWithTitle:title
+						 description:description
+					notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")
+							iconData:iconData
+							priority:0
+							isSticky:NO
+						clickContext:@""];	// non-nil click context
 			}
 		}
 	}
