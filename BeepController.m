@@ -35,7 +35,7 @@
 	NSNumber *defaultValue = [NSNumber numberWithBool:[_newNotificationDefault state] == NSOnState];
 	NSDictionary *aNuDict = [NSDictionary dictionaryWithObjectsAndKeys:			[_newNotificationTitle stringValue], GROWL_NOTIFICATION_TITLE,
 																				[_newNotificationDescription stringValue], GROWL_NOTIFICATION_DESCRIPTION,
-																				/* [_newNotificationImage image], GROWL_NOTIFICATION_ICON ,*/
+																				[[_newNotificationImage image] TIFFRepresentation], GROWL_NOTIFICATION_ICON ,
 																				defaultValue, GROWL_NOTIFICATION_DEFAULT,
 																				nil];
 	[_notifications addObject:aNuDict];

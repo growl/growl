@@ -584,6 +584,8 @@
 				CB5F838A0638B78200EADD7A,
 				CB1C5D1B063E432F007052EE,
 				CB1C5D1C063E432F007052EE,
+				F57BFE2C0669037C00DE5BFD,
+				F57BFE2D0669037C00DE5BFD,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -797,6 +799,7 @@
 				CB5F838B0638B78200EADD7A,
 				CBF0743A0659B1F4000B4B77,
 				CBF073CB0659A94F000B4B77,
+				F57BFE2E0669037C00DE5BFD,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -814,6 +817,7 @@
 				CB5F838C0638B78200EADD7A,
 				CBF0743F0659B202000B4B77,
 				CB5F83A80638B8C800EADD7A,
+				F57BFE2F0669037C00DE5BFD,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1206,6 +1210,34 @@
 			path = English.lproj/GrowlPref.nib;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		F57BFE2C0669037C00DE5BFD = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NSGrowlAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		F57BFE2D0669037C00DE5BFD = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NSGrowlAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		F57BFE2E0669037C00DE5BFD = {
+			fileRef = F57BFE2C0669037C00DE5BFD;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		F57BFE2F0669037C00DE5BFD = {
+			fileRef = F57BFE2D0669037C00DE5BFD;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = 089C1669FE841209C02AAC07;
