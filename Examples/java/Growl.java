@@ -41,6 +41,7 @@ public class Growl {
     public static final String GROWL_NOTIFICATION_DESCRIPTION = "NotificationDescription";
     public static final String GROWL_NOTIFICATION_ICON = "NotificationIcon";
     public static final String GROWL_NOTIFICATION_APP_ICON = "NotificationAppIcon";
+	public static final String GROWL_NOTIFICATION_STICKY = "NotificationSticky";
 
     // Actual instance data
     private boolean      registered;    // We should only register once
@@ -163,27 +164,27 @@ public class Growl {
      *
      */
     public boolean register() {
-	boolean retVal = true;
+		boolean retVal = true;
 
-	if ( ! registered ) {
+		if ( ! registered ) {
 
-	    // Construct our dictionary
-	    // Make the arrays of objects then keys
-	    Object [] objects = { appName, allNotes, defNotes };
-	    String [] keys = { GROWL_APP_NAME, 
-			       GROWL_NOTIFICATIONS_ALL, 
-			       GROWL_NOTIFICATIONS_DEFAULT };
+			// Construct our dictionary
+			// Make the arrays of objects then keys
+			Object [] objects = { appName, allNotes, defNotes };
+			String [] keys = { GROWL_APP_NAME, 
+					GROWL_NOTIFICATIONS_ALL, 
+					GROWL_NOTIFICATIONS_DEFAULT };
 
-	    // Make the Dictionary
-	    regDict = new NSDictionary( objects, keys );
+			// Make the Dictionary
+			regDict = new NSDictionary( objects, keys );
 
-	    theCenter.postNotification( GROWL_APP_REGISTRATION, // notificationName
-					(String)null, // anObject
-					regDict,                // userInfoDictionary
-					true );                 // deliverImmediately
-	}
+			theCenter.postNotification( GROWL_APP_REGISTRATION, // notificationName
+										(String)null,			// anObject
+										regDict,                // userInfoDictionary
+										true );                 // deliverImmediately
+		}
 
-	return true;
+		return true;
     }
 
     /**
@@ -201,38 +202,71 @@ public class Growl {
      *                    please with thier own special keys and values, you may use 
      *                    them here. These may be ignored by either the user's 
      *                    preferences or the current Display Plugin. This can be null
+	 * @param inSticky - Whether the Growl notification should be sticky
      *
      * @throws Exception When a notification is not known
      *
      */
     public void notifyGrowlOf( String inNotificationName, NSData inIconData, 
 			       String inTitle, String inDescription, 
-			       NSDictionary inExtraInfo ) throws Exception {
-	NSMutableDictionary noteDict = new NSMutableDictionary();
+			       NSDictionary inExtraInfo, boolean inSticky ) throws Exception {
+		NSMutableDictionary noteDict = new NSMutableDictionary();
 
-	if ( ! allNotes.containsObject( inNotificationName ) ) {
-	    throw new Exception( "Undefined Notification attempted" );
+		if ( ! allNotes.containsObject( inNotificationName ) ) {
+			throw new Exception( "Undefined Notification attempted" );
+		}
+
+		noteDict.setObjectForKey( inNotificationName, GROWL_NOTIFICATION_NAME );
+		noteDict.setObjectForKey( inTitle, GROWL_NOTIFICATION_TITLE );
+		noteDict.setObjectForKey( inDescription, GROWL_NOTIFICATION_DESCRIPTION );
+		noteDict.setObjectForKey( appName, GROWL_APP_NAME );
+		if ( inIconData != null ) {
+			noteDict.setObjectForKey( inIconData, GROWL_NOTIFICATION_ICON );
+		}
+
+		if (inSticky) {
+			noteDict.setObjectForKey( new Integer(1), GROWL_NOTIFICATION_STICKY );
+		}
+
+		if ( inExtraInfo != null ) {
+			noteDict.addEntriesFromDictionary( inExtraInfo );
+		}
+
+		theCenter.postNotification( GROWL_NOTIFICATION,
+									(String)null,
+									noteDict,
+									true );
 	}
 
-	noteDict.setObjectForKey( inNotificationName, GROWL_NOTIFICATION_NAME );
-	noteDict.setObjectForKey( inTitle, GROWL_NOTIFICATION_TITLE );
-	noteDict.setObjectForKey( inDescription, GROWL_NOTIFICATION_DESCRIPTION );
-	noteDict.setObjectForKey( appName, GROWL_APP_NAME );
-	if ( inIconData != null ) {
-	    noteDict.setObjectForKey( inIconData, GROWL_NOTIFICATION_ICON );
+	/**
+	  * Convenience method that defers to notifyGrowlOf( String inNotificationName, 
+	  * NSData inIconData, String inTitle, String inDescription, 
+	  * NSDictionary inExtraInfo, boolean inSticky )
+	  * This is primarily for compatibility with older code
+	  *
+	  * @param inNotificationName - The name of one of the notifications we told growl
+	  *                             about.
+	  * @param inIconData - The NSData for the icon for this notification, can be null
+	  * @param inTitle - The Title of our Notification as Growl will show it
+	  * @param inDescription - The Description of our Notification as Growl will 
+	  *                        display it
+	  * @param extraInfo - Growl is flexible and allows Display Plugins to do as they 
+	  *                    please with thier own special keys and values, you may use 
+	  *                    them here. These may be ignored by either the user's 
+	  *                    preferences or the current Display Plugin. This can be null
+	  *
+	  * @throws Exception When a notification is not known
+	  *
+	  */
+	public void notifyGrowlOf( String inNotificationName, NSData inIconData, 
+		                       String inTitle, String inDescription, 
+		                       NSDictionary inExtraInfo ) throws Exception {
+
+		notifyGrowlOf( inNotificationName, inIconData, inTitle, inDescription,
+			           inExtraInfo, false );
 	}
 
-	if ( inExtraInfo != null ) {
-	    noteDict.addEntriesFromDictionary( inExtraInfo );
-	}
-
-	theCenter.postNotification( GROWL_NOTIFICATION,
-				    (String)null,
-				    noteDict,
-				    true );
-    }
-
-    /**
+	/**
      * Convenienve method that defers to notifyGrowlOf( String inNotificationName, 
      * NSData inIconData, String inTitle, String inDescription, 
      * NSDictionary inExtraInfo ) with null passed for icon and extraInfo arguments
@@ -248,10 +282,31 @@ public class Growl {
      */
     public void notifyGrowlOf( String inNotificationName, String inTitle, 
 			       String inDescription ) throws Exception {
-
-	notifyGrowlOf( inNotificationName, (NSData)null, 
-		       inTitle, inDescription, (NSDictionary)null );
+		notifyGrowlOf( inNotificationName, (NSData)null, 
+					   inTitle, inDescription, (NSDictionary)null, false );
     }
+
+	/**
+	  * Convenience method that defers to notifyGrowlOf( String inNotificationName, 
+	  * NSData inIconData, String inTitle, String inDescription, 
+	  * NSDictionary inExtraInfo, boolean inSticky )
+	  * with null passed for icon and extraInfo arguments
+	  *
+	  * @param inNotificationName - The name of one of the notifications we told growl
+	  *                             about.
+	  * @param inTitle - The Title of our Notification as Growl will show it
+	  * @param inDescription - The Description of our Notification as Growl will 
+	  *                        display it
+	  * @param inSticky - Whether our notification should be sticky
+	  *
+	  * @throws Exception When a notification is not known
+	  *
+	  */
+	public void notifyGrowlOf( String inNotificationName, String inTitle, 
+							   String inDescription, boolean inSticky ) throws Exception {
+		notifyGrowlOf( inNotificationName, (NSData)null, 
+					   inTitle, inDescription, (NSDictionary)null, inSticky );
+	}
 
     /**
      * Defers to notifyGrowlOf( String inNotificationName, NSData inIconData, 
@@ -272,8 +327,8 @@ public class Growl {
 			       String inTitle, String inDescription, 
 			       NSDictionary inExtraInfo ) throws Exception {
 
-	notifyGrowlOf( inNotificationName, inImage.TIFFRepresentation(),
-		       inTitle, inDescription, inExtraInfo );
+		notifyGrowlOf( inNotificationName, inImage.TIFFRepresentation(),
+					   inTitle, inDescription, inExtraInfo, false );
     }
 
     /**
@@ -292,11 +347,10 @@ public class Growl {
      *
      */
     public void notifyGrowlOf( String inNotificationName, String inImagePath,
-			       String inTitle, String inDescription ) 
-	throws Exception {
+			       String inTitle, String inDescription ) throws Exception {
 
-	notifyGrowlOf( inNotificationName, new NSImage( inImagePath, false ), 
-		       inTitle, inDescription, (NSDictionary)null );
+		notifyGrowlOf( inNotificationName, new NSImage( inImagePath, false ), 
+					   inTitle, inDescription, (NSDictionary)null, false );
     }
 
     //************  Accessors     **************//
@@ -308,7 +362,7 @@ public class Growl {
      *
      */
     public String applicationName() {
-	return appName;
+		return appName;
     }
 
     /**
@@ -316,7 +370,7 @@ public class Growl {
      * 
      */
     public NSArray allowedNotifications() {
-	return allNotes;
+		return allNotes;
     }
 
     /**
@@ -324,7 +378,7 @@ public class Growl {
      *
      */
     public NSArray defaultNotifications() {
-	return defNotes;
+		return defNotes;
     }
 
     //************  Mutators     **************//
@@ -336,7 +390,7 @@ public class Growl {
      *
      */
     public void setApplicationName( String inAppName ) {
-	appName = inAppName;
+		appName = inAppName;
     }
 
     /**
@@ -345,8 +399,8 @@ public class Growl {
      * @param inAllNotes - The array of allowed Notifications
      *
      */
-    public void setAllowedNotifications( NSArray inAllNotes ) {
-	allNotes = inAllNotes;
+	public void setAllowedNotifications( NSArray inAllNotes ) {
+		allNotes = inAllNotes;
     }
 
     /**
@@ -356,7 +410,7 @@ public class Growl {
      *
      */
     public void setAllowedNotifications( String[] inAllNotes ) {
-	allNotes = new NSArray( inAllNotes );
+		allNotes = new NSArray( inAllNotes );
     }
 
     /**
@@ -374,7 +428,7 @@ public class Growl {
 
 	for( i = 0; i < stop; i++ ) {
 	    if ( ! allNotes.containsObject( inDefNotes.objectAtIndex(i) ) ) {
-		throw new Exception( "Array Element not in Allowed Notifications" );
+			throw new Exception( "Array Element not in Allowed Notifications" );
 	    }
 	} 
 
