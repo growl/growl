@@ -11,6 +11,10 @@
 \f1\fs24 \cf0 \
 These are all public\'d0domain (except where noted), for studying how to implement Growl in your app.\
 \
+Some of these examples link against GrowlAppBridge.framework. You must build GAB using GrowlAppBridge.xcode in the base Growl directory (the same directory where Growl.xcode is located) and then copy it (
+\f2\b not
+\f1\b0  move it) to ~/Library/Frameworks, /Library/Frameworks, or /Network/Library/Frameworks before you will be able to build and run those examples.\
+\
 --boredzo\
 \pard\tqc\tx5760\tx6480\tx7200\tx7920\tx8640\sl311\slmult1\ql\qnatural
 \cf0 \strike \strikec0 	\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\'ca\strike0\striked0 \
@@ -22,7 +26,7 @@ These are all public\'d0domain (except where noted), for studying how to impleme
 \f1\b0 \cf0 \
 The original demo app using Cocoa NSNotifications and NSDistributedNotificationCenter.\
 \
-	Libraries:	 Cocoa\
+	Libraries:	 Cocoa, GrowlAppBridge\
 	Author:	 Karl Adam\
 \
 \pard\tqr\tx1440\tx1800\tx2880\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -35,7 +39,7 @@ Reimplementation of Beep-Cocoa using Carbon and Core Foundation (specifically, C
 \
 Note: You must run the GenCarbonHeader.pl script before this project will build.\
 \
-	Libraries:	QuickTime (for image conversion), Carbon\
+	Libraries:	QuickTime (for image conversion), Carbon, GrowlAppBridge\
 	Author:	Mac-arena the Bored Zo\
 \
 \pard\tqr\tx1440\tx1800\tx2880\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
@@ -57,7 +61,7 @@ Command-line tool to display an arbitrary Growl notification. Could be useful fo
 \f1\b0 \cf0 \
 Polls iTunes with an AppleScript, posting notifications when the current track changes or when you start playback from a dead stop. Uses NSDistributedNotificationCenter.\
 \
-	Libraries:	Cocoa\
+	Libraries:	Cocoa, GrowlAppBridge\
 	Author:	Nelson Elhage (Hanji)\
 \
 \pard\tqr\tx1440\tx1800\tx2880\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
