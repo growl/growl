@@ -64,7 +64,7 @@
 	[tempText replaceOccurrencesOfString:@"\r"
 			withString:@"\n"
 			options:nil
-			range:NSMakeRange(0, [tempText length])];
+			range:NSMakeRange(0U, [tempText length])];
 	[view setText:tempText];
 	
 	[view setIcon:icon];

@@ -73,16 +73,16 @@
 			priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
 	[nuMusicVideo setDelegate:self];
-	if ( [notificationQueue count] > 0 ) {
+	if ( [notificationQueue count] > 0U ) {
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
 		GrowlMusicVideoWindowController *aNotification;
-		BOOL	inserted = FALSE;
-		int		theIndex = 0;
+		BOOL		inserted = FALSE;
+		unsigned	theIndex = 0U;
 		
 		while (!inserted && (aNotification = [enumerator nextObject])) {
 			if ([aNotification priority] < [nuMusicVideo priority]) {
 				[notificationQueue insertObject: nuMusicVideo atIndex:theIndex];
-				if (theIndex == 0) {
+				if (theIndex == 0U) {
 					[aNotification stopFadeOut];
 					[nuMusicVideo startFadeIn];
 				}
@@ -102,9 +102,9 @@
 
 - (void)didFadeOut:(id)sender {
 	GrowlMusicVideoWindowController *olMusicVideo;
-	[notificationQueue removeObjectAtIndex:0];
-	if ( [notificationQueue count] > 0 ) {
-		olMusicVideo = [notificationQueue objectAtIndex:0];
+	[notificationQueue removeObjectAtIndex:0U];
+	if ( [notificationQueue count] > 0U ) {
+		olMusicVideo = [notificationQueue objectAtIndex:0U];
 		[olMusicVideo startFadeIn];
 	}
 }

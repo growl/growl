@@ -19,7 +19,7 @@
 	int		opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
 	int		sizePref = 0;
 	
-	[slider_Opacity setAltIncrementValue:5];
+	[slider_Opacity setAltIncrementValue:5.0];
 	
 	READ_GROWL_PREF_INT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacityPref);
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);

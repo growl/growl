@@ -42,7 +42,7 @@
 	int opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
 	READ_GROWL_PREF_INT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacityPref);
 
-	[[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:(opacityPref*0.01f)] set];
+	[[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:(opacityPref * 0.01f)] set];
 	[musicVideoPath fill];
 	
 	// rects and sizes
@@ -60,22 +60,22 @@
 	NSSize iconSize = [icon size];
 
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-		titleRect = NSMakeRect(NSHeight(bounds), 120.f, NSWidth(bounds) - NSHeight(bounds) - 32.f, 40.f);
-		textRect =  NSMakeRect(NSHeight(bounds), 16.f, NSWidth(bounds) - NSHeight(bounds) - 32.f, 96.f);
+		titleRect = NSMakeRect(NSHeight(bounds), 120.0f, NSWidth(bounds) - NSHeight(bounds) - 32.0f, 40.0f);
+		textRect =  NSMakeRect(NSHeight(bounds),  16.0f, NSWidth(bounds) - NSHeight(bounds) - 32.0f, 96.0f);
 		titleFontSize = 32.0f;
 		textFontSize = 20.0f;
 		maxRows = 4;
-		maxIconSize = NSMakeSize(128.f, 128.f);
-		iconSourcePoint = 32.f;
+		maxIconSize = NSMakeSize(128.0f, 128.0f);
+		iconSourcePoint = 32.0f;
 		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
 	} else {
-		titleRect = NSMakeRect(NSHeight(bounds), 60.f, NSWidth(bounds) - NSHeight(bounds) - 16.f, 25.f);
-		textRect =  NSMakeRect(NSHeight(bounds), 8.f, NSWidth(bounds) - NSHeight(bounds) - 16.f, 48.f);
+		titleRect = NSMakeRect(NSHeight(bounds), 60.0f, NSWidth(bounds) - NSHeight(bounds) - 16.0f, 25.0f);
+		textRect =  NSMakeRect(NSHeight(bounds),  8.0f, NSWidth(bounds) - NSHeight(bounds) - 16.0f, 48.0f);
 		titleFontSize = 16.0f;
 		textFontSize = 12.0f;
 		maxRows = 3;
-		maxIconSize = NSMakeSize(80.f, 80.f);
-		iconSourcePoint = 8.f;
+		maxIconSize = NSMakeSize(80.0f, 80.0f);
+		iconSourcePoint = 8.0f;
 		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];	
 	}
 
@@ -94,10 +94,10 @@
 		Class NSShadowClass = NSClassFromString(@"NSShadow");
         textShadow = [[[NSShadowClass alloc] init] autorelease];
 
-		NSSize      shadowSize = NSMakeSize(0.f, -2.f);
+		NSSize      shadowSize = NSMakeSize(0.0f, -2.0f);
         [textShadow setShadowOffset:shadowSize];
         [textShadow setShadowBlurRadius:3.0f];
-		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:1.0f]];
+		[textShadow setShadowColor:[NSColor blackColor]];
 	}
 	
 	// Draw the title, resize if text too big
@@ -148,10 +148,10 @@
 
 - (float) descriptionHeight:(NSAttributedString *)theText inRect:(NSRect)theRect {
 	if (!textHeight) {
-		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:theText];
-		NSTextContainer* textContainer = [[[NSTextContainer alloc]
+		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:theText];
+		NSTextContainer *textContainer = [[[NSTextContainer alloc]
 			initWithContainerSize:NSMakeSize(NSWidth(theRect),NSHeight(theRect)+1000.f)] autorelease];
-		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
+		NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
 
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
