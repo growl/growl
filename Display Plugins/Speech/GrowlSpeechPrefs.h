@@ -14,5 +14,7 @@
 	NSArray					*voices;
 }
 - (IBAction) voiceClicked:(id)sender;
+- (NSArray *) voices;
+- (void) setVoices:(NSArray *)theVoices;
 
 @end

@@ -14,35 +14,35 @@
 @class GrowlApplicationTicket;
 
 @interface GrowlPref : NSPreferencePane {
-	NSMutableArray			*images;
-	NSMutableDictionary		*tickets;
-	NSMutableArray			*applications;
-	NSMutableArray			*filteredApplications;
-	NSArray					*plugins;
-	NSTimer					*startStopTimer;
-	
-	NSPreferencePane		*pluginPrefPane;
-	NSMutableArray			*loadedPrefPanes;
+	NSMutableArray					*images;
+	NSMutableDictionary				*tickets;
+	NSMutableArray					*applications;
+	NSMutableArray					*filteredApplications;
+	NSArray							*plugins;
+	NSTimer							*startStopTimer;
+
+	NSPreferencePane				*pluginPrefPane;
+	NSMutableArray					*loadedPrefPanes;
 
 	//Properties of the app being configured
-	NSString				*currentApplication;
-	GrowlApplicationTicket	*appTicket;
+	NSString						*currentApplication;
+	GrowlApplicationTicket			*appTicket;
 
 	//Properties of the plugin being configured
-	NSString				*currentPlugin;
-	id <GrowlPlugin>		currentPluginController;
+	NSString						*currentPlugin;
+	id <GrowlPlugin>				currentPluginController;
 
-	BOOL					growlIsRunning;
+	BOOL							growlIsRunning;
 
-	NSURL					*versionCheckURL;
-	NSURL					*downloadURL;
+	NSURL							*versionCheckURL;
+	NSURL							*downloadURL;
 
-	IBOutlet NSTabView		*tabView;
+	IBOutlet NSTabView				*tabView;
 
 	//"General" tab pane
-	IBOutlet NSButton				*startGrowlAtLogin;
+	BOOL							startGrowlAtLogin;
+	BOOL							backgroundUpdateCheckEnabled;
 	IBOutlet NSButton				*startStopGrowl;
-	IBOutlet NSButton				*backgroundUpdateCheck;
 	IBOutlet NSTextField			*growlRunningStatus;
 	IBOutlet NSProgressIndicator	*growlRunningProgress;
 	IBOutlet NSPopUpButton			*allDisplayPlugins;
@@ -50,32 +50,32 @@
 	IBOutlet NSProgressIndicator	*growlVersionProgress;
 
 	//"Applications" tab pane
-	IBOutlet NSTableView	*applicationNotifications;
-	IBOutlet NSTableView	*growlApplications;
-	NSMenu					*applicationDisplayPluginsMenu;
-	NSTableView				*activeTableView;
-	IBOutlet NSMenu			*notificationPriorityMenu;
-	IBOutlet NSTextField	*searchField;
-	IBOutlet NSButton		*remove;
+	IBOutlet NSTableView			*applicationNotifications;
+	IBOutlet NSTableView			*growlApplications;
+	NSMenu							*applicationDisplayPluginsMenu;
+	NSTableView						*activeTableView;
+	IBOutlet NSMenu					*notificationPriorityMenu;
+	IBOutlet NSTextField			*searchField;
+	IBOutlet NSButton				*remove;
 
 	//"Display Options" tab pane
-	IBOutlet NSTableView	*displayPlugins;
-	IBOutlet NSView			*displayPrefView;
-	IBOutlet NSView			*displayDefaultPrefView;
-	IBOutlet NSTextField	*displayAuthor;
-	IBOutlet NSTextField	*displayVersion;
+	IBOutlet NSTableView			*displayPlugins;
+	IBOutlet NSView					*displayPrefView;
+	IBOutlet NSView					*displayDefaultPrefView;
+	IBOutlet NSTextField			*displayAuthor;
+	IBOutlet NSTextField			*displayVersion;
 
 	//"Network" tab pane
-	IBOutlet NSButton			*startGrowlServer;
-	IBOutlet NSButton			*allowRemoteRegistration;
-	IBOutlet NSSecureTextField	*networkPassword;
-	IBOutlet NSButton			*enableForward;
-	IBOutlet NSTableView		*growlServiceList;
+	IBOutlet NSSecureTextField		*networkPassword;
+	IBOutlet NSTableView			*growlServiceList;
+	BOOL							growlServerEnabled;
+	BOOL							remoteRegistrationAllowed;
+	BOOL							forwardingEnabled;
 
-	NSMutableArray			*services;
-	NSNetServiceBrowser		*browser;
-	NSNetService			*serviceBeingResolved;
-	int						currentServiceIndex;
+	NSMutableArray					*services;
+	NSNetServiceBrowser				*browser;
+	NSNetService					*serviceBeingResolved;
+	int								currentServiceIndex;
 }
 
 + (void)saveTicket:(GrowlApplicationTicket *)ticket;
@@ -95,15 +95,19 @@
 
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;
-- (IBAction) startGrowlAtLogin:(id)sender;
-- (IBAction) backgroundUpdateCheck:(id)sender;
+- (BOOL) isStartGrowlAtLogin;
+- (void) setStartGrowlAtLogin:(BOOL)flag;
+- (BOOL) isBackgroundUpdateCheckEnabled;
+- (void) setBackgroundUpdateCheckEnabled:(BOOL)flag;
 
 #pragma mark "Network" tab pane
-- (IBAction) startGrowlServer:(id)sender;
-- (IBAction) allowRemoteRegistration:(id)sender;
+- (BOOL) isGrowlServerEnabled;
+- (void) setGrowlServerEnabled:(BOOL)enabled;
+- (BOOL) isRemoteRegistrationAllowed;
+- (void) setRemoteRegistrationAllowed:(BOOL)flag;
 - (IBAction) setRemotePassword:(id)sender;
-- (void) setForwardingEnabled:(BOOL)enabled;
 - (BOOL) isForwardingEnabled;
+- (void) setForwardingEnabled:(BOOL)enabled;
 
 - (IBAction) selectDisplayPlugin:(id)sender;
 - (IBAction) deleteTicket:(id)sender;

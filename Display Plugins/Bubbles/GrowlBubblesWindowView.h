@@ -7,7 +7,7 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
-#import <AppKit/NSView.h>
+#import <Foundation/Foundation.h>
 
 @interface GrowlBubblesWindowView : NSView {
 	NSFont		*titleFont;

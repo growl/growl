@@ -12,7 +12,7 @@
 		<string>56 485 120 156 0 0 1440 878 </string>
 	</dict>
 	<key>IBFramework Version</key>
-	<string>364.0</string>
+	<string>432.0</string>
 	<key>IBOldestOS</key>
 	<integer>3</integer>
 	<key>IBOpenObjects</key>
@@ -20,6 +20,6 @@
 		<integer>12</integer>
 	</array>
 	<key>IBSystem Version</key>
-	<string>7U16</string>
+	<string>8A393</string>
 </dict>
 </plist>

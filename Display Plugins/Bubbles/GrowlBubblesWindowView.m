@@ -12,7 +12,6 @@
 #import "GrowlBubblesDefines.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
-#import <math.h>
 
 /* to get the limit pref */
 #import "GrowlBubblesPrefsController.h"

@@ -250,39 +250,18 @@
 	[allDisplayPlugins selectItemWithTitle:[preferences objectForKey:GrowlDisplayPluginKey]];
 	[displayPlugins reloadData];
 
-	if ([[preferences objectForKey:GrowlStartServerKey] boolValue]) {
-		[startGrowlServer setState:NSOnState];
-		[allowRemoteRegistration setEnabled:YES];
-	} else {
-		[startGrowlServer setState:NSOffState];
-		[allowRemoteRegistration setEnabled:NO];
-	}
+	startGrowlAtLogin = [preferences startGrowlAtLogin];
+	backgroundUpdateCheckEnabled = [[preferences objectForKey:GrowlUpdateCheckKey] boolValue];
+	growlServerEnabled = [[preferences objectForKey:GrowlStartServerKey] boolValue];
+	remoteRegistrationAllowed = [[preferences objectForKey:GrowlRemoteRegistrationKey] boolValue];
+	forwardingEnabled = [[preferences objectForKey:GrowlEnableForwardKey] boolValue];
 
-	if ([[preferences objectForKey:GrowlRemoteRegistrationKey] boolValue]) {
-		[allowRemoteRegistration setState:NSOnState];
-	} else {
-		[allowRemoteRegistration setState:NSOffState];
-	}
+	[self setStartGrowlAtLogin:startGrowlAtLogin];
+	[self setBackgroundUpdateCheckEnabled:backgroundUpdateCheckEnabled];
 
-	if ([preferences startGrowlAtLogin]) {
-		[startGrowlAtLogin setState:NSOnState];
-	} else {
-		[startGrowlAtLogin setState:NSOffState];
-	}
-
-	if ([[preferences objectForKey:GrowlEnableForwardKey] boolValue]) {
-		[enableForward setState:NSOnState];
-		[growlServiceList setEnabled:YES];
-	} else {
-		[enableForward setState:NSOffState];
-		[growlServiceList setEnabled:NO];
-	}
-
-	if ([[preferences objectForKey:GrowlUpdateCheckKey] boolValue]) {
-		[backgroundUpdateCheck setState:NSOnState];
-	} else {
-		[backgroundUpdateCheck setState:NSOffState];
-	}
+	[self setGrowlServerEnabled:growlServerEnabled];
+	[self setRemoteRegistrationAllowed:remoteRegistrationAllowed];
+	[self setForwardingEnabled:forwardingEnabled];
 
 	// If Growl is enabled, ensure the helper app is launched
 	if ([[preferences objectForKey:GrowlEnabledKey] boolValue]) {
@@ -451,13 +430,28 @@
 	}
 }
 
-- (IBAction) startGrowlAtLogin:(id) sender {
-	[[GrowlPreferences preferences] setStartGrowlAtLogin:([sender state] == NSOnState)];
+- (BOOL) isStartGrowlAtLogin {
+	return startGrowlAtLogin;
 }
 
-- (IBAction) backgroundUpdateCheck:(id) sender {
-	[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:([sender state] == NSOnState)]
-									   forKey:GrowlUpdateCheckKey];
+- (void) setStartGrowlAtLogin:(BOOL)flag {
+	if (flag != startGrowlAtLogin) {
+		[[GrowlPreferences preferences] setStartGrowlAtLogin:flag];
+	}
+	startGrowlAtLogin = flag;
+}
+
+- (BOOL) isBackgroundUpdateCheckEnabled {
+	return backgroundUpdateCheckEnabled;
+}
+
+- (void) setBackgroundUpdateCheckEnabled:(BOOL)flag {
+	if (flag != backgroundUpdateCheckEnabled) {
+		NSNumber *state = [[NSNumber alloc] initWithBool:flag];
+		[[GrowlPreferences preferences] setObject:state forKey:GrowlUpdateCheckKey];
+		[state release];
+	}
+	backgroundUpdateCheckEnabled = flag;
 }
 
 - (IBAction) selectDisplayPlugin:(id)sender {
@@ -492,15 +486,30 @@
 
 #pragma mark "Network" tab pane
 
-- (IBAction) startGrowlServer:(id)sender {
-	BOOL enabled = ([sender state] == NSOnState);
-	[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:enabled] forKey:GrowlStartServerKey];
-	[allowRemoteRegistration setEnabled:enabled];
+- (BOOL) isGrowlServerEnabled {
+	return growlServerEnabled;
 }
 
-- (IBAction) allowRemoteRegistration:(id)sender {
-	NSNumber *state = [NSNumber numberWithBool:([sender state] == NSOnState)];
-	[[GrowlPreferences preferences] setObject:state forKey:GrowlRemoteRegistrationKey];
+- (void) setGrowlServerEnabled:(BOOL)enabled {
+	if (enabled != growlServerEnabled) {
+		NSNumber *state = [[NSNumber alloc] initWithBool:enabled];
+		[[GrowlPreferences preferences] setObject:state forKey:GrowlStartServerKey];
+		[state release];
+	}
+	growlServerEnabled = enabled;
+}
+
+- (BOOL) isRemoteRegistrationAllowed {
+	return remoteRegistrationAllowed;
+}
+
+- (void) setRemoteRegistrationAllowed:(BOOL)flag {
+	if (flag != remoteRegistrationAllowed) {
+		NSNumber *state = [[NSNumber alloc] initWithBool:flag];
+		[[GrowlPreferences preferences] setObject:state forKey:GrowlRemoteRegistrationKey];
+		[state release];
+	}
+	remoteRegistrationAllowed = flag;
 }
 
 - (IBAction) setRemotePassword:(id)sender {
@@ -542,12 +551,17 @@
 	}
 }
 
-- (void) setForwardingEnabled:(BOOL)enabled {
-	[growlServiceList setEnabled:enabled];
-	[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:enabled] forKey:GrowlEnableForwardKey];
-}
 - (BOOL) isForwardingEnabled {
-	return [[[GrowlPreferences preferences] objectForKey:GrowlEnableForwardKey] boolValue];
+	return forwardingEnabled;
+}
+
+- (void) setForwardingEnabled:(BOOL)enabled {
+	if (enabled != forwardingEnabled) {
+		NSNumber *state = [[NSNumber alloc] initWithBool:enabled];
+		[[GrowlPreferences preferences] setObject:state forKey:GrowlEnableForwardKey];
+		[state release];
+	}
+	forwardingEnabled = enabled;
 }
 
 #pragma mark "Display Options" tab pane

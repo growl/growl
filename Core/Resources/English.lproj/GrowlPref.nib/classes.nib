@@ -3,33 +3,25 @@
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {
-                allowRemoteRegistration = id; 
-                backgroundUpdateCheck = id; 
                 checkVersion = id; 
                 deleteTicket = id; 
                 search = id; 
                 selectDisplayPlugin = id; 
-                setEnableForward = id; 
                 setRemotePassword = id; 
                 showPreview = id; 
-                startGrowlAtLogin = id; 
-                startGrowlServer = id; 
                 startStopGrowl = id; 
             }; 
             CLASS = GrowlPref; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 allDisplayPlugins = NSPopUpButton; 
-                allowRemoteRegistration = NSButton; 
                 applicationNotifications = NSTableView; 
-                backgroundUpdateCheck = NSButton; 
                 currentPluginController = id; 
                 displayAuthor = NSTextField; 
                 displayDefaultPrefView = NSView; 
                 displayPlugins = NSTableView; 
                 displayPrefView = NSView; 
                 displayVersion = NSTextField; 
-                enableForward = NSButton; 
                 growlApplications = NSTableView; 
                 growlRunningProgress = NSProgressIndicator; 
                 growlRunningStatus = NSTextField; 
@@ -40,8 +32,6 @@
                 notificationPriorityMenu = NSMenu; 
                 remove = NSButton; 
                 searchField = NSTextField; 
-                startGrowlAtLogin = NSButton; 
-                startGrowlServer = NSButton; 
                 startStopGrowl = NSButton; 
                 tabView = NSTabView; 
             }; 

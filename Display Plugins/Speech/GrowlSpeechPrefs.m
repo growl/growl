@@ -11,45 +11,47 @@
 #import <AppKit/NSSpeechSynthesizer.h>
 
 @implementation GrowlSpeechPrefs
-- (NSString *) mainNibName
-{
+- (NSString *) mainNibName {
 	return @"GrowlSpeechPrefs";
 }
 
-- (void) awakeFromNib
-{
-	voices = [[NSSpeechSynthesizer availableVoices] retain];
-	[voiceList reloadData];
+- (void) awakeFromNib {
+	NSArray *availableVoices = [NSSpeechSynthesizer availableVoices];
+	NSEnumerator *voiceEnum = [availableVoices objectEnumerator];
+	NSMutableArray *voiceAttributes = [[NSMutableArray alloc] initWithCapacity:[availableVoices count]];
+	NSString *voiceIdentifier;
+	while ((voiceIdentifier=[voiceEnum nextObject])) {
+		[voiceAttributes addObject:[NSSpeechSynthesizer attributesForVoice:voiceIdentifier]];
+	}
+	[self setVoices:voiceAttributes];
+	[voiceAttributes release];
+
 	NSString *voice = [NSSpeechSynthesizer defaultVoice];	
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
-	int row = [voices indexOfObject:voice];
+	int row = [availableVoices indexOfObject:voice];
 	[voiceList selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
 	[voiceList scrollRowToVisible:row];
 }
 
-- (void) dealloc
-{
+- (NSArray *) voices {
+	return voices;
+}
+
+- (void) setVoices:(NSArray *)theVoices {
+	[voices release];
+	voices = [theVoices retain];
+}
+
+- (void) dealloc {
 	[voices release];
 	[super dealloc];
 }
 
-- (int) numberOfRowsInTableView:(NSTableView *)theTableView
-{
-	return [voices count];
-}
-
-- (id) tableView:(NSTableView *)theTableView objectValueForTableColumn:(NSTableColumn *)theColumn row:(int)rowIndex
-{
-	NSDictionary *attributes = [NSSpeechSynthesizer attributesForVoice:[voices objectAtIndex:rowIndex]];
-	return [attributes objectForKey:NSVoiceName];
-}
-
-- (IBAction) voiceClicked:(id)sender
-{
+- (IBAction) voiceClicked:(id)sender {
 	int row = [sender selectedRow];
 
-	if ( -1 != row ) {
-		NSString *voice = [voices objectAtIndex:row];
+	if (-1 != row) {
+		NSString *voice = [[voices objectAtIndex:row] objectForKey:NSVoiceIdentifier];
 		WRITE_GROWL_PREF_VALUE(GrowlSpeechVoicePref, voice, GrowlSpeechPrefDomain );
 		UPDATE_GROWL_PREFS();
 	}
