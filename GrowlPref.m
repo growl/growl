@@ -90,8 +90,7 @@
 	id title;
 	[applicationDisplayPluginsMenu addItemWithTitle:@"Default" action:nil keyEquivalent:@""];
 	[applicationDisplayPluginsMenu addItem:[NSMenuItem separatorItem]];
-	while (title = [enumerator nextObject])
-	{
+	while (title = [enumerator nextObject]) {
 		[applicationDisplayPluginsMenu addItemWithTitle:title action:nil keyEquivalent:@""];
 	}
 }
@@ -222,28 +221,19 @@
 	if (tableView == applicationNotifications)
 		return [[appTicket allNotifications] count];
 	if (tableView == displayPlugins)
-	{
 		return [[[GrowlPluginController controller] allDisplayPlugins] count];
-	}
 	return 0;
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row {
-	if (tableView == growlApplications)
-	{
-		if ([[column identifier] isEqualTo:@"enable"]) {
+	if (tableView == growlApplications) 	{
+		if ([[column identifier] isEqualTo:@"enable"])
 			return [NSNumber numberWithBool:[[tickets objectForKey: [applications objectAtIndex:row]] ticketEnabled]];
-		}
-		if ([[column identifier] isEqualTo:@"application"]) {
+		if ([[column identifier] isEqualTo:@"application"])
 			return [applications objectAtIndex:row];
-		}
-		if ([[column identifier] isEqualTo:@"display"]) {
-			// Do nothing.  Display of this cell is taken care of in the delegate method:
-			// - tableView: willDisplayCell: forTableColumn: row:
-		}
+		if ([[column identifier] isEqualTo:@"display"]) { } // Do nothing.  It's taken care of in a delegate method.
 	}
-	if (tableView == applicationNotifications)
-	{
+	if (tableView == applicationNotifications) {
 		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
 		if([[column identifier] isEqualTo:@"enable"]) {
 			return [NSNumber numberWithBool:[appTicket isNotificationEnabled:note]];
@@ -251,41 +241,30 @@
 			return note;
 		}
 	}
-	if (tableView == displayPlugins)
-	{
+	if (tableView == displayPlugins) {
 		// only one column, but for the sake of cleanliness
 		if ([[column identifier] isEqualTo:@"plugins"])
-		{
 			return [[[GrowlPluginController controller] allDisplayPlugins] objectAtIndex:row];
-		}
 	}
 	return nil;
 }
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row {
-	if (tableView == growlApplications)
-	{
+	if (tableView == growlApplications) {
 		NSString * application = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] objectAtIndex:row];
-		if ([[column identifier] isEqualTo:@"enable"])
-		{
+		if ([[column identifier] isEqualTo:@"enable"]) {
 			[[tickets objectForKey:application] setEnabled:[value boolValue]];
 			[self setPrefsChanged:YES];
 		}
-		if ([[column identifier] isEqualTo:@"display"])
-		{
-			if ([value intValue] == 0)
-			{
-				if ([[tickets objectForKey:application] usesCustomDisplay])
-				{
+		if ([[column identifier] isEqualTo:@"display"])	{
+			if ([value intValue] == 0) {
+				if ([[tickets objectForKey:application] usesCustomDisplay]) {
 					[[tickets objectForKey:application] setUsesCustomDisplay:NO];
 					[self setPrefsChanged:YES];
 				}
-			}
-			else
-			{
+			} else {
 				if (![[[applicationDisplayPluginsMenu itemAtIndex:[value intValue]] title] isEqualTo:[[[tickets objectForKey:application] displayPlugin] name]] ||
-					![[tickets objectForKey:application] usesCustomDisplay])
-				{
+					![[tickets objectForKey:application] usesCustomDisplay]) {
 					[[tickets objectForKey:application] setUsesCustomDisplay:YES];
 					[[tickets objectForKey:application] setDisplayPluginNamed:[[applicationDisplayPluginsMenu itemAtIndex:[value intValue]] title]];
 					[self setPrefsChanged:YES];
@@ -295,8 +274,7 @@
 		[self reloadAppTab];
 		return;
 	}
-	if (tableView == applicationNotifications)
-	{
+	if (tableView == applicationNotifications) {
 		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
 		if([value boolValue]) {
 			[appTicket setNotificationEnabled:note];
@@ -307,24 +285,19 @@
 		return;
 	}
 	if (tableView == displayPlugins)
-	{
 		return;
-	}
 }
 
 #pragma mark Application TableView delegate methods
-- (void)tableViewSelectionDidChange:(NSNotification *)theNote
-{
+- (void)tableViewSelectionDidChange:(NSNotification *)theNote {
 	if ([theNote object] == growlApplications)
 		return (void)[self reloadAppTab];
 	if ([theNote object] == displayPlugins)
 		return (void)[self reloadDisplayTab];
 }
 
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row
-{
-	if ((tableView == growlApplications) && [[column identifier] isEqualTo:@"display"])
-	{
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
+	if ((tableView == growlApplications) && [[column identifier] isEqualTo:@"display"]) {
 		[cell setMenu:[applicationDisplayPluginsMenu copy]];
 		if (![[tickets objectForKey: [applications objectAtIndex:row]] usesCustomDisplay])
 			[cell selectItemAtIndex:0]; // Default
