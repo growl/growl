@@ -330,10 +330,24 @@ enum {
 		item = [menu addItemWithTitle:@"Quit Both" action:@selector(quitBoth:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:quitBothTag];
+		
+		item = [NSMenuItem separatorItem];
+		[menu addItem:item];
+		
+		item = [menu addItemWithTitle:@"Toggle Polling" action:@selector(togglePolling:) keyEquivalent:empty];
+		[item setTarget:self];
+		[item setTag:togglePollingTag];
 
 	}
 
 	return [menu autorelease];
+}
+
+- (IBAction)togglePolling:(id)sender {
+    if(pollTimer)
+	[self stopTimer];
+    else
+	[self startTimer];
 }
 
 - (NSMenu *) buildiTunesMenu {
@@ -349,7 +363,7 @@ enum {
 	}
 	
 	// In With The New
-	item = [iTunesSubMenu addItemWithTitle:@"Recent Tunes" action:NULL keyEquivalent:@""];
+	item = [iTunesSubMenu addItemWithTitle:@"Recently Played Tunes" action:NULL keyEquivalent:@""];
 	NSEnumerator *tunesEnumerator = [recentTracks objectEnumerator];
 	NSDictionary *aTuneDict = nil;
 	int k = 0;
@@ -372,6 +386,7 @@ enum {
 	return iTunesSubMenu;
 }
 
+
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
 	BOOL retVal = YES;
 	
@@ -385,6 +400,12 @@ enum {
 		case quitBothTag:
 			retVal = [self iTunesIsRunning];
 			break;
+		case togglePollingTag:
+		    if(pollTimer)
+			[item setTitle:@"Stop Polling"];
+		    else
+			[item setTitle:@"Start Polling"];
+		    return YES;
 		case quitGrowlTunesTag:
 		case onlineHelpTag:
 			retVal = YES;
