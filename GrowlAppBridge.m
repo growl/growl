@@ -1,12 +1,12 @@
 //
-//  GrowlAppBridge.m
+//  GrowlApplicationBridge.m
 //  Growl
 //
 //  Created by Evan Schoenberg on Wed Jun 16 2004.
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
-#import "GrowlAppBridge.h"
+#import "GrowlApplicationBridge.h"
 #import "GrowlInstallationPrompt.h"
 
 #import <ApplicationServices/ApplicationServices.h>
@@ -14,7 +14,7 @@
 #define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY			@"PreferencePanes"
 #define PREFERENCE_PANE_EXTENSION						@"prefPane"
 
-@interface GrowlAppBridge (PRIVATE)
+@interface GrowlApplicationBridge (PRIVATE)
 /*!
 	@method growlPrefPaneBundle
 	@abstract Returns the bundle containing Growl's PrefPane.
@@ -44,7 +44,7 @@
 
 @end
 
-@implementation GrowlAppBridge
+@implementation GrowlApplicationBridge
 
 static NSString	*appName = nil;
 static NSData	*appIconData = nil;
@@ -60,11 +60,13 @@ static BOOL				promptedToInstallGrowl = NO;
 static BOOL				promptedToUpgradeGrowl = NO;
 #endif
 
-/* ***********************
-* This must be called before using GrowlAppBridge.  The methods in the GrowlAppBridgeDelegate are required;
-* other methods defined in the informal protocol are optional.
-* ***********************/
-+ (void) setGrowlDelegate:(NSObject<GrowlAppBridgeDelegate> *)inDelegate {
+/************************
+ *setGrowlDelegate: must be called before otherwise using GrowlApplicationBridge.
+ *The methods in the GrowlApplicationBridgeDelegate protocol are required;
+ * 	other methods defined in the informal protocol are optional.
+ ************************
+ */
++ (void) setGrowlDelegate:(NSObject<GrowlApplicationBridgeDelegate> *)inDelegate {
 	NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
 	
 	[delegate autorelease];
@@ -72,7 +74,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 
 	//Cache the appName from the delegate
 	[appName autorelease];
-	appName = [[delegate growlAppName] retain];
+	appName = [[delegate applicationName] retain];
 	
 	//Cache the appIconData from the delegate if it responds to the growlAppIconData selector
 	[appIconData autorelease];
@@ -108,13 +110,14 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	growlLaunched = [self launchGrowlIfInstalled];
 }
 
-+ (NSObject<GrowlAppBridgeDelegate> *) growlDelegate {
++ (NSObject<GrowlApplicationBridgeDelegate> *) growlDelegate {
 	return delegate;
 }
 
-/*
- Send a notification to Growl for display. title, description, and notifName are required.
- All other id parameters may be nil to accept defaults. priority is 0 by default; isSticky is FALSE by default.
+/*Send a notification to Growl for display.
+ *title, description, and notifName are required.
+ *All other id parameters may be nil to accept defaults.
+ *priority is 0 by default; isSticky is NO by default.
  */
 + (void) notifyWithTitle:(NSString *)title
 			 description:(NSString *)description
@@ -123,7 +126,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
 			clickContext:(id)clickContext {
-	NSAssert(delegate != nil, @"+[GrowlAppBridge setGrowlDelegate:] must be called before using this method.");
+	NSAssert(delegate != nil, @"+[GrowlApplicationBridge setGrowlDelegate:] must be called before using this method.");
 	
 	NSParameterAssert(notifName != nil);	//Notification name is required.
 	NSParameterAssert((title != nil) || (description != nil));	//At least one of title or description is required.
@@ -194,7 +197,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	//Enumerate all installed preference panes, looking for the growl prefpane bundle identifier and stopping when we find it
 	//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
 	//of course will not.  If the user wants to destroy the info.plist file inside the bundle, he/she deserves not to have a working Growl installation.
-	preferencePanesPathsEnumerator = [[GrowlAppBridge _allPreferencePaneBundles] objectEnumerator];
+	preferencePanesPathsEnumerator = [[GrowlApplicationBridge _allPreferencePaneBundles] objectEnumerator];
 	while ( (path = [preferencePanesPathsEnumerator nextObject] ) ) {
 		prefPaneBundle = [NSBundle bundleWithPath:path];
 		
@@ -210,19 +213,23 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	return nil;
 }
 
-/*
- + (BOOL)launchGrowlIfInstalled
- Returns YES (TRUE) if the Growl helper app began launching or was already running.
- Returns NO (FALSE) and performs no other action if the Growl prefPane is not properly installed.
- Passing registrationDict, which is an NSDictionary *for registering the application with Growl (see documentation elsewhere)
-	is the preferred way to register.  If Growl is installed but disabled, the application will be registered and GrowlHelperApp
-	will then quit.  This method will still return YES if Growl is installed but disabled.
+/*	+ (BOOL)launchGrowlIfInstalled
+ *
+ *Returns YES if the Growl helper app began launching or was already running.
+ *Returns NO and performs no other action if the Growl prefPane is not properly
+ *	installed.
+ *Passing registrationDict, which is an NSDictionary for registering the
+ *	application with Growl (see documentation elsewhere) is the preferred way to
+ *	register.
+ *If Growl is installed but disabled, the application will be registered and
+ *	GrowlHelperApp will then quit.  This method will still return YES if Growl
+ *	is installed but disabled.
  */
 + (BOOL) launchGrowlIfInstalled {
 	NSBundle		*growlPrefPaneBundle;
 	BOOL			success = NO;
 	
-	growlPrefPaneBundle = [GrowlAppBridge growlPrefPaneBundle];
+	growlPrefPaneBundle = [GrowlApplicationBridge growlPrefPaneBundle];
 	
 	if (growlPrefPaneBundle) {
 		NSString        *growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"
@@ -239,7 +246,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		FSRef appRef;
 		OSStatus status = FSPathMakeRef((UInt8 *)[growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
 		if (status == noErr) {
-			NSDictionary *registrationDict = [delegate growlRegistrationDict];
+			NSDictionary *registrationDict = [delegate growlRegistrationDictionary];
 			FSRef regItemRef;
 			BOOL passRegDict = NO;
 			
@@ -260,7 +267,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 			}
 
 			spec.appRef = &appRef;
-			spec.numDocs = (passRegDict != nil);
+			spec.numDocs = (passRegDict != NO);
 			spec.itemRefs = (passRegDict ? &regItemRef : NULL);
 			spec.passThruParams = NULL;
 			spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
@@ -275,7 +282,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 }
 
 + (BOOL) isGrowlInstalled {
-	return( [GrowlAppBridge growlPrefPaneBundle] != nil );
+	return( [GrowlApplicationBridge growlPrefPaneBundle] != nil );
 }
 
 + (BOOL) isGrowlRunning {
@@ -296,8 +303,10 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	return growlIsRunning;
 }
 
-/* Selector called when a growl notification is clicked.  This should never be called manually, and the calling observer
- * should only be registered if the delegate responds to growlNotificationWasClicked: */
+/*Selector called when a growl notification is clicked.  This should never be
+ *	called manually, and the calling observer should only be registered if the
+ *	delegate responds to growlNotificationWasClicked:.
+ */
 + (void) _growlNotificationWasClicked:(NSNotification *)notification {
 	[delegate performSelector:@selector(growlNotificationWasClicked:)
 				   withObject:[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
@@ -423,24 +432,30 @@ static BOOL				promptedToUpgradeGrowl = NO;
 
 static NSMutableArray		*launchNotificationTargets = nil;
 
-/*
- + (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict
- Returns YES (TRUE) if the Growl helper app began launching.
- Returns NO (FALSE) and performs no other action if the Growl prefPane is not properly installed.
- GrowlApplicationBridge will send "selector" to "target" when Growl is ready for use (this will only occur when it also returns YES).
-	Note: selector should take a single argument; this is to allow applications to have context-relevent information passed back. It is perfectly
-	acceptable for context to be NULL.
- Passing registrationDict, which is an NSDictionary *for registering the application with Growl (see documentation elsewhere)
-	is the preferred way to register.  If Growl is installed but disabled, the application will be registered and GrowlHelperApp
-	will then quit.  "selector" will never be sent to "target" if Growl is installed but disabled; this method will still
-	return YES.
+/*	+ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target
+ *                                       selector:(SEL)selector
+ *                                        context:(void *)context
+ *                               registrationDict:(NSDictionary *)registrationDict
+ *
+ *Returns YES if the Growl helper app began launching.
+ *Returns NO and performs no other action if the Growl prefPane is not properly
+ *	installed.
+ *GrowlApplicationBridge will make target perform selector when Growl is ready
+ *	for use (this will only occur when it also returns YES).
+ *Note: selector can take a single argument, which will be the context argument
+ *	passed to this method. It is perfectly acceptable for context to be NULL.
+ *You should use the delegate system (see the GrowlApplicationBridgeDelegate
+ *	protocol) inst of this method, as this method may be deprecated in the future.
+ *If Growl is installed but disabled, the application will be registered and
+ *	GrowlHelperApp will then quit.  "selector" will never be sent to "target" if
+ *	Growl is installed but disabled; this method will still return YES.
  */
 + (BOOL) launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict
 {
 	NSBundle		*growlPrefPaneBundle;
 	BOOL			success = NO;
 	
-	growlPrefPaneBundle = [GrowlAppBridge growlPrefPaneBundle];
+	growlPrefPaneBundle = [GrowlApplicationBridge growlPrefPaneBundle];
 	
 	if (growlPrefPaneBundle) {
 		/* Here we could check against a current version number and ensure the installed Growl pane is the newest */
@@ -491,7 +506,7 @@ static NSMutableArray		*launchNotificationTargets = nil;
 			}
 			
 			spec.appRef = &appRef;
-			spec.numDocs = (passRegDict != nil);
+			spec.numDocs = (passRegDict != NO);
 			spec.itemRefs = (passRegDict ? &regItemRef : NULL);
 			spec.passThruParams = NULL;
 			spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
