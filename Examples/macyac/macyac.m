@@ -117,7 +117,7 @@ void yac_read(int client)
 	{
 		bytes_read = read(client, inbuf + len, 300 - len);
 		if (bytes_read == -1 || bytes_read == 0)
-			exit(1);
+			break;
 		
 		len += bytes_read;
 		
@@ -131,6 +131,7 @@ void yac_read(int client)
 		}
 	}
 	/* ensure we're null terminated if we hit 300 limit */
+	inbuf[len] = '\0';
 	inbuf[301] = '\0';
 	
 	
