@@ -2167,7 +2167,8 @@
 				3433458D0790E3D600C84B15,
 				CB5C315107925B53007CC0D0,
 				95EF059F07C77C1500218584,
-				95EF05A007C77C1500218584,
+				95C8783107D9DFC000C69DEE,
+				95C8783307D9DFC000C69DEE,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2898,12 +2899,6 @@
 			settings = {
 			};
 		};
-		525277E706D9605D007BC87D = {
-			fileRef = F57BFE2D0669037C00DE5BFD;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		52861EE306DBA95400D3A356 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -3199,7 +3194,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				52861EE606DBA95400D3A356,
-				525277E706D9605D007BC87D,
 				525277AB06D95BED007BC87D,
 				CB9E378D07925D7A00F8937E,
 				8D202CF10486D31800D8A456,
@@ -3207,6 +3201,7 @@
 				A16BD22906FCC05F00BF033B,
 				936FAB04074482BF00A7D430,
 				0790135607D9321B0023B640,
+				95C87BBC07D9E32D00C69DEE,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3675,6 +3670,78 @@
 			settings = {
 			};
 		};
+		95C8774707D9DFC000C69DEE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = NSGrowlAdditions.h;
+			path = Common/Source/NSGrowlAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95C8777007D9DFC000C69DEE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = NSGrowlAdditions.m;
+			path = Common/Source/NSGrowlAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95C8779907D9DFC000C69DEE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NSWindow+Transforms.h";
+			path = "Common/Source/NSWindow+Transforms.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95C877C207D9DFC000C69DEE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NSWindow+Transforms.m";
+			path = "Common/Source/NSWindow+Transforms.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95C8783107D9DFC000C69DEE = {
+			fileRef = 95C8774707D9DFC000C69DEE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95C8783207D9DFC000C69DEE = {
+			fileRef = 95C8777007D9DFC000C69DEE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95C8783307D9DFC000C69DEE = {
+			fileRef = 95C8779907D9DFC000C69DEE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95C8783407D9DFC000C69DEE = {
+			fileRef = 95C877C207D9DFC000C69DEE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95C87BBC07D9E32D00C69DEE = {
+			fileRef = 95C8777007D9DFC000C69DEE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95C87BBE07D9E32E00C69DEE = {
+			fileRef = 95C8774707D9DFC000C69DEE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95DBBFFC07C284BE00DE4ACA = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3752,38 +3819,8 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		95EF051B07C77C1500218584 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = "NSWindow+Transforms.h";
-			path = "Core/Source/NSWindow+Transforms.h";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		95EF054407C77C1500218584 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = "NSWindow+Transforms.m";
-			path = "Core/Source/NSWindow+Transforms.m";
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		95EF059F07C77C1500218584 = {
 			fileRef = 95EF04F207C77C1500218584;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		95EF05A007C77C1500218584 = {
-			fileRef = 95EF051B07C77C1500218584;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		95EF05A107C77C1500218584 = {
-			fileRef = 95EF054407C77C1500218584;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4007,6 +4044,7 @@
 			dstSubfolderSpec = 7;
 			files = (
 				CB5FA1C70638CA5300EADD7A,
+				95C87BBE07D9E32E00C69DEE,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4043,7 +4081,6 @@
 				CB5F838C0638B78200EADD7A,
 				CBF0743F0659B202000B4B77,
 				CB5F83A80638B8C800EADD7A,
-				F57BFE2F0669037C00DE5BFD,
 				5286205806DC4C2F00D3A356,
 				953F5CF107403B67008E2AEB,
 				953F5D3807403BC7008E2AEB,
@@ -4053,8 +4090,9 @@
 				956ADB0207551C4500AF9545,
 				3434E8EA0790D6E600A97A48,
 				CB5C315C07925B53007CC0D0,
-				95EF05A107C77C1500218584,
 				0790135707D9321B0023B640,
+				95C8783207D9DFC000C69DEE,
+				95C8783407D9DFC000C69DEE,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4152,9 +4190,9 @@
 			productType = "com.apple.product-type.application";
 		};
 		CB61E5180637763C00E0DDC7 = {
-			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.application;
 			path = GrowlHelperApp.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -4205,15 +4243,15 @@
 		};
 		CB9E3AE80792679400F8937E = {
 			children = (
+				95C8774707D9DFC000C69DEE,
+				95C8777007D9DFC000C69DEE,
+				95C8779907D9DFC000C69DEE,
+				95C877C207D9DFC000C69DEE,
 				95EF04F207C77C1500218584,
-				95EF051B07C77C1500218584,
-				95EF054407C77C1500218584,
 				956ADAD007551C4500AF9545,
 				956ADAD507551C4500AF9545,
 				956ADADA07551C4500AF9545,
 				956ADADF07551C4500AF9545,
-				F57BFE2C0669037C00DE5BFD,
-				F57BFE2D0669037C00DE5BFD,
 			);
 			isa = PBXGroup;
 			name = Additions;
@@ -4261,30 +4299,6 @@
 			path = Core/Resources/GrowlPref.tiff;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		F57BFE2C0669037C00DE5BFD = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = NSGrowlAdditions.h;
-			path = Core/Source/NSGrowlAdditions.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		F57BFE2D0669037C00DE5BFD = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = NSGrowlAdditions.m;
-			path = Core/Source/NSGrowlAdditions.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		F57BFE2F0669037C00DE5BFD = {
-			fileRef = F57BFE2D0669037C00DE5BFD;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 	};
 	rootObject = 089C1669FE841209C02AAC07;
