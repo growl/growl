@@ -37,6 +37,8 @@
 	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
 	[limitCheck setState:(limitPref ? NSOnState : NSOffState)];
 	
+	[slider_opacity setAltIncrementValue:0.05];
+
 	// priority colour settings
 	float opacityPref = 0.95f;
 	float duration = 4.0f;

@@ -24,6 +24,24 @@
 	[super dealloc];
 }
 
+static void PynShadeInterpolate( void *info, const float *inData, float *outData ) {
+	const float colors[2] = {0.15f, 0.35f};
+
+	float a = inData[0];
+	float a_coeff = 1.0f - a;
+	float c;
+
+	if (a < 0.5f) {
+		c = a * colors[1] + a_coeff * colors[0];
+	} else {
+		c = a_coeff * colors[1] + a * colors[0];
+	}
+	outData[0] = c;
+	outData[1] = c;
+	outData[2] = c;
+	outData[3] = *(float *)info;
+}
+
 - (void)drawRect:(NSRect)rect {
 	NSRect bounds = [self bounds];
 
@@ -35,9 +53,59 @@
 
 	int opacityPref = 40;
 	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
+	float alpha = opacityPref * 0.01f;
 
-	[[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:(opacityPref * 0.01f)] set];
-	[path fill];
+	int style = 0;
+	READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, BezelPrefDomain, &style);
+	NSLog(@"Using style=%d", style);
+	switch (style) {
+		default:
+		case 0:
+			// default style
+			[[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:alpha] set];
+			[path fill];
+			break;
+		case 1: {
+			// pyn style (dark)
+			NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
+			[graphicsContext saveGraphicsState];
+
+			[path setClip];
+			struct CGFunctionCallbacks callbacks = { 0U, PynShadeInterpolate, NULL };
+			CGFunctionRef function = CGFunctionCreate( &alpha,
+													   1U,
+													   /*domain*/ NULL,
+													   4U,
+													   /*range*/ NULL,
+													   &callbacks );
+			CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
+			CGPoint src, dst;
+			src.x = NSMinX( bounds );
+			src.y = NSMinY( bounds );
+			dst.x = NSMaxX( bounds );
+			dst.y = src.y;
+			CGShadingRef shading = CGShadingCreateAxial( cspace, src, dst,
+														 function, false, false );	
+
+			CGContextDrawShading( [graphicsContext graphicsPort], shading );
+
+			CGShadingRelease( shading );
+			CGColorSpaceRelease( cspace );
+			CGFunctionRelease( function );
+
+			[graphicsContext restoreGraphicsState];
+			[[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:alpha] set];
+			[path stroke];
+			break;
+		}
+		case 2:
+			// pyn style (light)
+			[[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:alpha] set];
+			[path fill];
+			[[NSColor whiteColor] set];
+			[path stroke];
+			break;
+	}
 
 	int sizePref = BEZEL_SIZE_NORMAL;
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);

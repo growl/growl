@@ -35,6 +35,8 @@
 }
 
 - (void) mainViewDidLoad {
+	[slider_opacity setAltIncrementValue:0.05];
+
 	// opacity
 	float alphaPref = GrowlSmokeAlphaPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &alphaPref);

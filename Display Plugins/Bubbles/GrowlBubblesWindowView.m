@@ -32,8 +32,7 @@
 #define MIN_TEXT_HEIGHT_PX		 30.0f
 #define MAX_TEXT_ROWS				5  /*!< The maximum number of rows of text, used only if the limit preference is set. */
 
-static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float *outData )
-{
+static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float *outData ) {
 	float *colors = (float *) info;
 
 	register float a = inData[0];
@@ -129,7 +128,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	CGPoint src, dst;
 	src.x = NSMinX( bounds );
 	src.y = NSMinY( bounds );
-	dst.x = NSMinX( bounds );
+	dst.x = src.x;
 	dst.y = NSMaxY( bounds );
 	CGShadingRef shading = CGShadingCreateAxial( cspace, src, dst,
 												 function, false, false );	

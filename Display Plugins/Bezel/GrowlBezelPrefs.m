@@ -21,7 +21,7 @@
 	int		opacityPref = 40;
 	float	durationPref = 3.0f;
 
-	[slider_Opacity setAltIncrementValue:5];
+	[slider_Opacity setAltIncrementValue:5.0];
 
 	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
