@@ -53,7 +53,12 @@
 
     // draw bezier path for rounded corners
 	float radius = 5.;
-	NSRect irect = NSInsetRect( bounds, radius + lineWidth, radius + lineWidth );
+	unsigned int sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding / 2);
+	NSRect shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
+									 bounds.origin.y,
+									 bounds.size.width - sizeReduction,
+									 bounds.size.height);
+	NSRect irect = NSInsetRect(shadedBounds, radius + lineWidth, radius + lineWidth);
 	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMinX( irect ), 
 														 NSMinY( irect ) ) 
 									 radius:radius 
@@ -86,9 +91,6 @@
 	[path setClip];
 
     // fill clipped graphics context with our background colour
-//	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
-//	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
-//	[[NSColor colorWithCalibratedWhite:.1 alpha:backgroundAlpha] set];
     [_bgColor set];
 	NSRectFill( [self frame] );
 	
@@ -122,6 +124,7 @@
 	allText.length = [whiteText length];
 	[whiteText removeAttribute:NSForegroundColorAttributeName range:allText];
 	[whiteText addAttribute:NSForegroundColorAttributeName value:textColour range:allText];
+	[whiteText addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:GrowlSmokeTextFontSize] range:allText];
 	if(pantherOrLater) [whiteText addAttribute:NSShadowAttributeName value:textShadow range:allText];
 	
 
@@ -254,7 +257,12 @@
 	
 	if (_textHeight == 0)
 	{
-		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:_text];
+		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:_text
+																attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+																	[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
+																	nil
+																	]
+			];
 		NSTextContainer* textContainer = [[[NSTextContainer alloc]
 			initWithContainerSize:NSMakeSize ( [self textAreaWidth], FLT_MAX )] autorelease];
 		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
@@ -267,7 +275,7 @@
 		
 		// for some reason, this code is using a 13-point line height for calculations, but the font 
 		// in fact renders in 14 points of space. Do some adjustments.
-		_textHeight = _textHeight / 13 * 14;
+		//_textHeight = _textHeight / 13 * 14;
 	}
 	return MAX (_textHeight, 30);
 }

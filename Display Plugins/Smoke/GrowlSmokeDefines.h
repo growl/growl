@@ -22,3 +22,6 @@
 #define GrowlSmokeIconTextPadding 20.
 // the size of the icon (it's square)
 #define GrowlSmokeIconSize 32.
+
+// the size of the text used for the description
+#define GrowlSmokeTextFontSize 12.
