@@ -155,11 +155,12 @@
 #pragma mark -
 
 - (void) _registerApplication:(NSNotification *) note {
-	NSString *appName = [[note userInfo] objectForKey:GROWL_APP_NAME];
+	NSDictionary *userInfo = [note userInfo];
+	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
 	
 	NSImage *appIcon;
 	
-	NSData  *iconData = [[note userInfo] objectForKey:GROWL_APP_ICON];
+	NSData  *iconData = [userInfo objectForKey:GROWL_APP_ICON];
 	if(iconData) {
 		appIcon = [[NSImage alloc] initWithData:iconData];
 		if(appIcon)
@@ -168,8 +169,8 @@
 		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
 	}
 	
-	NSArray * allNotes = [[note userInfo] objectForKey:GROWL_NOTIFICATIONS_ALL];
-	NSArray * defaultNotes = [[note userInfo] objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	NSArray *allNotes     = [userInfo objectForKey:GROWL_NOTIFICATIONS_ALL];
+	NSArray *defaultNotes = [userInfo objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
 
 	GrowlApplicationTicket *newApp;
 
