@@ -19,6 +19,7 @@
     @discussion The bundle identifier for the Growl prefpane
  */
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER	@"com.growl.prefpanel"
+#define GROWL_PREFPANE_NAME					@"Growl.prefPane"
 
 /*!
 	@class      GrowlAppBridge
