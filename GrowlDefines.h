@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Karl Adam on Mon May 17 2004.
-//  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2004 the Growl Project. All rights reserved.
 //
 
 #import <CoreFoundation/CoreFoundation.h>
@@ -34,7 +34,7 @@
 /*! The title to display in the notification */
 #define GROWL_NOTIFICATION_TITLE		@"NotificationTitle"
 /*! The contents of the notification */
-#define GROWL_NOTIFICATION_DESCRIPTION  @"NotificationDescription"
+#define GROWL_NOTIFICATION_DESCRIPTION  	@"NotificationDescription"
 /*! The TIFF data for the notification icon (Optional) */
 #define GROWL_NOTIFICATION_ICON			@"NotificationIcon"
 /*! The TIFF data for the application icon (Optional) */
@@ -45,6 +45,9 @@
 	
 	Not necessarily supported by all display plugins */
 #define GROWL_NOTIFICATION_STICKY		@"NotificationSticky"
+//add documentation comments
+#define GROWL_NOTIFICATION_FORCE_APP_LINK	@"NotificationForceAppLink"
+#define GROWL_NOTIFICATION_LINKS		@"NotificationLinks"
 
 // Notifications
 #pragma mark Notifications
@@ -54,14 +57,14 @@
 #define GROWL_APP_REGISTRATION_CONF		@"GrowlApplicationRegistrationConfirmationNotification"
 /*! The distributed notification name to use for growl notifications */
 #define GROWL_NOTIFICATION				@"GrowlNotification"
-/*! The distributed notification name to use to tell Growl to shutdown (this is a guess) */
+/*! The distributed notification name to use to tell Growl to shutdown */
 #define GROWL_SHUTDOWN					@"GrowlShutdown"
 /*! The distribued notification sent to check if Growl is running. Used by the prefpane */
 #define GROWL_PING						@"Honey, Mind Taking Out The Trash"
 /*! The distributed notification sent in reply to GROWL_PING */
 #define GROWL_PONG						@"What Do You Want From Me, Woman"
 
-/*! The distributed notification sent when Growl starts up (this is a guess) */
+/*! The distributed notification sent when Growl starts up */
 #define GROWL_IS_READY					@"Lend Me Some Sugar; I Am Your Neighbor!"
 
 /*! The listen port for Growl notification servers. */
