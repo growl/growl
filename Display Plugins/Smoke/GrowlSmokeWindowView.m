@@ -13,6 +13,8 @@
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 
+static float titleHeight;
+
 @implementation GrowlSmokeWindowView
 
 - (id) initWithFrame:(NSRect)frame {
@@ -21,7 +23,6 @@
 		title = nil;
 		text = nil;
 		textHeight = 0.0f;
-		titleHeight = 0.0f;
 		target = nil;
 		action = nil;
 		bgColor = nil;
@@ -158,7 +159,6 @@
 - (void) setTitle:(NSString *)aTitle {
 	[title autorelease];
 	title = [aTitle copy];
-	titleHeight = 0.0f;
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
@@ -254,12 +254,11 @@
 		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize]];
 		[lm release];
 	}
-	
+
 	return titleHeight;
 }
 
 - (float) descriptionHeight {
-
 	if (!textHeight) {
 		NSString *content = text ? text : @"";
 		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:content

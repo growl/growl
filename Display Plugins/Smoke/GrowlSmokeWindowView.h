@@ -13,7 +13,6 @@
 	NSString			*title;
 	NSString			*text;
 	float				textHeight;
-	float				titleHeight;
 	SEL					action;
 	id					target;
 

@@ -29,11 +29,6 @@
             }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
-        {
-            CLASS = GrowlSmokeWindowController; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSWindowController; 
-        }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {
             CLASS = NSPreferencePane; 
