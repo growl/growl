@@ -12,7 +12,10 @@
 @interface GrowlNotifyScriptCommand : NSScriptCommand {
 }
 
+
+-(NSURL*)fileUrlForLocationReference:(NSString*)imageReference;
+
 - (void) setError:(int)errorCode;
 - (void) setError:(int)errorCode failure:(id)failure;
-	
+
 @end

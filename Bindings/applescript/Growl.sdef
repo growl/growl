@@ -6,7 +6,7 @@
 -->
 
 <dictionary title="">
-	<suite name="Growl" code="Grwl">
+	<suite name="Growl" description="AppleScript for the Growl Notification System" code="Grwl">
 		<commands>
 			<command name="notify" code="notifygr" description="Post a notification to be displayed via Growl">
 				<cocoa class="GrowlNotifyScriptCommand"/>
@@ -22,19 +22,19 @@
 				<parameter name="application name" code="appl" type="string" description="name of the application posting the notification.">
 					<cocoa key="appName"/>
 				</parameter>
-				<parameter name="image from URL" optional="optional" code="iurl" type="string" description="URL of the icon to use for this notification. Currently limited to file:/// URLs.">
+				<parameter name="image from location" optional="optional" code="iurl" type="location" description="Location of the image to use for this notification. Accepts aliases, paths and file:/// URLs.">
 					<cocoa key="imageFromURL"/>
 				</parameter>
-				<parameter name="icon of file" optional="optional" code="ifil" type="string" description="URL of the file whose icon should be used as the image for this notification. For example, 'file:///Applications'. Must be a file:/// URL.">
+				<parameter name="icon of file" optional="optional" code="ifil" type="location" description="Location of the file whose icon should be used as the image for this notification. Accepts aliases, paths and file:/// URLs. e.g. 'file:///Applications'.">
 					<cocoa key="iconOfFile"/>
 				</parameter>
 				<parameter name="icon of application" optional="optional" code="iapp" type="string" description="Name of the application whose icon should be used for this notification. For example, 'Mail.app'.">
 					<cocoa key="iconOfApplication"/>
 				</parameter>
-				<parameter name="image" optional="optional" code="imag" type="Image" description="TIFF Image to be used for the notification.">
+				<parameter name="image" optional="optional" code="imag" type="NSData&lt;Image&gt;" description="TIFF Image to be used for the notification.">
 					<cocoa key="image"/>
 				</parameter>
-				<parameter name="pictImage" optional="optional" code="pict" type="Picture" description="PICT Image to be used for the notification.">
+				<parameter name="pictImage" optional="optional" code="pict" type="NSData&lt;Picture&gt;" description="PICT Image to be used for the notification.">
 					<cocoa key="pictImage"/>
 				</parameter>
 				<parameter name="sticky" optional="optional" code="stck" type="boolean" description="whether or not the notification displayed should time out. Defaults to 'no'.">
@@ -60,12 +60,17 @@
 				</parameter>
 			</command>
 		</commands>
+
 		<!-- The following requires sdp from 10.4 -->
+		<!-- And screws-up 10.3's sdp's ability to parse the file   -->
+
+		<!--
 		<value name="Picture" code="PICT">
 			<cocoa class="NSData" name="Picture"/>
 		</value>
 		<value name="Image" code="TIFF">
 			<cocoa class="NSData" name="Image"/>
 		</value>
+		-->
 	</suite>
 </dictionary>

@@ -44,7 +44,7 @@
 					<key>Optional</key>
 					<string>YES</string>
 					<key>Type</key>
-					<string>NSString</string>
+					<string>NSPositionalSpecifier</string>
 				</dict>
 				<key>image</key>
 				<dict>
@@ -53,23 +53,7 @@
 					<key>Optional</key>
 					<string>YES</string>
 					<key>Type</key>
-					<string>Growl.NSData&lt;Image&gt;</string>
-				</dict>
-				<key>imageFromURL</key>
-				<dict>
-					<key>AppleEventCode</key>
-					<string>iurl</string>
-					<key>Optional</key>
-					<string>YES</string>
-					<key>Type</key>
-					<string>NSString</string>
-				</dict>
-				<key>notificationName</key>
-				<dict>
-					<key>AppleEventCode</key>
-					<string>name</string>
-					<key>Type</key>
-					<string>NSString</string>
+					<string>NSData&lt;Image&gt;</string>
 				</dict>
 				<key>pictImage</key>
 				<dict>
@@ -78,7 +62,32 @@
 					<key>Optional</key>
 					<string>YES</string>
 					<key>Type</key>
-					<string>Growl.NSData&lt;Picture&gt;</string>
+					<string>NSData&lt;Picture&gt;</string>
+				</dict>
+				<key>imageFromURL</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>iurl</string>
+					<key>Optional</key>
+					<string>YES</string>
+					<key>Type</key>
+					<string>NSPositionalSpecifier</string>
+				</dict>
+				<key>notificationName</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>name</string>
+					<key>Type</key>
+					<string>NSString</string>
+				</dict>
+				<key>priority</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>prio</string>
+					<key>Optional</key>
+					<string>YES</string>
+					<key>Type</key>
+					<string>NSNumber&lt;Int&gt;</string>
 				</dict>
 				<key>sticky</key>
 				<dict>
@@ -88,15 +97,6 @@
 					<string>YES</string>
 					<key>Type</key>
 					<string>NSNumber&lt;Bool&gt;</string>
-				</dict>
-				<key>priority</key>
-				<dict>
-					<key>AppleEventCode</key>
-					<string>prio</string>
-					<key>Optional</key>
-					<string>YES</string>
-					<key>Type</key>
-					<string>NSNumber</string>
 				</dict>
 				<key>title</key>
 				<dict>

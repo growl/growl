@@ -14,10 +14,10 @@ resource 'aete' (0, "") {
 	english,
 	roman,
 	{
-		"Growl",
-		"",
-		'Grwl',
-		1,
+				"Growl",
+				"AppleScript for the Growl Notification System",
+				'Grwl',
+				1,
 		1,
 		{
 			/* Events */
@@ -44,12 +44,12 @@ resource 'aete' (0, "") {
 				"name of the application posting the notification.",
 				required,
 				singleItem, notEnumerated, Reserved13,
-				"image from URL", 'iurl', 'TEXT',
-				"URL of the icon to use for this notification. Currently limited to file:/// URLs.",
+				"image from location", 'iurl', 'insl',
+				"Location of the image to use for this notification. Accepts aliases, paths and file:/// URLs.",
 				optional,
 				singleItem, notEnumerated, Reserved13,
-				"icon of file", 'ifil', 'TEXT',
-				"URL of the file whose icon should be used as the image for this notification. For example, 'file:///Applications'. Must be a file:/// URL.",
+				"icon of file", 'ifil', 'insl',
+				"Location of the file whose icon should be used as the image for this notification. Accepts aliases, paths and file:/// URLs. e.g. 'file:///Applications'.",
 				optional,
 				singleItem, notEnumerated, Reserved13,
 				"icon of application", 'iapp', 'TEXT',
@@ -116,6 +116,7 @@ resource 'aete' (0, "") {
 			{
 			},
 			"Images", 'TIFF', plural__
+
 		},
 		{
 			/* Comparisons */

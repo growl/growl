@@ -32,7 +32,7 @@
 				<key>iconOfFile</key>
 				<dict>
 					<key>Description</key>
-					<string>URL of the file whose icon should be used as the image for this notification. For example, 'file:///Applications'. Must be a file:/// URL.</string>
+					<string>Location of the file whose icon should be used as the image for this notification. Accepts aliases, paths and file:/// URLs. e.g. 'file:///Applications'.</string>
 					<key>Name</key>
 					<string>icon of file</string>
 				</dict>
@@ -46,9 +46,9 @@
 				<key>imageFromURL</key>
 				<dict>
 					<key>Description</key>
-					<string>URL of the icon to use for this notification. Currently limited to file:/// URLs.</string>
+					<string>Location of the image to use for this notification. Accepts aliases, paths and file:/// URLs.</string>
 					<key>Name</key>
-					<string>image from URL</string>
+					<string>image from location</string>
 				</dict>
 				<key>notificationName</key>
 				<dict>
@@ -64,19 +64,19 @@
 					<key>Name</key>
 					<string>pictImage</string>
 				</dict>
-				<key>sticky</key>
-				<dict>
-					<key>Description</key>
-					<string>whether or not the notification displayed should time out. Defaults to 'no'.</string>
-					<key>Name</key>
-					<string>sticky</string>
-				</dict>
 				<key>priority</key>
 				<dict>
 					<key>Description</key>
 					<string>The priority of the notification, from -2 (low) to 0 (normal) to 2 (emergency).</string>
 					<key>Name</key>
 					<string>priority</string>
+				</dict>
+				<key>sticky</key>
+				<dict>
+					<key>Description</key>
+					<string>whether or not the notification displayed should time out. Defaults to 'no'.</string>
+					<key>Name</key>
+					<string>sticky</string>
 				</dict>
 				<key>title</key>
 				<dict>
@@ -130,6 +130,8 @@
 			<string>register</string>
 		</dict>
 	</dict>
+	<key>Description</key>
+	<string>AppleScript for the Growl Notification System</string>
 	<key>Name</key>
 	<string>Growl</string>
 </dict>

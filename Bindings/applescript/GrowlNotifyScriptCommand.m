@@ -29,7 +29,7 @@
 #define KEY_TITLE				@"title"
 #define KEY_DESC				@"description"
 #define KEY_STICKY				@"sticky"
-#define KEY_PRIORITY				@"priority"
+#define KEY_PRIORITY			@"priority"
 #define KEY_IMAGE_URL			@"imageFromURL"
 #define KEY_ICON_APP_NAME		@"iconOfApplication"
 #define KEY_ICON_FILE			@"iconOfFile"
@@ -38,9 +38,12 @@
 #define KEY_APP_NAME			@"appName"
 #define KEY_NOTIFICATION_NAME	@"notificationName"
 
-#define ERROR_EXCEPTION						1
-#define ERROR_NOT_FILE_URL					2
-#define ERROR_ICON_OF_FILE_PATH_INVALID		3
+#define ERROR_EXCEPTION								1
+#define ERROR_NOT_FILE_URL							2
+#define ERROR_ICON_OF_FILE_PATH_INVALID				3
+#define ERROR_ICON_OF_FILE_PATH_FILE_MISSING		4
+#define ERROR_ICON_OF_FILE_PATH_NOT_IMAGE			5
+#define ERROR_ICON_OF_FILE_UNSUPPORTED_PROTOCOL		6
 
 static const NSSize iconSize = {128.0f, 128.0f};
 
@@ -70,30 +73,36 @@ static const NSSize iconSize = {128.0f, 128.0f};
 		nil];
 
 	if (priority) {
-	    [noteDict setObject:priority forKey:GROWL_NOTIFICATION_PRIORITY];
+		[noteDict setObject:priority forKey:GROWL_NOTIFICATION_PRIORITY];
 	}
 
 	if (sticky) {
-	    [noteDict setObject:sticky forKey:GROWL_NOTIFICATION_STICKY];
+		[noteDict setObject:sticky forKey:GROWL_NOTIFICATION_STICKY];
 	}
 
 	NS_DURING
 		NSImage *icon = nil;
+		NSURL   *url = nil;
+
+		//  Command used the "image from URL" argument
 		if (imageUrl != nil) {
-			NSURL *url = [NSURL URLWithString:imageUrl];
-			if (!url || ![url isFileURL] || [[url host] length]) {
-				[self setError:ERROR_NOT_FILE_URL];
+			if (!(url = [[self fileUrlForLocationReference: imageUrl] autorelease])) {
 				NS_VALUERETURN(nil,id);
 			}
-			icon = [[[NSImage alloc] initWithContentsOfURL:url] autorelease];
+			if (!(icon = [[[NSImage alloc] initWithContentsOfURL:url] autorelease])) {
+				//	File exists, but is not a valid image format
+				[self setError:ERROR_ICON_OF_FILE_PATH_NOT_IMAGE];
+				NS_VALUERETURN(nil,id);
+			}
 		} else if (iconOfFile != nil) {
-			NSURL *url = [NSURL URLWithString:iconOfFile];
-			if (!url || ![url isFileURL] || [[url host] length]) {
-				[self setError:ERROR_ICON_OF_FILE_PATH_INVALID];
+			//  Command used the "icon of file" argument
+			if (!(url = [[self fileUrlForLocationReference: iconOfFile] autorelease])) {
+				//	NSLog(@"That's a no go on that file's icon.");
 				NS_VALUERETURN(nil,id);
 			}
 			icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
 		} else if (iconOfApplication != nil) {
+			//  Command used the "icon of application" argument
 			icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
 		} else if (imageData != nil){
 			icon = [[[NSImage alloc] initWithData:imageData] autorelease];
@@ -116,6 +125,64 @@ static const NSSize iconSize = {128.0f, 128.0f};
 	return nil;
 }
 
+
+
+
+-(NSURL*)fileUrlForLocationReference:(NSString*)imageReference
+	//  This method will attempt to locate an image given either a path or an URL
+{
+	NSURL   *url = nil;
+	
+	NSRange testRange = [imageReference rangeOfString: @"://"];
+	if (!(testRange.location == NSNotFound)) {
+		//  It's looks like a protocol string 
+		if (![imageReference hasPrefix: @"file://"]) {
+												//  The protocol is not valid  - we only accept file:// URLs
+			[self setError:ERROR_NOT_FILE_URL];
+			return nil;
+		}
+		
+		//  it was a file URL that was passed
+		url = [NSURL URLWithString: imageReference];
+		//  Check it's properly encoded:
+		if (![url path]) {
+			//  Try encoding the path to fit URL specs
+			url = [NSURL URLWithString: [imageReference stringByAddingPercentEscapesUsingEncoding: NSISOLatin1StringEncoding]];
+			//  Check it again
+			if (![url path]) {
+				//  This path is just no good.
+				[self setError:ERROR_ICON_OF_FILE_PATH_INVALID];
+				return nil;
+			}
+		}
+	} else {
+		//  it was an alias / path that was passed
+		url = [NSURL fileURLWithPath:[imageReference stringByExpandingTildeInPath]];
+		if (!url) {
+			[self setError:ERROR_ICON_OF_FILE_PATH_INVALID];
+			return nil;
+		}
+	}
+	
+	//  Sanity check the URL
+	if (![url isFileURL]) {
+		//  Bail - wrong protocol.
+		[self setError:ERROR_NOT_FILE_URL];
+		return nil;
+	}
+	if (!url) {
+		[self setError:ERROR_ICON_OF_FILE_PATH_INVALID];
+		return nil;
+	}
+	//  Check to see if the file actually exists:
+	if (![[NSFileManager defaultManager] fileExistsAtPath: [url path]]) {
+		[self setError:ERROR_ICON_OF_FILE_PATH_FILE_MISSING];
+		return nil;
+	} 
+	return [url retain];
+}
+
+
 - (void) setError:(int)errorCode {
 	[self setError:errorCode failure:nil];
 }
@@ -129,10 +196,19 @@ static const NSSize iconSize = {128.0f, 128.0f};
 			str = [NSString stringWithFormat:@"Exception raised while processing: %@", failure];
 			break;
 		case ERROR_NOT_FILE_URL:
-			str = @"'image of file' parameter value must start with 'file:///'";
+			str = @"Non-File URL.  If passing a URL to growl as a parameter, it must be a 'file://' URL.";
+			break;
+		case ERROR_ICON_OF_FILE_PATH_FILE_MISSING:
+			str = @"'image from URL' parameter - File specified does not exist.";
 			break;
 		case ERROR_ICON_OF_FILE_PATH_INVALID:
-			str = @"'image from URL' parameter value must start with 'file:///'";
+			str = @"'image from URL' parameter - Badly formed path.";
+			break;
+		case ERROR_ICON_OF_FILE_PATH_NOT_IMAGE:
+			str = @"'image from URL' parameter - Supplied file is not a valid image type.";
+			break;
+		case ERROR_ICON_OF_FILE_UNSUPPORTED_PROTOCOL:
+			str = @"'image from URL' parameter - Unsupported URL protocol. (Only 'file://' supported)";	
 			break;
 		default:
 			str = nil;
