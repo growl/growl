@@ -179,7 +179,6 @@ static float titleHeight;
 			textKey = GrowlSmokeNormalTextColor;
 			break;
 	}
-	NSArray *array = nil;
 
 	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
@@ -187,6 +186,8 @@ static float titleHeight;
 	[bgColor release];
 
 	Class NSArrayClass = [NSArray class];
+	NSArray *array = nil;
+
 	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array && [array isKindOfClass:NSArrayClass]) {
 		bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]

@@ -46,8 +46,8 @@ static GrowlPreferences * sharedPreferences;
 	NSEnumerator		* e = [inDefaults keyEnumerator];
 	NSString			* key;
 	
-	while ( (key = [e nextObject]) ) {
-		if ( ![domain objectForKey:key] ) {
+	while ((key = [e nextObject])) {
+		if (![domain objectForKey:key]) {
 			[domain setObject:[inDefaults objectForKey:key] forKey:key];
 		}
 	}
@@ -63,11 +63,11 @@ static GrowlPreferences * sharedPreferences;
 }
 
 - (void) setObject:(id)object forKey:(NSString *) key {
-	CFPreferencesSetAppValue( (CFStringRef)key			/* key */,
-							  (CFPropertyListRef)object /* value */,
-							  (CFStringRef)HelperAppBundleIdentifier) /* application ID */;\
+	CFPreferencesSetAppValue((CFStringRef)key			/* key */,
+							 (CFPropertyListRef)object /* value */,
+							 (CFStringRef)HelperAppBundleIdentifier) /* application ID */;\
 
-	CFPreferencesAppSynchronize( (CFStringRef)HelperAppBundleIdentifier );
+	CFPreferencesAppSynchronize((CFStringRef)HelperAppBundleIdentifier);
 
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
 																   object:key];
@@ -79,8 +79,8 @@ static GrowlPreferences * sharedPreferences;
 }
 
 - (NSBundle *) helperAppBundle {
-	if ( !helperAppBundle ) {
-		if ( [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:HelperAppBundleIdentifier] ) {
+	if (!helperAppBundle) {
+		if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:HelperAppBundleIdentifier]) {
 			//We are running in the GHA bundle
 			helperAppBundle = [NSBundle mainBundle];
 		} else {
@@ -94,7 +94,7 @@ static GrowlPreferences * sharedPreferences;
 
 - (NSString *) growlSupportDir {
 	NSString *supportDir;
-	NSArray *searchPath = NSSearchPathForDirectoriesInDomains( NSLibraryDirectory, NSUserDomainMask, /* expandTilde */ YES );
+	NSArray *searchPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /* expandTilde */ YES);
 	
 	supportDir = [searchPath objectAtIndex:0U];
 	supportDir = [supportDir stringByAppendingPathComponent:@"Application Support"];
@@ -108,13 +108,13 @@ static GrowlPreferences * sharedPreferences;
 - (BOOL) startGrowlAtLogin {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	NSArray *autoLaunchArray = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
-	NSString *appPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
+	NSString *pathToGHA = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 	BOOL foundIt = NO;
 
 	NSEnumerator *e = [autoLaunchArray objectEnumerator];
 	NSDictionary *item;
-	while ( (item = [e nextObject] ) ) {
-		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:appPath]) {
+	while ((item = [e nextObject])) {
+		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:pathToGHA]) {
 			foundIt = YES;
 			break;
 		}
@@ -125,22 +125,22 @@ static GrowlPreferences * sharedPreferences;
 
 - (void) setStartGrowlAtLogin:(BOOL)flag {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	NSString *appPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
+	NSString *pathToGHA = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
 	NSArray *loginItems = [loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"];
 	NSMutableArray *mutableLoginItems = [[loginItems mutableCopy] autorelease];
 	NSEnumerator *e = [loginItems objectEnumerator];
 	NSDictionary *item;
-	while ( (item = [e nextObject] ) ) {
-		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:appPath]) {
+	while ((item = [e nextObject])) {
+		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:pathToGHA]) {
 			[mutableLoginItems removeObject:item];
 		}
 	}
 	
-	if ( flag ) {
+	if (flag) {
 		NSMutableDictionary *launchDict = [NSMutableDictionary dictionary];
 		[launchDict setObject:[NSNumber numberWithBool:NO] forKey:@"Hide"];
-		[launchDict setObject:appPath forKey:@"Path"];
+		[launchDict setObject:pathToGHA forKey:@"Path"];
 		[mutableLoginItems addObject:launchDict];
 	}
 	
