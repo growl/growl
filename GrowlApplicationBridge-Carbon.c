@@ -76,7 +76,7 @@ struct GrowlDelegate *Growl_GetDelegate(void) {
 
 void Growl_PostNotification(const struct GrowlNotification *notification) {
 	if(!notification) {
-		NSLog(CFSTR("%@"), CFSTR("Growl_PostNotification called with a NULL notification\n"));
+		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_PostNotification called with a NULL notification\n"));
 	}
 
 	enum {
