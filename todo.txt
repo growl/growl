@@ -16,10 +16,7 @@ We are dropping 10.2 support in this release.
 		Update Java
 
 	Extras
-		GrowlTunes
 		GrowlMail
-		GrowlDict
-		growlnotify
 		macyac
 
 	Examples
@@ -261,3 +258,8 @@ Done:
 - Create a branch for the .6 release.
 	- Remove networking from this branch.
 	- Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
+Documentation
+	Extras
+		GrowlTunes
+		GrowlDict
+		growlnotify
