@@ -14,6 +14,7 @@
 #import "GrowlUDPServer.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlDisplayProtocol.h"
+#import "GrowlApplicationBridge.h"
 #import "GrowlDefines.h"
 #import "GrowlVersionUtilities.h"
 #import "SVNRevision.h"
@@ -94,6 +95,10 @@ static id singleton = nil;
 																   name:NSWorkspaceDidLaunchApplicationNotification
 																 object:nil];
 
+		appIconData = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
+
+		[GrowlApplicationBridge setGrowlDelegate:self];
+
 		if (!singleton) {
 			singleton = self;
 		}
@@ -169,13 +174,12 @@ static id singleton = nil;
 - (void) showPreview:(NSNotification *) note {
 	NSString *displayName = [note object];
 	id <GrowlDisplayPlugin> displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayName];
-	NSData *iconData = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
 	[displayPlugin displayNotificationWithInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 		@"Preview", GROWL_NOTIFICATION_TITLE,
 		@"This is a notification preview", GROWL_NOTIFICATION_DESCRIPTION,
-		iconData, GROWL_NOTIFICATION_ICON,
 		[NSNumber numberWithInt:0], GROWL_NOTIFICATION_PRIORITY,
 		[NSNumber numberWithBool:YES], GROWL_NOTIFICATION_STICKY,
+		appIconData, GROWL_NOTIFICATION_ICON,
 		nil]];
 }
 
@@ -285,30 +289,36 @@ static id singleton = nil;
 
 - (void) registerApplicationWithDictionary:(NSDictionary *) userInfo {
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
-	
+
 	NSImage *appIcon;
-	
+
 	NSData  *iconData = [userInfo objectForKey:GROWL_APP_ICON];
 	if (iconData) {
 		appIcon = [[[NSImage alloc] initWithData:iconData] autorelease];
 	} else {
 		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
 	}
-	
+
 	NSArray *allNotes = [userInfo objectForKey:GROWL_NOTIFICATIONS_ALL];
 	id defaultNotes   = [userInfo objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
 	
-	GrowlApplicationTicket *newApp;
-	
-	if ( ![tickets objectForKey:appName] ) {
+	GrowlApplicationTicket *newApp = [tickets objectForKey:appName];
+
+	if ( !newApp ) {
 		newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
 															withIcon:appIcon
 													andNotifications:allNotes
 													 andDefaultNotes:defaultNotes];
 		[tickets setObject:newApp forKey:appName];
 		[newApp autorelease];
+		[GrowlApplicationBridge notifyWithTitle:@"Application registered"
+									description:[NSString stringWithFormat:@"%@ registered", appName]
+							   notificationName:@"Application registered"
+									   iconData:appIconData
+									   priority:0
+									   isSticky:NO
+								   clickContext:nil];
 	} else {
-		newApp = [tickets objectForKey:appName];
 		[newApp reregisterWithAllNotifications:allNotes defaults:defaultNotes icon:appIcon];
 	}
 	
@@ -347,8 +357,8 @@ static id singleton = nil;
 
 - (NSDictionary *)versionDictionary {
 	if (!versionInfo) {
-		if(version.releaseType == releaseType_svn) {
-			version.development = SVN_REVISION;
+		if (version.releaseType == releaseType_svn) {
+			version.development = strtol(SVN_REVISION, NULL, 10);
 		}
 
 		const unsigned long long *versionNum = (const unsigned long long *)&version;
@@ -437,7 +447,7 @@ static id singleton = nil;
 		[filename release];
 		filename = [[NSString alloc] initWithFormat:@"Screenshot %lu", i];
 		NSString *path = [directory stringByAppendingPathComponent:filename];
-		if(![directoryContents containsObject:path]) {
+		if (![directoryContents containsObject:path]) {
 			break;
 		}
 	}
@@ -530,7 +540,7 @@ static id singleton = nil;
 
 - (void) applicationWillFinishLaunching:(NSNotification *)aNotification {
 	BOOL printVersionAndExit = [[NSUserDefaults standardUserDefaults] boolForKey:@"PrintVersionAndExit"];
-	if(printVersionAndExit) {
+	if (printVersionAndExit) {
 		printf("This is GrowlHelperApp version %s.\n"
 			   "PrintVersionAndExit was set to %u, so GrowlHelperApp will now exit.\n",
 			   [[self stringWithVersionDictionary:nil] UTF8String],
@@ -585,25 +595,45 @@ static id singleton = nil;
 	NSString *appName = [userInfo objectForKey:@"NSApplicationName"];
 	NSString *appPath = [userInfo objectForKey:@"NSApplicationPath"];
 
-	if(appPath) {
+	if (appPath) {
 		NSString *ticketPath = [NSBundle pathForResource:@"Growl Registration Ticket" ofType:GROWL_REG_DICT_EXTENSION inDirectory:appPath];
 		NSDictionary *ticket = [NSDictionary dictionaryWithContentsOfFile:ticketPath];
 
-		if(ticket) {
-			if([GrowlApplicationTicket isValidTicketDictionary:ticket]) {
+		if (ticket) {
+			if ([GrowlApplicationTicket isValidTicketDictionary:ticket]) {
 				NSLog(@"Found registration ticket in %@ (located at %@)", appName, appPath);
 				//open it with ourselves.
 				NSString *myPath = [[[NSProcessInfo processInfo] arguments] objectAtIndex:0U];
 				[[NSWorkspace sharedWorkspace] openFile:ticketPath
 										withApplication:myPath
 										  andDeactivate:NO];
-			} else if([GrowlApplicationTicket isKnownTicketVersion:ticket]) {
+			} else if ([GrowlApplicationTicket isKnownTicketVersion:ticket]) {
 				NSLog(@"%@ (located at %@) contains an invalid registration ticket - developer, please consult Growl developer documentation (http://growl.info/documentation/developer/)", appName, appPath);
 			} else {
 				NSLog(@"%@ (located at %@) contains a ticket whose version (%i) is unrecognised by this version (%@) of Growl", appName, appPath, [[ticket objectForKey:GROWL_TICKET_VERSION] intValue], [self stringWithVersionDictionary:nil]);
 			}
 		}
 	}
+}
+
+#pragma mark Growl Delegate Methods
+- (NSData *) applicationIconDataForGrowl
+{
+	return appIconData;
+}
+
+- (NSString *) applicationNameForGrowl
+{
+	return @"Growl";
+}
+
+- (NSDictionary *) registrationDictionaryForGrowl
+{
+	NSArray *notifs = [NSArray arrayWithObjects:@"Application registered", nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+		notifs, GROWL_NOTIFICATIONS_ALL,
+		[NSArray array], GROWL_NOTIFICATIONS_DEFAULT,
+		nil];
 }
 
 @end

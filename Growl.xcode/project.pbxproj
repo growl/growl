@@ -3495,6 +3495,12 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
+		9550518107DE4B4A002F5315 = {
+			fileRef = 34F60EB6078E1D3E00CECA86;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		9564F82B07438E1D00F1CCE5 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -4096,6 +4102,7 @@
 				0790135707D9321B0023B640,
 				95C8783207D9DFC000C69DEE,
 				95C8783407D9DFC000C69DEE,
+				9550518107DE4B4A002F5315,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4193,9 +4200,9 @@
 			productType = "com.apple.product-type.application";
 		};
 		CB61E5180637763C00E0DDC7 = {
-			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.application;
 			path = GrowlHelperApp.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;

@@ -36,6 +36,7 @@
 	NSArray						*destinations;
 
 	NSDictionary				*versionInfo;
+	NSData						*appIconData;
 }
 
 + (id) standardController;

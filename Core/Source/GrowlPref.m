@@ -459,13 +459,14 @@ static const char *keychainAccountName = "Growl";
 	int row = [growlApplications selectedRow];
 	id key = [applications objectAtIndex:row];
 	NSString *path = [[tickets objectForKey:key] path];
-	
+
 	if ( [[NSFileManager defaultManager] removeFileAtPath:path handler:nil] ) {
 		[tickets removeObjectForKey:key];
 		[images removeObjectAtIndex:row];
 		[applications removeObjectAtIndex:row];
 		[growlApplications deselectAll:NULL];
 		[self reloadAppTab];
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged object:nil];
 	}
 }
 
