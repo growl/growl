@@ -10,40 +10,37 @@
 #import <GrowlAppBridge/GrowlApplicationBridge.h>
 #import "GrowlDefines.h"
 
-static NSString *newMail = @"New Mail";
-static NSString *mailAppName = @"GrowlMail";
-
-
 @implementation GrowlMail
+
++ (NSString *)bundleVersion
+{
+    return( [[[NSBundle bundleForClass:self] infoDictionary] objectForKey:@"CFBundleVersion"] );
+}
 
 + (void)initialize
 {
     [super initialize];
 	[self registerBundle];
-	NSLog(@"GrowlMail registered");
+	NSLog( @"Loaded GrowlMail %@", [self bundleVersion] );
 }
 
 - (id)init
 {
-	if (self = [super init]) {
-		if ([GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(gabResponse:) context:nil]) {
-			// Register for new mail notification
-			[[NSNotificationCenter defaultCenter] addObserver:self
-													 selector:@selector(mailAccountFetchCompleted:)
-														 name:@"MailAccountFetchCompleted"
-													   object:nil];
-		} else {
-			NSLog(@"Growl not installed, GrowlMail disabled");
+	if( self = [super init] ) {
+		if( ![GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(gabResponse:) context:nil] ) {
+			NSLog( @"Growl not installed, GrowlMail disabled" );
 		}
 	}
-	return(self);
+
+	return( self );
 }
 
-- (void)gabResponse:(id)context {
+- (void)gabResponse:(id)context
+{
 	// Register our ticket with Growl
-	NSArray *allowedNotifications = [NSArray arrayWithObject:newMail];
+	NSArray *allowedNotifications = [NSArray arrayWithObject:@"New mail"];
 	NSDictionary *ticket = [NSDictionary dictionaryWithObjectsAndKeys:
-		mailAppName, GROWL_APP_NAME,
+		@"GrowlMail", GROWL_APP_NAME,
 		allowedNotifications, GROWL_NOTIFICATIONS_ALL,
 		allowedNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
@@ -52,33 +49,4 @@ static NSString *mailAppName = @"GrowlMail";
 																 userInfo:ticket];
 }
 
-- (void)mailAccountFetchCompleted:(NSNotification *)notification
-{
-	MailAccount		*account = [notification object];
-	NSDictionary	*userInfo = [notification userInfo];
-//	NSLog(@"UserInfo:%@",userInfo);
-	
-	//New mail
-	if([[userInfo objectForKey:@"NewMailWasReceived"] boolValue]){
-		//NSLog(@"%@ has received new mail!",[account displayName]);
-		NSDictionary *notif = [NSDictionary dictionaryWithObjectsAndKeys:
-			newMail, GROWL_NOTIFICATION_NAME,
-			mailAppName, GROWL_APP_NAME,
-			[account displayName], GROWL_NOTIFICATION_TITLE,
-			@"New mail is available", GROWL_NOTIFICATION_DESCRIPTION,
-			nil];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																	   object:nil
-																	 userInfo:notif];
-	}
-}
-
-/*
-	[account primaryMailboxUid]
- + (id)findNewestMessageInMessages:(id)fp8;
- */
-
 @end
-
-
-

@@ -22,6 +22,9 @@
 		014CEA430018CDE011CA2923 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				ZERO_LINK = NO;
 			};
@@ -123,10 +126,12 @@
 		};
 		08FB77AFFE84173DC02AAC07 = {
 			children = (
+				95BF5480072FB08000834811,
+				95BF5481072FB08000834811,
+				95BF5458072F9D6300834811,
+				95BF5459072F9D6300834811,
 				4B7E5EA206B6AC1700137892,
 				4B7E5EA306B6AC1700137892,
-				4B7E5EA406B6AC1700137892,
-				4B7E5EA506B6AC1700137892,
 				4BF8974D06B6A7EF00C30E88,
 				0A8329DE06B856EE00F4F4EE,
 			);
@@ -307,22 +312,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		4B7E5EA406B6AC1700137892 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlMailNotificationCenter.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		4B7E5EA506B6AC1700137892 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlMailNotificationCenter.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		4B7E5EA606B6AC1700137892 = {
 			fileRef = 4B7E5EA106B6AC1700137892;
 			isa = PBXBuildFile;
@@ -337,18 +326,6 @@
 		};
 		4B7E5EA806B6AC1700137892 = {
 			fileRef = 4B7E5EA306B6AC1700137892;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		4B7E5EA906B6AC1700137892 = {
-			fileRef = 4B7E5EA406B6AC1700137892;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		4B7E5EAA06B6AC1700137892 = {
-			fileRef = 4B7E5EA506B6AC1700137892;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -422,8 +399,9 @@
 			files = (
 				4BF8974E06B6A7EF00C30E88,
 				4B7E5EA706B6AC1700137892,
-				4B7E5EA906B6AC1700137892,
 				0A8329DF06B856EE00F4F4EE,
+				95BF545A072F9D6300834811,
+				95BF5482072FB08000834811,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,7 +426,8 @@
 			files = (
 				8D5B49B2048680CD000E48DA,
 				4B7E5EA806B6AC1700137892,
-				4B7E5EAA06B6AC1700137892,
+				95BF545B072F9D6300834811,
+				95BF5483072FB08000834811,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -499,6 +478,72 @@
 			path = Info.plist;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+//950
+//951
+//952
+//953
+//954
+		95BF5458072F9D6300834811 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlMessageStore.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95BF5459072F9D6300834811 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlMessageStore.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95BF545A072F9D6300834811 = {
+			fileRef = 95BF5458072F9D6300834811;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95BF545B072F9D6300834811 = {
+			fileRef = 95BF5459072F9D6300834811;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95BF5480072FB08000834811 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = "Message+GrowlMail.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95BF5481072FB08000834811 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = "Message+GrowlMail.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95BF5482072FB08000834811 = {
+			fileRef = 95BF5480072FB08000834811;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95BF5483072FB08000834811 = {
+			fileRef = 95BF5481072FB08000834811;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = 089C1669FE841209C02AAC07;
