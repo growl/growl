@@ -154,7 +154,7 @@ static const double gMaxDisplayTime = 10.;
 											NSMaxY(screen) - GrowlBrushedPadding - depth)];
 
 	if ((self = [super initWithWindow:panel])) {
-		depth += NSHeight( panelFrame );
+		depth += NSHeight(panelFrame);
 		autoFadeOut = !sticky;
 		delegate = self;
 
@@ -182,7 +182,7 @@ static const double gMaxDisplayTime = 10.;
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		[nc postNotificationName:@"Clear Space" object:nil userInfo:dict];
 		[nc addObserver:self 
-			   selector:@selector( _clearSpace: ) 
+			   selector:@selector(_clearSpace:)
 				   name:@"Clear Space"
 				 object:nil];
 	}

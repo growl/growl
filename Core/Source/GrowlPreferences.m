@@ -42,23 +42,15 @@ static GrowlPreferences * sharedPreferences;
 #pragma mark -
 
 - (void) registerDefaults:(NSDictionary *)inDefaults {
-	NSMutableDictionary * domain = [[helperAppDefaults persistentDomainForName:HelperAppBundleIdentifier] mutableCopy];
-	if (!domain) {
-		domain = [[NSMutableDictionary alloc] init];
+	NSDictionary *existing = [helperAppDefaults persistentDomainForName:HelperAppBundleIdentifier];
+	if (existing) {
+		NSMutableDictionary *domain = [inDefaults mutableCopy];
+		[domain addEntriesFromDictionary:existing];
+		[helperAppDefaults setPersistentDomain:domain forName:HelperAppBundleIdentifier];
+		[domain release];
+	} else {
+		[helperAppDefaults setPersistentDomain:inDefaults forName:HelperAppBundleIdentifier];
 	}
-
-	NSEnumerator		* e = [inDefaults keyEnumerator];
-	NSString			* key;
-	
-	while ((key = [e nextObject])) {
-		if (![domain objectForKey:key]) {
-			[domain setObject:[inDefaults objectForKey:key] forKey:key];
-		}
-	}
-	
-	[helperAppDefaults setPersistentDomain:domain forName:HelperAppBundleIdentifier];
-	
-	[domain release];
 }
 
 - (id) objectForKey:(NSString *)key {

@@ -274,10 +274,11 @@ int main(int argc, const char **argv) {
 					perror("socket");
 					code = EXIT_FAILURE;
 				} else {
-					memcpy(&to.sin_addr.s_addr, he->h_addr_list[0], he->h_length);
-					to.sin_port = htons(GROWL_UDP_PORT);
-					to.sin_family = AF_INET;
 					to.sin_len = sizeof(to);
+					to.sin_family = AF_INET;
+					to.sin_port = htons(GROWL_UDP_PORT);
+					memcpy(&to.sin_addr.s_addr, he->h_addr_list[0], he->h_length);
+					memset(&to.sin_zero, 0, sizeof(to.sin_zero));
 				}
 				registrationPacket = [GrowlUDPUtils registrationToPacket:registerInfo
 																password:password

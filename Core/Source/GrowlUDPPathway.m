@@ -18,25 +18,27 @@
 #include <sys/socket.h>
 #include <openssl/md5.h>
 
-static const char *keychainServiceName = "Growl";
-static const char *keychainAccountName = "Growl";
+#define keychainServiceName "Growl"
+#define keychainAccountName "Growl"
 
 @implementation GrowlUDPPathway
 
 - (id) init {
 	struct sockaddr_in addr;
 	NSData *addrData;
-	
-	if ( (self = [super init]) ) {
-		addr.sin_addr.s_addr = INADDR_ANY;
-		addr.sin_port = htons( GROWL_UDP_PORT );
+
+	if ((self = [super init])) {
+		addr.sin_len = sizeof(addr);
 		addr.sin_family = AF_INET;
+		addr.sin_port = htons(GROWL_UDP_PORT);
+		addr.sin_addr.s_addr = INADDR_ANY;
+		memset(&addr.sin_zero, 0, sizeof(addr.sin_zero));
 		addrData = [NSData dataWithBytes:&addr length:sizeof(addr)];
 		sock = [[NSSocketPort alloc] initWithProtocolFamily:AF_INET
 												 socketType:SOCK_DGRAM
 												   protocol:IPPROTO_UDP
 													address:addrData];
-		
+
 		fh = [[NSFileHandle alloc] initWithFileDescriptor:[sock socket]];
 		[fh readInBackgroundAndNotify];
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -45,7 +47,7 @@ static const char *keychainAccountName = "Growl";
 												   object:fh];
 		notificationIcon = [[NSImage alloc] initWithContentsOfFile:
 			@"/System/Library/CoreServices/SystemIcons.bundle/Contents/Resources/GenericNetworkIcon.icns"];
-		if ( !notificationIcon ) {
+		if (!notificationIcon) {
 			// the icon has moved on 10.4
 			notificationIcon = [[NSImage alloc] initWithContentsOfFile:
 				@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"];

@@ -24,8 +24,8 @@
 
 #define PING_TIMEOUT		3
 
-static const char *keychainServiceName = "Growl";
-static const char *keychainAccountName = "Growl";
+#define keychainServiceName "Growl"
+#define keychainAccountName "Growl"
 
 @implementation GrowlPref
 
@@ -37,9 +37,11 @@ static const char *keychainAccountName = "Growl";
 		[nc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
 		[nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
 
-		NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfFile:[bundle pathForResource:@"GrowlDefaults"
-																									ofType:@"plist"]];
+		NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithContentsOfFile:
+			[bundle pathForResource:@"GrowlDefaults"
+							 ofType:@"plist"]];
 		[[GrowlPreferences preferences] registerDefaults:defaultDefaults];
+		[defaultDefaults release];
 	}
 
 	return self;

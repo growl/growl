@@ -101,8 +101,8 @@
 - (IBAction) textColorChanged:(id)sender {
     NSColor *color;
     NSArray *array;
-    
-    NSString* key;
+
+    NSString *key;
     switch ([sender tag]) {
         case -2:
             key = GrowlBrushedVeryLowTextColor;
@@ -133,7 +133,7 @@
 	[array release];
 
     // NSLog(@"color: %@ array: %@", color, array);
-	
+
     UPDATE_GROWL_PREFS();
 }
 
@@ -144,7 +144,8 @@
 }
 
 - (IBAction) setLimit:(id)sender {
-	WRITE_GROWL_PREF_BOOL(GrowlBrushedLimitPref, ([sender state] == NSOnState), GrowlBrushedPrefDomain);
+	BOOL pref = ([sender state] == NSOnState);
+	WRITE_GROWL_PREF_BOOL(GrowlBrushedLimitPref, pref, GrowlBrushedPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
