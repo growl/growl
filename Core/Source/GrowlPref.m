@@ -329,9 +329,12 @@ static const char *keychainAccountName = "Growl";
 	if (numApplications) {
 		if (row > -1)
 			currentApplication = [[filteredApplications objectAtIndex:row] retain];
-	} 
-
-	[remove setEnabled:NO];
+	}
+	if ([growlApplications selectedRow] > -1) {
+			[remove setEnabled:YES]; 
+	} else {
+			[remove setEnabled:NO];
+	}
 	appTicket = [tickets objectForKey:currentApplication];
 
 //	[applicationEnabled setState:[appTicket ticketEnabled]];

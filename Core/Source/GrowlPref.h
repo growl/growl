@@ -54,6 +54,7 @@
 	NSMenu					*applicationDisplayPluginsMenu;
 	IBOutlet NSMenu			*notificationPriorityMenu;
 	IBOutlet NSTextField	*searchField;
+	IBOutlet NSButton		*remove;
 
 	//"Display Options" tab pane
 	IBOutlet NSTableView	*displayPlugins;
@@ -73,8 +74,6 @@
 	NSNetServiceBrowser		*browser;
 	NSNetService			*serviceBeingResolved;
 	int						currentServiceIndex;
-
-	IBOutlet NSButton		*remove;
 }
 
 + (void)saveTicket:(GrowlApplicationTicket *)ticket;
