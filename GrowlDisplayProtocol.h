@@ -2,33 +2,62 @@
 //  GrowlDisplayProtocol.h
 //  Growl
 //
-//  Created by Vinay Venkatesh on 9/7/04.
-//
 
-@protocol GrowlDisplayProtocol
+/*!
+	@header
+	@abstract    Defines the protocols used by plugins
+	@discussion  This header defines the 3 protocols used by plugins.
+	
+	The base protocol &lt;GrowlPlugin&gt; isn't intended to be used by anything else, it's
+	basically an abstract superprotocol for the other protocols.
+	
+	The protocol &lt;GrowlDisplayPlugin&gt; is meant for plugins that provide alternate displays.
+	
+	The protocol &lt;GrowlFunctionalPlugin&gt; is meant for plugins that provide additional functionality.
+ */
 
-// This does the actual loading of the plugin.
+/*!
+	@protocol    GrowlPlugin
+	@abstract    The base plugin protocol
+	@discussion  A protocol defining all methods supported by all Growl plugins.
+ */
+@protocol GrowlPlugin
+/*! A method sent to tell the plugin to initialize itself */
 - (void) loadPlugin;
+/*! Returns the name of the author of the plugin
+	@result A string */
+- (NSString *) author;
+/*! Returns the name of the plugin
+	@result A string */
+- (NSString *) name;
+/*! Returns the description of the plugin
+	@result A string */
+- (NSString *) userDescription;
+/*! Returns the version of the plugin
+	@result A string */
+- (NSString *) version;
+/*! A method sent to tell the plugin to clean itself up */
 - (void) unloadPlugin;
+@end
 
-// This does the actual displaying.
-- (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
+/*!
+	@protocol    GrowlDisplayPlugin
+	@abstract    The display plugin protocol
+	@discussion  A protocol defining all methods supported by Growl display plugins.
+ */
+@protocol GrowlDisplayPlugin <GrowlPlugin>
+/*! Tells the display plugin to display a notification with the given information
+	@param noteDict The userInfo dictionary that describes the notification */
+- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict;
+@end
 
-// Returns the view to show for the prefs in the pref pane.  The frame of this view should be:
-// (165., 20., 354., 311.) (in x, y, w, h form)  This is so that it fits properly.  Please do not
-// have a tableview in this form.  If you need more space, then you are making it too complicated :P
-// Seriously though, we'll figur eout how to deal with it when we come up against it.
-- (NSView*) prefView;
-
-// Don't know if I need this yet.
-- (id)prefController;
-
-// These functions are combines into one...
-//- (NSString *) author;
-//- (NSString *) name;
-//- (NSString *) userDescription;
-//- (NSString *) version;
-// Which contains all of the information with the keys of the same name. 
-- (NSDictionary*) pluginInfo;
-
+/*!
+	@protocol    GrowlFunctionalPlugin
+	@abstract    The functional plugin protocol
+	@discussion  A protocol defining all methods supported by Growl functionality plugins.
+	
+	Currently has no new methods on top of GrowlDisplayPlugin.
+ */
+@protocol GrowlFunctionalPlugin <GrowlPlugin>
+//empty for now
 @end

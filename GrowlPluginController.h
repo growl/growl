@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "GrowlDisplayProtocol.h"
 
 @interface GrowlPluginController : NSObject {
 		NSMutableDictionary		* allDisplayPlugins;	

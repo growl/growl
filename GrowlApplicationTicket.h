@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GrowlDisplayProtocol.h"
 
 @class GrowlController;
 

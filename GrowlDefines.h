@@ -8,9 +8,8 @@
 
 /*!
     @header
-    @abstract   Defines all the notification keys and plugin protocols
-    @discussion Defines all the keys used for registration and growl notifications,
-	as well as the protocols used for Growl plugins.
+    @abstract   Defines all the notification keys
+    @discussion Defines all the keys used for registration and growl notifications.
 */
 
 // UserInfo Keys for Registration
@@ -57,49 +56,3 @@
 
 /*! The distributed notification sent when Growl starts up (this is a guess) */
 #define GROWL_IS_READY					@"Lend Me Some Sugar; I Am Your Neighbor!"
-
-/*!
-    @protocol    GrowlPlugin
-    @abstract    The base plugin protocol
-    @discussion  A protocol defining all methods supported by all Growl plugins.
- */
-@protocol GrowlPlugin
-/*! A method sent to tell the plugin to initialize itself */
-- (void) loadPlugin;
-/*! Returns the name of the author of the plugin
-	@result A string */
-- (NSString *) author;
-/*! Returns the name of the plugin
-	@result A string */
-- (NSString *) name;
-/*! Returns the description of the plugin
-	@result A string */
-- (NSString *) userDescription;
-/*! Returns the version of the plugin
-	@result A string */
-- (NSString *) version;
-/*! A method sent to tell the plugin to clean itself up */
-- (void) unloadPlugin;
-@end
-
-/*!
-	@protocol    GrowlDisplayPlugin
-	@abstract    The display plugin protocol
-	@discussion  A protocol defining all methods supported by Growl display plugins.
- */
-@protocol GrowlDisplayPlugin <GrowlPlugin>
-/*! Tells the display plugin to display a notification with the given information
-	@param noteDict The userInfo dictionary that describes the notification */
-- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict;
-@end
-
-/*!
-	@protocol    GrowlFunctionalPlugin
-	@abstract    The functional plugin protocol
-	@discussion  A protocol defining all methods supported by Growl functionality plugins.
-	
-	Currently has no new methods on top of GrowlDisplayPlugin.
- */
-@protocol GrowlFunctionalPlugin <GrowlPlugin>
-//empty for now
-@end

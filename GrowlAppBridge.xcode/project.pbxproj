@@ -76,6 +76,7 @@
 		0867D691FE84028FC02AAC07 = {
 			children = (
 				08FB77AEFE84172EC02AAC07,
+				0A0B4A5706EE407B0058DED1,
 				32C88DFF0371C24200C91783,
 				089C1665FE841158C02AAC07,
 				0867D69AFE84028FC02AAC07,
@@ -119,6 +120,39 @@
 //082
 //083
 //084
+//0A0
+//0A1
+//0A2
+//0A3
+//0A4
+		0A0B4A5706EE407B0058DED1 = {
+			children = (
+				0A0B4A5F06EE408F0058DED1,
+			);
+			isa = PBXGroup;
+			name = "Display Protocol";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A0B4A5F06EE408F0058DED1 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlDisplayProtocol.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A0B4A6006EE408F0058DED1 = {
+			fileRef = 0A0B4A5F06EE408F0058DED1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//0A0
+//0A1
+//0A2
+//0A3
+//0A4
 //100
 //101
 //102
@@ -372,6 +406,7 @@
 				147E022D068A07EB00ADA868,
 				147E022E068A07EB00ADA868,
 				147E0237068A08D200ADA868,
+				0A0B4A6006EE408F0058DED1,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
