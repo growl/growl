@@ -3349,6 +3349,7 @@
 			path = Bindings/applescript/GrowlNotifyScriptCommand.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+			usesTabs = 1;
 		};
 		953F5CF107403B67008E2AEB = {
 			fileRef = 953F5CEB07403B67008E2AEB;
