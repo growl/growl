@@ -50,30 +50,45 @@
 }
 
 - (void)reloadPreferences {
-	NSEnumerator * enumerator;
-	
 	if(tickets) [tickets release];
 	tickets = [[GrowlApplicationTicket allSavedTickets] mutableCopy];
-	
-	[growlApplications removeAllItems];
-	enumerator = [tickets keyEnumerator];
-	[growlApplications addItemsWithTitles:[enumerator allObjects]];
-	
+	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
+
+	[growlApplications reloadData];
 	if(currentApplication)
-		[growlApplications selectItemWithTitle:currentApplication];
+		[growlApplications selectRow:[applications indexOfObject:currentApplication] byExtendingSelection:NO];
 	
 	if ( [[[NSUserDefaults standardUserDefaults] objectForKey:@"AutoLaunchedApplicationDictionary"] containsObject:[self growlHelperAppDescription]] ) 
 		[startGrowlAtLogin setState:NSOnState];
-	
+
 	[allDisplayPlugins removeAllItems];
 	[allDisplayPlugins addItemsWithTitles:[[GrowlPluginController controller] allDisplayPlugins]];
-	[allDisplayPlugins selectItemWithTitle:[[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey]];	
+	[allDisplayPlugins selectItemWithTitle:[[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey]];
 	
-	[applicationDisplayPlugins removeAllItems];
-	[applicationDisplayPlugins addItemsWithTitles:[[GrowlPluginController controller] allDisplayPlugins]];
+	[self buildDisplayMenu];
 	
 	[self reloadAppTab];
 	[self setPrefsChanged:NO];
+}
+
+- (void)buildDisplayMenu
+{
+	// Building Menu for the drop down one time.  It's cached from here on out.  If we want to add new display types
+	// we'll have to call this method after the controller knows about it.
+	NSEnumerator * enumerator;
+	
+	if (applicationDisplayPluginsMenu)
+		[applicationDisplayPluginsMenu release];
+	
+	applicationDisplayPluginsMenu = [[NSMenu alloc] initWithTitle:@"DisplayPlugins"];
+	enumerator = [[[GrowlPluginController controller] allDisplayPlugins] objectEnumerator];
+	id title;
+	[applicationDisplayPluginsMenu addItemWithTitle:@"Default" action:nil keyEquivalent:@""];
+	[applicationDisplayPluginsMenu addItem:[NSMenuItem separatorItem]];
+	while (title = [enumerator nextObject])
+	{
+		[applicationDisplayPluginsMenu addItemWithTitle:title action:nil keyEquivalent:@""];
+	}
 }
 
 - (void)updateRunningStatus {
@@ -84,26 +99,23 @@
 
 - (void)reloadAppTab {
 	if(currentApplication) [currentApplication release];
-	currentApplication = [[growlApplications titleOfSelectedItem] retain];
-
+//	currentApplication = [[growlApplications titleOfSelectedItem] retain];
+	if ([growlApplications selectedRow] < 0)
+		[growlApplications selectRow:0 byExtendingSelection:NO];
+	currentApplication = [[applications objectAtIndex:[growlApplications selectedRow]] retain];
 	appTicket = [tickets objectForKey: currentApplication];
 	
-	[applicationEnabled setState: [appTicket ticketEnabled]];
-	[applicationEnabled setTitle: [NSString stringWithFormat:@"Enable notifications for %@",currentApplication]];
+//	[applicationEnabled setState: [appTicket ticketEnabled]];
+//	[applicationEnabled setTitle: [NSString stringWithFormat:@"Enable notifications for %@",currentApplication]];
 	
 	[[[applicationNotifications tableColumnWithIdentifier:@"enable"] dataCell] setEnabled:[appTicket ticketEnabled]];
 	[applicationNotifications reloadData];
 	
-	[applicationUseCustomDisplayPlugin setState:[appTicket usesCustomDisplay]];
-	
-	[applicationDisplayPlugins setEnabled:[appTicket usesCustomDisplay]];
-	if(![appTicket displayPlugin])
-		[appTicket setDisplayPluginNamed:[applicationDisplayPlugins titleOfSelectedItem]];
-	else
-		[applicationDisplayPlugins selectItemWithTitle:[[appTicket displayPlugin] name]];
+	[growlApplications reloadData];
 }
 
 #pragma mark "General" tab pane
+
 - (IBAction) startStopGrowl:(id) sender {
 		
 	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
@@ -142,14 +154,8 @@
 }
 
 #pragma mark "Applications" tab pane
-- (IBAction)selectApplication:(id)sender {
-	if(![[sender titleOfSelectedItem] isEqualToString:currentApplication]) {
-		[self reloadAppTab];
-	}
-}
-
-- (IBAction)enableApplication:(id)sender {
-	[appTicket setEnabled:[applicationEnabled state]];
+/*- (IBAction)enableApplication:(id)sender {
+//	[appTicket setEnabled:[applicationEnabled state]];
 	[self setPrefsChanged:YES];
 	[self reloadAppTab];
 }
@@ -158,38 +164,107 @@
 	[appTicket setUsesCustomDisplay:[sender state]];
 	[applicationDisplayPlugins setEnabled:[sender state]];
 	[self setPrefsChanged:YES];
-}
+}*/
 
-- (IBAction)selectApplicationDisplayPlugin:(id)sender {
+/*- (IBAction)selectApplicationDisplayPlugin:(id)sender {
+//	NSLog(@"titleOfSelectedItem %@", [sender titleOfSelectedItem]);
 	[appTicket setDisplayPluginNamed:[sender titleOfSelectedItem]];
 	[self setPrefsChanged:YES];
-}
+}*/
 
-#pragma mark Notification table view data source methods
+#pragma mark Notification and Application table view data source methods
+
 - (int)numberOfRowsInTableView:(NSTableView *)tableView {
-	return [[appTicket allNotifications] count];
+	if (tableView == growlApplications)
+	{
+		return [[GrowlApplicationTicket allSavedTickets] count];
+	}
+	else
+		return [[appTicket allNotifications] count];
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row {
-	NSString * note = [[appTicket allNotifications] objectAtIndex:row];
-	if([[column identifier] isEqualTo:@"enable"]) {
-		return [NSNumber numberWithBool:[appTicket isNotificationEnabled:note]];
-	} else {
-		return note;
+	if (tableView == growlApplications)
+	{
+		if ([[column identifier] isEqualTo:@"enable"]) {
+			return [NSNumber numberWithBool:[[tickets objectForKey: [applications objectAtIndex:row]] ticketEnabled]];
+		}
+		if ([[column identifier] isEqualTo:@"application"]) {
+			return [applications objectAtIndex:row];
+		}
+		if ([[column identifier] isEqualTo:@"display"]) {
+			// Do nothing.  Display of this cell is taken care of in the delegate method:
+			// - tableView: willDisplayCell: forTableColumn: row:
+		}
 	}
+	if (tableView == applicationNotifications)
+	{
+		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
+		if([[column identifier] isEqualTo:@"enable"]) {
+			return [NSNumber numberWithBool:[appTicket isNotificationEnabled:note]];
+		} else {
+			return note;
+		}
+	}
+	return nil;
 }
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row {
-	NSString * note = [[appTicket allNotifications] objectAtIndex:row];
-	if([value boolValue]) {
-		[appTicket setNotificationEnabled:note];
-	} else {
-		[appTicket setNotificationDisabled:note];
+	if (tableView == growlApplications)
+	{
+		NSString * application = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] objectAtIndex:row];
+		if ([[column identifier] isEqualTo:@"enable"])
+		{
+			[[tickets objectForKey:application] setEnabled:[value boolValue]];
+		}
+		if ([[column identifier] isEqualTo:@"display"])
+		{
+			if ([value intValue] == 0)
+			{
+				[[tickets objectForKey:application] setUsesCustomDisplay:NO];
+			}
+			else
+			{
+				[[tickets objectForKey:application] setUsesCustomDisplay:YES];
+				[[tickets objectForKey:application] setDisplayPluginNamed:[[applicationDisplayPluginsMenu itemAtIndex:[value intValue]] title]];
+			}
+		}
+		[self setPrefsChanged:YES];
+		[self reloadAppTab];
 	}
-	[self setPrefsChanged:YES];
+	else
+	{
+		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
+		if([value boolValue]) {
+			[appTicket setNotificationEnabled:note];
+		} else {
+			[appTicket setNotificationDisabled:note];
+		}
+		[self setPrefsChanged:YES];
+	}
+}
+
+#pragma mark Application TableView delegate methods
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+{
+	[self reloadAppTab];
+}
+
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row
+{
+	if ([[column identifier] isEqualTo:@"display"])
+	{
+		[cell setMenu:[applicationDisplayPluginsMenu copy]];
+		NSLog(@"custom: %d test %@",[[tickets objectForKey: [applications objectAtIndex:row]] usesCustomDisplay], [[[tickets objectForKey: [applications objectAtIndex:row]] displayPlugin] name]);
+		if (![[tickets objectForKey: [applications objectAtIndex:row]] usesCustomDisplay])
+			[cell selectItemAtIndex:0]; // Default
+		else
+			[cell selectItemWithTitle:[[[tickets objectForKey: [applications objectAtIndex:row]] displayPlugin] name]];
+	}
 }
 
 #pragma mark -
+
 - (IBAction)revert:(id)sender {
 	[self reloadPreferences];
 	[self setPrefsChanged:NO];
@@ -258,13 +333,15 @@
 
 #pragma mark -
 
-//Refresh preferences when a new application registers with Growl
+// Refresh preferences when a new application registers with Growl
 - (void)appRegistered: (NSNotification *) note {
 	NSString * app = [note object];
 	GrowlApplicationTicket * ticket = [[[GrowlApplicationTicket alloc] initTicketForApplication:app] autorelease];
 
-	if(![tickets objectForKey:app])
-		[growlApplications addItemWithTitle:app];
+/*	if(![tickets objectForKey:app])
+		[growlApplications addItemWithTitle:app];*/
+	//we need to re create applications array;
+	[growlApplications reloadData];
 	
 	[tickets setObject:ticket forKey:app];
 	

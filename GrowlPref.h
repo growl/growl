@@ -10,6 +10,7 @@
 @interface GrowlPref : NSPreferencePane {
 	NSDictionary			* cachedGrowlHelperAppDescription;
 	NSMutableDictionary		* tickets;
+	NSMutableArray			* applications;
 	NSTimer					* pingTimer;
 	
 	//Properties of the app being configured
@@ -26,11 +27,9 @@
 	IBOutlet NSPopUpButton	* allDisplayPlugins;
 	
 	//"Applications" tab pane
-	IBOutlet NSPopUpButton	* growlApplications;
-	IBOutlet NSButton		* applicationEnabled;
-	IBOutlet NSButton		* applicationUseCustomDisplayPlugin;
-	IBOutlet NSPopUpButton	* applicationDisplayPlugins;
 	IBOutlet NSTableView	* applicationNotifications;
+	IBOutlet NSTableView	* growlApplications;
+	NSMenu					* applicationDisplayPluginsMenu;
 	
 	IBOutlet NSButton		* apply;
 	IBOutlet NSButton		* revert;
@@ -39,6 +38,7 @@
 - (void)reloadPreferences;
 - (void)updateRunningStatus;
 - (void)reloadAppTab;
+- (void)buildDisplayMenu;
 
 #pragma mark "General" tab pane
 - (IBAction)startStopGrowl:(id)sender;
@@ -47,11 +47,11 @@
 - (IBAction)selectDisplayPlugin:(id)sender;
 
 #pragma mark "Applications" tab pane
-- (IBAction)selectApplication:(id)sender;
-- (IBAction)enableApplication:(id)sender;
+//- (IBAction)selectApplication:(id)sender;
+//- (IBAction)enableApplication:(id)sender;
 
-- (IBAction)useCustomDisplayPlugin:(id)sender;
-- (IBAction)selectApplicationDisplayPlugin:(id)sender;
+//- (IBAction)useCustomDisplayPlugin:(id)sender;
+//- (IBAction)selectApplicationDisplayPlugin:(id)sender;
 
 #pragma mark Notification table view data source methods
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
