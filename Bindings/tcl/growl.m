@@ -91,7 +91,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 		notificationName = GROWL_APP_REGISTRATION;
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 			appName, GROWL_APP_NAME,
-			notificationIcon ? [notificationIcon TIFFRepresentation] : nil, GROWL_APP_ICON,
+			[notificationIcon TIFFRepresentation], GROWL_APP_ICON,
 			allNotifications, GROWL_NOTIFICATIONS_ALL,
 			allNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 			nil];
