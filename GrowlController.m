@@ -67,6 +67,8 @@
 	if(icon) {
 		[aDict setObject:icon 
 				  forKey:GROWL_NOTIFICATION_ICON];
+	} else {
+		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON];
 	}
 	
 	[_displayController displayNotificationWithInfo:aDict];
