@@ -16,8 +16,6 @@ static unsigned int bubbleWindowDepth = 0;
 
 @implementation GrowlBubblesWindowController
 
-#define TIMER_INTERVAL ( 1. / 30. )
-#define FADE_INCREMENT 0.05f
 #define MIN_DISPLAY_TIME 4.
 #define ADDITIONAL_LINES_DISPLAY_TIME 0.5
 #define MAX_DISPLAY_TIME 10.
@@ -71,37 +69,36 @@ static unsigned int bubbleWindowDepth = 0;
 	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBubblesPadding, 
 											 NSMaxY( screen ) - GrowlBubblesPadding - ( bubbleWindowDepth ) )];
 	
-	#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
-	if( (NSMaxY([panel frame]) - NSHeight([panel frame]) - [NSMenuView menuBarHeight]) < 0 ) {
-		_depth = bubbleWindowDepth = 0;
-	} else {
-		_depth = bubbleWindowDepth += NSHeight( panelFrame );
-	}
-	_autoFadeOut = YES;
-	_delegate = nil;
-	_target = nil;
-	_representedObject = nil;
-	_action = NULL;
-	_animationTimer = nil;
-	
-	// the visibility time for this bubble should be the minimum display time plus
-	// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
-	int rowCount = [view descriptionRowCount];
-	if (rowCount <= 2) {
-		rowCount = 0;
-	}
-	BOOL limitPref = YES;
-	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
-	if (!limitPref) {
-		_displayTime = MIN (MIN_DISPLAY_TIME + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
-							MAX_DISPLAY_TIME);
-	} else {
-		_displayTime = MIN_DISPLAY_TIME;
+	if( (self = [super initWithWindow:panel] ) ) {
+		#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
+		if( (NSMaxY([panel frame]) - NSHeight([panel frame]) - [NSMenuView menuBarHeight]) < 0 ) {
+			_depth = bubbleWindowDepth = 0;
+		} else {
+			_depth = bubbleWindowDepth += NSHeight( panelFrame );
+		}
+		_autoFadeOut = !sticky;
+		_delegate = nil;
+		_target = nil;
+		_representedObject = nil;
+		_action = NULL;
+		
+		// the visibility time for this bubble should be the minimum display time plus
+		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
+		int rowCount = [view descriptionRowCount];
+		if (rowCount <= 2) {
+			rowCount = 0;
+		}
+		BOOL limitPref = YES;
+		READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
+		if (!limitPref) {
+			_displayTime = MIN (MIN_DISPLAY_TIME + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
+								MAX_DISPLAY_TIME);
+		} else {
+			_displayTime = MIN_DISPLAY_TIME;
+		}
 	}
 
-	[self setAutomaticallyFadesOut:!sticky];
-	
-	return ( self = [super initWithWindow:panel] );
+	return( self );
 }
 
 - (void) dealloc {
@@ -109,8 +106,6 @@ static unsigned int bubbleWindowDepth = 0;
 	
 	[_target release];
 	[_representedObject release];
-	[_animationTimer invalidate];
-	[_animationTimer release];
 
 	extern unsigned int bubbleWindowDepth;
 	if( _depth == bubbleWindowDepth ) {
@@ -122,86 +117,11 @@ static unsigned int bubbleWindowDepth = 0;
 
 #pragma mark -
 
-- (void) _stopTimer {
-	[_animationTimer invalidate];
-	[_animationTimer release];
-	_animationTimer = nil;
-}
-
-- (void) _waitBeforeFadeOut {
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime 
-														target:self 
-													  selector:@selector( startFadeOut ) 
-													  userInfo:nil 
-													   repeats:NO] retain];
-}
-
-- (void) _fadeIn:(NSTimer *) inTimer {
-	NSWindow *myWindow = [self window];
-	float alpha = [myWindow alphaValue];
-	if( alpha < 1.f ) {
-		[myWindow setAlphaValue:(alpha + FADE_INCREMENT)];
-	} else {
-		[self _stopTimer];
-		if( _autoFadeOut ) {
-			if( _delegate && [_delegate respondsToSelector:@selector( bubbleDidFadeIn: )] ) {
-				[_delegate bubbleDidFadeIn:self];
-			}
-			[self _waitBeforeFadeOut];
-		}
-	}
-}
-
-- (void) _fadeOut:(NSTimer *) inTimer {
-	NSWindow *myWindow = [self window];
-	float alpha = [myWindow alphaValue];
-	if( alpha > 0. ) {
-		[myWindow setAlphaValue:(alpha - FADE_INCREMENT)];
-	} else {
-		[self _stopTimer];
-		if( _delegate && [_delegate respondsToSelector:@selector( bubbleDidFadeOut: )] ) {
-			[_delegate bubbleDidFadeOut:self];
-		}
-		[self close];
-		[self autorelease]; // Release, we retained when we faded in.
-	}
-}
-
 - (void) _bubbleClicked:(id) sender {
 	if( _target && _action && [_target respondsToSelector:_action] ) {
 		[_target performSelector:_action withObject:self];
 	}
 	[self startFadeOut];
-}
-
-#pragma mark -
-
-- (void) startFadeIn {
-	if( _delegate && [_delegate respondsToSelector:@selector( bubbleWillFadeIn: )] ) {
-		[_delegate bubbleWillFadeIn:self];
-	}
-	[self retain]; // Retain, after fade out we release.
-	[self showWindow:nil];
-	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector( _fadeIn: ) userInfo:nil repeats:YES] retain];
-}
-
-- (void) startFadeOut {
-	if( _delegate && [_delegate respondsToSelector:@selector( bubbleWillFadeOut: )] ) {
-		[_delegate bubbleWillFadeOut:self];
-	}
-	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector( _fadeOut: ) userInfo:nil repeats:YES] retain];
-}
-
-#pragma mark -
-
-- (BOOL) automaticallyFadesOut {
-	return _autoFadeOut;
-}
-
-- (void) setAutomaticallyFadesOut:(BOOL) autoFade {
-	_autoFadeOut = autoFade;
 }
 
 #pragma mark -
@@ -234,16 +154,6 @@ static unsigned int bubbleWindowDepth = 0;
 - (void) setRepresentedObject:(id) object {
 	[_representedObject autorelease];
 	_representedObject = [object retain];
-}
-
-#pragma mark -
-
-- (id) delegate {
-	return _delegate;
-}
-
-- (void) setDelegate:(id) delegate {
-	_delegate = delegate;
 }
 
 #pragma mark -

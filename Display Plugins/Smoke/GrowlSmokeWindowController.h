@@ -6,17 +6,13 @@
 //  Copyright 2004 __MyCompanyName__. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "FadingWindowController.h"
 
-@interface GrowlSmokeWindowController : NSWindowController {
-	id				_delegate;
-	NSTimer			*_animationTimer;
+@interface GrowlSmokeWindowController : FadingWindowController {
 	unsigned int	_depth;
-	BOOL			_autoFadeOut;
 	SEL				_action;
 	id				_target;
 	id				_representedObject;
-	double			_displayTime;
 	unsigned int	_id;
 	id				_plugin; // the GrowlSmokeDisplay object which created us
 }
@@ -28,12 +24,6 @@
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned int)depth;
 
-- (void) startFadeIn;
-- (void) startFadeOut;
-
-- (BOOL) automaticallyFadesOut;
-- (void) setAutomaticallyFadesOut:(BOOL) autoFade;
-
 - (id) target;
 - (void) setTarget:(id) object;
 
@@ -43,17 +33,5 @@
 - (id) representedObject;
 - (void) setRepresentedObject:(id) object;
 
-- (id) delegate;
-- (void) setDelegate:(id) delegate;
-
 - (unsigned int) depth;
-@end
-
-@interface NSObject (GrowlSmokeWindowControllerDelegate)
-- (void) notificationWillFadeIn:(GrowlSmokeWindowController *) notification;
-- (void) notificationDidFadeIn:(GrowlSmokeWindowController *) notification;
-
-- (void) notificationWillFadeOut:(GrowlSmokeWindowController *) notification;
-- (void) notificationDidFadeOut:(GrowlSmokeWindowController *) notification;
-
 @end

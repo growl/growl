@@ -7,19 +7,13 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
-#import <AppKit/NSWindowController.h>
+#import "FadingWindowController.h"
 
-@class NSTimer;
-
-@interface GrowlBubblesWindowController : NSWindowController {
-	id				_delegate;
-	NSTimer			*_animationTimer;
+@interface GrowlBubblesWindowController : FadingWindowController {
 	unsigned int	_depth;
-	BOOL			_autoFadeOut;
 	SEL				_action;
 	id				_target;
 	id				_representedObject;
-	double			_displayTime;
 }
 
 + (GrowlBubblesWindowController *) bubble;
@@ -29,12 +23,6 @@
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky;
 
-- (void) startFadeIn;
-- (void) startFadeOut;
-
-- (BOOL) automaticallyFadesOut;
-- (void) setAutomaticallyFadesOut:(BOOL) autoFade;
-
 - (id) target;
 - (void) setTarget:(id) object;
 
@@ -43,16 +31,4 @@
 
 - (id) representedObject;
 - (void) setRepresentedObject:(id) object;
-
-- (id) delegate;
-- (void) setDelegate:(id) delegate;
 @end
-
-@interface NSObject (GrowlBubblesWindowControllerDelegate)
-- (void) bubbleWillFadeIn:(GrowlBubblesWindowController *) bubble;
-- (void) bubbleDidFadeIn:(GrowlBubblesWindowController *) bubble;
-
-- (void) bubbleWillFadeOut:(GrowlBubblesWindowController *) bubble;
-- (void) bubbleDidFadeOut:(GrowlBubblesWindowController *) bubble;
-@end
-

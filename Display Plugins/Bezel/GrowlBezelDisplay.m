@@ -100,17 +100,7 @@
 	}
 }
 
-- (void)bezelWillFadeIn:(GrowlBezelWindowController *)bezel {
-}
-
-- (void)bezelDidFadeIn:(GrowlBezelWindowController *)bezel {
-}
-
-
-- (void)bezelWillFadeOut:(GrowlBezelWindowController *)bezel {
-}
-
-- (void)bezelDidFadeOut:(GrowlBezelWindowController *)bezel {
+- (void)didFadeOut:(id)sender {
 	GrowlBezelWindowController *olBezel;
 	[notificationQueue removeObjectAtIndex:0];
 	if ( [notificationQueue count] > 0 ) {

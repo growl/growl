@@ -17,8 +17,6 @@ static unsigned int globalId = 0;
 
 @implementation GrowlSmokeWindowController
 
-static const double gTimerInterval = ( 1. / 30. );
-static const double gFadeIncrement = 0.05f;
 static const double gMinDisplayTime = 4.;
 static const double gAdditionalLinesDisplayTime = 0.5;
 static const double gMaxDisplayTime = 10.;
@@ -39,7 +37,7 @@ static const double gMaxDisplayTime = 10.;
 	this class is the delegate for the class
 */
 
-- (void) notificationDidFadeOut:(id)sender {
+- (void) didFadeOut:(id)sender {
 	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->_id);
 
@@ -131,7 +129,7 @@ static const double gMaxDisplayTime = 10.;
 
 	GrowlSmokeWindowView *view = [[[GrowlSmokeWindowView alloc] initWithFrame:panelFrame] autorelease];
 	[view setTarget:self];
-	[view setAction:@selector( _bubbleClicked: )];
+	[view setAction:@selector( _notificationClicked: )];
 	[panel setContentView:view];
 	
 	[view setTitle:title];
@@ -146,32 +144,28 @@ static const double gMaxDisplayTime = 10.;
 	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlSmokePadding, 
 											 NSMaxY( screen ) - GrowlSmokePadding - depth )];
 
-	_depth += NSHeight( panelFrame );
-	_autoFadeOut = YES;
-	_delegate = nil;
-	_target = nil;
-	_representedObject = nil;
-	_action = NULL;
-	_animationTimer = nil;
+	if( (self = [super initWithWindow:panel] ) ) {
+		_depth += NSHeight( panelFrame );
+		_autoFadeOut = !sticky;
+		_target = nil;
+		_representedObject = nil;
+		_action = NULL;
 
-	// the visibility time for this notification should be the minimum display time plus
-	// some multiple of gAdditionalLinesDisplayTime, not to exceed gMaxDisplayTime
-	int rowCount = [view descriptionRowCount];
-	if (rowCount <= 2) {
-		rowCount = 0;
-	}
-	/*BOOL limitPref = YES;
-	READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
-	if (!limitPref) {*/
-		_displayTime = MIN (gMinDisplayTime + rowCount * gAdditionalLinesDisplayTime, 
-							gMaxDisplayTime);
-	/*} else {
-		_displayTime = gMinDisplayTime;
-	}*/
+		// the visibility time for this notification should be the minimum display time plus
+		// some multiple of gAdditionalLinesDisplayTime, not to exceed gMaxDisplayTime
+		int rowCount = [view descriptionRowCount];
+		if (rowCount <= 2) {
+			rowCount = 0;
+		}
+		/*BOOL limitPref = YES;
+		READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
+		if (!limitPref) {*/
+			_displayTime = MIN (gMinDisplayTime + rowCount * gAdditionalLinesDisplayTime, 
+								gMaxDisplayTime);
+		/*} else {
+			_displayTime = gMinDisplayTime;
+		}*/
 
-	[self setAutomaticallyFadesOut:!sticky];
-
-	if( ( self = [super initWithWindow:panel] ) ) {
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithUnsignedInt:_id], @"ID",
 			[NSValue valueWithRect:[[self window] frame]], @"Space",
@@ -191,8 +185,6 @@ static const double gMaxDisplayTime = 10.;
 
 	[_target release];
 	[_representedObject release];
-	[_animationTimer invalidate];
-	[_animationTimer release];
 
 	//extern unsigned int smokeWindowDepth;
 //	NSLog(@"smokeController deallocking");
@@ -204,88 +196,11 @@ static const double gMaxDisplayTime = 10.;
 
 #pragma mark -
 
-- (void) _stopTimer {
-	[_animationTimer invalidate];
-	[_animationTimer release];
-	_animationTimer = nil;
-}
-
-- (void) _waitBeforeFadeOut {
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime 
-														target:self 
-													  selector:@selector( startFadeOut ) 
-													  userInfo:nil 
-													   repeats:NO] retain];
-}
-
-- (void) _fadeIn:(NSTimer *) inTimer {
-	NSWindow *myWindow = [self window];
-	float alpha = [myWindow alphaValue];
-	if( alpha < 1.f ) {
-		[myWindow setAlphaValue:(alpha + gFadeIncrement)];
-	} else {
-		[self _stopTimer];
-		if( _autoFadeOut ) {
-			if( _delegate && [_delegate respondsToSelector:@selector( notificationDidFadeIn: )] ) {
-				[_delegate notificationDidFadeIn:self];
-			}
-			[self _waitBeforeFadeOut];
-		}
-	}
-}
-
-- (void) _fadeOut:(NSTimer *) inTimer {
-	NSWindow *myWindow = [self window];
-	float alpha = [myWindow alphaValue];
-	if( alpha > 0.f ) {
-		[myWindow setAlphaValue:(alpha - gFadeIncrement)];
-	} else {
-		[self _stopTimer];
-//		NSLog(@"_delegate: %@", _delegate);
-		[self notificationDidFadeOut:self];
-		if( _delegate && [_delegate respondsToSelector:@selector( notificationDidFadeOut: )] ) {
-			[_delegate notificationDidFadeOut:self];
-		}
-		[self close];
-		[self autorelease]; // Release, we retained when we faded in.
-	}
-}
-
 - (void) _notificationClicked:(id) sender {
 	if( _target && _action && [_target respondsToSelector:_action] ) {
 		[_target performSelector:_action withObject:self];
 	}
 	[self startFadeOut];
-}
-
-#pragma mark -
-
-- (void) startFadeIn {
-	if( _delegate && [_delegate respondsToSelector:@selector( notificationWillFadeIn: )] ) {
-		[_delegate notificationWillFadeIn:self];
-	}
-	[self retain]; // Retain, after fade out we release.
-	[self showWindow:nil];
-	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:gTimerInterval target:self selector:@selector( _fadeIn: ) userInfo:nil repeats:YES] retain];
-}
-
-- (void) startFadeOut {
-	if( _delegate && [_delegate respondsToSelector:@selector( notificationWillFadeOut: )] ) {
-		[_delegate notificationWillFadeOut:self];
-	}
-	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:gTimerInterval target:self selector:@selector( _fadeOut: ) userInfo:nil repeats:YES] retain];
-}
-
-#pragma mark -
-
-- (BOOL) automaticallyFadesOut {
-	return _autoFadeOut;
-}
-
-- (void) setAutomaticallyFadesOut:(BOOL) autoFade {
-	_autoFadeOut = autoFade;
 }
 
 #pragma mark -
@@ -322,28 +237,10 @@ static const double gMaxDisplayTime = 10.;
 
 #pragma mark -
 
-- (id) delegate {
-	return _delegate;
-}
-
-- (void) setDelegate:(id) delegate {
-	_delegate = delegate;
-//	NSLog(@"setDelegate: %@", _delegate);
-}
-
-#pragma mark -
-
 - (unsigned int)depth {
 	return _depth;
 }
 
-#pragma mark -
-
-- (void)_bubbleClicked:(id)sender {
-	[self _stopTimer];
-	[self startFadeOut];
-}
-	
 #pragma mark -
 
 - (BOOL) respondsToSelector:(SEL) selector {

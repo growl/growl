@@ -155,6 +155,7 @@
 				07694C08073A4B560079D1E5,
 				07694C0A073A4B560079D1E5,
 				07694C0C073A4B560079D1E5,
+				95091E94074A596500350F4B,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -765,6 +766,8 @@
 //324
 		32C88E010371C26100C91783 = {
 			children = (
+				95091E35074A596500350F4B,
+				95091E56074A596500350F4B,
 				34BA9D2807086EDA0055683E,
 				34BA9D2907086EDA0055683E,
 				6C22288806FF60A50056CEAA,
@@ -988,6 +991,7 @@
 				3482252F06F2EC6200B33560,
 				34BA9D2B07086EDA0055683E,
 				3483CE7D0719B50700D1BF80,
+				95091E90074A596500350F4B,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1307,6 +1311,7 @@
 				6C86F89006F0620D008EA344,
 				6CEC911106F6F85F00198405,
 				6C22288B06FF60A50056CEAA,
+				95091E92074A596500350F4B,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1889,6 +1894,40 @@
 //952
 //953
 //954
+		95091E35074A596500350F4B = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = FadingWindowController.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95091E56074A596500350F4B = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = FadingWindowController.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95091E90074A596500350F4B = {
+			fileRef = 95091E56074A596500350F4B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95091E92074A596500350F4B = {
+			fileRef = 95091E56074A596500350F4B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95091E94074A596500350F4B = {
+			fileRef = 95091E56074A596500350F4B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		9536D1FC0747E58100F7F498 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;

@@ -12,18 +12,16 @@
 
 @implementation GrowlBezelWindowController
 
-#define TIMER_INTERVAL (1. / 30.)
-#define FADE_INCREMENT 0.05f
 #define MIN_DISPLAY_TIME 3.
 #define GrowlBezelPadding 10.f
 
 + (GrowlBezelWindowController *)bezel {
-	return [[[self alloc] init] autorelease];
+	return [[[GrowlBezelWindowController alloc] init] autorelease];
 }
 
 + (GrowlBezelWindowController *)bezelWithTitle:(NSString *)title text:(NSString *)text
 		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
-	return [[[self alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky] autorelease];
+	return [[[GrowlBezelWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky] autorelease];
 }
 
 - (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
@@ -103,79 +101,28 @@
 		break;
 	}
 	[panel setFrameTopLeftPoint:panelTopLeft];
-	
-	_autoFadeOut = YES;
-	_doFadeIn = NO;
-	_delegate = nil;
-	_target = nil;
-	_representedObject = nil;
-	_action = NULL;
-	_animationTimer = nil;
 
-	_displayTime = MIN_DISPLAY_TIME;
-	
-	_priority = priority;
-	
-	//[self setAutomaticallyFadesOut:!sticky];
-	[self setAutomaticallyFadesOut:TRUE];
-	
-	return ( self = [super initWithWindow:panel] );
+	if( (self = [super initWithWindow:panel] ) ) {
+		_autoFadeOut = YES;	//!sticky
+		_doFadeIn = NO;
+		_delegate = nil;
+		_target = nil;
+		_representedObject = nil;
+		_action = NULL;
+		_displayTime = MIN_DISPLAY_TIME;
+		_priority = priority;
+	}
+
+	return( self );
 }
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
+
 	[_target release];
 	[_representedObject release];
-	[_animationTimer invalidate];
-	[_animationTimer release];
 	
 	[super dealloc];
-}
-
-- (void)_stopTimer {
-	[_animationTimer invalidate];
-	[_animationTimer release];
-	_animationTimer = nil;
-}
-
-- (void)_waitBeforeFadeOut {
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime
-			target:self
-		  selector:@selector( startFadeOut )
-		   userInfo:nil
-		    repeats:NO] retain];
-}
-
-- (void)_fadeIn:(NSTimer *)inTimer {
-	NSWindow *myWindow = [self window];
-	float alpha = [myWindow alphaValue];
-	if ( alpha < 1.f ) {
-		[myWindow setAlphaValue:( alpha + FADE_INCREMENT)];
-	} else {
-		[self _stopTimer];
-		if ( _autoFadeOut ) {
-			if ( _delegate && [_delegate respondsToSelector:@selector( bezelDidFadeIn: )] ) {
-				[_delegate bezelDidFadeIn:self];
-			}
-			[self _waitBeforeFadeOut];
-		}
-	}
-}
-
-- (void)_fadeOut:(NSTimer *)inTimer {
-	NSWindow *myWindow = [self window];
-	float alpha = [myWindow alphaValue];
-	if ( alpha > 0.f ) {
-		[myWindow setAlphaValue:( alpha - FADE_INCREMENT)];
-	} else {
-		[self _stopTimer];
-		if ( _delegate && [_delegate respondsToSelector:@selector( bezelDidFadeOut: )] ) {
-			[_delegate bezelDidFadeOut:self];
-		}
-		[self close]; // close our window
-		[self autorelease]; // we retained when we fade in
-	}
 }
 
 - (void)_bezelClicked:(id)sender {
@@ -183,54 +130,6 @@
 		[_target performSelector:_action withObject:self];
 	}
 	[self startFadeOut];
-}
-
-- (void)startFadeIn {
-	if ( _delegate && [_delegate respondsToSelector:@selector( bezelWillFadeIn: )] ) {
-		[_delegate bezelWillFadeIn:self];
-	}
-	[self retain]; // release after fade out
-	[self showWindow:nil];
-	[self _stopTimer];
-	if ( _doFadeIn ) {
-		_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
-				  target:self
-				selector:@selector( _fadeIn: )
-				userInfo:nil
-				 repeats:YES] retain];
-	} else if ( _autoFadeOut ) {
-		[[self window] setAlphaValue:1.f];
-		if ( _delegate && [_delegate respondsToSelector:@selector( bezelDidFadeIn: )] ) {
-			[_delegate bezelDidFadeIn:self];
-		}
-		[self _waitBeforeFadeOut];
-	}
-}
-
-- (void)startFadeOut {
-	if ( _delegate && [_delegate respondsToSelector:@selector( bezelWillFadeOut: )] ) {
-		[_delegate bezelWillFadeOut:self];
-	}
-	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
-			  target:self
-			selector:@selector( _fadeOut: )
-			userInfo:nil
-			 repeats:YES] retain];
-}
-
-- (void)stopFadeOut {
-	[self _stopTimer];
-	[self close];
-	[self autorelease];
-}
-
-- (BOOL)automaticallyFadeOut {
-	return _autoFadeOut;
-}
-
-- (void)setAutomaticallyFadesOut:(BOOL) autoFade {
-	_autoFadeOut = autoFade;
 }
 
 - (id)target {
@@ -259,14 +158,6 @@
 	_representedObject = [object retain];
 }
 
-- (id) delegate {
-	return _delegate;
-}
-
-- (void) setDelegate:(id) delegate {
-	_delegate = delegate;
-}
-
 - (int)priority {
 	return _priority;
 }
@@ -274,7 +165,6 @@
 - (void)setPriority:(int)newPriority {
 	_priority = newPriority;
 }
-
 
 - (BOOL) respondsToSelector:(SEL) selector {
 	BOOL contentViewRespondsToSelector = [[[self window] contentView] respondsToSelector:selector];

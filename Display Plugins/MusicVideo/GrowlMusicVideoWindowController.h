@@ -16,7 +16,7 @@
 	SEL				_action;
 	id				_target;
 	id				_representedObject;
-	short			_displayTime;
+	double			_displayTime;
 	float			topLeftPosition;
 	float			timerInterval;
 	float			fadeIncrement;
