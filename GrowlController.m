@@ -172,14 +172,14 @@ static id _singleton = nil;
 		icon = [[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]]
 					autorelease];
 	} else {
-		icon = [ticket icon];
+		icon = [[NSImage alloc] initWithData:[[ticket icon] TIFFRepresentation]];
 	}
 	if (icon) {
 		[aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
 	} else {
 		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON]; // remove any invalid NSDatas
 	}
-	
+
 	// If app icon present, convert to NSImage
 	if ([aDict objectForKey:GROWL_NOTIFICATION_APP_ICON]) {
 		icon = [[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_APP_ICON]];
@@ -210,13 +210,13 @@ static id _singleton = nil;
 	}
     
 	id <GrowlDisplayPlugin> display;
-	
+
 	if([ticket usesCustomDisplay]) {
 		display = [ticket displayPlugin];
 	} else {
 		display = displayController;
 	}
-	
+
 	[display displayNotificationWithInfo:aDict];
 }
 
