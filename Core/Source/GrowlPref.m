@@ -185,7 +185,7 @@ static const char *keychainAccountName = "Growl";
 	if (images) {
 		[images release];
 	}
-	
+
 	images = [[NSMutableArray alloc] initWithCapacity:[applications count]];
 	NSEnumerator *enumerator = [applications objectEnumerator];
 	id key;
@@ -465,10 +465,15 @@ static const char *keychainAccountName = "Growl";
 																	   object:@"GrowlTicketDeleted"
 																	 userInfo:[NSDictionary dictionaryWithObject:key forKey:@"TicketName"]];
 		[tickets removeObjectForKey:key];
-		int index = [applications indexOfObject:key];
+		unsigned index;
+		if (filteredApplications == applications) {
+			index = row;
+		} else {
+			index = [applications indexOfObject:key];
+			[filteredApplications removeObjectAtIndex:row];
+		}
 		[applications removeObjectAtIndex:index];
 		[images removeObjectAtIndex:index];
-		[filteredApplications removeObjectAtIndex:row];
 		[growlApplications deselectAll:NULL];
 		[self reloadAppTab];
 	}
@@ -777,7 +782,7 @@ static const char *keychainAccountName = "Growl";
 				[cell selectItemWithTitle:[displayPlugin name]];
 			}
 		} else if ([identifier isEqualTo:@"application"]) {
-			int index = [applications indexOfObject:[filteredApplications objectAtIndex:row]];
+			unsigned index = [applications indexOfObject:[filteredApplications objectAtIndex:row]];
 			[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:index]];
 		}
 	} else if (tableView == applicationNotifications) {
