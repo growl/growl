@@ -6,8 +6,7 @@ For .6
 	- The framework is public domain
 	- Examples are public domain unless specified
 	- Extras will be BSD licensed
-- Bubbles
-	- Top background color colorwell
+
 
 Release related issues
 - Make sure all bindings register. I think this is already done, but we need to double check as this is now required.
@@ -18,38 +17,31 @@ Release related issues
 - Include links to developer documentation in the dmg. Possibly include docs themselves.
 
 
-Done:
-- For all displays that should conform, priority
-- Move non-example applications in the Examples directory into an Extras directory.
-- Ask if user wants to "configure plugin now". If so, take to proper place to configure.
-- Display Plugins
-	- Speech
-	- Smoke
-		- Text colorwell
-		- Smoke needs to specify how many lines it allows to be displayed on screen.
-	- Bubbles
-		- Text color colorwell
-		- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy to add this.
-	- Music Video
-		- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy 
-- Add a button to remove old tickets
-- Display version number.
-- A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.
-- Make plugins double clickable bundles
-	- Make default install directory for display plugins ~/Library/Application Support/Growl/Plugins
-	- Applescript:
-		Add support for registering applications with Growl so they show up in the PrefPane.
-- Write an abstract way for all plugins to print a ellipsis when text would spill past the edge of a notification.
-- 3 or 5 parts on priority, we need to decide this
-		All the display plugins seem to work fine with 5 for priority.
-- Confirm installation of plugin.
-- GrowlTunes :
-	- add a timeout to the plugins using network to prevent locking the whole app when loosing connection
-	- Make GrowlTunes save images into ARTchive
-- Network notifications.
-- Resolve problem of the framework turning on gha without the users permission, should the user have turned off Growl.
+
 
 For .7 or sooner
+- Bubbles
+	- Top background color colorwell
+
+- Network Notifications
+	- 2 interfaces for this, one Distributed Objects allowing GHA to send and recieve remote
+	  notifications, the other is a port for UDP messages with specially formatted messages for display
+	  - DO connections provide a distributed builds like Appearance where you choose to send, recieve or
+	  	both from remoce machine discovered via rendezvous and manually added.
+	  - The UDP interface shall have a seperator ( | or \x05 ) Title|Message|OptionBits
+	  	- For obvious reasons this is off by default
+	- Support for the gnome notifications system if it ever adds a networking protocol for its notifications
+	- Pane in preferences for configuration of this when the user has actually turned it on
+
+
+- Preference pane redesign
+	- Apps tab switch to app centric with custom View for notifications using images to represent the available options
+	- first tab have Growl image and dev names, maybe even an easter egg, controls for turning features on/off 
+	  ie. (GrowlHelperApp, Network Notifications, Sound to accompany notifications, Speech, Menu Item, etc)
+	  And a passive update check system ( no user interaction necessary just a box for whether or not to check.
+	- Network tab modeled on the distributed builds system
+	- Display plugins tab with better looking prefs( the current ones aren't winning beauty awards )
+
 - Figure out an intuitive way to deal with multiple plugins named the same.
 - Make GrowlMail not run while applying rules if possible
 - Add profiles. Choose which profile is currently uses via prefpane or menuling
@@ -64,7 +56,30 @@ For .7 or sooner
 		- Use rendezvous for discovery
 		- Use something decently secure
 	- Add a menu item/status item (menuling)
+		- For the logging and re-sending of notifications, if networking is on, maybe even forwarding recieved notifications
+		- Switch default display style on the fly
+		- Turn growl silent mode on, to squelch notifs but still log them
 	- Add a functional plugin that can display all notifications in a log. Make this accessable via the menuling
+
+- Uber passive registration
+	- A GrowlNotifitcations.plist resource in App bundles that we read on their launch/install to allow them to register
+	- This is for when the app would have a large amount of notifs to prepare or to seperate it out from code and make it
+	  more flexible on app updates and such
+	- Watching app launches and checking on apps for these resources
+
+- GHA.framework -> Growl.framework
+	- add methods for developers to register and notify directly through this framework
+		ie. - notifyWithTitle:(NSString *)inTitle 
+				  description:(NSString *)inDescription 
+				    imageData:(NSData *)inImageData 
+				   andOptions:(GrowlOptionsFlags)inFlags
+
+- Restructure all Display Plugins to inherit functionality from one global GrowlDisplayPlugin 
+   class residing in Growl.framework
+	- GrowlDisplayPlugin should take care of mPositionRect, a Rect in GrowlDisplayPlugin 
+	  that can trigger KeyObservation calls to edit it to not intersect with any other 
+	  currently active notifications
+
 
 For .8 or sooner
 
@@ -72,51 +87,6 @@ For .8 or sooner
 	- iCal scheduled events look
 	- Garage Band black look.
 	- Brushed Metal look.
-
------------------------------------------
-Code Restructuring/Planning/Goals
------------------------------------------
-1. GHA.framework -> Growl.framework
-	- add methods for developers to register and notify directly through this framework
-		ie. - notifyWithTitle:(NSString *)inTitle 
-				  description:(NSString *)inDescription 
-				    imageData:(NSData *)inImageData 
-				   andOptions:(GrowlOptionsFlags)inFlags
-				   
-2. Restructure all Display Plugins to inherit functionality from one global GrowlDisplayPlugin 
-   class residing in Growl.framework
-	- GrowlDisplayPlugin should take care of mPositionRect, a Rect in GrowlDisplayPlugin 
-	  that can trigger KeyObservation calls to edit it to not intersect with any other 
-	  currently active notifications
-
-3. Network Notifications
-	- 2 interfaces for this, one Distributed Objects allowing GHA to send and recieve remote
-	  notifications, the other is a port for UDP messages with specially formatted messages for display
-	  - DO connections provide a distributed builds like Appearance where you choose to send, recieve or
-	  	both from remoce machine discovered via rendezvous and manually added.
-	  - The UDP interface shall have a seperator ( | or \x05 ) Title|Message|OptionBits
-	  	- For obvious reasons this is off by default
-	- Support for the gnome notifications system if it ever adds a networking protocol for its notifications
-	- Pane in preferences for configuration of this when the user has actually turned it on
-
-4. Preference pane redesign
-	- Apps tab switch to app centric with custom View for notifications using images to represent the available options
-	- first tab have Growl image and dev names, maybe even an easter egg, controls for turning features on/off 
-	  ie. (GrowlHelperApp, Network Notifications, Sound to accompany notifications, Speech, Menu Item, etc)
-	  And a passive update check system ( no user interaction necessary just a box for whether or not to check.
-	- Network tab modeled on the distributed builds system
-	- Display plugins tab with better looking prefs( the current ones aren't winning beauty awards )
-
-5. Menu Item
-	- For the logging and re-sending of notifications, if networking is on, maybe even forwarding recieved notifications
-	- Switch default display style on the fly
-	- Turn growl silent mode on, to squelch notifs but still log them
-	
-6. Uber passive registration
-	- A GrowlNotifitcations.plist resource in App bundles that we read on their launch/install to allow them to register
-	- This is for when the app would have a large amount of notifs to prepare or to seperate it out from code and make it
-	  more flexible on app updates and such
-	- Watching app launches and checking on apps for these resources
 
 -----------------------------------------
 Other stuff; old todo
@@ -156,3 +126,38 @@ Other stuff; old todo
 	Developer docs
 	User Docs
 	
+
+--------------------
+Done
+--------------------
+
+Done:
+- For all displays that should conform, priority
+- Move non-example applications in the Examples directory into an Extras directory.
+- Ask if user wants to "configure plugin now". If so, take to proper place to configure.
+- Display Plugins
+	- Speech
+	- Smoke
+		- Text colorwell
+		- Smoke needs to specify how many lines it allows to be displayed on screen.
+	- Bubbles
+		- Text color colorwell
+		- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy to add this.
+	- Music Video
+		- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy 
+- Add a button to remove old tickets
+- Display version number.
+- A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.
+- Make plugins double clickable bundles
+	- Make default install directory for display plugins ~/Library/Application Support/Growl/Plugins
+	- Applescript:
+		Add support for registering applications with Growl so they show up in the PrefPane.
+- Write an abstract way for all plugins to print a ellipsis when text would spill past the edge of a notification.
+- 3 or 5 parts on priority, we need to decide this
+		All the display plugins seem to work fine with 5 for priority.
+- Confirm installation of plugin.
+- GrowlTunes :
+	- add a timeout to the plugins using network to prevent locking the whole app when loosing connection
+	- Make GrowlTunes save images into ARTchive
+- Network notifications.
+- Resolve problem of the framework turning on gha without the users permission, should the user have turned off Growl.
