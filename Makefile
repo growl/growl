@@ -6,8 +6,8 @@ GROWL_FRAMEWORK=Growl.framework
 BUILD_DIR=build
 GROWL_HELPER_APP=$(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)/Contents/Resources/GrowlHelperApp.app
 
-DEFAULT_BUILDSTYLE=Deployment
-#DEFAULT_BUILDSTYLE=Development
+#DEFAULT_BUILDSTYLE=Deployment
+DEFAULT_BUILDSTYLE=Development
 
 BUILDSTYLE?=$(DEFAULT_BUILDSTYLE)
 
@@ -17,7 +17,7 @@ RM=rm
 .PHONY : default all growl growlhelperapp growlappbridge clean install
 
 default:
-	xcodebuild -project Growl.xcode -target Growl -buildstyle $(BUILDSTYLE) build
+	xcodebuild -project Growl.xcode -alltargets -buildstyle $(BUILDSTYLE) build
 
 all: growlapplicationbridge
 	xcodebuild -project Growl.xcode -alltargets -buildstyle $(BUILDSTYLE) build
