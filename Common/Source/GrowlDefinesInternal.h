@@ -175,6 +175,18 @@ struct GrowlNetworkNotification {
  */
 #define GrowlEnabledKey					XSTR("GrowlEnabled")
 
+/*!	@defined	GROWL_SCREENSHOT_MODE
+ *	@abstract	Preference and notification key controlling whether to save a screenshot of the notification.
+ *	@discussion	This is for GHA's private usage. If your application puts this
+ *	 key into a notification dictionary, GHA will clobber it. This key is only
+ *	 allowed in the notification dictionaries GHA passes to displays.
+ *
+ *	 If this key contains an object whose boolValue is not NO, the display is
+ *	 asked to save a screenshot of the notification to
+ *	 ~/Library/Application\ Support/Growl/Screenshots.
+ */
+#define GROWL_SCREENSHOT_MODE			XSTR("ScreenshotMode")
+
 #endif //ndef _GROWL_GROWLDEFINESINTERNAL_H
 
 /* --- These following macros are intended for plug-ins --- */

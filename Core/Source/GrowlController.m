@@ -227,6 +227,10 @@ static id singleton = nil;
 				  forKey:GROWL_NOTIFICATION_STICKY];
 	}
 
+	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
+	[aDict setObject:[NSNumber numberWithBool:saveScreenshot]
+			  forKey:GROWL_SCREENSHOT_MODE];
+
 	id <GrowlDisplayPlugin> display;
 
 	if ([ticket usesCustomDisplay]) {
