@@ -10,14 +10,9 @@
 #import <DOM/DOM.h>
 #import "GrowlTunesPlugin.h"
 
-@interface GrowlTunes_Amazon : NSObject <GrowlTunesPlugin> {
+@interface GrowlTunes_Amazon: NSObject <GrowlTunesPlugin>
+{
 	BOOL	weGetInternet;
-
-	NSString *artist;
-	NSString *album;
-	NSString *song;
-	BOOL compilation;
-	NSImage *artwork;
 }
 
 
@@ -27,26 +22,26 @@
 			   isCompilation:(BOOL)newCompilation;
 
 #pragma mark -
-#pragma mark AMAZON SEARCHING METHODS
-	// Gets all albums by the specified albums(might also return bodycare products)
-	// But that's not what it asks amazon for, so just be careful with this badboy! ;-)
+#pragma mark Amazon-searching methods
+
+//Gets all albums by the specified artist. (Warning: May also return bodycare products.)
+// But that's not what it asks amazon for, so just be careful with this badboy! ;-) //XXX - explain this?!
 - (NSArray *)getAlbumsByArtist:(NSString *)artistName;
-	// Tries to find albumName by artistName (can return many albums)
+
+//Tries to find an album by a known albumName and artistName (can return many albums)
 - (NSDictionary *)getAlbum:(NSString *)albumName byArtist:(NSString *)artistName;
-	// Sends a query to Amazon web services, returns the full XML response IF anything is found,
-	// otherwise it returns nil
-- (NSString *)queryAmazon:(NSString *)query; // "query" is actually just the GET args after the address.
+
+/*Sends a query to Amazon web services.
+ *Returns the raw XML data (may be nil, if e.g. server is unreachable).
+ */
+- (NSData *)queryAmazon:(NSString *)query; // "query" is actually just the GET args after the address.
 
 #pragma mark -
-#pragma mark ACCESSOR METHODS
-- (NSString *)artist;
-- (NSString *)album;
-- (NSString *)song;
-- (BOOL)compilation;
-- (NSImage *)artwork;
+#pragma mark Other
 
-#pragma mark -
-#pragma mark OTHER METHODS
-	// This method simply downloads the specified NSURL and returns nil on error
+/*Downloads the contents of the specified URL.
+ *If an error is encountered, it is logged, and this method returns nil.
+ */
 - (NSData *)download:(NSURL *)address;
+
 @end

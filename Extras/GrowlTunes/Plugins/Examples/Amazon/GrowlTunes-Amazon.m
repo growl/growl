@@ -8,8 +8,15 @@
 
 #import "GrowlTunes-Amazon.h"
 
-/* Based On Code Originally submitted by James Van Dyne */
-/*	Updated for the v4 Amazon API with code from Fjölnir Ásgeirsson	*/
+/*Based on code originally submitted by James Van Dyne
+ *Updated for the v4 Amazon API with code from Fjölnir Ásgeirsson
+ */
+
+@interface GrowlTunes_Amazon(PRIVATE)
+
+- (NSString *)canonicalAlbumName:(NSString *)fullAlbumName;
+
+@end
 
 @implementation GrowlTunes_Amazon
 
@@ -21,45 +28,41 @@
 	return self;
 }
 
-
 - (BOOL)usesNetwork {
 	return YES;
 }
 
-- (NSImage *)artworkForTitle:(NSString *)newSong 
-					byArtist:(NSString *)newArtist 
-					 onAlbum:(NSString *)newAlbum 
-			   isCompilation:(BOOL)newCompilation;
-{	
+- (NSImage *)artworkForTitle:(NSString *)song
+					byArtist:(NSString *)artist
+					 onAlbum:(NSString *)album
+			   isCompilation:(BOOL)compilation;
+{
 //	NSLog(@"Called getArtwork");
-	artist = newArtist;
-	album = newAlbum;
-	song = newSong;
-	compilation = newCompilation;
 
 	/*If the album is a compilation, we don't look for the artist;
 	 *	instead we look for all compilations.
 	 */
-	if (compilation) {
-		artist = @"compilation"; 
-	}
+	if (compilation)
+		artist = @"compilation";
 
-	artwork = nil;
+	NSImage *artwork = nil;
 	NSLog( @"Go go interweb (%@ by %@ from %@)", song, artist, album );
 	NSDictionary *albumInfo = [self getAlbum:album byArtist:artist];
 
 	NSData *imageData = nil;
-	if ([[albumInfo objectForKey:@"artworkURL"] length] != 0) {
+	NSString *URLString = [albumInfo objectForKey:@"artworkURL"];
+	NSURL *URL = [NSURL URLWithString:URLString];
+	if (URLString && [URLString length]) {
 		@try {
-			imageData = [self download:[NSURL URLWithString:[albumInfo objectForKey:@"artworkURL"]]];
+			imageData = [self download:URL];
 		}
 		@catch(NSException *e) {
-			NSLog(@"Exception occurred while downloading %@", [e reason]);
+			NSLog(@"Exception occurred while downloading %@ (URL string: %@): %@", URL, URLString, [e reason]);
 		}
 	}
-	if ( imageData ) {
-		artwork = [[[NSImage alloc] initWithData:imageData] autorelease];
-	}
+	if ( imageData )
+		artwork = [[(NSImage *)[NSImage alloc] initWithData:imageData] autorelease];
+
 	return artwork;
 }
 
@@ -68,14 +71,12 @@
 
 - (NSArray *)getAlbumsByArtist:(NSString *)artistName {
 	NSString *query = [[NSString stringWithFormat:@"?locale=us&t=0C8PCNE1KCKFJN5EHP02&dev-t=0C8PCNE1KCKFJN5EHP02&ArtistSearch=%@&mode=music&sort=+salesrank&offer=All&type=lite&page=1&f=xml", artistName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-	NSString *result = [self queryAmazon:query];
-	
-	if (result) {
-		NSString *xml = result;
+	NSData *XMLData = [self queryAmazon:query];
+
+	if (XMLData) {
 		// Parse the XML into a DOM object document
-		NSData *XMLData = [xml dataUsingEncoding:NSUTF8StringEncoding];
 		DOMBuilder *builder = [DOMBuilder defaultBuilder];
-		
+
 		DOMDocument *document;
 		@try
 		{
@@ -86,10 +87,20 @@
 			NSLog(@"An exception occurred while parsing XML data (it was probably malformed)\n" @"Exception reason: %@", [e reason]);
 			return nil;
 		}
-		
+
 		DOMElement *rootElement = [document documentElement]; // Get the root element
-		
-		//Get the details of all found products
+
+		/*locations of what we want:
+		 *
+		 *root element
+		 *	for each album:
+		 *	Details
+		 *		ProductName <-album name
+		 *		Artists
+		 *			Artist <-artist name
+		 */
+
+		//Search for 'Details' tags in the root element
 		DOMXPathExpression *resultQuery = [DOMXPathExpression expressionWithString:@"//Details"];
 		NSArray *results = [resultQuery matchesForContextNode:rootElement];
 		if ([results count] < 1U) {
@@ -97,28 +108,33 @@
 		} else {
 //			NSLog(@"Found some!, filtering...");
 			NSMutableArray *resultsInfo = [NSMutableArray arrayWithCapacity:[results count]];
-			
+
 			NSEnumerator *resultsEnum = [results objectEnumerator];
 			DOMElement *result;
 
 			while ((result = [resultsEnum nextObject])) {
-				DOMElement *nameElement = [[result getElementsByTagName:@"ProductName"] objectAtIndex:0U];
-				//We want the biiig artwork ;-)
-				DOMElement *artworkElement = [[result getElementsByTagName:@"ImageUrlLarge"] objectAtIndex:0U];
-				DOMElement *artistElement = nameElement;
-				
+				DOMElement *nameElement = [[result childElementsByTagName:@"ProductName"] objectAtIndex:0U];
+				DOMElement *artistElement = [[[[result childElementsByTagName:@"Artists"] objectAtIndex:0U] childElementsByTagName:@"Artist"] objectAtIndex:0U];
+
+				//we want the biggest artwork we can get.
+				DOMElement *artworkElement = [[result childElementsByTagName:@"ImageUrlLarge"] objectAtIndex:0U];
+				if(!artworkElement) {
+					artworkElement = [[result childElementsByTagName:@"ImageUrlMedium"] objectAtIndex:0U];
+					if(!artworkElement)
+						artworkElement = [[result childElementsByTagName:@"ImageUrlSmall"] objectAtIndex:0U];
+				}
+
 				//Now create usable stuff from the elements
 				NSString *artworkURL = [artworkElement textContent];
 				NSString *albumName  = [nameElement textContent];
-				NSString *artistName = nil;
 
 				//If the artist element contains our wanted artist, look for it!
-				if ([artistElement containsChild:[DOMText textWithString:artist]]) {
+				if ([artistElement containsChild:[DOMText textWithString:artistName]]) {
 					NSArray *allArtists = [artistElement children];
 					NSEnumerator *artistEnum = [allArtists objectEnumerator];
 					while((artistElement = [artistEnum nextObject])) {
 						NSString *textContent = [artistElement textContent];
-						if ([textContent isEqualToString:artist]) {
+						if ([textContent isEqualToString:artistName]) {
 							artistName = textContent;
 							break;
 						}
@@ -127,15 +143,13 @@
 					//we didn't find anyone interesting, so just use the first one.
 					artistName = [[artistElement firstChild] textContent];
 				}
-				
-				//NSLog(@"Path to artwork: %@ For album: %@", artworkURL, albumName);
 
 				NSDictionary *productInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 					albumName,  @"name",
 					artworkURL, @"artworkURL",
 					artistName, @"artist",
 					nil];
-				
+
 				[resultsInfo addObject:productInfo];
 			}
 			return resultsInfo;
@@ -158,8 +172,16 @@
 	NSDictionary *match;
 
 	while((match = [matchEnum nextObject])) {
-		BOOL   nameIsEqual = ([[match objectForKey:@"name"] caseInsensitiveCompare:album] == NSOrderedSame);
-		BOOL artistIsEqual = ([[match objectForKey:@"artist"] caseInsensitiveCompare:artist] == NSOrderedSame);
+		NSString *matchAlbumName = [match objectForKey:@"name"];
+		NSString *canonicalMatchAlbumName = [self canonicalAlbumName:matchAlbumName];
+		NSString *canonicalAlbumName = [self canonicalAlbumName:albumName];
+		BOOL   nameIsEqual = (!albumName)
+		||                   ([matchAlbumName          caseInsensitiveCompare:albumName]          == NSOrderedSame)
+		||                   ([matchAlbumName          caseInsensitiveCompare:canonicalAlbumName] == NSOrderedSame)
+		||                   ([canonicalMatchAlbumName caseInsensitiveCompare:albumName]          == NSOrderedSame)
+		||                   ([canonicalMatchAlbumName caseInsensitiveCompare:canonicalAlbumName] == NSOrderedSame);
+		BOOL artistIsEqual = (!artistName)
+		||                   ([[match objectForKey:@"artist"] caseInsensitiveCompare:artistName] == NSOrderedSame);
 
 		if (nameIsEqual) {
 			//Check if both the artist and name match
@@ -181,8 +203,7 @@
 			 *	if it's there.
 			 */
 			result = [resultCandidates objectAtIndex:0U];
-			found = YES;
-/*			NSLog(@"SELECTED: Path to artwork: %@ For album: %@", [theResult objectForKey:@"artworkURL"], 
+/*			NSLog(@"SELECTED: URL to artwork: %@ For album: %@", [theResult objectForKey:@"artworkURL"],
 				  [theResult objectForKey:@"name"]);
 */
 		} else {
@@ -190,59 +211,84 @@
 //			NSLog(@"Found no likely albums in response");
 		}
 	}
-	
+
 	return result;
 }
 
 // "query" is actually just the GET args after the address.
-- (NSString *)queryAmazon:(NSString *)query {	
+- (NSData *)queryAmazon:(NSString *)query {
 	NSString *search = [@"http://xml.amazon.com/onca/xml3" stringByAppendingString:query];
 	NSURL *url = [NSURL URLWithString:search];
-//	NSLog(@"searchpath: %@", search);
-	
+
 	// Do the search on AWS
 	NSData *data = [self download:url];
-	if (!data) {
+	if (!data)
 		NSLog(@"Error while getting XML Response from Amazon");
-	} else {
-//		NSLog(@"Got response");
-		return [[[NSString alloc] initWithData:data
-		                              encoding:NSUTF8StringEncoding] autorelease];
-	}
-	return nil;
+	return data;
 }
 
 #pragma mark -
-#pragma mark Accessors
-
-- (NSString *)artist {
-	return artist;
-}
-- (NSString *)album {
-	return album;
-}
-- (NSString *)song {
-	return song;
-}
-- (BOOL)compilation {
-	return compilation;
-}
-- (NSImage *)artwork {
-	return artwork;
-}
-
-#pragma mark -
-#pragma mark Other cool stuff
+#pragma mark Helper methods
 
 - (NSData *)download:(NSURL *)url {
 	NSLog(@"Go go interweb: %@", url);
+
+	/*the default time-out is 60 seconds.
+	 *this is far too long for GrowlTunes; the song could easily be over by then.
+	 *so we do it this way, with a time-out of 10 seconds.
+	 */
+	NSURLRequest *request = [NSURLRequest requestWithURL:url
+	                                         cachePolicy:NSURLRequestUseProtocolCachePolicy
+	                                     timeoutInterval:10.0];
+
 	NSError *error = nil;
 	NSURLResponse *response = nil;
-	NSURLRequest *request = nil;
-	request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0];
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	
+	if(error)
+		NSLog(@"In -[GrowlTunes_Amazon download:]: Got error: %@", error);
+
 	return data;
+}
+
+/*for each of these inputs:
+ *	Revolver[UK]
+ *	Revolver(UK)
+ *	Revolver [UK]
+ *	Revolver (UK)
+ *	Revolver - UK
+ *... this method returns 'Revolver'.
+ */
+- (NSString *)canonicalAlbumName:(NSString *)fullAlbumName {
+	size_t numChars = [fullAlbumName length];
+	unichar *chars = malloc(numChars * sizeof(unichar));
+	if(!chars) {
+		NSLog(@"In -[GrowlTunes_Amazon canonicalAlbumName:]: Could not allocate %lu bytes of memory in which to examine the full album name", (unsigned long)(numChars * sizeof(unichar)));
+		return nil;
+	}
+	[fullAlbumName getCharacters:chars];
+
+	unsigned long i = numChars; //this is used outside the for
+
+	for (; i > 0U; --i) {
+		switch (chars[i]) {
+			case '[':
+			case '(':
+			case '-':
+				goto lookForWhitespace;
+		}
+	}
+lookForWhitespace:
+	for (; i > 0U; --i)
+		if(isspace(chars[i])) break;
+	for (; i > 0U; --i) {
+		if(!isspace(chars[i])) {
+			++i;
+			break;
+		}
+	}
+
+	free(chars);
+	return i ? [fullAlbumName substringToIndex:i] : [[fullAlbumName retain] autorelease];
 }
 
 @end
