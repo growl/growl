@@ -74,7 +74,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 //these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
 + (BOOL)isValidTicketDictionary:(NSDictionary *)dict {
 	NSNumber *versionNum = [dict objectForKey:GROWL_TICKET_VERSION];
-	if([versionNum intValue] == 1) {
+	if ([versionNum intValue] == 1) {
 		return [dict objectForKey:GROWL_NOTIFICATIONS_ALL]
 			&& [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT]
 			&& [dict objectForKey:GROWL_APP_NAME];
@@ -94,12 +94,12 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 }
 
 - (id)initWithDictionary:(NSDictionary *)ticketDict {
-	if(ticketDict != nil) {
+	if (!ticketDict) {
 		[self release];
 		NSParameterAssert(ticketDict != nil);
 		return nil;
 	}
-	if((self = [super init])) {
+	if ((self = [super init])) {
 		NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
 		appName = [[ticketDict objectForKey:GROWL_APP_NAME] retain];
 
@@ -107,7 +107,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		allNotificationNames = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_ALL] retain];
 		NSAssert1(allNotificationNames, @"Ticket dictionaries must contain a list of all their notifications (application name: %@)", appName);
 		defaultNotifications = [ticketDict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
-		if(!defaultNotifications) defaultNotifications = allNotificationNames;
+		if (!defaultNotifications) defaultNotifications = allNotificationNames;
 		defaultNotifications = [defaultNotifications retain];
 
 		NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
@@ -125,26 +125,28 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 		NSString *fullPath = nil;
 		id location = [ticketDict objectForKey:GROWL_APP_LOCATION];
-		if(location) {
-			if([location isKindOfClass:[NSDictionary class]]) {
+		if (location) {
+			if ([location isKindOfClass:[NSDictionary class]]) {
 				NSDictionary *file_data = [location objectForKey:@"file-data"];
 				NSURL *URL = [NSURL fileURLWithDockDescription:file_data];
 				fullPath = [URL path];
-			} else if([location isKindOfClass:[NSString class]]) {
+			} else if ([location isKindOfClass:[NSString class]]) {
 				fullPath = location;
-				if(![[NSFileManager defaultManager] fileExistsAtPath:fullPath])
+				if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
 					fullPath = nil;
+				}
 			}
 		}
-		if(!fullPath)
+		if (!fullPath) {
 			fullPath = [workspace fullPathForApplication:appName];
+		}
 		appPath = [fullPath retain];
 		NSLog(@"got appPath: %@", appPath);
 
 		NSData *iconData;
 		if ( (iconData = [ticketDict objectForKey:GROWL_APP_ICON] ) ) {
 			icon = [[NSImage alloc] initWithData:iconData];
-		} else if(fullPath) {
+		} else if (fullPath) {
 			icon = [[workspace iconForFile:fullPath] retain];
 		}
 		useDefaults = [[ticketDict objectForKey:UseDefaultsKey] boolValue];
@@ -186,7 +188,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 - (id) initTicketFromPath:(NSString *) ticketPath {
 	NSDictionary *ticketDict = [NSDictionary dictionaryWithContentsOfFile:ticketPath];
-	if(!ticketDict) {
+	if (!ticketDict) {
 		NSLog(@"Tried to init a ticket from this file, but it isn't a ticket file: %@", ticketPath);
 		[self release];
 		return nil;
@@ -231,7 +233,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	}
 
 	NSDictionary *file_data = nil;
-	if(appPath)   file_data = [[NSURL fileURLWithPath:appPath] dockDescription];
+	if (appPath)  file_data = [[NSURL fileURLWithPath:appPath] dockDescription];
 
 	id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
 
@@ -241,13 +243,14 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		icon ? [icon TIFFRepresentation] : [NSData data], GROWL_APP_ICON,
 		location, GROWL_APP_LOCATION,
+		[NSNumber numberWithBool:useDefaults], UseDefaultsKey,
+		[NSNumber numberWithBool:ticketEnabled], TicketEnabledKey,
+		[NSNumber numberWithBool:usesCustomDisplay], UsesCustomDisplayKey,
 		nil];
-	[saveDict setObject:[NSNumber numberWithBool:useDefaults]       forKey:UseDefaultsKey];
-	[saveDict setObject:[NSNumber numberWithBool:ticketEnabled]     forKey:TicketEnabledKey];
-	[saveDict setObject:[NSNumber numberWithBool:usesCustomDisplay] forKey:UsesCustomDisplayKey];
 	NSString *displayPluginName = [displayPlugin name];
-	if(displayPluginName)
+	if (displayPluginName) {
 		[saveDict setObject:displayPluginName                       forKey:GrowlDisplayPluginKey];
+	}
 
 	[saveDict writeToFile:savePath atomically:YES];
 }
@@ -353,19 +356,21 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 	NSString *fullPath = nil;
 	id location = [dict objectForKey:GROWL_APP_LOCATION];
-	if(location) {
-		if([location isKindOfClass:[NSDictionary class]]) {
+	if (location) {
+		if ([location isKindOfClass:[NSDictionary class]]) {
 			NSDictionary *file_data = [location objectForKey:@"file-data"];
 			NSURL *URL = [NSURL fileURLWithDockDescription:file_data];
 			fullPath = [URL path];
-		} else if([location isKindOfClass:[NSString class]]) {
+		} else if ([location isKindOfClass:[NSString class]]) {
 			fullPath = location;
-			if(![[NSFileManager defaultManager] fileExistsAtPath:fullPath])
+			if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
 				fullPath = nil;
+			}
 		}
 	}
-	if(!fullPath)
+	if (!fullPath) {
 		fullPath = [workspace fullPathForApplication:appName];
+	}
 	[appPath release];
 	appPath = [fullPath retain];
 	NSLog(@"(in reregisterWithDictionary:) got appPath: %@", appPath);

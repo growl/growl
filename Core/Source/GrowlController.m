@@ -224,8 +224,9 @@ static id singleton = nil;
 	}
 
 	// If app icon present, convert to NSImage
-	if ([aDict objectForKey:GROWL_NOTIFICATION_APP_ICON]) {
-		NSImage *appIcon = [[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_APP_ICON]];
+	NSData *appIconData = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON];
+	if (appIconData) {
+		NSImage *appIcon = [[NSImage alloc] initWithData:appIconData];
 		[aDict setObject:appIcon forKey:GROWL_NOTIFICATION_APP_ICON];
 		[appIcon release];
 	}

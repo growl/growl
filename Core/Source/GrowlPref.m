@@ -393,7 +393,6 @@ static const char *keychainAccountName = "Growl";
 
 	if (desiredGrowlState) {
 		[self _launchGrowl];
-
 	} else {		
 		[self _terminateGrowl];
 	}

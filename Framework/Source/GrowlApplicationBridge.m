@@ -292,7 +292,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	//Ensure the registration dictionary has the GROWL_APP_NAME specified
 	if (![registrationDictionary objectForKey:GROWL_APP_NAME]) {
 		NSMutableDictionary	*properRegistrationDictionary = [[registrationDictionary mutableCopy] autorelease];
-		
+
 		[properRegistrationDictionary setObject:appName
 										 forKey:GROWL_APP_NAME];
 
@@ -300,21 +300,22 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		BOOL gotIt = NO;
 		NSURL *myURL = _copyCurrentProcessURL();
 		NSDictionary *file_data = [myURL dockDescription];
-		if(file_data) {
+		if (file_data) {
 			NSDictionary *location = [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"];
-			if(location) {
+			if (location) {
 				[properRegistrationDictionary setObject:location
 												 forKey:GROWL_APP_LOCATION];
 				gotIt = YES;
 			}
 		}
-		if(!gotIt)
+		if (!gotIt) {
 			[properRegistrationDictionary removeObjectForKey:GROWL_APP_LOCATION];
+		}
 
 		registrationDictionary = properRegistrationDictionary;
 	}
 
-	return(registrationDictionary);
+	return registrationDictionary;
 }
 
 + (NSString *) _applicationNameForGrowl {
