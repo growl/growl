@@ -233,10 +233,7 @@
 			[self stopFadeOut];
 		}
 	} else {
-		scaleFactor -= 0.02;
-		if ( scaleFactor > 0.0 ) {
-			[myWindow scaleX:scaleFactor Y:scaleFactor];
-		}
+		[myWindow scaleX:0.8 Y:0.8];
 		[super _fadeOut:timer];
 	}
 }
