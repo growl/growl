@@ -143,6 +143,7 @@
     // draw the title and the text
 	unsigned int textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
 	unsigned int titleYPosition = notificationContentTop - [self titleHeight];
+	unsigned int textYPosition = titleYPosition - ([self descriptionHeight] + GrowlSmokeTitleTextPadding);
 
 	[_title drawWithEllipsisInRect:NSMakeRect( textXPosition,
 											   titleYPosition,
@@ -151,7 +152,7 @@
 					withAttributes:titleAttributes];
 
 	[_text drawInRect:NSMakeRect( textXPosition,
-								  GrowlSmokePadding,
+								  textYPosition,
 								  [self textAreaWidth],
 								  [self descriptionHeight] )
 	   withAttributes:descriptionAttributes];
@@ -261,8 +262,8 @@
 
 - (void)sizeToFit {
 	NSRect rect = [self frame];
-	rect.size.height = (2 * GrowlSmokePadding) + GrowlSmokePadding + [self titleHeight] + [self descriptionHeight];
-	float minSize = (2 * GrowlSmokePadding) + GrowlSmokeIconSize;
+	rect.size.height = (2 * GrowlSmokePadding) + GrowlSmokeTitleTextPadding + [self titleHeight] + [self descriptionHeight];
+	float minSize = (2 * GrowlSmokeIconPadding) + [self titleHeight] + GrowlSmokeTitleTextPadding + GrowlSmokeTextFontSize + 1;
 	if(rect.size.height < minSize) {
 		rect.size.height = minSize;
 	}
