@@ -445,7 +445,8 @@ static NSMutableArray		*launchNotificationTargets = nil;
  *Note: selector can take a single argument, which will be the context argument
  *	passed to this method. It is perfectly acceptable for context to be NULL.
  *You should use the delegate system (see the GrowlApplicationBridgeDelegate
- *	protocol) inst of this method, as this method may be deprecated in the future.
+ *	protocol) instead of this method, as this method may be deprecated in the
+ *	future.
  *If Growl is installed but disabled, the application will be registered and
  *	GrowlHelperApp will then quit.  "selector" will never be sent to "target" if
  *	Growl is installed but disabled; this method will still return YES.
