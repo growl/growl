@@ -1,5 +1,5 @@
 /*
- Copyright (c) The Growl Project, 2004 
+ Copyright (c) The Growl Project, 2004-2005
  All rights reserved.
  
  
@@ -65,6 +65,9 @@ static const char usage[] =
 "                  title because that's the default argument behaviour\n"
 "    -m,--message  Sets the message to the following instead of using stdin\n";
 
+static const char *version = "growlnotify 0.6\n"
+"Copyright (c) The Growl Project, 2004-2005\n";
+
 int main(int argc, const char **argv) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
@@ -90,7 +93,7 @@ int main(int argc, const char **argv) {
 	unsigned size, registrationSize, notificationSize;
 	unsigned char *registrationPacket, *notificationPacket;
 	struct sockaddr_in to;
-	static char *password = NULL;
+	char *password = NULL;
 
 	struct option longopts[] = {
 		{ "help",		no_argument,		0,			'h' },
@@ -105,15 +108,20 @@ int main(int argc, const char **argv) {
 		{ "host",		required_argument,	0,			'H' },
 		{ "udp",		no_argument,		0,			'u' },
 		{ "password",	required_argument,	0,			'P' },
+		{ "version",	no_argument,		0,			'v' },
 		{ 0,			0,					0,			 0  }
 	};
 
-	while ((ch = getopt_long(argc, (char * const *)argv, "hn:sa:i:I:p:tm:H:uP:", longopts, NULL)) != -1) {
+	while ((ch = getopt_long(argc, (char * const *)argv, "hvn:sa:i:I:p:tm:H:uP:", longopts, NULL)) != -1) {
 		switch (ch) {
 		case '?':
 		case 'h':
 			printf(usage);
 			exit(1);
+			break;
+		case 'v':
+			printf(version);
+			exit(0);
 			break;
 		case 'n':
 			appName = optarg;
@@ -181,7 +189,7 @@ int main(int argc, const char **argv) {
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
 	NSFileManager *mgr = [NSFileManager defaultManager];
 	NSString *cwd;
-	static NSImage *image = nil;
+	NSImage *image = nil;
 	if (imagePath) {
 		NSString *path = [[NSString stringWithUTF8String:imagePath] stringByStandardizingPath];
 		if (![path isAbsolutePath]) {
