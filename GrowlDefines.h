@@ -99,8 +99,10 @@
 	CFDictionaryRef prefs = (CFDictionaryRef)CFPreferencesCopyAppValue((CFStringRef)domain, \
 																		CFSTR("com.Growl.GrowlHelperApp")); \
 	if (prefs != NULL) {\
-		if (CFDictionaryContainsKey(prefs, key)) \
+		if (CFDictionaryContainsKey(prefs, key)) {\
 			*result = (type)CFDictionaryGetValue(prefs, key); \
+			CFRetain(*result); \
+		}\
 		CFRelease(prefs); } }
 
 /*!
@@ -189,9 +191,9 @@
 	@param domain The bundle ID of the plugin
  */
 #define WRITE_GROWL_PREF_INT(key, value, domain) {\
-	CFNumberRef intValue = CFNumberCreate(NULL, kCFNumberIntType, value); \
+	CFNumberRef intValue = CFNumberCreate(NULL, kCFNumberIntType, &value); \
 	WRITE_GROWL_PREF_VALUE(key, intValue, domain); \
-		CFRelease(intValue); }
+	CFRelease(intValue); }
 
 /*!
 @function    READ_GROWL_PREF_FLOAT
@@ -220,6 +222,6 @@
 	@param domain The bundle ID of the plugin
  */
 #define WRITE_GROWL_PREF_FLOAT(key, value, domain) {\
-	CFNumberRef floatValue = CFNumberCreate(NULL, kCFNumberFloatType, value); \
+	CFNumberRef floatValue = CFNumberCreate(NULL, kCFNumberFloatType, &value); \
 	WRITE_GROWL_PREF_VALUE(key, floatValue, domain); \
 	CFRelease(floatValue); }
