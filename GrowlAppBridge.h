@@ -65,17 +65,59 @@
 */
 + (BOOL) isGrowlRunning;
 
-/************************
- *setGrowlDelegate: must be called before otherwise using GrowlApplicationBridge.
- *The methods in the GrowlApplicationBridgeDelegate protocol are required;
- * 	other methods defined in the informal protocol are optional.
- ************************
+/*
+	@method setGrowlDelegate:
+	@abstract Set the object which will be responsible for providing and receiving Growl information.
+	@discussion This must be called before using GrowlApplicationBridge.  
+ 
+	The methods in the GrowlApplicationBridgeDelegate protocol are required and return the basic information
+	needed to register with Growl.
+ 
+	The methods in the GrowlApplicationBridgeDelegate_InformalProtocol informal protocol are individually optional.  They provide
+	a greater degree of interaction between the application and growl such as informing the application when one of its
+	Growl notifications is clicked by the user.
+ 
+	The methods in the GrowlApplicationBridgeDelegate_Installation_InformalProtocol informal protocol are individually optional
+	and are only applicable when using the Growl-WithInstaller.framework which allows for automated Growl installation.
+ 
+	When this method is called, data will be collected from inDelegate, Growl will be launched if it is not already running,
+	and the application will be registered with Growl.
+ 
+	If using the Growl-WithInstaller framework, if Growl is already installed but this copy of the framework has an updated
+	version of Growl, the user will be propmted to update automatically.
+ 
+	@param inDelegate The delegate for the GrowlApplicationBridge. It must conform to the GrowlApplicationBridgeDelegate protocol.
  */
-//XXX - Needs documentation
 + (void) setGrowlDelegate:(NSObject<GrowlApplicationBridgeDelegate> *)inDelegate;
+
+/*
+	@method growlDelegate
+	@abstract Return the object responsible for providing and receiving Growl information.
+	@discussion See setGrowlDelegate: for details
+	@result The growl delegate
+ */
 + (NSObject<GrowlApplicationBridgeDelegate> *) growlDelegate;
 
-//XXX - Needs documentation
+/*
+	@method notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:
+	@abstract Send a Growl notification
+	@discussion This is the preferred means for sending a Growl notification.  The notificaiton name and at least one of
+	the title and description are required (all three are preferred).  All other parameters may be nil (or 0 or FALSE as appropriate)
+	to accept default values.
+ 
+	If using the Growl-WithInstaller framework, if Growl is not installed the user will be prompted to install Growl. 
+	If the user cancels, this method will have no effect until the next application session, at which time when it is 
+	called the user will be prompted again. The user is also given the option to not be prompted again.  If the user does
+	choose to install Growl, the requested notification will be displayed once Growl is installed and running.
+ 
+	@param title		The title of the notification displayed to the user.
+	@param description	The full description of the notification dispalyed to the user.
+	@param notifName	The internal name of the notification
+	@param iconData		NSData* to show with the notification as its icon. If nil, the application's icon will be used instead.
+	@param priority		The priority of the notification; not all display plugins support priority. The default value is 0; positive values are higher priority and negative values are lower priority. 
+	@param isSticky		If YES, the notification will remain on screen until clicked. Not all display plugins support priority.
+	@param clickContext	A context passed back to the growlAppDelegate if it implements -(void)growlNotificationWasClicked: and the notification is clicked. Not all display plugins support clicking. The clickContext must be plist-encodable (completely of NSString, NSArray, NSNumber, and NSDictionary types).
+ */
 + (void) notifyWithTitle:(NSString *)title
 			 description:(NSString *)description
 		notificationName:(NSString *)notifName
@@ -83,63 +125,144 @@
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
 			clickContext:(id)clickContext;
-@end
 
-@interface GrowlApplicationBridge (GrowlInstallationPrompt_private)
+/*
+	@method reregisterGrowlNotifications
+	@abstract Reregister the notifications for this application
+	@description This method does not normally need to be called.  If your application changes what notifications
+	it is registering with Growl, call this method to have the growlAppDelegate's growlRegistractionDict method called
+	again and the Growl registration information updated.
+ */
++ (void) reregisterGrowlNotifications;
 
-+ (void) _userChoseNotToInstallGrowl;
-
-@end
-
-//------------------------------------------------------------------------------
 #pragma mark -
-
-//XXX - Needs documentation
+/*
+	@protocol GrowlApplicationBridgeDelegate
+	@abstract Required protocol for the GrowlApplicationBridge delegate
+	@discussion The methods in this protocol are required and are called automatically as needed by GrowlApplicationBridge
+ */
+//------------------------------------------------------------------------------
 @protocol GrowlApplicationBridgeDelegate
 
-//XXX - Needs documentation
+/*
+	@method applicationName
+	@abstract Return the name of this application which will be used for Growl bookkeeping.
+	@discussion This name is used both internally and in the Growl preferences.
+	@result The name of the application using Growl
+ */
 - (NSString *) applicationName;
 
-//XXX - Needs documentation
+/*
+	@method growlRegistrationDictionary
+	@abstract Return the dictionary used to register this applicaiton with Growl
+	@discussion The returned dictionary gives Growl the complete list of notifications this application will ever send,
+	and it also specifies which applications should be enabled by default.  Each is specified by an array of NSString objects.
+	For most applications, these two arrays can be the same (if all sent notifications should be displayed by default).
+ 
+	The NSString objects of these arrays will corresopnd to the notificationName: parameter passed in notifyWithTarget::::::: calls.
+ 
+	The dictionary should have 2 key object pairs:
+	key: GROWL_NOTIFICATIONS_ALL		object: NSArray of NSString objects
+	key: GROWL_NOTIFICATIONS_DEFAULT	object: NSArray of NSString objects
+ 
+	@result The NSDictionary to use for registration.
+*/ 
 - (NSDictionary *) growlRegistrationDictionary;
 
 @end
 
-//------------------------------------------------------------------------------
 #pragma mark -
-
-//XXX - Needs documentation
-@interface NSObject (GrowlApplicationBridgeDelegate_InformalProtocol)
-
-/*The delegate may optionally return an NSData object to use as the application
- *	icon; if this is not implemented, the application's own icon is used.
+/*
+	@category NSObject(GrowlApplicationBridgeDelegate_InformalProtocol)
+	@abstract Methods which may be optionally implemented by the GrowlApplicationBridgeDelegate
+	@discusison The methods in this informal protocol will only be called if implemented by the delegatte.
  */
-//XXX - Needs documentation
+@interface NSObject (GrowlApplicationBridgeDelegate_InformalProtocol)
+/* 
+	@method applicationIconData
+	@abstract Return the NSData to treat as the application icon
+	@discussion The delegate may optionally return an NSData* object to use as the application icon;
+	if this is not implemented, the application's own icon is used.  This is not generally needed.
+	@result The NSData to treat as the application icon
+ */
 - (NSData *) applicationIconData;
 
-//called when GrowlHelperApp launches.
-//XXX - Needs documentation
+/*
+	@method growlIsReady
+	@abstract Informs the delegate that Growl has launched
+	@discussion Informs the delegate that Growl (specifically, the GrowlHelperApp) was launched successfully 
+	(or was already running). The application can take actions with the knowlege that Growl is installed and functional.
+ */
 - (void) growlIsReady;
 
-//Informs the delegate that a growl notification with the passed clickContext was clicked
-//XXX - Needs documentation
+/*
+	@method growlNotificationWasClicked:
+	@abstract Informs the delegate that a Growl notification was clicked
+	@discussion Informs the delegate that a Growl notification was clicked.  It is only sent for notifications sent with
+	a clickContext, so if you want to receive a message when a notification is clicked, clickContext must not be nil when
+	calling notifyWithTarget:::::::.
+	@param clickContext The clickContext passed when displaying the notification originally via notifyWithTarget:::::::.
+ */
 - (void) growlNotificationWasClicked:(id)clickContext;
 
 @end
 
-//XXX - Needs documentation
+#pragma mark -
+/*
+	@category NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)
+	@abstract Methods which may be optionally implemented by the GrowlApplicationBridgeDelegate when used with Growl-WithInstaller.framework
+	@discusison The methods in this informal protocol will only be called if implemented by the delegatte. 
+	They allow greater control of the information presented to the user when installing or upgrading Growl from within
+	your application when using Growl-WithInstaller.framework.
+ */
 @interface NSObject (GrowlApplicationBridgeDelegate_Installation_InformalProtocol)
 
-//XXX - Needs documentation
+/*
+	@method growlInstallationWindowTitle
+	@abstract Return the title of the installation window
+	@discussion If not implemented, Growl will use a default, localized title
+	@result An NSString* to use as the title
+ */
 - (NSString *)growlInstallationWindowTitle;
 
-//XXX - Needs documentation
+/*
+	@method growlUpdateWindowTitle
+	@abstract Return the title of the upgrade window
+	@discussion If not implemented, Growl will use a default, localized title
+	@result An NSString* to use as the title
+*/
 - (NSString *)growlUpdateWindowTitle;
 
-//XXX - Needs documentation
-- (NSAttributedString *)growlInstallationInformation;
+/*
+	@method growlInstallationInformation
+	@abstract Return the information to display when installing
+	@discussion This information may be as long or short as desired (the window will be sized to fit it).  It will
+	be displayed to the user as an explanation of what Growl is and what it can do in your application.  It should
+	probably note that no download is required to install.
+ 
+	If this is not implemented, Growl will use a default, localized explanation.
 
-//XXX - Needs documentation
+	@result An NSAttributedString* to display.
+ */
+- (NSAttributedString *)growlInstallationInformation;
+	
+/*
+	@method growlUpdateInformation
+	@abstract Return the information to display when upgrading
+	@discussion This information may be as long or short as desired (the window will be sized to fit it).  It will
+	be displayed to the user as an explanation that an updated version of Growl is included in your application and
+	no download is required.
+	 
+	If this is not implemented, Growl will use a default, localized explanation.
+	 
+	@result An NSAttributedString* to display.
+*/
 - (NSAttributedString *)growlUpdateInformation;
 
 @end
+
+//private
+@interface GrowlApplicationBridge (GrowlInstallationPrompt_private)
++ (void) _userChoseNotToInstallGrowl;
+@end
+
