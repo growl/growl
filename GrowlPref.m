@@ -25,6 +25,7 @@
 		currentApplication = nil;
 		loadedPrefPanes = [[NSMutableArray alloc] init];
 		startStopTimer = nil;
+		loginWindowDefaults = nil;
 		NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 		[nc addObserver:self selector:@selector(growlLaunched:) name:GROWL_IS_READY object:nil];
 		[nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
@@ -39,6 +40,7 @@
 	[tickets release];
 	[currentApplication release];
 	[startStopTimer release];
+	[loginWindowDefaults release];
 	[super dealloc];
 }
 
@@ -53,7 +55,8 @@
 - (void) mainViewDidLoad {
 	//load prefs and set IBOutlets accordingly
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	[defs addSuiteNamed:@"loginwindow"];
+	loginWindowDefaults = [[NSUserDefaults alloc] init];
+	[loginWindowDefaults addSuiteNamed:@"loginwindow"];
 	
 	/*[[NSDistributedNotificationCenter defaultCenter] addObserver:self 
 														selector:@selector(growlPonged:)
@@ -97,7 +100,8 @@
 		[growlApplications selectRow:[applications indexOfObject:currentApplication] byExtendingSelection:NO];
 	
 	[startGrowlAtLogin setState:NSOffState];
-	NSArray *autoLaunchArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"AutoLaunchedApplicationDictionary"];
+	[loginWindowDefaults synchronize];
+	NSArray *autoLaunchArray = [loginWindowDefaults objectForKey:@"AutoLaunchedApplicationDictionary"];
 	NSEnumerator *e = [autoLaunchArray objectEnumerator];
 	NSDictionary *item;
 	while (item = [e nextObject]) {
@@ -240,10 +244,8 @@
 }
 
 - (IBAction) startGrowlAtLogin:(id) sender {
-	NSUserDefaults *defs = [[[NSUserDefaults alloc] init] autorelease];
-	[defs addSuiteNamed:@"loginwindow"];
 	NSString *appPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
-	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
+	NSMutableDictionary *loginWindowPrefs = [[[loginWindowDefaults persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
 	NSArray *loginItems = [loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"];
 	NSMutableArray *mutableLoginItems = [[loginItems mutableCopy] autorelease];
 	NSEnumerator *e = [loginItems objectEnumerator];
@@ -263,9 +265,9 @@
 	
 	[loginWindowPrefs setObject:[NSArray arrayWithArray:mutableLoginItems] 
 						 forKey:@"AutoLaunchedApplicationDictionary"];
-	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
+	[loginWindowDefaults setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
 					  forName:@"loginwindow"];
-	[defs synchronize];	
+	[loginWindowDefaults synchronize];
 }
 
 - (IBAction)selectDisplayPlugin:(id)sender {
