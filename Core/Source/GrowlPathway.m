@@ -13,10 +13,7 @@
 @implementation GrowlPathway
 
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
-	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
-	if ( enabled ) {
-		[[GrowlController standardController] registerApplicationWithDictionary:dict];
-	}
+	[[GrowlController standardController] registerApplicationWithDictionary:dict];
 }
 
 - (void) postNotificationWithDictionary:(NSDictionary *)dict {
