@@ -56,7 +56,7 @@
 - (NSDictionary *) pluginInfo {
 	NSMutableDictionary * info = [NSMutableDictionary dictionary];
 	[info setObject:@"BUBBLES!" forKey:@"Name"];
-	[info setObject:@"Karl Adam and Timory Hatcher" forKey:@"Author"];
+	[info setObject:@"Karl Adam and Timothy Hatcher" forKey:@"Author"];
 	[info setObject:@"1.0a" forKey:@"Version"];
 	[info setObject:@"Happy Bubbles!" forKey:@"Description"];
 	return (NSDictionary*)info;
