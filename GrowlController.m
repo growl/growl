@@ -112,4 +112,16 @@
 	
 }
 
+#pragma mark -
+
+- (void) dispatchNotification:(NSNotification *) note {
+	NSLog( @"%@", note );
+	
+	NSMutableDictionary *aDict = [NSMutableDictionary dictionaryWithDictionary:[note userInfo]];
+	[aDict objectForKey:GROWL_NOTIFICATION_ICON] ? [[_tickets objectForKey:[aDict objectForKey:GROWL_APP_NAME]] icon]
+												 : [aDict objectForKey:GROWL_NOTIFICATION_ICON];
+	NSLog( @"%@", [aDict objectForKey:GROWL_NOTIFICATION_ICON] );
+	[_displayController displayNotificationWithInfo:aDict];
+}
+
 @end

@@ -51,6 +51,11 @@
 - (void) saveTicket {
 	//save an XML file of this object to configure the prefs of apps that aren't running
 }
+#pragma mark -
+
+- (NSImage *) icon {
+	return _icon;
+}
 
 #pragma mark -
 

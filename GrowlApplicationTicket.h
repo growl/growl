@@ -26,6 +26,10 @@
 
 #pragma mark -
 
+- (NSImage *) icon;
+
+#pragma mark -
+
 - (NSSet *) allNotifications;
 - (void) setAllNotifications:(NSSet *) inSet;
 
