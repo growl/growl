@@ -24,7 +24,7 @@
 #import <AppKit/NSWorkspace.h>
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlNotificationServer.h"
+#import "GrowlPathway.h"
 #import "GrowlUDPUtils.h"
 
 #include <unistd.h>

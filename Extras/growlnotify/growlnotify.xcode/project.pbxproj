@@ -46,9 +46,9 @@
 //074
 		07C7692606831F1D0025D426 = {
 			children = (
+				9595184F07E4859F004A4471,
 				95C876E007D9DF4100C69DEE,
 				95583F9F079E4B4900C79085,
-				956909A20791DD4E00610FAA,
 				9526247C074F92F600C5F344,
 			);
 			isa = PBXGroup;
@@ -297,9 +297,9 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8DD76FA10486AA7600D96B5E = {
+			explicitFileType = "compiled.mach-o.executable";
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			lastKnownFileType = "compiled.mach-o.executable";
 			path = growlnotify;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -362,12 +362,12 @@
 			isa = PBXBuildStyle;
 			name = "Deployment - Tiger - G4";
 		};
-		956909A20791DD4E00610FAA = {
+		9595184F07E4859F004A4471 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			name = GrowlNotificationServer.h;
-			path = ../../Core/Source/GrowlNotificationServer.h;
+			name = GrowlPathway.h;
+			path = ../../Core/Source/GrowlPathway.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
