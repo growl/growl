@@ -1,1 +1,4 @@
 - Bezel does not fadeout most of the time.
+
+
+- Possible bug: http://forums.cocoaforge.com/viewtopic.php?p=1050
