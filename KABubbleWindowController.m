@@ -53,8 +53,9 @@ static unsigned int bubbleWindowDepth = 0;
 	else if( [text isKindOfClass:[NSAttributedString class]] ) 
 		[view setAttributedText:text];
 	[view setIcon:icon];
-	[panel setFrame: [view frame] display:NO];
-		
+	panelFrame = [view frame];
+	[panel setFrame: panelFrame display:NO];
+	
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
 	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - KABubblePadding, 
 											 NSMaxY( screen ) - KABubblePadding - ( bubbleWindowDepth ) )];
