@@ -5,8 +5,8 @@
 	AppleScript command support for Growl notifications.
 -->
 
-<dictionary title="">
-	<suite name="Growl" description="AppleScript for the Growl Notification System" code="Grwl">
+<dictionary title="Growl Terminology">
+	<suite name="Growl Suite" description="AppleScript for the Growl Notification System" code="Grwl">
 		<commands>
 			<command name="notify" code="notifygr" description="Post a notification to be displayed via Growl">
 				<cocoa class="GrowlNotifyScriptCommand"/>

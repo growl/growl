@@ -111,10 +111,14 @@ static const NSSize iconSize = {128.0f, 128.0f};
 			icon = [[[NSImage alloc] initWithData:pictureData] autorelease];
 			[icon setScalesWhenResized: YES];
 		}
-		
-		if (icon != nil) {
+
+		if (icon) {
+			NSData *iconData;
 			[icon setSize:iconSize];
-			[noteDict setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
+			iconData = [icon TIFFRepresentation];
+			if (iconData) {
+				[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON];
+			}
 		}
 
 		[[GrowlController standardController] dispatchNotificationWithDictionary:noteDict];
@@ -215,7 +219,7 @@ static const NSSize iconSize = {128.0f, 128.0f};
 			str = nil;
 	}
 	
-	if (str != nil) {
+	if (str) {
 		[self setScriptErrorString:str];
 	}
 }

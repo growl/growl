@@ -64,12 +64,15 @@ static const NSSize iconSize = {128.0f, 128.0f};
 		nil];
 
 	NS_DURING
-		NSImage *icon = nil;
 		if (iconOfApplication) {
-			icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
+			NSData *iconData;
+			NSImage *icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
 			if (icon) {
 				[icon setSize:iconSize];
-				[registerDict setObject:[icon TIFFRepresentation] forKey:GROWL_APP_ICON];
+				iconData = [icon TIFFRepresentation];
+				if (iconData) {
+					[registerDict setObject:iconData forKey:GROWL_APP_ICON];
+				}
 			}
 		}
 
@@ -98,7 +101,7 @@ static const NSSize iconSize = {128.0f, 128.0f};
 			str = nil;
 	}
 	
-	if (str != nil) {
+	if (str) {
 		[self setScriptErrorString:str];
 	}
 }
