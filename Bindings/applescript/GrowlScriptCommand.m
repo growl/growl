@@ -31,7 +31,7 @@
 #import <AddressBook/AddressBook.h>
 
 
-#define KEY_TITLE				@"withTitle"
+#define KEY_TITLE				@"with title"
 #define KEY_DESC				@"description"
 #define KEY_STICKY				@"sticky"
 #define KEY_IMAGE_URL			@"imageFromURL"
