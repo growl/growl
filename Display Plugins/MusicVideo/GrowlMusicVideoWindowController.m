@@ -12,21 +12,21 @@
 
 @implementation GrowlMusicVideoWindowController
 
-#define MIN_DISPLAY_TIME 4.
+#define MIN_DISPLAY_TIME 4.0
 #define ADDITIONAL_LINES_DISPLAY_TIME 0.5
-#define MAX_DISPLAY_TIME 10.
-#define GrowlMusicVideoPadding 10.
+#define MAX_DISPLAY_TIME 10.0
+#define GrowlMusicVideoPadding 10.0
 
 + (GrowlMusicVideoWindowController *)musicVideo {
 	return [[[GrowlMusicVideoWindowController alloc] init] autorelease];
 }
 
 + (GrowlMusicVideoWindowController *)musicVideoWithTitle:(NSString *)title text:(NSString *)text
-		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
-	return [[[GrowlMusicVideoWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky] autorelease];
+		icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
+	return [[[GrowlMusicVideoWindowController alloc] initWithTitle:title text:text icon:icon priority:prio sticky:sticky] autorelease];
 }
 
-- (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
+- (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
 	int sizePref;
 	NSRect sizeRect;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
@@ -75,90 +75,90 @@
 	[panel setFrameTopLeftPoint:NSMakePoint(0.0f, topLeftPosition)];
 
 	if( (self = [super initWithWindow:panel]) ) {
-		_autoFadeOut = YES;	// !sticky
-		_target = nil;
-		_action = NULL;
-		_displayTime = MIN_DISPLAY_TIME;
-		_priority = priority;
+		autoFadeOut = YES;	// !sticky
+		target = nil;
+		action = NULL;
+		displayTime = MIN_DISPLAY_TIME;
+		priority = prio;
 		if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-			_timerInterval = (1.0 / 128.0);
-			_fadeIncrement = 6.0f;
+			timerInterval = (1.0 / 128.0);
+			fadeIncrement = 6.0f;
 		} else {
-			_timerInterval = (1.0 / 64.0);
-			_fadeIncrement = 6.0f;
+			timerInterval = (1.0 / 64.0);
+			fadeIncrement = 6.0f;
 		}
 	}
-	
-	return( self );
+
+	return self;
 }
 
-- (void)dealloc {
-	[_target release];
+- (void) dealloc {
+	[target release];
 
 	[super dealloc];
 }
 
-- (void)_fadeIn:(NSTimer *)inTimer {
+- (void) _fadeIn:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	NSRect theFrame = [myWindow frame];
 	if ( topLeftPosition < NSHeight(theFrame) ) {
-		topLeftPosition += _fadeIncrement;
+		topLeftPosition += fadeIncrement;
 		[myWindow setFrameTopLeftPoint:NSMakePoint(0.0f, topLeftPosition)];
 	} else {
 		[self _stopTimer];
-		if ( _autoFadeOut ) {
-			if ( _delegate && [_delegate respondsToSelector:@selector( didFadeIn: )] ) {
-				[_delegate didFadeIn:self];
+		if ( autoFadeOut ) {
+			if ( delegate && [delegate respondsToSelector:@selector( didFadeIn: )] ) {
+				[delegate didFadeIn:self];
 			}
 			[self _waitBeforeFadeOut];
 		}
 	}
 }
 
-- (void)_fadeOut:(NSTimer *)inTimer {
+- (void) _fadeOut:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	if ( topLeftPosition > 0.0f ) {
-		topLeftPosition -= _fadeIncrement;
+		topLeftPosition -= fadeIncrement;
 		[myWindow setFrameTopLeftPoint:NSMakePoint(0.0f, topLeftPosition)];
 	} else {
 		[self _stopTimer];
-		if ( _delegate && [_delegate respondsToSelector:@selector( didFadeOut: )] ) {
-			[_delegate didFadeOut:self];
+		if ( delegate && [delegate respondsToSelector:@selector( didFadeOut: )] ) {
+			[delegate didFadeOut:self];
 		}
 		[self close]; // close our window
 		[self autorelease]; // we retained when we fade in
 	}
 }
 
-- (void)_musicVideoClicked:(id)sender {
-	if ( _target && _action && [_target respondsToSelector:_action] ) {
-		[_target performSelector:_action withObject:self];
+- (void) _musicVideoClicked:(id)sender {
+	if ( target && action && [target respondsToSelector:action] ) {
+		[target performSelector:action withObject:self];
 	}
 	[self startFadeOut];
 }
 
 - (id)target {
-	return _target;
+	return target;
 }
 
 - (void)setTarget:(id)object {
-	[_target autorelease];
-	_target = [object retain];
+	[target autorelease];
+	target = [object retain];
 }
 
 - (SEL)action {
-	return _action;
+	return action;
 }
 
 - (void)setAction:(SEL)selector {
-	_action = selector;
+	action = selector;
 }
 
 - (int)priority {
-	return _priority;
+	return priority;
 }
 
 - (void)setPriority:(int)newPriority {
-	_priority = newPriority;
+	priority = newPriority;
 }
 @end

@@ -10,25 +10,25 @@
 #import "GrowlMusicVideoPrefs.h"
 
 @interface GrowlMusicVideoWindowView : NSView {
-	NSImage				*_icon;
-	NSString			*_title;
-	NSString			*_text;
-	float				_textHeight;
-	SEL					_action;
-	id					_target;
+	NSImage				*icon;
+	NSString			*title;
+	NSString			*text;
+	float				textHeight;
+	SEL					action;
+	id					target;
 }
 
-- (void)setIcon:(NSImage *)icon;
-- (void)setTitle:(NSString *)title;
-- (void)setText:(NSString *)text;
+- (void) setIcon:(NSImage *)icon;
+- (void) setTitle:(NSString *)title;
+- (void) setText:(NSString *)text;
 
-- (float)descriptionHeight:(NSAttributedString *)text inRect:(NSRect)theRect;
-- (int)descriptionRowCount:(NSAttributedString *)text inRect:(NSRect)theRect;
+- (float) descriptionHeight:(NSAttributedString *)text inRect:(NSRect)theRect;
+- (int) descriptionRowCount:(NSAttributedString *)text inRect:(NSRect)theRect;
 
-- (id)target;
-- (void)setTarget:(id)object;
+- (id) target;
+- (void) setTarget:(id)object;
 
-- (SEL)action;
-- (void)setAction:(SEL)selector;
+- (SEL) action;
+- (void) setAction:(SEL)selector;
 
 @end

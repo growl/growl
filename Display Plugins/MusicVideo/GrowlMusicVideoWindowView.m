@@ -14,25 +14,25 @@
 
 - (id)initWithFrame:(NSRect)frame {
 	if( ( self = [super initWithFrame:frame] ) ) {
-		_icon = nil;
-		_title = nil;
-		_text = nil;
-		_textHeight = 0;
-		_target = nil;
-		_action = nil;
+		icon = nil;
+		title = nil;
+		text = nil;
+		textHeight = 0.0f;
+		target = nil;
+		action = nil;
 	}
 	return self;
 }
 
-- (void)dealloc {
-	[_icon release];
-	[_title release];
-	[_text release];
+- (void) dealloc {
+	[icon release];
+	[title release];
+	[text release];
 
 	[super dealloc];
 }
 
-- (void)drawRect:(NSRect)rect {
+- (void) drawRect:(NSRect)rect {
 	NSRect bounds = [self bounds];
 	NSBezierPath *musicVideoPath = [NSBezierPath bezierPathWithRect:bounds];
 
@@ -41,7 +41,7 @@
 	
 	int opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
 	READ_GROWL_PREF_INT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacityPref);
-	
+
 	[[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:(opacityPref*0.01f)] set];
 	[musicVideoPath fill];
 	
@@ -57,8 +57,8 @@
 	int iconVerticalOffset = 0;
 	int iconSourcePoint;
 	NSSize maxIconSize;
-	NSSize iconSize = [_icon size];
-	
+	NSSize iconSize = [icon size];
+
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 		titleRect = NSMakeRect(NSHeight(bounds), 120.f, NSWidth(bounds) - NSHeight(bounds) - 32.f, 40.f);
 		textRect =  NSMakeRect(NSHeight(bounds), 16.f, NSWidth(bounds) - NSHeight(bounds) - 32.f, 96.f);
@@ -67,7 +67,7 @@
 		maxRows = 4;
 		maxIconSize = NSMakeSize(128.f, 128.f);
 		iconSourcePoint = 32.f;
-		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];
+		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
 	} else {
 		titleRect = NSMakeRect(NSHeight(bounds), 60.f, NSWidth(bounds) - NSHeight(bounds) - 16.f, 25.f);
 		textRect =  NSMakeRect(NSHeight(bounds), 8.f, NSWidth(bounds) - NSHeight(bounds) - 16.f, 48.f);
@@ -76,7 +76,7 @@
 		maxRows = 3;
 		maxIconSize = NSMakeSize(80.f, 80.f);
 		iconSourcePoint = 8.f;
-		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];	
+		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];	
 	}
 
 	if ( iconSize.width < maxIconSize.width ) {
@@ -110,7 +110,7 @@
 	if ( pantherOrLater ) {
 		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
-	[_title drawWithEllipsisInRect:titleRect withAttributes:titleAttributes];
+	[title drawWithEllipsisInRect:titleRect withAttributes:titleAttributes];
 
 	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 				[NSColor whiteColor], NSForegroundColorAttributeName,
@@ -119,79 +119,79 @@
 	if ( pantherOrLater ) {
 		[textAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
-	[_text drawInRect:textRect withAttributes:textAttributes];
+	[text drawInRect:textRect withAttributes:textAttributes];
 
 	NSRect iconRect;
 	iconRect.origin = iconPoint;
 	iconRect.size = maxIconSize;
-	[_icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.f];
+	[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.f];
 }
 
-- (void)setIcon:(NSImage *)icon {
-	[_icon autorelease];
-	_icon = [icon retain];
+- (void) setIcon:(NSImage *)anIcon {
+	[icon autorelease];
+	icon = [anIcon retain];
 	[self setNeedsDisplay:YES];
 }
 
-- (void)setTitle:(NSString *)title {
-	[_title autorelease];
-	_title = [title copy];
+- (void) setTitle:(NSString *)aTitle {
+	[title autorelease];
+	title = [aTitle copy];
 	[self setNeedsDisplay:YES];
 }
 
-- (void)setText:(NSString *)text {
-	[_text autorelease];
-	_text = [text copy];
-	_textHeight = 0;
+- (void) setText:(NSString *)aText {
+	[text autorelease];
+	text = [aText copy];
+	textHeight = 0.0f;
 	[self setNeedsDisplay:YES];
 }
 
-- (float)descriptionHeight:(NSAttributedString *)text inRect:(NSRect)theRect {
-	if (_textHeight == 0) {
-		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:text];
+- (float) descriptionHeight:(NSAttributedString *)theText inRect:(NSRect)theRect {
+	if (!textHeight) {
+		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:theText];
 		NSTextContainer* textContainer = [[[NSTextContainer alloc]
 			initWithContainerSize:NSMakeSize(NSWidth(theRect),NSHeight(theRect)+1000.f)] autorelease];
 		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
 
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
-		(void)[layoutManager glyphRangeForTextContainer:textContainer];
-	
-		_textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-		_textHeight = _textHeight / 13 * 14;
+		[layoutManager glyphRangeForTextContainer:textContainer];
+
+		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+		textHeight = textHeight / 13.0f * 14.0f;
 	}
-	return MAX (_textHeight, 30);
+	return MAX (textHeight, 30.0f);
 }
 
-- (int)descriptionRowCount:(NSAttributedString *)text inRect:(NSRect)theRect{
-	float height = [self descriptionHeight:text inRect:theRect];
-	float lineHeight = [text size].height;
+- (int)descriptionRowCount:(NSAttributedString *)theText inRect:(NSRect)theRect{
+	float height = [self descriptionHeight:theText inRect:theRect];
+	float lineHeight = [theText size].height;
 	return (int) (height / lineHeight);
 }
 
 - (id) target {
-	return _target;
+	return target;
 }
 
 - (void) setTarget:(id) object {
-	_target = object;
+	target = object;
 }
 
 #pragma mark -
 
 - (SEL) action {
-	return _action;
+	return action;
 }
 
 - (void) setAction:(SEL) selector {
-	_action = selector;
+	action = selector;
 }
 
 #pragma mark -
 
 - (void) mouseUp:(NSEvent *) event {
-	if( _target && _action && [_target respondsToSelector:_action] ) {
-		[_target performSelector:_action withObject:self];
+	if( target && action && [target respondsToSelector:action] ) {
+		[target performSelector:action withObject:self];
 	}
 }
 

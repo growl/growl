@@ -108,8 +108,8 @@ static const char *keychainAccountName = "Growl";
 
 		if ( length >= sizeof(struct GrowlNetworkPacket) ) {
 			struct GrowlNetworkPacket *packet = (struct GrowlNetworkPacket *)[data bytes];
-			if( packet->version == GROWL_PROTOCOL_VERSION ) {
-				switch( packet->type ) {
+			if ( packet->version == GROWL_PROTOCOL_VERSION ) {
+				switch ( packet->type ) {
 					case GROWL_TYPE_REGISTRATION:
 						if ( length >= sizeof(struct GrowlNetworkRegistration) ) {
 							BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];

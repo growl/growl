@@ -10,9 +10,9 @@
 #import "FadingWindowController.h"
 
 @interface GrowlBubblesWindowController : FadingWindowController {
-	unsigned	_depth;
-	SEL			_action;
-	id			_target;
+	unsigned	depth;
+	SEL			action;
+	id			target;
 }
 
 + (GrowlBubblesWindowController *) bubble;

@@ -42,7 +42,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 @implementation GrowlBubblesWindowView
 - (id) initWithFrame:(NSRect) frame {
-	if( (self = [super initWithFrame:frame] ) ) {
+	if ( (self = [super initWithFrame:frame] ) ) {
 		icon   = nil;
 		title  = nil;
 		text   = nil;
@@ -66,7 +66,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 }
 
 - (float)titleHeight {
-	if( !titleHeight ) {
+	if ( !titleHeight ) {
 		NSLayoutManager *lm = [[NSLayoutManager alloc] init];
 		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:13.f]];
 		[lm release];
@@ -153,7 +153,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 #pragma mark -
 
-- (void)setPriority:(int)priority {
+- (void) setPriority:(int)priority {
     NSString* key;
     NSString* textKey;
     switch (priority) {
@@ -317,7 +317,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 }
 
  - (void) mouseDown:(NSEvent *) event {
-	if( target && action && [target respondsToSelector:action] ) {
+	if ( target && action && [target respondsToSelector:action] ) {
 		[target performSelector:action withObject:self];
 	}
 }

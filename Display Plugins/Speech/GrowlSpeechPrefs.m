@@ -11,31 +11,31 @@
 #import "AppKit/NSSpeechSynthesizer.h"
 
 @implementation GrowlSpeechPrefs
-- (NSString *)mainNibName
+- (NSString *) mainNibName
 {
-	return( @"GrowlSpeechPrefs" );
+	return @"GrowlSpeechPrefs";
 }
 
-- (void)awakeFromNib
+- (void) awakeFromNib
 {
 	voices = [[NSSpeechSynthesizer availableVoices] retain];
 }
 
-- (void)dealloc
+- (void) dealloc
 {
 	[voices release];
 	[super dealloc];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)theTableView
+- (int) numberOfRowsInTableView:(NSTableView *)theTableView
 {
-	return( [voices count] );
+	return [voices count];
 }
 
-- (id)tableView:(NSTableView *)theTableView objectValueForTableColumn:(NSTableColumn *)theColumn row:(int)rowIndex
+- (id) tableView:(NSTableView *)theTableView objectValueForTableColumn:(NSTableColumn *)theColumn row:(int)rowIndex
 {
 	NSDictionary *attributes = [NSSpeechSynthesizer attributesForVoice:[voices objectAtIndex:rowIndex]];
-	return( [attributes objectForKey:NSVoiceName] );
+	return [attributes objectForKey:NSVoiceName];
 }
 
 - (IBAction)voiceClicked:(id)sender

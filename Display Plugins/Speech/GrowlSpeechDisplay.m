@@ -31,48 +31,48 @@ static NSString *description = @"Speak notifications.";
 
 - (NSString *)author
 {
-	return( author );
+	return author;
 }
 
 - (NSString *)name
 {
-	return( name );
+	return name;
 }
 
 - (NSString *)userDescription
 {
-	return( description );
+	return description;
 }
 
 - (NSString *)version
 {
-	return( version );
+	return version;
 }
 
 - (NSDictionary *)pluginInfo
 {
-	return( [NSDictionary dictionaryWithObjectsAndKeys:
+	return [NSDictionary dictionaryWithObjectsAndKeys:
 		name,        @"Name",
 		author,      @"Author",
 		version,     @"Version",
 		description, @"Description",
-		nil] );
+		nil];
 }
 
-- (NSPreferencePane *)preferencePane
+- (NSPreferencePane *) preferencePane
 {
-	return( prefPane );
+	return prefPane;
 }
 
-- (void)loadPlugin
-{
-}
-
-- (void)unloadPlugin
+- (void) loadPlugin
 {
 }
 
-- (void)displayNotificationWithInfo:(NSDictionary *)noteDict
+- (void) unloadPlugin
+{
+}
+
+- (void) displayNotificationWithInfo:(NSDictionary *)noteDict
 {
 	NSString *voice;
 

@@ -12,11 +12,11 @@
 @class GrowlMusicVideoPrefs;
 
 @interface GrowlMusicVideoDisplay : NSObject <GrowlDisplayPlugin> {
-	NSMutableArray		*notificationQueue;
-	GrowlMusicVideoPrefs		*musicVideoPrefPane;
+	NSMutableArray			*notificationQueue;
+	GrowlMusicVideoPrefs	*musicVideoPrefPane;
 }
 
-- (void)loadPlugin;
+- (void) loadPlugin;
 - (NSString *) author;
 - (NSString *) name;
 - (NSString *) userDescription;
@@ -24,6 +24,6 @@
 - (void) unloadPlugin;
 - (NSDictionary*) pluginInfo;
 
-- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict;
+- (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
 
 @end

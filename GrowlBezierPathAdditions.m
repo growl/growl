@@ -43,7 +43,7 @@
 
 	[path closePath];
 
-	return( path );
+	return path;
 }
 
 @end

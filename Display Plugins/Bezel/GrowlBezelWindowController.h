@@ -9,9 +9,9 @@
 #import "FadingWindowController.h"
 
 @interface GrowlBezelWindowController : FadingWindowController {
-	SEL				_action;
-	id				_target;
-	int				_priority;
+	SEL				action;
+	id				target;
+	int				priority;
 }
 
 + (GrowlBezelWindowController *)bezel;

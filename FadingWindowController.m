@@ -12,63 +12,63 @@
 #define FADE_INCREMENT 0.05f
 
 @implementation FadingWindowController
-- (id)initWithWindow:(NSWindow *)window {
-	if( (self = [super initWithWindow:window]) ) {
-		_delegate = nil;
-		_animationTimer = nil;
-		_autoFadeOut = NO;
-		_doFadeIn = YES;
-		_fadeIncrement = FADE_INCREMENT;
-		_timerInterval = TIMER_INTERVAL;
+- (id) initWithWindow:(NSWindow *)window {
+	if ( (self = [super initWithWindow:window]) ) {
+		delegate = nil;
+		animationTimer = nil;
+		autoFadeOut = NO;
+		doFadeIn = YES;
+		fadeIncrement = FADE_INCREMENT;
+		timerInterval = TIMER_INTERVAL;
 	}
-	return( self );
+	return self;
 }
 
-- (void)_stopTimer {
-	[_animationTimer invalidate];
-	[_animationTimer release];
-	_animationTimer = nil;
+- (void) _stopTimer {
+	[animationTimer invalidate];
+	[animationTimer release];
+	animationTimer = nil;
 }
 
-- (void)dealloc
+- (void) dealloc
 {
 	[self _stopTimer];
 	[super dealloc];
 }
 
-- (void)_waitBeforeFadeOut {
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime
-														target:self
-													  selector:@selector( startFadeOut )
-													  userInfo:nil
-													   repeats:NO] retain];
+- (void) _waitBeforeFadeOut {
+	animationTimer = [[NSTimer scheduledTimerWithTimeInterval:displayTime
+													   target:self
+													 selector:@selector( startFadeOut )
+													 userInfo:nil
+													  repeats:NO] retain];
 }
 
-- (void)_fadeIn:(NSTimer *)inTimer {
+- (void) _fadeIn:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
 	if ( alpha < 1.f ) {
-		[myWindow setAlphaValue: alpha + _fadeIncrement];
+		[myWindow setAlphaValue: alpha + fadeIncrement];
 	} else {
 		[self _stopTimer];
-		if ( _delegate && [_delegate respondsToSelector:@selector( didFadeIn: )] ) {
-			[_delegate didFadeIn:self];
+		if ( delegate && [delegate respondsToSelector:@selector( didFadeIn: )] ) {
+			[delegate didFadeIn:self];
 		}
-		if ( _autoFadeOut ) {
+		if ( autoFadeOut ) {
 			[self _waitBeforeFadeOut];
 		}
 	}
 }
 
-- (void)_fadeOut:(NSTimer *)inTimer {
+- (void) _fadeOut:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
 	if ( alpha > 0.f ) {
-		[myWindow setAlphaValue: alpha - _fadeIncrement];
+		[myWindow setAlphaValue: alpha - fadeIncrement];
 	} else {
 		[self _stopTimer];
-		if ( _delegate && [_delegate respondsToSelector:@selector( didFadeOut: )] ) {
-			[_delegate didFadeOut:self];
+		if ( delegate && [delegate respondsToSelector:@selector( didFadeOut: )] ) {
+			[delegate didFadeOut:self];
 		}
 		[self close]; // close our window
 		[self autorelease]; // we retained when we fade in
@@ -76,41 +76,41 @@
 }
 
 - (void)startFadeIn {
-	if ( _delegate && [_delegate respondsToSelector:@selector( willFadeIn: )] ) {
-		[_delegate willFadeIn:self];
+	if ( delegate && [delegate respondsToSelector:@selector( willFadeIn: )] ) {
+		[delegate willFadeIn:self];
 	}
 	[self retain]; // release after fade out
 	[self showWindow:nil];
 	[self _stopTimer];
-	if ( _doFadeIn ) {
-		_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_timerInterval
-															target:self
-														  selector:@selector( _fadeIn: )
-														  userInfo:nil
-														   repeats:YES] retain];
+	if ( doFadeIn ) {
+		animationTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
+														   target:self
+														 selector:@selector( _fadeIn: )
+														 userInfo:nil
+														  repeats:YES] retain];
 	} else {
-		if ( _delegate && [_delegate respondsToSelector:@selector( didFadeIn: )] ) {
-			[_delegate didFadeIn:self];
+		if ( delegate && [delegate respondsToSelector:@selector( didFadeIn: )] ) {
+			[delegate didFadeIn:self];
 		}
-		if ( _autoFadeOut ) {
+		if ( autoFadeOut ) {
 			[self _waitBeforeFadeOut];
 		}
 	}
 }
 
 - (void)startFadeOut {
-	if ( _delegate && [_delegate respondsToSelector:@selector( willFadeOut: )] ) {
-		[_delegate willFadeOut:self];
+	if ( delegate && [delegate respondsToSelector:@selector( willFadeOut: )] ) {
+		[delegate willFadeOut:self];
 	}
 	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_timerInterval
-														target:self
-													  selector:@selector( _fadeOut: )
-													  userInfo:nil
-													   repeats:YES] retain];
+	animationTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
+													   target:self
+													 selector:@selector( _fadeOut: )
+													 userInfo:nil
+													  repeats:YES] retain];
 }
 
-- (void)stopFadeOut {
+- (void) stopFadeOut {
 	[self _stopTimer];
 	[self close];
 	[self autorelease];
@@ -119,51 +119,51 @@
 #pragma mark -
 
 - (BOOL)automaticallyFadeOut {
-	return _autoFadeOut;
+	return autoFadeOut;
 }
 
 - (void)setAutomaticallyFadesOut:(BOOL) autoFade {
-	_autoFadeOut = autoFade;
+	autoFadeOut = autoFade;
 }
 
 #pragma mark -
 
 - (float)fadeIncrement {
-	return _fadeIncrement;
+	return fadeIncrement;
 }
 
 - (void)setFadeIncrement:(float) increment {
-	_fadeIncrement = increment;
+	fadeIncrement = increment;
 }
 
 #pragma mark -
 
 - (float)timerInterval {
-	return _timerInterval;
+	return timerInterval;
 }
 
 - (void)setTimerInterval:(float) interval {
-	_timerInterval = interval;
+	timerInterval = interval;
 }
 
 #pragma mark -
 
 - (double)displayTime {
-	return _displayTime;
+	return displayTime;
 }
 
 - (void)setDisplayTime:(double) t {
-	_displayTime = t;
+	displayTime = t;
 }
 
 #pragma mark -
 
 - (id) delegate {
-	return _delegate;
+	return delegate;
 }
 
-- (void) setDelegate:(id) delegate {
-	_delegate = delegate;
+- (void) setDelegate:(id) object {
+	delegate = object;
 }
 
 #pragma mark -
@@ -175,7 +175,7 @@
 
 - (void) forwardInvocation:(NSInvocation *) invocation {
 	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:[invocation selector]] ) {
+	if ( [contentView respondsToSelector:[invocation selector]] ) {
 		[invocation invokeWithTarget:contentView];
 	} else {
 		[super forwardInvocation:invocation];
@@ -184,7 +184,7 @@
 
 - (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
 	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:selector] ) {
+	if ( [contentView respondsToSelector:selector] ) {
 		return [contentView methodSignatureForSelector:selector];
 	} else {
 		return [super methodSignatureForSelector:selector];

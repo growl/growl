@@ -16,19 +16,19 @@ static unsigned bubbleWindowDepth = 0;
 
 @implementation GrowlBubblesWindowController
 
-#define MIN_DISPLAY_TIME 4.
+#define MIN_DISPLAY_TIME 4.0
 #define ADDITIONAL_LINES_DISPLAY_TIME 0.5
-#define MAX_DISPLAY_TIME 10.
+#define MAX_DISPLAY_TIME 10.0
 #define GrowlBubblesPadding 10.f
 
 #pragma mark -
 
 + (GrowlBubblesWindowController *) bubble {
-	return [[[self alloc] init] autorelease];
+	return [[[GrowlBubblesWindowController alloc] init] autorelease];
 }
 
 + (GrowlBubblesWindowController *) bubbleWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
-	return [[[self alloc] initWithTitle:title text:text icon:icon priority:(int)priority sticky:sticky] autorelease];
+	return [[[GrowlBubblesWindowController alloc] initWithTitle:title text:text icon:icon priority:(int)priority sticky:sticky] autorelease];
 }
 
 #pragma mark Regularly Scheduled Coding
@@ -72,13 +72,13 @@ static unsigned bubbleWindowDepth = 0;
 	if( (self = [super initWithWindow:panel] ) ) {
 		#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
 		if( (NSMaxY([panel frame]) - NSHeight([panel frame]) - [NSMenuView menuBarHeight]) < 0 ) {
-			_depth = bubbleWindowDepth = 0;
+			depth = bubbleWindowDepth = 0;
 		} else {
-			_depth = bubbleWindowDepth += NSHeight( panelFrame );
+			depth = bubbleWindowDepth += NSHeight( panelFrame );
 		}
-		_autoFadeOut = !sticky;
-		_target = nil;
-		_action = NULL;
+		autoFadeOut = !sticky;
+		target = nil;
+		action = NULL;
 		
 		// the visibility time for this bubble should be the minimum display time plus
 		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
@@ -89,21 +89,21 @@ static unsigned bubbleWindowDepth = 0;
 		BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
 		if (!limitPref) {
-			_displayTime = MIN (MIN_DISPLAY_TIME + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
-								MAX_DISPLAY_TIME);
+			displayTime = MIN (MIN_DISPLAY_TIME + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
+							   MAX_DISPLAY_TIME);
 		} else {
-			_displayTime = MIN_DISPLAY_TIME;
+			displayTime = MIN_DISPLAY_TIME;
 		}
 	}
 
-	return( self );
+	return self;
 }
 
 - (void) dealloc {
-	[_target release];
+	[target release];
 
 	extern unsigned bubbleWindowDepth;
-	if( _depth == bubbleWindowDepth ) {
+	if( depth == bubbleWindowDepth ) {
 		bubbleWindowDepth = 0;
 	}
 
@@ -113,8 +113,8 @@ static unsigned bubbleWindowDepth = 0;
 #pragma mark -
 
 - (void) _bubbleClicked:(id) sender {
-	if( _target && _action && [_target respondsToSelector:_action] ) {
-		[_target performSelector:_action withObject:self];
+	if( target && action && [target respondsToSelector:action] ) {
+		[target performSelector:action withObject:self];
 	}
 	[self startFadeOut];
 }
@@ -122,21 +122,21 @@ static unsigned bubbleWindowDepth = 0;
 #pragma mark -
 
 - (id) target {
-	return _target;
+	return target;
 }
 
 - (void) setTarget:(id) object {
-	[_target autorelease];
-	_target = [object retain];
+	[target autorelease];
+	target = [object retain];
 }
 
 #pragma mark -
 
 - (SEL) action {
-	return _action;
+	return action;
 }
 
 - (void) setAction:(SEL) selector {
-	_action = selector;
+	action = selector;
 }
 @end

@@ -9,11 +9,11 @@
 #import "FadingWindowController.h"
 
 @interface GrowlSmokeWindowController : FadingWindowController {
-	unsigned	_depth;
-	SEL			_action;
-	id			_target;
-	unsigned	_id;
-	id			_plugin; // the GrowlSmokeDisplay object which created us
+	unsigned	depth;
+	SEL			action;
+	id			target;
+	unsigned	identifier;
+	id			plugin; // the GrowlSmokeDisplay object which created us
 }
 
 + (GrowlSmokeWindowController *) notify;

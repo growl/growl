@@ -24,7 +24,7 @@ static GrowlPreferences * sharedPreferences;
 @implementation GrowlPreferences
 
 + (GrowlPreferences *) preferences {
-	if(!sharedPreferences) {
+	if (!sharedPreferences) {
 		sharedPreferences = [[GrowlPreferences alloc] init];
 	}
 	return sharedPreferences;
@@ -42,7 +42,9 @@ static GrowlPreferences * sharedPreferences;
 
 - (void) registerDefaults:(NSDictionary *)inDefaults {
 	NSMutableDictionary * domain = [[helperAppDefaults persistentDomainForName:HelperAppBundleIdentifier] mutableCopy];
-	if(!domain) domain = [[NSMutableDictionary alloc] init];
+	if (!domain) {
+		domain = [[NSMutableDictionary alloc] init];
+	}
 
 	NSEnumerator		* e = [inDefaults keyEnumerator];
 	NSString			* key;
@@ -111,7 +113,7 @@ static GrowlPreferences * sharedPreferences;
 	NSEnumerator *e = [autoLaunchArray objectEnumerator];
 	NSString *appPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
 	NSDictionary *item;
-	while( (item = [e nextObject] ) ) {
+	while ( (item = [e nextObject] ) ) {
 		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:appPath]) {
 			[defs release];
 			return YES;
@@ -130,7 +132,7 @@ static GrowlPreferences * sharedPreferences;
 	NSMutableArray *mutableLoginItems = [[loginItems mutableCopy] autorelease];
 	NSEnumerator *e = [loginItems objectEnumerator];
 	NSDictionary *item;
-	while( (item = [e nextObject] ) ) {
+	while ( (item = [e nextObject] ) ) {
 		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:appPath]) {
 			[mutableLoginItems removeObject:item];
 		}

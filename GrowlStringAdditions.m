@@ -15,7 +15,7 @@
 - (void)drawWithEllipsisInRect:(NSRect)rect withAttributes:(NSDictionary *)attributes {
 	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
 
-	if(pantherOrLater) {
+	if (pantherOrLater) {
 		// use the built-in ellipsising system if possible
 		NSMutableParagraphStyle *ellipsisingStyle = [[[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
 			setLineBreakMode:NSLineBreakByTruncatingTail] autorelease];
@@ -30,16 +30,17 @@
 		NSMutableString *newString = [[[NSMutableString alloc] initWithString:self] autorelease];
 		
 		// while we don't fit (allowing room for the ellipsis), chop off the last character
-		while(mySize.width > (NSWidth(rect) - mySize.height)) {
+		while (mySize.width > (NSWidth(rect) - mySize.height)) {
 			didTruncate = YES;
 			[newString deleteCharactersInRange:NSMakeRange([newString length] - 1, 1)];
 			mySize = [newString sizeWithAttributes:attributes];
 		}
 		
-		if(didTruncate) {
+		if (didTruncate) {
 			// drop any trailing spaces, it looks odd if we put an ellipsis after a space
-			while([newString characterAtIndex:[newString length] - 1] == ' ')
+			while ([newString characterAtIndex:[newString length] - 1] == ' ') {
 				[newString deleteCharactersInRange:NSMakeRange([newString length] - 1, 1)];
+			}
 			// add the ellipsis itself to indicate that there's missing text
 			[newString appendString:ELLIPSIS_STRING];
 		}

@@ -146,7 +146,7 @@ static id singleton = nil;
 		
 		[self _postGrowlIsReady];
 
-		return( YES );
+		return YES;
 
 	} else if ( [pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION] ) {						
 		NSDictionary	*regDict = [NSDictionary dictionaryWithContentsOfFile:filename];

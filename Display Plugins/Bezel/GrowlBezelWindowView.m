@@ -17,20 +17,20 @@
 
 - (id)initWithFrame:(NSRect)frame {
 	if ( ( self = [super initWithFrame:frame] ) ) {
-		_icon = nil;
-		_title = nil;
-		_text = nil;
-		_textHeight = 0.0f;
-		_target = nil;
-		_action = nil;
+		icon = nil;
+		title = nil;
+		text = nil;
+		textHeight = 0.0f;
+		target = nil;
+		action = nil;
 	}
 	return self;
 }
 
 - (void)dealloc {
-	[_icon release];
-	[_title release];
-	[_text release];
+	[icon release];
+	[title release];
+	[text release];
 
 	[super dealloc];
 }
@@ -42,14 +42,14 @@
 	[[NSColor clearColor] set];
 	NSRectFill( [self frame] );
 
-	NSBezierPath *path = [NSBezierPath roundedRectPath:bounds radius:BORDER_RADIUS lineWidth:1.f];
+	NSBezierPath *path = [NSBezierPath roundedRectPath:bounds radius:BORDER_RADIUS lineWidth:1.0f];
 
 	int opacityPref = 40;
 	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
 	
 	[[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:(opacityPref*0.01f)] set];
 	[path fill];
-	
+
 	int sizePref = 0;
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 
@@ -59,13 +59,13 @@
 	int maxRows;
 	int iconOffset = 0;
 	NSSize maxIconSize;
-	NSSize iconSize = [_icon size];
+	NSSize iconSize = [icon size];
 	if (sizePref == BEZEL_SIZE_NORMAL) {
 		titleRect = NSMakeRect(12.f, 90.f, 187.f, 30.f);
 		textRect =  NSMakeRect(12.f, 4.f, 187.f, 80.f);
 		maxRows = 4;
 		maxIconSize = NSMakeSize(72.f, 72.f);
-		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];
+		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
 		if ( iconSize.width < maxIconSize.width ) {
 			iconOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
 		}
@@ -75,7 +75,7 @@
 		textRect =  NSMakeRect(8.f, 4.f, 143.f, 49.f);
 		maxRows = 2;
 		maxIconSize = NSMakeSize(48.f, 48.f);
-		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];
+		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
 		if ( iconSize.width < maxIconSize.width ) {
 			iconOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
 		}
@@ -109,28 +109,28 @@
 	float accumulator = 0.f;
 	BOOL minFontSize = NO;
 	//[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
-	NSSize titleSize = [_title sizeWithAttributes:titleAttributes];
+	NSSize titleSize = [title sizeWithAttributes:titleAttributes];
 
 	while ( titleSize.width > ( NSWidth(titleRect) - ( titleSize.height * 0.5f ) ) ) {
 		minFontSize = ( titleFontSize < 12.f );
 		if ( minFontSize ) {
-			[self setTitle: [_title substringToIndex:[_title length] - 1]];
+			[self setTitle: [title substringToIndex:[title length] - 1]];
 		} else {
 			titleFontSize -= 1.f;
 			accumulator += 0.5f;
 		}
 		[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
-		titleSize = [_title sizeWithAttributes:titleAttributes];
+		titleSize = [title sizeWithAttributes:titleAttributes];
 	}
 
 	titleRect.origin.y += ceilf(accumulator);
 
 	if ( minFontSize ) {
-		[self setTitle: [NSString stringWithFormat:@"%@%@",[_title substringToIndex:[_title length]-1], ELLIPSIS_STRING]];
+		[self setTitle: [NSString stringWithFormat:@"%@%@",[title substringToIndex:[title length]-1], ELLIPSIS_STRING]];
 	}
 
 	titleRect.size.height = titleSize.height;
-	[_title drawInRect:titleRect withAttributes:titleAttributes];
+	[title drawInRect:titleRect withAttributes:titleAttributes];
 	
 	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 				[NSColor whiteColor], NSForegroundColorAttributeName,
@@ -139,101 +139,101 @@
 	if ( pantherOrLater ) {
 		[textAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
-	NSAttributedString *_textAttributed;
-	NSArray *linesN = [_text componentsSeparatedByString:@"\n"];
+	NSAttributedString *textAttributed;
+	NSArray *linesN = [text componentsSeparatedByString:@"\n"];
 	int rowCount = 0;
 	if ( [linesN count] > 1 ) {
 		NSEnumerator *stringEnum = [linesN objectEnumerator];
 		NSString *stringLine;
 		while( (stringLine = [stringEnum nextObject] ) ) {
-			_textAttributed = [[NSAttributedString alloc] initWithString:stringLine attributes:textAttributes];
-			rowCount += [self descriptionRowCount:_textAttributed inRect:textRect];
-			[_textAttributed release];
-			_textHeight = 0;
+			textAttributed = [[NSAttributedString alloc] initWithString:stringLine attributes:textAttributes];
+			rowCount += [self descriptionRowCount:textAttributed inRect:textRect];
+			[textAttributed release];
+			textHeight = 0.0f;
 		}
 	} else {
-		_textAttributed = [[[NSAttributedString alloc] initWithString:_text attributes:textAttributes] autorelease];
-		rowCount = [self descriptionRowCount:_textAttributed inRect:textRect];
-		[_textAttributed release];
+		textAttributed = [[[NSAttributedString alloc] initWithString:text attributes:textAttributes] autorelease];
+		rowCount = [self descriptionRowCount:textAttributed inRect:textRect];
+		[textAttributed release];
 	}
 
 	if ( rowCount > maxRows ) {
 		[textAttributes setObject:[NSFont systemFontOfSize:12.0f] forKey:NSFontAttributeName];
 	}
-	[_text drawInRect:textRect withAttributes:textAttributes];
+	[text drawInRect:textRect withAttributes:textAttributes];
 
 	NSRect iconRect;
 	iconRect.origin = iconPoint;
 	iconRect.size = maxIconSize;
-	[_icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.f];
+	[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.f];
 }
 
-- (void)setIcon:(NSImage *)icon {
-	[_icon autorelease];
-	_icon = [icon retain];
+- (void) setIcon:(NSImage *)anIcon {
+	[icon autorelease];
+	icon = [anIcon retain];
 	[self setNeedsDisplay:YES];
 }
 
-- (void)setTitle:(NSString *)title {
-	[_title autorelease];
-	_title = [title copy];
+- (void) setTitle:(NSString *)aTitle {
+	[title autorelease];
+	title = [aTitle copy];
 	[self setNeedsDisplay:YES];
 }
 
-- (void)setText:(NSString *)text {
-	[_text autorelease];
-	_text = [text copy];
-	_textHeight = 0;
+- (void) setText:(NSString *)aText {
+	[text autorelease];
+	text = [aText copy];
+	textHeight = 0.0f;
 	[self setNeedsDisplay:YES];
 }
 
-- (float)descriptionHeight:(NSAttributedString *)text inRect:(NSRect)theRect {
+- (float) descriptionHeight:(NSAttributedString *)theText inRect:(NSRect)theRect {
 
-	if (_textHeight == 0) {
-		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:text];
+	if (!textHeight) {
+		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:theText];
 		NSTextContainer* textContainer = [[[NSTextContainer alloc]
 			initWithContainerSize:NSMakeSize(NSWidth(theRect),NSHeight(theRect)+1000.f)] autorelease];
 		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
 
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
-		(void)[layoutManager glyphRangeForTextContainer:textContainer];
+		[layoutManager glyphRangeForTextContainer:textContainer];
 	
-		_textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-		_textHeight = _textHeight / 13 * 14;
+		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+		textHeight = textHeight / 13.0f * 14.0f;
 	}
-	return MAX (_textHeight, 30);
+	return MAX (textHeight, 30.0f);
 }
 
-- (int)descriptionRowCount:(NSAttributedString *)text inRect:(NSRect)theRect{
-	float height = [self descriptionHeight:text inRect:theRect];
-	float lineHeight = [text size].height;
+- (int) descriptionRowCount:(NSAttributedString *)theText inRect:(NSRect)theRect{
+	float height = [self descriptionHeight:theText inRect:theRect];
+	float lineHeight = [theText size].height;
 	return (int) (height / lineHeight);
 }
 
 - (id) target {
-	return _target;
+	return target;
 }
 
 - (void) setTarget:(id) object {
-	_target = object;
+	target = object;
 }
 
 #pragma mark -
 
 - (SEL) action {
-	return _action;
+	return action;
 }
 
 - (void) setAction:(SEL) selector {
-	_action = selector;
+	action = selector;
 }
 
 #pragma mark -
 
 - (void) mouseUp:(NSEvent *) event {
-	if ( _target && _action && [_target respondsToSelector:_action] ) {
-		[_target performSelector:_action withObject:self];
+	if ( target && action && [target respondsToSelector:action] ) {
+		[target performSelector:action withObject:self];
 	}
 }
 

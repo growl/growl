@@ -71,7 +71,7 @@ static NSMutableArray *targetsToNotifyArray = nil;
 	//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
 	//of course will not.  If the user wants to destroy the info.plist file inside the bundle, he/she deserves not to have a working Growl installation.
 	preferencePanesPathsEnumerator = [[GrowlAppBridge _allPreferencePaneBundles] objectEnumerator];
-	while( (path = [preferencePanesPathsEnumerator nextObject] ) ) {
+	while ( (path = [preferencePanesPathsEnumerator nextObject] ) ) {
 		prefPaneBundle = [NSBundle bundleWithPath:path];
 		if (prefPaneBundle) {
 			bundleIdentifier = [prefPaneBundle bundleIdentifier];
@@ -180,7 +180,7 @@ static NSMutableArray *targetsToNotifyArray = nil;
 {
 	NSEnumerator	*enumerator = [targetsToNotifyArray objectEnumerator];
 	NSDictionary	*infoDict;
-	while( (infoDict = [enumerator nextObject] ) ) {
+	while ( (infoDict = [enumerator nextObject] ) ) {
 		id  target = [infoDict objectForKey:@"Target"];
 		SEL selector = NSSelectorFromString([infoDict objectForKey:@"Selector"]);
 		void *context = [[infoDict objectForKey:@"Context"] pointerValue];
@@ -211,7 +211,7 @@ static NSMutableArray *targetsToNotifyArray = nil;
 	searchPathEnumerator = [librarySearchPaths objectEnumerator];
 	
 	//Copy each discovered path into the pathArray after adding our subfolder path
-	while((path = [searchPathEnumerator nextObject])){
+	while ((path = [searchPathEnumerator nextObject])) {
 		[pathArray addObject:[path stringByAppendingPathComponent:preferencePanesSubfolder]];
 	}
 	
@@ -228,16 +228,16 @@ static NSMutableArray *targetsToNotifyArray = nil;
 	prefPaneExtension = PREFERENCE_PANE_EXTENSION;
 	searchPathEnumerator = [self _preferencePaneSearchEnumerator];		
     
-	while( ( path = [searchPathEnumerator nextObject] ) ) {
+	while ( ( path = [searchPathEnumerator nextObject] ) ) {
 		
         NSString				*bundlePath;
 		NSDirectoryEnumerator   *bundleEnum;
 
         bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
 
-        if(bundleEnum) {
-            while( ( bundlePath = [bundleEnum nextObject] ) ) {
-                if([[bundlePath pathExtension] isEqualToString:prefPaneExtension]) {
+        if (bundleEnum) {
+            while ( ( bundlePath = [bundleEnum nextObject] ) ) {
+                if ([[bundlePath pathExtension] isEqualToString:prefPaneExtension]) {
 					[allPreferencePaneBundles addObject:[path stringByAppendingPathComponent:bundlePath]];
                 }
             }

@@ -12,7 +12,7 @@
 
 @implementation GrowlBezelWindowController
 
-#define MIN_DISPLAY_TIME 3.
+#define MIN_DISPLAY_TIME 3.0
 #define GrowlBezelPadding 10.f
 
 + (GrowlBezelWindowController *)bezel {
@@ -20,11 +20,11 @@
 }
 
 + (GrowlBezelWindowController *)bezelWithTitle:(NSString *)title text:(NSString *)text
-		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
-	return [[[GrowlBezelWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky] autorelease];
+		icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
+	return [[[GrowlBezelWindowController alloc] initWithTitle:title text:text icon:icon priority:prio sticky:sticky] autorelease];
 }
 
-- (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
+- (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
 	int sizePref = 0;
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 	NSRect sizeRect;
@@ -102,52 +102,52 @@
 	[panel setFrameTopLeftPoint:panelTopLeft];
 
 	if( (self = [super initWithWindow:panel] ) ) {
-		_autoFadeOut = YES;	//!sticky
-		_doFadeIn = NO;
-		_target = nil;
-		_action = NULL;
-		_displayTime = MIN_DISPLAY_TIME;
-		_priority = priority;
+		autoFadeOut = YES;	//!sticky
+		doFadeIn = NO;
+		target = nil;
+		action = NULL;
+		displayTime = MIN_DISPLAY_TIME;
+		priority = prio;
 	}
 
-	return( self );
+	return self;
 }
 
-- (void)dealloc {
-	[_target release];
-	
+- (void) dealloc {
+	[target release];
+
 	[super dealloc];
 }
 
-- (void)_bezelClicked:(id)sender {
-	if ( _target && _action && [_target respondsToSelector:_action] ) {
-		[_target performSelector:_action withObject:self];
+- (void) _bezelClicked:(id)sender {
+	if ( target && action && [target respondsToSelector:action] ) {
+		[target performSelector:action withObject:self];
 	}
 	[self startFadeOut];
 }
 
 - (id)target {
-	return _target;
+	return target;
 }
 
 - (void)setTarget:(id)object {
-	[_target autorelease];
-	_target = [object retain];
+	[target autorelease];
+	target = [object retain];
 }
 
 - (SEL)action {
-	return _action;
+	return action;
 }
 
 - (void)setAction:(SEL)selector {
-	_action = selector;
+	action = selector;
 }
 
 - (int)priority {
-	return _priority;
+	return priority;
 }
 
 - (void)setPriority:(int)newPriority {
-	_priority = newPriority;
+	priority = newPriority;
 }
 @end

@@ -294,7 +294,7 @@ static const char *keychainAccountName = "Growl";
 	[currentApplication release];
 	currentApplication = nil;
 //	currentApplication = [[growlApplications titleOfSelectedItem] retain];
-	unsigned int numApplications = [applications count];
+	unsigned numApplications = [applications count];
 	int row = [growlApplications selectedRow];
 	if ( numApplications ) {
 		if (row > -1)
@@ -441,7 +441,7 @@ static const char *keychainAccountName = "Growl";
 
 - (IBAction) setRemotePassword:(id)sender {
 	const char *password = [[sender stringValue] UTF8String];
-	unsigned int length = strlen( password );
+	unsigned length = strlen( password );
 	OSStatus status;
 	SecKeychainItemRef itemRef = nil;
 	status = SecKeychainFindGenericPassword( NULL,

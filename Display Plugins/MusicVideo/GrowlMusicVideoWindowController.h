@@ -9,10 +9,10 @@
 #import "FadingWindowController.h"
 
 @interface GrowlMusicVideoWindowController : FadingWindowController {
-	SEL				_action;
-	id				_target;
+	SEL				action;
+	id				target;
 	float			topLeftPosition;
-	int				_priority;
+	int				priority;
 }
 
 + (GrowlMusicVideoWindowController *)musicVideo;
