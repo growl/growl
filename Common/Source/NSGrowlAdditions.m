@@ -21,11 +21,19 @@
 	return [self initWithBytes:bytes length:len encoding:NSUTF8StringEncoding];
 }
 
+//for greater polymorphism with NSNumber.
 - (BOOL) boolValue {
 	return [self intValue] != 0
-		|| [self caseInsensitiveCompare:@"yes"] == NSOrderedSame
+		|| [self caseInsensitiveCompare:@"yes"]  == NSOrderedSame
 		|| [self caseInsensitiveCompare:@"true"] == NSOrderedSame;
 }
+- (unsigned long) unsignedLongValue {
+	return strtoul([self UTF8String], /*endptr*/ NULL, /*base*/ 0);
+}
+- (unsigned) unsignedIntValue {
+	return [self unsignedLongValue];
+}
+
 @end
 
 #pragma mark -
