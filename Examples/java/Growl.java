@@ -172,7 +172,7 @@ public class Growl {
 	    Object [] objects = { appName, allNotes, defNotes };
 	    String [] keys = { GROWL_APP_NAME, 
 			       GROWL_NOTIFICATIONS_ALL, 
-			       GROWL_NOTIFICATIONS_ALL };
+			       GROWL_NOTIFICATIONS_DEFAULT };
 
 	    // Make the Dictionary
 	    regDict = new NSDictionary( objects, keys );
@@ -355,7 +355,7 @@ public class Growl {
      * @param inAllNotes - The array of allowed Notifications
      *
      */
-    public void setAllowedNotifications( String inAllNotes ) {
+    public void setAllowedNotifications( String[] inAllNotes ) {
 	allNotes = new NSArray( inAllNotes );
     }
 
