@@ -54,16 +54,16 @@ bool parseVersionString(STRING string, struct Version *outVersion);
 STRING createVersionDescription(const struct Version v);
 
 /*these functions return:
- *	-1	a <  b
- *	 0	a == b
- *	 1	a  > b
+ *	kCFCompareLessThan		a <  b
+ *	kCFCompareEqualTo		a == b
+ *	kCFCompareGreaterThan	a  > b
  */
-signed int compareVersions(const struct Version a, const struct Version b);
-signed int compareVersionStrings(STRING a, STRING b);
+CFComparisonResult compareVersions(const struct Version a, const struct Version b);
+CFComparisonResult compareVersionStrings(STRING a, STRING b);
 /*this version contains brain damage that translates "1.0" to "0.5" (handling
  *	the Growl 0.5 prefpane bundle, whose version was mistakenly set to "1.0").
  *the real Growl 1.0 prefpane bundle will have a version of "1.00".
  */
-signed int compareVersionStringsTranslating1_0To0_5(STRING a, STRING b);
+CFComparisonResult compareVersionStringsTranslating1_0To0_5(STRING a, STRING b);
 
 #endif //ndef _GROWL_VERSIONUTILITIES_H

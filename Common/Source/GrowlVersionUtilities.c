@@ -185,26 +185,26 @@ CFStringRef createVersionDescription(const struct Version v) {
 #pragma mark -
 #pragma mark Comparison
 
-signed int compareVersions(const struct Version a, const struct Version b) {
-	if (a.major       <  b.major)       return -1;
-	if (a.major        > b.major)       return  1;
-	if (a.minor       <  b.minor)       return -1;
-	if (a.minor        > b.minor)       return  1;
-	if (a.incremental <  b.incremental) return -1;
-	if (a.incremental  > b.incremental) return  1;
+CFComparisonResult compareVersions(const struct Version a, const struct Version b) {
+	if (a.major       <  b.major)       return kCFCompareLessThan;
+	if (a.major        > b.major)       return kCFCompareGreaterThan;
+	if (a.minor       <  b.minor)       return kCFCompareLessThan;
+	if (a.minor        > b.minor)       return kCFCompareGreaterThan;
+	if (a.incremental <  b.incremental) return kCFCompareLessThan;
+	if (a.incremental  > b.incremental) return kCFCompareGreaterThan;
 
-	if (a.releaseType <  b.releaseType) return -1;
-	if (a.releaseType  > b.releaseType) return  1;
-	if (a.development <  b.development) return -1;
-	if (a.development  > b.development) return  1;
+	if (a.releaseType <  b.releaseType) return kCFCompareLessThan;
+	if (a.releaseType  > b.releaseType) return kCFCompareGreaterThan;
+	if (a.development <  b.development) return kCFCompareLessThan;
+	if (a.development  > b.development) return kCFCompareGreaterThan;
 
-	return 0;
+	return kCFCompareEqualTo;
 }
 
-signed int compareVersionStrings(CFStringRef a, CFStringRef b) {
-	if (a == b)  return  0;
-	else if (!a) return  1;
-	else if (!b) return -1;
+CFComparisonResult compareVersionStrings(CFStringRef a, CFStringRef b) {
+	if (a == b)  return kCFCompareEqualTo;
+	else if (!a) return kCFCompareGreaterThan;
+	else if (!b) return kCFCompareLessThan;
 
 	struct Version v_a, v_b;
 	bool parsed_a, parsed_b;
@@ -214,20 +214,20 @@ signed int compareVersionStrings(CFStringRef a, CFStringRef b) {
 
 	//strings that could not be parsed sort above strings that could.
 	if (!parsed_a) {
-		return parsed_b ? -1 : 0;
+		return parsed_b ? kCFCompareLessThan : kCFCompareEqualTo;
 	}
 	if (!parsed_b) {
-		return parsed_a ?  1 : 0;
+		return parsed_a ? kCFCompareGreaterThan : kCFCompareEqualTo;
 	}
 
 	return compareVersions(v_a, v_b);
 }
 
 //this function is explained in the header.
-signed int compareVersionStringsTranslating1_0To0_5(CFStringRef a, CFStringRef b) {
-	if (a == b)  return  0;
-	else if (!a) return  1;
-	else if (!b) return -1;
+CFComparisonResult compareVersionStringsTranslating1_0To0_5(CFStringRef a, CFStringRef b) {
+	if (a == b)  return kCFCompareEqualTo;
+	else if (!a) return kCFCompareGreaterThan;
+	else if (!b) return kCFCompareLessThan;
 
 	CFStringRef  one_zero = CFSTR("1.0");
 	CFStringRef zero_five = CFSTR("0.5");
