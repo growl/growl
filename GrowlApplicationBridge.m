@@ -383,7 +383,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		if (prefPaneBundle) {
 			bundleIdentifier = [prefPaneBundle bundleIdentifier];
 			
-			if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]) {
+			if (bundleIdentifier && [bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:(NSCaseInsensitiveSearch | NSBackwardsSearch)]) {
 				return prefPaneBundle;
 			}
 		}
