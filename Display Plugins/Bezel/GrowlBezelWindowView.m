@@ -223,7 +223,6 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 		[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
 		textShadow,                                  NSShadowAttributeName,
 		nil];
-	[parrafo release];
 	float accumulator = 0.0f;
 	BOOL minFontSize = NO;
 	NSSize titleSize = [title sizeWithAttributes:titleAttributes];
@@ -255,6 +254,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 		textShadow,                      NSShadowAttributeName,
 		nil];
 	[textShadow release];
+	[parrafo release];
 	NSAttributedString *textAttributed;
 	NSArray *linesN = [text componentsSeparatedByString:@"\n"];
 	int rowCount = 0;
