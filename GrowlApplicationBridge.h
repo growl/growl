@@ -175,13 +175,13 @@
 /*
 	@category NSObject(GrowlApplicationBridgeDelegate_InformalProtocol)
 	@abstract Methods which may be optionally implemented by the GrowlApplicationBridgeDelegate
-	@discusison The methods in this informal protocol will only be called if implemented by the delegatte.
+	@discusison The methods in this informal protocol will only be called if implemented by the delegate.
  */
 @interface NSObject (GrowlApplicationBridgeDelegate_InformalProtocol)
 /* 
 	@method applicationIconData
 	@abstract Return the NSData to treat as the application icon
-	@discussion The delegate may optionally return an NSData* object to use as the application icon;
+	@discussion The delegate may optionally return an NSData object to use as the application icon;
 	if this is not implemented, the application's own icon is used.  This is not generally needed.
 	@result The NSData to treat as the application icon
  */
@@ -221,7 +221,7 @@
 	@method growlInstallationWindowTitle
 	@abstract Return the title of the installation window
 	@discussion If not implemented, Growl will use a default, localized title
-	@result An NSString* to use as the title
+	@result An NSString object to use as the title
  */
 - (NSString *)growlInstallationWindowTitle;
 
@@ -229,7 +229,7 @@
 	@method growlUpdateWindowTitle
 	@abstract Return the title of the upgrade window
 	@discussion If not implemented, Growl will use a default, localized title
-	@result An NSString* to use as the title
+	@result An NSString object to use as the title
 */
 - (NSString *)growlUpdateWindowTitle;
 
@@ -242,7 +242,7 @@
  
 	If this is not implemented, Growl will use a default, localized explanation.
 
-	@result An NSAttributedString* to display.
+	@result An NSAttributedString object to display.
  */
 - (NSAttributedString *)growlInstallationInformation;
 	
@@ -255,7 +255,7 @@
 	 
 	If this is not implemented, Growl will use a default, localized explanation.
 	 
-	@result An NSAttributedString* to display.
+	@result An NSAttributedString object to display.
 */
 - (NSAttributedString *)growlUpdateInformation;
 
