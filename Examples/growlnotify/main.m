@@ -31,7 +31,7 @@ static const char usage[] =
 "    -m,--message  Sets the message to the following instead of using stdin\n";
 
 int main(int argc, const char **argv) {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	const char *argv0 = argv[0];
 	
