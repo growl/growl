@@ -77,7 +77,7 @@
 	NSArray *defaultNotifications = [aNotification objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
 	applicationNameLen = strlen( applicationName );
 	numAllNotifications = [allNotifications count];
-	numDefaultNotifications = [allNotifications count];
+	numDefaultNotifications = [defaultNotifications count];
 
 	// compute packet size
 	length = sizeof(*nr) + applicationNameLen + MD5_DIGEST_LENGTH;
