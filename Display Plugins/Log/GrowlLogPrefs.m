@@ -45,10 +45,16 @@
 	}
 	
 	[self updatePopupMenu];
-		
-	READ_GROWL_PREF_INT(logTypeKey, LogPrefDomain, &typePref);
+
+	unsigned numHistItems = [customHistArray count];
+	if(numHistItems) {
+		//there is at least one regular file to log to - find out whether to log to one of them
+		READ_GROWL_PREF_INT(logTypeKey, LogPrefDomain, &typePref);
+	} else {
+		//disable the 'Log to file' radio button if there are no files to log to
+		[[fileType cellAtRow:1 column:0] setEnabled:NO];
+	}
 	[fileType selectCellAtRow:typePref column:0];
-	[customMenuButton setEnabled:(typePref != 0)];
 }
 
 - (IBAction) typeChanged:(id)sender {
@@ -76,8 +82,9 @@
 			int runResult;
 			sp = [NSSavePanel savePanel];
 			[sp setRequiredFileType:@"log"];
+			[sp setCanSelectHiddenExtension:YES];
+			runResult = [sp runModalForDirectory:nil file:@""];
 			NSString *saveFilename = [sp filename];
-			runResult = [sp runModalForDirectory:NSHomeDirectory() file:@""];
 			if (runResult == NSOKButton) {
 				int index = NSNotFound;
 				for(unsigned i = 0U, max = [customHistArray count]; i < max; i++) {
@@ -89,7 +96,7 @@
 						[customHistArray removeLastObject];
 				} else {
 					[customHistArray removeObjectAtIndex:index];
-				}	
+				}
 				[customHistArray insertObject:[NSString stringWithString:saveFilename] atIndex:0U];
 			}
 		} else {
@@ -116,6 +123,12 @@
 				WRITE_GROWL_PREF_VALUE(customHistKey3, s, LogPrefDomain);
 				//NSLog(@"Writing %@ as hist3", s);
 			}
+
+			/*in case there weren't any files listed before (which means we
+			 *	disabled the 'Log to file' button), enable the 'Log to file' button.
+			 */
+			[[fileType cellAtRow:1 column:0] setEnabled:YES];
+			[fileType selectCellAtRow:1 column:0];
 		}
 		
 		SYNCHRONIZE_GROWL_PREFS();
@@ -132,15 +145,15 @@
 	for(unsigned i = 0U; i < numHistItems; i++) {
 		NSArray *pathComponentry = [[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] pathComponents];
 		unsigned numPathComponents = [pathComponentry count];
-		if(numPathComponents > 2) {
-			NSMutableString *arg = [[NSMutableString alloc] init];
+		if(numPathComponents > 2U) {
 			unichar ellipsis = 0x2026;
-			[arg setString:[NSMutableString stringWithCharacters:&ellipsis length:1]];
+			NSMutableString *arg = [[NSMutableString alloc] initWithCharacters:&ellipsis length:1U];
 			[arg appendString:@"/"];
-			[arg appendString:[pathComponentry objectAtIndex:(numPathComponents - 2)]];
+			[arg appendString:[pathComponentry objectAtIndex:(numPathComponents - 2U)]];
 			[arg appendString:@"/"];
-			[arg appendString:[pathComponentry objectAtIndex:(numPathComponents - 1)]];
+			[arg appendString:[pathComponentry objectAtIndex:(numPathComponents - 1U)]];
 			[customMenuButton insertItemWithTitle:arg atIndex:i];
+			[arg release];
 		} else {
 			[customMenuButton insertItemWithTitle:[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] atIndex:i];
 		}

@@ -76,7 +76,8 @@
  		}
  		if (!written) {
  			// Falling back to NSLogging…
- 			NSLog(@"Failed to write notification to file %@", logFile);
+			if(logFile)
+				NSLog(@"Failed to write notification to file %@", logFile);
  			NSLog(logString);
  		}
  	}
