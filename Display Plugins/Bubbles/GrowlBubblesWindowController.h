@@ -13,6 +13,7 @@
 	unsigned	depth;
 	SEL			action;
 	id			target;
+	NSString	*notificationID;
 }
 
 + (GrowlBubblesWindowController *) bubble;
@@ -27,4 +28,8 @@
 
 - (SEL) action;
 - (void) setAction:(SEL) selector;
+
+- (NSString *) notificationID;
+- (void) setNotificationID:(NSString *) notificationID;
+
 @end

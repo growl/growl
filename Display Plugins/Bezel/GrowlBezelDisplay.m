@@ -73,6 +73,11 @@
 			priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
 	[nuBezel setDelegate:self];
+	
+	[nuBezel setTarget:self];
+	[nuBezel setAction:@selector(_bezelClicked:)];
+	[nuBezel setNotificationID:[noteDict objectForKey:GROWL_NOTIFICATION_ID]];	
+	
 	if ( [notificationQueue count] > 0U ) {
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
 		GrowlBezelWindowController *aNotification;
@@ -106,6 +111,16 @@
 	if ( [notificationQueue count] > 0U ) {
 		olBezel = [notificationQueue objectAtIndex:0U];
 		[olBezel startFadeIn];
+	}
+}
+
+- (void) _bezelClicked:(GrowlBezelDisplay *)bezel
+{
+	NSString *notificationID = [bezel notificationID];
+	
+	if (notificationID) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED	
+															object:notificationID];
 	}
 }
 

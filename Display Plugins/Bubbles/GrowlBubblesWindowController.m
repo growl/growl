@@ -27,7 +27,7 @@ static unsigned bubbleWindowDepth = 0U;
 	return [[[GrowlBubblesWindowController alloc] init] autorelease];
 }
 
-+ (GrowlBubblesWindowController *) bubbleWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
++ (GrowlBubblesWindowController *) bubbleWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky{
 	return [[[GrowlBubblesWindowController alloc] initWithTitle:title text:text icon:icon priority:(int)priority sticky:sticky] autorelease];
 }
 
@@ -38,6 +38,7 @@ static unsigned bubbleWindowDepth = 0U;
 	#warning View is bleeding into the controller here; these hardcoded pixels dont belong.
 	// I tried setting the width/height to zero, since the view resizes itself later.
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
+	// A window with a frame of NSZeroRect is off-screen and doesn't respect opacity even if moved on screen later. -Evan
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f ) 
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered defer:NO] autorelease];
@@ -82,7 +83,8 @@ static unsigned bubbleWindowDepth = 0U;
 		autoFadeOut = !sticky;
 		target = nil;
 		action = NULL;
-		
+		notificationID = nil;
+
 		// the visibility time for this bubble should be the minimum display time plus
 		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
 		int rowCount = MIN ([view descriptionRowCount], 0) - 2;
@@ -101,6 +103,7 @@ static unsigned bubbleWindowDepth = 0U;
 
 - (void) dealloc {
 	[target release];
+	[notificationID release];
 
 	if ( depth == bubbleWindowDepth ) {
 		bubbleWindowDepth = 0U;
@@ -138,4 +141,16 @@ static unsigned bubbleWindowDepth = 0U;
 - (void) setAction:(SEL) selector {
 	action = selector;
 }
+
+#pragma mark -
+
+- (NSString *) notificationID {
+	return notificationID;
+}
+
+- (void) setNotificationID:(NSString *)inNotificationID {
+	[notificationID autorelease];
+	notificationID = [inNotificationID retain];
+}
+
 @end

@@ -12,6 +12,7 @@
 	SEL				action;
 	id				target;
 	int				priority;
+	NSString		*notificationID;
 }
 
 + (GrowlBezelWindowController *) bezel;
@@ -28,5 +29,8 @@
 
 - (int) priority;
 - (void) setPriority:(int)newPriority;
+
+- (NSString *) notificationID;
+- (void) setNotificationID:(NSString *) notificationID;
 
 @end

@@ -55,7 +55,7 @@
 	GrowlBezelWindowView *view = [[[GrowlBezelWindowView alloc] initWithFrame:panelFrame] autorelease];
 	
 	[view setTarget:self];
-	[view setAction:@selector(_bezelClicked:)]; // Not used for now
+	[view setAction:@selector(_bezelClicked:)];
 	[panel setContentView:view];
 	
 	[view setTitle:title];
@@ -106,6 +106,7 @@
 		doFadeIn = NO;
 		target = nil;
 		action = NULL;
+		notificationID = nil;
 		displayTime = MIN_DISPLAY_TIME;
 		priority = prio;
 	}
@@ -126,6 +127,8 @@
 	[self startFadeOut];
 }
 
+#pragma mark -
+
 - (id)target {
 	return target;
 }
@@ -135,6 +138,8 @@
 	target = [object retain];
 }
 
+#pragma mark -
+
 - (SEL)action {
 	return action;
 }
@@ -143,6 +148,8 @@
 	action = selector;
 }
 
+#pragma mark -
+
 - (int)priority {
 	return priority;
 }
@@ -150,4 +157,16 @@
 - (void)setPriority:(int)newPriority {
 	priority = newPriority;
 }
+
+#pragma mark -
+
+- (NSString *) notificationID {
+	return notificationID;
+}
+
+- (void) setNotificationID:(NSString *)inNotificationID {
+	[notificationID autorelease];
+	notificationID = [inNotificationID retain];
+}
+
 @end

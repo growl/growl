@@ -150,6 +150,7 @@ static const double gMaxDisplayTime = 10.0;
 		autoFadeOut = !sticky;
 		target = nil;
 		action = NULL;
+		notificationID = nil;
 		delegate = self;
 
 		// the visibility time for this notification should be the minimum display time plus
@@ -222,6 +223,17 @@ static const double gMaxDisplayTime = 10.0;
 
 - (void) setAction:(SEL) selector {
 	action = selector;
+}
+
+#pragma mark -
+
+- (NSString *) notificationID {
+	return notificationID;
+}
+
+- (void) setNotificationID:(NSString *)inNotificationID {
+	[notificationID autorelease];
+	notificationID = [inNotificationID retain];
 }
 
 #pragma mark -

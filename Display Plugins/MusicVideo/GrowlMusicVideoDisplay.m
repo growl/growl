@@ -72,7 +72,13 @@
 			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 			priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
+	
 	[nuMusicVideo setDelegate:self];
+	[nuMusicVideo setTarget:self];
+	[nuMusicVideo setAction:@selector(_musicVideoClicked:)];
+	[nuMusicVideo setNotificationID:[noteDict objectForKey:GROWL_NOTIFICATION_ID]];	
+	
+	
 	if ( [notificationQueue count] > 0U ) {
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
 		GrowlMusicVideoWindowController *aNotification;
@@ -100,12 +106,22 @@
 	}
 }
 
-- (void)didFadeOut:(id)sender {
+- (void) didFadeOut:(id)sender {
 	GrowlMusicVideoWindowController *olMusicVideo;
 	[notificationQueue removeObjectAtIndex:0U];
 	if ( [notificationQueue count] > 0U ) {
 		olMusicVideo = [notificationQueue objectAtIndex:0U];
 		[olMusicVideo startFadeIn];
+	}
+}
+
+- (void) _musicVideoClicked:(GrowlMusicVideoDisplay *)musicVideo
+{
+	NSString *notificationID = [musicVideo notificationID];
+	
+	if (notificationID) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED	
+															object:notificationID];
 	}
 }
 

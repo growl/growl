@@ -13,6 +13,7 @@
 	id				target;
 	float			topLeftPosition;
 	int				priority;
+	NSString	*notificationID;
 }
 
 + (GrowlMusicVideoWindowController *) musicVideo;
@@ -26,6 +27,9 @@
 
 - (SEL) action;
 - (void) setAction:(SEL)selector;
+
+- (NSString *) notificationID;
+- (void) setNotificationID:(NSString *) notificationID;
 
 - (int) priority;
 - (void) setPriority:(int)newPriority;

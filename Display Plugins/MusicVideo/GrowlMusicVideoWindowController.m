@@ -137,6 +137,8 @@
 	[self startFadeOut];
 }
 
+#pragma mark -
+
 - (id)target {
 	return target;
 }
@@ -146,6 +148,8 @@
 	target = [object retain];
 }
 
+#pragma mark -
+
 - (SEL)action {
 	return action;
 }
@@ -153,6 +157,19 @@
 - (void)setAction:(SEL)selector {
 	action = selector;
 }
+
+#pragma mark -
+
+- (NSString *) notificationID {
+	return notificationID;
+}
+
+- (void) setNotificationID:(NSString *)inNotificationID {
+	[notificationID autorelease];
+	notificationID = [inNotificationID retain];
+}
+
+#pragma mark -
 
 - (int)priority {
 	return priority;

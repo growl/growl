@@ -66,14 +66,28 @@
 	return bubblePrefPane;
 }
 
-- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {
+- (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
 	GrowlBubblesWindowController *nuBubble = [GrowlBubblesWindowController bubbleWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
 																			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 																			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 																			priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 																			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
+	[nuBubble setTarget:self];
+	[nuBubble setAction:@selector(_bubbleClicked:)];
+	[nuBubble setNotificationID:[noteDict objectForKey:GROWL_NOTIFICATION_ID]];
+
 	[nuBubble startFadeIn];
 //	NSLog( @"bubble - %@", nuBubble );
+}
+
+- (void) _bubbleClicked:(GrowlBubblesWindowController *)bubble
+{
+	NSString *notificationID = [bubble notificationID];
+
+	if (notificationID) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED	
+															object:notificationID];
+	}
 }
 
 @end
