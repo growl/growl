@@ -107,7 +107,10 @@
 										  alpha:alpha];
 		[array release];
 		array = nil;
+	} else {
+		color = defaultColor;
 	}
+
 	[text_veryLow setColor:color];
 	
 	READ_GROWL_PREF_VALUE(GrowlBubblesModerateTextColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
