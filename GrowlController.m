@@ -168,7 +168,7 @@
 	} else {
 		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
 	}
-	
+
 	NSArray *allNotes     = [userInfo objectForKey:GROWL_NOTIFICATIONS_ALL];
 	NSArray *defaultNotes = [userInfo objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
 
@@ -188,6 +188,7 @@
 		newApp = [_tickets objectForKey:appName];
 		[newApp setAllNotifications:allNotes];
 		[newApp setDefaultNotifications:defaultNotes];
+		[newApp setIcon:appIcon];
 	}
 
 	[newApp saveTicket];

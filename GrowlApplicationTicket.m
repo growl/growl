@@ -93,6 +93,12 @@
 - (NSImage *) icon {
 	return _icon;
 }
+- (void) setIcon:(NSImage *) inIcon {
+	if(_icon != inIcon) {
+		[_icon release];
+		_icon = [inIcon retain];
+	}
+}
 
 #pragma mark -
 
