@@ -6,11 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlDefines.h" //this should not be needed
+
+@protocol GrowlDisplayPlugin;
 
 @interface GrowlController : NSObject {
 	NSMutableDictionary			*_tickets;				//Application tickets
-	id <GrowlDisplayPlugin>		*_displayController;
+	id <GrowlDisplayPlugin>		_displayController;
 }
 
 - (void) dispatchNotification:(NSNotification *) note;
