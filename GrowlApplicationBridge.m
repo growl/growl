@@ -7,7 +7,9 @@
 //
 
 #import "GrowlApplicationBridge.h"
+#ifdef GROWL_WITH_INSTALLER
 #import "GrowlInstallationPrompt.h"
+#endif
 
 #import <ApplicationServices/ApplicationServices.h>
 
