@@ -12,7 +12,7 @@ extern NSString * HelperAppBundleIdentifier;
 extern NSString * GrowlPreferencesChanged;
 extern NSString * GrowlDisplayPluginKey;
 extern NSString * GrowlUserDefaultsKey;
-
+extern NSString * GrowlStartServerKey;
 
 @interface GrowlPreferences : NSObject {
 	NSUserDefaults			* helperAppDefaults;

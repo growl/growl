@@ -4,5 +4,7 @@
 <dict>
 	<key>GrowlDisplayPluginName</key>
 	<string>Bubbles</string>
+	<key>GrowlStartServer</key>
+	<false/>
 </dict>
 </plist>

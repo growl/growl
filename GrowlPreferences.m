@@ -12,15 +12,16 @@ NSString * HelperAppBundleIdentifier	= @"com.Growl.GrowlHelperApp";
 NSString * GrowlPreferencesChanged		= @"GrowlPreferencesChanged";
 NSString * GrowlDisplayPluginKey		= @"GrowlDisplayPluginName";
 NSString * GrowlUserDefaultsKey			= @"GrowlUserDefaults";
-
+NSString * GrowlStartServerKey			= @"GrowlStartServer";
 
 static GrowlPreferences * sharedPreferences;
 
 @implementation GrowlPreferences
 
 + (GrowlPreferences *) preferences {
-	if(!sharedPreferences)
+	if(!sharedPreferences) {
 		sharedPreferences = [[GrowlPreferences alloc] init];
+	}
 	return sharedPreferences;
 }
 

@@ -170,9 +170,9 @@
 	[self cacheImages];
 
 	[self loadViewForDisplay:nil];
-	
+
 	[growlApplications reloadData];
-		
+
 	[startGrowlAtLogin setState:NSOffState];
 	NSUserDefaults *defs = [[NSUserDefaults alloc] init];
 	NSArray *autoLaunchArray = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
@@ -294,7 +294,7 @@
 
 - (IBAction) startStopGrowl:(id) sender {
 	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
-	
+
 	// Make sure growlIsRunning is correct
 	if (growlIsRunning != [self _isGrowlRunning]) {
 		// Nope - lets just flip it and update status
@@ -354,20 +354,26 @@
 			[mutableLoginItems removeObject:item];
 		}
 	}
-	
+
 	if ( [startGrowlAtLogin state] == NSOnState ) {
 		NSMutableDictionary *launchDict = [NSMutableDictionary dictionary];
 		[launchDict setObject:[NSNumber numberWithBool:NO] forKey:@"Hide"];
 		[launchDict setObject:appPath forKey:@"Path"];
 		[mutableLoginItems addObject:launchDict];
 	}
-	
+
 	[loginWindowPrefs setObject:[NSArray arrayWithArray:mutableLoginItems] 
 						 forKey:@"AutoLaunchedApplicationDictionary"];
 	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
 					  forName:@"loginwindow"];
 	[defs synchronize];
 	[defs release];
+}
+
+- (IBAction)startGrowlServer:(id)sender
+{
+	NSNumber *state = [NSNumber numberWithBool:([sender state] == NSOnState)];
+	[[GrowlPreferences preferences] setObject:state forKey:GrowlStartServerKey];
 }
 
 - (IBAction)selectDisplayPlugin:(id)sender {
@@ -604,19 +610,20 @@
 
 -(void)tableViewDidClickInBody:(NSTableView*)tableView
 {
-	if((tableView == growlApplications) && ([tableView selectedRow] > -1))
+	if((tableView == growlApplications) && ([tableView selectedRow] > -1)) {
 		[remove setEnabled:YES];
-	else
+	} else {
 		[remove setEnabled:NO];
+	}
 }
 
 #pragma mark Growl Tab View Delegate Methods
 - (void) tabView:(NSTabView*)tab willSelectTabViewItem:(NSTabViewItem*)tabViewItem
 {
 	//NSLog(@"%s %@\n", __FUNCTION__, [tabViewItem label]);
-	if([[tabViewItem label] isEqual:@"Applications"])
-			[[tab window] makeFirstResponder: growlApplications];
-			
+	if([[tabViewItem label] isEqual:@"Applications"]) {
+		[[tab window] makeFirstResponder: growlApplications];
+	}			
 }
 
 #pragma mark -

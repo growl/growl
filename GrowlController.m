@@ -66,8 +66,23 @@ static id _singleton = nil;
 		[[GrowlPreferences preferences] registerDefaults:
 				[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]]];
 
-		// TODO: pref for turning server on/off
-		// Setup notification server
+		[self preferencesChanged:nil];
+		
+		if (!_singleton) {
+			_singleton = self;
+		}
+	}
+
+	return self;
+}
+
+- (void)startStopServer
+{
+	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlStartServerKey] boolValue];
+
+	// Setup notification server
+	if( enabled && !_service ) {
+		// turn on
 		NSSocketPort *socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
 		NSConnection *connection;
 		connection = [[NSConnection alloc] initWithReceivePort:socketPort sendPort:nil];
@@ -87,20 +102,17 @@ static id _singleton = nil;
 
 		// Configure and publish the Rendezvous service
 		_service = [[NSNetService alloc] initWithDomain:@""
-												  type:@"_growl._tcp."
-												  name:@"Growl"
-												  port:GROWL_TCP_PORT];
+												   type:@"_growl._tcp."
+												   name:@"Growl"
+												   port:GROWL_TCP_PORT];
 		[_service setDelegate:self];
 		[_service publish];
-
-		[self preferencesChanged:nil];
-		
-		if (!_singleton) {
-			_singleton = self;
-		}
+	} else if( !enabled && _service ) {
+		// turn off
+		[_service stop];
+		[_service release];
+		_service = nil;
 	}
-
-	return self;
 }
 
 - (void) dealloc {
@@ -109,8 +121,6 @@ static id _singleton = nil;
 	[_registrationLock release];
 	[_notificationQueue release];
 	[_registrationQueue release];
-	[_service stop];
-	[_service release];
 
 	[super dealloc];
 }
@@ -226,6 +236,9 @@ static id _singleton = nil;
 	}
 	if(note == nil || [[note object] isEqualTo:GrowlUserDefaultsKey]) {
 		[[GrowlPreferences preferences] synchronize];
+	}
+	if(note == nil || [[note object] isEqualTo:GrowlStartServerKey]) {
+		[self startStopServer];
 	}
 }
 

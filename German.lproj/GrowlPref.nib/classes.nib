@@ -9,6 +9,7 @@
                 revert = id; 
                 selectDisplayPlugin = id; 
                 startGrowlAtLogin = id; 
+                startGrowlServer = id; 
                 startStopGrowl = id; 
             }; 
             CLASS = GrowlPref; 

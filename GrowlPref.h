@@ -71,6 +71,7 @@
 #pragma mark "General" tab pane
 - (IBAction)startStopGrowl:(id)sender;
 - (IBAction)startGrowlAtLogin:(id)sender;
+- (IBAction)startGrowlServer:(id)sender;
 
 - (IBAction)selectDisplayPlugin:(id)sender;
 
