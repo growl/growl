@@ -5,6 +5,21 @@
 	};
 	objectVersion = 39;
 	objects = {
+		07834E1606E5473600FEB33C = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/GrowlTunes.app",
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/GrowlTunes.app/Contents/Resources/PlugIns",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "for it in $*; do\necho mkdir $it/Contents/Resources/PlugIns\nmkdir $it/Contents/Resources/PlugIns\ndone";
+		};
 		07C611BE068BE1C1007FEC77 = {
 			fileRef = 07D0C5EB068A50E40076D89A;
 			isa = PBXBuildFile;
@@ -489,6 +504,7 @@
 				8D1107290486CEB800E47090,
 				8D11072C0486CEB800E47090,
 				8D11072E0486CEB800E47090,
+				07834E1606E5473600FEB33C,
 			);
 			buildRules = (
 			);
