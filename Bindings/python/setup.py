@@ -5,9 +5,12 @@ import sys
 _growl = Extension('_growl',
                     extra_link_args = ["-framework","Foundation"],
                     sources = ['libgrowl.m'])
+_growlImage = Extension('_growlImage',
+                        extra_link_args = ["-framework","Cocoa"],
+                        sources = ['growlImage.m'])
 
 if sys.platform.startswith("darwin"):
-    modules = [_growl]
+    modules = [_growl, _growlImage]
 else:
     modules = []
 

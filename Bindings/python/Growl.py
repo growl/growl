@@ -131,15 +131,19 @@ class netgrowl:
         data += checksum.digest()
         return data
 
-class fakeImage(object):
-    """ Fake Class for fooling the _growl.so about the incoming data. 
-        XXX Still ugly
-    """
-    def __init__(self, data=None):
-        self.fakeImageData = data
-    def loadFile(self, path):
-        self.fakeImageData =  open(path, "r+b").read()
+class _ImageHook(type):
+    def __getattribute__(self, attr):
+        global Image
+        if Image is self:
+            from _growlImage import Image
+        
+        return getattr(Image, attr)
 
+class Image(object):
+    __metaclass__ = _ImageHook
+
+class _RawImage(object):
+    def __init__(self, data):  self.rawImageData = data
 
 class GrowlNotifier(object):
     """
@@ -178,12 +182,10 @@ class GrowlNotifier(object):
 
             
     def _checkIcon(self, data):
-        if isinstance(data, fakeImage):
-            return data
-        elif type(data) is types.StringType:
-            return fakeImage(data)
+        if isinstance(data, str):
+            return _RawImage(data)
         else:
-            raise TypeError, "Icons must be a string type obj or a fakeImage class"
+            return data
 
     def register(self):
         if self.applicationIcon is not None:

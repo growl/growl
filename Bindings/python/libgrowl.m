@@ -5,36 +5,6 @@
 
 #include <Python.h>
 #import <Foundation/Foundation.h>
-
-/*
-typedef struct {
-    PyObject_HEAD
-    NSImage *theImage;
-} growlImage;
-
-tatic void
-growlImage_dealloc(growlImage* self)
-{
-    [self->theImage relase];
-    self->ob_type->tp_free((PyObject*)self);
-}
-
-static PyObject *
-growlImage_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
-{
-    growlImage *self;
-
-    self = (growlImage*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        [[self->theImage alloc] init];
-    }
-    return (PyObject *)self;
-}
-
-static int
-growlImage_init(Noddy *self, PyObject *args, PyObject *kwds)
-{
-*/
    
 
 static PyObject *
@@ -121,8 +91,8 @@ growl_PostNotification(PyObject *self, PyObject *args)
                 }
             }
             [note setObject:listHolder forKey:convertedKey];
-        } else if (PyObject_HasAttrString(pValue, "fakeImageData")) {
-            PyObject *lValue = PyObject_GetAttrString(pValue, "fakeImageData");
+        } else if (PyObject_HasAttrString(pValue, "rawImageData")) {
+            PyObject *lValue = PyObject_GetAttrString(pValue, "rawImageData");
             if (! lValue) {
                 goto error;
             } else if (PyString_Check(lValue)) {
@@ -130,7 +100,7 @@ growl_PostNotification(PyObject *self, PyObject *args)
                                                         length:PyString_Size(lValue)] autorelease];
                 [note setObject:convertedIcon forKey:convertedKey];
             } else {
-                PyErr_SetString(PyExc_TypeError,"Icons must be of the fakeImage Class");
+                PyErr_SetString(PyExc_TypeError, "Icon with rawImageData attribute present must ensure it is a string.");
                 goto error;
             }
         } else {
