@@ -164,15 +164,6 @@
 			settings = {
 			};
 		};
-		0A17E7D9073349E5008CCDC5 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlDefines.h;
-			path = ../../GrowlDefines.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 //0A0
 //0A1
 //0A2
@@ -241,7 +232,6 @@
 //324
 		32C88E010371C26100C91783 = {
 			children = (
-				0A17E7D9073349E5008CCDC5,
 				32DBCF630370AF2F00C91783,
 			);
 			isa = PBXGroup;

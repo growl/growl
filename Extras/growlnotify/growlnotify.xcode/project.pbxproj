@@ -49,27 +49,11 @@
 				95583F9F079E4B4900C79085,
 				956909A20791DD4E00610FAA,
 				9526247C074F92F600C5F344,
-				07C7692706831F250025D426,
 			);
 			isa = PBXGroup;
 			name = Headers;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		07C7692706831F250025D426 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlDefines.h;
-			path = ../../GrowlDefines.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		07C7692806831F250025D426 = {
-			fileRef = 07C7692706831F250025D426;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		07E246250732270700181E6B = {
 			children = (
@@ -289,7 +273,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD76F980486AA7600D96B5E,
-				07C7692806831F250025D426,
 				9526247E074F92F600C5F344,
 				956909A30791DD4E00610FAA,
 				95583FA0079E4B4900C79085,
@@ -353,7 +336,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlUDPUtils.h;
-			path = ../../Source/GrowlUDPUtils.h;
+			path = ../../Core/Source/GrowlUDPUtils.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -362,7 +345,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlUDPUtils.m;
-			path = ../../Source/GrowlUDPUtils.m;
+			path = ../../Core/Source/GrowlUDPUtils.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -383,7 +366,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlDefinesInternal.h;
-			path = ../../GrowlDefinesInternal.h;
+			path = ../../Common/Source/GrowlDefinesInternal.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -413,7 +396,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlNotificationServer.h;
-			path = ../../Source/GrowlNotificationServer.h;
+			path = ../../Core/Source/GrowlNotificationServer.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};

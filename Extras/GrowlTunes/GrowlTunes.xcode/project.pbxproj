@@ -442,7 +442,6 @@
 		};
 		29B97315FDCFA39411CA2CEA = {
 			children = (
-				5275B564068866DA006F5704,
 				32CA4F630368D1EE00C91783,
 				29B97316FDCFA39411CA2CEA,
 			);
@@ -619,15 +618,6 @@
 			settings = {
 			};
 		};
-		5275B564068866DA006F5704 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlDefines.h;
-			path = ../../GrowlDefines.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 		52F5774906872B3A0068B46C = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -694,7 +684,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "../../build /Users/diggory/Code/OpenSource/growl/Extras/GrowlTunes";
+				FRAMEWORK_SEARCH_PATHS = "../../build .";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -707,8 +697,8 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				OTHER_CFLAGS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "-fobjc-exceptions";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = GrowlTunes;
 				SECTORDER_FLAGS = "";
