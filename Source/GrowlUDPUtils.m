@@ -8,6 +8,7 @@
 
 #import "GrowlUDPUtils.h"
 #import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 #include <openssl/md5.h>
 
 @implementation GrowlUDPUtils
