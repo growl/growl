@@ -18,30 +18,32 @@
 
 #define ERROR_EXCEPTION						1
 
-static const NSSize iconSize = {128.0f, 128.0f};
+static const NSSize iconSize = { 128.0f, 128.0f };
 
 @implementation GrowlRegisterScriptCommand
 
 - (id) performDefaultImplementation {
 	NSDictionary *args = [self evaluatedArguments];
 
-	// should validate params better!
+	//XXX - should validate params better!
 	NSString *appName				= [args objectForKey:KEY_APP_NAME];
 	NSArray *allNotifications		= [args objectForKey:KEY_NOTIFICATIONS_ALL];
 	NSArray *defaultNotifications	= [args objectForKey:KEY_NOTIFICATIONS_DEFAULT];
 	NSString *iconOfApplication		= [args objectForKey:KEY_ICON_APP_NAME];
 
-	//translate AppleScript (1-based) indices to C (0-based) indices
+	//translate AppleScript (1-based) indices to C (0-based) indices.
 	NSMutableArray *temp = [NSMutableArray arrayWithArray:defaultNotifications];
 	NSEnumerator *defaultEnum = [defaultNotifications objectEnumerator];
 	NSNumber *num;
 	Class NSNumberClass = [NSNumber class];
-	unsigned i = 0U;
-	while ((num = [defaultEnum nextObject])) {
+	for(unsigned i = 0U; (num = [defaultEnum nextObject]); ++i) {
 		if ([num isKindOfClass:NSNumberClass]) {
-			//it's an index
-			int value = [num intValue];
+			//it's an index.
+			long value = [num longValue];
 			if (value < 0) {
+				/*negative indices are from the end.
+				 *-1 is the last; -2 is second-to-last; etc.
+				 */
 				value = [allNotifications count] + value;
 			} else if (value > 0) {
 				--value;
@@ -50,7 +52,7 @@ static const NSSize iconSize = {128.0f, 128.0f};
 				[self setScriptErrorString:@"Can't get item 0 of notifications."];
 				return nil;
 			}
-			[temp replaceObjectAtIndex:i withObject:[NSNumber numberWithUnsignedInt:value]];
+			[temp replaceObjectAtIndex:i withObject:[NSNumber numberWithUnsignedLong:value]];
 		}
 		++i;
 	}
@@ -69,9 +71,8 @@ static const NSSize iconSize = {128.0f, 128.0f};
 			if (icon) {
 				[icon setSize:iconSize];
 				iconData = [icon TIFFRepresentation];
-				if (iconData) {
+				if (iconData)
 					[registerDict setObject:iconData forKey:GROWL_APP_ICON];
-				}
 			}
 		}
 
@@ -90,7 +91,7 @@ static const NSSize iconSize = {128.0f, 128.0f};
 
 - (void) setError:(int)errorCode failure:(id)failure {
 	[self setScriptErrorNumber:errorCode];
-	NSString* str;
+	NSString *str;
 	
 	switch (errorCode) {
 		case ERROR_EXCEPTION:
@@ -100,9 +101,8 @@ static const NSSize iconSize = {128.0f, 128.0f};
 			str = nil;
 	}
 	
-	if (str) {
+	if (str)
 		[self setScriptErrorString:str];
-	}
 }
 
 @end
