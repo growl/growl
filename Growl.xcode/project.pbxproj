@@ -63,6 +63,7 @@
 		089C166AFE841209C02AAC07 = {
 			children = (
 				CB1C5D95063E523F007052EE,
+				CBDBDEE506715DAF004622FA,
 				CBF073C80659A94F000B4B77,
 				CB5F835E0638B67C00EADD7A,
 				CB5F836E0638B69900EADD7A,
@@ -905,10 +906,9 @@
 		CB61E51A0637763C00E0DDC7 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.xml;
-			name = "GrowlHelperApp-Info.plist";
-			path = "/Users/karl/src/Growl/GrowlHelperApp-Info.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = "GrowlHelperApp-Info.plist";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		CBBC7DDE0659313D00684B79 = {
 			buildActionMask = 2147483647;
@@ -1104,6 +1104,13 @@
 			);
 			isa = PBXGroup;
 			name = Classes;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CBDBDEE506715DAF004622FA = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.rtf;
+			path = ToDo.rtf;
 			refType = 4;
 			sourceTree = "<group>";
 		};
