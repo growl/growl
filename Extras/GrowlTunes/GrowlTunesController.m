@@ -170,8 +170,8 @@ enum {
 
 #pragma mark -
 
-- (NSString *) starsForRating:(float)rating {
-	if(rating < 0.0f) rating = 0.0f;
+- (NSString *) starsForRating:(NSNumber *)aRating {
+	int rating = aRating ? [aRating intValue] : 0;
 
 	enum {
 		BLACK_STAR  = 0x2605, WHITE_STAR = 0x2606,
@@ -183,6 +183,7 @@ enum {
 		ONE_EIGHTH  = 0x215b, THREE_EIGHTHS  = 0x215c, FIVE_EIGHTHS = 0x215d, SEVEN_EIGHTHS = 0x215e,
 		numStars = 5,
 	};
+
 	static unichar fractionChars[] = {
 		/*0/20*/ WHITE_STAR,
 		/*1/20*/ ONE_FIFTH, TWO_FIFTHS, THREE_FIFTHS,
@@ -200,19 +201,18 @@ enum {
 	};
 
 	unichar starBuffer[numStars];
-	float   wholeStarRequirement = 20.0f;
+	int     wholeStarRequirement = 20;
 	for(unsigned i = 0U; i < numStars; ++i) {
 		if(rating >= wholeStarRequirement) {
 			starBuffer[i] = BLACK_STAR;
-			rating -= 20.0f;
+			rating -= 20;
 		} else {
 			/*examples:
-			 *if the rating is 95, then twentieths = 15, and we get 3/4.
-			 *if the rating is 80, then twentieths = 0,  and we get WHITE STAR.
+			 *if the original rating is 95, then rating = 15, and we get 3/4.
+			 *if the original rating is 80, then rating = 0,  and we get WHITE STAR.
 			 */
-			unsigned twentieths = rating;
-			starBuffer[i] = fractionChars[twentieths];
-			rating = 0.0f; //ensure that remaining characters are WHITE STAR.
+			starBuffer[i] = fractionChars[rating];
+			rating = 0; //ensure that remaining characters are WHITE STAR.
 		}
 	}
 
@@ -296,11 +296,7 @@ enum {
 			NSAppleEventDescriptor	*theDescriptor = [getInfoScript executeAndReturnError:&error];
 			NSAppleEventDescriptor  *curDescriptor;
 
-			float ratingFloat = [[userInfo objectForKey:@"Rating"] floatValue];
-			//ensure that rating is an NSNumber, not merely something polymorphic to one like an NSString
-			rating = [NSNumber numberWithFloat:ratingFloat];
-			if(ratingFloat < 0.0f) ratingFloat = 0.0f;
-			ratingString = [self starsForRating:ratingFloat];
+			ratingString = [self starsForRating:[userInfo objectForKey:@"Rating"]];
 
 			curDescriptor = [theDescriptor descriptorAtIndex:2L];
 			playlistName = [curDescriptor stringValue];
@@ -427,9 +423,9 @@ enum {
 		
 		if ( curDescriptor = [theDescriptor descriptorAtIndex:7L] ) {
 			int ratingInt = [[curDescriptor stringValue] intValue];
+			if (ratingInt < 0) ratingInt = 0;
 			rating = [NSNumber numberWithInt:ratingInt];
-			if(rating < 0) rating = 0;
-			ratingString = [self starsForRating:ratingInt];
+			ratingString = [self starsForRating:rating];
 		}
 		
 		curDescriptor = [theDescriptor descriptorAtIndex:8L];
