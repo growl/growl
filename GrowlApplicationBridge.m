@@ -78,9 +78,10 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	
 	//Cache the appIconData from the delegate if it responds to the applicationIconDataForGrowl selector
 	[appIconData autorelease];
-	if ([delegate respondsToSelector:@selector(applicationIconDataForGrowl)]){
+	if ([delegate respondsToSelector:@selector(applicationIconDataForGrowl)])
 		appIconData = [[delegate applicationIconDataForGrowl] retain];
-	}
+	else
+		appIconData = nil;
 
 	//Add the observer for GROWL_IS_READY which will be triggered later if all goes well
 	[NSDNC addObserver:self 
@@ -151,6 +152,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 																	   object:nil
 																	 userInfo:noteDict
 														   deliverImmediately:NO];
+		NSLog(@"GrowlApplicationBridge: Posted notification with dictionary: %@", noteDict);
 	} else {
 #ifdef GROWL_WITH_INSTALLER
 		//Store this notification for posting if Growl launches if the user hasn't already said NO
