@@ -48,7 +48,6 @@
 		NSRange open = [xml rangeOfString:@"<MediumImage><URL>"];
 		if(open.length != 0) {
 			imageURL = [xml substringFromIndex:open.location +open.length];
-			[url release];
 			
 			NSRange close = [imageURL rangeOfString:@"</URL>"];
 			imageURL = [imageURL substringToIndex:close.location];
