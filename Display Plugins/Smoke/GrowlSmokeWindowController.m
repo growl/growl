@@ -196,16 +196,10 @@ static const double gMaxDisplayTime = 10.;
 - (void) dealloc {
 	//[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	[_delegate release];
 	[_target release];
 	[_representedObject release];
 	[_animationTimer invalidate];
 	[_animationTimer release];
-
-	_target = nil;
-	_representedObject = nil;
-	_delegate = nil;
-	_animationTimer = nil;
 
 	//extern unsigned int smokeWindowDepth;
 //	NSLog(@"smokeController deallocking");
