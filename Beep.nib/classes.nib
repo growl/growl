@@ -1,0 +1,22 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {addNotification = id; registerBeep = id; sendNotification = id; }; 
+            CLASS = BeepController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_newNotificationDefault" = NSButton; 
+                "_newNotificationDescription" = NSTextField; 
+                "_newNotificationImage" = NSImageView; 
+                "_newNotificationPanel" = NSPanel; 
+                "_newNotificationTitle" = NSTextField; 
+                "_notificationsTable" = NSTableView; 
+                "_registered" = NSButton; 
+                "_removeNotification" = NSButton; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
