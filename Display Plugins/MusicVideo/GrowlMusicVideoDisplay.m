@@ -78,8 +78,8 @@
 	[nuMusicVideo setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[nuMusicVideo setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];	
 	[nuMusicVideo setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
-	
-	if ( [notificationQueue count] > 0U ) {
+
+	if ([notificationQueue count] > 0U) {
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
 		GrowlMusicVideoWindowController *aNotification;
 		BOOL		inserted = FALSE;
@@ -107,8 +107,7 @@
 }
 
 - (void) willFadeOut:(FadingWindowController *)sender {
-	GrowlMusicVideoWindowController *next = (GrowlMusicVideoWindowController *)sender;
-	if ( [notificationQueue count] > 1U ) {
+	if ([notificationQueue count] > 1U) {
 		[[notificationQueue objectAtIndex:1U] startFadeIn];
 	}
 }
@@ -119,8 +118,8 @@
 
 - (void) _musicVideoClicked:(GrowlMusicVideoWindowController *)musicVideo {
 	id clickContext;
-	
-	if ( (clickContext = [musicVideo clickContext]) ) {
+
+	if ((clickContext = [musicVideo clickContext])) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:[musicVideo appName]
 														  userInfo:clickContext];

@@ -22,7 +22,4 @@
 
 - (int) priority;
 - (void) setPriority:(int)newPriority;
-
-- (void) setFlipIn:(BOOL)flag;
-- (void) setFlipOut:(BOOL)flag;
 @end

@@ -162,13 +162,4 @@
 	priority = newPriority;
 }
 
-#pragma mark -
-
-- (void) setFlipIn:(BOOL)flag {
-	doFadeIn = !flag;
-}
-
-- (void) setFlipOut:(BOOL)flag {
-	doFadeOut = !flag;
-}
 @end
