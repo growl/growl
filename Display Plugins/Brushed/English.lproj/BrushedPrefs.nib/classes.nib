@@ -2,20 +2,11 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {
-                floatIconSwitchChanged = id; 
-                setAqua = id; 
-                setLimit = id; 
-                setScreen = id; 
-                textColorChanged = id; 
-            }; 
+            ACTIONS = {setScreen = id; textColorChanged = id; }; 
             CLASS = GrowlBrushedPrefsController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                aquaCheck = NSButton; 
                 "combo_screen" = NSComboBox; 
-                floatIconSwitch = NSButton; 
-                limitCheck = NSButton; 
                 "text_emergency" = NSColorWell; 
                 "text_high" = NSColorWell; 
                 "text_moderate" = NSColorWell; 

@@ -214,23 +214,20 @@
 			textKey = GrowlBrushedNormalTextColor;
 			break;
 	}
-	NSArray *array = nil;
+	NSData *data = nil;
 
 	[textColor release];
-	READ_GROWL_PREF_VALUE(textKey, GrowlBrushedPrefDomain, NSArray *, &array);
-	if (array && [array isKindOfClass:[NSArray class]]) {
-		textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-											  green:[[array objectAtIndex:1] floatValue]
-											   blue:[[array objectAtIndex:2] floatValue]
-											  alpha:1.0f];
+	READ_GROWL_PREF_VALUE(textKey, GrowlBrushedPrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:[NSData class]]) {
+		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		textColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
 	}
 	[textColor retain];
-	[array release];
+	[data release];
 }
 
-- (void)sizeToFit {
+- (void) sizeToFit {
 	NSRect rect = [self frame];
 	rect.size.height = GrowlBrushedPadding + GrowlBrushedPadding + [self titleHeight] + [self descriptionHeight];
 	if (title && text && [title length] && [text length]) {

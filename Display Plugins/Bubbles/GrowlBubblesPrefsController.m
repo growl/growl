@@ -74,6 +74,8 @@
 	[combo_screen setIntValue:screenNumber];
 }
 
+#pragma mark -
+
 - (BOOL) getLimit {
 	return limit;
 }
@@ -85,6 +87,8 @@
 		UPDATE_GROWL_PREFS();
 	}
 }
+
+#pragma mark -
 
 - (float) getOpacity {
 	return opacity;
@@ -98,6 +102,8 @@
 	}
 }
 
+#pragma mark -
+
 - (float) getDuration {
 	return duration;
 }
@@ -109,6 +115,8 @@
 		UPDATE_GROWL_PREFS();
 	}
 }
+
+#pragma mark -
 
 - (IBAction) topColorChanged:(id)sender {
 	NSColor *color;
@@ -167,7 +175,6 @@
 }
 
 - (IBAction) textColorChanged:(id)sender {	
-	NSColor *color;
 	NSString *key;
 	switch ([sender tag]) {
 		case -2:
@@ -188,17 +195,18 @@
 			break;
 	}
 
-	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	NSData *theData = [NSArchiver archivedDataWithRootObject:color];
+	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
 	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
-- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+#pragma mark -
+
+- (int) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 	return [[NSScreen screens] count];
 }
 
-- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
 	return [NSNumber numberWithInt:idx];
 }
 

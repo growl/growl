@@ -10,6 +10,9 @@
 
 @interface GrowlBrushedPrefsController : NSPreferencePane {
 	float					duration;
+	BOOL					floatingIcon;
+	BOOL					limit;
+	BOOL					aqua;
 
 	IBOutlet NSComboBox		*combo_screen;
 
@@ -18,18 +21,17 @@
 	IBOutlet NSColorWell	*text_normal;
 	IBOutlet NSColorWell	*text_high;
 	IBOutlet NSColorWell	*text_emergency;
-
-	IBOutlet NSButton		*floatIconSwitch;
-	IBOutlet NSButton		*limitCheck;
-	IBOutlet NSButton		*aquaCheck;
 }
 
 - (float) getDuration;
 - (void) setDuration:(float)value;
+- (BOOL) isFloatingIcon;
+- (void) setFloatingIcon:(BOOL)value;
+- (BOOL) isLimit;
+- (void) setLimit:(BOOL)value;
+- (BOOL) isAqua;
+- (void) setAqua:(BOOL)value;
 - (IBAction) textColorChanged:(id)sender;
-- (IBAction) floatIconSwitchChanged:(id)sender;
-- (IBAction) setLimit:(id)sender;
-- (IBAction) setAqua:(id)sender;
 - (IBAction) setScreen:(id)sender;
 
 @end

@@ -18,20 +18,16 @@
 }
 
 - (void) loadColorWell:(NSColorWell *)colorWell fromKey:(NSString *)key defaultColor:(NSColor *)defaultColor {
-	NSArray *array = nil;
+	NSData *data = nil;
 	NSColor *color;
-	READ_GROWL_PREF_VALUE(key, GrowlBrushedPrefDomain, NSArray *, &array);
-	if (array) {
-		float alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
-		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-										  green:[[array objectAtIndex:1U] floatValue]
-										   blue:[[array objectAtIndex:2U] floatValue]
-										  alpha:alpha];
-		[array release];
+	READ_GROWL_PREF_VALUE(key, GrowlBrushedPrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:[NSData class]]) {
+		color = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		color = defaultColor;
 	}
 	[colorWell setColor:color];
+	[data release];
 }
 
 - (void) mainViewDidLoad {
@@ -41,31 +37,19 @@
 	[self setDuration:duration];
 
 	// float icon checkbox
-	BOOL floatIconPref = GrowlBrushedFloatIconPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatIconPref);
-	if (floatIconPref) {
-		[floatIconSwitch setState:NSOnState];
-	} else {
-		[floatIconSwitch setState:NSOffState];
-	}
+	floatingIcon = GrowlBrushedFloatIconPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatingIcon);
+	[self setFloatingIcon:floatingIcon];
 
 	// limit
-	BOOL limitPref = GrowlBrushedLimitPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
-	if (limitPref) {
-		[limitCheck setState:NSOnState];
-	} else {
-		[limitCheck setState:NSOffState];
-	}
+	limit = GrowlBrushedLimitPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limit);
+	[self setLimit:limit];
 
 	// aqua
-	BOOL aquaPref = GrowlBrushedAquaPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &aquaPref);
-	if (aquaPref) {
-		[aquaCheck setState:NSOnState];
-	} else {
-		[aquaCheck setState:NSOffState];
-	}
+	aqua = GrowlBrushedAquaPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &aqua);
+	[self setAqua:aqua];
 	
 	// priority colour settings
 	NSColor *defaultColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
@@ -82,13 +66,23 @@
 	[combo_screen setIntValue:screenNumber];
 }
 
-- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+#pragma mark -
+
+- (int) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 	return [[NSScreen screens] count];
 }
 
-- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
 	return [NSNumber numberWithInt:idx];
 }
+
+- (IBAction) setScreen:(id)sender {
+	int pref = [sender intValue];
+	WRITE_GROWL_PREF_INT(GrowlBrushedScreenPref, pref, GrowlBrushedPrefDomain);	
+	UPDATE_GROWL_PREFS();
+}
+
+#pragma mark -
 
 - (float) getDuration {
 	return duration;
@@ -102,10 +96,9 @@
 	duration = value;
 }
 
-- (IBAction) textColorChanged:(id)sender {
-    NSColor *color;
-    NSArray *array;
+#pragma mark -
 
+- (IBAction) textColorChanged:(id)sender {
     NSString *key;
     switch ([sender tag]) {
         case -2:
@@ -126,43 +119,51 @@
             break;
     }
 
-    color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-    array = [[NSArray alloc] initWithObjects:
-        [NSNumber numberWithFloat:[color redComponent]],
-        [NSNumber numberWithFloat:[color greenComponent]],
-        [NSNumber numberWithFloat:[color blueComponent]],
-		[NSNumber numberWithFloat:[color alphaComponent]],
-		nil];
-    WRITE_GROWL_PREF_VALUE(key, array, GrowlBrushedPrefDomain);
-	[array release];
-
-    // NSLog(@"color: %@ array: %@", color, array);
-
+	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
+    WRITE_GROWL_PREF_VALUE(key, theData, GrowlBrushedPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
-- (IBAction) floatIconSwitchChanged:(id)sender {
-	BOOL pref = ([sender state] == NSOnState);
-	WRITE_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, pref, GrowlBrushedPrefDomain);	
-	UPDATE_GROWL_PREFS();
+#pragma mark -
+
+- (BOOL) isFloatingIcon {
+	return floatingIcon;
 }
 
-- (IBAction) setLimit:(id)sender {
-	BOOL pref = ([sender state] == NSOnState);
-	WRITE_GROWL_PREF_BOOL(GrowlBrushedLimitPref, pref, GrowlBrushedPrefDomain);
-	UPDATE_GROWL_PREFS();
+- (void) setFloatingIcon:(BOOL)value {
+	if (floatingIcon != value) {
+		floatingIcon = value;
+		WRITE_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, value, GrowlBrushedPrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
 }
 
-- (IBAction) setAqua:(id)sender {
-	BOOL pref = ([sender state] == NSOnState);
-	WRITE_GROWL_PREF_BOOL(GrowlBrushedAquaPref, pref, GrowlBrushedPrefDomain);	
-	UPDATE_GROWL_PREFS();
+#pragma mark -
+
+- (BOOL) isLimit {
+	return limit;
 }
 
-- (IBAction) setScreen:(id)sender {
-	int pref = [sender intValue];
-	WRITE_GROWL_PREF_INT(GrowlBrushedScreenPref, pref, GrowlBrushedPrefDomain);	
-	UPDATE_GROWL_PREFS();
+- (void) setLimit:(BOOL)value {
+	if (limit != value) {
+		limit = value;
+		WRITE_GROWL_PREF_BOOL(GrowlBrushedLimitPref, value, GrowlBrushedPrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
+}
+
+#pragma mark -
+
+- (BOOL) isAqua {
+	return aqua;
+}
+
+- (void) setAqua:(BOOL)value {
+	if (aqua != value) {
+		aqua = value;
+		WRITE_GROWL_PREF_BOOL(GrowlBrushedAquaPref, value, GrowlBrushedPrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
 }
 
 @end
