@@ -26,14 +26,16 @@ Release related issues
 Done:
 - Move non-example applications in the Examples directory into an Extras directory.
 - Ask if user wants to "configure plugin now". If so, take to proper place to configure.
-- Smoke
-	- Text colorwell
-	- Smoke needs to specify how many lines it allows to be displayed on screen.
-- Bubbles
-	- Text color colorwell
-	- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy to add this.
-- Music Video
-	- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy 
+- Display Plugins
+	- Speech
+	- Smoke
+		- Text colorwell
+		- Smoke needs to specify how many lines it allows to be displayed on screen.
+	- Bubbles
+		- Text color colorwell
+		- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy to add this.
+	- Music Video
+		- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy 
 - Add a button to remove old tickets
 - Display version number.
 - A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.
@@ -48,6 +50,7 @@ Done:
 - GrowlTunes :
 	- add a timeout to the plugins using network to prevent locking the whole app when loosing connection
 	- Make GrowlTunes save images into ARTchive
+- Network notifications.
 
 
 For .7 or sooner
@@ -57,9 +60,6 @@ For .7 or sooner
 - Add a functional plugin that can display all notifications in a log. Make this accessable via the menuling
 - Display positioning system needs to be implemented.
 	- Write an abstract way for plugins to expand. Horizontal and vertical expanding. Have these off by default for all plugins.
-- Network notifications.
-- Display Plugins
-	- Speech
 	- A square
 
 

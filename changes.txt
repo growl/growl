@@ -16,6 +16,7 @@ New Displays
 	- NSLog
 	- MailMe
 	- Rendezvous (forwards notifications to another Mac on the local network)
+	- Speech
 
 Changes to current displays:
 	Bubbles:
