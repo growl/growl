@@ -8,7 +8,7 @@
 //    program.
 //
 
-#include "GrowlApplicationBridge-Carbon.h"
+#include "GrowlAppBridge-Carbon.h"
 #include "GrowlDefinesCarbon.h"
 
 #define PREFERENCE_PANE_EXTENSION						CFSTR("prefPane")
