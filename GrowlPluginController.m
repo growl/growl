@@ -168,7 +168,7 @@ static GrowlPluginController *sharedController;
 }
 
 - (NSArray *) allDisplayPlugins {
-	return [allDisplayPlugins allKeys];
+	return [[allDisplayPlugins allKeys] sortedArrayUsingSelector:@selector(compare:)];
 }
 
 - (id <GrowlDisplayPlugin>) displayPluginNamed:(NSString *)name {
