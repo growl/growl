@@ -56,8 +56,6 @@
 	if(currentApplication)
 		[growlApplications selectItemWithTitle:currentApplication];
 	
-	[self reloadAppTab];
-	
 	if ( [[[NSUserDefaults standardUserDefaults] objectForKey:@"AutoLaunchedApplicationDictionary"] containsObject:[self growlHelperAppDescription]] ) 
 		[startGrowlAtLogin setState:NSOnState];
 	
@@ -65,6 +63,10 @@
 	[allDisplayPlugins addItemsWithTitles:[[GrowlPluginController controller] allDisplayPlugins]];
 	[allDisplayPlugins selectItemWithTitle:[[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey]];	
 	
+	[applicationDisplayPlugins removeAllItems];
+	[applicationDisplayPlugins addItemsWithTitles:[[GrowlPluginController controller] allDisplayPlugins]];
+	
+	[self reloadAppTab];
 	[self setPrefsChanged:NO];
 }
 
@@ -84,6 +86,14 @@
 	
 	[[[applicationNotifications tableColumnWithIdentifier:@"enable"] dataCell] setEnabled:[appTicket ticketEnabled]];
 	[applicationNotifications reloadData];
+	
+	[applicationUseCustomDisplayPlugin setState:[appTicket usesCustomDisplay]];
+	
+	[applicationDisplayPlugins setEnabled:[appTicket usesCustomDisplay]];
+	if(![appTicket displayPlugin])
+		[appTicket setDisplayPluginNamed:[applicationDisplayPlugins titleOfSelectedItem]];
+	else
+		[applicationDisplayPlugins selectItemWithTitle:[[appTicket displayPlugin] name]];
 }
 
 #pragma mark "General" tab pane
@@ -135,6 +145,17 @@
 	[appTicket setEnabled:[applicationEnabled state]];
 	[self setPrefsChanged:YES];
 	[self reloadAppTab];
+}
+
+- (IBAction)useCustomDisplayPlugin:(id)sender {
+	[appTicket setUsesCustomDisplay:[sender state]];
+	[applicationDisplayPlugins setEnabled:[sender state]];
+	[self setPrefsChanged:YES];
+}
+
+- (IBAction)selectApplicationDisplayPlugin:(id)sender {
+	[appTicket setDisplayPluginNamed:[sender titleOfSelectedItem]];
+	[self setPrefsChanged:YES];
 }
 
 #pragma mark Notification table view data source methods

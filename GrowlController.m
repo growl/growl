@@ -115,7 +115,14 @@ static id _singleton = nil;
 		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON];
 	}
 	
-	[displayController displayNotificationWithInfo:aDict];
+	id <GrowlDisplayPlugin> display;
+	
+	if([ticket usesCustomDisplay])
+		display = [ticket displayPlugin];
+	else
+		display = displayController;
+	
+	[display displayNotificationWithInfo:aDict];
 }
 
 - (void) loadTickets {

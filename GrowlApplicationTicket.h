@@ -16,12 +16,15 @@
 	NSArray			*_defaultNotifications;		// The default notifications
 	NSMutableArray	*_allowedNotifications;		// The allowed notifications
 	
+	BOOL			usesCustomDisplay;
+	id <GrowlDisplayPlugin> displayPlugin;
+	
 	BOOL			_useDefaults;				// Flag for whether this ticket just uses default
 	BOOL			ticketEnabled;
 }
 
-+ (NSDictionary *)allSavedTickets;
-+ (void)loadTicketsFromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber;
++ (NSDictionary *) allSavedTickets;
++ (void) loadTicketsFromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber;
 
 - (id) initWithApplication:(NSString *)inAppName
 				  withIcon:(NSImage *)inIcon
@@ -39,10 +42,16 @@
 
 - (NSString *) applicationName;
 
-#pragma mark -
-
 - (BOOL) ticketEnabled;
 - (void) setEnabled:(BOOL)inEnabled;
+
+- (BOOL)usesCustomDisplay;
+- (void)setUsesCustomDisplay: (BOOL)inUsesCustomDisplay;
+
+- (id <GrowlDisplayPlugin>) displayPlugin;
+- (void) setDisplayPluginNamed: (NSString *)name;
+
+#pragma mark -
 
 - (NSArray *) allNotifications;
 - (void) setAllNotifications:(NSArray *) inArray;

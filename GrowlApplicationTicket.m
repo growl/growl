@@ -9,6 +9,10 @@
 #import "GrowlController.h"
 #import "NSGrowlAdditions.h"
 
+NSString * UseDefaultsKey = @"useDefaults";
+NSString * TicketEnabledKey = @"ticketEnabled";
+NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
+
 @implementation GrowlApplicationTicket
 
 + (NSDictionary *) allSavedTickets {
@@ -67,6 +71,9 @@
 		_allowedNotifications = [[NSMutableArray alloc] init];
 		[self setAllowedNotifications:inDefaults];
 		
+		usesCustomDisplay = NO;
+		displayPlugin = nil;
+		
 		_useDefaults = YES;
 		ticketEnabled = YES;
 	}
@@ -97,17 +104,29 @@
 		
 		[self setAllowedNotifications:[ticketsList objectForKey:GROWL_NOTIFICATIONS_USER_SET]];
 		
-		if ( iconObject = [ticketsList objectForKey:GROWL_APP_ICON] ) {
+		if (iconObject = [ticketsList objectForKey:GROWL_APP_ICON]) {
 			_icon = [[NSImage alloc] initWithData:iconObject];
 		} else {
 			_icon = [[[NSWorkspace sharedWorkspace] iconForApplication:_appName] retain];
 		}
-		_useDefaults = [[ticketsList objectForKey:@"useDefaults"] boolValue];
+		_useDefaults = [[ticketsList objectForKey:UseDefaultsKey] boolValue];
 		
-		if ( [ticketsList objectForKey:@"ticketEnabled"] ) {
-			ticketEnabled = [[ticketsList objectForKey:@"ticketEnabled"] boolValue];
+		if ([ticketsList objectForKey:TicketEnabledKey]) {
+			ticketEnabled = [[ticketsList objectForKey:TicketEnabledKey] boolValue];
 		} else {
 			ticketEnabled = YES;
+		}
+		
+		if ([ticketsList objectForKey:UsesCustomDisplayKey]) {
+			usesCustomDisplay = [[ticketsList objectForKey:UsesCustomDisplayKey] boolValue];
+		} else {
+			usesCustomDisplay = NO;
+		}
+		
+		if ([ticketsList objectForKey:GrowlDisplayPluginKey]) {
+			[self setDisplayPluginNamed:[ticketsList objectForKey:GrowlDisplayPluginKey]];
+		} else {
+			displayPlugin = nil;
 		}
 	}
 	
@@ -136,8 +155,10 @@
 		_allNotifications, GROWL_NOTIFICATIONS_ALL,
 		_defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		_allowedNotifications, GROWL_NOTIFICATIONS_USER_SET,
-		[NSNumber numberWithBool:_useDefaults], @"useDefaults",
-		[NSNumber numberWithBool:ticketEnabled], @"ticketEnabled",
+		[NSNumber numberWithBool:_useDefaults], UseDefaultsKey,
+		[NSNumber numberWithBool:ticketEnabled], TicketEnabledKey,
+		[NSNumber numberWithBool:usesCustomDisplay], UsesCustomDisplayKey,
+		[displayPlugin name], GrowlDisplayPluginKey,
 		nil];
 	
 	// NSString *aString = [saveDict description];
@@ -161,6 +182,30 @@
 	return _appName;
 }
 
+- (BOOL) ticketEnabled {
+	return ticketEnabled;
+}
+
+- (void) setEnabled:(BOOL)inEnabled {
+	ticketEnabled = inEnabled;
+}
+
+- (BOOL)usesCustomDisplay {
+	return usesCustomDisplay;
+}
+
+- (void)setUsesCustomDisplay: (BOOL)inUsesCustomDisplay {
+	usesCustomDisplay = inUsesCustomDisplay;
+}
+
+- (id <GrowlDisplayPlugin>) displayPlugin {
+	return displayPlugin;
+}
+
+- (void) setDisplayPluginNamed: (NSString *)name {
+	displayPlugin = [[GrowlPluginController controller] displayPluginNamed:name];
+}
+
 #pragma mark -
 
 - (NSString *) description {
@@ -169,14 +214,6 @@
 }
 
 #pragma mark -
-
-- (BOOL) ticketEnabled {
-	return ticketEnabled;
-}
-
-- (void) setEnabled:(BOOL)inEnabled {
-	ticketEnabled = inEnabled;
-}
 
 - (NSArray *) allNotifications {
 	return [[_allNotifications retain] autorelease];

@@ -28,6 +28,8 @@
 	//"Applications" tab pane
 	IBOutlet NSPopUpButton	* growlApplications;
 	IBOutlet NSButton		* applicationEnabled;
+	IBOutlet NSButton		* applicationUseCustomDisplayPlugin;
+	IBOutlet NSPopUpButton	* applicationDisplayPlugins;
 	IBOutlet NSTableView	* applicationNotifications;
 	
 	IBOutlet NSButton		* apply;
@@ -47,6 +49,9 @@
 //"Applications" tab pane
 - (IBAction)selectApplication:(id)sender;
 - (IBAction)enableApplication:(id)sender;
+
+- (IBAction)useCustomDisplayPlugin:(id)sender;
+- (IBAction)selectApplicationDisplayPlugin:(id)sender;
 
 //Notification table view data source methods
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
