@@ -3,7 +3,7 @@
  *  Growl
  *
  *  Created by Karl Adam on Thu Apr 22 2004.
- *  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+ *  Copyright (c) 2004 The Growl Project. All rights reserved.
  *
  */
 

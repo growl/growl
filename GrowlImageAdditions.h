@@ -3,7 +3,7 @@
 //  Display Plugins
 //
 //  Created by Jorge Salvador Caffarena on 20/09/04.
-//  Copyright 2004 __MyCompanyName__. All rights reserved.
+//  Copyright 2004 The Growl Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
