@@ -100,7 +100,7 @@ static const char *keychainAccountName = "Growl";
 
 	// do nothing--be quiet if there is no active connection or if the
 	// version number could not be downloaded
-	if ( (latestVersionNumber != nil) && (![latestVersionNumber isEqualToString: currVersionNumber]) ) {
+	if ( latestVersionNumber && (![latestVersionNumber isEqualToString: currVersionNumber]) ) {
 		NSBeginAlertSheet(NSLocalizedStringFromTableInBundle(@"Update Available", nil, bundle, @""),
 						  NSLocalizedStringFromTableInBundle(@"OK", nil, bundle, @""), 
 						  NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
@@ -528,7 +528,7 @@ static const char *keychainAccountName = "Growl";
 		oldPrefPane = pluginPrefPane;
 	}
 	
-	if (displayName != nil) {
+	if (displayName) {
 		id <GrowlPlugin> plugin = [[GrowlPluginController controller]
 														displayPluginNamed:displayName];
 		
@@ -580,6 +580,17 @@ static const char *keychainAccountName = "Growl";
 			[oldPrefPane didUnselect];
 		}
 	}
+}
+
+#pragma mark "Rules" tab pane
+- (IBAction) addRule:(id)sender {
+	[rulePanel display];
+}
+
+- (IBAction) removeRule:(id)sender {
+}
+
+- (IBAction) editRule:(id)sender {
 }
 
 #pragma mark Notification, Application and Service table view data source methods

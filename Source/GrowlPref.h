@@ -60,6 +60,11 @@
 	IBOutlet NSButton			*enableForward;
 	IBOutlet NSTableView		*growlServiceList;
 
+	//"Rules" tab pane
+	IBOutlet NSButton		*removeRule;
+	IBOutlet NSButton		*editRule;
+	IBOutlet NSPanel		*rulePanel;
+
 	NSMutableArray			*services;
 	NSNetServiceBrowser		*browser;
 	NSNetService			*serviceBeingResolved;
@@ -96,6 +101,11 @@
 
 #pragma mark "Display Options" tab pane
 - (void) loadViewForDisplay:(NSString*)displayName;
+
+#pragma mark "Rules" tab pane
+- (IBAction) addRule:(id)sender;
+- (IBAction) removeRule:(id)sender;
+- (IBAction) editRule:(id)sender;
 
 #pragma mark Notification table view data source methods
 - (int) numberOfRowsInTableView:(NSTableView *)tableView;

@@ -3,10 +3,13 @@
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {
+                addRule = id; 
                 allowRemoteRegistration = id; 
                 apply = id; 
                 checkVersion = id; 
                 deleteTicket = id; 
+                editRule = id; 
+                removeRule = id; 
                 revert = id; 
                 selectDisplayPlugin = id; 
                 setEnableForward = id; 
@@ -27,6 +30,7 @@
                 displayPlugins = NSTableView; 
                 displayPrefView = NSView; 
                 displayVersion = NSTextField; 
+                editRule = NSButton; 
                 enableForward = NSButton; 
                 growlApplications = NSTableView; 
                 growlRunningProgress = NSProgressIndicator; 
@@ -37,7 +41,9 @@
                 networkPassword = NSSecureTextField; 
                 notificationPriorityMenu = NSMenu; 
                 remove = NSButton; 
+                removeRule = NSButton; 
                 revert = NSButton; 
+                rulePanel = NSPanel; 
                 startGrowlAtLogin = NSButton; 
                 startGrowlServer = NSButton; 
                 startStopGrowl = NSButton; 

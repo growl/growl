@@ -112,11 +112,11 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	NSDictionary *ticketsList = [NSDictionary dictionaryWithContentsOfFile:inPath];
 	appName = [[ticketsList objectForKey:GROWL_APP_NAME] retain];
 	defaultNotifications = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT] retain];
-	NSAssert(defaultNotifications != nil, @"Ticket dictionaries must contain a list of default notifications (either names, or indices into the all-notifications list)");
+	NSAssert(defaultNotifications, @"Ticket dictionaries must contain a list of default notifications (either names, or indices into the all-notifications list)");
 
 	//Get all the notification names and the data about them
 	allNotificationNames = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL] retain];
-	NSAssert(allNotificationNames != nil, @"Ticket dictionaries must contain a list of all their notifications");
+	NSAssert(allNotificationNames, @"Ticket dictionaries must contain a list of all their notifications");
 	NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
 	NSMutableDictionary *notificationDict = [NSMutableDictionary dictionary];
 	id obj;
@@ -219,6 +219,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	return genericIcon;
 
 }
+
 - (void) setIcon:(NSImage *) inIcon {
 	if ( icon != inIcon ) {
 		[icon release];

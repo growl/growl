@@ -86,7 +86,7 @@ static const NSSize iconSize = {128.0f, 128.0f};
 		NSURL   *url = nil;
 
 		//  Command used the "image from URL" argument
-		if (imageUrl != nil) {
+		if (imageUrl) {
 			if (!(url = [[self fileUrlForLocationReference: imageUrl] autorelease])) {
 				NS_VALUERETURN(nil,id);
 			}
@@ -95,19 +95,19 @@ static const NSSize iconSize = {128.0f, 128.0f};
 				[self setError:ERROR_ICON_OF_FILE_PATH_NOT_IMAGE];
 				NS_VALUERETURN(nil,id);
 			}
-		} else if (iconOfFile != nil) {
+		} else if (iconOfFile) {
 			//  Command used the "icon of file" argument
 			if (!(url = [[self fileUrlForLocationReference: iconOfFile] autorelease])) {
 				//	NSLog(@"That's a no go on that file's icon.");
 				NS_VALUERETURN(nil,id);
 			}
 			icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
-		} else if (iconOfApplication != nil) {
+		} else if (iconOfApplication) {
 			//  Command used the "icon of application" argument
 			icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
-		} else if (imageData != nil){
+		} else if (imageData){
 			icon = [[[NSImage alloc] initWithData:imageData] autorelease];
-		} else if (pictureData != nil){
+		} else if (pictureData){
 			icon = [[[NSImage alloc] initWithData:pictureData] autorelease];
 			[icon setScalesWhenResized: YES];
 		}

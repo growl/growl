@@ -52,7 +52,7 @@ static const struct {
 	 *	and it should be ignored. (thus, display "0.6", not "0.60".)
 	 */
 #warning (figure out how to insert the svn revision here.)
-} version = { 0U, 6U, 0U, svn, 0U, };
+} version = { 0U, 7U, 0U, svn, 0U, };
 
 #pragma mark -
 
@@ -221,7 +221,7 @@ static id singleton = nil;
 		[aDict setObject:appIcon forKey:GROWL_NOTIFICATION_APP_ICON];
 		[appIcon release];
 	}
-	
+
 	// To avoid potential exceptions, make sure we have both text and title
 	if (![aDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]) {
 		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_DESCRIPTION];
@@ -239,7 +239,7 @@ static id singleton = nil;
 
     // Retrieve and set the sticky bit of the notification
     int sticky = [ticket stickyForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]];
-	if (ticket != nil && sticky >= 0) {
+	if (ticket && sticky >= 0) {
 		[aDict setObject:[NSNumber numberWithBool:(sticky ? YES : NO)]
 				  forKey:GROWL_NOTIFICATION_STICKY];
 	}
@@ -344,7 +344,7 @@ static id singleton = nil;
 		versionInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithUnsignedLongLong:*versionNum], @"Complete version",
 			[self growlVersion], @"CFBundleVersion",
-			
+
 			[NSNumber numberWithUnsignedShort:version.major], @"Major version",
 			[NSNumber numberWithUnsignedShort:version.minor], @"Minor version",
 			[NSNumber numberWithUnsignedChar:version.incremental], @"Incremental version",

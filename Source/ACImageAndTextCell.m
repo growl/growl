@@ -76,7 +76,7 @@
 - (NSRect) imageFrameForCellFrame:(NSRect)cellFrame {
 	NSRect retRect = NSZeroRect;
 	
-	if (image != nil) {
+	if (image) {
 		NSRect imageFrame;
 		imageFrame.size = [image size];
 		imageFrame.origin = cellFrame.origin;
@@ -121,7 +121,7 @@
 }
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-	if (image != nil) {
+	if (image) {
 		NSSize	imageSize = [image size];
 		NSRect	imageFrame;
 
