@@ -99,10 +99,10 @@ static const char *keychainAccountName = "Growl";
 	BOOL isSticky;
 
 	NSDictionary *userInfo = [aNotification userInfo];
-	NSNumber *error = (NSNumber *)[userInfo objectForKey:@"NSFileHandleError"];
+	NSNumber *error = [userInfo objectForKey:@"NSFileHandleError"];
 	
 	if ( ![error intValue] ) {
-		NSData *data = (NSData *)[userInfo objectForKey:@"NSFileHandleNotificationDataItem"];
+		NSData *data = [userInfo objectForKey:@"NSFileHandleNotificationDataItem"];
 		length = [data length];
 
 		if ( length >= sizeof(struct GrowlNetworkPacket) ) {
