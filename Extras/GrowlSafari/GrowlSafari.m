@@ -29,7 +29,7 @@
 //
 
 #import "GrowlSafari.h"
-#import "GrowlDefines.h"
+#import <Growl/GrowlDefines.h>
 #import <objc/objc-runtime.h>
 
 // Using method swizzling as outlined here:
@@ -39,9 +39,9 @@
 static void PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInstance)
 {
     // First, make sure the class isn't nil
-	if (aClass != nil) {
+	if (aClass) {
 		Method orig_method = nil, alt_method = nil;
-		
+
 		// Next, look for the methods
 		if (forInstance) {
 			orig_method = class_getInstanceMethod(aClass, orig_sel);
@@ -52,7 +52,7 @@ static void PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 		}
 		
 		// If both are found, swizzle them
-		if ((orig_method != nil) && (alt_method != nil)) {
+		if (orig_method && alt_method) {
 			IMP temp;
 			
 			temp = orig_method->method_imp;
@@ -61,8 +61,8 @@ static void PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 		} else {
 			// This bit stolen from SubEthaFari's source
 			NSLog(@"GrowlSafari Error: Original %@, Alternate %@",
-				  (orig_method == nil) ? @" not found" : @" found",
-				  (alt_method == nil) ? @" not found" : @" found");
+				  orig_method ? @" found" : @" not found",
+				  alt_method ? @" found" : @" not found");
 		}
 	} else {
 		NSLog(@"GrowlSafari Error: Class not found");
@@ -95,12 +95,13 @@ BOOL shouldDisplayNotifications = NO;
 		nil];
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"GrowlSafari", GROWL_APP_NAME,
-		[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_APP_ICON,
 		array, GROWL_NOTIFICATIONS_DEFAULT,
 		array, GROWL_NOTIFICATIONS_ALL,
+		[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_APP_ICON,
 		nil];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION
-																	object:nil userInfo:dict];
+																	object:nil
+																 userInfo:dict];
 	[super initialize];
 }
 @end
@@ -110,8 +111,7 @@ BOOL shouldDisplayNotifications = NO;
 {
 	int oldStage = (int)[self performSelector:@selector(downloadStage)];
 	[self mySetDownloadStage:stage];
-	if (shouldDisplayNotifications)
-	{
+	if (shouldDisplayNotifications) {
 		if (stage == 2) {
 			NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 			NSBundle *bundle = [GrowlSafari bundle];
@@ -156,8 +156,7 @@ BOOL shouldDisplayNotifications = NO;
 {
 	[self myUpdateDiskImageStatus:status];
 	
-	if (shouldDisplayNotifications)
-	{
+	if (shouldDisplayNotifications) {
 		if( [[status objectForKey:@"status-stage"] isEqual:@"initialize"] ) {
 			NSBundle *bundle = [GrowlSafari bundle];
 			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
