@@ -9,99 +9,11 @@ static const char *argv0 = NULL;
 static int status = EXIT_SUCCESS;
 
 #ifdef REINVENTED_WHEEL
-static NSSet *valueTypeFlags = nil;
-static NSString *plistError = nil;
+static NSSet    *valueTypeFlags = nil;
+static NSString *plistError     = nil;
 
 //interprets a property list from argv using defaults-like rules.
-static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i) {
-	id value = nil;
-	int old_i = i;
-	
-	if(i < argc) {
-		NSString *valueType = [NSString stringWithUTF8String:argv[i]];
-		if([valueTypeFlags containsObject:valueType]) {
-			if(++i > argc) {
-				fprintf(stderr, "%s: value type (%s) supplied, but no value\n", argv0, argv[i-1]);
-				status = EXIT_FAILURE;
-			} else {
-				//interpret according to the rules of defaults.
-				NSString     *valueString = [NSString stringWithUTF8String:argv[i]];
-				BOOL add = NO;
-				if([valueType hasPrefix:@"-bool"]) {
-					value = [NSNumber numberWithBool: [valueString  boolValue]];
-				} else if([valueType isEqualToString:@"-int"]) {
-					value = [NSNumber numberWithInt:  [valueString   intValue]];
-				} else if([valueType isEqualToString:@"-float"]) {
-					value = [NSNumber numberWithFloat:[valueString floatValue]];
-				} else if([valueType hasPrefix:@"-array"]) {
-					NSMutableArray *a = [NSMutableArray arrayWithCapacity:(argc - 3)];
-					id obj;
-					
-					while((obj = propertyListFromArgv(argc, argv, i, &i)))
-						[a addObject:obj];
-					
-					add = (i == 4) && [valueType hasSuffix:@"-add"];
-					if(add) {
-						NSMutableArray *existing = nil; //[[[growlPrefsDict objectForKey:key] mutableCopy] autorelease];
-						if(existing && [existing isKindOfClass:[NSArray class]]) {
-							[existing addObjectsFromArray:a];
-							value = existing;
-						} else
-							value = a;
-					} else
-						value = a;
-				} else if([valueType hasPrefix:@"-dict"]) {
-					NSMutableDictionary *d = [NSMutableDictionary dictionaryWithCapacity:(argc - 3) / 2];
-					
-					NSString *k = valueString, *v = propertyListFromArgv(argc, argv, ++i, &i);
-					while(i < argc) {
-						k = [NSString stringWithUTF8String:argv[i++]];
-						v = propertyListFromArgv(argc, argv, i, &i);
-						if(k && !v) {
-							fprintf(stderr, "%s: key %s has no value", argv0, argv[i - 1]);
-							goto end;
-						} else {
-							[d setObject:v forKey:k];
-						}
-					}
-					add = (i == 4) && [valueType hasSuffix:@"-add"];
-					if(add) {
-						NSMutableDictionary *existing = nil;//[[[growlPrefsDict objectForKey:key] mutableCopy] autorelease];
-						if(existing && [existing isKindOfClass:[NSDictionary class]]) {
-							[existing addEntriesFromDictionary:d];
-							value = existing;
-						} else
-							value = d;
-					} else
-						value = d;
-				}
-			}
-		} //if([valueTypeFlags containsObject:valueType])
-		else {
-			NSData *valueData = [NSData dataWithBytes:argv[i] length:strlen(argv[i])];
-			value = [NSPropertyListSerialization propertyListFromData:valueData
-													 mutabilityOption:NSPropertyListImmutable
-															   format:NULL
-													 errorDescription:&plistError];
-		}
-	} //if(i < argc)
-	/*
-	 else {
-		 //read from stdin.
-		 NSFileHandle *stdinFH = [NSFileHandle fileHandleWithStandardInput];
-		 NSData *valueData = [stdinFH availableData];
-		 value = [NSPropertyListSerialization propertyListFromData:valueData
-												  mutabilityOption:NSPropertyListImmutable
-															format:NULL
-												  errorDescription:&plistError];
-	 }
-	 */
-	
-end:
-		if(next_i)
-			*next_i = value ? i : old_i;
-	return value;
-}
+static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i);
 #endif
 
 static void usage(void) {
@@ -219,3 +131,95 @@ int main (int argc, const char **argv) {
 
 	return status;
 }
+
+#ifdef REINVENTED_WHEEL
+static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i) {
+	id value = nil;
+	int old_i = i;
+	
+	if(i < argc) {
+		NSString *valueType = [NSString stringWithUTF8String:argv[i]];
+		if([valueTypeFlags containsObject:valueType]) {
+			if(++i > argc) {
+				fprintf(stderr, "%s: value type (%s) supplied, but no value\n", argv0, argv[i-1]);
+				status = EXIT_FAILURE;
+			} else {
+				//interpret according to the rules of defaults.
+				NSString     *valueString = [NSString stringWithUTF8String:argv[i]];
+				BOOL add = NO;
+				if([valueType hasPrefix:@"-bool"]) {
+					value = [NSNumber numberWithBool: [valueString  boolValue]];
+				} else if([valueType isEqualToString:@"-int"]) {
+					value = [NSNumber numberWithInt:  [valueString   intValue]];
+				} else if([valueType isEqualToString:@"-float"]) {
+					value = [NSNumber numberWithFloat:[valueString floatValue]];
+				} else if([valueType hasPrefix:@"-array"]) {
+					NSMutableArray *a = [NSMutableArray arrayWithCapacity:(argc - 3)];
+					id obj;
+					
+					while((obj = propertyListFromArgv(argc, argv, i, &i)))
+						[a addObject:obj];
+					
+					add = (i == 4) && [valueType hasSuffix:@"-add"];
+					if(add) {
+						NSMutableArray *existing = nil; //[[[growlPrefsDict objectForKey:key] mutableCopy] autorelease];
+						if(existing && [existing isKindOfClass:[NSArray class]]) {
+							[existing addObjectsFromArray:a];
+							value = existing;
+						} else
+							value = a;
+					} else
+						value = a;
+				} else if([valueType hasPrefix:@"-dict"]) {
+					NSMutableDictionary *d = [NSMutableDictionary dictionaryWithCapacity:(argc - 3) / 2];
+					
+					NSString *k = valueString, *v = propertyListFromArgv(argc, argv, ++i, &i);
+					while(i < argc) {
+						k = [NSString stringWithUTF8String:argv[i++]];
+						v = propertyListFromArgv(argc, argv, i, &i);
+						if(k && !v) {
+							fprintf(stderr, "%s: key %s has no value", argv0, argv[i - 1]);
+							goto end;
+						} else {
+							[d setObject:v forKey:k];
+						}
+					}
+					add = (i == 4) && [valueType hasSuffix:@"-add"];
+					if(add) {
+						NSMutableDictionary *existing = nil;//[[[growlPrefsDict objectForKey:key] mutableCopy] autorelease];
+						if(existing && [existing isKindOfClass:[NSDictionary class]]) {
+							[existing addEntriesFromDictionary:d];
+							value = existing;
+						} else
+							value = d;
+					} else
+						value = d;
+				}
+			}
+		} //if([valueTypeFlags containsObject:valueType])
+		else {
+			NSData *valueData = [NSData dataWithBytes:argv[i] length:strlen(argv[i])];
+			value = [NSPropertyListSerialization propertyListFromData:valueData
+													 mutabilityOption:NSPropertyListImmutable
+															   format:NULL
+													 errorDescription:&plistError];
+		}
+	} //if(i < argc)
+	/*
+	 else {
+		 //read from stdin.
+		 NSFileHandle *stdinFH = [NSFileHandle fileHandleWithStandardInput];
+		 NSData *valueData = [stdinFH availableData];
+		 value = [NSPropertyListSerialization propertyListFromData:valueData
+												  mutabilityOption:NSPropertyListImmutable
+															format:NULL
+												  errorDescription:&plistError];
+	 }
+	 */
+	
+end:
+		if(next_i)
+			*next_i = value ? i : old_i;
+	return value;
+}
+#endif
