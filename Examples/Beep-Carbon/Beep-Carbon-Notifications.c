@@ -23,9 +23,10 @@ static const void  *_RetainCFNotification   (CFAllocatorRef allocator, const voi
 static void         _ReleaseCFNotification  (CFAllocatorRef allocator, const void *notification);
 static CFStringRef  _CopyTitleOfNotification(const void *notification); //copy description
 
-struct CFnotification *CreateCFNotification(CFStringRef title, CFStringRef desc, CFDataRef imageData, Boolean isDefault) {
+struct CFnotification *CreateCFNotification(CFStringRef name, CFStringRef title, CFStringRef desc, CFDataRef imageData, Boolean isDefault) {
 	struct CFnotification *notification = malloc(sizeof(struct CFnotification));
 	if(notification) {
+		notification->name  =              name      ? CFRetain(name)      : name;
 		notification->title =              title     ? CFRetain(title)     : title;
 		notification->desc  =              desc      ? CFRetain(desc)      : desc;
 		notification->imageData =          imageData ? CFRetain(imageData) : imageData;
@@ -45,6 +46,7 @@ struct CFnotification *RetainCFNotification(struct CFnotification *notification)
 void ReleaseCFNotification(struct CFnotification *notification) {
 	if(notification) {
 		if(--(notification->refCount) == 0) {
+			if(notification->name)      CFRelease(notification->name);
 			if(notification->title)     CFRelease(notification->title);
 			if(notification->desc)      CFRelease(notification->desc);
 			if(notification->imageData) CFRelease(notification->imageData);
@@ -61,12 +63,13 @@ void PostCFNotification(CFNotificationCenterRef notificationCenter, struct CFnot
 	if(notificationCenter && notification) {
 #ifdef DEBUG
 		CFLog(LOG_DEBUG, CFSTR("Posting a notification!\n"
+			"\tname: @\"%@\"\n"
 			"\ttitle: @\"%@\"\n"
 			"\tuserInfo: %@\n"
 			"\tdeliverImmediately: %hhu"),
-			notification->title, notification->userInfo, deliverImmediately);
+			notification->name, notification->title, notification->userInfo, deliverImmediately);
 #endif
-		CFNotificationCenterPostNotification(notificationCenter, GROWL_NOTIFICATION, /*object*/ NULL, notification->userInfo, deliverImmediately);
+		CFNotificationCenterPostNotification(notificationCenter, notification->name, /*object*/ NULL, notification->userInfo, deliverImmediately);
 	}
 
 	CFRelease(notificationCenter);
@@ -146,7 +149,10 @@ void UpdateCFNotificationUserInfoForGrowl(struct CFnotification *notification) {
 }
 
 void DestroyMasterNotificationList(void) {
-	if(notifications) CFRelease(notifications);
+	if(notifications) {
+		CFRelease(notifications);
+		notifications = NULL;
+	}
 }
 
 //callbacks.

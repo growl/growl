@@ -11,6 +11,7 @@
 #include "GrowlDefinesCarbon.h"
 
 struct CFnotification {
+	CFStringRef name;
 	CFStringRef title;
 	CFStringRef desc;
 //	CGImageRef  image;
@@ -23,7 +24,7 @@ struct CFnotification {
 	} flags;
 };
 
-struct CFnotification *CreateCFNotification(CFStringRef title, CFStringRef desc, CFDataRef imageData, Boolean isDefault);
+struct CFnotification *CreateCFNotification(CFStringRef name, CFStringRef title, CFStringRef desc, CFDataRef imageData, Boolean isDefault);
 struct CFnotification *RetainCFNotification(struct CFnotification *notification);
 void ReleaseCFNotification(struct CFnotification *notification);
 

@@ -222,7 +222,7 @@ OSStatus handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef event, 
 
 								if(GetControl32BitValue(checkbox) != kControlCheckBoxUncheckedValue) {
 									//register as a Growl client.
-									struct CFnotification *registerNotification = CreateCFNotification(GROWL_APP_REGISTRATION, NULL, NULL, /*isDefault*/ false);
+									struct CFnotification *registerNotification = CreateCFNotification(GROWL_APP_REGISTRATION, /*title*/ NULL, /*desc*/ NULL, /*imageData*/ NULL, /*isDefault*/ false);
 									UpdateCFNotificationUserInfoForGrowl(registerNotification);
 
 									CFMutableArrayRef allNotifications     = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
@@ -328,7 +328,7 @@ OSStatus handleCommandInSheet(EventHandlerCallRef nextHandler, EventRef event, v
 									RemoveControlProperty(control, appSignature, 'ICON');
 								}
 
-								notification = CreateCFNotification(title, desc, imageData, isDefault);
+								notification = CreateCFNotification(GROWL_NOTIFICATION, title, desc, imageData, isDefault);
 								if(imageData) CFRelease(imageData);
 								if(notification) {
 									UpdateCFNotificationUserInfoForGrowl(notification);
