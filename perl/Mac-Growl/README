@@ -16,7 +16,7 @@ To install this module type the following:
    perl Makefile.PL
    make
    make test
-   make install
+   sudo make install
 
 make test will register "PerlApp" with growl with Growl, with one
 notification, "PerlApp-Test", and then post that notification with a message.
