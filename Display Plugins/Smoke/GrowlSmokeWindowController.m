@@ -142,7 +142,9 @@ static const double gMaxDisplayTime = 10.0;
 	[panel setFrame:panelFrame display:NO];
 
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
-	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlSmokePadding, 
+	float rightX = screen.origin.x + screen.size.width;
+
+	[panel setFrameTopLeftPoint:NSMakePoint( rightX - NSWidth( panelFrame ) - GrowlSmokePadding, 
 											 NSMaxY( screen ) - GrowlSmokePadding - depth )];
 
 	if ( (self = [super initWithWindow:panel] ) ) {

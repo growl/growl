@@ -69,7 +69,9 @@ static unsigned bubbleWindowDepth = 0U;
 	[panel setFrame:panelFrame display:NO];
 	
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
-	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBubblesPadding, 
+	float rightX = screen.origin.x + screen.size.width;
+
+	[panel setFrameTopLeftPoint:NSMakePoint( rightX - NSWidth( panelFrame ) - GrowlBubblesPadding, 
 											 NSMaxY( screen ) - GrowlBubblesPadding - ( bubbleWindowDepth ) )];
 	
 	if ( (self = [super initWithWindow:panel] ) ) {
