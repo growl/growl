@@ -81,6 +81,17 @@ static GrowlPreferences * sharedPreferences;
 	return helperAppBundle;
 }
 
+- (NSString *) growlSupportDir {
+	NSString *supportDir;
+	NSArray *searchPath = NSSearchPathForDirectoriesInDomains( NSLibraryDirectory, NSUserDomainMask, /* expandTilde */ YES );
+	
+	supportDir = [searchPath objectAtIndex:0];
+	supportDir = [supportDir stringByAppendingPathComponent:@"Application Support"];
+	supportDir = [supportDir stringByAppendingPathComponent:@"Growl"];
+	
+	return supportDir;
+}
+
 - (void) dealloc {
 	[helperAppDefaults release];
 	

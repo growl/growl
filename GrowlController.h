@@ -30,5 +30,7 @@
 
 - (void) shutdown:(NSNotification *) note;
 
+- (void) replyToPing:(NSNotification *) note;
+
 @end
 

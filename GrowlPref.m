@@ -11,6 +11,7 @@
 - (NSDictionary *)growlHelperAppDescription;
 @end
 
+#define PING_TIMEOUT		3
 
 @implementation GrowlPref
 
@@ -19,12 +20,22 @@
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	[defs addSuiteNamed:@"loginwindow"];
 	
+	[[NSDistributedNotificationCenter defaultCenter] addObserver:self 
+														selector:@selector(growlPonged:)
+															name:GROWL_PONG 
+														  object:nil];
+
+	[[NSDistributedNotificationCenter defaultCenter] addObserver:self 
+														selector:@selector(appRegistered:)
+															name:GROWL_APP_REGISTRATION_CONF
+														  object:nil];
 	[self reloadPreferences];
+	[self pingGrowl];
 }
 
-#warning This should (somehow) automatically reload, not just on reopen
 - (void) willSelect {
 	[self reloadPreferences];
+	[self pingGrowl];
 }
 
 - (NSPreferencePaneUnselectReply)shouldUnselect {
@@ -41,13 +52,8 @@
 - (void)reloadPreferences {
 	NSEnumerator * enumerator;
 	
-	#warning There has *got* to be a better way to do this!
-	growlIsRunning = system("killall -s GrowlHelperApp") == 0;
-		
-	[self updateRunningStatus];
-
 	if(tickets) [tickets release];
-	tickets = [[GrowlApplicationTicket allSavedTickets] retain];
+	tickets = [[GrowlApplicationTicket allSavedTickets] mutableCopy];
 	
 	[growlApplications removeAllItems];
 	enumerator = [tickets keyEnumerator];
@@ -71,6 +77,7 @@
 }
 
 - (void)updateRunningStatus {
+	[startStopGrowl setEnabled:YES];
 	[startStopGrowl setTitle:growlIsRunning?@"Stop Growl":@"Start Growl"];
 	[growlRunningStatus setStringValue:growlIsRunning?@"Growl is running.":@"Growl is stopped"];
 }
@@ -223,6 +230,46 @@
 	if(returnCode == NSAlertDefaultReturn)
 		[self apply:nil];
 	[self replyToShouldUnselect:returnCode == NSAlertDefaultReturn || returnCode == NSAlertAlternateReturn];
+}
+
+#pragma mark Detecting Growl
+
+- (void)pingGrowl {
+	[startStopGrowl setEnabled:NO];
+	[growlRunningStatus setStringValue:@"Looking for growl..."];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_PING object:nil];
+	pingTimer = [NSTimer scheduledTimerWithTimeInterval:PING_TIMEOUT target:self selector:@selector(pingTimedOut:) userInfo:nil repeats:NO];
+}
+
+- (void)growlPonged:(NSNotification *) note {
+	growlIsRunning = YES;
+	if(pingTimer) {
+		[pingTimer invalidate];
+		pingTimer = nil;
+	}
+	[self updateRunningStatus];
+}
+
+- (void)pingTimedOut: (NSTimer *) timer {
+	growlIsRunning = NO;
+	pingTimer = nil;
+	[self updateRunningStatus];
+}
+
+#pragma mark -
+
+//Refresh preferences when a new application registers with Growl
+- (void)appRegistered: (NSNotification *) note {
+	NSString * app = [note object];
+	GrowlApplicationTicket * ticket = [[[GrowlApplicationTicket alloc] initTicketForApplication:app] autorelease];
+
+	if(![tickets objectForKey:app])
+		[growlApplications addItemWithTitle:app];
+	
+	[tickets setObject:ticket forKey:app];
+	
+	if([currentApplication isEqualToString:app])
+		[self reloadPreferences];	
 }
 
 @end

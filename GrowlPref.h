@@ -9,8 +9,8 @@
 
 @interface GrowlPref : NSPreferencePane {
 	NSDictionary			* cachedGrowlHelperAppDescription;
-	
-	NSDictionary			* tickets;
+	NSMutableDictionary		* tickets;
+	NSTimer					* pingTimer;
 	
 	//Properties of the app being configured
 	NSString				* currentApplication;
@@ -40,29 +40,36 @@
 - (void)updateRunningStatus;
 - (void)reloadAppTab;
 
-//"General" tab pane
+#pragma mark "General" tab pane
 - (IBAction)startStopGrowl:(id)sender;
 - (IBAction)startGrowlAtLogin:(id)sender;
 
 - (IBAction)selectDisplayPlugin:(id)sender;
 
-//"Applications" tab pane
+#pragma mark "Applications" tab pane
 - (IBAction)selectApplication:(id)sender;
 - (IBAction)enableApplication:(id)sender;
 
 - (IBAction)useCustomDisplayPlugin:(id)sender;
 - (IBAction)selectApplicationDisplayPlugin:(id)sender;
 
-//Notification table view data source methods
+#pragma mark Notification table view data source methods
 - (int)numberOfRowsInTableView:(NSTableView *)tableView;
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row;
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row;
 
+#pragma mark -
 - (IBAction)revert:(id)sender;
 - (IBAction)apply:(id)sender;
 
 - (void)setPrefsChanged:(BOOL)prefsChanged;
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+
+- (void)pingGrowl;
+- (void)growlPonged: (NSNotification *) note;
+- (void)pingTimedOut: (NSTimer *) timer;
+
+- (void)appRegistered: (NSNotification *) note;
 
 @end

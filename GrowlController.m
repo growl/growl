@@ -31,23 +31,28 @@ static id _singleton = nil;
 
 - (id) init {
 	if ( self = [super init] ) {
-
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:self 
-															selector:@selector( _registerApplication: ) 
-																name:GROWL_APP_REGISTRATION
-															  object:nil];
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-															selector:@selector( dispatchNotification: )
-																name:GROWL_NOTIFICATION
-															  object:nil];
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-															selector:@selector( preferencesChanged: )
-																name:GrowlPreferencesChanged
-															  object:nil];
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-															selector:@selector( shutdown: )
-																name:GROWL_SHUTDOWN
-															  object:nil];
+		NSDistributedNotificationCenter * NSDNC = [NSDistributedNotificationCenter defaultCenter];
+		[NSDNC addObserver:self 
+				  selector:@selector( _registerApplication: ) 
+					  name:GROWL_APP_REGISTRATION
+					object:nil];
+		[NSDNC addObserver:self
+				  selector:@selector( dispatchNotification: )
+					  name:GROWL_NOTIFICATION
+					object:nil];
+		[NSDNC addObserver:self
+				  selector:@selector( preferencesChanged: )
+					  name:GrowlPreferencesChanged
+					object:nil];
+		[NSDNC addObserver:self
+				  selector:@selector( shutdown: )
+					  name:GROWL_SHUTDOWN
+					object:nil];
+		[NSDNC addObserver:self
+				  selector:@selector( replyToPing:)
+					  name:GROWL_PING
+					object:nil];
+		
 		_tickets = [[NSMutableDictionary alloc] init];
 		_registrationLock = [[NSLock alloc] init];
 		_notificationQueue = [[NSMutableArray alloc] init];
@@ -130,15 +135,7 @@ static id _singleton = nil;
 }
 
 - (void) saveTickets {
-	NSString *destDir;
-	NSArray *searchPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES);
-
-	destDir = [searchPath objectAtIndex:0];
-	destDir = [destDir stringByAppendingPathComponent:@"Application Support"];
-	destDir = [destDir stringByAppendingPathComponent:@"Growl"];
-	destDir = [destDir stringByAppendingPathComponent:@"Tickets"];
-
-	[[_tickets allValues] makeObjectsPerformSelector:@selector(saveTicketToPath:) withObject:destDir];
+	[[_tickets allValues] makeObjectsPerformSelector:@selector(saveTicket)];
 }
 
 - (void) preferencesChanged: (NSNotification *) note {
@@ -154,6 +151,10 @@ static id _singleton = nil;
 
 - (void) shutdown:(NSNotification *) note {
 	[NSApp terminate: nil];
+}
+
+- (void) replyToPing:(NSNotification *) note {
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_PONG object:nil];
 }
 
 #pragma mark NSApplication Delegate Methods
@@ -287,6 +288,7 @@ static id _singleton = nil;
 	}
 
 	[newApp saveTicket];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF object:appName];
 }
 
 @end

@@ -32,6 +32,8 @@
 		   andDefaultNotes:(NSArray *) inDefaults;
 
 - (id) initTicketFromPath:(NSString *) inPath;
+- (id) initTicketForApplication: (NSString *) inApp;
+
 - (void) saveTicket;
 - (void) saveTicketToPath:(NSString *)destDir;
 

@@ -133,13 +133,17 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	return self;
 }
 
+- (id) initTicketForApplication: (NSString *) inApp {
+	return [self initTicketFromPath:[[[[[GrowlPreferences preferences] growlSupportDir] 
+												stringByAppendingPathComponent:@"Tickets"]
+												stringByAppendingPathComponent:inApp]
+												stringByAppendingPathExtension:@"growlTicket"]];
+}
+
 - (void) saveTicket {
 	NSString *destDir;
-	NSArray *searchPath = NSSearchPathForDirectoriesInDomains( NSLibraryDirectory, NSUserDomainMask, /* expandTilde */ YES );
 
-	destDir = [searchPath objectAtIndex:0];
-	destDir = [destDir stringByAppendingPathComponent:@"Application Support"];
-	destDir = [destDir stringByAppendingPathComponent:@"Growl"];
+	destDir = [[GrowlPreferences preferences] growlSupportDir];
 	destDir = [destDir stringByAppendingPathComponent:@"Tickets"];
 
 	[self saveTicketToPath:destDir];

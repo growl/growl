@@ -25,6 +25,7 @@ extern NSString * GrowlDisplayPluginKey;
 - (void) setObject:(id)object forKey:(NSString *) key;
 
 - (NSBundle *) helperAppBundle;
+- (NSString *) growlSupportDir;
 
 
 @end
