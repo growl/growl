@@ -63,7 +63,6 @@
 			targets = (
 				8D202CE80486D31800D8A456,
 				CB61E5170637763C00E0DDC7,
-				CB5F84DC0638BFDB00EADD7A,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
@@ -80,7 +79,6 @@
 				CB5F835E0638B67C00EADD7A,
 				63C0610006C8948700B0B7D4,
 				CB5F836E0638B69900EADD7A,
-				CB5F84EB0638BFFF00EADD7A,
 				089C1671FE841209C02AAC07,
 				19C28FB8FE9D52D311CA2CBB,
 			);
@@ -92,7 +90,6 @@
 		089C1671FE841209C02AAC07 = {
 			children = (
 				1058C7ACFEA557BF11CA2CBB,
-				1058C7AEFEA557BF11CA2CBB,
 			);
 			isa = PBXGroup;
 			name = "Frameworks and Libraries";
@@ -211,42 +208,6 @@
 			settings = {
 			};
 		};
-		0A62933106EE7E5B00002780 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = English;
-			path = English.lproj/BubblesPrefs.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0A62933306EE7E7B00002780 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = BubblePrefs.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0A62933406EE7E7B00002780 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = BubblePrefs.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0A62933506EE7E7B00002780 = {
-			fileRef = 0A62933306EE7E7B00002780;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0A62933606EE7E7B00002780 = {
-			fileRef = 0A62933406EE7E7B00002780;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0AAFB91706D2A0E000BA1A13 = {
 			fileRef = F506C040013D9D8001CA16C8;
 			isa = PBXBuildFile;
@@ -260,12 +221,6 @@
 			path = todo.txt;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		0AC3E87506F06E2300DA55DE = {
-			fileRef = F506C035013D953901CA16C8;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		0AEE179C0702C4960024B1A0 = {
 			isa = PBXFileReference;
@@ -293,8 +248,7 @@
 //104
 		1058C7ACFEA557BF11CA2CBB = {
 			children = (
-				1058C7ADFEA557BF11CA2CBB,
-				F506C035013D953901CA16C8,
+				1058C7AEFEA557BF11CA2CBB,
 				0AEE179C0702C4960024B1A0,
 			);
 			isa = PBXGroup;
@@ -302,21 +256,16 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		1058C7ADFEA557BF11CA2CBB = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = Cocoa.framework;
-			path = /System/Library/Frameworks/Cocoa.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
 		1058C7AEFEA557BF11CA2CBB = {
 			children = (
+				83282746073A6C110044A959,
+				83282741073A6BD70044A959,
 				089C1672FE841209C02AAC07,
 				089C167FFE841241C02AAC07,
 			);
 			isa = PBXGroup;
 			name = "Other Frameworks";
+			path = "";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -334,7 +283,6 @@
 			children = (
 				8D202CF80486D31800D8A456,
 				CB61E5180637763C00E0DDC7,
-				CB5F84DD0638BFDB00EADD7A,
 				6C1D526806FA0CE000A5D946,
 				6C4834B907395F1500F65193,
 				6CCCECD307144ECB00C5B203,
@@ -391,7 +339,6 @@
 		};
 		34CEA3930680A77C00670E0D = {
 			children = (
-				CBF073C80659A94F000B4B77,
 				34CEA39C0680A7BF00670E0D,
 				34CEA39D0680A7BF00670E0D,
 			);
@@ -567,34 +514,6 @@
 			settings = {
 			};
 		};
-		52C620580677F68A004F80E6 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = KABubbleController.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		52C620590677F68A004F80E6 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = KABubbleController.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		52C6205A0677F68A004F80E6 = {
-			fileRef = 52C620580677F68A004F80E6;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		52C6205B0677F68A004F80E6 = {
-			fileRef = 52C620590677F68A004F80E6;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 //520
 //521
 //522
@@ -743,6 +662,7 @@
 				345A68EE06FF684E00114E06,
 				A14892520702746D002CEEA2,
 				0A04279607088E7D0058CBD0,
+				83282736073A6B750044A959,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -858,6 +778,59 @@
 //6C2
 //6C3
 //6C4
+//830
+//831
+//832
+//833
+//834
+		83282736073A6B750044A959 = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = BubblesNotificationView.growlView;
+			refType = 3;
+			remoteRef = 83282740073A6B8E0044A959;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		83282740073A6B8E0044A959 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 07694BF7073A4ADE0079D1E5;
+			remoteInfo = BubblesNotificationView;
+		};
+		83282741073A6BD70044A959 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Cocoa.framework;
+			path = /System/Library/Frameworks/Cocoa.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		83282742073A6BD70044A959 = {
+			fileRef = 83282741073A6BD70044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		83282746073A6C110044A959 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = PreferencePanes.framework;
+			path = /System/Library/Frameworks/PreferencePanes.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		83282747073A6C110044A959 = {
+			fileRef = 83282746073A6C110044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//830
+//831
+//832
+//833
+//834
 //8D0
 //8D1
 //8D2
@@ -914,7 +887,6 @@
 				525277AA06D95BEA007BC87D,
 				8D202CEA0486D31800D8A456,
 				8D202CEB0486D31800D8A456,
-				CBF073CC0659A94F000B4B77,
 				5286205906DC4C2F00D3A356,
 				A14BBE1006EE1D5600530EED,
 				A16BD22806FCC05F00BF033B,
@@ -980,24 +952,12 @@
 		8D202CF20486D31800D8A456 = {
 			buildActionMask = 2147483647;
 			files = (
-				8D202CF30486D31800D8A456,
-				8D202CF40486D31800D8A456,
 				0AEE179D0702C4960024B1A0,
+				83282742073A6BD70044A959,
+				83282747073A6C110044A959,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D202CF30486D31800D8A456 = {
-			fileRef = 1058C7ADFEA557BF11CA2CBB;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		8D202CF40486D31800D8A456 = {
-			fileRef = F506C035013D953901CA16C8;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		8D202CF50486D31800D8A456 = {
 			buildActionMask = 2147483647;
@@ -1040,30 +1000,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		9522BDDB0738E024008C6B65 = {
-			children = (
-				0A62933106EE7E5B00002780,
-				9522BDDD0738E029008C6B65,
-			);
-			isa = PBXVariantGroup;
-			name = BubblesPrefs.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		9522BDDC0738E024008C6B65 = {
-			fileRef = 9522BDDB0738E024008C6B65;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		9522BDDD0738E029008C6B65 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = German;
-			path = German.lproj/BubblesPrefs.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		959FAF470738B9A000040AA9 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1103,28 +1039,6 @@
 //952
 //953
 //954
-//9E0
-//9E1
-//9E2
-//9E3
-//9E4
-		9E51EBA50662FCE400FF1462 = {
-			fileRef = 1058C7ADFEA557BF11CA2CBB;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		9E51EBA90662FCF700FF1462 = {
-			fileRef = 1058C7ADFEA557BF11CA2CBB;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-//9E0
-//9E1
-//9E2
-//9E3
-//9E4
 //A10
 //A11
 //A12
@@ -1259,62 +1173,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		CB5D139B0638E25300D8F1E5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = KABubbleWindowController.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CB5D139C0638E25300D8F1E5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = KABubbleWindowController.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CB5D139D0638E25300D8F1E5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = KABubbleWindowView.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CB5D139E0638E25300D8F1E5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = KABubbleWindowView.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CB5D139F0638E25300D8F1E5 = {
-			fileRef = CB5D139B0638E25300D8F1E5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		CB5D13A00638E25300D8F1E5 = {
-			fileRef = CB5D139C0638E25300D8F1E5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		CB5D13A10638E25300D8F1E5 = {
-			fileRef = CB5D139D0638E25300D8F1E5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		CB5D13A20638E25300D8F1E5 = {
-			fileRef = CB5D139E0638E25300D8F1E5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		CB5F835E0638B67C00EADD7A = {
 			children = (
 				08FB77AFFE84173DC02AAC07,
@@ -1400,156 +1258,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		CB5F84D80638BFDB00EADD7A = {
-			buildActionMask = 2147483647;
-			files = (
-				CB5D139F0638E25300D8F1E5,
-				CB5D13A10638E25300D8F1E5,
-				CBF073CA0659A94F000B4B77,
-				52C6205A0677F68A004F80E6,
-				0A62933506EE7E7B00002780,
-			);
-			isa = PBXHeadersBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CB5F84D90638BFDB00EADD7A = {
-			buildActionMask = 2147483647;
-			files = (
-				9522BDDC0738E024008C6B65,
-			);
-			isa = PBXResourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CB5F84DA0638BFDB00EADD7A = {
-			buildActionMask = 2147483647;
-			files = (
-				CB5D13A00638E25300D8F1E5,
-				CB5D13A20638E25300D8F1E5,
-				52C6205B0677F68A004F80E6,
-				0A62933606EE7E7B00002780,
-			);
-			isa = PBXSourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CB5F84DB0638BFDB00EADD7A = {
-			buildActionMask = 2147483647;
-			files = (
-				9E51EBA90662FCF700FF1462,
-				0AC3E87506F06E2300DA55DE,
-			);
-			isa = PBXFrameworksBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CB5F84DC0638BFDB00EADD7A = {
-			buildPhases = (
-				CB5F84D80638BFDB00EADD7A,
-				CB5F84D90638BFDB00EADD7A,
-				CB5F84DA0638BFDB00EADD7A,
-				CB5F84DB0638BFDB00EADD7A,
-			);
-			buildRules = (
-			);
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Growl_Prefix.pch;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				INFOPLIST_FILE = "BubblesNotificationView-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = BubblesNotificationView;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
-				WRAPPER_EXTENSION = growlView;
-			};
-			dependencies = (
-			);
-			isa = PBXNativeTarget;
-			name = BubblesNotificationView;
-			productName = BubblesNotificationView;
-			productReference = CB5F84DD0638BFDB00EADD7A;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>BubblesNotificationView</string>
-	<key>CFBundleGetInfoString</key>
-	<string></string>
-	<key>CFBundleIconFile</key>
-	<string></string>
-	<key>CFBundleIdentifier</key>
-	<string>com.MySoftwareCompany.BubblesNotificationView</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string></string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0.0d1</string>
-</dict>
-</plist>
-";
-			productType = "com.apple.product-type.bundle";
-		};
-		CB5F84DD0638BFDB00EADD7A = {
-			explicitFileType = wrapper.cfbundle;
-			includeInIndex = 0;
-			isa = PBXFileReference;
-			path = BubblesNotificationView.growlView;
-			refType = 3;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CB5F84DE0638BFDB00EADD7A = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			path = "BubblesNotificationView-Info.plist";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		CB5F84EB0638BFFF00EADD7A = {
-			children = (
-				CB5F8F2E0638C7AB00EADD7A,
-				CB5F8F3B0638C7BF00EADD7A,
-			);
-			isa = PBXGroup;
-			name = DefaultBubblesNotifications;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CB5F8F2E0638C7AB00EADD7A = {
-			children = (
-				CB5D139B0638E25300D8F1E5,
-				CB5D139C0638E25300D8F1E5,
-				CB5D139D0638E25300D8F1E5,
-				CB5D139E0638E25300D8F1E5,
-				52C620580677F68A004F80E6,
-				52C620590677F68A004F80E6,
-				0A62933306EE7E7B00002780,
-				0A62933406EE7E7B00002780,
-			);
-			isa = PBXGroup;
-			name = Classes;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CB5F8F3B0638C7BF00EADD7A = {
-			children = (
-				9522BDDB0738E024008C6B65,
-				CB5F84DE0638BFDB00EADD7A,
-			);
-			isa = PBXGroup;
-			name = Resources;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		CB5F92070638C89800EADD7A = {
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -1578,18 +1286,6 @@
 			target = CB61E5170637763C00E0DDC7;
 			targetProxy = CB5FA1C00638CA3400EADD7A;
 		};
-		CB5FA1C30638CA4500EADD7A = {
-			containerPortal = 089C1669FE841209C02AAC07;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = CB5F84DC0638BFDB00EADD7A;
-			remoteInfo = BubblesNotificationView;
-		};
-		CB5FA1C40638CA4500EADD7A = {
-			isa = PBXTargetDependency;
-			target = CB5F84DC0638BFDB00EADD7A;
-			targetProxy = CB5FA1C30638CA4500EADD7A;
-		};
 		CB5FA1C70638CA5300EADD7A = {
 			fileRef = CB61E5180637763C00E0DDC7;
 			isa = PBXBuildFile;
@@ -1603,7 +1299,6 @@
 			files = (
 				6C4834BA07395F1500F65193,
 				6CCCED0907144EF000C5B203,
-				CB5FA1CF0638CA7300EADD7A,
 				6C1D527C06FA0CEB00A5D946,
 				6C4834CF07395F1B00F65193,
 				0A0429530708ACC70058CBD0,
@@ -1611,19 +1306,12 @@
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CB5FA1CF0638CA7300EADD7A = {
-			fileRef = CB5F84DD0638BFDB00EADD7A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		CB61E5130637763C00E0DDC7 = {
 			buildActionMask = 2147483647;
 			files = (
 				52861FC206DC421C00D3A356,
 				CB5F838B0638B78200EADD7A,
 				CBF0743A0659B1F4000B4B77,
-				CBF073CB0659A94F000B4B77,
 				F57BFE2E0669037C00DE5BFD,
 				63C92DDB06D05D22007368FA,
 				5286205706DC4C2F00D3A356,
@@ -1659,7 +1347,6 @@
 		CB61E5160637763C00E0DDC7 = {
 			buildActionMask = 2147483647;
 			files = (
-				9E51EBA50662FCE400FF1462,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1690,7 +1377,6 @@
 				WARNING_CFLAGS = "-Wmost";
 			};
 			dependencies = (
-				CB5FA1C40638CA4500EADD7A,
 				6C1D4F7106FA0C7E00A5D946,
 				0A0429000708ACA10058CBD0,
 				6C566EFC0716F1D300E139BD,
@@ -1749,32 +1435,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		CBF073C80659A94F000B4B77 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlDefines.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CBF073CA0659A94F000B4B77 = {
-			fileRef = CBF073C80659A94F000B4B77;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		CBF073CB0659A94F000B4B77 = {
-			fileRef = CBF073C80659A94F000B4B77;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		CBF073CC0659A94F000B4B77 = {
-			fileRef = CBF073C80659A94F000B4B77;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		CBF0743A0659B1F4000B4B77 = {
 			fileRef = CB1C5D1B063E432F007052EE;
 			isa = PBXBuildFile;
@@ -1797,14 +1457,6 @@
 //F52
 //F53
 //F54
-		F506C035013D953901CA16C8 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = PreferencePanes.framework;
-			path = /System/Library/Frameworks/PreferencePanes.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
 		F506C03C013D9D7901CA16C8 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
