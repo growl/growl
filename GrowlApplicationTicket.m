@@ -57,15 +57,15 @@
 	NSEnumerator *note = [inSet objectEnumerator];
 	id obj = nil;
 	while ( obj = [note nextObject] ) { //register the Controller for all the passed Notifications
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:_parent selector:@selector( dispatchNotification: ) name:(NSString *)obj object:nil];
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:_parent selector:@selector(dispatchNotification:) name:(NSString *)obj object:nil];
 	}
 }
 
 - (void) unregisterParentForNotifications:(NSArray *) inArray {
 	NSEnumerator *note = [inArray objectEnumerator];
-	
-	while ( note = [note nextObject] ) { //register the Controller for all the passed Notifications
-		[[NSDistributedNotificationCenter defaultCenter] removeObserver:_parent name:(NSString *)note object:nil];
+	id obj = nil; 
+	while ( obj = [note nextObject] ) { //register the Controller for all the passed Notifications
+		[[NSDistributedNotificationCenter defaultCenter] removeObserver:_parent name:(NSString *)obj object:nil];
 	}
 }
 @end
