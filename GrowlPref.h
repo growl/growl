@@ -51,22 +51,19 @@
 	
 	IBOutlet NSButton		* apply;
 	IBOutlet NSButton		* revert;
-	
-	
-	id growlProxy;
 }
 
-- (void) reloadPreferences;
-- (void) updateRunningStatus;
-- (void) reloadAppTab;
-- (void) reloadDisplayTab;
-- (void) buildMenus;
+- (void)reloadPreferences;
+- (void)updateRunningStatus;
+- (void)reloadAppTab;
+- (void)reloadDisplayTab;
+- (void)buildMenus;
 
 #pragma mark "General" tab pane
-- (IBAction) startStopGrowl:(id)sender;
-- (IBAction) startGrowlAtLogin:(id)sender;
+- (IBAction)startStopGrowl:(id)sender;
+- (IBAction)startGrowlAtLogin:(id)sender;
 
-- (IBAction) selectDisplayPlugin:(id)sender;
+- (IBAction)selectDisplayPlugin:(id)sender;
 
 #pragma mark "Applications" tab pane
 //- (IBAction)selectApplication:(id)sender;
@@ -79,23 +76,23 @@
 - (void)loadViewForDisplay:(NSString*)displayName;
 
 #pragma mark Notification table view data source methods
-- (int) numberOfRowsInTableView:(NSTableView *)tableView;
-- (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row;
-- (void) tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row;
+- (int)numberOfRowsInTableView:(NSTableView *)tableView;
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row;
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row;
 
 #pragma mark -
-- (IBAction) revert:(id)sender;
-- (IBAction) apply:(id)sender;
+- (IBAction)revert:(id)sender;
+- (IBAction)apply:(id)sender;
 
-- (void) setPrefsChanged:(BOOL)prefsChanged;
+- (void)setPrefsChanged:(BOOL)prefsChanged;
 
-- (void) sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 //- (void)pingGrowl;
 //- (void)growlPonged: (NSNotification *) note;
 //- (void)pingTimedOut: (NSTimer *) timer;
-- (void) checkGrowlRunning;
+- (void)checkGrowlRunning;
 
-- (void) appRegistered: (NSNotification *) note;
+- (void)appRegistered: (NSNotification *) note;
 
 @end

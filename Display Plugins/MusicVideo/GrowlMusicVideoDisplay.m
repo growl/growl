@@ -68,9 +68,9 @@
 
 - (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {
 	GrowlMusicVideoWindowController *nuMusicVideo = [GrowlMusicVideoWindowController musicVideoWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
-																									text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
-																									icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-																								  sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
+			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
+			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
 	[nuMusicVideo setDelegate:self];
 	[notificationQueue addObject:nuMusicVideo];
 	if ( [notificationQueue count] == 1 ) {

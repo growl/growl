@@ -15,16 +15,18 @@ extern NSString * GrowlUserDefaultsKey;
 
 
 @interface GrowlPreferences : NSObject {
-	NSUserDefaults *_realPrefs;
+	NSUserDefaults			* helperAppDefaults;
+	NSBundle				* helperAppBundle;
 }
 
 + (GrowlPreferences *) preferences;
 
-- (void) registerDefaults:(NSDictionary *)inDict;
-- (id) objectForKey:(NSString *)inKey;
-- (void) setObject:(id)inObject forKey:(NSString *)inKey;
-- (BOOL) synchronize;
+- (void) registerDefaults:(NSDictionary *)inDefaults;
+- (id) objectForKey:(NSString *)key;
+- (void) setObject:(id)object forKey:(NSString *) key;
+- (void) synchronize;
 
+- (NSBundle *) helperAppBundle;
 - (NSString *) growlSupportDir;
 
 

@@ -17,5 +17,5 @@
 
 @interface NSObject (GrowlSafariPatch)
 - (void) mySetDownloadStage:(int)stage;
-- (void) myUpdateDiskImageStatus:(id)fp8;
+- (void)myUpdateDiskImageStatus:(id)fp8;
 @end

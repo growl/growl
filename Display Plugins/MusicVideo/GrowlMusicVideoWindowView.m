@@ -61,9 +61,13 @@
 	int sizePref = 0;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, @"com.Growl.MusicVideo", &sizePref);
 	NSRect titleRect, textRect;
-	float titleFontSize, textFontSize;
+	float titleFontSize;
+	float textFontSize;
 	NSPoint iconPoint;
-	int maxRows, iconHorizontalOffset = 0, iconVerticalOffset = 0, iconSourcePoint;
+	int maxRows;
+	int iconHorizontalOffset = 0;
+	int iconVerticalOffset = 0;
+	int iconSourcePoint;
 	NSSize maxIconSize;
 	NSSize iconSize = [_icon size];
 	
@@ -98,8 +102,7 @@
 	if ( iconSize.height < maxIconSize.height ) {
 		iconVerticalOffset = ceil( (maxIconSize.height - iconSize.height) / 2. );
 	}
-	iconPoint = NSMakePoint(iconSourcePoint + iconHorizontalOffset, 
-							iconSourcePoint + iconVerticalOffset);
+	iconPoint = NSMakePoint(iconSourcePoint + iconHorizontalOffset, iconSourcePoint + iconVerticalOffset);
 
 	
 	// If we are on Panther or better, pretty shadow

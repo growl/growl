@@ -135,20 +135,19 @@ static const double gMaxDisplayTime = 10.;
 	GrowlSmokeWindowView *view = [[[GrowlSmokeWindowView alloc] initWithFrame:panelFrame] autorelease];
 	[view setTarget:self];
 	[view setAction:@selector( _bubbleClicked: )];
-
+	[panel setContentView:view];
+	
 	[view setTitle:title];
-	if ( [text isKindOfClass:[NSString class]] ) [view setText:text];
-	else if ( [text isKindOfClass:[NSAttributedString class]] ) [view setText:[text string]]; // we'll have no attributes here
-
+	if( [text isKindOfClass:[NSString class]] ) [view setText:text];
+	else if( [text isKindOfClass:[NSAttributedString class]] ) [view setText:[text string]]; // we'll have no attributes here
+	
     [view setPriority:priority];
     
 	[view setIcon:icon];
-	[view sizeToFit];
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
-
+	
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
-	[panel setContentView:view];
 	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlSmokePadding, 
 											 NSMaxY( screen ) - GrowlSmokePadding - depth )];
 
@@ -175,7 +174,8 @@ static const double gMaxDisplayTime = 10.;
 	}*/
 
 	[self setAutomaticallyFadesOut:!sticky];
-		
+	
+	
 	if ( self = [super initWithWindow:panel] ) {
 		
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -190,7 +190,6 @@ static const double gMaxDisplayTime = 10.;
 												   object:nil];
 	}
 	return self;
-
 }
 
 - (void) dealloc {

@@ -6,7 +6,6 @@
 //
 
 #import "GrowlApplicationTicket.h"
-#import "GrowlApplicationNotification.h"
 #import "GrowlController.h"
 #import "NSGrowlAdditions.h"
 
@@ -14,14 +13,88 @@ NSString * UseDefaultsKey = @"useDefaults";
 NSString * TicketEnabledKey = @"ticketEnabled";
 NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
-@class GrowlApplicationNotification;
+@implementation GrowlApplicationNotification
++ (GrowlApplicationNotification*) notificationWithName:(NSString*)name {
+    return [[[GrowlApplicationNotification alloc] initWithName:name priority:GP_normal enabled:YES sticky:NSMixedState] autorelease];
+}
+
++ (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict {
+    NSString* name = [dict objectForKey:@"Name"];
+    GrowlPriority priority = [[dict objectForKey:@"Priority"] intValue];
+    BOOL enabled = [[dict objectForKey:@"Enabled"] boolValue];
+    int sticky = ([[dict objectForKey:@"Sticky"] intValue] >= 0 ? ([[dict objectForKey:@"Sticky"] intValue] > 0 ? NSOnState : NSOffState) : NSMixedState);
+    return [[[GrowlApplicationNotification alloc] initWithName:name priority:priority enabled:enabled sticky:sticky] autorelease];
+}
+
+- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(int)sticky {
+    [self init];
+    _name = [name retain];
+    _priority = priority;
+    _enabled = enabled;
+    _sticky = sticky;
+    return self;
+}
+
+- (NSDictionary*) notificationAsDict {
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+        _name, @"Name",
+        [NSNumber numberWithInt:(int)_priority], @"Priority",
+        [NSNumber numberWithBool:_enabled], @"Enabled",
+        [NSNumber numberWithInt:_sticky], @"Sticky",
+        nil];
+    return dict;
+}
+
+- (void) dealloc {
+    if (_name)
+        [_name release];
+}
+
+#pragma mark -
+- (NSString*) name {
+	return [[_name copy] autorelease];
+}
+
+- (GrowlPriority) priority {
+	return _priority;
+}
+
+- (void) setPriority:(GrowlPriority)newPriority {
+    _priority = newPriority;
+}
+
+- (BOOL) enabled {
+	return _enabled;
+}
+
+- (void) setEnabled:(BOOL)yorn {
+    _enabled = yorn;
+}
+
+- (void) enable {
+    [self setEnabled:YES];
+}
+
+- (void) disable {
+    [self setEnabled:NO];
+}
+
+- (int) sticky {
+    return _sticky;
+}
+
+- (void) setSticky:(int)sticky {
+    _sticky = sticky;
+}
+@end
+
+#pragma mark -
+#pragma mark -
 
 @implementation GrowlApplicationTicket
 
 + (NSDictionary *) allSavedTickets {
-	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains( NSLibraryDirectory, 
-																NSAllDomainsMask, 
-																YES /*expandTilde*/ );
+	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, /*expandTilde*/ YES);
 	NSEnumerator *libraryDirEnum = [libraryDirs objectEnumerator];
 	NSString *libraryPath, *growlSupportPath;
 	NSMutableDictionary *result = [NSMutableDictionary dictionary];
@@ -122,26 +195,26 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
     }
     _allNotifications = [[NSDictionary alloc] initWithDictionary:notificationDict];
 
-    if  (iconObject = [ticketsList objectForKey:GROWL_APP_ICON] ) {
+    if (iconObject = [ticketsList objectForKey:GROWL_APP_ICON]) {
         _icon = [[NSImage alloc] initWithData:iconObject];
     } else {
         _icon = [[[NSWorkspace sharedWorkspace] iconForApplication:_appName] retain];
     }
     _useDefaults = [[ticketsList objectForKey:UseDefaultsKey] boolValue];
 
-    if ( [ticketsList objectForKey:TicketEnabledKey] ) {
+    if ([ticketsList objectForKey:TicketEnabledKey]) {
         ticketEnabled = [[ticketsList objectForKey:TicketEnabledKey] boolValue];
     } else {
         ticketEnabled = YES;
     }
     
-    if ( [ticketsList objectForKey:UsesCustomDisplayKey] ) {
+    if ([ticketsList objectForKey:UsesCustomDisplayKey]) {
         usesCustomDisplay = [[ticketsList objectForKey:UsesCustomDisplayKey] boolValue];
     } else {
         usesCustomDisplay = NO;
     }
     
-    if ( [ticketsList objectForKey:GrowlDisplayPluginKey] ) {
+    if ([ticketsList objectForKey:GrowlDisplayPluginKey]) {
         [self setDisplayPluginNamed:[ticketsList objectForKey:GrowlDisplayPluginKey]];
     } else {
         displayPlugin = nil;

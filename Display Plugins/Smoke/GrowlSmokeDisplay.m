@@ -67,9 +67,8 @@ static unsigned int smokeDepth = 0;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
-	//NSLog(@"Smoke: displayNotificationWithInfo - %@", noteDict );
-		
-GrowlSmokeWindowController *controller = [GrowlSmokeWindowController notifyWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
+	//NSLog(@"Smoke: displayNotificationWithInfo");
+	GrowlSmokeWindowController *controller = [GrowlSmokeWindowController notifyWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
 		      text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
 			  icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
           priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
@@ -78,7 +77,6 @@ GrowlSmokeWindowController *controller = [GrowlSmokeWindowController notifyWithT
 	// update the depth for the next notification with the depth given by this new one
 	// which will take into account the new notification's height
 	smokeDepth = [controller depth] + GrowlSmokePadding;
-
 	[controller startFadeIn];
 }
 

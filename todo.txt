@@ -44,15 +44,20 @@ To-Do
 		Refactor the code, primarily to separate out the Tcl<->C bits from the C<->ObjC bits. 
 	- Ruby:
 		Ruby Interface needs to be coded
+	- Java:
+		A java binding would be nice
 	- Applescript:
 		Add support for registering applications with Growl so they show up in the PrefPane.
 		Documentation for the entourage and mail.app scripts. These should have screen shots, and be on the website.
 			ref: http://cia.navi.cx/stats/author/the_tick/.message/2670177 for entourage.
 
 - Sample Apps and Code:
+	- Beep Specific To DO:
+		Connect sheet 
 	- GrowlTunes Specific To DO:
-		Preferences
-		Hot Keys ( Key Combos )
+		Make GrowlTunes work with streams (e.g. iTMS previews, radio stuff)
+		Grab album art from the web
+			We have a plugin architecture in GrowlTunes for this.
 
 - Documentation:
 	Developer docs

@@ -14,9 +14,8 @@
 	NSString *path = [self fullPathForApplication:inName];
 	NSImage *appIcon = path ? [self iconForFile:path] : nil;
 	if ( appIcon ) {
-		[appIcon setSize:NSMakeSize( 128.0, 128.0 )];
+		[appIcon setSize:NSMakeSize(128.,128.)];
 	}
-	
 	return appIcon;
 }
 
@@ -24,7 +23,7 @@
 
 @implementation NSString (GrowlAdditions)
 
-- (BOOL) boolValue {
+- (BOOL)boolValue {
 	return [self intValue];
 }
 
@@ -47,7 +46,7 @@ OSStatus CGSSetWindowTags(CGSConnection cid,CGSWindow widow,int *tags,int other)
 
 @implementation NSWindow (GrowlAdditions)
 
--(void) setSticky:(BOOL)flag {
+-(void)setSticky:(BOOL)flag {
 	// Check if we are on Panther or better (for expose)
 	if ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 ) {
 		CGSConnection cid;
@@ -58,12 +57,11 @@ OSStatus CGSSetWindowTags(CGSConnection cid,CGSWindow widow,int *tags,int other)
 		int tags[2];
 		tags[0] = tags[1] = 0;
 		OSStatus retVal = CGSGetWindowTags(cid, wid, tags, 32);
-		if( ! retVal ) {
+		if(!retVal) {
 			if (flag)
 				tags[0] = tags[0] | 0x00000800;
 			else
 				tags[0] = tags[0] & 0x00000800;
-			
 			retVal = CGSSetWindowTags(cid, wid, tags, 32);
 		}
 	}

@@ -6,18 +6,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlAdminPathway.h"
+#import "GrowlDisplayProtocol.h"
 
 @protocol GrowlDisplayPlugin;
 
 @interface GrowlController : NSObject {
 	NSMutableDictionary			*_tickets;				//Application tickets
+	NSLock						*_registrationLock;
 	NSMutableArray				*_notificationQueue;
 	NSMutableArray				*_registrationQueue;
-	GrowlPreferences			*_prefs;				// The ONE preference instance
-	GrowlAdminPathway			*_adminPathway;			// The prefPane can talk back to us
 	
-	id <GrowlDisplayPlugin>		displayController;
+	id<GrowlDisplayPlugin>		displayController;
 }
 
 + (id) singleton;
@@ -29,7 +28,10 @@
 - (void) saveTickets;
 
 - (void) preferencesChanged: (NSNotification *) note;
-- (GrowlPreferences *) preferences;
+
+- (void) shutdown:(NSNotification *) note;
+
+- (void) replyToPing:(NSNotification *) note;
 
 @end
 

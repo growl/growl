@@ -17,20 +17,20 @@
 void PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInstance)
 {
     // First, make sure the class isn't nil
-	if ( aClass != nil ) {
+	if (aClass != nil) {
 		Method orig_method = nil, alt_method = nil;
 		
 		// Next, look for the methods
-		if ( forInstance ) {
-			orig_method = class_getInstanceMethod( aClass, orig_sel );
-			alt_method = class_getInstanceMethod( aClass, alt_sel );
+		if (forInstance) {
+			orig_method = class_getInstanceMethod(aClass, orig_sel);
+			alt_method = class_getInstanceMethod(aClass, alt_sel);
 		} else {
-			orig_method = class_getClassMethod( aClass, orig_sel );
-			alt_method = class_getClassMethod( aClass, alt_sel );
+			orig_method = class_getClassMethod(aClass, orig_sel);
+			alt_method = class_getClassMethod(aClass, alt_sel);
 		}
 		
 		// If both are found, swizzle them
-		if ( ( orig_method != nil ) && ( alt_method != nil ) ) {
+		if ((orig_method != nil) && (alt_method != nil)) {
 			IMP temp;
 			
 			temp = orig_method->method_imp;
@@ -58,13 +58,8 @@ void ClassMethodSwizzle(Class aClass, SEL orig_sel, SEL alt_sel)
 @implementation GrowlSafari
 + (void) initialize {
 	NSLog(@"Patching DownloadProgressEntry...");
-	MethodSwizzle( NSClassFromString( @"DownloadProgressEntry" ), 
-				   @selector( setDownloadStage: ), 
-				   @selector( mySetDownloadStage: ));
-	MethodSwizzle( NSClassFromString( @"DownloadProgressEntry" ), 
-				   @selector( updateDiskImageStatus: ), 
-				   @selector( myUpdateDiskImageStatus: ));
-	
+	MethodSwizzle(NSClassFromString(@"DownloadProgressEntry"), @selector(setDownloadStage:), @selector(mySetDownloadStage:));
+	MethodSwizzle(NSClassFromString(@"DownloadProgressEntry"), @selector(updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:));
 	NSArray *array = [NSArray arrayWithObjects:@"Download Complete", @"Disk Image Status", @"Compression Status", nil];
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"GrowlSafari", GROWL_APP_NAME,
@@ -83,14 +78,13 @@ void ClassMethodSwizzle(Class aClass, SEL orig_sel, SEL alt_sel)
 	int oldStage = (int)[self performSelector:@selector(downloadStage)];
 	[self mySetDownloadStage:stage];
 	NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
-	
-	if ( stage == 2 ) {
+	if (stage == 2) {
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 			@"GrowlSafari", GROWL_APP_NAME,
 			@"Compression Status", GROWL_NOTIFICATION_NAME,
 			@"Decompressing File", GROWL_NOTIFICATION_TITLE,
 			[NSString stringWithFormat:@"%@ decompression started",
-					[[self performSelector:@selector( downloadPath )] lastPathComponent]],
+					[[self performSelector:@selector(downloadPath)] lastPathComponent]],
 				GROWL_NOTIFICATION_DESCRIPTION,
 			nil];
 		[nc postNotificationName:GROWL_NOTIFICATION	object:nil userInfo:dict];
@@ -100,7 +94,7 @@ void ClassMethodSwizzle(Class aClass, SEL orig_sel, SEL alt_sel)
 			@"Disk Image Status", GROWL_NOTIFICATION_NAME,
 			@"Copying Disk Image", GROWL_NOTIFICATION_TITLE,
 			[NSString stringWithFormat:@"Copying application from %@",
-					[[self performSelector:@selector( downloadPath )] lastPathComponent]],
+					[[self performSelector:@selector(downloadPath)] lastPathComponent]],
 				GROWL_NOTIFICATION_DESCRIPTION,
 			nil];
 		[nc postNotificationName:GROWL_NOTIFICATION object:nil userInfo:dict];
@@ -110,7 +104,7 @@ void ClassMethodSwizzle(Class aClass, SEL orig_sel, SEL alt_sel)
 			@"Download Complete", GROWL_NOTIFICATION_NAME,
 			@"Download Complete", GROWL_NOTIFICATION_TITLE,
 			[NSString stringWithFormat:@"%@ download complete", 
-					[self performSelector:@selector( filename )]],
+					[self performSelector:@selector(filename)]],
 				GROWL_NOTIFICATION_DESCRIPTION,
 			nil];
 		[nc postNotificationName:GROWL_NOTIFICATION object:nil userInfo:dict];
@@ -125,7 +119,7 @@ void ClassMethodSwizzle(Class aClass, SEL orig_sel, SEL alt_sel)
 			@"Disk Image Status", GROWL_NOTIFICATION_NAME,
 			@"Mounting Disk Image", GROWL_NOTIFICATION_TITLE,
 			[NSString stringWithFormat:@"Mounting %@",
-				[[self performSelector:@selector( downloadPath )] lastPathComponent]],
+				[[self performSelector:@selector(downloadPath)] lastPathComponent]],
 			GROWL_NOTIFICATION_DESCRIPTION,
 			nil];
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
