@@ -1,13 +1,13 @@
 //
-//  GrowlSmokeWindowView.m
+//  GrowlBrushedWindowView.m
 //  Display Plugins
 //
-//  Created by Matthew Walton on 11/09/2004.
-//  Copyright 2004 The Growl Project. All rights reserved.
+//  Created by Ingmar Stein on 12/01/2004.
+//  Copyright 2004 __MyCompanyName__. All rights reserved.
 //
 
-#import "GrowlSmokeWindowView.h"
-#import "GrowlSmokeDefines.h"
+#import "GrowlBrushedWindowView.h"
+#import "GrowlBrushedDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlImageAdditions.h"
@@ -15,13 +15,12 @@
 
 static float titleHeight;
 
-@implementation GrowlSmokeWindowView
+@implementation GrowlBrushedWindowView
 
 - (void) dealloc {
 	[icon release];
 	[title release];
 	[text release];
-	[bgColor release];
 	[textColor release];
 
 	[super dealloc];
@@ -30,18 +29,18 @@ static float titleHeight;
 - (void) drawRect:(NSRect)rect {
 	NSRect bounds = [self bounds];
 	NSRect frame  = [self frame];
-	
+
 	// clear the window
 	[[NSColor clearColor] set];
 	NSRectFill( frame );
 
 	// draw bezier path for rounded corners
-	float sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding * 0.5f);
+	float sizeReduction = GrowlBrushedPadding + GrowlBrushedIconSize + (GrowlBrushedIconTextPadding * 0.5f);
 
 	// calculate bounds based on icon-float pref on or off
 	NSRect shadedBounds;
-	BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
-	READ_GROWL_PREF_FLOAT(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
+	BOOL floatIcon = GrowlBrushedFloatIconPrefDefault;
+	READ_GROWL_PREF_FLOAT(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatIcon);
 	if (floatIcon) {
 		shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
 								  bounds.origin.y,
@@ -53,7 +52,7 @@ static float titleHeight;
 
 	// set up bezier path for rounded corners
 	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:shadedBounds
-														  radius:GrowlSmokeBorderRadius];
+														  radius:GrowlBrushedBorderRadius];
 
 	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
 	[graphicsContext saveGraphicsState];
@@ -62,16 +61,18 @@ static float titleHeight;
 	[path setClip];
 
 	// fill clipped graphics context with our background colour
+	NSWindow *window = [self window];
+	NSColor *bgColor = [window backgroundColor];
 	[bgColor set];
 	NSRectFill( frame );
 
 	// revert to unclipped graphics context
 	[graphicsContext restoreGraphicsState];
 
-	float notificationContentTop = frame.size.height - GrowlSmokePadding;
+	float notificationContentTop = frame.size.height - GrowlBrushedPadding;
 
 	// build an appropriate colour for the text
-	//NSColor *textColour = [NSColor whiteColor];
+	//NSColor *textColour = [NSColor colorWithCalibratedWhite:1.f alpha:1.f];
 
 	NSShadow *textShadow = [[[NSShadow alloc] init] autorelease];
 
@@ -82,21 +83,21 @@ static float titleHeight;
 
 	// construct attributes for the description text
 	NSDictionary *descriptionAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
+		[NSFont systemFontOfSize:GrowlBrushedTextFontSize], NSFontAttributeName,
 		textColor, NSForegroundColorAttributeName,
 		textShadow, NSShadowAttributeName,
 		nil];
 	// construct attributes for the title
 	NSDictionary *titleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize], NSFontAttributeName,
+		[NSFont boldSystemFontOfSize:GrowlBrushedTitleFontSize], NSFontAttributeName,
 		textColor, NSForegroundColorAttributeName,
 		textShadow, NSShadowAttributeName,
 		nil];
 
 	// draw the title and the text
-	unsigned textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
+	unsigned textXPosition = GrowlBrushedPadding + GrowlBrushedIconSize + GrowlBrushedIconTextPadding;
 	unsigned titleYPosition = notificationContentTop - [self titleHeight];
-	unsigned textYPosition = titleYPosition - ([self descriptionHeight] + GrowlSmokeTitleTextPadding);
+	unsigned textYPosition = titleYPosition - ([self descriptionHeight] + GrowlBrushedTitleTextPadding);
 	NSRect drawRect;
 
 	drawRect.origin.x = textXPosition;
@@ -112,17 +113,17 @@ static float titleHeight;
 
 	[text drawInRect:drawRect withAttributes:descriptionAttributes];
 
-	drawRect.origin.x = GrowlSmokePadding;
-	drawRect.origin.y = notificationContentTop - GrowlSmokeIconSize;
-	drawRect.size.width = GrowlSmokeIconSize;
-	drawRect.size.height = GrowlSmokeIconSize;
+	drawRect.origin.x = GrowlBrushedPadding;
+	drawRect.origin.y = notificationContentTop - GrowlBrushedIconSize;
+	drawRect.size.width = GrowlBrushedIconSize;
+	drawRect.size.height = GrowlBrushedIconSize;
 
 	// we do this because we are always working with a copy
 	[icon drawScaledInRect:drawRect
 				 operation:NSCompositeSourceOver
 				  fraction:1.0f];
 
-	[[self window] invalidateShadow];
+	[window invalidateShadow];
 }
 
 - (void) setIcon:(NSImage *)anIcon {
@@ -148,58 +149,33 @@ static float titleHeight;
 }
 
 - (void) setPriority:(int)priority {
-	NSString *key;
-	NSString *textKey;
+	NSString* textKey;
 	switch (priority) {
 		case -2:
-			key = GrowlSmokeVeryLowColor;
-			textKey = GrowlSmokeVeryLowTextColor;
+			textKey = GrowlBrushedVeryLowTextColor;
 			break;
 		case -1:
-			key = GrowlSmokeModerateColor;
-			textKey = GrowlSmokeModerateTextColor;
+			textKey = GrowlBrushedModerateTextColor;
 			break;
 		case 1:
-			key = GrowlSmokeHighColor;
-			textKey = GrowlSmokeHighTextColor;
+			textKey = GrowlBrushedHighTextColor;
 			break;
 		case 2:
-			key = GrowlSmokeEmergencyColor;
-			textKey = GrowlSmokeEmergencyTextColor;
+			textKey = GrowlBrushedEmergencyTextColor;
 			break;
 		case 0:
 		default:
-			key = GrowlSmokeNormalColor;
-			textKey = GrowlSmokeNormalTextColor;
+			textKey = GrowlBrushedNormalTextColor;
 			break;
 	}
 	NSArray *array = nil;
 
-	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
-	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
-
-	[bgColor release];
-
-	Class NSArrayClass = [NSArray class];
-	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, NSArray *, &array);
-	if (array && [array isKindOfClass:NSArrayClass]) {
-		bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-											green:[[array objectAtIndex:1U] floatValue]
-											 blue:[[array objectAtIndex:2U] floatValue]
-											alpha:backgroundAlpha];
-	} else {
-		bgColor = [NSColor colorWithCalibratedWhite:0.1f alpha:backgroundAlpha];
-	}
-	[bgColor retain];
-	[array release];
-	array = nil;
-
 	[textColor release];
-	READ_GROWL_PREF_VALUE(textKey, GrowlSmokePrefDomain, NSArray *, &array);
-	if (array && [array isKindOfClass:NSArrayClass]) {
-		textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-											  green:[[array objectAtIndex:1U] floatValue]
-											   blue:[[array objectAtIndex:2U] floatValue]
+	READ_GROWL_PREF_VALUE(textKey, GrowlBrushedPrefDomain, NSArray *, &array);
+	if (array && [array isKindOfClass:[NSArray class]]) {
+		textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
+											  green:[[array objectAtIndex:1] floatValue]
+											   blue:[[array objectAtIndex:2] floatValue]
 											  alpha:1.0f];
 	} else {
 		textColor = [NSColor colorWithCalibratedWhite:1.0f alpha:1.0f];
@@ -210,8 +186,8 @@ static float titleHeight;
 
 - (void)sizeToFit {
 	NSRect rect = [self frame];
-	rect.size.height = GrowlSmokeIconPadding + GrowlSmokePadding + GrowlSmokeTitleTextPadding + [self titleHeight] + [self descriptionHeight];
-	float minSize = (2.0f * GrowlSmokeIconPadding) + [self titleHeight] + GrowlSmokeTitleTextPadding + GrowlSmokeTextFontSize + 1.0f;
+	rect.size.height = GrowlBrushedIconPadding + GrowlBrushedPadding + GrowlBrushedTitleTextPadding + [self titleHeight] + [self descriptionHeight];
+	float minSize = (2.0f * GrowlBrushedIconPadding) + [self titleHeight] + GrowlBrushedTitleTextPadding + GrowlBrushedTextFontSize + 1.0f;
 	if (rect.size.height < minSize) {
 		rect.size.height = minSize;
 	}
@@ -219,14 +195,14 @@ static float titleHeight;
 }
 
 - (int) textAreaWidth {
-	return GrowlSmokeNotificationWidth - GrowlSmokePadding
-	   	- GrowlSmokeIconSize - GrowlSmokeIconPadding - GrowlSmokeIconTextPadding;
+	return GrowlBrushedNotificationWidth - GrowlBrushedPadding
+	   	- GrowlBrushedIconSize - GrowlBrushedIconPadding - GrowlBrushedIconTextPadding;
 }
 
 - (float) titleHeight {
 	if ( !titleHeight ) {
 		NSLayoutManager *lm = [[NSLayoutManager alloc] init];
-		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize]];
+		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlBrushedTitleFontSize]];
 		[lm release];
 	}
 
@@ -236,18 +212,18 @@ static float titleHeight;
 - (float) descriptionHeight {
 	if (!textHeight) {
 		NSString *content = text ? text : @"";
-		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:content
+		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:content
 																attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-																	[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
+																	[NSFont systemFontOfSize:GrowlBrushedTextFontSize], NSFontAttributeName,
 																	nil]];
 
 		NSSize containerSize;
-		BOOL limitPref = GrowlSmokeLimitPrefDefault;
-		READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
+		BOOL limitPref = GrowlBrushedLimitPrefDefault;
+		READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
 		containerSize.width = [self textAreaWidth];
 		if (limitPref) {
 			// this will be horribly wrong, but don't worry about it for now
-			float lineHeight = GrowlSmokeTextFontSize + 1.0f;
+			float lineHeight = GrowlBrushedTextFontSize + 1;
 			containerSize.height = lineHeight * 6.0f;
 		} else {
 			containerSize.height = FLT_MAX;
@@ -258,7 +234,7 @@ static float titleHeight;
 
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
-		[textContainer setLineFragmentPadding:0.0f];
+		[textContainer setLineFragmentPadding:0.0];
 		[layoutManager glyphRangeForTextContainer:textContainer];
 
 		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
@@ -267,7 +243,7 @@ static float titleHeight;
 		// in fact renders in 14 points of space. Do some adjustments.
 		// Presumably this is all due to leading, so need to find out how to figure out what that
 		// actually is for utmost accuracy
-		textHeight = textHeight / GrowlSmokeTextFontSize * (GrowlSmokeTextFontSize + 1.0f);
+		textHeight = textHeight / GrowlBrushedTextFontSize * (GrowlBrushedTextFontSize + 1);
 
 		[textStorage release];
 		[textContainer release];
@@ -280,7 +256,7 @@ static float titleHeight;
 - (int) descriptionRowCount {
 	float height = [self descriptionHeight];
 	// this will be horribly wrong, but don't worry about it for now
-	float lineHeight = GrowlSmokeTextFontSize + 1.0f;
+	float lineHeight = GrowlBrushedTextFontSize + 1;
 	return (int) (height / lineHeight);
 }
 

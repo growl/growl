@@ -1,0 +1,42 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                durationChanged = id; 
+                floatIconSwitchChanged = id; 
+                setAqua = id; 
+                setLimit = id; 
+                textColorChanged = id; 
+            }; 
+            CLASS = GrowlBrushedPrefsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                aquaCheck = NSButton; 
+                floatIconSwitch = NSButton; 
+                limitCheck = NSButton; 
+                "slider_duration" = NSSlider; 
+                "text_duration" = NSTextField; 
+                "text_emergency" = NSColorWell; 
+                "text_high" = NSColorWell; 
+                "text_moderate" = NSColorWell; 
+                "text_normal" = NSColorWell; 
+                "text_veryLow" = NSColorWell; 
+            }; 
+            SUPERCLASS = NSPreferencePane; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            CLASS = NSPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_firstKeyView" = NSView; 
+                "_initialKeyView" = NSView; 
+                "_lastKeyView" = NSView; 
+                "_window" = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
