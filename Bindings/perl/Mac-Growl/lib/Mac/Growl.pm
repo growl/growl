@@ -38,6 +38,7 @@ use constant GROWL_NOTIFICATION_NAME			=> "NotificationName";
 use constant GROWL_NOTIFICATION_TITLE			=> "NotificationTitle";
 use constant GROWL_NOTIFICATION_DESCRIPTION		=> "NotificationDescription";
 use constant GROWL_NOTIFICATION_ICON			=> "NotificationIcon";
+use constant GROWL_NOTIFICATION_STICKY			=> "NotificationSticky";
 
 use constant GROWL_APP_REGISTRATION				=> "GrowlApplicationRegistrationNotification";
 use constant GROWL_APP_REGISTRATION_CONF		=> "GrowlApplicationRegistrationConfirmationNotification";
@@ -75,15 +76,17 @@ sub RegisterNotifications($$$)
 				$regDict);			
 }
 
-sub PostNotification($$$$)
+sub PostNotification($$$$;$)
 {
-	my ($appName, $noteName, $noteTitle, $noteDescription) = @_;
+	my ($appName, $noteName, $noteTitle, $noteDescription, $sticky) = @_;
+	$sticky = $sticky?1:0;
 	
 	my $noteDict = NSMutableDictionary->dictionary();
 	$noteDict->setObject_forKey_($noteName,GROWL_NOTIFICATION_NAME);
 	$noteDict->setObject_forKey_($appName,GROWL_APP_NAME);
 	$noteDict->setObject_forKey_($noteTitle,GROWL_NOTIFICATION_TITLE);
 	$noteDict->setObject_forKey_($noteDescription,GROWL_NOTIFICATION_DESCRIPTION);
+	$noteDict->setObject_forKey_(NSNumber->numberWithBool_($sticky),GROWL_NOTIFICATION_STICKY);
 	
 	NSDistributedNotificationCenter->defaultCenter()->postNotificationName_object_userInfo_(
 				GROWL_NOTIFICATION,
@@ -105,7 +108,7 @@ Mac::Growl - Perl module for registering and sending Growl Notifications on OS X
   use Mac::Growl qw{RegisterNotifications, PostNotification};
 
   RegisterNotifications("MyPerlApp", \@allNotifications, \@defaultNotifications);
-  PostNotification("MyPerlApp", $notificationName, $notificationTitle, $notificationDescription);
+  PostNotification("MyPerlApp", $notificationName, $notificationTitle, $notificationDescription[, $sticky]);
 
 =head1 DESCRIPTION
 
@@ -119,9 +122,9 @@ Mac::Growl defines two methods:
 
 RegisterNotifications takes the name of the application sending notifications, as well as a reference to a list of all notifications the app sends out, and a reference to an array of all the notifications to be enabled by default.
 
-=item PostNotification(appname, name, title, description);
+=item PostNotification(appname, name, title, description[, sticky]);
 
-PostNotification takes the name of the sending application (normally the same as passed to the Register call), the name of the notification (should be one of the list passed to Register, and a title and description to be displayed by Growl
+PostNotification takes the name of the sending application (normally the same as passed to the Register call), the name of the notification (should be one of the allNotification list passed to Register), and a title and description to be displayed by Growl. Also, optionally accepts a "sticcky" flag, which, if true, will cause the notification to remain until dismissed, instead of timing out normally.
 
 =back
 

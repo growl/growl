@@ -10,6 +10,6 @@ BEGIN { use_ok('Mac::Growl') };
 
 #########################
 
-Mac::Growl::RegisterNotifications("PerlApp",["PerlApp-Test"],["PerlApp-Test"]);
-sleep(1);	#A brief delay for Growl to process the notification
-Mac::Growl::PostNotification("PerlApp","PerlApp-Test","Congratulations","Mac::Growl is working.");
+Mac::Growl::RegisterNotifications("PerlApp",["Perl Notification"],["Perl Notification"]);
+Mac::Growl::PostNotification("PerlApp","Perl Notification","Congratulations","Mac::Growl is working.");
+Mac::Growl::PostNotification("PerlApp","Perl Notification","If things are working...", "This should 'stick'",1);
