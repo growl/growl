@@ -57,7 +57,7 @@ static void PynShadeInterpolate( void *info, const float *inData, float *outData
 
 	int style = 0;
 	READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, BezelPrefDomain, &style);
-	NSLog(@"Using style=%d", style);
+	NSGraphicsContext *graphicsContext;
 	switch (style) {
 		default:
 		case 0:
@@ -65,9 +65,9 @@ static void PynShadeInterpolate( void *info, const float *inData, float *outData
 			[[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:alpha] set];
 			[path fill];
 			break;
-		case 1: {
-			// pyn style (dark)
-			NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
+		case 1:
+			// charcoal
+			graphicsContext = [NSGraphicsContext currentContext];
 			[graphicsContext saveGraphicsState];
 
 			[path setClip];
@@ -97,11 +97,18 @@ static void PynShadeInterpolate( void *info, const float *inData, float *outData
 			[[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:alpha] set];
 			[path stroke];
 			break;
-		}
 		case 2:
-			// pyn style (light)
+			// glass
 			[[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:alpha] set];
 			[path fill];
+			graphicsContext = [NSGraphicsContext currentContext];
+			[graphicsContext saveGraphicsState];
+			bounds.origin.y -= bounds.size.height * 0.333f;
+			bounds.origin.x -= bounds.size.width * 0.5f;
+			bounds.size.width *= 2.0f;
+			[path setClip];
+			[[NSBezierPath bezierPathWithOvalInRect:bounds] fill];
+			[graphicsContext restoreGraphicsState];
 			[[NSColor whiteColor] set];
 			[path stroke];
 			break;
