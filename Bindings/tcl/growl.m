@@ -48,7 +48,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 	int e = TCL_ERROR;
 
 	/* Action: 'register' or 'post'. */
-	NSString *action;
+	NSString *action = nil;
 
 	/* For register only. */
 	NSArray *allNotifications = nil;
@@ -59,7 +59,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 	NSString *notificationDescription = nil;
 
 	/* Notification icon. */
-	NSString *iconFile;
+	NSString *iconFile = nil;
 	NSImage *notificationIcon = nil;
 
 	/* Notification information. */
