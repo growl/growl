@@ -23,12 +23,6 @@
 static const char *keychainServiceName = "Growl";
 static const char *keychainAccountName = "Growl";
 
-@interface GrowlPref (GrowlPrefPrivate)
-- (BOOL) _isGrowlRunning;
-- (void) _launchGrowl;
-- (void) _terminateGrowl;
-@end
-
 @implementation GrowlPref
 
 - (id) initWithBundle:(NSBundle *)bundle {
@@ -267,7 +261,7 @@ static const char *keychainAccountName = "Growl";
 
 	// If Growl is enabled, ensure the helper app is launched
 	if ( [[preferences objectForKey:GrowlEnabledKey] boolValue] ) {
-		[self _launchGrowl];
+		[self launchGrowl];
 	}
 
 	[self buildMenus];
@@ -377,7 +371,7 @@ static const char *keychainAccountName = "Growl";
 
 - (IBAction) startStopGrowl:(id) sender {
 	// Make sure growlIsRunning is correct
-	if (growlIsRunning != [self _isGrowlRunning]) {
+	if (growlIsRunning != [self isGrowlRunning]) {
 		// Nope - lets just flip it and update status
 		growlIsRunning = !growlIsRunning;
 		[self updateRunningStatus];
@@ -392,13 +386,13 @@ static const char *keychainAccountName = "Growl";
 									   forKey:GrowlEnabledKey];
 
 	if (desiredGrowlState) {
-		[self _launchGrowl];
+		[self launchGrowl];
 	} else {		
-		[self _terminateGrowl];
+		[self terminateGrowl];
 	}
 }
 
-- (void) _launchGrowl {
+- (void) launchGrowl {
 	NSString *helperPath = [[self bundle] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 
 	// Don't allow the button to be clicked while we update
@@ -423,13 +417,13 @@ static const char *keychainAccountName = "Growl";
 		status = LSOpenFromRefSpec(&spec, NULL);
 	}	
 
-	// After 4 seconds force a status update, in case growl didn't start/stop
+	// After 4 seconds force a status update, in case Growl didn't start/stop
 	[self performSelector:@selector(checkGrowlRunning)
 			   withObject:nil
 			   afterDelay:4.0];	
 }
 
-- (void) _terminateGrowl {
+- (void) terminateGrowl {
 	// Don't allow the button to be clicked while we update
 	[startStopGrowl setEnabled:NO];
 	[growlRunningProgress startAnimation:self];
@@ -894,7 +888,7 @@ static const char *keychainAccountName = "Growl";
 #pragma mark Detecting Growl
 
 - (void)checkGrowlRunning {
-	growlIsRunning = [self _isGrowlRunning];
+	growlIsRunning = [self isGrowlRunning];
 	[self updateRunningStatus];
 }
 
@@ -932,7 +926,7 @@ static const char *keychainAccountName = "Growl";
 #pragma mark -
 #pragma mark Private
 
-- (BOOL)_isGrowlRunning {
+- (BOOL)isGrowlRunning {
 	BOOL isRunning = NO;
 	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
 
@@ -942,9 +936,8 @@ static const char *keychainAccountName = "Growl";
 		isRunning = bundleID && [bundleID isEqualToString:@"com.Growl.GrowlHelperApp"];
 		[infoDict release];
 
-		if (isRunning) {
+		if (isRunning)
 			break;
-		}
 	}
 
 	return isRunning;

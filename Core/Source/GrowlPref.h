@@ -86,6 +86,10 @@
 - (void) reloadDisplayTab;
 - (void) buildMenus;
 
+- (BOOL) isGrowlRunning;
+- (void) launchGrowl;
+- (void) terminateGrowl;
+
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;
 - (IBAction) startGrowlAtLogin:(id)sender;
