@@ -22,15 +22,9 @@
 }
 
 - (BOOL) boolValue {
-	BOOL truth = ([self intValue] != 0);
-	if (!truth) {
-		NSSet *yesStrings = [[NSSet alloc] initWithObjects:
-			@"yes", @"true",
-			nil];
-		truth = [yesStrings containsObject:[self lowercaseString]];
-		[yesStrings release];
-	}
-	return truth;
+	return [self intValue] != 0
+		|| [self caseInsensitiveCompare:@"yes"] == NSOrderedSame
+		|| [self caseInsensitiveCompare:@"true"] == NSOrderedSame;
 }
 @end
 
