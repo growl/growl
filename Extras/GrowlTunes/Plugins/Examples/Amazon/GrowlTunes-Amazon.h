@@ -38,6 +38,8 @@
 #pragma mark -
 #pragma mark Other
 
+- (NSImage *)imageWithAlbumInfo:(NSDictionary *)albumInfo;
+
 /*Downloads the contents of the specified URL.
  *If an error is encountered, it is logged, and this method returns nil.
  */

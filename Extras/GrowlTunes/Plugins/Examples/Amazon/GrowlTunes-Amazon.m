@@ -46,26 +46,10 @@
 	if (compilation)
 		artist = @"compilation";
 
-	NSImage *artwork = nil;
 	NSLog( @"Go go interweb (%@ by %@ from %@)", song, artist, album );
 	NSDictionary *albumInfo = [self getAlbum:album byArtist:artist];
 
-	NSData *imageData = nil;
-	NSString *URLString = [albumInfo objectForKey:@"artworkURL"];
-	if (URLString && [URLString length]) {
-		NSURL *URL = nil;
-		@try {
-			URL = [NSURL URLWithString:URLString];
-			imageData = [self download:URL];
-		}
-		@catch(NSException *e) {
-			NSLog(@"Exception occurred while downloading %@ (URL string: %@): %@", URL, URLString, [e reason]);
-		}
-	}
-	if ( imageData )
-		artwork = [[(NSImage *)[NSImage alloc] initWithData:imageData] autorelease];
-
-	return artwork;
+	return [self imageWithAlbumInfo:albumInfo];
 }
 
 #pragma mark -
@@ -115,19 +99,17 @@
 				NSString *foundArtistName = [foundArtists member:artistName];
 				if(foundArtistName) artistName = foundArtistName;
 
-				//we want the biggest artwork we can get.
-				NSString *artworkURLString = [foundItem objectForKey:AMAZON_IMAGE_URL_LARGE_KEY];
-				if(!artworkURLString) {
-					artworkURLString       = [foundItem objectForKey:AMAZON_IMAGE_URL_MEDIUM_KEY];
-					if(!artworkURLString)
-						artworkURLString   = [foundItem objectForKey:AMAZON_IMAGE_URL_SMALL_KEY];
-				}
-
-				NSDictionary *productInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+				NSMutableDictionary *productInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 					albumName,        @"name",
-					artworkURLString, @"artworkURL",
 					artistName,       @"artist",
 					nil];
+				id obj;
+				obj = [foundItem objectForKey:AMAZON_IMAGE_URL_LARGE_KEY];
+				if(obj) [productInfo setObject:obj forKey:AMAZON_IMAGE_URL_LARGE_KEY];
+				obj = [foundItem objectForKey:AMAZON_IMAGE_URL_MEDIUM_KEY];
+				if(obj) [productInfo setObject:obj forKey:AMAZON_IMAGE_URL_MEDIUM_KEY];
+				obj = [foundItem objectForKey:AMAZON_IMAGE_URL_SMALL_KEY];
+				if(obj) [productInfo setObject:obj forKey:AMAZON_IMAGE_URL_SMALL_KEY];
 
 				[result addObject:productInfo];
 			}
@@ -208,6 +190,68 @@
 
 #pragma mark -
 #pragma mark Helper methods
+
+- (NSData *)imageDataForKey:(NSString *)key fromAlbumInfo:(NSDictionary *)albumInfo {
+	NSData *imageData = nil;
+	NSString *URLString = [albumInfo objectForKey:key];
+	if (URLString && [URLString length]) {
+		NSURL *URL = nil;
+		@try {
+			URL = [NSURL URLWithString:URLString];
+			imageData = [self download:URL];
+		}
+		@catch(NSException *e) {
+			NSLog(@"Exception occurred while downloading %@ (URL string: %@): %@", URL, URLString, [e reason]);
+		}
+	}
+	return imageData;
+}
+- (NSImage *)imageWithAlbumInfo:(NSDictionary *)albumInfo {
+	NSData *imageData;
+	NSImage *image = nil;
+	NSSize imageSize;
+
+	/*first try large, then medium, then small, looking for a viable image.
+	 *an image is unviable if no URL exists for it (obviously) or if the image
+	 *	is 1x1. Amazon returns 1x1 images for no obvious reason for albums that
+	 *	are not available for purchase.
+	 *see: http://trac.growl.info/trac/ticket/88
+	 *	--boredzo
+	 */
+
+	imageData = [self imageDataForKey:AMAZON_IMAGE_URL_LARGE_KEY fromAlbumInfo:albumInfo];
+	if(imageData) {
+		image = [[[NSImage alloc] initWithData:imageData] autorelease];
+		imageSize = [image size];
+		if((imageSize.width == 1.0f) && (imageSize.height == 1.0f)) {
+			image = nil;
+			imageData = nil;
+		}
+	}
+	if(!imageData) {
+		imageData = [self imageDataForKey:AMAZON_IMAGE_URL_MEDIUM_KEY fromAlbumInfo:albumInfo];
+		if(imageData) {
+			image = [[[NSImage alloc] initWithData:imageData] autorelease];
+			imageSize = [image size];
+			if((imageSize.width == 1.0f) && (imageSize.height == 1.0f)) {
+				image = nil;
+				imageData = nil;
+			}
+		}
+		if(!imageData) {
+			imageData = [self imageDataForKey:AMAZON_IMAGE_URL_SMALL_KEY fromAlbumInfo:albumInfo];
+			if(imageData) {
+				image = [[[NSImage alloc] initWithData:imageData] autorelease];
+				imageSize = [image size];
+				if((imageSize.width == 1.0f) && (imageSize.height == 1.0f)) {
+					image = nil;
+					imageData = nil;
+				}
+			}
+		}
+	}
+	return image;
+}
 
 - (NSData *)download:(NSURL *)url {
 	NSLog(@"Go go interweb: %@", url);
