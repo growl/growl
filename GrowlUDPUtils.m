@@ -33,7 +33,8 @@
 	length = sizeof(*nn) + notificationNameLen + applicationNameLen + titleLen + descriptionLen + iconLen;
 
 	nn = (struct GrowlNetworkNotification *)malloc( length );
-	nn->common.type = htonl( GROWL_TYPE_NOTIFICATION );
+	nn->common.version = GROWL_PROTOCOL_VERSION;
+	nn->common.type = GROWL_TYPE_NOTIFICATION;
 	nn->flags.reserved = 0;
 	nn->flags.priority = [priority intValue];
 	nn->flags.sticky = [isSticky boolValue];
@@ -89,7 +90,8 @@
 	}
 	
 	nr = (struct GrowlNetworkRegistration *)malloc( length );
-	nr->common.type = htonl( GROWL_TYPE_REGISTRATION );
+	nr->common.version = GROWL_PROTOCOL_VERSION;
+	nr->common.type = GROWL_TYPE_REGISTRATION;
 	nr->appNameLen = htonl( applicationNameLen );
 	nr->numAllNotifications = htonl( numAllNotifications );
 	nr->numDefaultNotifications = htonl( numDefaultNotifications );

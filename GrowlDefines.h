@@ -69,6 +69,8 @@
 
 #define GROWL_UDP_PORT	9887
 
+#define GROWL_PROTOCOL_VERSION	1
+
 #define GROWL_TYPE_REGISTRATION	0
 #define GROWL_TYPE_NOTIFICATION	1
 
@@ -77,6 +79,7 @@
  *	the type of the packet.
  */
 struct GrowlNetworkPacket {
+	unsigned char version;
 	unsigned char type;
 };
 
