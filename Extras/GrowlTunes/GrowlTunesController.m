@@ -503,9 +503,13 @@ enum {
 			length, EXTENSION_GROWLTUNES_TRACK_LENGTH,
 			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
+#ifdef USE_OLD_GAB
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																	   object:nil
 																	 userInfo:noteDict];
+#else
+		[GrowlApplicationBridge notifyWithDictionary:noteDict];
+#endif //ndef USE_OLD_GAB
 			
 		// set up us some state for next time
 		state = newState;
