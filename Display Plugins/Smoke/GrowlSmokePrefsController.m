@@ -38,16 +38,15 @@
 	// opacity
 	float alphaPref = GrowlSmokeAlphaPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &alphaPref);
-	[slider_opacity setMinValue:0.05];
 	[slider_opacity setFloatValue:alphaPref];
 	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", (int)floorf(alphaPref * 100.0f)]];
-  
+
 	// duration
 	float durationPref = GrowlSmokeDurationPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, GrowlSmokePrefDomain, &durationPref);
 	[slider_duration setFloatValue:durationPref];
 	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
-	
+
 	// float icon checkbox
 	BOOL floatIconPref = GrowlSmokeFloatIconPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIconPref);
@@ -65,7 +64,7 @@
 	} else {
 		[limitCheck setState:NSOffState];
 	}
-	
+
 	// priority colour settings
 	NSColor *defaultColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
 
@@ -130,15 +129,14 @@
 		[NSNumber numberWithFloat:[color blueComponent]],
 		[NSNumber numberWithFloat:[color alphaComponent]],
 		nil];
-	WRITE_GROWL_PREF_VALUE(key, (CFArrayRef)array, GrowlSmokePrefDomain);
+	WRITE_GROWL_PREF_VALUE(key, array, GrowlSmokePrefDomain);
 
 	// NSLog(@"color: %@ array: %@", color, array);
 
 	UPDATE_GROWL_PREFS();
 }
 
-- (IBAction) textColorChanged:(id)sender
-{
+- (IBAction) textColorChanged:(id)sender {
 	NSColor *color;
 	NSArray *array;
 
@@ -169,10 +167,10 @@
 		[NSNumber numberWithFloat:[color blueComponent]],
 		[NSNumber numberWithFloat:[color alphaComponent]],
 		nil];
-	WRITE_GROWL_PREF_VALUE(key, (CFArrayRef)array, GrowlSmokePrefDomain);
+	WRITE_GROWL_PREF_VALUE(key, array, GrowlSmokePrefDomain);
 
 	// NSLog(@"color: %@ array: %@", color, array);
-	
+
 	UPDATE_GROWL_PREFS();
 }
 

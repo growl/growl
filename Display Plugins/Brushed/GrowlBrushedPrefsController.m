@@ -116,7 +116,7 @@
         [NSNumber numberWithFloat:[color blueComponent]],
 		[NSNumber numberWithFloat:[color alphaComponent]],
 		nil];
-    WRITE_GROWL_PREF_VALUE(key, (CFArrayRef)array, GrowlBrushedPrefDomain);
+    WRITE_GROWL_PREF_VALUE(key, array, GrowlBrushedPrefDomain);
 
     // NSLog(@"color: %@ array: %@", color, array);
 	
