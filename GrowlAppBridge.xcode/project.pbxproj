@@ -69,6 +69,7 @@
 			buildStyles = (
 				014CEA440018CDF011CA2923,
 				014CEA450018CDF011CA2923,
+				9564F7D807438DAB00F1CCE5,
 			);
 			hasScannedForEncodings = 1;
 			isa = PBXProject;
@@ -476,6 +477,33 @@
 			path = GrowlAppBridge.framework;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+//950
+//951
+//952
+//953
+//954
+		9564F7D807438DAB00F1CCE5 = {
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_CPU = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = "Deployment - Tiger - G4";
 		};
 	};
 	rootObject = 0867D690FE84028FC02AAC07;

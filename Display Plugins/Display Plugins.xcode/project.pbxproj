@@ -23,9 +23,6 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_FAST_OBJC_DISPATCH = YES;
-				GCC_MODEL_CPU = G4;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
@@ -581,6 +578,7 @@
 			buildStyles = (
 				014CEA420018CDE011CA2923,
 				014CEA430018CDE011CA2923,
+				9564F8B907438E6800F1CCE5,
 			);
 			hasScannedForEncodings = 1;
 			isa = PBXProject;
@@ -1843,6 +1841,21 @@
 //952
 //953
 //954
+		9564F8B907438E6800F1CCE5 = {
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_MODEL_CPU = G4;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = "Deployment - Tiger - G4";
+		};
 		957FE5FF073CFAFE004B22DD = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
