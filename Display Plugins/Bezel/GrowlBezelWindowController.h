@@ -17,6 +17,7 @@
 	id				_target;
 	id				_representedObject;
 	short			_displayTime;
+	BOOL			 dragging;
 }
 
 + (GrowlBezelWindowController *)bezel;
