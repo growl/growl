@@ -68,8 +68,6 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 }
 
 - (void) drawRect:(NSRect) rect {
-	
-	
 	static NSColor *_bgColorDeux;
 //	*_bgColorDeux = *_bgColor;
 	static float darkRed, darkGreen, darkBlue, darkAlpha;
@@ -94,7 +92,8 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	[path setLineWidth:lineWidth];
 
 	float radius = 9.f;
-	NSRect irect = NSInsetRect( bounds, radius + lineWidth, radius + lineWidth );
+	float inset = radius + lineWidth;
+	NSRect irect = NSInsetRect( bounds, inset, inset );
 	float minX = NSMinX( irect );
 	float minY = NSMinY( irect );
 	float maxX = NSMaxX( irect );
@@ -185,7 +184,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 		[_icon unlockFocus];
 	}
 
-	[_icon compositeToPoint:NSMakePoint( 15.f, heightOffset - 35.f ) operation:NSCompositeSourceAtop fraction:1.];
+	[_icon compositeToPoint:NSMakePoint( 15.f, heightOffset - 35.f ) operation:NSCompositeSourceAtop fraction:1.f];
 
 	[[self window] invalidateShadow];
 }
@@ -287,10 +286,11 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 		int _rowCount = _textHeight / 13;
 		BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(KALimitPref, @"com.growl.BubblesNotificationView", &limitPref);
-		if (limitPref)
+		if (limitPref) {
 			_textHeight = MIN(_rowCount, 5) * 14;
-		else
+		} else {
 			_textHeight = _textHeight / 13 * 14;
+		}
 	}
 	return MAX (_textHeight, 30);
 }
