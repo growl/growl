@@ -344,7 +344,7 @@ static id singleton = nil;
 - (NSDictionary *)versionDictionary {
 	if (!versionInfo) {
 		if (version.releaseType == releaseType_svn) {
-			version.development = strtoul("SVN_REVISION", /*endptr*/ NULL, 10);
+			version.development = strtoul(SVN_REVISION, /*endptr*/ NULL, 10);
 		}
 
 		const unsigned long long *versionNum = (const unsigned long long *)&version;
