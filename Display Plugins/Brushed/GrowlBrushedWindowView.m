@@ -249,15 +249,17 @@ static float titleHeight;
 		} else {
 			containerSize.height = FLT_MAX;
 		}
-		NSTextContainer* textContainer = [[NSTextContainer alloc]
+		NSTextContainer *textContainer = [[NSTextContainer alloc]
 			initWithContainerSize:containerSize];
-		NSLayoutManager* layoutManager = [[NSLayoutManager alloc] init];
+		[textContainer setLineFragmentPadding:0.0f];
+		NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
 
-		[layoutManager addTextContainer:textContainer];
-		[textStorage addLayoutManager:layoutManager];
-		[textContainer setLineFragmentPadding:0.0];
-		[layoutManager glyphRangeForTextContainer:textContainer];
-
+		[layoutManager addTextContainer:textContainer];	// retains textContainer
+		[textContainer release];
+		[textStorage addLayoutManager:layoutManager];	// retains layoutManager
+		[layoutManager release];
+		[layoutManager glyphRangeForTextContainer:textContainer];	// force layout
+		
 		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
 
 		// for some reason, this code is using a 13-point line height for calculations, but the font 
@@ -266,10 +268,8 @@ static float titleHeight;
 		// actually is for utmost accuracy
 		textHeight = textHeight / GrowlBrushedTextFontSize * (GrowlBrushedTextFontSize + 1);
 
-		[textStorage   release];
-		[textContainer release];
-		[layoutManager release];
-		[attributes    release];
+		[textStorage release];
+		[attributes  release];
 	}
 	
 	return textHeight;

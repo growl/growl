@@ -87,7 +87,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	NSRect frame  = [self frame];
 
 	[[NSColor clearColor] set];
-	NSRectFill( frame );
+	NSRectFill(frame);
 
 	// Create a path with enough room to strike the border and remain inside our frame.
 	// Since the path is in the middle of the line, this means we must inset it by half the border width.
@@ -298,47 +298,48 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 - (void) sizeToFit {
 	NSRect rect = [self frame];
 	rect.size.width = PANEL_WIDTH_PX;
-	rect.size.height = 2.0f * PANEL_VSPACE_PX + [self titleHeight] + TITLE_VSPACE_PX + [self descriptionHeight];
+	rect.size.height = PANEL_VSPACE_PX + PANEL_VSPACE_PX + [self titleHeight] + TITLE_VSPACE_PX + [self descriptionHeight];
 	[self setFrame:rect];
+}
+
+- (float) textHeight {
+	if (!textHeight) {
+		NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+			textFont, NSFontAttributeName,
+			textColor, NSForegroundColorAttributeName,
+			nil];
+		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:text
+																attributes:attributes];
+		NSTextContainer *textContainer = [[NSTextContainer alloc]
+			initWithContainerSize:NSMakeSize ( PANEL_WIDTH_PX - PANEL_HSPACE_PX - PANEL_HSPACE_PX - ICON_SIZE_PX - ICON_HSPACE_PX,
+											   FLT_MAX )];
+		[textContainer setLineFragmentPadding:0.0f];
+		NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
+
+		[layoutManager addTextContainer:textContainer];	// retains textContainer
+		[textContainer release];
+		[textStorage addLayoutManager:layoutManager];	// retains layoutManager
+		[layoutManager release];
+		[layoutManager glyphRangeForTextContainer:textContainer];	// force layout
+
+		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+		[attributes  release];
+		[textStorage release];
+	}
+
+	return textHeight;
 }
 
 - (float) descriptionHeight {
 	if (!text || ![text length]) {
 		return 0.0f;
 	}
-	
-	if (!textHeight) {
-		textHeight = [self descriptionRowCount] * [textFont defaultLineHeightForFont];
-		textHeight = MAX(textHeight, MIN_TEXT_HEIGHT_PX);
-	}
-	return textHeight;
+
+	return MAX([self textHeight], MIN_TEXT_HEIGHT_PX);
 }
 
 - (int) descriptionRowCount {
-	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-		textFont, NSFontAttributeName,
-		textColor, NSForegroundColorAttributeName,
-		nil];
-	NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text
-																		 attributes:attributes];
-	NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:attributedText];
-	NSTextContainer *textContainer = [[NSTextContainer alloc]
-		initWithContainerSize:NSMakeSize ( PANEL_WIDTH_PX - 2.0f * PANEL_HSPACE_PX - ICON_SIZE_PX - ICON_HSPACE_PX,
-										   FLT_MAX )];
-	NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
-
-	[layoutManager addTextContainer:textContainer];
-	[textStorage addLayoutManager:layoutManager];
-	[layoutManager glyphRangeForTextContainer:textContainer];
-
-	textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-	[attributedText release];
-	[attributes     release];
-	[layoutManager  release];
-	[textContainer  release];
-	[textStorage    release];
-
-	int rowCount = textHeight / [textFont defaultLineHeightForFont];
+	int rowCount = [self textHeight] / [textFont defaultLineHeightForFont];
 	BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
 	if (limitPref) {
