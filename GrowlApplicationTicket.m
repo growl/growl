@@ -71,7 +71,7 @@
 - (void) saveTicket {
 	// save a Plist file of this object to configure the prefs of apps that aren't running
 	// construct a dictionary of our state data then save that dictionary to a file.
-	NSString *savePath = [NSString stringWithFormat:@"%@%@/%@", GROWL_SUPPORT_DIR, GROWL_TICKETS_DIR, [_appName stringByAppendingString:@".growlTicket"]];
+	NSString *savePath = [GROWL_TICKETS_DIR stringByAppendingPathComponent: [_appName stringByAppendingString:@".growlTicket"]];
 	NSDictionary *saveDict = [NSDictionary dictionaryWithObjectsAndKeys:	_appName, GROWL_APP_NAME,
 																			/*[_icon TIFFRepresentation], GROWL_NOTIFICATION_ICON,*/
 																			_allNotifications, GROWL_NOTIFICATIONS_ALL,
