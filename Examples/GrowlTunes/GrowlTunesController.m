@@ -33,9 +33,9 @@
 		ITUNES_TRACK_CHANGED, 
 //		ITUNES_PAUSED, 
 //		ITUNES_STOPPED,
-//		ITUNES_PLAYING, 
+		ITUNES_PLAYING, 
 		nil];
-	NSImage			* iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"];
+	NSImage			* iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes.app"];
 	NSDictionary	* regDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"GrowlTunes", GROWL_APP_NAME,
 		[iTunesIcon TIFFRepresentation], GROWL_APP_ICON,
@@ -89,7 +89,7 @@
 	
 	if(state != newState || trackID != newTrackID) {
 		if(newState == itPLAYING) {
-			if(state == itPLAYING) {
+			if(state == itPLAYING || state == itSTOPPED) {
 				NSString		* track = nil;
 				NSString		* artist = nil;
 				NSImage			* artwork = nil;
@@ -114,7 +114,8 @@
 									artist, GROWL_NOTIFICATION_DESCRIPTION,
 									artwork?[artwork TIFFRepresentation]:nil, GROWL_NOTIFICATION_ICON,
 									nil];
-				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:ITUNES_TRACK_CHANGED object:nil userInfo:noteDict];
+				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:(state == itPLAYING)?ITUNES_TRACK_CHANGED:ITUNES_PLAYING
+																			   object:nil userInfo:noteDict];
 			}
 		}
 		state = newState;
