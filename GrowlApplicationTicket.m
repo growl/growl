@@ -215,6 +215,31 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 #pragma mark -
 
+-(void)reRegisterWithAllNotes:(NSArray *) inAllNotes defaults: (NSArray *) inDefaults icon:(NSImage *) inIcon {
+	[self setIcon:inIcon];
+	if(!_useDefaults) {
+		//We want to respect the user's preferences, but if the application has
+		//added new notifications since it last registered, we want to enable those
+		//if the application says to.
+		NSEnumerator		* enumerator;
+		NSString			* note;
+		
+		enumerator = [inDefaults objectEnumerator];
+		while(note = [enumerator nextObject]) {
+			//For each new default ...
+			if(![_allNotifications containsObject:note]) {
+				//Enable it only if we just found out about it now.
+				//If we already knew about it, respect the user's preferences
+				[self setNotificationEnabled:note];
+			}
+		}
+	}
+	
+	[self setAllNotifications:inAllNotes];
+	[self setDefaultNotifications:inDefaults];
+	return;
+}
+
 - (NSArray *) allNotifications {
 	return [[_allNotifications retain] autorelease];
 }

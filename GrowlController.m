@@ -283,9 +283,7 @@ static id _singleton = nil;
 		[newApp autorelease];
 	} else {
 		newApp = [_tickets objectForKey:appName];
-		[newApp setAllNotifications:allNotes];
-		[newApp setDefaultNotifications:defaultNotes];
-		[newApp setIcon:appIcon];
+		[newApp reRegisterWithAllNotes:allNotes defaults:defaultNotes icon:appIcon];
 	}
 
 	[newApp saveTicket];
