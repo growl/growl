@@ -14,6 +14,7 @@
 	NSString			*text;
 	float				textHeight;
 	float				titleHeight;
+	float				lineHeight;
 	SEL					action;
 	id					target;
 

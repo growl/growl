@@ -55,6 +55,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		borderColor = [[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:0.5f] retain];
 		layoutManager = [[NSLayoutManager alloc] init];
 		titleHeight = [layoutManager defaultLineHeightForFont:titleFont];
+		lineHeight = [layoutManager defaultLineHeightForFont:textFont];
 	}
 	return self;
 }
@@ -284,9 +285,17 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	text = [aText copy];
 
 	if (!textStorage) {
+		NSSize containerSize;  
+		BOOL limitPref = YES;
+		READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
+		containerSize.width = TEXT_AREA_WIDTH;
+		if (limitPref) {
+			containerSize.height = lineHeight * MAX_TEXT_ROWS;
+		} else {
+			containerSize.height = FLT_MAX;
+		}
 		textStorage = [[NSTextStorage alloc] init];
-		NSSize containerSize = { TEXT_AREA_WIDTH, FLT_MAX };
-		textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
+  		textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
 		[layoutManager addTextContainer:textContainer];	// retains textContainer
 		[textContainer release];
 		[textStorage addLayoutManager:layoutManager];	// retains layoutManager
@@ -337,7 +346,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (int) descriptionRowCount {
-	int rowCount = textHeight / [layoutManager defaultLineHeightForFont:textFont];
+	int rowCount = textHeight / lineHeight;
 	BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
 	if (limitPref) {

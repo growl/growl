@@ -23,6 +23,7 @@
 		textFont = [[NSFont systemFontOfSize:GrowlBrushedTextFontSize] retain];
 		layoutManager = [[NSLayoutManager alloc] init];
 		titleHeight = [layoutManager defaultLineHeightForFont:titleFont];
+		lineHeight = [layoutManager defaultLineHeightForFont:textFont];
 		textShadow = [[NSShadow alloc] init];
 		[textShadow setShadowOffset:NSMakeSize(0.0f, -2.0f)];
 		[textShadow setShadowBlurRadius:3.0f];
@@ -157,7 +158,15 @@
 	text = [aText copy];
 
 	if (!textStorage) {
-		NSSize containerSize = {GrowlBrushedTextAreaWidth, FLT_MAX};
+		NSSize containerSize;  
+		BOOL limitPref = GrowlBrushedLimitPrefDefault;
+		READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
+		containerSize.width = GrowlBrushedTextAreaWidth;
+		if (limitPref) {
+			containerSize.height = lineHeight * GrowlBrushedMaxLines;
+		} else {
+			containerSize.height = FLT_MAX;
+		}
 		textStorage = [[NSTextStorage alloc] init];
 		textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
 		[layoutManager addTextContainer:textContainer];	// retains textContainer
@@ -250,11 +259,11 @@
 }
 
 - (int) descriptionRowCount {
-	int rowCount = textHeight / [layoutManager defaultLineHeightForFont:textFont];
+	int rowCount = textHeight / lineHeight;
 	BOOL limitPref = GrowlBrushedLimitPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
 	if (limitPref) {
-		return MIN(rowCount, 6);
+		return MIN(rowCount, GrowlBrushedMaxLines);
 	} else {
 		return rowCount;
 	}

@@ -22,6 +22,8 @@
 #define GrowlBrushedLimitPrefDefault		NO
 #define GrowlBrushedAquaPrefDefault			NO
 
+#define GrowlBrushedMaxLines				5
+
 // the width of the notification view
 #define GrowlBrushedNotificationWidth		300.f
 // the padding around the inside of the view

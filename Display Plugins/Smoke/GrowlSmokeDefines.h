@@ -26,6 +26,8 @@
 #define GrowlSmokeFloatIconPrefDefault	NO
 #define GrowlSmokeLimitPrefDefault		NO
 
+#define GrowlSmokeMaxLines				5
+
 // the width of the notification view
 #define GrowlSmokeNotificationWidth		300.0f
 // the padding around the inside of the view

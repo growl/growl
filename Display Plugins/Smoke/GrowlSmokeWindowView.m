@@ -23,6 +23,7 @@
 		textFont = [[NSFont systemFontOfSize:GrowlSmokeTextFontSize] retain];
 		layoutManager = [[NSLayoutManager alloc] init];
 		titleHeight = [layoutManager defaultLineHeightForFont:titleFont];
+		lineHeight = [layoutManager defaultLineHeightForFont:textFont];
 		textShadow = [[NSShadow alloc] init];
 		[textShadow setShadowOffset:NSMakeSize(0.0f, -2.0f)];
 		[textShadow setShadowBlurRadius:3.0f];
@@ -154,7 +155,15 @@
 	text = [aText copy];
 
 	if (!textStorage) {
-		NSSize containerSize = {GrowlSmokeTextAreaWidth, FLT_MAX};
+		NSSize containerSize;  
+		BOOL limitPref = GrowlSmokeLimitPrefDefault;
+		READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
+		containerSize.width = GrowlSmokeTextAreaWidth;
+		if (limitPref) {
+			containerSize.height = lineHeight * GrowlSmokeMaxLines;
+		} else {
+			containerSize.height = FLT_MAX;
+		}
 		textStorage = [[NSTextStorage alloc] init];
 		textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
 		[layoutManager addTextContainer:textContainer];	// retains textContainer
@@ -275,11 +284,11 @@
 }
 
 - (int) descriptionRowCount {
-	int rowCount = textHeight / [layoutManager defaultLineHeightForFont:textFont];
+	int rowCount = textHeight / lineHeight;
 	BOOL limitPref = GrowlSmokeLimitPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
 	if (limitPref) {
-		return MIN(rowCount, 6);
+		return MIN(rowCount, GrowlSmokeMaxLines);
 	} else {
 		return rowCount;
 	}
