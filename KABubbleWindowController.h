@@ -10,12 +10,15 @@
 	SEL				_action;
 	id				_target;
 	id				_representedObject;
+	short			_displayTime;
 }
 
 + (KABubbleWindowController *) bubble;
 + (KABubbleWindowController *) bubbleWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon;
 
 #pragma mark Regularly Scheduled Coding
+
+- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon;
 
 - (void) startFadeIn;
 - (void) startFadeOut;

@@ -7,7 +7,9 @@ static unsigned int bubbleWindowDepth = 0;
 
 #define TIMER_INTERVAL ( 1. / 30. )
 #define FADE_INCREMENT 0.05
-#define DISPLAY_TIME 4.
+#define MIN_DISPLAY_TIME 4.
+#define ADDITIONAL_LINES_DISPLAY_TIME 0.5
+#define MAX_DISPLAY_TIME 10.
 #define KABubblePadding 10.
 
 #pragma mark -
@@ -17,17 +19,12 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 + (KABubbleWindowController *) bubbleWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon {
-	id ret = [[[self alloc] init] autorelease];
-	[ret setTitle:title];
-	if( [text isKindOfClass:[NSString class]] ) [ret setText:text];
-	else if( [text isKindOfClass:[NSAttributedString class]] ) [ret setAttributedText:text];
-	[ret setIcon:icon];
-	return ret;
+	return [[[self alloc] initWithTitle:title text:text icon:icon] autorelease];
 }
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) init {
+- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon {
 	extern unsigned int bubbleWindowDepth;
 
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) 
@@ -49,27 +46,38 @@ static unsigned int bubbleWindowDepth = 0;
 	[view setTarget:self];
 	[view setAction:@selector( _bubbleClicked: )];
 	[panel setContentView:view];
-
+	
+	[view setTitle:title];
+	if( [text isKindOfClass:[NSString class]] ) 
+		[view setText:text];
+	else if( [text isKindOfClass:[NSAttributedString class]] ) 
+		[view setAttributedText:text];
+	[view setIcon:icon];
+	[panel setFrame: [view frame] display:NO];
+		
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
 	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - KABubblePadding, 
-											 NSMaxY( screen ) - KABubblePadding - ( NSHeight( panelFrame ) * bubbleWindowDepth ) )];
+											 NSMaxY( screen ) - KABubblePadding - ( bubbleWindowDepth ) )];
 
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector( _applicationDidSwitch: ) 
-												 name:NSApplicationDidBecomeActiveNotification 
-											   object:[NSApplication sharedApplication]];
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector( _applicationDidSwitch: ) 
-												 name:NSApplicationDidHideNotification 
-											   object:[NSApplication sharedApplication]];
-
-	_depth = ++bubbleWindowDepth;
+	_depth = bubbleWindowDepth += NSHeight( panelFrame );
 	_autoFadeOut = YES;
 	_delegate = nil;
 	_target = nil;
 	_representedObject = nil;
 	_action = NULL;
 	_animationTimer = nil;
+	
+	// the visibility time for this bubble should be the minimum display time plus
+	// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
+	int rowCount = [view descriptionRowCount];
+	if (rowCount <= 2)
+		rowCount = 0;
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:KALimitPref]) {
+		_displayTime = MIN (MIN_DISPLAY_TIME + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
+							MAX_DISPLAY_TIME);
+	} else {
+		_displayTime = MIN_DISPLAY_TIME;
+	}
 
 	return ( self = [super initWithWindow:panel] );
 }
@@ -103,7 +111,7 @@ static unsigned int bubbleWindowDepth = 0;
 
 - (void) _waitBeforeFadeOut {
 	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:DISPLAY_TIME target:self selector:@selector( startFadeOut ) userInfo:nil repeats:NO] retain];
+	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime target:self selector:@selector( startFadeOut ) userInfo:nil repeats:NO] retain];
 }
 
 - (void) _fadeIn:(NSTimer *) inTimer {
@@ -130,10 +138,6 @@ static unsigned int bubbleWindowDepth = 0;
 		[self close];
 		[self autorelease]; // Release, we retained when we faded in.
 	}
-}
-
-- (void) _applicationDidSwitch:(NSNotification *) notification {
-	[self startFadeOut];
 }
 
 - (void) _bubbleClicked:(id) sender {

@@ -19,6 +19,7 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 		_icon   = nil;
 		_title  = nil;
 		_text   = nil;
+		_textHeight = 0;
 		_target = nil;
 		_action = NULL;
 	}
@@ -102,8 +103,12 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 	[[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha:.5] set];
 	[path stroke];
 
-	[_title drawAtPoint:NSMakePoint( 55., 40. ) withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:13.], NSFontAttributeName, [NSColor controlTextColor], NSForegroundColorAttributeName, nil]];
-	[_text drawInRect:NSMakeRect( 55., 10., 200., 30. )];
+	// Top of the drawing area. The eye candy takes up 10 pixels on 
+	// the top, so we've reserved some space for it.
+	int heightOffset = [self frame].size.height - 10;
+
+	[_title drawAtPoint:NSMakePoint( 55., heightOffset - 15. ) withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:13.], NSFontAttributeName, [NSColor controlTextColor], NSForegroundColorAttributeName, nil]];
+	[_text drawInRect:NSMakeRect( 55., 10., 200., heightOffset - 25. )];
 
 	NSSize iconSize = [_icon size];
 	if( iconSize.width > 32. || iconSize.height > 32. ) {
@@ -134,7 +139,7 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 		[_icon unlockFocus];
 	}
 
-	[_icon compositeToPoint:NSMakePoint( 15., 20. ) operation:NSCompositeSourceAtop fraction:1.];
+	[_icon compositeToPoint:NSMakePoint( 15., heightOffset - 35. ) operation:NSCompositeSourceAtop fraction:1.];
 
 	[[self window] invalidateShadow];
 }
@@ -156,13 +161,52 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 - (void) setAttributedText:(NSAttributedString *) text {
 	[_text autorelease];
 	_text = [text copy];
+	_textHeight = 0;
 	[self setNeedsDisplay:YES];
+	[self sizeToFit];
 }
 
 - (void) setText:(NSString *) text {
 	[_text autorelease];
 	_text = [[NSAttributedString alloc] initWithString:text attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont messageFontOfSize:11.], NSFontAttributeName, [NSColor controlTextColor], NSForegroundColorAttributeName, nil]];
+	_textHeight = 0;
 	[self setNeedsDisplay:YES];
+	[self sizeToFit];
+}
+
+- (void) sizeToFit {
+    NSRect rect = [self frame];
+	rect.size.height = 10 + 10 + 15 + [self descriptionHeight];
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:KALimitPref])
+		[self setFrame:rect];
+}
+
+- (float) descriptionHeight {
+	
+	if (_textHeight == 0)
+	{
+		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:_text];
+		NSTextContainer* textContainer = [[[NSTextContainer alloc]
+			initWithContainerSize:NSMakeSize ( 200., FLT_MAX )] autorelease];
+		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
+
+		[layoutManager addTextContainer:textContainer];
+		[textStorage addLayoutManager:layoutManager];
+		(void)[layoutManager glyphRangeForTextContainer:textContainer];
+	
+		_textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+	
+		// for some reason, this code is using a 13-point line height for calculations, but the font 
+		// in fact renders in 14 points of space. Do some adjustments.
+		_textHeight = _textHeight / 13 * 14;
+	}
+	return MAX (_textHeight, 30);
+}
+
+- (int) descriptionRowCount {
+	float height = [self descriptionHeight];
+	float lineHeight = [_text size].height;
+	return (int) (height / lineHeight);
 }
 
 #pragma mark -
@@ -187,10 +231,8 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 
 #pragma mark -
 
-/*
  - (void) mouseUp:(NSEvent *) event {
 	if( _target && _action && [_target respondsToSelector:_action] )
 		[_target performSelector:_action withObject:self];
 }
-*/
 @end
