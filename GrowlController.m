@@ -51,17 +51,23 @@
 #pragma mark -
 
 - (void) dispatchNotification:(NSNotification *) note {
+    NSImage *icon = nil;
+    
 	NSLog( @"%@", note );
 	
 	NSMutableDictionary *aDict = [NSMutableDictionary dictionaryWithDictionary:[note userInfo]];
 	
 	if ( ![aDict objectForKey:GROWL_NOTIFICATION_ICON] ) {
-		[aDict setObject:[[_tickets objectForKey:[aDict objectForKey:GROWL_APP_NAME]] icon] 
-				  forKey:GROWL_NOTIFICATION_ICON];
+		icon = [[_tickets objectForKey:[aDict objectForKey:GROWL_APP_NAME]] icon];
 	} else {
-		[aDict setObject:[[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]] autorelease] 
-				  forKey:GROWL_NOTIFICATION_ICON];
+            icon = [[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]] autorelease];
+            if(!icon){
+                [aDict removeObjectForKey:GROWL_NOTIFICATION_ICON];
+            }
 	}
+        if(icon != nil){
+            [aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
+        }
 	
 	//NSLog( @"%@", [aDict objectForKey:GROWL_NOTIFICATION_ICON] );
 	[_displayController displayNotificationWithInfo:aDict];
