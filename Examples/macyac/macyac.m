@@ -46,9 +46,11 @@
 
 static int port = DEFAULT_YAC_PORT;
 
-void usage()
+void usage(const char *argv[])
 {
-	fprintf(stderr, "Usage: macyac [-p port]\n");
+	fprintf(stderr, "Usage: %s [-h] [-p port]\n", argv[0]);
+	fprintf(stderr, "-p: port to listen to for incoming Yac messages\n");
+	fprintf(stderr, "-h: display this help message\n");
 	exit(1);
 }
 
@@ -56,16 +58,19 @@ void getoptions(int argc, const char *argv[])
 {
 	int ch;
 	
-	while ((ch = getopt(argc, argv, "p:")) != -1)
+	while ((ch = getopt(argc, argv, "p:h")) != -1)
 		switch (ch) {
+			case 'h':
+				usage(argv);
+				break;
 			case 'p':
 				port = strtol(optarg, (char **)NULL, 10);
 				if (port == 0)
-					usage();
+					usage(argv);
 				break;
 			case '?':
 			default:
-				usage();
+				usage(argv);
 		}
 	argc -= optind;
 	argv += optind;	
