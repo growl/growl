@@ -11,7 +11,6 @@
 @interface GrowlBezelWindowController : NSWindowController {
 	id				_delegate;
 	NSTimer			*_animationTimer;
-	unsigned int	_depth;
 	BOOL			_autoFadeOut;
 	SEL				_action;
 	id				_target;

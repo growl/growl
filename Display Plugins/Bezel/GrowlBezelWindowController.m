@@ -10,8 +10,6 @@
 #import "GrowlBezelWindowView.h"
 #import "NSGrowlAdditions.h"
 
-static unsigned int bezelWindowDepth = 0;
-
 @implementation GrowlBezelWindowController
 
 #define TIMER_INTERVAL (1. / 30.)
@@ -29,9 +27,7 @@ static unsigned int bezelWindowDepth = 0;
 	return [[[self alloc] initWithTitle:title text:text icon:icon sticky:sticky] autorelease];
 }
 
-- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky {
-	extern unsigned int bezelWindowDepth;
-	
+- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky {	
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 160., 160. )
 						styleMask:NSBorderlessWindowMask
 						  backing:NSBackingStoreBuffered defer:NO] autorelease];
@@ -68,9 +64,8 @@ static unsigned int bezelWindowDepth = 0;
 	
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
 	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding,
-			NSMaxY ( screen ) - GrowlBezelPadding - (bezelWindowDepth ) )];
+			NSMaxY ( screen ) - GrowlBezelPadding )];
 	
-	_depth = bezelWindowDepth += NSHeight ( panelFrame );
 	_autoFadeOut = YES;
 	_delegate = nil;
 	_target = nil;
@@ -97,9 +92,6 @@ static unsigned int bezelWindowDepth = 0;
 	_representedObject = nil;
 	_delegate = nil;
 	_animationTimer = nil;
-
-	extern unsigned int bezelWindowDepth;
-	if( _depth == bezelWindowDepth ) bezelWindowDepth = 0;
 
 	[super dealloc];
 }

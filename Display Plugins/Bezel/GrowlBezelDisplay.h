@@ -11,6 +11,7 @@
 
 
 @interface GrowlBezelDisplay : NSObject <GrowlDisplayPlugin> {
+	NSMutableArray		*notificationQueue;
 }
 
 - (void)loadPlugin;

@@ -15,6 +15,7 @@
 @implementation GrowlBezelDisplay
 
 - (void) loadPlugin {
+	notificationQueue = [[NSMutableArray array] retain];
 }
 
 - (NSString *) author {
@@ -34,6 +35,7 @@
 }
 
 - (void) unloadPlugin {
+	[notificationQueue release];
 }
 
 - (NSDictionary*) pluginInfo {
@@ -54,9 +56,30 @@
 			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
 			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
-	[nuBezel startFadeIn];
-//	NSLog(@"%@: %@ (%@)",[noteDict objectForKey:GROWL_APP_NAME], 
-//							[noteDict objectForKey:GROWL_NOTIFICATION_TITLE], 
-//							[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]);
+	[nuBezel setDelegate:self];
+	[notificationQueue addObject:nuBezel];
+	if ( [notificationQueue count] == 1 ) {
+		[nuBezel startFadeIn];
+	}
 }
+
+- (void)bezelWillFadeIn:(GrowlBezelWindowController *)bezel {
+}
+
+- (void)bezelDidFadeIn:(GrowlBezelWindowController *)bezel {
+}
+
+
+- (void)bezelWillFadeOut:(GrowlBezelWindowController *)bezel {
+}
+
+- (void)bezelDidFadeOut:(GrowlBezelWindowController *)bezel {
+	GrowlBezelWindowController *olBezel;
+	[notificationQueue removeObjectAtIndex:0];
+	if ( [notificationQueue count] > 0 ) {
+		olBezel = [notificationQueue objectAtIndex:0];
+		[olBezel startFadeIn];
+	}
+}
+
 @end
