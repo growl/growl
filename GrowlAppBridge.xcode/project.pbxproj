@@ -22,7 +22,12 @@
 		014CEA450018CDF011CA2923 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
@@ -397,7 +402,7 @@
 				INFOPLIST_FILE = "GrowlAppBridge-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_STYLE = Dynamic;
+				LIBRARY_STYLE = DYNAMIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "-fconstant-cfstrings";
 				OTHER_LDFLAGS = "-lobjc -sub_library libobjc -seg1addr 0xc00000";
