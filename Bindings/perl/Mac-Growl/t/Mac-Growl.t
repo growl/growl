@@ -15,9 +15,9 @@ use Mac::Growl ':all';
 
 #########################
 
-my $app    = 'PerlApp';
+my $app    = 'Mac::Growl Test';
 my $as_app = 'Software Update';
-my @names  = ('a', 'b');
+my @names  = ('test 1', 'test 2');
 my($image) = grep { -e } (
 	'/Applications/Utilities/Installer.app/Contents/Resources/Caut.tiff',
 	'/Applications/Utilities/Installer.app/Contents/Plugins/TargetSelect.bundle/Contents/Resources/Caut.tiff'
