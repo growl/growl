@@ -197,7 +197,7 @@
 		[allowRemoteRegistration setEnabled:YES];
 	} else {
 		[startGrowlServer setState:NSOffState];
-		[allowRemoteRegistration setEnabled:YES];
+		[allowRemoteRegistration setEnabled:NO];
 	}
 	if( [[preferences objectForKey:GrowlRemoteRegistrationKey] boolValue] ) {
 		[allowRemoteRegistration setState:NSOnState];
