@@ -140,6 +140,7 @@ enum {
 	NSString				* playerState = nil;
 	iTunesState				newState = itUNKNOWN;
 	NSString				* newTrackURL = nil;
+	NSDictionary			* userInfo = [aNotification userInfo];
 	
 	playerState = [[aNotification userInfo] objectForKey:@"Player State"];
 	if ( [playerState isEqualToString:@"Paused"] ) {
@@ -148,11 +149,27 @@ enum {
 		newState = itSTOPPED;
 	} else {
 		newState = itPLAYING;
-		// For radios and files, the ID is the location. While on the iTMS, it's the Store URL
-		if ([[aNotification userInfo] objectForKey:@"Location"]) {
-			newTrackURL = [[aNotification userInfo] objectForKey:@"Location"];
+		// For radios and files, the ID is the location.
+		// While on the iTMS, it's the Store URL
+		// For Rendezvous shares we're gonna hash a compilation of a bunch of info
+		if ([userInfo objectForKey:@"Location"]) {
+			newTrackURL = [userInfo objectForKey:@"Location"];
+		} else if ([userInfo objectForKey:@"Store URL"]) {
+			newTrackURL = [userInfo objectForKey:@"Store URL"];
 		} else {
-			newTrackURL = [[aNotification userInfo] objectForKey:@"Store URL"];
+			// Lets make a hash out of all the info we can, but do it such that the empty fields
+			// are blank rather than (null)
+			// Then lets hash it ans turn that into our identifier string
+			// That way a track name of "file://foo" won't confuse our code later on
+			NSArray *args = [userInfo objectsForKeys:
+				[NSArray arrayWithObjects:@"Name", @"Artist", @"Album", @"Composer", @"Genre",
+					@"Year",@"Track Number", @"Track Count", @"Total Time", nil]
+									  notFoundMarker:@""];
+			newTrackURL = [NSString stringWithFormat:@"%@|%@|%@|%@|%@|%@|%@|%@|%@",
+				[args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2],
+				[args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5],
+				[args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8]];
+			newTrackURL = [[NSNumber numberWithUnsignedLong:[newTrackURL hash]] stringValue];
 		}
 	}
 	
@@ -169,26 +186,27 @@ enum {
 		NSDictionary	*noteDict;
 		NSDictionary	*error = nil;
 		
-		if ([[aNotification userInfo] objectForKey:@"Artist"])
-			artist = [[aNotification userInfo] objectForKey:@"Artist"];
-		if ([[aNotification userInfo] objectForKey:@"Album"])
-			album = [[aNotification userInfo] objectForKey:@"Album"];
-		track =[[aNotification userInfo] objectForKey:@"Name"];
+		if ([userInfo objectForKey:@"Artist"])
+			artist = [userInfo objectForKey:@"Artist"];
+		if ([userInfo objectForKey:@"Album"])
+			album = [userInfo objectForKey:@"Album"];
+		track = [userInfo objectForKey:@"Name"];
+		
+		length = [userInfo objectForKey:@"Total Time"];
+		// need to format a bit the length as it is returned in ms
+		int lv = [length intValue];
+		int min = lv/60000;
+		int sec = lv/1000 - 60*min;
+		length = [NSString stringWithFormat:@"%d:%02d", min, sec];
+		
+		if ([userInfo objectForKey:@"Compilation"])
+			compilation = YES;
 		
 		if ([newTrackURL hasPrefix:@"file:/"]) {
 			NSAppleEventDescriptor	* theDescriptor = [getInfoScript executeAndReturnError:&error];
 			NSAppleEventDescriptor  * curDescriptor;
-		
-			length = [[aNotification userInfo] objectForKey:@"Total Time"];
-			// need to format a bit the length as it is returned in ms
-			int lv = [length intValue];
-			int min = lv/60000;
-			int sec = lv/1000 - 60*min;
-			length = [NSString stringWithFormat:@"%d:%02d", min, sec];
 			
-			if ([[aNotification userInfo] objectForKey:@"Compilation"])
-				compilation = YES;
-			int ratingInt = [[[aNotification userInfo] objectForKey:@"Rating"] intValue];
+			int ratingInt = [[userInfo objectForKey:@"Rating"] intValue];
 			rating = [NSNumber numberWithInt:ratingInt]; 
 			
 			switch ( ratingInt / 20 ) {
@@ -246,11 +264,13 @@ enum {
 			[artwork setSize:NSMakeSize( 128.0, 128.0 )];
 		}
 		if ([newTrackURL hasPrefix:@"http://"]) { //If we're streaming music, display only the name of the station and genre
-			displayString = [NSString stringWithFormat:@"%@",[[aNotification userInfo] objectForKey:@"Genre"]];
-		} else if ([newTrackURL hasPrefix:@"itms:/"]){
+			displayString = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"Genre"]];
+		} else if ([newTrackURL hasPrefix:@"itms:/"]) {
 			displayString = [NSString stringWithFormat:@"%@\n%@",artist,album];
-		} else {
+		} else if ([newTrackURL hasPrefix:@"file://"]) {
 			displayString = [NSString stringWithFormat:@"%@ - %@\n%@\n%@",length,ratingString,artist,album];
+		} else {
+			displayString = [NSString stringWithFormat:@"%@\n%@\n%@", length, artist, album];
 		}
 		// Tell growl
 		noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
