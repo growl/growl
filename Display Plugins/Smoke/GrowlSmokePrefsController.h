@@ -9,8 +9,10 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface GrowlSmokePrefsController : NSPreferencePane {
-  IBOutlet NSSlider		*opacitySlider;
-  IBOutlet NSTextField	*text_Opacity;
+  IBOutlet NSSlider		*slider_opacity;
+  IBOutlet NSTextField	*text_opacity;
+  IBOutlet NSSlider		*slider_duration;
+  IBOutlet NSTextField	*text_duration;
 
   IBOutlet NSColorWell	*color_veryLow;
   IBOutlet NSColorWell	*color_moderate;
@@ -24,11 +26,12 @@
   IBOutlet NSColorWell	*text_high;
   IBOutlet NSColorWell	*text_emergency;
 
-  IBOutlet NSButton	*floatIconSwitch;
-  IBOutlet NSButton	*limitCheck;
+  IBOutlet NSButton		*floatIconSwitch;
+  IBOutlet NSButton		*limitCheck;
 }
 
-- (IBAction) opacitySliderChanged:(id)sender;
+- (IBAction) opacityChanged:(id)sender;
+- (IBAction) durationChanged:(id)sender;
 - (IBAction) colorChanged:(id)sender;
 - (IBAction) textColorChanged:(id)sender;
 - (IBAction) floatIconSwitchChanged:(id)sender;

@@ -17,7 +17,6 @@ static unsigned globalId = 0U;
 
 @implementation GrowlSmokeWindowController
 
-static const double gMinDisplayTime = 4.0;
 static const double gAdditionalLinesDisplayTime = 0.5;
 static const double gMaxDisplayTime = 10.0;
 
@@ -150,10 +149,6 @@ static const double gMaxDisplayTime = 10.0;
 	if ( (self = [super initWithWindow:panel] ) ) {
 		depth += NSHeight( panelFrame );
 		autoFadeOut = !sticky;
-		target = nil;
-		action = NULL;
-		clickContext = nil;
-		appName = nil;
 		delegate = self;
 
 		// the visibility time for this notification should be the minimum display time plus
@@ -162,10 +157,12 @@ static const double gMaxDisplayTime = 10.0;
 		if (rowCount <= 2) {
 			rowCount = 0;
 		}
+		float duration = GrowlSmokeDurationPrefDefault;
+		READ_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, GrowlSmokePrefDomain, &duration);
 		/*BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
 		if (!limitPref) {*/
-			displayTime = MIN (gMinDisplayTime + rowCount * gAdditionalLinesDisplayTime, 
+			displayTime = MIN (duration + rowCount * gAdditionalLinesDisplayTime, 
 								gMaxDisplayTime);
 		/*} else {
 			displayTime = gMinDisplayTime;

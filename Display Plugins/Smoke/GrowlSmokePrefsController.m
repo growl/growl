@@ -21,10 +21,16 @@
 	// opacity
 	float alphaPref = GrowlSmokeAlphaPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &alphaPref);
-	[opacitySlider setMinValue:0.05];
-	[opacitySlider setFloatValue:alphaPref];
-	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",(int)floorf(alphaPref * 100.0f)]];
+	[slider_opacity setMinValue:0.05];
+	[slider_opacity setFloatValue:alphaPref];
+	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", (int)floorf(alphaPref * 100.0f)]];
   
+	// duration
+	float durationPref = GrowlSmokeDurationPrefDefault;
+	READ_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, GrowlSmokePrefDomain, &durationPref);
+	[slider_duration setFloatValue:durationPref];
+	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
+	
 	// float icon checkbox
 	BOOL floatIconPref = GrowlSmokeFloatIconPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIconPref);
@@ -188,10 +194,18 @@
 	[text_emergency setColor:color];
 }
 
-- (IBAction) opacitySliderChanged:(id)sender {
-	float newValue = [opacitySlider floatValue];
+- (IBAction) opacityChanged:(id)sender {
+	float newValue = [sender floatValue];
 	WRITE_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, newValue, GrowlSmokePrefDomain);
-	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",(int)floorf(newValue * 100.0f)]];
+	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", (int)floorf(newValue * 100.0f)]];
+	SYNCHRONIZE_GROWL_PREFS();
+	UPDATE_GROWL_PREFS();
+}
+
+- (IBAction) durationChanged:(id)sender {
+	float newValue = [sender floatValue];
+	WRITE_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, newValue, GrowlSmokePrefDomain);
+	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", newValue]];
 	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
@@ -285,6 +299,7 @@
 
 - (IBAction) setLimit:(id)sender {
 	WRITE_GROWL_PREF_BOOL(GrowlSmokeLimitPref, ([sender state] == NSOnState), GrowlSmokePrefDomain);
+	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 

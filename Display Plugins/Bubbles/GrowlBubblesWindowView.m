@@ -274,10 +274,10 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 			textColor, NSForegroundColorAttributeName,
 			nil]];
 	NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:attributedText];
-	NSTextContainer *textContainer = [[[NSTextContainer alloc]
+	NSTextContainer *textContainer = [[NSTextContainer alloc]
 		initWithContainerSize:NSMakeSize ( PANEL_WIDTH_PX - 2.0f * PANEL_HSPACE_PX - ICON_SIZE_PX - ICON_HSPACE_PX,
-										   FLT_MAX )] autorelease];
-	NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
+										   FLT_MAX )];
+	NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
 
 	[layoutManager addTextContainer:textContainer];
 	[textStorage addLayoutManager:layoutManager];
@@ -285,6 +285,9 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 	textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
 	[attributedText release];
+	[layoutManager release];
+	[textContainer release];
+	[textStorage release];
 
 	int rowCount = textHeight / [textFont defaultLineHeightForFont];
 	BOOL limitPref = YES;

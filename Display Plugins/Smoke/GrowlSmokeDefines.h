@@ -1,12 +1,13 @@
-#define GrowlSmokeLimitPref @"Smoke - Limit"
-#define GrowlSmokeAlphaPref @"Smoke - Alpha"
-#define GrowlSmokeFloatIconPref @"Smoke - Float Icon"
+#define GrowlSmokeLimitPref				@"Smoke - Limit"
+#define GrowlSmokeAlphaPref				@"Smoke - Alpha"
+#define GrowlSmokeFloatIconPref			@"Smoke - Float Icon"
+#define GrowlSmokeDurationPref			@"Smoke - Duration"
 
-#define GrowlSmokeVeryLowColor      @"Smoke-Priority-VeryLow-Color"
-#define GrowlSmokeModerateColor     @"Smoke-Priority-Moderate-Color"
-#define GrowlSmokeNormalColor       @"Smoke-Priority-Normal-Color"
-#define GrowlSmokeHighColor         @"Smoke-Priority-High-Color"
-#define GrowlSmokeEmergencyColor    @"Smoke-Priority-Emergency-Color"
+#define GrowlSmokeVeryLowColor			@"Smoke-Priority-VeryLow-Color"
+#define GrowlSmokeModerateColor			@"Smoke-Priority-Moderate-Color"
+#define GrowlSmokeNormalColor			@"Smoke-Priority-Normal-Color"
+#define GrowlSmokeHighColor				@"Smoke-Priority-High-Color"
+#define GrowlSmokeEmergencyColor		@"Smoke-Priority-Emergency-Color"
 
 #define GrowlSmokeVeryLowTextColor      @"Smoke-Priority-VeryLow-Text-Color"
 #define GrowlSmokeModerateTextColor     @"Smoke-Priority-Moderate-Text-Color"
@@ -18,6 +19,8 @@
 
 // the default value for the opacity preference
 #define GrowlSmokeAlphaPrefDefault 0.75f
+// the default value for the duration preference
+#define GrowlSmokeDurationPrefDefault 4.0f
 
 #define GrowlSmokeFloatIconPrefDefault NO
 #define GrowlSmokeLimitPrefDefault NO

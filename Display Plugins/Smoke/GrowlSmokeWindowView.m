@@ -234,7 +234,7 @@ static float titleHeight;
 - (float) descriptionHeight {
 	if (!textHeight) {
 		NSString *content = text ? text : @"";
-		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:content
+		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:content
 																attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 																	[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
 																	nil]];
@@ -267,6 +267,7 @@ static float titleHeight;
 		// actually is for utmost accuracy
 		textHeight = textHeight / GrowlSmokeTextFontSize * (GrowlSmokeTextFontSize + 1.0f);
 
+		[textStorage release];
 		[textContainer release];
 		[layoutManager release];
 	}

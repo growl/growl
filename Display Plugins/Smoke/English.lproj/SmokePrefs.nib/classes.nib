@@ -4,8 +4,9 @@
         {
             ACTIONS = {
                 colorChanged = id; 
+                durationChanged = id; 
                 floatIconSwitchChanged = id; 
-                opacitySliderChanged = id; 
+                opacityChanged = id; 
                 setLimit = id; 
                 textColorChanged = id; 
             }; 
@@ -19,12 +20,14 @@
                 "color_veryLow" = NSColorWell; 
                 floatIconSwitch = NSButton; 
                 limitCheck = NSButton; 
-                opacitySlider = NSSlider; 
-                "text_Opacity" = NSTextField; 
+                "slider_duration" = NSSlider; 
+                "slider_opacity" = NSSlider; 
+                "text_duration" = NSTextField; 
                 "text_emergency" = NSColorWell; 
                 "text_high" = NSColorWell; 
                 "text_moderate" = NSColorWell; 
                 "text_normal" = NSColorWell; 
+                "text_opacity" = NSTextField; 
                 "text_veryLow" = NSColorWell; 
             }; 
             SUPERCLASS = NSPreferencePane; 
