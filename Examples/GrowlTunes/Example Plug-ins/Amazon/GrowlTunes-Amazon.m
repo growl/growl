@@ -10,6 +10,10 @@
 
 /* Based On Code Originally submitted by James Van Dyne */
 
+#ifndef MAC_OS_X_VERSION_10_4 > MAC_OS_X_VERSION_MAX_ALLOWED
+	int NSXMLDocumentTidyXML = 1 << 10;  //  Correct value goes here.
+#endif
+
 @implementation GrowlTunes_Amazon
 
 - (id) init {
@@ -21,7 +25,7 @@
 }
 
 - (NSImage *)artworkForTitle:(NSString *)song byArtist:(NSString *)artist onAlbum:(NSString *)album {
-	BOOL tigerOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_3 );
+	Class XMLDocument = NSClassFromString(@"NSXMLDocument");
 	NSImage *artwork = nil;
 	NSString *imageURL = nil;
 	NSLog( @"Go go interweb" );
@@ -29,8 +33,8 @@
 	NSString *search = [[NSString stringWithFormat:@"http://aws-beta.amazon.com/onca/xml?Service=AWSProductData&SubscriptionId=1KQJD90W67ZBHT7ZH282&Operation=ItemSearch&SearchIndex=Music&Keywords=%s %s&ResponseGroup=Images", [artist UTF8String],[album UTF8String]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSURL *url = [NSURL URLWithString:search];
 	
-	if ( tigerOrLater ) {			// Tiger
-		NSXMLDocument *testXML = [[[NSXMLDocument alloc] initWithContentsOfURL:url 
+	if ( XMLDocument ) {			// Tiger
+		id testXML = [[[XMLDocument alloc] initWithContentsOfURL:url 
 																	   options:NSXMLDocumentTidyXML 
 																		 error:NULL] autorelease];
 		NSArray *imageArray = [testXML nodesForXPath:@"/ItemSearchResponse[1]/Items[1]/Item/MediumImage[1]/URL[1]" error:NULL];
