@@ -13,7 +13,6 @@
 	unsigned int	_depth;
 	SEL				_action;
 	id				_target;
-	id				_representedObject;
 }
 
 + (GrowlBubblesWindowController *) bubble;
@@ -28,7 +27,4 @@
 
 - (SEL) action;
 - (void) setAction:(SEL) selector;
-
-- (id) representedObject;
-- (void) setRepresentedObject:(id) object;
 @end

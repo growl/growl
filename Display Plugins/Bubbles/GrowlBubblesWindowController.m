@@ -77,9 +77,7 @@ static unsigned int bubbleWindowDepth = 0;
 			_depth = bubbleWindowDepth += NSHeight( panelFrame );
 		}
 		_autoFadeOut = !sticky;
-		_delegate = nil;
 		_target = nil;
-		_representedObject = nil;
 		_action = NULL;
 		
 		// the visibility time for this bubble should be the minimum display time plus
@@ -102,10 +100,7 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 - (void) dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
 	[_target release];
-	[_representedObject release];
 
 	extern unsigned int bubbleWindowDepth;
 	if( _depth == bubbleWindowDepth ) {
@@ -143,41 +138,5 @@ static unsigned int bubbleWindowDepth = 0;
 
 - (void) setAction:(SEL) selector {
 	_action = selector;
-}
-
-#pragma mark -
-
-- (id) representedObject {
-	return _representedObject;
-}
-
-- (void) setRepresentedObject:(id) object {
-	[_representedObject autorelease];
-	_representedObject = [object retain];
-}
-
-#pragma mark -
-
-- (BOOL) respondsToSelector:(SEL) selector {
-	BOOL contentViewRespondsToSelector = [[[self window] contentView] respondsToSelector:selector];
-	return contentViewRespondsToSelector ? contentViewRespondsToSelector : [super respondsToSelector:selector];
-}
-
-- (void) forwardInvocation:(NSInvocation *) invocation {
-	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:[invocation selector]] ) {
-		[invocation invokeWithTarget:contentView];
-	} else {
-		[super forwardInvocation:invocation];
-	}
-}
-
-- (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
-	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:selector] ) {
-		return [contentView methodSignatureForSelector:selector];
-	} else {
-		return [super methodSignatureForSelector:selector];
-	}
 }
 @end

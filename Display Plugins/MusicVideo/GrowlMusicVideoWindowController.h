@@ -11,7 +11,6 @@
 @interface GrowlMusicVideoWindowController : FadingWindowController {
 	SEL				_action;
 	id				_target;
-	id				_representedObject;
 	float			topLeftPosition;
 	int				_priority;
 }
@@ -27,9 +26,6 @@
 
 - (SEL)action;
 - (void)setAction:(SEL)selector;
-
-- (id)representedObject;
-- (void)setRepresentedObject:(id)object;
 
 - (int)priority;
 - (void)setPriority:(int)newPriority;

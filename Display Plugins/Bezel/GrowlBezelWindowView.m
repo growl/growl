@@ -12,10 +12,6 @@
 #define BORDER_RADIUS 20.0f
 #define ELLIPSIS_STRING @"..."
 
-@interface GrowlBezelWindowView (PRIVATE)
-- (void)resizeIcon:(NSImage *)theImage toSize:(NSSize)theSize;
-@end
-
 @implementation GrowlBezelWindowView
 
 - (id)initWithFrame:(NSRect)frame {
@@ -93,13 +89,13 @@
 	NSSize maxIconSize;
 	NSSize iconSize = [_icon size];
 	if (sizePref == BEZEL_SIZE_NORMAL) {
-		titleRect = NSMakeRect(12., 90., 187., 30.);
-		textRect =  NSMakeRect(12., 4., 187., 80.);
+		titleRect = NSMakeRect(12.f, 90.f, 187.f, 30.f);
+		textRect =  NSMakeRect(12.f, 4.f, 187.f, 80.f);
 		maxRows = 4;
-		maxIconSize = NSMakeSize(72., 72.);
+		maxIconSize = NSMakeSize(72.f, 72.f);
 		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];
 		if ( iconSize.width < maxIconSize.width ) {
-			iconOffset = ceil( (maxIconSize.width - iconSize.width) * 0.5f );
+			iconOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
 		}
 		iconPoint = NSMakePoint(70.f + iconOffset, 120.f);
 	} else {
@@ -109,14 +105,9 @@
 		maxIconSize = NSMakeSize(48.f, 48.f);
 		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];
 		if ( iconSize.width < maxIconSize.width ) {
-			iconOffset = ceil( (maxIconSize.width - iconSize.width) * 0.5f );
+			iconOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
 		}
 		iconPoint = NSMakePoint(57.f + iconOffset, 83.f);
-	}
-
-	if ( iconSize.width > maxIconSize.width || iconSize.height > maxIconSize.height ) {
-		// scale the image appropiately
-		[self resizeIcon:_icon toSize:maxIconSize];
 	}
 
 	// If we are on Panther or better, pretty shadow
@@ -159,8 +150,8 @@
 		[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
 		titleSize = [_title sizeWithAttributes:titleAttributes];
 	}
-	
-	titleRect.origin.y += ceil(accumulator);
+
+	titleRect.origin.y += ceilf(accumulator);
 
 	if ( minFontSize ) {
 		[self setTitle: [NSString stringWithFormat:@"%@%@",[_title substringToIndex:[_title length]-1], ELLIPSIS_STRING]];
@@ -199,34 +190,10 @@
 	}
 	[_text drawInRect:textRect withAttributes:textAttributes];
 
-	[_icon compositeToPoint:iconPoint operation:NSCompositeSourceOver fraction:1.f];
-}
-
-- (void)resizeIcon:(NSImage *)theImage toSize:(NSSize)theSize {
-	float newWidth, newHeight, newX, newY;
-	NSSize iconSize = [theImage size];
-	if ( iconSize.width > iconSize.height ) {
-		newWidth = theSize.width;
-		newHeight = theSize.height / iconSize.width * iconSize.height;
-	} else if( iconSize.width < iconSize.height ) {
-		newWidth = theSize.width / iconSize.height * iconSize.width;
-		newHeight = theSize.height;
-	} else {
-		newWidth = theSize.width;
-		newHeight = theSize.height;
-	}
-	
-	newX = floorf((theSize.width - newWidth) * 0.5f);
-	newY = floorf((theSize.width - newHeight) * 0.5f);
-	
-	NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
-	NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
-	[_icon autorelease];
-	_icon = [[NSImage alloc] initWithSize:theSize];
-	[_icon lockFocus];
-	[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
-	[sourceImageRep drawInRect:newBounds];
-	[_icon unlockFocus];
+	NSRect iconRect;
+	iconRect.origin = iconPoint;
+	iconRect.size = maxIconSize;
+	[_icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.f];
 }
 
 - (void)setIcon:(NSImage *)icon {

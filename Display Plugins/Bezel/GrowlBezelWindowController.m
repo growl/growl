@@ -79,34 +79,32 @@
 	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
 	switch (positionPref) {
 		case BEZEL_POSITION_DEFAULT:
-			panelTopLeft = NSMakePoint(ceil((NSWidth(screen)*0.5f) -(NSWidth(panelFrame)*0.5f)),
+			panelTopLeft = NSMakePoint(ceilf((NSWidth(screen)*0.5f) -(NSWidth(panelFrame)*0.5f)),
 				140.0f + NSHeight(panelFrame));
-		break;
+			break;
 		case BEZEL_POSITION_TOPRIGHT:
 			panelTopLeft = NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding,
 				NSMaxY ( screen ) - GrowlBezelPadding );
-		break;
+			break;
 		case BEZEL_POSITION_BOTTOMRIGHT:
 			panelTopLeft = NSMakePoint(NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding,
 				GrowlBezelPadding + NSHeight(panelFrame));
-		break;
+			break;
 		case BEZEL_POSITION_BOTTOMLEFT:
 			panelTopLeft = NSMakePoint(GrowlBezelPadding,
 				GrowlBezelPadding + NSHeight(panelFrame));
-		break;
+			break;
 		case BEZEL_POSITION_TOPLEFT:
 			panelTopLeft = NSMakePoint(GrowlBezelPadding,
 				NSMaxY ( screen ) - GrowlBezelPadding );
-		break;
+			break;
 	}
 	[panel setFrameTopLeftPoint:panelTopLeft];
 
 	if( (self = [super initWithWindow:panel] ) ) {
 		_autoFadeOut = YES;	//!sticky
 		_doFadeIn = NO;
-		_delegate = nil;
 		_target = nil;
-		_representedObject = nil;
 		_action = NULL;
 		_displayTime = MIN_DISPLAY_TIME;
 		_priority = priority;
@@ -116,10 +114,7 @@
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
 	[_target release];
-	[_representedObject release];
 	
 	[super dealloc];
 }
@@ -148,15 +143,6 @@
 	_action = selector;
 }
 
-- (id)representedObject {
-	return _representedObject;
-}
-
-- (void) setRepresentedObject:(id) object {
-	[_representedObject autorelease];
-	_representedObject = [object retain];
-}
-
 - (int)priority {
 	return _priority;
 }
@@ -164,28 +150,4 @@
 - (void)setPriority:(int)newPriority {
 	_priority = newPriority;
 }
-
-- (BOOL) respondsToSelector:(SEL) selector {
-	BOOL contentViewRespondsToSelector = [[[self window] contentView] respondsToSelector:selector];
-	return contentViewRespondsToSelector ? contentViewRespondsToSelector : [super respondsToSelector:selector];
-}
-
-- (void) forwardInvocation:(NSInvocation *) invocation {
-	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:[invocation selector]] ) {
-		[invocation invokeWithTarget:contentView];
-	} else {
-		[super forwardInvocation:invocation];
-	}
-}
-
-- (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
-	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:selector] ) {
-		return [contentView methodSignatureForSelector:selector];
-	} else {
-		return [super methodSignatureForSelector:selector];
-	}
-}
-
 @end

@@ -10,10 +10,6 @@
 #import "GrowlImageAdditions.h"
 #import "GrowlStringAdditions.h"
 
-@interface GrowlMusicVideoWindowView (PRIVATE)
-- (NSSize)resizeIcon:(NSImage *)theImage toSize:(NSSize)theSize;
-@end
-
 @implementation GrowlMusicVideoWindowView
 
 - (id)initWithFrame:(NSRect)frame {
@@ -83,19 +79,13 @@
 		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];	
 	}
 
-	if ( iconSize.width > maxIconSize.width || iconSize.height > maxIconSize.height ) {
-		// scale the image appropiately
-		iconSize = [self resizeIcon:_icon toSize:maxIconSize];
-	}
-	
 	if ( iconSize.width < maxIconSize.width ) {
-		iconHorizontalOffset = ceil( (maxIconSize.width - iconSize.width) * 0.5f );
+		iconHorizontalOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
 	}
 	if ( iconSize.height < maxIconSize.height ) {
-		iconVerticalOffset = ceil( (maxIconSize.height - iconSize.height) * 0.5f );
+		iconVerticalOffset = ceilf( (maxIconSize.height - iconSize.height) * 0.5f );
 	}
 	iconPoint = NSMakePoint(iconSourcePoint + iconHorizontalOffset, iconSourcePoint + iconVerticalOffset);
-
 	
 	// If we are on Panther or better, pretty shadow
 	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
@@ -131,36 +121,10 @@
 	}
 	[_text drawInRect:textRect withAttributes:textAttributes];
 
-	[_icon compositeToPoint:iconPoint operation:NSCompositeSourceOver fraction:1.f];
-}
-
-- (NSSize)resizeIcon:(NSImage *)theImage toSize:(NSSize)theSize {
-	float newWidth, newHeight, newX, newY;
-	NSSize iconSize = [theImage size];
-	if ( iconSize.width > iconSize.height ) {
-		newWidth = theSize.width;
-		newHeight = theSize.height / iconSize.width * iconSize.height;
-	} else if( iconSize.width < iconSize.height ) {
-		newWidth = theSize.width / iconSize.height * iconSize.width;
-		newHeight = theSize.height;
-	} else {
-		newWidth = theSize.width;
-		newHeight = theSize.height;
-	}
-	
-	newX = floorf((theSize.width - newWidth) * 0.5f);
-	newY = floorf((theSize.width - newHeight) * 0.5f);
-	
-	NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
-	NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
-	[_icon autorelease];
-	_icon = [[NSImage alloc] initWithSize:theSize];
-	[_icon lockFocus];
-	[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
-	[sourceImageRep drawInRect:newBounds];
-	[_icon unlockFocus];
-	
-	return NSMakeSize( newWidth, newHeight );
+	NSRect iconRect;
+	iconRect.origin = iconPoint;
+	iconRect.size = maxIconSize;
+	[_icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.f];
 }
 
 - (void)setIcon:(NSImage *)icon {

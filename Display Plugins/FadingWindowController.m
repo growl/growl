@@ -15,6 +15,7 @@
 - (id)initWithWindow:(NSWindow *)window
 {
 	if( (self = [super initWithWindow:window]) ) {
+		_delegate = nil;
 		_animationTimer = nil;
 		_autoFadeOut = NO;
 		_doFadeIn = YES;
@@ -166,4 +167,28 @@
 	_delegate = delegate;
 }
 
+#pragma mark -
+
+- (BOOL) respondsToSelector:(SEL) selector {
+	BOOL contentViewRespondsToSelector = [[[self window] contentView] respondsToSelector:selector];
+	return contentViewRespondsToSelector ? contentViewRespondsToSelector : [super respondsToSelector:selector];
+}
+
+- (void) forwardInvocation:(NSInvocation *) invocation {
+	NSView *contentView = [[self window] contentView];
+	if( [contentView respondsToSelector:[invocation selector]] ) {
+		[invocation invokeWithTarget:contentView];
+	} else {
+		[super forwardInvocation:invocation];
+	}
+}
+
+- (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
+	NSView *contentView = [[self window] contentView];
+	if( [contentView respondsToSelector:selector] ) {
+		return [contentView methodSignatureForSelector:selector];
+	} else {
+		return [super methodSignatureForSelector:selector];
+	}
+}
 @end

@@ -76,9 +76,7 @@
 
 	if( (self = [super initWithWindow:panel]) ) {
 		_autoFadeOut = YES;	// !sticky
-		_delegate = nil;
 		_target = nil;
-		_representedObject = nil;
 		_action = NULL;
 		_displayTime = MIN_DISPLAY_TIME;
 		_priority = priority;
@@ -95,10 +93,7 @@
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
 	[_target release];
-	[_representedObject release];
 
 	[super dealloc];
 }
@@ -159,15 +154,6 @@
 	_action = selector;
 }
 
-- (id)representedObject {
-	return _representedObject;
-}
-
-- (void) setRepresentedObject:(id) object {
-	[_representedObject autorelease];
-	_representedObject = [object retain];
-}
-
 - (int)priority {
 	return _priority;
 }
@@ -175,28 +161,4 @@
 - (void)setPriority:(int)newPriority {
 	_priority = newPriority;
 }
-
-- (BOOL) respondsToSelector:(SEL) selector {
-	BOOL contentViewRespondsToSelector = [[[self window] contentView] respondsToSelector:selector];
-	return contentViewRespondsToSelector ? contentViewRespondsToSelector : [super respondsToSelector:selector];
-}
-
-- (void) forwardInvocation:(NSInvocation *) invocation {
-	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:[invocation selector]] ) {
-		[invocation invokeWithTarget:contentView];
-	} else {
-		[super forwardInvocation:invocation];
-	}
-}
-
-- (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
-	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:selector] ) {
-		return [contentView methodSignatureForSelector:selector];
-	} else {
-		return [super methodSignatureForSelector:selector];
-	}
-}
-
 @end

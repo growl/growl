@@ -24,11 +24,11 @@ static const double gMaxDisplayTime = 10.;
 #pragma mark -
 
 + (GrowlSmokeWindowController *) notify {
-	return [[[self alloc] init] autorelease];
+	return [[[GrowlSmokeWindowController alloc] init] autorelease];
 }
 
 + (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned int) depth {
-	return [[[self alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky depth:depth] autorelease];
+	return [[[GrowlSmokeWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky depth:depth] autorelease];
 }
 
 #pragma mark Delegate Methods
@@ -125,7 +125,6 @@ static const double gMaxDisplayTime = 10.;
 	[panel setCanHide:NO];
 	[panel setReleasedWhenClosed:YES];
 	[panel setDelegate:self];
-	[self setDelegate:self];
 
 	GrowlSmokeWindowView *view = [[[GrowlSmokeWindowView alloc] initWithFrame:panelFrame] autorelease];
 	[view setTarget:self];
@@ -148,8 +147,8 @@ static const double gMaxDisplayTime = 10.;
 		_depth += NSHeight( panelFrame );
 		_autoFadeOut = !sticky;
 		_target = nil;
-		_representedObject = nil;
 		_action = NULL;
+		_delegate = self;
 
 		// the visibility time for this notification should be the minimum display time plus
 		// some multiple of gAdditionalLinesDisplayTime, not to exceed gMaxDisplayTime
@@ -184,7 +183,6 @@ static const double gMaxDisplayTime = 10.;
 	//[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[_target release];
-	[_representedObject release];
 
 	//extern unsigned int smokeWindowDepth;
 //	NSLog(@"smokeController deallocking");
@@ -226,44 +224,7 @@ static const double gMaxDisplayTime = 10.;
 
 #pragma mark -
 
-- (id) representedObject {
-	return _representedObject;
-}
-
-- (void) setRepresentedObject:(id) object {
-	[_representedObject autorelease];
-	_representedObject = [object retain];
-}
-
-#pragma mark -
-
 - (unsigned int)depth {
 	return _depth;
 }
-
-#pragma mark -
-
-- (BOOL) respondsToSelector:(SEL) selector {
-	BOOL contentViewRespondsToSelector = [[[self window] contentView] respondsToSelector:selector];
-	return contentViewRespondsToSelector ? contentViewRespondsToSelector : [super respondsToSelector:selector];
-}
-
-- (void) forwardInvocation:(NSInvocation *) invocation {
-	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:[invocation selector]] ) {
-		[invocation invokeWithTarget:contentView];
-	} else {
-		[super forwardInvocation:invocation];
-	}
-}
-
-- (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
-	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:selector] ) {
-		return [contentView methodSignatureForSelector:selector];
-	} else {
-		return [super methodSignatureForSelector:selector];
-	}
-}
-
 @end
