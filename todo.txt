@@ -2,11 +2,9 @@ To-Do
 
 For .6 (Go Go Growl)
 
-Release related issues
+We are dropping 10.2 support in this release.
 
-- Create a branch for the .6 release.
-	- Remove networking from this branch.
-	- Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
+Release related issues
 - Make sure we have user documentation on everything we have. This was a sore point for us last release.
 - DMG & PKG
 	- Look at creating a mpkg with some of the Extras in it. Include these:
@@ -17,12 +15,10 @@ Release related issues
 	- Include uninstaller in the dmg
 	- Include user documentation in the dmg
 	- Include links to developer documentation in the dmg. Possibly include docs themselves.
-- Create graphics for developers to show that they have growl support in their application. Multiple different forms of this would be good.
+
 
 
 For .7
-
-We are dropping 10.2 support in this release. By time it is released Tiger will probably have released.
 
 - Concentrate on networking.
 	- Properly document the networking protocol
@@ -221,4 +217,7 @@ Done:
 	- Add 2 radio buttons
 		- Console, with a button to open console.app
 		- Choose file. Default to something sane.
-
+- Create graphics for developers to show that they have growl support in their application. Multiple different forms of this would be good.
+- Create a branch for the .6 release.
+	- Remove networking from this branch.
+	- Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
