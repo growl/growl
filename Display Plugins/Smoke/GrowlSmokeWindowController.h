@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface GrowlSmokeWindowController : NSWindowController {
 	id				_delegate;
 	NSTimer			*_animationTimer;
@@ -19,14 +18,15 @@
 	id				_representedObject;
 	short			_displayTime;
 	unsigned int	_id;
+	id				_plugin; // the GrowlSmokeDisplay object which created us
 }
 
 + (GrowlSmokeWindowController *) notify;
-+ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky;
++ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky depth:(unsigned int) depth;
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky;
+- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky depth:(unsigned int)depth;
 
 - (void) startFadeIn;
 - (void) startFadeOut;
@@ -45,6 +45,8 @@
 
 - (id) delegate;
 - (void) setDelegate:(id) delegate;
+
+- (unsigned int) depth;
 @end
 
 @interface NSObject (GrowlSmokeWindowControllerDelegate)

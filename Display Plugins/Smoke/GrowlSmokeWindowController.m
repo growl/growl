@@ -13,7 +13,6 @@
 #import "GrowlDefines.h"
 #import "NSGrowlAdditions.h"
 
-static unsigned int smokeWindowDepth = 0;
 static unsigned int globalId = 0;
 
 @implementation GrowlSmokeWindowController
@@ -30,8 +29,8 @@ static const double gMaxDisplayTime = 10.;
 	return [[[self alloc] init] autorelease];
 }
 
-+ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky {
-	return [[[self alloc] initWithTitle:title text:text icon:icon sticky:sticky] autorelease];
++ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky depth:(unsigned int) depth {
+	return [[[self alloc] initWithTitle:title text:text icon:icon sticky:sticky depth:depth] autorelease];
 }
 
 #pragma mark Delegate Methods
@@ -43,16 +42,22 @@ static const double gMaxDisplayTime = 10.;
 - (void) notificationDidFadeOut:(id)sender {
 	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->_id);
+	
+	// stop _depth wrapping around
+	if(windowSize.height > _depth)
+		_depth = 0;
+	else
+		_depth -= windowSize.height;
+	
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSNumber numberWithInt:_id], @"ID",
-		[NSNumber numberWithFloat:windowSize.height], @"Depth",
+		[NSNumber numberWithInt:_depth], @"Depth",
 		nil];
-	// stop smokeWindowDepth wrapping around
-	if(windowSize.height > smokeWindowDepth)
-		smokeWindowDepth = 0;
-	else
-		smokeWindowDepth -= windowSize.height;
+	
+	// commented out temporarily because of the new notification positioning problem
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"Glide" object:nil userInfo:dict];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"SmokeGone" object:nil userInfo:dict];
 }
 
 - (void) _glideUp:(NSNotification *)note {
@@ -66,18 +71,49 @@ static const double gMaxDisplayTime = 10.;
 		if(theFrame.origin.y >= NSMaxY( [[NSScreen mainScreen] visibleFrame] ) - GrowlSmokePadding)
 			return;
 		[[self window] setFrame:theFrame display:NO animate:YES];
+		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithInt:_id], @"ID",
+			[NSValue valueWithRect:theFrame], @"Space",
+			nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];		
 	}
+}
+
+- (void) _clearSpace:(NSNotification *)note {
+	NSDictionary *userInfo = [note userInfo];
+	unsigned int i = [[userInfo objectForKey:@"ID"] intValue];
+	NSRect space = [[userInfo objectForKey:@"Space"] rectValue];
+	NSRect theFrame = [[self window] frame];
+	/*NSLog(@"Notification %u (%f, %f, %f, %f) received clear space message from notification %u (%f, %f, %f, %f)\n",
+		  _id, i,
+		  theFrame.origin.x, theFrame.origin.y, theFrame.size.width, theFrame.size.height,
+		  space.origin.x, space.origin.y, space.size.width, space.size.height);*/
+	if(i == _id)
+		return;
+	if(NSIntersectsRect(space, theFrame)) {
+		//NSLog(@"I intersect with this frame\n");
+		theFrame.origin.y = space.origin.y - space.size.height;
+		//NSLog(@"New origin: (%f, %f)\n", theFrame.origin.x, theFrame.origin.y);
+		[[self window] setFrame:theFrame display:NO animate:YES];
+		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithInt:_id], @"ID",
+			[NSValue valueWithRect:theFrame], @"Space",
+			nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];
+	} //else NSLog(@"No intersection\n");
 }
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky {
+- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky depth:(unsigned int) depth {
 	_id = globalId++;
+	_depth = depth;
 
-	[[NSNotificationCenter defaultCenter] addObserver:self 
+	
+	/*[[NSNotificationCenter defaultCenter] addObserver:self 
 											selector:@selector( _glideUp: ) 
 												name:@"Glide"
-											  object:nil];
+											  object:nil];*/
 	
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., GrowlSmokeNotificationWidth, 65. ) 
 												 styleMask:NSBorderlessWindowMask 
@@ -111,9 +147,9 @@ static const double gMaxDisplayTime = 10.;
 	
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
 	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlSmokePadding, 
-											 NSMaxY( screen ) - GrowlSmokePadding - ( smokeWindowDepth ) )];
+											 NSMaxY( screen ) - GrowlSmokePadding - depth )];
 
-	_depth = smokeWindowDepth += NSHeight( panelFrame );
+	_depth += NSHeight( panelFrame );
 	_autoFadeOut = YES;
 	_delegate = nil;
 	_target = nil;
@@ -137,11 +173,25 @@ static const double gMaxDisplayTime = 10.;
 
 	[self setAutomaticallyFadesOut:!sticky];
 	
-	return ( self = [super initWithWindow:panel] );
+	
+	if ( self = [super initWithWindow:panel] ) {
+		
+		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithInt:_id], @"ID",
+			[NSValue valueWithRect:[[self window] frame]], @"Space",
+			nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+												 selector:@selector( _clearSpace: ) 
+													 name:@"Clear Space"
+												   object:nil];
+	}
+	return self;
 }
 
 - (void) dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	//[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[_delegate release];
 	[_target release];
@@ -154,10 +204,10 @@ static const double gMaxDisplayTime = 10.;
 	_delegate = nil;
 	_animationTimer = nil;
 
-	extern unsigned int smokeWindowDepth;
+	//extern unsigned int smokeWindowDepth;
 //	NSLog(@"smokeController deallocking");
-	if( _depth == smokeWindowDepth ) 
-		smokeWindowDepth = 0;
+	//if( _depth == smokeWindowDepth ) 
+	// 	smokeWindowDepth = 0;
 
 	[super dealloc];
 }
@@ -287,6 +337,12 @@ static const double gMaxDisplayTime = 10.;
 
 #pragma mark -
 
+- (unsigned int)depth {
+	return _depth;
+}
+
+#pragma mark -
+
 - (void)_bubbleClicked:(id)sender {
 	[self _stopTimer];
 	[self startFadeOut];
@@ -314,4 +370,5 @@ static const double gMaxDisplayTime = 10.;
 	else
 		return [super methodSignatureForSelector:selector];
 }
+
 @end

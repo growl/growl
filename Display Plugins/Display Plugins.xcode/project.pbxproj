@@ -508,12 +508,6 @@
 			settings = {
 			};
 		};
-		3458EFE806F2E1600066D180 = {
-			fileRef = 3458EFE606F2E1600066D180;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		3458F00506F2E4FB0066D180 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -633,6 +627,12 @@
 			settings = {
 			};
 		};
+		3483CE7D0719B50700D1BF80 = {
+			fileRef = 3458EFE606F2E1600066D180;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		34BA9D2807086EDA0055683E = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -679,11 +679,11 @@
 		34C4486406F0FF5300855FBE = {
 			buildActionMask = 2147483647;
 			files = (
-				3458EFE806F2E1600066D180,
 				3458F00C06F2E4FB0066D180,
 				3458F00E06F2E4FB0066D180,
 				3482252F06F2EC6200B33560,
 				34BA9D2B07086EDA0055683E,
+				3483CE7D0719B50700D1BF80,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

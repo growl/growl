@@ -52,7 +52,7 @@
 	[path setLineWidth:lineWidth];
 
     // draw bezier path for rounded corners
-	float radius = 9.;
+	float radius = 5.;
 	NSRect irect = NSInsetRect( bounds, radius + lineWidth, radius + lineWidth );
 	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMinX( irect ), 
 														 NSMinY( irect ) ) 
@@ -94,7 +94,7 @@
 	// revert to unclipped graphics context
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 
-	// Top of the drawing area. The eye candy takes up 10 pixels on 
+	// Top of the drawing area. The eye candy takes up GrowlSmokePadding pixels on 
 	// the top, so we've reserved some space for it.
 	float heightOffset = [self frame].size.height - GrowlSmokePadding;
 
@@ -131,21 +131,15 @@
 		textColour,                        NSForegroundColorAttributeName,
 		nil];
  
-	if(pantherOrLater) {
-//		NSMutableParagraphStyle *ellipsisingStyle = [[[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
-//			setLineBreakMode:NSLineBreakByTruncatingTail] autorelease];
-//		[titleAttributes setObject:ellipsisingStyle forKey:NSParagraphStyleAttributeName];
+	if(pantherOrLater)
 		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
-	}
 	
     // draw the title and the text
-	//[_title drawAtPoint:NSMakePoint( 55., heightOffset - 15. ) withAttributes:titleAttributes];
-	//NSMutableAttributedString *attTitle = [[[NSMutableAttributedString alloc] initWithString:_title attributes:titleAttributes] autorelease];
-	//[attTitle drawInRect:NSMakeRect( 55., heightOffset - 20., [self textAreaWidth], 15. + GrowlSmokePadding )];
-	[_title drawWithEllipsisInRect:NSMakeRect( 55., heightOffset - 20., [self textAreaWidth], 15. + GrowlSmokePadding)
+	unsigned int textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
+	[_title drawWithEllipsisInRect:NSMakeRect( textXPosition, heightOffset - 20., [self textAreaWidth], 15. + GrowlSmokePadding)
 					withAttributes:titleAttributes];
 	
-	[whiteText drawInRect:NSMakeRect( 55., GrowlSmokePadding, [self textAreaWidth], heightOffset - 25. )];
+	[whiteText drawInRect:NSMakeRect( textXPosition, GrowlSmokePadding, [self textAreaWidth], heightOffset - 25. )];
 
 	NSSize iconSize = [_icon size];
 	if( iconSize.width > GrowlSmokeIconSize || iconSize.height > GrowlSmokeIconSize ) {
@@ -176,7 +170,8 @@
 		[_icon unlockFocus];
 	}
 
-	[_icon compositeToPoint:NSMakePoint( 15., heightOffset - 35. ) operation:NSCompositeSourceOver fraction:1.];
+	[_icon compositeToPoint:NSMakePoint( GrowlSmokePadding, heightOffset - GrowlSmokeIconSize )
+				  operation:NSCompositeSourceOver fraction:1.];
 
 	[[self window] invalidateShadow];
 
@@ -211,8 +206,8 @@
 }
 
 - (int)textAreaWidth {
-	return GrowlSmokeNotificationWidth - (GrowlSmokePadding * 2)
-	       - GrowlSmokeIconSize - GrowlSmokeIconPadding;
+	return GrowlSmokeNotificationWidth - GrowlSmokePadding
+	       - GrowlSmokeIconSize - GrowlSmokeIconPadding - GrowlSmokeIconTextPadding;
 }
 
 - (float)descriptionHeight {

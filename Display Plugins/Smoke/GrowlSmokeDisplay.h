@@ -25,5 +25,6 @@
 - (NSDictionary *)pluginInfo;
 
 - (void)displayNotificationWithInfo:(NSDictionary *)noteDict;
+- (void)_smokeGone:(NSNotification *)note;
 
 @end
