@@ -17,6 +17,7 @@
 	id				_target;
 	id				_representedObject;
 	short			_displayTime;
+	float			topLeftPosition;
 }
 
 + (GrowlMusicVideoWindowController *)musicVideo;

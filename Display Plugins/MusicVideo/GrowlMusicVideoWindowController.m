@@ -12,9 +12,9 @@
 
 @implementation GrowlMusicVideoWindowController
 
-#define TIMER_INTERVAL (1. / 30.)
-#define FADE_INCREMENT 0.05
-#define MIN_DISPLAY_TIME 3.
+#define TIMER_INTERVAL (1. / 64.)
+#define FADE_INCREMENT 6.
+#define MIN_DISPLAY_TIME 4.
 #define ADDITIONAL_LINES_DISPLAY_TIME 0.5
 #define MAX_DISPLAY_TIME 10.
 #define GrowlMusicVideoPadding 10.
@@ -83,7 +83,8 @@
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 	
-	[panel setFrameTopLeftPoint:NSMakePoint(0., NSHeight(panelFrame))];
+	topLeftPosition = 0.;
+	[panel setFrameTopLeftPoint:NSMakePoint(0., topLeftPosition)];
 	
 	_autoFadeOut = YES;
 	_doFadeIn = YES;
@@ -133,9 +134,10 @@
 
 - (void)_fadeIn:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
-	float alpha = [myWindow alphaValue];
-	if ( alpha < 1. ) {
-		[myWindow setAlphaValue:( alpha + FADE_INCREMENT)];
+	NSRect theFrame = [myWindow frame];
+	if ( topLeftPosition < NSHeight(theFrame) ) {
+		topLeftPosition += FADE_INCREMENT;
+		[myWindow setFrameTopLeftPoint:NSMakePoint(0., topLeftPosition)];
 	} else if ( _autoFadeOut ) {
 		if ( _delegate && [_delegate respondsToSelector:@selector( musicVideoDidFadeIn: )] ) {
 			[_delegate musicVideoDidFadeIn:self];
@@ -146,9 +148,9 @@
 
 - (void)_fadeOut:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
-	float alpha = [myWindow alphaValue];
-	if ( alpha > 0. ) {
-		[myWindow setAlphaValue:( alpha - FADE_INCREMENT)];
+	if ( topLeftPosition > 0. ) {
+		topLeftPosition -= FADE_INCREMENT;
+		[myWindow setFrameTopLeftPoint:NSMakePoint(0., topLeftPosition)];
 	} else {
 		[self _stopTimer];
 		if ( _delegate && [_delegate respondsToSelector:@selector( musicVideoDidFadeOut: )] ) {
@@ -173,6 +175,7 @@
 	[self retain]; // release after fade out
 	[self showWindow:nil];
 	[self _stopTimer];
+	[[self window] setAlphaValue:1.];
 	if ( _doFadeIn ) {
 		_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
 				  target:self
@@ -180,7 +183,6 @@
 				userInfo:nil
 				 repeats:YES] retain];
 	} else if ( _autoFadeOut ) {
-		[[self window] setAlphaValue:1.];
 		if ( _delegate && [_delegate respondsToSelector:@selector( musicVideoDidFadeIn: )] ) {
 			[_delegate musicVideoDidFadeIn:self];
 		}
