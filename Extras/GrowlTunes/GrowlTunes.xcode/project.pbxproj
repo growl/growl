@@ -17,6 +17,7 @@
 		07B1BAB5077D59B200474D89 = {
 			children = (
 				07B1BAB3077D59A600474D89,
+				95100E8B078867E5005DBB70,
 			);
 			isa = PBXVariantGroup;
 			name = Localizable.strings;
@@ -424,12 +425,12 @@
 					ProjectRef = 0A8B5F0F070B140C00593A33;
 				},
 				{
-					ProductGroup = 0A8B6180070B303B00593A33;
-					ProjectRef = 0A8B617F070B303B00593A33;
-				},
-				{
 					ProductGroup = 0A8B6179070B303600593A33;
 					ProjectRef = 0A8B5F08070B140300593A33;
+				},
+				{
+					ProductGroup = 0A8B6180070B303B00593A33;
+					ProjectRef = 0A8B617F070B303B00593A33;
 				},
 			);
 			targets = (
@@ -803,9 +804,9 @@
 			sourceTree = "<group>";
 		};
 		8D1107320486CEB800E47090 = {
-			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.application;
 			path = GrowlTunes.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -815,6 +816,24 @@
 //8D2
 //8D3
 //8D4
+//950
+//951
+//952
+//953
+//954
+		95100E8B078867E5005DBB70 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = German;
+			path = German.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//950
+//951
+//952
+//953
+//954
 //CB0
 //CB1
 //CB2
