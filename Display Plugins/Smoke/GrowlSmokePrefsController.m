@@ -49,7 +49,7 @@
 	NSColor *defaultColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
   	float alpha;
 
-	READ_GROWL_PREF_VALUE(GrowlSmokeVeryLowColor, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlSmokeVeryLowColor, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -63,7 +63,7 @@
 	}
 	[color_veryLow setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlSmokeModerateColor, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlSmokeModerateColor, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -75,7 +75,7 @@
 	}
 	[color_moderate setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlSmokeNormalColor, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlSmokeNormalColor, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -89,7 +89,7 @@
 	}
 	[color_normal setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlSmokeHighColor, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlSmokeHighColor, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -103,7 +103,7 @@
 	}
 	[color_high setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlSmokeEmergencyColor, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlSmokeEmergencyColor, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -117,7 +117,7 @@
 
 	defaultColor = [NSColor colorWithCalibratedWhite:1.0f alpha:1.0f];
 
-	READ_GROWL_PREF_VALUE(GrowlSmokeVeryLowTextColor, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlSmokeVeryLowTextColor, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -131,7 +131,7 @@
 	}
 	[text_veryLow setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlSmokeModerateTextColor, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlSmokeModerateTextColor, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -145,7 +145,7 @@
 	}
 	[text_moderate setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlSmokeNormalTextColor, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlSmokeNormalTextColor, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -159,7 +159,7 @@
 	}
 	[text_normal setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlSmokeHighTextColor, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlSmokeHighTextColor, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -173,7 +173,7 @@
 	}
 	[text_high setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlSmokeEmergencyTextColor, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlSmokeEmergencyTextColor, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]

@@ -6,11 +6,6 @@
             CLASS = GrowlBezelPrefs; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                "color_emergency" = NSColorWell; 
-                "color_high" = NSColorWell; 
-                "color_moderate" = NSColorWell; 
-                "color_normal" = NSColorWell; 
-                "color_veryLow" = NSColorWell; 
                 "radio_PositionBL" = NSButton; 
                 "radio_PositionBR" = NSButton; 
                 "radio_PositionD" = NSButton; 

@@ -23,10 +23,16 @@
 	// priority colour settings
 	NSArray *array = nil;
 	NSColor *color;
-	NSColor *defaultColor = [NSColor colorWithCalibratedRed:0.69412f green:0.83147f blue:0.96078f alpha:0.95f];
 	float alpha;
+	float opacityPref = 0.95f;
 
-	READ_GROWL_PREF_VALUE(GrowlBubblesVeryLowColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &opacityPref);
+	[slider_Opacity setFloatValue:opacityPref];
+	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",(int)floorf(opacityPref * 100.0f)]];
+
+	NSColor *defaultColor = [NSColor colorWithCalibratedRed:0.69412f green:0.83147f blue:0.96078f alpha:1.0f];
+
+	READ_GROWL_PREF_VALUE(GrowlBubblesVeryLowColor, GrowlBubblesPrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -39,8 +45,8 @@
 		color = defaultColor;
 	}
 	[color_veryLow setColor:color];
-	
-	READ_GROWL_PREF_VALUE(GrowlBubblesModerateColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+
+	READ_GROWL_PREF_VALUE(GrowlBubblesModerateColor, GrowlBubblesPrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -54,7 +60,7 @@
 	}
 	[color_moderate setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlBubblesNormalColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlBubblesNormalColor, GrowlBubblesPrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -68,7 +74,7 @@
 	}
 	[color_normal setColor:color];
 
-	READ_GROWL_PREF_VALUE(GrowlBubblesHighColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlBubblesHighColor, GrowlBubblesPrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -82,7 +88,7 @@
 	}
 	[color_high setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlBubblesEmergencyColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlBubblesEmergencyColor, GrowlBubblesPrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -98,7 +104,7 @@
 
 	defaultColor = [NSColor controlTextColor];	
 
-	READ_GROWL_PREF_VALUE(GrowlBubblesVeryLowTextColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlBubblesVeryLowTextColor, GrowlBubblesPrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -113,7 +119,7 @@
 
 	[text_veryLow setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlBubblesModerateTextColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlBubblesModerateTextColor, GrowlBubblesPrefDomain, NSArray *, &array);
 	color = [NSColor controlTextColor];
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
@@ -128,7 +134,7 @@
 	}
 	[text_moderate setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlBubblesNormalTextColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlBubblesNormalTextColor, GrowlBubblesPrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -142,7 +148,7 @@
 	}
 	[text_normal setColor:color];
 	
-	READ_GROWL_PREF_VALUE(GrowlBubblesHighTextColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlBubblesHighTextColor, GrowlBubblesPrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -156,7 +162,7 @@
 	}
 	[text_high setColor:color];
 
-	READ_GROWL_PREF_VALUE(GrowlBubblesEmergencyTextColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(GrowlBubblesEmergencyTextColor, GrowlBubblesPrefDomain, NSArray *, &array);
 	if (array) {
 		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
@@ -173,6 +179,15 @@
 
 - (IBAction) setLimit:(id)sender {
 	WRITE_GROWL_PREF_BOOL(KALimitPref, ([sender state] == NSOnState), GrowlBubblesPrefDomain);
+    SYNCHRONIZE_GROWL_PREFS();
+	UPDATE_GROWL_PREFS();
+}
+
+- (IBAction) opacityChanged:(id)sender {
+	float opacityPref = [slider_Opacity floatValue];
+	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",(int)floorf(opacityPref * 100.0f)]];
+	WRITE_GROWL_PREF_FLOAT(GrowlBubblesOpacity, opacityPref, GrowlBubblesPrefDomain);
+    SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
@@ -180,7 +195,7 @@
 
 	NSColor *color;
     NSArray *array;
-    
+
     NSString *key;
     switch ([sender tag]) {
         case -2:
@@ -208,13 +223,12 @@
         [NSNumber numberWithFloat:[color blueComponent]],
         [NSNumber numberWithFloat:[color alphaComponent]],
 		nil];
-    WRITE_GROWL_PREF_VALUE(key, (CFArrayRef)array, GrowlBubblesPrefDomain);
+    WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
 
 	//NSLog(@"color: %@ array: %@", color, array);
 
     SYNCHRONIZE_GROWL_PREFS();
     UPDATE_GROWL_PREFS();
-	
 }
 
 - (IBAction) textColorChanged:(id)sender
@@ -247,12 +261,11 @@
         [NSNumber numberWithFloat:[color redComponent]],
         [NSNumber numberWithFloat:[color greenComponent]],
         [NSNumber numberWithFloat:[color blueComponent]],
-        [NSNumber numberWithFloat:[color alphaComponent]],
 		nil];
-    WRITE_GROWL_PREF_VALUE(key, (CFArrayRef)array, GrowlBubblesPrefDomain);
+    WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
 
 	//NSLog(@"color: %@ array: %@", color, array);
-	
+
     SYNCHRONIZE_GROWL_PREFS();
     UPDATE_GROWL_PREFS();
 }

@@ -201,28 +201,28 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 			textKey = GrowlBubblesNormalTextColor;
             break;
     }
-    NSArray *array;
-	
-//	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
-//	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
+    NSArray *array = nil;
+
+	float backgroundAlpha = 0.95f;
+	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &backgroundAlpha);
 
 	bgColor = [NSColor colorWithCalibratedRed:0.69412f
 										green:0.83147f
 										 blue:0.96078f
-										alpha:0.95f];
+										alpha:backgroundAlpha];
 
-	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSArray *, &array);
     if (array && [array isKindOfClass:[NSArray class]]) {
         bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 											green:[[array objectAtIndex:1U] floatValue]
 											 blue:[[array objectAtIndex:2U] floatValue]
-											alpha:0.95f];
+											alpha:backgroundAlpha];
         [array release];
     }
     [bgColor retain];
 
 	textColor = [NSColor controlTextColor];
-	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, NSArray *, &array);
     if (array && [array isKindOfClass:[NSArray class]]) {
         textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 											  green:[[array objectAtIndex:1U] floatValue]
