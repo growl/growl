@@ -11,7 +11,8 @@
 
 @interface GrowlBubblesPrefsController : NSPreferencePane {
 	float					duration;
-	IBOutlet NSButton		*limitCheck;
+	float					opacity;
+	BOOL					limit;
 
 	IBOutlet NSColorWell	*top_veryLow;
 	IBOutlet NSColorWell	*top_moderate;
@@ -37,11 +38,13 @@
 }
 - (float) getDuration;
 - (void) setDuration:(float)value;
-- (IBAction) setLimit:(id)sender;
+- (float) getOpacity;
+- (void) setOpacity:(float)value;
+- (void) setLimit:(BOOL)value;
+- (BOOL) getLimit;
 - (IBAction) colorChanged:(id)sender;
 - (IBAction) textColorChanged:(id)sender;
 - (IBAction) topColorChanged:(id)sender;
-- (IBAction) opacityChanged:(id)sender;
 - (IBAction) setScreen:(id)sender;
 
 @end

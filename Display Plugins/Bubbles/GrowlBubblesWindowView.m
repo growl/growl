@@ -220,18 +220,18 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 			topKey = GrowlBubblesNormalTopColor;
 			break;
 	}
-	NSArray *array = nil;
 
-	float backgroundAlpha = 0.95f;
+	NSData *data = nil;
+
+	float backgroundAlpha = 95.0f;
 	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &backgroundAlpha);
+	backgroundAlpha *= 0.01f;
 
-	Class NSArrayClass = [NSArray class];
-	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSArray *, &array);
-	if (array && [array isKindOfClass:NSArrayClass]) {
-		bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-											green:[[array objectAtIndex:1U] floatValue]
-											 blue:[[array objectAtIndex:2U] floatValue]
-											alpha:backgroundAlpha];
+	Class NSDataClass = [NSData class];
+	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:NSDataClass]) {
+		bgColor = [NSUnarchiver unarchiveObjectWithData:data];
+		bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
 		bgColor = [NSColor colorWithCalibratedRed:0.69412f
 											green:0.83147f
@@ -239,33 +239,31 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 											alpha:backgroundAlpha];
 	}
 	[bgColor retain];
-	[array release];
+	[data release];
 
-	array = nil;
-	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, NSArray *, &array);
-	if (array && [array isKindOfClass:NSArrayClass]) {
-		textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-											  green:[[array objectAtIndex:1U] floatValue]
-											   blue:[[array objectAtIndex:2U] floatValue]
-											  alpha:1.0f];
+	data = nil;
+	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:NSDataClass]) {
+		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		textColor = [NSColor controlTextColor];
 	}
 	[textColor retain];
-	[array release];
+	[data release];
 
-	array = nil;
-	READ_GROWL_PREF_VALUE(topKey, GrowlBubblesPrefDomain, NSArray *, &array);
-	if (array && [array isKindOfClass:NSArrayClass]) {
-		lightColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-											   green:[[array objectAtIndex:1U] floatValue]
-												blue:[[array objectAtIndex:2U] floatValue]
-											   alpha:1.0f];
+	data = nil;
+	READ_GROWL_PREF_VALUE(topKey, GrowlBubblesPrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:NSDataClass]) {
+		lightColor = [NSUnarchiver unarchiveObjectWithData:data];
+		lightColor = [lightColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
-		lightColor = [NSColor colorWithCalibratedRed:0.93725f green:0.96863f blue:0.99216f alpha:0.95f];
+		lightColor = [NSColor colorWithCalibratedRed:0.93725f
+											   green:0.96863f
+												blue:0.99216f
+											   alpha:backgroundAlpha];
 	}
 	[lightColor retain];
-	[array release];
+	[data release];
 }
 
 - (void) setIcon:(NSImage *) anIcon {

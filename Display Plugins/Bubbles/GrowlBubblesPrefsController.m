@@ -16,33 +16,28 @@
 }
 
 - (void) loadColorWell:(NSColorWell *)colorWell fromKey:(NSString *)key defaultColor:(NSColor *)defaultColor {
-	NSArray *array = nil;
+	NSData *data = nil;
 	NSColor *color;
-	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSArray *, &array);
-	if (array) {
-		float alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
-		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-										  green:[[array objectAtIndex:1U] floatValue]
-										   blue:[[array objectAtIndex:2U] floatValue]
-										  alpha:alpha];
-		[array release];
+	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:[NSData class]]) {
+		color = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
 		color = defaultColor;
 	}
 	[colorWell setColor:color];
+	[data release];
 }
 
 - (void) mainViewDidLoad {
-	BOOL limitPref = YES;
-	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
-	[limitCheck setState:(limitPref ? NSOnState : NSOffState)];
+	limit = YES;
+	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limit);
+	[self setLimit:limit];
 	
 	[slider_opacity setAltIncrementValue:0.05];
 
-	float opacityPref = 0.95f;
-	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &opacityPref);
-	[slider_opacity setFloatValue:opacityPref];
-	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", (int)floorf(opacityPref * 100.0f)]];
+	opacity = 95.0f;
+	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &opacity);
+	[self setOpacity:opacity];
 
 	duration = 4.0f;
 	READ_GROWL_PREF_FLOAT(GrowlBubblesDuration, GrowlBubblesPrefDomain, &duration);
@@ -79,16 +74,28 @@
 	[combo_screen setIntValue:screenNumber];
 }
 
-- (IBAction) setLimit:(id)sender {
-	WRITE_GROWL_PREF_BOOL(KALimitPref, ([sender state] == NSOnState), GrowlBubblesPrefDomain);
-	UPDATE_GROWL_PREFS();
+- (BOOL) getLimit {
+	return limit;
 }
 
-- (IBAction) opacityChanged:(id)sender {
-	float opacityPref = [sender floatValue];
-	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", (int)floorf(opacityPref * 100.0f)]];
-	WRITE_GROWL_PREF_FLOAT(GrowlBubblesOpacity, opacityPref, GrowlBubblesPrefDomain);
-	UPDATE_GROWL_PREFS();
+- (void) setLimit:(BOOL)value {
+	if (limit != value) {
+		limit = value;
+		WRITE_GROWL_PREF_BOOL(KALimitPref, value, GrowlBubblesPrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
+}
+
+- (float) getOpacity {
+	return opacity;
+}
+
+- (void) setOpacity:(float)value {
+	if (opacity != value) {
+		opacity = value;
+		WRITE_GROWL_PREF_FLOAT(GrowlBubblesOpacity, value, GrowlBubblesPrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
 }
 
 - (float) getDuration {
@@ -97,16 +104,14 @@
 
 - (void) setDuration:(float)value {
 	if (duration != value) {
+		duration = value;
 		WRITE_GROWL_PREF_FLOAT(GrowlBubblesDuration, value, GrowlBubblesPrefDomain);
 		UPDATE_GROWL_PREFS();
 	}
-	duration = value;
 }
 
 - (IBAction) topColorChanged:(id)sender {
 	NSColor *color;
-	NSArray *array;
-
 	NSString *key;
 	switch ([sender tag]) {
 		case -2:
@@ -128,23 +133,14 @@
 	}
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	array = [[NSArray alloc] initWithObjects:
-		[NSNumber numberWithFloat:[color redComponent]],
-		[NSNumber numberWithFloat:[color greenComponent]],
-		[NSNumber numberWithFloat:[color blueComponent]],
-		[NSNumber numberWithFloat:[color alphaComponent]],
-		nil];
-	WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
-	[array release];
+	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
+	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
 
 	UPDATE_GROWL_PREFS();
 }
 
 - (IBAction) colorChanged:(id)sender {
-
 	NSColor *color;
-	NSArray *array;
-
 	NSString *key;
 	switch ([sender tag]) {
 		case -2:
@@ -166,14 +162,8 @@
 	}
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	array = [[NSArray alloc] initWithObjects:
-		[NSNumber numberWithFloat:[color redComponent]],
-		[NSNumber numberWithFloat:[color greenComponent]],
-		[NSNumber numberWithFloat:[color blueComponent]],
-		[NSNumber numberWithFloat:[color alphaComponent]],
-		nil];
-	WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
-	[array release];
+	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
+	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
 
 	//NSLog(@"color: %@ array: %@", color, array);
 
@@ -182,9 +172,7 @@
 
 - (IBAction) textColorChanged:(id)sender {	
 	NSColor *color;
-	NSArray *array;
-
-	NSString* key;
+	NSString *key;
 	switch ([sender tag]) {
 		case -2:
 			key = GrowlBubblesVeryLowTextColor;
@@ -205,13 +193,8 @@
 	}
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	array = [[NSArray alloc] initWithObjects:
-		[NSNumber numberWithFloat:[color redComponent]],
-		[NSNumber numberWithFloat:[color greenComponent]],
-		[NSNumber numberWithFloat:[color blueComponent]],
-		nil];
-	WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
-	[array release];
+	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
+	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
 
 	//NSLog(@"color: %@ array: %@", color, array);
 

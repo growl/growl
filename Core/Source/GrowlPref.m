@@ -431,9 +431,9 @@
 
 - (void) setStartGrowlAtLogin:(BOOL)flag {
 	if (flag != startGrowlAtLogin) {
+		startGrowlAtLogin = flag;
 		[[GrowlPreferences preferences] setStartGrowlAtLogin:flag];
 	}
-	startGrowlAtLogin = flag;
 }
 
 - (BOOL) isBackgroundUpdateCheckEnabled {
@@ -442,11 +442,11 @@
 
 - (void) setBackgroundUpdateCheckEnabled:(BOOL)flag {
 	if (flag != backgroundUpdateCheckEnabled) {
+		backgroundUpdateCheckEnabled = flag;
 		NSNumber *state = [[NSNumber alloc] initWithBool:flag];
 		[[GrowlPreferences preferences] setObject:state forKey:GrowlUpdateCheckKey];
 		[state release];
 	}
-	backgroundUpdateCheckEnabled = flag;
 }
 
 - (IBAction) selectDisplayPlugin:(id)sender {
@@ -500,11 +500,11 @@
 
 - (void) setRemoteRegistrationAllowed:(BOOL)flag {
 	if (flag != remoteRegistrationAllowed) {
+		remoteRegistrationAllowed = flag;
 		NSNumber *state = [[NSNumber alloc] initWithBool:flag];
 		[[GrowlPreferences preferences] setObject:state forKey:GrowlRemoteRegistrationKey];
 		[state release];
 	}
-	remoteRegistrationAllowed = flag;
 }
 
 - (IBAction) setRemotePassword:(id)sender {
