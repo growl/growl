@@ -6,7 +6,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ImageAndTextCell : NSTextFieldCell {
+@interface ACImageAndTextCell : NSTextFieldCell {
 @private
     NSImage	*image;
 }

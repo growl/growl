@@ -42,9 +42,9 @@
  OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "ImageAndTextCell.h"
+#import "ACImageAndTextCell.h"
 
-@implementation ImageAndTextCell
+@implementation ACImageAndTextCell
 
 - (void)dealloc {
     [image release];

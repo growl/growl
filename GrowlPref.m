@@ -7,7 +7,7 @@
 
 #import "GrowlPref.h"
 #import "GrowlDisplayProtocol.h"
-#import "ImageAndTextCell.h"
+#import "ACImageAndTextCell.h"
 
 #define PING_TIMEOUT		3
 
@@ -33,7 +33,7 @@
 
 - (void)awakeFromNib {
     NSTableColumn* tableColumn = [growlApplications tableColumnWithIdentifier: @"application"];
-    ImageAndTextCell* imageAndTextCell = [[[ImageAndTextCell alloc] init] autorelease];
+    ACImageAndTextCell* imageAndTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
     [imageAndTextCell setEditable: YES];
     [tableColumn setDataCell:imageAndTextCell];
 }
@@ -384,7 +384,7 @@
 			NSImage* icon = [[tickets objectForKey: [applications objectAtIndex:row]] icon];
 			[icon setScalesWhenResized:YES];
 			[icon setSize:NSMakeSize(16,16)];
-			[(ImageAndTextCell*)cell setImage:icon];
+			[(ACImageAndTextCell*)cell setImage:icon];
 		}
 	}
 }

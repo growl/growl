@@ -661,6 +661,10 @@
 			sourceTree = "<group>";
 		};
 		6C1D4F6E06FA0C0500A5D946 = {
+			children = (
+				A1DECDD106FF5C010053BF53,
+				A1DECDD206FF5C010053BF53,
+			);
 			isa = PBXGroup;
 			name = Products;
 			refType = 4;
@@ -924,7 +928,7 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = ImageAndTextCell.h;
+			path = ACImageAndTextCell.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -932,7 +936,7 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = ImageAndTextCell.m;
+			path = ACImageAndTextCell.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -947,6 +951,36 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		A1DECDD106FF5C010053BF53 = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = NSLogging.growlView;
+			refType = 3;
+			remoteRef = A1DECDEB06FF5C0B0053BF53;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A1DECDD206FF5C010053BF53 = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Bezel.growlView;
+			refType = 3;
+			remoteRef = A1DECDEC06FF5C0B0053BF53;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A1DECDEB06FF5C0B0053BF53 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 5282FC6806DD9F2D00179624;
+			remoteInfo = NSLogging;
+		};
+		A1DECDEC06FF5C0B0053BF53 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 6C60D7BC06F044110025909F;
+			remoteInfo = Bezel;
 		};
 //A10
 //A11
