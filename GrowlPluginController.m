@@ -11,10 +11,14 @@
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER		@"com.growl.prefpanel"
 #define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY	@"PreferencePanes"
 #define PREFERENCE_PANE_EXTENSION				@"prefPane"
+#define GROWL_PREFPANE_NAME						@"Growl.prefPane"
 
 static GrowlPluginController * sharedController;
 
 @interface GrowlPluginController (PRIVATE) 
++ (NSEnumerator *) _preferencePaneSearchEnumerator;
++ (NSArray *)_allPreferencePaneBundles;
++ (NSBundle *)growlPrefPaneBundle;
 - (void)findDisplayPluginsInDirectory:(NSString *)dir;
 @end
 
@@ -27,30 +31,39 @@ static GrowlPluginController * sharedController;
 	return sharedController;
 }
 
-//Returns an array of paths to all user-installed .prefPane bundles
-+ (NSArray *)_allPreferencePaneBundles
+// Returns an enumerator covering each of the locations preference panes can live
++ (NSEnumerator *) _preferencePaneSearchEnumerator
 {
 	NSArray			*librarySearchPaths;
 	NSEnumerator	*searchPathEnumerator;
-	NSString		*preferencePanesSubfolder, *path, *prefPaneExtension;
+	NSString		*preferencePanesSubfolder, *path;
 	NSMutableArray  *pathArray = [NSMutableArray arrayWithCapacity:4];
-	NSMutableArray  *allPreferencePaneBundles = [NSMutableArray array];
 	
 	preferencePanesSubfolder = PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY;
 	
 	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
-	librarySearchPaths = NSSearchPathForDirectoriesInDomains( NSLibraryDirectory, NSAllDomainsMask & (~NSSystemDomainMask), YES );
+	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES);
 	searchPathEnumerator = [librarySearchPaths objectEnumerator];
 	
 	//Copy each discovered path into the pathArray after adding our subfolder path
-	while( (path = [searchPathEnumerator nextObject] ) ) {
+	while((path = [searchPathEnumerator nextObject])){
 		[pathArray addObject:[path stringByAppendingPathComponent:preferencePanesSubfolder]];
 	}
 	
-	prefPaneExtension = PREFERENCE_PANE_EXTENSION;
+	return [pathArray objectEnumerator];	
+}
+
+//Returns an array of paths to all user-installed .prefPane bundles
++ (NSArray *)_allPreferencePaneBundles
+{
+	NSEnumerator	*searchPathEnumerator;
+	NSString		*path, *prefPaneExtension;
+	NSMutableArray  *allPreferencePaneBundles = [NSMutableArray array];
 	
-	searchPathEnumerator = [pathArray objectEnumerator];		
-    while( ( path = [searchPathEnumerator nextObject] ) ) {
+	prefPaneExtension = PREFERENCE_PANE_EXTENSION;
+	searchPathEnumerator = [self _preferencePaneSearchEnumerator];		
+    
+	while( ( path = [searchPathEnumerator nextObject] ) ) {
 		
         NSString				*bundlePath;
 		NSDirectoryEnumerator   *bundleEnum;
@@ -75,7 +88,24 @@ static GrowlPluginController * sharedController;
 	NSString		*bundleIdentifier;
 	NSEnumerator	*preferencePanesPathsEnumerator;
 	NSBundle		*prefPaneBundle;
-	NSBundle		*growlPrefPaneBundle = nil;
+	
+	// First up, we'll have a look for Growl.prefPane, and if it exists, check it is our prefPane
+	// This is much faster than having to enumerate all preference panes, and can drop a significant
+	// amount of time off this code
+	preferencePanesPathsEnumerator = [self _preferencePaneSearchEnumerator];
+	while ((path = [preferencePanesPathsEnumerator nextObject])) {
+		path = [path stringByAppendingFormat:@"/%@", GROWL_PREFPANE_NAME];
+		if ([[NSFileManager defaultManager] fileExistsAtPath:path])
+		{
+			prefPaneBundle = [NSBundle bundleWithPath:path];
+			if (prefPaneBundle){
+				bundleIdentifier = [prefPaneBundle bundleIdentifier];
+				if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]){
+					return prefPaneBundle;
+				}
+			}
+		}
+	}
 	
 	//Enumerate all installed preference panes, looking for the growl prefpane bundle identifier and stopping when we find it
 	//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
@@ -86,13 +116,12 @@ static GrowlPluginController * sharedController;
 		if (prefPaneBundle) {
 			bundleIdentifier = [prefPaneBundle bundleIdentifier];
 			if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]) {
-				growlPrefPaneBundle = prefPaneBundle;
-				break;
+				return prefPaneBundle;
 			}
 		}
 	}
 	
-	return( growlPrefPaneBundle );
+	return (nil);
 }
 
 - (id) init {
