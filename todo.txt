@@ -1,8 +1,8 @@
 To-Do
 
 For .6
-- Ask if user wants to configure a plugin after installation. If so, take to proper place to configure.
-	- Figure out an intuitive way to deal with multiple plugins named the same.
+- Ask if user wants to "configure plugin now". If so, take to proper place to configure.
+- Figure out an intuitive way to deal with multiple plugins named the same.
 - For all displays that should conform, priority
 - Resolve problem of the framework turning on gha without the users permission, should the user have turned off Growl.
 	- Make it so that applications can turn on gha to register, but gha turns back off.
@@ -14,7 +14,10 @@ For .6
 - Bubbles
 	- Text color colorwell
 	- Top background color colorwell
+- Smoke
+	- Text colorwell
 - Move non-example applications in the Examples directory into a PowerToys directory. Add licensing where need be. PowerToys will be bsd licensed.
+
 
 Release related issues
 - Make sure all bindings register. I think this is already done, but we need to double check as this is now required.
@@ -24,8 +27,8 @@ Release related issues
 - Include user documentation in the dmg
 - Include links to developer documentation in the dmg. Possibly include docs themselves.
 
+
 Done:
-- Confirm installation of plugins.
 - Smoke needs to specify how many lines it allows to be displayed on screen.
 - Display version number.
 - A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.
@@ -36,35 +39,42 @@ Done:
 - Write an abstract way for all plugins to print a ellipsis when text would spill past the edge of a notification.
 - 3 or 5 parts on priority, we need to decide this
 		All the display plugins seem to work fine with 5 for priority.
-		
-For .7
+- Confirm installation of plugin. 
+	
+
+For .7 or sooner
 - Add a menu item/status item (menuling)
 - Add profiles. Choose which profile is currently uses via prefpane or menuling
 - Add a functional plugin that can display all notifications in a log. Make this accessable via the menuling
 - Display positioning system needs to be implemented.
+	- Write an abstract way for plugins to expand. Horizontal and vertical expanding. Have these off by default for all plugins.
 - Network notifications.
-- More displays if anyone wants to do one.
-- Write an abstract way for plugins to expand. Horizontal and vertical expanding. Have these off by default for all plugins.
+- Display Plugins
+	- Speech
+	- A square
 
 
+For .8 or sooner
+
+- Display Plugins
+	- iCal scheduled events look
+	- Garage Band black look.
+	- Brushed Metal look.
+
+
+-----------------------------------------
+Other stuff; old todo
+-----------------------------------------
 
 
 - Growl:
 	- PrefPane:
-	- Growl Itself:
-		save to an Application Support Directory to be accessible from the Prefpane and app 
-			then write the glue/controller for the bubbles notifications to work 
+
 
 			The default notification Plugin will be in Growl.syspref/Resources/
 		Add a define/macro to GrowlDefines that can get the display plugins
 
-	- Display Plugins
-		- Display types wanted:
-			- A square
-			- Speech
-			- iCal scheduled events look
-			- Garage Band black look.
-			- Brushed Metal look.
+
 
 
 - Bindings
@@ -105,3 +115,4 @@ For .7
 - Documentation:
 	Developer docs
 	User Docs
+	
