@@ -218,9 +218,6 @@ static BOOL				promptedToUpgradeGrowl = NO;
  *Returns YES if the Growl helper app began launching or was already running.
  *Returns NO and performs no other action if the Growl prefPane is not properly
  *	installed.
- *Passing registrationDict, which is an NSDictionary for registering the
- *	application with Growl (see documentation elsewhere) is the preferred way to
- *	register.
  *If Growl is installed but disabled, the application will be registered and
  *	GrowlHelperApp will then quit.  This method will still return YES if Growl
  *	is installed but disabled.
