@@ -1,6 +1,6 @@
 //
 //  VolumeNotifier.m
-//  HarwareNotifier
+//  HardwareGrowler
 //
 //  Created by Diggory Laycock on 10/02/2005.
 //  Copyright 2005 __MyCompanyName__. All rights reserved.

@@ -11,7 +11,7 @@ FireWire
 USB
 Bluetooth
 FileSystem Volumes
-
+Network
 
 Bugs:
 

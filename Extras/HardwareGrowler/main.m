@@ -1,6 +1,6 @@
 //
 //  main.m
-//  HarwareNotifier
+//  HarwdareGrowler
 //
 //  Created by Diggory Laycock on 09/02/2005.
 //  Copyright __MyCompanyName__ 2005. All rights reserved.
