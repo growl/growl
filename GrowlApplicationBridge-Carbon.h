@@ -289,7 +289,7 @@ struct Growl_Notification {
 	 */
 	unsigned reserved: 31;
 
-	/*!	@field	sticky
+	/*!	@field	isSticky
 	 *	@abstract	Requests that a notification stay on-screen until dismissed
 	 *	 explicitly.
 	 *	@discussion	When the sticky bit is clear, in most displays,
