@@ -9,10 +9,10 @@
 			children = (
 				52F57A190687349B0068B46C,
 				52F57A1A0687349B0068B46C,
-				52F5774906872B3A0068B46C,
-				52F5774A06872B3A0068B46C,
 				5275B562068866DA006F5704,
 				5275B563068866DA006F5704,
+				52F5774906872B3A0068B46C,
+				52F5774A06872B3A0068B46C,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -158,6 +158,7 @@
 				5275B5410687D634006F5704,
 				5275B5420687D634006F5704,
 				5275B5430687D634006F5704,
+				5275B5A9068922A2006F5704,
 				5275B5440687D634006F5704,
 				8D1107310486CEB800E47090,
 				089C165CFE840E0CC02AAC07,
@@ -363,6 +364,20 @@
 			settings = {
 			};
 		};
+		5275B5A9068922A2006F5704 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = getAlbum.scpt;
+			path = Scripts/getAlbum.scpt;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5275B5AA068922A2006F5704 = {
+			fileRef = 5275B5A9068922A2006F5704;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		52F5774906872B3A0068B46C = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -493,6 +508,7 @@
 				5275B5460687D634006F5704,
 				5275B5470687D634006F5704,
 				5275B5480687D634006F5704,
+				5275B5AA068922A2006F5704,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

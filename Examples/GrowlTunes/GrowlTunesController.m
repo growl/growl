@@ -53,6 +53,7 @@ static NSString *gAppName = @"GrowlTunes";
 	getTrackScript = [self appleScriptNamed:@"getTrack"];
 	getArtistScript = [self appleScriptNamed:@"getArtist"];
 	getArtworkScript = [self appleScriptNamed:@"getArtwork"];
+	getAlbumScript = [self appleScriptNamed:@"getAlbum"];
 	
 	pollTimer = [[NSTimer scheduledTimerWithTimeInterval:POLL_INTERVAL 
 												  target:self
@@ -94,6 +95,7 @@ static NSString *gAppName = @"GrowlTunes";
 			if(state == itPLAYING || state == itSTOPPED) {
 				NSString		* track = nil;
 				NSString		* artist = nil;
+				NSString		* album = nil;
 				NSImage			* artwork = nil;
 				NSDictionary	* noteDict;
 				
@@ -105,6 +107,10 @@ static NSString *gAppName = @"GrowlTunes";
 				if(retVal)
 					artist = [retVal stringValue];
 				
+				retVal = [getAlbumScript executeAndReturnError:&error];
+				if(retVal)
+					album = [retVal stringValue];
+				
 				retVal = [getArtworkScript executeAndReturnError:&error];
 				if(retVal)
 					artwork = [[[NSImage alloc] initWithData:[retVal data]] autorelease];
@@ -114,7 +120,7 @@ static NSString *gAppName = @"GrowlTunes";
 				noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
 									gAppName, GROWL_APP_NAME,
 									track, GROWL_NOTIFICATION_TITLE,
-									artist, GROWL_NOTIFICATION_DESCRIPTION,
+									[NSString stringWithFormat:@"%@ \n%@",artist,album], GROWL_NOTIFICATION_DESCRIPTION,
 									artwork?[artwork TIFFRepresentation]:nil, GROWL_NOTIFICATION_ICON,
 									nil];
 				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:(state == itPLAYING)?ITUNES_TRACK_CHANGED:ITUNES_PLAYING
@@ -132,6 +138,7 @@ static NSString *gAppName = @"GrowlTunes";
 	[getTrackScript release];
 	[getArtistScript release];
 	[getArtworkScript release];
+	[getAlbumScript release];
 	[pollTimer release];
 	
 	[super dealloc];

@@ -27,6 +27,7 @@ typedef enum {
 	NSAppleScript		* getTrackScript;
 	NSAppleScript		* getArtistScript;
 	NSAppleScript		* getArtworkScript;
+	NSAppleScript		* getAlbumScript;
 	
 	iTunesState			  state;
 	int					  trackID;		//The "database ID" of the last-polled track in iTunes, -1 for none
