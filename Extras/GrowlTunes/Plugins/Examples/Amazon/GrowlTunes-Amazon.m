@@ -11,10 +11,6 @@
 /* Based On Code Originally submitted by James Van Dyne */
 /*	Updated for the v4 Amazon API with code from Fjölnir Ásgeirsson	*/
 
-#ifndef MAC_OS_X_VERSION_10_4 > MAC_OS_X_VERSION_MAX_ALLOWED
-	int NSXMLDocumentTidyXML = 1 << 10;  //  Correct value goes here.
-#endif
-
 @implementation GrowlTunes_Amazon
 
 - (id) init {
@@ -44,26 +40,25 @@
 	/*If the album is a compilation, we don't look for the artist;
 	 *	instead we look for all compilations.
 	 */
-	if(compilation)
+	if (compilation) {
 		artist = @"compilation"; 
+	}
 
 	artwork = nil;
 	NSLog( @"Go go interweb (%@ by %@ from %@)", song, artist, album );
 	NSDictionary *albumInfo = [self getAlbum:album byArtist:artist];
 
 	NSData *imageData = nil;
-	if([(NSString *)[albumInfo objectForKey:@"artworkURL"] length] != 0) {
-		@try
-		{
+	if ([[albumInfo objectForKey:@"artworkURL"] length] != 0) {
+		@try {
 			imageData = [self download:[NSURL URLWithString:[albumInfo objectForKey:@"artworkURL"]]];
 		}
-		@catch(NSException *e)
-		{
+		@catch(NSException *e) {
 			NSLog(@"Exception occurred while downloading %@", [e reason]);
 		}
 	}
-	if( imageData ) {
-		artwork = [[(NSImage *)[NSImage alloc] initWithData:imageData] autorelease];
+	if ( imageData ) {
+		artwork = [[[NSImage alloc] initWithData:imageData] autorelease];
 	}
 	return artwork;
 }
@@ -75,7 +70,7 @@
 	NSString *query = [[NSString stringWithFormat:@"?locale=us&t=0C8PCNE1KCKFJN5EHP02&dev-t=0C8PCNE1KCKFJN5EHP02&ArtistSearch=%@&mode=music&sort=+salesrank&offer=All&type=lite&page=1&f=xml", artistName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSString *result = [self queryAmazon:query];
 	
-	if(result) {
+	if (result) {
 		NSString *xml = result;
 		// Parse the XML into a DOM object document
 		NSData *XMLData = [xml dataUsingEncoding:NSUTF8StringEncoding];
@@ -97,7 +92,7 @@
 		//Get the details of all found products
 		DOMXPathExpression *resultQuery = [DOMXPathExpression expressionWithString:@"//Details"];
 		NSArray *results = [resultQuery matchesForContextNode:rootElement];
-		if([results count] < 1U) {
+		if ([results count] < 1U) {
 //			NSLog(@"No results");
 		} else {
 //			NSLog(@"Found some!, filtering...");
@@ -106,11 +101,11 @@
 			NSEnumerator *resultsEnum = [results objectEnumerator];
 			DOMElement *result;
 
-			while((result = [resultsEnum nextObject])) {
-				DOMElement    *nameElement = [[result getElementsByTagName:@"ProductName"]   objectAtIndex:0U];
+			while ((result = [resultsEnum nextObject])) {
+				DOMElement *nameElement = [[result getElementsByTagName:@"ProductName"] objectAtIndex:0U];
 				//We want the biiig artwork ;-)
 				DOMElement *artworkElement = [[result getElementsByTagName:@"ImageUrlLarge"] objectAtIndex:0U];
-				DOMElement  *artistElement = nameElement;
+				DOMElement *artistElement = nameElement;
 				
 				//Now create usable stuff from the elements
 				NSString *artworkURL = [artworkElement textContent];
@@ -118,12 +113,12 @@
 				NSString *artistName = nil;
 
 				//If the artist element contains our wanted artist, look for it!
-				if([artistElement containsChild:[DOMText textWithString:artist]]) {
+				if ([artistElement containsChild:[DOMText textWithString:artist]]) {
 					NSArray *allArtists = [artistElement children];
 					NSEnumerator *artistEnum = [allArtists objectEnumerator];
 					while((artistElement = [artistEnum nextObject])) {
 						NSString *textContent = [artistElement textContent];
-						if([textContent isEqualToString:artist]) {
+						if ([textContent isEqualToString:artist]) {
 							artistName = textContent;
 							break;
 						}
@@ -166,9 +161,9 @@
 		BOOL   nameIsEqual = ([[match objectForKey:@"name"] caseInsensitiveCompare:album] == NSOrderedSame);
 		BOOL artistIsEqual = ([[match objectForKey:@"artist"] caseInsensitiveCompare:artist] == NSOrderedSame);
 
-		if(nameIsEqual) {
+		if (nameIsEqual) {
 			//Check if both the artist and name match
-			if(artistIsEqual) {
+			if (artistIsEqual) {
 				//this is the one we want.
 				result = match;
 				found = YES;
@@ -178,8 +173,8 @@
 				[resultCandidates addObject:match];
 		}
 	}
-	if(!found) {
-		if([resultCandidates count]) {
+	if (!found) {
+		if ([resultCandidates count]) {
 			/*Now we just select the first match.
 			 *We didn't do that in the first loop because we want to loop
 			 *	through ALL albums to make sure we get the PERFECT match
@@ -207,9 +202,9 @@
 	
 	// Do the search on AWS
 	NSData *data = [self download:url];
-	if(!data)
+	if (!data) {
 		NSLog(@"Error while getting XML Response from Amazon");
-	else {
+	} else {
 //		NSLog(@"Got response");
 		return [[[NSString alloc] initWithData:data
 		                              encoding:NSUTF8StringEncoding] autorelease];
