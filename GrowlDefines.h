@@ -73,8 +73,6 @@ struct GrowlNetworkNotification {
 	unsigned char data[];
 } __attribute__((packed));
 
-/*! The extension used when registering an app via opening a file on the helper app */
-#define GROWL_REG_DICT_EXTENSION		@"growlRegDict"
 #define GrowlEnabledKey					@"GrowlEnabled"
 
 /* --- These following macros are intended for plugins --- */

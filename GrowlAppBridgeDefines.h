@@ -73,3 +73,6 @@ Handled by the GrowlAppBridge. */
 
 /*! Used internally as the key for the clickedContext passed over DNC */
 #define	GROWL_KEY_CLICKED_CONTEXT		@"ClickedContext"
+
+/*! The extension used when registering an app via opening a file on the helper app */
+#define GROWL_REG_DICT_EXTENSION		@"growlRegDict"
