@@ -12,7 +12,7 @@
 
 #pragma mark Growl Gets Satisfaction
 
-- (id) loadPlugin;
+- (void) loadPlugin;
 - (NSString *) author;
 - (NSString *) name;
 - (NSString *) userDescription;

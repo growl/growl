@@ -10,7 +10,6 @@
 
 @implementation NSWorkspace (GrowlAdditions)
 
-#warning This takes entirely too long - up to several seconds. 
 - (NSImage *) iconForApplication:(NSString *) inName {
 	NSString *path = [self fullPathForApplication:inName];
 	NSLog(@"Pulled icon for %@ from path: %@",inName,path);

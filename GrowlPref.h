@@ -23,13 +23,13 @@
 	IBOutlet NSButton		* startGrowlAtLogin;
 	IBOutlet NSButton		* startStopGrowl;
 	IBOutlet NSTextField	* growlRunningStatus;
+	IBOutlet NSPopUpButton	* allDisplayPlugins;
 	
 	//"Applications" tab pane
 	IBOutlet NSPopUpButton	* growlApplications;
 	IBOutlet NSButton		* applicationEnabled;
 	IBOutlet NSTableView	* applicationNotifications;
 	
-	//Revert/Apply
 	IBOutlet NSButton		* apply;
 	IBOutlet NSButton		* revert;
 }
@@ -41,6 +41,8 @@
 //"General" tab pane
 - (IBAction)startStopGrowl:(id)sender;
 - (IBAction)startGrowlAtLogin:(id)sender;
+
+- (IBAction)selectDisplayPlugin:(id)sender;
 
 //"Applications" tab pane
 - (IBAction)selectApplication:(id)sender;

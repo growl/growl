@@ -16,6 +16,16 @@
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>growlView</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Growl Display Plugin</string>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>GrowlHelperApp</string>
@@ -35,8 +45,8 @@
 	<string>GRRR</string>
 	<key>CFBundleVersion</key>
 	<string>1.0.0d1</string>
-    <key>NSAppleScriptEnabled</key>
-    <string>YES</string>
+	<key>NSAppleScriptEnabled</key>
+	<string>YES</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

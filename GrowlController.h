@@ -14,7 +14,8 @@
 	NSLock						*_registrationLock;
 	NSMutableArray				*_notificationQueue;
 	NSMutableArray				*_registrationQueue;
-	id <GrowlDisplayPlugin>		_displayController;
+	
+	id<GrowlDisplayPlugin>		displayController;
 }
 
 + (id) singleton;
@@ -25,7 +26,7 @@
 - (void) loadTickets;
 - (void) saveTickets;
 
-- (void) reloadPreferences: (NSNotification *) note;
+- (void) preferencesChanged: (NSNotification *) note;
 
 @end
 

@@ -7,12 +7,14 @@
                 enableApplication = id; 
                 revert = id; 
                 selectApplication = id; 
+                selectDisplayPlugin = id; 
                 startGrowlAtLogin = id; 
                 startStopGrowl = id; 
             }; 
             CLASS = GrowlPref; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                allDisplayPlugins = NSPopUpButton; 
                 applicationEnabled = NSButton; 
                 applicationNotifications = NSTableView; 
                 apply = NSButton; 

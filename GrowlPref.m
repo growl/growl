@@ -7,8 +7,6 @@
 
 #import "GrowlPref.h"
 
-#define HELPER_APP_BUNDLE_ID @"com.Growl.GrowlHelperApp"
-
 @interface GrowlPref (PRIVATE)
 - (NSDictionary *)growlHelperAppDescription;
 @end
@@ -62,6 +60,10 @@
 	
 	if ( [[[NSUserDefaults standardUserDefaults] objectForKey:@"AutoLaunchedApplicationDictionary"] containsObject:[self growlHelperAppDescription]] ) 
 		[startGrowlAtLogin setState:NSOnState];
+	
+	[allDisplayPlugins removeAllItems];
+	[allDisplayPlugins addItemsWithTitles:[[GrowlPluginController controller] allDisplayPlugins]];
+	[allDisplayPlugins selectItemWithTitle:[[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey]];	
 	
 	[self setPrefsChanged:NO];
 }
@@ -119,6 +121,10 @@
 	[defs synchronize];	
 }
 
+- (IBAction)selectDisplayPlugin:(id)sender {
+	[[GrowlPreferences preferences] setObject:[sender titleOfSelectedItem] forKey:GrowlDisplayPluginKey];
+}
+
 #pragma mark "Applications" tab pane
 - (IBAction)selectApplication:(id)sender {
 	if(![[sender titleOfSelectedItem] isEqualToString:currentApplication]) {
@@ -165,7 +171,7 @@
 - (IBAction)apply:(id)sender {
 	[[[tickets objectEnumerator] allObjects] makeObjectsPerformSelector:@selector(saveTicket)];
 	[self setPrefsChanged:NO];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GrowlReloadPreferences" object:nil];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged object:nil];
 }
 
 - (void)setPrefsChanged:(BOOL)prefsChanged {

@@ -14,9 +14,8 @@
 
 #pragma mark Growl Gets Satisfaction
 
-- (id) loadPlugin {
+- (void) loadPlugin {
 	//if I had setup procedures I would do them here
-	return self; 
 }
 
 - (NSString *) author {

@@ -57,8 +57,12 @@
 		};
 		089C166AFE841209C02AAC07 = {
 			children = (
+				52861FEF06DC463E00D3A356,
+				52861EE906DBA9B200D3A356,
 				CB1C5D95063E523F007052EE,
 				CBDBDEE506715DAF004622FA,
+				32DBCFA20370C41700C91783,
+				52861ED706DBA80800D3A356,
 				34CEA3930680A77C00670E0D,
 				CB5F835E0638B67C00EADD7A,
 				63C0610006C8948700B0B7D4,
@@ -305,6 +309,122 @@
 			settings = {
 			};
 		};
+		52861ED706DBA80800D3A356 = {
+			children = (
+				5286205506DC4C2F00D3A356,
+				5286205606DC4C2F00D3A356,
+				52861EE306DBA95400D3A356,
+				52861EE406DBA95400D3A356,
+				CB1C5D1B063E432F007052EE,
+				CB1C5D1C063E432F007052EE,
+			);
+			isa = PBXGroup;
+			name = Controllers;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		52861EE306DBA95400D3A356 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlPreferences.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		52861EE406DBA95400D3A356 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlPreferences.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		52861EE506DBA95400D3A356 = {
+			fileRef = 52861EE306DBA95400D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		52861EE606DBA95400D3A356 = {
+			fileRef = 52861EE406DBA95400D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		52861EE906DBA9B200D3A356 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = Standards.txt;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		52861FC206DC421C00D3A356 = {
+			fileRef = 52861EE306DBA95400D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		52861FC306DC422300D3A356 = {
+			fileRef = 52861EE406DBA95400D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		52861FEF06DC463E00D3A356 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = GrowlDefaults.plist;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		52861FF006DC463E00D3A356 = {
+			fileRef = 52861FEF06DC463E00D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5286205506DC4C2F00D3A356 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlPluginController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5286205606DC4C2F00D3A356 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlPluginController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		5286205706DC4C2F00D3A356 = {
+			fileRef = 5286205506DC4C2F00D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5286205806DC4C2F00D3A356 = {
+			fileRef = 5286205606DC4C2F00D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5286205906DC4C2F00D3A356 = {
+			fileRef = 5286205506DC4C2F00D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5286205A06DC4C2F00D3A356 = {
+			fileRef = 5286205606DC4C2F00D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		52C620580677F68A004F80E6 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -512,11 +632,13 @@
 		8D202CE90486D31800D8A456 = {
 			buildActionMask = 2147483647;
 			files = (
+				52861EE506DBA95400D3A356,
 				525277E606D9605A007BC87D,
 				525277AA06D95BEA007BC87D,
 				8D202CEA0486D31800D8A456,
 				8D202CEB0486D31800D8A456,
 				CBF073CC0659A94F000B4B77,
+				5286205906DC4C2F00D3A356,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -559,9 +681,11 @@
 		8D202CF00486D31800D8A456 = {
 			buildActionMask = 2147483647;
 			files = (
+				52861EE606DBA95400D3A356,
 				525277E706D9605D007BC87D,
 				525277AB06D95BED007BC87D,
 				8D202CF10486D31800D8A456,
+				5286205A06DC4C2F00D3A356,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -729,7 +853,6 @@
 		};
 		CB5F835E0638B67C00EADD7A = {
 			children = (
-				32DBCFA20370C41700C91783,
 				08FB77AFFE84173DC02AAC07,
 				089C167CFE841241C02AAC07,
 			);
@@ -805,8 +928,6 @@
 			children = (
 				CB5F83890638B78200EADD7A,
 				CB5F838A0638B78200EADD7A,
-				CB1C5D1B063E432F007052EE,
-				CB1C5D1C063E432F007052EE,
 				F57BFE2C0669037C00DE5BFD,
 				F57BFE2D0669037C00DE5BFD,
 			);
@@ -1007,7 +1128,7 @@
 		CB5FA1CB0638CA6300EADD7A = {
 			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 7;
+			dstSubfolderSpec = 13;
 			files = (
 				CB5FA1CF0638CA7300EADD7A,
 			);
@@ -1023,11 +1144,13 @@
 		CB61E5130637763C00E0DDC7 = {
 			buildActionMask = 2147483647;
 			files = (
+				52861FC206DC421C00D3A356,
 				CB5F838B0638B78200EADD7A,
 				CBF0743A0659B1F4000B4B77,
 				CBF073CB0659A94F000B4B77,
 				F57BFE2E0669037C00DE5BFD,
 				63C92DDB06D05D22007368FA,
+				5286205706DC4C2F00D3A356,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1038,6 +1161,7 @@
 				63C92DD806D05D22007368FA,
 				63C92DD906D05D22007368FA,
 				63C92DDA06D05D22007368FA,
+				52861FF006DC463E00D3A356,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1045,11 +1169,13 @@
 		CB61E5150637763C00E0DDC7 = {
 			buildActionMask = 2147483647;
 			files = (
+				52861FC306DC422300D3A356,
 				CB5F838C0638B78200EADD7A,
 				CBF0743F0659B202000B4B77,
 				CB5F83A80638B8C800EADD7A,
 				F57BFE2F0669037C00DE5BFD,
 				63C92DDC06D05D22007368FA,
+				5286205806DC4C2F00D3A356,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

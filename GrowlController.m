@@ -10,7 +10,7 @@
 #import "NSGrowlAdditions.h"
 
 @interface GrowlController (private)
-- (id <GrowlDisplayPlugin>) loadDisplay;
+- (void) loadDisplay;
 - (BOOL) _tryLockQueue;
 - (void) _unlockQueue;
 - (void) _processNotificationQueue;
@@ -41,24 +41,18 @@ static id _singleton = nil;
 																name:GROWL_NOTIFICATION
 															  object:nil];
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-															selector:@selector( reloadPreferences: )
-																name:@"GrowlReloadPreferences"
+															selector:@selector( preferencesChanged: )
+																name:GrowlPreferencesChanged
 															  object:nil];
 		_tickets = [[NSMutableDictionary alloc] init];
 		_registrationLock = [[NSLock alloc] init];
 		_notificationQueue = [[NSMutableArray alloc] init];
 		_registrationQueue = [[NSMutableArray alloc] init];
-
-		//load bundle for selected View Module
-		_displayController = [self loadDisplay];
-		[_displayController loadPlugin];
 		
-		NSLog( @"view loaded: %@\n Author: %@\n Description: %@\n Version: %@", _displayController,
-																				[_displayController author],
-																				[_displayController userDescription],
-																				[_displayController version]
-			   );
-		[self loadTickets];
+		[[GrowlPreferences preferences] registerDefaults:
+				[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]]];
+
+		[self preferencesChanged:nil];
 	}
 	
 	if (!_singleton)
@@ -117,7 +111,7 @@ static id _singleton = nil;
 		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON];
 	}
 	
-	[_displayController displayNotificationWithInfo:aDict];
+	[displayController displayNotificationWithInfo:aDict];
 }
 
 - (void) loadTickets {
@@ -179,9 +173,15 @@ static id _singleton = nil;
 	return NO;
 }
 
-- (void) reloadPreferences: (NSNotification *) note {
-	[_tickets removeAllObjects];
-	[self loadTickets];
+- (void) preferencesChanged: (NSNotification *) note {
+	//[note object] is the changed key. A nil key means reload our tickets.
+	if(note == nil || [note object] == nil) {
+		[_tickets removeAllObjects];
+		[self loadTickets];
+	}
+	if(note == nil || [[note object] isEqualTo:GrowlDisplayPluginKey]) {
+		[self loadDisplay];
+	}
 }
 
 @end
@@ -189,20 +189,12 @@ static id _singleton = nil;
 #pragma mark -
 
 @implementation GrowlController (private)
-- (id <GrowlDisplayPlugin>) loadDisplay {
-	id <GrowlDisplayPlugin> retVal;
-	NSString *viewPath = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"BubblesNotificationView.growlView" ];
+- (void) loadDisplay {
 	
-	if ( [[NSUserDefaults standardUserDefaults] stringForKey:@"userDisplayPlugin"] ) {
-		viewPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"userDisplayPlugin"];
-	}
-	
-	Class viewClass;
-	NSBundle *viewBundle = [NSBundle bundleWithPath:viewPath];
-	viewClass = [viewBundle principalClass];
-	retVal = [[viewClass alloc] init];
-	
-	return retVal;
+	NSString * displayPlugin = [[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey];
+
+	displayController = [[GrowlPluginController controller] displayPluginNamed:displayPlugin];
+
 }
 
 #pragma mark -

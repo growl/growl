@@ -30,7 +30,7 @@
 #define GROWL_IS_READY					@"Lend Me Some Sugar; I Am Your Neighbor!"
 
 @protocol GrowlPlugin
-- (id) loadPlugin;
+- (void) loadPlugin;
 - (NSString *) author;
 - (NSString *) name;
 - (NSString *) userDescription;
