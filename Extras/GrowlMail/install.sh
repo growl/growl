@@ -20,7 +20,7 @@ echo "--> Building GrowlMail."
 echo "rm -r \"$BUILD\""
 rm -fr "$BUILD"
 echo "cd \"$GROWLMAIL\" && xcodebuild -buildstyle Deployment"
-(cd "$GROWLMAIL" && xcodebuild -buildstyle Deployment) || exit 1
+(cd "$GROWLMAIL" && xcodebuild -buildstyle Deployment build "SYMROOT=$BUILD" "OBJROOT=$BUILD") || exit 1
 
 if test -e "$DEST"; then
 	echo "--> GrowlMail exists, moving to Trash."
