@@ -1,18 +1,17 @@
-Growldict
+GrowlDict
 ______________________________________
 
 Installation:
-1) Build in xcode, using deployment. (for questions about deployment see: http://growl.info/documentation/xcode.php)
-2) Copy Dictmenu to ~/Library/Services 
+1) Build in Xcode, using deployment. (For questions about deployment see: http://growl.info/documentation/xcode.php)
+2) Copy GrowlDict to ~/Library/Services 
 		Note: You may need to create this directory
 3) Log out.
 
 How to use it:
-Growldict is a simple service that runs in the background. To use it simply highlight a  word and select lookup word from the services menu under the currently running application's name in the menu bar. Alternatively you can just press command-shift-F . Growl will popup a bubble with the definition of the word.
+GrowlDict is a simple service that runs in the background. To use it simply highlight a word and select Lookup Word from the Services menu under the Application menu (for example, in Safari, the Safari menu). Alternatively, you can just press command-shift-F. The definition of the word will be posted in a Growl notification.
 
 How it works:
-Growldict does a lookup by calling curl on your machine and having it do a query using the dict protocol against the dict.org server. The key combination is located in the Info.plist within the app, although this will be customizeable at some point. The location of the server is within the code itself, but this also will become customizeable in the future.
+GrowlDict does a lookup by calling curl on your machine and having it do a query using the dict protocol against the dict.org server. The key combination is located in the Info.plist within the app, although this will be customizable at some point. The location of the server is within the code itself, but this also will become customizable in the future.
 
-questions or comments can be sent to the growl group, or alternatively dcsmith@gmail.com.
-
+Questions or comments can be sent to the growl-discuss list, or alternatively dcsmith@gmail.com.
 

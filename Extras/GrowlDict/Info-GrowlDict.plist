@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>Dictmenu</string>
+	<string>GrowlDict</string>
 	<key>CFBundleGetInfoString</key>
 	<string></string>
 	<key>CFBundleIconFile</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Dictmenu</string>
+	<string>GrowlDict</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -46,7 +46,7 @@
 			<key>NSMessage</key>
 			<string>doLookupWordService</string>
 			<key>NSPortName</key>
-			<string>Dictmenu</string>
+			<string>GrowlDict</string>
 			<key>NSSendTypes</key>
 			<array>
 				<string>NSStringPboardType</string>
