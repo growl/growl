@@ -74,7 +74,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 			return TCL_ERROR;
 		}
 
-		if (objc < 2) {
+		if (objc != 3) {
 			return TCL_ERROR;
 		}
 
@@ -84,10 +84,9 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 		allNotifications = [[NSString stringWithUTF8String:Tcl_GetString(*objv)] componentsSeparatedByString:@" "];
 		++objv, --objc;
 
-		if (objc) {
-			iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
-			notificationIcon = [[[NSImage alloc] initWithContentsOfFile:iconFile] autorelease];
-		}
+		iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
+		notificationIcon = [[[NSImage alloc] initWithContentsOfFile:iconFile] autorelease];
+		++objv, --objc;
 
 		notificationName = GROWL_APP_REGISTRATION;
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -113,6 +112,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 		if (objc) {
 			iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
 			notificationIcon = [[[NSImage alloc] initWithContentsOfFile:iconFile] autorelease];
+			++objc, --objc;
 		}
 
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
