@@ -33,8 +33,8 @@ else
 	true
 fi
 if test -?; then
-	echo ditto --rsrc $SRC/GrowlMail.mailbundle $DEST
-	ditto --rsrc $SRC/GrowlMail.mailbundle $DEST
+	echo ditto --rsrc $SRC/GrowlMail.mailbundle $DEST/GrowlMail.mailbundle
+	ditto --rsrc $SRC/GrowlMail.mailbundle $DEST/GrowlMail.mailbundle
 fi
 
 echo "$0: Enabling plug-ins in Mail (if they are already enabled, this will have no effect)"
