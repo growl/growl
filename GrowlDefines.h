@@ -18,3 +18,20 @@
 
 // Notifications
 #define GROWL_APP_REGISTRATION			@"GrowlApplicationRegistrationNotification"
+
+@protocol GrowlPlugin
+- (id) loadPlugin;
+- (NSString *) author;
+- (NSString *) name;
+- (NSString *) userDescription;
+- (NSString *) version;
+- (void) unloadPlugin;
+@end
+
+@protocol GrowlDisplayPlugin <GrowlPlugin> 
+- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict;
+@end
+
+@protocol GrowlFunctionalPlugin <GrowlPlugin>
+//empty for now
+@end
