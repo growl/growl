@@ -39,16 +39,18 @@
 + (NSString *)preferencesOwnerClassName;
 + (NSString *)preferencesPanelName;
 + (Class)growlApplicationBridge;
++ (BOOL)isEnabled;
++ (BOOL)isIgnoreJunk;
++ (BOOL)showSummary;
++ (BOOL)ignoreClickHandler;
+
 - (id)init;
-- (BOOL)isEnabled;
-- (void)setEnabled:(BOOL)yesOrNo;
-- (BOOL)isIgnoreJunk;
-- (void)setIgnoreJunk:(BOOL)yesOrNo;
 - (BOOL)isAccountEnabled:(NSString *)path;
 - (void)setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path;
-- (BOOL)showSummary;
-- (void)setShowSummary:(BOOL)yesOrNo;
-- (BOOL)ignoreClickHandler;
-- (void)setIgnoreClickHandler:(BOOL)yesOrNo;
+
+- (NSString *) applicationNameForGrowl;
+- (NSData *) applicationIconDataForGrowl;
+- (void) growlNotificationWasClicked:(id)clickContext;
+- (NSDictionary *) registrationDictionaryForGrowl;
 
 @end

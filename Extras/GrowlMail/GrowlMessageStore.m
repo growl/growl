@@ -40,8 +40,7 @@
 static NSMutableDictionary *accountSummary;
 
 @implementation GrowlMessageStore
-+ (void)load
-{
++ (void)load {
 	[GrowlMessageStore poseAsClass:[MessageStore class]];
 }
 
@@ -67,15 +66,14 @@ static NSMutableDictionary *accountSummary;
 	accountSummary = nil;
 }
 
-- (id)finishRoutingMessages:(NSArray *)messages routed:(NSArray *)routed
-{
+- (id)finishRoutingMessages:(NSArray *)messages routed:(NSArray *)routed {
 	Message *message;
 	GrowlMail *growlMail = [GrowlMail sharedInstance];
-	if ( [growlMail isEnabled] ) {
-		BOOL summaryOnly = [growlMail showSummary];
+	if ([GrowlMail isEnabled]) {
+		BOOL summaryOnly = [GrowlMail showSummary];
 		Class tocClass = [TOCMessage class];
 		NSEnumerator *e = [messages objectEnumerator];
-		if ( summaryOnly && !accountSummary ) {
+		if (summaryOnly && !accountSummary) {
 			accountSummary = [[NSMutableDictionary alloc] initWithCapacity:[[MailAccount mailAccounts] count]];
 			[self performSelector:@selector(showSummary)
 					   withObject:nil
@@ -84,18 +82,20 @@ static NSMutableDictionary *accountSummary;
 		while( (message = [e nextObject]) ) {
 //			NSLog( @"Message class: %@", [message className] );
 			MailAccount *account = [[message messageStore] account];
-			if ( !([message isKindOfClass: tocClass] || ([message isJunk] && [growlMail isIgnoreJunk]))
+			if ( !([message isKindOfClass: tocClass] || ([message isJunk] && [GrowlMail isIgnoreJunk]))
 					&& [growlMail isAccountEnabled:[account path]] ) {
-				if ( summaryOnly ) {
+				if (summaryOnly) {
 					NSString *accountName = [account displayName];
 					NSNumber *oldCount = [accountSummary objectForKey:accountName];
 					int count;
-					if ( oldCount ) {
+					if (oldCount) {
 						count = [oldCount intValue] + 1;
 					} else {
 						count = 1;
 					}
-					[accountSummary setObject:[NSNumber numberWithInt: count] forKey:accountName];
+					NSNumber *value = [[NSNumber alloc] initWithInt:count];
+					[accountSummary setObject:value forKey:accountName];
+					[value release];
 				} else {
 					[message showNotification];
 				}

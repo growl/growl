@@ -41,22 +41,21 @@ static Class growlApplicationBridge;
 @implementation GrowlMail
 
 + (NSBundle *)bundle {
-	return [NSBundle bundleForClass:self];
+	return [NSBundle bundleForClass:[GrowlMail class]];
 }
 
 + (NSString *)bundleVersion {
-	return [[[GrowlMail bundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+	return [[[GrowlMail bundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 }
 
 + (void)initialize {
-	NSBundle *myBundle;
-
 	[super initialize];
 
-	myBundle = [self bundle];
-	[(NSImage *)[[NSImage alloc] initByReferencingFile:[myBundle pathForImageResource:@"GrowlMail"]] setName:@"GrowlMail"];
+	// this image is leaked
+	NSImage *image = [[NSImage alloc] initByReferencingFile:[[GrowlMail bundle] pathForImageResource:@"GrowlMail"]];
+	[image setName:@"GrowlMail"];
 
-	[self registerBundle];
+	[GrowlMail registerBundle];
 
 	NSNumber *enabled = [[NSNumber alloc] initWithBool:YES];
 	NSNumber *disabled = [[NSNumber alloc] initWithBool:NO];
@@ -91,12 +90,12 @@ static Class growlApplicationBridge;
 }
 
 - (id)init {
-	if ( (self = [super init]) ) {
+	if ((self = [super init])) {
 		NSString *growlPath = [[[GrowlMail bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
 		NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
 		growlApplicationBridge = [growlBundle classNamed:@"GrowlApplicationBridge"];
 
-		if ( [growlApplicationBridge isGrowlInstalled] ) {
+		if ([growlApplicationBridge isGrowlInstalled]) {
 			// Register ourselves as a Growl delegate
 			[growlApplicationBridge setGrowlDelegate:self];
 		} else {
@@ -106,6 +105,8 @@ static Class growlApplicationBridge;
 
 	return self;
 }
+
+#pragma mark GrowlApplicationBridge delegate methods
 
 - (NSString *) applicationNameForGrowl {
 	return @"GrowlMail";
@@ -117,74 +118,60 @@ static Class growlApplicationBridge;
 
 - (void) growlNotificationWasClicked:(id)clickContext {
 	// TODO: open a specific message if not in summary mode
-	if(![self ignoreClickHandler])
+	if(![GrowlMail ignoreClickHandler])
 		[NSApp activateIgnoringOtherApps:YES];
 }
 
 - (NSDictionary *) registrationDictionaryForGrowl {
 	// Register our ticket with Growl
-	NSArray *allowedNotifications = [NSArray arrayWithObject:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")];
+	NSArray *allowedNotifications = [[NSArray alloc] initWithObjects:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @""), nil];
 	NSDictionary *ticket = [NSDictionary dictionaryWithObjectsAndKeys:
 		allowedNotifications, GROWL_NOTIFICATIONS_ALL,
 		allowedNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
+	[allowedNotifications release];
 
 	return ticket;
 }
 
-// preferences
+#pragma mark Preferences
 
-- (BOOL)isEnabled
++ (BOOL)isEnabled
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMEnableGrowlMailBundle"];
 }
 
-- (void)setEnabled:(BOOL)yesOrNo
-{
-	[[NSUserDefaults standardUserDefaults] setBool:yesOrNo forKey:@"GMEnableGrowlMailBundle"];
-}
-
-- (BOOL)isIgnoreJunk {
++ (BOOL)isIgnoreJunk {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMIgnoreJunk"];
-}
-
-- (void)setIgnoreJunk:(BOOL)yesOrNo {
-	[[NSUserDefaults standardUserDefaults] setBool:yesOrNo forKey:@"GMIgnoreJunk"];
 }
 
 - (BOOL)isAccountEnabled:(NSString *)path {
 	NSDictionary *accountSettings = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"GMAccounts"];
-	NSNumber *isEnabled = (NSNumber *)[accountSettings objectForKey:path];
+	NSNumber *isEnabled = [accountSettings objectForKey:path];
 	return isEnabled ? [isEnabled boolValue] : YES;
 }
 
 - (void)setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path {
 	NSDictionary *accountSettings = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"GMAccounts"];
 	NSMutableDictionary *newSettings;
-	if ( accountSettings ) {
+	if (accountSettings) {
 		newSettings = [accountSettings mutableCopy];
 	} else {
-		newSettings = [[NSMutableDictionary alloc] initWithCapacity:1];
+		newSettings = [[NSMutableDictionary alloc] initWithCapacity:1U];
 	}
-	[newSettings setObject: [NSNumber numberWithBool:yesOrNo] forKey:path];
+	NSNumber *value = [[NSNumber alloc] initWithBool:yesOrNo];
+	[newSettings setObject:value forKey:path];
+	[value release];
 	[[NSUserDefaults standardUserDefaults] setObject:newSettings forKey:@"GMAccounts"];
 	[newSettings release];
 }
 
-- (BOOL)showSummary {
++ (BOOL)showSummary {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMShowSummary"];
 }
 
-- (void)setShowSummary:(BOOL)yesOrNo {
-	[[NSUserDefaults standardUserDefaults] setBool:yesOrNo forKey:@"GMShowSummary"];
-}
-
-- (BOOL)ignoreClickHandler {
++ (BOOL)ignoreClickHandler {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMIgnoreClickHandler"];
-}
-
-- (void)setIgnoreClickHandler:(BOOL)yesOrNo {
-	[[NSUserDefaults standardUserDefaults] setBool:yesOrNo forKey:@"GMIgnoreClickHandler"];
 }
 
 @end
