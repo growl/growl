@@ -8,9 +8,10 @@
 //
 
 #import "GrowlBubblesWindowView.h"
-#import <math.h>
 #import "GrowlDefines.h"
 #import "GrowlBubblesDefines.h"
+#import "GrowlStringAdditions.h"
+#import <math.h>
 
 static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outData )
 {
@@ -139,7 +140,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	// the top, so we've reserved some space for it.
 	int heightOffset = [self frame].size.height - 10;
 
-	[_title drawAtPoint:NSMakePoint( 55.f, heightOffset - 15.f ) withAttributes:
+	[_title drawWithEllipsisInRect:NSMakeRect( 55.f, heightOffset - 15.f, 200.0f, 15.0f ) withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont boldSystemFontOfSize:13.f], NSFontAttributeName,
 			_textColor, NSForegroundColorAttributeName,

@@ -10,7 +10,6 @@ For .6
 - Make GrowlMail not run while applying rules if possible
 - Bubbles
 	- Top background color colorwell
-	- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy to add this.
 - Music Video
 - Move non-example applications in the Examples directory into a PowerToys directory. Add licensing where need be. PowerToys will be bsd licensed.
 
@@ -31,6 +30,7 @@ Done:
 	- Smoke needs to specify how many lines it allows to be displayed on screen.
 - Bubbles
 	- Text color colorwell
+	- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy to add this.
 - Add a button to remove old tickets
 - Display version number.
 - A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.
