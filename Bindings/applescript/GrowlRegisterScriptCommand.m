@@ -26,10 +26,10 @@ static const NSSize iconSize = {128.0f, 128.0f};
 	NSDictionary *args = [self evaluatedArguments];
 
 	// should validate params better!
-	NSString *appName             = [args objectForKey:KEY_APP_NAME];
-	NSArray *allNotifications     = [args objectForKey:KEY_NOTIFICATIONS_ALL];
-	NSArray *defaultNotifications = [args objectForKey:KEY_NOTIFICATIONS_DEFAULT];
-	NSString *iconOfApplication   = [args objectForKey:KEY_ICON_APP_NAME];
+	NSString *appName				= [args objectForKey:KEY_APP_NAME];
+	NSArray *allNotifications		= [args objectForKey:KEY_NOTIFICATIONS_ALL];
+	NSArray *defaultNotifications	= [args objectForKey:KEY_NOTIFICATIONS_DEFAULT];
+	NSString *iconOfApplication		= [args objectForKey:KEY_ICON_APP_NAME];
 
 	//translate AppleScript (1-based) indices to C (0-based) indices
 	NSMutableArray *temp = [NSMutableArray arrayWithArray:defaultNotifications];

@@ -47,10 +47,10 @@ static NSString *description = @"Speak notifications.";
 
 - (NSDictionary *) pluginInfo {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		name,        @"Name",
-		author,      @"Author",
-		version,     @"Version",
-		description, @"Description",
+		name,			@"Name",
+		author,			@"Author",
+		version,		@"Version",
+		description,	@"Description",
 		nil];
 }
 

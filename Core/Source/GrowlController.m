@@ -214,15 +214,15 @@ static id singleton = nil;
 		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_TITLE];
 	}
 
-    //Retrieve and set the the priority of the notification
+	//Retrieve and set the the priority of the notification
 	int priority = [ticket priorityForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]];
 	if (priority == GP_unset) {
 		priority = [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
 	}
-    [aDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
+	[aDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
 
-    // Retrieve and set the sticky bit of the notification
-    int sticky = [ticket stickyForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]];
+	// Retrieve and set the sticky bit of the notification
+	int sticky = [ticket stickyForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]];
 	if (ticket && sticky >= 0) {
 		[aDict setObject:[NSNumber numberWithBool:(sticky ? YES : NO)]
 				  forKey:GROWL_NOTIFICATION_STICKY];

@@ -151,11 +151,11 @@ end:
 	free(buf);
 
 	if (outVersion) {
-		outVersion->major       = myMajor;
-		outVersion->minor       = myMinor;
-		outVersion->incremental = myIncremental;
-		outVersion->releaseType = myReleaseType;
-		outVersion->development = myDevelopment;
+		outVersion->major		= myMajor;
+		outVersion->minor		= myMinor;
+		outVersion->incremental	= myIncremental;
+		outVersion->releaseType	= myReleaseType;
+		outVersion->development	= myDevelopment;
 	}
 
 	return true;

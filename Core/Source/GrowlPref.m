@@ -627,7 +627,7 @@ static const char *keychainAccountName = "Growl";
 		
 		if ([identifier isEqualTo:@"enable"]) {
 			returnObject = [NSNumber numberWithBool:[appTicket isNotificationEnabled:note]];
-        } else if ([identifier isEqualTo:@"notification"]) {
+		} else if ([identifier isEqualTo:@"notification"]) {
 			returnObject = note;
 		} else if ([identifier isEqualTo:@"sticky"]) {
 			returnObject = [NSNumber numberWithInt:[appTicket stickyForNotification:note]];
@@ -700,7 +700,7 @@ static const char *keychainAccountName = "Growl";
 				[self setPrefsChanged:YES];
 			}
 		} else if ([identifier isEqualTo:@"sticky"]) {
-            [appTicket setSticky:[value intValue] forNotification:note];
+			[appTicket setSticky:[value intValue] forNotification:note];
 			[self setPrefsChanged:YES];
 		}
 	} else if (tableView == growlServiceList) {
@@ -833,14 +833,14 @@ static const char *keychainAccountName = "Growl";
 	}
 
 	if (!moreComing) {
-		[growlServiceList reloadData];        
+		[growlServiceList reloadData];
 		[self writeForwardDestinations];
 	}
 }
 
 - (void) netServiceDidResolveAddress:(NSNetService *)sender {
 	NSArray *addresses = [sender addresses];
-    if ([addresses count] > 0U) {
+	if ([addresses count] > 0U) {
 		NSData *address = [addresses objectAtIndex:0U];
 		NSMutableDictionary *entry = [services objectAtIndex:currentServiceIndex];
 		[entry setObject:address forKey:@"address"];

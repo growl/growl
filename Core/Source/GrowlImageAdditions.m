@@ -47,14 +47,14 @@
 }
 
 - (NSSize) adjustSizeToDrawAtSize:(NSSize)theSize {
-    NSImageRep *bestRep = [self bestRepresentationForSize:theSize];
-    [self setSize:[bestRep size]];
-    return [bestRep size];
+	NSImageRep *bestRep = [self bestRepresentationForSize:theSize];
+	[self setSize:[bestRep size]];
+	return [bestRep size];
 }
 
 - (NSImageRep *) bestRepresentationForSize:(NSSize)theSize {
 	NSImageRep *bestRep = [self representationOfSize:theSize];
-    if (!bestRep ) {
+	if (!bestRep ) {
 		NSArray *reps = [self representations];
 		// ***warning   * handle other sizes
 		float repDistance = 65536.0f;
@@ -77,15 +77,15 @@
 		bestRep = [self bestRepresentationForDevice:nil];
 	}
 
-    return bestRep;
+	return bestRep;
 }
 - (NSImageRep *) representationOfSize:(NSSize)theSize {
-    NSArray *reps = [self representations];
+	NSArray *reps = [self representations];
 	NSEnumerator *enumerator = [reps objectEnumerator];
 	NSImageRep *rep;
 	while ( (rep = [enumerator nextObject]) ) {
-        if (NSEqualSizes([rep size], theSize)) {
-            break;
+		if (NSEqualSizes([rep size], theSize)) {
+			break;
 		}
 	}
 	return rep;

@@ -10,7 +10,7 @@
 
 @interface ACImageAndTextCell : NSTextFieldCell {
 @private
-    NSImage	*image;
+	NSImage	*image;
 }
 
 - (void) setImage:(NSImage *)anImage;

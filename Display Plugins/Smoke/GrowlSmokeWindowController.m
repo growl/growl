@@ -137,8 +137,8 @@ static const double gMaxDisplayTime = 10.0;
 	
 	[view setTitle:title];
 	[view setText:text];	
-    [view setPriority:priority];
-    
+	[view setPriority:priority];
+
 	[view setIcon:icon];
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];

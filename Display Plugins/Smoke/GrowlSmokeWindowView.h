@@ -16,8 +16,8 @@
 	SEL					action;
 	id					target;
 
-    NSColor             *bgColor;
-    NSColor             *textColor;
+	NSColor				*bgColor;
+	NSColor				*textColor;
 }
 
 - (void) setIcon:(NSImage *)icon;

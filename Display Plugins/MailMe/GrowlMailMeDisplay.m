@@ -10,10 +10,10 @@
 #import <GrowlDefinesInternal.h>
 #import <GrowlDisplayProtocol.h>
 
-static NSString *author      = @"Mac-arena the Bored Zo";
-static NSString *name        = @"MailMe";
-static NSString *description = @"MailMe like notifications, with a twist";
-static NSString *version     = @"1.0a1";
+static NSString *author			= @"Mac-arena the Bored Zo";
+static NSString *name			= @"MailMe";
+static NSString *description	= @"MailMe like notifications, with a twist";
+static NSString *version		= @"1.0a1";
 
 static NSString *destAddressKey = @"MailMe - Recipient address";
 
@@ -63,10 +63,10 @@ static NSString *plainTextMessageFormat = /*for when there is no icon*/
 
 - (NSDictionary *) pluginInfo {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		name,        @"Name",
-		author,      @"Author",
-		version,     @"Version",
-		description, @"Description",
+		name,			@"Name",
+		author,			@"Author",
+		version,		@"Version",
+		description,	@"Description",
 		nil];
 }
 

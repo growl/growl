@@ -13,7 +13,7 @@ typedef enum GrowlPriority {
 	GP_verylow		= -2,
 	GP_low			= -1,
 	GP_normal		=  0,
-	GP_high         =  1,
+	GP_high			=  1,
 	GP_emergency	=  2
 } GrowlPriority;
 
@@ -21,7 +21,7 @@ typedef enum GrowlPriority {
 	NSString		*name;
 	GrowlPriority	 priority;
 	BOOL			 enabled;
-    int				 sticky;
+	int				 sticky;
 }
 
 + (GrowlApplicationNotification*) notificationWithName:(NSString*)name;

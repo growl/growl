@@ -30,7 +30,7 @@
 #define TITLE_FONT_SIZE_PTS		 13.0f
 #define DESCR_FONT_SIZE_PTS		 11.0f
 #define MIN_TEXT_HEIGHT_PX		 30.0f
-#define MAX_TEXT_ROWS			    5  /*!< The maximum number of rows of text, used only if the limit preference is set. */
+#define MAX_TEXT_ROWS				5  /*!< The maximum number of rows of text, used only if the limit preference is set. */
 
 static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outData )
 {
@@ -107,7 +107,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	[path setClip];
 
 	// Create a callback function to generate the 
-    // fill clipped graphics context with our gradient
+	// fill clipped graphics context with our gradient
 	struct CGFunctionCallbacks callbacks = { 0U, GrowlBubblesShadeInterpolate, NULL };
 	CGFunctionRef function = CGFunctionCreate( (void *) bgColor, 1U, /*domain*/ NULL, 4U, /*range*/ NULL, &callbacks );
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
@@ -169,32 +169,32 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 #pragma mark -
 
 - (void) setPriority:(int)priority {
-    NSString *key;
-    NSString *textKey;
-    switch (priority) {
-        case -2:
-            key = GrowlBubblesVeryLowColor;
+	NSString *key;
+	NSString *textKey;
+	switch (priority) {
+		case -2:
+			key = GrowlBubblesVeryLowColor;
 			textKey = GrowlBubblesVeryLowTextColor;
-            break;
-        case -1:
-            key = GrowlBubblesModerateColor;
+			break;
+		case -1:
+			key = GrowlBubblesModerateColor;
 			textKey = GrowlBubblesModerateTextColor;
-            break;
-        case 1:
-            key = GrowlBubblesHighColor;
+			break;
+		case 1:
+			key = GrowlBubblesHighColor;
 			textKey = GrowlBubblesHighTextColor;
-            break;
-        case 2:
-            key = GrowlBubblesEmergencyColor;
+			break;
+		case 2:
+			key = GrowlBubblesEmergencyColor;
 			textKey = GrowlBubblesEmergencyTextColor;
-            break;
-        case 0:
-        default:
-            key = GrowlBubblesNormalColor;
+			break;
+		case 0:
+		default:
+			key = GrowlBubblesNormalColor;
 			textKey = GrowlBubblesNormalTextColor;
-            break;
-    }
-    NSArray *array = nil;
+			break;
+	}
+	NSArray *array = nil;
 
 	float backgroundAlpha = 0.95f;
 	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &backgroundAlpha);
@@ -206,29 +206,29 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 	Class NSArrayClass = [NSArray class];
 	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSArray *, &array);
-    if (array) {
+	if (array) {
 		if ([array isKindOfClass:NSArrayClass]) {
 			bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 												green:[[array objectAtIndex:1U] floatValue]
 												 blue:[[array objectAtIndex:2U] floatValue]
 												alpha:backgroundAlpha];
 		}
-        [array release];
-    }
-    [bgColor retain];
+		[array release];
+	}
+	[bgColor retain];
 
 	textColor = [NSColor controlTextColor];
 	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, NSArray *, &array);
-    if (array) {
+	if (array) {
 		if ([array isKindOfClass:NSArrayClass]) {
 			textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 												  green:[[array objectAtIndex:1U] floatValue]
 												   blue:[[array objectAtIndex:2U] floatValue]
 												  alpha:1.0f];
 		}
-        [array release];
-    }
-    [textColor retain];
+		[array release];
+	}
+	[textColor retain];
 }
 
 - (void) setIcon:(NSImage *) anIcon {
@@ -253,7 +253,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 }
 
 - (void) sizeToFit {
-    NSRect rect = [self frame];
+	NSRect rect = [self frame];
 	rect.size.width = PANEL_WIDTH_PX;
 	rect.size.height = 2.0f * PANEL_VSPACE_PX + [self titleHeight] + TITLE_VSPACE_PX + [self descriptionHeight];
 	[self setFrame:rect];

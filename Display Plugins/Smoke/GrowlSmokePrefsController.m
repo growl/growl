@@ -211,83 +211,83 @@
 }
 
 - (IBAction) colorChanged:(id)sender {
-    
-    NSColor *color;
-    NSArray *array;
-    
-    NSString *key;
-    switch ([sender tag]) {
-        case -2:
-            key = GrowlSmokeVeryLowColor;
-            break;
-        case -1:
-            key = GrowlSmokeModerateColor;
-            break;
-        case 1:
-            key = GrowlSmokeHighColor;
-            break;
-        case 2:
-            key = GrowlSmokeEmergencyColor;
-            break;
-        case 0:
-        default:
-            key = GrowlSmokeNormalColor;
-            break;
-    }
 
-    color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-    array = [NSArray arrayWithObjects:
-        [NSNumber numberWithFloat:[color redComponent]],
-        [NSNumber numberWithFloat:[color greenComponent]],
-        [NSNumber numberWithFloat:[color blueComponent]],
-        [NSNumber numberWithFloat:[color alphaComponent]],
+	NSColor *color;
+	NSArray *array;
+
+	NSString *key;
+	switch ([sender tag]) {
+		case -2:
+			key = GrowlSmokeVeryLowColor;
+			break;
+		case -1:
+			key = GrowlSmokeModerateColor;
+			break;
+		case 1:
+			key = GrowlSmokeHighColor;
+			break;
+		case 2:
+			key = GrowlSmokeEmergencyColor;
+			break;
+		case 0:
+		default:
+			key = GrowlSmokeNormalColor;
+			break;
+	}
+
+	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	array = [NSArray arrayWithObjects:
+		[NSNumber numberWithFloat:[color redComponent]],
+		[NSNumber numberWithFloat:[color greenComponent]],
+		[NSNumber numberWithFloat:[color blueComponent]],
+		[NSNumber numberWithFloat:[color alphaComponent]],
 		nil];
-    WRITE_GROWL_PREF_VALUE(key, (CFArrayRef)array, GrowlSmokePrefDomain);
+	WRITE_GROWL_PREF_VALUE(key, (CFArrayRef)array, GrowlSmokePrefDomain);
 
-    // NSLog(@"color: %@ array: %@", color, array);
+	// NSLog(@"color: %@ array: %@", color, array);
 
-    SYNCHRONIZE_GROWL_PREFS();
-    UPDATE_GROWL_PREFS();
+	SYNCHRONIZE_GROWL_PREFS();
+	UPDATE_GROWL_PREFS();
 }
 
 - (IBAction) textColorChanged:(id)sender
 {
-    NSColor *color;
-    NSArray *array;
-    
-    NSString *key;
-    switch ([sender tag]) {
-        case -2:
-            key = GrowlSmokeVeryLowTextColor;
-            break;
-        case -1:
-            key = GrowlSmokeModerateTextColor;
-            break;
-        case 1:
-            key = GrowlSmokeHighTextColor;
-            break;
-        case 2:
-            key = GrowlSmokeEmergencyTextColor;
-            break;
-        case 0:
-        default:
-            key = GrowlSmokeNormalTextColor;
-            break;
-    }
+	NSColor *color;
+	NSArray *array;
 
-    color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-    array = [NSArray arrayWithObjects:
-        [NSNumber numberWithFloat:[color redComponent]],
-        [NSNumber numberWithFloat:[color greenComponent]],
-        [NSNumber numberWithFloat:[color blueComponent]],
-        [NSNumber numberWithFloat:[color alphaComponent]],
+	NSString *key;
+	switch ([sender tag]) {
+		case -2:
+			key = GrowlSmokeVeryLowTextColor;
+			break;
+		case -1:
+			key = GrowlSmokeModerateTextColor;
+			break;
+		case 1:
+			key = GrowlSmokeHighTextColor;
+			break;
+		case 2:
+			key = GrowlSmokeEmergencyTextColor;
+			break;
+		case 0:
+		default:
+			key = GrowlSmokeNormalTextColor;
+			break;
+	}
+
+	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	array = [NSArray arrayWithObjects:
+		[NSNumber numberWithFloat:[color redComponent]],
+		[NSNumber numberWithFloat:[color greenComponent]],
+		[NSNumber numberWithFloat:[color blueComponent]],
+		[NSNumber numberWithFloat:[color alphaComponent]],
 		nil];
-    WRITE_GROWL_PREF_VALUE(key, (CFArrayRef)array, GrowlSmokePrefDomain);
+	WRITE_GROWL_PREF_VALUE(key, (CFArrayRef)array, GrowlSmokePrefDomain);
 
-    // NSLog(@"color: %@ array: %@", color, array);
+	// NSLog(@"color: %@ array: %@", color, array);
 	
-    SYNCHRONIZE_GROWL_PREFS();
-    UPDATE_GROWL_PREFS();
+	SYNCHRONIZE_GROWL_PREFS();
+	UPDATE_GROWL_PREFS();
 }
 
 -(IBAction) floatIconSwitchChanged:(id)sender {

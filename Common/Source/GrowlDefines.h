@@ -262,7 +262,7 @@
  *	 The GrowlApplicationBridge responds to this notification by calling a
  *	 callback in its delegate.
  */
-#define GROWL_NOTIFICATION_CLICKED             XSTR("GrowlClicked!")
+#define GROWL_NOTIFICATION_CLICKED		XSTR("GrowlClicked!")
 
 /*!	@group Other symbols
  *	@abstract Symbols which don't fit into any of the other categories.
@@ -273,7 +273,7 @@
  *	@discussion This key is used in GROWL_NOTIFICATION_CLICKED, and contains the
  *	 click context that was supplied in the original notification.
  */
-#define GROWL_KEY_CLICKED_CONTEXT              XSTR("ClickedContext")
+#define GROWL_KEY_CLICKED_CONTEXT		XSTR("ClickedContext")
 /*!	@defined GROWL_REG_DICT_EXTENSION
  *	@abstract The filename extension for registration dictionaries.
  *	@discussion The GrowlApplicationBridge in Growl.framework registers with

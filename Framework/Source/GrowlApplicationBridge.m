@@ -202,8 +202,8 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	growlPrefPaneBundle = [GrowlApplicationBridge growlPrefPaneBundle];
 	
 	if (growlPrefPaneBundle) {
-		NSString        *growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"
-																			ofType:@"app"];
+		NSString *growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"
+																	 ofType:@"app"];
 
 #ifdef GROWL_WITH_INSTALLER
 		/* Check against our current version number and ensure the installed Growl pane is the same or later */
@@ -386,22 +386,21 @@ static BOOL				promptedToUpgradeGrowl = NO;
 
 	prefPaneExtension = PREFERENCE_PANE_EXTENSION;
 	searchPathEnumerator = [self _preferencePaneSearchEnumerator];		
-    
+
 	while ( ( path = [searchPathEnumerator nextObject] ) ) {
-		
-        NSString				*bundlePath;
+		NSString				*bundlePath;
 		NSDirectoryEnumerator   *bundleEnum;
 
-        bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
+		bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
 
-        if (bundleEnum) {
-            while ( ( bundlePath = [bundleEnum nextObject] ) ) {
-                if ([[bundlePath pathExtension] isEqualToString:prefPaneExtension]) {
+		if (bundleEnum) {
+			while ( ( bundlePath = [bundleEnum nextObject] ) ) {
+				if ([[bundlePath pathExtension] isEqualToString:prefPaneExtension]) {
 					[allPreferencePaneBundles addObject:[path stringByAppendingPathComponent:bundlePath]];
-                }
-            }
-        }
-    }
+				}
+			}
+		}
+	}
 
 	return allPreferencePaneBundles;
 }

@@ -76,9 +76,9 @@ static GrowlPreferences * sharedPreferences;
 	CFPreferencesSetAppValue( (CFStringRef)key			/* key */,
 							  (CFPropertyListRef)object /* value */,
 							  (CFStringRef)HelperAppBundleIdentifier) /* application ID */;\
-								  
+
 	CFPreferencesAppSynchronize( (CFStringRef)HelperAppBundleIdentifier );
-							  
+
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged object:key];
 }
 

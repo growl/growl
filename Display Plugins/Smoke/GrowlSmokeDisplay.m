@@ -12,10 +12,10 @@
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
 
-static NSString *SmokeAuthor      = @"Matthew Walton";
-static NSString *SmokeName        = @"Smoke";
-static NSString *SmokeDescription = @"Dark translucent notifications";
-static NSString *SmokeVersion     = @"1.0";
+static NSString *SmokeAuthor		= @"Matthew Walton";
+static NSString *SmokeName			= @"Smoke";
+static NSString *SmokeDescription	= @"Dark translucent notifications";
+static NSString *SmokeVersion		= @"1.0";
 
 static unsigned smokeDepth = 0U;
 
@@ -56,10 +56,10 @@ static unsigned smokeDepth = 0U;
 
 - (NSDictionary *) pluginInfo {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		SmokeName,        @"Name",
-		SmokeAuthor,      @"Author",
-		SmokeVersion,     @"Version",
-		SmokeDescription, @"Description",
+		SmokeName,			@"Name",
+		SmokeAuthor,		@"Author",
+		SmokeVersion,		@"Version",
+		SmokeDescription,	@"Description",
 		nil];
 }
 
@@ -69,13 +69,14 @@ static unsigned smokeDepth = 0U;
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
 	//NSLog(@"Smoke: displayNotificationWithInfo");
-	GrowlSmokeWindowController *controller = [GrowlSmokeWindowController notifyWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
-		      text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
-			  icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-          priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
-			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
-			 depth:smokeDepth];
-	
+	GrowlSmokeWindowController *controller =
+		[GrowlSmokeWindowController notifyWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
+											   text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
+											   icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+										   priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+											 sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
+											  depth:smokeDepth];
+
 	[controller setTarget:self];
 	[controller setAction:@selector(_smokeClicked:)];
 	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];

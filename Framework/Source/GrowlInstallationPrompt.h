@@ -10,7 +10,7 @@
 
 @interface GrowlInstallationPrompt : NSWindowController {
 	IBOutlet	NSTextView		*textView_growlInfo;
-    IBOutlet	NSScrollView	*scrollView_growlInfo;
+	IBOutlet	NSScrollView	*scrollView_growlInfo;
 
 	IBOutlet	NSButton	*button_install;
 	IBOutlet	NSButton	*button_cancel;

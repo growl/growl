@@ -61,9 +61,9 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 // closes this window
 - (IBAction)closeWindow:(id)sender
 {
-    if ([self windowShouldClose:nil]){
-        [[self window] close];
-    }
+	if ([self windowShouldClose:nil]){
+		[[self window] close];
+	}
 }
 
 // called after the about window loads, so we can set up the window before it's displayed
@@ -74,11 +74,11 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 	NSAttributedString *growlInfo;
 	NSWindow *theWindow = [self window];
 
-    //Setup the textviews
-    [textView_growlInfo setHorizontallyResizable:NO];
-    [textView_growlInfo setVerticallyResizable:YES];
-    [textView_growlInfo setDrawsBackground:NO];
-    [scrollView_growlInfo setDrawsBackground:NO];
+	//Setup the textviews
+	[textView_growlInfo setHorizontallyResizable:NO];
+	[textView_growlInfo setVerticallyResizable:YES];
+	[textView_growlInfo setDrawsBackground:NO];
+	[scrollView_growlInfo setDrawsBackground:NO];
 	
 	//Window title
 	if (isUpdate ? 
@@ -127,7 +127,7 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 
 	[[textView_growlInfo textStorage] setAttributedString:growlInfo];
 	NSRect	frame = [theWindow frame];
-    int		heightChange;
+	int		heightChange;
 
 	//Resize the window frame to fit the description
 	[textView_growlInfo sizeToFit];
@@ -200,11 +200,11 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 
 // called as the window closes
 - (BOOL) windowShouldClose:(id)sender
-{    
+{
 	//If the window closes via the close button or cmd-W, it should be treated as clicking Cancel.
 	[self cancel:nil];
 
-    return(YES);
+	return YES;
 }
 
 - (void) performInstallGrowl

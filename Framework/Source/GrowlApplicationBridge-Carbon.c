@@ -5,7 +5,7 @@
 //  Created by Mac-arena the Bored Zo on Wed Jun 18 2004.
 //  Based on GrowlApplicationBridge.m by Evan Schoenberg.
 //  This source code is in the public domain. You may freely link it into any
-//    program.
+//  program.
 //
 
 #include "GrowlApplicationBridge-Carbon.h"
@@ -102,10 +102,10 @@ struct Growl_Delegate *Growl_GetDelegate(void) {
 
 void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
 	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
-	                                     GROWL_NOTIFICATION,
-	                                     /*object*/ NULL,
-	                                     userInfo,
-	                                     /*deliverImmediately*/ false);
+										 GROWL_NOTIFICATION,
+										 /*object*/ NULL,
+										 userInfo,
+										 /*deliverImmediately*/ false);
 }
 
 void Growl_PostNotification(const struct Growl_Notification *notification) {
@@ -185,10 +185,10 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 	}
 
 	CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault,
-	                                              keys, values,
-	                                              /*numValues*/ pairIndex,
-	                                              &kCFTypeDictionaryKeyCallBacks,
-	                                              &kCFTypeDictionaryValueCallBacks);
+												  keys, values,
+												  /*numValues*/ pairIndex,
+												  &kCFTypeDictionaryKeyCallBacks,
+												  &kCFTypeDictionaryValueCallBacks);
 
 	Growl_PostNotificationWithDictionary(userInfo);
 
@@ -575,12 +575,12 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 }
 
 CFStringRef _copyCurrentProcessName(void) {
-    ProcessSerialNumber PSN = { 0, kCurrentProcess };
-    CFStringRef name = NULL;
-    OSStatus err = CopyProcessName(&PSN, &name);
-    if (err != noErr) {
-    	NSLog(CFSTR("GrowlApplicationBridge: Could not get process name because CopyProcessName returned %li"), (long)err);
-    	name = NULL;
+	ProcessSerialNumber PSN = { 0, kCurrentProcess };
+	CFStringRef name = NULL;
+	OSStatus err = CopyProcessName(&PSN, &name);
+	if (err != noErr) {
+		NSLog(CFSTR("GrowlApplicationBridge: Could not get process name because CopyProcessName returned %li"), (long)err);
+		name = NULL;
 	}
 	return name;
 }

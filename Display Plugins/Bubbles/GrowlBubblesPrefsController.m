@@ -184,7 +184,7 @@
 
 - (IBAction) setLimit:(id)sender {
 	WRITE_GROWL_PREF_BOOL(KALimitPref, ([sender state] == NSOnState), GrowlBubblesPrefDomain);
-    SYNCHRONIZE_GROWL_PREFS();
+	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
@@ -192,7 +192,7 @@
 	float opacityPref = [sender floatValue];
 	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", (int)floorf(opacityPref * 100.0f)]];
 	WRITE_GROWL_PREF_FLOAT(GrowlBubblesOpacity, opacityPref, GrowlBubblesPrefDomain);
-    SYNCHRONIZE_GROWL_PREFS();
+	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
@@ -200,87 +200,87 @@
 	float durationPref = [sender floatValue];
 	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
 	WRITE_GROWL_PREF_FLOAT(GrowlBubblesDuration, durationPref, GrowlBubblesPrefDomain);
-    SYNCHRONIZE_GROWL_PREFS();
+	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
 - (IBAction) colorChanged:(id)sender {
 
 	NSColor *color;
-    NSArray *array;
+	NSArray *array;
 
-    NSString *key;
-    switch ([sender tag]) {
-        case -2:
-            key = GrowlBubblesVeryLowColor;
-            break;
-        case -1:
-            key = GrowlBubblesModerateColor;
-            break;
-        case 1:
-            key = GrowlBubblesHighColor;
-            break;
-        case 2:
-            key = GrowlBubblesEmergencyColor;
-            break;
-        case 0:
-        default:
-            key = GrowlBubblesNormalColor;
-            break;
-    }
+	NSString *key;
+	switch ([sender tag]) {
+		case -2:
+			key = GrowlBubblesVeryLowColor;
+			break;
+		case -1:
+			key = GrowlBubblesModerateColor;
+			break;
+		case 1:
+			key = GrowlBubblesHighColor;
+			break;
+		case 2:
+			key = GrowlBubblesEmergencyColor;
+			break;
+		case 0:
+		default:
+			key = GrowlBubblesNormalColor;
+			break;
+	}
 
-    color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-    array = [NSArray arrayWithObjects:
-        [NSNumber numberWithFloat:[color redComponent]],
-        [NSNumber numberWithFloat:[color greenComponent]],
-        [NSNumber numberWithFloat:[color blueComponent]],
-        [NSNumber numberWithFloat:[color alphaComponent]],
+	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	array = [NSArray arrayWithObjects:
+		[NSNumber numberWithFloat:[color redComponent]],
+		[NSNumber numberWithFloat:[color greenComponent]],
+		[NSNumber numberWithFloat:[color blueComponent]],
+		[NSNumber numberWithFloat:[color alphaComponent]],
 		nil];
-    WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
+	WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
 
 	//NSLog(@"color: %@ array: %@", color, array);
 
-    SYNCHRONIZE_GROWL_PREFS();
-    UPDATE_GROWL_PREFS();
+	SYNCHRONIZE_GROWL_PREFS();
+	UPDATE_GROWL_PREFS();
 }
 
 - (IBAction) textColorChanged:(id)sender
 {	
 	NSColor *color;
-    NSArray *array;
+	NSArray *array;
 
-    NSString* key;
-    switch ([sender tag]) {
-        case -2:
-            key = GrowlBubblesVeryLowTextColor;
-            break;
-        case -1:
-            key = GrowlBubblesModerateTextColor;
-            break;
-        case 1:
-            key = GrowlBubblesHighTextColor;
-            break;
-        case 2:
-            key = GrowlBubblesEmergencyTextColor;
-            break;
-        case 0:
-        default:
-            key = GrowlBubblesNormalTextColor;
-            break;
-    }
+	NSString* key;
+	switch ([sender tag]) {
+		case -2:
+			key = GrowlBubblesVeryLowTextColor;
+			break;
+		case -1:
+			key = GrowlBubblesModerateTextColor;
+			break;
+		case 1:
+			key = GrowlBubblesHighTextColor;
+			break;
+		case 2:
+			key = GrowlBubblesEmergencyTextColor;
+			break;
+		case 0:
+		default:
+			key = GrowlBubblesNormalTextColor;
+			break;
+	}
 
-    color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 	array = [NSArray arrayWithObjects:
-        [NSNumber numberWithFloat:[color redComponent]],
-        [NSNumber numberWithFloat:[color greenComponent]],
-        [NSNumber numberWithFloat:[color blueComponent]],
+		[NSNumber numberWithFloat:[color redComponent]],
+		[NSNumber numberWithFloat:[color greenComponent]],
+		[NSNumber numberWithFloat:[color blueComponent]],
 		nil];
-    WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
+	WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
 
 	//NSLog(@"color: %@ array: %@", color, array);
 
-    SYNCHRONIZE_GROWL_PREFS();
-    UPDATE_GROWL_PREFS();
+	SYNCHRONIZE_GROWL_PREFS();
+	UPDATE_GROWL_PREFS();
 }
 
 @end

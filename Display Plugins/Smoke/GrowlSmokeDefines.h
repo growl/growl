@@ -10,11 +10,11 @@
 #define GrowlSmokeHighColor				@"Smoke-Priority-High-Color"
 #define GrowlSmokeEmergencyColor		@"Smoke-Priority-Emergency-Color"
 
-#define GrowlSmokeVeryLowTextColor      @"Smoke-Priority-VeryLow-Text-Color"
-#define GrowlSmokeModerateTextColor     @"Smoke-Priority-Moderate-Text-Color"
-#define GrowlSmokeNormalTextColor       @"Smoke-Priority-Normal-Text-Color"
-#define GrowlSmokeHighTextColor         @"Smoke-Priority-High-Text-Color"
-#define GrowlSmokeEmergencyTextColor    @"Smoke-Priority-Emergency-Text-Color"
+#define GrowlSmokeVeryLowTextColor		@"Smoke-Priority-VeryLow-Text-Color"
+#define GrowlSmokeModerateTextColor		@"Smoke-Priority-Moderate-Text-Color"
+#define GrowlSmokeNormalTextColor		@"Smoke-Priority-Normal-Text-Color"
+#define GrowlSmokeHighTextColor			@"Smoke-Priority-High-Text-Color"
+#define GrowlSmokeEmergencyTextColor	@"Smoke-Priority-Emergency-Text-Color"
 
 #define GrowlSmokePrefDomain @"com.growl.SmokeNotificationView"
 

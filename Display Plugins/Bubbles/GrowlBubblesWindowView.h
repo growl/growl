@@ -19,8 +19,8 @@
 	float		titleHeight;
 	SEL			action;
 	id			target;
-    NSColor		*bgColor;
-    NSColor		*textColor;
+	NSColor		*bgColor;
+	NSColor		*textColor;
 	NSColor		*borderColor;
 }
 
