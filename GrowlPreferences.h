@@ -11,6 +11,7 @@
 extern NSString * HelperAppBundleIdentifier;
 extern NSString * GrowlPreferencesChanged;
 extern NSString * GrowlDisplayPluginKey;
+extern NSString * GrowlUserDefaultsKey;
 
 
 @interface GrowlPreferences : NSObject {
@@ -23,6 +24,7 @@ extern NSString * GrowlDisplayPluginKey;
 - (void) registerDefaults:(NSDictionary *)inDefaults;
 - (id) objectForKey:(NSString *)key;
 - (void) setObject:(id)object forKey:(NSString *) key;
+- (void) synchronize;
 
 - (NSBundle *) helperAppBundle;
 - (NSString *) growlSupportDir;

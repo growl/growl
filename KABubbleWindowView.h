@@ -1,6 +1,6 @@
 #import <AppKit/NSView.h>
 
-#define KALimitPref @"Bubbles - Limit"
+#import "BubblePrefsController.h" // to get the limit pref
 
 @interface KABubbleWindowView : NSView {
 	NSImage				*_icon;

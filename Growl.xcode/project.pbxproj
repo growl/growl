@@ -155,6 +155,47 @@
 //0A2
 //0A3
 //0A4
+		0A62933106EE7E5B00002780 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			path = BubblesPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A62933206EE7E5B00002780 = {
+			fileRef = 0A62933106EE7E5B00002780;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A62933306EE7E7B00002780 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = BubblePrefsController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A62933406EE7E7B00002780 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = BubblePrefsController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A62933506EE7E7B00002780 = {
+			fileRef = 0A62933306EE7E7B00002780;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A62933606EE7E7B00002780 = {
+			fileRef = 0A62933406EE7E7B00002780;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0AAFB91706D2A0E000BA1A13 = {
 			fileRef = F506C040013D9D8001CA16C8;
 			isa = PBXBuildFile;
@@ -993,6 +1034,7 @@
 				CB5D13A10638E25300D8F1E5,
 				CBF073CA0659A94F000B4B77,
 				52C6205A0677F68A004F80E6,
+				0A62933506EE7E7B00002780,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1000,6 +1042,7 @@
 		CB5F84D90638BFDB00EADD7A = {
 			buildActionMask = 2147483647;
 			files = (
+				0A62933206EE7E5B00002780,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1010,6 +1053,7 @@
 				CB5D13A00638E25300D8F1E5,
 				CB5D13A20638E25300D8F1E5,
 				52C6205B0677F68A004F80E6,
+				0A62933606EE7E7B00002780,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1114,6 +1158,8 @@
 				CB5D139E0638E25300D8F1E5,
 				52C620580677F68A004F80E6,
 				52C620590677F68A004F80E6,
+				0A62933306EE7E7B00002780,
+				0A62933406EE7E7B00002780,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -1122,6 +1168,7 @@
 		};
 		CB5F8F3B0638C7BF00EADD7A = {
 			children = (
+				0A62933106EE7E5B00002780,
 				CB5F84DE0638BFDB00EADD7A,
 			);
 			isa = PBXGroup;

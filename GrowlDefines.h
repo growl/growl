@@ -6,6 +6,8 @@
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
+#import <CoreFoundation/CoreFoundation.h>
+
 /*!
     @header
     @abstract   Defines all the notification keys
@@ -57,3 +59,156 @@
 
 /*! The distributed notification sent when Growl starts up (this is a guess) */
 #define GROWL_IS_READY					@"Lend Me Some Sugar; I Am Your Neighbor!"
+
+/* --- These following macros are intended for plugins --- */
+
+/*!
+	@function    UPDATE_GROWL_PREFS
+	@abstract    Tells GrowlHelperApp to update its prefs
+	@discussion  This macro is intended for use by plugins.
+	It sends a notification to tell GrowlHelperApp to update its preferences.
+ */
+#define UPDATE_GROWL_PREFS() [[NSDistributedNotificationCenter defaultCenter] \
+	postNotificationName:@"GrowlPreferencesChanged" object:@"GrowlUserDefaults"]
+
+/*!
+    @function    READ_GROWL_PREF_VALUE
+    @abstract    Reads the given pref value from the plugin's preferences
+    @discussion  This macro is intended for use by plugins. It reads the value for the
+	given key from the plugin's preferences (which are stored in a dictionary inside of
+	GrowlHelperApp's prefs).
+	@param key The preference key to read the value of
+	@param domain The bundle ID of the plugin
+	@param type The type of the result expected
+	@param result A pointer to an id. Set to the value if exists, left unchanged if not.
+	
+	If the value is set, you are responsible for releasing it
+ */
+#define READ_GROWL_PREF_VALUE(key, domain, type, result) {\
+	CFDictionaryRef prefs = (CFDictionaryRef)CFPreferencesCopyAppValue((CFStringRef)domain, \
+																		CFSTR("com.Growl.GrowlHelperApp")); \
+	if (prefs != NULL) {\
+		if (CFDictionaryContainsKey(prefs, key)) \
+			*result = (type)CFDictionaryGetValue(prefs, key); \
+		CFRelease(prefs); } }
+
+/*!
+	@function    WRITE_GROWL_PREF_VALUE
+	@abstract    Writes the given pref value to the plugin's preferences
+	@discussion  This macro is intended for use by plugins. It writes the given value
+	to the plugin's preferences.
+	@param key The preference key to write the value of
+	@param value The value to write to the preferences. It should be a CoreFoundation type or
+	toll-free bridged with one
+	@param domain The bundle ID of the plugin
+ */
+#define WRITE_GROWL_PREF_VALUE(key, value, domain) {\
+	CFDictionaryRef staticPrefs = (CFDictionaryRef)CFPreferencesCopyAppValue((CFStringRef)domain, \
+																			 CFSTR("com.Growl.GrowlHelperApp")); \
+	CFMutableDictionaryRef prefs; \
+	if (staticPrefs == NULL) {\
+		prefs = CFDictionaryCreateMutable(NULL, 0, NULL, NULL); \
+	} else {\
+		prefs = CFDictionaryCreateMutableCopy(NULL, 0, staticPrefs); \
+		CFRelease(staticPrefs); \
+	}\
+	CFDictionarySetValue(prefs, key, value); \
+	CFPreferencesSetAppValue((CFStringRef)domain, prefs, CFSTR("com.growl.GrowlHelperApp")); \
+	CFRelease(prefs); }
+
+/*!
+@function    READ_GROWL_PREF_BOOL
+	@abstract    Reads the given boolean from the plugin's preferences
+	@discussion  This is a wrapper around READ_GROWL_PREF_VALUE() intended for
+	use with booleans.
+	@param key The preference key to read the boolean from
+	@param domain The bundle ID of the plugin
+	@param result A pointer to a boolean. Leaves unchanged if the value doesn't exist
+ */
+#define READ_GROWL_PREF_BOOL(key, domain, result) {\
+	CFBooleanRef boolValue = NULL; \
+	READ_GROWL_PREF_VALUE(key, domain, CFBooleanRef, &boolValue); \
+	if (boolValue != NULL) {\
+		*result = CFBooleanGetValue(boolValue); \
+		CFRelease(boolValue); \
+	} }
+
+/*!
+	@function    WRITE_GROWL_PREF_BOOL
+	@abstract    Writes the given boolean to the plugin's preferences
+	@discussion  This is a wrapper around WRITE_GROWL_PREF_VALUE() intended for
+	use with booleans.
+	@param key The preference key to write the boolean for
+	@param value The boolean value to write to the preferences
+	@param domain The bundle ID of the plugin
+ */
+#define WRITE_GROWL_PREF_BOOL(key, value, domain) {\
+	CFBooleanRef boolValue; \
+	if (value) {\
+		boolValue = kCFBooleanTrue; \
+	} else {\
+		boolValue = kCFBooleanFalse; \
+	}\
+	WRITE_GROWL_PREF_VALUE(key, boolValue, domain); }
+
+/*!
+@function    READ_GROWL_PREF_INT
+	@abstract    Reads the given integer from the plugin's preferences
+	@discussion  This is a wrapper around READ_GROWL_PREF_VALUE() intended for
+	use with integers.
+	@param key The preference key to read the integer from
+	@param domain The bundle ID of the plugin
+	@param result A pointer to an integer. Leaves unchanged if the value doesn't exist
+ */
+#define READ_GROWL_PREF_INT(key, domain, result) {\
+	CFNumberRef intValue = NULL; \
+	READ_GROWL_PREF_VALUE(key, domain, CFNumberRef, &intValue); \
+	if (intValue != NULL) {\
+		CFNumberGetValue(intValue, kCFNumberIntType, result); \
+		CFRelease(intValue); \
+	} }
+
+/*!
+	@function    WRITE_GROWL_PREF_INT
+	@abstract    Writes the given integer to the plugin's preferences
+	@discussion  This is a wrapper around WRITE_GROWL_PREF_VALUE() intended for
+	use with integers.
+	@param key The preference key to write the integer for
+	@param value The integer value to write to the preferences
+	@param domain The bundle ID of the plugin
+ */
+#define WRITE_GROWL_PREF_INT(key, value, domain) {\
+	CFNumberRef intValue = CFNumberCreate(NULL, kCFNumberIntType, value); \
+	WRITE_GROWL_PREF_VALUE(key, intValue, domain); \
+		CFRelease(intValue); }
+
+/*!
+@function    READ_GROWL_PREF_FLOAT
+	@abstract    Reads the given float from the plugin's preferences
+	@discussion  This is a wrapper around READ_GROWL_PREF_VALUE() intended for
+	use with floats.
+	@param key The preference key to read the float from
+	@param domain The bundle ID of the plugin
+	@param result A pointer to a float. Leaves unchanged if the value doesn't exist
+ */
+#define READ_GROWL_PREF_FLOAT(key, domain, result) {\
+	CFNumberRef floatValue = NULL; \
+	READ_GROWL_PREF_VALUE(key, domain, CFNumberRef, &floatValue); \
+	if (floatValue != NULL) {\
+		CFNumberGetValue(floatValue, kCFNumberFloatType, result); \
+		CFRelease(floatValue); \
+	} }
+
+/*!
+	@function    WRITE_GROWL_PREF_FLOAT
+	@abstract    Writes the given float to the plugin's preferences
+	@discussion  This is a wrapper around WRITE_GROWL_PREF_VALUE() intended for
+	use with floats.
+	@param key The preference key to write the float for
+	@param value The float value to write to the preferences
+	@param domain The bundle ID of the plugin
+ */
+#define WRITE_GROWL_PREF_FLOAT(key, value, domain) {\
+	CFNumberRef floatValue = CFNumberCreate(NULL, kCFNumberFloatType, value); \
+	WRITE_GROWL_PREF_VALUE(key, floatValue, domain); \
+	CFRelease(floatValue); }

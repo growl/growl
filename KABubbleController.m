@@ -8,11 +8,23 @@
 
 #import "KABubbleController.h"
 #import "KABubbleWindowController.h"
-
+#import "BubblePrefsController.h"
 
 @implementation KABubbleController
 
 #pragma mark Growl Gets Satisfaction
+
+- (id) init {
+	if (self = [super init]) {
+		prefsController = [[BubblePrefsController alloc] init];
+	}
+	return self;
+}
+
+- (void) dealloc {
+	[prefsController release];
+	[super dealloc];
+}
 
 - (void) loadPlugin {
 	//if I had setup procedures I would do them here
@@ -50,7 +62,7 @@
 }
 
 - (NSView*) displayPrefView {
-	return nil;
+	return [prefsController displayPrefView];
 }
 
 - (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {

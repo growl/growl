@@ -74,7 +74,9 @@ static unsigned int bubbleWindowDepth = 0;
 	int rowCount = [view descriptionRowCount];
 	if (rowCount <= 2)
 		rowCount = 0;
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:KALimitPref]) {
+	BOOL limitPref = YES;
+	READ_GROWL_PREF_BOOL(KALimitPref, @"com.growl.BubblesNotificationView", &limitPref);
+	if (!limitPref) {
 		_displayTime = MIN (MIN_DISPLAY_TIME + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
 							MAX_DISPLAY_TIME);
 	} else {

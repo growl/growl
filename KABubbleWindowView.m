@@ -22,9 +22,6 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 		_textHeight = 0;
 		_target = nil;
 		_action = NULL;
-		// Register defaults
-		[[NSUserDefaults standardUserDefaults] registerDefaults:
-			[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:KALimitPref]];
 	}
 	return self;
 }
@@ -201,7 +198,9 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 		// for some reason, this code is using a 13-point line height for calculations, but the font 
 		// in fact renders in 14 points of space. Do some adjustments.
 		int _rowCount = _textHeight / 13;
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:KALimitPref])
+		BOOL limitPref = YES;
+		READ_GROWL_PREF_BOOL(KALimitPref, @"com.growl.BubblesNotificationView", &limitPref);
+		if (limitPref)
 			_textHeight = MIN(_rowCount, 5) * 14;
 		else
 			_textHeight = _textHeight / 13 * 14;
@@ -212,7 +211,9 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 - (int) descriptionRowCount {
 	float height = [self descriptionHeight];
 	float lineHeight = [_text size].height;
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:KALimitPref])
+	BOOL limitPref = YES;
+	READ_GROWL_PREF_BOOL(KALimitPref, @"com.growl.BubblesNotificationView", &limitPref);
+	if (limitPref)
 		return MIN((int) (height / lineHeight), 5);
 	else
 		return (int) (height / lineHeight);

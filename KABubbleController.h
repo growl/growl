@@ -6,8 +6,10 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
-@interface KABubbleController : NSObject <GrowlDisplayPlugin> {
+@class BubblePrefsController;
 
+@interface KABubbleController : NSObject <GrowlDisplayPlugin> {
+	BubblePrefsController *prefsController;
 }
 
 #pragma mark Growl Gets Satisfaction

@@ -11,6 +11,7 @@
 NSString * HelperAppBundleIdentifier	= @"com.Growl.GrowlHelperApp";
 NSString * GrowlPreferencesChanged		= @"GrowlPreferencesChanged";
 NSString * GrowlDisplayPluginKey		= @"GrowlDisplayPluginName";
+NSString * GrowlUserDefaultsKey			= @"GrowlUserDefaults";
 
 
 static GrowlPreferences * sharedPreferences;
@@ -65,6 +66,10 @@ static GrowlPreferences * sharedPreferences;
 	CFPreferencesAppSynchronize( (CFStringRef)HelperAppBundleIdentifier );
 							  
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged object:key];
+}
+
+- (void) synchronize {
+	[helperAppDefaults synchronize];
 }
 
 - (NSBundle *) helperAppBundle {

@@ -27,10 +27,10 @@ ENDOFHEADER
 
 while(<COCOA> =~ m{^//}) {}	#Strip the initial comment header
 
-#Loop until we hit the protocol declarations
-while(defined($line = <COCOA>) && ($line !~ m{^@}))
+#Loop until we hit the macros for plugins
+while(defined($line = <COCOA>) && ($line !~ m{/\* ---}))
 {
-	$line =~ s/@"(.*)"/CFSTR("$1")/g;
+	$line =~ s/@"([^"\r\n]*)"/CFSTR("$1")/g;
 	print CARBON $line;
 }
 

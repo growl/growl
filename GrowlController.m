@@ -147,6 +147,9 @@ static id _singleton = nil;
 	if(note == nil || [[note object] isEqualTo:GrowlDisplayPluginKey]) {
 		[self loadDisplay];
 	}
+	if(note == nil || [[note object] isEqualTo:GrowlUserDefaultsKey]) {
+		[[GrowlPreferences preferences] synchronize];
+	}
 }
 
 - (void) shutdown:(NSNotification *) note {
@@ -206,11 +209,8 @@ static id _singleton = nil;
 
 @implementation GrowlController (private)
 - (void) loadDisplay {
-	
 	NSString * displayPlugin = [[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey];
-
 	displayController = [[GrowlPluginController controller] displayPluginNamed:displayPlugin];
-
 }
 
 #pragma mark -
