@@ -7,7 +7,7 @@
 ### Description
 #
 # A ruby class that enables posting notifications to the Growl daemon.
-# See <http://sourceforge.net/projects/growl/> for more information.
+# See <http://growl.info> for more information.
 # 
 # Requires RubyCocoa (http://www.fobj.com/rubycocoa/) and Ruby 1.8
 # (http://ruby-lang.org).
