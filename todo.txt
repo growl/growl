@@ -32,6 +32,7 @@ Release related issues
 
 For .7 (The Kitchen Sink) or sooner
 - Display plugins
+	- A preview button of some sort.
 	- Coalescing of notifications of similar type for notifications that can use it.
 	- Clicking notifications
 	- Bubbles
