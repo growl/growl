@@ -8,11 +8,15 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface GrowlPref : NSPreferencePane {
+	NSDictionary *cachedGrowlHelperAppDescription;
+
     IBOutlet NSButton *_startGrowlButton;
     IBOutlet NSButton *_startGrowlLoginButton;
 }
 
 - (IBAction)startGrowl:(id)sender;
 - (IBAction)startGrowlAtLogin:(id)sender;
-@end
 
+- (NSDictionary *)growlHelperAppDescription;
+
+@end

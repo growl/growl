@@ -14,19 +14,14 @@
 	//load prefs and set IBOutlets accordingly
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	[defs addSuiteNamed:@"loginwindow"];
-	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingString:@"/GrowlHelperApp.app"];
 	
-	NSDictionary *growlEntry = [NSDictionary dictionaryWithObjectsAndKeys:  helperPath, [NSString stringWithString:@"Path"],
-																			[NSNumber numberWithBool:NO], [NSString stringWithString:@"Hide"],
-																			nil];
-	
-	if ( [[defs objectForKey:@"AutoLaunchedApplicationDictionary"] containsObject:growlEntry] ) 
+	if ( [[defs objectForKey:@"AutoLaunchedApplicationDictionary"] containsObject:[self growlHelperAppDescription]] ) 
 		[_startGrowlLoginButton setState:NSOnState];
 }
 
 - (IBAction) startGrowl:(id) sender {
 	NSLog( @"start Growl" );	
-	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingString:@"/GrowlHelperApp.app"];
+	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
 	NSLog( @"tried to run %@", helperPath);
 	
 	if ( [_startGrowlButton state] == NSOnState ) {
@@ -45,19 +40,15 @@
 	[defs addSuiteNamed:@"loginwindow"];
 	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
 	NSMutableArray *loginItems = [[[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy] autorelease]; //it lies, its an array
-	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingString:@"/GrowlHelperApp.app"];
-	
-	NSDictionary *growlEntry = [NSDictionary dictionaryWithObjectsAndKeys:  helperPath, [NSString stringWithString:@"Path"],
-																			[NSNumber numberWithBool:NO], [NSString stringWithString:@"Hide"],
-																			nil];
+	NSDictionary *GHAdesc = [self growlHelperAppDescription];
 	
 	if ( [_startGrowlLoginButton state] == NSOnState ) {
 		NSLog( @"start Growl At Login" );
 		
-		[loginItems addObject:growlEntry];
+		[loginItems addObject:GHAdesc];
 	} else {
 		NSLog( @"Don't start Growl At Login" );
-		[loginItems removeObject:growlEntry];
+		[loginItems removeObject:GHAdesc];
 	}
 
 	[loginWindowPrefs setObject:[NSArray arrayWithArray:loginItems] 
@@ -65,6 +56,23 @@
 	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
 					  forName:@"loginwindow"];
 	[defs synchronize];	
+}
+
+- (NSDictionary *)growlHelperAppDescription {
+	if(!cachedGrowlHelperAppDescription) {
+		NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
+
+		cachedGrowlHelperAppDescription = [[NSDictionary alloc] initWithObjectsAndKeys:
+			helperPath, [NSString stringWithString:@"Path"],
+			[NSNumber numberWithBool:NO], [NSString stringWithString:@"Hide"],
+			nil];
+	}
+	return cachedGrowlHelperAppDescription;
+}
+
+- (void)dealloc {
+	if(cachedGrowlHelperAppDescription)
+		[cachedGrowlHelperAppDescription release];
 }
 
 @end
