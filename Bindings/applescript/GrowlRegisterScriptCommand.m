@@ -18,6 +18,8 @@
 
 #define ERROR_EXCEPTION						1
 
+static const NSSize iconSize = {128.f, 128.f};
+
 @implementation GrowlRegisterScriptCommand
 
 -(id)performDefaultImplementation
@@ -41,7 +43,7 @@
 		if (iconOfApplication != nil) {
 			icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
 			if (icon != nil) {
-				[icon setSize:NSMakeSize(128.,128.)];
+				[icon setSize:iconSize];
 				[registerDict setObject:[icon TIFFRepresentation] forKey:GROWL_APP_ICON];
 			}
 		}

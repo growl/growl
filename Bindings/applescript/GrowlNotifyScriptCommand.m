@@ -42,6 +42,8 @@
 #define ERROR_NOT_FILE_URL					2
 #define ERROR_ICON_OF_FILE_PATH_INVALID		3
 
+static const NSSize iconSize = {128.f, 128.f};
+
 @implementation GrowlNotifyScriptCommand
 
 -(id)performDefaultImplementation
@@ -94,7 +96,7 @@
 		}
 		
 		if (icon != nil) {
-			[icon setSize:NSMakeSize(128.,128.)];
+			[icon setSize:iconSize];
 			[noteDict setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
 		}
 

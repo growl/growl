@@ -1,7 +1,7 @@
 To-Do
 
 For .6
-- Confirm installation of plugin. Ask if user wants to configure plugin now. If so, take to proper place to configure.
+- Ask if user wants to configure a plugin after installation. If so, take to proper place to configure.
 	- Figure out an intuitive way to deal with multiple plugins named the same.
 - For all displays that should conform, priority
 - Resolve problem of the framework turning on gha without the users permission, should the user have turned off Growl.
@@ -25,6 +25,7 @@ Release related issues
 - Include links to developer documentation in the dmg. Possibly include docs themselves.
 
 Done:
+- Confirm installation of plugins.
 - Smoke needs to specify how many lines it allows to be displayed on screen.
 - Display version number.
 - A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.

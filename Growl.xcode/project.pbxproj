@@ -852,7 +852,6 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Growl_Prefix.pch;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
@@ -865,7 +864,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Growl;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WARNING_CFLAGS = "-W -Wmost -Wno-unused-parameter";
 				WRAPPER_EXTENSION = prefPane;
 			};
 			dependencies = (
@@ -1066,6 +1065,40 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		954F012F074135CC00EA8AB5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = English;
+			path = English.lproj/Localizable.strings;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		954F013B074135D400EA8AB5 = {
+			children = (
+				954F012F074135CC00EA8AB5,
+				954F0148074135D700EA8AB5,
+			);
+			isa = PBXVariantGroup;
+			name = Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		954F013D074135D400EA8AB5 = {
+			fileRef = 954F013B074135D400EA8AB5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		954F0148074135D700EA8AB5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = German;
+			path = German.lproj/Localizable.strings;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		959FAF470738B9A000040AA9 = {
 			fileEncoding = 4;
@@ -1306,6 +1339,7 @@
 		};
 		CB5F84730638BD4D00EADD7A = {
 			children = (
+				954F013B074135D400EA8AB5,
 				CB61E51A0637763C00E0DDC7,
 			);
 			isa = PBXGroup;
@@ -1395,6 +1429,7 @@
 				63C92DD906D05D22007368FA,
 				63C92DDA06D05D22007368FA,
 				52861FF006DC463E00D3A356,
+				954F013D074135D400EA8AB5,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1435,8 +1470,6 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Growl_Prefix.pch;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = "GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				OTHER_CFLAGS = "";
@@ -1444,7 +1477,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = GrowlHelperApp;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
+				WARNING_CFLAGS = "-W -Wmost -Wno-unused-parameter";
 			};
 			dependencies = (
 				6C1D4F7106FA0C7E00A5D946,

@@ -32,5 +32,21 @@
 	<string>OK</string>
 	<key>Cancel</key>
 	<string>Cancel</string>
+	<key>Yes</key>
+	<string>Yes</string>
+	<key>No</key>
+	<string>No</string>
+	<key>Plugin already exists</key>
+	<string>Plugin already exists</string>
+	<key>Plugin installed</key>
+	<string>Plugin installed</string>
+	<key>Plugin not installed</key>
+	<string>Plugin not installed</string>
+	<key>Plugin '%@' is already installed, do you want to overwrite it?</key>
+	<string>Plugin '%@' is already installed, do you want to overwrite it?</string>
+	<key>Plugin '%@' has been installed successfully.</key>
+	<string>Plugin '%@' has been installed successfully.</string>
+	<key>There was an error while installing the plugin '%@'.</key>
+	<string>There was an error while installing the plugin '%@'.</string>
 </dict>
 </plist>

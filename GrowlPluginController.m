@@ -68,7 +68,7 @@ static GrowlPluginController * sharedController;
 	NSDirectoryEnumerator * enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
 	NSString * file;
 
-	while ( file = [enumerator nextObject] ) {
+	while ( (file = [enumerator nextObject]) ) {
 		if ( [[file pathExtension] isEqualToString:displayPluginExt] ) {
 			[self loadPlugin:[dir stringByAppendingPathComponent:file]];
 		}
@@ -93,18 +93,63 @@ static GrowlPluginController * sharedController;
 	}
 }
 
+- (void)pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	NSString *filename = (NSString *)contextInfo;
+	if( returnCode == NSAlertAlternateReturn ) {
+		NSString *pluginFile = [filename lastPathComponent];
+		NSString *destination = [[[[[NSHomeDirectory()
+			stringByAppendingPathComponent:@"Library"]
+			stringByAppendingPathComponent:@"Application Support"]
+			stringByAppendingPathComponent:@"Growl"]
+			stringByAppendingPathComponent:@"Plugins"]
+			stringByAppendingPathComponent: pluginFile];
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+
+		// first remove old copy if present
+		[fileManager removeFileAtPath:destination handler:nil];
+
+		// copy new version to destination
+		if( [fileManager copyPath:filename toPath:destination handler:nil] ) {
+			NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
+											NSLocalizedString( @"OK", @"" ),
+											nil, nil, nil, self, NULL, NULL, NULL,
+											NSLocalizedString( @"Plugin '%@' has been installed successfully.", @"" ),
+											[pluginFile stringByDeletingPathExtension] );
+		} else {
+			NSBeginCriticalAlertSheet( NSLocalizedString( @"Plugin not installed", @"" ),
+									   NSLocalizedString( @"OK", @"" ),
+									   nil, nil, nil, self, NULL, NULL, NULL,
+									   NSLocalizedString( @"There was an error while installing the plugin '%@'.", @"" ),
+									   [pluginFile stringByDeletingPathExtension] );
+		}
+	}
+	[filename release];
+}
+
 - (void)installPlugin:(NSString *)filename
 {
-	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSString *pluginFile = [filename lastPathComponent];
 	NSString *destination = [[[[[NSHomeDirectory()
 		stringByAppendingPathComponent:@"Library"]
 		stringByAppendingPathComponent:@"Application Support"]
 		stringByAppendingPathComponent:@"Growl"]
 		stringByAppendingPathComponent:@"Plugins"]
-		stringByAppendingPathComponent: [filename lastPathComponent]];
+		stringByAppendingPathComponent: pluginFile];
+	// retain a copy of the filename because it is passed as context to the sheetDidEnd selectors
+	NSString *filenameCopy = [[NSString alloc] initWithString:filename];
 
-	if( ![fileManager copyPath:filename toPath:destination handler:nil] ) {
-		NSLog( @"Could not copy '%@' to '%@'", filename, destination );
+	if( [[NSFileManager defaultManager] fileExistsAtPath:destination] ) {
+		// plugin already exists at destination
+		NSBeginAlertSheet( NSLocalizedString( @"Plugin already exists", @"" ),
+						   NSLocalizedString( @"No", @"" ),
+						   NSLocalizedString( @"Yes", @"" ), nil, nil, self,
+						   NULL, @selector(pluginExistsSelector:returnCode:contextInfo:),
+						   filenameCopy,
+						   NSLocalizedString( @"Plugin '%@' is already installed, do you want to overwrite it?", @"" ),
+						   [pluginFile stringByDeletingPathExtension] );
+	} else {
+		[self pluginExistsSelector:nil returnCode:NSAlertAlternateReturn contextInfo:filenameCopy];
 	}
 }
 

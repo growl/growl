@@ -244,6 +244,39 @@ static id _singleton = nil;
 	return NO;
 }
 
+- (void) _registerApplicationWithDictionary:(NSDictionary *) userInfo {
+	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
+	
+	NSImage *appIcon;
+	
+	NSData  *iconData = [userInfo objectForKey:GROWL_APP_ICON];
+	if(iconData) {
+		appIcon = [[[NSImage alloc] initWithData:iconData] autorelease];
+	} else {
+		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
+	}
+	
+	NSArray *allNotes     = [userInfo objectForKey:GROWL_NOTIFICATIONS_ALL];
+	NSArray *defaultNotes = [userInfo objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	
+	GrowlApplicationTicket *newApp;
+	
+	if ( ! [_tickets objectForKey:appName] ) {
+		newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
+															withIcon:appIcon
+													andNotifications:allNotes
+													 andDefaultNotes:defaultNotes];
+		[_tickets setObject:newApp forKey:appName];
+		[newApp autorelease];
+	} else {
+		newApp = [_tickets objectForKey:appName];
+		[newApp reRegisterWithAllNotes:allNotes defaults:defaultNotes icon:appIcon];
+	}
+	
+	[newApp saveTicket];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF object:appName];
+}
+
 @end
 
 #pragma mark -
@@ -297,39 +330,6 @@ static id _singleton = nil;
 	} else {
 		[_registrationQueue addObject:[note userInfo]];
 	}
-}
-
-- (void) _registerApplicationWithDictionary:(NSDictionary *) userInfo {
-	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
-
-	NSImage *appIcon;
-	
-	NSData  *iconData = [userInfo objectForKey:GROWL_APP_ICON];
-	if(iconData) {
-		appIcon = [[[NSImage alloc] initWithData:iconData] autorelease];
-	} else {
-		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
-	}
-
-	NSArray *allNotes     = [userInfo objectForKey:GROWL_NOTIFICATIONS_ALL];
-	NSArray *defaultNotes = [userInfo objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
-
-	GrowlApplicationTicket *newApp;
-
-	if ( ! [_tickets objectForKey:appName] ) {
-		newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
-															withIcon:appIcon
-													andNotifications:allNotes
-													 andDefaultNotes:defaultNotes];
-		[_tickets setObject:newApp forKey:appName];
-		[newApp autorelease];
-	} else {
-		newApp = [_tickets objectForKey:appName];
-		[newApp reRegisterWithAllNotes:allNotes defaults:defaultNotes icon:appIcon];
-	}
-
-	[newApp saveTicket];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF object:appName];
 }
 
 @end
