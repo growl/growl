@@ -254,9 +254,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlDefines.h;
-			path = /Users/nelson/Code/growl/GrowlDefines.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../GrowlDefines.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		5282FC6406DD9F2D00179624 = {
 			buildActionMask = 2147483647;
@@ -293,7 +293,6 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "NSLogging-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
@@ -342,10 +341,9 @@
 		5282FC6906DD9F2D00179624 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "NSLogging-Info.plist";
-			path = "/Users/nelson/Code/growl/Display Plugins/NSLogging-Info.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = "NSLogging-Info.plist";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		5282FC6A06DD9F4E00179624 = {
 			fileRef = 5282FC4406DD9B9400179624;
