@@ -112,7 +112,10 @@ enum {
 	
 	playerState = [retVal stringValue];
 	
-	if([playerState isEqualToString:@"paused"]) {
+	if([playerState isEqualToString:@"quitting"]){
+                [self stopTimer];
+                return;
+        }else if([playerState isEqualToString:@"paused"]) {
 		newState = itPAUSED;
 	} else if([playerState isEqualToString:@"stopped"]) {
 		newState = itSTOPPED;
@@ -181,9 +184,11 @@ enum {
 }
 
 - (void)stopTimer {
+    if(pollTimer){
 	[pollTimer invalidate];
 	[pollTimer release];
 	pollTimer = nil;
+    }
 }
 
 #pragma mark Status item
@@ -311,7 +316,7 @@ enum {
 }
 - (void)handleAppQuit:(NSNotification *)notification {
 	if([iTunesBundleID caseInsensitiveCompare:[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
-		[self stopTimer];
+                [self stopTimer];
 }
 
 @end
