@@ -28,8 +28,10 @@
 	IBOutlet NSTextField	*text_Opacity;
 	IBOutlet NSSlider		*slider_Duration;
 	IBOutlet NSTextField	*text_Duration;
+	IBOutlet NSComboBox		*combo_screen;
 }
 
 - (IBAction) preferenceChanged:(id)sender;
+- (IBAction) setScreen:(id)sender;
 
 @end

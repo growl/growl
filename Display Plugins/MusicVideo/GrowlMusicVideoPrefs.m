@@ -31,6 +31,11 @@
 	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
 	[slider_Duration setFloatValue:durationPref];
 	[text_Duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
+
+	// screen number
+	int screenNumber = 0;
+	READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, MusicVideoPrefDomain, &screenNumber);
+	[combo_screen setIntValue:screenNumber];
 }
 
 - (void)didSelect {
@@ -55,6 +60,20 @@
 		WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, durationPref, MusicVideoPrefDomain);
 	}
 
+	UPDATE_GROWL_PREFS();
+}
+
+- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+	return [[NSScreen screens] count];
+}
+
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+	return [NSNumber numberWithInt:idx];
+}
+
+- (IBAction) setScreen:(id)sender {
+	int pref = [sender intValue];
+	WRITE_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, pref, MusicVideoPrefDomain);	
 	UPDATE_GROWL_PREFS();
 }
 

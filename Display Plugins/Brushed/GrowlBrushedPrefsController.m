@@ -76,6 +76,19 @@
 	[self loadColorWell:text_normal fromKey:GrowlBrushedNormalTextColor defaultColor:defaultColor];
 	[self loadColorWell:text_high fromKey:GrowlBrushedHighTextColor defaultColor:defaultColor];
 	[self loadColorWell:text_emergency fromKey:GrowlBrushedEmergencyTextColor defaultColor:defaultColor];
+
+	// screen number
+	int screenNumber = 0;
+	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
+	[combo_screen setIntValue:screenNumber];
+}
+
+- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+	return [[NSScreen screens] count];
+}
+
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+	return [NSNumber numberWithInt:idx];
 }
 
 - (IBAction) durationChanged:(id)sender {
@@ -137,6 +150,12 @@
 - (IBAction) setAqua:(id)sender {
 	BOOL pref = ([sender state] == NSOnState);
 	WRITE_GROWL_PREF_BOOL(GrowlBrushedAquaPref, pref, GrowlBrushedPrefDomain);	
+	UPDATE_GROWL_PREFS();
+}
+
+- (IBAction) setScreen:(id)sender {
+	int pref = [sender intValue];
+	WRITE_GROWL_PREF_INT(GrowlBrushedScreenPref, pref, GrowlBrushedPrefDomain);	
 	UPDATE_GROWL_PREFS();
 }
 

@@ -32,7 +32,7 @@
 #define MIN_TEXT_HEIGHT_PX		 30.0f
 #define MAX_TEXT_ROWS				5  /*!< The maximum number of rows of text, used only if the limit preference is set. */
 
-static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outData )
+static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float *outData )
 {
 	float *colors = (float *) info;
 

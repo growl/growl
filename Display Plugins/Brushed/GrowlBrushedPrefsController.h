@@ -11,7 +11,8 @@
 @interface GrowlBrushedPrefsController : NSPreferencePane {
 	IBOutlet NSSlider		*slider_duration;
 	IBOutlet NSTextField	*text_duration;
-	
+	IBOutlet NSComboBox		*combo_screen;
+
 	IBOutlet NSColorWell	*text_veryLow;
 	IBOutlet NSColorWell	*text_moderate;
 	IBOutlet NSColorWell	*text_normal;
@@ -28,5 +29,6 @@
 - (IBAction) floatIconSwitchChanged:(id)sender;
 - (IBAction) setLimit:(id)sender;
 - (IBAction) setAqua:(id)sender;
+- (IBAction) setScreen:(id)sender;
 
 @end

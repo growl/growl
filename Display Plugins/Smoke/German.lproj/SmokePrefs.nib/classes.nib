@@ -8,6 +8,7 @@
                 floatIconSwitchChanged = id; 
                 opacityChanged = id; 
                 setLimit = id; 
+                setScreen = id; 
                 textColorChanged = id; 
             }; 
             CLASS = GrowlSmokePrefsController; 
@@ -18,6 +19,7 @@
                 "color_moderate" = NSColorWell; 
                 "color_normal" = NSColorWell; 
                 "color_veryLow" = NSColorWell; 
+                "combo_screen" = NSComboBox; 
                 floatIconSwitch = NSButton; 
                 limitCheck = NSButton; 
                 "slider_duration" = NSSlider; 

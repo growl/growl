@@ -13,6 +13,7 @@
   IBOutlet NSTextField	*text_opacity;
   IBOutlet NSSlider		*slider_duration;
   IBOutlet NSTextField	*text_duration;
+  IBOutlet NSComboBox	*combo_screen;
 
   IBOutlet NSColorWell	*color_veryLow;
   IBOutlet NSColorWell	*color_moderate;
@@ -36,5 +37,6 @@
 - (IBAction) textColorChanged:(id)sender;
 - (IBAction) floatIconSwitchChanged:(id)sender;
 - (IBAction) setLimit:(id)sender;
+- (IBAction) setScreen:(id)sender;
 
 @end

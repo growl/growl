@@ -34,6 +34,7 @@
 	IBOutlet NSTextField	*text_opacity;
 	IBOutlet NSSlider		*slider_duration;
 	IBOutlet NSTextField	*text_duration;
+	IBOutlet NSComboBox		*combo_screen;
 }
 - (IBAction) setLimit:(id)sender;
 - (IBAction) colorChanged:(id)sender;
@@ -41,5 +42,6 @@
 - (IBAction) topColorChanged:(id)sender;
 - (IBAction) opacityChanged:(id)sender;
 - (IBAction) durationChanged:(id)sender;
+- (IBAction) setScreen:(id)sender;
 
 @end

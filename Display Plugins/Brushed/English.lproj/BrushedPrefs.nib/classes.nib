@@ -7,12 +7,14 @@
                 floatIconSwitchChanged = id; 
                 setAqua = id; 
                 setLimit = id; 
+                setScreen = id; 
                 textColorChanged = id; 
             }; 
             CLASS = GrowlBrushedPrefsController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 aquaCheck = NSButton; 
+                "combo_screen" = NSComboBox; 
                 floatIconSwitch = NSButton; 
                 limitCheck = NSButton; 
                 "slider_duration" = NSSlider; 

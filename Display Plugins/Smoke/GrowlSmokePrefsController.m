@@ -81,6 +81,11 @@
 	[self loadColorWell:text_normal fromKey:GrowlSmokeNormalTextColor defaultColor:defaultColor];
 	[self loadColorWell:text_high fromKey:GrowlSmokeHighTextColor defaultColor:defaultColor];
 	[self loadColorWell:text_emergency fromKey:GrowlSmokeEmergencyTextColor defaultColor:defaultColor];
+
+	// screen number
+	int screenNumber = 0;
+	READ_GROWL_PREF_INT(GrowlSmokeScreenPref, GrowlSmokePrefDomain, &screenNumber);
+	[combo_screen setIntValue:screenNumber];
 }
 
 - (IBAction) opacityChanged:(id)sender {
@@ -174,7 +179,7 @@
 	UPDATE_GROWL_PREFS();
 }
 
--(IBAction) floatIconSwitchChanged:(id)sender {
+- (IBAction) floatIconSwitchChanged:(id)sender {
 	BOOL pref = ([floatIconSwitch state] == NSOnState);
 	WRITE_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, pref, GrowlSmokePrefDomain);	
 	UPDATE_GROWL_PREFS();
@@ -182,6 +187,20 @@
 
 - (IBAction) setLimit:(id)sender {
 	WRITE_GROWL_PREF_BOOL(GrowlSmokeLimitPref, ([sender state] == NSOnState), GrowlSmokePrefDomain);
+	UPDATE_GROWL_PREFS();
+}
+
+- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+	return [[NSScreen screens] count];
+}
+
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+	return [NSNumber numberWithInt:idx];
+}
+
+- (IBAction) setScreen:(id)sender {
+	int pref = [sender intValue];
+	WRITE_GROWL_PREF_INT(GrowlSmokeScreenPref, pref, GrowlSmokePrefDomain);	
 	UPDATE_GROWL_PREFS();
 }
 

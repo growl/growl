@@ -7,6 +7,7 @@
                 durationChanged = id; 
                 opacityChanged = id; 
                 setLimit = id; 
+                setScreen = id; 
                 textColorChanged = id; 
                 topColorChanged = id; 
             }; 
@@ -18,6 +19,7 @@
                 "color_moderate" = NSColorWell; 
                 "color_normal" = NSColorWell; 
                 "color_veryLow" = NSColorWell; 
+                "combo_screen" = NSComboBox; 
                 limitCheck = NSButton; 
                 "slider_duration" = NSSlider; 
                 "slider_opacity" = NSSlider; 

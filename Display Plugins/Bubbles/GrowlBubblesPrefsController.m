@@ -72,6 +72,11 @@
 	[self loadColorWell:top_normal fromKey:GrowlBubblesNormalTopColor defaultColor:defaultColor];
 	[self loadColorWell:top_high fromKey:GrowlBubblesHighTopColor defaultColor:defaultColor];
 	[self loadColorWell:top_emergency fromKey:GrowlBubblesEmergencyTopColor defaultColor:defaultColor];
+
+	// screen number
+	int screenNumber = 0;
+	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &screenNumber);
+	[combo_screen setIntValue:screenNumber];
 }
 
 - (IBAction) setLimit:(id)sender {
@@ -202,6 +207,20 @@
 
 	//NSLog(@"color: %@ array: %@", color, array);
 
+	UPDATE_GROWL_PREFS();
+}
+
+- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+	return [[NSScreen screens] count];
+}
+
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+	return [NSNumber numberWithInt:idx];
+}
+
+- (IBAction) setScreen:(id)sender {
+	int pref = [sender intValue];
+	WRITE_GROWL_PREF_INT(GrowlBubblesScreen, pref, GrowlBubblesPrefDomain);	
 	UPDATE_GROWL_PREFS();
 }
 

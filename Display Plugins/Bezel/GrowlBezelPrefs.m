@@ -67,6 +67,11 @@
 
 	[slider_Duration setFloatValue:durationPref];
 	[text_Duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
+
+	// screen number
+	int screenNumber = 0;
+	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, BezelPrefDomain, &screenNumber);
+	[combo_screen setIntValue:screenNumber];
 }
 
 - (void)didSelect {
@@ -127,6 +132,20 @@
 		WRITE_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, durationPref, BezelPrefDomain);
 	}
 
+	UPDATE_GROWL_PREFS();
+}
+
+- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+	return [[NSScreen screens] count];
+}
+
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+	return [NSNumber numberWithInt:idx];
+}
+
+- (IBAction) setScreen:(id)sender {
+	int pref = [sender intValue];
+	WRITE_GROWL_PREF_INT(BEZEL_SCREEN_PREF, pref, BezelPrefDomain);	
 	UPDATE_GROWL_PREFS();
 }
 

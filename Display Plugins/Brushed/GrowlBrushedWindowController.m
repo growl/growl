@@ -115,7 +115,7 @@ static const double gMaxDisplayTime = 10.;
 
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
-	
+
 	/*[[NSNotificationCenter defaultCenter] addObserver:self 
 											selector:@selector( _glideUp: ) 
 												name:@"Glide"
