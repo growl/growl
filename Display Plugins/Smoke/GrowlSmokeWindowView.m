@@ -13,8 +13,6 @@
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 
-#define BORDER_RADIUS	5.0f
-
 @implementation GrowlSmokeWindowView
 
 - (id)initWithFrame:(NSRect)frame {
@@ -66,7 +64,9 @@
 	}
 
 	// set up bezier path for rounded corners
-	NSBezierPath *path = [NSBezierPath roundedRectPath:shadedBounds radius:BORDER_RADIUS lineWidth:1.f];
+	NSBezierPath *path = [NSBezierPath roundedRectPath:shadedBounds
+												radius:GrowlSmokeBorderRadius
+											 lineWidth:1.f];
 
 	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
 	[graphicsContext saveGraphicsState];
