@@ -262,7 +262,7 @@
 
 - (void)sizeToFit {
 	NSRect rect = [self frame];
-	rect.size.height = (2 * GrowlSmokePadding) + GrowlSmokeTitleTextPadding + [self titleHeight] + [self descriptionHeight];
+	rect.size.height = GrowlSmokeIconPadding + GrowlSmokePadding + GrowlSmokeTitleTextPadding + [self titleHeight] + [self descriptionHeight];
 	float minSize = (2 * GrowlSmokeIconPadding) + [self titleHeight] + GrowlSmokeTitleTextPadding + GrowlSmokeTextFontSize + 1;
 	if(rect.size.height < minSize) {
 		rect.size.height = minSize;
