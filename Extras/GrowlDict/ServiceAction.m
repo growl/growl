@@ -97,8 +97,6 @@
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION object:nil userInfo:growlEvent];
 	
 	[curlTask release];	
-	
-	return;
 }
 
 @end
