@@ -30,7 +30,7 @@
 }
 
 - (void) loadPlugin {
-	notificationQueue = [[NSMutableArray array] retain];
+	notificationQueue = [[NSMutableArray alloc] init];
 }
 
 - (NSString *) author {
