@@ -2231,6 +2231,7 @@
 				34E9EFB30790926400662E8E,
 				34E9EFB40790926400662E8E,
 				952EFC9007C2869700952C6B,
+				9542E51C07C28C3A0056BAC9,
 			);
 			isa = PBXGroup;
 			name = "Growl-WithInstaller.framework";
@@ -2724,6 +2725,7 @@
 			files = (
 				95DBC03007C284BE00DE4ACA,
 				952EFCCF07C2869700952C6B,
+				9542E55B07C28C3A0056BAC9,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3086,7 +3088,6 @@
 				8D202CEC0486D31800D8A456,
 				8D202CF00486D31800D8A456,
 				8D202CF20486D31800D8A456,
-				8D202CF50486D31800D8A456,
 				CB5F92070638C89800EADD7A,
 				340832FE075C2C0A00703011,
 			);
@@ -3192,13 +3193,6 @@
 				95E678F907511471002BF4E6,
 			);
 			isa = PBXFrameworksBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D202CF50486D31800D8A456 = {
-			buildActionMask = 2147483647;
-			files = (
-			);
-			isa = PBXRezBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8D202CF70486D31800D8A456 = {
@@ -3377,6 +3371,41 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		9542E51C07C28C3A0056BAC9 = {
+			children = (
+				9542E53107C28C3A0056BAC9,
+				9542E65907C28D230056BAC9,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlInstallation.strings;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9542E53107C28C3A0056BAC9 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = Resources/English.lproj/GrowlInstallation.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9542E55B07C28C3A0056BAC9 = {
+			fileRef = 9542E51C07C28C3A0056BAC9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9542E65907C28D230056BAC9 = {
+			explicitFileType = text.plist.strings;
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			name = German;
+			path = Resources/German.lproj/GrowlInstallation.strings;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		954F012F074135CC00EA8AB5 = {
 			fileEncoding = 4;
@@ -4017,9 +4046,9 @@
 			productType = "com.apple.product-type.application";
 		};
 		CB61E5180637763C00E0DDC7 = {
+			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			lastKnownFileType = wrapper.application;
 			path = GrowlHelperApp.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;

@@ -11,17 +11,18 @@
 #import "GrowlDefines.h"
 
 #define GROWL_INSTALLATION_NIB @"GrowlInstallationPrompt"
+#define GROWL_INSTALLATION_STRINGS @"GrowlInstallation.strings"
 
-#define DEFAULT_INSTALLATION_WINDOW_TITLE NSLocalizedString(@"Growl Installation Recommended", "Growl installation window title")
-#define DEFAULT_UPDATE_WINDOW_TITLE NSLocalizedString(@"Growl Update Available", "Growl update window title")
+#define DEFAULT_INSTALLATION_WINDOW_TITLE NSLocalizedStringFromTable(@"Growl Installation Recommended", GROWL_INSTALLATION_STRINGS, @"Growl installation window title")
+#define DEFAULT_UPDATE_WINDOW_TITLE NSLocalizedStringFromTable(@"Growl Update Available", GROWL_INSTALLATION_STRINGS, @"Growl update window title")
 
-#define DEFAULT_INSTALLATION_EXPLANATION NSLocalizedString(@"This program displays information via Growl, a centralized notification system.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.","Default Growl installation explanation")
-#define DEFAULT_UPDATE_EXPLANATION NSLocalizedString(@"This program displays information via Growl, a centralized notification system.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.","Default Growl update explanation")
+#define DEFAULT_INSTALLATION_EXPLANATION NSLocalizedStringFromTable(@"This program displays information via Growl, a centralized notification system.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.", GROWL_INSTALLATION_STRINGS, @"Default Growl installation explanation")
+#define DEFAULT_UPDATE_EXPLANATION NSLocalizedStringFromTable(@"This program displays information via Growl, a centralized notification system.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.", GROWL_INSTALLATION_STRINGS, @"Default Growl update explanation")
 
-#define INSTALL_BUTTON_TITLE NSLocalizedString(@"Install","Button title for installing Growl")
-#define UPDATE_BUTTON_TITLE NSLocalizedString(@"Update","Button title for updating Growl")
-#define CANCEL_BUTTON_TITLE NSLocalizedString(@"Cancel","Button title for canceling installation of Growl")
-#define DONT_ASK_AGAIN_CHECKBOX_TITLE NSLocalizedString(@"Don't Ask Again","Don't ask again checkbox title for installation of Growl")
+#define INSTALL_BUTTON_TITLE NSLocalizedStringFromTable(@"Install", GROWL_INSTALLATION_STRINGS, @"Button title for installing Growl")
+#define UPDATE_BUTTON_TITLE NSLocalizedStringFromTable(@"Update", GROWL_INSTALLATION_STRINGS, @"Button title for updating Growl")
+#define CANCEL_BUTTON_TITLE NSLocalizedStringFromTable(@"Cancel", GROWL_INSTALLATION_STRINGS, @"Button title for canceling installation of Growl")
+#define DONT_ASK_AGAIN_CHECKBOX_TITLE NSLocalizedStringFromTable(@"Don't Ask Again", GROWL_INSTALLATION_STRINGS, @"Don't ask again checkbox title for installation of Growl")
 
 #define GROWL_TEXT_SIZE 11
 
@@ -188,7 +189,7 @@
 }
 
 // called as the window closes
-- (BOOL)windowShouldClose:(id)sender
+- (BOOL) windowShouldClose:(id)sender
 {    
 	//If the window closes via the close button or cmd-W, it should be treated as clicking Cancel.
 	[self cancel:nil];
@@ -196,7 +197,7 @@
     return(YES);
 }
 
-- (void)performInstallGrowl
+- (void) performInstallGrowl
 {
 	// Obtain the path to the archived Growl.prefPane
 	NSBundle *bundle;
@@ -230,7 +231,7 @@
 	}
 }
 
-- (void)releaseAndClose
+- (void) releaseAndClose
 {
 	[self autorelease];
 	[[self window] close];	
