@@ -149,27 +149,31 @@
 		} else if (fullPath) {
 			icon = [[workspace iconForFile:fullPath] retain];
 		}
-		id useDefaultsParam = [ticketDict objectForKey:UseDefaultsKey];
-		if (useDefaultsParam) {
-			useDefaults = [useDefaultsParam boolValue];
+
+		id value = [ticketDict objectForKey:UseDefaultsKey];
+		if (value) {
+			useDefaults = [value boolValue];
 		} else {
 			useDefaults = YES;
 		}
 
-		if ([ticketDict objectForKey:TicketEnabledKey]) {
-			ticketEnabled = [[ticketDict objectForKey:TicketEnabledKey] boolValue];
+		value = [ticketDict objectForKey:TicketEnabledKey];
+		if (value) {
+			ticketEnabled = [value boolValue];
 		} else {
 			ticketEnabled = YES;
 		}
 
-		if ([ticketDict objectForKey:UsesCustomDisplayKey]) {
-			usesCustomDisplay = [[ticketDict objectForKey:UsesCustomDisplayKey] boolValue];
+		value = [ticketDict objectForKey:UsesCustomDisplayKey];
+		if (value) {
+			usesCustomDisplay = [value boolValue];
 		} else {
 			usesCustomDisplay = NO;
 		}
 
-		if ([ticketDict objectForKey:GrowlDisplayPluginKey]) {
-			[self setDisplayPluginNamed:[ticketDict objectForKey:GrowlDisplayPluginKey]];
+		value = [ticketDict objectForKey:GrowlDisplayPluginKey];
+		if (value) {
+			[self setDisplayPluginNamed:value];
 		} else {
 			displayPlugin = nil;
 		}

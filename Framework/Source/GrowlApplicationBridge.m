@@ -328,6 +328,14 @@ static BOOL				promptedToUpgradeGrowl = NO;
 
 		registrationDictionary = properRegistrationDictionary;
 	}
+	if (![registrationDictionary objectForKey:GROWL_APP_ICON] && appIconData) {
+		NSMutableDictionary	*properRegistrationDictionary = [[registrationDictionary mutableCopy] autorelease];
+		
+		[properRegistrationDictionary setObject:appIconData
+										 forKey:GROWL_APP_ICON];
+
+		registrationDictionary = properRegistrationDictionary;
+	}
 
 	return registrationDictionary;
 }
