@@ -51,9 +51,9 @@
 
 	NSData *imageData = nil;
 	NSString *URLString = [albumInfo objectForKey:@"artworkURL"];
-	NSURL *URL = [NSURL URLWithString:URLString];
 	if (URLString && [URLString length]) {
 		@try {
+			NSURL *URL = [NSURL URLWithString:URLString];
 			imageData = [self download:URL];
 		}
 		@catch(NSException *e) {
