@@ -383,10 +383,11 @@
 
 /*	if(![tickets objectForKey:app])
 		[growlApplications addItemWithTitle:app];*/
-	//we need to re create applications array;
-	[growlApplications reloadData];
 	
 	[tickets setObject:ticket forKey:app];
+	[applications release];
+	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
+	[growlApplications reloadData];
 	
 	if([currentApplication isEqualToString:app])
 		[self reloadPreferences];	
