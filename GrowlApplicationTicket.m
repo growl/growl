@@ -82,6 +82,7 @@
 #pragma mark -
 - (id) initTicketFromPath:(NSString *) inPath {
 	//load a Plist file of this object to maintain configuration through launches
+	id iconObject;
 	if ( self = [super init] ) {
 		NSLog(@"Loading from path: %@\n", inPath);
 		NSDictionary *ticketsList = [NSDictionary dictionaryWithContentsOfFile:inPath];
@@ -90,7 +91,11 @@
 		_allNotifications = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL]];
 		_allowedNotifications = [[NSMutableArray alloc] init];
 		[self setAllowedNotifications:[ticketsList objectForKey:GROWL_NOTIFICATIONS_USER_SET]];
-		_icon = [[[NSWorkspace sharedWorkspace] iconForApplication:_appName] retain];
+		if(iconObject = [ticketsList objectForKey:GROWL_APP_ICON]) {
+			_icon = [[NSImage alloc] initWithData:iconObject];
+		} else {
+			_icon = [[[NSWorkspace sharedWorkspace] iconForApplication:_appName] retain];
+		}
 		_useDefaults = [[ticketsList objectForKey:@"useDefaults"] boolValue];
 		if([ticketsList objectForKey:@"ticketEnabled"]) {
 			ticketEnabled = [[ticketsList objectForKey:@"ticketEnabled"] boolValue];
@@ -120,7 +125,7 @@
 	NSString *savePath = [destDir stringByAppendingPathComponent:[_appName stringByAppendingPathExtension:@"growlTicket"]];
 	NSDictionary *saveDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		_appName, GROWL_APP_NAME,
-		/*[_icon TIFFRepresentation], GROWL_NOTIFICATION_ICON,*/
+		_icon?[_icon TIFFRepresentation]:[NSData data], GROWL_APP_ICON,
 		_allNotifications, GROWL_NOTIFICATIONS_ALL,
 		_defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		_allowedNotifications, GROWL_NOTIFICATIONS_USER_SET,
