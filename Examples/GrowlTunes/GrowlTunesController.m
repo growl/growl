@@ -36,7 +36,7 @@ enum {
 		[GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(registerGrowl:) context:NULL];
 		self->state = itUNKNOWN;
 
-		self->plugins = [self loadPlugins];
+		self->plugins = [[self loadPlugins] retain];
 	}
 
 	return self;
