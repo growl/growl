@@ -24,39 +24,58 @@ The options are as follows:
 .Bl -tag -width Fl
 .It Fl h , Fl -help
 Displays this help and exit.
-.It Fl s , Fl -sticky
-Causes the notification to stick around until clicked.
 .It Fl n , Fl -name Ar name
 Sets the application name to register the notification under.
 By default 'growlnotify' is used.
-.It Fl a , -appIcon Ar name
-Sets the notification icon to the icon for the given application name.
-.It Fl i , Fl -icon Ar ext
-Sets the notification icon to the default icon for the given extension or HFS-encoded filetype.
-.It Fl I , -iconpath Ar path
-Sets the notification icon to the icon for the given filepath.
-.It Fl -image Ar path
-Sets the notification icon to the given image file.
-.It Fl p , -priority Ar priority
-Sets the priority for the notification to an int or named key (default is 0).
+.It Ar title
+The title of the notification.
+.It Fl t , -title
+Does nothing.
+This is included to make the syntax compatible with gnotify, another Growl example written in a different programming language.
 .It Fl m , -message Ar message
 Uses
 .Ar message
-instead of stdin as the notification message.
+instead of stdin as the notification message (also called description).
 If
 .Ar message
-is '-' then stdin is still used.
-.It Fl t , -title
-Does nothing.
-This is included to make the syntax compatible with gnotify.
-.It Ar title
-The title of the notification.
+is '-', stdin is still used.
+.It Fl a , -appIcon Ar name
+Sets the notification's application icon to the icon for the given application name. If you don't specify a notification icon, this will be used instead of it; if you specify both, the application icon may be used as a badge (that is, displayed in a corner of the notification icon, superimposed on top of it), or the display may show both separately.
+.Pp
+Icons are not supported by all displays, so this may be ignored.
+.It Fl i , Fl -icon Ar ext
+Sets the notification icon to the default icon for the given extension or HFS-encoded file type. For example,
+.Fl i
+mp3 and
+.Fl i
+\'MP3 ' (note the space in the second example) will both use the icon for MP3 files.
+.Pp
+Icons are not supported by all displays, so this may be ignored.
+.It Fl I , -iconpath Ar path
+Sets the notification icon to the given file's icon (the icon you would see in the Finder if you were looking at the file).
+.Pp
+Icons are not supported by all displays, so this may be ignored.
+.It Fl -image Ar path
+Sets the notification icon to contents of the given image file. As of Mac OS X 10.3, this file must be in PNG, JPEG, TIFF, PICT, PDF, JPEG 2000, Adobe Photoshop, BMP, .ico, or .icns format. If the image data is in a format Growl doesn't recognize, the notification will still go through, and the icon will be ignored.
+.Pp
+Icons are not supported by all displays, so this may be ignored anyway.
+.It Fl p , -priority Ar priority
+Sets the priority for the notification to an int or named key (default is 0).
+.Pp
+Priority is not supported by all displays, so this may be ignored.
+.It Fl s , Fl -sticky
+Causes the notification to stick around until clicked.
+.Pp
+Sticky notifications are not supported by all displays, so this may be ignored.
 .El
 .Pp
-Displays a notification using Growl. If
+.Nm
+displays a notification using Growl. If
 .Fl m
-isn't specified or is set to '-' then the message is read from stdin.
-To terminate your message when reading from stdin, press ctrl-D on a new line.
+isn't specified or is set to '-', the message is read from stdin.
+If you don't redirect stdin (e.g. with the shell's | or < operators),
+.Nm
+will be reading from the terminal, and you will need to send EOF (normally, ctrl-D) on an empty line to end the message.
 .Pp
 If
 .Fl p
@@ -74,9 +93,11 @@ Displays this help file.
 .Dl growlnotify has finished building
 .Dl ^D
 .Pp
-Displays a notification telling you that growlnotify has finished building.
+Displays a notification telling you that
+.Nm
+has finished building.
 .Pp
-.Dl growlnotify --appIcon Xcode Build complete -m 'growlnotify has finished building'
+.Dl growlnotify --appIcon Xcode Build complete -m 'Xcode has finished building'
 .Pp
 The same as the previous one but suitable for embedding in a script (such as a Shell Script phase).
 .Pp                      \" Inserts a space
