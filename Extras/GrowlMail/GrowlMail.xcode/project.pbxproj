@@ -37,6 +37,46 @@
 //012
 //013
 //014
+//070
+//071
+//072
+//073
+//074
+		07944BBB07C3C540002D0BAF = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				07944BBE07C3C556002D0BAF,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07944BBE07C3C556002D0BAF = {
+			fileRef = 0A8329A206B854F700F4F4EE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07944BCB07C3C590002D0BAF = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Growl.framework;
+			path = build/GrowlMail.mailbundle/Contents/Frameworks/Growl.framework;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07944BCC07C3C590002D0BAF = {
+			fileRef = 07944BCB07C3C590002D0BAF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//070
+//071
+//072
+//073
+//074
 //080
 //081
 //082
@@ -178,6 +218,7 @@
 //104
 		1058C7ACFEA557BF11CA2CBB = {
 			children = (
+				07944BCB07C3C590002D0BAF,
 				4B2E729506B5776B00386BF2,
 				1058C7ADFEA557BF11CA2CBB,
 			);
@@ -304,6 +345,7 @@
 			buildPhases = (
 				8D5B49AD048680CD000E48DA,
 				8D5B49AF048680CD000E48DA,
+				07944BBB07C3C540002D0BAF,
 				8D5B49B1048680CD000E48DA,
 				8D5B49B3048680CD000E48DA,
 				8D5B49B5048680CD000E48DA,
@@ -311,7 +353,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = ../../build;
+				FRAMEWORK_SEARCH_PATHS = "../../build /Users/boredzo/Projects/otherpeoplesprojects/Growl/Extras/GrowlMail/build/GrowlMail.mailbundle/Contents/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -396,6 +438,7 @@
 			files = (
 				8D5B49B4048680CD000E48DA,
 				4B2E729606B5776B00386BF2,
+				07944BCC07C3C590002D0BAF,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
