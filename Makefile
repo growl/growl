@@ -15,7 +15,7 @@ RM=rm
 
 .PHONY : default all growl growlhelperapp growlappbridge clean install
 
-default: growlappbridge
+default:
 	xcodebuild -project Growl.xcode -target Growl -buildstyle $(BUILDSTYLE) build
 
 all: growlappbridge
@@ -39,4 +39,10 @@ install:
 	-$(RM) -rf $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE) $(FRAMEWORKS_DIR)/$(GROWL_FRAMEWORK)
 	$(CP) $(BUILD_DIR)/$(GROWL_PREFPANE) $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
 	$(CP) $(BUILD_DIR)/$(GROWL_FRAMEWORK) $(FRAMEWORKS_DIR)/$(GROWL_FRAMEWORK)
+	open $(GROWL_HELPER_APP)
+
+install-growl:
+	killall GrowlHelperApp || true
+	-$(RM) -rf $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
+	$(CP) $(BUILD_DIR)/$(GROWL_PREFPANE) $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
 	open $(GROWL_HELPER_APP)
