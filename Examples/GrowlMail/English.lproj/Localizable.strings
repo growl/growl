@@ -4,5 +4,7 @@
 <dict>
 	<key>New mail</key>
 	<string>New mail</string>
+	<key>%@ - %d new mail(s)</key>
+	<string>%@ - %d new mail(s)</string>
 </dict>
 </plist>

@@ -34,12 +34,15 @@
 	[self registerBundle];
 
 	NSNumber *enabled = [[NSNumber alloc] initWithBool:YES];
+	NSNumber *disabled = [[NSNumber alloc] initWithBool:NO];
 	NSDictionary *defaultsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
 		enabled, @"GMEnableGrowlMailBundle",
 		enabled, @"GMIgnoreJunk",
+		disabled, @"GMShowSummary",
 		nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDictionary];
 	[defaultsDictionary release];
+	[disabled release];
 	[enabled release];
 
 	NSLog( @"Loaded GrowlMail %@", [GrowlMail bundleVersion] );
@@ -127,6 +130,16 @@
 	[newSettings setObject: [NSNumber numberWithBool:yesOrNo] forKey:path];
 	[[NSUserDefaults standardUserDefaults] setObject:newSettings forKey:@"GMAccounts"];
 	[newSettings release];
+}
+
+- (BOOL)showSummary
+{
+	return( [[NSUserDefaults standardUserDefaults] boolForKey:@"GMShowSummary"] );
+}
+
+- (void)setShowSummary:(BOOL)yesOrNo
+{
+	[[NSUserDefaults standardUserDefaults] setBool:yesOrNo forKey:@"GMShowSummary"];
 }
 
 @end

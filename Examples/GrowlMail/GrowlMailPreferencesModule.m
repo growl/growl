@@ -45,6 +45,7 @@
 	GrowlMail *mailBundle = [GrowlMail sharedInstance];
 	[enabledButton setState:([mailBundle isEnabled] ? NSOnState : NSOffState)];
 	[junkButton setState:([mailBundle isIgnoreJunk] ? NSOnState : NSOffState)];
+	[summaryButton setState:([mailBundle showSummary] ? NSOnState : NSOffState)];
 }
 
 - (NSString *)preferencesNibName
@@ -104,5 +105,10 @@
 - (IBAction)toggleIgnoreJunk:(id)sender
 {
     [[GrowlMail sharedInstance] setIgnoreJunk:([sender state] == NSOnState)];
+}
+
+- (IBAction)toggleShowSummary:(id)sender
+{
+    [[GrowlMail sharedInstance] setShowSummary:([sender state] == NSOnState)];
 }
 @end

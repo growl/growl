@@ -19,4 +19,6 @@
 - (void)setIgnoreJunk:(BOOL)yesOrNo;
 - (BOOL)isAccountEnabled:(NSString *)path;
 - (void)setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path;
+- (BOOL)showSummary;
+- (void)setShowSummary:(BOOL)yesOrNo;
 @end
