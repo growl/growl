@@ -531,10 +531,12 @@ static const char *keychainAccountName = "Growl";
 	}
 }
 
-- (IBAction) setEnableForward:(id)sender {
-	BOOL enabled = [sender state] == NSOnState;
+- (void) setForwardingEnabled:(BOOL)enabled {
 	[growlServiceList setEnabled:enabled];
 	[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:enabled] forKey:GrowlEnableForwardKey];
+}
+- (BOOL) isForwardingEnabled {
+	return [[[GrowlPreferences preferences] objectForKey:GrowlEnableForwardKey] boolValue];
 }
 
 #pragma mark "Display Options" tab pane

@@ -101,7 +101,8 @@
 - (IBAction) startGrowlServer:(id)sender;
 - (IBAction) allowRemoteRegistration:(id)sender;
 - (IBAction) setRemotePassword:(id)sender;
-- (IBAction) setEnableForward:(id)sender;
+- (void) setForwardingEnabled:(BOOL)enabled;
+- (BOOL) isForwardingEnabled;
 
 - (IBAction) selectDisplayPlugin:(id)sender;
 - (IBAction) deleteTicket:(id)sender;
