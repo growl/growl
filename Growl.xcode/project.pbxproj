@@ -325,6 +325,34 @@
 //342
 //343
 //344
+		340832F1075C2BED00703011 = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Rendezvous.growlView;
+			refType = 3;
+			remoteRef = 34083304075C2C1900703011;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		340832FE075C2C0A00703011 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Cleaning up unneeded files...\"\nfind $BUILD_ROOT/$WRAPPER_NAME -name '.svn' -print0 | xargs -0 rm -rf\nfind $BUILD_ROOT/$WRAPPER_NAME -name '.DS_Store' -print0 | xargs -0 rm -rf\nfind $BUILD_ROOT/$WRAPPER_NAME -name '*.h' -print0 | xargs -0 rm -rf";
+		};
+		34083304075C2C1900703011 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 9594781407489C2F00B8B23E;
+			remoteInfo = Rendezvous;
+		};
 		345A68EE06FF684E00114E06 = {
 			fileType = wrapper.cfbundle;
 			isa = PBXReferenceProxy;
@@ -651,6 +679,7 @@
 				0A04279607088E7D0058CBD0,
 				83282736073A6B750044A959,
 				956BF7550749FBE100D8B367,
+				340832F1075C2BED00703011,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -858,6 +887,7 @@
 				8D202CF20486D31800D8A456,
 				8D202CF50486D31800D8A456,
 				CB5F92070638C89800EADD7A,
+				340832FE075C2C0A00703011,
 			);
 			buildRules = (
 			);
