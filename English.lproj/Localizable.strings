@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Growl is running.</key>
+	<string>Growl is running.</string>
+	<key>Growl is stopped.</key>
+	<string>Growl is stopped.</string>
+	<key>Launching Growl...</key>
+	<string>Launching Growl…</string>
+	<key>Start Growl</key>
+	<string>Start Growl</string>
+	<key>Stop Growl</key>
+	<string>Stop Growl</string>
+	<key>Terminating Growl...</key>
+	<string>Terminating Growl…</string>
+</dict>
+</plist>

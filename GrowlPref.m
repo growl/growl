@@ -151,8 +151,8 @@
 	[startStopTimer invalidate];
 	startStopTimer = nil;
 	[startStopGrowl setEnabled:YES];
-	[startStopGrowl setTitle:growlIsRunning?@"Stop Growl":@"Start Growl"];
-	[growlRunningStatus setStringValue:growlIsRunning?@"Growl is running.":@"Growl is stopped"];
+	[startStopGrowl setTitle:growlIsRunning?NSLocalizedStringFromTableInBundle(@"Stop Growl",nil,[self bundle],@""):NSLocalizedStringFromTableInBundle(@"Start Growl",nil,[self bundle],@"")];
+	[growlRunningStatus setStringValue:growlIsRunning?NSLocalizedStringFromTableInBundle(@"Growl is running.",nil,[self bundle],@""):NSLocalizedStringFromTableInBundle(@"Growl is stopped.",nil,[self bundle],@"")];
 	[growlRunningProgress stopAnimation:self];
 }
 
@@ -204,7 +204,7 @@
 	if(!growlIsRunning) {
 		//growlIsRunning = [[NSWorkspace sharedWorkspace] launchApplication:helperPath];
 		[startStopGrowl setEnabled:NO];
-		[growlRunningStatus setStringValue:[NSString stringWithUTF8String:"Launching Growl…"]];
+		[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
 		[growlRunningProgress startAnimation:self];
 		// We want to launch in background, so we have to resort to Carbon
 		LSLaunchFSRefSpec spec;
@@ -222,7 +222,7 @@
 		//growlIsRunning = (status == noErr);
 	} else {
 		[startStopGrowl setEnabled:NO];
-		[growlRunningStatus setStringValue:[NSString stringWithUTF8String:"Terminating Growl…"]];
+		[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
 		[growlRunningProgress startAnimation:self];
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
 		//growlIsRunning = NO;
