@@ -12,8 +12,9 @@
 @implementation NSString (ARTchiveStringAdditions)
 - (NSString *)stringByMakingPathSafe {
 	NSMutableString *temp = [self mutableCopy];
-	[temp replaceOccurrencesOfString:@":" withString:@"_" options:NSLiteralSearch range:NSMakeRange(0, [temp length])];
-	[temp replaceOccurrencesOfString:@"/" withString:@"_" options:NSLiteralSearch range:NSMakeRange(0, [temp length])];
+	NSRange range = { 0U, [temp length] };
+	[temp replaceOccurrencesOfString:@":" withString:@"_" options:NSLiteralSearch range:range];
+	[temp replaceOccurrencesOfString:@"/" withString:@"_" options:NSLiteralSearch range:range];
 	return [NSString stringWithString:temp];
 }
 @end

@@ -152,19 +152,21 @@
 	NSString *fullPath = nil;
 	NSString *artworkDir = [self pathForTrack:track artist:artist album:album compilation:compilation];
 	if ([album length]) {
-		fullPath = [artworkDir stringByAppendingPathComponent:@"Cover.tiff"];
+		fullPath = [artworkDir stringByAppendingPathComponent:@"Cover.png"];
 	} else {
-		NSArray *components = [NSArray arrayWithObjects:artworkDir, @"Tracks", track, @"Track.tiff", nil];
+		NSArray *components = [NSArray arrayWithObjects:artworkDir, @"Tracks", track, @"Track.png", nil];
 		fullPath = [NSString pathWithComponents:components];
 	}
 	//NSLog(@"Archiving artwork at %@", fullPath);
 	if ([manager fileExistsAtPath:fullPath])
 		NSLog(@"Error, should not happen ! The ARTchive plugin should have returned the artwork, as it already exists !");
-	else
+	else {
+		NSData *imageData = [NSBitmapImageRep representationOfImageRepsInArray:[image representations] usingType:NSPNGFileType properties:nil];
 		return ([self createDirectoriesAtPath:[fullPath stringByDeletingLastPathComponent] attributes:NULL] && 
 			[manager createFileAtPath:fullPath
-							 contents:[image TIFFRepresentation]
+							 contents:imageData
 						   attributes:NULL]);
+	}
 	return NO;
 }
 
