@@ -265,7 +265,8 @@
 	
 	if (_textHeight == 0)
 	{
-		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:_text
+		NSString *content = _text ? _text : @"";
+		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:content
 																attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 																	[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
 																	nil
