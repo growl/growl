@@ -93,6 +93,7 @@
 							isSticky:NO
 						clickContext:@""];	// non-nil click context
 			}
+			[accountSummary release];
 		}
 	}
 
