@@ -62,7 +62,9 @@
 	if ( ![aDict objectForKey:GROWL_NOTIFICATION_ICON] ) {
 		icon = [[_tickets objectForKey:[aDict objectForKey:GROWL_APP_NAME]] icon];
 	} else {
-		icon = [[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]] autorelease];
+		icon = [[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]];
+		if(icon)
+			icon = [icon autorelease];
 	}
 	if(icon) {
 		[aDict setObject:icon 
@@ -160,31 +162,34 @@
 	NSData  *iconData = [[note userInfo] objectForKey:GROWL_APP_ICON];
 	if(iconData) {
 		appIcon = [[NSImage alloc] initWithData:iconData];
+		if(appIcon)
+			appIcon = [appIcon autorelease];
 	} else {
 		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
 	}
 	
 	NSArray * allNotes = [[note userInfo] objectForKey:GROWL_NOTIFICATIONS_ALL];
 	NSArray * defaultNotes = [[note userInfo] objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
-	
-	GrowlApplicationTicket *newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
-																				withIcon:appIcon
-																		andNotifications:allNotes
-																		 andDefaultNotes:defaultNotes
-																			  fromParent:self];
-	
+
+	GrowlApplicationTicket *newApp;
+
 	if ( ! [_tickets objectForKey:appName] ) {
+		newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
+															withIcon:appIcon
+													andNotifications:allNotes
+													 andDefaultNotes:defaultNotes
+														  fromParent:self];
 		[_tickets setValue:newApp forKey:appName];
+		[newApp autorelease];
 		NSLog( @"%@ has registered", appName );
 	} else {
 		NSLog( @"%@ has already registered", appName );
-		GrowlApplicationTicket *aApp = [_tickets objectForKey:appName];
-		[aApp setAllNotifications:allNotes];
-		[aApp setDefaultNotifications:defaultNotes];
+		newApp = [_tickets objectForKey:appName];
+		[newApp setAllNotifications:allNotes];
+		[newApp setDefaultNotifications:defaultNotes];
 	}
-	
-	[newApp saveTicket];
-	
-}
-@end
 
+	[newApp saveTicket];
+}
+
+@end
