@@ -14,13 +14,16 @@
 - (id) init {
 	if (self = [super init]) {
 		NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-		NSDictionary *dict = [defs persistentDomainForName:@"public.music.artwork"];
-		libraryLocation = [dict objectForKey:@"LibraryLocation"];
-		if (!libraryLocation) libraryLocation = @"~/Library/Images/Music";
-		libraryLocation = [[libraryLocation stringByExpandingTildeInPath] retain];
-		preferredImage = [[dict objectForKey:@"PreferredImage"] retain];
-		if (!preferredImage) preferredImage = @"Cover";
-		artworkSubdirectory = [[dict objectForKey:@"ArtworkSubdirectory"] retain];
+		NSDictionary *dict   = [defs persistentDomainForName:@"public.music.artwork"];
+
+		libraryLocation      = [dict objectForKey:@"LibraryLocation"];
+		if (!libraryLocation)  libraryLocation = @"~/Library/Images/Music";
+		libraryLocation      = [[libraryLocation stringByExpandingTildeInPath] retain];
+
+		preferredImage       = [[dict objectForKey:@"PreferredImage"]          retain];
+		if (!preferredImage)   preferredImage  = @"Cover";
+
+		artworkSubdirectory  = [[dict objectForKey:@"ArtworkSubdirectory"]     retain];
 	}
 	return self;
 }
@@ -128,22 +131,27 @@
 }
 
 - (BOOL) createDirectoriesAtPath:(NSString *)inPath attributes:(NSDictionary *)inAttributes {
-	NSArray *components = [inPath pathComponents];
-	int i;
-	BOOL result = YES;
-	NSFileManager *manager = [NSFileManager defaultManager];
+	NSArray       *components    = [inPath pathComponents];
+	unsigned       numComponents = [components count];
+	BOOL           result        = YES;
+	NSFileManager *manager       = [NSFileManager defaultManager];
+	NSWorkspace   *workspace     = [NSWorkspace sharedWorkspace];
+	NSString      *lastSubpath   = nil;
 
-	for (i = 1 ; i <= [components count] ; i++ ) {
+	for (unsigned i = 1U; i <= numComponents; ++i) {
 		NSArray *subComponents = [components subarrayWithRange:NSMakeRange(0,i)];
-		NSString *subPath = [NSString pathWithComponents:subComponents];
+		NSString *subpath = [NSString pathWithComponents:subComponents];
 		BOOL isDir;
-		BOOL exists = [manager fileExistsAtPath:subPath isDirectory:&isDir];
+		BOOL exists = [manager fileExistsAtPath:subpath isDirectory:&isDir];
 
 		if (!exists) {
-			result = [manager createDirectoryAtPath:subPath attributes:inAttributes];
+			result = [manager createDirectoryAtPath:subpath attributes:inAttributes];
 			if (!result)
 				return result;
+			else
+				[workspace noteFileSystemChanged:lastSubpath];
 		}
+		lastSubpath = subpath;
 	}
 	return result;
 }
@@ -151,8 +159,9 @@
 
 - (BOOL)archiveImage:(NSImage *)image track:(NSString *)track artist:(NSString *)artist album:(NSString *)album compilation:(BOOL)compilation {
 	NSFileManager *manager = [NSFileManager defaultManager];
-	NSString *fullPath = nil;
 	NSString *artworkDir = [self pathForTrack:track artist:artist album:album compilation:compilation];
+
+	NSString *fullPath = nil;
 	if ([album length]) {
 		NSString *component = [preferredImage stringByAppendingPathExtension:@"png"];
 		fullPath = [artworkDir stringByAppendingPathComponent:component];
@@ -161,16 +170,23 @@
 		fullPath = [NSString pathWithComponents:components];
 	}
 	//NSLog(@"Archiving artwork at %@", fullPath);
+
+	BOOL success = NO;
 	if ([manager fileExistsAtPath:fullPath])
-		NSLog(@"Error, should not happen ! The ARTchive plugin should have returned the artwork, as it already exists !");
+		NSLog(@"This is strange. %@ exists, but the ARTchive plug-in did not return artwork for it.", fullPath);
 	else {
 		NSData *imageData = [NSBitmapImageRep representationOfImageRepsInArray:[image representations] usingType:NSPNGFileType properties:nil];
-		return ([self createDirectoriesAtPath:[fullPath stringByDeletingLastPathComponent] attributes:NULL] && 
-			[manager createFileAtPath:fullPath
-							 contents:imageData
-						   attributes:NULL]);
+		NSString *directory = [fullPath stringByDeletingLastPathComponent];
+		BOOL success = [self createDirectoriesAtPath:directory attributes:nil];
+		if (success) {
+			success = [manager createFileAtPath:fullPath
+			                           contents:imageData
+			                         attributes:nil];
+			if (success)
+				[[NSWorkspace sharedWorkspace] noteFileSystemChanged:directory];
+		}
 	}
-	return NO;
+	return success;
 }
 
 @end

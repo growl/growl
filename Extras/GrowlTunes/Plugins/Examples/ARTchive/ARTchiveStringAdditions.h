@@ -10,5 +10,7 @@
 
 
 @interface NSString (ARTchiveStringAdditions)
+
 - (NSString *)stringByMakingPathSafe;
+
 @end
