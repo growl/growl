@@ -11,8 +11,9 @@
     IBOutlet NSTextField	*_newNotificationTitle;				// The name of this note
 	
 	//main window
+	IBOutlet NSWindow		*_beepWindow;						// The main window
     IBOutlet NSTableView	*_notificationsTable;				// The table of notifications
-    IBOutlet NSButton		*_registered;						// The magic button the registers/unregisters
+    IBOutlet NSButton		*_registered;						// The magic button that registers/unregisters
     IBOutlet NSButton		*_removeNotification;				// The remove button (TBR)
 	
 	//data
@@ -22,4 +23,5 @@
 - (IBAction)addNotification:(id)sender;
 - (IBAction)registerBeep:(id)sender;
 - (IBAction)sendNotification:(id)sender;
+- (IBAction) endPanel:(id)sender;
 @end

@@ -1,10 +1,17 @@
 {
     IBClasses = (
         {
-            ACTIONS = {addNotification = id; registerBeep = id; sendNotification = id; }; 
+            ACTIONS = {
+                addNotification = id; 
+                endPanel = id; 
+                registerBeep = id; 
+                sendNotification = id; 
+                showAddSheet = id; 
+            }; 
             CLASS = BeepController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "_beepWindow" = NSWindow; 
                 "_newNotificationDefault" = NSButton; 
                 "_newNotificationDescription" = NSTextField; 
                 "_newNotificationImage" = NSImageView; 
