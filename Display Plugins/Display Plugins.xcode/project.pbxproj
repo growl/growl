@@ -296,7 +296,7 @@
 			);
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = "Display Plugins_Prefix.pch";
 				INFOPLIST_FILE = "NSLogging-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_CFLAGS = "";
@@ -400,10 +400,9 @@
 			);
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = "Display Plugins_Prefix.pch";
 				INFOPLIST_FILE = "Bezel-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
@@ -452,10 +451,9 @@
 		6C60D7BD06F044110025909F = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "Bezel-Info.plist";
-			path = "/Users/eevyl/growl/Display Plugins/Bezel-Info.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = "Bezel-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		6C60D7C206F044A30025909F = {
 			children = (

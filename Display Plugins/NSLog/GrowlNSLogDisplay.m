@@ -7,7 +7,7 @@
 //
 
 #import "GrowlNSLogDisplay.h"
-
+@class NSPreferencePane;
 
 @implementation GrowlNSLogDisplay
 
@@ -26,7 +26,7 @@
 	return (NSDictionary*)info;	
 }
 
-- (NSView*) displayPrefView {
+- (NSPreferencePane *) preferencePane {
 	return nil;
 }
 
