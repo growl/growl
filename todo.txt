@@ -26,8 +26,8 @@ To-Do
 
 
 - Bindings
-	- Real Basic:
-		Real Basic Binding needs to be finished
+	- REALbasic:
+		REALbasic Binding needs to be finished
 		Documentation on this
 	- Python:
 		Up to date documentation
