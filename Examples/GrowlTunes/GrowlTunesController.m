@@ -137,7 +137,7 @@ enum {
 	NSDictionary			* error = nil;
 	NSAppleEventDescriptor  * retVal;
 	NSString				* playerState;
-	iTunesState				newState;
+	iTunesState				newState = itUNKNOWN;
 	int						newTrackID = -1;
 	
 	retVal = [pollScript executeAndReturnError:&error];
