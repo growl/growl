@@ -67,7 +67,7 @@ static GrowlPluginController *sharedController;
 	NSArray			*librarySearchPaths;
 	NSEnumerator	*searchPathEnumerator;
 	NSString		*preferencePanesSubfolder, *path;
-	NSMutableArray  *pathArray = [NSMutableArray arrayWithCapacity:4];
+	NSMutableArray  *pathArray = [NSMutableArray arrayWithCapacity:3U];
 	
 	preferencePanesSubfolder = PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY;
 	
@@ -91,24 +91,21 @@ static GrowlPluginController *sharedController;
 	
 	prefPaneExtension = PREFERENCE_PANE_EXTENSION;
 	searchPathEnumerator = [self _preferencePaneSearchEnumerator];		
-    
+	
 	while ( (path = [searchPathEnumerator nextObject]) ) {
-		
-        NSString				*bundlePath;
+		NSString				*bundlePath;
 		NSDirectoryEnumerator   *bundleEnum;
 		
-        bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
+		bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
 		
-        if (bundleEnum) {
-            
+		if (bundleEnum) {
 			while ( (bundlePath = [bundleEnum nextObject]) ) {
-                
 				if ([[bundlePath pathExtension] isEqualToString:prefPaneExtension]) {
 					[allPreferencePaneBundles addObject:[path stringByAppendingPathComponent:bundlePath]];
-                }
-            } // while
-        } // if
-    }
+				}
+			}
+		}
+	}
 	
 	return allPreferencePaneBundles;
 }
@@ -127,7 +124,7 @@ static GrowlPluginController *sharedController;
 	preferencePanesPathsEnumerator = [self _preferencePaneSearchEnumerator];
 	
 	while ((path = [preferencePanesPathsEnumerator nextObject])) {
-		path = [path stringByAppendingFormat:@"/%@", GROWL_PREFPANE_NAME];
+		path = [path stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
 		
 		if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
 			prefPaneBundle = [NSBundle bundleWithPath:path];
