@@ -55,13 +55,19 @@
 }
 
 - (NSDictionary *) notificationAsDict {
+	NSNumber *enabledValue = [[NSNumber alloc] initWithBool:enabled];
+	NSNumber *stickyValue = [[NSNumber alloc] initWithInt:sticky];
 	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-		name, @"Name",
-		[NSNumber numberWithBool:enabled], @"Enabled",
-		[NSNumber numberWithInt:sticky], @"Sticky",
+		name,         @"Name",
+		enabledValue, @"Enabled",
+		stickyValue,  @"Sticky",
 		nil];
+	[enabledValue release];
+	[stickyValue  release];
 	if (priority != GP_unset) {
-		[dict setObject:[NSNumber numberWithInt:priority] forKey:@"Priority"];
+		NSNumber *priorityValue = [[NSNumber alloc] initWithInt:priority];
+		[dict setObject:priorityValue forKey:@"Priority"];
+		[priorityValue release];
 	}
 	if (displayPluginName) {
 		[dict setObject:displayPluginName forKey:@"Display"];

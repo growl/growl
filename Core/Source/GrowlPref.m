@@ -838,11 +838,13 @@
 	}
 
 	// add a new entry at the end
+	NSNumber *use = [[NSNumber alloc] initWithBool:NO];
 	entry = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		aNetService, @"netservice",
-		name, @"computer",
-		[NSNumber numberWithBool:NO], @"use",
+		name,        @"computer",
+		use,         @"use",
 		nil];
+	[use release];
 	[services addObject:entry];
 	[entry release];
 

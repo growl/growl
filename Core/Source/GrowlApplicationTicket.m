@@ -247,15 +247,20 @@
 
 	id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
 
+	NSNumber *useDefaultsValue = [[NSNumber alloc] initWithBool:useDefaults];
+	NSNumber *ticketEnabledValue = [[NSNumber alloc] initWithBool:ticketEnabled];
+	NSData *iconData = icon ? [icon TIFFRepresentation] : [NSData data];
 	NSMutableDictionary *saveDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		appName, GROWL_APP_NAME,
-		saveNotifications, GROWL_NOTIFICATIONS_ALL,
+		appName,              GROWL_APP_NAME,
+		saveNotifications,    GROWL_NOTIFICATIONS_ALL,
 		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-		icon ? [icon TIFFRepresentation] : [NSData data], GROWL_APP_ICON,
-		[NSNumber numberWithBool:useDefaults], UseDefaultsKey,
-		[NSNumber numberWithBool:ticketEnabled], TicketEnabledKey,
+		iconData,             GROWL_APP_ICON,
+		useDefaultsValue,     UseDefaultsKey,
+		ticketEnabledValue,   TicketEnabledKey,
 		nil];
-	[saveNotifications release];
+	[useDefaultsValue   release];
+	[ticketEnabledValue release];
+	[saveNotifications  release];
 	if (displayPluginName) {
 		[saveDict setObject:displayPluginName forKey:GrowlDisplayPluginKey];
 	}

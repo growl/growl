@@ -206,19 +206,23 @@
 									NSString *growlAppName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
 									NSString *growlNotificationTitle = [[NSString alloc] initWithUTF8String:title length:titleLen];
 									NSString *growlNotificationDesc = [[NSString alloc] initWithUTF8String:description length:descriptionLen];
+									NSNumber *growlNotificationPriority = [[NSNumber alloc] initWithInt:priority];
+									NSNumber *growlNotificationSticky = [[NSNumber alloc] initWithBool:isSticky];
 									NSDictionary *notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-										growlNotificationName,  GROWL_NOTIFICATION_NAME,
-										growlAppName,           GROWL_APP_NAME,
-										growlNotificationTitle, GROWL_NOTIFICATION_TITLE,
-										growlNotificationDesc,  GROWL_NOTIFICATION_DESCRIPTION,
-										[NSNumber numberWithInt:priority], GROWL_NOTIFICATION_PRIORITY,
-										[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
+										growlNotificationName,     GROWL_NOTIFICATION_NAME,
+										growlAppName,              GROWL_APP_NAME,
+										growlNotificationTitle,    GROWL_NOTIFICATION_TITLE,
+										growlNotificationDesc,     GROWL_NOTIFICATION_DESCRIPTION,
+										growlNotificationPriority, GROWL_NOTIFICATION_PRIORITY,
+										growlNotificationSticky,   GROWL_NOTIFICATION_STICKY,
 										[notificationIcon TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 										nil];
-									[growlNotificationName  release];
-									[growlAppName           release];
-									[growlNotificationTitle release];
-									[growlNotificationDesc  release];
+									[growlNotificationName     release];
+									[growlAppName              release];
+									[growlNotificationTitle    release];
+									[growlNotificationDesc     release];
+									[growlNotificationPriority release];
+									[growlNotificationSticky   release];
 									[self postNotificationWithDictionary:notificationInfo];
 									[notificationInfo release];
 								} else {

@@ -203,14 +203,18 @@ static id singleton = nil;
 	id <GrowlDisplayPlugin> displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayName];
 
 	NSString *desc = [[NSString alloc] initWithFormat:@"This is a preview of the %@ display", displayName];
+	NSNumber *priority = [[NSNumber alloc] initWithInt:0];
+	NSNumber *sticky = [[NSNumber alloc] initWithBool:YES];
 	NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
-		@"Preview",                    GROWL_NOTIFICATION_TITLE,
-		desc,                          GROWL_NOTIFICATION_DESCRIPTION,
-		[NSNumber numberWithInt:0],    GROWL_NOTIFICATION_PRIORITY,
-		[NSNumber numberWithBool:YES], GROWL_NOTIFICATION_STICKY,
-		growlIcon,                     GROWL_NOTIFICATION_ICON,
+		@"Preview", GROWL_NOTIFICATION_TITLE,
+		desc,       GROWL_NOTIFICATION_DESCRIPTION,
+		priority,   GROWL_NOTIFICATION_PRIORITY,
+		sticky,     GROWL_NOTIFICATION_STICKY,
+		growlIcon,  GROWL_NOTIFICATION_ICON,
 		nil];
-	[desc release];
+	[desc     release];
+	[priority release];
+	[sticky   release];
 	[displayPlugin displayNotificationWithInfo:info];
 	[info release];
 }
@@ -263,21 +267,29 @@ static id singleton = nil;
 
 	//Retrieve and set the the priority of the notification
 	int priority = [ticket priorityForNotification:notificationName];
+	NSNumber *value;
 	if (priority == GP_unset) {
-		priority = [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
+		value = [dict objectForKey:GROWL_NOTIFICATION_PRIORITY];
+		if (!value) {
+			value = [NSNumber numberWithInt:0];
+		}
+	} else {
+		value = [NSNumber numberWithInt:priority];
 	}
-	[aDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
+	[aDict setObject:value forKey:GROWL_NOTIFICATION_PRIORITY];
 
 	// Retrieve and set the sticky bit of the notification
 	int sticky = [ticket stickyForNotification:notificationName];
 	if (sticky >= 0) {
-		[aDict setObject:[NSNumber numberWithBool:(sticky ? YES : NO)]
-				  forKey:GROWL_NOTIFICATION_STICKY];
+		value = [[NSNumber alloc] initWithBool:(sticky ? YES : NO)];
+		[aDict setObject:value forKey:GROWL_NOTIFICATION_STICKY];
+		[value release];
 	}
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
-	[aDict setObject:[NSNumber numberWithBool:saveScreenshot]
-			  forKey:GROWL_SCREENSHOT_MODE];
+	value = [[NSNumber alloc] initWithBool:saveScreenshot];
+	[aDict setObject:value forKey:GROWL_SCREENSHOT_MODE];
+	[value release];
 
 	id <GrowlDisplayPlugin> display = [ticket displayPluginForNotification:notificationName];
 
@@ -419,7 +431,7 @@ static id singleton = nil;
 	[productVersionDict release];
 }
 
-- (NSString *) growlVersion {
++ (NSString *) growlVersion {
 	return [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 }
 
@@ -430,18 +442,32 @@ static id singleton = nil;
 		}
 
 		const unsigned long long *versionNum = (const unsigned long long *)&version;
-		versionInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSNumber numberWithUnsignedLongLong:*versionNum], @"Complete version",
-			[self growlVersion], (NSString *)kCFBundleVersionKey,
+		NSNumber *complete = [[NSNumber alloc] initWithUnsignedLongLong:*versionNum];
+		NSNumber *major = [[NSNumber alloc] initWithUnsignedShort:version.major];
+		NSNumber *minor = [[NSNumber alloc] initWithUnsignedShort:version.minor];
+		NSNumber *incremental = [[NSNumber alloc] initWithUnsignedChar:version.incremental];
+		NSNumber *releaseType = [[NSNumber alloc] initWithUnsignedChar:version.releaseType];
+		NSNumber *development = [[NSNumber alloc] initWithUnsignedShort:version.development];
 
-			[NSNumber numberWithUnsignedShort:version.major], @"Major version",
-			[NSNumber numberWithUnsignedShort:version.minor], @"Minor version",
-			[NSNumber numberWithUnsignedChar:version.incremental], @"Incremental version",
+		versionInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+			complete,                              @"Complete version",
+			[GrowlController growlVersion],        (NSString *)kCFBundleVersionKey,
+
+			major,                                 @"Major version",
+			minor,                                 @"Minor version",
+			incremental,                           @"Incremental version",
 			releaseTypeNames[version.releaseType], @"Release type name",
-			[NSNumber numberWithUnsignedChar:version.releaseType], @"Release type",
-			[NSNumber numberWithUnsignedShort:version.development], @"Development version",
+			releaseType,                           @"Release type",
+			development,                           @"Development version",
 
 			nil];
+
+		[complete    release];
+		[major       release];
+		[minor       release];
+		[incremental release];
+		[releaseType release];
+		[development release];
 	}
 	return versionInfo;
 }
@@ -741,10 +767,12 @@ static id singleton = nil;
 		@"Application re-registered",
 		nil];
 
+	NSNumber *default0 = [[NSNumber alloc] initWithUnsignedInt:0U];
+	NSNumber *default1 = [[NSNumber alloc] initWithUnsignedInt:1U];
 	NSArray *defaultNotifications = [[NSArray alloc] initWithObjects:
-		[NSNumber numberWithUnsignedInt:0U],
-		[NSNumber numberWithUnsignedInt:1U],
-		nil];
+		default0, default1, nil];
+	[default0 release];
+	[default1 release];
 
 	NSDictionary *registrationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
 		allNotifications, GROWL_NOTIFICATIONS_ALL,

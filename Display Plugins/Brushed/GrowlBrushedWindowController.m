@@ -43,10 +43,14 @@ static const double gMaxDisplayTime = 10.;
 		depth -= windowSize.height;
 	}
 
+	NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:identifier];
+	NSNumber *depthValue = [[NSNumber alloc] initWithInt:depth];
 	NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
-		[NSNumber numberWithUnsignedInt:identifier], @"ID",
-		[NSNumber numberWithInt:depth], @"Depth",
+		idValue,    @"ID",
+		depthValue, @"Depth",
 		nil];
+	[idValue    release];
+	[depthValue release];
 
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc postNotificationName:@"Glide" object:nil userInfo:dict];
@@ -65,10 +69,12 @@ static const double gMaxDisplayTime = 10.;
 		// don't allow notification to fly off the top of the screen
 		if (theFrame.origin.y < NSMaxY( [[self screen] visibleFrame] ) - GrowlBrushedPadding) {
 			[window setFrame:theFrame display:NO animate:YES];
+			NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:identifier];
 			NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
-				[NSNumber numberWithUnsignedInt:identifier], @"ID",
+				idValue, @"ID",
 				[NSValue valueWithRect:theFrame], @"Space",
 				nil];
+			[idValue release];
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];
 			[dict release];
 		}
@@ -90,10 +96,12 @@ static const double gMaxDisplayTime = 10.;
 		theFrame.origin.y = space.origin.y - space.size.height;
 		//NSLog(@"New origin: (%f, %f)\n", theFrame.origin.x, theFrame.origin.y);
 		[window setFrame:theFrame display:NO animate:YES];
+		NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:identifier];
 		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[NSNumber numberWithUnsignedInt:identifier], @"ID",
+			idValue, @"ID",
 			[NSValue valueWithRect:theFrame], @"Space",
 			nil];
+		[idValue release];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];
 		[dict release];
 	}
@@ -178,10 +186,12 @@ static const double gMaxDisplayTime = 10.;
 			displayTime = gMinDisplayTime;
 		}*/
 
+		NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:identifier];
 		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[NSNumber numberWithUnsignedInt:identifier], @"ID",
+			idValue, @"ID",
 			[NSValue valueWithRect:[[self window] frame]], @"Space",
 			nil];
+		[idValue release];
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		[nc postNotificationName:@"Clear Space" object:nil userInfo:dict];
 		[dict release];

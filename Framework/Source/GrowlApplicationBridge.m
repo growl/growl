@@ -147,9 +147,17 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	if (description)	[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
 	if (iconData)		[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON];
 	if (appIconData)	[noteDict setObject:appIconData forKey:GROWL_NOTIFICATION_APP_ICON];		
-	if (priority)		[noteDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
-	if (isSticky)		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];
 	if (clickContext)	[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+	if (priority) {
+		NSNumber *value = [[NSNumber alloc] initWithInt:priority];
+		[noteDict setObject:value forKey:GROWL_NOTIFICATION_PRIORITY];
+		[value release];
+	}
+	if (isSticky) {
+		NSNumber *value = [[NSNumber alloc] initWithBool:isSticky];
+		[noteDict setObject:value forKey:GROWL_NOTIFICATION_STICKY];
+		[value release];
+	}
 
 	[GrowlApplicationBridge notifyWithDictionary:noteDict];
 	[noteDict release];

@@ -124,23 +124,22 @@
 }
 
 - (NSDictionary *)dockDescription {
-	NSDictionary *dict      = nil;
+	NSDictionary *dict  = nil;
 	NSString *path      = [self path];
 	NSData   *aliasData = [self aliasData];
 
 	if (path || aliasData) {
-		NSMutableDictionary *temp = [NSMutableDictionary dictionary];
+		NSMutableDictionary *temp = [NSMutableDictionary dictionaryWithCapacity:3U];
 
 		if (path) {
-			[temp setObject:path
-			         forKey:_CFURLStringKey];
-			[temp setObject:[NSNumber numberWithInt:kCFURLPOSIXPathStyle]
-			         forKey:_CFURLStringTypeKey];
+			NSNumber *type = [[NSNumber alloc] initWithInt:kCFURLPOSIXPathStyle];
+			[temp setObject:path forKey:_CFURLStringKey];
+			[temp setObject:type forKey:_CFURLStringTypeKey];
+			[type release];
 		}
 
 		if (aliasData) {
-			[temp setObject:aliasData
-			         forKey:_CFURLAliasDataKey];
+			[temp setObject:aliasData forKey:_CFURLAliasDataKey];
 		}
 
 		dict = temp;

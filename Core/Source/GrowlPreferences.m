@@ -280,11 +280,13 @@ static GrowlPreferences * sharedPreferences;
 		/*we were called with YES, and we weren't already in the start-at-login
 		 *	array, so add ourselves to its end.
 		 */
+		NSNumber *hide = [[NSNumber alloc] initWithBool:NO];
 		NSDictionary *launchDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[NSNumber numberWithBool:NO], @"Hide",
-			pathToGHA,                    @"Path",
-			aliasDataToGHA,               @"AliasData",
+			hide,           @"Hide",
+			pathToGHA,      @"Path",
+			aliasDataToGHA, @"AliasData",
 			nil];
+		[hide release];
 		[loginItems addObject:launchDict];
 		[launchDict release];
 	}
@@ -303,8 +305,9 @@ static GrowlPreferences * sharedPreferences;
 
 - (void) setGrowlRunning:(BOOL)flag {
 	// Store the desired running-state of the helper app for use by GHA.
-	[self setObject:[NSNumber numberWithBool:flag]
-			 forKey:GrowlEnabledKey];
+	NSNumber *growlEnabled = [[NSNumber alloc] initWithBool:flag];
+	[self setObject:growlEnabled forKey:GrowlEnabledKey];
+	[growlEnabled release];
 
 	//now launch or terminate as appropriate.
 	if (flag)

@@ -56,7 +56,7 @@
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename;
 
-- (NSString *) growlVersion;
++ (NSString *) growlVersion;
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *)dict;
 - (void) registerApplicationWithDictionary:(NSDictionary *) userInfo;

@@ -52,7 +52,9 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 				[self setScriptErrorString:@"Can't get item 0 of notifications."];
 				return nil;
 			}
-			[temp replaceObjectAtIndex:i withObject:[NSNumber numberWithUnsignedLong:value]];
+			num = [[NSNumber alloc] initWithUnsignedLong:value];
+			[temp replaceObjectAtIndex:i withObject:num];
+			[num release];
 		}
 		++i;
 	}
