@@ -63,8 +63,32 @@
 	[panel setFrame:panelFrame display:NO];
 	
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
-	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding,
-			NSMaxY ( screen ) - GrowlBezelPadding )];
+	NSPoint panelTopLeft;
+	int positionPref = 0;
+	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF,@"BezelNotificationView", &positionPref);
+	switch (positionPref) {
+		case BEZEL_POSITION_DEFAULT:
+			panelTopLeft = NSMakePoint(ceil((NSWidth(screen)/2.0) -(NSWidth(panelFrame)/2.0)),
+				140.0 + NSHeight(panelFrame));
+		break;
+		case BEZEL_POSITION_TOPRIGHT:
+			panelTopLeft = NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding,
+				NSMaxY ( screen ) - GrowlBezelPadding );
+		break;
+		case BEZEL_POSITION_BOTTOMRIGHT:
+			panelTopLeft = NSMakePoint(NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding,
+				GrowlBezelPadding + NSHeight(panelFrame));
+		break;
+		case BEZEL_POSITION_BOTTOMLEFT:
+			panelTopLeft = NSMakePoint(GrowlBezelPadding,
+				GrowlBezelPadding + NSHeight(panelFrame));
+		break;
+		case BEZEL_POSITION_TOPLEFT:
+			panelTopLeft = NSMakePoint(GrowlBezelPadding,
+				NSMaxY ( screen ) - GrowlBezelPadding );
+		break;
+	}
+	[panel setFrameTopLeftPoint:panelTopLeft];
 	
 	_autoFadeOut = YES;
 	_doFadeIn = NO;

@@ -76,7 +76,9 @@
 			clockwise:NO];
 	[bezelPath lineToPoint:NSMakePoint(topLeft.x, topLeft.y + BORDER_RADIUS)];
 	
-	[[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha:.5] set];
+	int opacityPref = 20;
+	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF,@"BezelNotificationView", &opacityPref);
+	[[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha:((float)opacityPref/100.)] set];
 	[bezelPath fill];
 	
 	// Draw the title, resize if text too big

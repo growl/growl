@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "GrowlBezelPrefs.h"
 
 @interface GrowlBezelWindowView : NSView {
 	NSImage				*_icon;

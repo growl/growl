@@ -30,7 +30,7 @@
 	IBOutlet NSButton		*radio_PositionTL;
 	IBOutlet NSMatrix		*radio_Size;
 	IBOutlet NSSlider		*slider_Opacity;
-
+	IBOutlet NSTextField	*text_Opacity;
 }
 
 - (IBAction)preferenceChanged:(id)sender;
