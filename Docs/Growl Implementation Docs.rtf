@@ -2,7 +2,7 @@
 {\fonttbl\f0\fnil\fcharset77 Herculanum;\f1\fswiss\fcharset77 Helvetica;\f2\fswiss\fcharset77 Helvetica-Bold;
 \f3\fmodern\fcharset77 Courier;\f4\ftech\fcharset2 Symbol;}
 {\colortbl;\red255\green255\blue255;}
-\margl1440\margr1440\vieww12040\viewh13820\viewkind0
+\margl1440\margr1440\vieww12040\viewh13640\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
 \f0\fs96 \cf0 \shad\shadx75\shady-75\shadr0\shado62 \shadc0 Growl!
@@ -11,8 +11,9 @@
 
 \fs24 \cf0 This document aims at laying out the view for the future we have for Growl, as well as the terminology we use in discussing it, and finally the process of writing an application that interfaces with Growl.\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2\b 1. Our vision for Growl
+\f2\b \cf0 1. Our vision for Growl
 \f1\b0 \
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
 \cf0 Growl aims to be a central notification center for OS X. The end effect will be that users have a very customizable, very uniform notification window from multiple applications of their choosing. The biproduct of this is that Growl should be really easy for developers to implement as well. These are our two goals.\
@@ -24,11 +25,14 @@
 Once a Growl application registers with Growl, giving it a list of all notifications that it sends out, users will be able to view this list in the Growl preference pane, and select the behavior for different types of notifications, whether they wish to see them or not.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 \cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2\b 2. Licensing
+\f2\b \cf0 2. Licensing
 \f1\b0 \
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
-\cf0 Growl is meant to make the life of both the developer and user easier. We\'d5ve licensed Growl as BSD as such. Testing applications and examples are public domain, do with them as you wish. You can include Growl with your GPL app distribution even, so long as you don\'d5t combine Growl and GPL code. Due to the nature of how Growl works, the license does not matter, as Growl will be recieving notifications from a separate app.\
+\cf0 Growl is meant to make the life of both the developer and user easier. We\'d5ve licensed Growl as BSD as such. Testing applications and examples are public domain, unless otherwise specified, do with them as you wish. You can include Growl with your GPL app distribution even, so long as you don\'d5t combine Growl and GPL code. Due to the nature of how Growl works, the license does not matter, as Growl will be recieving notifications from a separate app.\
+\
+The Growl App Bridge framework is public domain.\
 \
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
