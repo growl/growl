@@ -179,21 +179,21 @@ int main(int argc, const char **argv) {
 	// Deal with image
 	// --image takes precedence over -I takes precedence over -i takes precedence over --a
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+	NSFileManager *mgr = [NSFileManager defaultManager];
+	NSString *cwd;
 	static NSImage *image = nil;
 	if (imagePath) {
 		NSString *path = [[NSString stringWithUTF8String:imagePath] stringByStandardizingPath];
-		if (![path hasPrefix:@"/"]) {
-			char *cwd = getcwd(NULL, 0);
-			path = [NSString stringWithFormat:@"%s/%@", cwd, path];
-			free(cwd);
+		if (![path isAbsolutePath]) {
+			cwd = [mgr currentDirectoryPath];
+			path = [cwd stringByAppendingPathComponent:path];
 		}
 		image = [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 	} else if (iconPath) {
 		NSString *path = [[NSString stringWithUTF8String:iconPath] stringByStandardizingPath];
-		if (![path hasPrefix:@"/"]) {
-			char *cwd = getcwd(NULL, 0);
-			path = [NSString stringWithFormat:@"%s/%@", cwd, path];
-			free(cwd);
+		if (![path isAbsolutePath]) {
+			cwd = [mgr currentDirectoryPath];
+			path = [cwd stringByAppendingPathComponent:path];
 		}
 		image = [ws iconForFile:path];
 	} else if (iconExt) {
@@ -205,13 +205,7 @@ int main(int argc, const char **argv) {
 	if (image == nil) {
 		image = [ws iconForFile:[ws fullPathForApplication:@"Terminal"]];
 	}
-	NSData *icon;
-	NS_DURING // I don't know why this is necessary but it is
-		icon = [image TIFFRepresentation];
-	NS_HANDLER
-		printf("Error: cannot use pdf files for image\n");
-		exit(2);
-	NS_ENDHANDLER
+	NSData *icon = [image TIFFRepresentation];
 
 	// Check message
 	NSString *desc;
