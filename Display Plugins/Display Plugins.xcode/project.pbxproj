@@ -313,6 +313,7 @@
 		07694C20073A4C820079D1E5 = {
 			children = (
 				07694C21073A4C820079D1E5,
+				957FE5FF073CFAFE004B22DD,
 			);
 			isa = PBXVariantGroup;
 			name = BubblesPrefs.nib;
@@ -1814,6 +1815,14 @@
 //952
 //953
 //954
+		957FE5FF073CFAFE004B22DD = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = Bubbles/German.lproj/BubblesPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		9583E2830738DD4300D909B9 = {
 			children = (
 				3482252806F2EC2100B33560,
