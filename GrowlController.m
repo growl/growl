@@ -22,6 +22,33 @@
 - (void) _postGrowlIsReady;
 @end
 
+enum {
+	//release types
+	release,
+	svn,
+	development,
+	alpha,
+	beta,
+};
+static NSString *releaseTypeNames[] = {
+	@"", @" SVN ", @"d", @"a", @"b",
+};
+//update these constants whenever the version changes
+static const struct {
+	unsigned short major;
+	unsigned short minor;
+	unsigned char incremental;
+	unsigned char releaseType; //use one of the constants above
+	unsigned short development; //for svn, should be the svn revision
+
+	/*this structure can be taken as a 64-bit hexadecimal number:
+	 *	0x0000 0006 00 01 svn_revision
+	 *when releaseType is release, the development version should always be 0,
+	 *	and it should be ignored. (thus, display "0.6", not "0.60".)
+	 */
+#pragma warning(figure out how to insert the svn revision here.)
+} version = { 0U, 6U, 0U, svn, 0U, };
+
 #pragma mark -
 
 static id singleton = nil;
@@ -61,7 +88,9 @@ static id singleton = nil;
 		registrationLock = [[NSLock alloc] init];
 		notificationQueue = [[NSMutableArray alloc] init];
 		registrationQueue = [[NSMutableArray alloc] init];
-		
+
+		[self versionDictionary];
+
 		[[GrowlPreferences preferences] registerDefaults:
 				[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]]];
 
@@ -297,6 +326,47 @@ static id singleton = nil;
 	return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 }
 
+- (NSDictionary *)versionDictionary {
+	if(!versionInfo) {
+		const unsigned long long *versionNum = (const unsigned long long *)&version;
+		versionInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithUnsignedLongLong:*versionNum], @"Complete version",
+			[self growlVersion], @"CFBundleVersion",
+			
+			[NSNumber numberWithUnsignedShort:version.major], @"Major version",
+			[NSNumber numberWithUnsignedShort:version.minor], @"Minor version",
+			[NSNumber numberWithUnsignedChar:version.incremental], @"Incremental version",
+			releaseTypeNames[version.releaseType], @"Release type name",
+			[NSNumber numberWithUnsignedChar:version.releaseType], @"Release type",
+			[NSNumber numberWithUnsignedShort:version.development], @"Development version",
+			
+			nil];
+	}
+	return versionInfo;
+}
+//this method could be moved to Growl.framework, I think.
+- (NSString *)stringWithVersionDictionary:(NSDictionary *)d {
+	if(!d) d = versionInfo;
+
+	//0.6
+	NSMutableString *result = [NSMutableString stringWithFormat:@"%@.%@",
+		[d objectForKey:@"Major version"],
+		[d objectForKey:@"Minor version"]];
+
+	//the .1 in 0.6.1
+	NSNumber *incremental = [d objectForKey:@"Incremental version"];
+	if([incremental unsignedShortValue])
+		[result appendFormat:@"%@", incremental];
+
+	NSString *releaseTypeName = [d objectForKey:@"Release type name"];
+	if([releaseTypeName length]) {
+		//"" (release), "b4", " SVN 900"
+		[result appendFormat:@"%@%@", releaseTypeName, [d objectForKey:@"Development version"]];
+	}
+
+	return result;
+}
+
 - (void) loadTickets {
 	[tickets addEntriesFromDictionary:[GrowlApplicationTicket allSavedTickets]];
 }
@@ -336,7 +406,9 @@ static id singleton = nil;
 }
 
 - (void) replyToPing:(NSNotification *) note {
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_PONG object:nil];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_PONG
+																   object:nil
+																 userInfo:versionInfo];
 }
 
 #pragma mark NSApplication Delegate Methods

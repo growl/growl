@@ -37,6 +37,8 @@
 	BOOL						growlFinishedLaunching;
 	BOOL						enableForward;
 	NSArray						*destinations;
+
+	NSDictionary				*versionInfo;
 }
 
 + (id) singleton;
@@ -48,6 +50,9 @@
 - (void) dispatchNotification:(NSNotification *)note;
 - (void) dispatchNotificationWithDictionary:(NSDictionary *)dict;
 - (void) registerApplicationWithDictionary:(NSDictionary *) userInfo;
+
+- (NSDictionary *)versionDictionary;
+- (NSString *)stringWithVersionDictionary:(NSDictionary *)d;
 
 - (void) loadTickets;
 - (void) saveTickets;
