@@ -388,9 +388,8 @@ static const char *keychainAccountName = "Growl";
 	// Our desired state is a toggle of the current state;
 	BOOL desiredGrowlState = !growlIsRunning;
 	
-	// Store the desired running-state of the helper app for use by GHA. If we are autolaunching, this
-	// needs to be forced to YES.
-	[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:(desiredGrowlState || ([startGrowlAtLogin state] == NSOnState))]
+	// Store the desired running-state of the helper app for use by GHA.
+	[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:desiredGrowlState]
 									   forKey:GrowlEnabledKey];
 
 	if (desiredGrowlState) {
