@@ -68,8 +68,9 @@
 	@discussion  This macro is intended for use by plugins.
 	It sends a notification to tell GrowlHelperApp to update its preferences.
  */
-#define UPDATE_GROWL_PREFS() [[NSDistributedNotificationCenter defaultCenter] \
-	postNotificationName:@"GrowlPreferencesChanged" object:@"GrowlUserDefaults"]
+#define UPDATE_GROWL_PREFS() { CFPreferencesAppSynchronize(CFSTR("com.Growl.GrowlHelperApp")); \
+	[[NSDistributedNotificationCenter defaultCenter] \
+		postNotificationName:@"GrowlPreferencesChanged" object:@"GrowlUserDefaults"]; }
 
 /*!
     @function    READ_GROWL_PREF_VALUE
