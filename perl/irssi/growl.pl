@@ -33,3 +33,6 @@ sub event_privmsg
 }
 
 Irssi::signal_add_last("message private","event_privmsg");
+
+
+#sub away_hilight_notice is what we need for away hilight notices
