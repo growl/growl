@@ -92,18 +92,21 @@ static id _singleton = nil;
 		[connection autorelease];
 		[connection setRootObject:server];
 		[connection setDelegate:self];
+
+		// register with the default NSPortNameServer on the local host
 		if( ![connection registerName:@"GrowlServer"] ) {
 			NSLog( @"Could not register Growl server." );
 		}
+
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(connectionDidDie:)
 													 name:NSConnectionDidDieNotification
 												   object:connection];
 
-		// Configure and publish the Rendezvous service
-		_service = [[NSNetService alloc] initWithDomain:@""
+		// configure and publish the Rendezvous service
+		_service = [[NSNetService alloc] initWithDomain:@""	// use local registration domain
 												   type:@"_growl._tcp."
-												   name:@"Growl"
+												   name:@""	// use local computer name
 												   port:GROWL_TCP_PORT];
 		[_service setDelegate:self];
 		[_service publish];

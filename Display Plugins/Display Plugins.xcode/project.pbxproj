@@ -2027,7 +2027,7 @@
 				95947AAB0748A00400B8B23E,
 				95947AC80748A00400B8B23E,
 				95947AE50748A00400B8B23E,
-				959479F207489FC300B8B23E,
+				95DD18F207490CB300CC05A4,
 			);
 			isa = PBXGroup;
 			name = Rendezvous;
@@ -2037,7 +2037,7 @@
 		9594781007489C2F00B8B23E = {
 			buildActionMask = 2147483647;
 			files = (
-				95947A1007489FC300B8B23E,
+				95DD18FB07490CB300CC05A4,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2141,16 +2141,10 @@
 		959479F207489FC300B8B23E = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			name = GrowlRendezvousPrefs.nib;
-			path = Rendezvous/GrowlRendezvousPrefs.nib;
+			name = English;
+			path = Rendezvous/English.lproj/GrowlRendezvousPrefs.nib;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		95947A1007489FC300B8B23E = {
-			fileRef = 959479F207489FC300B8B23E;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		95947A8E0748A00400B8B23E = {
 			fileEncoding = 30;
@@ -2223,6 +2217,21 @@
 			path = Rendezvous/GrowlRendezvousDefines.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+		};
+		95DD18F207490CB300CC05A4 = {
+			children = (
+				959479F207489FC300B8B23E,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlRendezvousPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95DD18FB07490CB300CC05A4 = {
+			fileRef = 95DD18F207490CB300CC05A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 //950
 //951
