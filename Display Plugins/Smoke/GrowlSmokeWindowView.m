@@ -96,7 +96,7 @@
 		NSSize shadowSize = NSMakeSize(0.f, -2.f);
 		[textShadow setShadowOffset:shadowSize];
 		[textShadow setShadowBlurRadius:3.0f];
-		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:1.0f]];
+		[textShadow setShadowColor:[_bgColor blendedColorWithFraction:0.5f ofColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha: 1.0f]]];
 	}
 
 	// construct attributes for the description text
