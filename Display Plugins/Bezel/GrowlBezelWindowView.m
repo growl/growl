@@ -186,12 +186,11 @@
 }
 
 - (float) descriptionHeight:(NSAttributedString *)theText inRect:(NSRect)theRect {
-
 	if (!textHeight) {
-		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:theText];
-		NSTextContainer* textContainer = [[NSTextContainer alloc]
+		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:theText];
+		NSTextContainer *textContainer = [[NSTextContainer alloc]
 			initWithContainerSize:NSMakeSize(NSWidth(theRect), NSHeight(theRect) + 1000.0f)];
-		NSLayoutManager* layoutManager = [[NSLayoutManager alloc] init];
+		NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
 
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
