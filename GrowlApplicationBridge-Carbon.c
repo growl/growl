@@ -563,6 +563,7 @@ static CFStringRef _copyTemporaryFolderPath(void) {
 	CFStringRef string;
 	OSStatus err = FSFindFolder(kOnAppropriateDisk, kTemporaryFolderType, kCreateFolder, &ref);
 	if(err != noErr) {
+#warning string is used uninitialized here, we should set it to a default value or not include it in the log message.
 		NSLog(CFSTR("GrowlApplicationBridge: Could not locate temporary folder because FSFindFolder returned %li - will try using %@"), (long)err, string);
 		string = NULL;
 	} else {
@@ -572,3 +573,4 @@ static CFStringRef _copyTemporaryFolderPath(void) {
 	}
 	return string;
 }
+
