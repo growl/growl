@@ -67,7 +67,7 @@
 			if (repDistance < 0 && thisDistance > 0) {
 				continue;
 			}
-			if (ABS(thisDistance) < ABS(repDistance)|| (thisDistance < 0 && repDistance > 0)){
+			if (ABS(thisDistance) < ABS(repDistance) || (thisDistance < 0 && repDistance > 0)){
 				repDistance = thisDistance;
 				bestRep = thisRep;
 			}
