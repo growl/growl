@@ -175,5 +175,12 @@
 	
 	[_sendButton setEnabled:rowIsSelected];
 }
+
+#pragma mark NSApplication Delegate Methods
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)app {
+	return YES;
+}
+
 @end
 
