@@ -13,7 +13,6 @@
                 "radio_PositionD" = NSButton; 
                 "radio_PositionTL" = NSButton; 
                 "radio_PositionTR" = NSButton; 
-                "radio_Size" = NSMatrix; 
                 "slider_opacity" = NSSlider; 
             }; 
             SUPERCLASS = NSPreferencePane; 

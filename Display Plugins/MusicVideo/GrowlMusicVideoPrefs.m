@@ -24,9 +24,9 @@
 	[self setOpacity:opacity];
 
 	// size
-	int	sizePref = 0;
-	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
-	[radio_size selectCellAtRow:sizePref column:0];
+	size = 0;
+	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &size);
+	[self setSize:size];
 
 	// duration
 	duration = MUSICVIDEO_DEFAULT_DURATION;
@@ -73,10 +73,16 @@
 
 #pragma mark -
 
-- (IBAction) takeSizeFrom:(id)sender {
-	int sizePref = [sender selectedRow];
-	WRITE_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, sizePref, MusicVideoPrefDomain);
-	UPDATE_GROWL_PREFS();
+- (int) getSize {
+	return size;
+}
+
+- (void) setSize:(int)value {
+	if (size != value) {
+		size = value;
+		WRITE_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, value, MusicVideoPrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
 }
 
 #pragma mark -

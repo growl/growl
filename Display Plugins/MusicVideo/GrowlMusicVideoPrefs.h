@@ -29,7 +29,7 @@
 @interface GrowlMusicVideoPrefs : NSPreferencePane {
 	float					duration;
 	float					opacity;
-	IBOutlet NSMatrix		*radio_size;
+	int						size;
 	IBOutlet NSSlider		*slider_opacity;
 	IBOutlet NSComboBox		*combo_screen;
 }
@@ -38,7 +38,8 @@
 - (void) setDuration:(float)value;
 - (float) getOpacity;
 - (void) setOpacity:(float)value;
-- (IBAction) takeSizeFrom:(id)sender;
+- (int) getSize;
+- (void) setSize:(int)value;
 - (IBAction) takeScreenAsIntValueFrom:(id)sender;
 
 @end

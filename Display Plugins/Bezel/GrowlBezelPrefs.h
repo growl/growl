@@ -31,13 +31,13 @@
 @interface GrowlBezelPrefs : NSPreferencePane {
 	float					duration;
 	float					opacity;
+	int						size;
 
 	IBOutlet NSButton		*radio_PositionD;
 	IBOutlet NSButton		*radio_PositionTR;
 	IBOutlet NSButton		*radio_PositionBR;
 	IBOutlet NSButton		*radio_PositionBL;
 	IBOutlet NSButton		*radio_PositionTL;
-	IBOutlet NSMatrix		*radio_Size;
 	IBOutlet NSSlider		*slider_opacity;
 	IBOutlet NSComboBox		*combo_screen;
 	IBOutlet NSPopUpButton	*button_style;
@@ -47,6 +47,8 @@
 - (void) setDuration:(float)value;
 - (float) getOpacity;
 - (void) setOpacity:(float)value;
+- (int) getSize;
+- (void) setSize:(int)value;
 - (IBAction) preferenceChanged:(id)sender;
 - (IBAction) setScreen:(id)sender;
 - (IBAction) setStyle:(id)sender;

@@ -16,13 +16,12 @@
 }
 
 - (void)mainViewDidLoad {
-	int		positionPref = 0;
-	int		sizePref = 0;
-
 	[slider_opacity setAltIncrementValue:5.0];
 
-	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
-	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
+	// size
+	size = 0;
+	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &size);
+	[self setSize:size];
 
 	// opacity
 	opacity = BEZEL_OPACITY_DEFAULT;
@@ -30,6 +29,8 @@
 	[self setOpacity:opacity];
 
 	// position
+	int positionPref = BEZEL_POSITION_DEFAULT;
+	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);	
 	if (positionPref == BEZEL_POSITION_DEFAULT) {
 		[radio_PositionD setState:NSOnState];
 		[radio_PositionTR setState:NSOffState];
@@ -61,8 +62,6 @@
 		[radio_PositionBL setState:NSOffState];
 		[radio_PositionTL setState:NSOnState];
 	}
-	
-	[radio_Size selectCellAtRow:sizePref column:0];
 
 	// duration
 	duration = 3.0f;
@@ -86,7 +85,6 @@
 
 - (IBAction)preferenceChanged:(id)sender {
 	int		positionPref;
-	int		sizePref;
 
 	if (sender == radio_PositionD) {
 		[radio_PositionTR setState:NSOffState];
@@ -123,9 +121,6 @@
 		[radio_PositionBL setState:NSOffState];
 		positionPref = BEZEL_POSITION_TOPLEFT;
 		WRITE_GROWL_PREF_INT(BEZEL_POSITION_PREF, positionPref, BezelPrefDomain);
-	} else if (sender == radio_Size) {
-		sizePref = [radio_Size selectedRow];
-		WRITE_GROWL_PREF_INT(BEZEL_SIZE_PREF, sizePref, BezelPrefDomain);
 	}
 
 	UPDATE_GROWL_PREFS();
@@ -155,6 +150,20 @@
 	if (duration != value) {
 		duration = value;
 		WRITE_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, value, BezelPrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
+}
+
+#pragma mark -
+
+- (int) getSize {
+	return size;
+}
+
+- (void) setSize:(int)value {
+	if (size != value) {
+		size = value;
+		WRITE_GROWL_PREF_INT(BEZEL_SIZE_PREF, value, BezelPrefDomain);
 		UPDATE_GROWL_PREFS();
 	}
 }
