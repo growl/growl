@@ -63,7 +63,7 @@ install:
 	killall GrowlHelperApp || true
 	-$(RM) -rf "$(NSLOGGING_PATH)" "$(MAILME_PATH)"
 	if [[ -d "$(NSLOGGING_BUILD)" ]]; then $(CP) "$(NSLOGGING_BUILD)" "$(NSLOGGING_PATH)"; fi
-	if [[ -d "$(MAILME_BUILD)" ]]; then $(CP) "$(MAILME_BUILD)" "$(MAILME_PATH)"; fifi
+	if [[ -d "$(MAILME_BUILD)" ]]; then $(CP) "$(MAILME_BUILD)" "$(MAILME_PATH)"; fi
 	open "$(GROWL_HELPER_APP)"
 
 install-nslogging:
