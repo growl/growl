@@ -11,7 +11,7 @@
 
 @implementation GrowlDistributedNotificationPathway
 
-- (id)init {
+- (id) init {
 	if ((self = [super init])) {
 		NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
 		[dnc addObserver:self
@@ -25,7 +25,7 @@
 	}
 	return self;
 }
-- (void)dealloc {
+- (void) dealloc {
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self
 															   name:nil
 															 object:nil];
@@ -34,10 +34,10 @@
 
 #pragma mark -
 
-- (void)gotGrowlRegistration:(NSNotification *)notification {
+- (void) gotGrowlRegistration:(NSNotification *)notification {
 	[self registerApplicationWithDictionary:[notification userInfo]];
 }
-- (void)gotGrowlNotification:(NSNotification *)notification {
+- (void) gotGrowlNotification:(NSNotification *)notification {
 	[self postNotificationWithDictionary:[notification userInfo]];
 }
 

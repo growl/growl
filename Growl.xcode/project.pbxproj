@@ -4225,7 +4225,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlDisplayProtocol.h;
+			name = GrowlDisplayProtocol.h;
+			path = "Display Plugins/GrowlDisplayProtocol.h";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
