@@ -571,7 +571,7 @@ static CFStringRef _copyTemporaryFolderPath(void) {
 		string = NULL;
 	} else {
 		CFURLRef url = CFURLCreateFromFSRef(kCFAllocatorDefault, &ref);
-		string = CFRetain(CFURLGetString(url));
+		string = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
 		CFRelease(url);
 	}
 	return string;
