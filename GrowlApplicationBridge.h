@@ -145,6 +145,7 @@
 	@abstract Required protocol for the GrowlApplicationBridge delegate
 	@discussion The methods in this protocol are required and are called automatically as needed by GrowlApplicationBridge
  */
+//------------------------------------------------------------------------------
 @protocol GrowlApplicationBridgeDelegate
 
 /*
