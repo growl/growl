@@ -253,7 +253,17 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		[saveDict setObject:displayPluginName forKey:GrowlDisplayPluginKey];
 	}
 
-	[saveDict writeToFile:savePath atomically:YES];
+	NSData *plistData;
+	NSString *error;
+	plistData = [NSPropertyListSerialization dataFromPropertyList:saveDict
+														   format:NSPropertyListBinaryFormat_v1_0
+												 errorDescription:&error];
+	if (plistData) {
+		[plistData writeToFile:savePath atomically:YES];
+	} else {
+		NSLog(@"Error writing ticket for application %@: %@", appName, error);
+		[error release];
+	}
 }
 
 #pragma mark -
