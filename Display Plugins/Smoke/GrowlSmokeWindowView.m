@@ -94,10 +94,10 @@ static float titleHeight;
 		Class NSShadowClass = NSClassFromString(@"NSShadow");
 		textShadow = [[[NSShadowClass alloc] init] autorelease];
 		
-		NSSize shadowSize = NSMakeSize(0.f, -2.f);
+		NSSize shadowSize = NSMakeSize(0.0f, -2.0f);
 		[textShadow setShadowOffset:shadowSize];
 		[textShadow setShadowBlurRadius:3.0f];
-		[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5f ofColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha: 1.0f]]];
+		[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5f ofColor:[NSColor blackColor]]];
 	}
 
 	// construct attributes for the description text
@@ -144,7 +144,7 @@ static float titleHeight;
 	// we do this because we are always working with a copy
 	[icon drawScaledInRect:drawRect
 				 operation:NSCompositeSourceOver
-				  fraction:1.f];
+				  fraction:1.0f];
 
 	[[self window] invalidateShadow];
 }
@@ -172,8 +172,8 @@ static float titleHeight;
 }
 
 - (void) setPriority:(int)priority {
-	NSString* key;
-	NSString* textKey;
+	NSString *key;
+	NSString *textKey;
 	switch (priority) {
 		case -2:
 			key = GrowlSmokeVeryLowColor;
@@ -205,9 +205,9 @@ static float titleHeight;
 	[bgColor release];
 	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array && [array isKindOfClass:[NSArray class]]) {
-		bgColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-											 green:[[array objectAtIndex:1] floatValue]
-											  blue:[[array objectAtIndex:2] floatValue]
+		bgColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
+											 green:[[array objectAtIndex:1U] floatValue]
+											  blue:[[array objectAtIndex:2U] floatValue]
 											 alpha:backgroundAlpha] retain];
 		[array release];
 	} else {
@@ -220,9 +220,9 @@ static float titleHeight;
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array && [array isKindOfClass:[NSArray class]]) {
-		textColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-											   green:[[array objectAtIndex:1] floatValue]
-												blue:[[array objectAtIndex:2] floatValue]
+		textColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
+											   green:[[array objectAtIndex:1U] floatValue]
+												blue:[[array objectAtIndex:2U] floatValue]
 											   alpha:1.0f] retain];
 		[array release];
 	} else {
@@ -272,7 +272,7 @@ static float titleHeight;
 		containerSize.width = [self textAreaWidth];
 		if (limitPref) {
 			// this will be horribly wrong, but don't worry about it for now
-			float lineHeight = GrowlSmokeTextFontSize + 1;
+			float lineHeight = GrowlSmokeTextFontSize + 1.0f;
 			containerSize.height = lineHeight * 6.0f;
 		} else {
 			containerSize.height = FLT_MAX;
@@ -283,7 +283,7 @@ static float titleHeight;
 
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
-		[textContainer setLineFragmentPadding:0.0];
+		[textContainer setLineFragmentPadding:0.0f];
 		[layoutManager glyphRangeForTextContainer:textContainer];
 
 		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
@@ -292,7 +292,7 @@ static float titleHeight;
 		// in fact renders in 14 points of space. Do some adjustments.
 		// Presumably this is all due to leading, so need to find out how to figure out what that
 		// actually is for utmost accuracy
-		textHeight = textHeight / GrowlSmokeTextFontSize * (GrowlSmokeTextFontSize + 1);
+		textHeight = textHeight / GrowlSmokeTextFontSize * (GrowlSmokeTextFontSize + 1.0f);
 
 		[textContainer release];
 		[layoutManager release];
@@ -304,7 +304,7 @@ static float titleHeight;
 - (int) descriptionRowCount {
 	float height = [self descriptionHeight];
 	// this will be horribly wrong, but don't worry about it for now
-	float lineHeight = GrowlSmokeTextFontSize + 1;
+	float lineHeight = GrowlSmokeTextFontSize + 1.0f;
 	return (int) (height / lineHeight);
 }
 
