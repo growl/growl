@@ -19,10 +19,19 @@ Release related issues
 
 
 For .7 or sooner
-- Coalescing of notifications of similar type for notifications that can use it.
-- Clicking notifications
-- Bubbles
-	- Top background color colorwell
+- Display plugins
+	- Coalescing of notifications of similar type for notifications that can use it.
+	- Clicking notifications
+	- Bubbles
+		- Top background color colorwell
+	- Figure out an intuitive way to deal with multiple plugins named the same.
+	- Display positioning system needs to be implemented.
+		- Write an abstract way for plugins to expand. Horizontal and vertical expanding. Have these off by default for all plugins.
+	- New Display plugins
+		- A square
+	- Restructure all Display Plugins to inherit functionality from one global GrowlDisplayPlugin class residing in Growl.framework
+		- GrowlDisplayPlugin should take care of mPositionRect, a Rect in GrowlDisplayPlugin that can trigger KeyObservation calls to edit it to not intersect with any other currently active notifications
+
 
 - Network Notifications
 	- 2 interfaces for this, one Distributed Objects allowing GHA to send and recieve remote
@@ -42,13 +51,10 @@ For .7 or sooner
 	  And a passive update check system ( no user interaction necessary just a box for whether or not to check.
 	- Network tab modeled on the distributed builds system
 	- Display plugins tab with better looking prefs( the current ones aren't winning beauty awards )
+	- Add profiles. Choose which profile is currently uses via prefpane or menuling
 
-- Figure out an intuitive way to deal with multiple plugins named the same.
-- Make GrowlMail not run while applying rules if possible
-- Add profiles. Choose which profile is currently uses via prefpane or menuling
-- Display positioning system needs to be implemented.
-	- Write an abstract way for plugins to expand. Horizontal and vertical expanding. Have these off by default for all plugins.
-	- A square
+
+
 -Functional plugins
 	- Design a way for functional plugins to work
 	- Move rendezvous out of display plugins into a functional plugin that would allow for any notification.
@@ -75,11 +81,9 @@ For .7 or sooner
 				    imageData:(NSData *)inImageData 
 				   andOptions:(GrowlOptionsFlags)inFlags
 
-- Restructure all Display Plugins to inherit functionality from one global GrowlDisplayPlugin 
-   class residing in Growl.framework
-	- GrowlDisplayPlugin should take care of mPositionRect, a Rect in GrowlDisplayPlugin 
-	  that can trigger KeyObservation calls to edit it to not intersect with any other 
-	  currently active notifications
+- Other
+	- Make GrowlMail not run while applying rules if possible
+	- Growltunes needs preferences.
 
 
 For .8 or sooner
