@@ -84,24 +84,24 @@
 	switch (positionPref) {
 		default:
 		case BEZEL_POSITION_DEFAULT:
-			panelTopLeft.x = ceilf((NSWidth(screen) * 0.5f) -(NSWidth(panelFrame) * 0.5f));
-			panelTopLeft.y = 140.0f + NSHeight(panelFrame);
+			panelTopLeft.x = screen.origin.x + ceilf((NSWidth(screen) - NSWidth(panelFrame)) * 0.5f);
+			panelTopLeft.y = screen.origin.y + 140.0f + NSHeight(panelFrame);
 			break;
 		case BEZEL_POSITION_TOPRIGHT:
-			panelTopLeft.x = NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding;
-			panelTopLeft.y = NSMaxY( screen ) - GrowlBezelPadding;
+			panelTopLeft.x = NSMaxX(screen) - NSWidth(panelFrame) - GrowlBezelPadding;
+			panelTopLeft.y = NSMaxY(screen) - GrowlBezelPadding;
 			break;
 		case BEZEL_POSITION_BOTTOMRIGHT:
-			panelTopLeft.x = NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding;
-			panelTopLeft.y = GrowlBezelPadding + NSHeight( panelFrame );
+			panelTopLeft.x = NSMaxX(screen) - NSWidth(panelFrame) - GrowlBezelPadding;
+			panelTopLeft.y = screen.origin.y + GrowlBezelPadding + NSHeight(panelFrame);
 			break;
 		case BEZEL_POSITION_BOTTOMLEFT:
-			panelTopLeft.x = GrowlBezelPadding;
-			panelTopLeft.y = GrowlBezelPadding + NSHeight(panelFrame);
+			panelTopLeft.x = screen.origin.x + GrowlBezelPadding;
+			panelTopLeft.y = screen.origin.y + GrowlBezelPadding + NSHeight(panelFrame);
 			break;
 		case BEZEL_POSITION_TOPLEFT:
-			panelTopLeft.x = GrowlBezelPadding;
-			panelTopLeft.y = NSMaxY( screen ) - GrowlBezelPadding;
+			panelTopLeft.x = screen.origin.x + GrowlBezelPadding;
+			panelTopLeft.y = NSMaxY(screen) - GrowlBezelPadding;
 			break;
 	}
 	[panel setFrameTopLeftPoint:panelTopLeft];
@@ -109,10 +109,6 @@
 	if ( (self = [super initWithWindow:panel] ) ) {
 		autoFadeOut = YES;	//!sticky
 		doFadeIn = NO;
-		target = nil;
-		action = NULL;
-		clickContext = nil;
-		appName = nil;
 		displayTime = duration;
 		priority = prio;
 		scaleFactor = 1.0;

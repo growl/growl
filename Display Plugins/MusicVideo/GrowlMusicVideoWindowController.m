@@ -26,10 +26,10 @@
 	int sizePref = MUSICVIDEO_SIZE_NORMAL;
 	float duration = MUSICVIDEO_DEFAULT_DURATION;
 	NSRect sizeRect;
+	NSRect screen = [[NSScreen mainScreen] frame];
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
-	sizeRect.origin.x = 0.0f;
-	sizeRect.origin.y = 0.0f;
-	sizeRect.size.width = NSWidth([[NSScreen mainScreen] frame]);
+	sizeRect.origin = screen.origin;
+	sizeRect.size.width = screen.size.width;
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 		sizeRect.size.height = 192.0f;
 	} else {

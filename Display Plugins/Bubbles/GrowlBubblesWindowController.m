@@ -58,7 +58,7 @@ static unsigned bubbleWindowDepth = 0U;
 
 	GrowlBubblesWindowView *view = [[[GrowlBubblesWindowView alloc] initWithFrame:panelFrame] autorelease];
 	[view setTarget:self];
-	[view setAction:@selector( _bubbleClicked: )];
+	[view setAction:@selector(_bubbleClicked:)];
 	[panel setContentView:view];
 	
 	[view setTitle:title];
@@ -70,11 +70,10 @@ static unsigned bubbleWindowDepth = 0U;
 	[panel setFrame:panelFrame display:NO];
 	
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
-	float rightX = screen.origin.x + screen.size.width;
 
-	[panel setFrameTopLeftPoint:NSMakePoint( rightX - NSWidth( panelFrame ) - GrowlBubblesPadding, 
-											 NSMaxY( screen ) - GrowlBubblesPadding - ( bubbleWindowDepth ) )];
-	
+	[panel setFrameTopLeftPoint:NSMakePoint( NSMaxX( screen ) - NSWidth( panelFrame ) - GrowlBubblesPadding, 
+											 NSMaxY( screen ) - GrowlBubblesPadding - bubbleWindowDepth )];
+
 	if ( (self = [super initWithWindow:panel] ) ) {
 		#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
 		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
@@ -84,10 +83,6 @@ static unsigned bubbleWindowDepth = 0U;
 			depth = bubbleWindowDepth += NSHeight( panelFrame );
 		}
 		autoFadeOut = !sticky;
-		target = nil;
-		action = NULL;
-		clickContext = nil;
-		appName = nil;
 
 		// the visibility time for this bubble should be the minimum display time plus
 		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
