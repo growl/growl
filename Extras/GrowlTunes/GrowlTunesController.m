@@ -71,18 +71,7 @@ enum {
 - (id)init {
 	
 	if ( self = [super init] ) {
-#ifdef USE_OLD_GAB
-		Class GABClass = NSClassFromString(@"GrowlAppBridge");
-		[GABClass launchGrowlIfInstalledNotifyingTarget:self
-		                                       selector:@selector(registerGrowl:)
-		                                        context:NULL];
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-															selector:@selector(growlIsReady:)
-																name:GROWL_IS_READY
-															  object:nil];
-#else
 		[GrowlApplicationBridge setGrowlDelegate:self];
-#endif //ndef USE_OLD_GAB
 
 		[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithDouble:DEFAULT_POLL_INTERVAL], pollIntervalKey,
@@ -174,17 +163,6 @@ enum {
 - (NSString *) applicationNameForGrowl {
 	return appName;
 }
-
-#ifdef USE_OLD_GAB
-- (void)registerGrowl:(void *)context {
-	NSDictionary *regDict = [self registrationDictionaryForGrowl];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:regDict];
-}
-
-- (void) growlIsReady:(NSNotification *)notification {
-	[self registerGrowl:NULL];
-}
-#endif //def USE_OLD_GAB
 
 - (void) setPolling:(BOOL)flag {
 	polling = flag;
@@ -380,13 +358,7 @@ enum {
 			length, EXTENSION_GROWLTUNES_TRACK_LENGTH,
 			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
-#ifdef USE_OLD_GAB
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																	   object:nil
-																	 userInfo:noteDict];
-#else
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
-#endif //ndef USE_OLD_GAB
 		
 		// set up us some state for next time
 		state = newState;
@@ -503,13 +475,7 @@ enum {
 			length, EXTENSION_GROWLTUNES_TRACK_LENGTH,
 			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
-#ifdef USE_OLD_GAB
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																	   object:nil
-																	 userInfo:noteDict];
-#else
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
-#endif //ndef USE_OLD_GAB
 			
 		// set up us some state for next time
 		state = newState;

@@ -67,10 +67,6 @@ typedef enum {
 - (NSDictionary *)iTunesProcess;
 - (BOOL)quitiTunes;
 
-#ifdef USE_OLD_GAB
-- (void)registerGrowl:(void *)context;
-#endif
-
 - (void)setPolling:(BOOL)flag;
 
 #pragma mark Poll timer
