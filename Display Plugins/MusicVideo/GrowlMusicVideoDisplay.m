@@ -100,17 +100,7 @@
 	}
 }
 
-- (void)musicVideoWillFadeIn:(GrowlMusicVideoWindowController *)musicVideo {
-}
-
-- (void)musicVideoDidFadeIn:(GrowlMusicVideoWindowController *)musicVideo {
-}
-
-
-- (void)musicVideoWillFadeOut:(GrowlMusicVideoWindowController *)musicVideo {
-}
-
-- (void)musicVideoDidFadeOut:(GrowlMusicVideoWindowController *)musicVideo {
+- (void)didFadeOut:(id)sender {
 	GrowlMusicVideoWindowController *olMusicVideo;
 	[notificationQueue removeObjectAtIndex:0];
 	if ( [notificationQueue count] > 0 ) {

@@ -6,20 +6,13 @@
 //  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "FadingWindowController.h"
 
-@interface GrowlMusicVideoWindowController : NSWindowController {
-	id				_delegate;
-	NSTimer			*_animationTimer;
-	BOOL			_autoFadeOut;
-	BOOL			_doFadeIn;
+@interface GrowlMusicVideoWindowController : FadingWindowController {
 	SEL				_action;
 	id				_target;
 	id				_representedObject;
-	double			_displayTime;
 	float			topLeftPosition;
-	float			timerInterval;
-	float			fadeIncrement;
 	int				_priority;
 }
 
@@ -28,13 +21,6 @@
 		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 
 - (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
-
-- (void)startFadeIn;
-- (void)startFadeOut;
-- (void)stopFadeOut;
-
-- (BOOL)automaticallyFadeOut;
-- (void)setAutomaticallyFadesOut:(BOOL) autoFade;
 
 - (id)target;
 - (void)setTarget:(id)object;
@@ -45,18 +31,6 @@
 - (id)representedObject;
 - (void)setRepresentedObject:(id)object;
 
-- (id)delegate;
-- (void)setDelegate:(id)delegate;
-
 - (int)priority;
 - (void)setPriority:(int)newPriority;
-
-@end
-
-@interface NSObject (GrowlMusicVideoWindowControllerDelegate)
-- (void)musicVideoWillFadeIn:(GrowlMusicVideoWindowController *)musicVideo;
-- (void)musicVideoDidFadeIn:(GrowlMusicVideoWindowController *)musicVideo;
-
-- (void)musicVideoWillFadeOut:(GrowlMusicVideoWindowController *)musicVideo;
-- (void)musicVideoDidFadeOut:(GrowlMusicVideoWindowController *)musicVideo;
 @end

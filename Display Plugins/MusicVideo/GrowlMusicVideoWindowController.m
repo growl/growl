@@ -18,12 +18,12 @@
 #define GrowlMusicVideoPadding 10.
 
 + (GrowlMusicVideoWindowController *)musicVideo {
-	return [[[self alloc] init] autorelease];
+	return [[[GrowlMusicVideoWindowController alloc] init] autorelease];
 }
 
 + (GrowlMusicVideoWindowController *)musicVideoWithTitle:(NSString *)title text:(NSString *)text
 		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
-	return [[[self alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky] autorelease];
+	return [[[GrowlMusicVideoWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky] autorelease];
 }
 
 - (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
@@ -31,13 +31,9 @@
 	NSRect sizeRect;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-		sizeRect = NSMakeRect( 0., 0., NSWidth([[NSScreen mainScreen] visibleFrame]), 192. );
-		timerInterval = (1. / 128.);
-		fadeIncrement = 6.;
+		sizeRect = NSMakeRect( 0.f, 0.f, NSWidth([[NSScreen mainScreen] visibleFrame]), 192.f );
 	} else {
-		sizeRect = NSMakeRect( 0., 0., NSWidth([[NSScreen mainScreen] visibleFrame]), 96. );
-		timerInterval = (1. / 64.);
-		fadeIncrement = 6.;
+		sizeRect = NSMakeRect( 0.f, 0.f, NSWidth([[NSScreen mainScreen] visibleFrame]), 96.f );
 	}
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:sizeRect
 						styleMask:NSBorderlessWindowMask
@@ -49,19 +45,18 @@
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setIgnoresMouseEvents:YES];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.];
 	[panel setOpaque:NO];
 	[panel setHasShadow:NO];
 	[panel setCanHide:NO];
 	[panel setReleasedWhenClosed:YES];
 	[panel setDelegate:self];
-	
+
 	GrowlMusicVideoWindowView *view = [[[GrowlMusicVideoWindowView alloc] initWithFrame:panelFrame] autorelease];
-	
+
 	[view setTarget:self];
 	[view setAction:@selector(_musicVideoClicked:)]; // Not used for now
 	[panel setContentView:view];
-	
+
 	[view setTitle:title];
 	NSMutableString	*tempText = [[[NSMutableString alloc] init] autorelease];
 	// Sanity check to unify line endings
@@ -75,26 +70,28 @@
 	[view setIcon:icon];
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
+
+	topLeftPosition = 0.f;
+	[panel setFrameTopLeftPoint:NSMakePoint(0.f, topLeftPosition)];
+
+	if( (self = [super initWithWindow:panel]) ) {
+		_autoFadeOut = YES;	// !sticky
+		_delegate = nil;
+		_target = nil;
+		_representedObject = nil;
+		_action = NULL;
+		_displayTime = MIN_DISPLAY_TIME;
+		_priority = priority;
+		if (sizePref == MUSICVIDEO_SIZE_HUGE) {
+			_timerInterval = (1. / 128.);
+			_fadeIncrement = 6.f;
+		} else {
+			_timerInterval = (1. / 64.);
+			_fadeIncrement = 6.f;
+		}
+	}
 	
-	topLeftPosition = 0.;
-	[panel setFrameTopLeftPoint:NSMakePoint(0., topLeftPosition)];
-	
-	_autoFadeOut = YES;
-	_doFadeIn = YES;
-	_delegate = nil;
-	_target = nil;
-	_representedObject = nil;
-	_action = NULL;
-	_animationTimer = nil;
-	
-	_displayTime = MIN_DISPLAY_TIME;
-	
-	_priority = priority;
-	
-	//[self setAutomaticallyFadesOut:!sticky];
-	[self setAutomaticallyFadesOut:TRUE];
-	
-	return ( self = [super initWithWindow:panel] );
+	return( self );
 }
 
 - (void)dealloc {
@@ -102,37 +99,21 @@
 	
 	[_target release];
 	[_representedObject release];
-	[_animationTimer invalidate];
-	[_animationTimer release];
 
 	[super dealloc];
-}
-
-- (void)_stopTimer {
-	[_animationTimer invalidate];
-	[_animationTimer release];
-	_animationTimer = nil;
-}
-
-- (void)_waitBeforeFadeOut {
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime
-			target:self
-		  selector:@selector( startFadeOut )
-		   userInfo:nil
-		    repeats:NO] retain];
 }
 
 - (void)_fadeIn:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	NSRect theFrame = [myWindow frame];
 	if ( topLeftPosition < NSHeight(theFrame) ) {
-		topLeftPosition += fadeIncrement;
+		topLeftPosition += _fadeIncrement;
 		[myWindow setFrameTopLeftPoint:NSMakePoint(0.f, topLeftPosition)];
 	} else {
 		[self _stopTimer];
 		if ( _autoFadeOut ) {
-			if ( _delegate && [_delegate respondsToSelector:@selector( musicVideoDidFadeIn: )] ) {
-				[_delegate musicVideoDidFadeIn:self];
+			if ( _delegate && [_delegate respondsToSelector:@selector( didFadeIn: )] ) {
+				[_delegate didFadeIn:self];
 			}
 			[self _waitBeforeFadeOut];
 		}
@@ -141,13 +122,13 @@
 
 - (void)_fadeOut:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
-	if ( topLeftPosition > 0. ) {
-		topLeftPosition -= fadeIncrement;
-		[myWindow setFrameTopLeftPoint:NSMakePoint(0., topLeftPosition)];
+	if ( topLeftPosition > 0.f ) {
+		topLeftPosition -= _fadeIncrement;
+		[myWindow setFrameTopLeftPoint:NSMakePoint(0.f, topLeftPosition)];
 	} else {
 		[self _stopTimer];
-		if ( _delegate && [_delegate respondsToSelector:@selector( musicVideoDidFadeOut: )] ) {
-			[_delegate musicVideoDidFadeOut:self];
+		if ( _delegate && [_delegate respondsToSelector:@selector( didFadeOut: )] ) {
+			[_delegate didFadeOut:self];
 		}
 		[self close]; // close our window
 		[self autorelease]; // we retained when we fade in
@@ -159,53 +140,6 @@
 		[_target performSelector:_action withObject:self];
 	}
 	[self startFadeOut];
-}
-
-- (void)startFadeIn {
-	if ( _delegate && [_delegate respondsToSelector:@selector( musicVideoWillFadeIn: )] ) {
-		[_delegate musicVideoWillFadeIn:self];
-	}
-	[self retain]; // release after fade out
-	[self showWindow:nil];
-	[self _stopTimer];
-	[[self window] setAlphaValue:1.];
-	if ( _doFadeIn ) {
-		_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
-				  target:self
-				selector:@selector( _fadeIn: )
-				userInfo:nil
-				 repeats:YES] retain];
-	} else if ( _autoFadeOut ) {
-		if ( _delegate && [_delegate respondsToSelector:@selector( musicVideoDidFadeIn: )] ) {
-			[_delegate musicVideoDidFadeIn:self];
-		}
-		[self _waitBeforeFadeOut];
-	}
-}
-
-- (void)startFadeOut {
-	if ( _delegate && [_delegate respondsToSelector:@selector( musicVideoWillFadeOut: )] ) {
-		[_delegate musicVideoWillFadeOut:self];
-	}
-	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
-			  target:self
-			selector:@selector( _fadeOut: )
-			userInfo:nil
-			 repeats:YES] retain];
-}
-
-- (void)stopFadeOut {
-	[self _stopTimer];
-	[self close];
-}
-
-- (BOOL)automaticallyFadeOut {
-	return _autoFadeOut;
-}
-
-- (void)setAutomaticallyFadesOut:(BOOL) autoFade {
-	_autoFadeOut = autoFade;
 }
 
 - (id)target {
@@ -234,14 +168,6 @@
 	_representedObject = [object retain];
 }
 
-- (id) delegate {
-	return _delegate;
-}
-
-- (void) setDelegate:(id) delegate {
-	_delegate = delegate;
-}
-
 - (int)priority {
 	return _priority;
 }
@@ -257,16 +183,20 @@
 
 - (void) forwardInvocation:(NSInvocation *) invocation {
 	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:[invocation selector]] )
+	if( [contentView respondsToSelector:[invocation selector]] ) {
 		[invocation invokeWithTarget:contentView];
-	else [super forwardInvocation:invocation];
+	} else {
+		[super forwardInvocation:invocation];
+	}
 }
 
 - (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
 	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:selector] )
+	if( [contentView respondsToSelector:selector] ) {
 		return [contentView methodSignatureForSelector:selector];
-	else return [super methodSignatureForSelector:selector];
+	} else {
+		return [super methodSignatureForSelector:selector];
+	}
 }
 
 @end

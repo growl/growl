@@ -47,7 +47,6 @@
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setIgnoresMouseEvents:YES];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.f];
 	[panel setOpaque:NO];
 	[panel setHasShadow:NO];
 	[panel setCanHide:NO];

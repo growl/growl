@@ -15,6 +15,7 @@
 	BOOL			_autoFadeOut;
 	BOOL			_doFadeIn;
 	float			_fadeIncrement;
+	float			_timerInterval;
 	double			_displayTime;
 }
 - (void)startFadeIn;
@@ -27,11 +28,17 @@
 - (float)fadeIncrement;
 - (void)setFadeIncrement:(float)increment;
 
+- (float)timerInterval;
+- (void)setTimerInterval:(float)interval;
+
 - (double)displayTime;
 - (void)setDisplayTime:(double)t;
 
 - (id)delegate;
 - (void)setDelegate:(id)delegate;
+
+- (void)_stopTimer;
+- (void)_waitBeforeFadeOut;
 @end
 
 @interface NSObject (FadingWindowControllerDelegate)

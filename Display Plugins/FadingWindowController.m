@@ -19,6 +19,7 @@
 		_autoFadeOut = NO;
 		_doFadeIn = YES;
 		_fadeIncrement = FADE_INCREMENT;
+		_timerInterval = TIMER_INTERVAL;
 	}
 	return( self );
 }
@@ -82,13 +83,12 @@
 	[self showWindow:nil];
 	[self _stopTimer];
 	if ( _doFadeIn ) {
-		_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
+		_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_timerInterval
 															target:self
 														  selector:@selector( _fadeIn: )
 														  userInfo:nil
 														   repeats:YES] retain];
 	} else {
-		[[self window] setAlphaValue:1.f];
 		if ( _delegate && [_delegate respondsToSelector:@selector( didFadeIn: )] ) {
 			[_delegate didFadeIn:self];
 		}
@@ -103,7 +103,7 @@
 		[_delegate willFadeOut:self];
 	}
 	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
+	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_timerInterval
 														target:self
 													  selector:@selector( _fadeOut: )
 													  userInfo:nil
@@ -134,6 +134,16 @@
 
 - (void)setFadeIncrement:(float) increment {
 	_fadeIncrement = increment;
+}
+
+#pragma mark -
+
+- (float)timerInterval {
+	return _timerInterval;
+}
+
+- (void)setTimerInterval:(float) interval {
+	_timerInterval = interval;
 }
 
 #pragma mark -
