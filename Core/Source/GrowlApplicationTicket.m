@@ -71,9 +71,11 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		return [dict objectForKey:GROWL_NOTIFICATIONS_ALL]
 			&& [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT]
 			&& [dict objectForKey:GROWL_APP_NAME];
-	} else
+	} else {
 		return NO;
+	}
 }
+
 + (BOOL)isKnownTicketVersion:(NSDictionary *)dict {
 	return ([[dict objectForKey:GROWL_TICKET_VERSION] intValue] == 1);
 }
@@ -129,8 +131,11 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	//Get all the notification names and the data about them
 	allNotificationNames = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL] retain];
 	NSAssert(allNotificationNames, @"Ticket dictionaries must contain a list of all their notifications");
-	defaultNotifications = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT] retain];
-	if(!defaultNotifications) defaultNotifications = [allNotificationNames retain];
+	defaultNotifications = [ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	if (!defaultNotifications) {
+		defaultNotifications = allNotificationNames;
+	}
+	[defaultNotifications retain];
 
 	NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
 	NSMutableDictionary *notificationDict = [NSMutableDictionary dictionary];
@@ -396,7 +401,9 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		}
 		defaultNotifications = mDefaultNotifications;
 	} else {
-		NSLog(@"WARNING: application %@ passed an invalid object for the default notifications: %@.", appName, inObject);
+		if ( inObject ) {
+			NSLog(@"WARNING: application %@ passed an invalid object for the default notifications: %@.", appName, inObject);
+		}
 		defaultNotifications = [allNotifications copy];
 	}
 

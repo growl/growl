@@ -36,7 +36,8 @@
 	NSArray						*destinations;
 
 	NSDictionary				*versionInfo;
-	NSData						*appIconData;
+	NSImage						*growlIcon;
+	NSData						*growlIconData;
 }
 
 + (id) standardController;

@@ -95,7 +95,8 @@ static id singleton = nil;
 																   name:NSWorkspaceDidLaunchApplicationNotification
 																 object:nil];
 
-		appIconData = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
+		growlIcon = [[NSImage imageNamed:@"NSApplicationIcon"] retain];
+		growlIconData = [growlIcon TIFFRepresentation];
 
 		[GrowlApplicationBridge setGrowlDelegate:self];
 
@@ -114,6 +115,7 @@ static id singleton = nil;
 	[registrationLock release];
 	[notificationQueue release];
 	[registrationQueue release];
+	[growlIcon release];
 
 	[super dealloc];
 }
@@ -179,7 +181,7 @@ static id singleton = nil;
 		@"This is a notification preview", GROWL_NOTIFICATION_DESCRIPTION,
 		[NSNumber numberWithInt:0], GROWL_NOTIFICATION_PRIORITY,
 		[NSNumber numberWithBool:YES], GROWL_NOTIFICATION_STICKY,
-		appIconData, GROWL_NOTIFICATION_ICON,
+		growlIcon, GROWL_NOTIFICATION_ICON,
 		nil]];
 }
 
@@ -314,7 +316,7 @@ static id singleton = nil;
 		[GrowlApplicationBridge notifyWithTitle:@"Application registered"
 									description:[NSString stringWithFormat:@"%@ registered", appName]
 							   notificationName:@"Application registered"
-									   iconData:appIconData
+									   iconData:growlIconData
 									   priority:0
 									   isSticky:NO
 								   clickContext:nil];
@@ -619,7 +621,7 @@ static id singleton = nil;
 #pragma mark Growl Delegate Methods
 - (NSData *) applicationIconDataForGrowl
 {
-	return appIconData;
+	return growlIconData;
 }
 
 - (NSString *) applicationNameForGrowl
