@@ -1,119 +1,135 @@
 {\rtf1\mac\ansicpg10000\cocoartf102
-{\fonttbl\f0\fswiss\fcharset77 Helvetica;\f1\fswiss\fcharset77 Helvetica-Bold;\f2\fmodern\fcharset77 Courier;
-}
+{\fonttbl\f0\fnil\fcharset77 Herculanum;\f1\fswiss\fcharset77 Helvetica;\f2\fswiss\fcharset77 Helvetica-Bold;
+\f3\fmodern\fcharset77 Courier;}
 {\colortbl;\red255\green255\blue255;}
-\margl1440\margr1440\vieww12240\viewh15840\viewkind1\viewscale100
+\margl1440\margr1440\vieww12240\viewh13520\viewkind1\viewscale100
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 
-\f0\fs40 \cf0 Growl\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
+\f0\fs96 \cf0 \shad\shadx75\shady-75\shadr0\shado62 \shadc0 Growl!
+\f1\fs40 \shad0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \fs24 \cf0 This document aims at laying out the view for the future we have for Growl, as well as the terminology we use in discussing it, and finally the process of writing an application that interfaces with Growl.\
 \
 
-\f1\b 1. Our vision for Growl
-\f0\b0 \
-\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720
-\cf0 Growl aims to be a central notification center for OS X. Other applications will register themselves with a central daemon (GrowlHelperApp), and will then post notifications to it, which it will present to the user in a customizable manner (via on-screen event windows, like the bubbles we have now, by speaking them ... eventually, anything should be possible, including displaying notifications on a remote machine). Once a Growl application registers with Growl, giving it a list of all notifications that it sends out, users will be able to view this list in the Growl preference pane, and select the behavior for different types of notifications, whether they wish to see them or not.\
-\
-\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
-
-\f1\b \cf0 2. Growl Terminology\
-\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720
-
-\f0\b0 \cf0 Now, more into the technical side of the beast. First, to lay out some terms to make clear what is meant by what.\
-
-\f1\b -
-\f0\b0  
-\f1\b All Notifications
-\f0\b0 \
-\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1080\fi360
-\cf0 Growl maintains a list of all the notifications that each application supports.\
-\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1080\fi-360
-
-\f1\b \cf0 - Default Notifications\
-	
-\f0\b0 This is the list of notifications that are enabled by default for an application. This list is maintained persisitently, and separately from the list of\
-
-\f1\b - Allowed Notifications
-\f0\b0 \
-	This is the list of all notifications that are actually enabled for an individual application. This will eventually be user-customizable in the preference pane. \
-
-\f1\b - "Use Default"\
-
-\f0\b0 	This is an internal flag within Growl stored for applications. If it is set, it means that the application should keep the Allowed Notification list synced to the Default list, and that it does not reflect any custom preferences.\
-
-\f1\b - Notification Name
-\f0\b0 \
-	This is an internal name for notifications passed to Growl, never seen by the user. It is passed to 
-\f2\fs20 -[NSDistributedObjectCenter \CocoaLigature0 postNotificationName:]
-\f0\fs24 \CocoaLigature1 . As it is used in notifications passed all across the system, these names should usually be "namespaced" to an application, typically by prepending some form of the application's name to it, i.e. "
-\f2\fs20 Adium-ContactOnline
-\f0\fs24 ".\
-
-\f1\b - Notification Title, and Notification Description\
-
-\f0\b0 	These are the user-visible components of each notification, which will actually be displayed by the active notification plugin when an application sends Growl a notification.\
-\
-\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
-
-\f1\b \cf0 3. Coding for Growl\
-\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720
-
-\f0\b0 \cf0 All communication with Growl by client applications takes place through 
-\f2\fs20 \cf0 NSDistributedObjectCenter
-\f0\fs24 , using keys and notifications defined in 
-\f2\fs20 GrowlDefines.h
-\f0\fs24 . \
-Note that there is (currently) no Growl -> Client communication. This should change shortly.\
-When a Growl-enabled application launches, it should post a notification named 
-\f2\fs20 GROWL_APP_REGISTRATION
-\f0\fs24 , with a userInfo dictionary with the following key => value pairs:\
-
-\f2\fs20 GROWL_APP_NAME		=>	
-\f0\fs24 The name of the application registering itself\
-\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li5040\fi-4320
-
-\f2\fs20 GROWL_NOTIFICATIONS_ALL	=>	
-\f0\fs24 An 
-\f2\fs20 NSArray *
-\f0\fs24  of the names of all the notifications the application will send out.\
-
-\f2\fs20 GROWL_NOTIFICATIONS_DEFAULT	=>	
-\f0\fs24 An 
-\f2\fs20 NSArray *
-\f0\fs24  of the subset of the notifications specified in 
-\f2\fs20 \cf0 GROWL_NOTIFICATIONS_ALL 
-\f0\fs24 \cf0 that should be enabled to be displayed by default.\
-\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720
-When an application registers with Growl, Growl will retrieve the icon for the application named in the registration request, and cache it to use as a default icon later.\
-Once an application has registered with Growl, it can proceed to send out event notifications to Growl, to be (possibly, dependent on preferences) displayed. This event should be sent in the form of a notification through 
-\f2\fs20 \cf0 NSDistributedObjectCenter
-\f0\fs24 \cf0 . The name of the notification should be one of the names the application supplied in the 
-\f2\fs20 \cf0 GROWL_NOTIFICATIONS_ALL 
-\f0\fs24 \cf0 list it registered with, and its userInfo dictionary should contain the following key => value pairs:\
-\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li5040\fi-4320\ql\qnatural
-
-\f2\fs20 \cf0 GROWL_APP_NAME		=>	
-\f0\fs24 \cf0 The name of the application sending the notification; This should be the same name used in registering the app.\
-\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li5040\fi-4320\ql\qnatural
-
-\f2\fs20 \CocoaLigature0 GROWL_NOTIFICATION_TITLE =>	
-\f0\fs24 The title of the notification.\
-
-\f2\fs20 GROWL_NOTIFICATION_DESCRIPTION => 
-\f0\fs24 The description for the notification.\
-
-\f2\fs20 GROWL_NOTIFICATION_ICON	=>	
-\f0\fs24 Optionally (a default will be found as specified above if this is nil or not present), an 
-\f2\fs20 NSData *
-\f0\fs24  containing a TIFF representation of an icon associated with the notification.\
+\f2\b 1. Our vision for Growl
+\f1\b0 \
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
-That's all there is to it. \
+\cf0 Growl aims to be a central notification center for OS X. The end effect will be that users have a very customizable, very uniform notification window from multiple applications of their choosing. The biproduct of this is that Growl should be really easy for developers to implement as well. These are our two goals.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 \
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+\cf0 Applications will register themselves with a central daemon (GrowlHelperApp), and will then post notifications to it. Growl will present to the user the information that was sent to it by the original application, in a customizable manner (via on-screen event windows, like the bubbles we have now, by speaking them ... eventually, anything should be possible, including displaying notifications on a remote machine). \
+\
+Once a Growl application registers with Growl, giving it a list of all notifications that it sends out, users will be able to view this list in the Growl preference pane, and select the behavior for different types of notifications, whether they wish to see them or not.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 \
+
+\f2\b 2. Licensing
+\f1\b0 \
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+\cf0 Growl is meant to make the life of the developer and user easier. We've licensed Growl as BSD as such. Testing applications and examples are public domain, do with them as you wish. You can include Growl with your GPL app distrobutioin even, so long as you don't combine Growl and GPL code. Due to the nature of how Growl works, the license does not matter, as Growl should be recieving notifications from an app.\
 \
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f1\b 4. Beep.app\
+\f2\b \cf0 4. Growl Terminology\
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
 
-\f0\b0 Beep.app is a test/trial/sample client application for Growl. To use it, add notifications to the table shown, specifying a title, description, and optional icon, and whether or not they should be enabled by default, and then check the "register" checkbox, which will cause Beep to register itself with Growl, and then select the notifications you have created to send them to the Growl Helper App, which will display them as appropriate.}
+\f1\b0 \cf0 Now, more into the technical side of the beast. First, to lay out some terms to make clear what is meant by what.\
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+
+\f2\b \cf0 -
+\f1\b0  
+\f2\b All Notifications
+\f1\b0 \
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1080\fi360\ql\qnatural
+\cf0 Growl maintains a list of all the notifications that each application supports.\
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1080\fi-360\ql\qnatural
+
+\f2\b \cf0 - Default Notifications\
+	
+\f1\b0 This is the list of notifications that are enabled by default for an application. This list is maintained persisitently, and separately from the list of allowed notifications.\
+
+\f2\b - Allowed Notifications
+\f1\b0 \
+	This is the list of all notifications that are actually enabled for an individual application. This will eventually be user-customizable in the preference pane. \
+
+\f2\b - "Use Default"\
+
+\f1\b0 	This is an internal flag within Growl stored for applications. If it is set, it means that the application should keep the Allowed Notification list synced to the Default list, and that it does not reflect any custom preferences.\
+
+\f2\b - Notification Name
+\f1\b0 \
+	This is an internal name for notifications passed to Growl, never seen by the user. It is passed to 
+\f3\fs20 -[NSDistributedObjectCenter \CocoaLigature0 postNotificationName:]
+\f1\fs24 \CocoaLigature1 . As it is used in notifications passed all across the system, these names should usually be "namespaced" to an application, typically by prepending some form of the application's name to it, i.e. "
+\f3\fs20 Adium-ContactOnline
+\f1\fs24 ".\
+
+\f2\b - Notification Title, and Notification Description\
+
+\f1\b0 	These are the user-visible components of each notification, which will actually be displayed by the active notification plugin when an application sends Growl a notification.\
+\
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f2\b \cf0 3. Coding for Growl\
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+
+\f1\b0 \cf0 All communication with Growl by client applications takes place through 
+\f3\fs20 NSDistributedObjectCenter
+\f1\fs24 , using keys and notifications defined in 
+\f3\fs20 GrowlDefines.h
+\f1\fs24 . \
+Note that there is (currently) no Growl -> Client communication. This should change shortly.\
+When a Growl-enabled application launches, it should post a notification named 
+\f3\fs20 GROWL_APP_REGISTRATION
+\f1\fs24 , with a userInfo dictionary with the following key => value pairs:\
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+
+\f3\fs20 \cf0 GROWL_APP_NAME		=>	
+\f1\fs24 The name of the application registering itself\
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li5040\fi-4320\ql\qnatural
+
+\f3\fs20 \cf0 GROWL_NOTIFICATIONS_ALL	=>	
+\f1\fs24 An 
+\f3\fs20 NSArray *
+\f1\fs24  of the names of all the notifications the application will send out.\
+
+\f3\fs20 GROWL_NOTIFICATIONS_DEFAULT	=>	
+\f1\fs24 An 
+\f3\fs20 NSArray *
+\f1\fs24  of the subset of the notifications specified in 
+\f3\fs20 GROWL_NOTIFICATIONS_ALL 
+\f1\fs24 that should be enabled to be displayed by default.\
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+\cf0 When an application registers with Growl, Growl will retrieve the icon for the application named in the registration request, and cache it to use as a default icon later.\
+Once an application has registered with Growl, it can proceed to send out event notifications to Growl, to be (possibly, dependent on preferences) displayed. This event should be sent in the form of a notification through 
+\f3\fs20 NSDistributedObjectCenter
+\f1\fs24 . The name of the notification should be one of the names the application supplied in the 
+\f3\fs20 GROWL_NOTIFICATIONS_ALL 
+\f1\fs24 list it registered with, and its userInfo dictionary should contain the following key => value pairs:\
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li5040\fi-4320\ql\qnatural
+
+\f3\fs20 \cf0 GROWL_APP_NAME		=>	
+\f1\fs24 The name of the application sending the notification; This should be the same name used in registering the app.\
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li5040\fi-4320\ql\qnatural
+
+\f3\fs20 \cf0 \CocoaLigature0 GROWL_NOTIFICATION_TITLE =>	
+\f1\fs24 The title of the notification.\
+
+\f3\fs20 GROWL_NOTIFICATION_DESCRIPTION => 
+\f1\fs24 The description for the notification.\
+
+\f3\fs20 GROWL_NOTIFICATION_ICON	=>	
+\f1\fs24 Optionally (a default will be found as specified above if this is nil or not present), an 
+\f3\fs20 NSData *
+\f1\fs24  containing a TIFF representation of an icon associated with the notification.\
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+\cf0 That's all there is to it. \
+\
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f2\b \cf0 4. Beep.app\
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+
+\f1\b0 \cf0 Beep.app is a test/trial/sample client application for Growl. To use it, add notifications to the table shown, specifying a title, description, and optional icon, and whether or not they should be enabled by default, and then check the "register" checkbox, which will cause Beep to register itself with Growl, and then select the notifications you have created to send them to the Growl Helper App, which will display them as appropriate.}
