@@ -215,6 +215,7 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 	NSBundle *bundle;
 	NSString *archivePath, *tmpDir;
 	NSTask	*unzip;
+	BOOL success = NO;
 	
 	bundle = [NSBundle bundleForClass:[self class]];
 	archivePath = [bundle pathForResource:GROWL_PREFPANE_NAME ofType:@"zip"];
@@ -235,20 +236,27 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 			nil]];
 		[unzip setCurrentDirectoryPath:tmpDir];
 
-		[unzip launch];
-		[unzip waitUntilExit];
-		int status = [unzip terminationStatus];
+		NS_DURING
+			[unzip launch];
+			[unzip waitUntilExit];
+			success = ([unzip terminationStatus] == 0);
+		NS_HANDLER
+			/* No exception handler needed */
+		NS_ENDHANDLER
 		[unzip release];
 
-		if (status) {
-			NSLog(@"GrowlInstallationPrompt: unzip exited with status %i; Growl was not successfully installed", status);
-		} else {
+		if (success) {
 			// Kill the running Growl helper app if necessary by asking the Growl Helper App to shutdown via the DNC
 			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
 
 			// Open Growl.prefPane; System Preferences will take care of the rest, and Growl.prefPane will relaunch the GHA if appropriate.
 			[[NSWorkspace sharedWorkspace] openTempFile:[tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME]];
 		}
+	}
+
+	if (!success) {
+		//XXX show this to the user; don't just log it.
+		NSLog(@"GrowlInstallationPrompt: Growl was not successfully installed");
 	}
 }
 
