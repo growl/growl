@@ -1,3 +1,12 @@
+//
+//  GrowlBubblesWindowController.h
+//  Growl
+//
+//  Created by Nelson Elhage on Wed Jun 09 2004.
+//  Name changed from KABubbleWindowController.h by Justin Burns on Fri Nov 05 2004.
+//  Copyright (c) 2004 Nelson Elhage. All rights reserved.
+//
+
 #import <AppKit/NSWindowController.h>
 
 @class NSTimer;

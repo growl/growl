@@ -1,3 +1,12 @@
+//
+//  GrowlBubblesWindowView.m
+//  Growl
+//
+//  Created by Nelson Elhage on Wed Jun 09 2004.
+//  Name changed from KABubbleWindowView.m by Justin Burns on Fri Nov 05 2004.
+//  Copyright (c) 2004 Nelson Elhage. All rights reserved.
+//
+
 #import "GrowlBubblesWindowView.h"
 #import <math.h>
 #import "GrowlDefines.h"
