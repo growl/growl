@@ -128,6 +128,7 @@ static id singleton = nil;
 	//free your world
 	[self stopServer];
 	[dncPathway release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
+	[destinations release];
 
 	[tickets           release];
 	[registrationLock  release];
@@ -147,6 +148,10 @@ static id singleton = nil;
 
 #pragma mark -
 
+- (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
+	NSLog(@"Could not publish Growl service. Error: %@", errorDict);
+}
+
 - (void) startServer {
 	socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
 	serverConnection = [[NSConnection alloc] initWithReceivePort:socketPort sendPort:nil];
@@ -159,10 +164,16 @@ static id singleton = nil;
 		NSLog(@"Could not register Growl server.");
 	}
 
+	NSString *serviceName;
+	if ([[NSNetService class] instancesRespondToSelector:@selector(hostName)]) {
+		serviceName = [[NSProcessInfo processInfo] hostName];
+	} else {
+		serviceName = @"";	// use local computer name
+	}
 	// configure and publish the Rendezvous service
 	service = [[NSNetService alloc] initWithDomain:@""	// use local registration domain
 											  type:@"_growl._tcp."
-											  name:@""	// use local computer name
+											  name:serviceName
 											  port:GROWL_TCP_PORT];
 	[service setDelegate:self];
 	[service publish];
@@ -555,7 +566,8 @@ static id singleton = nil;
 		enableForward = [[[GrowlPreferences preferences] objectForKey:GrowlEnableForwardKey] boolValue];
 	}
 	if (!note || (object && [object isEqualTo:GrowlForwardDestinationsKey])) {
-		destinations = [[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey];
+		[destinations release];
+		destinations = [[[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey] retain];
 	}
 	if (!note || !object) {
 		[tickets removeAllObjects];

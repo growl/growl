@@ -753,7 +753,7 @@
 	} else if (tableView == growlServiceList) {
 		identifier = [column identifier];
 		if ([identifier isEqualTo:@"use"]) {
-			NSMutableDictionary *entry = [services objectAtIndex:row];
+			NSMutableDictionary *entry = [[services objectAtIndex:row] mutableCopy];
 			if ([value boolValue]) {
 				NSNetService *serviceToResolve = [entry objectForKey:@"netservice"];
 				if (serviceToResolve) {
@@ -773,6 +773,8 @@
 			}
 
 			[entry setObject:value forKey:identifier];
+			[services replaceObjectAtIndex:row withObject:entry];
+			[entry release];
 			[self writeForwardDestinations];
 		}
 	}
@@ -852,7 +854,7 @@
 
 	// add a new entry at the end
 	NSNumber *use = [[NSNumber alloc] initWithBool:NO];
-	entry = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+	entry = [[NSDictionary alloc] initWithObjectsAndKeys:
 		aNetService, @"netservice",
 		name,        @"computer",
 		use,         @"use",
@@ -896,9 +898,12 @@
 	NSArray *addresses = [sender addresses];
 	if ([addresses count] > 0U) {
 		NSData *address = [addresses objectAtIndex:0U];
-		NSMutableDictionary *entry = [services objectAtIndex:currentServiceIndex];
+		NSMutableDictionary *entry = [[services objectAtIndex:currentServiceIndex] mutableCopy];
 		[entry setObject:address forKey:@"address"];
 		[entry removeObjectForKey:@"netservice"];
+		[services replaceObjectAtIndex:currentServiceIndex withObject:entry];
+		[entry release];
+		
 		[self writeForwardDestinations];
 	}
 }
