@@ -81,7 +81,7 @@
 struct GrowlNetworkPacket {
 	unsigned char version;
 	unsigned char type;
-};
+} __attribute__((packed));
 
 /*
  *	A registration packet.
@@ -99,7 +99,7 @@ struct GrowlNetworkRegistration {
 	 *	array, each index being 8 bits.
 	 */
 	unsigned char data[];
-};
+} __attribute__((packed));
 
 /**
  *	A notification packet.
@@ -107,10 +107,10 @@ struct GrowlNetworkRegistration {
 struct GrowlNetworkNotification {
 	struct GrowlNetworkPacket common;
 	struct GrowlNetworkNotificationFlags {
-		unsigned reserved: 25;
+		unsigned reserved: 12;
 		signed   priority: 3;
 		unsigned sticky:   1;
-	} flags; //size = 32 (28 + 3 + 1)
+	} __attribute__((packed)) flags; //size = 16 (12 + 3 + 1)
 	unsigned short nameLen;
 	unsigned short titleLen;
 	unsigned short descriptionLen;
@@ -120,7 +120,7 @@ struct GrowlNetworkNotification {
 	 *	<notification name><title><description><application name><checksum>
 	 */
 	unsigned char data[];
-};
+} __attribute__((packed));
 
 /*! The extension used when registering an app via opening a file on the helper app */
 #define GROWL_REG_DICT_EXTENSION		@"growlRegDict"
