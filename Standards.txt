@@ -1,0 +1,23 @@
+---Growl Coding standards---
+
+This is an extreme work in progress, but it's an effort to document coding standards that should be used when coding for Growl, or any other Objective-C code in the growl subversion repository. Developers, feel free to codify anything you notice we do in the code as a hard standard here.
+
+Variable names:
+ivars and local vars should generally be named with camelCase, with a lowercase initial letter, and no underscores. No form of Hungarian notation is to be used, ever.
+
+
+Selector names:
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row;
+
+
+Braces and indentation:
+
+- (void)foo {
+	if(a) {
+		do_b();
+	} else if(b) {
+		do_c();
+	} else {
+		do_done();
+	}
+}
