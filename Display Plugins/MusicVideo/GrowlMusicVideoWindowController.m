@@ -112,6 +112,7 @@
 		[myWindow setFrameTopLeftPoint:NSMakePoint(screen.origin.x, topLeftPosition)];
 	} else {
 		[self _stopTimer];
+		if(screenshotMode) [self takeScreenshot];
 		if ( autoFadeOut ) {
 			if ( delegate && [delegate respondsToSelector:@selector( didFadeIn: )] ) {
 				[delegate didFadeIn:self];
