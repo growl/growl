@@ -3,8 +3,7 @@ To-Do
 
 For .6
 
-- Display version number.
-- A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.
+
 - For all displays that should conform, priority
 - 3 or 5 parts on priority, we need to decide this
 - Smoke needs to specify how many lines it allows to be displayed on screen.
@@ -20,6 +19,11 @@ Release related issues
 - Include uninstaller in the dmg
 - Include user documentation in the dmg
 - Include links to developer documentation in the dmg. Possibly include docs themselves.
+
+
+Done:
+- Display version number.
+- A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.
 
 
 For .7
