@@ -57,10 +57,11 @@ static const char *keychainAccountName = "Growl";
 }
 
 #pragma mark -
-+ (BOOL) authenticatePacket:(const char *)packet length:(unsigned int)length
+
++ (BOOL) authenticatePacket:(const char *)packet length:(unsigned)length
 {
 	char *password;
-	unsigned int messageLength;
+	unsigned messageLength;
 	UInt32 passwordLength;
 	OSStatus status;
 	MD5_CTX ctx;
@@ -69,14 +70,14 @@ static const char *keychainAccountName = "Growl";
 	messageLength = length-MD5_DIGEST_LENGTH;
 	MD5_Init( &ctx );
 	MD5_Update( &ctx, packet, messageLength );
-	status = SecKeychainFindGenericPassword( NULL,
+	status = SecKeychainFindGenericPassword( /*keychainOrArray*/ NULL,
 											 strlen( keychainServiceName ), keychainServiceName,
 											 strlen( keychainAccountName ), keychainAccountName,
 											 &passwordLength, (void **)&password, NULL );
 
 	if ( status == noErr ) {
 		MD5_Update( &ctx, password, passwordLength );
-		SecKeychainItemFreeContent( NULL, password );
+		SecKeychainItemFreeContent( /*attrList*/ NULL, password );
 	} else if ( status != errSecItemNotFound ) {
 		NSLog( @"Failed to retrieve password from keychain. Error: %d", status );
 	}
@@ -93,8 +94,8 @@ static const char *keychainAccountName = "Growl";
 	char *description;
 	char *applicationName;
 	char *notification;
-	unsigned int notificationNameLen, titleLen, descriptionLen, priority, applicationNameLen;
-	unsigned int length, num, i, size, packetSize;
+	unsigned notificationNameLen, titleLen, descriptionLen, priority, applicationNameLen;
+	unsigned length, num, i, size, packetSize;
 	BOOL isSticky;
 
 	NSDictionary *userInfo = [aNotification userInfo];
