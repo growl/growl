@@ -4,7 +4,7 @@
 # 
 # Released under the BSD license.
 #
-### Descreption
+### Description
 #
 # A ruby class that enables posting notifications to the Growl daemon.
 # See <http://sourceforge.net/projects/growl/> for more information.
