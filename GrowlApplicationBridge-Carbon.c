@@ -53,6 +53,11 @@ Boolean Growl_SetDelegate(struct GrowlDelegate *newDelegate) {
 	if(newDelegate && !(newDelegate->applicationName))
 		return false;
 
+	if(delegate == newDelegate) {
+		//this is harmless
+		return true;
+	}
+
 	if(delegate && (delegate->release))
 		delegate->release(delegate);
 	if(newDelegate && newDelegate->retain)
