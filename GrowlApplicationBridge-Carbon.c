@@ -554,6 +554,7 @@ CFStringRef _copyCurrentProcessName(void) {
 }
 
 static CFStringRef _copyTemporaryFolderPath(void) {
+	FSRef ref;
 	OSStatus err = FSFindFolder(kOnAppropriateDisk, kTemporaryFolderType, kCreateFolder, &ref);
 	CFURLRef url = CFURLCreateFromFSRef(kCFAllocatorDefault, &ref);
 	CFStringRef string = CFRetain(CFURLGetString(url));
