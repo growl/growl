@@ -60,7 +60,7 @@
 				52861FEF06DC463E00D3A356,
 				52861EE906DBA9B200D3A356,
 				CB1C5D95063E523F007052EE,
-				CBDBDEE506715DAF004622FA,
+				0AB856D806E2932C007B791C,
 				32DBCFA20370C41700C91783,
 				52861ED706DBA80800D3A356,
 				34CEA3930680A77C00670E0D,
@@ -156,6 +156,20 @@
 //0A4
 		0AAFB91706D2A0E000BA1A13 = {
 			fileRef = F506C040013D9D8001CA16C8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0AB856D806E2932C007B791C = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = todo.txt;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0AB856D906E2932C007B791C = {
+			fileRef = 0AB856D806E2932C007B791C;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -662,6 +676,7 @@
 				8D202CED0486D31800D8A456,
 				8D202CEF0486D31800D8A456,
 				CB5FA1BD0638CA2C00EADD7A,
+				0AB856D906E2932C007B791C,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1267,13 +1282,6 @@
 			path = "GrowlHelperApp-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		CBDBDEE506715DAF004622FA = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.rtf;
-			path = ToDo.rtf;
-			refType = 4;
-			sourceTree = "<group>";
 		};
 		CBF073C80659A94F000B4B77 = {
 			fileEncoding = 4;
