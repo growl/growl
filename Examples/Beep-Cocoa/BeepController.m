@@ -208,7 +208,7 @@
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)col row:(int)row {
 #pragma unused(tableView, col, row)
-    return [[notifications objectAtIndex:row] objectForKey:GROWL_NOTIFICATION_TITLE];
+    return [[notifications objectAtIndex:row] objectForKey:GROWL_NOTIFICATION_NAME];
 }
 
 #pragma mark Table Delegate Methods
@@ -233,12 +233,12 @@
 
 #pragma mark Growl Delegate methods
 
-- (NSString *)applicationName {
+- (NSString *)applicationNameForGrowl {
 	return @"Beep-Cocoa";
 }
 
 //Return the registration dictionary
-- (NSDictionary *)growlRegistrationDictionary {
+- (NSDictionary *)registrationDictionaryForGrowl {
 	
 	NSMutableArray *defNotesArray = [NSMutableArray array];
 	NSMutableArray *allNotesArray = [NSMutableArray array];
@@ -248,7 +248,7 @@
 	//Build an array of all notifications we want to use
 	for ( unsigned i = 0U; i < numNotifications; ++i ) {
 		NSDictionary *def = [notifications objectAtIndex:i];
-		[allNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_TITLE]];
+		[allNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_NAME]];
 		
 		isDefaultNum = [def objectForKey:GROWL_NOTIFICATION_DEFAULT];
 		if ( isDefaultNum && [isDefaultNum boolValue] ) {
@@ -266,7 +266,6 @@
 }
 
 - (void)growlIsReady {
-	
 	NSLog(@"Growl engaged, Captain!");	
 }
 
