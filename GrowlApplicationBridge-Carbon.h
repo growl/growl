@@ -177,7 +177,7 @@ typedef struct GrowlNotification {
 			(delegate)->size = sizeof(struct GrowlDelegate); \
 			(delegate)->applicationName = NULL; \
 			(delegate)->registrationDictionary = NULL; \
-			(delegate)->iconData = NULL; \
+			(delegate)->applicationIconData = NULL; \
 			(delegate)->growlInstallationWindowTitle = NULL; \
 			(delegate)->growlInstallationInformation = NULL; \
 			(delegate)->growlUpdateWindowTitle = NULL; \
