@@ -54,7 +54,7 @@
 	<key>CFBundleSignature</key>
 	<string>GRRR</string>
 	<key>CFBundleVersion</key>
-	<string>0.6</string>
+	<string>0.7</string>
 	<key>LSUIElement</key>
 	<integer>1</integer>
 	<key>NSAppleScriptEnabled</key>
