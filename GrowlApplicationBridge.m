@@ -97,6 +97,22 @@ static  NSMutableArray *targetsToNotifyArray = nil;
 	return success;
 }
 
++ (BOOL)isGrowlRunning {
+	BOOL growlIsRunning = NO;
+	ProcessSerialNumber PSN = {kNoProcess, kNoProcess};
+	while (GetNextProcess(&PSN) == noErr) {
+		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
+		if ([[infoDict objectForKey:@"CFBundleIdentifier"] isEqualToString:@"com.Growl.GrowlHelperApp"]) {
+			growlIsRunning = YES;
+			[infoDict release];
+			break;
+		}
+		[infoDict release];
+	}
+	
+	return growlIsRunning;
+}
+
 + (void)_growlIsReady:(NSNotification *)notification
 {
 	NSEnumerator	*enumerator = [targetsToNotifyArray objectEnumerator];
