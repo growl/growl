@@ -42,7 +42,7 @@ static const double gMaxDisplayTime = 10.;
 //	NSLog(@"self id: [%d]", self->identifier);
 
 	// stop depth wrapping around
-	if(windowSize.height > depth) {
+	if (windowSize.height > depth) {
 		depth = 0;
 	} else {
 		depth -= windowSize.height;
@@ -66,7 +66,7 @@ static const double gMaxDisplayTime = 10.;
 		NSRect theFrame = [[self window] frame];
 		theFrame.origin.y += [[[note userInfo] objectForKey:@"Depth"] floatValue];
 		// don't allow notification to fly off the top of the screen
-		if(theFrame.origin.y < NSMaxY( [[NSScreen mainScreen] visibleFrame] ) - GrowlSmokePadding) {
+		if (theFrame.origin.y < NSMaxY( [[NSScreen mainScreen] visibleFrame] ) - GrowlSmokePadding) {
 			[[self window] setFrame:theFrame display:NO animate:YES];
 			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSNumber numberWithUnsignedInt:identifier], @"ID",
@@ -86,7 +86,7 @@ static const double gMaxDisplayTime = 10.;
 		  identifier, i,
 		  theFrame.origin.x, theFrame.origin.y, theFrame.size.width, theFrame.size.height,
 		  space.origin.x, space.origin.y, space.size.width, space.size.height);*/
-	if(i != identifier && NSIntersectsRect(space, theFrame)) {
+	if (i != identifier && NSIntersectsRect(space, theFrame)) {
 		//NSLog(@"I intersect with this frame\n");
 		theFrame.origin.y = space.origin.y - space.size.height;
 		//NSLog(@"New origin: (%f, %f)\n", theFrame.origin.x, theFrame.origin.y);
@@ -143,7 +143,7 @@ static const double gMaxDisplayTime = 10.;
 	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlSmokePadding, 
 											 NSMaxY( screen ) - GrowlSmokePadding - depth )];
 
-	if( (self = [super initWithWindow:panel] ) ) {
+	if ( (self = [super initWithWindow:panel] ) ) {
 		depth += NSHeight( panelFrame );
 		autoFadeOut = !sticky;
 		target = nil;
@@ -186,7 +186,7 @@ static const double gMaxDisplayTime = 10.;
 
 	//extern unsigned smokeWindowDepth;
 //	NSLog(@"smokeController deallocking");
-	//if( depth == smokeWindowDepth ) 
+	//if ( depth == smokeWindowDepth ) 
 	// 	smokeWindowDepth = 0;
 
 	[super dealloc];
@@ -195,7 +195,7 @@ static const double gMaxDisplayTime = 10.;
 #pragma mark -
 
 - (void) _notificationClicked:(id) sender {
-	if( target && action && [target respondsToSelector:action] ) {
+	if ( target && action && [target respondsToSelector:action] ) {
 		[target performSelector:action withObject:self];
 	}
 	[self startFadeOut];

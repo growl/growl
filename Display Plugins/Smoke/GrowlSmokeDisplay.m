@@ -21,7 +21,7 @@ static unsigned smokeDepth = 0;
 @implementation GrowlSmokeDisplay
 
 - (id) init {
-	if( (self = [super init] ) ) {
+	if ( (self = [super init] ) ) {
 		preferencePane = [[GrowlSmokePrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlSmokePrefsController class]]];
 		[[NSNotificationCenter defaultCenter] addObserver:self 
 												 selector:@selector( _smokeGone: ) 
@@ -83,7 +83,7 @@ static unsigned smokeDepth = 0;
 - (void) _smokeGone:(NSNotification *)note {
 	unsigned notifiedDepth = [[[note userInfo] objectForKey:@"Depth"] intValue];
 	//NSLog(@"Received notification of departure with depth %u, my depth is %u\n", notifiedDepth, smokeDepth);
-	if(smokeDepth > notifiedDepth) {
+	if (smokeDepth > notifiedDepth) {
 		smokeDepth = notifiedDepth;
 	}
 	//NSLog(@"My depth is now %u\n", smokeDepth);

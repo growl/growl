@@ -128,7 +128,7 @@
 	drawRect.size.height = [self titleHeight];
 
 	[title drawWithEllipsisInRect:drawRect
-					withAttributes:titleAttributes];
+				   withAttributes:titleAttributes];
 
 	drawRect.origin.y = textYPosition;
 	drawRect.size.height = [self descriptionHeight];
@@ -171,7 +171,7 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (void)setPriority:(int)priority {
+- (void) setPriority:(int)priority {
 	NSString* key;
 	NSString* textKey;
 	switch (priority) {
@@ -211,7 +211,7 @@
 											 alpha:backgroundAlpha] retain];
 		[array release];
 	} else {
-		bgColor = [[NSColor colorWithCalibratedWhite:.1f alpha:backgroundAlpha] retain];
+		bgColor = [[NSColor colorWithCalibratedWhite:0.1f alpha:backgroundAlpha] retain];
 		if (array) {
 			CFRelease((CFTypeRef)array);
 		}
@@ -243,12 +243,12 @@
 	[self setFrame:rect];
 }
 
-- (int)textAreaWidth {
+- (int) textAreaWidth {
 	return GrowlSmokeNotificationWidth - GrowlSmokePadding
 	   	- GrowlSmokeIconSize - GrowlSmokeIconPadding - GrowlSmokeIconTextPadding;
 }
 
-- (float)titleHeight {
+- (float) titleHeight {
 	if ( !titleHeight ) {
 		NSLayoutManager *lm = [[NSLayoutManager alloc] init];
 		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize]];
@@ -258,16 +258,14 @@
 	return titleHeight;
 }
 
-- (float)descriptionHeight {
+- (float) descriptionHeight {
 
 	if (!textHeight) {
 		NSString *content = text ? text : @"";
 		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:content
 																attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 																	[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
-																	nil
-																	]
-			];
+																	nil]];
 
 		NSSize containerSize;
 		BOOL limitPref = GrowlSmokeLimitPrefDefault;
@@ -304,7 +302,7 @@
 	return textHeight;
 }
 
-- (int)descriptionRowCount {
+- (int) descriptionRowCount {
 	float height = [self descriptionHeight];
 	// this will be horribly wrong, but don't worry about it for now
 	float lineHeight = GrowlSmokeTextFontSize + 1;

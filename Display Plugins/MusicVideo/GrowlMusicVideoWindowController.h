@@ -15,18 +15,18 @@
 	int				priority;
 }
 
-+ (GrowlMusicVideoWindowController *)musicVideo;
-+ (GrowlMusicVideoWindowController *)musicVideoWithTitle:(NSString *)title text:(id)text
++ (GrowlMusicVideoWindowController *) musicVideo;
++ (GrowlMusicVideoWindowController *) musicVideoWithTitle:(NSString *)title text:(id)text
 		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 
-- (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
+- (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 
-- (id)target;
-- (void)setTarget:(id)object;
+- (id) target;
+- (void) setTarget:(id)object;
 
-- (SEL)action;
-- (void)setAction:(SEL)selector;
+- (SEL) action;
+- (void) setAction:(SEL)selector;
 
-- (int)priority;
-- (void)setPriority:(int)newPriority;
+- (int) priority;
+- (void) setPriority:(int)newPriority;
 @end

@@ -35,6 +35,6 @@
 	IBOutlet NSTextField	*text_Opacity;
 }
 
-- (IBAction)preferenceChanged:(id)sender;
+- (IBAction) preferenceChanged:(id)sender;
 
 @end

@@ -69,9 +69,9 @@ static unsigned bubbleWindowDepth = 0;
 	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBubblesPadding, 
 											 NSMaxY( screen ) - GrowlBubblesPadding - ( bubbleWindowDepth ) )];
 	
-	if( (self = [super initWithWindow:panel] ) ) {
+	if ( (self = [super initWithWindow:panel] ) ) {
 		#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
-		if( (NSMaxY([panel frame]) - NSHeight([panel frame]) - [NSMenuView menuBarHeight]) < 0 ) {
+		if ( (NSMaxY([panel frame]) - NSHeight([panel frame]) - [NSMenuView menuBarHeight]) < 0 ) {
 			depth = bubbleWindowDepth = 0;
 		} else {
 			depth = bubbleWindowDepth += NSHeight( panelFrame );
@@ -103,7 +103,7 @@ static unsigned bubbleWindowDepth = 0;
 	[target release];
 
 	extern unsigned bubbleWindowDepth;
-	if( depth == bubbleWindowDepth ) {
+	if ( depth == bubbleWindowDepth ) {
 		bubbleWindowDepth = 0;
 	}
 
@@ -113,7 +113,7 @@ static unsigned bubbleWindowDepth = 0;
 #pragma mark -
 
 - (void) _bubbleClicked:(id) sender {
-	if( target && action && [target respondsToSelector:action] ) {
+	if ( target && action && [target respondsToSelector:action] ) {
 		[target performSelector:action withObject:self];
 	}
 	[self startFadeOut];

@@ -555,7 +555,6 @@
 				34C4486806F0FF5300855FBE,
 				07CC345906FFE5FC0029B83C,
 				6C7CEAE60707F41D00441A92,
-				9594782107489C2F00B8B23E,
 				95DD1A9007491AB700CC05A4,
 			);
 			isa = PBXGroup;
@@ -1883,13 +1882,6 @@
 			path = German.lproj/GrowlMailMePrefs.nib;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		9594782107489C2F00B8B23E = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			path = "Rendezvous-Info.plist";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
 		};
 		95947C130748A30200B8B23E = {
 			fileEncoding = 30;

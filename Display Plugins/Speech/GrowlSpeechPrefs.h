@@ -13,6 +13,6 @@
 	IBOutlet NSTableView	*voiceList;
 	NSArray					*voices;
 }
-- (IBAction)voiceClicked:(id)sender;
+- (IBAction) voiceClicked:(id)sender;
 
 @end

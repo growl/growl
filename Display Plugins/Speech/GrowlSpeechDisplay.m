@@ -17,14 +17,14 @@ static NSString *version = @"0.6";
 static NSString *description = @"Speak notifications.";
 
 @implementation GrowlSpeechDisplay
-- (id)init {
-	if( (self = [super init] ) ) {
+- (id) init {
+	if ( (self = [super init] ) ) {
 		prefPane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlSpeechPrefs class]]];
 	}
 	return self;
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[prefPane release];
 	[super dealloc];
 }

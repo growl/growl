@@ -17,14 +17,14 @@
 
 @implementation GrowlMusicVideoDisplay
 
-- (id)init {
-	if( (self = [super init] ) ) {
+- (id) init {
+	if ( (self = [super init] ) ) {
 		musicVideoPrefPane = [[GrowlMusicVideoPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMusicVideoPrefs class]]];
 	}
 	return self;
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[musicVideoPrefPane release];
 	[super dealloc];
 }
@@ -66,7 +66,7 @@
 	return musicVideoPrefPane;
 }
 
-- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {
+- (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
 	GrowlMusicVideoWindowController *nuMusicVideo = [GrowlMusicVideoWindowController musicVideoWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
 			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
 			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]

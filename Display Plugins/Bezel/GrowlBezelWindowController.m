@@ -101,7 +101,7 @@
 	}
 	[panel setFrameTopLeftPoint:panelTopLeft];
 
-	if( (self = [super initWithWindow:panel] ) ) {
+	if ( (self = [super initWithWindow:panel] ) ) {
 		autoFadeOut = YES;	//!sticky
 		doFadeIn = NO;
 		target = nil;

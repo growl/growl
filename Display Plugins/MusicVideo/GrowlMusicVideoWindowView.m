@@ -12,8 +12,8 @@
 
 @implementation GrowlMusicVideoWindowView
 
-- (id)initWithFrame:(NSRect)frame {
-	if( ( self = [super initWithFrame:frame] ) ) {
+- (id) initWithFrame:(NSRect)frame {
+	if ( ( self = [super initWithFrame:frame] ) ) {
 		icon = nil;
 		title = nil;
 		text = nil;
@@ -190,7 +190,7 @@
 #pragma mark -
 
 - (void) mouseUp:(NSEvent *) event {
-	if( target && action && [target respondsToSelector:action] ) {
+	if ( target && action && [target respondsToSelector:action] ) {
 		[target performSelector:action withObject:self];
 	}
 }

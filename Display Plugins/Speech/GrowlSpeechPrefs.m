@@ -38,11 +38,11 @@
 	return [attributes objectForKey:NSVoiceName];
 }
 
-- (IBAction)voiceClicked:(id)sender
+- (IBAction) voiceClicked:(id)sender
 {
 	int row = [sender selectedRow];
 
-	if( -1 != row ) {
+	if ( -1 != row ) {
 		NSString *voice = [voices objectAtIndex:row];
 		WRITE_GROWL_PREF_VALUE(GrowlSpeechVoicePref, (CFStringRef)voice, GrowlSpeechPrefDomain );
 		SYNCHRONIZE_GROWL_PREFS();

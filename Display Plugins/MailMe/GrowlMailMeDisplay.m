@@ -24,41 +24,41 @@ static NSString *plainTextMessageFormat = /*for when there is no icon*/
 
 @implementation GrowlMailMeDisplay
 
-- (id)init {
-	if( (self = [super init] ) ) {
+- (id) init {
+	if ( (self = [super init] ) ) {
 		prefPane = [[GrowlMailMePrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMailMePrefs class]]];
 	}
 	return self;
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[prefPane release];
 	[super dealloc];
 }
 
-- (void)loadPlugin {
+- (void) loadPlugin {
 }
 
-- (NSString *)author {
+- (NSString *) author {
 	return author;
 }
 
-- (NSString *)name {
+- (NSString *) name {
 	return name;
 }
 
-- (NSString *)userDescription {
+- (NSString *) userDescription {
 	return description;
 }
 
-- (NSString *)version {
+- (NSString *) version {
 	return version;
 }
 
-- (void)unloadPlugin {
+- (void) unloadPlugin {
 }
 
-- (NSDictionary *)pluginInfo {
+- (NSDictionary *) pluginInfo {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		name,        @"Name",
 		author,      @"Author",
@@ -67,11 +67,11 @@ static NSString *plainTextMessageFormat = /*for when there is no icon*/
 		nil];
 }
 
-- (NSPreferencePane *)preferencePane {
+- (NSPreferencePane *) preferencePane {
 	return prefPane;
 }
 
-- (void)displayNotificationWithInfo:(NSDictionary *)noteDict {
+- (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
 	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &destAddress);
 
 	NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
@@ -84,7 +84,7 @@ static NSString *plainTextMessageFormat = /*for when there is no icon*/
 										  subject:title
 											   to:destAddress];
 
-	if(!success) {
+	if (!success) {
 		NSLog(@"(MailMe) WARNING: Could not send email message \"%@\" to address %@", title, destAddress);
 		NSLog(@"(MailMe) description of notification:\n%@", desc);
 	} else

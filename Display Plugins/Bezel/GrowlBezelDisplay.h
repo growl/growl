@@ -16,7 +16,7 @@
 	GrowlBezelPrefs		*bezelPrefPane;
 }
 
-- (void)loadPlugin;
+- (void) loadPlugin;
 - (NSString *) author;
 - (NSString *) name;
 - (NSString *) userDescription;
@@ -24,6 +24,6 @@
 - (void) unloadPlugin;
 - (NSDictionary*) pluginInfo;
 
-- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict;
+- (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
 
 @end

@@ -17,14 +17,14 @@
 
 @implementation GrowlBezelDisplay
 
-- (id)init {
-	if( (self = [super init] ) ) {
+- (id) init {
+	if ( (self = [super init] ) ) {
 		bezelPrefPane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBezelPrefs class]]];
 	}
 	return self;
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[bezelPrefPane release];
 	[super dealloc];
 }
@@ -100,7 +100,7 @@
 	}
 }
 
-- (void)didFadeOut:(id)sender {
+- (void) didFadeOut:(id)sender {
 	GrowlBezelWindowController *olBezel;
 	[notificationQueue removeObjectAtIndex:0];
 	if ( [notificationQueue count] > 0 ) {

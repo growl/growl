@@ -17,7 +17,7 @@
 #pragma mark Growl Gets Satisfaction
 
 - (id) init {
-	if( (self = [super init] ) ) {
+	if ( (self = [super init] ) ) {
 		bubblePrefPane = [[GrowlBubblesPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBubblesPrefsController class]]];
 	}
 	return self;

@@ -28,7 +28,7 @@
 	// float icon checkbox
 	BOOL floatIconPref = GrowlSmokeFloatIconPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIconPref);
-	if(floatIconPref) {
+	if (floatIconPref) {
 		[floatIconSwitch setState:NSOnState];
 	} else {
 		[floatIconSwitch setState:NSOffState];
@@ -48,7 +48,7 @@
 	NSColor *color;
   
 	READ_GROWL_PREF_VALUE(GrowlSmokeVeryLowColor, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
-	color = [NSColor colorWithCalibratedWhite:.1f alpha:1.0f];
+	color = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
 	if (array) {
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
 										  green:[[array objectAtIndex:1] floatValue]
@@ -252,7 +252,7 @@
     UPDATE_GROWL_PREFS();
 }
 
--(IBAction)floatIconSwitchChanged:(id)sender {
+-(IBAction) floatIconSwitchChanged:(id)sender {
 	BOOL pref = ([floatIconSwitch state] == NSOnState);
 	WRITE_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, pref, GrowlSmokePrefDomain);	
 	SYNCHRONIZE_GROWL_PREFS();

@@ -74,7 +74,7 @@
 	topLeftPosition = 0.0f;
 	[panel setFrameTopLeftPoint:NSMakePoint(0.0f, topLeftPosition)];
 
-	if( (self = [super initWithWindow:panel]) ) {
+	if ( (self = [super initWithWindow:panel]) ) {
 		autoFadeOut = YES;	// !sticky
 		target = nil;
 		action = NULL;

@@ -23,6 +23,6 @@
 - (void) unloadPlugin;
 - (NSDictionary*) pluginInfo;
 
-- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict;
+- (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
 
 @end

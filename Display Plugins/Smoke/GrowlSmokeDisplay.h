@@ -16,15 +16,15 @@
   GrowlSmokePrefsController *preferencePane;
 }
 
-- (void)loadPlugin;
-- (NSString *)name;
-- (NSString *)userDescription;
-- (NSString *)author;
-- (NSString *)version;
-- (void)unloadPlugin;
-- (NSDictionary *)pluginInfo;
+- (void) loadPlugin;
+- (NSString *) name;
+- (NSString *) userDescription;
+- (NSString *) author;
+- (NSString *) version;
+- (void) unloadPlugin;
+- (NSDictionary *) pluginInfo;
 
-- (void)displayNotificationWithInfo:(NSDictionary *)noteDict;
-- (void)_smokeGone:(NSNotification *)note;
+- (void) displayNotificationWithInfo:(NSDictionary *)noteDict;
+- (void) _smokeGone:(NSNotification *)note;
 
 @end
