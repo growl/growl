@@ -1,5 +1,6 @@
-PREFERENCEPANES_DIR=/Library/PreferencePanes
-FRAMEWORKS_DIR=/Library/Frameworks
+PREFIX?=
+PREFERENCEPANES_DIR=$(PREFIX)/Library/PreferencePanes
+FRAMEWORKS_DIR=$(PREFIX)/Library/Frameworks
 GROWL_PREFPANE=Growl.prefPane
 GROWL_FRAMEWORK=Growl.framework
 BUILD_DIR=build
