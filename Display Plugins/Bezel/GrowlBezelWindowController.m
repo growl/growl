@@ -150,7 +150,7 @@
 }
 
 - (void) startFadeIn {
-	if ( flipIn ) {
+	if (flipIn) {
 		scaleFactor = 0.05;
 		[[self window] setScaleX:scaleFactor Y:1.0];
 	}
@@ -159,7 +159,7 @@
 }
 
 - (void) _fadeIn:(NSTimer *)timer {
-	if ( flipIn ) {
+	if (flipIn) {
 		NSWindow *myWindow = [self window];
 		if ( scaleFactor < 1.0 ) {
 			scaleFactor += 0.05;
@@ -186,9 +186,6 @@
 			scaleFactor -= 0.05;
 			[myWindow setScaleX:scaleFactor Y:1.0];
 		} else {
-			if ( delegate && [delegate respondsToSelector:@selector(didFadeOut:)] ) {
-				[delegate didFadeOut:self];
-			}
 			[self stopFadeOut];
 		}
 	} else {

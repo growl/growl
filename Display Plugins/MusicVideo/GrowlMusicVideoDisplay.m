@@ -124,8 +124,7 @@
 	}
 }
 
-- (void) _musicVideoClicked:(GrowlMusicVideoWindowController *)musicVideo
-{
+- (void) _musicVideoClicked:(GrowlMusicVideoWindowController *)musicVideo {
 	id clickContext;
 	
 	if ( (clickContext = [musicVideo clickContext]) ) {

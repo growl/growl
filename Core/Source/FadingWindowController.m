@@ -15,10 +15,9 @@
 @implementation FadingWindowController
 - (id) initWithWindow:(NSWindow *)window {
 	if ( (self = [super initWithWindow:window]) ) {
-		delegate = nil;
-		animationTimer = nil;
 		autoFadeOut = NO;
 		doFadeIn = YES;
+		doFadeOut = YES;
 		fadeIncrement = FADE_INCREMENT;
 		timerInterval = TIMER_INTERVAL;
 	}
@@ -51,7 +50,7 @@
 - (void) _fadeIn:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
-	if ( alpha < 1.0f ) {
+	if (alpha < 1.0f) {
 		[myWindow setAlphaValue: alpha + fadeIncrement];
 	} else {
 		[self stopFadeIn];
@@ -61,29 +60,28 @@
 - (void) _fadeOut:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
-	if ( alpha > 0.0f ) {
+	if (alpha > 0.0f) {
 		[myWindow setAlphaValue: alpha - fadeIncrement];
 	} else {
-		if ( delegate && [delegate respondsToSelector:@selector(didFadeOut:)] ) {
-			[delegate didFadeOut:self];
-		}
 		[self stopFadeOut];
 	}
 }
 
 - (void) startFadeIn {
-	if ( delegate && [delegate respondsToSelector:@selector(willFadeIn:)] ) {
+	if (delegate && [delegate respondsToSelector:@selector(willFadeIn:)]) {
 		[delegate willFadeIn:self];
 	}
 	[self retain]; // release after fade out
 	[self showWindow:nil];
 	[self _stopTimer];
-	if ( doFadeIn ) {
+	if (doFadeIn) {
 		animationTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
 														   target:self
 														 selector:@selector(_fadeIn:)
 														 userInfo:nil
 														  repeats:YES] retain];
+		//Start immediately
+		[self _fadeIn:nil];
 	} else {
 		[self stopFadeIn];
 	}
@@ -91,33 +89,40 @@
 
 - (void) stopFadeIn {
 	[self _stopTimer];
-	if ( delegate && [delegate respondsToSelector:@selector(didFadeIn:)] ) {
+	if (delegate && [delegate respondsToSelector:@selector(didFadeIn:)]) {
 		[delegate didFadeIn:self];
 	}
 	if (screenshotMode) {
 		[self takeScreenshot];
 	}
-	if ( autoFadeOut ) {
+	if (autoFadeOut) {
 		[self _waitBeforeFadeOut];
 	}
 }
 
 - (void) startFadeOut {
-	if ( delegate && [delegate respondsToSelector:@selector(willFadeOut:)] ) {
+	if (delegate && [delegate respondsToSelector:@selector(willFadeOut:)]) {
 		[delegate willFadeOut:self];
 	}
 	[self _stopTimer];
-	animationTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
-													   target:self
-													 selector:@selector(_fadeOut:)
-													 userInfo:nil
-													  repeats:YES] retain];
-	//Start immediately
-	[self _fadeOut:nil];
+	if (doFadeOut) {
+		animationTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
+														   target:self
+														 selector:@selector(_fadeOut:)
+														 userInfo:nil
+														  repeats:YES] retain];
+		//Start immediately
+		[self _fadeOut:nil];
+	} else {
+		[self stopFadeOut];
+	}
 }
 
 - (void) stopFadeOut {
 	[self _stopTimer];
+	if (delegate && [delegate respondsToSelector:@selector(didFadeOut:)]) {
+		[delegate didFadeOut:self];
+	}
 	[self close]; // close our window
 	[self autorelease]; // we retained when we fade in
 }

@@ -14,6 +14,7 @@
 	NSTimer		*animationTimer;
 	BOOL		autoFadeOut;
 	BOOL		doFadeIn;
+	BOOL		doFadeOut;
 	float		fadeIncrement;
 	float		timerInterval;
 	double		displayTime;

@@ -12,8 +12,6 @@
 	float			topLeftPosition;
 	float			frameHeight;
 	int				priority;
-	BOOL			flipIn;
-	BOOL			flipOut;
 }
 
 + (GrowlMusicVideoWindowController *) musicVideo;

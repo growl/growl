@@ -103,7 +103,21 @@
 }
 
 #pragma mark -
-#pragma mark Fading and click feedback
+#pragma mark Fading
+
+- (void) stopFadeIn {
+	if (!doFadeIn) {
+		NSWindow *myWindow = [self window];
+		NSRect screen = [[self screen] frame];
+		NSRect theFrame = [myWindow frame];
+		frameHeight = topLeftPosition;
+		theFrame.origin = screen.origin;
+		theFrame.size.width = screen.size.width;
+		theFrame.size.height = frameHeight;
+		[myWindow setFrame:theFrame display:YES];
+	}
+	[super stopFadeIn];
+}
 
 - (void) _fadeIn:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
@@ -116,16 +130,7 @@
 		theFrame.size.height = frameHeight;
 		[myWindow setFrame:theFrame display:YES];
 	} else {
-		[self _stopTimer];
-		if (screenshotMode) {
-			[self takeScreenshot];
-		}
-		if (autoFadeOut) {
-			if (delegate && [delegate respondsToSelector:@selector(didFadeIn:)]) {
-				[delegate didFadeIn:self];
-			}
-			[self _waitBeforeFadeOut];
-		}
+		[self stopFadeIn];
 	}
 }
 
@@ -140,12 +145,7 @@
 		theFrame.size.height = frameHeight;
 		[myWindow setFrame:theFrame display:YES];
 	} else {
-		[self _stopTimer];
-		if (delegate && [delegate respondsToSelector:@selector(didFadeOut:)]) {
-			[delegate didFadeOut:self];
-		}
-		[self close]; // close our window
-		[self autorelease]; // we retained when we fade in
+		[self stopFadeOut];
 	}
 }
 
@@ -165,11 +165,10 @@
 #pragma mark -
 
 - (void) setFlipIn:(BOOL)flag {
-	flipIn = flag;
-	doFadeIn = flag;
+	doFadeIn = !flag;
 }
 
 - (void) setFlipOut:(BOOL)flag {
-	flipOut = flag;
+	doFadeOut = !flag;
 }
 @end
