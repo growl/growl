@@ -195,6 +195,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 		drawRect.size.height = iconSize.size.height;
 	}
 
+	[graphicsContext setImageInterpolation:NSImageInterpolationHigh];
 	[_icon drawInRect:drawRect
 			 fromRect:iconSize
 			 operation:NSCompositeSourceAtop

@@ -124,9 +124,9 @@
 		NSSize shadowSize = NSMakeSize(0.f, -2.f);
 		[textShadow setShadowOffset:shadowSize];
 		[textShadow setShadowBlurRadius:3.0f];
-		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha: 1.0f]];
+		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:1.0f]];
 	}
-	
+
 	// construct attributes for the description text
 	NSMutableDictionary *descriptionAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
@@ -192,6 +192,7 @@
 		drawRect.size.height = iconSize.size.height;
 	}
 
+	[graphicsContext setImageInterpolation:NSImageInterpolationHigh];
 	[_icon drawInRect:drawRect
 			 fromRect:iconSize
 			operation:NSCompositeSourceOver
