@@ -61,7 +61,7 @@
 
 // Thanks to Alcor for the following. This allows us to tell the window manager
 // that the window should be sticky. A sticky window will stay around when the
-// Exposé sweep-all-windows-away event happens. Additionally, if a window is not
+// Expos√© sweep-all-windows-away event happens. Additionally, if a window is not
 // sticky while it fades in (see KABubbleWindowController for an example of fading
 // in), and simultaneously the desktop is switched via DesktopManager, the window
 // may end up getting left on the previous desktop, even if that window's level 
@@ -99,3 +99,6 @@ OSStatus CGSSetWindowTags(CGSConnection cid,CGSWindow window,int *tags,int other
 
 
 @end
+// Local Variables:
+// coding: utf-8;
+// End:
