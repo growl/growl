@@ -2824,7 +2824,7 @@
 				INFOPLIST_FILE = "Growl-WithInstaller.framework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
-				OTHER_CFLAGS = "";
+				OTHER_CFLAGS = "-DGROWL_WITH_INSTALLER";
 				OTHER_LDFLAGS = "-lobjc -sub_library libobjc -seg1addr 0xC0000000";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "Growl-WithInstaller";
