@@ -15,18 +15,18 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 @implementation GrowlApplicationNotification
 + (GrowlApplicationNotification*) notificationWithName:(NSString*)name {
-    return [[[GrowlApplicationNotification alloc] initWithName:name priority:GP_normal enabled:YES sticky:NO] autorelease];
+    return [[[GrowlApplicationNotification alloc] initWithName:name priority:GP_normal enabled:YES sticky:NSMixedState] autorelease];
 }
 
 + (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict {
     NSString* name = [dict objectForKey:@"Name"];
     GrowlPriority priority = [[dict objectForKey:@"Priority"] intValue];
     BOOL enabled = [[dict objectForKey:@"Enabled"] boolValue];
-    BOOL sticky = [[dict objectForKey:@"Sticky"] boolValue] ? [[dict objectForKey:@"Sticky"] boolValue] : NO ;
+    int sticky = ([[dict objectForKey:@"Sticky"] intValue] >= 0 ? ([[dict objectForKey:@"Sticky"] intValue] > 0 ? NSOnState : NSOffState) : NSMixedState);
     return [[[GrowlApplicationNotification alloc] initWithName:name priority:priority enabled:enabled sticky:sticky] autorelease];
 }
 
-- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(BOOL)sticky {
+- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(int)sticky {
     [self init];
     _name = [name retain];
     _priority = priority;
@@ -40,7 +40,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
         _name, @"Name",
         [NSNumber numberWithInt:(int)_priority], @"Priority",
         [NSNumber numberWithBool:_enabled], @"Enabled",
-        [NSNumber numberWithBool:_sticky], @"Sticky",
+        [NSNumber numberWithInt:_sticky], @"Sticky",
         nil];
     return dict;
 }
@@ -79,11 +79,11 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
     [self setEnabled:NO];
 }
 
-- (BOOL) sticky {
+- (int) sticky {
     return _sticky;
 }
 
-- (void) setSticky:(BOOL)sticky {
+- (void) setSticky:(int)sticky {
     _sticky = sticky;
 }
 @end
@@ -428,12 +428,14 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 }
 
 #pragma mark Notification Accessors
-- (BOOL) stickyForNotification:(NSString *) name {
+// With sticky, 1 is on, 0 is off, -1 means use what's passed
+// This corresponds to NSOnState, NSOffState, and NSMixedState
+- (int) stickyForNotification:(NSString *) name {
 	return [[_allNotifications objectForKey:name] sticky];
 }
 
-- (void) setSticky:(BOOL)sticky forNotification:(NSString *) name {
-    [[_allNotifications objectForKey:name] setSticky:sticky];
+- (void) setSticky:(int)sticky forNotification:(NSString *) name {
+    [(GrowlApplicationNotification *)[_allNotifications objectForKey:name] setSticky:sticky];
 	return;
 }
 

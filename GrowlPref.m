@@ -43,10 +43,12 @@
 }
 
 - (void)awakeFromNib {
-    NSTableColumn* tableColumn = [growlApplications tableColumnWithIdentifier: @"application"];
-    ACImageAndTextCell* imageAndTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
-    [imageAndTextCell setEditable: YES];
-    [tableColumn setDataCell:imageAndTextCell];
+	NSTableColumn* tableColumn = [growlApplications tableColumnWithIdentifier: @"application"];
+	ACImageAndTextCell* imageAndTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
+	[imageAndTextCell setEditable: YES];
+	[tableColumn setDataCell:imageAndTextCell];
+	NSButtonCell *cell = [[applicationNotifications tableColumnWithIdentifier:@"sticky"] dataCell];
+	[cell setAllowsMixedState:YES];
 	[growlRunningProgress setDisplayedWhenStopped:NO];
 }
 
@@ -376,7 +378,7 @@
         if ([[column identifier] isEqualTo:@"notification"])
 			return note;
 		if ([[column identifier] isEqualTo:@"sticky"])
-			return [NSNumber numberWithBool:[appTicket stickyForNotification:note]];
+			return [NSNumber numberWithInt:[appTicket stickyForNotification:note]];
 	}
 	if (tableView == displayPlugins) {
 		// only one column, but for the sake of cleanliness
@@ -428,7 +430,7 @@
 			return;
 		}
 		if ([[column identifier] isEqualTo:@"sticky"]) {
-            [appTicket setSticky:[value boolValue] forNotification:note];
+            [appTicket setSticky:[value intValue] forNotification:note];
 			[self setPrefsChanged:YES];
 			return;
 		}
