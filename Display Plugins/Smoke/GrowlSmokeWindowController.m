@@ -211,7 +211,6 @@ static const double gMaxDisplayTime = 10.;
 }
 
 - (void) _waitBeforeFadeOut {
-	[self _stopTimer];
 	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime 
 														target:self 
 													  selector:@selector( startFadeOut ) 
@@ -224,11 +223,14 @@ static const double gMaxDisplayTime = 10.;
 	float alpha = [myWindow alphaValue];
 	if( alpha < 1.f ) {
 		[myWindow setAlphaValue:(alpha + gFadeIncrement)];
-	} else if( _autoFadeOut ) {
-		if( _delegate && [_delegate respondsToSelector:@selector( notificationDidFadeIn: )] ) {
-			[_delegate notificationDidFadeIn:self];
+	} else {
+		[self _stopTimer];
+		if( _autoFadeOut ) {
+			if( _delegate && [_delegate respondsToSelector:@selector( notificationDidFadeIn: )] ) {
+				[_delegate notificationDidFadeIn:self];
+			}
+			[self _waitBeforeFadeOut];
 		}
-		[self _waitBeforeFadeOut];
 	}
 }
 

@@ -17,11 +17,11 @@ static unsigned int bubbleWindowDepth = 0;
 @implementation GrowlBubblesWindowController
 
 #define TIMER_INTERVAL ( 1. / 30. )
-#define FADE_INCREMENT 0.05
+#define FADE_INCREMENT 0.05f
 #define MIN_DISPLAY_TIME 4.
 #define ADDITIONAL_LINES_DISPLAY_TIME 0.5
 #define MAX_DISPLAY_TIME 10.
-#define GrowlBubblesPadding 10.
+#define GrowlBubblesPadding 10.f
 
 #pragma mark -
 
@@ -38,7 +38,7 @@ static unsigned int bubbleWindowDepth = 0;
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
 	extern unsigned int bubbleWindowDepth;
 
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) 
+	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.f, 0.f, 270.f, 65.f ) 
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered defer:NO] autorelease];
 	NSRect panelFrame = [panel frame];
@@ -47,7 +47,7 @@ static unsigned int bubbleWindowDepth = 0;
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.];
+	[panel setAlphaValue:0.f];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
@@ -129,7 +129,6 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 - (void) _waitBeforeFadeOut {
-	[self _stopTimer];
 	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime 
 														target:self 
 													  selector:@selector( startFadeOut ) 
@@ -140,12 +139,16 @@ static unsigned int bubbleWindowDepth = 0;
 - (void) _fadeIn:(NSTimer *) inTimer {
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
-	if( alpha < 1. ) {
+	if( alpha < 1.f ) {
 		[myWindow setAlphaValue:(alpha + FADE_INCREMENT)];
-	} else if( _autoFadeOut ) {
-		if( _delegate && [_delegate respondsToSelector:@selector( bubbleDidFadeIn: )] )
-			[_delegate bubbleDidFadeIn:self];
-		[self _waitBeforeFadeOut];
+	} else {
+		[self _stopTimer];
+		if( _autoFadeOut ) {
+			if( _delegate && [_delegate respondsToSelector:@selector( bubbleDidFadeIn: )] ) {
+				[_delegate bubbleDidFadeIn:self];
+			}
+			[self _waitBeforeFadeOut];
+		}
 	}
 }
 
@@ -156,24 +159,27 @@ static unsigned int bubbleWindowDepth = 0;
 		[myWindow setAlphaValue:(alpha - FADE_INCREMENT)];
 	} else {
 		[self _stopTimer];
-		if( _delegate && [_delegate respondsToSelector:@selector( bubbleDidFadeOut: )] )
+		if( _delegate && [_delegate respondsToSelector:@selector( bubbleDidFadeOut: )] ) {
 			[_delegate bubbleDidFadeOut:self];
+		}
 		[self close];
 		[self autorelease]; // Release, we retained when we faded in.
 	}
 }
 
 - (void) _bubbleClicked:(id) sender {
-	if( _target && _action && [_target respondsToSelector:_action] )
+	if( _target && _action && [_target respondsToSelector:_action] ) {
 		[_target performSelector:_action withObject:self];
+	}
 	[self startFadeOut];
 }
 
 #pragma mark -
 
 - (void) startFadeIn {
-	if( _delegate && [_delegate respondsToSelector:@selector( bubbleWillFadeIn: )] )
+	if( _delegate && [_delegate respondsToSelector:@selector( bubbleWillFadeIn: )] ) {
 		[_delegate bubbleWillFadeIn:self];
+	}
 	[self retain]; // Retain, after fade out we release.
 	[self showWindow:nil];
 	[self _stopTimer];
@@ -181,8 +187,9 @@ static unsigned int bubbleWindowDepth = 0;
 }
 
 - (void) startFadeOut {
-	if( _delegate && [_delegate respondsToSelector:@selector( bubbleWillFadeOut: )] )
+	if( _delegate && [_delegate respondsToSelector:@selector( bubbleWillFadeOut: )] ) {
 		[_delegate bubbleWillFadeOut:self];
+	}
 	[self _stopTimer];
 	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector( _fadeOut: ) userInfo:nil repeats:YES] retain];
 }
@@ -248,15 +255,19 @@ static unsigned int bubbleWindowDepth = 0;
 
 - (void) forwardInvocation:(NSInvocation *) invocation {
 	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:[invocation selector]] )
+	if( [contentView respondsToSelector:[invocation selector]] ) {
 		[invocation invokeWithTarget:contentView];
-	else [super forwardInvocation:invocation];
+	} else {
+		[super forwardInvocation:invocation];
+	}
 }
 
 - (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
 	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:selector] )
+	if( [contentView respondsToSelector:selector] ) {
 		return [contentView methodSignatureForSelector:selector];
-	else return [super methodSignatureForSelector:selector];
+	} else {
+		return [super methodSignatureForSelector:selector];
+	}
 }
 @end

@@ -140,7 +140,6 @@
 }
 
 - (void)_waitBeforeFadeOut {
-	[self _stopTimer];
 	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime
 			target:self
 		  selector:@selector( startFadeOut )
@@ -153,11 +152,14 @@
 	float alpha = [myWindow alphaValue];
 	if ( alpha < 1.f ) {
 		[myWindow setAlphaValue:( alpha + FADE_INCREMENT)];
-	} else if ( _autoFadeOut ) {
-		if ( _delegate && [_delegate respondsToSelector:@selector( bezelDidFadeIn: )] ) {
-			[_delegate bezelDidFadeIn:self];
+	} else {
+		[self _stopTimer];
+		if ( _autoFadeOut ) {
+			if ( _delegate && [_delegate respondsToSelector:@selector( bezelDidFadeIn: )] ) {
+				[_delegate bezelDidFadeIn:self];
+			}
+			[self _waitBeforeFadeOut];
 		}
-		[self _waitBeforeFadeOut];
 	}
 }
 

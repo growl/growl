@@ -115,7 +115,6 @@
 }
 
 - (void)_waitBeforeFadeOut {
-	[self _stopTimer];
 	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime
 			target:self
 		  selector:@selector( startFadeOut )
@@ -128,12 +127,15 @@
 	NSRect theFrame = [myWindow frame];
 	if ( topLeftPosition < NSHeight(theFrame) ) {
 		topLeftPosition += fadeIncrement;
-		[myWindow setFrameTopLeftPoint:NSMakePoint(0., topLeftPosition)];
-	} else if ( _autoFadeOut ) {
-		if ( _delegate && [_delegate respondsToSelector:@selector( musicVideoDidFadeIn: )] ) {
-			[_delegate musicVideoDidFadeIn:self];
+		[myWindow setFrameTopLeftPoint:NSMakePoint(0.f, topLeftPosition)];
+	} else {
+		[self _stopTimer];
+		if ( _autoFadeOut ) {
+			if ( _delegate && [_delegate respondsToSelector:@selector( musicVideoDidFadeIn: )] ) {
+				[_delegate musicVideoDidFadeIn:self];
+			}
+			[self _waitBeforeFadeOut];
 		}
-		[self _waitBeforeFadeOut];
 	}
 }
 
