@@ -253,7 +253,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 }
 
 + (BOOL) isGrowlInstalled {
-	return( [GrowlApplicationBridge growlPrefPaneBundle] );
+	return ([GrowlApplicationBridge growlPrefPaneBundle] != nil);
 }
 
 + (BOOL) isGrowlRunning {
