@@ -86,9 +86,10 @@
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
-- (void)pingGrowl;
-- (void)growlPonged: (NSNotification *) note;
-- (void)pingTimedOut: (NSTimer *) timer;
+//- (void)pingGrowl;
+//- (void)growlPonged: (NSNotification *) note;
+//- (void)pingTimedOut: (NSTimer *) timer;
+- (void)checkGrowlRunning;
 
 - (void)appRegistered: (NSNotification *) note;
 

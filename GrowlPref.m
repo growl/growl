@@ -43,10 +43,10 @@
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	[defs addSuiteNamed:@"loginwindow"];
 	
-	[[NSDistributedNotificationCenter defaultCenter] addObserver:self 
+	/*[[NSDistributedNotificationCenter defaultCenter] addObserver:self 
 														selector:@selector(growlPonged:)
 															name:GROWL_PONG 
-														  object:nil];
+														  object:nil];*/
 
 	[[NSDistributedNotificationCenter defaultCenter] addObserver:self 
 														selector:@selector(appRegistered:)
@@ -58,7 +58,8 @@
 
 - (void) willSelect {
 	[self reloadPreferences];
-	[self pingGrowl];
+	//[self pingGrowl];
+	[self checkGrowlRunning];
 }
 
 - (NSPreferencePaneUnselectReply)shouldUnselect {
@@ -446,7 +447,7 @@
 
 #pragma mark Detecting Growl
 
-- (void)pingGrowl {
+/*- (void)pingGrowl {
 	[startStopGrowl setEnabled:NO];
 	[growlRunningStatus setStringValue:@"Looking for growl..."];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_PING object:nil];
@@ -465,6 +466,21 @@
 - (void)pingTimedOut: (NSTimer *) timer {
 	growlIsRunning = NO;
 	pingTimer = nil;
+	[self updateRunningStatus];
+}*/
+
+- (void)checkGrowlRunning {
+	growlIsRunning = NO;
+	ProcessSerialNumber PSN = {kNoProcess, kNoProcess};
+	while (GetNextProcess(&PSN) == noErr) {
+		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
+		if ([[infoDict objectForKey:@"CFBundleIdentifier"] isEqualToString:@"com.Growl.GrowlHelperApp"]) {
+			growlIsRunning = YES;
+			[infoDict release];
+			break;
+		}
+		[infoDict release];
+	}
 	[self updateRunningStatus];
 }
 
