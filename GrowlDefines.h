@@ -8,6 +8,7 @@
 
 // User Info Keys For Registration
 #define GROWL_APP_NAME					@"ApplicationName"
+#define GROWL_APP_ICON					@"ApplicationIcon"
 #define GROWL_NOTIFICATIONS_DEFAULT		@"DefaultNotifications"
 #define GROWL_NOTIFICATIONS_ALL			@"AllNotifications"
 #define GROWL_NOTIFICATIONS_USER_SET	@"AllowedUserNotifications"
