@@ -23,6 +23,10 @@
 #pragma mark Private API (declarations)
 
 static CFArrayRef _copyAllPreferencePaneBundles(void);
+//this one copies only the first bundle found in the User, Local, Network
+//	search-path.
+static CFBundleRef _CopyGrowlPrefPaneBundle(void);
+
 //notification callback.
 static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
 
@@ -32,6 +36,8 @@ static	CFMutableArrayRef targetsToNotifyArray = NULL;
 static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundle *growlPrefPaneBundle);
 #endif
 
+static const CFOptionFlags bundleIDComparisonFlags = kCFCompareCaseInsensitive | kCFCompareBackwards;
+
 struct GrowlDelegate *delegate = NULL;
 
 //these functions are part of Foundation, and return NSStrings.
@@ -39,12 +45,6 @@ struct GrowlDelegate *delegate = NULL;
 //	them as if they were pure CF functions.
 extern CFStringRef NSTemporaryDirectory(void);
 extern void NSLog(CFStringRef format, ...);
-
-//helper functions.
-static CFBundleRef _CopyGrowlPrefPaneBundle(void);
-//these two join with a slash ("one/two").
-static CFStringRef _CreateCFStringFromTwoCFStringPathComponents(CFStringRef one, CFStringRef two);
-static CFStringRef _CreateCFStringFromThreeCFStringPathComponents(CFStringRef one, CFStringRef two, CFStringRef three);
 
 #pragma mark -
 #pragma mark Public API
@@ -62,7 +62,7 @@ Boolean Growl_SetDelegate(struct GrowlDelegate *newDelegate) {
 	return true;
 }
 
-void Growl_GetDelegate(void) {
+struct GrowlDelegate *Growl_GetDelegate(void) {
 	return delegate;
 }
 
@@ -81,7 +81,7 @@ void Growl_PostNotification(const struct GrowlNotification *notification) {
 		highestKeyIndex = 5,
 		numKeys,
 	};
-	void *keys[numKeys] = {
+	const void *keys[numKeys] = {
 		GROWL_NOTIFICATION_NAME,
 		GROWL_NOTIFICATION_TITLE, GROWL_NOTIFICATION_DESCRIPTION,
 		GROWL_NOTIFICATION_PRIORITY,
@@ -89,7 +89,7 @@ void Growl_PostNotification(const struct GrowlNotification *notification) {
 		GROWL_NOTIFICATION_APP_ICON,
 	};
 	CFNumberRef priorityNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &(notification->priority));
-	void *values[numKeys] = {
+	const void *values[numKeys] = {
 		notification->name, //0
 		notification->title, //1
 		notification->description, //2
@@ -113,9 +113,9 @@ void Growl_PostNotification(const struct GrowlNotification *notification) {
 	unsigned pairIndex = iconIndex + (values[iconIndex] != NULL);
 
 	//...and set the custom application icon there.
-	if(delegate && (delegate->applicationIcon)) {
+	if(delegate && (delegate->applicationIconData)) {
 		keys[pairIndex] = GROWL_NOTIFICATION_APP_ICON;
-		values[pairIndex] = delegate->applicationIcon;
+		values[pairIndex] = delegate->applicationIconData;
 		++pairIndex;
 	}
 
@@ -147,20 +147,20 @@ void Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
 	struct GrowlNotification notification;
 	InitGrowlNotification(&notification);
 
-	notification->name = notificationName;
-	notification->title = title;
-	notification->description = description;
-	notification->iconData = iconData;
-	notification->priority = priority;
-	notification->isSticky = (isSticky != false);
-	notification->clickContext = clickContext;
+	notification.name = notificationName;
+	notification.title = title;
+	notification.description = description;
+	notification.iconData = iconData;
+	notification.priority = priority;
+	notification.isSticky = (isSticky != false);
+	notification.clickContext = clickContext;
 
 	Growl_PostNotification(&notification);
 }
 
 void Growl_Reregister(void) {
 	if(delegate && delegate->registrationDictionary) {
-		return Growl_LaunchIfInstalled(/*callback*/ NULL, /*context*/ NULL);
+		Growl_LaunchIfInstalled(/*callback*/ NULL, /*context*/ NULL);
 	}
 }
 
@@ -170,7 +170,7 @@ void Growl_Reregister(void) {
  *Returns true if Growl is installed, false otherwise.
  */
 Boolean Growl_IsInstalled(void) {
-	return GetGrowlPrefpaneBundle() != NULL;
+	return _CopyGrowlPrefPaneBundle() != NULL;
 }
 
 /*Growl_IsRunning
@@ -183,7 +183,7 @@ Boolean Growl_IsRunning(void) {
 	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
 
 	while (GetNextProcess(&PSN) == noErr) {
-		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
+		CFDictionaryRef infoDict = ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
 
 		if (CFEqual(CFDictionaryGetValue(infoDict, CFSTR("CFBundleIdentifier")), CFSTR("com.Growl.GrowlHelperApp"))) {
 			growlIsRunning = true;
@@ -198,11 +198,11 @@ Boolean Growl_IsRunning(void) {
 
 Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 	CFMutableDictionaryRef regDict = NULL;
-	if(delegate && (delegate->registrationDict)) {
+	if(delegate && (delegate->registrationDictionary)) {
 		//create the registration dictionary.
 		//this is the same as the one in the delegate, but it must have
 		//	GROWL_APP_NAME in it.
-		regDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, delegate->registrationDict);
+		regDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, delegate->registrationDictionary);
 		if(delegate->applicationName)
 			CFDictionarySetValue(regDict, GROWL_APP_NAME, delegate->applicationName);
 		if(!CFDictionaryContainsKey(regDict, GROWL_APP_NAME)) {
@@ -284,13 +284,13 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 				CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
 				CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
 				CFRelease(uuid);
-				CFStringRef extension = CFSTR(GROWL_REG_DICT_EXTENSION);
+				CFStringRef extension = GROWL_REG_DICT_EXTENSION;
 				CFStringRef slash = CFSTR("/");
 				CFStringRef fullstop = CFSTR(".");
 
 				enum { numComponents = 5 };
-				void *componentObjects[numComponents] = {
-					tmp, slash, UUIDString, fullstop, extension,
+				const void *componentObjects[numComponents] = {
+					tmp, slash, uuidString, fullstop, extension,
 				};
 				CFArrayRef components = CFArrayCreate(kCFAllocatorDefault, componentObjects, numComponents, &kCFTypeArrayCallBacks);
 				CFRelease(uuidString);
@@ -312,7 +312,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 				CFRelease(stream);
 
 				//be sure to open the file.
-				itemsToOpen = CFArrayCreate(kCFAllocatorDefault, &regDictURL, /*count*/ 1, &kCFTypeArrayCallBacks);
+				itemsToOpen = CFArrayCreate(kCFAllocatorDefault, (const void **)&regDictURL, /*count*/ 1, &kCFTypeArrayCallBacks);
 				CFRelease(regDictURL);
 			}
 
@@ -420,10 +420,10 @@ static CFBundleRef _CopyGrowlPrefPaneBundle(void) {
 //outPtr should be a CFBundleRef *.
 #define COPYPREFPANE(domain, outPtr) \
 	do { \
-		FSRef domain;
-		err = FSFindFolder((domain), kPreferencePanesFolderType, /*createFolder*/ false, &domain); \
+		FSRef domainRef; \
+		OSStatus err = FSFindFolder((domain), kPreferencePanesFolderType, /*createFolder*/ false, &domainRef); \
 		if(err == noErr) { \
-			CFURLRef domainURL = CFURLCreateFromFSRef(kCFAllocatorDefault, &domain); \
+			CFURLRef domainURL = CFURLCreateFromFSRef(kCFAllocatorDefault, &domainRef); \
 			if(domainURL) { \
 				CFURLRef prefPaneURL = CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, domainURL, GROWL_PREFPANE_NAME, /*isDirectory*/ true); \
 				CFRelease(domainURL); \
@@ -433,7 +433,7 @@ static CFBundleRef _CopyGrowlPrefPaneBundle(void) {
 				} \
 			} \
 		} \
-	while(0)
+	} while(0)
 
 		//User domain.
 		COPYPREFPANE(kUserDomain, &prefPaneBundle);
@@ -468,6 +468,8 @@ static CFBundleRef _CopyGrowlPrefPaneBundle(void) {
 				}
 			}
 		}
+
+#undef COPYPREFPANE
 	}
 
 	if(!growlPrefPaneBundle) {
@@ -477,7 +479,6 @@ static CFBundleRef _CopyGrowlPrefPaneBundle(void) {
 		CFArrayRef		prefPanes = _copyAllPreferencePaneBundles();
 		if(prefPanes) {
 			CFIndex		prefPaneIndex = 0, numPrefPanes = CFArrayGetCount(prefPanes);
-			static const CFOptionBits bundleIDComparisonFlags = kCFCompareCaseInsensitive | kCFCompareBackwards;
 	
 			while(prefPaneIndex < numPrefPanes) {
 				prefPaneBundle = (CFBundleRef)CFArrayGetValueAtIndex(prefPanes, prefPaneIndex++);
@@ -497,30 +498,4 @@ static CFBundleRef _CopyGrowlPrefPaneBundle(void) {
 	}
 
 	return growlPrefPaneBundle;
-}
-
-#pragma mark -
-#pragma mark Helpers
-
-static UniChar slash = '/';
-
-static CFStringRef _CreateCFStringFromTwoCFStringPathComponents(CFStringRef one, CFStringRef two) {
-	CFIndex capacity = CFStringGetLength(one) + CFStringGetLength(two);
-	CFMutableStringRef mutable = CFStringCreateMutableCopy(kCFAllocatorDefault, capacity, one);
-	CFStringAppendCharacters(mutable, &slash, /*numChars*/ 1);
-	CFStringAppend(mutable, two);
-	CFStringRef joined = CFStringCreateCopy(kCFAllocatorDefault, mutable);
-	CFRelease(mutable);
-	return joined;
-}
-static CFStringRef _CreateCFStringFromThreeCFStringPathComponents(CFStringRef one, CFStringRef two, CFStringRef three) {
-	CFIndex capacity = CFStringGetLength(one) + CFStringGetLength(two) + CFStringGetLength(three);
-	CFMutableStringRef mutable = CFStringCreateMutableCopy(kCFAllocatorDefault, capacity, one);
-	CFStringAppendCharacters(mutable, &slash, /*numChars*/ 1);
-	CFStringAppend(mutable, two);
-	CFStringAppendCharacters(mutable, &slash, /*numChars*/ 1);
-	CFStringAppend(mutable, three);
-	CFStringRef joined = CFStringCreateCopy(kCFAllocatorDefault, mutable);
-	CFRelease(mutable);
-	return joined;
 }

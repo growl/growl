@@ -85,7 +85,7 @@ typedef struct GrowlDelegate {
 	 *For a delegate allocated with malloc, retain would be NULL, and
 	 *	release would be free(3).
 	 */
-	(void *)(*retain)(void *);
+	void *(*retain)(void *);
 	void (*release)(void *);
 
 	/*growlIsReady
@@ -194,15 +194,15 @@ typedef struct GrowlNotification {
 #define InitGrowlNotification(notification) \
 	do { \
 		if((notification) != NULL) { \
-			(notification)->size = sizeof(struct GrowlNotification);
-			(notification)->name = NULL;
-			(notification)->title = NULL;
-			(notification)->description = NULL;
-			(notification)->iconData = NULL;
-			(notification)->priority = 0;
-			(notification)->reserved = 0U;
-			(notification)->isSticky = false;
-			(notification)->clickContext = NULL;
+			(notification)->size = sizeof(struct GrowlNotification); \
+			(notification)->name = NULL; \
+			(notification)->title = NULL; \
+			(notification)->description = NULL; \
+			(notification)->iconData = NULL; \
+			(notification)->priority = 0; \
+			(notification)->reserved = 0U; \
+			(notification)->isSticky = false; \
+			(notification)->clickContext = NULL; \
 		} \
 	} while(0)
 
@@ -245,7 +245,7 @@ Boolean Growl_SetDelegate(struct GrowlDelegate *newDelegate);
  *	delegate on your behalf. You are responsible for retaining and releasing
  *	the delegate as needed.
  */
-void Growl_GetDelegate(void);
+struct GrowlDelegate *Growl_GetDelegate(void);
 
 /*Growl_PostNotification
  *
