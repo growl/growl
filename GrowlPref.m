@@ -163,7 +163,6 @@
 	while (item = [e nextObject]) {
 		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:appPath]) {
 			[loginItems removeObject:item];
-			break;
 		}
 	}
 	
