@@ -21,8 +21,8 @@ static const NSSize iconSize = {128.0f, 128.0f};
 
 @implementation GrowlRegisterScriptCommand
 
--(id) performDefaultImplementation {
-	NSDictionary* args = [self evaluatedArguments];
+- (id) performDefaultImplementation {
+	NSDictionary *args = [self evaluatedArguments];
 
 	// should validate params better!
 	NSString *appName = [args valueForKey:KEY_APP_NAME];
@@ -30,14 +30,14 @@ static const NSSize iconSize = {128.0f, 128.0f};
 	NSArray *defaultNotifications = [args valueForKey:KEY_NOTIFICATIONS_DEFAULT];
 	NSString *iconOfApplication = [args valueForKey:KEY_ICON_APP_NAME];
 
-	NSMutableDictionary* registerDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	NSMutableDictionary *registerDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		appName, GROWL_APP_NAME,
 		allNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
 
 	NS_DURING
-		NSImage* icon = nil;
+		NSImage *icon = nil;
 		if (iconOfApplication) {
 			icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
 			if (icon) {
