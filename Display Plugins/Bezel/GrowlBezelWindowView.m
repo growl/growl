@@ -124,16 +124,32 @@
 		[self resizeIcon:_icon toSize:maxIconSize];
 	}
 	
+	// If we are on Panther or better, pretty shadow
+	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
+	NSShadow *textShadow = nil;
+	Class NSShadowClass = NSClassFromString(@"NSShadow");
+	if ( pantherOrLater ) {
+        textShadow = [[[NSShadowClass alloc] init] autorelease];
+        
+		NSSize      shadowSize = NSMakeSize(0., -2.);
+        [textShadow setShadowOffset:shadowSize];
+        [textShadow setShadowBlurRadius:3.0];
+	}
+	
 	// Draw the title, resize if text too big
+	float titleFontSize = 20.0;
     NSMutableParagraphStyle *parrafo = [[[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
 			setAlignment:NSCenterTextAlignment] autorelease];
-	NSMutableDictionary *titleAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 				[NSColor whiteColor], NSForegroundColorAttributeName,
-				parrafo, NSParagraphStyleAttributeName, nil] retain];
-	float titleFontSize = 20.0;
+				parrafo, NSParagraphStyleAttributeName,
+				[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName, nil];
+	if ( pantherOrLater ) {
+		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
+	}
 	float accumulator = 0.;
 	BOOL minFontSize = NO;
-	[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
+	//[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
 	NSSize titleSize = [_title sizeWithAttributes:titleAttributes];
 	
 	while ( titleSize.width > ( NSWidth(titleRect) - ( titleSize.height / 2. ) ) ) {
@@ -161,6 +177,9 @@
 				[NSColor whiteColor], NSForegroundColorAttributeName,
 				parrafo, NSParagraphStyleAttributeName,
 				[NSFont systemFontOfSize:14.0], NSFontAttributeName, nil];
+	if ( pantherOrLater ) {
+		[textAttributes setObject:textShadow forKey:NSShadowAttributeName];
+	}
 	NSAttributedString *_textAttributed;
 	NSArray *linesN = [_text componentsSeparatedByString:@"\n"];
 	int rowCount = 0;
