@@ -58,12 +58,14 @@
 	//NSLog( @"%@", note );
 	
 	NSMutableDictionary *aDict = [NSMutableDictionary dictionaryWithDictionary:[note userInfo]];
-	
+	NSImage *icon = nil;
 	if ( ![aDict objectForKey:GROWL_NOTIFICATION_ICON] ) {
-		[aDict setObject:[[_tickets objectForKey:[aDict objectForKey:GROWL_APP_NAME]] icon] 
-				  forKey:GROWL_NOTIFICATION_ICON];
+		icon = [[_tickets objectForKey:[aDict objectForKey:GROWL_APP_NAME]] icon];
 	} else {
-		[aDict setObject:[[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]] autorelease] 
+		icon = [[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]] autorelease];
+	}
+	if(icon) {
+		[aDict setObject:icon 
 				  forKey:GROWL_NOTIFICATION_ICON];
 	}
 	
