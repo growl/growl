@@ -108,7 +108,19 @@ void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
 
 void Growl_PostNotification(const struct Growl_Notification *notification) {
 	if(!notification) {
-		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_PostNotification called with a NULL notification\n"));
+		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_PostNotification called with a NULL notification"));
+		return;
+	}
+	if(!delegate) {
+		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_PostNotification called, but no delegate is in effect to supply an application name - either set a delegate, or use Growl_PostNotificationWithDictionary instead"));
+		return;
+	}
+	CFStringRef appName = delegate->applicationName;
+	if(!appName)
+		appName = CFDictionaryGetValue(delegate->registrationDictionary, GROWL_APP_NAME);
+	if(!appName) {
+		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_PostNotification called, but no application name was found in the delegate"));
+		return;
 	}
 
 	enum {
@@ -118,10 +130,11 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		iconIndex,
 		appIconIndex,
 
-		highestKeyIndex = 5,
+		highestKeyIndex = 6,
 		numKeys,
 	};
 	const void *keys[numKeys] = {
+		GROWL_APP_NAME,
 		GROWL_NOTIFICATION_NAME,
 		GROWL_NOTIFICATION_TITLE, GROWL_NOTIFICATION_DESCRIPTION,
 		GROWL_NOTIFICATION_PRIORITY,
@@ -129,13 +142,14 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		GROWL_NOTIFICATION_APP_ICON,
 	};
 	CFNumberRef priorityNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &(notification->priority));
+	
 	const void *values[numKeys] = {
-		notification->name, //0
-		notification->title, //1
-		notification->description, //2
-		priorityNumber, //3
-		notification->iconData, //4
-		NULL, //5
+		appName, //0
+		notification->name, //1
+		notification->title, notification->description, //2, 3
+		priorityNumber, //4
+		notification->iconData, //5
+		NULL, //6
 	};
 
 	//make sure we have both a name and a title
@@ -149,7 +163,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		values[descriptionIndex] = CFSTR("");
 
 	//now, target the first NULL value.
-	//if there was iconData, this is index 5; else, it is index 4.
+	//if there was iconData, this is index 6; else, it is index 5.
 	unsigned pairIndex = iconIndex + (values[iconIndex] != NULL);
 
 	//...and set the custom application icon there.
@@ -348,6 +362,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 
 					//write out the dictionary to that path.
 					CFWriteStreamRef stream = CFWriteStreamCreateWithFile(kCFAllocatorDefault, regDictURL);
+					CFWriteStreamOpen(stream);
 
 					CFStringRef errorString = NULL;
 					CFPropertyListWriteToStream(regDict, stream, kCFPropertyListXMLFormat_v1_0, &errorString);
