@@ -4213,9 +4213,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
 			name = "Brushed-Info.plist";
-			path = "/Users/ingmar/Devel/growl/Display Plugins/Brushed-Info.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = "Display Plugins/Brushed-Info.plist";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 //950
 //951
