@@ -109,6 +109,7 @@
 		};
 		089C167CFE841241C02AAC07 = {
 			children = (
+				959FAF510738BAD500040AA9,
 				8D202CF70486D31800D8A456,
 				089C167DFE841241C02AAC07,
 				F506C040013D9D8001CA16C8,
@@ -891,6 +892,7 @@
 				8D202CED0486D31800D8A456,
 				8D202CEF0486D31800D8A456,
 				CB5FA1BD0638CA2C00EADD7A,
+				959FAF520738BAD500040AA9,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -986,6 +988,40 @@
 			lastKnownFileType = wrapper.nib;
 			name = German;
 			path = German.lproj/GrowlPref.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		959FAF470738B9A000040AA9 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = English.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		959FAF510738BAD500040AA9 = {
+			children = (
+				959FAF470738B9A000040AA9,
+				959FAF530738BADB00040AA9,
+			);
+			isa = PBXVariantGroup;
+			name = Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		959FAF520738BAD500040AA9 = {
+			fileRef = 959FAF510738BAD500040AA9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		959FAF530738BADB00040AA9 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = German;
+			path = German.lproj/Localizable.strings;
 			refType = 4;
 			sourceTree = "<group>";
 		};
