@@ -8,17 +8,19 @@ For .6 (Go Go Growl)
 		- Choose file. Default to something sane.
 
 Release related issues
-- Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
+
 - Create a branch for the .6 release.
+	- Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
 - Make sure we have user documentation on everything we have. This was a sore point for us last release.
-- Look at creating a mpkg with some of the Extras in it. Include these:
-	- GrowlSafari
-	- GrowlMail
-	- GrowlTunes
-	- growlnotify
-- Include uninstaller in the dmg
-- Include user documentation in the dmg
-- Include links to developer documentation in the dmg. Possibly include docs themselves.
+- DMG & PKG
+	- Look at creating a mpkg with some of the Extras in it. Include these:
+		- GrowlSafari
+		- GrowlMail
+		- GrowlTunes
+		- growlnotify
+	- Include uninstaller in the dmg
+	- Include user documentation in the dmg
+	- Include links to developer documentation in the dmg. Possibly include docs themselves.
 - Create graphics for developers to show that they have growl support in their application. Multiple different forms of this would be good.
 
 
