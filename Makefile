@@ -13,6 +13,8 @@ BUILDSTYLE?=$(DEFAULT_BUILDSTYLE)
 CP=ditto --rsrc
 RM=rm
 
+.PHONY : default all growl growlhelperapp growlappbridge clean install
+
 default: growlappbridge
 	xcodebuild -project Growl.xcode -target Growl -buildstyle $(BUILDSTYLE) build
 

@@ -55,28 +55,29 @@
 			isa = PBXProject;
 			mainGroup = 089C166AFE841209C02AAC07;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 6C1D4F6E06FA0C0500A5D946;
-					ProjectRef = 6C1D4F6D06FA0C0500A5D946;
-				},
-			);
 			targets = (
 				8D202CE80486D31800D8A456,
 				CB61E5170637763C00E0DDC7,
+				0A7F5CCC0767BFD000E1C1E4,
+				0A7F5EC40767C2A600E1C1E4,
+				0A7F5F110767C38200E1C1E4,
+				0A7F5F560767C4F200E1C1E4,
+				0A7F5F6F0767C68000E1C1E4,
+				0A7F5FB70767C70600E1C1E4,
+				0A7F5FE80767C7B300E1C1E4,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
 			children = (
 				953C3EFE0747970800F2A737,
 				CB910DA8074E0A5F00278FC5,
-				6C1D4F6D06FA0C0500A5D946,
 				52861ED706DBA80800D3A356,
 				34CEA3930680A77C00670E0D,
 				A14BBE0806EE1C0400530EED,
 				CB5F835E0638B67C00EADD7A,
 				63C0610006C8948700B0B7D4,
 				CB5F836E0638B69900EADD7A,
+				0A7F5CC00767BF8A00E1C1E4,
 				089C1671FE841209C02AAC07,
 				19C28FB8FE9D52D311CA2CBB,
 			);
@@ -168,49 +169,1680 @@
 //0A2
 //0A3
 //0A4
-		0A04279607088E7D0058CBD0 = {
-			fileType = wrapper.cfbundle;
-			isa = PBXReferenceProxy;
-			path = MusicVideo.growlView;
-			refType = 3;
-			remoteRef = 0A04279A07088E880058CBD0;
-			sourceTree = BUILT_PRODUCTS_DIR;
+		0A31A5970767CC3A00CFF4A7 = {
+			fileRef = 0AB508B20767C87B006EA5CB;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
-		0A04279A07088E880058CBD0 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 2;
-			remoteGlobalIDString = 6C7CEAE50707F41D00441A92;
-			remoteInfo = MusicVideo;
-		};
-		0A0428FF0708ACA10058CBD0 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 34C4486606F0FF5300855FBE;
-			remoteInfo = Smoke;
-		};
-		0A0429000708ACA10058CBD0 = {
-			isa = PBXTargetDependency;
-			name = "Smoke (from Display Plugins.xcode)";
-			targetProxy = 0A0428FF0708ACA10058CBD0;
-		};
-		0A04291D0708ACC20058CBD0 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.cfbundle;
-			name = Smoke.growlView;
-			path = "Display Plugins/build/Smoke.growlView";
+		0A7F5CC00767BF8A00E1C1E4 = {
+			children = (
+				0A7F5EDA0767C30800E1C1E4,
+				0A7F5F2D0767C3F600E1C1E4,
+				0A7F5D9A0767C13100E1C1E4,
+				0A7F5F5C0767C56100E1C1E4,
+				0A7F5F890767C6C500E1C1E4,
+				0A7F5FD90767C79100E1C1E4,
+				0A7F624C0767C84E00E1C1E4,
+				0A7F5FF70767C7FB00E1C1E4,
+			);
+			isa = PBXGroup;
+			name = "Display Plugins";
+			path = "";
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0A0429530708ACC70058CBD0 = {
-			fileRef = 0A04291D0708ACC20058CBD0;
+		0A7F5CC90767BFD000E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5DA30767C13200E1C1E4,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5CCA0767BFD000E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5DA60767C13200E1C1E4,
+				0A7F5DA80767C13200E1C1E4,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5CCB0767BFD000E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5DA90767C15900E1C1E4,
+				0A7F5E170767C15C00E1C1E4,
+				0A7F5EAC0767C15E00E1C1E4,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5CCC0767BFD000E1C1E4 = {
+			buildPhases = (
+				0A7F5CC90767BFD000E1C1E4,
+				0A7F5CCA0767BFD000E1C1E4,
+				0A7F5CCB0767BFD000E1C1E4,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Display Plugins/Speech-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				PRODUCT_NAME = Speech;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = Speech;
+			productName = Speech;
+			productReference = 0AB508B10767C87B006EA5CB;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Speech</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Speech</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
+		0A7F5D9A0767C13100E1C1E4 = {
+			children = (
+				0A7F5D9B0767C13100E1C1E4,
+				0A7F5D9E0767C13200E1C1E4,
+				0A7F5D9F0767C13200E1C1E4,
+				0A7F5DA00767C13200E1C1E4,
+				0A7F5DA10767C13200E1C1E4,
+				0A7F5DA20767C13200E1C1E4,
+			);
+			isa = PBXGroup;
+			name = Speech;
+			path = "Display Plugins/Speech";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5D9B0767C13100E1C1E4 = {
+			children = (
+				0A7F5D9C0767C13100E1C1E4,
+				0A7F5D9D0767C13100E1C1E4,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlSpeechPrefs.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5D9C0767C13100E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/GrowlSpeechPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5D9D0767C13100E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = German.lproj/GrowlSpeechPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5D9E0767C13200E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlSpeechDefines.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5D9F0767C13200E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlSpeechDisplay.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5DA00767C13200E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlSpeechDisplay.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5DA10767C13200E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlSpeechPrefs.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5DA20767C13200E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlSpeechPrefs.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5DA30767C13200E1C1E4 = {
+			fileRef = 0A7F5D9B0767C13100E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5DA60767C13200E1C1E4 = {
+			fileRef = 0A7F5DA00767C13200E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5DA80767C13200E1C1E4 = {
+			fileRef = 0A7F5DA20767C13200E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5DA90767C15900E1C1E4 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5E170767C15C00E1C1E4 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5EAC0767C15E00E1C1E4 = {
+			fileRef = 83282746073A6C110044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5EB00767C24900E1C1E4 = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 0A7F5CCC0767BFD000E1C1E4;
+			remoteInfo = Speech;
+		};
+		0A7F5EB10767C24900E1C1E4 = {
+			isa = PBXTargetDependency;
+			target = 0A7F5CCC0767BFD000E1C1E4;
+			targetProxy = 0A7F5EB00767C24900E1C1E4;
+		};
+		0A7F5EC40767C2A600E1C1E4 = {
+			buildPhases = (
+				0A7F5EC50767C2A600E1C1E4,
+				0A7F5EC70767C2A600E1C1E4,
+				0A7F5ECA0767C2A600E1C1E4,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Display Plugins/Bubbles-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_LDFLAGS = "-force_flat_namespace -undefined suppress";
+				PRODUCT_NAME = Bubbles;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = Bubbles;
+			productName = Speech;
+			productReference = 0AB508AE0767C87B006EA5CB;
+			productType = "com.apple.product-type.bundle";
+		};
+		0A7F5EC50767C2A600E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5EE70767C30800E1C1E4,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5EC70767C2A600E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5EE90767C30800E1C1E4,
+				0A7F5EEC0767C30800E1C1E4,
+				0A7F5EEE0767C30800E1C1E4,
+				0A7F5EF00767C30800E1C1E4,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5ECA0767C2A600E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5ECB0767C2A600E1C1E4,
+				0A7F5ECC0767C2A600E1C1E4,
+				0A7F5ECD0767C2A600E1C1E4,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5ECB0767C2A600E1C1E4 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5ECC0767C2A600E1C1E4 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5ECD0767C2A600E1C1E4 = {
+			fileRef = 83282746073A6C110044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5EDA0767C30800E1C1E4 = {
+			children = (
+				0A7F5EDB0767C30800E1C1E4,
+				0A7F5EDE0767C30800E1C1E4,
+				0A7F5EDF0767C30800E1C1E4,
+				0A7F5EE00767C30800E1C1E4,
+				0A7F5EE10767C30800E1C1E4,
+				0A7F5EE20767C30800E1C1E4,
+				0A7F5EE30767C30800E1C1E4,
+				0A7F5EE40767C30800E1C1E4,
+				0A7F5EE50767C30800E1C1E4,
+				0A7F5EE60767C30800E1C1E4,
+			);
+			isa = PBXGroup;
+			name = Bubbles;
+			path = "Display Plugins/Bubbles";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EDB0767C30800E1C1E4 = {
+			children = (
+				0A7F5EDC0767C30800E1C1E4,
+				0A7F5EDD0767C30800E1C1E4,
+			);
+			isa = PBXVariantGroup;
+			name = BubblesPrefs.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EDC0767C30800E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/BubblesPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EDD0767C30800E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = German.lproj/BubblesPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EDE0767C30800E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlBubblesController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EDF0767C30800E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlBubblesController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EE00767C30800E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlBubblesDefines.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EE10767C30800E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlBubblesPrefsController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EE20767C30800E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlBubblesPrefsController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EE30767C30800E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlBubblesWindowController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EE40767C30800E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlBubblesWindowController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EE50767C30800E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlBubblesWindowView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EE60767C30800E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlBubblesWindowView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5EE70767C30800E1C1E4 = {
+			fileRef = 0A7F5EDB0767C30800E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5EE90767C30800E1C1E4 = {
+			fileRef = 0A7F5EDF0767C30800E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5EEC0767C30800E1C1E4 = {
+			fileRef = 0A7F5EE20767C30800E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5EEE0767C30800E1C1E4 = {
+			fileRef = 0A7F5EE40767C30800E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5EF00767C30800E1C1E4 = {
+			fileRef = 0A7F5EE60767C30800E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F110767C38200E1C1E4 = {
+			buildPhases = (
+				0A7F5F120767C38200E1C1E4,
+				0A7F5F140767C38200E1C1E4,
+				0A7F5F190767C38200E1C1E4,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Display Plugins/Bezel-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_LDFLAGS = "-force_flat_namespace -undefined suppress";
+				PRODUCT_NAME = Bezel;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = Bezel;
+			productName = Speech;
+			productReference = 0AB508B40767C87B006EA5CB;
+			productType = "com.apple.product-type.bundle";
+		};
+		0A7F5F120767C38200E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5F3A0767C3F600E1C1E4,
+				0A7F5F3B0767C3F600E1C1E4,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5F140767C38200E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5F3D0767C3F600E1C1E4,
+				0A7F5F3F0767C3F600E1C1E4,
+				0A7F5F410767C3F600E1C1E4,
+				0A7F5F430767C3F600E1C1E4,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5F190767C38200E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5F1A0767C38200E1C1E4,
+				0A7F5F1B0767C38200E1C1E4,
+				0A7F5F1C0767C38200E1C1E4,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5F1A0767C38200E1C1E4 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F1B0767C38200E1C1E4 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F1C0767C38200E1C1E4 = {
+			fileRef = 83282746073A6C110044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F2D0767C3F600E1C1E4 = {
+			children = (
+				0A7F5F2E0767C3F600E1C1E4,
+				0A7F5F2F0767C3F600E1C1E4,
+				0A7F5F320767C3F600E1C1E4,
+				0A7F5F330767C3F600E1C1E4,
+				0A7F5F340767C3F600E1C1E4,
+				0A7F5F350767C3F600E1C1E4,
+				0A7F5F360767C3F600E1C1E4,
+				0A7F5F370767C3F600E1C1E4,
+				0A7F5F380767C3F600E1C1E4,
+				0A7F5F390767C3F600E1C1E4,
+			);
+			isa = PBXGroup;
+			name = Bezel;
+			path = "Display Plugins/Bezel";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F2E0767C3F600E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = aquabackground.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F2F0767C3F600E1C1E4 = {
+			children = (
+				0A7F5F300767C3F600E1C1E4,
+				0A7F5F310767C3F600E1C1E4,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlBezelPrefs.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F300767C3F600E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/GrowlBezelPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F310767C3F600E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = German.lproj/GrowlBezelPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F320767C3F600E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlBezelDisplay.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F330767C3F600E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlBezelDisplay.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F340767C3F600E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlBezelPrefs.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F350767C3F600E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlBezelPrefs.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F360767C3F600E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlBezelWindowController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F370767C3F600E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlBezelWindowController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F380767C3F600E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlBezelWindowView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F390767C3F600E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlBezelWindowView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F3A0767C3F600E1C1E4 = {
+			fileRef = 0A7F5F2E0767C3F600E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F3B0767C3F600E1C1E4 = {
+			fileRef = 0A7F5F2F0767C3F600E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F3D0767C3F600E1C1E4 = {
+			fileRef = 0A7F5F330767C3F600E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F3F0767C3F600E1C1E4 = {
+			fileRef = 0A7F5F350767C3F600E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F410767C3F600E1C1E4 = {
+			fileRef = 0A7F5F370767C3F600E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F430767C3F600E1C1E4 = {
+			fileRef = 0A7F5F390767C3F600E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F4C0767C4C400E1C1E4 = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 0A7F5EC40767C2A600E1C1E4;
+			remoteInfo = Bubbles;
+		};
+		0A7F5F4D0767C4C400E1C1E4 = {
+			isa = PBXTargetDependency;
+			target = 0A7F5EC40767C2A600E1C1E4;
+			targetProxy = 0A7F5F4C0767C4C400E1C1E4;
+		};
+		0A7F5F4E0767C4C700E1C1E4 = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 0A7F5F110767C38200E1C1E4;
+			remoteInfo = Bezel;
+		};
+		0A7F5F4F0767C4C700E1C1E4 = {
+			isa = PBXTargetDependency;
+			target = 0A7F5F110767C38200E1C1E4;
+			targetProxy = 0A7F5F4E0767C4C700E1C1E4;
+		};
+		0A7F5F530767C4F200E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5F540767C4F200E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5F600767C56100E1C1E4,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5F550767C4F200E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5F620767C58E00E1C1E4,
+				0A7F5F630767C59000E1C1E4,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5F560767C4F200E1C1E4 = {
+			buildPhases = (
+				0A7F5F530767C4F200E1C1E4,
+				0A7F5F540767C4F200E1C1E4,
+				0A7F5F550767C4F200E1C1E4,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				INFOPLIST_FILE = "Display Plugins/NSLogging-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				LIBRARY_STYLE = BUNDLE;
+				PRODUCT_NAME = NSLogging;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = NSLogging;
+			productName = NSLogging;
+			productReference = 0AB508B20767C87B006EA5CB;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>NSLogging</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.NSLogging</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
+		0A7F5F5C0767C56100E1C1E4 = {
+			children = (
+				0A7F5F5D0767C56100E1C1E4,
+				0A7F5F5E0767C56100E1C1E4,
+			);
+			isa = PBXGroup;
+			name = NSLogging;
+			path = "Display Plugins/NSLog";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F5D0767C56100E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlNSLogDisplay.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F5E0767C56100E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlNSLogDisplay.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F600767C56100E1C1E4 = {
+			fileRef = 0A7F5F5E0767C56100E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F620767C58E00E1C1E4 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F630767C59000E1C1E4 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F640767C59A00E1C1E4 = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 0A7F5F560767C4F200E1C1E4;
+			remoteInfo = NSLogging;
+		};
+		0A7F5F650767C59A00E1C1E4 = {
+			isa = PBXTargetDependency;
+			target = 0A7F5F560767C4F200E1C1E4;
+			targetProxy = 0A7F5F640767C59A00E1C1E4;
+		};
+		0A7F5F6F0767C68000E1C1E4 = {
+			buildPhases = (
+				0A7F5F700767C68000E1C1E4,
+				0A7F5F720767C68000E1C1E4,
+				0A7F5F770767C68000E1C1E4,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Display Plugins/Smoke-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_LDFLAGS = "-force_flat_namespace -undefined suppress";
+				PRODUCT_NAME = Smoke;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = Smoke;
+			productName = Speech;
+			productReference = 0AB508AF0767C87B006EA5CB;
+			productType = "com.apple.product-type.bundle";
+		};
+		0A7F5F700767C68000E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5F960767C6C500E1C1E4,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5F720767C68000E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5F990767C6C500E1C1E4,
+				0A7F5F9B0767C6C500E1C1E4,
+				0A7F5F9D0767C6C500E1C1E4,
+				0A7F5F9F0767C6C500E1C1E4,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5F770767C68000E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5F780767C68000E1C1E4,
+				0A7F5F790767C68000E1C1E4,
+				0A7F5F7A0767C68000E1C1E4,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5F780767C68000E1C1E4 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F790767C68000E1C1E4 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F7A0767C68000E1C1E4 = {
+			fileRef = 83282746073A6C110044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F890767C6C500E1C1E4 = {
+			children = (
+				0A7F5F8A0767C6C500E1C1E4,
+				0A7F5F8D0767C6C500E1C1E4,
+				0A7F5F8E0767C6C500E1C1E4,
+				0A7F5F8F0767C6C500E1C1E4,
+				0A7F5F900767C6C500E1C1E4,
+				0A7F5F910767C6C500E1C1E4,
+				0A7F5F920767C6C500E1C1E4,
+				0A7F5F930767C6C500E1C1E4,
+				0A7F5F940767C6C500E1C1E4,
+				0A7F5F950767C6C500E1C1E4,
+			);
+			isa = PBXGroup;
+			name = Smoke;
+			path = "Display Plugins/Smoke";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F8A0767C6C500E1C1E4 = {
+			children = (
+				0A7F5F8B0767C6C500E1C1E4,
+				0A7F5F8C0767C6C500E1C1E4,
+			);
+			isa = PBXVariantGroup;
+			name = SmokePrefs.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F8B0767C6C500E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/SmokePrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F8C0767C6C500E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = German.lproj/SmokePrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F8D0767C6C500E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlSmokeDefines.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F8E0767C6C500E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlSmokeDisplay.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F8F0767C6C500E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlSmokeDisplay.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F900767C6C500E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlSmokePrefsController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F910767C6C500E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlSmokePrefsController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F920767C6C500E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlSmokeWindowController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F930767C6C500E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlSmokeWindowController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F940767C6C500E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlSmokeWindowView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F950767C6C500E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlSmokeWindowView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5F960767C6C500E1C1E4 = {
+			fileRef = 0A7F5F8A0767C6C500E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F990767C6C500E1C1E4 = {
+			fileRef = 0A7F5F8F0767C6C500E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F9B0767C6C500E1C1E4 = {
+			fileRef = 0A7F5F910767C6C500E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F9D0767C6C500E1C1E4 = {
+			fileRef = 0A7F5F930767C6C500E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5F9F0767C6C500E1C1E4 = {
+			fileRef = 0A7F5F950767C6C500E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5FA60767C6DD00E1C1E4 = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 0A7F5F6F0767C68000E1C1E4;
+			remoteInfo = Smoke;
+		};
+		0A7F5FA70767C6DD00E1C1E4 = {
+			isa = PBXTargetDependency;
+			target = 0A7F5F6F0767C68000E1C1E4;
+			targetProxy = 0A7F5FA60767C6DD00E1C1E4;
+		};
+		0A7F5FB70767C70600E1C1E4 = {
+			buildPhases = (
+				0A7F5FB80767C70600E1C1E4,
+				0A7F5FBA0767C70600E1C1E4,
+				0A7F5FBF0767C70600E1C1E4,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Display Plugins/MailMe-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				LIBRARY_STYLE = BUNDLE;
+				PRODUCT_NAME = MailMe;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = MailMe;
+			productName = Speech;
+			productReference = 0AB508B00767C87B006EA5CB;
+			productType = "com.apple.product-type.bundle";
+		};
+		0A7F5FB80767C70600E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5FE10767C79100E1C1E4,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5FBA0767C70600E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5FE30767C79100E1C1E4,
+				0A7F5FE50767C79100E1C1E4,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5FBF0767C70600E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5FC00767C70600E1C1E4,
+				0A7F5FC10767C70600E1C1E4,
+				0A7F5FC20767C70600E1C1E4,
+				0A7F5FD50767C77F00E1C1E4,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5FC00767C70600E1C1E4 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5FC10767C70600E1C1E4 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5FC20767C70600E1C1E4 = {
+			fileRef = 83282746073A6C110044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5FD40767C77F00E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Message.framework;
+			path = /System/Library/Frameworks/Message.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0A7F5FD50767C77F00E1C1E4 = {
+			fileRef = 0A7F5FD40767C77F00E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5FD90767C79100E1C1E4 = {
+			children = (
+				0A7F5FDA0767C79100E1C1E4,
+				0A7F5FDD0767C79100E1C1E4,
+				0A7F5FDE0767C79100E1C1E4,
+				0A7F5FDF0767C79100E1C1E4,
+				0A7F5FE00767C79100E1C1E4,
+			);
+			isa = PBXGroup;
+			name = MailMe;
+			path = "Display Plugins/MailMe";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5FDA0767C79100E1C1E4 = {
+			children = (
+				0A7F5FDB0767C79100E1C1E4,
+				0A7F5FDC0767C79100E1C1E4,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlMailMePrefs.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5FDB0767C79100E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/GrowlMailMePrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5FDC0767C79100E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = German.lproj/GrowlMailMePrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5FDD0767C79100E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlMailMeDisplay.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5FDE0767C79100E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlMailMeDisplay.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5FDF0767C79100E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlMailMePrefs.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5FE00767C79100E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlMailMePrefs.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F5FE10767C79100E1C1E4 = {
+			fileRef = 0A7F5FDA0767C79100E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5FE30767C79100E1C1E4 = {
+			fileRef = 0A7F5FDE0767C79100E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5FE50767C79100E1C1E4 = {
+			fileRef = 0A7F5FE00767C79100E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5FE80767C7B300E1C1E4 = {
+			buildPhases = (
+				0A7F5FE90767C7B300E1C1E4,
+				0A7F5FEB0767C7B300E1C1E4,
+				0A7F5FF00767C7B300E1C1E4,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Display Plugins/MusicVideo-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_LDFLAGS = "-force_flat_namespace -undefined suppress";
+				PRODUCT_NAME = MusicVideo;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = MusicVideo;
+			productName = Speech;
+			productReference = 0AB508B30767C87B006EA5CB;
+			productType = "com.apple.product-type.bundle";
+		};
+		0A7F5FE90767C7B300E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F62580767C84E00E1C1E4,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5FEB0767C7B300E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F625A0767C84E00E1C1E4,
+				0A7F625C0767C84E00E1C1E4,
+				0A7F625E0767C84E00E1C1E4,
+				0A7F62600767C84E00E1C1E4,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5FF00767C7B300E1C1E4 = {
+			buildActionMask = 2147483647;
+			files = (
+				0A7F5FF10767C7B300E1C1E4,
+				0A7F5FF20767C7B300E1C1E4,
+				0A7F5FF30767C7B300E1C1E4,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A7F5FF10767C7B300E1C1E4 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5FF20767C7B300E1C1E4 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5FF30767C7B300E1C1E4 = {
+			fileRef = 83282746073A6C110044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F5FF70767C7FB00E1C1E4 = {
+			children = (
+				0A7F60000767C80E00E1C1E4,
+			);
+			isa = PBXGroup;
+			name = "Other Sources";
+			path = "";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0A7F60000767C80E00E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "Display Plugins_Prefix.pch";
+			path = "Display Plugins/Display Plugins_Prefix.pch";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F624C0767C84E00E1C1E4 = {
+			children = (
+				0A7F624D0767C84E00E1C1E4,
+				0A7F62500767C84E00E1C1E4,
+				0A7F62510767C84E00E1C1E4,
+				0A7F62520767C84E00E1C1E4,
+				0A7F62530767C84E00E1C1E4,
+				0A7F62540767C84E00E1C1E4,
+				0A7F62550767C84E00E1C1E4,
+				0A7F62560767C84E00E1C1E4,
+				0A7F62570767C84E00E1C1E4,
+			);
+			isa = PBXGroup;
+			name = MusicVideo;
+			path = "Display Plugins/MusicVideo";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F624D0767C84E00E1C1E4 = {
+			children = (
+				0A7F624E0767C84E00E1C1E4,
+				0A7F624F0767C84E00E1C1E4,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlMusicVideoPrefs.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F624E0767C84E00E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/GrowlMusicVideoPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F624F0767C84E00E1C1E4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = German.lproj/GrowlMusicVideoPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F62500767C84E00E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlMusicVideoDisplay.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F62510767C84E00E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlMusicVideoDisplay.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F62520767C84E00E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlMusicVideoPrefs.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F62530767C84E00E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlMusicVideoPrefs.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F62540767C84E00E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlMusicVideoWindowController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F62550767C84E00E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlMusicVideoWindowController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F62560767C84E00E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlMusicVideoWindowView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F62570767C84E00E1C1E4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlMusicVideoWindowView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7F62580767C84E00E1C1E4 = {
+			fileRef = 0A7F624D0767C84E00E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F625A0767C84E00E1C1E4 = {
+			fileRef = 0A7F62510767C84E00E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F625C0767C84E00E1C1E4 = {
+			fileRef = 0A7F62530767C84E00E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F625E0767C84E00E1C1E4 = {
+			fileRef = 0A7F62550767C84E00E1C1E4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A7F62600767C84E00E1C1E4 = {
+			fileRef = 0A7F62570767C84E00E1C1E4;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
 		0AAFB91706D2A0E000BA1A13 = {
 			fileRef = F506C040013D9D8001CA16C8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0AB508AE0767C87B006EA5CB = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = Bubbles.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0AB508AF0767C87B006EA5CB = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = Smoke.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0AB508B00767C87B006EA5CB = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = MailMe.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0AB508B10767C87B006EA5CB = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = Speech.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0AB508B20767C87B006EA5CB = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = NSLogging.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0AB508B30767C87B006EA5CB = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = MusicVideo.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0AB508B40767C87B006EA5CB = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = Bezel.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0AB508C30767C88F006EA5CB = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 0A7F5FB70767C70600E1C1E4;
+			remoteInfo = MailMe;
+		};
+		0AB508C40767C88F006EA5CB = {
+			isa = PBXTargetDependency;
+			target = 0A7F5FB70767C70600E1C1E4;
+			targetProxy = 0AB508C30767C88F006EA5CB;
+		};
+		0AB508C50767C893006EA5CB = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 0A7F5FE80767C7B300E1C1E4;
+			remoteInfo = MusicVideo;
+		};
+		0AB508C60767C893006EA5CB = {
+			isa = PBXTargetDependency;
+			target = 0A7F5FE80767C7B300E1C1E4;
+			targetProxy = 0AB508C50767C893006EA5CB;
+		};
+		0AB508E80767C9E0006EA5CB = {
+			fileRef = 0AB508AE0767C87B006EA5CB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0AB508F60767C9E2006EA5CB = {
+			fileRef = 0AB508AF0767C87B006EA5CB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0AB509040767C9E4006EA5CB = {
+			fileRef = 0AB508B00767C87B006EA5CB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0AB509120767C9E6006EA5CB = {
+			fileRef = 0AB508B10767C87B006EA5CB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0AB509260767C9EA006EA5CB = {
+			fileRef = 0AB508B30767C87B006EA5CB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0AB509340767C9EC006EA5CB = {
+			fileRef = 0AB508B40767C87B006EA5CB;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -264,6 +1896,7 @@
 				83282741073A6BD70044A959,
 				089C1672FE841209C02AAC07,
 				089C167FFE841241C02AAC07,
+				0A7F5FD40767C77F00E1C1E4,
 			);
 			isa = PBXGroup;
 			name = "Other Frameworks";
@@ -285,12 +1918,13 @@
 			children = (
 				8D202CF80486D31800D8A456,
 				CB61E5180637763C00E0DDC7,
-				6C1D526806FA0CE000A5D946,
-				6C4834B907395F1500F65193,
-				6CCCECD307144ECB00C5B203,
-				6C4834CE07395F1B00F65193,
-				0A04291D0708ACC20058CBD0,
-				6C6E2B3F073A6D5400F1A95F,
+				0AB508AE0767C87B006EA5CB,
+				0AB508AF0767C87B006EA5CB,
+				0AB508B00767C87B006EA5CB,
+				0AB508B10767C87B006EA5CB,
+				0AB508B20767C87B006EA5CB,
+				0AB508B30767C87B006EA5CB,
+				0AB508B40767C87B006EA5CB,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -337,21 +1971,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "echo \"Cleaning up unneeded files...\"\nfind $BUILD_ROOT/$WRAPPER_NAME -name '.svn' -print0 | xargs -0 rm -rf\nfind $BUILD_ROOT/$WRAPPER_NAME -name '.DS_Store' -print0 | xargs -0 rm -rf\n";
-		};
-		345A68EE06FF684E00114E06 = {
-			fileType = wrapper.cfbundle;
-			isa = PBXReferenceProxy;
-			path = Smoke.growlView;
-			refType = 3;
-			remoteRef = 345A68FC06FF686200114E06;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		345A68FC06FF686200114E06 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 2;
-			remoteGlobalIDString = 34C4486706F0FF5300855FBE;
-			remoteInfo = Smoke;
 		};
 		34CEA3930680A77C00670E0D = {
 			children = (
@@ -594,189 +2213,11 @@
 //632
 //633
 //634
-//6C0
-//6C1
-//6C2
-//6C3
-//6C4
-		6C1D4F6D06FA0C0500A5D946 = {
-			isa = PBXFileReference;
-			lastKnownFileType = "wrapper.pb-project";
-			name = "Display Plugins.xcode";
-			path = "Display Plugins/Display Plugins.xcode";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		6C1D4F6E06FA0C0500A5D946 = {
-			children = (
-				A1DECDD106FF5C010053BF53,
-				A1DECDD206FF5C010053BF53,
-				345A68EE06FF684E00114E06,
-				A14892520702746D002CEEA2,
-				0A04279607088E7D0058CBD0,
-				83282736073A6B750044A959,
-				956BF7550749FBE100D8B367,
-			);
-			isa = PBXGroup;
-			name = Products;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		6C1D4F7006FA0C7E00A5D946 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 6C60D7BB06F044110025909F;
-			remoteInfo = Bezel;
-		};
-		6C1D4F7106FA0C7E00A5D946 = {
-			isa = PBXTargetDependency;
-			name = "Bezel (from Display Plugins.xcode)";
-			targetProxy = 6C1D4F7006FA0C7E00A5D946;
-		};
-		6C1D526806FA0CE000A5D946 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.cfbundle;
-			name = Bezel.growlView;
-			path = "Display Plugins/build/Bezel.growlView";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		6C1D527C06FA0CEB00A5D946 = {
-			fileRef = 6C1D526806FA0CE000A5D946;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		6C4834B907395F1500F65193 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.cfbundle;
-			name = MailMe.growlView;
-			path = "Display Plugins/build/MailMe.growlView";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		6C4834BA07395F1500F65193 = {
-			fileRef = 6C4834B907395F1500F65193;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		6C4834CE07395F1B00F65193 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.cfbundle;
-			name = NSLogging.growlView;
-			path = "Display Plugins/build/NSLogging.growlView";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		6C4834CF07395F1B00F65193 = {
-			fileRef = 6C4834CE07395F1B00F65193;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		6C4834DB07395F3100F65193 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 5282FC6706DD9F2D00179624;
-			remoteInfo = NSLogging;
-		};
-		6C4834DC07395F3100F65193 = {
-			isa = PBXTargetDependency;
-			name = "NSLogging (from Display Plugins.xcode)";
-			targetProxy = 6C4834DB07395F3100F65193;
-		};
-		6C4834DD07395F3400F65193 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 07CC344606FFE5FC0029B83C;
-			remoteInfo = MailMe;
-		};
-		6C4834DE07395F3400F65193 = {
-			isa = PBXTargetDependency;
-			name = "MailMe (from Display Plugins.xcode)";
-			targetProxy = 6C4834DD07395F3400F65193;
-		};
-		6C566EFB0716F1D300E139BD = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 6C7CEAE40707F41D00441A92;
-			remoteInfo = MusicVideo;
-		};
-		6C566EFC0716F1D300E139BD = {
-			isa = PBXTargetDependency;
-			name = "MusicVideo (from Display Plugins.xcode)";
-			targetProxy = 6C566EFB0716F1D300E139BD;
-		};
-		6C6E2B3F073A6D5400F1A95F = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.cfbundle;
-			name = Bubbles.growlView;
-			path = "Display Plugins/build/Bubbles.growlView";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		6C6E2B54073A6D5D00F1A95F = {
-			fileRef = 6C6E2B3F073A6D5400F1A95F;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		6C6E2B55073A6D7600F1A95F = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 07694BE5073A4ADE0079D1E5;
-			remoteInfo = Bubbles;
-		};
-		6C6E2B56073A6D7600F1A95F = {
-			isa = PBXTargetDependency;
-			name = "Bubbles (from Display Plugins.xcode)";
-			targetProxy = 6C6E2B55073A6D7600F1A95F;
-		};
-		6CCCECD307144ECB00C5B203 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.cfbundle;
-			name = MusicVideo.growlView;
-			path = "Display Plugins/build/MusicVideo.growlView";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		6CCCED0907144EF000C5B203 = {
-			fileRef = 6CCCECD307144ECB00C5B203;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-//6C0
-//6C1
-//6C2
-//6C3
-//6C4
 //830
 //831
 //832
 //833
 //834
-		83282736073A6B750044A959 = {
-			fileType = wrapper.cfbundle;
-			isa = PBXReferenceProxy;
-			path = Bubbles.growlView;
-			refType = 3;
-			remoteRef = 83282740073A6B8E0044A959;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		83282740073A6B8E0044A959 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 2;
-			remoteGlobalIDString = 07694BF7073A4ADE0079D1E5;
-			remoteInfo = Bubbles;
-		};
 		83282741073A6BD70044A959 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -1202,21 +2643,6 @@
 			settings = {
 			};
 		};
-		956BF7550749FBE100D8B367 = {
-			fileType = wrapper.cfbundle;
-			isa = PBXReferenceProxy;
-			path = Speech.growlView;
-			refType = 3;
-			remoteRef = 956BF7590749FBF000D8B367;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		956BF7590749FBF000D8B367 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 2;
-			remoteGlobalIDString = 95DD1A8807491AB700CC05A4;
-			remoteInfo = Speech;
-		};
 		958294EF074CDE3100EC7AF2 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1357,21 +2783,6 @@
 //A12
 //A13
 //A14
-		A14892520702746D002CEEA2 = {
-			fileType = wrapper.cfbundle;
-			isa = PBXReferenceProxy;
-			path = MailMe.growlView;
-			refType = 3;
-			remoteRef = A148926507027470002CEEA2;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A148926507027470002CEEA2 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 2;
-			remoteGlobalIDString = 07CC345806FFE5FC0029B83C;
-			remoteInfo = MailMe;
-		};
 		A14BBE0806EE1C0400530EED = {
 			children = (
 				A14BBE0E06EE1D5600530EED,
@@ -1410,36 +2821,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		A1DECDD106FF5C010053BF53 = {
-			fileType = wrapper.cfbundle;
-			isa = PBXReferenceProxy;
-			path = NSLogging.growlView;
-			refType = 3;
-			remoteRef = A1DECDEB06FF5C0B0053BF53;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A1DECDD206FF5C010053BF53 = {
-			fileType = wrapper.cfbundle;
-			isa = PBXReferenceProxy;
-			path = Bezel.growlView;
-			refType = 3;
-			remoteRef = A1DECDEC06FF5C0B0053BF53;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A1DECDEB06FF5C0B0053BF53 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 2;
-			remoteGlobalIDString = 5282FC6806DD9F2D00179624;
-			remoteInfo = NSLogging;
-		};
-		A1DECDEC06FF5C0B0053BF53 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 2;
-			remoteGlobalIDString = 6C60D7BC06F044110025909F;
-			remoteInfo = Bezel;
 		};
 //A10
 //A11
@@ -1605,12 +2986,13 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				6C6E2B54073A6D5D00F1A95F,
-				6C4834BA07395F1500F65193,
-				6CCCED0907144EF000C5B203,
-				6C1D527C06FA0CEB00A5D946,
-				6C4834CF07395F1B00F65193,
-				0A0429530708ACC70058CBD0,
+				0AB508E80767C9E0006EA5CB,
+				0AB508F60767C9E2006EA5CB,
+				0A31A5970767CC3A00CFF4A7,
+				0AB509040767C9E4006EA5CB,
+				0AB509120767C9E6006EA5CB,
+				0AB509260767C9EA006EA5CB,
+				0AB509340767C9EC006EA5CB,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1695,12 +3077,13 @@
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 			};
 			dependencies = (
-				6C1D4F7106FA0C7E00A5D946,
-				0A0429000708ACA10058CBD0,
-				6C566EFC0716F1D300E139BD,
-				6C4834DC07395F3100F65193,
-				6C4834DE07395F3400F65193,
-				6C6E2B56073A6D7600F1A95F,
+				0A7F5EB10767C24900E1C1E4,
+				0A7F5F4D0767C4C400E1C1E4,
+				0A7F5F4F0767C4C700E1C1E4,
+				0A7F5F650767C59A00E1C1E4,
+				0A7F5FA70767C6DD00E1C1E4,
+				0AB508C40767C88F006EA5CB,
+				0AB508C60767C893006EA5CB,
 			);
 			isa = PBXNativeTarget;
 			name = GrowlHelperApp;
