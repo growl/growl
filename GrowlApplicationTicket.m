@@ -92,7 +92,7 @@
 - (void) unregisterParentForNotifications:(NSArray *) inArray {
 	NSEnumerator *note = [inArray objectEnumerator];
 	id obj = nil; 
-	while ( obj = [note nextObject] ) { //register the Controller for all the passed Notifications
+	while ( obj = [note nextObject] ) { //unregister the Controller for all the passed Notifications
 		[[NSDistributedNotificationCenter defaultCenter] removeObserver:_parent name:(NSString *)obj object:nil];
 	}
 }
