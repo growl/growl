@@ -41,12 +41,11 @@
 #define ERROR_NOT_FILE_URL					2
 #define ERROR_ICON_OF_FILE_PATH_INVALID		3
 
-static const NSSize iconSize = {128.f, 128.f};
+static const NSSize iconSize = {128.0f, 128.0f};
 
 @implementation GrowlNotifyScriptCommand
 
--(id)performDefaultImplementation
-{
+-(id) performDefaultImplementation {
 	NSDictionary* args = [self evaluatedArguments];
 
 	// should validate params better!
@@ -108,15 +107,14 @@ static const NSSize iconSize = {128.f, 128.f};
 	return nil;
 }
 
-- (void)setError:(int)errorCode
-{
+- (void) setError:(int)errorCode {
 	[self setError:errorCode failure:nil];
 }
 
-- (void)setError:(int)errorCode failure:(id)failure
-{
+- (void)setError:(int)errorCode failure:(id)failure {
 	[self setScriptErrorNumber:errorCode];
 	NSString* str;
+	
 	switch (errorCode) {
 		case ERROR_EXCEPTION:
 			str = [NSString stringWithFormat:@"Exception raised while processing: %@", failure];
@@ -130,6 +128,7 @@ static const NSSize iconSize = {128.f, 128.f};
 		default:
 			str = nil;
 	}
+	
 	if (str != nil) {
 		[self setScriptErrorString:str];
 	}

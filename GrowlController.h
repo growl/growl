@@ -3,7 +3,9 @@
 //  Growl
 //
 //  Created by Karl Adam on Thu Apr 22 2004.
+//  Copyright 2004 The Growl Project. All rights reserved.
 //
+// This file is under the BSD License, refer to License.txt for details
 
 #import <Foundation/Foundation.h>
 #import "GrowlDisplayProtocol.h"
@@ -28,7 +30,7 @@
 
 + (id) singleton;
 
-- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename;
+- (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename;
 
 - (void) dispatchNotification:(NSNotification *)note;
 - (void) dispatchNotificationWithDictionary:(NSDictionary *)dict;

@@ -17,12 +17,11 @@
 
 #define ERROR_EXCEPTION						1
 
-static const NSSize iconSize = {128.f, 128.f};
+static const NSSize iconSize = {128.0f, 128.0f};
 
 @implementation GrowlRegisterScriptCommand
 
--(id)performDefaultImplementation
-{
+-(id) performDefaultImplementation {
 	NSDictionary* args = [self evaluatedArguments];
 
 	// should validate params better!
@@ -56,15 +55,14 @@ static const NSSize iconSize = {128.f, 128.f};
 	return nil;
 }
 
-- (void)setError:(int)errorCode
-{
+- (void) setError:(int)errorCode {
 	[self setError:errorCode failure:nil];
 }
 
-- (void)setError:(int)errorCode failure:(id)failure
-{
+- (void) setError:(int)errorCode failure:(id)failure {
 	[self setScriptErrorNumber:errorCode];
 	NSString* str;
+	
 	switch (errorCode) {
 		case ERROR_EXCEPTION:
 			str = [NSString stringWithFormat:@"Exception raised while processing: %@", failure];
@@ -72,6 +70,7 @@ static const NSSize iconSize = {128.f, 128.f};
 		default:
 			str = nil;
 	}
+	
 	if (str != nil) {
 		[self setScriptErrorString:str];
 	}

@@ -9,7 +9,7 @@ For .6
 Release related issues
 - Make sure all bindings register. I think this is already done, but we need to double check as this is now required.
 - Make sure we have user documentation on everything we have. This was a sore point for us last release.
-- Look at creating a mpkg with some of the power toys in it. Figure out what to include and what not to include.
+- Look at creating a mpkg with some of the Extras in it. Figure out what to include and what not to include.
 - Include uninstaller in the dmg
 - Include user documentation in the dmg
 - Include links to developer documentation in the dmg. Possibly include docs themselves.
@@ -25,7 +25,7 @@ For .7 or sooner
 	- 2 interfaces for this, one Distributed Objects allowing GHA to send and recieve remote
 	  notifications, the other is a port for UDP messages with specially formatted messages for display
 	  - DO connections provide a distributed builds like Appearance where you choose to send, recieve or
-	  	both from remoce machine discovered via rendezvous and manually added.
+	  	both from remote machine discovered via rendezvous and manually added.
 	  - The UDP interface shall have a seperator ( | or \x05 ) Title|Message|OptionBits
 	  	- For obvious reasons this is off by default
 	- Support for the gnome notifications system if it ever adds a networking protocol for its notifications

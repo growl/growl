@@ -12,8 +12,7 @@
 #define FADE_INCREMENT 0.05f
 
 @implementation FadingWindowController
-- (id)initWithWindow:(NSWindow *)window
-{
+- (id)initWithWindow:(NSWindow *)window {
 	if( (self = [super initWithWindow:window]) ) {
 		_delegate = nil;
 		_animationTimer = nil;

@@ -3,8 +3,9 @@
 //  Growl
 //
 //  Created by Nelson Elhage on 8/24/04.
-//  Copyright 2004 Nelson Elhage. All rights reserved.
+//  Copyright 2004 The Growl Project. All rights reserved.
 //
+// This file is under the BSD License, refer to License.txt for details
 
 #import <Cocoa/Cocoa.h>
 

@@ -9,11 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <Foundation/NSScriptCommand.h>
 
-@interface GrowlNotifyScriptCommand : NSScriptCommand
-{
+@interface GrowlNotifyScriptCommand : NSScriptCommand {
 }
 
-- (void)setError:(int)errorCode;
-- (void)setError:(int)errorCode failure:(id)failure;
+- (void) setError:(int)errorCode;
+- (void) setError:(int)errorCode failure:(id)failure;
 	
 @end

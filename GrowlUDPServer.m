@@ -3,8 +3,9 @@
 //  Growl
 //
 //  Created by Ingmar Stein on 18.11.04.
-//  Copyright 2004 __MyCompanyName__. All rights reserved.
+//  Copyright 2004 The Growl Project. All rights reserved.
 //
+// This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlUDPServer.h"
 #import "GrowlController.h"
@@ -13,8 +14,33 @@
 #include <sys/socket.h>
 
 @implementation GrowlUDPServer
-- (void)dealloc
-{
+
+- (id) init {
+	struct sockaddr_in addr;
+	NSData *addrData;
+	
+	if( (self = [super init]) ) {
+		addr.sin_addr.s_addr = INADDR_ANY;
+		addr.sin_port = htons( GROWL_UDP_PORT );
+		addr.sin_family = AF_INET;
+		addrData = [NSData dataWithBytes:&addr length:sizeof(addr)];
+		sock = [[NSSocketPort alloc] initWithProtocolFamily:AF_INET
+												 socketType:SOCK_DGRAM
+												   protocol:IPPROTO_UDP
+													address:addrData];
+		
+		fh = [[NSFileHandle alloc] initWithFileDescriptor:[sock socket] closeOnDealloc:YES];
+		[fh readInBackgroundAndNotify];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(fileHandleRead:)
+													 name:NSFileHandleReadCompletionNotification
+												   object:fh];
+	}
+	
+	return( self );
+}
+
+- (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self
 													name:NSFileHandleReadToEndOfFileCompletionNotification
 												  object:nil];
@@ -22,8 +48,9 @@
 	[sock release];
 }
 
-- (void)fileHandleRead:(NSNotification *)aNotification
-{
+#pragma mark -
+
+- (void) fileHandleRead:(NSNotification *)aNotification {
 	char *notificationName;
 	char *title;
 	char *description;
@@ -33,10 +60,12 @@
 
 	NSDictionary *userInfo = [aNotification userInfo];
 	NSNumber *error = (NSNumber *)[userInfo objectForKey:@"NSFileHandleError"];
-	if( ![error intValue] ) {
+	
+	if ( ![error intValue] ) {
 		NSData *data = (NSData *)[userInfo objectForKey:@"NSFileHandleNotificationDataItem"];
-		if( [data length] >= sizeof(struct GrowlNetworkNotification) ) {
+		if ( [data length] >= sizeof(struct GrowlNetworkNotification) ) {
 			struct GrowlNetworkNotification *nn = (struct GrowlNetworkNotification *)[data bytes];
+			
 			priority = nn->flags.priority;
 			isSticky = nn->flags.sticky;
 			notificationName = nn->data;
@@ -59,6 +88,7 @@
 					[NSNumber numberWithInt:priority], GROWL_NOTIFICATION_PRIORITY,
 					[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
 					nil];
+				
 				[[GrowlController singleton] dispatchNotificationWithDictionary:notificationInfo];
 			} else {
 				NSLog( @"GrowlUDPServer: received runt packet." );
@@ -73,29 +103,4 @@
 	[fh readInBackgroundAndNotify];
 }
 
-- (id)init
-{
-	struct sockaddr_in addr;
-	NSData *addrData;
-
-	if( (self = [super init]) ) {
-		addr.sin_addr.s_addr = INADDR_ANY;
-		addr.sin_port = htons( GROWL_UDP_PORT );
-		addr.sin_family = AF_INET;
-		addrData = [NSData dataWithBytes:&addr length:sizeof(addr)];
-		sock = [[NSSocketPort alloc] initWithProtocolFamily:AF_INET
-												 socketType:SOCK_DGRAM
-												   protocol:IPPROTO_UDP
-													address:addrData];
-
-		fh = [[NSFileHandle alloc] initWithFileDescriptor:[sock socket] closeOnDealloc:YES];
-		[fh readInBackgroundAndNotify];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(fileHandleRead:)
-													 name:NSFileHandleReadCompletionNotification
-												   object:fh];
-	}
-
-	return( self );
-}
 @end

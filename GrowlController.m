@@ -3,7 +3,9 @@
 //  Growl
 //
 //  Created by Karl Adam on Thu Apr 22 2004.
+//  Copyright 2004 The Growl Project. All rights reserved.
 //
+// This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlController.h"
 #import "GrowlApplicationTicket.h"
@@ -31,8 +33,7 @@ static id singleton = nil;
 	return singleton;
 }
 
-- (void)connectionDidDie:(NSNotification *)aNotification
-{
+- (void) connectionDidDie:(NSDictionary *)userInfo {
 	NSLog( @"NSConnection died" );
 }
 
@@ -79,12 +80,11 @@ static id singleton = nil;
 	return self;
 }
 
-- (void)startStopServer
-{
+- (void)startStopServer {
 	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlStartServerKey] boolValue];
 
 	// Setup notification server
-	if( enabled && !service ) {
+	if ( enabled && !service ) {
 		// turn on
 		NSSocketPort *socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
 		NSConnection *connection;
@@ -97,7 +97,7 @@ static id singleton = nil;
 		[connection setDelegate:self];
 
 		// register with the default NSPortNameServer on the local host
-		if( ![connection registerName:@"GrowlServer"] ) {
+		if ( ![connection registerName:@"GrowlServer"] ) {
 			NSLog( @"Could not register Growl server." );
 		}
 
@@ -137,11 +137,11 @@ static id singleton = nil;
 
 #pragma mark -
 
-- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
-{	
+- (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {	
+	BOOL retVal = NO;
 	NSString *pathExtension = [filename pathExtension];
 	
-	if( [pathExtension isEqualToString:@"growlView"] ) {
+	if ( [pathExtension isEqualToString:@"growlView"] ) {
 		[[GrowlPluginController controller] installPlugin:filename];
 		
 		[self _postGrowlIsReady];
@@ -162,7 +162,7 @@ static id singleton = nil;
 		//If growl is not enabled and was not already running before (for example, via an autolaunch even
 		//though the user's last preference setting was to click "Stop Growl," setting enabled to NO),
 		//quit having registered; otherwise, we will remain running
-		if( !growlIsEnabled &&  !growlFinishedLaunching) {
+		if ( !growlIsEnabled &&  !growlFinishedLaunching ) {
 			//We want to hold in this thread until we can lock/unlock the queue and
 			//ensure our registration is sent
 			[registrationLock lock]; [registrationLock unlock];
@@ -173,16 +173,15 @@ static id singleton = nil;
 			[self _postGrowlIsReady];	
 		}
 
-		return( YES );
+		retVal = YES;
 	}
 	
-	return( NO );
+	return retVal;
 }
 
 #pragma mark -
 
-- (void) dispatchNotification:(NSNotification *) note
-{
+- (void) dispatchNotification:(NSNotification *) note {
 	if ([self _tryLockQueue]) {
 		// It's unlocked. We can notify
 		[self dispatchNotificationWithDictionary:[note userInfo]];
@@ -193,8 +192,7 @@ static id singleton = nil;
 	}
 }
 
-- (void) dispatchNotificationWithDictionary:(NSDictionary *) dict
-{
+- (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
 	// Make sure this notification is actually registered
 	GrowlApplicationTicket *ticket = [tickets objectForKey:[dict objectForKey:GROWL_APP_NAME]];
 	if (!ticket || ![ticket isNotificationAllowed:[dict objectForKey:GROWL_NOTIFICATION_NAME]]) {
@@ -250,7 +248,7 @@ static id singleton = nil;
     
 	id <GrowlDisplayPlugin> display;
 
-	if([ticket usesCustomDisplay]) {
+	if ([ticket usesCustomDisplay]) {
 		display = [ticket displayPlugin];
 	} else {
 		display = displayController;
@@ -269,20 +267,20 @@ static id singleton = nil;
 
 - (void) preferencesChanged: (NSNotification *) note {
 	//[note object] is the changed key. A nil key means reload our tickets.	
-	if(note == nil || [[note object] isEqualTo:GrowlStartServerKey]) {
+	if (note == nil || [[note object] isEqualTo:GrowlStartServerKey]) {
 		[self startStopServer];
 	}
-	if(note == nil || [[note object] isEqualTo:GrowlUserDefaultsKey]) {
+	if (note == nil || [[note object] isEqualTo:GrowlUserDefaultsKey]) {
 		[[GrowlPreferences preferences] synchronize];
 	}
-	if(note == nil || [[note object] isEqualTo:GrowlEnabledKey]){
+	if (note == nil || [[note object] isEqualTo:GrowlEnabledKey]){
 		growlIsEnabled = [[[GrowlPreferences preferences] objectForKey:GrowlEnabledKey] boolValue];
 	}
-	if(note == nil || [note object] == nil) {
+	if (note == nil || [note object] == nil) {
 		[tickets removeAllObjects];
 		[self loadTickets];
 	}
-	if(note == nil || [[note object] isEqualTo:GrowlDisplayPluginKey]) {
+	if (note == nil || [[note object] isEqualTo:GrowlDisplayPluginKey]) {
 		[self loadDisplay];
 	}
 }
@@ -297,7 +295,6 @@ static id singleton = nil;
 
 #pragma mark NSApplication Delegate Methods
 - (void) applicationWillFinishLaunching:(NSNotification *)aNotification {
-//	BOOL dir;
 	NSFileManager *fs = [NSFileManager defaultManager];
 
 	NSString *destDir, *subDir;
@@ -338,7 +335,7 @@ static id singleton = nil;
 	NSImage *appIcon;
 	
 	NSData  *iconData = [userInfo objectForKey:GROWL_APP_ICON];
-	if(iconData) {
+	if (iconData) {
 		appIcon = [[[NSImage alloc] initWithData:iconData] autorelease];
 	} else {
 		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
@@ -370,6 +367,7 @@ static id singleton = nil;
 #pragma mark -
 
 @implementation GrowlController (private)
+
 - (void) loadDisplay {
 	NSString * displayPlugin = [[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey];
 	displayController = [[GrowlPluginController controller] displayPluginNamed:displayPlugin];
@@ -394,6 +392,7 @@ static id singleton = nil;
 	[notificationQueue removeAllObjects];
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
+	
 	while( (dict = [e nextObject] ) ) {
 		[self dispatchNotificationWithDictionary:dict];
 	}
@@ -404,6 +403,7 @@ static id singleton = nil;
 	[registrationQueue removeAllObjects];
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
+	
 	while( (dict = [e nextObject] ) ) {
 		[self _registerApplicationWithDictionary:dict];
 	}
