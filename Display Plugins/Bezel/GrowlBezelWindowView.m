@@ -115,6 +115,37 @@
 	
 	titleRect.size.height = titleSize.height;
 	[_title drawInRect:titleRect withAttributes:titleAttributes];
+	[_text drawInRect:NSMakeRect(8.0,19.0,143.0,34)];
+	
+	NSSize iconSize = [_icon size];
+	if ( iconSize.width > 48. || iconSize.height > 48. ) {
+		// scale the image appropiately
+		float newWidth, newHeight, newX, newY;
+		if ( iconSize.width > iconSize.height ) {
+			newWidth = 48.;
+			newHeight = 48. / iconSize.width * iconSize.height;
+		} else if( iconSize.width < iconSize.height ) {
+			newWidth = 48. / iconSize.height * iconSize.width;
+			newHeight = 48.;
+		} else {
+			newWidth = 48.;
+			newHeight = 48.;
+		}
+		
+		newX = floorf((48 - newWidth) / 2.);
+		newY = floorf((48 - newHeight) / 2.);
+		
+		NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
+		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
+		[_icon autorelease];
+		_icon = [[NSImage alloc] initWithSize:NSMakeSize(48., 48.)];
+		[_icon lockFocus];
+		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
+		[sourceImageRep drawInRect:newBounds];
+		[_icon unlockFocus];
+	}
+	
+	[_icon compositeToPoint:NSMakePoint( 57., 83. ) operation:NSCompositeSourceOver fraction:1.];
 }
 
 - (void)setIcon:(NSImage *)icon {
