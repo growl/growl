@@ -1,0 +1,29 @@
+0.6
+Bindings
+	- Java
+
+Prefpane
+	- Applications Tab
+		- Priority
+		- Sticky
+
+
+
+0.5 - Release
+Prefpane
+	- General Tab
+	- Applications Tab
+	- Display Options
+
+New Displays
+	- Bubbles
+	- Bezel
+
+Bindings
+	- AppleScript
+	- Carbon
+	- Cocoa
+	- Perl
+	- Python
+	- TCL
+	
