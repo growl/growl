@@ -44,6 +44,10 @@ static id _singleton = nil;
 															selector:@selector( preferencesChanged: )
 																name:GrowlPreferencesChanged
 															  object:nil];
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+															selector:@selector( shutdown: )
+																name:GROWL_SHUTDOWN
+															  object:nil];
 		_tickets = [[NSMutableDictionary alloc] init];
 		_registrationLock = [[NSLock alloc] init];
 		_notificationQueue = [[NSMutableArray alloc] init];
@@ -130,6 +134,21 @@ static id _singleton = nil;
 	[[_tickets allValues] makeObjectsPerformSelector:@selector(saveTicketToPath:) withObject:destDir];
 }
 
+- (void) preferencesChanged: (NSNotification *) note {
+	//[note object] is the changed key. A nil key means reload our tickets.
+	if(note == nil || [note object] == nil) {
+		[_tickets removeAllObjects];
+		[self loadTickets];
+	}
+	if(note == nil || [[note object] isEqualTo:GrowlDisplayPluginKey]) {
+		[self loadDisplay];
+	}
+}
+
+- (void) shutdown:(NSNotification *) note {
+	[NSApp terminate: nil];
+}
+
 #pragma mark NSApplication Delegate Methods
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
 //	BOOL dir;
@@ -171,17 +190,6 @@ static id _singleton = nil;
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) theApplication {
 	return NO;
-}
-
-- (void) preferencesChanged: (NSNotification *) note {
-	//[note object] is the changed key. A nil key means reload our tickets.
-	if(note == nil || [note object] == nil) {
-		[_tickets removeAllObjects];
-		[self loadTickets];
-	}
-	if(note == nil || [[note object] isEqualTo:GrowlDisplayPluginKey]) {
-		[self loadDisplay];
-	}
 }
 
 @end

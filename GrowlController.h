@@ -28,5 +28,7 @@
 
 - (void) preferencesChanged: (NSNotification *) note;
 
+- (void) shutdown:(NSNotification *) note;
+
 @end
 

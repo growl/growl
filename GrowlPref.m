@@ -94,8 +94,7 @@
 	if(!growlIsRunning) {
 		growlIsRunning = [[NSWorkspace sharedWorkspace] launchApplication:helperPath];
 	} else {
-		#warning There has *got* to be a better way to do this
-		system("killall GrowlHelperApp");
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
 		growlIsRunning = NO;
 	}
 	[self updateRunningStatus];
