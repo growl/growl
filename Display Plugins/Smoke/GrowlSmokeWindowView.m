@@ -43,13 +43,14 @@ static float titleHeight;
 
 - (void) drawRect:(NSRect)rect {
 	NSRect bounds = [self bounds];
+	NSRect frame  = [self frame];
 	
 	// clear the window
 	[[NSColor clearColor] set];
-	NSRectFill( [self frame] );
+	NSRectFill( frame );
 
 	// draw bezier path for rounded corners
-	unsigned sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding * 0.5f);
+	float sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding * 0.5f);
 
 	// calculate bounds based on icon-float pref on or off
 	NSRect shadedBounds;
@@ -76,12 +77,12 @@ static float titleHeight;
 
 	// fill clipped graphics context with our background colour
 	[bgColor set];
-	NSRectFill( [self frame] );
+	NSRectFill( frame );
 
 	// revert to unclipped graphics context
 	[graphicsContext restoreGraphicsState];
 
-	float notificationContentTop = [self frame].size.height - GrowlSmokePadding;
+	float notificationContentTop = frame.size.height - GrowlSmokePadding;
 
 	// build an appropriate colour for the text
 	//NSColor *textColour = [NSColor whiteColor];
@@ -113,7 +114,7 @@ static float titleHeight;
 	// add shadow to both attributes
 	if (pantherOrLater) {
 		[descriptionAttributes setObject:textShadow forKey:NSShadowAttributeName];
-		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
+		[titleAttributes       setObject:textShadow forKey:NSShadowAttributeName];
 	}
 
 	// draw the title and the text
