@@ -39,6 +39,9 @@
 
 - (void) _stopTimer;
 - (void) _waitBeforeFadeOut;
+
+- (void) _fadeIn:(NSTimer *)inTimer;
+- (void) _fadeOut:(NSTimer *)inTimer;
 @end
 
 @interface NSObject (FadingWindowControllerDelegate)

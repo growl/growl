@@ -9,6 +9,7 @@
 #import "GrowlBezelWindowController.h"
 #import "GrowlBezelWindowView.h"
 #import "NSGrowlAdditions.h"
+#import "NSWindow+Transforms.h"
 
 @implementation GrowlBezelWindowController
 
@@ -51,7 +52,7 @@
 	[panel setCanHide:NO];
 	[panel setReleasedWhenClosed:YES];
 	[panel setDelegate:self];
-	
+
 	GrowlBezelWindowView *view = [[[GrowlBezelWindowView alloc] initWithFrame:panelFrame] autorelease];
 	
 	[view setTarget:self];
@@ -109,6 +110,10 @@
 		appName = nil;
 		displayTime = MIN_DISPLAY_TIME;
 		priority = prio;
+		delegate = self;
+		scaleFactor = 1.0;
+		fadeIncrement = 0.04f;
+		timerInterval = 0.01;
 	}
 
 	return self;
@@ -180,6 +185,21 @@
 - (void) setClickContext:(id)inClickContext {
 	[clickContext autorelease];
 	clickContext = [inClickContext retain];
+}
+
+#pragma mark -
+
+- (void) willFadeOut:(id)sender {
+	scaleFactor = 1.0;
+}
+
+- (void) _fadeOut:(NSTimer *)timer {
+	NSWindow *myWindow = [self window];
+	scaleFactor -= 0.02;
+	if ( scaleFactor > 0.0 ) {
+		[myWindow scaleX:scaleFactor Y:scaleFactor];
+	}
+	[super _fadeOut:timer];
 }
 
 @end

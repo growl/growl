@@ -14,6 +14,7 @@
 	int				priority;
 	NSString		*appName;
 	id				clickContext;
+	double		scaleFactor;
 }
 
 + (GrowlBezelWindowController *) bezel;
@@ -36,5 +37,8 @@
 
 - (id) clickContext;
 - (void) setClickContext:(id) clickContext;
+
+- (void) willFadeOut:(id)sender;
+- (void) _fadeOut:(NSTimer *)timer;
 
 @end

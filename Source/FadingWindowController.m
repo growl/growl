@@ -75,7 +75,7 @@
 	}
 }
 
-- (void)startFadeIn {
+- (void) startFadeIn {
 	if ( delegate && [delegate respondsToSelector:@selector( willFadeIn: )] ) {
 		[delegate willFadeIn:self];
 	}
@@ -98,7 +98,7 @@
 	}
 }
 
-- (void)startFadeOut {
+- (void) startFadeOut {
 	if ( delegate && [delegate respondsToSelector:@selector( willFadeOut: )] ) {
 		[delegate willFadeOut:self];
 	}

@@ -2107,6 +2107,8 @@
 				3433458C0790E3D600C84B15,
 				3433458D0790E3D600C84B15,
 				CB5C315107925B53007CC0D0,
+				95EF059F07C77C1500218584,
+				95EF05A007C77C1500218584,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3686,6 +3688,51 @@
 			settings = {
 			};
 		};
+		95EF04F207C77C1500218584 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = CoreGraphicsServices.h;
+			path = Source/CoreGraphicsServices.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95EF051B07C77C1500218584 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "NSWindow+Transforms.h";
+			path = "Source/NSWindow+Transforms.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95EF054407C77C1500218584 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = "NSWindow+Transforms.m";
+			path = "Source/NSWindow+Transforms.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95EF059F07C77C1500218584 = {
+			fileRef = 95EF04F207C77C1500218584;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95EF05A007C77C1500218584 = {
+			fileRef = 95EF051B07C77C1500218584;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95EF05A107C77C1500218584 = {
+			fileRef = 95EF054407C77C1500218584;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //950
 //951
 //952
@@ -3950,6 +3997,7 @@
 				956ADB0207551C4500AF9545,
 				3434E8EA0790D6E600A97A48,
 				CB5C315C07925B53007CC0D0,
+				95EF05A107C77C1500218584,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4098,6 +4146,9 @@
 		};
 		CB9E3AE80792679400F8937E = {
 			children = (
+				95EF04F207C77C1500218584,
+				95EF051B07C77C1500218584,
+				95EF054407C77C1500218584,
 				956ADAD007551C4500AF9545,
 				956ADAD507551C4500AF9545,
 				956ADADA07551C4500AF9545,
