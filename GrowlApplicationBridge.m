@@ -34,7 +34,7 @@ Returns NO (FALSE) and performs no other action if the Growl prefPane is not pro
 GrowlApplicationBridge will send "selector" to "target" when Growl is ready for use (this will only occur when it also returns YES).
 	Note: selector should take a single argument; this is to allow applications to have context-relevent information passed back. It is perfectly
 	acceptable for context to be NULL.
-Passing registrationDict, which is an NSDictionary* for registering the application with Growl (see documentation elsewhere)
+Passing registrationDict, which is an NSDictionary *for registering the application with Growl (see documentation elsewhere)
 	is the preferred way to register.  If Growl is installed but disabled, the application will be registered and GrowlHelperApp
 	will then quit.  "selector" will never be sent to "target" if Growl is installed but disabled; this method will still
 	return YES.
@@ -120,7 +120,7 @@ static NSMutableArray *targetsToNotifyArray = nil;
 		FSRef appRef;
 		OSStatus status = FSPathMakeRef([growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
 		if (status == noErr) {
-			FSRef *regItemRefs = malloc(sizeof(FSRef));
+			FSRef regItemRef;
 			BOOL passRegDict = NO;
 			
 			if (registrationDict) {
@@ -135,24 +135,29 @@ static NSMutableArray *targetsToNotifyArray = nil;
 				regDictPath = [NSTemporaryDirectory() stringByAppendingPathComponent:regDictFileName];
 				[registrationDict writeToFile:regDictPath atomically:NO];
 				
-				regStatus = FSPathMakeRef([regDictPath fileSystemRepresentation], &regItemRefs[0], NULL);
+				regStatus = FSPathMakeRef([regDictPath fileSystemRepresentation], &regItemRef, NULL);
 				if (regStatus == noErr) passRegDict = YES;
 			}
 
 			spec.appRef = &appRef;
 			spec.numDocs = (passRegDict ? 1 :0);
-			spec.itemRefs = (passRegDict ? regItemRefs : NULL);
+			spec.itemRefs = (passRegDict ? &regItemRef : NULL);
 			spec.passThruParams = NULL;
 			spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
 			spec.asyncRefCon = NULL;
 			status = LSOpenFromRefSpec( &spec, NULL );
-
-			free(regItemRefs);
 		}
 		success = (status == noErr);
 	}
 	
 	return success;
+}
+//Compatibility method. Do not use. If you're already using it, switch to the above method.
++ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context {
+	return [self launchGrowlIfInstalledNotifyingTarget:target
+											  selector:selector
+											   context:context
+									  registrationDict:nil];
 }
 
 + (BOOL)isGrowlRunning {

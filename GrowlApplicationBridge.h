@@ -34,10 +34,22 @@
 }
 
 /*!
-	@method launchGrowlIfInstalledNotifyingTarget:selector:context:
+@method launchGrowlIfInstalledNotifyingTarget:selector:context:registrationDict:
 	@abstract Launches GrowlHelperApp and notifies when Growl is ready
 	@discussion Launches the GrowlHelperApp if it's not already running and notifies the target when 
 	Growl is ready to receive notifications.
+	@param target The target to notify
+	@param selector The selector to call on target (this should take a single argument)
+	@param context A context object to pass through to the selector
+	@param registrationDict The userInfo dictionary for a GROWL_APP_REGISTRATION notification, for registering atomically
+	@result Returns YES if GrowlHelperApp began launching, NO if Growl isn't installed
+ */
++ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict;
+
+	/*!
+@method launchGrowlIfInstalledNotifyingTarget:selector:context:
+	@abstract Compatibility method.
+	@discussion Deprecated; switch to launchGrowlIfInstalledNotifyingTarget:selector:context:registrationDict:, which does the same thing and more.
 	@param target The target to notify
 	@param selector The selector to call on target (this should take a single argument)
 	@param context A context object to pass through to the selector
