@@ -341,6 +341,9 @@ static BOOL				promptedToUpgradeGrowl = NO;
 															   name:GROWL_IS_READY
 															 object:nil];
 
+	//register (fixes #102: this is necessary if we got here by Growl having just been installed)
+	[self reregisterGrowlNotifications];
+
 	//Perform any queued notifications
 	NSEnumerator *enumerator;
 	NSDictionary *noteDict;
