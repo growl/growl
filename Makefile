@@ -5,11 +5,14 @@ GROWL_FRAMEWORK=GrowlAppBridge.framework
 BUILD_DIR=build
 GROWL_HELPER_APP=$(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)/Contents/Resources/GrowlHelperApp.app
 
+#DEFAULT_BUILDSTYLE=Deployment
+DEFAULT_BUILDSTYLE=Development
+
 CP=ditto --rsrc
 RM=rm
 
 default: growlappbridge
-	xcodebuild -project Growl.xcode -target Growl -buildstyle Deployment build
+	xcodebuild -project Growl.xcode -target Growl -buildstyle $(DEFAULT_BUILDSTYLE) build
 
 all: growlappbridge
 	xcodebuild -project Growl.xcode -alltargets -buildstyle Deployment build
