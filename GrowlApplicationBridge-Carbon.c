@@ -43,7 +43,7 @@ static const CFOptionFlags bundleIDComparisonFlags = kCFCompareCaseInsensitive |
 
 static CFMutableArrayRef targetsToNotifyArray = NULL;
 
-struct Growl_Delegate *delegate = NULL;
+static struct Growl_Delegate *delegate = NULL;
 
 /*NSLog is part of Foundation, and expects an NSString.
  *thanks to toll-free bridging, we can simply declare it like this, and use it
