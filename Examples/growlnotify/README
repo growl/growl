@@ -3,4 +3,9 @@ growlnotify is a command-line app for triggering Growl notifications.
 usage:
 growlnotify TITLE
 
-the description is read from stdin.
+the description is read from stdin. growlnotify does not currently support notification icons or sticky notifications.
+
+installation:
+first build it: xcodebuild build -buildstyle Deployment
+then install it: xcodebuild install
+both of these assume that the growlnotify source directory is your working directory.

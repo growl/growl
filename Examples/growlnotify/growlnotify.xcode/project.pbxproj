@@ -78,6 +78,39 @@
 			settings = {
 			};
 		};
+		07E246250732270700181E6B = {
+			children = (
+				07E246280732272300181E6B,
+			);
+			isa = PBXGroup;
+			name = Documentation;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07E246280732272300181E6B = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.man;
+			path = growlnotify.1;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07E2462B073227C100181E6B = {
+			buildActionMask = 8;
+			dstPath = /usr/local/share/man/man1;
+			dstSubfolderSpec = 0;
+			files = (
+				07E2462D073227E000181E6B,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		07E2462D073227E000181E6B = {
+			fileRef = 07E246280732272300181E6B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //070
 //071
 //072
@@ -105,6 +138,7 @@
 		};
 		08FB7794FE84155DC02AAC07 = {
 			children = (
+				07E246250732270700181E6B,
 				07C7692606831F1D0025D426,
 				08FB7795FE84155DC02AAC07,
 				08FB779DFE84155DC02AAC07,
@@ -205,6 +239,7 @@
 				8DD76F990486AA7600D96B5E,
 				8DD76F9B0486AA7600D96B5E,
 				8DD76F9D0486AA7600D96B5E,
+				07E2462B073227C100181E6B,
 			);
 			buildRules = (
 			);

@@ -1,0 +1,21 @@
+.Dd 2004-10-29           \" DATE 
+.Dt growlnotify 1      \" Program name and manual section number 
+.Os Darwin
+.Sh NAME                 \" Section Header - required - don't modify 
+.Nm growlnotify
+.Nd send a notification to Growl
+.Sh SYNOPSIS             \" Section Header - required - don't modify
+.Nm
+.Ar title                \" Underlined argument - use .Ar anywhere to underline
+.Sh DESCRIPTION          \" Section Header - required - don't modify
+.Nm
+posts a distributed notification intended to be received by Growl, with a title supplied on the command line, and a description read from stdin.
+.Pp                      \" Inserts a space
+.Sh SEE ALSO 
+.\" List links in ascending order by section, alphabetically within a section.
+.\" Please do not reference files that do not exist without filing a bug report
+.Xr stdin 4
+.Sh BUGS              \" Document known, unremedied bugs 
+Currently does not support notification icons or sticky notifications.
+.Sh HISTORY           \" Document history if command behaves in a unique manner 
+First appeared as an example for Growl 0.5.
