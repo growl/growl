@@ -132,7 +132,6 @@
 	float newValue = [sender floatValue];
 	WRITE_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, newValue, GrowlBrushedPrefDomain);
 	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", newValue]];
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
@@ -171,27 +170,23 @@
 
     // NSLog(@"color: %@ array: %@", color, array);
 	
-    SYNCHRONIZE_GROWL_PREFS();
     UPDATE_GROWL_PREFS();
 }
 
 - (IBAction) floatIconSwitchChanged:(id)sender {
 	BOOL pref = ([sender state] == NSOnState);
 	WRITE_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, pref, GrowlBrushedPrefDomain);	
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
 - (IBAction) setLimit:(id)sender {
 	WRITE_GROWL_PREF_BOOL(GrowlBrushedLimitPref, ([sender state] == NSOnState), GrowlBrushedPrefDomain);
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
 - (IBAction) setAqua:(id)sender {
 	BOOL pref = ([sender state] == NSOnState);
 	WRITE_GROWL_PREF_BOOL(GrowlBrushedAquaPref, pref, GrowlBrushedPrefDomain);	
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 

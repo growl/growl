@@ -51,7 +51,6 @@
 	if ( -1 != row ) {
 		NSString *voice = [voices objectAtIndex:row];
 		WRITE_GROWL_PREF_VALUE(GrowlSpeechVoicePref, (CFStringRef)voice, GrowlSpeechPrefDomain );
-		SYNCHRONIZE_GROWL_PREFS();
 		UPDATE_GROWL_PREFS();
 	}
 }

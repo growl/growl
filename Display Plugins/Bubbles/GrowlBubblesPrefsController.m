@@ -76,7 +76,6 @@
 
 - (IBAction) setLimit:(id)sender {
 	WRITE_GROWL_PREF_BOOL(KALimitPref, ([sender state] == NSOnState), GrowlBubblesPrefDomain);
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
@@ -84,7 +83,6 @@
 	float opacityPref = [sender floatValue];
 	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", (int)floorf(opacityPref * 100.0f)]];
 	WRITE_GROWL_PREF_FLOAT(GrowlBubblesOpacity, opacityPref, GrowlBubblesPrefDomain);
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
@@ -92,7 +90,6 @@
 	float durationPref = [sender floatValue];
 	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
 	WRITE_GROWL_PREF_FLOAT(GrowlBubblesDuration, durationPref, GrowlBubblesPrefDomain);
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
@@ -129,7 +126,6 @@
 		nil];
 	WRITE_GROWL_PREF_VALUE(key, array, GrowlBubblesPrefDomain);
 
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
@@ -169,7 +165,6 @@
 
 	//NSLog(@"color: %@ array: %@", color, array);
 
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
@@ -207,7 +202,6 @@
 
 	//NSLog(@"color: %@ array: %@", color, array);
 
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 

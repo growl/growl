@@ -132,7 +132,6 @@
 			[fileType selectCellAtRow:1 column:0];
 		}
 		
-		SYNCHRONIZE_GROWL_PREFS();
 		UPDATE_GROWL_PREFS();
 
 		[self updatePopupMenu];

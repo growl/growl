@@ -198,7 +198,6 @@
 	float newValue = [sender floatValue];
 	WRITE_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, newValue, GrowlSmokePrefDomain);
 	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", (int)floorf(newValue * 100.0f)]];
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
@@ -206,7 +205,6 @@
 	float newValue = [sender floatValue];
 	WRITE_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, newValue, GrowlSmokePrefDomain);
 	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", newValue]];
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
@@ -246,7 +244,6 @@
 
 	// NSLog(@"color: %@ array: %@", color, array);
 
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
@@ -286,20 +283,17 @@
 
 	// NSLog(@"color: %@ array: %@", color, array);
 	
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
 -(IBAction) floatIconSwitchChanged:(id)sender {
 	BOOL pref = ([floatIconSwitch state] == NSOnState);
 	WRITE_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, pref, GrowlSmokePrefDomain);	
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
 - (IBAction) setLimit:(id)sender {
 	WRITE_GROWL_PREF_BOOL(GrowlSmokeLimitPref, ([sender state] == NSOnState), GrowlSmokePrefDomain);
-	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
