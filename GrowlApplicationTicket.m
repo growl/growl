@@ -137,10 +137,12 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		
 		if ( (!isDir) && [[filename pathExtension] isEqualToString:@"growlTicket"] ) {
 			GrowlApplicationTicket *newTicket = [[self alloc] initTicketFromPath:filename];
-			NSString *applicationName = [newTicket applicationName];
+			if(newTicket) {
+				NSString *applicationName = [newTicket applicationName];
 
-			if ( clobber || ![dict objectForKey:applicationName] ) {
-				[dict setObject:newTicket forKey:applicationName];
+				if ( clobber || ![dict objectForKey:applicationName] ) {
+					[dict setObject:newTicket forKey:applicationName];
+				}
 				[newTicket release];
 			}
 		}
@@ -294,7 +296,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	if (icon) {
 		return icon;
 	}
-	NSImage* genericIcon = [[NSWorkspace sharedWorkspace] iconForFileType: NSFileTypeForHFSTypeCode(kGenericApplicationIcon)];
+	NSImage *genericIcon = [[NSWorkspace sharedWorkspace] iconForFileType: NSFileTypeForHFSTypeCode(kGenericApplicationIcon)];
 	[genericIcon setSize:NSMakeSize(128.0f, 128.0f)];
 	return genericIcon;
 
@@ -349,9 +351,9 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		//We want to respect the user's preferences, but if the application has
 		//added new notifications since it last registered, we want to enable those
 		//if the application says to.
-		NSEnumerator		* enumerator;
-		NSString			* note;
-		NSMutableDictionary * allNotesCopy = [[allNotifications mutableCopy] autorelease];
+		NSEnumerator		*enumerator;
+		NSString			*note;
+		NSMutableDictionary *allNotesCopy = [[allNotifications mutableCopy] autorelease];
 		
 		enumerator = [inDefaults objectEnumerator];
 		while ( (note = [enumerator nextObject] ) ) {
