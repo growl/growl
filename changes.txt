@@ -1,3 +1,17 @@
+0.6.2
+
+General
+- Resolved an issue where the version update button would crash System Preferences. See ticket http://trac.growl.info/trac/ticket/8
+- Smoke was defaulting to 0 percent opacity, making it unreadable. Resolved this issue, and defaulted it to 75%. See ticket http://trac.growl.info/trac/ticket/79
+
+Developers and Scripters
+- Carbon
+	- Resolved an issue where Growl_SetDelegate would return success even if the registrationDictionary is not filled out. Thanks to Kent Sorensen (Snak) for finding this problem. See ticket http://trac.growl.info/trac/ticket/80
+- Perl
+	- Resolved problems with the Perl bindings in regards to Mac::Glue tests. See ticket http://trac.growl.info/trac/ticket/47
+	- Updated the Perl bindings. See ticket http://trac.growl.info/trac/ticket/53 for more information.
+
+
 0.6.1
 
 - Resolved issue with the framework installed with Growl. Thanks to Timothy Hatcher to finding this issue.
