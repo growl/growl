@@ -1,9 +1,9 @@
 //
-//  GrowlApplicationBridge-Carbon.c
+//  GrowlAppBridge-Carbon.c
 //  Beep-Carbon
 //
 //  Created by Mac-arena the Bored Zo on Wed Jun 18 2004.
-//  Based on GrowlApplicationBridge.m by Evan Schoenberg.
+//  Based on GrowlAppBridge.m by Evan Schoenberg.
 //  This source code is in the public domain. You may freely link it into any
 //    program.
 //
