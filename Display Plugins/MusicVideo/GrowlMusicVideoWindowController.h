@@ -27,7 +27,7 @@
 + (GrowlMusicVideoWindowController *)musicVideoWithTitle:(NSString *)title text:(id)text
 		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 
-- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
+- (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 
 - (void)startFadeIn;
 - (void)startFadeOut;

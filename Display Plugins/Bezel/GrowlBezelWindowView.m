@@ -34,12 +34,7 @@
 	[_icon release];
 	[_title release];
 	[_text release];
-	
-	_icon = nil;
-	_title = nil;
-	_text = nil;
-	_target = nil;
-	
+
 	[super dealloc];
 }
 
@@ -55,32 +50,32 @@
 
 	[bezelPath appendBezierPathWithArcWithCenter:NSMakePoint(topLeft.x + BORDER_RADIUS, topLeft.y + BORDER_RADIUS)
 			radius:BORDER_RADIUS
-			startAngle:180
-			endAngle:270
+			startAngle:180.f
+			endAngle:270.f
 			clockwise:NO];
 	[bezelPath lineToPoint:NSMakePoint(topRight.x - BORDER_RADIUS, topRight.y)];
 	
 	[bezelPath appendBezierPathWithArcWithCenter:NSMakePoint(topRight.x - BORDER_RADIUS, topRight.y + BORDER_RADIUS)
 			radius:BORDER_RADIUS
-			startAngle:270
-			endAngle:0
+			startAngle:270.f
+			endAngle:0.f
 			clockwise:NO];
 	[bezelPath lineToPoint:NSMakePoint(bottomRight.x, bottomRight.y - BORDER_RADIUS)];
 	
 	[bezelPath appendBezierPathWithArcWithCenter:NSMakePoint(bottomRight.x - BORDER_RADIUS, bottomRight.y - BORDER_RADIUS)
 			radius:BORDER_RADIUS
-			startAngle:0
-			endAngle:90
+			startAngle:0.f
+			endAngle:90.f
 			clockwise:NO];
 	[bezelPath lineToPoint:NSMakePoint(bottomLeft.x + BORDER_RADIUS, bottomLeft.y)];
 	
 	[bezelPath appendBezierPathWithArcWithCenter:NSMakePoint(bottomLeft.x + BORDER_RADIUS, bottomLeft.y - BORDER_RADIUS)
 			radius:BORDER_RADIUS
-			startAngle:90
-			endAngle:180
+			startAngle:90.f
+			endAngle:180.f
 			clockwise:NO];
 	[bezelPath lineToPoint:NSMakePoint(topLeft.x, topLeft.y + BORDER_RADIUS)];
-	
+
 	int opacityPref = 40;
 	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
 	
@@ -253,9 +248,8 @@
 }
 
 - (float)descriptionHeight:(NSAttributedString *)text inRect:(NSRect)theRect {
-	
-	if (_textHeight == 0)
-	{
+
+	if (_textHeight == 0) {
 		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:text];
 		NSTextContainer* textContainer = [[[NSTextContainer alloc]
 			initWithContainerSize:NSMakeSize(NSWidth(theRect),NSHeight(theRect)+1000.f)] autorelease];

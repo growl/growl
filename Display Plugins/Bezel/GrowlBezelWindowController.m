@@ -21,12 +21,12 @@
 	return [[[self alloc] init] autorelease];
 }
 
-+ (GrowlBezelWindowController *)bezelWithTitle:(NSString *)title text:(id)text
++ (GrowlBezelWindowController *)bezelWithTitle:(NSString *)title text:(NSString *)text
 		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
 	return [[[self alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky] autorelease];
 }
 
-- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
+- (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
 	int sizePref = 0;
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 	NSRect sizeRect;
@@ -64,23 +64,13 @@
 	
 	[view setTitle:title];
 	NSMutableString	*tempText = [[[NSMutableString alloc] init] autorelease];
-	if ( [text isKindOfClass:[NSString class]] ) {
-		// Sanity check to unify line endings
-		[tempText setString:text];
-		[tempText replaceOccurrencesOfString:@"\r"
-				withString:@"\n"
-				options:nil
-				range:NSMakeRange(0, [tempText length])];
-		[view setText:tempText];
-	} else if ( [text isKindOfClass:[NSAttributedString class]] ) {
-		// Sanity check to unify line endings
-		[tempText setString:[text string]];
-		[tempText replaceOccurrencesOfString:@"\r"
-				withString:@"\n"
-				options:nil
-				range:NSMakeRange(0, [tempText length])];
-		[view setText:tempText]; // striping any attributes!! eat eat!
-	}
+	// Sanity check to unify line endings
+	[tempText setString:text];
+	[tempText replaceOccurrencesOfString:@"\r"
+			withString:@"\n"
+			options:nil
+			range:NSMakeRange(0, [tempText length])];
+	[view setText:tempText];
 	
 	[view setIcon:icon];
 	panelFrame = [view frame];

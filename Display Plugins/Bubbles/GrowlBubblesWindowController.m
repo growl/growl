@@ -112,13 +112,10 @@ static unsigned int bubbleWindowDepth = 0;
 	[_animationTimer invalidate];
 	[_animationTimer release];
 
-	_target = nil;
-	_representedObject = nil;
-	_delegate = nil;
-	_animationTimer = nil;
-
 	extern unsigned int bubbleWindowDepth;
-	if( _depth == bubbleWindowDepth ) bubbleWindowDepth = 0;
+	if( _depth == bubbleWindowDepth ) {
+		bubbleWindowDepth = 0;
+	}
 
 	[super dealloc];
 }
