@@ -8,7 +8,6 @@
 
 /*
  *  To do:
- *		- pass context info to Growl for event filtering (not a DN registration)
  *		- change the name of GrowlHelperApp to just Growl, so you can 'tell application "Growl"'
  */
 
@@ -108,15 +107,15 @@
 	return nil;
 }
 
-- (void) setError:(int) errorCode
+- (void)setError:(int)errorCode
 {
 	[self setError:errorCode failure:nil];
 }
 
-- (void) setError:(int) errorCode failure:(id) failure
+- (void)setError:(int)errorCode failure:(id)failure
 {
 	[self setScriptErrorNumber:errorCode];
-	NSString* str = nil;
+	NSString* str;
 	switch (errorCode) {
 		case ERROR_EXCEPTION:
 			str = [NSString stringWithFormat:@"Exception raised while processing: %@", failure];
@@ -127,9 +126,12 @@
 		case ERROR_ICON_OF_FILE_PATH_INVALID:
 			str = @"'image from URL' parameter value must start with 'file:///'";
 			break;
+		default:
+			str = nil;
 	}
-	if (str != nil)
+	if (str != nil) {
 		[self setScriptErrorString:str];
+	}
 }
 
 @end

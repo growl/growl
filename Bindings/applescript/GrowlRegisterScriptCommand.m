@@ -55,22 +55,25 @@
 	return nil;
 }
 
-- (void) setError:(int) errorCode
+- (void)setError:(int)errorCode
 {
 	[self setError:errorCode failure:nil];
 }
 
-- (void) setError:(int) errorCode failure:(id) failure
+- (void)setError:(int)errorCode failure:(id)failure
 {
 	[self setScriptErrorNumber:errorCode];
-	NSString* str = nil;
+	NSString* str;
 	switch (errorCode) {
 		case ERROR_EXCEPTION:
 			str = [NSString stringWithFormat:@"Exception raised while processing: %@", failure];
 			break;
+		default:
+			str = nil;
 	}
-	if (str != nil)
+	if (str != nil) {
 		[self setScriptErrorString:str];
+	}
 }
 
 @end
