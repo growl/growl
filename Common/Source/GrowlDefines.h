@@ -164,7 +164,8 @@
 
 //add documentation comments
 #define GROWL_NOTIFICATION_FORCE_APP_LINK	XSTR("NotificationForceAppLink")
-#define GROWL_NOTIFICATION_LINKS		XSTR("NotificationLinks")
+#define GROWL_NOTIFICATION_LINKS			XSTR("NotificationLinks")
+#define GROWL_DISPLAY_PLUGIN				XSTR("NotificationDisplayPlugin")
 
 // Notifications
 #pragma mark Notifications

@@ -7,37 +7,48 @@
 //
 
 #import "GrowlApplicationNotification.h"
-
+#import "GrowlPluginController.h"
+#import "GrowlDisplayProtocol.h"
 
 @implementation GrowlApplicationNotification
-+ (GrowlApplicationNotification*) notificationWithName:(NSString*)theName {
-	return [[[GrowlApplicationNotification alloc] initWithName:theName priority:GP_unset enabled:YES sticky:NSMixedState] autorelease];
++ (GrowlApplicationNotification *) notificationWithName:(NSString *)theName {
+	return [[[GrowlApplicationNotification alloc] initWithName:theName priority:GP_unset enabled:YES sticky:NSMixedState displayPlugin:nil] autorelease];
 }
 
-+ (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict {
-	NSString* inName = [dict objectForKey:@"Name"];
++ (GrowlApplicationNotification *) notificationFromDict:(NSDictionary *)dict {
+	NSString *inName = [dict objectForKey:@"Name"];
 	GrowlPriority inPriority;
-	if ([dict objectForKey:@"Priority"]) {
-		inPriority = [[dict objectForKey:@"Priority"] intValue];
+	id value = [dict objectForKey:@"Priority"];
+	if (value) {
+		inPriority = [value intValue];
 	} else {
 		inPriority = GP_unset;
 	}
 	BOOL inEnabled = [[dict objectForKey:@"Enabled"] boolValue];
-	int inSticky = ([[dict objectForKey:@"Sticky"] intValue] >= 0 ? ([[dict objectForKey:@"Sticky"] intValue] > 0 ? NSOnState : NSOffState) : NSMixedState);
-	return [[[GrowlApplicationNotification alloc] initWithName:inName priority:inPriority enabled:inEnabled sticky:inSticky] autorelease];
+	int inSticky = [[dict objectForKey:@"Sticky"] intValue];
+	inSticky = (inSticky >= 0 ? (inSticky > 0 ? NSOnState : NSOffState) : NSMixedState);
+	NSString *displayPluginName = [dict objectForKey:@"Display"];
+	id <GrowlDisplayPlugin> inDisplay;
+	if (displayPluginName) {
+		inDisplay = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
+	} else {
+		inDisplay = nil;
+	}
+	return [[[GrowlApplicationNotification alloc] initWithName:inName priority:inPriority enabled:inEnabled sticky:inSticky displayPlugin:inDisplay] autorelease];
 }
 
-- (GrowlApplicationNotification*) initWithName:(NSString*)inName priority:(GrowlPriority)inPriority enabled:(BOOL)inEnabled sticky:(int)inSticky {
-	if ( (self = [super init] ) ) {
+- (GrowlApplicationNotification *) initWithName:(NSString*)inName priority:(GrowlPriority)inPriority enabled:(BOOL)inEnabled sticky:(int)inSticky displayPlugin:(id <GrowlDisplayPlugin>)display {
+	if ((self = [super init])) {
 		name = [inName retain];
 		priority = inPriority;
 		enabled = inEnabled;
 		sticky = inSticky;
+		displayPlugin = display;
 	}
 	return self;
 }
 
-- (NSDictionary*) notificationAsDict {
+- (NSDictionary *) notificationAsDict {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		name, @"Name",
 		[NSNumber numberWithBool:enabled], @"Enabled",
@@ -45,6 +56,10 @@
 		nil];
 	if (priority != GP_unset) {
 		[dict setObject:[NSNumber numberWithInt:priority] forKey:@"Priority"];
+	}
+	NSString *displayPluginName = [displayPlugin name];
+	if (displayPluginName) {
+		[dict setObject:displayPluginName forKey:@"Display"];
 	}
 	return dict;
 }
@@ -55,7 +70,7 @@
 }
 
 #pragma mark -
-- (NSString*) name {
+- (NSString *) name {
 	return [[name retain] autorelease];
 }
 
@@ -94,5 +109,16 @@
 - (void) setSticky:(int)value {
 	sticky = value;
 }
-@end
 
+- (id <GrowlDisplayPlugin>) displayPlugin {
+	return displayPlugin;
+}
+
+- (void) setDisplayPluginNamed: (NSString *)displayPluginName {
+	if (displayPluginName) {
+		displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
+	} else {
+		displayPlugin = nil;
+	}
+}
+@end

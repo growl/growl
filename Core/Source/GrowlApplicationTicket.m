@@ -16,7 +16,6 @@
 
 #define UseDefaultsKey			@"useDefaults"
 #define TicketEnabledKey		@"ticketEnabled"
-#define UsesCustomDisplayKey	@"usesCustomDisplay"
 
 #pragma mark -
 
@@ -163,13 +162,6 @@
 			ticketEnabled = YES;
 		}
 
-		value = [ticketDict objectForKey:UsesCustomDisplayKey];
-		if (value) {
-			usesCustomDisplay = [value boolValue];
-		} else {
-			usesCustomDisplay = NO;
-		}
-
 		value = [ticketDict objectForKey:GrowlDisplayPluginKey];
 		if (value) {
 			[self setDisplayPluginNamed:value];
@@ -254,7 +246,6 @@
 		location, GROWL_APP_LOCATION,
 		[NSNumber numberWithBool:useDefaults], UseDefaultsKey,
 		[NSNumber numberWithBool:ticketEnabled], TicketEnabledKey,
-		[NSNumber numberWithBool:usesCustomDisplay], UsesCustomDisplayKey,
 		nil];
 	NSString *displayPluginName = [displayPlugin name];
 	if (displayPluginName) {
@@ -304,20 +295,16 @@
 	ticketEnabled = inEnabled;
 }
 
-- (BOOL)usesCustomDisplay {
-	return usesCustomDisplay;
-}
-
-- (void)setUsesCustomDisplay: (BOOL)inUsesCustomDisplay {
-	usesCustomDisplay = inUsesCustomDisplay;
-}
-
 - (id <GrowlDisplayPlugin>) displayPlugin {
 	return displayPlugin;
 }
 
 - (void) setDisplayPluginNamed: (NSString *)name {
-	displayPlugin = [[GrowlPluginController controller] displayPluginNamed:name];
+	if (name) {
+		displayPlugin = [[GrowlPluginController controller] displayPluginNamed:name];
+	} else {
+		displayPlugin = nil;
+	}
 }
 
 #pragma mark -
@@ -602,5 +589,12 @@
 - (void) resetPriorityForNotification:(NSString *) name {
 	[[allNotifications objectForKey:name] resetPriority];
 }
-@end
 
+- (id <GrowlDisplayPlugin>) displayPluginForNotification:(NSString *)name {
+	return [[allNotifications objectForKey:name] displayPlugin];
+}
+
+- (void) setDisplayPluginNamed:(NSString *)displayPluginName forNotification:(NSString *)name {
+	[[allNotifications objectForKey:name] setDisplayPluginNamed:displayPluginName];
+}
+@end

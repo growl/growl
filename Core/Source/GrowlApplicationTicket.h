@@ -21,10 +21,9 @@
 	NSArray			*allNotificationNames;		// Keys of allNotifications, in the order in which they were originally passed
 
 	NSArray			*defaultNotifications;		// The default notifications
-	
-	BOOL			usesCustomDisplay;
-	id <GrowlDisplayPlugin> displayPlugin;
-	
+
+	id <GrowlDisplayPlugin> displayPlugin;		// Non-nil if this ticket uses a custom display plugin
+
 	BOOL			useDefaults;				// Flag for whether this ticket just uses default
 	BOOL			ticketEnabled;
 }
@@ -59,9 +58,6 @@
 - (BOOL) ticketEnabled;
 - (void) setEnabled:(BOOL)inEnabled;
 
-- (BOOL) usesCustomDisplay;
-- (void) setUsesCustomDisplay: (BOOL)inUsesCustomDisplay;
-
 - (id <GrowlDisplayPlugin>) displayPlugin;
 - (void) setDisplayPluginNamed: (NSString *)name;
 
@@ -94,5 +90,7 @@
 - (int) priorityForNotification:(NSString *) name;
 - (void) setPriority:(int)priority forNotification:(NSString *) name;
 - (void) resetPriorityForNotification:(NSString *) name;
-@end
 
+- (id <GrowlDisplayPlugin>) displayPluginForNotification:(NSString *)name;
+- (void) setDisplayPluginNamed:(NSString *)displayPluginName forNotification:(NSString *)name;
+@end

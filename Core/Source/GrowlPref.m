@@ -279,9 +279,10 @@ static const char *keychainAccountName = "Growl";
 	while ( (title = [enumerator nextObject] ) ) {
 		[applicationDisplayPluginsMenu addItemWithTitle:title action:nil keyEquivalent:@""];
 	}
-	
+
 	[[[growlApplications tableColumnWithIdentifier:@"display"] dataCell] setMenu:applicationDisplayPluginsMenu];
 	[[[applicationNotifications tableColumnWithIdentifier:@"priority"] dataCell] setMenu:notificationPriorityMenu];
+	[[[applicationNotifications tableColumnWithIdentifier:@"display"] dataCell] setMenu:applicationDisplayPluginsMenu];
 }
 
 - (void) updateRunningStatus {
@@ -635,18 +636,14 @@ static const char *keychainAccountName = "Growl";
 			[GrowlPref saveTicket:ticket];
 		} else if ([identifier isEqualTo:@"display"])	{
 			int index = [value intValue];
-			
 			if (index == 0) {
-				if ([ticket usesCustomDisplay]) {
-					[ticket setUsesCustomDisplay:NO];
+				if ([ticket displayPlugin]) {
+					[ticket setDisplayPluginNamed:nil];
 					[GrowlPref saveTicket:ticket];
 				}
 			} else {
 				NSString *pluginName = [[applicationDisplayPluginsMenu itemAtIndex:index] title];
-				
-				if (![pluginName isEqualTo:[[[tickets objectForKey:application] displayPlugin] name]] ||
-						![ticket usesCustomDisplay]) {
-					[ticket setUsesCustomDisplay:YES];
+				if (![pluginName isEqualTo:[[[tickets objectForKey:application] displayPlugin] name]]) {
 					[ticket setDisplayPluginNamed:pluginName];
 					[GrowlPref saveTicket:ticket];
 				}
@@ -664,6 +661,20 @@ static const char *keychainAccountName = "Growl";
 				[appTicket setNotificationDisabled:note];
 			}
 			[GrowlPref saveTicket:appTicket];
+		} else if ([identifier isEqualTo:@"display"]) {
+			int index = [value intValue];
+			if (index == 0) {
+				if ([appTicket displayPluginForNotification:note]) {
+					[appTicket setDisplayPluginNamed:nil forNotification:note];
+					[GrowlPref saveTicket:appTicket];
+				}
+			} else {
+				NSString *pluginName = [[applicationDisplayPluginsMenu itemAtIndex:index] title];
+				if (![pluginName isEqualTo:[[appTicket displayPluginForNotification:note] name]]) {
+					[appTicket setDisplayPluginNamed:pluginName forNotification:note];
+					[GrowlPref saveTicket:appTicket];
+				}
+			}
 		} else if ([identifier isEqualTo:@"priority"]) {
 			int index = [value intValue];
 			
@@ -729,25 +740,33 @@ static const char *keychainAccountName = "Growl";
 }
 
 - (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
-
+	NSString *identifier = [column identifier];
 	if (tableView == growlApplications) {
-		if ([[column identifier] isEqualTo:@"display"]) {
-			if (![[tickets objectForKey: [applications objectAtIndex:row]] usesCustomDisplay]) {
+		if ([identifier isEqualTo:@"display"]) {
+			id <GrowlDisplayPlugin> displayPlugin = [[tickets objectForKey:[applications objectAtIndex:row]] displayPlugin];
+			if (!displayPlugin) {
 				[cell selectItemAtIndex:0]; // Default
 			} else {
-				[cell selectItemWithTitle:[[[tickets objectForKey: [applications objectAtIndex:row]] displayPlugin] name]];
+				[cell selectItemWithTitle:[displayPlugin name]];
 			}
-		} else if ([[column identifier] isEqualTo:@"application"]) {
+		} else if ([identifier isEqualTo:@"application"]) {
 			[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:row]];
 		}
 	} else if (tableView == applicationNotifications) {
-		if ([[column identifier] isEqualTo:@"priority"]) {
-			id notif = [[appTicket allNotifications] objectAtIndex:row];
+		id notif = [[appTicket allNotifications] objectAtIndex:row];
+		if ([identifier isEqualTo:@"priority"]) {
 			int priority = [appTicket priorityForNotification:notif];
 			if (priority != GP_unset) {
 				[cell selectItemAtIndex:priority+4];
 			} else {
 				[cell selectItemAtIndex:0];
+			}
+		} else if ([identifier isEqualTo:@"display"]) {
+			id <GrowlDisplayPlugin> displayPlugin = [appTicket displayPluginForNotification:notif];
+			if (!displayPlugin) {
+				[cell selectItemAtIndex:0]; // Default
+			} else {
+				[cell selectItemWithTitle:[displayPlugin name]];
 			}
 		}
 	}
@@ -768,8 +787,8 @@ static const char *keychainAccountName = "Growl";
 	NSString *name = [aNetService name];
 	NSEnumerator *enumerator = [services objectEnumerator];
 	NSMutableDictionary *entry;
-	while ( (entry = [enumerator nextObject]) ) {
-		if ( [[entry objectForKey:@"computer"] isEqualToString:name] ) {
+	while ((entry = [enumerator nextObject])) {
+		if ([[entry objectForKey:@"computer"] isEqualToString:name]) {
 			return;
 		}
 	}

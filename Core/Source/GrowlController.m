@@ -214,7 +214,8 @@ static id singleton = nil;
 	// Make sure this notification is actually registered
 	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
 	GrowlApplicationTicket *ticket = [tickets objectForKey:appName];
-	if (!ticket || ![ticket isNotificationAllowed:[dict objectForKey:GROWL_NOTIFICATION_NAME]]) {
+	NSString *notificationName = [dict objectForKey:GROWL_NOTIFICATION_NAME];
+	if (!ticket || ![ticket isNotificationAllowed:notificationName]) {
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
 		return;
@@ -226,14 +227,15 @@ static id singleton = nil;
 	NSImage *icon = nil;
 	id image = [aDict objectForKey:GROWL_NOTIFICATION_ICON];
 	if (image && [image isKindOfClass:[NSImage class]]) {
-		icon = [[image copy] autorelease];
+		icon = [image copy];
 	} else if (image && [image isKindOfClass:[NSData class]]) {
-		icon = [[[NSImage alloc] initWithData:image] autorelease];
+		icon = [[NSImage alloc] initWithData:image];
 	} else {
-		icon = [[[ticket icon] copy] autorelease];
+		icon = [[ticket icon] copy];
 	}
 	if (icon) {
 		[aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
+		[icon release];
 	} else {
 		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON]; // remove any invalid NSDatas
 	}
@@ -255,14 +257,14 @@ static id singleton = nil;
 	}
 
 	//Retrieve and set the the priority of the notification
-	int priority = [ticket priorityForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]];
+	int priority = [ticket priorityForNotification:notificationName];
 	if (priority == GP_unset) {
 		priority = [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
 	}
 	[aDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
 
 	// Retrieve and set the sticky bit of the notification
-	int sticky = [ticket stickyForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]];
+	int sticky = [ticket stickyForNotification:notificationName];
 	if (sticky >= 0) {
 		[aDict setObject:[NSNumber numberWithBool:(sticky ? YES : NO)]
 				  forKey:GROWL_NOTIFICATION_STICKY];
@@ -272,13 +274,26 @@ static id singleton = nil;
 	[aDict setObject:[NSNumber numberWithBool:saveScreenshot]
 			  forKey:GROWL_SCREENSHOT_MODE];
 
-	id <GrowlDisplayPlugin> display;
+	id <GrowlDisplayPlugin> display = [ticket displayPluginForNotification:notificationName];
+	NSLog(@"ticket:%@", [display name]);
 
-	if ([ticket usesCustomDisplay]) {
+	if (!display) {
+		NSString *displayPluginName = [aDict objectForKey:GROWL_DISPLAY_PLUGIN];
+		if (displayPluginName) {
+			display = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
+		}
+	}
+	NSLog(@"notification:%@", [display name]);
+
+	if (!display) {
 		display = [ticket displayPlugin];
-	} else {
+	}
+	NSLog(@"custom ticket:%@", [display name]);
+
+	if (!display) {
 		display = displayController;
 	}
+	NSLog(@"default:%@", [display name]);
 
 	[display displayNotificationWithInfo:aDict];
 
