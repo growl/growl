@@ -87,38 +87,28 @@
 	}
 	iconPoint = NSMakePoint(iconSourcePoint + iconHorizontalOffset, iconSourcePoint + iconVerticalOffset);
 	
-	// If we are on Panther or better, pretty shadow
-	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
-	id textShadow = nil; // NSShadow
-	if ( pantherOrLater ) {
-		Class NSShadowClass = NSClassFromString(@"NSShadow");
-        textShadow = [[[NSShadowClass alloc] init] autorelease];
+	NSShadow *textShadow = [[[NSShadow alloc] init] autorelease];
 
-		NSSize      shadowSize = NSMakeSize(0.0f, -2.0f);
-        [textShadow setShadowOffset:shadowSize];
-        [textShadow setShadowBlurRadius:3.0f];
-		[textShadow setShadowColor:[NSColor blackColor]];
-	}
-	
+	NSSize shadowSize = NSMakeSize(0.0f, -2.0f);
+	[textShadow setShadowOffset:shadowSize];
+	[textShadow setShadowBlurRadius:3.0f];
+	[textShadow setShadowColor:[NSColor blackColor]];
+
 	// Draw the title, resize if text too big
-    NSMutableParagraphStyle *parrafo = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+	NSMutableParagraphStyle *parrafo = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
 	[parrafo setAlignment:NSLeftTextAlignment];
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-				[NSColor whiteColor], NSForegroundColorAttributeName,
-				parrafo, NSParagraphStyleAttributeName,
-				[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName, nil];
-	if ( pantherOrLater ) {
-		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
-	}
+		[NSColor whiteColor], NSForegroundColorAttributeName,
+		parrafo, NSParagraphStyleAttributeName,
+		[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
+		textShadow, NSShadowAttributeName, nil];
 	[title drawWithEllipsisInRect:titleRect withAttributes:titleAttributes];
 
 	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-				[NSColor whiteColor], NSForegroundColorAttributeName,
-				parrafo, NSParagraphStyleAttributeName,
-				[NSFont messageFontOfSize:textFontSize], NSFontAttributeName, nil];
-	if ( pantherOrLater ) {
-		[textAttributes setObject:textShadow forKey:NSShadowAttributeName];
-	}
+		[NSColor whiteColor], NSForegroundColorAttributeName,
+		parrafo, NSParagraphStyleAttributeName,
+		[NSFont messageFontOfSize:textFontSize], NSFontAttributeName,
+		textShadow, NSShadowAttributeName, nil];
 	[text drawInRect:textRect withAttributes:textAttributes];
 
 	NSRect iconRect;

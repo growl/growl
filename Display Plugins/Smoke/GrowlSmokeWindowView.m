@@ -87,35 +87,25 @@ static float titleHeight;
 	// build an appropriate colour for the text
 	//NSColor *textColour = [NSColor whiteColor];
 
-	// If we are on Panther or better, pretty shadow
-	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
-	id textShadow = nil; // NSShadow
-	if (pantherOrLater) {
-		Class NSShadowClass = NSClassFromString(@"NSShadow");
-		textShadow = [[[NSShadowClass alloc] init] autorelease];
-		
-		NSSize shadowSize = NSMakeSize(0.0f, -2.0f);
-		[textShadow setShadowOffset:shadowSize];
-		[textShadow setShadowBlurRadius:3.0f];
-		[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5f ofColor:[NSColor blackColor]]];
-	}
+	NSShadow *textShadow = [[[NSShadow alloc] init] autorelease];
+
+	NSSize shadowSize = NSMakeSize(0.0f, -2.0f);
+	[textShadow setShadowOffset:shadowSize];
+	[textShadow setShadowBlurRadius:3.0f];
+	[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5f ofColor:[NSColor blackColor]]];
 
 	// construct attributes for the description text
 	NSMutableDictionary *descriptionAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
 		textColor, NSForegroundColorAttributeName,
+		textShadow, NSShadowAttributeName,
 		nil];
 	// construct attributes for the title
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize], NSFontAttributeName,
 		textColor, NSForegroundColorAttributeName,
+		textShadow, NSShadowAttributeName,
 		nil];
-
-	// add shadow to both attributes
-	if (pantherOrLater) {
-		[descriptionAttributes setObject:textShadow forKey:NSShadowAttributeName];
-		[titleAttributes       setObject:textShadow forKey:NSShadowAttributeName];
-	}
 
 	// draw the title and the text
 	unsigned textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;

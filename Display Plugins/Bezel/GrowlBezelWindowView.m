@@ -82,30 +82,21 @@
 		iconPoint = NSMakePoint(57.0f + iconOffset, 83.0f);
 	}
 
-	// If we are on Panther or better, pretty shadow
-	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
-	id textShadow = nil; // NSShadow
-	if ( pantherOrLater ) {
-		Class NSShadowClass = NSClassFromString(@"NSShadow");
-        textShadow = [[[NSShadowClass alloc] init] autorelease];
-        
-		NSSize      shadowSize = NSMakeSize(0.0f, -2.0f);
-        [textShadow setShadowOffset:shadowSize];
-        [textShadow setShadowBlurRadius:3.0f];
-		[textShadow setShadowColor:[NSColor blackColor]];
-	}
+	NSShadow *textShadow = [[[NSShadow alloc] init] autorelease];
+	NSSize shadowSize = NSMakeSize(0.0f, -2.0f);
+	[textShadow setShadowOffset:shadowSize];
+	[textShadow setShadowBlurRadius:3.0f];
+	[textShadow setShadowColor:[NSColor blackColor]];
 	
 	// Draw the title, resize if text too big
 	float titleFontSize = 20.0f;
-    NSMutableParagraphStyle *parrafo = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+	NSMutableParagraphStyle *parrafo = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
 	[parrafo setAlignment:NSCenterTextAlignment];
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-				[NSColor whiteColor], NSForegroundColorAttributeName,
-				parrafo, NSParagraphStyleAttributeName,
-				[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName, nil];
-	if ( pantherOrLater ) {
-		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
-	}
+		[NSColor whiteColor], NSForegroundColorAttributeName,
+		parrafo, NSParagraphStyleAttributeName,
+		[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
+		textShadow, NSShadowAttributeName, nil];
 	float accumulator = 0.0f;
 	BOOL minFontSize = NO;
 	NSSize titleSize = [title sizeWithAttributes:titleAttributes];
@@ -131,12 +122,10 @@
 	}
 
 	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-				[NSColor whiteColor], NSForegroundColorAttributeName,
-				parrafo, NSParagraphStyleAttributeName,
-				[NSFont systemFontOfSize:14.0f], NSFontAttributeName, nil];
-	if ( pantherOrLater ) {
-		[textAttributes setObject:textShadow forKey:NSShadowAttributeName];
-	}
+		[NSColor whiteColor], NSForegroundColorAttributeName,
+		parrafo, NSParagraphStyleAttributeName,
+		[NSFont systemFontOfSize:14.0f], NSFontAttributeName,
+		textShadow, NSShadowAttributeName, nil];
 	NSAttributedString *textAttributed;
 	NSArray *linesN = [text componentsSeparatedByString:@"\n"];
 	int rowCount = 0;
