@@ -1,18 +1,27 @@
 Growl coding standards
 ======================
-This is an extreme work in progress, but it's an effort to document coding standards that should be used when coding for Growl, or any other Objective-C code in the Growl Subversion repository. Developers, feel free to codify anything you notice we do in the code as a hard standard here.
+This is an extreme work in progress, but it's an effort to document coding 
+standards that should be used when coding for Growl, or any other Objective-C 
+code in the Growl Subversion repository. Developers, feel free to codify 
+anything you notice we do in the code as a hard standard here.
 
 Language
 --------
-Name your variables, classes, methods, functions and all other things in American English. Comments should likewise be in English, but your own local English is fine (as long as it's readable to anyone fluent in any dialect of English).
+Name your variables, classes, methods, functions and all other things in 
+American English. Comments should likewise be in English, but your own local 
+English is fine (as long as it's readable to anyone fluent in any dialect of 
+English).
 
 Font selection
 --------------
-Always code in a monospaced font. If you manage to do otherwise, we will beat you harshly, one lash for every line in a non monospaced font.
+Always code in a monospaced font. If you manage to do otherwise, we will beat 
+you harshly, one lash for every line in a non monospaced font.
 
 Variable names
 --------------
-Instance and local variables should generally be named in camelCase, with a lowercase initial letter, and no underscores. No form of Hungarian notation is to be used, ever.
+Instance and local variables should generally be named in camelCase, with a 
+lowercase initial letter, and no underscores. No form of Hungarian notation is 
+to be used, ever.
 
 Type and class names
 --------------------
@@ -25,34 +34,41 @@ But not when this is discouraged (as with some Cocoa structures):
 
 NSRect rect; //NOT struct _NSRect
 
-Classes should be named in CamelCase, with an uppercase initial letter, and no underscores. Name your classes so that it's obvious what they belong to and what they're for. ex: NSCamelCaseObject
+Classes should be named in CamelCase, with an uppercase initial letter, and no 
+underscores. Name your classes so that it's obvious what they belong to and 
+what they're for. ex: NSCamelCaseObject
 
 Methods should be arranged as follows:
-	+ classMethods;
-	+ classMethodsThatCreateObjects; //e.g. new or newWithZone
-	- init;
-	- initWithExtraArgument: andOtherExtraArgument:;
-	- (void)dealloc;
+	+ (Foo *) classMethods;
+	+ (id) classMethodsThatCreateObjects; //e.g. new or newWithZone
+	- (id) init;
+	- (id) initWithExtraArgument: andOtherExtraArgument:;
+	- (void) dealloc;
 	// Other instance methods
 
 Selector names
 --------------
 Always include return type, even if it's id.
 
-All parameter names are assumed to be inputs, unless noted otherwise. You might consider using the 'in' or 'out' keyword if it needs to be explicitly disambiguated.
+All parameter names are assumed to be inputs, unless noted otherwise. You might 
+consider using the 'in' or 'out' keyword if it needs to be explicitly 
+disambiguated.
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row;
-- (BOOL)scanUpToString:(NSString *)string intoString:(out NSString **)outString;
+- (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row;
+- (BOOL) scanUpToString:(NSString *)inString intoString:(NSString **)outString;
 
 Variable Declarations
 ---------------------
-Always initialise variables at declaration time or immediately afterwards. Never use a variable's value without initialising it first.
+Always initialise variables at declaration time or immediately afterwards. 
+Never use a variable's value without initialising it first.
 
-Fail to adhere to this rule and we shall slowly lower you into a vat of gently boiling acid.
+Fail to adhere to this rule and we shall slowly lower you into a vat of gently 
+boiling acid.
 
 Multiple return statements
 --------------------------
-Allowed sometimes, but try to avoid having too many. Defining 'too many' is an exercise left to the reader.
+Allowed sometimes, but try to avoid having too many. Defining 'too many' is an 
+exercise left to the reader.
 
 Example of how to avoid this:
 - (NSString *) whosYourDaddy:(NSString *)inChild {
@@ -73,9 +89,10 @@ Encouraged for long messages:
 
 (Note how the colons line up vertically in a monospaced font.)
 
-Line breaking is generally encouraged for all sorts of long expressions, provided it does not reduce readability. Consider:
+Line breaking is generally encouraged for all sorts of long expressions, 
+provided it does not reduce readability. Consider:
 
-	if(some_long_condition && some_other_long_condition || some_completely_different_long_condition) 
+	if (some_long_condition && some_other_long_condition || some_completely_different_long_condition) 
 
 as opposed to:
 
@@ -86,7 +103,7 @@ as opposed to:
 
 Braces and Whitespace
 ---------------------
-- (void)foo {
+- (void) foo {
 	if (a) {
 		do_b();
 	} else if (b) {
@@ -132,7 +149,8 @@ Don't pad the inside of the parentheses with spaces:
 	if (a && b)
 	// not: if ( a && b )
 
-Don't use parentheses around the argument to return (making it look like a function call):
+Don't use parentheses around the argument to return (making it look like a 
+function call):
 	return 0;
 	// not: return(0);
 But it's OK for parenthesized expressions:
@@ -140,18 +158,21 @@ But it's OK for parenthesized expressions:
 
 Labels
 ------
-Labels should always be on a line by themselves, and should be 1 indent to the left of the statement they apply to:
+Labels should always be on a line by themselves, and should be 1 indent to the 
+left of the statement they apply to:
 
 	switch(answer) {
 		case 42:
 			printf("Found the answer! (%i)\n", answer);
 	}
 
-Note that in a switch, all statements are indented ~two~ levels to allow for the case labels.
+Note that in a switch, all statements are indented ~two~ levels to allow for 
+the case labels.
 
 Use of +new
 -----------
-Allowed, but where alloc/init is being used, stay uniform. Also switch to alloc/init when you need to use alloc/initWithFoo:.
+Allowed, but where alloc/init is being used, stay uniform. Also switch to 
+alloc/init when you need to use alloc/initWithFoo:.
 
 Ternary operator (foo ? bar : baz)
 ----------------------------------
@@ -161,11 +182,12 @@ Comma operator (x, y)
 ---------------------
 Use only in loop controls.
 
-for(unsigned x = 0, y = 0; x < maxX && y < maxY; ++x, ++y) {
+for (unsigned x = 0, y = 0; x < maxX && y < maxY; ++x, ++y) {
 	...
 }
 
-Remember that the comma operator only appears in expressions; it is not part of a function call:
+Remember that the comma operator only appears in expressions; it is not part of 
+a function call:
 
 	foo(x, y, z) //no comma operator here
 
@@ -175,7 +197,9 @@ nor a message:
 
 Index variables
 ---------------
-Always unsigned unless necessary. Never use index variables for NSArrays; use NSEnumerator to iterate on those. (Only keep an index variable if you need to replace elements of an NSMutableArray.)
+Always unsigned unless necessary. Never use index variables for NSArrays; use 
+NSEnumerator to iterate on those. (Only keep an index variable if you need to 
+replace elements of an NSMutableArray.)
 
 Comments
 --------
@@ -189,21 +213,25 @@ Comments
  *	Also make sure you use a tab after the column of stars.
  */
 
-A single-line comment can appear on the same line as the statement to which it applies:
+A single-line comment can appear on the same line as the statement to which it 
+applies:
 
 	area = r * r * 3.14159; //pi * r-squared
 
 But should be moved to the line before it if the total line would be too long:
 
-	//no newline on this string because NSLog will provide one (sort of)
+	// No newline on this string because NSLog will provide one (sort of)
 	message = [NSString stringWithFormat:@"Area: %g; radius: %g", area, r];
 
 Multi-line comments should always come before the statement.
 
-It is also recommended in some situations to use small winged comments containing the argument names when using constants in a C function call. For example:
+It is also recommended in some situations to use small winged comments 
+containing the argument names when using constants in a C function call. 
+For example:
 
 	unsigned len = [str length];
-	//count UTF-8 code units (may be more than the number of Unicode code-points)
+	// Count UTF-8 code units (may be more than the number of Unicode 
+	// code-points)
 	CFIndex UTF8len;
 	CFStringGetBytes((CFStringRef)str,
 		CFRangeMake(0, len),
@@ -217,7 +245,8 @@ It is also recommended in some situations to use small winged comments containin
 
 Numeric constants
 -----------------
-Always supply a fraction and an integer in any floating-point constant: 0.0, not 0. or .0.
+Always supply a fraction and an integer in any floating-point constant: 0.0, 
+not 0. or .0.
 
 Specify f for float constants: 0.0f not 0.0 (0.0 is a double constant).
 
@@ -231,31 +260,32 @@ Use U for unsigned integers, and L and LL for long and long long integers:
 
 Use nil for Cocoa types, and NULL elsewhere:
 
-- (char *)UTF8String {
-	if(UTF8String == NULL)
+- (char *) UTF8String {
+	if (UTF8String == NULL)
 		UTF8String = malloc([self length]);
-	if(UTF8String != NULL)
+	if (UTF8String != NULL)
 		strcpy(UTF8String, "I am the Walrus");
 	return UTF8String;
 }
 
-The above is for example purposes; whenever testing against NULL/nil, use simple truth-testing (and the ! operator when appropriate):
+The above is for example purposes; whenever testing against NULL/nil, use 
+simple truth-testing (and the ! operator when appropriate):
 
 	void *buf = NULL;
 	size_t size = 0U, increment = getpagesize();
 	do {
 		buf = realloc(buf, size);
-		if(!buf)
+		if (!buf)
 			NSLog(@"Could not allocate %zu bytes", size);
 		else
 			size += increment;
-	} while(buf);
+	} while (buf);
 
 Auto-{in,de}crement
 -------------------
 Use prefix version whenever possible.
 
-	while(--argc)
+	while (--argc)
 		printf("%s\n", *++argv);
 
 Encoding
@@ -264,8 +294,11 @@ UTF-8. Always and forever. (Exception: strings files must be UTF-16.)
 
 C standard
 ----------
-Use C99 with all warnings turned on (except for 'Unknown automatic variables' and 'Four-character constants'). Ignore the #import warning; fix everything else.
+Use C99 with all warnings turned on (except for 'Unknown automatic variables' 
+and 'Four-character constants'). Ignore the #import warning; fix everything 
+else.
 
 Feel free to use #warning, but fix it as soon as possible.
 
-Naturally, anything allowed in C99 is allowed here, like single-line comments and variable declarations in for loops (see example under Comma_operator_ above).
+Naturally, anything allowed in C99 is allowed here, like single-line comments 
+and variable declarations in for loops (see example under Comma_operator_ above).
