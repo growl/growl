@@ -53,7 +53,7 @@
 }
 
 - copyWithZone:(NSZone *)zone {
-    ImageAndTextCell *cell = (ImageAndTextCell *)[super copyWithZone:zone];
+    ACImageAndTextCell *cell = (ACImageAndTextCell *)[super copyWithZone:zone];
     cell->image = [image retain];
     return cell;
 }
