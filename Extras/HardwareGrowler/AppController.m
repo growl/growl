@@ -13,38 +13,9 @@
 	
 	
 	NSNotificationCenter	*nc = [NSNotificationCenter defaultCenter];
-	dnc = [NSDistributedNotificationCenter defaultCenter];
 	
-	//	Register with Growl
-
-	NSMutableArray			*notifications = [[NSMutableArray alloc] init];
-	
-	[notifications addObject: NotifierBluetoothConnectionNotification];
-	[notifications addObject: NotifierBluetoothDisconnectionNotification];
-	[notifications addObject: NotifierFireWireConnectionNotification];
-	[notifications addObject: NotifierFireWireDisconnectionNotification];
-	[notifications addObject: NotifierUSBConnectionNotification];
-	[notifications addObject: NotifierUSBDisconnectionNotification];
-	[notifications addObject: NotifierVolumeMountedNotification];
-	[notifications addObject: NotifierVolumeUnmountedNotification];
-	
-	
-	
-	NSMutableDictionary		*regDict = [[NSMutableDictionary alloc] init];
-
-	[regDict setObject: @"Hardware Growler" forKey: (NSString *) GROWL_APP_NAME];
-	[regDict setObject: notifications forKey: (NSString *) GROWL_NOTIFICATIONS_ALL];
-	[regDict setObject: notifications forKey: (NSString *) GROWL_NOTIFICATIONS_DEFAULT];
-
-	
-	[dnc postNotificationName: (NSString *) GROWL_APP_REGISTRATION
-					   object: nil
-					 userInfo: regDict 
-		   deliverImmediately: NO];
-	
-	[notifications release];
-	[regDict release];
-	
+	//Register ourselves as a Growl delegate for registration purposes
+	[GrowlApplicationBridge setGrowlDelegate:self];
 	
 	[nc addObserver: self
            selector: @selector(fwDidConnect:)
@@ -91,11 +62,6 @@
              object: nil];
 	
 	
-	
-	
-		
-	
-	
 	fwNotifier = [[FireWireNotifier alloc] init];
 	usbNotifier = [[USBNotifier alloc] init];
 	btNotifier = [[BluetoothNotifier alloc] init];
@@ -118,9 +84,33 @@
 }
 
 
+-(NSString*) applicationNameForGrowl {
+	return @"Hardware Growler";
+}
+-(NSDictionary*) registrationDictionaryForGrowl {
+	//	Register with Growl
 
+	NSMutableArray			*notifications = [[[NSMutableArray alloc] init] autorelease];
+	
+	[notifications addObject: NotifierBluetoothConnectionNotification];
+	[notifications addObject: NotifierBluetoothDisconnectionNotification];
+	[notifications addObject: NotifierFireWireConnectionNotification];
+	[notifications addObject: NotifierFireWireDisconnectionNotification];
+	[notifications addObject: NotifierUSBConnectionNotification];
+	[notifications addObject: NotifierUSBDisconnectionNotification];
+	[notifications addObject: NotifierVolumeMountedNotification];
+	[notifications addObject: NotifierVolumeUnmountedNotification];
+	
+	
+	
+	NSMutableDictionary		*regDict = [[[NSMutableDictionary alloc] init] autorelease];
 
+	[regDict setObject: @"Hardware Growler" forKey: (NSString *) GROWL_APP_NAME];
+	[regDict setObject: notifications forKey: (NSString *) GROWL_NOTIFICATIONS_ALL];
+	[regDict setObject: notifications forKey: (NSString *) GROWL_NOTIFICATIONS_DEFAULT];
 
+	return regDict;
+}
 
 #pragma mark -
 #pragma mark Notification methods 
@@ -129,117 +119,76 @@
 {
 //	NSLog(@"FireWire Connect: %@" , [note object] );
 	
-	NSMutableDictionary		*noteDict = [[NSMutableDictionary alloc] init];
-	[noteDict setObject: @"Hardware Growler" forKey: (NSString *) GROWL_APP_NAME];
-	[noteDict setObject: NotifierFireWireConnectionNotification forKey: (NSString *) GROWL_NOTIFICATION_NAME];
-	[noteDict setObject: @"FireWire Connection" forKey: (NSString *) GROWL_NOTIFICATION_TITLE];
-	[noteDict setObject: [note object] forKey: (NSString *) GROWL_NOTIFICATION_DESCRIPTION];
-	[noteDict setObject: firewireLogoData forKey: (NSString *) GROWL_NOTIFICATION_ICON];
+	[GrowlApplicationBridge notifyWithTitle:@"FireWire Connection"
+							description:[note object]
+							notificationName:NotifierFireWireConnectionNotification
+							iconData:firewireLogoData 
+							priority:0
+							isSticky:0
+							clickContext:NULL];
 
-	[dnc postNotificationName: (NSString *) GROWL_NOTIFICATION
-					   object: nil
-					 userInfo: noteDict 
-		   deliverImmediately: NO];
-	
-	[noteDict release];
-}
+	}
 
 -(void)fwDidDisconnect:(NSNotification*)note
 {
 //	NSLog(@"FireWire Disconnect: %@" , [note object] );
 
-	NSMutableDictionary		*noteDict = [[NSMutableDictionary alloc] init];
-	[noteDict setObject: @"Hardware Growler" forKey: (NSString *) GROWL_APP_NAME];
-	[noteDict setObject: NotifierFireWireConnectionNotification forKey: (NSString *) GROWL_NOTIFICATION_NAME];
-	[noteDict setObject: @"FireWire Disconnection" forKey: (NSString *) GROWL_NOTIFICATION_TITLE];
-	[noteDict setObject: [note object] forKey: (NSString *) GROWL_NOTIFICATION_DESCRIPTION];
-	[noteDict setObject: firewireLogoData forKey: (NSString *) GROWL_NOTIFICATION_ICON];
-	
-	[dnc postNotificationName: (NSString *) GROWL_NOTIFICATION
-					   object: nil
-					 userInfo: noteDict 
-		   deliverImmediately: NO];
-	
-	[noteDict release];
+	[GrowlApplicationBridge notifyWithTitle:@"FireWire Disconnection"
+							description:[note object]
+							notificationName:NotifierFireWireConnectionNotification
+							iconData:firewireLogoData 
+							priority:0
+							isSticky:0
+							clickContext:NULL];
 }
 
 -(void)usbDidConnect:(NSNotification*)note
 {
 //	NSLog(@"USB Connect: %@" , [note object] );
-	
-	NSMutableDictionary		*noteDict = [[NSMutableDictionary alloc] init];
-	[noteDict setObject: @"Hardware Growler" forKey: (NSString *) GROWL_APP_NAME];
-	[noteDict setObject: NotifierFireWireConnectionNotification forKey: (NSString *) GROWL_NOTIFICATION_NAME];
-	[noteDict setObject: @"USB Connection" forKey: (NSString *) GROWL_NOTIFICATION_TITLE];
-	[noteDict setObject: [note object] forKey: (NSString *) GROWL_NOTIFICATION_DESCRIPTION];
-	[noteDict setObject: usbLogoData forKey: (NSString *) GROWL_NOTIFICATION_ICON];
-	
-	
-	[dnc postNotificationName: (NSString *) GROWL_NOTIFICATION
-					   object: nil
-					 userInfo: noteDict 
-		   deliverImmediately: NO];
-	
-	[noteDict release];
+	[GrowlApplicationBridge notifyWithTitle:@"USB Connection"
+							description:[note object]
+							notificationName:NotifierUSBConnectionNotification
+							iconData:usbLogoData 
+							priority:0
+							isSticky:0
+							clickContext:NULL];
 }
 
 -(void)usbDidDisconnect:(NSNotification*)note
 {
 //	NSLog(@"USB Disconnect: %@" , [note object] );
-	
-	NSMutableDictionary		*noteDict = [[NSMutableDictionary alloc] init];
-	[noteDict setObject: @"Hardware Growler" forKey: (NSString *) GROWL_APP_NAME];
-	[noteDict setObject: NotifierFireWireConnectionNotification forKey: (NSString *) GROWL_NOTIFICATION_NAME];
-	[noteDict setObject: @"USB Disconnection" forKey: (NSString *) GROWL_NOTIFICATION_TITLE];
-	[noteDict setObject: [note object] forKey: (NSString *) GROWL_NOTIFICATION_DESCRIPTION];
-	[noteDict setObject: usbLogoData forKey: (NSString *) GROWL_NOTIFICATION_ICON];
-	
-	[dnc postNotificationName: (NSString *) GROWL_NOTIFICATION
-					   object: nil
-					 userInfo: noteDict 
-		   deliverImmediately: NO];
-	
-	[noteDict release];
+	[GrowlApplicationBridge notifyWithTitle:@"USB Disconnection"
+							description:[note object]
+							notificationName:NotifierUSBDisconnectionNotification
+							iconData:usbLogoData 
+							priority:0
+							isSticky:0
+							clickContext:NULL];
 }
 
 
 -(void)bluetoothDidConnect:(NSNotification*)note
 {
 //	NSLog(@"Bluetooth Connect: %@" , [note object] );
-
-	NSMutableDictionary		*noteDict = [[NSMutableDictionary alloc] init];
-	[noteDict setObject: @"Hardware Growler" forKey: (NSString *) GROWL_APP_NAME];
-	[noteDict setObject: NotifierFireWireConnectionNotification forKey: (NSString *) GROWL_NOTIFICATION_NAME];
-	[noteDict setObject: @"Bluetooth Connection" forKey: (NSString *) GROWL_NOTIFICATION_TITLE];
-	[noteDict setObject: [note object] forKey: (NSString *) GROWL_NOTIFICATION_DESCRIPTION];
-	[noteDict setObject: bluetoothLogoData forKey: (NSString *) GROWL_NOTIFICATION_ICON];
-		
-	[dnc postNotificationName: (NSString *) GROWL_NOTIFICATION
-					   object: nil
-					 userInfo: noteDict 
-		   deliverImmediately: NO];
-	
-	[noteDict release];
+	[GrowlApplicationBridge notifyWithTitle:@"Bluetooth Connection"
+							description:[note object]
+							notificationName:NotifierBluetoothConnectionNotification
+							iconData:bluetoothLogoData 
+							priority:0
+							isSticky:0
+							clickContext:NULL];
 }
 
 -(void)bluetoothDidDisconnect:(NSNotification*)note
 {
 //	NSLog(@"Bluetooth Disconnect: %@" , [note object] );
-	
-	
-	NSMutableDictionary		*noteDict = [[NSMutableDictionary alloc] init];
-	[noteDict setObject: @"Hardware Growler" forKey: (NSString *) GROWL_APP_NAME];
-	[noteDict setObject: NotifierFireWireConnectionNotification forKey: (NSString *) GROWL_NOTIFICATION_NAME];
-	[noteDict setObject: @"Bluetooth Disconnection" forKey: (NSString *) GROWL_NOTIFICATION_TITLE];
-	[noteDict setObject: [note object] forKey: (NSString *) GROWL_NOTIFICATION_DESCRIPTION];
-	[noteDict setObject: bluetoothLogoData forKey: (NSString *) GROWL_NOTIFICATION_ICON];
-
-	[dnc postNotificationName: (NSString *) GROWL_NOTIFICATION
-					   object: nil
-					 userInfo: noteDict 
-		   deliverImmediately: NO];
-	
-	[noteDict release];
+	[GrowlApplicationBridge notifyWithTitle:@"Bluetooth Disconnection"
+							description:[[note object] lastPathComponent]
+							notificationName:NotifierBluetoothDisconnectionNotification
+							iconData:bluetoothLogoData 
+							priority:0
+							isSticky:0
+							clickContext:NULL];
 }
 
 
@@ -248,23 +197,16 @@
 -(void)volumeDidMount:(NSNotification*)note
 {
 //	NSLog(@"volume Mount: %@" , [note object] );
-	
+
 	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile: [note object]] TIFFRepresentation];  
-	
-	NSMutableDictionary		*noteDict = [[NSMutableDictionary alloc] init];
-	[noteDict setObject: @"Hardware Growler" forKey: (NSString *) GROWL_APP_NAME];
-	[noteDict setObject: NotifierVolumeMountedNotification forKey: (NSString *) GROWL_NOTIFICATION_NAME];
-	[noteDict setObject: @"Volume Mounted" forKey: (NSString *) GROWL_NOTIFICATION_TITLE];
-	[noteDict setObject: [[note object] lastPathComponent] forKey: (NSString *) GROWL_NOTIFICATION_DESCRIPTION];
-	[noteDict setObject: iconData forKey: (NSString *) GROWL_NOTIFICATION_ICON];
-	
-		
-	[dnc postNotificationName: (NSString *) GROWL_NOTIFICATION
-					   object: nil
-					 userInfo: noteDict 
-		   deliverImmediately: NO];
-	
-	[noteDict release];
+
+	[GrowlApplicationBridge notifyWithTitle:@"Volume Mounted"
+							description:[[note object] lastPathComponent]
+							notificationName:NotifierVolumeMountedNotification
+							iconData:iconData 
+							priority:0
+							isSticky:0
+							clickContext:NULL];
 }
 
 
@@ -274,20 +216,13 @@
 //	NSLog(@"volume DisMount: %@" , [note object] );
 	
 	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile: [note object]] TIFFRepresentation];  
-	
-	NSMutableDictionary		*noteDict = [[NSMutableDictionary alloc] init];
-	[noteDict setObject: @"Hardware Growler" forKey: (NSString *) GROWL_APP_NAME];
-	[noteDict setObject: NotifierVolumeUnmountedNotification forKey: (NSString *) GROWL_NOTIFICATION_NAME];
-	[noteDict setObject: @"Volume Dismounted" forKey: (NSString *) GROWL_NOTIFICATION_TITLE];
-	[noteDict setObject: [[note object] lastPathComponent] forKey: (NSString *) GROWL_NOTIFICATION_DESCRIPTION];
-	[noteDict setObject: ejectLogoData forKey: (NSString *) GROWL_NOTIFICATION_ICON];
-	
-	[dnc postNotificationName: (NSString *) GROWL_NOTIFICATION
-					   object: nil
-					 userInfo: noteDict 
-		   deliverImmediately: NO];
-	
-	[noteDict release];
+	[GrowlApplicationBridge notifyWithTitle:@"Volume Dismounted"
+							description:[note object]
+							notificationName:NotifierVolumeUnmountedNotification
+							iconData:ejectLogoData 
+							priority:0
+							isSticky:0
+							clickContext:NULL];
 }
 
 

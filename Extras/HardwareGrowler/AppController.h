@@ -17,8 +17,6 @@
 	BluetoothNotifier					*btNotifier;
 	VolumeNotifier						*volNotifier;
 	
-	NSDistributedNotificationCenter		*dnc;
-	
 	
 	NSData				*bluetoothLogoData;
 	NSData				*ejectLogoData;
