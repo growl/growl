@@ -11,6 +11,7 @@
 #import "GrowlDefines.h"
 #import "GrowlBubblesDefines.h"
 #import "GrowlStringAdditions.h"
+#import "GrowlImageAdditions.h"
 #import <math.h>
 
 static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outData )
@@ -167,39 +168,15 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 			_textColor, NSForegroundColorAttributeName,
 			nil]];
 	
-	NSRect iconSize;
-	iconSize.size = [_icon size];
-	// make sure the icon isn't too large. If it is, scale it down
-	if( iconSize.size.width > 32.f || iconSize.size.height > 32.f ) {
-		// scale the image appropriately
-		if( iconSize.size.width > iconSize.size.height ) {
-			drawRect.size.width = 32.f;
-			drawRect.size.height = 32.f / iconSize.size.width * iconSize.size.height;
-		} else if( iconSize.size.width < iconSize.size.height ) {
-			drawRect.size.width = 32.f / iconSize.size.height * iconSize.size.width;
-			drawRect.size.height = 32.f;
-		} else {
-			drawRect.size.width = 32.f;
-			drawRect.size.height = 32.f;
-		}
-		
-		drawRect.origin.x = floorf(15.f + (32.f - drawRect.size.width) * 0.5f);
-		drawRect.origin.y = floorf(contentHeight - 35.f + (32.f - drawRect.size.height) * 0.5f);
-
-		// we can set this because we are always working with a copy
-		[_icon setScalesWhenResized:TRUE];
-	} else {
-		drawRect.origin.x = 15.f;
-		drawRect.origin.y = contentHeight - 35.f;
-		drawRect.size.width = iconSize.size.width;
-		drawRect.size.height = iconSize.size.height;
-	}
-
-	[graphicsContext setImageInterpolation:NSImageInterpolationHigh];
-	[_icon drawInRect:drawRect
-			 fromRect:iconSize
-			 operation:NSCompositeSourceAtop
-			 fraction:1.f];
+	drawRect.origin.x = 15.f;
+	drawRect.origin.y = contentHeight - 35.f;
+	drawRect.size.width = 32.f;
+	drawRect.size.height = 32.f;
+	
+	// we do this because we are always working with a copy
+	[_icon drawScaledInRect:drawRect
+				  operation:NSCompositeSourceAtop
+				   fraction:1.f];
 
 	[[self window] invalidateShadow];
 }

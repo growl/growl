@@ -84,7 +84,7 @@
 	
 	int sizePref = 0;
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
-	
+
 	// rects
 	NSRect titleRect, textRect;
 	NSPoint iconPoint;
@@ -118,7 +118,7 @@
 		// scale the image appropiately
 		[self resizeIcon:_icon toSize:maxIconSize];
 	}
-	
+
 	// If we are on Panther or better, pretty shadow
 	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
 	id textShadow = nil; // NSShadow
@@ -191,13 +191,14 @@
 	} else {
 		_textAttributed = [[[NSAttributedString alloc] initWithString:_text attributes:textAttributes] autorelease];
 		rowCount = [self descriptionRowCount:_textAttributed inRect:textRect];
+		[_textAttributed release];
 	}
-	
+
 	if ( rowCount > maxRows ) {
 		[textAttributes setObject:[NSFont systemFontOfSize:12.0f] forKey:NSFontAttributeName];
 	}
 	[_text drawInRect:textRect withAttributes:textAttributes];
-		
+
 	[_icon compositeToPoint:iconPoint operation:NSCompositeSourceOver fraction:1.f];
 }
 

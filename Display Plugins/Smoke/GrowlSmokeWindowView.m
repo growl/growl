@@ -10,7 +10,7 @@
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefines.h"
 #import "GrowlStringAdditions.h"
-
+#import "GrowlImageAdditions.h"
 
 @implementation GrowlSmokeWindowView
 
@@ -161,42 +161,17 @@
 	drawRect.origin.y = textYPosition;
 	drawRect.size.height = [self descriptionHeight];
 
-	[_text drawInRect:drawRect
-	   withAttributes:descriptionAttributes];
+	[_text drawInRect:drawRect withAttributes:descriptionAttributes];
 
-	NSRect iconSize;
-	iconSize.size = [_icon size];
-	// make sure the icon isn't too large. If it is, scale it down
-	if( iconSize.size.width > GrowlSmokeIconSize || iconSize.size.height > GrowlSmokeIconSize ) {
-		// scale the image appropriately
-		if( iconSize.size.width > iconSize.size.height ) {
-			drawRect.size.width = GrowlSmokeIconSize;
-			drawRect.size.height = GrowlSmokeIconSize / iconSize.size.width * iconSize.size.height;
-		} else if( iconSize.size.width < iconSize.size.height ) {
-			drawRect.size.width = GrowlSmokeIconSize / iconSize.size.height * iconSize.size.width;
-			drawRect.size.height = GrowlSmokeIconSize;
-		} else {
-			drawRect.size.width = GrowlSmokeIconSize;
-			drawRect.size.height = GrowlSmokeIconSize;
-		}
+	drawRect.origin.x = GrowlSmokePadding;
+	drawRect.origin.y = notificationContentTop - GrowlSmokeIconSize;
+	drawRect.size.width = GrowlSmokeIconSize;
+	drawRect.size.height = GrowlSmokeIconSize;
 
-		drawRect.origin.x = floorf(GrowlSmokePadding + (GrowlSmokeIconSize - drawRect.size.width) * 0.5f);
-		drawRect.origin.y = floorf(notificationContentTop - GrowlSmokeIconSize + (GrowlSmokeIconSize - drawRect.size.height) * 0.5f);
-
-		// we can set this because we are always working with a copy
-		[_icon setScalesWhenResized:TRUE];
-	} else {
-		drawRect.origin.x = GrowlSmokePadding;
-		drawRect.origin.y = notificationContentTop - GrowlSmokeIconSize;
-		drawRect.size.width = iconSize.size.width;
-		drawRect.size.height = iconSize.size.height;
-	}
-
-	[graphicsContext setImageInterpolation:NSImageInterpolationHigh];
-	[_icon drawInRect:drawRect
-			 fromRect:iconSize
-			operation:NSCompositeSourceOver
-			 fraction:1.f];
+	// we do this because we are always working with a copy
+	[_icon drawScaledInRect:drawRect
+				  operation:NSCompositeSourceOver
+				   fraction:1.f];
 
 	[[self window] invalidateShadow];
 }

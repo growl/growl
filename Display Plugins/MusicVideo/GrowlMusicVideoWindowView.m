@@ -130,7 +130,7 @@
 		[textAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
 	[_text drawInRect:textRect withAttributes:textAttributes];
-		
+
 	[_icon compositeToPoint:iconPoint operation:NSCompositeSourceOver fraction:1.f];
 }
 
