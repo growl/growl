@@ -246,16 +246,28 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 				success = ([unzip terminationStatus] == 0);
 			NS_HANDLER
 				/* No exception handler needed */
-				NS_ENDHANDLER
-				[unzip release];
+			NS_ENDHANDLER
+			[unzip release];
 				
-				if (success) {
-					// Kill the running Growl helper app if necessary by asking the Growl Helper App to shutdown via the DNC
-					[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
-					
-					// Open Growl.prefPane; System Preferences will take care of the rest, and Growl.prefPane will relaunch the GHA if appropriate.
-					[[NSWorkspace sharedWorkspace] openTempFile:[tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME]];
+			if (success) {
+				NSString	*tempGrowlPrefPane;
+				
+				// Kill the running Growl helper app if necessary by asking the Growl Helper App to shutdown via the DNC
+				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
+				
+				/* Open Growl.prefPane using System Preferences, which will take care of the rest.
+				 * Growl.prefPane will relaunch the GHA if appropriate. */
+				tempGrowlPrefPane = [tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
+				success = [[NSWorkspace sharedWorkspace] openFile:tempGrowlPrefPane
+												  withApplication:@"System Preferences"
+													andDeactivate:YES];
+				if(!success){
+					/* If the System Preferences app could not be found for whatever reason, try opening
+					 * Growl.prefPane with openTempFile so the associated app will launch. This could be the case
+					 * if "System Preferences.app" were renamed or if an alternative program were being used. */
+					success = [[NSWorkspace sharedWorkspace] openTempFile:tempGrowlPrefPane];
 				}
+			}
 		}
 	}
 
