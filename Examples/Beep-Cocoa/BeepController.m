@@ -23,6 +23,7 @@
 }
 
 - (void)awakeFromNib {
+	[_notificationsTable setDoubleAction:@selector(sendNotification:)];
 	[self tableViewSelectionDidChange:nil];
 }
 
