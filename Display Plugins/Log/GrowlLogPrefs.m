@@ -8,7 +8,7 @@
 
 #import "GrowlLogPrefs.h"
 #import "GrowlLogDefines.h"
-#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 
 @implementation GrowlLogPrefs
 - (NSString *) mainNibName

@@ -9,7 +9,7 @@
 #import "GrowlSpeechDisplay.h"
 #import "GrowlSpeechPrefs.h"
 #import "GrowlSpeechDefines.h"
-#import <GrowlDefines.h>
+#import <GrowlDefinesInternal.h>
 
 static NSString *author = @"Ingmar Stein";
 static NSString *name = @"Speech";

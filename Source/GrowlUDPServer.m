@@ -10,7 +10,7 @@
 #import "GrowlUDPServer.h"
 #import "GrowlController.h"
 #import "NSGrowlAdditions.h"
-#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 #import <Security/SecKeychain.h>
 #import <Security/SecKeychainItem.h>
 #include <netinet/in.h>

@@ -8,7 +8,7 @@
 
 #import "GrowlSmokePrefsController.h"
 #import "GrowlSmokeDefines.h"
-#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 
 
 @implementation GrowlSmokePrefsController

@@ -7,7 +7,7 @@
 //
 
 #import <PreferencePanes/PreferencePanes.h>
-#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 
 #define BezelPrefDomain				@"com.Growl.Bezel"
 

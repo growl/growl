@@ -8,7 +8,7 @@
 
 #import "GrowlBubblesPrefsController.h"
 #import "GrowlBubblesDefines.h"
-#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 
 @implementation GrowlBubblesPrefsController
 - (NSString *) mainNibName {

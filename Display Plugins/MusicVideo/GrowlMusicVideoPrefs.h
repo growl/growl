@@ -7,7 +7,7 @@
 //
 
 #import <PreferencePanes/PreferencePanes.h>
-#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 
 #define MusicVideoPrefDomain			@"com.Growl.MusicVideo"
 

@@ -5,7 +5,7 @@
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
     #import <AppKit/AppKit.h>
-	#import "GrowlDefines.h"
+	#import "GrowlDefinesInternal.h"
 	#import "GrowlApplicationTicket.h"
 	#import "GrowlPreferences.h"
 	#import "GrowlPluginController.h"

@@ -8,7 +8,7 @@
 //
 
 #import "GrowlBubblesWindowView.h"
-#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 #import "GrowlBubblesDefines.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlImageAdditions.h"

@@ -8,7 +8,7 @@
 
 #import "GrowlSmokeWindowView.h"
 #import "GrowlSmokeDefines.h"
-#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"

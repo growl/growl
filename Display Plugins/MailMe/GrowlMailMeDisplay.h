@@ -7,7 +7,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Message/NSMailDelivery.h>
-#import <GrowlDefines.h>
+#import <GrowlDefinesInternal.h>
 #import <GrowlDisplayProtocol.h>
 
 @class GrowlMailMePrefs;

@@ -1,5 +1,5 @@
 //
-//  GrowlDefines.h
+//  GrowlDefinesInternal.h
 //  Growl
 //
 //  Created by Karl Adam on Mon May 17 2004.
@@ -7,7 +7,7 @@
 //
 
 #import <CoreFoundation/CoreFoundation.h>
-#import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 
 /*!
     @header
