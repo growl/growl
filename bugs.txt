@@ -2,3 +2,12 @@
 
 
 - Possible bug: http://forums.cocoaforge.com/viewtopic.php?p=1050
+
+10.2 bugs
+
+SSL issue.
+In a recent build I noticed that switching notifaction types in the general tab don't take effect like the last build. So I stoped and started growl which fixed it before, only this time it won't start back up.
+Console says:
+
+GrowlHelperApp.app/Contents/MacOS/GrowlHelperApp can't open library: /usr/lib/libcrypto.0.9.7.dylib  (No such file or directory, errno = 2)
+Dec  6 21:46:02 Thor last message repeated 4 times
