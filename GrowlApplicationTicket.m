@@ -93,7 +93,6 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	//load a Plist file of this object to maintain configuration through launches
 	id iconObject;
 	if ( self = [super init] ) {
-		NSLog(@"Loading from path: %@\n", inPath);
 		NSDictionary *ticketsList = [NSDictionary dictionaryWithContentsOfFile:inPath];
 		_appName = [[ticketsList objectForKey:GROWL_APP_NAME] retain];
 		_defaultNotifications = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
@@ -165,7 +164,6 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	
 	// NSString *aString = [saveDict description];
 	[saveDict writeToFile:savePath atomically:YES];
-	NSLog( @"Ticket saved to %@", savePath );
 }
 
 #pragma mark -
