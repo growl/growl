@@ -621,7 +621,7 @@
 - (void) tabView:(NSTabView*)tab willSelectTabViewItem:(NSTabViewItem*)tabViewItem
 {
 	//NSLog(@"%s %@\n", __FUNCTION__, [tabViewItem label]);
-	if([[tabViewItem identifier] isEqual:@"application"]) {
+	if([[tabViewItem identifier] isEqual:@"2"]) {
 		[[tab window] makeFirstResponder: growlApplications];
 	}			
 }
