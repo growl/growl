@@ -44,8 +44,8 @@
 - (void) unloadPlugin;
 /*! Allows the system pref to get the view to set the prefs for this plugin
 	
-	For reference, the frame of the view should be
-	165, 20, 354, 311 (x, y, w, h).  This is because that's the size of the view currently.
+	For reference, the size of the view should be 354 x 289.
+	This is because that's the size of the view currently.
 	We have to think of something if there are more options than fit in that place.
  */
 - (NSView*) displayPrefView;
