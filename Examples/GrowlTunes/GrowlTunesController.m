@@ -360,6 +360,7 @@ enum {
 		[pool release];
 		[newPlugins autorelease];
 	}
+	return newPlugins;
 }
 
 @end

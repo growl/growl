@@ -56,4 +56,8 @@ typedef enum {
 - (void)tearDownStatusItem;
 - (NSMenu *)statusItemMenu;
 
+#pragma mark Plug-ins
+
+- (NSMutableArray *)loadPlugins;
+
 @end
