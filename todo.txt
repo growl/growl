@@ -19,6 +19,8 @@ Release related issues
 
 
 For .7 or sooner
+- Coalescing of notifications of similar type for notifications that can use it.
+- Clicking notifications
 - Bubbles
 	- Top background color colorwell
 
