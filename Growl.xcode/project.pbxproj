@@ -3627,9 +3627,9 @@
 		CB1C5D1B063E432F007052EE = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = GrowlApplicationTicket.m;
-			path = Source/GrowlApplicationTicket.m;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlApplicationTicket.h;
+			path = Source/GrowlApplicationTicket.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
