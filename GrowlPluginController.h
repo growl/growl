@@ -10,13 +10,12 @@
 
 
 @interface GrowlPluginController : NSObject {
-		NSMutableDictionary		* allDisplayPlugins;
-	
+		NSMutableDictionary		* allDisplayPlugins;	
 }
 
-+ (GrowlPluginController *)controller;
++ (GrowlPluginController *) controller;
 
-- (NSArray *)allDisplayPlugins;
+- (NSArray *) allDisplayPlugins;
 - (id <GrowlDisplayPlugin>) displayPluginNamed:(NSString *)name;
 
 @end

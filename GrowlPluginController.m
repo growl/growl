@@ -16,7 +16,7 @@ static GrowlPluginController * sharedController;
 
 @implementation GrowlPluginController
 
-+ (GrowlPluginController *)controller {
++ (GrowlPluginController *) controller {
 	if(!sharedController)
 		sharedController = [[GrowlPluginController alloc] init];
 	return sharedController;
@@ -32,10 +32,11 @@ static GrowlPluginController * sharedController;
 	libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
 	
 	enumerator = [libraries objectEnumerator];
-	while(dir = [enumerator nextObject]) {
-		dir = [[[dir stringByAppendingPathComponent:@"Application Support"]
+	while ( dir = [enumerator nextObject] ) {
+		dir = [[[dir	stringByAppendingPathComponent:@"Application Support"]
 						stringByAppendingPathComponent:@"Growl"]
 						stringByAppendingPathComponent:@"Plugins"];
+
 		[self findDisplayPluginsInDirectory:dir];
 	}
 	
@@ -44,7 +45,7 @@ static GrowlPluginController * sharedController;
 	return self;
 }
 
-- (NSArray *)allDisplayPlugins {
+- (NSArray *) allDisplayPlugins {
 	return [allDisplayPlugins allKeys];
 }
 
@@ -67,13 +68,21 @@ static GrowlPluginController * sharedController;
 	NSBundle * pluginBundle;
 	id <GrowlDisplayPlugin> plugin;
 	
-	while(file = [enumerator nextObject]) {
-		if([[file pathExtension] isEqualToString:displayPluginExt]) {
+	while ( file = [enumerator nextObject] ) {
+
+		if ( [[file pathExtension] isEqualToString:displayPluginExt] ) {
 			pluginBundle = [NSBundle bundleWithPath:[dir stringByAppendingPathComponent:file]];
-			if(pluginBundle && (plugin = [[[[pluginBundle principalClass] alloc] init] autorelease]) && [plugin name]) {
+
+			if ( pluginBundle 
+				 && (plugin = [[[[pluginBundle principalClass] alloc] init] autorelease]) 
+				 && [plugin name] ) {
+
 				[plugin loadPlugin];
 				[allDisplayPlugins setObject:plugin forKey:[plugin name]];
-			} else NSLog(@"Failed to load: %@",file);
+
+			} else {
+				NSLog(@"Failed to load: %@",file);
+			}
 		}
 	}
 }

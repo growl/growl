@@ -9,25 +9,22 @@
 #import <Cocoa/Cocoa.h>
 
 extern NSString * HelperAppBundleIdentifier;
-
 extern NSString * GrowlPreferencesChanged;
-
 extern NSString * GrowlDisplayPluginKey;
 
 
 @interface GrowlPreferences : NSObject {
 	NSUserDefaults			* helperAppDefaults;
-	
 	NSBundle				* helperAppBundle;
 }
 
 + (GrowlPreferences *) preferences;
 
-- (void)registerDefaults:(NSDictionary *)inDefaults;
-- (id)objectForKey:(NSString *)key;
-- (void)setObject:(id)object forKey:(NSString *) key;
+- (void) registerDefaults:(NSDictionary *)inDefaults;
+- (id) objectForKey:(NSString *)key;
+- (void) setObject:(id)object forKey:(NSString *) key;
 
-- (NSBundle *)helperAppBundle;
+- (NSBundle *) helperAppBundle;
 
 
 @end

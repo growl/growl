@@ -8,11 +8,9 @@
 
 #import "GrowlPreferences.h"
 
-NSString * HelperAppBundleIdentifier = @"com.Growl.GrowlHelperApp";
-
-NSString * GrowlPreferencesChanged = @"GrowlPreferencesChanged";
-
-NSString * GrowlDisplayPluginKey = @"GrowlDisplayPluginName";
+NSString * HelperAppBundleIdentifier	= @"com.Growl.GrowlHelperApp";
+NSString * GrowlPreferencesChanged		= @"GrowlPreferencesChanged";
+NSString * GrowlDisplayPluginKey		= @"GrowlDisplayPluginName";
 
 
 static GrowlPreferences * sharedPreferences;
@@ -35,14 +33,15 @@ static GrowlPreferences * sharedPreferences;
 
 #pragma mark -
 
-- (void)registerDefaults:(NSDictionary *)inDefaults {
+- (void) registerDefaults:(NSDictionary *)inDefaults {
 	NSMutableDictionary * domain = [[helperAppDefaults persistentDomainForName:HelperAppBundleIdentifier] mutableCopy];
 	if(!domain) domain = [[NSMutableDictionary alloc] init];
+
 	NSEnumerator		* e = [inDefaults keyEnumerator];
 	NSString			* key;
 	
-	while(key = [e nextObject]) {
-		if(![domain objectForKey:key]) {
+	while ( key = [e nextObject] ) {
+		if ( ![domain objectForKey:key] ) {
 			[domain setObject:[inDefaults objectForKey:key] forKey:key];
 		}
 	}
@@ -52,21 +51,25 @@ static GrowlPreferences * sharedPreferences;
 	[domain release];
 }
 
-- (id)objectForKey:(NSString *)key {
+- (id) objectForKey:(NSString *)key {
 	[helperAppDefaults synchronize];
 	id obj = [helperAppDefaults objectForKey:key];
 	return obj;
 }
 
-- (void)setObject:(id)object forKey:(NSString *) key {
-	CFPreferencesSetAppValue((CFStringRef)key,(CFPropertyListRef)object,(CFStringRef)HelperAppBundleIdentifier);\
-	CFPreferencesAppSynchronize((CFStringRef)HelperAppBundleIdentifier);
+- (void) setObject:(id)object forKey:(NSString *) key {
+	CFPreferencesSetAppValue( (CFStringRef)key			/* key */,
+							  (CFPropertyListRef)object /* value */,
+							  (CFStringRef)HelperAppBundleIdentifier) /* application ID */;\
+								  
+	CFPreferencesAppSynchronize( (CFStringRef)HelperAppBundleIdentifier );
+							  
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged object:key];
 }
 
-- (NSBundle *)helperAppBundle {
-	if(!helperAppBundle) {
-		if([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:HelperAppBundleIdentifier]) {
+- (NSBundle *) helperAppBundle {
+	if ( !helperAppBundle ) {
+		if ( [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:HelperAppBundleIdentifier] ) {
 			//We are running in the GAH bundle
 			helperAppBundle = [NSBundle mainBundle];
 		} else {
@@ -78,7 +81,7 @@ static GrowlPreferences * sharedPreferences;
 	return helperAppBundle;
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[helperAppDefaults release];
 	
 	[super dealloc];

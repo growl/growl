@@ -50,13 +50,12 @@ static unsigned int bubbleWindowDepth = 0;
 	[panel setContentView:view];
 	
 	[view setTitle:title];
-	if( [text isKindOfClass:[NSString class]] ) 
-		[view setText:text];
-	else if( [text isKindOfClass:[NSAttributedString class]] ) 
-		[view setAttributedText:text];
+	if( [text isKindOfClass:[NSString class]] ) [view setText:text];
+	else if( [text isKindOfClass:[NSAttributedString class]] ) [view setAttributedText:text];
+	
 	[view setIcon:icon];
 	panelFrame = [view frame];
-	[panel setFrame: panelFrame display:NO];
+	[panel setFrame:panelFrame display:NO];
 	
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
 	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - KABubblePadding, 
@@ -116,7 +115,11 @@ static unsigned int bubbleWindowDepth = 0;
 
 - (void) _waitBeforeFadeOut {
 	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime target:self selector:@selector( startFadeOut ) userInfo:nil repeats:NO] retain];
+	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime 
+														target:self 
+													  selector:@selector( startFadeOut ) 
+													  userInfo:nil 
+													   repeats:NO] retain];
 }
 
 - (void) _fadeIn:(NSTimer *) inTimer {

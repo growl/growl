@@ -11,17 +11,18 @@
 
 @implementation GrowlApplicationTicket
 
-+ (NSDictionary *)allSavedTickets {
++ (NSDictionary *) allSavedTickets {
 	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, /*expandTilde*/ YES);
 	NSEnumerator *libraryDirEnum = [libraryDirs objectEnumerator];
 	NSString *libraryPath, *growlSupportPath;
 	NSMutableDictionary *result = [NSMutableDictionary dictionary];
 
-	while(libraryPath = [libraryDirEnum nextObject]) {
+	while ( libraryPath = [libraryDirEnum nextObject] ) {
 		growlSupportPath = [libraryPath stringByAppendingPathComponent:@"Application Support"];
 		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Growl"];
 		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Tickets"];
 		[self loadTicketsFromDirectory:growlSupportPath intoDictionary:result clobbering:YES];
+		
 		//import old tickets.
 		growlSupportPath = [libraryPath stringByAppendingPathComponent:@"Growl Support"];
 		[self loadTicketsFromDirectory:growlSupportPath intoDictionary:result clobbering:NO];
@@ -30,28 +31,31 @@
 	return result;
 }
 
-+ (void)loadTicketsFromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber {
++ (void) loadTicketsFromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber {
 	NSFileManager *mgr = [NSFileManager defaultManager];
 	BOOL isDir;
 	NSDirectoryEnumerator *growlSupportEnum = [mgr enumeratorAtPath:srcDir];
 	NSString *filename;
 
-	while(filename = [growlSupportEnum nextObject]) {
+	while ( filename = [growlSupportEnum nextObject] ) {
 		filename = [srcDir stringByAppendingPathComponent:filename];
 		[mgr fileExistsAtPath:filename isDirectory:&isDir];
-		if((!isDir) && [[filename pathExtension] isEqualToString:@"growlTicket"]) {
+		
+		if ( (!isDir) && [[filename pathExtension] isEqualToString:@"growlTicket"] ) {
 			GrowlApplicationTicket *newTicket = [[self alloc] initTicketFromPath:filename];
 			NSString *appName = [newTicket applicationName];
-			if(clobber || ![dict objectForKey:appName]) {
+			
+			if ( clobber || ![dict objectForKey:appName] ) {
 				[dict setObject:newTicket forKey:appName];
 				[newTicket release];
 			}
 		}
 	}
+	
 }
 
-- (id) initWithApplication:(NSString *)inAppName
-				  withIcon:(NSImage *)inIcon
+- (id) initWithApplication:(NSString *) inAppName
+				  withIcon:(NSImage *) inIcon
 		  andNotifications:(NSArray *) inAllNotifications
 		   andDefaultNotes:(NSArray *) inDefaults {
 
@@ -90,14 +94,17 @@
 		_defaultNotifications = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
 		_allNotifications = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL]];
 		_allowedNotifications = [[NSMutableArray alloc] init];
+		
 		[self setAllowedNotifications:[ticketsList objectForKey:GROWL_NOTIFICATIONS_USER_SET]];
-		if(iconObject = [ticketsList objectForKey:GROWL_APP_ICON]) {
+		
+		if ( iconObject = [ticketsList objectForKey:GROWL_APP_ICON] ) {
 			_icon = [[NSImage alloc] initWithData:iconObject];
 		} else {
 			_icon = [[[NSWorkspace sharedWorkspace] iconForApplication:_appName] retain];
 		}
 		_useDefaults = [[ticketsList objectForKey:@"useDefaults"] boolValue];
-		if([ticketsList objectForKey:@"ticketEnabled"]) {
+		
+		if ( [ticketsList objectForKey:@"ticketEnabled"] ) {
 			ticketEnabled = [[ticketsList objectForKey:@"ticketEnabled"] boolValue];
 		} else {
 			ticketEnabled = YES;
@@ -109,7 +116,7 @@
 
 - (void) saveTicket {
 	NSString *destDir;
-	NSArray *searchPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES);
+	NSArray *searchPath = NSSearchPathForDirectoriesInDomains( NSLibraryDirectory, NSUserDomainMask, /* expandTilde */ YES );
 
 	destDir = [searchPath objectAtIndex:0];
 	destDir = [destDir stringByAppendingPathComponent:@"Application Support"];
@@ -125,7 +132,7 @@
 	NSString *savePath = [destDir stringByAppendingPathComponent:[_appName stringByAppendingPathExtension:@"growlTicket"]];
 	NSDictionary *saveDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		_appName, GROWL_APP_NAME,
-		_icon?[_icon TIFFRepresentation]:[NSData data], GROWL_APP_ICON,
+		_icon ? [_icon TIFFRepresentation] : [NSData data], GROWL_APP_ICON,
 		_allNotifications, GROWL_NOTIFICATIONS_ALL,
 		_defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		_allowedNotifications, GROWL_NOTIFICATIONS_USER_SET,
@@ -133,7 +140,7 @@
 		[NSNumber numberWithBool:ticketEnabled], @"ticketEnabled",
 		nil];
 	
-//	NSString *aString = [saveDict description];
+	// NSString *aString = [saveDict description];
 	[saveDict writeToFile:savePath atomically:YES];
 	NSLog( @"Ticket saved to %@", savePath );
 }
@@ -144,7 +151,7 @@
 	return _icon;
 }
 - (void) setIcon:(NSImage *) inIcon {
-	if(_icon != inIcon) {
+	if ( _icon != inIcon ) {
 		[_icon release];
 		_icon = [inIcon retain];
 	}
@@ -163,11 +170,11 @@
 
 #pragma mark -
 
-- (BOOL)ticketEnabled {
+- (BOOL) ticketEnabled {
 	return ticketEnabled;
 }
 
-- (void)setEnabled:(BOOL)inEnabled {
+- (void) setEnabled:(BOOL)inEnabled {
 	ticketEnabled = inEnabled;
 }
 
@@ -203,7 +210,7 @@
 	[_defaultNotifications autorelease];
 	_defaultNotifications = [inArray retain];
 	
-	if(_useDefaults) {
+	if( _useDefaults ) {
 		[self setAllowedNotifications:inArray];
 	}
 }
@@ -223,7 +230,7 @@
 }
 
 - (void) setNotificationEnabled:(NSString *) name {
-	if (![_allowedNotifications containsObject:name]) {
+	if ( ! [_allowedNotifications containsObject:name] ) {
 		[_allowedNotifications addObject:name];
 		_useDefaults = NO;
 	}

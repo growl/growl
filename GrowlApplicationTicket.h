@@ -41,8 +41,8 @@
 
 #pragma mark -
 
-- (BOOL)ticketEnabled;
-- (void)setEnabled:(BOOL)inEnabled;
+- (BOOL) ticketEnabled;
+- (void) setEnabled:(BOOL)inEnabled;
 
 - (NSArray *) allNotifications;
 - (void) setAllNotifications:(NSArray *) inArray;
