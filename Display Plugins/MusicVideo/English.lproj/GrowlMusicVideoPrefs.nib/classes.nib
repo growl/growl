@@ -2,7 +2,7 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {preferenceChanged = id; setScreen = id; }; 
+            ACTIONS = {preferenceChanged = id; takeScreenAsIntValueFrom = id; }; 
             CLASS = GrowlMusicVideoPrefs; 
             LANGUAGE = ObjC; 
             OUTLETS = {
