@@ -124,13 +124,15 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 	}
 
 	enum {
+		appNameIndex,
 		nameIndex,
 		titleIndex, descriptionIndex,
 		priorityIndex,
+		stickyIndex,
 		iconIndex,
 		appIconIndex,
 
-		highestKeyIndex = 6,
+		highestKeyIndex = 7,
 		numKeys,
 	};
 	const void *keys[numKeys] = {
@@ -138,18 +140,22 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		GROWL_NOTIFICATION_NAME,
 		GROWL_NOTIFICATION_TITLE, GROWL_NOTIFICATION_DESCRIPTION,
 		GROWL_NOTIFICATION_PRIORITY,
+		GROWL_NOTIFICATION_STICKY,
 		GROWL_NOTIFICATION_ICON,
 		GROWL_NOTIFICATION_APP_ICON,
 	};
 	CFNumberRef priorityNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &(notification->priority));
+	Boolean isSticky = notification->isSticky;
+	CFNumberRef stickyNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberCharType, &isSticky);
 	
 	const void *values[numKeys] = {
 		appName, //0
 		notification->name, //1
 		notification->title, notification->description, //2, 3
 		priorityNumber, //4
-		notification->iconData, //5
-		NULL, //6
+		stickyNumber, //5
+		notification->iconData, //6
+		NULL, //7
 	};
 
 	//make sure we have both a name and a title
@@ -163,7 +169,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		values[descriptionIndex] = CFSTR("");
 
 	//now, target the first NULL value.
-	//if there was iconData, this is index 6; else, it is index 5.
+	//if there was iconData, this is index 7; else, it is index 6.
 	unsigned pairIndex = iconIndex + (values[iconIndex] != NULL);
 
 	//...and set the custom application icon there.
@@ -183,6 +189,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 
 	CFRelease(userInfo);
 	CFRelease(priorityNumber);
+	CFRelease(stickyNumber);
 }
 
 void Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
