@@ -25,10 +25,8 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		growlSupportPath = [libraryPath stringByAppendingPathComponent:@"Application Support"];
 		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Growl"];
 		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Tickets"];
-		[self loadTicketsFromDirectory:growlSupportPath intoDictionary:result clobbering:YES];
-		
-		//import old tickets.
-		growlSupportPath = [libraryPath stringByAppendingPathComponent:@"Growl Support"];
+		//The search paths are returned in the order we should search in, so earlier results should take priority
+		//Thus, clobbering:NO
 		[self loadTicketsFromDirectory:growlSupportPath intoDictionary:result clobbering:NO];
 	}
 
@@ -213,7 +211,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 #pragma mark -
 
 - (NSString *) description {
-	return [NSString stringWithFormat:@"<GrowlApplicationTicket: %p>{\n\tApplicationName: \"%@\"\n\ticon: %@\n\tAll Notifications: %@\n\tDefault Notifications: %@\n\tAllowed Notifications: %@\n\tUse Defaults: %@",
+	return [NSString stringWithFormat:@"<GrowlApplicationTicket: %p>{\n\tApplicationName: \"%@\"\n\ticon: %@\n\tAll Notifications: %@\n\tDefault Notifications: %@\n\tAllowed Notifications: %@\n\tUse Defaults: %@\n}",
 		self, _appName, _icon, _allNotifications, _defaultNotifications, _allowedNotifications, ( _useDefaults ? @"YES" : @"NO" )];
 }
 

@@ -26,8 +26,8 @@
 + (NSDictionary *) allSavedTickets;
 + (void) loadTicketsFromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber;
 
-- (id) initWithApplication:(NSString *)inAppName
-				  withIcon:(NSImage *)inIcon
+- (id) initWithApplication:(NSString *) inAppName
+				  withIcon:(NSImage *) inIcon
 		  andNotifications:(NSArray *) inAllNotifications
 		   andDefaultNotes:(NSArray *) inDefaults;
 
