@@ -215,7 +215,7 @@
 {
 //	NSLog(@"volume DisMount: %@" , [note object] );
 	
-	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile: [note object]] TIFFRepresentation];  
+//	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile: [note object]] TIFFRepresentation];  
 	[GrowlApplicationBridge notifyWithTitle:@"Volume Dismounted"
 							description:[[note object] lastPathComponent]
 							notificationName:NotifierVolumeUnmountedNotification

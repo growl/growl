@@ -11,12 +11,11 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 
 - (id)init
 {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		[self ioKitSetUp];
 		[self registerForFireWireNotifications];
-
-		return self;
 	}
+	return self;
 }
 
 
@@ -30,7 +29,7 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 
 -(void)ioKitSetUp
 {
-#warning	kIOMasterPortDefault is only available on 10.2 and above... 
+//#warning	kIOMasterPortDefault is only available on 10.2 and above... 
 	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	notificationRunLoopSource = IONotificationPortGetRunLoopSource(ioKitNotificationPort);
 	
@@ -56,15 +55,14 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 	//http://developer.apple.com/documentation/DeviceDrivers/Conceptual/AccessingHardware/AH_Finding_Devices/chapter_4_section_2.html#//apple_ref/doc/uid/TP30000379/BABEACCJ
 	kern_return_t			matchingResult;
 	io_iterator_t			gFWAddedIter;
-	io_iterator_t			gFWRemovedIter;
 
 	NSLog(@"registerForFireWireNotifications");
 
 	//	Setup a matching Dictionary.
-	NSMutableDictionary		* myFireWireMatchDictionary;	
+	CFDictionaryRef myFireWireMatchDictionary;	
 	myFireWireMatchDictionary = nil;	
 	//		myFireWireMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
-	(CFDictionaryRef) myFireWireMatchDictionary  = IOServiceMatching("IOFireWireDevice");
+	myFireWireMatchDictionary = IOServiceMatching("IOFireWireDevice");
 	
 	//	Register our notification
 	gFWAddedIter = nil;				
@@ -76,8 +74,9 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 													  (void *) self,
 													  (io_iterator_t *) &gFWAddedIter ); 
 	
-	if (matchingResult) 
+	if (matchingResult) {
 		NSLog(@"matching notification registration failed: %d" , matchingResult);
+	}
 	
 	//	Prime the Notifications (And Deal with the existing devices)...
 	[self fwDeviceAdded: gFWAddedIter];
@@ -91,7 +90,7 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 	
 	myFireWireMatchDictionary = nil;	
 	//		myFireWireMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
-	(CFDictionaryRef) myFireWireMatchDictionary = IOServiceMatching("IOFireWireDevice");
+	myFireWireMatchDictionary = IOServiceMatching("IOFireWireDevice");
 	kern_return_t			removeNoteResult;
 	io_iterator_t			removedIterator ;
 	removeNoteResult = IOServiceAddMatchingNotification(ioKitNotificationPort, 
@@ -105,10 +104,11 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 	// iterator returned from IOServiceAddMatchingNotification(), so
 	// we call our device removed method here...
 	//
-	if (kIOReturnSuccess != removeNoteResult)
+	if (kIOReturnSuccess != removeNoteResult) {
 		NSLog(@"Couldn't add device removal notification") ;
-	else
-		[self fwDeviceRemoved: removedIterator];	
+	} else {
+		[self fwDeviceRemoved: removedIterator];
+	}
 }
 
 
@@ -118,11 +118,7 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 {
 //	NSLog(@"FireWire Device Added Notification.");
 	io_object_t		thisObject = nil;
-	while (thisObject = IOIteratorNext( iterator )) 
-	{
-		kern_return_t	nameResult;
-		io_name_t		deviceNameChars;
-		id				returnedPropertyObject;
+	while ((thisObject = IOIteratorNext( iterator ))) {
 		NSString		*deviceName;
 		
 //		NSLog(@"got one new object.");
@@ -138,8 +134,7 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 {
 //	NSLog(@"FireWire Device Removed Notification.");
 	io_object_t		thisObject = nil;
-	while (thisObject = IOIteratorNext( iterator )) 
-	{
+	while ((thisObject = IOIteratorNext( iterator ))) {
 		NSString *deviceName;
 //		NSLog(@"got one new removed object.");
 
@@ -169,21 +164,20 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 		return tempDeviceName;	
 	}
 
-	(CFTypeRef) tempDeviceName = 
-		IORegistryEntrySearchCFProperty(thisObject,
+	tempDeviceName = 
+		(NSString *)IORegistryEntrySearchCFProperty(thisObject,
 										kIOFireWirePlane,
 										(CFStringRef) @"FireWire Product Name",
 										nil,
 										kIORegistryIterateRecursively);
 	
-	if (tempDeviceName) 
-	{
+	if (tempDeviceName) {
 		return tempDeviceName;
 	}
 		
 
-	(CFTypeRef) tempDeviceName = 
-		IORegistryEntrySearchCFProperty(thisObject,
+	tempDeviceName = 
+		(NSString *)IORegistryEntrySearchCFProperty(thisObject,
 										kIOFireWirePlane,
 										(CFStringRef) @"FireWire Vendor Name",
 										nil,

@@ -9,10 +9,10 @@ NSString		*NotifierBluetoothDisconnectionNotification		=	@"Bluetooth Device Disc
 
 -(id)init
 {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		[self setUpBluetoothNotifications];
 	}
-	return nil;
+	return self;
 }
 
 
@@ -35,16 +35,10 @@ NSString		*NotifierBluetoothDisconnectionNotification		=	@"Bluetooth Device Disc
 
 }
 
-
-
 -(void)dealloc
 {
-
-	
-	[super	dealloc];
+	[super dealloc];
 }
-
-
 
 
 /*

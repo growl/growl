@@ -17,8 +17,7 @@ NSString		*NotifierVolumeUnmountedNotification	=	@"Volume Dismounted";
 
 -(id)init
 {
-	if (self = [super init])
-	{
+	if ((self = [super init])) {
 		NSNotificationCenter *nc=[[NSWorkspace sharedWorkspace] notificationCenter];
 		
 		[nc addObserver: self
@@ -30,9 +29,8 @@ NSString		*NotifierVolumeUnmountedNotification	=	@"Volume Dismounted";
 			   selector: @selector(volumeDidDismount:)
 				   name: @"NSWorkspaceDidUnmountNotification"
 				 object: nil];
-		return self;	
 	}
-	return nil;
+	return self;	
 }
 
 

@@ -11,12 +11,11 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 
 - (id)init
 {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		[self ioKitSetUp];
 		[self registerForUSBNotifications];
-		
-		return self;
 	}
+	return self;
 }
 
 
@@ -30,7 +29,7 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 
 -(void)ioKitSetUp
 {
-#warning	kIOMasterPortDefault is only available on 10.2 and above... 
+//#warning	kIOMasterPortDefault is only available on 10.2 and above... 
 	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	notificationRunLoopSource = IONotificationPortGetRunLoopSource(ioKitNotificationPort);
 	
@@ -61,16 +60,16 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 	NSLog(@"registerForUSBNotifications");
 	
 	//	Setup a matching Dictionary.
-	NSMutableDictionary		* myMatchDictionary;	
+	CFDictionaryRef myMatchDictionary;	
 	myMatchDictionary = nil;	
-	(CFDictionaryRef) myMatchDictionary  = IOServiceMatching(kIOUSBDeviceClassName);
-	
+	myMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
+
 	//	Register our notification
 	addedIterator = nil;				
 	matchingResult = IOServiceAddMatchingNotification(
 													  ioKitNotificationPort,
 													  kIOPublishNotification,
-													  (CFDictionaryRef) myMatchDictionary,
+													  myMatchDictionary,
 													  usbDeviceAdded,
 													  (void *) self,
 													  (io_iterator_t *) &addedIterator ); 
@@ -89,12 +88,12 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 	//	It seems we have to make a new dictionary...  reusing the old one didn't work.
 	
 	myMatchDictionary = nil;	
-	(CFDictionaryRef) myMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
+	myMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
 	kern_return_t			removeNoteResult;
 //	io_iterator_t			removedIterator ;
 	removeNoteResult = IOServiceAddMatchingNotification(ioKitNotificationPort, 
 														kIOTerminatedNotification,
-														(CFDictionaryRef) myMatchDictionary, 
+														myMatchDictionary, 
 														usbDeviceRemoved, 
 														self, 
 														&removedIterator );
@@ -103,10 +102,11 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 	// iterator returned from IOServiceAddMatchingNotification(), so
 	// we call our device removed method here...
 	//
-	if (kIOReturnSuccess != removeNoteResult)
+	if (kIOReturnSuccess != removeNoteResult) {
 		NSLog(@"Couldn't add device removal notification") ;
-	else
-		[self usbDeviceRemoved: removedIterator];	
+	} else {
+		[self usbDeviceRemoved: removedIterator];
+	}
 }
 
 
@@ -116,11 +116,9 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 {
 //	NSLog(@"USB Device Added Notification.");
 	io_object_t		thisObject = nil;
-	while (thisObject = IOIteratorNext( iterator )) 
-	{
+	while ((thisObject = IOIteratorNext( iterator ))) {
 		kern_return_t	nameResult;
 		io_name_t		deviceNameChars;
-		id				returnedPropertyObject;
 		
 //		NSLog(@"got one new object.");
 		
@@ -130,8 +128,9 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 											 deviceNameChars ); 		
 		
 		NSString	*deviceName = [NSString stringWithCString: deviceNameChars];
-		if (!deviceName)
+		if (!deviceName) {
 			deviceName = @"Unnamed USB Device";
+		}
 		// NSLog(@"USB Device Attached: %@" , deviceName);		
 		[[NSNotificationCenter defaultCenter] postNotificationName: NotifierUSBConnectionNotification object: deviceName ];
 
@@ -143,9 +142,7 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 {
 //	NSLog(@"USB Device Removed Notification.");
 	io_object_t		thisObject = nil;
-	while (thisObject = IOIteratorNext( iterator )) 
-	{
-		id   returnedPropertyObject;
+	while ((thisObject = IOIteratorNext( iterator ))) {
 //		NSLog(@"got one new removed object.");
 		
 		kern_return_t	nameResult;
@@ -156,8 +153,9 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 		nameResult = IORegistryEntryGetName( thisObject, 
 											 deviceNameChars ); 		
 		NSString	*deviceName = [NSString stringWithCString: deviceNameChars];
-		if (!deviceName)
+		if (!deviceName) {
 			deviceName = @"Unnamed USB Device";
+		}
 		// NSLog(@"USB Device Detached: %@" , deviceName);		
 		[[NSNotificationCenter defaultCenter] postNotificationName: NotifierUSBDisconnectionNotification object: deviceName ];
 		
