@@ -25,8 +25,8 @@
 	return self;
 }
 
--(BOOL)usesNetwork
-{
+
+- (BOOL)usesNetwork {
 	return YES;
 }
 
@@ -40,48 +40,43 @@
 	album = newAlbum;
 	song = newSong;
 	compilation = newCompilation;
-	
-	// If the album is a compilation, we don't look for the artist,
-	// Instead we look for all compilations
+
+	/*If the album is a compilation, we don't look for the artist;
+	 *	instead we look for all compilations.
+	 */
 	if(compilation)
-	{
 		artist = @"compilation"; 
-	}
-	
+
 	artwork = nil;
 	NSLog( @"Go go interweb (%@ by %@ from %@)", song, artist, album );
 	NSDictionary *albumInfo = [self getAlbum:album byArtist:artist];
-	
+
 	NSData *imageData = nil;
-	if([albumInfo objectForKey:@"artworkURL"] != nil)
-	{
+	if([albumInfo objectForKey:@"artworkURL"]) {
 		@try
-	{
-		imageData = [self download:[NSURL URLWithString:[albumInfo objectForKey:@"artworkURL"]]];
-	}
+		{
+			imageData = [self download:[NSURL URLWithString:[albumInfo objectForKey:@"artworkURL"]]];
+		}
 		@catch(NSException *e)
-	{
+		{
 			NSLog(@"Exception occurred while downloading %@", [e reason]);
+		}
 	}
-	}
-	artwork = [[NSImage alloc] initWithData: imageData];
+	artwork = [[[NSImage alloc] initWithData:imageData] autorelease];
 	return artwork;
 }
 
 #pragma mark -
-#pragma mark AMAZON SEARCHING METHODS
+#pragma mark Amazon searching methods
 
-- (NSArray *)getAlbumsByArtist:(NSString *)artistName
-{
-	NSString *query = [[NSString stringWithFormat:@"?locale=us&t=0C8PCNE1KCKFJN5EHP02&dev-t=0C8PCNE1KCKFJN5EHP02&ArtistSearch=%s&mode=music&sort=+salesrank&offer=All&type=lite&page=1&f=xml", [artistName UTF8String]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+- (NSArray *)getAlbumsByArtist:(NSString *)artistName {
+	NSString *query = [[NSString stringWithFormat:@"?locale=us&t=0C8PCNE1KCKFJN5EHP02&dev-t=0C8PCNE1KCKFJN5EHP02&ArtistSearch=%@&mode=music&sort=+salesrank&offer=All&type=lite&page=1&f=xml", artistName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSString *result = [self queryAmazon:query];
 	
-	if(result != nil)
-	{
-		// *** Now we get down and dirty! ***
-		NSString *xml = [NSString stringWithString:result];
+	if(result) {
+		NSString *xml = result;
 		// Parse the XML into a DOM object document
-		NSData *XMLData = [NSData dataWithData:[xml dataUsingEncoding:NSUTF8StringEncoding]];
+		NSData *XMLData = [xml dataUsingEncoding:NSUTF8StringEncoding];
 		DOMBuilder *builder = [DOMBuilder defaultBuilder];
 		
 		DOMDocument *document;
@@ -89,211 +84,160 @@
 		{
 			document = [builder buildFromData:XMLData];
 		}
-		// If the response was malformed we get an exception, catch it and return NIL
 		@catch(NSException *e)
 		{
-			NSLog(@"An exception occurred while parsing XML data (It was probably malformed)\nREASON: %@", [e reason]);
+			NSLog(@"An exception occurred while parsing XML data (it was probably malformed)\n" @"Exception reason: %@", [e reason]);
 			return nil;
 		}
 		
 		DOMElement *rootElement = [document documentElement]; // Get the root element
 		
-		// *** Get the details of all found products ***
+		//Get the details of all found products
 		DOMXPathExpression *resultQuery = [DOMXPathExpression expressionWithString:@"//Details"];
-			NSArray *results = [resultQuery matchesForContextNode:rootElement];
-			if([results count] < 1)
-			{
-//				NSLog(@"No results");
-			}
-			else
-			{
-//				NSLog(@"Found some!, filtering...");
-				NSMutableArray *resultsInfo = [[NSMutableArray alloc] init]; // This array stores info for all results
+		NSArray *results = [resultQuery matchesForContextNode:rootElement];
+		if([results count] < 1U) {
+//			NSLog(@"No results");
+		} else {
+//			NSLog(@"Found some!, filtering...");
+			NSMutableArray *resultsInfo = [NSMutableArray arrayWithCapacity:[results count]];
+			
+			NSEnumerator *resultsEnum = [results objectEnumerator];
+			DOMElement *result;
+
+			while((result = [resultsEnum nextObject])) {
+				DOMElement    *nameElement = [[result getElementsByTagName:@"ProductName"]   objectAtIndex:0U];
+				//We want the biiig artwork ;-)
+				DOMElement *artworkElement = [[result getElementsByTagName:@"ImageUrlLarge"] objectAtIndex:0U];
+				DOMElement  *artistElement = nameElement;
 				
-				NSMutableDictionary *productInfo; // Stores the info to be stored for the current result
-				NSArray *detailChildren; // Contains the details of the current product
-				DOMElement *nameElement; // The name element of the current result
-				DOMElement *artworkElement; // The artwork element of the current result
-				DOMElement *artistElement; // The artist element of the current result
-				NSArray *allArtists; // Used to store all of the artists, while we look for the artist we want
-				NSString *artworkURL; // URL to the current artwork
-				NSString *albumName; // Current album name
-				NSString *artistName; // Current artist name
-				unsigned int i;
-				for(i = 0; i < [results count]; ++i)
-				{
-					detailChildren = [[results objectAtIndex:i] children];
-					
-					// *** Get elements with info on the current result ***
-					nameElement = [[[results objectAtIndex:i] getElementsByTagName:@"ProductName"] objectAtIndex:0];
-					// We want the biiig artwork ;-) (I was going to use leetsp33k for this comment but backed out)
-					artworkElement = [[[results objectAtIndex:i] getElementsByTagName:@"ImageUrlLarge"] objectAtIndex:0];
-					artistElement = [[[results objectAtIndex:i] getElementsByTagName:@"ProductName"] objectAtIndex:0];
-					
-					// *** Create usable stuff from the elements ***
-					artworkURL = [artworkElement textContent];
-					albumName = [nameElement textContent];
-					// Find the artist that we most likely want
-					if([artistElement containsChild:[DOMText textWithString:artist]])
-					{
-						// If the artist element contains our wanted artist, Look for it!
-						allArtists = [artistElement children];
-						unsigned int x;
-						for(x = 0; x < [allArtists count]; ++x)
-						{
-							if([[[allArtists objectAtIndex:x] textContent] isEqualToString:artist])
-							{
-								artistElement = [allArtists objectAtIndex:x];
-								artistName = [[allArtists objectAtIndex:x] textContent];
-								
-								break; // GIT OUT!
-							}
+				//Now create usable stuff from the elements
+				NSString *artworkURL = [artworkElement textContent];
+				NSString *albumName  = [nameElement textContent];
+				NSString *artistName = nil;
+
+				//If the artist element contains our wanted artist, look for it!
+				if([artistElement containsChild:[DOMText textWithString:artist]]) {
+					NSArray *allArtists = [artistElement children];
+					NSEnumerator *artistEnum = [allArtists objectEnumerator];
+					while((artistElement = [artistEnum nextObject])) {
+						NSString *textContent = [artistElement textContent];
+						if([textContent isEqualToString:artist]) {
+							artistName = textContent;
+							break;
 						}
 					}
-					// If we didn't find anyone interesting we use the first one.
-					else
-					{
-						artistName = [[artistElement firstChild] textContent];
-					}
-					
-					//NSLog(@"Path to artwork: %@ For album: %@", artworkURL, albumName);
-					
-					// *** Add us to the array!! ***
-					productInfo = [[NSMutableDictionary alloc] init]; // Initialize.
-					[productInfo setObject:albumName forKey:@"name"];
-					[productInfo setObject:artworkURL forKey:@"artworkURL"];
-					[productInfo setObject:artistName forKey:@"artist"];
-					
-					[resultsInfo addObject:productInfo];
+				} else {
+					//we didn't find anyone interesting, so just use the first one.
+					artistName = [[artistElement firstChild] textContent];
+				}
+				
+				//NSLog(@"Path to artwork: %@ For album: %@", artworkURL, albumName);
+
+				NSDictionary *productInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+					albumName,  @"name",
+					artworkURL, @"artworkURL",
+					artistName, @"artist",
+					nil];
+				
+				[resultsInfo addObject:productInfo];
 			}
-				return resultsInfo;
+			return resultsInfo;
 		}
 	}
 	return nil;
 }
 
-- (NSDictionary *)getAlbum:(NSString *)albumName byArtist:(NSString *)artistName
-{
-	// *** Now that we have all info we need. we decide which result to use.. ***
-	NSArray *resultsInfo = [self getAlbumsByArtist:artistName];
-	BOOL found = NO; // This var is set to YES once we finally select the album to use...
-	NSDictionary *theResult = nil; // Our FINAL result!! (finally)
-	
-	NSMutableArray *likelyMatches = [[NSMutableArray alloc] init];
-	NSDictionary *currentResult;
-	BOOL artistMatches;
-	BOOL nameMatches;
-	unsigned int i;
-	for(i = 0; i <= [resultsInfo count]; ++i)
-	{
-		// If i is less than the count we are still searching
-		if(i < [resultsInfo count])
-		{
-			currentResult = [resultsInfo objectAtIndex:i];
-			nameMatches = NO;
-			artistMatches = NO;
-			if([[currentResult objectForKey:@"name"] caseInsensitiveCompare:album] == NSOrderedSame)
-			{
-				nameMatches = YES;
-			}
-			if([[currentResult objectForKey:@"artist"] caseInsensitiveCompare:artist] == NSOrderedSame)
-			{
-				artistMatches = YES;
-			}
-			
-			// Check if both the artist and name match
-			if(nameMatches && artistMatches)
-			{
-				// If it matches we stop searching, go out for a hotdog and let the code do the rest
-				album = [NSDictionary dictionaryWithDictionary:currentResult];
+- (NSDictionary *)getAlbum:(NSString *)albumName byArtist:(NSString *)artistName {
+	//Now that we have all the info we need, we can decide which result to use.
+	BOOL found = NO; //This var is set to YES once we finally select the album to use.
+
+	NSArray *matches = [self getAlbumsByArtist:artistName];
+	unsigned numMatches = [matches count];
+
+	NSMutableArray *resultCandidates = [NSMutableArray arrayWithCapacity:numMatches];
+	NSDictionary *result = nil;
+
+	NSEnumerator *matchEnum = [matches objectEnumerator];
+	NSDictionary *match;
+
+	while((match = [matchEnum nextObject])) {
+		BOOL   nameIsEqual = ([[match objectForKey:@"name"] caseInsensitiveCompare:album] == NSOrderedSame);
+		BOOL artistIsEqual = ([[match objectForKey:@"artist"] caseInsensitiveCompare:artist] == NSOrderedSame);
+
+		if(nameIsEqual) {
+			//Check if both the artist and name match
+			if(artistIsEqual) {
+				//this is the one we want.
+				result = match;
 				found = YES;
-				
-				[likelyMatches release]; // We don't need this now do we? ;-)
-				
+
 				break;
-			}
-			else if(nameMatches)
-			{
-				[likelyMatches addObject:currentResult];
-			}
+			} else
+				[resultCandidates addObject:match];
 		}
-		// Otherwise we have to select from the likely matches.. (or none..)
-		else
-		{
-			if([likelyMatches count] > 0)
-			{
-				// Now we just select the first match (If you're asking why we didn't do that in the first occurrance
-				//                                      then you ain't that smart, we want to loop through ALL
-				//                                      albums to make sure we get the PERFECT match if it's there)
-				theResult = [NSDictionary dictionaryWithDictionary:[likelyMatches objectAtIndex:0]];
-				found = YES;
-/*				NSLog(@"SELECTED: Path to artwork: %@ For album: %@", [theResult objectForKey:@"artworkURL"], 
-					  [theResult objectForKey:@"name"]);
+	}
+	if(!found) {
+		if([resultCandidates count]) {
+			/*Now we just select the first match.
+			 *We didn't do that in the first loop because we want to loop
+			 *	through ALL albums to make sure we get the PERFECT match
+			 *	if it's there.
+			 */
+			result = [resultCandidates objectAtIndex:0U];
+			found = YES;
+/*			NSLog(@"SELECTED: Path to artwork: %@ For album: %@", [theResult objectForKey:@"artworkURL"], 
+				  [theResult objectForKey:@"name"]);
 */
-			}
-			else
-			{
-				// No likely results found
-//				NSLog(@"Found no likely albums in response");
-			}
+		} else {
+			// No likely results found
+//			NSLog(@"Found no likely albums in response");
 		}
-	} // For()
+	}
 	
-	// WE'RE OUTTA THE LOOP!!, w00t!
-	return theResult;
+	return result;
 }
 
-
-- (NSString *)queryAmazon:(NSString *)query // "query" is actually just the GET args after the address.
-{	
+// "query" is actually just the GET args after the address.
+- (NSString *)queryAmazon:(NSString *)query {	
 	NSString *search = [@"http://xml.amazon.com/onca/xml3" stringByAppendingString:query];
 	NSURL *url = [NSURL URLWithString:search];
 //	NSLog(@"searchpath: %@", search);
 	
 	// Do the search on AWS
 	NSData *data = [self download:url];
-	if(data == nil)
-	{
+	if(!data)
 		NSLog(@"Error while getting XML Response from Amazon");
-	}
-	else
-	{
+	else {
 //		NSLog(@"Got response");
-		return [[NSString alloc] initWithData:data
-									 encoding:NSUTF8StringEncoding];
+		return [[[NSString alloc] initWithData:data
+		                              encoding:NSUTF8StringEncoding] autorelease];
 	}
 	return nil;
 }
 
-
-
 #pragma mark -
-#pragma mark ACCESSOR METHODS
-- (NSString *)artist
-{
+#pragma mark Accessors
+
+- (NSString *)artist {
 	return artist;
 }
-- (NSString *)album
-{
+- (NSString *)album {
 	return album;
 }
-- (NSString *)song
-{
+- (NSString *)song {
 	return song;
 }
-- (BOOL)compilation
-{
+- (BOOL)compilation {
 	return compilation;
 }
-- (NSImage *)artwork
-{
+- (NSImage *)artwork {
 	return artwork;
 }
 
 #pragma mark -
-#pragma mark OTHER METHHODS
-- (NSData *)download:(NSURL *)url
-{
+#pragma mark Other cool stuff
+
+- (NSData *)download:(NSURL *)url {
 	NSError *error = nil;
 	NSURLResponse *response = nil;
 	NSURLRequest *request = nil;
