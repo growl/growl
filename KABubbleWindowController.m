@@ -1,5 +1,6 @@
 #import "KABubbleWindowController.h"
 #import "KABubbleWindowView.h"
+#import "NSGrowlAdditions.h"
 
 static unsigned int bubbleWindowDepth = 0;
 
@@ -35,6 +36,7 @@ static unsigned int bubbleWindowDepth = 0;
 	[panel setHidesOnDeactivate:NO];
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
+	[panel setSticky:YES];
 	[panel setAlphaValue:0.];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
