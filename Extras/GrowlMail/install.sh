@@ -7,21 +7,21 @@
 SRC="$PWD/build"
 DEST="$HOME/Library/Mail/Bundles"
 
-echo SRC=$SRC
-echo DEST=$DEST
+echo SRC="$SRC"
+echo DEST="$DEST"
 
-if test -e $DEST; then
+if test -e "$DEST"; then
 	echo "$0: GrowlMail exists, moving to trash"
-	echo ditto --rsrc $SRC/GrowlMail.mailbundle $HOME/.Trash
-	ditto --rsrc $SRC/GrowlMail.mailbundle $HOME/.Trash
-	if test ! -d $SRC/GrowlMail.mailbundle; then
-		echo rm $SRC/GrowlMail.mailbundle
-		rm $SRC/GrowlMail.mailbundle
+	echo "ditto --rsrc \"$SRC/GrowlMail.mailbundle\" \"$HOME/.Trash\""
+	ditto --rsrc "$SRC/GrowlMail.mailbundle" "$HOME/.Trash"
+	if test ! -d "$SRC/GrowlMail.mailbundle"; then
+		echo "rm \"$SRC/GrowlMail.mailbundle\""
+		rm "$SRC/GrowlMail.mailbundle"
 	fi
 else
 	echo "$0: GrowlMail is not there, making Bundles folder if necessary"
-	echo mkdir $HOME/Library/Mail/Bundles
-	mkdir $HOME/Library/Mail/Bundles
+	echo "mkdir \"$HOME/Library/Mail/Bundles\""
+	mkdir "$HOME/Library/Mail/Bundles"
 	if test ! -?; then
 		echo "$0: Could not create Bundles folder - try repairing your permissions"
 	fi
@@ -33,8 +33,8 @@ else
 	true
 fi
 if test -?; then
-	echo ditto --rsrc $SRC/GrowlMail.mailbundle $DEST/GrowlMail.mailbundle
-	ditto --rsrc $SRC/GrowlMail.mailbundle $DEST/GrowlMail.mailbundle
+	echo "ditto --rsrc \"$SRC/GrowlMail.mailbundle\" \"$DEST/GrowlMail.mailbundle\""
+	ditto --rsrc "$SRC/GrowlMail.mailbundle" "$DEST/GrowlMail.mailbundle"
 fi
 
 echo "$0: Enabling plug-ins in Mail (if they are already enabled, this will have no effect)"
