@@ -33,6 +33,8 @@
 	[notificationQueue release];
 }
 
+#pragma mark -
+
 - (NSDictionary *) pluginInfo {
 	return [bundle infoDictionary];
 }
@@ -40,6 +42,8 @@
 - (NSPreferencePane *) preferencePane {
 	return preferencePane;
 }
+
+#pragma mark -
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
 	GrowlMusicVideoWindowController *nuMusicVideo = [GrowlMusicVideoWindowController musicVideoWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 

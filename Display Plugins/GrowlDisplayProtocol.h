@@ -29,7 +29,7 @@
 /*!	@method	pluginInfo
  *	@abstract	Returns a dictionary describing the plug-in.
  *	@discussion	The dictionary must contain at least these keys:
- *	- GrowlPluginAutor:	the name of the author of the plug-in.
+ *	- GrowlPluginAuthor:	the name of the author of the plug-in.
  *	- GrowlPluginName: the name of the plug-in.
  *	- GrowlPluginDescription: A plug-in's description should tell the user what
  *    the plug-in does. In a display plug-in, it should describe the display in
