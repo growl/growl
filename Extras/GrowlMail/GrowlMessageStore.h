@@ -37,6 +37,7 @@
 @interface GrowlMessageStore : MessageStore {
 }
 + (void)load;
+- (void)showSummary;
 - (id)finishRoutingMessages:(NSArray *)messages routed:(NSArray *)routed;
 
 @end
