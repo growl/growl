@@ -21,11 +21,12 @@
 	return [[[self alloc] init] autorelease];
 }
 
-+ (GrowlMusicVideoWindowController *)musicVideoWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky {
-	return [[[self alloc] initWithTitle:title text:text icon:icon sticky:sticky] autorelease];
++ (GrowlMusicVideoWindowController *)musicVideoWithTitle:(NSString *)title text:(id)text
+		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
+	return [[[self alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky] autorelease];
 }
 
-- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky {
+- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
 	int sizePref;
 	NSRect sizeRect;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, @"com.Growl.MusicVideo", &sizePref);
@@ -98,7 +99,10 @@
 	
 	_displayTime = MIN_DISPLAY_TIME;
 	
-	[self setAutomaticallyFadesOut:!sticky];
+	_priority = priority;
+	
+	//[self setAutomaticallyFadesOut:!sticky];
+	[self setAutomaticallyFadesOut:TRUE];
 	
 	return ( self = [super initWithWindow:panel] );
 }
@@ -204,6 +208,11 @@
 			 repeats:YES] retain];
 }
 
+- (void)stopFadeOut {
+	[self _stopTimer];
+	[self close];
+}
+
 - (BOOL)automaticallyFadeOut {
 	return _autoFadeOut;
 }
@@ -244,6 +253,14 @@
 
 - (void) setDelegate:(id) delegate {
 	_delegate = delegate;
+}
+
+- (int)priority {
+	return _priority;
+}
+
+- (void)setPriority:(int)newPriority {
+	_priority = newPriority;
 }
 
 - (BOOL) respondsToSelector:(SEL) selector {

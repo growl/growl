@@ -70,10 +70,32 @@
 	GrowlMusicVideoWindowController *nuMusicVideo = [GrowlMusicVideoWindowController musicVideoWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
 			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
 			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+			priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
 	[nuMusicVideo setDelegate:self];
-	[notificationQueue addObject:nuMusicVideo];
-	if ( [notificationQueue count] == 1 ) {
+	if ( [notificationQueue count] > 0 ) {
+		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
+		GrowlMusicVideoWindowController *aNotification;
+		BOOL	inserted = FALSE;
+		int		theIndex = 0;
+		
+		while (!inserted && (aNotification = [enumerator nextObject])) {
+			if ([aNotification priority] < [nuMusicVideo priority]) {
+				[notificationQueue insertObject: nuMusicVideo atIndex:theIndex];
+				if (theIndex == 0) {
+					[aNotification stopFadeOut];
+					[nuMusicVideo startFadeIn];
+				}
+				inserted = TRUE;
+			}
+			theIndex++;
+		}
+		
+		if (!inserted) {
+			[notificationQueue addObject:nuMusicVideo];
+		}
+	} else {
+		[notificationQueue addObject:nuMusicVideo];
 		[nuMusicVideo startFadeIn];
 	}
 }

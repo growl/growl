@@ -20,15 +20,18 @@
 	float			topLeftPosition;
 	float			timerInterval;
 	float			fadeIncrement;
+	int				_priority;
 }
 
 + (GrowlMusicVideoWindowController *)musicVideo;
-+ (GrowlMusicVideoWindowController *)musicVideoWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky;
++ (GrowlMusicVideoWindowController *)musicVideoWithTitle:(NSString *)title text:(id)text
+		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 
-- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky;
+- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 
 - (void)startFadeIn;
 - (void)startFadeOut;
+- (void)stopFadeOut;
 
 - (BOOL)automaticallyFadeOut;
 - (void)setAutomaticallyFadesOut:(BOOL) autoFade;
@@ -44,6 +47,9 @@
 
 - (id)delegate;
 - (void)setDelegate:(id)delegate;
+
+- (int)priority;
+- (void)setPriority:(int)newPriority;
 
 @end
 
