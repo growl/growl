@@ -29,13 +29,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/NSImage.h>
-#import <Foundation/Foundation.h>
-#import "GrowlDefines.h"
-
 #include <tcl.h>
+#include <Foundation/Foundation.h>
+#include <AppKit/NSImage.h>
+#include <GrowlDefines.h>
 
-NSString *appName; // Stores the registered name of the Tcl application.
+static NSString *appName = nil; // Stores the registered name of the Tcl application.
 
 /*
  * GrowlCmd
