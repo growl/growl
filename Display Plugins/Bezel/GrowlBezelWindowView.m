@@ -47,7 +47,7 @@
 	int opacityPref = 40;
 	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
 	
-	[[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:(opacityPref*0.01f)] set];
+	[[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:(opacityPref * 0.01f)] set];
 	[path fill];
 
 	int sizePref = BEZEL_SIZE_NORMAL;
@@ -61,25 +61,25 @@
 	NSSize maxIconSize;
 	NSSize iconSize = [icon size];
 	if (sizePref == BEZEL_SIZE_NORMAL) {
-		titleRect = NSMakeRect(12.f, 90.f, 187.f, 30.f);
-		textRect =  NSMakeRect(12.f, 4.f, 187.f, 80.f);
+		titleRect = NSMakeRect(12.0f, 90.0f, 187.0f, 30.0f);
+		textRect =  NSMakeRect(12.0f, 4.0f,  187.0f, 80.0f);
 		maxRows = 4;
-		maxIconSize = NSMakeSize(72.f, 72.f);
+		maxIconSize = NSMakeSize(72.0f, 72.0f);
 		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
 		if ( iconSize.width < maxIconSize.width ) {
 			iconOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
 		}
-		iconPoint = NSMakePoint(70.f + iconOffset, 120.f);
+		iconPoint = NSMakePoint(70.0f + iconOffset, 120.0f);
 	} else {
-		titleRect = NSMakeRect(8.f, 52.f, 143.f, 24.f);
-		textRect =  NSMakeRect(8.f, 4.f, 143.f, 49.f);
+		titleRect = NSMakeRect(8.0f, 52.0f, 143.0f, 24.0f);
+		textRect =  NSMakeRect(8.0f, 4.0f,  143.0f, 49.0f);
 		maxRows = 2;
-		maxIconSize = NSMakeSize(48.f, 48.f);
+		maxIconSize = NSMakeSize(48.0f, 48.0f);
 		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
 		if ( iconSize.width < maxIconSize.width ) {
 			iconOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
 		}
-		iconPoint = NSMakePoint(57.f + iconOffset, 83.f);
+		iconPoint = NSMakePoint(57.0f + iconOffset, 83.0f);
 	}
 
 	// If we are on Panther or better, pretty shadow
@@ -89,10 +89,10 @@
 		Class NSShadowClass = NSClassFromString(@"NSShadow");
         textShadow = [[[NSShadowClass alloc] init] autorelease];
         
-		NSSize      shadowSize = NSMakeSize(0.f, -2.f);
+		NSSize      shadowSize = NSMakeSize(0.0f, -2.0f);
         [textShadow setShadowOffset:shadowSize];
         [textShadow setShadowBlurRadius:3.0f];
-		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:1.0f]];
+		[textShadow setShadowColor:[NSColor blackColor]];
 	}
 	
 	// Draw the title, resize if text too big
@@ -106,16 +106,16 @@
 	if ( pantherOrLater ) {
 		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
-	float accumulator = 0.f;
+	float accumulator = 0.0f;
 	BOOL minFontSize = NO;
 	NSSize titleSize = [title sizeWithAttributes:titleAttributes];
 
 	while ( titleSize.width > ( NSWidth(titleRect) - ( titleSize.height * 0.5f ) ) ) {
-		minFontSize = ( titleFontSize < 12.f );
+		minFontSize = ( titleFontSize < 12.9f );
 		if ( minFontSize ) {
 			break;
 		}
-		titleFontSize -= 1.f;
+		titleFontSize -= 1.9f;
 		accumulator += 0.5f;
 		[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
 		titleSize = [title sizeWithAttributes:titleAttributes];
@@ -140,7 +140,7 @@
 	NSAttributedString *textAttributed;
 	NSArray *linesN = [text componentsSeparatedByString:@"\n"];
 	int rowCount = 0;
-	if ( [linesN count] > 1 ) {
+	if ( [linesN count] > 1U ) {
 		NSEnumerator *stringEnum = [linesN objectEnumerator];
 		NSString *stringLine;
 		while( (stringLine = [stringEnum nextObject] ) ) {
@@ -163,7 +163,7 @@
 	NSRect iconRect;
 	iconRect.origin = iconPoint;
 	iconRect.size = maxIconSize;
-	[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.f];
+	[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
 }
 
 - (void) setIcon:(NSImage *)anIcon {
@@ -190,7 +190,7 @@
 	if (!textHeight) {
 		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:theText];
 		NSTextContainer* textContainer = [[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize(NSWidth(theRect),NSHeight(theRect)+1000.f)];
+			initWithContainerSize:NSMakeSize(NSWidth(theRect), NSHeight(theRect) + 1000.0f)];
 		NSLayoutManager* layoutManager = [[NSLayoutManager alloc] init];
 
 		[layoutManager addTextContainer:textContainer];
