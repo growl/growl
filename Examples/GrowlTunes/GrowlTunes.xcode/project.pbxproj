@@ -92,8 +92,17 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0A55D72B071325D500D09C04 = {
-			fileRef = 0A55D72A071325D500D09C04;
+		0A5ECB46073444AB0032ED97 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.scpt;
+			name = jackItunesArtwork.scpt;
+			path = Scripts/jackItunesArtwork.scpt;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A5ECB47073444AB0032ED97 = {
+			fileRef = 0A5ECB46073444AB0032ED97;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -443,6 +452,7 @@
 				4C29096106A8CB8A00FDB6CE,
 				4C29096206A8CB8A00FDB6CE,
 				CB57B4CA0711E503001968B0,
+				0A5ECB46073444AB0032ED97,
 				5275B5440687D634006F5704,
 				07D08B21068D3DA800756873,
 				8D1107310486CEB800E47090,
@@ -601,12 +611,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		5275B567068866DA006F5704 = {
-			fileRef = 5275B564068866DA006F5704;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		52F5774906872B3A0068B46C = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -622,12 +626,6 @@
 			path = GrowlTunesController.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		52F5774B06872B3A0068B46C = {
-			fileRef = 52F5774906872B3A0068B46C;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		52F5774C06872B3A0068B46C = {
 			fileRef = 52F5774A06872B3A0068B46C;
@@ -650,12 +648,6 @@
 			path = NSGrowlAdditions.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		52F57A1B0687349B0068B46C = {
-			fileRef = 52F57A190687349B0068B46C;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		52F57A1C0687349B0068B46C = {
 			fileRef = 52F57A1A0687349B0068B46C;
@@ -719,20 +711,9 @@
 		8D1107270486CEB800E47090 = {
 			buildActionMask = 2147483647;
 			files = (
-				8D1107280486CEB800E47090,
-				52F5774B06872B3A0068B46C,
-				52F57A1B0687349B0068B46C,
-				5275B567068866DA006F5704,
-				0A55D72B071325D500D09C04,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D1107280486CEB800E47090 = {
-			fileRef = 32CA4F630368D1EE00C91783;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		8D1107290486CEB800E47090 = {
 			buildActionMask = 2147483647;
@@ -743,6 +724,7 @@
 				4C29096306A8CB8B00FDB6CE,
 				4C29096406A8CB8B00FDB6CE,
 				CB57B4CB0711E503001968B0,
+				0A5ECB47073444AB0032ED97,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

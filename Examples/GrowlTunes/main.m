@@ -14,6 +14,13 @@ int main() {
 	
 	GrowlTunesController *growlTunes = [[GrowlTunesController alloc] init];
 	
+	NSString *itunesPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"iTunes"];
+	if ([[[NSBundle bundleWithPath:itunesPath] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] floatValue] > 4.6) {
+		[growlTunes setPolling:NO];
+	} else {
+		[growlTunes setPolling:YES];
+	}
+	
 	[NSApp setDelegate:growlTunes];
 	[NSApp run];
 	

@@ -23,6 +23,7 @@ typedef enum {
 @interface GrowlTunesController : NSObject {
 	NSTimer				*pollTimer;
 	NSAppleScript		*pollScript;
+	NSAppleScript		*getInfoScript;
 	NSAppleScript		*quitiTunesScript;
 	NSMutableArray		*plugins;
 	NSStatusItem		*statusItem;
@@ -31,8 +32,10 @@ typedef enum {
 	NSMenu				*iTunesSubMenu;
 	
 	iTunesState			state;
+	BOOL				_polling;
 	double				pollInterval;
-	int					trackID;		//The "database ID" of the last-polled track in iTunes, -1 for none
+	int					trackID;
+	NSString			* trackURL;		//The file location of the last-known track in iTunes, @"" for none
 }
 
 - (BOOL)iTunesIsRunning;
@@ -40,6 +43,8 @@ typedef enum {
 - (BOOL)quitiTunes;
 
 - (void)registerGrowl:(void *)context;
+
+- (void)setPolling:(BOOL)flag;
 
 #pragma mark Poll timer
 
