@@ -61,10 +61,9 @@ clean-musicvideo:
 
 install:
 	killall GrowlHelperApp || true
-	-$(RM) -rf "$(NSLOGGING_PATH)" "$(MAILME_PATH)" "$(MUSICVIDEO_PATH)"
+	-$(RM) -rf "$(NSLOGGING_PATH)" "$(MAILME_PATH)"
 	if [[ -d "$(NSLOGGING_BUILD)" ]]; then $(CP) "$(NSLOGGING_BUILD)" "$(NSLOGGING_PATH)"; fi
-	if [[ -d "$(MAILME_BUILD)" ]]; then $(CP) "$(MAILME_BUILD)" "$(MAILME_PATH)"; fi
-	if [[ -d "$(MUSICVIDEO_BUILD)" ]]; then $(CP) "$(MUSICVIDEO_BUILD)" "$(MUSICVIDEO_PATH)"; fi
+	if [[ -d "$(MAILME_BUILD)" ]]; then $(CP) "$(MAILME_BUILD)" "$(MAILME_PATH)"; fifi
 	open "$(GROWL_HELPER_APP)"
 
 install-nslogging:
@@ -77,12 +76,6 @@ install-mailme:
 	killall GrowlHelperApp || true
 	-$(RM) -rf "$(MAILME_PATH)"
 	$(CP) "$(MAILME_BUILD)" "$(MAILME_PATH)"
-	open "$(GROWL_HELPER_APP)"
-
-install-musicvideo:
-	killall GrowlHelperApp || true
-	-$(RM) -rf "$(MUSICVIDEO_PATH)"
-	$(CP) "$(MUSICVIDEO_BUILD)" "$(MUSICVIDEO_PATH)"
 	open "$(GROWL_HELPER_APP)"
 
 uninstall:
