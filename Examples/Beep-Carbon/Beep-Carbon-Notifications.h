@@ -3,12 +3,12 @@
  *  Growl
  *
  *  Created by Mac-arena the Bored Zo on Fri Jun 11 2004.
- *  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+ *  Public domain.
  *
  */
 
 #include <Carbon/Carbon.h>
-#include "GrowlDefinesCarbon.h"
+#include <Growl/Growl.h>
 
 struct CFnotification {
 	CFStringRef name;

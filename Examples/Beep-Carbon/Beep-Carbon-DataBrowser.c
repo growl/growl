@@ -3,7 +3,7 @@
  *  Growl
  *
  *  Created by Mac-arena the Bored Zo on Fri Jun 11 2004.
- *  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+ *  Public domain.
  *
  */
 

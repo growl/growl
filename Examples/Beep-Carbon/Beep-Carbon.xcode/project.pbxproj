@@ -253,7 +253,7 @@
 		07D0C5CE068A48340076D89A = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
-			name = GrowlAppBridge.framework;
+			name = Growl.framework;
 			path = ../../build/GrowlAppBridge.framework;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;

@@ -1,9 +1,9 @@
 /*
- *  Beep.c
+ *  Beep-Carbon.c
  *  Growl
  *
  *  Created by Mac-arena the Bored Zo on Fri Jun 11 2004.
- *  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+ *  Public domain.
  *
  */
 
@@ -12,7 +12,6 @@
 #include "Beep-Carbon-DataBrowser.h"
 #include "Beep-Carbon-Notifications.h"
 #include "Beep-Carbon-Debugging.h"
-#include <GrowlAppBridge/GrowlApplicationBridge-Carbon.h>
 
 #include <syslog.h>
 #include <stdarg.h>

@@ -3,7 +3,7 @@
  *  Beep-Carbon
  *
  *  Created by Mac-arena the Bored Zo on Wed Jun 16 2004.
- *  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+ *  Public domain.
  *
  */
 
