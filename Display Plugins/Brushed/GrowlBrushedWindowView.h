@@ -12,7 +12,7 @@
 	NSImage				*icon;
 	NSString			*title;
 	NSString			*text;
-	float				titleHeight;
+	float				textHeight;
 	SEL					action;
 	id					target;
 
