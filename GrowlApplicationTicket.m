@@ -381,13 +381,14 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	cur = [NSMutableSet setWithArray:[allNotifications allKeys]];
 	[cur intersectSet:new];
 	NSEnumerator *newEnum = [new objectEnumerator];
-	NSMutableDictionary* tmp = [NSMutableDictionary dictionary];
-	id obj;
-	while ( (obj = [newEnum nextObject] ) ) {
-		if ( [allNotifications objectForKey:obj] ) {
-			[tmp setObject:[allNotifications objectForKey:obj] forKey:obj];
+	NSMutableDictionary *tmp = [NSMutableDictionary dictionary];
+	id key, obj;
+	while ( (key = [newEnum nextObject] ) ) {
+		obj = [allNotifications objectForKey:key];
+		if ( obj ) {
+			[tmp setObject:obj forKey:key];
 		} else {
-			[tmp setObject:[GrowlApplicationNotification notificationWithName:obj] forKey:obj];
+			[tmp setObject:[GrowlApplicationNotification notificationWithName:key] forKey:key];
 		}
 	}
 	[allNotifications release];
