@@ -147,6 +147,7 @@
 		};
 		08FB779DFE84155DC02AAC07 = {
 			children = (
+				DAA31DA0078D239500BE4DA9,
 				0A95FC900739AAC800E585F8,
 				08FB779EFE84155DC02AAC07,
 			);
@@ -270,7 +271,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_PATH = /usr/local/bin;
-				OTHER_LDFLAGS = "-lcrypto.0.9";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = growlnotify;
 				WARNING_CFLAGS = "-W -Wall";
 			};
@@ -322,14 +323,15 @@
 			files = (
 				0A95FC1D0739AA7300E585F8,
 				0A95FC910739AAC800E585F8,
+				DAA31DA1078D239500BE4DA9,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8DD76FA10486AA7600D96B5E = {
+			explicitFileType = "compiled.mach-o.executable";
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			lastKnownFileType = "compiled.mach-o.executable";
 			path = growlnotify;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -400,6 +402,30 @@
 		};
 		95DD16780748E3B200CC05A4 = {
 			fileRef = 95DD16770748E3B200CC05A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//950
+//951
+//952
+//953
+//954
+//DA0
+//DA1
+//DA2
+//DA3
+//DA4
+		DAA31DA0078D239500BE4DA9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = "compiled.mach-o.dylib";
+			name = libcrypto.dylib;
+			path = /usr/lib/libcrypto.dylib;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		DAA31DA1078D239500BE4DA9 = {
+			fileRef = DAA31DA0078D239500BE4DA9;
 			isa = PBXBuildFile;
 			settings = {
 			};
