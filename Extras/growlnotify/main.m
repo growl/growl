@@ -64,14 +64,12 @@ static const char usage[] =
 "To be compatible with gNotify the following switches are accepted:\n"
 "    -t,--title    Does nothing. Any text following will be treated as the\n"
 "                  title because that's the default argument behaviour\n"
-"    -m,--message  Sets the message to the following instead of using stdin\n";
+"    -m,--message  Sets the message to the following instead of using stdin";
 
 static const char *version = "growlnotify 0.6\n"
-"Copyright (c) The Growl Project, 2004-2005\n";
+"Copyright (c) The Growl Project, 2004-2005";
 
 int main(int argc, const char **argv) {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
 	// options
 	extern char *optarg;
 	extern int optind;
@@ -116,13 +114,16 @@ int main(int argc, const char **argv) {
 	while ((ch = getopt_long(argc, (char * const *)argv, "hvn:sa:i:I:p:tm:H:uP:", longopts, NULL)) != -1) {
 		switch (ch) {
 		case '?':
+			puts(usage);
+			exit(EXIT_FAILURE);
+			break;
 		case 'h':
-			printf(usage);
-			exit(1);
+			puts(usage);
+			exit(EXIT_SUCCESS);
 			break;
 		case 'v':
-			printf(version);
-			exit(0);
+			puts(version);
+			exit(EXIT_SUCCESS);
 			break;
 		case 'n':
 			appName = optarg;
@@ -176,6 +177,8 @@ int main(int argc, const char **argv) {
 	argc -= optind;
 	argv += optind;
 	
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	// Deal with title
 	NSMutableArray *argArray = [NSMutableArray array];
 	while (argc--) {
