@@ -106,7 +106,7 @@
 	}
 }
 
-- (void) didFadeOut:(id)sender {
+- (void) didFadeOut:(FadingWindowController *)sender {
 	GrowlBezelWindowController *olBezel;
 	[notificationQueue removeObjectAtIndex:0U];
 	if ( [notificationQueue count] > 0U ) {

@@ -107,7 +107,7 @@
 	}
 }
 
-- (void) didFadeOut:(id)sender {
+- (void) didFadeOut:(FadingWindowController *)sender {
 	GrowlMusicVideoWindowController *olMusicVideo;
 	[notificationQueue removeObjectAtIndex:0U];
 	if ( [notificationQueue count] > 0U ) {

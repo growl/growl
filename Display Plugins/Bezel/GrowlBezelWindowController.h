@@ -17,7 +17,7 @@
 }
 
 + (GrowlBezelWindowController *) bezel;
-+ (GrowlBezelWindowController *) bezelWithTitle:(NSString *)title text:(id)text
++ (GrowlBezelWindowController *) bezelWithTitle:(NSString *)title text:(NSString *)text
 		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 
 - (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;

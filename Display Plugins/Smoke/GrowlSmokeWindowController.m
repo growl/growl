@@ -37,7 +37,7 @@ static const double gMaxDisplayTime = 10.0;
 	this class is the delegate for the class
 */
 
-- (void) didFadeOut:(id)sender {
+- (void) didFadeOut:(FadingWindowController *)sender {
 	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->identifier);
 
