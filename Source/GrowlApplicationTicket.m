@@ -109,10 +109,12 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 	NSDictionary *ticketsList = [NSDictionary dictionaryWithContentsOfFile:inPath];
 	appName = [[ticketsList objectForKey:GROWL_APP_NAME] retain];
-	defaultNotifications = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
+	defaultNotifications = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT] retain];
+	NSAssert(defaultNotifications != nil, @"Ticket dictionaries must contain a list of default notifications (either names, or indices into the all-notifications list)");"
 
 	//Get all the notification names and the data about them
-	allNotificationNames = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL]];
+	allNotificationNames = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL] retain];
+	NSAssert(allNotificationNames != nil, @"Ticket dictionaries must contain a list of all their notifications");
 	NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
 	NSMutableDictionary *notificationDict = [NSMutableDictionary dictionary];
 	id obj;
@@ -289,32 +291,35 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 }
 
 - (void) setAllNotifications:(NSArray *) inArray {
-	allNotificationNames = [[NSArray alloc] initWithArray:inArray];
-	NSMutableSet *new, *cur;
-	new = [NSMutableSet setWithArray:inArray];
-	
-	//We want to keep all of the old notification settings and create entries for the new ones
-	cur = [NSMutableSet setWithArray:[allNotifications allKeys]];
-	[cur intersectSet:new];
-	NSEnumerator *newEnum = [new objectEnumerator];
-	NSMutableDictionary *tmp = [NSMutableDictionary dictionary];
-	id key, obj;
-	while ( (key = [newEnum nextObject] ) ) {
-		obj = [allNotifications objectForKey:key];
-		if ( obj ) {
-			[tmp setObject:obj forKey:key];
-		} else {
-			[tmp setObject:[GrowlApplicationNotification notificationWithName:key] forKey:key];
+	if(allNotificationNames != inArray) {
+		[allNotificationNames autorelease];
+		allNotificationNames = [[NSArray alloc] initWithArray:inArray];
+		NSMutableSet *new, *cur;
+		new = [NSMutableSet setWithArray:inArray];
+		
+		//We want to keep all of the old notification settings and create entries for the new ones
+		cur = [NSMutableSet setWithArray:[allNotifications allKeys]];
+		[cur intersectSet:new];
+		NSEnumerator *newEnum = [new objectEnumerator];
+		NSMutableDictionary *tmp = [NSMutableDictionary dictionary];
+		id key, obj;
+		while ( (key = [newEnum nextObject] ) ) {
+			obj = [allNotifications objectForKey:key];
+			if ( obj ) {
+				[tmp setObject:obj forKey:key];
+			} else {
+				[tmp setObject:[GrowlApplicationNotification notificationWithName:key] forKey:key];
+			}
 		}
+		[allNotifications release];
+		allNotifications = [[NSDictionary dictionaryWithDictionary:tmp] retain];
+	
+		// And then make sure the list of default notifications also doesn't have any straglers...
+		cur = [NSMutableSet setWithArray:defaultNotifications];
+		[cur intersectSet:new];
+		[defaultNotifications autorelease];
+		defaultNotifications = [[cur allObjects] retain];
 	}
-	[allNotifications release];
-	allNotifications = [[NSDictionary dictionaryWithDictionary:tmp] retain];
-
-	// And then make sure the list of default notifications also doesn't have any straglers...
-	cur = [NSMutableSet setWithArray:defaultNotifications];
-	[cur intersectSet:new];
-	[defaultNotifications autorelease];
-	defaultNotifications = [[cur allObjects] retain];
 }
 
 - (NSArray *) defaultNotifications {
