@@ -135,13 +135,16 @@
  */
 + (void) reregisterGrowlNotifications;
 
+@end
+
+//------------------------------------------------------------------------------
 #pragma mark -
+
 /*
 	@protocol GrowlApplicationBridgeDelegate
 	@abstract Required protocol for the GrowlApplicationBridge delegate
 	@discussion The methods in this protocol are required and are called automatically as needed by GrowlApplicationBridge
  */
-//------------------------------------------------------------------------------
 @protocol GrowlApplicationBridgeDelegate
 
 /*
@@ -171,7 +174,9 @@
 
 @end
 
+//------------------------------------------------------------------------------
 #pragma mark -
+
 /*
 	@category NSObject(GrowlApplicationBridgeDelegate_InformalProtocol)
 	@abstract Methods which may be optionally implemented by the GrowlApplicationBridgeDelegate
