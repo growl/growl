@@ -105,19 +105,13 @@ static id _singleton = nil;
 	}
 	
 	NSMutableDictionary *aDict = [NSMutableDictionary dictionaryWithDictionary:dict];
-	NSImage *icon = nil;
-	if ( ![dict objectForKey:GROWL_NOTIFICATION_ICON] ) {
-		icon = [ticket icon];
-	} else {
-		icon = [[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]];
-		if(icon)
-			icon = [icon autorelease];
-	}
-	if(icon) {
+	NSImage *icon = [ticket icon];
+	
+	if ( icon && (![aDict objectForKey:GROWL_NOTIFICATION_ICON]) ) {
 		[aDict setObject:icon 
 				 forKey:GROWL_NOTIFICATION_ICON];
-	} else {
-		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON];
+	} else if ( icon ) {
+		[aDict setObject:[ticket icon] forKey:GROWL_NOTIFICATION_APP_ICON];
 	}
 	
 	id <GrowlDisplayPlugin> display;
