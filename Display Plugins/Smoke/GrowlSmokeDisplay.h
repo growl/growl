@@ -15,9 +15,6 @@
 	NSPreferencePane	*preferencePane;
 }
 
-- (void) loadPlugin;
-- (void) unloadPlugin;
-
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict;
 - (void) _smokeGone:(NSNotification *)note;
 

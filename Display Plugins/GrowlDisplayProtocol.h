@@ -21,16 +21,6 @@
  */
 @protocol GrowlPlugin <NSObject>
 
-/*! @method	loadPlugin
- *	@abstract	Tells the plugin to initialize itself.
- */
-- (void) loadPlugin;
-
-/*!	@method	unloadPlugin
- *	@abstract	Tells the plug-in to uninitialize itself. This is the inverse of -loadPlugin.
- */
-- (void) unloadPlugin;
-
 /*!	@method	preferencePane
  *	@abstract	Return an NSPreferencePane instance that manages the plugin's
  *	 preferences.

@@ -13,25 +13,21 @@
 
 - (id) init {
 	if ((self = [super init])) {
-		preferencePane = [[GrowlMusicVideoPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMusicVideoPrefs class]]];
+		notificationQueue = [[NSMutableArray array] retain];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[preferencePane release];
+	[notificationQueue release];
+	[preferencePane    release];
 	[super dealloc];
 }
 
-- (void) loadPlugin {
-	notificationQueue = [[NSMutableArray array] retain];
-}
-
-- (void) unloadPlugin {
-	[notificationQueue release];
-}
-
 - (NSPreferencePane *) preferencePane {
+	if (!preferencePane) {
+		preferencePane = [[GrowlMusicVideoPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMusicVideoPrefs class]]];
+	}
 	return preferencePane;
 }
 

@@ -15,28 +15,15 @@
 
 #pragma mark -
 
-- (id) init {
-	if ((self = [super init])) {
-		preferencePane = [[GrowlBubblesPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBubblesPrefsController class]]];
-	}
-	return self;
-}
-
 - (void) dealloc {
 	[preferencePane release];
 	[super dealloc];
 }
 
-- (void) loadPlugin {
-	//if I had setup procedures I would do them here
-}
-
-- (void) unloadPlugin {
-	// if I had things to clean up/undo I would do it here,
-	// fortunately Bubbles do their job pretty cleanly without touching others.
-}
-
 - (NSPreferencePane *) preferencePane {
+	if (!preferencePane) {
+		preferencePane = [[GrowlBubblesPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBubblesPrefsController class]]];
+	}
 	return preferencePane;
 }
 

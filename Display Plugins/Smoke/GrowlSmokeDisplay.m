@@ -18,7 +18,6 @@ static unsigned smokeDepth = 0U;
 
 - (id) init {
 	if ((self = [super init])) {
-		preferencePane = [[GrowlSmokePrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlSmokePrefsController class]]];
 		[[NSNotificationCenter defaultCenter] addObserver:self 
 												 selector:@selector(_smokeGone:)
 													 name:@"SmokeGone"
@@ -32,13 +31,10 @@ static unsigned smokeDepth = 0U;
 	[super dealloc];
 }
 
-- (void) loadPlugin {
-}
-
-- (void) unloadPlugin {
-}
-
 - (NSPreferencePane *) preferencePane {
+	if (!preferencePane) {
+		preferencePane = [[GrowlSmokePrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlSmokePrefsController class]]];
+	}
 	return preferencePane;
 }
 

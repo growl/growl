@@ -20,25 +20,15 @@
 
 @implementation GrowlMailMeDisplay
 
-- (id) init {
-	if ((self = [super init])) {
-		prefPane = [[GrowlMailMePrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMailMePrefs class]]];
-	}
-	return self;
-}
-
 - (void) dealloc {
 	[prefPane release];
 	[super dealloc];
 }
 
-- (void) loadPlugin {
-}
-
-- (void) unloadPlugin {
-}
-
 - (NSPreferencePane *) preferencePane {
+	if (!prefPane) {
+		prefPane = [[GrowlMailMePrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMailMePrefs class]]];
+	}
 	return prefPane;
 }
 

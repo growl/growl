@@ -12,26 +12,16 @@
 #import <GrowlDefinesInternal.h>
 
 @implementation GrowlSpeechDisplay
-- (id) init {
-	if ((self = [super init])) {
-		prefPane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlSpeechPrefs class]]];
-	}
-	return self;
-}
-
 - (void) dealloc {
 	[prefPane release];
 	[super dealloc];
 }
 
 - (NSPreferencePane *) preferencePane {
+	if (!prefPane) {
+		prefPane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlSpeechPrefs class]]];
+	}
 	return prefPane;
-}
-
-- (void) loadPlugin {
-}
-
-- (void) unloadPlugin {
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {

@@ -13,30 +13,20 @@
 
 @implementation GrowlLogDisplay
 
-- (void) loadPlugin {
-}
-
-- (void) unloadPlugin {
-}
-
-- (id) init {
-	if ((self = [super init])) {
-		preferencePane = [[GrowlLogPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlLogPrefs class]]];
-	}
-	return self;
-}
-
 - (void) dealloc {
 	[preferencePane release];
 	[super dealloc];
 }
 
 - (NSPreferencePane *) preferencePane {
+	if (!preferencePane) {
+		preferencePane = [[GrowlLogPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlLogPrefs class]]];
+	}
 	return preferencePane;
 }
 
-  - (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {
- 	NSString *logString = [NSString stringWithFormat:@"%@ %@: %@ (%@) - Priority %d",
+- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {
+	NSString *logString = [NSString stringWithFormat:@"%@ %@: %@ (%@) - Priority %d",
 							[[NSDate date] description],
  							[noteDict objectForKey:GROWL_APP_NAME],
   							[noteDict objectForKey:GROWL_NOTIFICATION_TITLE], 

@@ -176,7 +176,6 @@ static GrowlPluginController *sharedController;
 	if (!plugin) {
 		NSBundle *pluginBundle = [allDisplayPluginBundles objectForKey:name];
 		if (pluginBundle && (plugin = [[[pluginBundle principalClass] alloc] init])) {
-			[plugin loadPlugin];
 			[allDisplayPlugins setObject:plugin forKey:name];
 			[plugin release];
 		} else {
@@ -192,7 +191,6 @@ static GrowlPluginController *sharedController;
 }
 
 - (void) dealloc {
-	[[allDisplayPlugins allValues] makeObjectsPerformSelector:@selector(unloadPlugin:)];
 	[allDisplayPlugins       release];
 	[allDisplayPluginBundles release];
 

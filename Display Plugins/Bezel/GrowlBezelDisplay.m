@@ -13,25 +13,21 @@
 
 - (id) init {
 	if ((self = [super init])) {
-		preferencePane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBezelPrefs class]]];
+		notificationQueue = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[preferencePane release];
+	[notificationQueue release];
+	[preferencePane    release];
 	[super dealloc];
 }
 
-- (void) loadPlugin {
-	notificationQueue = [[NSMutableArray alloc] init];
-}
-
-- (void) unloadPlugin {
-	[notificationQueue release];
-}
-
 - (NSPreferencePane *) preferencePane {
+	if (!preferencePane) {
+		preferencePane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBezelPrefs class]]];
+	}
 	return preferencePane;
 }
 
