@@ -14,14 +14,29 @@
 
 + (NSString *)bundleVersion
 {
-    return( [[[NSBundle bundleForClass:self] infoDictionary] objectForKey:@"CFBundleVersion"] );
+	return( [[[NSBundle bundleForClass:self] infoDictionary] objectForKey:@"CFBundleVersion"] );
 }
 
 + (void)initialize
 {
-    [super initialize];
+	[super initialize];
 	[self registerBundle];
 	NSLog( @"Loaded GrowlMail %@", [self bundleVersion] );
+}
+
++ (BOOL)hasPreferencesPanel
+{
+	return( YES );
+}
+
++ (NSString *)preferencesOwnerClassName
+{
+	return( @"GrowlMailPreferencesModule" );
+}
+
++ (NSString *)preferencesPanelName
+{
+	return( @"GrowlMail" );
 }
 
 - (id)init
@@ -47,6 +62,28 @@
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION
 																   object:nil
 																 userInfo:ticket];
+}
+
+// preferences
+
+- (BOOL)isEnabled
+{
+	return( [[NSUserDefaults standardUserDefaults] boolForKey:@"GMEnableGrowlMailBundle"] );
+}
+
+- (void)setEnabled:(BOOL)yesOrNo
+{
+	[[NSUserDefaults standardUserDefaults] setBool:yesOrNo forKey:@"GMEnableGrowlMailBundle"];
+}
+
+- (BOOL)isIgnoreJunk
+{
+	return( [[NSUserDefaults standardUserDefaults] boolForKey:@"GMIgnoreJunk"] );
+}
+
+- (void)setIgnoreJunk:(BOOL)yesOrNo
+{
+	[[NSUserDefaults standardUserDefaults] setBool:yesOrNo forKey:@"GMIgnoreJunk"];
 }
 
 @end

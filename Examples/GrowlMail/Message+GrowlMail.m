@@ -8,6 +8,7 @@
 
 #import "Message+GrowlMail.h"
 #import "GrowlDefines.h"
+#import "GrowlMail.h"
 
 @interface NSString(GrowlMail)
 - (NSString *)firstNLines: (int)n;
@@ -33,7 +34,8 @@
 @implementation Message(GrowlMail)
 - (void)showNotification
 {
-	if( !([self isRead] || [self isJunk]) ) {
+	GrowlMail *growlMail = [GrowlMail sharedInstance];
+	if( [growlMail isEnabled] && !([self isRead] || ([self isJunk] && [growlMail isIgnoreJunk])) ) {
 		NSString *account = [[[self messageStore] account] displayName];
 		NSString *sender = [self sender];
 		NSString *senderAddress = [sender uncommentedAddress];
