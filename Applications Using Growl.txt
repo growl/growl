@@ -1,11 +1,14 @@
 Apps that support Growl!, in alphabetical order:
 
-Adium
-Beep-Carbon
-Beep-Cocoa
-DriveGauge (first commercial app to support Growl)
-Fire
-GrowlNotify
-GrowlTunes
-irssi (in growl svn is a howto for this)
-Quicksilver
+Adium (http://www.adiumx.com/)
+Beep-Carbon (Growl Example)
+Beep-Cocoa (Growl Example)
+DriveGauge (first commercial app to support Growl) (http://www.infinitenexus.com/dg/)
+Fire (http://fire.sourceforge.net/)
+gCount (http://www.ocf.berkeley.edu/~natan/gcount/)
+GmailStatus (http://homepage.mac.com/carsten.guenther/GmailStatus/)
+growlnotify (Growl Example)
+GrowlTunes (Growl Example)
+irssi (in growl svn is a howto for this) (http://irssi.org/)
+Quicksilver (http://www.blacktree.com/apps/quicksilver/)
+XFactor (http://www.xfactor.cc/)
