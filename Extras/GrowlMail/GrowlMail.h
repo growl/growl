@@ -39,7 +39,6 @@
 + (NSString *)preferencesOwnerClassName;
 + (NSString *)preferencesPanelName;
 - (id)init;
-- (void)gabResponse:(id)context;
 - (BOOL)isEnabled;
 - (void)setEnabled:(BOOL)yesOrNo;
 - (BOOL)isIgnoreJunk;

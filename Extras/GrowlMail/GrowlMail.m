@@ -92,27 +92,20 @@
 - (id)init
 {
 	if ( (self = [super init]) ) {
-		if ( ![GrowlApplicationBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(gabResponse:) context:nil] ) {
-			NSLog( @"Growl not installed, GrowlMail disabled" );
-		}
+		// Register our ticket with Growl
+		NSArray *allowedNotifications = [NSArray arrayWithObject:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")];
+		NSDictionary *ticket = [NSDictionary dictionaryWithObjectsAndKeys:
+			@"GrowlMail", GROWL_APP_NAME,
+			allowedNotifications, GROWL_NOTIFICATIONS_ALL,
+			allowedNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+			[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_APP_ICON,
+			nil];
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION
+																	   object:nil
+																	 userInfo:ticket];
 	}
 
 	return self;
-}
-
-- (void)gabResponse:(id)context
-{
-	// Register our ticket with Growl
-	NSArray *allowedNotifications = [NSArray arrayWithObject:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")];
-	NSDictionary *ticket = [NSDictionary dictionaryWithObjectsAndKeys:
-		@"GrowlMail", GROWL_APP_NAME,
-		[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_APP_ICON,
-		allowedNotifications, GROWL_NOTIFICATIONS_ALL,
-		allowedNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-		nil];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION
-																   object:nil
-																 userInfo:ticket];
 }
 
 // preferences

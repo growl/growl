@@ -87,8 +87,8 @@
 					title, GROWL_NOTIFICATION_NAME,
 					@"GrowlMail", GROWL_APP_NAME,
 					title, GROWL_NOTIFICATION_TITLE,
-					[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 					description, GROWL_NOTIFICATION_DESCRIPTION,
+					[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 					nil];
 				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																			   object:nil
