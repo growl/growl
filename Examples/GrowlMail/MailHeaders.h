@@ -529,6 +529,27 @@
 
 @end
 
+@interface MessageBody : NSObject
+{
+    Message *_message;
+}
+
+- (id)rawData;
+- (id)attributedString;
+- (BOOL)isHTML;
+- (BOOL)isRich;
+- (NSString *)stringForIndexing;
+- (NSString *)stringValueForJunkEvaluation:(BOOL)fp8;
+- (void)setMessage:(id)fp8;
+- (id)message;
+- (void)calculateNumberOfAttachmentsIfNeeded;
+- (void)calculateNumberOfAttachmentsDecodeIfNeeded;
+- (id)attachments;
+- (id)textHtmlPart;
+- (id)webArchive;
+
+@end
+
 @interface Message (ScriptingSupport)
 - (id)objectSpecifier;
 - (void)_setAppleScriptFlag:(id)fp8 state:(BOOL)fp12;

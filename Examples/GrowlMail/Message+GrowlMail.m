@@ -39,7 +39,7 @@
 	NSString *senderAddress = [sender uncommentedAddress];
 	NSString *subject = [self subject];
 	NSString *body;
-	id messageBody = [self messageBody];
+	MessageBody *messageBody = [self messageBody];
 	if( [messageBody respondsToSelector:@selector(stringForIndexing)] ) {
 		body = [messageBody stringForIndexing];
 	} else {
