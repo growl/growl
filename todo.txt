@@ -27,17 +27,6 @@ Release related issues
 
 
 For .7 (The Kitchen Sink) or sooner
-- Downloads tab
-	- This will allow for display plugins to be distributed separate from Growl itself.
-	- For applications that bundle Growl, they will not have to add in multiple displays as a bad thing (due to size increase).
-	- Load information from a plist.
-	- Possibly allow for a webkit view to allow for artistic displays/easy previews.
-	- growlview:// (or something similar) for loading display plugins
-	- Only load from http://growl.info.
-	- We can put displays like NSLog and MailMe here once we have this.
-	- New displays can be distributed via this method. We can also use this to find out if a display plugin is the currently available version or not.
-	- Some displays won't work on 10.2. In six months to a year, some won't work on 10.3. We need to prepare for this.
-
 - Display plugins
 	- Coalescing of notifications of similar type for notifications that can use it.
 	- Clicking notifications
@@ -98,9 +87,19 @@ For .7 (The Kitchen Sink) or sooner
 - Other
 	- Make GrowlMail not run while applying rules if possible
 	- Growltunes needs preferences.
-
+	- Give macyac a gui for configuration/launching.
 
 For .8 or sooner
+- Downloads tab
+	- This will allow for display plugins to be distributed separate from Growl itself.
+	- For applications that bundle Growl, they will not have to add in multiple displays as a bad thing (due to size increase).
+	- Load information from a plist.
+	- Possibly allow for a webkit view to allow for artistic displays/easy previews.
+	- growlview:// (or something similar) for loading display plugins
+	- Only load from http://growl.info.
+	- We can put displays like NSLog and MailMe here once we have this.
+	- New displays can be distributed via this method. We can also use this to find out if a display plugin is the currently available version or not.
+	- Some displays won't work on 10.2. In six months to a year, some won't work on 10.3. We need to prepare for this.
 
 - Display Plugins
 	- iCal scheduled events look
