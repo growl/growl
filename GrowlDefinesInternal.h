@@ -6,6 +6,9 @@
 //  Copyright (c) 2004 the Growl Project. All rights reserved.
 //
 
+#ifndef _GROWL_GROWLDEFINESINTERNAL_H
+#define _GROWL_GROWLDEFINESINTERNAL_H
+
 #import <CoreFoundation/CoreFoundation.h>
 
 /*!
@@ -74,7 +77,15 @@ struct GrowlNetworkNotification {
 
 #define GrowlEnabledKey					@"GrowlEnabled"
 
+#endif //ndef _GROWL_GROWLDEFINESINTERNAL_H
+
 /* --- These following macros are intended for plugins --- */
+
+/*Since anything that needs the include guards won't be using these macros, we
+ *	don't need the include guards here.
+ *Good thing, since GenCarbonHeader.pl doesn't do anything down here, because of
+ *	the above comment.
+ */
 
 /*!
 	@function    SYNCHRONIZE_GROWL_PREFS
