@@ -255,10 +255,8 @@
 	if( numApplications ) {
 		if(row > -1)
 			currentApplication = [[applications objectAtIndex:row] retain];
-	} else {
-		//[growlApplications selectRow:-1 byExtendingSelection:NO];
-	}
-	[applicationNotifications deselectAll:NULL];
+	} 
+
 	[remove setEnabled:NO];
 	appTicket = [tickets objectForKey: currentApplication];
 	
@@ -574,7 +572,7 @@
 		[remove setEnabled:NO];
 	} else if ([theNote object] == applicationNotifications) {
 		[self reloadAppTab];
-		[remove setEnabled:NO];
+		//[remove setEnabled:NO];
 	}
 }
 
@@ -602,6 +600,14 @@
 	}
 }
 
+-(void)tableViewDidClickInBody:(NSTableView*)tableView
+{
+	if((tableView == growlApplications) && ([tableView selectedRow] > -1))
+		[remove setEnabled:YES];
+	else
+		[remove setEnabled:NO];
+}
+
 #pragma mark Growl Tab View Delegate Methods
 - (void) tabView:(NSTabView*)tab willSelectTabViewItem:(NSTabViewItem*)tabViewItem
 {
@@ -610,6 +616,7 @@
 			[[tab window] makeFirstResponder: growlApplications];
 			
 }
+
 #pragma mark -
 
 - (IBAction)revert:(id)sender {

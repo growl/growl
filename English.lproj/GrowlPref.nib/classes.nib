@@ -34,6 +34,7 @@
             }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {
             CLASS = NSPreferencePane; 
             LANGUAGE = ObjC; 
@@ -44,7 +45,8 @@
                 "_window" = id; 
             }; 
             SUPERCLASS = NSObject; 
-        }
+        }, 
+        {CLASS = RRTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }
     ); 
     IBVersion = 1; 
 }

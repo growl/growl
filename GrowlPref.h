@@ -6,6 +6,7 @@
 //
 
 #import <PreferencePanes/PreferencePanes.h>
+#import "RRTableView.h"
 
 @interface GrowlPref : NSPreferencePane {
 	NSMutableArray			* images;
@@ -39,8 +40,8 @@
 	IBOutlet NSTextField			* growlVersion;
 
 	//"Applications" tab pane
-	IBOutlet NSTableView	* applicationNotifications;
-	IBOutlet NSTableView	* growlApplications;
+	IBOutlet RRTableView	* applicationNotifications;
+	IBOutlet RRTableView	* growlApplications;
 	NSMenu					* applicationDisplayPluginsMenu;
 	NSMenu					* notificationPriorityMenu;
 	
