@@ -43,7 +43,6 @@
 + (void) _checkForPackagedUpdateForGrowlPrefPaneBundle:(NSBundle *)growlPrefPaneBundle;
 #endif
 
-+ (void) _deprecatedNotifyTargetsGrowlIsReady;
 + (NSString *) _applicationNameForGrowl;
 + (NSDictionary *) _registrationDictionary;
 
@@ -327,8 +326,6 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	if ([delegate respondsToSelector:@selector(growlIsReady)]){
 		[delegate growlIsReady];
 	}
-
-	[self _deprecatedNotifyTargetsGrowlIsReady];
 	
 	//Post a notification locally
 	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
