@@ -69,6 +69,8 @@ static void PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 	}
 }
 
+BOOL shouldDisplayNotifications = NO;
+
 @implementation GrowlSafari
 + (NSBundle *)bundle
 {
@@ -81,6 +83,10 @@ static void PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 	Class class = NSClassFromString( @"DownloadProgressEntry" );
 	PerformSwizzle( class, @selector(setDownloadStage:), @selector(mySetDownloadStage:), YES );
 	PerformSwizzle( class, @selector(updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:), YES );
+	PerformSwizzle( class,
+					@selector(initWithDownload:mayOpenWhenDone:),
+					@selector(myInitWithDownload:mayOpenWhenDone:),
+					YES );
 	NSBundle *bundle = [GrowlSafari bundle];
 	NSArray *array = [NSArray arrayWithObjects:
 		NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @""),
@@ -104,62 +110,74 @@ static void PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 {
 	int oldStage = (int)[self performSelector:@selector(downloadStage)];
 	[self mySetDownloadStage:stage];
-	if (stage == 2) {
-		NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
-		NSBundle *bundle = [GrowlSafari bundle];
-		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-			@"GrowlSafari", GROWL_APP_NAME,
-			NSLocalizedStringFromTableInBundle(@"Compression Status", nil, bundle, @""), GROWL_NOTIFICATION_NAME,
-			NSLocalizedStringFromTableInBundle(@"Decompressing File", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
-			[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ decompression started", nil, bundle, @""),
-					[[self performSelector:@selector(downloadPath)] lastPathComponent]],
-				GROWL_NOTIFICATION_DESCRIPTION,
-			nil];
-		[nc postNotificationName:GROWL_NOTIFICATION	object:nil userInfo:dict];
-	} else if (stage == 9 && oldStage != 9) {
-		NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
-		NSBundle *bundle = [GrowlSafari bundle];
-		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-			@"GrowlSafari", GROWL_APP_NAME,
-			NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @""), GROWL_NOTIFICATION_NAME,
-			NSLocalizedStringFromTableInBundle(@"Copying Disk Image", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
-			[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Copying application from %@", nil, bundle, @""),
-					[[self performSelector:@selector(downloadPath)] lastPathComponent]],
-				GROWL_NOTIFICATION_DESCRIPTION,
-			nil];
-		[nc postNotificationName:GROWL_NOTIFICATION object:nil userInfo:dict];
-	} else if (stage == 13) {
-		NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
-		NSBundle *bundle = [GrowlSafari bundle];
-		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-			@"GrowlSafari", GROWL_APP_NAME,
-			NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @""), GROWL_NOTIFICATION_NAME,
-			NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
-			[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ download complete", nil, bundle, @""),
-					[self performSelector:@selector(filename)]],
-				GROWL_NOTIFICATION_DESCRIPTION,
-			nil];
-		[nc postNotificationName:GROWL_NOTIFICATION object:nil userInfo:dict];
+	if (shouldDisplayNotifications)
+	{
+		if (stage == 2) {
+			NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
+			NSBundle *bundle = [GrowlSafari bundle];
+			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+				@"GrowlSafari", GROWL_APP_NAME,
+				NSLocalizedStringFromTableInBundle(@"Compression Status", nil, bundle, @""), GROWL_NOTIFICATION_NAME,
+				NSLocalizedStringFromTableInBundle(@"Decompressing File", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
+				[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ decompression started", nil, bundle, @""),
+						[[self performSelector:@selector(downloadPath)] lastPathComponent]],
+					GROWL_NOTIFICATION_DESCRIPTION,
+				nil];
+			[nc postNotificationName:GROWL_NOTIFICATION	object:nil userInfo:dict];
+		} else if (stage == 9 && oldStage != 9) {
+			NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
+			NSBundle *bundle = [GrowlSafari bundle];
+			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+				@"GrowlSafari", GROWL_APP_NAME,
+				NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @""), GROWL_NOTIFICATION_NAME,
+				NSLocalizedStringFromTableInBundle(@"Copying Disk Image", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
+				[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Copying application from %@", nil, bundle, @""),
+						[[self performSelector:@selector(downloadPath)] lastPathComponent]],
+					GROWL_NOTIFICATION_DESCRIPTION,
+				nil];
+			[nc postNotificationName:GROWL_NOTIFICATION object:nil userInfo:dict];
+		} else if (stage == 13) {
+			NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
+			NSBundle *bundle = [GrowlSafari bundle];
+			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+				@"GrowlSafari", GROWL_APP_NAME,
+				NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @""), GROWL_NOTIFICATION_NAME,
+				NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
+				[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ download complete", nil, bundle, @""),
+						[self performSelector:@selector(filename)]],
+					GROWL_NOTIFICATION_DESCRIPTION,
+				nil];
+			[nc postNotificationName:GROWL_NOTIFICATION object:nil userInfo:dict];
+		}
 	}
 }
 
 - (void)myUpdateDiskImageStatus:(NSDictionary *)status
 {
 	[self myUpdateDiskImageStatus:status];
-
-	if( [[status objectForKey:@"status-stage"] isEqual:@"initialize"] ) {
-		NSBundle *bundle = [GrowlSafari bundle];
-		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-			@"GrowlSafari", GROWL_APP_NAME,
-			NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @""), GROWL_NOTIFICATION_NAME,
-			NSLocalizedStringFromTableInBundle(@"Mounting Disk Image", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
-			[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Mounting %@", nil, bundle, @""),
-				[[self performSelector:@selector(downloadPath)] lastPathComponent]],
-			GROWL_NOTIFICATION_DESCRIPTION,
-			nil];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																	   object:nil
-																	 userInfo:dict];
+	
+	if (shouldDisplayNotifications)
+	{
+		if( [[status objectForKey:@"status-stage"] isEqual:@"initialize"] ) {
+			NSBundle *bundle = [GrowlSafari bundle];
+			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+				@"GrowlSafari", GROWL_APP_NAME,
+				NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @""), GROWL_NOTIFICATION_NAME,
+				NSLocalizedStringFromTableInBundle(@"Mounting Disk Image", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
+				[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Mounting %@", nil, bundle, @""),
+					[[self performSelector:@selector(downloadPath)] lastPathComponent]],
+				GROWL_NOTIFICATION_DESCRIPTION,
+				nil];
+			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
+																		   object:nil
+																		 userInfo:dict];
+		}
 	}
+}
+
+// This is to make sure we're done with the pre-saved downloads
+- (id)myInitWithDownload:(id)fp8 mayOpenWhenDone:(BOOL)fp12 {
+	shouldDisplayNotifications = YES;
+	return [self myInitWithDownload:fp8 mayOpenWhenDone:fp12];
 }
 @end
