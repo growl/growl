@@ -27,7 +27,7 @@
 		   andDefaultNotes:(NSArray *) inDefaults 
 				fromParent:(GrowlController *) parent;
 
-- (id) initTicketFromPath:(NSString *) inPath;
+- (id) initTicketFromPath:(NSString *) inPath withParent:(GrowlController *) inParent;
 - (void) saveTicket;
 
 #pragma mark -

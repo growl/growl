@@ -51,6 +51,7 @@
 	[super dealloc];
 }
 
+
 #pragma mark -
 
 - (void) dispatchNotification:(NSNotification *) note {
@@ -80,7 +81,7 @@
 		if ( [[aTicket pathExtension] isEqualTo:@"growlTicket"] ) {
 			NSString *appName = [[aTicket lastPathComponent] stringByDeletingPathExtension];
 			//NSLog( @"%@ is being loaded", aTicket );
-			[_tickets setValue:[[GrowlApplicationTicket alloc] initTicketFromPath:aTicket] forKey:appName];
+			[_tickets setValue:[[GrowlApplicationTicket alloc] initTicketFromPath:aTicket withParent:self] forKey:appName];
 		}
 	}
 	NSLog( @"tickets loaded - %@", _tickets );

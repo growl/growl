@@ -38,18 +38,20 @@
 	[_allNotifications release];
 	[_defaultNotifications release];
 	[_allowedNotifications release];
+	[_parent release];
 	
 	_appName = nil;
 	_icon = nil;
 	_allNotifications = nil;
 	_defaultNotifications = nil;
 	_allowedNotifications = nil;
+	_parent = nil;
 	
 	[super dealloc];
 }
 
 #pragma mark -
-- (id) initTicketFromPath:(NSString *) inPath {
+- (id) initTicketFromPath:(NSString *) inPath withParent:(GrowlController *) inParent {
 	//load a Plist file of this object to maintain configuration through launches
 	if ( self = [super init] ) {
 		NSString *curTicket = [NSString stringWithContentsOfFile:inPath];
@@ -59,7 +61,7 @@
 		_allNotifications = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL]];
 		_allowedNotifications = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_USER_SET] retain];		
 		_icon = [[[NSWorkspace sharedWorkspace] iconForApplication:_appName] retain];
-		
+		_parent = [inParent retain];
 		_useDefaults = NO;
 		
 		[self registerParentForNotifications:_allowedNotifications];
