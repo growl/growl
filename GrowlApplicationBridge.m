@@ -7,6 +7,7 @@
 
 #import "GrowlApplicationBridge.h"
 #import "GrowlDefines.h"
+#import <ApplicationServices/ApplicationServices.h>
 
 #define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY			@"PreferencePanes"
 #define PREFERENCE_PANE_EXTENSION						@"prefPane"
@@ -73,9 +74,23 @@ static  NSMutableArray *targetsToNotifyArray = nil;
 		[targetsToNotifyArray addObject:infoDict];
 		
 		//Houston, we are go for launch.
-		if ([[NSWorkspace sharedWorkspace] launchApplication:growlHelperAppPath]){
+		/*if ([[NSWorkspace sharedWorkspace] launchApplication:growlHelperAppPath]){
 			success = YES;
+		}*/
+		// Lets launch in the background (unfortunately, requires Carbon)
+		LSLaunchFSRefSpec spec;
+		FSRef appRef;
+		OSStatus status = FSPathMakeRef([growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
+		if (status == noErr) {
+			spec.appRef = &appRef;
+			spec.numDocs = 0;
+			spec.itemRefs = NULL;
+			spec.passThruParams = NULL;
+			spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
+			spec.asyncRefCon = NULL;
+			status = LSOpenFromRefSpec(&spec, NULL);
 		}
+		success = (status == noErr);
 	}
 	
 	
