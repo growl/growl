@@ -135,9 +135,9 @@
 		[NSNumber numberWithBool:_useDefaults], @"useDefaults",
 		nil];
 	
-	NSString *aString = [saveDict description];
-	NSLog( @"%@ to be saved as \"Plist\"", aString );
-	[aString writeToFile:savePath atomically:YES];
+//	NSString *aString = [saveDict description];
+	NSLog( @"%@ to be saved as \"XML Plist\"", saveDict );
+	[saveDict writeToFile:savePath atomically:YES];
 	NSLog( @"File saved to %@", savePath );
 }	
 
