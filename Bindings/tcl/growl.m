@@ -29,6 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <AppKit/NSImage.h>
 #import <Foundation/Foundation.h>
 #import "GrowlDefines.h"
 
@@ -48,6 +49,9 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 
 	// for "post"
 	NSString *notificationType, *notificationTitle, *notificationDescription;
+
+	NSString *iconFile;
+	NSImage *notificationIcon = nil;
 
 	// info to actually send teh message
 	NSDistributedNotificationCenter *distCenter;
@@ -70,7 +74,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 			return TCL_ERROR;
 		}
 
-		if (objc != 2) {
+		if (objc < 2) {
 			return TCL_ERROR;
 		}
 
@@ -80,14 +84,20 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 		allNotifications = [[NSString stringWithUTF8String:Tcl_GetString(*objv)] componentsSeparatedByString:@" "];
 		++objv, --objc;
 
+		if (objc) {
+			iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
+			notificationIcon = [[[NSImage alloc] initWithContentsOfFile:iconFile] autorelease];
+		}
+
 		notificationName = GROWL_APP_REGISTRATION;
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 			appName, GROWL_APP_NAME,
+			notificationIcon ? [notificationIcon TIFFRepresentation] : nil, GROWL_APP_ICON,
 			allNotifications, GROWL_NOTIFICATIONS_ALL,
 			allNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 			nil];
 	} else if ([action isEqualToString:@"post"]) {
-		if (objc != 3) {
+		if (objc < 3) {
 			return TCL_ERROR;
 		}
 
@@ -100,11 +110,17 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 		notificationDescription = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
 		++objv, --objc;
 
+		if (objc) {
+			iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
+			notificationIcon = [[[NSImage alloc] initWithContentsOfFile:iconFile] autorelease];
+		}
+
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 			notificationType, GROWL_NOTIFICATION_NAME,
 			appName, GROWL_APP_NAME,
 			notificationTitle, GROWL_NOTIFICATION_TITLE,
 			notificationDescription, GROWL_NOTIFICATION_DESCRIPTION,
+			notificationIcon ? [notificationIcon TIFFRepresentation] : nil, GROWL_NOTIFICATION_ICON,
 			nil];
 		
 		notificationName = GROWL_NOTIFICATION;
