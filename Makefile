@@ -7,10 +7,10 @@ GROWL_HELPER_APP=$(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)/Contents/Resources/Gro
 
 CP=ditto --rsrc
 
-default:
+default: growlappbridge
 	xcodebuild -project Growl.xcode -target Growl -buildstyle Deployment build
 
-all:
+all: growlappbridge
 	xcodebuild -project Growl.xcode -alltargets -buildstyle Deployment build
 
 growl:
@@ -18,6 +18,9 @@ growl:
 
 growlhelperapp:
 	xcodebuild -project Growl.xcode -target GrowlHelperApp -buildstyle Development build
+
+growlappbridge:
+	xcodebuild -project GrowlAppBridge.xcode -target GrowlAppBridge -buildstyle Deployment build
 
 display: bubblesnotificationview
 
