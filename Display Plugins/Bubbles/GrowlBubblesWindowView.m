@@ -13,7 +13,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 			blue:&darkBlue
 			alpha:&darkAlpha];
 
-	NSLog(@"data red: %f green: %f blue: %f alpha: %f", darkRed, darkGreen, darkBlue, darkAlpha);
+	//NSLog(@"data red: %f green: %f blue: %f alpha: %f", darkRed, darkGreen, darkBlue, darkAlpha);
 	//static float dark[4] = { .69412, .83147, .96078, .95 };
 //	float dark[4] = { darkRed, darkGreen, darkBlue, darkAlpha };
 	static const float light[4] = { .93725f, .96863f, .99216f, .95f };
@@ -46,12 +46,14 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	[_icon release];
 	[_title release];
 	[_text release];
-
+	[_bgColor release];
+	
 	_icon = nil;
 	_title = nil;
 	_text = nil;
 	_target = nil;
-
+	_bgColor = nil;
+	
 	[super dealloc];
 }
 
