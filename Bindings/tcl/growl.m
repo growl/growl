@@ -112,7 +112,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 		if (objc) {
 			iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
 			notificationIcon = [[[NSImage alloc] initWithContentsOfFile:iconFile] autorelease];
-			++objc, --objc;
+			++objv, --objc;
 		}
 
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
