@@ -13,6 +13,7 @@
 #endif
 #import "NSGrowlAdditions.h"
 #import "CFGrowlAdditions.h"
+#import "GrowlDefinesInternal.h"
 
 #import <ApplicationServices/ApplicationServices.h>
 
