@@ -46,64 +46,62 @@
 #define ERROR_ICON_OF_FILE_PATH_NOT_IMAGE			5
 #define ERROR_ICON_OF_FILE_UNSUPPORTED_PROTOCOL		6
 
-static const NSSize iconSize = {128.0f, 128.0f};
+static const NSSize iconSize = { 128.0f, 128.0f };
 
 @implementation GrowlNotifyScriptCommand
 
--(id) performDefaultImplementation {
+- (id) performDefaultImplementation {
 	NSDictionary *args = [self evaluatedArguments];
 
-	// should validate params better!
-	NSString *title = [args objectForKey:KEY_TITLE];
-	NSString *desc = [args objectForKey:KEY_DESC];
-	NSNumber *sticky = [args objectForKey:KEY_STICKY];
-	NSNumber *priority = [args objectForKey:KEY_PRIORITY];
-	NSString *imageUrl = [args objectForKey:KEY_IMAGE_URL];
-	NSString *iconOfFile = [args objectForKey:KEY_ICON_FILE];
+	//should validate params better!
+	NSString *title             = [args objectForKey:KEY_TITLE];
+	NSString *desc              = [args objectForKey:KEY_DESC];
+	NSNumber *sticky            = [args objectForKey:KEY_STICKY];
+	NSNumber *priority          = [args objectForKey:KEY_PRIORITY];
+	NSString *imageUrl          = [args objectForKey:KEY_IMAGE_URL];
+	NSString *iconOfFile        = [args objectForKey:KEY_ICON_FILE];
 	NSString *iconOfApplication = [args objectForKey:KEY_ICON_APP_NAME];
-	NSData *imageData = [args objectForKey:KEY_IMAGE];
-	NSData *pictureData = [args objectForKey:KEY_PICTURE];
-	NSString *appName = [args objectForKey:KEY_APP_NAME];
-	NSString *notifName = [args objectForKey:KEY_NOTIFICATION_NAME];
+	NSData *imageData           = [args objectForKey:KEY_IMAGE];
+	NSData *pictureData         = [args objectForKey:KEY_PICTURE];
+	NSString *appName           = [args objectForKey:KEY_APP_NAME];
+	NSString *notifName         = [args objectForKey:KEY_NOTIFICATION_NAME];
 
 	NSMutableDictionary *noteDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-		appName, GROWL_APP_NAME,
+		appName,   GROWL_APP_NAME,
 		notifName, GROWL_NOTIFICATION_NAME,
-		title, GROWL_NOTIFICATION_TITLE,
-		desc, GROWL_NOTIFICATION_DESCRIPTION,
+		title,     GROWL_NOTIFICATION_TITLE,
+		desc,      GROWL_NOTIFICATION_DESCRIPTION,
 		nil];
 
-	if (priority) {
+	if (priority)
 		[noteDict setObject:priority forKey:GROWL_NOTIFICATION_PRIORITY];
-	}
 
-	if (sticky) {
-		[noteDict setObject:sticky forKey:GROWL_NOTIFICATION_STICKY];
-	}
+	if (sticky)
+		[noteDict setObject:sticky   forKey:GROWL_NOTIFICATION_STICKY];
 
 	NS_DURING
 		NSImage *icon = nil;
 		NSURL   *url = nil;
 
-		//  Command used the "image from URL" argument
+		//Command used the "image from URL" argument
 		if (imageUrl) {
-			if (!(url = [[self fileUrlForLocationReference: imageUrl] autorelease])) {
+			if (!(url = [self fileUrlForLocationReference:imageUrl])) {
 				NS_VALUERETURN(nil,id);
 			}
 			if (!(icon = [[[NSImage alloc] initWithContentsOfURL:url] autorelease])) {
-				//	File exists, but is not a valid image format
+				//File exists, but is not a valid image format
 				[self setError:ERROR_ICON_OF_FILE_PATH_NOT_IMAGE];
 				NS_VALUERETURN(nil,id);
 			}
 		} else if (iconOfFile) {
-			//  Command used the "icon of file" argument
+			//Command used the "icon of file" argument
 			if (!(url = [[self fileUrlForLocationReference: iconOfFile] autorelease])) {
-				//	NSLog(@"That's a no go on that file's icon.");
+				//NSLog(@"That's a no go on that file's icon.");
 				NS_VALUERETURN(nil,id);
 			}
 			icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
 		} else if (iconOfApplication) {
-			//  Command used the "icon of application" argument
+			//Command used the "icon of application" argument
 			icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
 		} else if (imageData){
 			icon = [[[NSImage alloc] initWithData:imageData] autorelease];
@@ -116,9 +114,8 @@ static const NSSize iconSize = {128.0f, 128.0f};
 			NSData *iconData;
 			[icon setSize:iconSize];
 			iconData = [icon TIFFRepresentation];
-			if (iconData) {
+			if (iconData)
 				[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON];
-			}
 		}
 
 		[[GrowlController standardController] dispatchNotificationWithDictionary:noteDict];
@@ -133,35 +130,34 @@ static const NSSize iconSize = {128.0f, 128.0f};
 
 
 
--(NSURL*)fileUrlForLocationReference:(NSString*)imageReference
-	//  This method will attempt to locate an image given either a path or an URL
-{
+//This method will attempt to locate an image given either a path or an URL
+- (NSURL *)fileUrlForLocationReference:(NSString *)imageReference {
 	NSURL   *url = nil;
 	
 	NSRange testRange = [imageReference rangeOfString: @"://"];
 	if (!(testRange.location == NSNotFound)) {
-		//  It's looks like a protocol string 
+		//It looks like a protocol string 
 		if (![imageReference hasPrefix: @"file://"]) {
-												//  The protocol is not valid  - we only accept file:// URLs
+			//The protocol is not valid  - we only accept file:// URLs
 			[self setError:ERROR_NOT_FILE_URL];
 			return nil;
 		}
 		
-		//  it was a file URL that was passed
+		//it was a file URL that was passed
 		url = [NSURL URLWithString: imageReference];
-		//  Check it's properly encoded:
+		//Check that it's properly encoded
 		if (![url path]) {
-			//  Try encoding the path to fit URL specs
+			//Try encoding the path to fit URL specs
 			url = [NSURL URLWithString: [imageReference stringByAddingPercentEscapesUsingEncoding: NSISOLatin1StringEncoding]];
-			//  Check it again
+			//Check it again
 			if (![url path]) {
-				//  This path is just no good.
+				//This path is just no good.
 				[self setError:ERROR_ICON_OF_FILE_PATH_INVALID];
 				return nil;
 			}
 		}
 	} else {
-		//  it was an alias / path that was passed
+		//it was an alias / path that was passed
 		url = [NSURL fileURLWithPath:[imageReference stringByExpandingTildeInPath]];
 		if (!url) {
 			[self setError:ERROR_ICON_OF_FILE_PATH_INVALID];
@@ -169,9 +165,9 @@ static const NSSize iconSize = {128.0f, 128.0f};
 		}
 	}
 	
-	//  Sanity check the URL
+	//Sanity check the URL
 	if (![url isFileURL]) {
-		//  Bail - wrong protocol.
+		//Bail - wrong protocol.
 		[self setError:ERROR_NOT_FILE_URL];
 		return nil;
 	}
@@ -179,12 +175,12 @@ static const NSSize iconSize = {128.0f, 128.0f};
 		[self setError:ERROR_ICON_OF_FILE_PATH_INVALID];
 		return nil;
 	}
-	//  Check to see if the file actually exists:
-	if (![[NSFileManager defaultManager] fileExistsAtPath: [url path]]) {
+	//Check to see if the file actually exists.
+	if (![[NSFileManager defaultManager] fileExistsAtPath:[url path]]) {
 		[self setError:ERROR_ICON_OF_FILE_PATH_FILE_MISSING];
 		return nil;
 	} 
-	return [url retain];
+	return url;
 }
 
 
@@ -194,7 +190,7 @@ static const NSSize iconSize = {128.0f, 128.0f};
 
 - (void)setError:(int)errorCode failure:(id)failure {
 	[self setScriptErrorNumber:errorCode];
-	NSString* str;
+	NSString *str;
 	
 	switch (errorCode) {
 		case ERROR_EXCEPTION:
@@ -219,9 +215,8 @@ static const NSSize iconSize = {128.0f, 128.0f};
 			str = nil;
 	}
 	
-	if (str) {
+	if (str)
 		[self setScriptErrorString:str];
-	}
 }
 
 @end
