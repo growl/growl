@@ -31,7 +31,7 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void);
 static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
 
 #ifdef GROWL_WITH_INSTALLER
-static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundle *growlPrefPaneBundle);
+static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundleRef growlPrefPaneBundle);
 #endif
 
 //this is not declared static because the GAB class uses it.
