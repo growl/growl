@@ -6,6 +6,8 @@ use warnings;
 
 require Exporter;
 
+use Foundation;
+
 our @ISA = qw(Exporter);
 
 # Items to export into callers namespace by default. Note: do not export
@@ -25,10 +27,66 @@ our @EXPORT = qw(
 	
 );
 
-our $VERSION = '0.20';
+use constant GROWL_APP_NAME 						=> "ApplicationName";
+use constant GROWL_APP_ICON 						=> "ApplicationIcon";
 
-require XSLoader;
-XSLoader::load('Mac::Growl', $VERSION);
+use constant GROWL_NOTIFICATIONS_DEFAULT 		=> "DefaultNotifications";
+use constant GROWL_NOTIFICATIONS_ALL 			=> "AllNotifications";
+use constant GROWL_NOTIFICATIONS_USER_SET 		=> "AllowedUserNotifications";
+
+use constant GROWL_NOTIFICATION_TITLE 			=> "NotificationTitle";
+use constant GROWL_NOTIFICATION_DESCRIPTION 		=> "NotificationDescription";
+use constant GROWL_NOTIFICATION_ICON 			=> "NotificationIcon";
+
+use constant GROWL_APP_REGISTRATION 				=> "GrowlApplicationRegistrationNotification";
+use constant GROWL_APP_REGISTRATION_CONF 		=> "GrowlApplicationRegistrationConfirmationNotification";
+
+use constant GROWL_PING 							=> "Honey, Mind Taking Out The Trash";
+use constant GROWL_PONG 							=> "What Do You Want From Me, Woman";
+
+our $VERSION = '0.25';
+
+sub RegisterNotifications($$$)
+{
+	my $appName = $_[0];
+	my @allNotes = @{$_[1]};
+	my @defaultNotes = @{$_[2]};
+	
+	my $appString = NSString->stringWithCString_($appName);
+	my $notesArray = NSMutableArray->array();
+	my $defaultArray = NSMutableArray->array();
+	
+	my $note;
+	
+	$notesArray->addObject_($note) while($note = shift @allNotes);
+		
+	$defaultArray->addObject_($note)	 while($note = shift @defaultNotes);
+		
+	my $regDict = NSMutableDictionary->dictionary();
+	$regDict->setObject_forKey_($appName,GROWL_APP_NAME);
+	$regDict->setObject_forKey_($notesArray,GROWL_NOTIFICATIONS_ALL);
+	$regDict->setObject_forKey_($defaultArray,GROWL_NOTIFICATIONS_DEFAULT);
+	
+	NSDistributedNotificationCenter->defaultCenter()->postNotificationName_object_userInfo_(
+				GROWL_APP_REGISTRATION,
+				undef,
+				$regDict);			
+}
+
+sub PostNotification($$$$)
+{
+	my ($appName, $noteName, $noteTitle, $noteDescription) = @_;
+	
+	my $noteDict = NSMutableDictionary->dictionary();
+	$noteDict->setObject_forKey_($appName,GROWL_APP_NAME);
+	$noteDict->setObject_forKey_($noteTitle,GROWL_NOTIFICATION_TITLE);
+	$noteDict->setObject_forKey_($noteDescription,GROWL_NOTIFICATION_DESCRIPTION);
+	
+	NSDistributedNotificationCenter->defaultCenter()->postNotificationName_object_userInfo_(
+				$noteName,
+				undef,
+				$noteDict);	
+}
 
 # Preloaded methods go here.
 
@@ -37,7 +95,7 @@ __END__
 
 =head1 NAME
 
-Mac::Growl - Perl extension for registering and sending Growl Notifications on OS X
+Mac::Growl - Perl module for registering and sending Growl Notifications on OS X
 
 =head1 SYNOPSIS
 
