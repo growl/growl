@@ -76,10 +76,10 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	[appName autorelease];
 	appName = [[delegate applicationNameForGrowl] retain];
 	
-	//Cache the appIconData from the delegate if it responds to the growlAppIconData selector
+	//Cache the appIconData from the delegate if it responds to the applicationIconDataForGrowl selector
 	[appIconData autorelease];
-	if ([delegate respondsToSelector:@selector(growlAppIconData)]){
-		appIconData = [[delegate growlAppIconData] retain];
+	if ([delegate respondsToSelector:@selector(applicationIconDataForGrowl)]){
+		appIconData = [[delegate applicationIconDataForGrowl] retain];
 	}
 
 	//Add the observer for GROWL_IS_READY which will be triggered later if all goes well
