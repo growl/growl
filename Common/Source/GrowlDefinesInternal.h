@@ -218,13 +218,13 @@ struct GrowlNetworkNotification {
 #define READ_GROWL_PREF_VALUE(key, domain, type, result) do {\
 	CFDictionaryRef prefs = (CFDictionaryRef)CFPreferencesCopyAppValue((CFStringRef)domain, \
 																		CFSTR("com.Growl.GrowlHelperApp")); \
-	*result = NULL; \
 	if (prefs != NULL) {\
 		if (CFDictionaryContainsKey(prefs, key)) {\
 			*result = (type)CFDictionaryGetValue(prefs, key); \
 			CFRetain(*result); \
-		}\
-		CFRelease(prefs); } } while(0)
+		} \
+		CFRelease(prefs); } \
+	} while(0)
 
 /*!	@function    WRITE_GROWL_PREF_VALUE
  *	@abstract    Writes the given pref value to the plug-in's preferences.
@@ -258,7 +258,6 @@ struct GrowlNetworkNotification {
  *	@param	result	A pointer to a Boolean type. Left unchanged if the value doesn't exist.
  */
 #define READ_GROWL_PREF_BOOL(key, domain, result) do {\
-	*result = NO; \
 	CFBooleanRef boolValue = NULL; \
 	READ_GROWL_PREF_VALUE(key, domain, CFBooleanRef, &boolValue); \
 	if (boolValue != NULL) {\
@@ -292,7 +291,6 @@ struct GrowlNetworkNotification {
  *	@param	result	A pointer to an integer. Leaves unchanged if the value doesn't exist.
  */
 #define READ_GROWL_PREF_INT(key, domain, result) do {\
-	*result = 0; \
 	CFNumberRef intValue = NULL; \
 	READ_GROWL_PREF_VALUE(key, domain, CFNumberRef, &intValue); \
 	if (intValue != NULL) {\
@@ -322,7 +320,6 @@ struct GrowlNetworkNotification {
  *	@param	result	A pointer to a float. Leaves unchanged if the value doesn't exist.
  */
 #define READ_GROWL_PREF_FLOAT(key, domain, result) do {\
-	*result = 0.0; \
 	CFNumberRef floatValue = NULL; \
 	READ_GROWL_PREF_VALUE(key, domain, CFNumberRef, &floatValue); \
 	if (floatValue != NULL) {\
