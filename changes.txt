@@ -12,6 +12,8 @@ New Displays
 	- NSLog
 	- MailMe
 
+New Localizations
+	- German
 
 0.5 - Release
 Prefpane
