@@ -14,6 +14,7 @@
 #import "NSGrowlAdditions.h"
 
 static unsigned int smokeWindowDepth = 0;
+static unsigned int globalId = 0;
 
 @implementation GrowlSmokeWindowController
 
@@ -34,11 +35,44 @@ static unsigned int smokeWindowDepth = 0;
 	return [[[self alloc] initWithTitle:title text:text icon:icon sticky:sticky] autorelease];
 }
 
+#pragma mark Delegate Methods
+/*	
+	These methods are the methods that this class calls on the delegate.  In this case
+	this class is the delegate for the class
+*/
+
+- (void) notificationDidFadeOut:(id)sender {
+	NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithCapacity:0];
+	[dict setObject:[NSNumber numberWithInt:_id] forKey:@"ID"];
+	[dict setObject:[NSNumber numberWithFloat:[[self window] frame].size.height] forKey:@"Depth"];
+//	NSLog(@"self id: [%d]", self->_id);
+	smokeWindowDepth -= [[self window] frame].size.height;
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"Glide" object:nil userInfo:dict];
+}
+
+- (void) _glideUp:(NSNotification*) note {
+//	NSLog(@"id: %d depth: %f", [[[note userInfo] objectForKey:@"ID"] intValue], [[[note userInfo] objectForKey:@"Depth"] floatValue]);
+//	NSLog(@"self id: %d smokeWindowDepth: %d", _id, smokeWindowDepth);
+	if ([[[note userInfo] objectForKey:@"ID"] intValue] < _id)
+	{
+		NSRect theFrame = [[self window] frame];
+		theFrame.origin.y += [[[note userInfo] objectForKey:@"Depth"] floatValue];
+		[[self window] setFrame:theFrame display:NO animate:YES];
+	}
+}
+
 #pragma mark Regularly Scheduled Coding
 
 - (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky {
 	extern unsigned int smokeWindowDepth;
+	extern unsigned int globalId;
+	_id = globalId++;
 
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											selector:@selector( _glideUp: ) 
+												name:@"Glide"
+											  object:nil];
+	
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) 
 												 styleMask:NSBorderlessWindowMask 
 												   backing:NSBackingStoreBuffered defer:NO] autorelease];
@@ -54,6 +88,7 @@ static unsigned int smokeWindowDepth = 0;
 	[panel setCanHide:NO];
 	[panel setReleasedWhenClosed:YES];
 	[panel setDelegate:self];
+	[self setDelegate:self];
 
 	GrowlSmokeWindowView *view = [[[GrowlSmokeWindowView alloc] initWithFrame:panelFrame] autorelease];
 	[view setTarget:self];
@@ -102,6 +137,7 @@ static unsigned int smokeWindowDepth = 0;
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
+	[_delegate release];
 	[_target release];
 	[_representedObject release];
 	[_animationTimer invalidate];
@@ -113,7 +149,9 @@ static unsigned int smokeWindowDepth = 0;
 	_animationTimer = nil;
 
 	extern unsigned int smokeWindowDepth;
-	if( _depth == smokeWindowDepth ) smokeWindowDepth = 0;
+	NSLog(@"smokeController dealloccing");
+	if( _depth == smokeWindowDepth ) 
+		smokeWindowDepth = 0;
 
 	[super dealloc];
 }
@@ -154,8 +192,11 @@ static unsigned int smokeWindowDepth = 0;
 		[myWindow setAlphaValue:(alpha - FADE_INCREMENT)];
 	} else {
 		[self _stopTimer];
-		if( _delegate && [_delegate respondsToSelector:@selector( notificationDidFadeOut: )] )
+//		NSLog(@"_delegate: %@", _delegate);
+		[self notificationDidFadeOut:self];
+		if( _delegate && [_delegate respondsToSelector:@selector( notificationDidFadeOut: )] ) {
 			[_delegate notificationDidFadeOut:self];
+		}
 		[self close];
 		[self autorelease]; // Release, we retained when we faded in.
 	}
@@ -235,6 +276,7 @@ static unsigned int smokeWindowDepth = 0;
 
 - (void) setDelegate:(id) delegate {
 	_delegate = delegate;
+//	NSLog(@"setDelegate: %@", _delegate);
 }
 
 #pragma mark -

@@ -18,6 +18,7 @@
 	id				_target;
 	id				_representedObject;
 	short			_displayTime;
+	unsigned int	_id;
 }
 
 + (GrowlSmokeWindowController *) notify;
