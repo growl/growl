@@ -6,8 +6,6 @@
 	objectVersion = 39;
 	objects = {
 		06F27B30FFEEEFEF11CA0E56 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
@@ -22,8 +20,6 @@
 			name = Development;
 		};
 		06F27B31FFEEEFEF11CA0E56 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -86,8 +82,7 @@
 			sourceTree = "<group>";
 		};
 		089C1672FE841209C02AAC07 = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Foundation.framework;
 			path = /System/Library/Frameworks/Foundation.framework;
@@ -126,8 +121,7 @@
 			sourceTree = "<group>";
 		};
 		089C167FFE841241C02AAC07 = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = AppKit.framework;
 			path = /System/Library/Frameworks/AppKit.framework;
@@ -166,8 +160,7 @@
 			sourceTree = "<group>";
 		};
 		1058C7ADFEA557BF11CA2CBB = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Cocoa.framework;
 			path = /System/Library/Frameworks/Cocoa.framework;
@@ -765,7 +758,7 @@
 		};
 		CB5F84DE0638BFDB00EADD7A = {
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
+			lastKnownFileType = text.xml;
 			path = "BubblesNotificationView-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
@@ -976,7 +969,7 @@
 		};
 		CB61E51A0637763C00E0DDC7 = {
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
+			lastKnownFileType = text.xml;
 			path = "GrowlHelperApp-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
@@ -1037,8 +1030,7 @@
 //F53
 //F54
 		F506C035013D953901CA16C8 = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = PreferencePanes.framework;
 			path = /System/Library/Frameworks/PreferencePanes.framework;
