@@ -152,6 +152,9 @@
 			fileRef = 07BB71DD07ACC69C00BFDD4A;
 			isa = PBXBuildFile;
 			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
 			};
 		};
 //070
@@ -845,6 +848,7 @@
 				INFOPLIST_FILE = "Display Plugins/Bezel-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = Bezel;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
@@ -2523,7 +2527,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find $BUILD_ROOT/$WRAPPER_NAME '(' -name '.svn' -or -name '.DS_Store' ')' -prune -exec rm -rf '{}' ';'\n";
+			shellScript = "find $BUILD_DIR/$FULL_PRODUCT_NAME '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\ncd $BUILD_DIR/$FULL_PRODUCT_NAME\nrm GrowlAppBridge\nln -s Contents/MacOS/$EXECUTABLE_NAME GrowlAppBridge\n";
 		};
 		34E9EFB30790926400662E8E = {
 			fileEncoding = 4;
