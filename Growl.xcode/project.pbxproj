@@ -217,12 +217,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0AB856D906E2932C007B791C = {
-			fileRef = 0AB856D806E2932C007B791C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0AC3E87506F06E2300DA55DE = {
 			fileRef = F506C035013D953901CA16C8;
 			isa = PBXBuildFile;
@@ -789,7 +783,6 @@
 				8D202CED0486D31800D8A456,
 				8D202CEF0486D31800D8A456,
 				CB5FA1BD0638CA2C00EADD7A,
-				0AB856D906E2932C007B791C,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
