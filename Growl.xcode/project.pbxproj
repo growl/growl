@@ -2206,7 +2206,7 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.c;
-			path = "GrowlAppBridge-Carbon.c";
+			path = "GrowlApplicationBridge-Carbon.c";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2214,7 +2214,7 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = "GrowlAppBridge-Carbon.h";
+			path = "GrowlApplicationBridge-Carbon.h";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2622,7 +2622,7 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlAppBridge.m;
+			path = GrowlApplicationBridge.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2630,7 +2630,7 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlAppBridge.h;
+			path = GrowlApplicationBridge.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
