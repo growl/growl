@@ -459,21 +459,32 @@ static BOOL				promptedToUpgradeGrowl = NO;
 
 // Check against our current version number and ensure the installed Growl pane is the same or later
 + (void) _checkForPackagedUpdateForGrowlPrefPaneBundle:(NSBundle *)growlPrefPaneBundle {
-	//Extract the path to the Growl helper app from the pref pane's bundle
-	NSString	*ourGrowlPrefPaneInfoPath;
+	NSString *ourGrowlPrefPaneInfoPath;
+	NSDictionary *infoDictionary;
 	float packagedVersion, installedVersion;
-
+	BOOL upgradeIsAvailable;
+	
 	ourGrowlPrefPaneInfoPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlPrefPaneInfo" 
 																				ofType:@"plist"];
 
 	packagedVersion = [[[NSDictionary dictionaryWithContentsOfFile:ourGrowlPrefPaneInfoPath] objectForKey:(NSString *)kCFBundleVersionKey] floatValue];
-	installedVersion = [[[growlPrefPaneBundle infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] floatValue];
-	if (installedVersion < packagedVersion) {
-		if (!promptedToUpgradeGrowl) {
+	
+	infoDictionary = [growlPrefPaneBundle infoDictionary];
+	installedVersion = [[infoDictionary objectForKey:(NSString *)kCFBundleVersionKey] floatValue];
+	
+
+	/* If the installed version is earlier than our packaged version, we can offer an upgrade.
+	 *
+	 * Growl 0.5 shipped with a version number of 1.0.  We therefore have to do a hackish check to see if we are dealing
+	 * with an upgrade to Growl 0.5.  If our version is earlier than or the same as 1.0, and the installed version is exactly 1.0, and
+	 * the installed version doesn't offer a CFBundleIconFile (which Growl 0.6 and later will but Growl 0.5 did not), then we
+	 * can say with a reasonably high degree of confidence that we can offer an upgrade to the Growl 0.5 installation. */
+	upgradeIsAvailable = (installedVersion < packagedVersion) ||
+		((packagedVersion <= installedVersion) && (installedVersion == 1.0) && ([infoDictionary objectForKey:@"CFBundleIconFile"] == nil));
+
+	if (upgradeIsAvailable && !promptedToUpgradeGrowl) {
 			[GrowlInstallationPrompt showInstallationPromptForUpdate:YES];
 			promptedToUpgradeGrowl = YES;
-			
-		}
 	}
 }
 #endif
