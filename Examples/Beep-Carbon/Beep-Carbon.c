@@ -1,9 +1,9 @@
 /*
- *  Beep-Carbon.c
- *  Growl
+ *	Beep-Carbon.c
+ *	Growl
  *
- *  Created by Mac-arena the Bored Zo on Fri Jun 11 2004.
- *  Public domain.
+ *	Created by Mac-arena the Bored Zo on Fri Jun 11 2004.
+ *	Public domain.
  *
  */
 
@@ -17,9 +17,10 @@
 #include <stdarg.h>
 extern void CFLog(int priority, CFStringRef format, ...);
 
-//controlEnablerFunc, n.: function taking one ControlRef (the control to enable
-//  or disable) and returning an OSStatus.
-//Carbon provides two: EnableControl and DisableControl.
+/*controlEnablerFunc, n.: function taking one ControlRef (the control to enable
+ *	or disable) and returning an OSStatus.
+ *Carbon provides two: EnableControl and DisableControl.
+ */
 typedef OSStatus (*controlEnablerFunc)(ControlRef);
 
 OSStatus handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef event, void *refcon);
@@ -34,6 +35,8 @@ WindowRef newNotificationSheet = NULL;
 
 extern CFArrayCallBacks notificationCallbacks;
 
+static struct Growl_Delegate delegate;
+
 enum { typePNG = kPNGCodecType };
 static const OSType     wantDragTypes[] = { typeJPEG, typePNG,               0U };
 static const OSType tolerateDragTypes[] = { typePict, typeTIFF, typeFileURL, 0U };
@@ -43,7 +46,7 @@ int main(void) {
 
 	CreateNibReference(CFSTR("Beep-Carbon"), &nib);
 	if(nib) {
-		SetMenuBarFromNib(nib, CFSTR("MenuBar"));
+		SetMenuBarFromNib(nib,   CFSTR("MenuBar"));
 		CreateWindowFromNib(nib, CFSTR("MainWindow"), &mainWindow);
 		CreateWindowFromNib(nib, CFSTR("NewNotification"), &newNotificationSheet);
 		DisposeNibReference(nib);
@@ -85,11 +88,33 @@ int main(void) {
 
 		if(mainWindowHandlerRef && sheetHandlerRef) {
 			DialogRef alertSheet = NULL;
-			Boolean success = false;
-			if(LaunchGrowlIfInstalled)
-				success = LaunchGrowlIfInstalled(/*callback*/ NULL, /*context*/ NULL);
-			if(!success) {
-				const char msg[] = "Make sure you have installed the Growl preference pane in \xe2\x80\xa8~/Library/PreferencePanes, /Library/PreferencePanes, or \xe2\x80\xa8/Network/Library/PreferencePanes.";
+
+			//set up the delegate
+			{
+				InitGrowlDelegate(&delegate);
+				CreateMasterListIfNecessary();
+
+				delegate.applicationName = CFSTR("Beep-Carbon");
+
+				//create empty arrays. they will be replaced when the lists
+				//	of notifications change.
+				CFArrayRef allNotifications = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
+				CFArrayRef defaultNotifications = CFRetain(allNotifications);
+
+				const void *keys[] = {
+					GROWL_NOTIFICATIONS_ALL,
+					GROWL_NOTIFICATIONS_DEFAULT,
+				};
+				const void *values[] = {
+					allNotifications,
+					defaultNotifications,
+				};
+				delegate.registrationDictionary = CFDictionaryCreate(kCFAllocatorDefault, keys, values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+			}
+			Growl_SetDelegate(&delegate);
+
+			if(!Growl_IsInstalled()) {
+				const char msg[] = "This application requires Growl 0.6 or later to work.";
 				CFStringRef msgstr = CFStringCreateWithCString(kCFAllocatorDefault, msg, kCFStringEncodingUTF8);
 				err = CreateStandardSheet(kAlertStopAlert, CFSTR("Could not launch Growl."), msgstr, /*param*/ NULL, GetApplicationEventTarget(), &alertSheet);
 				CFRelease(msgstr);
@@ -141,14 +166,11 @@ OSStatus handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef event, 
 					HICommand cmd;
 					err = GetEventParameter(event, kEventParamDirectObject, typeHICommand, /*outActualType*/ NULL, sizeof(cmd), /*outActualSize*/ NULL, &cmd);
 					if(err == noErr) {
-						struct CFnotification *notification = NULL;
+						struct Beep_Notification *notification = NULL;
 						ControlRef dataBrowser = NULL;
 						ControlID controlID = { appSignature, mainWindowNotificationsBrowserID };
 						err = GetControlByID(window, &controlID, &dataBrowser);
 						if(err != noErr) break;
-
-						DataBrowserItemID item;
-						CFNotificationCenterRef distCenter = CFNotificationCenterGetDistributedCenter();
 
 						CFIndex first, last, i;
 						GetDataBrowserSelectionAnchor(dataBrowser, (DataBrowserItemID *)&first, (DataBrowserItemID *)&last);
@@ -161,20 +183,20 @@ OSStatus handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef event, 
 								if(first < 1 || last < 1) break;
 								for(i = first - 1; i < last; ++i) {
 									DEBUG_printf1("\tCopying notification %i\n", (int)i);
-									notification = CopyCFNotificationByIndex(i);
+									notification = GetNotificationAtIndex(i);
 									DEBUG_printf1("\tnotification is %p\n", (void *)notification);
-									DEBUG_printf1("\tnotification->imageData is %p\n", (void *)notification->imageData);
-									UpdateCFNotificationUserInfoForGrowl(notification);
-									DEBUG_printf2("\tposting notification %p to distCenter %p\n", (void *)notification, (void *)distCenter);
-									PostCFNotification(distCenter, notification, /*deliverImmediately*/ false);
-									ReleaseCFNotification(notification);
+									DEBUG_printf1("\tnotification->growlNotification.iconData is %p\n", (void *)notification->growlNotification.iconData);
+									Growl_PostNotification(&(notification->growlNotification));
 								}
 								break;
 
 #pragma mark Main window, Add button
 							case registerNotificationCmd:
-								//add a new notification to the list
-								//we do this by running the sheet.
+								/*add a new notification to the list
+								 *we do this by running the sheet.
+								 *the notification will actually be registered
+								 *	when the sheet exits.
+								 */
 								DEBUG_print("Add btn hit\n");
 								clearFieldsInSheet(newNotificationSheet);
 								err = ShowSheetWindow(newNotificationSheet, mainWindow);
@@ -185,68 +207,83 @@ OSStatus handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef event, 
 								//remove a notification from the list
 								DEBUG_print("Del btn hit\n");
 
-								//the significance of this is that items will
-								//  contain the selection in reverse:
-								//{ last, ..., first }.
-								unsigned j, numSelected;
-								j = numSelected = (last - first) + 1U;
+								unsigned numSelected = (last - first) + 1U;
+
+								/*we want to delete the last numSelected indices
+								 *	from the data browser, and the selected
+								 *	indices from the master list.
+								 */
+
+								/*first remove the data browser items.
+								 *
+								 *the significance of this code is that items
+								 *	will contain the selection in reverse:
+								 *	{ last, ..., first }.
+								 *
+								 *example: if there were six items in the list,
+								 *	with the second through fourth being
+								 *	selected, then items must be:
+								 *	{ 6, 5, 4 }.
+								 *(remember that for DB, the first index is 1.)
+								 *this is because we want to lop off the last
+								 *	three DB items (4..6), leaving only the
+								 *	first three (1..3), which can then be
+								 *	translated into all the remaining indices
+								 *	(0..2) of the master notifications list.
+								 */
 								DataBrowserItemID *items = malloc(sizeof(DataBrowserItemID) * numSelected);
-								item = first;
-								while(j) {
-									items[--j] = item;
-									++item;
+								unsigned j = CountNotificationsInMasterList();
+								for(unsigned i = 0U; i < numSelected; ++i) {
+									/*note that we want to use post-increment
+									 *	here because of DB's 1-based indexing.
+									 */
+									items[i] = j--;
+									DEBUG_printf2("Item to remove #%u: %lu\n", i, (unsigned long)items[i]);
 								}
 
-								for(j = numSelected; j--;) {
-									DEBUG_printf1("Deleting notification at index %lu\n", items[0] - 1);
-									RemoveCFNotificationFromMasterListByIndex(items[0] - 1);
+								//remove the actual notifications afterwards.
+								for(CFIndex i = first - 1; i < last; ++i) {
+									DEBUG_printf1("Deleting notification at index %lli\n", (long long)i);
+									RemoveNotificationFromMasterListByIndex(i);
 								}
-								err = RemoveDataBrowserItems(dataBrowser, kDataBrowserNoItem, numSelected, items, dataBrowserNotificationNameProperty);
+									
+								UpdateGrowlDelegate(&delegate);
+								Growl_Reregister();
+								err = RemoveDataBrowserItems(dataBrowser,
+															 /*container*/ kDataBrowserNoItem,
+															 numSelected,
+															 items,
+															 /*preSortProperty*/ kDataBrowserItemNoProperty);
+								UpdateDataBrowserItems(dataBrowser,
+													   /*container*/ kDataBrowserNoItem,
+													   /*numItems*/ 0U,
+													   /*items*/ NULL,
+													   /*preSortProperty*/ kDataBrowserItemNoProperty,
+													   /*propertyID*/ kDataBrowserItemNoProperty);
 								free(items);
 								break;
 
 #pragma mark Main window, Registered checkbox
 							case registerWithGrowlCmd:;
-								//create the allowed and default notification
-								//  arrays, put them in a dictionary, put that
-								//  in a notification, and post it.
-								DEBUG_print("Registered checkbox hit\n");
+								/*create the allowed and default notification
+								 *	arrays, put them in a dictionary, put that
+								 *	in a notification, and post it.
+								 *
+								 *note that currently (Growl 0.6), there is no
+								 *	Reregister button. this handler is mainly a
+								 *	vestige of the 'Registered' checkbox in the
+								 *	old Growl-0.5 Beep-Carbon.
+								 *
+								 *if a Reregister button is ever created,
+								 *	however, we are prepared. :)
+								 */
+								DEBUG_print("Register button hit\n");
 								err = CallNextEventHandler(nextHandler, event);
 								if(err != noErr && err != eventNotHandledErr) break;
 
-								ControlRef checkbox = NULL;
-								controlID.id = mainWindowRegisteredCheckboxID;
-								err = GetControlByID(window, &controlID, &checkbox);
-								if(err != noErr) break;
+								UpdateGrowlDelegate(&delegate);
+								Growl_Reregister();
 
-								if(GetControl32BitValue(checkbox) != kControlCheckBoxUncheckedValue) {
-									//register as a Growl client.
-									struct CFnotification *registerNotification = CreateCFNotification(GROWL_APP_REGISTRATION, /*title*/ NULL, /*desc*/ NULL, /*priority*/ 0, /*imageData*/ NULL, /*isSticky*/ false, /*isDefault*/ false);
-									UpdateCFNotificationUserInfoForGrowl(registerNotification);
-
-									CFMutableArrayRef allNotifications     = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
-									CFMutableArrayRef defaultNotifications = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
-
-									CFIndex numNotifications = CountCFNotificationsInMasterList();
-									for(i = 0; i < numNotifications; ++i) {
-										notification = CopyCFNotificationByIndex(i);
-										CFArrayAppendValue(allNotifications, notification->title);
-										if(notification->flags.isDefault)
-											CFArrayAppendValue(defaultNotifications, notification->title);
-										ReleaseCFNotification(notification);
-									}
-
-									CFDictionarySetValue(registerNotification->userInfo, GROWL_NOTIFICATIONS_ALL, allNotifications);
-									CFDictionarySetValue(registerNotification->userInfo, GROWL_NOTIFICATIONS_DEFAULT, defaultNotifications);
-
-#ifdef DEBUG
-									CFLog(LOG_DEBUG, CFSTR("registerNotification->userInfo: %p %@"), registerNotification->userInfo, registerNotification->userInfo);
-#endif
-									PostCFNotification(distCenter, registerNotification, /*deliverImmediately*/ false);
-									ReleaseCFNotification(registerNotification);
-								} else {
-									//unregister: nothing to do atm.
-								}
 								break; //case registerWithGrowlCmd
 
 							default:
@@ -284,7 +321,7 @@ OSStatus handleCommandInSheet(EventHandlerCallRef nextHandler, EventRef event, v
 					HICommand cmd;
 					err = GetEventParameter(event, kEventParamDirectObject, typeHICommand, /*outActualType*/ NULL, sizeof(cmd), /*outActualSize*/ NULL, &cmd);
 					if(err == noErr) {
-						struct CFnotification *notification = NULL;
+						struct Beep_Notification *notification;
 						ControlRef control = NULL;
 						ControlID controlID = { appSignature, 0 };
 						DataBrowserItemID item;
@@ -320,9 +357,9 @@ OSStatus handleCommandInSheet(EventHandlerCallRef nextHandler, EventRef event, v
 								controlID.id = notificationSheetPriorityMenu; //priority pop-up menu
 								err = GetControlByID(window, &controlID, &control);
 								/*	priorities are in the range -2..+2.
-								 *	menu item indices are in the range 1.. .
+								 *	menu item indices are in the range 1..SHRT_MAX.
 								 *	thus, a menu item index can be converted
-								 *	  into a priority by subtracting 3.
+								 *		into a priority by subtracting 3.
 								 */
 								priority = GetControl32BitValue(control) - 3;
 
@@ -341,11 +378,10 @@ OSStatus handleCommandInSheet(EventHandlerCallRef nextHandler, EventRef event, v
 									RemoveControlProperty(control, appSignature, 'ICON');
 								}
 
-								notification = CreateCFNotification(GROWL_NOTIFICATION, title, desc, priority, imageData, isSticky, isDefault);
+								//XXX - we should have a separate field in the sheet for notification name.
+								notification = CreateGrowlNotification(title, title, desc, priority, imageData, isSticky, isDefault);
 								if(imageData) CFRelease(imageData);
 								if(notification) {
-									UpdateCFNotificationUserInfoForGrowl(notification);
-
 									/*	it's worth pointing out that this next
 									 *	GCBI call is for the main window, not
 									 *	the sheet.
@@ -353,11 +389,12 @@ OSStatus handleCommandInSheet(EventHandlerCallRef nextHandler, EventRef event, v
 									controlID.id = mainWindowNotificationsBrowserID;
 									err = GetControlByID(mainWindow, &controlID, &control);
 
-									AddCFNotificationToMasterList(notification);
-									item = (DataBrowserItemID)CountCFNotificationsInMasterList();
+									AddNotificationToMasterList(notification);
+									UpdateGrowlDelegate(&delegate);
+									Growl_Reregister();
+									item = (DataBrowserItemID)CountNotificationsInMasterList();
 									if(item)
 										AddDataBrowserItems(control, kDataBrowserNoItem, 1U, &item, dataBrowserNotificationNameProperty);
-									ReleaseCFNotification(notification);
 								}
 
 #pragma mark Sheet, Cancel button
@@ -413,13 +450,14 @@ OSStatus handleDragInSheet(EventHandlerCallRef nextHandler, EventRef event, void
 					if(dragItemWithTypes(drag, wantDragTypes, /*outFlavorIndex*/ NULL) || ((isFileURL = true) && (item = dragItemWithTypes(drag, tolerateDragTypes, &flavorIndex)))) {
 						Boolean isDir = false;
 
-						//we don't want to try and read a picture from a
-						//  directory. so, if it's a directory, refuse the drag.
-						//UNFORTUNATELY, Panther's Dock appends a / to every URL
-						//  within it, so files dropped on the well from the
-						//  Dock look like directories - and are thus refused.
-						//so for now, this code is disabled. directories are
-						//  accepted and ignored.
+						/*we don't want to try and read a picture from a
+						 *	directory. so, if it's a directory, refuse the drag.
+						 *UNFORTUNATELY, Panther's Dock appends a / to every URL
+						 *	within it, so files dropped on the well from the
+						 *	Dock look like directories - and are thus refused.
+						 *so for now, this code is disabled. directories are
+						 *	accepted and ignored.
+						 */
 
 #ifdef DOCK_DOES_NOT_APPEND_SLASHES_TO_FILES
 						DEBUG_printf1("isFileURL: %hhu\n", isFileURL);
@@ -609,7 +647,7 @@ void clearFieldsInSheet(WindowRef sheet) {
 			SetImageWellContentInfo(control, &cbci);
 
 			//we need to release the image data, which means we need to get that
-			//  pointer out before we remove the property.
+			//	pointer out before we remove the property.
 			CFDataRef imageData = NULL;
 			GetControlProperty(control, appSignature, 'ICON', sizeof(imageData), /*actualSize*/ NULL, &imageData);
 			RemoveControlProperty(control, appSignature, 'ICON');

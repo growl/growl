@@ -10,33 +10,32 @@
 #include <Carbon/Carbon.h>
 #include <Growl/Growl.h>
 
-struct CFnotification {
-	CFStringRef name;
-	CFStringRef title;
-	CFStringRef desc;
-//	CGImageRef  image;
-	CFDataRef   imageData;
-	int priority;
-	CFMutableDictionaryRef userInfo;
-	CFIndex     refCount;
-	Boolean isSticky; //not part of flags so that its address can be taken for CFNumber
+struct Beep_Notification {
+	struct Growl_Notification growlNotification;
 	struct {
-		unsigned reserved  :31;
-		unsigned isDefault :1;
-	} flags;
+		unsigned reserved: 31;
+		unsigned enabledByDefault: 1;
+	} beepFlags;
 };
 
-struct CFnotification *CreateCFNotification(CFStringRef name, CFStringRef title, CFStringRef desc, int priority, CFDataRef imageData, Boolean isSticky, Boolean isDefault);
-struct CFnotification *RetainCFNotification(struct CFnotification *notification);
-void ReleaseCFNotification(struct CFnotification *notification);
+//as of Growl 0.6, this function actually creates both lists.
+void CreateMasterListIfNecessary(void);
+CFArrayRef GetMasterListAsCFArray(void);
+CFArrayRef GetDefaultNotificationsListAsCFArray(void);
 
-void PostCFNotification(CFNotificationCenterRef notificationCenter, struct CFnotification *notification, Boolean deliverImmediately);
+/*copies the names of all notifications in the master and default lists
+ *	to the relevant arrays in the registration dictionary of the given Growl
+ *	delegate (or the current one).
+ *does not reregister.
+ */
+void UpdateGrowlDelegate(struct Growl_Delegate *delegate);
 
-void AddCFNotificationToMasterList(struct CFnotification *notification);
-void RemoveCFNotificationFromMasterList(struct CFnotification *notification);
+struct Beep_Notification *CreateGrowlNotification(CFStringRef name, CFStringRef title, CFStringRef desc, int priority, CFDataRef imageData, Boolean isSticky, Boolean isDefault);
 
-struct CFnotification *CopyCFNotificationByIndex(CFIndex index);
-void RemoveCFNotificationFromMasterListByIndex(CFIndex index);
-CFIndex CountCFNotificationsInMasterList(void);
+CFIndex AddNotificationToMasterList(struct Beep_Notification *notification);
+void RemoveNotificationFromMasterList(struct Beep_Notification *notification);
 
-void UpdateCFNotificationUserInfoForGrowl(struct CFnotification *notification);
+struct Beep_Notification *GetNotificationAtIndex(CFIndex index);
+
+void RemoveNotificationFromMasterListByIndex(CFIndex index);
+CFIndex CountNotificationsInMasterList(void);

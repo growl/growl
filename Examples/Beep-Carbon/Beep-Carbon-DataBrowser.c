@@ -26,12 +26,13 @@ OSStatus SetUpDataBrowser(WindowRef window, UInt32 controlIDnum) {
 	err = GetControlByID(window, &controlID, &control);
 	
 	if(err == noErr) {
-		//set the width of the column to be the width of the browser.
-		//(this overshoots slightly, but since we only have one column, this
-		//  isn't a problem.)
-		//we use HIView because it gives us the width and height; Control Mgr
-		//  just gives us the four corners, leaving us to compute the width
-		//  ourselves.
+		/*set the width of the column to be the width of the browser.
+		 *(this overshoots slightly, but since we only have one column, this
+		 *	isn't a problem.)
+		 *we use HIView because it gives us the width and height; Control Mgr
+		 *	just gives us the four corners, leaving us to compute the width
+		 *	ourselves.
+		 */
 		HIRect bounds;
 		HIViewGetFrame((HIViewRef)control, &bounds);
 
@@ -54,16 +55,10 @@ OSStatus SetUpDataBrowser(WindowRef window, UInt32 controlIDnum) {
 static OSStatus dataBrowserItemData(ControlRef db, DataBrowserItemID item, DataBrowserPropertyID property, DataBrowserItemDataRef itemData, Boolean setValue) {
 	OSStatus err = noErr;
 
-//	CFStringRef propString = CreateTypeStringWithOSType(property);
-//	CFLog(LOG_DEBUG, CFSTR("dataBrowserItemData called for item ID %i and property ID '%@'\n"), (int)item, propString);
-//	CFRelease(propString);
-
 	switch(property) {
 		case dataBrowserNotificationNameProperty:;
-			struct CFnotification *notification = CopyCFNotificationByIndex((CFIndex)item - 1);
-			err = SetDataBrowserItemDataText(itemData, notification->title);
-//			CFLog(LOG_DEBUG, CFSTR("Setting item data text to title @\"%@\" of notification %p: %i\n"), notification->title, notification, (int)err);
-			ReleaseCFNotification(notification);
+			struct Beep_Notification *notification = GetNotificationAtIndex((CFIndex)item - 1);
+			err = SetDataBrowserItemDataText(itemData, notification->growlNotification.title);
 			break;
 
 		case kDataBrowserItemIsActiveProperty:
@@ -78,6 +73,10 @@ static OSStatus dataBrowserItemData(ControlRef db, DataBrowserItemID item, DataB
 		case kDataBrowserItemIsContainerProperty:
 			err = SetDataBrowserItemDataBooleanValue(itemData, false);
 			break;
+		/*XXX - should add editing support to match Beep-Cocoa
+		 *do this by allowing opening, and when the item is 'opened', run
+		 *	the edit sheet.
+		 */
 		case kDataBrowserContainerIsOpenableProperty:
 			err = SetDataBrowserItemDataBooleanValue(itemData, false);
 			break;

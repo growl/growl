@@ -4,7 +4,7 @@
   <object name="rootObject" class="NSCustomObject" id="1">
     <string name="customClass">NSApplication</string>
   </object>
-  <array count="64" name="allObjects">
+  <array count="63" name="allObjects">
     <object class="IBCarbonMenu" id="29">
       <string name="title">Beep-Carbon</string>
       <array count="4" name="items">
@@ -279,25 +279,17 @@
     <object class="IBCarbonRootControl" id="196">
       <string name="bounds">0 0 364 480 </string>
       <string name="viewFrame">0 0 480 364 </string>
-      <array count="7" name="subviews">
-        <object class="IBCarbonCheckBox" id="197">
-          <string name="bounds">20 20 36 107 </string>
-          <string name="viewFrame">20 20 87 16 </string>
-          <ostype name="controlSignature">BEEP</ostype>
-          <int name="controlID">3001</int>
-          <string name="title">Registered</string>
-          <ostype name="command">REGD</ostype>
-        </object>
+      <array count="6" name="subviews">
         <object class="IBCarbonStaticText" id="198">
-          <string name="bounds">44 20 316 213 </string>
-          <string name="viewFrame">20 44 193 272 </string>
+          <string name="bounds">20 20 276 213 </string>
+          <string name="viewFrame">20 20 193 256 </string>
           <ostype name="controlSignature">BEEP</ostype>
           <int name="controlID">3000</int>
           <boolean name="enabled">FALSE</boolean>
           <int name="fontStyle">6</int>
           <boolean name="small">TRUE</boolean>
           <int name="controlSize">1</int>
-          <string name="title">Use:&#10;Add Notifications to the Table, then click the ‘Registered’ checkbox.&#10;Then select a Notification and hit Send.&#10;&#10;Caveats:&#10;(1) You can add notifications after having registered, but as of yet you can’t add Notifications to Growl after having registered. You must unregister and then re-register.</string>
+          <string name="title">Use:&#10;Add Notifications to the Table.&#10;Then select a Notification and hit Send.</string>
         </object>
         <reference idRef="193"/>
         <reference idRef="194"/>
@@ -325,7 +317,6 @@
         </object>
       </array>
     </object>
-    <reference idRef="197"/>
     <reference idRef="198"/>
     <reference idRef="199"/>
     <object class="IBCarbonWindow" id="200">
@@ -530,7 +521,7 @@
     <reference idRef="219"/>
     <reference idRef="220"/>
   </array>
-  <array count="64" name="allParents">
+  <array count="63" name="allParents">
     <reference idRef="1"/>
     <reference idRef="29"/>
     <reference idRef="131"/>
@@ -573,7 +564,6 @@
     <reference idRef="200"/>
     <reference idRef="196"/>
     <reference idRef="196"/>
-    <reference idRef="196"/>
     <reference idRef="1"/>
     <reference idRef="202"/>
     <reference idRef="1"/>
@@ -608,5 +598,5 @@
     <string>NewNotification</string>
     <reference idRef="202"/>
   </dictionary>
-  <unsigned_int name="nextObjectID">221</unsigned_int>
+  <unsigned_int name="nextObjectID">222</unsigned_int>
 </object>

@@ -212,6 +212,64 @@
 			settings = {
 			};
 		};
+		07901C0407B8E18F00FD6DF2 = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				07901E5C07B8E20D00FD6DF2,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07901C1207B8E1F300FD6DF2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Growl.framework;
+			path = "build/Beep-Carbon.app/Contents/Frameworks/Growl.framework";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07901C1307B8E1F300FD6DF2 = {
+			fileRef = 07901C1207B8E1F300FD6DF2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07901CD107B8E1F700FD6DF2 = {
+			children = (
+				072E52A1067C73D10087D469,
+				20286C33FDCF999611CA2CEA,
+				07901C1207B8E1F300FD6DF2,
+			);
+			isa = PBXGroup;
+			name = "Linked frameworks";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07901E3E07B8E20000FD6DF2 = {
+			children = (
+				07990D8D07B7FFCA00E79C50,
+			);
+			isa = PBXGroup;
+			name = "Copied frameworks";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07901E5C07B8E20D00FD6DF2 = {
+			fileRef = 07990D8D07B7FFCA00E79C50;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07990D8D07B7FFCA00E79C50 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Growl.framework;
+			path = ../../build/Growl.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
 		07B0C71A0682EE2E004C8162 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -229,34 +287,6 @@
 			path = "../../GrowlApplicationBridge-Carbon.h";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		07BF3B9E0687F73700011B64 = {
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-				$SRCROOT/../../GrowlDefines.h,
-			);
-			isa = PBXShellScriptBuildPhase;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd $SRCROOT/../..\n/usr/bin/perl GenCarbonHeader.pl";
-		};
-		07D0C5CE068A48340076D89A = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = Growl.framework;
-			path = ../../build/GrowlAppBridge.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		07D9872F07A5963400507393 = {
-			fileRef = 07D0C5CE068A48340076D89A;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 //070
 //071
@@ -378,9 +408,8 @@
 		};
 		20286C32FDCF999611CA2CEA = {
 			children = (
-				07D0C5CE068A48340076D89A,
-				072E52A1067C73D10087D469,
-				20286C33FDCF999611CA2CEA,
+				07901E3E07B8E20000FD6DF2,
+				07901CD107B8E1F700FD6DF2,
 			);
 			isa = PBXGroup;
 			name = "External Frameworks and Libraries";
@@ -462,7 +491,7 @@
 //8D4
 		8D0C4E890486CD37000505A6 = {
 			buildPhases = (
-				07BF3B9E0687F73700011B64,
+				07901C0407B8E18F00FD6DF2,
 				8D0C4E8A0486CD37000505A6,
 				8D0C4E8C0486CD37000505A6,
 				8D0C4E8F0486CD37000505A6,
@@ -472,7 +501,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = ../../build;
+				FRAMEWORK_SEARCH_PATHS = "../../build /Users/boredzo/Projects/otherpeoplesprojects/Growl/build /Users/boredzo/Projects/otherpeoplesprojects/Growl/Examples/Beep-Carbon/build/Beep-Carbon.app/Contents/Frameworks";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -567,7 +596,7 @@
 			files = (
 				8D0C4E920486CD37000505A6,
 				072E52A2067C73D10087D469,
-				07D9872F07A5963400507393,
+				07901C1307B8E1F300FD6DF2,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
