@@ -16,6 +16,8 @@ Release related issues
 		- If we can make an instaler for GrowlMail, that would be good
 		- Figure out the best way to package/install growlnotify
 		- GrowlTunes is just a drap/drop install
+		- GrowlDict requires a log out and login to work, and install is kinda a pain. PKG installer would be nice. Alternatively, something to rebuild the services menu would be cool. Also, picking a different key for it that doesn't overwrite half of the apps out there would be beneficial.
+		- Figure out the best way to package/install macyac 
 	- Include uninstaller in the dmg.
 	- Include user documentation in the dmg.
 	- Include links to developer documentation in the dmg.
