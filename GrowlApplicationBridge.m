@@ -54,7 +54,7 @@ static NSMutableArray *targetsToNotifyArray = nil;
 	// amount of time off this code
 	preferencePanesPathsEnumerator = [self _preferencePaneSearchEnumerator];
 	while ((path = [preferencePanesPathsEnumerator nextObject])) {
-		path = [path stringByAppendingFormat:@"/%@", GROWL_PREFPANE_NAME];
+		path = [path stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
 		if ([[NSFileManager defaultManager] fileExistsAtPath:path])
 		{
 			prefPaneBundle = [NSBundle bundleWithPath:path];
@@ -140,7 +140,7 @@ static NSMutableArray *targetsToNotifyArray = nil;
 			}
 
 			spec.appRef = &appRef;
-			spec.numDocs = (passRegDict ? 1 :0);
+			spec.numDocs = (passRegDict != nil);
 			spec.itemRefs = (passRegDict ? &regItemRef : NULL);
 			spec.passThruParams = NULL;
 			spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
@@ -202,7 +202,7 @@ static NSMutableArray *targetsToNotifyArray = nil;
 	NSArray			*librarySearchPaths;
 	NSEnumerator	*searchPathEnumerator;
 	NSString		*preferencePanesSubfolder, *path;
-	NSMutableArray  *pathArray = [NSMutableArray arrayWithCapacity:4];
+	NSMutableArray  *pathArray = [NSMutableArray arrayWithCapacity:4U];
 	
 	preferencePanesSubfolder = PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY;
 	
