@@ -203,7 +203,7 @@ static id singleton = nil;
 		icon = [[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]]
 					autorelease];
 	} else {
-		icon = [ticket icon];
+		icon = [[[ticket icon] copy] autorelease];
 	}
 	if (icon) {
 		[aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
