@@ -24,6 +24,8 @@
 	BOOL					growlIsRunning;
 	BOOL					prefsHaveChanged;
 
+	IBOutlet NSTabView		* tabView;
+
 	//"General" tab pane
 	IBOutlet NSButton		* startGrowlAtLogin;
 	IBOutlet NSButton		* startStopGrowl;

@@ -25,6 +25,7 @@
                 revert = NSButton; 
                 startGrowlAtLogin = NSButton; 
                 startStopGrowl = NSButton; 
+                tabView = NSTabView; 
             }; 
             SUPERCLASS = NSPreferencePane; 
         }, 

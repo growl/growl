@@ -211,6 +211,11 @@
 		[newView setFrame:DISPLAY_PREF_FRAME];
 		[[displayPrefView superview] replaceSubview:displayPrefView with:newView];
 		displayPrefView = newView;
+		// Hook up key view chain
+		NSView *keyView;
+		if ((keyView = [displayPrefView previousKeyView]) && (keyView != displayPlugins))
+			[keyView setNextKeyView:tabView];
+		[displayPlugins setNextKeyView:displayPrefView];
 	}
 }
 
