@@ -1,8 +1,13 @@
-0.61  Mon Mar  2 10:06:30 20004
+0.62  Thu Mar 10 21:53:19 2005
+	- Check installed Growl version in Makefile
+	- Allow user-selectable base method
+	- Make test names more sane
+
+0.61  Mon Mar  2 10:06:30 2004
 	- Updated to Growl 0.6, Mac OS X 10.4
 	- Made images work with Foundation again
 
-0.60  Mon Nov 15 21:32:08 20004
+0.60  Mon Nov 15 21:32:08 2004
 	- Rewrote to work with images and alternate implementations
 
 0.26  Tue Aug 16 16:33:18 2004
