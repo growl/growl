@@ -46,6 +46,7 @@
 //074
 		07C7692606831F1D0025D426 = {
 			children = (
+				95C876E007D9DF4100C69DEE,
 				95583F9F079E4B4900C79085,
 				956909A20791DD4E00610FAA,
 				9526247C074F92F600C5F344,
@@ -228,7 +229,6 @@
 //8D4
 		8DD76F960486AA7600D96B5E = {
 			buildPhases = (
-				8DD76F970486AA7600D96B5E,
 				8DD76F990486AA7600D96B5E,
 				8DD76F9B0486AA7600D96B5E,
 			);
@@ -269,23 +269,6 @@
 			productReference = 8DD76FA10486AA7600D96B5E;
 			productType = "com.apple.product-type.tool";
 		};
-		8DD76F970486AA7600D96B5E = {
-			buildActionMask = 2147483647;
-			files = (
-				8DD76F980486AA7600D96B5E,
-				9526247E074F92F600C5F344,
-				956909A30791DD4E00610FAA,
-				95583FA0079E4B4900C79085,
-			);
-			isa = PBXHeadersBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8DD76F980486AA7600D96B5E = {
-			fileRef = 32A70AAB03705E1F00C91783;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		8DD76F990486AA7600D96B5E = {
 			buildActionMask = 2147483647;
 			files = (
@@ -314,9 +297,9 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8DD76FA10486AA7600D96B5E = {
-			explicitFileType = "compiled.mach-o.executable";
 			includeInIndex = 0;
 			isa = PBXFileReference;
+			lastKnownFileType = "compiled.mach-o.executable";
 			path = growlnotify;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -349,12 +332,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		9526247E074F92F600C5F344 = {
-			fileRef = 9526247C074F92F600C5F344;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		9526247F074F92F600C5F344 = {
 			fileRef = 9526247D074F92F600C5F344;
 			isa = PBXBuildFile;
@@ -369,12 +346,6 @@
 			path = ../../Common/Source/GrowlDefinesInternal.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		95583FA0079E4B4900C79085 = {
-			fileRef = 95583F9F079E4B4900C79085;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		9564FAEF07438F3D00F1CCE5 = {
 			buildSettings = {
@@ -400,11 +371,14 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		956909A30791DD4E00610FAA = {
-			fileRef = 956909A20791DD4E00610FAA;
-			isa = PBXBuildFile;
-			settings = {
-			};
+		95C876E007D9DF4100C69DEE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlDefines.h;
+			path = ../../Common/Source/GrowlDefines.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 //950
 //951
