@@ -592,10 +592,10 @@
 + (id)formattedAddressWithName:(id)fp8 email:(id)fp12 useQuotes:(BOOL)fp16;
 - (id)uncommentedAddress;
 - (id)uncommentedAddressRespectingGroups;
-- (id)addressComment;
+- (NSString *)addressComment;
 - (void)firstName:(id *)fp8 middleName:(id *)fp12 lastName:(id *)fp16 extension:(id *)fp20;
 - (BOOL)appearsToBeAnInitial;
-- (id)fullName;
+- (NSString *)fullName;
 - (id)addressList;
 - (id)trimCommasSpacesQuotes;
 - (id)componentsSeparatedByCommaRespectingQuotesAndParens;

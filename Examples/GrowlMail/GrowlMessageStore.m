@@ -32,7 +32,7 @@
 		}
 	}
 
-	return [super finishRoutingMessages: messages routed: routed];
+	return( [super finishRoutingMessages: messages routed: routed] );
 }
 
 @end

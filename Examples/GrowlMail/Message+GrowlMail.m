@@ -38,14 +38,29 @@
 	NSString *sender = [self sender];
 	NSString *senderAddress = [sender uncommentedAddress];
 	NSString *subject = [self subject];
-	NSString *body = [[[[self messageBody] stringForIndexing] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]] firstNLines: 4U];
-	NSString *title = [NSString stringWithFormat: @"(%@) %@: %@", account, [sender fullName], subject];
+	NSString *body;
+	id messageBody = [self messageBody];
+	if( [messageBody respondsToSelector:@selector(stringForIndexing)] ) {
+		body = [messageBody stringForIndexing];
+	} else {
+		/* Mail.app 2.0. */
+		body = [messageBody stringValueForJunkEvaluation: NO];
+	}
+	body = [[body stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]] firstNLines: 4U];
+
+	/* The fullName selector is not available in Mail.app 2.0. */
+	if( [sender respondsToSelector:@selector(fullName)] ) {
+		sender = [sender fullName];
+	} else if( [sender addressComment] ) {
+		sender = [sender addressComment];
+	}
+	NSString *title = [NSString stringWithFormat: @"(%@) %@: %@", account, sender, subject];
 /*
-	NSLog(@"Subject: '%@'", subject);
-	NSLog(@"Sender: '%@'", sender);
-	NSLog(@"Account: '%@'", account);
-	NSLog(@"Body: '%@'", body);
-	NSLog(@"Title: '%@'", title);
+	NSLog( @"Subject: '%@'", subject );
+	NSLog( @"Sender: '%@'", sender );
+	NSLog( @"Account: '%@'", account );
+	NSLog( @"Body: '%@'", body );
+	NSLog( @"Title: '%@'", title );
 */
 	MailAddressManager *addressManager = [MailAddressManager addressManager];
 	[addressManager fetchImageForAddress: senderAddress];
