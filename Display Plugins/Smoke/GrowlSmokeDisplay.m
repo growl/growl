@@ -16,7 +16,7 @@ static NSString *SmokeName        = @"Smoke";
 static NSString *SmokeDescription = @"Dark translucent notifications";
 static NSString *SmokeVersion     = @"1.0";
 
-static unsigned smokeDepth = 0;
+static unsigned smokeDepth = 0U;
 
 @implementation GrowlSmokeDisplay
 
