@@ -12,6 +12,7 @@ For .6
 	- Fix any bugs found
 	- Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
 	- Remove speech plugin. We need to rethink how this will appear to the user. Speech and visual notifications should work together. 
+- Rename NSLog to something more user friendly, explain it area usually used for plugin configuration.
 
 Release related issues
 - Make sure all bindings register. I think this is already done, but we need to double check as this is now required.
@@ -91,15 +92,10 @@ For .7 or sooner
 				    imageData:(NSData *)inImageData 
 				   andOptions:(GrowlOptionsFlags)inFlags
 
-- Growltunes
-	- preference to choose menu/dock/both
-	- preference to retrieve artwork from web
-	- preference to archive artwork
-	- preference to change NSStatusItem
-	- hotkeys to change track ?
-
 - Other
 	- Make GrowlMail not run while applying rules if possible
+	- Growltunes needs preferences.
+
 
 For .8 or sooner
 
