@@ -202,7 +202,19 @@ NSData	CFData\
 
 \f2\b \cf0 \
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
-\cf0 5. Examples\
+\cf0 5. GrowlAppBridge.framework\
+\pard\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+
+\f1\b0 \cf0 This framework enables you to easily launch the GrowlHelperApp programmatically, using a single message (Cocoa) or function call (Carbon). In the future, it may also provide an API for testing whether Growl is installed and/or running. The header files provide further details.\
+As an alternative to linking normally against the framework, Carbon apps can weak\'d0link against it using the 
+\f3 \cf0 -weak_framework
+\f1 \cf0  option. Rather than adding the framework to your target, add \'d2
+\f3 \cf0 -weak_framework GrowlAppBridge
+\f1 \cf0 \'d3 to your target\'d5s Other Linker Flags (in the Build tab of Xcode\'d5s Target Info window).
+\f2\b \
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 \
+6.Examples\
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
 
 \f1\b0 \cf0 Growl comes with a number of example applications, located in the Examples directory in the Growl source tree. They demonstrate how to implement Growl support in Carbon or Cocoa, in Aqua or the command\'d0line.}
