@@ -1,0 +1,30 @@
+== About ==
+
+This is a very basic Tcl binding to Growl (http://growl.info/). At present, it will simply not work if Growl isn't running.
+
+== Installation ==
+
+(1) Change to this directory.
+(2) Type 'make'
+(3) Type 'sudo make install'
+
+The package will be installed as /Library/Tcl/growl1.0/libgrowl.dylib
+
+== Usage (from Tcl) ==
+
+% package require growl
+1.0
+% growl register appName [list of notification types]
+% growl post type title desc
+
+== To do ==
+
+Use the AppBridge to launch growl if needed.
+Add support for notification icons.
+Refactor the code, separate out the Tcl<->C bits from the C<->ObjC bits.
+Rather than using ../../GrowlDefines.h, use the header from Growl.framework.
+???
+
+== Author ==
+
+Toby Peterson <toby@opendarwin.org>
