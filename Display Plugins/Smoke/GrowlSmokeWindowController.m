@@ -18,12 +18,12 @@ static unsigned int globalId = 0;
 
 @implementation GrowlSmokeWindowController
 
-#define TIMER_INTERVAL ( 1. / 30. )
-#define FADE_INCREMENT 0.05
-#define MIN_DISPLAY_TIME 4.
-#define ADDITIONAL_LINES_DISPLAY_TIME 0.5
-#define MAX_DISPLAY_TIME 10.
-#define GrowlSmokePadding 10.
+static const double gTimerInterval = ( 1. / 30. );
+static const double gFadeIncrement = 0.05;
+static const double gMinDisplayTime = 4.;
+static const double gAdditionalLinesDisplayTime = 0.5;
+static const double gMaxDisplayTime = 10.;
+static const double GrowlSmokePadding = 10.;
 
 #pragma mark -
 
@@ -50,7 +50,7 @@ static unsigned int globalId = 0;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"Glide" object:nil userInfo:dict];
 }
 
-- (void) _glideUp:(NSNotification*) note {
+- (void) _glideUp:(NSNotification *)note {
 //	NSLog(@"id: %d depth: %f", [[[note userInfo] objectForKey:@"ID"] intValue], [[[note userInfo] objectForKey:@"Depth"] floatValue]);
 //	NSLog(@"self id: %d smokeWindowDepth: %d", _id, smokeWindowDepth);
 	if ([[[note userInfo] objectForKey:@"ID"] intValue] < _id)
@@ -116,17 +116,17 @@ static unsigned int globalId = 0;
 	_animationTimer = nil;
 	
 	// the visibility time for this notification should be the minimum display time plus
-	// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
+	// some multiple of gAdditionalLinesDisplayTime, not to exceed gMaxDisplayTime
 	int rowCount = [view descriptionRowCount];
 	if (rowCount <= 2)
 		rowCount = 0;
 	BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
 	if (!limitPref) {
-		_displayTime = MIN (MIN_DISPLAY_TIME + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
-							MAX_DISPLAY_TIME);
+		_displayTime = MIN (gMinDisplayTime + rowCount * gAdditionalLinesDisplayTime, 
+							gMaxDisplayTime);
 	} else {
-		_displayTime = MIN_DISPLAY_TIME;
+		_displayTime = gMinDisplayTime;
 	}
 
 	[self setAutomaticallyFadesOut:!sticky];
@@ -149,7 +149,7 @@ static unsigned int globalId = 0;
 	_animationTimer = nil;
 
 	extern unsigned int smokeWindowDepth;
-	NSLog(@"smokeController dealloccing");
+//	NSLog(@"smokeController deallocking");
 	if( _depth == smokeWindowDepth ) 
 		smokeWindowDepth = 0;
 
@@ -177,7 +177,7 @@ static unsigned int globalId = 0;
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
 	if( alpha < 1. ) {
-		[myWindow setAlphaValue:(alpha + FADE_INCREMENT)];
+		[myWindow setAlphaValue:(alpha + gFadeIncrement)];
 	} else if( _autoFadeOut ) {
 		if( _delegate && [_delegate respondsToSelector:@selector( notificationDidFadeIn: )] )
 			[_delegate notificationDidFadeIn:self];
@@ -189,7 +189,7 @@ static unsigned int globalId = 0;
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
 	if( alpha > 0. ) {
-		[myWindow setAlphaValue:(alpha - FADE_INCREMENT)];
+		[myWindow setAlphaValue:(alpha - gFadeIncrement)];
 	} else {
 		[self _stopTimer];
 //		NSLog(@"_delegate: %@", _delegate);
@@ -216,14 +216,14 @@ static unsigned int globalId = 0;
 	[self retain]; // Retain, after fade out we release.
 	[self showWindow:nil];
 	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector( _fadeIn: ) userInfo:nil repeats:YES] retain];
+	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:gTimerInterval target:self selector:@selector( _fadeIn: ) userInfo:nil repeats:YES] retain];
 }
 
 - (void) startFadeOut {
 	if( _delegate && [_delegate respondsToSelector:@selector( notificationWillFadeOut: )] )
 		[_delegate notificationWillFadeOut:self];
 	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL target:self selector:@selector( _fadeOut: ) userInfo:nil repeats:YES] retain];
+	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:gTimerInterval target:self selector:@selector( _fadeOut: ) userInfo:nil repeats:YES] retain];
 }
 
 #pragma mark -
@@ -290,13 +290,15 @@ static unsigned int globalId = 0;
 	NSView *contentView = [[self window] contentView];
 	if( [contentView respondsToSelector:[invocation selector]] )
 		[invocation invokeWithTarget:contentView];
-	else [super forwardInvocation:invocation];
+	else
+		[super forwardInvocation:invocation];
 }
 
 - (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
 	NSView *contentView = [[self window] contentView];
 	if( [contentView respondsToSelector:selector] )
 		return [contentView methodSignatureForSelector:selector];
-	else return [super methodSignatureForSelector:selector];
+	else
+		return [super methodSignatureForSelector:selector];
 }
 @end

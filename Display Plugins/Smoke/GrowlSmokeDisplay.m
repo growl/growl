@@ -10,10 +10,10 @@
 #import "GrowlSmokeWindowController.h"
 #import "GrowlSmokePrefsController.h"
 
-#define SmokeAuthor @"Matthew Walton"
-#define SmokeName @"Smoke"
-#define SmokeDescription @"Dark translucent notifications"
-#define SmokeVersion @"1.0"
+static NSString *SmokeAuthor      = @"Matthew Walton";
+static NSString *SmokeName        = @"Smoke";
+static NSString *SmokeDescription = @"Dark translucent notifications";
+static NSString *SmokeVersion     = @"1.0";
 
 @implementation GrowlSmokeDisplay
 
@@ -28,44 +28,44 @@
 }
 
 - (NSString *)version {
-  return SmokeVersion;
+	return SmokeVersion;
 }
 
 - (NSString *)author {
-  return SmokeAuthor;
+	return SmokeAuthor;
 }
 
 - (NSString *)name {
-  return SmokeName;
+	return SmokeName;
 }
 
 - (NSString *)userDescription {
-  return SmokeDescription;
+	return SmokeDescription;
 }
 
 - (void)unloadPlugin {
 }
 
 - (NSDictionary *)pluginInfo {
-  NSMutableDictionary * info = [NSMutableDictionary dictionary];
-  [info setObject:SmokeName forKey:@"Name"];
-  [info setObject:SmokeAuthor forKey:@"Author"];
-  [info setObject:SmokeVersion forKey:@"Version"];
-  [info setObject:SmokeDescription forKey:@"Description"];
-  return (NSDictionary*)info;	
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+		SmokeName,        @"Name",
+		SmokeAuthor,      @"Author",
+		SmokeVersion,     @"Version",
+		SmokeDescription, @"Description",
+		nil];
 }
 
 - (NSPreferencePane *)preferencePane {
-  return preferencePane;
+	return preferencePane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary*)noteDict {
-  //NSLog(@"Smoke: displayNotificationWithInfo");
-  GrowlSmokeWindowController *notification = [GrowlSmokeWindowController notifyWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
+- (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
+	//NSLog(@"Smoke: displayNotificationWithInfo");
+	GrowlSmokeWindowController *controller = [GrowlSmokeWindowController notifyWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
 			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
 			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
-  [notification startFadeIn];
+	[controller startFadeIn];
 }
 
 @end

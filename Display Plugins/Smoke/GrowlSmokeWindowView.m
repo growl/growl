@@ -95,7 +95,7 @@
 
 	// Top of the drawing area. The eye candy takes up 10 pixels on 
 	// the top, so we've reserved some space for it.
-	int heightOffset = [self frame].size.height - 10;
+	float heightOffset = [self frame].size.height - 10.0f;
 
     // build an appropriate colour for the text
 	NSColor *textColour = [NSColor colorWithCalibratedWhite:1. alpha:1.];
@@ -129,8 +129,8 @@
 			newHeight = 32.;
 		}
 		
-		newX = floorf((32 - newWidth) / 2.);
-		newY = floorf((32 - newHeight) / 2.);
+		newX = floorf((32.f - newWidth) / 2.f);
+		newY = floorf((32.f - newHeight) / 2.f);
 		
 		NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
 		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
