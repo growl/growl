@@ -153,8 +153,8 @@ static id singleton = nil;
 	[serverConnection setDelegate:self];
 
 	// register with the default NSPortNameServer on the local host
-	if ( ![serverConnection registerName:@"GrowlServer"] ) {
-		NSLog( @"Could not register Growl server." );
+	if (![serverConnection registerName:@"GrowlServer"]) {
+		NSLog(@"Could not register Growl server.");
 	}
 
 	// configure and publish the Rendezvous service
@@ -309,7 +309,7 @@ static id singleton = nil;
 				NSDistantObject *theProxy = [connection rootProxy];
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
 				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
-				[growlProxy postNotification:dict];
+				[growlProxy postNotificationWithDictionary:dict];
 				[serverPort release];
 				[connection release];
 			}
@@ -362,7 +362,7 @@ static id singleton = nil;
 				NSDistantObject *theProxy = [connection rootProxy];
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
 				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
-				[growlProxy registerApplication:userInfo];
+				[growlProxy registerApplicationWithDictionary:userInfo];
 				[serverPort release];
 				[connection release];
 			}

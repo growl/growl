@@ -214,7 +214,7 @@ int main(int argc, const char **argv) {
 		NSString *app = [NSString stringWithUTF8String:appIcon];
 		image = [ws iconForFile:[ws fullPathForApplication:app]];
 	}
-	if (image == nil) {
+	if (!image) {
 		image = [ws iconForFile:[ws fullPathForApplication:@"Terminal"]];
 	}
 	NSData *icon = [image TIFFRepresentation];
@@ -241,17 +241,18 @@ int main(int argc, const char **argv) {
 	
 	// Register with Growl
 	NSDictionary *registerInfo;
-	NSArray *defaultAndAllNotifications = [NSArray arrayWithObject:NOTIFICATION_NAME];
-	registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+	NSArray *defaultAndAllNotifications = [[NSArray alloc] initWithObjects:NOTIFICATION_NAME, nil];
+	registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 		applicationName, GROWL_APP_NAME,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		icon, GROWL_APP_ICON,
 		nil];
+	[defaultAndAllNotifications release];
 
 	// Notify
 	NSDictionary *notificationInfo;
-	notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+	notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 		NOTIFICATION_NAME, GROWL_NOTIFICATION_NAME,
 		applicationName, GROWL_APP_NAME,
 		title, GROWL_NOTIFICATION_TITLE,
@@ -261,20 +262,20 @@ int main(int argc, const char **argv) {
 		icon, GROWL_NOTIFICATION_ICON,
 		nil];
 	
-	if ( host ) {
-		if ( useUDP ) {
-			he = gethostbyname( host );
-			if ( !he ) {
-				herror( "gethostbyname" );
+	if (host) {
+		if (useUDP) {
+			he = gethostbyname(host);
+			if (!he) {
+				herror("gethostbyname");
 				code = EXIT_FAILURE;
 			} else {
 				sock = socket( AF_INET, SOCK_DGRAM, IPPROTO_UDP );
-				if( sock == -1 ) {
-					perror( "socket" );
+				if (sock == -1) {
+					perror("socket");
 					code = EXIT_FAILURE;
 				} else {
-					memcpy( &to.sin_addr.s_addr, he->h_addr_list[0], he->h_length );
-					to.sin_port = htons( GROWL_UDP_PORT );
+					memcpy(&to.sin_addr.s_addr, he->h_addr_list[0], he->h_length);
+					to.sin_port = htons(GROWL_UDP_PORT);
 					to.sin_family = AF_INET;
 					to.sin_len = sizeof(to);
 				}
@@ -291,17 +292,17 @@ int main(int argc, const char **argv) {
 				//printf( "sendbuf: %d\n", size );
 				//printf( "registration packet length: %d\n", registrationSize );
 				//printf( "notification packet length: %d\n", notificationSize );
-				if ( sendto( sock, registrationPacket, registrationSize, 0, (struct sockaddr *)&to, sizeof(to) ) < 0 ) {
-					perror( "sendto" );
+				if (sendto(sock, registrationPacket, registrationSize, 0, (struct sockaddr *)&to, sizeof(to)) < 0) {
+					perror("sendto");
 					code = EXIT_FAILURE;
 				}
-				if ( sendto( sock, notificationPacket, notificationSize, 0, (struct sockaddr *)&to, sizeof(to) ) < 0 ) {
-					perror( "sendto" );
+				if (sendto(sock, notificationPacket, notificationSize, 0, (struct sockaddr *)&to, sizeof(to)) < 0) {
+					perror("sendto");
 					code = EXIT_FAILURE;
 				}
-				free( registrationPacket );
-				free( notificationPacket );
-				close( sock );
+				free(registrationPacket);
+				free(notificationPacket);
+				close(sock);
 			}
 		} else {
 			NSSocketPort *port = [[NSSocketPort alloc] initRemoteWithTCPPort:GROWL_TCP_PORT host:[NSString stringWithCString:host]];
@@ -310,8 +311,8 @@ int main(int argc, const char **argv) {
 			[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
 			id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
 
-			[growlProxy registerApplication:registerInfo];
-			[growlProxy postNotification:notificationInfo];
+			[growlProxy registerApplicationWithDictionary:registerInfo];
+			[growlProxy postNotificationWithDictionary:notificationInfo];
 
 			[port release];
 			[connection release];
@@ -322,7 +323,9 @@ int main(int argc, const char **argv) {
 		[distCenter postNotificationName:GROWL_NOTIFICATION object:nil userInfo:notificationInfo];
 	}
 
-	[pool release];
+	[registerInfo     release];
+	[notificationInfo release];
+	[pool             release];
 
 	return code;
 }

@@ -292,7 +292,7 @@
 #pragma mark -
 
 - (void) _notificationClicked:(id) sender {
-	if ( target && action && [target respondsToSelector:action] ) {
+	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];
 	}
 	[self startFadeOut];

@@ -303,7 +303,7 @@ static float titleHeight;
 }
 
 - (void) mouseDown:(NSEvent *) event {
-	if ( target && action && [target respondsToSelector:action] ) {
+	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];
 	}
 }
