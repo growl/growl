@@ -5,7 +5,7 @@
             ACTIONS = {opacitySliderChanged = id; }; 
             CLASS = GrowlSmokePrefsController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {opacitySlider = NSSlider; }; 
+            OUTLETS = {opacitySlider = NSSlider; "text_Opacity" = NSTextField; }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
         {
