@@ -57,6 +57,7 @@
 	[sortDesc initWithKey:@"bundle.localizedInfoDictionary.CFBundleName" ascending:YES];
 	[pluginsController setSortDescriptors:[NSArray arrayWithObject:sortDesc]];
 	[pluginsController addObserver:self forKeyPath:@"selection" options:0 context:nil];
+	[pluginsController rearrangeObjects];
 }
 
 - (NSArray *) plugins {
@@ -160,6 +161,7 @@
 		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 		[dict setValue:bundle forKey:@"bundle"];
 		[pluginsController addObject:dict];
+		[pluginsController rearrangeObjects];
 	} else {
 		NSBeep();
 	}
