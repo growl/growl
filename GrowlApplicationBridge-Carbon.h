@@ -307,9 +307,6 @@ Boolean Growl_IsInstalled(void);
  */
 Boolean Growl_IsRunning(void);
 
-#pragma mark -
-#pragma mark Deprecated API
-
 typedef void (*GrowlLaunchCallback)(void *context);
 
 /*Growl_LaunchIfInstalled
@@ -328,6 +325,9 @@ typedef void (*GrowlLaunchCallback)(void *context);
  *Note: callback can be NULL.
  */
 Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context);
+
+#pragma mark -
+#pragma mark Deprecated API
 
 /*LaunchGrowlIfInstalled
  *
