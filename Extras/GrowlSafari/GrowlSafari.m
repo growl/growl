@@ -36,7 +36,7 @@
 // http://www.cocoadev.com/index.pl?MethodSwizzling
 // A couple of modifications made to support swizzling class methods
 
-static void PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInstance)
+static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInstance)
 {
     // First, make sure the class isn't nil
 	if (aClass) {
@@ -58,15 +58,19 @@ static void PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 			temp = orig_method->method_imp;
 			orig_method->method_imp = alt_method->method_imp;
 			alt_method->method_imp = temp;
+
+			return YES;
 		} else {
 			// This bit stolen from SubEthaFari's source
 			NSLog(@"GrowlSafari Error: Original %@, Alternate %@",
-				  orig_method ? @" found" : @" not found",
-				  alt_method ? @" found" : @" not found");
+				  orig_method ? @"found" : @"not found",
+				  alt_method ? @"found" : @"not found");
 		}
 	} else {
 		NSLog(@"GrowlSafari Error: Class not found");
 	}
+
+	return NO;
 }
 
 static BOOL shouldDisplayNotifications = NO;
@@ -83,10 +87,16 @@ static BOOL shouldDisplayNotifications = NO;
 	Class class = NSClassFromString( @"DownloadProgressEntry" );
 	PerformSwizzle( class, @selector(setDownloadStage:), @selector(mySetDownloadStage:), YES );
 	PerformSwizzle( class, @selector(updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:), YES );
-	PerformSwizzle( class,
-					@selector(initWithDownload:mayOpenWhenDone:),
-					@selector(myInitWithDownload:mayOpenWhenDone:),
-					YES );
+	if ( !PerformSwizzle( class,
+						 @selector(initWithDownload:mayOpenWhenDone:),
+						 @selector(myInitWithDownload:mayOpenWhenDone:),
+						 YES ) ) {
+		// Safari 2.0 adds one more parameter
+		PerformSwizzle( class,
+						@selector(initWithDownload:mayOpenWhenDone:allowOverwrite:),
+						@selector(myInitWithDownload:mayOpenWhenDone:allowOverwrite:),
+						YES );
+	}
 	NSBundle *bundle = [GrowlSafari bundle];
 	NSArray *array = [NSArray arrayWithObjects:
 		NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @""),
@@ -109,6 +119,7 @@ static BOOL shouldDisplayNotifications = NO;
 @implementation NSObject (GrowlSafariPatch)
 - (void) mySetDownloadStage:(int)stage
 {
+	//NSLog(@"mySetDownloadStage:%d", stage);
 	int oldStage = (int)[self performSelector:@selector(downloadStage)];
 	[self mySetDownloadStage:stage];
 	if (shouldDisplayNotifications) {
@@ -136,7 +147,7 @@ static BOOL shouldDisplayNotifications = NO;
 					GROWL_NOTIFICATION_DESCRIPTION,
 				nil];
 			[nc postNotificationName:GROWL_NOTIFICATION object:nil userInfo:dict];
-		} else if (stage == 13) {
+		} else if (stage == 13 || stage == 15) {
 			NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 			NSBundle *bundle = [GrowlSafari bundle];
 			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -157,6 +168,7 @@ static BOOL shouldDisplayNotifications = NO;
 
 - (void)myUpdateDiskImageStatus:(NSDictionary *)status
 {
+	//NSLog(@"myUpdateDiskImageStatus:%@", status);
 	[self myUpdateDiskImageStatus:status];
 	
 	if (shouldDisplayNotifications) {
@@ -181,5 +193,10 @@ static BOOL shouldDisplayNotifications = NO;
 - (id)myInitWithDownload:(id)fp8 mayOpenWhenDone:(BOOL)fp12 {
 	shouldDisplayNotifications = YES;
 	return [self myInitWithDownload:fp8 mayOpenWhenDone:fp12];
+}
+
+- (id)myInitWithDownload:(id)fp8 mayOpenWhenDone:(BOOL)fp12 allowOverwrite:(BOOL)fp16 {
+	shouldDisplayNotifications = YES;
+	return [self myInitWithDownload:fp8 mayOpenWhenDone:fp12 allowOverwrite:fp16];
 }
 @end
