@@ -151,7 +151,7 @@ static const char *keychainAccountName = "Growl";
 									if ( notificationIndex < nr->numAllNotifications ) {
 										[defaultNotifications addObject:[allNotifications objectAtIndex: notificationIndex]];
 									} else {
-										NSLog( @"GrowlUDPServer: Bad notification index: %d", notificationIndex );
+										NSLog( @"GrowlUDPServer: Bad notification index: %u", notificationIndex );
 									}
 								}
 
@@ -220,7 +220,7 @@ static const char *keychainAccountName = "Growl";
 						break;
 				}
 			} else {
-				NSLog( @"GrowlUDPServer: unknown version %d, expected %d", packet->version, GROWL_PROTOCOL_VERSION );
+				NSLog( @"GrowlUDPServer: unknown version %u, expected %d", packet->version, GROWL_PROTOCOL_VERSION );
 			}
 		} else {
 			NSLog( @"GrowlUDPServer: received runt packet." );

@@ -66,7 +66,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 - (id) initWithApplication:(NSString *) inAppName
 				  withIcon:(NSImage *) inIcon
 		  andNotifications:(NSArray *) inAllNotifications
-		   andDefaultNotes:(NSArray *) inDefaults {
+		   andDefaultNotes:(id) inDefaults {
 
 	if ( ( self = [super init] ) ) {
 		appName	= [inAppName retain];
@@ -194,13 +194,13 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 	NSDictionary *saveDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		appName, GROWL_APP_NAME,
-		icon ? [icon TIFFRepresentation] : [NSData data], GROWL_APP_ICON,
 		saveNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		[NSNumber numberWithBool:useDefaults], UseDefaultsKey,
 		[NSNumber numberWithBool:ticketEnabled], TicketEnabledKey,
 		[NSNumber numberWithBool:usesCustomDisplay], UsesCustomDisplayKey,
 		[displayPlugin name], GrowlDisplayPluginKey,
+		icon ? [icon TIFFRepresentation] : [NSData data], GROWL_APP_ICON,
 		nil];
 	// NSString *aString = [saveDict description];
 	[saveDict writeToFile:savePath atomically:YES];
@@ -261,7 +261,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 #pragma mark -
 
--(void) reregisterWithAllNotifications:(NSArray *) inAllNotes defaults: (NSArray *) inDefaults icon:(NSImage *) inIcon {
+- (void) reregisterWithAllNotifications:(NSArray *) inAllNotes defaults: (id) inDefaults icon:(NSImage *) inIcon {
 	[self setIcon:inIcon];
 	if (!useDefaults) {
 		//We want to respect the user's preferences, but if the application has
@@ -270,7 +270,8 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		NSEnumerator		*enumerator;
 		NSString			*note;
 		NSMutableDictionary *allNotesCopy = [[allNotifications mutableCopy] autorelease];
-		
+
+#warning This has been broken when we allowed NSNumbers to be contained in the inDefaults array. It's even more broken if inDefaults is a NSIndexSet.
 		enumerator = [inDefaults objectEnumerator];
 		while ( (note = [enumerator nextObject] ) ) {
 			if (![allNotesCopy objectForKey:note]) {
@@ -326,27 +327,33 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	return [[defaultNotifications retain] autorelease];
 }
 
-- (void) setDefaultNotifications:(NSArray *) inArray {
+- (void) setDefaultNotifications:(id) inObject {
 	[defaultNotifications autorelease];
-	if(!allNotifications) {
+	if (!allNotifications) {
 		/*WARNING: if you try to pass an array containing numeric indices, and
 		 *	the all-notifications list has not been supplied yet, the indices
 		 *	WILL NOT be dereferenced. ALWAYS set the all-notifications list FIRST.
 		 */
-		defaultNotifications = [inArray retain];
-	} else {
-		NSEnumerator *mightBeIndicesEnum = [inArray objectEnumerator];
+		defaultNotifications = [inObject retain];
+	} else if ([inObject respondsToSelector:@selector(objectEnumerator)] ) {
+		NSEnumerator *mightBeIndicesEnum = [inObject objectEnumerator];
 		NSNumber *num;
-		NSMutableArray *mDefaultNotifications = [[NSMutableArray alloc] init];
+		unsigned numDefaultNotifications;
 		unsigned numAllNotifications = [allNotificationNames count];
+		if ( [inObject respondsToSelector:@selector(count)] ) {
+			numDefaultNotifications = [inObject count];
+		} else {
+			numDefaultNotifications = numAllNotifications;
+		}
+		NSMutableArray *mDefaultNotifications = [[NSMutableArray alloc] initWithCapacity:numDefaultNotifications];
 		Class NSNumberClass = [NSNumber class];
-		while((num = [mightBeIndicesEnum nextObject])) {
-			if([num isKindOfClass:NSNumberClass]) {
+		while ((num = [mightBeIndicesEnum nextObject])) {
+			if ([num isKindOfClass:NSNumberClass]) {
 				//it's an index into the all-notifications list
 				unsigned notificationIndex = [num unsignedIntValue];
-				if(notificationIndex >= numAllNotifications)
+				if (notificationIndex >= numAllNotifications) {
 					NSLog(@"WARNING: application %@ tried to allow notification at index %u by default, but there is no such notification in its list of %u", appName, notificationIndex, numAllNotifications);
-				else {
+				} else {
 					[mDefaultNotifications addObject:[allNotificationNames objectAtIndex:notificationIndex]];
 				}
 			} else {
@@ -355,6 +362,24 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 			}
 		}
 		defaultNotifications = mDefaultNotifications;
+	} else if ([inObject isKindOfClass:[NSIndexSet class]]) {
+		unsigned notificationIndex;
+		unsigned numAllNotifications = [allNotificationNames count];
+		NSIndexSet *iset = (NSIndexSet *)inObject;
+		NSMutableArray *mDefaultNotifications = [[NSMutableArray alloc] initWithCapacity:[iset count]];
+		for( notificationIndex = [iset firstIndex]; notificationIndex != NSNotFound; notificationIndex = [iset indexGreaterThanIndex:notificationIndex] ) {
+			if (notificationIndex >= numAllNotifications) {
+				NSLog(@"WARNING: application %@ tried to allow notification at index %u by default, but there is no such notification in its list of %u", appName, notificationIndex, numAllNotifications);
+				// index sets are sorted, so we can stop here
+				break;
+			} else {
+				[mDefaultNotifications addObject:[allNotificationNames objectAtIndex:notificationIndex]];
+			}
+		}
+		defaultNotifications = mDefaultNotifications;
+	} else {
+		NSLog(@"WARNING: application %@ passed an invalid object for the default notifications.", appName);
+		defaultNotifications = [allNotifications copy];
 	}
 
 	if ( useDefaults ) {

@@ -33,7 +33,7 @@
 - (id) initWithApplication:(NSString *) inAppName
 				  withIcon:(NSImage *) inIcon
 		  andNotifications:(NSArray *) inAllNotifications
-		   andDefaultNotes:(NSArray *) inDefaults;
+		   andDefaultNotes:(id) inDefaults;
 
 - (id) initTicketFromPath:(NSString *) inPath;
 - (id) initTicketForApplication: (NSString *) inApp;
@@ -60,13 +60,13 @@
 
 #pragma mark -
 
--(void)reregisterWithAllNotifications:(NSArray *) inAllNotes defaults: (NSArray *) inDefaults icon:(NSImage *) inIcon;
+-(void) reregisterWithAllNotifications:(NSArray *) inAllNotes defaults: (id) inDefaults icon:(NSImage *) inIcon;
 
 - (NSArray *) allNotifications;
 - (void) setAllNotifications:(NSArray *) inArray;
 
 - (NSArray *) defaultNotifications;
-- (void) setDefaultNotifications:(NSArray *) inArray;
+- (void) setDefaultNotifications:(id) inObject;
 
 - (NSArray *) allowedNotifications;
 - (void) setAllowedNotifications:(NSArray *) inArray;
