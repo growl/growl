@@ -26,6 +26,14 @@
 
 #pragma mark -
 
+- (NSSet *) allNotifications;
+- (void) setAllNotifications:(NSSet *) inSet;
+
+- (NSSet *) defaultNotifications;
+- (void) setDefaultNotifications:(NSSet *) inSet;
+
+#pragma mark -
+
 - (void) registerParentForNotifications:(NSSet *) inSet;
 - (void) unregisterParentForNotifications:(NSArray *) inArray;
 @end

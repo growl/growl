@@ -7,6 +7,7 @@
 
 #import "GrowlController.h"
 #import "GrowlApplicationTicket.h"
+#import "NSAdditions.h"
 
 @implementation GrowlController
 
@@ -18,7 +19,7 @@
 															selector:@selector( _registerApplication: ) 
 																name:GROWL_APP_REGISTRATION
 															  object:nil]; 
-		_tickets = [[NSMutableArray alloc] init];
+		_tickets = [[NSMutableDictionary alloc] init];
 
 		_displayController = [self loadDisplay];
 		[_displayController loadPlugin];
@@ -74,7 +75,8 @@
 	NSSet *defaultNotes = [NSSet setWithArray:[[note userInfo] objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
 	
 	//add category to NSWorkspace for -iconForApplication later
-	NSImage *appIcon = nil;
+	NSImage *appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
+	NSLog( @"AppIcon - %@", appIcon );
 	
 	GrowlApplicationTicket *newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
 																				withIcon:appIcon
@@ -82,9 +84,15 @@
 																		   andDefaultSet:defaultNotes 
 																			  fromParent:self];
 	
-	[_tickets addObject:newApp];
-	
-	NSLog( @"%@ has registered", appName );	
+	if ( ! [_tickets objectForKey:appName] ) {
+		[_tickets setValue:newApp forKey:appName];
+		NSLog( @"%@ has registered", appName );
+	} else {
+		NSLog( @"%@ has already registered", appName );
+		GrowlApplicationTicket *aApp = [_tickets objectForKey:appName];
+		[aApp setAllNotifications:allNotes];
+		[aApp setDefaultNotifications:defaultNotes];
+	}
 	
 }
 

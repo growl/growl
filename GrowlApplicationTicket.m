@@ -53,6 +53,29 @@
 }
 
 #pragma mark -
+
+- (NSSet *) allNotifications {
+	return _allNotifications;
+}
+
+- (void) setAllNotifications:(NSSet *) inSet {
+	[inSet retain];
+	[_allNotifications release];
+	_allNotifications = inSet;
+}
+
+- (NSSet *) defaultNotifications {
+	return _defaultNotifications;
+}
+
+- (void) setDefaultNotifications:(NSSet *) inSet {
+	[inSet retain];
+	[_defaultNotifications release];
+	_defaultNotifications = inSet;
+}
+
+
+#pragma mark -
 - (void) registerParentForNotifications:(NSSet *) inSet {
 	NSEnumerator *note = [inSet objectEnumerator];
 	id obj = nil;
