@@ -3,7 +3,9 @@ Apps that support Growl!, in alphabetical order:
 Adium
 Beep-Carbon
 Beep-Cocoa
+Drive Gauge (first commercial app to support Growl)
 Fire
 GrowlNotify
 GrowlTunes
 irssi (in growl svn is a howto for this)
+Quicksilver
