@@ -1,6 +1,3 @@
-- Bezel does not fadeout most of the time.
-
-
 - Possible bug: http://forums.cocoaforge.com/viewtopic.php?p=1050
 
 --10.2 bugs--
@@ -26,3 +23,5 @@ So, the possible solutions are:
 (b) Do separate builds for Jaguar and Panther (many SSL-enabled apps do this).
 
 I'd recommend (a), for obvious reasons.
+
+
