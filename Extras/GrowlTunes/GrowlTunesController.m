@@ -340,12 +340,10 @@ enum {
 		}
 		if ([newTrackURL hasPrefix:@"http://"]) { //If we're streaming music, display only the name of the station and genre
 			displayString = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"Genre"]];
-		} else if ([newTrackURL hasPrefix:@"itms:/"]) {
-			displayString = [NSString stringWithFormat:@"%@\n%@",artist,album];
-		} else if ([newTrackURL hasPrefix:@"file://"]) {
-			displayString = [NSString stringWithFormat:@"%@ - %@\n%@\n%@",length,ratingString,artist,album];
 		} else {
-			displayString = [NSString stringWithFormat:@"%@\n%@\n%@", length, artist, album];
+			if(!artist) artist = @"";
+			if(!album)  album  = @"";
+			displayString = [NSString stringWithFormat:@"%@ - %@\n%@\n%@",length,ratingString,artist,album];
 		}
 		
 		// Tell growl
