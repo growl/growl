@@ -134,7 +134,7 @@ None by default.
 
 =head1 SEE ALSO
 
-http://sourceforge.net/projects/growl
+http://growl.info
 
 #growl on irc.freenode.net
 
