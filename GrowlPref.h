@@ -13,8 +13,6 @@
 	//NSTimer				* pingTimer;
 	NSTimer					* startStopTimer;
 	
-	NSUserDefaults			* loginWindowDefaults;
-	
 	NSPreferencePane		* pluginPrefPane;
 	NSMutableArray			* loadedPrefPanes;
 	
