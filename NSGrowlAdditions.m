@@ -26,7 +26,14 @@
 
 @end
 
-// thanks to Alcor for the following
+// Thanks to Alcor for the following. This allows us to tell the window manager
+// that the window should be sticky. A sticky window will stay around when the
+// Exposé sweep-all-windows-away event happens. Additionally, if a window is not
+// sticky while it fades in (see KABubbleWindowController for an example of fading
+// in), and simultaneously the desktop is switched via DesktopManager, the window
+// may end up getting left on the previous desktop, even if that window's level 
+// set to NSStatusWindowLevel. See http://www.cocoadev.com/index.pl?DontExposeMe 
+// for more information.
 typedef int CGSConnection;
 typedef int CGSWindow;
 extern CGSConnection _CGSDefaultConnection(void);
@@ -40,7 +47,7 @@ OSStatus CGSSetWindowTags(CGSConnection cid,CGSWindow widow,int *tags,int other)
 	CGSConnection cid;
 	CGSWindow wid;
 	
-	wid = [self windowNumber ];
+	wid = [self windowNumber];
 	cid = _CGSDefaultConnection();
 	int tags[2];
 	tags[0] = tags[1] = 0;
