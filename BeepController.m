@@ -71,7 +71,7 @@
             [allNotesArray addObject:[[_notifications objectAtIndex:k] objectForKey:GROWL_NOTIFICATION_TITLE]];
         }
         
-        NSDictionary *regDict = [[NSDictionary alloc] initWithObjectsAndKeys:   @"Beep", GROWL_APP_NAME, 
+        NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:   @"Beep", GROWL_APP_NAME, 
             allNotesArray, GROWL_NOTIFICATIONS_ALL, 
             defNotesArray, GROWL_NOTIFICATIONS_DEFAULT,
             nil];
