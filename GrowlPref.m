@@ -22,6 +22,8 @@ static const char *keychainAccountName = "Growl";
 
 @interface GrowlPref (GrowlPrefPrivate)
 - (BOOL) _isGrowlRunning;
+- (void) _launchGrowl;
+- (void) _terminateGrowl;
 @end
 
 @implementation GrowlPref
@@ -157,10 +159,11 @@ static const char *keychainAccountName = "Growl";
 														  object:nil];
 }
 
+//subclassed from NSPreferencePane; called before the pane is displayed.
 - (void) willSelect {
 	[self reloadPreferences];
 	[self checkGrowlRunning];
-	
+
 	[tabView setDelegate:self];
 }
 
@@ -247,6 +250,14 @@ static const char *keychainAccountName = "Growl";
 		[growlServiceList setEnabled:NO];
 	}
 
+	//If there is not a growl enabled key yet, set it to YES and launch Growl
+	if ( ![preferences objectForKey:GrowlEnabledKey] ) {
+		[preferences setObject:[NSNumber numberWithBool:YES]
+						forKey:GrowlEnabledKey];
+
+		[self _launchGrowl];
+	}
+
 	[self buildMenus];
 	
 	[self reloadAppTab];
@@ -254,7 +265,7 @@ static const char *keychainAccountName = "Growl";
 	[self setPrefsChanged:NO];
 }
 
-- (void)buildMenus {
+- (void) buildMenus {
 	// Building Menu for the drop down one time.  It's cached from here on out.  If we want to add new display types
 	// we'll have to call this method after the controller knows about it.
 	NSEnumerator * enumerator;
@@ -365,8 +376,6 @@ static const char *keychainAccountName = "Growl";
 #pragma mark "General" tab pane
 
 - (IBAction) startStopGrowl:(id) sender {
-	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
-
 	// Make sure growlIsRunning is correct
 	if (growlIsRunning != [self _isGrowlRunning]) {
 		// Nope - lets just flip it and update status
@@ -374,10 +383,6 @@ static const char *keychainAccountName = "Growl";
 		[self updateRunningStatus];
 		return;
 	}
-
-	// Don't allow the button to be clicked while we update
-	[startStopGrowl setEnabled:NO];
-	[growlRunningProgress startAnimation:self];
 
 	// Our desired state is a toggle of the current state;
 	BOOL desiredGrowlState = !growlIsRunning;
@@ -388,35 +393,59 @@ static const char *keychainAccountName = "Growl";
 									   forKey:GrowlEnabledKey];
 
 	if (desiredGrowlState) {
-		// growlIsRunning = [[NSWorkspace sharedWorkspace] launchApplication:helperPath];
-		[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
-		
-		// We want to launch in background, so we have to resort to Carbon
-		LSLaunchFSRefSpec spec;
-		FSRef appRef;
-		OSStatus status = FSPathMakeRef([helperPath fileSystemRepresentation], &appRef, NULL);
-		
-		if (status == noErr) {
-			spec.appRef = &appRef;
-			spec.numDocs = 0;
-			spec.itemRefs = NULL;
-			spec.passThruParams = NULL;
-			spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
-			spec.asyncRefCon = NULL;
-			status = LSOpenFromRefSpec(&spec, NULL);
-		}
-		
-	} else {
-		[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
-		
-		[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:NO] forKey:GrowlEnabledKey];
-	}
+		[self _launchGrowl];
 
-	// After 5 seconds update status, in case growl didn't start/stop
+	} else {		
+		[self _terminateGrowl];
+	}
+}
+
+- (void) _launchGrowl {
+	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
+
+	// Don't allow the button to be clicked while we update
+	[startStopGrowl setEnabled:NO];
+	[growlRunningProgress startAnimation:self];
+
+	// Update our status visible to the user
+	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
+
+	// We want to launch in background, so we have to resort to Carbon
+	LSLaunchFSRefSpec spec;
+	FSRef appRef;
+	OSStatus status = FSPathMakeRef([helperPath fileSystemRepresentation], &appRef, NULL);
+	
+	if (status == noErr) {
+		spec.appRef = &appRef;
+		spec.numDocs = 0;
+		spec.itemRefs = NULL;
+		spec.passThruParams = NULL;
+		spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
+		spec.asyncRefCon = NULL;
+		status = LSOpenFromRefSpec(&spec, NULL);
+	}	
+
+	// After 4 seconds force a status update, in case growl didn't start/stop
 	[self performSelector:@selector(checkGrowlRunning)
 			   withObject:nil
-			   afterDelay:4.0];
+			   afterDelay:4.0];	
+}
+
+- (void) _terminateGrowl {
+	// Don't allow the button to be clicked while we update
+	[startStopGrowl setEnabled:NO];
+	[growlRunningProgress startAnimation:self];
+
+	// Update our status visible to the user
+	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
+
+	// Ask the Growl Helper App to shutdown via the DNC
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
+
+	// After 4 seconds force a status update, in case growl didn't start/stop
+	[self performSelector:@selector(checkGrowlRunning)
+			   withObject:nil
+			   afterDelay:4.0];	
 }
 
 - (IBAction) startGrowlAtLogin:(id) sender {

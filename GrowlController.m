@@ -580,7 +580,6 @@ static id singleton = nil;
 	userInfo = [NSDictionary dictionaryWithObject:[notification userInfo]
 										   forKey:GROWL_KEY_CLICKED_CONTEXT];
 
-	NSLog(@"userinfo is %@",userInfo);
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName 
 																   object:nil 
 																 userInfo:userInfo

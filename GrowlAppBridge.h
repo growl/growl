@@ -3,6 +3,7 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on Wed Jun 16 2004.
+//  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
 /*!
@@ -22,7 +23,15 @@
     @discussion The bundle identifier for the Growl prefpane
  */
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER	@"com.growl.prefpanel"
+
+/*!
+	@defined    GROWL_PREFPANE_NAME
+	@discussion The file name of the Growl prefpane
+ */
 #define GROWL_PREFPANE_NAME					@"Growl.prefPane"
+
+//Internal notification when the user chooses not to install (to avoid continuing to cache notifications awaiting installation)
+#define GROWL_USER_CHOSE_NOT_TO_INSTALL_NOTIFICATION @"User chose not to install"
 
 /*!
 	@class      GrowlAppBridge
@@ -58,6 +67,7 @@
 * ***********************/
 //XXX - Needs documentation
 + (void) setGrowlDelegate:(NSObject<GrowlAppBridgeDelegate> *)inDelegate;
++ (NSObject<GrowlAppBridgeDelegate> *) growlDelegate;
 
 //XXX - Needs documentation
 + (void) notifyWithTitle:(NSString *)title
@@ -67,7 +77,10 @@
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
 			clickContext:(id)clickContext;
+@end
 
+@interface GrowlAppBridge (GrowlInstallationPrompt_private)
++ (void) _userChoseNotToInstallGrowl;
 @end
 
 //XXX - Needs documentation
@@ -92,5 +105,20 @@
 //Informs the delegate that a growl notification with the passed clickContext was clicked
 //XXX - Needs documentation
 - (void) growlNotificationWasClicked:(id)clickContext;
+
 @end
 
+//XXX - Needs documentation
+@interface NSObject (GrowlAppBridgeDelegate_Installation_InformalProtocol)
+//XXX - Needs documentation
+- (NSString *)growlInstallationWindowTitle;
+
+//XXX - Needs documentation
+- (NSString *)growlUpdateWindowTitle;
+
+//XXX - Needs documentation
+- (NSAttributedString *)growlInstallationInformation;
+
+//XXX - Needs documentation
+- (NSAttributedString *)growlUpdateInformation;
+@end
