@@ -7,6 +7,12 @@
 
 #import "GrowlPref.h"
 
+#define HELPER_APP_BUNDLE_ID @"com.Growl.GrowlHelperApp"
+
+@interface GrowlPref (PRIVATE)
+- (NSDictionary *)growlHelperAppDescription;
+@end
+
 
 @implementation GrowlPref
 
@@ -15,24 +21,81 @@
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	[defs addSuiteNamed:@"loginwindow"];
 	
-	if ( [[defs objectForKey:@"AutoLaunchedApplicationDictionary"] containsObject:[self growlHelperAppDescription]] ) 
-		[_startGrowlLoginButton setState:NSOnState];
+	[self reloadPreferences];
 }
 
-- (IBAction) startGrowl:(id) sender {
-	NSLog( @"start Growl" );	
-	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
-	NSLog( @"tried to run %@", helperPath);
-	
-	if ( [_startGrowlButton state] == NSOnState ) {
-		if ( ! [[NSWorkspace sharedWorkspace] launchApplication:helperPath] ) {
-			[_startGrowlButton setState:NSOffState];
-		}		
+#warning This should (somehow) automatically reload, not just on reopen
+- (void) willSelect {
+	[self reloadPreferences];
+}
+
+- (NSPreferencePaneUnselectReply)shouldUnselect {
+	if(prefsHaveChanged) {
+		NSBeginAlertSheet(@"Apply Changes?",@"Apply Changes",@"Discard Changes",@"Cancel",
+								[[self mainView] window],self,@selector(sheetDidEnd:returnCode:contextInfo:),
+								NULL,NULL,@"You have made changes, but have not applied them. Would you like to apply them, discard them, or cancel?");
+		return NSUnselectLater;
 	} else {
-		NSLog( @"stop GrowlHelperApp somehow" );
-		//insert code here
+		return NSUnselectNow;
 	}
+}
+
+- (void)reloadPreferences {
+	NSEnumerator * enumerator;
 	
+	#warning There has *got* to be a better way to do this!
+	growlIsRunning = system("killall -s GrowlHelperApp") == 0;
+		
+	[self updateRunningStatus];
+
+	if(tickets) [tickets release];
+	tickets = [[GrowlApplicationTicket allSavedTickets] retain];
+	
+	[growlApplications removeAllItems];
+	enumerator = [tickets keyEnumerator];
+	[growlApplications addItemsWithTitles:[enumerator allObjects]];
+	
+	if(currentApplication)
+		[growlApplications selectItemWithTitle:currentApplication];
+	
+	[self reloadAppTab];
+	
+	if ( [[[NSUserDefaults standardUserDefaults] objectForKey:@"AutoLaunchedApplicationDictionary"] containsObject:[self growlHelperAppDescription]] ) 
+		[startGrowlAtLogin setState:NSOnState];
+	
+	[self setPrefsChanged:NO];
+}
+
+- (void)updateRunningStatus {
+	[startStopGrowl setTitle:growlIsRunning?@"Stop Growl":@"Start Growl"];
+	[growlRunningStatus setStringValue:growlIsRunning?@"Growl is running.":@"Growl is stopped"];
+}
+
+- (void)reloadAppTab {
+	currentApplication = [growlApplications titleOfSelectedItem];
+
+	appTicket = [tickets objectForKey: currentApplication];
+	
+	[applicationEnabled setState: [appTicket ticketEnabled]];
+	[applicationEnabled setTitle: [NSString stringWithFormat:@"Enable notifications for %@",currentApplication]];
+	
+	[applicationNotifications setEnabled:[appTicket ticketEnabled]];
+	[applicationNotifications reloadData];
+}
+
+#pragma mark "General" tab pane
+- (IBAction) startStopGrowl:(id) sender {
+		
+	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
+	
+	if(!growlIsRunning) {
+		growlIsRunning = [[NSWorkspace sharedWorkspace] launchApplication:helperPath];
+	} else {
+		#warning There has *got* to be a better way to do this
+		system("killall GrowlHelperApp");
+		growlIsRunning = NO;
+	}
+	[self updateRunningStatus];
 }
 
 - (IBAction) startGrowlAtLogin:(id) sender {
@@ -42,12 +105,9 @@
 	NSMutableArray *loginItems = [[[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy] autorelease]; //it lies, its an array
 	NSDictionary *GHAdesc = [self growlHelperAppDescription];
 	
-	if ( [_startGrowlLoginButton state] == NSOnState ) {
-		NSLog( @"start Growl At Login" );
-		
+	if ( [startGrowlAtLogin state] == NSOnState ) {
 		[loginItems addObject:GHAdesc];
 	} else {
-		NSLog( @"Don't start Growl At Login" );
 		[loginItems removeObject:GHAdesc];
 	}
 
@@ -56,12 +116,75 @@
 	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
 					  forName:@"loginwindow"];
 	[defs synchronize];	
+	
+	[self setPrefsChanged:YES];
+}
+
+#pragma mark "Applications" tab pane
+- (IBAction)selectApplication:(id)sender {
+	if(![[sender titleOfSelectedItem] isEqualToString:currentApplication]) {
+		[self reloadAppTab];
+	}
+}
+
+- (IBAction)enableApplication:(id)sender {
+	[appTicket setEnabled:[applicationEnabled state]];
+	[applicationNotifications setEnabled:[applicationEnabled state]];
+	[self setPrefsChanged:YES];
+}
+
+#pragma mark Notification table view data source methods
+- (int)numberOfRowsInTableView:(NSTableView *)tableView {
+	return [[appTicket allNotifications] count];
+}
+
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row {
+	NSString * note = [[appTicket allNotifications] objectAtIndex:row];
+	if([[column identifier] isEqualTo:@"enable"]) {
+		return [NSNumber numberWithBool:[appTicket isNotificationEnabled:note]];
+	} else {
+		return note;
+	}
+}
+
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row {
+	NSString * note = [[appTicket allNotifications] objectAtIndex:row];
+	if([value boolValue]) {
+		[appTicket setNotificationEnabled:note];
+	} else {
+		[appTicket setNotificationDisabled:note];
+	}
+	[self setPrefsChanged:YES];
+}
+
+#pragma mark -
+- (IBAction)revert:(id)sender {
+	[self reloadPreferences];
+	[self setPrefsChanged:NO];
+}
+
+- (IBAction)apply:(id)sender {
+	[[[tickets objectEnumerator] allObjects] makeObjectsPerformSelector:@selector(saveTicket)];
+	[self setPrefsChanged:NO];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GrowlReloadPreferences" object:nil];
+}
+
+- (void)setPrefsChanged:(BOOL)prefsChanged {
+	prefsHaveChanged = prefsChanged;
+	[apply setEnabled:prefsHaveChanged];
+	[revert setEnabled:prefsHaveChanged];
+}
+
+- (void)dealloc {
+	if(cachedGrowlHelperAppDescription)
+		[cachedGrowlHelperAppDescription release];
+	if(tickets) [tickets release];
 }
 
 - (NSDictionary *)growlHelperAppDescription {
 	if(!cachedGrowlHelperAppDescription) {
 		NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
-
+		
 		cachedGrowlHelperAppDescription = [[NSDictionary alloc] initWithObjectsAndKeys:
 			helperPath, [NSString stringWithString:@"Path"],
 			[NSNumber numberWithBool:NO], [NSString stringWithString:@"Hide"],
@@ -70,9 +193,10 @@
 	return cachedGrowlHelperAppDescription;
 }
 
-- (void)dealloc {
-	if(cachedGrowlHelperAppDescription)
-		[cachedGrowlHelperAppDescription release];
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+	if(returnCode == NSAlertDefaultReturn)
+		[self apply:nil];
+	[self replyToShouldUnselect:returnCode == NSAlertDefaultReturn || returnCode == NSAlertAlternateReturn];
 }
 
 @end

@@ -40,6 +40,10 @@ static id _singleton = nil;
 															selector:@selector( dispatchNotification: )
 																name:GROWL_NOTIFICATION
 															  object:nil];
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+															selector:@selector( reloadPreferences: )
+																name:@"GrowlReloadPreferences"
+															  object:nil];
 		_tickets = [[NSMutableDictionary alloc] init];
 		_registrationLock = [[NSLock alloc] init];
 		_notificationQueue = [[NSMutableArray alloc] init];
@@ -173,6 +177,11 @@ static id _singleton = nil;
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) theApplication {
 	return NO;
+}
+
+- (void) reloadPreferences: (NSNotification *) note {
+	[_tickets removeAllObjects];
+	[self loadTickets];
 }
 
 @end

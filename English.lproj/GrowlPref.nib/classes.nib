@@ -2,10 +2,26 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {startGrowl = id; startGrowlAtLogin = id; }; 
+            ACTIONS = {
+                apply = id; 
+                enableApplication = id; 
+                revert = id; 
+                selectApplication = id; 
+                startGrowlAtLogin = id; 
+                startStopGrowl = id; 
+            }; 
             CLASS = GrowlPref; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"_startGrowlButton" = NSButton; "_startGrowlLoginButton" = NSButton; }; 
+            OUTLETS = {
+                applicationEnabled = NSButton; 
+                applicationNotifications = NSTableView; 
+                apply = NSButton; 
+                growlApplications = NSPopUpButton; 
+                growlRunningStatus = NSTextField; 
+                revert = NSButton; 
+                startGrowlAtLogin = NSButton; 
+                startStopGrowl = NSButton; 
+            }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
         {

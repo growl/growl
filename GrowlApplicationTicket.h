@@ -55,5 +55,6 @@
 - (void) setNotificationEnabled:(NSString *) name;
 - (void) setNotificationDisabled:(NSString *) name;
 - (BOOL) isNotificationAllowed:(NSString *) name;
+- (BOOL) isNotificationEnabled:(NSString *) name;
 @end
 

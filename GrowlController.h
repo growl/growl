@@ -25,5 +25,7 @@
 - (void) loadTickets;
 - (void) saveTickets;
 
+- (void) reloadPreferences: (NSNotification *) note;
+
 @end
 

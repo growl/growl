@@ -91,8 +91,8 @@
 		[self setAllowedNotifications:[ticketsList objectForKey:GROWL_NOTIFICATIONS_USER_SET]];
 		_icon = [[[NSWorkspace sharedWorkspace] iconForApplication:_appName] retain];
 		_useDefaults = [[ticketsList objectForKey:@"useDefaults"] boolValue];
-		if([ticketsList objectForKey:@"enableTicket"]) {
-			ticketEnabled = [[ticketsList objectForKey:@"enableTicket"] boolValue];
+		if([ticketsList objectForKey:@"ticketEnabled"]) {
+			ticketEnabled = [[ticketsList objectForKey:@"ticketEnabled"] boolValue];
 		} else {
 			ticketEnabled = YES;
 		}
@@ -221,7 +221,12 @@
 }
 
 - (BOOL) isNotificationAllowed:(NSString *) name {
-	return ticketEnabled && [_allowedNotifications containsObject:name];
+	return ticketEnabled && [self isNotificationEnabled:name];
 }
+
+- (BOOL) isNotificationEnabled:(NSString *) name {
+	return [_allowedNotifications containsObject:name];
+}
+
 @end
 
