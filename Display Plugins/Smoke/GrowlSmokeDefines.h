@@ -1,5 +1,6 @@
 #define GrowlSmokeLimitPref @"Smoke - Limit"
 #define GrowlSmokeAlphaPref @"Smoke - Alpha"
+#define GrowlSmokeFloatIconPref @"Smoke - Float Icon"
 
 #define GrowlSmokeVeryLowColor      @"Smoke-Priority-VeryLow-Color"
 #define GrowlSmokeModerateColor     @"Smoke-Priority-Moderate-Color"
@@ -10,7 +11,9 @@
 #define GrowlSmokePrefDomain @"com.growl.SmokeNotificationView"
 
 // the default value for the opacity preference
-#define GrowlSmokeAlphaPrefDefault .334
+#define GrowlSmokeAlphaPrefDefault .75
+
+#define GrowlSmokeFloatIconPrefDefault NO
 
 // the width of the notification view
 #define GrowlSmokeNotificationWidth 300.

@@ -17,9 +17,12 @@
   IBOutlet NSColorWell    *color_normal;
   IBOutlet NSColorWell    *color_high;
   IBOutlet NSColorWell    *color_emergency;
+  
+  IBOutlet NSButton *floatIconSwitch;
 }
 
 - (IBAction)opacitySliderChanged:(id)sender;
 - (IBAction) colorChanged:(id)sender;
+- (IBAction)floatIconSwitchChanged:(id)sender;
 
 @end

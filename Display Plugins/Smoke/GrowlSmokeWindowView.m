@@ -54,11 +54,19 @@
     // draw bezier path for rounded corners
 	float radius = 5.;
 	unsigned int sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding / 2);
-	NSRect shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
+	
+	// calculate bounds based on icon-float pref on or off
+	NSRect shadedBounds;
+	bool floatIcon = GrowlSmokeFloatIconPrefDefault;
+	READ_GROWL_PREF_FLOAT(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
+	if(floatIcon) shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
 									 bounds.origin.y,
 									 bounds.size.width - sizeReduction,
 									 bounds.size.height);
+	else shadedBounds = bounds;
+	
 	NSRect irect = NSInsetRect(shadedBounds, radius + lineWidth, radius + lineWidth);
+	
 	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMinX( irect ), 
 														 NSMinY( irect ) ) 
 									 radius:radius 
@@ -269,13 +277,14 @@
 		
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
+		[textContainer setLineFragmentPadding:0.0];
 		(void)[layoutManager glyphRangeForTextContainer:textContainer];
 		
 		_textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
 		
 		// for some reason, this code is using a 13-point line height for calculations, but the font 
 		// in fact renders in 14 points of space. Do some adjustments.
-		//_textHeight = _textHeight / 13 * 14;
+		_textHeight = _textHeight / GrowlSmokeTextFontSize * (GrowlSmokeTextFontSize + 1);
 	}
 	return MAX (_textHeight, 30);
 }
