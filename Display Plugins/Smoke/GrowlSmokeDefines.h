@@ -4,7 +4,7 @@
 
 #define GrowlSmokeAlphaPrefDefault .334
 
-#define GrowlSmokeNotificationWidth 350.
+#define GrowlSmokeNotificationWidth 300.
 #define GrowlSmokePadding 10.
 #define GrowlSmokeIconPadding 10.
 #define GrowlSmokeIconSize 32.
