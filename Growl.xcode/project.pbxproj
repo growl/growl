@@ -305,6 +305,7 @@
 		089C1671FE841209C02AAC07 = {
 			children = (
 				1058C7ACFEA557BF11CA2CBB,
+				1058C7AEFEA557BF11CA2CBB,
 			);
 			isa = PBXGroup;
 			name = Frameworks;
@@ -416,20 +417,6 @@
 		};
 		097888CA076EC6DA00071EB6 = {
 			fileRef = 097888C9076EC6DA00071EB6;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		097889E1076ED0BD00071EB6 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = PreferencePanes.framework;
-			path = /System/Library/Frameworks/PreferencePanes.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		097889E2076ED0BD00071EB6 = {
-			fileRef = 097889E1076ED0BD00071EB6;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1178,7 +1165,6 @@
 			files = (
 				0A7F5F620767C58E00E1C1E4,
 				0A7F5F630767C59000E1C1E4,
-				097889E2076ED0BD00071EB6,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2052,7 +2038,14 @@
 //104
 		1058C7ACFEA557BF11CA2CBB = {
 			children = (
-				1058C7AEFEA557BF11CA2CBB,
+				95AA8653080065DE0045589D,
+				0AEE179C0702C4960024B1A0,
+				95E678F307511471002BF4E6,
+				089C1672FE841209C02AAC07,
+				089C167FFE841241C02AAC07,
+				0A7F5FD40767C77F00E1C1E4,
+				83282746073A6C110044A959,
+				343354B20792F84B00C84B15,
 			);
 			isa = PBXGroup;
 			name = "Linked Frameworks";
@@ -2061,15 +2054,7 @@
 		};
 		1058C7AEFEA557BF11CA2CBB = {
 			children = (
-				0AEE179C0702C4960024B1A0,
-				95E678F307511471002BF4E6,
 				83282741073A6BD70044A959,
-				089C1672FE841209C02AAC07,
-				089C167FFE841241C02AAC07,
-				0A7F5FD40767C77F00E1C1E4,
-				83282746073A6C110044A959,
-				097889E1076ED0BD00071EB6,
-				343354B20792F84B00C84B15,
 			);
 			isa = PBXGroup;
 			name = "Other Frameworks";
@@ -3703,6 +3688,20 @@
 			settings = {
 			};
 		};
+		95AA8653080065DE0045589D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = SystemConfiguration.framework;
+			path = /System/Library/Frameworks/SystemConfiguration.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		95AA8654080065DE0045589D = {
+			fileRef = 95AA8653080065DE0045589D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95BF83760743675700306A77 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
@@ -4420,6 +4419,7 @@
 				95C36A620753299E009FAEA2,
 				95C36A630753299E009FAEA2,
 				95C36A640753299E009FAEA2,
+				95AA8654080065DE0045589D,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

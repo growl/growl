@@ -20,6 +20,7 @@
 #import "GrowlDefines.h"
 #import "GrowlVersionUtilities.h"
 #import "SVNRevision.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 #import <sys/socket.h>
 
 // check every 24 hours
@@ -164,17 +165,14 @@ static id singleton = nil;
 		NSLog(@"Could not register Growl server.");
 	}
 
-	NSString *serviceName;
-	if ([[NSNetService class] instancesRespondToSelector:@selector(hostName)]) {
-		serviceName = [[NSProcessInfo processInfo] hostName];
-	} else {
-		serviceName = @"";	// use local computer name
-	}
 	// configure and publish the Rendezvous service
+	NSString *serviceName = (NSString *)SCDynamicStoreCopyComputerName(/*store*/ NULL,
+																	   /*nameEncoding*/ NULL);
 	service = [[NSNetService alloc] initWithDomain:@""	// use local registration domain
 											  type:@"_growl._tcp."
 											  name:serviceName
 											  port:GROWL_TCP_PORT];
+	[serviceName release];
 	[service setDelegate:self];
 	[service publish];
 
