@@ -16,17 +16,17 @@
 }
 
 - (void)mainViewDidLoad {
-	int		opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
-	int		sizePref = 0;
+	[slider_opacity setAltIncrementValue:5.0];
 
-	[slider_Opacity setAltIncrementValue:5.0];
+	// opacity
+	opacity = MUSICVIDEO_DEFAULT_OPACITY;
+	READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacity);
+	[self setOpacity:opacity];
 
-	READ_GROWL_PREF_INT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacityPref);
+	// size
+	int	sizePref = 0;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
-
-	[radio_Size selectCellAtRow:sizePref column:0];
-	[slider_Opacity setIntValue:opacityPref];
-	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
+	[radio_size selectCellAtRow:sizePref column:0];
 
 	// duration
 	duration = MUSICVIDEO_DEFAULT_DURATION;
@@ -39,9 +39,11 @@
 	[combo_screen setIntValue:screenNumber];
 }
 
-- (void)didSelect {
+- (void) didSelect {
 	SYNCHRONIZE_GROWL_PREFS();
 }
+
+#pragma mark -
 
 - (float) getDuration {
 	return duration;
@@ -49,33 +51,41 @@
 
 - (void) setDuration:(float)value {
 	if (duration != value) {
+		duration = value;
 		WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, value, MusicVideoPrefDomain);
 		UPDATE_GROWL_PREFS();
 	}
-	duration = value;
 }
 
-- (IBAction)preferenceChanged:(id)sender {
-	int opacityPref;
-	int sizePref;
+#pragma mark -
 
-	if (sender == slider_Opacity) {
-		opacityPref = [slider_Opacity intValue];
-		[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
-		WRITE_GROWL_PREF_INT(MUSICVIDEO_OPACITY_PREF, opacityPref, MusicVideoPrefDomain);
-	} else if (sender == radio_Size) {
-		sizePref = [radio_Size selectedRow];
-		WRITE_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, sizePref, MusicVideoPrefDomain);
+- (float) getOpacity {
+	return opacity;
+}
+
+- (void) setOpacity:(float)value {
+	if (opacity != value) {
+		opacity = value;
+		WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, value, MusicVideoPrefDomain);
+		UPDATE_GROWL_PREFS();
 	}
+}
 
+#pragma mark -
+
+- (IBAction) takeSizeFrom:(id)sender {
+	int sizePref = [sender selectedRow];
+	WRITE_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, sizePref, MusicVideoPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
-- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+#pragma mark -
+
+- (int) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 	return [[NSScreen screens] count];
 }
 
-- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
 	return [NSNumber numberWithInt:idx];
 }
 

@@ -13,7 +13,7 @@
 #define MUSICVIDEO_SCREEN_PREF			@"Screen"
 
 #define MUSICVIDEO_OPACITY_PREF			@"Opacity"
-#define MUSICVIDEO_DEFAULT_OPACITY		60
+#define MUSICVIDEO_DEFAULT_OPACITY		60.0f
 
 #define MUSICVIDEO_DURATION_PREF		@"Duration"
 #define MUSICVIDEO_DEFAULT_DURATION		4.0f
@@ -28,15 +28,17 @@
 
 @interface GrowlMusicVideoPrefs : NSPreferencePane {
 	float					duration;
-	IBOutlet NSMatrix		*radio_Size;
-	IBOutlet NSSlider		*slider_Opacity;
-	IBOutlet NSTextField	*text_Opacity;
+	float					opacity;
+	IBOutlet NSMatrix		*radio_size;
+	IBOutlet NSSlider		*slider_opacity;
 	IBOutlet NSComboBox		*combo_screen;
 }
 
 - (float) getDuration;
 - (void) setDuration:(float)value;
-- (IBAction) preferenceChanged:(id)sender;
+- (float) getOpacity;
+- (void) setOpacity:(float)value;
+- (IBAction) takeSizeFrom:(id)sender;
 - (IBAction) takeScreenAsIntValueFrom:(id)sender;
 
 @end

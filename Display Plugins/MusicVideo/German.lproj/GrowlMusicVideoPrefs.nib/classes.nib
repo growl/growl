@@ -2,14 +2,13 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {preferenceChanged = id; takeScreenAsIntValueFrom = id; }; 
+            ACTIONS = {takeScreenAsIntValueFrom = id; takeSizeFrom = id; }; 
             CLASS = GrowlMusicVideoPrefs; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 "combo_screen" = NSComboBox; 
-                "radio_Size" = NSMatrix; 
-                "slider_Opacity" = NSSlider; 
-                "text_Opacity" = NSTextField; 
+                "radio_size" = NSMatrix; 
+                "slider_opacity" = NSSlider; 
             }; 
             SUPERCLASS = NSPreferencePane; 
         }, 

@@ -27,9 +27,12 @@
 			textFontSize = 12.0f;
 		}
 
-		int opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
-		READ_GROWL_PREF_INT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacityPref);
-		backgroundColor = [[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:(opacityPref * 0.01f)] retain];
+		float opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
+		READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacityPref);
+		backgroundColor = [[NSColor colorWithCalibratedRed:0.0f
+													 green:0.0f
+													  blue:0.0f
+													 alpha:(opacityPref * 0.01f)] retain];
 
 		NSShadow *textShadow = [[NSShadow alloc] init];
 

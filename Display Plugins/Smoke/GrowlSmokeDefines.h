@@ -19,7 +19,7 @@
 #define GrowlSmokePrefDomain			@"com.growl.SmokeNotificationView"
 
 // the default value for the opacity preference
-#define GrowlSmokeAlphaPrefDefault		0.75f
+#define GrowlSmokeAlphaPrefDefault		75.0f
 // the default value for the duration preference
 #define GrowlSmokeDurationPrefDefault	4.0f
 
