@@ -13,13 +13,13 @@
 #import "GrowlDefines.h"
 #import "NSGrowlAdditions.h"
 
-static unsigned globalId = 0;
+static unsigned globalId = 0U;
 
 @implementation GrowlSmokeWindowController
 
-static const double gMinDisplayTime = 4.;
+static const double gMinDisplayTime = 4.0;
 static const double gAdditionalLinesDisplayTime = 0.5;
-static const double gMaxDisplayTime = 10.;
+static const double gMaxDisplayTime = 10.0;
 
 #pragma mark -
 
@@ -43,14 +43,14 @@ static const double gMaxDisplayTime = 10.;
 
 	// stop depth wrapping around
 	if (windowSize.height > depth) {
-		depth = 0;
+		depth = 0U;
 	} else {
 		depth -= windowSize.height;
 	}
 	
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSNumber numberWithUnsignedInt:identifier], @"ID",
-		[NSNumber numberWithInt:depth], @"Depth",
+		[NSNumber numberWithUnsignedInt:depth], @"Depth",
 		nil];
 
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -63,11 +63,12 @@ static const double gMaxDisplayTime = 10.;
 //	NSLog(@"id: %d depth: %f", [[userInfo objectForKey:@"ID"] unsignedIntValue], [[userInfo objectForKey:@"Depth"] floatValue]);
 //	NSLog(@"self id: %d smokeWindowDepth: %d", identifier, smokeWindowDepth);
 	if ([[userInfo objectForKey:@"ID"] unsignedIntValue] < identifier) {
-		NSRect theFrame = [[self window] frame];
+		NSWindow *window = [self window];
+		NSRect theFrame = [window frame];
 		theFrame.origin.y += [[[note userInfo] objectForKey:@"Depth"] floatValue];
 		// don't allow notification to fly off the top of the screen
 		if (theFrame.origin.y < NSMaxY( [[NSScreen mainScreen] visibleFrame] ) - GrowlSmokePadding) {
-			[[self window] setFrame:theFrame display:NO animate:YES];
+			[window setFrame:theFrame display:NO animate:YES];
 			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSNumber numberWithUnsignedInt:identifier], @"ID",
 				[NSValue valueWithRect:theFrame], @"Space",
@@ -81,7 +82,8 @@ static const double gMaxDisplayTime = 10.;
 	NSDictionary *userInfo = [note userInfo];
 	unsigned i = [[userInfo objectForKey:@"ID"] unsignedIntValue];
 	NSRect space = [[userInfo objectForKey:@"Space"] rectValue];
-	NSRect theFrame = [[self window] frame];
+	NSWindow *window = [self window];
+	NSRect theFrame = [window frame];
 	/*NSLog(@"Notification %u (%f, %f, %f, %f) received clear space message from notification %u (%f, %f, %f, %f)\n",
 		  identifier, i,
 		  theFrame.origin.x, theFrame.origin.y, theFrame.size.width, theFrame.size.height,
@@ -90,7 +92,7 @@ static const double gMaxDisplayTime = 10.;
 		//NSLog(@"I intersect with this frame\n");
 		theFrame.origin.y = space.origin.y - space.size.height;
 		//NSLog(@"New origin: (%f, %f)\n", theFrame.origin.x, theFrame.origin.y);
-		[[self window] setFrame:theFrame display:NO animate:YES];
+		[window setFrame:theFrame display:NO animate:YES];
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithUnsignedInt:identifier], @"ID",
 			[NSValue valueWithRect:theFrame], @"Space",
@@ -110,7 +112,7 @@ static const double gMaxDisplayTime = 10.;
 												name:@"Glide"
 											  object:nil];*/
 
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.f, 0.f, GrowlSmokeNotificationWidth, 65.f ) 
+	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, GrowlSmokeNotificationWidth, 65.0f ) 
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered defer:NO] autorelease];
 	NSRect panelFrame = [panel frame];
@@ -119,7 +121,7 @@ static const double gMaxDisplayTime = 10.;
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.f];
+	[panel setAlphaValue:0.0f];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
