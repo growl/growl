@@ -50,7 +50,6 @@ All parameter names are assumed to be inputs, unless noted otherwise. You might 
 
 Variable Declarations
 ---------------------
-
 Always initialise variables at declaration time or immediately afterwards. Never use a variable's value without initialising it first.
 
 Fail to adhere to this rule and we shall slowly lower you into a vat of gently boiling acid.
@@ -146,7 +145,6 @@ But it's OK for parenthesized expressions:
 
 Labels
 ------
-
 Labels should always be on a line by themselves, and should be 1 indent to the left of the statement they apply to:
 
 	switch(answer) {
@@ -166,7 +164,6 @@ Allowed.
 
 Comma operator (x, y)
 ---------------------
-
 Use only in loop controls.
 
 for(unsigned x = 0, y = 0; x < maxX && y < maxY; ++x, ++y) {

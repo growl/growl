@@ -466,14 +466,6 @@
 			settings = {
 			};
 		};
-		52861EE906DBA9B200D3A356 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = text;
-			path = Standards.txt;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		52861FC206DC421C00D3A356 = {
 			fileRef = 52861EE306DBA95400D3A356;
 			isa = PBXBuildFile;
@@ -952,6 +944,7 @@
 				CB5FA1BD0638CA2C00EADD7A,
 				959FAF520738BAD500040AA9,
 				95BF837C0743675700306A77,
+				CBF76888074CA7110084D8FB,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1114,7 +1107,7 @@
 		};
 		953C3EFE0747970800F2A737 = {
 			children = (
-				52861EE906DBA9B200D3A356,
+				CBF76887074CA7110084D8FB,
 				CB1C5D95063E523F007052EE,
 				0AB856D806E2932C007B791C,
 			);
@@ -1785,6 +1778,20 @@
 		};
 		CBF0743F0659B202000B4B77 = {
 			fileRef = CB1C5D1C063E432F007052EE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CBF76887074CA7110084D8FB = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = HACKING.txt;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CBF76888074CA7110084D8FB = {
+			fileRef = CBF76887074CA7110084D8FB;
 			isa = PBXBuildFile;
 			settings = {
 			};
