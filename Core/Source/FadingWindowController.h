@@ -17,6 +17,7 @@
 	float		fadeIncrement;
 	float		timerInterval;
 	double		displayTime;
+	BOOL		screenshotMode;
 }
 - (void) startFadeIn;
 - (void) startFadeOut;
@@ -37,6 +38,9 @@
 
 - (id) delegate;
 - (void) setDelegate:(id)delegate;
+
+- (BOOL) screenshotModeEnabled;
+- (void) setScreenshotModeEnabled:(BOOL)newScreenshotMode;
 
 - (void) _stopTimer;
 - (void) _waitBeforeFadeOut;

@@ -98,6 +98,19 @@ static id singleton = nil;
 	return self;
 }
 
+- (void) dealloc {
+	//free your world
+	[self stopServer];
+	[tickets release];
+	[registrationLock release];
+	[notificationQueue release];
+	[registrationQueue release];
+
+	[super dealloc];
+}
+
+#pragma mark -
+
 - (void) startServer {
 	socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
 	serverConnection = [[NSConnection alloc] initWithReceivePort:socketPort sendPort:nil];
@@ -146,18 +159,6 @@ static id singleton = nil;
 		[self stopServer];
 	}
 }
-
-- (void) dealloc {
-	//free your world
-	[self stopServer];
-	[tickets release];
-	[registrationLock release];
-	[notificationQueue release];
-	[registrationQueue release];
-
-	[super dealloc];
-}
-
 
 #pragma mark -
 
@@ -321,6 +322,8 @@ static id singleton = nil;
 	}
 }
 
+#pragma mark -
+
 - (NSString *) growlVersion {
 	return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 }
@@ -372,6 +375,8 @@ static id singleton = nil;
 	return result;
 }
 
+#pragma mark -
+
 - (void) loadTickets {
 	[tickets addEntriesFromDictionary:[GrowlApplicationTicket allSavedTickets]];
 }
@@ -379,6 +384,48 @@ static id singleton = nil;
 - (void) saveTickets {
 	[[tickets allValues] makeObjectsPerformSelector:@selector(saveTicket)];
 }
+
+#pragma mark -
+
+- (NSString *)screenshotsDirectory {
+	NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Application Support/Growl/Screenshots"];
+	[[NSFileManager defaultManager] createDirectoryAtPath:path
+											   attributes:nil];
+	return path;
+}
+- (NSString *)nextScreenshotName {
+	NSFileManager *mgr = [NSFileManager defaultManager];
+
+	NSString *directory = [self screenshotsDirectory];
+	NSString *filename = nil;
+
+	NSSet *directoryContents = nil;
+	{
+		NSArray *origContents = [mgr directoryContentsAtPath:directory];
+		NSMutableArray *temp = [NSMutableArray arrayWithCapacity:[origContents count]];
+
+		NSEnumerator *filesEnum = [origContents objectEnumerator];
+		NSString *existingFilename;
+		while((existingFilename = [filesEnum nextObject])) {
+			existingFilename = [directory stringByAppendingPathComponent:[existingFilename stringByDeletingPathExtension]];
+			[temp addObject:existingFilename];
+		}
+
+		directoryContents = [NSSet setWithArray:temp];
+	}
+
+	for(unsigned long i = 1UL; i < ULONG_MAX; ++i) {
+		[filename release];
+		filename = [[NSString alloc] initWithFormat:@"Screenshot %lu", i];
+		NSString *path = [directory stringByAppendingPathComponent:filename];
+		if(![directoryContents containsObject:path])
+			break;
+	}
+
+	return [filename autorelease];
+}
+
+#pragma mark -
 
 - (void) preferencesChanged: (NSNotification *) note {
 	//[note object] is the changed key. A nil key means reload our tickets.	

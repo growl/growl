@@ -7,9 +7,17 @@
 //
 
 #import "FadingWindowController.h"
+#import "GrowlController.h"
 
 #define TIMER_INTERVAL (1.0 / 30.0)
 #define FADE_INCREMENT 0.05f
+
+@interface FadingWindowController (PRIVATE)
+
+- (void)takeScreenshot;
+
+@end
+
 
 @implementation FadingWindowController
 - (id) initWithWindow:(NSWindow *)window {
@@ -90,6 +98,7 @@
 	if ( delegate && [delegate respondsToSelector:@selector(didFadeIn:)] ) {
 		[delegate didFadeIn:self];
 	}
+	if(screenshotMode) [self takeScreenshot];
 	if ( autoFadeOut ) {
 		[self _waitBeforeFadeOut];
 	}
@@ -163,6 +172,39 @@
 
 - (void) setDelegate:(id) object {
 	delegate = object;
+}
+
+#pragma mark -
+
+- (BOOL) screenshotModeEnabled {
+	return screenshotMode;
+}
+
+- (void) setScreenshotModeEnabled:(BOOL)newScreenshotMode {
+	screenshotMode = newScreenshotMode;
+}
+
+- (void)takeScreenshot {
+	NSWindow *window = [self window];
+
+	NSRect frame = [window frame];
+	frame.origin = NSZeroPoint;
+
+	NSImage *image = [[NSImage alloc] initWithSize:frame.size];
+	[image lockFocus];
+	[[window contentView] drawRect:frame];
+	NSData *TIFF = [image TIFFRepresentation];
+	[image unlockFocus];
+	[image release];
+
+	NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithData:TIFF];
+	NSData *PNG = [bitmap representationUsingType:NSPNGFileType
+									   properties:nil];
+	[bitmap release];
+
+	GrowlController *growlController = [GrowlController standardController];
+	NSString *path = [[[growlController screenshotsDirectory] stringByAppendingPathComponent:[growlController nextScreenshotName]] stringByAppendingPathExtension:@"png"];
+	[PNG writeToFile:path atomically:NO];
 }
 
 #pragma mark -

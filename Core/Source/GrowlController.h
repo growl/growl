@@ -40,6 +40,10 @@
 
 + (id) standardController;
 
+- (void) startServer;
+- (void) stopServer;
+- (void) startStopServer;
+
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename;
 
 - (NSString *) growlVersion;
@@ -53,6 +57,9 @@
 
 - (void) loadTickets;
 - (void) saveTickets;
+
+- (NSString *)screenshotsDirectory;
+- (NSString *)nextScreenshotName;
 
 - (void) preferencesChanged:(NSNotification *) note;
 
