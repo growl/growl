@@ -1,5 +1,6 @@
 #import "BeepController.h"
 #import "GrowlApplicationBridge.h"
+#import "GrowlDefines.h"
 
 #define GROWL_NOTIFICATION_DEFAULT @"NotificationDefault"
 
