@@ -234,7 +234,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 - (void) sizeToFit {
     NSRect rect = [self frame];
-	rect.size.height = 10 + 10 + 15 + [self descriptionHeight];
+	rect.size.height = 10 + 12 + 15 + [self descriptionHeight];
 	[self setFrame:rect];
 }
 
