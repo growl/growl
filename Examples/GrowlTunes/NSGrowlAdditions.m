@@ -12,6 +12,10 @@
 @implementation NSWorkspace (GrowlAdditions)
 - (NSImage *) iconForApplication:(NSString *) inName {
 	NSString *path = [self fullPathForApplication:inName];
-	return [self iconForFile:path];
+	NSImage *appIcon = path ? [self iconForFile:path] : nil;
+	if ( appIcon ) {
+		[appIcon setSize:NSMakeSize(128.,128.)];
+	}
+	return appIcon;
 }
 @end
