@@ -25,7 +25,7 @@
 static CFArrayRef _copyAllPreferencePaneBundles(void);
 //this one copies only the first bundle found in the User, Local, Network
 //	search-path.
-static CFBundleRef _CopyGrowlPrefPaneBundle(void);
+static CFBundleRef _copyGrowlPrefPaneBundle(void);
 
 //notification callback.
 static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
@@ -202,7 +202,7 @@ void Growl_Reregister(void) {
  *Returns true if Growl is installed, false otherwise.
  */
 Boolean Growl_IsInstalled(void) {
-	return _CopyGrowlPrefPaneBundle() != NULL;
+	return _copyGrowlPrefPaneBundle() != NULL;
 }
 
 /*Growl_IsRunning
@@ -456,7 +456,7 @@ static CFArrayRef _copyAllPreferencePaneBundles(void)
 	return allPreferencePaneBundles;
 }
 
-static CFBundleRef _CopyGrowlPrefPaneBundle(void) {
+static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 	CFBundleRef		growlPrefPaneBundle = NULL;
 
 	CFStringRef		bundleIdentifier;
