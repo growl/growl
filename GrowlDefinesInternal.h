@@ -9,7 +9,13 @@
 #ifndef _GROWL_GROWLDEFINESINTERNAL_H
 #define _GROWL_GROWLDEFINESINTERNAL_H
 
-#import <CoreFoundation/CoreFoundation.h>
+#include <CoreFoundation/CoreFoundation.h>
+
+#ifdef __OBJC__
+#define XSTR(x) (@x)
+#else /* !__OBJC__ */
+#define XSTR CFSTR
+#endif /* __OBJC__ */
 
 /*!	@header	GrowlDefinesInternal.h
  *	@abstract	Defines internal Growl macros and types.
@@ -167,7 +173,7 @@ struct GrowlNetworkNotification {
  *	 a Growl registration dictionary file, GrowlHelperApp will quit when it has
  *	 finished processing the file instead of listening for notifications.
  */
-#define GrowlEnabledKey					@"GrowlEnabled"
+#define GrowlEnabledKey					XSTR("GrowlEnabled")
 
 #endif //ndef _GROWL_GROWLDEFINESINTERNAL_H
 
@@ -175,9 +181,9 @@ struct GrowlNetworkNotification {
 
 /*Since anything that needs the include guards won't be using these macros, we
  *	don't need the include guards here.
- *Good thing, since GenCarbonHeader.pl doesn't do anything down here, because of
- *	the above comment.
  */
+
+#ifdef __OBJC__
 
 /*!	@function    SYNCHRONIZE_GROWL_PREFS
  *	@abstract    Synchronizes Growl prefs so they're up-to-date.
@@ -336,3 +342,5 @@ struct GrowlNetworkNotification {
 	CFNumberRef floatValue = CFNumberCreate(NULL, kCFNumberFloatType, &value); \
 	WRITE_GROWL_PREF_VALUE(key, floatValue, domain); \
 	CFRelease(floatValue); } while(0)
+
+#endif /* __OBJC__ */

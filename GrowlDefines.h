@@ -5,6 +5,12 @@
 #ifndef _GROWLDEFINES_H
 #define _GROWLDEFINES_H
 
+#ifdef __OBJC__
+#define XSTR(x) (@x)
+#else
+#define XSTR CFSTR
+#endif
+
 /*!	@header GrowlDefines.h
  *	@abstract   Defines all the notification keys.
  *	@discussion Defines all the keys used for registration with Growl and for
@@ -39,7 +45,7 @@
  *	 For example, "SurfWriter" is a good app name, whereas "SurfWriter 2.0" and
  *	 "SurfWriter Lite" are not.
  */
-#define GROWL_APP_NAME					@"ApplicationName"
+#define GROWL_APP_NAME					XSTR("ApplicationName")
 /*!	@defined GROWL_APP_ICON
  *	@abstract The image data for your application's icon.
  *	@discussion Image data representing your application's icon. This may be
@@ -50,7 +56,7 @@
  *
  *	 Optional. Not supported by all display plugins.
  */
-#define GROWL_APP_ICON					@"ApplicationIcon"
+#define GROWL_APP_ICON					XSTR("ApplicationIcon")
 /*!	@defined GROWL_NOTIFICATIONS_DEFAULT
  *	@abstract The array of notifications to turn on by default.
  *	@discussion These are the names of the notifications that should be enabled
@@ -58,20 +64,20 @@
  *	 application reregisters, Growl will look here for any new notification
  *	 names found in GROWL_NOTIFICATIONS_ALL, but ignore any others.
  */
-#define GROWL_NOTIFICATIONS_DEFAULT		@"DefaultNotifications"
+#define GROWL_NOTIFICATIONS_DEFAULT		XSTR("DefaultNotifications")
 /*!	@defined GROWL_NOTIFICATIONS_ALL
  *	@abstract The array of all notifications your application can send.
  *	@discussion These are the names of all of the notifications that your
  *	 application may post. See GROWL_NOTIFICATION_NAME for a discussion of good
  *	 notification names.
  */
-#define GROWL_NOTIFICATIONS_ALL			@"AllNotifications"
+#define GROWL_NOTIFICATIONS_ALL			XSTR("AllNotifications")
 /*!	@defined GROWL_NOTIFICATIONS_USER_SET
  *	@abstract The array of notifications the user has turned on.
  *	@discussion This array contains the names of all the notifications the user
  *	 has enabled. Your application should not interact with this key.
  */
-#define GROWL_NOTIFICATIONS_USER_SET	@"AllowedUserNotifications"
+#define GROWL_NOTIFICATIONS_USER_SET	XSTR("AllowedUserNotifications")
 
 // UserInfo Keys for Notifications
 #pragma mark UserInfo Keys for Notifications
@@ -93,27 +99,27 @@
  *	@discussion The name of the notification. This should be human-readable, as
  *	 it's shown in the prefpane, in the list of notifications your application
  *	 supports. */
-#define GROWL_NOTIFICATION_NAME			@"NotificationName"
+#define GROWL_NOTIFICATION_NAME			XSTR("NotificationName")
 /*!	@defined GROWL_NOTIFICATION_TITLE
  *	@abstract The title to display in the notification.
  *	@discussion The title of the notification. Should be very brief.
  *	 The title usually says what happened, e.g. "Download complete".
  */
-#define GROWL_NOTIFICATION_TITLE		@"NotificationTitle"
+#define GROWL_NOTIFICATION_TITLE		XSTR("NotificationTitle")
 /*!	@defined GROWL_NOTIFICATION_DESCRIPTION
  *	@abstract The description to display in the notification.
  *	@discussion The description should be longer and more verbose than the title.
  *	 The description usually tells the subject of the action,
  *	 e.g. "Growl-0.6.dmg downloaded in 5.02 minutes".
  */
-#define GROWL_NOTIFICATION_DESCRIPTION  	@"NotificationDescription"
+#define GROWL_NOTIFICATION_DESCRIPTION  	XSTR("NotificationDescription")
 /*!	@defined GROWL_NOTIFICATION_ICON
  *	@discussion Image data for the notification icon. Must be in a format
  *	 supported by NSImage, such as TIFF, PNG, GIF, JPEG, BMP, PICT, or PDF.
  *
  *	 Optional. Not supported by all display plugins.
  */
-#define GROWL_NOTIFICATION_ICON			@"NotificationIcon"
+#define GROWL_NOTIFICATION_ICON			XSTR("NotificationIcon")
 /*!	@defined GROWL_NOTIFICATION_APP_ICON
  *	@discussion Image data for the application icon, in case GROWL_APP_ICON does
  *	 not apply for some reason. Must be in a format supported by NSImage, such
@@ -121,20 +127,20 @@
  *
  *	 Optional. Not supported by all display plugins.
  */
-#define GROWL_NOTIFICATION_APP_ICON		@"NotificationAppIcon"
+#define GROWL_NOTIFICATION_APP_ICON		XSTR("NotificationAppIcon")
 /*!	@defined GROWL_NOTIFICATION_PRIORITY
  *	@discussion The priority of the notification as an integer number from
  *	 -2 to +2 (+2 being highest).
  *
  *	 Optional. Not supported by all display plugins.
  */
-#define GROWL_NOTIFICATION_PRIORITY		@"NotificationPriority"
+#define GROWL_NOTIFICATION_PRIORITY		XSTR("NotificationPriority")
 /*!	@defined GROWL_NOTIFICATION_STICKY
  *	@discussion A Boolean number controlling whether the notification is sticky.
  *
  *	 Optional. Not supported by all display plugins.
  */
-#define GROWL_NOTIFICATION_STICKY		@"NotificationSticky"
+#define GROWL_NOTIFICATION_STICKY		XSTR("NotificationSticky")
 /*!	@defined GROWL_NOTIFICATION_CLICK_CONTEXT
  *	@abstract Identifies which notification was clicked.
  *	@discussion An identifier for the notification for clicking purposes.
@@ -147,11 +153,11 @@
  *
  *	 Optional. Not supported by all display plugins.
  */
-#define GROWL_NOTIFICATION_CLICK_CONTEXT			@"NotificationClickContext"
+#define GROWL_NOTIFICATION_CLICK_CONTEXT			XSTR("NotificationClickContext")
 
 //add documentation comments
-#define GROWL_NOTIFICATION_FORCE_APP_LINK	@"NotificationForceAppLink"
-#define GROWL_NOTIFICATION_LINKS		@"NotificationLinks"
+#define GROWL_NOTIFICATION_FORCE_APP_LINK	XSTR("NotificationForceAppLink")
+#define GROWL_NOTIFICATION_LINKS		XSTR("NotificationLinks")
 
 // Notifications
 #pragma mark Notifications
@@ -184,14 +190,14 @@
  *	 See +[GrowlApplicationBridge setGrowlDelegate:] or Growl_SetDelegate for
  *	 more information.
  */
-#define GROWL_APP_REGISTRATION			@"GrowlApplicationRegistrationNotification"
+#define GROWL_APP_REGISTRATION			XSTR("GrowlApplicationRegistrationNotification")
 /*!	@defined GROWL_APP_REGISTRATION_CONF
  *	@abstract The distributed notification for confirming registration.
  *	@discussion The name of the distributed notification sent to confirm the
  *	 registration. Used by the Growl preference pane. Your application probably
  *	 does not need to use this notification.
  */
-#define GROWL_APP_REGISTRATION_CONF		@"GrowlApplicationRegistrationConfirmationNotification"
+#define GROWL_APP_REGISTRATION_CONF		XSTR("GrowlApplicationRegistrationConfirmationNotification")
 /*!	@defined GROWL_NOTIFICATION
  *	@abstract The distributed notification for Growl notifications.
  *	@discussion This is what it all comes down to. This is the name of the
@@ -216,24 +222,24 @@
  *	 Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext, and
  *	 Growl_PostNotification.
  */
-#define GROWL_NOTIFICATION				@"GrowlNotification"
+#define GROWL_NOTIFICATION				XSTR("GrowlNotification")
 /*!	@defined GROWL_SHUTDOWN
  *	@abstract The distributed notification name that tells Growl to shutdown.
  *	@discussion The Growl preference pane posts this notification when the
  *	 "Stop Growl" button is clicked.
  */
-#define GROWL_SHUTDOWN					@"GrowlShutdown"
+#define GROWL_SHUTDOWN					XSTR("GrowlShutdown")
 /*!	@defined GROWL_PING
  *	@abstract A distributed notification to check whether Growl is running.
  *	@discussion This is used by the Growl preference pane. If it receives a
  *	 GROWL_PONG, the preference pane takes this to mean that Growl is running.
  */
-#define GROWL_PING						@"Honey, Mind Taking Out The Trash"
+#define GROWL_PING						XSTR("Honey, Mind Taking Out The Trash")
 /*!	@defined GROWL_PONG
  *	@abstract The distributed notification sent in reply to GROWL_PING.
  *	@discussion GrowlHelperApp posts this in reply to GROWL_PING.
  */
-#define GROWL_PONG						@"What Do You Want From Me, Woman"
+#define GROWL_PONG						XSTR("What Do You Want From Me, Woman")
 /*!	@defined GROWL_IS_READY
  *	@abstract The distributed notification sent when Growl starts up.
  *	@discussion GrowlHelperApp posts this when it has begin listening on all of
@@ -241,7 +247,7 @@
  *	 Growl.framework), upon receiving this notification, reregisters using the
  *	 registration dictionary supplied by its delegate.
  */
-#define GROWL_IS_READY					@"Lend Me Some Sugar; I Am Your Neighbor!"
+#define GROWL_IS_READY					XSTR("Lend Me Some Sugar; I Am Your Neighbor!")
 /*!	@defined GROWL_NOTIFICATION_CLICKED
  *	@abstract The distributed notification sent when a supported notification is clicked.
  *	@discussion When a Growl notification with a click context is clicked on by
@@ -249,7 +255,7 @@
  *	 The GrowlApplicationBridge responds to this notification by calling a
  *	 callback in its delegate.
  */
-#define GROWL_NOTIFICATION_CLICKED             @"GrowlClicked!"
+#define GROWL_NOTIFICATION_CLICKED             XSTR("GrowlClicked!")
 
 /*!	@group Other symbols
  *	@abstract Symbols which don't fit into any of the other categories.
@@ -260,7 +266,7 @@
  *	@discussion This key is used in GROWL_NOTIFICATION_CLICKED, and contains the
  *	 click context that was supplied in the original notification.
  */
-#define GROWL_KEY_CLICKED_CONTEXT              @"ClickedContext"
+#define GROWL_KEY_CLICKED_CONTEXT              XSTR("ClickedContext")
 /*!	@defined GROWL_REG_DICT_EXTENSION
  *	@abstract The filename extension for registration dictionaries.
  *	@discussion The GrowlApplicationBridge in Growl.framework registers with
@@ -269,6 +275,6 @@
  *	 running; if it was stopped, it quits immediately without listening for
  *	 notifications.
  */
-#define GROWL_REG_DICT_EXTENSION		@"growlRegDict"
+#define GROWL_REG_DICT_EXTENSION		XSTR("growlRegDict")
 
 #endif //ndef _GROWLDEFINES_H

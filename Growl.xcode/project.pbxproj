@@ -2260,21 +2260,6 @@
 			settings = {
 			};
 		};
-		3433539A0792F73800C84B15 = {
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				GrowlDefines.h,
-			);
-			isa = PBXShellScriptBuildPhase;
-			outputPaths = (
-				GrowlDefinesCarbon.h,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/bin/perl GenCarbonHeader.pl\n";
-		};
 		343353E80792F7CF00C84B15 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2357,21 +2342,6 @@
 					Public,
 				);
 			};
-		};
-		343354ED0792FB3100C84B15 = {
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				GrowlDefines.h,
-			);
-			isa = PBXShellScriptBuildPhase;
-			outputPaths = (
-				GrowlDefinesCarbon.h,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/bin/perl GenCarbonHeader.pl\n";
 		};
 		343354EE0792FC2000C84B15 = {
 			fileRef = 343354B20792F84B00C84B15;
@@ -2620,7 +2590,6 @@
 		};
 		34F60EAA078E1CD500CECA86 = {
 			buildPhases = (
-				3433539A0792F73800C84B15,
 				34F60EA6078E1CD500CECA86,
 				34F60EA7078E1CD500CECA86,
 				34F60EA8078E1CD500CECA86,
@@ -2798,7 +2767,6 @@
 		};
 		34F60EF8078E226300CECA86 = {
 			buildPhases = (
-				343354ED0792FB3100C84B15,
 				34F60EF4078E226300CECA86,
 				34F60EF5078E226300CECA86,
 				34F60EF6078E226300CECA86,
