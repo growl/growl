@@ -409,7 +409,7 @@ static id singleton = nil;
 		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
 	}
 
-	NSString *currVersionNumber = [self growlVersion];
+	NSString *currVersionNumber = [GrowlController growlVersion];
 	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:@"Growl"];
 
