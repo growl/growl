@@ -1,5 +1,15 @@
+0.6.1
+
+- Resolved issue with the framework installed with Growl. Thanks to Timothy Hatcher to finding this issue.
+- Updated Entourage Advanced script to work with Growl .6.x
+
 0.6
-Bindings
+New to the DMG
+	- Scripts
+	- Extras
+	- More documentation
+
+Bindings (available in a separate download on the website)
 	- Java
 	- Ruby
 
