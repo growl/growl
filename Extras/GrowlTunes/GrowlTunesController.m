@@ -55,6 +55,7 @@ static NSString *iTunesAppName	= @"iTunes.app";
 static NSString *iTunesBundleID = @"com.apple.itunes";
 
 static NSString *pollIntervalKey = @"Poll interval";
+static NSString *noMenuKey = @"GrowlTunesWithoutMenu";
 static NSString *recentTrackCount = @"Recent Tracks Count";
 
 //status item menu item tags.
@@ -140,8 +141,8 @@ enum {
 																name:@"com.apple.iTunes.playerInfo"
 															  object:nil];
 	}
-	
-	[self createStatusItem];
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
+		[self createStatusItem];
 }
 
 - (void)dealloc {
@@ -321,7 +322,8 @@ enum {
 		trackURL = [newTrackURL retain];
 		
 		// Recent Tracks
-		[self addTuneToRecentTracks:track fromPlaylist:playlistName];
+		if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
+			[self addTuneToRecentTracks:track fromPlaylist:playlistName];
 	}
 }
 
@@ -458,7 +460,8 @@ enum {
 		trackID = newTrackID;
 		
 		// Recent Tracks
-		[self addTuneToRecentTracks:track fromPlaylist:playlistName];
+		if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
+			[self addTuneToRecentTracks:track fromPlaylist:playlistName];
 	}
 }
 

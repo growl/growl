@@ -91,10 +91,15 @@ For .7 or sooner
 				    imageData:(NSData *)inImageData 
 				   andOptions:(GrowlOptionsFlags)inFlags
 
+- Growltunes
+	- preference to choose menu/dock/both
+	- preference to retrieve artwork from web
+	- preference to archive artwork
+	- preference to change NSStatusItem
+	- hotkeys to change track ?
+
 - Other
 	- Make GrowlMail not run while applying rules if possible
-	- Growltunes needs preferences.
-
 
 For .8 or sooner
 
