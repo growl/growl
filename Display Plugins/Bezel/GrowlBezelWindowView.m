@@ -88,17 +88,31 @@
 	// rects
 	NSRect titleRect, textRect;
 	NSPoint iconPoint;
-	int maxRows;
+	int maxRows, iconOffset;
+	float maxIconSize;
+	NSSize iconSize = [_icon size];
 	if (sizePref == BEZEL_SIZE_NORMAL) {
 		titleRect = NSMakeRect(12., 90., 187., 30.);
 		textRect =  NSMakeRect(12., 4., 187., 80.);
-		iconPoint = NSMakePoint(82., 120.);
 		maxRows = 4;
+		maxIconSize = 72.;
+		if ( iconSize.width < maxIconSize ) {
+			iconOffset = ceil( (maxIconSize - iconSize.width) / 2. );
+		} else {
+			iconOffset = 0;
+		}
+		iconPoint = NSMakePoint(70. + iconOffset, 120.);
 	} else {
 		titleRect = NSMakeRect(8., 52., 143., 24.);
 		textRect =  NSMakeRect(8., 4., 143., 49.);
-		iconPoint = NSMakePoint(57., 83.);
 		maxRows = 2;
+		maxIconSize = 48.;
+		if ( iconSize.width < maxIconSize ) {
+			iconOffset = ceil( (maxIconSize - iconSize.width) / 2. );
+		} else {
+			iconOffset = 0;
+		}
+		iconPoint = NSMakePoint(57. + iconOffset, 83.);
 	}
 	
 	// Draw the title, resize if text too big
@@ -145,28 +159,27 @@
 	}
 	[_text drawInRect:textRect withAttributes:textAttributes];
 	
-	NSSize iconSize = [_icon size];
-	if ( iconSize.width > 48. || iconSize.height > 48. ) {
+	if ( iconSize.width > maxIconSize || iconSize.height > maxIconSize ) {
 		// scale the image appropiately
 		float newWidth, newHeight, newX, newY;
 		if ( iconSize.width > iconSize.height ) {
-			newWidth = 48.;
-			newHeight = 48. / iconSize.width * iconSize.height;
+			newWidth = maxIconSize;
+			newHeight = maxIconSize / iconSize.width * iconSize.height;
 		} else if( iconSize.width < iconSize.height ) {
-			newWidth = 48. / iconSize.height * iconSize.width;
-			newHeight = 48.;
+			newWidth = maxIconSize / iconSize.height * iconSize.width;
+			newHeight = maxIconSize;
 		} else {
-			newWidth = 48.;
-			newHeight = 48.;
+			newWidth = maxIconSize;
+			newHeight = maxIconSize;
 		}
 		
-		newX = floorf((48 - newWidth) / 2.);
-		newY = floorf((48 - newHeight) / 2.);
+		newX = floorf((maxIconSize - newWidth) / 2.);
+		newY = floorf((maxIconSize - newHeight) / 2.);
 		
 		NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
 		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
 		[_icon autorelease];
-		_icon = [[NSImage alloc] initWithSize:NSMakeSize(48., 48.)];
+		_icon = [[NSImage alloc] initWithSize:NSMakeSize(maxIconSize, maxIconSize)];
 		[_icon lockFocus];
 		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
 		[sourceImageRep drawInRect:newBounds];
