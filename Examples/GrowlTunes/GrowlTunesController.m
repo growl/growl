@@ -191,7 +191,7 @@ enum {
 				else {
 					NSEnumerator *pluginEnum = [plugins objectEnumerator];
 					id plugin;
-					while((artwork == nil) && (plugin = [pluginEnum nextObject])) {
+					while( (artwork == nil) && (plugin = [pluginEnum nextObject]) ) {
 						artwork = [plugin artworkForTitle:track
 												 byArtist:artist
 												  onAlbum:album];

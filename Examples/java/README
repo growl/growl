@@ -1,0 +1,2 @@
+javac -g -classpath /System/Library/Java *.java;
+java -classpath .:/System/Library/Java jnotify
