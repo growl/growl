@@ -12,6 +12,7 @@
 #import "GrowlBubblesDefines.h"
 #import "GrowlStringAdditions.h"
 #import "GrowlImageAdditions.h"
+#import "GrowlBezierPathAdditions.h"
 #import <math.h>
 
 static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outData )
@@ -81,38 +82,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	[[NSColor clearColor] set];
 	NSRectFill( [self frame] );
 
-	float lineWidth = 4.f;
-	NSBezierPath *path = [NSBezierPath bezierPath];
-	[path setLineWidth:lineWidth];
-
-	float radius = 9.f;
-	float inset = radius + lineWidth;
-	NSRect irect = NSInsetRect( bounds, inset, inset );
-	float minX = NSMinX( irect );
-	float minY = NSMinY( irect );
-	float maxX = NSMaxX( irect );
-	float maxY = NSMaxY( irect );
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( minX, minY )
-									 radius:radius 
-								 startAngle:180.f
-								   endAngle:270.f];
-	
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( maxX, minY ) 
-									 radius:radius 
-								 startAngle:270.f
-								   endAngle:360.f];
-	
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( maxX, maxY )
-									 radius:radius 
-								 startAngle:0.f
-								   endAngle:90.f];
-	
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( minX, maxY )
-									 radius:radius 
-								 startAngle:90.f
-								   endAngle:180.f];
-
-	[path closePath];
+	NSBezierPath *path = [NSBezierPath roundedRectPath:bounds radius:9.f lineWidth:4.f];
 
 	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
 	[graphicsContext saveGraphicsState];

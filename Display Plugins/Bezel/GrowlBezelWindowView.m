@@ -8,6 +8,7 @@
 
 #import "GrowlBezelWindowView.h"
 #import "GrowlImageAdditions.h"
+#import "GrowlBezierPathAdditions.h"
 
 #define BORDER_RADIUS 20.0f
 #define ELLIPSIS_STRING @"..."
@@ -36,47 +37,18 @@
 
 - (void)drawRect:(NSRect)rect {
 	NSRect bounds = [self bounds];
-	NSBezierPath *bezelPath = [NSBezierPath bezierPath];
-	NSPoint topLeft = NSMakePoint(bounds.origin.x, bounds.origin.y);
-	NSPoint topRight = NSMakePoint(bounds.origin.x + bounds.size.width, bounds.origin.y);
-	NSPoint bottomLeft = NSMakePoint(bounds.origin.x, bounds.origin.y + bounds.size.height);
-	NSPoint bottomRight = NSMakePoint(bounds.origin.x + bounds.size.width, bounds.origin.y + bounds.size.height);
+
+	// clear the window
 	[[NSColor clearColor] set];
 	NSRectFill( [self frame] );
 
-	[bezelPath appendBezierPathWithArcWithCenter:NSMakePoint(topLeft.x + BORDER_RADIUS, topLeft.y + BORDER_RADIUS)
-			radius:BORDER_RADIUS
-			startAngle:180.f
-			endAngle:270.f
-			clockwise:NO];
-	[bezelPath lineToPoint:NSMakePoint(topRight.x - BORDER_RADIUS, topRight.y)];
-	
-	[bezelPath appendBezierPathWithArcWithCenter:NSMakePoint(topRight.x - BORDER_RADIUS, topRight.y + BORDER_RADIUS)
-			radius:BORDER_RADIUS
-			startAngle:270.f
-			endAngle:0.f
-			clockwise:NO];
-	[bezelPath lineToPoint:NSMakePoint(bottomRight.x, bottomRight.y - BORDER_RADIUS)];
-	
-	[bezelPath appendBezierPathWithArcWithCenter:NSMakePoint(bottomRight.x - BORDER_RADIUS, bottomRight.y - BORDER_RADIUS)
-			radius:BORDER_RADIUS
-			startAngle:0.f
-			endAngle:90.f
-			clockwise:NO];
-	[bezelPath lineToPoint:NSMakePoint(bottomLeft.x + BORDER_RADIUS, bottomLeft.y)];
-	
-	[bezelPath appendBezierPathWithArcWithCenter:NSMakePoint(bottomLeft.x + BORDER_RADIUS, bottomLeft.y - BORDER_RADIUS)
-			radius:BORDER_RADIUS
-			startAngle:90.f
-			endAngle:180.f
-			clockwise:NO];
-	[bezelPath lineToPoint:NSMakePoint(topLeft.x, topLeft.y + BORDER_RADIUS)];
+	NSBezierPath *path = [NSBezierPath roundedRectPath:bounds radius:BORDER_RADIUS lineWidth:1.f];
 
 	int opacityPref = 40;
 	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
 	
 	[[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:(opacityPref*0.01f)] set];
-	[bezelPath fill];
+	[path fill];
 	
 	int sizePref = 0;
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);

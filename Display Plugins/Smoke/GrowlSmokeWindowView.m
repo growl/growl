@@ -11,6 +11,9 @@
 #import "GrowlDefines.h"
 #import "GrowlStringAdditions.h"
 #import "GrowlImageAdditions.h"
+#import "GrowlBezierPathAdditions.h"
+
+#define BORDER_RADIUS	5.0f
 
 @implementation GrowlSmokeWindowView
 
@@ -46,13 +49,7 @@
 	[[NSColor clearColor] set];
 	NSRectFill( [self frame] );
 
-	// set up bezier path for rounded corners
-	float lineWidth = 1.f;
-	NSBezierPath *path = [NSBezierPath bezierPath];
-	[path setLineWidth:lineWidth];
-
 	// draw bezier path for rounded corners
-	float radius = 5.f;
 	unsigned int sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding * 0.5f);
 
 	// calculate bounds based on icon-float pref on or off
@@ -68,33 +65,8 @@
 		shadedBounds = bounds;
 	}
 
-	NSRect irect = NSInsetRect(shadedBounds, radius + lineWidth, radius + lineWidth);
-	float minX = NSMinX( irect );
-	float minY = NSMinY( irect );
-	float maxX = NSMaxX( irect );
-	float maxY = NSMaxY( irect );
-	
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( minX, minY )
-									 radius:radius 
-								 startAngle:180.f
-								   endAngle:270.f];
-	
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( maxX, minY )
-									 radius:radius 
-								 startAngle:270.f
-								   endAngle:360.f];
-
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( maxX, maxY )
-									 radius:radius 
-								 startAngle:0.f
-								   endAngle:90.f];
-
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( minX, maxY )
-									 radius:radius 
-								 startAngle:90.f
-								   endAngle:180.f];
-
-	[path closePath];
+	// set up bezier path for rounded corners
+	NSBezierPath *path = [NSBezierPath roundedRectPath:shadedBounds radius:BORDER_RADIUS lineWidth:1.f];
 
 	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
 	[graphicsContext saveGraphicsState];
