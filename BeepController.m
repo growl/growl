@@ -97,7 +97,7 @@
 }
 
 
-- (void)growlDidLaunch:(id)context {
+- (void)growlDidLaunch:(void *)context {
 	
 	NSLog(@"Growl engaged, Captain!");
 	

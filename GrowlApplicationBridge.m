@@ -17,7 +17,7 @@
 @implementation GrowlApplicationBridge
 
 /*
-+ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(id)context
++ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context
 Returns YES (TRUE) if the Growl helper app began launching.
 Returns NO (FALSE) and performs no other action if the Growl prefPane is not properly installed.
 GrowlApplicationBridge will send "selector" to "target" when Growl is ready for use (this will only occur when it also returns YES).
@@ -66,7 +66,9 @@ static  NSMutableArray *targetsToNotifyArray = nil;
 		
 		//We probably will never have more than one target/selector/context set at a time, but this is cleaner than the alternatives
 		if (!targetsToNotifyArray) targetsToNotifyArray = [[NSMutableArray alloc] init];
-		NSDictionary	*infoDict = [NSDictionary dictionaryWithObjectsAndKeys:target,@"Target",NSStringFromSelector(selector),@"Selector",context,@"Context",nil];
+		NSDictionary	*infoDict = [NSDictionary dictionaryWithObjectsAndKeys:target,@"Target",
+										NSStringFromSelector(selector),@"Selector",
+										[NSValue valueWithPointer:context],@"Context",nil];
 		[targetsToNotifyArray addObject:infoDict];
 		
 		//Houston, we are go for launch.
@@ -86,7 +88,7 @@ static  NSMutableArray *targetsToNotifyArray = nil;
 	while (infoDict = [enumerator nextObject]){
 		id  target = [infoDict objectForKey:@"Target"];
 		SEL selector = NSSelectorFromString([infoDict objectForKey:@"Selector"]);
-		id  context = [infoDict objectForKey:@"Context"];
+		void *context = [[infoDict objectForKey:@"Context"] pointerValue];
 		
 		[target performSelector:selector
 					 withObject:context];

@@ -14,7 +14,7 @@
 }
 
 /*
- + (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(id)context
+ + (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context
  Returns YES (TRUE) if the Growl helper app began launching.
  Returns NO (FALSE) and performs no other action if the Growl prefPane is not properly installed.
  GrowlApplicationBridge will send "selector" to "target" when Growl is ready for use (this will only occur when it also returns YES).
