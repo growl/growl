@@ -313,14 +313,17 @@ static BOOL				promptedToUpgradeGrowl = NO;
 
 		//don't rely on the application to give us a path; get it ourselves.
 		NSURL *myURL = _copyCurrentProcessURL();
-		NSDictionary *file_data = [myURL dockDescription];
-		if (file_data) {
-			NSDictionary *location = [[NSDictionary alloc] initWithObjectsAndKeys:file_data, @"file-data", nil];
-			[properRegistrationDictionary setObject:location
-											 forKey:GROWL_APP_LOCATION];
-			[location release];
-		} else {
-			[properRegistrationDictionary removeObjectForKey:GROWL_APP_LOCATION];
+		if (myURL) {
+			NSDictionary *file_data = [myURL dockDescription];
+			if (file_data) {
+				NSDictionary *location = [[NSDictionary alloc] initWithObjectsAndKeys:file_data, @"file-data", nil];
+				[properRegistrationDictionary setObject:location
+												 forKey:GROWL_APP_LOCATION];
+				[location release];
+			} else {
+				[properRegistrationDictionary removeObjectForKey:GROWL_APP_LOCATION];
+			}
+			[myURL release];
 		}
 
 		registrationDictionary = properRegistrationDictionary;
