@@ -927,21 +927,20 @@ static const char *keychainAccountName = "Growl";
 
 #pragma mark -
 #pragma mark Private
+
 - (BOOL)_isGrowlRunning {
 	BOOL isRunning = NO;
-	ProcessSerialNumber PSN = {kNoProcess, kNoProcess};
-	
+	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
+
 	while (GetNextProcess(&PSN) == noErr) {
 		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-		
-		if ([[infoDict objectForKey:@"CFBundleIdentifier"] isEqualToString:@"com.Growl.GrowlHelperApp"]) {
-			isRunning = YES;
-			[infoDict release];
-			break;
-		}
+		isRunning = [[infoDict objectForKey:@"CFBundleIdentifier"] isEqualToString:@"com.Growl.GrowlHelperApp"];
 		[infoDict release];
+
+		if (isRunning)
+			break;
 	}
-	
+
 	return isRunning;
 }
 
