@@ -734,7 +734,7 @@ static id singleton = nil;
 					//write the new ticket to disk, and be sure to launch this ticket instead of the one in the app bundle.
 					NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
 					ticketPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:UUID] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
-					BOOL success = [ticket writeToFile:ticketPath atomically:NO];
+					[ticket writeToFile:ticketPath atomically:NO];
 				}
 
 				/*open the ticket with ourselves.
