@@ -19,10 +19,10 @@ extern NSString *_copyCurrentProcessName(void);
 
 @interface GrowlApplicationBridge (PRIVATE)
 /*!
-	@method growlPrefPaneBundle
-	@abstract Returns the bundle containing Growl's PrefPane.
-	@discussion Searches all installed PrefPanes for the Growl PrefPane.
-	@result Returns an NSBundle if Growl's PrefPane is installed, nil otherwise
+ *	@method growlPrefPaneBundle
+ *	@abstract Returns the bundle containing Growl's PrefPane.
+ *	@discussion Searches all installed PrefPanes for the Growl PrefPane.
+ *	@result Returns an NSBundle if Growl's PrefPane is installed, nil otherwise
  */
 + (NSBundle *) growlPrefPaneBundle;
 
@@ -30,12 +30,13 @@ extern NSString *_copyCurrentProcessName(void);
 + (NSArray *) _allPreferencePaneBundles;
 
 /*!
-	@method launchGrowlIfInstalled
-	@abstract Launches GrowlHelperApp
-	@discussion Launches the GrowlHelperApp if it's not already running. GROWL_IS_READY will be posted to the distributed
-		notification center once it is ready.
-	@result Returns YES if GrowlHelperApp began launching or was already running, NO if Growl isn't installed
-*/
+ *	@method launchGrowlIfInstalled
+ *	@abstract Launches GrowlHelperApp
+ *	@discussion Launches the GrowlHelperApp if it's not already running.
+ *	 GROWL_IS_READY will be posted to the distributed notification center
+ *	 once it is ready.
+ *	@result Returns YES if GrowlHelperApp began launching or was already running, NO if Growl isn't installed
+ */
 + (BOOL) launchGrowlIfInstalled;
 
 
@@ -73,7 +74,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
  */
 + (void) setGrowlDelegate:(NSObject<GrowlApplicationBridgeDelegate> *)inDelegate {
 	NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
-	
+
 	[delegate autorelease];
 	delegate = [inDelegate retain];
 
@@ -224,8 +225,6 @@ static BOOL				promptedToUpgradeGrowl = NO;
 				
 				regStatus = FSPathMakeRef((UInt8 *)[regDictPath fileSystemRepresentation], &regItemRef, NULL);
 				if (regStatus == noErr) passRegDict = YES;
-
-				[registrationDict release];
 			}
 
 			spec.appRef = &appRef;
