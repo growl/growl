@@ -17,10 +17,10 @@ static unsigned bubbleWindowDepth = 0U;
 
 @implementation GrowlBubblesWindowController
 
-#define MIN_DISPLAY_TIME 4.0
-#define ADDITIONAL_LINES_DISPLAY_TIME 0.5
-#define MAX_DISPLAY_TIME 10.0
-#define GrowlBubblesPadding 10.0f
+#define MIN_DISPLAY_TIME				4.0
+#define ADDITIONAL_LINES_DISPLAY_TIME	0.5
+#define MAX_DISPLAY_TIME				10.0
+#define GrowlBubblesPadding				10.0f
 
 #pragma mark -
 
@@ -94,11 +94,13 @@ static unsigned bubbleWindowDepth = 0U;
 		int rowCount = MIN ([view descriptionRowCount], 0) - 2;
 		BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
+		float duration = MIN_DISPLAY_TIME;
+		READ_GROWL_PREF_FLOAT(GrowlBubblesDuration, GrowlBubblesPrefDomain, &duration);
 		if (!limitPref) {
-			displayTime = MIN (MIN_DISPLAY_TIME + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
+			displayTime = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
 							   MAX_DISPLAY_TIME);
 		} else {
-			displayTime = MIN_DISPLAY_TIME;
+			displayTime = duration;
 		}
 	}
 

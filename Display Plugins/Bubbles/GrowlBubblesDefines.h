@@ -11,6 +11,7 @@
 #define GrowlBubblesEmergencyTextColor	@"Bubbles-Priority-Emergency-Text-Color"
 
 #define GrowlBubblesOpacity				@"Bubbles-Opacity"
+#define GrowlBubblesDuration			@"Bubbles-Duration"
 
 #define KALimitPref						@"Bubbles - Limit"
 

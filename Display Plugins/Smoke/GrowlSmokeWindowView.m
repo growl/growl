@@ -193,8 +193,10 @@ static float titleHeight;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
 
 	[bgColor release];
+
+	Class NSArrayClass = [NSArray class];
 	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, NSArray *, &array);
-	if (array && [array isKindOfClass:[NSArray class]]) {
+	if (array && [array isKindOfClass:NSArrayClass]) {
 		bgColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 											 green:[[array objectAtIndex:1U] floatValue]
 											  blue:[[array objectAtIndex:2U] floatValue]
@@ -207,7 +209,7 @@ static float titleHeight;
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlSmokePrefDomain, NSArray *, &array);
-	if (array && [array isKindOfClass:[NSArray class]]) {
+	if (array && [array isKindOfClass:NSArrayClass]) {
 		textColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 											   green:[[array objectAtIndex:1U] floatValue]
 												blue:[[array objectAtIndex:2U] floatValue]

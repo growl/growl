@@ -62,13 +62,6 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	if ( (self = [super initWithFrame:frame] ) ) {
 		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
-		icon   = nil;
-		title  = nil;
-		text   = nil;
-		textHeight = 0.0f;
-		titleHeight = 0.0f;
-		target = nil;
-		action = NULL;
 		borderColor = [[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:0.5f] retain];
 	}
 	return self;
@@ -211,23 +204,28 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 										 blue:0.96078f
 										alpha:backgroundAlpha];
 
+	Class NSArrayClass = [NSArray class];
 	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSArray *, &array);
-    if (array && [array isKindOfClass:[NSArray class]]) {
-        bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-											green:[[array objectAtIndex:1U] floatValue]
-											 blue:[[array objectAtIndex:2U] floatValue]
-											alpha:backgroundAlpha];
+    if (array) {
+		if ([array isKindOfClass:NSArrayClass]) {
+			bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
+												green:[[array objectAtIndex:1U] floatValue]
+												 blue:[[array objectAtIndex:2U] floatValue]
+												alpha:backgroundAlpha];
+		}
         [array release];
     }
     [bgColor retain];
 
 	textColor = [NSColor controlTextColor];
 	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, NSArray *, &array);
-    if (array && [array isKindOfClass:[NSArray class]]) {
-        textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-											  green:[[array objectAtIndex:1U] floatValue]
-											   blue:[[array objectAtIndex:2U] floatValue]
-											  alpha:1.0f];
+    if (array) {
+		if ([array isKindOfClass:NSArrayClass]) {
+			textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
+												  green:[[array objectAtIndex:1U] floatValue]
+												   blue:[[array objectAtIndex:2U] floatValue]
+												  alpha:1.0f];
+		}
         [array release];
     }
     [textColor retain];

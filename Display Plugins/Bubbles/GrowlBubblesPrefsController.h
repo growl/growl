@@ -21,12 +21,15 @@
 	IBOutlet NSColorWell	*text_normal;
 	IBOutlet NSColorWell	*text_high;
 	IBOutlet NSColorWell	*text_emergency;
-	IBOutlet NSSlider		*slider_Opacity;
-	IBOutlet NSTextField	*text_Opacity;
+	IBOutlet NSSlider		*slider_opacity;
+	IBOutlet NSTextField	*text_opacity;
+	IBOutlet NSSlider		*slider_duration;
+	IBOutlet NSTextField	*text_duration;
 }
 - (IBAction) setLimit:(id)sender;
 - (IBAction) colorChanged:(id)sender;
 - (IBAction) textColorChanged:(id)sender;
 - (IBAction) opacityChanged:(id)sender;
+- (IBAction) durationChanged:(id)sender;
 
 @end
