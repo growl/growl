@@ -41,13 +41,13 @@ static GrowlPluginController *sharedController;
 	NSEnumerator * enumerator;
 	NSString * dir;
 	
-	if ( (self = [super init]) ) {
+	if ((self = [super init])) {
 		allDisplayPlugins = [[NSMutableDictionary alloc] init];
 		
 		libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
 		
 		enumerator = [libraries objectEnumerator];
-		while ( ( dir = [enumerator nextObject] ) ) {
+		while ((dir = [enumerator nextObject])) {
 			dir = [[[dir	stringByAppendingPathComponent:@"Application Support"]
 							stringByAppendingPathComponent:@"Growl"]
 							stringByAppendingPathComponent:@"Plugins"];
@@ -77,7 +77,7 @@ static GrowlPluginController *sharedController;
 	searchPathEnumerator = [librarySearchPaths objectEnumerator];
 	
 	//Copy each discovered path into the pathArray after adding our subfolder path
-	while ((path = [searchPathEnumerator nextObject])){
+	while ((path = [searchPathEnumerator nextObject])) {
 		[pathArray addObject:[path stringByAppendingPathComponent:preferencePanesSubfolder]];
 	}
 	
@@ -89,11 +89,11 @@ static GrowlPluginController *sharedController;
 	NSEnumerator	*searchPathEnumerator;
 	NSString		*path, *prefPaneExtension;
 	NSMutableArray  *allPreferencePaneBundles = [NSMutableArray array];
-	
+
 	prefPaneExtension = PREFERENCE_PANE_EXTENSION;
 	searchPathEnumerator = [self _preferencePaneSearchEnumerator];		
-	
-	while ( (path = [searchPathEnumerator nextObject]) ) {
+
+	while ((path = [searchPathEnumerator nextObject])) {
 		NSString				*bundlePath;
 		NSDirectoryEnumerator   *bundleEnum;
 		
@@ -184,8 +184,8 @@ static GrowlPluginController *sharedController;
 	NSDirectoryEnumerator * enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
 	NSString * file;
 
-	while ( (file = [enumerator nextObject]) ) {
-		if ( [[file pathExtension] isEqualToString:@"growlView"] ) {
+	while ((file = [enumerator nextObject])) {
+		if ([[file pathExtension] isEqualToString:@"growlView"]) {
 			[self loadPlugin:[dir stringByAppendingPathComponent:file]];
 		}
 	}
@@ -220,8 +220,8 @@ static GrowlPluginController *sharedController;
 
 - (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	NSString *filename = (NSString *)contextInfo;
-	
-	if ( returnCode == NSAlertAlternateReturn ) {
+
+	if (returnCode == NSAlertAlternateReturn) {
 		NSString *pluginFile = [filename lastPathComponent];
 		NSString *destination = [[[[[NSHomeDirectory()
 			stringByAppendingPathComponent:@"Library"]
@@ -235,7 +235,7 @@ static GrowlPluginController *sharedController;
 		[fileManager removeFileAtPath:destination handler:nil];
 
 		// copy new version to destination
-		if ( [fileManager copyPath:filename toPath:destination handler:nil] ) {
+		if ([fileManager copyPath:filename toPath:destination handler:nil]) {
 			NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
 											NSLocalizedString( @"No", @"" ),
 											NSLocalizedString( @"Yes", @"" ),
@@ -267,7 +267,7 @@ static GrowlPluginController *sharedController;
 	// retain a copy of the filename because it is passed as context to the sheetDidEnd selectors
 	NSString *filenameCopy = [[NSString alloc] initWithString:filename];
 
-	if ( [[NSFileManager defaultManager] fileExistsAtPath:destination] ) {
+	if ([[NSFileManager defaultManager] fileExistsAtPath:destination]) {
 		// plugin already exists at destination
 		NSBeginAlertSheet( NSLocalizedString( @"Plugin already exists", @"" ),
 						   NSLocalizedString( @"No", @"" ),

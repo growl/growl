@@ -18,6 +18,8 @@
 	<string>キャンセル</string>
 	<key>A newer version of Growl is available online. Would you like to download it now?</key>
 	<string>新しいバージョンのGrowlが公開されています。今すぐダウンロードしますか?</string>
+	<key>A newer version of Growl is available online. Click here to download it now.</key>
+	<string>A newer version of Growl is available online. Click here to download it now.</string>
 	<key>Update Available</key>
 	<string>アップデートがあります</string>
 	<key>OK</key>

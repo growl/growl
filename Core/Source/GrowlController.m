@@ -45,7 +45,7 @@ static id singleton = nil;
 }
 
 - (id) init {
-	if ( (self = [super init]) ) {
+	if ((self = [super init])) {
 		NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
 
 		[NSDNC addObserver:self
@@ -67,7 +67,7 @@ static id singleton = nil;
 	
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector( notificationClicked: )
+												 selector:@selector(notificationClicked:)
 													 name:GROWL_NOTIFICATION_CLICKED
 												   object:nil];
 
@@ -99,6 +99,8 @@ static id singleton = nil;
 		if (!singleton) {
 			singleton = self;
 		}
+
+		[self checkVersion];
 	}
 
 	return self;
@@ -116,6 +118,9 @@ static id singleton = nil;
 
 	[growlIcon     release];
 	[growlIconData release];
+
+	[versionCheckURL release];
+	[downloadURL     release];
 
 	[super dealloc];
 }
@@ -262,8 +267,8 @@ static id singleton = nil;
 	if (enableForward) {
 		NSEnumerator *enumerator = [destinations objectEnumerator];
 		NSDictionary *entry;
-		while ( (entry = [enumerator nextObject]) ) {
-			if ( [[entry objectForKey:@"use"] boolValue] ) {
+		while ((entry = [enumerator nextObject])) {
+			if ([[entry objectForKey:@"use"] boolValue]) {
 				NSData *destAddress = [entry objectForKey:@"address"];
 				NSSocketPort *serverPort = [[NSSocketPort alloc]
 					initRemoteWithProtocolFamily:AF_INET
@@ -289,13 +294,14 @@ static id singleton = nil;
 	GrowlApplicationTicket *newApp = [tickets objectForKey:appName];
 
 	NSString *notificationName;
-	if ( !newApp ) {
-		newApp = [[[GrowlApplicationTicket alloc] initWithDictionary:userInfo] autorelease];
-		[tickets setObject:newApp forKey:appName];
-		notificationName = @"Application registered";		
-	} else {
+	if (newApp) {
 		[newApp reregisterWithDictionary:userInfo];
 		notificationName = @"Application re-registered";
+	} else {
+		newApp = [[GrowlApplicationTicket alloc] initWithDictionary:userInfo];
+		[tickets setObject:newApp forKey:appName];
+		[newApp release];
+		notificationName = @"Application registered";		
 	}
 
 	[newApp saveTicket];
@@ -313,8 +319,8 @@ static id singleton = nil;
 	if (enableForward) {
 		NSEnumerator *enumerator = [destinations objectEnumerator];
 		NSDictionary *entry;
-		while ( (entry = [enumerator nextObject]) ) {
-			if ( [[entry objectForKey:@"use"] boolValue] ) {
+		while ((entry = [enumerator nextObject])) {
+			if ([[entry objectForKey:@"use"] boolValue]) {
 				NSData *destAddress = [entry objectForKey:@"address"];
 				NSSocketPort *serverPort = [[NSSocketPort alloc]
 					initRemoteWithProtocolFamily:AF_INET
@@ -336,6 +342,36 @@ static id singleton = nil;
 }
 
 #pragma mark -
+- (void) growlNotificationWasClicked:(id)clickContext {
+	if ([clickContext isEqual:@"update"]) {
+		if (!downloadURL) {
+			downloadURL = [[NSURL alloc] initWithString:@"http://growl.info/"];
+		}
+		[[NSWorkspace sharedWorkspace] openURL:downloadURL];
+	}
+}
+
+- (void) checkVersion {
+	if (!versionCheckURL) {
+		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
+	}
+
+	NSString *currVersionNumber = [self growlVersion];
+	NSDictionary *productVersionDict = [NSDictionary dictionaryWithContentsOfURL:versionCheckURL];
+	NSString *latestVersionNumber = [productVersionDict objectForKey:@"Growl"];
+
+	// do nothing--be quiet if there is no active connection or if the
+	// version number could not be downloaded
+	if (latestVersionNumber && (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0)) {
+		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Update Available", @"")
+									description:NSLocalizedString(@"A newer version of Growl is available online. Click here to download it now.", @"")
+							   notificationName:@"Growl update available"
+									   iconData:growlIconData
+									   priority:1
+									   isSticky:YES
+								   clickContext:@"update"];
+	}
+}
 
 - (NSString *) growlVersion {
 	return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
@@ -363,6 +399,7 @@ static id singleton = nil;
 	}
 	return versionInfo;
 }
+
 //this method could be moved to Growl.framework, I think.
 //pass nil to get GrowlHelperApp's version as a string.
 - (NSString *)stringWithVersionDictionary:(NSDictionary *)d {
@@ -408,6 +445,7 @@ static id singleton = nil;
 											   attributes:nil];
 	return path;
 }
+
 - (NSString *)nextScreenshotName {
 	NSFileManager *mgr = [NSFileManager defaultManager];
 
@@ -421,7 +459,7 @@ static id singleton = nil;
 
 		NSEnumerator *filesEnum = [origContents objectEnumerator];
 		NSString *existingFilename;
-		while((existingFilename = [filesEnum nextObject])) {
+		while ((existingFilename = [filesEnum nextObject])) {
 			existingFilename = [directory stringByAppendingPathComponent:[existingFilename stringByDeletingPathExtension]];
 			[temp addObject:existingFilename];
 		}
@@ -429,7 +467,7 @@ static id singleton = nil;
 		directoryContents = [NSSet setWithArray:temp];
 	}
 
-	for(unsigned long i = 1UL; i < ULONG_MAX; ++i) {
+	for (unsigned long i = 1UL; i < ULONG_MAX; ++i) {
 		[filename release];
 		filename = [[NSString alloc] initWithFormat:@"Screenshot %lu", i];
 		NSString *path = [directory stringByAppendingPathComponent:filename];
@@ -501,14 +539,14 @@ static id singleton = nil;
 
 	NSLog(@"Asked to open file %@", filename);
 
-	if ( [pathExtension isEqualToString:@"growlView"] ) {
+	if ([pathExtension isEqualToString:@"growlView"]) {
 		[[GrowlPluginController controller] installPlugin:filename];
 		
 		[self _postGrowlIsReady];
 		
 		return YES;
 		
-	} else if ( [pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION] ) {						
+	} else if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
 		NSDictionary *regDict = [NSDictionary dictionaryWithContentsOfFile:filename];
 		[[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
 
@@ -519,13 +557,13 @@ static id singleton = nil;
 		} else {
 			[registrationQueue addObject:regDict];
 		}
-		
+
 		/*If Growl is not enabled and was not already running before
 		 *	(for example, via an autolaunch even though the user's last
 		 *	preference setting was to click "Stop Growl," setting enabled to NO),
 		 *	quit having registered; otherwise, remain running.
 		 */
-		if ( !growlIsEnabled && !growlFinishedLaunching ) {
+		if (!growlIsEnabled && !growlFinishedLaunching) {
 			/*We want to hold in this thread until we can lock/unlock the queue
 			 *	and ensure our registration is sent
 			 */
@@ -583,7 +621,7 @@ static id singleton = nil;
 	return YES;
 }
 
-- (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) theApplication {
+- (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
 	return NO;
 }
 
@@ -663,12 +701,14 @@ static id singleton = nil;
 
 - (NSDictionary *) registrationDictionaryForGrowl {
 	NSArray *allNotifications = [NSArray arrayWithObjects:
+		@"Growl update available",
 		@"Application registered",
 		@"Application re-registered",
 		nil];
 
 	NSArray *defaultNotifications = [NSArray arrayWithObjects:
-		[NSNumber numberWithUnsignedInt:0],
+		[NSNumber numberWithUnsignedInt:0U],
+		[NSNumber numberWithUnsignedInt:1U],
 		nil];
 
 	return [NSDictionary dictionaryWithObjectsAndKeys:
@@ -684,7 +724,7 @@ static id singleton = nil;
 @implementation GrowlController (private)
 
 - (void) loadDisplay {
-	NSString * displayPlugin = [[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey];
+	NSString *displayPlugin = [[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey];
 	displayController = [[GrowlPluginController controller] displayPluginNamed:displayPlugin];
 }
 

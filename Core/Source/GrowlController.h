@@ -42,6 +42,9 @@
 	NSDictionary				*versionInfo;
 	NSImage						*growlIcon;
 	NSData						*growlIconData;
+
+	NSURL						*versionCheckURL;
+	NSURL						*downloadURL;
 }
 
 + (id) standardController;
@@ -73,6 +76,8 @@
 - (void) shutdown:(NSNotification *)note;
 
 - (void) replyToPing:(NSNotification *)note;
+
+- (void) checkVersion;
 
 @end
 

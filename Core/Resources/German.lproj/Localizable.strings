@@ -17,7 +17,9 @@
 	<key>Cancel</key>
 	<string>Abbrechen</string>
 	<key>A newer version of Growl is available online. Would you like to download it now?</key>
-	<string>Eine neue Version von Growl is online verfügbar. Möchten Sie sie nun downloaden?</string>
+	<string>Eine neue Version von Growl is online verfügbar. Möchten Sie sie nun herunterladen?</string>
+	<key>A newer version of Growl is available online. Click here to download it now.</key>
+	<string>Eine neue Version von Growl is online verfügbar. Klicken Sie hier um sie herunterzuladen.</string>
 	<key>Update Available</key>
 	<string>Update verfügbar</string>
 	<key>OK</key>

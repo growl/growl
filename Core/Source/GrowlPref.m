@@ -80,7 +80,6 @@ static const char *keychainAccountName = "Growl";
 	}
 	if (!downloadURL) {
 		downloadURL = [[NSURL alloc] initWithString:@"http://growl.info/"];
-		NSLog( @"downloadURL: %@", downloadURL );
 	}
 
 	[self checkVersionAtURL:versionCheckURL
@@ -106,7 +105,7 @@ static const char *keychainAccountName = "Growl";
 
 	// do nothing--be quiet if there is no active connection or if the
 	// version number could not be downloaded
-	if ( latestVersionNumber && (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0) ) {
+	if (latestVersionNumber && (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0)) {
 		NSBeginAlertSheet(/*title*/ NSLocalizedStringFromTableInBundle(@"Update Available", nil, bundle, @""),
 						  /*defaultButton*/ nil, // use default localized button title ("OK" in English)
 						  /*alternateButton*/ NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
@@ -121,7 +120,7 @@ static const char *keychainAccountName = "Growl";
 }
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-	if ( returnCode == NSAlertDefaultReturn ) {
+	if (returnCode == NSAlertDefaultReturn) {
 		[[NSWorkspace sharedWorkspace] openURL:contextInfo];
 	}
 }

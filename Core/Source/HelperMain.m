@@ -18,11 +18,11 @@ int main(void) {
 
 	[NSApp setDelegate:theOneRingToRuleThemAll];
 	[NSApp run];
-	
+
 	[theOneRingToRuleThemAll release];
 	[NSApp release];
 	[pool release];
-	
+
 	return EXIT_SUCCESS;
 }
 

@@ -10,7 +10,6 @@
 
 #import "GrowlApplicationTicket.h"
 #import "GrowlApplicationNotification.h"
-#import "GrowlController.h"
 #import "GrowlDefines.h"
 #import "GrowlDisplayProtocol.h"
 #import "NSGrowlAdditions.h"
@@ -32,7 +31,7 @@
 	NSString *libraryPath, *growlSupportPath;
 	NSMutableDictionary *result = [NSMutableDictionary dictionary];
 
-	while ( ( libraryPath = [libraryDirEnum nextObject] ) ) {
+	while ((libraryPath = [libraryDirEnum nextObject])) {
 		growlSupportPath = [libraryPath      stringByAppendingPathComponent:@"Application Support"];
 		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Growl"];
 		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Tickets"];
@@ -53,16 +52,16 @@
 	NSDirectoryEnumerator *growlSupportEnum = [mgr enumeratorAtPath:srcDir];
 	NSString *filename;
 
-	while ( ( filename = [growlSupportEnum nextObject] ) ) {
+	while ((filename = [growlSupportEnum nextObject])) {
 		filename = [srcDir stringByAppendingPathComponent:filename];
 		[mgr fileExistsAtPath:filename isDirectory:&isDir];
 
-		if ( (!isDir) && [[filename pathExtension] isEqualToString:@"growlTicket"] ) {
+		if ((!isDir) && [[filename pathExtension] isEqualToString:@"growlTicket"]) {
 			GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketFromPath:filename];
 			if (newTicket) {
 				NSString *applicationName = [newTicket applicationName];
 
-				if ( clobber || ![dict objectForKey:applicationName] ) {
+				if (clobber || ![dict objectForKey:applicationName]) {
 					[dict setObject:newTicket forKey:applicationName];
 				}
 				[newTicket release];
@@ -113,7 +112,7 @@
 		NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
 		NSMutableDictionary *allNotificationsTemp = [NSMutableDictionary dictionary];
 		id obj;
-		while ( (obj = [notificationsEnum nextObject] ) ) {
+		while ((obj = [notificationsEnum nextObject])) {
 			if ([obj isKindOfClass:[NSString class]]) {
 				[allNotificationsTemp setObject:[GrowlApplicationNotification notificationWithName:obj] forKey:obj];
 				[self setAllowedNotifications:[ticketDict objectForKey:GROWL_NOTIFICATIONS_USER_SET]];
@@ -143,8 +142,8 @@
 		appPath = [fullPath retain];
 		NSLog(@"got appPath: %@", appPath);
 
-		NSData *iconData;
-		if ( (iconData = [ticketDict objectForKey:GROWL_APP_ICON] ) ) {
+		NSData *iconData = [ticketDict objectForKey:GROWL_APP_ICON];
+		if (iconData) {
 			icon = [[NSImage alloc] initWithData:iconData];
 		} else if (fullPath) {
 			icon = [[workspace iconForFile:fullPath] retain];
@@ -337,16 +336,53 @@
 		 *	if the application says to.
 		 */
 		NSEnumerator		*enumerator;
-		NSString			*note;
 		NSMutableDictionary *allNotesCopy = [[allNotifications mutableCopy] autorelease];
 
-#warning This has been broken when we allowed NSNumbers to be contained in the inDefaults array. It is even more broken if inDefaults is a NSIndexSet.
-		enumerator = [inDefaults objectEnumerator];
-		while ( (note = [enumerator nextObject] ) ) {
-			if (![allNotesCopy objectForKey:note]) {
-				[allNotesCopy setObject:[GrowlApplicationNotification notificationWithName:note] forKey:note];
+		if ([inDefaults respondsToSelector:@selector(objectEnumerator)] ) {
+			enumerator = [inDefaults objectEnumerator];
+			Class NSNumberClass = [NSNumber class];
+			unsigned numAllNotifications = [inAllNotes count];
+			id obj;
+			while ((obj = [enumerator nextObject])) {
+				NSString *note;
+				if ([obj isKindOfClass:NSNumberClass]) {
+					//it's an index into the all-notifications list
+					unsigned notificationIndex = [obj unsignedIntValue];
+					if (notificationIndex >= numAllNotifications) {
+						NSLog(@"WARNING: application %@ tried to allow notification at index %u by default, but there is no such notification in its list of %u", appName, notificationIndex, numAllNotifications);
+					} else {
+						note = [inAllNotes objectAtIndex:notificationIndex];
+					}
+				} else {
+					//it's probably a notification name
+					note = obj;
+				}
+				if (![allNotesCopy objectForKey:note]) {
+					[allNotesCopy setObject:[GrowlApplicationNotification notificationWithName:note] forKey:note];
+				}
+			}
+		} else if ([inDefaults isKindOfClass:[NSIndexSet class]]) {
+			unsigned notificationIndex;
+			unsigned numAllNotifications = [inAllNotes count];
+			NSIndexSet *iset = (NSIndexSet *)inDefaults;
+			for( notificationIndex = [iset firstIndex]; notificationIndex != NSNotFound; notificationIndex = [iset indexGreaterThanIndex:notificationIndex] ) {
+				if (notificationIndex >= numAllNotifications) {
+					NSLog(@"WARNING: application %@ tried to allow notification at index %u by default, but there is no such notification in its list of %u", appName, notificationIndex, numAllNotifications);
+					// index sets are sorted, so we can stop here
+					break;
+				} else {
+					NSString *note = [inAllNotes objectAtIndex:notificationIndex];
+					if (![allNotesCopy objectForKey:note]) {
+						[allNotesCopy setObject:[GrowlApplicationNotification notificationWithName:note] forKey:note];
+					}
+				}
+			}
+		} else {
+			if (inDefaults) {
+				NSLog(@"WARNING: application %@ passed an invalid object for the default notifications: %@.", appName, inDefaults);
 			}
 		}
+
 		[allNotifications release];
 		allNotifications = [[NSDictionary alloc] initWithDictionary:allNotesCopy];
 	}
@@ -413,9 +449,9 @@
 		NSEnumerator *newEnum = [new objectEnumerator];
 		NSMutableDictionary *tmp = [NSMutableDictionary dictionary];
 		id key, obj;
-		while ( (key = [newEnum nextObject] ) ) {
+		while ((key = [newEnum nextObject])) {
 			obj = [allNotifications objectForKey:key];
-			if ( obj ) {
+			if (obj) {
 				[tmp setObject:obj forKey:key];
 			} else {
 				[tmp setObject:[GrowlApplicationNotification notificationWithName:key] forKey:key];
@@ -449,7 +485,7 @@
 		NSNumber *num;
 		unsigned numDefaultNotifications;
 		unsigned numAllNotifications = [allNotificationNames count];
-		if ( [inObject respondsToSelector:@selector(count)] ) {
+		if ([inObject respondsToSelector:@selector(count)]) {
 			numDefaultNotifications = [inObject count];
 		} else {
 			numDefaultNotifications = numAllNotifications;

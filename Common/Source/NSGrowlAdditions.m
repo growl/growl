@@ -23,7 +23,7 @@
 
 - (BOOL) boolValue {
 	BOOL truth = ([self intValue] != 0);
-	if(!truth) {
+	if (!truth) {
 		NSSet *yesStrings = [[NSSet alloc] initWithObjects:
 			@"yes", @"true",
 			nil];
@@ -60,7 +60,7 @@
 @implementation NSURL (GrowlAdditions)
 
 //'alias' as in the Alias Manager.
-+ fileURLWithAliasData:(NSData *)aliasData {
++ (NSURL *)fileURLWithAliasData:(NSData *)aliasData {
 	NSParameterAssert(aliasData != nil);
 
 	NSURL *URL = nil;
@@ -84,6 +84,7 @@
 
 	return URL;
 }
+
 - (NSData *)aliasData {
 	//return nil for non-file: URLs.
 	if ([[self scheme] caseInsensitiveCompare:@"file"] != NSOrderedSame)
@@ -111,7 +112,7 @@
 }
 
 //these are the type of external representations used by Dock.app.
-+ fileURLWithDockDescription:(NSDictionary *)dict {
++ (NSURL *)fileURLWithDockDescription:(NSDictionary *)dict {
 	NSURL *URL = nil;
 
 	NSString *path      = [dict objectForKey:_CFURLStringKey];
@@ -173,8 +174,8 @@
 - (NSImage *) iconForApplication:(NSString *) inName {
 	NSString *path = [self fullPathForApplication:inName];
 	NSImage *appIcon = path ? [self iconForFile:path] : nil;
-	
-	if ( appIcon ) {
+
+	if (appIcon) {
 		[appIcon setSize:NSMakeSize(128.0f,128.0f)];
 	}
 	return appIcon;
@@ -201,7 +202,7 @@ OSStatus CGSSetWindowTags(CGSConnection cid,CGSWindow window,int *tags,int other
 
 @implementation NSWindow (GrowlAdditions)
 
--(void) setSticky:(BOOL)flag {
+- (void) setSticky:(BOOL)flag {
 	CGSConnection cid;
 	CGSWindow wid;
 		
