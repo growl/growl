@@ -11,21 +11,22 @@
 
 @interface NSWorkspace (GrowlAdditions)
 
-- (NSImage *)iconForApplication:(NSString *) inName;
+- (NSImage *) iconForApplication:(NSString *) inName;
 
 @end
 
 @interface NSString (GrowlAdditions)
 
-- (BOOL)boolValue;
+- (BOOL) boolValue;
 
-+ (NSString *)stringWithUTF8String:(const char *)bytes length:(unsigned)len;
-- (id)initWithUTF8String:(const char *)bytes length:(unsigned)len;
++ (NSString *) stringWithUTF8String:(const char *)bytes length:(unsigned)len;
+- (id) initWithUTF8String:(const char *)bytes length:(unsigned)len;
+- (void)drawWithEllipsisInRect:(NSRect)rect withAttributes:(NSDictionary *)attributes;
 
 @end
 
 @interface NSWindow (GrowlAdditions)
 
--(void)setSticky:(BOOL)flag;
+- (void) setSticky:(BOOL)flag;
 
 @end

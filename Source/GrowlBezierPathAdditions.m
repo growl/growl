@@ -9,8 +9,7 @@
 #import "GrowlBezierPathAdditions.h"
 
 @implementation NSBezierPath(GrowlBezierPathAdditions)
-+ (NSBezierPath *)bezierPathWithRoundedRect:(NSRect)rect radius:(float)radius
-{
++ (NSBezierPath *) bezierPathWithRoundedRect:(NSRect)rect radius:(float)radius {
 	NSRect irect = NSInsetRect( rect, radius, radius );
 	float minX = NSMinX( irect );
 	float minY = NSMinY( irect );

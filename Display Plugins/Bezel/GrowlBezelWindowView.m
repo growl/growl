@@ -9,7 +9,7 @@
 #import "GrowlBezelWindowView.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
-#import "GrowlStringAdditions.h"
+#import "NSGrowlAdditions.h"
 
 #define BORDER_RADIUS 20.0f
 

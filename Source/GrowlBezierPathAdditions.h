@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSBezierPath(GrowlBezierPathAdditions)
-+ (NSBezierPath *)bezierPathWithRoundedRect:(NSRect)rect radius:(float)radius;
++ (NSBezierPath *) bezierPathWithRoundedRect:(NSRect)rect radius:(float)radius;
 @end

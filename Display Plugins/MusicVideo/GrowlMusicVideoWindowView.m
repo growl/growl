@@ -8,7 +8,7 @@
 
 #import "GrowlMusicVideoWindowView.h"
 #import "GrowlImageAdditions.h"
-#import "GrowlStringAdditions.h"
+#import "NSGrowlAdditions.h"
 
 @implementation GrowlMusicVideoWindowView
 

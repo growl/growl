@@ -789,8 +789,7 @@ static const char *keychainAccountName = "Growl";
 
 #pragma mark NSNetServiceBrowser Delegate Methods
 
-- (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
-{
+- (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
 	// check if a computer with this name has already been added
 	NSString *name = [aNetService name];
 	NSEnumerator *enumerator = [services objectEnumerator];
@@ -816,8 +815,7 @@ static const char *keychainAccountName = "Growl";
 	}
 }
 
-- (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
-{
+- (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
 	// This case is slightly more complicated. We need to find the object in the list and remove it.
 	unsigned count = [services count];
 	NSDictionary *currentEntry;

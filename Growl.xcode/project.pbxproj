@@ -123,8 +123,6 @@
 			children = (
 				953C3EFE0747970800F2A737,
 				CB910DA8074E0A5F00278FC5,
-				52861ED706DBA80800D3A356,
-				A14BBE0806EE1C0400530EED,
 				CB5F835E0638B67C00EADD7A,
 				34CEA3930680A77C00670E0D,
 				63C0610006C8948700B0B7D4,
@@ -205,8 +203,6 @@
 				936FAB02074482BF00A7D430,
 				A16BD22606FCC05F00BF033B,
 				A16BD22706FCC05F00BF033B,
-				F506C03C013D9D7901CA16C8,
-				F506C03D013D9D7901CA16C8,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -359,6 +355,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = Source;
 				INFOPLIST_FILE = "Display Plugins/Speech-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
@@ -538,6 +535,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = Source;
 				INFOPLIST_FILE = "Display Plugins/Bubbles-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
@@ -774,6 +772,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = Source;
 				INFOPLIST_FILE = "Display Plugins/Bezel-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
@@ -1033,6 +1032,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				HEADER_SEARCH_PATHS = Source;
 				INFOPLIST_FILE = "Display Plugins/Log-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
@@ -1144,6 +1144,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = Source;
 				INFOPLIST_FILE = "Display Plugins/Smoke-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
@@ -1380,6 +1381,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = Source;
 				INFOPLIST_FILE = "Display Plugins/MailMe-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
@@ -1570,6 +1572,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = Source;
 				INFOPLIST_FILE = "Display Plugins/MusicVideo-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
@@ -2607,27 +2610,12 @@
 			settings = {
 			};
 		};
-		52861ED706DBA80800D3A356 = {
-			children = (
-				5286205506DC4C2F00D3A356,
-				5286205606DC4C2F00D3A356,
-				52861EE306DBA95400D3A356,
-				52861EE406DBA95400D3A356,
-				CB1C5D1B063E432F007052EE,
-				CB1C5D1C063E432F007052EE,
-				CB5C30FF07925B53007CC0D0,
-				CB5C312807925B53007CC0D0,
-			);
-			isa = PBXGroup;
-			name = Controllers;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		52861EE306DBA95400D3A356 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlPreferences.h;
+			name = GrowlPreferences.h;
+			path = Source/GrowlPreferences.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2635,7 +2623,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlPreferences.m;
+			name = GrowlPreferences.m;
+			path = Source/GrowlPreferences.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2669,7 +2658,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlPluginController.h;
+			name = GrowlPluginController.h;
+			path = Source/GrowlPluginController.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2677,7 +2667,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlPluginController.m;
+			name = GrowlPluginController.m;
+			path = Source/GrowlPluginController.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2986,7 +2977,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = RRTableView.h;
+			name = RRTableView.h;
+			path = Source/RRTableView.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2994,7 +2986,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = RRTableView.m;
+			name = RRTableView.m;
+			path = Source/RRTableView.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3150,7 +3143,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = FadingWindowController.h;
+			name = FadingWindowController.h;
+			path = Source/FadingWindowController.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3158,7 +3152,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = FadingWindowController.m;
+			name = FadingWindowController.m;
+			path = Source/FadingWindowController.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3166,7 +3161,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlBezierPathAdditions.h;
+			name = GrowlBezierPathAdditions.h;
+			path = Source/GrowlBezierPathAdditions.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3174,7 +3170,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlBezierPathAdditions.m;
+			name = GrowlBezierPathAdditions.m;
+			path = Source/GrowlBezierPathAdditions.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3182,7 +3179,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlImageAdditions.h;
+			name = GrowlImageAdditions.h;
+			path = Source/GrowlImageAdditions.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3190,23 +3188,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlImageAdditions.m;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		956ADAE407551C4500AF9545 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlStringAdditions.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		956ADAE907551C4500AF9545 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlStringAdditions.m;
+			name = GrowlImageAdditions.m;
+			path = Source/GrowlImageAdditions.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3222,17 +3205,12 @@
 			settings = {
 			};
 		};
-		956ADB0407551C4500AF9545 = {
-			fileRef = 956ADAE907551C4500AF9545;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		958294EF074CDE3100EC7AF2 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlUDPServer.h;
+			name = GrowlUDPServer.h;
+			path = Source/GrowlUDPServer.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3240,7 +3218,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlUDPServer.m;
+			name = GrowlUDPServer.m;
+			path = Source/GrowlUDPServer.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3335,7 +3314,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlNotificationServer.m;
+			name = GrowlNotificationServer.m;
+			path = Source/GrowlNotificationServer.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3369,15 +3349,6 @@
 //A12
 //A13
 //A14
-		A14BBE0806EE1C0400530EED = {
-			children = (
-				A14BBE0E06EE1D5600530EED,
-			);
-			isa = PBXGroup;
-			name = "Display Protocol";
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		A14BBE0E06EE1D5600530EED = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -3433,8 +3404,9 @@
 		CB1C5D1B063E432F007052EE = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlApplicationTicket.h;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlApplicationTicket.m;
+			path = Source/GrowlApplicationTicket.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3442,7 +3414,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlApplicationTicket.m;
+			name = GrowlApplicationTicket.m;
+			path = Source/GrowlApplicationTicket.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3491,6 +3464,8 @@
 		};
 		CB5F835E0638B67C00EADD7A = {
 			children = (
+				F506C03C013D9D7901CA16C8,
+				F506C03D013D9D7901CA16C8,
 				08FB77AFFE84173DC02AAC07,
 				089C167CFE841241C02AAC07,
 			);
@@ -3502,6 +3477,8 @@
 		CB5F836E0638B69900EADD7A = {
 			children = (
 				CB5F83A60638B8C800EADD7A,
+				CB5F83890638B78200EADD7A,
+				CB5F838A0638B78200EADD7A,
 				CB5F847F0638BD6200EADD7A,
 				CB5F84730638BD4D00EADD7A,
 			);
@@ -3515,7 +3492,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlController.h;
+			name = GrowlController.h;
+			path = Source/GrowlController.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3523,7 +3501,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlController.m;
+			name = GrowlController.m;
+			path = Source/GrowlController.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3559,19 +3538,18 @@
 		};
 		CB5F847F0638BD6200EADD7A = {
 			children = (
-				CB5F83890638B78200EADD7A,
-				CB5F838A0638B78200EADD7A,
+				5286205506DC4C2F00D3A356,
+				5286205606DC4C2F00D3A356,
+				52861EE306DBA95400D3A356,
+				52861EE406DBA95400D3A356,
+				CB1C5D1B063E432F007052EE,
+				CB1C5D1C063E432F007052EE,
+				CB5C30FF07925B53007CC0D0,
+				CB5C312807925B53007CC0D0,
 				CB0EBFBA0790941300CA2157,
+				CB9E3AE80792679400F8937E,
 				956ADAC607551C4500AF9545,
 				956ADACB07551C4500AF9545,
-				956ADAD007551C4500AF9545,
-				956ADAD507551C4500AF9545,
-				956ADADA07551C4500AF9545,
-				956ADADF07551C4500AF9545,
-				956ADAE407551C4500AF9545,
-				956ADAE907551C4500AF9545,
-				F57BFE2C0669037C00DE5BFD,
-				F57BFE2D0669037C00DE5BFD,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -3628,7 +3606,6 @@
 				958294F2074CDE3100EC7AF2,
 				956ADB0007551C4500AF9545,
 				956ADB0207551C4500AF9545,
-				956ADB0407551C4500AF9545,
 				3434E8EA0790D6E600A97A48,
 				CB5C315C07925B53007CC0D0,
 			);
@@ -3757,11 +3734,12 @@
 		};
 		CB910DA8074E0A5F00278FC5 = {
 			children = (
+				34E9AA79074BC98A00D59950,
+				34E9DC16078FBF1B00662E8E,
+				A14BBE0E06EE1D5600530EED,
 				95BF83760743675700306A77,
 				52861FEF06DC463E00D3A356,
 				32DBCFA20370C41700C91783,
-				34E9DC16078FBF1B00662E8E,
-				34E9AA79074BC98A00D59950,
 			);
 			isa = PBXGroup;
 			name = "Global Resources";
@@ -3773,6 +3751,20 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		CB9E3AE80792679400F8937E = {
+			children = (
+				956ADAD007551C4500AF9545,
+				956ADAD507551C4500AF9545,
+				956ADADA07551C4500AF9545,
+				956ADADF07551C4500AF9545,
+				F57BFE2C0669037C00DE5BFD,
+				F57BFE2D0669037C00DE5BFD,
+			);
+			isa = PBXGroup;
+			name = Additions;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		CBF0743F0659B202000B4B77 = {
 			fileRef = CB1C5D1C063E432F007052EE;
@@ -3794,7 +3786,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlPref.h;
+			name = GrowlPref.h;
+			path = Source/GrowlPref.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3802,7 +3795,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlPref.m;
+			name = GrowlPref.m;
+			path = Source/GrowlPref.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3836,7 +3830,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = NSGrowlAdditions.h;
+			name = NSGrowlAdditions.h;
+			path = Source/NSGrowlAdditions.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3844,7 +3839,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = NSGrowlAdditions.m;
+			name = NSGrowlAdditions.m;
+			path = Source/NSGrowlAdditions.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};

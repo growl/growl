@@ -10,7 +10,7 @@
 #import "GrowlBubblesWindowView.h"
 #import "GrowlDefines.h"
 #import "GrowlBubblesDefines.h"
-#import "GrowlStringAdditions.h"
+#import "NSGrowlAdditions.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 #import <math.h>

@@ -13,8 +13,8 @@
 #import "GrowlController.h"
 #import "NSGrowlAdditions.h"
 
-NSString * UseDefaultsKey = @"useDefaults";
-NSString * TicketEnabledKey = @"ticketEnabled";
+NSString * UseDefaultsKey		= @"useDefaults";
+NSString * TicketEnabledKey		= @"ticketEnabled";
 NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 #pragma mark -

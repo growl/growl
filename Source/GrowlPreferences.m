@@ -38,6 +38,12 @@ static GrowlPreferences * sharedPreferences;
 	return self;
 }
 
+- (void) dealloc {
+	[helperAppDefaults release];
+	
+	[super dealloc];
+}
+
 #pragma mark -
 
 - (void) registerDefaults:(NSDictionary *)inDefaults {
@@ -107,6 +113,7 @@ static GrowlPreferences * sharedPreferences;
 }
 
 #pragma mark -
+
 - (BOOL) startGrowlAtLogin {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	NSArray *autoLaunchArray = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
@@ -152,13 +159,6 @@ static GrowlPreferences * sharedPreferences;
 					  forName:@"loginwindow"];
 	[defs synchronize];
 	[defs release];	
-}
-
-#pragma mark -
-- (void) dealloc {
-	[helperAppDefaults release];
-	
-	[super dealloc];
 }
 
 @end
