@@ -28,14 +28,13 @@
 	int sizePref = 0;
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 	NSRect sizeRect;
-	sizeRect.origin.x = 0.f;
-	sizeRect.origin.y = 0.f;
+	sizeRect.origin.x = sizeRect.origin.y = 0.0f;
 	if (sizePref == BEZEL_SIZE_NORMAL) {
-		sizeRect.size.width = 211.f;
-		sizeRect.size.height = 206.f;
+		sizeRect.size.width = 211.0f;
+		sizeRect.size.height = 206.0f;
 	} else {
-		sizeRect.size.width = 160.f;
-		sizeRect.size.height = 160.f;
+		sizeRect.size.width = 160.0f;
+		sizeRect.size.height = 160.0f;
 	}
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:sizeRect
 						styleMask:NSBorderlessWindowMask
@@ -66,7 +65,7 @@
 	[tempText replaceOccurrencesOfString:@"\r"
 			withString:@"\n"
 			options:nil
-			range:NSMakeRange(0, [tempText length])];
+			range:NSMakeRange(0U, [tempText length])];
 	[view setText:tempText];
 
 	[view setIcon:icon];
