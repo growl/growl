@@ -122,6 +122,7 @@ use constant GROWL_NOTIFICATION					=> "GrowlNotification";
 
 use constant GROWL_PING							=> "Honey, Mind Taking Out The Trash";
 use constant GROWL_PONG							=> "What Do You Want From Me, Woman";
+use constant NSNotificationPostToAllSessions		=> 1 << 1;
 
 sub Foundation_RegisterNotifications($$$;$)
 {
@@ -151,10 +152,11 @@ sub Foundation_RegisterNotifications($$$;$)
 		}
 	}
 
-	NSDistributedNotificationCenter->defaultCenter->postNotificationName_object_userInfo_(
+	NSDistributedNotificationCenter->defaultCenter->postNotificationName_object_userInfo_options_(
 		GROWL_APP_REGISTRATION,
 		undef,
-		$regDict
+		$regDict,
+		NSNotificationPostToAllSessions
 	);
 }
 
@@ -183,10 +185,11 @@ sub Foundation_PostNotification($$$$;$$$)
 		}
 	}
 
-	NSDistributedNotificationCenter->defaultCenter->postNotificationName_object_userInfo_(
+	NSDistributedNotificationCenter->defaultCenter->postNotificationName_object_userInfo_options_(
 		GROWL_NOTIFICATION,
 		undef,
-		$noteDict
+		$noteDict,
+		NSNotificationPostToAllSessions
 	);
 }
 
