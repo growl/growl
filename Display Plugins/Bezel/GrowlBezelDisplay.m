@@ -76,7 +76,7 @@
 	if ( [notificationQueue count] > 0U ) {
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
 		GrowlBezelWindowController *aNotification;
-		BOOL	inserted = FALSE;
+		BOOL	inserted = NO;
 		int		theIndex = 0;
 		
 		while (!inserted && (aNotification = [enumerator nextObject])) {
@@ -86,7 +86,7 @@
 					[aNotification stopFadeOut];
 					[nuBezel startFadeIn];
 				}
-				inserted = TRUE;
+				inserted = YES;
 			}
 			theIndex++;
 		}
