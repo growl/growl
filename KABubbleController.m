@@ -46,7 +46,7 @@
 																			  text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
 																			  icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]];
 	[nuBubble startFadeIn];
-	//NSLog( @"bubble - %@", nuBubble );
+	NSLog( @"bubble - %@", nuBubble );
 }
 
 @end
