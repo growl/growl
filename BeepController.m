@@ -16,9 +16,9 @@
 - (IBAction)registerBeep:(id)sender {
 	if ( [_registered state] == NSOnState ) {
 		NSLog( @"Button on" );
-		NSDictionary *regDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"Beep", @"ApplicationName", nil];
+		NSDictionary *regDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"Beep", GROWL_APP_NAME, nil];
 		
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GrowlApplicationRegistrationNotification" 
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION 
 																	   object:nil 
 																	 userInfo:regDict];
 	} else {
