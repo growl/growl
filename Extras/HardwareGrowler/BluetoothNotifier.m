@@ -30,24 +30,22 @@
 }
 
 /*
--(void)channelOpened: (IOBluetoothUserNotification*)note withChannel: (IOBluetoothRFCOMMChannel *) chan
-{
+- (void)channelOpened: (IOBluetoothUserNotification*)note withChannel: (IOBluetoothRFCOMMChannel *) chan {
 	NSLog(@"BT Channel opened." );
 
 	NSLog(@"%@" , [[chan getDevice] name] );
-	
 
 	[chan registerForChannelCloseNotification: self 
 									 selector: @selector(channelClosed:withChannel:)]; 
 
 }
 
--(void)channelClosed: (IOBluetoothUserNotification*)note withChannel: (IOBluetoothRFCOMMChannel *) chan {
+- (void)channelClosed: (IOBluetoothUserNotification*)note withChannel: (IOBluetoothRFCOMMChannel *) chan {
 	NSLog(@"BT Channel closed. %@" , note);
 }
 */
 
-- (void)bluetoothConnection: (IOBluetoothUserNotification*)note toDevice: (IOBluetoothDevice*)device {
+- (void)bluetoothConnection: (IOBluetoothUserNotification*)note toDevice: (IOBluetoothDevice *)device {
 	// NSLog(@"BT Device connection: %@" , [device name]);
 	[delegate bluetoothDidConnect:[device name]];
 
@@ -55,7 +53,7 @@
 									 selector:@selector(bluetoothDisconnection:fromDevice:)];
 }
 
-- (void)bluetoothDisconnection: (IOBluetoothUserNotification*)note fromDevice: (IOBluetoothDevice*)device {
+- (void)bluetoothDisconnection: (IOBluetoothUserNotification*)note fromDevice: (IOBluetoothDevice *)device {
 	// NSLog(@"BT Device Disconnection: %@" , [device name]);	
 	[delegate bluetoothDidDisconnect:[device name]];
 

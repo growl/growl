@@ -62,7 +62,6 @@
 				958AB9DD07C6A7FD00F56B45,
 				1058C7A1FEA54F0111CA2CBB,
 				9324AE7807BD77DB001CB55C,
-				DDF9B35207BBDB930007B5B7,
 				DDF9B33907BBDAA40007B5B7,
 				DD54999A07BA61650010BE54,
 			);
@@ -403,7 +402,6 @@
 				8D11072F0486CEB800E47090,
 				DD54999B07BA61650010BE54,
 				DDF9B33A07BBDAA40007B5B7,
-				DDF9B35307BBDB930007B5B7,
 				9324AE7907BD77DB001CB55C,
 				958AB9DE07C6A7FD00F56B45,
 			);
@@ -727,20 +725,6 @@
 		};
 		DDF9B33A07BBDAA40007B5B7 = {
 			fileRef = DDF9B33907BBDAA40007B5B7;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDF9B35207BBDB930007B5B7 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = IOBluetoothUI.framework;
-			path = /System/Library/Frameworks/IOBluetoothUI.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		DDF9B35307BBDB930007B5B7 = {
-			fileRef = DDF9B35207BBDB930007B5B7;
 			isa = PBXBuildFile;
 			settings = {
 			};

@@ -23,7 +23,7 @@
 
 @implementation AppController
 
--(void)awakeFromNib {
+- (void)awakeFromNib {
 	bluetoothLogoData = [[[NSImage imageNamed: @"BluetoothLogo.tiff"] TIFFRepresentation] retain];
 	ejectLogoData = [[[NSImage imageNamed: @"eject.icns"] TIFFRepresentation] retain];
 	firewireLogoData = [[[NSImage imageNamed: @"FireWireLogo.png"] TIFFRepresentation] retain];

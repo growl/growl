@@ -11,19 +11,16 @@
 
 @implementation IOBluetoothDevice (MFIOBluetoothDeviceAdditions)
 
-- (NSString *)name
-{
+- (NSString *)name {
 	return [self getName];
 }
 
-- (NSString  *)address
-{
+- (NSString  *)address {
 	return IOBluetoothNSStringFromDeviceAddress([self getAddress]);
 }
 
--(NSString *)deviceClassMajorName
-{
-	BluetoothDeviceClassMajor	classMajor;
+- (NSString *)deviceClassMajorName {
+	BluetoothDeviceClassMajor classMajor;
 	classMajor = [self getDeviceClassMajor];
 
 	/*
@@ -37,7 +34,7 @@
 	 kBluetoothDeviceClassMajorUnclassified		= 0x1F, // [11111] Specific device code not assigned
 	*/
 
-	switch( classMajor ) {
+	switch (classMajor) {
 		case kBluetoothDeviceClassMajorComputer:
 			return @"Computer";
 		case kBluetoothDeviceClassMajorPhone:
