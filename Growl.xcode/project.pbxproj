@@ -214,7 +214,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "REVISION=`svn info | awk '/Revision:/ { print $2 }'`\nmkdir -p $OBJROOT/include\necho \"#define SVN_REVISION $REVISION\" > $SCRIPT_OUTPUT_FILE_0";
+			shellScript = "REVISION=`svnversion`\nmkdir -p $OBJROOT/include\necho \"#define SVN_REVISION $REVISION\" > $SCRIPT_OUTPUT_FILE_0";
 		};
 		07C2F34707D6F54E00B18524 = {
 			fileEncoding = 4;
@@ -4190,9 +4190,9 @@
 			productType = "com.apple.product-type.application";
 		};
 		CB61E5180637763C00E0DDC7 = {
+			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			lastKnownFileType = wrapper.application;
 			path = GrowlHelperApp.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
