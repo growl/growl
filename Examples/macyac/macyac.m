@@ -52,7 +52,7 @@ void usage()
 	exit(1);
 }
 
-void getoptions(int argc, char *argv[])
+void getoptions(int argc, const char *argv[])
 {
 	int ch;
 	
@@ -105,6 +105,8 @@ void growl_notify (NSString *title, NSString *content)
 
 void yac_read(int client)
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	int len = 0, bytes_read;
 	int exit_flag = 0;
 	int i;
@@ -120,8 +122,13 @@ void yac_read(int client)
 		len += bytes_read;
 		
 		for (i = 0; i < len; i++)
+		{
 			if (inbuf[i] == '\0')
+			{
 				exit_flag = 1;
+				break;
+			}
+		}
 	}
 	/* ensure we're null terminated if we hit 300 limit */
 	inbuf[301] = '\0';
@@ -132,16 +139,12 @@ void yac_read(int client)
 	if (sscanf(inbuf, "@CALL%[^~]~%[^]", caller, number) < 2)
 	{
 		/* didn't convert right */
-		growl_notify(@"Network Message", (NSString *)CFStringCreateWithCString(kCFAllocatorDefault,
-																			   inbuf,
-																			   kCFStringEncodingUTF8));
+		growl_notify(@"Network Message", [NSString stringWithUTF8String:inbuf]);
 	} else {
-		growl_notify(@"Incoming Caller", (NSString *)CFStringCreateWithFormat(kCFAllocatorDefault,
-																			  nil,
-																			  CFSTR("%s\n%s"),
-																			  caller,
-																			  number));
+		growl_notify(@"Incoming Caller", [NSString stringWithFormat:@"%s\n%s", caller, number]);
 	}
+
+	[pool release];
 }
 
 /* keep your brain safe: avoid zombies */
@@ -155,7 +158,7 @@ void chld_handler (int signum)
 	wait3(&status, WNOHANG, NULL);
 }
 
-int main (int argc, char *argv[])
+int main (int argc, const char *argv[])
 {
 	int sock;
 	int client;
