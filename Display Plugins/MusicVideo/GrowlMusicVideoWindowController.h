@@ -12,6 +12,7 @@
 	SEL				action;
 	id				target;
 	float			topLeftPosition;
+	float			frameHeight;
 	int				priority;
 	NSString		*appName;
 	id				clickContext;

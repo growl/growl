@@ -36,8 +36,10 @@
 	sizeRect.size.width = screen.size.width;
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 		sizeRect.size.height = 192.0f;
+		topLeftPosition = 192.0f;
 	} else {
 		sizeRect.size.height = 96.0f;
+		topLeftPosition = 96.0f;
 	}
 	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, MusicVideoPrefDomain, &duration);
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
@@ -75,12 +77,17 @@
 	
 	[view setIcon:icon];
 	panelFrame = [view frame];
+	//[panel setFrame:panelFrame display:NO];
+
+	//topLeftPosition = screen.origin.y;
+	//[panel setFrameTopLeftPoint:NSMakePoint(screen.origin.x, topLeftPosition)];
+	frameHeight = 0.0f;
+	panelFrame.origin = screen.origin;
+	panelFrame.size.width = screen.size.width;
+	panelFrame.size.height = frameHeight;
 	[panel setFrame:panelFrame display:NO];
 
-	topLeftPosition = screen.origin.y;
-	[panel setFrameTopLeftPoint:NSMakePoint(screen.origin.x, topLeftPosition)];
-
-	if ( (self = [super initWithWindow:panel]) ) {
+	if ((self = [super initWithWindow:panel])) {
 		autoFadeOut = YES;	// !sticky
 		displayTime = duration;
 		priority = prio;
@@ -110,16 +117,19 @@
 	NSWindow *myWindow = [self window];
 	NSRect screen = [[self screen] frame];
 	NSRect theFrame = [myWindow frame];
-	if ( topLeftPosition < screen.origin.y + NSHeight(theFrame) ) {
-		topLeftPosition += fadeIncrement;
-		[myWindow setFrameTopLeftPoint:NSMakePoint(screen.origin.x, topLeftPosition)];
+	if (frameHeight < topLeftPosition) {
+		frameHeight += fadeIncrement;
+		theFrame.origin = screen.origin;
+		theFrame.size.width = screen.size.width;
+		theFrame.size.height = frameHeight;
+		[myWindow setFrame:theFrame display:YES];
 	} else {
 		[self _stopTimer];
 		if (screenshotMode) {
 			[self takeScreenshot];
 		}
-		if ( autoFadeOut ) {
-			if ( delegate && [delegate respondsToSelector:@selector( didFadeIn: )] ) {
+		if (autoFadeOut) {
+			if (delegate && [delegate respondsToSelector:@selector(didFadeIn:)]) {
 				[delegate didFadeIn:self];
 			}
 			[self _waitBeforeFadeOut];
@@ -129,13 +139,17 @@
 
 - (void) _fadeOut:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
+	NSRect theFrame = [myWindow frame];
 	NSRect screen = [[self screen] frame];
-	if ( topLeftPosition > screen.origin.y ) {
-		topLeftPosition -= fadeIncrement;
-		[myWindow setFrameTopLeftPoint:NSMakePoint(screen.origin.x, topLeftPosition)];
+	if (frameHeight > 0.0f) {
+		frameHeight -= fadeIncrement;
+		theFrame.origin = screen.origin;
+		theFrame.size.width = screen.size.width;
+		theFrame.size.height = frameHeight;
+		[myWindow setFrame:theFrame display:YES];
 	} else {
 		[self _stopTimer];
-		if ( delegate && [delegate respondsToSelector:@selector( didFadeOut: )] ) {
+		if (delegate && [delegate respondsToSelector:@selector(didFadeOut:)]) {
 			[delegate didFadeOut:self];
 		}
 		[self close]; // close our window
@@ -144,7 +158,7 @@
 }
 
 - (void) _musicVideoClicked:(id)sender {
-	if ( target && action && [target respondsToSelector:action] ) {
+	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];
 	}
 	[self startFadeOut];

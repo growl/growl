@@ -12,7 +12,9 @@
 	NSImage				*icon;
 	NSString			*title;
 	NSString			*text;
-	float				textHeight;
+	NSDictionary		*textAttributes;
+	NSDictionary		*titleAttributes;
+	NSColor				*backgroundColor;
 	SEL					action;
 	id					target;
 }
@@ -20,9 +22,6 @@
 - (void) setIcon:(NSImage *)icon;
 - (void) setTitle:(NSString *)title;
 - (void) setText:(NSString *)text;
-
-- (float) descriptionHeight:(NSAttributedString *)text inRect:(NSRect)theRect;
-- (int) descriptionRowCount:(NSAttributedString *)text inRect:(NSRect)theRect;
 
 - (id) target;
 - (void) setTarget:(id)object;
