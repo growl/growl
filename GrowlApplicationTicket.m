@@ -104,7 +104,6 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 @end
 
 #pragma mark -
-#pragma mark -
 
 @implementation GrowlApplicationTicket
 
@@ -168,7 +167,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		_defaultNotifications = [inDefaults retain];
 
 		[self setAllowedNotifications:inDefaults];
-		
+
 		usesCustomDisplay = NO;
 		displayPlugin = nil;
 		
