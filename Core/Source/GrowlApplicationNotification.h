@@ -24,10 +24,10 @@ typedef enum GrowlPriority {
 	int				 sticky;
 }
 
-+ (GrowlApplicationNotification*) notificationWithName:(NSString*)name;
-+ (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict;
-- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(int)sticky;
-- (NSDictionary*) notificationAsDict;
++ (GrowlApplicationNotification *) notificationWithName:(NSString*)name;
++ (GrowlApplicationNotification *) notificationFromDict:(NSDictionary*)dict;
+- (GrowlApplicationNotification *) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(int)sticky;
+- (NSDictionary *) notificationAsDict;
 
 #pragma mark -
 

@@ -7,10 +7,10 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import "GrowlNotificationServer.h"
+#import "GrowlRemoteDOPathway.h"
 #import "GrowlController.h"
 
-@implementation GrowlNotificationServer
+@implementation GrowlRemoteDOPathway
 
 - (void) registerApplication:(NSDictionary *)dict {
 	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];

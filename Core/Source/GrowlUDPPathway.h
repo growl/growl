@@ -9,7 +9,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GrowlUDPServer : NSObject {
+@interface GrowlUDPPathway : NSObject {
 	NSSocketPort *sock;
 	NSFileHandle *fh;
 	NSImage *notificationIcon;

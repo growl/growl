@@ -285,7 +285,7 @@
 				1058C7ACFEA557BF11CA2CBB,
 			);
 			isa = PBXGroup;
-			name = "Frameworks and Libraries";
+			name = Frameworks;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2175,6 +2175,7 @@
 				95EF059F07C77C1500218584,
 				95C8783107D9DFC000C69DEE,
 				95C8783307D9DFC000C69DEE,
+				CB34BED307E09657001D7D7C,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2455,7 +2456,7 @@
 				3433500C079275A300C84B15,
 			);
 			isa = PBXGroup;
-			name = "Growl.framework (App Bridge)";
+			name = Growl.framework;
 			path = "";
 			refType = 4;
 			sourceTree = "<group>";
@@ -3638,19 +3639,19 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			name = GrowlUDPServer.h;
-			path = Core/Source/GrowlUDPServer.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			name = GrowlUDPPathway.h;
+			path = Core/Source/GrowlUDPPathway.h;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		958294F0074CDE3100EC7AF2 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			name = GrowlUDPServer.m;
-			path = Core/Source/GrowlUDPServer.m;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			name = GrowlUDPPathway.m;
+			path = Core/Source/GrowlUDPPathway.m;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		958294F2074CDE3100EC7AF2 = {
 			fileRef = 958294F0074CDE3100EC7AF2;
@@ -3836,19 +3837,19 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			name = GrowlNotificationServer.h;
-			path = Core/Source/GrowlNotificationServer.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			name = GrowlRemoteDOPathway.h;
+			path = Core/Source/GrowlRemoteDOPathway.h;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		95DD14D80748B04700CC05A4 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			name = GrowlNotificationServer.m;
-			path = Core/Source/GrowlNotificationServer.m;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			name = GrowlRemoteDOPathway.m;
+			path = Core/Source/GrowlRemoteDOPathway.m;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		95DD14E10748B04700CC05A4 = {
 			fileRef = 95DD14D80748B04700CC05A4;
@@ -4174,6 +4175,8 @@
 				958294F0074CDE3100EC7AF2,
 				95DD14D30748B04700CC05A4,
 				95DD14D80748B04700CC05A4,
+				CB34BED107E09657001D7D7C,
+				CB34BED207E09657001D7D7C,
 			);
 			isa = PBXGroup;
 			name = Pathways;
@@ -4205,14 +4208,54 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		CB34BEC507E09557001D7D7C = {
+			children = (
+				CB5C30FF07925B53007CC0D0,
+				CB5C312807925B53007CC0D0,
+			);
+			isa = PBXGroup;
+			name = GrowlNotification;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB34BED107E09657001D7D7C = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlApplicationPathway.h;
+			path = Core/Source/GrowlApplicationPathway.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB34BED207E09657001D7D7C = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlApplicationPathway.m;
+			path = Core/Source/GrowlApplicationPathway.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB34BED307E09657001D7D7C = {
+			fileRef = CB34BED107E09657001D7D7C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CB34BED407E09657001D7D7C = {
+			fileRef = CB34BED207E09657001D7D7C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		CB5C30FF07925B53007CC0D0 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlApplicationNotification.h;
 			path = Core/Source/GrowlApplicationNotification.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		CB5C312807925B53007CC0D0 = {
 			fileEncoding = 4;
@@ -4220,8 +4263,8 @@
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlApplicationNotification.m;
 			path = Core/Source/GrowlApplicationNotification.m;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		CB5C315107925B53007CC0D0 = {
 			fileRef = CB5C30FF07925B53007CC0D0;
@@ -4317,8 +4360,7 @@
 				52861EE406DBA95400D3A356,
 				CB1C5D1B063E432F007052EE,
 				CB1C5D1C063E432F007052EE,
-				CB5C30FF07925B53007CC0D0,
-				CB5C312807925B53007CC0D0,
+				CB34BEC507E09557001D7D7C,
 				CB0EBFBA0790941300CA2157,
 				CB9E3AE80792679400F8937E,
 				956ADAC607551C4500AF9545,
@@ -4386,6 +4428,7 @@
 				95C8783207D9DFC000C69DEE,
 				95C8783407D9DFC000C69DEE,
 				9550518107DE4B4A002F5315,
+				CB34BED407E09657001D7D7C,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4484,9 +4527,9 @@
 			productType = "com.apple.product-type.application";
 		};
 		CB61E5180637763C00E0DDC7 = {
+			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			lastKnownFileType = wrapper.application;
 			path = GrowlHelperApp.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;

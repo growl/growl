@@ -7,7 +7,7 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import "GrowlUDPServer.h"
+#import "GrowlUDPPathway.h"
 #import "GrowlController.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlDefinesInternal.h"
@@ -22,7 +22,7 @@
 static const char *keychainServiceName = "Growl";
 static const char *keychainAccountName = "Growl";
 
-@implementation GrowlUDPServer
+@implementation GrowlUDPPathway
 
 - (id) init {
 	struct sockaddr_in addr;
@@ -157,7 +157,7 @@ static const char *keychainAccountName = "Growl";
 								}
 
 								if ( length == packetSize ) {
-									if ( [GrowlUDPServer authenticatePacket:(const unsigned char *)nr length:length] ) {
+									if ( [GrowlUDPPathway authenticatePacket:(const unsigned char *)nr length:length] ) {
 										NSDictionary *registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 											[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
 											allNotifications, GROWL_NOTIFICATIONS_ALL,
@@ -193,7 +193,7 @@ static const char *keychainAccountName = "Growl";
 							packetSize = sizeof(*nn) + notificationNameLen + titleLen + descriptionLen + applicationNameLen + MD5_DIGEST_LENGTH;
 
 							if ( length == packetSize ) {
-								if ( [GrowlUDPServer authenticatePacket:(const unsigned char *)nn length:length] ) {
+								if ( [GrowlUDPPathway authenticatePacket:(const unsigned char *)nn length:length] ) {
 									NSDictionary *notificationInfo;
 									notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 										[NSString stringWithUTF8String:notificationName length:notificationNameLen], GROWL_NOTIFICATION_NAME,

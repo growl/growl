@@ -11,7 +11,7 @@
 
 @protocol GrowlDisplayPlugin;
 
-@class GrowlUDPServer, GrowlNotificationServer;
+@class GrowlUDPPathway, GrowlRemoteDOPathway;
 
 @interface GrowlController : NSObject {
 	NSMutableDictionary			*tickets;				//Application tickets
@@ -23,10 +23,10 @@
 	NSNetService				*service;
 	NSSocketPort				*socketPort;
 	NSConnection				*serverConnection;
-	GrowlNotificationServer		*server;
+	GrowlRemoteDOPathway		*server;
 
 	// UDP server
-	GrowlUDPServer				*udpServer;
+	GrowlUDPPathway				*udpServer;
 
 	id<GrowlDisplayPlugin>		displayController;
 

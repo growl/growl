@@ -15,7 +15,7 @@
 - (NSString *) growlVersion;
 @end
 
-@interface GrowlNotificationServer : NSObject <GrowlNotificationProtocol> {
+@interface GrowlRemoteDOPathway : NSObject <GrowlNotificationProtocol> {
 }
 
 @end
