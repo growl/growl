@@ -58,6 +58,8 @@ To-Do
 		Make GrowlTunes work with streams (e.g. iTMS previews, radio stuff)
 		Grab album art from the web
 			We have a plugin architecture in GrowlTunes for this.
+	- growlnotify:
+		Make a .pkg, install into /usr/local
 
 - Documentation:
 	Developer docs
