@@ -174,18 +174,21 @@ enum {
 	int rating = aRating ? [aRating intValue] : 0;
 
 	enum {
-		BLACK_STAR  = 0x2605, WHITE_STAR = 0x2606,
+		BLACK_STAR  = 0x2605, SPACE          = 0x0020, MIDDLE_DOT   = 0x00B7,
 		ONE_HALF    = 0x00BD,
 		ONE_QUARTER = 0x00BC, THREE_QUARTERS = 0x00BE,
 		ONE_THIRD   = 0x2153, TWO_THIRDS     = 0x2154,
 		ONE_FIFTH   = 0x2155, TWO_FIFTHS     = 0x2156, THREE_FIFTHS = 0x2157, FOUR_FIFTHS   = 0x2158,
 		ONE_SIXTH   = 0x2159, FIVE_SIXTHS    = 0x215a,
 		ONE_EIGHTH  = 0x215b, THREE_EIGHTHS  = 0x215c, FIVE_EIGHTHS = 0x215d, SEVEN_EIGHTHS = 0x215e,
-		numStars = 5,
+
+		//rating <= 0: dot, space, dot, space, dot, space, dot, space, dot (five dots).
+		//higher ratings mean fewer characters. rating >= 100: five black stars.
+		numChars = 9,
 	};
 
 	static unichar fractionChars[] = {
-		/*0/20*/ WHITE_STAR,
+		/*0/20*/ 0,
 		/*1/20*/ ONE_FIFTH, TWO_FIFTHS, THREE_FIFTHS,
 		/*4/20 = 1/5*/ ONE_FIFTH,
 		/*5/20 = 1/4*/ ONE_QUARTER,
@@ -200,9 +203,11 @@ enum {
 		/*18/20 = 9/10*/ SEVEN_EIGHTHS, SEVEN_EIGHTHS, //another approximation
 	};
 
-	unichar starBuffer[numStars];
+	unichar starBuffer[numChars];
 	int     wholeStarRequirement = 20;
-	for(unsigned i = 0U; i < numStars; ++i) {
+	unsigned starsRemaining = 5U;
+	unsigned i = 0U;
+	for(; starsRemaining--; ++i) {
 		if(rating >= wholeStarRequirement) {
 			starBuffer[i] = BLACK_STAR;
 			rating -= 20;
@@ -212,21 +217,26 @@ enum {
 			 *if the original rating is 80, then rating = 0,  and we get WHITE STAR.
 			 */
 			starBuffer[i] = fractionChars[rating];
+			if(!starBuffer[i]) {
+				//add a space if this isn't the first 'star'.
+				if(i) starBuffer[i++] = SPACE;
+				starBuffer[i] = MIDDLE_DOT;
+			}
 			rating = 0; //ensure that remaining characters are WHITE STAR.
 		}
 	}
 
-	return [NSString stringWithCharacters:starBuffer length:numStars];
+	return [NSString stringWithCharacters:starBuffer length:i];
 }
 
 #pragma mark -
 #pragma mark iTunes 4.7 notifications
 
 - (void) songChanged:(NSNotification *)aNotification {
-	NSString				* playerState = nil;
-	iTunesState				newState = itUNKNOWN;
-	NSString				* newTrackURL = nil;
-	NSDictionary			* userInfo = [aNotification userInfo];
+	NSString     *playerState = nil;
+	iTunesState   newState    = itUNKNOWN;
+	NSString     *newTrackURL = nil;
+	NSDictionary *userInfo    = [aNotification userInfo];
 	
 	playerState = [[aNotification userInfo] objectForKey:@"Player State"];
 	if ( [playerState isEqualToString:@"Paused"] ) {
@@ -235,43 +245,41 @@ enum {
 		newState = itSTOPPED;
 	} else if( [playerState isEqualToString:@"Playing"] ){
 		newState = itPLAYING;
-		// For radios and files, the ID is the location.
-		// While on the iTMS, it's the Store URL
-		// For Rendezvous shares we're gonna hash a compilation of a bunch of info
+		/*For radios and files, the ID is the location.
+		 *For iTMS purchases, it's the Store URL.
+		 *For Rendezvous shares, we'll hash a compilation of a bunch of info.
+		 */
 		if ([userInfo objectForKey:@"Location"]) {
 			newTrackURL = [userInfo objectForKey:@"Location"];
 		} else if ([userInfo objectForKey:@"Store URL"]) {
 			newTrackURL = [userInfo objectForKey:@"Store URL"];
 		} else {
-			// Lets make a hash out of all the info we can, but do it such that the empty fields
-			// are blank rather than (null)
-			// Then lets hash it ans turn that into our identifier string
-			// That way a track name of "file://foo" won't confuse our code later on
+			/*Get all the info we can, in such a way that the empty fields are
+			 *	blank rather than (null).
+			 *Then we hash it and turn that into our identifier string.
+			 *That way a track name of "file://foo" won't confuse our code later on.
+			 */
 			NSArray *args = [userInfo objectsForKeys:
 				[NSArray arrayWithObjects:@"Name", @"Artist", @"Album", @"Composer", @"Genre",
 					@"Year",@"Track Number", @"Track Count", @"Disc Number", @"Disc Count",
 					@"Total Time", nil]
 									  notFoundMarker:@""];
-			newTrackURL = [NSString stringWithFormat:@"%@|%@|%@|%@|%@|%@|%@|%@|%@|%@|%@",
-				[args objectAtIndex:0U], [args objectAtIndex:1U], [args objectAtIndex:2U],
-				[args objectAtIndex:3U], [args objectAtIndex:4U], [args objectAtIndex:5U],
-				[args objectAtIndex:6U], [args objectAtIndex:7U], [args objectAtIndex:8U],
-				[args objectAtIndex:9U], [args objectAtIndex:10U]];
+			newTrackURL = [args componentsJoinedByString:@"|"];
 			newTrackURL = [[NSNumber numberWithUnsignedLong:[newTrackURL hash]] stringValue];
 		}
 	}
 	
-	if ( newTrackURL && ![newTrackURL isEqualToString:trackURL] ) { // this is different from previous note
-		NSString		*track = nil;
-		NSString		*length = nil;
-		NSString		*artist = @"";
-		NSString		*album = @"";
-		BOOL			compilation = NO;
-		NSNumber		*rating = nil;
-		NSString		*ratingString = nil;
-		NSImage			*artwork = nil;
+	if ( newTrackURL && ![newTrackURL isEqualToString:trackURL] ) { // this is different from previous notification
+		NSString		*track         = nil;
+		NSString		*length        = nil;
+		NSString		*artist        = @"";
+		NSString		*album         = @"";
+		BOOL			compilation    = NO;
+		NSNumber		*rating        = nil;
+		NSString		*ratingString  = nil;
+		NSImage			*artwork       = nil;
 		NSString		*displayString = nil;
-		NSDictionary	*error = nil;
+		NSDictionary	*error         = nil;
 		
 		if ([userInfo objectForKey:@"Artist"])
 			artist = [userInfo objectForKey:@"Artist"];
@@ -334,15 +342,16 @@ enum {
 			artwork = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"];
 			[artwork setSize:NSMakeSize( 128.0f, 128.0f )];
 		}
-		if ([newTrackURL hasPrefix:@"http://"]) { //If we're streaming music, display only the name of the station and genre
-			displayString = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"Genre"]];
+		if ([newTrackURL hasPrefix:@"http://"]) {
+			//If we're streaming music, display only the name of the station and genre
+			displayString = [NSString stringWithFormat:NSLocalizedString(@"Display-string format for streams", /*comment*/ nil), [userInfo objectForKey:@"Genre"]];
 		} else {
 			if(!artist) artist = @"";
 			if(!album)  album  = @"";
-			displayString = [NSString stringWithFormat:@"%@ - %@\n%@\n%@",length,ratingString,artist,album];
+			displayString = [NSString stringWithFormat:NSLocalizedString(@"Display-string format", /*comment*/ nil), length, ratingString, artist, album];
 		}
 		
-		// Tell growl
+		// Tell Growl
 		NSDictionary	*noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
 			( state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING ), GROWL_NOTIFICATION_NAME,
 			appName, GROWL_APP_NAME,
