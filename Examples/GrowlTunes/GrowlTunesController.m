@@ -199,6 +199,7 @@ enum {
 			NSSize destIconSize;
 			destIconSize.width = destIconSize.height = 16.0f;
 			[iTunesIcon setSize:destIconSize];
+			[statusItem setHighlightMode:YES];
 			[statusItem setImage:iTunesIcon];
 		}
 	}
@@ -237,8 +238,10 @@ enum {
 			static NSString *names[2] = { @"Launch iTunes", @"Quit iTunes" };
 			[item setTitle:names[[self iTunesIsRunning] != NO]];
 		case quitGrowlTunesTag:
-		case quitBothTag:
 			return YES;
+
+		case quitBothTag:
+			return [self iTunesIsRunning];
 
 		default:
 			return NO;
