@@ -42,6 +42,7 @@
 
 - (IBAction)addNotification:(id)sender {
 	//get Sheet fields and add to the known notifications
+	NSLog(@"checkbox %u; on %u; off %u; mixed %u", [_newNotificationDefault state], NSOnState, NSOffState, NSMixedState);
 	NSNumber *defaultValue = [NSNumber numberWithBool:[_newNotificationDefault state] == NSOnState];
 	NSData *image = nil;
 	if ( [_newNotificationImage image] ) {
@@ -50,7 +51,7 @@
 	
 	NSDictionary *aNuDict = [NSDictionary dictionaryWithObjectsAndKeys:			[_newNotificationTitle stringValue], GROWL_NOTIFICATION_TITLE,
 																				[_newNotificationDescription stringValue], GROWL_NOTIFICATION_DESCRIPTION,
-																				@"Beep", GROWL_APP_NAME,
+																				@"Beep-Cocoa", GROWL_APP_NAME,
 																				defaultValue, GROWL_NOTIFICATION_DEFAULT,
 																				image, GROWL_NOTIFICATION_ICON,
 																				nil];
@@ -105,20 +106,24 @@
 	NSMutableArray *defNotesArray = [NSMutableArray array];
 	NSMutableArray *allNotesArray = [NSMutableArray array];
 	NSEnumerator *defNotes = [_notifications objectEnumerator];
-	id def;
-	int k = 0;
+	NSDictionary *def;
+	NSNumber *isDefaultNum;
+	unsigned i;
+	unsigned max = [_notifications count];
 	
 	while ( def = [defNotes nextObject] ) {
-		if ( [(NSDictionary *)def objectForKey:GROWL_NOTIFICATION_DEFAULT] ) {
+		isDefaultNum = [def objectForKey:GROWL_NOTIFICATION_DEFAULT];
+		if ( isDefaultNum && [isDefaultNum boolValue] ) {
 			[defNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_TITLE]];
 		}
 	}
 	
-	for ( k=0; k < [_notifications count]; k++ ) {
-		[allNotesArray addObject:[[_notifications objectAtIndex:k] objectForKey:GROWL_NOTIFICATION_TITLE]];
+	for ( i = 0; i < max; ++i ) {
+		[allNotesArray addObject:[[_notifications objectAtIndex:i] objectForKey:GROWL_NOTIFICATION_TITLE]];
 	}
 	
-	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:   @"Beep", GROWL_APP_NAME, 
+	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		@"Beep-Cocoa", GROWL_APP_NAME, 
 		allNotesArray, GROWL_NOTIFICATIONS_ALL, 
 		defNotesArray, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
