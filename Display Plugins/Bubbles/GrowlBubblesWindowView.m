@@ -146,48 +146,59 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	// the top, so we've reserved some space for it.
 	float contentHeight = [self frame].size.height - 10.0f;
 	float titleYPosition = contentHeight - [self titleHeight];
+	NSRect drawRect;
+	drawRect.origin.x = 55.f;
+	drawRect.origin.y = titleYPosition;
+	drawRect.size.width = 200.f;
+	drawRect.size.height = [self titleHeight];
 
-	[_title drawWithEllipsisInRect:NSMakeRect( 55.f, titleYPosition, 200.0f, [self titleHeight] ) withAttributes:
+	[_title drawWithEllipsisInRect:drawRect withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont boldSystemFontOfSize:13.f], NSFontAttributeName,
 			_textColor, NSForegroundColorAttributeName,
 			nil]];
-	[_text drawInRect:NSMakeRect( 55.f, 10.f, 200.f, titleYPosition - 10.f ) withAttributes:
+
+	drawRect.origin.y = 10.f;
+	drawRect.size.height = titleYPosition - 10.f;
+
+	[_text drawInRect:drawRect withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont messageFontOfSize:11.f], NSFontAttributeName,
 			_textColor, NSForegroundColorAttributeName,
 			nil]];
 	
-	NSSize iconSize = [_icon size];
-	if( iconSize.width > 32.f || iconSize.height > 32.f ) {
-
+	NSRect iconSize;
+	iconSize.size = [_icon size];
+	// make sure the icon isn't too large. If it is, scale it down
+	if( iconSize.size.width > 32.f || iconSize.size.height > 32.f ) {
 		// scale the image appropriately
-		float newWidth, newHeight, newX, newY;
-		if( iconSize.width > iconSize.height ) {
-			newWidth = 32.f;
-			newHeight = 32.f / iconSize.width * iconSize.height;
-		} else if( iconSize.width < iconSize.height ) {
-			newWidth = 32.f / iconSize.height * iconSize.width;
-			newHeight = 32.f;
+		if( iconSize.size.width > iconSize.size.height ) {
+			drawRect.size.width = 32.f;
+			drawRect.size.height = 32.f / iconSize.size.width * iconSize.size.height;
+		} else if( iconSize.size.width < iconSize.size.height ) {
+			drawRect.size.width = 32.f / iconSize.size.height * iconSize.size.width;
+			drawRect.size.height = 32.f;
 		} else {
-			newWidth = 32.f;
-			newHeight = 32.f;
+			drawRect.size.width = 32.f;
+			drawRect.size.height = 32.f;
 		}
 		
-		newX = floorf((32.f - newWidth) * 0.5f);
-		newY = floorf((32.f - newHeight) * 0.5f);
+		drawRect.origin.x = floorf(15.f + (32.f - drawRect.size.width) * 0.5f);
+		drawRect.origin.y = floorf(contentHeight - 35.f + (32.f - drawRect.size.height) * 0.5f);
 
-		NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
-		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
-		[_icon autorelease];
-		_icon = [[NSImage alloc] initWithSize:NSMakeSize(32.f, 32.f)];
-		[_icon lockFocus];
-		[graphicsContext setImageInterpolation: NSImageInterpolationHigh];
-		[sourceImageRep drawInRect:newBounds];
-		[_icon unlockFocus];
+		// we can set this because we are always working with a copy
+		[_icon setScalesWhenResized:TRUE];
+	} else {
+		drawRect.origin.x = 15.f;
+		drawRect.origin.y = contentHeight - 35.f;
+		drawRect.size.width = iconSize.size.width;
+		drawRect.size.height = iconSize.size.height;
 	}
 
-	[_icon compositeToPoint:NSMakePoint( 15.f, contentHeight - 35.f ) operation:NSCompositeSourceAtop fraction:1.f];
+	[_icon drawInRect:drawRect
+			 fromRect:iconSize
+			 operation:NSCompositeSourceAtop
+			 fraction:1.f];
 
 	[[self window] invalidateShadow];
 }
