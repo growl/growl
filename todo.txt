@@ -83,7 +83,7 @@ For .7 (The Kitchen Sink) or sooner
 	- Add a functional plugin that can display all notifications in a log. Make this accessable via the menuling
 
 - Uber passive registration
-	- A GrowlNotifitcations.plist resource in App bundles that we read on their launch/install to allow them to register
+	- A GrowlNotifications.plist resource in App bundles that we read on their launch/install to allow them to register
 	- This is for when the app would have a large amount of notifs to prepare or to seperate it out from code and make it
 	  more flexible on app updates and such
 	- Watching app launches and checking on apps for these resources
