@@ -1,0 +1,249 @@
+Growl Coding standards
+======================
+
+This is an extreme work in progress, but it's an effort to document coding standards that should be used when coding for Growl, or any other Objective-C code in the Growl Subversion repository. Developers, feel free to codify anything you notice we do in the code as a hard standard here.
+
+Language
+--------
+Name your variables, classes, methods, functions and all other things in English. Comments should likewise be in English.
+
+Which kind of English depends on where you're from.
+
+Font selection
+--------------
+Always code in a monospaced font. If you manage to do otherwise, we will beat you harshly, one lash for every line in a non monospaced font.
+
+Variable names
+--------------
+Instance and local variables should generally be named in camelCase, with a lowercase initial letter, and no underscores. No form of Hungarian notation is to be used, ever.
+
+Type and class names
+--------------------
+
+Use struct or enum when allowed:
+
+struct sockaddr saddr;
+struct FSForkIOParam pb;
+
+But not when this is discouraged (as with some Cocoa structures):
+
+NSRect rect; //NOT struct _NSRect
+
+Classes should be named in CamelCase, with an uppercase initial letter, and no underscores. Name your classes so that it's obvious what they belong to and what they're for. ex: NSCamelCaseObject
+
+Methods should be arranged as follows:
+	+ classMethods;
+	+ classMethodsThatCreateObjects; //e.g. new or newWithZone
+	- init;
+	- initWithExtraArgument: andOtherExtraArgument:;
+	- (void)dealloc;
+	// Other instance methods
+
+Selector names
+--------------
+Always include return type, even if it's id.
+
+All parameter names are assumed to be inputs, unless noted otherwise. You might consider using the 'in' or 'out' keyword if it needs to be explicitly disambiguated.
+
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row;
+- (BOOL)scanUpToString:(NSString *)string intoString:(out NSString **)outString;
+
+Variable Declarations
+---------------------
+
+Always initialise variables at declaration time or immediately afterwards. Never use a variable's value without initialising it first.
+
+Fail to adhere to this rule and we shall slowly lower you into a vat of gently boiling acid.
+
+Multiple return statements
+--------------------------
+
+Allowed sometimes, but try to avoid having too many. Defining 'too many' is an exercise left to the reader.
+
+Example of how to avoid this:
+- (NSString *) whosYourDaddy:(NSString *)inChild {
+	NSString *returnString = nil;
+	if ( inChild != nil ) {
+		returnString = [NSString stringWithString:@"Alan Kay"];
+	}
+	return returnString;
+}
+
+
+Message breaking
+----------------
+Encouraged for long messages:
+	newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
+															withIcon:appIcon
+													andNotifications:allNotes
+													 andDefaultNotes:defaultNotes];
+
+(Note that the colons line up vertically.)
+
+Line breaking is generally encouraged for all sorts of long expressions, provided it does not reduce readability. Consider:
+
+	if(some_long_condition && some_other_long_condition || some_completely_different_long_condition) 
+
+as opposed to:
+
+	if (some_long_condition
+		&& some_other_long_condition
+		|| some_completely_different_long_condition)
+
+
+Braces and Whitespace
+---------------------
+
+- (void)foo {
+	if (a) {
+		do_b();
+	} else if (b) {
+		do_c();
+	} else {
+		do_done();
+	}
+	
+	if (q)
+		do_q();
+
+	/*	comments should be at the same level as the code, and should explain
+	 *	the line following them.
+	 */
+	this_is_explained_by_the_comment();
+
+	/*	It is also recommended to have comments in a paragraph by themselves to
+	 *	explain the state of the object/algorithm at a particular point in the
+	 *	method or function. This will help other programmers to understand your
+	 *	code if they need to modify it.
+	 */
+}
+
+Always use tabs to indent. Never spaces. Ever.
+
+Indent your instance variables, too.
+
+Always use spaces around operators:
+ 	2 + 2, not 2+2
+ 	x && y, not x&&y
+ 	x << 256 not x<<256
+
+Put a space between a keyword and the opening parenthesis:
+	if (a)
+	// not: if(a)
+But not between a function name and the opening parenthesis:
+	printf("%s", "Hello world!\n");
+	// not: printf ("%s", "Hello world!\n");
+
+Don't pad the inside of the parentheses with spaces:
+	if (a && b)
+	// not: if ( a && b )
+
+Don't use parentheses around the argument to return (making it look like a function call):
+	return 0;
+	// not: return(0);
+But it's OK for parenthesized expressions:
+	return ((x * y) ? 42 : [array objectAtIndex:fallback]);
+
+Labels
+------
+
+Labels should always be on a line by themselves, and should be 1 indent to the left of the statement they apply to:
+
+	switch(answer) {
+		case 42:
+			printf("Found the answer! (%i)\n", answer);
+	}
+
+Note that in a switch, all statements are indented ~two~ levels to allow for the case labels.
+
+Use of +new
+-----------
+Allowed, but where alloc/init is being used, stay uniform. Also switch to alloc/init when you need to use alloc/initWithFoo:.
+
+Ternary operator (foo ? bar : baz)
+----------------------------------
+Allowed.
+
+Comma operator (x, y)
+---------------------
+
+Use only in loop controls.
+
+for(unsigned x = 0, y = 0; x < maxX && y < maxY; ++x, ++y) {
+	...
+}
+
+Index variables
+---------------
+
+Always unsigned unless necessary. Never use index variables for NSArrays; use NSEnumerator to iterate on those. (Only keep an index variable if you need to replace elements of an NSMutableArray.)
+
+Comments
+------------------------
+
+// C99 single-line comments are allowed.
+// Put a space after the //.
+
+/*	Multi-line ('winged') comments should be used whenever a comment spans
+ *	multiple lines, like this one.
+ *	Be sure the stars line up in a nice column, and that the end wing is on its
+ *	own line.
+ *	Also make sure you use a tab after the column of stars.
+ */
+
+Numeric constants
+-----------------
+
+Always supply a fraction and an integer in any floating-point constant: 0.0, not 0. or .0.
+
+Specify f for float constants: 0.0f not 0.0 (0.0 is a double constant).
+
+Use U for unsigned integers, and L and LL for long and long long integers:
+
+	0U;   //unsigned
+	0L;   //long
+	0UL;  //unsigned long
+	0LL;  //long long
+	0ULL; //unsigned long long
+
+Use nil for Cocoa types, and NULL elsewhere:
+
+- (char *)UTF8String {
+	if(UTF8String == NULL)
+		UTF8String = malloc([self length]);
+	if(UTF8String != NULL)
+		strcpy(UTF8String, "I am the Walrus");
+	return UTF8String;
+}
+
+The above is for example purposes; whenever testing against NULL/nil, use simple truth-testing (and the ! operator when appropriate):
+
+	void *buf = NULL;
+	size_t size = 0U, increment = getpagesize();
+	do {
+		buf = realloc(buf, size);
+		if(!buf)
+			NSLog(@"Could not allocate %zu bytes", size);
+		else
+			size += increment;
+	} while(buf);
+
+Auto-{in,de}crement
+-------------------
+
+Use prefix version whenever possible.
+
+	while(--argc)
+		printf("%s\n", *++argv);
+
+Encoding
+--------
+
+UTF-8. Always and forever. (Exception: strings files must be UTF-16.)
+
+C standard
+----------
+
+Use C99 with all warnings turned on (except for 'Unknown automatic variables' and 'Four-character constants'). Ignore the #import warning; fix everything else.
+
+Feel free to use #warning, but fix it as soon as possible.
