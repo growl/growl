@@ -130,7 +130,7 @@
 	@method reregisterGrowlNotifications
 	@abstract Reregister the notifications for this application
 	@description This method does not normally need to be called.  If your application changes what notifications
-	it is registering with Growl, call this method to have the growlDelegate's growlRegistrationDict method called
+	it is registering with Growl, call this method to have the growlDelegate's registrationDictionaryForGrowl method called
 	again and the Growl registration information updated.
  */
 + (void) reregisterGrowlNotifications;
