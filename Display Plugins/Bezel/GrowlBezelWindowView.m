@@ -115,7 +115,17 @@
 	
 	titleRect.size.height = titleSize.height;
 	[_title drawInRect:titleRect withAttributes:titleAttributes];
-	[_text drawInRect:NSMakeRect(8.0,19.0,143.0,34)];
+	
+	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+				[NSColor whiteColor], NSForegroundColorAttributeName,
+				parrafo, NSParagraphStyleAttributeName,
+				[NSFont systemFontOfSize:14.0], NSFontAttributeName, nil];
+	NSAttributedString *_textAttributed = [[[NSAttributedString alloc] initWithString:_text
+			attributes:textAttributes] autorelease];
+	if ( [self descriptionRowCount:_textAttributed] > 2 ) {
+		[textAttributes setObject:[NSFont systemFontOfSize:12.0] forKey:NSFontAttributeName];
+	}
+	[_text drawInRect:NSMakeRect(8.0,4.0,143.0,49.) withAttributes:textAttributes];
 	
 	NSSize iconSize = [_icon size];
 	if ( iconSize.width > 48. || iconSize.height > 48. ) {
@@ -160,33 +170,20 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (void)setAttributedText:(NSAttributedString *)text {
+- (void)setText:(NSString *)text {
 	[_text autorelease];
 	_text = [text copy];
 	_textHeight = 0;
 	[self setNeedsDisplay:YES];
 }
 
-- (void)setText:(NSString *)text {
-	[_text autorelease];
-    NSMutableParagraphStyle    *parrafo = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
-			setAlignment:NSCenterTextAlignment];
-	_text = [[NSAttributedString alloc] initWithString:text attributes:
-			[NSMutableDictionary dictionaryWithObjectsAndKeys:
-				[NSColor whiteColor], NSForegroundColorAttributeName,
-				parrafo, NSParagraphStyleAttributeName,
-				[NSFont systemFontOfSize:14.0], NSFontAttributeName, nil]];
-	_textHeight = 0;
-	[self setNeedsDisplay:YES];
-}
-
-- (float) descriptionHeight {
+- (float)descriptionHeight:(NSAttributedString *)text {
 	
 	if (_textHeight == 0)
 	{
-		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:_text];
+		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:text];
 		NSTextContainer* textContainer = [[[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize ( 200., FLT_MAX )] autorelease];
+			initWithContainerSize:NSMakeSize ( 143.0, 68. )] autorelease];
 		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
 
 		[layoutManager addTextContainer:textContainer];
@@ -194,15 +191,14 @@
 		(void)[layoutManager glyphRangeForTextContainer:textContainer];
 	
 		_textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-	
 		_textHeight = _textHeight / 13 * 14;
 	}
 	return MAX (_textHeight, 30);
 }
 
-- (int) descriptionRowCount {
-	float height = [self descriptionHeight];
-	float lineHeight = [_text size].height;
+- (int)descriptionRowCount:(NSAttributedString *)text {
+	float height = [self descriptionHeight:text];
+	float lineHeight = [text size].height;
 	return (int) (height / lineHeight);
 }
 

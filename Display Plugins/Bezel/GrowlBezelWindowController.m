@@ -59,7 +59,7 @@ static unsigned int bezelWindowDepth = 0;
 	if ( [text isKindOfClass:[NSString class]] ) {
 		[view setText:text];
 	} else if ( [text isKindOfClass:[NSAttributedString class]] ) {
-		[view setAttributedText:text];
+		[view setText:[text string]]; // striping any attributes!! eat eat!
 	}
 	
 	[view setIcon:icon];

@@ -12,7 +12,7 @@
 @interface GrowlBezelWindowView : NSView {
 	NSImage				*_icon;
 	NSString			*_title;
-	NSAttributedString	*_text;
+	NSString			*_text;
 	float				_textHeight;
 	SEL					_action;
 	id					_target;
@@ -20,11 +20,10 @@
 
 - (void)setIcon:(NSImage *)icon;
 - (void)setTitle:(NSString *)title;
-- (void)setAttributedText:(NSAttributedString *)text;
 - (void)setText:(NSString *)text;
 
-- (float)descriptionHeight;
-- (int)descriptionRowCount;
+- (float)descriptionHeight:(NSAttributedString *)text;
+- (int)descriptionRowCount:(NSAttributedString *)text;
 
 - (id)target;
 - (void)setTarget:(id)object;
