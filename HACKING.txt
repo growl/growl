@@ -281,6 +281,20 @@ simple truth-testing (and the ! operator when appropriate):
 			size += increment;
 	} while (buf);
 
+Otherwise, always use constants whenever possible; for example:
+
+	- Use NSComparisonResult constants instead of -1, 0, +1 when working with -compare:.
+	- Use NSNotFound when testing whether a range- or index-search method found a match.
+	- When creating Core Foundation objects, use the CFAllocator constants (e.g. kCFAllocatorDefault) at all times, even when requesting the default allocator. Don't use NULL to get the default allocator.
+
+Type names
+----------
+Don't use 'int' unless there are no qualifiers on it. All three of these declarations are correct:
+
+	int x; //no qualifiers
+	unsigned y; //qualifier 'unsigned'
+	short z; //qualifier 'short'
+
 Auto-{in,de}crement
 -------------------
 Use prefix version whenever possible.
