@@ -12,7 +12,6 @@ For .6 (Go Go Growl)
 		- Choose file. Default to something sane.
 
 Release related issues
-- Fix minor visual problems
 - Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
 - Create a branch for the .6 release.
 - Make sure we have user documentation on everything we have. This was a sore point for us last release.
@@ -201,4 +200,4 @@ Done:
 	- Extras will be BSD licensed
 - A way for applications to detect the current version of Growl which is being used.
 - Make sure all bindings register. I think this is already done, but we need to double check as this is now required.
-
+- Fix minor visual problems
