@@ -60,7 +60,6 @@
 #pragma mark -
 
 - (void) dispatchNotification:(NSNotification *) note {
-	
+	//insert code here
 }
-
 @end
