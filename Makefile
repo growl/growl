@@ -1,7 +1,7 @@
 PREFERENCEPANES_DIR=$(HOME)/Library/PreferencePanes
 FRAMEWORKS_DIR=/Library/Frameworks
 GROWL_PREFPANE=Growl.prefPane
-GROWL_FRAMEWORK=GrowlAppBridge.framework
+GROWL_FRAMEWORK=Growl.framework
 BUILD_DIR=build
 GROWL_HELPER_APP=$(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)/Contents/Resources/GrowlHelperApp.app
 
@@ -18,7 +18,7 @@ RM=rm
 default:
 	xcodebuild -project Growl.xcode -target Growl -buildstyle $(BUILDSTYLE) build
 
-all: growlappbridge
+all: growlapplicationbridge
 	xcodebuild -project Growl.xcode -alltargets -buildstyle $(BUILDSTYLE) build
 
 growl:
@@ -27,18 +27,16 @@ growl:
 growlhelperapp:
 	xcodebuild -project Growl.xcode -target GrowlHelperApp -buildstyle $(BUILDSTYLE) build
 
-growlappbridge:
-	xcodebuild -project GrowlAppBridge.xcode -target GrowlAppBridge -buildstyle $(BUILDSTYLE) build
+growlapplicationbridge:
+	xcodebuild -project Growl.xcode -target Growl.framework -buildstyle $(BUILDSTYLE) build
 
 clean:
 	xcodebuild -project Growl.xcode -alltargets clean
-	xcodebuild -project GrowlAppBridge.xcode -alltargets clean
 
 install:
 	killall GrowlHelperApp || true
 	-$(RM) -rf $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE) $(FRAMEWORKS_DIR)/$(GROWL_FRAMEWORK)
 	$(CP) $(BUILD_DIR)/$(GROWL_PREFPANE) $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
-	$(CP) $(BUILD_DIR)/$(GROWL_FRAMEWORK) $(FRAMEWORKS_DIR)/$(GROWL_FRAMEWORK)
 	open $(GROWL_HELPER_APP)
 
 install-growl:
