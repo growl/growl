@@ -42,23 +42,25 @@ static const double GrowlSmokePadding = 10.;
 */
 
 - (void) notificationDidFadeOut:(id)sender {
-	NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithCapacity:0];
-	[dict setObject:[NSNumber numberWithInt:_id] forKey:@"ID"];
-	[dict setObject:[NSNumber numberWithFloat:[[self window] frame].size.height] forKey:@"Depth"];
+	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->_id);
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+		[NSNumber numberWithInt:_id], @"ID",
+		[NSNumber numberWithFloat:windowSize.height], @"Depth",
+		nil];
 	// stop smokeWindowDepth wrapping around
-	if([[self window] frame].size.height > smokeWindowDepth)
+	if(windowSize.height > smokeWindowDepth)
 		smokeWindowDepth = 0;
 	else
-		smokeWindowDepth -= [[self window] frame].size.height;
+		smokeWindowDepth -= windowSize.height;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"Glide" object:nil userInfo:dict];
 }
 
 - (void) _glideUp:(NSNotification *)note {
-//	NSLog(@"id: %d depth: %f", [[[note userInfo] objectForKey:@"ID"] intValue], [[[note userInfo] objectForKey:@"Depth"] floatValue]);
+	NSDictionary *userInfo = [note userInfo];
+//	NSLog(@"id: %d depth: %f", [[userInfo objectForKey:@"ID"] intValue], [[userInfo objectForKey:@"Depth"] floatValue]);
 //	NSLog(@"self id: %d smokeWindowDepth: %d", _id, smokeWindowDepth);
-	if ([[[note userInfo] objectForKey:@"ID"] intValue] < _id)
-	{
+	if ([[userInfo objectForKey:@"ID"] intValue] < _id) {
 		NSRect theFrame = [[self window] frame];
 		theFrame.origin.y += [[[note userInfo] objectForKey:@"Depth"] floatValue];
 		// don't allow notification to fly off the top of the screen
@@ -71,8 +73,6 @@ static const double GrowlSmokePadding = 10.;
 #pragma mark Regularly Scheduled Coding
 
 - (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky {
-	extern unsigned int smokeWindowDepth;
-	extern unsigned int globalId;
 	_id = globalId++;
 
 	[[NSNotificationCenter defaultCenter] addObserver:self 
