@@ -1,6 +1,12 @@
 Growldict
 ______________________________________
 
+Installation:
+1) Build in xcode, using deployment. (for questions about deployment see: http://growl.info/documentation/xcode.php)
+2) Copy Dictmenu to ~/Library/Services 
+		Note: You may need to create this directory
+3) Log out.
+
 How to use it:
 Growldict is a simple service that runs in the background. To use it simply highlight a  word and select lookup word from the services menu under the currently running application's name in the menu bar. Alternatively you can just press command-shift-F . Growl will popup a bubble with the definition of the word.
 
