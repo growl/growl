@@ -152,12 +152,12 @@ ImageObject_imageWithIconForFileType(PyTypeObject *cls, PyObject *args)
 }
 
 static PyObject *
-ImageObject_imageWithIconOfCurrentApplication(PyTypeObject *cls, PyObject *args)
+ImageObject_imageWithIconForCurrentApplication(PyTypeObject *cls, PyObject *args)
 {
     ImageObject *self;
     NSAutoreleasePool *pool = nil;
     
-    if (! PyArg_ParseTuple(args, ":imageWithIconOfCurrentApplication"))
+    if (! PyArg_ParseTuple(args, ":imageWithIconForCurrentApplication"))
         return NULL;
         
     pool = [[NSAutoreleasePool alloc] init];
@@ -168,13 +168,46 @@ ImageObject_imageWithIconOfCurrentApplication(PyTypeObject *cls, PyObject *args)
     return (PyObject *) self;
 }
 
+static PyObject *
+ImageObject_imageWithIconForApplication(PyTypeObject *cls, PyObject *args)
+{
+    ImageObject *self;
+    char *appName_ = NULL;
+    NSString *appName = nil;
+    NSString *appPath = nil;
+    NSImage *theImage = nil;
+    NSAutoreleasePool *pool = nil;
+    
+    if (! PyArg_ParseTuple(args, "et:imageWithIconForApplication",
+                           Py_FileSystemDefaultEncoding, &appName_))
+        return NULL;
+        
+    pool = [[NSAutoreleasePool alloc] init];
+    
+    appName = [NSString stringWithUTF8String:appName_];
+    appPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:appName];
+    if (! appPath)
+    {
+        PyErr_Format(PyExc_RuntimeError, "Application named '%s' not found", appName_);
+        self = NULL;
+        goto done;
+    }
+    theImage = [[NSWorkspace sharedWorkspace] iconForFile:appPath];
+    self = newImageObject(theImage);
+
+done:
+    [pool release];
+    return (PyObject *) self;
+}
+
 
 static PyMethodDef ImageObject_methods[] = {
     {"imageFromPath", (PyCFunction)ImageObject_imageFromPath, METH_VARARGS | METH_CLASS},
     {"imageWithData", (PyCFunction)ImageObject_imageWithData, METH_VARARGS | METH_CLASS},
     {"imageWithIconForFile", (PyCFunction)ImageObject_imageWithIconForFile, METH_VARARGS | METH_CLASS},
     {"imageWithIconForFileType", (PyCFunction)ImageObject_imageWithIconForFileType, METH_VARARGS | METH_CLASS},
-    {"imageWithIconOfCurrentApplication", (PyCFunction)ImageObject_imageWithIconOfCurrentApplication, METH_VARARGS | METH_CLASS},
+    {"imageWithIconForCurrentApplication", (PyCFunction)ImageObject_imageWithIconForCurrentApplication, METH_VARARGS | METH_CLASS},
+    {"imageWithIconForApplication", (PyCFunction)ImageObject_imageWithIconForApplication, METH_VARARGS | METH_CLASS},
     {NULL, NULL} /* sentinel */
 };
 
