@@ -28,9 +28,22 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+CFLAGS+=-framework Foundation
+BINDIR?=/usr/local/bin
+
+### do not modify below this point ###
+
 macyac: macyac.m
-	gcc -o macyac -framework Foundation macyac.m
+
+#note: $(BINDIR) must be last on this line, as install takes its last argument
+#  as the destination directory.
+install: macyac $(BINDIR)
+	install -c -m755 $^
+
+$(BINDIR):
+	install -d $@
 
 clean:
 	rm -f macyac
-    
+
+.PHONY: install clean
