@@ -8,7 +8,7 @@ use POSIX;
 #(1) Stripping the protocol information from the file, and
 #(2) Converting all @"String" forms into CFSTR("String")
 
-my @infiles = ("GrowlDefines.h", "GrowlAppBridgeDefines.h");
+my @infiles = ("GrowlDefines.h", "GrowlDefinesInternal.h");
 my %outfiles = ("GrowlDefinesInternal.h" => "GrowlDefinesInternalCarbon.h",
 		"GrowlDefines.h" => "GrowlDefinesCarbon.h");
 
