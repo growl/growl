@@ -161,7 +161,7 @@ Labels
 Labels should always be on a line by themselves, and should be 1 indent to the 
 left of the statement they apply to:
 
-	switch(answer) {
+	switch (answer) {
 		case 42:
 			printf("Found the answer! (%i)\n", answer);
 	}
