@@ -2,6 +2,8 @@
 //  GrowlDefines.h
 //
 
+#ifndef _GROWLDEFINES_H
+#define _GROWLDEFINES_H
 /*!
  @header
  @abstract   Defines all the notification keys
@@ -76,3 +78,5 @@ Handled by the GrowlApplicationBridge. */
 
 /*! The extension used when registering an app via opening a file on the helper app */
 #define GROWL_REG_DICT_EXTENSION		@"growlRegDict"
+
+#endif //ndef _GROWLDEFINES_H

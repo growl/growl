@@ -8,6 +8,9 @@
 //    program.
 //
 
+#ifndef _GROWLAPPLICATIONBRIDGE_CARBON_H
+#define _GROWLAPPLICATIONBRIDGE_CARBON_H
+
 #include <Carbon/Carbon.h>
 
 #ifdef __cplusplus
@@ -343,3 +346,5 @@ Boolean LaunchGrowlIfInstalled(GrowlLaunchCallback callback, void *context);
 #ifdef __cplusplus
 }
 #endif
+
+#endif //ndef _GROWLAPPLICATIONBRIDGE_CARBON_H
