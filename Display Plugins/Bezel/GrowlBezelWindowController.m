@@ -233,6 +233,7 @@
 - (void)stopFadeOut {
 	[self _stopTimer];
 	[self close];
+	[self autorelease];
 }
 
 - (BOOL)automaticallyFadeOut {
