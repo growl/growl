@@ -265,7 +265,7 @@ struct GrowlNetworkNotification {
 		CFRelease(staticPrefs); \
 	}\
 	CFDictionarySetValue(prefs, key, value); \
-	CFPreferencesSetAppValue((CFStringRef)domain, prefs, CFSTR("com.growl.GrowlHelperApp")); \
+	CFPreferencesSetAppValue((CFStringRef)domain, prefs, CFSTR("com.Growl.GrowlHelperApp")); \
 	CFRelease(prefs); } while(0)
 
 /*!	@function    READ_GROWL_PREF_BOOL

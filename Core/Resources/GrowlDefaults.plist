@@ -12,5 +12,7 @@
 	<true/>
 	<key>GrowlEnableForward</key>
 	<false/>
+	<key>GrowlUpdateCheck</key>
+	<true/>
 </dict>
 </plist>

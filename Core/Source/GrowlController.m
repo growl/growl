@@ -22,6 +22,11 @@
 #import "SVNRevision.h"
 #import <sys/socket.h>
 
+// check every 24 hours
+#define UPDATE_CHECK_INTERVAL	24.0*3600.0
+#define LastUpdateCheckKey		@"LastUpdateCheck"
+#define GrowlUpdateCheckKey		@"GrowlUpdateCheck"
+
 @interface GrowlController (private)
 - (void) loadDisplay;
 - (BOOL) _tryLockQueue;
@@ -81,8 +86,9 @@ static id singleton = nil;
 
 		[self versionDictionary];
 
-		[[GrowlPreferences preferences] registerDefaults:
-				[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]]];
+		GrowlPreferences *preferences = [GrowlPreferences preferences];
+		[preferences registerDefaults: [NSDictionary dictionaryWithContentsOfFile:
+			[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]]];
 
 		[self preferencesChanged:nil];
 
@@ -100,7 +106,19 @@ static id singleton = nil;
 			singleton = self;
 		}
 
-		[self checkVersion];
+		NSDate *lastCheck = [preferences objectForKey:LastUpdateCheckKey];
+		NSDate *now = [NSDate date];
+		if (!lastCheck || [now timeIntervalSinceDate:lastCheck] > UPDATE_CHECK_INTERVAL) {
+			[self checkVersion:nil];
+			lastCheck = now;
+		}
+		[lastCheck addTimeInterval:UPDATE_CHECK_INTERVAL];
+		updateTimer = [[NSTimer alloc] initWithFireDate:lastCheck
+											   interval:UPDATE_CHECK_INTERVAL
+												 target:self
+											   selector:@selector(checkVersion:)
+											   userInfo:nil
+												repeats:YES];
 	}
 
 	return self;
@@ -121,6 +139,8 @@ static id singleton = nil;
 
 	[versionCheckURL release];
 	[downloadURL     release];
+	[updateTimer     invalidate];
+	[updateTimer     release];
 
 	[super dealloc];
 }
@@ -351,7 +371,13 @@ static id singleton = nil;
 	}
 }
 
-- (void) checkVersion {
+- (void) checkVersion:(NSTimer *)timer {
+	GrowlPreferences *preferences = [GrowlPreferences preferences];
+
+	if (![[preferences objectForKey:GrowlUpdateCheckKey] boolValue]) {
+		return;
+	}
+
 	if (!versionCheckURL) {
 		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
 	}
@@ -362,14 +388,17 @@ static id singleton = nil;
 
 	// do nothing--be quiet if there is no active connection or if the
 	// version number could not be downloaded
-	if (latestVersionNumber && (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0)) {
-		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Update Available", @"")
-									description:NSLocalizedString(@"A newer version of Growl is available online. Click here to download it now.", @"")
-							   notificationName:@"Growl update available"
-									   iconData:growlIconData
-									   priority:1
-									   isSticky:YES
-								   clickContext:@"update"];
+	if (latestVersionNumber) {
+		[preferences setObject:[NSDate date] forKey:LastUpdateCheckKey];
+		if (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0) {
+			[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Update Available", @"")
+										description:NSLocalizedString(@"A newer version of Growl is available online. Click here to download it now.", @"")
+								   notificationName:@"Growl update available"
+										   iconData:growlIconData
+										   priority:1
+										   isSticky:YES
+									   clickContext:@"update"];
+		}
 	}
 }
 

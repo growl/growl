@@ -45,6 +45,7 @@
 
 	NSURL						*versionCheckURL;
 	NSURL						*downloadURL;
+	NSTimer						*updateTimer;
 }
 
 + (id) standardController;
@@ -77,7 +78,7 @@
 
 - (void) replyToPing:(NSNotification *)note;
 
-- (void) checkVersion;
+- (void) checkVersion:(NSTimer *)timer;
 
 @end
 
