@@ -3,18 +3,16 @@
 A python script that sends notifications to the Growl daemon 
 See <http://Growl.info> for more information.
 
-Requires PyObjC 1.1 <http://pyobjc.sourceforge.net/> and Python 2.3
-<http://www.python.org/>.
+Requires Python 2.3 <http://www.python.org/>.
 
 Copyright 2004 Jeremy Rossi <jeremy@jeremyrossi.com>
 Released under the BSD license.
 
 Modified by Kevin Ballard <kevin@sb.org>
+Updated for Growl 0.6 by Mark Rowe <bdash@users.sourceforge.net>
 """
 
 import Growl
-from Foundation import NSRunLoop, NSDate
-from AppKit import NSWorkspace, NSImage
 import getopt, sys, os.path
 
 def usage():
@@ -63,23 +61,22 @@ def main():
 		elif o in ("-p", "--priority"): nPriority = a
 	
 	nIcon = None
-	workspace = NSWorkspace.sharedWorkspace()
 	if nImagePath != '':
 		nImagePath = os.path.abspath(nImagePath)
-		nIcon = NSImage.alloc().initWithContentsOfFile_(nImagePath).autorelease()
+		nIcon = Growl.Image.imageFromPath(nImagePath)
 		if not nIcon:
 			sys.stderr.write("Couldn't load file %s\n" % nImagePath)
 	elif nIconPath != '':
 		nIconPath = os.path.abspath(nIconPath)
-		nIcon = workspace.iconForFile_(nIconPath)
+		nIcon = Growl.Image.imageWithIconForFile(nIconPath)
 		if not nIcon:
 			sys.stderr.write("Couldn't load icon for %s\n" % nIconPath)
 	elif nIconType != '':
-		nIcon = workspace.iconForFileType_(nIconType)
+		nIcon = Growl.Image.imageWithIconForFileType(nIconType)
 		if not nIcon:
 			sys.stderr.write("Couldn't load type %s\n" % nIconType)
 	if nIcon is None:
-		nIcon = workspace.iconForFileType_('unknown')
+		nIcon = Growl.Image.imageWithIconForFileType('unknown')
 	if nPriority and nPriority in Growl.growlPriority.keys():
 		nPriority = Growl.growlPriority[nPriority]
 	elif nPriority:
@@ -87,10 +84,7 @@ def main():
 
 	
 	# fetch Terminal app icon
-	nAppPath = workspace.fullPathForApplication_("com.apple.Terminal")
-	nAppIcon = None
-	if nAppPath:
-		nAppIcon = workspace.iconForFile_(nAppPath)
+	nAppIcon = Growl.Image.imageWithIconForApplication('Terminal')
 	
 	class TestGrowlNotifier(Growl.GrowlNotifier):
 		applicationName = appName
@@ -104,7 +98,7 @@ def main():
 			if not i: break
 			n.notify(NOTIFICATION_NAME, nTitle, i, appicon=nAppIcon, sticky=nSticky, priority=nPriority)
 	else:
-		n.notify(NOTIFICATION_NAME, nTitle, nMsg, appicon=nAppIcon, sticky=nSticky, priority=nPriority)
+		n.notify(NOTIFICATION_NAME, nTitle, nMsg, icon=nIcon, sticky=nSticky, priority=nPriority)
 
 if __name__ == '__main__':
 	main()
