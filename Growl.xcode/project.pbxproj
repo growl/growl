@@ -57,7 +57,6 @@
 				8D202CE80486D31800D8A456,
 				CB61E5170637763C00E0DDC7,
 				CB5F84DC0638BFDB00EADD7A,
-				CBBC7DE20659313D00684B79,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
@@ -68,7 +67,6 @@
 				CB5F835E0638B67C00EADD7A,
 				CB5F836E0638B69900EADD7A,
 				CB5F84EB0638BFFF00EADD7A,
-				CBBC7DFD065931A800684B79,
 				089C1671FE841209C02AAC07,
 				19C28FB8FE9D52D311CA2CBB,
 			);
@@ -201,7 +199,6 @@
 				8D202CF80486D31800D8A456,
 				CB61E5180637763C00E0DDC7,
 				CB5F84DD0638BFDB00EADD7A,
-				CBBC7DE30659313D00684B79,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -263,18 +260,6 @@
 			path = GrowlApplicationBridge.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		34CEA39E0680A7BF00670E0D = {
-			fileRef = 34CEA39C0680A7BF00670E0D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		34CEA39F0680A7BF00670E0D = {
-			fileRef = 34CEA39D0680A7BF00670E0D;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 //340
 //341
@@ -493,12 +478,6 @@
 			};
 		};
 		9E51EBA90662FCF700FF1462 = {
-			fileRef = 1058C7ADFEA557BF11CA2CBB;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		9E51EBAA0662FCFA00FF1462 = {
 			fileRef = 1058C7ADFEA557BF11CA2CBB;
 			isa = PBXBuildFile;
 			settings = {
@@ -1002,205 +981,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		CBBC7DDE0659313D00684B79 = {
-			buildActionMask = 2147483647;
-			files = (
-				CBBC7F0106594F8E00684B79,
-				CBF073C90659A94F000B4B77,
-				34CEA39E0680A7BF00670E0D,
-			);
-			isa = PBXHeadersBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CBBC7DDF0659313D00684B79 = {
-			buildActionMask = 2147483647;
-			files = (
-				CBBC7E0306593AF700684B79,
-			);
-			isa = PBXResourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CBBC7DE00659313D00684B79 = {
-			buildActionMask = 2147483647;
-			files = (
-				CBBC7E1E06593BFD00684B79,
-				CBBC7F0006594F8E00684B79,
-				34CEA39F0680A7BF00670E0D,
-			);
-			isa = PBXSourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CBBC7DE10659313D00684B79 = {
-			buildActionMask = 2147483647;
-			files = (
-				9E51EBAA0662FCFA00FF1462,
-			);
-			isa = PBXFrameworksBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CBBC7DE20659313D00684B79 = {
-			buildPhases = (
-				CBBC7DDE0659313D00684B79,
-				CBBC7DDF0659313D00684B79,
-				CBBC7DE00659313D00684B79,
-				CBBC7DE10659313D00684B79,
-			);
-			buildRules = (
-			);
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Growl_Prefix.pch;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				INFOPLIST_FILE = "Beep-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Beep;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
-			};
-			dependencies = (
-			);
-			isa = PBXNativeTarget;
-			name = Beep;
-			productName = Beep;
-			productReference = CBBC7DE30659313D00684B79;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>Beep</string>
-	<key>CFBundleGetInfoString</key>
-	<string></string>
-	<key>CFBundleIconFile</key>
-	<string></string>
-	<key>CFBundleIdentifier</key>
-	<string>com.MySoftwareCompany.Beep</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string></string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0.0d1</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-</dict>
-</plist>
-";
-			productType = "com.apple.product-type.application";
-		};
-		CBBC7DE30659313D00684B79 = {
-			explicitFileType = wrapper.application;
-			includeInIndex = 0;
-			isa = PBXFileReference;
-			path = Beep.app;
-			refType = 3;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CBBC7DE50659313D00684B79 = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
-			path = "Beep-Info.plist";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		CBBC7DFD065931A800684B79 = {
-			children = (
-				CBBC7E1D06593BFD00684B79,
-				CBBC7F260659500C00684B79,
-				CBBC7E0A06593B3200684B79,
-			);
-			isa = PBXGroup;
-			name = Beep;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CBBC7E0206593AF700684B79 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			path = Beep.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CBBC7E0306593AF700684B79 = {
-			fileRef = CBBC7E0206593AF700684B79;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		CBBC7E0A06593B3200684B79 = {
-			children = (
-				CBBC7DE50659313D00684B79,
-				CBBC7E0206593AF700684B79,
-			);
-			isa = PBXGroup;
-			name = Resources;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CBBC7E1D06593BFD00684B79 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = BeepMain.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CBBC7E1E06593BFD00684B79 = {
-			fileRef = CBBC7E1D06593BFD00684B79;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		CBBC7EFE06594F8E00684B79 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = BeepController.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CBBC7EFF06594F8E00684B79 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = BeepController.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CBBC7F0006594F8E00684B79 = {
-			fileRef = CBBC7EFE06594F8E00684B79;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		CBBC7F0106594F8E00684B79 = {
-			fileRef = CBBC7EFF06594F8E00684B79;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		CBBC7F260659500C00684B79 = {
-			children = (
-				CBBC7EFF06594F8E00684B79,
-				CBBC7EFE06594F8E00684B79,
-			);
-			isa = PBXGroup;
-			name = Classes;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		CBDBDEE506715DAF004622FA = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.rtf;
@@ -1215,12 +995,6 @@
 			path = GrowlDefines.h;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		CBF073C90659A94F000B4B77 = {
-			fileRef = CBF073C80659A94F000B4B77;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		CBF073CA0659A94F000B4B77 = {
 			fileRef = CBF073C80659A94F000B4B77;
