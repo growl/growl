@@ -12,8 +12,8 @@
 @interface GrowlApplicationTicket : NSObject {
 	NSString		*_appName;					// The Applications's name for display by notifications that want it
 	NSImage			*_icon;						// This app's icon for notifications and display methods that want it
-	NSSet			*_allNotifications;			// All the notifications possible for this app
-	NSSet			*_defaultNotifications;		// The default notifications
+	NSArray			*_allNotifications;			// All the notifications possible for this app
+	NSArray			*_defaultNotifications;		// The default notifications
 	NSArray			*_allowedNotifications;		// The allowed notifications
 	
 	GrowlController *_parent;					// The GrowlController from which we came
@@ -23,8 +23,8 @@
 
 - (id) initWithApplication:(NSString *)inAppName 
 				  withIcon:(NSImage *)inIcon 
-		  andNotifications:(NSSet *) inAllNotifications 
-			 andDefaultSet:(NSSet *) inDefaultSet 
+		  andNotifications:(NSArray *) inAllNotifications 
+		   andDefaultNotes:(NSArray *) inDefaults 
 				fromParent:(GrowlController *) parent;
 
 - (id) initTicketFromPath:(NSString *) inPath;
@@ -36,15 +36,15 @@
 
 #pragma mark -
 
-- (NSSet *) allNotifications;
-- (void) setAllNotifications:(NSSet *) inSet;
+- (NSArray *) allNotifications;
+- (void) setAllNotifications:(NSArray *) inArray;
 
-- (NSSet *) defaultNotifications;
-- (void) setDefaultNotifications:(NSSet *) inSet;
+- (NSArray *) defaultNotifications;
+- (void) setDefaultNotifications:(NSArray *) inArray;
 
 #pragma mark -
 
-- (void) registerParentForNotifications:(NSSet *) inSet;
+- (void) registerParentForNotifications:(NSArray *) inArray;
 - (void) unregisterParentForNotifications:(NSArray *) inArray;
 @end
 
