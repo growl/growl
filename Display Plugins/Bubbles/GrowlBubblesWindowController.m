@@ -12,7 +12,7 @@
 #import "NSGrowlAdditions.h"
 #import "GrowlBubblesDefines.h"
 
-static unsigned bubbleWindowDepth = 0;
+static unsigned bubbleWindowDepth = 0U;
 
 @implementation GrowlBubblesWindowController
 
@@ -36,7 +36,7 @@ static unsigned bubbleWindowDepth = 0;
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
 	extern unsigned bubbleWindowDepth;
 
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.f, 0.f, 270.f, 65.f ) 
+	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f ) 
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered defer:NO] autorelease];
 	NSRect panelFrame = [panel frame];
@@ -45,7 +45,7 @@ static unsigned bubbleWindowDepth = 0;
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.f];
+	[panel setAlphaValue:0.0f];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
@@ -71,8 +71,8 @@ static unsigned bubbleWindowDepth = 0;
 	
 	if ( (self = [super initWithWindow:panel] ) ) {
 		#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
-		if ( (NSMaxY([panel frame]) - NSHeight([panel frame]) - [NSMenuView menuBarHeight]) < 0 ) {
-			depth = bubbleWindowDepth = 0;
+		if ( (NSMaxY(panelFrame) - NSHeight(panelFrame) - [NSMenuView menuBarHeight]) < 0.0f ) {
+			depth = bubbleWindowDepth = 0U;
 		} else {
 			depth = bubbleWindowDepth += NSHeight( panelFrame );
 		}
@@ -104,7 +104,7 @@ static unsigned bubbleWindowDepth = 0;
 
 	extern unsigned bubbleWindowDepth;
 	if ( depth == bubbleWindowDepth ) {
-		bubbleWindowDepth = 0;
+		bubbleWindowDepth = 0U;
 	}
 
 	[super dealloc];
