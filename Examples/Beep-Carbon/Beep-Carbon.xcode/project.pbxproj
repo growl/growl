@@ -254,24 +254,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		07B0C71A0682EE2E004C8162 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			name = "GrowlApplicationBridge-Carbon.c";
-			path = "../../GrowlApplicationBridge-Carbon.c";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		07B0C71B0682EE2E004C8162 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = "GrowlApplicationBridge-Carbon.h";
-			path = "../../GrowlApplicationBridge-Carbon.h";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 //070
 //071
 //072
@@ -368,8 +350,6 @@
 				074A2023067B01220078098C,
 				074A2024067B01220078098C,
 				074A2025067B01220078098C,
-				07B0C71A0682EE2E004C8162,
-				07B0C71B0682EE2E004C8162,
 			);
 			isa = PBXGroup;
 			name = Sources;
