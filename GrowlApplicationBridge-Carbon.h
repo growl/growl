@@ -1,4 +1,4 @@
-﻿//
+//
 //  GrowlApplicationBridge-Carbon.h
 //  Growl
 //
