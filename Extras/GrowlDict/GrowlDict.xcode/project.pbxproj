@@ -51,8 +51,9 @@
 				D3E21B270675FC5E005772E5,
 				D3E21BBE0675FC72005772E5,
 				D3E21C3A0675FCBB005772E5,
-				D3E21C5C0675FDC1005772E5,
+				DD5BBFF107B7D4E100048F1D,
 				D3E21C5D0675FDC1005772E5,
+				D3E21C5C0675FDC1005772E5,
 				D3E21C6D0675FE21005772E5,
 				D3E21ED306760487005772E5,
 				D3E21F250676061E005772E5,
@@ -160,6 +161,7 @@
 		D3E21EF7067604FE005772E5 = {
 			buildActionMask = 2147483647;
 			files = (
+				DD5BBFF207B7D4E100048F1D,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,6 +297,29 @@
 		};
 		D3E220B906760719005772E5 = {
 			fileRef = D3E21BBE0675FC72005772E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//D30
+//D31
+//D32
+//D33
+//D34
+//DD0
+//DD1
+//DD2
+//DD3
+//DD4
+		DD5BBFF107B7D4E100048F1D = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			path = GrowlDict.icns;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD5BBFF207B7D4E100048F1D = {
+			fileRef = DD5BBFF107B7D4E100048F1D;
 			isa = PBXBuildFile;
 			settings = {
 			};

@@ -460,6 +460,7 @@
 		};
 		29B97317FDCFA39411CA2CEA = {
 			children = (
+				DD5BBFF907B7D50400048F1D,
 				4C29096106A8CB8A00FDB6CE,
 				4C29096206A8CB8A00FDB6CE,
 				CB57B4CA0711E503001968B0,
@@ -740,6 +741,7 @@
 				CB57B4CB0711E503001968B0,
 				0A5ECB47073444AB0032ED97,
 				07B1BAB6077D59B200474D89,
+				DD5BBFFA07B7D50400048F1D,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -868,6 +870,29 @@
 		};
 		CBB772AE07A5DD9F00D77326 = {
 			fileRef = CBB772AD07A5DD9F00D77326;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//CB0
+//CB1
+//CB2
+//CB3
+//CB4
+//DD0
+//DD1
+//DD2
+//DD3
+//DD4
+		DD5BBFF907B7D50400048F1D = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			path = GrowlTunes.icns;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD5BBFFA07B7D50400048F1D = {
+			fileRef = DD5BBFF907B7D50400048F1D;
 			isa = PBXBuildFile;
 			settings = {
 			};

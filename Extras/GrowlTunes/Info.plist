@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>GrowlTunes</string>
 	<key>CFBundleIconFile</key>
-	<string></string>
+	<string>GrowlTunes.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.Growl.GrowlTunes</string>
 	<key>CFBundleInfoDictionaryVersion</key>
