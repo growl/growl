@@ -2192,11 +2192,11 @@
 			files = (
 			);
 			inputPaths = (
-				GrowlAppBridgeDefines.h,
+				GrowlDefines.h,
 			);
 			isa = PBXShellScriptBuildPhase;
 			outputPaths = (
-				GrowlAppBridgeDefinesCarbon.h,
+				GrowlDefinesCarbon.h,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2290,11 +2290,11 @@
 			files = (
 			);
 			inputPaths = (
-				GrowlAppBridgeDefines.h,
+				GrowlDefines.h,
 			);
 			isa = PBXShellScriptBuildPhase;
 			outputPaths = (
-				GrowlAppBridgeDefinesCarbon.h,
+				GrowlDefinesCarbon.h,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
