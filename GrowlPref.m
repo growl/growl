@@ -142,8 +142,9 @@
 	[self loadViewForDisplay:nil];
 	
 	[growlApplications reloadData];
-	if(currentApplication)
+	if(currentApplication) {
 		[growlApplications selectRow:[applications indexOfObject:currentApplication] byExtendingSelection:NO];
+	}
 	
 	[startGrowlAtLogin setState:NSOffState];
 	NSUserDefaults *defs = [[NSUserDefaults alloc] init];
@@ -217,10 +218,13 @@
 - (void)reloadAppTab {
 	[currentApplication release]; currentApplication = nil;
 //	currentApplication = [[growlApplications titleOfSelectedItem] retain];
-	if (([growlApplications selectedRow] < 0) && ([[GrowlApplicationTicket allSavedTickets] count] > 0))
+	unsigned int numApplications = [applications count];
+	if (([growlApplications selectedRow] < 0) && (numApplications > 0)) {
 		[growlApplications selectRow:0 byExtendingSelection:NO];
-	if ([[GrowlApplicationTicket allSavedTickets] count] > 0)
+	}
+	if (numApplications > 0) {
 		currentApplication = [[applications objectAtIndex:[growlApplications selectedRow]] retain];
+	}
 	appTicket = [tickets objectForKey: currentApplication];
 	
 //	[applicationEnabled setState: [appTicket ticketEnabled]];
@@ -233,14 +237,17 @@
 }
 
 - (void)reloadDisplayTab {
-	if (currentPlugin) [currentPlugin release];
-	
-	if (([displayPlugins selectedRow] < 0) && ([[[GrowlPluginController controller] allDisplayPlugins] count] > 0)) {
-		[displayPlugins selectRow:0 byExtendingSelection:NO];
+	if (currentPlugin) {
+		[currentPlugin release];
 	}
 	
-	if ([[[GrowlPluginController controller] allDisplayPlugins] count] > 0) {
-		currentPlugin = [[[[GrowlPluginController controller] allDisplayPlugins] objectAtIndex:[displayPlugins selectedRow]] retain];
+	NSArray *plugins = [[GrowlPluginController controller] allDisplayPlugins];
+	if (([displayPlugins selectedRow] < 0) && ([plugins count] > 0)) {
+		[displayPlugins selectRow:0 byExtendingSelection:NO];
+	}
+
+	if ([plugins count] > 0) {
+		currentPlugin = [[plugins objectAtIndex:[displayPlugins selectedRow]] retain];
 	}
 	[self loadViewForDisplay:currentPlugin];
 	NSDictionary * info = [[[GrowlPluginController controller] displayPluginNamed:currentPlugin] pluginInfo];
@@ -414,36 +421,40 @@
 #pragma mark Notification and Application table view data source methods
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView {
-	if (tableView == growlApplications)
-		return [[GrowlApplicationTicket allSavedTickets] count];
-	if (tableView == applicationNotifications)
+	if (tableView == growlApplications) {
+		return [applications count];
+	} else if (tableView == applicationNotifications) {
 		return [[appTicket allNotifications] count];
-	if (tableView == displayPlugins)
+	} else if (tableView == displayPlugins) {
 		return [[[GrowlPluginController controller] allDisplayPlugins] count];
-	return 0;
+	} else {
+		return 0;
+	}
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row {
 	if (tableView == growlApplications) 	{
-		if ([[column identifier] isEqualTo:@"enable"])
+		if ([[column identifier] isEqualTo:@"enable"]) {
 			return [NSNumber numberWithBool:[[tickets objectForKey: [applications objectAtIndex:row]] ticketEnabled]];
-		if ([[column identifier] isEqualTo:@"application"])
+		} else if ([[column identifier] isEqualTo:@"application"]) {
 			return [applications objectAtIndex:row];
-		if ([[column identifier] isEqualTo:@"display"]) { } // Do nothing.  It's taken care of in a delegate method.
+		} else if ([[column identifier] isEqualTo:@"display"]) { } // Do nothing.  It's taken care of in a delegate method.
 	}
 	if (tableView == applicationNotifications) {
 		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
-		if ([[column identifier] isEqualTo:@"enable"])
+		if ([[column identifier] isEqualTo:@"enable"]) {
 			return [NSNumber numberWithBool:[appTicket isNotificationEnabled:note]];
-        if ([[column identifier] isEqualTo:@"notification"])
+        } else if ([[column identifier] isEqualTo:@"notification"]) {
 			return note;
-		if ([[column identifier] isEqualTo:@"sticky"])
+		} else if ([[column identifier] isEqualTo:@"sticky"]) {
 			return [NSNumber numberWithInt:[appTicket stickyForNotification:note]];
+		}
 	}
 	if (tableView == displayPlugins) {
 		// only one column, but for the sake of cleanliness
-		if ([[column identifier] isEqualTo:@"plugins"])
+		if ([[column identifier] isEqualTo:@"plugins"]) {
 			return [[[GrowlPluginController controller] allDisplayPlugins] objectAtIndex:row];
+		}
 	}
 	return nil;
 }
@@ -508,32 +519,29 @@
 
 #pragma mark Application Tab TableView delegate methods
 - (void)tableViewSelectionDidChange:(NSNotification *)theNote {
-	if ([theNote object] == growlApplications)
-		return (void)[self reloadAppTab];
-	if ([theNote object] == displayPlugins)
-		return (void)[self reloadDisplayTab];
+	if ([theNote object] == growlApplications) {
+		[self reloadAppTab];
+	} else if ([theNote object] == displayPlugins) {
+		[self reloadDisplayTab];
+	}
 }
 
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
 	if (tableView == growlApplications) {
 		if ([[column identifier] isEqualTo:@"display"]) {
 			[cell setMenu:[applicationDisplayPluginsMenu copy]];
-			if (![[tickets objectForKey: [applications objectAtIndex:row]] usesCustomDisplay])
+			if (![[tickets objectForKey: [applications objectAtIndex:row]] usesCustomDisplay]) {
 				[cell selectItemAtIndex:0]; // Default
-			else
+			} else {
 				[cell selectItemWithTitle:[[[tickets objectForKey: [applications objectAtIndex:row]] displayPlugin] name]];
-			return;
-		}
-		if ([[column identifier] isEqualTo:@"application"]) {
+			}
+		} else if ([[column identifier] isEqualTo:@"application"]) {
 			NSImage* icon = [[tickets objectForKey: [applications objectAtIndex:row]] icon];
 			[icon setScalesWhenResized:YES];
 			[icon setSize:NSMakeSize(16,16)];
 			[(ACImageAndTextCell*)cell setImage:icon];
-			return;
 		}
-		return;
-	}
-	if (tableView == applicationNotifications) {
+	} else if (tableView == applicationNotifications) {
 		if ([[column identifier] isEqualTo:@"priority"]) {
 			[cell setMenu:[notificationPriorityMenu copy]];
 			id notif = [[appTicket allNotifications] objectAtIndex:row];
@@ -543,9 +551,7 @@
 			} else {
 				[cell selectItemAtIndex:0];
 			}
-			return;
 		}
-		return;
 	}
 }
 
@@ -618,8 +624,9 @@
 	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
 	[growlApplications reloadData];
 	
-	if([currentApplication isEqualToString:app])
+	if([currentApplication isEqualToString:app]) {
 		[self reloadPreferences];
+	}
 }
 
 - (void)growlLaunched:(NSNotification *)note {
