@@ -286,8 +286,8 @@ static id singleton = nil;
 		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
 	}
 	
-	NSArray *allNotes     = [userInfo objectForKey:GROWL_NOTIFICATIONS_ALL];
-	NSArray *defaultNotes = [userInfo objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	NSArray *allNotes = [userInfo objectForKey:GROWL_NOTIFICATIONS_ALL];
+	id defaultNotes   = [userInfo objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
 	
 	GrowlApplicationTicket *newApp;
 	
