@@ -2,7 +2,7 @@ DESTDIR =
 PREFIX = /Library/Tcl/growl1.0
 
 CC = gcc
-CFLAGS = -fno-common -dynamiclib -install_name $(PREFIX)/$(DYLIB_NAME)
+CFLAGS = -fno-common -dynamiclib -install_name $(PREFIX)/$(DYLIB_NAME) -DUSE_TCL_STUBS -ltclstub8.4
 FRAMEWORKS = -framework Cocoa -framework Tcl
 SRCS = growl.m
 DYLIB_NAME = libgrowl.dylib
