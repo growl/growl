@@ -204,8 +204,6 @@
 				0A7F5CC00767BF8A00E1C1E4,
 				089C1671FE841209C02AAC07,
 				19C28FB8FE9D52D311CA2CBB,
-				34F60EAC078E1CD500CECA86,
-				34F60EFA078E226400CECA86,
 			);
 			isa = PBXGroup;
 			name = Growl;
@@ -272,6 +270,8 @@
 		};
 		08FB77AFFE84173DC02AAC07 = {
 			children = (
+				F506C03C013D9D7901CA16C8,
+				F506C03D013D9D7901CA16C8,
 				936FAB01074482BF00A7D430,
 				936FAB02074482BF00A7D430,
 				A16BD22606FCC05F00BF033B,
@@ -2227,9 +2227,10 @@
 		};
 		3433500C079275A300C84B15 = {
 			children = (
+				95DBBFFC07C284BE00DE4ACA,
 				34E9EFB30790926400662E8E,
 				34E9EFB40790926400662E8E,
-				34E9EFDB079095B900662E8E,
+				952EFC9007C2869700952C6B,
 			);
 			isa = PBXGroup;
 			name = "Growl-WithInstaller.framework";
@@ -2404,6 +2405,7 @@
 				343353E90792F7CF00C84B15,
 				343353E80792F7CF00C84B15,
 				07BB71DD07ACC69C00BFDD4A,
+				95DBC07907C284F300DE4ACA,
 				3433500C079275A300C84B15,
 			);
 			isa = PBXGroup;
@@ -2521,19 +2523,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		34E9EFDB079095B900662E8E = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			path = GrowlInstallationPrompt.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		34E9EFDC079095B900662E8E = {
-			fileRef = 34E9EFDB079095B900662E8E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		34E9F1300790AF3400662E8E = {
 			fileRef = 34E9EFB30790926400662E8E;
 			isa = PBXBuildFile;
@@ -2564,6 +2553,7 @@
 		34F60EA7078E1CD500CECA86 = {
 			buildActionMask = 2147483647;
 			files = (
+				95DBC0AD07C284F300DE4ACA,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2617,7 +2607,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Growl.framework-Info.plist";
+				INFOPLIST_FILE = "Resources/Growl.framework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				OTHER_CFLAGS = "";
@@ -2664,13 +2654,6 @@
 			path = Growl.framework;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		34F60EAC078E1CD500CECA86 = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			path = "Growl.framework-Info.plist";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
 		};
 		34F60EB6078E1D3E00CECA86 = {
 			fileEncoding = 30;
@@ -2739,7 +2722,8 @@
 		34F60EF5078E226300CECA86 = {
 			buildActionMask = 2147483647;
 			files = (
-				34E9EFDC079095B900662E8E,
+				95DBC03007C284BE00DE4ACA,
+				952EFCCF07C2869700952C6B,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2795,7 +2779,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Growl-WithInstaller.framework-Info.plist";
+				INFOPLIST_FILE = "Resources/Growl-WithInstaller.framework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				OTHER_CFLAGS = "-DGROWL_WITH_INSTALLER";
@@ -2843,13 +2827,6 @@
 			path = "Growl-WithInstaller.framework";
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		34F60EFA078E226400CECA86 = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			path = "Growl-WithInstaller.framework-Info.plist";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
 		};
 		34F6105E078E4D4B00CECA86 = {
 			buildActionMask = 2147483647;
@@ -3309,6 +3286,39 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		952EFC9007C2869700952C6B = {
+			children = (
+				952EFCA507C2869700952C6B,
+				952EFD0F07C286A700952C6B,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlInstallationPrompt.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		952EFCA507C2869700952C6B = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = Resources/English.lproj/GrowlInstallationPrompt.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		952EFCCF07C2869700952C6B = {
+			fileRef = 952EFC9007C2869700952C6B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		952EFD0F07C286A700952C6B = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = Resources/German.lproj/GrowlInstallationPrompt.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		953C3EFE0747970800F2A737 = {
 			children = (
 				CB910DA6074E0A3A00278FC5,
@@ -3579,6 +3589,36 @@
 			settings = {
 			};
 		};
+		95DBBFFC07C284BE00DE4ACA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Growl-WithInstaller.framework-Info.plist";
+			path = "Resources/Growl-WithInstaller.framework-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95DBC03007C284BE00DE4ACA = {
+			fileRef = 95DBBFFC07C284BE00DE4ACA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95DBC07907C284F300DE4ACA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Growl.framework-Info.plist";
+			path = "Resources/Growl.framework-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95DBC0AD07C284F300DE4ACA = {
+			fileRef = 95DBC07907C284F300DE4ACA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95DD14D30748B04700CC05A4 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3738,8 +3778,6 @@
 		};
 		CB5F835E0638B67C00EADD7A = {
 			children = (
-				F506C03C013D9D7901CA16C8,
-				F506C03D013D9D7901CA16C8,
 				08FB77AFFE84173DC02AAC07,
 				089C167CFE841241C02AAC07,
 			);
@@ -3979,9 +4017,9 @@
 			productType = "com.apple.product-type.application";
 		};
 		CB61E5180637763C00E0DDC7 = {
-			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
+			lastKnownFileType = wrapper.application;
 			path = GrowlHelperApp.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
