@@ -10,6 +10,7 @@
 #import "GrowlBubblesWindowController.h"
 #import "GrowlBubblesWindowView.h"
 #import "NSGrowlAdditions.h"
+#import "GrowlBubblesDefines.h"
 
 static unsigned int bubbleWindowDepth = 0;
 
@@ -28,13 +29,13 @@ static unsigned int bubbleWindowDepth = 0;
 	return [[[self alloc] init] autorelease];
 }
 
-+ (GrowlBubblesWindowController *) bubbleWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
++ (GrowlBubblesWindowController *) bubbleWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
 	return [[[self alloc] initWithTitle:title text:text icon:icon priority:(int)priority sticky:sticky] autorelease];
 }
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
+- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
 	extern unsigned int bubbleWindowDepth;
 
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) 
@@ -59,9 +60,7 @@ static unsigned int bubbleWindowDepth = 0;
 	[panel setContentView:view];
 	
 	[view setTitle:title];
-	if( [text isKindOfClass:[NSString class]] ) [view setText:text];
-	else if( [text isKindOfClass:[NSAttributedString class]] ) [view setAttributedText:text];
-	
+	[view setText:text];
 	[view setPriority:priority];
 	
 	[view setIcon:icon];
@@ -91,7 +90,7 @@ static unsigned int bubbleWindowDepth = 0;
 	if (rowCount <= 2)
 		rowCount = 0;
 	BOOL limitPref = YES;
-	READ_GROWL_PREF_BOOL(KALimitPref, @"com.growl.BubblesNotificationView", &limitPref);
+	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
 	if (!limitPref) {
 		_displayTime = MIN (MIN_DISPLAY_TIME + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
 							MAX_DISPLAY_TIME);
