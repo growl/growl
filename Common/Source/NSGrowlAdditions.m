@@ -8,6 +8,7 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "NSGrowlAdditions.h"
+#import "CoreGraphicsServices.h"
 
 #pragma mark Foundation
 
@@ -27,9 +28,11 @@
 		|| [self caseInsensitiveCompare:@"yes"]  == NSOrderedSame
 		|| [self caseInsensitiveCompare:@"true"] == NSOrderedSame;
 }
+
 - (unsigned long) unsignedLongValue {
 	return strtoul([self UTF8String], /*endptr*/ NULL, /*base*/ 0);
 }
+
 - (unsigned) unsignedIntValue {
 	return [self unsignedLongValue];
 }
@@ -171,38 +174,30 @@
 
 // Thanks to Alcor for the following. This allows us to tell the window manager
 // that the window should be sticky. A sticky window will stay around when the
-// Exposé sweep-all-windows-away event happens. Additionally, if a window is not
-// sticky while it fades in (see KABubbleWindowController for an example of fading
+// Expose sweep-all-windows-away event happens. Additionally, if a window is not
+// sticky while it fades in (see FadinWindowController for an example of fading
 // in), and simultaneously the desktop is switched via DesktopManager, the window
 // may end up getting left on the previous desktop, even if that window's level 
 // set to NSStatusWindowLevel. See http://www.cocoadev.com/index.pl?DontExposeMe 
 // for more information.
-typedef int CGSConnection;
-typedef int CGSWindow;
-extern CGSConnection _CGSDefaultConnection(void);
-
-OSStatus CGSGetWindowTags(CGSConnection cid,CGSWindow window,int *tags,int other);
-OSStatus CGSSetWindowTags(CGSConnection cid,CGSWindow window,int *tags,int other);
 
 @implementation NSWindow (GrowlAdditions)
 
 - (void) setSticky:(BOOL)flag {
-	CGSConnection cid;
-	CGSWindow wid;
+	CGSConnectionID cid;
+	CGSWindowID wid;
 		
 	wid = [self windowNumber];
 	cid = _CGSDefaultConnection();
-	int tags[2];
-	tags[0] = tags[1] = 0;
-	OSStatus retVal = CGSGetWindowTags(cid, wid, tags, 32);
+	int tags[2] = { 0, 0 };
 		
-	if (!retVal) {
+	if (!CGSGetWindowTags(cid, wid, tags, 32)) {
 		if (flag) {
 			tags[0] = tags[0] | 0x00000800;
 		} else {
-			tags[0] = tags[0] & 0x00000800;
+			tags[0] = tags[0] & ~0x00000800;
 		}
-		retVal = CGSSetWindowTags(cid, wid, tags, 32);
+		CGSSetWindowTags(cid, wid, tags, 32);
 	}
 }
 

@@ -10,20 +10,19 @@
 
 @implementation NSImage (GrowlImageAdditions)
 
-- (void) drawScaledInRect:(NSRect)targetRect operation:(NSCompositingOperation)operation fraction:(float)f
-{
+- (void) drawScaledInRect:(NSRect)targetRect operation:(NSCompositingOperation)operation fraction:(float)f {
 	NSRect drawRect;
 	NSRect imageSize;
 	imageSize.origin.x = 0.0f;
 	imageSize.origin.y = 0.0f;
 	imageSize.size = [self size];
 	// make sure the icon isn't too large. If it is, scale it down
-	if ( imageSize.size.width > targetRect.size.width || imageSize.size.height > targetRect.size.height ) {
+	if (imageSize.size.width > targetRect.size.width || imageSize.size.height > targetRect.size.height) {
 		// scale the image appropriately
-		if ( imageSize.size.width > imageSize.size.height ) {
+		if (imageSize.size.width > imageSize.size.height) {
 			drawRect.size.width = targetRect.size.width;
 			drawRect.size.height = targetRect.size.height / imageSize.size.width * imageSize.size.height;
-		} else if ( imageSize.size.width < imageSize.size.height ) {
+		} else if (imageSize.size.width < imageSize.size.height) {
 			drawRect.size.width = targetRect.size.width / imageSize.size.height * imageSize.size.width;
 			drawRect.size.height = targetRect.size.height;
 		} else {
@@ -54,7 +53,7 @@
 
 - (NSImageRep *) bestRepresentationForSize:(NSSize)theSize {
 	NSImageRep *bestRep = [self representationOfSize:theSize];
-	if (!bestRep ) {
+	if (!bestRep) {
 		NSArray *reps = [self representations];
 		// ***warning   * handle other sizes
 		float repDistance = 65536.0f;
@@ -62,7 +61,7 @@
 		NSImageRep *thisRep;
 		float thisDistance;
 		NSEnumerator *enumerator = [reps objectEnumerator];
-		while ( (thisRep = [enumerator nextObject]) ) {
+		while ((thisRep = [enumerator nextObject])) {
 			thisDistance = theSize.width - [thisRep size].width;
 			if (repDistance < 0.0f && thisDistance > 0.0f) {
 				continue;
@@ -79,6 +78,7 @@
 
 	return bestRep;
 }
+
 - (NSImageRep *) representationOfSize:(NSSize)theSize {
 	NSArray *reps = [self representations];
 	NSEnumerator *enumerator = [reps objectEnumerator];

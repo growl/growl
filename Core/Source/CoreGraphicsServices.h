@@ -19,3 +19,5 @@ extern CGSConnectionID _CGSDefaultConnection(void);
 extern OSStatus CGSGetWindowTransform(const CGSConnectionID, CGSWindowID wid, CGAffineTransform *outTransform);
 extern OSStatus CGSSetWindowTransforms(const CGSConnectionID cid, CGSWindowID *wid, CGAffineTransform *transform, int n);
 extern OSStatus CGSSetWindowTransform(const CGSConnectionID cid, CGSWindowID wid, CGAffineTransform transform);
+extern OSStatus CGSGetWindowTags(const CGSConnectionID cid, CGSWindowID window, int *tags, int other);
+extern OSStatus CGSSetWindowTags(const CGSConnectionID cid, CGSWindowID window, int *tags, int other);
