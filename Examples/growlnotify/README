@@ -1,11 +1,3 @@
-growlnotify is a command-line app for triggering Growl notifications.
+Usage: read the damn manpage. That's what it's for. Installing will stick it in /usr/local/man/man1 so it should be in your manpath.
 
-usage:
-growlnotify TITLE
-
-the description is read from stdin. growlnotify does not currently support notification icons or sticky notifications.
-
-installation:
-first build it: xcodebuild build -buildstyle Deployment
-then install it: xcodebuild install
-both of these assume that the growlnotify source directory is your working directory.
+Installation: running `make' will build it into your build folder if you want to test it before installation. Running `make install' will install it into /usr/local/bin and install the manpage, and this will do a build first if it needs building (it uses `xcodebuild install' internally with the Deployment buildstyle)
