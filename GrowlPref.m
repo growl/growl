@@ -382,6 +382,8 @@
 		}
 		if ([[column identifier] isEqualTo:@"application"]) {
 			NSImage* icon = [[tickets objectForKey: [applications objectAtIndex:row]] icon];
+			if (icon == nil)
+				icon = [[NSWorkspace sharedWorkspace] iconForFileType: NSFileTypeForHFSTypeCode(kGenericApplicationIcon)];
 			[icon setScalesWhenResized:YES];
 			[icon setSize:NSMakeSize(16,16)];
 			[(ImageAndTextCell*)cell setImage:icon];
