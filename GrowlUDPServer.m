@@ -28,24 +28,17 @@
 	char *title;
 	char *description;
 	char *applicationName;
-	unsigned int notificationNameLen;
-	unsigned int titleLen;
-	unsigned int descriptionLen;
-	unsigned int applicationNameLen;
-	unsigned int priority;
+	unsigned notificationNameLen, titleLen, descriptionLen, priority;
 	BOOL isSticky;
 
 	NSDictionary *userInfo = [aNotification userInfo];
 	NSNumber *error = (NSNumber *)[userInfo objectForKey:@"NSFileHandleError"];
 	if( ![error intValue] ) {
 		NSData *data = (NSData *)[userInfo objectForKey:@"NSFileHandleNotificationDataItem"];
-		if( [data length] >= sizeof(GrowlNetworkNotification) ) {
-			GrowlNetworkNotification *nn = (GrowlNetworkNotification *)[data bytes];
-			priority = (nn->flags & GROWL_NN_PRIORITY_MASK) - 2;
-			if( priority > 2 ) {
-				priority = 0;
-			}
-			isSticky = nn->flags & GROWL_NN_STICKY;
+		if( [data length] >= sizeof(struct GrowlNetworkNotification) ) {
+			struct GrowlNetworkNotification *nn = (struct GrowlNetworkNotification *)[data bytes];
+			priority = nn->flags.priority;
+			isSticky = nn->flags.sticky;
 			notificationName = nn->data;
 			notificationNameLen = ntohl( nn->nameLen );
 			title = notificationName + notificationNameLen;
@@ -55,14 +48,14 @@
 			applicationName = description + descriptionLen;
 			applicationNameLen = ntohl( nn->appNameLen );
 
-			if( [data length] >= sizeof(GrowlNetworkNotification) + notificationNameLen
+			if( [data length] >= sizeof(struct GrowlNetworkNotification) + notificationNameLen
 				+ titleLen + descriptionLen + applicationNameLen ) {
 				NSDictionary *notificationInfo;
 				notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSString stringWithCString:notificationName length:notificationNameLen], GROWL_NOTIFICATION_NAME,
-					[NSString stringWithCString:applicationName length:applicationNameLen], GROWL_APP_NAME,
-					[NSString stringWithCString:title length:titleLen], GROWL_NOTIFICATION_TITLE,
-					[NSString stringWithCString:description length:descriptionLen], GROWL_NOTIFICATION_DESCRIPTION,
+					[NSString stringWithUTF8String:notificationName length:notificationNameLen], GROWL_NOTIFICATION_NAME,
+					[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
+					[NSString stringWithUTF8String:title length:titleLen], GROWL_NOTIFICATION_TITLE,
+					[NSString stringWithUTF8String:description length:descriptionLen], GROWL_NOTIFICATION_DESCRIPTION,
 					[NSNumber numberWithInt:priority], GROWL_NOTIFICATION_PRIORITY,
 					[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
 					nil];
