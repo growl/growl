@@ -10,6 +10,10 @@
 
 #include <Carbon/Carbon.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct GrowlDelegate {
 	size_t size; //should be sizeof(struct GrowlDelegate).
 
@@ -335,3 +339,7 @@ Boolean LaunchGrowlIfInstalled(GrowlLaunchCallback callback, void *context);
 #pragma mark Constants
 
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER	CFSTR("com.growl.prefpanel")
+
+#ifdef __cplusplus
+}
+#endif
