@@ -353,7 +353,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "../../build /Users/boredzo/Projects/otherpeoplesprojects/Growl/Extras/GrowlMail/build/GrowlMail.mailbundle/Contents/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = "../../build ./build/GrowlMail.mailbundle/Contents/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;

@@ -99,7 +99,7 @@
 
 - (NSSize)minSize
 {
-	return NSMakeSize( 298, 215 );
+	return NSMakeSize( 298.0f, 215.0f );
 }
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
