@@ -35,7 +35,6 @@
 #import "MailHeaders.h"
 
 @interface GrowlMessageStore : MessageStore {
-
 }
 + (void)load;
 - (id)finishRoutingMessages:(NSArray *)messages routed:(NSArray *)routed;

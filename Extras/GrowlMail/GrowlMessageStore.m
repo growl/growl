@@ -37,10 +37,34 @@
 #import "GrowlMail.h"
 #import <Growl/Growl.h>
 
+static NSMutableDictionary *accountSummary;
+
 @implementation GrowlMessageStore
 + (void)load
 {
 	[GrowlMessageStore poseAsClass:[MessageStore class]];
+}
+
+- (void)showSummary {
+	NSEnumerator *enumerator = [accountSummary keyEnumerator];
+	NSBundle *bundle = [GrowlMail bundle];
+	NSString *title = NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"");
+	NSData *iconData = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
+	Class gab = [GrowlMail growlApplicationBridge];
+	NSString *key;
+	while( (key = [enumerator nextObject]) ) {
+		NSNumber *count = [accountSummary objectForKey:key];
+		NSString *description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n%d new mail(s)", nil, bundle, @""), key, [count intValue]];
+		[gab notifyWithTitle:title
+				 description:description
+			notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")
+					iconData:iconData
+					priority:0
+					isSticky:NO
+				clickContext:@""];	// non-nil click context
+	}
+	[accountSummary release];
+	accountSummary = nil;
 }
 
 - (id)finishRoutingMessages:(NSArray *)messages routed:(NSArray *)routed
@@ -51,9 +75,11 @@
 		BOOL summaryOnly = [growlMail showSummary];
 		Class tocClass = [TOCMessage class];
 		NSEnumerator *e = [messages objectEnumerator];
-		NSMutableDictionary *accountSummary = nil;
-		if ( summaryOnly ) {
+		if ( summaryOnly && !accountSummary ) {
 			accountSummary = [[NSMutableDictionary alloc] initWithCapacity:[[MailAccount mailAccounts] count]];
+			[self performSelector:@selector(showSummary)
+					   withObject:nil
+					   afterDelay:0.0];
 		}
 		while( (message = [e nextObject]) ) {
 //			NSLog( @"Message class: %@", [message className] );
@@ -74,26 +100,6 @@
 					[message showNotification];
 				}
 			}
-		}
-		if ( summaryOnly ) {
-			NSEnumerator *enumerator = [accountSummary keyEnumerator];
-			NSBundle *bundle = [GrowlMail bundle];
-			NSString *title = NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"");
-			NSData *iconData = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
-			Class gab = [GrowlMail growlApplicationBridge];
-			NSString *key;
-			while( (key = [enumerator nextObject]) ) {
-				NSNumber *count = [accountSummary objectForKey:key];
-				NSString *description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n%d new mail(s)", nil, bundle, @""), key, [count intValue]];
-				[gab notifyWithTitle:title
-						 description:description
-					notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")
-							iconData:iconData
-							priority:0
-							isSticky:NO
-						clickContext:@""];	// non-nil click context
-			}
-			[accountSummary release];
 		}
 	}
 
