@@ -5,7 +5,31 @@ For .6 (Go Go Growl)
 We are dropping 10.2 support in this release.
 
 - Applescripts need to be updated
-- Documentation of Growl.framework and Growl-WithInstaller.framework as well.
+
+- Documentation
+
+	Bindings
+		Applescript
+		Ruby
+		Update Perl
+		Update Python
+		Update Java
+
+	Extras
+		GrowlTunes
+		GrowlMail
+		GrowlDict
+		growlnotify
+		macyac
+
+	Growl core
+		Growl needs much more documentation
+		Growl.framework
+			Cocoa
+			Carbon
+		Growl-WithInstaller.framework
+			Cocoa
+			Carbon
 
 Release related issues
 - Make sure we have user documentation on everything we have. This was a sore point for us last release.
