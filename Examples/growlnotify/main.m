@@ -20,10 +20,13 @@ static const char usage[] =
 "    -i,--icon     Specify a filetype or extension to be used for the icon\n"
 "    -I,--iconpath Specify a filepath to be used for the icon\n"
 "    --image       Specify an image file to be used for the icon\n"
-"    -p,--priority Specify an int between -2 and 2 for priority (default is 0)\n"
+"    -p,--priority Specify an int or named key (default is 0)\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
 "message given in the standard input.\n"
+"\n"
+"Priority can be one of the following named keys: Very Low, Moderate, Normal, High,\n"
+"Emergency. It can also be an int between -2 and 2.\n"
 "\n"
 "To be compatible with gNotify the following switches are accepted:\n"
 "    -t,--title    Does nothing. Any text following will be treated as the\n"
@@ -32,8 +35,6 @@ static const char usage[] =
 
 int main(int argc, const char **argv) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	const char *argv0 = argv[0];
 	
 	// options
 	extern char *optarg;
@@ -79,7 +80,16 @@ int main(int argc, const char **argv) {
 			appIcon = optarg;
 			break;
 		case 'p':
-			sscanf(optarg, "%d", &priority);
+			if (sscanf(optarg, "%d", &priority) == 0) {
+				// It's not an integer - is it one of the priority keys?
+				char *keys[] = {"Very Low", "Moderate", "Normal", "High", "Emergency"};
+				for (int i = 0; i < 5; i++) {
+					if (strcmp(optarg, keys[i]) == 0) {
+						priority = i - 2;
+						break;
+					}
+				}
+			}
 			break;
 		case 't':
 			// do nothing

@@ -38,7 +38,7 @@ Sets the notification icon to the icon for the given filepath.
 .It Fl -image Ar path
 Sets the notification icon to the given image file.
 .It Fl p , -priority Ar priority
-Sets the priority for the notification to an int between -2 and 2 (default is 0).
+Sets the priority for the notification to an int or named key (default is 0).
 .It Fl m , -message Ar message
 Uses
 .Ar message
@@ -57,6 +57,13 @@ Displays a notification using Growl. If
 .Fl m
 isn't specified or is set to '-' then the message is read from stdin.
 To terminate your message when reading from stdin, press ctrl-D on a new line.
+.Pp
+If
+.Fl p
+is used then
+.Ar priority
+can be an int between -2 and 2 or can be a named key in the following list:
+Very Low, Moderate, Normal, High, Emergency.
 .Pp                      \" Inserts a space
 .Sh EXAMPLES
 .Dl % growlnotify --help
