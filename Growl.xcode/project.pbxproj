@@ -1348,12 +1348,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		95DD10CE0748AE5100CC05A4 = {
-			fileRef = 95DD10C80748AE5100CC05A4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		95DD12C70748AE9600CC05A4 = {
 			fileRef = 95DD10C80748AE5100CC05A4;
 			isa = PBXBuildFile;
@@ -1707,7 +1701,6 @@
 				52861FF006DC463E00D3A356,
 				954F013D074135D400EA8AB5,
 				95BF837D0743675700306A77,
-				95DD10CE0748AE5100CC05A4,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
