@@ -28,7 +28,7 @@ if (-e "data.txt")
 while(1)
 {   
     print "Updating forum data...\n";
-    @forum = split(/\n/,`curl -s "http://www.funmac.com/forumdisplay.php?s=&forumid=38&styleid=10"`);
+    @forum = split(/\n/,`curl -s "http://www.funmac.com/forumdisplay.php?f=100&styleid=10"`);
     $size = @forum;
     
     for($i=0;$i<$size;$i++)
