@@ -1,5 +1,5 @@
 //
-//  GrowlWindowControllerAdditions.m
+//  FadingWindowController.m
 //  Display Plugins
 //
 //  Created by Ingmar Stein on 16.11.04.
@@ -11,13 +11,6 @@
 
 #define TIMER_INTERVAL (1.0 / 30.0)
 #define FADE_INCREMENT 0.05f
-
-@interface FadingWindowController (PRIVATE)
-
-- (void)takeScreenshot;
-
-@end
-
 
 @implementation FadingWindowController
 - (id) initWithWindow:(NSWindow *)window {

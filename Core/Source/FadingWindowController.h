@@ -1,5 +1,5 @@
 //
-//  GrowlWindowControllerAdditions.h
+//  FadingWindowController.h
 //  Display Plugins
 //
 //  Created by Ingmar Stein on 16.11.04.
@@ -41,6 +41,9 @@
 
 - (BOOL) screenshotModeEnabled;
 - (void) setScreenshotModeEnabled:(BOOL)newScreenshotMode;
+//-takeScreenshot is declared here mainly for the benefit of subclasses.
+//you probably don't need to call it if you aren't a subclass.
+- (void) takeScreenshot;
 
 - (void) _stopTimer;
 - (void) _waitBeforeFadeOut;
