@@ -202,7 +202,7 @@ static const char *keychainAccountName = "Growl";
 	id key;
 	
 	while ( (key = [enumerator nextObject]) ) {
-		NSImage *icon = [[NSImage alloc] initWithData:[[[tickets objectForKey:key] icon] TIFFRepresentation]];
+		NSImage *icon = [[[tickets objectForKey:key] icon] copy];
 		[icon setScalesWhenResized:YES];
 		[icon setSize:NSMakeSize(16.0f, 16.0f)];
 		[images addObject:icon];
