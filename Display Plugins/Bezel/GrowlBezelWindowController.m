@@ -14,7 +14,7 @@
 
 #define TIMER_INTERVAL (1. / 30.)
 #define FADE_INCREMENT 0.05
-#define MIN_DISPLAY_TIME 4.
+#define MIN_DISPLAY_TIME 3.
 #define ADDITIONAL_LINES_DISPLAY_TIME 0.5
 #define MAX_DISPLAY_TIME 10.
 #define GrowlBezelPadding 10.
