@@ -35,6 +35,7 @@
 	IBOutlet NSButton				* startGrowlAtLogin;
 	IBOutlet NSButton				* startStopGrowl;
 	IBOutlet NSButton				* startGrowlServer;
+	IBOutlet NSButton				* allowRemoteRegistration;
 	IBOutlet NSTextField			* growlRunningStatus;
 	IBOutlet NSProgressIndicator	* growlRunningProgress;
 	IBOutlet NSPopUpButton			* allDisplayPlugins;
@@ -73,6 +74,7 @@
 - (IBAction)startStopGrowl:(id)sender;
 - (IBAction)startGrowlAtLogin:(id)sender;
 - (IBAction)startGrowlServer:(id)sender;
+- (IBAction)allowRemoteRegistration:(id)sender;
 
 - (IBAction)selectDisplayPlugin:(id)sender;
 

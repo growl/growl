@@ -13,6 +13,7 @@ extern NSString * GrowlPreferencesChanged;
 extern NSString * GrowlDisplayPluginKey;
 extern NSString * GrowlUserDefaultsKey;
 extern NSString * GrowlStartServerKey;
+extern NSString * GrowlRemoteRegistrationKey;
 
 @interface GrowlPreferences : NSObject {
 	NSUserDefaults			* helperAppDefaults;

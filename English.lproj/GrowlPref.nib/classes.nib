@@ -3,6 +3,7 @@
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {
+                allowRemoteRegistration = id; 
                 apply = id; 
                 checkVersion = id; 
                 deleteTicket = id; 
@@ -16,6 +17,7 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 allDisplayPlugins = NSPopUpButton; 
+                allowRemoteRegistration = NSButton; 
                 applicationNotifications = NSTableView; 
                 apply = NSButton; 
                 displayAuthor = NSTextField; 

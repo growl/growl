@@ -6,5 +6,7 @@
 	<string>Bubbles</string>
 	<key>GrowlStartServer</key>
 	<false/>
+	<key>GrowlRemoteRegistration</key>
+	<false/>
 </dict>
 </plist>

@@ -12,7 +12,10 @@
 @implementation GrowlNotificationServer
 - (void)registerApplication:(NSDictionary *)dict
 {
-	[[GrowlController singleton] _registerApplicationWithDictionary:dict];
+	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
+	if( enabled ) {
+		[[GrowlController singleton] _registerApplicationWithDictionary:dict];
+	}
 }
 
 - (void)postNotification:(NSDictionary *)notification

@@ -194,8 +194,15 @@
 
 	if( [[preferences objectForKey:GrowlStartServerKey] boolValue] ) {
 		[startGrowlServer setState:NSOnState];
+		[allowRemoteRegistration setEnabled:YES];
 	} else {
 		[startGrowlServer setState:NSOffState];
+		[allowRemoteRegistration setEnabled:YES];
+	}
+	if( [[preferences objectForKey:GrowlRemoteRegistrationKey] boolValue] ) {
+		[allowRemoteRegistration setState:NSOnState];
+	} else {
+		[allowRemoteRegistration setState:NSOffState];
 	}
 	
 	[self buildMenus];
@@ -379,8 +386,15 @@
 
 - (IBAction)startGrowlServer:(id)sender
 {
+	BOOL enabled = ([sender state] == NSOnState);
+	[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:enabled] forKey:GrowlStartServerKey];
+	[allowRemoteRegistration setEnabled:enabled];
+}
+
+- (IBAction)allowRemoteRegistration:(id)sender
+{
 	NSNumber *state = [NSNumber numberWithBool:([sender state] == NSOnState)];
-	[[GrowlPreferences preferences] setObject:state forKey:GrowlStartServerKey];
+	[[GrowlPreferences preferences] setObject:state forKey:GrowlRemoteRegistrationKey];
 }
 
 - (IBAction)selectDisplayPlugin:(id)sender {
