@@ -37,15 +37,15 @@ static const NSSize iconSize = {128.0f, 128.0f};
 	NSNumber *num;
 	Class NSNumberClass = [NSNumber class];
 	unsigned i = 0U;
-	while((num = [defaultEnum nextObject])) {
-		if([num isKindOfClass:NSNumberClass]) {
+	while ((num = [defaultEnum nextObject])) {
+		if ([num isKindOfClass:NSNumberClass]) {
 			//it's an index
 			int value = [num intValue];
-			if(value < 0)
+			if (value < 0) {
 				value = [allNotifications count] + value;
-			else if(value > 0)
+			} else if (value > 0) {
 				--value;
-			else {
+			} else {
 #warning this needs to be a real AppleScript error
 				[[NSException exceptionWithName:NSRangeException
 										 reason:@"Can't get item 0 of notifications."

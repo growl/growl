@@ -133,7 +133,7 @@
 	if ( [linesN count] > 1U ) {
 		NSEnumerator *stringEnum = [linesN objectEnumerator];
 		NSString *stringLine;
-		while( (stringLine = [stringEnum nextObject] ) ) {
+		while ( (stringLine = [stringEnum nextObject] ) ) {
 			textAttributed = [[NSAttributedString alloc] initWithString:stringLine attributes:textAttributes];
 			rowCount += [self descriptionRowCount:textAttributed inRect:textRect];
 			[textAttributed release];

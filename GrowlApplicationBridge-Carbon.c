@@ -76,18 +76,21 @@ extern void NSLog(CFStringRef format, ...);
 #pragma mark Public API
 
 Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
-	if(newDelegate && !(newDelegate->applicationName))
+	if (newDelegate && !(newDelegate->applicationName)) {
 		return false;
+	}
 
-	if(delegate == newDelegate) {
+	if (delegate == newDelegate) {
 		//this is harmless
 		return true;
 	}
 
-	if(delegate && (delegate->release))
+	if (delegate && (delegate->release)) {
 		delegate->release(delegate);
-	if(newDelegate && (newDelegate->retain))
+	}
+	if (newDelegate && (newDelegate->retain)) {
 		newDelegate = newDelegate->retain(newDelegate);
+	}
 	delegate = newDelegate;
 
 	return true;
@@ -106,18 +109,19 @@ void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
 }
 
 void Growl_PostNotification(const struct Growl_Notification *notification) {
-	if(!notification) {
+	if (!notification) {
 		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_PostNotification called with a NULL notification"));
 		return;
 	}
-	if(!delegate) {
+	if (!delegate) {
 		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_PostNotification called, but no delegate is in effect to supply an application name - either set a delegate, or use Growl_PostNotificationWithDictionary instead"));
 		return;
 	}
 	CFStringRef appName = delegate->applicationName;
-	if(!appName)
+	if (!appName) {
 		appName = CFDictionaryGetValue(delegate->registrationDictionary, GROWL_APP_NAME);
-	if(!appName) {
+	}
+	if (!appName) {
 		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_PostNotification called, but no application name was found in the delegate"));
 		return;
 	}
@@ -158,21 +162,23 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 	};
 
 	//make sure we have both a name and a title
-	if(values[titleIndex] && !values[nameIndex])
+	if (values[titleIndex] && !values[nameIndex]) {
 		values[nameIndex] = values[titleIndex];
-	else if(values[nameIndex] && !values[titleIndex])
+	} else if (values[nameIndex] && !values[titleIndex]) {
 		values[titleIndex] = values[nameIndex];
+	}
 
 	//... and a description
-	if(!values[descriptionIndex])
+	if (!values[descriptionIndex]) {
 		values[descriptionIndex] = CFSTR("");
+	}
 
 	//now, target the first NULL value.
 	//if there was iconData, this is index 7; else, it is index 6.
 	unsigned pairIndex = iconIndex + (values[iconIndex] != NULL);
 
 	//...and set the custom application icon there.
-	if(delegate && (delegate->applicationIconData)) {
+	if (delegate && (delegate->applicationIconData)) {
 		keys[pairIndex] = GROWL_NOTIFICATION_APP_ICON;
 		values[pairIndex] = delegate->applicationIconData;
 		++pairIndex;
@@ -215,7 +221,7 @@ void Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
 }
 
 void Growl_Reregister(void) {
-	if(delegate && delegate->registrationDictionary) {
+	if (delegate && delegate->registrationDictionary) {
 		Growl_LaunchIfInstalled(/*callback*/ NULL, /*context*/ NULL);
 	}
 }
@@ -254,21 +260,22 @@ Boolean Growl_IsRunning(void) {
 
 Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 	CFMutableDictionaryRef regDict = NULL;
-	if(delegate && (delegate->registrationDictionary)) {
+	if (delegate && (delegate->registrationDictionary)) {
 		//create the registration dictionary.
 		//this is the same as the one in the delegate, but it must have
 		//	GROWL_APP_NAME in it.
 		regDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, delegate->registrationDictionary);
-		if(delegate->applicationName)
+		if (delegate->applicationName) {
 			CFDictionarySetValue(regDict, GROWL_APP_NAME, delegate->applicationName);
-		else {
+		} else {
 			CFStringRef processName = _copyCurrentProcessName();
-			if(processName)
+			if (processName) {
 				CFDictionarySetValue(regDict, GROWL_APP_NAME, processName);
-			else
+			} else {
 				NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined"));
+			}
 		}
-		if(!CFDictionaryContainsKey(regDict, GROWL_APP_NAME)) {
+		if (!CFDictionaryContainsKey(regDict, GROWL_APP_NAME)) {
 			//no registering for us, it seems.
 			CFRelease(regDict);
 			regDict = NULL;
@@ -286,10 +293,10 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 	//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
 	//of course will not.  If the user wants to destroy the info.plist file inside the bundle, he/she deserves not to have a working Growl installation.
 	prefPanes = _copyAllPreferencePaneBundles();
-	if(prefPanes) {
+	if (prefPanes) {
 		numPrefPanes = CFArrayGetCount(prefPanes);
 
-		while(prefPaneIndex < numPrefPanes) {
+		while (prefPaneIndex < numPrefPanes) {
 			prefPaneBundle = (CFBundleRef)CFArrayGetValueAtIndex(prefPanes, prefPaneIndex++);
 
 			if (prefPaneBundle){
@@ -304,8 +311,8 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 
 		CFRelease(prefPanes);
 	}
-	
-	if(growlPrefPaneBundle){
+
+	if (growlPrefPaneBundle){
 		/*Here we could check against a current version number and ensure the
 		 *	installed Growl pane is the newest
 		 */
@@ -315,19 +322,20 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 		//Extract the path to the Growl helper app from the pref pane's bundle
 		growlHelperAppURL = CFBundleCopyResourceURL(growlPrefPaneBundle, CFSTR("GrowlHelperApp"), CFSTR("app"), /*subDirName*/ NULL);
 
-		if(growlHelperAppURL) {
-			if(callback) {
+		if (growlHelperAppURL) {
+			if (callback) {
 				//the Growl helper app will notify us via growlIsReady when it is done launching
 				CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlIsReady, _growlIsReady, GROWL_IS_READY, /*object*/ NULL, CFNotificationSuspensionBehaviorCoalesce);
 			
 				//We probably will never have more than one callback/context set at a time, but this is cleaner than the alternatives
-				if (!targetsToNotifyArray)
+				if (!targetsToNotifyArray) {
 					targetsToNotifyArray = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
+				}
 
 				CFStringRef keys[] = { CFSTR("Callback"), CFSTR("Context") };
 				void *values[] = { (void *)callback, context };
 				CFDictionaryRef	infoDict = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, /*numValues*/ 2, &kCFTypeDictionaryKeyCallBacks, /*valueCallbacks*/ NULL);
-				if(infoDict) {
+				if (infoDict) {
 					CFArrayAppendValue(targetsToNotifyArray, infoDict);
 					CFRelease(infoDict);
 				}
@@ -335,7 +343,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 
 			CFArrayRef itemsToOpen = NULL;
 
-			if(regDict) {
+			if (regDict) {
 				/*since we have a registration dictionary, we must want to
 				 *	register.
 				 *if this block gets skipped, GHA will simply be launched
@@ -344,7 +352,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 				 */
 				//create the path: /tmp/$UID/TemporaryItems/$UUID.growlRegDict
 				CFStringRef tmp = _copyTemporaryFolderPath();
-				if(!tmp) {
+				if (!tmp) {
 					NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Could not find the temporary directory path, therfore cannot register."));
 				} else {
 					CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
@@ -372,7 +380,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 
 					CFStringRef errorString = NULL;
 					CFPropertyListWriteToStream(regDict, stream, kCFPropertyListXMLFormat_v1_0, &errorString);
-					if(errorString) {
+					if (errorString) {
 						NSLog(CFSTR("GrowlApplicationBridge: Error writing registration dictionary to URL %@: %@"), regDictURL, errorString);
 						NSLog(CFSTR("GrowlApplicationBridge: Registration dictionary follows\n%@"), regDict);
 					}
@@ -381,11 +389,12 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 					CFRelease(stream);
 
 					//be sure to open the file if it exists.
-					if(!errorString)
+					if (!errorString) {
 						itemsToOpen = CFArrayCreate(kCFAllocatorDefault, (const void **)&regDictURL, /*count*/ 1, &kCFTypeArrayCallBacks);
+					}
 					CFRelease(regDictURL);
-				} //if(tmp)
-			} //if(regDict)
+				}
+			}
 
 			//Houston, we are go for launch.
 			//we use LSOpenFromURLSpec because it can act synchronously.
@@ -398,15 +407,17 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 			};
 			success = (LSOpenFromURLSpec(&launchSpec, /*outLaunchedURL*/ NULL) == noErr);
 			CFRelease(growlHelperAppURL);
-			if(itemsToOpen)
+			if (itemsToOpen) {
 				CFRelease(itemsToOpen);
-		} //if(growlHelperAppURL)
+			}
+		}
 
 		CFRelease(growlPrefPaneBundle);
-	} //if(growlPrefPaneBundle)
+	}
 
-	if(regDict)
+	if (regDict) {
 		CFRelease(regDict);
+	}
 
 	return success;
 }
@@ -429,7 +440,7 @@ static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStri
 	CFIndex			dictIndex = 0, numDicts = CFArrayGetCount(targetsToNotifyArray);
 	CFDictionaryRef	infoDict;
 
-	while(dictIndex < numDicts) {
+	while (dictIndex < numDicts) {
 		infoDict = CFArrayGetValueAtIndex(targetsToNotifyArray, dictIndex++);
 
 		GrowlLaunchCallback callback = (GrowlLaunchCallback)CFDictionaryGetValue(infoDict, CFSTR("Callback"));
@@ -459,11 +470,11 @@ static CFArrayRef _copyAllPreferencePaneBundles(void)
 	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
 #define PREFPANEGRAB(destArray, domain) \
 	err = FSFindFolder((domain), kPreferencePanesFolderType, /*createFolder*/ false, &curDir); \
-	if(err == noErr) { \
+	if (err == noErr) { \
 		curDirURL = CFURLCreateFromFSRef(kCFAllocatorDefault, &curDir); \
-		if(curDirURL) { \
+		if (curDirURL) { \
 			curDirContents = CFBundleCreateBundlesFromDirectory(kCFAllocatorDefault, curDirURL, prefPaneExtension); \
-			if(curDirContents) { \
+			if (curDirContents) { \
 				contentsRange.length = CFArrayGetCount(curDirContents); \
 				CFArrayAppendArray((destArray), curDirContents, contentsRange); \
 				CFRelease(curDirContents); \
@@ -494,12 +505,12 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 	do { \
 		FSRef domainRef; \
 		OSStatus err = FSFindFolder((domain), kPreferencePanesFolderType, /*createFolder*/ false, &domainRef); \
-		if(err == noErr) { \
+		if (err == noErr) { \
 			CFURLRef domainURL = CFURLCreateFromFSRef(kCFAllocatorDefault, &domainRef); \
-			if(domainURL) { \
+			if (domainURL) { \
 				CFURLRef prefPaneURL = CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, domainURL, GROWL_PREFPANE_NAME, /*isDirectory*/ true); \
 				CFRelease(domainURL); \
-				if(prefPaneURL) { \
+				if (prefPaneURL) { \
 					(*outPtr) = CFBundleCreate(kCFAllocatorDefault, prefPaneURL); \
 					CFRelease(prefPaneURL); \
 				} \
@@ -509,7 +520,7 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 
 		//User domain.
 		COPYPREFPANE(kUserDomain, &prefPaneBundle);
-		if(prefPaneBundle) {
+		if (prefPaneBundle) {
 			bundleIdentifier = CFBundleGetIdentifier(prefPaneBundle);
 		
 			if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, bundleIDComparisonFlags) == kCFCompareEqualTo)) {
@@ -517,10 +528,10 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 			}
 		}
 
-		if(!growlPrefPaneBundle) {
+		if (!growlPrefPaneBundle) {
 			//Local domain.
 			COPYPREFPANE(kLocalDomain, &prefPaneBundle);
-			if(prefPaneBundle) {
+			if (prefPaneBundle) {
 				bundleIdentifier = CFBundleGetIdentifier(prefPaneBundle);
 			
 				if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, bundleIDComparisonFlags) == kCFCompareEqualTo)) {
@@ -528,12 +539,12 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 				}
 			}
 
-			if(!growlPrefPaneBundle) {
+			if (!growlPrefPaneBundle) {
 				//Network domain.
 				COPYPREFPANE(kNetworkDomain, &prefPaneBundle);
-				if(prefPaneBundle) {
+				if (prefPaneBundle) {
 					bundleIdentifier = CFBundleGetIdentifier(prefPaneBundle);
-				
+
 					if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, bundleIDComparisonFlags) == kCFCompareEqualTo)) {
 						growlPrefPaneBundle = prefPaneBundle;
 					}
@@ -544,15 +555,15 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 #undef COPYPREFPANE
 	}
 
-	if(!growlPrefPaneBundle) {
+	if (!growlPrefPaneBundle) {
 		//Enumerate all installed preference panes, looking for the growl prefpane bundle identifier and stopping when we find it
 		//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
 		//of course will not.  If the user wants to destroy the info.plist file inside the bundle, he/she deserves not to have a working Growl installation.
 		CFArrayRef		prefPanes = _copyAllPreferencePaneBundles();
-		if(prefPanes) {
+		if (prefPanes) {
 			CFIndex		prefPaneIndex = 0, numPrefPanes = CFArrayGetCount(prefPanes);
 	
-			while(prefPaneIndex < numPrefPanes) {
+			while (prefPaneIndex < numPrefPanes) {
 				prefPaneBundle = (CFBundleRef)CFArrayGetValueAtIndex(prefPanes, prefPaneIndex++);
 	
 				if (prefPaneBundle){
@@ -576,7 +587,7 @@ CFStringRef _copyCurrentProcessName(void) {
     ProcessSerialNumber PSN = { 0, kCurrentProcess };
     CFStringRef name = NULL;
     OSStatus err = CopyProcessName(&PSN, &name);
-    if(err != noErr) {
+    if (err != noErr) {
     	NSLog(CFSTR("GrowlApplicationBridge: Could not get process name because CopyProcessName returned %li"), (long)err);
     	name = NULL;
 	}
@@ -587,7 +598,7 @@ static CFStringRef _copyTemporaryFolderPath(void) {
 	FSRef ref;
 	CFStringRef string;
 	OSStatus err = FSFindFolder(kOnAppropriateDisk, kTemporaryFolderType, kCreateFolder, &ref);
-	if(err != noErr) {
+	if (err != noErr) {
 		NSLog(CFSTR("GrowlApplicationBridge: Could not locate temporary folder because FSFindFolder returned %li"), (long)err);
 		string = NULL;
 	} else {

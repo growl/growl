@@ -39,19 +39,19 @@ static NSString *releaseTypeNames[] = {
 	@"", @" SVN ", @"d", @"a", @"b",
 };
 //update these constants whenever the version changes
-static const struct {
+static struct {
 	unsigned short major;
 	unsigned short minor;
 	unsigned char incremental;
 	unsigned char releaseType; //use one of the constants above
 	unsigned short development; //for svn, should be the svn revision
+	// the svn revision is filled in -[GrowlController versionDictionary]
 
 	/*this structure can be taken as a 64-bit hexadecimal number:
 	 *	0x0000 0006 00 01 svn_revision
 	 *when releaseType is release, the development version should always be 0,
 	 *	and it should be ignored. (thus, display "0.6", not "0.60".)
 	 */
-#warning (figure out how to insert the svn revision here.)
 } version = { 0U, 7U, 0U, svn, 0U, };
 
 #pragma mark -
@@ -339,8 +339,9 @@ static id singleton = nil;
 }
 
 - (NSDictionary *)versionDictionary {
-	if(!versionInfo) {
+	if (!versionInfo) {
 		const unsigned long long *versionNum = (const unsigned long long *)&version;
+		version.development = strtol( strchr( "$Revision$", ' ' ), NULL, 10 );
 		versionInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithUnsignedLongLong:*versionNum], @"Complete version",
 			[self growlVersion], @"CFBundleVersion",
@@ -351,14 +352,16 @@ static id singleton = nil;
 			releaseTypeNames[version.releaseType], @"Release type name",
 			[NSNumber numberWithUnsignedChar:version.releaseType], @"Release type",
 			[NSNumber numberWithUnsignedShort:version.development], @"Development version",
-			
+
 			nil];
 	}
 	return versionInfo;
 }
 //this method could be moved to Growl.framework, I think.
 - (NSString *)stringWithVersionDictionary:(NSDictionary *)d {
-	if(!d) d = versionInfo;
+	if (!d) {
+		d = versionInfo;
+	}
 
 	//0.6
 	NSMutableString *result = [NSMutableString stringWithFormat:@"%@.%@",
@@ -367,11 +370,12 @@ static id singleton = nil;
 
 	//the .1 in 0.6.1
 	NSNumber *incremental = [d objectForKey:@"Incremental version"];
-	if([incremental unsignedShortValue])
+	if ([incremental unsignedShortValue]) {
 		[result appendFormat:@"%@", incremental];
+	}
 
 	NSString *releaseTypeName = [d objectForKey:@"Release type name"];
-	if([releaseTypeName length]) {
+	if ([releaseTypeName length]) {
 		//"" (release), "b4", " SVN 900"
 		[result appendFormat:@"%@%@", releaseTypeName, [d objectForKey:@"Development version"]];
 	}

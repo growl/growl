@@ -73,9 +73,13 @@ static const char *keychainAccountName = "Growl";
 	[growlVersionProgress startAnimation:self];
 
 	static NSURL *versionCheckURL = nil;
-	if(!versionCheckURL) versionCheckURL = [NSURL URLWithString:@"http://growl.info/version.xml"];
+	if (!versionCheckURL) {
+		versionCheckURL = [NSURL URLWithString:@"http://growl.info/version.xml"];
+	}
 	static NSURL *downloadURL = nil;
-	if(!downloadURL) downloadURL = [NSURL URLWithString:@"http://growl.info/"];
+	if (!downloadURL) {
+		downloadURL = [NSURL URLWithString:@"http://growl.info/"];
+	}
 
 	[self checkVersionAtURL:versionCheckURL
 				displayText:NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @"")

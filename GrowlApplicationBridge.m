@@ -96,13 +96,13 @@ static BOOL				promptedToUpgradeGrowl = NO;
 
 	//Watch for notification clicks if our delegate responds to the growlNotificationWasClicked: selector
 	//Notifications will come in on a unique notification name based on our app name and GROWL_NOTIFICATION_CLICKED
-	NSString	*growlNotificationClickedName = [appName stringByAppendingString:GROWL_NOTIFICATION_CLICKED];
-	if([delegate respondsToSelector:@selector(growlNotificationWasClicked:)]){
+	NSString *growlNotificationClickedName = [appName stringByAppendingString:GROWL_NOTIFICATION_CLICKED];
+	if ([delegate respondsToSelector:@selector(growlNotificationWasClicked:)]){
 		[NSDNC addObserver:self
 				  selector:@selector(_growlNotificationWasClicked:)
 					  name:growlNotificationClickedName 
 					object:nil];
-	}else{
+	} else {
 		[NSDNC removeObserver:self
 						 name:growlNotificationClickedName
 					   object:nil];
@@ -165,15 +165,17 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		/*if Growl launches, and the user hasn't already said NO to installing
 		 *	it, store this notification for posting
 		 */
-		if(!userChoseNotToInstallGrowl){
+		if (!userChoseNotToInstallGrowl) {
 			//in case the dictionary is mutable, make a copy.
 			userInfo = [userInfo copy];
 
-			if(!queuedGrowlNotifications) queuedGrowlNotifications = [[NSMutableArray alloc] init];
+			if (!queuedGrowlNotifications) {
+				queuedGrowlNotifications = [[NSMutableArray alloc] init];
+			}
 			[queuedGrowlNotifications addObject:userInfo];
 			
 			//if we have not already asked the user to install Growl, do it now
-			if(!promptedToInstallGrowl){
+			if (!promptedToInstallGrowl) {
 				[GrowlInstallationPrompt showInstallationPromptForUpdate:NO];
 				promptedToInstallGrowl = YES;
 			}
@@ -342,7 +344,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	NSDictionary *noteDict;
 	
 	enumerator = [queuedGrowlNotifications objectEnumerator];
-	while((noteDict = [enumerator nextObject])){
+	while ((noteDict = [enumerator nextObject])){
 		//Post to Growl via NSDistributedNotificationCenter
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																	   object:nil

@@ -51,7 +51,7 @@
 // closes this window
 - (IBAction)closeWindow:(id)sender
 {
-    if([self windowShouldClose:nil]){
+    if ([self windowShouldClose:nil]){
         [[self window] close];
     }
 }
@@ -170,7 +170,7 @@
 
 - (IBAction) cancel:(id)sender
 {	
-	if(!isUpdate){
+	if (!isUpdate){
 		//Tell the app bridge about the user's choice
 		[GrowlApplicationBridge _userChoseNotToInstallGrowl];
 	}

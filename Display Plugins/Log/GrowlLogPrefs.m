@@ -47,7 +47,7 @@
 	[self updatePopupMenu];
 
 	unsigned numHistItems = [customHistArray count];
-	if(numHistItems) {
+	if (numHistItems) {
 		//there is at least one regular file to log to - find out whether to log to one of them
 		READ_GROWL_PREF_INT(logTypeKey, LogPrefDomain, &typePref);
 	} else {
@@ -88,8 +88,9 @@
 			if (runResult == NSOKButton) {
 				int saveFilenameIndex = NSNotFound;
 				for(unsigned i = 0U, max = [customHistArray count]; i < max; i++) {
-					if([[customHistArray objectAtIndex:i] isEqual:saveFilename])
+					if ([[customHistArray objectAtIndex:i] isEqual:saveFilename]) {
 						saveFilenameIndex = i;
+					}
 				}
 				if (saveFilenameIndex == NSNotFound) {
 					if ([customHistArray count] == 3U)
@@ -114,12 +115,12 @@
 			WRITE_GROWL_PREF_VALUE(customHistKey1, s, LogPrefDomain);
 			//NSLog(@"Writing %@ as hist1", s);
 
-			if((numHistItems > 1) && (s = [customHistArray objectAtIndex:1U])) {
+			if ((numHistItems > 1) && (s = [customHistArray objectAtIndex:1U])) {
 				WRITE_GROWL_PREF_VALUE(customHistKey2, s, LogPrefDomain);
 				//NSLog(@"Writing %@ as hist2", s);
 			}
 			
-			if((numHistItems > 2) && (s = [customHistArray objectAtIndex:2U])) {
+			if ((numHistItems > 2) && (s = [customHistArray objectAtIndex:2U])) {
 				WRITE_GROWL_PREF_VALUE(customHistKey3, s, LogPrefDomain);
 				//NSLog(@"Writing %@ as hist3", s);
 			}
@@ -145,7 +146,7 @@
 	for(unsigned i = 0U; i < numHistItems; i++) {
 		NSArray *pathComponentry = [[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] pathComponents];
 		unsigned numPathComponents = [pathComponentry count];
-		if(numPathComponents > 2U) {
+		if (numPathComponents > 2U) {
 			unichar ellipsis = 0x2026;
 			NSMutableString *arg = [[NSMutableString alloc] initWithCharacters:&ellipsis length:1U];
 			[arg appendString:@"/"];

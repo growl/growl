@@ -53,7 +53,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		
 		if ( (!isDir) && [[filename pathExtension] isEqualToString:@"growlTicket"] ) {
 			GrowlApplicationTicket *newTicket = [[self alloc] initTicketFromPath:filename];
-			if(newTicket) {
+			if (newTicket) {
 				NSString *applicationName = [newTicket applicationName];
 
 				if ( clobber || ![dict objectForKey:applicationName] ) {
@@ -295,7 +295,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 }
 
 - (void) setAllNotifications:(NSArray *) inArray {
-	if(allNotificationNames != inArray) {
+	if (allNotificationNames != inArray) {
 		[allNotificationNames autorelease];
 		allNotificationNames = [[NSArray alloc] initWithArray:inArray];
 		NSMutableSet *new, *cur;

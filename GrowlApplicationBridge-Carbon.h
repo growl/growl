@@ -341,7 +341,7 @@ struct Growl_Notification {
  */
 #define InitGrowlDelegate(delegate) \
 	do { \
-		if((delegate) != NULL) { \
+		if (delegate) { \
 			(delegate)->size = sizeof(struct Growl_Delegate); \
 			(delegate)->applicationName = NULL; \
 			(delegate)->registrationDictionary = NULL; \
@@ -366,7 +366,7 @@ struct Growl_Notification {
  */
 #define InitGrowlNotification(notification) \
 	do { \
-		if((notification) != NULL) { \
+		if (notification) { \
 			(notification)->size = sizeof(struct Growl_Notification); \
 			(notification)->name = NULL; \
 			(notification)->title = NULL; \
