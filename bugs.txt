@@ -1,0 +1,1 @@
+- Bezel does not fadeout most of the time.
