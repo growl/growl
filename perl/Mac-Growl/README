@@ -1,0 +1,42 @@
+Mac-Growl version 0.20
+======================
+
+Mac::Growl provides an interface for perl scripts to connect to Growl,
+allowing them to register with it, and send it notifications to be
+displayed.
+
+Consult man Mac::Growl or perldoc Mac::Growl after installation for
+more details, or perldoc lib/Mac/Growl.pm beforehand.
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+make test will register "PerlApp" with growl with Growl, with one
+notification, "PerlApp-Test", and then post that notification with a message.
+Please note, the first time you make test, the notification make take a
+significant amount of time to appear, while Growl searches for an icon for
+the non-existent "PerlApp". This will be fixed in a later version.
+Also note, since there is currently no Growl->Caller communication, there is
+no way for the test script to tell if it's working, and therefore will always
+report sucess. If you don't see the notification, check console, wait a while
+and try again, and/or ask in #growl on irc.freenode.net.
+
+DEPENDENCIES
+
+This module should work on any Mac OS X system, although it requires
+the developer tools to build and install.
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2004 by Nelson Elhage
+
+This Library is released under the BSD license. I hate legalese, so
+someone who hates it slightly less will have to fix this section.
+
+

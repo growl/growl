@@ -1,0 +1,8 @@
+Revision history for Perl extension Mac::Growl.
+
+0.01  Wed Jun  2 16:53:51 2004
+	- original version; created by h2xs 1.23 with options
+		-A -n Mac::Growl
+0.20  Wed Jun  2 21:27  2004
+    - Implemented RegisterNotifications and PostNotification
+	  Both work now, but there is no image support.
