@@ -934,7 +934,8 @@ static const char *keychainAccountName = "Growl";
 
 	while (GetNextProcess(&PSN) == noErr) {
 		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-		isRunning = [[infoDict objectForKey:@"CFBundleIdentifier"] isEqualToString:@"com.Growl.GrowlHelperApp"];
+		NSString *bundleID = [infoDict objectForKey:@"CFBundleIdentifier"];
+		isRunning = bundleID && [bundleID isEqualToString:@"com.Growl.GrowlHelperApp"];
 		[infoDict release];
 
 		if (isRunning)
