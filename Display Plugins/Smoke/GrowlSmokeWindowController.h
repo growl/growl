@@ -26,7 +26,7 @@
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned int)depth;
+- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned int)depth;
 
 - (void) startFadeIn;
 - (void) startFadeOut;

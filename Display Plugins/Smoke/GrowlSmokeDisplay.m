@@ -83,8 +83,9 @@ static unsigned int smokeDepth = 0;
 - (void) _smokeGone:(NSNotification *)note {
 	unsigned int notifiedDepth = [[[note userInfo] objectForKey:@"Depth"] intValue];
 	//NSLog(@"Received notification of departure with depth %u, my depth is %u\n", notifiedDepth, smokeDepth);
-	if(smokeDepth > notifiedDepth)
+	if(smokeDepth > notifiedDepth) {
 		smokeDepth = notifiedDepth;
+	}
 	//NSLog(@"My depth is now %u\n", smokeDepth);
 }
 

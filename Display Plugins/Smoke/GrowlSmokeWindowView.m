@@ -53,8 +53,8 @@
 
 	// draw bezier path for rounded corners
 	float radius = 5.f;
-	unsigned int sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding / 2);
-	
+	unsigned int sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding * 0.5f);
+
 	// calculate bounds based on icon-float pref on or off
 	NSRect shadedBounds;
 	BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
@@ -67,7 +67,7 @@
 	} else {
 		shadedBounds = bounds;
 	}
-	
+
 	NSRect irect = NSInsetRect(shadedBounds, radius + lineWidth, radius + lineWidth);
 	float minX = NSMinX( irect );
 	float minY = NSMinY( irect );
@@ -96,7 +96,8 @@
 
 	[path closePath];
 
-	[[NSGraphicsContext currentContext] saveGraphicsState];
+	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
+	[graphicsContext saveGraphicsState];
 
 	// clip graphics context to path
 	[path setClip];
@@ -106,7 +107,7 @@
 	NSRectFill( [self frame] );
 
 	// revert to unclipped graphics context
-	[[NSGraphicsContext currentContext] restoreGraphicsState];
+	[graphicsContext restoreGraphicsState];
 
 	float notificationContentTop = [self frame].size.height - GrowlSmokePadding;
 
@@ -147,54 +148,54 @@
 	unsigned int textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
 	unsigned int titleYPosition = notificationContentTop - [self titleHeight];
 	unsigned int textYPosition = titleYPosition - ([self descriptionHeight] + GrowlSmokeTitleTextPadding);
+	NSRect drawRect;
 
-	[_title drawWithEllipsisInRect:NSMakeRect( textXPosition,
-											   titleYPosition,
-											   [self textAreaWidth],
-											   [self titleHeight])
+	drawRect.origin.x = textXPosition;
+	drawRect.origin.y = titleYPosition;
+	drawRect.size.width = [self textAreaWidth];
+	drawRect.size.height = [self titleHeight];
+
+	[_title drawWithEllipsisInRect:drawRect
 					withAttributes:titleAttributes];
 
-	[_text drawInRect:NSMakeRect( textXPosition,
-								  textYPosition,
-								  [self textAreaWidth],
-								  [self descriptionHeight] )
+	drawRect.origin.y = textYPosition;
+	drawRect.size.height = [self descriptionHeight];
+
+	[_text drawInRect:drawRect
 	   withAttributes:descriptionAttributes];
 
-	NSSize iconSize = [_icon size];
+	NSRect iconSize;
+	iconSize.size = [_icon size];
 	// make sure the icon isn't too large. If it is, scale it down
-	if( iconSize.width > GrowlSmokeIconSize || iconSize.height > GrowlSmokeIconSize ) {
-
+	if( iconSize.size.width > GrowlSmokeIconSize || iconSize.size.height > GrowlSmokeIconSize ) {
 		// scale the image appropriately
-		float newWidth, newHeight, newX, newY;
-		if( iconSize.width > iconSize.height ) {
-			newWidth = GrowlSmokeIconSize;
-			newHeight = GrowlSmokeIconSize / iconSize.width * iconSize.height;
-		} else if( iconSize.width < iconSize.height ) {
-			newWidth = GrowlSmokeIconSize / iconSize.height * iconSize.width;
-			newHeight = GrowlSmokeIconSize;
+		if( iconSize.size.width > iconSize.size.height ) {
+			drawRect.size.width = GrowlSmokeIconSize;
+			drawRect.size.height = GrowlSmokeIconSize / iconSize.size.width * iconSize.size.height;
+		} else if( iconSize.size.width < iconSize.size.height ) {
+			drawRect.size.width = GrowlSmokeIconSize / iconSize.size.height * iconSize.size.width;
+			drawRect.size.height = GrowlSmokeIconSize;
 		} else {
-			newWidth = GrowlSmokeIconSize;
-			newHeight = GrowlSmokeIconSize;
+			drawRect.size.width = GrowlSmokeIconSize;
+			drawRect.size.height = GrowlSmokeIconSize;
 		}
-		
-		newX = floorf((GrowlSmokeIconSize - newWidth) * 0.5f);
-		newY = floorf((GrowlSmokeIconSize - newHeight) * 0.5f);
 
-		NSRect newBounds = NSMakeRect(newX, newY, newWidth, newHeight);
+		drawRect.origin.x = floorf(GrowlSmokePadding + (GrowlSmokeIconSize - drawRect.size.width) * 0.5f);
+		drawRect.origin.y = floorf(notificationContentTop - GrowlSmokeIconSize + (GrowlSmokeIconSize - drawRect.size.height) * 0.5f);
 
-		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
-		[_icon autorelease];
-		_icon = [[NSImage alloc] initWithSize:NSMakeSize(GrowlSmokeIconSize, GrowlSmokeIconSize)];
-		[_icon lockFocus];
-		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
-		[sourceImageRep drawInRect:newBounds];
-		[_icon unlockFocus];
+		// we can set this because we are always working with a copy
+		[_icon setScalesWhenResized:TRUE];
+	} else {
+		drawRect.origin.x = GrowlSmokePadding;
+		drawRect.origin.y = notificationContentTop - GrowlSmokeIconSize;
+		drawRect.size.width = iconSize.size.width;
+		drawRect.size.height = iconSize.size.height;
 	}
 
-	[_icon compositeToPoint:NSMakePoint(GrowlSmokePadding,
-										notificationContentTop - GrowlSmokeIconSize)
-				  operation:NSCompositeSourceOver
-				   fraction:1.];
+	[_icon drawInRect:drawRect
+			 fromRect:iconSize
+			operation:NSCompositeSourceOver
+			 fraction:1.f];
 
 	[[self window] invalidateShadow];
 }
@@ -286,7 +287,7 @@
 - (void)sizeToFit {
 	NSRect rect = [self frame];
 	rect.size.height = GrowlSmokeIconPadding + GrowlSmokePadding + GrowlSmokeTitleTextPadding + [self titleHeight] + [self descriptionHeight];
-	float minSize = (2 * GrowlSmokeIconPadding) + [self titleHeight] + GrowlSmokeTitleTextPadding + GrowlSmokeTextFontSize + 1;
+	float minSize = (2.0f * GrowlSmokeIconPadding) + [self titleHeight] + GrowlSmokeTitleTextPadding + GrowlSmokeTextFontSize + 1.0f;
 	if(rect.size.height < minSize) {
 		rect.size.height = minSize;
 	}

@@ -29,7 +29,7 @@ static const double gMaxDisplayTime = 10.;
 	return [[[self alloc] init] autorelease];
 }
 
-+ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned int) depth {
++ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned int) depth {
 	return [[[self alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky depth:depth] autorelease];
 }
 
@@ -42,7 +42,7 @@ static const double gMaxDisplayTime = 10.;
 - (void) notificationDidFadeOut:(id)sender {
 	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->_id);
-	
+
 	// stop _depth wrapping around
 	if(windowSize.height > _depth) {
 		_depth = 0;
@@ -54,11 +54,10 @@ static const double gMaxDisplayTime = 10.;
 		[NSNumber numberWithUnsignedInt:_id], @"ID",
 		[NSNumber numberWithInt:_depth], @"Depth",
 		nil];
-	
-	// commented out temporarily because of the new notification positioning problem
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"Glide" object:nil userInfo:dict];
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"SmokeGone" object:nil userInfo:dict];
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc postNotificationName:@"Glide" object:nil userInfo:dict];
+	[nc postNotificationName:@"SmokeGone" object:nil userInfo:dict];
 }
 
 - (void) _glideUp:(NSNotification *)note {
@@ -104,7 +103,7 @@ static const double gMaxDisplayTime = 10.;
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned int) depth {
+- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned int) depth {
 	_id = globalId++;
 	_depth = depth;
 
@@ -112,8 +111,8 @@ static const double gMaxDisplayTime = 10.;
 											selector:@selector( _glideUp: ) 
 												name:@"Glide"
 											  object:nil];*/
-	
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., GrowlSmokeNotificationWidth, 65. ) 
+
+	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.f, 0.f, GrowlSmokeNotificationWidth, 65.f ) 
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered defer:NO] autorelease];
 	NSRect panelFrame = [panel frame];
@@ -122,7 +121,7 @@ static const double gMaxDisplayTime = 10.;
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.];
+	[panel setAlphaValue:0.f];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
@@ -136,18 +135,13 @@ static const double gMaxDisplayTime = 10.;
 	[panel setContentView:view];
 	
 	[view setTitle:title];
-	if( [text isKindOfClass:[NSString class]] ) {
-		[view setText:text];
-	} else if( [text isKindOfClass:[NSAttributedString class]] ) {
-		[view setText:[text string]]; // we'll have no attributes here
-	}
-	
+	[view setText:text];	
     [view setPriority:priority];
     
 	[view setIcon:icon];
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
-	
+
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
 	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlSmokePadding, 
 											 NSMaxY( screen ) - GrowlSmokePadding - depth )];
@@ -176,26 +170,25 @@ static const double gMaxDisplayTime = 10.;
 	}*/
 
 	[self setAutomaticallyFadesOut:!sticky];
-	
+
 	if( ( self = [super initWithWindow:panel] ) ) {
-		
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithUnsignedInt:_id], @"ID",
 			[NSValue valueWithRect:[[self window] frame]], @"Space",
 			nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self 
-												 selector:@selector( _clearSpace: ) 
-													 name:@"Clear Space"
-												   object:nil];
+		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+		[nc postNotificationName:@"Clear Space" object:nil userInfo:dict];
+		[nc addObserver:self 
+			   selector:@selector( _clearSpace: ) 
+				   name:@"Clear Space"
+				 object:nil];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	//[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
+
 	[_target release];
 	[_representedObject release];
 	[_animationTimer invalidate];
@@ -232,8 +225,9 @@ static const double gMaxDisplayTime = 10.;
 	if( alpha < 1.f ) {
 		[myWindow setAlphaValue:(alpha + gFadeIncrement)];
 	} else if( _autoFadeOut ) {
-		if( _delegate && [_delegate respondsToSelector:@selector( notificationDidFadeIn: )] )
+		if( _delegate && [_delegate respondsToSelector:@selector( notificationDidFadeIn: )] ) {
 			[_delegate notificationDidFadeIn:self];
+		}
 		[self _waitBeforeFadeOut];
 	}
 }
@@ -256,16 +250,18 @@ static const double gMaxDisplayTime = 10.;
 }
 
 - (void) _notificationClicked:(id) sender {
-	if( _target && _action && [_target respondsToSelector:_action] )
+	if( _target && _action && [_target respondsToSelector:_action] ) {
 		[_target performSelector:_action withObject:self];
+	}
 	[self startFadeOut];
 }
 
 #pragma mark -
 
 - (void) startFadeIn {
-	if( _delegate && [_delegate respondsToSelector:@selector( notificationWillFadeIn: )] )
+	if( _delegate && [_delegate respondsToSelector:@selector( notificationWillFadeIn: )] ) {
 		[_delegate notificationWillFadeIn:self];
+	}
 	[self retain]; // Retain, after fade out we release.
 	[self showWindow:nil];
 	[self _stopTimer];
@@ -273,8 +269,9 @@ static const double gMaxDisplayTime = 10.;
 }
 
 - (void) startFadeOut {
-	if( _delegate && [_delegate respondsToSelector:@selector( notificationWillFadeOut: )] )
+	if( _delegate && [_delegate respondsToSelector:@selector( notificationWillFadeOut: )] ) {
 		[_delegate notificationWillFadeOut:self];
+	}
 	[self _stopTimer];
 	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:gTimerInterval target:self selector:@selector( _fadeOut: ) userInfo:nil repeats:YES] retain];
 }
@@ -354,18 +351,20 @@ static const double gMaxDisplayTime = 10.;
 
 - (void) forwardInvocation:(NSInvocation *) invocation {
 	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:[invocation selector]] )
+	if( [contentView respondsToSelector:[invocation selector]] ) {
 		[invocation invokeWithTarget:contentView];
-	else
+	} else {
 		[super forwardInvocation:invocation];
+	}
 }
 
 - (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
 	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:selector] )
+	if( [contentView respondsToSelector:selector] ) {
 		return [contentView methodSignatureForSelector:selector];
-	else
+	} else {
 		return [super methodSignatureForSelector:selector];
+	}
 }
 
 @end
