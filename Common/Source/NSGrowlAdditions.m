@@ -22,7 +22,15 @@
 }
 
 - (BOOL) boolValue {
-	return [self intValue];
+	BOOL truth = ([self intValue] != 0);
+	if(!truth) {
+		NSSet *yesStrings = [[NSSet alloc] initWithObjects:
+			@"yes", @"true",
+			nil];
+		truth = [yesStrings containsObject:[self lowercaseString]];
+		[yesStrings release];
+	}
+	return truth;
 }
 
 - (void) drawWithEllipsisInRect:(NSRect)rect withAttributes:(NSDictionary *)attributes {
