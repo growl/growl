@@ -8,8 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface NSWorkspace (GrowlAdditions) 
+
 - (NSImage *) iconForApplication:(NSString *) inName;
+
 @end
 
+@interface NSString (GrowlAdditions)
+
+- (BOOL)boolValue;
+
+@end

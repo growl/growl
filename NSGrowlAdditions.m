@@ -8,12 +8,20 @@
 
 #import "NSGrowlAdditions.h"
 
-
 @implementation NSWorkspace (GrowlAdditions)
+
 - (NSImage *) iconForApplication:(NSString *) inName {
 	NSString *path = [self fullPathForApplication:inName];
 	NSLog(@"Pulled icon for %@ from path: %@",inName,path);
 	return path ? [self iconForFile:path] : nil;
 }
+
 @end
 
+@implementation NSString (GrowlAdditions)
+
+- (BOOL)boolValue {
+	return [self intValue];
+}
+
+@end
