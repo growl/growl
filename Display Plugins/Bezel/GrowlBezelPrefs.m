@@ -113,7 +113,7 @@
 		WRITE_GROWL_PREF_INT(BEZEL_SIZE_PREF, sizePref, @"com.Growl.Bezel");
 	} else if (sender == slider_Opacity) {
 		opacityPref = [slider_Opacity intValue];
-		[text_Opacity setStringValue:[NSString stringWithFormat:@"%d\%",opacityPref]];
+		[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",opacityPref]];
 		WRITE_GROWL_PREF_INT(BEZEL_OPACITY_PREF, opacityPref, @"com.Growl.Bezel");
 	}
 
