@@ -55,9 +55,9 @@
 #pragma mark -
 - (void) registerParentForNotifications:(NSSet *) inSet {
 	NSEnumerator *note = [inSet objectEnumerator];
-	
-	while ( note = [note nextObject] ) { //register the Controller for all the passed Notifications
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:_parent selector:@selector( dispatchNotification: ) name:(NSString *)note object:nil];
+	id obj = nil;
+	while ( obj = [note nextObject] ) { //register the Controller for all the passed Notifications
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:_parent selector:@selector( dispatchNotification: ) name:(NSString *)obj object:nil];
 	}
 }
 
