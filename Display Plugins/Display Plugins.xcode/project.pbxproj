@@ -8,7 +8,6 @@
 		014CEA420018CDE011CA2923 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -23,8 +22,10 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_MODEL_CPU = G4;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
@@ -1163,12 +1164,10 @@
 				HEADER_SEARCH_PATHS = ..;
 				INFOPLIST_FILE = "NSLogging-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = NSLogging;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
