@@ -62,6 +62,8 @@ static const char *keychainAccountName = "Growl";
 	[notificationIcon release];
 	[fh release];
 	[sock release];
+
+	[super dealloc];
 }
 
 #pragma mark -
