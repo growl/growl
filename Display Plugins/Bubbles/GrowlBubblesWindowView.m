@@ -107,15 +107,15 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	struct CGFunctionCallbacks callbacks = { 0U, GrowlBubblesShadeInterpolate, NULL };
 	float colors[8];
 
-	[bgColor getRed:&colors[0]
-			  green:&colors[1]
-			   blue:&colors[2]
-			  alpha:&colors[3]];
+	[lightColor getRed:&colors[0]
+				 green:&colors[1]
+				  blue:&colors[2]
+				 alpha:&colors[3]];
 
-	[lightColor getRed:&colors[4]
-				 green:&colors[5]
-				  blue:&colors[6]
-				 alpha:&colors[7]];
+	[bgColor getRed:&colors[4]
+			  green:&colors[5]
+			   blue:&colors[6]
+			  alpha:&colors[7]];
 
 	CGFunctionRef function = CGFunctionCreate( (void *) colors,
 											   1U,
@@ -127,9 +127,9 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 	CGPoint src, dst;
 	src.x = NSMinX( bounds );
-	src.y = NSMinY( bounds );
+	src.y = NSMaxY( bounds );
 	dst.x = src.x;
-	dst.y = NSMaxY( bounds );
+	dst.y = NSMinY( bounds );
 	CGShadingRef shading = CGShadingCreateAxial( cspace, src, dst,
 												 function, false, false );	
 
