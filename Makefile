@@ -24,7 +24,7 @@ growlhelperapp:
 	xcodebuild -project Growl.xcode -target GrowlHelperApp -buildstyle Development build
 
 growlappbridge:
-	xcodebuild -project GrowlAppBridge.xcode -target GrowlAppBridge -buildstyle Deployment build
+	xcodebuild -project GrowlAppBridge.xcode -target GrowlAppBridge -buildstyle $(DEFAULT_BUILDSTYLE) build
 
 display: bubblesnotificationview
 
