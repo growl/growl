@@ -85,14 +85,10 @@ struct GrowlNetworkPacket {
  */
 struct GrowlNetworkRegistration {
 	struct GrowlNetworkPacket common;
-	struct GrowlNetworkRegistrationFlags {
-		unsigned reserved: 31;
-		unsigned hasIcon:  1;
-	} flags; //size = 32 (31 + 1)
 	unsigned int appNameLen;
 	unsigned int numAllNotifications;
 	unsigned int numDefaultNotifications;
-	unsigned int appIconLen;
+	unsigned int appIconLen;	// 0 -> no icon
 	/*
 	 * Variable sized. Format:
 	 *	<application name><all notifications><default notifications>[application icon]
@@ -109,16 +105,14 @@ struct GrowlNetworkNotification {
 	struct GrowlNetworkPacket common;
 	struct GrowlNetworkNotificationFlags {
 		unsigned reserved: 25;
-		unsigned hasIcon:  1;
-		unsigned iconType: 2; // 0 = URL, 1 = icon of application, 2=icon of file, 3=image data
 		signed   priority: 3;
 		unsigned sticky:   1;
-	} flags; //size = 32 (25 + 1 + 2 + 3 + 1)
+	} flags; //size = 32 (28 + 3 + 1)
 	unsigned int nameLen;
 	unsigned int titleLen;
 	unsigned int descriptionLen;
 	unsigned int appNameLen;
-	unsigned int iconLen;
+	unsigned int iconLen;	// 0 -> no icon
 	/*
 	 *	Variable sized. Format:
 	 *	<notification name><title><description><application name>[icon]

@@ -84,8 +84,8 @@ int main(int argc, const char **argv) {
 	static int code = EXIT_SUCCESS;
 	struct hostent *he;
 	int sock;
-	unsigned int size;
-	char *packet;
+	unsigned int size, registrationSize, notificationSize;
+	char *registrationPacket, *notificationPacket;
 	struct sockaddr_in to;
 	
 	struct option longopts[] = {
@@ -204,7 +204,7 @@ int main(int argc, const char **argv) {
 		printf("Error: cannot use pdf files for image\n");
 		exit(2);
 	NS_ENDHANDLER
-	
+
 	// Check message
 	NSString *desc;
 	if (message && !(message[0] == '-' && message[1] == 0)) {
@@ -263,16 +263,25 @@ int main(int argc, const char **argv) {
 					to.sin_family = AF_INET;
 					to.sin_len = sizeof(to);
 				}
-				packet = [GrowlUDPUtils registrationToPacket:registerInfo packetSize:&size];
-				if( sendto( sock, packet, size, 0, (struct sockaddr *)&to, sizeof(to) ) < 0 ) {
+				registrationPacket = [GrowlUDPUtils registrationToPacket:registerInfo packetSize:&registrationSize];
+				notificationPacket = [GrowlUDPUtils notificationToPacket:notificationInfo packetSize:&notificationSize];
+				size = (registrationSize > notificationSize) ? registrationSize : notificationSize;
+				if (setsockopt( sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size) ) < 0) {
+					perror("setsockopt: SO_SNDBUF");
+				}
+				//printf( "sendbuf: %d\n", size );
+				//printf( "notification packet length: %d\n", notificationSize );
+				//printf( "registration packet length: %d\n", registrationSize );
+				if ( sendto( sock, registrationPacket, registrationSize, 0, (struct sockaddr *)&to, sizeof(to) ) < 0 ) {
 					perror( "sendto" );
 					code = EXIT_FAILURE;
 				}
-				packet = [GrowlUDPUtils notificationToPacket:notificationInfo packetSize:&size];
-				if( sendto( sock, packet, size, 0, (struct sockaddr *)&to, sizeof(to) ) < 0 ) {
+				if ( sendto( sock, notificationPacket, notificationSize, 0, (struct sockaddr *)&to, sizeof(to) ) < 0 ) {
 					perror( "sendto" );
 					code = EXIT_FAILURE;
 				}
+				free( registrationPacket );
+				free( notificationPacket );
 				close( sock );
 			}
 		} else {

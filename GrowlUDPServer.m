@@ -113,11 +113,11 @@
 							icon = notification;
 							iconLen = ntohl( nr->appIconLen );
 
-							NSImage *image = nil;
 							if (iconLen) {
-								image = [[NSWorkspace sharedWorkspace] iconForApplication:[NSString stringWithUTF8String:applicationName length:iconLen]];
+								NSData *image = [[NSData alloc] initWithBytes:icon length:iconLen];
 								if (image) {
-									[registerInfo setObject:[image TIFFRepresentation] forKey:GROWL_APP_ICON];
+									[registerInfo setObject:image forKey:GROWL_APP_ICON];
+									[image release];
 								}
 							}
 
@@ -143,10 +143,9 @@
 						applicationNameLen = ntohl( nn->appNameLen );
 						icon = applicationName + applicationNameLen;
 						iconLen = ntohl( nn->iconLen );
-						// TODO: icon
 
 						if ( length >= sizeof(struct GrowlNetworkNotification) + notificationNameLen
-								+ titleLen + descriptionLen + applicationNameLen ) {
+								+ titleLen + descriptionLen + applicationNameLen + iconLen ) {
 							NSMutableDictionary *notificationInfo;
 							notificationInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 								[NSString stringWithUTF8String:notificationName length:notificationNameLen], GROWL_NOTIFICATION_NAME,
@@ -156,7 +155,14 @@
 								[NSNumber numberWithInt:priority], GROWL_NOTIFICATION_PRIORITY,
 								[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
 								nil];
-				
+
+							if (iconLen) {
+								NSData *image = [[NSData alloc] dataWithBytes:icon length:iconLen];
+								if (image) {
+									[notificationInfo setObject:image forKey:GROWL_NOTIFICATION_ICON];
+									[image release];
+								}
+							}
 							[[GrowlController singleton] dispatchNotificationWithDictionary:notificationInfo];
 						} else {
 							NSLog( @"GrowlUDPServer: received invalid notification packet." );
