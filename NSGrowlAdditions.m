@@ -16,18 +16,16 @@
 	NSImage *appIcon = path ? [self iconForFile:path] : nil;
 	
 	if ( appIcon ) {
-		[appIcon setSize:NSMakeSize(128.,128.)];
+		[appIcon setSize:NSMakeSize(128.0f,128.0f)];
 	}
 	return appIcon;
 }
 
 @end
 
-@implementation NSString (GrowlAdditions)
+#pragma mark -
 
-- (BOOL) boolValue {
-	return [self intValue];
-}
+@implementation NSString (GrowlAdditions)
 
 + (NSString *) stringWithUTF8String:(const char *)bytes length:(unsigned)len {
 	return [[[self alloc] initWithUTF8String:bytes length:len] autorelease];
@@ -38,7 +36,13 @@
 	return (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, bytes, len, kCFStringEncodingUTF8, /*isExternalRepresentation*/ false);
 }
 
+- (BOOL) boolValue {
+	return [self intValue];
+}
+
 @end
+
+#pragma mark -
 
 // Thanks to Alcor for the following. This allows us to tell the window manager
 // that the window should be sticky. A sticky window will stay around when the
