@@ -11,7 +11,7 @@
 #define ITUNES_STOPPED			@"iTunes-Stopped"
 #define ITUNES_PLAYING			@"iTunes-Playing"
 
-#define POLL_INTERVAL			3
+#define DEFAULT_POLL_INTERVAL	3
 
 typedef enum {
 	itPLAYING,
@@ -22,6 +22,7 @@ typedef enum {
 
 @interface GrowlTunesController : NSObject {
 	NSTimer				* pollTimer;
+	double				  pollInterval;
 	NSAppleScript		* pollScript;
 	
 	NSAppleScript		* getTrackScript;

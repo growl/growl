@@ -19,11 +19,14 @@ static NSString *appName = @"GrowlTunes";
 static NSString *iTunesAppName = @"iTunes.app";
 static NSString *iTunesBundleID = @"com.apple.itunes";
 
+static NSString *pollIntervalKey = @"Poll interval";
+
 //status item menu item tags.
 enum {
 	quitGrowlTunesTag,
 	launchQuitiTunesTag,
-	quitBothTag
+	quitBothTag,
+	togglePollingTag
 };
 
 @implementation GrowlTunesController
@@ -35,6 +38,10 @@ enum {
 	if(self) {
 		[GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(registerGrowl:) context:NULL];
 		self->state = itUNKNOWN;
+
+		[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithDouble:DEFAULT_POLL_INTERVAL], pollIntervalKey,
+			nil]];
 
 		self->plugins = [[self loadPlugins] retain];
 	}
@@ -68,6 +75,8 @@ enum {
 	getArtworkScript = [self appleScriptNamed:@"getArtwork"];
 	getAlbumScript   = [self appleScriptNamed:@"getAlbum"];
 	quitiTunesScript = [self appleScriptNamed:@"quitiTunes"];
+
+	pollInterval = [[NSUserDefaults standardUserDefaults] floatForKey:pollIntervalKey];
 
 	if([self iTunesIsRunning]) {
 		[self startTimer];
@@ -192,11 +201,12 @@ enum {
 
 - (void)startTimer {
 	if(pollTimer == nil) {
-		pollTimer = [[NSTimer scheduledTimerWithTimeInterval:POLL_INTERVAL 
+		pollTimer = [[NSTimer scheduledTimerWithTimeInterval:pollInterval 
 													  target:self
 													selector:@selector(poll:)
 													userInfo:nil
 													 repeats:YES] retain];
+		NSLog(@"Polling started");
 		[self poll:nil];
 	}
 }
@@ -206,6 +216,7 @@ enum {
 		[pollTimer invalidate];
 		[pollTimer release];
 		pollTimer = nil;
+		NSLog(@"Polling stopped");
 	}
 }
 
@@ -250,6 +261,11 @@ enum {
 		item = [menu addItemWithTitle:@"Quit Both" action:@selector(quitBoth:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:quitBothTag];
+		item = [NSMenuItem separatorItem];
+		[menu addItem:item];
+		item = [menu addItemWithTitle:@"Toggle Polling" action:@selector(togglePolling:) keyEquivalent:empty];
+		[item setTarget:self];
+		[item setTag:togglePollingTag];
 	}
 
 	return [menu autorelease];
@@ -266,9 +282,23 @@ enum {
 		case quitBothTag:
 			return [self iTunesIsRunning];
 
+		case togglePollingTag:
+			if(pollTimer)
+				[item setTitle:@"Stop Polling"];
+			else
+				[item setTitle:@"Start Polling"];
+			return YES;
+
 		default:
 			return NO;
 	}
+}
+
+- (IBAction)togglePolling:(id)sender {
+	if(pollTimer)
+		[self stopTimer];
+	else
+		[self startTimer];
 }
 
 - (IBAction)quitGrowlTunes:(id)sender {
