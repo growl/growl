@@ -6,6 +6,7 @@
 //
 
 #import "GrowlApplicationBridge.h"
+#import "GrowlDefines.h"
 
 #define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY			@"PreferencePanes"
 #define PREFERENCE_PANE_EXTENSION						@"prefPane"
