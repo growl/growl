@@ -26,7 +26,6 @@
 
 + (NSEnumerator *) _preferencePaneSearchEnumerator;
 + (NSArray *) _allPreferencePaneBundles;
-+ (void) _checkForPackagedUpdateForGrowlPrefPaneBundle:(NSBundle *)growlPrefPaneBundle;
 
 /*!
 	@method launchGrowlIfInstalled
@@ -36,6 +35,12 @@
 	@result Returns YES if GrowlHelperApp began launching or was already running, NO if Growl isn't installed
 */
 + (BOOL) launchGrowlIfInstalled;
+
+
+#ifdef GROWL_WITH_INSTALLER
++ (void) _checkForPackagedUpdateForGrowlPrefPaneBundle:(NSBundle *)growlPrefPaneBundle;
+#endif
+
 @end
 
 @implementation GrowlAppBridge
@@ -47,9 +52,12 @@ static id		delegate = nil;
 static BOOL		growlLaunched = NO;
 
 static NSMutableArray	*queuedGrowlNotifications = nil;
+
+#ifdef GROWL_WITH_INSTALLER
 static BOOL				userChoseNotToInstallGrowl = NO;
 static BOOL				promptedToInstallGrowl = NO;
 static BOOL				promptedToUpgradeGrowl = NO;
+#endif
 
 /* ***********************
 * This must be called before using GrowlAppBridge.  The methods in the GrowlAppBridgeDelegate are required;
@@ -91,9 +99,11 @@ static BOOL				promptedToUpgradeGrowl = NO;
 					   object:nil];
 	}
 
+#ifdef GROWL_WITH_INSTALLER
 	//Determine if the user has previously told us not to ever request installation again
 	userChoseNotToInstallGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"Growl Installation: Do Not Prompt Again"];
-	
+#endif
+
 	growlLaunched = [self launchGrowlIfInstalled];
 }
 
@@ -216,9 +226,12 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	if (growlPrefPaneBundle) {
 		NSString        *growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"
 																			ofType:@"app"];
-	
+
+#ifdef GROWL_WITH_INSTALLER
 		/* Check against our current version number and ensure the installed Growl pane is the same or later */
 		[self _checkForPackagedUpdateForGrowlPrefPaneBundle:growlPrefPaneBundle];
+#endif
+
 		//Houston, we are go for launch.
 		//Let's launch in the background (unfortunately, requires Carbon)
 		LSLaunchFSRefSpec spec;
@@ -310,7 +323,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	NSDictionary *noteDict;
 	
 	enumerator = [queuedGrowlNotifications objectEnumerator];
-	while(noteDict = [enumerator nextObject]){
+	while((noteDict = [enumerator nextObject])){
 		//Post to Growl via NSDistributedNotificationCenter
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																	   object:nil
@@ -370,6 +383,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	return allPreferencePaneBundles;
 }
 
+#ifdef GROWL_WITH_INSTALLER
 /* Sent to us by GrowlInstallationPrompt if the user clicks Cancel so we can avoid prompting again this session
  * (or ever if they checked Don't Ask Again) */
 + (void) _userChoseNotToInstallGrowl {
@@ -399,5 +413,6 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		}
 	}
 }
+#endif
 
 @end
