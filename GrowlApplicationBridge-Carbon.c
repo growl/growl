@@ -348,8 +348,8 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 
 		CFRelease(growlPrefPaneBundle);
 	}
-
-	CFRelease(regDict);
+	if(regDict)
+		CFRelease(regDict);
 
 	return success;
 }
