@@ -7,6 +7,7 @@
 //
 
 #import "GrowlTunes-Amazon.h"
+#import "GrowlAmazonXMLResponse.h"
 
 /*Based on code originally submitted by James Van Dyne
  *Updated for the v4 Amazon API with code from Fjölnir Ásgeirsson
@@ -70,93 +71,70 @@
 #pragma mark -
 #pragma mark Amazon searching methods
 
+#define AMAZON_QUERY_FORMAT     \
+	@"?locale=us"                \
+	@"&t=0C8PCNE1KCKFJN5EHP02"    \
+	@"&dev-t=0C8PCNE1KCKFJN5EHP02" \
+	@"&ArtistSearch=%@"             \
+	@"&mode=music"                   \
+	@"&sort=+salesrank"               \
+	@"&offer=All"                      \
+	@"&type=lite"                       \
+	@"&page=1"                           \
+	@"&f=xml"
+
 - (NSArray *)getAlbumsByArtist:(NSString *)artistName {
-	NSString *query = [[NSString stringWithFormat:@"?locale=us&t=0C8PCNE1KCKFJN5EHP02&dev-t=0C8PCNE1KCKFJN5EHP02&ArtistSearch=%@&mode=music&sort=+salesrank&offer=All&type=lite&page=1&f=xml", artistName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSMutableArray *result = nil;
+
+	NSString *query = [[NSString stringWithFormat:AMAZON_QUERY_FORMAT, artistName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSData *XMLData = [self queryAmazon:query];
 
 	if (XMLData) {
-		// Parse the XML into a DOM object document
-		DOMBuilder *builder = [DOMBuilder defaultBuilder];
+		NSXMLParser *parser = [[NSXMLParser alloc] initWithData:XMLData];
+		[parser setShouldProcessNamespaces:YES];
+		GrowlAmazonXMLResponse *XMLResponse = [[[GrowlAmazonXMLResponse alloc] init] autorelease];
+		[parser setDelegate:XMLResponse];
+		[parser parse];
+		[parser release];
 
-		DOMDocument *document;
-		@try
-		{
-			document = [builder buildFromData:XMLData];
-		}
-		@catch(NSException *e)
-		{
-			NSLog(@"An exception occurred while parsing XML data (it was probably malformed)\n" @"Exception reason: %@", [e reason]);
-			return nil;
-		}
-
-		DOMElement *rootElement = [document documentElement]; // Get the root element
-
-		/*locations of what we want:
-		 *
-		 *root element
-		 *	for each album:
-		 *	Details
-		 *		ProductName <-album name
-		 *		Artists
-		 *			Artist <-artist name
-		 */
-
-		//Search for 'Details' tags in the root element
-		DOMXPathExpression *resultQuery = [DOMXPathExpression expressionWithString:@"//Details"];
-		NSArray *results = [resultQuery matchesForContextNode:rootElement];
-		if ([results count] < 1U) {
+		NSArray *foundItems = [XMLResponse foundItems];
+		unsigned numFoundItems = [foundItems count];
+		if (numFoundItems < 1U) {
 //			NSLog(@"No results");
 		} else {
 //			NSLog(@"Found some!, filtering...");
-			NSMutableArray *resultsInfo = [NSMutableArray arrayWithCapacity:[results count]];
+			result = [NSMutableArray arrayWithCapacity:numFoundItems];
 
-			NSEnumerator *resultsEnum = [results objectEnumerator];
-			DOMElement *result;
+			NSEnumerator *foundItemsEnum = [foundItems objectEnumerator];
+			NSDictionary *foundItem;
 
-			while ((result = [resultsEnum nextObject])) {
-				DOMElement *nameElement = [[result childElementsByTagName:@"ProductName"] objectAtIndex:0U];
-				DOMElement *artistElement = [[[[result childElementsByTagName:@"Artists"] objectAtIndex:0U] childElementsByTagName:@"Artist"] objectAtIndex:0U];
+			while ((foundItem = [foundItemsEnum nextObject])) {
+				NSString  *albumName = [foundItem objectForKey:AMAZON_ALBUM_KEY];
+
+				NSSet    *foundArtists    = [NSSet setWithArray:[foundItem objectForKey:AMAZON_ARTISTS_KEY]];
+				NSString *foundArtistName = [foundArtists member:artistName];
+				if(foundArtistName) artistName = foundArtistName;
 
 				//we want the biggest artwork we can get.
-				DOMElement *artworkElement = [[result childElementsByTagName:@"ImageUrlLarge"] objectAtIndex:0U];
-				if(!artworkElement) {
-					artworkElement = [[result childElementsByTagName:@"ImageUrlMedium"] objectAtIndex:0U];
-					if(!artworkElement)
-						artworkElement = [[result childElementsByTagName:@"ImageUrlSmall"] objectAtIndex:0U];
-				}
-
-				//Now create usable stuff from the elements
-				NSString *artworkURL = [artworkElement textContent];
-				NSString *albumName  = [nameElement textContent];
-
-				//If the artist element contains our wanted artist, look for it!
-				if ([artistElement containsChild:[DOMText textWithString:artistName]]) {
-					NSArray *allArtists = [artistElement children];
-					NSEnumerator *artistEnum = [allArtists objectEnumerator];
-					while((artistElement = [artistEnum nextObject])) {
-						NSString *textContent = [artistElement textContent];
-						if ([textContent isEqualToString:artistName]) {
-							artistName = textContent;
-							break;
-						}
-					}
-				} else {
-					//we didn't find anyone interesting, so just use the first one.
-					artistName = [[artistElement firstChild] textContent];
+				NSString *artworkURLString = [foundItem objectForKey:AMAZON_IMAGE_URL_LARGE_KEY];
+				if(!artworkURLString) {
+					artworkURLString       = [foundItem objectForKey:AMAZON_IMAGE_URL_MEDIUM_KEY];
+					if(!artworkURLString)
+						artworkURLString   = [foundItem objectForKey:AMAZON_IMAGE_URL_SMALL_KEY];
 				}
 
 				NSDictionary *productInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-					albumName,  @"name",
-					artworkURL, @"artworkURL",
-					artistName, @"artist",
+					albumName,        @"name",
+					artworkURLString, @"artworkURL",
+					artistName,       @"artist",
 					nil];
 
-				[resultsInfo addObject:productInfo];
+				[result addObject:productInfo];
 			}
-			return resultsInfo;
 		}
 	}
-	return nil;
+
+	return result;
 }
 
 - (NSDictionary *)getAlbum:(NSString *)albumName byArtist:(NSString *)artistName {

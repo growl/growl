@@ -18,9 +18,9 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>0.1a</string>
-	<key>NSPrincipalClass</key>
-	<string>GrowlTunes-Amazon</string>
 	<key>LoadLast</key>
 	<true/>
+	<key>NSPrincipalClass</key>
+	<string>GrowlTunes_Amazon</string>
 </dict>
 </plist>

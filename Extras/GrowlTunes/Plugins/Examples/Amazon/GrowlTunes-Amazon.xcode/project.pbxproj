@@ -33,6 +33,44 @@
 //012
 //013
 //014
+//070
+//071
+//072
+//073
+//074
+		074D478C07EEE798000DE3CC = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlAmazonXMLResponse.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		074D478D07EEE798000DE3CC = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlAmazonXMLResponse.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		074D478E07EEE798000DE3CC = {
+			fileRef = 074D478C07EEE798000DE3CC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		074D478F07EEE798000DE3CC = {
+			fileRef = 074D478D07EEE798000DE3CC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//070
+//071
+//072
+//073
+//074
 //080
 //081
 //082
@@ -123,6 +161,8 @@
 		};
 		08FB77AFFE84173DC02AAC07 = {
 			children = (
+				074D478C07EEE798000DE3CC,
+				074D478D07EEE798000DE3CC,
 				CB0778EB070A6C8200FF9E66,
 				CB0778EC070A6C8200FF9E66,
 			);
@@ -160,7 +200,6 @@
 		};
 		1058C7AEFEA557BF11CA2CBB = {
 			children = (
-				DDF4359607D79C88008CC992,
 				089C1672FE841209C02AAC07,
 				089C167FFE841241C02AAC07,
 			);
@@ -265,6 +304,7 @@
 			files = (
 				8D5B49AE048680CD000E48DA,
 				CB0778ED070A6C8200FF9E66,
+				074D478E07EEE798000DE3CC,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB0778EE070A6C8200FF9E66,
+				074D478F07EEE798000DE3CC,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,7 +342,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA,
-				DDF4359707D79C88008CC992,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,31 +409,6 @@
 		};
 		CB0778EE070A6C8200FF9E66 = {
 			fileRef = CB0778EC070A6C8200FF9E66;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-//CB0
-//CB1
-//CB2
-//CB3
-//CB4
-//DD0
-//DD1
-//DD2
-//DD3
-//DD4
-		DDF4359607D79C88008CC992 = {
-			comments = "Available from:\n\nhttp://sourceforge.net/projects/iconaradom";
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = DOM.framework;
-			path = ../../../DOM.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDF4359707D79C88008CC992 = {
-			fileRef = DDF4359607D79C88008CC992;
 			isa = PBXBuildFile;
 			settings = {
 			};
