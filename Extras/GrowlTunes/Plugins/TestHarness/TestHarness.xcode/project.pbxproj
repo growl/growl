@@ -45,20 +45,6 @@
 //0A2
 //0A3
 //0A4
-		0A53296707DBF9F4005FB00B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = DOM.framework;
-			path = /Users/kevin/Dev/Growl/growl/Extras/GrowlTunes/DOM.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		0A53298507DBFA0F005FB00B = {
-			fileRef = 0A53296707DBF9F4005FB00B;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0A8B5992070AAEFE00593A33 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -132,7 +118,6 @@
 		};
 		1058C7A2FEA54F0111CA2CBB = {
 			children = (
-				0A53296707DBF9F4005FB00B,
 				29B97325FDCFA39411CA2CEA,
 				29B97324FDCFA39411CA2CEA,
 			);
@@ -447,7 +432,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0A53298507DBFA0F005FB00B,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

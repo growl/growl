@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <DOM/DOM.h>
 #import "GrowlTunesPlugin.h"
 
 @interface GrowlTunes_Amazon: NSObject <GrowlTunesPlugin>
