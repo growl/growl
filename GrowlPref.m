@@ -39,6 +39,7 @@
 	[tickets release];
 	[currentApplication release];
 	[startStopTimer release];
+	[images release];
 	[super dealloc];
 }
 
@@ -134,10 +135,32 @@
 	}
 }
 
+// copy images to avoid resizing the original image stored in the ticket
+- (void)cacheImages
+{
+	if( images ) {
+		[images release];
+	}
+	images = [[NSMutableArray alloc] initWithCapacity:[applications count]];
+	NSEnumerator *enumerator = [applications objectEnumerator];
+	id key;
+	while( (key = [enumerator nextObject]) ) {
+		NSImage *icon = [[NSImage alloc] initWithData:[[[tickets objectForKey:key] icon] TIFFRepresentation]];
+		[icon setScalesWhenResized:YES];
+		[icon setSize:NSMakeSize(16,16)];
+		[images addObject:icon];
+		[icon release];
+	}
+}
+
 - (void)reloadPreferences {
-	if(tickets) [tickets release];
+	if(tickets) {
+		[tickets release];
+	}
 	tickets = [[GrowlApplicationTicket allSavedTickets] mutableCopy];
 	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
+
+	[self cacheImages];
 
 	[self loadViewForDisplay:nil];
 	
@@ -220,7 +243,8 @@
 }
 
 - (void)reloadAppTab {
-	[currentApplication release]; currentApplication = nil;
+	[currentApplication release];
+	currentApplication = nil;
 //	currentApplication = [[growlApplications titleOfSelectedItem] retain];
 	unsigned int numApplications = [applications count];
 	if (([growlApplications selectedRow] < 0) && (numApplications > 0)) {
@@ -233,14 +257,15 @@
 	
 //	[applicationEnabled setState: [appTicket ticketEnabled]];
 //	[applicationEnabled setTitle: [NSString stringWithFormat:@"Enable notifications for %@",currentApplication]];
-	
+
 	[[[applicationNotifications tableColumnWithIdentifier:@"enable"] dataCell] setEnabled:[appTicket ticketEnabled]];
 	[applicationNotifications reloadData];
 	
 	[growlApplications reloadData];
 }
 
-- (void)reloadDisplayTab {
+- (void)reloadDisplayTab
+{
 	if (currentPlugin) {
 		[currentPlugin release];
 	}
@@ -372,8 +397,7 @@
 	if (pluginPrefPane) {
 		oldPrefPane = pluginPrefPane;
 	}
-	if (displayName != nil)
-	{
+	if (displayName != nil) {
 		id <GrowlPlugin> plugin = [[GrowlPluginController controller]
 														displayPluginNamed:displayName];
 		// Old plugins won't support the new protocol. Check first
@@ -412,7 +436,7 @@
 			// Hook up key view chain
 			[displayPlugins setNextKeyView:[pluginPrefPane firstKeyView]];
 			[[pluginPrefPane lastKeyView] setNextKeyView:tabView];
-			[[displayPlugins window] makeFirstResponder:[pluginPrefPane initialKeyView]];
+			//[[displayPlugins window] makeFirstResponder:[pluginPrefPane initialKeyView]];
 		} else {
 			[displayPlugins setNextKeyView:tabView];
 		}
@@ -469,8 +493,7 @@
 		if ([[column identifier] isEqualTo:@"enable"]) {
 			[[tickets objectForKey:application] setEnabled:[value boolValue]];
 			[self setPrefsChanged:YES];
-		}
-		if ([[column identifier] isEqualTo:@"display"])	{
+		} else if ([[column identifier] isEqualTo:@"display"])	{
 			int index = [value intValue];
 			if (index == 0) {
 				if ([[tickets objectForKey:application] usesCustomDisplay]) {
@@ -535,11 +558,7 @@
 				[cell selectItemWithTitle:[[[tickets objectForKey: [applications objectAtIndex:row]] displayPlugin] name]];
 			}
 		} else if ([[column identifier] isEqualTo:@"application"]) {
-			// TODO: return a copy to avoid resizing the original image stored in the ticket
-			NSImage *icon = [[tickets objectForKey: [applications objectAtIndex:row]] icon];
-			[icon setScalesWhenResized:YES];
-			[icon setSize:NSMakeSize(16,16)];
-			[(ACImageAndTextCell *)cell setImage:icon];
+			[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:row]];
 		}
 	} else if (tableView == applicationNotifications) {
 		if ([[column identifier] isEqualTo:@"priority"]) {
@@ -621,6 +640,7 @@
 	[tickets setObject:ticket forKey:app];
 	[applications release];
 	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
+	[self cacheImages];
 	[growlApplications reloadData];
 	
 	if([currentApplication isEqualToString:app]) {

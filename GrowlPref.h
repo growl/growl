@@ -8,6 +8,7 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface GrowlPref : NSPreferencePane {
+	NSMutableArray			* images;
 	NSMutableDictionary		* tickets;
 	NSMutableArray			* applications;
 	//NSTimer				* pingTimer;
