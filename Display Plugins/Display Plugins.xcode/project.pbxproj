@@ -207,6 +207,8 @@
 //324
 		32C88E010371C26100C91783 = {
 			children = (
+				6C22288806FF60A50056CEAA,
+				6C22288906FF60A50056CEAA,
 				32DBCF630370AF2F00C91783,
 			);
 			isa = PBXGroup;
@@ -671,6 +673,34 @@
 //6C2
 //6C3
 //6C4
+		6C22288806FF60A50056CEAA = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlImageAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C22288906FF60A50056CEAA = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlImageAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C22288A06FF60A50056CEAA = {
+			fileRef = 6C22288806FF60A50056CEAA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6C22288B06FF60A50056CEAA = {
+			fileRef = 6C22288906FF60A50056CEAA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		6C60D7B806F044110025909F = {
 			buildActionMask = 2147483647;
 			files = (
@@ -681,6 +711,7 @@
 				6CEC911006F6F85F00198405,
 				6CEC912E06F7099900198405,
 				6C7F69C906F9ACE10012FC7D,
+				6C22288A06FF60A50056CEAA,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -692,6 +723,7 @@
 				6C86F85906F04AB2008EA344,
 				6C86F89006F0620D008EA344,
 				6CEC911106F6F85F00198405,
+				6C22288B06FF60A50056CEAA,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
