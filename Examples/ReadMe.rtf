@@ -2,7 +2,7 @@
 {\fonttbl\f0\fnil\fcharset77 HoeflerText-Regular;\f1\fnil\fcharset77 LucidaGrande;\f2\fnil\fcharset77 LucidaGrande-Bold;
 }
 {\colortbl;\red255\green255\blue255;}
-\margl1440\margr1440\vieww11560\viewh7680\viewkind0
+\margl1440\margr1440\vieww12100\viewh14860\viewkind0
 \pard\tqr\tx1440\tx1800\tx2880\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f0\fs36 \cf0 Growl Examples\
@@ -31,7 +31,16 @@ The original demo app using Cocoa NSNotifications and NSDistributedNotificationC
 \
 \pard\tqr\tx1440\tx1800\tx2880\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2\b \cf0 Beep-Carbon\
+\f2\b \cf0 Beep-Cocoa-Weak
+\f1\b0 \
+\
+The same thing as Beep-Cocoa except it weak-links the GrowlAppBridge framework.\
+\
+	Libraries:	Cocoa, GrowlAppBridge (weak)\
+	Author:	Karl Adam\
+\
+
+\f2\b Beep-Carbon\
 \pard\tqr\tx1440\tx1800\tx2880\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f1\b0 \cf0 \
@@ -88,6 +97,15 @@ An application that provides a service to get the dict.org definition for the se
 \pard\tqr\tx1440\tx1800\tx2880\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
 \f2\b \cf0 \
+GrowlSafari
+\f1\b0 \
+\
+A SIMBL plugin that adds Growl notifications to Safari. The notifications trigger when a download is complete, for a download decompression phase or a downloaded disk image mount phase.\
+\
+	Libraries:	Cocoa\
+	Author:	Kevin Ballard
+\f2\b \
+\
 MacYac\
 \pard\tqr\tx1440\tx1800\tx2880\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
