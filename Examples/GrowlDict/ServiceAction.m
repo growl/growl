@@ -65,7 +65,7 @@
 	//Throw it in a dictionary and send it to growl
 	NSDictionary *growlEvent = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"Dictmenu-Definition", GROWL_NOTIFICATION_NAME,
-		@"Dictmenu-Definition", GROWL_NOTIFICATION_TITLE,
+		pboardString, GROWL_NOTIFICATION_TITLE,
 		curlResult, GROWL_NOTIFICATION_DESCRIPTION,
 		@"Dictmenu", GROWL_APP_NAME,
 		defaultValue, GROWL_NOTIFICATION_DEFAULT,
