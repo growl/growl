@@ -102,7 +102,7 @@
 		_allowedNotifications = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_USER_SET] retain];		
 		_icon = [[[NSWorkspace sharedWorkspace] iconForApplication:_appName] retain];
 		_parent = [inParent retain];
-		_useDefaults = NO;
+		_useDefaults = [[ticketsList objectForKey:@"useDefaults"] boolValue];
 		
 		[self registerParentForNotifications:_allowedNotifications];
 	}
