@@ -7,6 +7,7 @@
                 floatIconSwitchChanged = id; 
                 opacitySliderChanged = id; 
                 setLimit = id; 
+                textColorChanged = id; 
             }; 
             CLASS = GrowlSmokePrefsController; 
             LANGUAGE = ObjC; 
@@ -20,6 +21,11 @@
                 limitCheck = NSButton; 
                 opacitySlider = NSSlider; 
                 "text_Opacity" = NSTextField; 
+                "text_emergency" = NSColorWell; 
+                "text_high" = NSColorWell; 
+                "text_moderate" = NSColorWell; 
+                "text_normal" = NSColorWell; 
+                "text_veryLow" = NSColorWell; 
             }; 
             SUPERCLASS = NSPreferencePane; 
         }, 

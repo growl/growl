@@ -12,8 +12,6 @@ For .6
 - Bubbles
 	- Text color colorwell
 	- Top background color colorwell
-- Smoke
-	- Text colorwell
 - Move non-example applications in the Examples directory into a PowerToys directory. Add licensing where need be. PowerToys will be bsd licensed.
 
 
@@ -27,8 +25,10 @@ Release related issues
 
 
 Done:
+- Smoke
+	- Text colorwell
+	- Smoke needs to specify how many lines it allows to be displayed on screen.
 - Add a button to remove old tickets
-- Smoke needs to specify how many lines it allows to be displayed on screen.
 - Display version number.
 - A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.
 - Make plugins double clickable bundles

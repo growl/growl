@@ -18,12 +18,19 @@
   IBOutlet NSColorWell    *color_high;
   IBOutlet NSColorWell    *color_emergency;
   
+  IBOutlet NSColorWell    *text_veryLow;
+  IBOutlet NSColorWell    *text_moderate;
+  IBOutlet NSColorWell    *text_normal;
+  IBOutlet NSColorWell    *text_high;
+  IBOutlet NSColorWell    *text_emergency;
+
   IBOutlet NSButton *floatIconSwitch;
   IBOutlet NSButton *limitCheck;
 }
 
 - (IBAction)opacitySliderChanged:(id)sender;
 - (IBAction)colorChanged:(id)sender;
+- (IBAction)textColorChanged:(id)sender;
 - (IBAction)floatIconSwitchChanged:(id)sender;
 - (IBAction)setLimit:(id)sender;
 

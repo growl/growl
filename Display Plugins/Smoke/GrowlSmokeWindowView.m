@@ -23,6 +23,7 @@
 		_target = nil;
 		_action = nil;
 		_bgColor = nil;
+		_textColor = nil;
 	}
 	return self;
 }
@@ -32,6 +33,7 @@
 	[_title release];
 	[_text release];
 	[_bgColor release];
+	[_textColor release];
 	
 	[super dealloc];
 }
@@ -43,12 +45,12 @@
 	[[NSColor clearColor] set];
 	NSRectFill( [self frame] );
 
-    // set up bezier path for rounded corners
+	// set up bezier path for rounded corners
 	float lineWidth = 1.f;
 	NSBezierPath *path = [NSBezierPath bezierPath];
 	[path setLineWidth:lineWidth];
 
-    // draw bezier path for rounded corners
+	// draw bezier path for rounded corners
 	float radius = 5.f;
 	unsigned int sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding / 2);
 	
@@ -95,43 +97,43 @@
 
 	[[NSGraphicsContext currentContext] saveGraphicsState];
 
-    // clip graphics context to path
+	// clip graphics context to path
 	[path setClip];
 
-    // fill clipped graphics context with our background colour
-    [_bgColor set];
+	// fill clipped graphics context with our background colour
+	[_bgColor set];
 	NSRectFill( [self frame] );
-	
+
 	// revert to unclipped graphics context
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
-	
+
 	float notificationContentTop = [self frame].size.height - GrowlSmokePadding;
-	
-    // build an appropriate colour for the text
-	NSColor *textColour = [NSColor colorWithCalibratedWhite:1.f alpha:1.f];
-	
+
+	// build an appropriate colour for the text
+	//NSColor *textColour = [NSColor colorWithCalibratedWhite:1.f alpha:1.f];
+
 	// If we are on Panther or better, pretty shadow
 	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
 	id textShadow = nil; // NSShadow
 	if(pantherOrLater) {
 		Class NSShadowClass = NSClassFromString(@"NSShadow");
-        textShadow = [[[NSShadowClass alloc] init] autorelease];
-        
+		textShadow = [[[NSShadowClass alloc] init] autorelease];
+		
 		NSSize shadowSize = NSMakeSize(0.f, -2.f);
-        [textShadow setShadowOffset:shadowSize];
-        [textShadow setShadowBlurRadius:3.0f];
+		[textShadow setShadowOffset:shadowSize];
+		[textShadow setShadowBlurRadius:3.0f];
 		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha: 1.0f]];
 	}
 	
 	// construct attributes for the description text
 	NSMutableDictionary *descriptionAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
-		textColour, NSForegroundColorAttributeName,
+		_textColor, NSForegroundColorAttributeName,
 		nil];
 	// construct attributes for the title
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize], NSFontAttributeName,
-		textColour,                        NSForegroundColorAttributeName,
+		_textColor, NSForegroundColorAttributeName,
 		nil];
 
 	// add shadow to both attributes
@@ -140,7 +142,7 @@
 		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
 	
-    // draw the title and the text
+	// draw the title and the text
 	unsigned int textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
 	unsigned int titleYPosition = notificationContentTop - [self titleHeight];
 	unsigned int textYPosition = titleYPosition - ([self descriptionHeight] + GrowlSmokeTitleTextPadding);
@@ -219,45 +221,65 @@
 }
 
 - (void)setPriority:(int)priority {
-    NSString* key;
-    switch (priority) {
-        case -2:
-            key = GrowlSmokeVeryLowColor;
-            break;
-        case -1:
-            key = GrowlSmokeModerateColor;
-            break;
-        case 1:
-            key = GrowlSmokeHighColor;
-            break;
-        case 2:
-            key = GrowlSmokeEmergencyColor;
-            break;
-        case 0:
-        default:
-            key = GrowlSmokeNormalColor;
-            break;
-    }
-    NSArray *array;
-   
+	NSString* key;
+	NSString* textKey;
+	switch (priority) {
+		case -2:
+			key = GrowlSmokeVeryLowColor;
+			textKey = GrowlSmokeVeryLowTextColor;
+			break;
+		case -1:
+			key = GrowlSmokeModerateColor;
+			textKey = GrowlSmokeModerateTextColor;
+			break;
+		case 1:
+			key = GrowlSmokeHighColor;
+			textKey = GrowlSmokeHighTextColor;
+			break;
+		case 2:
+			key = GrowlSmokeEmergencyColor;
+			textKey = GrowlSmokeEmergencyTextColor;
+			break;
+		case 0:
+		default:
+			key = GrowlSmokeNormalColor;
+			textKey = GrowlSmokeNormalTextColor;
+			break;
+	}
+	NSArray *array;
+
 	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
 
 	[_bgColor release];
-    READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
-    if (array && [array isKindOfClass:[NSArray class]]) {
-        _bgColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
+	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	if (array && [array isKindOfClass:[NSArray class]]) {
+		_bgColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
 											  green:[[array objectAtIndex:1] floatValue]
 											   blue:[[array objectAtIndex:2] floatValue]
 											  alpha:backgroundAlpha] retain];
-        [array release];
-    } else {
-		_bgColor = [[NSColor colorWithCalibratedWhite:.1 alpha:backgroundAlpha] retain];
+		[array release];
+	} else {
+		_bgColor = [[NSColor colorWithCalibratedWhite:.1f alpha:backgroundAlpha] retain];
 		if (array) {
 			CFRelease((CFTypeRef)array);
 		}
 	}
-    
+
+	[_textColor release];
+	READ_GROWL_PREF_VALUE(textKey, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	if (array && [array isKindOfClass:[NSArray class]]) {
+		_textColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
+												green:[[array objectAtIndex:1] floatValue]
+												 blue:[[array objectAtIndex:2] floatValue]
+												alpha:1.0f] retain];
+		[array release];
+	} else {
+		_textColor = [[NSColor colorWithCalibratedWhite:1.0f alpha:1.0f] retain];
+		if (array) {
+			CFRelease((CFTypeRef)array);
+		}
+	}
 }
 
 - (void)sizeToFit {
@@ -272,7 +294,7 @@
 
 - (int)textAreaWidth {
 	return GrowlSmokeNotificationWidth - GrowlSmokePadding
-	       - GrowlSmokeIconSize - GrowlSmokeIconPadding - GrowlSmokeIconTextPadding;
+	   	- GrowlSmokeIconSize - GrowlSmokeIconPadding - GrowlSmokeIconTextPadding;
 }
 
 - (float)titleHeight {

@@ -18,6 +18,7 @@
 	id					_target;
 
     NSColor             *_bgColor;
+    NSColor             *_textColor;
 }
 
 - (void)setIcon:(NSImage *)icon;
