@@ -1,0 +1,780 @@
+// !$*UTF8*$!
+{
+	CA7C82E606CB9DB900A013A3 = {
+		fRef = CA91A2E20674EAA30035DD44;
+		isa = PBXTextBookmark;
+		name = "RBGrowlDylib.c: 20";
+		rLen = 0;
+		rLoc = 7;
+		rType = 0;
+		vrLen = 776;
+		vrLoc = 0;
+	};
+	CA7C82E706CB9DB900A013A3 = {
+		fRef = CA91A2E10674EAA20035DD44;
+		isa = PBXTextBookmark;
+		name = "RBGrowlDylib.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1137;
+		vrLoc = 0;
+	};
+	CA7C830A06CB9EFE00A013A3 = {
+		fRef = CAE6485E06B050DD00EA81D8;
+		isa = PBXTextBookmark;
+		name = "GrowlDefinesCarbon.h: 19";
+		rLen = 0;
+		rLoc = 80;
+		rType = 0;
+		vrLen = 1096;
+		vrLoc = 0;
+	};
+	CA91A2C70674E83A0035DD44 = {
+		activeBuildStyle = CA91A2C60674E83A0035DD44;
+		activeTarget = CA91A2D10674E8700035DD44;
+		addToTargets = (
+		);
+		codeSenseManager = CA91A2C90674E83A0035DD44;
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXErrorsWarningsDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXErrorsWarningsDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					232.8799,
+					138.2085,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXErrorsWarningsDataSource_TypeID,
+					PBXErrorsWarningsDataSource_MessageID,
+					PBXErrorsWarningsDataSource_LocationID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					705,
+					20,
+					125,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					596,
+					127,
+					20,
+					127,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 117128758;
+			PBXPrepackagedSmartGroups_v2 = (
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					activationKey = OldTargetSmartGroup;
+					clz = PBXTargetSmartGroup;
+					description = "Displays all targets of the project.";
+					globalID = 1C37FABC04509CD000000102;
+					name = Targets;
+					preferences = {
+						image = Targets;
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXTargetSmartGroup2;
+					description = "Displays all targets of the project as well as nested build phases.";
+					globalID = 1C37FBAC04509CD000000102;
+					name = Targets;
+					preferences = {
+						image = Targets;
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXExecutablesSmartGroup;
+					description = "Displays all executables of the project.";
+					globalID = 1C37FAAC04509CD000000102;
+					name = Executables;
+					preferences = {
+						image = Executable;
+					};
+				},
+				{
+					" PBXTransientLocationAtTop " = bottom;
+					absolutePathToBundle = "";
+					clz = PBXErrorsWarningsSmartGroup;
+					description = "Displays files with errors or warnings.";
+					globalID = 1C08E77C0454961000C914BD;
+					name = "Errors and Warnings";
+					preferences = {
+						fnmatch = "";
+						image = WarningsErrors;
+						recursive = 1;
+						regex = "";
+						root = "<PROJECT>";
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXFilenameSmartGroup;
+					description = "Filters items in a given group (potentially recursively) based on matching the name with the regular expression of the filter.";
+					globalID = 1CC0EA4004350EF90044410B;
+					name = "Implementation Files";
+					preferences = {
+						canSave = 1;
+						fnmatch = "";
+						image = SmartFolder;
+						isLeaf = 0;
+						recursive = 1;
+						regex = "?*\\.[mcMC]";
+						root = "<PROJECT>";
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXFilenameSmartGroup;
+					description = "This group displays Interface Builder NIB Files.";
+					globalID = 1CC0EA4004350EF90041110B;
+					name = "NIB Files";
+					preferences = {
+						canSave = 1;
+						fnmatch = "*.nib";
+						image = SmartFolder;
+						isLeaf = 0;
+						recursive = 1;
+						regex = "";
+						root = "<PROJECT>";
+					};
+				},
+				{
+					PBXTransientLocationAtTop = no;
+					absolutePathToBundle = "";
+					clz = PBXFindSmartGroup;
+					description = "Displays Find Results.";
+					globalID = 1C37FABC05509CD000000102;
+					name = "Find Results";
+					preferences = {
+						image = spyglass;
+					};
+				},
+				{
+					PBXTransientLocationAtTop = no;
+					absolutePathToBundle = "";
+					clz = PBXBookmarksSmartGroup;
+					description = "Displays Project Bookmarks.";
+					globalID = 1C37FABC05539CD112110102;
+					name = Bookmarks;
+					preferences = {
+						image = Bookmarks;
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = XCSCMSmartGroup;
+					description = "Displays files with interesting SCM status.";
+					globalID = E2644B35053B69B200211256;
+					name = SCM;
+					preferences = {
+						image = PBXRepository;
+						isLeaf = 0;
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXSymbolsSmartGroup;
+					description = "Displays all symbols for the project.";
+					globalID = 1C37FABC04509CD000100104;
+					name = "Project Symbols";
+					preferences = {
+						image = ProjectSymbols;
+						isLeaf = 1;
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXFilenameSmartGroup;
+					description = "Filters items in a given group (potentially recursively) based on matching the name with the regular expression of the filter.";
+					globalID = PBXTemplateMarker;
+					name = "Simple Filter SmartGroup";
+					preferences = {
+						canSave = 1;
+						fnmatch = "*.nib";
+						image = SmartFolder;
+						isLeaf = 0;
+						recursive = 1;
+						regex = "";
+						root = "<PROJECT>";
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXFilenameSmartGroup;
+					description = "Filters items in a given group (potentially recursively) based on matching the name with the regular expression of the filter.";
+					globalID = PBXTemplateMarker;
+					name = "Simple Regular Expression SmartGroup";
+					preferences = {
+						canSave = 1;
+						fnmatch = "";
+						image = SmartFolder;
+						isLeaf = 0;
+						recursive = 1;
+						regex = "?*\\.[mcMC]";
+						root = "<PROJECT>";
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					clz = XDDesignSmartGroup;
+					description = "Displays Xdesign models";
+					globalID = 2E4A936305E6979E00701470;
+					name = Design;
+					preferences = {
+						image = Design;
+						isLeaf = 0;
+					};
+				},
+			);
+			PBXWorkspaceContents = (
+				{
+					PBXProjectWorkspaceModule_StateKey_Rev39 = {
+						PBXProjectWorkspaceModule_DEGV_Geometry = {
+							_collapsingFrameDimension = 0;
+							_indexOfCollapsedView = 0;
+							_percentageOfCollapsedView = 0;
+							isCollapsed = yes;
+							sizes = (
+								"{{0, 0}, {1098, 121}}",
+								"{{0, 121}, {1098, 756}}",
+							);
+						};
+						PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
+							BoundsStr = "{{0, 0}, {1083, 104}}";
+							Rows = (
+								0,
+							);
+							VisibleRectStr = "{{0, 0}, {1083, 104}}";
+						};
+						PBXProjectWorkspaceModule_EditorOpen = true;
+						PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
+							PBXSplitModuleInNavigatorKey = {
+								Split0 = {
+									bookmark = CAE64EDA06B1289700EA81D8;
+									history = (
+										CAE6487B06B0586700EA81D8,
+										CAE64ED606B1289700EA81D8,
+										CAE64ED706B1289700EA81D8,
+									);
+									prevStack = (
+										CA91A2F0067508B70035DD44,
+										CA91A2FE067515910035DD44,
+										CAE6487D06B0586700EA81D8,
+										CAE6487E06B0586700EA81D8,
+										CAE6487F06B0586700EA81D8,
+										CAE6488006B0586700EA81D8,
+										CAE6488106B0586700EA81D8,
+										CAE6488206B0586700EA81D8,
+										CAE6488306B0586700EA81D8,
+										CAE6488406B0586700EA81D8,
+										CAE6488506B0586700EA81D8,
+										CAE6488606B0586700EA81D8,
+										CAE6488706B0586700EA81D8,
+										CAE64ED806B1289700EA81D8,
+										CAE64ED906B1289700EA81D8,
+									);
+								};
+								SplitCount = 1;
+							};
+						};
+						PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
+							PBXProjectWorkspaceModule_SGTM_Geometry = {
+								_collapsingFrameDimension = 0;
+								_indexOfCollapsedView = 0;
+								_percentageOfCollapsedView = 0;
+								sizes = (
+									"{{0, 0}, {182, 877}}",
+									"{{182, 0}, {1098, 877}}",
+								);
+							};
+						};
+						PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {1098, 121}}";
+						PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 121}, {1098, 756}}";
+						PBXProjectWorkspaceModule_OldSuperviewFrame = "{{182, 0}, {1098, 877}}";
+						PBXProjectWorkspaceModule_SGTM = {
+							PBXBottomSmartGroupGIDs = (
+								1C37FBAC04509CD000000102,
+								1C37FAAC04509CD000000102,
+								1C08E77C0454961000C914BD,
+								1CC0EA4004350EF90044410B,
+								1CC0EA4004350EF90041110B,
+								1C37FABC05509CD000000102,
+								1C37FABC05539CD112110102,
+								E2644B35053B69B200211256,
+								1C37FABC04509CD000100104,
+							);
+							PBXSmartGroupTreeModuleColumnData = {
+								PBXSmartGroupTreeModuleColumnWidthsKey = (
+									165,
+								);
+								PBXSmartGroupTreeModuleColumnsKey_v4 = (
+									MainColumn,
+								);
+							};
+							PBXSmartGroupTreeModuleOutlineStateKey_v7 = {
+								PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
+									CA91A2C30674E83A0035DD44,
+									CA91A2D30674E8700035DD44,
+									1C37FBAC04509CD000000102,
+								);
+								PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
+									(
+										5,
+										0,
+									),
+								);
+								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {165, 859}}";
+							};
+							PBXTopSmartGroupGIDs = (
+							);
+						};
+					};
+				},
+			);
+			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXBuildResultsModule" = {
+			};
+			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXDebugCLIModule" = {
+			};
+			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXNavigatorGroup" = {
+				PBXSplitModuleInNavigatorKey = {
+					SplitCount = 1;
+				};
+			};
+			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
+				PBXProjectWorkspaceModule_StateKey_Rev39 = {
+					PBXProjectWorkspaceModule_DEGV_Geometry = {
+						_collapsingFrameDimension = 0;
+						_indexOfCollapsedView = 0;
+						_percentageOfCollapsedView = 0;
+						isCollapsed = yes;
+						sizes = (
+							"{{0, 0}, {1098, 121}}",
+							"{{0, 121}, {1098, 756}}",
+						);
+					};
+					PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
+						BoundsStr = "{{0, 0}, {1083, 104}}";
+						Rows = (
+							0,
+						);
+						VisibleRectStr = "{{0, 0}, {1083, 104}}";
+					};
+					PBXProjectWorkspaceModule_EditorOpen = true;
+					PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
+						PBXSplitModuleInNavigatorKey = {
+							Split0 = {
+								bookmark = CAE6488806B0586700EA81D8;
+								history = (
+									CAE6487A06B0586700EA81D8,
+									CAE6487B06B0586700EA81D8,
+									CAE6487C06B0586700EA81D8,
+								);
+								prevStack = (
+									CA91A2F0067508B70035DD44,
+									CA91A2FE067515910035DD44,
+									CAE6487D06B0586700EA81D8,
+									CAE6487E06B0586700EA81D8,
+									CAE6487F06B0586700EA81D8,
+									CAE6488006B0586700EA81D8,
+									CAE6488106B0586700EA81D8,
+									CAE6488206B0586700EA81D8,
+									CAE6488306B0586700EA81D8,
+									CAE6488406B0586700EA81D8,
+									CAE6488506B0586700EA81D8,
+									CAE6488606B0586700EA81D8,
+									CAE6488706B0586700EA81D8,
+								);
+							};
+							SplitCount = 1;
+						};
+					};
+					PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
+						PBXProjectWorkspaceModule_SGTM_Geometry = {
+							_collapsingFrameDimension = 0;
+							_indexOfCollapsedView = 0;
+							_percentageOfCollapsedView = 0;
+							sizes = (
+								"{{0, 0}, {182, 877}}",
+								"{{182, 0}, {1098, 877}}",
+							);
+						};
+					};
+					PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {1098, 121}}";
+					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 121}, {1098, 756}}";
+					PBXProjectWorkspaceModule_OldSuperviewFrame = "{{182, 0}, {1098, 877}}";
+					PBXProjectWorkspaceModule_SGTM = {
+						PBXBottomSmartGroupGIDs = (
+							1C37FBAC04509CD000000102,
+							1C37FAAC04509CD000000102,
+							1C08E77C0454961000C914BD,
+							1CC0EA4004350EF90044410B,
+							1CC0EA4004350EF90041110B,
+							1C37FABC05509CD000000102,
+							1C37FABC05539CD112110102,
+							E2644B35053B69B200211256,
+							1C37FABC04509CD000100104,
+						);
+						PBXSmartGroupTreeModuleColumnData = {
+							PBXSmartGroupTreeModuleColumnWidthsKey = (
+								165,
+							);
+							PBXSmartGroupTreeModuleColumnsKey_v4 = (
+								MainColumn,
+							);
+						};
+						PBXSmartGroupTreeModuleOutlineStateKey_v7 = {
+							PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
+								CA91A2C30674E83A0035DD44,
+								CA91A2D30674E8700035DD44,
+								1C37FBAC04509CD000000102,
+							);
+							PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
+								(
+									5,
+									0,
+								),
+							);
+							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {165, 859}}";
+						};
+						PBXTopSmartGroupGIDs = (
+						);
+					};
+				};
+			};
+			PBXWorkspaceGeometries = (
+				{
+					Frame = "{{0, 0}, {1280, 877}}";
+					PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
+					};
+					RubberWindowFrame = "0 83 1280 919 0 0 1280 1002 ";
+				},
+			);
+			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXBuildResultsModule" = {
+				Frame = "{{0, 0}, {480, 217}}";
+				PBXModuleWindowStatusBarHidden = YES;
+				RubberWindowFrame = "400 591 480 238 0 0 1280 1002 ";
+			};
+			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXDebugCLIModule" = {
+				Frame = "{{0, 0}, {400, 201}}";
+				PBXModuleWindowStatusBarHidden = YES;
+				RubberWindowFrame = "50 974 400 222 0 0 1280 1002 ";
+			};
+			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXNavigatorGroup" = {
+				Frame = "{{0, 0}, {750, 481}}";
+				PBXModuleWindowStatusBarHidden = YES;
+				RubberWindowFrame = "332 293 750 502 0 0 1280 1002 ";
+			};
+			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
+				Frame = "{{0, 0}, {1280, 877}}";
+				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
+				};
+				RubberWindowFrame = "0 83 1280 919 0 0 1280 1002 ";
+			};
+			PBXWorkspaceStateSaveDate = 117128758;
+		};
+		perUserProjectItems = {
+			CA7C82E606CB9DB900A013A3 = CA7C82E606CB9DB900A013A3;
+			CA7C82E706CB9DB900A013A3 = CA7C82E706CB9DB900A013A3;
+			CA7C830A06CB9EFE00A013A3 = CA7C830A06CB9EFE00A013A3;
+			CA95D23706D10A9A00F36FA1 = CA95D23706D10A9A00F36FA1;
+			CA95D23806D10A9A00F36FA1 = CA95D23806D10A9A00F36FA1;
+			CAB03E0E06CCE7FE00574F6B = CAB03E0E06CCE7FE00574F6B;
+			CAEBD12606FB3F26009F8BF5 = CAEBD12606FB3F26009F8BF5;
+			CAEBD13006FB400B009F8BF5 = CAEBD13006FB400B009F8BF5;
+			CAEBD13106FB400B009F8BF5 = CAEBD13106FB400B009F8BF5;
+			CAEBD13506FB406E009F8BF5 = CAEBD13506FB406E009F8BF5;
+			CAEBD13806FB406E009F8BF5 = CAEBD13806FB406E009F8BF5;
+			CAEBD13906FB406E009F8BF5 = CAEBD13906FB406E009F8BF5;
+			CAEBD13A06FB406E009F8BF5 = CAEBD13A06FB406E009F8BF5;
+			CAEBD13B06FB406E009F8BF5 = CAEBD13B06FB406E009F8BF5;
+			CAEBD13F06FB4418009F8BF5 = CAEBD13F06FB4418009F8BF5;
+			CAEBD14006FB4418009F8BF5 = CAEBD14006FB4418009F8BF5;
+			CAEBD14106FB4418009F8BF5 = CAEBD14106FB4418009F8BF5;
+			CAEBD14206FB4418009F8BF5 = CAEBD14206FB4418009F8BF5;
+			CAEBD14306FB4418009F8BF5 = CAEBD14306FB4418009F8BF5;
+		};
+		sourceControlManager = CA91A2C80674E83A0035DD44;
+		userBuildSettings = {
+		};
+	};
+	CA91A2C80674E83A0035DD44 = {
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		isa = PBXSourceControlManager;
+		scmConfiguration = {
+		};
+		scmType = "";
+	};
+	CA91A2C90674E83A0035DD44 = {
+		indexTemplatePath = "";
+		isa = PBXCodeSenseManager;
+		usesDefaults = 1;
+		wantsCodeCompletion = 1;
+		wantsCodeCompletionAutoSuggestions = 1;
+		wantsCodeCompletionCaseSensitivity = 1;
+		wantsCodeCompletionListAlways = 1;
+		wantsCodeCompletionOnlyMatchingItems = 1;
+		wantsCodeCompletionParametersIncluded = 1;
+		wantsCodeCompletionPlaceholdersInserted = 1;
+		wantsCodeCompletionTabCompletes = 1;
+		wantsIndex = 1;
+	};
+	CA91A2D10674E8700035DD44 = {
+		activeExec = 0;
+	};
+	CA91A2E10674EAA20035DD44 = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {974, 559}}";
+			sepNavSelRange = "{434, 0}";
+			sepNavVisRect = "{{0, 0}, {974, 490}}";
+			sepNavWindowFrame = "{{332, 237}, {750, 558}}";
+		};
+	};
+	CA91A2E20674EAA30035DD44 = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {974, 2281}}";
+			sepNavSelRange = "{110, 0}";
+			sepNavVisRect = "{{0, 0}, {974, 490}}";
+		};
+	};
+	CA95D23706D10A9A00F36FA1 = {
+		fRef = CAB03E0806CCE79300574F6B;
+		isa = PBXTextBookmark;
+		name = "RBGrowlDylib-Info.plist: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 780;
+		vrLoc = 0;
+	};
+	CA95D23806D10A9A00F36FA1 = {
+		fRef = CAB03E0806CCE79300574F6B;
+		isa = PBXTextBookmark;
+		name = "RBGrowlDylib-Info.plist: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 780;
+		vrLoc = 0;
+	};
+	CAB03E0806CCE79300574F6B = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {974, 490}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 0}, {974, 490}}";
+		};
+	};
+	CAB03E0E06CCE7FE00574F6B = {
+		fRef = CA91A2E10674EAA20035DD44;
+		isa = PBXTextBookmark;
+		name = "RBGrowlDylib.h: ReleaseCFNotification";
+		rLen = 0;
+		rLoc = 773;
+		rType = 0;
+		vrLen = 1137;
+		vrLoc = 0;
+	};
+	CAE6485E06B050DD00EA81D8 = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {974, 811}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 0}, {974, 490}}";
+		};
+	};
+	CAEBD12606FB3F26009F8BF5 = {
+		fRef = CA91A2E20674EAA30035DD44;
+		isa = PBXTextBookmark;
+		name = "RBGrowlDylib.c: 111";
+		rLen = 0;
+		rLoc = 4626;
+		rType = 0;
+		vrLen = 1536;
+		vrLoc = 0;
+	};
+	CAEBD12E06FB400B009F8BF5 = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = GrowlDefinesCarbon.h;
+		path = /Users/brandon/growl/GrowlDefinesCarbon.h;
+		refType = 0;
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {974, 811}}";
+			sepNavSelRange = "{0, 2803}";
+			sepNavVisRect = "{{0, 321}, {974, 490}}";
+		};
+	};
+	CAEBD13006FB400B009F8BF5 = {
+		fRef = CAE6485E06B050DD00EA81D8;
+		isa = PBXTextBookmark;
+		name = "GrowlDefinesCarbon.h: 19";
+		rLen = 0;
+		rLoc = 80;
+		rType = 0;
+		vrLen = 1096;
+		vrLoc = 0;
+	};
+	CAEBD13106FB400B009F8BF5 = {
+		fRef = CAEBD13206FB400B009F8BF5;
+		isa = PBXTextBookmark;
+		name = "//\n// GrowlDefinesCarbon.h\n//\n// Automatically generated from GrowlDefines.h on Fri Sep 2004 by GenCarbonHeader.pl\n//\n\n/*!\n    @header\n    @abstract   Defines all the notification keys\n    @discussion Defines all the keys used for registration and growl notifications.\n*/\n\n// UserInfo Keys for Registration\n#pragma mark UserInfo Keys for Registration\n/*! The name of your application */\n#define GROWL_APP_NAME\t\t\t\t\tCFSTR(\"ApplicationName\")\n/*! The TIFF data for the default icon for notifications (Optional) */\n#define GROWL_APP_ICON\t\t\t\t\tCFSTR(\"ApplicationIcon\")\n/*! The array of notifications to turn on by default */\n#define GROWL_NOTIFICATIONS_DEFAULT\t\tCFSTR(\"DefaultNotifications\")\n/*! The array of all notifications your application can send */\n#define GROWL_NOTIFICATIONS_ALL\t\t\tCFSTR(\"AllNotifications\")\n/*! The array of notifications the user has turned on */\n#define GROWL_NOTIFICATIONS_USER_SET\tCFSTR(\"AllowedUserNotifications\")\n\n// UserInfo Keys for Notifications\n#pragma mark UserInfo Keys for Notifications\n/*! The name of the notification. This should be human-readable as it's shown in the prefpane */\n#define GROWL_NOTIFICATION_NAME\t\t\tCFSTR(\"NotificationName\")\n/*! The title to display in the notification */\n#define GROWL_NOTIFICATION_TITLE\t\tCFSTR(\"NotificationTitle\")\n/*! The contents of the notification */\n#define GROWL_NOTIFICATION_DESCRIPTION  CFSTR(\"NotificationDescription\")\n/*! The TIFF data for the notification icon (Optional) */\n#define GROWL_NOTIFICATION_ICON\t\t\tCFSTR(\"NotificationIcon\")\n/*! A boolean controlling whether the notification is sticky. (Optional)\n\t\n\tNot necessarily supported by all display plugins */\n#define GROWL_NOTIFICATION_STICKY\t\tCFSTR(\"NotificationSticky\")\n\n// Notifications\n#pragma mark Notifications\n/*! The distributed notification name to use for registration */\n#define GROWL_APP_REGISTRATION\t\t\tCFSTR(\"GrowlApplicationRegistrationNotification\")\n/*! The distributed notification sent to confirm the registration. Used by the prefpane */\n#define GROWL_APP_REGISTRATION_CONF\t\tCFSTR(\"GrowlApplicationRegistrationConfirmationNotification\")\n/*! The distributed notification name to use for growl notifications */\n#define GROWL_NOTIFICATION\t\t\t\tCFSTR(\"GrowlNotification\")\n/*! The distributed notification name to use to tell Growl to shutdown (this is a guess) */\n#define GROWL_SHUTDOWN\t\t\t\t\tCFSTR(\"GrowlShutdown\")\n/*! The distribued notification sent to check if Growl is running. Used by the prefpane */\n#define GROWL_PING\t\t\t\t\t\tCFSTR(\"Honey, Mind Taking Out The Trash\")\n/*! The distributed notification sent in reply to GROWL_PING */\n#define GROWL_PONG\t\t\t\t\t\tCFSTR(\"What Do You Want From Me, Woman\")\n\n/*! The distributed notification sent when Growl starts up (this is a guess) */\n#define GROWL_IS_READY\t\t\t\t\tCFSTR(\"Lend Me Some Sugar; I Am Your Neighbor!\")\n";
+		rLen = 2803;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1515;
+		vrLoc = 0;
+	};
+	CAEBD13206FB400B009F8BF5 = {
+		isa = PBXFileReference;
+		name = GrowlDefinesCarbon.h;
+		path = /Users/brandon/growl/GrowlDefinesCarbon.h;
+		refType = 0;
+		sourceTree = "<absolute>";
+	};
+	CAEBD13506FB406E009F8BF5 = {
+		fRef = CAEBD12E06FB400B009F8BF5;
+		isa = PBXTextBookmark;
+		name = "//\n// GrowlDefinesCarbon.h\n//\n// Automatically generated from GrowlDefines.h on Fri Sep 2004 by GenCarbonHeader.pl\n//\n\n/*!\n    @header\n    @abstract   Defines all the notification keys\n    @discussion Defines all the keys used for registration and growl notifications.\n*/\n\n// UserInfo Keys for Registration\n#pragma mark UserInfo Keys for Registration\n/*! The name of your application */\n#define GROWL_APP_NAME\t\t\t\t\tCFSTR(\"ApplicationName\")\n/*! The TIFF data for the default icon for notifications (Optional) */\n#define GROWL_APP_ICON\t\t\t\t\tCFSTR(\"ApplicationIcon\")\n/*! The array of notifications to turn on by default */\n#define GROWL_NOTIFICATIONS_DEFAULT\t\tCFSTR(\"DefaultNotifications\")\n/*! The array of all notifications your application can send */\n#define GROWL_NOTIFICATIONS_ALL\t\t\tCFSTR(\"AllNotifications\")\n/*! The array of notifications the user has turned on */\n#define GROWL_NOTIFICATIONS_USER_SET\tCFSTR(\"AllowedUserNotifications\")\n\n// UserInfo Keys for Notifications\n#pragma mark UserInfo Keys for Notifications\n/*! The name of the notification. This should be human-readable as it's shown in the prefpane */\n#define GROWL_NOTIFICATION_NAME\t\t\tCFSTR(\"NotificationName\")\n/*! The title to display in the notification */\n#define GROWL_NOTIFICATION_TITLE\t\tCFSTR(\"NotificationTitle\")\n/*! The contents of the notification */\n#define GROWL_NOTIFICATION_DESCRIPTION  CFSTR(\"NotificationDescription\")\n/*! The TIFF data for the notification icon (Optional) */\n#define GROWL_NOTIFICATION_ICON\t\t\tCFSTR(\"NotificationIcon\")\n/*! A boolean controlling whether the notification is sticky. (Optional)\n\t\n\tNot necessarily supported by all display plugins */\n#define GROWL_NOTIFICATION_STICKY\t\tCFSTR(\"NotificationSticky\")\n\n// Notifications\n#pragma mark Notifications\n/*! The distributed notification name to use for registration */\n#define GROWL_APP_REGISTRATION\t\t\tCFSTR(\"GrowlApplicationRegistrationNotification\")\n/*! The distributed notification sent to confirm the registration. Used by the prefpane */\n#define GROWL_APP_REGISTRATION_CONF\t\tCFSTR(\"GrowlApplicationRegistrationConfirmationNotification\")\n/*! The distributed notification name to use for growl notifications */\n#define GROWL_NOTIFICATION\t\t\t\tCFSTR(\"GrowlNotification\")\n/*! The distributed notification name to use to tell Growl to shutdown (this is a guess) */\n#define GROWL_SHUTDOWN\t\t\t\t\tCFSTR(\"GrowlShutdown\")\n/*! The distribued notification sent to check if Growl is running. Used by the prefpane */\n#define GROWL_PING\t\t\t\t\t\tCFSTR(\"Honey, Mind Taking Out The Trash\")\n/*! The distributed notification sent in reply to GROWL_PING */\n#define GROWL_PONG\t\t\t\t\t\tCFSTR(\"What Do You Want From Me, Woman\")\n\n/*! The distributed notification sent when Growl starts up (this is a guess) */\n#define GROWL_IS_READY\t\t\t\t\tCFSTR(\"Lend Me Some Sugar; I Am Your Neighbor!\")\n";
+		rLen = 2803;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1994;
+		vrLoc = 809;
+	};
+	CAEBD13806FB406E009F8BF5 = {
+		fRef = CAE6485E06B050DD00EA81D8;
+		isa = PBXTextBookmark;
+		name = "GrowlDefinesCarbon.h: 5";
+		rLen = 0;
+		rLoc = 80;
+		rType = 0;
+		vrLen = 1096;
+		vrLoc = 0;
+	};
+	CAEBD13906FB406E009F8BF5 = {
+		fRef = CAEBD12E06FB400B009F8BF5;
+		isa = PBXTextBookmark;
+		name = "//\n// GrowlDefinesCarbon.h\n//\n// Automatically generated from GrowlDefines.h on Fri Sep 2004 by GenCarbonHeader.pl\n//\n\n/*!\n    @header\n    @abstract   Defines all the notification keys\n    @discussion Defines all the keys used for registration and growl notifications.\n*/\n\n// UserInfo Keys for Registration\n#pragma mark UserInfo Keys for Registration\n/*! The name of your application */\n#define GROWL_APP_NAME\t\t\t\t\tCFSTR(\"ApplicationName\")\n/*! The TIFF data for the default icon for notifications (Optional) */\n#define GROWL_APP_ICON\t\t\t\t\tCFSTR(\"ApplicationIcon\")\n/*! The array of notifications to turn on by default */\n#define GROWL_NOTIFICATIONS_DEFAULT\t\tCFSTR(\"DefaultNotifications\")\n/*! The array of all notifications your application can send */\n#define GROWL_NOTIFICATIONS_ALL\t\t\tCFSTR(\"AllNotifications\")\n/*! The array of notifications the user has turned on */\n#define GROWL_NOTIFICATIONS_USER_SET\tCFSTR(\"AllowedUserNotifications\")\n\n// UserInfo Keys for Notifications\n#pragma mark UserInfo Keys for Notifications\n/*! The name of the notification. This should be human-readable as it's shown in the prefpane */\n#define GROWL_NOTIFICATION_NAME\t\t\tCFSTR(\"NotificationName\")\n/*! The title to display in the notification */\n#define GROWL_NOTIFICATION_TITLE\t\tCFSTR(\"NotificationTitle\")\n/*! The contents of the notification */\n#define GROWL_NOTIFICATION_DESCRIPTION  CFSTR(\"NotificationDescription\")\n/*! The TIFF data for the notification icon (Optional) */\n#define GROWL_NOTIFICATION_ICON\t\t\tCFSTR(\"NotificationIcon\")\n/*! A boolean controlling whether the notification is sticky. (Optional)\n\t\n\tNot necessarily supported by all display plugins */\n#define GROWL_NOTIFICATION_STICKY\t\tCFSTR(\"NotificationSticky\")\n\n// Notifications\n#pragma mark Notifications\n/*! The distributed notification name to use for registration */\n#define GROWL_APP_REGISTRATION\t\t\tCFSTR(\"GrowlApplicationRegistrationNotification\")\n/*! The distributed notification sent to confirm the registration. Used by the prefpane */\n#define GROWL_APP_REGISTRATION_CONF\t\tCFSTR(\"GrowlApplicationRegistrationConfirmationNotification\")\n/*! The distributed notification name to use for growl notifications */\n#define GROWL_NOTIFICATION\t\t\t\tCFSTR(\"GrowlNotification\")\n/*! The distributed notification name to use to tell Growl to shutdown (this is a guess) */\n#define GROWL_SHUTDOWN\t\t\t\t\tCFSTR(\"GrowlShutdown\")\n/*! The distribued notification sent to check if Growl is running. Used by the prefpane */\n#define GROWL_PING\t\t\t\t\t\tCFSTR(\"Honey, Mind Taking Out The Trash\")\n/*! The distributed notification sent in reply to GROWL_PING */\n#define GROWL_PONG\t\t\t\t\t\tCFSTR(\"What Do You Want From Me, Woman\")\n\n/*! The distributed notification sent when Growl starts up (this is a guess) */\n#define GROWL_IS_READY\t\t\t\t\tCFSTR(\"Lend Me Some Sugar; I Am Your Neighbor!\")\n";
+		rLen = 2803;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1994;
+		vrLoc = 809;
+	};
+	CAEBD13A06FB406E009F8BF5 = {
+		fRef = CA91A2E20674EAA30035DD44;
+		isa = PBXTextBookmark;
+		name = "RBGrowlDylib.c: 111";
+		rLen = 0;
+		rLoc = 4626;
+		rType = 0;
+		vrLen = 1536;
+		vrLoc = 0;
+	};
+	CAEBD13B06FB406E009F8BF5 = {
+		fRef = CAE6485E06B050DD00EA81D8;
+		isa = PBXTextBookmark;
+		name = "GrowlDefinesCarbon.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1506;
+		vrLoc = 0;
+	};
+	CAEBD13F06FB4418009F8BF5 = {
+		fRef = CAE6485E06B050DD00EA81D8;
+		isa = PBXTextBookmark;
+		name = "GrowlDefinesCarbon.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1506;
+		vrLoc = 0;
+	};
+	CAEBD14006FB4418009F8BF5 = {
+		fRef = CA91A2E20674EAA30035DD44;
+		isa = PBXTextBookmark;
+		name = "RBGrowlDylib.c: 111";
+		rLen = 0;
+		rLoc = 4626;
+		rType = 0;
+		vrLen = 1536;
+		vrLoc = 0;
+	};
+	CAEBD14106FB4418009F8BF5 = {
+		fRef = CA91A2E20674EAA30035DD44;
+		isa = PBXTextBookmark;
+		name = "RBGrowlDylib.c: 111";
+		rLen = 0;
+		rLoc = 4626;
+		rType = 0;
+		vrLen = 1536;
+		vrLoc = 0;
+	};
+	CAEBD14206FB4418009F8BF5 = {
+		fRef = CAE6485E06B050DD00EA81D8;
+		isa = PBXTextBookmark;
+		name = "GrowlDefinesCarbon.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1506;
+		vrLoc = 0;
+	};
+	CAEBD14306FB4418009F8BF5 = {
+		fRef = CA91A2E20674EAA30035DD44;
+		isa = PBXTextBookmark;
+		name = "RBGrowlDylib.c: 6";
+		rLen = 0;
+		rLoc = 110;
+		rType = 0;
+		vrLen = 1535;
+		vrLoc = 0;
+	};
+}
