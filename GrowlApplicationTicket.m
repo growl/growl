@@ -16,7 +16,7 @@
 		_icon		= [inIcon retain];
 		_allNotifications = [inAllNotifications retain];
 		_defaultNotifications = [inDefaultSet retain];
-		_allowedNotifications = [inDefaultSet allObjects];
+		_allowedNotifications = [[inDefaultSet allObjects] retain];
 		_parent = [parent retain];
 		
 		useDefaults = YES;
@@ -67,6 +67,21 @@
 	[inSet retain];
 	[_allNotifications release];
 	_allNotifications = inSet;
+	
+	NSMutableSet * tmp;
+	
+	//Intersect the allowed and default sets with the new set
+	[self unregisterParentForNotifications:_allowedNotifications];
+	tmp = [NSMutableSet setWithArray:_allowedNotifications];
+	[tmp intersectSet:inSet];
+	[_allowedNotifications release];
+	_allowedNotifications = [[tmp allObjects] retain];
+	[self registerParentForNotifications:tmp];
+	
+	tmp = [NSMutableSet setWithSet:_defaultNotifications];
+	[tmp intersectSet:inSet];
+	[_defaultNotifications release];
+	_defaultNotifications = [tmp retain];
 }
 
 - (NSSet *) defaultNotifications {
@@ -77,6 +92,13 @@
 	[inSet retain];
 	[_defaultNotifications release];
 	_defaultNotifications = inSet;
+	
+	if(useDefaults) {
+		[self unregisterParentForNotifications:_allowedNotifications];
+		[self registerParentForNotifications:inSet];
+		[_allowedNotifications release];
+		_allowedNotifications = [[inSet allObjects] retain];
+	}
 }
 
 
