@@ -8,7 +8,7 @@
 
 #import "FadingWindowController.h"
 
-#define TIMER_INTERVAL (1. / 30.)
+#define TIMER_INTERVAL (1.0 / 30.0)
 #define FADE_INCREMENT 0.05f
 
 @implementation FadingWindowController
@@ -47,7 +47,7 @@
 - (void) _fadeIn:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
-	if ( alpha < 1.f ) {
+	if ( alpha < 1.0f ) {
 		[myWindow setAlphaValue: alpha + fadeIncrement];
 	} else {
 		[self _stopTimer];
@@ -63,7 +63,7 @@
 - (void) _fadeOut:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
-	if ( alpha > 0.f ) {
+	if ( alpha > 0.0f ) {
 		[myWindow setAlphaValue: alpha - fadeIncrement];
 	} else {
 		[self _stopTimer];

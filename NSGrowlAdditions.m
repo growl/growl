@@ -55,8 +55,8 @@ typedef int CGSConnection;
 typedef int CGSWindow;
 extern CGSConnection _CGSDefaultConnection(void);
 
-OSStatus CGSGetWindowTags(CGSConnection cid,CGSWindow widow,int *tags,int other);
-OSStatus CGSSetWindowTags(CGSConnection cid,CGSWindow widow,int *tags,int other);
+OSStatus CGSGetWindowTags(CGSConnection cid,CGSWindow window,int *tags,int other);
+OSStatus CGSSetWindowTags(CGSConnection cid,CGSWindow window,int *tags,int other);
 
 @implementation NSWindow (GrowlAdditions)
 
