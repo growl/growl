@@ -6,13 +6,14 @@ For .6
 - Resolve problem of the framework turning on gha without the users permission, should the user have turned off Growl.
 	- Make it so that applications can turn on gha to register, but gha turns back off.
 	- Make it so that if gha is off and turned on by an app, it doesn't display notifications.
-- Specify license in each file. Growl is BSD, the framework is public domain, examples are public domain unless specified
-- Make GrowlMail not run while applying rules if possible
+- Specify license in each file.
+	- Growl is BSD
+	- The framework is public domain
+	- Examples are public domain unless specified
+	- Extras will be BSD licensed
 - Bubbles
 	- Top background color colorwell
 - Music Video
-- Move non-example applications in the Examples directory into a PowerToys directory. Add licensing where need be. PowerToys will be bsd licensed.
-
 
 Release related issues
 - Make sure all bindings register. I think this is already done, but we need to double check as this is now required.
@@ -24,6 +25,7 @@ Release related issues
 
 
 Done:
+- Move non-example applications in the Examples directory into an Extras directory.
 - Ask if user wants to "configure plugin now". If so, take to proper place to configure.
 - Smoke
 	- Text colorwell
@@ -48,6 +50,7 @@ Done:
 
 
 For .7 or sooner
+- Make GrowlMail not run while applying rules if possible
 - Add a menu item/status item (menuling)
 - Add profiles. Choose which profile is currently uses via prefpane or menuling
 - Add a functional plugin that can display all notifications in a log. Make this accessable via the menuling
