@@ -354,7 +354,7 @@
 				LIBRARY_STYLE = BUNDLE;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = GrowlMail;
-				WARNING_CFLAGS = "-Wall -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = mailbundle;
 			};
 			dependencies = (
