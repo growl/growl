@@ -230,7 +230,7 @@ struct GrowlNetworkNotification {
 #define READ_GROWL_PREF_VALUE(key, domain, type, result) do {\
 	CFDictionaryRef prefs = (CFDictionaryRef)CFPreferencesCopyAppValue((CFStringRef)domain, \
 																		CFSTR("com.Growl.GrowlHelperApp")); \
-	if (prefs != NULL) {\
+	if (prefs) {\
 		if (CFDictionaryContainsKey(prefs, key)) {\
 			*result = (type)CFDictionaryGetValue(prefs, key); \
 			CFRetain(*result); \
@@ -272,7 +272,7 @@ struct GrowlNetworkNotification {
 #define READ_GROWL_PREF_BOOL(key, domain, result) do {\
 	CFBooleanRef boolValue = NULL; \
 	READ_GROWL_PREF_VALUE(key, domain, CFBooleanRef, &boolValue); \
-	if (boolValue != NULL) {\
+	if (boolValue) {\
 		*result = CFBooleanGetValue(boolValue); \
 		CFRelease(boolValue); \
 	} } while(0)
@@ -305,7 +305,7 @@ struct GrowlNetworkNotification {
 #define READ_GROWL_PREF_INT(key, domain, result) do {\
 	CFNumberRef intValue = NULL; \
 	READ_GROWL_PREF_VALUE(key, domain, CFNumberRef, &intValue); \
-	if (intValue != NULL) {\
+	if (intValue) {\
 		CFNumberGetValue(intValue, kCFNumberIntType, result); \
 		CFRelease(intValue); \
 	} } while(0)
@@ -334,7 +334,7 @@ struct GrowlNetworkNotification {
 #define READ_GROWL_PREF_FLOAT(key, domain, result) do {\
 	CFNumberRef floatValue = NULL; \
 	READ_GROWL_PREF_VALUE(key, domain, CFNumberRef, &floatValue); \
-	if (floatValue != NULL) {\
+	if (floatValue) {\
 		CFNumberGetValue(floatValue, kCFNumberFloatType, result); \
 		CFRelease(floatValue); \
 	} } while(0)
