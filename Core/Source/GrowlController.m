@@ -55,6 +55,10 @@ static id singleton = nil;
 					  name:GrowlPreferencesChanged
 					object:nil];
 		[NSDNC addObserver:self
+				  selector:@selector( showPreview: )
+					  name:GrowlPreview
+					object:nil];
+		[NSDNC addObserver:self
 				  selector:@selector( shutdown: )
 					  name:GROWL_SHUTDOWN
 					object:nil];
@@ -161,6 +165,19 @@ static id singleton = nil;
 }
 
 #pragma mark -
+
+- (void) showPreview:(NSNotification *) note {
+	NSString *displayName = [note object];
+	id <GrowlDisplayPlugin> displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayName];
+	NSData *iconData = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
+	[displayPlugin displayNotificationWithInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+		@"Preview", GROWL_NOTIFICATION_TITLE,
+		@"This is a notification preview", GROWL_NOTIFICATION_DESCRIPTION,
+		iconData, GROWL_NOTIFICATION_ICON,
+		[NSNumber numberWithInt:0], GROWL_NOTIFICATION_PRIORITY,
+		[NSNumber numberWithBool:YES], GROWL_NOTIFICATION_STICKY,
+		nil]];
+}
 
 - (void) dispatchNotification:(NSNotification *) note {
 	if ([self _tryLockQueue]) {
@@ -283,7 +300,7 @@ static id singleton = nil;
 	
 	GrowlApplicationTicket *newApp;
 	
-	if ( ! [tickets objectForKey:appName] ) {
+	if ( ![tickets objectForKey:appName] ) {
 		newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
 															withIcon:appIcon
 													andNotifications:allNotes
@@ -330,8 +347,9 @@ static id singleton = nil;
 
 - (NSDictionary *)versionDictionary {
 	if (!versionInfo) {
-		if(version.releaseType == releaseType_svn)
+		if(version.releaseType == releaseType_svn) {
 			version.development = SVN_REVISION;
+		}
 
 		const unsigned long long *versionNum = (const unsigned long long *)&version;
 		versionInfo = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -352,8 +370,9 @@ static id singleton = nil;
 //this method could be moved to Growl.framework, I think.
 //pass nil to get GrowlHelperApp's version as a string.
 - (NSString *)stringWithVersionDictionary:(NSDictionary *)d {
-	if (!d)
+	if (!d) {
 		d = [self versionDictionary];
+	}
 
 	//0.6
 	NSMutableString *result = [NSMutableString stringWithFormat:@"%@.%@",
@@ -418,8 +437,9 @@ static id singleton = nil;
 		[filename release];
 		filename = [[NSString alloc] initWithFormat:@"Screenshot %lu", i];
 		NSString *path = [directory stringByAppendingPathComponent:filename];
-		if(![directoryContents containsObject:path])
+		if(![directoryContents containsObject:path]) {
 			break;
+		}
 	}
 
 	return [filename autorelease];

@@ -29,13 +29,13 @@
 
 	// clear the window
 	[[NSColor clearColor] set];
-	NSRectFill( [self frame] );
+	NSRectFill([self frame]);
 
 	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:bounds radius:BORDER_RADIUS];
 
 	int opacityPref = 40;
 	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
-	
+
 	[[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:(opacityPref * 0.01f)] set];
 	[path fill];
 

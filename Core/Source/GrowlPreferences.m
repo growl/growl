@@ -12,6 +12,7 @@
 
 NSString * HelperAppBundleIdentifier	= @"com.Growl.GrowlHelperApp";
 NSString * GrowlPreferencesChanged		= @"GrowlPreferencesChanged";
+NSString * GrowlPreview					= @"GrowlPreview";
 NSString * GrowlDisplayPluginKey		= @"GrowlDisplayPluginName";
 NSString * GrowlUserDefaultsKey			= @"GrowlUserDefaults";
 NSString * GrowlStartServerKey			= @"GrowlStartServer";

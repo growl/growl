@@ -11,6 +11,7 @@
                 selectDisplayPlugin = id; 
                 setEnableForward = id; 
                 setRemotePassword = id; 
+                showPreview = id; 
                 startGrowlAtLogin = id; 
                 startGrowlServer = id; 
                 startStopGrowl = id; 

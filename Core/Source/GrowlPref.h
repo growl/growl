@@ -9,6 +9,8 @@
 
 #import <PreferencePanes/PreferencePanes.h>
 
+@protocol GrowlPlugin;
+
 @interface GrowlPref : NSPreferencePane {
 	NSMutableArray			*images;
 	NSMutableDictionary		*tickets;
@@ -19,20 +21,20 @@
 	NSMutableArray			*loadedPrefPanes;
 	
 	//Properties of the app being configured
-	NSString				* currentApplication;
-	GrowlApplicationTicket	* appTicket;
+	NSString				*currentApplication;
+	GrowlApplicationTicket	*appTicket;
 
 	//Properties of the plugin being configured
 	NSString				*currentPlugin;
-	id						*displayPrefController;
-	
+	id <GrowlPlugin>		currentPluginController;
+
 	BOOL					growlIsRunning;
 	BOOL					prefsHaveChanged;
 
 	NSURL					*versionCheckURL;
 	NSURL					*downloadURL;
 
-	IBOutlet NSTabView		* tabView;
+	IBOutlet NSTabView		*tabView;
 
 	//"General" tab pane
 	IBOutlet NSButton				*startGrowlAtLogin;
@@ -98,6 +100,7 @@
 - (IBAction) deleteTicket:(id)sender;
 
 #pragma mark "Display Options" tab pane
+- (IBAction) showPreview:(id)sender;
 - (void) loadViewForDisplay:(NSString*)displayName;
 
 #pragma mark Notification table view data source methods

@@ -353,9 +353,10 @@ static const char *keychainAccountName = "Growl";
 	if (numPlugins > 0U) {
 		currentPlugin = [[plugins objectAtIndex:[displayPlugins selectedRow]] retain];
 	}
-	
+
+	currentPluginController = [[GrowlPluginController controller] displayPluginNamed:currentPlugin];
 	[self loadViewForDisplay:currentPlugin];
-	NSDictionary *info = [[[GrowlPluginController controller] displayPluginNamed:currentPlugin] pluginInfo];
+	NSDictionary *info = [currentPluginController pluginInfo];
 	[displayAuthor setStringValue:[info objectForKey:@"Author"]];
 	[displayVersion setStringValue:[info objectForKey:@"Version"]];
 }
@@ -527,25 +528,26 @@ static const char *keychainAccountName = "Growl";
 }
 
 #pragma mark "Display Options" tab pane
+- (IBAction) showPreview:(id) sender {
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview object:currentPlugin];
+}
+
 //This is the frame of the preference view that we should get back.
 #define DISPLAY_PREF_FRAME NSMakeRect(165.0f, 42.0f, 354.0f, 289.0f)
 - (void)loadViewForDisplay:(NSString*)displayName {
 	NSView *newView = nil;
 	NSPreferencePane *prefPane = nil, *oldPrefPane = nil;
-	
+
 	if (pluginPrefPane) {
 		oldPrefPane = pluginPrefPane;
 	}
 	
 	if (displayName) {
-		id <GrowlPlugin> plugin = [[GrowlPluginController controller]
-														displayPluginNamed:displayName];
-		
 		// Old plugins won't support the new protocol. Check first
-		if ([plugin respondsToSelector:@selector(preferencePane)]) {
-			prefPane = [plugin preferencePane];
+		if ([currentPluginController respondsToSelector:@selector(preferencePane)]) {
+			prefPane = [currentPluginController preferencePane];
 		}
-		
+
 		if (prefPane == pluginPrefPane) {
 			// Don't bother swapping anything
 			return;
@@ -651,26 +653,27 @@ static const char *keychainAccountName = "Growl";
 	
 	if (tableView == growlApplications) {
 		NSString * application = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] objectAtIndex:row];
+		GrowlApplicationTicket *ticket = [tickets objectForKey:application];
 		identifier = [column identifier];
-		
+
 		if ([identifier isEqualTo:@"enable"]) {
-			[[tickets objectForKey:application] setEnabled:[value boolValue]];
+			[ticket setEnabled:[value boolValue]];
 			[self setPrefsChanged:YES];
 		} else if ([identifier isEqualTo:@"display"])	{
 			int index = [value intValue];
 			
 			if (index == 0) {
-				if ([[tickets objectForKey:application] usesCustomDisplay]) {
-					[[tickets objectForKey:application] setUsesCustomDisplay:NO];
+				if ([ticket usesCustomDisplay]) {
+					[ticket setUsesCustomDisplay:NO];
 					[self setPrefsChanged:YES];
 				}
 			} else {
 				NSString *pluginName = [[applicationDisplayPluginsMenu itemAtIndex:index] title];
 				
 				if (![pluginName isEqualTo:[[[tickets objectForKey:application] displayPlugin] name]] ||
-						![[tickets objectForKey:application] usesCustomDisplay]) {
-					[[tickets objectForKey:application] setUsesCustomDisplay:YES];
-					[[tickets objectForKey:application] setDisplayPluginNamed:pluginName];
+						![ticket usesCustomDisplay]) {
+					[ticket setUsesCustomDisplay:YES];
+					[ticket setDisplayPluginNamed:pluginName];
 					[self setPrefsChanged:YES];
 				}
 			}
@@ -679,7 +682,7 @@ static const char *keychainAccountName = "Growl";
 	} else if (tableView == applicationNotifications) {
 		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
 		identifier = [column identifier];
-		
+
 		if ([identifier isEqualTo:@"enable"]) {
 			if ([value boolValue]) {
 				[appTicket setNotificationEnabled:note];
@@ -753,7 +756,7 @@ static const char *keychainAccountName = "Growl";
 }
 
 - (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
-	
+
 	if (tableView == growlApplications) {
 		if ([[column identifier] isEqualTo:@"display"]) {
 			if (![[tickets objectForKey: [applications objectAtIndex:row]] usesCustomDisplay]) {
@@ -877,8 +880,9 @@ static const char *keychainAccountName = "Growl";
 }
 
 - (void) sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-	if (returnCode == NSAlertDefaultReturn)
+	if (returnCode == NSAlertDefaultReturn) {
 		[self apply:nil];
+	}
 	[self replyToShouldUnselect:returnCode == NSAlertDefaultReturn || returnCode == NSAlertAlternateReturn];
 }
 

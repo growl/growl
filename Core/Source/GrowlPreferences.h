@@ -11,6 +11,7 @@
 
 extern NSString * HelperAppBundleIdentifier;
 extern NSString * GrowlPreferencesChanged;
+extern NSString * GrowlPreview;
 extern NSString * GrowlDisplayPluginKey;
 extern NSString * GrowlUserDefaultsKey;
 extern NSString * GrowlStartServerKey;
