@@ -50,11 +50,11 @@ static void PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 			orig_method = class_getClassMethod(aClass, orig_sel);
 			alt_method = class_getClassMethod(aClass, alt_sel);
 		}
-		
+
 		// If both are found, swizzle them
 		if (orig_method && alt_method) {
 			IMP temp;
-			
+
 			temp = orig_method->method_imp;
 			orig_method->method_imp = alt_method->method_imp;
 			alt_method->method_imp = temp;
@@ -69,7 +69,7 @@ static void PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 	}
 }
 
-BOOL shouldDisplayNotifications = NO;
+static BOOL shouldDisplayNotifications = NO;
 
 @implementation GrowlSafari
 + (NSBundle *)bundle
@@ -149,6 +149,9 @@ BOOL shouldDisplayNotifications = NO;
 				nil];
 			[nc postNotificationName:GROWL_NOTIFICATION object:nil userInfo:dict];
 		}
+	}
+	if (stage == 0) {
+		shouldDisplayNotifications = YES;
 	}
 }
 
