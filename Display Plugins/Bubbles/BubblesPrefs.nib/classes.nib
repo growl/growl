@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {setLimit = id; }; 
+            CLASS = BubblePrefs; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {limitCheck = NSButton; }; 
+            SUPERCLASS = NSPreferencePane; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = NSPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_firstKeyView" = NSView; 
+                "_initialKeyView" = NSView; 
+                "_lastKeyView" = NSView; 
+                "_window" = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

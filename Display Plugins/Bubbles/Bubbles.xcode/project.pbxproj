@@ -1,0 +1,313 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 39;
+	objects = {
+		07500039073A17FF000D8A1F = {
+			children = (
+				07500064073A206A000D8A1F,
+				07500065073A206A000D8A1F,
+				07500067073A206A000D8A1F,
+				07500068073A206A000D8A1F,
+				07500069073A206A000D8A1F,
+				0750006A073A206A000D8A1F,
+				0750006B073A206A000D8A1F,
+				0750006C073A206A000D8A1F,
+				0750005E073A1F0D000D8A1F,
+				07500066073A206A000D8A1F,
+				07500077073A2092000D8A1F,
+				0750005D073A1F0D000D8A1F,
+			);
+			isa = PBXGroup;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0750003B073A17FF000D8A1F = {
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		0750003C073A17FF000D8A1F = {
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+		0750003D073A17FF000D8A1F = {
+			buildSettings = {
+			};
+			buildStyles = (
+				0750003B073A17FF000D8A1F,
+				0750003C073A17FF000D8A1F,
+			);
+			hasScannedForEncodings = 0;
+			isa = PBXProject;
+			mainGroup = 07500039073A17FF000D8A1F;
+			productRefGroup = 0750005D073A1F0D000D8A1F;
+			projectDirPath = "";
+			targets = (
+				0750005B073A1F0D000D8A1F,
+			);
+		};
+		07500058073A1F0D000D8A1F = {
+			buildActionMask = 2147483647;
+			files = (
+				0750006D073A206A000D8A1F,
+				0750006F073A206A000D8A1F,
+				07500070073A206A000D8A1F,
+				07500072073A206A000D8A1F,
+				07500074073A206A000D8A1F,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07500059073A1F0D000D8A1F = {
+			buildActionMask = 2147483647;
+			files = (
+				0750006E073A206A000D8A1F,
+				07500071073A206A000D8A1F,
+				07500073073A206A000D8A1F,
+				07500075073A206A000D8A1F,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0750005A073A1F0D000D8A1F = {
+			buildActionMask = 2147483647;
+			files = (
+				07500078073A2092000D8A1F,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0750005B073A1F0D000D8A1F = {
+			buildPhases = (
+				07500058073A1F0D000D8A1F,
+				07500059073A1F0D000D8A1F,
+				0750005A073A1F0D000D8A1F,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Growl_Prefix.pch;
+				INFOPLIST_FILE = "BubblesNotificationView-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = BubblesNotificationView;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = BubblesNotificationView;
+			productName = BubblesNotificationView;
+			productReference = 0750005C073A1F0D000D8A1F;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>BubblesNotificationView</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.BubblesNotificationView</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
+		0750005C073A1F0D000D8A1F = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = BubblesNotificationView.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0750005D073A1F0D000D8A1F = {
+			children = (
+				0750005C073A1F0D000D8A1F,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0750005E073A1F0D000D8A1F = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = "BubblesNotificationView-Info.plist";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		07500064073A206A000D8A1F = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = BubblePrefs.h;
+			path = "../../../growl/Display Plugins/Bubbles/BubblePrefs.h";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		07500065073A206A000D8A1F = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = BubblePrefs.m;
+			path = "../../../growl/Display Plugins/Bubbles/BubblePrefs.m";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		07500066073A206A000D8A1F = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = BubblesPrefs.nib;
+			path = "../../../growl/Display Plugins/Bubbles/BubblesPrefs.nib";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		07500067073A206A000D8A1F = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = KABubbleController.h;
+			path = "../../../growl/Display Plugins/Bubbles/KABubbleController.h";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		07500068073A206A000D8A1F = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = KABubbleController.m;
+			path = "../../../growl/Display Plugins/Bubbles/KABubbleController.m";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		07500069073A206A000D8A1F = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = KABubbleWindowController.h;
+			path = "../../../growl/Display Plugins/Bubbles/KABubbleWindowController.h";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0750006A073A206A000D8A1F = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = KABubbleWindowController.m;
+			path = "../../../growl/Display Plugins/Bubbles/KABubbleWindowController.m";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0750006B073A206A000D8A1F = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = KABubbleWindowView.h;
+			path = "../../../growl/Display Plugins/Bubbles/KABubbleWindowView.h";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0750006C073A206A000D8A1F = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = KABubbleWindowView.m;
+			path = "../../../growl/Display Plugins/Bubbles/KABubbleWindowView.m";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		0750006D073A206A000D8A1F = {
+			fileRef = 07500064073A206A000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0750006E073A206A000D8A1F = {
+			fileRef = 07500065073A206A000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0750006F073A206A000D8A1F = {
+			fileRef = 07500066073A206A000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07500070073A206A000D8A1F = {
+			fileRef = 07500067073A206A000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07500071073A206A000D8A1F = {
+			fileRef = 07500068073A206A000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07500072073A206A000D8A1F = {
+			fileRef = 07500069073A206A000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07500073073A206A000D8A1F = {
+			fileRef = 0750006A073A206A000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07500074073A206A000D8A1F = {
+			fileRef = 0750006B073A206A000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07500075073A206A000D8A1F = {
+			fileRef = 0750006C073A206A000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07500077073A2092000D8A1F = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = PreferencePanes.framework;
+			path = /System/Library/Frameworks/PreferencePanes.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		07500078073A2092000D8A1F = {
+			fileRef = 07500077073A2092000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+	};
+	rootObject = 0750003D073A17FF000D8A1F;
+}
