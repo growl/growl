@@ -10,11 +10,11 @@
 #import "GrowlDefines.h"
 
 @implementation GrowlUDPUtils
-+ (char *) notificationToPacket:(NSDictionary *)aNotification packetSize:(unsigned int *)packetSize {
++ (char *) notificationToPacket:(NSDictionary *)aNotification password:(NSData *)password packetSize:(unsigned int *)packetSize {
 	struct GrowlNetworkNotification *nn;
 	char *data;
 	unsigned int length;
-	unsigned short notificationNameLen, titleLen, descriptionLen, applicationNameLen;
+	unsigned short notificationNameLen, titleLen, descriptionLen, applicationNameLen, passwordLen;
 
 	const char *notificationName = [[aNotification objectForKey:GROWL_NOTIFICATION_NAME] UTF8String];
 	const char *applicationName = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
@@ -26,11 +26,13 @@
 	applicationNameLen = strlen( applicationName );
 	titleLen = strlen( title );
 	descriptionLen = strlen( description );
-	length = sizeof(*nn) + notificationNameLen + applicationNameLen + titleLen + descriptionLen;
+	passwordLen = [password length];
+	length = sizeof(*nn) + notificationNameLen + applicationNameLen + titleLen + descriptionLen + passwordLen;
 
 	nn = (struct GrowlNetworkNotification *)malloc( length );
 	nn->common.version = GROWL_PROTOCOL_VERSION;
 	nn->common.type = GROWL_TYPE_NOTIFICATION;
+	nn->common.passwordLen = htons( passwordLen );
 	nn->flags.reserved = 0;
 	nn->flags.priority = [priority intValue];
 	nn->flags.sticky = [isSticky boolValue];
@@ -47,18 +49,19 @@
 	data += descriptionLen;
 	memcpy( data, applicationName, applicationNameLen );
 	data += applicationNameLen;
+	[password getBytes:data];
 
 	*packetSize = length;
 	
 	return (char *)nn;
 }
 
-+ (char *) registrationToPacket:(NSDictionary *)aNotification packetSize:(unsigned int *)packetSize {
++ (char *) registrationToPacket:(NSDictionary *)aNotification password:(NSData *)password packetSize:(unsigned int *)packetSize {
 	struct GrowlNetworkRegistration *nr;
 	char *data;
 	const char *notification;
 	unsigned int i, length, size;
-	unsigned short applicationNameLen;
+	unsigned short applicationNameLen, passwordLen;
 	unsigned int numAllNotifications, numDefaultNotifications;
 	
 	const char *applicationName = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
@@ -67,9 +70,10 @@
 	applicationNameLen = strlen( applicationName );
 	numAllNotifications = [allNotifications count];
 	numDefaultNotifications = [allNotifications count];
+	passwordLen = [password length];
 
 	// compute packet size
-	length = sizeof(*nr) + applicationNameLen;
+	length = sizeof(*nr) + applicationNameLen + passwordLen;
 	for ( i=0; i<numAllNotifications; ++i ) {
 		notification = [[allNotifications objectAtIndex:i] UTF8String];
 		length += sizeof(unsigned int) + strlen( notification );
@@ -78,10 +82,11 @@
 		notification = [[allNotifications objectAtIndex:i] UTF8String];
 		length += sizeof(unsigned int) + strlen( notification );
 	}
-	
+
 	nr = (struct GrowlNetworkRegistration *)malloc( length );
 	nr->common.version = GROWL_PROTOCOL_VERSION;
 	nr->common.type = GROWL_TYPE_REGISTRATION;
+	nr->common.passwordLen = htons( passwordLen );
 	nr->appNameLen = htons( applicationNameLen );
 	nr->numAllNotifications = (unsigned char)numAllNotifications;
 	nr->numDefaultNotifications = (unsigned char)numDefaultNotifications;
@@ -104,7 +109,8 @@
 		memcpy( data, notification, size );
 		data += size;
 	}
-	
+	[password getBytes:data];
+
 	*packetSize = length;
 	
 	return (char *)nr;

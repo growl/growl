@@ -58,8 +58,9 @@
 	char *description;
 	char *applicationName;
 	char *notification;
+	char *password;
 	unsigned int notificationNameLen, titleLen, descriptionLen, priority, applicationNameLen;
-	unsigned int length, num, i, size;
+	unsigned int length, num, i, size, passwordLen;
 	BOOL isSticky;
 
 	NSDictionary *userInfo = [aNotification userInfo];
@@ -103,14 +104,23 @@
 									notification += size;
 								}
 
-								// TODO: generic icon
-								NSDictionary *registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-									[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
-									allNotifications, GROWL_NOTIFICATIONS_ALL,
-									defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-									nil];
+								password = notification;
+								passwordLen = ntohs( nr->common.passwordLen );
+								NSData *remotePwd = [[GrowlPreferences preferences] objectForKey:GrowlRemotePasswordKey];
+								NSData *pwdData = [[NSData alloc] initWithBytes:password length:passwordLen];
+								if( !(remotePwd || passwordLen) || [pwdData isEqual:remotePwd] ) {
+									// TODO: generic icon
+									NSDictionary *registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+										[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
+										allNotifications, GROWL_NOTIFICATIONS_ALL,
+										defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+										nil];
 
-								[[GrowlController singleton] _registerApplicationWithDictionary:registerInfo];
+									[[GrowlController singleton] _registerApplicationWithDictionary:registerInfo];
+								} else {
+									NSLog( @"GrowlUDPServer: invalid password" );
+								}
+								[pwdData release];
 							}
 						} else {
 							NSLog( @"GrowlUDPServer: received runt registration packet." );
@@ -130,21 +140,30 @@
 							descriptionLen = ntohs( nn->descriptionLen );
 							applicationName = description + descriptionLen;
 							applicationNameLen = ntohs( nn->appNameLen );
+							password = applicationName + applicationNameLen;
+							passwordLen = ntohs( nn->common.passwordLen );
 
-							if ( length >= sizeof(struct GrowlNetworkNotification) + notificationNameLen
-									+ titleLen + descriptionLen + applicationNameLen ) {
-								NSDictionary *notificationInfo;
-								// TODO: generic icon
-								notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-									[NSString stringWithUTF8String:notificationName length:notificationNameLen], GROWL_NOTIFICATION_NAME,
-									[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
-									[NSString stringWithUTF8String:title length:titleLen], GROWL_NOTIFICATION_TITLE,
-									[NSString stringWithUTF8String:description length:descriptionLen], GROWL_NOTIFICATION_DESCRIPTION,
-									[NSNumber numberWithInt:priority], GROWL_NOTIFICATION_PRIORITY,
-									[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
-									nil];
+							if ( length == sizeof(struct GrowlNetworkNotification) + notificationNameLen
+									+ titleLen + descriptionLen + applicationNameLen + passwordLen ) {
+								NSData *remotePwd = [[GrowlPreferences preferences] objectForKey:GrowlRemotePasswordKey];
+								NSData *pwdData = [[NSData alloc] initWithBytes:password length:passwordLen];
+								if( !(remotePwd || passwordLen) || [pwdData isEqual:remotePwd] ) {
+									NSDictionary *notificationInfo;
+									// TODO: generic icon
+									notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+										[NSString stringWithUTF8String:notificationName length:notificationNameLen], GROWL_NOTIFICATION_NAME,
+										[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
+										[NSString stringWithUTF8String:title length:titleLen], GROWL_NOTIFICATION_TITLE,
+										[NSString stringWithUTF8String:description length:descriptionLen], GROWL_NOTIFICATION_DESCRIPTION,
+										[NSNumber numberWithInt:priority], GROWL_NOTIFICATION_PRIORITY,
+										[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
+										nil];
 
-								[[GrowlController singleton] dispatchNotificationWithDictionary:notificationInfo];
+									[[GrowlController singleton] dispatchNotificationWithDictionary:notificationInfo];
+								} else {
+									NSLog( @"GrowlUDPServer: invalid password" );
+								}
+								[pwdData release];
 							} else {
 								NSLog( @"GrowlUDPServer: received invalid notification packet." );
 							}

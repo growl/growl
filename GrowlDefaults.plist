@@ -8,6 +8,8 @@
 	<false/>
 	<key>GrowlRemoteRegistration</key>
 	<false/>
+	<key>GrowlRemotePassword</key>
+	<data></data>
 	<key>GrowlEnabled</key>
 	<true/>
 </dict>

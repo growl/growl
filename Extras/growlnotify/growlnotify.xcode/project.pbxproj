@@ -270,6 +270,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_PATH = /usr/local/bin;
+				OTHER_LDFLAGS = "-lcrypto";
 				PRODUCT_NAME = growlnotify;
 				WARNING_CFLAGS = "-W -Wall";
 			};

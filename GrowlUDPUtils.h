@@ -10,7 +10,7 @@
 
 @interface GrowlUDPUtils : NSObject {
 }
-+ (char *) registrationToPacket:(NSDictionary *)aNotification packetSize:(unsigned int *)packetSize;
-+ (char *) notificationToPacket:(NSDictionary *)aNotification packetSize:(unsigned int *)packetSize;
++ (char *) registrationToPacket:(NSDictionary *)aNotification password:(NSData*)password packetSize:(unsigned int *)packetSize;
++ (char *) notificationToPacket:(NSDictionary *)aNotification password:(NSData*)password packetSize:(unsigned int *)packetSize;
 
 @end

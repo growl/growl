@@ -32,6 +32,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#include <openssl/md5.h>
 
 static NSString *notificationName = @"Command-Line Growl Notification";
 
@@ -87,7 +88,11 @@ int main(int argc, const char **argv) {
 	unsigned int size, registrationSize, notificationSize;
 	char *registrationPacket, *notificationPacket;
 	struct sockaddr_in to;
-	
+	static char *password = NULL;
+	NSData *pwdData;
+	MD5_CTX ctx;
+	char digest[MD5_DIGEST_LENGTH];
+
 	struct option longopts[] = {
 		{ "help",		no_argument,		0,			'h' },
 		{ "name",		required_argument,	0,			'n' },
@@ -100,10 +105,11 @@ int main(int argc, const char **argv) {
 		{ "priority",	required_argument,	0,			'p' },
 		{ "host",		required_argument,	0,			'H' },
 		{ "udp",		no_argument,		0,			'u' },
+		{ "password",	required_argument,	0,			'P' },
 		{ 0,			0,					0,			 0  }
 	};
 
-	while ((ch = getopt_long(argc, (char * const *)argv, "hn:sa:i:I:p:tm:H:u", longopts, NULL)) != -1) {
+	while ((ch = getopt_long(argc, (char * const *)argv, "hn:sa:i:I:p:tm:H:uP:", longopts, NULL)) != -1) {
 		switch (ch) {
 		case '?':
 		case 'h':
@@ -148,6 +154,9 @@ int main(int argc, const char **argv) {
 			break;
 		case 'u':
 			useUDP = TRUE;
+			break;
+		case 'P':
+			password = optarg;
 			break;
 		case 0:
 			if (imageset) {
@@ -263,8 +272,21 @@ int main(int argc, const char **argv) {
 					to.sin_family = AF_INET;
 					to.sin_len = sizeof(to);
 				}
-				registrationPacket = [GrowlUDPUtils registrationToPacket:registerInfo packetSize:&registrationSize];
-				notificationPacket = [GrowlUDPUtils notificationToPacket:notificationInfo packetSize:&notificationSize];
+				if( password ) {
+					MD5_Init( &ctx );
+					MD5_Update( &ctx, password, strlen( password ) );
+					MD5_Final( digest, &ctx );
+					pwdData = [[NSData alloc] initWithBytes:digest length:sizeof(digest)];
+				} else {
+					pwdData = nil;
+				}
+				registrationPacket = [GrowlUDPUtils registrationToPacket:registerInfo
+																password:pwdData
+															  packetSize:&registrationSize];
+				notificationPacket = [GrowlUDPUtils notificationToPacket:notificationInfo
+																password:pwdData
+															  packetSize:&notificationSize];
+				[pwdData release];
 				size = (registrationSize > notificationSize) ? registrationSize : notificationSize;
 				if (setsockopt( sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size) ) < 0) {
 					perror("setsockopt: SO_SNDBUF");
