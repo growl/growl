@@ -75,7 +75,6 @@
 		073B924D06855E0F0068C763 = {
 			children = (
 				073B927606855EBF0068C763,
-				073B928106855F3E0068C763,
 				073B926E06855E860068C763,
 				073B927106855E900068C763,
 				073B92BD068562540068C763,
@@ -214,24 +213,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		073B928106855F3E0068C763 = {
-			children = (
-				073B928606855F570068C763,
-			);
-			isa = PBXGroup;
-			name = Headers;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		073B928606855F570068C763 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlDefines.h;
-			path = ../../GrowlDefines.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 		073B92BD068562540068C763 = {
 			children = (
 				07D0C5B6068A470F0076D89A,
@@ -252,12 +233,6 @@
 		};
 		073B92C10685626C0068C763 = {
 			fileRef = 073B92C00685626C0068C763;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		073B92C2068562FC0068C763 = {
-			fileRef = 073B928606855F570068C763;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -329,7 +304,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				073B927406855EB30068C763,
-				073B92C2068562FC0068C763,
 				0717FC2D076587750083E17E,
 			);
 			isa = PBXHeadersBuildPhase;
