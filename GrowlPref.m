@@ -12,6 +12,16 @@
 
 - (void) mainViewDidLoad {
 	//load prefs and set IBOutlets accordingly
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+	[defs addSuiteNamed:@"loginwindow"];
+	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingString:@"/GrowlHelperApp.app"];
+	
+	NSDictionary *growlEntry = [NSDictionary dictionaryWithObjectsAndKeys:  helperPath, [NSString stringWithString:@"Path"],
+																			[NSNumber numberWithBool:NO], [NSString stringWithString:@"Hide"],
+																			nil];
+	
+	if ( [[defs objectForKey:@"AutoLaunchedApplicationDictionary"] containsObject:growlEntry] ) 
+		[_startGrowlLoginButton setState:NSOnState];
 }
 
 - (IBAction) startGrowl:(id) sender {
@@ -31,8 +41,30 @@
 }
 
 - (IBAction) startGrowlAtLogin:(id) sender {
-	NSLog( @"start Growl At Login" );
-	//insert code here
+	NSUserDefaults *defs = [[NSUserDefaults alloc] init];
+	[defs addSuiteNamed:@"loginwindow"];
+	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
+	NSMutableArray *loginItems = [[[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy] autorelease]; //it lies, its an array
+	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingString:@"/GrowlHelperApp.app"];
+	
+	NSDictionary *growlEntry = [NSDictionary dictionaryWithObjectsAndKeys:  helperPath, [NSString stringWithString:@"Path"],
+																			[NSNumber numberWithBool:NO], [NSString stringWithString:@"Hide"],
+																			nil];
+	
+	if ( [_startGrowlLoginButton state] == NSOnState ) {
+		NSLog( @"start Growl At Login" );
+		
+		[loginItems addObject:growlEntry];
+	} else {
+		NSLog( @"Don't start Growl At Login" );
+		[loginItems removeObject:growlEntry];
+	}
+
+	[loginWindowPrefs setObject:[NSArray arrayWithArray:loginItems] 
+						 forKey:@"AutoLaunchedApplicationDictionary"];
+	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
+					  forName:@"loginwindow"];
+	[defs synchronize];	
 }
 
 @end
