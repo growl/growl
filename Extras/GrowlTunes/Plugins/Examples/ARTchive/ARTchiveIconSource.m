@@ -54,7 +54,9 @@
 			// Check for any other available image
 			NSArray *matchingPaths = [[manager directoryContentsAtPath:artworkDir] pathsMatchingExtensions:extensions];
 			if ([matchingPaths count]) {
-				return [[[NSImage alloc] initByReferencingFile:[matchingPaths objectAtIndex:0]] autorelease];
+				NSString *filename = [matchingPaths objectAtIndex:0];
+				NSString *fullPath = [artworkDir stringByAppendingPathComponent:filename];
+				return [[[NSImage alloc] initByReferencingFile:fullPath] autorelease];
 			}
 		}
 		// Check for track-specific images
@@ -152,7 +154,8 @@
 	NSString *fullPath = nil;
 	NSString *artworkDir = [self pathForTrack:track artist:artist album:album compilation:compilation];
 	if ([album length]) {
-		fullPath = [artworkDir stringByAppendingPathComponent:@"Cover.png"];
+		NSString *component = [preferredImage stringByAppendingPathExtension:@"png"];
+		fullPath = [artworkDir stringByAppendingPathComponent:component];
 	} else {
 		NSArray *components = [NSArray arrayWithObjects:artworkDir, @"Tracks", track, @"Track.png", nil];
 		fullPath = [NSString pathWithComponents:components];
