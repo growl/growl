@@ -198,7 +198,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		FSRef appRef;
 		OSStatus status = FSPathMakeRef((UInt8 *)[growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
 		if (status == noErr) {
-			NSDictionary *registrationDict = [delegate growlRegistrationDictionary];
+			NSDictionary *registrationDict = [delegate registrationDictionaryForGrowl];
 			FSRef regItemRef;
 			BOOL passRegDict = NO;
 			
@@ -377,13 +377,14 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
 	//of course will not.  If the user wants to destroy the info.plist file inside the bundle, he/she deserves not to have a working Growl installation.
 	preferencePanesPathsEnumerator = [[GrowlApplicationBridge _allPreferencePaneBundles] objectEnumerator];
+	static const unsigned bundleIDComparisonFlags = NSCaseInsensitiveSearch | NSBackwardsSearch;
 	while ( (path = [preferencePanesPathsEnumerator nextObject] ) ) {
 		prefPaneBundle = [NSBundle bundleWithPath:path];
 		
 		if (prefPaneBundle) {
 			bundleIdentifier = [prefPaneBundle bundleIdentifier];
 			
-			if (bundleIdentifier && [bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:(NSCaseInsensitiveSearch | NSBackwardsSearch)]) {
+			if (bundleIdentifier && [bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:bundleIDComparisonFlags]) {
 				return prefPaneBundle;
 			}
 		}
