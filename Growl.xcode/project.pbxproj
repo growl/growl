@@ -329,7 +329,7 @@
 		63C92DD206D05D22007368FA = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
+			lastKnownFileType = text.xml;
 			name = Growl.scriptSuite;
 			path = Bindings/applescript/Growl.scriptSuite;
 			refType = 4;
@@ -338,7 +338,7 @@
 		63C92DD306D05D22007368FA = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
+			lastKnownFileType = text.xml;
 			name = Growl.scriptTerminology;
 			path = Bindings/applescript/Growl.scriptTerminology;
 			refType = 4;
@@ -347,7 +347,7 @@
 		63C92DD406D05D22007368FA = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
+			lastKnownFileType = text.xml;
 			name = Growl.sdef;
 			path = Bindings/applescript/Growl.sdef;
 			refType = 4;
@@ -875,7 +875,7 @@
 		};
 		CB5F84DE0638BFDB00EADD7A = {
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
+			lastKnownFileType = text.xml;
 			path = "BubblesNotificationView-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
@@ -1092,7 +1092,7 @@
 		};
 		CB61E51A0637763C00E0DDC7 = {
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
+			lastKnownFileType = text.xml;
 			path = "GrowlHelperApp-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
