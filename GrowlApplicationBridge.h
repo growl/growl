@@ -13,6 +13,9 @@
  *	 the GROWL_PREFPANE_BUNDLE_IDENTIFIER constant.
  */
 
+#ifndef __GrowlApplicationBridge_h__
+#define __GrowlApplicationBridge_h__
+
 #import <Foundation/Foundation.h>
 #import "GrowlDefines.h"
 
@@ -180,7 +183,7 @@
  *	@abstract Return the dictionary used to register this application with Growl.
  *	@discussion The returned dictionary gives Growl the complete list of
  *	 notifications this application will ever send, and it also specifies which
- *	 applications should be enabled by default.  Each is specified by an array
+ *	 notifications should be enabled by default.  Each is specified by an array
  *	 of NSString objects.
  *
  *	 For most applications, these two arrays can be the same (if all sent
@@ -319,3 +322,5 @@
 @interface GrowlApplicationBridge (GrowlInstallationPrompt_private)
 + (void) _userChoseNotToInstallGrowl;
 @end
+
+#endif /* __GrowlApplicationBridge_h__ */
