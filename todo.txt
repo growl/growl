@@ -111,10 +111,6 @@ Other stuff; old todo
 		Implementation documentation needs to be written
 		Get this submitted to CPAN
 			This requires making the perl module install growl if growl is not installed
-	- TCL:
-		Use the AppBridge to launch growl if needed. 
-		Rather than building with -I../.., use the header from Growl.framework. 
-		Refactor the code, primarily to separate out the Tcl<->C bits from the C<->ObjC bits. 
 	- Ruby:
 		Ruby Interface needs to be coded
 
