@@ -231,16 +231,29 @@ static BOOL				promptedToUpgradeGrowl = NO;
 					OSStatus regStatus;
 					NSString *regDictFileName;
 					NSString *regDictPath;
-					
+
 					//Obtain a truly unique file name
 					regDictFileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
-					
+
 					//Write the registration dictionary out to the temporary directory
 					regDictPath = [NSTemporaryDirectory() stringByAppendingPathComponent:regDictFileName];
-					[registrationDict writeToFile:regDictPath atomically:NO];
-					
+					NSData *plistData;
+					NSString *error;
+					plistData = [NSPropertyListSerialization dataFromPropertyList:registrationDict
+																		   format:NSPropertyListBinaryFormat_v1_0
+																 errorDescription:&error];
+					if (plistData) {
+						[plistData writeToFile:regDictPath atomically:NO];
+					} else {
+						NSLog(@"GrowlApplicationBridge: Error writing registration dictionary at %@: %@", regDictPath, error);
+						NSLog(@"GrowlApplicationBridge: Registration dictionary follows\n%@", registrationDict);
+						[error release];
+					}
+
 					regStatus = FSPathMakeRef((UInt8 *)[regDictPath fileSystemRepresentation], &regItemRef, NULL);
-					if (regStatus == noErr) passRegDict = YES;
+					if (regStatus == noErr) {
+						passRegDict = YES;
+					}
 				}
 				
 				spec.appRef = &appRef;

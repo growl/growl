@@ -373,7 +373,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 				//create the path: /tmp/$UID/TemporaryItems/$UUID.growlRegDict
 				CFStringRef tmp = _copyTemporaryFolderPath();
 				if (!tmp) {
-					NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Could not find the temporary directory path, therfore cannot register."));
+					NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Could not find the temporary directory path, therefore cannot register."));
 				} else {
 					CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
 					CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
@@ -399,7 +399,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 					CFWriteStreamOpen(stream);
 
 					CFStringRef errorString = NULL;
-					CFPropertyListWriteToStream(regDict, stream, kCFPropertyListXMLFormat_v1_0, &errorString);
+					CFPropertyListWriteToStream(regDict, stream, kCFPropertyListBinaryFormat_v1_0, &errorString);
 					if (errorString) {
 						NSLog(CFSTR("GrowlApplicationBridge: Error writing registration dictionary to URL %@: %@"), regDictURL, errorString);
 						NSLog(CFSTR("GrowlApplicationBridge: Registration dictionary follows\n%@"), regDict);
@@ -409,8 +409,9 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 					CFRelease(stream);
 
 					//be sure to open the file if it exists.
-					if (!errorString)
+					if (!errorString) {
 						itemsToOpen = CFArrayCreate(kCFAllocatorDefault, (const void **)&regDictURL, /*count*/ 1, &kCFTypeArrayCallBacks);
+					}
 					CFRelease(regDictURL);
 				} //if (tmp)
 			} //if (regDict)
@@ -426,15 +427,17 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 			};
 			success = (LSOpenFromURLSpec(&launchSpec, /*outLaunchedURL*/ NULL) == noErr);
 			CFRelease(growlHelperAppURL);
-			if (itemsToOpen)
+			if (itemsToOpen) {
 				CFRelease(itemsToOpen);
+			}
 		} //if (growlHelperAppURL)
 
 		CFRelease(growlPrefPaneBundle);
 	} //if (growlPrefPaneBundle)
 
-	if (regDict)
+	if (regDict) {
 		CFRelease(regDict);
+	}
 
 	return success;
 }

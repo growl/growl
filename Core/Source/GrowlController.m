@@ -499,8 +499,8 @@ static id singleton = nil;
 		return YES;
 		
 	} else if ( [pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION] ) {						
-		NSDictionary	*regDict = [NSDictionary dictionaryWithContentsOfFile:filename];
-		
+		NSDictionary *regDict = [NSDictionary dictionaryWithContentsOfFile:filename];
+
 		//Register this app using the indicated dictionary
 		if ([self _tryLockQueue]) {
 			[self registerApplicationWithDictionary:regDict];
@@ -520,7 +520,7 @@ static id singleton = nil;
 			 */
 			[registrationLock lock]; [registrationLock unlock];
 			[self _unlockQueue];
-			
+
 			[NSApp terminate:self];
 		} else {
 			[self _postGrowlIsReady];	
