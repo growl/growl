@@ -5,6 +5,70 @@
 	};
 	objectVersion = 39;
 	objects = {
+		079E1CB707D9AF4F0031EA17 = {
+			children = (
+				D3E21C6D0675FE21005772E5,
+				D3E21F250676061E005772E5,
+			);
+			isa = PBXGroup;
+			name = "Other sources";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		079E1CBA07D9AF590031EA17 = {
+			children = (
+				D3E21C5C0675FDC1005772E5,
+				D3E21C5D0675FDC1005772E5,
+			);
+			isa = PBXGroup;
+			name = Classes;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		079E1CBD07D9AF600031EA17 = {
+			children = (
+				D3E21C3A0675FCBB005772E5,
+				DD5BBFF107B7D4E100048F1D,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		079E1FCD07D9AFB30031EA17 = {
+			children = (
+				079E1FE107D9AFC20031EA17,
+				93D2180C07A20E2100A4BD79,
+			);
+			isa = PBXGroup;
+			name = Frameworks;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		079E1FE107D9AFC20031EA17 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Cocoa.framework;
+			path = /System/Library/Frameworks/Cocoa.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		079E1FE207D9AFC20031EA17 = {
+			fileRef = 079E1FE107D9AFC20031EA17;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//070
+//071
+//072
+//073
+//074
+//930
+//931
+//932
+//933
+//934
 		938BF14C079B226800708742 = {
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -25,9 +89,9 @@
 			explicitFileType = wrapper.framework;
 			isa = PBXFileReference;
 			name = Growl.framework;
-			path = ../../build/Growl.framework;
-			refType = 4;
-			sourceTree = "<group>";
+			path = /Users/boredzo/Projects/otherpeoplesprojects/Growl/build/Growl.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		93D2180D07A20E2100A4BD79 = {
 			fileRef = 93D2180C07A20E2100A4BD79;
@@ -47,16 +111,11 @@
 //D34
 		D3E21B160675FC3F005772E5 = {
 			children = (
-				93D2180C07A20E2100A4BD79,
-				D3E21B270675FC5E005772E5,
-				D3E21BBE0675FC72005772E5,
-				D3E21C3A0675FCBB005772E5,
-				DD5BBFF107B7D4E100048F1D,
-				D3E21C5D0675FDC1005772E5,
-				D3E21C5C0675FDC1005772E5,
-				D3E21C6D0675FE21005772E5,
+				079E1CBA07D9AF590031EA17,
+				079E1CB707D9AF4F0031EA17,
+				079E1FCD07D9AFB30031EA17,
+				079E1CBD07D9AF600031EA17,
 				D3E21ED306760487005772E5,
-				D3E21F250676061E005772E5,
 			);
 			isa = PBXGroup;
 			refType = 4;
@@ -91,22 +150,6 @@
 			targets = (
 				D3E21EFA067604FE005772E5,
 			);
-		};
-		D3E21B270675FC5E005772E5 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = AppKit.framework;
-			path = /System/Library/Frameworks/AppKit.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		D3E21BBE0675FC72005772E5 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = Foundation.framework;
-			path = /System/Library/Frameworks/Foundation.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
 		};
 		D3E21C3A0675FCBB005772E5 = {
 			fileEncoding = 4;
@@ -178,9 +221,8 @@
 		D3E21EF9067604FE005772E5 = {
 			buildActionMask = 2147483647;
 			files = (
-				D3E220B806760719005772E5,
-				D3E220B906760719005772E5,
 				93D2180D07A20E2100A4BD79,
+				079E1FE207D9AFC20031EA17,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,18 +327,6 @@
 		};
 		D3E21FB206760711005772E5 = {
 			fileRef = D3E21C6D0675FE21005772E5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		D3E220B806760719005772E5 = {
-			fileRef = D3E21B270675FC5E005772E5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		D3E220B906760719005772E5 = {
-			fileRef = D3E21BBE0675FC72005772E5;
 			isa = PBXBuildFile;
 			settings = {
 			};

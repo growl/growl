@@ -27,10 +27,7 @@
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
-#include <Foundation/Foundation.h>
-#include "ServiceAction.h"
-#include <Cocoa/Cocoa.h>
-
+#import "ServiceAction.h"
 
 int main (void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
