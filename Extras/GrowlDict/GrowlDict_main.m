@@ -28,30 +28,14 @@
 //
 
 #include <Foundation/Foundation.h>
-#include <GrowlAppBridge/GrowlApplicationBridge.h>
 #include "ServiceAction.h"
 #include <Cocoa/Cocoa.h>
-#include "GrowlDefines.h"
-#define GROWL_NOTIFICATION_DEFAULT @"NotificationDefault"
 
 
 int main (void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	ServiceAction *serviceProvider = [[ServiceAction alloc] init];
-	NSArray *objects = [NSArray arrayWithObject:@"GrowlDict-Definition"];
 	NSRegisterServicesProvider(serviceProvider, @"GrowlDictService");
-	
-//	[GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(growlDidLaunch:) context:nil];
-	
-	//Register us with Growl
-
-	NSDictionary *growlReg = [NSDictionary dictionaryWithObjectsAndKeys:
-		@"GrowlDict", GROWL_APP_NAME,
-		objects, GROWL_NOTIFICATIONS_ALL,
-		objects, GROWL_NOTIFICATIONS_DEFAULT,
-		nil];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:growlReg];
-
 																 
 	NS_DURING
 		[[NSRunLoop currentRunLoop] configureAsServer];

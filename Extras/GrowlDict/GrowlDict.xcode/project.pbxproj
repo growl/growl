@@ -25,28 +25,54 @@
 //0A2
 //0A3
 //0A4
+//930
+//931
+//932
+//933
+//934
+		938BF14C079B226800708742 = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				93B0C03207A229A7009D0591,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93B0C03207A229A7009D0591 = {
+			fileRef = 93D2180C07A20E2100A4BD79;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		93D2180C07A20E2100A4BD79 = {
+			explicitFileType = wrapper.framework;
+			isa = PBXFileReference;
+			name = Growl.framework;
+			path = ../../build/Growl.framework;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		93D2180D07A20E2100A4BD79 = {
+			fileRef = 93D2180C07A20E2100A4BD79;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//930
+//931
+//932
+//933
+//934
 //D30
 //D31
 //D32
 //D33
 //D34
-		D3A9100F068DFBCE0079DB8F = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = GrowlAppBridge.framework;
-			path = ../../build/GrowlAppBridge.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		D3A91010068DFBCE0079DB8F = {
-			fileRef = D3A9100F068DFBCE0079DB8F;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		D3E21B160675FC3F005772E5 = {
 			children = (
-				D3A9100F068DFBCE0079DB8F,
+				93D2180C07A20E2100A4BD79,
 				D3E21B270675FC5E005772E5,
 				D3E21BBE0675FC72005772E5,
 				D3E21C3A0675FCBB005772E5,
@@ -179,7 +205,7 @@
 			files = (
 				D3E220B806760719005772E5,
 				D3E220B906760719005772E5,
-				D3A91010068DFBCE0079DB8F,
+				93D2180D07A20E2100A4BD79,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -190,6 +216,7 @@
 				D3E21EF7067604FE005772E5,
 				D3E21EF8067604FE005772E5,
 				D3E21EF9067604FE005772E5,
+				938BF14C079B226800708742,
 			);
 			buildRules = (
 			);

@@ -1,5 +1,5 @@
 /*
- Copyright (c) The Growl Project, 2004 
+ Copyright © The Growl Project, 2004 
  All rights reserved.
  
  
@@ -25,15 +25,38 @@
 //  GrowlDict
 //
 //  Created by don smith on Tue Jun 08 2004.
-//  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+//  Copyright © 2004 The Growl Project. All rights reserved.
 //
 
 #import "ServiceAction.h"
-#import "GrowlDefines.h"
-#define GROWL_NOTIFICATION_DEFAULT @"NotificationDefault"
+#import <Growl/Growl.h>
 
+static NSString *definitionNotificationName = @"GrowlDict-Definition";
 
 @implementation ServiceAction
+
+- (id)init {
+	self = [super init];
+	if(self){
+		[GrowlApplicationBridge setGrowlDelegate:self];
+	}
+	return self;
+}
+
+- (NSString*)applicationNameForGrowl {
+	return @"GrowlDict";
+}	
+
+- (NSDictionary*)registrationDictionaryForGrowl {
+	NSArray *objects = [NSArray arrayWithObject:definitionNotificationName];
+	NSDictionary *growlReg = [NSDictionary dictionaryWithObjectsAndKeys:
+		@"GrowlDict", GROWL_APP_NAME,
+		objects, GROWL_NOTIFICATIONS_ALL,
+		objects, GROWL_NOTIFICATIONS_DEFAULT,
+		nil];
+	return growlReg;
+}
+
 - (void)doLookupWordService:(NSPasteboard *)pboard
 				   userData:(NSString *)data
 					  error:(NSString **)error
@@ -58,8 +81,8 @@
 	}
 	// Setup NSTask to call curl and put the result in a NSString
 	curlTask = [[NSTask alloc] init];
-	[curlTask setLaunchPath:@"/usr/bin/curl"];
-	args = [NSArray arrayWithObject: [@"dict://dict.org/d:" stringByAppendingString: pboardString]];
+	[curlTask setLaunchPath:@"/usr/bin/env"];
+	args = [NSArray arrayWithObjects:@"curl", [@"dict://dict.org/d:" stringByAppendingString: pboardString], nil];
 	[curlTask setArguments:args];
 	pipe = [NSPipe pipe];
 	pipe2 = [NSPipe pipe];
@@ -70,8 +93,8 @@
 	curlData = [file readDataToEndOfFile];
 	curlResult = [[[NSString alloc] initWithData: curlData encoding: NSUTF8StringEncoding] autorelease];
 	[file closeFile];
+	[curlTask release];	
 	
-	NSNumber *defaultValue = [NSNumber numberWithBool:YES];
 	//Cleanup the string so it's just the first definition
 	NSRange toprange = [curlResult rangeOfString: @"151 "];
 	if(toprange.location != NSNotFound){
@@ -89,19 +112,14 @@
 		curlResult = [NSString stringWithString:@"Not Found"];
 	}
 	
-	//Throw it in a dictionary and send it to growl
-	NSDictionary *growlEvent = [NSDictionary dictionaryWithObjectsAndKeys:
-		@"GrowlDict-Definition", GROWL_NOTIFICATION_NAME,
-		pboardString, GROWL_NOTIFICATION_TITLE,
-		curlResult, GROWL_NOTIFICATION_DESCRIPTION,
-		@"GrowlDict", GROWL_APP_NAME,
-		defaultValue, GROWL_NOTIFICATION_DEFAULT,
-		nil, GROWL_NOTIFICATION_ICON,
-		nil];
-	
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION object:nil userInfo:growlEvent];
-	
-	[curlTask release];	
+	NSString *notificationTitle = [@"Definition of " stringByAppendingString:pboardString];
+	[GrowlApplicationBridge notifyWithTitle:notificationTitle
+	                            description:curlResult
+	                       notificationName:definitionNotificationName
+	                               iconData:nil
+	                               priority:0
+	                               isSticky:NO
+	                           clickContext:nil];
 }
 
 @end
