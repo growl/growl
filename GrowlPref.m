@@ -157,12 +157,13 @@
 	[defs addSuiteNamed:@"loginwindow"];
 	NSString *appPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
 	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
-	NSMutableArray *loginItems = [[[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy] autorelease]; //it lies, its an array
+	NSArray *loginItems = [loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"];
+	NSMutableArray *mutableLoginItems = [[loginItems mutableCopy] autorelease];
 	NSEnumerator *e = [loginItems objectEnumerator];
 	NSDictionary *item;
 	while (item = [e nextObject]) {
 		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:appPath]) {
-			[loginItems removeObject:item];
+			[mutableLoginItems removeObject:item];
 		}
 	}
 	
@@ -170,10 +171,10 @@
 		NSMutableDictionary *launchDict = [NSMutableDictionary dictionary];
 		[launchDict setObject:[NSNumber numberWithBool:NO] forKey:@"Hide"];
 		[launchDict setObject:appPath forKey:@"Path"];
-		[loginItems addObject:launchDict];
+		[mutableLoginItems addObject:launchDict];
 	}
 	
-	[loginWindowPrefs setObject:[NSArray arrayWithArray:loginItems] 
+	[loginWindowPrefs setObject:[NSArray arrayWithArray:mutableLoginItems] 
 						 forKey:@"AutoLaunchedApplicationDictionary"];
 	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
 					  forName:@"loginwindow"];
