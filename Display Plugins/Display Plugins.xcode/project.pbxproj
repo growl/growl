@@ -54,7 +54,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = ..;
-				INFOPLIST_FILE = MailMe.plist;
+				INFOPLIST_FILE = "MailMe-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
