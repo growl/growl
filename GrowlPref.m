@@ -375,6 +375,8 @@
 			return [NSNumber numberWithBool:[appTicket isNotificationEnabled:note]];
         if ([[column identifier] isEqualTo:@"notification"])
 			return note;
+		if ([[column identifier] isEqualTo:@"sticky"])
+			return [NSNumber numberWithBool:[appTicket stickyForNotification:note]];
 	}
 	if (tableView == displayPlugins) {
 		// only one column, but for the sake of cleanliness
@@ -422,6 +424,11 @@
 		}
 		if ([[column identifier] isEqualTo:@"priority"]) {
 			[appTicket setPriority:([value intValue]-2) forNotification:note];
+			[self setPrefsChanged:YES];
+			return;
+		}
+		if ([[column identifier] isEqualTo:@"sticky"]) {
+            [appTicket setSticky:[value boolValue] forNotification:note];
 			[self setPrefsChanged:YES];
 			return;
 		}

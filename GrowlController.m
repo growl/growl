@@ -138,7 +138,11 @@ static id _singleton = nil;
     //Retrieve and set the the priority of the notification
     int priority = [ticket priorityForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]]; 
     [aDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
-	
+
+    // Retrieve and set the sticky bit of the notification - currently overrides anything the app sends.
+    BOOL sticky = [ticket stickyForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]]; 
+	[aDict setObject:[NSNumber numberWithBool:sticky] forKey:GROWL_NOTIFICATION_STICKY];
+    
 	id <GrowlDisplayPlugin> display;
 	
 	if([ticket usesCustomDisplay])

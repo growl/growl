@@ -22,11 +22,12 @@ typedef enum GrowlPriority {
 	NSString		*_name;
 	GrowlPriority	 _priority;
 	BOOL			 _enabled;
+    BOOL             _sticky;
 }
 
 + (GrowlApplicationNotification*) notificationWithName:(NSString*)name;
 + (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict;
-- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled;
+- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(BOOL)sticky;
 - (NSDictionary*) notificationAsDict;
 
 #pragma mark -
@@ -40,6 +41,9 @@ typedef enum GrowlPriority {
 - (void) setEnabled:(BOOL)yorn;
 - (void) enable;
 - (void) disable;
+
+- (BOOL) sticky;
+- (void) setSticky:(BOOL)sticky;
 @end
 
 #pragma mark -
@@ -109,7 +113,9 @@ typedef enum GrowlPriority {
 - (BOOL) isNotificationAllowed:(NSString *) name;
 - (BOOL) isNotificationEnabled:(NSString *) name;
 
-#pragma mark Notification Priority
+#pragma mark Notification accessors
+- (BOOL) stickyForNotification:(NSString *) name;
+- (void) setSticky:(BOOL)sticky forNotification:(NSString *) name;
 
 - (int) priorityForNotification:(NSString *) name;
 - (void) setPriority:(int)priority forNotification:(NSString *) name;

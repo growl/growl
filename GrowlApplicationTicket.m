@@ -15,21 +15,23 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 @implementation GrowlApplicationNotification
 + (GrowlApplicationNotification*) notificationWithName:(NSString*)name {
-    return [[[GrowlApplicationNotification alloc] initWithName:name priority:GP_normal enabled:YES] autorelease];
+    return [[[GrowlApplicationNotification alloc] initWithName:name priority:GP_normal enabled:YES sticky:NO] autorelease];
 }
 
 + (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict {
     NSString* name = [dict objectForKey:@"Name"];
     GrowlPriority priority = [[dict objectForKey:@"Priority"] intValue];
     BOOL enabled = [[dict objectForKey:@"Enabled"] boolValue];
-    return [[[GrowlApplicationNotification alloc] initWithName:name priority:priority enabled:enabled] autorelease];
+    BOOL sticky = [[dict objectForKey:@"Sticky"] boolValue] ? [[dict objectForKey:@"Sticky"] boolValue] : NO ;
+    return [[[GrowlApplicationNotification alloc] initWithName:name priority:priority enabled:enabled sticky:sticky] autorelease];
 }
 
-- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled {
+- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(BOOL)sticky {
     [self init];
     _name = [name retain];
     _priority = priority;
     _enabled = enabled;
+    _sticky = sticky;
     return self;
 }
 
@@ -38,6 +40,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
         _name, @"Name",
         [NSNumber numberWithInt:(int)_priority], @"Priority",
         [NSNumber numberWithBool:_enabled], @"Enabled",
+        [NSNumber numberWithBool:_sticky], @"Sticky",
         nil];
     return dict;
 }
@@ -74,6 +77,14 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 - (void) disable {
     [self setEnabled:NO];
+}
+
+- (BOOL) sticky {
+    return _sticky;
+}
+
+- (void) setSticky:(BOOL)sticky {
+    _sticky = sticky;
 }
 @end
 
@@ -416,7 +427,15 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
     return [[_allNotifications objectForKey:name] enabled];
 }
 
-#pragma mark Notification Priority
+#pragma mark Notification Accessors
+- (BOOL) stickyForNotification:(NSString *) name {
+	return [[_allNotifications objectForKey:name] sticky];
+}
+
+- (void) setSticky:(BOOL)sticky forNotification:(NSString *) name {
+    [[_allNotifications objectForKey:name] setSticky:sticky];
+	return;
+}
 
 - (int) priorityForNotification:(NSString *) name {
 	return [[_allNotifications objectForKey:name] priority];
