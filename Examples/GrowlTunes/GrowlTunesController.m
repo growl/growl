@@ -93,6 +93,8 @@ enum {
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 	[self stopTimer];
 	
+	[self tearDownStatusItem];
+
 	[super dealloc];
 }
 
