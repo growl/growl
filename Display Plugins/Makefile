@@ -26,6 +26,9 @@ nslogging:
 bezel:
 	xcodebuild -target Bezel -buildstyle $(DEFAULT_BUILDSTYLE) build
 
+clean:
+	xcodebuild -project Display\ Plugins.xcode -alltargets clean
+
 install:
 	-killall GrowlHelperApp; exit 0
 	-$(RM) -rf "$(BEZEL_PATH)" "$(NSLOGGING_PATH)"

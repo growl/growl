@@ -76,11 +76,30 @@
 			clockwise:NO];
 	[bezelPath lineToPoint:NSMakePoint(topLeft.x, topLeft.y + BORDER_RADIUS)];
 	
-	int opacityPref = 20;
+	int opacityPref = 40;
 	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, @"com.Growl.Bezel", &opacityPref);
 	
 	[[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha:((float)opacityPref/100.)] set];
 	[bezelPath fill];
+	
+	int sizePref = 0;
+	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, @"com.Growl.Bezel", &sizePref);
+	
+	// rects
+	NSRect titleRect, textRect;
+	NSPoint iconPoint;
+	int maxRows;
+	if (sizePref == BEZEL_SIZE_NORMAL) {
+		titleRect = NSMakeRect(12., 90., 187., 30.);
+		textRect =  NSMakeRect(12., 4., 187., 80.);
+		iconPoint = NSMakePoint(82., 120.);
+		maxRows = 4;
+	} else {
+		titleRect = NSMakeRect(8., 52., 143., 24.);
+		textRect =  NSMakeRect(8., 4., 143., 49.);
+		iconPoint = NSMakePoint(57., 83.);
+		maxRows = 2;
+	}
 	
 	// Draw the title, resize if text too big
     NSMutableParagraphStyle *parrafo = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
@@ -88,7 +107,6 @@
 	NSMutableDictionary *titleAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
 				[NSColor whiteColor], NSForegroundColorAttributeName,
 				parrafo, NSParagraphStyleAttributeName, nil] retain];
-	NSRect titleRect = NSMakeRect(8.,52.,143.,24.);
 	float titleFontSize = 20.0;
 	float accumulator = 0.;
 	BOOL minFontSize = NO;
@@ -97,7 +115,7 @@
 		forKey:NSFontAttributeName];
 	NSSize titleSize = [_title sizeWithAttributes:titleAttributes];
 	
-	while ( titleSize.width > ( 143. - ( titleSize.height / 2. ) ) ) {
+	while ( titleSize.width > ( NSWidth(titleRect) - ( titleSize.height / 2. ) ) ) {
 		minFontSize = ( titleFontSize <= 12. );
 		if ( minFontSize ) {
 			[self setTitle: [_title substringToIndex:[_title length] - 1]];
@@ -125,10 +143,10 @@
 				[NSFont systemFontOfSize:14.0], NSFontAttributeName, nil];
 	NSAttributedString *_textAttributed = [[[NSAttributedString alloc] initWithString:_text
 			attributes:textAttributes] autorelease];
-	if ( [self descriptionRowCount:_textAttributed] > 2 ) {
+	if ( [self descriptionRowCount:_textAttributed inRect:textRect] > maxRows ) {
 		[textAttributes setObject:[NSFont systemFontOfSize:12.0] forKey:NSFontAttributeName];
 	}
-	[_text drawInRect:NSMakeRect(8.0,4.0,143.0,49.) withAttributes:textAttributes];
+	[_text drawInRect:textRect withAttributes:textAttributes];
 	
 	NSSize iconSize = [_icon size];
 	if ( iconSize.width > 48. || iconSize.height > 48. ) {
@@ -158,7 +176,7 @@
 		[_icon unlockFocus];
 	}
 	
-	[_icon compositeToPoint:NSMakePoint( 57., 83. ) operation:NSCompositeSourceOver fraction:1.];
+	[_icon compositeToPoint:iconPoint operation:NSCompositeSourceOver fraction:1.];
 }
 
 - (void)setIcon:(NSImage *)icon {
@@ -180,13 +198,13 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (float)descriptionHeight:(NSAttributedString *)text {
+- (float)descriptionHeight:(NSAttributedString *)text inRect:(NSRect)theRect {
 	
 	if (_textHeight == 0)
 	{
 		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:text];
 		NSTextContainer* textContainer = [[[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize ( 143.0, 68. )] autorelease];
+			initWithContainerSize:NSMakeSize(NSWidth(theRect),NSHeight(theRect)+1000.)] autorelease];
 		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
 
 		[layoutManager addTextContainer:textContainer];
@@ -199,8 +217,8 @@
 	return MAX (_textHeight, 30);
 }
 
-- (int)descriptionRowCount:(NSAttributedString *)text {
-	float height = [self descriptionHeight:text];
+- (int)descriptionRowCount:(NSAttributedString *)text inRect:(NSRect)theRect{
+	float height = [self descriptionHeight:text inRect:theRect];
 	float lineHeight = [text size].height;
 	return (int) (height / lineHeight);
 }

@@ -18,7 +18,7 @@
 - (void)mainViewDidLoad {
 	int		positionPref = 0;
 	int		sizePref = 0;
-	int		opacityPref = 20;
+	int		opacityPref = 40;
 	
 	[slider_Opacity setAltIncrementValue:5];
 	

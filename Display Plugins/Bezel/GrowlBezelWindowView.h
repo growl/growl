@@ -22,8 +22,8 @@
 - (void)setTitle:(NSString *)title;
 - (void)setText:(NSString *)text;
 
-- (float)descriptionHeight:(NSAttributedString *)text;
-- (int)descriptionRowCount:(NSAttributedString *)text;
+- (float)descriptionHeight:(NSAttributedString *)text inRect:(NSRect)theRect;
+- (int)descriptionRowCount:(NSAttributedString *)text inRect:(NSRect)theRect;
 
 - (id)target;
 - (void)setTarget:(id)object;

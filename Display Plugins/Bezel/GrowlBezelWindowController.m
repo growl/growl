@@ -27,8 +27,16 @@
 	return [[[self alloc] initWithTitle:title text:text icon:icon sticky:sticky] autorelease];
 }
 
-- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky {	
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 160., 160. )
+- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky {
+	int sizePref = 0;
+	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, @"com.Growl.Bezel", &sizePref);
+	NSRect sizeRect;
+	if (sizePref == BEZEL_SIZE_NORMAL) {
+		sizeRect = NSMakeRect( 0., 0., 211., 206. );
+	} else {
+		sizeRect = NSMakeRect( 0., 0., 160., 160. );
+	}
+	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:sizeRect
 						styleMask:NSBorderlessWindowMask
 						  backing:NSBackingStoreBuffered defer:NO] autorelease];
 	NSRect panelFrame = [panel frame];
