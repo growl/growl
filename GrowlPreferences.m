@@ -35,8 +35,6 @@ static GrowlPreferences * sharedPreferences;
 - (void) dealloc {
 	[_realPrefs release];
 	
-	_realPrefs = nil;
-	
 	[super dealloc];
 }
 
@@ -47,7 +45,7 @@ static GrowlPreferences * sharedPreferences;
 }
 
 - (id) objectForKey:(NSString *)inKey {
-	[_realPrefs objectForKey:inKey];
+	return [_realPrefs objectForKey:inKey];
 }
 
 - (void) setObject:(id)inObject forKey:(NSString *)inKey {
