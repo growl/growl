@@ -31,10 +31,10 @@ static GrowlPreferences * sharedPreferences;
 }
 
 - (id) init {
-	
-	helperAppDefaults = [[NSUserDefaults alloc] init];
-	[helperAppDefaults addSuiteNamed:HelperAppBundleIdentifier];
-	
+	if((self = [super init])) {
+		helperAppDefaults = [[NSUserDefaults alloc] init];
+		[helperAppDefaults addSuiteNamed:HelperAppBundleIdentifier];
+	}
 	return self;
 }
 
