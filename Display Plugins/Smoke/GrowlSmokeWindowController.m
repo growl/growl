@@ -114,7 +114,7 @@ static const double gMaxDisplayTime = 10.;
 											  object:nil];*/
 	
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., GrowlSmokeNotificationWidth, 65. ) 
-												 styleMask:NSBorderlessWindowMask 
+												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered defer:NO] autorelease];
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
