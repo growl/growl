@@ -46,7 +46,6 @@ static const char *keychainAccountName = "Growl";
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 	[browser release];
 	[services release];
-	[serviceEnabled release];
 	[pluginPrefPane release];
 	[loadedPrefPanes release];
 	[tickets release];
@@ -83,7 +82,7 @@ static const char *keychainAccountName = "Growl";
 
 	// do nothing--be quiet if there is no active connection or if the
 	// version number could not be downloaded
-	if( (latestVersionNumber != nil) && (![latestVersionNumber isEqualToString: currVersionNumber]) ) {
+	if ( (latestVersionNumber != nil) && (![latestVersionNumber isEqualToString: currVersionNumber]) ) {
 		NSBeginAlertSheet(NSLocalizedStringFromTableInBundle(@"Update Available", nil, bundle, @""),
 						  NSLocalizedStringFromTableInBundle(@"OK", nil, bundle, @""), 
 						  NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
@@ -131,10 +130,9 @@ static const char *keychainAccountName = "Growl";
 		[networkPassword setStringValue:@""];
 	}	
 
-    browser = [[NSNetServiceBrowser alloc] init];
-    services = [[NSMutableArray alloc] init];
-    serviceEnabled = [[NSMutableArray alloc] init];
-    [browser setDelegate:self];
+	browser = [[NSNetServiceBrowser alloc] init];
+	services = [[NSMutableArray alloc] initWithArray:[[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey]];
+	[browser setDelegate:self];
 	[browser searchForServicesOfType:@"_growl._tcp." inDomain:@""];
 }
 
@@ -180,7 +178,7 @@ static const char *keychainAccountName = "Growl";
 	NSEnumerator *enumerator = [applications objectEnumerator];
 	id key;
 	
-	while( (key = [enumerator nextObject]) ) {
+	while ( (key = [enumerator nextObject]) ) {
 		NSImage *icon = [[NSImage alloc] initWithData:[[[tickets objectForKey:key] icon] TIFFRepresentation]];
 		[icon setScalesWhenResized:YES];
 		[icon setSize:NSMakeSize(16,16)];
@@ -257,7 +255,7 @@ static const char *keychainAccountName = "Growl";
 	[applicationDisplayPluginsMenu addItemWithTitle:@"Default" action:nil keyEquivalent:@""];
 	[applicationDisplayPluginsMenu addItem:[NSMenuItem separatorItem]];
 	
-	while( (title = [enumerator nextObject] ) ) {
+	while ( (title = [enumerator nextObject] ) ) {
 		[applicationDisplayPluginsMenu addItemWithTitle:title action:nil keyEquivalent:@""];
 	}
 	
@@ -335,6 +333,18 @@ static const char *keychainAccountName = "Growl";
 	NSDictionary * info = [[[GrowlPluginController controller] displayPluginNamed:currentPlugin] pluginInfo];
 	[displayAuthor setStringValue:[info objectForKey:@"Author"]];
 	[displayVersion setStringValue:[info objectForKey:@"Version"]];
+}
+
+- (void) writeForwardDestinations {
+	NSMutableArray *destinations = [NSMutableArray arrayWithCapacity:[services count]];
+	NSEnumerator *enumerator = [services objectEnumerator];
+	NSMutableDictionary *entry;
+	while ( (entry = [enumerator nextObject]) ) {
+		if ( ![entry objectForKey:@"netservice"] ) {
+			[destinations addObject:entry];
+		}
+	}
+	[[GrowlPreferences preferences] setObject:destinations forKey:GrowlForwardDestinationsKey];
 }
 
 #pragma mark "General" tab pane
@@ -587,11 +597,7 @@ static const char *keychainAccountName = "Growl";
 		}
 	} else if (tableView == growlServiceList) {
 		identifier = [column identifier];
-		if ([identifier isEqualTo:@"use"]) {
-			returnObject = [serviceEnabled objectAtIndex:row];
-		} else if ([identifier isEqualTo:@"computer"]) {
-			returnObject = [[services objectAtIndex:row] name];
-		}
+		returnObject = [[services objectAtIndex:row] objectForKey:identifier];
 	}
 
 	return returnObject;
@@ -657,31 +663,38 @@ static const char *keychainAccountName = "Growl";
 	} else if (tableView == growlServiceList) {
 		identifier = [column identifier];
 		if ([identifier isEqualTo:@"use"]) {
+			NSMutableDictionary *entry = [services objectAtIndex:row];
 			if ([value boolValue]) {
-				// Make sure to cancel any previous resolves.
-				if (serviceBeingResolved) {
-					[serviceBeingResolved stop];
-					[serviceBeingResolved release];
-					serviceBeingResolved = nil;
-				}
+				NSNetService *serviceToResolve = [entry objectForKey:@"netservice"];
+				if ( serviceToResolve ) {
+					// Make sure to cancel any previous resolves.
+					if (serviceBeingResolved) {
+						[serviceBeingResolved stop];
+						[serviceBeingResolved release];
+						serviceBeingResolved = nil;
+					}
 
-				serviceBeingResolved = [services objectAtIndex:row];
-				[serviceBeingResolved retain];
-				[serviceBeingResolved setDelegate:self];
-				[serviceBeingResolved resolve];
+					currentServiceIndex = row;
+					serviceBeingResolved = serviceToResolve;
+					[serviceBeingResolved retain];
+					[serviceBeingResolved setDelegate:self];
+					[serviceBeingResolved resolve];
+				}
 			}
 
-			[serviceEnabled replaceObjectAtIndex:row withObject:value];
+			[entry setObject:value forKey:identifier];
+			[self writeForwardDestinations];
 		}
 	}
 	
 }
 
 #pragma mark TableView delegate methods
+
 - (void) tableViewSelectionDidChange:(NSNotification *)theNote {
 	if ([theNote object] == growlApplications) {
 		[self reloadAppTab];
-		if([[theNote object] selectedRow] > -1) {
+		if ([[theNote object] selectedRow] > -1) {
 			[remove setEnabled:YES]; 
 		} else {
 			[remove setEnabled:NO];
@@ -731,28 +744,44 @@ static const char *keychainAccountName = "Growl";
 
 #pragma mark NSNetServiceBrowser Delegate Methods
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
+- (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
 {
-	[services addObject:aNetService];
-	[serviceEnabled addObject:[NSNumber numberWithBool:FALSE]];
+	// check if a computer with this name has already been added
+	NSString *name = [aNetService name];
+	NSEnumerator *enumerator = [services objectEnumerator];
+	NSMutableDictionary *entry;
+	while ( (entry = [enumerator nextObject]) ) {
+		if ( [[entry objectForKey:@"computer"] isEqualToString:name] ) {
+			return;
+		}
+	}
+
+	// add a new entry at the end
+	entry = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+		aNetService, @"netservice",
+		name, @"computer",
+		[NSNumber numberWithBool:FALSE], @"use",
+		nil];
+	[services addObject:entry];
+	[entry release];
 
 	if (!moreComing) {
 		[growlServiceList reloadData];
+		[self writeForwardDestinations];
 	}
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
+- (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
 {
 	// This case is slightly more complicated. We need to find the object in the list and remove it.
 	unsigned i;
 	unsigned count = [services count];
-	NSNetService *currentNetService;
+	NSDictionary *currentEntry;
 
 	for( i=0; i<count; ++i ) {
-		currentNetService = [services objectAtIndex:i];
-		if ([currentNetService isEqual:aNetService]) {
+		currentEntry = [services objectAtIndex:i];
+		if ([[currentEntry objectForKey:@"netservice"] isEqual:aNetService]) {
 			[services removeObjectAtIndex:i];
-			[serviceEnabled removeObjectAtIndex:i];
 			break;
 		}
 	}
@@ -765,19 +794,18 @@ static const char *keychainAccountName = "Growl";
 
 	if (!moreComing) {
 		[growlServiceList reloadData];        
+		[self writeForwardDestinations];
 	}
 }
 
-- (void)netServiceDidResolveAddress:(NSNetService *)sender {
+- (void) netServiceDidResolveAddress:(NSNetService *)sender {
 	NSArray *addresses = [sender addresses];
     if ([addresses count] > 0) {
 		NSData *address = [addresses objectAtIndex:0];
-		NSArray *destinations = [[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey];
-		if (![destinations containsObject:address]) {
-			NSMutableArray *newDestinations = [destinations mutableCopy];
-			[newDestinations addObject:address];
-			[[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey];
-		}
+		NSMutableDictionary *entry = [services objectAtIndex:currentServiceIndex];
+		[entry setObject:address forKey:@"address"];
+		[entry removeObjectForKey:@"netservice"];
+		[self writeForwardDestinations];
 	}
 }
 
@@ -828,7 +856,7 @@ static const char *keychainAccountName = "Growl";
 	NSString * app = [note object];
 	GrowlApplicationTicket * ticket = [[[GrowlApplicationTicket alloc] initTicketForApplication:app] autorelease];
 
-/*	if(![tickets objectForKey:app])
+/*	if (![tickets objectForKey:app])
 		[growlApplications addItemWithTitle:app];*/
 	
 	[tickets setObject:ticket forKey:app];
@@ -837,7 +865,7 @@ static const char *keychainAccountName = "Growl";
 	[self cacheImages];
 	[growlApplications reloadData];
 	
-	if([currentApplication isEqualToString:app]) {
+	if ([currentApplication isEqualToString:app]) {
 		[self reloadPreferences];
 	}
 }

@@ -259,21 +259,24 @@ static id singleton = nil;
 
 	if (enableForward) {
 		NSEnumerator *enumerator = [destinations objectEnumerator];
-		NSData *destAddress;
-		while ( (destAddress = [enumerator nextObject]) ) {
-			NSSocketPort *serverPort = [[NSSocketPort alloc]
-			initRemoteWithProtocolFamily:AF_INET
-							  socketType:SOCK_STREAM
-								protocol:0
-								 address:destAddress];
+		NSDictionary *entry;
+		while ( (entry = [enumerator nextObject]) ) {
+			if( [[entry objectForKey:@"use"] boolValue] ) {
+				NSData *destAddress = [entry objectForKey:@"address"];
+				NSSocketPort *serverPort = [[NSSocketPort alloc]
+					initRemoteWithProtocolFamily:AF_INET
+									  socketType:SOCK_STREAM
+										protocol:0
+										 address:destAddress];
 
-			NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
-			NSDistantObject *theProxy = [connection rootProxy];
-			[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-			id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
-			[growlProxy postNotification:dict];
-			[serverPort release];
-			[connection release];
+				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
+				NSDistantObject *theProxy = [connection rootProxy];
+				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
+				[growlProxy postNotification:dict];
+				[serverPort release];
+				[connection release];
+			}
 		}
 	}
 }
@@ -390,21 +393,24 @@ static id singleton = nil;
 
 	if (enableForward) {
 		NSEnumerator *enumerator = [destinations objectEnumerator];
-		NSData *destAddress;
-		while ( (destAddress = [enumerator nextObject]) ) {
-			NSSocketPort *serverPort = [[NSSocketPort alloc]
-			initRemoteWithProtocolFamily:AF_INET
-							  socketType:SOCK_STREAM
-								protocol:0
-								 address:destAddress];
-			
-			NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
-			NSDistantObject *theProxy = [connection rootProxy];
-			[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-			id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
-			[growlProxy registerApplication:userInfo];
-			[serverPort release];
-			[connection release];
+		NSDictionary *entry;
+		while ( (entry = [enumerator nextObject]) ) {
+			if( [[entry objectForKey:@"use"] boolValue] ) {
+				NSData *destAddress = [entry objectForKey:@"address"];
+				NSSocketPort *serverPort = [[NSSocketPort alloc]
+					initRemoteWithProtocolFamily:AF_INET
+									  socketType:SOCK_STREAM
+										protocol:0
+										 address:destAddress];
+				
+				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
+				NSDistantObject *theProxy = [connection rootProxy];
+				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
+				[growlProxy registerApplication:userInfo];
+				[serverPort release];
+				[connection release];
+			}
 		}
 	}
 }

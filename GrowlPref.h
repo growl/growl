@@ -61,9 +61,9 @@
 	IBOutlet NSTableView		*growlServiceList;
 
 	NSMutableArray			*services;
-	NSMutableArray			*serviceEnabled;
 	NSNetServiceBrowser		*browser;
 	NSNetService			*serviceBeingResolved;
+	int						currentServiceIndex;
 
 	IBOutlet NSButton		*apply;
 	IBOutlet NSButton		*revert;
