@@ -38,6 +38,7 @@
 	IBOutlet NSTableView	* applicationNotifications;
 	IBOutlet NSTableView	* growlApplications;
 	NSMenu					* applicationDisplayPluginsMenu;
+	NSMenu					* notificationPriorityMenu;
 	
 	//"Display Options" tab pane
 	IBOutlet NSTableView	* displayPlugins;
@@ -54,7 +55,7 @@
 - (void)updateRunningStatus;
 - (void)reloadAppTab;
 - (void)reloadDisplayTab;
-- (void)buildDisplayMenu;
+- (void)buildMenus;
 
 #pragma mark "General" tab pane
 - (IBAction)startStopGrowl:(id)sender;

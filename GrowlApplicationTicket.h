@@ -72,5 +72,10 @@
 - (void) setNotificationDisabled:(NSString *) name;
 - (BOOL) isNotificationAllowed:(NSString *) name;
 - (BOOL) isNotificationEnabled:(NSString *) name;
+
+#pragma mark Notification Priority
+
+- (int) priorityForNotification:(NSString *) name;
+- (void) setPriority:(int)priority forNotification:(NSString *) name;
 @end
 

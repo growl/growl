@@ -99,14 +99,14 @@
 	[allDisplayPlugins selectItemWithTitle:[[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey]];
 	[displayPlugins reloadData];
 	
-	[self buildDisplayMenu];
+	[self buildMenus];
 	
 	[self reloadAppTab];
 	[self reloadDisplayTab];
 	[self setPrefsChanged:NO];
 }
 
-- (void)buildDisplayMenu
+- (void)buildMenus
 {
 	// Building Menu for the drop down one time.  It's cached from here on out.  If we want to add new display types
 	// we'll have to call this method after the controller knows about it.
@@ -123,6 +123,15 @@
 	while (title = [enumerator nextObject]) {
 		[applicationDisplayPluginsMenu addItemWithTitle:title action:nil keyEquivalent:@""];
 	}
+	
+	if (notificationPriorityMenu)
+		[notificationPriorityMenu release];
+	notificationPriorityMenu = [[NSMenu alloc] initWithTitle:@"Priority"];
+	[notificationPriorityMenu addItemWithTitle:@"Very Low" action:nil keyEquivalent:@""];
+	[notificationPriorityMenu addItemWithTitle:@"Moderate" action:nil keyEquivalent:@""];
+	[notificationPriorityMenu addItemWithTitle:@"Normal" action:nil keyEquivalent:@""];
+	[notificationPriorityMenu addItemWithTitle:@"High" action:nil keyEquivalent:@""];
+	[notificationPriorityMenu addItemWithTitle:@"Emergency" action:nil keyEquivalent:@""];
 }
 
 - (void)updateRunningStatus {
@@ -351,19 +360,25 @@
 	}
 	if (tableView == applicationNotifications) {
 		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
-		if([value boolValue]) {
-			[appTicket setNotificationEnabled:note];
-		} else {
-			[appTicket setNotificationDisabled:note];
+		if ([[column identifier] isEqualTo:@"enable"]) {
+			if([value boolValue]) {
+				[appTicket setNotificationEnabled:note];
+			} else {
+				[appTicket setNotificationDisabled:note];
+			}
+			[self setPrefsChanged:YES];
+			return;
 		}
-		[self setPrefsChanged:YES];
-		return;
+		if ([[column identifier] isEqualTo:@"priority"]) {
+			[appTicket setPriority:[value intValue] forNotification:note];
+			return;
+		}
 	}
 	if (tableView == displayPlugins)
 		return;
 }
 
-#pragma mark Application TableView delegate methods
+#pragma mark Application Tab TableView delegate methods
 - (void)tableViewSelectionDidChange:(NSNotification *)theNote {
 	if ([theNote object] == growlApplications)
 		return (void)[self reloadAppTab];
@@ -379,13 +394,28 @@
 				[cell selectItemAtIndex:0]; // Default
 			else
 				[cell selectItemWithTitle:[[[tickets objectForKey: [applications objectAtIndex:row]] displayPlugin] name]];
+			return;
 		}
 		if ([[column identifier] isEqualTo:@"application"]) {
 			NSImage* icon = [[tickets objectForKey: [applications objectAtIndex:row]] icon];
 			[icon setScalesWhenResized:YES];
 			[icon setSize:NSMakeSize(16,16)];
 			[(ACImageAndTextCell*)cell setImage:icon];
+			return;
 		}
+		return;
+	}
+	if (tableView == applicationNotifications) {
+		if ([[column identifier] isEqualTo:@"priority"]) {
+			[cell setMenu:[notificationPriorityMenu copy]];
+			
+			int priority=[appTicket priorityForNotification:[[appTicket allNotifications] objectAtIndex:row]];
+			if (priority == 0) // No priority set - give normal priority
+				priority = 3;
+			[cell selectItemAtIndex:priority -1];
+			return;
+		}
+		return;
 	}
 }
 

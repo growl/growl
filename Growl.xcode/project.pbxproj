@@ -680,6 +680,7 @@
 				A1DECDD106FF5C010053BF53,
 				A1DECDD206FF5C010053BF53,
 				345A68EE06FF684E00114E06,
+				A14892520702746D002CEEA2,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -917,6 +918,21 @@
 //A12
 //A13
 //A14
+		A14892520702746D002CEEA2 = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = MailMe.growlView;
+			refType = 3;
+			remoteRef = A148926507027470002CEEA2;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A148926507027470002CEEA2 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 07CC345806FFE5FC0029B83C;
+			remoteInfo = MailMe;
+		};
 		A14BBE0806EE1C0400530EED = {
 			children = (
 				A14BBE0E06EE1D5600530EED,

@@ -316,5 +316,14 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	return [_allowedNotifications containsObject:name];
 }
 
+#pragma mark Notification Priority
+
+- (int) priorityForNotification:(NSString *) name {
+	return 0;
+}
+
+- (void) setPriority:(int)priority forNotification:(NSString *) name {
+	return;
+}
 @end
 
