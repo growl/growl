@@ -45,6 +45,14 @@
 	
 	Not necessarily supported by all display plugins */
 #define GROWL_NOTIFICATION_STICKY		@"NotificationSticky"
+/*! An ID which identifies this notification to the posting application. (Optional)
+
+This will be passed back to the application when the notification is clicked
+(not necessarily supported by all display plugins) and may be used for other functionality
+in the future. */
+#define GROWL_NOTIFICATION_ID			@"NotificationID"
+
+
 //add documentation comments
 #define GROWL_NOTIFICATION_FORCE_APP_LINK	@"NotificationForceAppLink"
 #define GROWL_NOTIFICATION_LINKS		@"NotificationLinks"
@@ -66,6 +74,10 @@
 
 /*! The distributed notification sent when Growl starts up */
 #define GROWL_IS_READY					@"Lend Me Some Sugar; I Am Your Neighbor!"
+
+/*! The distributed notification set when a supported notification is clicked.
+	Handled by the GrowlAppBridge. */
+#define GROWL_NOTIFICATION_CLICKED		@"GrowlClicked!"
 
 /*! The listen port for Growl notification servers. */
 #define GROWL_TCP_PORT	23052

@@ -20,6 +20,7 @@
 - (void) _processRegistrationQueue;
 - (void) _registerApplication:(NSNotification *) note;
 - (void) _postGrowlIsReady;
+- (NSString *) _internalNotificationIDFromNotifictionID:(NSString *)notificationID applicationName:(NSString *)appName;
 @end
 
 enum {
@@ -84,6 +85,12 @@ static id singleton = nil;
 					  name:GROWL_PING
 					object:nil];
 	
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector( notificationClicked: )
+													 name:GROWL_NOTIFICATION_CLICKED
+												   object:nil];
+
 		tickets = [[NSMutableDictionary alloc] init];
 		registrationLock = [[NSLock alloc] init];
 		notificationQueue = [[NSMutableArray alloc] init];
@@ -180,7 +187,8 @@ static id singleton = nil;
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
 	// Make sure this notification is actually registered
-	GrowlApplicationTicket *ticket = [tickets objectForKey:[dict objectForKey:GROWL_APP_NAME]];
+	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
+	GrowlApplicationTicket *ticket = [tickets objectForKey:appName];
 	if (!ticket || ![ticket isNotificationAllowed:[dict objectForKey:GROWL_NOTIFICATION_NAME]]) {
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
@@ -231,7 +239,15 @@ static id singleton = nil;
 		[aDict setObject:[NSNumber numberWithBool:(sticky ? YES : NO)]
 				  forKey:GROWL_NOTIFICATION_STICKY];
 	}
-    
+	
+	// Retrieve and set the notificationID of the notification (specific for the application)
+	NSString *notificationID = [dict objectForKey:GROWL_NOTIFICATION_ID];
+	if (notificationID) {
+		[aDict setObject:[self _internalNotificationIDFromNotifictionID:notificationID
+														applicationName:appName]
+				  forKey:GROWL_NOTIFICATION_ID];
+	}
+
 	id <GrowlDisplayPlugin> display;
 
 	if ([ticket usesCustomDisplay]) {
@@ -559,6 +575,36 @@ static id singleton = nil;
 																   object:nil 
 																 userInfo:nil
 													   deliverImmediately:YES];	
+}
+
+#pragma mark -
+
+#define INTERNAL_NOTIFICATION_ID_SEPARATOR @"##GROWL##"
+
+- (void) notificationClicked:(NSNotification *)notification {
+	NSString *internalNotificationID = [notification object];
+	NSArray *notificationComponents = [internalNotificationID componentsSeparatedByString:INTERNAL_NOTIFICATION_ID_SEPARATOR];
+	NSString *appName, *notificationID;
+	NSDictionary *clickedDict;
+
+	//Extract the application name and the original notificationID from the passed internalNotificatioID
+	appName = [notificationComponents objectAtIndex:0];
+	notificationID = [notificationComponents objectAtIndex:1];
+
+	clickedDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		appName, GROWL_APP_NAME,
+		notificationID, GROWL_NOTIFICATION_ID,
+		nil];
+
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED 
+																   object:nil 
+																 userInfo:clickedDict
+													   deliverImmediately:YES];
+}
+
+//Make a notificationID (passed by an application) specific for that application
+- (NSString *) _internalNotificationIDFromNotifictionID:(NSString *)notificationID applicationName:(NSString *)appName {
+	return([NSString stringWithFormat:@"%@%@%@",appName,INTERNAL_NOTIFICATION_ID_SEPARATOR,notificationID]);
 }
 
 @end
