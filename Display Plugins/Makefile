@@ -46,9 +46,8 @@ clean:
 
 install:
 	killall GrowlHelperApp || true
-	-$(RM) -rf "$(NSLOGGING_PATH)" "$(SMOKE_PATH)" "$(MAILME_PATH)" "$(MUSICVIDEO_PATH)"
+	-$(RM) -rf "$(NSLOGGING_PATH)" "$(MAILME_PATH)" "$(MUSICVIDEO_PATH)"
 	if [[ -d "$(NSLOGGING_BUILD)" ]]; then $(CP) "$(NSLOGGING_BUILD)" "$(NSLOGGING_PATH)"; fi
-	if [[ -d "$(SMOKE_BUILD)" ]]; then $(CP) "$(SMOKE_BUILD)" "$(SMOKE_PATH)"; fi
 	if [[ -d "$(MAILME_BUILD)" ]]; then $(CP) "$(MAILME_BUILD)" "$(MAILME_PATH)"; fi
 	if [[ -d "$(MUSICVIDEO_BUILD)" ]]; then $(CP) "$(MUSICVIDEO_BUILD)" "$(MUSICVIDEO_PATH)"; fi
 	open "$(GROWL_HELPER_APP)"
@@ -57,12 +56,6 @@ install-nslogging:
 	killall GrowlHelperApp || true
 	-$(RM) -rf "$(NSLOGGING_PATH)"
 	$(CP) "$(NSLOGGING_BUILD)" "$(NSLOGGING_PATH)"
-	open "$(GROWL_HELPER_APP)"
-
-install-smoke:
-	killall GrowlHelperApp || true
-	-$(RM) -rf "$(SMOKE_PATH)"
-	$(CP) "$(SMOKE_BUILD)" "$(SMOKE_PATH)"
 	open "$(GROWL_HELPER_APP)"
 
 install-mailme:

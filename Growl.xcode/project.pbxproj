@@ -179,6 +179,32 @@
 			remoteGlobalIDString = 6C7CEAE50707F41D00441A92;
 			remoteInfo = MusicVideo;
 		};
+		0A0428FF0708ACA10058CBD0 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 34C4486606F0FF5300855FBE;
+			remoteInfo = Smoke;
+		};
+		0A0429000708ACA10058CBD0 = {
+			isa = PBXTargetDependency;
+			name = "Smoke (from Display Plugins.xcode)";
+			targetProxy = 0A0428FF0708ACA10058CBD0;
+		};
+		0A04291D0708ACC20058CBD0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.cfbundle;
+			name = Smoke.growlView;
+			path = "Display Plugins/build/Smoke.growlView";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A0429530708ACC70058CBD0 = {
+			fileRef = 0A04291D0708ACC20058CBD0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0A62933106EE7E5B00002780 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
@@ -309,6 +335,7 @@
 				CB61E5180637763C00E0DDC7,
 				CB5F84DD0638BFDB00EADD7A,
 				6C1D526806FA0CE000A5D946,
+				0A04291D0708ACC20058CBD0,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -1423,6 +1450,7 @@
 			files = (
 				CB5FA1CF0638CA7300EADD7A,
 				6C1D527C06FA0CEB00A5D946,
+				0A0429530708ACC70058CBD0,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1509,6 +1537,7 @@
 			dependencies = (
 				CB5FA1C40638CA4500EADD7A,
 				6C1D4F7106FA0C7E00A5D946,
+				0A0429000708ACA10058CBD0,
 			);
 			isa = PBXNativeTarget;
 			name = GrowlHelperApp;
