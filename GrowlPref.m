@@ -421,7 +421,6 @@
 			return;
 		}
 		if ([[column identifier] isEqualTo:@"priority"]) {
-            NSLog(@"priority %d", [value intValue]-2);
 			[appTicket setPriority:([value intValue]-2) forNotification:note];
 			[self setPrefsChanged:YES];
 			return;
@@ -461,7 +460,6 @@
 	if (tableView == applicationNotifications) {
 		if ([[column identifier] isEqualTo:@"priority"]) {
 			[cell setMenu:[notificationPriorityMenu copy]];
-			NSLog(@"appTicket: %@", appTicket);
 			int priority = [appTicket priorityForNotification:[[appTicket allNotifications] objectAtIndex:row]];
 			[cell selectItemAtIndex:priority+2];
 			return;
