@@ -50,10 +50,13 @@
 			targets = (
 				5282FC6706DD9F2D00179624,
 				6C60D7BB06F044110025909F,
+				34C4486606F0FF5300855FBE,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
 			children = (
+				3482254906F2F0BF00B33560,
+				34C4487206F0FFB000855FBE,
 				5282FC4C06DD9BB200179624,
 				08FB77AFFE84173DC02AAC07,
 				6C60D7C206F044A30025909F,
@@ -63,6 +66,7 @@
 				19C28FB8FE9D52D311CA2CBB,
 				5282FC6906DD9F2D00179624,
 				6C60D7BD06F044110025909F,
+				34C4486806F0FF5300855FBE,
 			);
 			isa = PBXGroup;
 			name = "Display Plugins";
@@ -184,6 +188,7 @@
 			children = (
 				5282FC6806DD9F2D00179624,
 				6C60D7BC06F044110025909F,
+				34C4486706F0FF5300855FBE,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -222,6 +227,301 @@
 //322
 //323
 //324
+//340
+//341
+//342
+//343
+//344
+		3458EFE506F2E1600066D180 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlSmokeWindowController.h;
+			path = Smoke/GrowlSmokeWindowController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3458EFE606F2E1600066D180 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlSmokeWindowController.m;
+			path = Smoke/GrowlSmokeWindowController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3458EFE706F2E1600066D180 = {
+			fileRef = 3458EFE506F2E1600066D180;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3458EFE806F2E1600066D180 = {
+			fileRef = 3458EFE606F2E1600066D180;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3458F00506F2E4FB0066D180 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlSmokeDefines.h;
+			path = Smoke/GrowlSmokeDefines.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3458F00606F2E4FB0066D180 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlSmokeDisplay.h;
+			path = Smoke/GrowlSmokeDisplay.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3458F00706F2E4FB0066D180 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlSmokeDisplay.m;
+			path = Smoke/GrowlSmokeDisplay.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3458F00806F2E4FB0066D180 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlSmokeWindowView.h;
+			path = Smoke/GrowlSmokeWindowView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3458F00906F2E4FB0066D180 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlSmokeWindowView.m;
+			path = Smoke/GrowlSmokeWindowView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3458F00A06F2E4FB0066D180 = {
+			fileRef = 3458F00506F2E4FB0066D180;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3458F00B06F2E4FB0066D180 = {
+			fileRef = 3458F00606F2E4FB0066D180;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3458F00C06F2E4FB0066D180 = {
+			fileRef = 3458F00706F2E4FB0066D180;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3458F00D06F2E4FB0066D180 = {
+			fileRef = 3458F00806F2E4FB0066D180;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3458F00E06F2E4FB0066D180 = {
+			fileRef = 3458F00906F2E4FB0066D180;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3482252806F2EC2100B33560 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = SmokePrefs.nib;
+			path = Smoke/SmokePrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3482252906F2EC2100B33560 = {
+			fileRef = 3482252806F2EC2100B33560;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3482252C06F2EC6200B33560 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlSmokePrefsController.h;
+			path = Smoke/GrowlSmokePrefsController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3482252D06F2EC6200B33560 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlSmokePrefsController.m;
+			path = Smoke/GrowlSmokePrefsController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3482252E06F2EC6200B33560 = {
+			fileRef = 3482252C06F2EC6200B33560;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3482252F06F2EC6200B33560 = {
+			fileRef = 3482252D06F2EC6200B33560;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		3482254906F2F0BF00B33560 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = PreferencePanes.framework;
+			path = /System/Library/Frameworks/PreferencePanes.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		3482254A06F2F0BF00B33560 = {
+			fileRef = 3482254906F2F0BF00B33560;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34C4486306F0FF5300855FBE = {
+			buildActionMask = 2147483647;
+			files = (
+				34C4488F06F1002000855FBE,
+				3458EFE706F2E1600066D180,
+				3458F00A06F2E4FB0066D180,
+				3458F00B06F2E4FB0066D180,
+				3458F00D06F2E4FB0066D180,
+				3482252906F2EC2100B33560,
+				3482252E06F2EC6200B33560,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C4486406F0FF5300855FBE = {
+			buildActionMask = 2147483647;
+			files = (
+				3458EFE806F2E1600066D180,
+				3458F00C06F2E4FB0066D180,
+				3458F00E06F2E4FB0066D180,
+				3482252F06F2EC6200B33560,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C4486506F0FF5300855FBE = {
+			buildActionMask = 2147483647;
+			files = (
+				3482254A06F2F0BF00B33560,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34C4486606F0FF5300855FBE = {
+			buildPhases = (
+				34C4486306F0FF5300855FBE,
+				34C4486406F0FF5300855FBE,
+				34C4486506F0FF5300855FBE,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Smoke-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Smoke;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = Smoke;
+			productName = Smoke;
+			productReference = 34C4486706F0FF5300855FBE;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Smoke</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Smoke</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
+		34C4486706F0FF5300855FBE = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = Smoke.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		34C4486806F0FF5300855FBE = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = "Smoke-Info.plist";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		34C4487206F0FFB000855FBE = {
+			children = (
+				3482252C06F2EC6200B33560,
+				3482252D06F2EC6200B33560,
+				3458EFE506F2E1600066D180,
+				3458EFE606F2E1600066D180,
+				3458F00506F2E4FB0066D180,
+				3458F00606F2E4FB0066D180,
+				3458F00706F2E4FB0066D180,
+				3458F00806F2E4FB0066D180,
+				3458F00906F2E4FB0066D180,
+				3482252806F2EC2100B33560,
+			);
+			isa = PBXGroup;
+			name = Smoke;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34C4488F06F1002000855FBE = {
+			fileRef = 6C86F87206F04E8D008EA344;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//340
+//341
+//342
+//343
+//344
 //520
 //521
 //522

@@ -313,6 +313,21 @@
 //342
 //343
 //344
+		345A68EE06FF684E00114E06 = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Smoke.growlView;
+			refType = 3;
+			remoteRef = 345A68FC06FF686200114E06;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		345A68FC06FF686200114E06 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 34C4486706F0FF5300855FBE;
+			remoteInfo = Smoke;
+		};
 		34CEA3930680A77C00670E0D = {
 			children = (
 				CBF073C80659A94F000B4B77,
@@ -664,6 +679,7 @@
 			children = (
 				A1DECDD106FF5C010053BF53,
 				A1DECDD206FF5C010053BF53,
+				345A68EE06FF684E00114E06,
 			);
 			isa = PBXGroup;
 			name = Products;
