@@ -47,7 +47,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 	NSArray *allNotifications;
 
 	// for "post"
-	NSString *notificationTitle, *notificationDescription;
+	NSString *notificationType, *notificationTitle, *notificationDescription;
 
 	// info to actually send teh message
 	NSDistributedNotificationCenter *distCenter;
@@ -80,7 +80,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 		allNotifications = [[NSString stringWithCString:Tcl_GetString(*objv)] componentsSeparatedByString:@" "];
 		++objv, --objc;
 
-		notificationName = [NSString stringWithString:GROWL_APP_REGISTRATION];
+		notificationName = GROWL_APP_REGISTRATION;
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 			appName, GROWL_APP_NAME,
 			allNotifications, GROWL_NOTIFICATIONS_ALL,
@@ -91,7 +91,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 			return TCL_ERROR;
 		}
 
-		notificationName = [NSString stringWithCString:Tcl_GetString(*objv)];
+		notificationType = [NSString stringWithCString:Tcl_GetString(*objv)];
 		++objv, --objc;
 
 		notificationTitle = [NSString stringWithCString:Tcl_GetString(*objv)];
@@ -101,10 +101,13 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 		++objv, --objc;
 
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+			notificationType, GROWL_NOTIFICATION_NAME,
 			appName, GROWL_APP_NAME,
 			notificationTitle, GROWL_NOTIFICATION_TITLE,
 			notificationDescription, GROWL_NOTIFICATION_DESCRIPTION,
 			nil];
+		
+		notificationName = GROWL_NOTIFICATION;
 	} else {
 		return TCL_ERROR;
 	}

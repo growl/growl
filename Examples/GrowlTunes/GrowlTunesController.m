@@ -194,12 +194,13 @@ enum {
 				}
 				
 				noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
+					( state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING ), GROWL_NOTIFICATION_NAME,
 					appName, GROWL_APP_NAME,
 					track, GROWL_NOTIFICATION_TITLE,
 					[NSString stringWithFormat:@"%@\n%@",artist,album], GROWL_NOTIFICATION_DESCRIPTION,
 								 artwork?[artwork TIFFRepresentation]:nil, GROWL_NOTIFICATION_ICON,
 					nil];
-				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:(state == itPLAYING)?ITUNES_TRACK_CHANGED:ITUNES_PLAYING
+				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																			   object:nil userInfo:noteDict];
 			}
 		}

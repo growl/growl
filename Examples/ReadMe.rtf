@@ -13,7 +13,7 @@ These are all public\'d0domain (except where noted), for studying how to impleme
 \
 Some of these examples link against GrowlAppBridge.framework. You must build GAB using GrowlAppBridge.xcode in the base Growl directory (the same directory where Growl.xcode is located) and then copy it (
 \f2\b not
-\f1\b0  move it) to ~/Library/Frameworks, /Library/Frameworks, or /Network/Library/Frameworks before you will be able to build and run those examples.\
+\f1\b0  move it) to ~/Library/Frameworks, /Library/Frameworks, or /System/Library/Frameworks before you will be able to build and run those examples.\
 \
 --boredzo\
 \pard\tqc\tx5760\tx6480\tx7200\tx7920\tx8640\sl311\slmult1\ql\qnatural
@@ -63,6 +63,52 @@ Polls iTunes with an AppleScript, posting notifications when the current track c
 \
 	Libraries:	Cocoa, GrowlAppBridge\
 	Author:	Nelson Elhage (Hanji)\
+\
+\pard\tqr\tx1440\tx1800\tx2880\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+
+\f2\b \cf0 GrowlMail\
+
+\f1\b0 \
+A Mail bundle that displays a notification whenever a new email arrives. Uses NSDistributedNotificationCenter.\
+\
+	Libraries:	Cocoa, GrowlAppBridge\
+	Author:	Adam Iser\
+\
+
+\f2\b GrowlDict\
+
+\f1\b0 \
+An application that provides a service to get the dict.org definition for the selected text. Uses NSDistributedNotificationCenter.\
+\
+	Libraries:	Cocoa, GrowlAppBridge\
+	Author:	don smith\
+
+\f2\b \
+perl/ForumGrowl.pl\
+
+\f1\b0 \
+Polls the Growl forums for changes, then displays a notification when a new post is available. Uses the Perl bindings.\
+\
+	Packages:	Mac::Growl\
+	Author:	Nelson Elhage (Hanji)\
+
+\f2\b \
+perl/irssi/growl.pl\
+
+\f1\b0 \
+Displays a Growl notification for irssi events (somebody please fix this description). Uses the Perl bindings.\
+\
+	Packages:	Mac::Growl\
+	Author:	Nelson Elhage (Hanji)\
+
+\f2\b \
+python/gnotify\
+
+\f1\b0 \
+A command-line script to display a notification based on the arguments passed to it. Uses the Python bindings.\
+\
+	Modules:	Growl\
+	Authors:	Jeremy Rossi and Kevin Ballard\
 \
 \pard\tqr\tx1440\tx1800\tx2880\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 

@@ -11,13 +11,16 @@
 
 @interface GrowlController : NSObject {
 	NSMutableDictionary			*_tickets;				//Application tickets
+	NSLock						*_registrationLock;
+	NSMutableArray				*_notificationQueue;
+	NSMutableArray				*_registrationQueue;
 	id <GrowlDisplayPlugin>		_displayController;
 }
 
 + (id) singleton;
 
 - (void) dispatchNotification:(NSNotification *) note;
-- (void) dispatchNotificationWithDictionary:(NSDictionary *) dict;
+- (void) dispatchNotificationWithDictionary:(NSDictionary *) dict overrideCheck:(BOOL) override;
 
 - (void) loadTickets;
 - (void) saveTickets;

@@ -65,34 +65,28 @@
 	
 	NS_DURING
 		NSImage* icon = nil;
-		if (imageUrl != nil)
-		{
-			if (![imageUrl hasPrefix: @"file:///"])
-			{
+		if (imageUrl != nil) {
+			NSURL *url = [NSURL URLWithString:imageUrl];
+			if (!url || ![url isFileURL] || [[url host] length]) {
 				[self setError:ERROR_NOT_FILE_URL];
-				return nil;
+				NS_VALUERETURN(nil,id);
 			}
-			icon = [[[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:imageUrl]] autorelease];
-		}
-		else if (iconOfFile != nil)
-		{
-			if (![iconOfFile hasPrefix: @"file:///"])
-			{
+			icon = [[[NSImage alloc] initWithContentsOfURL:url] autorelease];
+		} else if (iconOfFile != nil) {
+			NSURL *url = [NSURL URLWithString:iconOfFile];
+			if (!url || ![url isFileURL] || [[url host] length]) {
 				[self setError:ERROR_ICON_OF_FILE_PATH_INVALID];
-				return nil;
+				NS_VALUERETURN(nil,id);
 			}
-			iconOfFile = [iconOfFile substringFromIndex: 7];
-			icon = [[NSWorkspace sharedWorkspace] iconForFile:iconOfFile];
-		}
-		else if (iconOfApplication != nil)
-		{
+			icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
+		} else if (iconOfApplication != nil) {
 			icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
 		}
 		
 		if (icon != nil)
 			[noteDict setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
 
-		[[GrowlController singleton] dispatchNotificationWithDictionary:noteDict];
+		[[GrowlController singleton] dispatchNotificationWithDictionary:noteDict overrideCheck:YES];
 	NS_HANDLER
 		NSLog (@"error processing AppleScript request: %@", localException);
 		[self setError:ERROR_EXCEPTION failure:localException];

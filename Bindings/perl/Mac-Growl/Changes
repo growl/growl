@@ -10,4 +10,5 @@ Revision history for Perl extension Mac::Growl.
 	- Recreated by h2xs 1.23 with options
 		-A -n Mac::Growl -X
 	- Reimplemented using PerlObjCBridge
-
+0.26  Tue Aug 16 16:33:18 2004
+	- Modified to use modified notification posting protocol

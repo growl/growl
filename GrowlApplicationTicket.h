@@ -14,23 +14,20 @@
 	NSImage			*_icon;						// This app's icon for notifications and display methods that want it
 	NSArray			*_allNotifications;			// All the notifications possible for this app
 	NSArray			*_defaultNotifications;		// The default notifications
-	NSArray			*_allowedNotifications;		// The allowed notifications
-	
-	GrowlController *_parent;					// The GrowlController from which we came
+	NSMutableArray	*_allowedNotifications;		// The allowed notifications
 	
 	BOOL			_useDefaults;				// Flag for whether this ticket just uses default
 }
 
-+ (NSDictionary *)allSavedTicketsWithParent:(GrowlController *)parent;
-+ (void)loadTicketsWithParent:(GrowlController *)parent fromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber;
++ (NSDictionary *)allSavedTickets;
++ (void)loadTicketsFromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber;
 
-- (id) initWithApplication:(NSString *)inAppName 
-				  withIcon:(NSImage *)inIcon 
-		  andNotifications:(NSArray *) inAllNotifications 
-		   andDefaultNotes:(NSArray *) inDefaults 
-				fromParent:(GrowlController *) parent;
+- (id) initWithApplication:(NSString *)inAppName
+				  withIcon:(NSImage *)inIcon
+		  andNotifications:(NSArray *) inAllNotifications
+		   andDefaultNotes:(NSArray *) inDefaults;
 
-- (id) initTicketFromPath:(NSString *) inPath withParent:(GrowlController *) inParent;
+- (id) initTicketFromPath:(NSString *) inPath;
 - (void) saveTicket;
 - (void) saveTicketToPath:(NSString *)destDir;
 
@@ -38,6 +35,8 @@
 
 - (NSImage *) icon;
 - (void) setIcon:(NSImage *) inIcon;
+
+- (NSString *) applicationName;
 
 #pragma mark -
 
@@ -47,9 +46,10 @@
 - (NSArray *) defaultNotifications;
 - (void) setDefaultNotifications:(NSArray *) inArray;
 
-#pragma mark -
-
-- (void) registerParentForNotifications:(NSArray *) inArray;
-- (void) unregisterParentForNotifications:(NSArray *) inArray;
+- (NSArray *) allowedNotifications;
+- (void) setAllowedNotifications:(NSArray *) inArray;
+- (void) setNotificationEnabled:(NSString *) name;
+- (void) setNotificationDisabled:(NSString *) name;
+- (BOOL) isNotificationAllowed:(NSString *) name;
 @end
 

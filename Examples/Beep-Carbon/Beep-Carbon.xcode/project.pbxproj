@@ -241,14 +241,14 @@
 			files = (
 			);
 			inputPaths = (
-				GenCarbonHeaders.pl,
+				$SRCROOT/../../GrowlDefines.h,
 			);
 			isa = PBXShellScriptBuildPhase;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = "/usr/bin/env perl";
-			shellScript = "";
+			shellPath = /bin/sh;
+			shellScript = "cd $SRCROOT/../..\n/usr/bin/perl GenCarbonHeader.pl";
 		};
 		07D0C5CE068A48340076D89A = {
 			isa = PBXFileReference;
@@ -431,6 +431,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				OPTIMIZATION_CFLAGS = "-O0";
 				SKIP_INSTALL = YES;
 				UNSTRIPPED_PRODUCT = YES;

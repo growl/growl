@@ -66,7 +66,7 @@ void PostCFNotification(CFNotificationCenterRef notificationCenter, struct CFnot
 			"\tdeliverImmediately: %hhu"),
 			notification->title, notification->userInfo, deliverImmediately);
 #endif
-		CFNotificationCenterPostNotification(notificationCenter, notification->title, /*object*/ NULL, notification->userInfo, deliverImmediately);
+		CFNotificationCenterPostNotification(notificationCenter, GROWL_NOTIFICATION, /*object*/ NULL, notification->userInfo, deliverImmediately);
 	}
 
 	CFRelease(notificationCenter);
@@ -125,10 +125,13 @@ void UpdateCFNotificationUserInfoForGrowl(struct CFnotification *notification) {
 
 		CFDictionarySetValue(notification->userInfo, GROWL_APP_NAME, appName);
 
-		if(notification->title)
+		if(notification->title) {
 			CFDictionarySetValue(notification->userInfo, GROWL_NOTIFICATION_TITLE, notification->title);
-		else
+			CFDictionarySetValue(notification->userInfo, GROWL_NOTIFICATION_NAME, notification->title);
+		} else {
 			CFDictionaryRemoveValue(notification->userInfo, GROWL_NOTIFICATION_TITLE);
+			CFDictionaryRemoveValue(notification->userInfo, GROWL_NOTIFICATION_NAME);
+		}
 
 		if(notification->desc)
 			CFDictionarySetValue(notification->userInfo, GROWL_NOTIFICATION_DESCRIPTION, notification->desc);

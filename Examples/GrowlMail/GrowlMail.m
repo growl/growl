@@ -10,7 +10,7 @@
 #import <GrowlAppBridge/GrowlApplicationBridge.h>
 #import "GrowlDefines.h"
 
-static NSString *newMail = @"GrowlMail: You've got mail!";
+static NSString *newMail = @"New Mail";
 static NSString *mailAppName = @"Mail";
 
 
@@ -62,11 +62,12 @@ static NSString *mailAppName = @"Mail";
 	if([[userInfo objectForKey:@"NewMailWasReceived"] boolValue]){
 		//NSLog(@"%@ has received new mail!",[account displayName]);
 		NSDictionary *notif = [NSDictionary dictionaryWithObjectsAndKeys:
+			newMail, GROWL_NOTIFICATION_NAME,
 			mailAppName, GROWL_APP_NAME,
 			[account displayName], GROWL_NOTIFICATION_TITLE,
 			@"New mail is available", GROWL_NOTIFICATION_DESCRIPTION,
 			nil];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:newMail
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																	   object:nil
 																	 userInfo:notif];
 	}

@@ -30,13 +30,14 @@ int main (int argc, const char **argv) {
 								userInfo:userInfo];
 
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+			notificationName, GROWL_NOTIFICATION_NAME,
 			@"growlnotify", GROWL_APP_NAME,
 			title, GROWL_NOTIFICATION_TITLE,
 			desc, GROWL_NOTIFICATION_DESCRIPTION,
 			[NSData data], GROWL_NOTIFICATION_ICON,
 			nil];
 		NSLog(@"Sending notification with title @\"%@\"", title);
-		[distCenter postNotificationName:notificationName
+		[distCenter postNotificationName:GROWL_NOTIFICATION
 								  object:nil
 								userInfo:userInfo];
 	}

@@ -11,7 +11,7 @@
 
 @implementation GrowlApplicationTicket
 
-+ (NSDictionary *)allSavedTicketsWithParent:(GrowlController *)parent {
++ (NSDictionary *)allSavedTickets {
 	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, /*expandTilde*/ YES);
 	NSEnumerator *libraryDirEnum = [libraryDirs objectEnumerator];
 	NSString *libraryPath, *growlSupportPath;
@@ -21,16 +21,16 @@
 		growlSupportPath = [libraryPath stringByAppendingPathComponent:@"Application Support"];
 		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Growl"];
 		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Tickets"];
-		[self loadTicketsWithParent:parent fromDirectory:growlSupportPath intoDictionary:result clobbering:YES];
+		[self loadTicketsFromDirectory:growlSupportPath intoDictionary:result clobbering:YES];
 		//import old tickets.
 		growlSupportPath = [libraryPath stringByAppendingPathComponent:@"Growl Support"];
-		[self loadTicketsWithParent:parent fromDirectory:growlSupportPath intoDictionary:result clobbering:NO];
+		[self loadTicketsFromDirectory:growlSupportPath intoDictionary:result clobbering:NO];
 	}
 
 	return result;
 }
 
-+ (void)loadTicketsWithParent:(GrowlController *)parent fromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber {
++ (void)loadTicketsFromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber {
 	NSFileManager *mgr = [NSFileManager defaultManager];
 	BOOL isDir;
 	NSDirectoryEnumerator *growlSupportEnum = [mgr enumeratorAtPath:srcDir];
@@ -40,58 +40,46 @@
 		filename = [srcDir stringByAppendingPathComponent:filename];
 		[mgr fileExistsAtPath:filename isDirectory:&isDir];
 		if((!isDir) && [[filename pathExtension] isEqualToString:@"growlTicket"]) {
-			NSString *appName = [[filename lastPathComponent] stringByDeletingPathExtension];
+			GrowlApplicationTicket *newTicket = [[self alloc] initTicketFromPath:filename];
+			NSString *appName = [newTicket applicationName];
 			if(clobber || ![dict objectForKey:appName]) {
-				GrowlApplicationTicket *newTicket = [[self alloc] initTicketFromPath:filename withParent:parent];
 				[dict setObject:newTicket forKey:appName];
 				[newTicket release];
 			}
 		}
 	}
-}	
+}
 
-- (id) initWithApplication:(NSString *)inAppName 
-				  withIcon:(NSImage *)inIcon 
-		  andNotifications:(NSArray *) inAllNotifications 
-		   andDefaultNotes:(NSArray *) inDefaults 
-				fromParent:(GrowlController *)parent {
+- (id) initWithApplication:(NSString *)inAppName
+				  withIcon:(NSImage *)inIcon
+		  andNotifications:(NSArray *) inAllNotifications
+		   andDefaultNotes:(NSArray *) inDefaults {
 
 	if ( self = [super init] ) {
 		_appName	= [inAppName retain];
 		_icon		= [inIcon retain];
 		_allNotifications = [inAllNotifications retain];
 		_defaultNotifications = [inDefaults retain];
-		_allowedNotifications = [inDefaults copy];
-		_parent = [parent retain];
+		_allowedNotifications = [[NSMutableArray alloc] init];
+		[self setAllowedNotifications:inDefaults];
 		
 		_useDefaults = YES;
-		[self registerParentForNotifications:inDefaults];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[self unregisterParentForNotifications:_allowedNotifications];
-	
 	[_appName release];
 	[_icon release];
 	[_allNotifications release];
 	[_defaultNotifications release];
 	[_allowedNotifications release];
-	[_parent release];
-	
-	_appName = nil;
-	_icon = nil;
-	_allNotifications = nil;
-	_defaultNotifications = nil;
-	_allowedNotifications = nil;
-	_parent = nil;
 	
 	[super dealloc];
 }
 
 #pragma mark -
-- (id) initTicketFromPath:(NSString *) inPath withParent:(GrowlController *) inParent {
+- (id) initTicketFromPath:(NSString *) inPath {
 	//load a Plist file of this object to maintain configuration through launches
 	if ( self = [super init] ) {
 		NSLog(@"Loading from path: %@\n", inPath);
@@ -99,12 +87,10 @@
 		_appName = [[ticketsList objectForKey:GROWL_APP_NAME] retain];
 		_defaultNotifications = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
 		_allNotifications = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL]];
-		_allowedNotifications = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_USER_SET] retain];		
+		_allowedNotifications = [[NSMutableArray alloc] init];
+		[self setAllowedNotifications:[ticketsList objectForKey:GROWL_NOTIFICATIONS_USER_SET]];
 		_icon = [[[NSWorkspace sharedWorkspace] iconForApplication:_appName] retain];
-		_parent = [inParent retain];
 		_useDefaults = [[ticketsList objectForKey:@"useDefaults"] boolValue];
-		
-		[self registerParentForNotifications:_allowedNotifications];
 	}
 	
 	return self;
@@ -136,10 +122,9 @@
 		nil];
 	
 //	NSString *aString = [saveDict description];
-	NSLog( @"%@ to be saved as \"XML Plist\"", saveDict );
 	[saveDict writeToFile:savePath atomically:YES];
-	NSLog( @"File saved to %@", savePath );
-}	
+	NSLog( @"Ticket saved to %@", savePath );
+}
 
 #pragma mark -
 
@@ -153,77 +138,76 @@
 	}
 }
 
+- (NSString *) applicationName {
+	return _appName;
+}
+
+#pragma mark -
+
+- (NSString *) description {
+	return [NSString stringWithFormat:@"<GrowlApplicationTicket: %p>{\n\tApplicationName: \"%@\"\n\ticon: %@\n\tAll Notifications: %@\n\tDefault Notifications: %@\n\tAllowed Notifications: %@\n\tUse Defaults: %@",
+		self, _appName, _icon, _allNotifications, _defaultNotifications, _allowedNotifications, ( _useDefaults ? @"YES" : @"NO" )];
+}
+
 #pragma mark -
 
 - (NSArray *) allNotifications {
-	return _allNotifications;
+	return [[_allNotifications retain] autorelease];
 }
 
 - (void) setAllNotifications:(NSArray *) inArray {
 	if ( inArray != _allNotifications ) {
 		[_allNotifications release];
 		_allNotifications = [inArray retain];
+		
+		NSMutableSet * tmp;
+		NSSet * inSet = [NSSet setWithArray:inArray];
+		
+		//Intersect the allowed and default sets with the new set
+		tmp = [NSMutableSet setWithArray:_allowedNotifications];
+		[tmp intersectSet:inSet];
+		[_allowedNotifications setArray:[tmp allObjects]];
+		
+		tmp = [NSMutableSet setWithArray:_defaultNotifications];
+		[tmp intersectSet:inSet];
+		[_defaultNotifications autorelease];
+		_defaultNotifications = [[tmp allObjects] retain];
 	}
-	
-	NSMutableSet * tmp;
-	NSSet * inSet = [NSSet setWithArray:inArray];
-	
-#warning Someone look at this - it doesn't seem efficient, but it's the easiest way I came up with.
-	//Intersect the allowed and default sets with the new set
-	[self unregisterParentForNotifications:_allowedNotifications];
-	tmp = [NSMutableSet setWithArray:_allowedNotifications];
-	[tmp intersectSet:inSet];
-	[_allowedNotifications release];
-	_allowedNotifications = [[tmp allObjects] retain];
-	[self registerParentForNotifications:_allowedNotifications];
-	
-	tmp = [NSMutableSet setWithArray:_defaultNotifications];
-	[tmp intersectSet:inSet];
-	[_defaultNotifications release];
-	_defaultNotifications = [[tmp allObjects] retain];
 }
 
 - (NSArray *) defaultNotifications {
-	return _defaultNotifications;
+	return [[_defaultNotifications retain] autorelease];
 }
 
 - (void) setDefaultNotifications:(NSArray *) inArray {
-	[_defaultNotifications release];
+	[_defaultNotifications autorelease];
 	_defaultNotifications = [inArray retain];
 	
 	if(_useDefaults) {
-		[self unregisterParentForNotifications:_allowedNotifications];
-		[self registerParentForNotifications:inArray];
-		[_allowedNotifications release];
-		_allowedNotifications = [inArray retain];
+		[self setAllowedNotifications:inArray];
 	}
 }
 
+- (NSArray *) allowedNotifications {
+	return [NSArray arrayWithArray:_allowedNotifications];
+}
 
-#pragma mark -
-- (void) registerParentForNotifications:(NSArray *) inArray {
-	NSEnumerator *note = [inArray objectEnumerator];
-	NSString *obj = nil;
-	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
-	while ( obj = [note nextObject] ) { //register the Controller for all the passed Notifications
-		//NSLog(@"Registering for notification @\"%@\" from app with name @\"%@\"", obj, _appName);
-		[distCenter addObserver:_parent 
-					   selector:@selector(dispatchNotification:) 
-						   name:obj 
-						 object:nil];
+- (void) setAllowedNotifications:(NSArray *) inArray {
+	[_allowedNotifications setArray:inArray];
+}
+
+- (void) setNotificationEnabled:(NSString *) name {
+	if (![_allowedNotifications containsObject:name]) {
+		[_allowedNotifications addObject:name];
 	}
 }
 
-- (void) unregisterParentForNotifications:(NSArray *) inArray {
-	NSEnumerator *note = [inArray objectEnumerator];
-	NSString *obj = nil; 
-	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
-	while ( obj = [note nextObject] ) { //unregister the Controller for all the passed Notifications
-		//NSLog(@"Unregistering for notification @\"%@\" from app with name @\"%@\"", obj, _appName);
-		[distCenter removeObserver:_parent 
-							  name:obj 
-							object:nil];
-	}
+- (void) setNotificationDisabled:(NSString *) name {
+	[_allowedNotifications removeObject:name];
+}
+
+- (BOOL) isNotificationAllowed:(NSString *) name {
+	return [_allowedNotifications containsObject:name];
 }
 @end
 

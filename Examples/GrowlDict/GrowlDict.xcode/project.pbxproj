@@ -5,20 +5,31 @@
 	};
 	objectVersion = 39;
 	objects = {
-		D317D4D206766FE700011E08 = {
-			fileEncoding = 30;
+		0AAFBBC006D2BDB100BA1A13 = {
+			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlDefines.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = GrowlDefines.h;
+			path = ../../GrowlDefines.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
-		D317D4D306766FE700011E08 = {
-			fileRef = D317D4D206766FE700011E08;
+		0AAFBBC106D2BDB100BA1A13 = {
+			fileRef = 0AAFBBC006D2BDB100BA1A13;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
+//0A0
+//0A1
+//0A2
+//0A3
+//0A4
+//D30
+//D31
+//D32
+//D33
+//D34
 		D3A9100F068DFBCE0079DB8F = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -36,10 +47,10 @@
 		D3E21B160675FC3F005772E5 = {
 			children = (
 				D3A9100F068DFBCE0079DB8F,
-				D317D4D206766FE700011E08,
 				D3E21B270675FC5E005772E5,
 				D3E21BBE0675FC72005772E5,
 				D3E21C3A0675FCBB005772E5,
+				0AAFBBC006D2BDB100BA1A13,
 				D3E21C5C0675FDC1005772E5,
 				D3E21C5D0675FDC1005772E5,
 				D3E21C6D0675FE21005772E5,
@@ -142,7 +153,7 @@
 			files = (
 				D3E21FB106760711005772E5,
 				D3E21FB206760711005772E5,
-				D317D4D306766FE700011E08,
+				0AAFBBC106D2BDB100BA1A13,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

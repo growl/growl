@@ -24,10 +24,6 @@ class GrowlNotifier(object):
     `defaultNotifications' is optional, and defaults to the value of
     `notifications'.  `applicationIcon' is also optional but defaults
     to a pointless icon so is better to be specified.
-    
-    Note: It appears that notifications aren't displayed if the delay
-          between registering and posting is less than approximately
-          0.1 seconds.
     """
     
     applicationName = 'GrowlNotifier'
@@ -77,7 +73,8 @@ class GrowlNotifier(object):
         if icon is None:
             icon = self.applicationIcon
         
-        n = {'ApplicationName': self.applicationName,
+        n = {'NotificationName': noteType,
+             'ApplicationName': self.applicationName,
              'NotificationTitle': title,
              'NotificationDescription': description,
              'NotificationDefault': NSNumber.numberWithBool_(True),
@@ -88,7 +85,7 @@ class GrowlNotifier(object):
 
         d = NSDictionary.dictionaryWithDictionary_(n)
         notCenter = NSDistributedNotificationCenter.defaultCenter()
-        notCenter.postNotificationName_object_userInfo_deliverImmediately_(noteType, None, d, True)
+        notCenter.postNotificationName_object_userInfo_deliverImmediately_('GrowlNotification', None, d, True)
 
 def main():
     from Foundation import NSRunLoop, NSDate

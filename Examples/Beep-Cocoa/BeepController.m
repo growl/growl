@@ -51,6 +51,7 @@
 	}
 	
 	NSDictionary *aNuDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		[_newNotificationTitle stringValue], GROWL_NOTIFICATION_NAME,
 		[_newNotificationTitle stringValue], GROWL_NOTIFICATION_TITLE,
 		[_newNotificationDescription stringValue], GROWL_NOTIFICATION_DESCRIPTION,
 		@"Beep-Cocoa", GROWL_APP_NAME,
@@ -145,7 +146,7 @@
 		id note = [_notifications objectAtIndex:[_notificationsTable selectedRow]];
 		
 		//NSLog( @"note - %@", note );
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:[note objectForKey:GROWL_NOTIFICATION_TITLE] 
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION 
 																	   object:nil 
 																	 userInfo:note
 														   deliverImmediately:YES];

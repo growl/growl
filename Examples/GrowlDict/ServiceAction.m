@@ -63,14 +63,16 @@
 	}
 	
 	//Throw it in a dictionary and send it to growl
-	NSDictionary *growlEvent = [NSDictionary dictionaryWithObjectsAndKeys:			@"Dictmenu-Definition", GROWL_NOTIFICATION_TITLE,
+	NSDictionary *growlEvent = [NSDictionary dictionaryWithObjectsAndKeys:
+		@"Dictmenu-Definition", GROWL_NOTIFICATION_NAME,
+		@"Dictmenu-Definition", GROWL_NOTIFICATION_TITLE,
 		curlResult, GROWL_NOTIFICATION_DESCRIPTION,
 		@"Dictmenu", GROWL_APP_NAME,
 		defaultValue, GROWL_NOTIFICATION_DEFAULT,
 		nil, GROWL_NOTIFICATION_ICON,
 		nil];
 	
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"Dictmenu-Definition" object:nil userInfo:growlEvent];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION object:nil userInfo:growlEvent];
 	
 	[curlTask release];	
 	

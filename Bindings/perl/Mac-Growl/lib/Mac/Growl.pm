@@ -27,22 +27,24 @@ our @EXPORT = qw(
 	
 );
 
-use constant GROWL_APP_NAME 						=> "ApplicationName";
-use constant GROWL_APP_ICON 						=> "ApplicationIcon";
+use constant GROWL_APP_NAME						=> "ApplicationName";
+use constant GROWL_APP_ICON						=> "ApplicationIcon";
 
-use constant GROWL_NOTIFICATIONS_DEFAULT 		=> "DefaultNotifications";
-use constant GROWL_NOTIFICATIONS_ALL 			=> "AllNotifications";
-use constant GROWL_NOTIFICATIONS_USER_SET 		=> "AllowedUserNotifications";
+use constant GROWL_NOTIFICATIONS_DEFAULT		=> "DefaultNotifications";
+use constant GROWL_NOTIFICATIONS_ALL			=> "AllNotifications";
+use constant GROWL_NOTIFICATIONS_USER_SET		=> "AllowedUserNotifications";
 
-use constant GROWL_NOTIFICATION_TITLE 			=> "NotificationTitle";
-use constant GROWL_NOTIFICATION_DESCRIPTION 		=> "NotificationDescription";
-use constant GROWL_NOTIFICATION_ICON 			=> "NotificationIcon";
+use constant GROWL_NOTIFICATION_NAME			=> "NotificationName";
+use constant GROWL_NOTIFICATION_TITLE			=> "NotificationTitle";
+use constant GROWL_NOTIFICATION_DESCRIPTION		=> "NotificationDescription";
+use constant GROWL_NOTIFICATION_ICON			=> "NotificationIcon";
 
-use constant GROWL_APP_REGISTRATION 				=> "GrowlApplicationRegistrationNotification";
-use constant GROWL_APP_REGISTRATION_CONF 		=> "GrowlApplicationRegistrationConfirmationNotification";
+use constant GROWL_APP_REGISTRATION				=> "GrowlApplicationRegistrationNotification";
+use constant GROWL_APP_REGISTRATION_CONF		=> "GrowlApplicationRegistrationConfirmationNotification";
+use constant GROWL_NOTIFICATION					=> "GrowlNotification";
 
-use constant GROWL_PING 							=> "Honey, Mind Taking Out The Trash";
-use constant GROWL_PONG 							=> "What Do You Want From Me, Woman";
+use constant GROWL_PING							=> "Honey, Mind Taking Out The Trash";
+use constant GROWL_PONG							=> "What Do You Want From Me, Woman";
 
 our $VERSION = '0.25';
 
@@ -78,12 +80,13 @@ sub PostNotification($$$$)
 	my ($appName, $noteName, $noteTitle, $noteDescription) = @_;
 	
 	my $noteDict = NSMutableDictionary->dictionary();
+	$noteDict->setObject_forKey_($noteName,GROWL_NOTIFICATION_NAME);
 	$noteDict->setObject_forKey_($appName,GROWL_APP_NAME);
 	$noteDict->setObject_forKey_($noteTitle,GROWL_NOTIFICATION_TITLE);
 	$noteDict->setObject_forKey_($noteDescription,GROWL_NOTIFICATION_DESCRIPTION);
 	
 	NSDistributedNotificationCenter->defaultCenter()->postNotificationName_object_userInfo_(
-				$noteName,
+				GROWL_NOTIFICATION,
 				undef,
 				$noteDict);	
 }
