@@ -189,7 +189,7 @@
  *	 For most applications, these two arrays can be the same (if all sent
  *	 notifications should be displayed by default).
  * 
- *	 The NSString objects of these arrays will corresopnd to the
+ *	 The NSString objects of these arrays will correspond to the
  *	 notificationName: parameter passed in +[GrowlApplicationBridge
  *	 notifyWithTitle:description:notificationName:iconData:priority:isSticky:
  *	 clickContext:] calls.
