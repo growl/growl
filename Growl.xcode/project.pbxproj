@@ -70,6 +70,7 @@
 		073F050D0779C2C800AE8D60 = {
 			children = (
 				097889E6076ED0E300071EB6,
+				950D794C07901E93001E71B2,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlLogPrefs.nib;
@@ -2844,6 +2845,14 @@
 			lastKnownFileType = wrapper.nib;
 			name = German;
 			path = German.lproj/GrowlPref.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		950D794C07901E93001E71B2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = German.lproj/GrowlLogPrefs.nib;
 			refType = 4;
 			sourceTree = "<group>";
 		};
