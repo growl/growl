@@ -389,8 +389,7 @@
 			sourceTree = "<group>";
 		};
 		20286C33FDCF999611CA2CEA = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Carbon.framework;
 			path = /System/Library/Frameworks/Carbon.framework;
@@ -426,8 +425,6 @@
 //4A3
 //4A4
 		4A9504C5FFE6A39111CA0CBA = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
@@ -443,8 +440,6 @@
 			name = Development;
 		};
 		4A9504C6FFE6A39111CA0CBA = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -592,7 +587,7 @@
 		8D0C4E960486CD37000505A6 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
+			lastKnownFileType = text.xml;
 			path = "Beep-Carbon-Info.plist";
 			refType = 4;
 			sourceTree = "<group>";

@@ -6,8 +6,6 @@
 	objectVersion = 39;
 	objects = {
 		014CEA440018CDF011CA2923 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
@@ -22,8 +20,6 @@
 			name = Development;
 		};
 		014CEA450018CDF011CA2923 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -140,8 +136,7 @@
 			sourceTree = "<group>";
 		};
 		1058C7B1FEA5585E11CA2CBB = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Cocoa.framework;
 			path = /System/Library/Frameworks/Cocoa.framework;
@@ -266,7 +261,7 @@
 		147E023D068A0A3200ADA868 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
+			lastKnownFileType = text.xml;
 			path = "GrowlAppBridge-Info.plist";
 			refType = 4;
 			sourceTree = "<group>";

@@ -13,7 +13,7 @@
 		};
 		07D08B21068D3DA800756873 = {
 			isa = PBXFileReference;
-			lastKnownFileType = file;
+			lastKnownFileType = sourcecode.scpt;
 			name = quitiTunes.scpt;
 			path = Scripts/quitiTunes.scpt;
 			refType = 4;
@@ -94,8 +94,7 @@
 			sourceTree = "<group>";
 		};
 		1058C7A1FEA54F0111CA2CBB = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Cocoa.framework;
 			path = /System/Library/Frameworks/Cocoa.framework;
@@ -221,8 +220,7 @@
 			sourceTree = "<group>";
 		};
 		29B97324FDCFA39411CA2CEA = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = AppKit.framework;
 			path = /System/Library/Frameworks/AppKit.framework;
@@ -230,8 +228,7 @@
 			sourceTree = "<absolute>";
 		};
 		29B97325FDCFA39411CA2CEA = {
-			fallbackIsa = PBXFileReference;
-			isa = PBXFrameworkReference;
+			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Foundation.framework;
 			path = /System/Library/Frameworks/Foundation.framework;
@@ -267,8 +264,6 @@
 //4A3
 //4A4
 		4A9504CCFFE6A4B311CA0CBA = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
@@ -283,8 +278,6 @@
 			name = Development;
 		};
 		4A9504CDFFE6A4B311CA0CBA = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -341,7 +334,7 @@
 //524
 		5275B5410687D634006F5704 = {
 			isa = PBXFileReference;
-			lastKnownFileType = file;
+			lastKnownFileType = sourcecode.scpt;
 			name = getArtist.scpt;
 			path = Scripts/getArtist.scpt;
 			refType = 4;
@@ -349,7 +342,7 @@
 		};
 		5275B5420687D634006F5704 = {
 			isa = PBXFileReference;
-			lastKnownFileType = file;
+			lastKnownFileType = sourcecode.scpt;
 			name = getArtwork.scpt;
 			path = Scripts/getArtwork.scpt;
 			refType = 4;
@@ -357,7 +350,7 @@
 		};
 		5275B5430687D634006F5704 = {
 			isa = PBXFileReference;
-			lastKnownFileType = file;
+			lastKnownFileType = sourcecode.scpt;
 			name = getTrack.scpt;
 			path = Scripts/getTrack.scpt;
 			refType = 4;
@@ -365,7 +358,7 @@
 		};
 		5275B5440687D634006F5704 = {
 			isa = PBXFileReference;
-			lastKnownFileType = file;
+			lastKnownFileType = sourcecode.scpt;
 			name = polliTunes.scpt;
 			path = Scripts/polliTunes.scpt;
 			refType = 4;
@@ -412,7 +405,7 @@
 		};
 		5275B5A9068922A2006F5704 = {
 			isa = PBXFileReference;
-			lastKnownFileType = file;
+			lastKnownFileType = sourcecode.scpt;
 			name = getAlbum.scpt;
 			path = Scripts/getAlbum.scpt;
 			refType = 4;

@@ -51,8 +51,6 @@
 			sourceTree = "<group>";
 		};
 		D3E21B180675FC3F005772E5 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 			};
@@ -60,8 +58,6 @@
 			name = Development;
 		};
 		D3E21B190675FC3F005772E5 = {
-			buildRules = (
-			);
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 			};
@@ -103,7 +99,7 @@
 		D3E21C3A0675FCBB005772E5 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
+			lastKnownFileType = text.xml;
 			path = "Info-GrowlDict.plist";
 			refType = 4;
 			sourceTree = "<group>";
@@ -244,7 +240,7 @@
 			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			path = GrowlDict.app;
+			path = Dictmenu.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
