@@ -8,16 +8,29 @@ To-Do
 		{Easy enough to do.  I will get on this, because I am adding some features to the pref pane, and want to make some standardized thing (graphite)}
 		
 			then write the glue/controller for the bubbles notifications to work 
-		Decide what types of notifications we want to include (bezel, square, bubbles, speech, beeps, etc)
+
 			The default notification Plugin will be in Growl.syspref/Resources/
-			Make default install directory for display plugins ~/Library/Application Support/Growl/
+		Make default install directory for display plugins ~/Library/Application Support/Growl/Plugins
 		Add a define/macro to GrowlDefines that can get the display plugins
+
+	- Display Plugins
+		- Write an abstract way for all plugins to print a ellipsis when text would spill past the edge of a notification.
+		- Write an abstract way for all plugins to be moved arbitrarily by the user.
+		- Write an abstract way for plugins to expand. Horizontal and vertical expanding. Have these off by default for all plugins.
+		- Display types wanted:
+			- A square
+			- Speech
+			- iCal scheduled events look
+			- Garage Band black look.
+			- Brushed Metal look.
 
 
 - Bindings
 	- Real Basic:
-		Real Basic Binding needs to be coded 
+		Real Basic Binding needs to be finished
+		Documentation on this
 	- Python:
+		Up to date documentation
 		Write a C extension for python so we do not rely on PyObjc anymore
 	- Perl:
 		Setup a way for icons to be displayed
@@ -34,12 +47,15 @@ To-Do
 	- Java:
 		A java binding would be nice
 	- Applescript:
+		Add support for registering applications with Growl so they show up in the PrefPane.
+		Documentation for the entourage and mail.app scripts. These should have screen shots, and be on the website.
+			ref: http://cia.navi.cx/stats/author/the_tick/.message/2670177 for entourage.
 
 - Sample Apps and Code:
 	- Beep Specific To DO:
 		Connect sheet 
 	- GrowlTunes Specific To DO:
-		Make it work with streams (e.g. iTMS previews, radio stuff)
+		Make GrowlTunes work with streams (e.g. iTMS previews, radio stuff)
 		Grab album art from the web
 			We have a plugin architecture in GrowlTunes for this.
 
