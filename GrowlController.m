@@ -61,7 +61,7 @@ static id singleton = nil;
 
 - (id) init {
 	if ( (self = [super init]) ) {
-		NSDistributedNotificationCenter * NSDNC = [NSDistributedNotificationCenter defaultCenter];
+		NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
 
 		[NSDNC addObserver:self 
 				  selector:@selector( _registerApplication: ) 
@@ -377,26 +377,27 @@ static id singleton = nil;
 
 - (void) preferencesChanged: (NSNotification *) note {
 	//[note object] is the changed key. A nil key means reload our tickets.	
-	if (note == nil || [[note object] isEqualTo:GrowlStartServerKey]) {
+	id object = [note object];
+	if (note == nil || [object isEqualTo:GrowlStartServerKey]) {
 		[self startStopServer];
 	}
-	if (note == nil || [[note object] isEqualTo:GrowlUserDefaultsKey]) {
+	if (note == nil || [object isEqualTo:GrowlUserDefaultsKey]) {
 		[[GrowlPreferences preferences] synchronize];
 	}
-	if (note == nil || [[note object] isEqualTo:GrowlEnabledKey]) {
+	if (note == nil || [object isEqualTo:GrowlEnabledKey]) {
 		growlIsEnabled = [[[GrowlPreferences preferences] objectForKey:GrowlEnabledKey] boolValue];
 	}
-	if (note == nil || [[note object] isEqualTo:GrowlEnableForwardKey]) {
+	if (note == nil || [object isEqualTo:GrowlEnableForwardKey]) {
 		enableForward = [[[GrowlPreferences preferences] objectForKey:GrowlEnableForwardKey] boolValue];
 	}
-	if (note == nil || [[note object] isEqualTo:GrowlForwardDestinationsKey]) {
+	if (note == nil || [object isEqualTo:GrowlForwardDestinationsKey]) {
 		destinations = [[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey];
 	}
-	if (note == nil || [note object] == nil) {
+	if (note == nil || object == nil) {
 		[tickets removeAllObjects];
 		[self loadTickets];
 	}
-	if (note == nil || [[note object] isEqualTo:GrowlDisplayPluginKey]) {
+	if (note == nil || [object isEqualTo:GrowlDisplayPluginKey]) {
 		[self loadDisplay];
 	}
 }
@@ -460,7 +461,7 @@ static id singleton = nil;
 	NSString *destDir, *subDir;
 	NSArray *searchPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES);
 
-	destDir = [searchPath objectAtIndex:0];
+	destDir = [searchPath objectAtIndex:0U]; //first == last == ~/Library
 	[fs createDirectoryAtPath:destDir attributes:nil];
 	destDir = [destDir stringByAppendingPathComponent:@"Application Support"];
 	[fs createDirectoryAtPath:destDir attributes:nil];
@@ -487,6 +488,10 @@ static id singleton = nil;
 
 - (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) theApplication {
 	return NO;
+}
+
+- (void)applicationWillTerminate:(NSNotification *)notification {
+	[self release];
 }
 
 @end
