@@ -248,6 +248,7 @@
 			children = (
 				5282FC4E06DD9BC300179624,
 				A14BBF0D06EE6DF100530EED,
+				6C86F87206F04E8D008EA344,
 			);
 			isa = PBXGroup;
 			name = "Growl Headers";
@@ -267,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A14BBF0E06EE6DF100530EED,
+				6C86F87406F04E8D008EA344,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,6 +373,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C60D7C506F044D60025909F,
+				6C86F85806F04AB2008EA344,
+				6C86F87306F04E8D008EA344,
+				6C86F88F06F0620D008EA344,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,6 +384,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C60D7C606F044D60025909F,
+				6C86F85906F04AB2008EA344,
+				6C86F89006F0620D008EA344,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,8 +464,12 @@
 		};
 		6C60D7C206F044A30025909F = {
 			children = (
+				6C86F88D06F0620D008EA344,
+				6C86F88E06F0620D008EA344,
 				6C60D7C306F044D60025909F,
 				6C60D7C406F044D60025909F,
+				6C86F85606F04AB2008EA344,
+				6C86F85706F04AB2008EA344,
 			);
 			isa = PBXGroup;
 			name = Bezel;
@@ -491,6 +502,87 @@
 		};
 		6C60D7C606F044D60025909F = {
 			fileRef = 6C60D7C406F044D60025909F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6C86F85606F04AB2008EA344 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlBezelWindowController.h;
+			path = Bezel/GrowlBezelWindowController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C86F85706F04AB2008EA344 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlBezelWindowController.m;
+			path = Bezel/GrowlBezelWindowController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C86F85806F04AB2008EA344 = {
+			fileRef = 6C86F85606F04AB2008EA344;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6C86F85906F04AB2008EA344 = {
+			fileRef = 6C86F85706F04AB2008EA344;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6C86F87206F04E8D008EA344 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = NSGrowlAdditions.h;
+			path = ../NSGrowlAdditions.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		6C86F87306F04E8D008EA344 = {
+			fileRef = 6C86F87206F04E8D008EA344;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6C86F87406F04E8D008EA344 = {
+			fileRef = 6C86F87206F04E8D008EA344;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6C86F88D06F0620D008EA344 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlBezelWindowView.h;
+			path = Bezel/GrowlBezelWindowView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C86F88E06F0620D008EA344 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlBezelWindowView.m;
+			path = Bezel/GrowlBezelWindowView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C86F88F06F0620D008EA344 = {
+			fileRef = 6C86F88D06F0620D008EA344;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6C86F89006F0620D008EA344 = {
+			fileRef = 6C86F88E06F0620D008EA344;
 			isa = PBXBuildFile;
 			settings = {
 			};

@@ -10,8 +10,17 @@
 #import <GrowlDisplayProtocol.h>
 
 
-@interface GrowlNSLogDisplay : NSObject <GrowlDisplayPlugin> {
-
+@interface GrowlBezelDisplay : NSObject <GrowlDisplayPlugin> {
 }
+
+- (void)loadPlugin;
+- (NSString *) author;
+- (NSString *) name;
+- (NSString *) userDescription;
+- (NSString *) version;
+- (void) unloadPlugin;
+- (NSDictionary*) pluginInfo;
+
+- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict;
 
 @end
