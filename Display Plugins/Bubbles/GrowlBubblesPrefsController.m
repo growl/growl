@@ -28,7 +28,7 @@
 
 	READ_GROWL_PREF_VALUE(GrowlBubblesVeryLowColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array) {
-		alpha = ([array length] >= 4U) ? [array objectAtIndex:3U] : 1.0f;
+		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 										  green:[[array objectAtIndex:1U] floatValue]
 										   blue:[[array objectAtIndex:2U] floatValue]
@@ -42,7 +42,7 @@
 	
 	READ_GROWL_PREF_VALUE(GrowlBubblesModerateColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array) {
-		alpha = ([array length] >= 4U) ? [array objectAtIndex:3U] : 1.0f;
+		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 										  green:[[array objectAtIndex:1U] floatValue]
 										   blue:[[array objectAtIndex:2U] floatValue]
@@ -56,7 +56,7 @@
 	
 	READ_GROWL_PREF_VALUE(GrowlBubblesNormalColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array) {
-		alpha = ([array length] >= 4U) ? [array objectAtIndex:3U] : 1.0f;
+		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 										  green:[[array objectAtIndex:1U] floatValue]
 										   blue:[[array objectAtIndex:2U] floatValue]
@@ -70,7 +70,7 @@
 
 	READ_GROWL_PREF_VALUE(GrowlBubblesHighColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array) {
-		alpha = ([array length] >= 4U) ? [array objectAtIndex:3U] : 1.0f;
+		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 										  green:[[array objectAtIndex:1U] floatValue]
 										   blue:[[array objectAtIndex:2U] floatValue]
@@ -84,7 +84,7 @@
 	
 	READ_GROWL_PREF_VALUE(GrowlBubblesEmergencyColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array) {
-		alpha = ([array length] >= 4U) ? [array objectAtIndex:3U] : 1.0f;
+		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 										  green:[[array objectAtIndex:1U] floatValue]
 										   blue:[[array objectAtIndex:2U] floatValue]
@@ -100,7 +100,7 @@
 
 	READ_GROWL_PREF_VALUE(GrowlBubblesVeryLowTextColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array) {
-		alpha = ([array length] >= 4U) ? [array objectAtIndex:3U] : 1.0f;
+		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 										  green:[[array objectAtIndex:1U] floatValue]
 										   blue:[[array objectAtIndex:2U] floatValue]
@@ -113,7 +113,7 @@
 	READ_GROWL_PREF_VALUE(GrowlBubblesModerateTextColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	color = [NSColor controlTextColor];
 	if (array) {
-		alpha = ([array length] >= 4U) ? [array objectAtIndex:3U] : 1.0f;
+		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 										  green:[[array objectAtIndex:1U] floatValue]
 										   blue:[[array objectAtIndex:2U] floatValue]
@@ -127,7 +127,7 @@
 	
 	READ_GROWL_PREF_VALUE(GrowlBubblesNormalTextColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array) {
-		alpha = ([array length] >= 4U) ? [array objectAtIndex:3U] : 1.0f;
+		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 										  green:[[array objectAtIndex:1U] floatValue]
 										   blue:[[array objectAtIndex:2U] floatValue]
@@ -141,7 +141,7 @@
 	
 	READ_GROWL_PREF_VALUE(GrowlBubblesHighTextColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array) {
-		alpha = ([array length] >= 4U) ? [array objectAtIndex:3U] : 1.0f;
+		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 										  green:[[array objectAtIndex:1U] floatValue]
 										   blue:[[array objectAtIndex:2U] floatValue]
@@ -155,7 +155,7 @@
 
 	READ_GROWL_PREF_VALUE(GrowlBubblesEmergencyTextColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array) {
-		alpha = ([array length] >= 4U) ? [array objectAtIndex:3U] : 1.0f;
+		alpha = ([array count] >= 4U) ? [[array objectAtIndex:3U] floatValue] : 1.0f;
 		color = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
 										  green:[[array objectAtIndex:1U] floatValue]
 										   blue:[[array objectAtIndex:2U] floatValue]
