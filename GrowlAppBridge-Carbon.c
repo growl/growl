@@ -1,14 +1,14 @@
 //
-//  GrowlAppBridge-Carbon.c
+//  GrowlApplicationBridge-Carbon.c
 //  Beep-Carbon
 //
 //  Created by Mac-arena the Bored Zo on Wed Jun 18 2004.
-//  Based on GrowlAppBridge.m by Evan Schoenberg.
+//  Based on GrowlApplicationBridge.m by Evan Schoenberg.
 //  This source code is in the public domain. You may freely link it into any
 //    program.
 //
 
-#include "GrowlAppBridge-Carbon.h"
+#include "GrowlApplicationBridge-Carbon.h"
 #include "GrowlDefinesCarbon.h"
 
 #define PREFERENCE_PANE_EXTENSION						CFSTR("prefPane")
@@ -74,22 +74,27 @@ Boolean LaunchGrowlIfInstalled(GrowlLaunchCallback callback, void *context)
 				CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlIsReady, _growlIsReady, GROWL_IS_READY, /*object*/ NULL, CFNotificationSuspensionBehaviorCoalesce);
 			
 				//We probably will never have more than one target/selector/context set at a time, but this is cleaner than the alternatives
-				if (!targetsToNotifyArray) targetsToNotifyArray = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
+				if (!targetsToNotifyArray)
+					targetsToNotifyArray = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
 
-				{
-					CFStringRef keys[] = { CFSTR("Callback"), CFSTR("Context") };
-					void *values[] = { (void *)callback, context };
-					CFDictionaryRef	infoDict = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, /*numValues*/ 2, &kCFTypeDictionaryKeyCallBacks, /*valueCallbacks*/ NULL);
-					if(infoDict) {
-						CFArrayAppendValue(targetsToNotifyArray, infoDict);
-						CFRelease(infoDict);
-					}
+				CFStringRef keys[] = { CFSTR("Callback"), CFSTR("Context") };
+				void *values[] = { (void *)callback, context };
+				CFDictionaryRef	infoDict = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, /*numValues*/ 2, &kCFTypeDictionaryKeyCallBacks, /*valueCallbacks*/ NULL);
+				if(infoDict) {
+					CFArrayAppendValue(targetsToNotifyArray, infoDict);
+					CFRelease(infoDict);
 				}
 			}
 
 			//Houston, we are go for launch.
 			//we use LSOpenFromURLSpec because it can act synchronously.
-			struct LSLaunchURLSpec launchSpec = { growlHelperAppURL, /*itemURLs*/ NULL, /*passThruParams*/ NULL, /*launchFlags*/ kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchNoParams, /*asyncRefCon*/ NULL };
+			struct LSLaunchURLSpec launchSpec = {
+				.appURL = growlHelperAppURL,
+				.itemURLs = NULL,
+				.passThruParams = NULL,
+				.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchNoParams,
+				.asyncRefCon = NULL,
+			};
 			success = (LSOpenFromURLSpec(&launchSpec, /*outLaunchedURL*/ NULL) == noErr);
 			CFRelease(growlHelperAppURL);
 		}

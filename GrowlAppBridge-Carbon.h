@@ -1,9 +1,9 @@
 //
-//  GrowlAppBridge-Carbon.h
+//  GrowlApplicationBridge-Carbon.h
 //  Growl
 //
 //  Created by Mac-arena the Bored Zo on Wed Jun 18 2004.
-//  Based on GrowlAppBridge.h by Evan Schoenberg.
+//  Based on GrowlApplicationBridge.h by Evan Schoenberg.
 //  This source code is in the public domain. You may freely link it into any
 //    program.
 //
