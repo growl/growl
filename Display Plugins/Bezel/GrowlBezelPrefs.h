@@ -9,6 +9,8 @@
 #import <PreferencePanes/PreferencePanes.h>
 #import "GrowlDefines.h"
 
+#define BezelPrefDomain				@"com.Growl.Bezel"
+
 #define BEZEL_POSITION_PREF			@"Bezel - Position"
 #define BEZEL_SIZE_PREF				@"Bezel - Size"
 #define BEZEL_OPACITY_PREF			@"Bezel - Opacity"

@@ -8,6 +8,7 @@
 
 #import "GrowlMusicVideoWindowView.h"
 #import "GrowlImageAdditions.h"
+#import "GrowlStringAdditions.h"
 
 @interface GrowlMusicVideoWindowView (PRIVATE)
 - (NSSize)resizeIcon:(NSImage *)theImage toSize:(NSSize)theSize;

@@ -16,7 +16,7 @@
 	SEL				_action;
 	id				_target;
 	id				_representedObject;
-	short			_displayTime;
+	double			_displayTime;
 	unsigned int	_id;
 	id				_plugin; // the GrowlSmokeDisplay object which created us
 }

@@ -82,13 +82,13 @@
 	[bezelPath lineToPoint:NSMakePoint(topLeft.x, topLeft.y + BORDER_RADIUS)];
 	
 	int opacityPref = 40;
-	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, @"com.Growl.Bezel", &opacityPref);
+	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
 	
-	[[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha:((float)opacityPref/100.)] set];
+	[[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:(opacityPref*0.01f)] set];
 	[bezelPath fill];
 	
 	int sizePref = 0;
-	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, @"com.Growl.Bezel", &sizePref);
+	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 	
 	// rects
 	NSRect titleRect, textRect;

@@ -10,4 +10,4 @@
 #define GrowlBubblesHighTextColor		@"Bubbles-Priority-High-Text-Color"
 #define GrowlBubblesEmergencyTextColor	@"Bubbles-Priority-Emergency-Text-Color"
 
-#define GrowlBubblesPrefDomain @"com.growl.BubblesNotificationView"
+#define GrowlBubblesPrefDomain @"com.growl.Bubbles"

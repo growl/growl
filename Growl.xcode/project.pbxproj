@@ -738,8 +738,8 @@
 		6C6E2B3F073A6D5400F1A95F = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.cfbundle;
-			name = BubblesNotificationView.growlView;
-			path = "Display Plugins/build/BubblesNotificationView.growlView";
+			name = Bubbles.growlView;
+			path = "Display Plugins/build/Bubbles.growlView";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -754,11 +754,11 @@
 			isa = PBXContainerItemProxy;
 			proxyType = 1;
 			remoteGlobalIDString = 07694BE5073A4ADE0079D1E5;
-			remoteInfo = BubblesNotificationView;
+			remoteInfo = Bubbles;
 		};
 		6C6E2B56073A6D7600F1A95F = {
 			isa = PBXTargetDependency;
-			name = "BubblesNotificationView (from Display Plugins.xcode)";
+			name = "Bubbles (from Display Plugins.xcode)";
 			targetProxy = 6C6E2B55073A6D7600F1A95F;
 		};
 		6CCCECD307144ECB00C5B203 = {
@@ -788,7 +788,7 @@
 		83282736073A6B750044A959 = {
 			fileType = wrapper.cfbundle;
 			isa = PBXReferenceProxy;
-			path = BubblesNotificationView.growlView;
+			path = Bubbles.growlView;
 			refType = 3;
 			remoteRef = 83282740073A6B8E0044A959;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -798,7 +798,7 @@
 			isa = PBXContainerItemProxy;
 			proxyType = 2;
 			remoteGlobalIDString = 07694BF7073A4ADE0079D1E5;
-			remoteInfo = BubblesNotificationView;
+			remoteInfo = Bubbles;
 		};
 		83282741073A6BD70044A959 = {
 			isa = PBXFileReference;

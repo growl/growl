@@ -13,11 +13,9 @@
 @implementation GrowlBezelWindowController
 
 #define TIMER_INTERVAL (1. / 30.)
-#define FADE_INCREMENT 0.05
+#define FADE_INCREMENT 0.05f
 #define MIN_DISPLAY_TIME 3.
-#define ADDITIONAL_LINES_DISPLAY_TIME 0.5
-#define MAX_DISPLAY_TIME 10.
-#define GrowlBezelPadding 10.
+#define GrowlBezelPadding 10.f
 
 + (GrowlBezelWindowController *)bezel {
 	return [[[self alloc] init] autorelease];
@@ -30,12 +28,16 @@
 
 - (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
 	int sizePref = 0;
-	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, @"com.Growl.Bezel", &sizePref);
+	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 	NSRect sizeRect;
+	sizeRect.origin.x = 0.f;
+	sizeRect.origin.y = 0.f;
 	if (sizePref == BEZEL_SIZE_NORMAL) {
-		sizeRect = NSMakeRect( 0., 0., 211., 206. );
+		sizeRect.size.width = 211.f;
+		sizeRect.size.height = 206.f;
 	} else {
-		sizeRect = NSMakeRect( 0., 0., 160., 160. );
+		sizeRect.size.width = 160.f;
+		sizeRect.size.height = 160.f;
 	}
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:sizeRect
 						styleMask:NSBorderlessWindowMask
@@ -47,7 +49,7 @@
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setIgnoresMouseEvents:YES];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.];
+	[panel setAlphaValue:0.f];
 	[panel setOpaque:NO];
 	[panel setHasShadow:NO];
 	[panel setCanHide:NO];
@@ -87,11 +89,11 @@
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
 	NSPoint panelTopLeft;
 	int positionPref = 0;
-	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, @"com.Growl.Bezel", &positionPref);
+	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
 	switch (positionPref) {
 		case BEZEL_POSITION_DEFAULT:
-			panelTopLeft = NSMakePoint(ceil((NSWidth(screen)/2.0) -(NSWidth(panelFrame)/2.0)),
-				140.0 + NSHeight(panelFrame));
+			panelTopLeft = NSMakePoint(ceil((NSWidth(screen)*0.5f) -(NSWidth(panelFrame)*0.5f)),
+				140.0f + NSHeight(panelFrame));
 		break;
 		case BEZEL_POSITION_TOPRIGHT:
 			panelTopLeft = NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding,
@@ -119,7 +121,7 @@
 	_representedObject = nil;
 	_action = NULL;
 	_animationTimer = nil;
-	
+
 	_displayTime = MIN_DISPLAY_TIME;
 	
 	_priority = priority;
@@ -138,11 +140,6 @@
 	[_animationTimer invalidate];
 	[_animationTimer release];
 	
-	_target = nil;
-	_representedObject = nil;
-	_delegate = nil;
-	_animationTimer = nil;
-
 	[super dealloc];
 }
 
@@ -164,7 +161,7 @@
 - (void)_fadeIn:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
-	if ( alpha < 1. ) {
+	if ( alpha < 1.f ) {
 		[myWindow setAlphaValue:( alpha + FADE_INCREMENT)];
 	} else if ( _autoFadeOut ) {
 		if ( _delegate && [_delegate respondsToSelector:@selector( bezelDidFadeIn: )] ) {
@@ -177,7 +174,7 @@
 - (void)_fadeOut:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
-	if ( alpha > 0. ) {
+	if ( alpha > 0.f ) {
 		[myWindow setAlphaValue:( alpha - FADE_INCREMENT)];
 	} else {
 		[self _stopTimer];
@@ -210,7 +207,7 @@
 				userInfo:nil
 				 repeats:YES] retain];
 	} else if ( _autoFadeOut ) {
-		[[self window] setAlphaValue:1.];
+		[[self window] setAlphaValue:1.f];
 		if ( _delegate && [_delegate respondsToSelector:@selector( bezelDidFadeIn: )] ) {
 			[_delegate bezelDidFadeIn:self];
 		}
@@ -294,16 +291,20 @@
 
 - (void) forwardInvocation:(NSInvocation *) invocation {
 	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:[invocation selector]] )
+	if( [contentView respondsToSelector:[invocation selector]] ) {
 		[invocation invokeWithTarget:contentView];
-	else [super forwardInvocation:invocation];
+	} else {
+		[super forwardInvocation:invocation];
+	}
 }
 
 - (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
 	NSView *contentView = [[self window] contentView];
-	if( [contentView respondsToSelector:selector] )
+	if( [contentView respondsToSelector:selector] ) {
 		return [contentView methodSignatureForSelector:selector];
-	else return [super methodSignatureForSelector:selector];
+	} else {
+		return [super methodSignatureForSelector:selector];
+	}
 }
 
 @end

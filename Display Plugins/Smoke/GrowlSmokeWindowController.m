@@ -18,7 +18,7 @@ static unsigned int globalId = 0;
 @implementation GrowlSmokeWindowController
 
 static const double gTimerInterval = ( 1. / 30. );
-static const double gFadeIncrement = 0.05;
+static const double gFadeIncrement = 0.05f;
 static const double gMinDisplayTime = 4.;
 static const double gAdditionalLinesDisplayTime = 0.5;
 static const double gMaxDisplayTime = 10.;
@@ -229,7 +229,7 @@ static const double gMaxDisplayTime = 10.;
 - (void) _fadeIn:(NSTimer *) inTimer {
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
-	if( alpha < 1. ) {
+	if( alpha < 1.f ) {
 		[myWindow setAlphaValue:(alpha + gFadeIncrement)];
 	} else if( _autoFadeOut ) {
 		if( _delegate && [_delegate respondsToSelector:@selector( notificationDidFadeIn: )] )
@@ -241,7 +241,7 @@ static const double gMaxDisplayTime = 10.;
 - (void) _fadeOut:(NSTimer *) inTimer {
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
-	if( alpha > 0. ) {
+	if( alpha > 0.f ) {
 		[myWindow setAlphaValue:(alpha - gFadeIncrement)];
 	} else {
 		[self _stopTimer];
