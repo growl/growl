@@ -10,41 +10,6 @@
 
 @class GrowlController;
 
-typedef enum GrowlPriority {
-	GP_verylow		= -2,
-	GP_low			= -1,
-	GP_normal		=  0,
-	GP_high         =  1,
-	GP_emergency	=  2
-} GrowlPriority;
-
-@interface GrowlApplicationNotification : NSObject {
-	NSString		*_name;
-	GrowlPriority	 _priority;
-	BOOL			 _enabled;
-    int				 _sticky;
-}
-
-+ (GrowlApplicationNotification*) notificationWithName:(NSString*)name;
-+ (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict;
-- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(int)sticky;
-- (NSDictionary*) notificationAsDict;
-
-#pragma mark -
-
-- (NSString*) name;
-
-- (GrowlPriority) priority;
-- (void) setPriority:(GrowlPriority)newPriority;
-
-- (BOOL) enabled;
-- (void) setEnabled:(BOOL)yorn;
-- (void) enable;
-- (void) disable;
-
-- (int) sticky;
-- (void) setSticky:(int)sticky;
-@end
 
 #pragma mark -
 #pragma mark -
@@ -52,14 +17,12 @@ typedef enum GrowlPriority {
 @interface GrowlApplicationTicket : NSObject {
 	NSString		*_appName;					// The Applications's name for display by notifications that want it
 	NSImage			*_icon;						// This app's icon for notifications and display methods that want it
-
-	NSDictionary	*_allNotifications;		// All the notifications possible for this app
-
+	NSDictionary	*_allNotifications;			// All the notifications possible for this app
 	NSArray			*_defaultNotifications;		// The default notifications
 	
-	BOOL			usesCustomDisplay;
 	id <GrowlDisplayPlugin> displayPlugin;
 	
+	BOOL			usesCustomDisplay;	
 	BOOL			_useDefaults;				// Flag for whether this ticket just uses default
 	BOOL			ticketEnabled;
 }
@@ -96,7 +59,9 @@ typedef enum GrowlPriority {
 
 #pragma mark -
 
--(void)reRegisterWithAllNotes:(NSArray *) inAllNotes defaults: (NSArray *) inDefaults icon:(NSImage *) inIcon;
+-(void)reRegisterWithAllNotes:(NSArray *) inAllNotes 
+					 defaults:(NSArray *) inDefaults 
+						 icon:(NSImage *) inIcon;
 
 - (NSArray *) allNotifications;
 - (void) setAllNotifications:(NSArray *) inArray;

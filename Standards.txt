@@ -7,8 +7,19 @@ ivars and local vars should generally be named with camelCase, with a lowercase 
 
 
 Selector names:
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row;
+- (id)tableView:(NSTableView *)inTableView objectValueForTableColumn:(NSTableColumn *)inColumn row:(int)inRow;
 
+
+Class layout:
+		+singleton
+		- init*
+		- dealloc
+		#pragma mark -
+		- foo
+		- bar
+		@end
+		@imp (Categories)
+		@end
 
 Braces and indentation:
 

@@ -64,12 +64,10 @@
 		089C166AFE841209C02AAC07 = {
 			children = (
 				6C1D4F6D06FA0C0500A5D946,
-				52861FEF06DC463E00D3A356,
 				52861EE906DBA9B200D3A356,
 				CB1C5D95063E523F007052EE,
 				0AB856D806E2932C007B791C,
 				32DBCFA20370C41700C91783,
-				52861ED706DBA80800D3A356,
 				34CEA3930680A77C00670E0D,
 				A14BBE0806EE1C0400530EED,
 				CB5F835E0638B67C00EADD7A,
@@ -447,20 +445,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		52861ED706DBA80800D3A356 = {
-			children = (
-				5286205506DC4C2F00D3A356,
-				5286205606DC4C2F00D3A356,
-				52861EE306DBA95400D3A356,
-				52861EE406DBA95400D3A356,
-				CB1C5D1B063E432F007052EE,
-				CB1C5D1C063E432F007052EE,
-			);
-			isa = PBXGroup;
-			name = Controllers;
-			refType = 4;
-			sourceTree = "<group>";
 		};
 		52861EE306DBA95400D3A356 = {
 			fileEncoding = 4;
@@ -857,6 +841,7 @@
 				52861EE506DBA95400D3A356,
 				525277E606D9605A007BC87D,
 				525277AA06D95BEA007BC87D,
+				CBDA2F070732E6A600E8B20C,
 				8D202CEA0486D31800D8A456,
 				8D202CEB0486D31800D8A456,
 				CBF073CC0659A94F000B4B77,
@@ -908,6 +893,7 @@
 				52861EE606DBA95400D3A356,
 				525277E706D9605D007BC87D,
 				525277AB06D95BED007BC87D,
+				CBDA2F080732E6EE00E8B20C,
 				8D202CF10486D31800D8A456,
 				5286205A06DC4C2F00D3A356,
 				A16BD22906FCC05F00BF033B,
@@ -1127,6 +1113,98 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		CB26C3E60735ED9000459FE4 = {
+			children = (
+				CB5F83890638B78200EADD7A,
+				CB5F838A0638B78200EADD7A,
+				5286205506DC4C2F00D3A356,
+				5286205606DC4C2F00D3A356,
+			);
+			isa = PBXGroup;
+			name = Controllers;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB26C3E70735EE8500459FE4 = {
+			children = (
+				CB26C3E80735EF3F00459FE4,
+				CB26C3E90735EF3F00459FE4,
+			);
+			isa = PBXGroup;
+			name = Communication;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB26C3E80735EF3F00459FE4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlAdminPathway.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB26C3E90735EF3F00459FE4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlAdminPathway.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB26C3EA0735EF3F00459FE4 = {
+			fileRef = CB26C3E80735EF3F00459FE4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CB26C3EB0735EF3F00459FE4 = {
+			fileRef = CB26C3E90735EF3F00459FE4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CB26C4A90735FFC300459FE4 = {
+			children = (
+				52861EE306DBA95400D3A356,
+				52861EE406DBA95400D3A356,
+				CB1C5D1B063E432F007052EE,
+				CB1C5D1C063E432F007052EE,
+				CB271C4C0732D53600069C9C,
+				CB271C4D0732D53600069C9C,
+			);
+			isa = PBXGroup;
+			name = Models;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB271C4C0732D53600069C9C = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlApplicationNotification.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB271C4D0732D53600069C9C = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlApplicationNotification.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB271C4E0732D53600069C9C = {
+			fileRef = CB271C4C0732D53600069C9C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CB271C4F0732D53600069C9C = {
+			fileRef = CB271C4D0732D53600069C9C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		CB5D139B0638E25300D8F1E5 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1249,6 +1327,7 @@
 		};
 		CB5F84730638BD4D00EADD7A = {
 			children = (
+				52861FEF06DC463E00D3A356,
 				CB61E51A0637763C00E0DDC7,
 			);
 			isa = PBXGroup;
@@ -1258,8 +1337,9 @@
 		};
 		CB5F847F0638BD6200EADD7A = {
 			children = (
-				CB5F83890638B78200EADD7A,
-				CB5F838A0638B78200EADD7A,
+				CB26C3E70735EE8500459FE4,
+				CB26C3E60735ED9000459FE4,
+				CB26C4A90735FFC300459FE4,
 				F57BFE2C0669037C00DE5BFD,
 				F57BFE2D0669037C00DE5BFD,
 			);
@@ -1493,6 +1573,8 @@
 				F57BFE2E0669037C00DE5BFD,
 				63C92DDB06D05D22007368FA,
 				5286205706DC4C2F00D3A356,
+				CB271C4E0732D53600069C9C,
+				CB26C3EA0735EF3F00459FE4,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1518,6 +1600,8 @@
 				F57BFE2F0669037C00DE5BFD,
 				63C92DDC06D05D22007368FA,
 				5286205806DC4C2F00D3A356,
+				CB271C4F0732D53600069C9C,
+				CB26C3EB0735EF3F00459FE4,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1612,6 +1696,18 @@
 			path = "GrowlHelperApp-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
+		};
+		CBDA2F070732E6A600E8B20C = {
+			fileRef = CB271C4C0732D53600069C9C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CBDA2F080732E6EE00E8B20C = {
+			fileRef = CB271C4D0732D53600069C9C;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		CBF073C80659A94F000B4B77 = {
 			fileEncoding = 4;

@@ -7,11 +7,12 @@
 
 #import "GrowlController.h"
 #import "GrowlApplicationTicket.h"
+#import "GrowlDisplayProtocol.h"
 #import "NSGrowlAdditions.h"
 
 @interface GrowlController (private)
 - (void) loadDisplay;
-- (BOOL) _tryLockQueue;
+//- (BOOL) _tryLockQueue;
 - (void) _unlockQueue;
 - (void) _processNotificationQueue;
 - (void) _processRegistrationQueue;
@@ -32,6 +33,8 @@ static id _singleton = nil;
 - (id) init {
 	if ( self = [super init] ) {
 		NSDistributedNotificationCenter * NSDNC = [NSDistributedNotificationCenter defaultCenter];
+
+		// Application Notifications
 		[NSDNC addObserver:self 
 				  selector:@selector( _registerApplication: ) 
 					  name:GROWL_APP_REGISTRATION
@@ -40,31 +43,26 @@ static id _singleton = nil;
 				  selector:@selector( dispatchNotification: )
 					  name:GROWL_NOTIFICATION
 					object:nil];
+		
+		// Preference Pane Communiqués
 		[NSDNC addObserver:self
 				  selector:@selector( preferencesChanged: )
 					  name:GrowlPreferencesChanged
 					object:nil];
-		[NSDNC addObserver:self
-				  selector:@selector( shutdown: )
-					  name:GROWL_SHUTDOWN
-					object:nil];
-		[NSDNC addObserver:self
-				  selector:@selector( replyToPing:)
-					  name:GROWL_PING
-					object:nil];
 		
 		_tickets = [[NSMutableDictionary alloc] init];
-		_registrationLock = [[NSLock alloc] init];
 		_notificationQueue = [[NSMutableArray alloc] init];
 		_registrationQueue = [[NSMutableArray alloc] init];
+		_prefs = [GrowlPreferences preferences];
+		_adminPathway = [GrowlAdminPathway adminPathway];
 		
-		[[GrowlPreferences preferences] registerDefaults:
+		[_prefs registerDefaults:
 				[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]]];
-
+		
 		[self preferencesChanged:nil];
 	}
 	
-	if (!_singleton)
+	if ( ! _singleton )
 		_singleton = self;
 	
 	return self;
@@ -73,9 +71,14 @@ static id _singleton = nil;
 - (void) dealloc {
 	//free your world
 	[_tickets release];
-	[_registrationLock release];
 	[_notificationQueue release];
 	[_registrationQueue release];
+	[_adminPathway release];
+	
+	_tickets = nil;
+	_notificationQueue = nil;
+	_registrationQueue = nil;
+	_adminPathway = nil;
 	
 	[super dealloc];
 }
@@ -84,21 +87,15 @@ static id _singleton = nil;
 #pragma mark -
 
 - (void) dispatchNotification:(NSNotification *) note {
-	if ([self _tryLockQueue]) {
-		// It's unlocked. We can notify
-		[self dispatchNotificationWithDictionary:[note userInfo] overrideCheck:NO];
-		[self _unlockQueue];
-	} else {
-		// It's locked. We need to queue this notification
-		[_notificationQueue addObject:[note userInfo]];
-	}
+	[self dispatchNotificationWithDictionary:[note userInfo] overrideCheck:NO];
+	[self _unlockQueue];
 }
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict overrideCheck:(BOOL) override {
 	// Make sure this notification is actually registered
 	GrowlApplicationTicket *ticket = [_tickets objectForKey:[dict objectForKey:GROWL_APP_NAME]];
-	if (!override && 
-		(!ticket || ![ticket isNotificationAllowed:[dict objectForKey:GROWL_NOTIFICATION_NAME]])) {
+	if ( ! override && 
+		( ! ticket || ! [ticket isNotificationAllowed:[dict objectForKey:GROWL_NOTIFICATION_NAME]] ) ) {
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
 		return;
@@ -108,30 +105,31 @@ static id _singleton = nil;
 	
 	// Check icon
 	NSImage *icon = nil;
-	if ([aDict objectForKey:GROWL_NOTIFICATION_ICON]) {
+	if ( [aDict objectForKey:GROWL_NOTIFICATION_ICON] ) {
 		icon = [[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]]
 					autorelease];
 	} else {
 		icon = [ticket icon];
 	}
-	if (icon) {
+	if ( icon ) {
 		[aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
 	} else {
 		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON]; // remove any invalid NSDatas
 	}
 	
 	// If app icon present, convert to NSImage
-	if ([aDict objectForKey:GROWL_NOTIFICATION_APP_ICON]) {
+	if ( [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON] ) {
 		icon = [[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_APP_ICON]];
 		[aDict setObject:icon forKey:GROWL_NOTIFICATION_APP_ICON];
 		[icon release]; icon = nil;
 	}
 	
 	// To avoid potential exceptions, make sure we have both text and title
-	if (![aDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]) {
+	if ( ! [aDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] ) {
 		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_DESCRIPTION];
 	}
-	if (![aDict objectForKey:GROWL_NOTIFICATION_TITLE]) {
+	
+	if ( ! [aDict objectForKey:GROWL_NOTIFICATION_TITLE] ) {
 		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_TITLE];
 	}
     
@@ -147,10 +145,8 @@ static id _singleton = nil;
     
 	id <GrowlDisplayPlugin> display;
 	
-	if([ticket usesCustomDisplay])
-		display = [ticket displayPlugin];
-	else
-		display = displayController;
+	if ( [ticket usesCustomDisplay] ) display = [ticket displayPlugin];
+	else display = displayController;
 	
 	[display displayNotificationWithInfo:aDict];
 }
@@ -165,29 +161,24 @@ static id _singleton = nil;
 
 - (void) preferencesChanged: (NSNotification *) note {
 	//[note object] is the changed key. A nil key means reload our tickets.
-	if(note == nil || [note object] == nil) {
+	if ( note == nil || [note object] == nil ) {
 		[_tickets removeAllObjects];
 		[self loadTickets];
 	}
-	if(note == nil || [[note object] isEqualTo:GrowlDisplayPluginKey]) {
+	if ( note == nil || [[note object] isEqualTo:GrowlDisplayPluginKey] ) {
 		[self loadDisplay];
 	}
-	if(note == nil || [[note object] isEqualTo:GrowlUserDefaultsKey]) {
-		[[GrowlPreferences preferences] synchronize];
+	if ( note == nil || [[note object] isEqualTo:GrowlUserDefaultsKey] ) {
+		[_prefs synchronize];
 	}
 }
 
-- (void) shutdown:(NSNotification *) note {
-	[NSApp terminate: nil];
-}
-
-- (void) replyToPing:(NSNotification *) note {
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_PONG object:nil];
+- (GrowlPreferences *) preferences {
+	return _prefs;
 }
 
 #pragma mark NSApplication Delegate Methods
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
-//	BOOL dir;
+- (void) applicationWillFinishLaunching:(NSNotification *)aNotification {
 	NSFileManager *fs = [NSFileManager defaultManager];
 
 	NSString *destDir, *subDir;
@@ -207,7 +198,7 @@ static id _singleton = nil;
 }
 
 //Post a notification when we are done launching so the application bridge can inform participating applications
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+- (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY 
 																   object:nil 
 																 userInfo:nil
@@ -215,7 +206,7 @@ static id _singleton = nil;
 }
 
 //Same as applicationDidFinishLaunching, called when we are asked to reopen (that is, we are already running)
-- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
+- (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY 
 																   object:nil 
 																 userInfo:nil
@@ -224,7 +215,7 @@ static id _singleton = nil;
 	return YES;
 }
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) theApplication {
+- (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) theApplication {
 	return NO;
 }
 
@@ -234,22 +225,17 @@ static id _singleton = nil;
 
 @implementation GrowlController (private)
 - (void) loadDisplay {
-	NSString * displayPlugin = [[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey];
+	NSString * displayPlugin = [_prefs objectForKey:GrowlDisplayPluginKey];
 	displayController = [[GrowlPluginController controller] displayPluginNamed:displayPlugin];
 }
 
 #pragma mark -
 
-- (BOOL) _tryLockQueue {
-	return [_registrationLock tryLock];
-}
-
 - (void) _unlockQueue {
-	// Make sure it's locked
-	[_registrationLock tryLock];
+
 	[self _processRegistrationQueue];
 	[self _processNotificationQueue];
-	[_registrationLock unlock];
+
 }
 
 - (void) _processNotificationQueue {
@@ -275,21 +261,17 @@ static id _singleton = nil;
 #pragma mark -
 
 - (void) _registerApplication:(NSNotification *) note {
-	if ([self _tryLockQueue]) {
-		[self _registerApplicationWithDictionary:[note userInfo]];
-		[self _unlockQueue];
-	} else {
-		[_registrationQueue addObject:[note userInfo]];
-	}
+
+	[self _registerApplicationWithDictionary:[note userInfo]];
+	[self _unlockQueue];
 }
 
 - (void) _registerApplicationWithDictionary:(NSDictionary *) userInfo {
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
-	
 	NSImage *appIcon;
-	
 	NSData  *iconData = [userInfo objectForKey:GROWL_APP_ICON];
-	if(iconData) {
+	
+	if ( iconData ) {
 		appIcon = [[[NSImage alloc] initWithData:iconData] autorelease];
 	} else {
 		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];

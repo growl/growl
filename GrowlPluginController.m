@@ -17,33 +17,51 @@ static GrowlPluginController * sharedController;
 @implementation GrowlPluginController
 
 + (GrowlPluginController *) controller {
-	if(!sharedController)
+	if ( ! sharedController )
 		sharedController = [[GrowlPluginController alloc] init];
+
 	return sharedController;
 }
 
 - (id) init {
-	NSArray * libraries;
-	NSEnumerator * enumerator;
-	NSString * dir;
-	
-	allDisplayPlugins = [[NSMutableDictionary alloc] init];
-	
-	libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
-	
-	enumerator = [libraries objectEnumerator];
-	while ( dir = [enumerator nextObject] ) {
-		dir = [[[dir	stringByAppendingPathComponent:@"Application Support"]
-						stringByAppendingPathComponent:@"Growl"]
-						stringByAppendingPathComponent:@"Plugins"];
+	if ( self = [super init] ) {
+		NSArray *libraries;
+		NSEnumerator *enumerator;
+		NSString *dir;
+		
+		allDisplayPlugins = [[NSMutableDictionary alloc] init];
+		
+		libraries = NSSearchPathForDirectoriesInDomains( NSLibraryDirectory, 
+														 NSAllDomainsMask, 
+														 YES /* expand tildes */ );
+		
+		enumerator = [libraries objectEnumerator];
+		while ( dir = [enumerator nextObject] ) {
+			dir = [[[dir	stringByAppendingPathComponent:@"Application Support"]
+							stringByAppendingPathComponent:@"Growl"]
+							stringByAppendingPathComponent:@"Plugins"];
 
-		[self findDisplayPluginsInDirectory:dir];
+			[self findDisplayPluginsInDirectory:dir];
+		}
+		builtInPluginsPath = [[[NSBundle mainBundle] builtInPlugInsPath] retain];
+		[self findDisplayPluginsInDirectory:builtInPluginsPath];
 	}
-	
-	[self findDisplayPluginsInDirectory:[[[GrowlPreferences preferences] helperAppBundle] builtInPlugInsPath]];
 	
 	return self;
 }
+
+- (void) dealloc {
+	[[allDisplayPlugins allValues] makeObjectsPerformSelector:@selector(unloadPlugin:)];
+	[allDisplayPlugins release];
+	[builtInPluginsPath release];
+	
+	allDisplayPlugins = nil;
+	builtInPluginsPath = nil;
+	
+	[super dealloc];
+}
+
+#pragma mark -
 
 - (NSArray *) allDisplayPlugins {
 	return [allDisplayPlugins allKeys];
@@ -53,14 +71,7 @@ static GrowlPluginController * sharedController;
 	return [allDisplayPlugins objectForKey:name];
 }
 
-- (void) dealloc {
-	[[allDisplayPlugins allValues] makeObjectsPerformSelector:@selector(unloadPlugin:)];
-	[allDisplayPlugins release];
-
-	[super dealloc];
-}
-
-- (void)findDisplayPluginsInDirectory:(NSString *)dir {
+- (void) findDisplayPluginsInDirectory:(NSString *)dir {
 	NSString * displayPluginExt = @"growlView";
 	
 	NSDirectoryEnumerator * enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
@@ -74,7 +85,7 @@ static GrowlPluginController * sharedController;
 			pluginBundle = [NSBundle bundleWithPath:[dir stringByAppendingPathComponent:file]];
 
 			if ( pluginBundle 
-				 && (plugin = [[[[pluginBundle principalClass] alloc] init] autorelease]) 
+				 && ( plugin = [[[[pluginBundle principalClass] alloc] init] autorelease] ) 
 				 && [plugin name] ) {
 
 				[plugin loadPlugin];
@@ -83,6 +94,7 @@ static GrowlPluginController * sharedController;
 			} else {
 				NSLog(@"Failed to load: %@",file);
 			}
+			
 		}
 	}
 }

@@ -81,6 +81,6 @@
 	
 	Currently has no new methods on top of GrowlDisplayPlugin.
  */
-@protocol GrowlFunctionalPlugin <GrowlPlugin>
+@protocol GrowlFunctionalPlugin <GrowlDisplayPlugin>
 //empty for now
 @end

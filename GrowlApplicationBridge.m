@@ -145,28 +145,28 @@ static  NSMutableArray *targetsToNotifyArray = nil;
 	preferencePanesSubfolder = PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY;
 	
 	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
-	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES);
+	librarySearchPaths = NSSearchPathForDirectoriesInDomains( NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES );
 	searchPathEnumerator = [librarySearchPaths objectEnumerator];
 	
 	//Copy each discovered path into the pathArray after adding our subfolder path
-	while(path = [searchPathEnumerator nextObject]){
+	while( path = [searchPathEnumerator nextObject] ){
 		[pathArray addObject:[path stringByAppendingPathComponent:preferencePanesSubfolder]];
 	}
 
 	prefPaneExtension = PREFERENCE_PANE_EXTENSION;
 	
 	searchPathEnumerator = [pathArray objectEnumerator];		
-    while(path = [searchPathEnumerator nextObject]){
+    while( path = [searchPathEnumerator nextObject] ){
 		
         NSString				*bundlePath;
 		NSDirectoryEnumerator   *bundleEnum;
 
         bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
 		
-        if(bundleEnum){
+        if (bundleEnum ){
 			
-            while(bundlePath = [bundleEnum nextObject]) {				
-                if([[bundlePath pathExtension] isEqualToString:prefPaneExtension]) {
+            while( bundlePath = [bundleEnum nextObject] ) {				
+                if( [[bundlePath pathExtension] isEqualToString:prefPaneExtension] ) {
 					
 					[allPreferencePaneBundles addObject:[path stringByAppendingPathComponent:bundlePath]];
                 }

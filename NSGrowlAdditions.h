@@ -16,12 +16,12 @@
 
 @interface NSString (GrowlAdditions)
 
-- (BOOL)boolValue;
+- (BOOL) boolValue;
 
 @end
 
 @interface NSWindow (GrowlAdditions)
 
--(void)setSticky:(BOOL)flag;
+-(void) setSticky:(BOOL)flag;
 
 @end

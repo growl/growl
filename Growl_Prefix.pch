@@ -9,4 +9,5 @@
 	#import "GrowlApplicationTicket.h"
 	#import "GrowlPreferences.h"
 	#import "GrowlPluginController.h"
+	#import "GrowlApplicationNotification.h"
 #endif

@@ -190,25 +190,20 @@
 }
 
 - (void)setIcon:(NSImage *)icon {
-	[_icon autorelease];
+	[_icon release];
 	_icon = [icon retain];
-	[self sizeToFit];
-	[self setNeedsDisplay:YES];
 }
 
-- (void)setTitle:(NSString *)title {
-	[_title autorelease];
-	_title = [title copy];
-	[self sizeToFit];
-	[self setNeedsDisplay:YES];
+- (void)setTitle:(NSString *)inTitle {
+	[inTitle retain];
+	[_title release];
+	_title = inTitle;
 }
 
 - (void)setText:(NSString *)text {
-	[_text autorelease];
+	[_text release];
 	_text = [text copy];
 	_textHeight = 0;
-	[self sizeToFit];
-	[self setNeedsDisplay:YES];
 }
 
 - (void)setPriority:(int)priority {
