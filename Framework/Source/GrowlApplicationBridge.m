@@ -11,6 +11,8 @@
 #import "GrowlInstallationPrompt.h"
 #import "GrowlVersionUtilities.h"
 #endif
+#import "NSGrowlAdditions.h"
+#import "CFGrowlAdditions.h"
 
 #import <ApplicationServices/ApplicationServices.h>
 
@@ -293,6 +295,22 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		
 		[properRegistrationDictionary setObject:appName
 										 forKey:GROWL_APP_NAME];
+
+		//don't rely on the application to give us a path; get it ourselves.
+		BOOL gotIt = NO;
+		NSURL *myURL = _copyCurrentProcessURL();
+		NSDictionary *file_data = [myURL dockDescription];
+		if(file_data) {
+			NSDictionary *location = [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"];
+			if(location) {
+				[properRegistrationDictionary setObject:location
+												 forKey:GROWL_APP_LOCATION];
+				gotIt = YES;
+			}
+		}
+		if(!gotIt)
+			[properRegistrationDictionary removeObjectForKey:GROWL_APP_LOCATION];
+
 		registrationDictionary = properRegistrationDictionary;
 	}
 

@@ -187,6 +187,13 @@ struct GrowlNetworkNotification {
  */
 #define GROWL_SCREENSHOT_MODE			XSTR("ScreenshotMode")
 
+/*!	@defined	GROWL_APP_LOCATION
+ *	@abstract	The location of this application.
+ *	@discussion	Contains either the POSIX path to the application, or a file-data dictionary (as used by the Dock).
+ *	 contains the file's alias record and its pathname.
+ */
+#define GROWL_APP_LOCATION				XSTR("AppLocation")
+
 #endif //ndef _GROWL_GROWLDEFINESINTERNAL_H
 
 /* --- These following macros are intended for plug-ins --- */

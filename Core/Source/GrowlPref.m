@@ -543,7 +543,7 @@ static const char *keychainAccountName = "Growl";
 	if (pluginPrefPane) {
 		oldPrefPane = pluginPrefPane;
 	}
-	
+
 	if (displayName) {
 		// Old plugins won't support the new protocol. Check first
 		if ([currentPluginController respondsToSelector:@selector(preferencePane)]) {

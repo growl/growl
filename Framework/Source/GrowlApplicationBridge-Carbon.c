@@ -34,10 +34,6 @@ static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStri
 static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundleRef growlPrefPaneBundle);
 #endif
 
-static CFStringRef _copyCurrentProcessName(void);
-
-static CFStringRef _copyTemporaryFolderPath(void);
-
 static const CFOptionFlags bundleIDComparisonFlags = kCFCompareCaseInsensitive | kCFCompareBackwards;
 
 static CFMutableArrayRef targetsToNotifyArray = NULL;
@@ -265,6 +261,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 		//this is the same as the one in the delegate, but it must have
 		//	GROWL_APP_NAME in it.
 		regDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, delegate->registrationDictionary);
+
 		if (delegate->applicationName) {
 			CFDictionarySetValue(regDict, GROWL_APP_NAME, delegate->applicationName);
 		} else {
@@ -280,6 +277,28 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 			CFRelease(regDict);
 			regDict = NULL;
 		}
+
+		//we also want to put the path in it, if possible.
+		//but don't rely on the application to give us a path; we should get it ourselves.
+		Boolean gotIt = false;
+		CFURLRef myURL = _copyCurrentProcessURL();
+		if(myURL) {
+			CFDictionaryRef file_data = _createDockDescriptionForURL(myURL);
+			if(file_data) {
+				const void *locationKeys[] = { CFSTR("file-data") };
+				const void *locationVals[] = { file_data };
+				CFDictionaryRef location = CFDictionaryCreate(kCFAllocatorDefault, locationKeys, locationVals, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+				if(location) {
+					CFDictionarySetValue(regDict, GROWL_APP_LOCATION, location);
+					gotIt = true;
+					CFRelease(location);
+				}
+				CFRelease(file_data);
+			}
+			CFRelease(myURL);
+		}
+		if(!gotIt)
+			CFDictionaryRemoveValue(regDict, GROWL_APP_LOCATION);
 	}
 
 	CFArrayRef		prefPanes;
@@ -572,30 +591,4 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 	}
 
 	return growlPrefPaneBundle;
-}
-
-CFStringRef _copyCurrentProcessName(void) {
-	ProcessSerialNumber PSN = { 0, kCurrentProcess };
-	CFStringRef name = NULL;
-	OSStatus err = CopyProcessName(&PSN, &name);
-	if (err != noErr) {
-		NSLog(CFSTR("GrowlApplicationBridge: Could not get process name because CopyProcessName returned %li"), (long)err);
-		name = NULL;
-	}
-	return name;
-}
-
-static CFStringRef _copyTemporaryFolderPath(void) {
-	FSRef ref;
-	CFStringRef string;
-	OSStatus err = FSFindFolder(kOnAppropriateDisk, kTemporaryFolderType, kCreateFolder, &ref);
-	if (err != noErr) {
-		NSLog(CFSTR("GrowlApplicationBridge: Could not locate temporary folder because FSFindFolder returned %li"), (long)err);
-		string = NULL;
-	} else {
-		CFURLRef url = CFURLCreateFromFSRef(kCFAllocatorDefault, &ref);
-		string = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
-		CFRelease(url);
-	}
-	return string;
 }

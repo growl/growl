@@ -12,6 +12,7 @@
 #import "GrowlApplicationNotification.h"
 #import "GrowlRemoteDOPathway.h"
 #import "GrowlUDPPathway.h"
+#import "CFGrowlAdditions.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlDisplayProtocol.h"
 #import "GrowlApplicationBridge.h"
@@ -292,41 +293,26 @@ static id singleton = nil;
 - (void) registerApplicationWithDictionary:(NSDictionary *) userInfo {
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
 
-	NSImage *appIcon;
-
-	NSData  *iconData = [userInfo objectForKey:GROWL_APP_ICON];
-	if (iconData) {
-		appIcon = [[[NSImage alloc] initWithData:iconData] autorelease];
-	} else {
-		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
-	}
-
-	NSArray *allNotes = [userInfo objectForKey:GROWL_NOTIFICATIONS_ALL];
-	id defaultNotes   = [userInfo objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
-	
 	GrowlApplicationTicket *newApp = [tickets objectForKey:appName];
 
 	if ( !newApp ) {
-		newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
-															withIcon:appIcon
-													andNotifications:allNotes
-													 andDefaultNotes:defaultNotes];
+		newApp = [[[GrowlApplicationTicket alloc] initWithDictionary:userInfo] autorelease];
 		[tickets setObject:newApp forKey:appName];
-		[newApp autorelease];
-		[GrowlApplicationBridge notifyWithTitle:@"Application registered"
-									description:[NSString stringWithFormat:@"%@ registered", appName]
-							   notificationName:@"Application registered"
-									   iconData:growlIconData
-									   priority:0
-									   isSticky:NO
-								   clickContext:nil];
 	} else {
-		[newApp reregisterWithAllNotifications:allNotes defaults:defaultNotes icon:appIcon];
+		[newApp reregisterWithDictionary:userInfo];
 	}
 	
 	[newApp saveTicket];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF object:appName];
-	
+
+	[GrowlApplicationBridge notifyWithTitle:@"Application registered"
+								description:[appName stringByAppendingString:@" registered"]
+						   notificationName:@"Application registered"
+								   iconData:growlIconData
+								   priority:0
+								   isSticky:NO
+							   clickContext:nil];
+
 	if (enableForward) {
 		NSEnumerator *enumerator = [destinations objectEnumerator];
 		NSDictionary *entry;
@@ -338,7 +324,7 @@ static id singleton = nil;
 									  socketType:SOCK_STREAM
 										protocol:0
 										 address:destAddress];
-				
+
 				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
 				NSDistantObject *theProxy = [connection rootProxy];
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
@@ -501,7 +487,9 @@ static id singleton = nil;
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {	
 	BOOL retVal = NO;
 	NSString *pathExtension = [filename pathExtension];
-	
+
+	NSLog(@"Asked to open file %@", filename);
+
 	if ( [pathExtension isEqualToString:@"growlView"] ) {
 		[[GrowlPluginController controller] installPlugin:filename];
 		
@@ -604,11 +592,40 @@ static id singleton = nil;
 		if (ticket) {
 			if ([GrowlApplicationTicket isValidTicketDictionary:ticket]) {
 				NSLog(@"Found registration ticket in %@ (located at %@)", appName, appPath);
-				//open it with ourselves.
-				NSString *myPath = [[[NSProcessInfo processInfo] arguments] objectAtIndex:0U];
-				[[NSWorkspace sharedWorkspace] openFile:ticketPath
-										withApplication:myPath
-										  andDeactivate:NO];
+
+				//set the app's location in the dictionary, avoiding costly lookups later.
+				{
+					NSURL *URL = [NSURL fileURLWithPath:appPath];
+					NSDictionary *file_data = [URL dockDescription];
+					id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
+
+					NSMutableDictionary *mTicket = [ticket mutableCopy];
+					[mTicket setObject:location forKey:GROWL_APP_LOCATION];
+					ticket = [mTicket autorelease];
+
+					//write the new ticket to disk, and be sure to launch this ticket instead of the one in the app bundle.
+					NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
+					ticketPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:UUID] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+					BOOL success = [ticket writeToFile:ticketPath atomically:NO];
+					NSLog(@"wrote to %@: (success = %u)\n%@", ticketPath, success, ticket);
+				}
+
+				//open the ticket with ourselves.
+				//we need to use LS in order to launch it with this specific
+				//	GHA, rather than some other.
+				NSURL *myURL        = [_copyCurrentProcessURL() autorelease];
+				NSURL *ticketURL    = [NSURL fileURLWithPath:ticketPath];
+				NSArray *URLsToOpen = [NSArray arrayWithObject:ticketURL];
+				struct LSLaunchURLSpec spec = {
+					.appURL = (CFURLRef)myURL,
+					.itemURLs = (CFArrayRef)URLsToOpen,
+					.passThruParams = NULL,
+					.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchAsync,
+					.asyncRefCon = NULL,
+				};
+				OSStatus err = LSOpenFromURLSpec(&spec, /*outLaunchedURL*/ NULL);
+				if(err != noErr)
+					NSLog(@"The registration ticket for %@ could not be opened (LSOpenFromURLSpec returned %li). Pathname for the ticket file: %@", appName, (long)err, ticketPath);
 			} else if ([GrowlApplicationTicket isKnownTicketVersion:ticket]) {
 				NSLog(@"%@ (located at %@) contains an invalid registration ticket - developer, please consult Growl developer documentation (http://growl.info/documentation/developer/)", appName, appPath);
 			} else {

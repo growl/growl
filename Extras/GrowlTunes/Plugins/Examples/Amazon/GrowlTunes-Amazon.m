@@ -238,6 +238,7 @@
 #pragma mark Other cool stuff
 
 - (NSData *)download:(NSURL *)url {
+	NSLog(@"Go go interweb: %@", url);
 	NSError *error = nil;
 	NSURLResponse *response = nil;
 	NSURLRequest *request = nil;

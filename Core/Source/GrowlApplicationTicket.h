@@ -13,7 +13,8 @@
 @protocol GrowlDisplayPlugin;
 
 @interface GrowlApplicationTicket : NSObject {
-	NSString		*appName;					// The Applications's name for display by notifications that want it
+	NSString		*appName;					// This app's name for display by notifications that want it
+	NSString		*appPath;					// This app's location on disk (cached here and in saved tickets)
 	NSImage			*icon;						// This app's icon for notifications and display methods that want it
 
 	NSDictionary	*allNotifications;			// All the notifications possible for this app
@@ -35,10 +36,11 @@
 + (BOOL)isValidTicketDictionary:(NSDictionary *)dict;
 + (BOOL)isKnownTicketVersion:(NSDictionary *)dict;
 
-- (id) initWithApplication:(NSString *) inAppName
-				  withIcon:(NSImage *) inIcon
-		  andNotifications:(NSArray *) inAllNotifications
-		   andDefaultNotes:(id) inDefaults;
+#pragma mark -
+
+//designated initialiser.
++ (id) ticketWithDictionary:(NSDictionary *)ticketDict;
+- (id) initWithDictionary:(NSDictionary *)dict;
 
 - (id) initTicketFromPath:(NSString *) inPath;
 - (id) initTicketForApplication: (NSString *) inApp;
@@ -65,7 +67,10 @@
 
 #pragma mark -
 
--(void) reregisterWithAllNotifications:(NSArray *) inAllNotes defaults: (id) inDefaults icon:(NSImage *) inIcon;
+- (void) reregisterWithAllNotifications:(NSArray *) inAllNotes
+							   defaults:(id) inDefaults
+								   icon:(NSImage *) inIcon;
+- (void) reregisterWithDictionary:(NSDictionary *) dict;
 
 - (NSArray *) allNotifications;
 - (void) setAllNotifications:(NSArray *) inArray;
