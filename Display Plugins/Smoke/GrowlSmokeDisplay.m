@@ -79,7 +79,8 @@ static unsigned smokeDepth = 0U;
 	[controller setTarget:self];
 	[controller setAction:@selector(_smokeClicked:)];
 	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];	
+	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+	[controller setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 	
 	// update the depth for the next notification with the depth given by this new one
 	// which will take into account the new notification's height

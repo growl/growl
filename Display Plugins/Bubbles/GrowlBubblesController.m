@@ -76,6 +76,7 @@
 	[nuBubble setAction:@selector(_bubbleClicked:)];
 	[nuBubble setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[nuBubble setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+	[nuBubble setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 
 	[nuBubble startFadeIn];
 //	NSLog( @"bubble - %@", nuBubble );

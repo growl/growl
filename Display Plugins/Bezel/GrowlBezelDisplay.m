@@ -79,7 +79,8 @@
 	[nuBezel setAction:@selector(_bezelClicked:)];
 	[nuBezel setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[nuBezel setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];	
-	
+	[nuBezel setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
+
 	if ( [notificationQueue count] > 0U ) {
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
 		GrowlBezelWindowController *aNotification;
