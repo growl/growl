@@ -1,7 +1,10 @@
+
+#import <Growl/Growl.h>
+
 /* BeepController */
 
 
-@interface BeepController: NSObject
+@interface BeepController: NSObject<GrowlApplicationBridgeDelegate>
 {
 	IBOutlet NSPanel		*notificationPanel;			// The Add/Edit Panel
 	IBOutlet NSButton		*notificationDefault;		// Whether this notification is allowed by default
@@ -35,7 +38,6 @@
 //actions in main window
 //- (IBAction)addNotification:(id)sender; //the + button
 - (IBAction)removeNotification:(id)sender; //the - button
-- (IBAction)registerBeep:(id)sender; //the Registered checkbox
 - (IBAction)sendNotification:(id)sender; //the Send button
 //- (IBAction)endPanel:(id)sender;
 

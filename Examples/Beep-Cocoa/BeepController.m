@@ -1,12 +1,12 @@
 #import "BeepController.h"
 #import "BeepAdditions.h"
-#import <GrowlAppBridge/GrowlApplicationBridge.h>
-#import "GrowlDefines.h"
 
 #define GROWL_NOTIFICATION_DEFAULT @"NotificationDefault"
 
 @interface BeepController (PRIVATE)
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
+
+- (void)notificationsDidChange;
 @end
 
 @implementation BeepController
@@ -49,42 +49,10 @@
 
 	addButtonTitle = [[addEditButton title] retain]; //this is the default title in the nib
 	editButtonTitle = [NSLocalizedString(@"Edit", /*comment*/ NULL) retain];
+	
+	[GrowlApplicationBridge setGrowlDelegate:self];
 }
 
-#pragma mark -
-
-- (void)growlDidLaunch:(void *)context {
-	
-	NSLog(@"Growl engaged, Captain!");
-	
-	NSMutableArray *defNotesArray = [NSMutableArray array];
-	NSMutableArray *allNotesArray = [NSMutableArray array];
-	NSNumber *isDefaultNum;
-	unsigned numNotifications = [notifications count];
-	
-	for ( unsigned i = 0U; i < numNotifications; ++i ) {
-		NSDictionary *def = [notifications objectAtIndex:i];
-		[allNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_TITLE]];
-
-		isDefaultNum = [def objectForKey:GROWL_NOTIFICATION_DEFAULT];
-		if ( isDefaultNum && [isDefaultNum boolValue] ) {
-			[defNotesArray addObject:[NSNumber numberWithUnsignedInt:i]];
-		}
-	}
-	
-	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
-		@"Beep-Cocoa", GROWL_APP_NAME, 
-		allNotesArray, GROWL_NOTIFICATIONS_ALL, 
-		defNotesArray, GROWL_NOTIFICATIONS_DEFAULT,
-		nil];
-	
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION 
-																   object:nil 
-																 userInfo:regDict];
-	
-}
-
-#pragma mark -
 #pragma mark Main window actions
 
 - (IBAction)showAddSheet:(id)sender {
@@ -125,6 +93,7 @@
 
 		[notificationPanel makeFirstResponder:[notificationPanel initialFirstResponder]];
 		[addEditButton setTitle:editButtonTitle];
+
 		[NSApp beginSheet:notificationPanel
 		   modalForWindow:mainWindow
 			modalDelegate:self
@@ -144,30 +113,8 @@
 		[notifications removeObjectAtIndex:selectedRow];
 		[notificationsTable reloadData];
 	}
-}
-
-//Called when the "Register" checkbox is selecteed
-- (IBAction)registerBeep:(id)sender {
-    if ( [registered state] == NSOnState ) {
-        NSLog( @"Button on" );
-		
-		//Launch growl if possible
-		if ([GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self
-														 selector:@selector(growlDidLaunch:) 
-														  context:nil]){
-			//Disable the add/remove buttons
-			[addNotification setEnabled:NO];
-			[removeNotification setEnabled:NO];
-		}else{
-			NSLog(@"Bloody 'ell. Growl's not installed or couldn't be launched");
-		}
-    } else {
-        NSLog( @"Button off" );	
-		
-		//Reenable the add/remove buttons
-		[addNotification setEnabled:YES];
-		[removeNotification setEnabled:YES];
-    }
+	
+	[self notificationsDidChange];
 }
 
 - (IBAction)sendNotification:(id)sender {
@@ -176,14 +123,16 @@
 	
 	if (selectedRow != -1){
 		//send a notification for the selected table cell
-		id note = [notifications objectAtIndex:selectedRow];
+		NSDictionary *note = [notifications objectAtIndex:selectedRow];
 		
 		//NSLog( @"note - %@", note );
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION 
-																	   object:nil 
-																	 userInfo:note
-														   deliverImmediately:YES];
-		//NSLog( @"sent it" );
+		[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
+							description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+					   notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
+							   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON]
+							   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+							   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
+						   clickContext:nil];
 	}
 }
 
@@ -222,7 +171,6 @@
 			title,         GROWL_NOTIFICATION_TITLE,
 			desc,          GROWL_NOTIFICATION_DESCRIPTION,
 			priority,      GROWL_NOTIFICATION_PRIORITY,
-			@"Beep-Cocoa", GROWL_APP_NAME,
 			defaultValue,  GROWL_NOTIFICATION_DEFAULT,
 			stickyValue,   GROWL_NOTIFICATION_STICKY,
 			imageData,     GROWL_NOTIFICATION_ICON,
@@ -241,6 +189,14 @@
 	}
 
 	[sheet orderOut:self];
+	
+	[self notificationsDidChange];
+}
+
+//After notifications change, tell the app bridge to re-register us with Growl so it knows about the new notifications
+- (void)notificationsDidChange
+{
+	[GrowlApplicationBridge reregisterGrowlNotifications];
 }
 
 #pragma mark Table Data Source Methods
@@ -273,6 +229,45 @@
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)app {
 	return YES;
+}
+
+#pragma mark Growl Delegate methods
+
+- (NSString *)applicationName {
+	return @"Beep-Cocoa";
+}
+
+//Return the registration dictionary
+- (NSDictionary *)growlRegistrationDictionary {
+	
+	NSMutableArray *defNotesArray = [NSMutableArray array];
+	NSMutableArray *allNotesArray = [NSMutableArray array];
+	NSNumber *isDefaultNum;
+	unsigned numNotifications = [notifications count];
+	
+	//Build an array of all notifications we want to use
+	for ( unsigned i = 0U; i < numNotifications; ++i ) {
+		NSDictionary *def = [notifications objectAtIndex:i];
+		[allNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_TITLE]];
+		
+		isDefaultNum = [def objectForKey:GROWL_NOTIFICATION_DEFAULT];
+		if ( isDefaultNum && [isDefaultNum boolValue] ) {
+			[defNotesArray addObject:[NSNumber numberWithUnsignedInt:i]];
+		}
+	}
+	
+	//Set these notifications both for ALL (all possibilites) and DEFAULT (the ones enabled by default)
+	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		allNotesArray, GROWL_NOTIFICATIONS_ALL, 
+		defNotesArray, GROWL_NOTIFICATIONS_DEFAULT,
+		nil];
+	
+	return regDict;
+}
+
+- (void)growlIsReady {
+	
+	NSLog(@"Growl engaged, Captain!");	
 }
 
 @end

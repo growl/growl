@@ -278,22 +278,48 @@
 		07D0C5B6068A470F0076D89A = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
-			name = GrowlAppBridge.framework;
-			path = ../../build/GrowlAppBridge.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		07D0C5B7068A470F0076D89A = {
-			fileRef = 07D0C5B6068A470F0076D89A;
-			isa = PBXBuildFile;
-			settings = {
-			};
+			name = Growl.framework;
+			path = ../../build/Growl.framework;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 //070
 //071
 //072
 //073
 //074
+//340
+//341
+//342
+//343
+//344
+		3447EAE0079DC5FB0055F264 = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3447EAE1079DC6020055F264,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3447EAE1079DC6020055F264 = {
+			fileRef = 07D0C5B6068A470F0076D89A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		349D11AB079DDD5F00911D48 = {
+			fileRef = 07D0C5B6068A470F0076D89A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//340
+//341
+//342
+//343
+//344
 //CB0
 //CB1
 //CB2
@@ -333,13 +359,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				073B92C10685626C0068C763,
-				07D0C5B7068A470F0076D89A,
+				349D11AB079DDD5F00911D48,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		CBBC7DE20659313D00684B79 = {
 			buildPhases = (
+				3447EAE0079DC5FB0055F264,
 				CBBC7DDE0659313D00684B79,
 				CBBC7DDF0659313D00684B79,
 				CBBC7DE00659313D00684B79,
@@ -348,7 +375,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = "/Library/Frameworks /Users/evands/growl/build";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
