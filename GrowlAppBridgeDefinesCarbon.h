@@ -4,7 +4,7 @@
 // Automatically generated from GrowlAppBridgeDefines.h on Sat Jan 2005 by GenCarbonHeader.pl
 //
 
-@header
+ /*@header
  @abstract   Defines all the notification keys
  @discussion Defines all the keys used for registration and growl notifications.
  */
