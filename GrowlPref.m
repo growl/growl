@@ -12,6 +12,10 @@
 
 #define PING_TIMEOUT		3
 
+@interface GrowlPref (GrowlPrefPrivate)
+- (BOOL)_isGrowlRunning;
+@end
+
 @implementation GrowlPref
 
 - (id) initWithBundle:(NSBundle *)bundle {
@@ -20,15 +24,21 @@
 		tickets = nil;
 		currentApplication = nil;
 		loadedPrefPanes = [[NSMutableArray alloc] init];
+		startStopTimer = nil;
+		NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
+		[nc addObserver:self selector:@selector(growlLaunched:) name:GROWL_IS_READY object:nil];
+		[nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
 	}
 	return self;
 }
 
 - (void) dealloc {
+	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 	[pluginPrefPane release];
 	[loadedPrefPanes release];
 	[tickets release];
 	[currentApplication release];
+	[startStopTimer release];
 	[super dealloc];
 }
 
@@ -37,6 +47,7 @@
     ACImageAndTextCell* imageAndTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
     [imageAndTextCell setEditable: YES];
     [tableColumn setDataCell:imageAndTextCell];
+	[growlRunningProgress setDisplayedWhenStopped:NO];
 }
 
 - (void) mainViewDidLoad {
@@ -137,9 +148,12 @@
 }
 
 - (void)updateRunningStatus {
+	[startStopTimer invalidate];
+	startStopTimer = nil;
 	[startStopGrowl setEnabled:YES];
 	[startStopGrowl setTitle:growlIsRunning?@"Stop Growl":@"Start Growl"];
 	[growlRunningStatus setStringValue:growlIsRunning?@"Growl is running.":@"Growl is stopped"];
+	[growlRunningProgress stopAnimation:self];
 }
 
 - (void)reloadAppTab {
@@ -177,11 +191,21 @@
 #pragma mark "General" tab pane
 
 - (IBAction) startStopGrowl:(id) sender {
-		
 	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
+	
+	// Make sure growlIsRunning is correct
+	if (growlIsRunning != [self _isGrowlRunning]) {
+		// Nope - lets just flip it and update status
+		growlIsRunning = !growlIsRunning;
+		[self updateRunningStatus];
+		return;
+	}
 	
 	if(!growlIsRunning) {
 		//growlIsRunning = [[NSWorkspace sharedWorkspace] launchApplication:helperPath];
+		[startStopGrowl setEnabled:NO];
+		[growlRunningStatus setStringValue:[NSString stringWithUTF8String:"Launching Growl…"]];
+		[growlRunningProgress startAnimation:self];
 		// We want to launch in background, so we have to resort to Carbon
 		LSLaunchFSRefSpec spec;
 		FSRef appRef;
@@ -195,12 +219,24 @@
 			spec.asyncRefCon = NULL;
 			status = LSOpenFromRefSpec(&spec, NULL);
 		}
-		growlIsRunning = (status == noErr);
+		//growlIsRunning = (status == noErr);
 	} else {
+		[startStopGrowl setEnabled:NO];
+		[growlRunningStatus setStringValue:[NSString stringWithUTF8String:"Terminating Growl…"]];
+		[growlRunningProgress startAnimation:self];
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
-		growlIsRunning = NO;
+		//growlIsRunning = NO;
 	}
-	[self updateRunningStatus];
+	//[self updateRunningStatus];
+	// After 5 seconds update status, in case growl didn't start/stop
+	startStopTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self
+													selector:@selector(startStopTimeout:)
+													userInfo:nil repeats:NO];
+}
+
+- (void) startStopTimeout:(NSTimer *)timer {
+	timer = nil;
+	[self checkGrowlRunning];
 }
 
 - (IBAction) startGrowlAtLogin:(id) sender {
@@ -485,17 +521,7 @@
 }*/
 
 - (void)checkGrowlRunning {
-	growlIsRunning = NO;
-	ProcessSerialNumber PSN = {kNoProcess, kNoProcess};
-	while (GetNextProcess(&PSN) == noErr) {
-		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-		if ([[infoDict objectForKey:@"CFBundleIdentifier"] isEqualToString:@"com.Growl.GrowlHelperApp"]) {
-			growlIsRunning = YES;
-			[infoDict release];
-			break;
-		}
-		[infoDict release];
-	}
+	growlIsRunning = [self _isGrowlRunning];
 	[self updateRunningStatus];
 }
 
@@ -516,6 +542,34 @@
 	
 	if([currentApplication isEqualToString:app])
 		[self reloadPreferences];	
+}
+
+- (void)growlLaunched:(NSNotification *)note {
+	growlIsRunning = YES;
+	[self updateRunningStatus];
+}
+
+- (void)growlTerminated:(NSNotification *)note {
+	growlIsRunning = NO;
+	[self updateRunningStatus];
+}
+
+#pragma mark -
+#pragma mark Private
+- (BOOL)_isGrowlRunning {
+	BOOL isRunning = NO;
+	ProcessSerialNumber PSN = {kNoProcess, kNoProcess};
+	while (GetNextProcess(&PSN) == noErr) {
+		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
+		if ([[infoDict objectForKey:@"CFBundleIdentifier"] isEqualToString:@"com.Growl.GrowlHelperApp"]) {
+			isRunning = YES;
+			[infoDict release];
+			break;
+		}
+		[infoDict release];
+	}
+	
+	return isRunning;
 }
 
 @end

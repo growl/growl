@@ -10,7 +10,8 @@
 @interface GrowlPref : NSPreferencePane {
 	NSMutableDictionary		* tickets;
 	NSMutableArray			* applications;
-	NSTimer					* pingTimer;
+	//NSTimer				* pingTimer;
+	NSTimer					* startStopTimer;
 	
 	NSPreferencePane		* pluginPrefPane;
 	NSMutableArray			* loadedPrefPanes;
@@ -29,10 +30,11 @@
 	IBOutlet NSTabView		* tabView;
 
 	//"General" tab pane
-	IBOutlet NSButton		* startGrowlAtLogin;
-	IBOutlet NSButton		* startStopGrowl;
-	IBOutlet NSTextField	* growlRunningStatus;
-	IBOutlet NSPopUpButton	* allDisplayPlugins;
+	IBOutlet NSButton				* startGrowlAtLogin;
+	IBOutlet NSButton				* startStopGrowl;
+	IBOutlet NSTextField			* growlRunningStatus;
+	IBOutlet NSProgressIndicator	* growlRunningProgress;
+	IBOutlet NSPopUpButton			* allDisplayPlugins;
 	
 	//"Applications" tab pane
 	IBOutlet NSTableView	* applicationNotifications;

@@ -21,6 +21,7 @@
                 displayPrefView = NSView; 
                 displayVersion = NSTextField; 
                 growlApplications = NSTableView; 
+                growlRunningProgress = NSProgressIndicator; 
                 growlRunningStatus = NSTextField; 
                 revert = NSButton; 
                 startGrowlAtLogin = NSButton; 
