@@ -350,6 +350,7 @@
 					unsigned notificationIndex = [obj unsignedIntValue];
 					if (notificationIndex >= numAllNotifications) {
 						NSLog(@"WARNING: application %@ tried to allow notification at index %u by default, but there is no such notification in its list of %u", appName, notificationIndex, numAllNotifications);
+						note = nil;
 					} else {
 						note = [inAllNotes objectAtIndex:notificationIndex];
 					}
@@ -357,7 +358,7 @@
 					//it's probably a notification name
 					note = obj;
 				}
-				if (![allNotesCopy objectForKey:note]) {
+				if (note && ![allNotesCopy objectForKey:note]) {
 					[allNotesCopy setObject:[GrowlApplicationNotification notificationWithName:note] forKey:note];
 				}
 			}
