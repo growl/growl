@@ -10,12 +10,24 @@
 		<commands>
 			<command name="notify" code="notifygr" description="Post a notification to be displayed via Growl">
 				<cocoa class="GrowlScriptCommand"/>
-				<parameter name="with title" code="titl" type="string" description="title of the notification to display"/>
-				<parameter name="description" code="desc" type="string" description="full text of the notification to display"/>
-				<parameter name="image from URL" optional="optional" code="iurl" type="string" description="URL of the icon to use for this notification. Currently limited to file:/// URLs."/>
-				<parameter name="icon of file" optional="optional" code="ifil" type="string" description="URL of the file whose icon should be used as the image for this notification. For example, 'file:///Applications'. Must be a file:/// URL."/>
-				<parameter name="icon of application" optional="optional" code="iapp" type="string" description="Name of the application whose icon should be used for this notification. For example, 'Mail.app'."/>
-				<parameter name="sticky" optional="optional" code="stck" type="boolean" description="whether or not the notification displayed should time out. Defaults to 'no'."/>
+				<parameter name="with title" code="titl" type="string" description="title of the notification to display">
+					<cocoa key="withTitle"/>
+				</parameter>
+				<parameter name="description" code="desc" type="string" description="full text of the notification to display">
+					<cocoa key="description"/>
+				</parameter>
+				<parameter name="image from URL" optional="optional" code="iurl" type="string" description="URL of the icon to use for this notification. Currently limited to file:/// URLs.">
+					<cocoa key="imageFromURL"/>
+				</parameter>
+				<parameter name="icon of file" optional="optional" code="ifil" type="string" description="URL of the file whose icon should be used as the image for this notification. For example, 'file:///Applications'. Must be a file:/// URL.">
+					<cocoa key="iconOfFile"/>
+				</parameter>
+				<parameter name="icon of application" optional="optional" code="iapp" type="string" description="Name of the application whose icon should be used for this notification. For example, 'Mail.app'.">
+					<cocoa key="iconOfApplication"/>
+				</parameter>
+				<parameter name="sticky" optional="optional" code="stck" type="boolean" description="whether or not the notification displayed should time out. Defaults to 'no'.">
+					<cocoa key="sticky"/>
+				</parameter>
 			</command>
 		</commands>
 	</suite>
