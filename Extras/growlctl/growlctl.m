@@ -47,10 +47,9 @@ int main (int argc, const char **argv) {
 			[growlPref setGrowlRunning:YES];
 		} else if(!strcasecmp(argv[1], "isRunning")) {
 			BOOL isRunning = [growlPref isGrowlRunning];
-			if((argc >= 3) && (!strcasecmp(argv[2], "-q")))
-				status = !isRunning;
-			else
+			if((argc < 3) || strcasecmp(argv[2], "-q"))
 				printf("Growl is %s""running\n", isRunning ? "" : "not ");
+			status = !isRunning;
 		} else if(!strcmp(argv[1], "getpref")) {
 			NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 			NSDictionary *growlPrefs = [defaults persistentDomainForName:HelperAppBundleIdentifier];
