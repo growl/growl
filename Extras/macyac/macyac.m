@@ -29,7 +29,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <GrowlAppBridge/GrowlDefines.h>
+#import "../../GrowlDefines.h"
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -47,7 +47,7 @@
 static int port = DEFAULT_YAC_PORT;
 static int sticky = 0;
 
-void usage(const char *argv[])
+void usage(char *argv[])
 {
 	fprintf(stderr, "Usage: %s [-h] [-s] [-p port]\n", argv[0]);
     fprintf(stderr, "-h: display this help message\n");
@@ -56,7 +56,7 @@ void usage(const char *argv[])
 	exit(1);
 }
 
-void getoptions(int argc, const char *argv[])
+void getoptions(int argc, char *argv[])
 {
 	int ch;
 	
@@ -172,7 +172,7 @@ void chld_handler (int signum)
 	wait3(&status, WNOHANG, NULL);
 }
 
-int main (int argc, const char *argv[])
+int main (int argc, char *argv[])
 {
 	int sock;
 	int client;

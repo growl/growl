@@ -28,7 +28,8 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-CFLAGS+=-framework Foundation
+CC = gcc
+CFLAGS+= -Wall -framework Foundation
 BINDIR?=/usr/local/bin
 
 ### do not modify below this point ###
