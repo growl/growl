@@ -141,15 +141,15 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 	[_title drawAtPoint:NSMakePoint( 55.f, heightOffset - 15.f ) withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
-			[NSFont boldSystemFontOfSize:13.], NSFontAttributeName,
+			[NSFont boldSystemFontOfSize:13.f], NSFontAttributeName,
 			_textColor, NSForegroundColorAttributeName,
 			nil]];
 	[_text drawInRect:NSMakeRect( 55.f, 10.f, 200.f, heightOffset - 25.f ) withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
-			[NSFont boldSystemFontOfSize:13.], NSFontAttributeName,
+			[NSFont messageFontOfSize:11.f], NSFontAttributeName,
 			_textColor, NSForegroundColorAttributeName,
 			nil]];
-
+	
 	NSSize iconSize = [_icon size];
 	if( iconSize.width > 32.f || iconSize.height > 32.f ) {
 
@@ -273,7 +273,12 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 - (float) descriptionHeight {
 	
 	if (_textHeight == 0) {
-		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:_text];
+		NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:_text attributes:
+			[NSDictionary dictionaryWithObjectsAndKeys:
+				[NSFont messageFontOfSize:11.f], NSFontAttributeName,
+				_textColor, NSForegroundColorAttributeName,
+				nil]];
+		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:attributedText];
 		NSTextContainer* textContainer = [[[NSTextContainer alloc]
 			initWithContainerSize:NSMakeSize ( 200.f, FLT_MAX )] autorelease];
 		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
@@ -283,6 +288,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 		[layoutManager glyphRangeForTextContainer:textContainer];
 
 		_textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+		[attributedText release];
 
 		// for some reason, this code is using a 13-point line height for calculations, but the font 
 		// in fact renders in 14 points of space. Do some adjustments.
@@ -300,7 +306,11 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 - (int) descriptionRowCount {
 	float height = [self descriptionHeight];
-	NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:_text];
+	NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:_text attributes:
+		[NSDictionary dictionaryWithObjectsAndKeys:
+			[NSFont messageFontOfSize:11.f], NSFontAttributeName,
+			_textColor, NSForegroundColorAttributeName,
+			nil]];
 	float lineHeight = [attributedText size].height;
 	[attributedText release];
 	BOOL limitPref = YES;

@@ -87,8 +87,9 @@ static unsigned int bubbleWindowDepth = 0;
 	// the visibility time for this bubble should be the minimum display time plus
 	// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
 	int rowCount = [view descriptionRowCount];
-	if (rowCount <= 2)
+	if (rowCount <= 2) {
 		rowCount = 0;
+	}
 	BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
 	if (!limitPref) {

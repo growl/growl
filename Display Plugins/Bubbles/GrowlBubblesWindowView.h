@@ -24,18 +24,18 @@
 }
 
 - (void)setPriority:(int)priority;
-- (void)setIcon:(NSImage *) icon;
-- (void)setTitle:(NSString *) title;
-- (void)setText:(NSString *) text;
+- (void)setIcon:(NSImage *)icon;
+- (void)setTitle:(NSString *)title;
+- (void)setText:(NSString *)text;
 
-- (void) sizeToFit;
-- (float) descriptionHeight;
-- (int) descriptionRowCount;
+- (void)sizeToFit;
+- (float)descriptionHeight;
+- (int)descriptionRowCount;
 	
-- (id) target;
-- (void) setTarget:(id) object;
+- (id)target;
+- (void)setTarget:(id)object;
 
-- (SEL) action;
-- (void) setAction:(SEL) selector;
+- (SEL)action;
+- (void)setAction:(SEL)selector;
 @end
 
