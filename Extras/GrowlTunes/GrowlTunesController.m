@@ -72,6 +72,7 @@ enum {
 - (id)init {
 	
 	if ( self = [super init] ) {
+#ifdef USE_OLD_GAB
 		Class GABClass = NSClassFromString(@"GrowlAppBridge");
 		[GABClass launchGrowlIfInstalledNotifyingTarget:self
 		                                       selector:@selector(registerGrowl:)
@@ -80,6 +81,9 @@ enum {
 															selector:@selector(growlIsReady:)
 																name:GROWL_IS_READY
 															  object:nil];
+#else
+		[GrowlApplicationBridge setGrowlDelegate:self];
+#endif //ndef USE_OLD_GAB
 
 		[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithDouble:DEFAULT_POLL_INTERVAL], pollIntervalKey,
@@ -98,36 +102,10 @@ enum {
 	return self;
 }
 
-- (void)registerGrowl:(void *)context {
-	NSArray			* allNotes = [NSArray arrayWithObjects: 
-		ITUNES_TRACK_CHANGED, 
-//		ITUNES_PAUSED, 
-//		ITUNES_STOPPED,
-		ITUNES_PLAYING, 
-		nil];
-	NSImage			* iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:iTunesAppName];
-	NSDictionary	* regDict = [NSDictionary dictionaryWithObjectsAndKeys:
-		appName, GROWL_APP_NAME,
-		[iTunesIcon TIFFRepresentation], GROWL_APP_ICON,
-		allNotes, GROWL_NOTIFICATIONS_ALL,
-		allNotes, GROWL_NOTIFICATIONS_DEFAULT,
-		nil];
-
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:regDict];
-}
-
-- (void) growlIsReady:(NSNotification *)notification {
-	[self registerGrowl:NULL];
-}
-
-- (void) setPolling:(BOOL)flag {
-	polling = flag;
-}
-
 - (void) applicationWillFinishLaunching: (NSNotification *)notification {
 	pollScript       = [self appleScriptNamed:@"jackItunesInfo"];
 	quitiTunesScript = [self appleScriptNamed:@"quitiTunes"];
-	getInfoScript = [self appleScriptNamed:@"jackItunesArtwork"];
+	getInfoScript    = [self appleScriptNamed:@"jackItunesArtwork"];
 	
 	if (polling) {
 		pollInterval = [[NSUserDefaults standardUserDefaults] floatForKey:pollIntervalKey];
@@ -175,24 +153,97 @@ enum {
 }
 
 #pragma mark -
+#pragma mark Growl delegate conformance
 
-- (NSString *) starsForRating:(unsigned)rating {
+- (NSDictionary *) registrationDictionaryForGrowl {
+	NSArray			* allNotes = [NSArray arrayWithObjects: 
+		ITUNES_TRACK_CHANGED, 
+		//		ITUNES_PAUSED, 
+		//		ITUNES_STOPPED,
+		ITUNES_PLAYING, 
+		nil];
+	NSImage			* iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:iTunesAppName];
+	NSDictionary	* regDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		appName, GROWL_APP_NAME,
+		[iTunesIcon TIFFRepresentation], GROWL_APP_ICON,
+		allNotes, GROWL_NOTIFICATIONS_ALL,
+		allNotes, GROWL_NOTIFICATIONS_DEFAULT,
+		nil];
+	return regDict;
+}
+
+- (NSString *) applicationNameForGrowl {
+	return appName;
+}
+
+#ifdef USE_OLD_GAB
+- (void)registerGrowl:(void *)context {
+	NSDictionary *regDict = [self registrationDictionaryForGrowl];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:regDict];
+}
+
+- (void) growlIsReady:(NSNotification *)notification {
+	[self registerGrowl:NULL];
+}
+#endif //def USE_OLD_GAB
+
+- (void) setPolling:(BOOL)flag {
+	polling = flag;
+}
+
+#pragma mark -
+
+- (NSString *) starsForRating:(float)rating {
+	if(rating < 0.0f) rating = 0.0f;
+
 	enum {
-		BLACK_STAR = 0x2605, WHITE_STAR = 0x2606,
+		BLACK_STAR  = 0x2605, WHITE_STAR = 0x2606,
+		ONE_HALF    = 0x00BD,
+		ONE_QUARTER = 0x00BC, THREE_QUARTERS = 0x00BE,
+		ONE_THIRD   = 0x2153, TWO_THIRDS     = 0x2154,
+		ONE_FIFTH   = 0x2155, TWO_FIFTHS     = 0x2156, THREE_FIFTHS = 0x2157, FOUR_FIFTHS   = 0x2158,
+		ONE_SIXTH   = 0x2159, FIVE_SIXTHS    = 0x215a,
+		ONE_EIGHTH  = 0x215b, THREE_EIGHTHS  = 0x215c, FIVE_EIGHTHS = 0x215d, SEVEN_EIGHTHS = 0x215e,
 		numStars = 5,
 	};
-	
-	unichar stars[2] = { WHITE_STAR, BLACK_STAR };
-	unichar starBuffer[numStars] = {
-		stars[rating >=  20],
-		stars[rating >=  40],
-		stars[rating >=  60],
-		stars[rating >=  80],
-		stars[rating >= 100],
+	static unichar fractionChars[] = {
+		/*0/20*/ WHITE_STAR,
+		/*1/20*/ ONE_FIFTH, TWO_FIFTHS, THREE_FIFTHS,
+		/*4/20 = 1/5*/ ONE_FIFTH,
+		/*5/20 = 1/4*/ ONE_QUARTER,
+		/*6/20*/ ONE_THIRD, FIVE_EIGHTHS,
+		/*8/20 = 2/5*/ TWO_FIFTHS, TWO_FIFTHS,
+		/*10/20 = 1/2*/ ONE_HALF, ONE_HALF,
+		/*12/20 = 3/5*/ THREE_FIFTHS,
+		/*13/20 = 0.65; 5/8 = 0.625*/ FIVE_EIGHTHS,
+		/*14/20 = 7/10*/ FIVE_EIGHTHS, //highly approximate, of course, but it's as close as I could get :)
+		/*15/20 = 3/4*/ THREE_QUARTERS,
+		/*16/20 = 4/5*/ FOUR_FIFTHS, FOUR_FIFTHS,
+		/*18/20 = 9/10*/ SEVEN_EIGHTHS, SEVEN_EIGHTHS, //another approximation
 	};
-	
+
+	unichar starBuffer[numStars];
+	float   wholeStarRequirement = 20.0f;
+	for(unsigned i = 0U; i < numStars; ++i) {
+		if(rating >= wholeStarRequirement) {
+			starBuffer[i] = BLACK_STAR;
+			rating -= 20.0f;
+		} else {
+			/*examples:
+			 *if the rating is 95, then twentieths = 15, and we get 3/4.
+			 *if the rating is 80, then twentieths = 0,  and we get WHITE STAR.
+			 */
+			unsigned twentieths = rating;
+			starBuffer[i] = fractionChars[twentieths];
+			rating = 0.0f; //ensure that remaining characters are WHITE STAR.
+		}
+	}
+
 	return [NSString stringWithCharacters:starBuffer length:numStars];
 }
+
+#pragma mark -
+#pragma mark iTunes 4.7 notifications
 
 - (void) songChanged:(NSNotification *)aNotification {
 	NSString				* playerState = nil;
@@ -205,7 +256,7 @@ enum {
 		newState = itPAUSED;
 	} else if( [playerState isEqualToString:@"Stopped"] ) {
 		newState = itSTOPPED;
-	} else {
+	} else if( [playerState isEqualToString:@"Playing"] ){
 		newState = itPLAYING;
 		// For radios and files, the ID is the location.
 		// While on the iTMS, it's the Store URL
@@ -243,7 +294,6 @@ enum {
 		NSString		*ratingString = nil;
 		NSImage			*artwork = nil;
 		NSString		*displayString = nil;
-		NSDictionary	*noteDict;
 		NSDictionary	*error = nil;
 		
 		if ([userInfo objectForKey:@"Artist"])
@@ -252,30 +302,34 @@ enum {
 			album = [userInfo objectForKey:@"Album"];
 		track = [userInfo objectForKey:@"Name"];
 		
-		length = [userInfo objectForKey:@"Total Time"];
+		length  = [userInfo objectForKey:@"Total Time"];
 		// need to format a bit the length as it is returned in ms
-		int lv = [length intValue];
+		int lv  = [length intValue];
+		int hr  = lv/3600000;
 		int min = lv/60000;
 		int sec = lv/1000 - 60*min;
-		length = [NSString stringWithFormat:@"%d:%02d", min, sec];
+		if(hr > 0)
+			length = [NSString stringWithFormat:@"%d:%02d:%02d", hr, min, sec];
+		else
+			length = [NSString stringWithFormat:@"%d:%02d", min, sec];
 		
-		if ([userInfo objectForKey:@"Compilation"])
-			compilation = YES;
-		
-		if ([newTrackURL hasPrefix:@"file:/"]) {
-			NSAppleEventDescriptor	* theDescriptor = [getInfoScript executeAndReturnError:&error];
-			NSAppleEventDescriptor  * curDescriptor;
+		compilation = ([userInfo objectForKey:@"Compilation"] != nil);
 
-			int ratingInt = [[userInfo objectForKey:@"Rating"] intValue];
-			rating = [NSNumber numberWithInt:ratingInt];
-			if(ratingInt < 0) ratingInt = 0;
-			ratingString = [self starsForRating:ratingInt];
+		if ([newTrackURL hasPrefix:@"file:/"] || [newTrackURL hasPrefix:@"itms:/"]) {
+			NSAppleEventDescriptor	*theDescriptor = [getInfoScript executeAndReturnError:&error];
+			NSAppleEventDescriptor  *curDescriptor;
+
+			float ratingFloat = [[userInfo objectForKey:@"Rating"] floatValue];
+			//ensure that rating is an NSNumber, not merely something polymorphic to one like an NSString
+			rating = [NSNumber numberWithFloat:ratingFloat];
+			if(ratingFloat < 0.0f) ratingFloat = 0.0f;
+			ratingString = [self starsForRating:ratingFloat];
 
 			curDescriptor = [theDescriptor descriptorAtIndex:2L];
 			playlistName = [curDescriptor stringValue];
 			curDescriptor = [theDescriptor descriptorAtIndex:1L];
 			const OSType type = [curDescriptor typeCodeValue];
-		
+
 			if( type != 'null' ) {
 				artwork = [[[NSImage alloc] initWithData:[curDescriptor data]] autorelease];
 			}
@@ -318,18 +372,22 @@ enum {
 		}
 		
 		// Tell growl
-		noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		NSDictionary	*noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
 			( state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING ), GROWL_NOTIFICATION_NAME,
 			appName, GROWL_APP_NAME,
 			track, GROWL_NOTIFICATION_TITLE,
 			displayString, GROWL_NOTIFICATION_DESCRIPTION,
-					  artwork ? [artwork TIFFRepresentation] : nil, GROWL_NOTIFICATION_ICON,
+			( artwork ? [artwork TIFFRepresentation] : nil ), GROWL_NOTIFICATION_ICON,
 			length, EXTENSION_GROWLTUNES_TRACK_LENGTH,
 			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
+#ifdef USE_OLD_GAB
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																	   object:nil
 																	 userInfo:noteDict];
+#else
+		[GrowlApplicationBridge notifyWithDictionary:noteDict];
+#endif //ndef USE_OLD_GAB
 		
 		// set up us some state for next time
 		state = newState;
@@ -442,7 +500,7 @@ enum {
 			appName, GROWL_APP_NAME,
 			track, GROWL_NOTIFICATION_TITLE,
 			[NSString stringWithFormat:@"%@ - %@\n%@\n%@",length,ratingString,artist,album], GROWL_NOTIFICATION_DESCRIPTION,
-					  artwork ? [artwork TIFFRepresentation] : nil, GROWL_NOTIFICATION_ICON,
+			( artwork ? [artwork TIFFRepresentation] : nil ), GROWL_NOTIFICATION_ICON,
 			length, EXTENSION_GROWLTUNES_TRACK_LENGTH,
 			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
