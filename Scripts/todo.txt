@@ -1,0 +1,12 @@
+This is the todo for the scripts.
+
+
+
+Applescripts needing to be updated for the .6 release:
+iChat
+
+Applescripts which have been updated:
+iPod
+Growl commits
+SVN update
+Salling Clicker (haven't checked the cgz file)
