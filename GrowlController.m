@@ -29,7 +29,7 @@ static id _singleton = nil;
 }
 
 - (id) init {
-	if ( self = [super init] ) {
+	if ( (self = [super init]) ) {
 		NSDistributedNotificationCenter * NSDNC = [NSDistributedNotificationCenter defaultCenter];
 		[NSDNC addObserver:self 
 				  selector:@selector( _registerApplication: ) 
@@ -306,7 +306,7 @@ static id _singleton = nil;
 	[_notificationQueue removeAllObjects];
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
-	while (dict = [e nextObject]) {
+	while( (dict = [e nextObject] ) ) {
 		[self dispatchNotificationWithDictionary:dict];
 	}
 }
@@ -316,7 +316,7 @@ static id _singleton = nil;
 	[_registrationQueue removeAllObjects];
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
-	while (dict = [e nextObject]) {
+	while( (dict = [e nextObject] ) ) {
 		[self _registerApplicationWithDictionary:dict];
 	}
 }

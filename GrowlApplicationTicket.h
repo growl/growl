@@ -79,6 +79,7 @@ typedef enum GrowlPriority {
 
 - (void) saveTicket;
 - (void) saveTicketToPath:(NSString *)destDir;
+- (NSString *) path;
 
 #pragma mark -
 

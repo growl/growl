@@ -852,8 +852,6 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Growl_Prefix.pch;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
@@ -864,7 +862,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Growl;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-W -Wmost -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = prefPane;
 			};
 			dependencies = (
@@ -1477,7 +1475,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = GrowlHelperApp;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-W -Wmost -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 			};
 			dependencies = (
 				6C1D4F7106FA0C7E00A5D946,

@@ -34,7 +34,7 @@ static GrowlPluginController * sharedController;
 		libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
 
 		enumerator = [libraries objectEnumerator];
-		while ( dir = [enumerator nextObject] ) {
+		while( ( dir = [enumerator nextObject] ) ) {
 			dir = [[[dir	stringByAppendingPathComponent:@"Application Support"]
 							stringByAppendingPathComponent:@"Growl"]
 							stringByAppendingPathComponent:@"Plugins"];

@@ -41,7 +41,7 @@ static GrowlPreferences * sharedPreferences;
 	NSEnumerator		* e = [inDefaults keyEnumerator];
 	NSString			* key;
 	
-	while ( key = [e nextObject] ) {
+	while ( (key = [e nextObject]) ) {
 		if ( ![domain objectForKey:key] ) {
 			[domain setObject:[inDefaults objectForKey:key] forKey:key];
 		}

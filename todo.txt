@@ -9,7 +9,6 @@ For .6
 	- Make it so that if gha is off and turned on by an app, it doesn't display notifications.
 - Make GrowlTunes save images into ARTchive
 - Specify license in each file. Growl is BSD, the framework is public domain, examples are public domain unless specified
-- Add a button to remove old tickets
 - Make GrowlMail not run while applying rules if possible
 - Bubbles
 	- Text color colorwell
@@ -29,6 +28,7 @@ Release related issues
 
 
 Done:
+- Add a button to remove old tickets
 - Smoke needs to specify how many lines it allows to be displayed on screen.
 - Display version number.
 - A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.

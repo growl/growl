@@ -53,6 +53,7 @@
 	
 	IBOutlet NSButton		* apply;
 	IBOutlet NSButton		* revert;
+	IBOutlet NSButton		* remove;
 }
 
 - (NSString *)bundleVersion;
@@ -78,6 +79,7 @@
 
 //- (IBAction)useCustomDisplayPlugin:(id)sender;
 //- (IBAction)selectApplicationDisplayPlugin:(id)sender;
+- (IBAction)deleteTicket:(id)sender;
 
 #pragma mark "Display Options" tab pane
 - (void)loadViewForDisplay:(NSString*)displayName;

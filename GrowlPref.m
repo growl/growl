@@ -19,7 +19,7 @@
 @implementation GrowlPref
 
 - (id) initWithBundle:(NSBundle *)bundle {
-	if (self = [super initWithBundle:bundle]) {
+	if( (self = [super initWithBundle:bundle] ) ) {
 		pluginPrefPane = nil;
 		tickets = nil;
 		currentApplication = nil;
@@ -174,7 +174,7 @@
 	NSArray *autoLaunchArray = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
 	NSEnumerator *e = [autoLaunchArray objectEnumerator];
 	NSDictionary *item;
-	while (item = [e nextObject]) {
+	while( (item = [e nextObject] ) ) {
 		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:[[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"]]) {
 			[startGrowlAtLogin setState:NSOnState];
 			break;
@@ -209,7 +209,7 @@
 	id title;
 	[applicationDisplayPluginsMenu addItemWithTitle:@"Default" action:nil keyEquivalent:@""];
 	[applicationDisplayPluginsMenu addItem:[NSMenuItem separatorItem]];
-	while (title = [enumerator nextObject]) {
+	while( (title = [enumerator nextObject] ) ) {
 		[applicationDisplayPluginsMenu addItemWithTitle:title action:nil keyEquivalent:@""];
 	}
 	[[[growlApplications tableColumnWithIdentifier:@"display"] dataCell] setMenu:applicationDisplayPluginsMenu];
@@ -247,12 +247,18 @@
 	currentApplication = nil;
 //	currentApplication = [[growlApplications titleOfSelectedItem] retain];
 	unsigned int numApplications = [applications count];
-	if (([growlApplications selectedRow] < 0) && (numApplications > 0)) {
-		[growlApplications selectRow:0 byExtendingSelection:NO];
-	}
-	if (numApplications > 0) {
+	int row = [growlApplications selectedRow];
+	if( numApplications ) {
+		if( row < 0 ) {
+			[growlApplications selectRow:0 byExtendingSelection:NO];
+		} else if( (unsigned int)row >= numApplications ) {
+			[growlApplications selectRow:numApplications-1 byExtendingSelection:NO];
+		}
 		currentApplication = [[applications objectAtIndex:[growlApplications selectedRow]] retain];
+	} else {
+		[growlApplications selectRow:-1 byExtendingSelection:NO];
 	}
+	[remove setEnabled:([growlApplications selectedRow] >= 0)];
 	appTicket = [tickets objectForKey: currentApplication];
 	
 //	[applicationEnabled setState: [appTicket ticketEnabled]];
@@ -343,7 +349,7 @@
 	NSMutableArray *mutableLoginItems = [[loginItems mutableCopy] autorelease];
 	NSEnumerator *e = [loginItems objectEnumerator];
 	NSDictionary *item;
-	while (item = [e nextObject]) {
+	while( (item = [e nextObject] ) ) {
 		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:appPath]) {
 			[mutableLoginItems removeObject:item];
 		}
@@ -387,9 +393,21 @@
 	[self setPrefsChanged:YES];
 }*/
 
+- (IBAction)deleteTicket:(id)sender
+{
+	int row = [growlApplications selectedRow];
+	id key = [applications objectAtIndex:row];
+	NSString *path = [[tickets objectForKey:key] path];
+	if( [[NSFileManager defaultManager] removeFileAtPath:path handler:nil] ) {
+		[tickets removeObjectForKey:key];
+		[applications removeObjectAtIndex:row];
+		[self reloadAppTab];
+	}
+}
+
 #pragma mark "Display Options" tab pane
 //This is the frame of the preference view that we should get back.
-#define DISPLAY_PREF_FRAME NSMakeRect(165., 42., 354., 289.)
+#define DISPLAY_PREF_FRAME NSMakeRect(165.f, 42.f, 354.f, 289.f)
 - (void)loadViewForDisplay:(NSString*)displayName
 {
 	NSView *newView = nil;
