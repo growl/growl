@@ -76,7 +76,8 @@
 	} else if( [sender addressComment] ) {
 		sender = [sender addressComment];
 	}
-	NSString *title = [NSString stringWithFormat: @"(%@) %@: %@", account, sender, subject];
+	NSString *title = [NSString stringWithFormat: @"(%@) %@", account, sender];
+	NSString *description = [NSString stringWithFormat: @"%@\n%@",  subject, body];
 /*
 	NSLog( @"Subject: '%@'", subject );
 	NSLog( @"Sender: '%@'", sender );
@@ -99,7 +100,7 @@
 		@"GrowlMail", GROWL_APP_NAME,
 		title, GROWL_NOTIFICATION_TITLE,
 		[image TIFFRepresentation], GROWL_NOTIFICATION_ICON,
-		body, GROWL_NOTIFICATION_DESCRIPTION,
+		description, GROWL_NOTIFICATION_DESCRIPTION,
 		nil];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																   object:nil
