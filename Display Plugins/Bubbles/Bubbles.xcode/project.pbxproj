@@ -67,6 +67,7 @@
 				075000A8073A2A74000D8A1F,
 				075000B3073A2ABF000D8A1F,
 				075000B4073A2ABF000D8A1F,
+				075000E7073A2E04000D8A1F,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,18 +333,18 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlDefines.h;
-			path = /Users/boredzo/Projects/growl/GrowlDefines.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../GrowlDefines.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		075000B2073A2ABF000D8A1F = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlDisplayProtocol.h;
-			path = /Users/boredzo/Projects/growl/GrowlDisplayProtocol.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../GrowlDisplayProtocol.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		075000B3073A2ABF000D8A1F = {
 			fileRef = 075000B1073A2ABF000D8A1F;
@@ -361,6 +362,7 @@
 			children = (
 				075000B1073A2ABF000D8A1F,
 				075000B2073A2ABF000D8A1F,
+				075000E6073A2E04000D8A1F,
 			);
 			isa = PBXGroup;
 			name = "Growl necessities";
@@ -404,6 +406,21 @@
 		};
 		075000DF073A2B12000D8A1F = {
 			fileRef = 075000DE073A2B12000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		075000E6073A2E04000D8A1F = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = NSGrowlAdditions.h;
+			path = /Users/boredzo/Projects/growl/NSGrowlAdditions.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		075000E7073A2E04000D8A1F = {
+			fileRef = 075000E6073A2E04000D8A1F;
 			isa = PBXBuildFile;
 			settings = {
 			};
