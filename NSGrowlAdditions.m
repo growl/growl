@@ -25,14 +25,15 @@
 
 @implementation NSString (GrowlAdditions)
 
-- (BOOL)boolValue {
+- (BOOL) boolValue {
 	return [self intValue];
 }
 
-+ (NSString *)stringWithUTF8String:(const char *)bytes length:(unsigned)len {
++ (NSString *) stringWithUTF8String:(const char *)bytes length:(unsigned)len {
 	return [[[self alloc] initWithUTF8String:bytes length:len] autorelease];
 }
-- (id)initWithUTF8String:(const char *)bytes length:(unsigned)len {
+
+- (id) initWithUTF8String:(const char *)bytes length:(unsigned)len {
 	[self dealloc];
 	return (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, bytes, len, kCFStringEncodingUTF8, /*isExternalRepresentation*/ false);
 }
