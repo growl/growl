@@ -5,31 +5,6 @@
 	};
 	objectVersion = 39;
 	objects = {
-		0AAFBBC006D2BDB100BA1A13 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlDefines.h;
-			path = ../../GrowlDefines.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		0AAFBBC106D2BDB100BA1A13 = {
-			fileRef = 0AAFBBC006D2BDB100BA1A13;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-//0A0
-//0A1
-//0A2
-//0A3
-//0A4
-//930
-//931
-//932
-//933
-//934
 		938BF14C079B226800708742 = {
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -76,7 +51,6 @@
 				D3E21B270675FC5E005772E5,
 				D3E21BBE0675FC72005772E5,
 				D3E21C3A0675FCBB005772E5,
-				0AAFBBC006D2BDB100BA1A13,
 				D3E21C5C0675FDC1005772E5,
 				D3E21C5D0675FDC1005772E5,
 				D3E21C6D0675FE21005772E5,
@@ -179,7 +153,6 @@
 			files = (
 				D3E21FB106760711005772E5,
 				D3E21FB206760711005772E5,
-				0AAFBBC106D2BDB100BA1A13,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
