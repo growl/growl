@@ -2330,6 +2330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				34F60EBA078E1D3E00CECA86,
+				CB4083D207911C7500495A6D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3321,7 +3322,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlNotificationServer.h;
+			name = GrowlNotificationServer.h;
+			path = Source/GrowlNotificationServer.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3412,6 +3414,18 @@
 //CB2
 //CB3
 //CB4
+		CB0EBFBA0790941300CA2157 = {
+			children = (
+				958294EF074CDE3100EC7AF2,
+				958294F0074CDE3100EC7AF2,
+				95DD14D30748B04700CC05A4,
+				95DD14D80748B04700CC05A4,
+			);
+			isa = PBXGroup;
+			name = Pathways;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		CB1C5D1B063E432F007052EE = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -3434,6 +3448,12 @@
 			path = README.rtf;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		CB4083D207911C7500495A6D = {
+			fileRef = 34E9EFB40790926400662E8E;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		CB5F835E0638B67C00EADD7A = {
 			children = (
@@ -3505,6 +3525,7 @@
 		};
 		CB5F847F0638BD6200EADD7A = {
 			children = (
+				CB0EBFBA0790941300CA2157,
 				956ADAC607551C4500AF9545,
 				956ADACB07551C4500AF9545,
 				956ADAD007551C4500AF9545,
@@ -3513,10 +3534,6 @@
 				956ADADF07551C4500AF9545,
 				956ADAE407551C4500AF9545,
 				956ADAE907551C4500AF9545,
-				958294EF074CDE3100EC7AF2,
-				958294F0074CDE3100EC7AF2,
-				95DD14D30748B04700CC05A4,
-				95DD14D80748B04700CC05A4,
 				CB5F83890638B78200EADD7A,
 				CB5F838A0638B78200EADD7A,
 				F57BFE2C0669037C00DE5BFD,

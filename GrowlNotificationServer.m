@@ -15,15 +15,15 @@
 - (void) registerApplication:(NSDictionary *)dict {
 	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
 	if ( enabled ) {
-		[[GrowlController singleton] registerApplicationWithDictionary:dict];
+		[[GrowlController standardController] registerApplicationWithDictionary:dict];
 	}
 }
 
 - (void) postNotification:(NSDictionary *)notification {
-	[[GrowlController singleton] dispatchNotificationWithDictionary:notification];
+	[[GrowlController standardController] dispatchNotificationWithDictionary:notification];
 }
 
 - (NSString *) growlVersion {
-	return [[GrowlController singleton] growlVersion];
+	return [[GrowlController standardController] growlVersion];
 }
 @end

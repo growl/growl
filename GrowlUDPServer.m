@@ -68,8 +68,7 @@ static const char *keychainAccountName = "Growl";
 
 #pragma mark -
 
-+ (BOOL) authenticatePacket:(const unsigned char *)packet length:(unsigned)length
-{
++ (BOOL) authenticatePacket:(const unsigned char *)packet length:(unsigned)length {
 	char *password;
 	unsigned messageLength;
 	UInt32 passwordLength;
@@ -118,6 +117,7 @@ static const char *keychainAccountName = "Growl";
 
 		if ( length >= sizeof(struct GrowlNetworkPacket) ) {
 			struct GrowlNetworkPacket *packet = (struct GrowlNetworkPacket *)[data bytes];
+			
 			if ( packet->version == GROWL_PROTOCOL_VERSION ) {
 				switch ( packet->type ) {
 					case GROWL_TYPE_REGISTRATION:
@@ -163,7 +163,7 @@ static const char *keychainAccountName = "Growl";
 											defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 											nil];
 
-										[[GrowlController singleton] registerApplicationWithDictionary:registerInfo];
+										[[GrowlController standardController] registerApplicationWithDictionary:registerInfo];
 									} else {
 										NSLog( @"GrowlUDPServer: authentication failed." );
 									}
@@ -204,7 +204,7 @@ static const char *keychainAccountName = "Growl";
 										[notificationIcon TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 										nil];
 
-									[[GrowlController singleton] dispatchNotificationWithDictionary:notificationInfo];
+									[[GrowlController standardController] dispatchNotificationWithDictionary:notificationInfo];
 								} else {
 									NSLog( @"GrowlUDPServer: authentication failed." );
 								}

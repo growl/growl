@@ -41,7 +41,7 @@
 	NSDictionary				*versionInfo;
 }
 
-+ (id) singleton;
++ (id) standardController;
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename;
 

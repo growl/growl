@@ -107,7 +107,7 @@ static const NSSize iconSize = {128.0f, 128.0f};
 			[noteDict setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
 		}
 
-		[[GrowlController singleton] dispatchNotificationWithDictionary:noteDict];
+		[[GrowlController standardController] dispatchNotificationWithDictionary:noteDict];
 	NS_HANDLER
 		NSLog (@"error processing AppleScript request: %@", localException);
 		[self setError:ERROR_EXCEPTION failure:localException];

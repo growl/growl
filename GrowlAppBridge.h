@@ -100,7 +100,7 @@
 - (NSData *) growlAppIconData;
 
 //XXX - Needs documentation
-- (void)growlIsReady;
+- (void) growlIsReady;
 
 //Informs the delegate that a growl notification with the passed clickContext was clicked
 //XXX - Needs documentation

@@ -55,8 +55,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 * This must be called before using GrowlAppBridge.  The methods in the GrowlAppBridgeDelegate are required;
 * other methods defined in the informal protocol are optional.
 * ***********************/
-+ (void) setGrowlDelegate:(NSObject<GrowlAppBridgeDelegate> *)inDelegate
-{
++ (void) setGrowlDelegate:(NSObject<GrowlAppBridgeDelegate> *)inDelegate {
 	NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
 	
 	[delegate autorelease];
@@ -68,7 +67,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	
 	//Cache the appIconData from the delegate if it responds to the growlAppIconData selector
 	[appIconData autorelease];
-	if([delegate respondsToSelector:@selector(growlAppIconData)]){
+	if ([delegate respondsToSelector:@selector(growlAppIconData)]){
 		appIconData = [[delegate growlAppIconData] retain];
 	}
 
@@ -98,8 +97,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	growlLaunched = [self launchGrowlIfInstalled];
 }
 
-+ (NSObject<GrowlAppBridgeDelegate> *) growlDelegate
-{
++ (NSObject<GrowlAppBridgeDelegate> *) growlDelegate {
 	return delegate;
 }
 
@@ -113,51 +111,28 @@ static BOOL				promptedToUpgradeGrowl = NO;
 				iconData:(NSData *)iconData 
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
-			clickContext:(id)clickContext
-{
+			clickContext:(id)clickContext {
 	NSAssert(delegate != nil, @"+[GrowlAppBridge setGrowlDelegate:] must be called before using this method.");
 	
-	//Notification name is required.
-	NSParameterAssert(notifName != nil);
+	NSParameterAssert(notifName != nil);	//Notification name is required.
+	NSParameterAssert((title != nil) || (description != nil));	//At least one of title or description is required.
 
-	//At least one of title or description is required.
-	NSParameterAssert((title != nil) || (description != nil));
-
-	//Build our noteDict from all passed parameters
-	NSMutableDictionary *noteDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-		appName, GROWL_APP_NAME,
-		notifName, GROWL_NOTIFICATION_NAME,
-		nil];
-	
-	if (title) {
-		[noteDict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
-	}
-	
-	if (description) {
-		[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
-	}
-	
-	if (iconData) {
-		[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON];
-	}
-	
-	if (appIconData) {
-		[noteDict setObject:appIconData forKey:GROWL_NOTIFICATION_APP_ICON];		
-	}
-	
-	if (priority) {
-		[noteDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
-	}
-	
-	if (isSticky) {
-		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];		
-	}
-	
-	if (clickContext) {
-		[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-	}
+	// Build our noteDict from all passed parameters
+	NSMutableDictionary *noteDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:	appName,	GROWL_APP_NAME,
+																						notifName,	GROWL_NOTIFICATION_NAME,
+																						nil];
 	
 	if (growlLaunched) {
+		
+		if (title)			[noteDict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
+		if (description)	[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
+		if (iconData)		[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON];
+		if (appIconData)	[noteDict setObject:appIconData forKey:GROWL_NOTIFICATION_APP_ICON];		
+		if (priority)		[noteDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
+		if (isSticky)		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];
+		if (clickContext)	[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+
+
 		//Post to Growl via NSDistributedNotificationCenter
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																	   object:nil
@@ -180,8 +155,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	}
 }
 
-+ (NSBundle *) growlPrefPaneBundle
-{
++ (NSBundle *) growlPrefPaneBundle {
 	NSString		*path;
 	NSString		*bundleIdentifier;
 	NSEnumerator	*preferencePanesPathsEnumerator;
@@ -193,11 +167,13 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	preferencePanesPathsEnumerator = [self _preferencePaneSearchEnumerator];
 	while ((path = [preferencePanesPathsEnumerator nextObject])) {
 		path = [path stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
-		if ([[NSFileManager defaultManager] fileExistsAtPath:path])
-		{
+		
+		if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
 			prefPaneBundle = [NSBundle bundleWithPath:path];
+			
 			if (prefPaneBundle){
 				bundleIdentifier = [prefPaneBundle bundleIdentifier];
+				
 				if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]){
 					return prefPaneBundle;
 				}
@@ -211,15 +187,17 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	preferencePanesPathsEnumerator = [[GrowlAppBridge _allPreferencePaneBundles] objectEnumerator];
 	while ( (path = [preferencePanesPathsEnumerator nextObject] ) ) {
 		prefPaneBundle = [NSBundle bundleWithPath:path];
+		
 		if (prefPaneBundle) {
 			bundleIdentifier = [prefPaneBundle bundleIdentifier];
+			
 			if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]) {
 				return prefPaneBundle;
 			}
 		}
 	}
 	
-	return (nil);
+	return nil;
 }
 
 /*
@@ -230,8 +208,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	is the preferred way to register.  If Growl is installed but disabled, the application will be registered and GrowlHelperApp
 	will then quit.  This method will still return YES if Growl is installed but disabled.
  */
-+ (BOOL) launchGrowlIfInstalled
-{
++ (BOOL) launchGrowlIfInstalled {
 	NSBundle		*growlPrefPaneBundle;
 	BOOL			success = NO;
 	
@@ -243,7 +220,6 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	
 		/* Check against our current version number and ensure the installed Growl pane is the same or later */
 		[self _checkForPackagedUpdateForGrowlPrefPaneBundle:growlPrefPaneBundle];
-
 		//Houston, we are go for launch.
 		//Let's launch in the background (unfortunately, requires Carbon)
 		LSLaunchFSRefSpec spec;
@@ -292,8 +268,10 @@ static BOOL				promptedToUpgradeGrowl = NO;
 + (BOOL) isGrowlRunning {
 	BOOL growlIsRunning = NO;
 	ProcessSerialNumber PSN = {kNoProcess, kNoProcess};
+	
 	while (GetNextProcess(&PSN) == noErr) {
 		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
+
 		if ([[infoDict objectForKey:@"CFBundleIdentifier"] isEqualToString:@"com.Growl.GrowlHelperApp"]) {
 			growlIsRunning = YES;
 			[infoDict release];
@@ -307,16 +285,15 @@ static BOOL				promptedToUpgradeGrowl = NO;
 
 /* Selector called when a growl notification is clicked.  This should never be called manually, and the calling observer
  * should only be registered if the delegate responds to growlNotificationWasClicked: */
-+ (void) _growlNotificationWasClicked:(NSNotification *)notification
-{
++ (void) _growlNotificationWasClicked:(NSNotification *)notification {
 	[delegate performSelector:@selector(growlNotificationWasClicked:)
 				   withObject:[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
 }
 
-+ (void) _growlIsReady:(NSNotification *)notification
-{
++ (void) _growlIsReady:(NSNotification *)notification {
+
 	//Inform our delegate if it is interested
-	if([delegate respondsToSelector:@selector(growlIsReady)]){
+	if ([delegate respondsToSelector:@selector(growlIsReady)]){
 		[delegate growlIsReady];
 	}
 
@@ -346,8 +323,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 }
 
 // Returns an enumerator covering each of the locations preference panes can live
-+ (NSEnumerator *) _preferencePaneSearchEnumerator
-{
++ (NSEnumerator *) _preferencePaneSearchEnumerator {
 	NSArray			*librarySearchPaths;
 	NSEnumerator	*searchPathEnumerator;
 	NSString		*preferencePanesSubfolder, *path;
@@ -368,8 +344,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 }
 
 // Returns an array of paths to all user-installed .prefPane bundles
-+ (NSArray *) _allPreferencePaneBundles
-{
++ (NSArray *) _allPreferencePaneBundles {
 	NSEnumerator	*searchPathEnumerator;
 	NSString		*path, *prefPaneExtension;
 	NSMutableArray  *allPreferencePaneBundles = [NSMutableArray array];
@@ -398,8 +373,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 
 /* Sent to us by GrowlInstallationPrompt if the user clicks Cancel so we can avoid prompting again this session
  * (or ever if they checked Don't Ask Again) */
-+ (void) _userChoseNotToInstallGrowl
-{
++ (void) _userChoseNotToInstallGrowl {
 	//Note the user's action so we stop queueing notifications, etc.
 	userChoseNotToInstallGrowl = YES;
 
@@ -408,8 +382,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 }
 
 // Check against our current version number and ensure the installed Growl pane is the same or later
-+ (void) _checkForPackagedUpdateForGrowlPrefPaneBundle:(NSBundle *)growlPrefPaneBundle
-{
++ (void) _checkForPackagedUpdateForGrowlPrefPaneBundle:(NSBundle *)growlPrefPaneBundle {
 	//Extract the path to the Growl helper app from the pref pane's bundle
 	NSString	*ourGrowlPrefPaneInfoPath;
 	float packagedVersion, installedVersion;

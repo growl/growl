@@ -55,7 +55,7 @@ static id singleton = nil;
 
 @implementation GrowlController
 
-+ (id) singleton {
++ (id) standardController {
 	return singleton;
 }
 
