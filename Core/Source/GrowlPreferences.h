@@ -20,8 +20,8 @@
 #define GrowlForwardDestinationsKey	@"GrowlForwardDestinations"
 
 @interface GrowlPreferences : NSObject {
-	NSUserDefaults			* helperAppDefaults;
-	NSBundle				* helperAppBundle;
+	NSUserDefaults *helperAppDefaults;
+	NSBundle       *helperAppBundle;
 }
 
 + (GrowlPreferences *) preferences;
@@ -36,5 +36,10 @@
 
 - (BOOL) startGrowlAtLogin;
 - (void) setStartGrowlAtLogin:(BOOL)flag;
+
+- (BOOL) isGrowlRunning;
+- (void) setGrowlRunning:(BOOL)flag;
+- (void) launchGrowl;
+- (void) terminateGrowl;
 
 @end

@@ -11,6 +11,8 @@
 
 @protocol GrowlPlugin;
 
+@class GrowlApplicationTicket;
+
 @interface GrowlPref : NSPreferencePane {
 	NSMutableArray			*images;
 	NSMutableDictionary		*tickets;
@@ -85,10 +87,6 @@
 - (void) reloadAppTab;
 - (void) reloadDisplayTab;
 - (void) buildMenus;
-
-- (BOOL) isGrowlRunning;
-- (void) launchGrowl;
-- (void) terminateGrowl;
 
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;

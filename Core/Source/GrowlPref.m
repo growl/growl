@@ -8,9 +8,13 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlPref.h"
+#import "GrowlPreferences.h"
+#import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlApplicationNotification.h"
+#import "GrowlApplicationTicket.h"
 #import "GrowlDisplayProtocol.h"
+#import "GrowlPluginController.h"
 #import "GrowlVersionUtilities.h"
 #import "ACImageAndTextCell.h"
 #import "NSGrowlAdditions.h"
@@ -26,22 +30,22 @@ static const char *keychainAccountName = "Growl";
 @implementation GrowlPref
 
 - (id) initWithBundle:(NSBundle *)bundle {
-	if ( (self = [super initWithBundle:bundle] ) ) {
-		versionCheckURL = nil;
-		downloadURL = nil;
-		pluginPrefPane = nil;
-		tickets = nil;
+	if ((self = [super initWithBundle:bundle])) {
+		versionCheckURL    = nil;
+		downloadURL        = nil;
+		pluginPrefPane     = nil;
+		tickets            = nil;
 		currentApplication = nil;
-		startStopTimer = nil;
-		loadedPrefPanes = [[NSMutableArray alloc] init];
+		startStopTimer     = nil;
+		loadedPrefPanes    = [[NSMutableArray alloc] init];
 		
 		NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 		[nc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
 		[nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
 		
-		[[GrowlPreferences preferences] registerDefaults:
-			[NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlDefaults"
-																										ofType:@"plist"]]];
+		NSDictionary *defaultDefaults = [NSDictionary dictionaryWithContentsOfFile:[bundle pathForResource:@"GrowlDefaults"
+																									ofType:@"plist"]];
+		[[GrowlPreferences preferences] registerDefaults:defaultDefaults];
 	}
 
 	return self;
@@ -49,16 +53,16 @@ static const char *keychainAccountName = "Growl";
 
 - (void) dealloc {
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
-	[browser release];
-	[services release];
-	[pluginPrefPane release];
-	[loadedPrefPanes release];
-	[tickets release];
+	[browser            release];
+	[services           release];
+	[pluginPrefPane     release];
+	[loadedPrefPanes    release];
+	[tickets            release];
 	[currentApplication release];
-	[startStopTimer release];
-	[images release];
-	[versionCheckURL release];
-	[downloadURL release];
+	[startStopTimer     release];
+	[images             release];
+	[versionCheckURL    release];
+	[downloadURL        release];
 	[super dealloc];
 }
 
@@ -261,7 +265,7 @@ static const char *keychainAccountName = "Growl";
 
 	// If Growl is enabled, ensure the helper app is launched
 	if ( [[preferences objectForKey:GrowlEnabledKey] boolValue] ) {
-		[self launchGrowl];
+		[[GrowlPreferences preferences] launchGrowl];
 	}
 
 	[self buildMenus];
@@ -371,7 +375,7 @@ static const char *keychainAccountName = "Growl";
 
 - (IBAction) startStopGrowl:(id) sender {
 	// Make sure growlIsRunning is correct
-	if (growlIsRunning != [self isGrowlRunning]) {
+	if (growlIsRunning != [[GrowlPreferences preferences] isGrowlRunning]) {
 		// Nope - lets just flip it and update status
 		growlIsRunning = !growlIsRunning;
 		[self updateRunningStatus];
@@ -379,65 +383,7 @@ static const char *keychainAccountName = "Growl";
 	}
 
 	// Our desired state is a toggle of the current state;
-	BOOL desiredGrowlState = !growlIsRunning;
-	
-	// Store the desired running-state of the helper app for use by GHA.
-	[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:desiredGrowlState]
-									   forKey:GrowlEnabledKey];
-
-	if (desiredGrowlState) {
-		[self launchGrowl];
-	} else {		
-		[self terminateGrowl];
-	}
-}
-
-- (void) launchGrowl {
-	NSString *helperPath = [[self bundle] pathForResource:@"GrowlHelperApp" ofType:@"app"];
-
-	// Don't allow the button to be clicked while we update
-	[startStopGrowl setEnabled:NO];
-	[growlRunningProgress startAnimation:self];
-
-	// Update our status visible to the user
-	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
-
-	// We want to launch in background, so we have to resort to Carbon
-	LSLaunchFSRefSpec spec;
-	FSRef appRef;
-	OSStatus status = FSPathMakeRef((const UInt8 *)[helperPath fileSystemRepresentation], &appRef, NULL);
-	
-	if (status == noErr) {
-		spec.appRef = &appRef;
-		spec.numDocs = 0;
-		spec.itemRefs = NULL;
-		spec.passThruParams = NULL;
-		spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
-		spec.asyncRefCon = NULL;
-		status = LSOpenFromRefSpec(&spec, NULL);
-	}	
-
-	// After 4 seconds force a status update, in case Growl didn't start/stop
-	[self performSelector:@selector(checkGrowlRunning)
-			   withObject:nil
-			   afterDelay:4.0];	
-}
-
-- (void) terminateGrowl {
-	// Don't allow the button to be clicked while we update
-	[startStopGrowl setEnabled:NO];
-	[growlRunningProgress startAnimation:self];
-
-	// Update our status visible to the user
-	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
-
-	// Ask the Growl Helper App to shutdown via the DNC
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
-
-	// After 4 seconds force a status update, in case growl didn't start/stop
-	[self performSelector:@selector(checkGrowlRunning)
-			   withObject:nil
-			   afterDelay:4.0];	
+	[[GrowlPreferences preferences] setGrowlRunning:!growlIsRunning];
 }
 
 - (IBAction) startGrowlAtLogin:(id) sender {
@@ -888,7 +834,7 @@ static const char *keychainAccountName = "Growl";
 #pragma mark Detecting Growl
 
 - (void)checkGrowlRunning {
-	growlIsRunning = [self isGrowlRunning];
+	growlIsRunning = [[GrowlPreferences preferences] isGrowlRunning];
 	[self updateRunningStatus];
 }
 
@@ -924,24 +870,39 @@ static const char *keychainAccountName = "Growl";
 }
 
 #pragma mark -
-#pragma mark Private
+#pragma mark Growl running state
 
-- (BOOL)isGrowlRunning {
-	BOOL isRunning = NO;
-	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
+- (void) launchGrowl {
+	// Don't allow the button to be clicked while we update
+	[startStopGrowl setEnabled:NO];
+	[growlRunningProgress startAnimation:self];
 
-	while (GetNextProcess(&PSN) == noErr) {
-		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-		NSString *bundleID = [infoDict objectForKey:@"CFBundleIdentifier"];
-		isRunning = bundleID && [bundleID isEqualToString:@"com.Growl.GrowlHelperApp"];
-		[infoDict release];
+	// Update our status visible to the user
+	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
 
-		if (isRunning)
-			break;
-	}
+	[[GrowlPreferences preferences] launchGrowl];
 
-	return isRunning;
+	// After 4 seconds force a status update, in case Growl didn't start/stop
+	[self performSelector:@selector(checkGrowlRunning)
+			   withObject:nil
+			   afterDelay:4.0];	
+}
+
+- (void) terminateGrowl {
+	// Don't allow the button to be clicked while we update
+	[startStopGrowl setEnabled:NO];
+	[growlRunningProgress startAnimation:self];
+
+	// Update our status visible to the user
+	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
+
+	// Ask the Growl Helper App to shutdown
+	[[GrowlPreferences preferences] terminateGrowl];
+
+	// After 4 seconds force a status update, in case growl didn't start/stop
+	[self performSelector:@selector(checkGrowlRunning)
+			   withObject:nil
+			   afterDelay:4.0];	
 }
 
 @end
-
