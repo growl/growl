@@ -67,6 +67,10 @@ resource 'aete' (0, "") {
 				"sticky", 'stck', 'bool',
 				"whether or not the notification displayed should time out. Defaults to 'no'.",
 				optional,
+				singleItem, notEnumerated, Reserved13,
+				"priority", 'prio', 'long',
+				"The priority of the notification, from -2 (low) to 0 (normal) to 2 (emergency).",
+				optional,
 				singleItem, notEnumerated, Reserved13
 			},
 

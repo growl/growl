@@ -71,6 +71,13 @@
 					<key>Name</key>
 					<string>sticky</string>
 				</dict>
+				<key>priority</key>
+				<dict>
+					<key>Description</key>
+					<string>The priority of the notification, from -2 (low) to 0 (normal) to 2 (emergency).</string>
+					<key>Name</key>
+					<string>priority</string>
+				</dict>
 				<key>title</key>
 				<dict>
 					<key>Description</key>

@@ -29,6 +29,7 @@
 #define KEY_TITLE				@"title"
 #define KEY_DESC				@"description"
 #define KEY_STICKY				@"sticky"
+#define KEY_PRIORITY				@"priority"
 #define KEY_IMAGE_URL			@"imageFromURL"
 #define KEY_ICON_APP_NAME		@"iconOfApplication"
 #define KEY_ICON_FILE			@"iconOfFile"
@@ -52,6 +53,7 @@ static const NSSize iconSize = {128.0f, 128.0f};
 	NSString *title = [args valueForKey:KEY_TITLE];
 	NSString *desc = [args valueForKey:KEY_DESC];
 	NSNumber *sticky = [args valueForKey:KEY_STICKY];
+	NSNumber *priority = [args valueForKey:KEY_PRIORITY];
 	NSString *imageUrl = [args valueForKey:KEY_IMAGE_URL];
 	NSString *iconOfFile = [args valueForKey:KEY_ICON_FILE];
 	NSString *iconOfApplication = [args valueForKey:KEY_ICON_APP_NAME];
@@ -65,8 +67,15 @@ static const NSSize iconSize = {128.0f, 128.0f};
 		notifName, GROWL_NOTIFICATION_NAME,
 		title, GROWL_NOTIFICATION_TITLE,
 		desc, GROWL_NOTIFICATION_DESCRIPTION,
-		sticky, GROWL_NOTIFICATION_STICKY,
 		nil];
+
+	if (priority) {
+	    [noteDict setObject:priority forKey:GROWL_NOTIFICATION_PRIORITY];
+	}
+
+	if (sticky) {
+	    [noteDict setObject:sticky forKey:GROWL_NOTIFICATION_STICKY];
+	}
 
 	NS_DURING
 		NSImage* icon = nil;

@@ -40,6 +40,9 @@
 				<parameter name="sticky" optional="optional" code="stck" type="boolean" description="whether or not the notification displayed should time out. Defaults to 'no'.">
 					<cocoa key="sticky"/>
 				</parameter>
+				<parameter name="priority" optional="optional" code="prio" type="integer" description="The priority of the notification, from -2 (low) to 0 (normal) to 2 (emergency).">
+					<cocoa key="priority"/>
+				</parameter>
 			</command>
 			<command name="register" code="register" description="Register an application with Growl">
 				<cocoa class="GrowlRegisterScriptCommand"/>

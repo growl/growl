@@ -89,6 +89,15 @@
 					<key>Type</key>
 					<string>NSNumber&lt;Bool&gt;</string>
 				</dict>
+				<key>priority</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>prio</string>
+					<key>Optional</key>
+					<string>YES</string>
+					<key>Type</key>
+					<string>NSNumber</string>
+				</dict>
 				<key>title</key>
 				<dict>
 					<key>AppleEventCode</key>
