@@ -66,7 +66,6 @@ For .8 (The Kitchen Sink) or sooner
 - Other
 	- Make GrowlMail not run while applying rules if possible
 	- Growltunes needs preferences.
-	- Give macyac a gui for configuration/launching.
 
 For .9 or sooner
 - Downloads tab
