@@ -193,7 +193,7 @@
 
 #pragma mark "Display Options" tab pane
 //This is the frame of the preference view that we should get back.
-#define DISPLAY_PREF_FRAME NSMakeRect(165., 58., 354., 273.)
+#define DISPLAY_PREF_FRAME NSMakeRect(165., 58., 354., 289.)
 - (void)loadViewForDisplay:(NSString*)displayName
 {
 	NSView *newView = nil;
