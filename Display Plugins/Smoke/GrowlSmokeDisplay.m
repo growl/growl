@@ -16,7 +16,7 @@ static NSString *SmokeName        = @"Smoke";
 static NSString *SmokeDescription = @"Dark translucent notifications";
 static NSString *SmokeVersion     = @"1.0";
 
-static unsigned int smokeDepth = 0;
+static unsigned smokeDepth = 0;
 
 @implementation GrowlSmokeDisplay
 
@@ -81,7 +81,7 @@ static unsigned int smokeDepth = 0;
 }
 
 - (void) _smokeGone:(NSNotification *)note {
-	unsigned int notifiedDepth = [[[note userInfo] objectForKey:@"Depth"] intValue];
+	unsigned notifiedDepth = [[[note userInfo] objectForKey:@"Depth"] intValue];
 	//NSLog(@"Received notification of departure with depth %u, my depth is %u\n", notifiedDepth, smokeDepth);
 	if(smokeDepth > notifiedDepth) {
 		smokeDepth = notifiedDepth;

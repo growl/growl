@@ -12,7 +12,7 @@
 #import "NSGrowlAdditions.h"
 #import "GrowlBubblesDefines.h"
 
-static unsigned int bubbleWindowDepth = 0;
+static unsigned bubbleWindowDepth = 0;
 
 @implementation GrowlBubblesWindowController
 
@@ -34,7 +34,7 @@ static unsigned int bubbleWindowDepth = 0;
 #pragma mark Regularly Scheduled Coding
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
-	extern unsigned int bubbleWindowDepth;
+	extern unsigned bubbleWindowDepth;
 
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.f, 0.f, 270.f, 65.f ) 
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
@@ -102,7 +102,7 @@ static unsigned int bubbleWindowDepth = 0;
 - (void) dealloc {
 	[_target release];
 
-	extern unsigned int bubbleWindowDepth;
+	extern unsigned bubbleWindowDepth;
 	if( _depth == bubbleWindowDepth ) {
 		bubbleWindowDepth = 0;
 	}

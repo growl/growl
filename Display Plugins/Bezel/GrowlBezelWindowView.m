@@ -16,11 +16,11 @@
 @implementation GrowlBezelWindowView
 
 - (id)initWithFrame:(NSRect)frame {
-	if( ( self = [super initWithFrame:frame] ) ) {
+	if ( ( self = [super initWithFrame:frame] ) ) {
 		_icon = nil;
 		_title = nil;
 		_text = nil;
-		_textHeight = 0;
+		_textHeight = 0.0f;
 		_target = nil;
 		_action = nil;
 	}
@@ -232,7 +232,7 @@
 #pragma mark -
 
 - (void) mouseUp:(NSEvent *) event {
-	if( _target && _action && [_target respondsToSelector:_action] ) {
+	if ( _target && _action && [_target respondsToSelector:_action] ) {
 		[_target performSelector:_action withObject:self];
 	}
 }

@@ -15,32 +15,32 @@
 
 @implementation GrowlSmokeWindowView
 
-- (id)initWithFrame:(NSRect)frame {
-	if( ( self = [super initWithFrame:frame] ) ) {
-		_icon = nil;
-		_title = nil;
-		_text = nil;
-		_textHeight = 0.0f;
-		_titleHeight = 0.0f;
-		_target = nil;
-		_action = nil;
-		_bgColor = nil;
-		_textColor = nil;
+- (id) initWithFrame:(NSRect)frame {
+	if ( ( self = [super initWithFrame:frame] ) ) {
+		icon = nil;
+		title = nil;
+		text = nil;
+		textHeight = 0.0f;
+		titleHeight = 0.0f;
+		target = nil;
+		action = nil;
+		bgColor = nil;
+		textColor = nil;
 	}
 	return self;
 }
 
-- (void)dealloc {
-	[_icon release];
-	[_title release];
-	[_text release];
-	[_bgColor release];
-	[_textColor release];
+- (void) dealloc {
+	[icon release];
+	[title release];
+	[text release];
+	[bgColor release];
+	[textColor release];
 
 	[super dealloc];
 }
 
-- (void)drawRect:(NSRect)rect {
+- (void) drawRect:(NSRect)rect {
 	NSRect bounds = [self bounds];
 	
 	// clear the window
@@ -48,13 +48,13 @@
 	NSRectFill( [self frame] );
 
 	// draw bezier path for rounded corners
-	unsigned int sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding * 0.5f);
+	unsigned sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding * 0.5f);
 
 	// calculate bounds based on icon-float pref on or off
 	NSRect shadedBounds;
 	BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
-	if(floatIcon) {
+	if (floatIcon) {
 		shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
 								  bounds.origin.y,
 								  bounds.size.width - sizeReduction,
@@ -75,7 +75,7 @@
 	[path setClip];
 
 	// fill clipped graphics context with our background colour
-	[_bgColor set];
+	[bgColor set];
 	NSRectFill( [self frame] );
 
 	// revert to unclipped graphics context
@@ -89,37 +89,37 @@
 	// If we are on Panther or better, pretty shadow
 	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
 	id textShadow = nil; // NSShadow
-	if(pantherOrLater) {
+	if (pantherOrLater) {
 		Class NSShadowClass = NSClassFromString(@"NSShadow");
 		textShadow = [[[NSShadowClass alloc] init] autorelease];
 		
 		NSSize shadowSize = NSMakeSize(0.f, -2.f);
 		[textShadow setShadowOffset:shadowSize];
 		[textShadow setShadowBlurRadius:3.0f];
-		[textShadow setShadowColor:[_bgColor blendedColorWithFraction:0.5f ofColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha: 1.0f]]];
+		[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5f ofColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha: 1.0f]]];
 	}
 
 	// construct attributes for the description text
 	NSMutableDictionary *descriptionAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
-		_textColor, NSForegroundColorAttributeName,
+		textColor, NSForegroundColorAttributeName,
 		nil];
 	// construct attributes for the title
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize], NSFontAttributeName,
-		_textColor, NSForegroundColorAttributeName,
+		textColor, NSForegroundColorAttributeName,
 		nil];
 
 	// add shadow to both attributes
-	if(pantherOrLater) {
+	if (pantherOrLater) {
 		[descriptionAttributes setObject:textShadow forKey:NSShadowAttributeName];
 		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
 
 	// draw the title and the text
-	unsigned int textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
-	unsigned int titleYPosition = notificationContentTop - [self titleHeight];
-	unsigned int textYPosition = titleYPosition - ([self descriptionHeight] + GrowlSmokeTitleTextPadding);
+	unsigned textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
+	unsigned titleYPosition = notificationContentTop - [self titleHeight];
+	unsigned textYPosition = titleYPosition - ([self descriptionHeight] + GrowlSmokeTitleTextPadding);
 	NSRect drawRect;
 
 	drawRect.origin.x = textXPosition;
@@ -127,13 +127,13 @@
 	drawRect.size.width = [self textAreaWidth];
 	drawRect.size.height = [self titleHeight];
 
-	[_title drawWithEllipsisInRect:drawRect
+	[title drawWithEllipsisInRect:drawRect
 					withAttributes:titleAttributes];
 
 	drawRect.origin.y = textYPosition;
 	drawRect.size.height = [self descriptionHeight];
 
-	[_text drawInRect:drawRect withAttributes:descriptionAttributes];
+	[text drawInRect:drawRect withAttributes:descriptionAttributes];
 
 	drawRect.origin.x = GrowlSmokePadding;
 	drawRect.origin.y = notificationContentTop - GrowlSmokeIconSize;
@@ -141,31 +141,32 @@
 	drawRect.size.height = GrowlSmokeIconSize;
 
 	// we do this because we are always working with a copy
-	[_icon drawScaledInRect:drawRect
-				  operation:NSCompositeSourceOver
-				   fraction:1.f];
+	[icon drawScaledInRect:drawRect
+				 operation:NSCompositeSourceOver
+				  fraction:1.f];
 
 	[[self window] invalidateShadow];
 }
 
-- (void)setIcon:(NSImage *)icon {
-	[_icon autorelease];
-	_icon = [icon retain];
+- (void) setIcon:(NSImage *)anIcon {
+	[icon autorelease];
+	icon = [anIcon retain];
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
-- (void)setTitle:(NSString *)title {
-	[_title autorelease];
-	_title = [title copy];
+- (void) setTitle:(NSString *)aTitle {
+	[title autorelease];
+	title = [aTitle copy];
+	titleHeight = 0.0f;
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
-- (void)setText:(NSString *)text {
-	[_text autorelease];
-	_text = [text copy];
-	_textHeight = 0;
+- (void) setText:(NSString *)aText {
+	[text autorelease];
+	text = [aText copy];
+	textHeight = 0.0f;
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
@@ -201,31 +202,31 @@
 	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
 
-	[_bgColor release];
+	[bgColor release];
 	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array && [array isKindOfClass:[NSArray class]]) {
-		_bgColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-											  green:[[array objectAtIndex:1] floatValue]
-											   blue:[[array objectAtIndex:2] floatValue]
-											  alpha:backgroundAlpha] retain];
+		bgColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
+											 green:[[array objectAtIndex:1] floatValue]
+											  blue:[[array objectAtIndex:2] floatValue]
+											 alpha:backgroundAlpha] retain];
 		[array release];
 	} else {
-		_bgColor = [[NSColor colorWithCalibratedWhite:.1f alpha:backgroundAlpha] retain];
+		bgColor = [[NSColor colorWithCalibratedWhite:.1f alpha:backgroundAlpha] retain];
 		if (array) {
 			CFRelease((CFTypeRef)array);
 		}
 	}
 
-	[_textColor release];
+	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array && [array isKindOfClass:[NSArray class]]) {
-		_textColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-												green:[[array objectAtIndex:1] floatValue]
-												 blue:[[array objectAtIndex:2] floatValue]
-												alpha:1.0f] retain];
+		textColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
+											   green:[[array objectAtIndex:1] floatValue]
+												blue:[[array objectAtIndex:2] floatValue]
+											   alpha:1.0f] retain];
 		[array release];
 	} else {
-		_textColor = [[NSColor colorWithCalibratedWhite:1.0f alpha:1.0f] retain];
+		textColor = [[NSColor colorWithCalibratedWhite:1.0f alpha:1.0f] retain];
 		if (array) {
 			CFRelease((CFTypeRef)array);
 		}
@@ -236,7 +237,7 @@
 	NSRect rect = [self frame];
 	rect.size.height = GrowlSmokeIconPadding + GrowlSmokePadding + GrowlSmokeTitleTextPadding + [self titleHeight] + [self descriptionHeight];
 	float minSize = (2.0f * GrowlSmokeIconPadding) + [self titleHeight] + GrowlSmokeTitleTextPadding + GrowlSmokeTextFontSize + 1.0f;
-	if(rect.size.height < minSize) {
+	if (rect.size.height < minSize) {
 		rect.size.height = minSize;
 	}
 	[self setFrame:rect];
@@ -248,19 +249,19 @@
 }
 
 - (float)titleHeight {
-	if( !_titleHeight ) {
+	if ( !titleHeight ) {
 		NSLayoutManager *lm = [[NSLayoutManager alloc] init];
-		_titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize]];
+		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize]];
 		[lm release];
 	}
 	
-	return _titleHeight;
+	return titleHeight;
 }
 
 - (float)descriptionHeight {
 
-	if (_textHeight == 0) {
-		NSString *content = _text ? _text : @"";
+	if (!textHeight) {
+		NSString *content = text ? text : @"";
 		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:content
 																attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 																	[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
@@ -288,19 +289,19 @@
 		[textContainer setLineFragmentPadding:0.0];
 		[layoutManager glyphRangeForTextContainer:textContainer];
 
-		_textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
 
 		// for some reason, this code is using a 13-point line height for calculations, but the font 
 		// in fact renders in 14 points of space. Do some adjustments.
 		// Presumably this is all due to leading, so need to find out how to figure out what that
 		// actually is for utmost accuracy
-		_textHeight = _textHeight / GrowlSmokeTextFontSize * (GrowlSmokeTextFontSize + 1);
+		textHeight = textHeight / GrowlSmokeTextFontSize * (GrowlSmokeTextFontSize + 1);
 
 		[textContainer release];
 		[layoutManager release];
 	}
 	
-	return _textHeight;
+	return textHeight;
 }
 
 - (int)descriptionRowCount {
@@ -311,21 +312,21 @@
 }
 
 - (id) target {
-	return _target;
+	return target;
 }
 
 - (void) setTarget:(id) object {
-	_target = object;
+	target = object;
 }
 
 #pragma mark -
 
 - (SEL) action {
-	return _action;
+	return action;
 }
 
 - (void) setAction:(SEL) selector {
-	_action = selector;
+	action = selector;
 }
 
 #pragma mark -
@@ -335,8 +336,8 @@
 }
 
  - (void) mouseDown:(NSEvent *) event {
-	if( _target && _action && [_target respondsToSelector:_action] ) {
-		[_target performSelector:_action withObject:self];
+	if ( target && action && [target respondsToSelector:action] ) {
+		[target performSelector:action withObject:self];
 	}
 }
 

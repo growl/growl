@@ -13,7 +13,7 @@
 #import "GrowlDefines.h"
 #import "NSGrowlAdditions.h"
 
-static unsigned int globalId = 0;
+static unsigned globalId = 0;
 
 @implementation GrowlSmokeWindowController
 
@@ -27,7 +27,7 @@ static const double gMaxDisplayTime = 10.;
 	return [[[GrowlSmokeWindowController alloc] init] autorelease];
 }
 
-+ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned int) depth {
++ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned) depth {
 	return [[[GrowlSmokeWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky depth:depth] autorelease];
 }
 
@@ -79,7 +79,7 @@ static const double gMaxDisplayTime = 10.;
 
 - (void) _clearSpace:(NSNotification *)note {
 	NSDictionary *userInfo = [note userInfo];
-	unsigned int i = [[userInfo objectForKey:@"ID"] unsignedIntValue];
+	unsigned i = [[userInfo objectForKey:@"ID"] unsignedIntValue];
 	NSRect space = [[userInfo objectForKey:@"Space"] rectValue];
 	NSRect theFrame = [[self window] frame];
 	/*NSLog(@"Notification %u (%f, %f, %f, %f) received clear space message from notification %u (%f, %f, %f, %f)\n",
@@ -101,7 +101,7 @@ static const double gMaxDisplayTime = 10.;
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned int) depth {
+- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned) depth {
 	_id = globalId++;
 	_depth = depth;
 
@@ -184,7 +184,7 @@ static const double gMaxDisplayTime = 10.;
 
 	[_target release];
 
-	//extern unsigned int smokeWindowDepth;
+	//extern unsigned smokeWindowDepth;
 //	NSLog(@"smokeController deallocking");
 	//if( _depth == smokeWindowDepth ) 
 	// 	smokeWindowDepth = 0;
@@ -224,7 +224,7 @@ static const double gMaxDisplayTime = 10.;
 
 #pragma mark -
 
-- (unsigned int)depth {
+- (unsigned)depth {
 	return _depth;
 }
 @end
