@@ -62,7 +62,7 @@ static const NSSize iconSize = {128.0f, 128.0f};
 	NSString *appName = [args objectForKey:KEY_APP_NAME];
 	NSString *notifName = [args objectForKey:KEY_NOTIFICATION_NAME];
 
-	NSMutableDictionary* noteDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	NSMutableDictionary *noteDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		appName, GROWL_APP_NAME,
 		notifName, GROWL_NOTIFICATION_NAME,
 		title, GROWL_NOTIFICATION_TITLE,
