@@ -95,22 +95,28 @@ static float titleHeight;
 
 	// draw the title and the text
 	unsigned textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
-	unsigned titleYPosition = notificationContentTop - [self titleHeight];
-	unsigned textYPosition = titleYPosition - ([self descriptionHeight] + GrowlSmokeTitleTextPadding);
 	NSRect drawRect;
 
 	drawRect.origin.x = textXPosition;
-	drawRect.origin.y = titleYPosition;
+	drawRect.origin.y = notificationContentTop;
 	drawRect.size.width = [self textAreaWidth];
-	drawRect.size.height = [self titleHeight];
 
-	[title drawWithEllipsisInRect:drawRect
-				   withAttributes:titleAttributes];
+	if (title && [title length]) {
+		drawRect.size.height = [self titleHeight];
+		drawRect.origin.y -= drawRect.size.height;
 
-	drawRect.origin.y = textYPosition;
-	drawRect.size.height = [self descriptionHeight];
+		[title drawWithEllipsisInRect:drawRect
+					   withAttributes:titleAttributes];
 
-	[text drawInRect:drawRect withAttributes:descriptionAttributes];
+		drawRect.origin.y -= GrowlSmokeTitleTextPadding;
+	}
+
+	if (text && [text length]) {
+		drawRect.origin.y -= [self descriptionHeight];
+		drawRect.size.height = [self descriptionHeight];
+
+		[text drawInRect:drawRect withAttributes:descriptionAttributes];
+	}
 
 	drawRect.origin.x = GrowlSmokePadding;
 	drawRect.origin.y = notificationContentTop - GrowlSmokeIconSize;
@@ -224,6 +230,10 @@ static float titleHeight;
 }
 
 - (float) titleHeight {
+	if (!title || ![title length]) {
+		return 0.0f;
+	}
+
 	if ( !titleHeight ) {
 		NSLayoutManager *lm = [[NSLayoutManager alloc] init];
 		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize]];
@@ -234,9 +244,12 @@ static float titleHeight;
 }
 
 - (float) descriptionHeight {
+	if (!text || ![text length]) {
+		return 0.0f;
+	}
+
 	if (!textHeight) {
-		NSString *content = text ? text : @"";
-		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:content
+		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:text
 																attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 																	[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
 																	nil]];
