@@ -30,6 +30,8 @@
 	<string>Ja</string>
 	<key>No</key>
 	<string>Nein</string>
+	<key>Default</key>
+	<string>Standard</string>
 	<key>Plugin already exists</key>
 	<string>Plugin existiert bereits</string>
 	<key>Plugin installed</key>

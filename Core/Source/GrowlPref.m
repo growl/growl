@@ -274,7 +274,7 @@ static const char *keychainAccountName = "Growl";
 	applicationDisplayPluginsMenu = [[NSMenu alloc] initWithTitle:@"DisplayPlugins"];
 	enumerator = [[[GrowlPluginController controller] allDisplayPlugins] objectEnumerator];
 	id title;
-	[applicationDisplayPluginsMenu addItemWithTitle:@"Default" action:nil keyEquivalent:@""];
+	[applicationDisplayPluginsMenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Default",nil,[self bundle],@"") action:nil keyEquivalent:@""];
 	[applicationDisplayPluginsMenu addItem:[NSMenuItem separatorItem]];
 	
 	while ((title = [enumerator nextObject])) {

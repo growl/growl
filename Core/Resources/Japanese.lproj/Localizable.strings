@@ -30,6 +30,8 @@
 	<string>はい</string>
 	<key>No</key>
 	<string>いいえ</string>
+	<key>Default</key>
+	<string>Default</string>
 	<key>Plugin already exists</key>
 	<string>すでにプラグインがあります</string>
 	<key>Plugin installed</key>
