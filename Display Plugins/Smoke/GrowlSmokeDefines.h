@@ -18,13 +18,17 @@
 // the width of the notification view
 #define GrowlSmokeNotificationWidth 300.
 // the padding around the inside of the view
-#define GrowlSmokePadding 10.
-// the padding between the icon and the text
+#define GrowlSmokePadding 5.
+// the padding between the icon and the edge of the view
 #define GrowlSmokeIconPadding 10.
 // the padding between the icon and the text
 #define GrowlSmokeIconTextPadding 20.
+// the padding between the title and the description
+#define GrowlSmokeTitleTextPadding 10.
 // the size of the icon (it's square)
 #define GrowlSmokeIconSize 32.
 
 // the size of the text used for the description
 #define GrowlSmokeTextFontSize 12.
+// the size of the text used for the title
+#define GrowlSmokeTitleFontSize 13.

@@ -28,6 +28,7 @@
 
 - (void)sizeToFit;
 - (int)textAreaWidth;
+- (float)titleHeight;
 - (float)descriptionHeight;
 - (int)descriptionRowCount;
 

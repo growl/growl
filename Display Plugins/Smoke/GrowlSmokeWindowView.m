@@ -101,19 +101,17 @@
 	
 	// revert to unclipped graphics context
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
-
-	// Top of the drawing area. The eye candy takes up GrowlSmokePadding pixels on 
-	// the top, so we've reserved some space for it.
-	float heightOffset = [self frame].size.height - GrowlSmokePadding;
-
+	
+	float notificationContentTop = [self frame].size.height - GrowlSmokePadding;
+	
     // build an appropriate colour for the text
 	NSColor *textColour = [NSColor colorWithCalibratedWhite:1.f alpha:1.f];
 	
 	// If we are on Panther or better, pretty shadow
 	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
 	id textShadow = nil; // NSShadow
-	Class NSShadowClass = NSClassFromString(@"NSShadow");
 	if(pantherOrLater) {
+		Class NSShadowClass = NSClassFromString(@"NSShadow");
         textShadow = [[[NSShadowClass alloc] init] autorelease];
         
 		NSSize shadowSize = NSMakeSize(0.f, -2.f);
@@ -122,21 +120,17 @@
 		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha: 1.0f]];
 	}
 	
-	// make the description text white
-	NSMutableAttributedString *whiteText = [[[NSMutableAttributedString alloc] initWithString:_text] autorelease];
-	NSRange allText;
-	allText.location = 0;
-	allText.length = [whiteText length];
-	[whiteText removeAttribute:NSForegroundColorAttributeName range:allText];
-	[whiteText addAttribute:NSForegroundColorAttributeName value:textColour range:allText];
-	[whiteText addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:GrowlSmokeTextFontSize] range:allText];
-	if(pantherOrLater) {
-		[whiteText addAttribute:NSShadowAttributeName value:textShadow range:allText];
-	}
+	// construct attributes for the description text
+	NSMutableDictionary *descriptionAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+		[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
+		textColour, NSForegroundColorAttributeName,
+		nil];
+	if(pantherOrLater)
+		[descriptionAttributes setObject:textShadow forKey:NSShadowAttributeName];
 
 	// construct attributes for the title
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-		[NSFont boldSystemFontOfSize:13.], NSFontAttributeName,
+		[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize], NSFontAttributeName,
 		textColour,                        NSForegroundColorAttributeName,
 		nil];
  
@@ -146,12 +140,24 @@
 	
     // draw the title and the text
 	unsigned int textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
-	[_title drawWithEllipsisInRect:NSMakeRect( textXPosition, heightOffset - 20., [self textAreaWidth], 15. + GrowlSmokePadding)
+	
+	unsigned int titleYPosition = notificationContentTop - [self titleHeight];
+	
+	[_title drawWithEllipsisInRect:NSMakeRect( textXPosition,
+											   titleYPosition,
+											   [self textAreaWidth],
+											   [self titleHeight])
 					withAttributes:titleAttributes];
 	
-	[whiteText drawInRect:NSMakeRect( textXPosition, GrowlSmokePadding, [self textAreaWidth], heightOffset - 25. )];
+	[_text drawInRect:NSMakeRect( textXPosition,
+								  GrowlSmokePadding,
+								  [self textAreaWidth],
+								  [self descriptionHeight] )
+	   withAttributes:descriptionAttributes];
 
+	
 	NSSize iconSize = [_icon size];
+	// make sure the icon isn't too large. If it is, scale it down
 	if( iconSize.width > GrowlSmokeIconSize || iconSize.height > GrowlSmokeIconSize ) {
 
 		// scale the image appropriately
@@ -170,7 +176,8 @@
 		newX = floorf((GrowlSmokeIconSize - newWidth) * 0.5f);
 		newY = floorf((GrowlSmokeIconSize - newHeight) * 0.5f);
 
-		NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
+		NSRect newBounds = NSMakeRect(newX, newY, newWidth, newHeight);
+
 		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
 		[_icon autorelease];
 		_icon = [[NSImage alloc] initWithSize:NSMakeSize(GrowlSmokeIconSize, GrowlSmokeIconSize)];
@@ -180,8 +187,10 @@
 		[_icon unlockFocus];
 	}
 
-	[_icon compositeToPoint:NSMakePoint( GrowlSmokePadding, heightOffset - GrowlSmokeIconSize )
-				  operation:NSCompositeSourceOver fraction:1.];
+	[_icon compositeToPoint:NSMakePoint(GrowlSmokePadding,
+										notificationContentTop - GrowlSmokeIconSize)
+				  operation:NSCompositeSourceOver
+				   fraction:1.];
 
 	[[self window] invalidateShadow];
 }
@@ -251,13 +260,23 @@
 
 - (void)sizeToFit {
 	NSRect rect = [self frame];
-	rect.size.height = (2 * GrowlSmokePadding) + 15 + [self descriptionHeight];
+	rect.size.height = (2 * GrowlSmokePadding) + GrowlSmokePadding + [self titleHeight] + [self descriptionHeight];
+	float minSize = (2 * GrowlSmokePadding) + GrowlSmokeIconSize;
+	if(rect.size.height < minSize) rect.size.height = minSize;
 	[self setFrame:rect];
 }
 
 - (int)textAreaWidth {
 	return GrowlSmokeNotificationWidth - GrowlSmokePadding
 	       - GrowlSmokeIconSize - GrowlSmokeIconPadding - GrowlSmokeIconTextPadding;
+}
+
+- (float)titleHeight {
+	NSLayoutManager *lm = [[NSLayoutManager alloc] init];
+	float textLineHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize]];
+	[lm release];
+	
+	return textLineHeight;
 }
 
 - (float)descriptionHeight {
@@ -284,15 +303,18 @@
 		
 		// for some reason, this code is using a 13-point line height for calculations, but the font 
 		// in fact renders in 14 points of space. Do some adjustments.
+		// Presumably this is all due to leading, so need to find out how to figure out what that
+		// actually is for utmost accuracy
 		_textHeight = _textHeight / GrowlSmokeTextFontSize * (GrowlSmokeTextFontSize + 1);
 	}
-	return MAX (_textHeight, 30);
+	
+	return _textHeight;
 }
 
 - (int)descriptionRowCount {
 	float height = [self descriptionHeight];
 	// this will be horribly wrong, but don't worry about it for now
-	float lineHeight = 12;
+	float lineHeight = GrowlSmokeTextFontSize + 1;
 	return (int) (height / lineHeight);
 }
 
