@@ -5,7 +5,7 @@
 //  Created by Evan Schoenberg on Wed Jun 16 2004.
 //
 
-#import "GrowlAppBridge.h"
+#import "GrowlApplicationBridge.h"
 #import "GrowlDefines.h"
 #import <ApplicationServices/ApplicationServices.h>
 
