@@ -5,7 +5,6 @@
 extern	NSString		*NotifierFireWireConnectionNotification;
 extern	NSString		*NotifierFireWireDisconnectionNotification;
 
-
 @interface FireWireNotifier : NSObject
 {
 	IONotificationPortRef	ioKitNotificationPort;
@@ -20,10 +19,5 @@ extern	NSString		*NotifierFireWireDisconnectionNotification;
 -(void)fwDeviceRemoved: (io_iterator_t ) iterator; 
 
 -(NSString *)nameForFireWireObject: (io_object_t) thisObject;
-
-
-
-	void fwDeviceAdded (void *refCon, io_iterator_t iter);
-	void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 
 @end

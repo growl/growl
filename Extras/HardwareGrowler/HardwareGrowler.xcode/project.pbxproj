@@ -7,6 +7,8 @@
 	objects = {
 		080E96DDFE201D6D7F000001 = {
 			children = (
+				958AB97207C6A20100F56B45,
+				958AB97307C6A20100F56B45,
 				DDF9B42707BBE38A0007B5B7,
 				DDF9B42807BBE38A0007B5B7,
 				DD54996E07BA5E420010BE54,
@@ -19,6 +21,8 @@
 				DDF9B2FC07BBD9020007B5B7,
 				DDF9B63707BC07B30007B5B7,
 				DDF9B63807BC07B30007B5B7,
+				958AB93507C69DE000F56B45,
+				958AB93607C69DE000F56B45,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -55,6 +59,7 @@
 //104
 		1058C7A0FEA54F0111CA2CBB = {
 			children = (
+				958AB9DD07C6A7FD00F56B45,
 				1058C7A1FEA54F0111CA2CBB,
 				9324AE7807BD77DB001CB55C,
 				DDF9B35207BBDB930007B5B7,
@@ -372,6 +377,8 @@
 				DDF9B2FE07BBD9020007B5B7,
 				DDF9B42A07BBE38A0007B5B7,
 				DDF9B63A07BC07B30007B5B7,
+				958AB93807C69DE000F56B45,
+				958AB97507C6A20100F56B45,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,6 +399,7 @@
 				DDF9B33A07BBDAA40007B5B7,
 				DDF9B35307BBDB930007B5B7,
 				9324AE7907BD77DB001CB55C,
+				958AB9DE07C6A7FD00F56B45,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,6 +456,8 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9324AE8807BD781B001CB55C,
+				958AB93707C69DE000F56B45,
+				958AB97407C6A20100F56B45,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,6 +490,76 @@
 			};
 			isa = PBXBuildStyle;
 			name = "Deployment - Tiger - G4";
+		};
+		958AB93507C69DE000F56B45 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = NetworkNotifier.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		958AB93607C69DE000F56B45 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = NetworkNotifier.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		958AB93707C69DE000F56B45 = {
+			fileRef = 958AB93507C69DE000F56B45;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		958AB93807C69DE000F56B45 = {
+			fileRef = 958AB93607C69DE000F56B45;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		958AB97207C6A20100F56B45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = SCDynamicStore.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		958AB97307C6A20100F56B45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = SCDynamicStore.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		958AB97407C6A20100F56B45 = {
+			fileRef = 958AB97207C6A20100F56B45;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		958AB97507C6A20100F56B45 = {
+			fileRef = 958AB97307C6A20100F56B45;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		958AB9DD07C6A7FD00F56B45 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = SystemConfiguration.framework;
+			path = /System/Library/Frameworks/SystemConfiguration.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		958AB9DE07C6A7FD00F56B45 = {
+			fileRef = 958AB9DD07C6A7FD00F56B45;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 //950
 //951

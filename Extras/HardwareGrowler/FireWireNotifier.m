@@ -1,13 +1,12 @@
 #import "FireWireNotifier.h"
 
 NSString		*NotifierFireWireConnectionNotification		=	@"FireWire Device Connected";
-NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Disconnected";
+NSString		*NotifierFireWireDisconnectionNotification	=	@"FireWire Device Disconnected";
 
-
+static void fwDeviceAdded (void *refCon, io_iterator_t iter);
+static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 
 @implementation FireWireNotifier
-
-
 
 - (id)init
 {
@@ -18,14 +17,12 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 	return self;
 }
 
-
 -(void)dealloc
 {
 	[self ioKitTearDown];
 	
 	[super dealloc];
 }
-
 
 -(void)ioKitSetUp
 {
@@ -45,10 +42,8 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 	{
 		CFRunLoopRemoveSource( CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode );
 		IONotificationPortDestroy(ioKitNotificationPort) ;
-	}	
+	}
 }
-
-
 
 -(void)registerForFireWireNotifications
 {
@@ -111,9 +106,6 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 	}
 }
 
-
-
-
 -(void)fwDeviceAdded: (io_iterator_t ) iterator
 {
 //	NSLog(@"FireWire Device Added Notification.");
@@ -146,8 +138,6 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 		IOObjectRelease(thisObject);
 	}
 }
-
-
 
 -(NSString *)nameForFireWireObject: (io_object_t) thisObject
 {
@@ -188,23 +178,20 @@ NSString		*NotifierFireWireDisconnectionNotification		=	@"FireWire Device Discon
 	{
 		return tempDeviceName;
 	}
-	
 
-return @"Unnamed FireWire Device";
+	return @"Unnamed FireWire Device";
 }
 
 
 #pragma mark -
 #pragma mark	C Callbacks
 
-void fwDeviceAdded (void *refCon, io_iterator_t iter) {
+static void fwDeviceAdded (void *refCon, io_iterator_t iter) {
 	[(FireWireNotifier*)refCon fwDeviceAdded:iter];
 }
 
-void fwDeviceRemoved (void *refCon, io_iterator_t iter) {
+static void fwDeviceRemoved (void *refCon, io_iterator_t iter) {
 	[(FireWireNotifier*)refCon fwDeviceRemoved:iter];
 }
-
-
 
 @end

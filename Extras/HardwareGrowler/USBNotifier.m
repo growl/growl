@@ -1,13 +1,15 @@
 #import "USBNotifier.h"
+#import <IOKit/IOCFPlugIn.h>
+#import <IOKit/usb/IOUSBLib.h>
+#import <IOKit/usb/USB.h>
 
-NSString		*NotifierUSBConnectionNotification		=	@"USB Device Connected";
-NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
+NSString *NotifierUSBConnectionNotification		=	@"USB Device Connected";
+NSString *NotifierUSBDisconnectionNotification	=	@"USB Device Disconnected";
 
+static void usbDeviceAdded (void *refCon, io_iterator_t iter);
+static void usbDeviceRemoved (void *refCon, io_iterator_t iter);
 
 @implementation USBNotifier
-
-
-
 
 - (id)init
 {
@@ -17,7 +19,6 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 	}
 	return self;
 }
-
 
 -(void)dealloc
 {
@@ -41,14 +42,11 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 
 -(void)ioKitTearDown
 {
-	if(ioKitNotificationPort)
-	{
+	if(ioKitNotificationPort) {
 		CFRunLoopRemoveSource( CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode );
 		IONotificationPortDestroy(ioKitNotificationPort) ;
 	}	
 }
-
-
 
 -(void)registerForUSBNotifications
 {
@@ -79,10 +77,6 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 	
 	//	Prime the Notifications (And Deal with the existing devices)...
 	[self usbDeviceAdded: addedIterator];
-	
-	
-	
-	
 	
 	//	Register for removal notifications.
 	//	It seems we have to make a new dictionary...  reusing the old one didn't work.
@@ -163,19 +157,15 @@ NSString		*NotifierUSBDisconnectionNotification		=	@"USB Device Disconnected";
 	}
 }
 
-
-
 #pragma mark -
 #pragma mark	C Callbacks
 
-void usbDeviceAdded (void *refCon, io_iterator_t iter) {
+static void usbDeviceAdded (void *refCon, io_iterator_t iter) {
 	[(USBNotifier*)refCon usbDeviceAdded:iter];
 }
 
-void usbDeviceRemoved (void *refCon, io_iterator_t iter) {
+static void usbDeviceRemoved (void *refCon, io_iterator_t iter) {
 	[(USBNotifier*)refCon usbDeviceRemoved:iter];
 }
-
-
 
 @end

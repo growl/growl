@@ -1,11 +1,12 @@
+#import <IOBluetooth/Bluetooth.h>
+#import <IOBluetooth/objc/IOBluetoothOBEXSession.h>
+#import "MFIOBluetoothDeviceAdditions.h"
 #import "BluetoothNotifier.h"
 
-NSString		*NotifierBluetoothConnectionNotification		=	@"Bluetooth Device Connected";
-NSString		*NotifierBluetoothDisconnectionNotification		=	@"Bluetooth Device Disconnected";
+NSString *NotifierBluetoothConnectionNotification		=	@"Bluetooth Device Connected";
+NSString *NotifierBluetoothDisconnectionNotification	=	@"Bluetooth Device Disconnected";
 
 @implementation BluetoothNotifier
-
-
 
 -(id)init
 {
@@ -14,9 +15,6 @@ NSString		*NotifierBluetoothDisconnectionNotification		=	@"Bluetooth Device Disc
 	}
 	return self;
 }
-
-
-
 
 -(void)setUpBluetoothNotifications
 {

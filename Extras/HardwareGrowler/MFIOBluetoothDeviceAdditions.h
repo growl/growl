@@ -6,10 +6,7 @@
 //  Copyright (c) 2003 Monkeyfood.com. All rights reserved.
 //
 
-
 #import <IOBluetooth/objc/IOBluetoothDevice.h>
-#include <IOBluetooth/IOBluetoothUtilities.h>
-
 
 @interface IOBluetoothDevice (MFIOBluetoothDeviceAdditions)
 
