@@ -9,9 +9,10 @@
 
 @interface GrowlMailMePrefs: NSPreferencePane
 {
-	IBOutlet NSTextField	*destAddressField;
+	NSMutableString *destAddress;
 }
 
-- (IBAction)preferenceChanged:(id)sender;
+- (NSString *) getDestAddress;
+- (void) setDestAddress:(NSString *)value;
 
 @end
