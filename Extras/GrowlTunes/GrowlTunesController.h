@@ -35,7 +35,7 @@
 #define ITUNES_STOPPED			@"Stopped"
 #define ITUNES_PLAYING			@"Started Playing"
 
-#define DEFAULT_POLL_INTERVAL	3
+#define DEFAULT_POLL_INTERVAL	2
 
 typedef enum {
 	itPLAYING,

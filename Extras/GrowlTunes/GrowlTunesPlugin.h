@@ -32,18 +32,18 @@
 #import <Foundation/Foundation.h>
 
 @protocol GrowlTunesPlugin <NSObject>
-- (NSImage *)artworkForTitle:(NSString *)track
-					byArtist:(NSString *)artist
-					 onAlbum:(NSString *)album
-			   isCompilation:(BOOL)compilation;
+- (NSImage *) artworkForTitle:(NSString *)track
+					 byArtist:(NSString *)artist
+					  onAlbum:(NSString *)album
+				isCompilation:(BOOL)compilation;
 			   
 - (BOOL) usesNetwork;
 @end
 
 @protocol GrowlTunesPluginArchive <NSObject>
-- (BOOL)archiveImage:(NSImage *)image
-			track:(NSString *)track
-		   artist:(NSString *)artist
-			album:(NSString *)album
-	  compilation:(BOOL)compilation;
+- (BOOL) archiveImage:(NSImage *)image
+				track:(NSString *)track
+			   artist:(NSString *)artist
+				album:(NSString *)album
+		  compilation:(BOOL)compilation;
 @end

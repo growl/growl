@@ -25,7 +25,7 @@
 //  Growl
 //
 //  Created by Karl Adam on Fri May 28 2004.
-//  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2004 The Growl Project. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

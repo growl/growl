@@ -30,12 +30,6 @@
 			settings = {
 			};
 		};
-		07C611BE068BE1C1007FEC77 = {
-			fileRef = 07D0C5EB068A50E40076D89A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		07D08B21068D3DA800756873 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.scpt;
@@ -49,14 +43,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		07D0C5EB068A50E40076D89A = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = GrowlAppBridge.framework;
-			path = ../../build/GrowlAppBridge.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
 		};
 //070
 //071
@@ -354,7 +340,7 @@
 		1058C7A0FEA54F0111CA2CBB = {
 			children = (
 				1058C7A1FEA54F0111CA2CBB,
-				07D0C5EB068A50E40076D89A,
+				CBB772AD07A5DD9F00D77326,
 			);
 			isa = PBXGroup;
 			name = "Linked Frameworks";
@@ -698,6 +684,7 @@
 				8D11072C0486CEB800E47090,
 				8D11072E0486CEB800E47090,
 				0A8B5F37070B145800593A33,
+				CB9CC0E207A5DEE00057EF2C,
 			);
 			buildRules = (
 			);
@@ -717,7 +704,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-weak_framework GrowlAppBridge";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = GrowlTunes;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
@@ -785,7 +772,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090,
-				07C611BE068BE1C1007FEC77,
+				CBB772AE07A5DD9F00D77326,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -851,6 +838,36 @@
 		};
 		CB57B4CB0711E503001968B0 = {
 			fileRef = CB57B4CA0711E503001968B0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CB9CC0E207A5DEE00057EF2C = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CB9CC0E307A5DF040057EF2C,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CB9CC0E307A5DF040057EF2C = {
+			fileRef = CBB772AD07A5DD9F00D77326;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		CBB772AD07A5DD9F00D77326 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Growl.framework;
+			path = ../../build/Growl.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		CBB772AE07A5DD9F00D77326 = {
+			fileRef = CBB772AD07A5DD9F00D77326;
 			isa = PBXBuildFile;
 			settings = {
 			};

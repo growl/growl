@@ -30,7 +30,7 @@
 
 #import "GrowlTunesController.h"
 #import "GrowlDefines.h"
-#import <GrowlAppBridge/GrowlAppBridge.h>
+#import <Growl/Growl.h>
 #import "NSGrowlAdditions.h"
 
 #define ONLINE_HELP_URL		    @"http://growl.info/documentation/growltunes.php"
@@ -70,9 +70,8 @@ enum {
 @implementation GrowlTunesController
 
 - (id)init {
-	self = [super init];
-
-	if(self) {
+	
+	if ( self = [super init] ) {
 		Class GABClass = NSClassFromString(@"GrowlAppBridge");
 		[GABClass launchGrowlIfInstalledNotifyingTarget:self
 		                                       selector:@selector(registerGrowl:)
@@ -117,15 +116,15 @@ enum {
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:regDict];
 }
 
-- (void)growlIsReady:(NSNotification *)notification {
+- (void) growlIsReady:(NSNotification *)notification {
 	[self registerGrowl:NULL];
 }
 
-- (void)setPolling:(BOOL)flag {
+- (void) setPolling:(BOOL)flag {
 	polling = flag;
 }
 
-- (void)applicationWillFinishLaunching: (NSNotification *)notification {
+- (void) applicationWillFinishLaunching: (NSNotification *)notification {
 	pollScript       = [self appleScriptNamed:@"jackItunesInfo"];
 	quitiTunesScript = [self appleScriptNamed:@"quitiTunes"];
 	getInfoScript = [self appleScriptNamed:@"jackItunesArtwork"];
@@ -133,8 +132,8 @@ enum {
 	if (polling) {
 		pollInterval = [[NSUserDefaults standardUserDefaults] floatForKey:pollIntervalKey];
 	
-		if( [self iTunesIsRunning] ) [self startTimer];
-	
+		if ( [self iTunesIsRunning] ) [self startTimer];
+		
 		NSNotificationCenter *workspaceCenter = [[NSWorkspace sharedWorkspace] notificationCenter];
 		[workspaceCenter addObserver:self
 							selector:@selector(handleAppLaunch:)
@@ -154,11 +153,11 @@ enum {
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
 		[self createStatusItem];
 }
-- (void)applicationWillTerminate:(NSNotification *)notification {
+- (void) applicationWillTerminate:(NSNotification *)notification {
 	[self release]; //the one in main() is never reached, and we have some important things in -dealloc.
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 	[self stopTimer];
@@ -177,11 +176,12 @@ enum {
 
 #pragma mark -
 
-- (NSString *)starsForRating:(unsigned)rating {
+- (NSString *) starsForRating:(unsigned)rating {
 	enum {
 		BLACK_STAR = 0x2605, WHITE_STAR = 0x2606,
 		numStars = 5,
 	};
+	
 	unichar stars[2] = { WHITE_STAR, BLACK_STAR };
 	unichar starBuffer[numStars] = {
 		stars[rating >=  20],
@@ -190,10 +190,11 @@ enum {
 		stars[rating >=  80],
 		stars[rating >= 100],
 	};
+	
 	return [NSString stringWithCharacters:starBuffer length:numStars];
 }
 
-- (void)songChanged:(NSNotification *)aNotification {
+- (void) songChanged:(NSNotification *)aNotification {
 	NSString				* playerState = nil;
 	iTunesState				newState = itUNKNOWN;
 	NSString				* newTrackURL = nil;
@@ -232,7 +233,7 @@ enum {
 		}
 	}
 	
-	if( newTrackURL && ![newTrackURL isEqualToString:trackURL] ) { // this is different from previous note
+	if ( newTrackURL && ![newTrackURL isEqualToString:trackURL] ) { // this is different from previous note
 		NSString		*track = nil;
 		NSString		*length = nil;
 		NSString		*artist = @"";
@@ -296,7 +297,7 @@ enum {
 			
 			}
 		
-		if( !artwork ) {
+		if ( !artwork ) {
 			if ( !error && !![newTrackURL hasPrefix:@"http://"]) {
 				NSLog(@"Error getting artwork: %@", [error objectForKey:NSAppleScriptErrorMessage]);
 				if ( [plugins count] ) NSLog(@"No plug-ins found anything either, or you wouldn't have this message.");
@@ -315,6 +316,7 @@ enum {
 		} else {
 			displayString = [NSString stringWithFormat:@"%@\n%@\n%@", length, artist, album];
 		}
+		
 		// Tell growl
 		noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
 			( state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING ), GROWL_NOTIFICATION_NAME,
@@ -341,7 +343,7 @@ enum {
 
 #pragma mark Poll timer
 
-- (void)poll:(NSTimer *)timer {
+- (void) poll:(NSTimer *)timer {
 	NSDictionary			* error = nil;
 	NSAppleEventDescriptor	* theDescriptor = [pollScript executeAndReturnError:&error];
 	NSAppleEventDescriptor  * curDescriptor;
@@ -367,7 +369,7 @@ enum {
 		return;
 	}
 	
-	if( newTrackID != 0 && trackID != newTrackID ) { // this is different from previous note
+	if ( newTrackID != 0 && trackID != newTrackID ) { // this is different from previous note
 		NSString		*track = nil;
 		NSString		*length = nil;
 		NSString		*artist = nil;
@@ -423,7 +425,7 @@ enum {
 			
 		}
 		
-		if( !artwork ) {
+		if ( !artwork ) {
 			if ( !error ) {
 				NSLog(@"Error getting artwork: %@", [error objectForKey:NSAppleScriptErrorMessage]);
 				if ( [plugins count] ) NSLog(@"No plug-ins found anything either, or you wouldn't have this message.");
@@ -457,8 +459,8 @@ enum {
 	}
 }
 
-- (void)startTimer {
-	if(pollTimer == nil) {
+- (void) startTimer {
+	if (pollTimer == nil) {
 		pollTimer = [[NSTimer scheduledTimerWithTimeInterval:pollInterval 
 													  target:self
 													selector:@selector(poll:)
@@ -469,8 +471,8 @@ enum {
 	}
 }
 
-- (void)stopTimer {
-	if(pollTimer){
+- (void) stopTimer {
+	if (pollTimer){
 		[pollTimer invalidate];
 		[pollTimer release];
 		pollTimer = nil;
@@ -480,16 +482,16 @@ enum {
 
 #pragma mark Status item
 
-- (void)createStatusItem {
-	if(!statusItem) {
+- (void) createStatusItem {
+	if (!statusItem) {
 		NSStatusBar *statusBar = [NSStatusBar systemStatusBar];
 		statusItem = [[statusBar statusItemWithLength:NSSquareStatusItemLength] retain];
-		if(statusItem) {
+		if (statusItem) {
 			[statusItem setMenu:[self statusItemMenu]];
-
 			[statusItem setHighlightMode:YES];
 			[statusItem setImage:[NSImage imageNamed:@"growlTunes.tif"]];
-			if(floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_2)  {
+			
+			if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_2)  {
 				[statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.tif"]];
 			}
 			[statusItem setToolTip:NSLocalizedString(@"Status item tooltip", /*comment*/ nil)];
@@ -497,17 +499,17 @@ enum {
 	}
 }
 
-- (void)tearDownStatusItem {
-	if(statusItem) {
+- (void) tearDownStatusItem {
+	if (statusItem) {
 		[[NSStatusBar systemStatusBar] removeStatusItem:statusItem]; //otherwise we leave a hole
 		[statusItem release];
 		statusItem = nil;
 	}
 }
 
-- (NSMenu *)statusItemMenu {
+- (NSMenu *) statusItemMenu {
 	NSMenu *menu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"GrowlTunes"];
-	if(menu) {
+	if (menu) {
 		id <NSMenuItem> item;
 		NSString *empty = @""; //used for the key equivalent of all the menu items.
 
@@ -550,8 +552,8 @@ enum {
 	return [menu autorelease];
 }
 
-- (IBAction)togglePolling:(id)sender {
-	if(pollTimer)
+- (IBAction) togglePolling:(id)sender {
+	if (pollTimer)
 		[self stopTimer];
 	else
 		[self startTimer];
@@ -595,10 +597,10 @@ enum {
 }
 
 
-- (BOOL)validateMenuItem:(NSMenuItem *)item {
+- (BOOL) validateMenuItem:(NSMenuItem *)item {
 	BOOL retVal = YES;
 	
-	switch([item tag]) {
+	switch ([item tag]) {
 		case launchQuitiTunesTag:;
 			if([self iTunesIsRunning])
 				[item setTitle:@"Quit iTunes"];
@@ -628,7 +630,7 @@ enum {
 	return retVal;
 }
 
-- (IBAction)onlineHelp:(id)sender{
+- (IBAction) onlineHelp:(id)sender{
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ONLINE_HELP_URL]];
 }
 
@@ -646,26 +648,26 @@ enum {
 		[self buildiTunesSubmenu];
 }
 
-- (IBAction)quitGrowlTunes:(id)sender {
+- (IBAction) quitGrowlTunes:(id)sender {
 	[NSApp terminate:sender];
 }
 
-- (IBAction)launchQuitiTunes:(id)sender {
+- (IBAction) launchQuitiTunes:(id)sender {
 	if(![self quitiTunes]) {
 		//quit failed, so it wasn't running: launch it.
 		[[NSWorkspace sharedWorkspace] launchApplication:iTunesAppName];
 	}
 }
 
-- (IBAction)quitBoth:(id)sender {
+- (IBAction) quitBoth:(id)sender {
 	[self quitiTunes];
 	[self quitGrowlTunes:sender];
 }
 
-- (BOOL)quitiTunes {
+- (BOOL) quitiTunes {
 	NSDictionary *iTunes = [self iTunesProcess];
 	BOOL success = (iTunes != nil);
-	if(success) {
+	if (success) {
 		//first disarm the timer. we don't want to launch iTunes right after we quit it if the timer fires.
 		[self stopTimer];
 		
@@ -678,8 +680,7 @@ enum {
 
 #pragma mark AppleScript
 
-- (NSAppleScript *)appleScriptNamed:(NSString *)name
-{
+- (NSAppleScript *) appleScriptNamed:(NSString *)name {
 	NSURL			* url;
 	NSDictionary	* error;
 	
@@ -688,15 +689,15 @@ enum {
 	return [[NSAppleScript alloc] initWithContentsOfURL:url error:&error];
 }
 
-- (BOOL)iTunesIsRunning {
+- (BOOL) iTunesIsRunning {
 	return [self iTunesProcess] != nil;
 }
-- (NSDictionary *)iTunesProcess {
+- (NSDictionary *) iTunesProcess {
 	NSEnumerator *processesEnum = [[[NSWorkspace sharedWorkspace] launchedApplications] objectEnumerator];
 	NSDictionary *process;
 	
-	while(process = [processesEnum nextObject]) {
-		if([iTunesBundleID caseInsensitiveCompare:[process objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
+	while (process = [processesEnum nextObject]) {
+		if ([iTunesBundleID caseInsensitiveCompare:[process objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
 			break; //this is iTunes!
 	}
 
@@ -712,12 +713,12 @@ enum {
 	[as executeAndReturnError:NULL];
 }
 
-- (void)handleAppLaunch:(NSNotification *)notification {
-	if([iTunesBundleID caseInsensitiveCompare:[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
+- (void) handleAppLaunch:(NSNotification *)notification {
+	if ([iTunesBundleID caseInsensitiveCompare:[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
 		[self startTimer];
 }
-- (void)handleAppQuit:(NSNotification *)notification {
-	if([iTunesBundleID caseInsensitiveCompare:[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
+- (void) handleAppQuit:(NSNotification *)notification {
+	if ([iTunesBundleID caseInsensitiveCompare:[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
 		[self stopTimer];
 }
 
@@ -735,10 +736,10 @@ int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2,
 		return NSOrderedAscending;
 }
 
-- (NSMutableArray *)loadPlugins {
+- (NSMutableArray *) loadPlugins {
 	NSMutableArray *newPlugins = [[NSMutableArray alloc] init];
 	NSMutableArray *lastPlugins = [[NSMutableArray alloc] init];
-	if(newPlugins) {
+	if (newPlugins) {
 		NSBundle *myBundle = [NSBundle mainBundle];
 		NSString *pluginsPath = [myBundle builtInPlugInsPath];
 		NSString *applicationSupportPath = [@"~/Library/Application Support/GrowlTunes/Plugins" stringByExpandingTildeInPath];
@@ -747,18 +748,23 @@ int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2,
 		NSString *loadPath;
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		static NSString *pluginPathExtension = @"plugin";
+		
 		while (loadPath = [loadPathsEnum nextObject]) {
 			NSEnumerator *pluginEnum = [[[NSFileManager defaultManager] directoryContentsAtPath:loadPath] objectEnumerator];
 			NSString *curPath;
-			while(curPath = [pluginEnum nextObject]) {
-				if([[curPath pathExtension] isEqualToString:pluginPathExtension]) {
+			
+			while (curPath = [pluginEnum nextObject]) {
+				if ([[curPath pathExtension] isEqualToString:pluginPathExtension]) {
 					curPath = [pluginsPath stringByAppendingPathComponent:curPath];
 					NSBundle *plugin = [NSBundle bundleWithPath:curPath];
+					
 					if ([plugin load]) {
 						Class principalClass = [plugin principalClass];
+						
 						if ([principalClass conformsToProtocol:@protocol(GrowlTunesPlugin)]) {
 							id instance = [[principalClass alloc] init];
 							[newPlugins addObject:instance];
+							
 							if (!archivePlugin && ([principalClass conformsToProtocol:@protocol(GrowlTunesPluginArchive)])) {
 								archivePlugin = [instance retain];
 //								NSLog(@"plug-in %@ is archive-Plugin with id %p", [curPath lastPathComponent], instance);
@@ -788,11 +794,10 @@ int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2,
 
 @implementation NSObject(GrowlTunesDummyPlugin)
 
-- (NSImage *)artworkForTitle:(NSString *)track
-					byArtist:(NSString *)artist
-					 onAlbum:(NSString *)album
-			   isCompilation:(BOOL)compilation
-{
+- (NSImage *) artworkForTitle:(NSString *)track
+					 byArtist:(NSString *)artist
+					  onAlbum:(NSString *)album
+				isCompilation:(BOOL)compilation {
 	NSLog(@"Dummy plug-in %p called for artwork", self);
 	return nil;
 }
