@@ -44,6 +44,8 @@ extern NSString *_copyCurrentProcessName(void);
 #endif
 
 + (void) _deprecatedNotifyTargetsGrowlIsReady;
++ (NSString *) _applicationNameForGrowl;
++ (NSDictionary *) _registrationDictionary;
 
 @end
 
@@ -75,9 +77,9 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	[delegate autorelease];
 	delegate = [inDelegate retain];
 
-	//Cache the appName from the delegate
+	//Cache the appName from the delegate or the process name
 	[appName autorelease];
-	appName = [[delegate applicationNameForGrowl] retain];
+	appName = [[self _applicationNameForGrowl] retain];
 	
 	//Cache the appIconData from the delegate if it responds to the applicationIconDataForGrowl selector
 	[appIconData autorelease];
@@ -202,17 +204,8 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		FSRef appRef;
 		OSStatus status = FSPathMakeRef((UInt8 *)[growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
 		if (status == noErr) {
-			NSMutableDictionary *registrationDict = [[delegate registrationDictionaryForGrowl] mutableCopy];
-			if(appName)
-				[registrationDict setObject:appName forKey:GROWL_APP_NAME];
-			else if(![registrationDict objectForKey:GROWL_APP_NAME]) {
-				NSString *processName = _copyCurrentProcessName();
-				if(processName) {
-					[registrationDict setObject:processName forKey:GROWL_APP_NAME];
-					[processName release];
-				} else
-					NSLog(@"%@", @"GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined");
-			}
+			
+			NSDictionary	*registrationDict = [self _registrationDictionary];
 
 			FSRef regItemRef;
 			BOOL passRegDict = NO;
@@ -270,6 +263,41 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	}
 	
 	return growlIsRunning;
+}
+
++ (void) reregisterGrowlNotifications {
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION 
+																   object:nil 
+																 userInfo:[self _registrationDictionary]];	
+}
+
++ (NSDictionary *) _registrationDictionary {
+	NSDictionary *registrationDictionary = [delegate registrationDictionaryForGrowl];
+	
+	//Ensure the registration dictionary has the GROWL_APP_NAME specified
+	if (![registrationDictionary objectForKey:GROWL_APP_NAME]) {
+		NSMutableDictionary	*properRegistrationDictionary = [[registrationDictionary mutableCopy] autorelease];
+		
+		[properRegistrationDictionary setObject:appName
+										 forKey:GROWL_APP_NAME];
+		registrationDictionary = properRegistrationDictionary;
+	}
+
+	return(registrationDictionary);
+}
+
++ (NSString *) _applicationNameForGrowl {
+	NSString *applicationNameForGrowl;
+	
+	if ([delegate respondsToSelector:@selector(applicationNameForGrowl)]) {
+		applicationNameForGrowl = [delegate applicationNameForGrowl];
+	} else {
+		applicationNameForGrowl = [_copyCurrentProcessName() autorelease];
+	}
+	
+	if (!applicationNameForGrowl) NSLog(@"GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined");
+	
+	return applicationNameForGrowl;
 }
 
 /*Selector called when a growl notification is clicked.  This should never be

@@ -112,7 +112,7 @@
  
 	@param title		The title of the notification displayed to the user.
 	@param description	The full description of the notification displayed to the user.
-	@param notifName	The internal name of the notification. Should be human-readable, as it will be displayed in the Growl preference pane.
+	@param notifName	The name of the notification. Should be human-readable, as it will be displayed in the Growl preference pane.
 	@param iconData		NSData object to show with the notification as its icon. If nil, the application's icon will be used instead.
 	@param priority		The priority of the notification. The default value is 0; positive values are higher priority and negative values are lower priority. Not all Growl displays support priority.
 	@param isSticky		If YES, the notification will remain on screen until clicked. Not all Growl displays support sticky notifications.
@@ -149,14 +149,6 @@
 @protocol GrowlApplicationBridgeDelegate
 
 /*
-	@method applicationNameForGrowl.
-	@abstract Return the name of this application which will be used for Growl bookkeeping.
-	@discussion This name is used both internally and in the Growl preferences.
-	@result The name of the application using Growl.
- */
-- (NSString *) applicationNameForGrowl;
-
-/*
 	@method registrationDictionaryForGrowl
 	@abstract Return the dictionary used to register this application with Growl.
 	@discussion The returned dictionary gives Growl the complete list of notifications this application will ever send,
@@ -184,6 +176,14 @@
 	@discussion The methods in this informal protocol will only be called if implemented by the delegate.
  */
 @interface NSObject (GrowlApplicationBridgeDelegate_InformalProtocol)
+/*
+	@method applicationNameForGrowl.
+	@abstract Return the name of this application which will be used for Growl bookkeeping.
+	@discussion This name is used both internally and in the Growl preferences.  If this method is not implemented, the name of the process will be used; it is recommended that this method be implemented.
+	@result The name of the application using Growl.
+ */
+- (NSString *) applicationNameForGrowl;
+
 /* 
 	@method applicationIconDataForGrowl
 	@abstract Return the NSData to treat as the application icon.
