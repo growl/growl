@@ -189,23 +189,26 @@ enum {
 #pragma mark Status item
 
 - (void)createStatusItem {
-	NSStatusBar *statusBar = [NSStatusBar systemStatusBar];
-	statusItem = [[statusBar statusItemWithLength:NSSquareStatusItemLength] retain];
-	if(statusItem) {
-		[statusItem setMenu:[self statusItemMenu]];
+	if(!statusItem) {
+		NSStatusBar *statusBar = [NSStatusBar systemStatusBar];
+		statusItem = [[statusBar statusItemWithLength:NSSquareStatusItemLength] retain];
+		if(statusItem) {
+			[statusItem setMenu:[self statusItemMenu]];
 
-		NSImage *iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:iTunesAppName];
-		NSSize destIconSize;
-		destIconSize.width = destIconSize.height = 16.0f;
-		[iTunesIcon setSize:destIconSize];
-		[statusItem setImage:iTunesIcon];
+			NSImage *iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:iTunesAppName];
+			NSSize destIconSize;
+			destIconSize.width = destIconSize.height = 16.0f;
+			[iTunesIcon setSize:destIconSize];
+			[statusItem setImage:iTunesIcon];
+		}
 	}
-//	NSLog(@"statusItem: %@; isEnabled: %u", statusItem, [statusItem isEnabled]);
 }
 
 - (void)tearDownStatusItem {
-	[statusItem release];
-	statusItem = nil;
+	if(statusItem) {
+		[statusItem release];
+		statusItem = nil;
+	}
 }
 
 - (NSMenu *)statusItemMenu {
