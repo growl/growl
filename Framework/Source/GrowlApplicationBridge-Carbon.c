@@ -244,7 +244,7 @@ Boolean Growl_IsRunning(void) {
 	while (GetNextProcess(&PSN) == noErr) {
 		CFDictionaryRef infoDict = ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
 
-		if (CFEqual(CFDictionaryGetValue(infoDict, kCFBundleIdentifierKey)), CFSTR("com.Growl.GrowlHelperApp"))) {
+		if (CFEqual(CFDictionaryGetValue(infoDict, kCFBundleIdentifierKey), CFSTR("com.Growl.GrowlHelperApp"))) {
 			growlIsRunning = true;
 			CFRelease(infoDict);
 			break;
