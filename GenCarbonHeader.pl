@@ -28,7 +28,7 @@ ENDOFHEADER
 while(<COCOA> =~ m{^//}) {}	#Strip the initial comment header
 
 #Loop until we hit the protocol declarations
-while(($line = <COCOA>) !~ m{^@})
+while(defined($line = <COCOA>) && ($line !~ m{^@}))
 {
 	$line =~ s/@"(.*)"/CFSTR("$1")/g;
 	print CARBON $line;
