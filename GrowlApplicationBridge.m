@@ -77,7 +77,7 @@ static  NSMutableArray *targetsToNotifyArray = nil;
 		/*if ([[NSWorkspace sharedWorkspace] launchApplication:growlHelperAppPath]){
 			success = YES;
 		}*/
-		// Lets launch in the background (unfortunately, requires Carbon)
+		//Let's launch in the background (unfortunately, requires Carbon)
 		LSLaunchFSRefSpec spec;
 		FSRef appRef;
 		OSStatus status = FSPathMakeRef([growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
