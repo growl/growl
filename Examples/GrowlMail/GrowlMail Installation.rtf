@@ -4,14 +4,17 @@
 \margl1440\margr1440\vieww9000\viewh9000\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f0\fs24 \cf0 GrowlMail is a Apple Mail plugin. This is an example for implementing Growl support in bundles.\
+\f0\fs24 \cf0 GrowlMail is a Apple Mail plugin. This is an example for implementing Growl support in bundles - to provide a Growl notification whenever you get new mail.\
 \
-Installing GrowlMail:\
 \
-1) Quite Apple Mail\
+Installing GrowlMail is simple:\
+\
+1) Quit Apple Mail. (this is very important!)\
 2) Move the GrowlMail.mailbundle package into ~/Library/Mail/Bundles/\
-3) Run these two commands in a terminal\
+3) If this is your first Mail bundle, then run these two commands in a terminal -\
 \
 	defaults write com.apple.mail EnableBundles -bool True\
 	defaults write com.apple.mail BundleCompatibilityVersion 1\
+\
+4) Restart Mail.app\
 }
