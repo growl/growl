@@ -13,6 +13,60 @@ NSString * UseDefaultsKey = @"useDefaults";
 NSString * TicketEnabledKey = @"ticketEnabled";
 NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
+@implementation GrowlApplicationNotification
+- (GrowlPriority) priority {
+	return _priority;
+}
+
+- (void) setPriority:(GrowlPriority)newPriority {
+    _priority = newPriority;
+}
+
+- (NSString*) name {
+	return [[_name copy] autorelease];
+}
+
+- (BOOL) enabled {
+	return _enabled;
+}
+
+- (void) setEnabled:(BOOL)yorn {
+    _enabled = yorn;
+}
+
+- (NSDictionary*) notificationAsDict {
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+        _name, @"Name",
+        [NSNumber numberWithInt:(int)_priority], @"Priority",
+        [NSNumber numberWithBool:_enabled], @"Enabled",
+        nil];
+    return dict;
+}
+
++ (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict {
+    NSString* name = [dict objectForKey:@"Name"];
+    GrowlPriority priority = [[dict objectForKey:@"Priority"] intValue];
+    BOOL enabled = [[dict objectForKey:@"Enabled"] boolValue];
+    return [[[GrowlApplicationNotification alloc] initWithName:name priority:priority enabled:enabled] autorelease];
+}
+
+- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled {
+    self = [super init];
+    _name = [name retain];
+    _priority = priority;
+    _enabled = enabled;
+    return self;
+}
+
+- (void) dealloc {
+    if (_name)
+        [_name release];
+}
+@end
+
+#pragma mark -
+#pragma mark -
+
 @implementation GrowlApplicationTicket
 
 + (NSDictionary *) allSavedTickets {

@@ -10,6 +10,37 @@
 
 @class GrowlController;
 
+typedef enum GrowlPriority {
+	GP_verylow		= -2,
+	GP_low			= -1,
+	GP_normal		=  0,
+	GP_high		=  1,
+	GP_emergency	=  2
+} GrowlPriority;
+
+@interface GrowlApplicationNotification : NSObject {
+	NSString		*_name;
+	GrowlPriority	 _priority;
+	BOOL			 _enabled;
+}
+
+- (GrowlPriority) priority;
+- (void) setPriority:(GrowlPriority)newPriority;
+
+- (NSString*) name;
+
+- (BOOL) enabled;
+- (void) setEnabled:(BOOL)yorn;
+
+- (NSDictionary*) notificationAsDict;
++ (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict;
+
+- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled;
+@end
+
+#pragma mark -
+#pragma mark -
+
 @interface GrowlApplicationTicket : NSObject {
 	NSString		*_appName;					// The Applications's name for display by notifications that want it
 	NSImage			*_icon;						// This app's icon for notifications and display methods that want it
