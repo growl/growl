@@ -643,23 +643,27 @@ static id singleton = nil;
 }
 
 #pragma mark Growl Delegate Methods
-- (NSData *) applicationIconDataForGrowl
-{
+- (NSData *) applicationIconDataForGrowl {
 	return growlIconData;
 }
 
-- (NSString *) applicationNameForGrowl
-{
+- (NSString *) applicationNameForGrowl {
 	return @"Growl";
 }
 
-- (NSDictionary *) registrationDictionaryForGrowl
-{
-	NSArray *notifs = [NSArray arrayWithObjects:@"Application registered",
-		@"Application re-registered", nil];
+- (NSDictionary *) registrationDictionaryForGrowl {
+	NSArray *allNotifications = [NSArray arrayWithObjects:
+		@"Application registered",
+		@"Application re-registered",
+		nil];
+
+	NSArray *defaultNotifications = [NSArray arrayWithObjects:
+		[NSNumber numberWithUnsignedInt:0],
+		nil];
+
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		notifs, GROWL_NOTIFICATIONS_ALL,
-		[NSArray array], GROWL_NOTIFICATIONS_DEFAULT,
+		allNotifications, GROWL_NOTIFICATIONS_ALL,
+		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
 }
 
