@@ -28,13 +28,30 @@ typedef enum {
 	NSAppleScript		* getArtistScript;
 	NSAppleScript		* getArtworkScript;
 	NSAppleScript		* getAlbumScript;
-	
+	NSAppleScript		* quitiTunesScript;
+
+	NSStatusItem		* statusItem;
+
 	iTunesState			  state;
 	int					  trackID;		//The "database ID" of the last-polled track in iTunes, -1 for none
 }
 
 - (BOOL)iTunesIsRunning;
+- (NSDictionary *)iTunesProcess;
+- (BOOL)quitiTunes;
+
 - (void)registerGrowl:(void *)context;
+
+#pragma mark Poll timer
+
 - (void)poll: (NSTimer *)timer;
+- (void)startTimer;
+- (void)stopTimer;
+
+#pragma mark Status item
+
+- (void)createStatusItem;
+- (void)tearDownStatusItem;
+- (NSMenu *)statusItemMenu;
 
 @end

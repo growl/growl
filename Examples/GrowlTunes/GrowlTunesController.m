@@ -16,7 +16,15 @@
 @end
 
 static NSString *appName = @"GrowlTunes";
+static NSString *iTunesAppName = @"iTunes.app";
 static NSString *iTunesBundleID = @"com.apple.itunes";
+
+//status item menu item tags.
+enum {
+	quitGrowlTunesTag,
+	launchQuitiTunesTag,
+	quitBothTag
+};
 
 @implementation GrowlTunesController
 
@@ -38,7 +46,7 @@ static NSString *iTunesBundleID = @"com.apple.itunes";
 //		ITUNES_STOPPED,
 		ITUNES_PLAYING, 
 		nil];
-	NSImage			* iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes.app"];
+	NSImage			* iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:iTunesAppName];
 	NSDictionary	* regDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		appName, GROWL_APP_NAME,
 		[iTunesIcon TIFFRepresentation], GROWL_APP_ICON,
@@ -55,14 +63,10 @@ static NSString *iTunesBundleID = @"com.apple.itunes";
 	getArtistScript = [self appleScriptNamed:@"getArtist"];
 	getArtworkScript = [self appleScriptNamed:@"getArtwork"];
 	getAlbumScript = [self appleScriptNamed:@"getAlbum"];
+	quitiTunesScript = [self appleScriptNamed:@"quitiTunes"];
 
 	if([self iTunesIsRunning]) {
-		pollTimer = [[NSTimer scheduledTimerWithTimeInterval:POLL_INTERVAL 
-													  target:self
-													selector:@selector(poll:)
-													userInfo:nil
-													 repeats:YES] retain];
-		[self poll:nil];
+		[self startTimer];
 	}
 
 	NSNotificationCenter *workspaceCenter = [[NSWorkspace sharedWorkspace] notificationCenter];
@@ -74,7 +78,25 @@ static NSString *iTunesBundleID = @"com.apple.itunes";
 						selector:@selector(handleAppQuit:)
 							name:NSWorkspaceDidTerminateApplicationNotification
 						  object:nil];
+
+	[self createStatusItem];
 }
+
+- (void)dealloc
+{
+	[pollScript release];
+	[getTrackScript release];
+	[getArtistScript release];
+	[getArtworkScript release];
+	[getAlbumScript release];
+
+	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+	[self stopTimer];
+	
+	[super dealloc];
+}
+
+#pragma mark Poll timer
 
 - (void)poll: (NSTimer *)timer
 {
@@ -87,7 +109,7 @@ static NSString *iTunesBundleID = @"com.apple.itunes";
 	retVal = [pollScript executeAndReturnError:&error];
 	
 	playerState = [retVal stringValue];
-
+	
 	if([playerState isEqualToString:@"paused"]) {
 		newState = itPAUSED;
 	} else if([playerState isEqualToString:@"stopped"]) {
@@ -131,11 +153,11 @@ static NSString *iTunesBundleID = @"com.apple.itunes";
 					NSLog(@"Error getting artwork: %@",[error objectForKey:NSAppleScriptErrorMessage]);
 				
 				noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
-									appName, GROWL_APP_NAME,
-									track, GROWL_NOTIFICATION_TITLE,
-									[NSString stringWithFormat:@"%@\n%@",artist,album], GROWL_NOTIFICATION_DESCRIPTION,
-									artwork?[artwork TIFFRepresentation]:nil, GROWL_NOTIFICATION_ICON,
-									nil];
+					appName, GROWL_APP_NAME,
+					track, GROWL_NOTIFICATION_TITLE,
+					[NSString stringWithFormat:@"%@\n%@",artist,album], GROWL_NOTIFICATION_DESCRIPTION,
+								 artwork?[artwork TIFFRepresentation]:nil, GROWL_NOTIFICATION_ICON,
+					nil];
 				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:(state == itPLAYING)?ITUNES_TRACK_CHANGED:ITUNES_PLAYING
 																			   object:nil userInfo:noteDict];
 			}
@@ -145,19 +167,110 @@ static NSString *iTunesBundleID = @"com.apple.itunes";
 	}
 }
 
-- (void)dealloc
-{
-	[pollScript release];
-	[getTrackScript release];
-	[getArtistScript release];
-	[getArtworkScript release];
-	[getAlbumScript release];
+- (void)startTimer {
+	if(pollTimer == nil) {
+		pollTimer = [[NSTimer scheduledTimerWithTimeInterval:POLL_INTERVAL 
+													  target:self
+													selector:@selector(poll:)
+													userInfo:nil
+													 repeats:YES] retain];
+		[self poll:nil];
+	}
+}
+
+- (void)stopTimer {
 	[pollTimer invalidate];
 	[pollTimer release];
-	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
-	
-	[super dealloc];
+	pollTimer = nil;
 }
+
+#pragma mark Status item
+
+- (void)createStatusItem {
+	NSStatusBar *statusBar = [NSStatusBar systemStatusBar];
+	statusItem = [[statusBar statusItemWithLength:NSSquareStatusItemLength] retain];
+	if(statusItem) {
+		[statusItem setMenu:[self statusItemMenu]];
+
+		NSImage *iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:iTunesAppName];
+		NSSize destIconSize;
+		destIconSize.width = destIconSize.height = 16.0f;
+		[iTunesIcon setSize:destIconSize];
+		[statusItem setImage:iTunesIcon];
+	}
+//	NSLog(@"statusItem: %@; isEnabled: %u", statusItem, [statusItem isEnabled]);
+}
+
+- (void)tearDownStatusItem {
+	[statusItem release];
+	statusItem = nil;
+}
+
+- (NSMenu *)statusItemMenu {
+	NSMenu *menu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"GrowlTunes"];
+	if(menu) {
+		id <NSMenuItem> item;
+		NSString *empty = @""; //used for the key equivalent of all the menu items.
+
+		item = [menu addItemWithTitle:@"Quit GrowlTunes" action:@selector(quitGrowlTunes:) keyEquivalent:empty];
+		[item setTarget:self];
+		[item setTag:quitGrowlTunesTag];
+		item = [menu addItemWithTitle:@"Launch iTunes" action:@selector(launchQuitiTunes:) keyEquivalent:empty];
+		[item setTarget:self];
+		[item setTag:launchQuitiTunesTag];
+		item = [menu addItemWithTitle:@"Quit Both" action:@selector(quitBoth:) keyEquivalent:empty];
+		[item setTarget:self];
+		[item setTag:quitBothTag];
+	}
+
+	return [menu autorelease];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)item {
+	switch([item tag]) {
+		case launchQuitiTunesTag:;
+			static NSString *names[2] = { @"Launch iTunes", @"Quit iTunes" };
+			[item setTitle:names[[self iTunesIsRunning] != NO]];
+		case quitGrowlTunesTag:
+		case quitBothTag:
+			return YES;
+
+		default:
+			return NO;
+	}
+}
+
+- (IBAction)quitGrowlTunes:(id)sender {
+	[NSApp terminate:sender];
+}
+
+- (IBAction)launchQuitiTunes:(id)sender {
+	if(![self quitiTunes]) {
+		//quit failed, so it wasn't running: launch it.
+		[[NSWorkspace sharedWorkspace] launchApplication:iTunesAppName];
+	}
+}
+
+- (IBAction)quitBoth:(id)sender {
+	[self quitiTunes];
+	[self quitGrowlTunes:sender];
+}
+
+- (BOOL)quitiTunes {
+	NSDictionary *iTunes = [self iTunesProcess];
+	BOOL success = (iTunes != nil);
+	if(success) {
+		//first disarm the timer. we don't want to launch iTunes right after we quit it if the timer fires.
+		[self stopTimer];
+		
+		//now quit iTunes.
+		NSDictionary *errorInfo = nil;
+		[quitiTunesScript executeAndReturnError:&errorInfo];
+	}
+	return success;
+}
+
+#pragma mark AppleScript
 
 - (NSAppleScript *)appleScriptNamed:(NSString *)name
 {
@@ -170,41 +283,27 @@ static NSString *iTunesBundleID = @"com.apple.itunes";
 }
 
 - (BOOL)iTunesIsRunning {
+	return [self iTunesProcess] != nil;
+}
+- (NSDictionary *)iTunesProcess {
 	NSEnumerator *processesEnum = [[[NSWorkspace sharedWorkspace] launchedApplications] objectEnumerator];
 	NSDictionary *process;
-
+	
 	while(process = [processesEnum nextObject]) {
 		if([iTunesBundleID caseInsensitiveCompare:[process objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
-			return YES; //this is iTunes!
+			break; //this is iTunes!
 	}
 
-	return NO;
+	return process;
 }
 
 - (void)handleAppLaunch:(NSNotification *)notification {
-	if([iTunesBundleID caseInsensitiveCompare:[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame) {
-		if(pollTimer == nil) {
-			//it is fully possible that the user might launch more than one
-			//  instance of iTunes, or that some fool might give his app
-			//  the same bundle ID as iTunes.
-			//hence the if(pollTimer == nil) statement.
-
-			//this is the same code as in applicationWillFinishLaunching:.
-			pollTimer = [[NSTimer scheduledTimerWithTimeInterval:POLL_INTERVAL 
-														  target:self
-														selector:@selector(poll:)
-														userInfo:nil
-														 repeats:YES] retain];
-			[self poll:nil];
-		}
-	}
+	if([iTunesBundleID caseInsensitiveCompare:[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
+		[self startTimer];
 }
 - (void)handleAppQuit:(NSNotification *)notification {
-	if([iTunesBundleID caseInsensitiveCompare:[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame) {
-		[pollTimer invalidate];
-		[pollTimer release];
-		pollTimer = nil;
-	}
+	if([iTunesBundleID caseInsensitiveCompare:[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
+		[self stopTimer];
 }
 
 @end
