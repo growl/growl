@@ -94,6 +94,11 @@
 	[tableColumn setDataCell:imageAndTextCell];
 	NSButtonCell *cell = [[applicationNotifications tableColumnWithIdentifier:@"sticky"] dataCell];
 	[cell setAllowsMixedState:YES];
+	
+	[applicationNotifications deselectAll:NULL];
+	[growlApplications deselectAll:NULL];
+	[remove setEnabled:NO];
+	
 	[growlRunningProgress setDisplayedWhenStopped:NO];
 	[growlVersion setStringValue:[self bundleVersion]];
 }
@@ -116,6 +121,8 @@
 	[self reloadPreferences];
 	//[self pingGrowl];
 	[self checkGrowlRunning];
+	
+	[tabView setDelegate:self];
 }
 
 - (NSPreferencePaneUnselectReply)shouldUnselect {
@@ -165,10 +172,7 @@
 	[self loadViewForDisplay:nil];
 	
 	[growlApplications reloadData];
-	if(currentApplication) {
-		[growlApplications selectRow:[applications indexOfObject:currentApplication] byExtendingSelection:NO];
-	}
-	
+		
 	[startGrowlAtLogin setState:NSOffState];
 	NSUserDefaults *defs = [[NSUserDefaults alloc] init];
 	NSArray *autoLaunchArray = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
@@ -249,22 +253,20 @@
 	unsigned int numApplications = [applications count];
 	int row = [growlApplications selectedRow];
 	if( numApplications ) {
-		if( row < 0 ) {
-			[growlApplications selectRow:0 byExtendingSelection:NO];
-		} else if( (unsigned int)row >= numApplications ) {
-			[growlApplications selectRow:numApplications-1 byExtendingSelection:NO];
-		}
-		currentApplication = [[applications objectAtIndex:[growlApplications selectedRow]] retain];
+		if(row > -1)
+			currentApplication = [[applications objectAtIndex:row] retain];
 	} else {
-		[growlApplications selectRow:-1 byExtendingSelection:NO];
+		//[growlApplications selectRow:-1 byExtendingSelection:NO];
 	}
-	[remove setEnabled:([growlApplications selectedRow] >= 0)];
+	[applicationNotifications deselectAll:NULL];
+	[remove setEnabled:NO];
 	appTicket = [tickets objectForKey: currentApplication];
 	
 //	[applicationEnabled setState: [appTicket ticketEnabled]];
 //	[applicationEnabled setTitle: [NSString stringWithFormat:@"Enable notifications for %@",currentApplication]];
 
 	[[[applicationNotifications tableColumnWithIdentifier:@"enable"] dataCell] setEnabled:[appTicket ticketEnabled]];
+
 	[applicationNotifications reloadData];
 	
 	[growlApplications reloadData];
@@ -562,8 +564,17 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)theNote {
 	if ([theNote object] == growlApplications) {
 		[self reloadAppTab];
+		if([[theNote object] selectedRow] > -1)
+			[remove setEnabled:YES]; 
+		else
+			[remove setEnabled:NO];
+		[applicationNotifications reloadData];
 	} else if ([theNote object] == displayPlugins) {
 		[self reloadDisplayTab];
+		[remove setEnabled:NO];
+	} else if ([theNote object] == applicationNotifications) {
+		[self reloadAppTab];
+		[remove setEnabled:NO];
 	}
 }
 
@@ -591,6 +602,14 @@
 	}
 }
 
+#pragma mark Growl Tab View Delegate Methods
+- (void) tabView:(NSTabView*)tab willSelectTabViewItem:(NSTabViewItem*)tabViewItem
+{
+	//NSLog(@"%s %@\n", __FUNCTION__, [tabViewItem label]);
+	if([[tabViewItem label] isEqual:@"Applications"])
+			[[tab window] makeFirstResponder: growlApplications];
+			
+}
 #pragma mark -
 
 - (IBAction)revert:(id)sender {
