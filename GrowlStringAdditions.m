@@ -15,7 +15,11 @@
 
 	if (pantherOrLater) {
 		// use the built-in ellipsising system if possible
-		NSMutableParagraphStyle *ellipsisingStyle = [[[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
+		NSParagraphStyle *paragraphStyle = [attributes objectForKey:NSParagraphStyleAttributeName];
+		if (!paragraphStyle) {
+			paragraphStyle = [NSParagraphStyle defaultParagraphStyle];
+		}
+		NSMutableParagraphStyle *ellipsisingStyle = [[[paragraphStyle mutableCopy] 
 			setLineBreakMode:NSLineBreakByTruncatingTail] autorelease];
 		NSMutableDictionary *md = [NSMutableDictionary dictionaryWithDictionary:attributes];
 		[md setObject:ellipsisingStyle forKey:NSParagraphStyleAttributeName];

@@ -124,7 +124,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				07694C22073A4C820079D1E5,
-				9536D21C0747E58100F7F498,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -548,7 +547,6 @@
 		};
 		089C167CFE841241C02AAC07 = {
 			children = (
-				9536D1FC0747E58100F7F498,
 				089C167DFE841241C02AAC07,
 				5282FC6906DD9F2D00179624,
 				6C60D7BD06F044110025909F,
@@ -1630,20 +1628,6 @@
 //952
 //953
 //954
-		9536D1FC0747E58100F7F498 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			path = "Bubbles-Info.plist";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		9536D21C0747E58100F7F498 = {
-			fileRef = 9536D1FC0747E58100F7F498;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		9564F8B907438E6800F1CCE5 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;

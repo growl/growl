@@ -9,9 +9,9 @@
 #import "GrowlBezelWindowView.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
+#import "GrowlStringAdditions.h"
 
 #define BORDER_RADIUS 20.0f
-#define ELLIPSIS_STRING @"..."
 
 @implementation GrowlBezelWindowView
 
@@ -50,7 +50,7 @@
 	[[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:(opacityPref*0.01f)] set];
 	[path fill];
 
-	int sizePref = 0;
+	int sizePref = BEZEL_SIZE_NORMAL;
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 
 	// rects
@@ -108,30 +108,28 @@
 	}
 	float accumulator = 0.f;
 	BOOL minFontSize = NO;
-	//[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
 	NSSize titleSize = [title sizeWithAttributes:titleAttributes];
 
 	while ( titleSize.width > ( NSWidth(titleRect) - ( titleSize.height * 0.5f ) ) ) {
 		minFontSize = ( titleFontSize < 12.f );
 		if ( minFontSize ) {
-			[self setTitle: [title substringToIndex:[title length] - 1]];
-		} else {
-			titleFontSize -= 1.f;
-			accumulator += 0.5f;
+			break;
 		}
+		titleFontSize -= 1.f;
+		accumulator += 0.5f;
 		[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
 		titleSize = [title sizeWithAttributes:titleAttributes];
 	}
 
 	titleRect.origin.y += ceilf(accumulator);
+	titleRect.size.height = titleSize.height;
 
 	if ( minFontSize ) {
-		[self setTitle: [NSString stringWithFormat:@"%@%@",[title substringToIndex:[title length]-1], ELLIPSIS_STRING]];
+		[title drawWithEllipsisInRect:titleRect withAttributes:titleAttributes];
+	} else {
+		[title drawInRect:titleRect withAttributes:titleAttributes];
 	}
 
-	titleRect.size.height = titleSize.height;
-	[title drawInRect:titleRect withAttributes:titleAttributes];
-	
 	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 				[NSColor whiteColor], NSForegroundColorAttributeName,
 				parrafo, NSParagraphStyleAttributeName,
@@ -152,7 +150,7 @@
 			textHeight = 0.0f;
 		}
 	} else {
-		textAttributed = [[[NSAttributedString alloc] initWithString:text attributes:textAttributes] autorelease];
+		textAttributed = [[NSAttributedString alloc] initWithString:text attributes:textAttributes];
 		rowCount = [self descriptionRowCount:textAttributed inRect:textRect];
 		[textAttributed release];
 	}
@@ -191,15 +189,18 @@
 
 	if (!textHeight) {
 		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:theText];
-		NSTextContainer* textContainer = [[[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize(NSWidth(theRect),NSHeight(theRect)+1000.f)] autorelease];
-		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
+		NSTextContainer* textContainer = [[NSTextContainer alloc]
+			initWithContainerSize:NSMakeSize(NSWidth(theRect),NSHeight(theRect)+1000.f)];
+		NSLayoutManager* layoutManager = [[NSLayoutManager alloc] init];
 
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
 		[layoutManager glyphRangeForTextContainer:textContainer];
 	
 		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+		[layoutManager release];
+		[textContainer release];
+		[textStorage release];
 		textHeight = textHeight / 13.0f * 14.0f;
 	}
 	return MAX (textHeight, 30.0f);

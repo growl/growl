@@ -60,7 +60,7 @@
 	[panel setContentView:view];
 	
 	[view setTitle:title];
-	NSMutableString	*tempText = [[[NSMutableString alloc] init] autorelease];
+	NSMutableString	*tempText = [NSMutableString stringWithString:text];
 	// Sanity check to unify line endings
 	[tempText setString:text];
 	[tempText replaceOccurrencesOfString:@"\r"
@@ -68,7 +68,7 @@
 			options:nil
 			range:NSMakeRange(0, [tempText length])];
 	[view setText:tempText];
-	
+
 	[view setIcon:icon];
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
