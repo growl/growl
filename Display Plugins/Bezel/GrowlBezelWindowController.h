@@ -17,15 +17,18 @@
 	id				_target;
 	id				_representedObject;
 	short			_displayTime;
+	int				_priority;
 }
 
 + (GrowlBezelWindowController *)bezel;
-+ (GrowlBezelWindowController *)bezelWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky;
++ (GrowlBezelWindowController *)bezelWithTitle:(NSString *)title text:(id)text
+		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 
-- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky;
+- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 
 - (void)startFadeIn;
 - (void)startFadeOut;
+- (void)stopFadeOut;
 
 - (BOOL)automaticallyFadeOut;
 - (void)setAutomaticallyFadesOut:(BOOL) autoFade;
@@ -41,6 +44,9 @@
 
 - (id)delegate;
 - (void)setDelegate:(id)delegate;
+
+- (int)priority;
+- (void)setPriority:(int)newPriority;
 
 @end
 

@@ -23,11 +23,12 @@
 	return [[[self alloc] init] autorelease];
 }
 
-+ (GrowlBezelWindowController *)bezelWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky {
-	return [[[self alloc] initWithTitle:title text:text icon:icon sticky:sticky] autorelease];
++ (GrowlBezelWindowController *)bezelWithTitle:(NSString *)title text:(id)text
+		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
+	return [[[self alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky] autorelease];
 }
 
-- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky {
+- (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
 	int sizePref = 0;
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, @"com.Growl.Bezel", &sizePref);
 	NSRect sizeRect;
@@ -121,7 +122,10 @@
 	
 	_displayTime = MIN_DISPLAY_TIME;
 	
-	[self setAutomaticallyFadesOut:!sticky];
+	_priority = priority;
+	
+	//[self setAutomaticallyFadesOut:!sticky];
+	[self setAutomaticallyFadesOut:TRUE];
 	
 	return ( self = [super initWithWindow:panel] );
 }
@@ -226,6 +230,11 @@
 			 repeats:YES] retain];
 }
 
+- (void)stopFadeOut {
+	[self _stopTimer];
+	[self close];
+}
+
 - (BOOL)automaticallyFadeOut {
 	return _autoFadeOut;
 }
@@ -267,6 +276,15 @@
 - (void) setDelegate:(id) delegate {
 	_delegate = delegate;
 }
+
+- (int)priority {
+	return _priority;
+}
+
+- (void)setPriority:(int)newPriority {
+	_priority = newPriority;
+}
+
 
 - (BOOL) respondsToSelector:(SEL) selector {
 	BOOL contentViewRespondsToSelector = [[[self window] contentView] respondsToSelector:selector];

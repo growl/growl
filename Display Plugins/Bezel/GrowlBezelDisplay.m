@@ -70,10 +70,32 @@
 	GrowlBezelWindowController *nuBezel = [GrowlBezelWindowController bezelWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
 			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
 			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+			priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
 	[nuBezel setDelegate:self];
-	[notificationQueue addObject:nuBezel];
-	if ( [notificationQueue count] == 1 ) {
+	if ( [notificationQueue count] > 0 ) {
+		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
+		GrowlBezelWindowController *aNotification;
+		BOOL	inserted = FALSE;
+		int		theIndex = 0;
+		
+		while (!inserted && (aNotification = [enumerator nextObject])) {
+			if ([aNotification priority] < [nuBezel priority]) {
+				[notificationQueue insertObject: nuBezel atIndex:theIndex];
+				if (theIndex == 0) {
+					[aNotification stopFadeOut];
+					[nuBezel startFadeIn];
+				}
+				inserted = TRUE;
+			}
+			theIndex++;
+		}
+		
+		if (!inserted) {
+			[notificationQueue addObject:nuBezel];
+		}
+	} else {
+		[notificationQueue addObject:nuBezel];
 		[nuBezel startFadeIn];
 	}
 }
