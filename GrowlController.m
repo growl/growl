@@ -141,7 +141,7 @@ static id _singleton = nil;
 
     // Retrieve and set the sticky bit of the notification
     int sticky = [ticket stickyForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]];
-	if (sticky >= 0)
+	if (ticket != nil && sticky >= 0)
 		[aDict setObject:[NSNumber numberWithBool:(sticky ? YES : NO)]
 				  forKey:GROWL_NOTIFICATION_STICKY];
     
