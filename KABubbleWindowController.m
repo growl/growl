@@ -210,20 +210,21 @@ static unsigned int bubbleWindowDepth = 0;
 #pragma mark -
 
 - (BOOL) respondsToSelector:(SEL) selector {
-	if( [[[self window] contentView] respondsToSelector:selector] )
-		return [[[self window] contentView] respondsToSelector:selector];
-	else return [super respondsToSelector:selector];
+	BOOL contentViewRespondsToSelector = [[[self window] contentView] respondsToSelector:selector];
+	return contentViewRespondsToSelector ? contentViewRespondsToSelector : [super respondsToSelector:selector];
 }
 
 - (void) forwardInvocation:(NSInvocation *) invocation {
-	if( [[[self window] contentView] respondsToSelector:[invocation selector]] )
-		[invocation invokeWithTarget:[[self window] contentView]];
+	NSView *contentView = [[self window] contentView];
+	if( [contentView respondsToSelector:[invocation selector]] )
+		[invocation invokeWithTarget:contentView];
 	else [super forwardInvocation:invocation];
 }
 
 - (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
-	if( [[[self window] contentView] respondsToSelector:selector] )
-		return [(NSObject *)[[self window] contentView] methodSignatureForSelector:selector];
+	NSView *contentView = [[self window] contentView];
+	if( [contentView respondsToSelector:selector] )
+		return [contentView methodSignatureForSelector:selector];
 	else return [super methodSignatureForSelector:selector];
 }
 @end
