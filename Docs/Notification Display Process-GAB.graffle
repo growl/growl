@@ -21,7 +21,7 @@
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>34</integer>
+			<integer>68</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -64,7 +64,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>33</integer>
+			<integer>67</integer>
 			<key>Shape</key>
 			<string>Rectangle</string>
 			<key>Style</key>
@@ -99,10 +99,10 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>14</integer>
+				<integer>48</integer>
 			</dict>
 			<key>ID</key>
-			<integer>32</integer>
+			<integer>66</integer>
 			<key>Points</key>
 			<array>
 				<string>{430.5, 558}</string>
@@ -125,7 +125,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>13</integer>
+				<integer>47</integer>
 				<key>Info</key>
 				<integer>1</integer>
 			</dict>
@@ -136,10 +136,10 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>29</integer>
+				<integer>63</integer>
 			</dict>
 			<key>ID</key>
-			<integer>31</integer>
+			<integer>65</integer>
 			<key>Labels</key>
 			<array>
 				<dict>
@@ -185,7 +185,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>10</integer>
+				<integer>44</integer>
 				<key>Info</key>
 				<integer>1</integer>
 			</dict>
@@ -196,10 +196,10 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>29</integer>
+				<integer>63</integer>
 			</dict>
 			<key>ID</key>
-			<integer>30</integer>
+			<integer>64</integer>
 			<key>Labels</key>
 			<array>
 				<dict>
@@ -245,7 +245,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>9</integer>
+				<integer>43</integer>
 				<key>Info</key>
 				<integer>1</integer>
 			</dict>
@@ -256,7 +256,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>29</integer>
+			<integer>63</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -298,10 +298,10 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>13</integer>
+				<integer>47</integer>
 			</dict>
 			<key>ID</key>
-			<integer>28</integer>
+			<integer>62</integer>
 			<key>Points</key>
 			<array>
 				<string>{430.5, 475}</string>
@@ -324,7 +324,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>12</integer>
+				<integer>46</integer>
 				<key>Info</key>
 				<integer>1</integer>
 			</dict>
@@ -335,16 +335,16 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>3</integer>
+				<integer>37</integer>
 				<key>Info</key>
 				<integer>3</integer>
 			</dict>
 			<key>ID</key>
-			<integer>27</integer>
+			<integer>61</integer>
 			<key>Points</key>
 			<array>
 				<string>{285, 187.5}</string>
-				<string>{235, 186.5}</string>
+				<string>{234, 187.5}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -363,7 +363,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>4</integer>
+				<integer>38</integer>
 				<key>Info</key>
 				<integer>4</integer>
 			</dict>
@@ -374,12 +374,12 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>12</integer>
+				<integer>46</integer>
 				<key>Info</key>
 				<integer>4</integer>
 			</dict>
 			<key>ID</key>
-			<integer>26</integer>
+			<integer>60</integer>
 			<key>Labels</key>
 			<array>
 				<dict>
@@ -425,7 +425,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>10</integer>
+				<integer>44</integer>
 				<key>Info</key>
 				<integer>3</integer>
 			</dict>
@@ -436,12 +436,12 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>10</integer>
+				<integer>44</integer>
 				<key>Info</key>
 				<integer>2</integer>
 			</dict>
 			<key>ID</key>
-			<integer>25</integer>
+			<integer>59</integer>
 			<key>Labels</key>
 			<array>
 				<dict>
@@ -487,7 +487,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>8</integer>
+				<integer>42</integer>
 				<key>Info</key>
 				<integer>1</integer>
 			</dict>
@@ -498,12 +498,12 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>8</integer>
+				<integer>42</integer>
 				<key>Info</key>
 				<integer>2</integer>
 			</dict>
 			<key>ID</key>
-			<integer>24</integer>
+			<integer>58</integer>
 			<key>Labels</key>
 			<array>
 				<dict>
@@ -549,7 +549,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>6</integer>
+				<integer>40</integer>
 				<key>Info</key>
 				<integer>1</integer>
 			</dict>
@@ -560,12 +560,12 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>10</integer>
+				<integer>44</integer>
 				<key>Info</key>
 				<integer>4</integer>
 			</dict>
 			<key>ID</key>
-			<integer>23</integer>
+			<integer>57</integer>
 			<key>Labels</key>
 			<array>
 				<dict>
@@ -611,7 +611,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>9</integer>
+				<integer>43</integer>
 				<key>Info</key>
 				<integer>3</integer>
 			</dict>
@@ -622,12 +622,12 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>9</integer>
+				<integer>43</integer>
 				<key>Info</key>
 				<integer>2</integer>
 			</dict>
 			<key>ID</key>
-			<integer>22</integer>
+			<integer>56</integer>
 			<key>Labels</key>
 			<array>
 				<dict>
@@ -673,7 +673,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>7</integer>
+				<integer>41</integer>
 				<key>Info</key>
 				<integer>1</integer>
 			</dict>
@@ -684,12 +684,12 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>7</integer>
+				<integer>41</integer>
 				<key>Info</key>
 				<integer>2</integer>
 			</dict>
 			<key>ID</key>
-			<integer>21</integer>
+			<integer>55</integer>
 			<key>Labels</key>
 			<array>
 				<dict>
@@ -735,7 +735,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>5</integer>
+				<integer>39</integer>
 				<key>Info</key>
 				<integer>1</integer>
 			</dict>
@@ -746,12 +746,12 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>12</integer>
+				<integer>46</integer>
 				<key>Info</key>
 				<integer>2</integer>
 			</dict>
 			<key>ID</key>
-			<integer>20</integer>
+			<integer>54</integer>
 			<key>Points</key>
 			<array>
 				<string>{430.5, 274}</string>
@@ -774,7 +774,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>11</integer>
+				<integer>45</integer>
 				<key>Info</key>
 				<integer>1</integer>
 			</dict>
@@ -785,12 +785,12 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>11</integer>
+				<integer>45</integer>
 				<key>Info</key>
 				<integer>4</integer>
 			</dict>
 			<key>ID</key>
-			<integer>19</integer>
+			<integer>53</integer>
 			<key>Labels</key>
 			<array>
 				<dict>
@@ -836,7 +836,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>6</integer>
+				<integer>40</integer>
 				<key>Info</key>
 				<integer>3</integer>
 			</dict>
@@ -847,10 +847,10 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>6</integer>
+				<integer>40</integer>
 			</dict>
 			<key>ID</key>
-			<integer>18</integer>
+			<integer>52</integer>
 			<key>Labels</key>
 			<array>
 				<dict>
@@ -896,7 +896,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>5</integer>
+				<integer>39</integer>
 				<key>Info</key>
 				<integer>3</integer>
 			</dict>
@@ -907,15 +907,15 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>5</integer>
+				<integer>39</integer>
 				<key>Info</key>
 				<integer>2</integer>
 			</dict>
 			<key>ID</key>
-			<integer>17</integer>
+			<integer>51</integer>
 			<key>Points</key>
 			<array>
-				<string>{147, 209}</string>
+				<string>{146, 215.5}</string>
 				<string>{146, 237}</string>
 			</array>
 			<key>Style</key>
@@ -935,7 +935,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>3</integer>
+				<integer>37</integer>
 				<key>Info</key>
 				<integer>1</integer>
 			</dict>
@@ -946,16 +946,16 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>3</integer>
+				<integer>37</integer>
 				<key>Info</key>
 				<integer>2</integer>
 			</dict>
 			<key>ID</key>
-			<integer>16</integer>
+			<integer>50</integer>
 			<key>Points</key>
 			<array>
-				<string>{146.5, 137}</string>
-				<string>{147, 164}</string>
+				<string>{146, 138}</string>
+				<string>{146, 159.5}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -974,7 +974,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>2</integer>
+				<integer>36</integer>
 				<key>Info</key>
 				<integer>1</integer>
 			</dict>
@@ -985,14 +985,14 @@ everything goes smoothly.}</string>
 			<key>Head</key>
 			<dict>
 				<key>ID</key>
-				<integer>2</integer>
+				<integer>36</integer>
 			</dict>
 			<key>ID</key>
-			<integer>15</integer>
+			<integer>49</integer>
 			<key>Points</key>
 			<array>
-				<string>{146.5, 65}</string>
-				<string>{146.5, 92}</string>
+				<string>{146, 65.5}</string>
+				<string>{146, 82}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1011,7 +1011,7 @@ everything goes smoothly.}</string>
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>1</integer>
+				<integer>35</integer>
 				<key>Info</key>
 				<integer>1</integer>
 			</dict>
@@ -1022,7 +1022,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>14</integer>
+			<integer>48</integer>
 			<key>ImageID</key>
 			<integer>1</integer>
 			<key>Shape</key>
@@ -1052,7 +1052,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>13</integer>
+			<integer>47</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1094,7 +1094,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>12</integer>
+			<integer>46</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1136,7 +1136,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>11</integer>
+			<integer>45</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1153,7 +1153,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>10</integer>
+			<integer>44</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1195,7 +1195,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>9</integer>
+			<integer>43</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1237,7 +1237,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>8</integer>
+			<integer>42</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1279,7 +1279,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>7</integer>
+			<integer>41</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1321,7 +1321,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>6</integer>
+			<integer>40</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1363,7 +1363,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>5</integer>
+			<integer>39</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1405,7 +1405,7 @@ everything goes smoothly.}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>4</integer>
+			<integer>38</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1443,11 +1443,11 @@ everything goes smoothly.}</string>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{37, 164}, {220, 45}}</string>
+			<string>{{36, 159.5}, {220, 56}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>3</integer>
+			<integer>37</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1480,16 +1480,16 @@ everything goes smoothly.}</string>
 {\colortbl;\red255\green255\blue255;}
 {\info}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\fs20 \cf0 Growl plugin posts a distributed notification with appropriate information.}</string>
+\f0\fs20 \cf0 Growl plugin posts a notification with appropriate information using the Growl framework.}</string>
 			</dict>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{40, 92}, {213, 45}}</string>
+			<string>{{36, 82}, {220, 56}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>2</integer>
+			<integer>36</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1522,16 +1522,16 @@ everything goes smoothly.}</string>
 {\colortbl;\red255\green255\blue255;}
 {\info}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\fs20 \cf0 Growl plugin, watching for notifications, recieves notification of the event.}</string>
+\f0\fs20 \cf0 Growl plugin, watching for notifications, receives notification of the event.}</string>
 			</dict>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{99, 23}, {95, 42}}</string>
+			<string>{{98.5, 23.5}, {95, 42}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
-			<integer>1</integer>
+			<integer>35</integer>
 			<key>Magnets</key>
 			<array>
 				<string>{0, 1}</string>
@@ -1569,7 +1569,12 @@ everything goes smoothly.}</string>
 		</dict>
 	</array>
 	<key>GridInfo</key>
-	<dict/>
+	<dict>
+		<key>ShowsGrid</key>
+		<string>YES</string>
+		<key>SnapsToGrid</key>
+		<string>YES</string>
+	</dict>
 	<key>GuidesLocked</key>
 	<string>NO</string>
 	<key>GuidesVisible</key>
@@ -1765,7 +1770,7 @@ everything goes smoothly.}</string>
 	<key>MagnetsVisible</key>
 	<string>NO</string>
 	<key>ModificationDate</key>
-	<string>2005-03-29 15:35:22 +0200</string>
+	<string>2005-03-29 15:21:59 +0200</string>
 	<key>Modifier</key>
 	<string>Ingmar Stein</string>
 	<key>Orientation</key>
@@ -1852,7 +1857,7 @@ everything goes smoothly.}</string>
 	CQkJCTwvYXJyYXk+CgkJCQkJPGtleT5jb20uYXBwbGUucHJpbnQudGlja2V0LmNsaWVu
 	dDwva2V5PgoJCQkJCTxzdHJpbmc+Y29tLmFwcGxlLnByaW50aW5nbWFuYWdlcjwvc3Ry
 	aW5nPgoJCQkJCTxrZXk+Y29tLmFwcGxlLnByaW50LnRpY2tldC5tb2REYXRlPC9rZXk+
-	CgkJCQkJPGRhdGU+MjAwNS0wMy0yOVQxMzozNTowOFo8L2RhdGU+CgkJCQkJPGtleT5j
+	CgkJCQkJPGRhdGU+MjAwNS0wMy0yOVQxMzowMzoyNlo8L2RhdGU+CgkJCQkJPGtleT5j
 	b20uYXBwbGUucHJpbnQudGlja2V0LnN0YXRlRmxhZzwva2V5PgoJCQkJCTxpbnRlZ2Vy
 	PjA8L2ludGVnZXI+CgkJCQk8L2RpY3Q+CgkJCTwvYXJyYXk+CgkJPC9kaWN0PgoJCTxr
 	ZXk+Y29tLmFwcGxlLnByaW50LlBhZ2VGb3JtYXQuUE1BZGp1c3RlZFBhcGVyUmVjdDwv
@@ -1866,7 +1871,7 @@ everything goes smoothly.}</string>
 	CQkJCTxrZXk+Y29tLmFwcGxlLnByaW50LnRpY2tldC5jbGllbnQ8L2tleT4KCQkJCQk8
 	c3RyaW5nPmNvbS5hcHBsZS5wcmludGluZ21hbmFnZXI8L3N0cmluZz4KCQkJCQk8a2V5
 	PmNvbS5hcHBsZS5wcmludC50aWNrZXQubW9kRGF0ZTwva2V5PgoJCQkJCTxkYXRlPjIw
-	MDUtMDMtMjlUMTM6MzU6MDhaPC9kYXRlPgoJCQkJCTxrZXk+Y29tLmFwcGxlLnByaW50
+	MDUtMDMtMjlUMTM6MDM6MjZaPC9kYXRlPgoJCQkJCTxrZXk+Y29tLmFwcGxlLnByaW50
 	LnRpY2tldC5zdGF0ZUZsYWc8L2tleT4KCQkJCQk8aW50ZWdlcj4wPC9pbnRlZ2VyPgoJ
 	CQkJPC9kaWN0PgoJCQk8L2FycmF5PgoJCTwvZGljdD4KCQk8a2V5PmNvbS5hcHBsZS5w
 	cmludC5QYXBlckluZm8uUE1QYXBlck5hbWU8L2tleT4KCQk8ZGljdD4KCQkJPGtleT5j
@@ -1961,7 +1966,7 @@ everything goes smoothly.}</string>
 		<key>CurrentSheet</key>
 		<string>0</string>
 		<key>Frame</key>
-		<string>{{419, 100}, {591, 713}}</string>
+		<string>{{474, 157}, {591, 713}}</string>
 		<key>ShowRuler</key>
 		<false/>
 		<key>ShowStatusBar</key>
