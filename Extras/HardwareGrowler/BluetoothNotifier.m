@@ -18,7 +18,7 @@ NSString *NotifierBluetoothDisconnectionNotification	=	@"Bluetooth Device Discon
 
 -(void)setUpBluetoothNotifications
 {
-	NSLog(@"registering for BT Notes.");
+//	NSLog(@"registering for BT Notes.");
 	
 
 	/*

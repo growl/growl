@@ -51,7 +51,7 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 	kern_return_t			matchingResult;
 	io_iterator_t			gFWAddedIter;
 
-	NSLog(@"registerForFireWireNotifications");
+//	NSLog(@"registerForFireWireNotifications");
 
 	//	Setup a matching Dictionary.
 	CFDictionaryRef myFireWireMatchDictionary;	

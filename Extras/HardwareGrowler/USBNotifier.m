@@ -55,7 +55,7 @@ static void usbDeviceRemoved (void *refCon, io_iterator_t iter);
 	io_iterator_t			addedIterator;
 	io_iterator_t			removedIterator;
 	
-	NSLog(@"registerForUSBNotifications");
+//	NSLog(@"registerForUSBNotifications");
 	
 	//	Setup a matching Dictionary.
 	CFDictionaryRef myMatchDictionary;	
@@ -125,6 +125,15 @@ static void usbDeviceRemoved (void *refCon, io_iterator_t iter);
 		if (!deviceName) {
 			deviceName = @"Unnamed USB Device";
 		}
+		
+		if ([deviceName isEqualToString:@"OHCI Root Hub Simulation"]) {
+			deviceName = @"USB Bus";
+		}
+		
+		if ([deviceName isEqualToString:@"EHCI Root Hub Simulation"]) {
+			deviceName = @"USB 2.0 Bus";
+		}
+		
 		// NSLog(@"USB Device Attached: %@" , deviceName);		
 		[[NSNotificationCenter defaultCenter] postNotificationName: NotifierUSBConnectionNotification object: deviceName ];
 
