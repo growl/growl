@@ -3,7 +3,7 @@
 //  Display Plugins
 //
 //  Created by Ingmar Stein on 12/01/2004.
-//  Copyright 2004 __MyCompanyName__. All rights reserved.
+//  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
 #import "GrowlBrushedDisplay.h"
@@ -22,7 +22,7 @@ static unsigned brushedDepth = 0U;
 @implementation GrowlBrushedDisplay
 
 - (id) init {
-	NSLog(@"GrowlBrushedDisplay");
+	NSLog(@"GrowlBrushedDisplay");
 	if ( (self = [super init] ) ) {
 		preferencePane = [[GrowlBrushedPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBrushedPrefsController class]]];
 		[[NSNotificationCenter defaultCenter] addObserver:self 
