@@ -47,7 +47,7 @@ growl_PostNotification(PyObject *self, PyObject *args)
     int i,j, size;
 
     PyObject *inputDict;
-    PyObject *pKeys,*pKey,*pValue;
+    PyObject *pKeys = NULL, *pKey,*pValue;
 
     NSString *noteName;
     NSString *convertedKey;
@@ -55,14 +55,13 @@ growl_PostNotification(PyObject *self, PyObject *args)
     NSString *convertedSubValue;
     NSData *convertedIcon;
 
-    NSMutableDictionary *note = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *note = [NSMutableDictionary dictionary];
 
-    NSMutableArray *listHolder = [[NSMutableArray alloc] init];
+    NSMutableArray *listHolder = [NSMutableArray array];
 
 
     if (!PyArg_ParseTuple(args, "sO!", &name, &PyDict_Type, &inputDict)) {
-        [pool release];
-        return NULL;
+        goto error;
     }
     noteName = [NSString stringWithUTF8String:name];
     
@@ -72,16 +71,14 @@ growl_PostNotification(PyObject *self, PyObject *args)
         /* Converting the PyDict key to NSString and used for key in note */
         pKey = PyList_GetItem(pKeys, i);
         if (pKey == NULL) {
-            [pool release];
             // Exception already set
-            return NULL;
+            goto error;
         }
         pValue = PyDict_GetItem(inputDict, pKey);
         if (pValue == NULL) {
-            [pool release];
             // XXX Neeed a real Error message here.
             PyErr_SetString(PyExc_TypeError," "); 
-            return NULL;
+            goto error;
         }
         if (PyUnicode_Check(pKey)) {
             size = PyUnicode_GET_DATA_SIZE(pKey);
@@ -91,12 +88,10 @@ growl_PostNotification(PyObject *self, PyObject *args)
                                                    encoding:NSUnicodeStringEncoding] autorelease];
         } else if (PyString_Check(pKey)) {
             key = PyString_AsString(pKey);
-            convertedKey = [NSString stringWithUTF8String: key];
+            convertedKey = [NSString stringWithUTF8String:key];
         } else {
-            Py_DECREF(pKeys);
             PyErr_SetString(PyExc_TypeError,"The Dict keys must be strings/unicode");
-            [pool release];
-            return NULL;
+            goto error;
         }
 
         /* Converting the PyDict value to NSString or NSData based on class  */
@@ -122,40 +117,48 @@ growl_PostNotification(PyObject *self, PyObject *args)
                     [listHolder addObject:convertedSubValue];
                 } else {
                     PyErr_SetString(PyExc_TypeError,"The lists must only contain strings");
-                    [pool release];
-                    return NULL;
+                    goto error;
                 }
             }
             [note setObject:listHolder forKey:convertedKey];
         } else if (PyObject_HasAttrString(pValue, "fakeImageData")) {
             PyObject *lValue = PyObject_GetAttrString(pValue, "fakeImageData");
-            if (PyString_Check(lValue)) {
-                convertedIcon = [[[NSData alloc]initWithBytes:PyString_AsString(lValue)
-                                                       length:PyString_Size(lValue)] autorelease];
+            if (! lValue) {
+                goto error;
+            } else if (PyString_Check(lValue)) {
+                convertedIcon = [[[NSData alloc] initWithBytes:PyString_AsString(lValue)
+                                                        length:PyString_Size(lValue)] autorelease];
                 [note setObject:convertedIcon forKey:convertedKey];
             } else {
                 PyErr_SetString(PyExc_TypeError,"Icons must be of the fakeImage Class");
-                [pool release];
-                return NULL;
+                goto error;
             }
         } else {
             PyErr_SetString(PyExc_TypeError, "Value is not of Str/List");
-            [pool release];
-            return NULL;
+            goto error;
         }
     }
-    Py_DECREF(pKeys);
 
-
+    Py_BEGIN_ALLOW_THREADS
     [[NSDistributedNotificationCenter defaultCenter] postNotificationName:noteName
                                                                    object:nil 
                                                                  userInfo:note
                                                        deliverImmediately:YES];
 
     [pool release];
+    Py_END_ALLOW_THREADS
+    
+    Py_DECREF(pKeys);
+    
     Py_INCREF(Py_None);
     return Py_None;
 
+error:
+    [pool release];
+
+    Py_XDECREF(pKeys);
+
+    return NULL;
 }
 
 
