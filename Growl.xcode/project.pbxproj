@@ -72,6 +72,7 @@
 				95BF83760743675700306A77,
 				52861FEF06DC463E00D3A356,
 				32DBCFA20370C41700C91783,
+				34E9AA79074BC98A00D59950,
 				953C3EFE0747970800F2A737,
 				52861ED706DBA80800D3A356,
 				34CEA3930680A77C00670E0D,
@@ -368,6 +369,26 @@
 			path = GrowlApplicationBridge.m;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		34E9AA79074BC98A00D59950 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlDefines.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34E9AA7A074BC98A00D59950 = {
+			fileRef = 34E9AA79074BC98A00D59950;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34E9AC8B074BC9C000D59950 = {
+			fileRef = 34E9AA79074BC98A00D59950;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 //340
 //341
@@ -905,6 +926,7 @@
 				A14BBE1006EE1D5600530EED,
 				A16BD22806FCC05F00BF033B,
 				936FAB03074482BF00A7D430,
+				34E9AA7A074BC98A00D59950,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1608,6 +1630,7 @@
 		CB61E5130637763C00E0DDC7 = {
 			buildActionMask = 2147483647;
 			files = (
+				34E9AC8B074BC9C000D59950,
 				52861FC206DC421C00D3A356,
 				CB5F838B0638B78200EADD7A,
 				CBF0743A0659B1F4000B4B77,
