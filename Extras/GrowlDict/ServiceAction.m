@@ -71,17 +71,22 @@
 	curlResult = [[[NSString alloc] initWithData: curlData encoding: NSUTF8StringEncoding] autorelease];
 	[file closeFile];
 	
+	NSNumber *defaultValue = [NSNumber numberWithBool:YES];
 	//Cleanup the string so it's just the first definition
 	NSRange toprange = [curlResult rangeOfString: @"151 "];
-	curlResult = [curlResult substringFromIndex: toprange.location];
-	NSNumber *defaultValue = [NSNumber numberWithBool:YES];
-	toprange = [curlResult rangeOfString: @"\n"];
-	curlResult = [curlResult substringFromIndex: toprange.location+1];
-	NSRange bottomrange = [curlResult rangeOfString: @"\n250"];
-	curlResult = [curlResult substringToIndex: bottomrange.location-3];
-	bottomrange = [curlResult rangeOfString: @"151 "];
-	if (bottomrange.location != NSNotFound){
-		curlResult = [curlResult substringToIndex: bottomrange.location-4];
+	if(toprange.location != NSNotFound){
+		curlResult = [curlResult substringFromIndex: toprange.location];
+		
+		toprange = [curlResult rangeOfString: @"\n"];
+		curlResult = [curlResult substringFromIndex: toprange.location+1];
+		NSRange bottomrange = [curlResult rangeOfString: @"\n250"];
+		curlResult = [curlResult substringToIndex: bottomrange.location-3];
+		bottomrange = [curlResult rangeOfString: @"151 "];
+		if (bottomrange.location != NSNotFound){
+			curlResult = [curlResult substringToIndex: bottomrange.location-4];
+		}
+	} else {
+		curlResult = [NSString stringWithString:@"Not Found"];
 	}
 	
 	//Throw it in a dictionary and send it to growl
