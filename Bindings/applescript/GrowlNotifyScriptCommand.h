@@ -1,5 +1,5 @@
 //
-//  GrowlScriptCommand.h
+//  GrowlNotifyScriptCommand.h
 //  Growl
 //
 //  Created by Patrick Linskey on Tue Aug 10 2004.
@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <Foundation/NSScriptCommand.h>
 
-@interface GrowlScriptCommand : NSScriptCommand {
-
+@interface GrowlNotifyScriptCommand : NSScriptCommand
+{
 }
 
-- (void) setError:(int) errorCode;
-- (void) setError:(int) errorCode failure:(id) failure;
+- (void)setError:(int)errorCode;
+- (void)setError:(int)errorCode failure:(id)failure;
 	
 @end

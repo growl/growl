@@ -28,12 +28,20 @@ resource 'aete' (0, "") {
 			reply_none__,
 			dp_none__,
 			{
-				"with title", 'titl', 'TEXT',
+				"with name", 'name', 'TEXT',
+				"name of the notification to display",
+				required,
+				singleItem, notEnumerated, Reserved13,
+				"title", 'titl', 'TEXT',
 				"title of the notification to display",
 				required,
 				singleItem, notEnumerated, Reserved13,
 				"description", 'desc', 'TEXT',
 				"full text of the notification to display",
+				required,
+				singleItem, notEnumerated, Reserved13,
+				"application name", 'appl', 'TEXT',
+				"name of the application posting the notification.",
 				required,
 				singleItem, notEnumerated, Reserved13,
 				"image from URL", 'iurl', 'TEXT',
@@ -48,11 +56,11 @@ resource 'aete' (0, "") {
 				"Name of the application whose icon should be used for this notification. For example, 'Mail.app'.",
 				optional,
 				singleItem, notEnumerated, Reserved13,
-				"image", 'imag', '****',
+				"image", 'imag', 'TIFF',
 				"TIFF Image to be used for the notification.",
 				optional,
 				singleItem, notEnumerated, Reserved13,
-				"pictImage", 'pict', '****',
+				"pictImage", 'pict', 'PICT',
 				"PICT Image to be used for the notification.",
 				optional,
 				singleItem, notEnumerated, Reserved13,
@@ -60,11 +68,50 @@ resource 'aete' (0, "") {
 				"whether or not the notification displayed should time out. Defaults to 'no'.",
 				optional,
 				singleItem, notEnumerated, Reserved13
+			},
+
+			"register",
+			"Register an application with Growl",
+			'regi', 'ster',
+			reply_none__,
+			dp_none__,
+			{
+				"as application", 'appl', 'TEXT',
+				"name of the application as which to register.",
+				required,
+				singleItem, notEnumerated, Reserved13,
+				"all notifications", 'anot', 'TEXT',
+				"list of all notifications to register.",
+				required,
+				listOfItems, notEnumerated, Reserved13,
+				"default notifications", 'dnot', 'TEXT',
+				"list of default notifications to register.",
+				required,
+				listOfItems, notEnumerated, Reserved13,
+				"icon of application", 'iapp', 'TEXT',
+				"Name of the application whose icon should be used for this notification. For example, 'Mail.app'.",
+				optional,
+				singleItem, notEnumerated, Reserved13
 			}
 		},
 		{
 			/* Classes */
 
+			"Picture", 'PICT',
+			"",
+			{
+			},
+			{
+			},
+			"Pictures", 'PICT', plural__,
+
+			"Image", 'TIFF',
+			"",
+			{
+			},
+			{
+			},
+			"Images", 'TIFF', plural__
 		},
 		{
 			/* Comparisons */

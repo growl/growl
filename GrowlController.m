@@ -94,10 +94,11 @@ static id _singleton = nil;
 
 #pragma mark -
 
-- (void) dispatchNotification:(NSNotification *) note {
+- (void) dispatchNotification:(NSNotification *) note
+{
 	if ([self _tryLockQueue]) {
 		// It's unlocked. We can notify
-		[self dispatchNotificationWithDictionary:[note userInfo] overrideCheck:NO];
+		[self dispatchNotificationWithDictionary:[note userInfo]];
 		[self _unlockQueue];
 	} else {
 		// It's locked. We need to queue this notification
@@ -105,11 +106,11 @@ static id _singleton = nil;
 	}
 }
 
-- (void) dispatchNotificationWithDictionary:(NSDictionary *) dict overrideCheck:(BOOL) override {
+- (void) dispatchNotificationWithDictionary:(NSDictionary *) dict
+{
 	// Make sure this notification is actually registered
 	GrowlApplicationTicket *ticket = [_tickets objectForKey:[dict objectForKey:GROWL_APP_NAME]];
-	if (!override && 
-		(!ticket || ![ticket isNotificationAllowed:[dict objectForKey:GROWL_NOTIFICATION_NAME]])) {
+	if (!ticket || ![ticket isNotificationAllowed:[dict objectForKey:GROWL_NOTIFICATION_NAME]]) {
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
 		return;
@@ -274,7 +275,7 @@ static id _singleton = nil;
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
 	while (dict = [e nextObject]) {
-		[self dispatchNotificationWithDictionary:dict overrideCheck:NO];
+		[self dispatchNotificationWithDictionary:dict];
 	}
 }
 

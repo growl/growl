@@ -535,11 +535,13 @@
 		};
 		63C0610006C8948700B0B7D4 = {
 			children = (
+				953F5D2207403BC7008E2AEB,
+				953F5D2707403BC7008E2AEB,
+				953F5D2C07403BC7008E2AEB,
+				953F5CEB07403B67008E2AEB,
 				63C92DD206D05D22007368FA,
 				63C92DD306D05D22007368FA,
 				63C92DD406D05D22007368FA,
-				63C92DD506D05D22007368FA,
-				63C92DD606D05D22007368FA,
 				63C92DD706D05D22007368FA,
 			);
 			isa = PBXGroup;
@@ -575,24 +577,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		63C92DD506D05D22007368FA = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlScriptCommand.h;
-			path = Bindings/applescript/GrowlScriptCommand.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		63C92DD606D05D22007368FA = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = GrowlScriptCommand.m;
-			path = Bindings/applescript/GrowlScriptCommand.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		63C92DD706D05D22007368FA = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -616,18 +600,6 @@
 		};
 		63C92DDA06D05D22007368FA = {
 			fileRef = 63C92DD406D05D22007368FA;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		63C92DDB06D05D22007368FA = {
-			fileRef = 63C92DD506D05D22007368FA;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		63C92DDC06D05D22007368FA = {
-			fileRef = 63C92DD606D05D22007368FA;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1035,6 +1007,66 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		953F5CEB07403B67008E2AEB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlNotifyScriptCommand.m;
+			path = Bindings/applescript/GrowlNotifyScriptCommand.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		953F5CF107403B67008E2AEB = {
+			fileRef = 953F5CEB07403B67008E2AEB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		953F5D2207403BC7008E2AEB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlNotifyScriptCommand.h;
+			path = Bindings/applescript/GrowlNotifyScriptCommand.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		953F5D2707403BC7008E2AEB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlRegisterScriptCommand.h;
+			path = Bindings/applescript/GrowlRegisterScriptCommand.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		953F5D2C07403BC7008E2AEB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlRegisterScriptCommand.m;
+			path = Bindings/applescript/GrowlRegisterScriptCommand.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		953F5D3607403BC7008E2AEB = {
+			fileRef = 953F5D2207403BC7008E2AEB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		953F5D3707403BC7008E2AEB = {
+			fileRef = 953F5D2707403BC7008E2AEB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		953F5D3807403BC7008E2AEB = {
+			fileRef = 953F5D2C07403BC7008E2AEB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		959FAF470738B9A000040AA9 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1349,8 +1381,9 @@
 				CB5F838B0638B78200EADD7A,
 				CBF0743A0659B1F4000B4B77,
 				F57BFE2E0669037C00DE5BFD,
-				63C92DDB06D05D22007368FA,
 				5286205706DC4C2F00D3A356,
+				953F5D3607403BC7008E2AEB,
+				953F5D3707403BC7008E2AEB,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1374,8 +1407,9 @@
 				CBF0743F0659B202000B4B77,
 				CB5F83A80638B8C800EADD7A,
 				F57BFE2F0669037C00DE5BFD,
-				63C92DDC06D05D22007368FA,
 				5286205806DC4C2F00D3A356,
+				953F5CF107403B67008E2AEB,
+				953F5D3807403BC7008E2AEB,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

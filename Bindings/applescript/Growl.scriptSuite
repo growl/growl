@@ -14,6 +14,13 @@
 			<string>fygr</string>
 			<key>Arguments</key>
 			<dict>
+				<key>appName</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>appl</string>
+					<key>Type</key>
+					<string>NSString</string>
+				</dict>
 				<key>description</key>
 				<dict>
 					<key>AppleEventCode</key>
@@ -46,16 +53,7 @@
 					<key>Optional</key>
 					<string>YES</string>
 					<key>Type</key>
-					<string>NSData&lt;Image&gt;</string>
-				</dict>
-				<key>pictImage</key>
-				<dict>
-					<key>AppleEventCode</key>
-					<string>pict</string>
-					<key>Optional</key>
-					<string>YES</string>
-					<key>Type</key>
-					<string>NSData&lt;Picture&gt;</string>
+					<string>Growl.NSData&lt;Image&gt;</string>
 				</dict>
 				<key>imageFromURL</key>
 				<dict>
@@ -66,6 +64,22 @@
 					<key>Type</key>
 					<string>NSString</string>
 				</dict>
+				<key>notificationName</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>name</string>
+					<key>Type</key>
+					<string>NSString</string>
+				</dict>
+				<key>pictImage</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>pict</string>
+					<key>Optional</key>
+					<string>YES</string>
+					<key>Type</key>
+					<string>Growl.NSData&lt;Picture&gt;</string>
+				</dict>
 				<key>sticky</key>
 				<dict>
 					<key>AppleEventCode</key>
@@ -75,7 +89,7 @@
 					<key>Type</key>
 					<string>NSNumber&lt;Bool&gt;</string>
 				</dict>
-				<key>withTitle</key>
+				<key>title</key>
 				<dict>
 					<key>AppleEventCode</key>
 					<string>titl</string>
@@ -84,15 +98,50 @@
 				</dict>
 			</dict>
 			<key>CommandClass</key>
-			<string>GrowlScriptCommand</string>
+			<string>GrowlNotifyScriptCommand</string>
 		</dict>
-	</dict>
-	<key>ValueTypes</key>
-	<dict>
-		<key>Image</key>
-		<string>TIFF</string>
-		<key>Picture</key>
-		<string>PICT</string>
+		<key>Register</key>
+		<dict>
+			<key>AppleEventClassCode</key>
+			<string>regi</string>
+			<key>AppleEventCode</key>
+			<string>ster</string>
+			<key>Arguments</key>
+			<dict>
+				<key>allNotifications</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>anot</string>
+					<key>Type</key>
+					<string>NSArray</string>
+				</dict>
+				<key>asApplication</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>appl</string>
+					<key>Type</key>
+					<string>NSString</string>
+				</dict>
+				<key>defaultNotifications</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>dnot</string>
+					<key>Type</key>
+					<string>NSArray</string>
+				</dict>
+				<key>iconOfApplication</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>iapp</string>
+					<key>Optional</key>
+					<string>YES</string>
+					<key>Type</key>
+					<string>NSString</string>
+				</dict>
+			</dict>
+			<key>CommandClass</key>
+			<string>GrowlRegisterScriptCommand</string>
+		</dict>
 	</dict>
 	<key>Name</key>
 	<string>Growl</string>
@@ -100,5 +149,12 @@
 	<array>
 		<string>UnnamedArguments</string>
 	</array>
+	<key>ValueTypes</key>
+	<dict>
+		<key>Image</key>
+		<string>TIFF</string>
+		<key>Picture</key>
+		<string>PICT</string>
+	</dict>
 </dict>
 </plist>

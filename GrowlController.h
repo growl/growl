@@ -23,8 +23,8 @@
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename;
 
-- (void) dispatchNotification:(NSNotification *) note;
-- (void) dispatchNotificationWithDictionary:(NSDictionary *) dict overrideCheck:(BOOL) override;
+- (void) dispatchNotification:(NSNotification *)note;
+- (void) dispatchNotificationWithDictionary:(NSDictionary *)dict;
 
 - (void) loadTickets;
 - (void) saveTickets;

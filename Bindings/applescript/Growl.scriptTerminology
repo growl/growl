@@ -8,6 +8,13 @@
 		<dict>
 			<key>Arguments</key>
 			<dict>
+				<key>appName</key>
+				<dict>
+					<key>Description</key>
+					<string>name of the application posting the notification.</string>
+					<key>Name</key>
+					<string>application name</string>
+				</dict>
 				<key>description</key>
 				<dict>
 					<key>Description</key>
@@ -36,19 +43,26 @@
 					<key>Name</key>
 					<string>image</string>
 				</dict>
-				<key>pictImage</key>
-				<dict>
-					<key>Description</key>
-					<string>PICT Image to be used for the notification.</string>
-					<key>Name</key>
-					<string>PICT image</string>
-				</dict>
 				<key>imageFromURL</key>
 				<dict>
 					<key>Description</key>
 					<string>URL of the icon to use for this notification. Currently limited to file:/// URLs.</string>
 					<key>Name</key>
 					<string>image from URL</string>
+				</dict>
+				<key>notificationName</key>
+				<dict>
+					<key>Description</key>
+					<string>name of the notification to display</string>
+					<key>Name</key>
+					<string>with name</string>
+				</dict>
+				<key>pictImage</key>
+				<dict>
+					<key>Description</key>
+					<string>PICT Image to be used for the notification.</string>
+					<key>Name</key>
+					<string>pictImage</string>
 				</dict>
 				<key>sticky</key>
 				<dict>
@@ -57,18 +71,56 @@
 					<key>Name</key>
 					<string>sticky</string>
 				</dict>
-				<key>withTitle</key>
+				<key>title</key>
 				<dict>
 					<key>Description</key>
 					<string>title of the notification to display</string>
 					<key>Name</key>
-					<string>with title</string>
+					<string>title</string>
 				</dict>
 			</dict>
 			<key>Description</key>
 			<string>Post a notification to be displayed via Growl</string>
 			<key>Name</key>
 			<string>notify</string>
+		</dict>
+		<key>Register</key>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>allNotifications</key>
+				<dict>
+					<key>Description</key>
+					<string>list of all notifications to register.</string>
+					<key>Name</key>
+					<string>all notifications</string>
+				</dict>
+				<key>asApplication</key>
+				<dict>
+					<key>Description</key>
+					<string>name of the application as which to register.</string>
+					<key>Name</key>
+					<string>as application</string>
+				</dict>
+				<key>defaultNotifications</key>
+				<dict>
+					<key>Description</key>
+					<string>list of default notifications to register.</string>
+					<key>Name</key>
+					<string>default notifications</string>
+				</dict>
+				<key>iconOfApplication</key>
+				<dict>
+					<key>Description</key>
+					<string>Name of the application whose icon should be used for this notification. For example, 'Mail.app'.</string>
+					<key>Name</key>
+					<string>icon of application</string>
+				</dict>
+			</dict>
+			<key>Description</key>
+			<string>Register an application with Growl</string>
+			<key>Name</key>
+			<string>register</string>
 		</dict>
 	</dict>
 	<key>Name</key>
