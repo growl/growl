@@ -255,11 +255,8 @@ static const char *keychainAccountName = "Growl";
 		[growlServiceList setEnabled:NO];
 	}
 
-	//If there is not a growl enabled key yet, set it to YES and launch Growl
-	if ( ![preferences objectForKey:GrowlEnabledKey] ) {
-		[preferences setObject:[NSNumber numberWithBool:YES]
-						forKey:GrowlEnabledKey];
-
+	// If Growl is enabled, ensure the helper app is launched
+	if ( [[preferences objectForKey:GrowlEnabledKey] boolValue] ) {
 		[self _launchGrowl];
 	}
 
