@@ -521,7 +521,7 @@ CFStringRef _copyCurrentProcessName(void) {
     OSStatus err = CopyProcessName(&PSN, &name);
     if(err != noErr) {
     	NSLog(CFSTR("GrowlApplicationBridge: Could not get process name because CopyProcessName returned %li"), (long)err);
-    	name = nil;
+    	name = NULL;
 	}
 	return name;
 }
