@@ -1032,6 +1032,7 @@
 			buildRules = (
 			);
 			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
 				INFOPLIST_FILE = "Display Plugins/Log-Info.plist";
