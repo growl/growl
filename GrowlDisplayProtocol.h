@@ -3,83 +3,115 @@
 //  Growl
 //
 
-/*!
-	@header
-	@abstract    Defines the protocols used by plugins
-	@discussion  This header defines the 3 protocols used by plugins.
-	
-	The base protocol &lt;GrowlPlugin&gt; isn't intended to be used by anything else, it's
-	basically an abstract superprotocol for the other protocols.
-	
-	The protocol &lt;GrowlDisplayPlugin&gt; is meant for plugins that provide alternate displays.
-	
-	The protocol &lt;GrowlFunctionalPlugin&gt; is meant for plugins that provide additional functionality.
+/*!	@header	GrowlDisplayProtocol.h
+ *	@abstract	Protocols implemented by plug-ins' principal classes.
+ *	@discussion	This header describes protocols that Growl uses to identify
+ *	 specific types of plug-ins. As of Growl 0.6, there are two types of
+ *	 plug-ins, each with its own protocol: display plug-ins, which display
+ *	 Growl notifications to the user; and functional plug-ins, which add
+ *	 features to the Growl core.
  */
 
 @class NSPreferencePane;
 
-/*!
-	@protocol    GrowlPlugin
-	@abstract    The base plugin protocol
-	@discussion  A protocol defining all methods supported by all Growl plugins.
+/*!	@protocol	GrowlPlugin
+ *	@abstract	The base plug-in protocol.
+ *	@discussion	The methods declared in this protocol are supported by all
+ *	 Growl plug-ins.
  */
 @protocol GrowlPlugin <NSObject>
 
-/*! A method sent to tell the plugin to initialize itself */
+/*! @method	loadPlugin
+ *	@abstract	Tells the plugin to initialize itself.
+ */
 - (void) loadPlugin;
 
-/*! Returns the name of the author of the plugin
-	@result A string */
+/*!	@method	author
+ *	@abstract	Returns the name of the author of the plug-in.
+ *	@result The author's name.
+ */
 - (NSString *) author;
 
-/*! Returns the name of the plugin
-	@result A string */
+/*!	@method	name
+ *	@abstract	Returns the name of the plug-in.
+ *	@result The plug-in's name.
+ */
 - (NSString *) name;
 
-/*! Returns the description of the plugin
-	@result A string */
+/*! @method	userDescription
+ *	@abstract	A plug-in's description should tell the user what the plug-in does.
+ *	In a display plug-in, it should describe the display in a few words.
+ *	@result The plug-in's description.
+ */
 - (NSString *) userDescription;
 
-/*! Returns the version of the plugin
-	@result A string */
+/*!	@method	version
+ *	@abstract	Returns the version of the plug-in.
+ *	@result The plug-in's version as a string.
+ */
 - (NSString *) version;
 
-/*! Returns a dictionary containing author, name, desc, and version for the plugin.
-	The corresponding keys are: Author, Name, Description, Version */
+/*!	@method	pluginInfo
+ *	@abstract	Returns a dictionary describing the plug-in.
+ *	@discussion	The dictionary must contain at least these keys: Author, Name,
+ *	 Description, and Version. They correspond to the -author, -name,
+ *	 -userDescription, and -version methods. The objects in the dictionary
+ *	 should be the same as (or at least equal to) the objects returned by the
+ *	 individual methods.
+ *	@result	The info dictionary.
+ */
 - (NSDictionary *) pluginInfo;
 
-/*! A method sent to tell the plugin to clean itself up */
+/*!	@method	unloadPlugin
+ *	@abstract	Tells the plug-in to uninitialize itself. This is the inverse of -loadPlugin.
+ */
 - (void) unloadPlugin;
 
-/*! Returns an NSPreferencePane instance that manages the plugin's preferences.
-	
-	For reference, the size of the view should be 354 x 289.
-	That's because that's all the available space right now.
-	We have to think of something if there are more options than fit in that place.
+/*!	@method	preferencePane
+ *	@abstract	Return an NSPreferencePane instance that manages the plugin's
+ *	 preferences.
+ *	@discussion	Your plug-in should put the controls for its preferences in
+ *	 this preference pane.
+ *	 
+ *	 The size of the preference pane's view should be 354 pixels by 289 pixels.
+ *	 This is because that's all the available space right now. We haven't yet
+ *	 figured out what to do if there are more options than fit in that space.
+ *	 You should set the view's springs under the assumption that it can be
+ *	 resized horizontally and vertically to any size.
+ *	@result	The preference pane.
  */
 - (NSPreferencePane *) preferencePane;
 
 @end
 
 /*!
-	@protocol    GrowlDisplayPlugin
-	@abstract    The display plugin protocol
-	@discussion  A protocol defining all methods supported by Growl display plugins.
+ *	@protocol	GrowlDisplayPlugin
+ *	@abstract	The display plugin protocol.
+ *	@discussion	This protocol declares all methods supported by Growl display plugins.
  */
 @protocol GrowlDisplayPlugin <GrowlPlugin>
 
-/*! Tells the display plugin to display a notification with the given information
-	@param noteDict The userInfo dictionary that describes the notification */
+/*!	@method	displayNotificationWithInfo:
+ *	@abstract	Tells the display plugin to display a notification with the
+ *	 given information.
+ *	@param	noteDict	The userInfo dictionary that describes the notification.
+ *	@discussion	This method is not required to display to the screen. For
+ *	 example, 0.6 comes with a Log display which writes the notification to a
+ *	 file or the Console log, a MailMe display which sends the notification in
+ *	 an email message, and a Speech display which reads the notification's
+ *	 description aloud.
+ */
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
 
 @end
 
 /*!
-	@protocol    GrowlFunctionalPlugin
-	@abstract    The functional plugin protocol
-	@discussion  A protocol defining all methods supported by Growl functionality plugins.
-	
-	Currently has no new methods on top of GrowlDisplayPlugin.
+ *	@protocol	GrowlFunctionalPlugin
+ *	@abstract	The functional plugin protocol.
+ *	@discussion	This protocol declares all methods supported by Growl
+ *	 functionality plugins.
+ *
+ *	 Currently does not require any more methods than the GrowlPlugin protocol.
  */
 @protocol GrowlFunctionalPlugin <GrowlPlugin>
 //empty for now
