@@ -20,6 +20,7 @@
 	while(libraryPath = [libraryDirEnum nextObject]) {
 		growlSupportPath = [libraryPath stringByAppendingPathComponent:@"Application Support"];
 		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Growl"];
+		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Tickets"];
 		[self loadTicketsWithParent:parent fromDirectory:growlSupportPath intoDictionary:result clobbering:YES];
 		//import old tickets.
 		growlSupportPath = [libraryPath stringByAppendingPathComponent:@"Growl Support"];
@@ -116,6 +117,7 @@
 	destDir = [searchPath objectAtIndex:0];
 	destDir = [destDir stringByAppendingPathComponent:@"Application Support"];
 	destDir = [destDir stringByAppendingPathComponent:@"Growl"];
+	destDir = [destDir stringByAppendingPathComponent:@"Tickets"];
 
 	[self saveTicketToPath:destDir];
 }
