@@ -440,6 +440,7 @@
 			children = (
 				950A023B0737CBDB0075BDE4,
 				950A02490737CDDA0075BDE4,
+				9556E69907F4354600D42745,
 			);
 			isa = PBXVariantGroup;
 			name = Localizable.strings;
@@ -582,6 +583,15 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			path = NSPreferences.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9556E69907F4354600D42745 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = Japanese;
+			path = Japanese.lproj/Localizable.strings;
 			refType = 4;
 			sourceTree = "<group>";
 		};

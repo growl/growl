@@ -1,5 +1,5 @@
 /*
- Copyright (c) The Growl Project, 2004 
+ Copyright (c) The Growl Project, 2004-2005
  All rights reserved.
  
  

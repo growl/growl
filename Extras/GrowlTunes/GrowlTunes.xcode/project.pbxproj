@@ -18,6 +18,7 @@
 			children = (
 				07B1BAB3077D59A600474D89,
 				95100E8B078867E5005DBB70,
+				9556E6AA07F435FA00D42745,
 			);
 			isa = PBXVariantGroup;
 			name = Localizable.strings;
@@ -407,16 +408,16 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 0A8B6174070B2F6A00593A33;
-					ProjectRef = 0A8B5F0F070B140C00593A33;
-				},
-				{
 					ProductGroup = 0A8B6180070B303B00593A33;
 					ProjectRef = 0A8B617F070B303B00593A33;
 				},
 				{
 					ProductGroup = 0A8B6179070B303600593A33;
 					ProjectRef = 0A8B5F08070B140300593A33;
+				},
+				{
+					ProductGroup = 0A8B6174070B2F6A00593A33;
+					ProjectRef = 0A8B5F0F070B140C00593A33;
 				},
 			);
 			targets = (
@@ -809,6 +810,14 @@
 			lastKnownFileType = text.plist.strings;
 			name = German;
 			path = German.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9556E6AA07F435FA00D42745 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Japanese;
+			path = Japanese.lproj/Localizable.strings;
 			refType = 4;
 			sourceTree = "<group>";
 		};

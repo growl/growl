@@ -371,6 +371,15 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
+		9556E66107F4346B00D42745 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = Japanese;
+			path = Japanese.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		9564FB7707439C1E00F1CCE5 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -398,6 +407,7 @@
 			children = (
 				95AC93AC073A044E007871AB,
 				95AC93B3073A052F007871AB,
+				9556E66107F4346B00D42745,
 			);
 			isa = PBXVariantGroup;
 			name = Localizable.strings;

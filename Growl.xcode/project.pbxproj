@@ -105,6 +105,7 @@
 		073F04C50779C02900AE8D60 = {
 			children = (
 				073F04BE0779C00900AE8D60,
+				9556E5AA07F42F3000D42745,
 			);
 			isa = PBXVariantGroup;
 			name = Localizable.strings;
@@ -3646,6 +3647,14 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		9556E5AA07F42F3000D42745 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = German;
+			path = German.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		9564F82B07438E1D00F1CCE5 = {
 			buildSettings = {
