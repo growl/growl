@@ -76,37 +76,42 @@
 	[_displayController displayNotificationWithInfo:aDict];
 }
 
-
 - (void) loadTickets {
-	NSString *aTicket;
-	NSDirectoryEnumerator *t = [[NSFileManager defaultManager] enumeratorAtPath:GROWL_TICKETS_DIR];
-	NSLog( @"Available Tickets - %@", t );
-	
-	while ( aTicket = [t nextObject] ) {
-		aTicket = [NSString stringWithFormat:@"%@/%@", GROWL_TICKETS_DIR, aTicket];
-		if ( [[aTicket pathExtension] isEqualTo:@"growlTicket"] ) {
-			NSString *appName = [[aTicket lastPathComponent] stringByDeletingPathExtension];
-			//NSLog( @"%@ is being loaded", aTicket );
-			[_tickets setValue:[[GrowlApplicationTicket alloc] initTicketFromPath:aTicket withParent:self] forKey:appName];
-		}
-	}
+	[_tickets addEntriesFromDictionary:[GrowlApplicationTicket allSavedTicketsWithParent:self]];
 	NSLog( @"tickets loaded - %@", _tickets );
 }
 
 - (void) saveTickets {
-	[[_tickets allValues] makeObjectsPerformSelector:@selector( saveTicket )];
+	NSString *destDir;
+	NSArray *searchPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES);
+
+	destDir = [searchPath objectAtIndex:0];
+	destDir = [destDir stringByAppendingPathComponent:@"Application Support"];
+	destDir = [destDir stringByAppendingPathComponent:@"Growl"];
+	destDir = [destDir stringByAppendingPathComponent:@"Tickets"];
+
+	[[_tickets allValues] makeObjectsPerformSelector:@selector(saveTicketToPath:) withObject:destDir];
 }
 
 #pragma mark NSApplication Delegate Methods
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
-	BOOL dir;
+//	BOOL dir;
 	NSFileManager *fs = [NSFileManager defaultManager];
-	
-	if ( ! ([fs fileExistsAtPath:GROWL_SUPPORT_DIR isDirectory:&dir] && dir) ) {
-		[fs createDirectoryAtPath:GROWL_SUPPORT_DIR attributes:nil];
-		[fs createDirectoryAtPath:GROWL_TICKETS_DIR attributes:nil];
-		[fs createDirectoryAtPath:GROWL_PLUGINS_DIR attributes:nil];
-	}
+
+	NSString *destDir, *subDir;
+	NSArray *searchPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES);
+
+	destDir = [searchPath objectAtIndex:0];
+	[fs createDirectoryAtPath:destDir attributes:nil];
+	destDir = [destDir stringByAppendingPathComponent:@"Application Support"];
+	[fs createDirectoryAtPath:destDir attributes:nil];
+	destDir = [destDir stringByAppendingPathComponent:@"Growl"];
+	[fs createDirectoryAtPath:destDir attributes:nil];
+
+	subDir  = [destDir stringByAppendingPathComponent:@"Tickets"];
+	[fs createDirectoryAtPath:subDir attributes:nil];
+	subDir  = [destDir stringByAppendingPathComponent:@"Plugins"];
+	[fs createDirectoryAtPath:subDir attributes:nil];
 }
 
 //Post a notification when we are done launching so the application bridge can inform participating applications

@@ -21,6 +21,9 @@
 	BOOL			_useDefaults;				// Flag for whether this ticket just uses default
 }
 
++ (NSDictionary *)allSavedTicketsWithParent:(GrowlController *)parent;
++ (void)loadTicketsWithParent:(GrowlController *)parent fromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber;
+
 - (id) initWithApplication:(NSString *)inAppName 
 				  withIcon:(NSImage *)inIcon 
 		  andNotifications:(NSArray *) inAllNotifications 
@@ -29,6 +32,7 @@
 
 - (id) initTicketFromPath:(NSString *) inPath withParent:(GrowlController *) inParent;
 - (void) saveTicket;
+- (void) saveTicketToPath:(NSString *)destDir;
 
 #pragma mark -
 

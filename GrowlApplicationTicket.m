@@ -10,6 +10,45 @@
 #import "NSGrowlAdditions.h"
 
 @implementation GrowlApplicationTicket
+
++ (NSDictionary *)allSavedTicketsWithParent:(GrowlController *)parent {
+	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, /*expandTilde*/ YES);
+	NSEnumerator *libraryDirEnum = [libraryDirs objectEnumerator];
+	NSString *libraryPath, *growlSupportPath;
+	NSMutableDictionary *result = [NSMutableDictionary dictionary];
+
+	while(libraryPath = [libraryDirEnum nextObject]) {
+		growlSupportPath = [libraryPath stringByAppendingPathComponent:@"Application Support"];
+		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Growl"];
+		[self loadTicketsWithParent:parent fromDirectory:growlSupportPath intoDictionary:result clobbering:YES];
+		//import old tickets.
+		growlSupportPath = [libraryPath stringByAppendingPathComponent:@"Growl Support"];
+		[self loadTicketsWithParent:parent fromDirectory:growlSupportPath intoDictionary:result clobbering:NO];
+	}
+
+	return result;
+}
+
++ (void)loadTicketsWithParent:(GrowlController *)parent fromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber {
+	NSFileManager *mgr = [NSFileManager defaultManager];
+	BOOL isDir;
+	NSDirectoryEnumerator *growlSupportEnum = [mgr enumeratorAtPath:srcDir];
+	NSString *filename;
+
+	while(filename = [growlSupportEnum nextObject]) {
+		filename = [srcDir stringByAppendingPathComponent:filename];
+		[mgr fileExistsAtPath:filename isDirectory:&isDir];
+		if((!isDir) && [[filename pathExtension] isEqualToString:@"growlTicket"]) {
+			NSString *appName = [[filename lastPathComponent] stringByDeletingPathExtension];
+			if(clobber || ![dict objectForKey:appName]) {
+				GrowlApplicationTicket *newTicket = [[self alloc] initTicketFromPath:filename withParent:parent];
+				[dict setObject:newTicket forKey:appName];
+				[newTicket release];
+			}
+		}
+	}
+}	
+
 - (id) initWithApplication:(NSString *)inAppName 
 				  withIcon:(NSImage *)inIcon 
 		  andNotifications:(NSArray *) inAllNotifications 
@@ -54,8 +93,8 @@
 - (id) initTicketFromPath:(NSString *) inPath withParent:(GrowlController *) inParent {
 	//load a Plist file of this object to maintain configuration through launches
 	if ( self = [super init] ) {
-		NSString *curTicket = [NSString stringWithContentsOfFile:inPath];
-		NSDictionary *ticketsList = [curTicket propertyList];
+		NSLog(@"Loading from path: %@\n", inPath);
+		NSDictionary *ticketsList = [NSDictionary dictionaryWithContentsOfFile:inPath];
 		_appName = [[ticketsList objectForKey:GROWL_APP_NAME] retain];
 		_defaultNotifications = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
 		_allNotifications = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL]];
@@ -71,22 +110,34 @@
 }
 
 - (void) saveTicket {
+	NSString *destDir;
+	NSArray *searchPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES);
+
+	destDir = [searchPath objectAtIndex:0];
+	destDir = [destDir stringByAppendingPathComponent:@"Application Support"];
+	destDir = [destDir stringByAppendingPathComponent:@"Growl"];
+
+	[self saveTicketToPath:destDir];
+}
+
+- (void) saveTicketToPath:(NSString *)destDir {
 	// save a Plist file of this object to configure the prefs of apps that aren't running
 	// construct a dictionary of our state data then save that dictionary to a file.
-	NSString *savePath = [GROWL_TICKETS_DIR stringByAppendingPathComponent: [_appName stringByAppendingString:@".growlTicket"]];
-	NSDictionary *saveDict = [NSDictionary dictionaryWithObjectsAndKeys:	_appName, GROWL_APP_NAME,
-																			/*[_icon TIFFRepresentation], GROWL_NOTIFICATION_ICON,*/
-																			_allNotifications, GROWL_NOTIFICATIONS_ALL,
-																			_defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-																			_allowedNotifications, GROWL_NOTIFICATIONS_USER_SET,
-																			[NSNumber numberWithBool:_useDefaults], @"useDefaults",
-																			nil];
+	NSString *savePath = [destDir stringByAppendingPathComponent:[_appName stringByAppendingPathExtension:@"growlTicket"]];
+	NSDictionary *saveDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		_appName, GROWL_APP_NAME,
+		/*[_icon TIFFRepresentation], GROWL_NOTIFICATION_ICON,*/
+		_allNotifications, GROWL_NOTIFICATIONS_ALL,
+		_defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+		_allowedNotifications, GROWL_NOTIFICATIONS_USER_SET,
+		[NSNumber numberWithBool:_useDefaults], @"useDefaults",
+		nil];
 	
 	NSString *aString = [saveDict description];
 	NSLog( @"%@ to be saved as \"Plist\"", aString );
 	[aString writeToFile:savePath atomically:YES];
 	NSLog( @"File saved to %@", savePath );
-}
+}	
 
 #pragma mark -
 
