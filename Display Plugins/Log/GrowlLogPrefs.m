@@ -65,7 +65,7 @@
 
 	if (sender == fileType) {
 		typePref = [fileType selectedRow];
-		if((typePref != 0) && ([customMenuButton numberOfItems] == 1)) {
+		if ((typePref != 0) && ([customMenuButton numberOfItems] == 1)) {
 			[self customFileChosen:customMenuButton];
 		}
 		WRITE_GROWL_PREF_INT(logTypeKey, typePref, LogPrefDomain);
@@ -103,7 +103,7 @@
 				}
 				if (saveFilenameIndex == NSNotFound) {
 					//if ([customHistArray count] == 3U)
-					if( [customHistArray count] >= 1U)
+					if ([customHistArray count] >= 1U)
 						[customHistArray removeLastObject];
 				} else {
 					[customHistArray removeObjectAtIndex:saveFilenameIndex];
@@ -174,7 +174,7 @@
 		}
 	}
 	// No separator if there's no file list yet
-	if( numHistItems > 0) {
+	if (numHistItems > 0) {
 		[[customMenuButton menu] addItem:[NSMenuItem separatorItem]];
 	}
 	[customMenuButton addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Browse menu item title", /*tableName*/ nil, [self bundle], /*comment*/ nil)];

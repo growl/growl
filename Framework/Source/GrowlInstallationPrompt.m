@@ -215,7 +215,7 @@ static BOOL checkOSXVersion()
 {
 	BOOL dontAskAgain = ([sender state] == NSOnState);
 	
-	if(updateVersion){
+	if (updateVersion){
 		if (dontAskAgain) {
 			/* We want to be able to prompt again for the next version, so we track the version for which the user requested
 			 * not to be prompted again. */
@@ -248,8 +248,8 @@ static BOOL checkOSXVersion()
 	NSString *archivePath, *tmpDir;
 	NSTask	*unzip;
 	BOOL success = NO;
-	
-	bundle = [NSBundle bundleForClass:[self class]];
+
+	bundle = [NSBundle bundleForClass:[GrowlInstallationPrompt class]];
 	archivePath = [bundle pathForResource:GROWL_PREFPANE_NAME ofType:@"zip"];
 
 	//desired folder: /private/tmp/$UID/GrowlInstallations/`uuidgen`
@@ -295,7 +295,7 @@ static BOOL checkOSXVersion()
 				success = [[NSWorkspace sharedWorkspace] openFile:tempGrowlPrefPane
 												  withApplication:@"System Preferences"
 													andDeactivate:YES];
-				if(!success){
+				if (!success){
 					/* If the System Preferences app could not be found for whatever reason, try opening
 					 * Growl.prefPane with openTempFile so the associated app will launch. This could be the case
 					 * if "System Preferences.app" were renamed or if an alternative program were being used. */

@@ -371,7 +371,7 @@
 			unsigned notificationIndex;
 			unsigned numAllNotifications = [inAllNotes count];
 			NSIndexSet *iset = (NSIndexSet *)inDefaults;
-			for( notificationIndex = [iset firstIndex]; notificationIndex != NSNotFound; notificationIndex = [iset indexGreaterThanIndex:notificationIndex] ) {
+			for (notificationIndex = [iset firstIndex]; notificationIndex != NSNotFound; notificationIndex = [iset indexGreaterThanIndex:notificationIndex]) {
 				if (notificationIndex >= numAllNotifications) {
 					NSLog(@"WARNING: application %@ tried to allow notification at index %u by default, but there is no such notification in its list of %u", appName, notificationIndex, numAllNotifications);
 					// index sets are sorted, so we can stop here
@@ -520,7 +520,7 @@
 		unsigned numAllNotifications = [allNotificationNames count];
 		NSIndexSet *iset = (NSIndexSet *)inObject;
 		NSMutableArray *mDefaultNotifications = [[NSMutableArray alloc] initWithCapacity:[iset count]];
-		for( notificationIndex = [iset firstIndex]; notificationIndex != NSNotFound; notificationIndex = [iset indexGreaterThanIndex:notificationIndex] ) {
+		for (notificationIndex = [iset firstIndex]; notificationIndex != NSNotFound; notificationIndex = [iset indexGreaterThanIndex:notificationIndex]) {
 			if (notificationIndex >= numAllNotifications) {
 				NSLog(@"WARNING: application %@ tried to allow notification at index %u by default, but there is no such notification in its list of %u", appName, notificationIndex, numAllNotifications);
 				// index sets are sorted, so we can stop here

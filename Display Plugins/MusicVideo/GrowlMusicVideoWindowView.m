@@ -80,7 +80,7 @@
 }
 
 - (void) drawRect:(NSRect)rect {
-	if(needsDisplay) {
+	if (needsDisplay) {
 		//draw to cache
 		[cache lockFocus];
 
@@ -153,9 +153,9 @@
 	NSRect imageRect = rect;
 	int effect = MUSICVIDEO_EFFECT_SLIDE;
 	READ_GROWL_PREF_BOOL(MUSICVIDEO_EFFECT_PREF, MusicVideoPrefDomain, &effect);
-	if(effect == MUSICVIDEO_EFFECT_SLIDE)
+	if (effect == MUSICVIDEO_EFFECT_SLIDE)
 		/*do nothing*/;
-	else if(effect == MUSICVIDEO_EFFECT_WIPE)
+	else if (effect == MUSICVIDEO_EFFECT_WIPE)
 		imageRect.origin.y = 0.0f;
 	[cache drawInRect:rect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0f];
 }

@@ -167,7 +167,7 @@ static GrowlPreferences * sharedPreferences;
 		} else {
 			//look in the prefpane bundle.
 			bundle = [NSBundle bundleForClass:[GrowlPreferences class]];
-			if (![[bundle bundleIdentifier] isEqualToString:@"com.growl.prefpanel"]) {
+			if (![[bundle bundleIdentifier] isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]) {
 				bundle = [GrowlPreferences growlPrefPaneBundle];
 			}
 			NSString *helperAppPath = [bundle pathForResource:@"GrowlHelperApp" ofType:@"app"];
@@ -180,11 +180,11 @@ static GrowlPreferences * sharedPreferences;
 - (NSString *) growlSupportDir {
 	NSString *supportDir;
 	NSArray *searchPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /* expandTilde */ YES);
-	
+
 	supportDir = [searchPath objectAtIndex:0U];
 	supportDir = [supportDir stringByAppendingPathComponent:@"Application Support"];
 	supportDir = [supportDir stringByAppendingPathComponent:@"Growl"];
-	
+
 	return supportDir;
 }
 
@@ -196,7 +196,7 @@ static GrowlPreferences * sharedPreferences;
 	NSArray        *loginItems = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
 
 	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA      = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	NSString *pathToGHA      = [[NSBundle bundleForClass:[GrowlPreferences class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 	//get an Alias (as in Alias Manager) representation of same.
 	NSURL    *URLToGHA       = [NSURL fileURLWithPath:pathToGHA];
 
@@ -229,7 +229,7 @@ static GrowlPreferences * sharedPreferences;
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 
 	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA      = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	NSString *pathToGHA      = [[NSBundle bundleForClass:[GrowlPreferences class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 	//get an Alias (as in Alias Manager) representation of same.
 	NSURL    *URLToGHA       = [NSURL fileURLWithPath:pathToGHA];
 	NSData   *aliasDataToGHA = [URLToGHA aliasData];

@@ -96,7 +96,7 @@
 		[infoDict objectForKey:(NSString *)kCFBundleExecutableKey]];
 
 	/*
-	NSLog([[[NSBundle bundleForClass:[self class]] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
+	NSLog([[[NSBundle bundleForClass:[GrowlPref class]] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
 	NSLog(currVersionNumber);
 	NSLog(latestVersionNumber);
 	*/
