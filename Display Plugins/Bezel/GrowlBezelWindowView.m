@@ -218,10 +218,11 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	NSMutableParagraphStyle *parrafo = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[parrafo setAlignment:NSCenterTextAlignment];
 	NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		[NSColor whiteColor], NSForegroundColorAttributeName,
-		parrafo, NSParagraphStyleAttributeName,
+		[NSColor whiteColor],                        NSForegroundColorAttributeName,
+		parrafo,                                     NSParagraphStyleAttributeName,
 		[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
-		textShadow, NSShadowAttributeName, nil];
+		textShadow,                                  NSShadowAttributeName,
+		nil];
 	[parrafo release];
 	float accumulator = 0.0f;
 	BOOL minFontSize = NO;
@@ -248,10 +249,11 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	[titleAttributes release];
 
 	NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		[NSColor whiteColor], NSForegroundColorAttributeName,
-		parrafo, NSParagraphStyleAttributeName,
+		[NSColor whiteColor],            NSForegroundColorAttributeName,
+		parrafo,                         NSParagraphStyleAttributeName,
 		[NSFont systemFontOfSize:14.0f], NSFontAttributeName,
-		textShadow, NSShadowAttributeName, nil];
+		textShadow,                      NSShadowAttributeName,
+		nil];
 	[textShadow release];
 	NSAttributedString *textAttributed;
 	NSArray *linesN = [text componentsSeparatedByString:@"\n"];
