@@ -319,8 +319,8 @@ int main(int argc, const char **argv) {
 		}
 	} else {
 		NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
-		[distCenter postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:registerInfo];
-		[distCenter postNotificationName:GROWL_NOTIFICATION object:nil userInfo:notificationInfo];
+		[distCenter postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:registerInfo options:NSNotificationPostToAllSessions];
+		[distCenter postNotificationName:GROWL_NOTIFICATION object:nil userInfo:notificationInfo options:NSNotificationPostToAllSessions];
 	}
 
 	[registerInfo     release];

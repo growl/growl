@@ -37,6 +37,7 @@
 - (void) gotGrowlRegistration:(NSNotification *)notification {
 	[self registerApplicationWithDictionary:[notification userInfo]];
 }
+
 - (void) gotGrowlNotification:(NSNotification *)notification {
 	[self postNotificationWithDictionary:[notification userInfo]];
 }
