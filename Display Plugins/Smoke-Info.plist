@@ -15,10 +15,16 @@
 	<key>CFBundleSignature</key>
 	<string>GRRR</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
 	<key>NSPrincipalClass</key>
 	<string>GrowlSmokeDisplay</string>
+	<key>GrowlPluginName</key>
+	<string>Smoke</string>
+	<key>GrowlPluginAuthor</key>
+	<string>Matthew Walton</string>
+	<key>GrowlPluginDescription</key>
+	<string>Dark translucent notifications</string>
 </dict>
 </plist>

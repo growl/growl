@@ -12,55 +12,36 @@
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
 
-#define SMOKE_AUTHOR		@"Matthew Walton"
-#define SMOKE_NAME			@"Smoke"
-#define SMOKE_DESCRIPTION	@"Dark translucent notifications"
-#define SMOKE_VERSION		@"1.1"
-
 static unsigned smokeDepth = 0U;
 
 @implementation GrowlSmokeDisplay
 
 - (id) init {
-	if ( (self = [super init] ) ) {
-		preferencePane = [[GrowlSmokePrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlSmokePrefsController class]]];
+	if ((self = [super init])) {
+		bundle = [[NSBundle bundleForClass:[GrowlSmokePrefsController class]] retain];
+		preferencePane = [[GrowlSmokePrefsController alloc] initWithBundle:bundle];
 		[[NSNotificationCenter defaultCenter] addObserver:self 
-												 selector:@selector( _smokeGone: ) 
+												 selector:@selector(_smokeGone:)
 													 name:@"SmokeGone"
 												   object:nil];
 	}
 	return self;
 }
 
-- (void)loadPlugin {
+- (void) dealloc {
+	[bundle         release];
+	[preferencePane release];
+	[super dealloc];
 }
 
-- (NSString *)version {
-	return SMOKE_VERSION;
-}
-
-- (NSString *) author {
-	return SMOKE_AUTHOR;
-}
-
-- (NSString *) name {
-	return SMOKE_NAME;
-}
-
-- (NSString *) userDescription {
-	return SMOKE_DESCRIPTION;
+- (void) loadPlugin {
 }
 
 - (void) unloadPlugin {
 }
 
 - (NSDictionary *) pluginInfo {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		SMOKE_NAME,			@"Name",
-		SMOKE_AUTHOR,		@"Author",
-		SMOKE_VERSION,		@"Version",
-		SMOKE_DESCRIPTION,	@"Description",
-		nil];
+	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {

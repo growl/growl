@@ -16,45 +16,26 @@
 - (void) loadPlugin {
 }
 
-- (NSString *) author {
-	return @"Nelson Elhage";
-}
-
-- (NSString *) name {
-	return @"Log";
-}
-
-- (NSString *) userDescription {
-	return @"Logs notifications to the console or a file of your choosing";
-}
-
-- (NSString *) version {
-	return @"0.2";
-}
-
 - (void) unloadPlugin {
 }
 
 - (id) init {
-	if ( (self = [super init] ) ) {
-		preferencePane = [[GrowlLogPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlLogPrefs class]]];
+	if ((self = [super init])) {
+		bundle = [[NSBundle bundleForClass:[GrowlLogPrefs class]] retain];
+		preferencePane = [[GrowlLogPrefs alloc] initWithBundle:bundle];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[preferencePane release];
+	[bundle         release];
 	[super dealloc];
 }
 
 
-- (NSDictionary*) pluginInfo {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		@"Logging", @"Name",
-		@"Nelson Elhage", @"Author",
-		@"0.2", @"Version",
-		@"Logs notifications to the console or a file of your choosing", @"Description",
-		nil];
+- (NSDictionary *) pluginInfo {
+	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {

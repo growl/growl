@@ -100,9 +100,10 @@ static GrowlPluginController *sharedController;
 		bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
 		
 		if (bundleEnum) {
-			while ( (bundlePath = [bundleEnum nextObject]) ) {
+			while ((bundlePath = [bundleEnum nextObject])) {
 				if ([[bundlePath pathExtension] isEqualToString:prefPaneExtension]) {
 					[allPreferencePaneBundles addObject:[path stringByAppendingPathComponent:bundlePath]];
+					[bundleEnum skipDescendents];
 				}
 			}
 		}
@@ -181,12 +182,13 @@ static GrowlPluginController *sharedController;
 }
 
 - (void) findDisplayPluginsInDirectory:(NSString *)dir {
-	NSDirectoryEnumerator * enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
-	NSString * file;
+	NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
+	NSString *file;
 
 	while ((file = [enumerator nextObject])) {
 		if ([[file pathExtension] isEqualToString:@"growlView"]) {
 			[self loadPlugin:[dir stringByAppendingPathComponent:file]];
+			[enumerator skipDescendents];
 		}
 	}
 }
@@ -198,7 +200,7 @@ static GrowlPluginController *sharedController;
 	pluginBundle = [NSBundle bundleWithPath:path];
 
 	if (pluginBundle && (plugin = [[[pluginBundle principalClass] alloc] init])) {
-		NSString *pluginName = [plugin name];
+		NSString *pluginName = [[plugin pluginInfo] objectForKey:@"GrowlPluginName"];
 		if (pluginName) {
 			[plugin loadPlugin];
 			[allDisplayPlugins setObject:plugin forKey:pluginName];

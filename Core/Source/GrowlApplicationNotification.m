@@ -66,7 +66,7 @@
 	if (priority != GP_unset) {
 		[dict setObject:[NSNumber numberWithInt:priority] forKey:@"Priority"];
 	}
-	NSString *displayPluginName = [displayPlugin name];
+	NSString *displayPluginName = [[displayPlugin pluginInfo] objectForKey:@"GrowlPluginName"];
 	if (displayPluginName) {
 		[dict setObject:displayPluginName forKey:@"Display"];
 	}

@@ -16,35 +16,21 @@
 #pragma mark -
 
 - (id) init {
-	if ( (self = [super init] ) ) {
-		preferencePane = [[GrowlBubblesPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBubblesPrefsController class]]];
+	if ((self = [super init])) {
+		bundle = [[NSBundle bundleForClass:[GrowlBubblesPrefsController class]] retain];
+		preferencePane = [[GrowlBubblesPrefsController alloc] initWithBundle:bundle];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[preferencePane release];
+	[bundle         release];
 	[super dealloc];
 }
 
 - (void) loadPlugin {
 	//if I had setup procedures I would do them here
-}
-
-- (NSString *) author {
-	return @"Karl Adam and Timothy Hatcher";
-}
-
-- (NSString *) name {
-	return @"Bubbles";
-}
-
-- (NSString *) userDescription {
-	return @"Bubbley Status Notifications";
-}
-
-- (NSString *) version {
-	return @"1.1";
 }
 
 - (void) unloadPlugin {
@@ -53,12 +39,7 @@
 }
 
 - (NSDictionary *) pluginInfo {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		@"Bubbles", @"Name",
-		@"Karl Adam and Timothy Hatcher", @"Author",
-		@"1.1", @"Version",
-		@"Happy Bubbles!", @"Description",
-		nil];
+	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {

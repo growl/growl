@@ -11,47 +11,23 @@
 #import "GrowlSpeechDefines.h"
 #import <GrowlDefinesInternal.h>
 
-#define SPEECH_AUTHOR      @"Ingmar Stein"
-#define SPEECH_NAME        @"Speech"
-#define SPEECH_VERSION     @"0.6"
-#define SPEECH_DESCRIPTION @"Speak notifications."
-
 @implementation GrowlSpeechDisplay
 - (id) init {
-	if ( (self = [super init] ) ) {
-		prefPane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlSpeechPrefs class]]];
+	if ((self = [super init])) {
+		bundle = [[NSBundle bundleForClass:[GrowlSpeechPrefs class]] retain];
+		prefPane = [[GrowlSpeechPrefs alloc] initWithBundle:bundle];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[prefPane release];
+	[bundle   release];
 	[super dealloc];
 }
 
-- (NSString *) author {
-	return SPEECH_AUTHOR;
-}
-
-- (NSString *) name {
-	return SPEECH_NAME;
-}
-
-- (NSString *) userDescription {
-	return SPEECH_DESCRIPTION;
-}
-
-- (NSString *) version {
-	return SPEECH_VERSION;
-}
-
 - (NSDictionary *) pluginInfo {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		SPEECH_NAME,		@"Name",
-		SPEECH_AUTHOR,		@"Author",
-		SPEECH_VERSION,		@"Version",
-		SPEECH_DESCRIPTION,	@"Description",
-		nil];
+	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {

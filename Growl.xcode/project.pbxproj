@@ -4454,9 +4454,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-force_flat_namespace";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = GrowlHelperApp;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 			};

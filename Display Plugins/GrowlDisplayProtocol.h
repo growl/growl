@@ -26,38 +26,15 @@
  */
 - (void) loadPlugin;
 
-/*!	@method	author
- *	@abstract	Returns the name of the author of the plug-in.
- *	@result The author's name.
- */
-- (NSString *) author;
-
-/*!	@method	name
- *	@abstract	Returns the name of the plug-in.
- *	@result The plug-in's name.
- */
-- (NSString *) name;
-
-/*! @method	userDescription
- *	@abstract	A plug-in's description should tell the user what the plug-in does.
- *	In a display plug-in, it should describe the display in a few words.
- *	@result The plug-in's description.
- */
-- (NSString *) userDescription;
-
-/*!	@method	version
- *	@abstract	Returns the version of the plug-in.
- *	@result The plug-in's version as a string.
- */
-- (NSString *) version;
-
 /*!	@method	pluginInfo
  *	@abstract	Returns a dictionary describing the plug-in.
- *	@discussion	The dictionary must contain at least these keys: Author, Name,
- *	 Description, and Version. They correspond to the -author, -name,
- *	 -userDescription, and -version methods. The objects in the dictionary
- *	 should be the same as (or at least equal to) the objects returned by the
- *	 individual methods.
+ *	@discussion	The dictionary must contain at least these keys:
+ *	- GrowlPluginAutor:	the name of the author of the plug-in.
+ *	- GrowlPluginName: the name of the plug-in.
+ *	- GrowlPluginDescription: A plug-in's description should tell the user what
+ *    the plug-in does. In a display plug-in, it should describe the display in
+ *    a few words.
+ *	- CFBundleVersion:	the version of the plug-in.
  *	@result	The info dictionary.
  */
 - (NSDictionary *) pluginInfo;

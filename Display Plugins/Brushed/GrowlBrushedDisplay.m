@@ -12,18 +12,14 @@
 #import "GrowlBrushedDefines.h"
 #import "GrowlDefinesInternal.h"
 
-#define BRUSHED_AUTHOR      @"Ingmar Stein"
-#define BRUSHED_NAME        @"Brushed"
-#define BRUSHED_DESCRIPTION @"Aqua/Brushed metal notifications"
-#define BRUSHED_VERSION     @"1.0"
-
 static unsigned brushedDepth = 0U;
 
 @implementation GrowlBrushedDisplay
 
 - (id) init {
-	if ( (self = [super init] ) ) {
-		preferencePane = [[GrowlBrushedPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBrushedPrefsController class]]];
+	if ((self = [super init])) {
+		bundle = [[NSBundle bundleForClass:[GrowlBrushedPrefsController class]] retain];
+		preferencePane = [[GrowlBrushedPrefsController alloc] initWithBundle:bundle];
 		[[NSNotificationCenter defaultCenter] addObserver:self 
 												 selector:@selector( _brushedGone: ) 
 													 name:@"BrushedGone"
@@ -32,35 +28,20 @@ static unsigned brushedDepth = 0U;
 	return self;
 }
 
+- (void)dealloc {
+	[preferencePane release];
+	[bundle         release];
+	[super dealloc];
+}
+
 - (void)loadPlugin {
-}
-
-- (NSString *)version {
-	return BRUSHED_VERSION;
-}
-
-- (NSString *) author {
-	return BRUSHED_AUTHOR;
-}
-
-- (NSString *) name {
-	return BRUSHED_NAME;
-}
-
-- (NSString *) userDescription {
-	return BRUSHED_DESCRIPTION;
 }
 
 - (void) unloadPlugin {
 }
 
 - (NSDictionary *) pluginInfo {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		BRUSHED_NAME,        @"Name",
-		BRUSHED_AUTHOR,      @"Author",
-		BRUSHED_VERSION,     @"Version",
-		BRUSHED_DESCRIPTION, @"Description",
-		nil];
+	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {

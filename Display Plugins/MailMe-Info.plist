@@ -20,5 +20,11 @@
 	<string>yes</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlMailMeDisplay</string>
+	<key>GrowlPluginName</key>
+	<string>MailMe</string>
+	<key>GrowlPluginAuthor</key>
+	<string>Mac-arena the Bored Zo</string>
+	<key>GrowlPluginDescription</key>
+	<string>Send notifications as emails</string>
 </dict>
 </plist>

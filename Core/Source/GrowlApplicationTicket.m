@@ -253,7 +253,7 @@
 		[NSNumber numberWithBool:ticketEnabled], TicketEnabledKey,
 		nil];
 	[saveNotifications release];
-	NSString *displayPluginName = [displayPlugin name];
+	NSString *displayPluginName = [[displayPlugin pluginInfo] objectForKey:@"GrowlPluginName"];
 	if (displayPluginName) {
 		[saveDict setObject:displayPluginName forKey:GrowlDisplayPluginKey];
 	}

@@ -9,22 +9,19 @@
 #import "GrowlBezelPrefs.h"
 #import <GrowlDefinesInternal.h>
 
-#define B_AUTHOR		@"Jorge Salvador Caffarena"
-#define B_NAME			@"Bezel"
-#define B_DESCRIPTION	@"Bezel like notifications, with a twist"
-#define B_VERSION		@"1.2.0"
-
 @implementation GrowlBezelDisplay
 
 - (id) init {
-	if ( (self = [super init] ) ) {
-		preferencePane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBezelPrefs class]]];
+	if ((self = [super init])) {
+		bundle = [[NSBundle bundleForClass:[GrowlBezelPrefs class]] retain];
+		preferencePane = [[GrowlBezelPrefs alloc] initWithBundle:bundle];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[preferencePane release];
+	[bundle         release];
 	[super dealloc];
 }
 
@@ -32,33 +29,12 @@
 	notificationQueue = [[NSMutableArray alloc] init];
 }
 
-- (NSString *) author {
-	return B_AUTHOR;
-}
-
-- (NSString *) name {
-	return B_NAME;
-}
-
-- (NSString *) userDescription {
-	return B_DESCRIPTION;
-}
-
-- (NSString *) version {
-	return B_VERSION;
-}
-
 - (void) unloadPlugin {
 	[notificationQueue release];
 }
 
-- (NSDictionary*) pluginInfo {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		B_NAME, @"Name",
-		B_AUTHOR, @"Author",
-		B_VERSION, @"Version",
-		B_DESCRIPTION, @"Description",
-		nil];
+- (NSDictionary *) pluginInfo {
+	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {
@@ -79,7 +55,7 @@
 	[nuBezel setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];	
 	[nuBezel setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 
-	if ( [notificationQueue count] > 0U ) {
+	if ([notificationQueue count] > 0U) {
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
 		GrowlBezelWindowController *aNotification;
 		BOOL	inserted = NO;

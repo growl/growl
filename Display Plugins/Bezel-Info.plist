@@ -15,10 +15,16 @@
 	<key>CFBundleSignature</key>
 	<string>GRRR</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.2</string>
 	<key>CSResourcesFileMapped</key>
 	<string>yes</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlBezelDisplay</string>
+	<key>GrowlPluginName</key>
+	<string>Bezel</string>
+	<key>GrowlPluginAuthor</key>
+	<string>Jorge Salvador Caffarena</string>
+	<key>GrowlPluginDescription</key>
+	<string>Bezel like notifications, with a twist</string>
 </dict>
 </plist>

@@ -438,9 +438,10 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
 
 		if (bundleEnum) {
-			while ( ( bundlePath = [bundleEnum nextObject] ) ) {
+			while ((bundlePath = [bundleEnum nextObject])) {
 				if ([[bundlePath pathExtension] isEqualToString:prefPaneExtension]) {
 					[allPreferencePaneBundles addObject:[path stringByAppendingPathComponent:bundlePath]];
+					[bundleEnum skipDescendents];
 				}
 			}
 		}

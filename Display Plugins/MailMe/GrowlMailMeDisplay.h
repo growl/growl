@@ -13,15 +13,12 @@
 {
 	NSString			*destAddress;
 	NSPreferencePane	*prefPane;
+	NSBundle			*bundle;
 }
 
 - (void) loadPlugin;
 - (void) unloadPlugin;
 
-- (NSString *) author;
-- (NSString *) name;
-- (NSString *) userDescription;
-- (NSString *) version;
 - (NSDictionary *) pluginInfo;
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict;

@@ -14,6 +14,7 @@
 @interface GrowlSpeechDisplay : NSObject <GrowlDisplayPlugin>
 {
 	NSPreferencePane	*prefPane;
+	NSBundle			*bundle;
 }
 
 @end

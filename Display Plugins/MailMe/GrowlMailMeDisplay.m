@@ -10,11 +10,6 @@
 #import <GrowlDefinesInternal.h>
 #import <GrowlDisplayProtocol.h>
 
-#define AUTHOR		@"Mac-arena the Bored Zo"
-#define NAME		@"MailMe"
-#define DESCRIPTION	@"MailMe like notifications, with a twist"
-#define VERSION		@"1.0a1"
-
 #define destAddressKey @"MailMe - Recipient address"
 
 /* for when there is no icon */
@@ -26,46 +21,27 @@
 @implementation GrowlMailMeDisplay
 
 - (id) init {
-	if ( (self = [super init] ) ) {
-		prefPane = [[GrowlMailMePrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMailMePrefs class]]];
+	if ((self = [super init])) {
+		bundle = [[NSBundle bundleForClass:[GrowlMailMePrefs class]] retain];
+		prefPane = [[GrowlMailMePrefs alloc] initWithBundle:bundle];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[prefPane release];
+	[bundle   release];
 	[super dealloc];
 }
 
 - (void) loadPlugin {
 }
 
-- (NSString *) author {
-	return AUTHOR;
-}
-
-- (NSString *) name {
-	return NAME;
-}
-
-- (NSString *) userDescription {
-	return DESCRIPTION;
-}
-
-- (NSString *) version {
-	return VERSION;
-}
-
 - (void) unloadPlugin {
 }
 
 - (NSDictionary *) pluginInfo {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		NAME,			@"Name",
-		AUTHOR,			@"Author",
-		VERSION,		@"Version",
-		DESCRIPTION,	@"Description",
-		nil];
+	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {

@@ -10,14 +10,11 @@
 @class NSPreferencePane;
 
 @interface GrowlBubblesController : NSObject <GrowlDisplayPlugin> {
-	NSPreferencePane *preferencePane;
+	NSPreferencePane	*preferencePane;
+	NSBundle			*bundle;
 }
 
 - (void) loadPlugin;
-- (NSString *) author;
-- (NSString *) name;
-- (NSString *) userDescription;
-- (NSString *) version;
 - (void) unloadPlugin;
 - (NSDictionary *) pluginInfo;
 

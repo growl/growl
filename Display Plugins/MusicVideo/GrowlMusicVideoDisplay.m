@@ -9,22 +9,19 @@
 #import "GrowlMusicVideoPrefs.h"
 #import <GrowlDefinesInternal.h>
 
-#define B_AUTHOR      @"Jorge Salvador Caffarena"
-#define B_NAME        @"Music Video"
-#define B_DESCRIPTION @"Music Video notifications, for your tunes"
-#define B_VERSION     @"0.2.0"
-
 @implementation GrowlMusicVideoDisplay
 
 - (id) init {
-	if ( (self = [super init] ) ) {
-		preferencePane = [[GrowlMusicVideoPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMusicVideoPrefs class]]];
+	if ((self = [super init])) {
+		bundle = [[NSBundle bundleForClass:[GrowlMusicVideoPrefs class]] retain];
+		preferencePane = [[GrowlMusicVideoPrefs alloc] initWithBundle:bundle];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[preferencePane release];
+	[bundle release];
 	[super dealloc];
 }
 
@@ -32,33 +29,12 @@
 	notificationQueue = [[NSMutableArray array] retain];
 }
 
-- (NSString *) author {
-	return B_AUTHOR;
-}
-
-- (NSString *) name {
-	return B_NAME;
-}
-
-- (NSString *) userDescription {
-	return B_DESCRIPTION;
-}
-
-- (NSString *) version {
-	return B_VERSION;
-}
-
 - (void) unloadPlugin {
 	[notificationQueue release];
 }
 
 - (NSDictionary *) pluginInfo {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-		B_NAME, @"Name",
-		B_AUTHOR, @"Author",
-		B_VERSION, @"Version",
-		B_DESCRIPTION, @"Description",
-		nil];
+	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {
