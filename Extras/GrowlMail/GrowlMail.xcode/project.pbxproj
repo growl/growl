@@ -130,6 +130,7 @@
 		};
 		08FB77AFFE84173DC02AAC07 = {
 			children = (
+				953D07D907901C4200606969,
 				9553485D0732F93600D12875,
 				9553485E0732F93600D12875,
 				9553469C0732BD4800D12875,
@@ -364,6 +365,7 @@
 				955347DF0732BFE200D12875,
 				9553485F0732F93600D12875,
 				955348670732FA2500D12875,
+				953D07E007901C4200606969,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -494,6 +496,21 @@
 			path = German.lproj/InfoPlist.strings;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		953D07D907901C4200606969 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlAppBridgeDefines.h;
+			path = ../../GrowlAppBridgeDefines.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		953D07E007901C4200606969 = {
+			fileRef = 953D07D907901C4200606969;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		9550E79F077A207E00436674 = {
 			isa = PBXFileReference;
