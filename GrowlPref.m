@@ -27,7 +27,7 @@
 		
 		NSString *uniqueName = [NSString stringWithFormat:@"GrowlPreferencesAdministrativeConnection-%@", NSUserName()];
 		growlProxy = [[NSConnection rootProxyForConnectionWithRegisteredName:uniqueName host:nil] retain];
-		NSLog( @"got %@ for growl", growlProxy );
+		//NSLog( @"got %@ for growl", growlProxy );
 		
 		[nc addObserver:self selector:@selector(growlLaunched:) name:GROWL_IS_READY object:nil];
 		[nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
