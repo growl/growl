@@ -1,11 +1,6 @@
 To-Do
 
 For .6 (Go Go Growl)
-- NSLog
-	- Rename NSLog to Log
-	- Add 2 radio buttons
-		- Console, with a button to open console.app
-		- Choose file. Default to something sane.
 
 Release related issues
 
@@ -203,4 +198,9 @@ Done:
 	- Growl is BSD
 	- The framework is public domain
 	- Examples are public domain unless specified
+- NSLog
+	- Rename NSLog to Log
+	- Add 2 radio buttons
+		- Console, with a button to open console.app
+		- Choose file. Default to something sane.
 
