@@ -39,12 +39,18 @@
 												   protocol:IPPROTO_UDP
 													address:addrData];
 
+		if (!sock) {
+			NSLog(@"GrowlUDPPathway: could not create socket.");
+			[self release];
+			return nil;
+		}
+
 		fh = [[NSFileHandle alloc] initWithFileDescriptor:[sock socket]];
-		[fh readInBackgroundAndNotify];
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(fileHandleRead:)
 													 name:NSFileHandleReadCompletionNotification
 												   object:fh];
+		[fh readInBackgroundAndNotify];
 		notificationIcon = [[NSImage alloc] initWithContentsOfFile:
 			@"/System/Library/CoreServices/SystemIcons.bundle/Contents/Resources/GenericNetworkIcon.icns"];
 		if (!notificationIcon) {
