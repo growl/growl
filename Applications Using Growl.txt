@@ -6,4 +6,4 @@ Beep-Cocoa
 Fire
 GrowlNotify
 GrowlTunes
-irssi (in growl cvs is a howto for this)
+irssi (in growl svn is a howto for this)
