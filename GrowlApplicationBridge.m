@@ -14,9 +14,6 @@
 #define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY			@"PreferencePanes"
 #define PREFERENCE_PANE_EXTENSION						@"prefPane"
 
-//this is in GAB-Carbon.c.
-extern NSString *_copyCurrentProcessName(void);
-
 @interface GrowlApplicationBridge (PRIVATE)
 /*!
  *	@method growlPrefPaneBundle
@@ -300,7 +297,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	if ([delegate respondsToSelector:@selector(applicationNameForGrowl)]) {
 		applicationNameForGrowl = [delegate applicationNameForGrowl];
 	} else {
-		applicationNameForGrowl = [_copyCurrentProcessName() autorelease];
+		applicationNameForGrowl = [[NSProcessInfo processInfo] processName];
 	}
 	
 	if (!applicationNameForGrowl) NSLog(@"GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined");

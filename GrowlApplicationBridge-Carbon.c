@@ -34,8 +34,7 @@ static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStri
 static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundleRef growlPrefPaneBundle);
 #endif
 
-//this is not declared static because the GAB class uses it.
-CFStringRef _copyCurrentProcessName(void);
+static CFStringRef _copyCurrentProcessName(void);
 
 static CFStringRef _copyTemporaryFolderPath(void);
 
