@@ -74,7 +74,10 @@ enum {
 
 	if(self) {
 		[GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(registerGrowl:) context:NULL];
-		
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+															selector:@selector(growlIsReady:)
+																name:GROWL_IS_READY
+															  object:nil];
 
 		[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithDouble:DEFAULT_POLL_INTERVAL], pollIntervalKey,
@@ -109,6 +112,10 @@ enum {
 		nil];
 
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:regDict];
+}
+
+- (void)growlIsReady:(NSNotification *)notification {
+	[self registerGrowl:NULL];
 }
 
 - (void)setPolling:(BOOL)flag {
@@ -214,10 +221,10 @@ enum {
 					@"Total Time", nil]
 									  notFoundMarker:@""];
 			newTrackURL = [NSString stringWithFormat:@"%@|%@|%@|%@|%@|%@|%@|%@|%@|%@|%@",
-				[args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2],
-				[args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5],
-				[args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8],
-				[args objectAtIndex:9], [args objectAtIndex:10]];
+				[args objectAtIndex:0U], [args objectAtIndex:1U], [args objectAtIndex:2U],
+				[args objectAtIndex:3U], [args objectAtIndex:4U], [args objectAtIndex:5U],
+				[args objectAtIndex:6U], [args objectAtIndex:7U], [args objectAtIndex:8U],
+				[args objectAtIndex:9U], [args objectAtIndex:10U]];
 			newTrackURL = [[NSNumber numberWithUnsignedLong:[newTrackURL hash]] stringValue];
 		}
 	}
@@ -260,9 +267,9 @@ enum {
 			if(ratingInt < 0) ratingInt = 0;
 			ratingString = [self starsForRating:ratingInt];
 
-			curDescriptor = [theDescriptor descriptorAtIndex:2];
+			curDescriptor = [theDescriptor descriptorAtIndex:2L];
 			playlistName = [curDescriptor stringValue];
-			curDescriptor = [theDescriptor descriptorAtIndex:1];
+			curDescriptor = [theDescriptor descriptorAtIndex:1L];
 			const OSType type = [curDescriptor typeCodeValue];
 		
 			if( type != 'null' ) {
@@ -339,7 +346,7 @@ enum {
 	iTunesState				newState = itUNKNOWN;
 	int						newTrackID = -1;
 	
-	curDescriptor = [theDescriptor descriptorAtIndex:1];
+	curDescriptor = [theDescriptor descriptorAtIndex:1L];
 	playerState = [curDescriptor stringValue];
 	
 	if ( [playerState isEqualToString:@"paused"] ) {
@@ -368,32 +375,32 @@ enum {
 		NSImage			*artwork = nil;
 		NSDictionary	*noteDict;
 		
-		curDescriptor = [theDescriptor descriptorAtIndex:9];
+		curDescriptor = [theDescriptor descriptorAtIndex:9L];
 		playlistName = [curDescriptor stringValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:2] )
+		if ( curDescriptor = [theDescriptor descriptorAtIndex:2L] )
 			track = [curDescriptor stringValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:3] )
+		if ( curDescriptor = [theDescriptor descriptorAtIndex:3L] )
 			length = [curDescriptor stringValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:4] )
+		if ( curDescriptor = [theDescriptor descriptorAtIndex:4L] )
 			artist = [curDescriptor stringValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:5] )
+		if ( curDescriptor = [theDescriptor descriptorAtIndex:5L] )
 			album = [curDescriptor stringValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:6] )
+		if ( curDescriptor = [theDescriptor descriptorAtIndex:6L] )
 			compilation = (BOOL)[curDescriptor booleanValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:7] ) {
+		if ( curDescriptor = [theDescriptor descriptorAtIndex:7L] ) {
 			int ratingInt = [[curDescriptor stringValue] intValue];
 			rating = [NSNumber numberWithInt:ratingInt];
 			if(rating < 0) rating = 0;
 			ratingString = [self starsForRating:ratingInt];
 		}
 		
-		curDescriptor = [theDescriptor descriptorAtIndex:8];
+		curDescriptor = [theDescriptor descriptorAtIndex:8L];
 		const OSType type = [curDescriptor typeCodeValue];
 		
 		if( type != 'null' ) {
