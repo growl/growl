@@ -9,6 +9,7 @@
 #import "GrowlBezelWindowView.h"
 
 #define BORDER_RADIUS 20.0
+#define ELIPSIS_STRING @"..."
 
 @implementation GrowlBezelWindowView
 
@@ -44,7 +45,6 @@
 	NSPoint topRight = NSMakePoint(bounds.origin.x + bounds.size.width, bounds.origin.y);
 	NSPoint bottomLeft = NSMakePoint(bounds.origin.x, bounds.origin.y + bounds.size.height);
 	NSPoint bottomRight = NSMakePoint(bounds.origin.x + bounds.size.width, bounds.origin.y + bounds.size.height);
-	NSLog(@"%f %f %f %f",bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
 	[[NSColor clearColor] set];
 	NSRectFill( [self frame] );
 
@@ -78,8 +78,43 @@
 	
 	[[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha:.5] set];
 	[bezelPath fill];
-
 	
+	// Draw the title, resize if text too big
+    NSMutableParagraphStyle *parrafo = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
+			setAlignment:NSCenterTextAlignment];
+	NSMutableDictionary *titleAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+				[NSColor whiteColor], NSForegroundColorAttributeName,
+				parrafo, NSParagraphStyleAttributeName, nil] retain];
+	NSRect titleRect = NSMakeRect(8.,52.,143.,24.);
+	float titleFontSize = 20.0;
+	float accumulator = 0.;
+	BOOL minFontSize = NO;
+	[titleAttributes setObject:[[NSFontManager sharedFontManager] 
+        convertFont:[NSFont systemFontOfSize:titleFontSize] toHaveTrait: NSBoldFontMask]
+		forKey:NSFontAttributeName];
+	NSSize titleSize = [_title sizeWithAttributes:titleAttributes];
+	
+	while ( titleSize.width > ( 143. - ( titleSize.height / 2. ) ) ) {
+		minFontSize = ( titleFontSize <= 12. );
+		if ( minFontSize ) {
+			[self setTitle: [_title substringToIndex:[_title length] - 1]];
+		} else {
+			titleFontSize -= 1.;
+			accumulator += 0.5;
+		}
+		[titleAttributes setObject:[[NSFontManager sharedFontManager] 
+			convertFont:[NSFont systemFontOfSize:titleFontSize] toHaveTrait: NSBoldFontMask] forKey:NSFontAttributeName];
+		titleSize = [_title sizeWithAttributes:titleAttributes];
+	}
+	
+	titleRect.origin.y += ceil(accumulator);
+	
+	if ( minFontSize ) {
+		[self setTitle: [NSString stringWithFormat:@"%@%@",[_title substringToIndex:[_title length]-1], ELIPSIS_STRING]];
+	}
+	
+	titleRect.size.height = titleSize.height;
+	[_title drawInRect:titleRect withAttributes:titleAttributes];
 }
 
 - (void)setIcon:(NSImage *)icon {
