@@ -84,7 +84,7 @@ static GrowlPreferences * sharedPreferences;
 - (NSBundle *) helperAppBundle {
 	if ( !helperAppBundle ) {
 		if ( [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:HelperAppBundleIdentifier] ) {
-			//We are running in the GAH bundle
+			//We are running in the GHA bundle
 			helperAppBundle = [NSBundle mainBundle];
 		} else {
 			//We are running in the prefpane
@@ -99,7 +99,7 @@ static GrowlPreferences * sharedPreferences;
 	NSString *supportDir;
 	NSArray *searchPath = NSSearchPathForDirectoriesInDomains( NSLibraryDirectory, NSUserDomainMask, /* expandTilde */ YES );
 	
-	supportDir = [searchPath objectAtIndex:0];
+	supportDir = [searchPath objectAtIndex:0U];
 	supportDir = [supportDir stringByAppendingPathComponent:@"Application Support"];
 	supportDir = [supportDir stringByAppendingPathComponent:@"Growl"];
 	
@@ -108,24 +108,25 @@ static GrowlPreferences * sharedPreferences;
 
 #pragma mark -
 - (BOOL) startGrowlAtLogin {
-	NSUserDefaults *defs = [[NSUserDefaults alloc] init];
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	NSArray *autoLaunchArray = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
-	NSEnumerator *e = [autoLaunchArray objectEnumerator];
 	NSString *appPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
+	BOOL foundIt = NO;
+
+	NSEnumerator *e = [autoLaunchArray objectEnumerator];
 	NSDictionary *item;
 	while ( (item = [e nextObject] ) ) {
 		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:appPath]) {
-			[defs release];
-			return YES;
+			foundIt = YES;
+			break;
 		}
 	}
-	[defs release];
-	
-	return NO;
+
+	return foundIt;
 }
 
 - (void) setStartGrowlAtLogin:(BOOL)flag {
-	NSUserDefaults *defs = [[NSUserDefaults alloc] init];
+	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 	NSString *appPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
 	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
 	NSArray *loginItems = [loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"];
