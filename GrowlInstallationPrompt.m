@@ -26,6 +26,8 @@
 
 #define GROWL_TEXT_SIZE 11
 
+static const long minimumOSXVersionForGrowl = 0x1030L;
+
 @interface GrowlInstallationPrompt (private)
 - (id) initWithWindowNibName:(NSString *)nibName forUpdate:(BOOL)inIsUpdate;
 - (void) performInstallGrowl;
@@ -36,14 +38,22 @@
 
 + (void) showInstallationPromptForUpdate:(BOOL)inIsUpdate
 {
-	[[[[self alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdate:inIsUpdate] window] makeKeyAndOrderFront:nil];
+	long OSXversion = 0L;
+	OSStatus err = Gestalt(gestaltSystemVersion, &OSXVersion);
+	if(err != noErr) {
+		NSLog(@"WARNING in GrowlInstallationPrompt: could not get Mac OS X version (selector = %x); got error code %li (will show the installation prompt anyway)", (unsigned)gestaltSystemVersion, (long)err);
+		//we proceed anyway, on the theory that it is better to show the installation prompt when inappropriate than to suppress it when not.
+		OSXVersion = minimumOSXVersionForGrowl;
+	}
+
+	if(OSXVersion >= minimumOSXVersionForGrowl)
+		[[[[self alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdate:inIsUpdate] window] makeKeyAndOrderFront:nil];
 }
 
 - (id)initWithWindowNibName:(NSString *)nibName forUpdate:(BOOL)inIsUpdate
 {
-	isUpdate = inIsUpdate;
-
-	self = [super initWithWindowNibName:nibName];
+	if((self = [super initWithWindowNibName:nibName]))
+		isUpdate = inIsUpdate;
 
 	return self;
 }

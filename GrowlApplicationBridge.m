@@ -130,7 +130,8 @@ static BOOL				promptedToUpgradeGrowl = NO;
 				iconData:(NSData *)iconData 
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
-			clickContext:(id)clickContext {
+			clickContext:(id)clickContext
+{
 	NSAssert(delegate, @"+[GrowlApplicationBridge setGrowlDelegate:] must be called before using this method.");
 	
 	NSParameterAssert(notifName);	//Notification name is required.
@@ -406,7 +407,9 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	NSString		*bundleIdentifier;
 	NSEnumerator	*preferencePanesPathsEnumerator;
 	NSBundle		*prefPaneBundle;
-	
+
+	static const unsigned bundleIDComparisonFlags = NSCaseInsensitiveSearch | NSBackwardsSearch;
+
 	// First up, we'll have a look for Growl.prefPane, and if it exists, check it is our prefPane
 	// This is much faster than having to enumerate all preference panes, and can drop a significant
 	// amount of time off this code
@@ -420,7 +423,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 			if (prefPaneBundle){
 				bundleIdentifier = [prefPaneBundle bundleIdentifier];
 				
-				if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]){
+				if (bundleIdentifier && ([bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:bundleIDComparisonFlags] == NSOrderedSame)){
 					return prefPaneBundle;
 				}
 			}
@@ -431,14 +434,13 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
 	//of course will not.  If the user wants to destroy the info.plist file inside the bundle, he/she deserves not to have a working Growl installation.
 	preferencePanesPathsEnumerator = [[GrowlApplicationBridge _allPreferencePaneBundles] objectEnumerator];
-	static const unsigned bundleIDComparisonFlags = NSCaseInsensitiveSearch | NSBackwardsSearch;
 	while ( (path = [preferencePanesPathsEnumerator nextObject] ) ) {
 		prefPaneBundle = [NSBundle bundleWithPath:path];
 		
 		if (prefPaneBundle) {
 			bundleIdentifier = [prefPaneBundle bundleIdentifier];
 			
-			if (bundleIdentifier && [bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:bundleIDComparisonFlags]) {
+			if (bundleIdentifier && ([bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:bundleIDComparisonFlags] == NSOrderedSame)) {
 				return prefPaneBundle;
 			}
 		}
