@@ -243,6 +243,7 @@ int main(int argc, const char **argv) {
 		applicationName, GROWL_APP_NAME,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+		icon, GROWL_APP_ICON,
 		nil];
 
 	// Notify
