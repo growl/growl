@@ -3,11 +3,11 @@
 void KABubbleShadeInterpolate( void *info, float const *inData, float *outData ) {
 	static float dark[4] = { .69412, .83147, .96078, .95 };
 	static float light[4] = { .93725, .96863, .99216, .95 };
-	float a = inData[0];
-	int i = 0;
+	register float a = inData[0], a_coeff = 1.0f - a;
+	register int i = 0;
 
 	for( i = 0; i < 4; i++ )
-		outData[i] = ( 1. - a ) * dark[i] + a * light[i];
+		outData[i] = a_coeff * dark[i] + a * light[i];
 }
 
 #pragma mark -
@@ -38,6 +38,8 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 }
 
 - (void) drawRect:(NSRect) rect {
+	NSRect bounds = [self bounds];
+
 	[[NSColor clearColor] set];
 	NSRectFill( [self frame] );
 
@@ -46,7 +48,7 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 	[path setLineWidth:lineWidth];
 
 	float radius = 9.;
-	NSRect irect = NSInsetRect( [self bounds], radius + lineWidth, radius + lineWidth );
+	NSRect irect = NSInsetRect( bounds, radius + lineWidth, radius + lineWidth );
 	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMinX( irect ), 
 														 NSMinY( irect ) ) 
 									 radius:radius 
@@ -81,8 +83,8 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 	CGFunctionRef function = CGFunctionCreate( NULL, 1, NULL, 4, NULL, &callbacks );
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
-	float srcX = NSMinX( [self bounds] ), srcY = NSMinY( [self bounds] );
-	float dstX = NSMinX( [self bounds] ), dstY = NSMaxY( [self bounds] );
+	float srcX = NSMinX( bounds ), srcY = NSMinY( bounds );
+	float dstX = NSMinX( bounds ), dstY = NSMaxY( bounds );
 	CGShadingRef shading = CGShadingCreateAxial( cspace, 
 												 CGPointMake( srcX, srcY ), 
 												 CGPointMake( dstX, dstY ), 
@@ -102,7 +104,8 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 	[_title drawAtPoint:NSMakePoint( 55., 40. ) withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:13.], NSFontAttributeName, [NSColor controlTextColor], NSForegroundColorAttributeName, nil]];
 	[_text drawInRect:NSMakeRect( 55., 10., 200., 30. )];
 
-	if( [_icon size].width > 32. || [_icon size].height > 32. ) { // Assume a square image.
+	NSSize iconSize = [_icon size];
+	if( iconSize.width > 32. || iconSize.height > 32. ) { // Assume a square image.
 		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
 		[_icon autorelease];
 		_icon = [[NSImage alloc] initWithSize:NSMakeSize( 32., 32. )];
