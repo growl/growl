@@ -31,6 +31,8 @@ static NSString *empty = @"";
 
 - (void)dealloc {
 	[synergySubPath release];
+	
+	[super dealloc];
 }
 
 //a debugging pleasantry. GrowlTunes doesn't actually use this ATM.
