@@ -156,16 +156,17 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		appName	= [inAppName retain];
 		icon		= [inIcon retain];
 
-		NSEnumerator *notificationsEnum = [inAllNotifications objectEnumerator];
+		allNotificationNames = [inAllNotifications retain];
+		NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
 		NSMutableDictionary *notificationDict = [NSMutableDictionary dictionary];
 		id obj;
 		while ( (obj = [notificationsEnum nextObject] ) ) {
 			[notificationDict setObject:[GrowlApplicationNotification notificationWithName:(NSString*)obj] forKey:obj];
 		}
 		allNotifications = [[NSDictionary alloc] initWithDictionary:notificationDict];
-		defaultNotifications = [inDefaults retain];
+		[self setDefaultNotifications:inDefaults];
 
-		[self setAllowedNotifications:inDefaults];
+		[self setAllowedNotificationsToDefault];
 
 		usesCustomDisplay = NO;
 		displayPlugin = nil;
@@ -195,7 +196,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	defaultNotifications = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
 
 	//Get all the notification names and the data about them
-	NSArray* allNotificationNames = [[[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL]] autorelease];
+	allNotificationNames = [[NSArray alloc] initWithArray:[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL]];
 	NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
 	NSMutableDictionary *notificationDict = [NSMutableDictionary dictionary];
 	id obj;
@@ -361,7 +362,8 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		[allNotifications release];
 		allNotifications = [[NSDictionary alloc] initWithDictionary:allNotesCopy];
 	}
-	
+
+	//ALWAYS set all notifications list first, to enable handling of numeric indices in the default notifications list!
 	[self setAllNotifications:inAllNotes];
 	[self setDefaultNotifications:inDefaults];
 }
@@ -371,6 +373,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 }
 
 - (void) setAllNotifications:(NSArray *) inArray {
+	allNotificationNames = [[NSArray alloc] initWithArray:inArray];
 	NSMutableSet *new, *cur;
 	new = [NSMutableSet setWithArray:inArray];
 	
@@ -403,10 +406,37 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 - (void) setDefaultNotifications:(NSArray *) inArray {
 	[defaultNotifications autorelease];
-	defaultNotifications = [inArray retain];
-	
+	if(!allNotifications) {
+		/*WARNING: if you try to pass an array containing numeric indices, and
+		 *	the all-notifications list has not been supplied yet, the indices
+		 *	WILL NOT be dereferenced. ALWAYS set the all-notifications list FIRST.
+		 */
+		defaultNotifications = [inArray retain];
+	} else {
+		NSEnumerator *mightBeIndicesEnum = [inArray objectEnumerator];
+		NSNumber *num;
+		NSMutableArray *mDefaultNotifications = [[NSMutableArray alloc] init];
+		unsigned numAllNotifications = [allNotificationNames count];
+		Class NSNumberClass = [NSNumber class];
+		while((num = [mightBeIndicesEnum nextObject])) {
+			if([num isKindOfClass:NSNumberClass]) {
+				//it's an index into the all-notifications list
+				unsigned notificationIndex = [num unsignedIntValue];
+				if(notificationIndex >= numAllNotifications)
+					NSLog(@"WARNING: application %@ tried to allow notification at index %u by default, but there is no such notification in its list of %u", appName, notificationIndex, numAllNotifications);
+				else {
+					[mDefaultNotifications addObject:[allNotificationNames objectAtIndex:notificationIndex]];
+				}
+			} else {
+				//it's probably a notification name
+				[mDefaultNotifications addObject:num];
+			}
+		}
+		defaultNotifications = mDefaultNotifications;
+	}
+
 	if ( useDefaults ) {
-		[self setAllowedNotifications:inArray];
+		[self setAllowedNotifications:defaultNotifications];
 		useDefaults = YES;
 	}
 }

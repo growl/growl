@@ -58,6 +58,7 @@ typedef enum GrowlPriority {
 	NSImage			*icon;						// This app's icon for notifications and display methods that want it
 
 	NSDictionary	*allNotifications;			// All the notifications possible for this app
+	NSArray			*allNotificationNames;		// Keys of allNotifications, in the order in which they were originally passed
 
 	NSArray			*defaultNotifications;		// The default notifications
 	

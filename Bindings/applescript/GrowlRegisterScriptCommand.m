@@ -25,10 +25,36 @@ static const NSSize iconSize = {128.0f, 128.0f};
 	NSDictionary *args = [self evaluatedArguments];
 
 	// should validate params better!
-	NSString *appName = [args valueForKey:KEY_APP_NAME];
-	NSArray *allNotifications = [args valueForKey:KEY_NOTIFICATIONS_ALL];
-	NSArray *defaultNotifications = [args valueForKey:KEY_NOTIFICATIONS_DEFAULT];
-	NSString *iconOfApplication = [args valueForKey:KEY_ICON_APP_NAME];
+	NSString *appName             = [args objectForKey:KEY_APP_NAME];
+	NSArray *allNotifications     = [args objectForKey:KEY_NOTIFICATIONS_ALL];
+	NSArray *defaultNotifications = [args objectForKey:KEY_NOTIFICATIONS_DEFAULT];
+	NSString *iconOfApplication   = [args objectForKey:KEY_ICON_APP_NAME];
+
+	//translate AppleScript (1-based) indices to C (0-based) indices
+	NSMutableArray *temp = [NSMutableArray arrayWithArray:defaultNotifications];
+	NSEnumerator *defaultEnum = [defaultNotifications objectEnumerator];
+	NSNumber *num;
+	Class NSNumberClass = [NSNumber class];
+	unsigned i = 0U;
+	while((num = [defaultEnum nextObject])) {
+		if([num isKindOfClass:NSNumberClass]) {
+			//it's an index
+			int value = [num intValue];
+			if(value < 0)
+				value = [allNotifications count] + value;
+			else if(value > 0)
+				--value;
+			else {
+#pragma warning this needs to be a real AppleScript error
+				[[NSException exceptionWithName:NSRangeException
+										 reason:@"Can't get item 0 of notifications."
+									   userInfo:nil] raise];
+			}
+			[temp replaceObjectAtIndex:i withObject:[NSNumber numberWithUnsignedInt:value]];
+		}
+		++i;
+	}
+	defaultNotifications = temp;
 
 	NSMutableDictionary *registerDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		appName, GROWL_APP_NAME,
