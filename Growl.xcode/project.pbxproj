@@ -2141,6 +2141,41 @@
 			target = 0A7F5FE80767C7B300E1C1E4;
 			targetProxy = 3433459B0790E40B00C84B15;
 		};
+		3433500C079275A300C84B15 = {
+			children = (
+				34E9EFB30790926400662E8E,
+				34E9EFB40790926400662E8E,
+				34E9EFDB079095B900662E8E,
+			);
+			isa = PBXGroup;
+			name = Installation;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		3433502B0792769000C84B15 = {
+			fileRef = 0AEE179C0702C4960024B1A0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		343350E00792769900C84B15 = {
+			fileRef = 0AEE179C0702C4960024B1A0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		343350E1079276A100C84B15 = {
+			fileRef = 83282741073A6BD70044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		343350E5079276A700C84B15 = {
+			fileRef = 83282741073A6BD70044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		3434E8EA0790D6E600A97A48 = {
 			fileRef = 956ADACB07551C4500AF9545;
 			isa = PBXBuildFile;
@@ -2160,9 +2195,7 @@
 				34F60EC2078E1D5600CECA86,
 				34F60EB8078E1D3E00CECA86,
 				34F60EB6078E1D3E00CECA86,
-				34E9EFB30790926400662E8E,
-				34E9EFB40790926400662E8E,
-				34E9EFDB079095B900662E8E,
+				3433500C079275A300C84B15,
 			);
 			isa = PBXGroup;
 			name = "Growl.framework (App Bridge)";
@@ -2334,7 +2367,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				34F60EBA078E1D3E00CECA86,
-				CB4083D207911C7500495A6D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2342,6 +2374,8 @@
 		34F60EA9078E1CD500CECA86 = {
 			buildActionMask = 2147483647;
 			files = (
+				343350E00792769900C84B15,
+				343350E1079276A100C84B15,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2497,6 +2531,8 @@
 		34F60EF7078E226300CECA86 = {
 			buildActionMask = 2147483647;
 			files = (
+				3433502B0792769000C84B15,
+				343350E5079276A700C84B15,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3425,12 +3461,6 @@
 			path = README.rtf;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		CB4083D207911C7500495A6D = {
-			fileRef = 34E9EFB40790926400662E8E;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		CB5C30FF07925B53007CC0D0 = {
 			fileEncoding = 4;
