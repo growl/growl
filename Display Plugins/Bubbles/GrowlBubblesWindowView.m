@@ -26,8 +26,8 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 			  alpha:&bgAlpha];
 
 	//NSLog(@"data red: %f green: %f blue: %f alpha: %f", bgRed, bgGreen, bgBlue, bgAlpha);
-	//static const float bg[4] = { .69412, .83147, .96078, .95 };
-	static const float light[4] = { .93725f, .96863f, .99216f, .95f };
+	//static const float bg[4] = { 0.69412f, 0.83147f, 0.96078f, 0.95f };
+	static const float light[4] = { 0.93725f, 0.96863f, 0.99216f, 0.95f };
 
 	register float a = inData[0];
 	register float a_coeff = 1.0f - a;
@@ -50,7 +50,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 		titleHeight = 0.0f;
 		target = nil;
 		action = NULL;
-		borderColor = [NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:.5f];
+		borderColor = [NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
 	}
 	return self;
 }
@@ -68,7 +68,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 - (float)titleHeight {
 	if ( !titleHeight ) {
 		NSLayoutManager *lm = [[NSLayoutManager alloc] init];
-		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:13.f]];
+		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:13.0f]];
 		[lm release];
 	}
 
@@ -76,13 +76,13 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 }
 
 - (void) drawRect:(NSRect) rect {
-
 	NSRect bounds = [self bounds];
+	NSRect frame  = [self frame];
 
 	[[NSColor clearColor] set];
-	NSRectFill( [self frame] );
+	NSRectFill( frame );
 
-	NSBezierPath *path = [NSBezierPath roundedRectPath:bounds radius:9.f lineWidth:4.f];
+	NSBezierPath *path = [NSBezierPath roundedRectPath:bounds radius:9.0f lineWidth:4.0f];
 
 	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
 	[graphicsContext saveGraphicsState];
@@ -91,8 +91,8 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 	// Create a callback function to generate the 
     // fill clipped graphics context with our gradient
-	struct CGFunctionCallbacks callbacks = { 0, GrowlBubblesShadeInterpolate, NULL };
-	CGFunctionRef function = CGFunctionCreate( (void *) bgColor, 1, NULL, 4, NULL, &callbacks );
+	struct CGFunctionCallbacks callbacks = { 0U, GrowlBubblesShadeInterpolate, NULL };
+	CGFunctionRef function = CGFunctionCreate( (void *) bgColor, 1U, /*domain*/ NULL, 4U, /*range*/ NULL, &callbacks );
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
 	float srcX = NSMinX( bounds ), srcY = NSMinY( bounds );
@@ -115,13 +115,14 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 	// Top of the drawing area. The eye candy takes up 10 pixels on 
 	// the top, so we've reserved some space for it.
-	float contentHeight = [self frame].size.height - 10.0f;
-	float titleYPosition = contentHeight - [self titleHeight];
+	float contentHeight = frame.size.height - 10.0f;
+	float titleHeight = [self titleHeight];
+	float titleYPosition = contentHeight - titleHeight;
 	NSRect drawRect;
-	drawRect.origin.x = 55.f;
+	drawRect.origin.x = 55.0f;
 	drawRect.origin.y = titleYPosition;
-	drawRect.size.width = 200.f;
-	drawRect.size.height = [self titleHeight];
+	drawRect.size.width = 200.0f;
+	drawRect.size.height = titleHeight;
 
 	[title drawWithEllipsisInRect:drawRect withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
@@ -129,24 +130,24 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 			textColor, NSForegroundColorAttributeName,
 			nil]];
 
-	drawRect.origin.y = 10.f;
-	drawRect.size.height = titleYPosition - 10.f;
+	drawRect.origin.y = 10.0f;
+	drawRect.size.height = titleYPosition - 10.0f;
 
 	[text drawInRect:drawRect withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
-			[NSFont messageFontOfSize:11.f], NSFontAttributeName,
+			[NSFont messageFontOfSize:11.0f], NSFontAttributeName,
 			textColor, NSForegroundColorAttributeName,
 			nil]];
 	
-	drawRect.origin.x = 15.f;
-	drawRect.origin.y = contentHeight - 35.f;
-	drawRect.size.width = 32.f;
-	drawRect.size.height = 32.f;
+	drawRect.origin.x = 15.0f;
+	drawRect.origin.y = contentHeight - 35.0f;
+	drawRect.size.width = 32.0f;
+	drawRect.size.height = 32.0f;
 	
 	// we do this because we are always working with a copy
 	[icon drawScaledInRect:drawRect
 				  operation:NSCompositeSourceAtop
-				   fraction:1.f];
+				   fraction:1.0f];
 
 	[[self window] invalidateShadow];
 }
@@ -154,8 +155,8 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 #pragma mark -
 
 - (void) setPriority:(int)priority {
-    NSString* key;
-    NSString* textKey;
+    NSString *key;
+    NSString *textKey;
     switch (priority) {
         case -2:
             key = GrowlBubblesVeryLowColor;
@@ -184,17 +185,17 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 //	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
 //	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
 
-	bgColor = [NSColor colorWithCalibratedRed:.69412f
-										green:.83147f
-										 blue:.96078f
-										alpha:.95f];
+	bgColor = [NSColor colorWithCalibratedRed:0.69412f
+										green:0.83147f
+										 blue:0.96078f
+										alpha:0.95f];
 
 	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
     if (array && [array isKindOfClass:[NSArray class]]) {
-        bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-											green:[[array objectAtIndex:1] floatValue]
-											 blue:[[array objectAtIndex:2] floatValue]
-											alpha:.95f];
+        bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
+											green:[[array objectAtIndex:1U] floatValue]
+											 blue:[[array objectAtIndex:2U] floatValue]
+											alpha:0.95f];
         [array release];
     }
     [bgColor retain];
@@ -202,9 +203,9 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	textColor = [NSColor controlTextColor];
 	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
     if (array && [array isKindOfClass:[NSArray class]]) {
-        textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-											  green:[[array objectAtIndex:1] floatValue]
-											   blue:[[array objectAtIndex:2] floatValue]
+        textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
+											  green:[[array objectAtIndex:1U] floatValue]
+											   blue:[[array objectAtIndex:2U] floatValue]
 											  alpha:1.0f];
         [array release];
     }
@@ -234,22 +235,21 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 - (void) sizeToFit {
     NSRect rect = [self frame];
-	rect.size.height = 10 + 12 + 15 + [self descriptionHeight];
+	rect.size.height = 10.0f + 12.0f + 15.0f + [self descriptionHeight];
 	[self setFrame:rect];
 }
 
 - (float) descriptionHeight {
-	
 	if (!textHeight) {
 		NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text attributes:
 			[NSDictionary dictionaryWithObjectsAndKeys:
-				[NSFont messageFontOfSize:11.f], NSFontAttributeName,
+				[NSFont messageFontOfSize:11.0f], NSFontAttributeName,
 				textColor, NSForegroundColorAttributeName,
 				nil]];
-		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:attributedText];
-		NSTextContainer* textContainer = [[[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize ( 200.f, FLT_MAX )] autorelease];
-		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
+		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:attributedText];
+		NSTextContainer *textContainer = [[[NSTextContainer alloc]
+			initWithContainerSize:NSMakeSize ( 200.0f, FLT_MAX )] autorelease];
+		NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
 
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
@@ -276,7 +276,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	float height = [self descriptionHeight];
 	NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text attributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
-			[NSFont messageFontOfSize:11.f], NSFontAttributeName,
+			[NSFont messageFontOfSize:11.0f], NSFontAttributeName,
 			textColor, NSForegroundColorAttributeName,
 			nil]];
 	float lineHeight = [attributedText size].height;
