@@ -37,6 +37,9 @@
 }
 
 - (void)drawRect:(NSRect)rect {
+
+	
+	
 	NSRect bounds = [self bounds];
 	
 	// clear the window

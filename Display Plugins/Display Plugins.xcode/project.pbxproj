@@ -45,10 +45,11 @@
 			children = (
 				07694BF9073A4B560079D1E5,
 				07694BFA073A4B560079D1E5,
-				07694BFD073A4B560079D1E5,
-				07694BFE073A4B560079D1E5,
 				07694BFF073A4B560079D1E5,
 				07694C00073A4B560079D1E5,
+				90F2E66D073C2BB000A5609A,
+				07694BFD073A4B560079D1E5,
+				07694BFE073A4B560079D1E5,
 				07694C01073A4B560079D1E5,
 				07694C02073A4B560079D1E5,
 				07694C20073A4C820079D1E5,
@@ -120,6 +121,7 @@
 				07694C09073A4B560079D1E5,
 				07694C0B073A4B560079D1E5,
 				07694C22073A4C820079D1E5,
+				90F2E66E073C2BB000A5609A,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -188,7 +190,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = BubblePrefs.h;
+			path = GrowlBubblesPrefsController.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -196,7 +198,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = BubblePrefs.m;
+			path = GrowlBubblesPrefsController.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -212,7 +214,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = KABubbleController.h;
+			path = GrowlBubblesController.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -220,7 +222,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = KABubbleController.m;
+			path = GrowlBubblesController.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -228,7 +230,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = KABubbleWindowController.h;
+			path = GrowlBubblesWindowController.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -236,7 +238,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = KABubbleWindowController.m;
+			path = GrowlBubblesWindowController.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -244,7 +246,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = KABubbleWindowView.h;
+			path = GrowlBubblesWindowView.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -252,7 +254,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = KABubbleWindowView.m;
+			path = GrowlBubblesWindowView.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1810,6 +1812,30 @@
 //6C2
 //6C3
 //6C4
+//900
+//901
+//902
+//903
+//904
+		90F2E66D073C2BB000A5609A = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlBubblesDefines.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		90F2E66E073C2BB000A5609A = {
+			fileRef = 90F2E66D073C2BB000A5609A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//900
+//901
+//902
+//903
+//904
 //950
 //951
 //952
