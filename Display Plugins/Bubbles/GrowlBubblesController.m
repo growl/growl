@@ -89,6 +89,9 @@
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 														   object:[bubble appName]
 														  userInfo:clickContext];
+		
+		//Avoid duplicate click messages by immediately clearing the clickContext
+		[bubble setClickContext:nil];
 	}
 }
 

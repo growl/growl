@@ -123,6 +123,9 @@
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:[bezel appName]
 														  userInfo:clickContext];
+		
+		//Avoid duplicate click messages by immediately clearing the clickContext
+		[bezel setClickContext:nil];
 	}
 }
 

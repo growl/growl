@@ -124,6 +124,9 @@
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:[musicVideo appName]
 														  userInfo:clickContext];
+		
+		//Avoid duplicate click messages by immediately clearing the clickContext
+		[musicVideo setClickContext:nil];
 	}
 }
 
