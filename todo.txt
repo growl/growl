@@ -22,6 +22,10 @@ We are dropping 10.2 support in this release.
 		growlnotify
 		macyac
 
+	Examples
+		Beep-Carbon
+		???
+
 	Growl core
 		Growl needs much more documentation
 		Growl.framework
