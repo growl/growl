@@ -15,6 +15,8 @@
 - (NSAppleScript *)appleScriptNamed:(NSString *)name;
 @end
 
+static NSString *gAppName = @"GrowlTunes";
+
 @implementation GrowlTunesController
 
 - (id)init
@@ -37,7 +39,7 @@
 		nil];
 	NSImage			* iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes.app"];
 	NSDictionary	* regDict = [NSDictionary dictionaryWithObjectsAndKeys:
-		@"GrowlTunes", GROWL_APP_NAME,
+		gAppName, GROWL_APP_NAME,
 		[iTunesIcon TIFFRepresentation], GROWL_APP_ICON,
 		allNotes, GROWL_NOTIFICATIONS_ALL,
 		allNotes, GROWL_NOTIFICATIONS_DEFAULT,
@@ -110,6 +112,7 @@
 					NSLog(@"Error getting artwork: %@",[error objectForKey:NSAppleScriptErrorMessage]);
 				
 				noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
+									gAppName, GROWL_APP_NAME,
 									track, GROWL_NOTIFICATION_TITLE,
 									artist, GROWL_NOTIFICATION_DESCRIPTION,
 									artwork?[artwork TIFFRepresentation]:nil, GROWL_NOTIFICATION_ICON,
