@@ -8,9 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface GrowlApplicationPathway : NSObject {
 
 }
+
++ (GrowlApplicationPathway *) standardPathway;
 
 @end
