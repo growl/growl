@@ -1,5 +1,4 @@
-#import <foundation/Foundation.h>
-#import <AppKit/AppKit.h>
+#import <Cocoa/Cocoa.h>
 #import "GrowlDefines.h"
 
 static NSString *notificationName = @"Command-Line Growl Notification";
@@ -30,7 +29,7 @@ int main (int argc, const char **argv) {
 								  object:nil
 								userInfo:userInfo];
 
-		NSData* icon = [[[NSWorkspace sharedWorkspace] iconForFile:[[NSWorkspace sharedWorkspace] fullPathForApplication:@"Terminal"]] TIFFRepresentation];
+		NSData *icon = [[[NSWorkspace sharedWorkspace] iconForFile:[[NSWorkspace sharedWorkspace] fullPathForApplication:@"Terminal"]] TIFFRepresentation];
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 			notificationName, GROWL_NOTIFICATION_NAME,
 			@"growlnotify", GROWL_APP_NAME,
@@ -38,7 +37,7 @@ int main (int argc, const char **argv) {
 			icon, GROWL_NOTIFICATION_ICON,
 			desc, GROWL_NOTIFICATION_DESCRIPTION,
 			nil];
-		NSLog(@"Sending notification with title @\"%@\"", title);
+
 		[distCenter postNotificationName:GROWL_NOTIFICATION
 								  object:nil
 								userInfo:userInfo];

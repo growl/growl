@@ -40,6 +40,20 @@
 //072
 //073
 //074
+		076C509106FD25210085AC3E = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Cocoa.framework;
+			path = /System/Library/Frameworks/Cocoa.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		076C509206FD25210085AC3E = {
+			fileRef = 076C509106FD25210085AC3E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		07C7692606831F1D0025D426 = {
 			children = (
 				07C7692706831F250025D426,
@@ -122,6 +136,7 @@
 		08FB779DFE84155DC02AAC07 = {
 			children = (
 				A16BD37C06FD000B00BF033B,
+				076C509106FD25210085AC3E,
 				08FB779EFE84155DC02AAC07,
 			);
 			isa = PBXGroup;
@@ -268,17 +283,10 @@
 		8DD76F9B0486AA7600D96B5E = {
 			buildActionMask = 2147483647;
 			files = (
-				8DD76F9C0486AA7600D96B5E,
-				A16BD37D06FD000B00BF033B,
+				076C509206FD25210085AC3E,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8DD76F9C0486AA7600D96B5E = {
-			fileRef = 08FB779EFE84155DC02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		8DD76F9D0486AA7600D96B5E = {
 			buildActionMask = 2147483647;
@@ -312,12 +320,6 @@
 			path = /System/Library/Frameworks/AppKit.framework;
 			refType = 0;
 			sourceTree = "<absolute>";
-		};
-		A16BD37D06FD000B00BF033B = {
-			fileRef = A16BD37C06FD000B00BF033B;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 	};
 	rootObject = 08FB7793FE84155DC02AAC07;
