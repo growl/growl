@@ -150,7 +150,7 @@ void yac_read(int client)
 	
 	char caller[296];
 	char number[296];
-	if (sscanf(inbuf, "@CALL%[^~]~%[^]", caller, number) < 2)
+	if (sscanf(inbuf, "@CALL%[^~]~%300c", caller, number) < 2)
 	{
 		/* didn't convert right */
 		growl_notify(@"Network Message", [NSString stringWithUTF8String:inbuf]);
