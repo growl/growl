@@ -17,9 +17,20 @@
 	return( [[[NSBundle bundleForClass:self] infoDictionary] objectForKey:@"CFBundleVersion"] );
 }
 
++ (NSBundle *) bundle
+{
+	return( [NSBundle bundleForClass:self] );
+}
+
 + (void)initialize
 {
+	NSBundle	*myBundle;
+
 	[super initialize];
+
+	myBundle = [self bundle];
+	[(NSImage *)[[NSImage alloc] initByReferencingFile:[myBundle pathForImageResource:@"GrowlMail"]] setName:@"GrowlMail"];
+
 	[self registerBundle];
 
 	NSNumber *enabled = [[NSNumber alloc] initWithBool:YES];

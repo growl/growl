@@ -39,7 +39,6 @@
 
 - (NSImage *)imageForPreferenceNamed:(NSString *)aName
 {
-	NSLog(@"imageForPreferenceNamed: %@ super: %@", aName, [super imageForPreferenceNamed:aName]);
 	return( [NSImage imageNamed:@"GrowlMail"] );
 }
 

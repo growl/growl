@@ -52,21 +52,17 @@
 		MailAddressManager *addressManager = [MailAddressManager addressManager];
 		[addressManager fetchImageForAddress: senderAddress];
 		NSImage *image = [addressManager imageForMailAddress: senderAddress];
-		NSData *icon;
-		if( image ) {
-//			NSLog(@"Image: picture");
-			icon = [image TIFFRepresentation];
-		} else {
+		if( !image ) {
 //			NSLog(@"Image: Mail.app");
 //			icon = [[NSApp applicationIconImage] TIFFRepresentation];
 			NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-			icon = [[workspace iconForFile: [workspace fullPathForApplication: @"Mail"]] TIFFRepresentation];
+			image = [workspace iconForFile: [workspace fullPathForApplication: @"Mail"]];
 		}
 		NSDictionary *notif = [NSDictionary dictionaryWithObjectsAndKeys:
 			@"New mail", GROWL_NOTIFICATION_NAME,
 			@"GrowlMail", GROWL_APP_NAME,
 			title, GROWL_NOTIFICATION_TITLE,
-			icon, GROWL_NOTIFICATION_ICON,
+			[image TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 			body, GROWL_NOTIFICATION_DESCRIPTION,
 			nil];
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
