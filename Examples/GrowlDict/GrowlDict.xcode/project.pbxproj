@@ -1,0 +1,297 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 39;
+	objects = {
+		D317D4D206766FE700011E08 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlDefines.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		D317D4D306766FE700011E08 = {
+			fileRef = D317D4D206766FE700011E08;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		D3A9100F068DFBCE0079DB8F = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = GrowlAppBridge.framework;
+			path = /Users/donsmith/Library/Frameworks/GrowlAppBridge.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		D3A91010068DFBCE0079DB8F = {
+			fileRef = D3A9100F068DFBCE0079DB8F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		D3E21B160675FC3F005772E5 = {
+			children = (
+				D3A9100F068DFBCE0079DB8F,
+				D317D4D206766FE700011E08,
+				D3E21B270675FC5E005772E5,
+				D3E21BBE0675FC72005772E5,
+				D3E21C3A0675FCBB005772E5,
+				D3E21C5C0675FDC1005772E5,
+				D3E21C5D0675FDC1005772E5,
+				D3E21C6D0675FE21005772E5,
+				D3E21ED306760487005772E5,
+				D3E21F250676061E005772E5,
+			);
+			isa = PBXGroup;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		D3E21B180675FC3F005772E5 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		D3E21B190675FC3F005772E5 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+		D3E21B1A0675FC3F005772E5 = {
+			buildSettings = {
+			};
+			buildStyles = (
+				D3E21B180675FC3F005772E5,
+				D3E21B190675FC3F005772E5,
+			);
+			hasScannedForEncodings = 1;
+			isa = PBXProject;
+			mainGroup = D3E21B160675FC3F005772E5;
+			productRefGroup = D3E21ED306760487005772E5;
+			projectDirPath = "";
+			targets = (
+				D3E21EFA067604FE005772E5,
+			);
+		};
+		D3E21B270675FC5E005772E5 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = AppKit.framework;
+			path = /System/Library/Frameworks/AppKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		D3E21BBE0675FC72005772E5 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Foundation.framework;
+			path = /System/Library/Frameworks/Foundation.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		D3E21C3A0675FCBB005772E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			path = "Info-GrowlDict.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		D3E21C5C0675FDC1005772E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = ServiceAction.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		D3E21C5D0675FDC1005772E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = ServiceAction.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		D3E21C6D0675FE21005772E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = Prefix.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		D3E21ED306760487005772E5 = {
+			children = (
+				D3E21EFB067604FE005772E5,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		D3E21EF6067604FE005772E5 = {
+			buildActionMask = 2147483647;
+			files = (
+				D3E21FB106760711005772E5,
+				D3E21FB206760711005772E5,
+				D317D4D306766FE700011E08,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3E21EF7067604FE005772E5 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3E21EF8067604FE005772E5 = {
+			buildActionMask = 2147483647;
+			files = (
+				D3E21FA906760709005772E5,
+				D3E21F270676061E005772E5,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3E21EF9067604FE005772E5 = {
+			buildActionMask = 2147483647;
+			files = (
+				D3E220B806760719005772E5,
+				D3E220B906760719005772E5,
+				D3A91010068DFBCE0079DB8F,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3E21EFA067604FE005772E5 = {
+			buildPhases = (
+				D3E21EF6067604FE005772E5,
+				D3E21EF7067604FE005772E5,
+				D3E21EF8067604FE005772E5,
+				D3E21EF9067604FE005772E5,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = /Users/donsmith/Library/Frameworks;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.h;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = "Info-GrowlDict.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Services";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Dictmenu;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost";
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = GrowlDict;
+			productName = DictmenuService;
+			productReference = D3E21EFB067604FE005772E5;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>DictmenuService</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.MySoftwareCompany.DictmenuService</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string></string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0d1</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.application";
+		};
+		D3E21EFB067604FE005772E5 = {
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = GrowlDict.app;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D3E21F250676061E005772E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlDict_main.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		D3E21F270676061E005772E5 = {
+			fileRef = D3E21F250676061E005772E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		D3E21FA906760709005772E5 = {
+			fileRef = D3E21C5D0675FDC1005772E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		D3E21FB106760711005772E5 = {
+			fileRef = D3E21C5C0675FDC1005772E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		D3E21FB206760711005772E5 = {
+			fileRef = D3E21C6D0675FE21005772E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		D3E220B806760719005772E5 = {
+			fileRef = D3E21B270675FC5E005772E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		D3E220B906760719005772E5 = {
+			fileRef = D3E21BBE0675FC72005772E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+	};
+	rootObject = D3E21B1A0675FC3F005772E5;
+}

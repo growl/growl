@@ -410,11 +410,11 @@
           <boolean name="isUnicode">TRUE</boolean>
         </object>
         <object class="IBCarbonCheckBox" id="208">
-          <string name="bounds">139 20 153 164 </string>
-          <string name="viewFrame">20 139 144 14 </string>
+          <string name="bounds">138 20 154 159 </string>
+          <string name="viewFrame">20 138 139 16 </string>
           <ostype name="controlSignature">BEEP</ostype>
           <int name="controlID">2001</int>
-          <string name="title">Default Notification</string>
+          <string name="title">Allowed by Default</string>
           <object name="layoutInfo" class="IBCarbonHILayoutInfo">
             <int name="bindingLeftKind">1</int>
             <int name="bindingBottomKind">2</int>
