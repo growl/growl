@@ -14,7 +14,7 @@ Modified by Kevin Ballard <kevin@sb.org>
 
 import Growl
 from Foundation import NSRunLoop, NSDate
-from AppKit import NSWorkspace
+from AppKit import NSWorkspace, NSImage
 import getopt, sys, os.path
 
 def usage():
@@ -24,6 +24,8 @@ def usage():
     -i,--icon     Specify a filetype or extension to be used for the icon
     -I,--iconpath Specify a filepath to be used for the icon
                   This option overrides --icon
+    --image       Specify an image file to be used for the icon
+                  This option overrides --icon and --iconpath
     -t,--title    Title to be used in each notification [Default: gNotify]
     -m,--message  Text to be send to the daemon.  - is used to for stdin
                   For each line (IE: \\n) a new notifaction is sent
@@ -33,7 +35,8 @@ NOTIFICATION_NAME = 'Dynamic Messages'
 
 def main():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "n:t:m:i:I:", ["name=", "title=", "message=","icon=","iconpath="])
+        opts, args = getopt.getopt(sys.argv[1:], "n:t:m:i:I:",
+        							["name=", "title=", "message=","icon=","iconpath=","image="])
     except getopt.GetoptError:
         # print help information and exit:
         usage()
@@ -42,21 +45,32 @@ def main():
     appName = "gNotify"
     nTitle = "gNotify"
     nMsg = ""
-    nIconType = ""
-    nIconPath = ""
+    nIconType  = ""
+    nIconPath  = ""
+    nImagePath = ""
     for o, a in opts:
         if o in ("-n", "--name"): appName = a
         elif o in ("-t", "--title"): nTitle = a
         elif o in ("-m", "--message"): nMsg = a
         elif o in ("-i", "--icon"): nIconType = a
         elif o in ("-I", "--iconpath"): nIconPath = a
+        elif o in ("--image"): nImagePath = a
     
     nIcon = None
-    if nIconPath != '':
+    if nImagePath != '':
+    	nImagePath = os.path.abspath(nImagePath)
+    	nIcon = NSImage.alloc().initWithContentsOfFile_(nImagePath).autorelease()
+    	if not nIcon:
+    		sys.stderr.write("Couldn't load file %s\n" % nImagePath)
+    elif nIconPath != '':
         nIconPath = os.path.abspath(nIconPath)
         nIcon = NSWorkspace.sharedWorkspace().iconForFile_(nIconPath)
+    	if not nIcon:
+    		sys.stderr.write("Couldn't load icon for %s\n" % nIconPath)
     elif nIconType != '':
         nIcon = NSWorkspace.sharedWorkspace().iconForFileType_(nIconType)
+    	if not nIcon:
+    		sys.stderr.write("Couldn't load type %s\n" % nIconType)
     if nIcon is None:
     	nIcon = NSWorkspace.sharedWorkspace().iconForFileType_('unknown')
     

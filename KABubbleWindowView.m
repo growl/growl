@@ -1,4 +1,5 @@
 #import "KABubbleWindowView.h"
+#import <math.h>
 
 void KABubbleShadeInterpolate( void *info, float const *inData, float *outData ) {
 	static float dark[4] = { .69412, .83147, .96078, .95 };
@@ -105,11 +106,28 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 	[_text drawInRect:NSMakeRect( 55., 10., 200., 30. )];
 
 	NSSize iconSize = [_icon size];
-	if( iconSize.width > 32. || iconSize.height > 32. ) { // Assume a square image.
-		NSRect newBounds = { { 0., 0. }, { 32., 32.} };
+	if( iconSize.width > 32. || iconSize.height > 32. ) {
+
+		// scale the image appropriately
+		float newWidth, newHeight, newX, newY;
+		if( iconSize.width > iconSize.height ) {
+			newWidth = 32.;
+			newHeight = 32. / iconSize.width * iconSize.height;
+		} else if( iconSize.width < iconSize.height ) {
+			newWidth = 32. / iconSize.height * iconSize.width;
+			newHeight = 32.;
+		} else {
+			newWidth = 32.;
+			newHeight = 32.;
+		}
+		
+		newX = floorf((32 - newWidth) / 2.);
+		newY = floorf((32 - newHeight) / 2.);
+		
+		NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
 		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
 		[_icon autorelease];
-		_icon = [[NSImage alloc] initWithSize:newBounds.size];
+		_icon = [[NSImage alloc] initWithSize:NSMakeSize(32., 32.)];
 		[_icon lockFocus];
 		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
 		[sourceImageRep drawInRect:newBounds];
