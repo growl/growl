@@ -35,7 +35,7 @@
 	NSNumber *defaultValue = [NSNumber numberWithBool:[_newNotificationDefault state] == NSOnState];
 	NSDictionary *aNuDict = [NSDictionary dictionaryWithObjectsAndKeys:			[_newNotificationTitle stringValue], GROWL_NOTIFICATION_TITLE,
 																				[_newNotificationDescription stringValue], GROWL_NOTIFICATION_DESCRIPTION,
-																				[_newNotificationImage image], GROWL_NOTIFICATION_ICON,
+																				/* [_newNotificationImage image], GROWL_NOTIFICATION_ICON ,*/
 																				defaultValue, GROWL_NOTIFICATION_DEFAULT,
 																				nil];
 	[_notifications addObject:aNuDict];
@@ -48,7 +48,26 @@
 - (IBAction)registerBeep:(id)sender {
 	if ( [_registered state] == NSOnState ) {
 		NSLog( @"Button on" );
-		NSDictionary *regDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"Beep", GROWL_APP_NAME, nil];
+		NSMutableArray *defNotesArray = [NSMutableArray array];
+		NSMutableArray *allNotesArray = [NSMutableArray array];
+		NSEnumerator *defNotes = [_notifications objectEnumerator];
+		id def;
+		int k = 0;
+		
+		while ( def = [defNotes nextObject] ) {
+			if ( [(NSDictionary *)def objectForKey:GROWL_NOTIFICATION_DEFAULT] ) {
+				[defNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_TITLE]];
+			}
+		}
+		
+		for ( k=0; k < [_notifications count]; k++ ) {
+			[allNotesArray addObject:[[_notifications objectAtIndex:k] objectForKey:GROWL_NOTIFICATION_TITLE]];
+		}
+		
+		NSDictionary *regDict = [[NSDictionary alloc] initWithObjectsAndKeys:   @"Beep", GROWL_APP_NAME, 
+																				allNotesArray, GROWL_NOTIFICATIONS_ALL, 
+																				defNotesArray, GROWL_NOTIFICATIONS_DEFAULT,
+																				nil];
 		
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION 
 																	   object:nil 
@@ -60,6 +79,10 @@
 
 - (IBAction)sendNotification:(id)sender {
 	//send a notification for the selected table cell
+	id note = [_notifications objectAtIndex:[_notificationsTable selectedRow]];
+	NSLog( @"%@", note );
+	
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:[note objectForKey:GROWL_NOTIFICATION_TITLE] object:nil userInfo:note deliverImmediately:YES];
 }
 
 - (IBAction) endPanel:(id)sender {

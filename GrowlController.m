@@ -39,8 +39,8 @@
 
 - (void) _registerApplication:(NSNotification *) note {
 	NSString *appName = [[note userInfo] objectForKey:GROWL_APP_NAME];
-	NSSet *allNotes = [[note userInfo] objectForKey:GROWL_NOTIFICATIONS_ALL];
-	NSSet *defaultNotes = [[note userInfo] objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	NSSet *allNotes = [NSSet setWithArray:[[note userInfo] objectForKey:GROWL_NOTIFICATIONS_ALL]];
+	NSSet *defaultNotes = [NSSet setWithArray:[[note userInfo] objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
 	
 	//add category to NSWorkspace for -iconForApplication later
 	NSImage *appIcon = nil;
@@ -61,5 +61,6 @@
 
 - (void) dispatchNotification:(NSNotification *) note {
 	//insert code here
+	NSLog( @"%@", note );
 }
 @end
