@@ -188,7 +188,7 @@ Boolean Growl_IsInstalled(void) {
  */
 Boolean Growl_IsRunning(void) {
 	Boolean growlIsRunning = false;
-	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
+	ProcessSerialNumber PSN = { 0, kNoProcess };
 
 	while (GetNextProcess(&PSN) == noErr) {
 		CFDictionaryRef infoDict = ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
@@ -320,8 +320,10 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 
 				CFStringRef errorString = NULL;
 				CFPropertyListWriteToStream(regDict, stream, kCFPropertyListXMLFormat_v1_0, &errorString);
-				if(errorString)
-					NSLog(CFSTR("Error writing registration dictionary to URL %@: %@"), regDictURL, errorString);
+				if(errorString) {
+					NSLog(CFSTR("GrowlApplicationBridge: Error writing registration dictionary to URL %@: %@"), regDictURL, errorString);
+					NSLog(CFSTR("GrowlApplicationBridge: Registration dictionary follows\n%@"), regDict);
+				}
 
 				CFWriteStreamClose(stream);
 				CFRelease(stream);
@@ -348,6 +350,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 
 		CFRelease(growlPrefPaneBundle);
 	}
+
 	if(regDict)
 		CFRelease(regDict);
 
