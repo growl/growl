@@ -8,7 +8,8 @@
 
 #import "KABubbleController.h"
 #import "KABubbleWindowController.h"
-#import "BubblePrefsController.h"
+#import "BubblePrefs.h"
+@class NSPreferencePane;
 
 @implementation KABubbleController
 
@@ -16,13 +17,13 @@
 
 - (id) init {
 	if (self = [super init]) {
-		prefsController = [[BubblePrefsController alloc] init];
+		bubblePrefPane = [[BubblePrefs alloc] initWithBundle:[NSBundle bundleForClass:[BubblePrefs class]]];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[prefsController release];
+	[bubblePrefPane release];
 	[super dealloc];
 }
 
@@ -52,7 +53,7 @@
 	// fortunately Bubbles do their job pretty cleanly without touching others.
 }
 
-- (NSDictionary*) pluginInfo {
+- (NSDictionary *) pluginInfo {
 	NSMutableDictionary * info = [NSMutableDictionary dictionary];
 	[info setObject:@"BUBBLES!" forKey:@"Name"];
 	[info setObject:@"Karl Adam and Timory Hatcher" forKey:@"Author"];
@@ -61,8 +62,8 @@
 	return (NSDictionary*)info;
 }
 
-- (NSView*) displayPrefView {
-	return [prefsController displayPrefView];
+- (NSPreferencePane *) preferencePane {
+	return bubblePrefPane;
 }
 
 - (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {

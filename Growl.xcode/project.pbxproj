@@ -172,7 +172,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = BubblePrefsController.h;
+			path = BubblePrefs.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -180,7 +180,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = BubblePrefsController.m;
+			path = BubblePrefs.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -212,6 +212,12 @@
 		};
 		0AB856D906E2932C007B791C = {
 			fileRef = 0AB856D806E2932C007B791C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0AC3E87506F06E2300DA55DE = {
+			fileRef = F506C035013D953901CA16C8;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1062,6 +1068,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E51EBA90662FCF700FF1462,
+				0AC3E87506F06E2300DA55DE,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,10 +8,12 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface GrowlPref : NSPreferencePane {
-	NSDictionary			* cachedGrowlHelperAppDescription;
 	NSMutableDictionary		* tickets;
 	NSMutableArray			* applications;
 	NSTimer					* pingTimer;
+	
+	NSPreferencePane		* pluginPrefPane;
+	NSMutableArray			* loadedPrefPanes;
 	
 	//Properties of the app being configured
 	NSString				* currentApplication;

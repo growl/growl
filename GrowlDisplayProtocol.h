@@ -16,6 +16,8 @@
 	The protocol &lt;GrowlFunctionalPlugin&gt; is meant for plugins that provide additional functionality.
  */
 
+@class NSPreferencePane;
+
 /*!
 	@protocol    GrowlPlugin
 	@abstract    The base plugin protocol
@@ -39,16 +41,16 @@
 /*! Returns a dictionary containing author, name, desc, and version for the plugin.
 	
 	The corresponding keys are: Author, Name, Description, Version */
-- (NSDictionary*) pluginInfo;
+- (NSDictionary *) pluginInfo;
 /*! A method sent to tell the plugin to clean itself up */
 - (void) unloadPlugin;
-/*! Allows the system pref to get the view to set the prefs for this plugin
+/*! Returns an NSPreferencePane instance that manages the plugin's preferences.
 	
 	For reference, the size of the view should be 354 x 289.
-	This is because that's the size of the view currently.
+	That's because that's all the available space right now.
 	We have to think of something if there are more options than fit in that place.
  */
-- (NSView*) displayPrefView;
+- (NSPreferencePane *) preferencePane;
 @end
 
 /*!

@@ -6,17 +6,14 @@
 //  Copyright 2004 TildeSoft. All rights reserved.
 //
 
-#import "BubblePrefsController.h"
+#import "BubblePrefs.h"
 
-@implementation BubblePrefsController
-- (id) init {
-	if (self = [super init]) {
-		[NSBundle loadNibNamed:@"BubblesPrefs.nib" owner:self];
-	}
-	return self;
+@implementation BubblePrefs
+- (NSString *) mainNibName {
+	return @"BubblesPrefs";
 }
 
-- (void) awakeFromNib {
+- (void) mainViewDidLoad {
 	BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(KALimitPref, @"com.growl.BubblesNotificationView", &limitPref);
 	if (limitPref) {
@@ -35,9 +32,5 @@
 	}
 	WRITE_GROWL_PREF_BOOL(KALimitPref, limit, @"com.growl.BubblesNotificationView");
 	UPDATE_GROWL_PREFS();
-}
-
-- (NSView *) displayPrefView {
-	return displayPrefView;
 }
 @end

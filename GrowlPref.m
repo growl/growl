@@ -12,6 +12,24 @@
 
 @implementation GrowlPref
 
+- (id) initWithBundle:(NSBundle *)bundle {
+	if (self = [super initWithBundle:bundle]) {
+		pluginPrefPane = nil;
+		tickets = nil;
+		currentApplication = nil;
+		loadedPrefPanes = [[NSMutableArray alloc] init];
+	}
+	return self;
+}
+
+- (void) dealloc {
+	[pluginPrefPane release];
+	[loadedPrefPanes release];
+	[tickets release];
+	[currentApplication release];
+	[super dealloc];
+}
+
 - (void) mainViewDidLoad {
 	//load prefs and set IBOutlets accordingly
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
@@ -210,11 +228,34 @@
 - (void)loadViewForDisplay:(NSString*)displayName
 {
 	NSView *newView = nil;
+	NSPreferencePane *prefPane = nil, *oldPrefPane = nil;
+	if (pluginPrefPane) {
+		oldPrefPane = pluginPrefPane;
+	}
 	if (displayName != nil)
 	{
 		id <GrowlPlugin> plugin = [[GrowlPluginController controller]
 														displayPluginNamed:displayName];
-		newView = [plugin displayPrefView];
+		// Old plugins won't support the new protocol. Check first
+		if ([plugin respondsToSelector:@selector(preferencePane)]) {
+			prefPane = [plugin preferencePane];
+		}
+		if (prefPane == pluginPrefPane) {
+			// Don't bother swapping anything
+			return;
+		} else {
+			pluginPrefPane = prefPane;
+			[oldPrefPane willUnselect];
+		}
+		if (pluginPrefPane) {
+			if ([loadedPrefPanes containsObject:pluginPrefPane]) {
+				newView = [pluginPrefPane mainView];
+			} else {
+				newView = [pluginPrefPane loadMainView];
+				[loadedPrefPanes addObject:pluginPrefPane];
+			}
+			[pluginPrefPane willSelect];
+		}
 	}
 	if (newView == nil) {
 		newView = displayDefaultPrefView;
@@ -224,11 +265,18 @@
 		[newView setFrame:DISPLAY_PREF_FRAME];
 		[[displayPrefView superview] replaceSubview:displayPrefView with:newView];
 		displayPrefView = newView;
-		// Hook up key view chain
-		NSView *keyView;
-		if ((keyView = [displayPrefView previousKeyView]) && (keyView != displayPlugins))
-			[keyView setNextKeyView:tabView];
-		[displayPlugins setNextKeyView:displayPrefView];
+		if (pluginPrefPane) {
+			[pluginPrefPane didSelect];
+			// Hook up key view chain
+			[displayPlugins setNextKeyView:[pluginPrefPane firstKeyView]];
+			[[pluginPrefPane lastKeyView] setNextKeyView:tabView];
+			[[displayPlugins window] makeFirstResponder:[pluginPrefPane initialKeyView]];
+		} else {
+			[displayPlugins setNextKeyView:tabView];
+		}
+		if (oldPrefPane) {
+			[oldPrefPane didUnselect];
+		}
 	}
 }
 
@@ -342,13 +390,6 @@
 	prefsHaveChanged = prefsChanged;
 	[apply setEnabled:prefsHaveChanged];
 	[revert setEnabled:prefsHaveChanged];
-}
-
-- (void)dealloc {
-	if(cachedGrowlHelperAppDescription)
-		[cachedGrowlHelperAppDescription release];
-	if(tickets) [tickets release];
-	if(currentApplication) [currentApplication release];
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {

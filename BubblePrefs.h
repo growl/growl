@@ -6,13 +6,12 @@
 //  Copyright 2004 TildeSoft. All rights reserved.
 //
 
+#import <PreferencePanes/PreferencePanes.h>
+
 #define KALimitPref @"Bubbles - Limit"
 
-@interface BubblePrefsController : NSObject {
-	IBOutlet NSView *displayPrefView;
-	
+@interface BubblePrefs : NSPreferencePane {
 	IBOutlet NSButton *limitCheck;
 }
 - (IBAction) setLimit:(id)sender;
-- (NSView *) displayPrefView;
 @end
