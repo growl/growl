@@ -12,8 +12,6 @@
 @implementation NSWorkspace (GrowlAdditions)
 - (NSImage *) iconForApplication:(NSString *) inName {
 	NSString *path = [self fullPathForApplication:inName];
-	NSLog(@"Pulled icon for %@ from path: %@",inName,path);
 	return [self iconForFile:path];
 }
 @end
-
