@@ -58,6 +58,4 @@ Irssi::signal_add_last('print text', \&sig_print_text);
 Irssi::settings_add_bool($IRSSI{'name'}, 'growl_show_privmsg', 1);
 Irssi::settings_add_bool($IRSSI{'name'}, 'growl_show_hilight', 1);
 
-# Print some useful messages.
 Irssi::print('%G>>%n '.$IRSSI{name}.' '.$VERSION.' loaded (/growl for help)');
-Mac::Growl::PostNotification($AppName, 'Script message', "$IRSSI{name} $VERSION loaded", '/growl for help');
