@@ -26,6 +26,8 @@
 
 	BOOL						growlIsEnabled;
 	BOOL						growlFinishedLaunching;
+	BOOL						enableForward;
+	NSArray						*destinations;
 }
 
 + (id) singleton;

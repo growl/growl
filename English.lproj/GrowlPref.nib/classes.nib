@@ -9,6 +9,7 @@
                 deleteTicket = id; 
                 revert = id; 
                 selectDisplayPlugin = id; 
+                setEnableForward = id; 
                 setRemotePassword = id; 
                 startGrowlAtLogin = id; 
                 startGrowlServer = id; 
@@ -26,9 +27,11 @@
                 displayPlugins = NSTableView; 
                 displayPrefView = NSView; 
                 displayVersion = NSTextField; 
+                enableForward = NSButton; 
                 growlApplications = NSTableView; 
                 growlRunningProgress = NSProgressIndicator; 
                 growlRunningStatus = NSTextField; 
+                growlServiceList = NSTableView; 
                 growlVersion = NSTextField; 
                 networkPassword = NSSecureTextField; 
                 remove = NSButton; 

@@ -57,6 +57,13 @@
 	IBOutlet NSButton			*startGrowlServer;
 	IBOutlet NSButton			*allowRemoteRegistration;
 	IBOutlet NSSecureTextField	*networkPassword;
+	IBOutlet NSButton			*enableForward;
+	IBOutlet NSTableView		*growlServiceList;
+
+	NSMutableArray			*services;
+	NSMutableArray			*serviceEnabled;
+	NSNetServiceBrowser		*browser;
+	NSNetService			*serviceBeingResolved;
 
 	IBOutlet NSButton		*apply;
 	IBOutlet NSButton		*revert;
@@ -77,9 +84,12 @@
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;
 - (IBAction) startGrowlAtLogin:(id)sender;
+
+#pragma mark "Network" tab pane
 - (IBAction) startGrowlServer:(id)sender;
 - (IBAction) allowRemoteRegistration:(id)sender;
 - (IBAction) setRemotePassword:(id)sender;
+- (IBAction) setEnableForward:(id)sender;
 
 - (IBAction) selectDisplayPlugin:(id)sender;
 - (IBAction) deleteTicket:(id)sender;

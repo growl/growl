@@ -15,6 +15,8 @@ extern NSString * GrowlDisplayPluginKey;
 extern NSString * GrowlUserDefaultsKey;
 extern NSString * GrowlStartServerKey;
 extern NSString * GrowlRemoteRegistrationKey;
+extern NSString * GrowlEnableForwardKey;
+extern NSString * GrowlForwardDestinationsKey;
 
 @interface GrowlPreferences : NSObject {
 	NSUserDefaults			* helperAppDefaults;

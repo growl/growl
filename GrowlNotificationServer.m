@@ -22,4 +22,9 @@
 - (void) postNotification:(NSDictionary *)notification {
 	[[GrowlController singleton] dispatchNotificationWithDictionary:notification];
 }
+
+- (NSString *) growlVersion {
+	// TODO
+	return nil;
+}
 @end

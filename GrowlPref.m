@@ -44,6 +44,9 @@ static const char *keychainAccountName = "Growl";
 
 - (void) dealloc {
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+	[browser release];
+	[services release];
+	[serviceEnabled release];
 	[pluginPrefPane release];
 	[loadedPrefPanes release];
 	[tickets release];
@@ -127,6 +130,12 @@ static const char *keychainAccountName = "Growl";
 		NSLog( @"Failed to retrieve password from keychain. Error: %d", status );
 		[networkPassword setStringValue:@""];
 	}	
+
+    browser = [[NSNetServiceBrowser alloc] init];
+    services = [[NSMutableArray alloc] init];
+    serviceEnabled = [[NSMutableArray alloc] init];
+    [browser setDelegate:self];
+	[browser searchForServicesOfType:@"_growl._tcp." inDomain:@""];
 }
 
 - (void) mainViewDidLoad {
@@ -212,12 +221,20 @@ static const char *keychainAccountName = "Growl";
 		[allowRemoteRegistration setState:NSOffState];
 	}
 
-	if( [preferences startGrowlAtLogin] ) {
+	if ( [preferences startGrowlAtLogin] ) {
 		[startGrowlAtLogin setState:NSOnState];
 	} else {
 		[startGrowlAtLogin setState:NSOffState];
-	}	
-	
+	}
+
+	if ( [[preferences objectForKey:GrowlEnableForwardKey] boolValue] ) {
+		[enableForward setState:NSOnState];
+		[growlServiceList setEnabled:YES];
+	} else {
+		[enableForward setState:NSOffState];
+		[growlServiceList setEnabled:NO];
+	}
+
 	[self buildMenus];
 	
 	[self reloadAppTab];
@@ -381,6 +398,26 @@ static const char *keychainAccountName = "Growl";
 	[[GrowlPreferences preferences] setStartGrowlAtLogin:([startGrowlAtLogin state] == NSOnState)];
 }
 
+- (IBAction) selectDisplayPlugin:(id)sender {
+	[[GrowlPreferences preferences] setObject:[sender titleOfSelectedItem] forKey:GrowlDisplayPluginKey];
+}
+
+- (IBAction)deleteTicket:(id)sender {
+	int row = [growlApplications selectedRow];
+	id key = [applications objectAtIndex:row];
+	NSString *path = [[tickets objectForKey:key] path];
+	
+	if ( [[NSFileManager defaultManager] removeFileAtPath:path handler:nil] ) {
+		[tickets removeObjectForKey:key];
+		[images removeObjectAtIndex:row];
+		[applications removeObjectAtIndex:row];
+		[growlApplications deselectAll:NULL];
+		[self reloadAppTab];
+	}
+}
+
+#pragma mark "Network" tab pane
+
 - (IBAction) startGrowlServer:(id)sender {
 	BOOL enabled = ([sender state] == NSOnState);
 	[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:enabled] forKey:GrowlStartServerKey];
@@ -413,8 +450,8 @@ static const char *keychainAccountName = "Growl";
 	} else {
 		// change existing password
 		SecKeychainAttribute attrs[] = {
-			{ kSecAccountItemAttr, strlen( keychainAccountName ), (char *)keychainAccountName },
-			{ kSecServiceItemAttr, strlen( keychainServiceName ), (char *)keychainServiceName }
+		{ kSecAccountItemAttr, strlen( keychainAccountName ), (char *)keychainAccountName },
+		{ kSecServiceItemAttr, strlen( keychainServiceName ), (char *)keychainServiceName }
 		};
 		const SecKeychainAttributeList attributes = { sizeof(attrs) / sizeof(attrs[0]), attrs };
 		status = SecKeychainItemModifyAttributesAndData( itemRef,		// the item reference
@@ -431,22 +468,10 @@ static const char *keychainAccountName = "Growl";
 	}
 }
 
-- (IBAction)selectDisplayPlugin:(id)sender {
-	[[GrowlPreferences preferences] setObject:[sender titleOfSelectedItem] forKey:GrowlDisplayPluginKey];
-}
-
-- (IBAction)deleteTicket:(id)sender {
-	int row = [growlApplications selectedRow];
-	id key = [applications objectAtIndex:row];
-	NSString *path = [[tickets objectForKey:key] path];
-	
-	if ( [[NSFileManager defaultManager] removeFileAtPath:path handler:nil] ) {
-		[tickets removeObjectForKey:key];
-		[images removeObjectAtIndex:row];
-		[applications removeObjectAtIndex:row];
-		[growlApplications deselectAll:NULL];
-		[self reloadAppTab];
-	}
+- (IBAction) setEnableForward:(id)sender {
+	BOOL enabled = [sender state] == NSOnState;
+	[growlServiceList setEnabled:enabled];
+	[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:enabled] forKey:GrowlEnableForwardKey];
 }
 
 #pragma mark "Display Options" tab pane
@@ -514,17 +539,19 @@ static const char *keychainAccountName = "Growl";
 	}
 }
 
-#pragma mark Notification and Application table view data source methods
+#pragma mark Notification, Application and Service table view data source methods
 
 - (int) numberOfRowsInTableView:(NSTableView *)tableView {
 	int returnValue = 0;
-	
+
 	if (tableView == growlApplications) {
 		returnValue = [applications count];
 	} else if (tableView == applicationNotifications) {
 		returnValue = [[appTicket allNotifications] count];
 	} else if (tableView == displayPlugins) {
 		returnValue = [[[GrowlPluginController controller] allDisplayPlugins] count];
+	} else if (tableView == growlServiceList) {
+		returnValue = [services count];
 	}
 	
 	return returnValue;
@@ -532,46 +559,58 @@ static const char *keychainAccountName = "Growl";
 
 - (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row {
 	id returnObject = nil;
+	id identifier;
 	
 	if (tableView == growlApplications) 	{
-		if ([[column identifier] isEqualTo:@"enable"]) {
+		identifier = [column identifier];
+		if ([identifier isEqualTo:@"enable"]) {
 			returnObject = [NSNumber numberWithBool:[[tickets objectForKey: [applications objectAtIndex:row]] ticketEnabled]];
-		} else if ([[column identifier] isEqualTo:@"application"]) {
+		} else if ([identifier isEqualTo:@"application"]) {
 			returnObject = [applications objectAtIndex:row];
 		} 
 	} else if (tableView == applicationNotifications) {
 		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
+		identifier = [column identifier];
 		
-		if ([[column identifier] isEqualTo:@"enable"]) {
+		if ([identifier isEqualTo:@"enable"]) {
 			returnObject = [NSNumber numberWithBool:[appTicket isNotificationEnabled:note]];
-        } else if ([[column identifier] isEqualTo:@"notification"]) {
+        } else if ([identifier isEqualTo:@"notification"]) {
 			returnObject = note;
-		} else if ([[column identifier] isEqualTo:@"sticky"]) {
+		} else if ([identifier isEqualTo:@"sticky"]) {
 			returnObject = [NSNumber numberWithInt:[appTicket stickyForNotification:note]];
 		}
 	} else if (tableView == displayPlugins) {
 		// only one column, but for the sake of cleanliness
-		if ([[column identifier] isEqualTo:@"plugins"]) {
+		identifier = [column identifier];
+		if ([identifier isEqualTo:@"plugins"]) {
 			returnObject = [[[GrowlPluginController controller] allDisplayPlugins] objectAtIndex:row];
 		}
+	} else if (tableView == growlServiceList) {
+		identifier = [column identifier];
+		if ([identifier isEqualTo:@"use"]) {
+			returnObject = [serviceEnabled objectAtIndex:row];
+		} else if ([identifier isEqualTo:@"computer"]) {
+			returnObject = [[services objectAtIndex:row] name];
+		}
 	}
-	
+
 	return returnObject;
 }
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row {
+	id identifier;
 	
 	if (tableView == growlApplications) {
 		NSString * application = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] objectAtIndex:row];
+		identifier = [column identifier];
 		
-		if ([[column identifier] isEqualTo:@"enable"]) {
+		if ([identifier isEqualTo:@"enable"]) {
 			[[tickets objectForKey:application] setEnabled:[value boolValue]];
 			[self setPrefsChanged:YES];
-		} else if ([[column identifier] isEqualTo:@"display"])	{
+		} else if ([identifier isEqualTo:@"display"])	{
 			int index = [value intValue];
 			
 			if (index == 0) {
-				
 				if ([[tickets objectForKey:application] usesCustomDisplay]) {
 					[[tickets objectForKey:application] setUsesCustomDisplay:NO];
 					[self setPrefsChanged:YES];
@@ -590,15 +629,16 @@ static const char *keychainAccountName = "Growl";
 		[self reloadAppTab];
 	} else if (tableView == applicationNotifications) {
 		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
+		identifier = [column identifier];
 		
-		if ([[column identifier] isEqualTo:@"enable"]) {
+		if ([identifier isEqualTo:@"enable"]) {
 			if ([value boolValue]) {
 				[appTicket setNotificationEnabled:note];
 			} else {
 				[appTicket setNotificationDisabled:note];
 			}
 			[self setPrefsChanged:YES];
-		} else if ([[column identifier] isEqualTo:@"priority"]) {
+		} else if ([identifier isEqualTo:@"priority"]) {
 			int index = [value intValue];
 			
 			if (index == 0) {
@@ -610,15 +650,34 @@ static const char *keychainAccountName = "Growl";
 				[appTicket setPriority:(index-4) forNotification:note];
 				[self setPrefsChanged:YES];
 			}
-		} else if ([[column identifier] isEqualTo:@"sticky"]) {
+		} else if ([identifier isEqualTo:@"sticky"]) {
             [appTicket setSticky:[value intValue] forNotification:note];
 			[self setPrefsChanged:YES];
+		}
+	} else if (tableView == growlServiceList) {
+		identifier = [column identifier];
+		if ([identifier isEqualTo:@"use"]) {
+			if ([value boolValue]) {
+				// Make sure to cancel any previous resolves.
+				if (serviceBeingResolved) {
+					[serviceBeingResolved stop];
+					[serviceBeingResolved release];
+					serviceBeingResolved = nil;
+				}
+
+				serviceBeingResolved = [services objectAtIndex:row];
+				[serviceBeingResolved retain];
+				[serviceBeingResolved setDelegate:self];
+				[serviceBeingResolved resolve];
+			}
+
+			[serviceEnabled replaceObjectAtIndex:row withObject:value];
 		}
 	}
 	
 }
 
-#pragma mark Application Tab TableView delegate methods
+#pragma mark TableView delegate methods
 - (void) tableViewSelectionDidChange:(NSNotification *)theNote {
 	if ([theNote object] == growlApplications) {
 		[self reloadAppTab];
@@ -667,6 +726,58 @@ static const char *keychainAccountName = "Growl";
 		[remove setEnabled:YES];
 	} else {
 		[remove setEnabled:NO];
+	}
+}
+
+#pragma mark NSNetServiceBrowser Delegate Methods
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
+{
+	[services addObject:aNetService];
+	[serviceEnabled addObject:[NSNumber numberWithBool:FALSE]];
+
+	if (!moreComing) {
+		[growlServiceList reloadData];
+	}
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
+{
+	// This case is slightly more complicated. We need to find the object in the list and remove it.
+	unsigned i;
+	unsigned count = [services count];
+	NSNetService *currentNetService;
+
+	for( i=0; i<count; ++i ) {
+		currentNetService = [services objectAtIndex:i];
+		if ([currentNetService isEqual:aNetService]) {
+			[services removeObjectAtIndex:i];
+			[serviceEnabled removeObjectAtIndex:i];
+			break;
+		}
+	}
+
+	if (serviceBeingResolved && [serviceBeingResolved isEqual:aNetService]) {
+		[serviceBeingResolved stop];
+		[serviceBeingResolved release];
+		serviceBeingResolved = nil;
+	}
+
+	if (!moreComing) {
+		[growlServiceList reloadData];        
+	}
+}
+
+- (void)netServiceDidResolveAddress:(NSNetService *)sender {
+	NSArray *addresses = [sender addresses];
+    if ([addresses count] > 0) {
+		NSData *address = [addresses objectAtIndex:0];
+		NSArray *destinations = [[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey];
+		if (![destinations containsObject:address]) {
+			NSMutableArray *newDestinations = [destinations mutableCopy];
+			[newDestinations addObject:address];
+			[[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey];
+		}
 	}
 }
 

@@ -12,6 +12,7 @@
 @protocol GrowlNotificationProtocol
 - (oneway void) registerApplication:(bycopy in NSDictionary *)dict;
 - (oneway void) postNotification:(bycopy in NSDictionary *)notification;
+- (NSString *) growlVersion;
 @end
 
 @interface GrowlNotificationServer : NSObject <GrowlNotificationProtocol> {

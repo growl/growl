@@ -16,6 +16,8 @@ NSString * GrowlDisplayPluginKey		= @"GrowlDisplayPluginName";
 NSString * GrowlUserDefaultsKey			= @"GrowlUserDefaults";
 NSString * GrowlStartServerKey			= @"GrowlStartServer";
 NSString * GrowlRemoteRegistrationKey	= @"GrowlRemoteRegistration";
+NSString * GrowlEnableForwardKey		= @"GrowlEnableForward";
+NSString * GrowlForwardDestinationsKey	= @"GrowlForwardDestinations";
 
 static GrowlPreferences * sharedPreferences;
 

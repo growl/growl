@@ -12,6 +12,7 @@
 #import "NSGrowlAdditions.h"
 #import "GrowlNotificationServer.h"
 #import "GrowlUDPServer.h"
+#import <sys/socket.h>
 
 @interface GrowlController (private)
 - (void) loadDisplay;
@@ -231,7 +232,7 @@ static id singleton = nil;
 	if (![aDict objectForKey:GROWL_NOTIFICATION_TITLE]) {
 		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_TITLE];
 	}
-    
+
     //Retrieve and set the the priority of the notification
 	int priority = [ticket priorityForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]];
 	if (priority == GP_unset) {
@@ -255,6 +256,26 @@ static id singleton = nil;
 	}
 
 	[display displayNotificationWithInfo:aDict];
+
+	if (enableForward) {
+		NSEnumerator *enumerator = [destinations objectEnumerator];
+		NSData *destAddress;
+		while ( (destAddress = [enumerator nextObject]) ) {
+			NSSocketPort *serverPort = [[NSSocketPort alloc]
+			initRemoteWithProtocolFamily:AF_INET
+							  socketType:SOCK_STREAM
+								protocol:0
+								 address:destAddress];
+
+			NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
+			NSDistantObject *theProxy = [connection rootProxy];
+			[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+			id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
+			[growlProxy postNotification:dict];
+			[serverPort release];
+			[connection release];
+		}
+	}
 }
 
 - (void) loadTickets {
@@ -273,8 +294,14 @@ static id singleton = nil;
 	if (note == nil || [[note object] isEqualTo:GrowlUserDefaultsKey]) {
 		[[GrowlPreferences preferences] synchronize];
 	}
-	if (note == nil || [[note object] isEqualTo:GrowlEnabledKey]){
+	if (note == nil || [[note object] isEqualTo:GrowlEnabledKey]) {
 		growlIsEnabled = [[[GrowlPreferences preferences] objectForKey:GrowlEnabledKey] boolValue];
+	}
+	if (note == nil || [[note object] isEqualTo:GrowlEnableForwardKey]) {
+		enableForward = [[[GrowlPreferences preferences] objectForKey:GrowlEnableForwardKey] boolValue];
+	}
+	if (note == nil || [[note object] isEqualTo:GrowlForwardDestinationsKey]) {
+		destinations = [[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey];
 	}
 	if (note == nil || [note object] == nil) {
 		[tickets removeAllObjects];
@@ -360,6 +387,26 @@ static id singleton = nil;
 	
 	[newApp saveTicket];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF object:appName];
+
+	if (enableForward) {
+		NSEnumerator *enumerator = [destinations objectEnumerator];
+		NSData *destAddress;
+		while ( (destAddress = [enumerator nextObject]) ) {
+			NSSocketPort *serverPort = [[NSSocketPort alloc]
+			initRemoteWithProtocolFamily:AF_INET
+							  socketType:SOCK_STREAM
+								protocol:0
+								 address:destAddress];
+			
+			NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
+			NSDistantObject *theProxy = [connection rootProxy];
+			[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+			id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
+			[growlProxy registerApplication:userInfo];
+			[serverPort release];
+			[connection release];
+		}
+	}
 }
 
 @end
