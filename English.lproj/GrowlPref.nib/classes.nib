@@ -15,9 +15,11 @@
                 allDisplayPlugins = NSPopUpButton; 
                 applicationNotifications = NSTableView; 
                 apply = NSButton; 
+                displayAuthor = NSTextField; 
                 displayDefaultPrefView = NSView; 
                 displayPlugins = NSTableView; 
                 displayPrefView = NSView; 
+                displayVersion = NSTextField; 
                 growlApplications = NSTableView; 
                 growlRunningStatus = NSTextField; 
                 revert = NSButton; 
