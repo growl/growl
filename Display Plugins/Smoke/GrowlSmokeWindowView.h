@@ -14,6 +14,7 @@
 	NSString			*_title;
 	NSString			*_text;
 	float				_textHeight;
+	float				_titleHeight;
 	SEL					_action;
 	id					_target;
 

@@ -19,7 +19,8 @@
 		_icon = nil;
 		_title = nil;
 		_text = nil;
-		_textHeight = 0;
+		_textHeight = 0.0f;
+		_titleHeight = 0.0f;
 		_target = nil;
 		_action = nil;
 		_bgColor = nil;
@@ -34,7 +35,7 @@
 	[_text release];
 	[_bgColor release];
 	[_textColor release];
-	
+
 	[super dealloc];
 }
 
@@ -141,7 +142,7 @@
 		[descriptionAttributes setObject:textShadow forKey:NSShadowAttributeName];
 		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
-	
+
 	// draw the title and the text
 	unsigned int textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
 	unsigned int titleYPosition = notificationContentTop - [self titleHeight];
@@ -298,11 +299,13 @@
 }
 
 - (float)titleHeight {
-	NSLayoutManager *lm = [[NSLayoutManager alloc] init];
-	float textLineHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize]];
-	[lm release];
+	if( !_titleHeight ) {
+		NSLayoutManager *lm = [[NSLayoutManager alloc] init];
+		_titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize]];
+		[lm release];
+	}
 	
-	return textLineHeight;
+	return _titleHeight;
 }
 
 - (float)descriptionHeight {

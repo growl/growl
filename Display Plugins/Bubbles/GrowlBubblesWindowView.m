@@ -44,9 +44,11 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 		_icon   = nil;
 		_title  = nil;
 		_text   = nil;
-		_textHeight = 0;
+		_textHeight = 0.0f;
+		_titleHeight = 0.0f;
 		_target = nil;
 		_action = NULL;
+		_borderColor = [NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:.5f];
 	}
 	return self;
 }
@@ -57,15 +59,18 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	[_text release];
 	[_bgColor release];
 	[_textColor release];
-	
-	_icon = nil;
-	_title = nil;
-	_text = nil;
-	_target = nil;
-	_bgColor = nil;
-	_textColor = nil;
 
 	[super dealloc];
+}
+
+- (float)titleHeight {
+	if( !_titleHeight ) {
+		NSLayoutManager *lm = [[NSLayoutManager alloc] init];
+		_titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:13.f]];
+		[lm release];
+	}
+
+	return _titleHeight;
 }
 
 - (void) drawRect:(NSRect) rect {
@@ -108,7 +113,8 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 	[path closePath];
 
-	[[NSGraphicsContext currentContext] saveGraphicsState];
+	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
+	[graphicsContext saveGraphicsState];
 
 	[path setClip];
 
@@ -125,27 +131,28 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 												 CGPointMake( dstX, dstY ), 
 												 function, false, false );	
 
-	CGContextDrawShading( [[NSGraphicsContext currentContext] graphicsPort], shading );
+	CGContextDrawShading( [graphicsContext graphicsPort], shading );
 
 	CGShadingRelease( shading );
 	CGColorSpaceRelease( cspace );
 	CGFunctionRelease( function );
 
-	[[NSGraphicsContext currentContext] restoreGraphicsState];
+	[graphicsContext restoreGraphicsState];
 
-	[[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:.5f] set];
+	[_borderColor set];
 	[path stroke];
 
 	// Top of the drawing area. The eye candy takes up 10 pixels on 
 	// the top, so we've reserved some space for it.
-	int heightOffset = [self frame].size.height - 10;
+	float contentHeight = [self frame].size.height - 10.0f;
+	float titleYPosition = contentHeight - [self titleHeight];
 
-	[_title drawWithEllipsisInRect:NSMakeRect( 55.f, heightOffset - 15.f, 200.0f, 15.0f ) withAttributes:
+	[_title drawWithEllipsisInRect:NSMakeRect( 55.f, titleYPosition, 200.0f, [self titleHeight] ) withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont boldSystemFontOfSize:13.f], NSFontAttributeName,
 			_textColor, NSForegroundColorAttributeName,
 			nil]];
-	[_text drawInRect:NSMakeRect( 55.f, 10.f, 200.f, heightOffset - 25.f ) withAttributes:
+	[_text drawInRect:NSMakeRect( 55.f, 10.f, 200.f, titleYPosition - 10.f ) withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
 			[NSFont messageFontOfSize:11.f], NSFontAttributeName,
 			_textColor, NSForegroundColorAttributeName,
@@ -167,20 +174,20 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 			newHeight = 32.f;
 		}
 		
-		newX = floorf((32 - newWidth) * 0.5f);
-		newY = floorf((32 - newHeight) * 0.5f);
-		
+		newX = floorf((32.f - newWidth) * 0.5f);
+		newY = floorf((32.f - newHeight) * 0.5f);
+
 		NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
 		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
 		[_icon autorelease];
 		_icon = [[NSImage alloc] initWithSize:NSMakeSize(32.f, 32.f)];
 		[_icon lockFocus];
-		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
+		[graphicsContext setImageInterpolation: NSImageInterpolationHigh];
 		[sourceImageRep drawInRect:newBounds];
 		[_icon unlockFocus];
 	}
 
-	[_icon compositeToPoint:NSMakePoint( 15.f, heightOffset - 35.f ) operation:NSCompositeSourceAtop fraction:1.f];
+	[_icon compositeToPoint:NSMakePoint( 15.f, contentHeight - 35.f ) operation:NSCompositeSourceAtop fraction:1.f];
 
 	[[self window] invalidateShadow];
 }
@@ -350,7 +357,8 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 }
 
  - (void) mouseDown:(NSEvent *) event {
-	if( _target && _action && [_target respondsToSelector:_action] )
+	if( _target && _action && [_target respondsToSelector:_action] ) {
 		[_target performSelector:_action withObject:self];
+	}
 }
 @end

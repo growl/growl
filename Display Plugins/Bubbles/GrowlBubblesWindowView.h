@@ -17,10 +17,12 @@
 	NSString	*_title;
 	NSString	*_text;
 	float		_textHeight;
+	float		_titleHeight;
 	SEL			_action;
 	id			_target;
     NSColor		*_bgColor;
     NSColor		*_textColor;
+	NSColor		*_borderColor;
 }
 
 - (void)setPriority:(int)priority;
@@ -29,6 +31,7 @@
 - (void)setText:(NSString *)text;
 
 - (void)sizeToFit;
+- (float)titleHeight;
 - (float)descriptionHeight;
 - (int)descriptionRowCount;
 	
