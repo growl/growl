@@ -5,6 +5,7 @@ For .6
 	- Growl is BSD
 	- The framework is public domain
 	- Examples are public domain unless specified
+- A way for applications to detect the current version of Growl which is being used.
 
 Release related issues
 - Make sure all bindings register. I think this is already done, but we need to double check as this is now required.
