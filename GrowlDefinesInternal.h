@@ -244,12 +244,12 @@ struct GrowlNetworkNotification {
 	CFRelease(prefs); } while(0)
 
 /*!	@function    READ_GROWL_PREF_BOOL
- *	@abstract    Reads the given boolean from the plug-in's preferences.
+ *	@abstract    Reads the given Boolean from the plug-in's preferences.
  *	@discussion  This is a wrapper around READ_GROWL_PREF_VALUE() intended for
- *	 use with booleans.
- *	@param	key	The preference key to read the boolean from.
+ *	 use with Booleans.
+ *	@param	key	The preference key to read the Boolean from.
  *	@param	domain	The bundle ID of the plug-in.
- *	@param	result	A pointer to a boolean. Left unchanged if the value doesn't exist.
+ *	@param	result	A pointer to a Boolean type. Left unchanged if the value doesn't exist.
  */
 #define READ_GROWL_PREF_BOOL(key, domain, result) do {\
 	*result = NO; \
@@ -261,11 +261,11 @@ struct GrowlNetworkNotification {
 	} } while(0)
 
 /*!	@function    WRITE_GROWL_PREF_BOOL
- *	@abstract    Writes the given boolean to the plug-in's preferences.
+ *	@abstract    Writes the given Boolean to the plug-in's preferences.
  *	@discussion  This is a wrapper around WRITE_GROWL_PREF_VALUE() intended for
- *	 use with booleans.
- *	@param	key	The preference key to write the boolean for.
- *	@param	value	The boolean value to write to the preferences.
+ *	 use with Booleans.
+ *	@param	key	The preference key to write the Boolean for.
+ *	@param	value	The Boolean value to write to the preferences.
  *	@param	domain	The bundle ID of the plug-in.
  */
 #define WRITE_GROWL_PREF_BOOL(key, value, domain) do {\
@@ -277,8 +277,7 @@ struct GrowlNetworkNotification {
 	}\
 	WRITE_GROWL_PREF_VALUE(key, boolValue, domain); } while(0)
 
-/*!
- *	@function    READ_GROWL_PREF_INT
+/*!	@function    READ_GROWL_PREF_INT
  *	@abstract    Reads the given integer from the plug-in's preferences.
  *	@discussion  This is a wrapper around READ_GROWL_PREF_VALUE() intended for
  *	 use with integers.
