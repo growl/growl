@@ -54,7 +54,7 @@
 	[panel setDelegate:self];
 
 	GrowlBezelWindowView *view = [[[GrowlBezelWindowView alloc] initWithFrame:panelFrame] autorelease];
-	
+
 	[view setTarget:self];
 	[view setAction:@selector(_bezelClicked:)];
 	[panel setContentView:view];
@@ -71,32 +71,32 @@
 	[view setIcon:icon];
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
-	
+
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
 	NSPoint panelTopLeft;
-	int positionPref = 0;
+	int positionPref = BEZEL_POSITION_DEFAULT;
 	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
 	switch (positionPref) {
 		default:
 		case BEZEL_POSITION_DEFAULT:
-			panelTopLeft = NSMakePoint(ceilf((NSWidth(screen) * 0.5f) -(NSWidth(panelFrame) * 0.5f)),
-				140.0f + NSHeight(panelFrame));
+			panelTopLeft.x = ceilf((NSWidth(screen) * 0.5f) -(NSWidth(panelFrame) * 0.5f));
+			panelTopLeft.y = 140.0f + NSHeight(panelFrame);
 			break;
 		case BEZEL_POSITION_TOPRIGHT:
-			panelTopLeft = NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding,
-				NSMaxY ( screen ) - GrowlBezelPadding );
+			panelTopLeft.x = NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding;
+			panelTopLeft.y = NSMaxY( screen ) - GrowlBezelPadding;
 			break;
 		case BEZEL_POSITION_BOTTOMRIGHT:
-			panelTopLeft = NSMakePoint(NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding,
-				GrowlBezelPadding + NSHeight(panelFrame));
+			panelTopLeft.x = NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBezelPadding;
+			panelTopLeft.y = GrowlBezelPadding + NSHeight( panelFrame );
 			break;
 		case BEZEL_POSITION_BOTTOMLEFT:
-			panelTopLeft = NSMakePoint(GrowlBezelPadding,
-				GrowlBezelPadding + NSHeight(panelFrame));
+			panelTopLeft.x = GrowlBezelPadding;
+			panelTopLeft.y = GrowlBezelPadding + NSHeight(panelFrame);
 			break;
 		case BEZEL_POSITION_TOPLEFT:
-			panelTopLeft = NSMakePoint(GrowlBezelPadding,
-				NSMaxY ( screen ) - GrowlBezelPadding );
+			panelTopLeft.x = GrowlBezelPadding;
+			panelTopLeft.y = NSMaxY( screen ) - GrowlBezelPadding;
 			break;
 	}
 	[panel setFrameTopLeftPoint:panelTopLeft];
@@ -110,7 +110,6 @@
 		appName = nil;
 		displayTime = MIN_DISPLAY_TIME;
 		priority = prio;
-		delegate = self;
 		scaleFactor = 1.0;
 		fadeIncrement = 0.04f;
 		timerInterval = 0.01;
@@ -125,13 +124,6 @@
 	[appName release];
 
 	[super dealloc];
-}
-
-- (void) _bezelClicked:(id)sender {
-	if ( target && action && [target respondsToSelector:action] ) {
-		[target performSelector:action withObject:self];
-	}
-	[self startFadeOut];
 }
 
 #pragma mark -
@@ -189,17 +181,64 @@
 
 #pragma mark -
 
-- (void) willFadeOut:(id)sender {
+- (void) setFlipIn:(BOOL)flag {
+	flipIn = flag;
+	doFadeIn = flag;
+}
+
+- (void) setFlipOut:(BOOL)flag {
+	flipOut = flag;
+}
+
+- (void) startFadeIn {
+	if ( flipIn ) {
+		scaleFactor = 0.05;
+		[[self window] setScaleX:scaleFactor Y:1.0];
+	}
+
+	[super startFadeIn];
+}
+
+- (void) _fadeIn:(NSTimer *)timer {
+	if ( flipIn ) {
+		NSWindow *myWindow = [self window];
+		if ( scaleFactor < 1.0 ) {
+			scaleFactor += 0.05;
+			[myWindow setScaleX:scaleFactor Y:1.0];
+		} else {
+			scaleFactor = 1.0;
+			[myWindow reset];
+			[self stopFadeIn];
+		}
+	} else {
+		[super _fadeIn:timer];
+	}
+}
+
+- (void) startFadeOut {
 	scaleFactor = 1.0;
+	[super startFadeOut];
 }
 
 - (void) _fadeOut:(NSTimer *)timer {
 	NSWindow *myWindow = [self window];
-	scaleFactor -= 0.02;
-	if ( scaleFactor > 0.0 ) {
-		[myWindow scaleX:scaleFactor Y:scaleFactor];
+	if ( flipOut ) {
+		if ( scaleFactor > 0.0 ) {
+			scaleFactor -= 0.05;
+			[myWindow setScaleX:scaleFactor Y:1.0];
+		} else {
+			if ( delegate && [delegate respondsToSelector:@selector(didFadeOut:)] ) {
+				[delegate didFadeOut:self];
+			}
+			[self stopFadeOut];
+		}
+	} else {
+		scaleFactor -= 0.02;
+		if ( scaleFactor > 0.0 ) {
+			[myWindow scaleX:scaleFactor Y:scaleFactor];
+		}
+		[super _fadeOut:timer];
 	}
-	[super _fadeOut:timer];
 }
 
 @end

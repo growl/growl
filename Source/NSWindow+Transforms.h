@@ -25,7 +25,8 @@
 - (void)rotate:(double)radians about:(NSPoint)point;
 
 - (void)scaleX:(double)x Y:(double)y;
-- (void)scaleX:(double)x Y:(double)y about:(NSPoint)point;
+- (void)setScaleX:(double)x Y:(double)y;
+- (void)scaleX:(double)x Y:(double)y about:(NSPoint)point concat:(BOOL)concat;
 
 - (void)reset;
 

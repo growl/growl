@@ -8,10 +8,10 @@
 #import "GrowlBezelWindowController.h"
 #import "GrowlBezelPrefs.h"
 
-#define B_AUTHOR @"Jorge Salvador Caffarena"
-#define B_NAME @"Bezel"
-#define B_DESCRIPTION @"Bezel like notifications, with a twist"
-#define B_VERSION @"1.1.0a"
+#define B_AUTHOR		@"Jorge Salvador Caffarena"
+#define B_NAME			@"Bezel"
+#define B_DESCRIPTION	@"Bezel like notifications, with a twist"
+#define B_VERSION		@"1.1.0a"
 
 @class NSPreferencePane;
 
@@ -96,7 +96,7 @@
 			}
 			theIndex++;
 		}
-		
+
 		if (!inserted) {
 			[notificationQueue addObject:nuBezel];
 		}
@@ -106,11 +106,20 @@
 	}
 }
 
+- (void) willFadeOut:(FadingWindowController *)sender {
+	GrowlBezelWindowController *olBezel;
+	if ( [notificationQueue count] > 1U ) {
+		olBezel = (GrowlBezelWindowController *)sender;
+		[olBezel setFlipOut:YES];
+	}
+}
+
 - (void) didFadeOut:(FadingWindowController *)sender {
 	GrowlBezelWindowController *olBezel;
 	[notificationQueue removeObjectAtIndex:0U];
 	if ( [notificationQueue count] > 0U ) {
 		olBezel = [notificationQueue objectAtIndex:0U];
+		[olBezel setFlipIn:YES];
 		[olBezel startFadeIn];
 	}
 }
@@ -118,7 +127,7 @@
 - (void) _bezelClicked:(GrowlBezelWindowController *)bezel
 {
 	id clickContext;
-	
+
 	if ( (clickContext = [bezel clickContext]) ) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:[bezel appName]

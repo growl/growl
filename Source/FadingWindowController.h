@@ -20,6 +20,7 @@
 }
 - (void) startFadeIn;
 - (void) startFadeOut;
+- (void) stopFadeIn;
 - (void) stopFadeOut;
 
 - (BOOL) automaticallyFadeOut;

@@ -14,71 +14,83 @@
 
 #import "NSWindow+Transforms.h"
 
-
 @implementation NSWindow (Transforms)
 
 - (NSPoint)windowToScreenCoordinates:(NSPoint)point {
-    NSPoint result;
-    NSRect screenFrame = [[self screen] frame];
-    
-    //result = [self convertBaseToScreen:point]; // Doesn't work... it looks like the y co-ordinate is not inverted as necessary
-    
-    result.x = screenFrame.origin.x + _frame.origin.x + point.x;
-    result.y = screenFrame.origin.y + screenFrame.size.height - (_frame.origin.y + point.y);
-    
-    return result;
+	NSPoint result;
+	NSRect screenFrame = [[self screen] frame];
+
+	//result = [self convertBaseToScreen:point]; // Doesn't work... it looks like the y co-ordinate is not inverted as necessary
+
+	result.x = screenFrame.origin.x + _frame.origin.x + point.x;
+	result.y = screenFrame.origin.y + screenFrame.size.height - (_frame.origin.y + point.y);
+
+	return result;
 }
 
 - (NSPoint)screenToWindowCoordinates:(NSPoint)point { // Untested
-    NSPoint result;
-    NSRect screenFrame = [[self screen] frame];
-    
-    result.x = point.x - (screenFrame.origin.x + _frame.origin.x);
-    result.y = screenFrame.origin.y + screenFrame.size.height - _frame.origin.y - point.y;
-    
-    return point; // To be completed
+	NSPoint result;
+	NSRect screenFrame = [[self screen] frame];
+
+	result.x = point.x - (screenFrame.origin.x + _frame.origin.x);
+	result.y = screenFrame.origin.y + screenFrame.size.height - _frame.origin.y - point.y;
+
+	return point; // To be completed
 }
 
 - (void)rotate:(double)radians {
-    [self rotate:radians about:NSMakePoint(_frame.size.width / 2.0, _frame.size.height / 2.0)];
+	[self rotate:radians about:NSMakePoint(_frame.size.width * 0.5, _frame.size.height * 0.5)];
 }
 
 - (void)rotate:(double)radians about:(NSPoint)point {
-    CGAffineTransform original;
-    NSPoint rotatePoint = [self windowToScreenCoordinates:point];
-        
-    CGSGetWindowTransform(_CGSDefaultConnection(), _windowNum, &original);
-    
-    original = CGAffineTransformTranslate(original, rotatePoint.x, rotatePoint.y);
-    original = CGAffineTransformRotate(original, -radians);
-    original = CGAffineTransformTranslate(original, -rotatePoint.x, -rotatePoint.y);
-    
-    CGSSetWindowTransform(_CGSDefaultConnection(), _windowNum, original);
+	CGAffineTransform original;
+	CGSConnectionID connection;
+	NSPoint rotatePoint = [self windowToScreenCoordinates:point];
+
+	connection = _CGSDefaultConnection();
+	CGSGetWindowTransform(connection, _windowNum, &original);
+
+	original = CGAffineTransformTranslate(original, rotatePoint.x, rotatePoint.y);
+	original = CGAffineTransformRotate(original, -radians);
+	original = CGAffineTransformTranslate(original, -rotatePoint.x, -rotatePoint.y);
+
+	CGSSetWindowTransform(connection, _windowNum, original);
 }
 
 - (void)scaleX:(double)x Y:(double)y {
-    [self scaleX:x Y:y about:NSMakePoint(_frame.size.width / 2.0, _frame.size.height / 2.0)];
+	[self scaleX:x Y:y about:NSMakePoint(_frame.size.width * 0.5, _frame.size.height * 0.5) concat:YES];
 }
 
-- (void)scaleX:(double)x Y:(double)y about:(NSPoint)point {
-    CGAffineTransform original;
-    NSPoint scalePoint = [self windowToScreenCoordinates:point];
-    
-    CGSGetWindowTransform(_CGSDefaultConnection(), _windowNum, &original);
-    
-    original = CGAffineTransformTranslate(original, scalePoint.x, scalePoint.y);
-    original = CGAffineTransformScale(original, 1.0 / x, 1.0 / y);
-    original = CGAffineTransformTranslate(original, -scalePoint.x, -scalePoint.y);
-    
-    CGSSetWindowTransform(_CGSDefaultConnection(), _windowNum, original);
+- (void)setScaleX:(double)x Y:(double)y {
+	[self scaleX:x Y:y about:NSMakePoint(_frame.size.width * 0.5, _frame.size.height * 0.5) concat:NO];
+}
+
+- (void)scaleX:(double)x Y:(double)y about:(NSPoint)point concat:(BOOL)concat {
+	CGAffineTransform original;
+	CGSConnectionID connection;
+	NSPoint scalePoint = [self windowToScreenCoordinates:point];
+
+	connection = _CGSDefaultConnection();
+
+	if ( concat ) {
+		CGSGetWindowTransform(connection, _windowNum, &original);
+	} else {
+		NSPoint p = [self windowToScreenCoordinates:NSMakePoint(0.0, _frame.size.height)]; // Get the screen position of the top left corner, by which our window is positioned
+		original = CGAffineTransformMakeTranslation(-p.x, -p.y);
+	}
+	original = CGAffineTransformTranslate(original, scalePoint.x, scalePoint.y);
+	original = CGAffineTransformScale(original, 1.0 / x, 1.0 / y);
+	original = CGAffineTransformTranslate(original, -scalePoint.x, -scalePoint.y);
+
+	CGSSetWindowTransform(connection, _windowNum, original);
 }
 
 - (void)reset {
-    // Note that this is not quite perfect... if you transform the window enough it may end up anywhere on the screen, but resetting it plonks it back where it started, which may correspond to it's most-logical position at that point in time.  Really what needs to be done is to reset the current transform matrix, in all places except it's translation, such that it stays roughly where it currently is.
+	// Note that this is not quite perfect... if you transform the window enough it may end up anywhere on the screen, but resetting it plonks it back where it started, which may correspond to it's most-logical position at that point in time.  Really what needs to be done is to reset the current transform matrix, in all places except it's translation, such that it stays roughly where it currently is.
 
-    NSPoint point = [self windowToScreenCoordinates:NSMakePoint(0.0, _frame.size.height)]; // Get the screen position of the top left corner, by which our window is positioned
-    
-    CGSSetWindowTransform(_CGSDefaultConnection(), _windowNum, CGAffineTransformMakeTranslation(-point.x, -point.y));
+	NSPoint point = [self windowToScreenCoordinates:NSMakePoint(0.0, _frame.size.height)]; // Get the screen position of the top left corner, by which our window is positioned
+
+	CGSSetWindowTransform(_CGSDefaultConnection(), _windowNum, CGAffineTransformMakeTranslation(-point.x, -point.y));
 }
 
 @end

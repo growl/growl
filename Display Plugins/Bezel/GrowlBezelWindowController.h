@@ -14,7 +14,9 @@
 	int				priority;
 	NSString		*appName;
 	id				clickContext;
-	double		scaleFactor;
+	double			scaleFactor;
+	BOOL			flipIn;
+	BOOL			flipOut;
 }
 
 + (GrowlBezelWindowController *) bezel;
@@ -38,7 +40,10 @@
 - (id) clickContext;
 - (void) setClickContext:(id) clickContext;
 
-- (void) willFadeOut:(id)sender;
+- (void) _fadeIn:(NSTimer *)timer;
 - (void) _fadeOut:(NSTimer *)timer;
+
+- (void) setFlipIn:(BOOL)flag;
+- (void) setFlipOut:(BOOL)flag;
 
 @end
