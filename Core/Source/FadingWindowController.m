@@ -14,7 +14,7 @@
 
 @implementation FadingWindowController
 - (id) initWithWindow:(NSWindow *)window {
-	if ( (self = [super initWithWindow:window]) ) {
+	if ((self = [super initWithWindow:window])) {
 		autoFadeOut = NO;
 		doFadeIn = YES;
 		doFadeOut = YES;
@@ -124,7 +124,7 @@
 		[delegate didFadeOut:self];
 	}
 	[self close]; // close our window
-	[self autorelease]; // we retained when we fade in
+	[self release]; // we retained when we fade in
 }
 
 #pragma mark -
@@ -208,31 +208,6 @@
 	GrowlController *growlController = [GrowlController standardController];
 	NSString *path = [[[growlController screenshotsDirectory] stringByAppendingPathComponent:[growlController nextScreenshotName]] stringByAppendingPathExtension:@"png"];
 	[PNG writeToFile:path atomically:NO];
-}
-
-#pragma mark -
-
-- (BOOL) respondsToSelector:(SEL) selector {
-	BOOL contentViewRespondsToSelector = [[[self window] contentView] respondsToSelector:selector];
-	return contentViewRespondsToSelector ? contentViewRespondsToSelector : [super respondsToSelector:selector];
-}
-
-- (void) forwardInvocation:(NSInvocation *) invocation {
-	NSView *contentView = [[self window] contentView];
-	if ( [contentView respondsToSelector:[invocation selector]] ) {
-		[invocation invokeWithTarget:contentView];
-	} else {
-		[super forwardInvocation:invocation];
-	}
-}
-
-- (NSMethodSignature *) methodSignatureForSelector:(SEL) selector {
-	NSView *contentView = [[self window] contentView];
-	if ( [contentView respondsToSelector:selector] ) {
-		return [contentView methodSignatureForSelector:selector];
-	} else {
-		return [super methodSignatureForSelector:selector];
-	}
 }
 
 #pragma mark -

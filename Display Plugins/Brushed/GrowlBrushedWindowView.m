@@ -83,7 +83,7 @@ static float titleHeight;
 	[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5f ofColor:[NSColor blackColor]]];
 
 	// construct attributes for the description text
-	NSDictionary *descriptionAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary *descriptionAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 		[NSFont systemFontOfSize:GrowlBrushedTextFontSize], NSFontAttributeName,
 		textColor, NSForegroundColorAttributeName,
 		textShadow, NSShadowAttributeName,
@@ -91,7 +91,7 @@ static float titleHeight;
 	// construct attributes for the title
 	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-	NSDictionary *titleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary *titleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 		[NSFont boldSystemFontOfSize:GrowlBrushedTitleFontSize], NSFontAttributeName,
 		textColor, NSForegroundColorAttributeName,
 		textShadow, NSShadowAttributeName,
@@ -116,6 +116,7 @@ static float titleHeight;
 		
 		drawRect.origin.y -= GrowlBrushedTitleTextPadding;
 	}
+	[titleAttributes release];
 
 	if (text && [text length]) {
 		drawRect.origin.y -= [self descriptionHeight];
@@ -123,6 +124,7 @@ static float titleHeight;
 		
 		[text drawInRect:drawRect withAttributes:descriptionAttributes];
 	}
+	[descriptionAttributes release];
 
 	drawRect.origin.x = GrowlBrushedPadding;
 	drawRect.origin.y = notificationContentTop - GrowlBrushedIconSize;
@@ -160,7 +162,7 @@ static float titleHeight;
 }
 
 - (void) setPriority:(int)priority {
-	NSString* textKey;
+	NSString *textKey;
 	switch (priority) {
 		case -2:
 			textKey = GrowlBrushedVeryLowTextColor;

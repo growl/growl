@@ -22,10 +22,6 @@ static const double gMaxDisplayTime = 10.;
 
 #pragma mark -
 
-+ (GrowlBrushedWindowController *) notify {
-	return [[[GrowlBrushedWindowController alloc] init] autorelease];
-}
-
 + (GrowlBrushedWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned) theDepth {
 	return [[[GrowlBrushedWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky depth:theDepth] autorelease];
 }
@@ -121,9 +117,9 @@ static const double gMaxDisplayTime = 10.;
 												name:@"Glide"
 											  object:nil];*/
 
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f ) 
-												 styleMask:styleMask
-												   backing:NSBackingStoreBuffered defer:NO] autorelease];
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f ) 
+												styleMask:styleMask
+												  backing:NSBackingStoreBuffered defer:NO];
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
@@ -133,10 +129,10 @@ static const double gMaxDisplayTime = 10.;
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
-	[panel setReleasedWhenClosed:YES];
-	[panel setDelegate:self];
+	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
+	//[panel setDelegate:self];
 
-	GrowlBrushedWindowView *view = [[[GrowlBrushedWindowView alloc] initWithFrame:panelFrame] autorelease];
+	GrowlBrushedWindowView *view = [[GrowlBrushedWindowView alloc] initWithFrame:panelFrame];
 	[view setTarget:self];
 	[view setAction:@selector(_notificationClicked:)];
 	[panel setContentView:view];
@@ -154,7 +150,7 @@ static const double gMaxDisplayTime = 10.;
 	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth( panelFrame ) - GrowlBrushedPadding,
 											NSMaxY(screen) - GrowlBrushedPadding - depth)];
 
-	if ( (self = [super initWithWindow:panel] ) ) {
+	if ((self = [super initWithWindow:panel])) {
 		depth += NSHeight( panelFrame );
 		autoFadeOut = !sticky;
 		delegate = self;
@@ -197,6 +193,10 @@ static const double gMaxDisplayTime = 10.;
 //	NSLog(@"BrushedController deallocking");
 	//if ( depth == brushedWindowDepth ) 
 	// 	brushedWindowDepth = 0;
+
+	NSWindow *myWindow = [self window];
+	[[myWindow contentView] release];
+	[myWindow release];
 
 	[super dealloc];
 }

@@ -49,7 +49,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 @implementation GrowlBubblesWindowView
 - (id) initWithFrame:(NSRect) frame {
-	if ( (self = [super initWithFrame:frame] ) ) {
+	if ((self = [super initWithFrame:frame])) {
 		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
 		borderColor = [[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:0.5f] retain];
@@ -58,15 +58,15 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (void) dealloc {
-	[titleFont release];
-	[textFont release];
-	[icon release];
-	[title release];
-	[text release];
-	[bgColor release];
-	[textColor release];
+	[titleFont   release];
+	[textFont    release];
+	[icon        release];
+	[title       release];
+	[text        release];
+	[bgColor     release];
+	[textColor   release];
 	[borderColor release];
-	[lightColor release];
+	[lightColor  release];
 
 	[super dealloc];
 }
@@ -76,7 +76,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		return 0.0f;
 	}
 
-	if ( !titleHeight ) {
+	if (!titleHeight) {
 		titleHeight = [titleFont defaultLineHeightForFont];
 	}
 
@@ -157,12 +157,13 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 		[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 
-		[title drawInRect:drawRect withAttributes:
-			[NSDictionary dictionaryWithObjectsAndKeys:
-				titleFont, NSFontAttributeName,
-				textColor, NSForegroundColorAttributeName,
-				paragraphStyle, NSParagraphStyleAttributeName,
-				nil]];
+		NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+			titleFont, NSFontAttributeName,
+			textColor, NSForegroundColorAttributeName,
+			paragraphStyle, NSParagraphStyleAttributeName,
+			nil];
+		[title drawInRect:drawRect withAttributes:attributes];
+		[attributes release];
 
 		[paragraphStyle release];
 	}
@@ -171,11 +172,12 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		drawRect.origin.y = PANEL_VSPACE_PX;
 		drawRect.size.height = descriptionHeight - TITLE_VSPACE_PX;
 
-		[text drawInRect:drawRect withAttributes:
-			[NSDictionary dictionaryWithObjectsAndKeys:
-				textFont, NSFontAttributeName,
-				textColor, NSForegroundColorAttributeName,
-				nil]];
+		NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+			textFont, NSFontAttributeName,
+			textColor, NSForegroundColorAttributeName,
+			nil];
+		[text drawInRect:drawRect withAttributes:attributes];
+		[attributes release];
 	}
 
 	drawRect.origin.x = PANEL_HSPACE_PX;
@@ -372,7 +374,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (void) mouseDown:(NSEvent *) event {
-	if ( target && action && [target respondsToSelector:action] ) {
+	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];
 	}
 }

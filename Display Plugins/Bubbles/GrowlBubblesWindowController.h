@@ -10,10 +10,9 @@
 #import "FadingWindowController.h"
 
 @interface GrowlBubblesWindowController : FadingWindowController {
-	unsigned	depth;
+	unsigned				depth;
 }
 
-+ (GrowlBubblesWindowController *) bubble;
 + (GrowlBubblesWindowController *) bubbleWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky;
 
 #pragma mark Regularly Scheduled Coding

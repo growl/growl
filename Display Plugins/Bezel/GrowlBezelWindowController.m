@@ -17,10 +17,6 @@
 #define MIN_DISPLAY_TIME 3.0
 #define GrowlBezelPadding 10.0f
 
-+ (GrowlBezelWindowController *)bezel {
-	return [[[GrowlBezelWindowController alloc] init] autorelease];
-}
-
 + (GrowlBezelWindowController *)bezelWithTitle:(NSString *)title text:(NSString *)text
 		icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
 	return [[[GrowlBezelWindowController alloc] initWithTitle:title text:text icon:icon priority:prio sticky:sticky] autorelease];
@@ -46,9 +42,10 @@
 		sizeRect.size.width = 160.0f;
 		sizeRect.size.height = 160.0f;
 	}
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:sizeRect
-						styleMask:NSBorderlessWindowMask
-						  backing:NSBackingStoreBuffered defer:NO] autorelease];
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:sizeRect
+												styleMask:NSBorderlessWindowMask
+												  backing:NSBackingStoreBuffered
+													defer:NO];
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
@@ -59,10 +56,10 @@
 	[panel setOpaque:NO];
 	[panel setHasShadow:NO];
 	[panel setCanHide:NO];
-	[panel setReleasedWhenClosed:YES];
-	[panel setDelegate:self];
+	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
+	//[panel setDelegate:self];
 
-	GrowlBezelWindowView *view = [[[GrowlBezelWindowView alloc] initWithFrame:panelFrame] autorelease];
+	GrowlBezelWindowView *view = [[GrowlBezelWindowView alloc] initWithFrame:panelFrame];
 
 	//[view setTarget:self];
 	//[view setAction:@selector(_notificationClicked:)];
@@ -115,7 +112,7 @@
 	}
 	[panel setFrameTopLeftPoint:panelTopLeft];
 
-	if ( (self = [super initWithWindow:panel] ) ) {
+	if ((self = [super initWithWindow:panel])) {
 		autoFadeOut = YES;	//!sticky
 		doFadeIn = NO;
 		displayTime = duration;
@@ -192,6 +189,13 @@
 		[myWindow scaleX:0.8 Y:0.8];
 		[super _fadeOut:timer];
 	}
+}
+
+- (void) dealloc {
+	NSWindow *myWindow = [self window];
+	[[myWindow contentView] release];
+	[myWindow release];
+	[super dealloc];
 }
 
 @end

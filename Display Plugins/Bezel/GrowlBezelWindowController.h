@@ -15,7 +15,6 @@
 	BOOL			flipOut;
 }
 
-+ (GrowlBezelWindowController *) bezel;
 + (GrowlBezelWindowController *) bezelWithTitle:(NSString *)title text:(NSString *)text
 		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 

@@ -24,10 +24,6 @@ static unsigned bubbleWindowDepth = 0U;
 
 #pragma mark -
 
-+ (GrowlBubblesWindowController *) bubble {
-	return [[[GrowlBubblesWindowController alloc] init] autorelease];
-}
-
 + (GrowlBubblesWindowController *) bubbleWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky{
 	return [[[GrowlBubblesWindowController alloc] initWithTitle:title text:text icon:icon priority:(int)priority sticky:sticky] autorelease];
 }
@@ -43,9 +39,9 @@ static unsigned bubbleWindowDepth = 0U;
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
 	// A window with a frame of NSZeroRect is off-screen and doesn't respect opacity even
 	// if moved on screen later. -Evan
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f ) 
-												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
-												   backing:NSBackingStoreBuffered defer:NO] autorelease];
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f ) 
+												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
+												  backing:NSBackingStoreBuffered defer:NO];
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
@@ -56,10 +52,10 @@ static unsigned bubbleWindowDepth = 0U;
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
-	[panel setReleasedWhenClosed:YES];
-	[panel setDelegate:self];
+	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
+	//[panel setDelegate:self];
 
-	GrowlBubblesWindowView *view = [[[GrowlBubblesWindowView alloc] initWithFrame:panelFrame] autorelease];
+	GrowlBubblesWindowView *view = [[GrowlBubblesWindowView alloc] initWithFrame:panelFrame];
 	[view setTarget:self];
 	[view setAction:@selector(_notificationClicked:)];
 	[panel setContentView:view];
@@ -77,13 +73,13 @@ static unsigned bubbleWindowDepth = 0U;
 	[panel setFrameTopLeftPoint:NSMakePoint( NSMaxX( screen ) - NSWidth( panelFrame ) - GrowlBubblesPadding, 
 											 NSMaxY( screen ) - GrowlBubblesPadding - bubbleWindowDepth )];
 
-	if ( (self = [super initWithWindow:panel] ) ) {
+	if ((self = [super initWithWindow:panel])) {
 		#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
 		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
-		if ( NSMinY(panelFrame) < 0.0f ) {
+		if (NSMinY(panelFrame) < 0.0f) {
 			depth = bubbleWindowDepth = 0U;
 		} else {
-			depth = bubbleWindowDepth += NSHeight( panelFrame );
+			depth = bubbleWindowDepth += NSHeight(panelFrame);
 		}
 		autoFadeOut = !sticky;
 
@@ -106,9 +102,12 @@ static unsigned bubbleWindowDepth = 0U;
 }
 
 - (void) dealloc {
-	if ( depth == bubbleWindowDepth ) {
+	if (depth == bubbleWindowDepth) {
 		bubbleWindowDepth = 0U;
 	}
+	NSWindow *myWindow = [self window];
+	[[myWindow contentView] release];
+	[myWindow release];
 
 	[super dealloc];
 }

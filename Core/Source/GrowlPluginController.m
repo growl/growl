@@ -257,7 +257,7 @@ static GrowlPluginController *sharedController;
 									   [pluginFile stringByDeletingPathExtension] );
 		}
 	}
-	
+
 	[filename release];
 }
 

@@ -13,10 +13,6 @@
 
 @implementation GrowlMusicVideoWindowController
 
-+ (GrowlMusicVideoWindowController *)musicVideo {
-	return [[[GrowlMusicVideoWindowController alloc] init] autorelease];
-}
-
 + (GrowlMusicVideoWindowController *)musicVideoWithTitle:(NSString *)title text:(NSString *)text
 		icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
 	return [[[GrowlMusicVideoWindowController alloc] initWithTitle:title text:text icon:icon priority:prio sticky:sticky] autorelease];
@@ -43,9 +39,10 @@
 	}
 	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, MusicVideoPrefDomain, &duration);
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:sizeRect
-						styleMask:NSBorderlessWindowMask
-						  backing:NSBackingStoreBuffered defer:NO] autorelease];
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:sizeRect
+												styleMask:NSBorderlessWindowMask
+												  backing:NSBackingStoreBuffered
+													defer:NO];
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
@@ -56,10 +53,10 @@
 	[panel setOpaque:NO];
 	[panel setHasShadow:NO];
 	[panel setCanHide:NO];
-	[panel setReleasedWhenClosed:YES];
-	[panel setDelegate:self];
+	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
+	//[panel setDelegate:self];
 
-	GrowlMusicVideoWindowView *view = [[[GrowlMusicVideoWindowView alloc] initWithFrame:panelFrame] autorelease];
+	GrowlMusicVideoWindowView *view = [[GrowlMusicVideoWindowView alloc] initWithFrame:panelFrame];
 
 	[view setTarget:self];
 	[view setAction:@selector(_notificationClicked:)]; // Not used for now
@@ -150,6 +147,14 @@
 }
 
 #pragma mark -
+
+- (void) dealloc {
+	NSWindow *myWindow = [self window];
+	[[myWindow contentView] release];
+	[myWindow release];
+	[super dealloc];
+}
+
 #pragma mark Accessors
 
 #pragma mark -

@@ -14,7 +14,6 @@
 	id			plugin; // the GrowlBrushedDisplay object which created us
 }
 
-+ (GrowlBrushedWindowController *) notify;
 + (GrowlBrushedWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned) depth;
 
 #pragma mark Regularly Scheduled Coding

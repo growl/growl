@@ -14,7 +14,6 @@
 	int				priority;
 }
 
-+ (GrowlMusicVideoWindowController *) musicVideo;
 + (GrowlMusicVideoWindowController *) musicVideoWithTitle:(NSString *)title text:(NSString *)text
 		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 

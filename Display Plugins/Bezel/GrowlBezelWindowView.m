@@ -182,7 +182,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 		maxIconSize.width = 72.0f;
 		maxIconSize.height = 72.0f;
 		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
-		if ( iconSize.width < maxIconSize.width ) {
+		if (iconSize.width < maxIconSize.width) {
 			iconOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
 		}
 		iconPoint.x = 70.0f + iconOffset;
@@ -200,14 +200,14 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 		maxIconSize.width = 48.0f;
 		maxIconSize.height = 48.0f;
 		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
-		if ( iconSize.width < maxIconSize.width ) {
+		if (iconSize.width < maxIconSize.width) {
 			iconOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
 		}
 		iconPoint.x = 57.0f + iconOffset;
 		iconPoint.y = 83.0f;
 	}
 
-	NSShadow *textShadow = [[[NSShadow alloc] init] autorelease];
+	NSShadow *textShadow = [[NSShadow alloc] init];
 	NSSize shadowSize = {0.0f, -2.0f};
 	[textShadow setShadowOffset:shadowSize];
 	[textShadow setShadowBlurRadius:3.0f];
@@ -217,7 +217,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	float titleFontSize = 20.0f;
 	NSMutableParagraphStyle *parrafo = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[parrafo setAlignment:NSCenterTextAlignment];
-	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		[NSColor whiteColor], NSForegroundColorAttributeName,
 		parrafo, NSParagraphStyleAttributeName,
 		[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
@@ -245,12 +245,14 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 		[parrafo setLineBreakMode:NSLineBreakByTruncatingTail];
 	}
 	[title drawInRect:titleRect withAttributes:titleAttributes];
+	[titleAttributes release];
 
-	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		[NSColor whiteColor], NSForegroundColorAttributeName,
 		parrafo, NSParagraphStyleAttributeName,
 		[NSFont systemFontOfSize:14.0f], NSFontAttributeName,
 		textShadow, NSShadowAttributeName, nil];
+	[textShadow release];
 	NSAttributedString *textAttributed;
 	NSArray *linesN = [text componentsSeparatedByString:@"\n"];
 	int rowCount = 0;
@@ -273,6 +275,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 		[textAttributes setObject:[NSFont systemFontOfSize:12.0f] forKey:NSFontAttributeName];
 	}
 	[text drawInRect:textRect withAttributes:textAttributes];
+	[textAttributes release];
 
 	NSRect iconRect;
 	iconRect.origin = iconPoint;

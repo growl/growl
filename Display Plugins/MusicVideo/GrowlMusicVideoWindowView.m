@@ -68,11 +68,11 @@
 
 - (void) dealloc {
 	[titleAttributes release];
-	[textAttributes release];
+	[textAttributes  release];
 	[backgroundColor release];
-	[icon release];
-	[title release];
-	[text release];
+	[icon            release];
+	[title           release];
+	[text            release];
 
 	[super dealloc];
 }
@@ -183,7 +183,7 @@
 }
 
 - (void)displayIfNeeded {
-	if(needsDisplay) {
+	if (needsDisplay) {
 		[super displayIfNeeded];
 		needsDisplay = NO;
 	}
@@ -192,7 +192,7 @@
 #pragma mark -
 
 - (void) mouseUp:(NSEvent *) event {
-	if ( target && action && [target respondsToSelector:action] ) {
+	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];
 	}
 }
