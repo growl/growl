@@ -7,7 +7,7 @@
 //
 
 #import <PreferencePanes/PreferencePanes.h>
-#import <GrowlDefines.h>
+#import "GrowlDefines.h"
 
 #define BEZEL_POSITION_PREF			@"Bezel - Position"
 #define BEZEL_SIZE_PREF				@"Bezel - Size"

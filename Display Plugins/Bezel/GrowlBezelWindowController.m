@@ -65,7 +65,7 @@
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
 	NSPoint panelTopLeft;
 	int positionPref = 0;
-	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF,@"BezelNotificationView", &positionPref);
+	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, @"com.Growl.Bezel", &positionPref);
 	switch (positionPref) {
 		case BEZEL_POSITION_DEFAULT:
 			panelTopLeft = NSMakePoint(ceil((NSWidth(screen)/2.0) -(NSWidth(panelFrame)/2.0)),
@@ -159,7 +159,7 @@
 		if ( _delegate && [_delegate respondsToSelector:@selector( bezelDidFadeOut: )] ) {
 			[_delegate bezelDidFadeOut:self];
 		}
-		[self close];
+		[self close]; // close our window
 		[self autorelease]; // we retained when we fade in
 	}
 }
@@ -175,7 +175,7 @@
 	if ( _delegate && [_delegate respondsToSelector:@selector( bezelWillFadeIn: )] ) {
 		[_delegate bezelWillFadeIn:self];
 	}
-	[self retain]; // realease after fade out
+	[self retain]; // release after fade out
 	[self showWindow:nil];
 	[self _stopTimer];
 	if ( _doFadeIn ) {

@@ -300,6 +300,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins_Prefix.pch";
+				HEADER_SEARCH_PATHS = ..;
 				INFOPLIST_FILE = "NSLogging-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_CFLAGS = "";
@@ -413,6 +414,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins_Prefix.pch";
+				HEADER_SEARCH_PATHS = ..;
 				INFOPLIST_FILE = "Bezel-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_CFLAGS = "";
@@ -582,6 +584,7 @@
 			path = Bezel/GrowlBezelWindowView.m;
 			refType = 4;
 			sourceTree = "<group>";
+			wrapsLines = 0;
 		};
 		6C86F88F06F0620D008EA344 = {
 			fileRef = 6C86F88D06F0620D008EA344;

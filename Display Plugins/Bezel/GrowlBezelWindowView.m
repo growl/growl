@@ -77,7 +77,8 @@
 	[bezelPath lineToPoint:NSMakePoint(topLeft.x, topLeft.y + BORDER_RADIUS)];
 	
 	int opacityPref = 20;
-	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF,@"BezelNotificationView", &opacityPref);
+	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, @"com.Growl.Bezel", &opacityPref);
+	
 	[[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha:((float)opacityPref/100.)] set];
 	[bezelPath fill];
 	
