@@ -221,9 +221,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = SVNRevision.h;
-			path = build/include/SVNRevision.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			path = include/SVNRevision.h;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 //070
 //071
