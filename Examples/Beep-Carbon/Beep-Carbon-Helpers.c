@@ -171,6 +171,8 @@ void convertBytesToFormat(const void *inBytes, const Size inLength, OSType destT
 
 				HUnlock(outHandle2);
 				HUnlock(outHandle);
+
+				free(buf);
 			}
 		}
 		HLock(outHandle);
