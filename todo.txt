@@ -1,12 +1,11 @@
 To-Do
 
-Growl:
-	PrefPane:
-		Turn on buttons in the prefpane that machina added ?
-	Growl Itself:
+- Growl:
+	- PrefPane:
+	- Growl Itself:
 		save to an Application Support Directory to be accessible from the Prefpane and app 
 		write the protocol to which Notification Plugins conform	
-		- Easy enough to do.  I will get on this, because I am adding some features to the pref pane, and want to make some standardized thing (graphite)
+		{Easy enough to do.  I will get on this, because I am adding some features to the pref pane, and want to make some standardized thing (graphite)}
 		
 			then write the glue/controller for the bubbles notifications to work 
 		Decide what types of notifications we want to include (bezel, square, bubbles, speech, beeps, etc)
@@ -15,27 +14,35 @@ Growl:
 		Add a define/macro to GrowlDefines that can get the display plugins
 
 
-Interfaces
-	Real Basic:
-		Real Basic Interface needs to be coded 
-	Python:
+- Bindings
+	- Real Basic:
+		Real Basic Binding needs to be coded 
+	- Python:
 		Write a C extension for python so we do not rely on PyObjc anymore
-	Perl:
+	- Perl:
 		Setup a way for icons to be displayed
 		Implementation documentation needs to be written
-	Carbon:
-	TCL:
-		Implementation documentation needs to be written.
-	Ruby:
+		Get this submitted to CPAN
+			This requires making the perl module install growl if growl is not installed
+	- Carbon:
+	- TCL:
+		Use the AppBridge to launch growl if needed. 
+		Rather than building with -I../.., use the header from Growl.framework. 
+		Refactor the code, primarily to separate out the Tcl<->C bits from the C<->ObjC bits. 
+	- Ruby:
 		Ruby Interface needs to be coded
+	- Java:
+		A java binding would be nice
+	- Applescript:
 
-Sample Apps and Code:
-	Beep Specific To DO:
+- Sample Apps and Code:
+	- Beep Specific To DO:
 		Connect sheet 
-	GrowlTunes Specific To DO:
+	- GrowlTunes Specific To DO:
 		Make it work with streams (e.g. iTMS previews, radio stuff)
 		Grab album art from the web
+			We have a plugin architecture in GrowlTunes for this.
 
-Documentation:
+- Documentation:
 	Developer docs
 	User Docs
