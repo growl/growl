@@ -211,9 +211,11 @@ static id singleton = nil;
 
 	// Check icon
 	NSImage *icon = nil;
-	if ([aDict objectForKey:GROWL_NOTIFICATION_ICON]) {
-		icon = [[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]]
-					autorelease];
+	id image = [aDict objectForKey:GROWL_NOTIFICATION_ICON];
+	if (image && [image isKindOfClass:[NSImage class]]) {
+		icon = [[image copy] autorelease];
+	} else if (image && [image isKindOfClass:[NSData class]]) {
+		icon = [[[NSImage alloc] initWithData:image] autorelease];
 	} else {
 		icon = [[[ticket icon] copy] autorelease];
 	}
