@@ -352,6 +352,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Dynamic;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_CFLAGS = "-fconstant-cfstrings";
 				OTHER_LDFLAGS = "-lobjc -sub_library libobjc -seg1addr 0xc00000";
 				PRODUCT_NAME = GrowlAppBridge;
 				SECTORDER_FLAGS = "";
