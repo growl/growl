@@ -234,12 +234,6 @@
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
-		0AEE179D0702C4960024B1A0 = {
-			fileRef = 0AEE179C0702C4960024B1A0;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 //0A0
 //0A1
 //0A2
@@ -288,6 +282,7 @@
 				95DD10C80748AE5100CC05A4,
 				8D202CF80486D31800D8A456,
 				CB61E5180637763C00E0DDC7,
+				34E9B0E6074C69B400D59950,
 				6C1D526806FA0CE000A5D946,
 				6C4834B907395F1500F65193,
 				6CCCECD307144ECB00C5B203,
@@ -386,6 +381,91 @@
 		};
 		34E9AC8B074BC9C000D59950 = {
 			fileRef = 34E9AA79074BC98A00D59950;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34E9AFFD074C65A500D59950 = {
+			fileType = wrapper.framework;
+			isa = PBXReferenceProxy;
+			path = GrowlDisplayPlugins.framework;
+			refType = 3;
+			remoteRef = 34E9AFFF074C65C300D59950;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		34E9AFFF074C65C300D59950 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 34E9AFFB074C65A100D59950;
+			remoteInfo = GrowlDisplayPlugins;
+		};
+		34E9B09A074C688000D59950 = {
+			fileRef = 34E9AFFD074C65A500D59950;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34E9B09F074C691A00D59950 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 34E9AFFA074C65A100D59950;
+			remoteInfo = GrowlDisplayPlugins;
+		};
+		34E9B0A0074C691A00D59950 = {
+			isa = PBXTargetDependency;
+			name = "GrowlDisplayPlugins (from Display Plugins.xcode)";
+			targetProxy = 34E9B09F074C691A00D59950;
+		};
+		34E9B0E6074C69B400D59950 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = GrowlDisplayPlugins.framework;
+			path = "Display Plugins/build/GrowlDisplayPlugins.framework";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34E9B0EE074C69E900D59950 = {
+			buildActionMask = 2147483647;
+			files = (
+				34E9B0EF074C69FF00D59950,
+				34E9B118074C6A5000D59950,
+				34E9B119074C6A7800D59950,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34E9B0EF074C69FF00D59950 = {
+			fileRef = 83282746073A6C110044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34E9B118074C6A5000D59950 = {
+			fileRef = 83282741073A6BD70044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34E9B119074C6A7800D59950 = {
+			fileRef = 0AEE179C0702C4960024B1A0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34E9B11C074C6A9900D59950 = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				34E9B11D074C6AA800D59950,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34E9B11D074C6AA800D59950 = {
+			fileRef = 34E9B0E6074C69B400D59950;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -663,6 +743,7 @@
 				83282736073A6B750044A959,
 				930B8DBF07490CA3009E91D3,
 				956BF7550749FBE100D8B367,
+				34E9AFFD074C65A500D59950,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -832,12 +913,6 @@
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
-		83282742073A6BD70044A959 = {
-			fileRef = 83282741073A6BD70044A959;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		83282746073A6C110044A959 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -845,12 +920,6 @@
 			path = /System/Library/Frameworks/PreferencePanes.framework;
 			refType = 0;
 			sourceTree = "<absolute>";
-		};
-		83282747073A6C110044A959 = {
-			fileRef = 83282746073A6C110044A959;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 //830
 //831
@@ -867,7 +936,7 @@
 				8D202CE90486D31800D8A456,
 				8D202CEC0486D31800D8A456,
 				8D202CF00486D31800D8A456,
-				8D202CF20486D31800D8A456,
+				34E9B0EE074C69E900D59950,
 				8D202CF50486D31800D8A456,
 				CB5F92070638C89800EADD7A,
 			);
@@ -987,16 +1056,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		8D202CF20486D31800D8A456 = {
-			buildActionMask = 2147483647;
-			files = (
-				0AEE179D0702C4960024B1A0,
-				83282742073A6BD70044A959,
-				83282747073A6C110044A959,
-			);
-			isa = PBXFrameworksBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8D202CF50486D31800D8A456 = {
 			buildActionMask = 2147483647;
@@ -1676,6 +1735,7 @@
 		CB61E5160637763C00E0DDC7 = {
 			buildActionMask = 2147483647;
 			files = (
+				34E9B09A074C688000D59950,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1688,6 +1748,7 @@
 				CB61E5160637763C00E0DDC7,
 				CB5FA1CB0638CA6300EADD7A,
 				63C060F406C8946E00B0B7D4,
+				34E9B11C074C6A9900D59950,
 			);
 			buildRules = (
 			);
@@ -1724,6 +1785,7 @@
 				6C4834DE07395F3400F65193,
 				6C6E2B56073A6D7600F1A95F,
 				937463A7074918F20031A297,
+				34E9B0A0074C691A00D59950,
 			);
 			isa = PBXNativeTarget;
 			name = GrowlHelperApp;
