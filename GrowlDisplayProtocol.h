@@ -76,16 +76,15 @@
  *	 The size of the preference pane's view should be 354 pixels by 289 pixels.
  *	 This is because that's all the available space right now. We haven't yet
  *	 figured out what to do if there are more options than fit in that space.
- *	 You should set the view's springs under the assumption that it can be
- *	 resized horizontally and vertically to any size.
+ *	 You should set the springs of the view and its subviews under the
+ *	 assumption that it can be resized horizontally and vertically to any size.
  *	@result	The preference pane.
  */
 - (NSPreferencePane *) preferencePane;
 
 @end
 
-/*!
- *	@protocol	GrowlDisplayPlugin
+/*!	@protocol	GrowlDisplayPlugin
  *	@abstract	The display plugin protocol.
  *	@discussion	This protocol declares all methods supported by Growl display plugins.
  */
@@ -105,8 +104,7 @@
 
 @end
 
-/*!
- *	@protocol	GrowlFunctionalPlugin
+/*!	@protocol	GrowlFunctionalPlugin
  *	@abstract	The functional plugin protocol.
  *	@discussion	This protocol declares all methods supported by Growl
  *	 functionality plugins.
