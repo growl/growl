@@ -291,7 +291,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = /Users/boredzo/Projects/Growl/build;
+				FRAMEWORK_SEARCH_PATHS = ../../build;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;

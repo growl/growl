@@ -476,7 +476,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = /Users/boredzo/Projects/Growl/build;
+				FRAMEWORK_SEARCH_PATHS = ../../build;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
