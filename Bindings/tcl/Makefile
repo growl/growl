@@ -7,14 +7,22 @@ FRAMEWORKS = -framework Cocoa -framework Tcl
 SRCS = growl.m
 DYLIB_NAME = libgrowl.dylib
 
+MKDIR = /bin/mkdir -p -m 0555
+RMDIR = /bin/rm -fr
+INSTALL = /usr/bin/install -m 0444
+TCLSH = /usr/bin/tclsh
+
 all:
-	mkdir -p .libs
+	$(MKDIR) ".libs"
 	$(CC) -I../.. $(CFLAGS) $(FRAMEWORKS) $(SRCS) -o .libs/$(DYLIB_NAME)
 
 install: all
-	mkdir -p $(DESTDIR)$(PREFIX)
-	install -m 444 .libs/$(DYLIB_NAME) $(DESTDIR)$(PREFIX)
-	echo pkg_mkIndex $(DESTDIR)$(PREFIX) | tclsh
+	$(MKDIR) "$(DESTDIR)$(PREFIX)"
+	$(INSTALL) ".libs/$(DYLIB_NAME)" "$(DESTDIR)$(PREFIX)"
+	echo pkg_mkIndex "$(DESTDIR)$(PREFIX)" | $(TCLSH)
+
+uninstall:
+	$(RMDIR) "$(DESTDIR)$(PREFIX)"
 
 clean:
-	rm -r .libs
+	$(RMDIR) ".libs"
