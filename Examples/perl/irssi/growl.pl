@@ -21,7 +21,7 @@ $VERSION = 0.01;
 #Mac::Growl. At the moment, it just sends out notifications for every
 #privmsg you receive.
 
-$Notes = ["irssi-privmsg"];
+$Notes = ["/msg Received"];
 $AppName = "irssi";
 
 Mac::Growl::RegisterNotifications($AppName,$Notes,$Notes);
@@ -29,7 +29,7 @@ Mac::Growl::RegisterNotifications($AppName,$Notes,$Notes);
 sub event_privmsg
 {
 	my ($server, $data, $nick, $address) = @_;
-	Mac::Growl::PostNotification($AppName,"irssi-privmsg","$nick","$data");
+	Mac::Growl::PostNotification($AppName,"/msg Received","$nick","$data");
 }
 
 Irssi::signal_add_last("message private","event_privmsg");

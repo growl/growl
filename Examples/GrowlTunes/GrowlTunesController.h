@@ -6,10 +6,10 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
-#define ITUNES_TRACK_CHANGED	@"iTunes-ChangedTracks"
-#define ITUNES_PAUSED			@"iTunes-Paused"
-#define ITUNES_STOPPED			@"iTunes-Stopped"
-#define ITUNES_PLAYING			@"iTunes-Playing"
+#define ITUNES_TRACK_CHANGED	@"Changed Tracks"
+#define ITUNES_PAUSED			@"Paused"
+#define ITUNES_STOPPED			@"Stopped"
+#define ITUNES_PLAYING			@"Started Playing"
 
 #define DEFAULT_POLL_INTERVAL	3
 
