@@ -48,4 +48,7 @@
 - (void)setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path;
 - (BOOL)showSummary;
 - (void)setShowSummary:(BOOL)yesOrNo;
+- (BOOL)ignoreClickHandler;
+- (void)setIgnoreClickHandler:(BOOL)yesOrNo;
+
 @end

@@ -40,11 +40,13 @@
 	IBOutlet NSButton *enabledButton;
 	IBOutlet NSButton *junkButton;
 	IBOutlet NSButton *summaryButton;
+	IBOutlet NSButton *ignoreClickHandler;
 	IBOutlet NSTableView *accountsView;
 }
 - (IBAction)toggleEnable:(id)sender;
 - (IBAction)toggleIgnoreJunk:(id)sender;
 - (IBAction)toggleShowSummary:(id)sender;
+- (IBAction)toggleIgnoreClickHandler:(id)sender;
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView;
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;

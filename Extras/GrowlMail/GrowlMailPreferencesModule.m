@@ -137,4 +137,10 @@
 {
 	[[GrowlMail sharedInstance] setShowSummary:([sender state] == NSOnState)];
 }
+
+- (IBAction)toggleIgnoreClickHandler:(id)sender
+{
+	[[GrowlMail sharedInstance] setIgnoreClickHandler:([sender state] == NSOnState)];
+}
+
 @end
