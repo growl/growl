@@ -9,9 +9,11 @@
 #import <GrowlDefines.h>
 #import <GrowlDisplayProtocol.h>
 
+@class GrowlBezelPrefs;
 
 @interface GrowlBezelDisplay : NSObject <GrowlDisplayPlugin> {
 	NSMutableArray		*notificationQueue;
+	GrowlBezelPrefs		*bezelPrefPane;
 }
 
 - (void)loadPlugin;

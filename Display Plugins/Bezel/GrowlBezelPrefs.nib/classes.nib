@@ -1,0 +1,32 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {preferenceChanged = id; }; 
+            CLASS = GrowlBezelPrefs; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "radio_PositionBL" = NSButton; 
+                "radio_PositionBR" = NSButton; 
+                "radio_PositionD" = NSButton; 
+                "radio_PositionTL" = NSButton; 
+                "radio_PositionTR" = NSButton; 
+                "radio_Size" = NSMatrix; 
+                "slider_Opacity" = NSSlider; 
+            }; 
+            SUPERCLASS = NSPreferencePane; 
+        }, 
+        {
+            CLASS = NSPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_firstKeyView" = NSView; 
+                "_initialKeyView" = NSView; 
+                "_lastKeyView" = NSView; 
+                "_window" = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -3,7 +3,7 @@
 //  Display Plugins
 //
 //  Created by Jorge Salvador Caffarena on 09/09/04.
-//  Copyright 2004 __MyCompanyName__. All rights reserved.
+//  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
 
 #import "GrowlBezelWindowController.h"
@@ -67,6 +67,7 @@
 			NSMaxY ( screen ) - GrowlBezelPadding )];
 	
 	_autoFadeOut = YES;
+	_doFadeIn = NO;
 	_delegate = nil;
 	_target = nil;
 	_representedObject = nil;
@@ -153,11 +154,19 @@
 	[self retain]; // realease after fade out
 	[self showWindow:nil];
 	[self _stopTimer];
-	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
-			  target:self
-			selector:@selector( _fadeIn: )
-			userInfo:nil
-			 repeats:YES] retain];
+	if ( _doFadeIn ) {
+		_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
+				  target:self
+				selector:@selector( _fadeIn: )
+				userInfo:nil
+				 repeats:YES] retain];
+	} else if ( _autoFadeOut ) {
+		[[self window] setAlphaValue:1.];
+		if ( _delegate && [_delegate respondsToSelector:@selector( bezelDidFadeIn: )] ) {
+			[_delegate bezelDidFadeIn:self];
+		}
+		[self _waitBeforeFadeOut];
+	}
 }
 
 - (void)startFadeOut {

@@ -6,13 +6,28 @@
 //
 #import "GrowlBezelDisplay.h"
 #import "GrowlBezelWindowController.h"
+#import "GrowlBezelPrefs.h"
 
 #define B_AUTHOR @"Jorge Salvador Caffarena"
 #define B_NAME @"Bezel"
 #define B_DESCRIPTION @"Bezel like notifications, with a twist"
 #define B_VERSION @"0.1.0"
 
+@class NSPreferencePane;
+
 @implementation GrowlBezelDisplay
+
+- (id)init {
+	if (self = [super init]) {
+		bezelPrefPane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBezelPrefs class]]];
+	}
+	return self;
+}
+
+- (void)dealloc {
+	[bezelPrefPane release];
+	[super dealloc];
+}
 
 - (void) loadPlugin {
 	notificationQueue = [[NSMutableArray array] retain];
@@ -48,7 +63,7 @@
 }
 
 - (NSPreferencePane *) preferencePane {
-	return nil;
+	return bezelPrefPane;
 }
 
 - (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {

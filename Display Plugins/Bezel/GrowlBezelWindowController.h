@@ -3,7 +3,7 @@
 //  Display Plugins
 //
 //  Created by Jorge Salvador Caffarena on 09/09/04.
-//  Copyright 2004 __MyCompanyName__. All rights reserved.
+//  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -12,6 +12,7 @@
 	id				_delegate;
 	NSTimer			*_animationTimer;
 	BOOL			_autoFadeOut;
+	BOOL			_doFadeIn;
 	SEL				_action;
 	id				_target;
 	id				_representedObject;

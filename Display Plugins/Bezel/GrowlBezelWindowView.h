@@ -3,7 +3,7 @@
 //  Display Plugins
 //
 //  Created by Jorge Salvador Caffarena on 09/09/04.
-//  Copyright 2004 __MyCompanyName__. All rights reserved.
+//  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
