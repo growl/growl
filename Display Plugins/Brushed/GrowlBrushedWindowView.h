@@ -13,9 +13,17 @@
 	NSString			*title;
 	NSString			*text;
 	float				textHeight;
+	float				titleHeight;
 	SEL					action;
 	id					target;
 
+	NSFont				*titleFont;
+	NSFont				*textFont;
+	NSLayoutManager		*layoutManager;
+	NSShadow			*textShadow;
+	NSTextStorage		*textStorage;
+	NSTextContainer		*textContainer;
+	
 	NSColor				*textColor;
 }
 
@@ -26,7 +34,6 @@
 - (void) setPriority:(int)priority;
 
 - (void) sizeToFit;
-- (int) textAreaWidth;
 - (float) titleHeight;
 - (float) descriptionHeight;
 - (int) descriptionRowCount;

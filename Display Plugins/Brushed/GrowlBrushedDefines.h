@@ -14,7 +14,7 @@
 #define GrowlBrushedPrefDomain			@"com.growl.BrushedNotificationView"
 
 // the default value for the opacity preference
-#define GrowlBrushedAlphaPrefDefault		.75f
+#define GrowlBrushedAlphaPrefDefault		0.75f
 // the default value for the duration preference
 #define GrowlBrushedDurationPrefDefault		4.0f
 
@@ -25,20 +25,20 @@
 // the width of the notification view
 #define GrowlBrushedNotificationWidth		300.f
 // the padding around the inside of the view
-#define GrowlBrushedPadding					5.f
+#define GrowlBrushedPadding					5.0f
 // the padding between the icon and the edge of the view
-#define GrowlBrushedIconPadding				10.f
+#define GrowlBrushedIconPadding				5.0f
 // the padding between the icon and the text
-#define GrowlBrushedIconTextPadding			20.f
+#define GrowlBrushedIconTextPadding			20.0f
 // the padding between the title and the description
-#define GrowlBrushedTitleTextPadding		10.f
+#define GrowlBrushedTitleTextPadding		10.0f
 // the size of the icon (it's square)
-#define GrowlBrushedIconSize				32.f
+#define GrowlBrushedIconSize				32.0f
 
 // the size of the text used for the description
-#define GrowlBrushedTextFontSize			12.f
+#define GrowlBrushedTextFontSize			12.0f
 // the size of the text used for the title
-#define GrowlBrushedTitleFontSize			13.f
+#define GrowlBrushedTitleFontSize			13.0f
 
 // the radius of the rounded corners of the notification border
 #define GrowlBrushedBorderRadius			5.0f

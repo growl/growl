@@ -24,11 +24,12 @@
 #define PANEL_HSPACE_PX			 15.0f /*!< Horizontal padding from bounds to content area */
 #define ICON_SIZE_PX			 32.0f /*!< The width and height of the (square) icon */
 #define ICON_HSPACE_PX			  8.0f /*!< Horizontal space between icon and title/description */
-#define TITLE_VSPACE_PX			 15.0f /*!< Vertical space between title and description */
+#define TITLE_VSPACE_PX			  5.0f /*!< Vertical space between title and description */
 #define TITLE_FONT_SIZE_PTS		 13.0f
 #define DESCR_FONT_SIZE_PTS		 11.0f
-#define MIN_TEXT_HEIGHT_PX		 30.0f
 #define MAX_TEXT_ROWS				5  /*!< The maximum number of rows of text, used only if the limit preference is set. */
+#define MIN_TEXT_HEIGHT			(PANEL_VSPACE_PX + PANEL_VSPACE_PX + ICON_SIZE_PX)
+#define TEXT_AREA_WIDTH			(PANEL_WIDTH_PX - PANEL_HSPACE_PX - PANEL_HSPACE_PX - ICON_SIZE_PX - ICON_HSPACE_PX)
 
 static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float *outData ) {
 	float *colors = (float *) info;
@@ -52,20 +53,24 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
 		borderColor = [[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:0.5f] retain];
+		layoutManager = [[NSLayoutManager alloc] init];
+		titleHeight = [layoutManager defaultLineHeightForFont:titleFont];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[titleFont   release];
-	[textFont    release];
-	[icon        release];
-	[title       release];
-	[text        release];
-	[bgColor     release];
-	[textColor   release];
-	[borderColor release];
-	[lightColor  release];
+	[titleFont     release];
+	[textFont      release];
+	[icon          release];
+	[title         release];
+	[text          release];
+	[bgColor       release];
+	[textColor     release];
+	[borderColor   release];
+	[lightColor    release];
+	[textStorage   release];
+	[layoutManager release];
 
 	[super dealloc];
 }
@@ -73,10 +78,6 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 - (float)titleHeight {
 	if (!title || ![title length]) {
 		return 0.0f;
-	}
-
-	if (!titleHeight) {
-		titleHeight = [titleFont defaultLineHeightForFont];
 	}
 
 	return titleHeight;
@@ -105,15 +106,15 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	struct CGFunctionCallbacks callbacks = { 0U, GrowlBubblesShadeInterpolate, NULL };
 	float colors[8];
 
-	[lightColor getRed:&colors[0]
-				 green:&colors[1]
-				  blue:&colors[2]
-				 alpha:&colors[3]];
+	[bgColor getRed:&colors[0]
+			  green:&colors[1]
+			   blue:&colors[2]
+			  alpha:&colors[3]];
 
-	[bgColor getRed:&colors[4]
-			  green:&colors[5]
-			   blue:&colors[6]
-			  alpha:&colors[7]];
+	[lightColor getRed:&colors[4]
+				 green:&colors[5]
+				  blue:&colors[6]
+				 alpha:&colors[7]];
 
 	CGFunctionRef function = CGFunctionCreate( (void *) colors,
 											   1U,
@@ -142,50 +143,42 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	[borderColor set];
 	[path stroke];
 
-	float contentHeight = frame.size.height - PANEL_VSPACE_PX;
 	NSRect drawRect;
 	drawRect.origin.x = PANEL_HSPACE_PX + ICON_SIZE_PX + ICON_HSPACE_PX;
-	drawRect.size.width = PANEL_WIDTH_PX - PANEL_HSPACE_PX - drawRect.origin.x;
+	drawRect.origin.y = PANEL_VSPACE_PX;
+	drawRect.size.width = TEXT_AREA_WIDTH;
 
-	float descriptionHeight = contentHeight;
 	if (title && [title length]) {
-		drawRect.size.height = [self titleHeight];
-		descriptionHeight -= drawRect.size.height;
-		drawRect.origin.y = descriptionHeight;
+		drawRect.size.height = titleHeight;
 
 		NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 		[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 
 		NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-			titleFont, NSFontAttributeName,
-			textColor, NSForegroundColorAttributeName,
+			titleFont,      NSFontAttributeName,
+			textColor,      NSForegroundColorAttributeName,
 			paragraphStyle, NSParagraphStyleAttributeName,
 			nil];
 		[title drawInRect:drawRect withAttributes:attributes];
 		[attributes release];
-
 		[paragraphStyle release];
+
+		drawRect.origin.y += drawRect.size.height + TITLE_VSPACE_PX;
 	}
 
 	if (text && [text length]) {
-		drawRect.origin.y = PANEL_VSPACE_PX;
-		drawRect.size.height = descriptionHeight - TITLE_VSPACE_PX;
-
-		NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-			textFont, NSFontAttributeName,
-			textColor, NSForegroundColorAttributeName,
-			nil];
-		[text drawInRect:drawRect withAttributes:attributes];
-		[attributes release];
+		NSRange glyphRange = [layoutManager glyphRangeForTextContainer:textContainer];
+		[layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
 	}
 
 	drawRect.origin.x = PANEL_HSPACE_PX;
-	drawRect.origin.y = contentHeight - ICON_SIZE_PX;
+	drawRect.origin.y = PANEL_VSPACE_PX;
 	drawRect.size.width = ICON_SIZE_PX;
 	drawRect.size.height = ICON_SIZE_PX;
 
+	[icon setFlipped:YES];
 	[icon drawScaledInRect:drawRect
-				  operation:NSCompositeSourceAtop
+				  operation:NSCompositeSourceOver
 				   fraction:1.0f];
 
 	[[self window] invalidateShadow];
@@ -275,59 +268,64 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (void) setIcon:(NSImage *) anIcon {
-	[icon autorelease];
+	[icon release];
 	icon = [anIcon retain];
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setTitle:(NSString *) aTitle {
-	[title autorelease];
+	[title release];
 	title = [aTitle copy];
-	titleHeight = 0.0f;
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setText:(NSString *) aText {
-	[text autorelease];
+	[text release];
 	text = [aText copy];
-	textHeight = 0.0f;
-	[self setNeedsDisplay:YES];
+
+	if (!textStorage) {
+		textStorage = [[NSTextStorage alloc] init];
+		NSSize containerSize = { TEXT_AREA_WIDTH, FLT_MAX };
+		textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
+		[layoutManager addTextContainer:textContainer];	// retains textContainer
+		[textContainer release];
+		[textStorage addLayoutManager:layoutManager];	// retains layoutManager
+		[textContainer setLineFragmentPadding:0.0f];
+	}
+
+	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+		textFont,  NSFontAttributeName,
+		textColor, NSForegroundColorAttributeName,
+		nil];
+
+	[[textStorage mutableString] setString:text];
+	[textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
+
+	[attributes release];
+
+	[layoutManager glyphRangeForTextContainer:textContainer];	// force layout		
+	textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+
 	[self sizeToFit];
+	[self setNeedsDisplay:YES];
 }
 
 - (void) sizeToFit {
 	NSRect rect = [self frame];
 	rect.size.width = PANEL_WIDTH_PX;
-	rect.size.height = PANEL_VSPACE_PX + PANEL_VSPACE_PX + [self titleHeight] + TITLE_VSPACE_PX + [self descriptionHeight];
+	rect.size.height = PANEL_VSPACE_PX + PANEL_VSPACE_PX + [self titleHeight] + [self descriptionHeight];
+	if (title && text && [title length] && [text length]) {
+		rect.size.height += TITLE_VSPACE_PX;
+	}
+	if (rect.size.height < MIN_TEXT_HEIGHT) {
+		rect.size.height = MIN_TEXT_HEIGHT;
+	}
 	[self setFrame:rect];
 }
 
-- (float) textHeight {
-	if (!textHeight) {
-		NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-			textFont, NSFontAttributeName,
-			textColor, NSForegroundColorAttributeName,
-			nil];
-		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:text
-																attributes:attributes];
-		NSTextContainer *textContainer = [[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize ( PANEL_WIDTH_PX - PANEL_HSPACE_PX - PANEL_HSPACE_PX - ICON_SIZE_PX - ICON_HSPACE_PX,
-											   FLT_MAX )];
-		[textContainer setLineFragmentPadding:0.0f];
-		NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
-
-		[layoutManager addTextContainer:textContainer];	// retains textContainer
-		[textContainer release];
-		[textStorage addLayoutManager:layoutManager];	// retains layoutManager
-		[layoutManager release];
-		[layoutManager glyphRangeForTextContainer:textContainer];	// force layout
-
-		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-		[attributes  release];
-		[textStorage release];
-	}
-
-	return textHeight;
+- (BOOL)isFlipped {
+	// Coordinates are based on top left corner
+    return YES;
 }
 
 - (float) descriptionHeight {
@@ -335,11 +333,11 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		return 0.0f;
 	}
 
-	return MAX([self textHeight], MIN_TEXT_HEIGHT_PX);
+	return textHeight;
 }
 
 - (int) descriptionRowCount {
-	int rowCount = [self textHeight] / [textFont defaultLineHeightForFont];
+	int rowCount = textHeight / [layoutManager defaultLineHeightForFont:textFont];
 	BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
 	if (limitPref) {

@@ -31,7 +31,7 @@
 // the padding around the inside of the view
 #define GrowlSmokePadding				5.0f
 // the padding between the icon and the edge of the view
-#define GrowlSmokeIconPadding			10.0f
+#define GrowlSmokeIconPadding			5.0f
 // the padding between the icon and the text
 #define GrowlSmokeIconTextPadding		20.0f
 // the padding between the title and the description

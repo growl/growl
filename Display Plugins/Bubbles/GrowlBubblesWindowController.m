@@ -62,11 +62,11 @@ static unsigned bubbleWindowDepth = 0U;
 	[view setAction:@selector(_notificationClicked:)];
 	[panel setContentView:view];
 
+	[view setPriority:priority];
 	[view setTitle:title];
 	[view setText:text];
-	[view setPriority:priority];
-	
 	[view setIcon:icon];
+
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 	

@@ -12,17 +12,44 @@
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 
-static float titleHeight;
+#define GrowlBrushedTextAreaWidth (GrowlBrushedNotificationWidth - GrowlBrushedPadding - GrowlBrushedIconPadding - GrowlBrushedIconSize - GrowlBrushedIconTextPadding - GrowlBrushedPadding)
+#define GrowlBrushedMinTextHeight	(GrowlBrushedPadding + GrowlBrushedIconPadding + GrowlBrushedIconSize + GrowlBrushedPadding)
 
 @implementation GrowlBrushedWindowView
 
-- (void) dealloc {
-	[icon release];
-	[title release];
-	[text release];
-	[textColor release];
+- (id) initWithFrame:(NSRect) frame {
+	if ((self = [super initWithFrame:frame])) {
+		titleFont = [[NSFont boldSystemFontOfSize:GrowlBrushedTitleFontSize] retain];
+		textFont = [[NSFont systemFontOfSize:GrowlBrushedTextFontSize] retain];
+		layoutManager = [[NSLayoutManager alloc] init];
+		titleHeight = [layoutManager defaultLineHeightForFont:titleFont];
+		textShadow = [[NSShadow alloc] init];
+		[textShadow setShadowOffset:NSMakeSize(0.0f, -2.0f)];
+		[textShadow setShadowBlurRadius:3.0f];
+		[textShadow setShadowColor:[[[self window] backgroundColor] blendedColorWithFraction:0.5f
+																					 ofColor:[NSColor blackColor]]];
+	}
 
+	return self;
+}
+
+- (void) dealloc {
+	[titleFont     release];
+	[textFont      release];
+	[icon          release];
+	[title         release];
+	[text          release];
+	[textColor     release];
+	[textShadow    release];
+	[textStorage   release];
+	[layoutManager release];
+	
 	[super dealloc];
+}
+
+- (BOOL)isFlipped {
+	// Coordinates are based on top left corner
+    return YES;
 }
 
 - (void) drawRect:(NSRect)rect {
@@ -33,14 +60,13 @@ static float titleHeight;
 	[[NSColor clearColor] set];
 	NSRectFill( frame );
 
-	// draw bezier path for rounded corners
-	float sizeReduction = GrowlBrushedPadding + GrowlBrushedIconSize + (GrowlBrushedIconTextPadding * 0.5f);
-
 	// calculate bounds based on icon-float pref on or off
 	NSRect shadedBounds;
 	BOOL floatIcon = GrowlBrushedFloatIconPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatIcon);
 	if (floatIcon) {
+		float sizeReduction = GrowlBrushedPadding + GrowlBrushedIconPadding + GrowlBrushedIconSize + (GrowlBrushedIconTextPadding * 0.5f);
+
 		shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
 								  bounds.origin.y,
 								  bounds.size.width - sizeReduction,
@@ -68,70 +94,43 @@ static float titleHeight;
 	// revert to unclipped graphics context
 	[graphicsContext restoreGraphicsState];
 
-	float notificationContentTop = frame.size.height - GrowlBrushedPadding;
-
-	// build an appropriate colour for the text
-	//NSColor *textColour = [NSColor whiteColor];
-
-	NSShadow *textShadow = [[NSShadow alloc] init];
-
-	NSSize shadowSize;
-	shadowSize.width = 0.0f;
-	shadowSize.height = -2.0f;
-	[textShadow setShadowOffset:shadowSize];
-	[textShadow setShadowBlurRadius:3.0f];
-	[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5f ofColor:[NSColor blackColor]]];
-
-	// construct attributes for the description text
-	NSDictionary *descriptionAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-		[NSFont systemFontOfSize:GrowlBrushedTextFontSize], NSFontAttributeName,
-		textColor, NSForegroundColorAttributeName,
-		textShadow, NSShadowAttributeName,
-		nil];
-	// construct attributes for the title
-	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-	NSDictionary *titleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-		[NSFont boldSystemFontOfSize:GrowlBrushedTitleFontSize], NSFontAttributeName,
-		textColor, NSForegroundColorAttributeName,
-		textShadow, NSShadowAttributeName,
-		paragraphStyle, NSParagraphStyleAttributeName,
-		nil];
-	[textShadow release];
-	[paragraphStyle release];
-
 	// draw the title and the text
-	unsigned textXPosition = GrowlBrushedPadding + GrowlBrushedIconSize + GrowlBrushedIconTextPadding;
 	NSRect drawRect;
-
-	drawRect.origin.x = textXPosition;
-	drawRect.origin.y = notificationContentTop;
-	drawRect.size.width = [self textAreaWidth];
+	drawRect.origin.x = GrowlBrushedPadding + GrowlBrushedIconPadding + GrowlBrushedIconSize + GrowlBrushedIconTextPadding;
+	drawRect.origin.y = GrowlBrushedPadding;
+	drawRect.size.width = GrowlBrushedTextAreaWidth;
 
 	if (title && [title length]) {
-		drawRect.size.height = [self titleHeight];
-		drawRect.origin.y -= drawRect.size.height;
-		
+		drawRect.size.height = titleHeight;
+
+		// construct attributes for the title
+		NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+		[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+		NSDictionary *titleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+			titleFont,      NSFontAttributeName,
+			textColor,      NSForegroundColorAttributeName,
+			textShadow,     NSShadowAttributeName,
+			paragraphStyle, NSParagraphStyleAttributeName,
+			nil];
 		[title drawInRect:drawRect withAttributes:titleAttributes];
-		
-		drawRect.origin.y -= GrowlBrushedTitleTextPadding;
+		[titleAttributes release];
+		[paragraphStyle release];
+
+		drawRect.origin.y += drawRect.size.height + GrowlBrushedTitleTextPadding;
 	}
-	[titleAttributes release];
 
 	if (text && [text length]) {
-		drawRect.origin.y -= [self descriptionHeight];
-		drawRect.size.height = [self descriptionHeight];
-		
-		[text drawInRect:drawRect withAttributes:descriptionAttributes];
+		NSRange glyphRange = [layoutManager glyphRangeForTextContainer:textContainer];
+		[layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
 	}
-	[descriptionAttributes release];
 
-	drawRect.origin.x = GrowlBrushedPadding;
-	drawRect.origin.y = notificationContentTop - GrowlBrushedIconSize;
+	drawRect.origin.x = GrowlBrushedPadding + GrowlBrushedIconPadding;
+	drawRect.origin.y = GrowlBrushedPadding + GrowlBrushedIconPadding;
 	drawRect.size.width = GrowlBrushedIconSize;
 	drawRect.size.height = GrowlBrushedIconSize;
 
 	// we do this because we are always working with a copy
+	[icon setFlipped:YES];
 	[icon drawScaledInRect:drawRect
 				 operation:NSCompositeSourceOver
 				  fraction:1.0f];
@@ -140,23 +139,48 @@ static float titleHeight;
 }
 
 - (void) setIcon:(NSImage *)anIcon {
-	[icon autorelease];
+	[icon release];
 	icon = [anIcon retain];
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setTitle:(NSString *)aTitle {
-	[title autorelease];
+	[title release];
 	title = [aTitle copy];
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setText:(NSString *)aText {
-	[text autorelease];
+	[text release];
 	text = [aText copy];
-	textHeight = 0.0f;
+
+	if (!textStorage) {
+		NSSize containerSize = {GrowlBrushedTextAreaWidth, FLT_MAX};
+		textStorage = [[NSTextStorage alloc] init];
+		textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
+		[layoutManager addTextContainer:textContainer];	// retains textContainer
+		[textContainer release];
+		[textStorage addLayoutManager:layoutManager];	// retains layoutManager
+		[textContainer setLineFragmentPadding:0.0f];
+	}
+
+	// construct attributes for the description text
+	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+		textFont,   NSFontAttributeName,
+		textColor,  NSForegroundColorAttributeName,
+		textShadow, NSShadowAttributeName,
+		nil];
+
+	[[textStorage mutableString] setString:text];
+	[textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
+
+	[attributes release];
+
+	[layoutManager glyphRangeForTextContainer:textContainer];	// force layout		
+	textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
@@ -199,28 +223,19 @@ static float titleHeight;
 
 - (void)sizeToFit {
 	NSRect rect = [self frame];
-	rect.size.height = GrowlBrushedIconPadding + GrowlBrushedPadding + GrowlBrushedTitleTextPadding + [self titleHeight] + [self descriptionHeight];
-	float minSize = (2.0f * GrowlBrushedIconPadding) + [self titleHeight] + GrowlBrushedTitleTextPadding + GrowlBrushedTextFontSize + 1.0f;
-	if (rect.size.height < minSize) {
-		rect.size.height = minSize;
+	rect.size.height = GrowlBrushedPadding + GrowlBrushedPadding + [self titleHeight] + [self descriptionHeight];
+	if (title && text && [title length] && [text length]) {
+		rect.size.height += GrowlBrushedTitleTextPadding;
+	}
+	if (rect.size.height < GrowlBrushedMinTextHeight) {
+		rect.size.height = GrowlBrushedMinTextHeight;
 	}
 	[self setFrame:rect];
-}
-
-- (int) textAreaWidth {
-	return GrowlBrushedNotificationWidth - GrowlBrushedPadding
-	   	- GrowlBrushedIconSize - GrowlBrushedIconPadding - GrowlBrushedIconTextPadding;
 }
 
 - (float) titleHeight {
 	if (!title || ![title length]) {
 		return 0.0f;
-	}
-
-	if (!titleHeight) {
-		NSLayoutManager *lm = [[NSLayoutManager alloc] init];
-		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlBrushedTitleFontSize]];
-		[lm release];
 	}
 
 	return titleHeight;
@@ -231,56 +246,21 @@ static float titleHeight;
 		return 0.0f;
 	}
 	
-	if (!textHeight) {
-		NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[NSFont systemFontOfSize:GrowlBrushedTextFontSize], NSFontAttributeName,
-			nil];
-		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:text
-																attributes:attributes];
-
-		NSSize containerSize;
-		BOOL limitPref = GrowlBrushedLimitPrefDefault;
-		READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
-		containerSize.width = [self textAreaWidth];
-		if (limitPref) {
-			// this will be horribly wrong, but don't worry about it for now
-			float lineHeight = GrowlBrushedTextFontSize + 1;
-			containerSize.height = lineHeight * 6.0f;
-		} else {
-			containerSize.height = FLT_MAX;
-		}
-		NSTextContainer *textContainer = [[NSTextContainer alloc]
-			initWithContainerSize:containerSize];
-		[textContainer setLineFragmentPadding:0.0f];
-		NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
-
-		[layoutManager addTextContainer:textContainer];	// retains textContainer
-		[textContainer release];
-		[textStorage addLayoutManager:layoutManager];	// retains layoutManager
-		[layoutManager release];
-		[layoutManager glyphRangeForTextContainer:textContainer];	// force layout
-		
-		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-
-		// for some reason, this code is using a 13-point line height for calculations, but the font 
-		// in fact renders in 14 points of space. Do some adjustments.
-		// Presumably this is all due to leading, so need to find out how to figure out what that
-		// actually is for utmost accuracy
-		textHeight = textHeight / GrowlBrushedTextFontSize * (GrowlBrushedTextFontSize + 1);
-
-		[textStorage release];
-		[attributes  release];
-	}
-	
 	return textHeight;
 }
 
 - (int) descriptionRowCount {
-	float height = [self descriptionHeight];
-	// this will be horribly wrong, but don't worry about it for now
-	float lineHeight = GrowlBrushedTextFontSize + 1;
-	return (int) (height / lineHeight);
+	int rowCount = textHeight / [layoutManager defaultLineHeightForFont:textFont];
+	BOOL limitPref = GrowlBrushedLimitPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
+	if (limitPref) {
+		return MIN(rowCount, 6);
+	} else {
+		return rowCount;
+	}
 }
+
+#pragma mark -
 
 - (id) target {
 	return target;

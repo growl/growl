@@ -93,7 +93,7 @@ static const double gMaxDisplayTime = 10.;
 		  space.origin.x, space.origin.y, space.size.width, space.size.height);*/
 	if (i != identifier && NSIntersectsRect(space, theFrame)) {
 		//NSLog(@"I intersect with this frame\n");
-		theFrame.origin.y = space.origin.y - space.size.height;
+		theFrame.origin.y = space.origin.y - space.size.height - GrowlBrushedPadding;
 		//NSLog(@"New origin: (%f, %f)\n", theFrame.origin.x, theFrame.origin.y);
 		[window setFrame:theFrame display:NO animate:YES];
 		NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:identifier];
@@ -151,11 +151,11 @@ static const double gMaxDisplayTime = 10.;
 	[view setAction:@selector(_notificationClicked:)];
 	[panel setContentView:view];
 
+    [view setPriority:priority];
 	[view setTitle:title];
 	[view setText:text];
-    [view setPriority:priority];
-
 	[view setIcon:icon];
+
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 
