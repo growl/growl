@@ -5,8 +5,8 @@ GROWL_FRAMEWORK=GrowlAppBridge.framework
 BUILD_DIR=build
 GROWL_HELPER_APP=$(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)/Contents/Resources/GrowlHelperApp.app
 
-#DEFAULT_BUILDSTYLE=Deployment
-DEFAULT_BUILDSTYLE=Development
+DEFAULT_BUILDSTYLE=Deployment
+#DEFAULT_BUILDSTYLE=Development
 
 CP=ditto --rsrc
 RM=rm

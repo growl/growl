@@ -104,7 +104,7 @@
 				07CC344F06FFE5FC0029B83C,
 				07CC346B06FFE6FA0029B83C,
 				07CC346D06FFE6FA0029B83C,
-				07CC346F06FFE6FA0029B83C,
+				9583E2920738DFC700D909B9,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -174,7 +174,7 @@
 				07CC346306FFE6FA0029B83C,
 				07CC346406FFE6FA0029B83C,
 				07CC346506FFE6FA0029B83C,
-				07CC346606FFE6FA0029B83C,
+				9583E2910738DFC700D909B9,
 			);
 			isa = PBXGroup;
 			path = MailMe;
@@ -216,7 +216,8 @@
 		07CC346606FFE6FA0029B83C = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			path = GrowlMailMePrefs.nib;
+			name = English;
+			path = English.lproj/GrowlMailMePrefs.nib;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -240,12 +241,6 @@
 		};
 		07CC346E06FFE6FA0029B83C = {
 			fileRef = 07CC346506FFE6FA0029B83C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		07CC346F06FFE6FA0029B83C = {
-			fileRef = 07CC346606FFE6FA0029B83C;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -590,16 +585,10 @@
 		3482252806F2EC2100B33560 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			name = SmokePrefs.nib;
-			path = Smoke/SmokePrefs.nib;
+			name = English;
+			path = Smoke/English.lproj/SmokePrefs.nib;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		3482252906F2EC2100B33560 = {
-			fileRef = 3482252806F2EC2100B33560;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		3482252C06F2EC6200B33560 = {
 			fileEncoding = 4;
@@ -673,7 +662,7 @@
 				3458F00A06F2E4FB0066D180,
 				3458F00B06F2E4FB0066D180,
 				3458F00D06F2E4FB0066D180,
-				3482252906F2EC2100B33560,
+				9583E2840738DD4300D909B9,
 				3482252E06F2EC6200B33560,
 				34BA9D2A07086EDA0055683E,
 			);
@@ -777,7 +766,7 @@
 				3458F00706F2E4FB0066D180,
 				3458F00806F2E4FB0066D180,
 				3458F00906F2E4FB0066D180,
-				3482252806F2EC2100B33560,
+				9583E2830738DD4300D909B9,
 			);
 			isa = PBXGroup;
 			name = Smoke;
@@ -980,7 +969,7 @@
 				6C86F87306F04E8D008EA344,
 				6C86F88F06F0620D008EA344,
 				6CEC911006F6F85F00198405,
-				6CEC912E06F7099900198405,
+				9583E28A0738DF0A00D909B9,
 				6C7F69C906F9ACE10012FC7D,
 				6C22288A06FF60A50056CEAA,
 			);
@@ -1077,7 +1066,7 @@
 		6C60D7C206F044A30025909F = {
 			children = (
 				6C7F69C806F9ACE10012FC7D,
-				6CEC912D06F7099900198405,
+				9583E2890738DF0A00D909B9,
 				6CEC910E06F6F85F00198405,
 				6CEC910F06F6F85F00198405,
 				6C86F88D06F0620D008EA344,
@@ -1127,7 +1116,7 @@
 			files = (
 				6C7CEAF40707F55D00441A92,
 				6C7CEAF60707F55D00441A92,
-				6C7CEAF80707F55D00441A92,
+				9583E28E0738DF9200D909B9,
 				6C7CEAF90707F55D00441A92,
 				6C7CEAFB0707F55D00441A92,
 			);
@@ -1226,7 +1215,7 @@
 				6C7CEAEC0707F55D00441A92,
 				6C7CEAED0707F55D00441A92,
 				6C7CEAEE0707F55D00441A92,
-				6C7CEAEF0707F55D00441A92,
+				9583E28D0738DF9200D909B9,
 				6C7CEAF00707F55D00441A92,
 				6C7CEAF10707F55D00441A92,
 				6C7CEAF20707F55D00441A92,
@@ -1276,8 +1265,8 @@
 		6C7CEAEF0707F55D00441A92 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			name = GrowlMusicVideoPrefs.nib;
-			path = MusicVideo/GrowlMusicVideoPrefs.nib;
+			name = English;
+			path = MusicVideo/English.lproj/GrowlMusicVideoPrefs.nib;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1337,12 +1326,6 @@
 		};
 		6C7CEAF70707F55D00441A92 = {
 			fileRef = 6C7CEAEE0707F55D00441A92;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		6C7CEAF80707F55D00441A92 = {
-			fileRef = 6C7CEAEF0707F55D00441A92;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1520,22 +1503,122 @@
 		6CEC912D06F7099900198405 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			name = GrowlBezelPrefs.nib;
-			path = Bezel/GrowlBezelPrefs.nib;
+			name = English;
+			path = Bezel/English.lproj/GrowlBezelPrefs.nib;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		6CEC912E06F7099900198405 = {
-			fileRef = 6CEC912D06F7099900198405;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 //6C0
 //6C1
 //6C2
 //6C3
 //6C4
+//950
+//951
+//952
+//953
+//954
+		9583E2830738DD4300D909B9 = {
+			children = (
+				3482252806F2EC2100B33560,
+				9583E2850738DD4F00D909B9,
+			);
+			isa = PBXVariantGroup;
+			name = SmokePrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9583E2840738DD4300D909B9 = {
+			fileRef = 9583E2830738DD4300D909B9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9583E2850738DD4F00D909B9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = Smoke/German.lproj/SmokePrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9583E2890738DF0A00D909B9 = {
+			children = (
+				6CEC912D06F7099900198405,
+				9583E28B0738DF0D00D909B9,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlBezelPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9583E28A0738DF0A00D909B9 = {
+			fileRef = 9583E2890738DF0A00D909B9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9583E28B0738DF0D00D909B9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = Bezel/German.lproj/GrowlBezelPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9583E28D0738DF9200D909B9 = {
+			children = (
+				6C7CEAEF0707F55D00441A92,
+				9583E28F0738DF9800D909B9,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlMusicVideoPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9583E28E0738DF9200D909B9 = {
+			fileRef = 9583E28D0738DF9200D909B9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9583E28F0738DF9800D909B9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = MusicVideo/German.lproj/GrowlMusicVideoPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9583E2910738DFC700D909B9 = {
+			children = (
+				07CC346606FFE6FA0029B83C,
+				9583E2930738DFCB00D909B9,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlMailMePrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9583E2920738DFC700D909B9 = {
+			fileRef = 9583E2910738DFC700D909B9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9583E2930738DFCB00D909B9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = German.lproj/GrowlMailMePrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//950
+//951
+//952
+//953
+//954
 //A10
 //A11
 //A12

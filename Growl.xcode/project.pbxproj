@@ -214,15 +214,10 @@
 		0A62933106EE7E5B00002780 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			path = BubblesPrefs.nib;
+			name = English;
+			path = English.lproj/BubblesPrefs.nib;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		0A62933206EE7E5B00002780 = {
-			fileRef = 0A62933106EE7E5B00002780;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		0A62933306EE7E7B00002780 = {
 			fileEncoding = 4;
@@ -991,6 +986,30 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		9522BDDB0738E024008C6B65 = {
+			children = (
+				0A62933106EE7E5B00002780,
+				9522BDDD0738E029008C6B65,
+			);
+			isa = PBXVariantGroup;
+			name = BubblesPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9522BDDC0738E024008C6B65 = {
+			fileRef = 9522BDDB0738E024008C6B65;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9522BDDD0738E029008C6B65 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = German.lproj/BubblesPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		959FAF470738B9A000040AA9 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1342,7 +1361,7 @@
 		CB5F84D90638BFDB00EADD7A = {
 			buildActionMask = 2147483647;
 			files = (
-				0A62933206EE7E5B00002780,
+				9522BDDC0738E024008C6B65,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1469,7 +1488,7 @@
 		};
 		CB5F8F3B0638C7BF00EADD7A = {
 			children = (
-				0A62933106EE7E5B00002780,
+				9522BDDB0738E024008C6B65,
 				CB5F84DE0638BFDB00EADD7A,
 			);
 			isa = PBXGroup;

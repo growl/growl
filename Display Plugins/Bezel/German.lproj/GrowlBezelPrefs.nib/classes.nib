@@ -1,0 +1,38 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {preferenceChanged = id; }; 
+            CLASS = GrowlBezelPrefs; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "color_emergency" = NSColorWell; 
+                "color_high" = NSColorWell; 
+                "color_moderate" = NSColorWell; 
+                "color_normal" = NSColorWell; 
+                "color_veryLow" = NSColorWell; 
+                "radio_PositionBL" = NSButton; 
+                "radio_PositionBR" = NSButton; 
+                "radio_PositionD" = NSButton; 
+                "radio_PositionTL" = NSButton; 
+                "radio_PositionTR" = NSButton; 
+                "radio_Size" = NSMatrix; 
+                "slider_Opacity" = NSSlider; 
+                "text_Opacity" = NSTextField; 
+            }; 
+            SUPERCLASS = NSPreferencePane; 
+        }, 
+        {
+            CLASS = NSPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_firstKeyView" = NSView; 
+                "_initialKeyView" = NSView; 
+                "_lastKeyView" = NSView; 
+                "_window" = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

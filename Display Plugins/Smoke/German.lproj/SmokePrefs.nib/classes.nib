@@ -1,0 +1,39 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {colorChanged = id; floatIconSwitchChanged = id; opacitySliderChanged = id; }; 
+            CLASS = GrowlSmokePrefsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "color_emergency" = NSColorWell; 
+                "color_high" = NSColorWell; 
+                "color_moderate" = NSColorWell; 
+                "color_normal" = NSColorWell; 
+                "color_veryLow" = NSColorWell; 
+                floatIconSwitch = NSButton; 
+                opacitySlider = NSSlider; 
+                "text_Opacity" = NSTextField; 
+            }; 
+            SUPERCLASS = NSPreferencePane; 
+        }, 
+        {
+            CLASS = GrowlSmokeWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            CLASS = NSPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_firstKeyView" = NSView; 
+                "_initialKeyView" = NSView; 
+                "_lastKeyView" = NSView; 
+                "_window" = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -17,8 +17,8 @@ PREFERENCEPANES_DIR=$(HOME)/Library/PreferencePanes
 GROWL_PREFPANE=Growl.prefPane
 GROWL_HELPER_APP=$(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)/Contents/Resources/GrowlHelperApp.app
 
-#DEFAULT_BUILDSTYLE=Deployment
-DEFAULT_BUILDSTYLE=Development
+DEFAULT_BUILDSTYLE=Deployment
+#DEFAULT_BUILDSTYLE=Development
 
 CP=ditto --rsrc
 RM=rm
