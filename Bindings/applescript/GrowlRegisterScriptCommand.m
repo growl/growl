@@ -32,7 +32,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 	NSString *iconOfApplication		= [args objectForKey:KEY_ICON_APP_NAME];
 
 	//translate AppleScript (1-based) indices to C (0-based) indices.
-	NSMutableArray *temp = [NSMutableArray arrayWithArray:defaultNotifications];
+	NSMutableArray *temp = [[NSMutableArray alloc] initWithArray:defaultNotifications];
 	NSEnumerator *defaultEnum = [defaultNotifications objectEnumerator];
 	NSNumber *num;
 	Class NSNumberClass = [NSNumber class];
@@ -63,6 +63,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 		allNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
+	[defaultNotifications release];
 
 	NS_DURING
 		if (iconOfApplication) {

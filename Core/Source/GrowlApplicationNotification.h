@@ -27,6 +27,8 @@ typedef enum GrowlPriority {
 
 + (GrowlApplicationNotification *) notificationWithName:(NSString *)name;
 + (GrowlApplicationNotification *) notificationFromDict:(NSDictionary *)dict;
+- (GrowlApplicationNotification *) initWithName:(NSString *)name;
+- (GrowlApplicationNotification *) initWithDict:(NSDictionary *)dict;
 - (GrowlApplicationNotification *) initWithName:(NSString *)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(int)sticky displayPlugin:(id <GrowlDisplayPlugin>)display;
 - (NSDictionary *) notificationAsDict;
 

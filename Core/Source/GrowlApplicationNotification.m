@@ -12,10 +12,14 @@
 
 @implementation GrowlApplicationNotification
 + (GrowlApplicationNotification *) notificationWithName:(NSString *)theName {
-	return [[[GrowlApplicationNotification alloc] initWithName:theName priority:GP_unset enabled:YES sticky:NSMixedState displayPlugin:nil] autorelease];
+	return [[[GrowlApplicationNotification alloc] initWithName:theName] autorelease];
 }
 
 + (GrowlApplicationNotification *) notificationFromDict:(NSDictionary *)dict {
+	return [[[GrowlApplicationNotification alloc] initWithDict:dict] autorelease];
+}
+
+- (GrowlApplicationNotification *) initWithDict:(NSDictionary *)dict {
 	NSString *inName = [dict objectForKey:@"Name"];
 	GrowlPriority inPriority;
 	id value = [dict objectForKey:@"Priority"];
@@ -34,10 +38,15 @@
 	} else {
 		inDisplay = nil;
 	}
-	return [[[GrowlApplicationNotification alloc] initWithName:inName priority:inPriority enabled:inEnabled sticky:inSticky displayPlugin:inDisplay] autorelease];
+
+	return [self initWithName:inName priority:inPriority enabled:inEnabled sticky:inSticky displayPlugin:inDisplay];
 }
 
-- (GrowlApplicationNotification *) initWithName:(NSString*)inName priority:(GrowlPriority)inPriority enabled:(BOOL)inEnabled sticky:(int)inSticky displayPlugin:(id <GrowlDisplayPlugin>)display {
+- (GrowlApplicationNotification *) initWithName:(NSString *)theName {
+	return [self initWithName:theName priority:GP_unset enabled:YES sticky:NSMixedState displayPlugin:nil];
+}
+
+- (GrowlApplicationNotification *) initWithName:(NSString *)inName priority:(GrowlPriority)inPriority enabled:(BOOL)inEnabled sticky:(int)inSticky displayPlugin:(id <GrowlDisplayPlugin>)display {
 	if ((self = [super init])) {
 		name = [inName retain];
 		priority = inPriority;

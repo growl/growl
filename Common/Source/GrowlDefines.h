@@ -74,12 +74,6 @@
  *	 notification names.
  */
 #define GROWL_NOTIFICATIONS_ALL			XSTR("AllNotifications")
-/*!	@defined GROWL_NOTIFICATIONS_USER_SET
- *	@abstract The array of notifications the user has turned on.
- *	@discussion This array contains the names of all the notifications the user
- *	 has enabled. Your application should not interact with this key.
- */
-#define GROWL_NOTIFICATIONS_USER_SET	XSTR("AllowedUserNotifications")
 /*!	@defined	GROWL_TICKET_VERSION
  *	@abstract	The version of your registration ticket.
  *	@discussion	Include this key in a ticket plist file that you put in your

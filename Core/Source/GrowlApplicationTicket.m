@@ -98,28 +98,31 @@
 		return nil;
 	}
 	if ((self = [super init])) {
-		NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
 		appName = [[ticketDict objectForKey:GROWL_APP_NAME] retain];
 
 		//Get all the notification names and the data about them
 		allNotificationNames = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_ALL] retain];
 		NSAssert1(allNotificationNames, @"Ticket dictionaries must contain a list of all their notifications (application name: %@)", appName);
-		defaultNotifications = [ticketDict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
-		if (!defaultNotifications) defaultNotifications = allNotificationNames;
-		[defaultNotifications retain];
+		NSArray *inDefaults = [ticketDict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+		if (!inDefaults) inDefaults = allNotificationNames;
 
 		NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
-		NSMutableDictionary *allNotificationsTemp = [NSMutableDictionary dictionary];
+		NSMutableDictionary *allNotificationsTemp = [[NSMutableDictionary alloc] initWithCapacity:[allNotificationNames count]];
 		id obj;
 		while ((obj = [notificationsEnum nextObject])) {
+			NSString *name;
+			GrowlApplicationNotification *notification;
 			if ([obj isKindOfClass:[NSString class]]) {
-				[allNotificationsTemp setObject:[GrowlApplicationNotification notificationWithName:obj] forKey:obj];
-				[self setAllowedNotifications:[ticketDict objectForKey:GROWL_NOTIFICATIONS_USER_SET]];
+				name = obj;
+				notification = [[GrowlApplicationNotification alloc] initWithName:obj];
 			} else {
-				[allNotificationsTemp setObject:[GrowlApplicationNotification notificationFromDict:obj] forKey:[obj objectForKey:@"Name"]];
+				name = [obj objectForKey:@"Name"];
+				notification = [[GrowlApplicationNotification alloc] initWithDict:obj];
 			}
+			[allNotificationsTemp setObject:notification forKey:name];
+			[notification release];
 		}
-		allNotifications = [[NSDictionary alloc] initWithDictionary:allNotificationsTemp];
+		allNotifications = allNotificationsTemp;
 
 		NSString *fullPath = nil;
 		id location = [ticketDict objectForKey:GROWL_APP_LOCATION];
@@ -135,6 +138,7 @@
 				}
 			}
 		}
+		NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
 		if (!fullPath) {
 			fullPath = [workspace fullPathForApplication:appName];
 		}
@@ -168,7 +172,8 @@
 		} else {
 			displayPlugin = nil;
 		}
-		[self saveTicket];
+
+		[self setDefaultNotifications:inDefaults];
 	}
 
 	return self;
@@ -225,10 +230,10 @@
 	// Save a Plist file of this object to configure the prefs of apps that aren't running
 	// construct a dictionary of our state data then save that dictionary to a file.
 	NSString *savePath = [destDir stringByAppendingPathComponent:[appName stringByAppendingPathExtension:@"growlTicket"]];
-	NSMutableArray *saveNotifications = [NSMutableArray array];
+	NSMutableArray *saveNotifications = [[NSMutableArray alloc] initWithCapacity:[allNotifications count]];
 	NSEnumerator *notificationEnum = [allNotifications objectEnumerator];
-	id obj;
-	while ( (obj = [notificationEnum nextObject] ) ) {
+	GrowlApplicationNotification *obj;
+	while ((obj = [notificationEnum nextObject])) {
 		[saveNotifications addObject:[obj notificationAsDict]];
 	}
 
@@ -244,13 +249,16 @@
 		saveNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		icon ? [icon TIFFRepresentation] : [NSData data], GROWL_APP_ICON,
-		location, GROWL_APP_LOCATION,
 		[NSNumber numberWithBool:useDefaults], UseDefaultsKey,
 		[NSNumber numberWithBool:ticketEnabled], TicketEnabledKey,
 		nil];
+	[saveNotifications release];
 	NSString *displayPluginName = [displayPlugin name];
 	if (displayPluginName) {
 		[saveDict setObject:displayPluginName forKey:GrowlDisplayPluginKey];
+	}
+	if (location) {
+		[saveDict setObject:location forKey:GROWL_APP_LOCATION];
 	}
 
 	NSData *plistData;
@@ -441,7 +449,9 @@
 			if (obj) {
 				[tmp setObject:obj forKey:key];
 			} else {
-				[tmp setObject:[GrowlApplicationNotification notificationWithName:key] forKey:key];
+				GrowlApplicationNotification *notification = [[GrowlApplicationNotification alloc] initWithName:key];
+				[tmp setObject:notification forKey:key];
+				[notification release];
 			}
 		}
 		[allNotifications release];
@@ -520,7 +530,7 @@
 	}
 
 	if (useDefaults) {
-		[self setAllowedNotifications:defaultNotifications];
+		[self setAllowedNotificationsToDefault];
 	}
 }
 
@@ -528,7 +538,7 @@
 	NSMutableArray* allowed = [NSMutableArray array];
 	NSEnumerator *notificationEnum = [allNotifications objectEnumerator];
 	id obj;
-	while ( (obj = [notificationEnum nextObject] ) ) {
+	while ((obj = [notificationEnum nextObject])) {
 		if ([obj enabled]) {
 			[allowed addObject:[obj name]];
 		}
@@ -552,12 +562,12 @@
 }
 
 - (void) setNotificationEnabled:(NSString *) name {
-	[[allNotifications objectForKey:name] setEnabled: YES];
+	[[allNotifications objectForKey:name] setEnabled:YES];
 	useDefaults = NO;
 }
 
 - (void) setNotificationDisabled:(NSString *) name {
-	[[allNotifications objectForKey:name] setEnabled: NO];
+	[[allNotifications objectForKey:name] setEnabled:NO];
 	useDefaults = NO;
 }
 
