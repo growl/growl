@@ -318,44 +318,49 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 				 *	directly (as if the user had double-clicked on it or
 				 *	clicked 'Start Growl').
 				 */
-				//create the path: /tmp/$UID/$UUID.growlRegDict
+				//create the path: /tmp/$UID/TemporaryItems/$UUID.growlRegDict
 				CFStringRef tmp = _copyTemporaryFolderPath();
-				CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-				CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
-				CFRelease(uuid);
-				CFStringRef extension = GROWL_REG_DICT_EXTENSION;
-				CFStringRef slash = CFSTR("/");
-				CFStringRef fullstop = CFSTR(".");
+				if(!tmp) {
+					NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Could not find the temporary directory path, therfore cannot register."));
+				} else {
+					CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+					CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
+					CFRelease(uuid);
+					CFStringRef extension = GROWL_REG_DICT_EXTENSION;
+					CFStringRef slash = CFSTR("/");
+					CFStringRef fullstop = CFSTR(".");
 
-				enum { numComponents = 5 };
-				const void *componentObjects[numComponents] = {
-					tmp, slash, uuidString, fullstop, extension,
-				};
-				CFArrayRef components = CFArrayCreate(kCFAllocatorDefault, componentObjects, numComponents, &kCFTypeArrayCallBacks);
-				CFRelease(uuidString);
-				CFStringRef regDictPath = CFStringCreateByCombiningStrings(kCFAllocatorDefault, components, /*separator*/ CFSTR(""));
-				CFRelease(components);
+					enum { numComponents = 5 };
+					const void *componentObjects[numComponents] = {
+						tmp, slash, uuidString, fullstop, extension,
+					};
+					CFArrayRef components = CFArrayCreate(kCFAllocatorDefault, componentObjects, numComponents, &kCFTypeArrayCallBacks);
+					CFRelease(uuidString);
+					CFStringRef regDictPath = CFStringCreateByCombiningStrings(kCFAllocatorDefault, components, /*separator*/ CFSTR(""));
+					CFRelease(components);
 
-				CFURLRef regDictURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, regDictPath, kCFURLPOSIXPathStyle, /*isDirectory*/ false);
-				CFRelease(regDictPath);
+					CFURLRef regDictURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, regDictPath, kCFURLPOSIXPathStyle, /*isDirectory*/ false);
+					CFRelease(regDictPath);
 
-				//write out the dictionary to that path.
-				CFWriteStreamRef stream = CFWriteStreamCreateWithFile(kCFAllocatorDefault, regDictURL);
+					//write out the dictionary to that path.
+					CFWriteStreamRef stream = CFWriteStreamCreateWithFile(kCFAllocatorDefault, regDictURL);
 
-				CFStringRef errorString = NULL;
-				CFPropertyListWriteToStream(regDict, stream, kCFPropertyListXMLFormat_v1_0, &errorString);
-				if(errorString) {
-					NSLog(CFSTR("GrowlApplicationBridge: Error writing registration dictionary to URL %@: %@"), regDictURL, errorString);
-					NSLog(CFSTR("GrowlApplicationBridge: Registration dictionary follows\n%@"), regDict);
-				}
+					CFStringRef errorString = NULL;
+					CFPropertyListWriteToStream(regDict, stream, kCFPropertyListXMLFormat_v1_0, &errorString);
+					if(errorString) {
+						NSLog(CFSTR("GrowlApplicationBridge: Error writing registration dictionary to URL %@: %@"), regDictURL, errorString);
+						NSLog(CFSTR("GrowlApplicationBridge: Registration dictionary follows\n%@"), regDict);
+					}
 
-				CFWriteStreamClose(stream);
-				CFRelease(stream);
+					CFWriteStreamClose(stream);
+					CFRelease(stream);
 
-				//be sure to open the file.
-				itemsToOpen = CFArrayCreate(kCFAllocatorDefault, (const void **)&regDictURL, /*count*/ 1, &kCFTypeArrayCallBacks);
-				CFRelease(regDictURL);
-			}
+					//be sure to open the file if it exists.
+					if(!errorString)
+						itemsToOpen = CFArrayCreate(kCFAllocatorDefault, (const void **)&regDictURL, /*count*/ 1, &kCFTypeArrayCallBacks);
+					CFRelease(regDictURL);
+				} //if(tmp)
+			} //if(regDict)
 
 			//Houston, we are go for launch.
 			//we use LSOpenFromURLSpec because it can act synchronously.
@@ -370,10 +375,10 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 			CFRelease(growlHelperAppURL);
 			if(itemsToOpen)
 				CFRelease(itemsToOpen);
-		}
+		} //if(growlHelperAppURL)
 
 		CFRelease(growlPrefPaneBundle);
-	}
+	} //if(growlPrefPaneBundle)
 
 	if(regDict)
 		CFRelease(regDict);
@@ -555,9 +560,15 @@ CFStringRef _copyCurrentProcessName(void) {
 
 static CFStringRef _copyTemporaryFolderPath(void) {
 	FSRef ref;
+	CFStringRef string;
 	OSStatus err = FSFindFolder(kOnAppropriateDisk, kTemporaryFolderType, kCreateFolder, &ref);
-	CFURLRef url = CFURLCreateFromFSRef(kCFAllocatorDefault, &ref);
-	CFStringRef string = CFRetain(CFURLGetString(url));
-	CFRelease(url);
+	if(err != noErr) {
+		NSLog(CFSTR("GrowlApplicationBridge: Could not locate temporary folder because FSFindFolder returned %li - will try using %@"), (long)err, string);
+		string = NULL;
+	} else {
+		CFURLRef url = CFURLCreateFromFSRef(kCFAllocatorDefault, &ref);
+		string = CFRetain(CFURLGetString(url));
+		CFRelease(url);
+	}
 	return string;
 }
