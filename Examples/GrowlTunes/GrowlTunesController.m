@@ -8,7 +8,7 @@
 
 #import "GrowlTunesController.h"
 #import "GrowlDefines.h"
-#import "GrowlApplicationBridge.h"
+#import <GrowlAppBridge/GrowlApplicationBridge.h>
 #import "NSGrowlAdditions.h"
 
 @interface GrowlTunesController (PRIVATE)
@@ -24,7 +24,7 @@ static NSString *iTunesBundleID = @"com.apple.itunes";
 {
 	self = [super init];
 	
-	[GrowlApplicationBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(registerGrowl:) context:NULL];
+	[GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(registerGrowl:) context:NULL];
 	state = itUNKNOWN;
 	
 	return self;

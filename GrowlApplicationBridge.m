@@ -11,11 +11,11 @@
 #define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY			@"PreferencePanes"
 #define PREFERENCE_PANE_EXTENSION						@"prefPane"
 
-@interface GrowlApplicationBridge (PRIVATE)
+@interface GrowlAppBridge (PRIVATE)
 + (NSArray *)_allPreferencePaneBundles;
 @end
 
-@implementation GrowlApplicationBridge
+@implementation GrowlAppBridge
 
 /*
 + (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context

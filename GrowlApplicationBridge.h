@@ -9,7 +9,7 @@
 
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER	@"com.growl.prefpanel"
 
-@interface GrowlApplicationBridge : NSObject {
+@interface GrowlAppBridge : NSObject {
 
 }
 

@@ -1,5 +1,5 @@
 #import "BeepController.h"
-#import "GrowlApplicationBridge.h"
+#import <GrowlAppBridge/GrowlApplicationBridge.h>
 #import "GrowlDefines.h"
 
 #define GROWL_NOTIFICATION_DEFAULT @"NotificationDefault"
@@ -80,7 +80,7 @@
         NSLog( @"Button on" );
 		
 		//Launch growl if possible
-		if ([GrowlApplicationBridge launchGrowlIfInstalledNotifyingTarget:self
+		if ([GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self
 																 selector:@selector(growlDidLaunch:) 
 																  context:nil]){
 			//Disable the add/remove buttons
