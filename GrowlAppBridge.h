@@ -135,6 +135,8 @@
  */
 + (void) reregisterGrowlNotifications;
 
+@end
+
 #pragma mark -
 /*
 	@protocol GrowlApplicationBridgeDelegate

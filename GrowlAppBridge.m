@@ -6,7 +6,7 @@
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
-#import "GrowlApplicationBridge.h"
+#import "GrowlAppBridge.h"
 #import "GrowlInstallationPrompt.h"
 
 #import <ApplicationServices/ApplicationServices.h>
@@ -41,6 +41,8 @@
 #endif
 
 + (void) _deprecatedNotifyTargetsGrowlIsReady;
+
++ (NSDictionary *) _registrationDictionary;
 
 @end
 
@@ -79,7 +81,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	//Cache the appIconData from the delegate if it responds to the growlAppIconData selector
 	[appIconData autorelease];
 	if ([delegate respondsToSelector:@selector(growlAppIconData)]){
-		appIconData = [[delegate growlAppIconData] retain];
+		appIconData = [[delegate applicationIconData] retain];
 	}
 
 	//Add the observer for GROWL_IS_READY which will be triggered later if all goes well
@@ -246,7 +248,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		FSRef appRef;
 		OSStatus status = FSPathMakeRef((UInt8 *)[growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
 		if (status == noErr) {
-			NSDictionary *registrationDict = [delegate growlRegistrationDictionary];
+			NSDictionary *registrationDict = [self _registrationDictionary];
 			FSRef regItemRef;
 			BOOL passRegDict = NO;
 			
@@ -301,6 +303,27 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	}
 	
 	return growlIsRunning;
+}
+
++ (void) reregisterGrowlNotifications {
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION 
+																   object:nil 
+																 userInfo:[self _registrationDictionary]];	
+}
+
++ (NSDictionary *) _registrationDictionary {
+	NSDictionary *registrationDictionary = [delegate growlRegistrationDictionary];
+	
+	//Ensure the registration dictionary has the GROWL_APP_NAME specified
+	if (![registrationDictionary objectForKey:GROWL_APP_NAME]) {
+		NSMutableDictionary	*properRegistrationDictionary = [[registrationDictionary mutableCopy] autorelease];
+		
+		[properRegistrationDictionary setObject:[delegate applicationName]
+										 forKey:GROWL_APP_NAME];
+		registrationDictionary = properRegistrationDictionary;
+	}
+
+	return(registrationDictionary);
 }
 
 /*Selector called when a growl notification is clicked.  This should never be
