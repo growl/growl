@@ -66,10 +66,10 @@ Example of how to avoid this:
 Message breaking
 ----------------
 Encouraged for long messages:
-	newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
-															withIcon:appIcon
-													andNotifications:allNotes
-													 andDefaultNotes:defaultNotes];
+	newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName
+														withIcon:appIcon
+												andNotifications:allNotes
+												 andDefaultNotes:defaultNotes];
 
 (Note how the colons line up vertically in a monospaced font.)
 
