@@ -5,6 +5,12 @@
 	};
 	objectVersion = 39;
 	objects = {
+		0700DF9A068B281B005C7E05 = {
+			fileRef = 07D0C5CE068A48340076D89A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		07025A120680209A0059A4F9 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -252,12 +258,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		07D0C5CF068A48340076D89A = {
-			fileRef = 07D0C5CE068A48340076D89A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 //070
 //071
 //072
@@ -437,7 +437,7 @@
 				OPTIMIZATION_CFLAGS = "-O0";
 				SKIP_INSTALL = YES;
 				UNSTRIPPED_PRODUCT = YES;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
 			name = Development;
@@ -500,6 +500,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Static;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -570,7 +571,7 @@
 			files = (
 				8D0C4E920486CD37000505A6,
 				072E52A2067C73D10087D469,
-				07D0C5CF068A48340076D89A,
+				0700DF9A068B281B005C7E05,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

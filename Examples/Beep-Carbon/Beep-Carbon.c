@@ -12,7 +12,7 @@
 #include "Beep-Carbon-DataBrowser.h"
 #include "Beep-Carbon-Notifications.h"
 #include "Beep-Carbon-Debugging.h"
-#include "GrowlApplicationBridge-Carbon.h"
+#include <GrowlAppBridge/GrowlApplicationBridge-Carbon.h>
 
 #include <syslog.h>
 #include <stdarg.h>
@@ -86,7 +86,9 @@ int main(void) {
 
 		if(mainWindowHandlerRef && sheetHandlerRef) {
 			DialogRef alertSheet = NULL;
-			Boolean success = LaunchGrowlIfInstalled(/*callback*/ NULL, /*context*/ NULL);
+			Boolean success = false;
+			if(LaunchGrowlIfInstalled)
+				success = LaunchGrowlIfInstalled(/*callback*/ NULL, /*context*/ NULL);
 			if(!success) {
 				const char msg[] = "Make sure you have installed the Growl preference pane in \xe2\x80\xa8~/Library/PreferencePanes, /Library/PreferencePanes, or \xe2\x80\xa8/Network/Library/PreferencePanes.";
 				CFStringRef msgstr = CFStringCreateWithCString(kCFAllocatorDefault, msg, kCFStringEncodingUTF8);
