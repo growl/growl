@@ -21,6 +21,16 @@
 {
 	[super initialize];
 	[self registerBundle];
+
+	NSNumber *enabled = [[NSNumber alloc] initWithBool:YES];
+	NSDictionary *defaultsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+		enabled, @"GMEnableGrowlMailBundle",
+		enabled, @"GMIgnoreJunk",
+		nil];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDictionary];
+	[defaultsDictionary release];
+	[enabled release];
+
 	NSLog( @"Loaded GrowlMail %@", [self bundleVersion] );
 }
 
