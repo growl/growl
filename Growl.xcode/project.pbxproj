@@ -2068,7 +2068,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find $BUILD_ROOT/$WRAPPER_NAME '(' -name '.svn' -or -name '.DS_Store' ')' -prune -exec rm -rf '{}' ';'";
+			shellScript = "find \"$BUILD_ROOT/$WRAPPER_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -exec rm -rf '{}' ';'";
 		};
 		3433455D0790E25300C84B15 = {
 			containerPortal = 089C1669FE841209C02AAC07;
@@ -2482,7 +2482,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find $BUILD_DIR/$FULL_PRODUCT_NAME '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n\n#create compatibility symlinks\ncd $BUILD_DIR/$FULL_PRODUCT_NAME\nrm GrowlAppBridge\nln -s Versions/Current/$EXECUTABLE_NAME GrowlAppBridge\ncd Versions/Current\nrm GrowlAppBridge\nln -s $EXECUTABLE_NAME GrowlAppBridge\n";
+			shellScript = "find \"$BUILD_DIR/$FULL_PRODUCT_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n\n#create compatibility symlinks\ncd $BUILD_DIR/$FULL_PRODUCT_NAME\nrm GrowlAppBridge\nln -s Versions/Current/$EXECUTABLE_NAME GrowlAppBridge\ncd Versions/Current\nrm GrowlAppBridge\nln -s $EXECUTABLE_NAME GrowlAppBridge\n";
 		};
 		34E9EFB30790926400662E8E = {
 			fileEncoding = 4;
@@ -2815,7 +2815,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find $BUILD_DIR/$FULL_PRODUCT_NAME '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n\n#create compatibility symlinks\ncd $BUILD_DIR/$FULL_PRODUCT_NAME\nrm GrowlAppBridge\nln -s Versions/Current/$EXECUTABLE_NAME GrowlAppBridge\ncd Versions/Current\nrm GrowlAppBridge\nln -s $EXECUTABLE_NAME GrowlAppBridge\n";
+			shellScript = "find \"$BUILD_DIR/$FULL_PRODUCT_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n\n#create compatibility symlinks\ncd $BUILD_DIR/$FULL_PRODUCT_NAME\nrm GrowlAppBridge\nln -s Versions/Current/$EXECUTABLE_NAME GrowlAppBridge\ncd Versions/Current\nrm GrowlAppBridge\nln -s $EXECUTABLE_NAME GrowlAppBridge\n";
 		};
 //340
 //341
@@ -4085,9 +4085,9 @@
 			productType = "com.apple.product-type.application";
 		};
 		CB61E5180637763C00E0DDC7 = {
+			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			lastKnownFileType = wrapper.application;
 			path = GrowlHelperApp.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
