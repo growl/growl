@@ -60,7 +60,7 @@ Boolean Growl_SetDelegate(struct GrowlDelegate *newDelegate) {
 
 	if(delegate && (delegate->release))
 		delegate->release(delegate);
-	if(newDelegate && newDelegate->retain)
+	if(newDelegate && (newDelegate->retain))
 		newDelegate = newDelegate->retain(newDelegate);
 	delegate = newDelegate;
 
