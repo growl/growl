@@ -1,84 +1,185 @@
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import <AppKit/NSImage.h>
+#import <AppKit/NSWorkspace.h>
 #import "GrowlDefines.h"
+
+#import <unistd.h>
+#import <getopt.h>
 
 static NSString *notificationName = @"Command-Line Growl Notification";
 
-static const char usage[] = "usage: %s title\n"
-"usage: %s -- title\n"
-"\tthe description for the notification is read from stdin, and the\n"
-"\tnotification is posted once the entire description is collected.\n"
+static const char usage[] = "Usage: %s [-hs] [-i ext] [-I filepath] [--image filepath] [title]\n"
+"Options:\n"
+"    -h,--help     Display this help\n"
+"    -n,--name     Set the name of the application that sends the notification\n"
+"                  [Default: growlnotify]\n"
+"    -s            Make the notification sticky\n"
+"    -a,--appIcon  Specify an application name  to take the icon from\n"
+"    -i,--icon     Specify a filetype or extension to be used for the icon\n"
+"    -I,--iconpath Specify a filepath to be used for the icon\n"
+"    --image       Specify an image file to be used for the icon\n"
 "\n"
-"usage: %s --help\n"
-"\tprint this help.\n";
+"Display a notification using the title given on the command-line and the\n"
+"message given in the standard input.\n"
+"\n"
+"To be compatible with gNotify the following switches are accepted:\n"
+"    -t,--title    Does nothing. Any text following will be treated as the\n"
+"                  title because that's the default argument behaviour\n"
+"    -m,--message  Sets the message to the following instead of using stdin\n";
 
 int main(int argc, const char **argv) {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
+	
 	const char *argv0 = argv[0];
-
-	if(argc-- < 1) {
-		fprintf(stderr, "what happened?! argc (%i) < 1! something is seriously wrong on your system! (bailing out, obviously.\n", argc);
-		return 2;
-	} else if(!argc) {
-		//there are no arguments.
-		//since notifications can't have an empty title, print usage.
-		printf(usage, argv0, argv0, argv0);
-	} else {
-		//there are arguments.
-		//'title' here refers to the notification title.
-		NSMutableString *title = [NSMutableString stringWithUTF8String:*++argv];
-
-		if([title isEqualToString:@"--help"]) {
-			//user has requested usage. print it.
-			printf(usage, argv0, argv0, argv0);
-		} else {
-			if([title isEqualToString:@"--"]) {
-				//this signifies the end of options. ignore it and move on.
-				[title deleteCharactersInRange:NSMakeRange(0U, [title length])];
+	
+	// options
+	extern char *optarg;
+	extern int optind;
+	int ch;
+	BOOL isSticky = NO;
+	char *appName = NULL, *appIcon = NULL;
+	char *iconExt = NULL, *iconPath = NULL, *imagePath = NULL, *message = NULL;
+	int imageset;
+	struct option longopts[] = {
+		{ "help",		no_argument,		0,			'h' },
+		{ "name",		required_argument,	0,			'n' },
+		{ "icon",		required_argument,	0,			'i' },
+		{ "iconpath",	required_argument,	0,			'I' },
+		{ "appIcon",	required_argument,	0,			'a' },
+		{ "image",		required_argument,	&imageset,	 1  },
+		{ "title",		no_argument,		0,			't' },
+		{ "message",	required_argument,	0,			'm' },
+		{ 0,			0,					0,			 0  }
+	};
+	while ((ch = getopt_long(argc, (char * const *)argv, "hnsa:i:I:tm:", longopts, NULL)) != -1) {
+		switch (ch) {
+		case '?':
+		case 'h':
+			printf(usage, argv0);
+			exit(1);
+			break;
+		case 'n':
+			appName = optarg;
+			break;
+		case 's':
+			isSticky = YES;
+			break;
+		case 'i':
+			iconExt = optarg;
+			break;
+		case 'I':
+			iconPath = optarg;
+			break;
+		case 'a':
+			appIcon = optarg;
+			break;
+		case 't':
+			// do nothing
+			break;
+		case 'm':
+			message = optarg;
+			break;
+		case 0:
+			if (imageset) {
+				imagePath = optarg;
 			}
-
-			//as long as the title is empty, don't append a space.
-			while((--argc) && ([title length] <= 0U))
-				[title appendFormat:@"%s", *++argv];
-			if(argc) {
-				//now that the title is non-empty, start adding a space before each argument.
-				while(--argc)
-					[title appendFormat:@" %s", *++argv];
-			}
-
-			NSData *descData = [[NSFileHandle fileHandleWithStandardInput] readDataToEndOfFile];
-			NSString *desc = [[[[NSString alloc] initWithData:descData encoding:NSUTF8StringEncoding] autorelease] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
-			NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
-
-			NSDictionary *userInfo;
-
-			//register with Growl.
-			NSArray *defaultAndAllNotifications = [NSArray arrayWithObject:notificationName];
-			userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-				@"growlnotify", GROWL_APP_NAME,
-				defaultAndAllNotifications, GROWL_NOTIFICATIONS_ALL,
-				defaultAndAllNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-				nil];
-			[distCenter postNotificationName:GROWL_APP_REGISTRATION
-									  object:nil
-									userInfo:userInfo];
-
-			NSData *icon = [[[NSWorkspace sharedWorkspace] iconForFile:[[NSWorkspace sharedWorkspace] fullPathForApplication:@"Terminal"]] TIFFRepresentation];
-			userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-				notificationName, GROWL_NOTIFICATION_NAME,
-				@"growlnotify", GROWL_APP_NAME,
-				title, GROWL_NOTIFICATION_TITLE,
-				icon, GROWL_NOTIFICATION_ICON,
-				desc, GROWL_NOTIFICATION_DESCRIPTION,
-				nil];
-
-			[distCenter postNotificationName:GROWL_NOTIFICATION
-									  object:nil
-									userInfo:userInfo];
+			break;
 		}
 	}
+	argc -= optind;
+	argv += optind;
 	
-    [pool release];
-    return 0;
+	// Deal with title
+	NSMutableArray *argArray = [NSMutableArray array];
+	while (argc--) {
+		NSString *temp = [NSString stringWithUTF8String:(argv++)[0]];
+		[argArray addObject:temp];
+	}
+	[argArray removeObject:@""];
+	NSString *title = [argArray componentsJoinedByString:@" "];
+	
+	// Deal with image
+	// --image takes precedence over -I takes precedence over -i takes precedence over --a
+	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+	NSImage *image = nil;
+	if (imagePath) {
+		NSString *path = [[NSString stringWithUTF8String:imagePath] stringByStandardizingPath];
+		if (![path hasPrefix:@"/"]) {
+			char *cwd = getcwd(NULL, 0);
+			path = [NSString stringWithFormat:@"%s/%@", cwd, path];
+			free(cwd);
+		}
+		image = [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+	} else if (iconPath) {
+		NSString *path = [[NSString stringWithUTF8String:iconPath] stringByStandardizingPath];
+		if (![path hasPrefix:@"/"]) {
+			char *cwd = getcwd(NULL, 0);
+			path = [NSString stringWithFormat:@"%s/%@", cwd, path];
+			free(cwd);
+		}
+		image = [ws iconForFile:path];
+	} else if (iconExt) {
+		image = [ws iconForFileType:[NSString stringWithUTF8String:iconExt]];
+	} else if (appIcon) {
+		NSString *app = [NSString stringWithUTF8String:appIcon];
+		image = [ws iconForFile:[ws fullPathForApplication:app]];
+	}
+	if (image == nil) {
+		image = [ws iconForFile:[ws fullPathForApplication:@"Terminal"]];
+	}
+	NSData *icon;
+	NS_DURING // I don't know why this is necessary but it is
+		icon = [image TIFFRepresentation];
+	NS_HANDLER
+		printf("Error: cannot use pdf files for image\n");
+		exit(2);
+	NS_ENDHANDLER
+	
+	// Check message
+	NSString *desc;
+	if (message && !(message[0] == '-' && message[1] == 0)) {
+		// -m was used
+		desc = [NSString stringWithUTF8String:message];
+	} else {
+		// Deal with stdin
+		NSData *descData = [[NSFileHandle fileHandleWithStandardInput] readDataToEndOfFile];
+		desc = [[[NSString alloc] initWithData:descData encoding:NSUTF8StringEncoding] autorelease];
+		desc = [desc stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	}
+	
+	// Application name
+	NSString *applicationName;
+	if (appName) {
+		applicationName = [NSString stringWithUTF8String:appName];
+	} else {
+		applicationName = @"growlnotify";
+	}
+	
+	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
+	
+	NSDictionary *userInfo;
+	
+	// Register with Growl
+	NSArray *defaultAndAllNotifications = [NSArray arrayWithObject:notificationName];
+	userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+		applicationName, GROWL_APP_NAME,
+		defaultAndAllNotifications, GROWL_NOTIFICATIONS_ALL,
+		defaultAndAllNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+		nil];
+	[distCenter postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:userInfo];
+	
+	// Notify
+	userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+		notificationName, GROWL_NOTIFICATION_NAME,
+		applicationName, GROWL_APP_NAME,
+		title, GROWL_NOTIFICATION_TITLE,
+		icon, GROWL_NOTIFICATION_ICON,
+		desc, GROWL_NOTIFICATION_DESCRIPTION,
+		[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
+		nil];
+	
+	[distCenter postNotificationName:GROWL_NOTIFICATION object:nil userInfo:userInfo];
+	
+	[pool release];
+	return 0;
 }

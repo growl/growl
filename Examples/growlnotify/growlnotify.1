@@ -1,21 +1,78 @@
 .Dd 2004-10-29           \" DATE 
-.Dt growlnotify 1      \" Program name and manual section number 
+.Dt GROWLNOTIFY 1      \" Program name and manual section number 
 .Os Darwin
 .Sh NAME                 \" Section Header - required - don't modify 
 .Nm growlnotify
 .Nd send a notification to Growl
 .Sh SYNOPSIS             \" Section Header - required - don't modify
 .Nm
-.Ar title                \" Underlined argument - use .Ar anywhere to underline
+.Op Fl hs
+.Op Fl n Ar name
+.Op Fl a Ar name
+.Op Fl i Ar ext
+.Op Fl I Ar filepath
+.Op Fl -image Ar filepath
+.Op Fl m Ar message
+.Op Fl t , -title
+.Op Ar title
 .Sh DESCRIPTION          \" Section Header - required - don't modify
 .Nm
-posts a distributed notification intended to be received by Growl, with a title supplied on the command line, and a description read from stdin.
+posts a distributed notification to Growl.
+.Pp
+The options are as follows:
+.Bl -tag -width Fl
+.It Fl h , Fl -help
+Displays this help and exit.
+.It Fl s , Fl -sticky
+Causes the notification to stick around until clicked.
+.It Fl n , Fl -name Ar name
+Sets the application name to register the notification under.
+By default 'growlnotify' is used.
+.It Fl a , -appIcon Ar name
+Sets the notification icon to the icon for the given application name.
+.It Fl i , Fl -icon Ar ext
+Sets the notification icon to the default icon for the given extension or HFS-encoded filetype.
+.It Fl I , -iconpath Ar path
+Sets the notification icon to the icon for the given filepath.
+.It Fl -image Ar path
+Sets the notification icon to the given image file.
+.It Fl m , -message Ar message
+Uses
+.Ar message
+instead of stdin as the notification message.
+If
+.Ar message
+is '-' then stdin is still used.
+.It Fl t , -title
+Does nothing.
+This is included to make the syntax compatible with gnotify.
+.It Ar title
+The title of the notification.
+.El
+.Pp
+Displays a notification using Growl. If
+.Fl m
+isn't specified or is set to '-' then the message is read from stdin.
+To terminate your message when reading from stdin, press ctrl-D on a new line.
+.Pp                      \" Inserts a space
+.Sh EXAMPLES
+.Dl % growlnotify --help
+.Pp
+Displays this help file.
+.Pp
+.Dl % growlnotify --appIcon Xcode Build complete
+.Dl growlnotify has finished building
+.Dl ^D
+.Pp
+Displays a notification telling you that growlnotify has finished building.
+.Pp
+.Dl growlnotify --appIcon Xcode Build complete -m 'growlnotify has finished building'
+.Pp
+The same as the previous one but suitable for embedding in a script (such as a Shell Script phase).
 .Pp                      \" Inserts a space
 .Sh SEE ALSO 
 .\" List links in ascending order by section, alphabetically within a section.
 .\" Please do not reference files that do not exist without filing a bug report
 .Xr stdin 4
-.Sh BUGS              \" Document known, unremedied bugs 
-Currently does not support notification icons or sticky notifications.
 .Sh HISTORY           \" Document history if command behaves in a unique manner 
 First appeared as an example for Growl 0.5.

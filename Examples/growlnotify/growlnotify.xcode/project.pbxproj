@@ -40,20 +40,6 @@
 //072
 //073
 //074
-		076C509106FD25210085AC3E = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = Cocoa.framework;
-			path = /System/Library/Frameworks/Cocoa.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		076C509206FD25210085AC3E = {
-			fileRef = 076C509106FD25210085AC3E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		07C7692606831F1D0025D426 = {
 			children = (
 				07C7692706831F250025D426,
@@ -94,22 +80,6 @@
 			path = growlnotify.1;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		07E2462B073227C100181E6B = {
-			buildActionMask = 8;
-			dstPath = /usr/local/share/man/man1;
-			dstSubfolderSpec = 0;
-			files = (
-				07E2462D073227E000181E6B,
-			);
-			isa = PBXCopyFilesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		07E2462D073227E000181E6B = {
-			fileRef = 07E246280732272300181E6B;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 //070
 //071
@@ -169,8 +139,7 @@
 		};
 		08FB779DFE84155DC02AAC07 = {
 			children = (
-				A16BD37C06FD000B00BF033B,
-				076C509106FD25210085AC3E,
+				0A95FC900739AAC800E585F8,
 				08FB779EFE84155DC02AAC07,
 			);
 			isa = PBXGroup;
@@ -191,6 +160,36 @@
 //082
 //083
 //084
+//0A0
+//0A1
+//0A2
+//0A3
+//0A4
+		0A95FC1D0739AA7300E585F8 = {
+			fileRef = 08FB779EFE84155DC02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A95FC900739AAC800E585F8 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = AppKit.framework;
+			path = /System/Library/Frameworks/AppKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0A95FC910739AAC800E585F8 = {
+			fileRef = 0A95FC900739AAC800E585F8;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//0A0
+//0A1
+//0A2
+//0A3
+//0A4
 //1A0
 //1A1
 //1A2
@@ -238,13 +237,10 @@
 				8DD76F970486AA7600D96B5E,
 				8DD76F990486AA7600D96B5E,
 				8DD76F9B0486AA7600D96B5E,
-				8DD76F9D0486AA7600D96B5E,
-				07E2462B073227C100181E6B,
 			);
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -255,7 +251,7 @@
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
 				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_PEDANTIC = YES;
+				GCC_WARN_PEDANTIC = NO;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
@@ -264,15 +260,8 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "";
-				INSTALL_PATH = "$(HOME)/bin";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
+				INSTALL_PATH = /usr/local/bin;
 				PRODUCT_NAME = growlnotify;
-				REZ_EXECUTABLE = YES;
-				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost";
 			};
 			dependencies = (
@@ -318,16 +307,10 @@
 		8DD76F9B0486AA7600D96B5E = {
 			buildActionMask = 2147483647;
 			files = (
-				076C509206FD25210085AC3E,
+				0A95FC1D0739AA7300E585F8,
+				0A95FC910739AAC800E585F8,
 			);
 			isa = PBXFrameworksBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8DD76F9D0486AA7600D96B5E = {
-			buildActionMask = 2147483647;
-			files = (
-			);
-			isa = PBXRezBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8DD76FA10486AA7600D96B5E = {
@@ -337,24 +320,6 @@
 			path = growlnotify;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-//8D0
-//8D1
-//8D2
-//8D3
-//8D4
-//A10
-//A11
-//A12
-//A13
-//A14
-		A16BD37C06FD000B00BF033B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = AppKit.framework;
-			path = /System/Library/Frameworks/AppKit.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
 		};
 	};
 	rootObject = 08FB7793FE84155DC02AAC07;
