@@ -6,7 +6,11 @@ Prefpane
 	- Applications Tab
 		- Priority
 		- Sticky
-
+New Displays
+	- Smoke
+	- Music Video
+	- NSLog
+	- MailMe
 
 
 0.5 - Release
