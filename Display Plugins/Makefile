@@ -23,16 +23,16 @@ RM=rm
 all:
 	xcodebuild -alltargets -buildstyle $(DEFAULT_BUILDSTYLE) build
 
-nslogging: *
+build-nslogging:
 	xcodebuild -target NSLogging -buildstyle $(DEFAULT_BUILDSTYLE) build
 
-bezel: *
+build-bezel:
 	xcodebuild -target Bezel -buildstyle $(DEFAULT_BUILDSTYLE) build
 
-smoke: *
+build-smoke:
 	xcodebuild -target Smoke -buildstyle $(DEFAULT_BUILDSTYLE) build
 
-mailme: *
+build-mailme:
 	xcodebuild -target MailMe -buildstyle $(DEFAULT_BUILDSTYLE) build
 
 clean:
