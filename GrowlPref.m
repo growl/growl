@@ -206,11 +206,12 @@
 	if (newView == nil) {
 		newView = displayDefaultPrefView;
 	}
-	// Make sure the new view is framed correctly
-	[newView setFrame:DISPLAY_PREF_FRAME];
-	// Don't release displayPrefView - the replaceSubvview:with: does that already
-	[[displayPrefView superview] replaceSubview:displayPrefView with:newView];
-	displayPrefView = [newView retain];
+	if (displayPrefView != newView) {
+		// Make sure the new view is framed correctly
+		[newView setFrame:DISPLAY_PREF_FRAME];
+		[[displayPrefView superview] replaceSubview:displayPrefView with:newView];
+		displayPrefView = newView;
+	}
 }
 
 #pragma mark Notification and Application table view data source methods
