@@ -4,6 +4,7 @@
         {
             ACTIONS = {
                 allowRemoteRegistration = id; 
+                backgroundUpdateCheck = id; 
                 checkVersion = id; 
                 deleteTicket = id; 
                 selectDisplayPlugin = id; 
@@ -20,6 +21,7 @@
                 allDisplayPlugins = NSPopUpButton; 
                 allowRemoteRegistration = NSButton; 
                 applicationNotifications = NSTableView; 
+                backgroundUpdateCheck = NSButton; 
                 currentPluginController = id; 
                 displayAuthor = NSTextField; 
                 displayDefaultPrefView = NSView; 

@@ -147,12 +147,12 @@ static const char *keychainAccountName = "Growl";
 											 strlen( keychainAccountName ), keychainAccountName,
 											 &passwordLength, (void **)&password, NULL );
 
-	if ( status == noErr ) {
+	if (status == noErr) {
 		NSString *passwordString = [[NSString alloc] initWithUTF8String:password length:passwordLength];
 		[networkPassword setStringValue:passwordString];
 		[passwordString release];
 		SecKeychainItemFreeContent( NULL, password );
-	} else if ( status != errSecItemNotFound ) {
+	} else if (status != errSecItemNotFound) {
 		NSLog( @"Failed to retrieve password from keychain. Error: %d", status );
 		[networkPassword setStringValue:@""];
 	}	
@@ -230,13 +230,13 @@ static const char *keychainAccountName = "Growl";
 		[allowRemoteRegistration setState:NSOffState];
 	}
 
-	if ( [preferences startGrowlAtLogin] ) {
+	if ([preferences startGrowlAtLogin]) {
 		[startGrowlAtLogin setState:NSOnState];
 	} else {
 		[startGrowlAtLogin setState:NSOffState];
 	}
 
-	if ( [[preferences objectForKey:GrowlEnableForwardKey] boolValue] ) {
+	if ([[preferences objectForKey:GrowlEnableForwardKey] boolValue]) {
 		[enableForward setState:NSOnState];
 		[growlServiceList setEnabled:YES];
 	} else {
@@ -244,6 +244,12 @@ static const char *keychainAccountName = "Growl";
 		[growlServiceList setEnabled:NO];
 	}
 
+	if ([[preferences objectForKey:GrowlUpdateCheckKey] boolValue]) {
+		[backgroundUpdateCheck setState:NSOnState];
+	} else {
+		[backgroundUpdateCheck setState:NSOffState];
+	}
+	
 	// If Growl is enabled, ensure the helper app is launched
 	if ([[preferences objectForKey:GrowlEnabledKey] boolValue]) {
 		[[GrowlPreferences preferences] launchGrowl];
@@ -407,7 +413,12 @@ static const char *keychainAccountName = "Growl";
 }
 
 - (IBAction) startGrowlAtLogin:(id) sender {
-	[[GrowlPreferences preferences] setStartGrowlAtLogin:([startGrowlAtLogin state] == NSOnState)];
+	[[GrowlPreferences preferences] setStartGrowlAtLogin:([sender state] == NSOnState)];
+}
+
+- (IBAction) backgroundUpdateCheck:(id) sender {
+	[[GrowlPreferences preferences] setObject:[NSNumber numberWithBool:([sender state] == NSOnState)]
+									   forKey:GrowlUpdateCheckKey];
 }
 
 - (IBAction) selectDisplayPlugin:(id)sender {

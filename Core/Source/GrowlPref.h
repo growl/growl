@@ -40,6 +40,7 @@
 	//"General" tab pane
 	IBOutlet NSButton				*startGrowlAtLogin;
 	IBOutlet NSButton				*startStopGrowl;
+	IBOutlet NSButton				*backgroundUpdateCheck;
 	IBOutlet NSTextField			*growlRunningStatus;
 	IBOutlet NSProgressIndicator	*growlRunningProgress;
 	IBOutlet NSPopUpButton			*allDisplayPlugins;
@@ -90,6 +91,7 @@
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;
 - (IBAction) startGrowlAtLogin:(id)sender;
+- (IBAction) backgroundUpdateCheck:(id)sender;
 
 #pragma mark "Network" tab pane
 - (IBAction) startGrowlServer:(id)sender;

@@ -18,6 +18,8 @@
 #define GrowlRemoteRegistrationKey	@"GrowlRemoteRegistration"
 #define GrowlEnableForwardKey		@"GrowlEnableForward"
 #define GrowlForwardDestinationsKey	@"GrowlForwardDestinations"
+#define GrowlUpdateCheckKey			@"GrowlUpdateCheck"
+#define LastUpdateCheckKey			@"LastUpdateCheck"
 
 @interface GrowlPreferences : NSObject {
 	NSUserDefaults *helperAppDefaults;
