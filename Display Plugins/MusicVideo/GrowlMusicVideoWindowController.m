@@ -31,9 +31,9 @@
 	NSRect sizeRect;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-		sizeRect = NSMakeRect( 0.f, 0.f, NSWidth([[NSScreen mainScreen] visibleFrame]), 192.f );
+		sizeRect = NSMakeRect( 0.0f, 0.0f, NSWidth([[NSScreen mainScreen].0frame]), 192.0f );
 	} else {
-		sizeRect = NSMakeRect( 0.f, 0.f, NSWidth([[NSScreen mainScreen] visibleFrame]), 96.f );
+		sizeRect = NSMakeRect( 0.0f, 0.0f, NSWidth([[NSScreen mainScreen].0frame]), 96.0f );
 	}
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:sizeRect
 						styleMask:NSBorderlessWindowMask
@@ -71,8 +71,8 @@
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 
-	topLeftPosition = 0.f;
-	[panel setFrameTopLeftPoint:NSMakePoint(0.f, topLeftPosition)];
+	topLeftPosition = 0.0f;
+	[panel setFrameTopLeftPoint:NSMakePoint(0.0f, topLeftPosition)];
 
 	if( (self = [super initWithWindow:panel]) ) {
 		_autoFadeOut = YES;	// !sticky
@@ -81,11 +81,11 @@
 		_displayTime = MIN_DISPLAY_TIME;
 		_priority = priority;
 		if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-			_timerInterval = (1. / 128.);
-			_fadeIncrement = 6.f;
+			_timerInterval = (1.0 / 128.0);
+			_fadeIncrement = 6.0f;
 		} else {
-			_timerInterval = (1. / 64.);
-			_fadeIncrement = 6.f;
+			_timerInterval = (1.0 / 64.0);
+			_fadeIncrement = 6.0f;
 		}
 	}
 	
@@ -103,7 +103,7 @@
 	NSRect theFrame = [myWindow frame];
 	if ( topLeftPosition < NSHeight(theFrame) ) {
 		topLeftPosition += _fadeIncrement;
-		[myWindow setFrameTopLeftPoint:NSMakePoint(0.f, topLeftPosition)];
+		[myWindow setFrameTopLeftPoint:NSMakePoint(0.0f, topLeftPosition)];
 	} else {
 		[self _stopTimer];
 		if ( _autoFadeOut ) {
@@ -117,9 +117,9 @@
 
 - (void)_fadeOut:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
-	if ( topLeftPosition > 0.f ) {
+	if ( topLeftPosition > 0.0f ) {
 		topLeftPosition -= _fadeIncrement;
-		[myWindow setFrameTopLeftPoint:NSMakePoint(0.f, topLeftPosition)];
+		[myWindow setFrameTopLeftPoint:NSMakePoint(0.0f, topLeftPosition)];
 	} else {
 		[self _stopTimer];
 		if ( _delegate && [_delegate respondsToSelector:@selector( didFadeOut: )] ) {
