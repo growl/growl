@@ -459,8 +459,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9324AE8807BD781B001CB55C,
-				958AB93707C69DE000F56B45,
-				958AB97407C6A20100F56B45,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -510,12 +508,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		958AB93707C69DE000F56B45 = {
-			fileRef = 958AB93507C69DE000F56B45;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		958AB93807C69DE000F56B45 = {
 			fileRef = 958AB93607C69DE000F56B45;
 			isa = PBXBuildFile;
@@ -537,12 +529,6 @@
 			path = SCDynamicStore.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		958AB97407C6A20100F56B45 = {
-			fileRef = 958AB97207C6A20100F56B45;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		958AB97507C6A20100F56B45 = {
 			fileRef = 958AB97307C6A20100F56B45;
