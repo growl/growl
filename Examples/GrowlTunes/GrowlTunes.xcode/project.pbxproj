@@ -323,27 +323,27 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlApplicationBridge.h;
-			path = /Users/nelson/Code/Growl/GrowlApplicationBridge.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../GrowlApplicationBridge.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		5275B563068866DA006F5704 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlApplicationBridge.m;
-			path = /Users/nelson/Code/Growl/GrowlApplicationBridge.m;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../GrowlApplicationBridge.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		5275B564068866DA006F5704 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlDefines.h;
-			path = /Users/nelson/Code/Growl/GrowlDefines.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../GrowlDefines.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		5275B565068866DA006F5704 = {
 			fileRef = 5275B562068866DA006F5704;
