@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @protocol GrowlNotificationProtocol
-- (void)dispatchNotification:(NSDictionary *)notification;
+- (void)registerApplication:(NSDictionary *)dict;
+- (void)postNotification:(NSDictionary *)notification;
 @end
 
 @interface GrowlNotificationServer : NSObject <GrowlNotificationProtocol>

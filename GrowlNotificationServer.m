@@ -10,7 +10,12 @@
 #import "GrowlController.h"
 
 @implementation GrowlNotificationServer
-- (void)dispatchNotification:(NSDictionary *)notification
+- (void)registerApplication:(NSDictionary *)dict
+{
+	[[GrowlController singleton] _registerApplicationWithDictionary:dict];
+}
+
+- (void)postNotification:(NSDictionary *)notification
 {
 	[[GrowlController singleton] dispatchNotificationWithDictionary:notification];
 }

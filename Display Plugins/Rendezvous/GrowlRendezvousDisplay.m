@@ -86,11 +86,12 @@ static NSString *description = @"Send notifications to another Mac on the local 
 							protocol:0
 							 address:destAddress];
 
-	NSConnection *connection = [NSConnection connectionWithReceivePort:nil sendPort:serverPort];
+	NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
 	NSDistantObject *theProxy = [connection rootProxy];
 	[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
 	id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
-	[growlProxy dispatchNotification:noteDict];
+	[growlProxy postNotification:noteDict];
 	[serverPort release];
+	[connection release];
 }
 @end

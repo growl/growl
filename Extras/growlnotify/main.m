@@ -2,6 +2,7 @@
 #import <AppKit/NSImage.h>
 #import <AppKit/NSWorkspace.h>
 #import "GrowlDefines.h"
+#import "GrowlNotificationServer.h"
 
 #import <unistd.h>
 #import <getopt.h>
@@ -47,6 +48,7 @@ int main(int argc, const char **argv) {
 	char *iconPath = NULL;
 	char *imagePath = NULL;
 	static char *message = NULL;
+	static char *host = NULL;
 	int priority = 0;
 	int imageset;
 	struct option longopts[] = {
@@ -59,9 +61,10 @@ int main(int argc, const char **argv) {
 		{ "title",		no_argument,		0,			't' },
 		{ "message",	required_argument,	0,			'm' },
 		{ "priority",	required_argument,	0,			'p' },
+		{ "host",		required_argument,	0,			'H' },
 		{ 0,			0,					0,			 0  }
 	};
-	while ((ch = getopt_long(argc, (char * const *)argv, "hnsa:i:I:p:tm:", longopts, NULL)) != -1) {
+	while ((ch = getopt_long(argc, (char * const *)argv, "hnsa:i:I:p:tm:H:", longopts, NULL)) != -1) {
 		switch (ch) {
 		case '?':
 		case 'h':
@@ -100,6 +103,9 @@ int main(int argc, const char **argv) {
 			break;
 		case 'm':
 			message = optarg;
+			break;
+		case 'H':
+			host = optarg;
 			break;
 		case 0:
 			if (imageset) {
@@ -177,21 +183,18 @@ int main(int argc, const char **argv) {
 		applicationName = @"growlnotify";
 	}
 	
-	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
-	
-	NSDictionary *userInfo;
-	
 	// Register with Growl
+	NSDictionary *registerInfo;
 	NSArray *defaultAndAllNotifications = [NSArray arrayWithObject:notificationName];
-	userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+	registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 		applicationName, GROWL_APP_NAME,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
-	[distCenter postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:userInfo];
-	
+
 	// Notify
-	userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary *notificationInfo;
+	notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 		notificationName, GROWL_NOTIFICATION_NAME,
 		applicationName, GROWL_APP_NAME,
 		title, GROWL_NOTIFICATION_TITLE,
@@ -201,7 +204,23 @@ int main(int argc, const char **argv) {
 		[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
 		nil];
 	
-	[distCenter postNotificationName:GROWL_NOTIFICATION object:nil userInfo:userInfo];
+	if( host ) {
+		NSSocketPort *port = [[NSSocketPort alloc] initRemoteWithTCPPort:GROWL_TCP_PORT host:[NSString stringWithCString:host]];
+		NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:port];
+		NSDistantObject *theProxy = [connection rootProxy];
+		[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+		id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
+
+		[growlProxy registerApplication:registerInfo];
+		[growlProxy postNotification:notificationInfo];
+
+		[port release];
+		[connection release];
+	} else {
+		NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
+		[distCenter postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:registerInfo];
+		[distCenter postNotificationName:GROWL_NOTIFICATION object:nil userInfo:notificationInfo];
+	}
 	
 	[pool release];
 

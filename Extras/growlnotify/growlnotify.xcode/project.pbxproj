@@ -46,6 +46,7 @@
 //074
 		07C7692606831F1D0025D426 = {
 			children = (
+				95DD16770748E3B200CC05A4,
 				07C7692706831F250025D426,
 			);
 			isa = PBXGroup;
@@ -284,6 +285,7 @@
 			files = (
 				8DD76F980486AA7600D96B5E,
 				07C7692806831F250025D426,
+				95DD16780748E3B200CC05A4,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -352,6 +354,21 @@
 			};
 			isa = PBXBuildStyle;
 			name = "Deployment - Tiger - G4";
+		};
+		95DD16770748E3B200CC05A4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlNotificationServer.h;
+			path = ../../GrowlNotificationServer.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95DD16780748E3B200CC05A4 = {
+			fileRef = 95DD16770748E3B200CC05A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = 08FB7793FE84155DC02AAC07;

@@ -74,17 +74,17 @@
 - (IBAction)serviceClicked:(id)sender
 {
 	// The row that was clicked corresponds to the object in services we wish to contact.
-	int index = [sender selectedRow];
-	
+	int row = [sender selectedRow];
+
 	// Make sure to cancel any previous resolves.
 	if (serviceBeingResolved) {
 		[serviceBeingResolved stop];
 		[serviceBeingResolved release];
 		serviceBeingResolved = nil;
 	}
-	
-    if(-1 != index) {
-		serviceBeingResolved = [services objectAtIndex:index];
+
+    if(-1 != row) {
+		serviceBeingResolved = [services objectAtIndex:row];
 		[serviceBeingResolved retain];
 		[serviceBeingResolved setDelegate:self];
 		[serviceBeingResolved resolve];
