@@ -22,7 +22,7 @@
 				<parameter name="application name" code="appl" type="string" description="name of the application posting the notification.">
 					<cocoa key="appName"/>
 				</parameter>
-				<parameter name="image from location" optional="optional" code="iurl" type="location" description="Location of the image to use for this notification. Accepts aliases, paths and file:/// URLs.">
+				<parameter name="image from location" optional="optional" code="iurl" type="location" description="Location of the image file to use for this notification. Accepts aliases, paths and file:/// URLs.">
 					<cocoa key="imageFromURL"/>
 				</parameter>
 				<parameter name="icon of file" optional="optional" code="ifil" type="location" description="Location of the file whose icon should be used as the image for this notification. Accepts aliases, paths and file:/// URLs. e.g. 'file:///Applications'.">

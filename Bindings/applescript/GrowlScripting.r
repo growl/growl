@@ -45,7 +45,7 @@ resource 'aete' (0, "") {
 				required,
 				singleItem, notEnumerated, Reserved13,
 				"image from location", 'iurl', 'insl',
-				"Location of the image to use for this notification. Accepts aliases, paths and file:/// URLs.",
+				"Location of the image file to use for this notification. Accepts aliases, paths and file:/// URLs.",
 				optional,
 				singleItem, notEnumerated, Reserved13,
 				"icon of file", 'ifil', 'insl',
