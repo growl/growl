@@ -9,9 +9,25 @@ Mac::Growl::RegisterNotifications($AppName,$Notes,$Notes);
 
 @old = ();
 $isOld = 0;
+$separator = 0;
+
+if (-e "data.txt")
+{
+    open (INFILE,"data.txt");
+    print "Loading datafile...\n";
+    while( <INFILE> ) 
+    {
+        if($_=~/(.*),([0-9]+)/)
+        {
+            push(@old,["$1","$2"]);
+        }
+    }
+    close (INFILE);
+}
 
 while(1)
-{
+{   
+    print "Updating forum data...\n";
     @forum = split(/\n/,`curl -s "http://www.funmac.com/forumdisplay.php?s=&forumid=38&styleid=10"`);
     $size = @forum;
     
@@ -28,7 +44,7 @@ while(1)
             $topicstarter = $1;
         }
         
-        if($forum[$i]=~/<a href=\"member\.php\?find=lastposter&amp;t=[0-9]+\">([a-zA-Z_0-9]+)<\/a>/)
+        if($forum[$i]=~/<a href=\"member\.php\?find=lastposter&amp;t=[0-9]+\">(.*)<\/a>  /)
         {
             $lastposter = $1;
         }
@@ -38,36 +54,72 @@ while(1)
             $replies = $1;
             
             $rows = scalar(@old);
-            
-            #print "rows: $rows\n";
-            
+                        
             for($j=0;$j<$rows;$j++)
             {
                 if($old[$j][0] eq $topic)
                 {
+                    $isOld = 1; #thread is old
+                    
                     if($old[$j][1] == $replies)
                     {
-                        $isOld = 1;
+                        $newReply = -1; #no new replies    
+                    }
+                    
+                    else
+                    {
+                        $newReply = $j; #new reply, save array index
                     }
                 }
             }
             
             if($isOld == 0)
             {
-                #print "topic: $topic\ntopicstarter: $topicstarter\nlastposter: $lastposter\nreplies: $replies\n\n";
+                if($separator == 0)
+                {
+                    print "------------------------------\n";
+                    $separator = 1;
+                }
+                print "\(NEW THREAD\)\ntopic: $topic\ntopicstarter: $topicstarter\nlastposter: $lastposter\nreplies: $replies\n";
+                print "------------------------------\n";
                 Mac::Growl::PostNotification($AppName,"Forum-threads","$topic","topic starter: $topicstarter\nlast poster: $lastposter");
                 push(@old,["$topic","$replies"]);
                 sleep(2);
             }
             
-            else
+            if(($isOld == 1) && ($newReply != -1))
             {
-                $isOld = 0;
+                if($separator == 0)
+                {
+                    print "------------------------------\n";
+                    $separator = 1;
+                }
+                print "\(NEW REPLY\)\ntopic: $topic\ntopicstarter: $topicstarter\nlastposter: $lastposter\nreplies: $replies\n";
+                print "------------------------------\n";
+                Mac::Growl::PostNotification($AppName,"Forum-threads","$topic","topic starter: $topicstarter\nlast poster: $lastposter");
+                $old[$newReply][1] = $replies;
+                sleep(2);            
             }
+            
+            $isOld = 0;
+            $newReply = -1;
             
         }
         
     
     }
-    sleep(120);#check for new updates every 2 minutes
+    
+    $separator = 0;
+    $rows = scalar(@old);
+    print "Saving datafile...\n";
+    open(OUTFILE, ">data.txt");
+    for($k=0;$k<$rows;$k++)
+    {
+        print OUTFILE "$old[$k][0],$old[$k][1]\n";
+    }
+    close(OUTFILE);
+
+    print "Waiting 2 minutes for next update...\n";
+
+    sleep(120);
 }
