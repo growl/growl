@@ -9,22 +9,24 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface GrowlBrushedPrefsController : NSPreferencePane {
-  IBOutlet NSSlider		*opacitySlider;
-  IBOutlet NSTextField	*text_Opacity;
+	IBOutlet NSSlider		*opacitySlider;
+	IBOutlet NSTextField	*text_Opacity;
 
-  IBOutlet NSColorWell	*text_veryLow;
-  IBOutlet NSColorWell	*text_moderate;
-  IBOutlet NSColorWell	*text_normal;
-  IBOutlet NSColorWell	*text_high;
-  IBOutlet NSColorWell	*text_emergency;
+	IBOutlet NSColorWell	*text_veryLow;
+	IBOutlet NSColorWell	*text_moderate;
+	IBOutlet NSColorWell	*text_normal;
+	IBOutlet NSColorWell	*text_high;
+	IBOutlet NSColorWell	*text_emergency;
 
-  IBOutlet NSButton	*floatIconSwitch;
-  IBOutlet NSButton	*limitCheck;
+	IBOutlet NSButton		*floatIconSwitch;
+	IBOutlet NSButton		*limitCheck;
+	IBOutlet NSButton		*aquaCheck;
 }
 
 - (IBAction) opacitySliderChanged:(id)sender;
 - (IBAction) textColorChanged:(id)sender;
 - (IBAction) floatIconSwitchChanged:(id)sender;
 - (IBAction) setLimit:(id)sender;
+- (IBAction) setAqua:(id)sender;
 
 @end

@@ -1,6 +1,7 @@
 #define GrowlBrushedLimitPref			@"Brushed - Limit"
 #define GrowlBrushedAlphaPref			@"Brushed - Alpha"
 #define GrowlBrushedFloatIconPref		@"Brushed - Float Icon"
+#define GrowlBrushedAquaPref			@"Brushed - Aqua"
 
 #define GrowlBrushedVeryLowTextColor	@"Brushed-Priority-VeryLow-Text-Color"
 #define GrowlBrushedModerateTextColor	@"Brushed-Priority-Moderate-Text-Color"
@@ -13,8 +14,9 @@
 // the default value for the opacity preference
 #define GrowlBrushedAlphaPrefDefault .75f
 
-#define GrowlBrushedFloatIconPrefDefault NO
-#define GrowlBrushedLimitPrefDefault NO
+#define GrowlBrushedFloatIconPrefDefault	NO
+#define GrowlBrushedLimitPrefDefault		NO
+#define GrowlBrushedAquaPrefDefault			NO
 
 // the width of the notification view
 #define GrowlBrushedNotificationWidth 300.f

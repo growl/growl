@@ -104,6 +104,13 @@ static const double gMaxDisplayTime = 10.;
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned) theDepth {
 	identifier = globalId++;
 	depth = theDepth;
+	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
+
+	BOOL aquaPref = GrowlBrushedAquaPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &aquaPref);
+	if (!aquaPref) {
+		styleMask |= NSTexturedBackgroundWindowMask;
+	}
 
 	/*[[NSNotificationCenter defaultCenter] addObserver:self 
 											selector:@selector( _glideUp: ) 
@@ -111,7 +118,7 @@ static const double gMaxDisplayTime = 10.;
 											  object:nil];*/
 
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.f, 0.f, GrowlBrushedNotificationWidth, 65.f ) 
-												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask | NSTexturedBackgroundWindowMask
+												 styleMask:styleMask
 												   backing:NSBackingStoreBuffered defer:NO] autorelease];
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];

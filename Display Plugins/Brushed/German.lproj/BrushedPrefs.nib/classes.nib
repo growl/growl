@@ -5,12 +5,14 @@
             ACTIONS = {
                 floatIconSwitchChanged = id; 
                 opacitySliderChanged = id; 
+                setAqua = id; 
                 setLimit = id; 
                 textColorChanged = id; 
             }; 
             CLASS = GrowlBrushedPrefsController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                aquaCheck = NSButton; 
                 floatIconSwitch = NSButton; 
                 limitCheck = NSButton; 
                 opacitySlider = NSSlider; 

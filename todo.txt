@@ -105,7 +105,6 @@ For .8 or sooner
 - Display Plugins
 	- iCal scheduled events look
 	- Garage Band black look.
-	- Brushed Metal look.
 
 -----------------------------------------
 Other stuff; old todo
@@ -165,6 +164,7 @@ Done:
 - Move non-example applications in the Examples directory into an Extras directory.
 - Ask if user wants to "configure plugin now". If so, take to proper place to configure.
 - Display Plugins
+	- Brushed Metal/Aqua
 	- Speech
 	- Smoke
 		- Text colorwell

@@ -42,6 +42,15 @@
 	} else {
 		[limitCheck setState:NSOffState];
 	}
+
+	// aqua
+	BOOL aquaPref = GrowlBrushedAquaPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &limitPref);
+	if (aquaPref) {
+		[aquaCheck setState:NSOnState];
+	} else {
+		[aquaCheck setState:NSOffState];
+	}
 	
 	// priority colour settings
 	NSArray *array = nil;
@@ -155,7 +164,7 @@
 }
 
 - (IBAction) floatIconSwitchChanged:(id)sender {
-	BOOL pref = ([floatIconSwitch state] == NSOnState);
+	BOOL pref = ([sender state] == NSOnState);
 	WRITE_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, pref, GrowlBrushedPrefDomain);	
 	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
@@ -163,6 +172,14 @@
 
 - (IBAction) setLimit:(id)sender {
 	WRITE_GROWL_PREF_BOOL(GrowlBrushedLimitPref, ([sender state] == NSOnState), GrowlBrushedPrefDomain);
+	SYNCHRONIZE_GROWL_PREFS();
+	UPDATE_GROWL_PREFS();
+}
+
+- (IBAction) setAqua:(id)sender {
+	BOOL pref = ([sender state] == NSOnState);
+	WRITE_GROWL_PREF_BOOL(GrowlBrushedAquaPref, pref, GrowlBrushedPrefDomain);	
+	SYNCHRONIZE_GROWL_PREFS();
 	UPDATE_GROWL_PREFS();
 }
 
