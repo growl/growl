@@ -28,7 +28,7 @@
 	char *title;
 	char *description;
 	char *applicationName;
-	unsigned notificationNameLen, titleLen, descriptionLen, priority;
+	unsigned notificationNameLen, titleLen, descriptionLen, priority, applicationNameLen;
 	BOOL isSticky;
 
 	NSDictionary *userInfo = [aNotification userInfo];
