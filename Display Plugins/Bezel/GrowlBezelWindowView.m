@@ -174,9 +174,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	NSRect titleRect, textRect;
 	NSPoint iconPoint;
 	int maxRows;
-	int iconOffset = 0;
 	NSSize maxIconSize;
-	NSSize iconSize = [icon size];
 	if (sizePref == BEZEL_SIZE_NORMAL) {
 		titleRect.origin.x = 12.0f;
 		titleRect.origin.y = 90.0f;
@@ -189,11 +187,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 		maxRows = 4;
 		maxIconSize.width = 72.0f;
 		maxIconSize.height = 72.0f;
-		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
-		if (iconSize.width < maxIconSize.width) {
-			iconOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
-		}
-		iconPoint.x = 70.0f + iconOffset;
+		iconPoint.x = 70.0f;
 		iconPoint.y = 120.0f;
 	} else {
 		titleRect.origin.x = 8.0f;
@@ -207,14 +201,10 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 		maxRows = 2;
 		maxIconSize.width = 48.0f;
 		maxIconSize.height = 48.0f;
-		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
-		if (iconSize.width < maxIconSize.width) {
-			iconOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
-		}
-		iconPoint.x = 57.0f + iconOffset;
+		iconPoint.x = 57.0f;
 		iconPoint.y = 83.0f;
 	}
-
+	
 	NSShadow *textShadow = [[NSShadow alloc] init];
 	NSSize shadowSize = {0.0f, -2.0f};
 	[textShadow setShadowOffset:shadowSize];

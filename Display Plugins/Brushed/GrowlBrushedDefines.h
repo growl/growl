@@ -27,9 +27,7 @@
 // the width of the notification view
 #define GrowlBrushedNotificationWidth		300.f
 // the padding around the inside of the view
-#define GrowlBrushedPadding					5.0f
-// the padding between the icon and the edge of the view
-#define GrowlBrushedIconPadding				5.0f
+#define GrowlBrushedPadding					10.0f
 // the padding between the icon and the text
 #define GrowlBrushedIconTextPadding			20.0f
 // the padding between the title and the description

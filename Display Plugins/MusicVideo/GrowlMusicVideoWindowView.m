@@ -93,9 +93,7 @@
 		int sizePref = 0;
 		READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
 		NSRect titleRect, textRect;
-		NSPoint iconSourcePoint;
 		NSRect iconRect;
-		NSSize iconSize = [icon size];
 
 		if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 			titleRect.origin.x = 192.0f;
@@ -104,10 +102,10 @@
 			titleRect.size.height = 40.0f;
 			textRect.origin.y = NSHeight(bounds) - 176.0f;
 			textRect.size.height = 96.0f;
+			iconRect.origin.x = 32.0f;
+			iconRect.origin.y = NSHeight(bounds) - 160.0f;
 			iconRect.size.width = 128.0f;
 			iconRect.size.height = 128.0f;
-			iconSourcePoint.x = 32.0f;
-			iconSourcePoint.y = NSHeight(bounds) - 160.0f;
 		} else {
 			titleRect.origin.x = 96.0f;
 			titleRect.origin.y = NSHeight(bounds) - 36.0f;
@@ -115,26 +113,13 @@
 			titleRect.size.height = 25.0f;
 			textRect.origin.y = NSHeight(bounds) - 88.0f,
 			textRect.size.height = 48.0f;
+			iconRect.origin.x = 8.0f;
+			iconRect.origin.y = NSHeight(bounds) - 88.0f;
 			iconRect.size.width = 80.0f;
 			iconRect.size.height = 80.0f;
-			iconSourcePoint.x = 8.0f;
-			iconSourcePoint.y = NSHeight(bounds) - 88.0f;
 		}
 		textRect.origin.x = titleRect.origin.x;
 		textRect.size.width = titleRect.size.width;
-
-		iconSize = [icon adjustSizeToDrawAtSize:iconRect.size];	
-
-		if (iconSize.width < iconRect.size.width) {
-			iconRect.origin.x = iconSourcePoint.x + ceilf( (iconRect.size.width - iconSize.width) * 0.5f );
-		} else {
-			iconRect.origin.x = iconSourcePoint.x;
-		}
-		if (iconSize.height < iconRect.size.height) {
-			iconRect.origin.y = iconSourcePoint.y + ceilf( (iconRect.size.height - iconSize.height) * 0.5f );
-		} else {
-			iconRect.origin.y = iconSourcePoint.y;
-		}
 
 		[title drawInRect:titleRect withAttributes:titleAttributes];
 

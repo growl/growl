@@ -12,8 +12,8 @@
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 
-#define GrowlBrushedTextAreaWidth (GrowlBrushedNotificationWidth - GrowlBrushedPadding - GrowlBrushedIconPadding - GrowlBrushedIconSize - GrowlBrushedIconTextPadding - GrowlBrushedPadding)
-#define GrowlBrushedMinTextHeight	(GrowlBrushedPadding + GrowlBrushedIconPadding + GrowlBrushedIconSize + GrowlBrushedPadding)
+#define GrowlBrushedTextAreaWidth	(GrowlBrushedNotificationWidth - GrowlBrushedPadding - GrowlBrushedIconSize - GrowlBrushedIconTextPadding - GrowlBrushedPadding)
+#define GrowlBrushedMinTextHeight	(GrowlBrushedPadding + GrowlBrushedIconSize + GrowlBrushedPadding)
 
 @implementation GrowlBrushedWindowView
 
@@ -66,7 +66,7 @@
 	BOOL floatIcon = GrowlBrushedFloatIconPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatIcon);
 	if (floatIcon) {
-		float sizeReduction = GrowlBrushedPadding + GrowlBrushedIconPadding + GrowlBrushedIconSize + (GrowlBrushedIconTextPadding * 0.5f);
+		float sizeReduction = GrowlBrushedPadding + GrowlBrushedIconSize + (GrowlBrushedIconTextPadding * 0.5f);
 
 		shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
 								  bounds.origin.y,
@@ -97,7 +97,7 @@
 
 	// draw the title and the text
 	NSRect drawRect;
-	drawRect.origin.x = GrowlBrushedPadding + GrowlBrushedIconPadding + GrowlBrushedIconSize + GrowlBrushedIconTextPadding;
+	drawRect.origin.x = GrowlBrushedPadding + GrowlBrushedIconSize + GrowlBrushedIconTextPadding;
 	drawRect.origin.y = GrowlBrushedPadding;
 	drawRect.size.width = GrowlBrushedTextAreaWidth;
 
@@ -125,8 +125,8 @@
 		[layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
 	}
 
-	drawRect.origin.x = GrowlBrushedPadding + GrowlBrushedIconPadding;
-	drawRect.origin.y = GrowlBrushedPadding + GrowlBrushedIconPadding;
+	drawRect.origin.x = GrowlBrushedPadding;
+	drawRect.origin.y = GrowlBrushedPadding;
 	drawRect.size.width = GrowlBrushedIconSize;
 	drawRect.size.height = GrowlBrushedIconSize;
 

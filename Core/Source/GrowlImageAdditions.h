@@ -11,8 +11,5 @@
 @interface NSImage (GrowlImageAdditions)
 
 - (void)drawScaledInRect:(NSRect)targetRect operation:(NSCompositingOperation)operation fraction:(float)fraction;
-- (NSSize)adjustSizeToDrawAtSize:(NSSize)theSize;
-- (NSImageRep *)bestRepresentationForSize:(NSSize)theSize;
-- (NSImageRep *)representationOfSize:(NSSize)theSize;
 
 @end

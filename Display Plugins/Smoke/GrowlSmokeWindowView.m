@@ -12,8 +12,8 @@
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 
-#define GrowlSmokeTextAreaWidth (GrowlSmokeNotificationWidth - GrowlSmokePadding - GrowlSmokeIconPadding - GrowlSmokeIconSize - GrowlSmokeIconTextPadding - GrowlSmokePadding)
-#define GrowlSmokeMinTextHeight	(GrowlSmokePadding + GrowlSmokeIconPadding + GrowlSmokeIconSize + GrowlSmokePadding)
+#define GrowlSmokeTextAreaWidth (GrowlSmokeNotificationWidth - GrowlSmokePadding - GrowlSmokeIconSize - GrowlSmokeIconTextPadding - GrowlSmokePadding)
+#define GrowlSmokeMinTextHeight	(GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokePadding)
 
 @implementation GrowlSmokeWindowView
 
@@ -65,7 +65,7 @@
 	BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
 	if (floatIcon) {
-		float sizeReduction = GrowlSmokePadding + GrowlSmokeIconPadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding * 0.5f);
+		float sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding * 0.5f);
 		
 		shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
 								  bounds.origin.y,
@@ -94,7 +94,7 @@
 
 	// draw the title and the text
 	NSRect drawRect;
-	drawRect.origin.x = GrowlSmokePadding + GrowlSmokeIconPadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
+	drawRect.origin.x = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
 	drawRect.origin.y = GrowlSmokePadding;
 	drawRect.size.width = GrowlSmokeTextAreaWidth;
 
@@ -122,8 +122,8 @@
 		[layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
 	}
 
-	drawRect.origin.x = GrowlSmokePadding + GrowlSmokeIconPadding;
-	drawRect.origin.y = GrowlSmokePadding + GrowlSmokeIconPadding;
+	drawRect.origin.x = GrowlSmokePadding;
+	drawRect.origin.y = GrowlSmokePadding;
 	drawRect.size.width = GrowlSmokeIconSize;
 	drawRect.size.height = GrowlSmokeIconSize;
 
@@ -257,7 +257,7 @@
 
 - (void)sizeToFit {
 	NSRect rect = [self frame];
-	rect.size.height = GrowlSmokePadding + GrowlSmokePadding + GrowlSmokeIconPadding + [self titleHeight] + [self descriptionHeight];
+	rect.size.height = GrowlSmokePadding + GrowlSmokePadding + [self titleHeight] + [self descriptionHeight];
 	if (title && text && [title length] && [text length]) {
 		rect.size.height += GrowlSmokeTitleTextPadding;
 	}
