@@ -48,6 +48,6 @@
 		[preferences addPreferenceNamed:[GrowlMail preferencesPanelName] owner:[GrowlMailPreferencesModule sharedInstance]];
 	}
 
-    return( preferences );
+	return preferences;
 }
 @end

@@ -43,12 +43,12 @@
 
 @interface Account : NSObject
 {
-    NSMutableDictionary *_info;
-    unsigned int _isOffline:1;
-    unsigned int _willingToGoOnline:1;
-    unsigned int _autosynchronizingEnabled:1;
-    unsigned int _ignoreSSLCertificates:1;
-    unsigned int _promptedToIgnoreSSLCertificates:1;
+	NSMutableDictionary *_info;
+	unsigned int _isOffline:1;
+	unsigned int _willingToGoOnline:1;
+	unsigned int _autosynchronizingEnabled:1;
+	unsigned int _ignoreSSLCertificates:1;
+	unsigned int _promptedToIgnoreSSLCertificates:1;
 }
 
 + (void)initialize;
@@ -120,22 +120,22 @@
 
 @interface MailAccount : Account
 {
-    NSString *_path;
-    MailboxUid *_rootMailboxUid;
-    struct {
-        unsigned int cacheDirtyCount:16;
-        unsigned int synchronizationThreadIsRunning:1;
-        unsigned int backgroundFetchInProgress:1;
-        unsigned int cacheHasBeenRead:1;
-        unsigned int disableCacheWrite:1;
-        unsigned int _UNUSED_:12;
-    } _flags;
-    MailboxUid *_inboxMailboxUid;
-    MailboxUid *_draftsMailboxUid;
-    MailboxUid *_sentMessagesMailboxUid;
-    MailboxUid *_trashMailboxUid;
-    MailboxUid *_junkMailboxUid;
-    MFError *_lastConnectionError;
+	NSString *_path;
+	MailboxUid *_rootMailboxUid;
+	struct {
+		unsigned int cacheDirtyCount:16;
+		unsigned int synchronizationThreadIsRunning:1;
+		unsigned int backgroundFetchInProgress:1;
+		unsigned int cacheHasBeenRead:1;
+		unsigned int disableCacheWrite:1;
+		unsigned int _UNUSED_:12;
+	} _flags;
+	MailboxUid *_inboxMailboxUid;
+	MailboxUid *_draftsMailboxUid;
+	MailboxUid *_sentMessagesMailboxUid;
+	MailboxUid *_trashMailboxUid;
+	MailboxUid *_junkMailboxUid;
+	MFError *_lastConnectionError;
 }
 
 + (void)initialize;
@@ -277,7 +277,7 @@
 
 @interface LocalAccount : MailAccount
 {
-    NSMutableArray *_disembodiedUids;
+	NSMutableArray *_disembodiedUids;
 }
 
 + (id)localAccount;
@@ -310,39 +310,39 @@
 
 @interface MessageStore : NSObject
 {
-    struct {
-        unsigned int isReadOnly:1;
-        unsigned int hasUnsavedChangesToMessageData:1;
-        unsigned int hasUnsavedChangesToIndex:1;
-        unsigned int indexIsValid:1;
-        unsigned int haveOpenLockFile:1;
-        unsigned int rebuildingTOC:1;
-        unsigned int compacting:1;
-        unsigned int cancelInvalidation:1;
-        unsigned int forceInvalidation:1;
-        unsigned int isWritingChangesToDisk:1;
-        unsigned int isTryingToClose:1;
-        unsigned int reserved:21;
-    } _flags;
-    MailboxUid *_mailboxUid;
-    MailAccount *_account;
-    id _index;
-    NSMutableArray *_allMessages;
-    NSMutableArray *_messagesToBeAddedToIndex;
-    NSMutableArray *_messagesToBeRemovedFromIndex;
-    unsigned int _allMessagesSize;
-    unsigned int _deletedMessagesSize;
-    unsigned int _deletedMessageCount;
-    unsigned int _unreadMessageCount;
-    id _updateIndexMonitor;
-    int _state;
-    id _headerDataCache;
-    id _headerCache;
-    id _bodyDataCache;
-    id _bodyCache;
-    NSTimer *_timer;
-    NSMutableSet *_uniqueStrings;
-    double timeOfLastAutosaveOperation;
+	struct {
+		unsigned int isReadOnly:1;
+		unsigned int hasUnsavedChangesToMessageData:1;
+		unsigned int hasUnsavedChangesToIndex:1;
+		unsigned int indexIsValid:1;
+		unsigned int haveOpenLockFile:1;
+		unsigned int rebuildingTOC:1;
+		unsigned int compacting:1;
+		unsigned int cancelInvalidation:1;
+		unsigned int forceInvalidation:1;
+		unsigned int isWritingChangesToDisk:1;
+		unsigned int isTryingToClose:1;
+		unsigned int reserved:21;
+	} _flags;
+	MailboxUid *_mailboxUid;
+	MailAccount *_account;
+	id _index;
+	NSMutableArray *_allMessages;
+	NSMutableArray *_messagesToBeAddedToIndex;
+	NSMutableArray *_messagesToBeRemovedFromIndex;
+	unsigned int _allMessagesSize;
+	unsigned int _deletedMessagesSize;
+	unsigned int _deletedMessageCount;
+	unsigned int _unreadMessageCount;
+	id _updateIndexMonitor;
+	int _state;
+	id _headerDataCache;
+	id _headerCache;
+	id _bodyDataCache;
+	id _bodyCache;
+	NSTimer *_timer;
+	NSMutableSet *_uniqueStrings;
+	double timeOfLastAutosaveOperation;
 }
 
 + (void)initialize;
@@ -449,27 +449,27 @@
 
 @interface Message : NSObject
 {
-    MessageStore *_store;
-    unsigned int _messageFlags;
-    struct {
-        unsigned int colorHasBeenEvaluated:1;
-        unsigned int colorWasSetManually:1;
-        unsigned int redColor:8;
-        unsigned int greenColor:8;
-        unsigned int blueColor:8;
-        unsigned int loadingBody:1;
-        unsigned int unused:5;
-    } _flags;
-    unsigned int _preferredEncoding;
-    NSString *_senderAddressComment;
-    unsigned int _dateSentInterval;
-    unsigned int _dateReceivedInterval;
-    NSString *_subject;
-    unsigned char _subjectPrefixLength;
-    NSString *_to;
-    NSString *_sender;
-    NSData *_messageIDHeaderDigest;
-    NSData *_inReplyToHeaderDigest;
+	MessageStore *_store;
+	unsigned int _messageFlags;
+	struct {
+		unsigned int colorHasBeenEvaluated:1;
+		unsigned int colorWasSetManually:1;
+		unsigned int redColor:8;
+		unsigned int greenColor:8;
+		unsigned int blueColor:8;
+		unsigned int loadingBody:1;
+		unsigned int unused:5;
+	} _flags;
+	unsigned int _preferredEncoding;
+	NSString *_senderAddressComment;
+	unsigned int _dateSentInterval;
+	unsigned int _dateReceivedInterval;
+	NSString *_subject;
+	unsigned char _subjectPrefixLength;
+	NSString *_to;
+	NSString *_sender;
+	NSData *_messageIDHeaderDigest;
+	NSData *_inReplyToHeaderDigest;
 }
 
 + (void)initialize;
@@ -552,7 +552,7 @@
 
 @interface MessageBody : NSObject
 {
-    Message *_message;
+	Message *_message;
 }
 
 - (id)rawData;
@@ -608,9 +608,9 @@
 
 @interface TOCMessage : Message
 {
-    struct _NSRange _mboxRange;
-    NSString *_attachments;
-    NSString *_messageID;
+	struct _NSRange _mboxRange;
+	NSString *_attachments;
+	NSString *_messageID;
 }
 
 + (id)messageIDForSender:(id)fp8 subject:(id)fp12 dateAsTimeInterval:(double)fp16;
@@ -648,12 +648,12 @@
 
 @interface MailAddressManager : NSObject
 {
-    id *_addressBook;
-    id *_imageCache;
-    NSMutableDictionary *emailsAwaitingImage;
-    NSMutableDictionary *recordsCache;
-    NSMutableSet *addressesWithNoRecords;
-    BOOL needToTrimRecordCaches;
+	id *_addressBook;
+	id *_imageCache;
+	NSMutableDictionary *emailsAwaitingImage;
+	NSMutableDictionary *recordsCache;
+	NSMutableSet *addressesWithNoRecords;
+	BOOL needToTrimRecordCaches;
 }
 
 + (id)addressManager;

@@ -35,12 +35,12 @@
 
 + (NSBundle *)bundle
 {
-	return( [NSBundle bundleForClass:self] );
+	return [NSBundle bundleForClass:self];
 }
 
 + (NSString *)bundleVersion
 {
-	return( [[[GrowlMail bundle] infoDictionary] objectForKey:@"CFBundleVersion"] );
+	return [[[GrowlMail bundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 }
 
 + (void)initialize
@@ -71,17 +71,17 @@
 
 + (BOOL)hasPreferencesPanel
 {
-	return( YES );
+	return YES;
 }
 
 + (NSString *)preferencesOwnerClassName
 {
-	return( @"GrowlMailPreferencesModule" );
+	return @"GrowlMailPreferencesModule";
 }
 
 + (NSString *)preferencesPanelName
 {
-	return( @"GrowlMail" );
+	return @"GrowlMail";
 }
 
 - (id)init
@@ -92,7 +92,7 @@
 		}
 	}
 
-	return( self );
+	return self;
 }
 
 - (void)gabResponse:(id)context
@@ -114,7 +114,7 @@
 
 - (BOOL)isEnabled
 {
-	return( [[NSUserDefaults standardUserDefaults] boolForKey:@"GMEnableGrowlMailBundle"] );
+	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMEnableGrowlMailBundle"];
 }
 
 - (void)setEnabled:(BOOL)yesOrNo
@@ -124,7 +124,7 @@
 
 - (BOOL)isIgnoreJunk
 {
-	return( [[NSUserDefaults standardUserDefaults] boolForKey:@"GMIgnoreJunk"] );
+	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMIgnoreJunk"];
 }
 
 - (void)setIgnoreJunk:(BOOL)yesOrNo
@@ -136,7 +136,7 @@
 {
 	NSDictionary *accountSettings = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"GMAccounts"];
 	NSNumber *isEnabled = (NSNumber *)[accountSettings objectForKey:path];
-	return( isEnabled ? [isEnabled boolValue] : YES );
+	return isEnabled ? [isEnabled boolValue] : YES;
 }
 
 - (void)setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path;
@@ -155,7 +155,7 @@
 
 - (BOOL)showSummary
 {
-	return( [[NSUserDefaults standardUserDefaults] boolForKey:@"GMShowSummary"] );
+	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMShowSummary"];
 }
 
 - (void)setShowSummary:(BOOL)yesOrNo

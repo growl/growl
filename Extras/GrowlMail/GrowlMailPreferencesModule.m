@@ -49,7 +49,7 @@
 		}
 	}
 
-	return( remoteAccounts );
+	return remoteAccounts;
 }
 @end
 
@@ -72,7 +72,7 @@
 
 - (NSString *)preferencesNibName
 {
-    return( @"GrowlMailPreferencesPanel" );
+	return @"GrowlMailPreferencesPanel";
 }
 
 - (id)viewForPreferenceNamed:(NSString *)aName
@@ -80,36 +80,36 @@
 	if( !_preferencesView ) {
 		[NSBundle loadNibNamed:[self preferencesNibName] owner:self];
 	}
-	return( _preferencesView );
+	return _preferencesView;
 }
 
 - (NSString *)titleForIdentifier:(NSString *)aName
 {
-	return( @"GrowlMail" );
+	return @"GrowlMail";
 }
 
 - (NSImage *)imageForPreferenceNamed:(NSString *)aName
 {
-	return( [NSImage imageNamed:@"GrowlMail"] );
+	return [NSImage imageNamed:@"GrowlMail"];
 }
 
 - (NSSize)minSize
 {
-	return( NSMakeSize( 298, 215 ) );
+	return NSMakeSize( 298, 215 );
 }
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-	return( [[MailAccount remoteMailAccounts] count] );
+	return [[MailAccount remoteMailAccounts] count];
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
 {
 	MailAccount *account = [[MailAccount remoteMailAccounts] objectAtIndex:rowIndex];
 	if( [[aTableColumn identifier] isEqualToString:@"active"] ) {
-		return( [NSNumber numberWithBool:[[GrowlMail sharedInstance] isAccountEnabled:[account path]]] );
+		return [NSNumber numberWithBool:[[GrowlMail sharedInstance] isAccountEnabled:[account path]]];
 	} else {
-		return( [account displayName] );
+		return [account displayName];
 	}
 }
 
@@ -121,16 +121,16 @@
 
 - (IBAction)toggleEnable:(id)sender
 {
-    [[GrowlMail sharedInstance] setEnabled:([sender state] == NSOnState)];
+	[[GrowlMail sharedInstance] setEnabled:([sender state] == NSOnState)];
 }
 
 - (IBAction)toggleIgnoreJunk:(id)sender
 {
-    [[GrowlMail sharedInstance] setIgnoreJunk:([sender state] == NSOnState)];
+	[[GrowlMail sharedInstance] setIgnoreJunk:([sender state] == NSOnState)];
 }
 
 - (IBAction)toggleShowSummary:(id)sender
 {
-    [[GrowlMail sharedInstance] setShowSummary:([sender state] == NSOnState)];
+	[[GrowlMail sharedInstance] setShowSummary:([sender state] == NSOnState)];
 }
 @end

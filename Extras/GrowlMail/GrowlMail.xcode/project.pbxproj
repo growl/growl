@@ -8,12 +8,11 @@
 		014CEA420018CDE011CA2923 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				DEBUGGING_SYMBOLS = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				ZERO_LINK = YES;
 			};
 			isa = PBXBuildStyle;
@@ -90,6 +89,7 @@
 		};
 		089C167CFE841241C02AAC07 = {
 			children = (
+				9594E8DF07A18C5600EC79BF,
 				9550E79F077A207E00436674,
 				950A02470737CDD60075BDE4,
 				955347EA0732C14400D12875,
@@ -130,7 +130,6 @@
 		};
 		08FB77AFFE84173DC02AAC07 = {
 			children = (
-				953D07D907901C4200606969,
 				9553485D0732F93600D12875,
 				9553485E0732F93600D12875,
 				9553469C0732BD4800D12875,
@@ -335,13 +334,27 @@
 				FRAMEWORK_SEARCH_PATHS = ../../build;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
 				LIBRARY_STYLE = BUNDLE;
-				OTHER_LDFLAGS = "-force_flat_namespace -undefined suppress";
+				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = GrowlMail;
-				WARNING_CFLAGS = "-Wall";
+				WARNING_CFLAGS = "-Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = mailbundle;
 			};
 			dependencies = (
@@ -365,7 +378,7 @@
 				955347DF0732BFE200D12875,
 				9553485F0732F93600D12875,
 				955348670732FA2500D12875,
-				953D07E007901C4200606969,
+				9594E8E607A18C5600EC79BF,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -496,21 +509,6 @@
 			path = German.lproj/InfoPlist.strings;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		953D07D907901C4200606969 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlAppBridgeDefines.h;
-			path = ../../GrowlAppBridgeDefines.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		953D07E007901C4200606969 = {
-			fileRef = 953D07D907901C4200606969;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		9550E79F077A207E00436674 = {
 			isa = PBXFileReference;
@@ -658,6 +656,20 @@
 			};
 			isa = PBXBuildStyle;
 			name = "Deployment - Tiger - G4";
+		};
+		9594E8DF07A18C5600EC79BF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlMail_Prefix.pch;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9594E8E607A18C5600EC79BF = {
+			fileRef = 9594E8DF07A18C5600EC79BF;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		95BF5458072F9D6300834811 = {
 			fileEncoding = 4;

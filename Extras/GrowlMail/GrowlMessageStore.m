@@ -35,7 +35,7 @@
 @implementation GrowlMessageStore
 + (void)load
 {
-    [GrowlMessageStore poseAsClass:[MessageStore class]];
+	[GrowlMessageStore poseAsClass:[MessageStore class]];
 }
 
 - (id)finishRoutingMessages:(NSArray *)messages routed:(NSArray *)routed
@@ -92,7 +92,7 @@
 		}
 	}
 
-	return( [super finishRoutingMessages: messages routed: routed] );
+	return [super finishRoutingMessages: messages routed: routed];
 }
 
 @end

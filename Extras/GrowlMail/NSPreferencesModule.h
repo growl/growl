@@ -42,10 +42,10 @@
 
 @interface NSPreferencesModule:NSObject <NSPreferencesModule>
 {
-    IBOutlet NSBox *_preferencesView;
-    struct _NSSize _minSize;
-    char _hasChanges;
-    void *_reserved;
+	IBOutlet NSBox *_preferencesView;
+	struct _NSSize _minSize;
+	char _hasChanges;
+	void *_reserved;
 }
 
 + (id)sharedInstance;

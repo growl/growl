@@ -30,24 +30,23 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface NSPreferences:NSObject
 {
-    NSWindow *_preferencesPanel;
-    NSBox *_preferenceBox;
-    NSMatrix *_moduleMatrix;
-    NSButtonCell *_okButton;
-    NSButtonCell *_cancelButton;
-    NSButtonCell *_applyButton;
-    NSMutableArray *_preferenceTitles;
-    NSMutableArray *_preferenceModules;
-    NSMutableDictionary *_masterPreferenceViews;
-    NSMutableDictionary *_currentSessionPreferenceViews;
-    NSBox *_originalContentView;
-    char _isModal;
-    float _constrainedWidth;
-    id _currentModule;
-    void *_reserved;
+	NSWindow *_preferencesPanel;
+	NSBox *_preferenceBox;
+	NSMatrix *_moduleMatrix;
+	NSButtonCell *_okButton;
+	NSButtonCell *_cancelButton;
+	NSButtonCell *_applyButton;
+	NSMutableArray *_preferenceTitles;
+	NSMutableArray *_preferenceModules;
+	NSMutableDictionary *_masterPreferenceViews;
+	NSMutableDictionary *_currentSessionPreferenceViews;
+	NSBox *_originalContentView;
+	char _isModal;
+	float _constrainedWidth;
+	id _currentModule;
+	void *_reserved;
 }
 
 + sharedPreferences;

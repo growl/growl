@@ -39,17 +39,17 @@
 @implementation NSString(GrowlMail)
 - (NSString *)firstNLines:(unsigned int)n
 {
-        NSRange range;
-        unsigned int i;
-        unsigned int index;
+	NSRange range;
+	unsigned int i;
+	unsigned int end;
 
-        range.location = 0;
-        range.length = 0;
-        for( i=0; i<n; ++i ) {
-                [self getLineStart:NULL end:&range.location contentsEnd:&index forRange:range];
-        }
+	range.location = 0;
+	range.length = 0;
+	for( i=0; i<n; ++i ) {
+		[self getLineStart:NULL end:&range.location contentsEnd:&end forRange:range];
+	}
 
-        return( [self substringToIndex: index] );
+	return [self substringToIndex:end];
 }
 @end
 
