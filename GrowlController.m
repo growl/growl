@@ -116,6 +116,8 @@ static id _singleton = nil;
 	}
 	if (icon) {
 		[aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
+	} else {
+		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON]; // remove any invalid NSDatas
 	}
 	
 	// If app icon present, convert to NSImage
