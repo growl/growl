@@ -10,9 +10,8 @@ For .6
 - Make GrowlMail not run while applying rules if possible
 - Bubbles
 	- Top background color colorwell
-	- Make title do ellipsis. Currently it lets text keep flowing to the right
+	- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy to add this.
 - Music Video
-	- Make title do ellipsis. Currently it wraps to the next line when you have enough text there.
 - Move non-example applications in the Examples directory into a PowerToys directory. Add licensing where need be. PowerToys will be bsd licensed.
 
 
