@@ -67,6 +67,7 @@
 		};
 		089C166AFE841209C02AAC07 = {
 			children = (
+				95BF83760743675700306A77,
 				6C1D4F6D06FA0C0500A5D946,
 				52861FEF06DC463E00D3A356,
 				52861EE906DBA9B200D3A356,
@@ -923,6 +924,7 @@
 				8D202CEF0486D31800D8A456,
 				CB5FA1BD0638CA2C00EADD7A,
 				959FAF520738BAD500040AA9,
+				95BF837C0743675700306A77,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1145,7 +1147,7 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		95EA21F60743598A0028AE9C = {
+		95BF83760743675700306A77 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
 			name = "growl-icon.icns";
@@ -1153,8 +1155,14 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		95EA21FB0743598A0028AE9C = {
-			fileRef = 95EA21F60743598A0028AE9C;
+		95BF837C0743675700306A77 = {
+			fileRef = 95BF83760743675700306A77;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95BF837D0743675700306A77 = {
+			fileRef = 95BF83760743675700306A77;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1364,7 +1372,6 @@
 		};
 		CB5F84730638BD4D00EADD7A = {
 			children = (
-				95EA21F60743598A0028AE9C,
 				954F013B074135D400EA8AB5,
 				CB61E51A0637763C00E0DDC7,
 			);
@@ -1456,7 +1463,7 @@
 				63C92DDA06D05D22007368FA,
 				52861FF006DC463E00D3A356,
 				954F013D074135D400EA8AB5,
-				95EA21FB0743598A0028AE9C,
+				95BF837D0743675700306A77,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -44,8 +44,8 @@
 	<string>Plugin not installed</string>
 	<key>Plugin '%@' is already installed, do you want to overwrite it?</key>
 	<string>Plugin '%@' is already installed, do you want to overwrite it?</string>
-	<key>Plugin '%@' has been installed successfully.</key>
-	<string>Plugin '%@' has been installed successfully.</string>
+	<key>Plugin '%@' has been installed successfully. Do you want to configure it now?</key>
+	<string>Plugin '%@' has been installed successfully. Do you want to configure it now?</string>
 	<key>There was an error while installing the plugin '%@'.</key>
 	<string>There was an error while installing the plugin '%@'.</string>
 </dict>

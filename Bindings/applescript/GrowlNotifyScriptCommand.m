@@ -23,7 +23,6 @@
  */
 
 #import "GrowlNotifyScriptCommand.h"
-#import "GrowlApplicationBridge.h"
 #import "GrowlController.h"
 #import "NSGrowlAdditions.h"
 

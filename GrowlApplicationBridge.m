@@ -13,6 +13,14 @@
 #define PREFERENCE_PANE_EXTENSION						@"prefPane"
 
 @interface GrowlAppBridge (PRIVATE)
+/*!
+	@method growlPrefPaneBundle
+	@abstract Returns the bundle containing Growl's PrefPane.
+	@discussion Searches all installed PrefPanes for the Growl PrefPane.
+	@result Returns an NSBundle if Growl's PrefPane is installed, nil otherwise
+ */
++ (NSBundle *)growlPrefPaneBundle;
+
 + (NSArray *)_allPreferencePaneBundles;
 @end
 
@@ -27,32 +35,42 @@ GrowlApplicationBridge will send "selector" to "target" when Growl is ready for 
 	acceptable for context to be NULL.
 */
 
-static  NSMutableArray *targetsToNotifyArray = nil;
+static NSMutableArray *targetsToNotifyArray = nil;
 
-+ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context
++ (NSBundle *)growlPrefPaneBundle
 {
+	NSString		*path;
+	NSString		*bundleIdentifier;
 	NSEnumerator	*preferencePanesPathsEnumerator;
-	NSString		*path, *bundleIdentifier;
 	NSBundle		*prefPaneBundle;
 	NSBundle		*growlPrefPaneBundle = nil;
-	BOOL			success = NO;
-	
+
 	//Enumerate all installed preference panes, looking for the growl prefpane bundle identifier and stopping when we find it
 	//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
 	//of course will not.  If the user wants to destroy the info.plist file inside the bundle, he/she deserves not to have a working Growl installation.
-	preferencePanesPathsEnumerator = [[self _allPreferencePaneBundles] objectEnumerator];
-	while (path = [preferencePanesPathsEnumerator nextObject]){
+	preferencePanesPathsEnumerator = [[GrowlAppBridge _allPreferencePaneBundles] objectEnumerator];
+	while( (path = [preferencePanesPathsEnumerator nextObject] ) ) {
 		prefPaneBundle = [NSBundle bundleWithPath:path];
-		if (prefPaneBundle){
+		if (prefPaneBundle) {
 			bundleIdentifier = [prefPaneBundle bundleIdentifier];
-			if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]){
+			if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]) {
 				growlPrefPaneBundle = prefPaneBundle;
 				break;
 			}
 		}
 	}
-	
-	if (growlPrefPaneBundle){
+
+	return( growlPrefPaneBundle );
+}
+
++ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context
+{
+	NSBundle		*growlPrefPaneBundle;
+	BOOL			success = NO;
+
+	growlPrefPaneBundle = [GrowlAppBridge growlPrefPaneBundle];
+
+	if (growlPrefPaneBundle) {
 		/* Here we could check against a current version number and ensure the installed Growl pane is the newest */
 		
 		NSString	*growlHelperAppPath;
@@ -67,10 +85,12 @@ static  NSMutableArray *targetsToNotifyArray = nil;
 															  object:nil]; 
 		
 		//We probably will never have more than one target/selector/context set at a time, but this is cleaner than the alternatives
-		if (!targetsToNotifyArray) targetsToNotifyArray = [[NSMutableArray alloc] init];
-		NSDictionary	*infoDict = [NSDictionary dictionaryWithObjectsAndKeys:target,@"Target",
-										NSStringFromSelector(selector),@"Selector",
-										[NSValue valueWithPointer:context],@"Context",nil];
+		if (!targetsToNotifyArray) {
+			targetsToNotifyArray = [[NSMutableArray alloc] init];
+		}
+		NSDictionary	*infoDict = [NSDictionary dictionaryWithObjectsAndKeys:target, @"Target",
+										NSStringFromSelector(selector), @"Selector",
+										[NSValue valueWithPointer:context], @"Context",nil];
 		[targetsToNotifyArray addObject:infoDict];
 		
 		//Houston, we are go for launch.
@@ -88,11 +108,10 @@ static  NSMutableArray *targetsToNotifyArray = nil;
 			spec.passThruParams = NULL;
 			spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
 			spec.asyncRefCon = NULL;
-			status = LSOpenFromRefSpec(&spec, NULL);
+			status = LSOpenFromRefSpec( &spec, NULL );
 		}
 		success = (status == noErr);
 	}
-	
 	
 	return success;
 }
@@ -117,7 +136,7 @@ static  NSMutableArray *targetsToNotifyArray = nil;
 {
 	NSEnumerator	*enumerator = [targetsToNotifyArray objectEnumerator];
 	NSDictionary	*infoDict;
-	while (infoDict = [enumerator nextObject]){
+	while( (infoDict = [enumerator nextObject] ) ) {
 		id  target = [infoDict objectForKey:@"Target"];
 		SEL selector = NSSelectorFromString([infoDict objectForKey:@"Selector"]);
 		void *context = [[infoDict objectForKey:@"Context"] pointerValue];
@@ -145,29 +164,27 @@ static  NSMutableArray *targetsToNotifyArray = nil;
 	preferencePanesSubfolder = PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY;
 	
 	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
-	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES);
+	librarySearchPaths = NSSearchPathForDirectoriesInDomains( NSLibraryDirectory, NSAllDomainsMask & (~NSSystemDomainMask), YES );
 	searchPathEnumerator = [librarySearchPaths objectEnumerator];
 	
 	//Copy each discovered path into the pathArray after adding our subfolder path
-	while(path = [searchPathEnumerator nextObject]){
+	while( (path = [searchPathEnumerator nextObject] ) ) {
 		[pathArray addObject:[path stringByAppendingPathComponent:preferencePanesSubfolder]];
 	}
 
 	prefPaneExtension = PREFERENCE_PANE_EXTENSION;
 	
 	searchPathEnumerator = [pathArray objectEnumerator];		
-    while(path = [searchPathEnumerator nextObject]){
+    while( ( path = [searchPathEnumerator nextObject] ) ) {
 		
         NSString				*bundlePath;
 		NSDirectoryEnumerator   *bundleEnum;
 
         bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
-		
-        if(bundleEnum){
-			
-            while(bundlePath = [bundleEnum nextObject]) {				
+
+        if(bundleEnum) {
+            while( ( bundlePath = [bundleEnum nextObject] ) ) {
                 if([[bundlePath pathExtension] isEqualToString:prefPaneExtension]) {
-					
 					[allPreferencePaneBundles addObject:[path stringByAppendingPathComponent:bundlePath]];
                 }
             }

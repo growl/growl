@@ -1,7 +1,6 @@
 To-Do
 
 For .6
-- Ask if user wants to "configure plugin now". If so, take to proper place to configure.
 - Figure out an intuitive way to deal with multiple plugins named the same.
 - For all displays that should conform, priority
 - Resolve problem of the framework turning on gha without the users permission, should the user have turned off Growl.
@@ -24,6 +23,7 @@ Release related issues
 
 
 Done:
+- Ask if user wants to "configure plugin now". If so, take to proper place to configure.
 - Smoke
 	- Text colorwell
 	- Smoke needs to specify how many lines it allows to be displayed on screen.

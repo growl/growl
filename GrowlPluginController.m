@@ -8,6 +8,10 @@
 
 #import "GrowlPluginController.h"
 
+#define GROWL_PREFPANE_BUNDLE_IDENTIFIER		@"com.growl.prefpanel"
+#define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY	@"PreferencePanes"
+#define PREFERENCE_PANE_EXTENSION				@"prefPane"
+
 static GrowlPluginController * sharedController;
 
 @interface GrowlPluginController (PRIVATE) 
@@ -21,6 +25,74 @@ static GrowlPluginController * sharedController;
 		sharedController = [[GrowlPluginController alloc] init];
 	}
 	return sharedController;
+}
+
+//Returns an array of paths to all user-installed .prefPane bundles
++ (NSArray *)_allPreferencePaneBundles
+{
+	NSArray			*librarySearchPaths;
+	NSEnumerator	*searchPathEnumerator;
+	NSString		*preferencePanesSubfolder, *path, *prefPaneExtension;
+	NSMutableArray  *pathArray = [NSMutableArray arrayWithCapacity:4];
+	NSMutableArray  *allPreferencePaneBundles = [NSMutableArray array];
+	
+	preferencePanesSubfolder = PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY;
+	
+	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
+	librarySearchPaths = NSSearchPathForDirectoriesInDomains( NSLibraryDirectory, NSAllDomainsMask & (~NSSystemDomainMask), YES );
+	searchPathEnumerator = [librarySearchPaths objectEnumerator];
+	
+	//Copy each discovered path into the pathArray after adding our subfolder path
+	while( (path = [searchPathEnumerator nextObject] ) ) {
+		[pathArray addObject:[path stringByAppendingPathComponent:preferencePanesSubfolder]];
+	}
+	
+	prefPaneExtension = PREFERENCE_PANE_EXTENSION;
+	
+	searchPathEnumerator = [pathArray objectEnumerator];		
+    while( ( path = [searchPathEnumerator nextObject] ) ) {
+		
+        NSString				*bundlePath;
+		NSDirectoryEnumerator   *bundleEnum;
+		
+        bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
+		
+        if(bundleEnum) {
+            while( ( bundlePath = [bundleEnum nextObject] ) ) {
+                if([[bundlePath pathExtension] isEqualToString:prefPaneExtension]) {
+					[allPreferencePaneBundles addObject:[path stringByAppendingPathComponent:bundlePath]];
+                }
+            }
+        }
+    }
+	
+	return allPreferencePaneBundles;
+}
+
++ (NSBundle *)growlPrefPaneBundle
+{
+	NSString		*path;
+	NSString		*bundleIdentifier;
+	NSEnumerator	*preferencePanesPathsEnumerator;
+	NSBundle		*prefPaneBundle;
+	NSBundle		*growlPrefPaneBundle = nil;
+	
+	//Enumerate all installed preference panes, looking for the growl prefpane bundle identifier and stopping when we find it
+	//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
+	//of course will not.  If the user wants to destroy the info.plist file inside the bundle, he/she deserves not to have a working Growl installation.
+	preferencePanesPathsEnumerator = [[GrowlPluginController _allPreferencePaneBundles] objectEnumerator];
+	while( (path = [preferencePanesPathsEnumerator nextObject] ) ) {
+		prefPaneBundle = [NSBundle bundleWithPath:path];
+		if (prefPaneBundle) {
+			bundleIdentifier = [prefPaneBundle bundleIdentifier];
+			if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]) {
+				growlPrefPaneBundle = prefPaneBundle;
+				break;
+			}
+		}
+	}
+	
+	return( growlPrefPaneBundle );
 }
 
 - (id) init {
@@ -93,6 +165,18 @@ static GrowlPluginController * sharedController;
 	}
 }
 
+- (void)pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	if( returnCode == NSAlertAlternateReturn ) {
+		NSBundle *prefPane = [GrowlPluginController growlPrefPaneBundle];
+		if( prefPane ) {
+			if( ![[NSWorkspace sharedWorkspace] openFile: [prefPane bundlePath]] ) {
+				NSLog( @"Could not open Growl PrefPane" );
+			}
+		}
+	}
+}
+
 - (void)pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	NSString *filename = (NSString *)contextInfo;
@@ -112,9 +196,12 @@ static GrowlPluginController * sharedController;
 		// copy new version to destination
 		if( [fileManager copyPath:filename toPath:destination handler:nil] ) {
 			NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
-											NSLocalizedString( @"OK", @"" ),
-											nil, nil, nil, self, NULL, NULL, NULL,
-											NSLocalizedString( @"Plugin '%@' has been installed successfully.", @"" ),
+											NSLocalizedString( @"No", @"" ),
+											NSLocalizedString( @"Yes", @"" ),
+											nil, nil, self,
+											@selector(pluginInstalledSelector:returnCode:contextInfo:),
+											NULL, NULL,
+											NSLocalizedString( @"Plugin '%@' has been installed successfully. Do you want to configure it now?", @"" ),
 											[pluginFile stringByDeletingPathExtension] );
 		} else {
 			NSBeginCriticalAlertSheet( NSLocalizedString( @"Plugin not installed", @"" ),

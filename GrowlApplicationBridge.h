@@ -49,8 +49,7 @@
 	@abstract Detects whether GrowlHelperApp is currently running
 	@discussion Cycles through the process list to find if GrowlHelperApp is running and returns the
 	status
-	@result Returns YES is GrowlHelperApp is running, NO otherwise
+	@result Returns YES if GrowlHelperApp is running, NO otherwise
  */
 + (BOOL)isGrowlRunning;
-
 @end
