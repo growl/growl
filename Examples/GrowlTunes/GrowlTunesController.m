@@ -163,12 +163,14 @@ enum {
 			// That way a track name of "file://foo" won't confuse our code later on
 			NSArray *args = [userInfo objectsForKeys:
 				[NSArray arrayWithObjects:@"Name", @"Artist", @"Album", @"Composer", @"Genre",
-					@"Year",@"Track Number", @"Track Count", @"Total Time", nil]
+					@"Year",@"Track Number", @"Track Count", @"Disc Number", @"Disc Count",
+					@"Total Time", nil]
 									  notFoundMarker:@""];
-			newTrackURL = [NSString stringWithFormat:@"%@|%@|%@|%@|%@|%@|%@|%@|%@",
+			newTrackURL = [NSString stringWithFormat:@"%@|%@|%@|%@|%@|%@|%@|%@|%@|%@|%@",
 				[args objectAtIndex:0], [args objectAtIndex:1], [args objectAtIndex:2],
 				[args objectAtIndex:3], [args objectAtIndex:4], [args objectAtIndex:5],
-				[args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8]];
+				[args objectAtIndex:6], [args objectAtIndex:7], [args objectAtIndex:8],
+				[args objectAtIndex:9], [args objectAtIndex:10]];
 			newTrackURL = [[NSNumber numberWithUnsignedLong:[newTrackURL hash]] stringValue];
 		}
 	}
