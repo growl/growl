@@ -6,6 +6,7 @@ BUILD_DIR=build
 GROWL_HELPER_APP=$(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)/Contents/Resources/GrowlHelperApp.app
 
 CP=ditto --rsrc
+RM=rm
 
 default: growlappbridge
 	xcodebuild -project Growl.xcode -target Growl -buildstyle Deployment build
@@ -32,7 +33,7 @@ clean:
 
 install:
 	-killall GrowlHelperApp
-	rm -rf $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE) $(FRAMEWORKS_DIR)/$(GROWL_FRAMEWORK)
+	-$(RM) -rf $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE) $(FRAMEWORKS_DIR)/$(GROWL_FRAMEWORK)
 	$(CP) $(BUILD_DIR)/$(GROWL_PREFPANE) $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
 	$(CP) $(BUILD_DIR)/$(GROWL_FRAMEWORK) $(FRAMEWORKS_DIR)/$(GROWL_FRAMEWORK)
 	open $(GROWL_HELPER_APP)
