@@ -46,7 +46,11 @@ static const double GrowlSmokePadding = 10.;
 	[dict setObject:[NSNumber numberWithInt:_id] forKey:@"ID"];
 	[dict setObject:[NSNumber numberWithFloat:[[self window] frame].size.height] forKey:@"Depth"];
 //	NSLog(@"self id: [%d]", self->_id);
-	smokeWindowDepth -= [[self window] frame].size.height;
+	// stop smokeWindowDepth wrapping around
+	if([[self window] frame].size.height > smokeWindowDepth)
+		smokeWindowDepth = 0;
+	else
+		smokeWindowDepth -= [[self window] frame].size.height;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"Glide" object:nil userInfo:dict];
 }
 
@@ -57,6 +61,9 @@ static const double GrowlSmokePadding = 10.;
 	{
 		NSRect theFrame = [[self window] frame];
 		theFrame.origin.y += [[[note userInfo] objectForKey:@"Depth"] floatValue];
+		// don't allow notification to fly off the top of the screen
+		if(theFrame.origin.y >= NSMaxY( [[NSScreen mainScreen] visibleFrame] ) - GrowlSmokePadding)
+			return;
 		[[self window] setFrame:theFrame display:NO animate:YES];
 	}
 }
