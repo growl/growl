@@ -100,8 +100,6 @@ def main():
     n = TestGrowlNotifier(applicationIcon=NSWorkspace.sharedWorkspace().iconForFileType_('unknown'))
     n.register()
     
-    # A small delay to ensure our notification will be shown.
-    NSRunLoop.currentRunLoop().runUntilDate_(NSDate.dateWithTimeIntervalSinceNow_(0.1))
     n.notify('Foo', 'Test Notification', 'Blah blah blah')
 
 if __name__ == '__main__':
