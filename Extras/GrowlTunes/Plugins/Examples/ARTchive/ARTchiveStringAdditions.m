@@ -11,7 +11,7 @@
 @implementation NSString (ARTchiveStringAdditions)
 
 - (NSString *)stringByMakingPathSafe {
-	size_t numChars = [fullAlbumName length];
+	size_t numChars = [self length];
 	unichar *chars = malloc(numChars * sizeof(unichar));
 	if(!chars) {
 		NSLog(@"In -[NSString(ARTchiveStringAdditions) stringByMakingPathSafe:]: Could not allocate %lu bytes of memory in which to examine the full album name", (unsigned long)(numChars * sizeof(unichar)));
@@ -24,6 +24,7 @@
 			case ':':
 			case '/':
 				chars[i] = '_';
+		}
 	}
 
 	NSString *result = [NSString stringWithCharacters:chars length:numChars];
