@@ -7,14 +7,18 @@ We are dropping 10.2 support in this release.
 Release related issues
 - Make sure we have user documentation on everything we have. This was a sore point for us last release.
 - DMG & PKG
-	- Look at creating a mpkg with some of the Extras in it. Include these:
-		- GrowlSafari
-		- GrowlMail
-		- GrowlTunes
-		- growlnotify
-	- Include uninstaller in the dmg
-	- Include user documentation in the dmg
-	- Include links to developer documentation in the dmg. Possibly include docs themselves.
+	- Make a PKG for installing Growl
+		- Include Bindings.
+	- Include Scripts in the dmg
+		- Ensure all applescripts are up to date
+	- Include Extras in the dmg.
+		- If we can make an installer for GrowlSafari, let's do that. It requires SIMBL in order to work, so that would need to be installed too, if not already installed.
+		- If we can make an instaler for GrowlMail, that would be good
+		- Figure out the best way to package/install growlnotify
+		- GrowlTunes is just a drap/drop install
+	- Include uninstaller in the dmg.
+	- Include user documentation in the dmg.
+	- Include links to developer documentation in the dmg.
 
 
 
