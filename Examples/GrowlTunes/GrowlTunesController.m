@@ -133,8 +133,9 @@ enum {
 	playerState = [retVal stringValue];
 	
 	if([playerState isEqualToString:@"quitting"]){
-		[self stopTimer];
-		return;
+//		[self stopTimer];
+//		return;
+		NSLog(@"Poll script returned error!");
 	}else if([playerState isEqualToString:@"paused"]) {
 		newState = itPAUSED;
 	} else if([playerState isEqualToString:@"stopped"]) {
