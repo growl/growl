@@ -31,10 +31,14 @@ enum {
 - (id)init
 {
 	self = [super init];
-	
-	[GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(registerGrowl:) context:NULL];
-	state = itUNKNOWN;
-	
+
+	if(self) {
+		[GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(registerGrowl:) context:NULL];
+		self->state = itUNKNOWN;
+
+		self->plugins = [self loadPlugins];
+	}
+
 	return self;
 }
 
@@ -58,11 +62,11 @@ enum {
 
 - (void)applicationWillFinishLaunching: (NSNotification *)notification
 {
-	pollScript = [self appleScriptNamed:@"polliTunes"];
-	getTrackScript = [self appleScriptNamed:@"getTrack"];
-	getArtistScript = [self appleScriptNamed:@"getArtist"];
+	pollScript       = [self appleScriptNamed:@"polliTunes"];
+	getTrackScript   = [self appleScriptNamed:@"getTrack"];
+	getArtistScript  = [self appleScriptNamed:@"getArtist"];
 	getArtworkScript = [self appleScriptNamed:@"getArtwork"];
-	getAlbumScript = [self appleScriptNamed:@"getAlbum"];
+	getAlbumScript   = [self appleScriptNamed:@"getAlbum"];
 	quitiTunesScript = [self appleScriptNamed:@"quitiTunes"];
 
 	if([self iTunesIsRunning]) {
@@ -84,15 +88,17 @@ enum {
 
 - (void)dealloc
 {
+	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+	[self stopTimer];
+	
 	[pollScript release];
 	[getTrackScript release];
 	[getArtistScript release];
 	[getArtworkScript release];
 	[getAlbumScript release];
 
-	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
-	[self stopTimer];
-	
+	[plugins release];
+
 	[self tearDownStatusItem];
 
 	[super dealloc];
@@ -113,9 +119,9 @@ enum {
 	playerState = [retVal stringValue];
 	
 	if([playerState isEqualToString:@"quitting"]){
-                [self stopTimer];
-                return;
-        }else if([playerState isEqualToString:@"paused"]) {
+		[self stopTimer];
+		return;
+	}else if([playerState isEqualToString:@"paused"]) {
 		newState = itPAUSED;
 	} else if([playerState isEqualToString:@"stopped"]) {
 		newState = itSTOPPED;
@@ -154,8 +160,20 @@ enum {
 				retVal = [getArtworkScript executeAndReturnError:&error];
 				if(retVal)
 					artwork = [[[NSImage alloc] initWithData:[retVal data]] autorelease];
-				else
-					NSLog(@"Error getting artwork: %@",[error objectForKey:NSAppleScriptErrorMessage]);
+				else {
+					NSEnumerator *pluginEnum = [plugins objectEnumerator];
+					id plugin;
+					while((artwork == nil) && (plugin = [pluginEnum nextObject])) {
+						artwork = [plugin artworkForTitle:track
+												 byArtist:artist
+												  onAlbum:album];
+					}
+					if(artwork == nil) {
+						NSLog(@"Error getting artwork: %@", [error objectForKey:NSAppleScriptErrorMessage]);
+						if([plugins count])
+							NSLog(@"No plug-ins found anything either, or you wouldn't have this message.");
+					}
+				}
 				
 				noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
 					appName, GROWL_APP_NAME,
@@ -184,11 +202,11 @@ enum {
 }
 
 - (void)stopTimer {
-    if(pollTimer){
-	[pollTimer invalidate];
-	[pollTimer release];
-	pollTimer = nil;
-    }
+	if(pollTimer){
+		[pollTimer invalidate];
+		[pollTimer release];
+		pollTimer = nil;
+	}
 }
 
 #pragma mark Status item
@@ -316,7 +334,32 @@ enum {
 }
 - (void)handleAppQuit:(NSNotification *)notification {
 	if([iTunesBundleID caseInsensitiveCompare:[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
-                [self stopTimer];
+		[self stopTimer];
+}
+
+#pragma mark Plug-ins
+
+- (NSMutableArray *)loadPlugins {
+	NSMutableArray *newPlugins = [[NSMutableArray alloc] init];
+	if(newPlugins) {
+		NSBundle *myBundle = [NSBundle mainBundle];
+		NSString *pluginsPath = [myBundle builtInPlugInsPath];
+		static NSString *pluginPathExtension = @"plugin";
+
+		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+		NSDirectoryEnumerator *pluginEnum = [[NSFileManager defaultManager] enumeratorAtPath:pluginsPath];
+		NSString *curPath;
+		while(curPath = [pluginEnum nextObject]) {
+			if([[curPath pathExtension] isEqualToString:pluginPathExtension]) {
+				NSBundle *plugin = [NSBundle bundleWithPath:curPath];
+				[newPlugins addObject:[[[[plugin principalClass] alloc] init] autorelease]];
+			}
+		}
+
+		[pool release];
+		[newPlugins autorelease];
+	}
 }
 
 @end

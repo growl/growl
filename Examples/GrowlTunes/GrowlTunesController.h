@@ -34,6 +34,8 @@ typedef enum {
 
 	iTunesState			  state;
 	int					  trackID;		//The "database ID" of the last-polled track in iTunes, -1 for none
+
+	NSMutableArray		* plugins;
 }
 
 - (BOOL)iTunesIsRunning;
