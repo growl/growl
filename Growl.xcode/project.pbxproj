@@ -90,7 +90,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlVersionUtilities.h;
-			path = "Common code/GrowlVersionUtilities.h";
+			path = Common/Source/GrowlVersionUtilities.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -99,7 +99,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.c;
 			name = GrowlVersionUtilities.c;
-			path = "Common code/GrowlVersionUtilities.c";
+			path = Common/Source/GrowlVersionUtilities.c;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -131,7 +131,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlAppBridge.h;
+			name = GrowlAppBridge.h;
+			path = Framework/Source/GrowlAppBridge.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -139,7 +140,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlAppBridge.m;
+			name = GrowlAppBridge.m;
+			path = Framework/Source/GrowlAppBridge.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -177,7 +179,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = "GrowlAppBridge-Carbon.h";
+			name = "GrowlAppBridge-Carbon.h";
+			path = "Framework/Source/GrowlAppBridge-Carbon.h";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2004,14 +2007,6 @@
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		0AB856D806E2932C007B791C = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = text;
-			path = todo.txt;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		0AEE179C0702C4960024B1A0 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -2107,7 +2102,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = Growl_Prefix.pch;
-			path = Source/Growl_Prefix.pch;
+			path = Core/Source/Growl_Prefix.pch;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2332,7 +2327,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.c;
-			path = "GrowlApplicationBridge-Carbon.c";
+			name = "GrowlApplicationBridge-Carbon.c";
+			path = "Framework/Source/GrowlApplicationBridge-Carbon.c";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2340,7 +2336,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = "GrowlApplicationBridge-Carbon.h";
+			name = "GrowlApplicationBridge-Carbon.h";
+			path = "Framework/Source/GrowlApplicationBridge-Carbon.h";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2377,7 +2374,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlFramework_Prefix.pch;
+			name = GrowlFramework_Prefix.pch;
+			path = Framework/Source/GrowlFramework_Prefix.pch;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2460,7 +2458,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlDefinesInternal.h;
-			path = "Common code/GrowlDefinesInternal.h";
+			path = Common/Source/GrowlDefinesInternal.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2469,7 +2467,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlDefines.h;
-			path = "Common code/GrowlDefines.h";
+			path = Common/Source/GrowlDefines.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2548,7 +2546,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlInstallationPrompt.h;
+			name = GrowlInstallationPrompt.h;
+			path = Framework/Source/GrowlInstallationPrompt.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2556,7 +2555,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlInstallationPrompt.m;
+			name = GrowlInstallationPrompt.m;
+			path = Framework/Source/GrowlInstallationPrompt.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2695,7 +2695,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlApplicationBridge.m;
+			name = GrowlApplicationBridge.m;
+			path = Framework/Source/GrowlApplicationBridge.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2703,7 +2704,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlApplicationBridge.h;
+			name = GrowlApplicationBridge.h;
+			path = Framework/Source/GrowlApplicationBridge.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2726,7 +2728,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = Growl.h;
+			name = Growl.h;
+			path = Framework/Source/Growl.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2906,7 +2909,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlPreferences.h;
-			path = Source/GrowlPreferences.h;
+			path = Core/Source/GrowlPreferences.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2915,7 +2918,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlPreferences.m;
-			path = Source/GrowlPreferences.m;
+			path = Core/Source/GrowlPreferences.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2951,7 +2954,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlPluginController.h;
-			path = Source/GrowlPluginController.h;
+			path = Core/Source/GrowlPluginController.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2960,7 +2963,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlPluginController.m;
-			path = Source/GrowlPluginController.m;
+			path = Core/Source/GrowlPluginController.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3135,7 +3138,7 @@
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Source/Growl_Prefix.pch;
+				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
@@ -3257,7 +3260,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = RRTableView.h;
-			path = Source/RRTableView.h;
+			path = Core/Source/RRTableView.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3266,7 +3269,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = RRTableView.m;
-			path = Source/RRTableView.m;
+			path = Core/Source/RRTableView.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3372,7 +3375,6 @@
 			children = (
 				CB910DA6074E0A3A00278FC5,
 				CB1C5D95063E523F007052EE,
-				0AB856D806E2932C007B791C,
 			);
 			isa = PBXGroup;
 			name = Documentation;
@@ -3516,7 +3518,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = FadingWindowController.h;
-			path = Source/FadingWindowController.h;
+			path = Core/Source/FadingWindowController.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3525,7 +3527,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = FadingWindowController.m;
-			path = Source/FadingWindowController.m;
+			path = Core/Source/FadingWindowController.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3534,7 +3536,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlBezierPathAdditions.h;
-			path = Source/GrowlBezierPathAdditions.h;
+			path = Core/Source/GrowlBezierPathAdditions.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3543,7 +3545,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlBezierPathAdditions.m;
-			path = Source/GrowlBezierPathAdditions.m;
+			path = Core/Source/GrowlBezierPathAdditions.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3552,7 +3554,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlImageAdditions.h;
-			path = Source/GrowlImageAdditions.h;
+			path = Core/Source/GrowlImageAdditions.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3561,7 +3563,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlImageAdditions.m;
-			path = Source/GrowlImageAdditions.m;
+			path = Core/Source/GrowlImageAdditions.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3582,7 +3584,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlUDPServer.h;
-			path = Source/GrowlUDPServer.h;
+			path = Core/Source/GrowlUDPServer.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3591,7 +3593,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlUDPServer.m;
-			path = Source/GrowlUDPServer.m;
+			path = Core/Source/GrowlUDPServer.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3708,7 +3710,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlNotificationServer.h;
-			path = Source/GrowlNotificationServer.h;
+			path = Core/Source/GrowlNotificationServer.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3717,7 +3719,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlNotificationServer.m;
-			path = Source/GrowlNotificationServer.m;
+			path = Core/Source/GrowlNotificationServer.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3746,7 +3748,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = CoreGraphicsServices.h;
-			path = Source/CoreGraphicsServices.h;
+			path = Core/Source/CoreGraphicsServices.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3755,7 +3757,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = "NSWindow+Transforms.h";
-			path = "Source/NSWindow+Transforms.h";
+			path = "Core/Source/NSWindow+Transforms.h";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3764,7 +3766,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = "NSWindow+Transforms.m";
-			path = "Source/NSWindow+Transforms.m";
+			path = "Core/Source/NSWindow+Transforms.m";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3809,7 +3811,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = ACImageAndTextCell.h;
-			path = Source/ACImageAndTextCell.h;
+			path = Core/Source/ACImageAndTextCell.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3818,7 +3820,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = ACImageAndTextCell.m;
-			path = Source/ACImageAndTextCell.m;
+			path = Core/Source/ACImageAndTextCell.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3855,7 +3857,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlApplicationTicket.h;
-			path = Source/GrowlApplicationTicket.h;
+			path = Core/Source/GrowlApplicationTicket.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3864,7 +3866,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlApplicationTicket.m;
-			path = Source/GrowlApplicationTicket.m;
+			path = Core/Source/GrowlApplicationTicket.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3880,7 +3882,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlApplicationNotification.h;
-			path = Source/GrowlApplicationNotification.h;
+			path = Core/Source/GrowlApplicationNotification.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3889,7 +3891,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlApplicationNotification.m;
-			path = Source/GrowlApplicationNotification.m;
+			path = Core/Source/GrowlApplicationNotification.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -3935,7 +3937,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlController.h;
-			path = Source/GrowlController.h;
+			path = Core/Source/GrowlController.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3944,7 +3946,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlController.m;
-			path = Source/GrowlController.m;
+			path = Core/Source/GrowlController.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3959,7 +3961,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = HelperMain.m;
-			path = Source/HelperMain.m;
+			path = Core/Source/HelperMain.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -4081,7 +4083,7 @@
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Source/Growl_Prefix.pch;
+				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
@@ -4239,7 +4241,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlPref.h;
-			path = Source/GrowlPref.h;
+			path = Core/Source/GrowlPref.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -4248,7 +4250,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlPref.m;
-			path = Source/GrowlPref.m;
+			path = Core/Source/GrowlPref.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -4265,7 +4267,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = NSGrowlAdditions.h;
-			path = Source/NSGrowlAdditions.h;
+			path = Core/Source/NSGrowlAdditions.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -4274,7 +4276,7 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = NSGrowlAdditions.m;
-			path = Source/NSGrowlAdditions.m;
+			path = Core/Source/NSGrowlAdditions.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
