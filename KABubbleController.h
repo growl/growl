@@ -6,7 +6,7 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
-@interface KABubbleController : NSObject {
+@interface KABubbleController : NSObject <GrowlDisplayPlugin> {
 
 }
 
@@ -18,6 +18,7 @@
 - (NSString *) userDescription;
 - (NSString *) version;
 - (void) unloadPlugin;
+- (NSDictionary*) pluginInfo;
 
 - (void)  displayNotificationWithInfo:(NSDictionary *) noteDict;
 
