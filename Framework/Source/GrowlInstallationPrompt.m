@@ -38,7 +38,7 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 
 + (void) showInstallationPromptForUpdate:(BOOL)inIsUpdate
 {
-	long OSXversion = 0L;
+	long OSXVersion = 0L;
 	OSStatus err = Gestalt(gestaltSystemVersion, &OSXVersion);
 	if(err != noErr) {
 		NSLog(@"WARNING in GrowlInstallationPrompt: could not get Mac OS X version (selector = %x); got error code %li (will show the installation prompt anyway)", (unsigned)gestaltSystemVersion, (long)err);
