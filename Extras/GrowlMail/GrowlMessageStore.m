@@ -35,7 +35,7 @@
 #import "GrowlMessageStore.h"
 #import "Message+GrowlMail.h"
 #import "GrowlMail.h"
-#import "GrowlDefines.h"
+#import <Growl/Growl.h>
 
 @implementation GrowlMessageStore
 + (void)load

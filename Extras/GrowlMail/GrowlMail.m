@@ -34,8 +34,7 @@
 //
 
 #import "GrowlMail.h"
-#import <GrowlAppBridge/GrowlApplicationBridge.h>
-#import "GrowlDefines.h"
+#import <Growl/Growl.h>
 
 @implementation GrowlMail
 
@@ -93,7 +92,7 @@
 - (id)init
 {
 	if ( (self = [super init]) ) {
-		if ( ![GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(gabResponse:) context:nil] ) {
+		if ( ![ launchGrowlIfInstalledNotifyingTarget:self selector:@selector(gabResponse:) context:nil] ) {
 			NSLog( @"Growl not installed, GrowlMail disabled" );
 		}
 	}

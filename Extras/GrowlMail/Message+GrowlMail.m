@@ -34,7 +34,7 @@
 
 #import "Message+GrowlMail.h"
 #import "GrowlMail.h"
-#import "GrowlDefines.h"
+#import <Growl/Growl.h>
 
 @interface NSString(GrowlMail)
 - (NSString *)firstNLines:(unsigned int)n;

@@ -142,7 +142,6 @@
 				95BF5459072F9D6300834811,
 				4B7E5EA206B6AC1700137892,
 				4B7E5EA306B6AC1700137892,
-				0A8329DE06B856EE00F4F4EE,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -162,28 +161,13 @@
 		0A8329A206B854F700F4F4EE = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
-			name = GrowlAppBridge.framework;
-			path = ../../build/GrowlAppBridge.framework;
+			name = Growl.framework;
+			path = ../../build/Growl.framework;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
 		0A8329A306B854F700F4F4EE = {
 			fileRef = 0A8329A206B854F700F4F4EE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0A8329DE06B856EE00F4F4EE = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlDefines.h;
-			path = ../../GrowlDefines.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		0A8329DF06B856EE00F4F4EE = {
-			fileRef = 0A8329DE06B856EE00F4F4EE;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -373,7 +357,6 @@
 			files = (
 				4BF8974E06B6A7EF00C30E88,
 				4B7E5EA706B6AC1700137892,
-				0A8329DF06B856EE00F4F4EE,
 				95BF545A072F9D6300834811,
 				95BF5482072FB08000834811,
 				9553469E0732BD4800D12875,
