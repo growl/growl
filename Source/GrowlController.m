@@ -10,7 +10,11 @@
 #import "GrowlController.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlApplicationNotification.h"
+#import "GrowlNotificationServer.h"
+#import "GrowlUDPServer.h"
 #import "NSGrowlAdditions.h"
+#import "GrowlDisplayProtocol.h"
+#import "GrowlDefines.h"
 #import <sys/socket.h>
 
 @interface GrowlController (private)

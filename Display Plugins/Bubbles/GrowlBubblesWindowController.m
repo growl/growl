@@ -9,6 +9,7 @@
 
 #import "GrowlBubblesWindowController.h"
 #import "GrowlBubblesWindowView.h"
+#import "GrowlBubblesPrefsController.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlBubblesDefines.h"
 

@@ -6,6 +6,9 @@
 //
 #import "GrowlMailMeDisplay.h"
 #import "GrowlMailMePrefs.h"
+#import <Message/NSMailDelivery.h>
+#import <GrowlDefinesInternal.h>
+#import <GrowlDisplayProtocol.h>
 
 static NSString *author      = @"Mac-arena the Bored Zo";
 static NSString *name        = @"MailMe";

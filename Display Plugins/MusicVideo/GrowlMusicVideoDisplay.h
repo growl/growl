@@ -6,7 +6,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <GrowlDefinesInternal.h>
 #import <GrowlDisplayProtocol.h>
 
 @class GrowlMusicVideoPrefs;

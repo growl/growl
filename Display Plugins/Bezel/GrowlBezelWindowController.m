@@ -8,6 +8,7 @@
 
 #import "GrowlBezelWindowController.h"
 #import "GrowlBezelWindowView.h"
+#import "GrowlBezelPrefs.h"
 #import "NSGrowlAdditions.h"
 #import "NSWindow+Transforms.h"
 

@@ -8,6 +8,7 @@
 
 #import "GrowlRegisterScriptCommand.h"
 #import "GrowlController.h"
+#import "GrowlDefines.h"
 #import "NSGrowlAdditions.h"
 
 #define KEY_APP_NAME					@"asApplication"

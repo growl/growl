@@ -7,6 +7,7 @@
 //
 
 #import "GrowlMusicVideoWindowView.h"
+#import "GrowlMusicVideoPrefs.h"
 #import "GrowlImageAdditions.h"
 #import "NSGrowlAdditions.h"
 

@@ -11,6 +11,7 @@
 #import "GrowlController.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlDefinesInternal.h"
+#import "GrowlDefines.h"
 #import <Security/SecKeychain.h>
 #import <Security/SecKeychainItem.h>
 #include <netinet/in.h>

@@ -11,6 +11,8 @@
 #import "GrowlApplicationTicket.h"
 #import "GrowlApplicationNotification.h"
 #import "GrowlController.h"
+#import "GrowlDefines.h"
+#import "GrowlDisplayProtocol.h"
 #import "NSGrowlAdditions.h"
 
 NSString * UseDefaultsKey		= @"useDefaults";

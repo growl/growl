@@ -5,10 +5,7 @@
 //  Copyright 2004 Mac-arena the Bored Zo. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import <Message/NSMailDelivery.h>
-#import <GrowlDefinesInternal.h>
-#import <GrowlDisplayProtocol.h>
+#import <Foundation/Foundation.h>
 
 @class GrowlMailMePrefs;
 

@@ -7,6 +7,7 @@
 #import "GrowlMusicVideoDisplay.h"
 #import "GrowlMusicVideoWindowController.h"
 #import "GrowlMusicVideoPrefs.h"
+#import <GrowlDefinesInternal.h>
 
 #define B_AUTHOR @"Jorge Salvador Caffarena"
 #define B_NAME @"Music Video"

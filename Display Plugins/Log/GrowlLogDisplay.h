@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <GrowlDisplayProtocol.h>
-#import "GrowlDefinesInternal.h"
 
 @class GrowlLogPrefs;
 

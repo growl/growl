@@ -7,6 +7,7 @@
 #import "GrowlBezelDisplay.h"
 #import "GrowlBezelWindowController.h"
 #import "GrowlBezelPrefs.h"
+#import <GrowlDefinesInternal.h>
 
 #define B_AUTHOR		@"Jorge Salvador Caffarena"
 #define B_NAME			@"Bezel"

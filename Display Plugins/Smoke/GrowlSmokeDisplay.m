@@ -10,6 +10,7 @@
 #import "GrowlSmokeWindowController.h"
 #import "GrowlSmokePrefsController.h"
 #import "GrowlSmokeDefines.h"
+#import "GrowlDefinesInternal.h"
 
 static NSString *SmokeAuthor      = @"Matthew Walton";
 static NSString *SmokeName        = @"Smoke";

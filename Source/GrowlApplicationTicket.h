@@ -9,7 +9,8 @@
 
 
 #import <Foundation/Foundation.h>
-#import "GrowlDisplayProtocol.h"
+
+@protocol GrowlDisplayPlugin;
 
 @interface GrowlApplicationTicket : NSObject {
 	NSString		*appName;					// The Applications's name for display by notifications that want it

@@ -24,6 +24,7 @@
 
 #import "GrowlNotifyScriptCommand.h"
 #import "GrowlController.h"
+#import "GrowlDefines.h"
 #import "NSGrowlAdditions.h"
 
 #define KEY_TITLE				@"title"

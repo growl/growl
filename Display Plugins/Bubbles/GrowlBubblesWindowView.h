@@ -9,9 +9,6 @@
 
 #import <AppKit/NSView.h>
 
-// to get the limit pref
-#import "GrowlBubblesPrefsController.h"
-
 @interface GrowlBubblesWindowView : NSView {
 	NSFont		*titleFont;
 	NSFont		*textFont;

@@ -15,6 +15,9 @@
 #import "GrowlBezierPathAdditions.h"
 #import <math.h>
 
+/* to get the limit pref */
+#import "GrowlBubblesPrefsController.h"
+
 /* Hardcoded geometry values */
 #define PANEL_WIDTH_PX			270.0f /*!< Total width of the panel, including border */
 #define BORDER_WIDTH_PX			  4.0f

@@ -8,14 +8,10 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <Foundation/Foundation.h>
-#import "GrowlDefines.h"
-#import "GrowlDisplayProtocol.h"
-#import "GrowlNotificationServer.h"
-#import "GrowlUDPServer.h"
 
 @protocol GrowlDisplayPlugin;
 
-@class GrowlUDPServer;
+@class GrowlUDPServer, GrowlNotificationServer;
 
 @interface GrowlController : NSObject {
 	NSMutableDictionary			*tickets;				//Application tickets

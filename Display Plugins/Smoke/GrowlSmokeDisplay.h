@@ -6,8 +6,7 @@
 //  Copyright 2004 The Growl Project. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import <GrowlDefinesInternal.h>
+#import <Foundation/Foundation.h>
 #import <GrowlDisplayProtocol.h>
 
 @class GrowlSmokePrefsController;

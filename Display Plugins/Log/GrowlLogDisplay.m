@@ -9,7 +9,7 @@
 #import "GrowlLogDefines.h"
 #import "GrowlLogDisplay.h"
 #import "GrowlLogPrefs.h"
-#import "GrowlDefinesInternal.h"
+#import <GrowlDefinesInternal.h>
 
 @class NSPreferencePane;
 

@@ -8,7 +8,8 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlDisplayProtocol.h"
+
+@protocol GrowlDisplayPlugin;
 
 @interface GrowlPluginController : NSObject {
 	NSMutableDictionary		*allDisplayPlugins;	

@@ -13,6 +13,7 @@
 
 
 #import "NSWindow+Transforms.h"
+#import "CoreGraphicsServices.h"
 
 @implementation NSWindow (Transforms)
 

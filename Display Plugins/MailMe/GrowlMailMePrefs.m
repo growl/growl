@@ -6,6 +6,7 @@
 //
 
 #import "GrowlMailMePrefs.h"
+#import <GrowlDefinesInternal.h>
 
 static NSString *destAddressKey = @"MailMe - Recipient address";
 

@@ -6,7 +6,6 @@
 //
 
 #import <PreferencePanes/PreferencePanes.h>
-#import "GrowlDefinesInternal.h"
 
 @interface GrowlMailMePrefs: NSPreferencePane
 {

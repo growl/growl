@@ -8,7 +8,6 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <PreferencePanes/PreferencePanes.h>
-#import "RRTableView.h"
 
 @interface GrowlPref : NSPreferencePane {
 	NSMutableArray			*images;
@@ -74,7 +73,7 @@
 - (NSString *) bundleVersion;
 - (IBAction) checkVersion:(id)sender;
 - (void) checkVersionAtURL:(NSURL *)url displayText:(NSString *)message downloadURL:(NSURL *)goURL;
-- (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(id)contextInfo;
+- (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 - (void) reloadPreferences;
 - (void) updateRunningStatus;

@@ -10,6 +10,7 @@
 #import "GrowlPref.h"
 #import "GrowlDefines.h"
 #import "GrowlApplicationNotification.h"
+#import "GrowlDisplayProtocol.h"
 #import "ACImageAndTextCell.h"
 #import "NSGrowlAdditions.h"
 #import <ApplicationServices/ApplicationServices.h>
@@ -112,7 +113,7 @@ static const char *keychainAccountName = "Growl";
 	}
 }
 
-- (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(NSURL *)contextInfo {
+- (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	if ( returnCode == NSAlertDefaultReturn ) { 
 		[[NSWorkspace sharedWorkspace] openURL:contextInfo];
 	}
@@ -414,7 +415,7 @@ static const char *keychainAccountName = "Growl";
 	// We want to launch in background, so we have to resort to Carbon
 	LSLaunchFSRefSpec spec;
 	FSRef appRef;
-	OSStatus status = FSPathMakeRef([helperPath fileSystemRepresentation], &appRef, NULL);
+	OSStatus status = FSPathMakeRef((const UInt8 *)[helperPath fileSystemRepresentation], &appRef, NULL);
 	
 	if (status == noErr) {
 		spec.appRef = &appRef;

@@ -7,7 +7,7 @@
 //
 
 #import "GrowlBezelPrefs.h"
-
+#import "GrowlDefinesInternal.h"
 
 @implementation GrowlBezelPrefs
 

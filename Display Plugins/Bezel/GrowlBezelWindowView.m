@@ -7,6 +7,7 @@
 //
 
 #import "GrowlBezelWindowView.h"
+#import "GrowlBezelPrefs.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 #import "NSGrowlAdditions.h"
