@@ -39,6 +39,8 @@
 #define GROWL_NOTIFICATION_ICON			@"NotificationIcon"
 /*! The TIFF data for the application icon (Optional) */
 #define GROWL_NOTIFICATION_APP_ICON		@"NotificationAppIcon"
+/*! The priority of the notification from the preference pane */
+#define GROWL_NOTIFICATION_PRIORITY		@"NotificationPriority"
 /*! A boolean controlling whether the notification is sticky. (Optional)
 	
 	Not necessarily supported by all display plugins */
