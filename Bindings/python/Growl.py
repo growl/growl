@@ -59,7 +59,7 @@ class GrowlNotifier(object):
         notCenter = NSDistributedNotificationCenter.defaultCenter()
         notCenter.postNotificationName_object_userInfo_deliverImmediately_("GrowlApplicationRegistrationNotification", None, d, True)
     
-    def notify(self, noteType, title, description, icon=None, style=None):
+    def notify(self, noteType, title, description, icon=None, appicon=None, style=None, sticky=False):
         """
         Post a notification to the Growl daemon.
         
@@ -68,6 +68,8 @@ class GrowlNotifier(object):
         `description' is the user-visible description of this notification.
         `icon' is an optional icon for this notification.  It defaults to
             `self.applicationIcon'.
+        `appicon' is an optional icon for the sending application.
+        `sticky' is a boolean controlling whether the notification is sticky.
         """
         assert noteType in self.notifications
         if icon is None:
@@ -82,6 +84,12 @@ class GrowlNotifier(object):
              
         if style is not None:
              n['NotificationDefault'] = NSNumber.numberWithBool_(False)
+        
+        if appicon is not None:
+             n['NotificationAppIcon'] = appicon.TIFFRepresentation()
+        
+        if sticky:
+             n['NotificationSticky'] = NSNumber.numberWithBool_(True)
 
         d = NSDictionary.dictionaryWithDictionary_(n)
         notCenter = NSDistributedNotificationCenter.defaultCenter()
