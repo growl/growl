@@ -169,9 +169,9 @@ class GrowlNotifier(object):
         if applicationName is not None:
             self.applicationName = applicationName
         if notifications is not None:
-            self.notifications = notifications
+            self.notifications = list(notifications)
         if defaultNotifications is not None:
-            self.defaultNotifications = defaultNotifications
+            self.defaultNotifications = list(defaultNotifications)
         if applicationIcon is not None:
             self.applicationIcon = self._checkIcon(applicationIcon)
         if hostname is not None and password is not None:
