@@ -17,11 +17,12 @@
 	NSMutableArray			*images;
 	NSMutableDictionary		*tickets;
 	NSMutableArray			*applications;
+	NSMutableArray			*filteredApplications;
 	NSTimer					*startStopTimer;
 	
 	NSPreferencePane		*pluginPrefPane;
 	NSMutableArray			*loadedPrefPanes;
-	
+
 	//Properties of the app being configured
 	NSString				*currentApplication;
 	GrowlApplicationTicket	*appTicket;
@@ -52,6 +53,7 @@
 	IBOutlet NSTableView	*growlApplications;
 	NSMenu					*applicationDisplayPluginsMenu;
 	IBOutlet NSMenu			*notificationPriorityMenu;
+	IBOutlet NSTextField	*searchField;
 
 	//"Display Options" tab pane
 	IBOutlet NSTableView	*displayPlugins;
@@ -87,6 +89,8 @@
 - (void) reloadAppTab;
 - (void) reloadDisplayTab;
 - (void) buildMenus;
+- (void) filterApplications;
+- (IBAction) search:(id)sender;
 
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;

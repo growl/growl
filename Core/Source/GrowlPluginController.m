@@ -212,11 +212,11 @@ static GrowlPluginController *sharedController;
 }
 
 - (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-	if ( returnCode == NSAlertAlternateReturn ) {
+	if (returnCode == NSAlertAlternateReturn) {
 		NSBundle *prefPane = [GrowlPluginController growlPrefPaneBundle];
-		
-		if ( prefPane && ![[NSWorkspace sharedWorkspace] openFile: [prefPane bundlePath]] ) {
-				NSLog( @"Could not open Growl PrefPane" );
+
+		if (prefPane && ![[NSWorkspace sharedWorkspace] openFile: [prefPane bundlePath]]) {
+			NSLog( @"Could not open Growl PrefPane" );
 		}
 	}
 }

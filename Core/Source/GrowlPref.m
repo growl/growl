@@ -31,12 +31,6 @@ static const char *keychainAccountName = "Growl";
 
 - (id) initWithBundle:(NSBundle *)bundle {
 	if ((self = [super initWithBundle:bundle])) {
-		versionCheckURL    = nil;
-		downloadURL        = nil;
-		pluginPrefPane     = nil;
-		tickets            = nil;
-		currentApplication = nil;
-		startStopTimer     = nil;
 		loadedPrefPanes    = [[NSMutableArray alloc] init];
 		
 		NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
@@ -53,16 +47,18 @@ static const char *keychainAccountName = "Growl";
 
 - (void) dealloc {
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
-	[browser            release];
-	[services           release];
-	[pluginPrefPane     release];
-	[loadedPrefPanes    release];
-	[tickets            release];
-	[currentApplication release];
-	[startStopTimer     release];
-	[images             release];
-	[versionCheckURL    release];
-	[downloadURL        release];
+	[browser              release];
+	[services             release];
+	[pluginPrefPane       release];
+	[loadedPrefPanes      release];
+	[tickets              release];
+	[currentApplication   release];
+	[startStopTimer       release];
+	[images               release];
+	[versionCheckURL      release];
+	[downloadURL          release];
+	[applications         release];
+	[filteredApplications release];
 	[super dealloc];
 }
 
@@ -95,7 +91,7 @@ static const char *keychainAccountName = "Growl";
 	NSString *currVersionNumber = [infoDict objectForKey:@"CFBundleVersion"];
 	NSDictionary *productVersionDict = [NSDictionary dictionaryWithContentsOfURL:url];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:
-		[infoDict objectForKey:@"CFBundleExecutable"] ];
+		[infoDict objectForKey:@"CFBundleExecutable"]];
 
 	/*
 	NSLog([[[NSBundle bundleForClass:[self class]] infoDictionary] objectForKey:@"CFBundleExecutable"] );
@@ -126,7 +122,7 @@ static const char *keychainAccountName = "Growl";
 }
 
 - (void) awakeFromNib {
-	NSTableColumn *tableColumn = [growlApplications tableColumnWithIdentifier: @"application"];
+	NSTableColumn *tableColumn = [growlApplications tableColumnWithIdentifier:@"application"];
 	ACImageAndTextCell *imageAndTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
 	[imageAndTextCell setEditable: YES];
 	[tableColumn setDataCell:imageAndTextCell];
@@ -198,12 +194,36 @@ static const char *keychainAccountName = "Growl";
 	}
 }
 
+- (IBAction) search:(id)sender {
+	[self filterApplications];
+	[growlApplications reloadData];
+	[self reloadAppTab];
+}
+
+- (void) filterApplications {
+	NSString *searchString = [searchField stringValue];
+	[filteredApplications release];
+	if (!searchString || ![searchString length]) {
+		filteredApplications = [applications retain];
+	} else {
+		filteredApplications = [[NSMutableArray alloc] initWithCapacity:[applications count]];
+		NSEnumerator *applicationsEnumerator = [applications objectEnumerator];
+		NSString *name;
+		while ((name = [applicationsEnumerator nextObject])) {
+			if ([name rangeOfString:searchString options:NSAnchoredSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
+				[filteredApplications addObject:name];
+			}
+		}
+	}
+}
+
 - (void) reloadPreferences {
 	if (tickets) {
 		[tickets release];
 	}
 	tickets = [[GrowlApplicationTicket allSavedTickets] mutableCopy];
 	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
+	[self filterApplications];
 
 	[self cacheImages];
 
@@ -265,7 +285,7 @@ static const char *keychainAccountName = "Growl";
 - (void) buildMenus {
 	// Building Menu for the drop down one time.  It's cached from here on out.  If we want to add new display types
 	// we'll have to call this method after the controller knows about it.
-	NSEnumerator * enumerator;
+	NSEnumerator *enumerator;
 	
 	if (applicationDisplayPluginsMenu) {
 		[applicationDisplayPluginsMenu release];
@@ -304,11 +324,11 @@ static const char *keychainAccountName = "Growl";
 	[currentApplication release];
 	currentApplication = nil;
 //	currentApplication = [[growlApplications titleOfSelectedItem] retain];
-	unsigned numApplications = [applications count];
+	unsigned numApplications = [filteredApplications count];
 	int row = [growlApplications selectedRow];
 	if (numApplications) {
 		if (row > -1)
-			currentApplication = [[applications objectAtIndex:row] retain];
+			currentApplication = [[filteredApplications objectAtIndex:row] retain];
 	} 
 
 	[remove setEnabled:NO];
@@ -351,8 +371,8 @@ static const char *keychainAccountName = "Growl";
 	NSMutableArray *destinations = [NSMutableArray arrayWithCapacity:[services count]];
 	NSEnumerator *enumerator = [services objectEnumerator];
 	NSMutableDictionary *entry;
-	while ( (entry = [enumerator nextObject]) ) {
-		if ( ![entry objectForKey:@"netservice"] ) {
+	while ((entry = [enumerator nextObject])) {
+		if (![entry objectForKey:@"netservice"]) {
 			[destinations addObject:entry];
 		}
 	}
@@ -427,18 +447,20 @@ static const char *keychainAccountName = "Growl";
 	[[GrowlPreferences preferences] setObject:[sender titleOfSelectedItem] forKey:GrowlDisplayPluginKey];
 }
 
-- (IBAction)deleteTicket:(id)sender {
+- (IBAction) deleteTicket:(id)sender {
 	int row = [growlApplications selectedRow];
-	id key = [applications objectAtIndex:row];
+	id key = [filteredApplications objectAtIndex:row];
 	NSString *path = [[tickets objectForKey:key] path];
 
-	if ( [[NSFileManager defaultManager] removeFileAtPath:path handler:nil] ) {
+	if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
 																	   object:@"GrowlTicketDeleted"
 																	 userInfo:[NSDictionary dictionaryWithObject:key forKey:@"TicketName"]];
 		[tickets removeObjectForKey:key];
-		[images removeObjectAtIndex:row];
-		[applications removeObjectAtIndex:row];
+		int index = [applications indexOfObject:key];
+		[applications removeObjectAtIndex:index];
+		[images removeObjectAtIndex:index];
+		[filteredApplications removeObjectAtIndex:row];
 		[growlApplications deselectAll:NULL];
 		[self reloadAppTab];
 	}
@@ -466,13 +488,13 @@ static const char *keychainAccountName = "Growl";
 											 strlen( keychainServiceName ), keychainServiceName,
 											 strlen( keychainAccountName ), keychainAccountName,
 											 NULL, NULL, &itemRef );
-	if ( status == errSecItemNotFound ) {
+	if (status == errSecItemNotFound) {
 		// add new item
 		status = SecKeychainAddGenericPassword( NULL,
 												strlen( keychainServiceName ), keychainServiceName,
 												strlen( keychainAccountName ), keychainAccountName,
 												length, password, NULL );
-		if ( status ) {
+		if (status) {
 			NSLog( @"Failed to add password to keychain." );
 		}
 	} else {
@@ -487,10 +509,10 @@ static const char *keychainAccountName = "Growl";
 														 length,		// length of password
 														 password		// pointer to password data
 														 );
-		if ( itemRef ) {
-			CFRelease( itemRef );
+		if (itemRef) {
+			CFRelease(itemRef);
 		}
-		if ( status ) {
+		if (status) {
 			NSLog( @"Failed to change password in keychain." );
 		}
 	}
@@ -576,7 +598,7 @@ static const char *keychainAccountName = "Growl";
 	int returnValue = 0;
 
 	if (tableView == growlApplications) {
-		returnValue = [applications count];
+		returnValue = [filteredApplications count];
 	} else if (tableView == applicationNotifications) {
 		returnValue = [[appTicket allNotifications] count];
 	} else if (tableView == displayPlugins) {
@@ -592,12 +614,12 @@ static const char *keychainAccountName = "Growl";
 	id returnObject = nil;
 	id identifier;
 	
-	if (tableView == growlApplications) 	{
+	if (tableView == growlApplications) {
 		identifier = [column identifier];
 		if ([identifier isEqualTo:@"enable"]) {
-			returnObject = [NSNumber numberWithBool:[[tickets objectForKey: [applications objectAtIndex:row]] ticketEnabled]];
+			returnObject = [NSNumber numberWithBool:[[tickets objectForKey: [filteredApplications objectAtIndex:row]] ticketEnabled]];
 		} else if ([identifier isEqualTo:@"application"]) {
-			returnObject = [applications objectAtIndex:row];
+			returnObject = [filteredApplications objectAtIndex:row];
 		} 
 	} else if (tableView == applicationNotifications) {
 		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
@@ -628,7 +650,7 @@ static const char *keychainAccountName = "Growl";
 	id identifier;
 
 	if (tableView == growlApplications) {
-		NSString *application = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] objectAtIndex:row];
+		NSString *application = [filteredApplications objectAtIndex:row];
 		GrowlApplicationTicket *ticket = [tickets objectForKey:application];
 		identifier = [column identifier];
 
@@ -723,7 +745,8 @@ static const char *keychainAccountName = "Growl";
 #pragma mark TableView delegate methods
 
 - (void) tableViewSelectionDidChange:(NSNotification *)theNote {
-	if ([theNote object] == growlApplications) {
+	id object = [theNote object];
+	if (object == growlApplications) {
 		[self reloadAppTab];
 		if ([[theNote object] selectedRow] > -1) {
 			[remove setEnabled:YES]; 
@@ -731,10 +754,10 @@ static const char *keychainAccountName = "Growl";
 			[remove setEnabled:NO];
 		}
 		[applicationNotifications reloadData];
-	} else if ([theNote object] == displayPlugins) {
+	} else if (object == displayPlugins) {
 		[self reloadDisplayTab];
 		[remove setEnabled:NO];
-	} else if ([theNote object] == applicationNotifications) {
+	} else if (object == applicationNotifications) {
 		[self reloadAppTab];
 		//[remove setEnabled:NO];
 	}
@@ -744,14 +767,15 @@ static const char *keychainAccountName = "Growl";
 	NSString *identifier = [column identifier];
 	if (tableView == growlApplications) {
 		if ([identifier isEqualTo:@"display"]) {
-			id <GrowlDisplayPlugin> displayPlugin = [[tickets objectForKey:[applications objectAtIndex:row]] displayPlugin];
+			id <GrowlDisplayPlugin> displayPlugin = [[tickets objectForKey:[filteredApplications objectAtIndex:row]] displayPlugin];
 			if (!displayPlugin) {
 				[cell selectItemAtIndex:0]; // Default
 			} else {
 				[cell selectItemWithTitle:[displayPlugin name]];
 			}
 		} else if ([identifier isEqualTo:@"application"]) {
-			[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:row]];
+			int index = [applications indexOfObject:[filteredApplications objectAtIndex:row]];
+			[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:index]];
 		}
 	} else if (tableView == applicationNotifications) {
 		id notif = [[appTicket allNotifications] objectAtIndex:row];
@@ -884,6 +908,7 @@ static const char *keychainAccountName = "Growl";
 	[ticket release];
 	[applications release];
 	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
+	[self filterApplications];
 	[self cacheImages];
 	[growlApplications reloadData];
 

@@ -275,7 +275,6 @@ static id singleton = nil;
 			  forKey:GROWL_SCREENSHOT_MODE];
 
 	id <GrowlDisplayPlugin> display = [ticket displayPluginForNotification:notificationName];
-	NSLog(@"ticket:%@", [display name]);
 
 	if (!display) {
 		NSString *displayPluginName = [aDict objectForKey:GROWL_DISPLAY_PLUGIN];
@@ -283,17 +282,14 @@ static id singleton = nil;
 			display = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
 		}
 	}
-	NSLog(@"notification:%@", [display name]);
 
 	if (!display) {
 		display = [ticket displayPlugin];
 	}
-	NSLog(@"custom ticket:%@", [display name]);
 
 	if (!display) {
 		display = displayController;
 	}
-	NSLog(@"default:%@", [display name]);
 
 	[display displayNotificationWithInfo:aDict];
 

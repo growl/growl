@@ -175,10 +175,10 @@
 }
 
 - (void) dealloc {
-	[appName release];
-	[appPath release];
-	[icon release];
-	[allNotifications release];
+	[appName              release];
+	[appPath              release];
+	[icon                 release];
+	[allNotifications     release];
 	[defaultNotifications release];
 	
 	[super dealloc];
@@ -515,7 +515,7 @@
 		if (inObject) {
 			NSLog(@"WARNING: application %@ passed an invalid object for the default notifications: %@.", appName, inObject);
 		}
-		defaultNotifications = [allNotifications copy];
+		defaultNotifications = [allNotifications retain];
 	}
 
 	if (useDefaults) {
@@ -539,7 +539,7 @@
 	NSEnumerator *notificationEnum = [inArray objectEnumerator];
 	[[allNotifications allValues] makeObjectsPerformSelector:@selector(disable)];
 	id obj;
-	while ( (obj = [notificationEnum nextObject] ) ) {
+	while ((obj = [notificationEnum nextObject])) {
 		[[allNotifications objectForKey:obj] enable];
 	}
 	useDefaults = NO;

@@ -7,6 +7,7 @@
                 backgroundUpdateCheck = id; 
                 checkVersion = id; 
                 deleteTicket = id; 
+                search = id; 
                 selectDisplayPlugin = id; 
                 setEnableForward = id; 
                 setRemotePassword = id; 
@@ -38,6 +39,7 @@
                 networkPassword = NSSecureTextField; 
                 notificationPriorityMenu = NSMenu; 
                 remove = NSButton; 
+                searchField = NSTextField; 
                 startGrowlAtLogin = NSButton; 
                 startGrowlServer = NSButton; 
                 startStopGrowl = NSButton; 
