@@ -70,7 +70,7 @@ enum {
 
 - (id)init {
 	
-	if ( self = [super init] ) {
+	if ((self = [super init])) {
 		[GrowlApplicationBridge setGrowlDelegate:self];
 
 		[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
