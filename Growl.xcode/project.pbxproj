@@ -441,18 +441,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		CB1C5D1D063E432F007052EE = {
-			fileRef = CB1C5D1B063E432F007052EE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		CB1C5D1E063E432F007052EE = {
-			fileRef = CB1C5D1C063E432F007052EE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		CB1C5D95063E523F007052EE = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.rtf;
@@ -607,7 +595,6 @@
 			files = (
 				CB5D139F0638E25300D8F1E5,
 				CB5D13A10638E25300D8F1E5,
-				CB1C5D1D063E432F007052EE,
 				CBF073CA0659A94F000B4B77,
 			);
 			isa = PBXHeadersBuildPhase;
@@ -625,7 +612,6 @@
 			files = (
 				CB5D13A00638E25300D8F1E5,
 				CB5D13A20638E25300D8F1E5,
-				CB1C5D1E063E432F007052EE,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -649,7 +635,7 @@
 			);
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = Growl_Prefix.pch;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = "BubblesNotificationView-Info.plist";
@@ -708,10 +694,9 @@
 		CB5F84DE0638BFDB00EADD7A = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.xml;
-			name = "BubblesNotificationView-Info.plist";
-			path = "/Users/karl/src/Growl/BubblesNotificationView-Info.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = "BubblesNotificationView-Info.plist";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		CB5F84EB0638BFFF00EADD7A = {
 			children = (
