@@ -2,6 +2,7 @@
 #define GrowlSmokeAlphaPref				@"Smoke - Alpha"
 #define GrowlSmokeFloatIconPref			@"Smoke - Float Icon"
 #define GrowlSmokeDurationPref			@"Smoke - Duration"
+#define GrowlSmokeScreenPref			@"Smoke - Screen"
 
 #define GrowlSmokeVeryLowColor			@"Smoke-Priority-VeryLow-Color"
 #define GrowlSmokeModerateColor			@"Smoke-Priority-Moderate-Color"

@@ -14,5 +14,6 @@
 #define GrowlBubblesDuration			@"Bubbles-Duration"
 
 #define KALimitPref						@"Bubbles - Limit"
+#define GrowlBubblesScreen				@"Bubbles-Screen"
 
 #define GrowlBubblesPrefDomain			@"com.growl.Bubbles"

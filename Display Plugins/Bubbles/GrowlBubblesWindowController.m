@@ -35,11 +35,14 @@ static unsigned bubbleWindowDepth = 0U;
 #pragma mark Regularly Scheduled Coding
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
+	screenNumber = 0U;
+	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &screenNumber);
 
-	#warning View is bleeding into the controller here; these hardcoded pixels dont belong.
+#warning View is bleeding into the controller here; these hardcoded pixels dont belong.
 	// I tried setting the width/height to zero, since the view resizes itself later.
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
-	// A window with a frame of NSZeroRect is off-screen and doesn't respect opacity even if moved on screen later. -Evan
+	// A window with a frame of NSZeroRect is off-screen and doesn't respect opacity even
+	// if moved on screen later. -Evan
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f ) 
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered defer:NO] autorelease];
@@ -60,7 +63,7 @@ static unsigned bubbleWindowDepth = 0U;
 	[view setTarget:self];
 	[view setAction:@selector(_bubbleClicked:)];
 	[panel setContentView:view];
-	
+
 	[view setTitle:title];
 	[view setText:text];
 	[view setPriority:priority];
@@ -69,7 +72,7 @@ static unsigned bubbleWindowDepth = 0U;
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 	
-	NSRect screen = [[NSScreen mainScreen] visibleFrame];
+	NSRect screen = [[self screen] visibleFrame];
 
 	[panel setFrameTopLeftPoint:NSMakePoint( NSMaxX( screen ) - NSWidth( panelFrame ) - GrowlBubblesPadding, 
 											 NSMaxY( screen ) - GrowlBubblesPadding - bubbleWindowDepth )];

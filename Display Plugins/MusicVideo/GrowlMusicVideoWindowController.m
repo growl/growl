@@ -25,8 +25,12 @@
 - (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
 	int sizePref = MUSICVIDEO_SIZE_NORMAL;
 	float duration = MUSICVIDEO_DEFAULT_DURATION;
+
+	screenNumber = 0U;
+	READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, MusicVideoPrefDomain, &screenNumber);
+
 	NSRect sizeRect;
-	NSRect screen = [[NSScreen mainScreen] frame];
+	NSRect screen = [[self screen] frame];
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
 	sizeRect.origin = screen.origin;
 	sizeRect.size.width = screen.size.width;
@@ -73,8 +77,8 @@
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 
-	topLeftPosition = 0.0f;
-	[panel setFrameTopLeftPoint:NSMakePoint(0.0f, topLeftPosition)];
+	topLeftPosition = screen.origin.y;
+	[panel setFrameTopLeftPoint:NSMakePoint(screen.origin.x, topLeftPosition)];
 
 	if ( (self = [super initWithWindow:panel]) ) {
 		autoFadeOut = YES;	// !sticky
@@ -101,10 +105,11 @@
 
 - (void) _fadeIn:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
+	NSRect screen = [[self screen] frame];
 	NSRect theFrame = [myWindow frame];
-	if ( topLeftPosition < NSHeight(theFrame) ) {
+	if ( topLeftPosition < screen.origin.y + NSHeight(theFrame) ) {
 		topLeftPosition += fadeIncrement;
-		[myWindow setFrameTopLeftPoint:NSMakePoint(0.0f, topLeftPosition)];
+		[myWindow setFrameTopLeftPoint:NSMakePoint(screen.origin.x, topLeftPosition)];
 	} else {
 		[self _stopTimer];
 		if ( autoFadeOut ) {
@@ -118,9 +123,10 @@
 
 - (void) _fadeOut:(NSTimer *)inTimer {
 	NSWindow *myWindow = [self window];
-	if ( topLeftPosition > 0.0f ) {
+	NSRect screen = [[self screen] frame];
+	if ( topLeftPosition > screen.origin.y ) {
 		topLeftPosition -= fadeIncrement;
-		[myWindow setFrameTopLeftPoint:NSMakePoint(0.0f, topLeftPosition)];
+		[myWindow setFrameTopLeftPoint:NSMakePoint(screen.origin.x, topLeftPosition)];
 	} else {
 		[self _stopTimer];
 		if ( delegate && [delegate respondsToSelector:@selector( didFadeOut: )] ) {

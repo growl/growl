@@ -18,6 +18,7 @@
 	float		timerInterval;
 	double		displayTime;
 	BOOL		screenshotMode;
+	unsigned	screenNumber;
 }
 - (void) startFadeIn;
 - (void) startFadeOut;
@@ -50,6 +51,8 @@
 
 - (void) _fadeIn:(NSTimer *)inTimer;
 - (void) _fadeOut:(NSTimer *)inTimer;
+
+- (NSScreen *) screen;
 @end
 
 @interface NSObject (FadingWindowControllerDelegate)

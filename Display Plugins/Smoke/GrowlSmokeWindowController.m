@@ -66,7 +66,7 @@ static const double gMaxDisplayTime = 10.0;
 		NSRect theFrame = [window frame];
 		theFrame.origin.y += [[[note userInfo] objectForKey:@"Depth"] floatValue];
 		// don't allow notification to fly off the top of the screen
-		if (theFrame.origin.y < NSMaxY( [[NSScreen mainScreen] visibleFrame] ) - GrowlSmokePadding) {
+		if (theFrame.origin.y < NSMaxY( [[self screen] visibleFrame] ) - GrowlSmokePadding) {
 			[window setFrame:theFrame display:NO animate:YES];
 			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSNumber numberWithUnsignedInt:identifier], @"ID",
@@ -106,6 +106,9 @@ static const double gMaxDisplayTime = 10.0;
 	identifier = globalId++;
 	depth = theDepth;
 
+	screenNumber = 0U;
+	READ_GROWL_PREF_INT(GrowlSmokeScreenPref, GrowlSmokePrefDomain, &screenNumber);
+
 	/*[[NSNotificationCenter defaultCenter] addObserver:self 
 											selector:@selector( _glideUp: ) 
 												name:@"Glide"
@@ -140,11 +143,10 @@ static const double gMaxDisplayTime = 10.0;
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 
-	NSRect screen = [[NSScreen mainScreen] visibleFrame];
-	float rightX = screen.origin.x + screen.size.width;
+	NSRect screen = [[self screen] visibleFrame];
 
-	[panel setFrameTopLeftPoint:NSMakePoint( rightX - NSWidth( panelFrame ) - GrowlSmokePadding, 
-											 NSMaxY( screen ) - GrowlSmokePadding - depth )];
+	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth( panelFrame ) - GrowlSmokePadding,
+											NSMaxY(screen) - GrowlSmokePadding - depth)];
 
 	if ( (self = [super initWithWindow:panel] ) ) {
 		depth += NSHeight( panelFrame );

@@ -224,4 +224,16 @@
 		return [super methodSignatureForSelector:selector];
 	}
 }
+
+#pragma mark -
+
+- (NSScreen *) screen {
+	NSArray *screens = [NSScreen screens];
+	if (screenNumber < [screens count] ) {
+		return [screens objectAtIndex:screenNumber];
+	} else {
+		return [NSScreen mainScreen];
+	}
+}
+
 @end

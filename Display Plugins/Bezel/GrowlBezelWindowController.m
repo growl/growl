@@ -29,12 +29,16 @@
 - (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
 	int sizePref = 0;
 	float duration = MIN_DISPLAY_TIME;
+	screenNumber = 0U;
 
+	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, BezelPrefDomain, &screenNumber);
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 	READ_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, BezelPrefDomain, &duration);
 
 	NSRect sizeRect;
-	sizeRect.origin.x = sizeRect.origin.y = 0.0f;
+	sizeRect.origin.x = 0.0f;
+	sizeRect.origin.y = 0.0f;
+
 	if (sizePref == BEZEL_SIZE_NORMAL) {
 		sizeRect.size.width = 211.0f;
 		sizeRect.size.height = 206.0f;
@@ -63,7 +67,7 @@
 	[view setTarget:self];
 	[view setAction:@selector(_bezelClicked:)];
 	[panel setContentView:view];
-	
+
 	[view setTitle:title];
 	NSMutableString	*tempText = [NSMutableString stringWithString:text];
 	// Sanity check to unify line endings
@@ -77,10 +81,10 @@
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 
-	NSRect screen = [[NSScreen mainScreen] visibleFrame];
+	NSRect screen = [[self screen] visibleFrame];
 	NSPoint panelTopLeft;
 	int positionPref = BEZEL_POSITION_DEFAULT;
-	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
+	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);	
 	switch (positionPref) {
 		default:
 		case BEZEL_POSITION_DEFAULT:
