@@ -501,7 +501,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Static;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				OTHER_CFLAGS = "";
+				OTHER_CFLAGS = "-fconstant-cfstrings";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "Beep-Carbon";
