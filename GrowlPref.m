@@ -7,6 +7,7 @@
 
 #import "GrowlPref.h"
 #import "GrowlDisplayProtocol.h"
+#import "ImageAndTextCell.h"
 
 #define PING_TIMEOUT		3
 
@@ -28,6 +29,13 @@
 	[tickets release];
 	[currentApplication release];
 	[super dealloc];
+}
+
+- (void)awakeFromNib {
+    NSTableColumn* tableColumn = [growlApplications tableColumnWithIdentifier: @"application"];
+    ImageAndTextCell* imageAndTextCell = [[[ImageAndTextCell alloc] init] autorelease];
+    [imageAndTextCell setEditable: YES];
+    [tableColumn setDataCell:imageAndTextCell];
 }
 
 - (void) mainViewDidLoad {
@@ -364,12 +372,20 @@
 }
 
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
-	if ((tableView == growlApplications) && [[column identifier] isEqualTo:@"display"]) {
-		[cell setMenu:[applicationDisplayPluginsMenu copy]];
-		if (![[tickets objectForKey: [applications objectAtIndex:row]] usesCustomDisplay])
-			[cell selectItemAtIndex:0]; // Default
-		else
-			[cell selectItemWithTitle:[[[tickets objectForKey: [applications objectAtIndex:row]] displayPlugin] name]];
+	if (tableView == growlApplications) {
+		if ([[column identifier] isEqualTo:@"display"]) {
+			[cell setMenu:[applicationDisplayPluginsMenu copy]];
+			if (![[tickets objectForKey: [applications objectAtIndex:row]] usesCustomDisplay])
+				[cell selectItemAtIndex:0]; // Default
+			else
+				[cell selectItemWithTitle:[[[tickets objectForKey: [applications objectAtIndex:row]] displayPlugin] name]];
+		}
+		if ([[column identifier] isEqualTo:@"application"]) {
+			NSImage* icon = [[tickets objectForKey: [applications objectAtIndex:row]] icon];
+			[icon setScalesWhenResized:YES];
+			[icon setSize:NSMakeSize(16,16)];
+			[(ImageAndTextCell*)cell setImage:icon];
+		}
 	}
 }
 
