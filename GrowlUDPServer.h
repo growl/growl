@@ -12,6 +12,7 @@
 @interface GrowlUDPServer : NSObject {
 	NSSocketPort *sock;
 	NSFileHandle *fh;
+	NSImage *notificationIcon;
 }
 
 @end

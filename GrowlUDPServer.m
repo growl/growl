@@ -43,6 +43,13 @@ static const char *keychainAccountName = "Growl";
 												 selector:@selector(fileHandleRead:)
 													 name:NSFileHandleReadCompletionNotification
 												   object:fh];
+		notificationIcon = [[NSImage alloc] initWithContentsOfFile:
+			@"/System/Library/CoreServices/SystemIcons.bundle/Contents/Resources/GenericNetworkIcon.icns"];
+		if ( !notificationIcon ) {
+			// the icon has moved on 10.4
+			notificationIcon = [[NSImage alloc] initWithContentsOfFile:
+				@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"];
+		}
 	}
 	
 	return self;
@@ -52,6 +59,7 @@ static const char *keychainAccountName = "Growl";
 	[[NSNotificationCenter defaultCenter] removeObserver:self
 													name:NSFileHandleReadCompletionNotification
 												  object:nil];
+	[notificationIcon release];
 	[fh release];
 	[sock release];
 }
@@ -147,7 +155,6 @@ static const char *keychainAccountName = "Growl";
 
 								if ( length == packetSize ) {
 									if ( [GrowlUDPServer authenticatePacket:(const char *)nr length:length] ) {
-										// TODO: generic icon
 										NSDictionary *registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 											[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
 											allNotifications, GROWL_NOTIFICATIONS_ALL,
@@ -185,7 +192,6 @@ static const char *keychainAccountName = "Growl";
 							if ( length == packetSize ) {
 								if ( [GrowlUDPServer authenticatePacket:(const char *)nn length:length] ) {
 									NSDictionary *notificationInfo;
-									// TODO: generic icon
 									notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 										[NSString stringWithUTF8String:notificationName length:notificationNameLen], GROWL_NOTIFICATION_NAME,
 										[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
@@ -193,6 +199,7 @@ static const char *keychainAccountName = "Growl";
 										[NSString stringWithUTF8String:description length:descriptionLen], GROWL_NOTIFICATION_DESCRIPTION,
 										[NSNumber numberWithInt:priority], GROWL_NOTIFICATION_PRIORITY,
 										[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
+										[notificationIcon TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 										nil];
 
 									[[GrowlController singleton] dispatchNotificationWithDictionary:notificationInfo];
