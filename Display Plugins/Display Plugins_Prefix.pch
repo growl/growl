@@ -4,4 +4,7 @@
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
+	#import "GrowlDefines.h"
+	#import "GrowlDisplayProtocol.h"
+	#import "NSGrowlAdditions.h"
 #endif

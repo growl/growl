@@ -40,6 +40,299 @@
 //072
 //073
 //074
+		07694BCB073A4A810079D1E5 = {
+			children = (
+				07694BF9073A4B560079D1E5,
+				07694BFA073A4B560079D1E5,
+				07694BFD073A4B560079D1E5,
+				07694BFE073A4B560079D1E5,
+				07694BFF073A4B560079D1E5,
+				07694C00073A4B560079D1E5,
+				07694C01073A4B560079D1E5,
+				07694C02073A4B560079D1E5,
+				07694C20073A4C820079D1E5,
+			);
+			isa = PBXGroup;
+			path = Bubbles;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07694BE5073A4ADE0079D1E5 = {
+			buildPhases = (
+				07694BE6073A4ADE0079D1E5,
+				07694BEF073A4ADE0079D1E5,
+				07694BF5073A4ADE0079D1E5,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Display Plugins_Prefix.pch";
+				INFOPLIST_FILE = "BubblesNotificationView-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = BubblesNotificationView;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = BubblesNotificationView;
+			productName = Smoke;
+			productReference = 07694BF7073A4ADE0079D1E5;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Smoke</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Smoke</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
+		07694BE6073A4ADE0079D1E5 = {
+			buildActionMask = 2147483647;
+			files = (
+				07694BE7073A4ADE0079D1E5,
+				07694BEE073A4ADE0079D1E5,
+				07694C03073A4B560079D1E5,
+				07694C06073A4B560079D1E5,
+				07694C07073A4B560079D1E5,
+				07694C09073A4B560079D1E5,
+				07694C0B073A4B560079D1E5,
+				07694C22073A4C820079D1E5,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07694BE7073A4ADE0079D1E5 = {
+			fileRef = 6C86F87206F04E8D008EA344;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694BEE073A4ADE0079D1E5 = {
+			fileRef = 34BA9D2807086EDA0055683E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694BEF073A4ADE0079D1E5 = {
+			buildActionMask = 2147483647;
+			files = (
+				07694BF3073A4ADE0079D1E5,
+				07694C04073A4B560079D1E5,
+				07694C08073A4B560079D1E5,
+				07694C0A073A4B560079D1E5,
+				07694C0C073A4B560079D1E5,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07694BF3073A4ADE0079D1E5 = {
+			fileRef = 34BA9D2907086EDA0055683E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694BF5073A4ADE0079D1E5 = {
+			buildActionMask = 2147483647;
+			files = (
+				07694BF6073A4ADE0079D1E5,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07694BF6073A4ADE0079D1E5 = {
+			fileRef = 6C8886E906F84C8A00FD051E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694BF7073A4ADE0079D1E5 = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = BubblesNotificationView.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		07694BF8073A4ADE0079D1E5 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Smoke-Info copy.plist";
+			path = "/Users/boredzo/Projects/growl/Display Plugins/Smoke-Info copy.plist";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		07694BF9073A4B560079D1E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = BubblePrefs.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07694BFA073A4B560079D1E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = BubblePrefs.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07694BFC073A4B560079D1E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = "BubblesNotificationView-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07694BFD073A4B560079D1E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = KABubbleController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07694BFE073A4B560079D1E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = KABubbleController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07694BFF073A4B560079D1E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = KABubbleWindowController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07694C00073A4B560079D1E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = KABubbleWindowController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07694C01073A4B560079D1E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = KABubbleWindowView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07694C02073A4B560079D1E5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = KABubbleWindowView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07694C03073A4B560079D1E5 = {
+			fileRef = 07694BF9073A4B560079D1E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694C04073A4B560079D1E5 = {
+			fileRef = 07694BFA073A4B560079D1E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694C06073A4B560079D1E5 = {
+			fileRef = 07694BFC073A4B560079D1E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694C07073A4B560079D1E5 = {
+			fileRef = 07694BFD073A4B560079D1E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694C08073A4B560079D1E5 = {
+			fileRef = 07694BFE073A4B560079D1E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694C09073A4B560079D1E5 = {
+			fileRef = 07694BFF073A4B560079D1E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694C0A073A4B560079D1E5 = {
+			fileRef = 07694C00073A4B560079D1E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694C0B073A4B560079D1E5 = {
+			fileRef = 07694C01073A4B560079D1E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694C0C073A4B560079D1E5 = {
+			fileRef = 07694C02073A4B560079D1E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07694C20073A4C820079D1E5 = {
+			children = (
+				07694C21073A4C820079D1E5,
+			);
+			isa = PBXVariantGroup;
+			name = BubblesPrefs.nib;
+			path = "";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		07694C21073A4C820079D1E5 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = Bubbles/English.lproj/BubblesPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07694C22073A4C820079D1E5 = {
+			fileRef = 07694C20073A4C820079D1E5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		07CC344406FFE5A20029B83C = {
 			fileRef = 6C8886E906F84C8A00FD051E;
 			isa = PBXBuildFile;
@@ -59,7 +352,7 @@
 				GCC_PREFIX_HEADER = "Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = ..;
 				INFOPLIST_FILE = "MailMe-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -292,6 +585,7 @@
 				34C4486606F0FF5300855FBE,
 				07CC344606FFE5FC0029B83C,
 				6C7CEAE40707F41D00441A92,
+				07694BE5073A4ADE0079D1E5,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
@@ -302,6 +596,7 @@
 				6C7CEAEA0707F46F00441A92,
 				08FB77AFFE84173DC02AAC07,
 				34C4487206F0FFB000855FBE,
+				07694BCB073A4A810079D1E5,
 				32C88E010371C26100C91783,
 				089C167CFE841241C02AAC07,
 				089C1671FE841209C02AAC07,
@@ -338,6 +633,8 @@
 				34C4486806F0FF5300855FBE,
 				07CC345906FFE5FC0029B83C,
 				6C7CEAE60707F41D00441A92,
+				07694BF8073A4ADE0079D1E5,
+				07694BFC073A4B560079D1E5,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -436,6 +733,7 @@
 				34C4486706F0FF5300855FBE,
 				07CC345806FFE5FC0029B83C,
 				6C7CEAE50707F41D00441A92,
+				07694BF7073A4ADE0079D1E5,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -701,7 +999,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "Smoke-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
@@ -864,7 +1162,7 @@
 				GCC_PREFIX_HEADER = "Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = ..;
 				INFOPLIST_FILE = "NSLogging-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
@@ -1009,7 +1307,7 @@
 				GCC_PREFIX_HEADER = "Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = ..;
 				INFOPLIST_FILE = "Bezel-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
@@ -1154,7 +1452,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "MusicVideo-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
@@ -1204,10 +1502,9 @@
 		6C7CEAE60707F41D00441A92 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "MusicVideo-Info.plist";
-			path = "/Users/eevyl/growl/Display Plugins/MusicVideo-Info.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = "MusicVideo-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		6C7CEAEA0707F46F00441A92 = {
 			children = (
