@@ -25,6 +25,14 @@
 	return self;
 }
 
+- (void)dealloc {
+	[libraryLocation release];
+	[preferredImage release];
+	[artworkSubdirectory release];
+
+	[super dealloc];
+}
+
 - (NSImage *)artworkForTitle:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album isCompilation:(BOOL)compilation {
 	NSString *artworkDir = [self pathForTrack:track artist:artist album:album compilation:compilation];
 	
@@ -89,7 +97,7 @@
 	if ([album length])
 		album = [album stringByMakingPathSafe];
 	
-	NSString *path = libraryLocation;
+	NSString *path = [NSString stringWithString:libraryLocation];
 	
 	if (compilation) {
 		path = [path stringByAppendingPathComponent:@"Compilations"];
