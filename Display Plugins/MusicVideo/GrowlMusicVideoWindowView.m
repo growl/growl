@@ -70,7 +70,7 @@
 	int iconSourcePoint;
 	NSSize maxIconSize;
 	NSSize iconSize = [_icon size];
-	if (sizePref == MUSICVIDEO_SIZE_NORMAL) {
+	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 		titleRect = NSMakeRect(NSHeight(bounds), 120., NSWidth(bounds) - NSHeight(bounds) - 32., 40.);
 		textRect =  NSMakeRect(NSHeight(bounds), 16., NSWidth(bounds) - NSHeight(bounds) - 32., 96.);
 		titleFontSize = 32.0;

@@ -14,7 +14,7 @@
 
 #define MUSICVIDEO_SIZE_PREF			@"Size"
 #define MUSICVIDEO_SIZE_NORMAL			0
-#define MUSICVIDEO_SIZE_SMALL			1
+#define MUSICVIDEO_SIZE_HUGE			1
 
 @interface GrowlMusicVideoPrefs : NSPreferencePane {
 	IBOutlet NSMatrix		*radio_Size;

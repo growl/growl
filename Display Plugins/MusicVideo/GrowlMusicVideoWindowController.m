@@ -31,7 +31,7 @@
 	int sizePref;
 	NSRect sizeRect;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, @"com.Growl.MusicVideo", &sizePref);
-	if (sizePref == MUSICVIDEO_SIZE_NORMAL) {
+	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 		sizeRect = NSMakeRect( 0., 0., NSWidth([[NSScreen mainScreen] visibleFrame]), 192. );
 	} else {
 		sizeRect = NSMakeRect( 0., 0., NSWidth([[NSScreen mainScreen] visibleFrame]), 96. );
