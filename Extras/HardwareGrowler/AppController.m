@@ -160,10 +160,8 @@
 
 - (IBAction)doSimpleHelp: (id)sender
 {
-	//	Ugly...
-	[[NSWorkspace sharedWorkspace] openFile:[NSString stringWithFormat:@"%@/Contents/Resources/%@" , [[NSBundle mainBundle] bundlePath] , @"readme.txt" ]]; 
+	[[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"readme" ofType:@"txt"]]; 
 }
-
 
 #pragma mark -
 #pragma mark Notification methods 

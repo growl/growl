@@ -24,4 +24,3 @@ Bugs:
 	It has a terrible icon.
 	
 	It should probably have some kind of preferences UI where the user can disable start-up notifications. ("OHCI Root Hub Simulation")
-	
