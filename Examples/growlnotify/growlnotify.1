@@ -12,8 +12,9 @@
 .Op Fl i Ar ext
 .Op Fl I Ar filepath
 .Op Fl -image Ar filepath
+.Op Fl p Ar priority
 .Op Fl m Ar message
-.Op Fl t , -title
+.Op Fl t
 .Op Ar title
 .Sh DESCRIPTION          \" Section Header - required - don't modify
 .Nm
@@ -36,6 +37,8 @@ Sets the notification icon to the default icon for the given extension or HFS-en
 Sets the notification icon to the icon for the given filepath.
 .It Fl -image Ar path
 Sets the notification icon to the given image file.
+.It Fl p , -priority Ar priority
+Sets the priority for the notification to an int between -2 and 2 (default is 0).
 .It Fl m , -message Ar message
 Uses
 .Ar message

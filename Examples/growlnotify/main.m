@@ -8,7 +8,9 @@
 
 static NSString *notificationName = @"Command-Line Growl Notification";
 
-static const char usage[] = "Usage: %s [-hs] [-i ext] [-I filepath] [--image filepath] [title]\n"
+static const char usage[] = 
+"Usage: growlnotify [-hs] [-i ext] [-I filepath] [--image filepath]\n"
+"                   [-p priority] [title]\n"
 "Options:\n"
 "    -h,--help     Display this help\n"
 "    -n,--name     Set the name of the application that sends the notification\n"
@@ -18,6 +20,7 @@ static const char usage[] = "Usage: %s [-hs] [-i ext] [-I filepath] [--image fil
 "    -i,--icon     Specify a filetype or extension to be used for the icon\n"
 "    -I,--iconpath Specify a filepath to be used for the icon\n"
 "    --image       Specify an image file to be used for the icon\n"
+"    -p,--priority Specify an int between -2 and 2 for priority (default is 0)\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
 "message given in the standard input.\n"
@@ -39,6 +42,7 @@ int main(int argc, const char **argv) {
 	BOOL isSticky = NO;
 	char *appName = NULL, *appIcon = NULL;
 	char *iconExt = NULL, *iconPath = NULL, *imagePath = NULL, *message = NULL;
+	int priority = 0;
 	int imageset;
 	struct option longopts[] = {
 		{ "help",		no_argument,		0,			'h' },
@@ -49,13 +53,14 @@ int main(int argc, const char **argv) {
 		{ "image",		required_argument,	&imageset,	 1  },
 		{ "title",		no_argument,		0,			't' },
 		{ "message",	required_argument,	0,			'm' },
+		{ "priority",	required_argument,	0,			'p' },
 		{ 0,			0,					0,			 0  }
 	};
-	while ((ch = getopt_long(argc, (char * const *)argv, "hnsa:i:I:tm:", longopts, NULL)) != -1) {
+	while ((ch = getopt_long(argc, (char * const *)argv, "hnsa:i:I:p:tm:", longopts, NULL)) != -1) {
 		switch (ch) {
 		case '?':
 		case 'h':
-			printf(usage, argv0);
+			printf(usage);
 			exit(1);
 			break;
 		case 'n':
@@ -72,6 +77,9 @@ int main(int argc, const char **argv) {
 			break;
 		case 'a':
 			appIcon = optarg;
+			break;
+		case 'p':
+			sscanf(optarg, "%d", &priority);
 			break;
 		case 't':
 			// do nothing
@@ -175,6 +183,7 @@ int main(int argc, const char **argv) {
 		title, GROWL_NOTIFICATION_TITLE,
 		icon, GROWL_NOTIFICATION_ICON,
 		desc, GROWL_NOTIFICATION_DESCRIPTION,
+		[NSNumber numberWithInt:priority], GROWL_NOTIFICATION_PRIORITY,
 		[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
 		nil];
 	
