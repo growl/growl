@@ -171,7 +171,9 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 - (NSImage *) icon {
 	if (_icon)
 		return _icon;
-	return [[NSWorkspace sharedWorkspace] iconForFileType: NSFileTypeForHFSTypeCode(kGenericApplicationIcon)];
+	NSImage* icon = [[NSWorkspace sharedWorkspace] iconForFileType: NSFileTypeForHFSTypeCode(kGenericApplicationIcon)];
+	[icon setSize:NSMakeSize(128.,128.)];
+	return icon;
 
 }
 - (void) setIcon:(NSImage *) inIcon {
