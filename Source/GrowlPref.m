@@ -32,6 +32,8 @@ static const char *keychainAccountName = "Growl";
 
 - (id) initWithBundle:(NSBundle *)bundle {
 	if ( (self = [super initWithBundle:bundle] ) ) {
+		versionCheckURL = nil;
+		downloadURL = nil;
 		pluginPrefPane = nil;
 		tickets = nil;
 		currentApplication = nil;
@@ -60,6 +62,8 @@ static const char *keychainAccountName = "Growl";
 	[currentApplication release];
 	[startStopTimer release];
 	[images release];
+	[versionCheckURL release];
+	[downloadURL release];
 	[super dealloc];
 }
 
@@ -72,13 +76,12 @@ static const char *keychainAccountName = "Growl";
 - (IBAction) checkVersion:(id)sender {
 	[growlVersionProgress startAnimation:self];
 
-	static NSURL *versionCheckURL = nil;
 	if (!versionCheckURL) {
-		versionCheckURL = [NSURL URLWithString:@"http://growl.info/version.xml"];
+		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
 	}
-	static NSURL *downloadURL = nil;
 	if (!downloadURL) {
-		downloadURL = [NSURL URLWithString:@"http://growl.info/"];
+		downloadURL = [[NSURL alloc] initWithString:@"http://growl.info/"];
+		NSLog( @"downloadURL: %@", downloadURL );
 	}
 
 	[self checkVersionAtURL:versionCheckURL
@@ -95,7 +98,7 @@ static const char *keychainAccountName = "Growl";
 	NSDictionary *productVersionDict = [NSDictionary dictionaryWithContentsOfURL:url];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:
 		[infoDict objectForKey:@"CFBundleExecutable"] ];
-	
+
 	/*
 	NSLog([[[NSBundle bundleForClass:[self class]] infoDictionary] objectForKey:@"CFBundleExecutable"] );
 	NSLog(currVersionNumber);
@@ -105,20 +108,21 @@ static const char *keychainAccountName = "Growl";
 	// do nothing--be quiet if there is no active connection or if the
 	// version number could not be downloaded
 	if ( latestVersionNumber && (![latestVersionNumber isEqualToString: currVersionNumber]) ) {
-		NSBeginAlertSheet(NSLocalizedStringFromTableInBundle(@"Update Available", nil, bundle, @""),
-						  NSLocalizedStringFromTableInBundle(@"OK", nil, bundle, @""), 
-						  NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
+		NSBeginAlertSheet(/*title*/ NSLocalizedStringFromTableInBundle(@"Update Available", nil, bundle, @""),
+						  /*defaultButton*/ nil, // use default localized button title ("OK" in English)
+						  /*alternateButton*/ NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
 						  /*otherButton*/ nil,
-						  /*window*/ nil, /*modalDelegate*/ self,
+						  /*docWindow*/ nil,
+						  /*modalDelegate*/ self,
 						  /*didEndSelector*/ NULL,
 						  /*didDismissSelector*/ @selector(downloadSelector:returnCode:contextInfo:),
 						  /*contextInfo*/ goURL,
-						  message);
+						  /*msg*/ message);
 	}
 }
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-	if ( returnCode == NSAlertDefaultReturn ) { 
+	if ( returnCode == NSAlertDefaultReturn ) {
 		[[NSWorkspace sharedWorkspace] openURL:contextInfo];
 	}
 }

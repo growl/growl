@@ -29,6 +29,9 @@
 	BOOL					growlIsRunning;
 	BOOL					prefsHaveChanged;
 
+	NSURL					*versionCheckURL;
+	NSURL					*downloadURL;
+
 	IBOutlet NSTabView		* tabView;
 
 	//"General" tab pane
