@@ -19,7 +19,7 @@ foreach my $infile (@infiles) {
 	open(COCOA, "<", $infile) or die("Couldn't open $infile: $!");
 	open(CARBON, ">", $outfile);
 
-	my $date = POSIX::strftime("%a %b %Y", localtime);
+	my $date = POSIX::strftime("%a %Y-%m-%d", localtime);
 	print CARBON <<ENDOFHEADER;
 //
 // $outfile
