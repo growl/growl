@@ -4,6 +4,8 @@
 //
 //  Created by Mac-arena the Bored Zo on Wed Jun 18 2004.
 //  Based on GrowlApplicationBridge.m by Evan Schoenberg.
+//  This source code is in the public domain. You may freely link it into any
+//    program.
 //
 
 #include "GrowlApplicationBridge-Carbon.h"
@@ -123,7 +125,7 @@ static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStri
 //Returns an array of paths to all user-installed .prefPane bundles
 static CFArrayRef _copyAllPreferencePaneBundles(void)
 {
-	CFStringRef			prefPaneExtension;
+	CFStringRef			prefPaneExtension = PREFERENCE_PANE_EXTENSION;
 	CFMutableArrayRef	allPreferencePaneBundles = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
 	CFArrayRef			curDirContents;
 	CFRange				contentsRange = { 0, 0 };
@@ -131,10 +133,8 @@ static CFArrayRef _copyAllPreferencePaneBundles(void)
 	OSStatus			err;
 	FSRef				curDir;
 
-	prefPaneExtension = PREFERENCE_PANE_EXTENSION;
-
 	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
-#define PREFPANEGRAB(domain) \
+#define PREFPANEGRAB(destArray, domain) \
 	err = FSFindFolder((domain), kPreferencePanesFolderType, /*createFolder*/ false, &curDir); \
 	if(err == noErr) { \
 		curDirURL = CFURLCreateFromFSRef(kCFAllocatorDefault, &curDir); \
@@ -142,16 +142,16 @@ static CFArrayRef _copyAllPreferencePaneBundles(void)
 			curDirContents = CFBundleCreateBundlesFromDirectory(kCFAllocatorDefault, curDirURL, prefPaneExtension); \
 			if(curDirContents) { \
 				contentsRange.length = CFArrayGetCount(curDirContents); \
-				CFArrayAppendArray(allPreferencePaneBundles, curDirContents, contentsRange); \
+				CFArrayAppendArray((destArray), curDirContents, contentsRange); \
 				CFRelease(curDirContents); \
 			} \
 			CFRelease(curDirURL); \
 		} \
 	}
 
-	PREFPANEGRAB(kUserDomain)
-	PREFPANEGRAB(kLocalDomain)
-	PREFPANEGRAB(kNetworkDomain)
+	PREFPANEGRAB(allPreferencePaneBundles, kUserDomain)
+	PREFPANEGRAB(allPreferencePaneBundles, kLocalDomain)
+	PREFPANEGRAB(allPreferencePaneBundles, kNetworkDomain)
 
 	return allPreferencePaneBundles;
 }
