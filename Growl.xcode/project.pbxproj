@@ -2482,7 +2482,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find \"$BUILD_DIR/$FULL_PRODUCT_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n\n#create compatibility symlinks\ncd $BUILD_DIR/$FULL_PRODUCT_NAME\nrm GrowlAppBridge\nln -s Versions/Current/$EXECUTABLE_NAME GrowlAppBridge\ncd Versions/Current\nrm GrowlAppBridge\nln -s $EXECUTABLE_NAME GrowlAppBridge\n";
+			shellScript = "find \"$BUILD_DIR/$FULL_PRODUCT_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n";
 		};
 		34E9EFB30790926400662E8E = {
 			fileEncoding = 4;
@@ -2815,7 +2815,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find \"$BUILD_DIR/$FULL_PRODUCT_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n\n#create compatibility symlinks\ncd $BUILD_DIR/$FULL_PRODUCT_NAME\nrm GrowlAppBridge\nln -s Versions/Current/$EXECUTABLE_NAME GrowlAppBridge\ncd Versions/Current\nrm GrowlAppBridge\nln -s $EXECUTABLE_NAME GrowlAppBridge\n";
+			shellScript = "find \"$BUILD_DIR/$FULL_PRODUCT_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n";
 		};
 //340
 //341
