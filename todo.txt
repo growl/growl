@@ -2,17 +2,6 @@ To-Do
 
 For .7
 
-- Concentrate on networking.
-	- Properly document the networking protocol
-	- Decide on what we want to use for the long term (1-2 years at least)
-	- Create a gui for sensibly managing the remote notifications
-	- Add support to add remote machine names manually
-	- Support for the gnome notifications system if it ever adds a networking protocol for its notifications
-	- Use a generic icon for incoming UDP notifications. Sending an icon over the network
-	  makes the packets too large.
-	- Should we add password authentification to UDP notifications as well?
-	- Should we be using DO? (directed at Karl)
-
 -Functional plugins
 	- Design a way for functional plugins to work
 	- Move rendezvous out of display plugins into a functional plugin that would allow for any notification.
