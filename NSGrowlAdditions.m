@@ -48,20 +48,23 @@ OSStatus CGSSetWindowTags(CGSConnection cid,CGSWindow widow,int *tags,int other)
 @implementation NSWindow (GrowlAdditions)
 
 -(void)setSticky:(BOOL)flag {
-	CGSConnection cid;
-	CGSWindow wid;
-	
-	wid = [self windowNumber];
-	cid = _CGSDefaultConnection();
-	int tags[2];
-	tags[0] = tags[1] = 0;
-	OSStatus retVal = CGSGetWindowTags(cid, wid, tags, 32);
-	if(!retVal) {
-		if (flag)
-			tags[0] = tags[0] | 0x00000800;
-		else
-			tags[0] = tags[0] & 0x00000800;
-		retVal = CGSSetWindowTags(cid, wid, tags, 32);
+	// Check if we are on Panther or better (for expose)
+	if ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 ) {
+		CGSConnection cid;
+		CGSWindow wid;
+		
+		wid = [self windowNumber];
+		cid = _CGSDefaultConnection();
+		int tags[2];
+		tags[0] = tags[1] = 0;
+		OSStatus retVal = CGSGetWindowTags(cid, wid, tags, 32);
+		if(!retVal) {
+			if (flag)
+				tags[0] = tags[0] | 0x00000800;
+			else
+				tags[0] = tags[0] & 0x00000800;
+			retVal = CGSSetWindowTags(cid, wid, tags, 32);
+		}
 	}
 }
 
