@@ -70,6 +70,7 @@
 	int iconSourcePoint;
 	NSSize maxIconSize;
 	NSSize iconSize = [_icon size];
+	
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 		titleRect = NSMakeRect(NSHeight(bounds), 120., NSWidth(bounds) - NSHeight(bounds) - 32., 40.);
 		textRect =  NSMakeRect(NSHeight(bounds), 16., NSWidth(bounds) - NSHeight(bounds) - 32., 96.);
@@ -80,13 +81,13 @@
 		iconSourcePoint = 32.;
 		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];
 	} else {
-		titleRect = NSMakeRect(NSHeight(bounds), 60., NSWidth(bounds) - NSHeight(bounds) - 16., 20.);
+		titleRect = NSMakeRect(NSHeight(bounds), 60., NSWidth(bounds) - NSHeight(bounds) - 16., 25.);
 		textRect =  NSMakeRect(NSHeight(bounds), 8., NSWidth(bounds) - NSHeight(bounds) - 16., 48.);
 		titleFontSize = 16.0;
 		textFontSize = 12.0;
 		maxRows = 3;
-		maxIconSize = NSMakeSize(64., 64.);
-		iconSourcePoint = 16.;
+		maxIconSize = NSMakeSize(80., 80.);
+		iconSourcePoint = 8.;
 		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];	
 	}
 
@@ -132,7 +133,7 @@
 	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 				[NSColor whiteColor], NSForegroundColorAttributeName,
 				parrafo, NSParagraphStyleAttributeName,
-				[NSFont systemFontOfSize:textFontSize], NSFontAttributeName, nil];
+				[NSFont messageFontOfSize:textFontSize], NSFontAttributeName, nil];
 	if ( pantherOrLater ) {
 		[textAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
