@@ -4,9 +4,16 @@ For .6 (Go Go Growl)
 
 We are dropping 10.2 support in this release.
 
+- Applescripts need to be updated
+- Documentation of Growl.framework and Growl-WithInstaller.framework as well.
+
 Release related issues
 - Make sure we have user documentation on everything we have. This was a sore point for us last release.
 - DMG & PKG
+	- DMG for Growl will include everything. It confused users to make everything a separate download.
+		- DMG background image needs to be modified to give it 3 things to include, not just 2.
+		- A very verbose readme rtf or rtfd needs to be included.
+		- DMG should have the background, the Growl installer, the readme, and the folder with everything else in it at the top level.
 	- Make a PKG for installing Growl
 		- Include Bindings.
 	- Include Scripts in the dmg
