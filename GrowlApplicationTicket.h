@@ -33,6 +33,7 @@
 #pragma mark -
 
 - (NSImage *) icon;
+- (void) setIcon:(NSImage *) inIcon;
 
 #pragma mark -
 
