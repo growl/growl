@@ -61,7 +61,6 @@
 	[view setTitle:title];
 	NSMutableString	*tempText = [NSMutableString stringWithString:text];
 	// Sanity check to unify line endings
-	[tempText setString:text];
 	[tempText replaceOccurrencesOfString:@"\r"
 			withString:@"\n"
 			options:nil
