@@ -6,8 +6,6 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 #define ITUNES_TRACK_CHANGED	@"iTunes-ChangedTracks"
 #define ITUNES_PAUSED			@"iTunes-Paused"
 #define ITUNES_STOPPED			@"iTunes-Stopped"
