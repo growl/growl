@@ -137,13 +137,13 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 
 int Growl_Init(Tcl_Interp *interp)
 {
-	if(Tcl_InitStubs(interp, "8.4", 0) == NULL) {
+	if (Tcl_InitStubs(interp, "8.4", 0) == NULL) {
 		return TCL_ERROR;
 	}
 
 	Tcl_CreateObjCommand(interp, "growl", GrowlCmd, NULL, NULL);
 
-	if(Tcl_PkgProvide(interp, "growl", "1.0") != TCL_OK) {
+	if (Tcl_PkgProvide(interp, "growl", "1.0") != TCL_OK) {
 		return TCL_ERROR;
 	}
 
