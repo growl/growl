@@ -19,9 +19,10 @@ typedef enum GrowlPriority {
 
 @interface GrowlApplicationNotification : NSObject {
 	NSString		*name;
-	GrowlPriority	 priority;
-	BOOL			 enabled;
-	int				 sticky;
+	GrowlPriority	priority;
+	BOOL			enabled;
+	int				sticky;
+	NSString		*displayPluginName;
 	id <GrowlDisplayPlugin> displayPlugin;	// Non-nil if this notification uses a custom display plugin
 }
 
@@ -29,7 +30,7 @@ typedef enum GrowlPriority {
 + (GrowlApplicationNotification *) notificationFromDict:(NSDictionary *)dict;
 - (GrowlApplicationNotification *) initWithName:(NSString *)name;
 - (GrowlApplicationNotification *) initWithDict:(NSDictionary *)dict;
-- (GrowlApplicationNotification *) initWithName:(NSString *)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(int)sticky displayPlugin:(id <GrowlDisplayPlugin>)display;
+- (GrowlApplicationNotification *) initWithName:(NSString *)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(int)sticky displayPlugin:(NSString *)display;
 - (NSDictionary *) notificationAsDict;
 
 #pragma mark -
@@ -48,6 +49,7 @@ typedef enum GrowlPriority {
 - (int) sticky;
 - (void) setSticky:(int)sticky;
 
+- (NSString *)displayPluginName;
 - (id <GrowlDisplayPlugin>) displayPlugin;
 - (void) setDisplayPluginNamed: (NSString *)name;
 @end

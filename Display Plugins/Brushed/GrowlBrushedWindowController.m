@@ -119,7 +119,8 @@ static const double gMaxDisplayTime = 10.;
 
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f ) 
 												styleMask:styleMask
-												  backing:NSBackingStoreBuffered defer:NO];
+												  backing:NSBackingStoreBuffered
+													defer:NO];
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
@@ -140,7 +141,7 @@ static const double gMaxDisplayTime = 10.;
 	[view setTitle:title];
 	[view setText:text];
     [view setPriority:priority];
-    
+
 	[view setIcon:icon];
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];

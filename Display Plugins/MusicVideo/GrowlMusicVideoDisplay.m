@@ -13,15 +13,13 @@
 
 - (id) init {
 	if ((self = [super init])) {
-		bundle = [[NSBundle bundleForClass:[GrowlMusicVideoPrefs class]] retain];
-		preferencePane = [[GrowlMusicVideoPrefs alloc] initWithBundle:bundle];
+		preferencePane = [[GrowlMusicVideoPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMusicVideoPrefs class]]];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[preferencePane release];
-	[bundle release];
 	[super dealloc];
 }
 
@@ -33,12 +31,6 @@
 	[notificationQueue release];
 }
 
-#pragma mark -
-
-- (NSDictionary *) pluginInfo {
-	return [bundle infoDictionary];
-}
-
 - (NSPreferencePane *) preferencePane {
 	return preferencePane;
 }
@@ -46,11 +38,12 @@
 #pragma mark -
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	GrowlMusicVideoWindowController *nuMusicVideo = [GrowlMusicVideoWindowController musicVideoWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
-			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
-			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-			priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
-			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
+	GrowlMusicVideoWindowController *nuMusicVideo = [GrowlMusicVideoWindowController
+		musicVideoWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
+					   text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
+					   icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+				   priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+					 sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
 	
 	[nuMusicVideo setDelegate:self];
 	[nuMusicVideo setTarget:self];

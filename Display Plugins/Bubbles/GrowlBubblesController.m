@@ -17,15 +17,13 @@
 
 - (id) init {
 	if ((self = [super init])) {
-		bundle = [[NSBundle bundleForClass:[GrowlBubblesPrefsController class]] retain];
-		preferencePane = [[GrowlBubblesPrefsController alloc] initWithBundle:bundle];
+		preferencePane = [[GrowlBubblesPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBubblesPrefsController class]]];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[preferencePane release];
-	[bundle         release];
 	[super dealloc];
 }
 
@@ -36,10 +34,6 @@
 - (void) unloadPlugin {
 	// if I had things to clean up/undo I would do it here,
 	// fortunately Bubbles do their job pretty cleanly without touching others.
-}
-
-- (NSDictionary *) pluginInfo {
-	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {

@@ -186,7 +186,8 @@
 	[allNotifications     release];
 	[defaultNotifications release];
 	[allNotificationNames release];
-	
+	[displayPluginName    release];
+
 	[super dealloc];
 }
 
@@ -253,7 +254,6 @@
 		[NSNumber numberWithBool:ticketEnabled], TicketEnabledKey,
 		nil];
 	[saveNotifications release];
-	NSString *displayPluginName = [[displayPlugin pluginInfo] objectForKey:@"GrowlPluginName"];
 	if (displayPluginName) {
 		[saveDict setObject:displayPluginName forKey:GrowlDisplayPluginKey];
 	}
@@ -305,11 +305,17 @@
 	ticketEnabled = inEnabled;
 }
 
+- (NSString *)displayPluginName {
+	return displayPluginName;
+}
+
 - (id <GrowlDisplayPlugin>) displayPlugin {
 	return displayPlugin;
 }
 
 - (void) setDisplayPluginNamed: (NSString *)name {
+	[displayPluginName release];
+	displayPluginName = [name retain];
 	if (name) {
 		displayPlugin = [[GrowlPluginController controller] displayPluginNamed:name];
 	} else {
@@ -602,11 +608,15 @@
 	[[allNotifications objectForKey:name] resetPriority];
 }
 
+- (NSString *) displayPluginNameForNotification:(NSString *)name {
+	return [[allNotifications objectForKey:name] displayPluginName];
+}
+
 - (id <GrowlDisplayPlugin>) displayPluginForNotification:(NSString *)name {
 	return [[allNotifications objectForKey:name] displayPlugin];
 }
 
-- (void) setDisplayPluginNamed:(NSString *)displayPluginName forNotification:(NSString *)name {
-	[[allNotifications objectForKey:name] setDisplayPluginNamed:displayPluginName];
+- (void) setDisplayPluginNamed:(NSString *)pluginName forNotification:(NSString *)name {
+	[[allNotifications objectForKey:name] setDisplayPluginNamed:pluginName];
 }
 @end

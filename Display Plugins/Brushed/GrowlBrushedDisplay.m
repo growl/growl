@@ -18,10 +18,9 @@ static unsigned brushedDepth = 0U;
 
 - (id) init {
 	if ((self = [super init])) {
-		bundle = [[NSBundle bundleForClass:[GrowlBrushedPrefsController class]] retain];
-		preferencePane = [[GrowlBrushedPrefsController alloc] initWithBundle:bundle];
-		[[NSNotificationCenter defaultCenter] addObserver:self 
-												 selector:@selector( _brushedGone: ) 
+		preferencePane = [[GrowlBrushedPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBrushedPrefsController class]]];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(_brushedGone:) 
 													 name:@"BrushedGone"
 												   object:nil];
 	}
@@ -30,7 +29,6 @@ static unsigned brushedDepth = 0U;
 
 - (void)dealloc {
 	[preferencePane release];
-	[bundle         release];
 	[super dealloc];
 }
 
@@ -38,10 +36,6 @@ static unsigned brushedDepth = 0U;
 }
 
 - (void) unloadPlugin {
-}
-
-- (NSDictionary *) pluginInfo {
-	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {

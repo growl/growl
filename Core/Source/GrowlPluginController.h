@@ -12,13 +12,15 @@
 @protocol GrowlDisplayPlugin;
 
 @interface GrowlPluginController : NSObject {
-	NSMutableDictionary		*allDisplayPlugins;	
+	NSMutableDictionary		*allDisplayPlugins;
+	NSMutableDictionary		*allDisplayPluginBundles;
 }
 
 + (GrowlPluginController *) controller;
 
 - (NSArray *) allDisplayPlugins;
 - (id <GrowlDisplayPlugin>) displayPluginNamed:(NSString *)name;
+- (NSDictionary *)infoDictionaryForPluginNamed:(NSString *)name;
 - (void) loadPlugin:(NSString *)path;
 - (void) installPlugin:(NSString *)filename;
 

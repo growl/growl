@@ -21,21 +21,14 @@
 
 - (id) init {
 	if ((self = [super init])) {
-		bundle = [[NSBundle bundleForClass:[GrowlLogPrefs class]] retain];
-		preferencePane = [[GrowlLogPrefs alloc] initWithBundle:bundle];
+		preferencePane = [[GrowlLogPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlLogPrefs class]]];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[preferencePane release];
-	[bundle         release];
 	[super dealloc];
-}
-
-
-- (NSDictionary *) pluginInfo {
-	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {

@@ -31,13 +31,7 @@
 	BOOL inEnabled = [[dict objectForKey:@"Enabled"] boolValue];
 	int inSticky = [[dict objectForKey:@"Sticky"] intValue];
 	inSticky = (inSticky >= 0 ? (inSticky > 0 ? NSOnState : NSOffState) : NSMixedState);
-	NSString *displayPluginName = [dict objectForKey:@"Display"];
-	id <GrowlDisplayPlugin> inDisplay;
-	if (displayPluginName) {
-		inDisplay = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
-	} else {
-		inDisplay = nil;
-	}
+	NSString *inDisplay = [dict objectForKey:@"Display"];
 
 	return [self initWithName:inName priority:inPriority enabled:inEnabled sticky:inSticky displayPlugin:inDisplay];
 }
@@ -46,13 +40,16 @@
 	return [self initWithName:theName priority:GP_unset enabled:YES sticky:NSMixedState displayPlugin:nil];
 }
 
-- (GrowlApplicationNotification *) initWithName:(NSString *)inName priority:(GrowlPriority)inPriority enabled:(BOOL)inEnabled sticky:(int)inSticky displayPlugin:(id <GrowlDisplayPlugin>)display {
+- (GrowlApplicationNotification *) initWithName:(NSString *)inName priority:(GrowlPriority)inPriority enabled:(BOOL)inEnabled sticky:(int)inSticky displayPlugin:(NSString *)display {
 	if ((self = [super init])) {
 		name = [inName retain];
 		priority = inPriority;
 		enabled = inEnabled;
 		sticky = inSticky;
-		displayPlugin = display;
+		displayPluginName = display;
+		if (display) {
+			displayPlugin = [[GrowlPluginController controller] displayPluginNamed:display];
+		}
 	}
 	return self;
 }
@@ -66,7 +63,6 @@
 	if (priority != GP_unset) {
 		[dict setObject:[NSNumber numberWithInt:priority] forKey:@"Priority"];
 	}
-	NSString *displayPluginName = [[displayPlugin pluginInfo] objectForKey:@"GrowlPluginName"];
 	if (displayPluginName) {
 		[dict setObject:displayPluginName forKey:@"Display"];
 	}
@@ -74,7 +70,8 @@
 }
 
 - (void) dealloc {
-	[name release];
+	[name              release];
+	[displayPluginName release];
 	[super dealloc];
 }
 
@@ -123,7 +120,13 @@
 	return displayPlugin;
 }
 
-- (void) setDisplayPluginNamed: (NSString *)displayPluginName {
+- (NSString *)displayPluginName {
+	return displayPluginName;
+}
+
+- (void) setDisplayPluginNamed: (NSString *)pluginName {
+	[displayPluginName release];
+	displayPluginName = [pluginName retain];
 	if (displayPluginName) {
 		displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
 	} else {

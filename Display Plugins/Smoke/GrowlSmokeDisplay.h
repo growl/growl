@@ -13,13 +13,10 @@
 
 @interface GrowlSmokeDisplay : NSObject <GrowlDisplayPlugin> {
 	NSPreferencePane	*preferencePane;
-	NSBundle			*bundle;
 }
 
 - (void) loadPlugin;
 - (void) unloadPlugin;
-
-- (NSDictionary *) pluginInfo;
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict;
 - (void) _smokeGone:(NSNotification *)note;

@@ -14,20 +14,14 @@
 @implementation GrowlSpeechDisplay
 - (id) init {
 	if ((self = [super init])) {
-		bundle = [[NSBundle bundleForClass:[GrowlSpeechPrefs class]] retain];
-		prefPane = [[GrowlSpeechPrefs alloc] initWithBundle:bundle];
+		prefPane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlSpeechPrefs class]]];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[prefPane release];
-	[bundle   release];
 	[super dealloc];
-}
-
-- (NSDictionary *) pluginInfo {
-	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {

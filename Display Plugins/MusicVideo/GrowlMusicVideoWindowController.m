@@ -62,8 +62,9 @@
 	[view setAction:@selector(_notificationClicked:)]; // Not used for now
 
 	[view setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
-	NSView *contentView = [[[NSView alloc] initWithFrame:panelFrame] autorelease];
-	[contentView addSubview:view];
+	NSView *contentView = [[NSView alloc] initWithFrame:panelFrame];
+	[contentView addSubview:view]; // retains subview
+	[view release];
 	[panel setContentView:contentView];
 
 	[view setTitle:title];

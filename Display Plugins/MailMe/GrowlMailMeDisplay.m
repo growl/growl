@@ -22,15 +22,13 @@
 
 - (id) init {
 	if ((self = [super init])) {
-		bundle = [[NSBundle bundleForClass:[GrowlMailMePrefs class]] retain];
-		prefPane = [[GrowlMailMePrefs alloc] initWithBundle:bundle];
+		prefPane = [[GrowlMailMePrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMailMePrefs class]]];
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[prefPane release];
-	[bundle   release];
 	[super dealloc];
 }
 
@@ -38,10 +36,6 @@
 }
 
 - (void) unloadPlugin {
-}
-
-- (NSDictionary *) pluginInfo {
-	return [bundle infoDictionary];
 }
 
 - (NSPreferencePane *) preferencePane {

@@ -43,9 +43,10 @@ static GrowlPluginController *sharedController;
 	
 	if ((self = [super init])) {
 		allDisplayPlugins = [[NSMutableDictionary alloc] init];
-		
+		allDisplayPluginBundles = [[NSMutableDictionary alloc] init];
+
 		libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
-		
+
 		enumerator = [libraries objectEnumerator];
 		while ((dir = [enumerator nextObject])) {
 			dir = [[[dir	stringByAppendingPathComponent:@"Application Support"]
@@ -140,8 +141,8 @@ static GrowlPluginController *sharedController;
 			}
 		} // if fileExists
 	}
-	
-	if ( ! returnBundle ) {
+
+	if (!returnBundle) {
 		/* Enumerate all installed preference panes, looking for the growl prefpane bundle 
 		 * identifier and stopping when we find it
 		 * Note that we check the bundle identifier because we should not insist the user not 
@@ -167,16 +168,34 @@ static GrowlPluginController *sharedController;
 }
 
 - (NSArray *) allDisplayPlugins {
-	return [[allDisplayPlugins allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+	return [[allDisplayPluginBundles allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
 - (id <GrowlDisplayPlugin>) displayPluginNamed:(NSString *)name {
-	return [allDisplayPlugins objectForKey:name];
+	id <GrowlDisplayPlugin> plugin = [allDisplayPlugins objectForKey:name];
+	if (!plugin) {
+		NSBundle *pluginBundle = [allDisplayPluginBundles objectForKey:name];
+		if (pluginBundle && (plugin = [[[pluginBundle principalClass] alloc] init])) {
+			[plugin loadPlugin];
+			[allDisplayPlugins setObject:plugin forKey:name];
+			[plugin release];
+			NSLog(@"loaded %@", name);
+		} else {
+			NSLog(@"Could not load %@", name);
+		}
+	}
+
+	return plugin;
+}
+
+- (NSDictionary *) infoDictionaryForPluginNamed:(NSString *)name {
+	return [[allDisplayPluginBundles objectForKey:name] infoDictionary];
 }
 
 - (void) dealloc {
 	[[allDisplayPlugins allValues] makeObjectsPerformSelector:@selector(unloadPlugin:)];
-	[allDisplayPlugins release];
+	[allDisplayPlugins       release];
+	[allDisplayPluginBundles release];
 
 	[super dealloc];
 }
@@ -194,20 +213,15 @@ static GrowlPluginController *sharedController;
 }
 
 - (void) loadPlugin:(NSString *)path {
-	NSBundle *pluginBundle;
-	id <GrowlDisplayPlugin> plugin;
+	NSBundle *pluginBundle = [NSBundle bundleWithPath:path];
 
-	pluginBundle = [NSBundle bundleWithPath:path];
-
-	if (pluginBundle && (plugin = [[[pluginBundle principalClass] alloc] init])) {
-		NSString *pluginName = [[plugin pluginInfo] objectForKey:@"GrowlPluginName"];
+	if (pluginBundle) {
+		NSString *pluginName = [[pluginBundle infoDictionary] objectForKey:@"GrowlPluginName"];
 		if (pluginName) {
-			[plugin loadPlugin];
-			[allDisplayPlugins setObject:plugin forKey:pluginName];
+			[allDisplayPluginBundles setObject:pluginBundle forKey:pluginName];
 		} else {
 			NSLog(@"Plugin at path '%@' has no name", path);
 		}
-		[plugin release];
 	} else {
 		NSLog(@"Failed to load: %@", path);
 	}

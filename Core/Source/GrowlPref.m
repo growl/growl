@@ -368,9 +368,10 @@ static const char *keychainAccountName = "Growl";
 		currentPlugin = [[plugins objectAtIndex:[displayPlugins selectedRow]] retain];
 	}
 
-	currentPluginController = [[GrowlPluginController controller] displayPluginNamed:currentPlugin];
+	GrowlPluginController *growlPluginController = [GrowlPluginController controller];
+	currentPluginController = [growlPluginController displayPluginNamed:currentPlugin];
 	[self loadViewForDisplay:currentPlugin];
-	NSDictionary *info = [currentPluginController pluginInfo];
+	NSDictionary *info = [growlPluginController infoDictionaryForPluginNamed:currentPlugin];
 	[displayAuthor setStringValue:[info objectForKey:@"GrowlPluginAuthor"]];
 	[displayVersion setStringValue:[info objectForKey:@"CFBundleVersion"]];
 }
@@ -681,7 +682,7 @@ static const char *keychainAccountName = "Growl";
 				}
 			} else {
 				NSString *pluginName = [[applicationDisplayPluginsMenu itemAtIndex:index] title];
-				if (![pluginName isEqualTo:[[[[tickets objectForKey:application] displayPlugin] pluginInfo] objectForKey:@"GrowlPluginName"]]) {
+				if (![pluginName isEqualTo:[[tickets objectForKey:application] displayPluginName]]) {
 					[ticket setDisplayPluginNamed:pluginName];
 					[GrowlPref saveTicket:ticket];
 				}
@@ -708,7 +709,7 @@ static const char *keychainAccountName = "Growl";
 				}
 			} else {
 				NSString *pluginName = [[applicationDisplayPluginsMenu itemAtIndex:index] title];
-				if (![pluginName isEqualTo:[[[appTicket displayPluginForNotification:note] pluginInfo] objectForKey:@"GrowlPluginName"]]) {
+				if (![pluginName isEqualTo:[appTicket displayPluginNameForNotification:note]]) {
 					[appTicket setDisplayPluginNamed:pluginName forNotification:note];
 					[GrowlPref saveTicket:appTicket];
 				}
@@ -777,11 +778,11 @@ static const char *keychainAccountName = "Growl";
 	NSString *identifier = [column identifier];
 	if (tableView == growlApplications) {
 		if ([identifier isEqualTo:@"display"]) {
-			id <GrowlDisplayPlugin> displayPlugin = [[tickets objectForKey:[filteredApplications objectAtIndex:row]] displayPlugin];
-			if (!displayPlugin) {
+			NSString *displayPluginName = [[tickets objectForKey:[filteredApplications objectAtIndex:row]] displayPluginName];
+			if (!displayPluginName) {
 				[cell selectItemAtIndex:0]; // Default
 			} else {
-				[cell selectItemWithTitle:[[displayPlugin pluginInfo] objectForKey:@"GrowlPluginName"]];
+				[cell selectItemWithTitle:displayPluginName];
 			}
 		} else if ([identifier isEqualTo:@"application"]) {
 			unsigned index = [applications indexOfObject:[filteredApplications objectAtIndex:row]];
@@ -797,11 +798,11 @@ static const char *keychainAccountName = "Growl";
 				[cell selectItemAtIndex:0];
 			}
 		} else if ([identifier isEqualTo:@"display"]) {
-			id <GrowlDisplayPlugin> displayPlugin = [appTicket displayPluginForNotification:notif];
-			if (!displayPlugin) {
+			NSString *displayPluginName = [appTicket displayPluginNameForNotification:notif];
+			if (!displayPluginName) {
 				[cell selectItemAtIndex:0]; // Default
 			} else {
-				[cell selectItemWithTitle:[[displayPlugin pluginInfo] objectForKey:@"GrowlPluginName"]];
+				[cell selectItemWithTitle:displayPluginName];
 			}
 		}
 	}

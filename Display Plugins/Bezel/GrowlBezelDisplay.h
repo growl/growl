@@ -13,12 +13,10 @@
 @interface GrowlBezelDisplay : NSObject <GrowlDisplayPlugin> {
 	NSMutableArray		*notificationQueue;
 	NSPreferencePane	*preferencePane;
-	NSBundle			*bundle;
 }
 
 - (void) loadPlugin;
 - (void) unloadPlugin;
-- (NSDictionary *) pluginInfo;
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
 

@@ -11,12 +11,10 @@
 
 @interface GrowlBubblesController : NSObject <GrowlDisplayPlugin> {
 	NSPreferencePane	*preferencePane;
-	NSBundle			*bundle;
 }
 
 - (void) loadPlugin;
 - (void) unloadPlugin;
-- (NSDictionary *) pluginInfo;
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
 
