@@ -7,17 +7,12 @@
 	objects = {
 		07500039073A17FF000D8A1F = {
 			children = (
-				07500064073A206A000D8A1F,
-				07500065073A206A000D8A1F,
-				07500067073A206A000D8A1F,
-				07500068073A206A000D8A1F,
-				07500069073A206A000D8A1F,
-				0750006A073A206A000D8A1F,
-				0750006B073A206A000D8A1F,
-				0750006C073A206A000D8A1F,
+				075000A7073A2A74000D8A1F,
+				075000B7073A2AC5000D8A1F,
+				075000D1073A2AE1000D8A1F,
+				075000BA073A2ACD000D8A1F,
 				0750005E073A1F0D000D8A1F,
-				07500066073A206A000D8A1F,
-				07500077073A2092000D8A1F,
+				075000DE073A2B12000D8A1F,
 				0750005D073A1F0D000D8A1F,
 			);
 			isa = PBXGroup;
@@ -27,6 +22,12 @@
 		0750003B073A17FF000D8A1F = {
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
 			name = Development;
@@ -34,6 +35,7 @@
 		0750003C073A17FF000D8A1F = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
 			name = Deployment;
@@ -58,10 +60,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0750006D073A206A000D8A1F,
-				0750006F073A206A000D8A1F,
+				075000DF073A2B12000D8A1F,
 				07500070073A206A000D8A1F,
 				07500072073A206A000D8A1F,
 				07500074073A206A000D8A1F,
+				075000A8073A2A74000D8A1F,
+				075000B3073A2ABF000D8A1F,
+				075000B4073A2ABF000D8A1F,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,6 +86,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				07500078073A2092000D8A1F,
+				075000A2073A2A5A000D8A1F,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,10 +101,9 @@
 			);
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Growl_Prefix.pch;
+				GCC_PREFIX_HEADER = Bubbles_Prefix.pch;
 				INFOPLIST_FILE = "BubblesNotificationView-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
@@ -164,8 +169,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			name = BubblePrefs.h;
-			path = "../../../growl/Display Plugins/Bubbles/BubblePrefs.h";
+			path = BubblePrefs.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -173,16 +177,15 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			name = BubblePrefs.m;
-			path = "../../../growl/Display Plugins/Bubbles/BubblePrefs.m";
+			path = BubblePrefs.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
 		07500066073A206A000D8A1F = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			name = BubblesPrefs.nib;
-			path = "../../../growl/Display Plugins/Bubbles/BubblesPrefs.nib";
+			name = English;
+			path = English.lproj/BubblesPrefs.nib;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -190,8 +193,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			name = KABubbleController.h;
-			path = "../../../growl/Display Plugins/Bubbles/KABubbleController.h";
+			path = KABubbleController.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -199,8 +201,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			name = KABubbleController.m;
-			path = "../../../growl/Display Plugins/Bubbles/KABubbleController.m";
+			path = KABubbleController.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -208,8 +209,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			name = KABubbleWindowController.h;
-			path = "../../../growl/Display Plugins/Bubbles/KABubbleWindowController.h";
+			path = KABubbleWindowController.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -217,8 +217,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			name = KABubbleWindowController.m;
-			path = "../../../growl/Display Plugins/Bubbles/KABubbleWindowController.m";
+			path = KABubbleWindowController.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -226,8 +225,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			name = KABubbleWindowView.h;
-			path = "../../../growl/Display Plugins/Bubbles/KABubbleWindowView.h";
+			path = KABubbleWindowView.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -235,8 +233,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			name = KABubbleWindowView.m;
-			path = "../../../growl/Display Plugins/Bubbles/KABubbleWindowView.m";
+			path = KABubbleWindowView.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -248,12 +245,6 @@
 		};
 		0750006E073A206A000D8A1F = {
 			fileRef = 07500065073A206A000D8A1F;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0750006F073A206A000D8A1F = {
-			fileRef = 07500066073A206A000D8A1F;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -304,6 +295,115 @@
 		};
 		07500078073A2092000D8A1F = {
 			fileRef = 07500077073A2092000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		075000A1073A2A5A000D8A1F = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Cocoa.framework;
+			path = /System/Library/Frameworks/Cocoa.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		075000A2073A2A5A000D8A1F = {
+			fileRef = 075000A1073A2A5A000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		075000A7073A2A74000D8A1F = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = Bubbles_Prefix.pch;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		075000A8073A2A74000D8A1F = {
+			fileRef = 075000A7073A2A74000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		075000B1073A2ABF000D8A1F = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlDefines.h;
+			path = /Users/boredzo/Projects/growl/GrowlDefines.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		075000B2073A2ABF000D8A1F = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlDisplayProtocol.h;
+			path = /Users/boredzo/Projects/growl/GrowlDisplayProtocol.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		075000B3073A2ABF000D8A1F = {
+			fileRef = 075000B1073A2ABF000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		075000B4073A2ABF000D8A1F = {
+			fileRef = 075000B2073A2ABF000D8A1F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		075000B7073A2AC5000D8A1F = {
+			children = (
+				075000B1073A2ABF000D8A1F,
+				075000B2073A2ABF000D8A1F,
+			);
+			isa = PBXGroup;
+			name = "Growl necessities";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		075000BA073A2ACD000D8A1F = {
+			children = (
+				075000A1073A2A5A000D8A1F,
+				07500077073A2092000D8A1F,
+			);
+			isa = PBXGroup;
+			name = "Linked Frameworks";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		075000D1073A2AE1000D8A1F = {
+			children = (
+				07500064073A206A000D8A1F,
+				07500065073A206A000D8A1F,
+				07500067073A206A000D8A1F,
+				07500068073A206A000D8A1F,
+				07500069073A206A000D8A1F,
+				0750006A073A206A000D8A1F,
+				0750006B073A206A000D8A1F,
+				0750006C073A206A000D8A1F,
+			);
+			isa = PBXGroup;
+			name = Sources;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		075000DE073A2B12000D8A1F = {
+			children = (
+				07500066073A206A000D8A1F,
+			);
+			isa = PBXVariantGroup;
+			name = BubblesPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		075000DF073A2B12000D8A1F = {
+			fileRef = 075000DE073A2B12000D8A1F;
 			isa = PBXBuildFile;
 			settings = {
 			};
