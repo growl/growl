@@ -52,16 +52,16 @@
 /*!
 	@method isGrowlInstalled
 	@abstract Detects whether Growl is installed
-	@discussion Determies if the Growl prefpane and its helper app are installed
-	@result Returns YES if Growl is installed, NO otherwise
+	@discussion Determines if the Growl prefpane and its helper app are installed.
+	@result Returns YES if Growl is installed, NO otherwise.
  */
 + (BOOL) isGrowlInstalled;
 
 /*!
 	@method isGrowlRunning
 	@abstract Detects whether GrowlHelperApp is currently running
-	@discussion Cycles through the process list to find if GrowlHelperApp is running and returns the status
-	@result Returns YES if GrowlHelperApp is running, NO otherwise
+	@discussion Cycles through the process list to find if GrowlHelperApp is running and returns its findings.
+	@result Returns YES if GrowlHelperApp is running, NO otherwise.
 */
 + (BOOL) isGrowlRunning;
 
@@ -84,7 +84,7 @@
 	and the application will be registered with Growl.
  
 	If using the Growl-WithInstaller framework, if Growl is already installed but this copy of the framework has an updated
-	version of Growl, the user will be propmted to update automatically.
+	version of Growl, the user will be prompted to update automatically.
  
 	@param inDelegate The delegate for the GrowlApplicationBridge. It must conform to the GrowlApplicationBridgeDelegate protocol.
  */
@@ -101,8 +101,8 @@
 /*
 	@method notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:
 	@abstract Send a Growl notification
-	@discussion This is the preferred means for sending a Growl notification.  The notificaiton name and at least one of
-	the title and description are required (all three are preferred).  All other parameters may be nil (or 0 or FALSE as appropriate)
+	@discussion This is the preferred means for sending a Growl notification.  The notification name and at least one of
+	the title and description are required (all three are preferred).  All other parameters may be nil (or 0 or NO as appropriate)
 	to accept default values.
  
 	If using the Growl-WithInstaller framework, if Growl is not installed the user will be prompted to install Growl. 
@@ -111,12 +111,12 @@
 	choose to install Growl, the requested notification will be displayed once Growl is installed and running.
  
 	@param title		The title of the notification displayed to the user.
-	@param description	The full description of the notification dispalyed to the user.
-	@param notifName	The internal name of the notification
-	@param iconData		NSData* to show with the notification as its icon. If nil, the application's icon will be used instead.
-	@param priority		The priority of the notification; not all display plugins support priority. The default value is 0; positive values are higher priority and negative values are lower priority. 
-	@param isSticky		If YES, the notification will remain on screen until clicked. Not all display plugins support priority.
-	@param clickContext	A context passed back to the growlAppDelegate if it implements -(void)growlNotificationWasClicked: and the notification is clicked. Not all display plugins support clicking. The clickContext must be plist-encodable (completely of NSString, NSArray, NSNumber, and NSDictionary types).
+	@param description	The full description of the notification displayed to the user.
+	@param notifName	The internal name of the notification. Should be human-readable, as it will be displayed in the Growl preference pane.
+	@param iconData		NSData object to show with the notification as its icon. If nil, the application's icon will be used instead.
+	@param priority		The priority of the notification. The default value is 0; positive values are higher priority and negative values are lower priority. Not all Growl displays support priority.
+	@param isSticky		If YES, the notification will remain on screen until clicked. Not all Growl displays support sticky notifications.
+	@param clickContext	A context passed back to the growlAppDelegate if it implements -(void)growlNotificationWasClicked: and the notification is clicked. Not all display plugins support clicking. The clickContext must be plist-encodable (completely of NSString, NSArray, NSNumber, NSDictionary, and NSData types).
  */
 + (void) notifyWithTitle:(NSString *)title
 			 description:(NSString *)description
@@ -130,7 +130,7 @@
 	@method reregisterGrowlNotifications
 	@abstract Reregister the notifications for this application
 	@description This method does not normally need to be called.  If your application changes what notifications
-	it is registering with Growl, call this method to have the growlAppDelegate's growlRegistractionDict method called
+	it is registering with Growl, call this method to have the growlDelegate's growlRegistrationDict method called
 	again and the Growl registration information updated.
  */
 + (void) reregisterGrowlNotifications;
@@ -199,7 +199,7 @@
 	@method growlNotificationWasClicked:
 	@abstract Informs the delegate that a Growl notification was clicked
 	@discussion Informs the delegate that a Growl notification was clicked.  It is only sent for notifications sent with
-	a clickContext, so if you want to receive a message when a notification is clicked, clickContext must not be nil when
+	a non-nil clickContext, so if you want to receive a message when a notification is clicked, clickContext must not be nil when
 	calling notifyWithTarget:::::::.
 	@param clickContext The clickContext passed when displaying the notification originally via notifyWithTarget:::::::.
  */
