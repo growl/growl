@@ -244,6 +244,7 @@ static BOOL checkOSXVersion()
 - (void) performInstallGrowl
 {
 	// Obtain the path to the archived Growl.prefPane
+	NSFileManager *mgr = [NSFileManager defaultManager];
 	NSBundle *bundle;
 	NSString *archivePath, *tmpDir;
 	NSTask	*unzip;
@@ -260,28 +261,52 @@ static BOOL checkOSXVersion()
 		
 		tmpDir = [tmpDir stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
 		if (tmpDir) {
-			[[NSFileManager defaultManager] createDirectoryAtPath:tmpDir attributes:nil];
+			[mgr createDirectoryAtPath:tmpDir attributes:nil];
+			BOOL hasUnzip = YES;
 
-			NSArray *arguments = [[NSArray alloc] initWithObjects:
-				@"-o",  /* overwrite */
-				@"-q", /* quiet! */
-				archivePath, /* source zip file */
-				@"-d", tmpDir, /* The temporary folder is the destination folder*/
-				nil];
-			unzip = [[NSTask alloc] init];
-			[unzip setLaunchPath:@"/usr/bin/unzip"];
-			[unzip setArguments:arguments];
-			[unzip setCurrentDirectoryPath:tmpDir];
-			
-			NS_DURING
-				[unzip launch];
-				[unzip waitUntilExit];
-				success = ([unzip terminationStatus] == 0);
-			NS_HANDLER
-				/* No exception handler needed */
-			NS_ENDHANDLER
-			[unzip release];
-			[arguments release];
+			NSString *launchPath = @"/System/Library/CoreServices/BOMArchiveHelper.app/Contents/MacOS/BOMArchiveHelper";
+			NSArray *arguments = nil;
+			if([mgr fileExistsAtPath:launchPath]) {
+				//BOMArchiveHelper is more particular than unzip, so we need to do some clean-up first:
+				//(1) copy the zip file into the temporary directory.
+				NSString *archiveFilename = [archivePath lastPathComponent];
+				NSString *tmpArchivePath = [tmpDir stringByAppendingPathComponent:archiveFilename];
+				[mgr copyPath:archivePath
+				       toPath:tmpArchivePath
+				      handler:nil];
+
+				//(2) pass BOMArchiveHelper only the path to the archive.
+				arguments = [NSArray arrayWithObject:tmpArchivePath];
+			} else {
+				//no BOMArchiveHelper - fall back on unzip.
+				launchPath = @"/usr/bin/unzip";
+				hasUnzip = [mgr fileExistsAtPath:launchPath];
+
+				if(hasUnzip) {
+					arguments = [NSArray arrayWithObjects:
+						@"-o",         //overwrite
+						@"-q",         //quiet!
+						archivePath,   //source zip file
+						@"-d", tmpDir, //The temporary folder is the destination folder
+						nil];
+				}
+			}
+
+			if(hasUnzip) {
+				unzip = [[NSTask alloc] init];
+				[unzip setLaunchPath:launchPath];
+				[unzip setArguments:arguments];
+				[unzip setCurrentDirectoryPath:tmpDir];
+				
+				NS_DURING
+					[unzip launch];
+					[unzip waitUntilExit];
+					success = ([unzip terminationStatus] == 0);
+				NS_HANDLER
+					/* No exception handler needed */
+				NS_ENDHANDLER
+				[unzip release];
+			}
 				
 			if (success) {
 				NSString	*tempGrowlPrefPane;
