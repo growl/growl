@@ -296,19 +296,22 @@ static id singleton = nil;
 
 	GrowlApplicationTicket *newApp = [tickets objectForKey:appName];
 
+	NSString *notificationName;
 	if ( !newApp ) {
 		newApp = [[[GrowlApplicationTicket alloc] initWithDictionary:userInfo] autorelease];
 		[tickets setObject:newApp forKey:appName];
+		notificationName = @"Application registered";		
 	} else {
 		[newApp reregisterWithDictionary:userInfo];
+		notificationName = @"Application re-registered";
 	}
-	
+
 	[newApp saveTicket];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF object:appName];
 
-	[GrowlApplicationBridge notifyWithTitle:@"Application registered"
+	[GrowlApplicationBridge notifyWithTitle:notificationName
 								description:[appName stringByAppendingString:@" registered"]
-						   notificationName:@"Application registered"
+						   notificationName:notificationName
 								   iconData:growlIconData
 								   priority:0
 								   isSticky:NO
@@ -650,7 +653,8 @@ static id singleton = nil;
 
 - (NSDictionary *) registrationDictionaryForGrowl
 {
-	NSArray *notifs = [NSArray arrayWithObjects:@"Application registered", nil];
+	NSArray *notifs = [NSArray arrayWithObjects:@"Application registered",
+		@"Application re-registered", nil];
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		notifs, GROWL_NOTIFICATIONS_ALL,
 		[NSArray array], GROWL_NOTIFICATIONS_DEFAULT,
