@@ -9,6 +9,9 @@ SMOKE_PATH=$(PLUGINS_DIR)/$(SMOKE_NAME)
 MAILME_NAME=MailMe.growlView
 MAILME_BUILD=$(BUILD_DIR)/$(MAILME_NAME)
 MAILME_PATH=$(PLUGINS_DIR)/$(MAILME_NAME)
+MUSICVIDEO_NAME=MusicVideo.growlView
+MUSICVIDEO_BUILD=$(BUILD_DIR)/$(MUSICVIDEO_NAME)
+MUSICVIDEO_PATH=$(PLUGINS_DIR)/$(MUSICVIDEO_NAME)
 
 PREFERENCEPANES_DIR=$(HOME)/Library/PreferencePanes
 GROWL_PREFPANE=Growl.prefPane
@@ -35,31 +38,66 @@ build-smoke:
 build-mailme:
 	xcodebuild -target MailMe -buildstyle $(DEFAULT_BUILDSTYLE) build
 
+build-musicvideo:
+	xcodebuild -target MusicVideo -buildstyle $(DEFAULT_BUILDSTYLE) build
+
 clean:
 	xcodebuild -project "Display Plugins.xcode" -alltargets clean
 
 install:
 	killall GrowlHelperApp || true
-	-$(RM) -rf "$(NSLOGGING_PATH)" "$(SMOKE_PATH)" "$(MAILME_PATH)"
-	if [[ -d $(NSLOGGING_BUILD) ]]; then $(CP) $(NSLOGGING_BUILD) "$(NSLOGGING_PATH)"; fi
-	if [[ -d $(SMOKE_BUILD) ]]; then $(CP) $(SMOKE_BUILD) "$(SMOKE_PATH)"; fi
-	if [[ -d $(MAILME_BUILD) ]]; then $(CP) $(MAILME_BUILD) "$(MAILME_PATH)"; fi
-	open $(GROWL_HELPER_APP)
+	-$(RM) -rf "$(NSLOGGING_PATH)" "$(SMOKE_PATH)" "$(MAILME_PATH)" "$(MUSICVIDEO_PATH)"
+	if [[ -d "$(NSLOGGING_BUILD)" ]]; then $(CP) "$(NSLOGGING_BUILD)" "$(NSLOGGING_PATH)"; fi
+	if [[ -d "$(SMOKE_BUILD)" ]]; then $(CP) "$(SMOKE_BUILD)" "$(SMOKE_PATH)"; fi
+	if [[ -d "$(MAILME_BUILD)" ]]; then $(CP) "$(MAILME_BUILD)" "$(MAILME_PATH)"; fi
+	if [[ -d "$(MUSICVIDEO_BUILD)" ]]; then $(CP) "$(MUSICVIDEO_BUILD)" "$(MUSICVIDEO_PATH)"; fi
+	open "$(GROWL_HELPER_APP)"
 
 install-nslogging:
 	killall GrowlHelperApp || true
 	-$(RM) -rf "$(NSLOGGING_PATH)"
-	$(CP) $(NSLOGGING_BUILD) "$(NSLOGGING_PATH)"
-	open $(GROWL_HELPER_APP)
+	$(CP) "$(NSLOGGING_BUILD)" "$(NSLOGGING_PATH)"
+	open "$(GROWL_HELPER_APP)"
 
 install-smoke:
 	killall GrowlHelperApp || true
 	-$(RM) -rf "$(SMOKE_PATH)"
-	$(CP) $(SMOKE_BUILD) "$(SMOKE_PATH)"
-	open $(GROWL_HELPER_APP)
+	$(CP) "$(SMOKE_BUILD)" "$(SMOKE_PATH)"
+	open "$(GROWL_HELPER_APP)"
 
 install-mailme:
 	killall GrowlHelperApp || true
 	-$(RM) -rf "$(MAILME_PATH)"
-	$(CP) $(MAILME_BUILD) "$(MAILME_PATH)"
-	open $(GROWL_HELPER_APP)
+	$(CP) "$(MAILME_BUILD)" "$(MAILME_PATH)"
+	open "$(GROWL_HELPER_APP)"
+
+install-musicvideo:
+	killall GrowlHelperApp || true
+	-$(RM) -rf "$(MUSICVIDEO_PATH)"
+	$(CP) "$(MUSICVIDEO_BUILD)" "$(MUSICVIDEO_PATH)"
+	open "$(GROWL_HELPER_APP)"
+
+uninstall:
+	killall GrowlHelperApp || true
+	-$(RM) -rf "$(NSLOGGING_PATH)" "$(SMOKE_PATH)" "$(MAILME_PATH)" "$(MUSICVIDEO_PATH)"
+	open "$(GROWL_HELPER_APP)"
+
+uninstall-nslogging:
+	killall GrowlHelperApp || true
+	$(RM) -rf "$(NSLOGGING_PATH)"
+	open "$(GROWL_HELPER_APP)"
+
+uninstall-smoke:
+	killall GrowlHelperApp || true
+	$(RM) -rf "$(SMOKE_PATH)"
+	open "$(GROWL_HELPER_APP)"
+
+uninstall-mailme:
+	killall GrowlHelperApp || true
+	$(RM) -rf "$(MAILME_PATH)"
+	open "$(GROWL_HELPER_APP)"
+
+uninstall-musicvideo:
+	killall GrowlHelperApp || true
+	$(RM) -rf "$(MUSICVIDEO_PATH)"
+	open "$(GROWL_HELPER_APP)"
