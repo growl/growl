@@ -40,6 +40,22 @@ Boolean GetMetadataForFile(void *thisInterface,
 		if (value) {
 			CFDictionarySetValue(attributes, kMDItemVersion, value);
 		}
+		CFArrayRef allNotifications = CFDictionaryGetValue(ticket, GROWL_NOTIFICATIONS_ALL);
+		if (allNotifications) {
+			CFIndex count = CFArrayGetCount(allNotifications);
+			CFMutableArrayRef keywords = CFArrayCreateMutable(kCFAllocatorDefault,
+															  /* capacity */ count,
+															  &kCFTypeArrayCallBacks);
+			for (CFIndex i=0; i<count; ++i) {
+				CFDictionaryRef notification = CFArrayGetValueAtIndex(allNotifications, i);
+				CFStringRef name = CFDictionaryGetValue(notification, CFSTR("Name"));
+				if (name) {
+					CFArrayAppendValue(keywords, name);
+				}
+			}
+			CFDictionarySetValue(attributes, kMDItemKeywords, keywords);
+			CFRelease(keywords);
+		}
 		success = TRUE;
 	}
 	CFRelease(ticket);
