@@ -1225,6 +1225,118 @@
 			isa = PBXBuildStyle;
 			name = "Deployment - Tiger - G4";
 		};
+		956ADAC607551C4500AF9545 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = FadingWindowController.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956ADACB07551C4500AF9545 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = FadingWindowController.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956ADAD007551C4500AF9545 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlBezierPathAdditions.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956ADAD507551C4500AF9545 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlBezierPathAdditions.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956ADADA07551C4500AF9545 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlImageAdditions.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956ADADF07551C4500AF9545 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlImageAdditions.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956ADAE407551C4500AF9545 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlStringAdditions.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956ADAE907551C4500AF9545 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlStringAdditions.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956ADAFD07551C4500AF9545 = {
+			fileRef = 956ADAC607551C4500AF9545;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADAFE07551C4500AF9545 = {
+			fileRef = 956ADACB07551C4500AF9545;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADAFF07551C4500AF9545 = {
+			fileRef = 956ADAD007551C4500AF9545;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADB0007551C4500AF9545 = {
+			fileRef = 956ADAD507551C4500AF9545;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADB0107551C4500AF9545 = {
+			fileRef = 956ADADA07551C4500AF9545;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADB0207551C4500AF9545 = {
+			fileRef = 956ADADF07551C4500AF9545;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADB0307551C4500AF9545 = {
+			fileRef = 956ADAE407551C4500AF9545;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADB0407551C4500AF9545 = {
+			fileRef = 956ADAE907551C4500AF9545;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		956BF7550749FBE100D8B367 = {
 			fileType = wrapper.cfbundle;
 			isa = PBXReferenceProxy;
@@ -1611,6 +1723,14 @@
 		};
 		CB5F847F0638BD6200EADD7A = {
 			children = (
+				956ADAC607551C4500AF9545,
+				956ADACB07551C4500AF9545,
+				956ADAD007551C4500AF9545,
+				956ADAD507551C4500AF9545,
+				956ADADA07551C4500AF9545,
+				956ADADF07551C4500AF9545,
+				956ADAE407551C4500AF9545,
+				956ADAE907551C4500AF9545,
 				958294EF074CDE3100EC7AF2,
 				958294F0074CDE3100EC7AF2,
 				95DD14D30748B04700CC05A4,
@@ -1688,6 +1808,10 @@
 				953F5D3707403BC7008E2AEB,
 				95DD14E00748B04700CC05A4,
 				958294F1074CDE3100EC7AF2,
+				956ADAFD07551C4500AF9545,
+				956ADAFF07551C4500AF9545,
+				956ADB0107551C4500AF9545,
+				956ADB0307551C4500AF9545,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1718,6 +1842,10 @@
 				953F5D3807403BC7008E2AEB,
 				95DD14E10748B04700CC05A4,
 				958294F2074CDE3100EC7AF2,
+				956ADAFE07551C4500AF9545,
+				956ADB0007551C4500AF9545,
+				956ADB0207551C4500AF9545,
+				956ADB0407551C4500AF9545,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -85,7 +85,7 @@
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_LDFLAGS = "-force_flat_namespace -undefined suppress";
 				PRODUCT_NAME = Bubbles;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
@@ -132,27 +132,19 @@
 		07694BEF073A4ADE0079D1E5 = {
 			buildActionMask = 2147483647;
 			files = (
-				957EECA6074ABCA600A97F1E,
-				07694BF3073A4ADE0079D1E5,
 				07694C04073A4B560079D1E5,
 				07694C08073A4B560079D1E5,
 				07694C0A073A4B560079D1E5,
 				07694C0C073A4B560079D1E5,
-				95091E94074A596500350F4B,
-				95337690074B49D0004D1AD6,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		07694BF3073A4ADE0079D1E5 = {
-			fileRef = 34BA9D2907086EDA0055683E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		07694BF5073A4ADE0079D1E5 = {
 			buildActionMask = 2147483647;
 			files = (
+				956ADA5807551A6100AF9545,
+				956ADA5907551A6100AF9545,
 				07694BF6073A4ADE0079D1E5,
 			);
 			isa = PBXFrameworksBuildPhase;
@@ -321,7 +313,6 @@
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MailMe;
 				SECTORDER_FLAGS = "";
@@ -368,25 +359,19 @@
 		07CC345006FFE5FC0029B83C = {
 			buildActionMask = 2147483647;
 			files = (
-				07CC345506FFE5FC0029B83C,
 				07CC346C06FFE6FA0029B83C,
 				07CC346E06FFE6FA0029B83C,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		07CC345506FFE5FC0029B83C = {
-			fileRef = 6C22288906FF60A50056CEAA;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		07CC345606FFE5FC0029B83C = {
 			buildActionMask = 2147483647;
 			files = (
+				956ADA7907551B7400AF9545,
+				956ADA7A07551B7400AF9545,
 				07CC345706FFE5FC0029B83C,
 				07CC349706FFEB6A0029B83C,
-				07CC350C06FFF5C10029B83C,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -487,12 +472,6 @@
 		};
 		07CC349706FFEB6A0029B83C = {
 			fileRef = 07CC349606FFEB6A0029B83C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		07CC350C06FFF5C10029B83C = {
-			fileRef = 1058C7ADFEA557BF11CA2CBB;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -699,14 +678,6 @@
 //324
 		32C88E010371C26100C91783 = {
 			children = (
-				95337643074B49D0004D1AD6,
-				95337664074B49D0004D1AD6,
-				95091E35074A596500350F4B,
-				95091E56074A596500350F4B,
-				34BA9D2807086EDA0055683E,
-				34BA9D2907086EDA0055683E,
-				6C22288806FF60A50056CEAA,
-				6C22288906FF60A50056CEAA,
 				32DBCF630370AF2F00C91783,
 			);
 			isa = PBXGroup;
@@ -845,28 +816,6 @@
 			settings = {
 			};
 		};
-		34BA9D2807086EDA0055683E = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlStringAdditions.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		34BA9D2907086EDA0055683E = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlStringAdditions.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		34BA9D2B07086EDA0055683E = {
-			fileRef = 34BA9D2907086EDA0055683E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		34C4486306F0FF5300855FBE = {
 			buildActionMask = 2147483647;
 			files = (
@@ -878,14 +827,10 @@
 		34C4486406F0FF5300855FBE = {
 			buildActionMask = 2147483647;
 			files = (
-				957EECB2074ABCC100A97F1E,
 				3458F00C06F2E4FB0066D180,
 				3458F00E06F2E4FB0066D180,
 				3482252F06F2EC6200B33560,
-				34BA9D2B07086EDA0055683E,
 				3483CE7D0719B50700D1BF80,
-				95091E90074A596500350F4B,
-				95337692074B49D0004D1AD6,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -893,6 +838,8 @@
 		34C4486506F0FF5300855FBE = {
 			buildActionMask = 2147483647;
 			files = (
+				956ADA7107551B5100AF9545,
+				956ADA7207551B5100AF9545,
 				07CC344406FFE5A20029B83C,
 			);
 			isa = PBXFrameworksBuildPhase;
@@ -927,7 +874,7 @@
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_LDFLAGS = "-force_flat_namespace -undefined suppress";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Smoke;
 				SECTORDER_FLAGS = "";
@@ -1026,6 +973,10 @@
 		};
 		5282FC4C06DD9BB200179624 = {
 			children = (
+				956AD91C07551A4B00AF9545,
+				956AD91D07551A4B00AF9545,
+				956AD91E07551A4B00AF9545,
+				956AD91F07551A4B00AF9545,
 				95947C130748A30200B8B23E,
 				5282FC4E06DD9BC300179624,
 				A14BBF0D06EE6DF100530EED,
@@ -1063,6 +1014,8 @@
 		5282FC6606DD9F2D00179624 = {
 			buildActionMask = 2147483647;
 			files = (
+				956ADA5C07551A6700AF9545,
+				956ADA5D07551A6700AF9545,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1082,7 +1035,6 @@
 				INFOPLIST_FILE = "NSLogging-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				PRODUCT_NAME = NSLogging;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
@@ -1148,28 +1100,6 @@
 //6C2
 //6C3
 //6C4
-		6C22288806FF60A50056CEAA = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlImageAdditions.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		6C22288906FF60A50056CEAA = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlImageAdditions.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		6C22288B06FF60A50056CEAA = {
-			fileRef = 6C22288906FF60A50056CEAA;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		6C60D7B806F044110025909F = {
 			buildActionMask = 2147483647;
 			files = (
@@ -1186,9 +1116,6 @@
 				6C86F85906F04AB2008EA344,
 				6C86F89006F0620D008EA344,
 				6CEC911106F6F85F00198405,
-				6C22288B06FF60A50056CEAA,
-				95091E92074A596500350F4B,
-				9533768E074B49D0004D1AD6,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1196,6 +1123,8 @@
 		6C60D7BA06F044110025909F = {
 			buildActionMask = 2147483647;
 			files = (
+				956ADA6B07551B4700AF9545,
+				956ADA6C07551B4700AF9545,
 				6C8886EA06F84C8A00FD051E,
 			);
 			isa = PBXFrameworksBuildPhase;
@@ -1230,7 +1159,7 @@
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_LDFLAGS = "-force_flat_namespace -undefined suppress";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Bezel;
 				SECTORDER_FLAGS = "";
@@ -1334,7 +1263,6 @@
 		6C7CEAE20707F41D00441A92 = {
 			buildActionMask = 2147483647;
 			files = (
-				9547EAF1074A807000E7FD87,
 				6C7CEAF50707F55D00441A92,
 				6C7CEAF70707F55D00441A92,
 				6C7CEAFA0707F55D00441A92,
@@ -1346,6 +1274,8 @@
 		6C7CEAE30707F41D00441A92 = {
 			buildActionMask = 2147483647;
 			files = (
+				956ADA7D07551B7900AF9545,
+				956ADA7E07551B7900AF9545,
 				6C7CEB380707FD0000441A92,
 			);
 			isa = PBXFrameworksBuildPhase;
@@ -1380,7 +1310,7 @@
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_LDFLAGS = "-force_flat_namespace -undefined suppress";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = MusicVideo;
 				SECTORDER_FLAGS = "";
@@ -1704,74 +1634,6 @@
 //952
 //953
 //954
-		95091E35074A596500350F4B = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = FadingWindowController.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		95091E56074A596500350F4B = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = FadingWindowController.m;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		95091E90074A596500350F4B = {
-			fileRef = 95091E56074A596500350F4B;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		95091E92074A596500350F4B = {
-			fileRef = 95091E56074A596500350F4B;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		95091E94074A596500350F4B = {
-			fileRef = 95091E56074A596500350F4B;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		95337643074B49D0004D1AD6 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlBezierPathAdditions.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		95337664074B49D0004D1AD6 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlBezierPathAdditions.m;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		9533768E074B49D0004D1AD6 = {
-			fileRef = 95337664074B49D0004D1AD6;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		95337690074B49D0004D1AD6 = {
-			fileRef = 95337664074B49D0004D1AD6;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		95337692074B49D0004D1AD6 = {
-			fileRef = 95337664074B49D0004D1AD6;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		9536D1FC0747E58100F7F498 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1782,12 +1644,6 @@
 		};
 		9536D21C0747E58100F7F498 = {
 			fileRef = 9536D1FC0747E58100F7F498;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		9547EAF1074A807000E7FD87 = {
-			fileRef = 95091E56074A596500350F4B;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1807,14 +1663,134 @@
 			isa = PBXBuildStyle;
 			name = "Deployment - Tiger - G4";
 		};
-		957EECA6074ABCA600A97F1E = {
-			fileRef = 6C22288906FF60A50056CEAA;
+		956AD91C07551A4B00AF9545 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = FadingWindowController.h;
+			path = ../FadingWindowController.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956AD91D07551A4B00AF9545 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlBezierPathAdditions.h;
+			path = ../GrowlBezierPathAdditions.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956AD91E07551A4B00AF9545 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlImageAdditions.h;
+			path = ../GrowlImageAdditions.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956AD91F07551A4B00AF9545 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlStringAdditions.h;
+			path = ../GrowlStringAdditions.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956ADA5807551A6100AF9545 = {
+			fileRef = 089C1672FE841209C02AAC07;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
-		957EECB2074ABCC100A97F1E = {
-			fileRef = 6C22288906FF60A50056CEAA;
+		956ADA5907551A6100AF9545 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA5C07551A6700AF9545 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA5D07551A6700AF9545 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA6B07551B4700AF9545 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA6C07551B4700AF9545 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA7107551B5100AF9545 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA7207551B5100AF9545 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA7907551B7400AF9545 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA7A07551B7400AF9545 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA7D07551B7900AF9545 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA7E07551B7900AF9545 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA8107551B8A00AF9545 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA8207551B8A00AF9545 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA8507551B9600AF9545 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956ADA8607551B9600AF9545 = {
+			fileRef = 089C167FFE841241C02AAC07;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1957,6 +1933,8 @@
 		9594781207489C2F00B8B23E = {
 			buildActionMask = 2147483647;
 			files = (
+				956ADA8107551B8A00AF9545,
+				956ADA8207551B8A00AF9545,
 				95947CD70748A35200B8B23E,
 			);
 			isa = PBXFrameworksBuildPhase;
@@ -1991,7 +1969,6 @@
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Rendezvous;
 				SECTORDER_FLAGS = "";
@@ -2180,6 +2157,8 @@
 		95DD1A8607491AB700CC05A4 = {
 			buildActionMask = 2147483647;
 			files = (
+				956ADA8507551B9600AF9545,
+				956ADA8607551B9600AF9545,
 				95DD1C2E07491DEC00CC05A4,
 			);
 			isa = PBXFrameworksBuildPhase;
@@ -2212,7 +2191,6 @@
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				PRODUCT_NAME = Speech;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
