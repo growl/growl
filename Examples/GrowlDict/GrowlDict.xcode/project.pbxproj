@@ -23,9 +23,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = GrowlAppBridge.framework;
-			path = /Users/donsmith/Library/Frameworks/GrowlAppBridge.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../build/GrowlAppBridge.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		D3A91010068DFBCE0079DB8F = {
 			fileRef = D3A9100F068DFBCE0079DB8F;
@@ -187,7 +187,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = /Users/donsmith/Library/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = ../../build;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.h;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;

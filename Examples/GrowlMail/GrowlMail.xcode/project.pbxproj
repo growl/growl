@@ -157,9 +157,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = GrowlAppBridge.framework;
-			path = /Library/Frameworks/GrowlAppBridge.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../build/GrowlAppBridge.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		0A8329A306B854F700F4F4EE = {
 			fileRef = 0A8329A206B854F700F4F4EE;
@@ -388,7 +388,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = ../../build;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -397,7 +397,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
 				OTHER_CFLAGS = "";
