@@ -83,7 +83,6 @@
 		0867D691FE84028FC02AAC07 = {
 			children = (
 				08FB77AEFE84172EC02AAC07,
-				0A0B4A5706EE407B0058DED1,
 				32C88DFF0371C24200C91783,
 				089C1665FE841158C02AAC07,
 				0867D69AFE84028FC02AAC07,
@@ -114,8 +113,10 @@
 		};
 		08FB77AEFE84172EC02AAC07 = {
 			children = (
-				147E022A068A07EB00ADA868,
-				147E022B068A07EB00ADA868,
+				344F4CE6078E146500226DFC,
+				344F4CE7078E146500226DFC,
+				344F4D00078E156300226DFC,
+				344F4D01078E156300226DFC,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -132,29 +133,6 @@
 //0A2
 //0A3
 //0A4
-		0A0B4A5706EE407B0058DED1 = {
-			children = (
-				0A0B4A5F06EE408F0058DED1,
-			);
-			isa = PBXGroup;
-			name = "Display Protocol";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0A0B4A5F06EE408F0058DED1 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlDisplayProtocol.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0A0B4A6006EE408F0058DED1 = {
-			fileRef = 0A0B4A5F06EE408F0058DED1;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0AEE18750702C53C0024B1A0 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -238,68 +216,6 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/bin/perl GenCarbonHeader.pl\n";
 		};
-		147E0228068A07EB00ADA868 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.c;
-			path = "GrowlApplicationBridge-Carbon.c";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		147E0229068A07EB00ADA868 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = "GrowlApplicationBridge-Carbon.h";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		147E022A068A07EB00ADA868 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlApplicationBridge.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		147E022B068A07EB00ADA868 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlApplicationBridge.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		147E022C068A07EB00ADA868 = {
-			fileRef = 147E0228068A07EB00ADA868;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		147E022D068A07EB00ADA868 = {
-			fileRef = 147E0229068A07EB00ADA868;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
-		147E022E068A07EB00ADA868 = {
-			fileRef = 147E022A068A07EB00ADA868;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
-		147E022F068A07EB00ADA868 = {
-			fileRef = 147E022B068A07EB00ADA868;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		147E0236068A08D200ADA868 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -360,8 +276,6 @@
 		32C88DFF0371C24200C91783 = {
 			children = (
 				147E0236068A08D200ADA868,
-				147E0228068A07EB00ADA868,
-				147E0229068A07EB00ADA868,
 				147E0263068A0C3B00ADA868,
 			);
 			isa = PBXGroup;
@@ -374,6 +288,72 @@
 //322
 //323
 //324
+//340
+//341
+//342
+//343
+//344
+		344F4CE6078E146500226DFC = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlAppBridge.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		344F4CE7078E146500226DFC = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlAppBridge.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		344F4CE8078E146500226DFC = {
+			fileRef = 344F4CE6078E146500226DFC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		344F4CE9078E146500226DFC = {
+			fileRef = 344F4CE7078E146500226DFC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		344F4D00078E156300226DFC = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = "GrowlAppBridge-Carbon.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		344F4D01078E156300226DFC = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			path = "GrowlAppBridge-Carbon.c";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		344F4D02078E156300226DFC = {
+			fileRef = 344F4D00078E156300226DFC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		344F4D03078E156300226DFC = {
+			fileRef = 344F4D01078E156300226DFC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//340
+//341
+//342
+//343
+//344
 //8D0
 //8D1
 //8D2
@@ -436,10 +416,9 @@
 		8DC2EF500486A6940098B216 = {
 			buildActionMask = 2147483647;
 			files = (
-				147E022D068A07EB00ADA868,
-				147E022E068A07EB00ADA868,
 				147E0237068A08D200ADA868,
-				0A0B4A6006EE408F0058DED1,
+				344F4CE8078E146500226DFC,
+				344F4D02078E156300226DFC,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -447,8 +426,8 @@
 		8DC2EF540486A6940098B216 = {
 			buildActionMask = 2147483647;
 			files = (
-				147E022C068A07EB00ADA868,
-				147E022F068A07EB00ADA868,
+				344F4CE9078E146500226DFC,
+				344F4D03078E156300226DFC,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

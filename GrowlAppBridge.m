@@ -5,7 +5,7 @@
 //  Created by Evan Schoenberg on Wed Jun 16 2004.
 //
 
-#import "GrowlApplicationBridge.h"
+#import "GrowlAppBridge.h"
 #import "GrowlDefines.h"
 #import <ApplicationServices/ApplicationServices.h>
 
@@ -23,31 +23,87 @@
 
 + (NSEnumerator *) _preferencePaneSearchEnumerator;
 + (NSArray *)_allPreferencePaneBundles;
+
+
+/*!
+	@method launchGrowlIfInstalled
+	@abstract Launches GrowlHelperApp
+	@discussion Launches the GrowlHelperApp if it's not already running. GROWL_IS_READY will be posted to the distributed
+		notification center once it is ready.
+	@result Returns YES if GrowlHelperApp began launching or was already running, NO if Growl isn't installed
+*/
++ (BOOL) launchGrowlIfInstalled;
 @end
 
 @implementation GrowlAppBridge
 
-static NSMutableArray		*launchNotificationTargets = nil;
-static NSMutableDictionary	*clickNotificationTargetsDict = nil;
-static BOOL					observingClickNotifications = NO;
+static NSString	*appName = nil;
+static NSData	*appIconData = nil;
+
+static id		delegate = nil;
+static BOOL		growlLaunched = NO;
+
+/* ***********************
+* This must be called before using GrowlAppBridge.  The methods in the GrowlAppBridgeDelegate are required;
+* other methods defined in the informal protocol are optional.
+* ***********************/
++ (void) setGrowlDelegate:(NSObject<GrowlAppBridgeDelegate> *)inDelegate
+{
+	NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
+	
+	[delegate autorelease];
+	delegate = [inDelegate retain];
+
+	//Cache the appName from the delegate
+	[appName autorelease];
+	appName = [[delegate growlAppName] retain];
+	
+	//Cache the appIconData from the delegate if it responds to the growlAppIconData selector
+	[appIconData autorelease];
+	if([delegate respondsToSelector:@selector(growlAppIconData)]){
+		appIconData = [[delegate growlAppIconData] retain];
+	}
+
+	//Add the observer for GROWL_IS_READY which will be triggered later if all goes well
+	[NSDNC addObserver:self 
+			  selector:@selector(_growlIsReady:)
+				  name:GROWL_IS_READY
+				object:nil]; 
+
+	//Watch for notification clicks if our delegate responds to the growlNotificationWasClicked: selector
+	if([delegate respondsToSelector:@selector(growlNotificationWasClicked:)]){
+		[NSDNC addObserver:self
+				  selector:@selector(_growlNotificationWasClicked:)
+					  name:GROWL_NOTIFICATION_CLICKED 
+					object:nil];
+	}else{
+		[NSDNC removeObserver:self
+						 name:GROWL_NOTIFICATION_CLICKED
+					   object:nil];
+	}
+
+	//Could do version checking here or something.
+	if( !(growlLaunched = [self launchGrowlIfInstalled]) ){
+		NSLog(@"Growl failed to launch.");
+	}
+}
 
 /*
- Send a notification to Growl for display. title, description, notifName, and appName are required.
+ Send a notification to Growl for display. title, description, and notifName are required.
  All other id parameters may be nil to accept defaults. priority is 0 by default; isSticky is FALSE by default.
  */
 + (void) notifyWithTitle:(NSString *)title
 			 description:(NSString *)description
 		notificationName:(NSString *)notifName
 				iconData:(NSData *)iconData 
-				 appName:(NSString *)appName
-			 appIconData:(NSData *)appIcon
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
 		  notificationID:(NSString *)notificationID
 {
-	//Notification and app names are required.
+	NSAssert(delegate != nil, @"+[GrowlAppBridge setGrowlDelegate:] must be called before using this method.");
+	
+	//Notification name is required.
 	NSParameterAssert(notifName != nil);
-	NSParameterAssert(appName != nil);
 
 	//At least one of title or description is required.
 	NSParameterAssert((title != nil) || (description != nil));
@@ -70,8 +126,8 @@ static BOOL					observingClickNotifications = NO;
 		[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON];
 	}
 	
-	if (appIcon) {
-		[noteDict setObject:appIcon forKey:GROWL_NOTIFICATION_APP_ICON];		
+	if (appIconData) {
+		[noteDict setObject:appIconData forKey:GROWL_NOTIFICATION_APP_ICON];		
 	}
 	
 	if (priority) {
@@ -86,11 +142,15 @@ static BOOL					observingClickNotifications = NO;
 		[noteDict setObject:notificationID forKey:GROWL_NOTIFICATION_ID];
 	}
 	
-	//Post to Growl via NSDistributedNotificationCenter
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																   object:nil
-																 userInfo:noteDict
-													   deliverImmediately:NO];
+	if (growlLaunched) {
+		//Post to Growl via NSDistributedNotificationCenter
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
+																	   object:nil
+																	 userInfo:noteDict
+														   deliverImmediately:NO];
+	} else {
+		NSLog(@"Growl failed to launch earlier!");
+	}
 }
 
 + (NSBundle *) growlPrefPaneBundle
@@ -136,18 +196,14 @@ static BOOL					observingClickNotifications = NO;
 }
 
 /*
- + (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict
+ + (BOOL)launchGrowlIfInstalledUsingRegistrationDict:(NSDictionary *)registrationDict
  Returns YES (TRUE) if the Growl helper app began launching.
  Returns NO (FALSE) and performs no other action if the Growl prefPane is not properly installed.
- GrowlApplicationBridge will send "selector" to "target" when Growl is ready for use (this will only occur when it also returns YES).
-	Note: selector should take a single argument; this is to allow applications to have context-relevent information passed back. It is perfectly
-	acceptable for context to be NULL.
  Passing registrationDict, which is an NSDictionary *for registering the application with Growl (see documentation elsewhere)
 	is the preferred way to register.  If Growl is installed but disabled, the application will be registered and GrowlHelperApp
-	will then quit.  "selector" will never be sent to "target" if Growl is installed but disabled; this method will still
-	return YES.
+	will then quit.  This method will still return YES if Growl is installed but disabled.
  */
-+ (BOOL) launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict
++ (BOOL) launchGrowlIfInstalled
 {
 	NSBundle		*growlPrefPaneBundle;
 	BOOL			success = NO;
@@ -156,27 +212,13 @@ static BOOL					observingClickNotifications = NO;
 
 	if (growlPrefPaneBundle) {
 		/* Here we could check against a current version number and ensure the installed Growl pane is the newest */
-		
+		NSDictionary	*registrationDict = [delegate growlRegistrationDict];
+
 		NSString	*growlHelperAppPath;
 		
 		//Extract the path to the Growl helper app from the pref pane's bundle
 		growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp" ofType:@"app"];
-		
-		//Launch the Growl helper app, which will notify us via growlIsReady when it is done launching
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:self 
-															selector:@selector(_growlIsReady:)
-																name:GROWL_IS_READY
-															  object:nil]; 
-		
-		//We probably will never have more than one target/selector/context set at a time, but this is cleaner than the alternatives
-		if (!launchNotificationTargets) {
-			launchNotificationTargets = [[NSMutableArray alloc] init];
-		}
-		NSDictionary	*infoDict = [NSDictionary dictionaryWithObjectsAndKeys:target, @"Target",
-										NSStringFromSelector(selector), @"Selector",
-										[NSValue valueWithPointer:context], @"Context",nil];
-		[launchNotificationTargets addObject:infoDict];
-		
+
 		//Houston, we are go for launch.
 		//Let's launch in the background (unfortunately, requires Carbon)
 		LSLaunchFSRefSpec spec;
@@ -216,12 +258,9 @@ static BOOL					observingClickNotifications = NO;
 
 	return success;
 }
-//Compatibility method. Do not use. If you're already using it, switch to the above method.
-+ (BOOL) launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context {
-	return [self launchGrowlIfInstalledNotifyingTarget:target
-											  selector:selector
-											   context:context
-									  registrationDict:nil];
+
++ (BOOL) isGrowlInstalled {
+	return( [GrowlAppBridge growlPrefPaneBundle] != nil );
 }
 
 + (BOOL) isGrowlRunning {
@@ -240,81 +279,34 @@ static BOOL					observingClickNotifications = NO;
 	return growlIsRunning;
 }
 
-+ (void) addNotificationClickObserver:(id)target
-							 selector:(SEL)selector
-							  appName:(NSString *)appName
-{
-	NSMutableArray	*appClickNotificationTargets;
-	
-	if(!clickNotificationTargetsDict) clickNotificationTargetsDict = [[NSMutableDictionary alloc] init];
-
-	//Get (or create if needed) the array of observerse for this appName
-	appClickNotificationTargets = [clickNotificationTargetsDict objectForKey:appName];
-	if (!appClickNotificationTargets) {
-		appClickNotificationTargets = [NSMutableArray array];
-		[clickNotificationTargetsDict setObject:appClickNotificationTargets
-										 forKey:appName];
-	}
-	
-	//Add this target and selector to the array
-	[appClickNotificationTargets addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		target, @"Target",
-		NSStringFromSelector(selector), @"Selector",
-		nil]];
-
-	//If we are not yet observig click notificaitons, add an observer to the distributed notifications center
-	if(!observingClickNotifications){
-		observingClickNotifications = YES;
-
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-															selector:@selector(_growlNotificationClicked:)
-																name:GROWL_NOTIFICATION_CLICKED 
-															  object:nil];
-	}
-}
-
-+ (void) _growlNotificationClicked:(NSNotification *)notification
+/* Selector called when a growl notification is clicked.  This should never be called manually, and the calling observer
+ * should only be registed if the delegate responds to growlNotificationWasClicked: */
++ (void) _growlNotificationWasClicked:(NSNotification *)notification
 {
 	NSDictionary	*userInfo = [notification userInfo];
-	NSMutableArray	*appClickNotificationTargets = [clickNotificationTargetsDict objectForKey:[userInfo objectForKey:GROWL_APP_NAME]];
 
-	if(appClickNotificationTargets){
-		NSString		*notificationID = [userInfo objectForKey:GROWL_NOTIFICATION_ID];
-		NSEnumerator	*enumerator;
-		NSDictionary	*infoDict;
-		
-		enumerator = [appClickNotificationTargets objectEnumerator];
-		while ( (infoDict = [enumerator nextObject] ) ) {
-			id  target = [infoDict objectForKey:@"Target"];
-			SEL selector = NSSelectorFromString([infoDict objectForKey:@"Selector"]);
-			
-			[target performSelector:selector
-						 withObject:notificationID];
-		}
+	if([[userInfo objectForKey:GROWL_APP_NAME] isEqualToString:[delegate growlAppName]]){
+		[delegate performSelector:@selector(growlNotificationWasClicked:)
+						 withObject:[userInfo objectForKey:GROWL_NOTIFICATION_ID]];
 	}
 }
 
 
 + (void)_growlIsReady:(NSNotification *)notification
 {
-	NSEnumerator	*enumerator = [launchNotificationTargets objectEnumerator];
-	NSDictionary	*infoDict;
-	while ( (infoDict = [enumerator nextObject] ) ) {
-		id  target = [infoDict objectForKey:@"Target"];
-		SEL selector = NSSelectorFromString([infoDict objectForKey:@"Selector"]);
-		void *context = [[infoDict objectForKey:@"Context"] pointerValue];
-		
-		[target performSelector:selector
-					 withObject:context];
+	//Inform our delegate if it is interested
+	if([delegate respondsToSelector:@selector(growlIsReady)]){
+		[delegate growlIsReady];
 	}
 
+	//Post a notification locally
+	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
+														object:nil];
+	
 	//Stop observing for GROWL_IS_READY
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self
 															   name:GROWL_IS_READY
 															 object:nil];
-
-	//Clear our tracking array
-	[launchNotificationTargets release]; launchNotificationTargets = nil;
 }
 
 // Returns an enumerator covering each of the locations preference panes can live

@@ -107,6 +107,8 @@
 			targets = (
 				8D202CE80486D31800D8A456,
 				CB61E5170637763C00E0DDC7,
+				34F60EAA078E1CD500CECA86,
+				34F60EF8078E226300CECA86,
 				0A7F5CCC0767BFD000E1C1E4,
 				0A7F5EC40767C2A600E1C1E4,
 				0A7F5F110767C38200E1C1E4,
@@ -121,14 +123,16 @@
 				953C3EFE0747970800F2A737,
 				CB910DA8074E0A5F00278FC5,
 				52861ED706DBA80800D3A356,
-				34CEA3930680A77C00670E0D,
 				A14BBE0806EE1C0400530EED,
 				CB5F835E0638B67C00EADD7A,
+				34CEA3930680A77C00670E0D,
 				63C0610006C8948700B0B7D4,
 				CB5F836E0638B69900EADD7A,
 				0A7F5CC00767BF8A00E1C1E4,
 				089C1671FE841209C02AAC07,
 				19C28FB8FE9D52D311CA2CBB,
+				34F60EAC078E1CD500CECA86,
+				34F60EFA078E226400CECA86,
 			);
 			isa = PBXGroup;
 			name = Growl;
@@ -2054,6 +2058,8 @@
 				0AB508B20767C87B006EA5CB,
 				0AB508B30767C87B006EA5CB,
 				0AB508B40767C87B006EA5CB,
+				34F60EAB078E1CD500CECA86,
+				34F60EF9078E226300CECA86,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -2103,28 +2109,13 @@
 		};
 		34CEA3930680A77C00670E0D = {
 			children = (
-				34CEA39C0680A7BF00670E0D,
-				34CEA39D0680A7BF00670E0D,
+				34F60EC2078E1D5600CECA86,
+				34F60EB8078E1D3E00CECA86,
+				34F60EB6078E1D3E00CECA86,
 			);
 			isa = PBXGroup;
-			name = "Application Bridge";
+			name = "Growl.framework (App Bridge)";
 			path = "";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		34CEA39C0680A7BF00670E0D = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlApplicationBridge.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		34CEA39D0680A7BF00670E0D = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlApplicationBridge.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2135,6 +2126,280 @@
 			path = GrowlDefines.h;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		34F60EA6078E1CD500CECA86 = {
+			buildActionMask = 2147483647;
+			files = (
+				34F60EBC078E1D3E00CECA86,
+				34F60EC3078E1D5600CECA86,
+				34F60ED0078E1DCC00CECA86,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34F60EA7078E1CD500CECA86 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34F60EA8078E1CD500CECA86 = {
+			buildActionMask = 2147483647;
+			files = (
+				34F60EBA078E1D3E00CECA86,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34F60EA9078E1CD500CECA86 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34F60EAA078E1CD500CECA86 = {
+			buildPhases = (
+				34F60EA6078E1CD500CECA86,
+				34F60EA7078E1CD500CECA86,
+				34F60EA8078E1CD500CECA86,
+				34F60EA9078E1CD500CECA86,
+				34F6105E078E4D4B00CECA86,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Growl.framework-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Growl;
+				SECTORDER_FLAGS = "";
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = Growl.framework;
+			productName = Growl.framework;
+			productReference = 34F60EAB078E1CD500CECA86;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Growl.framework</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Growl_framework</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>FMWK</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.framework";
+		};
+		34F60EAB078E1CD500CECA86 = {
+			explicitFileType = wrapper.framework;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = Growl.framework;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		34F60EAC078E1CD500CECA86 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Growl.framework-Info.plist";
+			path = "/Users/evands/growl/Growl.framework-Info.plist";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		34F60EB6078E1D3E00CECA86 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlAppBridge.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34F60EB8078E1D3E00CECA86 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlAppBridge.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34F60EBA078E1D3E00CECA86 = {
+			fileRef = 34F60EB6078E1D3E00CECA86;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34F60EBC078E1D3E00CECA86 = {
+			fileRef = 34F60EB8078E1D3E00CECA86;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		34F60EC2078E1D5600CECA86 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = Growl.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34F60EC3078E1D5600CECA86 = {
+			fileRef = 34F60EC2078E1D5600CECA86;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		34F60ED0078E1DCC00CECA86 = {
+			fileRef = 34E9AA79074BC98A00D59950;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		34F60EF4078E226300CECA86 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34F60EF5078E226300CECA86 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34F60EF6078E226300CECA86 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34F60EF7078E226300CECA86 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34F60EF8078E226300CECA86 = {
+			buildPhases = (
+				34F60EF4078E226300CECA86,
+				34F60EF5078E226300CECA86,
+				34F60EF6078E226300CECA86,
+				34F60EF7078E226300CECA86,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Growl-WithInstaller.framework-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "-DGROWL_WITH_INSTALLER";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Growl-WithInstaller.framework";
+				SECTORDER_FLAGS = "";
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = "Growl-WithInstaller.framework";
+			productName = "Growl-WithInstaller.framework";
+			productReference = 34F60EF9078E226300CECA86;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Growl-WithInstaller.framework</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Growl_WithInstaller_framework</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>FMWK</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.framework";
+		};
+		34F60EF9078E226300CECA86 = {
+			explicitFileType = wrapper.framework;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = "Growl-WithInstaller.framework.framework";
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		34F60EFA078E226400CECA86 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Growl-WithInstaller.framework-Info.plist";
+			path = "/Users/evands/growl/Growl-WithInstaller.framework-Info.plist";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		34F6105E078E4D4B00CECA86 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "find $BUILD_ROOT/$WRAPPER_NAME '(' -name '.svn' -or -name '.DS_Store' ')' -prune -exec rm -rf '{}' ';'\n";
 		};
 //340
 //341
