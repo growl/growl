@@ -34,6 +34,15 @@ enum {
 	togglePollingTag
 };
 
+@interface NSObject(GrowlTunesDummyPlugin)
+
+//shuts up a warning.
+- (NSImage *)artworkForTitle:(NSString *)track
+					byArtist:(NSString *)artist
+					 onAlbum:(NSString *)album;
+
+@end
+
 @implementation GrowlTunesController
 
 - (id)init
@@ -122,7 +131,7 @@ enum {
 
 - (void)poll: (NSTimer *)timer
 {
-	NSDictionary			* error;
+	NSDictionary			* error = nil;
 	NSAppleEventDescriptor  * retVal;
 	NSString				* playerState;
 	iTunesState				newState;
@@ -173,7 +182,8 @@ enum {
 					album = [retVal stringValue];
 				
 				retVal = [getArtworkScript executeAndReturnError:&error];
-				if(retVal)
+				const OSType type = [retVal typeCodeValue];
+				if(type && (type != 'null'))
 					artwork = [[[NSImage alloc] initWithData:[retVal data]] autorelease];
 				else {
 					NSEnumerator *pluginEnum = [plugins objectEnumerator];
@@ -392,8 +402,11 @@ enum {
 		NSString *curPath;
 		while(curPath = [pluginEnum nextObject]) {
 			if([[curPath pathExtension] isEqualToString:pluginPathExtension]) {
+				curPath = [pluginsPath stringByAppendingPathComponent:curPath];
 				NSBundle *plugin = [NSBundle bundleWithPath:curPath];
-				[newPlugins addObject:[[[[plugin principalClass] alloc] init] autorelease]];
+				id instance = [[[[plugin principalClass] alloc] init] autorelease];
+				[newPlugins addObject:instance];
+				NSLog(@"Loaded plug-in \"%@\" with id %p", [curPath lastPathComponent], instance);
 			}
 		}
 
@@ -401,6 +414,18 @@ enum {
 		[newPlugins autorelease];
 	}
 	return newPlugins;
+}
+
+@end
+
+@implementation NSObject(GrowlTunesDummyPlugin)
+
+- (NSImage *)artworkForTitle:(NSString *)track
+					byArtist:(NSString *)artist
+					 onAlbum:(NSString *)album
+{
+	NSLog(@"Dummy plug-in %p called for artwork", self);
+	return nil;
 }
 
 @end
