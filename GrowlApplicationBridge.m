@@ -168,51 +168,6 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	}
 }
 
-+ (NSBundle *) growlPrefPaneBundle {
-	NSString		*path;
-	NSString		*bundleIdentifier;
-	NSEnumerator	*preferencePanesPathsEnumerator;
-	NSBundle		*prefPaneBundle;
-	
-	// First up, we'll have a look for Growl.prefPane, and if it exists, check it is our prefPane
-	// This is much faster than having to enumerate all preference panes, and can drop a significant
-	// amount of time off this code
-	preferencePanesPathsEnumerator = [self _preferencePaneSearchEnumerator];
-	while ((path = [preferencePanesPathsEnumerator nextObject])) {
-		path = [path stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
-		
-		if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-			prefPaneBundle = [NSBundle bundleWithPath:path];
-			
-			if (prefPaneBundle){
-				bundleIdentifier = [prefPaneBundle bundleIdentifier];
-				
-				if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]){
-					return prefPaneBundle;
-				}
-			}
-		}
-	}
-	
-	//Enumerate all installed preference panes, looking for the growl prefpane bundle identifier and stopping when we find it
-	//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
-	//of course will not.  If the user wants to destroy the info.plist file inside the bundle, he/she deserves not to have a working Growl installation.
-	preferencePanesPathsEnumerator = [[GrowlApplicationBridge _allPreferencePaneBundles] objectEnumerator];
-	while ( (path = [preferencePanesPathsEnumerator nextObject] ) ) {
-		prefPaneBundle = [NSBundle bundleWithPath:path];
-		
-		if (prefPaneBundle) {
-			bundleIdentifier = [prefPaneBundle bundleIdentifier];
-			
-			if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]) {
-				return prefPaneBundle;
-			}
-		}
-	}
-	
-	return nil;
-}
-
 /*	+ (BOOL)launchGrowlIfInstalled
  *
  *Returns YES if the Growl helper app began launching or was already running.
@@ -390,6 +345,51 @@ static BOOL				promptedToUpgradeGrowl = NO;
     }
 
 	return allPreferencePaneBundles;
+}
+
++ (NSBundle *) growlPrefPaneBundle {
+	NSString		*path;
+	NSString		*bundleIdentifier;
+	NSEnumerator	*preferencePanesPathsEnumerator;
+	NSBundle		*prefPaneBundle;
+	
+	// First up, we'll have a look for Growl.prefPane, and if it exists, check it is our prefPane
+	// This is much faster than having to enumerate all preference panes, and can drop a significant
+	// amount of time off this code
+	preferencePanesPathsEnumerator = [self _preferencePaneSearchEnumerator];
+	while ((path = [preferencePanesPathsEnumerator nextObject])) {
+		path = [path stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
+		
+		if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+			prefPaneBundle = [NSBundle bundleWithPath:path];
+			
+			if (prefPaneBundle){
+				bundleIdentifier = [prefPaneBundle bundleIdentifier];
+				
+				if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]){
+					return prefPaneBundle;
+				}
+			}
+		}
+	}
+	
+	//Enumerate all installed preference panes, looking for the growl prefpane bundle identifier and stopping when we find it
+	//Note that we check the bundle identifier because we should not insist the user not rename his preference pane files, although most users
+	//of course will not.  If the user wants to destroy the info.plist file inside the bundle, he/she deserves not to have a working Growl installation.
+	preferencePanesPathsEnumerator = [[GrowlApplicationBridge _allPreferencePaneBundles] objectEnumerator];
+	while ( (path = [preferencePanesPathsEnumerator nextObject] ) ) {
+		prefPaneBundle = [NSBundle bundleWithPath:path];
+		
+		if (prefPaneBundle) {
+			bundleIdentifier = [prefPaneBundle bundleIdentifier];
+			
+			if (bundleIdentifier && [bundleIdentifier isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]) {
+				return prefPaneBundle;
+			}
+		}
+	}
+	
+	return nil;
 }
 
 #ifdef GROWL_WITH_INSTALLER
