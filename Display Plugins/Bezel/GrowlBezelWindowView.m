@@ -42,7 +42,7 @@
 	[[NSColor clearColor] set];
 	NSRectFill( [self frame] );
 
-	NSBezierPath *path = [NSBezierPath roundedRectPath:bounds radius:BORDER_RADIUS lineWidth:1.0f];
+	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:bounds radius:BORDER_RADIUS];
 
 	int opacityPref = 40;
 	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);

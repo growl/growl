@@ -15,6 +15,20 @@
 #import "GrowlBezierPathAdditions.h"
 #import <math.h>
 
+/* Hardcoded geometry values */
+#define PANEL_WIDTH_PX			270.0f /*!< Total width of the panel, including border */
+#define BORDER_WIDTH_PX			  4.0f
+#define BORDER_RADIUS_PX		  9.0f
+#define PANEL_VSPACE_PX			 10.0f /*!< Vertical padding from bounds to content area */
+#define PANEL_HSPACE_PX			 15.0f /*!< Horizontal padding from bounds to content area */
+#define ICON_SIZE_PX			 32.0f /*!< The width and height of the (square) icon */
+#define ICON_HSPACE_PX			  8.0f /*!< Horizontal space between icon and title/description */
+#define TITLE_VSPACE_PX			 15.0f /*!< Vertical space between title and description */
+#define TITLE_FONT_SIZE_PTS		 13.0f
+#define DESCR_FONT_SIZE_PTS		 11.0f
+#define MIN_TEXT_HEIGHT_PX		 30.0f
+#define MAX_TEXT_ROWS			    5  /*!< The maximum number of rows of text, used only if the limit preference is set. */
+
 static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outData )
 {
 	NSColor *bgColor = (NSColor *) info;
@@ -43,6 +57,8 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 @implementation GrowlBubblesWindowView
 - (id) initWithFrame:(NSRect) frame {
 	if ( (self = [super initWithFrame:frame] ) ) {
+		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
+		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
 		icon   = nil;
 		title  = nil;
 		text   = nil;
@@ -50,26 +66,27 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 		titleHeight = 0.0f;
 		target = nil;
 		action = NULL;
-		borderColor = [NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
+		borderColor = [[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:0.5f] retain];
 	}
 	return self;
 }
 
 - (void) dealloc {
+	[titleFont release];
+	[textFont release];
 	[icon release];
 	[title release];
 	[text release];
 	[bgColor release];
 	[textColor release];
+	[borderColor release];
 
 	[super dealloc];
 }
 
 - (float)titleHeight {
 	if ( !titleHeight ) {
-		NSLayoutManager *lm = [[NSLayoutManager alloc] init];
-		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:13.0f]];
-		[lm release];
+		titleHeight = [titleFont defaultLineHeightForFont];
 	}
 
 	return titleHeight;
@@ -82,7 +99,11 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	[[NSColor clearColor] set];
 	NSRectFill( frame );
 
-	NSBezierPath *path = [NSBezierPath roundedRectPath:bounds radius:9.0f lineWidth:4.0f];
+	// Create a path with enough room to strike the border and remain inside our frame.
+	// Since the path is in the middle of the line, this means we must inset it by half the border width.
+	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(bounds, BORDER_WIDTH_PX/2.0f, BORDER_WIDTH_PX/2.0f)
+														  radius:BORDER_RADIUS_PX];
+	[path setLineWidth:BORDER_WIDTH_PX];
 
 	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
 	[graphicsContext saveGraphicsState];
@@ -113,38 +134,35 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	[borderColor set];
 	[path stroke];
 
-	// Top of the drawing area. The eye candy takes up 10 pixels on 
-	// the top, so we've reserved some space for it.
-	float contentHeight = frame.size.height - 10.0f;
+	float contentHeight = frame.size.height - PANEL_VSPACE_PX;
 	float savedTitleHeight = [self titleHeight];
 	float titleYPosition = contentHeight - savedTitleHeight;
 	NSRect drawRect;
-	drawRect.origin.x = 55.0f;
+	drawRect.origin.x = PANEL_HSPACE_PX + ICON_SIZE_PX + ICON_HSPACE_PX;
 	drawRect.origin.y = titleYPosition;
-	drawRect.size.width = 200.0f;
+	drawRect.size.width = PANEL_WIDTH_PX - PANEL_HSPACE_PX - drawRect.origin.x;
 	drawRect.size.height = savedTitleHeight;
 
 	[title drawWithEllipsisInRect:drawRect withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
-			[NSFont boldSystemFontOfSize:13.0f], NSFontAttributeName,
+			titleFont, NSFontAttributeName,
 			textColor, NSForegroundColorAttributeName,
 			nil]];
 
-	drawRect.origin.y = 10.0f;
-	drawRect.size.height = titleYPosition - 10.0f;
+	drawRect.origin.y = PANEL_VSPACE_PX;
+	drawRect.size.height = titleYPosition - TITLE_VSPACE_PX;
 
 	[text drawInRect:drawRect withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
-			[NSFont messageFontOfSize:11.0f], NSFontAttributeName,
+			textFont, NSFontAttributeName,
 			textColor, NSForegroundColorAttributeName,
 			nil]];
 	
-	drawRect.origin.x = 15.0f;
-	drawRect.origin.y = contentHeight - 35.0f;
-	drawRect.size.width = 32.0f;
-	drawRect.size.height = 32.0f;
+	drawRect.origin.x = PANEL_HSPACE_PX;
+	drawRect.origin.y = contentHeight - ICON_SIZE_PX;
+	drawRect.size.width = ICON_SIZE_PX;
+	drawRect.size.height = ICON_SIZE_PX;
 	
-	// we do this because we are always working with a copy
 	[icon drawScaledInRect:drawRect
 				  operation:NSCompositeSourceAtop
 				   fraction:1.0f];
@@ -235,58 +253,45 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 - (void) sizeToFit {
     NSRect rect = [self frame];
-	rect.size.height = 10.0f + 12.0f + 15.0f + [self descriptionHeight];
+	rect.size.width = PANEL_WIDTH_PX;
+	rect.size.height = 2.0f * PANEL_VSPACE_PX + [self titleHeight] + TITLE_VSPACE_PX + [self descriptionHeight];
 	[self setFrame:rect];
 }
 
 - (float) descriptionHeight {
 	if (!textHeight) {
-		NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text attributes:
-			[NSDictionary dictionaryWithObjectsAndKeys:
-				[NSFont messageFontOfSize:11.0f], NSFontAttributeName,
-				textColor, NSForegroundColorAttributeName,
-				nil]];
-		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:attributedText];
-		NSTextContainer *textContainer = [[[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize ( 200.0f, FLT_MAX )] autorelease];
-		NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
-
-		[layoutManager addTextContainer:textContainer];
-		[textStorage addLayoutManager:layoutManager];
-		[layoutManager glyphRangeForTextContainer:textContainer];
-
-		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-		[attributedText release];
-
-		// for some reason, this code is using a 13-point line height for calculations, but the font 
-		// in fact renders in 14 points of space. Do some adjustments.
-		int rowCount = textHeight / 13;
-		BOOL limitPref = YES;
-		READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
-		if (limitPref) {
-			textHeight = MIN(rowCount, 5) * 14.0f;
-		} else {
-			textHeight = rowCount * 14.0f;
-		}
+		textHeight = [self descriptionRowCount] * [textFont defaultLineHeightForFont];
+		textHeight = MAX(textHeight, MIN_TEXT_HEIGHT_PX);
 	}
-	return MAX (textHeight, 30.0f);
+	return textHeight;
 }
 
 - (int) descriptionRowCount {
-	float height = [self descriptionHeight];
 	NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text attributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
-			[NSFont messageFontOfSize:11.0f], NSFontAttributeName,
+			textFont, NSFontAttributeName,
 			textColor, NSForegroundColorAttributeName,
 			nil]];
-	float lineHeight = [attributedText size].height;
+	NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:attributedText];
+	NSTextContainer *textContainer = [[[NSTextContainer alloc]
+		initWithContainerSize:NSMakeSize ( PANEL_WIDTH_PX - 2.0f * PANEL_HSPACE_PX - ICON_SIZE_PX - ICON_HSPACE_PX,
+										   FLT_MAX )] autorelease];
+	NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
+
+	[layoutManager addTextContainer:textContainer];
+	[textStorage addLayoutManager:layoutManager];
+	[layoutManager glyphRangeForTextContainer:textContainer];
+
+	textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
 	[attributedText release];
+
+	int rowCount = textHeight / [textFont defaultLineHeightForFont];
 	BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
 	if (limitPref) {
-		return MIN((int) (height / lineHeight), 5);
+		return MIN(rowCount, MAX_TEXT_ROWS);
 	} else {
-		return (int) (height / lineHeight);
+		return rowCount;
 	}
 }
 

@@ -65,9 +65,8 @@ static float titleHeight;
 	}
 
 	// set up bezier path for rounded corners
-	NSBezierPath *path = [NSBezierPath roundedRectPath:shadedBounds
-												radius:GrowlSmokeBorderRadius
-											 lineWidth:1.0f];
+	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:shadedBounds
+														  radius:GrowlSmokeBorderRadius];
 
 	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
 	[graphicsContext saveGraphicsState];

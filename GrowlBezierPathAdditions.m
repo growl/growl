@@ -9,17 +9,15 @@
 #import "GrowlBezierPathAdditions.h"
 
 @implementation NSBezierPath(GrowlBezierPathAdditions)
-+ (NSBezierPath *)roundedRectPath:(NSRect)rect radius:(float)radius lineWidth:(float)lineWidth
++ (NSBezierPath *)bezierPathWithRoundedRect:(NSRect)rect radius:(float)radius
 {
-	float inset = radius + lineWidth;
-	NSRect irect = NSInsetRect( rect, inset, inset );
+	NSRect irect = NSInsetRect( rect, radius, radius );
 	float minX = NSMinX( irect );
 	float minY = NSMinY( irect );
 	float maxX = NSMaxX( irect );
 	float maxY = NSMaxY( irect );
 
 	NSBezierPath *path = [NSBezierPath bezierPath];
-	[path setLineWidth:lineWidth];
 
 	[path appendBezierPathWithArcWithCenter:NSMakePoint( minX, minY )
 									 radius:radius 

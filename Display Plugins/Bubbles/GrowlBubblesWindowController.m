@@ -34,8 +34,10 @@ static unsigned bubbleWindowDepth = 0U;
 #pragma mark Regularly Scheduled Coding
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
-	extern unsigned bubbleWindowDepth;
 
+	#warning View is bleeding into the controller here; these hardcoded pixels dont belong.
+	// I tried setting the width/height to zero, since the view resizes itself later.
+	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f ) 
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered defer:NO] autorelease];
@@ -71,7 +73,8 @@ static unsigned bubbleWindowDepth = 0U;
 	
 	if ( (self = [super initWithWindow:panel] ) ) {
 		#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
-		if ( (NSMaxY(panelFrame) - NSHeight(panelFrame) - [NSMenuView menuBarHeight]) < 0.0f ) {
+		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
+		if ( NSMinY(panelFrame) < 0.0f ) {
 			depth = bubbleWindowDepth = 0U;
 		} else {
 			depth = bubbleWindowDepth += NSHeight( panelFrame );
@@ -82,10 +85,7 @@ static unsigned bubbleWindowDepth = 0U;
 		
 		// the visibility time for this bubble should be the minimum display time plus
 		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
-		int rowCount = [view descriptionRowCount];
-		if (rowCount <= 2) {
-			rowCount = 0;
-		}
+		int rowCount = MIN ([view descriptionRowCount], 0) - 2;
 		BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
 		if (!limitPref) {
@@ -102,7 +102,6 @@ static unsigned bubbleWindowDepth = 0U;
 - (void) dealloc {
 	[target release];
 
-	extern unsigned bubbleWindowDepth;
 	if ( depth == bubbleWindowDepth ) {
 		bubbleWindowDepth = 0U;
 	}

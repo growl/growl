@@ -13,6 +13,8 @@
 #import "GrowlBubblesPrefsController.h"
 
 @interface GrowlBubblesWindowView : NSView {
+	NSFont		*titleFont;
+	NSFont		*textFont;
 	NSImage		*icon;
 	NSString	*title;
 	NSString	*text;
