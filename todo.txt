@@ -20,9 +20,27 @@ Release related issues
 - Create graphics for developers to show that they have growl support in their application. Multiple different forms of this would be good.
 
 
+For .7
+
+- Concentrate just on networking.
+	- Properly document the networking protocol
+	- Decide on what we want to use for the long term (1-2 years at least)
+	- Create a gui for sensibly managing the remote notifications
+	- Add support to add remote machine names manually
+	- Support for the gnome notifications system if it ever adds a networking protocol for its notifications
+	- Use a generic icon for incoming UDP notifications. Sending an icon over the network
+	  makes the packets too large.
+	- Should we add password authentification to UDP notifications as well?
+	- Should we be using DO? (directed at Karl)
+
+Release related issues (.7)
+ -Create a branch for the .7 release
+	- Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
+- DMG & PKG
+- Make sure we have user documentation on everything we have.
 
 
-For .7 (The Kitchen Sink) or sooner
+For .8 (The Kitchen Sink) or sooner
 - Display plugins
 	- A preview button of some sort.
 	- Coalescing of notifications of similar type for notifications that can use it.
@@ -36,14 +54,6 @@ For .7 (The Kitchen Sink) or sooner
 		- A square
 	- Restructure all Display Plugins to inherit functionality from one global GrowlDisplayPlugin class residing in Growl.framework
 		- GrowlDisplayPlugin should take care of mPositionRect, a Rect in GrowlDisplayPlugin that can trigger KeyObservation calls to edit it to not intersect with any other currently active notifications
-
-
-- Network Notifications
-	- Add support to add remote machine names manually
-	- Support for the gnome notifications system if it ever adds a networking protocol for its notifications
-	- Use a generic icon for incoming UDP notifications. Sending an icon over the network
-	  makes the packets too large.
-	- Should we add password authentification to UDP notifications as well?
 
 - Preference pane redesign
 	- Apps tab switch to app centric with custom View for notifications using images to represent the available options
@@ -86,7 +96,7 @@ For .7 (The Kitchen Sink) or sooner
 	- Growltunes needs preferences.
 	- Give macyac a gui for configuration/launching.
 
-For .8 or sooner
+For .9 or sooner
 - Downloads tab
 	- This will allow for display plugins to be distributed separate from Growl itself.
 	- For applications that bundle Growl, they will not have to add in multiple displays as a bad thing (due to size increase).
@@ -103,7 +113,7 @@ For .8 or sooner
 	- Garage Band black look.
 	- Brushed Metal/Aqua
 
-For .9 or sooner
+For 1.0 or sooner
 - We'll probably be using 10.4 by now, let's make a webkit dispaly if feasible.
 
 -----------------------------------------
