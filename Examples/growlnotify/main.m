@@ -34,7 +34,6 @@ int main (int argc, const char **argv) {
 			@"growlnotify", GROWL_APP_NAME,
 			title, GROWL_NOTIFICATION_TITLE,
 			desc, GROWL_NOTIFICATION_DESCRIPTION,
-			[NSData data], GROWL_NOTIFICATION_ICON,
 			nil];
 		NSLog(@"Sending notification with title @\"%@\"", title);
 		[distCenter postNotificationName:GROWL_NOTIFICATION
