@@ -10,6 +10,7 @@
 #import "GrowlController.h"
 #include <netinet/in.h>
 #include <sys/types.h>
+#include <sys/socket.h>
 
 @implementation GrowlUDPServer
 - (void)dealloc
