@@ -89,6 +89,7 @@
 			icon = [[[NSImage alloc] initWithData:imageData] autorelease];
 		} else if (pictureData != nil){
 			icon = [[[NSImage alloc] initWithData:pictureData] autorelease];
+			[icon setScalesWhenResized: YES];
 		}
 		
 		if (icon != nil) {
