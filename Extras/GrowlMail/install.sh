@@ -1,26 +1,48 @@
 #!/bin/bash
 # Script for installing GrowlMail
-# This will quit Mail, and then install GrowlMail. It will move old GrowlMail to the trash.
-# This will not enable plugins in mail's prefs file currently.
+# This will install GrowlMail, quit Mail, enable plug-ins in Mail, and relaunch Mail. It will move an old GrowlMail (if present) to the trash.
+# It uses the home folder as the destination by default, though this can be changed.
 #
 
-killall Mail
-HOMEDIR=pwd
-if  test -e "$HOME/Library/Mail/Bundles/GrowlMail.mailbundle"
-    then
-    echo "GrowlMail exists, moving to trash"
-    ditto --rsrc $HOME/Library/Mail/Bundles/GrowlMail.mailbundle $HOME/.Trash
-    if test ! -d $HOME/Library/Mail/Bundles/GrowlMail.mailbundle; then
-        rm $HOME/Library/Mail/Bundles/GrowlMail.mailbundle
-    fi
-    else
-    Echo "GrowlMail is not there, attempting to make Bundles folder"
-    mkdir $HOME/Library/Mail/Bundles
+SRC="$PWD/build"
+DEST="$HOME/Library/Mail/Bundles"
+
+echo SRC=$SRC
+echo DEST=$DEST
+
+if test -e $DEST; then
+	echo "$0: GrowlMail exists, moving to trash"
+	echo ditto --rsrc $SRC/GrowlMail.mailbundle $HOME/.Trash
+	ditto --rsrc $SRC/GrowlMail.mailbundle $HOME/.Trash
+	if test ! -d $SRC/GrowlMail.mailbundle; then
+		echo rm $SRC/GrowlMail.mailbundle
+		rm $SRC/GrowlMail.mailbundle
+	fi
+else
+	echo "$0: GrowlMail is not there, making Bundles folder if necessary"
+	echo mkdir $HOME/Library/Mail/Bundles
+	mkdir $HOME/Library/Mail/Bundles
+	if test ! -?; then
+		echo "$0: Could not create Bundles folder - try repairing your permissions"
+	fi
 fi
-if test -e "$PWD/build/GrowlMail.mailbundle/"
-    then
-    echo "It's there"
-    ditto --rsrc $PWD/build/GrowlMail.mailbundle/ $HOME/Library/Mail/Bundles/
-    else
-    Echo "GrowlMail is not built, you need to build it first."
+if test ! -e "$SRC/GrowlMail.mailbundle"; then
+	echo xcodebuild
+	xcodebuild
+else
+	true
 fi
+if test -?; then
+	echo ditto --rsrc $SRC/GrowlMail.mailbundle $DEST
+	ditto --rsrc $SRC/GrowlMail.mailbundle $DEST
+fi
+
+echo "$0: Enabling plug-ins in Mail (if they are already enabled, this will have no effect)"
+echo defaults write com.apple.mail EnableBundles -bool YES
+defaults write com.apple.mail EnableBundles -bool YES
+echo defaults write com.apple.mail BundleCompatibilityVersion -int 1
+defaults write com.apple.mail BundleCompatibilityVersion -int 1
+
+echo "$0: Relaunching Mail if necessary (if Mail is not already running, this will do nothing)
+echo (killall Mail 2>/dev/null) && open -a Mail
+(killall Mail 2>/dev/null) && open -a Mail
