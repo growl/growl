@@ -15,6 +15,7 @@
 #import "NSGrowlAdditions.h"
 #import "GrowlDisplayProtocol.h"
 #import "GrowlDefines.h"
+#import "SVNRevision.h"
 #import <sys/socket.h>
 
 @interface GrowlController (private)
@@ -340,8 +341,10 @@ static id singleton = nil;
 
 - (NSDictionary *)versionDictionary {
 	if (!versionInfo) {
+		if(version.releaseType == svn)
+			version.development = SVN_REVISION;
+
 		const unsigned long long *versionNum = (const unsigned long long *)&version;
-		version.development = strtol( strchr( "$Revision$", ' ' ), NULL, 10 );
 		versionInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithUnsignedLongLong:*versionNum], @"Complete version",
 			[self growlVersion], @"CFBundleVersion",
@@ -358,10 +361,10 @@ static id singleton = nil;
 	return versionInfo;
 }
 //this method could be moved to Growl.framework, I think.
+//pass nil to get GrowlHelperApp's version as a string.
 - (NSString *)stringWithVersionDictionary:(NSDictionary *)d {
-	if (!d) {
-		d = versionInfo;
-	}
+	if (!d)
+		d = [self versionDictionary];
 
 	//0.6
 	NSMutableString *result = [NSMutableString stringWithFormat:@"%@.%@",
@@ -429,6 +432,7 @@ static id singleton = nil;
 }
 
 #pragma mark NSApplication Delegate Methods
+
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {	
 	BOOL retVal = NO;
 	NSString *pathExtension = [filename pathExtension];
@@ -472,6 +476,15 @@ static id singleton = nil;
 }
 
 - (void) applicationWillFinishLaunching:(NSNotification *)aNotification {
+	BOOL printVersionAndExit = [[NSUserDefaults standardUserDefaults] boolForKey:@"PrintVersionAndExit"];
+	if(printVersionAndExit) {
+		printf("This is GrowlHelperApp version %s.\n"
+			   "PrintVersionAndExit was set to %u, so GrowlHelperApp will now exit.\n",
+			   [[self stringWithVersionDictionary:nil] UTF8String],
+			   printVersionAndExit);
+		[NSApp terminate:nil];
+	}
+
 	NSFileManager *fs = [NSFileManager defaultManager];
 
 	NSString *destDir, *subDir;
