@@ -105,7 +105,7 @@
 - (void)reloadAppTab {
 	if(currentApplication) [currentApplication release];
 //	currentApplication = [[growlApplications titleOfSelectedItem] retain];
-	if ([growlApplications selectedRow] < 0)
+	if (([growlApplications selectedRow] < 0) && ([[GrowlApplicationTicket allSavedTickets] count] > 0))
 		[growlApplications selectRow:0 byExtendingSelection:NO];
 	currentApplication = [[applications objectAtIndex:[growlApplications selectedRow]] retain];
 	appTicket = [tickets objectForKey: currentApplication];
@@ -122,7 +122,7 @@
 - (void)reloadDisplayTab {
 	if (currentPlugin) [currentPlugin release];
 	
-	if ([displayPlugins selectedRow] < 0)
+	if (([displayPlugins selectedRow] < 0) && ([[[GrowlPluginController controller] allDisplayPlugins] count] > 0))
 		[displayPlugins selectRow:0 byExtendingSelection:NO];
 	currentPlugin = [[[[GrowlPluginController controller] allDisplayPlugins] objectAtIndex:[displayPlugins selectedRow]] retain];
 	[self loadViewForDisplay:currentPlugin];
