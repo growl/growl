@@ -55,8 +55,8 @@
 
 			if(length) {
 				// add the ellipsis itself to indicate that there's missing text
-				static const char ellipsisUTF8[] = "\xE2\x80\xA6";
-				[newString appendString:[NSString stringWithUTF8String:ellipsisUTF8]];
+				static const unichar ellipsis = 0x2026U;
+				[newString appendString:[NSString stringWithCharacters:&ellipsis length:1U]];
 			}
 		}
 		

@@ -64,10 +64,10 @@
 		NSEnumerator *enumerator = [reps objectEnumerator];
 		while ( (thisRep = [enumerator nextObject]) ) {
 			thisDistance = theSize.width - [thisRep size].width;
-			if (repDistance < 0 && thisDistance > 0) {
+			if (repDistance < 0.0f && thisDistance > 0.0f) {
 				continue;
 			}
-			if (ABS(thisDistance) < ABS(repDistance) || (thisDistance < 0 && repDistance > 0)) {
+			if (ABS(thisDistance) < ABS(repDistance) || (thisDistance < 0.0f && repDistance > 0.0f)) {
 				repDistance = thisDistance;
 				bestRep = thisRep;
 			}
