@@ -167,8 +167,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/zsh;
-			shellScript = "echo -n '#define SVN_REVISION ' > SVNRevision.h\nsvn info | perl -e 'while(<>) { print if(s/Revision: ([0-9]+)/$1/); }' >> SVNRevision.h\n";
+			shellPath = /bin/sh;
+			shellScript = "REVISION=`svn info | awk '/Revision:/ { print $2 }'`\necho \"#define SVN_REVISION $REVISION\" > SVNRevision.h";
 		};
 		07C2F34707D6F54E00B18524 = {
 			fileEncoding = 4;
@@ -177,12 +177,6 @@
 			path = SVNRevision.h;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		07C2F34807D6F54E00B18524 = {
-			fileRef = 07C2F34707D6F54E00B18524;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 //070
 //071
@@ -3995,7 +3989,6 @@
 				52861FF006DC463E00D3A356,
 				954F013D074135D400EA8AB5,
 				95BF837D0743675700306A77,
-				07C2F34807D6F54E00B18524,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
