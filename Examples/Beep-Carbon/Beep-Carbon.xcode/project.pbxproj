@@ -230,14 +230,30 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		07B0C71C0682EE2E004C8162 = {
-			fileRef = 07B0C71A0682EE2E004C8162;
-			isa = PBXBuildFile;
-			settings = {
-			};
+		07BF3B9E0687F73700011B64 = {
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+				GenCarbonHeaders.pl,
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/usr/bin/env perl";
+			shellScript = "";
 		};
-		07B0C71D0682EE2E004C8162 = {
-			fileRef = 07B0C71B0682EE2E004C8162;
+		07D0C5CE068A48340076D89A = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = GrowlAppBridge.framework;
+			path = /Users/boredzo/Projects/Growl/build/GrowlAppBridge.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		07D0C5CF068A48340076D89A = {
+			fileRef = 07D0C5CE068A48340076D89A;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -362,6 +378,7 @@
 		};
 		20286C32FDCF999611CA2CEA = {
 			children = (
+				07D0C5CE068A48340076D89A,
 				072E52A1067C73D10087D469,
 				20286C33FDCF999611CA2CEA,
 			);
@@ -449,6 +466,7 @@
 //8D4
 		8D0C4E890486CD37000505A6 = {
 			buildPhases = (
+				07BF3B9E0687F73700011B64,
 				8D0C4E8A0486CD37000505A6,
 				8D0C4E8C0486CD37000505A6,
 				8D0C4E8F0486CD37000505A6,
@@ -458,7 +476,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = /Users/boredzo/Projects/Growl/build;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -510,7 +528,6 @@
 				074A203B067B02610078098C,
 				07025A140680209A0059A4F9,
 				07025A190680278E0059A4F9,
-				07B0C71D0682EE2E004C8162,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -544,7 +561,6 @@
 				074A2029067B01220078098C,
 				074A202B067B01220078098C,
 				07025A150680209A0059A4F9,
-				07B0C71C0682EE2E004C8162,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,6 +570,7 @@
 			files = (
 				8D0C4E920486CD37000505A6,
 				072E52A2067C73D10087D469,
+				07D0C5CF068A48340076D89A,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

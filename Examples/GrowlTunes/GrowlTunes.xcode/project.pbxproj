@@ -5,6 +5,30 @@
 	};
 	objectVersion = 39;
 	objects = {
+		07D0C5EB068A50E40076D89A = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = GrowlAppBridge.framework;
+			path = /Users/boredzo/Projects/Growl/build/GrowlAppBridge.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		07D0C5EC068A50E40076D89A = {
+			fileRef = 07D0C5EB068A50E40076D89A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//070
+//071
+//072
+//073
+//074
+//080
+//081
+//082
+//083
+//084
 		080E96DDFE201D6D7F000001 = {
 			children = (
 				52F57A190687349B0068B46C,
@@ -50,6 +74,7 @@
 		1058C7A0FEA54F0111CA2CBB = {
 			children = (
 				1058C7A1FEA54F0111CA2CBB,
+				07D0C5EB068A50E40076D89A,
 			);
 			isa = PBXGroup;
 			name = "Linked Frameworks";
@@ -454,7 +479,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = /Users/boredzo/Projects/Growl/build;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -542,6 +567,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090,
+				07D0C5EC068A50E40076D89A,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -73,8 +73,6 @@
 			children = (
 				073B927206855EB30068C763,
 				073B927306855EB30068C763,
-				073B928206855F510068C763,
-				073B928306855F510068C763,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -170,24 +168,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		073B928206855F510068C763 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlApplicationBridge.h;
-			path = ../../GrowlApplicationBridge.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		073B928306855F510068C763 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = GrowlApplicationBridge.m;
-			path = ../../GrowlApplicationBridge.m;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 		073B928606855F570068C763 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -197,14 +177,9 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		073B928B06855FB60068C763 = {
-			fileRef = 073B928206855F510068C763;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		073B92BD068562540068C763 = {
 			children = (
+				07D0C5B6068A470F0076D89A,
 				073B92C00685626C0068C763,
 			);
 			isa = PBXGroup;
@@ -232,12 +207,6 @@
 			settings = {
 			};
 		};
-		073B92C3068563230068C763 = {
-			fileRef = 073B928306855F510068C763;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		073B92C4068563AC0068C763 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
@@ -247,6 +216,20 @@
 		};
 		073B92C5068563AC0068C763 = {
 			fileRef = 073B92C4068563AC0068C763;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07D0C5B6068A470F0076D89A = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = GrowlAppBridge.framework;
+			path = /Users/boredzo/Projects/Growl/build/GrowlAppBridge.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		07D0C5B7068A470F0076D89A = {
+			fileRef = 07D0C5B6068A470F0076D89A;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -265,7 +248,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				073B927406855EB30068C763,
-				073B928B06855FB60068C763,
 				073B92C2068562FC0068C763,
 			);
 			isa = PBXHeadersBuildPhase;
@@ -286,7 +268,6 @@
 			files = (
 				073B927506855EB30068C763,
 				073B927706855EBF0068C763,
-				073B92C3068563230068C763,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				073B92C10685626C0068C763,
+				07D0C5B7068A470F0076D89A,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,6 +291,7 @@
 			buildRules = (
 			);
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = /Users/boredzo/Projects/Growl/build;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
