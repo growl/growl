@@ -183,8 +183,6 @@ static GrowlPreferences * sharedPreferences;
 			thisIsUs = (thisPath && [thisPath isEqualToString:pathToGHA]);
 		}
 
-		NSLog(@"thisPath: %@; thisIsUs: %u; flag: %u; foundOne: %u", thisPath, thisIsUs, flag, foundOne);
-
 		if (thisIsUs && ((!flag) || (!foundOne))) {
 			[loginItems removeObjectAtIndex:i];
 			--numItems;
