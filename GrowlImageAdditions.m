@@ -88,7 +88,7 @@
             break;
 		}
 	}
-    return nil;
+    return rep;
 }
 
 @end
