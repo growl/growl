@@ -126,7 +126,7 @@
 }
 
 -(NSString*) applicationNameForGrowl {
-	return @"Hardware Growler";
+	return @"HardwareGrowler";
 }
 
 -(NSDictionary*) registrationDictionaryForGrowl {
@@ -150,7 +150,7 @@
 		nil];
 
 	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
-		@"Hardware Growler", GROWL_APP_NAME,
+		@"HardwareGrowler", GROWL_APP_NAME,
 		notifications, GROWL_NOTIFICATIONS_ALL,
 		notifications,GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
