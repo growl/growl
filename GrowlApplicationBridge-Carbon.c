@@ -43,7 +43,7 @@ static const CFOptionFlags bundleIDComparisonFlags = kCFCompareCaseInsensitive |
 
 static CFMutableArrayRef targetsToNotifyArray = NULL;
 
-struct GrowlDelegate *delegate = NULL;
+struct Growl_Delegate *delegate = NULL;
 
 /*NSLog is part of Foundation, and expects an NSString.
  *thanks to toll-free bridging, we can simply declare it like this, and use it
@@ -76,7 +76,7 @@ extern void NSLog(CFStringRef format, ...);
 #pragma mark -
 #pragma mark Public API
 
-Boolean Growl_SetDelegate(struct GrowlDelegate *newDelegate) {
+Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 	if(newDelegate && !(newDelegate->applicationName))
 		return false;
 
@@ -94,11 +94,11 @@ Boolean Growl_SetDelegate(struct GrowlDelegate *newDelegate) {
 	return true;
 }
 
-struct GrowlDelegate *Growl_GetDelegate(void) {
+struct Growl_Delegate *Growl_GetDelegate(void) {
 	return delegate;
 }
 
-void Growl_PostNotification(const struct GrowlNotification *notification) {
+void Growl_PostNotification(const struct Growl_Notification *notification) {
 	if(!notification) {
 		NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Growl_PostNotification called with a NULL notification\n"));
 	}
@@ -176,7 +176,7 @@ void Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
 	Boolean isSticky,
 	CFPropertyListRef clickContext)
 {
-	struct GrowlNotification notification;
+	struct Growl_Notification notification;
 	InitGrowlNotification(&notification);
 
 	notification.name = notificationName;
