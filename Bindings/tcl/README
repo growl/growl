@@ -1,3 +1,6 @@
+These docs are no longer being updated, and will soon be removed.
+See http://growl.info/documentation/tcl-support.php for current information.
+
 == About ==
 
 This is a very basic Tcl binding to Growl (http://growl.info/). At present, it will simply not work if Growl isn't running.
