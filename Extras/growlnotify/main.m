@@ -23,6 +23,7 @@
 #import <AppKit/NSImage.h>
 #import <AppKit/NSWorkspace.h>
 #import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 #import "GrowlNotificationServer.h"
 #import "GrowlUDPUtils.h"
 
