@@ -11,6 +11,8 @@
 #import <GrowlAppBridge/GrowlApplicationBridge.h>
 #import "NSGrowlAdditions.h"
 
+#define ONLINE_HELP_URL		    @"http://growl.info/documentation/growltunes.php"
+
 // sticking this here for a bit of version checking while setting the menu icon
 #ifndef NSAppKitVersionNumber10_2
 #define NSAppKitVersionNumber10_2 663
@@ -28,6 +30,7 @@ static NSString *pollIntervalKey = @"Poll interval";
 
 //status item menu item tags.
 enum {
+	onlineHelp,
 	quitGrowlTunesTag,
 	launchQuitiTunesTag,
 	quitBothTag,
@@ -272,6 +275,11 @@ enum {
 		id <NSMenuItem> item;
 		NSString *empty = @""; //used for the key equivalent of all the menu items.
 
+		item = [menu addItemWithTitle:@"Online Help" action:@selector(onlineHelp:) keyEquivalent:empty];
+		[item setTarget:self];
+		[item setTag:onlineHelp];		
+		item = [NSMenuItem separatorItem];
+		[menu addItem:item];
 		item = [menu addItemWithTitle:@"Quit GrowlTunes" action:@selector(quitGrowlTunes:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:quitGrowlTunesTag];
@@ -309,6 +317,9 @@ enum {
 				[item setTitle:@"Start Polling"];
 			return YES;
 
+		case onlineHelp:
+		    return YES;
+		    
 		default:
 			return NO;
 	}
@@ -321,6 +332,10 @@ enum {
 		[self startTimer];
 }
 
+- (IBAction)onlineHelp:(id)sender{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ONLINE_HELP_URL]];
+}
+    
 - (IBAction)quitGrowlTunes:(id)sender {
 	[NSApp terminate:sender];
 }
