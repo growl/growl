@@ -2,6 +2,13 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            ACTIONS = {startGrowl = id; startGrowlAtLogin = id; }; 
+            CLASS = GrowlPref; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_startGrowlButton" = NSButton; "_startGrowlLoginButton" = NSButton; }; 
+            SUPERCLASS = NSPreferencePane; 
+        }, 
+        {
             CLASS = NSPreferencePane; 
             LANGUAGE = ObjC; 
             OUTLETS = {
