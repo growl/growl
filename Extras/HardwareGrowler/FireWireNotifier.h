@@ -2,22 +2,26 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern	NSString		*NotifierFireWireConnectionNotification;
-extern	NSString		*NotifierFireWireDisconnectionNotification;
-
-@interface FireWireNotifier : NSObject
-{
+@interface FireWireNotifier : NSObject {
+	id                      delegate;
 	IONotificationPortRef	ioKitNotificationPort;
 	CFRunLoopSourceRef		notificationRunLoopSource;
 }
 
--(void)ioKitSetUp;
--(void)ioKitTearDown;
+- (id)initWithDelegate:(id)object;
 
--(void)registerForFireWireNotifications;
--(void)fwDeviceAdded: (io_iterator_t ) iterator; 
--(void)fwDeviceRemoved: (io_iterator_t ) iterator; 
+- (void)ioKitSetUp;
+- (void)ioKitTearDown;
 
--(NSString *)nameForFireWireObject: (io_object_t) thisObject;
+- (void)registerForFireWireNotifications;
+- (void)fwDeviceAdded: (io_iterator_t ) iterator; 
+- (void)fwDeviceRemoved: (io_iterator_t ) iterator; 
 
+- (NSString *)nameForFireWireObject: (io_object_t) thisObject;
+
+@end
+
+@interface NSObject(FireWireNotifierDelegate)
+- (void)fwDidConnect:(NSString *)deviceName;
+- (void)fwDidDisconnect:(NSString *)deviceName;
 @end

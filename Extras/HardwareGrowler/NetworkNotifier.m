@@ -22,13 +22,6 @@
 /* @"Link Status" == 1 seems to mean disconnected */
 #define AIRPORT_DISCONNECTED 1
 
-NSString *NotifierNetworkLinkUpNotification				= @"Link-Up";
-NSString *NotifierNetworkLinkDownNotification			= @"Link-Down";
-NSString *NotifierNetworkIpAcquiredNotification			= @"IP-Acquired";
-NSString *NotifierNetworkIpReleasedNotification			= @"IP-Released";
-NSString *NotifierNetworkAirportConnectNotification		= @"AirPort-Connect";
-NSString *NotifierNetworkAirportDisconnectNotification	= @"AirPort-Disconnect";
-
 static struct ifmedia_description ifm_subtype_ethernet_descriptions[] = IFM_SUBTYPE_ETHERNET_DESCRIPTIONS;
 static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_OPTION_DESCRIPTIONS;
 
@@ -40,10 +33,9 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 @end
 
 @implementation NetworkNotifier
-- (id)init
-{
+- (id)initWithDelegate:(id)object {
 	if ( (self = [super init]) ) {
-		airportStatus = nil;
+		delegate = object;
 
 		scNotificationManager = [[SCDynamicStore alloc] init];
 		[scNotificationManager addObserver:self
@@ -61,8 +53,7 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 	return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self
 													name:nil
 												  object:scNotificationManager];
@@ -79,17 +70,14 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 		NSString *media = [self getMediaForInterface:@"en0"];
 		NSString *desc = [NSString stringWithFormat:@"Interface:\ten0\nMedia:\t%@", media];
 		NSLog(@"Ethernet cable plugged");
-		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkLinkUpNotification
-															object:desc];
+		[delegate linkUp:desc];
 	} else {
 		NSString *desc = @"Interface:\ten0";
-		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkLinkDownNotification
-															object:desc];
+		[delegate linkDown:desc];
 	}		
 }
 
-- (void)ipAddressChange:(NSDictionary*)newValue
-{
+- (void)ipAddressChange:(NSDictionary*)newValue {
 	if (newValue) {
 		NSLog(@"IP address acquired");
 		NSString *ipv4Key = [NSString stringWithFormat:@"State:/Network/Interface/%@/IPv4",
@@ -97,24 +85,20 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 		NSDictionary *ipv4Info = [scNotificationManager valueForKey:ipv4Key];
 		NSArray *addrs = [ipv4Info valueForKey:@"Addresses"];
 		NSAssert([addrs count] > 0, @"Empty address array");
-		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkIpAcquiredNotification
-															object:[addrs objectAtIndex:0]];
+		[delegate ipAcquired:[addrs objectAtIndex:0]];
 	} else {
 		NSLog(@"No primary interface");
-		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkIpReleasedNotification
-															object:nil];
+		[delegate ipReleased];
 	}
 }
 
-- (void)airportStatusChange:(NSDictionary*)newValue
-{
+- (void)airportStatusChange:(NSDictionary*)newValue {
 	NSLog(@"AirPort event");
 	if (![[airportStatus objectForKey:@"BSSID"] isEqualToData:[newValue objectForKey:@"BSSID"]]) {
 		if ([[newValue objectForKey:@"Link Status"] intValue] == AIRPORT_DISCONNECTED) {
 			NSString *desc = [NSString stringWithFormat:@"Left network %@.",
 				[airportStatus objectForKey:@"SSID"]];
-			[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkAirportDisconnectNotification
-																object:desc];
+			[delegate airportDisconnect:desc];
 		} else {
 			const unsigned char *bssidBytes = [[newValue objectForKey:@"BSSID"] bytes];
 			NSString *bssid = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
@@ -127,8 +111,7 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 			NSString *desc = [NSString stringWithFormat:@"Joined network.\nSSID:\t\t%@\nBSSID:\t%@",
 				[newValue objectForKey:@"SSID"],
 				bssid];
-			[[NSNotificationCenter defaultCenter] postNotificationName:NotifierNetworkAirportConnectNotification
-																object:desc];
+			[delegate airportDisconnect:desc];
 		}
 	}
 	airportStatus = [newValue retain];

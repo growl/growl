@@ -6,10 +6,24 @@
 #import "NetworkNotifier.h"
 #import <Growl/Growl.h>
 
+#define NotifierUSBConnectionNotification				@"USB Device Connected"
+#define NotifierUSBDisconnectionNotification			@"USB Device Disconnected"
+#define NotifierVolumeMountedNotification				@"Volume Mounted"
+#define NotifierVolumeUnmountedNotification				@"Volume Unmounted"
+#define NotifierBluetoothConnectionNotification			@"Bluetooth Device Connected"
+#define NotifierBluetoothDisconnectionNotification		@"Bluetooth Device Disconnected"
+#define NotifierFireWireConnectionNotification			@"FireWire Device Connected"
+#define NotifierFireWireDisconnectionNotification		@"FireWire Device Disconnected"
+#define NotifierNetworkLinkUpNotification				@"Link-Up"
+#define NotifierNetworkLinkDownNotification				@"Link-Down"
+#define NotifierNetworkIpAcquiredNotification			@"IP-Acquired"
+#define NotifierNetworkIpReleasedNotification			@"IP-Released"
+#define NotifierNetworkAirportConnectNotification		@"AirPort-Connect"
+#define NotifierNetworkAirportDisconnectNotification	@"AirPort-Disconnect"
+
 @implementation AppController
 
--(void)awakeFromNib
-{
+-(void)awakeFromNib {
 	bluetoothLogoData = [[[NSImage imageNamed: @"BluetoothLogo.tiff"] TIFFRepresentation] retain];
 	ejectLogoData = [[[NSImage imageNamed: @"eject.icns"] TIFFRepresentation] retain];
 	firewireLogoData = [[[NSImage imageNamed: @"FireWireLogo.png"] TIFFRepresentation] retain];
@@ -37,91 +51,14 @@
 			   name:NSWorkspaceWillSleepNotification
 			 object:ws];
 
-	nc = [NSNotificationCenter defaultCenter];
-
-	[nc addObserver:self
-		   selector:@selector(fwDidConnect:)
-			   name:NotifierFireWireConnectionNotification
-			 object:nil];
-	
-	[nc addObserver:self
-		   selector:@selector(fwDidDisconnect:)
-			   name:NotifierFireWireDisconnectionNotification
-			 object:nil];
-
-
-	[nc addObserver:self
-		   selector:@selector(usbDidConnect:)
-			   name:NotifierUSBConnectionNotification
-			 object:nil];
-
-	[nc addObserver:self
-		   selector:@selector(usbDidDisconnect:)
-			   name:NotifierUSBDisconnectionNotification
-			 object:nil];
-
-
-	[nc addObserver:self
-		   selector:@selector(bluetoothDidConnect:)
-			   name:NotifierBluetoothConnectionNotification
-			 object:nil];
-
-	[nc addObserver:self
-		   selector:@selector(bluetoothDidDisconnect:)
-			   name:NotifierBluetoothDisconnectionNotification
-			 object:nil];
-
-
-	[nc addObserver:self
-		   selector:@selector(volumeDidMount:)
-			   name:NotifierVolumeMountedNotification
-			 object:nil];
-
-	[nc addObserver:self
-		   selector:@selector(volumeDidUnmount:)
-			   name:NotifierVolumeUnmountedNotification
-			 object:nil];
-
-
-	[nc addObserver:self
-		   selector:@selector(linkUp:)
-			   name:NotifierNetworkLinkUpNotification
-			 object:nil];
-
-	[nc addObserver:self
-		   selector:@selector(linkDown:)
-			   name:NotifierNetworkLinkDownNotification
-			 object:nil];
-
-	[nc addObserver:self
-		   selector:@selector(ipAcquired:)
-			   name:NotifierNetworkIpAcquiredNotification
-			 object:nil];
-
-	[nc addObserver:self
-		   selector:@selector(ipReleased:)
-			   name:NotifierNetworkIpReleasedNotification
-			 object:nil];
-
-	[nc addObserver:self
-		   selector:@selector(airportConnect:)
-			   name:NotifierNetworkAirportConnectNotification
-			 object:nil];
-
-	[nc addObserver:self
-		   selector:@selector(airportDisconnect:)
-			   name:NotifierNetworkAirportDisconnectNotification
-			 object:nil];
-
-	fwNotifier = [[FireWireNotifier alloc] init];
-	usbNotifier = [[USBNotifier alloc] init];
-	btNotifier = [[BluetoothNotifier alloc] init];
-	volNotifier = [[VolumeNotifier alloc] init];
-	netNotifier = [[NetworkNotifier alloc] init];
+	fwNotifier = [[FireWireNotifier alloc] initWithDelegate:self];
+	usbNotifier = [[USBNotifier alloc] initWithDelegate:self];
+	btNotifier = [[BluetoothNotifier alloc] initWithDelegate:self];
+	volNotifier = [[VolumeNotifier alloc] initWithDelegate:self];
+	netNotifier = [[NetworkNotifier alloc] initWithDelegate:self];
 }
 
--(void)dealloc
-{
+- (void)dealloc {
 	[fwNotifier release];
 	[usbNotifier release];
 	[btNotifier release];
@@ -133,10 +70,6 @@
 	[airportIconData release];
 	[ipIconData release];
 
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-													name:nil
-												  object:nil];
-	
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self
 																 name:nil
 															   object:nil];
@@ -144,11 +77,11 @@
 	[super dealloc];
 }
 
--(NSString *) applicationNameForGrowl {
+- (NSString *) applicationNameForGrowl {
 	return @"HardwareGrowler";
 }
 
--(NSDictionary *) registrationDictionaryForGrowl {
+- (NSDictionary *) registrationDictionaryForGrowl {
 	//	Register with Growl
 
 	NSArray *notifications = [NSArray arrayWithObjects:
@@ -171,37 +104,33 @@
 	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"HardwareGrowler", GROWL_APP_NAME,
 		notifications, GROWL_NOTIFICATIONS_ALL,
-		notifications,GROWL_NOTIFICATIONS_DEFAULT,
+		notifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
 
 	return regDict;
 }
 
-- (IBAction)doSimpleHelp: (id)sender
-{
+- (IBAction)doSimpleHelp: (id)sender {
 	[[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"readme" ofType:@"txt"]]; 
 }
 
 #pragma mark -
 #pragma mark Notification methods 
--(void)willSleep:(NSNotification *)note
-{
+- (void)willSleep:(NSNotification *)note {
 	//NSLog(@"willSleep");
 	sleeping = YES;
 }
 
--(void)didWake:(NSNotification *)note
-{
+- (void)didWake:(NSNotification *)note {
 	//NSLog(@"didWake");
 	sleeping = NO;
 }
 
--(void)fwDidConnect:(NSNotification *)note
-{
-//	NSLog(@"FireWire Connect: %@", [note object] );
+- (void)fwDidConnect:(NSString *)deviceName {
+//	NSLog(@"FireWire Connect: %@", deviceName );
 
 	[GrowlApplicationBridge notifyWithTitle:@"FireWire Connection"
-							description:[note object]
+							description:deviceName
 							notificationName:NotifierFireWireConnectionNotification
 							iconData:firewireLogoData 
 							priority:0
@@ -210,12 +139,11 @@
 
 }
 
--(void)fwDidDisconnect:(NSNotification *)note
-{
-//	NSLog(@"FireWire Disconnect: %@", [note object] );
+- (void)fwDidDisconnect:(NSString *)deviceName {
+//	NSLog(@"FireWire Disconnect: %@", deviceName );
 
 	[GrowlApplicationBridge notifyWithTitle:@"FireWire Disconnection"
-							description:[note object]
+							description:deviceName
 							notificationName:NotifierFireWireConnectionNotification
 							iconData:firewireLogoData 
 							priority:0
@@ -223,11 +151,10 @@
 							clickContext:nil];
 }
 
--(void)usbDidConnect:(NSNotification *)note
-{
-//	NSLog(@"USB Connect: %@", [note object] );
+- (void)usbDidConnect:(NSString *)deviceName {
+//	NSLog(@"USB Connect: %@", deviceName );
 	[GrowlApplicationBridge notifyWithTitle:@"USB Connection"
-							description:[note object]
+							description:deviceName
 							notificationName:NotifierUSBConnectionNotification
 							iconData:usbLogoData 
 							priority:0
@@ -235,11 +162,10 @@
 							clickContext:nil];
 }
 
--(void)usbDidDisconnect:(NSNotification *)note
-{
-//	NSLog(@"USB Disconnect: %@", [note object] );
+- (void)usbDidDisconnect:(NSString *)deviceName {
+//	NSLog(@"USB Disconnect: %@", deviceName );
 	[GrowlApplicationBridge notifyWithTitle:@"USB Disconnection"
-							description:[note object]
+							description:deviceName
 							notificationName:NotifierUSBDisconnectionNotification
 							iconData:usbLogoData 
 							priority:0
@@ -247,11 +173,10 @@
 							clickContext:nil];
 }
 
--(void)bluetoothDidConnect:(NSNotification *)note
-{
-//	NSLog(@"Bluetooth Connect: %@", [note object] );
+- (void)bluetoothDidConnect:(NSString *)device {
+//	NSLog(@"Bluetooth Connect: %@", device );
 	[GrowlApplicationBridge notifyWithTitle:@"Bluetooth Connection"
-							description:[note object]
+							description:device
 							notificationName:NotifierBluetoothConnectionNotification
 							iconData:bluetoothLogoData 
 							priority:0
@@ -259,11 +184,10 @@
 							clickContext:nil];
 }
 
--(void)bluetoothDidDisconnect:(NSNotification *)note
-{
-//	NSLog(@"Bluetooth Disconnect: %@", [note object] );
+- (void)bluetoothDidDisconnect:(NSString *)device {
+//	NSLog(@"Bluetooth Disconnect: %@", device );
 	[GrowlApplicationBridge notifyWithTitle:@"Bluetooth Disconnection"
-							description:[[note object] lastPathComponent]
+							description:device
 							notificationName:NotifierBluetoothDisconnectionNotification
 							iconData:bluetoothLogoData 
 							priority:0
@@ -271,14 +195,13 @@
 							clickContext:nil];
 }
 
--(void)volumeDidMount:(NSNotification *)note
-{
-//	NSLog(@"volume Mount: %@", [note object] );
+- (void)volumeDidMount:(NSString *)path {
+	//NSLog(@"volume Mount: %@", path );
 
-	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile: [note object]] TIFFRepresentation];  
+	NSData *iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation];  
 
 	[GrowlApplicationBridge notifyWithTitle:@"Volume Mounted"
-							description:[[note object] lastPathComponent]
+							description:[path lastPathComponent]
 							notificationName:NotifierVolumeMountedNotification
 							iconData:iconData 
 							priority:0
@@ -286,13 +209,12 @@
 							clickContext:nil];
 }
 
--(void)volumeDidUnmount:(NSNotification *)note
-{
-//	NSLog(@"volume UnMount: %@", [note object] );
+- (void)volumeDidUnmount:(NSString *)path {
+//	NSLog(@"volume UnMount: %@", path );
 	
-//	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile: [note object]] TIFFRepresentation];  
+//	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation];  
 	[GrowlApplicationBridge notifyWithTitle:@"Volume Unmounted"
-							description:[[note object] lastPathComponent]
+							description:[path lastPathComponent]
 							notificationName:NotifierVolumeUnmountedNotification
 							iconData:ejectLogoData 
 							priority:0
@@ -300,16 +222,15 @@
 							clickContext:nil];
 }
 
--(void)airportConnect:(NSNotification *)note
-{
-	//NSLog(@"AirPort connect: %@", [note object]);
+- (void)airportConnect:(NSString *)description {
+	//NSLog(@"AirPort connect: %@", description);
 
 	if (sleeping) {
 		return;
 	}
 
 	[GrowlApplicationBridge notifyWithTitle:@"Airport connected"
-								description:[note object]
+								description:description
 						   notificationName:NotifierNetworkAirportConnectNotification
 								   iconData:airportIconData 
 								   priority:0
@@ -317,16 +238,15 @@
 							   clickContext:nil];
 }
 
--(void)airportDisconnect:(NSNotification *)note
-{
-	//NSLog(@"AirPort disconnect: %@", [note object]);
+- (void)airportDisconnect:(NSString *)description {
+	//NSLog(@"AirPort disconnect: %@", description);
 
 	if (sleeping) {
 		return;
 	}
 	
 	[GrowlApplicationBridge notifyWithTitle:@"Airport disconnected"
-								description:[note object]
+								description:description
 						   notificationName:NotifierNetworkAirportDisconnectNotification
 								   iconData:airportIconData 
 								   priority:0
@@ -334,16 +254,15 @@
 							   clickContext:nil];
 }
 
--(void)linkUp:(NSNotification *)note
-{
-	//NSLog(@"Link up: %@", [note object]);
+- (void)linkUp:(NSString *)description {
+	//NSLog(@"Link up: %@", description);
 
 	if (sleeping) {
 		return;
 	}
 	
 	[GrowlApplicationBridge notifyWithTitle:@"Ethernet activated"
-								description:[note object]
+								description:description
 						   notificationName:NotifierNetworkLinkUpNotification
 								   iconData:ipIconData
 								   priority:0
@@ -351,16 +270,15 @@
 							   clickContext:nil];
 }
 
--(void)linkDown:(NSNotification *)note
-{
-	//NSLog(@"Link down: %@", [note object]);
+- (void)linkDown:(NSString *)description {
+	//NSLog(@"Link down: %@", description);
 
 	if (sleeping) {
 		return;
 	}
-	
+
 	[GrowlApplicationBridge notifyWithTitle:@"Ethernet deactivated"
-								description:[note object]
+								description:description
 						   notificationName:NotifierNetworkLinkDownNotification
 								   iconData:ipIconData
 								   priority:0
@@ -368,16 +286,15 @@
 							   clickContext:nil];
 }
 
--(void)ipAcquired:(NSNotification *)note
-{
-	//NSLog(@"IP acquired: %@", [note object]);
+- (void)ipAcquired:(NSString *)ip {
+	//NSLog(@"IP acquired: %@", ip);
 
 	if (sleeping) {
 		return;
 	}
 	
 	[GrowlApplicationBridge notifyWithTitle:@"IP address acquired"
-								description:[NSString stringWithFormat:@"New primary IP: %@", [note object]]
+								description:[NSString stringWithFormat:@"New primary IP: %@", ip]
 						   notificationName:NotifierNetworkIpAcquiredNotification
 								   iconData:ipIconData
 								   priority:0
@@ -385,9 +302,8 @@
 							   clickContext:nil];
 }
 
--(void)ipReleased:(NSNotification *)note
-{
-	//NSLog(@"IP released: %@", [note object]);
+- (void)ipReleased {
+	//NSLog(@"IP released");
 
 	if (sleeping) {
 		return;

@@ -8,14 +8,12 @@
 
 #import "VolumeNotifier.h"
 
-NSString		*NotifierVolumeMountedNotification		=	@"Volume Mounted";
-NSString		*NotifierVolumeUnmountedNotification	=	@"Volume Unmounted";
-
 @implementation VolumeNotifier
 
--(id)init
-{
+- (id)initWithDelegate:(id)object {
 	if ((self = [super init])) {
+		delegate = object;
+
 		NSNotificationCenter *nc = [[NSWorkspace sharedWorkspace] notificationCenter];
 
 		[nc addObserver:self
@@ -32,8 +30,7 @@ NSString		*NotifierVolumeUnmountedNotification	=	@"Volume Unmounted";
 	return self;	
 }
 
--(void)dealloc
-{
+- (void)dealloc {
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self
 																  name:nil
 																object:nil];
@@ -41,20 +38,16 @@ NSString		*NotifierVolumeUnmountedNotification	=	@"Volume Unmounted";
 	[super dealloc];
 }
 
--(void)volumeDidMount:(NSNotification*) note
-{
+- (void)volumeDidMount:(NSNotification*) note {
 //	NSLog(@"mount.");
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:NotifierVolumeMountedNotification
-														object:[[note userInfo] objectForKey:@"NSDevicePath"] ];
+	[delegate volumeDidMount:[[note userInfo] objectForKey:@"NSDevicePath"]];
 }
 
--(void)volumeDidUnmount:(NSNotification*) note
-{
+- (void)volumeDidUnmount:(NSNotification*) note {
 //	NSLog(@"unmount.");
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:NotifierVolumeUnmountedNotification
-														object:[[note userInfo] objectForKey:@"NSDevicePath"] ];
+	[delegate volumeDidUnmount:[[note userInfo] objectForKey:@"NSDevicePath"]];
 }
 
 @end

@@ -3,9 +3,6 @@
 #import <IOKit/usb/IOUSBLib.h>
 #import <IOKit/usb/USB.h>
 
-NSString *NotifierUSBConnectionNotification		=	@"USB Device Connected";
-NSString *NotifierUSBDisconnectionNotification	=	@"USB Device Disconnected";
-
 #pragma mark C Callbacks
 
 static void usbDeviceAdded(void *refCon, io_iterator_t iter) {
@@ -20,24 +17,22 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 
 @implementation USBNotifier
 
-- (id)init
-{
+- (id)initWithDelegate:(id)object {
 	if ((self = [super init])) {
+		delegate = object;
 		[self ioKitSetUp];
 		[self registerForUSBNotifications];
 	}
 	return self;
 }
 
--(void)dealloc
-{
+- (void)dealloc {
 	[self ioKitTearDown];
 	
 	[super dealloc];
 }
 
--(void)ioKitSetUp
-{
+- (void)ioKitSetUp {
 //#warning	kIOMasterPortDefault is only available on 10.2 and above... 
 	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	notificationRunLoopSource = IONotificationPortGetRunLoopSource(ioKitNotificationPort);
@@ -48,16 +43,14 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 	
 }
 
--(void)ioKitTearDown
-{
-	if(ioKitNotificationPort) {
+- (void)ioKitTearDown {
+	if (ioKitNotificationPort) {
 		CFRunLoopRemoveSource( CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode );
 		IONotificationPortDestroy(ioKitNotificationPort) ;
 	}	
 }
 
--(void)registerForUSBNotifications
-{
+- (void)registerForUSBNotifications {
 	//http://developer.apple.com/documentation/DeviceDrivers/Conceptual/AccessingHardware/AH_Finding_Devices/chapter_4_section_2.html#//apple_ref/doc/uid/TP30000379/BABEACCJ
 	kern_return_t			matchingResult;
 	io_iterator_t			addedIterator;
@@ -112,8 +105,7 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 	}
 }
 
--(void)usbDeviceAdded: (io_iterator_t ) iterator
-{
+- (void)usbDeviceAdded: (io_iterator_t ) iterator {
 //	NSLog(@"USB Device Added Notification.");
 	io_object_t		thisObject = nil;
 	while ((thisObject = IOIteratorNext( iterator ))) {
@@ -136,16 +128,14 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 			deviceName = @"USB 2.0 Bus";
 		}
 		
-		// NSLog(@"USB Device Attached: %@" , deviceName);		
-		[[NSNotificationCenter defaultCenter] postNotificationName:NotifierUSBConnectionNotification
-															object:deviceName ];
+		// NSLog(@"USB Device Attached: %@" , deviceName);
+		[delegate usbDidConnect:deviceName];
 
 		IOObjectRelease(thisObject);
 	}
 }
 
--(void)usbDeviceRemoved: (io_iterator_t ) iterator
-{
+- (void)usbDeviceRemoved: (io_iterator_t ) iterator {
 //	NSLog(@"USB Device Removed Notification.");
 	io_object_t		thisObject = nil;
 	while ((thisObject = IOIteratorNext( iterator ))) {
@@ -163,7 +153,7 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 			deviceName = @"Unnamed USB Device";
 		}
 		// NSLog(@"USB Device Detached: %@" , deviceName);		
-		[[NSNotificationCenter defaultCenter] postNotificationName: NotifierUSBDisconnectionNotification object: deviceName ];
+		[delegate usbDidDisconnect:deviceName];
 		
 		IOObjectRelease(thisObject);
 	}

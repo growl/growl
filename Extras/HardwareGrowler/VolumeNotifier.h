@@ -8,11 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern	NSString		*NotifierVolumeMountedNotification;
-extern	NSString		*NotifierVolumeUnmountedNotification;
-
 @interface VolumeNotifier : NSObject {
-
+	id delegate;
 }
+
+- (id)initWithDelegate:(id)object;
 
 @end

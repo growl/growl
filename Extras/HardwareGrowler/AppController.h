@@ -4,8 +4,7 @@
 
 @class FireWireNotifier, USBNotifier, BluetoothNotifier, VolumeNotifier, NetworkNotifier;
 
-@interface AppController : NSObject
-{
+@interface AppController : NSObject {
 	FireWireNotifier	*fwNotifier;
 	USBNotifier			*usbNotifier;
 	BluetoothNotifier	*btNotifier;

@@ -2,13 +2,18 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern	NSString		*NotifierBluetoothConnectionNotification;
-extern	NSString		*NotifierBluetoothDisconnectionNotification;
+@class IOBluetoothUserNotification;
 
-@interface BluetoothNotifier : NSObject
-{
+@interface BluetoothNotifier : NSObject {
+	id                          delegate;
+	IOBluetoothUserNotification *connectionNotification;
 }
 
--(void)setUpBluetoothNotifications;
+- (id)initWithDelegate:(id)object;
 
+@end
+
+@interface NSObject(BluetoothNotifierDelegate)
+- (void)bluetoothDidConnect:(NSString *)device;
+- (void)bluetoothDidDisconnect:(NSString *)device;
 @end

@@ -10,16 +10,20 @@
 
 @class SCDynamicStore;
 
-extern NSString *NotifierNetworkLinkUpNotification;
-extern NSString *NotifierNetworkLinkDownNotification;
-extern NSString *NotifierNetworkIpAcquiredNotification;
-extern NSString *NotifierNetworkIpReleasedNotification;
-extern NSString *NotifierNetworkAirportConnectNotification;
-extern NSString *NotifierNetworkAirportDisconnectNotification;
-
 @interface NetworkNotifier : NSObject {
-	SCDynamicStore *scNotificationManager;
+	id                  delegate;
+	SCDynamicStore      *scNotificationManager;
 	NSMutableDictionary *airportStatus;
 }
 
+- (id)initWithDelegate:(id)object;
+@end
+
+@interface NSObject(NetworkNotifierDelegate)
+- (void)linkUp:(NSString *)description;
+- (void)linkDown:(NSString *)description;
+- (void)ipAcquired:(NSString *)ip;
+- (void)ipReleased;
+- (void)airportConnect:(NSString *)description;
+- (void)airportDisconnect:(NSString *)description;
 @end
