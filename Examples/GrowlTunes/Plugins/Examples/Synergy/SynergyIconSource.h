@@ -7,13 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GrowlTunesPlugin.h"
 
-
-@interface SynergyIconSource: NSObject
+@interface SynergyIconSource: NSObject <GrowlTunesPlugin>
 {
 	NSString *synergySubPath;
 }
-
-- (NSImage *)artworkForTitle:(NSString *)song byArtist:(NSString *)artist onAlbum:(NSString *)album;
-
 @end

@@ -7,13 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GrowlTunesPlugin.h"
 
-
-@interface GrowlTunes_Amazon : NSObject {
+@interface GrowlTunes_Amazon : NSObject <GrowlTunesPlugin> {
 	BOOL	weGetInternet;
 }
-
-- (NSImage *)artworkForTitle:(NSString *)song 
-					byArtist:(NSString *)artist 
-					 onAlbum:(NSString *)album;
 @end

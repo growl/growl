@@ -45,7 +45,7 @@ static NSString *empty = @"";
 //  artwork from iTunes, it calls - artworkForTitle:byArtist:onAlbum: on your
 //  plug-in.
 
-- (NSImage *)artworkForTitle:(NSString *)song byArtist:(NSString *)artist onAlbum:(NSString *)album {
+- (NSImage *)artworkForTitle:(NSString *)song byArtist:(NSString *)artist onAlbum:(NSString *)album isCompilation:(BOOL)compilation {
 	NSMutableString *synergyFile;
 
 	/*construct the filename that Synergy would use to save album art.*/

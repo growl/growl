@@ -10,6 +10,7 @@
 #import "GrowlDefines.h"
 #import <GrowlAppBridge/GrowlApplicationBridge.h>
 #import "NSGrowlAdditions.h"
+#import "GrowlTunesPlugin.h"
 
 #define ONLINE_HELP_URL		    @"http://growl.info/documentation/growltunes.php"
 
@@ -43,15 +44,6 @@ enum {
 	quitBothTag,
 	togglePollingTag,
 };
-
-@protocol GrowlTunesPlugin
-
-//shuts up a warning gooder.
-- (NSImage *)artworkForTitle:(NSString *)track
-					byArtist:(NSString *)artist
-					 onAlbum:(NSString *)album;
-
-@end
 
 @implementation GrowlTunesController
 
@@ -162,12 +154,13 @@ enum {
 		NSString		*length = nil;
 		NSString		*artist = nil;
 		NSString		*album = nil;
+		BOOL			 compilation = NO;
 		NSNumber		*rating = nil;
 		NSString		*ratingString = nil;
 		NSImage			*artwork = nil;
 		NSDictionary	*noteDict;
 		
-		curDescriptor = [theDescriptor descriptorAtIndex:8];
+		curDescriptor = [theDescriptor descriptorAtIndex:9];
 		playlistName = [curDescriptor stringValue];
 		
 		if ( curDescriptor = [theDescriptor descriptorAtIndex:2] )
@@ -182,7 +175,10 @@ enum {
 		if ( curDescriptor = [theDescriptor descriptorAtIndex:5] )
 			album = [curDescriptor stringValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:6] ) {
+		if ( curDescriptor = [theDescriptor descriptorAtIndex:6] )
+			compilation = (BOOL)[curDescriptor booleanValue];
+		
+		if ( curDescriptor = [theDescriptor descriptorAtIndex:7] ) {
 			int ratingInt = [[curDescriptor stringValue] intValue];
 			rating = [NSNumber numberWithInt:ratingInt]; 
 			
@@ -208,7 +204,7 @@ enum {
 			}
 		}
 		
-		curDescriptor = [theDescriptor descriptorAtIndex:7];
+		curDescriptor = [theDescriptor descriptorAtIndex:8];
 		const OSType type = [curDescriptor typeCodeValue];
 		
 		if( type != 'null' ) {
@@ -219,7 +215,8 @@ enum {
 			while ( !artwork && ( plugin = [pluginEnum nextObject] ) ) {
 				artwork = [plugin artworkForTitle:track
 										 byArtist:artist
-										  onAlbum:album];
+										  onAlbum:album
+									isCompilation:compilation];
 			}
 			
 		}
@@ -493,6 +490,7 @@ enum {
 
 - (NSMutableArray *)loadPlugins {
 	NSMutableArray *newPlugins = [[NSMutableArray alloc] init];
+	NSMutableArray *lastPlugins = [[NSMutableArray alloc] init];
 	if(newPlugins) {
 		NSBundle *myBundle = [NSBundle mainBundle];
 		NSString *pluginsPath = [myBundle builtInPlugInsPath];
@@ -509,14 +507,31 @@ enum {
 				if([[curPath pathExtension] isEqualToString:pluginPathExtension]) {
 					curPath = [pluginsPath stringByAppendingPathComponent:curPath];
 					NSBundle *plugin = [NSBundle bundleWithPath:curPath];
-					id instance = [[[[plugin principalClass] alloc] init] autorelease];
-					[newPlugins addObject:instance];
-					NSLog(@"Loaded plug-in \"%@\" with id %p", [curPath lastPathComponent], instance);
+					if ([plugin load]) {
+						Class principalClass = [plugin principalClass];
+						if ([principalClass conformsToProtocol:@protocol(GrowlTunesPlugin)]) {
+							id instance = [[principalClass alloc] init];
+							if ([[[plugin infoDictionary] objectForKey:@"LoadLast"] boolValue]) {
+								// This is a workaround so the Amazon plugin comes last
+								[lastPlugins addObject:instance];
+							} else {
+								[newPlugins addObject:instance];
+							}
+							[instance release];
+							NSLog(@"Loaded plug-in \"%@\" with id %p", [curPath lastPathComponent], instance);
+						} else {
+							NSLog(@"Loaded plug-in \"%@\" does not conform to protocol", [curPath lastPathComponent]);
+						}
+					} else {
+						NSLog(@"Could not load plug-in \"%@\"", [curPath lastPathComponent]);
+					}
 				}
 			}
 		}
 
 		[pool release];
+		[newPlugins addObjectsFromArray:lastPlugins];
+		[lastPlugins release];
 		[newPlugins autorelease];
 	}
 	return newPlugins;
@@ -529,6 +544,7 @@ enum {
 - (NSImage *)artworkForTitle:(NSString *)track
 					byArtist:(NSString *)artist
 					 onAlbum:(NSString *)album
+			   isCompilation:(BOOL)compilation
 {
 	NSLog(@"Dummy plug-in %p called for artwork", self);
 	return nil;

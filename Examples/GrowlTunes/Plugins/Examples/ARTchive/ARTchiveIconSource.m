@@ -7,56 +7,98 @@
 //
 
 #import "ARTchiveIconSource.h"
-
+#import "ARTchiveStringAdditions.h"
 
 @implementation ARTchiveIconSource
 
 - (id) init {
 	if (self = [super init]) {
 		NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-		//[userDefaults addSuiteNamed:@"com.growl.GrowlTunesARTchive"];
-		[defs addSuiteNamed:@"public.music.artwork"];
-		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-		[dict setObject:@"~/Library/Images/Music" forKey:@"LibraryLocation"];
-		[dict setObject:@"Cover" forKey:@"PreferredImage"];
-		[defs registerDefaults:dict];
+		NSDictionary *dict = [defs persistentDomainForName:@"public.music.artwork"];
+		libraryLocation = [dict objectForKey:@"LibraryLocation"];
+		if (!libraryLocation) libraryLocation = @"~/Library/Images/Music";
+		libraryLocation = [[libraryLocation stringByExpandingTildeInPath] retain];
+		preferredImage = [[dict objectForKey:@"PreferredImage"] retain];
+		if (!preferredImage) preferredImage = @"Cover";
+		artworkSubdirectory = [[dict objectForKey:@"ArtworkSubdirectory"] retain];
 	}
 	return self;
 }
 
-- (NSImage *)artworkForTitle:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album {
+- (NSImage *)artworkForTitle:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album isCompilation:(BOOL)compilation {
+	NSString *artworkDir = [self pathForTrack:track artist:artist album:album compilation:compilation];
+	
+	NSFileManager *manager = [NSFileManager defaultManager];
+	BOOL isDir;
+	if ([manager fileExistsAtPath:artworkDir isDirectory:&isDir] && isDir) {
+		NSArray *extensions = [NSArray arrayWithObjects:@"tiff", @"tif", @"png", @"jpeg", @"jpg", @"gif", @"bmp", nil];
+		if ([album length]) {
+			// Check for PreferredImage.img
+			NSString *path = [artworkDir stringByAppendingPathComponent:preferredImage];
+			NSEnumerator *e = [extensions objectEnumerator];
+			NSString *ext;
+			while (ext = [e nextObject]) {
+				NSString *fullPath = [path stringByAppendingPathExtension:ext];
+				if ([manager fileExistsAtPath:fullPath]) {
+					return [[[NSImage alloc] initByReferencingFile:fullPath] autorelease];
+				}
+			}
+			// Check for any other available image
+			NSArray *matchingPaths = [[manager directoryContentsAtPath:artworkDir] pathsMatchingExtensions:extensions];
+			if ([matchingPaths count]) {
+				return [[[NSImage alloc] initByReferencingFile:[matchingPaths objectAtIndex:0]] autorelease];
+			}
+		}
+		// Check for track-specific images
+		if ([track length]) {
+			track = [track stringByMakingPathSafe];
+			// Check for Track.img, Album.img, Artist.img
+			artworkDir = [artworkDir stringByAppendingPathComponent:@"Tracks"];
+			artworkDir = [artworkDir stringByAppendingPathComponent:track];
+			NSEnumerator *nameEnum = [[NSArray arrayWithObjects:@"Track", @"Album", @"Artist", nil] objectEnumerator];
+			NSString *name;
+			while (name = [nameEnum nextObject]) {
+				NSString *path = [artworkDir stringByAppendingPathComponent:name];
+				NSEnumerator *e = [extensions objectEnumerator];
+				NSString *ext;
+				while (ext = [e nextObject]) {
+					NSString *fullPath = [path stringByAppendingPathExtension:ext];
+					if ([manager fileExistsAtPath:fullPath]) {
+						return [[[NSImage alloc] initByReferencingFile:fullPath] autorelease];
+					}
+				}
+			}
+			// Check for any other available image
+			NSArray *matchingPaths = [[manager directoryContentsAtPath:artworkDir] pathsMatchingExtensions:extensions];
+			if ([matchingPaths count]) {
+				return [[[NSImage alloc] initByReferencingFile:[matchingPaths objectAtIndex:0]] autorelease];
+			}
+		}
+	}
+	return nil;
+}
+
+- (NSString *)pathForTrack:(NSString *)track artist:(NSString *)artist album:(NSString *)album compilation:(BOOL)compilation {
 	// Protect string from itself
-	NSMutableString *temp = [NSMutableString string];
-	if ([track length]) {
-		[temp setString:track];
-		[temp replaceOccurrencesOfString:@":" withString:@"_" options:NSLiteralSearch range:NSMakeRange(0, [temp length])];
-		[temp replaceOccurrencesOfString:@"/" withString:@":" options:NSLiteralSearch range:NSMakeRange(0, [temp length])];
-		track = [NSString stringWithString:temp];
-	}
+	if ([track length])
+		track = [track stringByMakingPathSafe];
 	
-	if ([artist length]) {
-		[temp setString:artist];
-		[temp replaceOccurrencesOfString:@":" withString:@"_" options:NSLiteralSearch range:NSMakeRange(0, [temp length])];
-		[temp replaceOccurrencesOfString:@"/" withString:@":" options:NSLiteralSearch range:NSMakeRange(0, [temp length])];
-		artist = [NSString stringWithString:temp];
-	}
+	if ([artist length])
+		artist = [artist stringByMakingPathSafe];
 	
-	if ([album length]) {
-		[temp setString:album];
-		[temp replaceOccurrencesOfString:@":" withString:@"_" options:NSLiteralSearch range:NSMakeRange(0, [temp length])];
-		[temp replaceOccurrencesOfString:@"/" withString:@":" options:NSLiteralSearch range:NSMakeRange(0, [temp length])];
-		album = [NSString stringWithString:temp];
-	}
+	if ([album length])
+		album = [album stringByMakingPathSafe];
 	
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	NSString *path = [[defs objectForKey:@"LibraryLocation"] stringByExpandingTildeInPath];
-	if ([defs objectForKey:@"ArtworkSubdirectory"])
-		path = [path stringByAppendingPathComponent:[defs objectForKey:@"ArtworkSubdirectory"]];
+	NSString *path = libraryLocation;
 	
-	if ([artist length]) {
-		path = [path stringByAppendingPathComponent:artist];
+	if (compilation) {
+		path = [path stringByAppendingPathComponent:@"Compilations"];
 	} else {
-		path = [path stringByAppendingPathComponent:@"Unknown Artist"];
+		if ([artist length]) {
+			path = [path stringByAppendingPathComponent:artist];
+		} else {
+			path = [path stringByAppendingPathComponent:@"Unknown Artist"];
+		}
 	}
 	
 	if ([album length]) {
@@ -65,17 +107,9 @@
 		path = [path stringByAppendingPathComponent:@"Unknown Album"];
 	}
 	
-	path = [path stringByAppendingPathComponent:[defs objectForKey:@"PreferredImage"]];
-	NSFileManager *fm = [NSFileManager defaultManager];
-	NSEnumerator *e = [[NSArray arrayWithObjects:@"tiff", @"tif", @"png", @"jpeg", @"jpg", @"gif", @"bmp", nil] objectEnumerator];
-	NSString *ext;
-	while (ext = [e nextObject]) {
-		NSString *fullPath = [path stringByAppendingPathExtension:ext];
-		if ([fm fileExistsAtPath:fullPath]) {
-			return [[[NSImage alloc] initByReferencingFile:fullPath] autorelease];
-		}
-	}
-	return nil;
+	if (artworkSubdirectory)
+		path = [path stringByAppendingPathComponent:artworkSubdirectory];
+	
+	return path;
 }
-
 @end

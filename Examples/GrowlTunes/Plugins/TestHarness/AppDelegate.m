@@ -20,6 +20,7 @@
 		song = @"";
 		album = @"";
 		artist = @"";
+		compilation = [[NSNumber alloc] initWithBool:NO];
 		
 		// find all the GrowlTunes plugins
 		NSString *growlTunesPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"GrowlTunes"];
@@ -45,9 +46,13 @@
 			if ([path hasSuffix:@".plugin"]) {
 				NSBundle *bundle = [NSBundle bundleWithPath:
 					[dir stringByAppendingPathComponent:path]];
-				NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-				[dict setValue:bundle forKey:@"bundle"];
-				[array addObject:dict];
+				if ([[bundle principalClass] conformsToProtocol:@protocol(GrowlTunesPlugin)]) {
+					NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+					[dict setValue:bundle forKey:@"bundle"];
+					[array addObject:dict];
+				} else {
+					NSLog(@"Plugin `%@' does not conform to protocol", path);
+				}
 			}
 		}
 		[self setPlugins:array];
@@ -138,16 +143,35 @@
 	[self testPlugin];
 }
 
+// - compilation
+- (NSNumber *)compilation {
+	return [[compilation retain] autorelease];
+}
+
+// - setCompilation:
+- (void)setCompilation:(NSNumber *)isCompilation {
+	[isCompilation retain];
+	[compilation release];
+	compilation = isCompilation;
+	
+	[self testPlugin];
+}
+
 - (void) testPlugin {
 	if ([pluginsController selectionIndex] != NSNotFound) {
 		id selection = [pluginsController selection];
-		id <GrowlTunesPlugin> obj = [selection valueForKey:@"instance"];
+		id obj = [selection valueForKey:@"instance"];
 		if (!obj) {
-			obj = [[[selection valueForKey:@"bundle"] principalClass] new];
-			[selection setValue:obj forKey:@"instance"];
+			Class principalClass = [[selection valueForKey:@"bundle"] principalClass];
+			if ([principalClass conformsToProtocol:@protocol(GrowlTunesPlugin)]) {
+				obj = [principalClass new];
+				[selection setValue:obj forKey:@"instance"];
+			} else {
+				NSLog(@"Plugin `%@' does not conform to protocol", [[selection valueForKey:@"bundle"] bundleIdentifier]);
+			}
 		}
 		if (obj) {
-			[self setCurrentImage:[obj artworkForTitle:song byArtist:artist onAlbum:album]];
+			[self setCurrentImage:[obj artworkForTitle:song byArtist:artist onAlbum:album isCompilation:[compilation boolValue]]];
 		} else {
 			NSBeep();
 		}

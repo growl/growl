@@ -24,7 +24,7 @@
 	return self;
 }
 
-- (NSImage *)artworkForTitle:(NSString *)song byArtist:(NSString *)artist onAlbum:(NSString *)album {
+- (NSImage *)artworkForTitle:(NSString *)song byArtist:(NSString *)artist onAlbum:(NSString *)album isCompilation:(BOOL)compilation {
 	Class XMLDocument = NSClassFromString(@"NSXMLDocument");
 	NSImage *artwork = nil;
 	NSString *imageURL = nil;

@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@protocol GrowlTunesPlugin;
+#import "GrowlTunesPlugin.h"
 
 @interface ARTchiveIconSource : NSObject <GrowlTunesPlugin> {
-
+	NSString *libraryLocation;
+	NSString *preferredImage;
+	NSString *artworkSubdirectory;
 }
-
+- (NSString *)pathForTrack:(NSString *)track artist:(NSString *)artist album:(NSString *)album compilation:(BOOL)compilation;
 @end

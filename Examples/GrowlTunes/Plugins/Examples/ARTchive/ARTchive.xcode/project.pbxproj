@@ -120,19 +120,13 @@
 		};
 		08FB77AFFE84173DC02AAC07 = {
 			children = (
+				0A55D5D40713179200D09C04,
+				0A55D5D50713179200D09C04,
 				0A8B5FC9070B17B300593A33,
 				0A8B5FCA070B17B300593A33,
 			);
 			isa = PBXGroup;
 			name = Classes;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		08FB77B6FE84183AC02AAC07 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = main.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -146,6 +140,34 @@
 //0A2
 //0A3
 //0A4
+		0A55D5D40713179200D09C04 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = ARTchiveStringAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A55D5D50713179200D09C04 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = ARTchiveStringAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A55D5D60713179200D09C04 = {
+			fileRef = 0A55D5D40713179200D09C04;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0A55D5D70713179200D09C04 = {
+			fileRef = 0A55D5D50713179200D09C04;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0A8B5FC9070B17B300593A33 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -243,7 +265,6 @@
 		32C88E010371C26100C91783 = {
 			children = (
 				32DBCF630370AF2F00C91783,
-				08FB77B6FE84183AC02AAC07,
 			);
 			isa = PBXGroup;
 			name = "Other Sources";
@@ -280,6 +301,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARTchive_Prefix.pch;
+				HEADER_SEARCH_PATHS = ../../..;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				PRODUCT_NAME = "GrowlTunes-ARTchive";
@@ -299,6 +321,7 @@
 			files = (
 				8D5B49B0048680CD000E48DA,
 				0A8B5FCB070B17B300593A33,
+				0A55D5D60713179200D09C04,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,19 +335,11 @@
 		8D5B49B1048680CD000E48DA = {
 			buildActionMask = 2147483647;
 			files = (
-				8D5B49B2048680CD000E48DA,
 				0A8B5FCC070B17B300593A33,
+				0A55D5D70713179200D09C04,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D5B49B2048680CD000E48DA = {
-			fileRef = 08FB77B6FE84183AC02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-				);
-			};
 		};
 		8D5B49B3048680CD000E48DA = {
 			buildActionMask = 2147483647;

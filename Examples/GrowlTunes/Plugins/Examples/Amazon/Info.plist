@@ -20,5 +20,7 @@
 	<string>0.1a</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlTunes-Amazon</string>
+	<key>LoadLast</key>
+	<true/>
 </dict>
 </plist>

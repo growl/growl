@@ -45,6 +45,7 @@
 //084
 		080E96DDFE201D6D7F000001 = {
 			children = (
+				0A55D72A071325D500D09C04,
 				52F57A190687349B0068B46C,
 				52F57A1A0687349B0068B46C,
 				52F5774906872B3A0068B46C,
@@ -83,6 +84,20 @@
 //0A2
 //0A3
 //0A4
+		0A55D72A071325D500D09C04 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlTunesPlugin.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A55D72B071325D500D09C04 = {
+			fileRef = 0A55D72A071325D500D09C04;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0A8B5F01070B139600593A33 = {
 			children = (
 				0A8B5F08070B140300593A33,
@@ -708,6 +723,7 @@
 				52F5774B06872B3A0068B46C,
 				52F57A1B0687349B0068B46C,
 				5275B567068866DA006F5704,
+				0A55D72B071325D500D09C04,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -797,9 +813,9 @@
 //CB3
 //CB4
 		CB57B4CA0711E503001968B0 = {
+			explicitFileType = sourcecode.scpt;
 			fileEncoding = 30;
 			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.scpt;
 			name = jackItunesInfo.scpt;
 			path = Scripts/jackItunesInfo.scpt;
 			refType = 4;

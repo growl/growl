@@ -15,6 +15,7 @@
 	NSString *artist;
 	NSString *album;
 	NSString *song;
+	NSNumber *compilation;
 	IBOutlet NSWindow *mainWindow;
 	
 	/*IBOutlet NSTextField *artistField;
@@ -38,6 +39,9 @@
 - (NSString *)song;
 - (void)setSong:(NSString *)aSong;
 
+- (NSNumber *)compilation;
+- (void)setCompilation:(NSNumber *)isCompilation;
+
 // actions
 - (void) testPlugin;
 
@@ -48,5 +52,6 @@
 @protocol GrowlTunesPlugin
 - (NSImage *)artworkForTitle:(NSString *)track
 					byArtist:(NSString *)artist
-					 onAlbum:(NSString *)album;
+					 onAlbum:(NSString *)album
+			   isCompilation:(BOOL)compilation;
 @end
