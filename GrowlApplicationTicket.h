@@ -11,6 +11,7 @@
 @class GrowlController;
 
 typedef enum GrowlPriority {
+	GP_unset		= -1000,
 	GP_verylow		= -2,
 	GP_low			= -1,
 	GP_normal		=  0,
@@ -36,6 +37,7 @@ typedef enum GrowlPriority {
 
 - (GrowlPriority) priority;
 - (void) setPriority:(GrowlPriority)newPriority;
+- (void) resetPriority;
 
 - (BOOL) enabled;
 - (void) setEnabled:(BOOL)yorn;
@@ -119,5 +121,6 @@ typedef enum GrowlPriority {
 
 - (int) priorityForNotification:(NSString *) name;
 - (void) setPriority:(int)priority forNotification:(NSString *) name;
+- (void) resetPriorityForNotification:(NSString *) name;
 @end
 

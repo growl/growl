@@ -147,7 +147,10 @@ static id _singleton = nil;
 	}
     
     //Retrieve and set the the priority of the notification
-    int priority = [ticket priorityForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]]; 
+	int priority = [ticket priorityForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]];
+	if (priority == GP_unset) {
+		priority = [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
+	}
     [aDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
 
     // Retrieve and set the sticky bit of the notification

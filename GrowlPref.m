@@ -191,6 +191,8 @@
 	if (notificationPriorityMenu)
 		[notificationPriorityMenu release];
 	notificationPriorityMenu = [[NSMenu alloc] initWithTitle:@"Priority"];
+	[notificationPriorityMenu addItemWithTitle:@"Default" action:nil keyEquivalent:@""];
+	[notificationPriorityMenu addItem:[NSMenuItem separatorItem]];
 	[notificationPriorityMenu addItemWithTitle:@"Very Low" action:nil keyEquivalent:@""];
 	[notificationPriorityMenu addItemWithTitle:@"Moderate" action:nil keyEquivalent:@""];
 	[notificationPriorityMenu addItemWithTitle:@"Normal" action:nil keyEquivalent:@""];
@@ -483,8 +485,15 @@
 			return;
 		}
 		if ([[column identifier] isEqualTo:@"priority"]) {
-			[appTicket setPriority:([value intValue]-2) forNotification:note];
-			[self setPrefsChanged:YES];
+			if ([value intValue] == 0) {
+				if ([appTicket priorityForNotification:note] != GP_unset) {
+					[appTicket resetPriorityForNotification:note];
+					[self setPrefsChanged:YES];
+				}
+			} else if ([appTicket priorityForNotification:note] != ([value intValue]-4)) {
+				[appTicket setPriority:([value intValue]-4) forNotification:note];
+				[self setPrefsChanged:YES];
+			}
 			return;
 		}
 		if ([[column identifier] isEqualTo:@"sticky"]) {
@@ -527,8 +536,13 @@
 	if (tableView == applicationNotifications) {
 		if ([[column identifier] isEqualTo:@"priority"]) {
 			[cell setMenu:[notificationPriorityMenu copy]];
-			int priority = [appTicket priorityForNotification:[[appTicket allNotifications] objectAtIndex:row]];
-			[cell selectItemAtIndex:priority+2];
+			id notif = [[appTicket allNotifications] objectAtIndex:row];
+			int priority = [appTicket priorityForNotification:notif];
+			if (priority != GP_unset) {
+				[cell selectItemAtIndex:priority+4];
+			} else {
+				[cell selectItemAtIndex:0];
+			}
 			return;
 		}
 		return;

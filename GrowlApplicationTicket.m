@@ -15,44 +15,51 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 @implementation GrowlApplicationNotification
 + (GrowlApplicationNotification*) notificationWithName:(NSString*)name {
-    return [[[GrowlApplicationNotification alloc] initWithName:name priority:GP_normal enabled:YES sticky:NSMixedState] autorelease];
+    return [[[GrowlApplicationNotification alloc] initWithName:name priority:GP_unset enabled:YES sticky:NSMixedState] autorelease];
 }
 
 + (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict {
     NSString* name = [dict objectForKey:@"Name"];
-    GrowlPriority priority = [[dict objectForKey:@"Priority"] intValue];
+	GrowlPriority priority;
+	if ([dict objectForKey:@"Priority"])
+		priority = [[dict objectForKey:@"Priority"] intValue];
+	else
+		priority = GP_unset;
     BOOL enabled = [[dict objectForKey:@"Enabled"] boolValue];
     int sticky = ([[dict objectForKey:@"Sticky"] intValue] >= 0 ? ([[dict objectForKey:@"Sticky"] intValue] > 0 ? NSOnState : NSOffState) : NSMixedState);
     return [[[GrowlApplicationNotification alloc] initWithName:name priority:priority enabled:enabled sticky:sticky] autorelease];
 }
 
 - (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(int)sticky {
-    [self init];
-    _name = [name retain];
-    _priority = priority;
-    _enabled = enabled;
-    _sticky = sticky;
+    if (self = [super init]) {
+		_name = [name retain];
+		_priority = priority;
+		_enabled = enabled;
+		_sticky = sticky;
+	}
     return self;
 }
 
 - (NSDictionary*) notificationAsDict {
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
         _name, @"Name",
-        [NSNumber numberWithInt:(int)_priority], @"Priority",
         [NSNumber numberWithBool:_enabled], @"Enabled",
         [NSNumber numberWithInt:_sticky], @"Sticky",
         nil];
+	if (_priority != GP_unset) {
+		[dict setObject:[NSNumber numberWithInt:_priority] forKey:@"Priority"];
+	}
     return dict;
 }
 
 - (void) dealloc {
-    if (_name)
-        [_name release];
+    [_name release];
+	[super dealloc];
 }
 
 #pragma mark -
 - (NSString*) name {
-	return [[_name copy] autorelease];
+	return [[_name retain] autorelease];
 }
 
 - (GrowlPriority) priority {
@@ -61,6 +68,10 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 - (void) setPriority:(GrowlPriority)newPriority {
     _priority = newPriority;
+}
+
+- (void) resetPriority {
+	_priority = GP_unset;
 }
 
 - (BOOL) enabled {
@@ -445,7 +456,10 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 - (void) setPriority:(int)priority forNotification:(NSString *) name {
     [[_allNotifications objectForKey:name] setPriority:(GrowlPriority)priority];
-	return;
+}
+
+- (void) resetPriorityForNotification:(NSString *) name {
+	[[_allNotifications objectForKey:name] resetPriority];
 }
 @end
 
