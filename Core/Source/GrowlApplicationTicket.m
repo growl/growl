@@ -108,7 +108,7 @@
 		NSAssert1(allNotificationNames, @"Ticket dictionaries must contain a list of all their notifications (application name: %@)", appName);
 		defaultNotifications = [ticketDict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
 		if (!defaultNotifications) defaultNotifications = allNotificationNames;
-		defaultNotifications = [defaultNotifications retain];
+		[defaultNotifications retain];
 
 		NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
 		NSMutableDictionary *allNotificationsTemp = [NSMutableDictionary dictionary];
@@ -149,7 +149,12 @@
 		} else if (fullPath) {
 			icon = [[workspace iconForFile:fullPath] retain];
 		}
-		useDefaults = [[ticketDict objectForKey:UseDefaultsKey] boolValue];
+		id useDefaultsParam = [ticketDict objectForKey:UseDefaultsKey];
+		if (useDefaultsParam) {
+			useDefaults = [useDefaultsParam boolValue];
+		} else {
+			useDefaults = YES;
+		}
 
 		if ([ticketDict objectForKey:TicketEnabledKey]) {
 			ticketEnabled = [[ticketDict objectForKey:TicketEnabledKey] boolValue];
@@ -478,15 +483,14 @@
 		}
 		defaultNotifications = mDefaultNotifications;
 	} else {
-		if ( inObject ) {
+		if (inObject) {
 			NSLog(@"WARNING: application %@ passed an invalid object for the default notifications: %@.", appName, inObject);
 		}
 		defaultNotifications = [allNotifications copy];
 	}
 
-	if ( useDefaults ) {
+	if (useDefaults) {
 		[self setAllowedNotifications:defaultNotifications];
-		useDefaults = YES;
 	}
 }
 

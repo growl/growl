@@ -907,7 +907,7 @@ static const char *keychainAccountName = "Growl";
 	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
 	[self cacheImages];
 	[growlApplications reloadData];
-	
+
 	if ([currentApplication isEqualToString:app]) {
 		[self reloadPreferences];
 	}
