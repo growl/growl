@@ -9,6 +9,7 @@
 #import "GrowlApplicationBridge.h"
 #ifdef GROWL_WITH_INSTALLER
 #import "GrowlInstallationPrompt.h"
+#import "GrowlVersionUtilities.h"
 #endif
 
 #import <ApplicationServices/ApplicationServices.h>
@@ -464,27 +465,19 @@ static BOOL				promptedToUpgradeGrowl = NO;
 + (void) _checkForPackagedUpdateForGrowlPrefPaneBundle:(NSBundle *)growlPrefPaneBundle {
 	NSString *ourGrowlPrefPaneInfoPath;
 	NSDictionary *infoDictionary;
-	float packagedVersion, installedVersion;
+	NSString *packagedVersion, *installedVersion;
 	BOOL upgradeIsAvailable;
 	
 	ourGrowlPrefPaneInfoPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlPrefPaneInfo" 
 																				ofType:@"plist"];
 
-	packagedVersion = [[[NSDictionary dictionaryWithContentsOfFile:ourGrowlPrefPaneInfoPath] objectForKey:(NSString *)kCFBundleVersionKey] floatValue];
-	
+	packagedVersion = [[NSDictionary dictionaryWithContentsOfFile:ourGrowlPrefPaneInfoPath] objectForKey:(NSString *)kCFBundleVersionKey];
+
 	infoDictionary = [growlPrefPaneBundle infoDictionary];
-	installedVersion = [[infoDictionary objectForKey:(NSString *)kCFBundleVersionKey] floatValue];
-	
+	installedVersion = [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey];
 
-	/* If the installed version is earlier than our packaged version, we can offer an upgrade.
-	 *
-	 * Growl 0.5 shipped with a version number of 1.0.  We therefore have to do a hackish check to see if we are dealing
-	 * with an upgrade to Growl 0.5.  If our version is earlier than or the same as 1.0, and the installed version is exactly 1.0, and
-	 * the installed version doesn't offer a CFBundleIconFile (which Growl 0.6 and later will but Growl 0.5 did not), then we
-	 * can say with a reasonably high degree of confidence that we can offer an upgrade to the Growl 0.5 installation. */
-	upgradeIsAvailable = (installedVersion < packagedVersion) ||
-		((packagedVersion <= installedVersion) && (installedVersion == 1.0) && ([infoDictionary objectForKey:@"CFBundleIconFile"] == nil));
-
+	//If the installed version is earlier than our packaged version, we can offer an upgrade.
+	upgradeIsAvailable = compareVersionStringsTranslating1_0To0_5(packagedVersion, installedVersion);
 	if (upgradeIsAvailable && !promptedToUpgradeGrowl) {
 			[GrowlInstallationPrompt showInstallationPromptForUpdate:YES];
 			promptedToUpgradeGrowl = YES;

@@ -11,6 +11,7 @@
 #import "GrowlDefines.h"
 #import "GrowlApplicationNotification.h"
 #import "GrowlDisplayProtocol.h"
+#import "GrowlVersionUtilities.h"
 #import "ACImageAndTextCell.h"
 #import "NSGrowlAdditions.h"
 #import <ApplicationServices/ApplicationServices.h>
@@ -107,7 +108,7 @@ static const char *keychainAccountName = "Growl";
 
 	// do nothing--be quiet if there is no active connection or if the
 	// version number could not be downloaded
-	if ( latestVersionNumber && (![latestVersionNumber isEqualToString: currVersionNumber]) ) {
+	if ( latestVersionNumber && (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0) ) {
 		NSBeginAlertSheet(/*title*/ NSLocalizedStringFromTableInBundle(@"Update Available", nil, bundle, @""),
 						  /*defaultButton*/ nil, // use default localized button title ("OK" in English)
 						  /*alternateButton*/ NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),

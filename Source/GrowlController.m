@@ -15,6 +15,7 @@
 #import "NSGrowlAdditions.h"
 #import "GrowlDisplayProtocol.h"
 #import "GrowlDefines.h"
+#import "GrowlVersionUtilities.h"
 #import "SVNRevision.h"
 #import <sys/socket.h>
 
@@ -28,32 +29,8 @@
 - (void) _postGrowlIsReady;
 @end
 
-enum {
-	//release types
-	release,
-	svn,
-	development,
-	alpha,
-	beta,
-};
-static NSString *releaseTypeNames[] = {
-	@"", @" SVN ", @"d", @"a", @"b",
-};
-//update these constants whenever the version changes
-static struct {
-	unsigned short major;
-	unsigned short minor;
-	unsigned char incremental;
-	unsigned char releaseType; //use one of the constants above
-	unsigned short development; //for svn, should be the svn revision
-	// the svn revision is filled in -[GrowlController versionDictionary]
-
-	/*this structure can be taken as a 64-bit hexadecimal number:
-	 *	0x0000 0006 00 01 svn_revision
-	 *when releaseType is release, the development version should always be 0,
-	 *	and it should be ignored. (thus, display "0.6", not "0.60".)
-	 */
-} version = { 0U, 7U, 0U, svn, 0U, };
+static struct Version version = { 0U, 7U, 0U, svn, 0U, };
+//XXX - update these constants whenever the version changes
 
 #pragma mark -
 

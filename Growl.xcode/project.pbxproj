@@ -85,6 +85,60 @@
 			settings = {
 			};
 		};
+		0790135207D932140023B640 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlVersionUtilities.h;
+			path = "Common code/GrowlVersionUtilities.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0790135307D932140023B640 = {
+			fileRef = 0790135207D932140023B640;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0790135407D932140023B640 = {
+			fileRef = 0790135207D932140023B640;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0790135507D9321B0023B640 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = GrowlVersionUtilities.c;
+			path = "Common code/GrowlVersionUtilities.c";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0790135607D9321B0023B640 = {
+			fileRef = 0790135507D9321B0023B640;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0790135707D9321B0023B640 = {
+			fileRef = 0790135507D9321B0023B640;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0790135807D932270023B640 = {
+			fileRef = 0790135507D9321B0023B640;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0790135907D932300023B640 = {
+			fileRef = 0790135207D932140023B640;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		07BB71AB07ACB69C00BFDD4A = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -2417,7 +2471,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlDefinesInternal.h;
+			name = GrowlDefinesInternal.h;
+			path = "Common code/GrowlDefinesInternal.h";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2425,7 +2480,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlDefines.h;
+			name = GrowlDefines.h;
+			path = "Common code/GrowlDefines.h";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2712,6 +2768,7 @@
 				343354EF0792FC3600C84B15,
 				07BB71AF07ACB69C00BFDD4A,
 				07BB71DF07ACC69C00BFDD4A,
+				0790135907D932300023B640,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2733,6 +2790,7 @@
 				34E9F1310790AF3800662E8E,
 				343354E60792FAFF00C84B15,
 				07BB71B007ACB69C00BFDD4A,
+				0790135807D932270023B640,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3143,6 +3201,7 @@
 				34E9DC17078FBF1B00662E8E,
 				3494427507BAF6C4000F2A03,
 				9532B0F807CE651F0028B2F1,
+				0790135307D932140023B640,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3164,6 +3223,7 @@
 				5286205A06DC4C2F00D3A356,
 				A16BD22906FCC05F00BF033B,
 				936FAB04074482BF00A7D430,
+				0790135607D9321B0023B640,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3990,6 +4050,7 @@
 				52861FF006DC463E00D3A356,
 				954F013D074135D400EA8AB5,
 				95BF837D0743675700306A77,
+				0790135407D932140023B640,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4012,6 +4073,7 @@
 				3434E8EA0790D6E600A97A48,
 				CB5C315C07925B53007CC0D0,
 				95EF05A107C77C1500218584,
+				0790135707D9321B0023B640,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4143,6 +4205,8 @@
 				34E9AA79074BC98A00D59950,
 				34E9DC16078FBF1B00662E8E,
 				A14BBE0E06EE1D5600530EED,
+				0790135207D932140023B640,
+				0790135507D9321B0023B640,
 				95BF83760743675700306A77,
 				52861FEF06DC463E00D3A356,
 				32DBCFA20370C41700C91783,
