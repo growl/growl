@@ -34,6 +34,9 @@ static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStri
 static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundle *growlPrefPaneBundle);
 #endif
 
+//this is not declared static because the GAB class uses it.
+CFStringRef _copyCurrentProcessName(void);
+
 static const CFOptionFlags bundleIDComparisonFlags = kCFCompareCaseInsensitive | kCFCompareBackwards;
 
 static CFMutableArrayRef targetsToNotifyArray = NULL;
@@ -210,6 +213,13 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 		regDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, delegate->registrationDictionary);
 		if(delegate->applicationName)
 			CFDictionarySetValue(regDict, GROWL_APP_NAME, delegate->applicationName);
+		else {
+			CFStringRef processName = _copyCurrentProcessName();
+			if(processName)
+				CFDictionarySetValue(regDict, GROWL_APP_NAME, processName);
+			else
+				NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined"));
+		}
 		if(!CFDictionaryContainsKey(regDict, GROWL_APP_NAME)) {
 			//no registering for us, it seems.
 			CFRelease(regDict);
@@ -503,4 +513,15 @@ static CFBundleRef _CopyGrowlPrefPaneBundle(void) {
 	}
 
 	return growlPrefPaneBundle;
+}
+
+CFStringRef _copyCurrentProcessName(void) {
+    ProcessSerialNumber PSN = { 0, kCurrentProcess };
+    CFStringRef name = NULL;
+    OSStatus err = CopyProcessName(&PSN, &name);
+    if(err != noErr) {
+    	NSLog(CFSTR("GrowlApplicationBridge: Could not get process name because CopyProcessName returned %li"), (long)err);
+    	name = nil;
+	}
+	return name;
 }

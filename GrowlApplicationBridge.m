@@ -14,6 +14,9 @@
 #define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY			@"PreferencePanes"
 #define PREFERENCE_PANE_EXTENSION						@"prefPane"
 
+//this is in GAB-Carbon.c.
+extern NSString *_copyCurrentProcessName(void);
+
 @interface GrowlApplicationBridge (PRIVATE)
 /*!
 	@method growlPrefPaneBundle
@@ -152,7 +155,6 @@ static BOOL				promptedToUpgradeGrowl = NO;
 																	   object:nil
 																	 userInfo:noteDict
 														   deliverImmediately:NO];
-		NSLog(@"GrowlApplicationBridge: Posted notification with dictionary: %@", noteDict);
 	} else {
 #ifdef GROWL_WITH_INSTALLER
 		//Store this notification for posting if Growl launches if the user hasn't already said NO
@@ -200,7 +202,18 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		FSRef appRef;
 		OSStatus status = FSPathMakeRef((UInt8 *)[growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
 		if (status == noErr) {
-			NSDictionary *registrationDict = [delegate registrationDictionaryForGrowl];
+			NSMutableDictionary *registrationDict = [[delegate registrationDictionaryForGrowl] mutableCopy];
+			if(appName)
+				[registrationDict setObject:appName forKey:GROWL_APP_NAME];
+			else if(![registrationDict objectForKey:GROWL_APP_NAME]) {
+				NSString *processName = _copyCurrentProcessName();
+				if(processName) {
+					[registrationDict setObject:processName forKey:GROWL_APP_NAME];
+					[processName release];
+				} else
+					NSLog(@"%@", @"GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined");
+			}
+
 			FSRef regItemRef;
 			BOOL passRegDict = NO;
 			
@@ -218,6 +231,8 @@ static BOOL				promptedToUpgradeGrowl = NO;
 				
 				regStatus = FSPathMakeRef((UInt8 *)[regDictPath fileSystemRepresentation], &regItemRef, NULL);
 				if (regStatus == noErr) passRegDict = YES;
+
+				[registrationDict release];
 			}
 
 			spec.appRef = &appRef;
