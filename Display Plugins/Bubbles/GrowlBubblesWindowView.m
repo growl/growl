@@ -55,7 +55,6 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
 		borderColor = [[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:0.5f] retain];
-		lightColor = [[NSColor colorWithCalibratedRed:0.93725f green:0.96863f blue:0.99216f alpha:0.95f] retain];
 	}
 	return self;
 }
@@ -183,27 +182,34 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 - (void) setPriority:(int)priority {
 	NSString *key;
 	NSString *textKey;
+	NSString *topKey;
+
 	switch (priority) {
 		case -2:
 			key = GrowlBubblesVeryLowColor;
 			textKey = GrowlBubblesVeryLowTextColor;
+			topKey = GrowlBubblesVeryLowTopColor;
 			break;
 		case -1:
 			key = GrowlBubblesModerateColor;
 			textKey = GrowlBubblesModerateTextColor;
+			topKey = GrowlBubblesModerateTopColor;
 			break;
 		case 1:
 			key = GrowlBubblesHighColor;
 			textKey = GrowlBubblesHighTextColor;
+			topKey = GrowlBubblesHighTopColor;
 			break;
 		case 2:
 			key = GrowlBubblesEmergencyColor;
 			textKey = GrowlBubblesEmergencyTextColor;
+			topKey = GrowlBubblesEmergencyTopColor;
 			break;
 		case 0:
 		default:
 			key = GrowlBubblesNormalColor;
 			textKey = GrowlBubblesNormalTextColor;
+			topKey = GrowlBubblesNormalTopColor;
 			break;
 	}
 	NSArray *array = nil;
@@ -238,6 +244,19 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 		textColor = [NSColor controlTextColor];
 	}
 	[textColor retain];
+	[array release];
+
+	array = nil;
+	READ_GROWL_PREF_VALUE(topKey, GrowlBubblesPrefDomain, NSArray *, &array);
+	if (array && [array isKindOfClass:NSArrayClass]) {
+		lightColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
+											   green:[[array objectAtIndex:1U] floatValue]
+												blue:[[array objectAtIndex:2U] floatValue]
+											   alpha:1.0f];
+	} else {
+		lightColor = [NSColor colorWithCalibratedRed:0.93725f green:0.96863f blue:0.99216f alpha:0.95f];
+	}
+	[lightColor retain];
 	[array release];
 }
 

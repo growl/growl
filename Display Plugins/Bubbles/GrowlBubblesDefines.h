@@ -10,6 +10,12 @@
 #define GrowlBubblesHighTextColor		@"Bubbles-Priority-High-Text-Color"
 #define GrowlBubblesEmergencyTextColor	@"Bubbles-Priority-Emergency-Text-Color"
 
+#define GrowlBubblesVeryLowTopColor		@"Bubbles-Priority-VeryLow-Top-Color"
+#define GrowlBubblesModerateTopColor	@"Bubbles-Priority-Moderate-Top-Color"
+#define GrowlBubblesNormalTopColor		@"Bubbles-Priority-Normal-Top-Color"
+#define GrowlBubblesHighTopColor		@"Bubbles-Priority-High-Top-Color"
+#define GrowlBubblesEmergencyTopColor	@"Bubbles-Priority-Emergency-Top-Color"
+
 #define GrowlBubblesOpacity				@"Bubbles-Opacity"
 #define GrowlBubblesDuration			@"Bubbles-Duration"
 

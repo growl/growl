@@ -8,6 +8,7 @@
                 opacityChanged = id; 
                 setLimit = id; 
                 textColorChanged = id; 
+                topColorChanged = id; 
             }; 
             CLASS = GrowlBubblesPrefsController; 
             LANGUAGE = ObjC; 
@@ -27,6 +28,11 @@
                 "text_normal" = NSColorWell; 
                 "text_opacity" = NSTextField; 
                 "text_veryLow" = NSColorWell; 
+                "top_emergency" = NSColorWell; 
+                "top_high" = NSColorWell; 
+                "top_moderate" = NSColorWell; 
+                "top_normal" = NSColorWell; 
+                "top_veryLow" = NSColorWell; 
             }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
