@@ -214,7 +214,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "REVISION=`svnversion`\nmkdir -p $OBJROOT/include\necho \"#define SVN_REVISION $REVISION\" > $SCRIPT_OUTPUT_FILE_0";
+			shellScript = "REVISION=`svnversion .`\nmkdir -p $OBJROOT/include\necho \"#define SVN_REVISION $REVISION\" > $SCRIPT_OUTPUT_FILE_0";
 		};
 		07C2F34707D6F54E00B18524 = {
 			fileEncoding = 4;
