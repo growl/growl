@@ -997,15 +997,14 @@
 		CBBC7DE50659313D00684B79 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.xml;
-			name = "Beep-Info.plist";
-			path = "/Users/karl/src/Growl/Beep-Info.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = "Beep-Info.plist";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		CBBC7DFD065931A800684B79 = {
 			children = (
-				CBBC7F260659500C00684B79,
 				CBBC7E1D06593BFD00684B79,
+				CBBC7F260659500C00684B79,
 				CBBC7E0A06593B3200684B79,
 			);
 			isa = PBXGroup;

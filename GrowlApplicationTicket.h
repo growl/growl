@@ -27,4 +27,5 @@
 #pragma mark -
 
 - (void) registerParentForNotifications:(NSSet *) inSet;
+- (void) unregisterParentForNotifications:(NSArray *) inArray;
 @end
