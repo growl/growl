@@ -164,6 +164,21 @@
 //0A2
 //0A3
 //0A4
+		0A04279607088E7D0058CBD0 = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = MusicVideo.growlView;
+			refType = 3;
+			remoteRef = 0A04279A07088E880058CBD0;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0A04279A07088E880058CBD0 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 6C7CEAE50707F41D00441A92;
+			remoteInfo = MusicVideo;
+		};
 		0A62933106EE7E5B00002780 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
@@ -696,6 +711,7 @@
 				A1DECDD206FF5C010053BF53,
 				345A68EE06FF684E00114E06,
 				A14892520702746D002CEEA2,
+				0A04279607088E7D0058CBD0,
 			);
 			isa = PBXGroup;
 			name = Products;
