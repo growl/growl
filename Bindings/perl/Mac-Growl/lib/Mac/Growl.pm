@@ -1,10 +1,9 @@
 package Mac::Growl;
 
-use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = '0.61';
+our $VERSION = '0.62';
 
 use base 'Exporter';
 our @EXPORT = qw();
@@ -49,42 +48,46 @@ sub _Define_Subs {
 sub BEGIN {
 	$helper = 'GrowlHelperApp';
 
-	eval 'require Foundation';
-	if (!$@) {
-		$base = 'Foundation';
+	if (!$base || $base eq 'Foundation') {
+		eval 'require Foundation';
+		if (!$@) {
+			$base = 'Foundation';
 
-		# load classes for images
-		my $path = NSString->stringWithCString_('/System/Library/Frameworks/AppKit.framework');
-		$appkit = NSBundle->alloc->init->initWithPath_($path);
-		$appkit->load if $appkit;
-		if ($appkit->isLoaded) {
-			no strict 'refs';
-			for my $class (qw(NSWorkspace NSImage)) {
-				@{$class . '::ISA'} = 'PerlObjCBridge';
+			# load classes for images
+			my $path = NSString->stringWithCString_('/System/Library/Frameworks/AppKit.framework');
+			$appkit = NSBundle->alloc->init->initWithPath_($path);
+			$appkit->load if $appkit;
+			if ($appkit->isLoaded) {
+				no strict 'refs';
+				for my $class (qw(NSWorkspace NSImage)) {
+					@{$class . '::ISA'} = 'PerlObjCBridge';
+				}
+			} else {
+				undef $appkit;
 			}
 		} else {
-			undef $appkit;
+			$base = undef;
 		}
 	}
 
-	if (!$base) {
+	if (!$base || $base eq 'Mac::Glue') {
 		eval 'require Mac::Glue';
 		unless ($@) {
 			eval { $glue = Mac::Glue->new($helper) };
-			$base = 'Mac::Glue' if $glue;
+			$base = $glue ? 'Mac::Glue' : undef;
 		}
 	}
 
 	for my $applescript (qw(Mac::OSA::Simple MacPerl Mac::AppleScript)) {
-		if (!$base) {
+		if (!$base || $base eq $applescript) {
 			eval "require $applescript";
-			$base = $applescript unless $@;
+			$base = $@ ? undef : $applescript;
 		}
 	}
 
-	if (!$base) {
+	if (!$base || $base eq 'osascript') {
 		chomp(my $res = `osascript -e1`);
-		$base = 'osascript' if $res eq 1;
+		$base = $res eq 1 ? 'osascript' : undef;
 	}
 
 	if (!$base) {
@@ -455,6 +458,19 @@ preference: L<Mac::Glue>, L<Mac::OSA::Simple>, L<MacPerl> (which defines
 C<DoAppleScript>), and L<Mac::AppleScript>.  As a last resort, it will
 use C<osascript(1)>, a command line program that should be available on
 all Mac OS X machines.
+
+=head2 Advanced Method Selection
+
+You can specify which method is used, by defining $Mac::Growl::base before
+loading the module, e.g.:
+
+	BEGIN { $Mac::Growl::base = 'Mac::Glue' }
+	use Mac::Growl;
+
+Possible values for this var are, as described above: Foundation, Mac::Glue,
+Mac::OSA::Simple, MacPerl, Mac::AppleScript, and osascript.  B<Note>: You
+normally do not want to do this.  The default is sensible in almost all
+cases.
 
 
 =head1 EXPORT
