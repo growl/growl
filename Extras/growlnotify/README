@@ -1,3 +1,0 @@
-Usage: read the damn manpage. That's what it's for. Installing will stick it in /usr/local/man/man1 so it should be in your manpath.
-
-Installation: running `make' will build it into your build folder if you want to test it before installation. Running `make install' will install it into /usr/local/bin and install the manpage, and this will do a build first if it needs building (it uses `xcodebuild install' internally with the Deployment buildstyle)
