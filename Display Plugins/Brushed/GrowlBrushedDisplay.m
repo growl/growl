@@ -12,10 +12,10 @@
 #import "GrowlBrushedDefines.h"
 #import "GrowlDefinesInternal.h"
 
-static NSString *BrushedAuthor      = @"Ingmar Stein";
-static NSString *BrushedName        = @"Brushed";
-static NSString *BrushedDescription = @"Aqua/Brushed metal notifications";
-static NSString *BrushedVersion     = @"1.0";
+#define BRUSHED_AUTHOR      @"Ingmar Stein"
+#define BRUSHED_NAME        @"Brushed"
+#define BRUSHED_DESCRIPTION @"Aqua/Brushed metal notifications"
+#define BRUSHED_VERSION     @"1.0"
 
 static unsigned brushedDepth = 0U;
 
@@ -36,19 +36,19 @@ static unsigned brushedDepth = 0U;
 }
 
 - (NSString *)version {
-	return BrushedVersion;
+	return BRUSHED_VERSION;
 }
 
 - (NSString *) author {
-	return BrushedAuthor;
+	return BRUSHED_AUTHOR;
 }
 
 - (NSString *) name {
-	return BrushedName;
+	return BRUSHED_NAME;
 }
 
 - (NSString *) userDescription {
-	return BrushedDescription;
+	return BRUSHED_DESCRIPTION;
 }
 
 - (void) unloadPlugin {
@@ -56,10 +56,10 @@ static unsigned brushedDepth = 0U;
 
 - (NSDictionary *) pluginInfo {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		BrushedName,        @"Name",
-		BrushedAuthor,      @"Author",
-		BrushedVersion,     @"Version",
-		BrushedDescription, @"Description",
+		BRUSHED_NAME,        @"Name",
+		BRUSHED_AUTHOR,      @"Author",
+		BRUSHED_VERSION,     @"Version",
+		BRUSHED_DESCRIPTION, @"Description",
 		nil];
 }
 

@@ -7,13 +7,11 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
-@class GrowlBubblesPrefsController;
+@class NSPreferencePane;
 
 @interface GrowlBubblesController : NSObject <GrowlDisplayPlugin> {
-	GrowlBubblesPrefsController *bubblePrefPane;
+	NSPreferencePane *preferencePane;
 }
-
-#pragma mark Growl Gets Satisfaction
 
 - (void) loadPlugin;
 - (NSString *) author;
@@ -21,7 +19,7 @@
 - (NSString *) userDescription;
 - (NSString *) version;
 - (void) unloadPlugin;
-- (NSDictionary*) pluginInfo;
+- (NSDictionary *) pluginInfo;
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
 

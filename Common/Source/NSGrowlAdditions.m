@@ -45,9 +45,9 @@
 
 #pragma mark -
 
-static NSString *_CFURLAliasDataKey  = @"_CFURLAliasData";
-static NSString *_CFURLStringKey     = @"_CFURLString";
-static NSString *_CFURLStringTypeKey = @"_CFURLStringType";
+#define _CFURLAliasDataKey  @"_CFURLAliasData"
+#define _CFURLStringKey     @"_CFURLString"
+#define _CFURLStringTypeKey @"_CFURLStringType"
 
 @implementation NSURL (GrowlAdditions)
 

@@ -181,12 +181,11 @@ static GrowlPluginController *sharedController;
 }
 
 - (void) findDisplayPluginsInDirectory:(NSString *)dir {
-	NSString * displayPluginExt = @"growlView";
 	NSDirectoryEnumerator * enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
 	NSString * file;
 
 	while ( (file = [enumerator nextObject]) ) {
-		if ( [[file pathExtension] isEqualToString:displayPluginExt] ) {
+		if ( [[file pathExtension] isEqualToString:@"growlView"] ) {
 			[self loadPlugin:[dir stringByAppendingPathComponent:file]];
 		}
 	}

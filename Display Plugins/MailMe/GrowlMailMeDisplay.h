@@ -7,12 +7,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class GrowlMailMePrefs;
+@class NSPreferencePane;
 
 @interface GrowlMailMeDisplay: NSObject <GrowlDisplayPlugin>
 {
 	NSString			*destAddress;
-	GrowlMailMePrefs	*prefPane;
+	NSPreferencePane	*prefPane;
 }
 
 - (void) loadPlugin;

@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <GrowlDisplayProtocol.h>
 
-@class GrowlBrushedPrefsController;
+@class NSPreferencePane;
 
 @interface GrowlBrushedDisplay : NSObject <GrowlDisplayPlugin> {
-  GrowlBrushedPrefsController *preferencePane;
+  NSPreferencePane *preferencePane;
 }
 
 - (void) loadPlugin;

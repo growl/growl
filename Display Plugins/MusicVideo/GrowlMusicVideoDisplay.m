@@ -9,24 +9,22 @@
 #import "GrowlMusicVideoPrefs.h"
 #import <GrowlDefinesInternal.h>
 
-#define B_AUTHOR @"Jorge Salvador Caffarena"
-#define B_NAME @"Music Video"
+#define B_AUTHOR      @"Jorge Salvador Caffarena"
+#define B_NAME        @"Music Video"
 #define B_DESCRIPTION @"Music Video notifications, for your tunes"
-#define B_VERSION @"0.1.0"
-
-@class NSPreferencePane;
+#define B_VERSION     @"0.1.0"
 
 @implementation GrowlMusicVideoDisplay
 
 - (id) init {
 	if ( (self = [super init] ) ) {
-		musicVideoPrefPane = [[GrowlMusicVideoPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMusicVideoPrefs class]]];
+		preferencePane = [[GrowlMusicVideoPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMusicVideoPrefs class]]];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[musicVideoPrefPane release];
+	[preferencePane release];
 	[super dealloc];
 }
 
@@ -64,7 +62,7 @@
 }
 
 - (NSPreferencePane *) preferencePane {
-	return musicVideoPrefPane;
+	return preferencePane;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {

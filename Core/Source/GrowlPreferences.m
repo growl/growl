@@ -10,16 +10,6 @@
 
 #import "GrowlPreferences.h"
 
-NSString * HelperAppBundleIdentifier	= @"com.Growl.GrowlHelperApp";
-NSString * GrowlPreferencesChanged		= @"GrowlPreferencesChanged";
-NSString * GrowlPreview					= @"GrowlPreview";
-NSString * GrowlDisplayPluginKey		= @"GrowlDisplayPluginName";
-NSString * GrowlUserDefaultsKey			= @"GrowlUserDefaults";
-NSString * GrowlStartServerKey			= @"GrowlStartServer";
-NSString * GrowlRemoteRegistrationKey	= @"GrowlRemoteRegistration";
-NSString * GrowlEnableForwardKey		= @"GrowlEnableForward";
-NSString * GrowlForwardDestinationsKey	= @"GrowlForwardDestinations";
-
 static GrowlPreferences * sharedPreferences;
 
 @implementation GrowlPreferences
@@ -32,7 +22,7 @@ static GrowlPreferences * sharedPreferences;
 }
 
 - (id) init {
-	if((self = [super init])) {
+	if ((self = [super init])) {
 		helperAppDefaults = [[NSUserDefaults alloc] init];
 		[helperAppDefaults addSuiteNamed:HelperAppBundleIdentifier];
 	}

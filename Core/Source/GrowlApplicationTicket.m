@@ -15,9 +15,9 @@
 #import "GrowlDisplayProtocol.h"
 #import "NSGrowlAdditions.h"
 
-NSString * UseDefaultsKey		= @"useDefaults";
-NSString * TicketEnabledKey		= @"ticketEnabled";
-NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
+#define UseDefaultsKey			@"useDefaults"
+#define TicketEnabledKey		@"ticketEnabled"
+#define UsesCustomDisplayKey	@"usesCustomDisplay"
 
 #pragma mark -
 
@@ -275,7 +275,6 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	NSImage *genericIcon = [[NSWorkspace sharedWorkspace] iconForFileType: NSFileTypeForHFSTypeCode(kGenericApplicationIcon)];
 	[genericIcon setSize:NSMakeSize(128.0f, 128.0f)];
 	return genericIcon;
-
 }
 
 - (void) setIcon:(NSImage *) inIcon {

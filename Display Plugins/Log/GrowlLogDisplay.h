@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <GrowlDisplayProtocol.h>
 
-@class GrowlLogPrefs;
+@class NSPreferencePane;
 
 @interface GrowlLogDisplay : NSObject <GrowlDisplayPlugin> {
-	GrowlLogPrefs *logPrefPane;
+	NSPreferencePane *preferencePane;
 }
 
 @end

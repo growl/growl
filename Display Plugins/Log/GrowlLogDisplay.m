@@ -11,27 +11,39 @@
 #import "GrowlLogPrefs.h"
 #import <GrowlDefinesInternal.h>
 
-@class NSPreferencePane;
-
 @implementation GrowlLogDisplay
 
-- (void) loadPlugin {}
-- (NSString *) author {return @"Nelson Elhage"; }
-- (NSString *) name { return @"Log"; }
-- (NSString *) userDescription { return @"Logs notifications to the console or a file of your choosing"; }
-- (NSString *) version { return @"0.2"; }
-- (void) unloadPlugin {}
+- (void) loadPlugin {
+}
 
+- (NSString *) author {
+	return @"Nelson Elhage";
+}
+
+- (NSString *) name {
+	return @"Log";
+}
+
+- (NSString *) userDescription {
+	return @"Logs notifications to the console or a file of your choosing";
+}
+
+- (NSString *) version {
+	return @"0.2";
+}
+
+- (void) unloadPlugin {
+}
 
 - (id) init {
 	if ( (self = [super init] ) ) {
-		logPrefPane = [[GrowlLogPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlLogPrefs class]]];
+		preferencePane = [[GrowlLogPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlLogPrefs class]]];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[logPrefPane release];
+	[preferencePane release];
 	[super dealloc];
 }
 
@@ -46,7 +58,7 @@
 }
 
 - (NSPreferencePane *) preferencePane {
-	return logPrefPane;
+	return preferencePane;
 }
 
   - (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {

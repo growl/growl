@@ -91,7 +91,9 @@
 	if ( delegate && [delegate respondsToSelector:@selector(didFadeIn:)] ) {
 		[delegate didFadeIn:self];
 	}
-	if(screenshotMode) [self takeScreenshot];
+	if (screenshotMode) {
+		[self takeScreenshot];
+	}
 	if ( autoFadeOut ) {
 		[self _waitBeforeFadeOut];
 	}

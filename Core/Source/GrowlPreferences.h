@@ -9,15 +9,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString * HelperAppBundleIdentifier;
-extern NSString * GrowlPreferencesChanged;
-extern NSString * GrowlPreview;
-extern NSString * GrowlDisplayPluginKey;
-extern NSString * GrowlUserDefaultsKey;
-extern NSString * GrowlStartServerKey;
-extern NSString * GrowlRemoteRegistrationKey;
-extern NSString * GrowlEnableForwardKey;
-extern NSString * GrowlForwardDestinationsKey;
+#define HelperAppBundleIdentifier	@"com.Growl.GrowlHelperApp"
+#define GrowlPreferencesChanged		@"GrowlPreferencesChanged"
+#define GrowlPreview				@"GrowlPreview"
+#define GrowlDisplayPluginKey		@"GrowlDisplayPluginName"
+#define GrowlUserDefaultsKey		@"GrowlUserDefaults"
+#define GrowlStartServerKey			@"GrowlStartServer"
+#define GrowlRemoteRegistrationKey	@"GrowlRemoteRegistration"
+#define GrowlEnableForwardKey		@"GrowlEnableForward"
+#define GrowlForwardDestinationsKey	@"GrowlForwardDestinations"
 
 @interface GrowlPreferences : NSObject {
 	NSUserDefaults			* helperAppDefaults;

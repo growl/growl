@@ -12,10 +12,10 @@
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
 
-static NSString *SmokeAuthor		= @"Matthew Walton";
-static NSString *SmokeName			= @"Smoke";
-static NSString *SmokeDescription	= @"Dark translucent notifications";
-static NSString *SmokeVersion		= @"1.0";
+#define SMOKE_AUTHOR		@"Matthew Walton"
+#define SMOKE_NAME			@"Smoke"
+#define SMOKE_DESCRIPTION	@"Dark translucent notifications"
+#define SMOKE_VERSION		@"1.0"
 
 static unsigned smokeDepth = 0U;
 
@@ -36,19 +36,19 @@ static unsigned smokeDepth = 0U;
 }
 
 - (NSString *)version {
-	return SmokeVersion;
+	return SMOKE_VERSION;
 }
 
 - (NSString *) author {
-	return SmokeAuthor;
+	return SMOKE_AUTHOR;
 }
 
 - (NSString *) name {
-	return SmokeName;
+	return SMOKE_NAME;
 }
 
 - (NSString *) userDescription {
-	return SmokeDescription;
+	return SMOKE_DESCRIPTION;
 }
 
 - (void) unloadPlugin {
@@ -56,10 +56,10 @@ static unsigned smokeDepth = 0U;
 
 - (NSDictionary *) pluginInfo {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		SmokeName,			@"Name",
-		SmokeAuthor,		@"Author",
-		SmokeVersion,		@"Version",
-		SmokeDescription,	@"Description",
+		SMOKE_NAME,			@"Name",
+		SMOKE_AUTHOR,		@"Author",
+		SMOKE_VERSION,		@"Version",
+		SMOKE_DESCRIPTION,	@"Description",
 		nil];
 }
 

@@ -32,10 +32,11 @@ CFURLRef _copyCurrentProcessURL(void) {
 	FSRef fsref;
 	CFURLRef URL = NULL;
 	OSStatus err = GetProcessBundleLocation(&psn, &fsref);
-	if(err != noErr)
+	if (err != noErr) {
 		NSLog(CFSTR("in CFGrowlAdditions: Could not get application location, because GetProcessBundleLocation returned %li\n"), (long)err);
-	else
+	} else {
 		URL = CFURLCreateFromFSRef(kCFAllocatorDefault, &fsref);
+	}
 	return URL;
 }
 CFStringRef _copyCurrentProcessPath(void) {
@@ -61,7 +62,7 @@ CFStringRef _copyTemporaryFolderPath(void) {
 }
 
 CFDictionaryRef _createDockDescriptionForURL(CFURLRef url) {
-	if(!url) {
+	if (!url) {
 		NSLog(CFSTR("%@"), CFSTR("in CFGrowlAdditions' _copyDockDescriptionForURL: Cannot copy Dock description for a NULL URL"));
 		return NULL;
 	}
@@ -70,25 +71,27 @@ CFDictionaryRef _createDockDescriptionForURL(CFURLRef url) {
 	CFStringRef scheme = CFURLCopyScheme(url);
 	Boolean isFileURL = (CFStringCompare(scheme, CFSTR("file"), kCFCompareCaseInsensitive) == kCFCompareEqualTo);
 	CFRelease(scheme);
-	if(isFileURL)
+	if (isFileURL) {
 		return NULL;
+	}
 
 	CFDictionaryRef dict = NULL;
 	CFStringRef path     = NULL;
 	CFDataRef aliasData  = NULL;
 
 	FSRef    fsref;
-	if(CFURLGetFSRef(url, &fsref)) {
+	if (CFURLGetFSRef(url, &fsref)) {
 		AliasHandle alias = NULL;
 		OSStatus    err   = FSNewAlias(/*fromFile*/ NULL, &fsref, &alias);
-		if(err != noErr) {
+		if (err != noErr) {
 			NSLog(CFSTR("in CFGrowlAdditions' _copyDockDescriptionForURL: FSNewAlias for %@ returned %li"), url, (long)err);
 		} else {
 			HLock((Handle)alias);
 
 			err = FSCopyAliasInfo(alias, /*targetName*/ NULL, /*volumeName*/ NULL, (CFStringRef *)&path, /*whichInfo*/ NULL, /*info*/ NULL);
-			if(err != noErr)
+			if (err != noErr) {
 				NSLog(CFSTR("in CFGrowlAdditions' _copyDockDescriptionForURL: FSCopyAliasInfo for %@ returned %li"), url, (long)err);
+			}
 
 			aliasData = CFDataCreate(kCFAllocatorDefault, (UInt8 *)*alias, GetHandleSize((Handle)alias));
 
@@ -97,13 +100,14 @@ CFDictionaryRef _createDockDescriptionForURL(CFURLRef url) {
 		}
 	}
 
-	if(!path)
+	if (!path) {
 		path = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
+	}
 
-	if(path || aliasData) {
+	if (path || aliasData) {
 		CFMutableDictionaryRef temp = CFDictionaryCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 
-		if(path) {
+		if (path) {
 			CFDictionarySetValue(temp, _CFURLStringKey, path);
 			CFRelease(path);
 
@@ -113,7 +117,7 @@ CFDictionaryRef _createDockDescriptionForURL(CFURLRef url) {
 			CFRelease(pathStyleNum);
 		}
 
-		if(aliasData) {
+		if (aliasData) {
 			CFDictionarySetValue(temp, _CFURLAliasDataKey, aliasData);
 			CFRelease(aliasData);
 		}

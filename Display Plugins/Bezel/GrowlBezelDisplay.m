@@ -14,19 +14,17 @@
 #define B_DESCRIPTION	@"Bezel like notifications, with a twist"
 #define B_VERSION		@"1.1.0b"
 
-@class NSPreferencePane;
-
 @implementation GrowlBezelDisplay
 
 - (id) init {
 	if ( (self = [super init] ) ) {
-		bezelPrefPane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBezelPrefs class]]];
+		preferencePane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBezelPrefs class]]];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[bezelPrefPane release];
+	[preferencePane release];
 	[super dealloc];
 }
 
@@ -64,7 +62,7 @@
 }
 
 - (NSPreferencePane *) preferencePane {
-	return bezelPrefPane;
+	return preferencePane;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {

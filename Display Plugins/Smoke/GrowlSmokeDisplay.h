@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <GrowlDisplayProtocol.h>
 
-@class GrowlSmokePrefsController;
+@class NSPreferencePane;
 
 @interface GrowlSmokeDisplay : NSObject <GrowlDisplayPlugin> {
-  GrowlSmokePrefsController *preferencePane;
+  NSPreferencePane *preferencePane;
 }
 
 - (void) loadPlugin;

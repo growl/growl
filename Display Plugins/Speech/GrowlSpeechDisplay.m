@@ -11,10 +11,10 @@
 #import "GrowlSpeechDefines.h"
 #import <GrowlDefinesInternal.h>
 
-static NSString *author = @"Ingmar Stein";
-static NSString *name = @"Speech";
-static NSString *version = @"0.6";
-static NSString *description = @"Speak notifications.";
+#define SPEECH_AUTHOR      @"Ingmar Stein"
+#define SPEECH_NAME        @"Speech"
+#define SPEECH_VERSION     @"0.6"
+#define SPEECH_DESCRIPTION @"Speak notifications."
 
 @implementation GrowlSpeechDisplay
 - (id) init {
@@ -30,27 +30,27 @@ static NSString *description = @"Speak notifications.";
 }
 
 - (NSString *) author {
-	return author;
+	return SPEECH_AUTHOR;
 }
 
 - (NSString *) name {
-	return name;
+	return SPEECH_NAME;
 }
 
 - (NSString *) userDescription {
-	return description;
+	return SPEECH_DESCRIPTION;
 }
 
 - (NSString *) version {
-	return version;
+	return SPEECH_VERSION;
 }
 
 - (NSDictionary *) pluginInfo {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		name,			@"Name",
-		author,			@"Author",
-		version,		@"Version",
-		description,	@"Description",
+		SPEECH_NAME,		@"Name",
+		SPEECH_AUTHOR,		@"Author",
+		SPEECH_VERSION,		@"Version",
+		SPEECH_DESCRIPTION,	@"Description",
 		nil];
 }
 

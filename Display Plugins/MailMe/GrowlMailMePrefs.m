@@ -8,7 +8,7 @@
 #import "GrowlMailMePrefs.h"
 #import <GrowlDefinesInternal.h>
 
-static NSString *destAddressKey = @"MailMe - Recipient address";
+#define destAddressKey @"MailMe - Recipient address"
 
 @implementation GrowlMailMePrefs
 
@@ -18,7 +18,7 @@ static NSString *destAddressKey = @"MailMe - Recipient address";
 
 - (void) mainViewDidLoad {
 	NSString *destAddress = nil;
-	
+
 	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &destAddress);
 
 	if (destAddress) {

@@ -10,7 +10,6 @@
 #import "GrowlBubblesController.h"
 #import "GrowlBubblesWindowController.h"
 #import "GrowlBubblesPrefsController.h"
-@class NSPreferencePane;
 
 @implementation GrowlBubblesController
 
@@ -18,13 +17,13 @@
 
 - (id) init {
 	if ( (self = [super init] ) ) {
-		bubblePrefPane = [[GrowlBubblesPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBubblesPrefsController class]]];
+		preferencePane = [[GrowlBubblesPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBubblesPrefsController class]]];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[bubblePrefPane release];
+	[preferencePane release];
 	[super dealloc];
 }
 
@@ -63,7 +62,7 @@
 }
 
 - (NSPreferencePane *) preferencePane {
-	return bubblePrefPane;
+	return preferencePane;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
