@@ -1,5 +1,5 @@
 //
-//  GrowlAppBridgeDefines.h
+//  GrowlDefines.h
 //
 
 /*!

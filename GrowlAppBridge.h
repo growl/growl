@@ -14,7 +14,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "GrowlAppBridgeDefines.h"
+#import "GrowlDefines.h"
 
 //Forward declarations
 @protocol GrowlAppBridgeDelegate;

@@ -7,12 +7,12 @@
 //
 
 #import <CoreFoundation/CoreFoundation.h>
-#import "GrowlAppBridgeDefines.h"
+#import "GrowlDefines.h"
 
 /*!
     @header
     @abstract   Defines internal Growl keys and types
-    @discussion Defines internal Growl keys and types used by the helper app and plugins. Notification keys (used internally and by the app bridge) are defined in GrowlAppBridgeDefines.h.
+    @discussion Defines internal Growl keys and types used by the helper app and plugins. Notification keys (used internally and by the app bridge) are defined in GrowlDefines.h.
 */
 
 /*! The listen port for Growl notification servers. */
