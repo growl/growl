@@ -917,7 +917,7 @@ static const char *keychainAccountName = "Growl";
 	[growlApplications reloadData];
 
 	if ([currentApplication isEqualToString:app]) {
-		[self reloadPreferences];
+		[self reloadAppTab];
 	}
 }
 

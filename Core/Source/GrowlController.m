@@ -467,16 +467,6 @@ static id singleton = nil;
 
 #pragma mark -
 
-- (void) loadTickets {
-	[tickets addEntriesFromDictionary:[GrowlApplicationTicket allSavedTickets]];
-}
-
-- (void) saveTickets {
-	[[tickets allValues] makeObjectsPerformSelector:@selector(saveTicket)];
-}
-
-#pragma mark -
-
 - (NSString *)screenshotsDirectory {
 	NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Application Support/Growl/Screenshots"];
 	[[NSFileManager defaultManager] createDirectoryAtPath:path
@@ -539,7 +529,7 @@ static id singleton = nil;
 	}
 	if (!note || !object) {
 		[tickets removeAllObjects];
-		[self loadTickets];
+		[tickets addEntriesFromDictionary:[GrowlApplicationTicket allSavedTickets]];
 	}
 	if (!note || (object && [object isEqualTo:GrowlDisplayPluginKey])) {
 		[self loadDisplay];
