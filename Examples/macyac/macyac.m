@@ -45,12 +45,14 @@
 #define MAX_BACKLOG 10
 
 static int port = DEFAULT_YAC_PORT;
+static int sticky = 0;
 
 void usage(const char *argv[])
 {
-	fprintf(stderr, "Usage: %s [-h] [-p port]\n", argv[0]);
+	fprintf(stderr, "Usage: %s [-h] [-s] [-p port]\n", argv[0]);
+    fprintf(stderr, "-h: display this help message\n");
 	fprintf(stderr, "-p: port to listen to for incoming Yac messages\n");
-	fprintf(stderr, "-h: display this help message\n");
+	fprintf(stderr, "-s: make notifications sticky\n");
 	exit(1);
 }
 
@@ -58,10 +60,13 @@ void getoptions(int argc, const char *argv[])
 {
 	int ch;
 	
-	while ((ch = getopt(argc, argv, "p:h")) != -1)
+	while ((ch = getopt(argc, argv, "p:hs")) != -1)
 		switch (ch) {
 			case 'h':
 				usage(argv);
+				break;
+            case 's':
+				sticky = 1;
 				break;
 			case 'p':
 				port = strtol(optarg, (char **)NULL, 10);
@@ -81,6 +86,7 @@ void growl_notify (NSString *title, NSString *content)
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
 	NSDictionary *userInfo;
+	NSNumber *stick;
 	
 	/* register with Growl. */
 	NSArray *defaultAndAllNotifications = [NSArray arrayWithObjects:@"Incoming Caller", @"Network Message", nil];
@@ -94,11 +100,13 @@ void growl_notify (NSString *title, NSString *content)
 							userInfo:userInfo];
 	
 	/* and send notification */
+	stick = [NSNumber numberWithInt: sticky];
 	userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 		title, GROWL_NOTIFICATION_NAME,
 		@"MacYac", GROWL_APP_NAME,
 		title, GROWL_NOTIFICATION_TITLE,
 		content, GROWL_NOTIFICATION_DESCRIPTION,
+		stick, GROWL_NOTIFICATION_STICKY,
 		nil];
 	
 	[distCenter postNotificationName:GROWL_NOTIFICATION
