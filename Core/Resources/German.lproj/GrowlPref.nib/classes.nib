@@ -19,7 +19,7 @@
                 currentPluginController = id; 
                 displayAuthor = NSTextField; 
                 displayDefaultPrefView = NSView; 
-                displayPlugins = NSTableView; 
+                displayPluginsTable = NSTableView; 
                 displayPrefView = NSView; 
                 displayVersion = NSTextField; 
                 growlApplications = NSTableView; 

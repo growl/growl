@@ -59,7 +59,7 @@
 	IBOutlet NSButton				*remove;
 
 	//"Display Options" tab pane
-	IBOutlet NSTableView			*displayPlugins;
+	IBOutlet NSTableView			*displayPluginsTable;
 	IBOutlet NSView					*displayPrefView;
 	IBOutlet NSView					*displayDefaultPrefView;
 	IBOutlet NSTextField			*displayAuthor;
@@ -113,6 +113,8 @@
 - (IBAction) deleteTicket:(id)sender;
 
 #pragma mark "Display Options" tab pane
+- (NSArray *) displayPlugins;
+- (void) setDisplayPlugins:(NSArray *)thePlugins;
 - (IBAction) showPreview:(id)sender;
 - (void) loadViewForDisplay:(NSString*)displayName;
 

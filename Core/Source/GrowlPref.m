@@ -128,9 +128,10 @@
 
 - (void) awakeFromNib {
 	NSTableColumn *tableColumn = [growlApplications tableColumnWithIdentifier:@"application"];
-	ACImageAndTextCell *imageAndTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
+	ACImageAndTextCell *imageAndTextCell = [[ACImageAndTextCell alloc] init];
 	[imageAndTextCell setEditable:YES];
 	[tableColumn setDataCell:imageAndTextCell];
+	[imageAndTextCell release];
 	NSButtonCell *cell = [[applicationNotifications tableColumnWithIdentifier:@"sticky"] dataCell];
 	[cell setAllowsMixedState:YES];
 	[cell setImagePosition:NSImageOnly];
@@ -138,6 +139,8 @@
 	[cell setImagePosition:NSImageOnly];
 	cell = [[growlApplications tableColumnWithIdentifier:@"enable"] dataCell];
 	[cell setImagePosition:NSImageOnly];
+	cell = [[applicationNotifications tableColumnWithIdentifier:@"priority"] dataCell];
+	[cell setMenu:notificationPriorityMenu];
 
 	[applicationNotifications deselectAll:NULL];
 	[growlApplications deselectAll:NULL];
@@ -159,7 +162,7 @@
 		[passwordString release];
 		SecKeychainItemFreeContent( NULL, password );
 	} else if (status != errSecItemNotFound) {
-		NSLog( @"Failed to retrieve password from keychain. Error: %d", status );
+		NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
 		[networkPassword setStringValue:@""];
 	}	
 
@@ -228,9 +231,7 @@
 }
 
 - (void) reloadPreferences {
-	if (tickets) {
-		[tickets release];
-	}
+	[tickets release];
 	tickets = [[GrowlApplicationTicket allSavedTickets] mutableCopy];
 	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
 	[self filterApplications];
@@ -241,14 +242,12 @@
 
 	[growlApplications reloadData];
 
-	[plugins release];
-	plugins = [[[GrowlPluginController controller] allDisplayPlugins] retain];
+	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
 
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
 	[allDisplayPlugins removeAllItems];
 	[allDisplayPlugins addItemsWithTitles:plugins];
 	[allDisplayPlugins selectItemWithTitle:[preferences objectForKey:GrowlDisplayPluginKey]];
-	[displayPlugins reloadData];
 
 	startGrowlAtLogin = [preferences startGrowlAtLogin];
 	backgroundUpdateCheckEnabled = [[preferences objectForKey:GrowlUpdateCheckKey] boolValue];
@@ -279,10 +278,7 @@
 	// we'll have to call this method after the controller knows about it.
 	NSEnumerator *enumerator;
 	
-	if (applicationDisplayPluginsMenu) {
-		[applicationDisplayPluginsMenu release];
-	}
-
+	[applicationDisplayPluginsMenu release];
 	applicationDisplayPluginsMenu = [[NSMenu alloc] initWithTitle:@"DisplayPlugins"];
 	enumerator = [plugins objectEnumerator];
 	id title;
@@ -294,7 +290,6 @@
 	}
 
 	[[[growlApplications tableColumnWithIdentifier:@"display"] dataCell] setMenu:applicationDisplayPluginsMenu];
-	[[[applicationNotifications tableColumnWithIdentifier:@"priority"] dataCell] setMenu:notificationPriorityMenu];
 	[[[applicationNotifications tableColumnWithIdentifier:@"display"] dataCell] setMenu:applicationDisplayPluginsMenu];
 }
 
@@ -346,12 +341,12 @@
 
 	unsigned numPlugins = [plugins count];
 
-	if (([displayPlugins selectedRow] < 0) && (numPlugins > 0U)) {
-		[displayPlugins selectRow:0 byExtendingSelection:NO];
+	if (([displayPluginsTable selectedRow] < 0) && (numPlugins > 0U)) {
+		[displayPluginsTable selectRow:0 byExtendingSelection:NO];
 	}
 
 	if (numPlugins > 0U) {
-		currentPlugin = [[plugins objectAtIndex:[displayPlugins selectedRow]] retain];
+		currentPlugin = [[plugins objectAtIndex:[displayPluginsTable selectedRow]] retain];
 	}
 
 	GrowlPluginController *growlPluginController = [GrowlPluginController controller];
@@ -528,7 +523,7 @@
 												strlen( keychainAccountName ), keychainAccountName,
 												length, password, NULL );
 		if (status) {
-			NSLog( @"Failed to add password to keychain." );
+			NSLog(@"Failed to add password to keychain.");
 		}
 	} else {
 		// change existing password
@@ -546,7 +541,7 @@
 			CFRelease(itemRef);
 		}
 		if (status) {
-			NSLog( @"Failed to change password in keychain." );
+			NSLog(@"Failed to change password in keychain.");
 		}
 	}
 }
@@ -565,6 +560,15 @@
 }
 
 #pragma mark "Display Options" tab pane
+
+- (NSArray *) displayPlugins {
+	return plugins;
+}
+
+- (void) setDisplayPlugins:(NSArray *)thePlugins {
+	[plugins release];
+	plugins = [thePlugins retain];
+}
 
 - (IBAction) showPreview:(id) sender {
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview object:currentPlugin];
@@ -619,11 +623,11 @@
 		if (pluginPrefPane) {
 			[pluginPrefPane didSelect];
 			// Hook up key view chain
-			[displayPlugins setNextKeyView:[pluginPrefPane firstKeyView]];
+			[displayPluginsTable setNextKeyView:[pluginPrefPane firstKeyView]];
 			[[pluginPrefPane lastKeyView] setNextKeyView:tabView];
-			//[[displayPlugins window] makeFirstResponder:[pluginPrefPane initialKeyView]];
+			//[[displayPluginsTable window] makeFirstResponder:[pluginPrefPane initialKeyView]];
 		} else {
-			[displayPlugins setNextKeyView:tabView];
+			[displayPluginsTable setNextKeyView:tabView];
 		}
 		
 		if (oldPrefPane) {
@@ -641,8 +645,6 @@
 		returnValue = [filteredApplications count];
 	} else if (tableView == applicationNotifications) {
 		returnValue = [[appTicket allNotifications] count];
-	} else if (tableView == displayPlugins) {
-		returnValue = [plugins count];
 	} else if (tableView == growlServiceList) {
 		returnValue = [services count];
 	}
@@ -664,19 +666,13 @@
 	} else if (tableView == applicationNotifications) {
 		NSString *note = [[appTicket allNotifications] objectAtIndex:row];
 		identifier = [column identifier];
-		
+
 		if ([identifier isEqualTo:@"enable"]) {
 			returnObject = [NSNumber numberWithBool:[appTicket isNotificationEnabled:note]];
 		} else if ([identifier isEqualTo:@"notification"]) {
 			returnObject = note;
 		} else if ([identifier isEqualTo:@"sticky"]) {
 			returnObject = [NSNumber numberWithInt:[appTicket stickyForNotification:note]];
-		}
-	} else if (tableView == displayPlugins) {
-		// only one column, but for the sake of cleanliness
-		identifier = [column identifier];
-		if ([identifier isEqualTo:@"plugins"]) {
-			returnObject = [plugins objectAtIndex:row];
 		}
 	} else if (tableView == growlServiceList) {
 		identifier = [column identifier];
@@ -789,7 +785,7 @@
 	if (tableView == growlApplications) {
 		[self reloadAppTab];
 		[applicationNotifications reloadData];
-	} else if (tableView == displayPlugins) {
+	} else if (tableView == displayPluginsTable) {
 		[self reloadDisplayTab];
 		//[remove setEnabled:NO];
 	} else if (tableView == applicationNotifications) {
