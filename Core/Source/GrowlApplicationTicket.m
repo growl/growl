@@ -65,10 +65,24 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	}
 }
 
+//these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
++ (BOOL)isValidTicketDictionary:(NSDictionary *)dict {
+	if([[dict objectForKey:GROWL_TICKET_VERSION] intValue] == 1) {
+		return [dict objectForKey:GROWL_NOTIFICATIONS_ALL]
+			&& [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT]
+			&& [dict objectForKey:GROWL_APP_NAME];
+	} else
+		return NO;
+}
++ (BOOL)isKnownTicketVersion:(NSDictionary *)dict {
+	return ([[dict objectForKey:GROWL_TICKET_VERSION] intValue] == 1);
+}
+
 - (id) initWithApplication:(NSString *) inAppName
 				  withIcon:(NSImage *) inIcon
 		  andNotifications:(NSArray *) inAllNotifications
-		   andDefaultNotes:(id) inDefaults {
+		   andDefaultNotes:(id) inDefaults
+{
 
 	if ( ( self = [super init] ) ) {
 		appName	= [inAppName retain];
@@ -111,12 +125,13 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 	NSDictionary *ticketsList = [NSDictionary dictionaryWithContentsOfFile:inPath];
 	appName = [[ticketsList objectForKey:GROWL_APP_NAME] retain];
-	defaultNotifications = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT] retain];
-	NSAssert(defaultNotifications, @"Ticket dictionaries must contain a list of default notifications (either names, or indices into the all-notifications list)");
 
 	//Get all the notification names and the data about them
 	allNotificationNames = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_ALL] retain];
 	NSAssert(allNotificationNames, @"Ticket dictionaries must contain a list of all their notifications");
+	defaultNotifications = [[ticketsList objectForKey:GROWL_NOTIFICATIONS_DEFAULT] retain];
+	if(!defaultNotifications) defaultNotifications = [allNotificationNames retain];
+
 	NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
 	NSMutableDictionary *notificationDict = [NSMutableDictionary dictionary];
 	id obj;

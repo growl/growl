@@ -84,7 +84,12 @@ static id singleton = nil;
 				[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]]];
 
 		[self preferencesChanged:nil];
-		
+
+		[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self
+															   selector:@selector(applicationLaunched:)
+																   name:NSWorkspaceDidLaunchApplicationNotification
+																 object:nil];
+
 		if (!singleton) {
 			singleton = self;
 		}
@@ -498,6 +503,36 @@ static id singleton = nil;
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
 	[self release];
+}
+
+#pragma mark Auto-discovery
+
+//called by NSWorkspace when an application launches.
+- (void)applicationLaunched:(NSNotification *)notification {
+	NSDictionary *userInfo = [notification userInfo];
+
+	NSString *appName = [userInfo objectForKey:@"NSApplicationName"];
+	NSString *appPath = [userInfo objectForKey:@"NSApplicationPath"];
+
+	if(appPath) {
+		NSString *ticketPath = [NSBundle pathForResource:@"Growl Registration Ticket" ofType:GROWL_REG_DICT_EXTENSION inDirectory:appPath];
+		NSDictionary *ticket = [NSDictionary dictionaryWithContentsOfFile:ticketPath];
+
+		if(ticket) {
+			if([GrowlApplicationTicket isValidTicketDictionary:ticket]) {
+				NSLog(@"Found registration ticket in %@ (located at %@)", appName, appPath);
+				//open it with ourselves.
+				NSString *myPath = [[[NSProcessInfo processInfo] arguments] objectAtIndex:0U];
+				[[NSWorkspace sharedWorkspace] openFile:ticketPath
+										withApplication:myPath
+										  andDeactivate:NO];
+			} else if([GrowlApplicationTicket isKnownTicketVersion:ticket]) {
+				NSLog(@"%@ (located at %@) contains an invalid registration ticket - developer, please consult Growl developer documentation (http://growl.info/documentation/developer/)", appName, appPath);
+			} else {
+				NSLog(@"%@ (located at %@) contains a ticket whose version (%i) is unrecognised by this version (%@) of Growl", appName, appPath, [[ticket objectForKey:GROWL_TICKET_VERSION] intValue], [self stringWithVersionDictionary:nil]);
+			}
+		}
+	}
 }
 
 @end

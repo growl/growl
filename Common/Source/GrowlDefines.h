@@ -80,7 +80,12 @@
  *	 has enabled. Your application should not interact with this key.
  */
 #define GROWL_NOTIFICATIONS_USER_SET	XSTR("AllowedUserNotifications")
-
+/*!	@defined	GROWL_TICKET_VERSION
+ *	@abstract	The version of your registration ticket.
+ *	@discussion	Include this key in a ticket plist file that you put in your
+ *	 application bundle for auto-discovery. The current ticket version is 1.
+ */
+#define GROWL_TICKET_VERSION			XSTR("TicketVersion")
 // UserInfo Keys for Notifications
 #pragma mark UserInfo Keys for Notifications
 

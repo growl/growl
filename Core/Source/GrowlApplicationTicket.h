@@ -31,6 +31,10 @@
 + (NSDictionary *) allSavedTickets;
 + (void) loadTicketsFromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber;
 
+//these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
++ (BOOL)isValidTicketDictionary:(NSDictionary *)dict;
++ (BOOL)isKnownTicketVersion:(NSDictionary *)dict;
+
 - (id) initWithApplication:(NSString *) inAppName
 				  withIcon:(NSImage *) inIcon
 		  andNotifications:(NSArray *) inAllNotifications
