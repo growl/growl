@@ -134,6 +134,7 @@
 		NSSize      shadowSize = NSMakeSize(0., -2.);
         [textShadow setShadowOffset:shadowSize];
         [textShadow setShadowBlurRadius:3.0];
+		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha: 1.0]];
 	}
 	
 	// Draw the title, resize if text too big
