@@ -204,6 +204,7 @@ enum {
 						}
 						// Use the iTunes icon instead
 						artwork = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"];
+						[artwork setSize:NSMakeSize(128.,128.)];
 					}
 				}
 				
