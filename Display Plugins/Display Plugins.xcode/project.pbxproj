@@ -368,9 +368,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlDisplayProtocol.h;
-			path = /Volumes/Zen/Users/vinay/Developer/growl/GrowlDisplayProtocol.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../GrowlDisplayProtocol.h;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		A14BBF0E06EE6DF100530EED = {
 			fileRef = A14BBF0D06EE6DF100530EED;
