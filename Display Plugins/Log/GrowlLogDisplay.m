@@ -18,8 +18,8 @@
 - (void) loadPlugin {}
 - (NSString *) author {return @"Nelson Elhage"; }
 - (NSString *) name { return @"Log"; }
-- (NSString *) userDescription { return @"NSLog()s notifications to the console"; }
-- (NSString *) version { return @"0.1"; }
+- (NSString *) userDescription { return @"Logs notifications to the console or a file of your choosing"; }
+- (NSString *) version { return @"0.2"; }
 - (void) unloadPlugin {}
 
 
