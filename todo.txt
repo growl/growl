@@ -99,7 +99,7 @@ Code Restructuring/Planning/Goals
 	- Support for the gnome notifications system if it ever adds a networking protocol for its notifications
 	- Pane in preferences for configuration of this when the user has actually turned it on
 
-4. Preferenece pane redesign
+4. Preference pane redesign
 	- Apps tab switch to app centric with custom View for notifications using images to represent the available options
 	- first tab have Growl image and dev names, maybe even an easter egg, controls for turning features on/off 
 	  ie. (GrowlHelperApp, Network Notifications, Sound to accompany notifications, Speech, Menu Item, etc)

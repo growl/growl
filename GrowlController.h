@@ -10,17 +10,20 @@
 
 @protocol GrowlDisplayPlugin;
 
+@class GrowlUDPServer;
+
 @interface GrowlController : NSObject {
-	NSMutableDictionary			*_tickets;				//Application tickets
-	NSLock						*_registrationLock;
-	NSMutableArray				*_notificationQueue;
-	NSMutableArray				*_registrationQueue;
-	NSNetService				*_service;
+	NSMutableDictionary			*tickets;				//Application tickets
+	NSLock						*registrationLock;
+	NSMutableArray				*notificationQueue;
+	NSMutableArray				*registrationQueue;
+	NSNetService				*service;
+	GrowlUDPServer				*udpServer;
 
 	id<GrowlDisplayPlugin>		displayController;
-	
-	BOOL						_growlIsEnabled;
-	BOOL						_growlFinishedLaunching;
+
+	BOOL						growlIsEnabled;
+	BOOL						growlFinishedLaunching;
 }
 
 + (id) singleton;

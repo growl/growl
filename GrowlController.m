@@ -9,6 +9,7 @@
 #import "GrowlApplicationTicket.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlNotificationServer.h"
+#import "GrowlUDPServer.h"
 
 @interface GrowlController (private)
 - (void) loadDisplay;
@@ -22,15 +23,15 @@
 
 #pragma mark -
 
-static id _singleton = nil;
+static id singleton = nil;
 
 @implementation GrowlController
 
 + (id) singleton {
-	return _singleton;
+	return singleton;
 }
 
-- (void)connectionDidDie:(NSDictionary *)userInfo
+- (void)connectionDidDie:(NSNotification *)aNotification
 {
 	NSLog( @"NSConnection died" );
 }
@@ -60,18 +61,18 @@ static id _singleton = nil;
 					  name:GROWL_PING
 					object:nil];
 	
-		_tickets = [[NSMutableDictionary alloc] init];
-		_registrationLock = [[NSLock alloc] init];
-		_notificationQueue = [[NSMutableArray alloc] init];
-		_registrationQueue = [[NSMutableArray alloc] init];
+		tickets = [[NSMutableDictionary alloc] init];
+		registrationLock = [[NSLock alloc] init];
+		notificationQueue = [[NSMutableArray alloc] init];
+		registrationQueue = [[NSMutableArray alloc] init];
 		
 		[[GrowlPreferences preferences] registerDefaults:
 				[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]]];
 
 		[self preferencesChanged:nil];
 		
-		if (!_singleton) {
-			_singleton = self;
+		if (!singleton) {
+			singleton = self;
 		}
 	}
 
@@ -83,7 +84,7 @@ static id _singleton = nil;
 	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlStartServerKey] boolValue];
 
 	// Setup notification server
-	if( enabled && !_service ) {
+	if( enabled && !service ) {
 		// turn on
 		NSSocketPort *socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
 		NSConnection *connection;
@@ -106,26 +107,30 @@ static id _singleton = nil;
 												   object:connection];
 
 		// configure and publish the Rendezvous service
-		_service = [[NSNetService alloc] initWithDomain:@""	// use local registration domain
-												   type:@"_growl._tcp."
-												   name:@""	// use local computer name
-												   port:GROWL_TCP_PORT];
-		[_service setDelegate:self];
-		[_service publish];
-	} else if( !enabled && _service ) {
+		service = [[NSNetService alloc] initWithDomain:@""	// use local registration domain
+												  type:@"_growl._tcp."
+												  name:@""	// use local computer name
+												  port:GROWL_TCP_PORT];
+		[service setDelegate:self];
+		[service publish];
+
+		// start UDP service
+		udpServer = [[GrowlUDPServer alloc] init];
+	} else if( !enabled && service ) {
 		// turn off
-		[_service stop];
-		[_service release];
-		_service = nil;
+		[service stop];
+		[service release];
+		service = nil;
+		[udpServer release];
 	}
 }
 
 - (void) dealloc {
 	//free your world
-	[_tickets release];
-	[_registrationLock release];
-	[_notificationQueue release];
-	[_registrationQueue release];
+	[tickets release];
+	[registrationLock release];
+	[notificationQueue release];
+	[registrationQueue release];
 
 	[super dealloc];
 }
@@ -151,16 +156,16 @@ static id _singleton = nil;
 			[self _registerApplicationWithDictionary:regDict];
 			[self _unlockQueue];
 		} else {
-			[_registrationQueue addObject:regDict];
+			[registrationQueue addObject:regDict];
 		}
 
 		//If growl is not enabled and was not already running before (for example, via an autolaunch even
 		//though the user's last preference setting was to click "Stop Growl," setting enabled to NO),
 		//quit having registered; otherwise, we will remain running
-		if( !_growlIsEnabled &&  !_growlFinishedLaunching) {
+		if( !growlIsEnabled &&  !growlFinishedLaunching) {
 			//We want to hold in this thread until we can lock/unlock the queue and
 			//ensure our registration is sent
-			[_registrationLock lock]; [_registrationLock unlock];
+			[registrationLock lock]; [registrationLock unlock];
 			[self _unlockQueue];
 			
 			[NSApp terminate:self];
@@ -184,14 +189,14 @@ static id _singleton = nil;
 		[self _unlockQueue];
 	} else {
 		// It's locked. We need to queue this notification
-		[_notificationQueue addObject:[note userInfo]];
+		[notificationQueue addObject:[note userInfo]];
 	}
 }
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict
 {
 	// Make sure this notification is actually registered
-	GrowlApplicationTicket *ticket = [_tickets objectForKey:[dict objectForKey:GROWL_APP_NAME]];
+	GrowlApplicationTicket *ticket = [tickets objectForKey:[dict objectForKey:GROWL_APP_NAME]];
 	if (!ticket || ![ticket isNotificationAllowed:[dict objectForKey:GROWL_NOTIFICATION_NAME]]) {
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
@@ -255,11 +260,11 @@ static id _singleton = nil;
 }
 
 - (void) loadTickets {
-	[_tickets addEntriesFromDictionary:[GrowlApplicationTicket allSavedTickets]];
+	[tickets addEntriesFromDictionary:[GrowlApplicationTicket allSavedTickets]];
 }
 
 - (void) saveTickets {
-	[[_tickets allValues] makeObjectsPerformSelector:@selector(saveTicket)];
+	[[tickets allValues] makeObjectsPerformSelector:@selector(saveTicket)];
 }
 
 - (void) preferencesChanged: (NSNotification *) note {
@@ -271,10 +276,10 @@ static id _singleton = nil;
 		[[GrowlPreferences preferences] synchronize];
 	}
 	if(note == nil || [[note object] isEqualTo:GrowlEnabledKey]){
-		_growlIsEnabled = [[[GrowlPreferences preferences] objectForKey:GrowlEnabledKey] boolValue];
+		growlIsEnabled = [[[GrowlPreferences preferences] objectForKey:GrowlEnabledKey] boolValue];
 	}
 	if(note == nil || [note object] == nil) {
-		[_tickets removeAllObjects];
+		[tickets removeAllObjects];
 		[self loadTickets];
 	}
 	if(note == nil || [[note object] isEqualTo:GrowlDisplayPluginKey]) {
@@ -344,15 +349,15 @@ static id _singleton = nil;
 	
 	GrowlApplicationTicket *newApp;
 	
-	if ( ! [_tickets objectForKey:appName] ) {
+	if ( ! [tickets objectForKey:appName] ) {
 		newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
 															withIcon:appIcon
 													andNotifications:allNotes
 													 andDefaultNotes:defaultNotes];
-		[_tickets setObject:newApp forKey:appName];
+		[tickets setObject:newApp forKey:appName];
 		[newApp autorelease];
 	} else {
-		newApp = [_tickets objectForKey:appName];
+		newApp = [tickets objectForKey:appName];
 		[newApp reRegisterWithAllNotes:allNotes defaults:defaultNotes icon:appIcon];
 	}
 	
@@ -373,20 +378,20 @@ static id _singleton = nil;
 #pragma mark -
 
 - (BOOL) _tryLockQueue {
-	return [_registrationLock tryLock];
+	return [registrationLock tryLock];
 }
 
 - (void) _unlockQueue {
 	// Make sure it's locked
-	[_registrationLock tryLock];
+	[registrationLock tryLock];
 	[self _processRegistrationQueue];
 	[self _processNotificationQueue];
-	[_registrationLock unlock];
+	[registrationLock unlock];
 }
 
 - (void) _processNotificationQueue {
-	NSArray *queue = [NSArray arrayWithArray:_notificationQueue];
-	[_notificationQueue removeAllObjects];
+	NSArray *queue = [NSArray arrayWithArray:notificationQueue];
+	[notificationQueue removeAllObjects];
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
 	while( (dict = [e nextObject] ) ) {
@@ -395,8 +400,8 @@ static id _singleton = nil;
 }
 
 - (void) _processRegistrationQueue {
-	NSArray *queue = [NSArray arrayWithArray:_registrationQueue];
-	[_registrationQueue removeAllObjects];
+	NSArray *queue = [NSArray arrayWithArray:registrationQueue];
+	[registrationQueue removeAllObjects];
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
 	while( (dict = [e nextObject] ) ) {
@@ -411,12 +416,12 @@ static id _singleton = nil;
 		[self _registerApplicationWithDictionary:[note userInfo]];
 		[self _unlockQueue];
 	} else {
-		[_registrationQueue addObject:[note userInfo]];
+		[registrationQueue addObject:[note userInfo]];
 	}
 }
 
 - (void) _postGrowlIsReady {
-	_growlFinishedLaunching = YES;
+	growlFinishedLaunching = YES;
 	
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY 
 																   object:nil 

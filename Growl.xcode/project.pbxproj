@@ -1241,6 +1241,34 @@
 			remoteGlobalIDString = 95DD1A8807491AB700CC05A4;
 			remoteInfo = Speech;
 		};
+		958294EF074CDE3100EC7AF2 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlUDPServer.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		958294F0074CDE3100EC7AF2 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlUDPServer.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		958294F1074CDE3100EC7AF2 = {
+			fileRef = 958294EF074CDE3100EC7AF2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		958294F2074CDE3100EC7AF2 = {
+			fileRef = 958294F0074CDE3100EC7AF2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		959FAF470738B9A000040AA9 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1558,6 +1586,8 @@
 		};
 		CB5F847F0638BD6200EADD7A = {
 			children = (
+				958294EF074CDE3100EC7AF2,
+				958294F0074CDE3100EC7AF2,
 				95DD14D30748B04700CC05A4,
 				95DD14D80748B04700CC05A4,
 				CB5F83890638B78200EADD7A,
@@ -1632,6 +1662,7 @@
 				953F5D3607403BC7008E2AEB,
 				953F5D3707403BC7008E2AEB,
 				95DD14E00748B04700CC05A4,
+				958294F1074CDE3100EC7AF2,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1662,6 +1693,7 @@
 				953F5CF107403B67008E2AEB,
 				953F5D3807403BC7008E2AEB,
 				95DD14E10748B04700CC05A4,
+				958294F2074CDE3100EC7AF2,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
