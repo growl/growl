@@ -10,7 +10,7 @@ use POSIX;
 
 my @infiles = ("GrowlDefines.h", "GrowlAppBridgeDefines.h");
 my %outfiles = ("GrowlDefinesInternal.h" => "GrowlDefinesInternalCarbon.h",
-		"GrowlAppBridgeDefines.h" => "GrowlAppBridgeDefinesCarbon.h");
+		"GrowlDefines.h" => "GrowlDefinesCarbon.h");
 
 foreach my $infile (@infiles) {
 	my $outfile = $outfiles{$infile};

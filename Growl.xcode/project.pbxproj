@@ -2346,7 +2346,7 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlAppBridgeDefines.h;
+			path = GrowlDefines.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
