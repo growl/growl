@@ -40,8 +40,8 @@
 	IBOutlet NSTextField			* growlVersion;
 
 	//"Applications" tab pane
-	IBOutlet RRTableView	* applicationNotifications;
-	IBOutlet RRTableView	* growlApplications;
+	IBOutlet NSTableView	* applicationNotifications;
+	IBOutlet NSTableView	* growlApplications;
 	NSMenu					* applicationDisplayPluginsMenu;
 	NSMenu					* notificationPriorityMenu;
 	

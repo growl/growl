@@ -11,14 +11,13 @@
 
 @interface RRTableView : NSTableView {
 
-
 }
 
 - (BOOL)becomeFirstResponder;
-
 @end
 
 @interface NSObject (RRTableViewDelegateAdditions)
 	
--(void)tableViewDidClickInBody:(NSTableView*)tableView ;
+-(void)tableViewDidClickInBody:(NSTableView*)tableView;
+
 @end

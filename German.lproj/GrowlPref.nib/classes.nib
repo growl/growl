@@ -45,8 +45,7 @@
                 "_window" = id; 
             }; 
             SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = RRTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }
+        }
     ); 
     IBVersion = 1; 
 }

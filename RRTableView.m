@@ -11,17 +11,17 @@
 
 @implementation RRTableView
 
-- (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code here.
-    }
-    return self;
++(void)load
+{
+	[super load];
+	[self poseAsClass:[NSTableView class]];
 }
 
 - (BOOL)becomeFirstResponder {
 	[super becomeFirstResponder];
-	[[self delegate] tableViewDidClickInBody:self];
+	if([[self delegate] respondsToSelector:@selector(tableViewDidClickInBody:)]) {
+		[[self delegate] tableViewDidClickInBody:self];
+	}
 	return YES;
 }
 
