@@ -1,13 +1,10 @@
-Growl Coding standards
+Growl coding standards
 ======================
-
 This is an extreme work in progress, but it's an effort to document coding standards that should be used when coding for Growl, or any other Objective-C code in the Growl Subversion repository. Developers, feel free to codify anything you notice we do in the code as a hard standard here.
 
 Language
 --------
-Name your variables, classes, methods, functions and all other things in English. Comments should likewise be in English.
-
-Which kind of English depends on where you're from.
+Name your variables, classes, methods, functions and all other things in American English. Comments should likewise be in English, but your own local English is fine (as long as it's readable to anyone fluent in any dialect of English).
 
 Font selection
 --------------
@@ -19,7 +16,6 @@ Instance and local variables should generally be named in camelCase, with a lowe
 
 Type and class names
 --------------------
-
 Use struct or enum when allowed:
 
 struct sockaddr saddr;
@@ -56,7 +52,6 @@ Fail to adhere to this rule and we shall slowly lower you into a vat of gently b
 
 Multiple return statements
 --------------------------
-
 Allowed sometimes, but try to avoid having too many. Defining 'too many' is an exercise left to the reader.
 
 Example of how to avoid this:
@@ -68,7 +63,6 @@ Example of how to avoid this:
 	return returnString;
 }
 
-
 Message breaking
 ----------------
 Encouraged for long messages:
@@ -77,7 +71,7 @@ Encouraged for long messages:
 													andNotifications:allNotes
 													 andDefaultNotes:defaultNotes];
 
-(Note that the colons line up vertically.)
+(Note how the colons line up vertically in a monospaced font.)
 
 Line breaking is generally encouraged for all sorts of long expressions, provided it does not reduce readability. Consider:
 
@@ -92,7 +86,6 @@ as opposed to:
 
 Braces and Whitespace
 ---------------------
-
 - (void)foo {
 	if (a) {
 		do_b();
@@ -115,6 +108,8 @@ Braces and Whitespace
 	 *	method or function. This will help other programmers to understand your
 	 *	code if they need to modify it.
 	 */
+
+	more_work_by_the_algorithm(); //above comment is in paragraph by itself
 }
 
 Always use tabs to indent. Never spaces. Ever.
@@ -170,14 +165,20 @@ for(unsigned x = 0, y = 0; x < maxX && y < maxY; ++x, ++y) {
 	...
 }
 
+Remember that the comma operator only appears in expressions; it is not part of a function call:
+
+	foo(x, y, z) //no comma operator here
+
+nor a message:
+
+	[NSString stringWithFormat:@"%u/%u", soFar, total] //no comma operator here
+
 Index variables
 ---------------
-
 Always unsigned unless necessary. Never use index variables for NSArrays; use NSEnumerator to iterate on those. (Only keep an index variable if you need to replace elements of an NSMutableArray.)
 
 Comments
-------------------------
-
+--------
 // C99 single-line comments are allowed.
 // Put a space after the //.
 
@@ -188,9 +189,34 @@ Comments
  *	Also make sure you use a tab after the column of stars.
  */
 
+A single-line comment can appear on the same line as the statement to which it applies:
+
+	area = r * r * 3.14159; //pi * r-squared
+
+But should be moved to the line before it if the total line would be too long:
+
+	//no newline on this string because NSLog will provide one (sort of)
+	message = [NSString stringWithFormat:@"Area: %g; radius: %g", area, r];
+
+Multi-line comments should always come before the statement.
+
+It is also recommended in some situations to use small winged comments containing the argument names when using constants in a C function call. For example:
+
+	unsigned len = [str length];
+	//count UTF-8 code units (may be more than the number of Unicode code-points)
+	CFIndex UTF8len;
+	CFStringGetBytes((CFStringRef)str,
+		CFRangeMake(0, len),
+		kCFStringEncodingUTF8,
+		/*lossByte*/ 0U,
+		/*isExternalRepresentation*/ false,
+		/*buffer*/ NULL,
+		len,
+		&UTF8len
+	);
+
 Numeric constants
 -----------------
-
 Always supply a fraction and an integer in any floating-point constant: 0.0, not 0. or .0.
 
 Specify f for float constants: 0.0f not 0.0 (0.0 is a double constant).
@@ -227,7 +253,6 @@ The above is for example purposes; whenever testing against NULL/nil, use simple
 
 Auto-{in,de}crement
 -------------------
-
 Use prefix version whenever possible.
 
 	while(--argc)
@@ -235,12 +260,12 @@ Use prefix version whenever possible.
 
 Encoding
 --------
-
 UTF-8. Always and forever. (Exception: strings files must be UTF-16.)
 
 C standard
 ----------
-
 Use C99 with all warnings turned on (except for 'Unknown automatic variables' and 'Four-character constants'). Ignore the #import warning; fix everything else.
 
 Feel free to use #warning, but fix it as soon as possible.
+
+Naturally, anything allowed in C99 is allowed here, like single-line comments and variable declarations in for loops (see example under Comma_operator_ above).
