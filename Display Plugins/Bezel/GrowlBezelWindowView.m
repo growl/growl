@@ -297,14 +297,7 @@
 
 #pragma mark -
 
-- (void) mouseDown:(NSEvent *) event {
-	[[self window] mouseDown:event];
-}
-- (void) mouseDragged:(NSEvent *) event {
-	[[self window] mouseDragged:event];
-}
-- (void) mouseUp:(NSEvent *) event {
-	[[self window] mouseUp:event];
+ - (void) mouseUp:(NSEvent *) event {
 	if( _target && _action && [_target respondsToSelector:_action] )
 		[_target performSelector:_action withObject:self];
 }

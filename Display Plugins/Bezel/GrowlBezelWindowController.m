@@ -44,7 +44,7 @@
 	[panel setHidesOnDeactivate:NO];
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
-//	[panel setIgnoresMouseEvents:YES];
+	[panel setIgnoresMouseEvents:YES];
 	[panel setSticky:YES];
 	[panel setAlphaValue:0.];
 	[panel setOpaque:NO];
@@ -52,7 +52,6 @@
 	[panel setCanHide:NO];
 	[panel setReleasedWhenClosed:YES];
 	[panel setDelegate:self];
-	[panel setMovableByWindowBackground:YES];
 	
 	GrowlBezelWindowView *view = [[[GrowlBezelWindowView alloc] initWithFrame:panelFrame] autorelease];
 	
@@ -286,23 +285,6 @@
 	if( [contentView respondsToSelector:selector] )
 		return [contentView methodSignatureForSelector:selector];
 	else return [super methodSignatureForSelector:selector];
-}
-
-#pragma mark -
-
-- (void)mouseDown:(NSEvent *)event {
-	dragging = NO;
-	[[self nextResponder] mouseDown:event];
-}
-- (void)mouseDragged:(NSEvent *)event {
-	dragging = YES;
-	[self _stopTimer];
-	[[self nextResponder] mouseDragged:event];
-}
-- (void)mouseUp:(NSEvent *)event {
-	if(dragging && _autoFadeOut)
-		[self _waitBeforeFadeOut];
-	[[self nextResponder] mouseUp:event];
 }
 
 @end
