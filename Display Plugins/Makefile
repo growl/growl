@@ -61,24 +61,12 @@ clean-mailme:
 clean-musicvideo:
 	xcodebuild -target MusicVideo clean
 
-install:
-	killall GrowlHelperApp || true
-	-$(RM) -rf "$(NSLOGGING_PATH)" "$(MAILME_PATH)"
-	if [[ -d "$(NSLOGGING_BUILD)" ]]; then $(CP) "$(NSLOGGING_BUILD)" "$(NSLOGGING_PATH)"; fi
-	if [[ -d "$(MAILME_BUILD)" ]]; then $(CP) "$(MAILME_BUILD)" "$(MAILME_PATH)"; fi
-	open "$(GROWL_HELPER_APP)"
-
-install-nslogging:
-	killall GrowlHelperApp || true
-	-$(RM) -rf "$(NSLOGGING_PATH)"
-	$(CP) "$(NSLOGGING_BUILD)" "$(NSLOGGING_PATH)"
-	open "$(GROWL_HELPER_APP)"
-
-install-mailme:
-	killall GrowlHelperApp || true
-	-$(RM) -rf "$(MAILME_PATH)"
-	$(CP) "$(MAILME_BUILD)" "$(MAILME_PATH)"
-	open "$(GROWL_HELPER_APP)"
+#install:
+#	killall GrowlHelperApp || true
+#	-$(RM) -rf "$(NSLOGGING_PATH)" "$(MAILME_PATH)"
+#	if [[ -d "$(NSLOGGING_BUILD)" ]]; then $(CP) "$(NSLOGGING_BUILD)" "$(NSLOGGING_PATH)"; fi
+#	if [[ -d "$(MAILME_BUILD)" ]]; then $(CP) "$(MAILME_BUILD)" "$(MAILME_PATH)"; fi
+#	open "$(GROWL_HELPER_APP)"
 
 uninstall:
 	killall GrowlHelperApp || true
