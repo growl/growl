@@ -569,3 +569,4 @@ Boolean LaunchGrowlIfInstalled(GrowlLaunchCallback callback, void *context);
 __END_DECLS
 
 #endif /* _GROWLAPPLICATIONBRIDGE_CARBON_H_ */
+
