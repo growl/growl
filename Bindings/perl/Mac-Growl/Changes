@@ -1,3 +1,7 @@
+0.63  ???
+	- Updated warning in Mac-Growl.t to be less fear-inducing
+
+
 0.62  Thu Mar 10 21:53:19 2005
 	- Check installed Growl version in Makefile
 	- Allow user-selectable base method

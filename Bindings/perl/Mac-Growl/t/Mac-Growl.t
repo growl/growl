@@ -16,7 +16,7 @@ use Mac::Growl ':all';
 #########################
 
 my $app    = 'Mac::Growl Test';
-my $as_app = 'Software Update';
+my $as_app = 'Installer';
 my @names  = ('test 1', 'test 2');
 my($image) = grep { -e } (
 	'/Applications/Utilities/Installer.app/Contents/Resources/Caut.tiff',
@@ -42,9 +42,9 @@ RegisterNotifications($app, \@names, [$names[0]], $as_app);
 pass("register $app");
 PostNotification($app, $names[0], 'Congratulations', 'Mac::Growl is working.');
 pass("notify");
-PostNotification($app, $names[0], 'If things are working...', 'This should "stick."', 1, 2);
+PostNotification($app, $names[0], 'If things are working...', 'This should "stick."', 1, 1);
 pass("notify sticky");
-PostNotification($app, $names[1], 'You should not see this', 'Danger, Will Robinson!');
+PostNotification($app, $names[1], 'DON\'T PANIC.', 'You should not see this notification; please notify the Mac::Growl maintainers.', 1, 2);
 pass("notify fail");
 
 my $old = $Mac::Growl::base;
