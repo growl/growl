@@ -11,7 +11,9 @@
 \f1\fs24 \cf0 \
 These are all public\'d0domain (except where noted), for studying how to implement Growl in your app.\
 \
-Some of these examples link against GrowlAppBridge.framework. You must build GAB using GrowlAppBridge.xcode in the base Growl directory (the same directory where Growl.xcode is located) and then copy it (
+Cocoa examples link against Growl.framework and include it in their application bundle.  You must build Growl.framework using Growl.xcode in the base Growl directory.\
+\
+Other examples  link against GrowlAppBridge.framework. You must build GAB using GrowlAppBridge.xcode in the base Growl directory (the same directory where Growl.xcode is located) and then copy it (
 \f2\b not
 \f1\b0  move it) to ~/Library/Frameworks, /Library/Frameworks, or /System/Library/Frameworks before you will be able to build and run those examples.\
 \
