@@ -220,37 +220,42 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 	bundle = [NSBundle bundleForClass:[self class]];
 	archivePath = [bundle pathForResource:GROWL_PREFPANE_NAME ofType:@"zip"];
 
-	//desired folder: /private/tmp/$UID/GrowlApplicationBridge\ installations/`uuidgen`
+	//desired folder: /private/tmp/$UID/GrowlInstallations/`uuidgen`
 
-	tmpDir = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"GrowlApplicationBridge installations"] stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
+	tmpDir = [NSTemporaryDirectory() stringByAppendingPathComponent:@"GrowlInstallations"];
 	if (tmpDir) {
 		[[NSFileManager defaultManager] createDirectoryAtPath:tmpDir attributes:nil];
-
-		unzip = [[NSTask alloc] init];
-		[unzip setLaunchPath:@"/usr/bin/unzip"];
-		[unzip setArguments:[NSArray arrayWithObjects:
-			@"-o",  /* overwrite */
-			@"-q", /* quiet! */
-			archivePath, /* source zip file */
-			@"-d", tmpDir, /* The temporary folder is the destination folder*/
-			nil]];
-		[unzip setCurrentDirectoryPath:tmpDir];
-
-		NS_DURING
-			[unzip launch];
-			[unzip waitUntilExit];
-			success = ([unzip terminationStatus] == 0);
-		NS_HANDLER
-			/* No exception handler needed */
-		NS_ENDHANDLER
-		[unzip release];
-
-		if (success) {
-			// Kill the running Growl helper app if necessary by asking the Growl Helper App to shutdown via the DNC
-			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
-
-			// Open Growl.prefPane; System Preferences will take care of the rest, and Growl.prefPane will relaunch the GHA if appropriate.
-			[[NSWorkspace sharedWorkspace] openTempFile:[tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME]];
+		
+		tmpDir = [tmpDir stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
+		if (tmpDir) {
+			[[NSFileManager defaultManager] createDirectoryAtPath:tmpDir attributes:nil];
+			
+			unzip = [[NSTask alloc] init];
+			[unzip setLaunchPath:@"/usr/bin/unzip"];
+			[unzip setArguments:[NSArray arrayWithObjects:
+				@"-o",  /* overwrite */
+				@"-q", /* quiet! */
+				archivePath, /* source zip file */
+				@"-d", tmpDir, /* The temporary folder is the destination folder*/
+				nil]];
+			[unzip setCurrentDirectoryPath:tmpDir];
+			
+			NS_DURING
+				[unzip launch];
+				[unzip waitUntilExit];
+				success = ([unzip terminationStatus] == 0);
+			NS_HANDLER
+				/* No exception handler needed */
+				NS_ENDHANDLER
+				[unzip release];
+				
+				if (success) {
+					// Kill the running Growl helper app if necessary by asking the Growl Helper App to shutdown via the DNC
+					[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
+					
+					// Open Growl.prefPane; System Preferences will take care of the rest, and Growl.prefPane will relaunch the GHA if appropriate.
+					[[NSWorkspace sharedWorkspace] openTempFile:[tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME]];
+				}
 		}
 	}
 
