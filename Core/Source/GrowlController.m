@@ -176,12 +176,14 @@ static id singleton = nil;
 - (void) showPreview:(NSNotification *) note {
 	NSString *displayName = [note object];
 	id <GrowlDisplayPlugin> displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayName];
+
+	NSString *desc = [NSString stringWithFormat:@"This is a preview of the %@ display", displayName];
 	[displayPlugin displayNotificationWithInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-		@"Preview", GROWL_NOTIFICATION_TITLE,
-		@"This is a notification preview", GROWL_NOTIFICATION_DESCRIPTION,
-		[NSNumber numberWithInt:0], GROWL_NOTIFICATION_PRIORITY,
+		@"Preview",                    GROWL_NOTIFICATION_TITLE,
+		desc,                          GROWL_NOTIFICATION_DESCRIPTION,
+		[NSNumber numberWithInt:0],    GROWL_NOTIFICATION_PRIORITY,
 		[NSNumber numberWithBool:YES], GROWL_NOTIFICATION_STICKY,
-		growlIcon, GROWL_NOTIFICATION_ICON,
+		growlIcon,                     GROWL_NOTIFICATION_ICON,
 		nil]];
 }
 
@@ -238,7 +240,7 @@ static id singleton = nil;
 
 	// Retrieve and set the sticky bit of the notification
 	int sticky = [ticket stickyForNotification:[dict objectForKey:GROWL_NOTIFICATION_NAME]];
-	if (ticket && sticky >= 0) {
+	if (sticky >= 0) {
 		[aDict setObject:[NSNumber numberWithBool:(sticky ? YES : NO)]
 				  forKey:GROWL_NOTIFICATION_STICKY];
 	}
@@ -502,12 +504,15 @@ static id singleton = nil;
 			[registrationQueue addObject:regDict];
 		}
 		
-		//If growl is not enabled and was not already running before (for example, via an autolaunch even
-		//though the user's last preference setting was to click "Stop Growl," setting enabled to NO),
-		//quit having registered; otherwise, we will remain running
+		/*If Growl is not enabled and was not already running before
+		 *	(for example, via an autolaunch even though the user's last
+		 *	preference setting was to click "Stop Growl," setting enabled to NO),
+		 *	quit having registered; otherwise, remain running.
+		 */
 		if ( !growlIsEnabled &&  !growlFinishedLaunching ) {
-			//We want to hold in this thread until we can lock/unlock the queue and
-			//ensure our registration is sent
+			/*We want to hold in this thread until we can lock/unlock the queue
+			 *	and ensure our registration is sent
+			 */
 			[registrationLock lock]; [registrationLock unlock];
 			[self _unlockQueue];
 			
@@ -604,9 +609,10 @@ static id singleton = nil;
 					NSLog(@"wrote to %@: (success = %u)\n%@", ticketPath, success, ticket);
 				}
 
-				//open the ticket with ourselves.
-				//we need to use LS in order to launch it with this specific
-				//	GHA, rather than some other.
+				/*open the ticket with ourselves.
+				 *we need to use LS in order to launch it with this specific
+				 *	GHA, rather than some other.
+				 */
 				NSURL *myURL        = [_copyCurrentProcessURL() autorelease];
 				NSURL *ticketURL    = [NSURL fileURLWithPath:ticketPath];
 				NSArray *URLsToOpen = [NSArray arrayWithObject:ticketURL];
