@@ -5,6 +5,73 @@
 	};
 	objectVersion = 39;
 	objects = {
+		0717FC2B076587750083E17E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = BeepAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0717FC2C076587750083E17E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = BeepAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0717FC2D076587750083E17E = {
+			fileRef = 0717FC2B076587750083E17E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0717FC2E076587750083E17E = {
+			fileRef = 0717FC2C076587750083E17E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0717FC40076589230083E17E = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = English.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0717FC420765892F0083E17E = {
+			children = (
+				0717FC40076589230083E17E,
+			);
+			isa = PBXVariantGroup;
+			name = Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0717FC430765892F0083E17E = {
+			fileRef = 0717FC420765892F0083E17E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		0717FC44076589340083E17E = {
+			children = (
+				073B927806855EDB0068C763,
+			);
+			isa = PBXVariantGroup;
+			name = "Beep-Cocoa.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0717FC45076589340083E17E = {
+			fileRef = 0717FC44076589340083E17E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		073B924D06855E0F0068C763 = {
 			children = (
 				073B927606855EBF0068C763,
@@ -67,6 +134,8 @@
 		};
 		073B926E06855E860068C763 = {
 			children = (
+				0717FC2B076587750083E17E,
+				0717FC2C076587750083E17E,
 				073B927206855EB30068C763,
 				073B927306855EB30068C763,
 			);
@@ -77,8 +146,9 @@
 		};
 		073B927106855E900068C763 = {
 			children = (
+				0717FC420765892F0083E17E,
 				073B927D06855F050068C763,
-				073B927806855EDB0068C763,
+				0717FC44076589340083E17E,
 				073B92C4068563AC0068C763,
 			);
 			isa = PBXGroup;
@@ -131,15 +201,10 @@
 		073B927806855EDB0068C763 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			path = "Beep-Cocoa.nib";
+			name = English;
+			path = "English.lproj/Beep-Cocoa.nib";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		073B927906855EDB0068C763 = {
-			fileRef = 073B927806855EDB0068C763;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		073B927D06855F050068C763 = {
 			fileEncoding = 4;
@@ -148,12 +213,6 @@
 			path = "Beep-Cocoa-Info.plist";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		073B927E06855F050068C763 = {
-			fileRef = 073B927D06855F050068C763;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		073B928106855F3E0068C763 = {
 			children = (
@@ -245,6 +304,7 @@
 			files = (
 				073B927406855EB30068C763,
 				073B92C2068562FC0068C763,
+				0717FC2D076587750083E17E,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,9 +312,9 @@
 		CBBC7DDF0659313D00684B79 = {
 			buildActionMask = 2147483647;
 			files = (
-				073B927906855EDB0068C763,
-				073B927E06855F050068C763,
+				0717FC45076589340083E17E,
 				073B92C5068563AC0068C763,
+				0717FC430765892F0083E17E,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -264,6 +324,7 @@
 			files = (
 				073B927506855EB30068C763,
 				073B927706855EBF0068C763,
+				0717FC2E076587750083E17E,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,6 +349,7 @@
 			);
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;

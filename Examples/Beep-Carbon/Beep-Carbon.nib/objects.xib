@@ -256,8 +256,8 @@
       </array>
     </object>
     <object class="IBCarbonButton" id="194">
-      <string name="bounds">320 390 340 460 </string>
-      <string name="viewFrame">390 320 70 20 </string>
+      <string name="bounds">324 390 344 460 </string>
+      <string name="viewFrame">390 324 70 20 </string>
       <ostype name="controlSignature">BEEP</ostype>
       <int name="controlID">4001</int>
       <boolean name="enabled">FALSE</boolean>
@@ -266,8 +266,8 @@
       <int name="buttonType">1</int>
     </object>
     <object class="IBCarbonBevelButton" id="195">
-      <string name="bounds">324 221 340 237 </string>
-      <string name="viewFrame">221 324 16 16 </string>
+      <string name="bounds">324 221 344 241 </string>
+      <string name="viewFrame">221 324 20 20 </string>
       <ostype name="controlSignature">BEEP</ostype>
       <int name="controlID">2001</int>
       <int name="fontStyle">-2</int>
@@ -277,8 +277,8 @@
       <int name="textPlacement">3</int>
     </object>
     <object class="IBCarbonRootControl" id="196">
-      <string name="bounds">0 0 360 480 </string>
-      <string name="viewFrame">0 0 480 360 </string>
+      <string name="bounds">0 0 364 480 </string>
+      <string name="viewFrame">0 0 480 364 </string>
       <array count="7" name="subviews">
         <object class="IBCarbonCheckBox" id="197">
           <string name="bounds">20 20 36 107 </string>
@@ -293,6 +293,8 @@
           <string name="viewFrame">20 44 193 272 </string>
           <ostype name="controlSignature">BEEP</ostype>
           <int name="controlID">3000</int>
+          <boolean name="enabled">FALSE</boolean>
+          <int name="fontStyle">6</int>
           <boolean name="small">TRUE</boolean>
           <int name="controlSize">1</int>
           <string name="title">Use:&#10;Add Notifications to the Table, then click the ‘Registered’ checkbox.&#10;Then select a Notification and hit Send.&#10;&#10;Caveats:&#10;(1) You can add notifications after having registered, but as of yet you can’t add Notifications to Growl after having registered. You must unregister and then re-register.</string>
@@ -301,8 +303,8 @@
         <reference idRef="194"/>
         <reference idRef="195"/>
         <object class="IBCarbonBevelButton" id="199">
-          <string name="bounds">324 236 340 252 </string>
-          <string name="viewFrame">236 324 16 16 </string>
+          <string name="bounds">324 240 344 260 </string>
+          <string name="viewFrame">240 324 20 20 </string>
           <ostype name="controlSignature">BEEP</ostype>
           <int name="controlID">2002</int>
           <boolean name="enabled">FALSE</boolean>
@@ -313,8 +315,10 @@
           <int name="textPlacement">3</int>
         </object>
         <object class="IBCarbonStaticText" id="211">
-          <string name="bounds">324 20 337 134 </string>
-          <string name="viewFrame">20 324 114 13 </string>
+          <string name="bounds">331 20 344 134 </string>
+          <string name="viewFrame">20 331 114 13 </string>
+          <boolean name="enabled">FALSE</boolean>
+          <int name="fontStyle">6</int>
           <boolean name="small">TRUE</boolean>
           <int name="controlSize">1</int>
           <string name="title">Carbon edition</string>
@@ -325,7 +329,7 @@
     <reference idRef="198"/>
     <reference idRef="199"/>
     <object class="IBCarbonWindow" id="200">
-      <string name="windowRect">71 203 431 683 </string>
+      <string name="windowRect">71 203 435 683 </string>
       <string name="title">Beep!!¡¡</string>
       <reference name="rootControl" idRef="196"/>
       <boolean name="receiveUpdates">FALSE</boolean>

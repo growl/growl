@@ -1,4 +1,5 @@
 #import "BeepController.h"
+#import "BeepAdditions.h"
 #import <GrowlAppBridge/GrowlApplicationBridge.h>
 #import "GrowlDefines.h"
 
@@ -12,99 +13,45 @@
 
 - (id) init {
     if ( self = [super init] ) {
-        _notifications = [[NSMutableArray alloc] init];
+        notifications = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
 - (void) dealloc {
-    [_notifications release];
-    _notifications = nil;
+	[notificationPanel release];
+	[notificationDefault release];
+	[notificationSticky release];
+	[notificationPriority release];
+	[notificationDescription release];
+	[notificationImage release];
+	[notificationTitle release];
+	[addEditButton release];
+
+	[addButtonTitle release];
+	[editButtonTitle release];
+	
+	[mainWindow release];
+	[notificationsTable release];
+	[registered release];
+	[addNotification release];
+	[removeNotification release];
+	[sendButton release];
+
+    [notifications release];
+
+	[super dealloc];
 }
 
-- (void)awakeFromNib {
-	[_notificationsTable setDoubleAction:@selector(sendNotification:)];
+- (void) awakeFromNib {
+	[notificationsTable setDoubleAction:@selector(showEditSheet:)];
 	[self tableViewSelectionDidChange:nil];
+
+	addButtonTitle = [[addEditButton title] retain]; //this is the default title in the nib
+	editButtonTitle = [NSLocalizedString(@"Edit", /*comment*/ NULL) retain];
 }
 
 #pragma mark -
-
-- (IBAction)showAddSheet:(id)sender { 
-    [NSApp beginSheet:_newNotificationPanel 
-       modalForWindow:_beepWindow 
-        modalDelegate:nil 
-       didEndSelector:nil 
-          contextInfo:nil];
-    
-    [NSApp runModalForWindow:_newNotificationPanel];
-    [NSApp endSheet:_newNotificationPanel];
-    [_newNotificationPanel orderOut:self];
-}
-
-- (IBAction)addNotification:(id)sender {
-	//get Sheet fields and add to the known notifications
-	NSLog(@"checkbox %u; on %u; off %u; mixed %u", [_newNotificationDefault state], NSOnState, NSOffState, NSMixedState);
-	NSNumber *defaultValue = [NSNumber numberWithBool:[_newNotificationDefault state] == NSOnState];
-	NSNumber *stickyValue = [NSNumber numberWithBool:[_newNotificationSticky state] == NSOnState];
-	NSNumber *priority = [NSNumber numberWithInt:[[_newNotificationPriority selectedItem] tag]];
-	NSData *image = nil;
-	if ( [_newNotificationImage image] ) {
-		image = [[_newNotificationImage image] TIFFRepresentation];
-	}
-	
-	NSDictionary *aNuDict = [NSDictionary dictionaryWithObjectsAndKeys:
-		[_newNotificationTitle stringValue], GROWL_NOTIFICATION_NAME,
-		[_newNotificationTitle stringValue], GROWL_NOTIFICATION_TITLE,
-		[_newNotificationDescription stringValue], GROWL_NOTIFICATION_DESCRIPTION,
-		priority, GROWL_NOTIFICATION_PRIORITY,
-		@"Beep-Cocoa", GROWL_APP_NAME,
-		defaultValue, GROWL_NOTIFICATION_DEFAULT,
-		stickyValue, GROWL_NOTIFICATION_STICKY,
-		image, GROWL_NOTIFICATION_ICON,
-		nil];
-
-	[_notifications addObject:aNuDict];
-	//NSLog( @"%@ added to %@", aNuDict, _notifications);
-	[_notificationsTable reloadData];
-	
-	[self endPanel:self];
-}
-
-- (IBAction)removeNotification:(id)sender
-{
-	if([_notificationsTable selectedRow] < 0) {
-		NSBeep();
-		return;
-	} else {
-		[_notifications removeObjectAtIndex:[_notificationsTable selectedRow]];
-		[_notificationsTable reloadData];
-	}
-}
-
-//Called when the "Register" checkbox is selecteed
-- (IBAction)registerBeep:(id)sender {
-    if ( [_registered state] == NSOnState ) {
-        NSLog( @"Button on" );
-		
-		//Launch growl if possible
-		if ([GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self
-														 selector:@selector(growlDidLaunch:) 
-														  context:nil]){
-			//Disable the add/remove buttons
-			[_addNotification setEnabled:NO];
-			[_removeNotification setEnabled:NO];
-		}else{
-			NSLog(@"Bloody 'ell. Growl's not installed or couldn't be launched");
-		}
-    } else {
-        NSLog( @"Button off" );	
-		
-		//Reenable the add/remove buttons
-		[_addNotification setEnabled:YES];
-		[_removeNotification setEnabled:YES];
-    }
-}
-
 
 - (void)growlDidLaunch:(void *)context {
 	
@@ -112,21 +59,17 @@
 	
 	NSMutableArray *defNotesArray = [NSMutableArray array];
 	NSMutableArray *allNotesArray = [NSMutableArray array];
-	NSEnumerator *defNotes = [_notifications objectEnumerator];
-	NSDictionary *def;
 	NSNumber *isDefaultNum;
-	unsigned i;
-	unsigned max = [_notifications count];
+	unsigned numNotifications = [notifications count];
 	
-	while ( def = [defNotes nextObject] ) {
+	for ( unsigned i = 0U; i < numNotifications; ++i ) {
+		NSDictionary *def = [notifications objectAtIndex:i];
+		[allNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_TITLE]];
+
 		isDefaultNum = [def objectForKey:GROWL_NOTIFICATION_DEFAULT];
 		if ( isDefaultNum && [isDefaultNum boolValue] ) {
-			[defNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_TITLE]];
+			[defNotesArray addObject:[NSNumber numberWithUnsignedInt:i]];
 		}
-	}
-	
-	for ( i = 0; i < max; ++i ) {
-		[allNotesArray addObject:[[_notifications objectAtIndex:i] objectForKey:GROWL_NOTIFICATION_TITLE]];
 	}
 	
 	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -141,12 +84,99 @@
 	
 }
 
+#pragma mark -
+#pragma mark Main window actions
+
+- (IBAction)showAddSheet:(id)sender {
+#pragma unused(sender)
+	//reset controls to default values
+	[notificationDefault     setState:NSOnState];
+	[notificationSticky      setState:NSOffState];
+	[notificationPriority    selectItemAtIndex:2]; //middle item: 'Normal' priority
+	[notificationImage       setImage:nil];
+	static NSString *empty = @"";
+	[notificationDescription setStringValue:empty];
+	[notificationTitle       setStringValue:empty];
+
+	[notificationPanel makeFirstResponder:[notificationPanel initialFirstResponder]];
+	[addEditButton setTitle:addButtonTitle];
+	[NSApp beginSheet:notificationPanel
+	   modalForWindow:mainWindow
+		modalDelegate:self
+	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+		  contextInfo:nil];
+}
+
+- (IBAction)showEditSheet:(id)sender {
+#pragma unused(sender)
+	int index = [notificationsTable selectedRow];
+	if(index < 0)
+		NSBeep();
+	else {
+		NSDictionary *dict = [notifications objectAtIndex:index];
+		[notificationDefault     setState:[dict stateForKey:GROWL_NOTIFICATION_DEFAULT]];
+		[notificationSticky      setState:[dict stateForKey:GROWL_NOTIFICATION_STICKY]];
+		int priority = [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
+		[notificationPriority    selectItemAtIndex:[notificationPriority indexOfItemWithTag:priority]];
+		NSImage *image = [[[NSImage alloc] initWithData:[dict objectForKey:GROWL_NOTIFICATION_ICON]] autorelease];
+		[notificationImage       setImage:image];
+		[notificationDescription setStringValue:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
+		[notificationTitle       setStringValue:[dict objectForKey:GROWL_NOTIFICATION_TITLE]];
+
+		[notificationPanel makeFirstResponder:[notificationPanel initialFirstResponder]];
+		[addEditButton setTitle:editButtonTitle];
+		[NSApp beginSheet:notificationPanel
+		   modalForWindow:mainWindow
+			modalDelegate:self
+		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+			  contextInfo:[[NSNumber alloc] initWithInt:index]];
+	}
+}
+
+- (IBAction)removeNotification:(id)sender {
+#pragma unused(sender)
+	int selectedRow = [notificationsTable selectedRow];
+	if(selectedRow < 0) {
+		//no selection
+		NSBeep();
+		return;
+	} else {
+		[notifications removeObjectAtIndex:selectedRow];
+		[notificationsTable reloadData];
+	}
+}
+
+//Called when the "Register" checkbox is selecteed
+- (IBAction)registerBeep:(id)sender {
+    if ( [registered state] == NSOnState ) {
+        NSLog( @"Button on" );
+		
+		//Launch growl if possible
+		if ([GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self
+														 selector:@selector(growlDidLaunch:) 
+														  context:nil]){
+			//Disable the add/remove buttons
+			[addNotification setEnabled:NO];
+			[removeNotification setEnabled:NO];
+		}else{
+			NSLog(@"Bloody 'ell. Growl's not installed or couldn't be launched");
+		}
+    } else {
+        NSLog( @"Button off" );	
+		
+		//Reenable the add/remove buttons
+		[addNotification setEnabled:YES];
+		[removeNotification setEnabled:YES];
+    }
+}
+
 - (IBAction)sendNotification:(id)sender {
-	int selectedRow = [_notificationsTable selectedRow];
+#pragma unused(sender)
+	int selectedRow = [notificationsTable selectedRow];
 	
 	if (selectedRow != -1){
 		//send a notification for the selected table cell
-		id note = [_notifications objectAtIndex:[_notificationsTable selectedRow]];
+		id note = [notifications objectAtIndex:selectedRow];
 		
 		//NSLog( @"note - %@", note );
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION 
@@ -157,30 +187,86 @@
 	}
 }
 
+#pragma mark Add/Edit sheet actions
+
+- (IBAction)clearImage:(id)sender {
+	[notificationImage setImage:nil];
+}
+
+- (IBAction)OKNotification:(id)sender {
+	[NSApp endSheet:[sender window] returnCode:NSOKButton];
+}
+- (IBAction)cancelNotification:(id)sender {
+	[NSApp endSheet:[sender window] returnCode:NSCancelButton];
+}
+
+/*
 - (IBAction) endPanel:(id)sender {
-    [NSApp stopModal];
+	NSWindow *sheet = [sender window];
+    [NSApp endSheet:sheet];
+	[sheet orderOut:sender];
+}
+*/
+
+- (void) sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+	if(returnCode == NSOKButton) {
+		NSNumber *defaultValue = [NSNumber numberWithBool:[notificationDefault state] == NSOnState];
+		NSNumber *stickyValue  = [NSNumber numberWithBool:[notificationSticky state] == NSOnState];
+		NSNumber *priority     = [NSNumber numberWithInt:[[notificationPriority selectedItem] tag]];
+		NSData   *imageData    = [[notificationImage image] TIFFRepresentation];
+		NSString *title        = [notificationTitle stringValue];
+		NSString *desc         = [notificationDescription stringValue];
+
+		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+			title,         GROWL_NOTIFICATION_NAME,
+			title,         GROWL_NOTIFICATION_TITLE,
+			desc,          GROWL_NOTIFICATION_DESCRIPTION,
+			priority,      GROWL_NOTIFICATION_PRIORITY,
+			@"Beep-Cocoa", GROWL_APP_NAME,
+			defaultValue,  GROWL_NOTIFICATION_DEFAULT,
+			stickyValue,   GROWL_NOTIFICATION_STICKY,
+			imageData,     GROWL_NOTIFICATION_ICON,
+			nil];
+
+		NSNumber *indexNum = contextInfo;
+		if(indexNum) {
+			[notifications replaceObjectAtIndex:[indexNum unsignedIntValue]
+									 withObject:dict];
+			[indexNum release];
+		} else {
+			[notifications addObject:dict];
+		}
+
+		[notificationsTable reloadData];
+	}
+
+	[sheet orderOut:self];
 }
 
-#pragma mark Table Data Source
+#pragma mark Table Data Source Methods
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
-    return [_notifications count];
+- (int)numberOfRowsInTableView:(NSTableView *)tableView {
+#pragma unused(tableView)
+    return [notifications count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
-    return [[_notifications objectAtIndex:rowIndex] objectForKey:GROWL_NOTIFICATION_TITLE];
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)col row:(int)row {
+#pragma unused(tableView, col, row)
+    return [[notifications objectAtIndex:row] objectForKey:GROWL_NOTIFICATION_TITLE];
 }
 
 #pragma mark Table Delegate Methods
 
-- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)col row:(int)row {
+#pragma unused(tableView, col, row)
     return NO;
 }
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-	BOOL rowIsSelected = ([_notificationsTable selectedRow] != -1);
+- (void)tableViewSelectionDidChange:(NSNotification *)notification {
+#pragma unused(notification)
+	BOOL rowIsSelected = ([notificationsTable selectedRow] != -1);
 	
-	[_sendButton setEnabled:rowIsSelected];
+	[sendButton setEnabled:rowIsSelected];
 }
 
 #pragma mark NSApplication Delegate Methods
