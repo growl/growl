@@ -38,6 +38,55 @@
 //062
 //063
 //064
+//070
+//071
+//072
+//073
+//074
+		073F04BE0779C00900AE8D60 = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = English.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		073F04C50779C02900AE8D60 = {
+			children = (
+				073F04BE0779C00900AE8D60,
+			);
+			isa = PBXVariantGroup;
+			name = Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		073F04C60779C02A00AE8D60 = {
+			fileRef = 073F04C50779C02900AE8D60;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		073F050D0779C2C800AE8D60 = {
+			children = (
+				097889E6076ED0E300071EB6,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlLogPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		073F050E0779C2C800AE8D60 = {
+			fileRef = 073F050D0779C2C800AE8D60;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//070
+//071
+//072
+//073
+//074
 //080
 //081
 //082
@@ -219,29 +268,13 @@
 			settings = {
 			};
 		};
-		097889E5076ED0E300071EB6 = {
-			children = (
-				097889E6076ED0E300071EB6,
-			);
-			isa = PBXVariantGroup;
-			name = GrowlLogPrefs.nib;
-			path = "";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 		097889E6076ED0E300071EB6 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
-			name = GrowlLogPrefs.nib;
-			path = "Display Plugins/Log/GrowlLogPrefs.nib";
+			name = English;
+			path = English.lproj/GrowlLogPrefs.nib;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		097889E7076ED0E300071EB6 = {
-			fileRef = 097889E5076ED0E300071EB6;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 //090
 //091
@@ -999,7 +1032,8 @@
 		0A7F5F530767C4F200E1C1E4 = {
 			buildActionMask = 2147483647;
 			files = (
-				097889E7076ED0E300071EB6,
+				073F050E0779C2C800AE8D60,
+				073F04C60779C02A00AE8D60,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1074,7 +1108,8 @@
 		};
 		0A7F5F5C0767C56100E1C1E4 = {
 			children = (
-				097889E5076ED0E300071EB6,
+				073F04C50779C02900AE8D60,
+				073F050D0779C2C800AE8D60,
 				097888C9076EC6DA00071EB6,
 				0A7F5F5D0767C56100E1C1E4,
 				0A7F5F5E0767C56100E1C1E4,

@@ -19,7 +19,7 @@
 
 - (IBAction) typeChanged:(id)sender;
 - (IBAction) openConsoleApp:(id)sender;
-- (IBAction) customFileChoosen:(id)sender;
+- (IBAction) customFileChosen:(id)sender;
 - (void) updatePopupMenu;
 
 @end

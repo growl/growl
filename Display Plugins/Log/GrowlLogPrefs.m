@@ -67,7 +67,7 @@
 }
 
 
-- (IBAction) customFileChoosen:(id)sender {
+- (IBAction) customFileChosen:(id)sender {
 	if (sender == customMenuButton) {
 		int selected = [customMenuButton indexOfSelectedItem];
 		//NSLog(@"custom %d", selected);
@@ -128,7 +128,8 @@
 - (void) updatePopupMenu {
 	[customMenuButton removeAllItems];
 
-	for(unsigned i = 0U, max = [customHistArray count]; i < max; i++) {
+	unsigned numHistItems = [customHistArray count];
+	for(unsigned i = 0U; i < numHistItems; i++) {
 		NSArray *pathComponentry = [[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] pathComponents];
 		unsigned numPathComponents = [pathComponentry count];
 		if(numPathComponents > 2) {
@@ -145,8 +146,8 @@
 		}
 	}
 	[[customMenuButton menu] addItem:[NSMenuItem separatorItem]];
-	[customMenuButton addItemWithTitle:@"Browse..."];
-	[customMenuButton selectItemAtIndex:0];
+	[customMenuButton addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Browse menu item title", /*tableName*/ nil, [self bundle], /*comment*/ nil)];
+	[customMenuButton selectItemAtIndex:numHistItems ? 0 : -1];
 
 }
 

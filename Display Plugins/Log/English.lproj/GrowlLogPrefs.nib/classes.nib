@@ -2,7 +2,7 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {customFileChoosen = id; openConsoleApp = id; typeChanged = id; }; 
+            ACTIONS = {customFileChosen = id; openConsoleApp = id; typeChanged = id; }; 
             CLASS = GrowlLogPrefs; 
             LANGUAGE = ObjC; 
             OUTLETS = {
