@@ -157,7 +157,7 @@
 		NSArray *components = [NSArray arrayWithObjects:artworkDir, @"Tracks", track, @"Track.tiff", nil];
 		fullPath = [NSString pathWithComponents:components];
 	}
-	NSLog(@"Archiving artwork at %@", fullPath);
+	//NSLog(@"Archiving artwork at %@", fullPath);
 	if ([manager fileExistsAtPath:fullPath])
 		NSLog(@"Error, should not happen ! The ARTchive plugin should have returned the artwork, as it already exists !");
 	else
