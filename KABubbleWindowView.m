@@ -22,6 +22,9 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 		_textHeight = 0;
 		_target = nil;
 		_action = NULL;
+		// Register defaults
+		[[NSUserDefaults standardUserDefaults] registerDefaults:
+			[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:KALimitPref]];
 	}
 	return self;
 }
@@ -177,8 +180,7 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 - (void) sizeToFit {
     NSRect rect = [self frame];
 	rect.size.height = 10 + 10 + 15 + [self descriptionHeight];
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:KALimitPref])
-		[self setFrame:rect];
+	[self setFrame:rect];
 }
 
 - (float) descriptionHeight {
@@ -198,7 +200,11 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 	
 		// for some reason, this code is using a 13-point line height for calculations, but the font 
 		// in fact renders in 14 points of space. Do some adjustments.
-		_textHeight = _textHeight / 13 * 14;
+		int _rowCount = _textHeight / 13;
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:KALimitPref])
+			_textHeight = MIN(_rowCount, 5) * 14;
+		else
+			_textHeight = _textHeight / 13 * 14;
 	}
 	return MAX (_textHeight, 30);
 }
@@ -206,7 +212,10 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 - (int) descriptionRowCount {
 	float height = [self descriptionHeight];
 	float lineHeight = [_text size].height;
-	return (int) (height / lineHeight);
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:KALimitPref])
+		return MIN((int) (height / lineHeight), 5);
+	else
+		return (int) (height / lineHeight);
 }
 
 #pragma mark -
