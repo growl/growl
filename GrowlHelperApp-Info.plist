@@ -27,8 +27,12 @@
 			<string>growl-icon</string>
 			<key>CFBundleTypeName</key>
 			<string>Growl Display Plugin</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>DISP</string>
+			</array>
 			<key>CFBundleTypeRole</key>
-			<string>None</string>
+			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<true/>
 		</dict>
