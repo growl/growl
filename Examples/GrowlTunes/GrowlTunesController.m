@@ -30,11 +30,11 @@ static NSString *pollIntervalKey = @"Poll interval";
 
 //status item menu item tags.
 enum {
-	onlineHelp,
+	onlineHelpTag,
 	quitGrowlTunesTag,
 	launchQuitiTunesTag,
 	quitBothTag,
-	togglePollingTag
+	togglePollingTag,
 };
 
 @interface NSObject(GrowlTunesDummyPlugin)
@@ -132,7 +132,7 @@ enum {
 
 #pragma mark Poll timer
 
-- (void)poll: (NSTimer *)timer
+- (void)poll:(NSTimer *)timer
 {
 	NSDictionary			* error = nil;
 	NSAppleEventDescriptor  * retVal;
@@ -216,7 +216,8 @@ enum {
 								 artwork?[artwork TIFFRepresentation]:nil, GROWL_NOTIFICATION_ICON,
 					nil];
 				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																			   object:nil userInfo:noteDict];
+																			   object:nil
+																			 userInfo:noteDict];
 			}
 		}
 		state = newState;
@@ -278,9 +279,11 @@ enum {
 
 		item = [menu addItemWithTitle:@"Online Help" action:@selector(onlineHelp:) keyEquivalent:empty];
 		[item setTarget:self];
-		[item setTag:onlineHelp];		
+		[item setTag:onlineHelpTag];
+
 		item = [NSMenuItem separatorItem];
 		[menu addItem:item];
+
 		item = [menu addItemWithTitle:@"Quit GrowlTunes" action:@selector(quitGrowlTunes:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:quitGrowlTunesTag];
@@ -290,8 +293,10 @@ enum {
 		item = [menu addItemWithTitle:@"Quit Both" action:@selector(quitBoth:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:quitBothTag];
+
 		item = [NSMenuItem separatorItem];
 		[menu addItem:item];
+
 		item = [menu addItemWithTitle:@"Toggle Polling" action:@selector(togglePolling:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:togglePollingTag];
@@ -303,8 +308,10 @@ enum {
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
 	switch([item tag]) {
 		case launchQuitiTunesTag:;
-			static NSString *names[2] = { @"Launch iTunes", @"Quit iTunes" };
-			[item setTitle:names[[self iTunesIsRunning] != NO]];
+			if([self iTunesIsRunning])
+				[item setTitle:@"Quit iTunes"];
+			else
+				[item setTitle:@"Launch iTunes"];
 		case quitGrowlTunesTag:
 			return YES;
 
@@ -318,7 +325,7 @@ enum {
 				[item setTitle:@"Start Polling"];
 			return YES;
 
-		case onlineHelp:
+		case onlineHelpTag:
 		    return YES;
 		    
 		default:

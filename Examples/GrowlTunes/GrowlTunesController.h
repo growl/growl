@@ -47,7 +47,7 @@ typedef enum {
 
 #pragma mark Poll timer
 
-- (void)poll: (NSTimer *)timer;
+- (void)poll:(NSTimer *)timer;
 - (void)startTimer;
 - (void)stopTimer;
 
