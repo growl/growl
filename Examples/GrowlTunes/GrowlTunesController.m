@@ -163,6 +163,7 @@ enum {
 		NSString		*artist = nil;
 		NSString		*album = nil;
 		NSNumber		*rating = nil;
+		NSString		*ratingString = nil;
 		NSImage			*artwork = nil;
 		NSDictionary	*noteDict;
 		
@@ -181,8 +182,31 @@ enum {
 		if ( curDescriptor = [theDescriptor descriptorAtIndex:5] )
 			album = [curDescriptor stringValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:6] )
-			rating = [NSNumber numberWithInt:[[curDescriptor stringValue] intValue]]; //horrible, ain't it
+		if ( curDescriptor = [theDescriptor descriptorAtIndex:6] ) {
+			int ratingInt = [[curDescriptor stringValue] intValue];
+			rating = [NSNumber numberWithInt:ratingInt]; 
+			
+			switch ( ratingInt / 20 ) {
+				case 0:
+					ratingString = [NSString stringWithUTF8String:"☆☆☆☆☆"];
+					break;
+				case 1:
+					ratingString = [NSString stringWithUTF8String:"★☆☆☆☆"];
+					break;
+				case 2:
+					ratingString = [NSString stringWithUTF8String:"★★☆☆☆"];
+					break;
+				case 3:
+					ratingString = [NSString stringWithUTF8String:"★★★☆☆"];
+					break;
+				case 4:
+					ratingString = [NSString stringWithUTF8String:"★★★★☆"];
+					break;
+				case 5:
+					ratingString = [NSString stringWithUTF8String:"★★★★★"];
+					break;
+			}
+		}
 		
 		curDescriptor = [theDescriptor descriptorAtIndex:7];
 		const OSType type = [curDescriptor typeCodeValue];
@@ -217,7 +241,7 @@ enum {
 			( state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING ), GROWL_NOTIFICATION_NAME,
 			appName, GROWL_APP_NAME,
 			track, GROWL_NOTIFICATION_TITLE,
-			[NSString stringWithFormat:@"%@\n%@",artist,album], GROWL_NOTIFICATION_DESCRIPTION,
+			[NSString stringWithFormat:@"%@ - %@\n%@\n%@",length,ratingString,artist,album], GROWL_NOTIFICATION_DESCRIPTION,
 					  artwork ? [artwork TIFFRepresentation] : nil, GROWL_NOTIFICATION_ICON,
 			length, EXTENSION_GROWLTUNES_TRACK_LENGTH,
 			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
@@ -448,7 +472,6 @@ enum {
 }
 
 - (void) jumpToTune:(id) sender {
-	NSLog( @"jump to tune - %@, %i", sender, [sender tag] );
 	NSDictionary *tuneDict = [recentTracks objectAtIndex:[sender tag]];
 	NSString *jumpScript = [NSString stringWithFormat:@"tell application \"iTunes\"\nplay track \"%@\" of playlist \"%@\"\nend tell", 
 									[tuneDict objectForKey:@"name"],
