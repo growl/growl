@@ -14,7 +14,7 @@ typedef enum GrowlPriority {
 	GP_verylow		= -2,
 	GP_low			= -1,
 	GP_normal		=  0,
-	GP_high		=  1,
+	GP_high         =  1,
 	GP_emergency	=  2
 } GrowlPriority;
 
@@ -24,21 +24,22 @@ typedef enum GrowlPriority {
 	BOOL			 _enabled;
 }
 
-- (GrowlPriority) priority;
-- (void) setPriority:(GrowlPriority)newPriority;
++ (GrowlApplicationNotification*) notificationWithName:(NSString*)name;
++ (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict;
+- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled;
+- (NSDictionary*) notificationAsDict;
+
+#pragma mark -
 
 - (NSString*) name;
 
+- (GrowlPriority) priority;
+- (void) setPriority:(GrowlPriority)newPriority;
+
 - (BOOL) enabled;
-- (void) disable;
-- (void) enable;
 - (void) setEnabled:(BOOL)yorn;
-
-- (NSDictionary*) notificationAsDict;
-+ (GrowlApplicationNotification*) notificationWithName:(NSString*)name;
-+ (GrowlApplicationNotification*) notificationFromDict:(NSDictionary*)dict;
-
-- (GrowlApplicationNotification*) initWithName:(NSString*)name priority:(GrowlPriority)priority enabled:(BOOL)enabled;
+- (void) enable;
+- (void) disable;
 @end
 
 #pragma mark -
@@ -47,12 +48,10 @@ typedef enum GrowlPriority {
 @interface GrowlApplicationTicket : NSObject {
 	NSString		*_appName;					// The Applications's name for display by notifications that want it
 	NSImage			*_icon;						// This app's icon for notifications and display methods that want it
-	NSArray			*_allNotifications;			// All the notifications possible for this app
 
-	NSDictionary	*_allNotificationsD;		// All the notifications possible for this app
+	NSDictionary	*_allNotifications;		// All the notifications possible for this app
 
 	NSArray			*_defaultNotifications;		// The default notifications
-	NSMutableArray	*_allowedNotifications;		// The allowed notifications
 	
 	BOOL			usesCustomDisplay;
 	id <GrowlDisplayPlugin> displayPlugin;
