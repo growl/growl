@@ -142,9 +142,9 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	NSParameterAssert(title || description);	//At least one of title or description is required.
 
 	// Build our noteDict from all passed parameters
-	NSMutableDictionary *noteDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:	appName,	GROWL_APP_NAME,
-																						notifName,	GROWL_NOTIFICATION_NAME,
-																						nil];
+	NSMutableDictionary *noteDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:	appName,	GROWL_APP_NAME,
+																							notifName,	GROWL_NOTIFICATION_NAME,
+																							nil];
 
 	if (title)			[noteDict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
 	if (description)	[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
@@ -154,7 +154,8 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	if (isSticky)		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];
 	if (clickContext)	[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 
-	[self notifyWithDictionary:noteDict];
+	[GrowlApplicationBridge notifyWithDictionary:noteDict];
+	[noteDict release];
 }
 
 + (void) notifyWithDictionary:(NSDictionary *)userInfo {
@@ -177,7 +178,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 				queuedGrowlNotifications = [[NSMutableArray alloc] init];
 			}
 			[queuedGrowlNotifications addObject:userInfo];
-			
+
 			//if we have not already asked the user to install Growl, do it now
 			if (!promptedToInstallGrowl) {
 				[GrowlInstallationPrompt showInstallationPrompt];
@@ -311,18 +312,14 @@ static BOOL				promptedToUpgradeGrowl = NO;
 										 forKey:GROWL_APP_NAME];
 
 		//don't rely on the application to give us a path; get it ourselves.
-		BOOL gotIt = NO;
 		NSURL *myURL = _copyCurrentProcessURL();
 		NSDictionary *file_data = [myURL dockDescription];
 		if (file_data) {
-			NSDictionary *location = [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"];
-			if (location) {
-				[properRegistrationDictionary setObject:location
-												 forKey:GROWL_APP_LOCATION];
-				gotIt = YES;
-			}
-		}
-		if (!gotIt) {
+			NSDictionary *location = [[NSDictionary alloc] initWithObjectsAndKeys:file_data, @"file-data", nil];
+			[properRegistrationDictionary setObject:location
+											 forKey:GROWL_APP_LOCATION];
+			[location release];
+		} else {
 			[properRegistrationDictionary removeObjectForKey:GROWL_APP_LOCATION];
 		}
 
@@ -526,7 +523,8 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	ourGrowlPrefPaneInfoPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlPrefPaneInfo" 
 																				ofType:@"plist"];
 
-	packagedVersion = [[NSDictionary dictionaryWithContentsOfFile:ourGrowlPrefPaneInfoPath] objectForKey:(NSString *)kCFBundleVersionKey];
+	NSDictionary *infoDict = [[NSDictionary alloc] initWithContentsOfFile:ourGrowlPrefPaneInfoPath];
+	packagedVersion = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
 
 	infoDictionary = [growlPrefPaneBundle infoDictionary];
 	installedVersion = [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey];
@@ -543,6 +541,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 			promptedToUpgradeGrowl = YES;
 		}
 	}
+	[infoDict release];
 }
 #endif
 

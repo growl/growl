@@ -194,13 +194,15 @@
 #pragma mark -
 
 - (id) initTicketFromPath:(NSString *) ticketPath {
-	NSDictionary *ticketDict = [NSDictionary dictionaryWithContentsOfFile:ticketPath];
+	NSDictionary *ticketDict = [[NSDictionary alloc] initWithContentsOfFile:ticketPath];
 	if (!ticketDict) {
 		NSLog(@"Tried to init a ticket from this file, but it isn't a ticket file: %@", ticketPath);
 		[self release];
 		return nil;
 	}
-	return [self initWithDictionary:ticketDict];
+	self = [self initWithDictionary:ticketDict];
+	[ticketDict release];
+	return self;
 }
 
 - (id) initTicketForApplication: (NSString *) inApp {

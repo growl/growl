@@ -58,7 +58,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 	}
 	defaultNotifications = temp;
 
-	NSMutableDictionary *registerDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	NSMutableDictionary *registerDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		appName, GROWL_APP_NAME,
 		allNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
@@ -82,6 +82,8 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 		NSLog (@"error processing AppleScript request: %@", localException);
 		[self setError:ERROR_EXCEPTION failure:localException];
 	NS_ENDHANDLER
+
+	[registerDict release];
 
 	return nil;
 }

@@ -80,7 +80,7 @@ static float titleHeight;
 	[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5f ofColor:[NSColor blackColor]]];
 
 	// construct attributes for the description text
-	NSDictionary *descriptionAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary *descriptionAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 		[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
 		textColor, NSForegroundColorAttributeName,
 		textShadow, NSShadowAttributeName,
@@ -88,7 +88,7 @@ static float titleHeight;
 	// construct attributes for the title
 	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-	NSDictionary *titleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary *titleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 		[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize], NSFontAttributeName,
 		textColor, NSForegroundColorAttributeName,
 		textShadow, NSShadowAttributeName,
@@ -110,6 +110,7 @@ static float titleHeight;
 		drawRect.origin.y -= drawRect.size.height;
 
 		[title drawInRect:drawRect withAttributes:titleAttributes];
+		[titleAttributes release];
 
 		drawRect.origin.y -= GrowlSmokeTitleTextPadding;
 	}
@@ -119,6 +120,7 @@ static float titleHeight;
 		drawRect.size.height = [self descriptionHeight];
 
 		[text drawInRect:drawRect withAttributes:descriptionAttributes];
+		[descriptionAttributes release];
 	}
 
 	drawRect.origin.x = GrowlSmokePadding;
@@ -253,10 +255,11 @@ static float titleHeight;
 	}
 
 	if (!textHeight) {
+		NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+			[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
+			nil];
 		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:text
-																attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-																	[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
-																	nil]];
+																attributes:attributes];
 
 		NSSize containerSize;
 		BOOL limitPref = GrowlSmokeLimitPrefDefault;
@@ -277,6 +280,7 @@ static float titleHeight;
 		[textStorage addLayoutManager:layoutManager];
 		[textContainer setLineFragmentPadding:0.0f];
 		[layoutManager glyphRangeForTextContainer:textContainer];
+		[attributes release];
 
 		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
 

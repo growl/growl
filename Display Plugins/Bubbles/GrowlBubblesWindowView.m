@@ -316,11 +316,12 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (int) descriptionRowCount {
-	NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text attributes:
-		[NSDictionary dictionaryWithObjectsAndKeys:
-			textFont, NSFontAttributeName,
-			textColor, NSForegroundColorAttributeName,
-			nil]];
+	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+		textFont, NSFontAttributeName,
+		textColor, NSForegroundColorAttributeName,
+		nil];
+	NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:text
+																		 attributes:attributes];
 	NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:attributedText];
 	NSTextContainer *textContainer = [[NSTextContainer alloc]
 		initWithContainerSize:NSMakeSize ( PANEL_WIDTH_PX - 2.0f * PANEL_HSPACE_PX - ICON_SIZE_PX - ICON_HSPACE_PX,
@@ -333,9 +334,10 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 	textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
 	[attributedText release];
-	[layoutManager release];
-	[textContainer release];
-	[textStorage release];
+	[attributes     release];
+	[layoutManager  release];
+	[textContainer  release];
+	[textStorage    release];
 
 	int rowCount = textHeight / [textFont defaultLineHeightForFont];
 	BOOL limitPref = YES;

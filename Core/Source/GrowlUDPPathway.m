@@ -159,13 +159,14 @@
 
 								if (length == packetSize) {
 									if ([GrowlUDPPathway authenticatePacket:(const unsigned char *)nr length:length]) {
-										NSDictionary *registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+										NSDictionary *registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 											[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
 											allNotifications, GROWL_NOTIFICATIONS_ALL,
 											defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 											nil];
 
 										[self registerApplicationWithDictionary:registerInfo];
+										[registerInfo release];
 									} else {
 										NSLog( @"GrowlUDPServer: authentication failed." );
 									}
@@ -199,7 +200,7 @@
 							if ( length == packetSize ) {
 								if ( [GrowlUDPPathway authenticatePacket:(const unsigned char *)nn length:length] ) {
 									NSDictionary *notificationInfo;
-									notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+									notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 										[NSString stringWithUTF8String:notificationName length:notificationNameLen], GROWL_NOTIFICATION_NAME,
 										[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
 										[NSString stringWithUTF8String:title length:titleLen], GROWL_NOTIFICATION_TITLE,
@@ -210,6 +211,7 @@
 										nil];
 
 									[self postNotificationWithDictionary:notificationInfo];
+									[notificationInfo release];
 								} else {
 									NSLog( @"GrowlUDPServer: authentication failed." );
 								}

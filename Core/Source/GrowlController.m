@@ -85,8 +85,10 @@ static id singleton = nil;
 		[self versionDictionary];
 
 		GrowlPreferences *preferences = [GrowlPreferences preferences];
-		[preferences registerDefaults: [NSDictionary dictionaryWithContentsOfFile:
-			[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]]];
+		NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithContentsOfFile:
+			[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]];
+		[preferences registerDefaults:defaultDefaults];
+		[defaultDefaults release];
 
 		[self preferencesChanged:nil];
 
@@ -201,13 +203,15 @@ static id singleton = nil;
 	id <GrowlDisplayPlugin> displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayName];
 
 	NSString *desc = [NSString stringWithFormat:@"This is a preview of the %@ display", displayName];
-	[displayPlugin displayNotificationWithInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
 		@"Preview",                    GROWL_NOTIFICATION_TITLE,
 		desc,                          GROWL_NOTIFICATION_DESCRIPTION,
 		[NSNumber numberWithInt:0],    GROWL_NOTIFICATION_PRIORITY,
 		[NSNumber numberWithBool:YES], GROWL_NOTIFICATION_STICKY,
 		growlIcon,                     GROWL_NOTIFICATION_ICON,
-		nil]];
+		nil];
+	[displayPlugin displayNotificationWithInfo:info];
+	[info release];
 }
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
@@ -221,7 +225,7 @@ static id singleton = nil;
 		return;
 	}
 
-	NSMutableDictionary *aDict = [NSMutableDictionary dictionaryWithDictionary:dict];
+	NSMutableDictionary *aDict = [[NSMutableDictionary alloc] initWithDictionary:dict];
 
 	// Check icon
 	NSImage *icon = nil;
@@ -292,6 +296,7 @@ static id singleton = nil;
 	}
 
 	[display displayNotificationWithInfo:aDict];
+	[aDict release];
 
 	if (enableForward) {
 		NSEnumerator *enumerator = [destinations objectEnumerator];
@@ -392,7 +397,7 @@ static id singleton = nil;
 	}
 
 	NSString *currVersionNumber = [self growlVersion];
-	NSDictionary *productVersionDict = [NSDictionary dictionaryWithContentsOfURL:versionCheckURL];
+	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:@"Growl"];
 
 	// do nothing--be quiet if there is no active connection or if the
@@ -409,10 +414,12 @@ static id singleton = nil;
 									   clickContext:@"update"];
 		}
 	}
+
+	[productVersionDict release];
 }
 
 - (NSString *) growlVersion {
-	return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+	return [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 }
 
 - (NSDictionary *)versionDictionary {
@@ -424,7 +431,7 @@ static id singleton = nil;
 		const unsigned long long *versionNum = (const unsigned long long *)&version;
 		versionInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithUnsignedLongLong:*versionNum], @"Complete version",
-			[self growlVersion], @"CFBundleVersion",
+			[self growlVersion], (NSString *)kCFBundleVersionKey,
 
 			[NSNumber numberWithUnsignedShort:version.major], @"Major version",
 			[NSNumber numberWithUnsignedShort:version.minor], @"Minor version",
@@ -571,7 +578,7 @@ static id singleton = nil;
 		return YES;
 		
 	} else if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
-		NSDictionary *regDict = [NSDictionary dictionaryWithContentsOfFile:filename];
+		NSDictionary *regDict = [[NSDictionary alloc] initWithContentsOfFile:filename];
 		[[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
 
 		//Register this app using the indicated dictionary
@@ -581,6 +588,7 @@ static id singleton = nil;
 		} else {
 			[registrationQueue addObject:regDict];
 		}
+		[regDict release];
 
 		/*If Growl is not enabled and was not already running before
 		 *	(for example, via an autolaunch even though the user's last
@@ -664,7 +672,7 @@ static id singleton = nil;
 
 	if (appPath) {
 		NSString *ticketPath = [NSBundle pathForResource:@"Growl Registration Ticket" ofType:GROWL_REG_DICT_EXTENSION inDirectory:appPath];
-		NSDictionary *ticket = [NSDictionary dictionaryWithContentsOfFile:ticketPath];
+		NSDictionary *ticket = [[NSDictionary alloc] initWithContentsOfFile:ticketPath];
 
 		if (ticket) {
 			if ([GrowlApplicationTicket isValidTicketDictionary:ticket]) {
@@ -678,7 +686,8 @@ static id singleton = nil;
 
 					NSMutableDictionary *mTicket = [ticket mutableCopy];
 					[mTicket setObject:location forKey:GROWL_APP_LOCATION];
-					ticket = [mTicket autorelease];
+					[ticket release];
+					ticket = mTicket;
 
 					//write the new ticket to disk, and be sure to launch this ticket instead of the one in the app bundle.
 					NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
@@ -710,6 +719,7 @@ static id singleton = nil;
 			} else {
 				NSLog(@"%@ (located at %@) contains a ticket whose version (%i) is unrecognised by this version (%@) of Growl", appName, appPath, [[ticket objectForKey:GROWL_TICKET_VERSION] intValue], [self stringWithVersionDictionary:nil]);
 			}
+			[ticket release];
 		}
 	}
 }
@@ -772,7 +782,7 @@ static id singleton = nil;
 }
 
 - (void) _processNotificationQueue {
-	NSArray *queue = [NSArray arrayWithArray:notificationQueue];
+	NSArray *queue = [[NSArray alloc] initWithArray:notificationQueue];
 	[notificationQueue removeAllObjects];
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
@@ -780,10 +790,11 @@ static id singleton = nil;
 	while ((dict = [e nextObject])) {
 		[self dispatchNotificationWithDictionary:dict];
 	}
+	[queue release];
 }
 
 - (void) _processRegistrationQueue {
-	NSArray *queue = [NSArray arrayWithArray:registrationQueue];
+	NSArray *queue = [[NSArray alloc] initWithArray:registrationQueue];
 	[registrationQueue removeAllObjects];
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
@@ -791,6 +802,7 @@ static id singleton = nil;
 	while ((dict = [e nextObject])) {
 		[self registerApplicationWithDictionary:dict];
 	}
+	[queue release];
 }
 
 #pragma mark -
@@ -813,13 +825,15 @@ static id singleton = nil;
 	//Build the application-specific notification name
 	appName = [notification object];
 	growlNotificationClickedName = [appName stringByAppendingString:GROWL_NOTIFICATION_CLICKED];
-	userInfo = [NSDictionary dictionaryWithObject:[notification userInfo]
-										   forKey:GROWL_KEY_CLICKED_CONTEXT];
+	userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[notification userInfo],
+		GROWL_KEY_CLICKED_CONTEXT, nil];
 
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName 
 																   object:nil 
 																 userInfo:userInfo
 													   deliverImmediately:YES];
+
+	[userInfo release];
 }
 
 @end

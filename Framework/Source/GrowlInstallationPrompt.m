@@ -49,22 +49,19 @@ static BOOL checkOSXVersion()
 	return (OSXVersion >= minimumOSXVersionForGrowl);
 }
 
-+ (void) showInstallationPrompt
-{
-	if ( checkOSXVersion() ) {
-		[[[[self alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdateToVersion:nil] window] makeKeyAndOrderFront:nil];
++ (void) showInstallationPrompt {
+	if (checkOSXVersion()) {
+		[[[[GrowlInstallationPrompt alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdateToVersion:nil] window] makeKeyAndOrderFront:nil];
 	}
 }
 
-+ (void) showUpdatePromptForVersion:(NSString *)inUpdateVersion
-{
-	if ( checkOSXVersion() ) {
-		[[[[self alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdateToVersion:inUpdateVersion] window] makeKeyAndOrderFront:nil];
++ (void) showUpdatePromptForVersion:(NSString *)inUpdateVersion {
+	if (checkOSXVersion()) {
+		[[[[GrowlInstallationPrompt alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdateToVersion:inUpdateVersion] window] makeKeyAndOrderFront:nil];
 	}
 }
 
-- (id)initWithWindowNibName:(NSString *)nibName forUpdateToVersion:(NSString *)inUpdateVersion
-{
+- (id)initWithWindowNibName:(NSString *)nibName forUpdateToVersion:(NSString *)inUpdateVersion {
 	if ((self = [super initWithWindowNibName:nibName])) {
 		updateVersion = [inUpdateVersion retain];
 	}
@@ -72,8 +69,7 @@ static BOOL checkOSXVersion()
 	return self;
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
 	[updateVersion release];
 
 	[super dealloc];
@@ -135,17 +131,18 @@ static BOOL checkOSXVersion()
 																  attributes:attributes];
 		//Skip a line
 		[[defaultGrowlInfo mutableString] appendString:@"\n\n"];
-		
+
 		//Now provide a default explanation
 		NSAttributedString *defaultExplanation;
-		defaultExplanation = [[[NSAttributedString alloc] initWithString:(updateVersion ? 
+		defaultExplanation = [[NSAttributedString alloc] initWithString:(updateVersion ? 
 																		  DEFAULT_UPDATE_EXPLANATION : 
 																		  DEFAULT_INSTALLATION_EXPLANATION)
 															  attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 																  [NSFont systemFontOfSize:GROWL_TEXT_SIZE], NSFontAttributeName,
-																  nil]] autorelease];
-			
+																  nil]];
+
 		[defaultGrowlInfo appendAttributedString:defaultExplanation];
+		[defaultExplanation release];
 		
 		growlInfo = defaultGrowlInfo;
 	}
@@ -264,15 +261,16 @@ static BOOL checkOSXVersion()
 		tmpDir = [tmpDir stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
 		if (tmpDir) {
 			[[NSFileManager defaultManager] createDirectoryAtPath:tmpDir attributes:nil];
-			
-			unzip = [[NSTask alloc] init];
-			[unzip setLaunchPath:@"/usr/bin/unzip"];
-			[unzip setArguments:[NSArray arrayWithObjects:
+
+			NSArray *arguments = [[NSArray alloc] initWithObjects:
 				@"-o",  /* overwrite */
 				@"-q", /* quiet! */
 				archivePath, /* source zip file */
 				@"-d", tmpDir, /* The temporary folder is the destination folder*/
-				nil]];
+				nil];
+			unzip = [[NSTask alloc] init];
+			[unzip setLaunchPath:@"/usr/bin/unzip"];
+			[unzip setArguments:arguments];
 			[unzip setCurrentDirectoryPath:tmpDir];
 			
 			NS_DURING
@@ -283,6 +281,7 @@ static BOOL checkOSXVersion()
 				/* No exception handler needed */
 			NS_ENDHANDLER
 			[unzip release];
+			[arguments release];
 				
 			if (success) {
 				NSString	*tempGrowlPrefPane;

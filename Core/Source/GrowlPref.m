@@ -67,7 +67,7 @@
 #pragma mark -
 
 - (NSString *) bundleVersion {
-	return [[[self bundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+	return [[[self bundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 }
 
 - (IBAction) checkVersion:(id)sender {
@@ -90,13 +90,13 @@
 - (void) checkVersionAtURL:(NSURL *)url displayText:(NSString *)message downloadURL:(NSURL *)goURL {
 	NSBundle *bundle = [self bundle];
 	NSDictionary *infoDict = [bundle infoDictionary];
-	NSString *currVersionNumber = [infoDict objectForKey:@"CFBundleVersion"];
-	NSDictionary *productVersionDict = [NSDictionary dictionaryWithContentsOfURL:url];
+	NSString *currVersionNumber = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
+	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:url];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:
-		[infoDict objectForKey:@"CFBundleExecutable"]];
+		[infoDict objectForKey:(NSString *)kCFBundleExecutableKey]];
 
 	/*
-	NSLog([[[NSBundle bundleForClass:[self class]] infoDictionary] objectForKey:@"CFBundleExecutable"] );
+	NSLog([[[NSBundle bundleForClass:[self class]] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
 	NSLog(currVersionNumber);
 	NSLog(latestVersionNumber);
 	*/
@@ -115,6 +115,8 @@
 						  /*contextInfo*/ goURL,
 						  /*msg*/ message);
 	}
+
+	[productVersionDict release];
 }
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
@@ -375,11 +377,11 @@
 	[self loadViewForDisplay:currentPlugin];
 	NSDictionary *info = [growlPluginController infoDictionaryForPluginNamed:currentPlugin];
 	[displayAuthor setStringValue:[info objectForKey:@"GrowlPluginAuthor"]];
-	[displayVersion setStringValue:[info objectForKey:@"CFBundleVersion"]];
+	[displayVersion setStringValue:[info objectForKey:(NSString *)kCFBundleVersionKey]];
 }
 
 - (void) writeForwardDestinations {
-	NSMutableArray *destinations = [NSMutableArray arrayWithCapacity:[services count]];
+	NSMutableArray *destinations = [[NSMutableArray alloc] initWithCapacity:[services count]];
 	NSEnumerator *enumerator = [services objectEnumerator];
 	NSMutableDictionary *entry;
 	while ((entry = [enumerator nextObject])) {
@@ -388,6 +390,7 @@
 		}
 	}
 	[[GrowlPreferences preferences] setObject:destinations forKey:GrowlForwardDestinationsKey];
+	[destinations release];
 }
 
 #pragma mark -
@@ -464,9 +467,11 @@
 	NSString *path = [[tickets objectForKey:key] path];
 
 	if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
+		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys: key, @"TicketName", nil];
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
 																	   object:@"GrowlTicketDeleted"
-																	 userInfo:[NSDictionary dictionaryWithObject:key forKey:@"TicketName"]];
+																	 userInfo:userInfo];
+		[userInfo release];
 		[tickets removeObjectForKey:key];
 		unsigned index;
 		if (filteredApplications == applications) {
@@ -896,9 +901,11 @@
 
 + (void)saveTicket:(GrowlApplicationTicket *)ticket {
 	[ticket saveTicket];
+	NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[ticket applicationName], @"TicketName", nil];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
 																   object:@"GrowlTicketChanged"
-																 userInfo:[NSDictionary dictionaryWithObject:[ticket applicationName] forKey:@"TicketName"]];
+																 userInfo:userInfo];
+	[userInfo release];
 }
 
 #pragma mark Detecting Growl

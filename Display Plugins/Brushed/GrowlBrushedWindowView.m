@@ -232,10 +232,11 @@ static float titleHeight;
 	}
 	
 	if (!textHeight) {
-		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:text
-																attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-																	[NSFont systemFontOfSize:GrowlBrushedTextFontSize], NSFontAttributeName,
-																	nil]];
+		NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+			[NSFont systemFontOfSize:GrowlBrushedTextFontSize], NSFontAttributeName,
+			nil];
+		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:text
+																attributes:attributes];
 
 		NSSize containerSize;
 		BOOL limitPref = GrowlBrushedLimitPrefDefault;
@@ -265,9 +266,10 @@ static float titleHeight;
 		// actually is for utmost accuracy
 		textHeight = textHeight / GrowlBrushedTextFontSize * (GrowlBrushedTextFontSize + 1);
 
-		[textStorage release];
+		[textStorage   release];
 		[textContainer release];
 		[layoutManager release];
+		[attributes    release];
 	}
 	
 	return textHeight;

@@ -103,6 +103,7 @@ static GrowlPreferences * sharedPreferences;
 
 	return [pathArray objectEnumerator];	
 }
+
 // Returns an array of paths to all user-installed .prefPane bundles
 - (NSArray *) _allPreferencePaneBundles {
 	NSEnumerator	*searchPathEnumerator;
@@ -112,7 +113,7 @@ static GrowlPreferences * sharedPreferences;
 	prefPaneExtension = PREFERENCE_PANE_EXTENSION;
 	searchPathEnumerator = [self _preferencePaneSearchEnumerator];		
 
-	while ( ( path = [searchPathEnumerator nextObject] ) ) {
+	while ((path = [searchPathEnumerator nextObject])) {
 		NSString				*bundlePath;
 		NSDirectoryEnumerator   *bundleEnum;
 
@@ -318,8 +319,7 @@ static GrowlPreferences * sharedPreferences;
 	[loginWindowPrefs setObject:loginItems
 						 forKey:@"AutoLaunchedApplicationDictionary"];
 	[loginItems release];
-	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
-					  forName:@"loginwindow"];
+	[defs setPersistentDomain:loginWindowPrefs forName:@"loginwindow"];
 	[loginWindowPrefs release];
 	[defs synchronize];
 }
