@@ -5,16 +5,16 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>Growl-WithInstaller.framework</string>
+	<string>Growl-WithInstaller</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Growl_WithInstaller_framework</string>
+	<string>com.growl.growlwithinstallerframework</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>GRRR</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>0.6</string>
 </dict>
 </plist>
