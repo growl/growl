@@ -1,5 +1,5 @@
 """
-A Python module that enables posting notifications to the Growl daemon.  
+A Python module that enables posting notifications to the Growl daemon.
 See <http://sourceforge.net/projects/growl/> for more information.
 
 Requires PyObjC 1.1 <http://pyobjc.sourceforge.net/> and Python 2.3
@@ -12,25 +12,27 @@ Released under the BSD license.
 from Foundation import NSArray, NSDistributedNotificationCenter, NSDictionary, NSNumber
 from AppKit import NSWorkspace
 
+growlPriority = {"Very Low":-2,"Moderate":-1,"Normal":0,"High":1,"Emergency":2}
+
 class GrowlNotifier(object):
     """
     A class that abstracts the process of registering and posting
     notifications to the Growl daemon.
-    
+
     You can either pass `applicationName', `notifications',
     `defaultNotifications' and `applicationIcon' to the constructor
     or you may define them as class-level variables in a sub-class.
-    
+
     `defaultNotifications' is optional, and defaults to the value of
     `notifications'.  `applicationIcon' is also optional but defaults
     to a pointless icon so is better to be specified.
     """
-    
+
     applicationName = 'GrowlNotifier'
     notifications = []
     defaultNotifications = None
     applicationIcon = None
-    
+
     def __init__(self, applicationName=None, notifications=None, defaultNotifications=None, applicationIcon=None):
         if applicationName is not None:
             self.applicationName = applicationName
@@ -40,7 +42,7 @@ class GrowlNotifier(object):
             self.defaultNotifications = defaultNotifications
         if applicationIcon is not None:
             self.applicationIcon = applicationIcon
-    
+
     def register(self):
         """
         Register this application with the Growl daemon.
@@ -49,20 +51,20 @@ class GrowlNotifier(object):
             self.applicationIcon = NSWorkspace.sharedWorkspace().iconForFileType_("txt")
         if self.defaultNotifications is None:
             self.defaultNotifications = self.notifications
-    
+
         regInfo = {'ApplicationName': self.applicationName,
                    'AllNotifications': NSArray.arrayWithArray_(self.notifications),
                    'DefaultNotifications': NSArray.arrayWithArray_(self.defaultNotifications),
                    'ApplicationIcon': self.applicationIcon.TIFFRepresentation()}
-    
+
         d = NSDictionary.dictionaryWithDictionary_(regInfo)
         notCenter = NSDistributedNotificationCenter.defaultCenter()
         notCenter.postNotificationName_object_userInfo_deliverImmediately_("GrowlApplicationRegistrationNotification", None, d, True)
-    
-    def notify(self, noteType, title, description, icon=None, appicon=None, sticky=False):
+
+    def notify(self, noteType, title, description, icon=None, appicon=None, sticky=False, priority=None):
         """
         Post a notification to the Growl daemon.
-        
+
         `noteType' is the name of the notification that is being posted.
         `title' is the user-visible title for this notification.
         `description' is the user-visible description of this notification.
@@ -74,18 +76,22 @@ class GrowlNotifier(object):
         assert noteType in self.notifications
         if icon is None:
             icon = self.applicationIcon
-        
+
+
         n = {'NotificationName': noteType,
              'ApplicationName': self.applicationName,
              'NotificationTitle': title,
              'NotificationDescription': description,
              'NotificationIcon': icon.TIFFRepresentation()}
-        
+
         if appicon is not None:
              n['NotificationAppIcon'] = appicon.TIFFRepresentation()
-        
+
         if sticky:
              n['NotificationSticky'] = NSNumber.numberWithBool_(True)
+
+        if priority is not None:
+             n['NotificationPriority'] = NSNumber.numberWithInt_(priority)
 
         d = NSDictionary.dictionaryWithDictionary_(n)
         notCenter = NSDistributedNotificationCenter.defaultCenter()
@@ -99,7 +105,7 @@ def main():
 
     n = TestGrowlNotifier(applicationIcon=NSWorkspace.sharedWorkspace().iconForFileType_('unknown'))
     n.register()
-    
+
     n.notify('Foo', 'Test Notification', 'Blah blah blah')
 
 if __name__ == '__main__':

@@ -30,14 +30,15 @@ def usage():
     -m,--message  Text to be send to the daemon.  - is used to for stdin
                   For each line (IE: \\n) a new notifaction is sent
     -s,--sticky   Make this notification sticky
-""" % sys.argv[0])
+    -p,--priority Set the notifcation priority %s
+""" % (sys.argv[0], str(Growl.growlPriority.keys())))
 
 NOTIFICATION_NAME = 'Dynamic Messages'
 
 def main():
 	try:
-		opts, args = getopt.getopt(sys.argv[1:], "n:t:m:i:I:s",
-									["name=", "title=", "message=","icon=","iconpath=","image=","sticky"])
+		opts, args = getopt.getopt(sys.argv[1:], "n:t:m:i:I:sp:",
+									["name=", "title=", "message=","icon=","iconpath=","image=","sticky","priority"])
 	except getopt.GetoptError:
 		# print help information and exit:
 		usage()
@@ -50,6 +51,7 @@ def main():
 	nIconPath  = ""
 	nImagePath = ""
 	nSticky = False
+	nPriority = "Normal"
 	for o, a in opts:
 		if o in ("-n", "--name"): appName = a
 		elif o in ("-t", "--title"): nTitle = a
@@ -58,6 +60,7 @@ def main():
 		elif o in ("-I", "--iconpath"): nIconPath = a
 		elif o in ("--image"): nImagePath = a
 		elif o in ("-s", "--sticky"): nSticky = True
+		elif o in ("-p", "--priority"): nPriority = a
 	
 	nIcon = None
 	workspace = NSWorkspace.sharedWorkspace()
@@ -77,6 +80,11 @@ def main():
 			sys.stderr.write("Couldn't load type %s\n" % nIconType)
 	if nIcon is None:
 		nIcon = workspace.iconForFileType_('unknown')
+	if nPriority and nPriority in Growl.growlPriority.keys():
+		nPriority = Growl.growlPriority[nPriority]
+	elif nPriority:
+		nPriority = int(nPriority)
+
 	
 	# fetch Terminal app icon
 	nAppPath = workspace.fullPathForApplication_("com.apple.Terminal")
@@ -94,9 +102,9 @@ def main():
 		while 1:
 			i = sys.stdin.readline()
 			if not i: break
-			n.notify(NOTIFICATION_NAME, nTitle, i, appicon=nAppIcon, sticky=nSticky)
+			n.notify(NOTIFICATION_NAME, nTitle, i, appicon=nAppIcon, sticky=nSticky, priority=nPriority)
 	else:
-		n.notify(NOTIFICATION_NAME, nTitle, nMsg, appicon=nAppIcon, sticky=nSticky)
+		n.notify(NOTIFICATION_NAME, nTitle, nMsg, appicon=nAppIcon, sticky=nSticky, priority=nPriority)
 
 if __name__ == '__main__':
 	main()

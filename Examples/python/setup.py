@@ -24,6 +24,6 @@ setup(name="Growl",
       author="Jeremy Rossi",
       author_email="jeremy@jeremyrossi.com",
       url="http://Growl.info",
-      scripts=["gnotify"],
+      scripts=["gnotify", "gtime"],
       cmdclass={'install_scripts':appleLocalInstallWorkAround})
 
