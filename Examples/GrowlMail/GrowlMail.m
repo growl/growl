@@ -62,7 +62,7 @@
 
 - (id)init
 {
-	if( self = [super init] ) {
+	if( (self = [super init]) ) {
 		if( ![GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(gabResponse:) context:nil] ) {
 			NSLog( @"Growl not installed, GrowlMail disabled" );
 		}

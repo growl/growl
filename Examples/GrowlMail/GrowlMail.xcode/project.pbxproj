@@ -60,7 +60,6 @@
 			children = (
 				955347E10732BFEF00D12875,
 				08FB77AFFE84173DC02AAC07,
-				32C88E010371C26100C91783,
 				089C167CFE841241C02AAC07,
 				089C1671FE841209C02AAC07,
 				19C28FB8FE9D52D311CA2CBB,
@@ -103,6 +102,7 @@
 		089C167DFE841241C02AAC07 = {
 			children = (
 				089C167EFE841241C02AAC07,
+				950DAC1A0737B0550096F066,
 			);
 			isa = PBXVariantGroup;
 			name = InfoPlist.strings;
@@ -110,7 +110,7 @@
 			sourceTree = "<group>";
 		};
 		089C167EFE841241C02AAC07 = {
-			fileEncoding = 10;
+			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = English;
@@ -142,14 +142,6 @@
 			);
 			isa = PBXGroup;
 			name = Classes;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		08FB77B6FE84183AC02AAC07 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = main.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -255,25 +247,6 @@
 //192
 //193
 //194
-//320
-//321
-//322
-//323
-//324
-		32C88E010371C26100C91783 = {
-			children = (
-				08FB77B6FE84183AC02AAC07,
-			);
-			isa = PBXGroup;
-			name = "Other Sources";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-//320
-//321
-//322
-//323
-//324
 //4B0
 //4B1
 //4B2
@@ -357,23 +330,15 @@
 			);
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = ../../build;
-				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
-				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_STYLE = Bundle;
-				OTHER_CFLAGS = "";
+				LIBRARY_STYLE = BUNDLE;
 				OTHER_LDFLAGS = "-force_flat_namespace -undefined suppress";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = GrowlMail;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = mailbundle;
 			};
 			dependencies = (
@@ -420,7 +385,6 @@
 		8D5B49B1048680CD000E48DA = {
 			buildActionMask = 2147483647;
 			files = (
-				8D5B49B2048680CD000E48DA,
 				4B7E5EA806B6AC1700137892,
 				95BF545B072F9D6300834811,
 				95BF5483072FB08000834811,
@@ -429,14 +393,6 @@
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D5B49B2048680CD000E48DA = {
-			fileRef = 08FB77B6FE84183AC02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-				);
-			};
 		};
 		8D5B49B3048680CD000E48DA = {
 			buildActionMask = 2147483647;
@@ -487,6 +443,22 @@
 //952
 //953
 //954
+		950DAC0E0737AF630096F066 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = German.lproj/GrowlMailPreferencesPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		950DAC1A0737B0550096F066 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = German;
+			path = German.lproj/InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		9553469C0732BD4800D12875 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -543,6 +515,7 @@
 		955347EA0732C14400D12875 = {
 			children = (
 				955347EB0732C14400D12875,
+				950DAC0E0737AF630096F066,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlMailPreferencesPanel.nib;

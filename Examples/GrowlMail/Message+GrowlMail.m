@@ -10,11 +10,11 @@
 #import "GrowlDefines.h"
 
 @interface NSString(GrowlMail)
-- (NSString *)firstNLines: (int)n;
+- (NSString *)firstNLines:(unsigned int)n;
 @end
 
 @implementation NSString(GrowlMail)
-- (NSString *)firstNLines: (int)n
+- (NSString *)firstNLines:(unsigned int)n
 {
         NSRange range;
         unsigned int i;
@@ -37,7 +37,7 @@
 	NSString *sender = [self sender];
 	NSString *senderAddress = [sender uncommentedAddress];
 	NSString *subject = [self subject];
-	NSString *body = [[[[self messageBody] stringForIndexing] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]] firstNLines: 4];
+	NSString *body = [[[[self messageBody] stringForIndexing] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]] firstNLines: 4U];
 	NSString *title = [NSString stringWithFormat: @"(%@) %@: %@", account, [sender fullName], subject];
 /*
 	NSLog(@"Subject: '%@'", subject);
