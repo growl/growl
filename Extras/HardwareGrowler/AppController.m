@@ -217,7 +217,7 @@
 	
 	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile: [note object]] TIFFRepresentation];  
 	[GrowlApplicationBridge notifyWithTitle:@"Volume Dismounted"
-							description:[note object]
+							description:[[note object] lastPathComponent]
 							notificationName:NotifierVolumeUnmountedNotification
 							iconData:ejectLogoData 
 							priority:0
