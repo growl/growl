@@ -9,6 +9,8 @@
 
 #import <Foundation/Foundation.h>
 #import "GrowlDisplayProtocol.h"
+#import "GrowlNotificationServer.h"
+#import "GrowlUDPServer.h"
 
 @protocol GrowlDisplayPlugin;
 
@@ -19,7 +21,14 @@
 	NSLock						*registrationLock;
 	NSMutableArray				*notificationQueue;
 	NSMutableArray				*registrationQueue;
+
+	// DistributedObjects server
 	NSNetService				*service;
+	NSSocketPort				*socketPort;
+	NSConnection				*serverConnection;
+	GrowlNotificationServer		*server;
+
+	// UDP server
 	GrowlUDPServer				*udpServer;
 
 	id<GrowlDisplayPlugin>		displayController;

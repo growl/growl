@@ -10,8 +10,6 @@
 #import "GrowlController.h"
 #import "GrowlApplicationTicket.h"
 #import "NSGrowlAdditions.h"
-#import "GrowlNotificationServer.h"
-#import "GrowlUDPServer.h"
 #import <sys/socket.h>
 
 @interface GrowlController (private)
@@ -32,10 +30,6 @@ static id singleton = nil;
 
 + (id) singleton {
 	return singleton;
-}
-
-- (void) connectionDidDie:(NSDictionary *)userInfo {
-	NSLog( @"NSConnection died" );
 }
 
 - (id) init {
@@ -81,53 +75,58 @@ static id singleton = nil;
 	return self;
 }
 
-- (void)startStopServer {
+- (void) startServer {
+	socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
+	serverConnection = [[NSConnection alloc] initWithReceivePort:socketPort sendPort:nil];
+	server = [[GrowlNotificationServer alloc] init];
+	[serverConnection setRootObject:server];
+	[serverConnection setDelegate:self];
+	
+	// register with the default NSPortNameServer on the local host
+	if ( ![serverConnection registerName:@"GrowlServer"] ) {
+		NSLog( @"Could not register Growl server." );
+	}
+	
+	// configure and publish the Rendezvous service
+	service = [[NSNetService alloc] initWithDomain:@""	// use local registration domain
+											  type:@"_growl._tcp."
+											  name:@""	// use local computer name
+											  port:GROWL_TCP_PORT];
+	[service setDelegate:self];
+	[service publish];
+
+	// start UDP service
+	udpServer = [[GrowlUDPServer alloc] init];
+}
+
+- (void) stopServer {
+	[udpServer release];
+	[serverConnection registerName:nil];	// unregister
+	[serverConnection invalidate];
+	[serverConnection release];
+	[socketPort release];
+	[server release];
+	[service stop];
+	[service release];
+	service = nil;
+}
+
+- (void) startStopServer {
 	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlStartServerKey] boolValue];
 
 	// Setup notification server
 	if ( enabled && !service ) {
 		// turn on
-		NSSocketPort *socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
-		NSConnection *connection;
-		connection = [[NSConnection alloc] initWithReceivePort:socketPort sendPort:nil];
-		GrowlNotificationServer *server = [[GrowlNotificationServer alloc] init];
-		[socketPort autorelease];
-		[server autorelease];
-		[connection autorelease];
-		[connection setRootObject:server];
-		[connection setDelegate:self];
-
-		// register with the default NSPortNameServer on the local host
-		if ( ![connection registerName:@"GrowlServer"] ) {
-			NSLog( @"Could not register Growl server." );
-		}
-
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(connectionDidDie:)
-													 name:NSConnectionDidDieNotification
-												   object:connection];
-
-		// configure and publish the Rendezvous service
-		service = [[NSNetService alloc] initWithDomain:@""	// use local registration domain
-												  type:@"_growl._tcp."
-												  name:@""	// use local computer name
-												  port:GROWL_TCP_PORT];
-		[service setDelegate:self];
-		[service publish];
-
-		// start UDP service
-		udpServer = [[GrowlUDPServer alloc] init];
-	} else if( !enabled && service ) {
+		[self startServer];
+	} else if ( !enabled && service ) {
 		// turn off
-		[service stop];
-		[service release];
-		service = nil;
-		[udpServer release];
+		[self stopServer];
 	}
 }
 
 - (void) dealloc {
 	//free your world
+	[self stopServer];
 	[tickets release];
 	[registrationLock release];
 	[notificationQueue release];
@@ -149,7 +148,7 @@ static id singleton = nil;
 
 		return( YES );
 
-	} else if( [pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION] ) {						
+	} else if ( [pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION] ) {						
 		NSDictionary	*regDict = [NSDictionary dictionaryWithContentsOfFile:filename];
 		
 		//Register this app using the indicated dictionary
@@ -261,7 +260,7 @@ static id singleton = nil;
 		NSEnumerator *enumerator = [destinations objectEnumerator];
 		NSDictionary *entry;
 		while ( (entry = [enumerator nextObject]) ) {
-			if( [[entry objectForKey:@"use"] boolValue] ) {
+			if ( [[entry objectForKey:@"use"] boolValue] ) {
 				NSData *destAddress = [entry objectForKey:@"address"];
 				NSSocketPort *serverPort = [[NSSocketPort alloc]
 					initRemoteWithProtocolFamily:AF_INET
@@ -395,7 +394,7 @@ static id singleton = nil;
 		NSEnumerator *enumerator = [destinations objectEnumerator];
 		NSDictionary *entry;
 		while ( (entry = [enumerator nextObject]) ) {
-			if( [[entry objectForKey:@"use"] boolValue] ) {
+			if ( [[entry objectForKey:@"use"] boolValue] ) {
 				NSData *destAddress = [entry objectForKey:@"address"];
 				NSSocketPort *serverPort = [[NSSocketPort alloc]
 					initRemoteWithProtocolFamily:AF_INET
@@ -446,7 +445,7 @@ static id singleton = nil;
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
 	
-	while( (dict = [e nextObject] ) ) {
+	while ( (dict = [e nextObject] ) ) {
 		[self dispatchNotificationWithDictionary:dict];
 	}
 }
@@ -457,7 +456,7 @@ static id singleton = nil;
 	NSEnumerator *e = [queue objectEnumerator];
 	NSDictionary *dict;
 	
-	while( (dict = [e nextObject] ) ) {
+	while ( (dict = [e nextObject] ) ) {
 		[self _registerApplicationWithDictionary:dict];
 	}
 }

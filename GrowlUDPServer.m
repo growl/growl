@@ -37,7 +37,7 @@ static const char *keychainAccountName = "Growl";
 												   protocol:IPPROTO_UDP
 													address:addrData];
 		
-		fh = [[NSFileHandle alloc] initWithFileDescriptor:[sock socket] closeOnDealloc:YES];
+		fh = [[NSFileHandle alloc] initWithFileDescriptor:[sock socket]];
 		[fh readInBackgroundAndNotify];
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(fileHandleRead:)
