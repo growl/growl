@@ -145,7 +145,7 @@
 @protocol GrowlApplicationBridgeDelegate
 
 /*
-	@method applicationName
+	@method applicationNameForGrowl
 	@abstract Return the name of this application which will be used for Growl bookkeeping.
 	@discussion This name is used both internally and in the Growl preferences.
 	@result The name of the application using Growl
