@@ -414,9 +414,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Growl.framework;
-			path = /Users/rudy/Desktop/growl/trunk/build/Growl.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../build/Growl.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		9324AE7907BD77DB001CB55C = {
 			fileRef = 9324AE7807BD77DB001CB55C;
