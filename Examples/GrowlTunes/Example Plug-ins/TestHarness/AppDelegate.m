@@ -8,12 +8,15 @@
 
 #import "AppDelegate.h"
 
+@interface AppDelegate (AppDelegatePrivate)
+- (void) loadPluginsAtPath:(NSString *)dir;
+@end
 
 @implementation AppDelegate
 - (id) init {
 	if (self = [super init]) {
 		// Initialize variables
-		plugins = nil;
+		plugins = [[NSArray alloc] init];
 		song = @"";
 		album = @"";
 		artist = @"";
@@ -21,25 +24,34 @@
 		// find all the GrowlTunes plugins
 		NSString *growlTunesPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"GrowlTunes"];
 		if (growlTunesPath) {
-			NSMutableArray *array = [NSMutableArray array];
 			NSBundle *growlTunesBundle = [NSBundle bundleWithPath:growlTunesPath];
 			NSString *pluginsPath = [growlTunesBundle builtInPlugInsPath];
-			NSArray *pluginsArray = [[NSFileManager defaultManager] directoryContentsAtPath:pluginsPath];
-			NSEnumerator *e = [pluginsArray objectEnumerator];
-			NSString *path;
-			while (path = [e nextObject]) {
-				if ([path hasSuffix:@".plugin"]) {
-					NSBundle *bundle = [NSBundle bundleWithPath:
-													[pluginsPath stringByAppendingPathComponent:path]];
-					NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-					[dict setValue:bundle forKey:@"bundle"];
-					[array addObject:dict];
-				}
-			}
-			[self setPlugins:array];
+			[self loadPluginsAtPath:pluginsPath];
 		}
+		NSString *appSupportPath = [@"~/Library/Application Support/GrowlTunes/Plugins" stringByExpandingTildeInPath];
+		[self loadPluginsAtPath:appSupportPath];
 	}
 	return self;
+}
+
+- (void) loadPluginsAtPath:(NSString *)dir {
+	BOOL isDir;
+	if ([[NSFileManager defaultManager] fileExistsAtPath:dir isDirectory:&isDir] && isDir) {
+		NSMutableArray *array = [[self plugins] mutableCopy];
+		NSArray *pluginsArray = [[NSFileManager defaultManager] directoryContentsAtPath:dir];
+		NSEnumerator *e = [pluginsArray objectEnumerator];
+		NSString *path;
+		while (path = [e nextObject]) {
+			if ([path hasSuffix:@".plugin"]) {
+				NSBundle *bundle = [NSBundle bundleWithPath:
+					[dir stringByAppendingPathComponent:path]];
+				NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+				[dict setValue:bundle forKey:@"bundle"];
+				[array addObject:dict];
+			}
+		}
+		[self setPlugins:array];
+	}
 }
 
 - (void) dealloc {
