@@ -216,20 +216,29 @@
 		if ([[column identifier] isEqualTo:@"enable"])
 		{
 			[[tickets objectForKey:application] setEnabled:[value boolValue]];
+			[self setPrefsChanged:YES];
 		}
 		if ([[column identifier] isEqualTo:@"display"])
 		{
 			if ([value intValue] == 0)
 			{
-				[[tickets objectForKey:application] setUsesCustomDisplay:NO];
+				if ([[tickets objectForKey:application] usesCustomDisplay])
+				{
+					[[tickets objectForKey:application] setUsesCustomDisplay:NO];
+					[self setPrefsChanged:YES];
+				}
 			}
 			else
 			{
-				[[tickets objectForKey:application] setUsesCustomDisplay:YES];
-				[[tickets objectForKey:application] setDisplayPluginNamed:[[applicationDisplayPluginsMenu itemAtIndex:[value intValue]] title]];
+				if (![[[applicationDisplayPluginsMenu itemAtIndex:[value intValue]] title] isEqualTo:[[[tickets objectForKey:application] displayPlugin] name]] ||
+					![[tickets objectForKey:application] usesCustomDisplay])
+				{
+					[[tickets objectForKey:application] setUsesCustomDisplay:YES];
+					[[tickets objectForKey:application] setDisplayPluginNamed:[[applicationDisplayPluginsMenu itemAtIndex:[value intValue]] title]];
+					[self setPrefsChanged:YES];
+				}
 			}
 		}
-		[self setPrefsChanged:YES];
 		[self reloadAppTab];
 	}
 	else
