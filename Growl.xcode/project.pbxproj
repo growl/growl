@@ -132,7 +132,6 @@
 				19C28FB8FE9D52D311CA2CBB,
 				34F60EAC078E1CD500CECA86,
 				34F60EFA078E226400CECA86,
-				3434EA0B0790DE1400A97A48,
 			);
 			isa = PBXGroup;
 			name = Growl;
@@ -1909,6 +1908,7 @@
 				0A7F5FD40767C77F00E1C1E4,
 				83282746073A6C110044A959,
 				097889E1076ED0BD00071EB6,
+				343354B20792F84B00C84B15,
 			);
 			isa = PBXGroup;
 			name = "Other Frameworks";
@@ -2149,7 +2149,7 @@
 				34E9EFDB079095B900662E8E,
 			);
 			isa = PBXGroup;
-			name = Installation;
+			name = "Growl-WithInstaller.framework";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2177,25 +2177,171 @@
 			settings = {
 			};
 		};
+		3433539A0792F73800C84B15 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				GrowlAppBridgeDefines.h,
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				GrowlAppBridgeDefinesCarbon.h,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/bin/perl GenCarbonHeader.pl\n";
+		};
+		343353D90792F7B000C84B15 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlAppBridgeDefinesCarbon.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		343353DA0792F7B000C84B15 = {
+			fileRef = 343353D90792F7B000C84B15;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		343353E80792F7CF00C84B15 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			path = "GrowlAppBridge-Carbon.c";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		343353E90792F7CF00C84B15 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = "GrowlAppBridge-Carbon.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		343353EA0792F7CF00C84B15 = {
+			fileRef = 343353E80792F7CF00C84B15;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		343353EB0792F7CF00C84B15 = {
+			fileRef = 343353E90792F7CF00C84B15;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		343354B20792F84B00C84B15 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Carbon.framework;
+			path = /System/Library/Frameworks/Carbon.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		343354B30792F84B00C84B15 = {
+			fileRef = 343354B20792F84B00C84B15;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		343354C10792F96300C84B15 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlFramework_Prefix.pch;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		343354C20792F96300C84B15 = {
+			fileRef = 343354C10792F96300C84B15;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		343354E50792FAFE00C84B15 = {
+			fileRef = 34F60EC2078E1D5600CECA86;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		343354E60792FAFF00C84B15 = {
+			fileRef = 343353E80792F7CF00C84B15;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		343354E70792FB0000C84B15 = {
+			fileRef = 343353E90792F7CF00C84B15;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		343354E80792FB0800C84B15 = {
+			fileRef = 343353D90792F7B000C84B15;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		343354ED0792FB3100C84B15 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				GrowlAppBridgeDefines.h,
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				GrowlAppBridgeDefinesCarbon.h,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/bin/perl GenCarbonHeader.pl\n";
+		};
+		343354EE0792FC2000C84B15 = {
+			fileRef = 343354B20792F84B00C84B15;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		343354EF0792FC3600C84B15 = {
+			fileRef = 343354C10792F96300C84B15;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		3434E8EA0790D6E600A97A48 = {
 			fileRef = 956ADACB07551C4500AF9545;
 			isa = PBXBuildFile;
 			settings = {
 			};
 		};
-		3434EA0B0790DE1400A97A48 = {
-			isa = PBXFileReference;
-			lastKnownFileType = file;
-			name = "GrowlHelperApp Wrapper-Info.plist";
-			path = "../../../../evands/growl/GrowlHelperApp Wrapper-Info.plist";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 		34CEA3930680A77C00670E0D = {
 			children = (
+				343354C10792F96300C84B15,
 				34F60EC2078E1D5600CECA86,
 				34F60EB8078E1D3E00CECA86,
 				34F60EB6078E1D3E00CECA86,
+				343353E90792F7CF00C84B15,
+				343353E80792F7CF00C84B15,
 				3433500C079275A300C84B15,
 			);
 			isa = PBXGroup;
@@ -2228,15 +2374,6 @@
 		};
 		34E9DC1A078FBFA800662E8E = {
 			fileRef = 34E9DC16078FBF1B00662E8E;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
-		34E9EE66079086E100662E8E = {
-			fileRef = 34F60EC2078E1D5600CECA86;
 			isa = PBXBuildFile;
 			settings = {
 				ATTRIBUTES = (
@@ -2353,6 +2490,9 @@
 				34F60EBC078E1D3E00CECA86,
 				34F60EC3078E1D5600CECA86,
 				34E9DC1A078FBFA800662E8E,
+				343353DA0792F7B000C84B15,
+				343353EB0792F7CF00C84B15,
+				343354C20792F96300C84B15,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2368,6 +2508,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				34F60EBA078E1D3E00CECA86,
+				343353EA0792F7CF00C84B15,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2377,12 +2518,14 @@
 			files = (
 				343350E00792769900C84B15,
 				343350E1079276A100C84B15,
+				343354B30792F84B00C84B15,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		34F60EAA078E1CD500CECA86 = {
 			buildPhases = (
+				3433539A0792F73800C84B15,
 				34F60EA6078E1CD500CECA86,
 				34F60EA7078E1CD500CECA86,
 				34F60EA8078E1CD500CECA86,
@@ -2396,12 +2539,25 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = GrowlFramework_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Growl.framework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_LDFLAGS = "-lobjc -sub_library libobjc -seg1addr 0xc00000";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Growl;
 				SECTORDER_FLAGS = "";
@@ -2503,10 +2659,13 @@
 		34F60EF4078E226300CECA86 = {
 			buildActionMask = 2147483647;
 			files = (
-				34E9EE66079086E100662E8E,
 				34E9EE67079086E200662E8E,
 				34E9EE69079086F000662E8E,
 				34E9F1300790AF3400662E8E,
+				343354E50792FAFE00C84B15,
+				343354E70792FB0000C84B15,
+				343354E80792FB0800C84B15,
+				343354EF0792FC3600C84B15,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2524,6 +2683,7 @@
 			files = (
 				34E9EE68079086E300662E8E,
 				34E9F1310790AF3800662E8E,
+				343354E60792FAFF00C84B15,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2533,12 +2693,14 @@
 			files = (
 				3433502B0792769000C84B15,
 				343350E5079276A700C84B15,
+				343354EE0792FC2000C84B15,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		34F60EF8078E226300CECA86 = {
 			buildPhases = (
+				343354ED0792FB3100C84B15,
 				34F60EF4078E226300CECA86,
 				34F60EF5078E226300CECA86,
 				34F60EF6078E226300CECA86,
@@ -2553,12 +2715,25 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_PREFIX_HEADER = GrowlFramework_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Growl-WithInstaller.framework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
-				OTHER_CFLAGS = "-DGROWL_WITH_INSTALLER";
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-lobjc -sub_library libobjc -seg1addr 0xc00000";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "Growl-WithInstaller";
 				SECTORDER_FLAGS = "";
@@ -3771,6 +3946,7 @@
 			children = (
 				34E9AA79074BC98A00D59950,
 				34E9DC16078FBF1B00662E8E,
+				343353D90792F7B000C84B15,
 				A14BBE0E06EE1D5600530EED,
 				95BF83760743675700306A77,
 				52861FEF06DC463E00D3A356,
