@@ -16,7 +16,7 @@
 #pragma mark UserInfo Keys for Registration
 /*! The name of your application */
 #define GROWL_APP_NAME					@"ApplicationName"
-/*! (Optional) The TIFF data for the default icon for notifications */
+/*! The TIFF data for the default icon for notifications (Optional) */
 #define GROWL_APP_ICON					@"ApplicationIcon"
 /*! The array of notifications to turn on by default */
 #define GROWL_NOTIFICATIONS_DEFAULT		@"DefaultNotifications"
@@ -33,9 +33,10 @@
 #define GROWL_NOTIFICATION_TITLE		@"NotificationTitle"
 /*! The contents of the notification */
 #define GROWL_NOTIFICATION_DESCRIPTION  @"NotificationDescription"
-/*! (Optional) The TIFF data for the notification icon */
+/*! The TIFF data for the notification icon (Optional) */
 #define GROWL_NOTIFICATION_ICON			@"NotificationIcon"
-/*! (Optional) A boolean controlling whether the notification is sticky.
+/*! A boolean controlling whether the notification is sticky. (Optional)
+	
 	Not necessarily supported by all display plugins */
 #define GROWL_NOTIFICATION_STICKY		@"NotificationSticky"
 
