@@ -73,8 +73,8 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 
 	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:bounds radius:BORDER_RADIUS];
 
-	int opacityPref = 40;
-	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
+	float opacityPref = BEZEL_OPACITY_DEFAULT;
+	READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
 	float alpha = opacityPref * 0.01f;
 
 	int style = 0;

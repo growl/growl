@@ -17,6 +17,8 @@
 #define BEZEL_SCREEN_PREF			@"Bezel - Screen"
 #define BEZEL_STYLE_PREF			@"Bezel - Style"
 
+#define BEZEL_OPACITY_DEFAULT		40.0f
+
 #define BEZEL_POSITION_DEFAULT		0
 #define BEZEL_POSITION_TOPRIGHT		1
 #define BEZEL_POSITION_BOTTOMRIGHT	2
@@ -28,6 +30,7 @@
 
 @interface GrowlBezelPrefs : NSPreferencePane {
 	float					duration;
+	float					opacity;
 
 	IBOutlet NSButton		*radio_PositionD;
 	IBOutlet NSButton		*radio_PositionTR;
@@ -36,13 +39,14 @@
 	IBOutlet NSButton		*radio_PositionTL;
 	IBOutlet NSMatrix		*radio_Size;
 	IBOutlet NSSlider		*slider_opacity;
-	IBOutlet NSTextField	*text_opacity;
 	IBOutlet NSComboBox		*combo_screen;
 	IBOutlet NSPopUpButton	*button_style;
 }
 
 - (float) getDuration;
 - (void) setDuration:(float)value;
+- (float) getOpacity;
+- (void) setOpacity:(float)value;
 - (IBAction) preferenceChanged:(id)sender;
 - (IBAction) setScreen:(id)sender;
 - (IBAction) setStyle:(id)sender;

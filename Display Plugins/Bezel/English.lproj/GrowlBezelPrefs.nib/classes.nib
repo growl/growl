@@ -15,7 +15,6 @@
                 "radio_PositionTR" = NSButton; 
                 "radio_Size" = NSMatrix; 
                 "slider_opacity" = NSSlider; 
-                "text_opacity" = NSTextField; 
             }; 
             SUPERCLASS = NSPreferencePane; 
         }, 

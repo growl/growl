@@ -18,14 +18,18 @@
 - (void)mainViewDidLoad {
 	int		positionPref = 0;
 	int		sizePref = 0;
-	int		opacityPref = 40;
 
 	[slider_opacity setAltIncrementValue:5.0];
 
 	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
-	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
 
+	// opacity
+	opacity = BEZEL_OPACITY_DEFAULT;
+	READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacity);
+	[self setOpacity:opacity];
+
+	// position
 	if (positionPref == BEZEL_POSITION_DEFAULT) {
 		[radio_PositionD setState:NSOnState];
 		[radio_PositionTR setState:NSOffState];
@@ -60,9 +64,6 @@
 	
 	[radio_Size selectCellAtRow:sizePref column:0];
 
-	[slider_opacity setIntValue:opacityPref];
-	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
-
 	// duration
 	duration = 3.0f;
 	READ_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, BezelPrefDomain, &duration);
@@ -86,8 +87,7 @@
 - (IBAction)preferenceChanged:(id)sender {
 	int		positionPref;
 	int		sizePref;
-	int		opacityPref;
-	
+
 	if (sender == radio_PositionD) {
 		[radio_PositionTR setState:NSOffState];
 		[radio_PositionBR setState:NSOffState];
@@ -126,14 +126,26 @@
 	} else if (sender == radio_Size) {
 		sizePref = [radio_Size selectedRow];
 		WRITE_GROWL_PREF_INT(BEZEL_SIZE_PREF, sizePref, BezelPrefDomain);
-	} else if (sender == slider_opacity) {
-		opacityPref = [slider_opacity intValue];
-		[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
-		WRITE_GROWL_PREF_INT(BEZEL_OPACITY_PREF, opacityPref, BezelPrefDomain);
 	}
 
 	UPDATE_GROWL_PREFS();
 }
+
+#pragma mark -
+
+- (float) getOpacity {
+	return opacity;
+}
+
+- (void) setOpacity:(float)value {
+	if (opacity != value) {
+		opacity = value;
+		WRITE_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, value, BezelPrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
+}
+
+#pragma mark -
 
 - (float) getDuration {
 	return duration;
@@ -141,17 +153,19 @@
 
 - (void) setDuration:(float)value {
 	if (duration != value) {
+		duration = value;
 		WRITE_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, value, BezelPrefDomain);
 		UPDATE_GROWL_PREFS();
 	}
-	duration = value;
 }
 
-- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+#pragma mark -
+
+- (int) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 	return [[NSScreen screens] count];
 }
 
-- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+- (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
 	return [NSNumber numberWithInt:idx];
 }
 
