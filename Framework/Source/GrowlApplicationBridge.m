@@ -211,42 +211,45 @@ static BOOL				promptedToUpgradeGrowl = NO;
 #endif
 
 		//Houston, we are go for launch.
-		//Let's launch in the background (unfortunately, requires Carbon)
-		LSLaunchFSRefSpec spec;
-		FSRef appRef;
-		OSStatus status = FSPathMakeRef((UInt8 *)[growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
-		if (status == noErr) {
+		if (growlHelperAppPath) {
 			
-			NSDictionary	*registrationDict = [self _registrationDictionary];
-
-			FSRef regItemRef;
-			BOOL passRegDict = NO;
-			
-			if (registrationDict) {
-				OSStatus regStatus;
-				NSString *regDictFileName;
-				NSString *regDictPath;
+			//Let's launch in the background (unfortunately, requires Carbon)
+			LSLaunchFSRefSpec spec;
+			FSRef appRef;
+			OSStatus status = FSPathMakeRef((UInt8 *)[growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
+			if (status == noErr) {
 				
-				//Obtain a truly unique file name
-				regDictFileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+				NSDictionary	*registrationDict = [self _registrationDictionary];
 				
-				//Write the registration dictionary out to the temporary directory
-				regDictPath = [NSTemporaryDirectory() stringByAppendingPathComponent:regDictFileName];
-				[registrationDict writeToFile:regDictPath atomically:NO];
+				FSRef regItemRef;
+				BOOL passRegDict = NO;
 				
-				regStatus = FSPathMakeRef((UInt8 *)[regDictPath fileSystemRepresentation], &regItemRef, NULL);
-				if (regStatus == noErr) passRegDict = YES;
+				if (registrationDict) {
+					OSStatus regStatus;
+					NSString *regDictFileName;
+					NSString *regDictPath;
+					
+					//Obtain a truly unique file name
+					regDictFileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+					
+					//Write the registration dictionary out to the temporary directory
+					regDictPath = [NSTemporaryDirectory() stringByAppendingPathComponent:regDictFileName];
+					[registrationDict writeToFile:regDictPath atomically:NO];
+					
+					regStatus = FSPathMakeRef((UInt8 *)[regDictPath fileSystemRepresentation], &regItemRef, NULL);
+					if (regStatus == noErr) passRegDict = YES;
+				}
+				
+				spec.appRef = &appRef;
+				spec.numDocs = (passRegDict != NO);
+				spec.itemRefs = (passRegDict ? &regItemRef : NULL);
+				spec.passThruParams = NULL;
+				spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
+				spec.asyncRefCon = NULL;
+				status = LSOpenFromRefSpec( &spec, NULL );
+				
+				success = (status == noErr);
 			}
-
-			spec.appRef = &appRef;
-			spec.numDocs = (passRegDict != NO);
-			spec.itemRefs = (passRegDict ? &regItemRef : NULL);
-			spec.passThruParams = NULL;
-			spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
-			spec.asyncRefCon = NULL;
-			status = LSOpenFromRefSpec( &spec, NULL );
-			
-			success = (status == noErr);
 		}
 	}
 
