@@ -303,6 +303,3 @@
 @interface GrowlApplicationBridge (GrowlInstallationPrompt_private)
 + (void) _userChoseNotToInstallGrowl;
 @end
-
-@interface GrowlNotification: NSObject
-@end
