@@ -98,8 +98,7 @@ static unsigned brushedDepth = 0U;
 	//NSLog(@"My depth is now %u\n", brushedDepth);
 }
 
-- (void) _brushedClicked:(GrowlBrushedWindowController *)brushed
-{
+- (void) _brushedClicked:(GrowlBrushedWindowController *)brushed {
 	id clickContext;
 
 	if ( (clickContext = [brushed clickContext]) ) {

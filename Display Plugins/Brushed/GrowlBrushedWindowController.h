@@ -10,12 +10,8 @@
 
 @interface GrowlBrushedWindowController : FadingWindowController {
 	unsigned	depth;
-	SEL			action;
-	id			target;
 	unsigned	identifier;
 	id			plugin; // the GrowlBrushedDisplay object which created us
-	NSString	*appName;
-	id			clickContext;
 }
 
 + (GrowlBrushedWindowController *) notify;
@@ -24,18 +20,6 @@
 #pragma mark Regularly Scheduled Coding
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned)depth;
-
-- (id) target;
-- (void) setTarget:(id) object;
-
-- (SEL) action;
-- (void) setAction:(SEL) selector;
-
-- (NSString *) appName;
-- (void) setAppName:(NSString *) inAppName;
-
-- (id) clickContext;
-- (void) setClickContext:(id) clickContext;
 
 - (unsigned) depth;
 @end

@@ -61,7 +61,7 @@ static unsigned bubbleWindowDepth = 0U;
 
 	GrowlBubblesWindowView *view = [[[GrowlBubblesWindowView alloc] initWithFrame:panelFrame] autorelease];
 	[view setTarget:self];
-	[view setAction:@selector(_bubbleClicked:)];
+	[view setAction:@selector(_notificationClicked:)];
 	[panel setContentView:view];
 
 	[view setTitle:title];
@@ -106,67 +106,11 @@ static unsigned bubbleWindowDepth = 0U;
 }
 
 - (void) dealloc {
-	[target release];
-	[clickContext release];
-	[appName release];
-
 	if ( depth == bubbleWindowDepth ) {
 		bubbleWindowDepth = 0U;
 	}
 
 	[super dealloc];
-}
-
-#pragma mark -
-
-- (void) _bubbleClicked:(id) sender {
-	if ( target && action && [target respondsToSelector:action] ) {
-		[target performSelector:action withObject:self];
-	}
-	[self startFadeOut];
-}
-
-#pragma mark -
-
-- (id) target {
-	return target;
-}
-
-- (void) setTarget:(id) object {
-	[target autorelease];
-	target = [object retain];
-}
-
-#pragma mark -
-
-- (SEL) action {
-	return action;
-}
-
-- (void) setAction:(SEL) selector {
-	action = selector;
-}
-
-#pragma mark -
-
-- (NSString *)appName {
-	return appName;
-}
-
-- (void) setAppName:(NSString *) inAppName {
-	[appName autorelease];
-	appName = [inAppName retain];
-}
-
-#pragma mark -
-
-- (id) clickContext {
-	return clickContext;
-}
-
-- (void) setClickContext:(id)inClickContext {
-	[clickContext autorelease];
-	clickContext = [inClickContext retain];
 }
 
 @end

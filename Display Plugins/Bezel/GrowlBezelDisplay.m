@@ -71,8 +71,8 @@
 			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 			priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
+
 	[nuBezel setDelegate:self];
-	
 	[nuBezel setTarget:self];
 	[nuBezel setAction:@selector(_bezelClicked:)];
 	[nuBezel setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
@@ -124,8 +124,7 @@
 	}
 }
 
-- (void) _bezelClicked:(GrowlBezelWindowController *)bezel
-{
+- (void) _bezelClicked:(GrowlBezelWindowController *)bezel {
 	id clickContext;
 
 	if ( (clickContext = [bezel clickContext]) ) {

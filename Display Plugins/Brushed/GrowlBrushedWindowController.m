@@ -138,7 +138,7 @@ static const double gMaxDisplayTime = 10.;
 
 	GrowlBrushedWindowView *view = [[[GrowlBrushedWindowView alloc] initWithFrame:panelFrame] autorelease];
 	[view setTarget:self];
-	[view setAction:@selector( _notificationClicked: )];
+	[view setAction:@selector(_notificationClicked:)];
 	[panel setContentView:view];
 
 	[view setTitle:title];
@@ -193,68 +193,12 @@ static const double gMaxDisplayTime = 10.;
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	[target release];
-	[clickContext release];
-	[appName release];
-	
 	//extern unsigned BrushedWindowDepth;
 //	NSLog(@"BrushedController deallocking");
 	//if ( depth == brushedWindowDepth ) 
 	// 	brushedWindowDepth = 0;
 
 	[super dealloc];
-}
-
-#pragma mark -
-
-- (void) _notificationClicked:(id) sender {
-	if ( target && action && [target respondsToSelector:action] ) {
-		[target performSelector:action withObject:self];
-	}
-	[self startFadeOut];
-}
-
-#pragma mark -
-
-- (id) target {
-	return target;
-}
-
-- (void) setTarget:(id) object {
-	[target autorelease];
-	target = [object retain];
-}
-
-#pragma mark -
-
-- (SEL) action {
-	return action;
-}
-
-- (void) setAction:(SEL) selector {
-	action = selector;
-}
-
-#pragma mark -
-
-- (NSString *)appName {
-	return appName;
-}
-
-- (void) setAppName:(NSString *) inAppName {
-	[appName autorelease];
-	appName = [inAppName retain];
-}
-
-#pragma mark -
-
-- (id) clickContext {
-	return clickContext;
-}
-
-- (void) setClickContext:(id)inClickContext {
-	[clickContext autorelease];
-	clickContext = [inClickContext retain];
 }
 
 #pragma mark -

@@ -11,10 +11,6 @@
 
 @interface GrowlBubblesWindowController : FadingWindowController {
 	unsigned	depth;
-	SEL			action;
-	id			target;
-	NSString	*appName;
-	id			clickContext;
 }
 
 + (GrowlBubblesWindowController *) bubble;
@@ -23,17 +19,5 @@
 #pragma mark Regularly Scheduled Coding
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky;
-
-- (id) target;
-- (void) setTarget:(id) object;
-
-- (SEL) action;
-- (void) setAction:(SEL) selector;
-
-- (NSString *) appName;
-- (void) setAppName:(NSString *) inAppName;
-
-- (id) clickContext;
-- (void) setClickContext:(id) clickContext;
 
 @end

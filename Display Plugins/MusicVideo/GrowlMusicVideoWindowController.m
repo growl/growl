@@ -62,19 +62,18 @@
 	GrowlMusicVideoWindowView *view = [[[GrowlMusicVideoWindowView alloc] initWithFrame:panelFrame] autorelease];
 
 	[view setTarget:self];
-	[view setAction:@selector(_musicVideoClicked:)]; // Not used for now
+	[view setAction:@selector(_notificationClicked:)]; // Not used for now
 	[panel setContentView:view];
 
 	[view setTitle:title];
-	NSMutableString	*tempText = [[[NSMutableString alloc] init] autorelease];
 	// Sanity check to unify line endings
-	[tempText setString:text];
+	NSMutableString	*tempText = [NSMutableString stringWithString:text];
 	[tempText replaceOccurrencesOfString:@"\r"
 			withString:@"\n"
 			options:nil
 			range:NSMakeRange(0U, [tempText length])];
 	[view setText:tempText];
-	
+
 	[view setIcon:icon];
 	panelFrame = [view frame];
 	//[panel setFrame:panelFrame display:NO];
@@ -101,13 +100,6 @@
 	}
 
 	return self;
-}
-
-- (void) dealloc {
-	[target release];
-	[clickContext release];
-	[appName release];
-	[super dealloc];
 }
 
 #pragma mark -
@@ -157,56 +149,8 @@
 	}
 }
 
-- (void) _musicVideoClicked:(id)sender {
-	if (target && action && [target respondsToSelector:action]) {
-		[target performSelector:action withObject:self];
-	}
-	[self startFadeOut];
-}
-
 #pragma mark -
 #pragma mark Accessors
-
-- (id)target {
-	return target;
-}
-
-- (void)setTarget:(id)object {
-	[target autorelease];
-	target = [object retain];
-}
-
-#pragma mark -
-
-- (SEL)action {
-	return action;
-}
-
-- (void)setAction:(SEL)selector {
-	action = selector;
-}
-
-#pragma mark -
-
-- (NSString *)appName {
-	return appName;
-}
-
-- (void) setAppName:(NSString *) inAppName {
-	[appName autorelease];
-	appName = [inAppName retain];
-}
-
-#pragma mark -
-
-- (id) clickContext {
-	return clickContext;
-}
-
-- (void) setClickContext:(id)inClickContext {
-	[clickContext autorelease];
-	clickContext = [inClickContext retain];
-}
 
 #pragma mark -
 
@@ -216,5 +160,16 @@
 
 - (void)setPriority:(int)newPriority {
 	priority = newPriority;
+}
+
+#pragma mark -
+
+- (void) setFlipIn:(BOOL)flag {
+	flipIn = flag;
+	doFadeIn = flag;
+}
+
+- (void) setFlipOut:(BOOL)flag {
+	flipOut = flag;
 }
 @end

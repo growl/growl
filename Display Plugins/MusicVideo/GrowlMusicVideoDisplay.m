@@ -52,7 +52,7 @@
 	[notificationQueue release];
 }
 
-- (NSDictionary*) pluginInfo {
+- (NSDictionary *) pluginInfo {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		B_NAME, @"Name",
 		B_AUTHOR, @"Author",
@@ -106,11 +106,20 @@
 	}
 }
 
+- (void) willFadeOut:(FadingWindowController *)sender {
+	GrowlMusicVideoWindowController *olMusicVideo;
+	if ( [notificationQueue count] > 1U ) {
+		olMusicVideo = (GrowlMusicVideoWindowController *)sender;
+		[olMusicVideo setFlipOut:YES];
+	}
+}
+
 - (void) didFadeOut:(FadingWindowController *)sender {
 	GrowlMusicVideoWindowController *olMusicVideo;
 	[notificationQueue removeObjectAtIndex:0U];
 	if ( [notificationQueue count] > 0U ) {
 		olMusicVideo = [notificationQueue objectAtIndex:0U];
+		[olMusicVideo setFlipIn:YES];
 		[olMusicVideo startFadeIn];
 	}
 }

@@ -64,8 +64,8 @@
 
 	GrowlBezelWindowView *view = [[[GrowlBezelWindowView alloc] initWithFrame:panelFrame] autorelease];
 
-	[view setTarget:self];
-	[view setAction:@selector(_bezelClicked:)];
+	//[view setTarget:self];
+	//[view setAction:@selector(_notificationClicked:)];
 	[panel setContentView:view];
 
 	[view setTitle:title];
@@ -128,35 +128,6 @@
 	return self;
 }
 
-- (void) dealloc {
-	[target release];
-	[clickContext release];
-	[appName release];
-
-	[super dealloc];
-}
-
-#pragma mark -
-
-- (id)target {
-	return target;
-}
-
-- (void)setTarget:(id)object {
-	[target autorelease];
-	target = [object retain];
-}
-
-#pragma mark -
-
-- (SEL)action {
-	return action;
-}
-
-- (void)setAction:(SEL)selector {
-	action = selector;
-}
-
 #pragma mark -
 
 - (int)priority {
@@ -165,28 +136,6 @@
 
 - (void)setPriority:(int)newPriority {
 	priority = newPriority;
-}
-
-#pragma mark -
-
-- (NSString *)appName {
-	return appName;
-}
-
-- (void) setAppName:(NSString *) inAppName {
-	[appName autorelease];
-	appName = [inAppName retain];
-}
-
-#pragma mark -
-
-- (id) clickContext {
-	return clickContext;
-}
-
-- (void) setClickContext:(id)inClickContext {
-	[clickContext autorelease];
-	clickContext = [inClickContext retain];
 }
 
 #pragma mark -

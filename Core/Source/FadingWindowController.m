@@ -31,8 +31,11 @@
 	animationTimer = nil;
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
+	[target       release];
+	[clickContext release];
+	[appName      release];
+
 	[self _stopTimer];
 	[super dealloc];
 }
@@ -236,6 +239,58 @@
 	} else {
 		return [NSScreen mainScreen];
 	}
+}
+
+#pragma mark -
+
+- (id) target {
+	return target;
+}
+
+- (void) setTarget:(id) object {
+	[target autorelease];
+	target = [object retain];
+}
+
+#pragma mark -
+
+- (SEL) action {
+	return action;
+}
+
+- (void) setAction:(SEL) selector {
+	action = selector;
+}
+
+#pragma mark -
+
+- (NSString *)appName {
+	return appName;
+}
+
+- (void) setAppName:(NSString *) inAppName {
+	[appName autorelease];
+	appName = [inAppName retain];
+}
+
+#pragma mark -
+
+- (id) clickContext {
+	return clickContext;
+}
+
+- (void) setClickContext:(id)inClickContext {
+	[clickContext autorelease];
+	clickContext = [inClickContext retain];
+}
+
+#pragma mark -
+
+- (void) _notificationClicked:(id) sender {
+	if ( target && action && [target respondsToSelector:action] ) {
+		[target performSelector:action withObject:self];
+	}
+	[self startFadeOut];
 }
 
 @end

@@ -9,11 +9,7 @@
 #import "FadingWindowController.h"
 
 @interface GrowlBezelWindowController : FadingWindowController {
-	SEL				action;
-	id				target;
 	int				priority;
-	NSString		*appName;
-	id				clickContext;
 	double			scaleFactor;
 	BOOL			flipIn;
 	BOOL			flipOut;
@@ -25,20 +21,8 @@
 
 - (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
 
-- (id) target;
-- (void) setTarget:(id)object;
-
-- (SEL) action;
-- (void) setAction:(SEL)selector;
-
 - (int) priority;
 - (void) setPriority:(int)newPriority;
-
-- (NSString *) appName;
-- (void) setAppName:(NSString *) inAppName;
-
-- (id) clickContext;
-- (void) setClickContext:(id) clickContext;
 
 - (void) _fadeIn:(NSTimer *)timer;
 - (void) _fadeOut:(NSTimer *)timer;

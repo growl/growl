@@ -19,6 +19,11 @@
 	double		displayTime;
 	BOOL		screenshotMode;
 	unsigned	screenNumber;
+
+	SEL			action;
+	id			target;
+	id			clickContext;
+	NSString	*appName;
 }
 - (void) startFadeIn;
 - (void) startFadeOut;
@@ -53,6 +58,18 @@
 - (void) _fadeOut:(NSTimer *)inTimer;
 
 - (NSScreen *) screen;
+
+- (id) target;
+- (void) setTarget:(id)object;
+
+- (SEL) action;
+- (void) setAction:(SEL)selector;
+
+- (NSString *) appName;
+- (void) setAppName:(NSString *) inAppName;
+
+- (id) clickContext;
+- (void) setClickContext:(id) clickContext;
 @end
 
 @interface NSObject (FadingWindowControllerDelegate)

@@ -186,7 +186,7 @@ static float titleHeight;
 											   blue:[[array objectAtIndex:2] floatValue]
 											  alpha:1.0f];
 	} else {
-		textColor = [NSColor whiteColor];
+		textColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
 	}
 	[textColor retain];
 	[array release];
@@ -299,7 +299,7 @@ static float titleHeight;
 	return YES;
 }
 
- - (void) mouseDown:(NSEvent *) event {
+- (void) mouseDown:(NSEvent *) event {
 	if ( target && action && [target respondsToSelector:action] ) {
 		[target performSelector:action withObject:self];
 	}
