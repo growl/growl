@@ -833,7 +833,7 @@ static const char *keychainAccountName = "Growl";
 	entry = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		aNetService, @"netservice",
 		name, @"computer",
-		[NSNumber numberWithBool:FALSE], @"use",
+		[NSNumber numberWithBool:NO], @"use",
 		nil];
 	[services addObject:entry];
 	[entry release];
