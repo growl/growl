@@ -5,29 +5,17 @@
 
 static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outData )
 {
-	//	Original Colors
-	//	static float dark[4] = { .69412, .83147, .96078, .95 };
-	//	static float light[4] = { .93725, .96863, .99216, .95 };
+	NSColor *_bgColor = (NSColor *) info;
 	
-	NSArray *array;
-	NSColor *_bgColor;
-	READ_GROWL_PREF_VALUE(GrowlBubblesVeryLowColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
-	if (array) {
-		_bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-										  green:[[array objectAtIndex:1] floatValue]
-										   blue:[[array objectAtIndex:2] floatValue]
-										  alpha:.95f];
-		[array release];
-		array = nil;
-	}
-
 	float darkRed, darkGreen, darkBlue, darkAlpha;
 	[_bgColor getRed:&darkRed
 			green:&darkGreen
 			blue:&darkBlue
 			alpha:&darkAlpha];
 
-// 	NSLog(@"woo hoo red: %f green: %f blue: %f alpha: %f", darkRed, darkGreen, darkBlue, darkAlpha);
+	NSLog(@"data red: %f green: %f blue: %f alpha: %f", darkRed, darkGreen, darkBlue, darkAlpha);
+	//static float dark[4] = { .69412, .83147, .96078, .95 };
+//	float dark[4] = { darkRed, darkGreen, darkBlue, darkAlpha };
 	static const float light[4] = { .93725f, .96863f, .99216f, .95f };
 	
 	register float a = inData[0];
@@ -68,20 +56,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 }
 
 - (void) drawRect:(NSRect) rect {
-	static NSColor *_bgColorDeux;
-//	*_bgColorDeux = *_bgColor;
-	static float darkRed, darkGreen, darkBlue, darkAlpha;
-//	_bgColorDeus = [NSColor colorWithCalibratedRed:.69412f
-//										  green:.83147f
-//										   blue:.96078f
-//										  alpha:.95f];
-	
-	[_bgColorDeux getRed:&darkRed
-					green:&darkGreen
-					 blue:&darkBlue
-					alpha:&darkAlpha];
-	NSLog(@" hmmm red: %f green: %f blue: %f alpha %f", darkRed, darkGreen, darkBlue, darkAlpha);
-	
+
 	NSRect bounds = [self bounds];
 
 	[[NSColor clearColor] set];
@@ -127,7 +102,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	// Create a callback function to generate the 
     // fill clipped graphics context with our gradient
 	struct CGFunctionCallbacks callbacks = { 0, GrowlBubblesShadeInterpolate, NULL };
-	CGFunctionRef function = CGFunctionCreate( NULL, 1, NULL, 4, NULL, &callbacks );
+	CGFunctionRef function = CGFunctionCreate( (void *) _bgColor, 1, NULL, 4, NULL, &callbacks );
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
 	float srcX = NSMinX( bounds ), srcY = NSMinY( bounds );
