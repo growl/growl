@@ -83,7 +83,7 @@ int main(int argc, const char **argv) {
 	char *message = NULL;
 	char *host = NULL;
 	int priority = 0;
-	BOOL useUDP = FALSE;
+	BOOL useUDP = NO;
 	int imageset;
 
 	int code = EXIT_SUCCESS;
@@ -162,7 +162,7 @@ int main(int argc, const char **argv) {
 			host = optarg;
 			break;
 		case 'u':
-			useUDP = TRUE;
+			useUDP = YES;
 			break;
 		case 'P':
 			password = optarg;
