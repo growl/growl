@@ -14,7 +14,7 @@ int main() {
 
 	GrowlController *theOneRingToRuleThemAll;
 	theOneRingToRuleThemAll = [[GrowlController alloc] init];
-	
+
 	[NSApp run];
 	
 	[theOneRingToRuleThemAll release];

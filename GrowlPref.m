@@ -41,7 +41,7 @@
 }
 
 - (IBAction) startGrowlAtLogin:(id) sender {
-	NSUserDefaults *defs = [[NSUserDefaults alloc] init];
+	NSUserDefaults *defs = [[[NSUserDefaults alloc] init] autorelease];
 	[defs addSuiteNamed:@"loginwindow"];
 	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
 	NSMutableArray *loginItems = [[[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy] autorelease]; //it lies, its an array
