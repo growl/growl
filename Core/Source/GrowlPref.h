@@ -18,6 +18,7 @@
 	NSMutableDictionary		*tickets;
 	NSMutableArray			*applications;
 	NSMutableArray			*filteredApplications;
+	NSArray					*plugins;
 	NSTimer					*startStopTimer;
 	
 	NSPreferencePane		*pluginPrefPane;

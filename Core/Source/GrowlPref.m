@@ -61,6 +61,7 @@
 	[downloadURL          release];
 	[applications         release];
 	[filteredApplications release];
+	[plugins              release];
 	[super dealloc];
 }
 
@@ -240,9 +241,12 @@
 
 	[growlApplications reloadData];
 
+	[plugins release];
+	plugins = [[[GrowlPluginController controller] allDisplayPlugins] retain];
+
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
 	[allDisplayPlugins removeAllItems];
-	[allDisplayPlugins addItemsWithTitles:[[GrowlPluginController controller] allDisplayPlugins]];
+	[allDisplayPlugins addItemsWithTitles:plugins];
 	[allDisplayPlugins selectItemWithTitle:[preferences objectForKey:GrowlDisplayPluginKey]];
 	[displayPlugins reloadData];
 
@@ -279,7 +283,7 @@
 	} else {
 		[backgroundUpdateCheck setState:NSOffState];
 	}
-	
+
 	// If Growl is enabled, ensure the helper app is launched
 	if ([[preferences objectForKey:GrowlEnabledKey] boolValue]) {
 		[[GrowlPreferences preferences] launchGrowl];
@@ -301,7 +305,7 @@
 	}
 
 	applicationDisplayPluginsMenu = [[NSMenu alloc] initWithTitle:@"DisplayPlugins"];
-	enumerator = [[[GrowlPluginController controller] allDisplayPlugins] objectEnumerator];
+	enumerator = [plugins objectEnumerator];
 	id title;
 	[applicationDisplayPluginsMenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Default",nil,[self bundle],@"") action:nil keyEquivalent:@""];
 	[applicationDisplayPluginsMenu addItem:[NSMenuItem separatorItem]];
@@ -360,10 +364,9 @@
 	if (currentPlugin) {
 		[currentPlugin release];
 	}
-	
-	NSArray *plugins = [[GrowlPluginController controller] allDisplayPlugins];
+
 	unsigned numPlugins = [plugins count];
-	
+
 	if (([displayPlugins selectedRow] < 0) && (numPlugins > 0U)) {
 		[displayPlugins selectRow:0 byExtendingSelection:NO];
 	}
@@ -625,7 +628,7 @@
 	} else if (tableView == applicationNotifications) {
 		returnValue = [[appTicket allNotifications] count];
 	} else if (tableView == displayPlugins) {
-		returnValue = [[[GrowlPluginController controller] allDisplayPlugins] count];
+		returnValue = [plugins count];
 	} else if (tableView == growlServiceList) {
 		returnValue = [services count];
 	}
@@ -645,7 +648,7 @@
 			returnObject = [filteredApplications objectAtIndex:row];
 		} 
 	} else if (tableView == applicationNotifications) {
-		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
+		NSString *note = [[appTicket allNotifications] objectAtIndex:row];
 		identifier = [column identifier];
 		
 		if ([identifier isEqualTo:@"enable"]) {
@@ -659,7 +662,7 @@
 		// only one column, but for the sake of cleanliness
 		identifier = [column identifier];
 		if ([identifier isEqualTo:@"plugins"]) {
-			returnObject = [[[GrowlPluginController controller] allDisplayPlugins] objectAtIndex:row];
+			returnObject = [plugins objectAtIndex:row];
 		}
 	} else if (tableView == growlServiceList) {
 		identifier = [column identifier];
