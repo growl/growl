@@ -190,27 +190,11 @@
 				32DBCF6D0370B57F00C91783,
 				074A201F067B01220078098C,
 				07025A180680278E0059A4F9,
-				074A203A067B02610078098C,
 			);
 			isa = PBXGroup;
 			name = "Other Headers";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		074A203A067B02610078098C = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlDefinesCarbon.h;
-			path = ../../GrowlDefinesCarbon.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		074A203B067B02610078098C = {
-			fileRef = 074A203A067B02610078098C;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		07901C0407B8E18F00FD6DF2 = {
 			buildActionMask = 2147483647;
@@ -551,7 +535,6 @@
 				074A2028067B01220078098C,
 				074A202A067B01220078098C,
 				074A202C067B01220078098C,
-				074A203B067B02610078098C,
 				07025A140680209A0059A4F9,
 				07025A190680278E0059A4F9,
 			);

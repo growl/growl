@@ -2371,32 +2371,6 @@
 			settings = {
 			};
 		};
-		349D11C1079DDDB300911D48 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlDefinesCarbon.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		349D11C2079DDDB300911D48 = {
-			fileRef = 349D11C1079DDDB300911D48;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
-		349D11C3079DDDB600911D48 = {
-			fileRef = 349D11C1079DDDB300911D48;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
 		34CEA3930680A77C00670E0D = {
 			children = (
 				343354C10792F96300C84B15,
@@ -2546,7 +2520,6 @@
 				34E9DC1A078FBFA800662E8E,
 				343353EB0792F7CF00C84B15,
 				343354C20792F96300C84B15,
-				349D11C2079DDDB300911D48,
 				07BB71AD07ACB69C00BFDD4A,
 				07BB71DE07ACC69C00BFDD4A,
 			);
@@ -2715,7 +2688,6 @@
 				343354E50792FAFE00C84B15,
 				343354E70792FB0000C84B15,
 				343354EF0792FC3600C84B15,
-				349D11C3079DDDB600911D48,
 				07BB71AF07ACB69C00BFDD4A,
 				07BB71DF07ACC69C00BFDD4A,
 			);
@@ -4113,9 +4085,9 @@
 			productType = "com.apple.product-type.application";
 		};
 		CB61E5180637763C00E0DDC7 = {
+			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			lastKnownFileType = wrapper.application;
 			path = GrowlHelperApp.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -4146,7 +4118,6 @@
 			children = (
 				34E9AA79074BC98A00D59950,
 				34E9DC16078FBF1B00662E8E,
-				349D11C1079DDDB300911D48,
 				A14BBE0E06EE1D5600530EED,
 				95BF83760743675700306A77,
 				52861FEF06DC463E00D3A356,
