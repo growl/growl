@@ -135,49 +135,6 @@ static id singleton = nil;
 	[super dealloc];
 }
 
-#pragma mark -
-
-- (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {	
-	BOOL retVal = NO;
-	NSString *pathExtension = [filename pathExtension];
-	
-	if ( [pathExtension isEqualToString:@"growlView"] ) {
-		[[GrowlPluginController controller] installPlugin:filename];
-		
-		[self _postGrowlIsReady];
-
-		return YES;
-
-	} else if ( [pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION] ) {						
-		NSDictionary	*regDict = [NSDictionary dictionaryWithContentsOfFile:filename];
-		
-		//Register this app using the indicated dictionary
-		if ([self _tryLockQueue]) {
-			[self _registerApplicationWithDictionary:regDict];
-			[self _unlockQueue];
-		} else {
-			[registrationQueue addObject:regDict];
-		}
-
-		//If growl is not enabled and was not already running before (for example, via an autolaunch even
-		//though the user's last preference setting was to click "Stop Growl," setting enabled to NO),
-		//quit having registered; otherwise, we will remain running
-		if ( !growlIsEnabled &&  !growlFinishedLaunching ) {
-			//We want to hold in this thread until we can lock/unlock the queue and
-			//ensure our registration is sent
-			[registrationLock lock]; [registrationLock unlock];
-			[self _unlockQueue];
-			
-			[NSApp terminate:self];
-		} else {
-			[self _postGrowlIsReady];	
-		}
-
-		retVal = YES;
-	}
-	
-	return retVal;
-}
 
 #pragma mark -
 
@@ -280,6 +237,66 @@ static id singleton = nil;
 	}
 }
 
+- (void) registerApplicationWithDictionary:(NSDictionary *) userInfo {
+	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
+	
+	NSImage *appIcon;
+	
+	NSData  *iconData = [userInfo objectForKey:GROWL_APP_ICON];
+	if (iconData) {
+		appIcon = [[[NSImage alloc] initWithData:iconData] autorelease];
+	} else {
+		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
+	}
+	
+	NSArray *allNotes     = [userInfo objectForKey:GROWL_NOTIFICATIONS_ALL];
+	NSArray *defaultNotes = [userInfo objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	
+	GrowlApplicationTicket *newApp;
+	
+	if ( ! [tickets objectForKey:appName] ) {
+		newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
+															withIcon:appIcon
+													andNotifications:allNotes
+													 andDefaultNotes:defaultNotes];
+		[tickets setObject:newApp forKey:appName];
+		[newApp autorelease];
+	} else {
+		newApp = [tickets objectForKey:appName];
+		[newApp reRegisterWithAllNotes:allNotes defaults:defaultNotes icon:appIcon];
+	}
+	
+	[newApp saveTicket];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF object:appName];
+	
+	if (enableForward) {
+		NSEnumerator *enumerator = [destinations objectEnumerator];
+		NSDictionary *entry;
+		while ( (entry = [enumerator nextObject]) ) {
+			if ( [[entry objectForKey:@"use"] boolValue] ) {
+				NSData *destAddress = [entry objectForKey:@"address"];
+				NSSocketPort *serverPort = [[NSSocketPort alloc]
+					initRemoteWithProtocolFamily:AF_INET
+									  socketType:SOCK_STREAM
+										protocol:0
+										 address:destAddress];
+				
+				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
+				NSDistantObject *theProxy = [connection rootProxy];
+				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
+				[growlProxy registerApplication:userInfo];
+				[serverPort release];
+				[connection release];
+			}
+		}
+	}
+}
+
+- (NSString *) growlVersion {
+	return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+}
+
 - (void) loadTickets {
 	[tickets addEntriesFromDictionary:[GrowlApplicationTicket allSavedTickets]];
 }
@@ -323,6 +340,48 @@ static id singleton = nil;
 }
 
 #pragma mark NSApplication Delegate Methods
+- (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {	
+	BOOL retVal = NO;
+	NSString *pathExtension = [filename pathExtension];
+	
+	if ( [pathExtension isEqualToString:@"growlView"] ) {
+		[[GrowlPluginController controller] installPlugin:filename];
+		
+		[self _postGrowlIsReady];
+		
+		return YES;
+		
+	} else if ( [pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION] ) {						
+		NSDictionary	*regDict = [NSDictionary dictionaryWithContentsOfFile:filename];
+		
+		//Register this app using the indicated dictionary
+		if ([self _tryLockQueue]) {
+			[self registerApplicationWithDictionary:regDict];
+			[self _unlockQueue];
+		} else {
+			[registrationQueue addObject:regDict];
+		}
+		
+		//If growl is not enabled and was not already running before (for example, via an autolaunch even
+		//though the user's last preference setting was to click "Stop Growl," setting enabled to NO),
+		//quit having registered; otherwise, we will remain running
+		if ( !growlIsEnabled &&  !growlFinishedLaunching ) {
+			//We want to hold in this thread until we can lock/unlock the queue and
+			//ensure our registration is sent
+			[registrationLock lock]; [registrationLock unlock];
+			[self _unlockQueue];
+			
+			[NSApp terminate:self];
+		} else {
+			[self _postGrowlIsReady];	
+		}
+		
+		retVal = YES;
+	}
+	
+	return retVal;
+}
+
 - (void) applicationWillFinishLaunching:(NSNotification *)aNotification {
 	NSFileManager *fs = [NSFileManager defaultManager];
 
@@ -354,64 +413,8 @@ static id singleton = nil;
 	return YES;
 }
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) theApplication {
+- (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication*) theApplication {
 	return NO;
-}
-
-- (void) _registerApplicationWithDictionary:(NSDictionary *) userInfo {
-	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
-	
-	NSImage *appIcon;
-	
-	NSData  *iconData = [userInfo objectForKey:GROWL_APP_ICON];
-	if (iconData) {
-		appIcon = [[[NSImage alloc] initWithData:iconData] autorelease];
-	} else {
-		appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
-	}
-	
-	NSArray *allNotes     = [userInfo objectForKey:GROWL_NOTIFICATIONS_ALL];
-	NSArray *defaultNotes = [userInfo objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
-	
-	GrowlApplicationTicket *newApp;
-	
-	if ( ! [tickets objectForKey:appName] ) {
-		newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
-															withIcon:appIcon
-													andNotifications:allNotes
-													 andDefaultNotes:defaultNotes];
-		[tickets setObject:newApp forKey:appName];
-		[newApp autorelease];
-	} else {
-		newApp = [tickets objectForKey:appName];
-		[newApp reRegisterWithAllNotes:allNotes defaults:defaultNotes icon:appIcon];
-	}
-	
-	[newApp saveTicket];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF object:appName];
-
-	if (enableForward) {
-		NSEnumerator *enumerator = [destinations objectEnumerator];
-		NSDictionary *entry;
-		while ( (entry = [enumerator nextObject]) ) {
-			if ( [[entry objectForKey:@"use"] boolValue] ) {
-				NSData *destAddress = [entry objectForKey:@"address"];
-				NSSocketPort *serverPort = [[NSSocketPort alloc]
-					initRemoteWithProtocolFamily:AF_INET
-									  socketType:SOCK_STREAM
-										protocol:0
-										 address:destAddress];
-				
-				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
-				NSDistantObject *theProxy = [connection rootProxy];
-				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
-				[growlProxy registerApplication:userInfo];
-				[serverPort release];
-				[connection release];
-			}
-		}
-	}
 }
 
 @end
@@ -457,7 +460,7 @@ static id singleton = nil;
 	NSDictionary *dict;
 	
 	while ( (dict = [e nextObject] ) ) {
-		[self _registerApplicationWithDictionary:dict];
+		[self registerApplicationWithDictionary:dict];
 	}
 }
 
@@ -465,7 +468,7 @@ static id singleton = nil;
 
 - (void) _registerApplication:(NSNotification *) note {
 	if ([self _tryLockQueue]) {
-		[self _registerApplicationWithDictionary:[note userInfo]];
+		[self registerApplicationWithDictionary:[note userInfo]];
 		[self _unlockQueue];
 	} else {
 		[registrationQueue addObject:[note userInfo]];

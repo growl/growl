@@ -154,7 +154,7 @@ static const char *keychainAccountName = "Growl";
 											defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 											nil];
 
-										[[GrowlController singleton] _registerApplicationWithDictionary:registerInfo];
+										[[GrowlController singleton] registerApplicationWithDictionary:registerInfo];
 									} else {
 										NSLog( @"GrowlUDPServer: authentication failed." );
 									}

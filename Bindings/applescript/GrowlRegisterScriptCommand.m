@@ -46,7 +46,7 @@ static const NSSize iconSize = {128.0f, 128.0f};
 			}
 		}
 
-		[[GrowlController singleton] _registerApplicationWithDictionary:registerDict];
+		[[GrowlController singleton] registerApplicationWithDictionary:registerDict];
 	NS_HANDLER
 		NSLog (@"error processing AppleScript request: %@", localException);
 		[self setError:ERROR_EXCEPTION failure:localException];

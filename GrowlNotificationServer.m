@@ -15,7 +15,7 @@
 - (void) registerApplication:(NSDictionary *)dict {
 	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
 	if ( enabled ) {
-		[[GrowlController singleton] _registerApplicationWithDictionary:dict];
+		[[GrowlController singleton] registerApplicationWithDictionary:dict];
 	}
 }
 
@@ -24,7 +24,6 @@
 }
 
 - (NSString *) growlVersion {
-	// TODO
-	return nil;
+	return [[GrowlController singleton] growlVersion];
 }
 @end

@@ -61,13 +61,13 @@ static const char *keychainAccountName = "Growl";
 	return [[[self bundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 }
 
-- (IBAction)checkVersion:(id)sender {
+- (IBAction) checkVersion:(id)sender {
 	[self checkVersionAtURL:@"http://growl.info/version.xml" 
 				displayText:NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @"")
 				downloadURL:@"http://growl.info"];
 }
 
-- (void)checkVersionAtURL:(NSString *)url displayText:(NSString *)message downloadURL:(NSString *)goURL {
+- (void) checkVersionAtURL:(NSString *)url displayText:(NSString *)message downloadURL:(NSString *)goURL {
 	NSBundle *bundle = [self bundle];
 	NSString *currVersionNumber = [[bundle infoDictionary] objectForKey:@"CFBundleVersion"];
 	NSDictionary *productVersionDict = [NSDictionary dictionaryWithContentsOfURL: [NSURL URLWithString:url]];

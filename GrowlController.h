@@ -43,20 +43,20 @@
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename;
 
+- (NSString *) growlVersion;
+
 - (void) dispatchNotification:(NSNotification *)note;
 - (void) dispatchNotificationWithDictionary:(NSDictionary *)dict;
+- (void) registerApplicationWithDictionary:(NSDictionary *) userInfo;
 
 - (void) loadTickets;
 - (void) saveTickets;
 
-- (void) preferencesChanged: (NSNotification *) note;
+- (void) preferencesChanged:(NSNotification *) note;
 
-- (void) shutdown:(NSNotification *) note;
+- (void) shutdown:(NSNotification *)note;
 
-- (void) replyToPing:(NSNotification *) note;
-
-// this is only public for the AppleScript commands
-- (void) _registerApplicationWithDictionary:(NSDictionary *) userInfo;
+- (void) replyToPing:(NSNotification *)note;
 
 @end
 
