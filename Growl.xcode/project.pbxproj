@@ -772,6 +772,18 @@
 			settings = {
 			};
 		};
+		6C566EFB0716F1D300E139BD = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 6C7CEAE40707F41D00441A92;
+			remoteInfo = MusicVideo;
+		};
+		6C566EFC0716F1D300E139BD = {
+			isa = PBXTargetDependency;
+			name = "MusicVideo (from Display Plugins.xcode)";
+			targetProxy = 6C566EFB0716F1D300E139BD;
+		};
 		6CCCECD307144ECB00C5B203 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.cfbundle;
@@ -1547,6 +1559,7 @@
 				CB5FA1C40638CA4500EADD7A,
 				6C1D4F7106FA0C7E00A5D946,
 				0A0429000708ACA10058CBD0,
+				6C566EFC0716F1D300E139BD,
 			);
 			isa = PBXNativeTarget;
 			name = GrowlHelperApp;
