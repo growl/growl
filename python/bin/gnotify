@@ -39,11 +39,6 @@ def main():
         usage()
         sys.exit(2)
     
-    # print help information and exit if no options were given - we don't need to display a blank bubble
-    if not opts:
-        usage()
-        sys.exit(2)
-    
     appName = "gNotify"
     nTitle = "gNotify"
     nMsg = ""
