@@ -15,6 +15,19 @@
 + (KABubbleWindowController *) bubble;
 + (KABubbleWindowController *) bubbleWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon;
 
+#pragma mark Growl Gets Satisfaction
+
+- (id) loadPlugin;
+- (NSString *) author;
+- (NSString *) name;
+- (NSString *) userDescription;
+- (NSString *) version;
+- (void) unloadPlugin;
+
+- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict;
+
+#pragma mark Regularly Scheduled Coding
+
 - (void) startFadeIn;
 - (void) startFadeOut;
 

@@ -26,10 +26,51 @@ static unsigned int bubbleWindowDepth = 0;
 	return ret;
 }
 
+#pragma mark Growl Gets Satisfaction
+
+- (id) loadPlugin {
+	//if I had setup procedures I would do them here
+	return self; 
+}
+
+- (NSString *) author {
+	//yea no need to do stringWithString, I just wanna
+	return [NSString stringWithString:@"Karl Adam and Timothy Hatcher"];
+}
+
+- (NSString *) name {
+	return [NSString stringWithString:@"BUBBLES!"];
+}
+
+- (NSString *) userDescription {
+	return [NSString stringWithString:@"Bubbley Status Notifications"];
+}
+
+- (NSString *) version {
+	return [NSString stringWithString:@"1.0a"];
+}
+
+- (void) unloadPlugin {
+	// if I had things to clean up/undo I would do it here,
+	// fortunately Bubbles do their job pretty cleanly without touching others.
+}
+
+- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {
+	KABubbleWindowController *nuBubble = [KABubbleWindowController bubbleWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
+																			  text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
+																			  icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]];
+	[nuBubble startFadeIn];
+	NSLog( @"bubble - %@", nuBubble );
+}
+
+#pragma mark Regularly Scheduled Coding
+
 - (id) init {
 	extern unsigned int bubbleWindowDepth;
 
-	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO] autorelease];
+	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) 
+												 styleMask:NSBorderlessWindowMask 
+												   backing:NSBackingStoreBuffered defer:NO] autorelease];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
 	[panel setBackgroundColor:[NSColor clearColor]];
@@ -47,10 +88,17 @@ static unsigned int bubbleWindowDepth = 0;
 	[panel setContentView:view];
 
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
-	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( [panel frame] ) - KABubblePadding, NSMaxY( screen ) - KABubblePadding - ( NSHeight( [panel frame] ) * bubbleWindowDepth ) )];
+	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( [panel frame] ) - KABubblePadding, 
+											 NSMaxY( screen ) - KABubblePadding - ( NSHeight( [panel frame] ) * bubbleWindowDepth ) )];
 
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( _applicationDidSwitch: ) name:NSApplicationDidBecomeActiveNotification object:[NSApplication sharedApplication]];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( _applicationDidSwitch: ) name:NSApplicationDidHideNotification object:[NSApplication sharedApplication]];
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector( _applicationDidSwitch: ) 
+												 name:NSApplicationDidBecomeActiveNotification 
+											   object:[NSApplication sharedApplication]];
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector( _applicationDidSwitch: ) 
+												 name:NSApplicationDidHideNotification 
+											   object:[NSApplication sharedApplication]];
 
 	_depth = ++bubbleWindowDepth;
 	_autoFadeOut = YES;
