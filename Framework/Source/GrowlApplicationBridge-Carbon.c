@@ -10,6 +10,8 @@
 
 #include "GrowlApplicationBridge-Carbon.h"
 #include "GrowlDefines.h"
+#include "GrowlDefinesInternal.h"
+#include "CFGrowlAdditions.h"
 
 #pragma mark Constants
 
@@ -502,7 +504,7 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 	CFBundleRef		growlPrefPaneBundle = NULL;
 
 	CFStringRef		bundleIdentifier;
-	CFBundleRef		prefPaneBundle;
+	CFBundleRef		prefPaneBundle = NULL;
 
 	//first try looking up the prefpane by name.
 	{
