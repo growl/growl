@@ -9,6 +9,8 @@
 #import <PreferencePanes/PreferencePanes.h>
 #import "GrowlDefines.h"
 
+#define MusicVideoPrefDomain			@"com.Growl.MusicVideo"
+
 #define MUSICVIDEO_OPACITY_PREF			@"Opacity"
 #define MUSICVIDEO_DEFAULT_OPACITY		60
 

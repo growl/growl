@@ -29,7 +29,7 @@
 - (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky {
 	int sizePref;
 	NSRect sizeRect;
-	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, @"com.Growl.MusicVideo", &sizePref);
+	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 		sizeRect = NSMakeRect( 0., 0., NSWidth([[NSScreen mainScreen] visibleFrame]), 192. );
 		timerInterval = (1. / 128.);

@@ -21,8 +21,8 @@
 	
 	[slider_Opacity setAltIncrementValue:5];
 	
-	READ_GROWL_PREF_INT(MUSICVIDEO_OPACITY_PREF, @"com.Growl.MusicVideo", &opacityPref);
-	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, @"com.Growl.MusicVideo", &sizePref);
+	READ_GROWL_PREF_INT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacityPref);
+	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
 	
 	[radio_Size selectCellAtRow:sizePref column:0];
 	[slider_Opacity setIntValue:opacityPref];
@@ -40,10 +40,10 @@
 	if (sender == slider_Opacity) {
 		opacityPref = [slider_Opacity intValue];
 		[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",opacityPref]];
-		WRITE_GROWL_PREF_INT(MUSICVIDEO_OPACITY_PREF, opacityPref, @"com.Growl.MusicVideo");
+		WRITE_GROWL_PREF_INT(MUSICVIDEO_OPACITY_PREF, opacityPref, MusicVideoPrefDomain);
 	} else if (sender == radio_Size) {
 		sizePref = [radio_Size selectedRow];
-		WRITE_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, sizePref, @"com.Growl.MusicVideo");
+		WRITE_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, sizePref, MusicVideoPrefDomain);
 	}
 
 	UPDATE_GROWL_PREFS();

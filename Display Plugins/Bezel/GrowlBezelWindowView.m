@@ -9,8 +9,8 @@
 #import "GrowlBezelWindowView.h"
 #import "GrowlImageAdditions.h"
 
-#define BORDER_RADIUS 20.0
-#define ELIPSIS_STRING @"..."
+#define BORDER_RADIUS 20.0f
+#define ELLIPSIS_STRING @"..."
 
 @interface GrowlBezelWindowView (PRIVATE)
 - (void)resizeIcon:(NSImage *)theImage toSize:(NSSize)theSize;
@@ -104,21 +104,21 @@
 		maxIconSize = NSMakeSize(72., 72.);
 		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];
 		if ( iconSize.width < maxIconSize.width ) {
-			iconOffset = ceil( (maxIconSize.width - iconSize.width) / 2. );
+			iconOffset = ceil( (maxIconSize.width - iconSize.width) * 0.5f );
 		}
-		iconPoint = NSMakePoint(70. + iconOffset, 120.);
+		iconPoint = NSMakePoint(70.f + iconOffset, 120.f);
 	} else {
-		titleRect = NSMakeRect(8., 52., 143., 24.);
-		textRect =  NSMakeRect(8., 4., 143., 49.);
+		titleRect = NSMakeRect(8.f, 52.f, 143.f, 24.f);
+		textRect =  NSMakeRect(8.f, 4.f, 143.f, 49.f);
 		maxRows = 2;
-		maxIconSize = NSMakeSize(48., 48.);
+		maxIconSize = NSMakeSize(48.f, 48.f);
 		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];
 		if ( iconSize.width < maxIconSize.width ) {
-			iconOffset = ceil( (maxIconSize.width - iconSize.width) / 2. );
+			iconOffset = ceil( (maxIconSize.width - iconSize.width) * 0.5f );
 		}
-		iconPoint = NSMakePoint(57. + iconOffset, 83.);
+		iconPoint = NSMakePoint(57.f + iconOffset, 83.f);
 	}
-	
+
 	if ( iconSize.width > maxIconSize.width || iconSize.height > maxIconSize.height ) {
 		// scale the image appropiately
 		[self resizeIcon:_icon toSize:maxIconSize];
@@ -127,18 +127,18 @@
 	// If we are on Panther or better, pretty shadow
 	BOOL pantherOrLater = ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 );
 	id textShadow = nil; // NSShadow
-	Class NSShadowClass = NSClassFromString(@"NSShadow");
 	if ( pantherOrLater ) {
+		Class NSShadowClass = NSClassFromString(@"NSShadow");
         textShadow = [[[NSShadowClass alloc] init] autorelease];
         
-		NSSize      shadowSize = NSMakeSize(0., -2.);
+		NSSize      shadowSize = NSMakeSize(0.f, -2.f);
         [textShadow setShadowOffset:shadowSize];
-        [textShadow setShadowBlurRadius:3.0];
-		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha: 1.0]];
+        [textShadow setShadowBlurRadius:3.0f];
+		[textShadow setShadowColor:[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:1.0f]];
 	}
 	
 	// Draw the title, resize if text too big
-	float titleFontSize = 20.0;
+	float titleFontSize = 20.0f;
     NSMutableParagraphStyle *parrafo = [[[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
 			setAlignment:NSCenterTextAlignment] autorelease];
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -148,36 +148,36 @@
 	if ( pantherOrLater ) {
 		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
-	float accumulator = 0.;
+	float accumulator = 0.f;
 	BOOL minFontSize = NO;
 	//[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
 	NSSize titleSize = [_title sizeWithAttributes:titleAttributes];
-	
-	while ( titleSize.width > ( NSWidth(titleRect) - ( titleSize.height / 2. ) ) ) {
-		minFontSize = ( titleFontSize <= 12. );
+
+	while ( titleSize.width > ( NSWidth(titleRect) - ( titleSize.height * 0.5f ) ) ) {
+		minFontSize = ( titleFontSize < 12.f );
 		if ( minFontSize ) {
 			[self setTitle: [_title substringToIndex:[_title length] - 1]];
 		} else {
-			titleFontSize -= 1.;
-			accumulator += 0.5;
+			titleFontSize -= 1.f;
+			accumulator += 0.5f;
 		}
 		[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
 		titleSize = [_title sizeWithAttributes:titleAttributes];
 	}
 	
 	titleRect.origin.y += ceil(accumulator);
-	
+
 	if ( minFontSize ) {
-		[self setTitle: [NSString stringWithFormat:@"%@%@",[_title substringToIndex:[_title length]-1], ELIPSIS_STRING]];
+		[self setTitle: [NSString stringWithFormat:@"%@%@",[_title substringToIndex:[_title length]-1], ELLIPSIS_STRING]];
 	}
-	
+
 	titleRect.size.height = titleSize.height;
 	[_title drawInRect:titleRect withAttributes:titleAttributes];
 	
 	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 				[NSColor whiteColor], NSForegroundColorAttributeName,
 				parrafo, NSParagraphStyleAttributeName,
-				[NSFont systemFontOfSize:14.0], NSFontAttributeName, nil];
+				[NSFont systemFontOfSize:14.0f], NSFontAttributeName, nil];
 	if ( pantherOrLater ) {
 		[textAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
@@ -199,11 +199,11 @@
 	}
 	
 	if ( rowCount > maxRows ) {
-		[textAttributes setObject:[NSFont systemFontOfSize:12.0] forKey:NSFontAttributeName];
+		[textAttributes setObject:[NSFont systemFontOfSize:12.0f] forKey:NSFontAttributeName];
 	}
 	[_text drawInRect:textRect withAttributes:textAttributes];
 		
-	[_icon compositeToPoint:iconPoint operation:NSCompositeSourceOver fraction:1.];
+	[_icon compositeToPoint:iconPoint operation:NSCompositeSourceOver fraction:1.f];
 }
 
 - (void)resizeIcon:(NSImage *)theImage toSize:(NSSize)theSize {
@@ -220,8 +220,8 @@
 		newHeight = theSize.height;
 	}
 	
-	newX = floorf((theSize.width - newWidth) / 2.);
-	newY = floorf((theSize.width - newHeight) / 2.);
+	newX = floorf((theSize.width - newWidth) * 0.5f);
+	newY = floorf((theSize.width - newHeight) * 0.5f);
 	
 	NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
 	NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
@@ -258,7 +258,7 @@
 	{
 		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:text];
 		NSTextContainer* textContainer = [[[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize(NSWidth(theRect),NSHeight(theRect)+1000.)] autorelease];
+			initWithContainerSize:NSMakeSize(NSWidth(theRect),NSHeight(theRect)+1000.f)] autorelease];
 		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
 
 		[layoutManager addTextContainer:textContainer];
@@ -297,9 +297,10 @@
 
 #pragma mark -
 
- - (void) mouseUp:(NSEvent *) event {
-	if( _target && _action && [_target respondsToSelector:_action] )
+- (void) mouseUp:(NSEvent *) event {
+	if( _target && _action && [_target respondsToSelector:_action] ) {
 		[_target performSelector:_action withObject:self];
+	}
 }
 
 @end

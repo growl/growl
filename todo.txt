@@ -13,8 +13,6 @@ For .6
 	- Extras will be BSD licensed
 - Bubbles
 	- Top background color colorwell
-- Music Video
-	- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy 
 
 Release related issues
 - Make sure all bindings register. I think this is already done, but we need to double check as this is now required.
@@ -34,6 +32,8 @@ Done:
 - Bubbles
 	- Text color colorwell
 	- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy to add this.
+- Music Video
+	- Make title do ellipsis. Currently it lets text keep flowing to the right. Use the same method as Smoke, should be ridiculously easy 
 - Add a button to remove old tickets
 - Display version number.
 - A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.
