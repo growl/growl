@@ -64,10 +64,10 @@ Once a Growl application registers with Growl, giving it a list of all notificat
 \f1\b0 \
 \pard\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\ql\qnatural
 \cf0 This is an internal name for notifications passed to Growl, never seen by the user. It is passed to 
-\f3 \cf0 -[NSDistributedObjectCenter \CocoaLigature0 postNotificationName:]
-\f1 \cf0 \CocoaLigature1 . As it is used in notifications passed all across the system, these names should usually be \'d2namespaced\'d3 to an application, typically by prepending some form of the application's name to it, e.g. \'d2
-\f3 \cf0 Adium-ContactOnline
-\f1 \cf0 \'d3.\
+\f3 -[NSDistributedObjectCenter \CocoaLigature0 postNotificationName:]
+\f1 \CocoaLigature1 . As it is used in notifications passed all across the system, these names should usually be \'d2namespaced\'d3 to an application, typically by prepending some form of the application's name to it, e.g. \'d2
+\f3 Adium-ContactOnline
+\f1 \'d3.\
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
 
 \f2\b \cf0 - Notification Title\
@@ -83,54 +83,54 @@ Once a Growl application registers with Growl, giving it a list of all notificat
 \pard\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
 
 \f1\b0 \cf0 All communication with Growl by client applications takes place through 
-\f3 \cf0 NSDistributedObjectCenter
-\f1 \cf0 , using keys and notifications defined in 
-\f3 \cf0 GrowlDefines.h
-\f1 \cf0 . \
+\f3 NSDistributedObjectCenter
+\f1 , using keys and notifications defined in 
+\f3 GrowlDefines.h
+\f1 . \
 Note that there is (currently) no Growl 
 \f4 \'ae
 \f1  Client communication. This should change shortly.\
 When a Growl-enabled application launches, it should post a notification named 
-\f3 \cf0 GROWL_APP_REGISTRATION
-\f1 \cf0 , with a userInfo dictionary with the following key 
+\f3 GROWL_APP_REGISTRATION
+\f1 , with a userInfo dictionary with the following key 
 \f4 \'de
 \f1  value pairs:\
 \
 \pard\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li5400\fi-4680\ql\qnatural
 
 \f3 \cf0 GROWL_APP_NAME
-\fs20 \cf0 	
+\fs20 	
 \f1\fs24 The name of the application registering itself\
 
-\f3 \cf0 GROWL_NOTIFICATIONS_ALL
-\fs20 \cf0 	
+\f3 GROWL_NOTIFICATIONS_ALL
+\fs20 	
 \f1\fs24 An 
 \f3 NSArray *
 \f1  of the names of all the notifications the application will send out.\
 
-\f3 \cf0 GROWL_NOTIFICATIONS_DEFAULT
-\fs20 \cf0 	
+\f3 GROWL_NOTIFICATIONS_DEFAULT
+\fs20 	
 \f1\fs24 An 
-\f3 \cf0 NSArray *
-\f1 \cf0  of the subset of the notifications specified in 
-\f3 \cf0 GROWL_NOTIFICATIONS_ALL
-\fs20 \cf0  
+\f3 NSArray *
+\f1  of the subset of the notifications specified in 
+\f3 GROWL_NOTIFICATIONS_ALL
+\fs20  
 \f1\fs24 that should be enabled to be displayed by default.\
 
-\f3 \cf0 GROWL_APP_ICON
-\fs20 \cf0 	
+\f3 GROWL_APP_ICON
+\fs20 	
 \f1\fs24 Optionally, the TIFF representation of a default icon to be used for the application's notifications.\
 \
 \pard\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
 \cf0 When an application registers with Growl, if it does not provide an icon, Growl will retrieve the icon for the application named in the registration request, using NSWorkspace. If possible, it is preferable to provide an icon, as looking up the icon using NSWorkspace can cause Growl to hang searching for it (This will hopefully be addressed in the future).\
 Once an application has registered with Growl, it can proceed to send out event notifications to Growl, to be (possibly, dependent on preferences) displayed. This event should be sent in the form of a notification through 
-\f3 \cf0 NSDistributedObjectCenter
-\f1 \cf0 . The name of the notification should be one of the names the application supplied in the 
-\f3 \cf0 GROWL_NOTIFICATIONS_ALL
-\fs20 \cf0  
+\f3 NSDistributedObjectCenter
+\f1 . The name of the notification should be one of the names the application supplied in the 
+\f3 GROWL_NOTIFICATIONS_ALL
+\fs20  
 \f1\fs24 list it registered with, and its 
-\f3 \cf0 userInfo
-\f1 \cf0  dictionary should contain the following key 
+\f3 userInfo
+\f1  dictionary should contain the following key 
 \f4 \'de
 \f1  value pairs:\
 \
@@ -142,26 +142,67 @@ Once an application has registered with Growl, it can proceed to send out event 
 \pard\tx5400\tx6480\tx7200\tx7920\tx8640\li5760\fi-5040\ql\qnatural
 
 \f3 \cf0 \CocoaLigature0 GROWL_NOTIFICATION_TITLE
-\fs20 \cf0 	
+\fs20 	
 \f1\fs24 The title of the notification.\
 
-\f3 \cf0 GROWL_NOTIFICATION_DESCRIPTION
-\fs20 \cf0 	
+\f3 GROWL_NOTIFICATION_DESCRIPTION
+\fs20 	
 \f1\fs24 The description for the notification.\
 
-\f3 \cf0 GROWL_NOTIFICATION_ICON
-\fs20 \cf0 	
+\f3 GROWL_NOTIFICATION_ICON
+\fs20 	
 \f1\fs24 Optionally (a default will be found as specified above if this is nil or not present), an 
-\f3 \cf0 NSData *
-\f1 \cf0  containing a TIFF representation of an icon associated with the notification.\
+\f3 NSData *
+\f1  containing a TIFF representation of an icon associated with the notification.\
+	If you wish the notification to have no icon, supply an empty 
+\f3 NSData *
+\f1  (e.g. 
+\f3 [NSData data]
+\f1 ).\
 \pard\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
 \cf0 \
-That's all there is to it. \
+That\'d5s all there is to it. \
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
 \cf0 \
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
-\f2\b \cf0 4. Examples\
+\f2\b \cf0 4. Growl and Carbon\
+\pard\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+
+\f1\b0 \cf0 The above description is for Cocoa, but you can use Growl from Carbon as well.\
+\
+\pard\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+
+\f2\b \cf0 Cocoa term	Carbon equivalent\
+\pard\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+
+\f3\b0 \cf0 NSDistributedNotificationCenter	CFNotificationCenter\
+\pard\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\ql\qnatural
+
+\f1 \cf0 Use 
+\f3 \CocoaLigature1 CFNotificationCenterGetDistributedCenter()
+\f1 .\
+\pard\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+
+\f3 \cf0 NSArray	CFArray\
+NSData	CFData\
+\pard\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li1440\ql\qnatural
+
+\f1 \cf0 Core Foundation doesn\'d5t offer a direct equivalent to 
+\f3 [NSData data]
+\f1 ; you can use 
+\f3 CFDataCreateWithBytesNoCopy(allocator, NULL, 0, NULL)
+\f1 , or 
+\f3 CFDataCreateMutable(allocator, 0)
+\f1 .\
+\pard\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+
+\f3 \cf0 \CocoaLigature0 GrowlDefines.h	GrowlDefinesCarbon.h\
+\pard\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
+
+\f2\b \cf0 \
+\pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\cf0 5. Examples\
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
 
 \f1\b0 \cf0 Growl comes with a number of example applications, located in the Examples directory in the Growl source tree. They demonstrate how to implement Growl support in Carbon or Cocoa, in Aqua or the command\'d0line.}
