@@ -55,20 +55,40 @@
 	
 	[[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha:((float)opacityPref/100.)] set];
 	[musicVideoPath fill];
-		
-	// rects
+	
+	
+	// rects and sizes
+	int sizePref = 0;
+	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, @"com.Growl.MusicVideo", &sizePref);
 	NSRect titleRect, textRect;
+	float titleFontSize;
+	float textFontSize;
 	NSPoint iconPoint;
 	int maxRows;
 	int iconHorizontalOffset = 0;
 	int iconVerticalOffset = 0;
+	int iconSourcePoint;
 	NSSize maxIconSize;
 	NSSize iconSize = [_icon size];
-	titleRect = NSMakeRect(MUSICVIDEO_TOP_HEIGHT, 120., NSWidth(bounds) - MUSICVIDEO_TOP_HEIGHT - 32., 40.);
-	textRect =  NSMakeRect(MUSICVIDEO_TOP_HEIGHT, 16., NSWidth(bounds) - MUSICVIDEO_TOP_HEIGHT - 32., 96.);
-	maxRows = 4;
-	maxIconSize = NSMakeSize(128., 128.);
-	iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];	
+	if (sizePref == MUSICVIDEO_SIZE_NORMAL) {
+		titleRect = NSMakeRect(NSHeight(bounds), 120., NSWidth(bounds) - NSHeight(bounds) - 32., 40.);
+		textRect =  NSMakeRect(NSHeight(bounds), 16., NSWidth(bounds) - NSHeight(bounds) - 32., 96.);
+		titleFontSize = 32.0;
+		textFontSize = 20.0;
+		maxRows = 4;
+		maxIconSize = NSMakeSize(128., 128.);
+		iconSourcePoint = 32.;
+		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];
+	} else {
+		titleRect = NSMakeRect(NSHeight(bounds), 60., NSWidth(bounds) - NSHeight(bounds) - 16., 20.);
+		textRect =  NSMakeRect(NSHeight(bounds), 8., NSWidth(bounds) - NSHeight(bounds) - 16., 48.);
+		titleFontSize = 16.0;
+		textFontSize = 12.0;
+		maxRows = 3;
+		maxIconSize = NSMakeSize(64., 64.);
+		iconSourcePoint = 16.;
+		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];	
+	}
 
 	if ( iconSize.width > maxIconSize.width || iconSize.height > maxIconSize.height ) {
 		// scale the image appropiately
@@ -81,7 +101,7 @@
 	if ( iconSize.height < maxIconSize.height ) {
 		iconVerticalOffset = ceil( (maxIconSize.height - iconSize.height) / 2. );
 	}
-	iconPoint = NSMakePoint(32. + iconHorizontalOffset, 32. + iconVerticalOffset);
+	iconPoint = NSMakePoint(iconSourcePoint + iconHorizontalOffset, iconSourcePoint + iconVerticalOffset);
 
 	
 	// If we are on Panther or better, pretty shadow
@@ -98,7 +118,6 @@
 	}
 	
 	// Draw the title, resize if text too big
-	float titleFontSize = 32.0;
     NSMutableParagraphStyle *parrafo = [[[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
 			setAlignment:NSLeftTextAlignment] autorelease];
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -108,36 +127,12 @@
 	if ( pantherOrLater ) {
 		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
-	float accumulator = 0.;
-	BOOL minFontSize = NO;
-	//[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
-	NSSize titleSize = [_title sizeWithAttributes:titleAttributes];
-	
-	while ( titleSize.width > ( NSWidth(titleRect) - ( titleSize.height / 2. ) ) ) {
-		minFontSize = ( titleFontSize <= 12. );
-		if ( minFontSize ) {
-			[self setTitle: [_title substringToIndex:[_title length] - 1]];
-		} else {
-			titleFontSize -= 1.;
-			accumulator += 0.5;
-		}
-		[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
-		titleSize = [_title sizeWithAttributes:titleAttributes];
-	}
-	
-	titleRect.origin.y += ceil(accumulator);
-	
-	if ( minFontSize ) {
-		[self setTitle: [NSString stringWithFormat:@"%@%@",[_title substringToIndex:[_title length]-1], ELIPSIS_STRING]];
-	}
-	
-	titleRect.size.height = titleSize.height;
 	[_title drawInRect:titleRect withAttributes:titleAttributes];
 	
 	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 				[NSColor whiteColor], NSForegroundColorAttributeName,
 				parrafo, NSParagraphStyleAttributeName,
-				[NSFont systemFontOfSize:20.0], NSFontAttributeName, nil];
+				[NSFont systemFontOfSize:textFontSize], NSFontAttributeName, nil];
 	if ( pantherOrLater ) {
 		[textAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}

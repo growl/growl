@@ -28,7 +28,14 @@
 }
 
 - (id)initWithTitle:(NSString *)title text:(id)text icon:(NSImage *)icon sticky:(BOOL)sticky {
-	NSRect sizeRect = NSMakeRect( 0., 0., NSWidth([[NSScreen mainScreen] visibleFrame]), MUSICVIDEO_TOP_HEIGHT );
+	int sizePref;
+	NSRect sizeRect;
+	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, @"com.Growl.MusicVideo", &sizePref);
+	if (sizePref == MUSICVIDEO_SIZE_NORMAL) {
+		sizeRect = NSMakeRect( 0., 0., NSWidth([[NSScreen mainScreen] visibleFrame]), 192. );
+	} else {
+		sizeRect = NSMakeRect( 0., 0., NSWidth([[NSScreen mainScreen] visibleFrame]), 96. );
+	}
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:sizeRect
 						styleMask:NSBorderlessWindowMask
 						  backing:NSBackingStoreBuffered defer:NO] autorelease];

@@ -9,11 +9,15 @@
 #import <PreferencePanes/PreferencePanes.h>
 #import "GrowlDefines.h"
 
-#define MUSICVIDEO_OPACITY_PREF			@"MusicVideo - Opacity"
+#define MUSICVIDEO_OPACITY_PREF			@"Opacity"
 #define MUSICVIDEO_DEFAULT_OPACITY		60
-#define MUSICVIDEO_TOP_HEIGHT			192.
+
+#define MUSICVIDEO_SIZE_PREF			@"Size"
+#define MUSICVIDEO_SIZE_NORMAL			0
+#define MUSICVIDEO_SIZE_SMALL			1
 
 @interface GrowlMusicVideoPrefs : NSPreferencePane {
+	IBOutlet NSMatrix		*radio_Size;
 	IBOutlet NSSlider		*slider_Opacity;
 	IBOutlet NSTextField	*text_Opacity;
 }

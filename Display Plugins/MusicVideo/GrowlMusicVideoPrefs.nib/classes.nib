@@ -5,7 +5,11 @@
             ACTIONS = {preferenceChanged = id; }; 
             CLASS = GrowlMusicVideoPrefs; 
             LANGUAGE = ObjC; 
-            OUTLETS = {"slider_Opacity" = NSSlider; "text_Opacity" = NSTextField; }; 
+            OUTLETS = {
+                "radio_Size" = NSMatrix; 
+                "slider_Opacity" = NSSlider; 
+                "text_Opacity" = NSTextField; 
+            }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
         {
