@@ -124,7 +124,7 @@
 	NSRect iconRect;
 	iconRect.origin = iconPoint;
 	iconRect.size = maxIconSize;
-	[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.f];
+	[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
 }
 
 - (void) setIcon:(NSImage *)anIcon {
@@ -150,7 +150,7 @@
 	if (!textHeight) {
 		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:theText];
 		NSTextContainer *textContainer = [[[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize(NSWidth(theRect),NSHeight(theRect)+1000.f)] autorelease];
+			initWithContainerSize:NSMakeSize(NSWidth(theRect), NSHeight(theRect) + 1000.0f)] autorelease];
 		NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
 
 		[layoutManager addTextContainer:textContainer];

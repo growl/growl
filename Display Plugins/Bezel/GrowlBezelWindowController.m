@@ -13,7 +13,7 @@
 @implementation GrowlBezelWindowController
 
 #define MIN_DISPLAY_TIME 3.0
-#define GrowlBezelPadding 10.f
+#define GrowlBezelPadding 10.0f
 
 + (GrowlBezelWindowController *)bezel {
 	return [[[GrowlBezelWindowController alloc] init] autorelease];

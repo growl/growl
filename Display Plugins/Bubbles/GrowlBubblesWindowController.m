@@ -19,7 +19,7 @@ static unsigned bubbleWindowDepth = 0U;
 #define MIN_DISPLAY_TIME 4.0
 #define ADDITIONAL_LINES_DISPLAY_TIME 0.5
 #define MAX_DISPLAY_TIME 10.0
-#define GrowlBubblesPadding 10.f
+#define GrowlBubblesPadding 10.0f
 
 #pragma mark -
 

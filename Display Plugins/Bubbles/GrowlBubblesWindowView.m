@@ -126,7 +126,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 	[title drawWithEllipsisInRect:drawRect withAttributes:
 		[NSDictionary dictionaryWithObjectsAndKeys:
-			[NSFont boldSystemFontOfSize:13.f], NSFontAttributeName,
+			[NSFont boldSystemFontOfSize:13.0f], NSFontAttributeName,
 			textColor, NSForegroundColorAttributeName,
 			nil]];
 
