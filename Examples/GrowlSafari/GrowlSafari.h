@@ -12,10 +12,10 @@
 @interface GrowlSafari : NSObject {
 
 }
-
++ (NSBundle *)bundle;
 @end
 
 @interface NSObject (GrowlSafariPatch)
-- (void) mySetDownloadStage:(int)stage;
+- (void)mySetDownloadStage:(int)stage;
 - (void)myUpdateDiskImageStatus:(id)fp8;
 @end

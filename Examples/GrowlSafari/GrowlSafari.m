@@ -56,11 +56,20 @@ void ClassMethodSwizzle(Class aClass, SEL orig_sel, SEL alt_sel)
 }
 
 @implementation GrowlSafari
++ (NSBundle *)bundle
+{
+	return( [NSBundle bundleForClass:self] );
+}
+
 + (void) initialize {
 	NSLog(@"Patching DownloadProgressEntry...");
 	MethodSwizzle(NSClassFromString(@"DownloadProgressEntry"), @selector(setDownloadStage:), @selector(mySetDownloadStage:));
 	MethodSwizzle(NSClassFromString(@"DownloadProgressEntry"), @selector(updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:));
-	NSArray *array = [NSArray arrayWithObjects:@"Download Complete", @"Disk Image Status", @"Compression Status", nil];
+	NSArray *array = [NSArray arrayWithObjects:
+		NSLocalizedStringFromTableInBundle(@"Download Complete",nil,[GrowlSafari bundle],@""),
+		NSLocalizedStringFromTableInBundle(@"Disk Image Status",nil,[GrowlSafari bundle],@""),
+		NSLocalizedStringFromTableInBundle(@"Compression Status",nil,[GrowlSafari bundle],@""),
+		nil];
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"GrowlSafari", GROWL_APP_NAME,
 		[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_APP_ICON,
@@ -78,11 +87,12 @@ void ClassMethodSwizzle(Class aClass, SEL orig_sel, SEL alt_sel)
 	int oldStage = (int)[self performSelector:@selector(downloadStage)];
 	[self mySetDownloadStage:stage];
 	NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
+	NSBundle *bundle = [GrowlSafari bundle];
 	if (stage == 2) {
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 			@"GrowlSafari", GROWL_APP_NAME,
-			@"Compression Status", GROWL_NOTIFICATION_NAME,
-			@"Decompressing File", GROWL_NOTIFICATION_TITLE,
+			NSLocalizedStringFromTableInBundle(@"Compression Status",nil,bundle,@""), GROWL_NOTIFICATION_NAME,
+			NSLocalizedStringFromTableInBundle(@"Decompressing File",nil,bundle,@""), GROWL_NOTIFICATION_TITLE,
 			[NSString stringWithFormat:@"%@ decompression started",
 					[[self performSelector:@selector(downloadPath)] lastPathComponent]],
 				GROWL_NOTIFICATION_DESCRIPTION,
@@ -91,8 +101,8 @@ void ClassMethodSwizzle(Class aClass, SEL orig_sel, SEL alt_sel)
 	} else if (stage == 9 && oldStage != 9) {
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 			@"GrowlSafari", GROWL_APP_NAME,
-			@"Disk Image Status", GROWL_NOTIFICATION_NAME,
-			@"Copying Disk Image", GROWL_NOTIFICATION_TITLE,
+			NSLocalizedStringFromTableInBundle(@"Disk Image Status",nil,bundle,@""), GROWL_NOTIFICATION_NAME,
+			NSLocalizedStringFromTableInBundle(@"Copying Disk Image",nil,bundle,@""), GROWL_NOTIFICATION_TITLE,
 			[NSString stringWithFormat:@"Copying application from %@",
 					[[self performSelector:@selector(downloadPath)] lastPathComponent]],
 				GROWL_NOTIFICATION_DESCRIPTION,
@@ -101,8 +111,8 @@ void ClassMethodSwizzle(Class aClass, SEL orig_sel, SEL alt_sel)
 	} else if (stage == 13) {
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 			@"GrowlSafari", GROWL_APP_NAME,
-			@"Download Complete", GROWL_NOTIFICATION_NAME,
-			@"Download Complete", GROWL_NOTIFICATION_TITLE,
+			NSLocalizedStringFromTableInBundle(@"Download Complete",nil,bundle,@""), GROWL_NOTIFICATION_NAME,
+			NSLocalizedStringFromTableInBundle(@"Download Complete",nil,bundle,@""), GROWL_NOTIFICATION_TITLE,
 			[NSString stringWithFormat:@"%@ download complete", 
 					[self performSelector:@selector(filename)]],
 				GROWL_NOTIFICATION_DESCRIPTION,
@@ -114,10 +124,11 @@ void ClassMethodSwizzle(Class aClass, SEL orig_sel, SEL alt_sel)
 - (void)myUpdateDiskImageStatus:(id)fp8 {
 	[self myUpdateDiskImageStatus:fp8];
 	if ([[fp8 objectForKey:@"status-stage"] isEqual:@"initialize"]) {
+		NSBundle *bundle = [GrowlSafari bundle];
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 			@"GrowlSafari", GROWL_APP_NAME,
-			@"Disk Image Status", GROWL_NOTIFICATION_NAME,
-			@"Mounting Disk Image", GROWL_NOTIFICATION_TITLE,
+			NSLocalizedStringFromTableInBundle(@"Disk Image Status",nil,bundle,@""), GROWL_NOTIFICATION_NAME,
+			NSLocalizedStringFromTableInBundle(@"Mounting Disk Image",nil,bundle,@""), GROWL_NOTIFICATION_TITLE,
 			[NSString stringWithFormat:@"Mounting %@",
 				[[self performSelector:@selector(downloadPath)] lastPathComponent]],
 			GROWL_NOTIFICATION_DESCRIPTION,

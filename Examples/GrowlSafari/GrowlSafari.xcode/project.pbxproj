@@ -84,6 +84,7 @@
 		};
 		089C167CFE841241C02AAC07 = {
 			children = (
+				95AC93B1073A052B007871AB,
 				8D5B49B7048680CD000E48DA,
 				089C167DFE841241C02AAC07,
 			);
@@ -294,6 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B0048680CD000E48DA,
+				95AC93B2073A052B007871AB,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,6 +341,50 @@
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
 			path = Info.plist;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+//950
+//951
+//952
+//953
+//954
+		95AC93AC073A044E007871AB = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = English.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95AC93B1073A052B007871AB = {
+			children = (
+				95AC93AC073A044E007871AB,
+				95AC93B3073A052F007871AB,
+			);
+			isa = PBXVariantGroup;
+			name = Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95AC93B2073A052B007871AB = {
+			fileRef = 95AC93B1073A052B007871AB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95AC93B3073A052F007871AB = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = German;
+			path = German.lproj/Localizable.strings;
 			refType = 4;
 			sourceTree = "<group>";
 		};
