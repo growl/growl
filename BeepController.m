@@ -39,7 +39,7 @@
 																				defaultValue, GROWL_NOTIFICATION_DEFAULT,
 																				nil];
 	[_notifications addObject:aNuDict];
-	NSLog( @"%@ added to %@", aNuDict, _notifications);
+	//NSLog( @"%@ added to %@", aNuDict, _notifications);
 	[_notificationsTable reloadData];
 	
 	[self endPanel:self];
@@ -80,7 +80,6 @@
 - (IBAction)sendNotification:(id)sender {
 	//send a notification for the selected table cell
 	id note = [_notifications objectAtIndex:[_notificationsTable selectedRow]];
-	NSLog( @"%@", note );
 	
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:[note objectForKey:GROWL_NOTIFICATION_TITLE] object:nil userInfo:note deliverImmediately:YES];
 }

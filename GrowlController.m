@@ -19,8 +19,15 @@
 																name:GROWL_APP_REGISTRATION
 															  object:nil]; 
 		_tickets = [[NSMutableArray alloc] init];
-		//NSBundle *aBundle = [[NSBundle mainBundle] resourcePath]
-		_displayController = nil;
+
+		_displayController = [self loadDisplay];
+		[_displayController loadPlugin];
+		
+		NSLog( @"view loaded: %@\n Author: %@\n Description: %@\n Version: %@", _displayController,
+																				[_displayController author],
+																				[_displayController userDescription],
+																				[_displayController version]
+			   );
 	}
 	
 	return self;
@@ -33,6 +40,30 @@
 	_tickets = nil;
 	
 	[super dealloc];
+}
+
+#pragma mark -
+
+- (id <GrowlDisplayPlugin>) loadDisplay {
+	id <GrowlDisplayPlugin> retVal;
+	NSString *viewPath = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"BubblesNotificationView.growlView" ];
+	//NSString *systemBundlesPath = @"/Library/Growl Support/";
+	//NSString *userBundlesPath = @"~/Library/Growl Support/";
+	
+	NSLog( @"default - %@", viewPath );
+	
+	if ( [[NSUserDefaults standardUserDefaults] stringForKey:@"userDisplayPlugin"] ) {
+		viewPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"userDisplayPlugin"];
+	}
+	
+	Class viewClass;
+	NSBundle *viewBundle = [NSBundle bundleWithPath:viewPath];
+	NSLog ( @"bundle loaded - %@", viewBundle );
+	viewClass = [viewBundle principalClass];
+	retVal = [[viewClass alloc] init];
+	NSLog( @"object initialized - %@", retVal );
+	
+	return retVal;
 }
 
 #pragma mark -
@@ -62,5 +93,7 @@
 - (void) dispatchNotification:(NSNotification *) note {
 	//insert code here
 	NSLog( @"%@", note );
+	[_displayController displayNotificationWithInfo:[note userInfo]];
 }
+
 @end
