@@ -550,6 +550,7 @@
 	
 	NSString *uniqueName = [NSString stringWithFormat:@"GrowlPreferencesAdministrativeConnection-%@", NSUserName()];
 	growlProxy = [[NSConnection rootProxyForConnectionWithRegisteredName:uniqueName host:nil] retain];
+	[self reloadPreferences];
 }
 
 - (void) growlTerminated:(NSNotification *)note {
