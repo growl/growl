@@ -60,7 +60,7 @@
 /*!
 	@method isGrowlRunning
 	@abstract Detects whether GrowlHelperApp is currently running
-	@discussion Cycles through the process list to find if GrowlHelperApp is running and returns its findings.
+	@discussion Cycles through the process list to find whether GrowlHelperApp is running and returns its findings.
 	@result Returns YES if GrowlHelperApp is running, NO otherwise.
 */
 + (BOOL) isGrowlRunning;
@@ -122,7 +122,7 @@
 			 description:(NSString *)description
 		notificationName:(NSString *)notifName
 				iconData:(NSData *)iconData 
-				priority:(int)priority
+				priority:(signed int)priority
 				isSticky:(BOOL)isSticky
 			clickContext:(id)clickContext;
 
