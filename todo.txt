@@ -4,20 +4,25 @@ For .6
 - Confirm installation of plugin. Ask if user wants to configure plugin now. If so, take to proper place to configure.
 	- Figure out an intuitive way to deal with multiple plugins named the same.
 - For all displays that should conform, priority
-- 3 or 5 parts on priority, we need to decide this
 - Resolve problem of the framework turning on gha without the users permission, should the user have turned off Growl.
+	- Make it so that applications can turn on gha to register, but gha turns back off.
+	- Make it so that if gha is off and turned on by an app, it doesn't display notifications.
 - Make GrowlTunes save images into ARTchive
 - Specify license in each file. Growl is BSD, the framework is public domain, examples are public domain unless specified
 - Add a button to remove old tickets
-- Make GrowlMail not run while applying rules
+- Make GrowlMail not run while applying rules if possible
+- Bubbles
+	- Text color colorwell
+	- Top background color colorwell
+- Move non-example applications in the Examples directory into a PowerToys directory. Add licensing where need be. PowerToys will be bsd licensed.
 
 Release related issues
+- Make sure all bindings register. I think this is already done, but we need to double check as this is now required.
 - Make sure we have user documentation on everything we have. This was a sore point for us last release.
-- Look at creating a mpkg with GrowlMail, GrowlSafari, GrowlDict, Growl, growlnotify, GrowlTunes and possibly macyac
+- Look at creating a mpkg with some of the power toys in it. Figure out what to include and what not to include.
 - Include uninstaller in the dmg
 - Include user documentation in the dmg
 - Include links to developer documentation in the dmg. Possibly include docs themselves.
-
 
 Done:
 - Smoke needs to specify how many lines it allows to be displayed on screen.
@@ -28,6 +33,8 @@ Done:
 	- Applescript:
 		Add support for registering applications with Growl so they show up in the PrefPane.
 - Write an abstract way for all plugins to print a ellipsis when text would spill past the edge of a notification.
+- 3 or 5 parts on priority, we need to decide this
+		All the display plugins seem to work fine with 5 for priority.
 		
 For .7
 - Add a menu item/status item (menuling)
@@ -45,9 +52,6 @@ For .7
 	- PrefPane:
 	- Growl Itself:
 		save to an Application Support Directory to be accessible from the Prefpane and app 
-		write the protocol to which Notification Plugins conform	
-		{Easy enough to do.  I will get on this, because I am adding some features to the pref pane, and want to make some standardized thing (graphite)}
-		
 			then write the glue/controller for the bubbles notifications to work 
 
 			The default notification Plugin will be in Growl.syspref/Resources/
