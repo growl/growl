@@ -20,4 +20,6 @@
 	NSData				*ipIconData;
 }
 
+- (IBAction)doSimpleHelp: (id)sender;
+
 @end

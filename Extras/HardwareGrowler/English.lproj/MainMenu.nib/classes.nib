@@ -1,6 +1,11 @@
 {
     IBClasses = (
-        {CLASS = AppController; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {doSimpleHelp = id; }; 
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {CLASS = BluetoothNotifier; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = FireWireNotifier; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 

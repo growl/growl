@@ -136,7 +136,6 @@
 		};
 		29B97314FDCFA39411CA2CEA = {
 			children = (
-				DDF9B81007BC20630007B5B7,
 				080E96DDFE201D6D7F000001,
 				29B97315FDCFA39411CA2CEA,
 				29B97317FDCFA39411CA2CEA,
@@ -170,6 +169,8 @@
 		};
 		29B97317FDCFA39411CA2CEA = {
 			children = (
+				DDF9B81007BC20630007B5B7,
+				DD1E135B07C923FD005BD5FC,
 				DD1E113E07C7558B005BD5FC,
 				DDF9B70607BC1D5D0007B5B7,
 				DDF9B6FA07BC1C800007B5B7,
@@ -354,6 +355,7 @@
 				DDF9B70707BC1D5D0007B5B7,
 				DDF9B81107BC20630007B5B7,
 				DD1E113F07C7558B005BD5FC,
+				DD1E135C07C923FD005BD5FC,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,9 +424,9 @@
 			sourceTree = "<group>";
 		};
 		8D1107320486CEB800E47090 = {
+			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			lastKnownFileType = wrapper.application;
 			path = HardwareGrowler.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -569,6 +571,19 @@
 		};
 		DD1E113F07C7558B005BD5FC = {
 			fileRef = DD1E113E07C7558B005BD5FC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD1E135B07C923FD005BD5FC = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.rtf;
+			path = Credits.rtf;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD1E135C07C923FD005BD5FC = {
+			fileRef = DD1E135B07C923FD005BD5FC;
 			isa = PBXBuildFile;
 			settings = {
 			};

@@ -158,6 +158,13 @@
 	return regDict;
 }
 
+- (IBAction)doSimpleHelp: (id)sender
+{
+	//	Ugly...
+	[[NSWorkspace sharedWorkspace] openFile:[NSString stringWithFormat:@"%@/Contents/Resources/%@" , [[NSBundle mainBundle] bundlePath] , @"readme.txt" ]]; 
+}
+
+
 #pragma mark -
 #pragma mark Notification methods 
 
