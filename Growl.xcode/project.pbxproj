@@ -2186,8 +2186,6 @@
 				3433458B0790E3D600C84B15,
 				3433458C0790E3D600C84B15,
 				3433458D0790E3D600C84B15,
-				CB5C315107925B53007CC0D0,
-				95EF059F07C77C1500218584,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3797,12 +3795,6 @@
 			settings = {
 			};
 		};
-		95C87BBE07D9E32E00C69DEE = {
-			fileRef = 95C8774707D9DFC000C69DEE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		95DBBFFC07C284BE00DE4ACA = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3879,12 +3871,6 @@
 			path = Core/Source/CoreGraphicsServices.h;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		95EF059F07C77C1500218584 = {
-			fileRef = 95EF04F207C77C1500218584;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		95FC305007E03B0700BD8674 = {
 			children = (
@@ -4265,12 +4251,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		CB5C315107925B53007CC0D0 = {
-			fileRef = CB5C30FF07925B53007CC0D0;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		CB5C315C07925B53007CC0D0 = {
 			fileRef = CB5C312807925B53007CC0D0;
 			isa = PBXBuildFile;
@@ -4376,7 +4356,6 @@
 			dstSubfolderSpec = 7;
 			files = (
 				CB5FA1C70638CA5300EADD7A,
-				95C87BBE07D9E32E00C69DEE,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
