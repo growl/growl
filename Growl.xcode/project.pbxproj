@@ -640,7 +640,7 @@
 				A14892520702746D002CEEA2,
 				0A04279607088E7D0058CBD0,
 				83282736073A6B750044A959,
-				95DD10020748ADAD00CC05A4,
+				930B8DBF07490CA3009E91D3,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -1008,6 +1008,21 @@
 //932
 //933
 //934
+		930B8DBF07490CA3009E91D3 = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Rendezvous.growlView;
+			refType = 3;
+			remoteRef = 930B8DC507490CB8009E91D3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		930B8DC507490CB8009E91D3 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 9594781407489C2F00B8B23E;
+			remoteInfo = Rendezvous;
+		};
 		936FAB01074482BF00A7D430 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -1035,6 +1050,18 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		937463A6074918F20031A297 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 9594781307489C2F00B8B23E;
+			remoteInfo = Rendezvous;
+		};
+		937463A7074918F20031A297 = {
+			isa = PBXTargetDependency;
+			name = "Rendezvous (from Display Plugins.xcode)";
+			targetProxy = 937463A6074918F20031A297;
 		};
 //930
 //931
@@ -1236,21 +1263,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		95DD10020748ADAD00CC05A4 = {
-			fileType = wrapper.cfbundle;
-			isa = PBXReferenceProxy;
-			path = Rendezvous.growlView;
-			refType = 3;
-			remoteRef = 95DD10450748ADCE00CC05A4;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95DD10450748ADCE00CC05A4 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 2;
-			remoteGlobalIDString = 9594781407489C2F00B8B23E;
-			remoteInfo = Rendezvous;
 		};
 		95DD10C80748AE5100CC05A4 = {
 			explicitFileType = wrapper.cfbundle;
@@ -1672,6 +1684,7 @@
 				6C4834DC07395F3100F65193,
 				6C4834DE07395F3400F65193,
 				6C6E2B56073A6D7600F1A95F,
+				937463A7074918F20031A297,
 			);
 			isa = PBXNativeTarget;
 			name = GrowlHelperApp;
