@@ -284,6 +284,7 @@
 //194
 		19C28FB8FE9D52D311CA2CBB = {
 			children = (
+				95DD10C80748AE5100CC05A4,
 				8D202CF80486D31800D8A456,
 				CB61E5180637763C00E0DDC7,
 				6C1D526806FA0CE000A5D946,
@@ -639,6 +640,7 @@
 				A14892520702746D002CEEA2,
 				0A04279607088E7D0058CBD0,
 				83282736073A6B750044A959,
+				95DD10020748ADAD00CC05A4,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -1235,6 +1237,69 @@
 			settings = {
 			};
 		};
+		95DD10020748ADAD00CC05A4 = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Rendezvous.growlView;
+			refType = 3;
+			remoteRef = 95DD10450748ADCE00CC05A4;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95DD10450748ADCE00CC05A4 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 9594781407489C2F00B8B23E;
+			remoteInfo = Rendezvous;
+		};
+		95DD10C80748AE5100CC05A4 = {
+			explicitFileType = wrapper.cfbundle;
+			isa = PBXFileReference;
+			name = Rendezvous.growlView;
+			path = "Display Plugins/build/Rendezvous.growlView";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95DD10CE0748AE5100CC05A4 = {
+			fileRef = 95DD10C80748AE5100CC05A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95DD12C70748AE9600CC05A4 = {
+			fileRef = 95DD10C80748AE5100CC05A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95DD14D30748B04700CC05A4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlNotificationServer.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95DD14D80748B04700CC05A4 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlNotificationServer.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95DD14E00748B04700CC05A4 = {
+			fileRef = 95DD14D30748B04700CC05A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95DD14E10748B04700CC05A4 = {
+			fileRef = 95DD14D80748B04700CC05A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //950
 //951
 //952
@@ -1450,6 +1515,8 @@
 		};
 		CB5F847F0638BD6200EADD7A = {
 			children = (
+				95DD14D30748B04700CC05A4,
+				95DD14D80748B04700CC05A4,
 				CB5F83890638B78200EADD7A,
 				CB5F838A0638B78200EADD7A,
 				F57BFE2C0669037C00DE5BFD,
@@ -1499,6 +1566,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				95DD12C70748AE9600CC05A4,
 				6C6E2B54073A6D5D00F1A95F,
 				6C4834BA07395F1500F65193,
 				6CCCED0907144EF000C5B203,
@@ -1519,6 +1587,7 @@
 				5286205706DC4C2F00D3A356,
 				953F5D3607403BC7008E2AEB,
 				953F5D3707403BC7008E2AEB,
+				95DD14E00748B04700CC05A4,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1532,6 +1601,7 @@
 				52861FF006DC463E00D3A356,
 				954F013D074135D400EA8AB5,
 				95BF837D0743675700306A77,
+				95DD10CE0748AE5100CC05A4,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1547,6 +1617,7 @@
 				5286205806DC4C2F00D3A356,
 				953F5CF107403B67008E2AEB,
 				953F5D3807403BC7008E2AEB,
+				95DD14E10748B04700CC05A4,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

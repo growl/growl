@@ -8,6 +8,7 @@
 #import "GrowlController.h"
 #import "GrowlApplicationTicket.h"
 #import "NSGrowlAdditions.h"
+#import "GrowlNotificationServer.h"
 
 @interface GrowlController (private)
 - (void) loadDisplay;
@@ -26,6 +27,11 @@ static id _singleton = nil;
 
 + (id) singleton {
 	return _singleton;
+}
+
+- (void)connectionDidDie:(NSDictionary *)userInfo
+{
+	NSLog( @"NSConnection died" );
 }
 
 - (id) init {
@@ -60,12 +66,40 @@ static id _singleton = nil;
 		[[GrowlPreferences preferences] registerDefaults:
 				[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]]];
 
+		// TODO: pref for turning server on/off
+		// Setup notification server
+		NSSocketPort *socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
+		NSConnection *connection;
+		connection = [[NSConnection alloc] initWithReceivePort:socketPort sendPort:nil];
+		GrowlNotificationServer *server = [[GrowlNotificationServer alloc] init];
+		[socketPort autorelease];
+		[server autorelease];
+		[connection autorelease];
+		[connection setRootObject:server];
+		[connection setDelegate:self];
+		if( ![connection registerName:@"GrowlServer"] ) {
+			NSLog( @"Could not register Growl server." );
+		}
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(connectionDidDie:)
+													 name:NSConnectionDidDieNotification
+												   object:connection];
+
+		// Configure and publish the Rendezvous service
+		_service = [[NSNetService alloc] initWithDomain:@""
+												  type:@"_growl._tcp."
+												  name:@"Growl"
+												  port:GROWL_TCP_PORT];
+		[_service setDelegate:self];
+		[_service publish];
+
 		[self preferencesChanged:nil];
+		
+		if (!_singleton) {
+			_singleton = self;
+		}
 	}
-	
-	if (!_singleton)
-		_singleton = self;
-	
+
 	return self;
 }
 
@@ -75,7 +109,9 @@ static id _singleton = nil;
 	[_registrationLock release];
 	[_notificationQueue release];
 	[_registrationQueue release];
-	
+	[_service stop];
+	[_service release];
+
 	[super dealloc];
 }
 

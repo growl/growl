@@ -64,6 +64,9 @@
 /*! The distributed notification sent when Growl starts up (this is a guess) */
 #define GROWL_IS_READY					@"Lend Me Some Sugar; I Am Your Neighbor!"
 
+/*! The listen port for Growl notification servers. */
+#define GROWL_TCP_PORT	63052
+
 /* --- These following macros are intended for plugins --- */
 
 /*!

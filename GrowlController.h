@@ -15,7 +15,8 @@
 	NSLock						*_registrationLock;
 	NSMutableArray				*_notificationQueue;
 	NSMutableArray				*_registrationQueue;
-	
+	NSNetService				*_service;
+
 	id<GrowlDisplayPlugin>		displayController;
 }
 

@@ -6,7 +6,7 @@
 //  Copyright 2004 Nelson Elhage. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #import <GrowlDefines.h>
 #import <GrowlDisplayProtocol.h>
 

@@ -22,6 +22,9 @@ MUSICVIDEO_PATH=$(PLUGINS_DIR)/$(MUSICVIDEO_NAME)
 BUBBLES_NAME=Bubbles.growlView
 BUBBLES_BUILD=$(BUILD_DIR)/$(BUBBLES_NAME)
 BUBBLES_PATH=$(PLUGINS_DIR)/$(BUBBLES_NAME)
+RENDEZVOUS_NAME=Rendezvous.growlView
+RENDEZVOUS_BUILD=$(BUILD_DIR)/$(RENDEZVOUS_NAME)
+RENDEZVOUS_PATH=$(PLUGINS_DIR)/$(RENDEZVOUS_NAME)
 
 GROWL_PREFPANE=Growl.prefPane
 GROWL_HELPER_APP=$(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)/Contents/Resources/GrowlHelperApp.app
@@ -61,7 +64,11 @@ $(MUSICVIDEO_BUILD):
 
 bubbles: $(BUBBLES_BUILD)
 $(BUBBLES_BUILD):
-	xcodebuild -target BubblesNotificationView -buildstyle $(BUILDSTYLE) build
+	xcodebuild -target Bubbles -buildstyle $(BUILDSTYLE) build
+
+rendezvous: $(RENDEZVOUS_BUILD)
+$(RENDEZVOZS_BUILD):
+	xcodebuild -target Rendezvous -buildstyle $(BUILDSTYLE) build
 
 clean:
 	xcodebuild -alltargets clean
@@ -82,7 +89,10 @@ clean-musicvideo:
 	xcodebuild -target MusicVideo clean
 
 clean-bubbles:
-	xcodebuild -target BubblesNotificationView clean
+	xcodebuild -target Bubbles clean
+
+clean-rendezvous:
+	xcodebuild -target Rendezvous clean
 
 #install:
 #	-killall GrowlHelperApp
@@ -122,7 +132,12 @@ install-musicvideo: $(NSLOGGING_BUILD)
 	open "$(GROWL_HELPER_APP)"
 
 install-bubbles: $(BUBBLES_BUILD)
-	xcodebuild -target BubblesNotificationView install
+	xcodebuild -target Bubbles install
+	-killall GrowlHelperApp
+	open "$(GROWL_HELPER_APP)"
+
+install-rendezvous: $(RENDEZVOUS_BUILD)
+	xcodebuild -target Rendezvous install
 	-killall GrowlHelperApp
 	open "$(GROWL_HELPER_APP)"
 
@@ -160,3 +175,9 @@ uninstall-bubbles: $(BUBBLES_PATH)
 	-killall GrowlHelperApp
 	$(RM) -rf "$(BUBBLES_PATH)"
 	open "$(GROWL_HELPER_APP)"
+
+uninstall-rendezvous: $(RENDEZVOUS_PATH)
+	-killall GrowlHelperApp
+	$(RM) -rf "$(RENDEZVOUS_PATH)"
+	open "$(GROWL_HELPER_APP)"
+
