@@ -426,7 +426,7 @@
 				LIBRARY_STYLE = DYNAMIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "-fconstant-cfstrings";
-				OTHER_LDFLAGS = "-lobjc -sub_library libobjc -seg1addr 0xc00000";
+				OTHER_LDFLAGS = "-lobjc -seg1addr 0xc00000";
 				PRODUCT_NAME = GrowlAppBridge;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
