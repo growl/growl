@@ -29,7 +29,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "../../GrowlDefines.h"
+#import "../../Common/source/GrowlDefines.h"
 
 #include <sys/types.h>
 #include <sys/socket.h>
