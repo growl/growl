@@ -8,10 +8,6 @@
 #import "GrowlPref.h"
 #import "GrowlDisplayProtocol.h"
 
-@interface GrowlPref (PRIVATE)
-- (NSDictionary *)growlHelperAppDescription;
-@end
-
 #define PING_TIMEOUT		3
 
 @implementation GrowlPref
@@ -61,8 +57,16 @@
 	if(currentApplication)
 		[growlApplications selectRow:[applications indexOfObject:currentApplication] byExtendingSelection:NO];
 	
-	if ( [[[NSUserDefaults standardUserDefaults] objectForKey:@"AutoLaunchedApplicationDictionary"] containsObject:[self growlHelperAppDescription]] ) 
-		[startGrowlAtLogin setState:NSOnState];
+	[startGrowlAtLogin setState:NSOffState];
+	NSArray *autoLaunchArray = [[NSUserDefaults standardUserDefaults] objectForKey:@"AutoLaunchedApplicationDictionary"];
+	NSEnumerator *e = [autoLaunchArray objectEnumerator];
+	NSDictionary *item;
+	while (item = [e nextObject]) {
+		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:[[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"]]) {
+			[startGrowlAtLogin setState:NSOnState];
+			break;
+		}
+	}
 
 	[allDisplayPlugins removeAllItems];
 	[allDisplayPlugins addItemsWithTitles:[[GrowlPluginController controller] allDisplayPlugins]];
@@ -102,7 +106,7 @@
 }
 
 - (void)reloadAppTab {
-	if(currentApplication) [currentApplication release];
+	[currentApplication release]; currentApplication = nil;
 //	currentApplication = [[growlApplications titleOfSelectedItem] retain];
 	if (([growlApplications selectedRow] < 0) && ([[GrowlApplicationTicket allSavedTickets] count] > 0))
 		[growlApplications selectRow:0 byExtendingSelection:NO];
@@ -151,14 +155,23 @@
 - (IBAction) startGrowlAtLogin:(id) sender {
 	NSUserDefaults *defs = [[[NSUserDefaults alloc] init] autorelease];
 	[defs addSuiteNamed:@"loginwindow"];
+	NSString *appPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
 	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
 	NSMutableArray *loginItems = [[[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy] autorelease]; //it lies, its an array
-	NSDictionary *GHAdesc = [self growlHelperAppDescription];
+	NSEnumerator *e = [loginItems objectEnumerator];
+	NSDictionary *item;
+	while (item = [e nextObject]) {
+		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:appPath]) {
+			[loginItems removeObject:item];
+			break;
+		}
+	}
 	
 	if ( [startGrowlAtLogin state] == NSOnState ) {
-		[loginItems addObject:GHAdesc];
-	} else {
-		[loginItems removeObject:GHAdesc];
+		NSMutableDictionary *launchDict = [NSMutableDictionary dictionary];
+		[launchDict setObject:[NSNumber numberWithBool:NO] forKey:@"Hide"];
+		[launchDict setObject:appPath forKey:@"Path"];
+		[loginItems addObject:launchDict];
 	}
 	
 	[loginWindowPrefs setObject:[NSArray arrayWithArray:loginItems] 
@@ -336,18 +349,6 @@
 		[cachedGrowlHelperAppDescription release];
 	if(tickets) [tickets release];
 	if(currentApplication) [currentApplication release];
-}
-
-- (NSDictionary *)growlHelperAppDescription {
-	if(!cachedGrowlHelperAppDescription) {
-		NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
-		
-		cachedGrowlHelperAppDescription = [[NSDictionary alloc] initWithObjectsAndKeys:
-			helperPath, [NSString stringWithString:@"Path"],
-			[NSNumber numberWithBool:NO], [NSString stringWithString:@"Hide"],
-			nil];
-	}
-	return cachedGrowlHelperAppDescription;
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
