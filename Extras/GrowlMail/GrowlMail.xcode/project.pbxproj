@@ -90,11 +90,11 @@
 		};
 		089C167CFE841241C02AAC07 = {
 			children = (
+				9550E79F077A207E00436674,
 				950A02470737CDD60075BDE4,
 				955347EA0732C14400D12875,
 				8D5B49B7048680CD000E48DA,
 				089C167DFE841241C02AAC07,
-				955348500732F84000D12875,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -373,8 +373,8 @@
 			files = (
 				8D5B49B0048680CD000E48DA,
 				955347EC0732C14400D12875,
-				955348510732F84000D12875,
 				950A02480737CDD60075BDE4,
+				9550E7A5077A207E00436674,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -495,6 +495,19 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		9550E79F077A207E00436674 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = GrowlMail.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9550E7A5077A207E00436674 = {
+			fileRef = 9550E79F077A207E00436674;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		9553469C0732BD4800D12875 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -573,19 +586,6 @@
 			settings = {
 			};
 		};
-		955348500732F84000D12875 = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.tiff;
-			path = GrowlMail.tiff;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		955348510732F84000D12875 = {
-			fileRef = 955348500732F84000D12875;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		9553485D0732F93600D12875 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -635,7 +635,6 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_MODEL_CPU = G4;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				ZERO_LINK = NO;

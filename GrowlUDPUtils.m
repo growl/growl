@@ -11,10 +11,10 @@
 #include <openssl/md5.h>
 
 @implementation GrowlUDPUtils
-+ (char *) notificationToPacket:(NSDictionary *)aNotification password:(const char *)password packetSize:(unsigned int *)packetSize {
++ (unsigned char *) notificationToPacket:(NSDictionary *)aNotification password:(const char *)password packetSize:(unsigned int *)packetSize {
 	MD5_CTX ctx;
 	struct GrowlNetworkNotification *nn;
-	char *data;
+	unsigned char *data;
 	unsigned length;
 	unsigned short notificationNameLen, titleLen, descriptionLen, applicationNameLen;
 
@@ -60,18 +60,18 @@
 
 	*packetSize = length;
 	
-	return (char *)nn;
+	return (unsigned char *)nn;
 }
 
-+ (char *) registrationToPacket:(NSDictionary *)aNotification password:(const char *)password packetSize:(unsigned int *)packetSize {
++ (unsigned char *) registrationToPacket:(NSDictionary *)aNotification password:(const char *)password packetSize:(unsigned int *)packetSize {
 	struct GrowlNetworkRegistration *nr;
-	char *data;
+	unsigned char *data;
 	const char *notification;
 	unsigned i, length, size, notificationIndex;
 	unsigned short applicationNameLen;
 	unsigned numAllNotifications, numDefaultNotifications;
 	MD5_CTX ctx;
-	
+
 	const char *applicationName = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
 	NSArray *allNotifications = [aNotification objectForKey:GROWL_NOTIFICATIONS_ALL];
 	NSArray *defaultNotifications = [aNotification objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
@@ -129,7 +129,7 @@
 	MD5_Final( data, &ctx );
 
 	*packetSize = length;
-	
-	return (char *)nr;
+
+	return (unsigned char *)nr;
 }
 @end

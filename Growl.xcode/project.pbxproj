@@ -2099,7 +2099,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Cleaning up unneeded files...\"\nfind $BUILD_ROOT/$WRAPPER_NAME '(' -name '.svn' -or -name '.DS_Store' ')' -prune -exec rm -rf '{}' ';'";
+			shellScript = "find $BUILD_ROOT/$WRAPPER_NAME '(' -name '.svn' -or -name '.DS_Store' ')' -prune -exec rm -rf '{}' ';'";
 		};
 		34CEA3930680A77C00670E0D = {
 			children = (
@@ -2677,7 +2677,6 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3201,7 +3200,7 @@
 				INFOPLIST_FILE = "GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-lcrypto";
+				OTHER_LDFLAGS = "-lcrypto.0.9";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = GrowlHelperApp;
 				SECTORDER_FLAGS = "";

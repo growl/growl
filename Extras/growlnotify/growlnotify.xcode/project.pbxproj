@@ -270,7 +270,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_PATH = /usr/local/bin;
-				OTHER_LDFLAGS = "-lcrypto";
+				OTHER_LDFLAGS = "-lcrypto.0.9";
 				PRODUCT_NAME = growlnotify;
 				WARNING_CFLAGS = "-W -Wall";
 			};
@@ -327,9 +327,9 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8DD76FA10486AA7600D96B5E = {
-			explicitFileType = "compiled.mach-o.executable";
 			includeInIndex = 0;
 			isa = PBXFileReference;
+			lastKnownFileType = "compiled.mach-o.executable";
 			path = growlnotify;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -381,7 +381,6 @@
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_MODEL_CPU = G4;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;

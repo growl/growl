@@ -101,8 +101,8 @@
 	}
 	
 	// Draw the title, resize if text too big
-    NSMutableParagraphStyle *parrafo = [[[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
-			setAlignment:NSLeftTextAlignment] autorelease];
+    NSMutableParagraphStyle *parrafo = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+	[parrafo setAlignment:NSLeftTextAlignment];
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 				[NSColor whiteColor], NSForegroundColorAttributeName,
 				parrafo, NSParagraphStyleAttributeName,

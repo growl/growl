@@ -19,8 +19,8 @@
 		if (!paragraphStyle) {
 			paragraphStyle = [NSParagraphStyle defaultParagraphStyle];
 		}
-		NSMutableParagraphStyle *ellipsisingStyle = [[[paragraphStyle mutableCopy] 
-			setLineBreakMode:NSLineBreakByTruncatingTail] autorelease];
+		NSMutableParagraphStyle *ellipsisingStyle = [[paragraphStyle mutableCopy] autorelease];
+		[ellipsisingStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 		NSMutableDictionary *md = [NSMutableDictionary dictionaryWithDictionary:attributes];
 		[md setObject:ellipsisingStyle forKey:NSParagraphStyleAttributeName];
 		[self drawInRect:rect withAttributes:md];

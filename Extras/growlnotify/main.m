@@ -87,7 +87,7 @@ int main(int argc, const char **argv) {
 	struct hostent *he;
 	int sock;
 	unsigned int size, registrationSize, notificationSize;
-	char *registrationPacket, *notificationPacket;
+	unsigned char *registrationPacket, *notificationPacket;
 	struct sockaddr_in to;
 	static char *password = NULL;
 

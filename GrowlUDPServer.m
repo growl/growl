@@ -68,14 +68,14 @@ static const char *keychainAccountName = "Growl";
 
 #pragma mark -
 
-+ (BOOL) authenticatePacket:(const char *)packet length:(unsigned)length
++ (BOOL) authenticatePacket:(const unsigned char *)packet length:(unsigned)length
 {
 	char *password;
 	unsigned messageLength;
 	UInt32 passwordLength;
 	OSStatus status;
 	MD5_CTX ctx;
-	char digest[MD5_DIGEST_LENGTH];
+	unsigned char digest[MD5_DIGEST_LENGTH];
 
 	messageLength = length-MD5_DIGEST_LENGTH;
 	MD5_Init( &ctx );
@@ -126,7 +126,7 @@ static const char *keychainAccountName = "Growl";
 
 							if ( enabled ) {
 								struct GrowlNetworkRegistration *nr = (struct GrowlNetworkRegistration *)packet;
-								applicationName = nr->data;
+								applicationName = (char *)nr->data;
 								applicationNameLen = ntohs( nr->appNameLen );
 								packetSize = sizeof(*nr) + applicationNameLen + MD5_DIGEST_LENGTH;
 
@@ -156,7 +156,7 @@ static const char *keychainAccountName = "Growl";
 								}
 
 								if ( length == packetSize ) {
-									if ( [GrowlUDPServer authenticatePacket:(const char *)nr length:length] ) {
+									if ( [GrowlUDPServer authenticatePacket:(const unsigned char *)nr length:length] ) {
 										NSDictionary *registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 											[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
 											allNotifications, GROWL_NOTIFICATIONS_ALL,
@@ -181,7 +181,7 @@ static const char *keychainAccountName = "Growl";
 
 							priority = nn->flags.priority;
 							isSticky = nn->flags.sticky;
-							notificationName = nn->data;
+							notificationName = (char *)nn->data;
 							notificationNameLen = ntohs( nn->nameLen );
 							title = notificationName + notificationNameLen;
 							titleLen = ntohs( nn->titleLen );
@@ -192,7 +192,7 @@ static const char *keychainAccountName = "Growl";
 							packetSize = sizeof(*nn) + notificationNameLen + titleLen + descriptionLen + applicationNameLen + MD5_DIGEST_LENGTH;
 
 							if ( length == packetSize ) {
-								if ( [GrowlUDPServer authenticatePacket:(const char *)nn length:length] ) {
+								if ( [GrowlUDPServer authenticatePacket:(const unsigned char *)nn length:length] ) {
 									NSDictionary *notificationInfo;
 									notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 										[NSString stringWithUTF8String:notificationName length:notificationNameLen], GROWL_NOTIFICATION_NAME,
