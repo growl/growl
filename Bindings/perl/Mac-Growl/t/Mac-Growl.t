@@ -39,7 +39,7 @@ RegisterNotifications($app, \@names, [$names[0]], $as_app);
 pass("register $app");
 PostNotification($app, $names[0], 'Congratulations', 'Mac::Growl is working.');
 pass("notify");
-PostNotification($app, $names[0], 'If things are working...', 'This should "stick."', 1);
+PostNotification($app, $names[0], 'If things are working...', 'This should "stick."', 1, 2);
 pass("notify sticky");
 PostNotification($app, $names[1], 'You should not see this', 'Danger, Will Robinson!');
 pass("notify fail");
@@ -57,7 +57,7 @@ for my $pkg (sort keys %pkgs) {
 		}
 
 		Mac::Growl::PostNotification(
-			$app, $names[0], "Testing $pkg", "Yay, $pkg works!", 0, $image
+			$app, $names[0], "Testing $pkg", "Yay, $pkg works!", 0, -1, $image
 		);
 		pass("notify $pkg");
 	}

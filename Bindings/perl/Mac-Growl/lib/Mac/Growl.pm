@@ -23,16 +23,16 @@ sub _Define_Subs {
 	no warnings 'redefine';
 
 	sub RegisterNotifications($$$;$);
-	sub PostNotification($$$$;$$);
+	sub PostNotification($$$$;$$$);
 
 	sub Foundation_RegisterNotifications($$$;$);
-	sub Foundation_PostNotification($$$$;$$);
+	sub Foundation_PostNotification($$$$;$$$);
 
 	sub Glue_RegisterNotifications($$$;$);
-	sub Glue_PostNotification($$$$;$$);
+	sub Glue_PostNotification($$$$;$$$);
 
 	sub AppleScript_RegisterNotifications($$$;$);
-	sub AppleScript_PostNotification($$$$;$$);
+	sub AppleScript_PostNotification($$$$;$$$);
 
 	if ($base eq 'Foundation') {
 		*RegisterNotifications = *Foundation_RegisterNotifications{CODE};
@@ -96,6 +96,7 @@ use constant GROWL_NOTIFICATION_NAME			=> "NotificationName";
 use constant GROWL_NOTIFICATION_TITLE			=> "NotificationTitle";
 use constant GROWL_NOTIFICATION_DESCRIPTION		=> "NotificationDescription";
 use constant GROWL_NOTIFICATION_ICON			=> "NotificationIcon";
+use constant GROWL_NOTIFICATION_PRIORITY		=> "NotificationPriority";
 use constant GROWL_NOTIFICATION_STICKY			=> "NotificationSticky";
 
 use constant GROWL_APP_REGISTRATION				=> "GrowlApplicationRegistrationNotification";
@@ -132,9 +133,9 @@ sub Foundation_RegisterNotifications($$$;$)
 	);
 }
 
-sub Foundation_PostNotification($$$$;$$)
+sub Foundation_PostNotification($$$$;$$$)
 {
-	my($appName, $noteName, $noteTitle, $noteDescription, $sticky, $image) = @_;
+	my($appName, $noteName, $noteTitle, $noteDescription, $sticky, $priority, $image) = @_;
 	$sticky = $sticky ? 1 : 0;
 
 	my $noteDict = NSMutableDictionary->dictionary();
@@ -143,6 +144,7 @@ sub Foundation_PostNotification($$$$;$$)
 	$noteDict->setObject_forKey_($noteTitle,GROWL_NOTIFICATION_TITLE);
 	$noteDict->setObject_forKey_($noteDescription,GROWL_NOTIFICATION_DESCRIPTION);
 	$noteDict->setObject_forKey_(NSNumber->numberWithBool_($sticky),GROWL_NOTIFICATION_STICKY);
+	$noteDict->setObject_forKey_(NSNumber->numberWithInt_($priority),GROWL_NOTIFICATION_PRIORITY);
 
 	# can't do this, because NSImage not available in Foundation
 	if ($image) {
@@ -177,9 +179,9 @@ sub Glue_RegisterNotifications($$$;$)
 	);
 }
 
-sub Glue_PostNotification($$$$;$$)
+sub Glue_PostNotification($$$$;$$$)
 {
-	my($appName, $noteName, $noteTitle, $noteDescription, $sticky, $image) = @_;
+	my($appName, $noteName, $noteTitle, $noteDescription, $sticky, $priority, $image) = @_;
 	$sticky = $sticky ? 1 : 0;
 
 	my %params = (
@@ -189,6 +191,8 @@ sub Glue_PostNotification($$$$;$$)
 		description			=> $noteDescription,
 		sticky				=> $sticky
 	);
+
+	$params{priority} = $priority if defined $priority;
 
 	my $image_url = _Fix_Image_Path($image);
 	$params{image_from_url} = $image_url if $image_url;
@@ -226,9 +230,9 @@ sub AppleScript_RegisterNotifications($$$;$)
 	_Execute_AppleScript($script);
 }
 
-sub AppleScript_PostNotification($$$$;$$)
+sub AppleScript_PostNotification($$$$;$$$)
 {
-	my($appName, $noteName, $noteTitle, $noteDescription, $sticky, $image) = @_;
+	my($appName, $noteName, $noteTitle, $noteDescription, $sticky, $priority, $image) = @_;
 	$sticky = $sticky ? 1 : 0;
 
 	# protect quotes and slashes
@@ -241,6 +245,11 @@ sub AppleScript_PostNotification($$$$;$$)
 		qq'application name "$appName" with name "$noteName" ' .
 		qq'title "$noteTitle" description "$noteDescription"';
 	$script .= ' sticky true' if $sticky;
+
+	if (defined $priority) {
+		$priority =~ s/^.*?(-?\d+).*$/$1/g;
+		$script .= " priority $priority" if $priority;
+	}
 
 	my $image_url = _Fix_Image_Path($image);
 	$script .= qq' image from url "$image_url"' if $image_url;
@@ -359,7 +368,7 @@ Mac::Growl - Perl module for registering and sending Growl Notifications on Mac 
     \@defaultNotifications[, $iconOfApp]);
 
   PostNotification("MyPerlApp", $notificationName, $notificationTitle,
-    $notificationDescription[, $sticky, $image_path]);
+    $notificationDescription[, $sticky, $priority, $image_path]);
 
 =head1 DESCRIPTION
 
@@ -373,9 +382,9 @@ Mac::Growl defines two methods:
 
 RegisterNotifications takes the name of the application sending notifications, as well as a reference to a list of all notifications the app sends out, and a reference to an array of all the notifications to be enabled by default.  Also, optionally accepts the name of an application whose icon to use by default.
 
-=item PostNotification(appname, name, title, description[, sticky, image_path]);
+=item PostNotification(appname, name, title, description[, sticky, priority, image_path]);
 
-PostNotification takes the name of the sending application (normally the same as passed to the Register call), the name of the notification (should be one of the allNotification list passed to Register), and a title and description to be displayed by Growl. Also, optionally accepts a "sticky" flag, which, if true, will cause the notification to remain until dismissed, instead of timing out normally; and an image path, a path to a file containing the image for the notification.
+PostNotification takes the name of the sending application (normally the same as passed to the Register call), the name of the notification (should be one of the allNotification list passed to Register), and a title and description to be displayed by Growl. Also, optionally accepts a "sticky" flag, which, if true, will cause the notification to remain until dismissed, instead of timing out normally; a "priority" value (range from -2 for low to 2 for high); and an image path, a path to a file containing the image for the notification.
 
 =back
 
