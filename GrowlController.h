@@ -14,7 +14,10 @@
 	id <GrowlDisplayPlugin>		_displayController;
 }
 
++ (id) singleton;
+
 - (void) dispatchNotification:(NSNotification *) note;
+- (void) dispatchNotificationWithDictionary:(NSDictionary *) dict;
 
 - (void) loadTickets;
 - (void) saveTickets;

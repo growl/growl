@@ -16,7 +16,13 @@
 
 #pragma mark -
 
+static id _singleton = nil;
+
 @implementation GrowlController
+
++ (id) singleton {
+	return _singleton;
+}
 
 - (id) init {
 	if ( self = [super init] ) {
@@ -38,6 +44,9 @@
 			   );
 		[self loadTickets];
 	}
+
+	if (_singleton == nil)
+		_singleton = self;
 	
 	return self;
 }
@@ -57,9 +66,13 @@
 - (void) dispatchNotification:(NSNotification *) note {
 	//NSLog( @"%@", note );
 	
-	NSMutableDictionary *aDict = [NSMutableDictionary dictionaryWithDictionary:[note userInfo]];
+	[self dispatchNotificationWithDictionary:[note userInfo]];
+}
+
+- (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
+	NSMutableDictionary *aDict = [NSMutableDictionary dictionaryWithDictionary:dict];
 	NSImage *icon = nil;
-	if ( ![aDict objectForKey:GROWL_NOTIFICATION_ICON] ) {
+	if ( ![dict objectForKey:GROWL_NOTIFICATION_ICON] ) {
 		icon = [[_tickets objectForKey:[aDict objectForKey:GROWL_APP_NAME]] icon];
 	} else {
 		icon = [[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]];
@@ -68,7 +81,7 @@
 	}
 	if(icon) {
 		[aDict setObject:icon 
-				  forKey:GROWL_NOTIFICATION_ICON];
+				 forKey:GROWL_NOTIFICATION_ICON];
 	} else {
 		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON];
 	}

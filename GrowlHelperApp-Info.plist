@@ -35,6 +35,8 @@
 	<string>GRRR</string>
 	<key>CFBundleVersion</key>
 	<string>1.0.0d1</string>
+    <key>NSAppleScriptEnabled</key>
+    <string>YES</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

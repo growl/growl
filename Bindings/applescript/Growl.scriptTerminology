@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Commands</key>
+	<dict>
+		<key>Notify</key>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>description</key>
+				<dict>
+					<key>Description</key>
+					<string>full text of the notification to display</string>
+					<key>Name</key>
+					<string>description</string>
+				</dict>
+				<key>iconOfApplication</key>
+				<dict>
+					<key>Description</key>
+					<string>Name of the application whose icon should be used for this notification. For example, 'Mail.app'.</string>
+					<key>Name</key>
+					<string>icon of application</string>
+				</dict>
+				<key>iconOfFile</key>
+				<dict>
+					<key>Description</key>
+					<string>URL of the file whose icon should be used as the image for this notification. For example, 'file:///Applications'. Must be a file:/// URL.</string>
+					<key>Name</key>
+					<string>icon of file</string>
+				</dict>
+				<key>imageFromURL</key>
+				<dict>
+					<key>Description</key>
+					<string>URL of the icon to use for this notification. Currently limited to file:/// URLs.</string>
+					<key>Name</key>
+					<string>image from URL</string>
+				</dict>
+				<key>sticky</key>
+				<dict>
+					<key>Description</key>
+					<string>whether or not the notification displayed should time out. Defaults to 'no'.</string>
+					<key>Name</key>
+					<string>sticky</string>
+				</dict>
+				<key>title</key>
+				<dict>
+					<key>Description</key>
+					<string>title of the notification to display</string>
+					<key>Name</key>
+					<string>title</string>
+				</dict>
+			</dict>
+			<key>Description</key>
+			<string>Post a notification to be displayed via Growl</string>
+			<key>Name</key>
+			<string>notify</string>
+		</dict>
+	</dict>
+	<key>Name</key>
+	<string>Growl</string>
+</dict>
+</plist>

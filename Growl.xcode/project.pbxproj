@@ -61,6 +61,7 @@
 				CBDBDEE506715DAF004622FA,
 				34CEA3930680A77C00670E0D,
 				CB5F835E0638B67C00EADD7A,
+				63C0610006C8948700B0B7D4,
 				CB5F836E0638B69900EADD7A,
 				CB5F84EB0638BFFF00EADD7A,
 				089C1671FE841209C02AAC07,
@@ -297,6 +298,129 @@
 //522
 //523
 //524
+//630
+//631
+//632
+//633
+//634
+		63C060F406C8946E00B0B7D4 = {
+			buildActionMask = 2147483647;
+			files = (
+				63C92DDD06D05D22007368FA,
+			);
+			isa = PBXRezBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63C0610006C8948700B0B7D4 = {
+			children = (
+				63C92DD206D05D22007368FA,
+				63C92DD306D05D22007368FA,
+				63C92DD406D05D22007368FA,
+				63C92DD506D05D22007368FA,
+				63C92DD606D05D22007368FA,
+				63C92DD706D05D22007368FA,
+			);
+			isa = PBXGroup;
+			name = AppleScript;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		63C92DD206D05D22007368FA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			name = Growl.scriptSuite;
+			path = Bindings/applescript/Growl.scriptSuite;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		63C92DD306D05D22007368FA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			name = Growl.scriptTerminology;
+			path = Bindings/applescript/Growl.scriptTerminology;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		63C92DD406D05D22007368FA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			name = Growl.sdef;
+			path = Bindings/applescript/Growl.sdef;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		63C92DD506D05D22007368FA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlScriptCommand.h;
+			path = Bindings/applescript/GrowlScriptCommand.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		63C92DD606D05D22007368FA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlScriptCommand.m;
+			path = Bindings/applescript/GrowlScriptCommand.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		63C92DD706D05D22007368FA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.rez;
+			name = GrowlScripting.r;
+			path = Bindings/applescript/GrowlScripting.r;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		63C92DD806D05D22007368FA = {
+			fileRef = 63C92DD206D05D22007368FA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		63C92DD906D05D22007368FA = {
+			fileRef = 63C92DD306D05D22007368FA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		63C92DDA06D05D22007368FA = {
+			fileRef = 63C92DD406D05D22007368FA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		63C92DDB06D05D22007368FA = {
+			fileRef = 63C92DD506D05D22007368FA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		63C92DDC06D05D22007368FA = {
+			fileRef = 63C92DD606D05D22007368FA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		63C92DDD06D05D22007368FA = {
+			fileRef = 63C92DD706D05D22007368FA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//630
+//631
+//632
+//633
+//634
 //8D0
 //8D1
 //8D2
@@ -371,7 +495,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D202CED0486D31800D8A456,
-				8D202CEE0486D31800D8A456,
 				8D202CEF0486D31800D8A456,
 				CB5FA1BD0638CA2C00EADD7A,
 			);
@@ -380,12 +503,6 @@
 		};
 		8D202CED0486D31800D8A456 = {
 			fileRef = 089C167DFE841241C02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		8D202CEE0486D31800D8A456 = {
-			fileRef = F506C040013D9D8001CA16C8;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -758,7 +875,7 @@
 		};
 		CB5F84DE0638BFDB00EADD7A = {
 			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
+			lastKnownFileType = text.plist.xml;
 			path = "BubblesNotificationView-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
@@ -865,6 +982,7 @@
 				CBF0743A0659B1F4000B4B77,
 				CBF073CB0659A94F000B4B77,
 				F57BFE2E0669037C00DE5BFD,
+				63C92DDB06D05D22007368FA,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -872,6 +990,9 @@
 		CB61E5140637763C00E0DDC7 = {
 			buildActionMask = 2147483647;
 			files = (
+				63C92DD806D05D22007368FA,
+				63C92DD906D05D22007368FA,
+				63C92DDA06D05D22007368FA,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -883,6 +1004,7 @@
 				CBF0743F0659B202000B4B77,
 				CB5F83A80638B8C800EADD7A,
 				F57BFE2F0669037C00DE5BFD,
+				63C92DDC06D05D22007368FA,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -902,6 +1024,7 @@
 				CB61E5150637763C00E0DDC7,
 				CB61E5160637763C00E0DDC7,
 				CB5FA1CB0638CA6300EADD7A,
+				63C060F406C8946E00B0B7D4,
 			);
 			buildRules = (
 			);
@@ -969,7 +1092,7 @@
 		};
 		CB61E51A0637763C00E0DDC7 = {
 			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
+			lastKnownFileType = text.plist.xml;
 			path = "GrowlHelperApp-Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
