@@ -455,6 +455,8 @@
 //324
 		32C88E010371C26100C91783 = {
 			children = (
+				34BA9D2807086EDA0055683E,
+				34BA9D2907086EDA0055683E,
 				6C22288806FF60A50056CEAA,
 				6C22288906FF60A50056CEAA,
 				32DBCF630370AF2F00C91783,
@@ -631,6 +633,34 @@
 			settings = {
 			};
 		};
+		34BA9D2807086EDA0055683E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlStringAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34BA9D2907086EDA0055683E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlStringAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34BA9D2A07086EDA0055683E = {
+			fileRef = 34BA9D2807086EDA0055683E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34BA9D2B07086EDA0055683E = {
+			fileRef = 34BA9D2907086EDA0055683E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		34C4486306F0FF5300855FBE = {
 			buildActionMask = 2147483647;
 			files = (
@@ -641,6 +671,7 @@
 				3458F00D06F2E4FB0066D180,
 				3482252906F2EC2100B33560,
 				3482252E06F2EC6200B33560,
+				34BA9D2A07086EDA0055683E,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -652,6 +683,7 @@
 				3458F00C06F2E4FB0066D180,
 				3458F00E06F2E4FB0066D180,
 				3482252F06F2EC6200B33560,
+				34BA9D2B07086EDA0055683E,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1131,7 +1163,6 @@
 				INFOPLIST_FILE = "MusicVideo-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";

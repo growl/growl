@@ -9,6 +9,7 @@
 #import "GrowlSmokeWindowView.h"
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefines.h"
+#import "GrowlStringAdditions.h"
 
 
 @implementation GrowlSmokeWindowView
@@ -131,16 +132,18 @@
 		nil];
  
 	if(pantherOrLater) {
-		NSMutableParagraphStyle *ellipsisingStyle = [[[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
-			setLineBreakMode:NSLineBreakByTruncatingTail] autorelease];
-		[titleAttributes setObject:ellipsisingStyle forKey:NSParagraphStyleAttributeName];
+//		NSMutableParagraphStyle *ellipsisingStyle = [[[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
+//			setLineBreakMode:NSLineBreakByTruncatingTail] autorelease];
+//		[titleAttributes setObject:ellipsisingStyle forKey:NSParagraphStyleAttributeName];
 		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
 	
     // draw the title and the text
 	//[_title drawAtPoint:NSMakePoint( 55., heightOffset - 15. ) withAttributes:titleAttributes];
-	NSMutableAttributedString *attTitle = [[[NSMutableAttributedString alloc] initWithString:_title attributes:titleAttributes] autorelease];
-	[attTitle drawInRect:NSMakeRect( 55., heightOffset - 20., [self textAreaWidth], 15. + GrowlSmokePadding )];
+	//NSMutableAttributedString *attTitle = [[[NSMutableAttributedString alloc] initWithString:_title attributes:titleAttributes] autorelease];
+	//[attTitle drawInRect:NSMakeRect( 55., heightOffset - 20., [self textAreaWidth], 15. + GrowlSmokePadding )];
+	[_title drawWithEllipsisInRect:NSMakeRect( 55., heightOffset - 20., [self textAreaWidth], 15. + GrowlSmokePadding)
+					withAttributes:titleAttributes];
 	
 	[whiteText drawInRect:NSMakeRect( 55., GrowlSmokePadding, [self textAreaWidth], heightOffset - 25. )];
 
