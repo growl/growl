@@ -121,6 +121,7 @@
 		};
 		08FB779DFE84155DC02AAC07 = {
 			children = (
+				A16BD37C06FD000B00BF033B,
 				08FB779EFE84155DC02AAC07,
 			);
 			isa = PBXGroup;
@@ -268,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD76F9C0486AA7600D96B5E,
+				A16BD37D06FD000B00BF033B,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -292,6 +294,30 @@
 			path = growlnotify;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+//A10
+//A11
+//A12
+//A13
+//A14
+		A16BD37C06FD000B00BF033B = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = AppKit.framework;
+			path = /System/Library/Frameworks/AppKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		A16BD37D06FD000B00BF033B = {
+			fileRef = A16BD37C06FD000B00BF033B;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = 08FB7793FE84155DC02AAC07;
