@@ -46,7 +46,7 @@
 @interface GrowlTunesController (PRIVATE)
 - (NSAppleScript *)appleScriptNamed:(NSString *)name;
 - (void) addTuneToRecentTracks:(NSString *)inTune fromPlaylist:(NSString *)inPlaylist;
-- (NSMenu *) buildiTunesMenu;
+- (NSMenu *) buildiTunesSubmenu;
 - (void) jumpToTune:(id) sender;
 @end
 
@@ -119,7 +119,7 @@ enum {
 }
 
 - (void)setPolling:(BOOL)flag {
-	_polling = flag;
+	polling = flag;
 }
 
 - (void)applicationWillFinishLaunching: (NSNotification *)notification {
@@ -127,7 +127,7 @@ enum {
 	quitiTunesScript = [self appleScriptNamed:@"quitiTunes"];
 	getInfoScript = [self appleScriptNamed:@"jackItunesArtwork"];
 	
-	if (_polling) {
+	if (polling) {
 		pollInterval = [[NSUserDefaults standardUserDefaults] floatForKey:pollIntervalKey];
 	
 		if( [self iTunesIsRunning] ) [self startTimer];
@@ -489,6 +489,7 @@ enum {
 			if(floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_2)  {
 				[statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.tif"]];
 			}
+			[statusItem setToolTip:NSLocalizedString(@"Status item tooltip", /*comment*/ nil)];
 		}
 	}
 }
@@ -510,6 +511,7 @@ enum {
 		item = [menu addItemWithTitle:@"Online Help" action:@selector(onlineHelp:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:onlineHelpTag];
+		[item setToolTip:NSLocalizedString(@"Status item Online Help item tooltip", /*comment*/ nil)];
 
 		item = [NSMenuItem separatorItem];
 		[menu addItem:item];
@@ -517,7 +519,7 @@ enum {
 		item = [menu addItemWithTitle:@"iTunes" action:NULL keyEquivalent:empty];
 		
 		// Set us up a submenu
-		[item setSubmenu:[self buildiTunesMenu]];
+		[item setSubmenu:[self buildiTunesSubmenu]];
 		
 		// Back to our regularly scheduled Status Menu
 		item = [NSMenuItem separatorItem];
@@ -529,14 +531,16 @@ enum {
 		item = [menu addItemWithTitle:@"Quit Both" action:@selector(quitBoth:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:quitBothTag];
+		[item setToolTip:NSLocalizedString(@"Status item Quit Both item tooltip", /*comment*/ nil)];
 		
-		if (_polling) {
+		if (polling) {
 			item = [NSMenuItem separatorItem];
 			[menu addItem:item];
 			
 			item = [menu addItemWithTitle:@"Toggle Polling" action:@selector(togglePolling:) keyEquivalent:empty];
 			[item setTarget:self];
 			[item setTag:togglePollingTag];
+			[item setToolTip:NSLocalizedString(@"Status item Toggle Polling item tooltip", /*comment*/ nil)];
 		}
 	}
 
@@ -550,7 +554,7 @@ enum {
 		[self startTimer];
 }
 
-- (NSMenu *) buildiTunesMenu {
+- (NSMenu *) buildiTunesSubmenu {
 	id <NSMenuItem> item;
 	if ( ! iTunesSubMenu ) 
 		iTunesSubMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"iTunes"] autorelease];
@@ -562,7 +566,7 @@ enum {
 		[iTunesSubMenu removeItem:item];
 	}
 	
-	// In With The New
+	// In with the new
 	item = [iTunesSubMenu addItemWithTitle:@"Recently Played Tunes" action:NULL keyEquivalent:@""];
 	NSEnumerator *tunesEnumerator = [recentTracks objectEnumerator];
 	NSDictionary *aTuneDict = nil;
@@ -575,13 +579,15 @@ enum {
 		[item setTarget:self];
 		[item setIndentationLevel:1];
 		[item setTag:k++];
+		[item setToolTip:NSLocalizedString(@"Status item recent track tooltip", /*comment*/ nil)];
 	}
 	
 	[iTunesSubMenu addItem:[NSMenuItem separatorItem]];
 	item = [iTunesSubMenu addItemWithTitle:@"Launch iTunes" action:@selector(launchQuitiTunes:) keyEquivalent:@""];
 	[item setTarget:self];
 	[item setTag:launchQuitiTunesTag];
-	
+	//tooltip set by validateMenuItem
+
 	return iTunesSubMenu;
 }
 
@@ -596,15 +602,20 @@ enum {
 			else
 				[item setTitle:@"Launch iTunes"];
 			break;
+
 		case quitBothTag:
 			retVal = [self iTunesIsRunning];
 			break;
+
 		case togglePollingTag:
-			if(pollTimer)
+			if(pollTimer) {
 				[item setTitle:@"Stop Polling"];
-			else
+				[item setToolTip:NSLocalizedString(@"Status item Stop Polling item tooltip", /*comment*/ nil)];
+			} else {
 				[item setTitle:@"Start Polling"];
-			return YES;
+				[item setToolTip:NSLocalizedString(@"Status item Start Polling item tooltip", /*comment*/ nil)];
+			}
+
 		case quitGrowlTunesTag:
 		case onlineHelpTag:
 			retVal = YES;
@@ -629,7 +640,7 @@ enum {
 	}
 	
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
-		[self buildiTunesMenu];
+		[self buildiTunesSubmenu];
 }
 
 - (IBAction)quitGrowlTunes:(id)sender {

@@ -57,7 +57,7 @@ typedef enum {
 	id <GrowlTunesPluginArchive> archivePlugin;
 	
 	iTunesState			state;
-	BOOL				_polling;
+	BOOL				polling;
 	double				pollInterval;
 	int					trackID;
 	NSString			* trackURL;		//The file location of the last-known track in iTunes, @"" for none
