@@ -2202,23 +2202,6 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/bin/perl GenCarbonHeader.pl\n";
 		};
-		343353D90792F7B000C84B15 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlAppBridgeDefinesCarbon.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		343353DA0792F7B000C84B15 = {
-			fileRef = 343353D90792F7B000C84B15;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
 		343353E80792F7CF00C84B15 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2302,15 +2285,6 @@
 				);
 			};
 		};
-		343354E80792FB0800C84B15 = {
-			fileRef = 343353D90792F7B000C84B15;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
 		343354ED0792FB3100C84B15 = {
 			buildActionMask = 2147483647;
 			files = (
@@ -2364,7 +2338,7 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlDefines.h;
+			path = GrowlDefinesInternal.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -2500,7 +2474,6 @@
 				34F60EBC078E1D3E00CECA86,
 				34F60EC3078E1D5600CECA86,
 				34E9DC1A078FBFA800662E8E,
-				343353DA0792F7B000C84B15,
 				343353EB0792F7CF00C84B15,
 				343354C20792F96300C84B15,
 			);
@@ -2674,7 +2647,6 @@
 				34E9F1300790AF3400662E8E,
 				343354E50792FAFE00C84B15,
 				343354E70792FB0000C84B15,
-				343354E80792FB0800C84B15,
 				343354EF0792FC3600C84B15,
 			);
 			isa = PBXHeadersBuildPhase;
@@ -3922,9 +3894,9 @@
 			productType = "com.apple.product-type.application";
 		};
 		CB61E5180637763C00E0DDC7 = {
+			explicitFileType = wrapper.application;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			lastKnownFileType = wrapper.application;
 			path = GrowlHelperApp.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -3955,7 +3927,6 @@
 			children = (
 				34E9AA79074BC98A00D59950,
 				34E9DC16078FBF1B00662E8E,
-				343353D90792F7B000C84B15,
 				A14BBE0E06EE1D5600530EED,
 				95BF83760743675700306A77,
 				52861FEF06DC463E00D3A356,

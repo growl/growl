@@ -9,7 +9,7 @@ use POSIX;
 #(2) Converting all @"String" forms into CFSTR("String")
 
 my @infiles = ("GrowlDefines.h", "GrowlAppBridgeDefines.h");
-my %outfiles = ("GrowlDefines.h" => "GrowlDefinesCarbon.h",
+my %outfiles = ("GrowlDefinesInternal.h" => "GrowlDefinesInternalCarbon.h",
 		"GrowlAppBridgeDefines.h" => "GrowlAppBridgeDefinesCarbon.h");
 
 foreach my $infile (@infiles) {
