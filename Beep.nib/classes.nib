@@ -5,6 +5,7 @@
                 addNotification = id; 
                 endPanel = id; 
                 registerBeep = id; 
+                removeNotification = id; 
                 sendNotification = id; 
                 showAddSheet = id; 
             }; 

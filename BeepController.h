@@ -20,7 +20,9 @@
 	NSMutableArray			*_notifications;					// The Array of notifications
 }
 
+- (IBAction)showAddSheet:(id)sender;
 - (IBAction)addNotification:(id)sender;
+- (IBAction)removeNotification:(id)sender;
 - (IBAction)registerBeep:(id)sender;
 - (IBAction)sendNotification:(id)sender;
 - (IBAction) endPanel:(id)sender;

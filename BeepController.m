@@ -52,6 +52,17 @@
 	[self endPanel:self];
 }
 
+- (IBAction)removeNotification:(id)sender
+{
+	if([_notificationsTable selectedRow] < 0) {
+		NSBeep();
+		return;
+	} else {
+		[_notifications removeObjectAtIndex:[_notificationsTable selectedRow]];
+		[_notificationsTable reloadData];
+	}
+}
+
 - (IBAction)registerBeep:(id)sender {
     if ( [_registered state] == NSOnState ) {
         NSLog( @"Button on" );
