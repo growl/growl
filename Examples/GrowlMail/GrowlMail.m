@@ -11,7 +11,7 @@
 #import "GrowlDefines.h"
 
 static NSString *newMail = @"New Mail";
-static NSString *mailAppName = @"Mail";
+static NSString *mailAppName = @"GrowlMail";
 
 
 @implementation GrowlMail
