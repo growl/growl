@@ -133,9 +133,8 @@
 	}
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
+	NSData *theData = [NSArchiver archivedDataWithRootObject:color];
 	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
-
 	UPDATE_GROWL_PREFS();
 }
 
@@ -162,11 +161,8 @@
 	}
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
+	NSData *theData = [NSArchiver archivedDataWithRootObject:color];
 	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
-
-	//NSLog(@"color: %@ array: %@", color, array);
-
 	UPDATE_GROWL_PREFS();
 }
 
@@ -193,11 +189,8 @@
 	}
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
+	NSData *theData = [NSArchiver archivedDataWithRootObject:color];
 	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
-
-	//NSLog(@"color: %@ array: %@", color, array);
-
 	UPDATE_GROWL_PREFS();
 }
 
