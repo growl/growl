@@ -44,3 +44,21 @@ install-growl:
 	-$(RM) -rf $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
 	$(CP) $(BUILD_DIR)/$(GROWL_PREFPANE) $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
 	open $(GROWL_HELPER_APP)
+
+uninstall:
+	killall GrowlHelperApp || true
+	@if [ -d "/Library/PreferencePanes/Growl.prefPane" ]; then \
+		echo mv "/Library/PreferencePanes/Growl.prefPane" "$(HOME)/.Trash"; \
+		mv "/Library/PreferencePanes/Growl.prefPane" "$(HOME)/.Trash"; \
+	elif [ -d "$(HOME)/Library/PreferencePanes/Growl.prefPane" ]; then \
+		echo mv "$(HOME)/Library/PreferencePanes/Growl.prefPane" "$(HOME)/.Trash"; \
+		mv "$(HOME)/Library/PreferencePanes/Growl.prefPane" "$(HOME)/.Trash"; \
+	fi
+
+	@if [ -d "/Library/Frameworks/GrowlAppBridge.framework" ]; then \
+		echo mv "/Library/Frameworks/GrowlAppBridge.framework" "$(HOME)/.Trash"; \
+		mv "/Library/Frameworks/GrowlAppBridge.framework" "$(HOME)/.Trash"; \
+	elif [ -d "$(HOME)/Library/Frameworks/GrowlAppBridge.framework" ]; then \
+		echo mv "$(HOME)/Library/Frameworks/GrowlAppBridge.framework" "$(HOME)/.Trash"; \
+		mv "$(HOME)/Library/Frameworks/GrowlAppBridge.framework" "$(HOME)/.Trash"; \
+	fi
