@@ -29,6 +29,12 @@ Release related issues
 	- Include user documentation in the dmg.
 	- Include links to developer documentation in the dmg.
 
+- GAB.framework -> Growl.framework
+	- add methods for developers to register and notify directly through this framework
+		ie. - notifyWithTitle:(NSString *)inTitle 
+				  description:(NSString *)inDescription 
+				    imageData:(NSData *)inImageData 
+				   andOptions:(GrowlOptionsFlags)inFlags
 
 
 For .7
@@ -62,13 +68,6 @@ For .7
 	- This is for when the app would have a large amount of notifs to prepare or to seperate it out from code and make it
 	  more flexible on app updates and such
 	- Watching app launches and checking on apps for these resources
-
-- GHA.framework -> Growl.framework
-	- add methods for developers to register and notify directly through this framework
-		ie. - notifyWithTitle:(NSString *)inTitle 
-				  description:(NSString *)inDescription 
-				    imageData:(NSData *)inImageData 
-				   andOptions:(GrowlOptionsFlags)inFlags
 
 
 Release related issues (.7)
