@@ -107,7 +107,8 @@
 //	currentApplication = [[growlApplications titleOfSelectedItem] retain];
 	if (([growlApplications selectedRow] < 0) && ([[GrowlApplicationTicket allSavedTickets] count] > 0))
 		[growlApplications selectRow:0 byExtendingSelection:NO];
-	currentApplication = [[applications objectAtIndex:[growlApplications selectedRow]] retain];
+	if ([[GrowlApplicationTicket allSavedTickets] count] > 0)
+		currentApplication = [[applications objectAtIndex:[growlApplications selectedRow]] retain];
 	appTicket = [tickets objectForKey: currentApplication];
 	
 //	[applicationEnabled setState: [appTicket ticketEnabled]];
@@ -124,7 +125,9 @@
 	
 	if (([displayPlugins selectedRow] < 0) && ([[[GrowlPluginController controller] allDisplayPlugins] count] > 0))
 		[displayPlugins selectRow:0 byExtendingSelection:NO];
-	currentPlugin = [[[[GrowlPluginController controller] allDisplayPlugins] objectAtIndex:[displayPlugins selectedRow]] retain];
+	
+	if ([[[GrowlPluginController controller] allDisplayPlugins] count] > 0)
+		currentPlugin = [[[[GrowlPluginController controller] allDisplayPlugins] objectAtIndex:[displayPlugins selectedRow]] retain];
 	[self loadViewForDisplay:currentPlugin];
 	NSDictionary * info = [[[GrowlPluginController controller] displayPluginNamed:currentPlugin] pluginInfo];
 	[displayAuthor setStringValue:[info objectForKey:@"Author"]];
