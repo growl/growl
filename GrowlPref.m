@@ -400,7 +400,9 @@
 	NSString *path = [[tickets objectForKey:key] path];
 	if( [[NSFileManager defaultManager] removeFileAtPath:path handler:nil] ) {
 		[tickets removeObjectForKey:key];
+		[images removeObjectAtIndex:row];
 		[applications removeObjectAtIndex:row];
+		[growlApplications deselectAll:NULL];
 		[self reloadAppTab];
 	}
 }
