@@ -947,10 +947,10 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
-				INFOPLIST_FILE = "Display Plugins/NSLogging-Info.plist";
+				INFOPLIST_FILE = "Display Plugins/Log-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
-				PRODUCT_NAME = NSLogging;
+				PRODUCT_NAME = Log;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = growlView;
@@ -958,7 +958,7 @@
 			dependencies = (
 			);
 			isa = PBXNativeTarget;
-			name = NSLogging;
+			name = Log;
 			productName = NSLogging;
 			productReference = 0AB508B20767C87B006EA5CB;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
@@ -990,8 +990,8 @@
 				0A7F5F5E0767C56100E1C1E4,
 			);
 			isa = PBXGroup;
-			name = NSLogging;
-			path = "Display Plugins/NSLog";
+			name = Log;
+			path = "Display Plugins/Log";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -999,15 +999,16 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlNSLogDisplay.h;
-			refType = 4;
-			sourceTree = "<group>";
+			name = GrowlLogDisplay.h;
+			path = "Display Plugins/Log/GrowlLogDisplay.h";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		0A7F5F5E0767C56100E1C1E4 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlNSLogDisplay.m;
+			path = GrowlLogDisplay.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1767,7 +1768,7 @@
 			explicitFileType = wrapper.cfbundle;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			path = NSLogging.growlView;
+			path = Log.growlView;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
