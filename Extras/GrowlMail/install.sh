@@ -19,7 +19,7 @@ DEST="$BUNDLES/GrowlMail.mailbundle"
 echo "--> Building GrowlMail."
 echo "rm -r \"$BUILD\""
 rm -fr "$BUILD"
-echo "cd \"$GROWLMAIL\" && xcodebuild -buildstyle Deployment"
+echo "cd \"$GROWLMAIL\" && xcodebuild -buildstyle Deployment \"SYMROOT=$BUILD\" \"OBJROOT=$BUILD\""
 (cd "$GROWLMAIL" && xcodebuild -buildstyle Deployment build "SYMROOT=$BUILD" "OBJROOT=$BUILD") || exit 1
 
 if test -e "$DEST"; then
