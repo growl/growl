@@ -342,6 +342,7 @@ static GrowlPreferences * sharedPreferences;
 	else		
 		[self terminateGrowl];
 }
+
 - (BOOL)isGrowlRunning {
 	BOOL isRunning = NO;
 	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };

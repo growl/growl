@@ -138,7 +138,6 @@ static const char *keychainAccountName = "Growl";
 	[growlApplications deselectAll:NULL];
 	[remove setEnabled:NO];
 
-	[growlRunningProgress setDisplayedWhenStopped:NO];
 	[growlVersion setStringValue:[self bundleVersion]];
 
 	char *password;
@@ -178,23 +177,6 @@ static const char *keychainAccountName = "Growl";
 	[self checkGrowlRunning];
 
 	[tabView setDelegate:self];
-}
-
-- (NSPreferencePaneUnselectReply)shouldUnselect {
-	NSPreferencePaneUnselectReply returnResponse = NSUnselectNow;
-	
-	if (prefsHaveChanged) {
-		NSBundle *bundle = [self bundle];
-		NSBeginAlertSheet( NSLocalizedStringFromTableInBundle(@"Apply Changes?", nil, bundle, @""),
-						   NSLocalizedStringFromTableInBundle(@"Apply Changes", nil, bundle, @""),
-						   NSLocalizedStringFromTableInBundle(@"Discard Changes", nil, bundle, @""),
-						   NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
-						   [[self mainView] window], self, @selector(sheetDidEnd:returnCode:contextInfo:),
-						   NULL, NULL,
-						   NSLocalizedStringFromTableInBundle(@"You have made changes, but have not applied them. Would you like to apply them, discard them, or cancel?", nil, bundle, @""));
-		returnResponse = NSUnselectLater;
-	}
-	return returnResponse;
 }
 
 // copy images to avoid resizing the original image stored in the ticket
@@ -264,7 +246,7 @@ static const char *keychainAccountName = "Growl";
 	}
 
 	// If Growl is enabled, ensure the helper app is launched
-	if ( [[preferences objectForKey:GrowlEnabledKey] boolValue] ) {
+	if ([[preferences objectForKey:GrowlEnabledKey] boolValue]) {
 		[[GrowlPreferences preferences] launchGrowl];
 	}
 
@@ -272,7 +254,6 @@ static const char *keychainAccountName = "Growl";
 	
 	[self reloadAppTab];
 	[self reloadDisplayTab];
-	[self setPrefsChanged:NO];
 }
 
 - (void) buildMenus {
@@ -371,6 +352,42 @@ static const char *keychainAccountName = "Growl";
 	[[GrowlPreferences preferences] setObject:destinations forKey:GrowlForwardDestinationsKey];
 }
 
+#pragma mark -
+#pragma mark Growl running state
+
+- (void) launchGrowl {
+	// Don't allow the button to be clicked while we update
+	[startStopGrowl setEnabled:NO];
+	[growlRunningProgress startAnimation:self];
+	
+	// Update our status visible to the user
+	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
+	
+	[[GrowlPreferences preferences] setGrowlRunning:YES];
+	
+	// After 4 seconds force a status update, in case Growl didn't start/stop
+	[self performSelector:@selector(checkGrowlRunning)
+			   withObject:nil
+			   afterDelay:4.0];	
+}
+
+- (void) terminateGrowl {
+	// Don't allow the button to be clicked while we update
+	[startStopGrowl setEnabled:NO];
+	[growlRunningProgress startAnimation:self];
+	
+	// Update our status visible to the user
+	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
+	
+	// Ask the Growl Helper App to shutdown
+	[[GrowlPreferences preferences] setGrowlRunning:NO];
+	
+	// After 4 seconds force a status update, in case growl didn't start/stop
+	[self performSelector:@selector(checkGrowlRunning)
+			   withObject:nil
+			   afterDelay:4.0];	
+}
+
 #pragma mark "General" tab pane
 
 - (IBAction) startStopGrowl:(id) sender {
@@ -383,7 +400,11 @@ static const char *keychainAccountName = "Growl";
 	}
 
 	// Our desired state is a toggle of the current state;
-	[[GrowlPreferences preferences] setGrowlRunning:!growlIsRunning];
+	if (growlIsRunning) {
+		[self terminateGrowl];
+	} else {
+		[self launchGrowl];
+	}
 }
 
 - (IBAction) startGrowlAtLogin:(id) sender {
@@ -593,7 +614,7 @@ static const char *keychainAccountName = "Growl";
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row {
 	id identifier;
-	
+
 	if (tableView == growlApplications) {
 		NSString * application = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] objectAtIndex:row];
 		GrowlApplicationTicket *ticket = [tickets objectForKey:application];
@@ -601,14 +622,14 @@ static const char *keychainAccountName = "Growl";
 
 		if ([identifier isEqualTo:@"enable"]) {
 			[ticket setEnabled:[value boolValue]];
-			[self setPrefsChanged:YES];
+			[GrowlPref saveTicket:ticket];
 		} else if ([identifier isEqualTo:@"display"])	{
 			int index = [value intValue];
 			
 			if (index == 0) {
 				if ([ticket usesCustomDisplay]) {
 					[ticket setUsesCustomDisplay:NO];
-					[self setPrefsChanged:YES];
+					[GrowlPref saveTicket:ticket];
 				}
 			} else {
 				NSString *pluginName = [[applicationDisplayPluginsMenu itemAtIndex:index] title];
@@ -617,13 +638,13 @@ static const char *keychainAccountName = "Growl";
 						![ticket usesCustomDisplay]) {
 					[ticket setUsesCustomDisplay:YES];
 					[ticket setDisplayPluginNamed:pluginName];
-					[self setPrefsChanged:YES];
+					[GrowlPref saveTicket:ticket];
 				}
 			}
 		}
 		[self reloadAppTab];
 	} else if (tableView == applicationNotifications) {
-		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
+		NSString *note = [[appTicket allNotifications] objectAtIndex:row];
 		identifier = [column identifier];
 
 		if ([identifier isEqualTo:@"enable"]) {
@@ -632,22 +653,22 @@ static const char *keychainAccountName = "Growl";
 			} else {
 				[appTicket setNotificationDisabled:note];
 			}
-			[self setPrefsChanged:YES];
+			[GrowlPref saveTicket:appTicket];
 		} else if ([identifier isEqualTo:@"priority"]) {
 			int index = [value intValue];
 			
 			if (index == 0) {
 				if ([appTicket priorityForNotification:note] != GP_unset) {
 					[appTicket resetPriorityForNotification:note];
-					[self setPrefsChanged:YES];
+					[GrowlPref saveTicket:appTicket];
 				}
 			} else if ([appTicket priorityForNotification:note] != (index-4)) {
 				[appTicket setPriority:(index-4) forNotification:note];
-				[self setPrefsChanged:YES];
+				[GrowlPref saveTicket:appTicket];
 			}
 		} else if ([identifier isEqualTo:@"sticky"]) {
 			[appTicket setSticky:[value intValue] forNotification:note];
-			[self setPrefsChanged:YES];
+			[GrowlPref saveTicket:appTicket];
 		}
 	} else if (tableView == growlServiceList) {
 		identifier = [column identifier];
@@ -655,7 +676,7 @@ static const char *keychainAccountName = "Growl";
 			NSMutableDictionary *entry = [services objectAtIndex:row];
 			if ([value boolValue]) {
 				NSNetService *serviceToResolve = [entry objectForKey:@"netservice"];
-				if ( serviceToResolve ) {
+				if (serviceToResolve) {
 					// Make sure to cancel any previous resolves.
 					if (serviceBeingResolved) {
 						[serviceBeingResolved stop];
@@ -675,7 +696,6 @@ static const char *keychainAccountName = "Growl";
 			[self writeForwardDestinations];
 		}
 	}
-	
 }
 
 #pragma mark TableView delegate methods
@@ -806,29 +826,11 @@ static const char *keychainAccountName = "Growl";
 
 #pragma mark -
 
-- (IBAction) revert:(id)sender {
-	[self reloadPreferences];
-	[self setPrefsChanged:NO];
-}
-
-- (IBAction) apply:(id)sender {
-	[[tickets allValues] makeObjectsPerformSelector:@selector(saveTicket)];
-	[self setPrefsChanged:NO];
++ (void)saveTicket:(GrowlApplicationTicket *)ticket {
+	[ticket saveTicket];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
-																   object:nil];
-}
-
-- (void) setPrefsChanged:(BOOL)prefsChanged {
-	prefsHaveChanged = prefsChanged;
-	[apply setEnabled:prefsHaveChanged];
-	[revert setEnabled:prefsHaveChanged];
-}
-
-- (void) sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-	if (returnCode == NSAlertDefaultReturn) {
-		[self apply:nil];
-	}
-	[self replyToShouldUnselect:returnCode == NSAlertDefaultReturn || returnCode == NSAlertAlternateReturn];
+																   object:@"GrowlTicketChanged"
+																 userInfo:[NSDictionary dictionaryWithObject:[ticket applicationName] forKey:@"TicketName"]];
 }
 
 #pragma mark Detecting Growl
@@ -867,42 +869,6 @@ static const char *keychainAccountName = "Growl";
 - (void)growlTerminated:(NSNotification *)note {
 	growlIsRunning = NO;
 	[self updateRunningStatus];
-}
-
-#pragma mark -
-#pragma mark Growl running state
-
-- (void) launchGrowl {
-	// Don't allow the button to be clicked while we update
-	[startStopGrowl setEnabled:NO];
-	[growlRunningProgress startAnimation:self];
-
-	// Update our status visible to the user
-	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
-
-	[[GrowlPreferences preferences] launchGrowl];
-
-	// After 4 seconds force a status update, in case Growl didn't start/stop
-	[self performSelector:@selector(checkGrowlRunning)
-			   withObject:nil
-			   afterDelay:4.0];	
-}
-
-- (void) terminateGrowl {
-	// Don't allow the button to be clicked while we update
-	[startStopGrowl setEnabled:NO];
-	[growlRunningProgress startAnimation:self];
-
-	// Update our status visible to the user
-	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
-
-	// Ask the Growl Helper App to shutdown
-	[[GrowlPreferences preferences] terminateGrowl];
-
-	// After 4 seconds force a status update, in case growl didn't start/stop
-	[self performSelector:@selector(checkGrowlRunning)
-			   withObject:nil
-			   afterDelay:4.0];	
 }
 
 @end

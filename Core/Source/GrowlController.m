@@ -49,19 +49,19 @@ static id singleton = nil;
 		NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
 
 		[NSDNC addObserver:self
-				  selector:@selector( preferencesChanged: )
+				  selector:@selector(preferencesChanged:)
 					  name:GrowlPreferencesChanged
 					object:nil];
 		[NSDNC addObserver:self
-				  selector:@selector( showPreview: )
+				  selector:@selector(showPreview:)
 					  name:GrowlPreview
 					object:nil];
 		[NSDNC addObserver:self
-				  selector:@selector( shutdown: )
+				  selector:@selector(shutdown:)
 					  name:GROWL_SHUTDOWN
 					object:nil];
 		[NSDNC addObserver:self
-				  selector:@selector( replyToPing:)
+				  selector:@selector(replyToPing:)
 					  name:GROWL_PING
 					object:nil];
 	
@@ -446,30 +446,40 @@ static id singleton = nil;
 - (void) preferencesChanged: (NSNotification *) note {
 	//[note object] is the changed key. A nil key means reload our tickets.	
 	id object = [note object];
-	if (!note || [object isEqualTo:GrowlStartServerKey]) {
+	if (!note || (object && [object isEqualTo:GrowlStartServerKey])) {
 		[self startStopServer];
 	}
-	if (!note || [object isEqualTo:GrowlUserDefaultsKey]) {
+	if (!note || (object && [object isEqualTo:GrowlUserDefaultsKey])) {
 		[[GrowlPreferences preferences] synchronize];
 	}
-	if (!note || [object isEqualTo:GrowlEnabledKey]) {
+	if (!note || (object && [object isEqualTo:GrowlEnabledKey])) {
 		growlIsEnabled = [[[GrowlPreferences preferences] objectForKey:GrowlEnabledKey] boolValue];
 	}
-	if (!note || [object isEqualTo:GrowlEnableForwardKey]) {
+	if (!note || (object && [object isEqualTo:GrowlEnableForwardKey])) {
 		enableForward = [[[GrowlPreferences preferences] objectForKey:GrowlEnableForwardKey] boolValue];
 	}
-	if (!note || [object isEqualTo:GrowlForwardDestinationsKey]) {
+	if (!note || (object && [object isEqualTo:GrowlForwardDestinationsKey])) {
 		destinations = [[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey];
 	}
 	if (!note || !object) {
 		[tickets removeAllObjects];
 		[self loadTickets];
 	}
-	if (!note || [object isEqualTo:GrowlDisplayPluginKey]) {
+	if (!note || (object && [object isEqualTo:GrowlDisplayPluginKey])) {
 		[self loadDisplay];
 	}
-	if (object && [object isEqualTo:@"GrowlTicketDeleted"]) {
-		[tickets removeObjectForKey:[[note userInfo] objectForKey:@"TicketName"]];
+	if (object) {
+		if ([object isEqualTo:@"GrowlTicketDeleted"]) {
+			NSString *ticketName = [[note userInfo] objectForKey:@"TicketName"];
+			[tickets removeObjectForKey:ticketName];
+		} else if ([object isEqualTo:@"GrowlTicketChanged"]) {
+			NSString *ticketName = [[note userInfo] objectForKey:@"TicketName"];
+			GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:ticketName];
+			if (newTicket) {
+				[tickets setObject:newTicket forKey:ticketName];
+				[newTicket release];
+			}
+		}
 	}
 }
 

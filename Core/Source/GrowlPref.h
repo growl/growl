@@ -31,7 +31,6 @@
 	id <GrowlPlugin>		currentPluginController;
 
 	BOOL					growlIsRunning;
-	BOOL					prefsHaveChanged;
 
 	NSURL					*versionCheckURL;
 	NSURL					*downloadURL;
@@ -72,10 +71,10 @@
 	NSNetService			*serviceBeingResolved;
 	int						currentServiceIndex;
 
-	IBOutlet NSButton		*apply;
-	IBOutlet NSButton		*revert;
 	IBOutlet NSButton		*remove;
 }
+
++ (void)saveTicket:(GrowlApplicationTicket *)ticket;
 
 - (NSString *) bundleVersion;
 - (IBAction) checkVersion:(id)sender;
@@ -111,12 +110,6 @@
 - (void) tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row;
 
 #pragma mark -
-- (IBAction) revert:(id)sender;
-- (IBAction) apply:(id)sender;
-
-- (void) setPrefsChanged:(BOOL)prefsChanged;
-- (void) sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-
 - (void) checkGrowlRunning;
 - (void) appRegistered: (NSNotification *) note;
 
