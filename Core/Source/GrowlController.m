@@ -500,6 +500,7 @@ static id singleton = nil;
 		
 	} else if ( [pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION] ) {						
 		NSDictionary *regDict = [NSDictionary dictionaryWithContentsOfFile:filename];
+		[[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
 
 		//Register this app using the indicated dictionary
 		if ([self _tryLockQueue]) {
@@ -514,7 +515,7 @@ static id singleton = nil;
 		 *	preference setting was to click "Stop Growl," setting enabled to NO),
 		 *	quit having registered; otherwise, remain running.
 		 */
-		if ( !growlIsEnabled &&  !growlFinishedLaunching ) {
+		if ( !growlIsEnabled && !growlFinishedLaunching ) {
 			/*We want to hold in this thread until we can lock/unlock the queue
 			 *	and ensure our registration is sent
 			 */
