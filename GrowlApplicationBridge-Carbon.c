@@ -576,4 +576,3 @@ static CFStringRef _copyTemporaryFolderPath(void) {
 	}
 	return string;
 }
-
