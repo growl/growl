@@ -154,7 +154,6 @@
 				[NSFont systemFontOfSize:14.0], NSFontAttributeName, nil];
 	NSAttributedString *_textAttributed;
 	NSArray *linesN = [_text componentsSeparatedByString:@"\n"];
-	NSArray *linesR = [_text componentsSeparatedByString:@"\r"];
 	int rowCount = 0;
 	if ( [linesN count] > 1 ) {
 		NSEnumerator *stringEnum = [linesN objectEnumerator];
@@ -164,16 +163,6 @@
 			rowCount += [self descriptionRowCount:_textAttributed inRect:textRect];
 			[_textAttributed release];
 			_textHeight = 0;
-		}
-	} else if ( [linesR count] > 1 ) {
-		NSEnumerator *stringEnum = [linesR objectEnumerator];
-		NSString *stringLine;
-		while (stringLine = [stringEnum nextObject]) {
-			_textAttributed = [[NSAttributedString alloc] initWithString:stringLine attributes:textAttributes];
-			rowCount += [self descriptionRowCount:_textAttributed inRect:textRect];
-			[_textAttributed release];
-			_textHeight = 0;
-			NSLog(@"%@ [%d]",stringLine, rowCount);
 		}
 	} else {
 		_textAttributed = [[[NSAttributedString alloc] initWithString:_text attributes:textAttributes] autorelease];

@@ -60,10 +60,23 @@
 	[panel setContentView:view];
 	
 	[view setTitle:title];
+	NSMutableString	*tempText = [[[NSMutableString alloc] init] autorelease];
 	if ( [text isKindOfClass:[NSString class]] ) {
-		[view setText:text];
+		// Sanity check to unify line endings
+		[tempText setString:text];
+		[tempText replaceOccurrencesOfString:@"\r"
+				withString:@"\n"
+				options:nil
+				range:NSMakeRange(0, [tempText length])];
+		[view setText:tempText];
 	} else if ( [text isKindOfClass:[NSAttributedString class]] ) {
-		[view setText:[text string]]; // striping any attributes!! eat eat!
+		// Sanity check to unify line endings
+		[tempText setString:[text string]];
+		[tempText replaceOccurrencesOfString:@"\r"
+				withString:@"\n"
+				options:nil
+				range:NSMakeRange(0, [tempText length])];
+		[view setText:tempText]; // striping any attributes!! eat eat!
 	}
 	
 	[view setIcon:icon];
