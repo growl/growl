@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo Stopping GrowlHelperApp if runnig
+echo Stopping GrowlHelperApp if running
 echo --
 killall GrowlHelperApp || true
 echo --
