@@ -52,7 +52,7 @@
 	NSDictionary *albumInfo = [self getAlbum:album byArtist:artist];
 
 	NSData *imageData = nil;
-	if([albumInfo objectForKey:@"artworkURL"]) {
+	if([(NSString *)[albumInfo objectForKey:@"artworkURL"] length] != 0) {
 		@try
 		{
 			imageData = [self download:[NSURL URLWithString:[albumInfo objectForKey:@"artworkURL"]]];
@@ -62,7 +62,9 @@
 			NSLog(@"Exception occurred while downloading %@", [e reason]);
 		}
 	}
-	artwork = [[[NSImage alloc] initWithData:imageData] autorelease];
+	if( imageData ) {
+		artwork = [[(NSImage *)[NSImage alloc] initWithData:imageData] autorelease];
+	}
 	return artwork;
 }
 
