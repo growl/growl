@@ -1,11 +1,11 @@
 //
-//  GrowlApplicationBridge.m
+//  GrowlAppBridge.m
 //  Growl
 //
 //  Created by Evan Schoenberg on Wed Jun 16 2004.
 //
 
-#import "GrowlApplicationBridge.h"
+#import "GrowlAppBridge.h"
 #import "GrowlDefines.h"
 #import <ApplicationServices/ApplicationServices.h>
 
@@ -19,7 +19,7 @@
 	@discussion Searches all installed PrefPanes for the Growl PrefPane.
 	@result Returns an NSBundle if Growl's PrefPane is installed, nil otherwise
  */
-+ (NSBundle *)growlPrefPaneBundle;
++ (NSBundle *) growlPrefPaneBundle;
 
 + (NSEnumerator *) _preferencePaneSearchEnumerator;
 + (NSArray *)_allPreferencePaneBundles;
@@ -27,22 +27,73 @@
 
 @implementation GrowlAppBridge
 
+static NSMutableArray		*launchNotificationTargets = nil;
+static NSMutableDictionary	*clickNotificationTargetsDict = nil;
+static BOOL					observingClickNotifications = NO;
+
 /*
-+ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict
-Returns YES (TRUE) if the Growl helper app began launching.
-Returns NO (FALSE) and performs no other action if the Growl prefPane is not properly installed.
-GrowlApplicationBridge will send "selector" to "target" when Growl is ready for use (this will only occur when it also returns YES).
-	Note: selector should take a single argument; this is to allow applications to have context-relevent information passed back. It is perfectly
-	acceptable for context to be NULL.
-Passing registrationDict, which is an NSDictionary *for registering the application with Growl (see documentation elsewhere)
-	is the preferred way to register.  If Growl is installed but disabled, the application will be registered and GrowlHelperApp
-	will then quit.  "selector" will never be sent to "target" if Growl is installed but disabled; this method will still
-	return YES.
-*/
+ Send a notification to Growl for display. title, description, notifName, and appName are required.
+ All other id parameters may be nil to accept defaults. priority is 0 by default; isSticky is FALSE by default.
+ */
++ (void) notifyWithTitle:(NSString *)title
+			 description:(NSString *)description
+		notificationName:(NSString *)notifName
+				iconData:(NSData *)iconData 
+				 appName:(NSString *)appName
+			 appIconData:(NSData *)appIcon
+				priority:(int)priority
+				isSticky:(BOOL)isSticky
+		  notificationID:(NSString *)notificationID
+{
+	//Notification and app names are required.
+	NSParameterAssert(notifName != nil);
+	NSParameterAssert(appName != nil);
 
-static NSMutableArray *targetsToNotifyArray = nil;
+	//At least one of title or description is required.
+	NSParameterAssert((title != nil) || (description != nil));
 
-+ (NSBundle *)growlPrefPaneBundle
+	//Build our noteDict from all passed parameters
+	NSMutableDictionary *noteDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+		appName, GROWL_APP_NAME,
+		notifName, GROWL_NOTIFICATION_NAME,
+		nil];
+	
+	if (title) {
+		[noteDict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
+	}
+	
+	if (description) {
+		[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
+	}
+	
+	if (iconData) {
+		[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON];
+	}
+	
+	if (appIcon) {
+		[noteDict setObject:appIcon forKey:GROWL_NOTIFICATION_APP_ICON];		
+	}
+	
+	if (priority) {
+		[noteDict setObject:[NSNumber numberWithInt:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
+	}
+	
+	if (isSticky) {
+		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];		
+	}
+	
+	if (notificationID) {
+		[noteDict setObject:notificationID forKey:GROWL_NOTIFICATION_ID];
+	}
+	
+	//Post to Growl via NSDistributedNotificationCenter
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
+																   object:nil
+																 userInfo:noteDict
+													   deliverImmediately:NO];
+}
+
++ (NSBundle *) growlPrefPaneBundle
 {
 	NSString		*path;
 	NSString		*bundleIdentifier;
@@ -84,7 +135,19 @@ static NSMutableArray *targetsToNotifyArray = nil;
 	return (nil);
 }
 
-+ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict
+/*
+ + (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict
+ Returns YES (TRUE) if the Growl helper app began launching.
+ Returns NO (FALSE) and performs no other action if the Growl prefPane is not properly installed.
+ GrowlApplicationBridge will send "selector" to "target" when Growl is ready for use (this will only occur when it also returns YES).
+	Note: selector should take a single argument; this is to allow applications to have context-relevent information passed back. It is perfectly
+	acceptable for context to be NULL.
+ Passing registrationDict, which is an NSDictionary *for registering the application with Growl (see documentation elsewhere)
+	is the preferred way to register.  If Growl is installed but disabled, the application will be registered and GrowlHelperApp
+	will then quit.  "selector" will never be sent to "target" if Growl is installed but disabled; this method will still
+	return YES.
+ */
++ (BOOL) launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict
 {
 	NSBundle		*growlPrefPaneBundle;
 	BOOL			success = NO;
@@ -106,13 +169,13 @@ static NSMutableArray *targetsToNotifyArray = nil;
 															  object:nil]; 
 		
 		//We probably will never have more than one target/selector/context set at a time, but this is cleaner than the alternatives
-		if (!targetsToNotifyArray) {
-			targetsToNotifyArray = [[NSMutableArray alloc] init];
+		if (!launchNotificationTargets) {
+			launchNotificationTargets = [[NSMutableArray alloc] init];
 		}
 		NSDictionary	*infoDict = [NSDictionary dictionaryWithObjectsAndKeys:target, @"Target",
 										NSStringFromSelector(selector), @"Selector",
 										[NSValue valueWithPointer:context], @"Context",nil];
-		[targetsToNotifyArray addObject:infoDict];
+		[launchNotificationTargets addObject:infoDict];
 		
 		//Houston, we are go for launch.
 		//Let's launch in the background (unfortunately, requires Carbon)
@@ -146,21 +209,22 @@ static NSMutableArray *targetsToNotifyArray = nil;
 			spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
 			spec.asyncRefCon = NULL;
 			status = LSOpenFromRefSpec( &spec, NULL );
+			
+			success = (status == noErr);
 		}
-		success = (status == noErr);
 	}
-	
+
 	return success;
 }
 //Compatibility method. Do not use. If you're already using it, switch to the above method.
-+ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context {
++ (BOOL) launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context {
 	return [self launchGrowlIfInstalledNotifyingTarget:target
 											  selector:selector
 											   context:context
 									  registrationDict:nil];
 }
 
-+ (BOOL)isGrowlRunning {
++ (BOOL) isGrowlRunning {
 	BOOL growlIsRunning = NO;
 	ProcessSerialNumber PSN = {kNoProcess, kNoProcess};
 	while (GetNextProcess(&PSN) == noErr) {
@@ -176,9 +240,64 @@ static NSMutableArray *targetsToNotifyArray = nil;
 	return growlIsRunning;
 }
 
++ (void) addNotificationClickObserver:(id)target
+							 selector:(SEL)selector
+							  appName:(NSString *)appName
+{
+	NSMutableArray	*appClickNotificationTargets;
+	
+	if(!clickNotificationTargetsDict) clickNotificationTargetsDict = [[NSMutableDictionary alloc] init];
+
+	//Get (or create if needed) the array of observerse for this appName
+	appClickNotificationTargets = [clickNotificationTargetsDict objectForKey:appName];
+	if (!appClickNotificationTargets) {
+		appClickNotificationTargets = [NSMutableArray array];
+		[clickNotificationTargetsDict setObject:appClickNotificationTargets
+										 forKey:appName];
+	}
+	
+	//Add this target and selector to the array
+	[appClickNotificationTargets addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+		target, @"Target",
+		NSStringFromSelector(selector), @"Selector",
+		nil]];
+
+	//If we are not yet observig click notificaitons, add an observer to the distributed notifications center
+	if(!observingClickNotifications){
+		observingClickNotifications = YES;
+
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+															selector:@selector(_growlNotificationClicked:)
+																name:GROWL_NOTIFICATION_CLICKED 
+															  object:nil];
+	}
+}
+
++ (void) _growlNotificationClicked:(NSNotification *)notification
+{
+	NSDictionary	*userInfo = [notification userInfo];
+	NSMutableArray	*appClickNotificationTargets = [clickNotificationTargetsDict objectForKey:[userInfo objectForKey:GROWL_APP_NAME]];
+
+	if(appClickNotificationTargets){
+		NSString		*notificationID = [userInfo objectForKey:GROWL_NOTIFICATION_ID];
+		NSEnumerator	*enumerator;
+		NSDictionary	*infoDict;
+		
+		enumerator = [appClickNotificationTargets objectEnumerator];
+		while ( (infoDict = [enumerator nextObject] ) ) {
+			id  target = [infoDict objectForKey:@"Target"];
+			SEL selector = NSSelectorFromString([infoDict objectForKey:@"Selector"]);
+			
+			[target performSelector:selector
+						 withObject:notificationID];
+		}
+	}
+}
+
+
 + (void)_growlIsReady:(NSNotification *)notification
 {
-	NSEnumerator	*enumerator = [targetsToNotifyArray objectEnumerator];
+	NSEnumerator	*enumerator = [launchNotificationTargets objectEnumerator];
 	NSDictionary	*infoDict;
 	while ( (infoDict = [enumerator nextObject] ) ) {
 		id  target = [infoDict objectForKey:@"Target"];
@@ -188,12 +307,14 @@ static NSMutableArray *targetsToNotifyArray = nil;
 		[target performSelector:selector
 					 withObject:context];
 	}
-	
-	//Stop observing
-	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
-	
+
+	//Stop observing for GROWL_IS_READY
+	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self
+															   name:GROWL_IS_READY
+															 object:nil];
+
 	//Clear our tracking array
-	[targetsToNotifyArray release]; targetsToNotifyArray = nil;
+	[launchNotificationTargets release]; launchNotificationTargets = nil;
 }
 
 // Returns an enumerator covering each of the locations preference panes can live

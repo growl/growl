@@ -1,5 +1,5 @@
 //
-//  GrowlApplicationBridge.h
+//  GrowlAppBridge.h
 //  Growl
 //
 //  Created by Evan Schoenberg on Wed Jun 16 2004.
@@ -34,7 +34,7 @@
 }
 
 /*!
-@method launchGrowlIfInstalledNotifyingTarget:selector:context:registrationDict:
+	@method launchGrowlIfInstalledNotifyingTarget:selector:context:registrationDict:
 	@abstract Launches GrowlHelperApp and notifies when Growl is ready
 	@discussion Launches the GrowlHelperApp if it's not already running and notifies the target when 
 	Growl is ready to receive notifications.
@@ -44,10 +44,10 @@
 	@param registrationDict The userInfo dictionary for a GROWL_APP_REGISTRATION notification, for registering atomically
 	@result Returns YES if GrowlHelperApp began launching, NO if Growl isn't installed
  */
-+ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict;
++ (BOOL) launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict;
 
-	/*!
-@method launchGrowlIfInstalledNotifyingTarget:selector:context:
+/*!
+	@method launchGrowlIfInstalledNotifyingTarget:selector:context:
 	@abstract Compatibility method.
 	@discussion Deprecated; switch to launchGrowlIfInstalledNotifyingTarget:selector:context:registrationDict:, which does the same thing and more.
 	@param target The target to notify
@@ -55,7 +55,7 @@
 	@param context A context object to pass through to the selector
 	@result Returns YES if GrowlHelperApp began launching, NO if Growl isn't installed
  */
-+ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context;
++ (BOOL) launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context;
 
 /*!
 	@method isGrowlRunning
@@ -64,5 +64,21 @@
 	status
 	@result Returns YES if GrowlHelperApp is running, NO otherwise
  */
-+ (BOOL)isGrowlRunning;
++ (BOOL) isGrowlRunning;
+
+//Needs documentation
++ (void) notifyWithTitle:(NSString *)title
+			 description:(NSString *)description
+		notificationName:(NSString *)notifName
+				iconData:(NSData *)iconData 
+				 appName:(NSString *)appName
+			 appIconData:(NSData *)appIcon
+				priority:(int)priority
+				isSticky:(BOOL)isSticky
+		  notificationID:(NSString *)notificationID;
+
+//Needs documentation
++ (void) addNotificationClickObserver:(id)target
+							 selector:(SEL)selector
+							  appName:(NSString *)appName;
 @end
