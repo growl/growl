@@ -35,5 +35,8 @@
 
 - (void) replyToPing:(NSNotification *) note;
 
+// this is only public for the AppleScript commands
+- (void) _registerApplicationWithDictionary:(NSDictionary *) userInfo;
+
 @end
 

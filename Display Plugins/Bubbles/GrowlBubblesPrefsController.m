@@ -17,7 +17,7 @@
 
 - (void) mainViewDidLoad {
 	BOOL limitPref = YES;
-	READ_GROWL_PREF_BOOL(KALimitPref, @"com.growl.BubblesNotificationView", &limitPref);
+	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
 	if (limitPref) {
 		[limitCheck setState:NSOnState];
 	} else {
@@ -92,13 +92,7 @@
 }
 
 - (IBAction) setLimit:(id)sender {
-	BOOL limit;
-	if ([sender state] == NSOnState) {
-		limit = YES;
-	} else {
-		limit = NO;
-	}
-	WRITE_GROWL_PREF_BOOL(KALimitPref, limit, @"com.growl.BubblesNotificationView");
+	WRITE_GROWL_PREF_BOOL(KALimitPref, ([sender state] == NSOnState), GrowlBubblesPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 

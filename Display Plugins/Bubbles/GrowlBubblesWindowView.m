@@ -275,7 +275,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 		if (limitPref) {
 			_textHeight = MIN(_rowCount, 5) * 14;
 		} else {
-			_textHeight = _textHeight / 13 * 14;
+			_textHeight = _rowCount * 14;
 		}
 	}
 	return MAX (_textHeight, 30);

@@ -27,14 +27,23 @@
 	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",(int)floor(alphaPref * 100.)]];
   
 	// float icon checkbox
-	bool floatIconPref = GrowlSmokeFloatIconPrefDefault;
+	BOOL floatIconPref = GrowlSmokeFloatIconPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIconPref);
 	if(floatIconPref) {
 		[floatIconSwitch setState:NSOnState];
 	} else {
 		[floatIconSwitch setState:NSOffState];
 	}
-  
+
+	// limit
+	BOOL limitPref = GrowlSmokeLimitPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
+	if (limitPref) {
+		[limitCheck setState:NSOnState];
+	} else {
+		[limitCheck setState:NSOffState];
+	}
+	
 	// priority colour settings
 	NSArray *array = nil;
 	NSColor *color;
@@ -147,22 +156,14 @@
 }
 
 -(IBAction)floatIconSwitchChanged:(id)sender {
-	int state = [floatIconSwitch state];
-	BOOL pref = NO;
-	switch(state) {
-		case NSOnState:
-			pref = YES;
-			break;
-		case NSOffState:
-			pref = NO;
-			break;
-		default:
-			pref = NO;
-			break;
-	}
-	WRITE_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, pref, GrowlSmokePrefDomain);
-	
+	BOOL pref = ([floatIconSwitch state] == NSOnState);
+	WRITE_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, pref, GrowlSmokePrefDomain);	
 	SYNCHRONIZE_GROWL_PREFS();
+	UPDATE_GROWL_PREFS();
+}
+
+- (IBAction) setLimit:(id)sender {
+	WRITE_GROWL_PREF_BOOL(GrowlSmokeLimitPref, ([sender state] == NSOnState), GrowlSmokePrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 

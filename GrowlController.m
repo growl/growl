@@ -16,7 +16,6 @@
 - (void) _processNotificationQueue;
 - (void) _processRegistrationQueue;
 - (void) _registerApplication:(NSNotification *) note;
-- (void) _registerApplicationWithDictionary:(NSDictionary *) userInfo;
 @end
 
 #pragma mark -

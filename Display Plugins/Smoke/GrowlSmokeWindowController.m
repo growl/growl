@@ -44,10 +44,11 @@ static const double gMaxDisplayTime = 10.;
 //	NSLog(@"self id: [%d]", self->_id);
 	
 	// stop _depth wrapping around
-	if(windowSize.height > _depth)
+	if(windowSize.height > _depth) {
 		_depth = 0;
-	else
+	} else {
 		_depth -= windowSize.height;
+	}
 	
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSNumber numberWithInt:_id], @"ID",
@@ -56,7 +57,7 @@ static const double gMaxDisplayTime = 10.;
 	
 	// commented out temporarily because of the new notification positioning problem
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"Glide" object:nil userInfo:dict];
-	
+
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"SmokeGone" object:nil userInfo:dict];
 }
 
@@ -68,14 +69,14 @@ static const double gMaxDisplayTime = 10.;
 		NSRect theFrame = [[self window] frame];
 		theFrame.origin.y += [[[note userInfo] objectForKey:@"Depth"] floatValue];
 		// don't allow notification to fly off the top of the screen
-		if(theFrame.origin.y >= NSMaxY( [[NSScreen mainScreen] visibleFrame] ) - GrowlSmokePadding)
-			return;
-		[[self window] setFrame:theFrame display:NO animate:YES];
-		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSNumber numberWithInt:_id], @"ID",
-			[NSValue valueWithRect:theFrame], @"Space",
-			nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];		
+		if(theFrame.origin.y < NSMaxY( [[NSScreen mainScreen] visibleFrame] ) - GrowlSmokePadding) {
+			[[self window] setFrame:theFrame display:NO animate:YES];
+			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+				[NSNumber numberWithInt:_id], @"ID",
+				[NSValue valueWithRect:theFrame], @"Space",
+				nil];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];
+		}
 	}
 }
 
@@ -88,9 +89,7 @@ static const double gMaxDisplayTime = 10.;
 		  _id, i,
 		  theFrame.origin.x, theFrame.origin.y, theFrame.size.width, theFrame.size.height,
 		  space.origin.x, space.origin.y, space.size.width, space.size.height);*/
-	if(i == _id)
-		return;
-	if(NSIntersectsRect(space, theFrame)) {
+	if(i != _id && NSIntersectsRect(space, theFrame)) {
 		//NSLog(@"I intersect with this frame\n");
 		theFrame.origin.y = space.origin.y - space.size.height;
 		//NSLog(@"New origin: (%f, %f)\n", theFrame.origin.x, theFrame.origin.y);
@@ -100,7 +99,7 @@ static const double gMaxDisplayTime = 10.;
 			[NSValue valueWithRect:theFrame], @"Space",
 			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];
-	} //else NSLog(@"No intersection\n");
+	}
 }
 
 #pragma mark Regularly Scheduled Coding
@@ -109,7 +108,6 @@ static const double gMaxDisplayTime = 10.;
 	_id = globalId++;
 	_depth = depth;
 
-	
 	/*[[NSNotificationCenter defaultCenter] addObserver:self 
 											selector:@selector( _glideUp: ) 
 												name:@"Glide"
@@ -138,8 +136,11 @@ static const double gMaxDisplayTime = 10.;
 	[panel setContentView:view];
 	
 	[view setTitle:title];
-	if( [text isKindOfClass:[NSString class]] ) [view setText:text];
-	else if( [text isKindOfClass:[NSAttributedString class]] ) [view setText:[text string]]; // we'll have no attributes here
+	if( [text isKindOfClass:[NSString class]] ) {
+		[view setText:text];
+	} else if( [text isKindOfClass:[NSAttributedString class]] ) {
+		[view setText:[text string]]; // we'll have no attributes here
+	}
 	
     [view setPriority:priority];
     
@@ -158,12 +159,13 @@ static const double gMaxDisplayTime = 10.;
 	_representedObject = nil;
 	_action = NULL;
 	_animationTimer = nil;
-	
+
 	// the visibility time for this notification should be the minimum display time plus
 	// some multiple of gAdditionalLinesDisplayTime, not to exceed gMaxDisplayTime
 	int rowCount = [view descriptionRowCount];
-	if (rowCount <= 2)
+	if (rowCount <= 2) {
 		rowCount = 0;
+	}
 	/*BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
 	if (!limitPref) {*/
@@ -174,7 +176,6 @@ static const double gMaxDisplayTime = 10.;
 	}*/
 
 	[self setAutomaticallyFadesOut:!sticky];
-	
 	
 	if ( self = [super initWithWindow:panel] ) {
 		

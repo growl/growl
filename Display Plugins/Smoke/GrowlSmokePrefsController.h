@@ -19,10 +19,12 @@
   IBOutlet NSColorWell    *color_emergency;
   
   IBOutlet NSButton *floatIconSwitch;
+  IBOutlet NSButton *limitCheck;
 }
 
 - (IBAction)opacitySliderChanged:(id)sender;
-- (IBAction) colorChanged:(id)sender;
+- (IBAction)colorChanged:(id)sender;
 - (IBAction)floatIconSwitchChanged:(id)sender;
+- (IBAction)setLimit:(id)sender;
 
 @end

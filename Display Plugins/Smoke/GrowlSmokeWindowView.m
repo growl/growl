@@ -54,13 +54,16 @@
 	
 	// calculate bounds based on icon-float pref on or off
 	NSRect shadedBounds;
-	bool floatIcon = GrowlSmokeFloatIconPrefDefault;
+	BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
-	if(floatIcon) shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
-									 bounds.origin.y,
-									 bounds.size.width - sizeReduction,
-									 bounds.size.height);
-	else shadedBounds = bounds;
+	if(floatIcon) {
+		shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
+								  bounds.origin.y,
+								  bounds.size.width - sizeReduction,
+								  bounds.size.height);
+	} else {
+		shadedBounds = bounds;
+	}
 	
 	NSRect irect = NSInsetRect(shadedBounds, radius + lineWidth, radius + lineWidth);
 	float minX = NSMinX( irect );
@@ -125,37 +128,34 @@
 		[NSFont systemFontOfSize:GrowlSmokeTextFontSize], NSFontAttributeName,
 		textColour, NSForegroundColorAttributeName,
 		nil];
-	if(pantherOrLater)
-		[descriptionAttributes setObject:textShadow forKey:NSShadowAttributeName];
-
 	// construct attributes for the title
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize], NSFontAttributeName,
 		textColour,                        NSForegroundColorAttributeName,
 		nil];
- 
+
+	// add shadow to both attributes
 	if(pantherOrLater) {
+		[descriptionAttributes setObject:textShadow forKey:NSShadowAttributeName];
 		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
 	}
 	
     // draw the title and the text
 	unsigned int textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
-	
 	unsigned int titleYPosition = notificationContentTop - [self titleHeight];
-	
+
 	[_title drawWithEllipsisInRect:NSMakeRect( textXPosition,
 											   titleYPosition,
 											   [self textAreaWidth],
 											   [self titleHeight])
 					withAttributes:titleAttributes];
-	
+
 	[_text drawInRect:NSMakeRect( textXPosition,
 								  GrowlSmokePadding,
 								  [self textAreaWidth],
 								  [self descriptionHeight] )
 	   withAttributes:descriptionAttributes];
 
-	
 	NSSize iconSize = [_icon size];
 	// make sure the icon isn't too large. If it is, scale it down
 	if( iconSize.width > GrowlSmokeIconSize || iconSize.height > GrowlSmokeIconSize ) {
@@ -252,8 +252,9 @@
         [array release];
     } else {
 		_bgColor = [[NSColor colorWithCalibratedWhite:.1 alpha:backgroundAlpha] retain];
-		if (array)
+		if (array) {
 			CFRelease((CFTypeRef)array);
+		}
 	}
     
 }
@@ -262,7 +263,9 @@
 	NSRect rect = [self frame];
 	rect.size.height = (2 * GrowlSmokePadding) + GrowlSmokePadding + [self titleHeight] + [self descriptionHeight];
 	float minSize = (2 * GrowlSmokePadding) + GrowlSmokeIconSize;
-	if(rect.size.height < minSize) rect.size.height = minSize;
+	if(rect.size.height < minSize) {
+		rect.size.height = minSize;
+	}
 	[self setFrame:rect];
 }
 
@@ -280,9 +283,8 @@
 }
 
 - (float)descriptionHeight {
-	
-	if (_textHeight == 0)
-	{
+
+	if (_textHeight == 0) {
 		NSString *content = _text ? _text : @"";
 		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithString:content
 																attributes:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -290,22 +292,37 @@
 																	nil
 																	]
 			];
-		NSTextContainer* textContainer = [[[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize ( [self textAreaWidth], FLT_MAX )] autorelease];
-		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
-		
+
+		NSSize containerSize;
+		BOOL limitPref = GrowlSmokeLimitPrefDefault;
+		READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
+		containerSize.width = [self textAreaWidth];
+		if (limitPref) {
+			// this will be horribly wrong, but don't worry about it for now
+			float lineHeight = GrowlSmokeTextFontSize + 1;
+			containerSize.height = lineHeight * 6.0f;
+		} else {
+			containerSize.height = FLT_MAX;
+		}
+		NSTextContainer* textContainer = [[NSTextContainer alloc]
+			initWithContainerSize:containerSize];
+		NSLayoutManager* layoutManager = [[NSLayoutManager alloc] init];
+
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
 		[textContainer setLineFragmentPadding:0.0];
-		(void)[layoutManager glyphRangeForTextContainer:textContainer];
-		
+		[layoutManager glyphRangeForTextContainer:textContainer];
+
 		_textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
-		
+
 		// for some reason, this code is using a 13-point line height for calculations, but the font 
 		// in fact renders in 14 points of space. Do some adjustments.
 		// Presumably this is all due to leading, so need to find out how to figure out what that
 		// actually is for utmost accuracy
 		_textHeight = _textHeight / GrowlSmokeTextFontSize * (GrowlSmokeTextFontSize + 1);
+
+		[textContainer release];
+		[layoutManager release];
 	}
 	
 	return _textHeight;
