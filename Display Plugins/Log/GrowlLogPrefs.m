@@ -86,16 +86,16 @@
 			runResult = [sp runModalForDirectory:nil file:@""];
 			NSString *saveFilename = [sp filename];
 			if (runResult == NSOKButton) {
-				int index = NSNotFound;
+				int saveFilenameIndex = NSNotFound;
 				for(unsigned i = 0U, max = [customHistArray count]; i < max; i++) {
 					if([[customHistArray objectAtIndex:i] isEqual:saveFilename])
-						index = i;
+						saveFilenameIndex = i;
 				}
-				if (index == NSNotFound) {
+				if (saveFilenameIndex == NSNotFound) {
 					if ([customHistArray count] == 3U)
 						[customHistArray removeLastObject];
 				} else {
-					[customHistArray removeObjectAtIndex:index];
+					[customHistArray removeObjectAtIndex:saveFilenameIndex];
 				}
 				[customHistArray insertObject:[NSString stringWithString:saveFilename] atIndex:0U];
 			}

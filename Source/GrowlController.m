@@ -47,7 +47,7 @@ static const struct {
 	 *when releaseType is release, the development version should always be 0,
 	 *	and it should be ignored. (thus, display "0.6", not "0.60".)
 	 */
-#pragma warning(figure out how to insert the svn revision here.)
+#warning (figure out how to insert the svn revision here.)
 } version = { 0U, 6U, 0U, svn, 0U, };
 
 #pragma mark -
