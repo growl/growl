@@ -38,6 +38,7 @@
 #define KEY_ICON_APP_NAME		@"iconOfApplication"
 #define KEY_ICON_FILE			@"iconOfFile"
 #define KEY_IMAGE				@"image"
+#define KEY_PICTURE				@"pictImage"
 
 #define ERROR_EXCEPTION						1
 #define ERROR_NOT_FILE_URL					2
@@ -57,7 +58,8 @@
 	NSString* iconOfFile = [args valueForKey:KEY_ICON_FILE];
 	NSString* iconOfApplication = [args valueForKey:KEY_ICON_APP_NAME];
 	NSData* imageData = [args valueForKey:KEY_IMAGE];
-		
+	NSData* pictureData = [args valueForKey:KEY_PICTURE];
+
 	NSMutableDictionary* noteDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		@"AppleScript", GROWL_APP_NAME,
 		title, GROWL_NOTIFICATION_TITLE,
@@ -85,6 +87,8 @@
 			icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
 		} else if (imageData != nil){
 			icon = [[[NSImage alloc] initWithData:imageData] autorelease];
+		} else if (pictureData != nil){
+			icon = [[[NSImage alloc] initWithData:pictureData] autorelease];
 		}
 		
 		if (icon != nil) {
