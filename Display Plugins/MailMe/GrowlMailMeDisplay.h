@@ -18,15 +18,15 @@
 	GrowlMailMePrefs	*prefPane;
 }
 
-- (void)loadPlugin;
-- (void)unloadPlugin;
+- (void) loadPlugin;
+- (void) unloadPlugin;
 
-- (NSString *)author;
-- (NSString *)name;
-- (NSString *)userDescription;
-- (NSString *)version;
-- (NSDictionary *)pluginInfo;
+- (NSString *) author;
+- (NSString *) name;
+- (NSString *) userDescription;
+- (NSString *) version;
+- (NSDictionary *) pluginInfo;
 
-- (void)displayNotificationWithInfo:(NSDictionary *) noteDict;
+- (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
 
 @end

@@ -54,19 +54,19 @@
 }
 
 - (NSDictionary*) pluginInfo {
-	NSMutableDictionary * info = [NSMutableDictionary dictionary];
-	[info setObject:B_NAME forKey:@"Name"];
-	[info setObject:B_AUTHOR forKey:@"Author"];
-	[info setObject:B_VERSION forKey:@"Version"];
-	[info setObject:B_DESCRIPTION forKey:@"Description"];
-	return (NSDictionary*)info;	
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+		B_NAME, @"Name",
+		B_AUTHOR, @"Author",
+		B_VERSION, @"Version",
+		B_DESCRIPTION, @"Description",
+		nil];
 }
 
 - (NSPreferencePane *) preferencePane {
 	return bezelPrefPane;
 }
 
-- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {
+- (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
 	GrowlBezelWindowController *nuBezel = [GrowlBezelWindowController bezelWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
 			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
 			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]

@@ -29,28 +29,23 @@ static NSString *description = @"Speak notifications.";
 	[super dealloc];
 }
 
-- (NSString *)author
-{
+- (NSString *) author {
 	return author;
 }
 
-- (NSString *)name
-{
+- (NSString *) name {
 	return name;
 }
 
-- (NSString *)userDescription
-{
+- (NSString *) userDescription {
 	return description;
 }
 
-- (NSString *)version
-{
+- (NSString *) version {
 	return version;
 }
 
-- (NSDictionary *)pluginInfo
-{
+- (NSDictionary *) pluginInfo {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		name,        @"Name",
 		author,      @"Author",
@@ -59,21 +54,17 @@ static NSString *description = @"Speak notifications.";
 		nil];
 }
 
-- (NSPreferencePane *) preferencePane
-{
+- (NSPreferencePane *) preferencePane {
 	return prefPane;
 }
 
-- (void) loadPlugin
-{
+- (void) loadPlugin {
 }
 
-- (void) unloadPlugin
-{
+- (void) unloadPlugin {
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *)noteDict
-{
+- (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
 	NSString *voice;
 
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);

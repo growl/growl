@@ -38,22 +38,22 @@ static unsigned smokeDepth = 0;
 	return SmokeVersion;
 }
 
-- (NSString *)author {
+- (NSString *) author {
 	return SmokeAuthor;
 }
 
-- (NSString *)name {
+- (NSString *) name {
 	return SmokeName;
 }
 
-- (NSString *)userDescription {
+- (NSString *) userDescription {
 	return SmokeDescription;
 }
 
-- (void)unloadPlugin {
+- (void) unloadPlugin {
 }
 
-- (NSDictionary *)pluginInfo {
+- (NSDictionary *) pluginInfo {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		SmokeName,        @"Name",
 		SmokeAuthor,      @"Author",
@@ -62,7 +62,7 @@ static unsigned smokeDepth = 0;
 		nil];
 }
 
-- (NSPreferencePane *)preferencePane {
+- (NSPreferencePane *) preferencePane {
 	return preferencePane;
 }
 

@@ -54,12 +54,12 @@
 }
 
 - (NSDictionary*) pluginInfo {
-	NSMutableDictionary * info = [NSMutableDictionary dictionary];
-	[info setObject:B_NAME forKey:@"Name"];
-	[info setObject:B_AUTHOR forKey:@"Author"];
-	[info setObject:B_VERSION forKey:@"Version"];
-	[info setObject:B_DESCRIPTION forKey:@"Description"];
-	return (NSDictionary*)info;	
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+		B_NAME, @"Name",
+		B_AUTHOR, @"Author",
+		B_VERSION, @"Version",
+		B_DESCRIPTION, @"Description",
+		nil];
 }
 
 - (NSPreferencePane *) preferencePane {

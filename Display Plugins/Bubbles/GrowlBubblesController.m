@@ -33,20 +33,19 @@
 }
 
 - (NSString *) author {
-	//yea no need to do stringWithString, I just wanna
-	return [NSString stringWithString:@"Karl Adam and Timothy Hatcher"];
+	return @"Karl Adam and Timothy Hatcher";
 }
 
 - (NSString *) name {
-	return [NSString stringWithString:@"Bubbles"];
+	return @"Bubbles";
 }
 
 - (NSString *) userDescription {
-	return [NSString stringWithString:@"Bubbley Status Notifications"];
+	return @"Bubbley Status Notifications";
 }
 
 - (NSString *) version {
-	return [NSString stringWithString:@"1.0a"];
+	return @"1.0a";
 }
 
 - (void) unloadPlugin {
@@ -55,12 +54,12 @@
 }
 
 - (NSDictionary *) pluginInfo {
-	NSMutableDictionary * info = [NSMutableDictionary dictionary];
-	[info setObject:@"Bubbles" forKey:@"Name"];
-	[info setObject:@"Karl Adam and Timothy Hatcher" forKey:@"Author"];
-	[info setObject:@"1.0a" forKey:@"Version"];
-	[info setObject:@"Happy Bubbles!" forKey:@"Description"];
-	return (NSDictionary*)info;
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+		@"Bubbles", @"Name",
+		@"Karl Adam and Timothy Hatcher", @"Author",
+		@"1.0a", @"Version",
+		@"Happy Bubbles!", @"Description",
+		nil];
 }
 
 - (NSPreferencePane *) preferencePane {

@@ -14,16 +14,17 @@
 - (void) loadPlugin {}
 - (NSString *) author {return @"Nelson Elhage"; }
 - (NSString *) name { return @"NSLogging"; }
-- (NSString *) userDescription { return @"NSLog()s notifications to the console";}
-- (NSString *) version { return @"Testing"; }
+- (NSString *) userDescription { return @"NSLog()s notifications to the console"; }
+- (NSString *) version { return @"0.1"; }
 - (void) unloadPlugin {}
+
 - (NSDictionary*) pluginInfo {
-	NSMutableDictionary * info = [NSMutableDictionary dictionary];
-	[info setObject:@"NSLogging" forKey:@"Name"];
-	[info setObject:@"Nelson Elhage" forKey:@"Author"];
-	[info setObject:@"0.1" forKey:@"Version"];
-	[info setObject:@"NSLog()s notifications to the console" forKey:@"Description"];
-	return (NSDictionary*)info;	
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+		@"NSLogging", @"Name",
+		@"Nelson Elhage", @"Author",
+		@"0.1", @"Version",
+		@"NSLog()s notifications to the console", @"Description",
+		nil];
 }
 
 - (NSPreferencePane *) preferencePane {
