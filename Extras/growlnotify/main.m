@@ -35,7 +35,7 @@
 #include <netdb.h>
 #include <openssl/md5.h>
 
-static NSString *notificationName = @"Command-Line Growl Notification";
+#define NOTIFICATION_NAME @"Command-Line Growl Notification"
 
 static const char usage[] = 
 "Usage: growlnotify [-hsv] [-i ext] [-I filepath] [--image filepath]\n"
@@ -238,7 +238,7 @@ int main(int argc, const char **argv) {
 	
 	// Register with Growl
 	NSDictionary *registerInfo;
-	NSArray *defaultAndAllNotifications = [NSArray arrayWithObject:notificationName];
+	NSArray *defaultAndAllNotifications = [NSArray arrayWithObject:NOTIFICATION_NAME];
 	registerInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 		applicationName, GROWL_APP_NAME,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_ALL,
@@ -249,7 +249,7 @@ int main(int argc, const char **argv) {
 	// Notify
 	NSDictionary *notificationInfo;
 	notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-		notificationName, GROWL_NOTIFICATION_NAME,
+		NOTIFICATION_NAME, GROWL_NOTIFICATION_NAME,
 		applicationName, GROWL_APP_NAME,
 		title, GROWL_NOTIFICATION_TITLE,
 		desc, GROWL_NOTIFICATION_DESCRIPTION,
