@@ -97,7 +97,7 @@
 	if ([album length])
 		album = [album stringByMakingPathSafe];
 	
-	NSString *path = [NSString stringWithString:libraryLocation];
+	NSString *path = libraryLocation;
 	
 	if (compilation) {
 		path = [path stringByAppendingPathComponent:@"Compilations"];
