@@ -47,20 +47,20 @@ static const NSSize iconSize = {128.0f, 128.0f};
 @implementation GrowlNotifyScriptCommand
 
 -(id) performDefaultImplementation {
-	NSDictionary* args = [self evaluatedArguments];
+	NSDictionary *args = [self evaluatedArguments];
 
 	// should validate params better!
-	NSString *title = [args valueForKey:KEY_TITLE];
-	NSString *desc = [args valueForKey:KEY_DESC];
-	NSNumber *sticky = [args valueForKey:KEY_STICKY];
-	NSNumber *priority = [args valueForKey:KEY_PRIORITY];
-	NSString *imageUrl = [args valueForKey:KEY_IMAGE_URL];
-	NSString *iconOfFile = [args valueForKey:KEY_ICON_FILE];
-	NSString *iconOfApplication = [args valueForKey:KEY_ICON_APP_NAME];
-	NSData *imageData = [args valueForKey:KEY_IMAGE];
-	NSData *pictureData = [args valueForKey:KEY_PICTURE];
-	NSString *appName = [args valueForKey:KEY_APP_NAME];
-	NSString *notifName = [args valueForKey:KEY_NOTIFICATION_NAME];
+	NSString *title = [args objectForKey:KEY_TITLE];
+	NSString *desc = [args objectForKey:KEY_DESC];
+	NSNumber *sticky = [args objectForKey:KEY_STICKY];
+	NSNumber *priority = [args objectForKey:KEY_PRIORITY];
+	NSString *imageUrl = [args objectForKey:KEY_IMAGE_URL];
+	NSString *iconOfFile = [args objectForKey:KEY_ICON_FILE];
+	NSString *iconOfApplication = [args objectForKey:KEY_ICON_APP_NAME];
+	NSData *imageData = [args objectForKey:KEY_IMAGE];
+	NSData *pictureData = [args objectForKey:KEY_PICTURE];
+	NSString *appName = [args objectForKey:KEY_APP_NAME];
+	NSString *notifName = [args objectForKey:KEY_NOTIFICATION_NAME];
 
 	NSMutableDictionary* noteDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		appName, GROWL_APP_NAME,
@@ -78,7 +78,7 @@ static const NSSize iconSize = {128.0f, 128.0f};
 	}
 
 	NS_DURING
-		NSImage* icon = nil;
+		NSImage *icon = nil;
 		if (imageUrl != nil) {
 			NSURL *url = [NSURL URLWithString:imageUrl];
 			if (!url || ![url isFileURL] || [[url host] length]) {
