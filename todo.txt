@@ -6,11 +6,11 @@ For .6
 	- Figure out an intuitive way to deal with multiple plugins named the same.
 - For all displays that should conform, priority
 - 3 or 5 parts on priority, we need to decide this
-- Smoke needs to specify how many lines it allows to be displayed on screen.
 - Overlapping in smoke problems need to be addressed
 - Resolve problem of the framework turning on gha without the users permission, should the user have turned off Growl.
 - Make GrowlTunes save images into ARTchive
 - Specify license in each file. Growl is BSD, the framework is public domain, examples are public domain unless specified
+- Add a button to remove old tickets
 
 Release related issues
 - Make sure we have user documentation on everything we have. This was a sore point for us last release.
@@ -21,6 +21,7 @@ Release related issues
 
 
 Done:
+- Smoke needs to specify how many lines it allows to be displayed on screen.
 - Display version number.
 - A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.
 - Make plugins double clickable bundles
