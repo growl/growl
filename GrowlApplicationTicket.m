@@ -209,16 +209,24 @@
 
 - (void) setAllowedNotifications:(NSArray *) inArray {
 	[_allowedNotifications setArray:inArray];
+	_useDefaults = NO;
+}
+
+- (void) setAllowedNotificationsToDefault {
+	[self setAllowedNotifications:_defaultNotifications];
+	_useDefaults = YES;
 }
 
 - (void) setNotificationEnabled:(NSString *) name {
 	if (![_allowedNotifications containsObject:name]) {
 		[_allowedNotifications addObject:name];
+		_useDefaults = NO;
 	}
 }
 
 - (void) setNotificationDisabled:(NSString *) name {
 	[_allowedNotifications removeObject:name];
+	_useDefaults = NO;
 }
 
 - (BOOL) isNotificationAllowed:(NSString *) name {

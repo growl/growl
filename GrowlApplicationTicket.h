@@ -52,6 +52,8 @@
 
 - (NSArray *) allowedNotifications;
 - (void) setAllowedNotifications:(NSArray *) inArray;
+- (void) setAllowedNotificationsToDefault;
+
 - (void) setNotificationEnabled:(NSString *) name;
 - (void) setNotificationDisabled:(NSString *) name;
 - (BOOL) isNotificationAllowed:(NSString *) name;
