@@ -30,13 +30,13 @@ static CFBundleRef _CopyGrowlPrefPaneBundle(void);
 //notification callback.
 static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
 
-static	CFMutableArrayRef targetsToNotifyArray = NULL;
-
 #ifdef GROWL_WITH_INSTALLER
 static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundle *growlPrefPaneBundle);
 #endif
 
 static const CFOptionFlags bundleIDComparisonFlags = kCFCompareCaseInsensitive | kCFCompareBackwards;
+
+static CFMutableArrayRef targetsToNotifyArray = NULL;
 
 struct GrowlDelegate *delegate = NULL;
 
