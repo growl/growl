@@ -231,6 +231,44 @@
 //322
 //323
 //324
+//520
+//521
+//522
+//523
+//524
+		52C620580677F68A004F80E6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = KABubbleController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		52C620590677F68A004F80E6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = KABubbleController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		52C6205A0677F68A004F80E6 = {
+			fileRef = 52C620580677F68A004F80E6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		52C6205B0677F68A004F80E6 = {
+			fileRef = 52C620590677F68A004F80E6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//520
+//521
+//522
+//523
+//524
 //8D0
 //8D1
 //8D2
@@ -599,6 +637,7 @@
 				CB5D139F0638E25300D8F1E5,
 				CB5D13A10638E25300D8F1E5,
 				CBF073CA0659A94F000B4B77,
+				52C6205A0677F68A004F80E6,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -615,6 +654,7 @@
 			files = (
 				CB5D13A00638E25300D8F1E5,
 				CB5D13A20638E25300D8F1E5,
+				52C6205B0677F68A004F80E6,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -717,6 +757,8 @@
 				CB5D139C0638E25300D8F1E5,
 				CB5D139D0638E25300D8F1E5,
 				CB5D139E0638E25300D8F1E5,
+				52C620580677F68A004F80E6,
+				52C620590677F68A004F80E6,
 			);
 			isa = PBXGroup;
 			name = Classes;
