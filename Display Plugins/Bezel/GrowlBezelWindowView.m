@@ -97,18 +97,13 @@
 	int iconOffset = 0;
 	NSSize maxIconSize;
 	NSSize iconSize = [_icon size];
-	NSImageRep *theRep;
 	if (sizePref == BEZEL_SIZE_NORMAL) {
 		titleRect = NSMakeRect(12., 90., 187., 30.);
 		textRect =  NSMakeRect(12., 4., 187., 80.);
 		maxRows = 4;
 		maxIconSize = NSMakeSize(72., 72.);
-		theRep = [_icon bestRepresentationForSize:maxIconSize];
-		if ( iconSize.width < [theRep size].width ) {
-			[_icon setScalesWhenResized:YES];
-			[_icon setSize: [theRep size]];
-			iconSize = [_icon size];
-		} else if ( iconSize.width < maxIconSize.width ) {
+		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];
+		if ( iconSize.width < maxIconSize.width ) {
 			iconOffset = ceil( (maxIconSize.width - iconSize.width) / 2. );
 		}
 		iconPoint = NSMakePoint(70. + iconOffset, 120.);
@@ -117,12 +112,8 @@
 		textRect =  NSMakeRect(8., 4., 143., 49.);
 		maxRows = 2;
 		maxIconSize = NSMakeSize(48., 48.);
-		theRep = [_icon bestRepresentationForSize:maxIconSize];
-		if ( iconSize.width < [theRep size].width ) {
-			[_icon setScalesWhenResized:YES];
-			[_icon setSize: [theRep size]];
-			iconSize = [_icon size];
-		} else if ( iconSize.width < maxIconSize.width ) {
+		iconSize = [_icon adjustSizeToDrawAtSize:maxIconSize];
+		if ( iconSize.width < maxIconSize.width ) {
 			iconOffset = ceil( (maxIconSize.width - iconSize.width) / 2. );
 		}
 		iconPoint = NSMakePoint(57. + iconOffset, 83.);
