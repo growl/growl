@@ -7,8 +7,8 @@
 //
 
 #import "GrowlInstallationPrompt.h"
-#import "GrowlAppBridge.h"
-#import "GrowlAppBridgeDefines.h"
+#import "GrowlApplicationBridge.h"
+#import "GrowlDefines.h"
 
 #define GROWL_INSTALLATION_NIB @"GrowlInstallationPrompt"
 
@@ -58,7 +58,7 @@
 // called after the about window loads, so we can set up the window before it's displayed
 - (void)windowDidLoad
 {
-	NSObject<GrowlAppBridgeDelegate> *growlDelegate = [GrowlAppBridge growlDelegate];
+	NSObject<GrowlApplicationBridgeDelegate> *growlDelegate = [GrowlApplicationBridge growlDelegate];
 	NSString *windowTitle;
 	NSAttributedString *growlInfo;
 	NSWindow *theWindow = [self window];
@@ -171,7 +171,7 @@
 {	
 	if(!isUpdate){
 		//Tell the app bridge about the user's choice
-		[GrowlAppBridge _userChoseNotToInstallGrowl];
+		[GrowlApplicationBridge _userChoseNotToInstallGrowl];
 	}
 	
 	//Shut down the installation prompt

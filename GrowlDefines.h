@@ -68,7 +68,7 @@ This will be passed back to the application when the notification is clicked
 #define GROWL_IS_READY					@"Lend Me Some Sugar; I Am Your Neighbor!"
 
 /*! The distributed notification set when a supported notification is clicked.
-Handled by the GrowlAppBridge. */
+Handled by the GrowlApplicationBridge. */
 #define GROWL_NOTIFICATION_CLICKED		@"GrowlClicked!"
 
 /*! Used internally as the key for the clickedContext passed over DNC */
