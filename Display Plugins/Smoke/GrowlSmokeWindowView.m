@@ -121,16 +121,26 @@
 	[whiteText removeAttribute:NSForegroundColorAttributeName range:allText];
 	[whiteText addAttribute:NSForegroundColorAttributeName value:textColour range:allText];
 	if(pantherOrLater) [whiteText addAttribute:NSShadowAttributeName value:textShadow range:allText];
-		
+	
+
+	
 	// construct attributes for the title
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSFont boldSystemFontOfSize:13.], NSFontAttributeName,
 		textColour,                        NSForegroundColorAttributeName,
 		nil];
-	if(pantherOrLater) [titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
+ 
+	if(pantherOrLater) {
+		NSMutableParagraphStyle *ellipsisingStyle = [[[[NSParagraphStyle defaultParagraphStyle] mutableCopy] 
+			setLineBreakMode:NSLineBreakByTruncatingTail] autorelease];
+		[titleAttributes setObject:ellipsisingStyle forKey:NSParagraphStyleAttributeName];
+		[titleAttributes setObject:textShadow forKey:NSShadowAttributeName];
+	}
 	
     // draw the title and the text
-	[_title drawAtPoint:NSMakePoint( 55., heightOffset - 15. ) withAttributes:titleAttributes];
+	//[_title drawAtPoint:NSMakePoint( 55., heightOffset - 15. ) withAttributes:titleAttributes];
+	NSMutableAttributedString *attTitle = [[[NSMutableAttributedString alloc] initWithString:_title attributes:titleAttributes] autorelease];
+	[attTitle drawInRect:NSMakeRect( 55., heightOffset - 20., [self textAreaWidth], 15. + GrowlSmokePadding )];
 	
 	[whiteText drawInRect:NSMakeRect( 55., GrowlSmokePadding, [self textAreaWidth], heightOffset - 25. )];
 
