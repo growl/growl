@@ -110,9 +110,7 @@
 	float titleFontSize = 20.0;
 	float accumulator = 0.;
 	BOOL minFontSize = NO;
-	[titleAttributes setObject:[[NSFontManager sharedFontManager] 
-        convertFont:[NSFont systemFontOfSize:titleFontSize] toHaveTrait: NSBoldFontMask]
-		forKey:NSFontAttributeName];
+	[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
 	NSSize titleSize = [_title sizeWithAttributes:titleAttributes];
 	
 	while ( titleSize.width > ( NSWidth(titleRect) - ( titleSize.height / 2. ) ) ) {
@@ -123,8 +121,7 @@
 			titleFontSize -= 1.;
 			accumulator += 0.5;
 		}
-		[titleAttributes setObject:[[NSFontManager sharedFontManager] 
-			convertFont:[NSFont systemFontOfSize:titleFontSize] toHaveTrait: NSBoldFontMask] forKey:NSFontAttributeName];
+		[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
 		titleSize = [_title sizeWithAttributes:titleAttributes];
 	}
 	
