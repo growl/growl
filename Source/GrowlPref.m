@@ -582,17 +582,6 @@ static const char *keychainAccountName = "Growl";
 	}
 }
 
-#pragma mark "Rules" tab pane
-- (IBAction) addRule:(id)sender {
-	[rulePanel display];
-}
-
-- (IBAction) removeRule:(id)sender {
-}
-
-- (IBAction) editRule:(id)sender {
-}
-
 #pragma mark Notification, Application and Service table view data source methods
 
 - (int) numberOfRowsInTableView:(NSTableView *)tableView {
