@@ -5,6 +5,7 @@ For .6 (Go Go Growl)
 Release related issues
 
 - Create a branch for the .6 release.
+	- Remove networking from this branch.
 	- Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
 - Make sure we have user documentation on everything we have. This was a sore point for us last release.
 - DMG & PKG
