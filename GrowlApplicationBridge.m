@@ -318,7 +318,10 @@ static BOOL				promptedToUpgradeGrowl = NO;
 }
 
 + (void) _growlIsReady:(NSNotification *)notification {
-
+	
+	//Growl has now launched; we may get here with (growlLaunched == NO) when the user first installs
+	growlLaunched = YES;
+	
 	//Inform our delegate if it is interested
 	if ([delegate respondsToSelector:@selector(growlIsReady)]){
 		[delegate growlIsReady];
