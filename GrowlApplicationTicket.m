@@ -101,8 +101,10 @@
 }
 
 - (void) setAllNotifications:(NSArray *) inArray {
-	[_allNotifications release];
-	_allNotifications = [inArray retain];
+	if ( inArray != _allNotifications ) {
+		[_allNotifications release];
+		_allNotifications = [inArray retain];
+	}
 	
 	NSMutableSet * tmp;
 	NSSet * inSet = [NSSet setWithArray:inArray];
@@ -142,22 +144,26 @@
 #pragma mark -
 - (void) registerParentForNotifications:(NSArray *) inArray {
 	NSEnumerator *note = [inArray objectEnumerator];
-	id obj = nil;
+	NSString *obj = nil;
+	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
 	while ( obj = [note nextObject] ) { //register the Controller for all the passed Notifications
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:_parent 
-															selector:@selector(dispatchNotification:) 
-																name:(NSString *)obj 
-															  object:nil];
+		//NSLog(@"Registering for notification @\"%@\" from app with name @\"%@\"", obj, _appName);
+		[distCenter addObserver:_parent 
+					   selector:@selector(dispatchNotification:) 
+						   name:obj 
+						 object:nil];
 	}
 }
 
 - (void) unregisterParentForNotifications:(NSArray *) inArray {
 	NSEnumerator *note = [inArray objectEnumerator];
-	id obj = nil; 
+	NSString *obj = nil; 
+	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
 	while ( obj = [note nextObject] ) { //unregister the Controller for all the passed Notifications
-		[[NSDistributedNotificationCenter defaultCenter] removeObserver:_parent 
-																   name:(NSString *)obj 
-																 object:nil];
+		//NSLog(@"Unregistering for notification @\"%@\" from app with name @\"%@\"", obj, _appName);
+		[distCenter removeObserver:_parent 
+							  name:obj 
+							object:nil];
 	}
 }
 @end
