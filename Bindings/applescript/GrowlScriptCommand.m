@@ -81,6 +81,7 @@
 			icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
 		} else if (iconOfApplication != nil) {
 			icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
+			[icon setSize:NSMakeSize(128.,128.)];
 		}
 		
 		if (icon != nil)
