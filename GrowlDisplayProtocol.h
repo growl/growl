@@ -23,27 +23,34 @@
 	@abstract    The base plugin protocol
 	@discussion  A protocol defining all methods supported by all Growl plugins.
  */
-@protocol GrowlPlugin
+@protocol GrowlPlugin <NSObject>
+
 /*! A method sent to tell the plugin to initialize itself */
 - (void) loadPlugin;
+
 /*! Returns the name of the author of the plugin
 	@result A string */
 - (NSString *) author;
+
 /*! Returns the name of the plugin
 	@result A string */
 - (NSString *) name;
+
 /*! Returns the description of the plugin
 	@result A string */
 - (NSString *) userDescription;
+
 /*! Returns the version of the plugin
 	@result A string */
 - (NSString *) version;
+
 /*! Returns a dictionary containing author, name, desc, and version for the plugin.
-	
 	The corresponding keys are: Author, Name, Description, Version */
 - (NSDictionary *) pluginInfo;
+
 /*! A method sent to tell the plugin to clean itself up */
 - (void) unloadPlugin;
+
 /*! Returns an NSPreferencePane instance that manages the plugin's preferences.
 	
 	For reference, the size of the view should be 354 x 289.
@@ -51,6 +58,7 @@
 	We have to think of something if there are more options than fit in that place.
  */
 - (NSPreferencePane *) preferencePane;
+
 @end
 
 /*!
@@ -59,9 +67,11 @@
 	@discussion  A protocol defining all methods supported by Growl display plugins.
  */
 @protocol GrowlDisplayPlugin <GrowlPlugin>
+
 /*! Tells the display plugin to display a notification with the given information
 	@param noteDict The userInfo dictionary that describes the notification */
 - (void)  displayNotificationWithInfo:(NSDictionary *) noteDict;
+
 @end
 
 /*!
