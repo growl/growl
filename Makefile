@@ -35,7 +35,7 @@ clean:
 	xcodebuild -project Growl.xcode -alltargets clean
 
 install:
-	-killall GrowlHelperApp
+	-killall GrowlHelperApp; exit 0
 	-$(RM) -rf $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE) $(FRAMEWORKS_DIR)/$(GROWL_FRAMEWORK)
 	$(CP) $(BUILD_DIR)/$(GROWL_PREFPANE) $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
 	$(CP) $(BUILD_DIR)/$(GROWL_FRAMEWORK) $(FRAMEWORKS_DIR)/$(GROWL_FRAMEWORK)
