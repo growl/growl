@@ -99,6 +99,3 @@ OSStatus CGSSetWindowTags(CGSConnection cid,CGSWindow window,int *tags,int other
 
 
 @end
-// Local Variables:
-// coding: utf-8;
-// End:
