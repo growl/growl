@@ -5,7 +5,7 @@
 //  Created by Mac-arena the Bored Zo on Wed Jun 18 2004.
 //  Based on GrowlApplicationBridge.m by Evan Schoenberg.
 //  This source code is in the public domain. You may freely link it into any
-//  program.
+//    program.
 //
 
 #include "GrowlApplicationBridge-Carbon.h"
@@ -72,8 +72,12 @@ extern void NSLog(CFStringRef format, ...);
 #pragma mark Public API
 
 Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
-	if (newDelegate && !(newDelegate->applicationName)) {
-		return false;
+	if (newDelegate) {
+		if (!(newDelegate->registrationDictionary)
+		||  !CFDictionaryContainsKey(newDelegate->registrationDictionary, GROWL_NOTIFICATIONS_ALL))
+		{
+			return false;
+		}
 	}
 
 	if (delegate == newDelegate) {
@@ -81,15 +85,13 @@ Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 		return true;
 	}
 
-	if (delegate && (delegate->release)) {
+	if (delegate && (delegate->release))
 		delegate->release(delegate);
-	}
-	if (newDelegate && (newDelegate->retain)) {
+	if (newDelegate && (newDelegate->retain))
 		newDelegate = newDelegate->retain(newDelegate);
-	}
 	delegate = newDelegate;
 
-	return true;
+	return Growl_LaunchIfInstalled(/*callback*/ NULL, /*context*/ NULL);
 }
 
 struct Growl_Delegate *Growl_GetDelegate(void) {
@@ -98,10 +100,10 @@ struct Growl_Delegate *Growl_GetDelegate(void) {
 
 void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
 	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
-										 GROWL_NOTIFICATION,
-										 /*object*/ NULL,
-										 userInfo,
-										 /*deliverImmediately*/ false);
+	                                     GROWL_NOTIFICATION,
+	                                     /*object*/ NULL,
+	                                     userInfo,
+	                                     /*deliverImmediately*/ false);
 }
 
 void Growl_PostNotification(const struct Growl_Notification *notification) {
@@ -158,16 +160,14 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 	};
 
 	//make sure we have both a name and a title
-	if (values[titleIndex] && !values[nameIndex]) {
+	if (values[titleIndex] && !values[nameIndex])
 		values[nameIndex] = values[titleIndex];
-	} else if (values[nameIndex] && !values[titleIndex]) {
+	else if (values[nameIndex] && !values[titleIndex])
 		values[titleIndex] = values[nameIndex];
-	}
 
 	//... and a description
-	if (!values[descriptionIndex]) {
+	if (!values[descriptionIndex])
 		values[descriptionIndex] = CFSTR("");
-	}
 
 	//now, target the first NULL value.
 	//if there was iconData, this is index 7; else, it is index 6.
@@ -181,10 +181,10 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 	}
 
 	CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault,
-												  keys, values,
-												  /*numValues*/ pairIndex,
-												  &kCFTypeDictionaryKeyCallBacks,
-												  &kCFTypeDictionaryValueCallBacks);
+	                                              keys, values,
+	                                              /*numValues*/ pairIndex,
+	                                              &kCFTypeDictionaryKeyCallBacks,
+	                                              &kCFTypeDictionaryValueCallBacks);
 
 	Growl_PostNotificationWithDictionary(userInfo);
 
@@ -217,9 +217,8 @@ void Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
 }
 
 void Growl_Reregister(void) {
-	if (delegate && delegate->registrationDictionary) {
+	if (delegate && delegate->registrationDictionary)
 		Growl_LaunchIfInstalled(/*callback*/ NULL, /*context*/ NULL);
-	}
 }
 
 /*Growl_IsInstalled
@@ -266,13 +265,14 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 			CFDictionarySetValue(regDict, GROWL_APP_NAME, delegate->applicationName);
 		} else {
 			CFStringRef processName = _copyCurrentProcessName();
-			if (processName) {
+			if (processName)
 				CFDictionarySetValue(regDict, GROWL_APP_NAME, processName);
-			} else {
+			else
 				NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined"));
-			}
 		}
-		if (!CFDictionaryContainsKey(regDict, GROWL_APP_NAME)) {
+		if (!CFDictionaryContainsKey(regDict, GROWL_APP_NAME)
+		||  !CFDictionaryContainsKey(regDict, GROWL_NOTIFICATIONS_ALL))
+		{
 			//no registering for us, it seems.
 			CFRelease(regDict);
 			regDict = NULL;
@@ -282,13 +282,13 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 		//but don't rely on the application to give us a path; we should get it ourselves.
 		Boolean gotIt = false;
 		CFURLRef myURL = _copyCurrentProcessURL();
-		if(myURL) {
+		if (myURL) {
 			CFDictionaryRef file_data = _createDockDescriptionForURL(myURL);
-			if(file_data) {
+			if (file_data) {
 				const void *locationKeys[] = { CFSTR("file-data") };
 				const void *locationVals[] = { file_data };
 				CFDictionaryRef location = CFDictionaryCreate(kCFAllocatorDefault, locationKeys, locationVals, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-				if(location) {
+				if (location) {
 					CFDictionarySetValue(regDict, GROWL_APP_LOCATION, location);
 					gotIt = true;
 					CFRelease(location);
@@ -297,7 +297,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 			}
 			CFRelease(myURL);
 		}
-		if(!gotIt)
+		if (!gotIt)
 			CFDictionaryRemoveValue(regDict, GROWL_APP_LOCATION);
 	}
 
@@ -331,7 +331,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 		CFRelease(prefPanes);
 	}
 
-	if (growlPrefPaneBundle){
+	if (growlPrefPaneBundle) {
 		/*Here we could check against a current version number and ensure the
 		 *	installed Growl pane is the newest
 		 */
@@ -347,9 +347,8 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 				CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlIsReady, _growlIsReady, GROWL_IS_READY, /*object*/ NULL, CFNotificationSuspensionBehaviorCoalesce);
 			
 				//We probably will never have more than one callback/context set at a time, but this is cleaner than the alternatives
-				if (!targetsToNotifyArray) {
+				if (!targetsToNotifyArray)
 					targetsToNotifyArray = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
-				}
 
 				CFStringRef keys[] = { CFSTR("Callback"), CFSTR("Context") };
 				void *values[] = { (void *)callback, context };
@@ -408,12 +407,11 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 					CFRelease(stream);
 
 					//be sure to open the file if it exists.
-					if (!errorString) {
+					if (!errorString)
 						itemsToOpen = CFArrayCreate(kCFAllocatorDefault, (const void **)&regDictURL, /*count*/ 1, &kCFTypeArrayCallBacks);
-					}
 					CFRelease(regDictURL);
-				}
-			}
+				} //if (tmp)
+			} //if (regDict)
 
 			//Houston, we are go for launch.
 			//we use LSOpenFromURLSpec because it can act synchronously.
@@ -426,17 +424,15 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 			};
 			success = (LSOpenFromURLSpec(&launchSpec, /*outLaunchedURL*/ NULL) == noErr);
 			CFRelease(growlHelperAppURL);
-			if (itemsToOpen) {
+			if (itemsToOpen)
 				CFRelease(itemsToOpen);
-			}
-		}
+		} //if (growlHelperAppURL)
 
 		CFRelease(growlPrefPaneBundle);
-	}
+	} //if (growlPrefPaneBundle)
 
-	if (regDict) {
+	if (regDict)
 		CFRelease(regDict);
-	}
 
 	return success;
 }
@@ -526,7 +522,7 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 				} \
 			} \
 		} \
-	} while(0)
+	} while (0)
 
 		//User domain.
 		COPYPREFPANE(kUserDomain, &prefPaneBundle);
