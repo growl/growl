@@ -103,7 +103,7 @@ as opposed to:
 
 Braces and Whitespace
 ---------------------
-- (void) foo {
+- (void) foo:(id)a :(NSObject *)b :(NSProxy *)c {
 	if (a) {
 		do_b();
 	} else if (b) {
@@ -111,16 +111,17 @@ Braces and Whitespace
 	} else {
 		do_done();
 	}
-	
+
+	GrowlQ q = [GrowlQ sharedQ];
 	if (q)
 		do_q();
 
-	/*	comments should be at the same level as the code, and should explain
+	/*comments should be at the same level as the code, and should explain
 	 *	the line following them.
 	 */
 	this_is_explained_by_the_comment();
 
-	/*	It is also recommended to have comments in a paragraph by themselves to
+	/*It is also recommended to have comments in a paragraph by themselves to
 	 *	explain the state of the object/algorithm at a particular point in the
 	 *	method or function. This will help other programmers to understand your
 	 *	code if they need to modify it.
@@ -155,6 +156,8 @@ function call):
 	// not: return(0);
 But it's OK for parenthesized expressions:
 	return ((x * y) ? 42 : [array objectAtIndex:fallback]);
+
+Leave all blank lines (those with no visible characters) empty (not containing *any* characters). This means that a blank line should not contain any tabs or spaces.
 
 Labels
 ------
