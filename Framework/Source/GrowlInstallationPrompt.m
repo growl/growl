@@ -29,14 +29,14 @@
 static const long minimumOSXVersionForGrowl = 0x1030L;
 
 @interface GrowlInstallationPrompt (private)
-- (id) initWithWindowNibName:(NSString *)nibName forUpdate:(BOOL)inIsUpdate;
+- (id)initWithWindowNibName:(NSString *)nibName forUpdateToVersion:(NSString *)updateVersion;
 - (void) performInstallGrowl;
 - (void) releaseAndClose;
 @end
 
 @implementation GrowlInstallationPrompt
 
-+ (void) showInstallationPromptForUpdate:(BOOL)inIsUpdate
+static BOOL checkOSXVersion()
 {
 	long OSXVersion = 0L;
 	OSStatus err = Gestalt(gestaltSystemVersion, &OSXVersion);
@@ -45,19 +45,38 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 		//we proceed anyway, on the theory that it is better to show the installation prompt when inappropriate than to suppress it when not.
 		OSXVersion = minimumOSXVersionForGrowl;
 	}
+	
+	return (OSXVersion >= minimumOSXVersionForGrowl);
+}
 
-	if (OSXVersion >= minimumOSXVersionForGrowl) {
-		[[[[GrowlInstallationPrompt alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdate:inIsUpdate] window] makeKeyAndOrderFront:nil];
++ (void) showInstallationPrompt
+{
+	if ( checkOSXVersion() ) {
+		[[[[self alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdateToVersion:nil] window] makeKeyAndOrderFront:nil];
 	}
 }
 
-- (id)initWithWindowNibName:(NSString *)nibName forUpdate:(BOOL)inIsUpdate
++ (void) showUpdatePromptForVersion:(NSString *)inUpdateVersion
+{
+	if ( checkOSXVersion() ) {
+		[[[[self alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdateToVersion:inUpdateVersion] window] makeKeyAndOrderFront:nil];
+	}
+}
+
+- (id)initWithWindowNibName:(NSString *)nibName forUpdateToVersion:(NSString *)inUpdateVersion
 {
 	if ((self = [super initWithWindowNibName:nibName])) {
-		isUpdate = inIsUpdate;
+		updateVersion = [inUpdateVersion retain];
 	}
 
 	return self;
+}
+
+- (void) dealloc
+{
+	[updateVersion release];
+
+	[super dealloc];
 }
 
 // closes this window
@@ -83,22 +102,22 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 	[scrollView_growlInfo setDrawsBackground:NO];
 	
 	//Window title
-	if (isUpdate ? 
+	if (updateVersion ? 
 		[growlDelegate respondsToSelector:@selector(growlUpdateWindowTitle)] :
 		[growlDelegate respondsToSelector:@selector(growlInstallationWindowTitle)]) {
 		
-		windowTitle = (isUpdate ? [growlDelegate growlUpdateWindowTitle] : [growlDelegate growlInstallationWindowTitle]);
+		windowTitle = (updateVersion ? [growlDelegate growlUpdateWindowTitle] : [growlDelegate growlInstallationWindowTitle]);
 	} else {
-		windowTitle = (isUpdate ? DEFAULT_UPDATE_WINDOW_TITLE : DEFAULT_INSTALLATION_WINDOW_TITLE);
+		windowTitle = (updateVersion ? DEFAULT_UPDATE_WINDOW_TITLE : DEFAULT_INSTALLATION_WINDOW_TITLE);
 	}
 	
 	[theWindow setTitle:windowTitle];
 	
 	//Growl information
-	if (isUpdate ? 
+	if (updateVersion ? 
 		[growlDelegate respondsToSelector:@selector(growlUpdateInformation)] :
 		[growlDelegate respondsToSelector:@selector(growlInstallationInformation)]) {
-		growlInfo = (isUpdate ? [growlDelegate growlUpdateInformation] : [growlDelegate growlInstallationInformation]);
+		growlInfo = (updateVersion ? [growlDelegate growlUpdateInformation] : [growlDelegate growlInstallationInformation]);
 
 	} else {
 		NSMutableAttributedString	*defaultGrowlInfo;
@@ -117,7 +136,9 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 		
 		//Now provide a default explanation
 		NSAttributedString *defaultExplanation;
-		defaultExplanation = [[[NSAttributedString alloc] initWithString:(isUpdate ? DEFAULT_UPDATE_EXPLANATION : DEFAULT_INSTALLATION_EXPLANATION)
+		defaultExplanation = [[[NSAttributedString alloc] initWithString:(updateVersion ? 
+																		  DEFAULT_UPDATE_EXPLANATION : 
+																		  DEFAULT_INSTALLATION_EXPLANATION)
 															  attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 																  [NSFont systemFontOfSize:GROWL_TEXT_SIZE], NSFontAttributeName,
 																  nil]] autorelease];
@@ -144,7 +165,7 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 	NSRect	newInstallButtonFrame, oldInstallButtonFrame;
 	int installButtonOriginLeftShift;
 	oldInstallButtonFrame = [button_install frame];
-	[button_install setTitle:(isUpdate ? UPDATE_BUTTON_TITLE : INSTALL_BUTTON_TITLE)];
+	[button_install setTitle:(updateVersion ? UPDATE_BUTTON_TITLE : INSTALL_BUTTON_TITLE)];
 	[button_install sizeToFit];
 	newInstallButtonFrame = [button_install frame];
 	//Don't shrink to a size less than the original size
@@ -182,7 +203,7 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 
 - (IBAction) cancel:(id)sender
 {	
-	if (!isUpdate){
+	if (!updateVersion){
 		//Tell the app bridge about the user's choice
 		[GrowlApplicationBridge _userChoseNotToInstallGrowl];
 	}
@@ -193,11 +214,23 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 
 - (IBAction) dontAskAgain:(id)sender
 {
-	//Store the user's preference to the user defaults dictionary
-	[[NSUserDefaults standardUserDefaults] setBool:([sender state] == NSOnState)
-											forKey:(isUpdate ?
-													@"Growl Update: Do Not Prompt Again" :
-													@"Growl Installation: Do Not Prompt Again")];
+	BOOL dontAskAgain = ([sender state] == NSOnState);
+	
+	if(updateVersion){
+		if (dontAskAgain) {
+			/* We want to be able to prompt again for the next version, so we track the version for which the user requested
+			 * not to be prompted again. */
+			[[NSUserDefaults standardUserDefaults] setObject:updateVersion
+													  forKey:@"Growl Update:Do Not Prompt Again:Last Version"];
+		} else {
+			[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Growl Update:Do Not Prompt Again:Last Version"];			
+		}
+
+	}else{
+		//Store the user's preference to the user defaults dictionary
+		[[NSUserDefaults standardUserDefaults] setBool:dontAskAgain
+												forKey:@"Growl Installation:Do Not Prompt Again"];
+	}
 }
 
 // called as the window closes

@@ -16,10 +16,22 @@
 	IBOutlet	NSButton	*button_cancel;
 	IBOutlet	NSButton	*checkBox_dontAskAgain;
 	
-	BOOL isUpdate;
+	NSString	*updateVersion;
 }
 
-+ (void) showInstallationPromptForUpdate:(BOOL)inIsUpdate;
+/*!
+ *	@method showInstallationPrompt
+ *	@abstract Shows the installation prompt for Growl-WithInstaller 
+ */
++ (void) showInstallationPrompt;
+
+/*!
+ * @method showUpdatePromptForVersion:
+ * @abstract Show the update prompt for Growl-WithInstaller
+ *
+ * @param updateVersion The version for which an update is available
+ */
++ (void) showUpdatePromptForVersion:(NSString *)updateVersion;
 
 - (IBAction) installGrowl:(id)sender;
 - (IBAction) cancel:(id)sender;

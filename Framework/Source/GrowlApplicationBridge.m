@@ -180,7 +180,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 			
 			//if we have not already asked the user to install Growl, do it now
 			if (!promptedToInstallGrowl) {
-				[GrowlInstallationPrompt showInstallationPromptForUpdate:NO];
+				[GrowlInstallationPrompt showInstallationPrompt];
 				promptedToInstallGrowl = YES;
 			}
 			[userInfo release];
@@ -515,10 +515,16 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	installedVersion = [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey];
 
 	//If the installed version is earlier than our packaged version, we can offer an upgrade.
-	upgradeIsAvailable = compareVersionStringsTranslating1_0To0_5(packagedVersion, installedVersion);
+	upgradeIsAvailable = (compareVersionStringsTranslating1_0To0_5(packagedVersion, installedVersion) == kCFCompareGreaterThan);
 	if (upgradeIsAvailable && !promptedToUpgradeGrowl) {
-			[GrowlInstallationPrompt showInstallationPromptForUpdate:YES];
+		NSString	*lastDoNotPromptVersion;
+		lastDoNotPromptVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"Growl Update:Do Not Prompt Again:Last Version"];
+		
+		if (!lastDoNotPromptVersion ||
+			(compareVersionStringsTranslating1_0To0_5(packagedVersion, lastDoNotPromptVersion) == kCFCompareGreaterThan)) {
+			[GrowlInstallationPrompt showUpdatePromptForVersion:packagedVersion];
 			promptedToUpgradeGrowl = YES;
+		}
 	}
 }
 #endif
