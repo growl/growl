@@ -287,7 +287,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = ../../build;
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
