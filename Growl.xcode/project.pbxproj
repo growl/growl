@@ -85,6 +85,72 @@
 			settings = {
 			};
 		};
+		07BB71AB07ACB69C00BFDD4A = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlAppBridge.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07BB71AC07ACB69C00BFDD4A = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlAppBridge.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07BB71AD07ACB69C00BFDD4A = {
+			fileRef = 07BB71AB07ACB69C00BFDD4A;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		07BB71AE07ACB69C00BFDD4A = {
+			fileRef = 07BB71AC07ACB69C00BFDD4A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07BB71AF07ACB69C00BFDD4A = {
+			fileRef = 07BB71AB07ACB69C00BFDD4A;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		07BB71B007ACB69C00BFDD4A = {
+			fileRef = 07BB71AC07ACB69C00BFDD4A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07BB71DD07ACC69C00BFDD4A = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = "GrowlAppBridge-Carbon.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07BB71DE07ACC69C00BFDD4A = {
+			fileRef = 07BB71DD07ACC69C00BFDD4A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07BB71DF07ACC69C00BFDD4A = {
+			fileRef = 07BB71DD07ACC69C00BFDD4A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //070
 //071
 //072
@@ -2350,8 +2416,11 @@
 				34F60EC2078E1D5600CECA86,
 				34F60EB8078E1D3E00CECA86,
 				34F60EB6078E1D3E00CECA86,
+				07BB71AB07ACB69C00BFDD4A,
+				07BB71AC07ACB69C00BFDD4A,
 				343353E90792F7CF00C84B15,
 				343353E80792F7CF00C84B15,
+				07BB71DD07ACC69C00BFDD4A,
 				3433500C079275A300C84B15,
 			);
 			isa = PBXGroup;
@@ -2503,6 +2572,8 @@
 				343353EB0792F7CF00C84B15,
 				343354C20792F96300C84B15,
 				349D11C2079DDDB300911D48,
+				07BB71AD07ACB69C00BFDD4A,
+				07BB71DE07ACC69C00BFDD4A,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2519,6 +2590,7 @@
 			files = (
 				34F60EBA078E1D3E00CECA86,
 				343353EA0792F7CF00C84B15,
+				07BB71AE07ACB69C00BFDD4A,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2676,6 +2748,8 @@
 				343354E70792FB0000C84B15,
 				343354EF0792FC3600C84B15,
 				349D11C3079DDDB600911D48,
+				07BB71AF07ACB69C00BFDD4A,
+				07BB71DF07ACC69C00BFDD4A,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2694,6 +2768,7 @@
 				34E9EE68079086E300662E8E,
 				34E9F1310790AF3800662E8E,
 				343354E60792FAFF00C84B15,
+				07BB71B007ACB69C00BFDD4A,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2806,7 +2881,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find $BUILD_ROOT/$WRAPPER_NAME '(' -name '.svn' -or -name '.DS_Store' ')' -prune -exec rm -rf '{}' ';'\n";
+			shellScript = "find $BUILD_DIR/$FULL_PRODUCT_NAME '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\ncd $BUILD_DIR/$FULL_PRODUCT_NAME\nrm GrowlAppBridge\nln -s Contents/MacOS/$EXECUTABLE_NAME GrowlAppBridge\n";
 		};
 //340
 //341
