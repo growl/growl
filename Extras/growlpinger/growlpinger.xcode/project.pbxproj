@@ -1,0 +1,338 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 39;
+	objects = {
+		014CEA4F0018CE4811CA2923 = {
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				ZERO_LINK = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		014CEA500018CE4811CA2923 = {
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+//010
+//011
+//012
+//013
+//014
+//080
+//081
+//082
+//083
+//084
+		08FB7793FE84155DC02AAC07 = {
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA4F0018CE4811CA2923,
+				014CEA500018CE4811CA2923,
+			);
+			hasScannedForEncodings = 1;
+			isa = PBXProject;
+			mainGroup = 08FB7794FE84155DC02AAC07;
+			projectDirPath = "";
+			targets = (
+				8DD76F960486AA7600D96B5E,
+			);
+		};
+		08FB7794FE84155DC02AAC07 = {
+			children = (
+				497B3D2E07EBDEDB00E470C9,
+				08FB7795FE84155DC02AAC07,
+				C6859EA2029092E104C91782,
+				08FB779DFE84155DC02AAC07,
+				1AB674ADFE9D54B511CA2CBB,
+			);
+			isa = PBXGroup;
+			name = growlpinger;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 = {
+			children = (
+				496ED86407E9B1B50047F24A,
+				496ED86507E9B1B50047F24A,
+				32A70AAB03705E1F00C91783,
+				08FB7796FE84155DC02AAC07,
+			);
+			isa = PBXGroup;
+			name = Source;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		08FB7796FE84155DC02AAC07 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = growlpinger.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		08FB779DFE84155DC02AAC07 = {
+			children = (
+				496ED8CB07E9B5E20047F24A,
+				08FB779EFE84155DC02AAC07,
+			);
+			isa = PBXGroup;
+			name = "External Frameworks and Libraries";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		08FB779EFE84155DC02AAC07 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Foundation.framework;
+			path = /System/Library/Frameworks/Foundation.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+//080
+//081
+//082
+//083
+//084
+//1A0
+//1A1
+//1A2
+//1A3
+//1A4
+		1AB674ADFE9D54B511CA2CBB = {
+			children = (
+				8DD76FA10486AA7600D96B5E,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//1A0
+//1A1
+//1A2
+//1A3
+//1A4
+//320
+//321
+//322
+//323
+//324
+		32A70AAB03705E1F00C91783 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = growlpinger_Prefix.pch;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//320
+//321
+//322
+//323
+//324
+//490
+//491
+//492
+//493
+//494
+		496ED86407E9B1B50047F24A = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = Pinger.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		496ED86507E9B1B50047F24A = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = Pinger.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		496ED86607E9B1B50047F24A = {
+			fileRef = 496ED86407E9B1B50047F24A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		496ED86707E9B1B50047F24A = {
+			fileRef = 496ED86507E9B1B50047F24A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		496ED8CB07E9B5E20047F24A = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = AppKit.framework;
+			path = /System/Library/Frameworks/AppKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		496ED8CC07E9B5E20047F24A = {
+			fileRef = 496ED8CB07E9B5E20047F24A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		497B3D2A07EBDED700E470C9 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlDefines.h;
+			path = /Users/andrew/Documents/Coding/growl/growl/Common/Source/GrowlDefines.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		497B3D2C07EBDED700E470C9 = {
+			fileRef = 497B3D2A07EBDED700E470C9;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		497B3D2E07EBDEDB00E470C9 = {
+			children = (
+				497B3D2A07EBDED700E470C9,
+			);
+			isa = PBXGroup;
+			name = Headers;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//490
+//491
+//492
+//493
+//494
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+		8DD76F960486AA7600D96B5E = {
+			buildPhases = (
+				8DD76F990486AA7600D96B5E,
+				8DD76F9B0486AA7600D96B5E,
+				8DD76F9E0486AA7600D96B5E,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = growlpinger_Prefix.pch;
+				INSTALL_PATH = "$(HOME)/bin";
+				PRODUCT_NAME = growlpinger;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = growlpinger;
+			productInstallPath = "$(HOME)/bin";
+			productName = growlpinger;
+			productReference = 8DD76FA10486AA7600D96B5E;
+			productType = "com.apple.product-type.tool";
+		};
+		8DD76F990486AA7600D96B5E = {
+			buildActionMask = 2147483647;
+			files = (
+				8DD76F9A0486AA7600D96B5E,
+				496ED86707E9B1B50047F24A,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DD76F9A0486AA7600D96B5E = {
+			fileRef = 08FB7796FE84155DC02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		8DD76F9B0486AA7600D96B5E = {
+			buildActionMask = 2147483647;
+			files = (
+				8DD76F9C0486AA7600D96B5E,
+				496ED8CC07E9B5E20047F24A,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8DD76F9C0486AA7600D96B5E = {
+			fileRef = 08FB779EFE84155DC02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8DD76F9E0486AA7600D96B5E = {
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				8DD76F9F0486AA7600D96B5E,
+				496ED86607E9B1B50047F24A,
+				497B3D2C07EBDED700E470C9,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		8DD76F9F0486AA7600D96B5E = {
+			fileRef = C6859EA3029092ED04C91782;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8DD76FA10486AA7600D96B5E = {
+			explicitFileType = "compiled.mach-o.executable";
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = growlpinger;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+//C60
+//C61
+//C62
+//C63
+//C64
+		C6859EA2029092E104C91782 = {
+			children = (
+				C6859EA3029092ED04C91782,
+			);
+			isa = PBXGroup;
+			name = Documentation;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		C6859EA3029092ED04C91782 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.man;
+			path = growlpinger.1;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+	};
+	rootObject = 08FB7793FE84155DC02AAC07;
+}
