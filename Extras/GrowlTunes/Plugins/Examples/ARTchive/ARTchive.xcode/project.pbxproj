@@ -156,12 +156,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		0A55D5D60713179200D09C04 = {
-			fileRef = 0A55D5D40713179200D09C04;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0A55D5D70713179200D09C04 = {
 			fileRef = 0A55D5D50713179200D09C04;
 			isa = PBXBuildFile;
@@ -183,12 +177,6 @@
 			path = ARTchiveIconSource.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		0A8B5FCB070B17B300593A33 = {
-			fileRef = 0A8B5FC9070B17B300593A33;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		0A8B5FCC070B17B300593A33 = {
 			fileRef = 0A8B5FCA070B17B300593A33;
@@ -320,8 +308,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B0048680CD000E48DA,
-				0A8B5FCB070B17B300593A33,
-				0A55D5D60713179200D09C04,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
