@@ -294,7 +294,7 @@ enum {
 			
 			// Use the iTunes icon instead
 			artwork = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"];
-			[artwork setSize:NSMakeSize( 128.0, 128.0 )];
+			[artwork setSize:NSMakeSize( 128.0f, 128.0f )];
 		}
 		if ([newTrackURL hasPrefix:@"http://"]) { //If we're streaming music, display only the name of the station and genre
 			displayString = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"Genre"]];
@@ -421,7 +421,7 @@ enum {
 			
 			// Use the iTunes icon instead
 			artwork = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"];
-			[artwork setSize:NSMakeSize( 128.0, 128.0 )];
+			[artwork setSize:NSMakeSize( 128.0f, 128.0f )];
 		}
 		
 		// Tell growl
