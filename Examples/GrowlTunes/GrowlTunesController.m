@@ -183,9 +183,13 @@ enum {
 												  onAlbum:album];
 					}
 					if(artwork == nil) {
-						NSLog(@"Error getting artwork: %@", [error objectForKey:NSAppleScriptErrorMessage]);
-						if([plugins count])
-							NSLog(@"No plug-ins found anything either, or you wouldn't have this message.");
+						if (error != nil) {
+							NSLog(@"Error getting artwork: %@", [error objectForKey:NSAppleScriptErrorMessage]);
+							if([plugins count])
+								NSLog(@"No plug-ins found anything either, or you wouldn't have this message.");
+						}
+						// Use the iTunes icon instead
+						artwork = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"];
 					}
 				}
 				
