@@ -25,8 +25,8 @@
 /*these keys are intentionally the same as the element names used in the actual
  *	XML data returned by Amazon.
  */
-#define AMAZON_ARTISTS_KEY @"Artists"
-#define AMAZON_ALBUM_KEY @"ProductName"
+#define AMAZON_ARTISTS_KEY          @"Artists"
+#define AMAZON_ALBUM_KEY            @"ProductName"
 #define AMAZON_IMAGE_URL_SMALL_KEY  @"ImageUrlSmall"
 #define AMAZON_IMAGE_URL_MEDIUM_KEY @"ImageUrlMedium"
 #define AMAZON_IMAGE_URL_LARGE_KEY  @"ImageUrlLarge"
