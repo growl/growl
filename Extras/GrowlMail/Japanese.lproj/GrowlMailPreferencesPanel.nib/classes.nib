@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {toggleEnable = id; toggleIgnoreJunk = id; toggleShowSummary = id; }; 
+            CLASS = GrowlMailPreferencesModule; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                accountsView = NSTableView; 
+                enabledButton = NSButton; 
+                junkButton = NSButton; 
+                summaryButton = NSButton; 
+            }; 
+            SUPERCLASS = NSPreferencesModule; 
+        }, 
+        {
+            CLASS = NSPreferencesModule; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_preferencesView" = NSBox; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -477,6 +477,14 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		9528EFE607F5A60600061D90 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = Japanese.lproj/GrowlMailPreferencesPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		9550E79F077A207E00436674 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.png;
@@ -535,6 +543,7 @@
 			children = (
 				955347EB0732C14400D12875,
 				950DAC0E0737AF630096F066,
+				9528EFE607F5A60600061D90,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlMailPreferencesPanel.nib;

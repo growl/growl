@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Growl is running.</key>
+	<string>Growlは作動しています。</string>
+	<key>Growl is stopped.</key>
+	<string>Growlは停止しています</string>
+	<key>Launching Growl...</key>
+	<string>Growlを起動しています…</string>
+	<key>Start Growl</key>
+	<string>Growl開始</string>
+	<key>Stop Growl</key>
+	<string>Growl停止</string>
+	<key>Terminating Growl...</key>
+	<string>Growlを終了させる…</string>
+	<key>Cancel</key>
+	<string>キャンセル</string>
+	<key>A newer version of Growl is available online. Would you like to download it now?</key>
+	<string>新しいバージョンのGrowlが公開されています。今すぐダウンロードしますか?</string>
+	<key>Update Available</key>
+	<string>アップデートがあります</string>
+	<key>OK</key>
+	<string>OK</string>
+	<key>Cancel</key>
+	<string>キャンセル</string>
+	<key>Yes</key>
+	<string>はい</string>
+	<key>No</key>
+	<string>いいえ</string>
+	<key>Plugin already exists</key>
+	<string>すでにプラグインがあります</string>
+	<key>Plugin installed</key>
+	<string>プラグインがインストールされました</string>
+	<key>Plugin not installed</key>
+	<string>プラグインがインストールされていません</string>
+	<key>Plugin '%@' is already installed, do you want to overwrite it?</key>
+	<string>'%@'というプラグインはすでにインストールされています。上書きしますか?</string>
+	<key>Plugin '%@' has been installed successfully. Do you want to configure it now?</key>
+	<string>'%@'というプラグインのインストールは成功しました。今すぐ設定しますか?</string>
+	<key>There was an error while installing the plugin '%@'.</key>
+	<string>'%@'というプラグインのインストール中にエラーが起こりました。</string>
+</dict>
+</plist>

@@ -397,7 +397,6 @@
 		089C167CFE841241C02AAC07 = {
 			children = (
 				9532B0B907CE651F0028B2F1,
-				959FAF510738BAD500040AA9,
 				8D202CF70486D31800D8A456,
 				089C167DFE841241C02AAC07,
 				DD3AD65B07E9DF6E00E9A0A4,
@@ -3272,9 +3271,9 @@
 		8D202CEC0486D31800D8A456 = {
 			buildActionMask = 2147483647;
 			files = (
+				9528EF8007F5A2DF00061D90,
 				8D202CED0486D31800D8A456,
 				CB5FA1BD0638CA2C00EADD7A,
-				959FAF520738BAD500040AA9,
 				95BF837C0743675700306A77,
 				CB910DA7074E0A3A00278FC5,
 				097888CA076EC6DA00071EB6,
@@ -3400,6 +3399,21 @@
 			path = Core/Resources/German.lproj/InfoPlist.strings;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		9528EF7907F5A27300061D90 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = Japanese;
+			path = Core/Resources/Japanese.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9528EF8007F5A2DF00061D90 = {
+			fileRef = 954F013B074135D400EA8AB5;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		952EFC9007C2869700952C6B = {
 			children = (
@@ -3573,6 +3587,7 @@
 			children = (
 				954F012F074135CC00EA8AB5,
 				954F0148074135D700EA8AB5,
+				9528EF7907F5A27300061D90,
 			);
 			isa = PBXVariantGroup;
 			name = Localizable.strings;
@@ -3773,40 +3788,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		959FAF470738B9A000040AA9 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			name = English;
-			path = Core/Resources/English.lproj/Localizable.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		959FAF510738BAD500040AA9 = {
-			children = (
-				959FAF470738B9A000040AA9,
-				959FAF530738BADB00040AA9,
-			);
-			isa = PBXVariantGroup;
-			name = Localizable.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		959FAF520738BAD500040AA9 = {
-			fileRef = 959FAF510738BAD500040AA9;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		959FAF530738BADB00040AA9 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			name = German;
-			path = Core/Resources/German.lproj/Localizable.strings;
-			refType = 4;
-			sourceTree = "<group>";
 		};
 		95BF83760743675700306A77 = {
 			isa = PBXFileReference;
