@@ -105,7 +105,7 @@ enum {
 	if (polling) {
 		pollInterval = [[NSUserDefaults standardUserDefaults] floatForKey:pollIntervalKey];
 	
-		if ( [self iTunesIsRunning] ) [self startTimer];
+		if ([self iTunesIsRunning]) [self startTimer];
 		
 		NSNotificationCenter *workspaceCenter = [[NSWorkspace sharedWorkspace] notificationCenter];
 		[workspaceCenter addObserver:self
@@ -209,8 +209,8 @@ enum {
 	int     wholeStarRequirement = 20;
 	unsigned starsRemaining = 5U;
 	unsigned i = 0U;
-	for(; starsRemaining--; ++i) {
-		if(rating >= wholeStarRequirement) {
+	for (; starsRemaining--; ++i) {
+		if (rating >= wholeStarRequirement) {
 			starBuffer[i] = BLACK_STAR;
 			rating -= 20;
 		} else {
@@ -219,9 +219,9 @@ enum {
 			 *if the original rating is 80, then rating = 0,  and we get WHITE STAR.
 			 */
 			starBuffer[i] = fractionChars[rating];
-			if(!starBuffer[i]) {
+			if (!starBuffer[i]) {
 				//add a space if this isn't the first 'star'.
-				if(i) starBuffer[i++] = SPACE;
+				if (i) starBuffer[i++] = SPACE;
 				starBuffer[i] = MIDDLE_DOT;
 			}
 			rating = 0; //ensure that remaining characters are WHITE STAR.
@@ -241,11 +241,11 @@ enum {
 	NSDictionary *userInfo    = [aNotification userInfo];
 	
 	playerState = [[aNotification userInfo] objectForKey:@"Player State"];
-	if ( [playerState isEqualToString:@"Paused"] ) {
+	if ([playerState isEqualToString:@"Paused"]) {
 		newState = itPAUSED;
-	} else if( [playerState isEqualToString:@"Stopped"] ) {
+	} else if ([playerState isEqualToString:@"Stopped"]) {
 		newState = itSTOPPED;
-	} else if( [playerState isEqualToString:@"Playing"] ){
+	} else if ([playerState isEqualToString:@"Playing"]){
 		newState = itPLAYING;
 		/*For radios and files, the ID is the location.
 		 *For iTMS purchases, it's the Store URL.
@@ -271,7 +271,7 @@ enum {
 		}
 	}
 	
-	if ( newTrackURL && ![newTrackURL isEqualToString:trackURL] ) { // this is different from previous notification
+	if (newTrackURL && ![newTrackURL isEqualToString:trackURL]) { // this is different from previous notification
 		NSString		*track         = nil;
 		NSString		*length        = nil;
 		NSString		*artist        = @"";
@@ -295,7 +295,7 @@ enum {
 		int hr  = lv/3600000;
 		int min = lv/60000;
 		int sec = lv/1000 - 60*min;
-		if(hr > 0)
+		if (hr > 0)
 			length = [NSString stringWithFormat:@"%d:%02d:%02d", hr, min, sec];
 		else
 			length = [NSString stringWithFormat:@"%d:%02d", min, sec];
@@ -313,7 +313,7 @@ enum {
 			curDescriptor = [theDescriptor descriptorAtIndex:1L];
 			const OSType type = [curDescriptor typeCodeValue];
 
-			if( type != 'null' ) {
+			if (type != 'null') {
 				artwork = [[[NSImage alloc] initWithData:[curDescriptor data]] autorelease];
 			}
 		} 
@@ -322,7 +322,7 @@ enum {
 		if (!artwork && ![newTrackURL hasPrefix:@"http://"]) {
 				NSEnumerator *pluginEnum = [plugins objectEnumerator];
 				id <GrowlTunesPlugin> plugin;
-				while ( !artwork && ( plugin = [pluginEnum nextObject] ) ) {
+				while (!artwork && (plugin = [pluginEnum nextObject])) {
 					artwork = [plugin artworkForTitle:track
 											byArtist:artist
 											onAlbum:album
@@ -334,32 +334,32 @@ enum {
 			
 			}
 		
-		if ( !artwork ) {
-			if ( !error && !![newTrackURL hasPrefix:@"http://"]) {
+		if (!artwork) {
+			if (!error && !![newTrackURL hasPrefix:@"http://"]) {
 				NSLog(@"Error getting artwork: %@", [error objectForKey:NSAppleScriptErrorMessage]);
-				if ( [plugins count] ) NSLog(@"No plug-ins found anything either, or you wouldn't have this message.");
+				if ([plugins count]) NSLog(@"No plug-ins found anything either, or you wouldn't have this message.");
 			}
 			
 			// Use the iTunes icon instead
 			artwork = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"];
-			[artwork setSize:NSMakeSize( 128.0f, 128.0f )];
+			[artwork setSize:NSMakeSize(128.0f, 128.0f)];
 		}
 		if ([newTrackURL hasPrefix:@"http://"]) {
 			//If we're streaming music, display only the name of the station and genre
 			displayString = [NSString stringWithFormat:NSLocalizedString(@"Display-string format for streams", /*comment*/ nil), [userInfo objectForKey:@"Genre"]];
 		} else {
-			if(!artist) artist = @"";
-			if(!album)  album  = @"";
+			if (!artist) artist = @"";
+			if (!album)  album  = @"";
 			displayString = [NSString stringWithFormat:NSLocalizedString(@"Display-string format", /*comment*/ nil), length, ratingString, artist, album];
 		}
 		
 		// Tell Growl
 		NSDictionary	*noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
-			( state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING ), GROWL_NOTIFICATION_NAME,
+			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,
 			appName, GROWL_APP_NAME,
 			track, GROWL_NOTIFICATION_TITLE,
 			displayString, GROWL_NOTIFICATION_DESCRIPTION,
-			( artwork ? [artwork TIFFRepresentation] : nil ), GROWL_NOTIFICATION_ICON,
+			(artwork ? [artwork TIFFRepresentation] : nil), GROWL_NOTIFICATION_ICON,
 			length, EXTENSION_GROWLTUNES_TRACK_LENGTH,
 			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
@@ -388,22 +388,22 @@ enum {
 	curDescriptor = [theDescriptor descriptorAtIndex:1L];
 	playerState = [curDescriptor stringValue];
 	
-	if ( [playerState isEqualToString:@"paused"] ) {
+	if ([playerState isEqualToString:@"paused"]) {
 		newState = itPAUSED;
-	} else if( [playerState isEqualToString:@"stopped"] ) {
+	} else if ([playerState isEqualToString:@"stopped"]) {
 		newState = itSTOPPED;
 	} else {
 		newState = itPLAYING;
 		newTrackID = [curDescriptor int32Value];
 	}
 	
-	if(state == itUNKNOWN) {
+	if (state == itUNKNOWN) {
 		state = newState;
 		trackID = newTrackID;
 		return;
 	}
 	
-	if ( newTrackID != 0 && trackID != newTrackID ) { // this is different from previous note
+	if (newTrackID != 0 && trackID != newTrackID) { // this is different from previous note
 		NSString		*track = nil;
 		NSString		*length = nil;
 		NSString		*artist = nil;
@@ -417,22 +417,22 @@ enum {
 		curDescriptor = [theDescriptor descriptorAtIndex:9L];
 		playlistName = [curDescriptor stringValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:2L] )
+		if (curDescriptor = [theDescriptor descriptorAtIndex:2L])
 			track = [curDescriptor stringValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:3L] )
+		if (curDescriptor = [theDescriptor descriptorAtIndex:3L])
 			length = [curDescriptor stringValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:4L] )
+		if (curDescriptor = [theDescriptor descriptorAtIndex:4L])
 			artist = [curDescriptor stringValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:5L] )
+		if (curDescriptor = [theDescriptor descriptorAtIndex:5L])
 			album = [curDescriptor stringValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:6L] )
+		if (curDescriptor = [theDescriptor descriptorAtIndex:6L])
 			compilation = (BOOL)[curDescriptor booleanValue];
 		
-		if ( curDescriptor = [theDescriptor descriptorAtIndex:7L] ) {
+		if (curDescriptor = [theDescriptor descriptorAtIndex:7L]) {
 			int ratingInt = [[curDescriptor stringValue] intValue];
 			if (ratingInt < 0) ratingInt = 0;
 			rating = [NSNumber numberWithInt:ratingInt];
@@ -442,12 +442,12 @@ enum {
 		curDescriptor = [theDescriptor descriptorAtIndex:8L];
 		const OSType type = [curDescriptor typeCodeValue];
 		
-		if( type != 'null' ) {
+		if (type != 'null') {
 			artwork = [[[NSImage alloc] initWithData:[curDescriptor data]] autorelease];
 		} else {
 			NSEnumerator *pluginEnum = [plugins objectEnumerator];
 			id <GrowlTunesPlugin> plugin;
-			while ( !artwork && ( plugin = [pluginEnum nextObject] ) ) {
+			while (!artwork && (plugin = [pluginEnum nextObject])) {
 				artwork = [plugin artworkForTitle:track
 										 byArtist:artist
 										  onAlbum:album
@@ -459,24 +459,24 @@ enum {
 			
 		}
 		
-		if ( !artwork ) {
-			if ( !error ) {
+		if (!artwork) {
+			if (!error) {
 				NSLog(@"Error getting artwork: %@", [error objectForKey:NSAppleScriptErrorMessage]);
-				if ( [plugins count] ) NSLog(@"No plug-ins found anything either, or you wouldn't have this message.");
+				if ([plugins count]) NSLog(@"No plug-ins found anything either, or you wouldn't have this message.");
 			}
 			
 			// Use the iTunes icon instead
 			artwork = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"];
-			[artwork setSize:NSMakeSize( 128.0f, 128.0f )];
+			[artwork setSize:NSMakeSize(128.0f, 128.0f)];
 		}
 		
 		// Tell growl
 		noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
-			( state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING ), GROWL_NOTIFICATION_NAME,
+			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,
 			appName, GROWL_APP_NAME,
 			track, GROWL_NOTIFICATION_TITLE,
 			[NSString stringWithFormat:@"%@ - %@\n%@\n%@",length,ratingString,artist,album], GROWL_NOTIFICATION_DESCRIPTION,
-			( artwork ? [artwork TIFFRepresentation] : nil ), GROWL_NOTIFICATION_ICON,
+			(artwork ? [artwork TIFFRepresentation] : nil), GROWL_NOTIFICATION_ICON,
 			length, EXTENSION_GROWLTUNES_TRACK_LENGTH,
 			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
@@ -522,7 +522,7 @@ enum {
 			[statusItem setMenu:[self statusItemMenu]];
 			[statusItem setHighlightMode:YES];
 			[statusItem setImage:[NSImage imageNamed:@"growlTunes.tif"]];
-			if(floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_2)  {
+			if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_2)  {
 				[statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.tif"]];
 			}
 			[statusItem setToolTip:NSLocalizedString(@"Status item tooltip", /*comment*/ nil)];
@@ -592,13 +592,13 @@ enum {
 
 - (NSMenu *) buildiTunesSubmenu {
 	id <NSMenuItem> item;
-	if ( ! iTunesSubMenu ) 
+	if (!iTunesSubMenu) 
 		iTunesSubMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"iTunes"] autorelease];
 	
 	// Out with the old
 	NSArray *items = [iTunesSubMenu itemArray];
 	NSEnumerator *itemEnumerator = [items objectEnumerator];
-	while ( item = [itemEnumerator nextObject] ) {
+	while (item = [itemEnumerator nextObject]) {
 		[iTunesSubMenu removeItem:item];
 	}
 	
@@ -608,7 +608,7 @@ enum {
 	NSDictionary *aTuneDict = nil;
 	int k = 0;
 	
-	while ( aTuneDict = [tunesEnumerator nextObject] ) {
+	while (aTuneDict = [tunesEnumerator nextObject]) {
 		item = [iTunesSubMenu addItemWithTitle:[aTuneDict objectForKey:@"name"]
 										action:@selector(jumpToTune:) 
 								 keyEquivalent:@""];
@@ -633,7 +633,7 @@ enum {
 	
 	switch ([item tag]) {
 		case launchQuitiTunesTag:;
-			if([self iTunesIsRunning])
+			if ([self iTunesIsRunning])
 				[item setTitle:@"Quit iTunes"];
 			else
 				[item setTitle:@"Launch iTunes"];
@@ -644,7 +644,7 @@ enum {
 			break;
 
 		case togglePollingTag:
-			if(pollTimer) {
+			if (pollTimer) {
 				[item setTitle:@"Stop Polling"];
 				[item setToolTip:NSLocalizedString(@"Status item Stop Polling item tooltip", /*comment*/ nil)];
 			} else {
@@ -685,7 +685,7 @@ enum {
 }
 
 - (IBAction) launchQuitiTunes:(id)sender {
-	if(![self quitiTunes]) {
+	if (![self quitiTunes]) {
 		//quit failed, so it wasn't running: launch it.
 		[[NSWorkspace sharedWorkspace] launchApplication:iTunesAppName];
 	}

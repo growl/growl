@@ -22,7 +22,7 @@
 @implementation GrowlTunes_Amazon
 
 - (id) init {
-	if ( self = [super init] ) {
+	if ((self = [super init])) {
 		// Can't assume we have internet, but we are till someone figures a good test
 		weGetInternet = YES;
 	}
@@ -46,7 +46,7 @@
 	if (compilation)
 		artist = @"compilation";
 
-	NSLog( @"Go go interweb (%@ by %@ from %@)", song, artist, album );
+	NSLog(@"Go go interweb (%@ by %@ from %@)", song, artist, album);
 	NSDictionary *albumInfo = [self getAlbum:album byArtist:artist];
 
 	return [self imageWithAlbumInfo:albumInfo];
@@ -97,7 +97,7 @@
 
 				NSSet    *foundArtists    = [NSSet setWithArray:[foundItem objectForKey:AMAZON_ARTISTS_KEY]];
 				NSString *foundArtistName = [foundArtists member:artistName];
-				if(foundArtistName) artistName = foundArtistName;
+				if (foundArtistName) artistName = foundArtistName;
 
 				NSMutableDictionary *productInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 					albumName,        @"name",
@@ -105,11 +105,11 @@
 					nil];
 				id obj;
 				obj = [foundItem objectForKey:AMAZON_IMAGE_URL_LARGE_KEY];
-				if(obj) [productInfo setObject:obj forKey:AMAZON_IMAGE_URL_LARGE_KEY];
+				if (obj) [productInfo setObject:obj forKey:AMAZON_IMAGE_URL_LARGE_KEY];
 				obj = [foundItem objectForKey:AMAZON_IMAGE_URL_MEDIUM_KEY];
-				if(obj) [productInfo setObject:obj forKey:AMAZON_IMAGE_URL_MEDIUM_KEY];
+				if (obj) [productInfo setObject:obj forKey:AMAZON_IMAGE_URL_MEDIUM_KEY];
 				obj = [foundItem objectForKey:AMAZON_IMAGE_URL_SMALL_KEY];
-				if(obj) [productInfo setObject:obj forKey:AMAZON_IMAGE_URL_SMALL_KEY];
+				if (obj) [productInfo setObject:obj forKey:AMAZON_IMAGE_URL_SMALL_KEY];
 
 				[result addObject:productInfo];
 			}
@@ -132,7 +132,7 @@
 	NSEnumerator *matchEnum = [matches objectEnumerator];
 	NSDictionary *match;
 
-	while((match = [matchEnum nextObject])) {
+	while ((match = [matchEnum nextObject])) {
 		NSString *matchAlbumName = [match objectForKey:@"name"];
 		NSString *canonicalMatchAlbumName = [self canonicalAlbumName:matchAlbumName];
 		NSString *canonicalAlbumName = [self canonicalAlbumName:albumName];
@@ -220,30 +220,30 @@
 	 */
 
 	imageData = [self imageDataForKey:AMAZON_IMAGE_URL_LARGE_KEY fromAlbumInfo:albumInfo];
-	if(imageData) {
+	if (imageData) {
 		image = [[[NSImage alloc] initWithData:imageData] autorelease];
 		imageSize = [image size];
-		if((imageSize.width == 1.0f) && (imageSize.height == 1.0f)) {
+		if ((imageSize.width == 1.0f) && (imageSize.height == 1.0f)) {
 			image = nil;
 			imageData = nil;
 		}
 	}
-	if(!imageData) {
+	if (!imageData) {
 		imageData = [self imageDataForKey:AMAZON_IMAGE_URL_MEDIUM_KEY fromAlbumInfo:albumInfo];
-		if(imageData) {
+		if (imageData) {
 			image = [[[NSImage alloc] initWithData:imageData] autorelease];
 			imageSize = [image size];
-			if((imageSize.width == 1.0f) && (imageSize.height == 1.0f)) {
+			if ((imageSize.width == 1.0f) && (imageSize.height == 1.0f)) {
 				image = nil;
 				imageData = nil;
 			}
 		}
-		if(!imageData) {
+		if (!imageData) {
 			imageData = [self imageDataForKey:AMAZON_IMAGE_URL_SMALL_KEY fromAlbumInfo:albumInfo];
-			if(imageData) {
+			if (imageData) {
 				image = [[[NSImage alloc] initWithData:imageData] autorelease];
 				imageSize = [image size];
-				if((imageSize.width == 1.0f) && (imageSize.height == 1.0f)) {
+				if ((imageSize.width == 1.0f) && (imageSize.height == 1.0f)) {
 					image = nil;
 					imageData = nil;
 				}
@@ -267,7 +267,7 @@
 	NSError *error = nil;
 	NSURLResponse *response = nil;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	if(error)
+	if (error)
 		NSLog(@"In -[GrowlTunes_Amazon download:]: Got error: %@", error);
 
 	return data;
@@ -284,7 +284,7 @@
 - (NSString *)canonicalAlbumName:(NSString *)fullAlbumName {
 	size_t numChars = [fullAlbumName length];
 	unichar *chars = malloc(numChars * sizeof(unichar));
-	if(!chars) {
+	if (!chars) {
 		NSLog(@"In -[GrowlTunes_Amazon canonicalAlbumName:]: Could not allocate %lu bytes of memory in which to examine the full album name", (unsigned long)(numChars * sizeof(unichar)));
 		return nil;
 	}
@@ -302,9 +302,9 @@
 	}
 lookForWhitespace:
 	for (; i > 0U; --i)
-		if(isspace(chars[i])) break;
+		if (isspace(chars[i])) break;
 	for (; i > 0U; --i) {
-		if(!isspace(chars[i])) {
+		if (!isspace(chars[i])) {
 			++i;
 			break;
 		}
