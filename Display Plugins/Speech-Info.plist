@@ -11,9 +11,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
+	<string>DISP</string>
 	<key>CFBundleSignature</key>
-	<string>GRSP</string>
+	<string>GRRR</string>
 	<key>CFBundleVersion</key>
 	<string>0.6</string>
 	<key>CSResourcesFileMapped</key>

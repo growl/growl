@@ -15,11 +15,11 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
-	<string>BNDL</string>
+	<string>DISP</string>
 	<key>CFBundleShortVersionString</key>
 	<string></string>
 	<key>CFBundleSignature</key>
-	<string>GRBB</string>
+	<string>GRRR</string>
 	<key>CFBundleVersion</key>
 	<string>1.0.0d1</string>
 	<key>CSResourcesFileMapped</key>
