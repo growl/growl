@@ -106,7 +106,8 @@
 		doFadeIn = NO;
 		target = nil;
 		action = NULL;
-		notificationID = nil;
+		clickContext = nil;
+		appName = nil;
 		displayTime = MIN_DISPLAY_TIME;
 		priority = prio;
 	}
@@ -116,6 +117,8 @@
 
 - (void) dealloc {
 	[target release];
+	[clickContext release];
+	[appName release];
 
 	[super dealloc];
 }
@@ -160,13 +163,24 @@
 
 #pragma mark -
 
-- (NSString *) notificationID {
-	return notificationID;
+- (NSString *)appName {
+	return appName;
 }
 
-- (void) setNotificationID:(NSString *)inNotificationID {
-	[notificationID autorelease];
-	notificationID = [inNotificationID retain];
+- (void) setAppName:(NSString *) inAppName {
+	[appName autorelease];
+	appName = [inAppName retain];
+}
+
+#pragma mark -
+
+- (id) clickContext {
+	return clickContext;
+}
+
+- (void) setClickContext:(id)inClickContext {
+	[clickContext autorelease];
+	clickContext = [inClickContext retain];
 }
 
 @end

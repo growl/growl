@@ -14,7 +14,8 @@
 	id			target;
 	unsigned	identifier;
 	id			plugin; // the GrowlSmokeDisplay object which created us
-	NSString	*notificationID;
+	NSString	*appName;
+	id			clickContext;
 }
 
 + (GrowlSmokeWindowController *) notify;
@@ -30,8 +31,11 @@
 - (SEL) action;
 - (void) setAction:(SEL) selector;
 
-- (NSString *) notificationID;
-- (void) setNotificationID:(NSString *) notificationID;
+- (NSString *) appName;
+- (void) setAppName:(NSString *) inAppName;
+
+- (id) clickContext;
+- (void) setClickContext:(id) clickContext;
 
 - (unsigned) depth;
 @end

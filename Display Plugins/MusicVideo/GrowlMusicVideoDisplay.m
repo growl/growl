@@ -76,7 +76,8 @@
 	[nuMusicVideo setDelegate:self];
 	[nuMusicVideo setTarget:self];
 	[nuMusicVideo setAction:@selector(_musicVideoClicked:)];
-	[nuMusicVideo setNotificationID:[noteDict objectForKey:GROWL_NOTIFICATION_ID]];	
+	[nuMusicVideo setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[nuMusicVideo setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];	
 	
 	
 	if ( [notificationQueue count] > 0U ) {
@@ -115,13 +116,14 @@
 	}
 }
 
-- (void) _musicVideoClicked:(GrowlMusicVideoDisplay *)musicVideo
+- (void) _musicVideoClicked:(GrowlMusicVideoWindowController *)musicVideo
 {
-	NSString *notificationID = [musicVideo notificationID];
+	id clickContext;
 	
-	if (notificationID) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED	
-															object:notificationID];
+	if ( (clickContext = [musicVideo clickContext]) ) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
+															object:[musicVideo appName]
+														  userInfo:clickContext];
 	}
 }
 

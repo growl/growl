@@ -66,7 +66,7 @@
 				iconData:(NSData *)iconData 
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
-		  notificationID:(NSString *)notificationID;
+			clickContext:(id)clickContext;
 
 @end
 
@@ -89,8 +89,8 @@
 //XXX - Needs documentation
 - (void)growlIsReady;
 
-//Informs the delegate that a growl notification with the passed notificationID was clicked
+//Informs the delegate that a growl notification with the passed clickContext was clicked
 //XXX - Needs documentation
-- (void) growlNotificationWasClicked:(NSString *)notificationID;
+- (void) growlNotificationWasClicked:(id)clickContext;
 @end
 

@@ -150,7 +150,8 @@ static const double gMaxDisplayTime = 10.0;
 		autoFadeOut = !sticky;
 		target = nil;
 		action = NULL;
-		notificationID = nil;
+		clickContext = nil;
+		appName = nil;
 		delegate = self;
 
 		// the visibility time for this notification should be the minimum display time plus
@@ -183,9 +184,11 @@ static const double gMaxDisplayTime = 10.0;
 }
 
 - (void) dealloc {
-	//[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[target release];
+	[clickContext release];
+	[appName release];
 
 	//extern unsigned smokeWindowDepth;
 //	NSLog(@"smokeController deallocking");
@@ -227,13 +230,24 @@ static const double gMaxDisplayTime = 10.0;
 
 #pragma mark -
 
-- (NSString *) notificationID {
-	return notificationID;
+- (NSString *)appName {
+	return appName;
 }
 
-- (void) setNotificationID:(NSString *)inNotificationID {
-	[notificationID autorelease];
-	notificationID = [inNotificationID retain];
+- (void) setAppName:(NSString *) inAppName {
+	[appName autorelease];
+	appName = [inAppName retain];
+}
+
+#pragma mark -
+
+- (id) clickContext {
+	return clickContext;
+}
+
+- (void) setClickContext:(id)inClickContext {
+	[clickContext autorelease];
+	clickContext = [inClickContext retain];
 }
 
 #pragma mark -
@@ -241,4 +255,5 @@ static const double gMaxDisplayTime = 10.0;
 - (unsigned)depth {
 	return depth;
 }
+
 @end

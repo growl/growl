@@ -74,7 +74,8 @@
 																			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
 	[nuBubble setTarget:self];
 	[nuBubble setAction:@selector(_bubbleClicked:)];
-	[nuBubble setNotificationID:[noteDict objectForKey:GROWL_NOTIFICATION_ID]];
+	[nuBubble setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[nuBubble setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 
 	[nuBubble startFadeIn];
 //	NSLog( @"bubble - %@", nuBubble );
@@ -82,11 +83,12 @@
 
 - (void) _bubbleClicked:(GrowlBubblesWindowController *)bubble
 {
-	NSString *notificationID = [bubble notificationID];
+	id clickContext;
 
-	if (notificationID) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED	
-															object:notificationID];
+	if ( (clickContext = [bubble clickContext]) ) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
+														   object:[bubble appName]
+														  userInfo:clickContext];
 	}
 }
 

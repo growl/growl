@@ -77,7 +77,8 @@ static unsigned smokeDepth = 0U;
 	
 	[controller setTarget:self];
 	[controller setAction:@selector(_smokeClicked:)];
-	[controller setNotificationID:[noteDict objectForKey:GROWL_NOTIFICATION_ID]];	
+	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];	
 	
 	// update the depth for the next notification with the depth given by this new one
 	// which will take into account the new notification's height
@@ -94,13 +95,14 @@ static unsigned smokeDepth = 0U;
 	//NSLog(@"My depth is now %u\n", smokeDepth);
 }
 
-- (void) _smokeClicked:(GrowlSmokeDisplay *)smoke
+- (void) _smokeClicked:(GrowlSmokeWindowController *)smoke
 {
-	NSString *notificationID = [smoke notificationID];
+	id clickContext;
 	
-	if (notificationID) {
+	if ( (clickContext = [smoke clickContext]) ) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED	
-															object:notificationID];
+															object:[smoke appName]
+														  userInfo:clickContext];
 	}
 }
 

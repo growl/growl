@@ -1,2 +1,2 @@
-#import "GrowlDefines.h"
+#import "GrowlAppBridgeDefines.h"
 #import "GrowlAppBridge.h"

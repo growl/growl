@@ -71,14 +71,16 @@ static BOOL		growlLaunched = NO;
 				object:nil]; 
 
 	//Watch for notification clicks if our delegate responds to the growlNotificationWasClicked: selector
+	//Notificaitons will come in on a unique notification name based on our app name and GROWL_NOTIFICATION_CLICKED
+	NSString	*growlNotificationClickedName = [appName stringByAppendingString:GROWL_NOTIFICATION_CLICKED];
 	if([delegate respondsToSelector:@selector(growlNotificationWasClicked:)]){
 		[NSDNC addObserver:self
 				  selector:@selector(_growlNotificationWasClicked:)
-					  name:GROWL_NOTIFICATION_CLICKED 
+					  name:growlNotificationClickedName 
 					object:nil];
 	}else{
 		[NSDNC removeObserver:self
-						 name:GROWL_NOTIFICATION_CLICKED
+						 name:growlNotificationClickedName
 					   object:nil];
 	}
 
@@ -98,7 +100,7 @@ static BOOL		growlLaunched = NO;
 				iconData:(NSData *)iconData 
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
-		  notificationID:(NSString *)notificationID
+			clickContext:(id)clickContext
 {
 	NSAssert(delegate != nil, @"+[GrowlAppBridge setGrowlDelegate:] must be called before using this method.");
 	
@@ -138,8 +140,8 @@ static BOOL		growlLaunched = NO;
 		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];		
 	}
 	
-	if (notificationID) {
-		[noteDict setObject:notificationID forKey:GROWL_NOTIFICATION_ID];
+	if (clickContext) {
+		[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 	}
 	
 	if (growlLaunched) {
@@ -196,7 +198,7 @@ static BOOL		growlLaunched = NO;
 }
 
 /*
- + (BOOL)launchGrowlIfInstalledUsingRegistrationDict:(NSDictionary *)registrationDict
+ + (BOOL)launchGrowlIfInstalled
  Returns YES (TRUE) if the Growl helper app began launching.
  Returns NO (FALSE) and performs no other action if the Growl prefPane is not properly installed.
  Passing registrationDict, which is an NSDictionary *for registering the application with Growl (see documentation elsewhere)
@@ -280,17 +282,12 @@ static BOOL		growlLaunched = NO;
 }
 
 /* Selector called when a growl notification is clicked.  This should never be called manually, and the calling observer
- * should only be registed if the delegate responds to growlNotificationWasClicked: */
+ * should only be registered if the delegate responds to growlNotificationWasClicked: */
 + (void) _growlNotificationWasClicked:(NSNotification *)notification
 {
-	NSDictionary	*userInfo = [notification userInfo];
-
-	if([[userInfo objectForKey:GROWL_APP_NAME] isEqualToString:[delegate growlAppName]]){
-		[delegate performSelector:@selector(growlNotificationWasClicked:)
-						 withObject:[userInfo objectForKey:GROWL_NOTIFICATION_ID]];
-	}
+	[delegate performSelector:@selector(growlNotificationWasClicked:)
+				   withObject:[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
 }
-
 
 + (void)_growlIsReady:(NSNotification *)notification
 {

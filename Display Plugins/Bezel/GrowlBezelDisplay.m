@@ -76,7 +76,8 @@
 	
 	[nuBezel setTarget:self];
 	[nuBezel setAction:@selector(_bezelClicked:)];
-	[nuBezel setNotificationID:[noteDict objectForKey:GROWL_NOTIFICATION_ID]];	
+	[nuBezel setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[nuBezel setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];	
 	
 	if ( [notificationQueue count] > 0U ) {
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
@@ -114,13 +115,14 @@
 	}
 }
 
-- (void) _bezelClicked:(GrowlBezelDisplay *)bezel
+- (void) _bezelClicked:(GrowlBezelWindowController *)bezel
 {
-	NSString *notificationID = [bezel notificationID];
+	id clickContext;
 	
-	if (notificationID) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED	
-															object:notificationID];
+	if ( (clickContext = [bezel clickContext]) ) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
+															object:[bezel appName]
+														  userInfo:clickContext];
 	}
 }
 

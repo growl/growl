@@ -2127,12 +2127,35 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		34E9DC16078FBF1B00662E8E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlAppBridgeDefines.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34E9DC17078FBF1B00662E8E = {
+			fileRef = 34E9DC16078FBF1B00662E8E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34E9DC1A078FBFA800662E8E = {
+			fileRef = 34E9DC16078FBF1B00662E8E;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
 		34F60EA6078E1CD500CECA86 = {
 			buildActionMask = 2147483647;
 			files = (
 				34F60EBC078E1D3E00CECA86,
 				34F60EC3078E1D5600CECA86,
-				34F60ED0078E1DCC00CECA86,
+				34E9DC1A078FBFA800662E8E,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2178,7 +2201,6 @@
 				INFOPLIST_FILE = "Growl.framework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
@@ -2280,15 +2302,6 @@
 				);
 			};
 		};
-		34F60ED0078E1DCC00CECA86 = {
-			fileRef = 34E9AA79074BC98A00D59950;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
 		34F60EF4078E226300CECA86 = {
 			buildActionMask = 2147483647;
 			files = (
@@ -2334,7 +2347,6 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "Growl-WithInstaller.framework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "-DGROWL_WITH_INSTALLER";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
@@ -2714,6 +2726,7 @@
 				95BF837C0743675700306A77,
 				CB910DA7074E0A3A00278FC5,
 				097888CA076EC6DA00071EB6,
+				34E9DC17078FBF1B00662E8E,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3551,6 +3564,7 @@
 				95BF83760743675700306A77,
 				52861FEF06DC463E00D3A356,
 				32DBCFA20370C41700C91783,
+				34E9DC16078FBF1B00662E8E,
 				34E9AA79074BC98A00D59950,
 			);
 			isa = PBXGroup;

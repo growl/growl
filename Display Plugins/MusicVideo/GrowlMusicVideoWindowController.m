@@ -78,6 +78,8 @@
 		autoFadeOut = YES;	// !sticky
 		target = nil;
 		action = NULL;
+		appName = nil;
+		clickContext = nil;
 		displayTime = MIN_DISPLAY_TIME;
 		priority = prio;
 		if (sizePref == MUSICVIDEO_SIZE_HUGE) {
@@ -94,7 +96,8 @@
 
 - (void) dealloc {
 	[target release];
-
+	[clickContext release];
+	[appName release];
 	[super dealloc];
 }
 
@@ -158,15 +161,26 @@
 	action = selector;
 }
 
-#pragma mark -
+#pragma mark - 
 
-- (NSString *) notificationID {
-	return notificationID;
+- (NSString *)appName {
+	return appName;
 }
 
-- (void) setNotificationID:(NSString *)inNotificationID {
-	[notificationID autorelease];
-	notificationID = [inNotificationID retain];
+- (void) setAppName:(NSString *) inAppName {
+	[appName autorelease];
+	appName = [inAppName retain];
+}
+
+#pragma mark -
+
+- (id) clickContext {
+	return clickContext;
+}
+
+- (void) setClickContext:(id)inClickContext {
+	[clickContext autorelease];
+	clickContext = [inClickContext retain];
 }
 
 #pragma mark -

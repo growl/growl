@@ -83,7 +83,8 @@ static unsigned bubbleWindowDepth = 0U;
 		autoFadeOut = !sticky;
 		target = nil;
 		action = NULL;
-		notificationID = nil;
+		clickContext = nil;
+		appName = nil;
 
 		// the visibility time for this bubble should be the minimum display time plus
 		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
@@ -103,7 +104,8 @@ static unsigned bubbleWindowDepth = 0U;
 
 - (void) dealloc {
 	[target release];
-	[notificationID release];
+	[clickContext release];
+	[appName release];
 
 	if ( depth == bubbleWindowDepth ) {
 		bubbleWindowDepth = 0U;
@@ -144,13 +146,24 @@ static unsigned bubbleWindowDepth = 0U;
 
 #pragma mark -
 
-- (NSString *) notificationID {
-	return notificationID;
+- (NSString *)appName {
+	return appName;
 }
 
-- (void) setNotificationID:(NSString *)inNotificationID {
-	[notificationID autorelease];
-	notificationID = [inNotificationID retain];
+- (void) setAppName:(NSString *) inAppName {
+	[appName autorelease];
+	appName = [inAppName retain];
+}
+
+#pragma mark -
+
+- (id) clickContext {
+	return clickContext;
+}
+
+- (void) setClickContext:(id)inClickContext {
+	[clickContext autorelease];
+	clickContext = [inClickContext retain];
 }
 
 @end
