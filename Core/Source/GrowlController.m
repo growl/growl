@@ -202,7 +202,7 @@ static id singleton = nil;
 	NSString *displayName = [note object];
 	id <GrowlDisplayPlugin> displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayName];
 
-	NSString *desc = [NSString stringWithFormat:@"This is a preview of the %@ display", displayName];
+	NSString *desc = [[NSString alloc] initWithFormat:@"This is a preview of the %@ display", displayName];
 	NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
 		@"Preview",                    GROWL_NOTIFICATION_TITLE,
 		desc,                          GROWL_NOTIFICATION_DESCRIPTION,
@@ -210,6 +210,7 @@ static id singleton = nil;
 		[NSNumber numberWithBool:YES], GROWL_NOTIFICATION_STICKY,
 		growlIcon,                     GROWL_NOTIFICATION_ICON,
 		nil];
+	[desc release];
 	[displayPlugin displayNotificationWithInfo:info];
 	[info release];
 }

@@ -26,7 +26,7 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	NSString *logString = [NSString stringWithFormat:@"%@ %@: %@ (%@) - Priority %d",
+	NSString *logString = [[NSString alloc] initWithFormat:@"%@ %@: %@ (%@) - Priority %d",
 							[[NSDate date] description],
  							[noteDict objectForKey:GROWL_APP_NAME],
 							[noteDict objectForKey:GROWL_NOTIFICATION_TITLE], 
@@ -59,5 +59,7 @@
 			NSLog(@"%@", logString);
 		}
 	}
+
+	[logString release];
 }
 @end

@@ -108,7 +108,7 @@
 				} else {
 					[customHistArray removeObjectAtIndex:saveFilenameIndex];
 				}
-				[customHistArray insertObject:[NSString stringWithString:saveFilename] atIndex:0U];
+				[customHistArray insertObject:saveFilename atIndex:0U];
 			}
 		} else {
 			NSString *temp = [[customHistArray objectAtIndex:selected] retain];

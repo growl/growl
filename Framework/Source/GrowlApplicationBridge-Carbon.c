@@ -244,7 +244,7 @@ Boolean Growl_IsRunning(void) {
 	while (GetNextProcess(&PSN) == noErr) {
 		CFDictionaryRef infoDict = ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
 
-		if (CFEqual(CFDictionaryGetValue(infoDict, CFSTR("CFBundleIdentifier")), CFSTR("com.Growl.GrowlHelperApp"))) {
+		if (CFEqual(CFDictionaryGetValue(infoDict, kCFBundleIdentifierKey)), CFSTR("com.Growl.GrowlHelperApp"))) {
 			growlIsRunning = true;
 			CFRelease(infoDict);
 			break;
@@ -339,7 +339,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 		 */
 		
 		CFURLRef	growlHelperAppURL = NULL;
-		
+
 		//Extract the path to the Growl helper app from the pref pane's bundle
 		growlHelperAppURL = CFBundleCopyResourceURL(growlPrefPaneBundle, CFSTR("GrowlHelperApp"), CFSTR("app"), /*subDirName*/ NULL);
 

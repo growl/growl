@@ -84,78 +84,35 @@ static GrowlPreferences * sharedPreferences;
 #define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY	@"PreferencePanes"
 #define PREFERENCE_PANE_EXTENSION				@"prefPane"
 
-- (NSEnumerator *) _preferencePaneSearchEnumerator {
++ (NSBundle *) growlPrefPaneBundle {
 	NSArray			*librarySearchPaths;
-	NSEnumerator	*searchPathEnumerator;
-	NSString		*preferencePanesSubfolder, *path;
-	NSMutableArray  *pathArray = [NSMutableArray arrayWithCapacity:4U];
-
-	preferencePanesSubfolder = PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY;
-
-	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
-	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES);
-	searchPathEnumerator = [librarySearchPaths objectEnumerator];
-
-	//Copy each discovered path into the pathArray after adding our subfolder path
-	while ((path = [searchPathEnumerator nextObject])) {
-		[pathArray addObject:[path stringByAppendingPathComponent:preferencePanesSubfolder]];
-	}
-
-	return [pathArray objectEnumerator];	
-}
-
-// Returns an array of paths to all user-installed .prefPane bundles
-- (NSArray *) _allPreferencePaneBundles {
-	NSEnumerator	*searchPathEnumerator;
-	NSString		*path, *prefPaneExtension;
-	NSMutableArray  *allPreferencePaneBundles = [NSMutableArray array];
-
-	prefPaneExtension = PREFERENCE_PANE_EXTENSION;
-	searchPathEnumerator = [self _preferencePaneSearchEnumerator];		
-
-	while ((path = [searchPathEnumerator nextObject])) {
-		NSString				*bundlePath;
-		NSDirectoryEnumerator   *bundleEnum;
-
-		bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
-
-		if (bundleEnum) {
-			while ((bundlePath = [bundleEnum nextObject])) {
-				if ([[bundlePath pathExtension] isEqualToString:prefPaneExtension]) {
-					[allPreferencePaneBundles addObject:[path stringByAppendingPathComponent:bundlePath]];
-					[bundleEnum skipDescendents];
-				}
-			}
-		}
-	}
-
-	return allPreferencePaneBundles;
-}
-
-- (NSBundle *) growlPrefPaneBundle {
 	NSString		*path;
 	NSString		*bundleIdentifier;
-	NSEnumerator	*preferencePanesPathsEnumerator;
+	NSEnumerator	*searchPathEnumerator;
 	NSBundle		*prefPaneBundle;
-	
+
 	static const unsigned bundleIDComparisonFlags = NSCaseInsensitiveSearch | NSBackwardsSearch;
-	
+
+	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
+	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask & ~NSSystemDomainMask, YES);
+
 	/*First up, we'll have a look for Growl.prefPane, and if it exists, check
 	 *	whether it is our prefPane.
 	 *This is much faster than having to enumerate all preference panes, and
 	 *	can drop a significant amount of time off this code.
 	 */
-	preferencePanesPathsEnumerator = [self _preferencePaneSearchEnumerator];
-	while ((path = [preferencePanesPathsEnumerator nextObject])) {
+	searchPathEnumerator = [librarySearchPaths objectEnumerator];
+	while ((path = [searchPathEnumerator nextObject])) {
+		path = [path stringByAppendingPathComponent:PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY];
 		path = [path stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
-		
+
 		if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
 			prefPaneBundle = [NSBundle bundleWithPath:path];
-			
-			if (prefPaneBundle){
+
+			if (prefPaneBundle) {
 				bundleIdentifier = [prefPaneBundle bundleIdentifier];
-				
-				if (bundleIdentifier && ([bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:bundleIDComparisonFlags] == NSOrderedSame)){
+
+				if (bundleIdentifier && ([bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:bundleIDComparisonFlags] == NSOrderedSame)) {
 					return prefPaneBundle;
 				}
 			}
@@ -170,19 +127,31 @@ static GrowlPreferences * sharedPreferences;
 	 *	inside the bundle, he/she deserves to not have a working Growl
 	 *	installation.
 	 */
-	preferencePanesPathsEnumerator = [[self _allPreferencePaneBundles] objectEnumerator];
-	while ( (path = [preferencePanesPathsEnumerator nextObject] ) ) {
-		prefPaneBundle = [NSBundle bundleWithPath:path];
-		
-		if (prefPaneBundle) {
-			bundleIdentifier = [prefPaneBundle bundleIdentifier];
-			
-			if (bundleIdentifier && ([bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:bundleIDComparisonFlags] == NSOrderedSame)) {
-				return prefPaneBundle;
+	searchPathEnumerator = [librarySearchPaths objectEnumerator];
+	while ((path = [searchPathEnumerator nextObject])) {
+		NSString				*bundlePath;
+		NSDirectoryEnumerator   *bundleEnum;
+
+		path = [path stringByAppendingPathComponent:PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY];
+		bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
+
+		while ((bundlePath = [bundleEnum nextObject])) {
+			if ([[bundlePath pathExtension] isEqualToString:PREFERENCE_PANE_EXTENSION]) {
+				prefPaneBundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:bundlePath]];
+
+				if (prefPaneBundle) {
+					bundleIdentifier = [prefPaneBundle bundleIdentifier];
+
+					if (bundleIdentifier && ([bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:bundleIDComparisonFlags] == NSOrderedSame)) {
+						return prefPaneBundle;
+					}
+				}
+
+				[bundleEnum skipDescendents];
 			}
 		}
 	}
-	
+
 	return nil;
 }
 
@@ -191,12 +160,17 @@ static GrowlPreferences * sharedPreferences;
 
 - (NSBundle *) helperAppBundle {
 	if (!helperAppBundle) {
-		if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:HelperAppBundleIdentifier]) {
+		NSBundle *bundle = [NSBundle mainBundle];
+		if ([[bundle bundleIdentifier] isEqualToString:HelperAppBundleIdentifier]) {
 			//we are running in GHA.
-			helperAppBundle = [NSBundle mainBundle];
+			helperAppBundle = bundle;
 		} else {
 			//look in the prefpane bundle.
-			NSString *helperAppPath = [[self growlPrefPaneBundle] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+			bundle = [NSBundle bundleForClass:[GrowlPreferences class]];
+			if (![[bundle bundleIdentifier] isEqualToString:@"com.growl.prefpanel"]) {
+				bundle = [GrowlPreferences growlPrefPaneBundle];
+			}
+			NSString *helperAppPath = [bundle pathForResource:@"GrowlHelperApp" ofType:@"app"];
 			helperAppBundle = [NSBundle bundleWithPath:helperAppPath];
 		}
 	}
@@ -345,7 +319,7 @@ static GrowlPreferences * sharedPreferences;
 
 	while (GetNextProcess(&PSN) == noErr) {
 		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-		NSString *bundleID = [infoDict objectForKey:@"CFBundleIdentifier"];
+		NSString *bundleID = [infoDict objectForKey:(NSString *)kCFBundleIdentifierKey];
 		isRunning = bundleID && [bundleID isEqualToString:@"com.Growl.GrowlHelperApp"];
 		[infoDict release];
 

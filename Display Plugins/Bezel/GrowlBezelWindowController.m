@@ -67,13 +67,14 @@
 	[panel setContentView:view];
 
 	[view setTitle:title];
-	NSMutableString	*tempText = [NSMutableString stringWithString:text];
+	NSMutableString	*tempText = [[NSMutableString alloc] initWithString:text];
 	// Sanity check to unify line endings
 	[tempText replaceOccurrencesOfString:@"\r"
 			withString:@"\n"
 			options:nil
 			range:NSMakeRange(0U, [tempText length])];
 	[view setText:tempText];
+	[tempText release];
 
 	[view setIcon:icon];
 	panelFrame = [view frame];

@@ -126,7 +126,7 @@
 						if ( length >= sizeof(struct GrowlNetworkRegistration) ) {
 							BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
 
-							if ( enabled ) {
+							if (enabled) {
 								struct GrowlNetworkRegistration *nr = (struct GrowlNetworkRegistration *)packet;
 								applicationName = (char *)nr->data;
 								applicationNameLen = ntohs( nr->appNameLen );
@@ -139,7 +139,9 @@
 								for (i = 0U; i < num; ++i) {
 									size = ntohs( *(unsigned short *)notification );
 									notification += sizeof(unsigned short);
-									[allNotifications addObject:[NSString stringWithUTF8String:notification length:size]];
+									NSString *n = [[NSString alloc] initWithUTF8String:notification length:size];
+									[allNotifications addObject:n];
+									[n release];
 									notification += size;
 									packetSize += size + sizeof(unsigned short);
 								}
@@ -159,12 +161,13 @@
 
 								if (length == packetSize) {
 									if ([GrowlUDPPathway authenticatePacket:(const unsigned char *)nr length:length]) {
+										NSString *appName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
 										NSDictionary *registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-											[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
+											appName, GROWL_APP_NAME,
 											allNotifications, GROWL_NOTIFICATIONS_ALL,
 											defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 											nil];
-
+										[appName release];
 										[self registerApplicationWithDictionary:registerInfo];
 										[registerInfo release];
 									} else {
@@ -199,17 +202,23 @@
 
 							if ( length == packetSize ) {
 								if ( [GrowlUDPPathway authenticatePacket:(const unsigned char *)nn length:length] ) {
-									NSDictionary *notificationInfo;
-									notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-										[NSString stringWithUTF8String:notificationName length:notificationNameLen], GROWL_NOTIFICATION_NAME,
-										[NSString stringWithUTF8String:applicationName length:applicationNameLen], GROWL_APP_NAME,
-										[NSString stringWithUTF8String:title length:titleLen], GROWL_NOTIFICATION_TITLE,
-										[NSString stringWithUTF8String:description length:descriptionLen], GROWL_NOTIFICATION_DESCRIPTION,
+									NSString *growlNotificationName = [[NSString alloc] initWithUTF8String:notificationName length:notificationNameLen];
+									NSString *growlAppName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
+									NSString *growlNotificationTitle = [[NSString alloc] initWithUTF8String:title length:titleLen];
+									NSString *growlNotificationDesc = [[NSString alloc] initWithUTF8String:description length:descriptionLen];
+									NSDictionary *notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+										growlNotificationName,  GROWL_NOTIFICATION_NAME,
+										growlAppName,           GROWL_APP_NAME,
+										growlNotificationTitle, GROWL_NOTIFICATION_TITLE,
+										growlNotificationDesc,  GROWL_NOTIFICATION_DESCRIPTION,
 										[NSNumber numberWithInt:priority], GROWL_NOTIFICATION_PRIORITY,
 										[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
 										[notificationIcon TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 										nil];
-
+									[growlNotificationName  release];
+									[growlAppName           release];
+									[growlNotificationTitle release];
+									[growlNotificationDesc  release];
 									[self postNotificationWithDictionary:notificationInfo];
 									[notificationInfo release];
 								} else {
