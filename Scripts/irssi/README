@@ -16,6 +16,8 @@ sudo port install irssi +perl
 
 
 3) Mac::Growl installed.
+Available as part of the 'bindings' package
+ http://growl.info/downloads_developers.php
 
 
 Once you have these three, move growl.pl to ~/.irssi/scripts/ and then run this command in irssi:
