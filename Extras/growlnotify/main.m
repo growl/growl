@@ -38,10 +38,11 @@
 static NSString *notificationName = @"Command-Line Growl Notification";
 
 static const char usage[] = 
-"Usage: growlnotify [-hs] [-i ext] [-I filepath] [--image filepath]\n"
+"Usage: growlnotify [-hsv] [-i ext] [-I filepath] [--image filepath]\n"
 "                   [-p priority] [-H host] [-U] [-P password] [title]\n"
 "Options:\n"
 "    -h,--help     Display this help\n"
+"    -v,--version  Display version number\n"
 "    -n,--name     Set the name of the application that sends the notification\n"
 "                  [Default: growlnotify]\n"
 "    -s            Make the notification sticky\n"
@@ -316,7 +317,7 @@ int main(int argc, const char **argv) {
 		[distCenter postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:registerInfo];
 		[distCenter postNotificationName:GROWL_NOTIFICATION object:nil userInfo:notificationInfo];
 	}
-	
+
 	[pool release];
 
 	return code;
