@@ -1,5 +1,5 @@
 //
-//  NSAdditions.m
+//  NSGrowlAdditions.m
 //  Growl
 //
 //  Created by Karl Adam on Fri May 28 2004.
