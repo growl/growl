@@ -1,7 +1,7 @@
-MKDIR = /bin/mkdir -p -m 0555
+MKDIR = /bin/mkdir -p -m 0755
 RM = /bin/rm -f
 RMDIR = /bin/rm -fr
-INSTALL = /usr/bin/install -m 0444
+INSTALL = /usr/bin/install -m 0644
 TCLSH = /usr/bin/tclsh
 
 DESTDIR =
