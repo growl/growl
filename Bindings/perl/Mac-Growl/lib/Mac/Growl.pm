@@ -252,7 +252,7 @@ sub AppleScript_PostNotification($$$$;$$$)
 	}
 
 	my $image_url = _Fix_Image_Path($image);
-	$script .= qq' image from url "$image_url"' if $image_url;
+	$script .= qq' image from location "$image_url"' if $image_url;
 
 	_Execute_AppleScript($script);
 }
