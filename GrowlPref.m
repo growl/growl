@@ -10,9 +10,16 @@
 #import "GrowlPref.h"
 #import "GrowlDisplayProtocol.h"
 #import "ACImageAndTextCell.h"
+#import "NSGrowlAdditions.h"
 #import <ApplicationServices/ApplicationServices.h>
+#import <Security/SecKeychain.h>
+#import <Security/SecKeychainItem.h>
+#include <openssl/md5.h>
 
 #define PING_TIMEOUT		3
+
+static const char *keychainServiceName = "Growl";
+static const char *keychainAccountName = "Growl";
 
 @interface GrowlPref (GrowlPrefPrivate)
 - (BOOL) _isGrowlRunning;
@@ -96,17 +103,34 @@
 	[tableColumn setDataCell:imageAndTextCell];
 	NSButtonCell *cell = [[applicationNotifications tableColumnWithIdentifier:@"sticky"] dataCell];
 	[cell setAllowsMixedState:YES];
-	
+
 	[applicationNotifications deselectAll:NULL];
 	[growlApplications deselectAll:NULL];
 	[remove setEnabled:NO];
-	
+
 	[growlRunningProgress setDisplayedWhenStopped:NO];
 	[growlVersion setStringValue:[self bundleVersion]];
+
+	char *password;
+	UInt32 passwordLength;
+	OSStatus status;
+	status = SecKeychainFindGenericPassword( NULL,
+											 strlen( keychainServiceName ), keychainServiceName,
+											 strlen( keychainAccountName ), keychainAccountName,
+											 &passwordLength, (void **)&password, NULL );
+
+	if ( status == noErr ) {
+		NSString *passwordString = [[NSString alloc] initWithUTF8String:password length:passwordLength];
+		[networkPassword setStringValue:passwordString];
+		[passwordString release];
+		SecKeychainItemFreeContent( NULL, password );
+	} else {
+		NSLog( @"Failed to retrieve password from keychain. Error: %d", status );
+		[networkPassword setStringValue:@""];
+	}	
 }
 
 - (void) mainViewDidLoad {
-
 	[[NSDistributedNotificationCenter defaultCenter] addObserver:self 
 														selector:@selector(appRegistered:)
 															name:GROWL_APP_REGISTRATION_CONF
@@ -139,7 +163,7 @@
 
 // copy images to avoid resizing the original image stored in the ticket
 - (void) cacheImages {
-	
+
 	if ( images ) {
 		[images release];
 	}
@@ -210,7 +234,7 @@
 	if (applicationDisplayPluginsMenu) {
 		[applicationDisplayPluginsMenu release];
 	}
-	
+
 	applicationDisplayPluginsMenu = [[NSMenu alloc] initWithTitle:@"DisplayPlugins"];
 	enumerator = [[[GrowlPluginController controller] allDisplayPlugins] objectEnumerator];
 	id title;
@@ -367,6 +391,59 @@
 - (IBAction) allowRemoteRegistration:(id)sender {
 	NSNumber *state = [NSNumber numberWithBool:([sender state] == NSOnState)];
 	[[GrowlPreferences preferences] setObject:state forKey:GrowlRemoteRegistrationKey];
+}
+
+- (IBAction) setRemotePassword:(id)sender {
+	MD5_CTX ctx;
+	char digest[MD5_DIGEST_LENGTH];
+
+	const char *password = [[sender stringValue] UTF8String];
+	unsigned int length = strlen( password );
+	NSData *pwdData;
+	OSStatus status;
+	SecKeychainItemRef itemRef = nil;
+	status = SecKeychainFindGenericPassword( NULL,
+											 strlen( keychainServiceName ), keychainServiceName,
+											 strlen( keychainAccountName ), keychainAccountName,
+											 NULL, NULL, &itemRef );
+	if ( status == errSecItemNotFound ) {
+		// add new item
+		status = SecKeychainAddGenericPassword( NULL,
+												strlen( keychainServiceName ), keychainServiceName,
+												strlen( keychainAccountName ), keychainAccountName,
+												length, password, NULL );
+		if ( status ) {
+			NSLog( @"Failed to add password to keychain." );
+		}
+	} else {
+		// change existing password
+		SecKeychainAttribute attrs[] = {
+			{ kSecAccountItemAttr, strlen( keychainAccountName ), (char *)keychainAccountName },
+			{ kSecServiceItemAttr, strlen( keychainServiceName ), (char *)keychainServiceName }
+		};
+		const SecKeychainAttributeList attributes = { sizeof(attrs) / sizeof(attrs[0]), attrs };
+		status = SecKeychainItemModifyAttributesAndData( itemRef,		// the item reference
+														 &attributes,	// no change to attributes
+														 length,		// length of password
+														 password		// pointer to password data
+														 );
+		if ( itemRef ) {
+			CFRelease( itemRef );
+		}
+		if ( status ) {
+			NSLog( @"Failed to change password in keychain." );
+		}
+	}
+	if ( !length ) {
+		pwdData = nil;
+	} else {
+		MD5_Init( &ctx );
+		MD5_Update( &ctx, password, length );
+		MD5_Final( digest, &ctx );
+		pwdData = [[NSData alloc] initWithBytes:digest length:sizeof(digest)];
+	}
+
+	[[GrowlPreferences preferences] setObject:pwdData forKey:GrowlRemotePasswordKey];
 }
 
 - (IBAction)selectDisplayPlugin:(id)sender {
@@ -560,10 +637,11 @@
 - (void) tableViewSelectionDidChange:(NSNotification *)theNote {
 	if ([theNote object] == growlApplications) {
 		[self reloadAppTab];
-		if([[theNote object] selectedRow] > -1)
+		if([[theNote object] selectedRow] > -1) {
 			[remove setEnabled:YES]; 
-		else
+		} else {
 			[remove setEnabled:NO];
+		}
 		[applicationNotifications reloadData];
 	} else if ([theNote object] == displayPlugins) {
 		[self reloadDisplayTab];

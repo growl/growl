@@ -9,6 +9,7 @@
                 deleteTicket = id; 
                 revert = id; 
                 selectDisplayPlugin = id; 
+                setRemotePassword = id; 
                 startGrowlAtLogin = id; 
                 startGrowlServer = id; 
                 startStopGrowl = id; 
@@ -29,6 +30,7 @@
                 growlRunningProgress = NSProgressIndicator; 
                 growlRunningStatus = NSTextField; 
                 growlVersion = NSTextField; 
+                networkPassword = NSSecureTextField; 
                 remove = NSButton; 
                 revert = NSButton; 
                 startGrowlAtLogin = NSButton; 

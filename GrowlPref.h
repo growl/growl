@@ -35,8 +35,6 @@
 	//"General" tab pane
 	IBOutlet NSButton				*startGrowlAtLogin;
 	IBOutlet NSButton				*startStopGrowl;
-	IBOutlet NSButton				*startGrowlServer;
-	IBOutlet NSButton				*allowRemoteRegistration;
 	IBOutlet NSTextField			*growlRunningStatus;
 	IBOutlet NSProgressIndicator	*growlRunningProgress;
 	IBOutlet NSPopUpButton			*allDisplayPlugins;
@@ -54,7 +52,12 @@
 	IBOutlet NSView			*displayDefaultPrefView;
 	IBOutlet NSTextField	*displayAuthor;
 	IBOutlet NSTextField	*displayVersion;
-	
+
+	//"Network" tab pane
+	IBOutlet NSButton			*startGrowlServer;
+	IBOutlet NSButton			*allowRemoteRegistration;
+	IBOutlet NSSecureTextField	*networkPassword;
+
 	IBOutlet NSButton		*apply;
 	IBOutlet NSButton		*revert;
 	IBOutlet NSButton		*remove;
@@ -76,6 +79,7 @@
 - (IBAction) startGrowlAtLogin:(id)sender;
 - (IBAction) startGrowlServer:(id)sender;
 - (IBAction) allowRemoteRegistration:(id)sender;
+- (IBAction) setRemotePassword:(id)sender;
 
 - (IBAction) selectDisplayPlugin:(id)sender;
 - (IBAction) deleteTicket:(id)sender;

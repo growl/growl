@@ -259,6 +259,7 @@
 		};
 		1058C7AEFEA557BF11CA2CBB = {
 			children = (
+				95E678F307511471002BF4E6,
 				83282746073A6C110044A959,
 				83282741073A6BD70044A959,
 				089C1672FE841209C02AAC07,
@@ -886,7 +887,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-bundle -twolevel_namespace";
+				OTHER_LDFLAGS = "-bundle -twolevel_namespace -lcrypto";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Growl;
 				SECTORDER_FLAGS = "";
@@ -941,7 +942,6 @@
 				CB5FA1BD0638CA2C00EADD7A,
 				959FAF520738BAD500040AA9,
 				95BF837C0743675700306A77,
-				CBF76888074CA7110084D8FB,
 				CB910DA7074E0A3A00278FC5,
 			);
 			isa = PBXResourcesBuildPhase;
@@ -985,6 +985,7 @@
 				0AEE179D0702C4960024B1A0,
 				83282742073A6BD70044A959,
 				83282747073A6C110044A959,
+				95E678F907511471002BF4E6,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1106,7 +1107,6 @@
 		953C3EFE0747970800F2A737 = {
 			children = (
 				CB910DA6074E0A3A00278FC5,
-				CBF76887074CA7110084D8FB,
 				CB1C5D95063E523F007052EE,
 				0AB856D806E2932C007B791C,
 			);
@@ -1366,6 +1366,20 @@
 		};
 		95DD14E10748B04700CC05A4 = {
 			fileRef = 95DD14D80748B04700CC05A4;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95E678F307511471002BF4E6 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Security.framework;
+			path = /System/Library/Frameworks/Security.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		95E678F907511471002BF4E6 = {
+			fileRef = 95E678F307511471002BF4E6;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1835,20 +1849,6 @@
 		};
 		CBF0743F0659B202000B4B77 = {
 			fileRef = CB1C5D1C063E432F007052EE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		CBF76887074CA7110084D8FB = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = text;
-			path = HACKING.txt;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		CBF76888074CA7110084D8FB = {
-			fileRef = CBF76887074CA7110084D8FB;
 			isa = PBXBuildFile;
 			settings = {
 			};
