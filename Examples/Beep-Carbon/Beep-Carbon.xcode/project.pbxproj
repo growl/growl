@@ -202,9 +202,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlDefinesCarbon.h;
-			path = /Users/boredzo/Projects/Growl/GrowlDefinesCarbon.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../GrowlDefinesCarbon.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		074A203B067B02610078098C = {
 			fileRef = 074A203A067B02610078098C;
