@@ -90,6 +90,18 @@
 	[[_tickets allValues] makeObjectsPerformSelector:@selector( saveTicket )];
 }
 
+#pragma mark NSApplication Delegate Methods
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+	BOOL dir;
+	NSFileManager *fs = [NSFileManager defaultManager];
+	
+	if ( ! ([fs fileExistsAtPath:GROWL_SUPPORT_DIR isDirectory:&dir] && dir) ) {
+		[fs createDirectoryAtPath:GROWL_SUPPORT_DIR attributes:nil];
+		[fs createDirectoryAtPath:GROWL_TICKETS_DIR attributes:nil];
+		[fs createDirectoryAtPath:GROWL_PLUGINS_DIR attributes:nil];
+	}
+}
+
 @end
 
 #pragma mark -

@@ -6,6 +6,7 @@
  *  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
  *
  */
+
 #import "GrowlController.h"
 
 int main() {
@@ -15,6 +16,7 @@ int main() {
 	GrowlController *theOneRingToRuleThemAll;
 	theOneRingToRuleThemAll = [[GrowlController alloc] init];
 
+	[NSApp setDelegate:theOneRingToRuleThemAll];
 	[NSApp run];
 	
 	[theOneRingToRuleThemAll release];
