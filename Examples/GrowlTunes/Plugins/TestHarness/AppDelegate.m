@@ -139,8 +139,8 @@
 }
 
 - (void) testPlugin {
-	id selection = [[pluginsController selectedObjects] lastObject];
-	if (selection) {
+	if ([pluginsController selectionIndex] != NSNotFound) {
+		id selection = [pluginsController selection];
 		id <GrowlTunesPlugin> obj = [selection valueForKey:@"instance"];
 		if (!obj) {
 			obj = [[[selection valueForKey:@"bundle"] principalClass] new];
@@ -151,8 +151,6 @@
 		} else {
 			NSBeep();
 		}
-	} else {
-		NSBeep();
 	}
 }
 
@@ -188,7 +186,8 @@
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if ([object isEqual:pluginsController] && [keyPath isEqualToString:@"selection"]) {
+	if ([object isEqual:pluginsController] && [keyPath isEqualToString:@"selection"] &&
+		[object valueForKeyPath:keyPath] != NSNoSelectionMarker) {
 		[self testPlugin];
 	}
 }
