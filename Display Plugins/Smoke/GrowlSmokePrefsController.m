@@ -140,7 +140,7 @@
         [NSNumber numberWithFloat:[color blueComponent]], nil];
     WRITE_GROWL_PREF_VALUE(key, (CFArrayRef)array, GrowlSmokePrefDomain);
 
-    NSLog(@"color: %@ array: %@", color, array);
+    // NSLog(@"color: %@ array: %@", color, array);
 
     SYNCHRONIZE_GROWL_PREFS();
     UPDATE_GROWL_PREFS();

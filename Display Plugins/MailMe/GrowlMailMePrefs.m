@@ -29,7 +29,7 @@ static NSString *destAddressKey = @"MailMe - Recipient address";
 }
 
 - (IBAction)preferenceChanged:(id)sender {
-	NSLog(@"preferenceChanged:%p called; destAddressField is %p", sender, destAddressField);
+	// NSLog(@"preferenceChanged:%p called; destAddressField is %p", sender, destAddressField);
 	WRITE_GROWL_PREF_VALUE(destAddressKey, [destAddressField stringValue], @"com.Growl.MailMe");
 
 	UPDATE_GROWL_PREFS();
