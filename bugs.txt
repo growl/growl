@@ -3,11 +3,26 @@
 
 - Possible bug: http://forums.cocoaforge.com/viewtopic.php?p=1050
 
-10.2 bugs
+--10.2 bugs--
 
-SSL issue.
+-SSL issue.
+
 In a recent build I noticed that switching notifaction types in the general tab don't take effect like the last build. So I stoped and started growl which fixed it before, only this time it won't start back up.
 Console says:
 
 GrowlHelperApp.app/Contents/MacOS/GrowlHelperApp can't open library: /usr/lib/libcrypto.0.9.7.dylib  (No such file or directory, errno = 2)
 Dec  6 21:46:02 Thor last message repeated 4 times
+
+
+-Response to SSL issue:
+
+The basic problem is that OpenSSL 0.9.6 and 0.9.7 are not compatible. Jaguar ships with 0.9.6, Panther ships with 0.9.7.
+
+Apple screwed up the install_name of the Jaguar libs (used libcrypto.0.9.dylib instead of libcrypto.0.9.6.dylib). So, for backwards compatibility's sake, Panther also ships with OpenSSL 0.9.6, as libcrypto.0.9.dylib/libssl.0.9.dylib. The other ssl/crypto libs are OpenSSL 0.9.7.
+
+So, the possible solutions are:
+
+(a) Link with libcrypto.0.9.dylib, which exists on Jaguar and Panther.
+(b) Do separate builds for Jaguar and Panther (many SSL-enabled apps do this).
+
+I'd recommend (a), for obvious reasons.
