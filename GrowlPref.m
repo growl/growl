@@ -29,8 +29,8 @@
 														selector:@selector(appRegistered:)
 															name:GROWL_APP_REGISTRATION_CONF
 														  object:nil];
-	[self reloadPreferences];
-	[self pingGrowl];
+//	[self reloadPreferences];
+//	[self pingGrowl];
 }
 
 - (void) willSelect {
