@@ -11,6 +11,7 @@
 #import "GrowlDefinesInternal.h"
 
 @implementation GrowlLogPrefs
+
 - (NSString *) mainNibName {
 	return @"GrowlLogPrefs";
 }
@@ -167,7 +168,6 @@
 	[customMenuButton addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Browse menu item title", /*tableName*/ nil, [self bundle], /*comment*/ nil)];
 	//select first item, if any
 	[customMenuButton selectItemAtIndex:numHistItems ? 0 : -1];
-
 }
 
 - (void) didSelect {
