@@ -82,8 +82,8 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	return enabled;
 }
 
-- (void) setEnabled:(BOOL)yorn {
-	enabled = yorn;
+- (void) setEnabled:(BOOL)flag {
+	enabled = flag;
 }
 
 - (void) enable {
