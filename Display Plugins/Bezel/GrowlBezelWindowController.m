@@ -114,7 +114,7 @@ static unsigned int bezelWindowDepth = 0;
 	[self _stopTimer];
 	_animationTimer = [[NSTimer scheduledTimerWithTimeInterval:_displayTime
 			target:self
-		  selector:@selector( startFadeout )
+		  selector:@selector( startFadeOut )
 		   userInfo:nil
 		    repeats:NO] retain];
 }

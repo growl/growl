@@ -44,7 +44,7 @@
 	NSPoint topRight = NSMakePoint(bounds.origin.x + bounds.size.width, bounds.origin.y);
 	NSPoint bottomLeft = NSMakePoint(bounds.origin.x, bounds.origin.y + bounds.size.height);
 	NSPoint bottomRight = NSMakePoint(bounds.origin.x + bounds.size.width, bounds.origin.y + bounds.size.height);
-
+	NSLog(@"%f %f %f %f",bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
 	[[NSColor clearColor] set];
 	NSRectFill( [self frame] );
 
@@ -69,7 +69,7 @@
 			clockwise:NO];
 	[bezelPath lineToPoint:NSMakePoint(bottomLeft.x + BORDER_RADIUS, bottomLeft.y)];
 	
-	[bezelPath appendBezierPathWithArcWithCenter:NSMakePoint(bottomLeft.y + BORDER_RADIUS, bottomLeft.y - BORDER_RADIUS)
+	[bezelPath appendBezierPathWithArcWithCenter:NSMakePoint(bottomLeft.x + BORDER_RADIUS, bottomLeft.y - BORDER_RADIUS)
 			radius:BORDER_RADIUS
 			startAngle:90
 			endAngle:180
