@@ -1,0 +1,39 @@
+To-Do
+
+Growl:
+	PrefPane:
+		Turn on buttons in the prefpane that machina added ?
+	Growl Itself:
+		save to an Application Support Directory to be accessible from the Prefpane and app 
+		write the protocol to which Notification Plugins conform	
+			then write the glue/controller for the bubbles notifications to work 
+		Decide what types of notifications we want to include (bezel, square, bubbles, speech, beeps, etc)
+			The default notification Plugin will be in Growl.syspref/Resources/
+			Make default install directory for display plugins ~/Library/Application Support/Growl/
+		Add a define/macro to GrowlDefines that can get the display plugins
+
+
+Interfaces
+	Real Basic:
+		Real Basic Interface needs to be coded 
+	Python:
+		Write a C extension for python so we do not rely on PyObjc anymore
+	Perl:
+		Setup a way for icons to be displayed
+		Implementation documentation needs to be written
+	Carbon:
+	TCL:
+		Implementation documentation needs to be written.
+	Ruby:
+		Ruby Interface needs to be coded
+
+Sample Apps and Code:
+	Beep Specific To DO:
+		Connect sheet 
+	GrowlTunes Specific To DO:
+		Make it work with streams (e.g. iTMS previews, radio stuff)
+		Grab album art from the web
+
+Documentation:
+	Developer docs
+	User Docs
