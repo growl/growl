@@ -99,24 +99,6 @@
 }
 
 - (IBAction) startGrowlAtLogin:(id) sender {
-	NSUserDefaults *defs = [[[NSUserDefaults alloc] init] autorelease];
-	[defs addSuiteNamed:@"loginwindow"];
-	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
-	NSMutableArray *loginItems = [[[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy] autorelease]; //it lies, its an array
-	NSDictionary *GHAdesc = [self growlHelperAppDescription];
-	
-	if ( [startGrowlAtLogin state] == NSOnState ) {
-		[loginItems addObject:GHAdesc];
-	} else {
-		[loginItems removeObject:GHAdesc];
-	}
-
-	[loginWindowPrefs setObject:[NSArray arrayWithArray:loginItems] 
-						 forKey:@"AutoLaunchedApplicationDictionary"];
-	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
-					  forName:@"loginwindow"];
-	[defs synchronize];	
-	
 	[self setPrefsChanged:YES];
 }
 
@@ -164,6 +146,26 @@
 }
 
 - (IBAction)apply:(id)sender {
+	//Set launch on login pref
+	NSUserDefaults *defs = [[[NSUserDefaults alloc] init] autorelease];
+	[defs addSuiteNamed:@"loginwindow"];
+	NSMutableDictionary *loginWindowPrefs = [[[defs persistentDomainForName:@"loginwindow"] mutableCopy] autorelease];
+	NSMutableArray *loginItems = [[[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy] autorelease]; //it lies, its an array
+	NSDictionary *GHAdesc = [self growlHelperAppDescription];
+	
+	if ( [startGrowlAtLogin state] == NSOnState ) {
+		if(![loginItems containsObject:GHAdesc])
+			[loginItems addObject:GHAdesc];
+	} else {
+		[loginItems removeObject:GHAdesc];
+	}
+	
+	[loginWindowPrefs setObject:[NSArray arrayWithArray:loginItems] 
+						 forKey:@"AutoLaunchedApplicationDictionary"];
+	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
+					  forName:@"loginwindow"];
+	[defs synchronize];	
+	
 	[[[tickets objectEnumerator] allObjects] makeObjectsPerformSelector:@selector(saveTicket)];
 	[self setPrefsChanged:NO];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GrowlReloadPreferences" object:nil];
