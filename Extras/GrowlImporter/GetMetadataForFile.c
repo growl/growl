@@ -31,7 +31,7 @@ Boolean GetMetadataForFile(void *thisInterface,
 		//NSLog(CFSTR("GrowlImporter: Error importing ticket from URL %@: %@"), ticketURL, errorString);
 		success = FALSE;
 	} else {
-		const void *value;
+		CFTypeRef value;
 		value = CFDictionaryGetValue(ticket, GROWL_APP_NAME);
 		if (value) {
 			CFDictionarySetValue(attributes, kMDItemTitle, value);
