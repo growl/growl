@@ -64,6 +64,7 @@
 				32DBCFA20370C41700C91783,
 				52861ED706DBA80800D3A356,
 				34CEA3930680A77C00670E0D,
+				A14BBE0806EE1C0400530EED,
 				CB5F835E0638B67C00EADD7A,
 				63C0610006C8948700B0B7D4,
 				CB5F836E0638B69900EADD7A,
@@ -653,6 +654,7 @@
 				8D202CEB0486D31800D8A456,
 				CBF073CC0659A94F000B4B77,
 				5286205906DC4C2F00D3A356,
+				A14BBE1006EE1D5600530EED,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -782,6 +784,39 @@
 //9E2
 //9E3
 //9E4
+//A10
+//A11
+//A12
+//A13
+//A14
+		A14BBE0806EE1C0400530EED = {
+			children = (
+				A14BBE0E06EE1D5600530EED,
+			);
+			isa = PBXGroup;
+			name = "Display Protocol";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		A14BBE0E06EE1D5600530EED = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlDisplayProtocol.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		A14BBE1006EE1D5600530EED = {
+			fileRef = A14BBE0E06EE1D5600530EED;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//A10
+//A11
+//A12
+//A13
+//A14
 //CB0
 //CB1
 //CB2
