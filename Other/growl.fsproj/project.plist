@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Auto Encode</key>
+	<string>FALSE</string>
+	<key>Auto Open</key>
+	<string>FALSE</string>
+	<key>Background Image Path</key>
+	<string>/Users/chris/Desktop/growl-0.6/images/dmg/growl06DMGBackground.png</string>
+	<key>Build Format</key>
+	<string>DMG (OS X only)</string>
+	<key>Custom Icon Path</key>
+	<string></string>
+	<key>Disk Image Name</key>
+	<string>~/Desktop/Growl-0.6.dmg</string>
+	<key>Encode Format</key>
+	<string>None</string>
+	<key>Encryption Type</key>
+	<string>None</string>
+	<key>Finalize Format</key>
+	<string>Read-only with compression</string>
+	<key>Icon Size</key>
+	<string>56</string>
+	<key>Image Size Extra</key>
+	<string>0</string>
+	<key>Image Size Type</key>
+	<string>Automatic</string>
+	<key>Internet Enable</key>
+	<string>FALSE</string>
+	<key>Item List</key>
+	<array>
+		<dict>
+			<key>Origin</key>
+			<string>{82, 5}</string>
+			<key>Path</key>
+			<string>/Users/chris/Desktop/Extras</string>
+			<key>Type</key>
+			<string>File Item</string>
+		</dict>
+		<dict>
+			<key>Origin</key>
+			<string>{-44, 125}</string>
+			<key>Path</key>
+			<string>/Users/chris/Desktop/growl-0.6/Scripts</string>
+			<key>Type</key>
+			<string>File Item</string>
+		</dict>
+		<dict>
+			<key>Origin</key>
+			<string>{-35, 13}</string>
+			<key>Path</key>
+			<string>/Users/chris/source_code/installers/Growl/Growl0.6/build/Growl-0.6.pkg</string>
+			<key>Type</key>
+			<string>File Item</string>
+		</dict>
+		<dict>
+			<key>Origin</key>
+			<string>{48, 95}</string>
+			<key>Path</key>
+			<string>/Users/chris/Desktop/Documentation</string>
+			<key>Type</key>
+			<string>File Item</string>
+		</dict>
+	</array>
+	<key>License List</key>
+	<array/>
+	<key>Lock Frame</key>
+	<string>TRUE</string>
+	<key>Project File Path</key>
+	<string>/Users/chris/Desktop/growl stuff/</string>
+	<key>Show Toolbar</key>
+	<string>TRUE</string>
+	<key>Volume Name</key>
+	<string>Growl-0.6</string>
+	<key>Window Frame</key>
+	<string>{{30, 30}, {452, 416}}</string>
+</dict>
+</plist>
