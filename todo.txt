@@ -73,20 +73,54 @@ For .8 or sooner
 	- Garage Band black look.
 	- Brushed Metal look.
 
+-----------------------------------------
+Code Restructuring/Planning/Goals
+-----------------------------------------
+1. GHA.framework -> Growl.framework
+	- add methods for developers to register and notify directly through this framework
+		ie. - notifyWithTitle:(NSString *)inTitle 
+				  description:(NSString *)inDescription 
+				    imageData:(NSData *)inImageData 
+				   andOptions:(GrowlOptionsFlags)inFlags
+				   
+2. Restructure all Display Plugins to inherit functionality from one global GrowlDisplayPlugin 
+   class residing in Growl.framework
+	- GrowlDisplayPlugin should take care of mPositionRect, a Rect in GrowlDisplayPlugin 
+	  that can trigger KeyObservation calls to edit it to not intersect with any other 
+	  currently active notifications
+
+3. Network Notifications
+	- 2 interfaces for this, one Distributed Objects allowing GHA to send and recieve remote
+	  notifications, the other is a port for UDP messages with specially formatted messages for display
+	  - DO connections provide a distributed builds like Appearance where you choose to send, recieve or
+	  	both from remoce machine discovered via rendezvous and manually added.
+	  - The UDP interface shall have a seperator ( | or \x05 ) Title|Message|OptionBits
+	  	- For obvious reasons this is off by default
+	- Support for the gnome notifications system if it ever adds a networking protocol for its notifications
+	- Pane in preferences for configuration of this when the user has actually turned it on
+
+4. Preferenece pane redesign
+	- Apps tab switch to app centric with custom View for notifications using images to represent the available options
+	- first tab have Growl image and dev names, maybe even an easter egg, controls for turning features on/off 
+	  ie. (GrowlHelperApp, Network Notifications, Sound to accompany notifications, Speech, Menu Item, etc)
+	  And a passive update check system ( no user interaction necessary just a box for whether or not to check.
+	- Network tab modeled on the distributed builds system
+	- Display plugins tab with better looking prefs( the current ones aren't winning beauty awards )
+
+5. Menu Item
+	- For the logging and re-sending of notifications, if networking is on, maybe even forwarding recieved notifications
+	- Switch default display style on the fly
+	- Turn growl silent mode on, to squelch notifs but still log them
+	
+6. Uber passive registration
+	- A GrowlNotifitcations.plist resource in App bundles that we read on their launch/install to allow them to register
+	- This is for when the app would have a large amount of notifs to prepare or to seperate it out from code and make it
+	  more flexible on app updates and such
+	- Watching app launches and checking on apps for these resources
 
 -----------------------------------------
 Other stuff; old todo
 -----------------------------------------
-
-
-- Growl:
-	- PrefPane:
-
-
-			The default notification Plugin will be in Growl.syspref/Resources/
-		Add a define/macro to GrowlDefines that can get the display plugins
-
-
 
 
 - Bindings
@@ -101,26 +135,20 @@ Other stuff; old todo
 		Implementation documentation needs to be written
 		Get this submitted to CPAN
 			This requires making the perl module install growl if growl is not installed
-	- Carbon:
 	- TCL:
 		Use the AppBridge to launch growl if needed. 
 		Rather than building with -I../.., use the header from Growl.framework. 
 		Refactor the code, primarily to separate out the Tcl<->C bits from the C<->ObjC bits. 
 	- Ruby:
 		Ruby Interface needs to be coded
-	- Java:
-		A java binding would be nice
 
 		Documentation for the entourage and mail.app scripts. These should have screen shots, and be on the website.
 			ref: http://cia.navi.cx/stats/author/the_tick/.message/2670177 for entourage.
 
 - Sample Apps and Code:
-	- Beep Specific To DO:
-		Connect sheet 
 	- GrowlTunes Specific To DO:
 		Make GrowlTunes work with streams (e.g. iTMS previews, radio stuff)
-		Grab album art from the web
-			We have a plugin architecture in GrowlTunes for this.
+		Prefs and HotKeys
 	- growlnotify:
 		Make a .pkg, install into /usr/local
 
