@@ -60,8 +60,16 @@ static unsigned int bubbleWindowDepth = 0;
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
 	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - KABubblePadding, 
 											 NSMaxY( screen ) - KABubblePadding - ( bubbleWindowDepth ) )];
-
-	_depth = bubbleWindowDepth += NSHeight( panelFrame );
+	
+	#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
+	if( (NSMaxY([panel frame]) - NSHeight([panel frame]) - [NSMenuView menuBarHeight]) < 0 )
+	{
+		_depth = bubbleWindowDepth = 0;
+	}
+	else
+	{
+		_depth = bubbleWindowDepth += NSHeight( panelFrame );
+	}
 	_autoFadeOut = YES;
 	_delegate = nil;
 	_target = nil;
