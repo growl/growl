@@ -50,7 +50,7 @@ static const char *keychainAccountName = "Growl";
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self
-													name:NSFileHandleReadToEndOfFileCompletionNotification
+													name:NSFileHandleReadCompletionNotification
 												  object:nil];
 	[fh release];
 	[sock release];
@@ -96,12 +96,13 @@ static const char *keychainAccountName = "Growl";
 	char *notification;
 	unsigned notificationNameLen, titleLen, descriptionLen, priority, applicationNameLen;
 	unsigned length, num, i, size, packetSize, notificationIndex;
+	int error;
 	BOOL isSticky;
 
 	NSDictionary *userInfo = [aNotification userInfo];
-	NSNumber *error = [userInfo objectForKey:@"NSFileHandleError"];
-	
-	if ( ![error intValue] ) {
+	error = [[userInfo objectForKey:@"NSFileHandleError"] intValue];
+
+	if ( !error ) {
 		NSData *data = [userInfo objectForKey:NSFileHandleNotificationDataItem];
 		length = [data length];
 
@@ -216,7 +217,7 @@ static const char *keychainAccountName = "Growl";
 			NSLog( @"GrowlUDPServer: received runt packet." );
 		}
 	} else {
-		NSLog( @"GrowlUDPServer: error %@.", error );
+		NSLog( @"GrowlUDPServer: error %d.", error );
 	}
 
 	[fh readInBackgroundAndNotify];
