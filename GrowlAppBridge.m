@@ -40,6 +40,8 @@
 + (void) _checkForPackagedUpdateForGrowlPrefPaneBundle:(NSBundle *)growlPrefPaneBundle;
 #endif
 
++ (void) _deprecatedNotifyTargetsGrowlIsReady;
+
 @end
 
 @implementation GrowlAppBridge
@@ -308,6 +310,8 @@ static BOOL				promptedToUpgradeGrowl = NO;
 		[delegate growlIsReady];
 	}
 
+	[self _deprecatedNotifyTargetsGrowlIsReady];
+	
 	//Post a notification locally
 	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
 														object:nil];
@@ -413,5 +417,114 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	}
 }
 #endif
+
+#pragma mark Deprecated methods
+/* Deprecated methods */
+
+static NSMutableArray		*launchNotificationTargets = nil;
+
+/*
+ + (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict
+ Returns YES (TRUE) if the Growl helper app began launching.
+ Returns NO (FALSE) and performs no other action if the Growl prefPane is not properly installed.
+ GrowlApplicationBridge will send "selector" to "target" when Growl is ready for use (this will only occur when it also returns YES).
+	Note: selector should take a single argument; this is to allow applications to have context-relevent information passed back. It is perfectly
+	acceptable for context to be NULL.
+ Passing registrationDict, which is an NSDictionary *for registering the application with Growl (see documentation elsewhere)
+	is the preferred way to register.  If Growl is installed but disabled, the application will be registered and GrowlHelperApp
+	will then quit.  "selector" will never be sent to "target" if Growl is installed but disabled; this method will still
+	return YES.
+ */
++ (BOOL) launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context registrationDict:(NSDictionary *)registrationDict
+{
+	NSBundle		*growlPrefPaneBundle;
+	BOOL			success = NO;
+	
+	growlPrefPaneBundle = [GrowlAppBridge growlPrefPaneBundle];
+	
+	if (growlPrefPaneBundle) {
+		/* Here we could check against a current version number and ensure the installed Growl pane is the newest */
+		
+		NSString	*growlHelperAppPath;
+		
+		//Extract the path to the Growl helper app from the pref pane's bundle
+		growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp" ofType:@"app"];
+		
+		//Launch the Growl helper app, which will notify us via growlIsReady when it is done launching
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self 
+															selector:@selector(_growlIsReady:)
+																name:GROWL_IS_READY
+															  object:nil]; 
+		
+		//We probably will never have more than one target/selector/context set at a time, but this is cleaner than the alternatives
+		if (!launchNotificationTargets) {
+			launchNotificationTargets = [[NSMutableArray alloc] init];
+		}
+		NSDictionary	*infoDict = [NSDictionary dictionaryWithObjectsAndKeys:target, @"Target",
+			NSStringFromSelector(selector), @"Selector",
+			[NSValue valueWithPointer:context], @"Context",nil];
+		[launchNotificationTargets addObject:infoDict];
+		
+		//Houston, we are go for launch.
+		//Let's launch in the background (unfortunately, requires Carbon)
+		LSLaunchFSRefSpec spec;
+		FSRef appRef;
+		OSStatus status = FSPathMakeRef([growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
+		if (status == noErr) {
+			FSRef regItemRef;
+			BOOL passRegDict = NO;
+			
+			if (registrationDict) {
+				OSStatus regStatus;
+				NSString *regDictFileName;
+				NSString *regDictPath;
+				
+				//Obtain a truly unique file name
+				regDictFileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+				
+				//Write the registration dictionary out to the temporary directory
+				regDictPath = [NSTemporaryDirectory() stringByAppendingPathComponent:regDictFileName];
+				[registrationDict writeToFile:regDictPath atomically:NO];
+				
+				regStatus = FSPathMakeRef([regDictPath fileSystemRepresentation], &regItemRef, NULL);
+				if (regStatus == noErr) passRegDict = YES;
+			}
+			
+			spec.appRef = &appRef;
+			spec.numDocs = (passRegDict != nil);
+			spec.itemRefs = (passRegDict ? &regItemRef : NULL);
+			spec.passThruParams = NULL;
+			spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
+			spec.asyncRefCon = NULL;
+			status = LSOpenFromRefSpec( &spec, NULL );
+			
+			success = (status == noErr);
+		}
+	}
+	
+	return success;
+}
+
++ (BOOL) launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context {
+	return [self launchGrowlIfInstalledNotifyingTarget:target
+											  selector:selector
+											   context:context
+									  registrationDict:nil];
+}
+
++ (void) _deprecatedNotifyTargetsGrowlIsReady {
+	if (launchNotificationTargets) {
+		NSEnumerator	*enumerator = [launchNotificationTargets objectEnumerator];
+		NSDictionary	*infoDict;
+		while ( (infoDict = [enumerator nextObject] ) ) {
+			id  target = [infoDict objectForKey:@"Target"];
+			SEL selector = NSSelectorFromString([infoDict objectForKey:@"Selector"]);
+			void *context = [[infoDict objectForKey:@"Context"] pointerValue];
+			
+			[target performSelector:selector
+						 withObject:context];
+		}
+	}
+}
 
 @end
