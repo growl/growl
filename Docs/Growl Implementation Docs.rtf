@@ -119,7 +119,7 @@ When a Growl-enabled application launches, it should post a notification named
 
 \f3 GROWL_APP_ICON
 \fs20 	
-\f1\fs24 Optionally, image data of a default icon to be used for the application's notifications.\
+\f1\fs24 Optionally, image (e.g. TIFF or PNG) data of a default icon to be used for the application's notifications.\
 \
 \pard\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
 \cf0 When an application registers with Growl, if it does not provide an icon, Growl will retrieve the icon for the application named in the registration request, using NSWorkspace. If possible, it is preferable to provide an icon, as looking up the icon using NSWorkspace can cause Growl to hang searching for it (This will hopefully be addressed in the future).\
