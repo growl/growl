@@ -12,4 +12,5 @@
 
 }
 
+- (void) dispatchNotification:(NSNotification *) note;
 @end
