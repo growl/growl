@@ -10,6 +10,7 @@
 #import "GrowlUDPServer.h"
 #import "GrowlController.h"
 #import "NSGrowlAdditions.h"
+#import "GrowlDefines.h"
 #include <netinet/in.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -50,58 +51,6 @@
 }
 
 #pragma mark -
-
-// TODO: icon
-+ (char *) notificationToPacket:(NSDictionary *)aNotification packetSize:(unsigned int *)packetSize {
-	struct GrowlNetworkNotification *nn;
-	char *data;
-	unsigned int length;
-	unsigned int notificationNameLen, titleLen, descriptionLen, applicationNameLen;
-
-	const char *notificationName = [[aNotification objectForKey:GROWL_NOTIFICATION_NAME] UTF8String];
-	const char *applicationName = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
-	const char *title = [[aNotification objectForKey:GROWL_NOTIFICATION_TITLE] UTF8String];
-	const char *description = [[aNotification objectForKey:GROWL_NOTIFICATION_DESCRIPTION] UTF8String];
-	NSNumber *priority = [aNotification objectForKey:GROWL_NOTIFICATION_PRIORITY];
-	NSNumber *isSticky = [aNotification objectForKey:GROWL_NOTIFICATION_STICKY];
-	notificationNameLen = strlen( notificationName );
-	applicationNameLen = strlen( applicationName );
-	titleLen = strlen( title );
-	descriptionLen = strlen( description );
-	length = sizeof(*nn) + notificationNameLen + applicationNameLen + titleLen + descriptionLen;
-
-	nn = (struct GrowlNetworkNotification *)malloc( length );
-	nn->common.type = htonl( GROWL_TYPE_NOTIFICATION );
-	nn->flags.reserved = 0;
-	nn->flags.hasIcon = 0;
-	nn->flags.iconType = 0;
-	nn->flags.priority = [priority intValue];
-	nn->flags.sticky = [isSticky boolValue];
-	nn->nameLen = htonl( notificationNameLen );
-	nn->titleLen = htonl( titleLen );
-	nn->descriptionLen = htonl( descriptionLen );
-	nn->appNameLen = htonl( applicationNameLen );
-	nn->iconLen = htonl( 0 );
-	data = nn->data;
-	memcpy( data, notificationName, notificationNameLen );
-	data += notificationNameLen;
-	memcpy( data, title, titleLen );
-	data += titleLen;
-	memcpy( data, description, descriptionLen );
-	data += descriptionLen;
-	memcpy( data, applicationName, applicationNameLen );
-	data += applicationNameLen;
-
-	*packetSize = length;
-
-	return (char *)nn;
-}
-
-+ (char *) registrationToPacket:(NSDictionary *)aNotification packetSize:(unsigned int *)packetSize {
-	// TODO
-
-	return NULL;
-}
 
 - (void) fileHandleRead:(NSNotification *)aNotification {
 	char *notificationName;
