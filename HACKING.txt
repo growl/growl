@@ -295,6 +295,8 @@ Don't use 'int' unless there are no qualifiers on it. All three of these declara
 	unsigned y; //qualifier 'unsigned'
 	short z; //qualifier 'short'
 
+Exception: signed int is OK.
+
 Auto-{in,de}crement
 -------------------
 Use prefix version whenever possible.
@@ -308,9 +310,9 @@ UTF-8. Always and forever. (Exception: strings files must be UTF-16.)
 
 C standard
 ----------
-Use C99 with all warnings turned on (except for 'Unknown automatic variables' 
-and 'Four-character constants'). Ignore the #import warning; fix everything 
-else.
+Use C99 with all warnings turned on (except for 'Unknown automatic variables',
+'Unused parameters', and 'Four-character constants'). Ignore the #import
+warning; fix everything else.
 
 Feel free to use #warning, but fix it as soon as possible.
 
