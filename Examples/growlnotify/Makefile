@@ -1,6 +1,10 @@
+DEFAULT_BUILDSTYLE=Deployment
+
+BUILDSTYLE?=$(DEFAULT_BUILDSTYLE)
+
 all:
-	xcodebuild -alltargets -buildstyle Deployment build
+	xcodebuild -alltargets -buildstyle $(BUILDSTYLE) build
 
 install:
-	xcodebuild -alltargets -buildstyle Deployment install DSTROOT=/
+	xcodebuild -alltargets -buildstyle $(BUILDSTYLE) install DSTROOT=/
 	cp growlnotify.1 /usr/local/man/man1/
