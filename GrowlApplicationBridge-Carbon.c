@@ -160,7 +160,7 @@ void Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
 
 void Growl_Reregister(void) {
 	if(delegate && delegate->registrationDictionary) {
-		return LaunchGrowlIfInstalled(/*callback*/ NULL, /*context*/ NULL);
+		return Growl_LaunchIfInstalled(/*callback*/ NULL, /*context*/ NULL);
 	}
 }
 
@@ -342,28 +342,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 #pragma mark -
 #pragma mark Deprecated API
 
-//keep these documentation comments
-
-/*Boolean LaunchGrowlIfInstalled(GrowlLaunchCallback callback, void *context)
- *
- *Returns TRUE if the Growl helper app began launching.
- *Returns FALSE and performs no other action if the Growl prefPane is not properly installed.
- *callback will be called when Growl is ready for use (this will only occur when
- *	LaunchGrowlIfInstalled returns TRUE).
- *Note: callback should take a single argument; this is to allow applications to
- *	have context-relevant information passed back. It is perfectly acceptable
- *	for context to be NULL.
- *Note: This is no longer the recommended way to use Growl. Use the Growl
- *	delegate functions instead.
- *Additional features in 0.6:
- *	-	If a delegate is set, and the delegate has a registration dictionary,
- *		registration will be performed atomically with the launch.
- */
-
-//to avoid code duplication, this function is currently called with
-//	callback = NULL by LaunchGrowlIfInstalledNoCallback
-//	and by Growl_Reregister.
-//this will change when this function goes away.
+//old name for Growl_LaunchIfInstalled.
 
 Boolean LaunchGrowlIfInstalled(GrowlLaunchCallback callback, void *context) {
 	return Growl_LaunchIfInstalled(callback, context);
