@@ -10,7 +10,6 @@ For .6
 - Specify license in each file. Growl is BSD, the framework is public domain, examples are public domain unless specified
 - Make GrowlMail not run while applying rules if possible
 - Bubbles
-	- Text color colorwell
 	- Top background color colorwell
 - Move non-example applications in the Examples directory into a PowerToys directory. Add licensing where need be. PowerToys will be bsd licensed.
 
@@ -28,6 +27,8 @@ Done:
 - Smoke
 	- Text colorwell
 	- Smoke needs to specify how many lines it allows to be displayed on screen.
+- Bubbles
+	- Text color colorwell
 - Add a button to remove old tickets
 - Display version number.
 - A way to check for update. We don't need to automatically check right now, just a button that reads a plist off the website.

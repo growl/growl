@@ -1,13 +1,25 @@
 {
     IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {setLimit = id; }; 
-            CLASS = BubblePrefs; 
+            ACTIONS = {colorChanged = id; setLimit = id; textColorChanged = id; }; 
+            CLASS = GrowlBubblesPrefsController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {limitCheck = NSButton; }; 
+            OUTLETS = {
+                "color_emergency" = NSColorWell; 
+                "color_high" = NSColorWell; 
+                "color_moderate" = NSColorWell; 
+                "color_normal" = NSColorWell; 
+                "color_veryLow" = NSColorWell; 
+                limitCheck = NSButton; 
+                "text_emergency" = NSColorWell; 
+                "text_high" = NSColorWell; 
+                "text_moderate" = NSColorWell; 
+                "text_normal" = NSColorWell; 
+                "text_veryLow" = NSColorWell; 
+            }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             CLASS = NSPreferencePane; 
             LANGUAGE = ObjC; 

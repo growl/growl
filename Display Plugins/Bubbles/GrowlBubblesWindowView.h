@@ -9,7 +9,8 @@
 
 #import <AppKit/NSView.h>
 
-#import "GrowlBubblesPrefsController.h" // to get the limit pref
+// to get the limit pref
+#import "GrowlBubblesPrefsController.h"
 
 @interface GrowlBubblesWindowView : NSView {
 	NSImage				*_icon;
@@ -19,8 +20,8 @@
 	SEL					_action;
 	id					_target;
     NSColor             *_bgColor;
+    NSColor             *_textColor;
 }
-
 
 - (void)setPriority:(int)priority;
 - (void) setIcon:(NSImage *) icon;

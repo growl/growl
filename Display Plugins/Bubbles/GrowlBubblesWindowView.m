@@ -15,25 +15,24 @@
 static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outData )
 {
 	NSColor *_bgColor = (NSColor *) info;
-	
-	float darkRed, darkGreen, darkBlue, darkAlpha;
-	[_bgColor getRed:&darkRed
-			green:&darkGreen
-			blue:&darkBlue
-			alpha:&darkAlpha];
 
-	//NSLog(@"data red: %f green: %f blue: %f alpha: %f", darkRed, darkGreen, darkBlue, darkAlpha);
-	//static float dark[4] = { .69412, .83147, .96078, .95 };
-//	float dark[4] = { darkRed, darkGreen, darkBlue, darkAlpha };
+	float bgRed, bgGreen, bgBlue, bgAlpha;
+	[_bgColor getRed:&bgRed
+			green:&bgGreen
+			blue:&bgBlue
+			alpha:&bgAlpha];
+
+	//NSLog(@"data red: %f green: %f blue: %f alpha: %f", bgRed, bgGreen, bgBlue, bgAlpha);
+	//static const float bg[4] = { .69412, .83147, .96078, .95 };
 	static const float light[4] = { .93725f, .96863f, .99216f, .95f };
-	
+
 	register float a = inData[0];
 	register float a_coeff = 1.0f - a;
 
-	outData[0] = a_coeff * darkRed   + a * light[0];
-	outData[1] = a_coeff * darkGreen + a * light[1];
-	outData[2] = a_coeff * darkBlue  + a * light[2];
-	outData[3] = a_coeff * darkAlpha + a * light[3];
+	outData[0] = a_coeff * bgRed   + a * light[0];
+	outData[1] = a_coeff * bgGreen + a * light[1];
+	outData[2] = a_coeff * bgBlue  + a * light[2];
+	outData[3] = a_coeff * bgAlpha + a * light[3];
 }
 
 #pragma mark -
@@ -56,13 +55,15 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	[_title release];
 	[_text release];
 	[_bgColor release];
+	[_textColor release];
 	
 	_icon = nil;
 	_title = nil;
 	_text = nil;
 	_target = nil;
 	_bgColor = nil;
-	
+	_textColor = nil;
+
 	[super dealloc];
 }
 
@@ -138,7 +139,11 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	// the top, so we've reserved some space for it.
 	int heightOffset = [self frame].size.height - 10;
 
-	[_title drawAtPoint:NSMakePoint( 55.f, heightOffset - 15.f ) withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:13.], NSFontAttributeName, [NSColor controlTextColor], NSForegroundColorAttributeName, nil]];
+	[_title drawAtPoint:NSMakePoint( 55.f, heightOffset - 15.f ) withAttributes:
+		[NSDictionary dictionaryWithObjectsAndKeys:
+			[NSFont boldSystemFontOfSize:13.], NSFontAttributeName,
+			_textColor, NSForegroundColorAttributeName,
+			nil]];
 	[_text drawInRect:NSMakeRect( 55.f, 10.f, 200.f, heightOffset - 25.f )];
 
 	NSSize iconSize = [_icon size];
@@ -179,22 +184,28 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 - (void)setPriority:(int)priority {
     NSString* key;
+    NSString* textKey;
     switch (priority) {
         case -2:
             key = GrowlBubblesVeryLowColor;
+			textKey = GrowlBubblesVeryLowTextColor;
             break;
         case -1:
             key = GrowlBubblesModerateColor;
+			textKey = GrowlBubblesModerateTextColor;
             break;
         case 1:
             key = GrowlBubblesHighColor;
+			textKey = GrowlBubblesHighTextColor;
             break;
         case 2:
             key = GrowlBubblesEmergencyColor;
+			textKey = GrowlBubblesEmergencyTextColor;
             break;
         case 0:
         default:
             key = GrowlBubblesNormalColor;
+			textKey = GrowlBubblesNormalTextColor;
             break;
     }
     NSArray *array;
@@ -216,7 +227,17 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
         [array release];
     }
     [_bgColor retain];
-    
+
+	_textColor = [NSColor controlTextColor];
+	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+    if (array && [array isKindOfClass:[NSArray class]]) {
+        _textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
+                                             green:[[array objectAtIndex:1] floatValue]
+                                              blue:[[array objectAtIndex:2] floatValue]
+                                             alpha:1.0f];
+        [array release];
+    }
+    [_textColor retain];
 }
 
 - (void) setIcon:(NSImage *) icon {
