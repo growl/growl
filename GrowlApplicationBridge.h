@@ -156,8 +156,8 @@
 - (NSString *) applicationNameForGrowl;
 
 /*
-	@method growlRegistrationDictionary
-	@abstract Return the dictionary used to register this applicaiton with Growl
+	@method registrationDictionaryForGrowl
+	@abstract Return the dictionary used to register this application with Growl
 	@discussion The returned dictionary gives Growl the complete list of notifications this application will ever send,
 	and it also specifies which applications should be enabled by default.  Each is specified by an array of NSString objects.
 	For most applications, these two arrays can be the same (if all sent notifications should be displayed by default).
@@ -170,7 +170,7 @@
  
 	@result The NSDictionary to use for registration.
 */ 
-- (NSDictionary *) growlRegistrationDictionary;
+- (NSDictionary *) registrationDictionaryForGrowl;
 
 @end
 
