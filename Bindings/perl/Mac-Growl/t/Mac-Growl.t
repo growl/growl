@@ -18,7 +18,10 @@ use Mac::Growl ':all';
 my $app    = 'PerlApp';
 my $as_app = 'Software Update';
 my @names  = ('a', 'b');
-my $image = '/Applications/Utilities/Installer.app/Contents/Resources/Caut.tiff';
+my($image) = grep { -e } (
+	'/Applications/Utilities/Installer.app/Contents/Resources/Caut.tiff',
+	'/Applications/Utilities/Installer.app/Contents/Plugins/TargetSelect.bundle/Contents/Resources/Caut.tiff'
+);
 
 my %pkgs = map { $_ => 0 } qw(
 	Foundation

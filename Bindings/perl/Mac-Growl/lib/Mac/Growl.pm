@@ -4,7 +4,7 @@ use 5.008001;
 use strict;
 use warnings;
 
-our $VERSION = '0.60';
+our $VERSION = '0.61';
 
 use base 'Exporter';
 our @EXPORT = qw();
@@ -14,7 +14,7 @@ our %EXPORT_TAGS = (all => \@EXPORT_OK);
 #### we have various options here ...
 #### in declining order of preference, we pick an implementation to use,
 #### and stick with it.
-our($base, $glue, $helper);
+our($base, $glue, $helper, $appkit);
 
 # we could use gotos or something, but this is the most efficient and reliable
 # way; we could also try to put all the implementations in one function, but
@@ -49,9 +49,23 @@ sub _Define_Subs {
 sub BEGIN {
 	$helper = 'GrowlHelperApp';
 
-# Foundation not currently working properly, see TODO
-#	eval 'require Foundation';
-#	$base = 'Foundation' unless $@;
+	eval 'require Foundation';
+	if (!$@) {
+		$base = 'Foundation';
+
+		# load classes for images
+		my $path = NSString->stringWithCString_('/System/Library/Frameworks/AppKit.framework');
+		$appkit = NSBundle->alloc->init->initWithPath_($path);
+		$appkit->load if $appkit;
+		if ($appkit->isLoaded) {
+			no strict 'refs';
+			for my $class (qw(NSWorkspace NSImage)) {
+				@{$class . '::ISA'} = 'PerlObjCBridge';
+			}
+		} else {
+			undef $appkit;
+		}
+	}
 
 	if (!$base) {
 		eval 'require Mac::Glue';
@@ -110,23 +124,31 @@ sub Foundation_RegisterNotifications($$$;$)
 {
 	my($appName, $allNotes, $defaultNotes, $iconOfApp) = @_;
 	
-	my $appString = NSString->stringWithCString_($appName);
-	my $notesArray = NSMutableArray->array();
-	my $defaultArray = NSMutableArray->array();
-
-	# can't do this, because NSImage not available in Foundation
-	if ($iconOfApp) {
-	}
+	my $appString    = NSString->stringWithCString_($appName);
+	my $notesArray   = NSMutableArray->array;
+	my $defaultArray = NSMutableArray->array;
 
 	$notesArray->addObject_($_)   for @$allNotes;
 	$defaultArray->addObject_($_) for @$defaultNotes;
 
-	my $regDict = NSMutableDictionary->dictionary();
-	$regDict->setObject_forKey_($appName,GROWL_APP_NAME);
-	$regDict->setObject_forKey_($notesArray,GROWL_NOTIFICATIONS_ALL);
-	$regDict->setObject_forKey_($defaultArray,GROWL_NOTIFICATIONS_DEFAULT);
+	my $regDict = NSMutableDictionary->dictionary;
+	$regDict->setObject_forKey_($appName,      GROWL_APP_NAME);
+	$regDict->setObject_forKey_($notesArray,   GROWL_NOTIFICATIONS_ALL);
+	$regDict->setObject_forKey_($defaultArray, GROWL_NOTIFICATIONS_DEFAULT);
 
-	NSDistributedNotificationCenter->defaultCenter()->postNotificationName_object_userInfo_(
+	if ($appkit && defined $iconOfApp) {
+		my $path = NSWorkspace->sharedWorkspace->fullPathForApplication_(
+			NSString->stringWithCString_($iconOfApp)
+		);
+		if ($path) {
+			my $icon = NSWorkspace->sharedWorkspace->iconForFile_($path);
+			if ($icon && $icon->isValid) {
+				$regDict->setObject_forKey_($icon->TIFFRepresentation, GROWL_APP_ICON);
+			}
+		}
+	}
+
+	NSDistributedNotificationCenter->defaultCenter->postNotificationName_object_userInfo_(
 		GROWL_APP_REGISTRATION,
 		undef,
 		$regDict
@@ -138,19 +160,27 @@ sub Foundation_PostNotification($$$$;$$$)
 	my($appName, $noteName, $noteTitle, $noteDescription, $sticky, $priority, $image) = @_;
 	$sticky = $sticky ? 1 : 0;
 
-	my $noteDict = NSMutableDictionary->dictionary();
-	$noteDict->setObject_forKey_($noteName,GROWL_NOTIFICATION_NAME);
-	$noteDict->setObject_forKey_($appName,GROWL_APP_NAME);
-	$noteDict->setObject_forKey_($noteTitle,GROWL_NOTIFICATION_TITLE);
-	$noteDict->setObject_forKey_($noteDescription,GROWL_NOTIFICATION_DESCRIPTION);
-	$noteDict->setObject_forKey_(NSNumber->numberWithBool_($sticky),GROWL_NOTIFICATION_STICKY);
-	$noteDict->setObject_forKey_(NSNumber->numberWithInt_($priority),GROWL_NOTIFICATION_PRIORITY);
+	my $noteDict = NSMutableDictionary->dictionary;
+	$noteDict->setObject_forKey_($noteName,        GROWL_NOTIFICATION_NAME);
+	$noteDict->setObject_forKey_($appName,         GROWL_APP_NAME);
+	$noteDict->setObject_forKey_($noteTitle,       GROWL_NOTIFICATION_TITLE);
+	$noteDict->setObject_forKey_($noteDescription, GROWL_NOTIFICATION_DESCRIPTION);
+	$noteDict->setObject_forKey_(NSNumber->numberWithBool_($sticky),  GROWL_NOTIFICATION_STICKY)
+		if defined $sticky;
+	$noteDict->setObject_forKey_(NSNumber->numberWithInt_($priority), GROWL_NOTIFICATION_PRIORITY)
+		if defined $priority;
 
-	# can't do this, because NSImage not available in Foundation
-	if ($image) {
+	if ($appkit && defined $image && -e $image) {
+		my $path = NSString->stringWithCString_($image);
+		if ($path) {
+			my $icon = NSImage->alloc->initWithContentsOfFile_($path);
+			if ($icon && $icon->isValid) {
+				$noteDict->setObject_forKey_($icon->TIFFRepresentation, GROWL_NOTIFICATION_ICON);
+			}
+		}
 	}
 
-	NSDistributedNotificationCenter->defaultCenter()->postNotificationName_object_userInfo_(
+	NSDistributedNotificationCenter->defaultCenter->postNotificationName_object_userInfo_(
 		GROWL_NOTIFICATION,
 		undef,
 		$noteDict
@@ -195,7 +225,9 @@ sub Glue_PostNotification($$$$;$$$)
 	$params{priority} = $priority if defined $priority;
 
 	my $image_url = _Fix_Image_Path($image);
-	$params{image_from_url} = $image_url if $image_url;
+	$params{image_from_location} = Mac::Glue::param_type(
+		Mac::Glue::typeChar(), $image_url
+	) if $image_url;
 
 	$glue->notify(%params);
 }
@@ -268,7 +300,6 @@ sub _Execute_AppleScript
 {
 	my($script, $return) = @_;
 	my $reply;
-
 	# warn $script, "\n";
 
 	if ($base eq 'Mac::OSA::Simple')
@@ -286,7 +317,7 @@ sub _Execute_AppleScript
 		$reply = Mac::AppleScript::RunAppleScript($script);
 	}
 
-	elsif ($base eq 'osascript')
+	else # ($base eq 'osascript')
 	{
 		if ($return) {
 			$script =~ s/\\/\\\\/g;
@@ -324,9 +355,10 @@ sub _Fix_Image_Path
 	if (defined $image && length $image) {
 		$path = File::Spec->rel2abs($image);
 		if (-e $path) {
+			my $reply;
 			if ($uri_file) {
 				my $uri = URI::file->new($path);
-				return $uri->as_string if $uri;
+				$reply = $uri->as_string if $uri;
 			} else {
 				# URI::file will be available if Mac::Glue
 				# is, so this only needs to be implemented
@@ -335,14 +367,16 @@ sub _Fix_Image_Path
 				# to not
 				my $script = <<EOT;
 tell application "Finder"
-   set thisfile to POSIX file "$path"
+   set thisfile to POSIX file "$path" as string
    set thisdoc to document file thisfile
    return URL of thisdoc
 end tell
 EOT
-				my $reply = _Execute_AppleScript($script, 1);
+				$reply = _Execute_AppleScript($script, 1);
+			}
+			if ($reply) {
 				# Growl being excessively anal
-				$reply =~ s|file://localhost/|file:///|;
+				$reply =~ s#^file:/(/localhost/)?(?!/)#file:///#;
 				return $reply;
 			}
 		}
@@ -372,7 +406,9 @@ Mac::Growl - Perl module for registering and sending Growl Notifications on Mac 
 
 =head1 DESCRIPTION
 
-Mac::Growl provides a simple notification for perl apps to register themselves with and send notifications to the Mac OS X notification application Growl.
+Mac::Growl provides a simple notification for perl apps to register
+themselves with and send notifications to the Mac OS X notification
+application Growl.
 
 Mac::Growl defines two methods:
 
@@ -380,27 +416,45 @@ Mac::Growl defines two methods:
 
 =item RegisterNotifications(appname, allNotifications, defaultNotifications[, iconOfApp]);
 
-RegisterNotifications takes the name of the application sending notifications, as well as a reference to a list of all notifications the app sends out, and a reference to an array of all the notifications to be enabled by default.  Also, optionally accepts the name of an application whose icon to use by default.
+RegisterNotifications takes the name of the application sending
+notifications, as well as a reference to a list of all notifications the
+app sends out, and a reference to an array of all the notifications to
+be enabled by default.  Also, optionally accepts the name of an
+application whose icon to use by default.
 
 =item PostNotification(appname, name, title, description[, sticky, priority, image_path]);
 
-PostNotification takes the name of the sending application (normally the same as passed to the Register call), the name of the notification (should be one of the allNotification list passed to Register), and a title and description to be displayed by Growl. Also, optionally accepts a "sticky" flag, which, if true, will cause the notification to remain until dismissed, instead of timing out normally; a "priority" value (range from -2 for low to 2 for high); and an image path, a path to a file containing the image for the notification.
+PostNotification takes the name of the sending application (normally the
+same as passed to the Register call), the name of the notification
+(should be one of the allNotification list passed to Register), and a
+title and description to be displayed by Growl. Also, optionally accepts
+a "sticky" flag, which, if true, will cause the notification to remain
+until dismissed, instead of timing out normally; a "priority" value
+(range from -2 for low to 2 for high); and an image path, a path to a
+file containing the image for the notification.
 
 =back
+
+For more information, see
+L<http://growl.info/documentation/applescript-support.php>, which
+details how this all fits together.  It is specific to AppleScript, but
+the concepts apply to this module as well, except that file paths for
+images are Unix paths, not URLs.
 
 
 =head1 CAVEATS
 
-This module is designed to use L<Foundation>, a perl module included with Mac OS X that is probably only available if you are using the default system perl.  If Foundation is not available, this module will attempt to talk to Growl using Apple events instead of the Cocoa API.  (L<TODO>: currently, Foundation is disabled.)
+This module is designed to use L<Foundation>, a perl module included
+with Mac OS X that is probably only available if you are using the
+default system perl.  If Foundation is not available (such as if you
+built your own version of perl), this module will attempt to talk to
+Growl using Apple events instead of the Cocoa API.
 
-It tries various perl modules to accomplish this, in descending order of preference: L<Mac::Glue>*, L<Mac::OSA::Simple>, L<MacPerl> (which defines C<DoAppleScript>), and L<Mac::AppleScript>.  As a last resort, it will use C<osascript(1)>, a command line program that should be available on all Mac OS X machines.
-
-*In order to use Mac::Glue, you must run C<sudo gluemac GrowlHelper.app> (from the F</Library/PreferencePanes/Growl.prefPane/Contents/Resources/> directory) first on the command line, to create the glue file.
-
-
-=head1 TODO
-
-For the Foundation implementation, make the iconOfApp argument work in C<RegisterNotifications> and image argument work for C<PostNotification>.  Somebody else ... ?
+It tries various perl modules to accomplish this, in descending order of
+preference: L<Mac::Glue>, L<Mac::OSA::Simple>, L<MacPerl> (which defines
+C<DoAppleScript>), and L<Mac::AppleScript>.  As a last resort, it will
+use C<osascript(1)>, a command line program that should be available on
+all Mac OS X machines.
 
 
 =head1 EXPORT
@@ -418,26 +472,38 @@ http://growl.info
 =head1 AUTHORS
 
 Nelson Elhage E<lt>nelhage@gmail.comE<gt>,
-Chris Nandor E<lt>pudge@perl.orgE<gt>
+Chris Nandor E<lt>projects@pudge.netE<gt>
 
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2004 by Nelson Elhage
-
-Copyright (c) The Growl Project, 2004 
-All rights reserved.
+Copyright (C) 2004-2005 The Growl Project.  All rights reserved.
 
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
 
 
-1) Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+1) Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
 
-2) Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+2) Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
 
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 =cut
