@@ -1,16 +1,19 @@
 #import <AppKit/NSView.h>
 
-#import "BubblePrefs.h" // to get the limit pref
+#import "GrowlBubblesPrefsController.h" // to get the limit pref
 
-@interface KABubbleWindowView : NSView {
+@interface GrowlBubblesWindowView : NSView {
 	NSImage				*_icon;
 	NSString			*_title;
 	NSAttributedString  *_text;
 	float				_textHeight;
 	SEL					_action;
 	id					_target;
+    NSColor             *_bgColor;
 }
 
+
+- (void)setPriority:(int)priority;
 - (void) setIcon:(NSImage *) icon;
 - (void) setTitle:(NSString *) title;
 - (void) setAttributedText:(NSAttributedString *) text;

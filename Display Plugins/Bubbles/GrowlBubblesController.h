@@ -1,15 +1,16 @@
 //
-//  KABubbleController.h
+//  GrowlBubblesController.h
 //  Growl
 //
 //  Created by Nelson Elhage on Wed Jun 09 2004.
+//  Name changed from KABubbleController.h by Justin Burns on Fri Nov 05 2004.
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
-@class BubblePrefs;
+@class GrowlBubblesPrefsController;
 
-@interface KABubbleController : NSObject <GrowlDisplayPlugin> {
-	BubblePrefs *bubblePrefPane;
+@interface GrowlBubblesController : NSObject <GrowlDisplayPlugin> {
+	GrowlBubblesPrefsController *bubblePrefPane;
 }
 
 #pragma mark Growl Gets Satisfaction

@@ -1,23 +1,24 @@
 //
-//  KABubbleController.m
+//  GrowlBubblesController.m
 //  Growl
 //
 //  Created by Nelson Elhage on Wed Jun 09 2004.
+//  Name changed from KABubbleController.h by Justin Burns on Fri Nov 05 2004.
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
-#import "KABubbleController.h"
-#import "KABubbleWindowController.h"
-#import "BubblePrefs.h"
+#import "GrowlBubblesController.h"
+#import "GrowlBubblesWindowController.h"
+#import "GrowlBubblesPrefsController.h"
 @class NSPreferencePane;
 
-@implementation KABubbleController
+@implementation GrowlBubblesController
 
 #pragma mark Growl Gets Satisfaction
 
 - (id) init {
 	if (self = [super init]) {
-		bubblePrefPane = [[BubblePrefs alloc] initWithBundle:[NSBundle bundleForClass:[BubblePrefs class]]];
+		bubblePrefPane = [[GrowlBubblesPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBubblesPrefsController class]]];
 	}
 	return self;
 }
@@ -67,9 +68,10 @@
 }
 
 - (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {
-	KABubbleWindowController *nuBubble = [KABubbleWindowController bubbleWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
-																			  text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
-																			  icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+	GrowlBubblesWindowController *nuBubble = [GrowlBubblesWindowController bubbleWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
+																			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+																			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+																			priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 																			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
 	[nuBubble startFadeIn];
 //	NSLog( @"bubble - %@", nuBubble );

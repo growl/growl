@@ -1,9 +1,38 @@
-#import "KABubbleWindowView.h"
+#import "GrowlBubblesWindowView.h"
 #import <math.h>
+#import "GrowlDefines.h"
+#import "GrowlBubblesDefines.h"
 
-void KABubbleShadeInterpolate( void *info, float const *inData, float *outData ) {
-	static float dark[4] = { .69412, .83147, .96078, .95 };
+
+void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outData) {
+
+	//	Original Colors
+	//	static float dark[4] = { .69412, .83147, .96078, .95 };
+	//	static float light[4] = { .93725, .96863, .99216, .95 };
+
+	
+	NSArray *array;	
+	NSColor *_bgColor;
+	READ_GROWL_PREF_VALUE(GrowlBubblesVeryLowColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+	if (array) {
+		_bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
+										  green:[[array objectAtIndex:1] floatValue]
+										   blue:[[array objectAtIndex:2] floatValue]
+										  alpha:.95];
+		[array release];
+		array = nil;
+	}
+
+	static float darkRed, darkGreen, darkBlue, darkAlpha;
+	[_bgColor getRed:&darkRed
+			green:&darkGreen
+			blue:&darkBlue
+			alpha:&darkAlpha];
+
+// 	NSLog(@"woo hoo red: %f green: %f blue: %f alpha: %f", darkRed, darkGreen, darkBlue, darkAlpha);
+	float dark[4] = { darkRed, darkGreen, darkBlue, darkAlpha };
 	static float light[4] = { .93725, .96863, .99216, .95 };
+	
 	register float a = inData[0], a_coeff = 1.0f - a;
 	register int i = 0;
 
@@ -13,7 +42,7 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 
 #pragma mark -
 
-@implementation KABubbleWindowView
+@implementation GrowlBubblesWindowView
 - (id) initWithFrame:(NSRect) frame {
 	if( self = [super initWithFrame:frame] ) {
 		_icon   = nil;
@@ -40,6 +69,25 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 }
 
 - (void) drawRect:(NSRect) rect {
+	
+	
+	static NSColor *_bgColorDeux;
+//	*_bgColorDeux = *_bgColor;
+	static float darkRed, darkGreen, darkBlue, darkAlpha;
+//	_bgColorDeus = [NSColor colorWithCalibratedRed:.69412
+//										  green:.83147
+//										   blue:.96078
+//										  alpha:.95];
+	
+	
+	[_bgColorDeux getRed:&darkRed
+					green:&darkGreen
+					 blue:&darkBlue
+					alpha:&darkAlpha];
+	NSLog(@" hmmm red: %f green: %f blue: %f alpha %f", darkRed, darkGreen, darkBlue, darkAlpha);
+	
+	
+	
 	NSRect bounds = [self bounds];
 
 	[[NSColor clearColor] set];
@@ -81,7 +129,9 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 
 	[path setClip];
 
-	struct CGFunctionCallbacks callbacks = { 0, KABubbleShadeInterpolate, NULL };
+	// Create a callback function to generate the 
+    // fill clipped graphics context with our gradient
+	struct CGFunctionCallbacks callbacks = { 0, GrowlBubblesShadeInterpolate, NULL };
 	CGFunctionRef function = CGFunctionCreate( NULL, 1, NULL, 4, NULL, &callbacks );
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
@@ -145,6 +195,50 @@ void KABubbleShadeInterpolate( void *info, float const *inData, float *outData )
 }
 
 #pragma mark -
+
+
+- (void)setPriority:(int)priority {
+    NSString* key;
+    switch (priority) {
+        case -2:
+            key = GrowlBubblesVeryLowColor;
+            break;
+        case -1:
+            key = GrowlBubblesModerateColor;
+            break;
+        case 1:
+            key = GrowlBubblesHighColor;
+            break;
+        case 2:
+            key = GrowlBubblesEmergencyColor;
+            break;
+        case 0:
+        default:
+            key = GrowlBubblesNormalColor;
+            break;
+    }
+    NSArray *array;
+	
+//	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
+//	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
+
+	_bgColor = [NSColor colorWithCalibratedRed:.69412
+									  green:.83147
+									   blue:.96078
+									  alpha:.95];
+
+	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
+    if (array && [array isKindOfClass:[NSArray class]]) {
+        _bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
+                                             green:[[array objectAtIndex:1] floatValue]
+                                              blue:[[array objectAtIndex:2] floatValue]
+                                             alpha:.95];
+        [array release];
+    }
+    [_bgColor retain];
+    
+}
+
 
 - (void) setIcon:(NSImage *) icon {
 	[_icon autorelease];

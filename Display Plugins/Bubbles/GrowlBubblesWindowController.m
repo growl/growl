@@ -1,31 +1,31 @@
-#import "KABubbleWindowController.h"
-#import "KABubbleWindowView.h"
+#import "GrowlBubblesWindowController.h"
+#import "GrowlBubblesWindowView.h"
 #import "NSGrowlAdditions.h"
 
 static unsigned int bubbleWindowDepth = 0;
 
-@implementation KABubbleWindowController
+@implementation GrowlBubblesWindowController
 
 #define TIMER_INTERVAL ( 1. / 30. )
 #define FADE_INCREMENT 0.05
 #define MIN_DISPLAY_TIME 4.
 #define ADDITIONAL_LINES_DISPLAY_TIME 0.5
 #define MAX_DISPLAY_TIME 10.
-#define KABubblePadding 10.
+#define GrowlBubblesPadding 10.
 
 #pragma mark -
 
-+ (KABubbleWindowController *) bubble {
++ (GrowlBubblesWindowController *) bubble {
 	return [[[self alloc] init] autorelease];
 }
 
-+ (KABubbleWindowController *) bubbleWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky {
-	return [[[self alloc] initWithTitle:title text:text icon:icon sticky:sticky] autorelease];
++ (GrowlBubblesWindowController *) bubbleWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
+	return [[[self alloc] initWithTitle:title text:text icon:icon priority:(int)priority sticky:sticky] autorelease];
 }
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon sticky:(BOOL) sticky {
+- (id) initWithTitle:(NSString *) title text:(id) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
 	extern unsigned int bubbleWindowDepth;
 
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:NSMakeRect( 0., 0., 270., 65. ) 
@@ -44,7 +44,7 @@ static unsigned int bubbleWindowDepth = 0;
 	[panel setReleasedWhenClosed:YES];
 	[panel setDelegate:self];
 
-	KABubbleWindowView *view = [[[KABubbleWindowView alloc] initWithFrame:panelFrame] autorelease];
+	GrowlBubblesWindowView *view = [[[GrowlBubblesWindowView alloc] initWithFrame:panelFrame] autorelease];
 	[view setTarget:self];
 	[view setAction:@selector( _bubbleClicked: )];
 	[panel setContentView:view];
@@ -53,13 +53,15 @@ static unsigned int bubbleWindowDepth = 0;
 	if( [text isKindOfClass:[NSString class]] ) [view setText:text];
 	else if( [text isKindOfClass:[NSAttributedString class]] ) [view setAttributedText:text];
 	
+	[view setPriority:priority];
+	
 	[view setIcon:icon];
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 	
 	NSRect screen = [[NSScreen mainScreen] visibleFrame];
-	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - KABubblePadding, 
-											 NSMaxY( screen ) - KABubblePadding - ( bubbleWindowDepth ) )];
+	[panel setFrameTopLeftPoint:NSMakePoint( NSWidth( screen ) - NSWidth( panelFrame ) - GrowlBubblesPadding, 
+											 NSMaxY( screen ) - GrowlBubblesPadding - ( bubbleWindowDepth ) )];
 	
 	#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
 	if( (NSMaxY([panel frame]) - NSHeight([panel frame]) - [NSMenuView menuBarHeight]) < 0 )
