@@ -555,23 +555,6 @@ typedef void (*GrowlLaunchCallback)(void *context);
 Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context);
 
 #pragma mark -
-#pragma mark Deprecated API
-
-/*!	@function	LaunchGrowlIfInstalled
- *	@abstract	Older name for Growl_LaunchIfInstalled.
- *	@param	callback	A callback function which will be called if Growl was successfully
- *	 launched or was already running. Can be NULL.
- *	@param	context	The context pointer to pass to the callback. Can be NULL.
- *	@result	Returns true if Growl was successfully launched or was already
- *	 running; returns false and does not call the callback otherwise.
- *	@discussion	The name of this function changed in Growl 0.6 to be uniform
- *	 with the functions that were added. The old name is preserved for
- *	 compatibility with GrowlAppBridge.framework from Growl 0.5.
- *	@deprecated	in Growl 0.6
- */
-Boolean LaunchGrowlIfInstalled(GrowlLaunchCallback callback, void *context);
-
-#pragma mark -
 #pragma mark Constants
 
 /*!	@defined	GROWL_PREFPANE_BUNDLE_IDENTIFIER

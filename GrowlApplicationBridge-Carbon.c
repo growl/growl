@@ -423,15 +423,6 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 }
 
 #pragma mark -
-#pragma mark Deprecated API
-
-//old name for Growl_LaunchIfInstalled.
-
-Boolean LaunchGrowlIfInstalled(GrowlLaunchCallback callback, void *context) {
-	return Growl_LaunchIfInstalled(callback, context);
-}
-
-#pragma mark -
 #pragma mark Private API
 
 //notification callback.
