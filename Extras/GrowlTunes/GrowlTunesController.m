@@ -483,12 +483,12 @@ enum {
 		statusItem = [[statusBar statusItemWithLength:NSSquareStatusItemLength] retain];
 		if(statusItem) {
 			[statusItem setMenu:[self statusItemMenu]];
-            
+
 			[statusItem setHighlightMode:YES];
 			[statusItem setImage:[NSImage imageNamed:@"growlTunes.tif"]];
-            if(floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_2)  {
-              [statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.tif"]];
-            }
+			if(floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_2)  {
+				[statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.tif"]];
+			}
 		}
 	}
 }
@@ -544,10 +544,10 @@ enum {
 }
 
 - (IBAction)togglePolling:(id)sender {
-    if(pollTimer)
-	[self stopTimer];
-    else
-	[self startTimer];
+	if(pollTimer)
+		[self stopTimer];
+	else
+		[self startTimer];
 }
 
 - (NSMenu *) buildiTunesMenu {
@@ -617,7 +617,7 @@ enum {
 - (IBAction)onlineHelp:(id)sender{
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ONLINE_HELP_URL]];
 }
-    
+
 - (void) addTuneToRecentTracks:(NSString *)inTune fromPlaylist:(NSString *)inPlaylist {
 	int trackLimit = [[[NSUserDefaults standardUserDefaults] objectForKey:recentTrackCount] intValue];
 	NSDictionary *tuneDict = [NSDictionary dictionaryWithObjectsAndKeys:inTune, @"name",
