@@ -271,7 +271,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		NSString			*note;
 		NSMutableDictionary *allNotesCopy = [[allNotifications mutableCopy] autorelease];
 
-#warning This has been broken when we allowed NSNumbers to be contained in the inDefaults array. It's even more broken if inDefaults is a NSIndexSet.
+#warning This has been broken when we allowed NSNumbers to be contained in the inDefaults array. It is even more broken if inDefaults is a NSIndexSet.
 		enumerator = [inDefaults objectEnumerator];
 		while ( (note = [enumerator nextObject] ) ) {
 			if (![allNotesCopy objectForKey:note]) {
