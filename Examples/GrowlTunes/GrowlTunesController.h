@@ -21,22 +21,18 @@ typedef enum {
 } iTunesState;
 
 @interface GrowlTunesController : NSObject {
-	NSTimer				* pollTimer;
-	double				  pollInterval;
-	NSAppleScript		* pollScript;
+	NSTimer				*pollTimer;
+	NSAppleScript		*pollScript;
+	NSAppleScript		*quitiTunesScript;
+	NSMutableArray		*plugins;
+	NSStatusItem		*statusItem;
+	NSString			*playlistName;
+	NSMutableArray		*recentTracks;
+	NSMenu				*iTunesSubMenu;
 	
-	NSAppleScript		* getTrackScript;
-	NSAppleScript		* getArtistScript;
-	NSAppleScript		* getArtworkScript;
-	NSAppleScript		* getAlbumScript;
-	NSAppleScript		* quitiTunesScript;
-
-	NSStatusItem		* statusItem;
-
-	iTunesState			  state;
-	int					  trackID;		//The "database ID" of the last-polled track in iTunes, -1 for none
-
-	NSMutableArray		* plugins;
+	iTunesState			state;
+	double				pollInterval;
+	int					trackID;		//The "database ID" of the last-polled track in iTunes, -1 for none
 }
 
 - (BOOL)iTunesIsRunning;

@@ -8,11 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol GrowlTunesPlugin
-- (NSImage *)artworkForTitle:(NSString *)track
-					byArtist:(NSString *)artist
-					 onAlbum:(NSString *)album;
-@end
+@protocol GrowlTunesPlugin;
 
 @interface ARTchiveIconSource : NSObject <GrowlTunesPlugin> {
 

@@ -427,10 +427,7 @@
 			children = (
 				4C29096106A8CB8A00FDB6CE,
 				4C29096206A8CB8A00FDB6CE,
-				5275B5410687D634006F5704,
-				5275B5420687D634006F5704,
-				5275B5430687D634006F5704,
-				5275B5A9068922A2006F5704,
+				CB57B4CA0711E503001968B0,
 				5275B5440687D634006F5704,
 				07D08B21068D3DA800756873,
 				8D1107310486CEB800E47090,
@@ -566,30 +563,6 @@
 //522
 //523
 //524
-		5275B5410687D634006F5704 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.scpt;
-			name = getArtist.scpt;
-			path = Scripts/getArtist.scpt;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5275B5420687D634006F5704 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.scpt;
-			name = getArtwork.scpt;
-			path = Scripts/getArtwork.scpt;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5275B5430687D634006F5704 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.scpt;
-			name = getTrack.scpt;
-			path = Scripts/getTrack.scpt;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		5275B5440687D634006F5704 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.scpt;
@@ -597,24 +570,6 @@
 			path = Scripts/polliTunes.scpt;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		5275B5450687D634006F5704 = {
-			fileRef = 5275B5410687D634006F5704;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5275B5460687D634006F5704 = {
-			fileRef = 5275B5420687D634006F5704;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5275B5470687D634006F5704 = {
-			fileRef = 5275B5430687D634006F5704;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		5275B5480687D634006F5704 = {
 			fileRef = 5275B5440687D634006F5704;
@@ -633,20 +588,6 @@
 		};
 		5275B567068866DA006F5704 = {
 			fileRef = 5275B564068866DA006F5704;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5275B5A9068922A2006F5704 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.scpt;
-			name = getAlbum.scpt;
-			path = Scripts/getAlbum.scpt;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5275B5AA068922A2006F5704 = {
-			fileRef = 5275B5A9068922A2006F5704;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -781,14 +722,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072B0486CEB800E47090,
-				5275B5450687D634006F5704,
-				5275B5460687D634006F5704,
-				5275B5470687D634006F5704,
 				5275B5480687D634006F5704,
-				5275B5AA068922A2006F5704,
 				07D08B22068D3DA800756873,
 				4C29096306A8CB8B00FDB6CE,
 				4C29096406A8CB8B00FDB6CE,
+				CB57B4CB0711E503001968B0,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -847,6 +785,31 @@
 			path = GrowlTunes.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+//CB0
+//CB1
+//CB2
+//CB3
+//CB4
+		CB57B4CA0711E503001968B0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.scpt;
+			name = jackItunesInfo.scpt;
+			path = Scripts/jackItunesInfo.scpt;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		CB57B4CB0711E503001968B0 = {
+			fileRef = CB57B4CA0711E503001968B0;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = 29B97313FDCFA39411CA2CEA;

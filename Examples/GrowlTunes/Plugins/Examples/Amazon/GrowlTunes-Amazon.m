@@ -57,7 +57,7 @@
 	}
 	
 	if ( imageURL ) {
-		artwork = [[[NSImage alloc] initWithData:[NSData dataWithData:[[NSURL URLWithString:imageURL] resourceDataUsingCache:YES]] ]autorelease];
+		artwork = [[[NSImage alloc] initWithData:[NSData dataWithData:[[NSURL URLWithString:imageURL] resourceDataUsingCache:YES]] ] autorelease];
 	}
 	
 	return artwork;
