@@ -97,7 +97,7 @@
 	
 	If the value is set, you are responsible for releasing it
  */
-#define READ_GROWL_PREF_VALUE(key, domain, type, result) {\
+#define READ_GROWL_PREF_VALUE(key, domain, type, result) do {\
 	CFDictionaryRef prefs = (CFDictionaryRef)CFPreferencesCopyAppValue((CFStringRef)domain, \
 																		CFSTR("com.Growl.GrowlHelperApp")); \
 	if (prefs != NULL) {\
@@ -105,7 +105,7 @@
 			*result = (type)CFDictionaryGetValue(prefs, key); \
 			CFRetain(*result); \
 		}\
-		CFRelease(prefs); } }
+		CFRelease(prefs); } } while(0)
 
 /*!
 	@function    WRITE_GROWL_PREF_VALUE
@@ -117,7 +117,7 @@
 	toll-free bridged with one
 	@param domain The bundle ID of the plugin
  */
-#define WRITE_GROWL_PREF_VALUE(key, value, domain) {\
+#define WRITE_GROWL_PREF_VALUE(key, value, domain) do {\
 	CFDictionaryRef staticPrefs = (CFDictionaryRef)CFPreferencesCopyAppValue((CFStringRef)domain, \
 																			 CFSTR("com.Growl.GrowlHelperApp")); \
 	CFMutableDictionaryRef prefs; \
@@ -129,7 +129,7 @@
 	}\
 	CFDictionarySetValue(prefs, key, value); \
 	CFPreferencesSetAppValue((CFStringRef)domain, prefs, CFSTR("com.growl.GrowlHelperApp")); \
-	CFRelease(prefs); }
+	CFRelease(prefs); } while(0)
 
 /*!
 @function    READ_GROWL_PREF_BOOL
@@ -140,13 +140,13 @@
 	@param domain The bundle ID of the plugin
 	@param result A pointer to a boolean. Leaves unchanged if the value doesn't exist
  */
-#define READ_GROWL_PREF_BOOL(key, domain, result) {\
+#define READ_GROWL_PREF_BOOL(key, domain, result) do {\
 	CFBooleanRef boolValue = NULL; \
 	READ_GROWL_PREF_VALUE(key, domain, CFBooleanRef, &boolValue); \
 	if (boolValue != NULL) {\
 		*result = CFBooleanGetValue(boolValue); \
 		CFRelease(boolValue); \
-	} }
+	} } while(0)
 
 /*!
 	@function    WRITE_GROWL_PREF_BOOL
@@ -157,14 +157,14 @@
 	@param value The boolean value to write to the preferences
 	@param domain The bundle ID of the plugin
  */
-#define WRITE_GROWL_PREF_BOOL(key, value, domain) {\
+#define WRITE_GROWL_PREF_BOOL(key, value, domain) do {\
 	CFBooleanRef boolValue; \
 	if (value) {\
 		boolValue = kCFBooleanTrue; \
 	} else {\
 		boolValue = kCFBooleanFalse; \
 	}\
-	WRITE_GROWL_PREF_VALUE(key, boolValue, domain); }
+	WRITE_GROWL_PREF_VALUE(key, boolValue, domain); } while(0)
 
 /*!
 @function    READ_GROWL_PREF_INT
@@ -175,13 +175,13 @@
 	@param domain The bundle ID of the plugin
 	@param result A pointer to an integer. Leaves unchanged if the value doesn't exist
  */
-#define READ_GROWL_PREF_INT(key, domain, result) {\
+#define READ_GROWL_PREF_INT(key, domain, result) do {\
 	CFNumberRef intValue = NULL; \
 	READ_GROWL_PREF_VALUE(key, domain, CFNumberRef, &intValue); \
 	if (intValue != NULL) {\
 		CFNumberGetValue(intValue, kCFNumberIntType, result); \
 		CFRelease(intValue); \
-	} }
+	} } while(0)
 
 /*!
 	@function    WRITE_GROWL_PREF_INT
@@ -192,10 +192,10 @@
 	@param value The integer value to write to the preferences
 	@param domain The bundle ID of the plugin
  */
-#define WRITE_GROWL_PREF_INT(key, value, domain) {\
+#define WRITE_GROWL_PREF_INT(key, value, domain) do {\
 	CFNumberRef intValue = CFNumberCreate(NULL, kCFNumberIntType, &value); \
 	WRITE_GROWL_PREF_VALUE(key, intValue, domain); \
-	CFRelease(intValue); }
+	CFRelease(intValue); } while(0)
 
 /*!
 @function    READ_GROWL_PREF_FLOAT
@@ -206,13 +206,13 @@
 	@param domain The bundle ID of the plugin
 	@param result A pointer to a float. Leaves unchanged if the value doesn't exist
  */
-#define READ_GROWL_PREF_FLOAT(key, domain, result) {\
+#define READ_GROWL_PREF_FLOAT(key, domain, result) do {\
 	CFNumberRef floatValue = NULL; \
 	READ_GROWL_PREF_VALUE(key, domain, CFNumberRef, &floatValue); \
 	if (floatValue != NULL) {\
 		CFNumberGetValue(floatValue, kCFNumberFloatType, result); \
 		CFRelease(floatValue); \
-	} }
+	} } while(0)
 
 /*!
 	@function    WRITE_GROWL_PREF_FLOAT
@@ -223,7 +223,7 @@
 	@param value The float value to write to the preferences
 	@param domain The bundle ID of the plugin
  */
-#define WRITE_GROWL_PREF_FLOAT(key, value, domain) {\
+#define WRITE_GROWL_PREF_FLOAT(key, value, domain) do {\
 	CFNumberRef floatValue = CFNumberCreate(NULL, kCFNumberFloatType, &value); \
 	WRITE_GROWL_PREF_VALUE(key, floatValue, domain); \
-	CFRelease(floatValue); }
+	CFRelease(floatValue); } while(0)
