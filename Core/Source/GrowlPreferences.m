@@ -79,7 +79,8 @@ static GrowlPreferences * sharedPreferences;
 
 	CFPreferencesAppSynchronize( (CFStringRef)HelperAppBundleIdentifier );
 
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged object:key];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
+																   object:key];
 }
 
 - (void) synchronize {

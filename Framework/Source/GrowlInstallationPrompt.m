@@ -40,20 +40,22 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 {
 	long OSXVersion = 0L;
 	OSStatus err = Gestalt(gestaltSystemVersion, &OSXVersion);
-	if(err != noErr) {
+	if (err != noErr) {
 		NSLog(@"WARNING in GrowlInstallationPrompt: could not get Mac OS X version (selector = %x); got error code %li (will show the installation prompt anyway)", (unsigned)gestaltSystemVersion, (long)err);
 		//we proceed anyway, on the theory that it is better to show the installation prompt when inappropriate than to suppress it when not.
 		OSXVersion = minimumOSXVersionForGrowl;
 	}
 
-	if(OSXVersion >= minimumOSXVersionForGrowl)
-		[[[[self alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdate:inIsUpdate] window] makeKeyAndOrderFront:nil];
+	if (OSXVersion >= minimumOSXVersionForGrowl) {
+		[[[[GrowlInstallationPrompt alloc] initWithWindowNibName:GROWL_INSTALLATION_NIB forUpdate:inIsUpdate] window] makeKeyAndOrderFront:nil];
+	}
 }
 
 - (id)initWithWindowNibName:(NSString *)nibName forUpdate:(BOOL)inIsUpdate
 {
-	if((self = [super initWithWindowNibName:nibName]))
+	if ((self = [super initWithWindowNibName:nibName])) {
 		isUpdate = inIsUpdate;
+	}
 
 	return self;
 }
@@ -220,7 +222,7 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 	//desired folder: /private/tmp/$UID/GrowlApplicationBridge\ installations/`uuidgen`
 
 	tmpDir = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"GrowlApplicationBridge installations"] stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
-	if(tmpDir) {
+	if (tmpDir) {
 		[[NSFileManager defaultManager] createDirectoryAtPath:tmpDir attributes:nil];
 
 		unzip = [[NSTask alloc] init];
@@ -238,7 +240,7 @@ static const long minimumOSXVersionForGrowl = 0x1030L;
 		int status = [unzip terminationStatus];
 		[unzip release];
 
-		if(status) {
+		if (status) {
 			NSLog(@"GrowlInstallationPrompt: unzip exited with status %i; Growl was not successfully installed", status);
 		} else {
 			// Kill the running Growl helper app if necessary by asking the Growl Helper App to shutdown via the DNC

@@ -38,7 +38,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Tickets"];
 		//The search paths are returned in the order we should search in, so earlier results should take priority
 		//Thus, clobbering:NO
-		[self loadTicketsFromDirectory:growlSupportPath intoDictionary:result clobbering:NO];
+		[GrowlApplicationTicket loadTicketsFromDirectory:growlSupportPath intoDictionary:result clobbering:NO];
 	}
 
 	end = [NSDate date]; //TEMP
@@ -56,9 +56,9 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	while ( ( filename = [growlSupportEnum nextObject] ) ) {
 		filename = [srcDir stringByAppendingPathComponent:filename];
 		[mgr fileExistsAtPath:filename isDirectory:&isDir];
-		
+
 		if ( (!isDir) && [[filename pathExtension] isEqualToString:@"growlTicket"] ) {
-			GrowlApplicationTicket *newTicket = [[self alloc] initTicketFromPath:filename];
+			GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketFromPath:filename];
 			if (newTicket) {
 				NSString *applicationName = [newTicket applicationName];
 
@@ -90,7 +90,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 #pragma mark -
 
 + (id)ticketWithDictionary:(NSDictionary *)ticketDict {
-	return [[[self alloc] initWithDictionary:ticketDict] autorelease];
+	return [[[GrowlApplicationTicket alloc] initWithDictionary:ticketDict] autorelease];
 }
 
 - (id)initWithDictionary:(NSDictionary *)ticketDict {
@@ -194,7 +194,6 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		return nil;
 	}
 	return [self initWithDictionary:ticketDict];
-
 }
 
 - (id) initTicketForApplication: (NSString *) inApp {
@@ -233,7 +232,9 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 	}
 
 	NSDictionary *file_data = nil;
-	if (appPath)  file_data = [[NSURL fileURLWithPath:appPath] dockDescription];
+	if (appPath) {
+		file_data = [[NSURL fileURLWithPath:appPath] dockDescription];
+	}
 
 	id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
 
@@ -249,7 +250,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		nil];
 	NSString *displayPluginName = [displayPlugin name];
 	if (displayPluginName) {
-		[saveDict setObject:displayPluginName                       forKey:GrowlDisplayPluginKey];
+		[saveDict setObject:displayPluginName forKey:GrowlDisplayPluginKey];
 	}
 
 	[saveDict writeToFile:savePath atomically:YES];
@@ -338,6 +339,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 
 	[self setIcon:inIcon];
 }
+
 - (void) reregisterWithDictionary:(NSDictionary *) dict {
 	NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
 

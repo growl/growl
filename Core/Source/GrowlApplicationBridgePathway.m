@@ -14,7 +14,7 @@ static GrowlApplicationBridgePathway *_theOneTrueGrowlApplicationBridgePathway;
 
 + (GrowlApplicationBridgePathway *) standardPathway {
 	if ( ! _theOneTrueGrowlApplicationBridgePathway ) {
-		_theOneTrueGrowlApplicationBridgePathway = [[self alloc] init];
+		_theOneTrueGrowlApplicationBridgePathway = [[GrowlApplicationBridgePathway alloc] init];
 	}
 	
 	return _theOneTrueGrowlApplicationBridgePathway;

@@ -299,7 +299,8 @@ static id singleton = nil;
 	}
 
 	[newApp saveTicket];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF object:appName];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF
+																   object:appName];
 
 	[GrowlApplicationBridge notifyWithTitle:notificationName
 								description:[appName stringByAppendingString:@" registered"]
@@ -321,7 +322,8 @@ static id singleton = nil;
 										protocol:0
 										 address:destAddress];
 
-				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
+				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil
+																			sendPort:serverPort];
 				NSDistantObject *theProxy = [connection rootProxy];
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
 				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
@@ -465,6 +467,9 @@ static id singleton = nil;
 	}
 	if (!note || [object isEqualTo:GrowlDisplayPluginKey]) {
 		[self loadDisplay];
+	}
+	if (object && [object isEqualTo:@"GrowlTicketDeleted"]) {
+		[tickets removeObjectForKey:[[note userInfo] objectForKey:@"TicketName"]];
 	}
 }
 

@@ -14,7 +14,7 @@
 @implementation NSString (GrowlAdditions)
 
 + (NSString *) stringWithUTF8String:(const char *)bytes length:(unsigned)len {
-	return [[[self alloc] initWithUTF8String:bytes length:len] autorelease];
+	return [[[NSString alloc] initWithUTF8String:bytes length:len] autorelease];
 }
 
 - (id) initWithUTF8String:(const char *)bytes length:(unsigned)len {

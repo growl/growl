@@ -460,12 +460,14 @@ static const char *keychainAccountName = "Growl";
 	NSString *path = [[tickets objectForKey:key] path];
 
 	if ( [[NSFileManager defaultManager] removeFileAtPath:path handler:nil] ) {
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
+																	   object:@"GrowlTicketDeleted"
+																	 userInfo:[NSDictionary dictionaryWithObject:key forKey:@"TicketName"]];
 		[tickets removeObjectForKey:key];
 		[images removeObjectAtIndex:row];
 		[applications removeObjectAtIndex:row];
 		[growlApplications deselectAll:NULL];
 		[self reloadAppTab];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged object:nil];
 	}
 }
 
@@ -870,9 +872,10 @@ static const char *keychainAccountName = "Growl";
 }
 
 - (IBAction) apply:(id)sender {
-	[[[tickets objectEnumerator] allObjects] makeObjectsPerformSelector:@selector(saveTicket)];
+	[[tickets allValues] makeObjectsPerformSelector:@selector(saveTicket)];
 	[self setPrefsChanged:NO];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged object:nil];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
+																   object:nil];
 }
 
 - (void) setPrefsChanged:(BOOL)prefsChanged {
@@ -904,7 +907,7 @@ static const char *keychainAccountName = "Growl";
 
 /*	if (![tickets objectForKey:app])
 		[growlApplications addItemWithTitle:app];*/
-	
+
 	[tickets setObject:ticket forKey:app];
 	[applications release];
 	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
@@ -939,8 +942,9 @@ static const char *keychainAccountName = "Growl";
 		isRunning = bundleID && [bundleID isEqualToString:@"com.Growl.GrowlHelperApp"];
 		[infoDict release];
 
-		if (isRunning)
+		if (isRunning) {
 			break;
+		}
 	}
 
 	return isRunning;
