@@ -72,11 +72,13 @@ static float titleHeight;
 	float notificationContentTop = frame.size.height - GrowlBrushedPadding;
 
 	// build an appropriate colour for the text
-	//NSColor *textColour = [NSColor colorWithCalibratedWhite:1.f alpha:1.f];
+	//NSColor *textColour = [NSColor whiteColor];
 
 	NSShadow *textShadow = [[[NSShadow alloc] init] autorelease];
 
-	NSSize shadowSize = NSMakeSize(0.0f, -2.0f);
+	NSSize shadowSize;
+	shadowSize.width = 0.0f;
+	shadowSize.height = -2.0f;
 	[textShadow setShadowOffset:shadowSize];
 	[textShadow setShadowBlurRadius:3.0f];
 	[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5f ofColor:[NSColor blackColor]]];
@@ -178,7 +180,7 @@ static float titleHeight;
 											   blue:[[array objectAtIndex:2] floatValue]
 											  alpha:1.0f];
 	} else {
-		textColor = [NSColor colorWithCalibratedWhite:1.0f alpha:1.0f];
+		textColor = [NSColor whiteColor];
 	}
 	[textColor retain];
 	[array release];

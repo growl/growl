@@ -202,7 +202,7 @@ static float titleHeight;
 											   blue:[[array objectAtIndex:2U] floatValue]
 											  alpha:1.0f];
 	} else {
-		textColor = [NSColor colorWithCalibratedWhite:1.0f alpha:1.0f];
+		textColor = [NSColor whiteColor];
 	}
 	[textColor retain];
 	[array release];

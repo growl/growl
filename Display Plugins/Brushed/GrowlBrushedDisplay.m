@@ -22,7 +22,6 @@ static unsigned brushedDepth = 0U;
 @implementation GrowlBrushedDisplay
 
 - (id) init {
-	NSLog(@"GrowlBrushedDisplay");
 	if ( (self = [super init] ) ) {
 		preferencePane = [[GrowlBrushedPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBrushedPrefsController class]]];
 		[[NSNotificationCenter defaultCenter] addObserver:self 

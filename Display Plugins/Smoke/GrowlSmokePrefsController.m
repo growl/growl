@@ -121,7 +121,7 @@
 	}
 	[color_emergency setColor:color];
 
-	defaultColor = [NSColor colorWithCalibratedWhite:1.0f alpha:1.0f];
+	defaultColor = [NSColor whiteColor];
 
 	READ_GROWL_PREF_VALUE(GrowlSmokeVeryLowTextColor, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array) {

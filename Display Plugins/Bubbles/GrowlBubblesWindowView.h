@@ -22,6 +22,7 @@
 	NSColor		*bgColor;
 	NSColor		*textColor;
 	NSColor		*borderColor;
+	NSColor		*lightColor;
 }
 
 - (void) setPriority:(int)priority;

@@ -34,25 +34,17 @@
 
 static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outData )
 {
-	NSColor *bgColor = (NSColor *) info;
-
-	float bgRed, bgGreen, bgBlue, bgAlpha;
-	[bgColor getRed:&bgRed
-			  green:&bgGreen
-			   blue:&bgBlue
-			  alpha:&bgAlpha];
-
-	//NSLog(@"data red: %f green: %f blue: %f alpha: %f", bgRed, bgGreen, bgBlue, bgAlpha);
-	//static const float bg[4] = { 0.69412f, 0.83147f, 0.96078f, 0.95f };
-	static const float light[4] = { 0.93725f, 0.96863f, 0.99216f, 0.95f };
+	float *colors = (float *) info;
 
 	register float a = inData[0];
 	register float a_coeff = 1.0f - a;
 
-	outData[0] = a_coeff * bgRed   + a * light[0];
-	outData[1] = a_coeff * bgGreen + a * light[1];
-	outData[2] = a_coeff * bgBlue  + a * light[2];
-	outData[3] = a_coeff * bgAlpha + a * light[3];
+	// SIMD could come in handy here
+	// outData[0..3] = a_coeff * colors[4..7] + a * colors[0..3]
+	outData[0] = a_coeff * colors[4] + a * colors[0];
+	outData[1] = a_coeff * colors[5] + a * colors[1];
+	outData[2] = a_coeff * colors[6] + a * colors[2];
+	outData[3] = a_coeff * colors[7] + a * colors[3];
 }
 
 #pragma mark -
@@ -63,6 +55,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
 		borderColor = [[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:0.5f] retain];
+		lightColor = [[NSColor colorWithCalibratedRed:0.93725f green:0.96863f blue:0.99216f alpha:0.95f] retain];
 	}
 	return self;
 }
@@ -76,6 +69,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	[bgColor release];
 	[textColor release];
 	[borderColor release];
+	[lightColor release];
 
 	[super dealloc];
 }
@@ -97,7 +91,7 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 
 	// Create a path with enough room to strike the border and remain inside our frame.
 	// Since the path is in the middle of the line, this means we must inset it by half the border width.
-	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(bounds, BORDER_WIDTH_PX/2.0f, BORDER_WIDTH_PX/2.0f)
+	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(bounds, BORDER_WIDTH_PX*0.5f, BORDER_WIDTH_PX*0.5f)
 														  radius:BORDER_RADIUS_PX];
 	[path setLineWidth:BORDER_WIDTH_PX];
 
@@ -109,14 +103,32 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	// Create a callback function to generate the 
 	// fill clipped graphics context with our gradient
 	struct CGFunctionCallbacks callbacks = { 0U, GrowlBubblesShadeInterpolate, NULL };
-	CGFunctionRef function = CGFunctionCreate( (void *) bgColor, 1U, /*domain*/ NULL, 4U, /*range*/ NULL, &callbacks );
+	float colors[8];
+
+	[lightColor getRed:&colors[0]
+				 green:&colors[1]
+				  blue:&colors[2]
+				 alpha:&colors[3]];
+
+	[bgColor getRed:&colors[4]
+			  green:&colors[5]
+			   blue:&colors[6]
+			  alpha:&colors[7]];
+
+	CGFunctionRef function = CGFunctionCreate( (void *) colors,
+											   1U,
+											   /*domain*/ NULL,
+											   4U,
+											   /*range*/ NULL,
+											   &callbacks );
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
-	float srcX = NSMinX( bounds ), srcY = NSMinY( bounds );
-	float dstX = NSMinX( bounds ), dstY = NSMaxY( bounds );
-	CGShadingRef shading = CGShadingCreateAxial( cspace, 
-												 CGPointMake( srcX, srcY ), 
-												 CGPointMake( dstX, dstY ), 
+	CGPoint src, dst;
+	src.x = NSMinX( bounds );
+	src.y = NSMinY( bounds );
+	dst.x = NSMinX( bounds );
+	dst.y = NSMaxY( bounds );
+	CGShadingRef shading = CGShadingCreateAxial( cspace, src, dst,
 												 function, false, false );	
 
 	CGContextDrawShading( [graphicsContext graphicsPort], shading );
