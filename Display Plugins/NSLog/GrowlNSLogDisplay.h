@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <GrowlDefines.h>
+#import <GrowlDisplayProtocol.h>
 
 
 @interface GrowlNSLogDisplay : NSObject <GrowlDisplayPlugin> {

@@ -243,6 +243,7 @@
 		5282FC4C06DD9BB200179624 = {
 			children = (
 				5282FC4E06DD9BC300179624,
+				A14BBF0D06EE6DF100530EED,
 			);
 			isa = PBXGroup;
 			name = "Growl Headers";
@@ -261,6 +262,7 @@
 		5282FC6406DD9F2D00179624 = {
 			buildActionMask = 2147483647;
 			files = (
+				A14BBF0E06EE6DF100530EED,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,6 +349,31 @@
 		};
 		5282FC6A06DD9F4E00179624 = {
 			fileRef = 5282FC4406DD9B9400179624;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//520
+//521
+//522
+//523
+//524
+//A10
+//A11
+//A12
+//A13
+//A14
+		A14BBF0D06EE6DF100530EED = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlDisplayProtocol.h;
+			path = /Volumes/Zen/Users/vinay/Developer/growl/GrowlDisplayProtocol.h;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		A14BBF0E06EE6DF100530EED = {
+			fileRef = A14BBF0D06EE6DF100530EED;
 			isa = PBXBuildFile;
 			settings = {
 			};

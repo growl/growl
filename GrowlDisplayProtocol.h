@@ -37,7 +37,15 @@
 	@result A string */
 - (NSString *) version;
 /*! A method sent to tell the plugin to clean itself up */
+- (NSDictionary*) pluginInfo;
 - (void) unloadPlugin;
+/*! allows the system pref to get the view to set the prefs for this plugin. 
+	@discussion	For reference, the frame of the view should be
+	165, 20, 354, 311 (x, y, w, h).  This is because that's the size of the view currently.
+	We have to think of something if there are more options than fit in that place.
+	*/
+
+- (NSView*) displayPrefView;
 @end
 
 /*!

@@ -17,6 +17,18 @@
 - (NSString *) userDescription { return @"NSLog()s notifications to the console";}
 - (NSString *) version { return @"Testing"; }
 - (void) unloadPlugin {}
+- (NSDictionary*) pluginInfo {
+	NSMutableDictionary * info = [NSMutableDictionary dictionary];
+	[info setObject:@"NSLogging" forKey:@"Name"];
+	[info setObject:@"Nelson Elhage" forKey:@"Author"];
+	[info setObject:@"0.1" forKey:@"Version"];
+	[info setObject:@"NSLog()s notifications to the console" forKey:@"Description"];
+	return (NSDictionary*)info;	
+}
+
+- (NSView*) displayPrefView {
+	return nil;
+}
 
 - (void)  displayNotificationWithInfo:(NSDictionary *) noteDict {
 	NSLog(@"%@: %@ (%@)",[noteDict objectForKey:GROWL_APP_NAME], 
