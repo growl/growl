@@ -1,3 +1,4 @@
+#!/usr/bin/env tclsh
 package require growl
 
 growl register ExampleTclApp "warning error" pwrdLogo75.gif
