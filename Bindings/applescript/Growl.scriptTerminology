@@ -29,6 +29,13 @@
 					<key>Name</key>
 					<string>icon of file</string>
 				</dict>
+				<key>image</key>
+				<dict>
+					<key>Description</key>
+					<string>TIFF Image to be used for the notification.</string>
+					<key>Name</key>
+					<string>image</string>
+				</dict>
 				<key>imageFromURL</key>
 				<dict>
 					<key>Description</key>

@@ -25,6 +25,9 @@
 				<parameter name="icon of application" optional="optional" code="iapp" type="string" description="Name of the application whose icon should be used for this notification. For example, 'Mail.app'.">
 					<cocoa key="iconOfApplication"/>
 				</parameter>
+				<parameter name="image" optional="optional" code="imag" type="NSData&lt;Image&gt;" description="TIFF Image to be used for the notification.">
+					<cocoa key="image"/>
+				</parameter>
 				<parameter name="sticky" optional="optional" code="stck" type="boolean" description="whether or not the notification displayed should time out. Defaults to 'no'.">
 					<cocoa key="sticky"/>
 				</parameter>

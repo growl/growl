@@ -39,6 +39,15 @@
 					<key>Type</key>
 					<string>NSString</string>
 				</dict>
+				<key>image</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>imag</string>
+					<key>Optional</key>
+					<string>YES</string>
+					<key>Type</key>
+					<string>NSData&lt;Image&gt;</string>
+				</dict>
 				<key>imageFromURL</key>
 				<dict>
 					<key>AppleEventCode</key>
@@ -68,6 +77,11 @@
 			<key>CommandClass</key>
 			<string>GrowlScriptCommand</string>
 		</dict>
+	</dict>
+	<key>ValueTypes</key>
+	<dict>
+		<key>Image</key>
+		<string>TIFF</string>
 	</dict>
 	<key>Name</key>
 	<string>Growl</string>
