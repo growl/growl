@@ -11,6 +11,11 @@
 #import <GrowlAppBridge/GrowlApplicationBridge.h>
 #import "NSGrowlAdditions.h"
 
+// sticking this here for a bit of version checking while setting the menu icon
+#ifndef NSAppKitVersionNumber10_2
+#define NSAppKitVersionNumber10_2 663
+#endif
+
 @interface GrowlTunesController (PRIVATE)
 - (NSAppleScript *)appleScriptNamed:(NSString *)name;
 @end
@@ -228,13 +233,12 @@ enum {
 		statusItem = [[statusBar statusItemWithLength:NSSquareStatusItemLength] retain];
 		if(statusItem) {
 			[statusItem setMenu:[self statusItemMenu]];
-
-			NSImage *iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:iTunesAppName];
-			NSSize destIconSize;
-			destIconSize.width = destIconSize.height = 16.0f;
-			[iTunesIcon setSize:destIconSize];
+            
 			[statusItem setHighlightMode:YES];
-			[statusItem setImage:iTunesIcon];
+			[statusItem setImage:[NSImage imageNamed:@"growlTunes.tif"]];
+            if(floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_2)  {
+              [statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.tif"]];
+            }
 		}
 	}
 }
