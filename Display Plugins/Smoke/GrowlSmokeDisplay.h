@@ -16,11 +16,12 @@
 }
 
 - (void) loadPlugin;
+- (void) unloadPlugin;
+
 - (NSString *) name;
 - (NSString *) userDescription;
 - (NSString *) author;
 - (NSString *) version;
-- (void) unloadPlugin;
 - (NSDictionary *) pluginInfo;
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict;
