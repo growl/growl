@@ -32,23 +32,6 @@
 	}
 	return truth;
 }
-
-- (void) drawWithEllipsisInRect:(NSRect)rect withAttributes:(NSDictionary *)attributes {
-	// use the built-in ellipsising system if possible
-	NSParagraphStyle *paragraphStyle = [attributes objectForKey:NSParagraphStyleAttributeName];
-	
-	if (!paragraphStyle) {
-		paragraphStyle = [NSParagraphStyle defaultParagraphStyle];
-	}
-	
-	NSMutableParagraphStyle *ellipsisingStyle = [[paragraphStyle mutableCopy] autorelease];
-	[ellipsisingStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-	
-	NSMutableDictionary *md = [NSMutableDictionary dictionaryWithDictionary:attributes];
-	[md setObject:ellipsisingStyle forKey:NSParagraphStyleAttributeName];
-	[self drawInRect:rect withAttributes:md];
-}
-
 @end
 
 #pragma mark -

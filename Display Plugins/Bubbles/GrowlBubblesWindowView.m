@@ -10,7 +10,6 @@
 #import "GrowlBubblesWindowView.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlBubblesDefines.h"
-#import "NSGrowlAdditions.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 #import <math.h>
@@ -155,11 +154,17 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		descriptionHeight -= drawRect.size.height;
 		drawRect.origin.y = descriptionHeight;
 
-		[title drawWithEllipsisInRect:drawRect withAttributes:
+		NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+		[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+
+		[title drawInRect:drawRect withAttributes:
 			[NSDictionary dictionaryWithObjectsAndKeys:
 				titleFont, NSFontAttributeName,
 				textColor, NSForegroundColorAttributeName,
+				paragraphStyle, NSParagraphStyleAttributeName,
 				nil]];
+
+		[paragraphStyle release];
 	}
 
 	if (text && [text length]) {

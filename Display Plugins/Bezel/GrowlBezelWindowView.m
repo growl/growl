@@ -10,7 +10,6 @@
 #import "GrowlBezelPrefs.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
-#import "NSGrowlAdditions.h"
 
 #define BORDER_RADIUS 20.0f
 
@@ -216,20 +215,21 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	
 	// Draw the title, resize if text too big
 	float titleFontSize = 20.0f;
-	NSMutableParagraphStyle *parrafo = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+	NSMutableParagraphStyle *parrafo = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[parrafo setAlignment:NSCenterTextAlignment];
 	NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSColor whiteColor], NSForegroundColorAttributeName,
 		parrafo, NSParagraphStyleAttributeName,
 		[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
 		textShadow, NSShadowAttributeName, nil];
+	[parrafo release];
 	float accumulator = 0.0f;
 	BOOL minFontSize = NO;
 	NSSize titleSize = [title sizeWithAttributes:titleAttributes];
 
-	while ( titleSize.width > ( NSWidth(titleRect) - ( titleSize.height * 0.5f ) ) ) {
+	while (titleSize.width > (NSWidth(titleRect) - (titleSize.height * 0.5f))) {
 		minFontSize = ( titleFontSize < 12.9f );
-		if ( minFontSize ) {
+		if (minFontSize) {
 			break;
 		}
 		titleFontSize -= 1.9f;
@@ -241,11 +241,10 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	titleRect.origin.y += ceilf(accumulator);
 	titleRect.size.height = titleSize.height;
 
-	if ( minFontSize ) {
-		[title drawWithEllipsisInRect:titleRect withAttributes:titleAttributes];
-	} else {
-		[title drawInRect:titleRect withAttributes:titleAttributes];
+	if (minFontSize) {
+		[parrafo setLineBreakMode:NSLineBreakByTruncatingTail];
 	}
+	[title drawInRect:titleRect withAttributes:titleAttributes];
 
 	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSColor whiteColor], NSForegroundColorAttributeName,

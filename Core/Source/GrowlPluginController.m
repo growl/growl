@@ -192,17 +192,20 @@ static GrowlPluginController *sharedController;
 }
 
 - (void) loadPlugin:(NSString *)path {
-	NSBundle * pluginBundle;
+	NSBundle *pluginBundle;
 	id <GrowlDisplayPlugin> plugin;
 
 	pluginBundle = [NSBundle bundleWithPath:path];
 
-	if ( pluginBundle 
-		 && (plugin = [[[[pluginBundle principalClass] alloc] init] autorelease]) 
-		 && [plugin name] ) {
-		
-		[plugin loadPlugin];
-		[allDisplayPlugins setObject:plugin forKey:[plugin name]];
+	if (pluginBundle && (plugin = [[[pluginBundle principalClass] alloc] init])) {
+		NSString *pluginName = [plugin name];
+		if (pluginName) {
+			[plugin loadPlugin];
+			[allDisplayPlugins setObject:plugin forKey:pluginName];
+		} else {
+			NSLog(@"Plugin at path '%@' has no name", path);
+		}
+		[plugin release];
 	} else {
 		NSLog(@"Failed to load: %@", path);
 	}

@@ -9,7 +9,6 @@
 #import "GrowlSmokeWindowView.h"
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "NSGrowlAdditions.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 
@@ -73,7 +72,7 @@ static float titleHeight;
 	// build an appropriate colour for the text
 	//NSColor *textColour = [NSColor whiteColor];
 
-	NSShadow *textShadow = [[[NSShadow alloc] init] autorelease];
+	NSShadow *textShadow = [[NSShadow alloc] init];
 
 	NSSize shadowSize = NSMakeSize(0.0f, -2.0f);
 	[textShadow setShadowOffset:shadowSize];
@@ -87,11 +86,16 @@ static float titleHeight;
 		textShadow, NSShadowAttributeName,
 		nil];
 	// construct attributes for the title
+	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 	NSDictionary *titleAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize], NSFontAttributeName,
 		textColor, NSForegroundColorAttributeName,
 		textShadow, NSShadowAttributeName,
+		paragraphStyle, NSParagraphStyleAttributeName,
 		nil];
+	[textShadow release];
+	[paragraphStyle release];
 
 	// draw the title and the text
 	unsigned textXPosition = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
@@ -105,8 +109,7 @@ static float titleHeight;
 		drawRect.size.height = [self titleHeight];
 		drawRect.origin.y -= drawRect.size.height;
 
-		[title drawWithEllipsisInRect:drawRect
-					   withAttributes:titleAttributes];
+		[title drawInRect:drawRect withAttributes:titleAttributes];
 
 		drawRect.origin.y -= GrowlSmokeTitleTextPadding;
 	}

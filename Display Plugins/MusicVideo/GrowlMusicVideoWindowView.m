@@ -9,7 +9,6 @@
 #import "GrowlMusicVideoWindowView.h"
 #import "GrowlMusicVideoPrefs.h"
 #import "GrowlImageAdditions.h"
-#import "NSGrowlAdditions.h"
 
 @implementation GrowlMusicVideoWindowView
 
@@ -39,21 +38,26 @@
 		[textShadow setShadowBlurRadius:3.0f];
 		[textShadow setShadowColor:[NSColor blackColor]];
 
-		NSMutableParagraphStyle *parrafo = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		[parrafo setAlignment:NSLeftTextAlignment];
+		NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+		[paragraphStyle setAlignment:NSLeftTextAlignment];
+		[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 		titleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 			[NSColor whiteColor], NSForegroundColorAttributeName,
-			parrafo, NSParagraphStyleAttributeName,
+			paragraphStyle, NSParagraphStyleAttributeName,
 			[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
 			textShadow, NSShadowAttributeName,
 			nil];
+		[paragraphStyle release];
+
+		paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+		[paragraphStyle setAlignment:NSLeftTextAlignment];
 		textAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 			[NSColor whiteColor], NSForegroundColorAttributeName,
-			parrafo, NSParagraphStyleAttributeName,
+			paragraphStyle, NSParagraphStyleAttributeName,
 			[NSFont messageFontOfSize:textFontSize], NSFontAttributeName,
 			textShadow, NSShadowAttributeName,
 			nil];
-		[parrafo release];
+		[paragraphStyle release];
 		[textShadow release];
 	}
 
@@ -116,18 +120,18 @@
 
 	iconSize = [icon adjustSizeToDrawAtSize:iconRect.size];	
 
-	if ( iconSize.width < iconRect.size.width ) {
+	if (iconSize.width < iconRect.size.width) {
 		iconRect.origin.x = iconSourcePoint.x + ceilf( (iconRect.size.width - iconSize.width) * 0.5f );
 	} else {
 		iconRect.origin.x = iconSourcePoint.x;
 	}
-	if ( iconSize.height < iconRect.size.height ) {
+	if (iconSize.height < iconRect.size.height) {
 		iconRect.origin.y = iconSourcePoint.y + ceilf( (iconRect.size.height - iconSize.height) * 0.5f );
 	} else {
 		iconRect.origin.y = iconSourcePoint.y;
 	}
 
-	[title drawWithEllipsisInRect:titleRect withAttributes:titleAttributes];
+	[title drawInRect:titleRect withAttributes:titleAttributes];
 
 	[text drawInRect:textRect withAttributes:textAttributes];
 

@@ -103,9 +103,9 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 		} else if (iconOfApplication) {
 			//Command used the "icon of application" argument
 			icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
-		} else if (imageData){
+		} else if (imageData) {
 			icon = [[[NSImage alloc] initWithData:imageData] autorelease];
-		} else if (pictureData){
+		} else if (pictureData) {
 			icon = [[[NSImage alloc] initWithData:pictureData] autorelease];
 			[icon setScalesWhenResized: YES];
 		}

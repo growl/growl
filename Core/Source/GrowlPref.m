@@ -181,15 +181,15 @@ static const char *keychainAccountName = "Growl";
 // copy images to avoid resizing the original image stored in the ticket
 - (void) cacheImages {
 
-	if ( images ) {
+	if (images) {
 		[images release];
 	}
 	
 	images = [[NSMutableArray alloc] initWithCapacity:[applications count]];
 	NSEnumerator *enumerator = [applications objectEnumerator];
 	id key;
-	
-	while ( (key = [enumerator nextObject]) ) {
+
+	while ((key = [enumerator nextObject])) {
 		NSImage *icon = [[[tickets objectForKey:key] icon] copy];
 		[icon setScalesWhenResized:YES];
 		[icon setSize:NSMakeSize(16.0f, 16.0f)];
@@ -217,14 +217,15 @@ static const char *keychainAccountName = "Growl";
 	[allDisplayPlugins selectItemWithTitle:[preferences objectForKey:GrowlDisplayPluginKey]];
 	[displayPlugins reloadData];
 
-	if ( [[preferences objectForKey:GrowlStartServerKey] boolValue] ) {
+	if ([[preferences objectForKey:GrowlStartServerKey] boolValue]) {
 		[startGrowlServer setState:NSOnState];
 		[allowRemoteRegistration setEnabled:YES];
 	} else {
 		[startGrowlServer setState:NSOffState];
 		[allowRemoteRegistration setEnabled:NO];
 	}
-	if ( [[preferences objectForKey:GrowlRemoteRegistrationKey] boolValue] ) {
+
+	if ([[preferences objectForKey:GrowlRemoteRegistrationKey] boolValue]) {
 		[allowRemoteRegistration setState:NSOnState];
 	} else {
 		[allowRemoteRegistration setState:NSOffState];
@@ -276,7 +277,7 @@ static const char *keychainAccountName = "Growl";
 	[applicationDisplayPluginsMenu addItemWithTitle:@"Default" action:nil keyEquivalent:@""];
 	[applicationDisplayPluginsMenu addItem:[NSMenuItem separatorItem]];
 	
-	while ( (title = [enumerator nextObject] ) ) {
+	while ((title = [enumerator nextObject])) {
 		[applicationDisplayPluginsMenu addItemWithTitle:title action:nil keyEquivalent:@""];
 	}
 
@@ -305,16 +306,16 @@ static const char *keychainAccountName = "Growl";
 //	currentApplication = [[growlApplications titleOfSelectedItem] retain];
 	unsigned numApplications = [applications count];
 	int row = [growlApplications selectedRow];
-	if ( numApplications ) {
+	if (numApplications) {
 		if (row > -1)
 			currentApplication = [[applications objectAtIndex:row] retain];
 	} 
 
 	[remove setEnabled:NO];
-	appTicket = [tickets objectForKey: currentApplication];
-	
-//	[applicationEnabled setState: [appTicket ticketEnabled]];
-//	[applicationEnabled setTitle: [NSString stringWithFormat:@"Enable notifications for %@",currentApplication]];
+	appTicket = [tickets objectForKey:currentApplication];
+
+//	[applicationEnabled setState:[appTicket ticketEnabled]];
+//	[applicationEnabled setTitle:[NSString stringWithFormat:@"Enable notifications for %@",currentApplication]];
 
 	[[[applicationNotifications tableColumnWithIdentifier:@"enable"] dataCell] setEnabled:[appTicket ticketEnabled]];
 
@@ -627,7 +628,7 @@ static const char *keychainAccountName = "Growl";
 	id identifier;
 
 	if (tableView == growlApplications) {
-		NSString * application = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] objectAtIndex:row];
+		NSString *application = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] objectAtIndex:row];
 		GrowlApplicationTicket *ticket = [tickets objectForKey:application];
 		identifier = [column identifier];
 
@@ -874,12 +875,13 @@ static const char *keychainAccountName = "Growl";
 // Refresh preferences when a new application registers with Growl
 - (void)appRegistered: (NSNotification *) note {
 	NSString *app = [note object];
-	GrowlApplicationTicket * ticket = [[[GrowlApplicationTicket alloc] initTicketForApplication:app] autorelease];
+	GrowlApplicationTicket *ticket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
 
 /*	if (![tickets objectForKey:app])
 		[growlApplications addItemWithTitle:app];*/
 
 	[tickets setObject:ticket forKey:app];
+	[ticket release];
 	[applications release];
 	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
 	[self cacheImages];

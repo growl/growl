@@ -123,14 +123,16 @@ static BOOL checkOSXVersion()
 		NSMutableAttributedString	*defaultGrowlInfo;
 		
 		//Start with the window title, centered and bold
-		NSMutableParagraphStyle	*centeredStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+		NSMutableParagraphStyle	*centeredStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 		[centeredStyle setAlignment:NSCenterTextAlignment];
 
+		NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+			centeredStyle,                                 NSParagraphStyleAttributeName,
+			[NSFont boldSystemFontOfSize:GROWL_TEXT_SIZE], NSFontAttributeName,
+			nil];
+		[centeredStyle release];
 		defaultGrowlInfo = [[NSMutableAttributedString alloc] initWithString:windowTitle
-																  attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-																	  centeredStyle,NSParagraphStyleAttributeName,
-																	  [NSFont boldSystemFontOfSize:GROWL_TEXT_SIZE], NSFontAttributeName,
-																	  nil]];
+																  attributes:attributes];
 		//Skip a line
 		[[defaultGrowlInfo mutableString] appendString:@"\n\n"];
 		

@@ -17,7 +17,6 @@
 
 + (NSString *) stringWithUTF8String:(const char *)bytes length:(unsigned)len;
 - (id) initWithUTF8String:(const char *)bytes length:(unsigned)len;
-- (void)drawWithEllipsisInRect:(NSRect)rect withAttributes:(NSDictionary *)attributes;
 
 @end
 

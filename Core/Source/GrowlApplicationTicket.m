@@ -323,7 +323,7 @@
 		 *	if the application says to.
 		 */
 		NSEnumerator		*enumerator;
-		NSMutableDictionary *allNotesCopy = [[allNotifications mutableCopy] autorelease];
+		NSMutableDictionary *allNotesCopy = [allNotifications mutableCopy];
 
 		if ([inDefaults respondsToSelector:@selector(objectEnumerator)] ) {
 			enumerator = [inDefaults objectEnumerator];
@@ -373,6 +373,7 @@
 
 		[allNotifications release];
 		allNotifications = [[NSDictionary alloc] initWithDictionary:allNotesCopy];
+		[allNotesCopy release];
 	}
 
 	//ALWAYS set all notifications list first, to enable handling of numeric indices in the default notifications list!
