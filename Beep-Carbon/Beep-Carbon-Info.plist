@@ -7,9 +7,9 @@
 	<key>CFBundleExecutable</key>
 	<string>Beep-Carbon</string>
 	<key>CFBundleIconFile</key>
-	<string></string>
-        <key>CFBundleIdentifier</key>
-	<string>com.apple.myCarbonNibApp</string>
+	<string>whistle-carbon.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.Growl.BeepCarbon</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
