@@ -325,14 +325,6 @@
 //342
 //343
 //344
-		340832F1075C2BED00703011 = {
-			fileType = wrapper.cfbundle;
-			isa = PBXReferenceProxy;
-			path = Rendezvous.growlView;
-			refType = 3;
-			remoteRef = 34083304075C2C1900703011;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		340832FE075C2C0A00703011 = {
 			buildActionMask = 2147483647;
 			files = (
@@ -344,14 +336,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Cleaning up unneeded files...\"\nfind $BUILD_ROOT/$WRAPPER_NAME -name '.svn' -print0 | xargs -0 rm -rf\nfind $BUILD_ROOT/$WRAPPER_NAME -name '.DS_Store' -print0 | xargs -0 rm -rf\nfind $BUILD_ROOT/$WRAPPER_NAME -name '*.h' -print0 | xargs -0 rm -rf";
-		};
-		34083304075C2C1900703011 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 2;
-			remoteGlobalIDString = 9594781407489C2F00B8B23E;
-			remoteInfo = Rendezvous;
+			shellScript = "echo \"Cleaning up unneeded files...\"\nfind $BUILD_ROOT/$WRAPPER_NAME -name '.svn' -print0 | xargs -0 rm -rf\nfind $BUILD_ROOT/$WRAPPER_NAME -name '.DS_Store' -print0 | xargs -0 rm -rf\n";
 		};
 		345A68EE06FF684E00114E06 = {
 			fileType = wrapper.cfbundle;
@@ -403,18 +388,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		34E9AA7A074BC98A00D59950 = {
-			fileRef = 34E9AA79074BC98A00D59950;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		34E9AC8B074BC9C000D59950 = {
-			fileRef = 34E9AA79074BC98A00D59950;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 //340
 //341
 //342
@@ -425,20 +398,8 @@
 //522
 //523
 //524
-		525277AA06D95BEA007BC87D = {
-			fileRef = CB1C5D1B063E432F007052EE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		525277AB06D95BED007BC87D = {
 			fileRef = CB1C5D1C063E432F007052EE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		525277E606D9605A007BC87D = {
-			fileRef = F57BFE2C0669037C00DE5BFD;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -479,20 +440,8 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		52861EE506DBA95400D3A356 = {
-			fileRef = 52861EE306DBA95400D3A356;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		52861EE606DBA95400D3A356 = {
 			fileRef = 52861EE406DBA95400D3A356;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		52861FC206DC421C00D3A356 = {
-			fileRef = 52861EE306DBA95400D3A356;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -533,20 +482,8 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		5286205706DC4C2F00D3A356 = {
-			fileRef = 5286205506DC4C2F00D3A356;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5286205806DC4C2F00D3A356 = {
 			fileRef = 5286205606DC4C2F00D3A356;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5286205906DC4C2F00D3A356 = {
-			fileRef = 5286205506DC4C2F00D3A356;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -679,7 +616,6 @@
 				0A04279607088E7D0058CBD0,
 				83282736073A6B750044A959,
 				956BF7550749FBE100D8B367,
-				340832F1075C2BED00703011,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -881,7 +817,6 @@
 //8D4
 		8D202CE80486D31800D8A456 = {
 			buildPhases = (
-				8D202CE90486D31800D8A456,
 				8D202CEC0486D31800D8A456,
 				8D202CF00486D31800D8A456,
 				8D202CF20486D31800D8A456,
@@ -931,35 +866,6 @@
 			productName = Growl;
 			productReference = 8D202CF80486D31800D8A456;
 			productType = "com.apple.product-type.bundle";
-		};
-		8D202CE90486D31800D8A456 = {
-			buildActionMask = 2147483647;
-			files = (
-				52861EE506DBA95400D3A356,
-				525277E606D9605A007BC87D,
-				525277AA06D95BEA007BC87D,
-				8D202CEA0486D31800D8A456,
-				8D202CEB0486D31800D8A456,
-				5286205906DC4C2F00D3A356,
-				A14BBE1006EE1D5600530EED,
-				A16BD22806FCC05F00BF033B,
-				936FAB03074482BF00A7D430,
-				34E9AA7A074BC98A00D59950,
-			);
-			isa = PBXHeadersBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D202CEA0486D31800D8A456 = {
-			fileRef = 32DBCFA20370C41700C91783;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		8D202CEB0486D31800D8A456 = {
-			fileRef = F506C03C013D9D7901CA16C8;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		8D202CEC0486D31800D8A456 = {
 			buildActionMask = 2147483647;
@@ -1067,12 +973,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		936FAB03074482BF00A7D430 = {
-			fileRef = 936FAB01074482BF00A7D430;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		936FAB04074482BF00A7D430 = {
 			fileRef = 936FAB02074482BF00A7D430;
 			isa = PBXBuildFile;
@@ -1157,18 +1057,6 @@
 			path = Bindings/applescript/GrowlRegisterScriptCommand.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		953F5D3607403BC7008E2AEB = {
-			fileRef = 953F5D2207403BC7008E2AEB;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		953F5D3707403BC7008E2AEB = {
-			fileRef = 953F5D2707403BC7008E2AEB;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		953F5D3807403BC7008E2AEB = {
 			fileRef = 953F5D2C07403BC7008E2AEB;
@@ -1290,20 +1178,8 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		956ADAFD07551C4500AF9545 = {
-			fileRef = 956ADAC607551C4500AF9545;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		956ADAFE07551C4500AF9545 = {
 			fileRef = 956ADACB07551C4500AF9545;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		956ADAFF07551C4500AF9545 = {
-			fileRef = 956ADAD007551C4500AF9545;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1314,20 +1190,8 @@
 			settings = {
 			};
 		};
-		956ADB0107551C4500AF9545 = {
-			fileRef = 956ADADA07551C4500AF9545;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		956ADB0207551C4500AF9545 = {
 			fileRef = 956ADADF07551C4500AF9545;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		956ADB0307551C4500AF9545 = {
-			fileRef = 956ADAE407551C4500AF9545;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1368,12 +1232,6 @@
 			path = GrowlUDPServer.m;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		958294F1074CDE3100EC7AF2 = {
-			fileRef = 958294EF074CDE3100EC7AF2;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		958294F2074CDE3100EC7AF2 = {
 			fileRef = 958294F0074CDE3100EC7AF2;
@@ -1469,12 +1327,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		95DD14E00748B04700CC05A4 = {
-			fileRef = 95DD14D30748B04700CC05A4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		95DD14E10748B04700CC05A4 = {
 			fileRef = 95DD14D80748B04700CC05A4;
 			isa = PBXBuildFile;
@@ -1537,12 +1389,6 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		A14BBE1006EE1D5600530EED = {
-			fileRef = A14BBE0E06EE1D5600530EED;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		A16BD22606FCC05F00BF033B = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -1558,12 +1404,6 @@
 			path = ACImageAndTextCell.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		A16BD22806FCC05F00BF033B = {
-			fileRef = A16BD22606FCC05F00BF033B;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		A16BD22906FCC05F00BF033B = {
 			fileRef = A16BD22706FCC05F00BF033B;
@@ -1672,12 +1512,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		CB5F838B0638B78200EADD7A = {
-			fileRef = CB5F83890638B78200EADD7A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		CB5F838C0638B78200EADD7A = {
 			fileRef = CB5F838A0638B78200EADD7A;
 			isa = PBXBuildFile;
@@ -1781,27 +1615,6 @@
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CB61E5130637763C00E0DDC7 = {
-			buildActionMask = 2147483647;
-			files = (
-				34E9AC8B074BC9C000D59950,
-				52861FC206DC421C00D3A356,
-				CB5F838B0638B78200EADD7A,
-				CBF0743A0659B1F4000B4B77,
-				F57BFE2E0669037C00DE5BFD,
-				5286205706DC4C2F00D3A356,
-				953F5D3607403BC7008E2AEB,
-				953F5D3707403BC7008E2AEB,
-				95DD14E00748B04700CC05A4,
-				958294F1074CDE3100EC7AF2,
-				956ADAFD07551C4500AF9545,
-				956ADAFF07551C4500AF9545,
-				956ADB0107551C4500AF9545,
-				956ADB0307551C4500AF9545,
-			);
-			isa = PBXHeadersBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CB61E5140637763C00E0DDC7 = {
 			buildActionMask = 2147483647;
 			files = (
@@ -1848,7 +1661,6 @@
 		};
 		CB61E5170637763C00E0DDC7 = {
 			buildPhases = (
-				CB61E5130637763C00E0DDC7,
 				CB61E5140637763C00E0DDC7,
 				CB61E5150637763C00E0DDC7,
 				CB61E5160637763C00E0DDC7,
@@ -1968,12 +1780,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		CBF0743A0659B1F4000B4B77 = {
-			fileRef = CB1C5D1B063E432F007052EE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		CBF0743F0659B202000B4B77 = {
 			fileRef = CB1C5D1C063E432F007052EE;
 			isa = PBXBuildFile;
@@ -2047,12 +1853,6 @@
 			path = NSGrowlAdditions.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		F57BFE2E0669037C00DE5BFD = {
-			fileRef = F57BFE2C0669037C00DE5BFD;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		F57BFE2F0669037C00DE5BFD = {
 			fileRef = F57BFE2D0669037C00DE5BFD;
