@@ -21,6 +21,6 @@
 	Note: selector should take a single argument; this is to allow applications to have context-relevent information passed back. It is perfectly
 	acceptable for context to be NULL.
  */
-+ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(id)context;
++ (BOOL)launchGrowlIfInstalledNotifyingTarget:(id)target selector:(SEL)selector context:(void *)context;
 
 @end
