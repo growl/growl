@@ -23,10 +23,10 @@ typedef enum GrowlPriority {
 } GrowlPriority;
 
 @interface GrowlApplicationNotification : NSObject {
-	NSString		*_name;
-	GrowlPriority	 _priority;
-	BOOL			 _enabled;
-    int				 _sticky;
+	NSString		*name;
+	GrowlPriority	 priority;
+	BOOL			 enabled;
+    int				 sticky;
 }
 
 + (GrowlApplicationNotification*) notificationWithName:(NSString*)name;
@@ -52,20 +52,19 @@ typedef enum GrowlPriority {
 @end
 
 #pragma mark -
-#pragma mark -
 
 @interface GrowlApplicationTicket : NSObject {
-	NSString		*_appName;					// The Applications's name for display by notifications that want it
-	NSImage			*_icon;						// This app's icon for notifications and display methods that want it
+	NSString		*appName;					// The Applications's name for display by notifications that want it
+	NSImage			*icon;						// This app's icon for notifications and display methods that want it
 
-	NSDictionary	*_allNotifications;		// All the notifications possible for this app
+	NSDictionary	*allNotifications;			// All the notifications possible for this app
 
-	NSArray			*_defaultNotifications;		// The default notifications
+	NSArray			*defaultNotifications;		// The default notifications
 	
 	BOOL			usesCustomDisplay;
 	id <GrowlDisplayPlugin> displayPlugin;
 	
-	BOOL			_useDefaults;				// Flag for whether this ticket just uses default
+	BOOL			useDefaults;				// Flag for whether this ticket just uses default
 	BOOL			ticketEnabled;
 }
 

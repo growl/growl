@@ -11,7 +11,7 @@
 #import "GrowlDisplayProtocol.h"
 
 @interface GrowlPluginController : NSObject {
-		NSMutableDictionary		*allDisplayPlugins;	
+	NSMutableDictionary		*allDisplayPlugins;	
 }
 
 + (GrowlPluginController *) controller;
