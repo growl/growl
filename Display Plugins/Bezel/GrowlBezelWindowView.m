@@ -220,7 +220,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	[textShadow setShadowOffset:shadowSize];
 	[textShadow setShadowBlurRadius:3.0f];
 	[textShadow setShadowColor:[NSColor blackColor]];
-	
+
 	// Draw the title, resize if text too big
 	float titleFontSize = 20.0f;
 	NSMutableParagraphStyle *parrafo = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -278,6 +278,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	NSRect iconRect;
 	iconRect.origin = iconPoint;
 	iconRect.size = maxIconSize;
+	[icon setFlipped:NO];
 	[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
 }
 

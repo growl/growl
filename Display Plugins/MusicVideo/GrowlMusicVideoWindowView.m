@@ -93,7 +93,6 @@
 		int sizePref = 0;
 		READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
 		NSRect titleRect, textRect;
-		int maxRows;
 		NSPoint iconSourcePoint;
 		NSRect iconRect;
 		NSSize iconSize = [icon size];
@@ -105,7 +104,6 @@
 			titleRect.size.height = 40.0f;
 			textRect.origin.y = NSHeight(bounds) - 176.0f;
 			textRect.size.height = 96.0f;
-			maxRows = 4;
 			iconRect.size.width = 128.0f;
 			iconRect.size.height = 128.0f;
 			iconSourcePoint.x = 32.0f;
@@ -117,7 +115,6 @@
 			titleRect.size.height = 25.0f;
 			textRect.origin.y = NSHeight(bounds) - 88.0f,
 			textRect.size.height = 48.0f;
-			maxRows = 3;
 			iconRect.size.width = 80.0f;
 			iconRect.size.height = 80.0f;
 			iconSourcePoint.x = 8.0f;
@@ -143,6 +140,7 @@
 
 		[text drawInRect:textRect withAttributes:textAttributes];
 
+		[icon setFlipped:NO];
 		[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
 
 		[cache unlockFocus];
@@ -198,8 +196,8 @@
 
 #pragma mark -
 
-- (BOOL)needsDisplay {
-	return [super needsDisplay] && needsDisplay;
+- (BOOL) needsDisplay {
+	return needsDisplay && [super needsDisplay];
 }
 
 #pragma mark -

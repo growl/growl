@@ -32,11 +32,10 @@
 	sizeRect.size.width = screen.size.width;
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 		sizeRect.size.height = 192.0f;
-		topLeftPosition = 192.0f;
 	} else {
 		sizeRect.size.height = 96.0f;
-		topLeftPosition = 96.0f;
 	}
+	frameHeight = sizeRect.size.height;
 	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, MusicVideoPrefDomain, &duration);
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:sizeRect
@@ -62,10 +61,10 @@
 	[view setTarget:self];
 	[view setAction:@selector(_notificationClicked:)]; // Not used for now
 
-	[view setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
-	NSView *contentView = [[NSView alloc] initWithFrame:panelFrame];
+	contentView = [[NSView alloc] initWithFrame:panelFrame];
 	[contentView addSubview:view]; // retains subview
 	[view release];
+	subview = view;
 	[panel setContentView:contentView];
 
 	[view setTitle:title];
@@ -79,16 +78,15 @@
 	[tempText release];
 
 	[view setIcon:icon];
-	panelFrame = [view frame];
-	//[panel setFrame:panelFrame display:NO];
 
-	//topLeftPosition = screen.origin.y;
-	//[panel setFrameTopLeftPoint:NSMakePoint(screen.origin.x, topLeftPosition)];
-	frameHeight = 0.0f;
 	panelFrame.origin = screen.origin;
 	panelFrame.size.width = screen.size.width;
 	panelFrame.size.height = frameHeight;
 	[panel setFrame:panelFrame display:NO];
+
+	frameOrigin.x = 0.0f;
+	frameOrigin.y = -frameHeight;
+	[subview setFrameOrigin:frameOrigin];
 
 	if ((self = [super initWithWindow:panel])) {
 		autoFadeOut = YES;	// !sticky
@@ -111,43 +109,28 @@
 
 - (void) stopFadeIn {
 	if (!doFadeIn) {
-		NSWindow *myWindow = [self window];
-		NSRect screen = [[self screen] frame];
-		NSRect theFrame = [myWindow frame];
-		frameHeight = topLeftPosition;
-		theFrame.origin = screen.origin;
-		theFrame.size.width = screen.size.width;
-		theFrame.size.height = frameHeight;
-		[myWindow setFrame:theFrame display:YES];
+		frameOrigin.y = 0.0f;
+		[subview setFrameOrigin:frameOrigin];
+		[contentView setNeedsDisplay:YES];
 	}
 	[super stopFadeIn];
 }
 
 - (void) _fadeIn:(NSTimer *)inTimer {
-	NSWindow *myWindow = [self window];
-	NSRect screen = [[self screen] frame];
-	NSRect theFrame = [myWindow frame];
-	if (frameHeight < topLeftPosition) {
-		frameHeight += fadeIncrement;
-		theFrame.origin = screen.origin;
-		theFrame.size.width = screen.size.width;
-		theFrame.size.height = frameHeight;
-		[myWindow setFrame:theFrame display:YES];
+	if (frameOrigin.y < 0.0f) {
+		frameOrigin.y += fadeIncrement;
+		[subview setFrameOrigin:frameOrigin];
+		[contentView setNeedsDisplay:YES];
 	} else {
 		[self stopFadeIn];
 	}
 }
 
 - (void) _fadeOut:(NSTimer *)inTimer {
-	NSWindow *myWindow = [self window];
-	NSRect theFrame = [myWindow frame];
-	NSRect screen = [[self screen] frame];
-	if (frameHeight > 0.0f) {
-		frameHeight -= fadeIncrement;
-		theFrame.origin = screen.origin;
-		theFrame.size.width = screen.size.width;
-		theFrame.size.height = frameHeight;
-		[myWindow setFrame:theFrame display:YES];
+	if (frameOrigin.y > -frameHeight) {
+		frameOrigin.y -= fadeIncrement;
+		[subview setFrameOrigin:frameOrigin];
+		[contentView setNeedsDisplay:YES];
 	} else {
 		[self stopFadeOut];
 	}
@@ -156,9 +139,8 @@
 #pragma mark -
 
 - (void) dealloc {
-	NSWindow *myWindow = [self window];
-	[[myWindow contentView] release];
-	[myWindow release];
+	[contentView release];
+	[[self window] release];
 	[super dealloc];
 }
 

@@ -9,9 +9,11 @@
 #import "FadingWindowController.h"
 
 @interface GrowlMusicVideoWindowController : FadingWindowController {
-	float			topLeftPosition;
-	float			frameHeight;
-	int				priority;
+	float	frameHeight;
+	int		priority;
+	NSView	*contentView;
+	NSView	*subview;
+	NSPoint	frameOrigin;
 }
 
 + (GrowlMusicVideoWindowController *) musicVideoWithTitle:(NSString *)title text:(NSString *)text

@@ -547,6 +547,7 @@
 		};
 		0A7F5D9A0767C13100E1C1E4 = {
 			children = (
+				95125DE90802D3FE007FF92A,
 				0A7F5D9B0767C13100E1C1E4,
 				0A7F5D9E0767C13200E1C1E4,
 				0A7F5D9F0767C13200E1C1E4,
@@ -753,6 +754,7 @@
 		};
 		0A7F5EDA0767C30800E1C1E4 = {
 			children = (
+				95125DE70802D3E8007FF92A,
 				0A7F5EDB0767C30800E1C1E4,
 				0A7F5EDE0767C30800E1C1E4,
 				0A7F5EDF0767C30800E1C1E4,
@@ -991,6 +993,7 @@
 		};
 		0A7F5F2D0767C3F600E1C1E4 = {
 			children = (
+				95125DE80802D3F3007FF92A,
 				0A7F5F2E0767C3F600E1C1E4,
 				0A7F5F2F0767C3F600E1C1E4,
 				0A7F5F320767C3F600E1C1E4,
@@ -1235,6 +1238,7 @@
 		};
 		0A7F5F5C0767C56100E1C1E4 = {
 			children = (
+				95125DEA0802D408007FF92A,
 				073F04C50779C02900AE8D60,
 				073F050D0779C2C800AE8D60,
 				097888C9076EC6DA00071EB6,
@@ -1374,6 +1378,7 @@
 		};
 		0A7F5F890767C6C500E1C1E4 = {
 			children = (
+				95125DEB0802D414007FF92A,
 				0A7F5F8A0767C6C500E1C1E4,
 				0A7F5F8D0767C6C500E1C1E4,
 				0A7F5F8E0767C6C500E1C1E4,
@@ -1622,6 +1627,7 @@
 		};
 		0A7F5FD90767C79100E1C1E4 = {
 			children = (
+				95125DEC0802D41E007FF92A,
 				0A7F5FDA0767C79100E1C1E4,
 				0A7F5FDD0767C79100E1C1E4,
 				0A7F5FDE0767C79100E1C1E4,
@@ -1820,6 +1826,7 @@
 		};
 		0A7F624C0767C84E00E1C1E4 = {
 			children = (
+				95125DED0802D428007FF92A,
 				0A7F624D0767C84E00E1C1E4,
 				0A7F62500767C84E00E1C1E4,
 				0A7F62510767C84E00E1C1E4,
@@ -3308,6 +3315,69 @@
 			lastKnownFileType = wrapper.nib;
 			name = German;
 			path = German.lproj/GrowlLogPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95125DE70802D3E8007FF92A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Bubbles-Info.plist";
+			path = "../Bubbles-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95125DE80802D3F3007FF92A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Bezel-Info.plist";
+			path = "../Bezel-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95125DE90802D3FE007FF92A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Speech-Info.plist";
+			path = "../Speech-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95125DEA0802D408007FF92A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Log-Info.plist";
+			path = "../Log-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95125DEB0802D414007FF92A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Smoke-Info.plist";
+			path = "../Smoke-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95125DEC0802D41E007FF92A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "MailMe-Info.plist";
+			path = "../MailMe-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95125DED0802D428007FF92A = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "MusicVideo-Info.plist";
+			path = "../MusicVideo-Info.plist";
 			refType = 4;
 			sourceTree = "<group>";
 		};
