@@ -107,17 +107,15 @@
 	NSSet *allNotes = [NSSet setWithArray:[[note userInfo] objectForKey:GROWL_NOTIFICATIONS_ALL]];
 	NSSet *defaultNotes = [NSSet setWithArray:[[note userInfo] objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
 	
-	//add category to NSWorkspace for -iconForApplication later
-	NSImage *appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
-	NSLog( @"AppIcon - %@", appIcon );
-	
-	GrowlApplicationTicket *newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
-																				withIcon:appIcon
-																		andNotifications:allNotes 
-																		   andDefaultSet:defaultNotes 
-																			  fromParent:self];
-	
 	if ( ! [_tickets objectForKey:appName] ) {
+		//add category to NSWorkspace for -iconForApplication later
+		NSImage *appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
+		NSLog( @"AppIcon - %@", appIcon );
+		GrowlApplicationTicket *newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
+																					withIcon:appIcon
+																			andNotifications:allNotes 
+																			   andDefaultSet:defaultNotes 
+																				  fromParent:self];
 		[_tickets setValue:newApp forKey:appName];
 		NSLog( @"%@ has registered", appName );
 	} else {
