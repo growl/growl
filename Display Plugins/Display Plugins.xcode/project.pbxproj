@@ -49,17 +49,20 @@
 			projectDirPath = "";
 			targets = (
 				5282FC6706DD9F2D00179624,
+				6C60D7BB06F044110025909F,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
 			children = (
 				5282FC4C06DD9BB200179624,
 				08FB77AFFE84173DC02AAC07,
+				6C60D7C206F044A30025909F,
 				32C88E010371C26100C91783,
 				089C167CFE841241C02AAC07,
 				089C1671FE841209C02AAC07,
 				19C28FB8FE9D52D311CA2CBB,
 				5282FC6906DD9F2D00179624,
+				6C60D7BD06F044110025909F,
 			);
 			isa = PBXGroup;
 			name = "Display Plugins";
@@ -179,6 +182,7 @@
 		19C28FB8FE9D52D311CA2CBB = {
 			children = (
 				5282FC6806DD9F2D00179624,
+				6C60D7BC06F044110025909F,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -358,6 +362,146 @@
 //522
 //523
 //524
+//6C0
+//6C1
+//6C2
+//6C3
+//6C4
+		6C60D7B806F044110025909F = {
+			buildActionMask = 2147483647;
+			files = (
+				6C60D7C506F044D60025909F,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6C60D7B906F044110025909F = {
+			buildActionMask = 2147483647;
+			files = (
+				6C60D7C606F044D60025909F,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6C60D7BA06F044110025909F = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6C60D7BB06F044110025909F = {
+			buildPhases = (
+				6C60D7B806F044110025909F,
+				6C60D7B906F044110025909F,
+				6C60D7BA06F044110025909F,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Bezel-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Bezel;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = Bezel;
+			productName = Bezel;
+			productReference = 6C60D7BC06F044110025909F;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Bezel</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Bezel</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
+		6C60D7BC06F044110025909F = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = Bezel.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6C60D7BD06F044110025909F = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "Bezel-Info.plist";
+			path = "/Users/eevyl/growl/Display Plugins/Bezel-Info.plist";
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		6C60D7C206F044A30025909F = {
+			children = (
+				6C60D7C306F044D60025909F,
+				6C60D7C406F044D60025909F,
+			);
+			isa = PBXGroup;
+			name = Bezel;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C60D7C306F044D60025909F = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlBezelDisplay.h;
+			path = Bezel/GrowlBezelDisplay.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C60D7C406F044D60025909F = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlBezelDisplay.m;
+			path = Bezel/GrowlBezelDisplay.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		6C60D7C506F044D60025909F = {
+			fileRef = 6C60D7C306F044D60025909F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		6C60D7C606F044D60025909F = {
+			fileRef = 6C60D7C406F044D60025909F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//6C0
+//6C1
+//6C2
+//6C3
+//6C4
 //A10
 //A11
 //A12
