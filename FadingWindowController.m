@@ -108,6 +108,8 @@
 													 selector:@selector( _fadeOut: )
 													 userInfo:nil
 													  repeats:YES] retain];
+	//Start immediately
+	[self _fadeOut:nil];
 }
 
 - (void) stopFadeOut {
