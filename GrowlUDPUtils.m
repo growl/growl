@@ -15,7 +15,7 @@
 	MD5_CTX ctx;
 	struct GrowlNetworkNotification *nn;
 	char *data;
-	unsigned int length;
+	unsigned length;
 	unsigned short notificationNameLen, titleLen, descriptionLen, applicationNameLen;
 
 	const char *notificationName = [[aNotification objectForKey:GROWL_NOTIFICATION_NAME] UTF8String];
@@ -67,9 +67,9 @@
 	struct GrowlNetworkRegistration *nr;
 	char *data;
 	const char *notification;
-	unsigned int i, length, size;
+	unsigned i, length, size, notificationIndex;
 	unsigned short applicationNameLen;
-	unsigned int numAllNotifications, numDefaultNotifications;
+	unsigned numAllNotifications, numDefaultNotifications;
 	MD5_CTX ctx;
 	
 	const char *applicationName = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
@@ -85,9 +85,15 @@
 		notification = [[allNotifications objectAtIndex:i] UTF8String];
 		length += sizeof(unsigned short) + strlen( notification );
 	}
-	for ( i=0; i<numAllNotifications; ++i ) {
-		notification = [[allNotifications objectAtIndex:i] UTF8String];
-		length += sizeof(unsigned short) + strlen( notification );
+	size = numDefaultNotifications;
+	for ( i=0; i<numDefaultNotifications; ++i ) {
+		notificationIndex = [allNotifications indexOfObject:[defaultNotifications objectAtIndex:i]];
+		if( notificationIndex == NSNotFound ) {
+			--size;
+			NSLog( @"Warning: defaultNotifications is not a subset of allNotifications" );
+		} else {
+			++length;
+		}
 	}
 
 	nr = (struct GrowlNetworkRegistration *)malloc( length );
@@ -95,7 +101,7 @@
 	nr->common.type = GROWL_TYPE_REGISTRATION;
 	nr->appNameLen = htons( applicationNameLen );
 	nr->numAllNotifications = (unsigned char)numAllNotifications;
-	nr->numDefaultNotifications = (unsigned char)numDefaultNotifications;
+	nr->numDefaultNotifications = (unsigned char)size;
 	data = nr->data;
 	memcpy( data, applicationName, applicationNameLen );
 	data += applicationNameLen;
@@ -108,12 +114,10 @@
 		data += size;
 	}
 	for ( i=0; i<numDefaultNotifications; ++i ) {
-		notification = [[defaultNotifications objectAtIndex:i] UTF8String];
-		size = strlen( notification );
-		*(unsigned short *)data = htons( size );
-		data += sizeof(unsigned short);
-		memcpy( data, notification, size );
-		data += size;
+		notificationIndex = [allNotifications indexOfObject:[defaultNotifications objectAtIndex:i]];
+		if( notificationIndex != NSNotFound ) {
+			*data++ = notificationIndex;
+		}
 	}
 
 	// add checksum

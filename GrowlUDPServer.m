@@ -95,14 +95,14 @@ static const char *keychainAccountName = "Growl";
 	char *applicationName;
 	char *notification;
 	unsigned notificationNameLen, titleLen, descriptionLen, priority, applicationNameLen;
-	unsigned length, num, i, size, packetSize;
+	unsigned length, num, i, size, packetSize, notificationIndex;
 	BOOL isSticky;
 
 	NSDictionary *userInfo = [aNotification userInfo];
 	NSNumber *error = [userInfo objectForKey:@"NSFileHandleError"];
 	
 	if ( ![error intValue] ) {
-		NSData *data = [userInfo objectForKey:@"NSFileHandleNotificationDataItem"];
+		NSData *data = [userInfo objectForKey:NSFileHandleNotificationDataItem];
 		length = [data length];
 
 		if ( length >= sizeof(struct GrowlNetworkPacket) ) {
@@ -133,13 +133,15 @@ static const char *keychainAccountName = "Growl";
 
 								// default notifications
 								num = nr->numDefaultNotifications;
+								packetSize += num;
 								NSMutableArray *defaultNotifications = [NSMutableArray arrayWithCapacity:num];
 								for ( i=0; i<num; ++i ) {
-									size = ntohs( *(unsigned short *)notification );
-									notification += sizeof(unsigned short);
-									[defaultNotifications addObject:[NSString stringWithUTF8String:notification length:size]];
-									notification += size;
-									packetSize += size + sizeof(unsigned short);
+									notificationIndex = *notification++;
+									if ( notificationIndex < nr->numAllNotifications ) {
+										[defaultNotifications addObject:[allNotifications objectAtIndex: notificationIndex]];
+									} else {
+										NSLog( @"GrowlUDPServer: Bad notification index: %d", notificationIndex );
+									}
 								}
 
 								if ( length == packetSize ) {

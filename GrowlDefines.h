@@ -94,8 +94,9 @@ struct GrowlNetworkRegistration {
 	/*
 	 *	Variable sized. Format:
 	 *	<application name><all notifications><default notifications><checksum>
-	 *	where <all notifications> and <default notifications> are of the form
-	 *	(<length><name>){num}.
+	 *	where <all notifications> is of the form (<length><name>){num} and
+	 *	<default notifications> is an array of indices into the all notifications
+	 *	array, each index being 8 bits.
 	 */
 	unsigned char data[];
 };
