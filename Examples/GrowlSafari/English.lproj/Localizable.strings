@@ -14,5 +14,13 @@
 	<string>Download Complete</string>
 	<key>Mounting Disk Image</key>
 	<string>Mounting Disk Image</string>
+	<key>%@ decompression started</key>
+	<string>%@ decompression started</string>
+	<key>Mounting %@</key>
+	<string>Mounting %@</string>
+	<key>Copying application from %@</key>
+	<string>Copying application from %@</string>
+	<key>%@ download complete</key>
+	<string>%@ download complete</string>
 </dict>
 </plist>

@@ -6,16 +6,15 @@
 //  Copyright 2004 Kevin Ballard. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-
-@interface GrowlSafari : NSObject {
-
+@interface GrowlSafari : NSObject
+{
 }
 + (NSBundle *)bundle;
 @end
 
 @interface NSObject (GrowlSafariPatch)
 - (void)mySetDownloadStage:(int)stage;
-- (void)myUpdateDiskImageStatus:(id)fp8;
+- (void)myUpdateDiskImageStatus:(NSDictionary *)status;
 @end
