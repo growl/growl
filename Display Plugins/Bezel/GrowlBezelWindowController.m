@@ -78,7 +78,7 @@
 	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
 	switch (positionPref) {
 		case BEZEL_POSITION_DEFAULT:
-			panelTopLeft = NSMakePoint(ceilf((NSWidth(screen)*0.5f) -(NSWidth(panelFrame)*0.5f)),
+			panelTopLeft = NSMakePoint(ceilf((NSWidth(screen) * 0.5f) -(NSWidth(panelFrame) * 0.5f)),
 				140.0f + NSHeight(panelFrame));
 			break;
 		case BEZEL_POSITION_TOPRIGHT:
