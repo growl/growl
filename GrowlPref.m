@@ -186,10 +186,17 @@
 	}
 	[defs release];
 
+	GrowlPreferences *preferences = [GrowlPreferences preferences];
 	[allDisplayPlugins removeAllItems];
 	[allDisplayPlugins addItemsWithTitles:[[GrowlPluginController controller] allDisplayPlugins]];
-	[allDisplayPlugins selectItemWithTitle:[[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey]];
+	[allDisplayPlugins selectItemWithTitle:[preferences objectForKey:GrowlDisplayPluginKey]];
 	[displayPlugins reloadData];
+
+	if( [[preferences objectForKey:GrowlStartServerKey] boolValue] ) {
+		[startGrowlServer setState:NSOnState];
+	} else {
+		[startGrowlServer setState:NSOffState];
+	}
 	
 	[self buildMenus];
 	

@@ -34,6 +34,7 @@
 	//"General" tab pane
 	IBOutlet NSButton				* startGrowlAtLogin;
 	IBOutlet NSButton				* startStopGrowl;
+	IBOutlet NSButton				* startGrowlServer;
 	IBOutlet NSTextField			* growlRunningStatus;
 	IBOutlet NSProgressIndicator	* growlRunningProgress;
 	IBOutlet NSPopUpButton			* allDisplayPlugins;

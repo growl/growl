@@ -30,6 +30,7 @@
                 remove = NSButton; 
                 revert = NSButton; 
                 startGrowlAtLogin = NSButton; 
+                startGrowlServer = NSButton; 
                 startStopGrowl = NSButton; 
                 tabView = NSTabView; 
             }; 

@@ -9,11 +9,13 @@ Prefpane
 	- Applications Tab
 		- Priority
 		- Sticky
+		- Remove button
 New Displays
 	- Smoke
 	- Music Video
 	- NSLog
 	- MailMe
+	- Rendezvous (forwards notifications to another Mac on the local network)
 
 Changes to current displays:
 	Bubbles:

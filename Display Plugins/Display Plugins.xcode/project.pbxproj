@@ -2221,6 +2221,7 @@
 		95DD18F207490CB300CC05A4 = {
 			children = (
 				959479F207489FC300B8B23E,
+				95DD19B10749133000CC05A4,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlRendezvousPrefs.nib;
@@ -2232,6 +2233,14 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		95DD19B10749133000CC05A4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = Rendezvous/German.lproj/GrowlRendezvousPrefs.nib;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 //950
 //951
