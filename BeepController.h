@@ -13,6 +13,7 @@
 	IBOutlet NSWindow		*_beepWindow;						// The main window
     IBOutlet NSTableView	*_notificationsTable;				// The table of notifications
     IBOutlet NSButton		*_registered;						// The magic button that registers/unregisters
+	IBOutlet NSButton		*_addNotification;					// The button button that opens the add note pane
     IBOutlet NSButton		*_removeNotification;				// The remove button (TBR)
 	
 	//data

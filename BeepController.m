@@ -90,8 +90,16 @@
         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION 
                                                                        object:nil 
                                                                      userInfo:regDict];
+		
+		//Disable the add/remove buttons
+		[_addNotification setEnabled:NO];
+		[_removeNotification setEnabled:NO];
     } else {
         NSLog( @"Button off" );	
+		
+		//Reenable the add/remove buttons
+		[_addNotification setEnabled:YES];
+		[_removeNotification setEnabled:YES];
     }
 }
 

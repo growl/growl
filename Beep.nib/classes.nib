@@ -12,6 +12,7 @@
             CLASS = BeepController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "_addNotification" = NSButton; 
                 "_beepWindow" = NSWindow; 
                 "_newNotificationDefault" = NSButton; 
                 "_newNotificationDescription" = NSTextField; 
