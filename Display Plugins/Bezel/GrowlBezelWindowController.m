@@ -28,7 +28,11 @@
 
 - (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
 	int sizePref = 0;
+	float duration = MIN_DISPLAY_TIME;
+
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
+	READ_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, BezelPrefDomain, &duration);
+
 	NSRect sizeRect;
 	sizeRect.origin.x = sizeRect.origin.y = 0.0f;
 	if (sizePref == BEZEL_SIZE_NORMAL) {
@@ -109,7 +113,7 @@
 		action = NULL;
 		clickContext = nil;
 		appName = nil;
-		displayTime = MIN_DISPLAY_TIME;
+		displayTime = duration;
 		priority = prio;
 		scaleFactor = 1.0;
 		fadeIncrement = 0.04f;

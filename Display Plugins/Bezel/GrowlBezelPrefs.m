@@ -19,13 +19,15 @@
 	int		positionPref = 0;
 	int		sizePref = 0;
 	int		opacityPref = 40;
-	
+	float	durationPref = 3.0f;
+
 	[slider_Opacity setAltIncrementValue:5];
-	
+
 	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
-	
+	READ_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, BezelPrefDomain, &durationPref);
+
 	if (positionPref == BEZEL_POSITION_DEFAULT) {
 		[radio_PositionD setState:NSOnState];
 		[radio_PositionTR setState:NSOffState];
@@ -59,9 +61,12 @@
 	}
 	
 	[radio_Size selectCellAtRow:sizePref column:0];
-	
+
 	[slider_Opacity setIntValue:opacityPref];
-	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",opacityPref]];
+	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
+
+	[slider_Duration setFloatValue:durationPref];
+	[text_Duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
 }
 
 - (void)didSelect {
@@ -72,6 +77,7 @@
 	int		positionPref;
 	int		sizePref;
 	int		opacityPref;
+	float	durationPref;
 	
 	if (sender == radio_PositionD) {
 		[radio_PositionTR setState:NSOffState];
@@ -113,8 +119,12 @@
 		WRITE_GROWL_PREF_INT(BEZEL_SIZE_PREF, sizePref, BezelPrefDomain);
 	} else if (sender == slider_Opacity) {
 		opacityPref = [slider_Opacity intValue];
-		[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%",opacityPref]];
+		[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
 		WRITE_GROWL_PREF_INT(BEZEL_OPACITY_PREF, opacityPref, BezelPrefDomain);
+	} else if (sender == slider_Duration) {
+		durationPref = [slider_Duration floatValue];
+		[text_Duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
+		WRITE_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, durationPref, BezelPrefDomain);
 	}
 
     SYNCHRONIZE_GROWL_PREFS();

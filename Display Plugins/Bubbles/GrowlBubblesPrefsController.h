@@ -10,7 +10,7 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface GrowlBubblesPrefsController : NSPreferencePane {
-	IBOutlet NSButton *limitCheck;
+	IBOutlet NSButton		*limitCheck;
 	IBOutlet NSColorWell	*color_veryLow;
 	IBOutlet NSColorWell	*color_moderate;
 	IBOutlet NSColorWell	*color_normal;

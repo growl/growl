@@ -13,18 +13,6 @@
 
 @implementation GrowlMusicVideoWindowView
 
-- (id) initWithFrame:(NSRect)frame {
-	if ( ( self = [super initWithFrame:frame] ) ) {
-		icon = nil;
-		title = nil;
-		text = nil;
-		textHeight = 0.0f;
-		target = nil;
-		action = nil;
-	}
-	return self;
-}
-
 - (void) dealloc {
 	[icon release];
 	[title release];
@@ -54,43 +42,57 @@
 	float textFontSize;
 	NSPoint iconPoint;
 	int maxRows;
-	int iconHorizontalOffset = 0;
-	int iconVerticalOffset = 0;
 	int iconSourcePoint;
 	NSSize maxIconSize;
 	NSSize iconSize = [icon size];
 
+	titleRect.origin.x = NSHeight(bounds);
+	textRect.origin.x =  NSHeight(bounds);
+
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-		titleRect = NSMakeRect(NSHeight(bounds), 120.0f, NSWidth(bounds) - NSHeight(bounds) - 32.0f, 40.0f);
-		textRect =  NSMakeRect(NSHeight(bounds),  16.0f, NSWidth(bounds) - NSHeight(bounds) - 32.0f, 96.0f);
+		titleRect.origin.y = 120.0f;
+		titleRect.size.width = NSWidth(bounds) - NSHeight(bounds) - 32.0f;
+		titleRect.size.height = 40.0f;
+		textRect.origin.y = 16.0f;
+		textRect.size.width = NSWidth(bounds) - NSHeight(bounds) - 32.0f;
+		textRect.size.height = 96.0f;
 		titleFontSize = 32.0f;
 		textFontSize = 20.0f;
 		maxRows = 4;
-		maxIconSize = NSMakeSize(128.0f, 128.0f);
+		maxIconSize.width = 128.0f;
+		maxIconSize.height = 128.0f;
 		iconSourcePoint = 32.0f;
-		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];
 	} else {
-		titleRect = NSMakeRect(NSHeight(bounds), 60.0f, NSWidth(bounds) - NSHeight(bounds) - 16.0f, 25.0f);
-		textRect =  NSMakeRect(NSHeight(bounds),  8.0f, NSWidth(bounds) - NSHeight(bounds) - 16.0f, 48.0f);
+		titleRect.origin.y = 60.0f;
+		titleRect.size.width = NSWidth(bounds) - NSHeight(bounds) - 16.0f;
+		titleRect.size.height = 25.0f;
+		textRect.origin.y = 8.0f,
+		textRect.size.width = NSWidth(bounds) - NSHeight(bounds) - 16.0f;
+		textRect.size.height = 48.0f;
 		titleFontSize = 16.0f;
 		textFontSize = 12.0f;
 		maxRows = 3;
-		maxIconSize = NSMakeSize(80.0f, 80.0f);
+		maxIconSize.width = 80.0f;
+		maxIconSize.height = 80.0f;
 		iconSourcePoint = 8.0f;
-		iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];	
 	}
+
+	iconSize = [icon adjustSizeToDrawAtSize:maxIconSize];	
 
 	if ( iconSize.width < maxIconSize.width ) {
-		iconHorizontalOffset = ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
+		iconPoint.x = iconSourcePoint + ceilf( (maxIconSize.width - iconSize.width) * 0.5f );
+	} else {
+		iconPoint.x = iconSourcePoint;
 	}
 	if ( iconSize.height < maxIconSize.height ) {
-		iconVerticalOffset = ceilf( (maxIconSize.height - iconSize.height) * 0.5f );
+		iconPoint.y = iconSourcePoint + ceilf( (maxIconSize.height - iconSize.height) * 0.5f );
+	} else {
+		iconPoint.y = iconSourcePoint;
 	}
-	iconPoint = NSMakePoint(iconSourcePoint + iconHorizontalOffset, iconSourcePoint + iconVerticalOffset);
-	
+
 	NSShadow *textShadow = [[[NSShadow alloc] init] autorelease];
 
-	NSSize shadowSize = NSMakeSize(0.0f, -2.0f);
+	NSSize shadowSize = {0.0f, -2.0f};
 	[textShadow setShadowOffset:shadowSize];
 	[textShadow setShadowBlurRadius:3.0f];
 	[textShadow setShadowColor:[NSColor blackColor]];
@@ -105,7 +107,7 @@
 		textShadow, NSShadowAttributeName, nil];
 	[title drawWithEllipsisInRect:titleRect withAttributes:titleAttributes];
 
-	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSColor whiteColor], NSForegroundColorAttributeName,
 		parrafo, NSParagraphStyleAttributeName,
 		[NSFont messageFontOfSize:textFontSize], NSFontAttributeName,
@@ -140,15 +142,18 @@
 - (float) descriptionHeight:(NSAttributedString *)theText inRect:(NSRect)theRect {
 	if (!textHeight) {
 		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:theText];
-		NSTextContainer *textContainer = [[[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize(NSWidth(theRect), NSHeight(theRect) + 1000.0f)] autorelease];
-		NSLayoutManager *layoutManager = [[[NSLayoutManager alloc] init] autorelease];
+		theRect.size.height += 1000.0f;
+		NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:theRect.size];
+		NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
 
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
 		[layoutManager glyphRangeForTextContainer:textContainer];
 
 		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+		[layoutManager release];
+		[textContainer release];
+		[textStorage release];
 		textHeight = textHeight / 13.0f * 14.0f;
 	}
 	return MAX (textHeight, 30.0f);

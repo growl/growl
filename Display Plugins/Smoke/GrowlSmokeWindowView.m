@@ -17,20 +17,6 @@ static float titleHeight;
 
 @implementation GrowlSmokeWindowView
 
-- (id) initWithFrame:(NSRect)frame {
-	if ( ( self = [super initWithFrame:frame] ) ) {
-		icon = nil;
-		title = nil;
-		text = nil;
-		textHeight = 0.0f;
-		target = nil;
-		action = nil;
-		bgColor = nil;
-		textColor = nil;
-	}
-	return self;
-}
-
 - (void) dealloc {
 	[icon release];
 	[title release];

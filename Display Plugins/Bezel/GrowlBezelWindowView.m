@@ -16,18 +16,6 @@
 
 @implementation GrowlBezelWindowView
 
-- (id)initWithFrame:(NSRect)frame {
-	if ( ( self = [super initWithFrame:frame] ) ) {
-		icon = nil;
-		title = nil;
-		text = nil;
-		textHeight = 0.0f;
-		target = nil;
-		action = nil;
-	}
-	return self;
-}
-
 - (void)dealloc {
 	[icon release];
 	[title release];
@@ -178,14 +166,14 @@
 - (float) descriptionHeight:(NSAttributedString *)theText inRect:(NSRect)theRect {
 	if (!textHeight) {
 		NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:theText];
-		NSTextContainer *textContainer = [[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize(NSWidth(theRect), NSHeight(theRect) + 1000.0f)];
+		theRect.size.height += 1000.0f;
+		NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:theRect.size];
 		NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
 
 		[layoutManager addTextContainer:textContainer];
 		[textStorage addLayoutManager:layoutManager];
 		[layoutManager glyphRangeForTextContainer:textContainer];
-	
+
 		textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
 		[layoutManager release];
 		[textContainer release];

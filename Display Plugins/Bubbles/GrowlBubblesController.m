@@ -45,7 +45,7 @@
 }
 
 - (NSString *) version {
-	return @"1.0a";
+	return @"1.0b";
 }
 
 - (void) unloadPlugin {
@@ -57,7 +57,7 @@
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		@"Bubbles", @"Name",
 		@"Karl Adam and Timothy Hatcher", @"Author",
-		@"1.0a", @"Version",
+		@"1.0b", @"Version",
 		@"Happy Bubbles!", @"Description",
 		nil];
 }

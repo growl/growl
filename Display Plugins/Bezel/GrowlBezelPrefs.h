@@ -13,6 +13,7 @@
 #define BEZEL_POSITION_PREF			@"Bezel - Position"
 #define BEZEL_SIZE_PREF				@"Bezel - Size"
 #define BEZEL_OPACITY_PREF			@"Bezel - Opacity"
+#define BEZEL_DURATION_PREF			@"Bezel - Duration"
 
 #define BEZEL_POSITION_DEFAULT		0
 #define BEZEL_POSITION_TOPRIGHT		1
@@ -32,6 +33,8 @@
 	IBOutlet NSMatrix		*radio_Size;
 	IBOutlet NSSlider		*slider_Opacity;
 	IBOutlet NSTextField	*text_Opacity;
+	IBOutlet NSSlider		*slider_Duration;
+	IBOutlet NSTextField	*text_Duration;
 }
 
 - (IBAction) preferenceChanged:(id)sender;
