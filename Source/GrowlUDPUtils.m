@@ -1,4 +1,4 @@
-﻿//
+//
 //  GrowlUDPUtils.m
 //  Growl
 //
@@ -66,7 +66,7 @@
 	return (unsigned char *)nn;
 }
 
-#pragma warning we need a way to handle the unlikely but fully-possible case wherein the dictionary contains more All notifications than the 8-bit Default indices can hold (Zero-One-Infinity) - first stage would be to try moving all the default notifications to the lower indices of the All array, second stage would be to create multiple packets
+#warning we need a way to handle the unlikely but fully-possible case wherein the dictionary contains more All notifications than the 8-bit Default indices can hold (Zero-One-Infinity) - first stage would be to try moving all the default notifications to the lower indices of the All array, second stage would be to create multiple packets
 
 + (unsigned char *) registrationToPacket:(NSDictionary *)aNotification password:(const char *)password packetSize:(unsigned int *)packetSize {
 	struct GrowlNetworkRegistration *nr;
@@ -107,9 +107,9 @@
 				++length;
 			}
 		} else {
-			notificationIndex = [allNotifications indexOfObject:obj];
+			notificationIndex = [allNotifications indexOfObject:num];
 			if( notificationIndex == NSNotFound ) {
-				NSLog(@"Warning: defaultNotifications is not a subset of allNotifications (object found in defaultNotifications that is not in allNotifications; description of object is %@)", obj);
+				NSLog(@"Warning: defaultNotifications is not a subset of allNotifications (object found in defaultNotifications that is not in allNotifications; description of object is %@)", num);
 				--size;
 			} else {
 				++length;
