@@ -288,6 +288,13 @@ static const double GrowlSmokePadding = 10.;
 
 #pragma mark -
 
+- (void)_bubbleClicked:(id)sender {
+	[self _stopTimer];
+	[self startFadeOut];
+}
+	
+#pragma mark -
+
 - (BOOL) respondsToSelector:(SEL) selector {
 	BOOL contentViewRespondsToSelector = [[[self window] contentView] respondsToSelector:selector];
 	return contentViewRespondsToSelector ? contentViewRespondsToSelector : [super respondsToSelector:selector];
