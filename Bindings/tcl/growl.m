@@ -62,7 +62,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 
 	distCenter = [NSDistributedNotificationCenter defaultCenter];
 
-	action = [NSString stringWithCString:Tcl_GetString(*objv)];
+	action = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
 	++objv, --objc;
 
 	if ([action isEqualToString:@"register"]) {
@@ -74,10 +74,10 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 			return TCL_ERROR;
 		}
 
-		appName = [[NSString stringWithCString:Tcl_GetString(*objv)] retain];
+		appName = [[NSString stringWithUTF8String:Tcl_GetString(*objv)] retain];
 		++objv, --objc;
 
-		allNotifications = [[NSString stringWithCString:Tcl_GetString(*objv)] componentsSeparatedByString:@" "];
+		allNotifications = [[NSString stringWithUTF8String:Tcl_GetString(*objv)] componentsSeparatedByString:@" "];
 		++objv, --objc;
 
 		notificationName = GROWL_APP_REGISTRATION;
@@ -91,13 +91,13 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 			return TCL_ERROR;
 		}
 
-		notificationType = [NSString stringWithCString:Tcl_GetString(*objv)];
+		notificationType = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
 		++objv, --objc;
 
-		notificationTitle = [NSString stringWithCString:Tcl_GetString(*objv)];
+		notificationTitle = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
 		++objv, --objc;
 
-		notificationDescription = [NSString stringWithCString:Tcl_GetString(*objv)];
+		notificationDescription = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
 		++objv, --objc;
 
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
