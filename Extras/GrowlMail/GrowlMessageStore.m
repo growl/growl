@@ -56,7 +56,7 @@
 			NSString *key;
 			while( (key = [enumerator nextObject]) ) {
 				NSNumber *count = [accountSummary objectForKey:key];
-				NSString *description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ - %d new mail(s)", nil, bundle, @""), key, [count intValue]];
+				NSString *description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n%d new mail(s)", nil, bundle, @""), key, [count intValue]];
 				NSDictionary *notif = [NSDictionary dictionaryWithObjectsAndKeys:
 					title, GROWL_NOTIFICATION_NAME,
 					@"GrowlMail", GROWL_APP_NAME,
