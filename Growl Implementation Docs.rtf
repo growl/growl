@@ -28,7 +28,7 @@ Once a Growl application registers with Growl, giving it a list of all notificat
 \f2\b 2. Licensing
 \f1\b0 \
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
-\cf0 Growl is meant to make the life of the developer and user easier. We've licensed Growl as BSD as such. Testing applications and examples are public domain, do with them as you wish. You can include Growl with your GPL app distrobutioin even, so long as you don't combine Growl and GPL code. Due to the nature of how Growl works, the license does not matter, as Growl should be recieving notifications from an app.\
+\cf0 Growl is meant to make the life of the developer and user easier. We've licensed Growl as BSD as such. Testing applications and examples are public domain, do with them as you wish. You can include Growl with your GPL app distribution even, so long as you don't combine Growl and GPL code. Due to the nature of how Growl works, the license does not matter, as Growl should be recieving notifications from an app.\
 \
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
 
@@ -101,8 +101,11 @@ When a Growl-enabled application launches, it should post a notification named
 \f1\fs24  of the subset of the notifications specified in 
 \f3\fs20 GROWL_NOTIFICATIONS_ALL 
 \f1\fs24 that should be enabled to be displayed by default.\
+
+\f3\fs20 \cf0 GROWL_APP_ICON		=>	
+\f1\fs24 Optionally, the TIFF representation of a default icon to be used for the application's notifications.\cf0 \
 \pard\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\fi720\ql\qnatural
-\cf0 When an application registers with Growl, Growl will retrieve the icon for the application named in the registration request, and cache it to use as a default icon later.\
+\cf0 When an application registers with Growl, if it does not provide an icon, Growl will retrieve the icon for the application named in the registration request, using NSWorkspace. If possible, it is preferable to provide an icon, as looking up the icon using NSWorkspace can cause Growl to hang searching for it (This will hopefully be addressed in the future).\
 Once an application has registered with Growl, it can proceed to send out event notifications to Growl, to be (possibly, dependent on preferences) displayed. This event should be sent in the form of a notification through 
 \f3\fs20 NSDistributedObjectCenter
 \f1\fs24 . The name of the notification should be one of the names the application supplied in the 
