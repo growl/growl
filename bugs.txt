@@ -23,5 +23,3 @@ So, the possible solutions are:
 (b) Do separate builds for Jaguar and Panther (many SSL-enabled apps do this).
 
 I'd recommend (a), for obvious reasons.
-
-
