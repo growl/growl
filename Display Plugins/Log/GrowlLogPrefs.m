@@ -34,6 +34,11 @@
 		//NSLog(@"hist1 = %@", s);
 	}
 
+	/*
+	 * Ignore anything beyond one saved item until we know why these
+	 * send out the proper values, but the proper values are not written.
+	 */
+	/*
 	s = nil;
 	READ_GROWL_PREF_VALUE(customHistKey2, LogPrefDomain, NSString *, &s);
 	if (s) {
@@ -47,17 +52,11 @@
 		[customHistArray addObject:s];
 		//NSLog(@"hist3 = %@", s);
 	}
-
+	 */
+	
 	[self updatePopupMenu];
 
-	unsigned numHistItems = [customHistArray count];
-	if (numHistItems) {
-		//there is at least one regular file to log to - find out whether to log to one of them
-		READ_GROWL_PREF_INT(logTypeKey, LogPrefDomain, &typePref);
-	} else {
-		//disable the 'Log to file' radio button if there are no files to log to
-		[[fileType cellAtRow:1 column:0] setEnabled:NO];
-	}
+	READ_GROWL_PREF_INT(logTypeKey, LogPrefDomain, &typePref);
 	[fileType selectCellAtRow:typePref column:0];
 }
 
@@ -66,8 +65,11 @@
 
 	if (sender == fileType) {
 		typePref = [fileType selectedRow];
+		if((typePref != 0) && ([customMenuButton numberOfItems] == 1)) {
+			[self customFileChosen:customMenuButton];
+		}
 		WRITE_GROWL_PREF_INT(logTypeKey, typePref, LogPrefDomain);
-		[customMenuButton setEnabled:(typePref != 0)];
+		[customMenuButton setEnabled:((typePref != 0) && ([customMenuButton numberOfItems] > 1))];
 		UPDATE_GROWL_PREFS();
 	}
 }
@@ -81,7 +83,7 @@
 	if (sender == customMenuButton) {
 		int selected = [customMenuButton indexOfSelectedItem];
 		//NSLog(@"custom %d", selected);
-		if (selected == [customMenuButton numberOfItems] - 1) {
+		if ((selected == [customMenuButton numberOfItems] - 1) || (selected == -1)) {
 			NSSavePanel *sp = [NSSavePanel savePanel];
 			[sp setRequiredFileType:@"log"];
 			[sp setCanSelectHiddenExtension:YES];
@@ -100,7 +102,8 @@
 					}
 				}
 				if (saveFilenameIndex == NSNotFound) {
-					if ([customHistArray count] == 3U)
+					//if ([customHistArray count] == 3U)
+					if( [customHistArray count] >= 1U)
 						[customHistArray removeLastObject];
 				} else {
 					[customHistArray removeObjectAtIndex:saveFilenameIndex];
@@ -121,6 +124,12 @@
 			WRITE_GROWL_PREF_VALUE(customHistKey1, s, LogPrefDomain);
 			//NSLog(@"Writing %@ as hist1", s);
 
+			/*
+			 * Ignore anything beyond one saved item until we know why these
+			 * send out the proper values, but the proper values are not written.
+			 */
+			
+			/*
 			if ((numHistItems > 1) && (s = [customHistArray objectAtIndex:1U])) {
 				WRITE_GROWL_PREF_VALUE(customHistKey2, s, LogPrefDomain);
 				//NSLog(@"Writing %@ as hist2", s);
@@ -130,14 +139,14 @@
 				WRITE_GROWL_PREF_VALUE(customHistKey3, s, LogPrefDomain);
 				//NSLog(@"Writing %@ as hist3", s);
 			}
-
-			/*in case there weren't any files listed before (which means we
-			 *	disabled the 'Log to file' button), enable the 'Log to file' button.
+			
 			 */
-			[[fileType cellAtRow:1 column:0] setEnabled:YES];
+			
+			//[[fileType cellAtRow:1 column:0] setEnabled:YES];
 			[fileType selectCellAtRow:1 column:0];
 		}
-
+		
+		SYNCHRONIZE_GROWL_PREFS();
 		UPDATE_GROWL_PREFS();
 
 		[self updatePopupMenu];
@@ -164,7 +173,10 @@
 			[customMenuButton insertItemWithTitle:[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] atIndex:i];
 		}
 	}
-	[[customMenuButton menu] addItem:[NSMenuItem separatorItem]];
+	// No separator if there's no file list yet
+	if( numHistItems > 0) {
+		[[customMenuButton menu] addItem:[NSMenuItem separatorItem]];
+	}
 	[customMenuButton addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Browse menu item title", /*tableName*/ nil, [self bundle], /*comment*/ nil)];
 	//select first item, if any
 	[customMenuButton selectItemAtIndex:numHistItems ? 0 : -1];
