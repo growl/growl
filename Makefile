@@ -32,6 +32,7 @@ growlappbridge:
 
 clean:
 	xcodebuild -project Growl.xcode -alltargets clean
+	xcodebuild -project GrowlAppBridge.xcode -alltargets clean
 
 install:
 	killall GrowlHelperApp || true
