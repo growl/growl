@@ -134,7 +134,7 @@ static const char *keychainAccountName = "Growl";
 								num = nr->numAllNotifications;
 								notification = applicationName + applicationNameLen;
 								NSMutableArray *allNotifications = [NSMutableArray arrayWithCapacity:num];
-								for ( i=0; i<num; ++i ) {
+								for ( i = 0U; i < num; ++i ) {
 									size = ntohs( *(unsigned short *)notification );
 									notification += sizeof(unsigned short);
 									[allNotifications addObject:[NSString stringWithUTF8String:notification length:size]];
@@ -146,7 +146,7 @@ static const char *keychainAccountName = "Growl";
 								num = nr->numDefaultNotifications;
 								packetSize += num;
 								NSMutableArray *defaultNotifications = [NSMutableArray arrayWithCapacity:num];
-								for ( i=0; i<num; ++i ) {
+								for ( i = 0U; i < num; ++i ) {
 									notificationIndex = *notification++;
 									if ( notificationIndex < nr->numAllNotifications ) {
 										[defaultNotifications addObject:[allNotifications objectAtIndex: notificationIndex]];
