@@ -40,8 +40,12 @@ static const char *keychainAccountName = "Growl";
 		NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 		[nc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
 		[nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
+		
+		[[GrowlPreferences preferences] registerDefaults:
+			[NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlDefaults"
+																										ofType:@"plist"]]];
 	}
-	
+
 	return self;
 }
 
