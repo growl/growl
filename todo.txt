@@ -63,12 +63,6 @@ For .8 (The Kitchen Sink) or sooner
 	- Display plugins tab with better looking prefs( the current ones aren't winning beauty awards )
 	- Add profiles. Choose which profile is currently uses via prefpane or menuling
 
-
-
-
-
-
-
 - Other
 	- Make GrowlMail not run while applying rules if possible
 	- Growltunes needs preferences.
@@ -86,14 +80,6 @@ For .9 or sooner
 	- New displays can be distributed via this method. We can also use this to find out if a display plugin is the currently available version or not.
 	- Some displays won't work on 10.2. In six months to a year, some won't work on 10.3. We need to prepare for this.
 
-- Display Plugins
-	- iCal scheduled events look
-	- Garage Band black look.
-	- Brushed Metal/Aqua
-
-For 1.0 or sooner
-- We'll probably be using 10.4 by now, let's make a webkit dispaly if feasible.
-
 -----------------------------------------
 Other stuff; old todo
 -----------------------------------------
@@ -104,15 +90,12 @@ Other stuff; old todo
 		REALbasic Binding needs to be finished
 		Documentation on this
 	- Perl:
-		Setup a way for icons to be displayed
 		Implementation documentation needs to be written
 		Get this submitted to CPAN
 			This requires making the perl module install growl if growl is not installed
-	- Ruby:
-		Ruby Interface needs to be coded
 
-		Documentation for the entourage and mail.app scripts. These should have screen shots, and be on the website.
-			ref: http://cia.navi.cx/stats/author/the_tick/.message/2670177 for entourage.
+- Documentation for the entourage and mail.app scripts. These should have screen shots, and be on the website.
+	ref: http://cia.navi.cx/stats/author/the_tick/.message/2670177 for entourage.
 
 - Sample Apps and Code:
 	- GrowlTunes Specific To DO:
@@ -120,7 +103,3 @@ Other stuff; old todo
 		Prefs and HotKeys
 	- growlnotify:
 		Make a .pkg, install into /usr/local
-
-- Documentation:
-	Developer docs
-	User Docs
