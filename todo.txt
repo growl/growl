@@ -1,10 +1,6 @@
 To-Do
 
 For .6 (Go Go Growl)
-- Specify license in each file.
-	- Growl is BSD
-	- The framework is public domain
-	- Examples are public domain unless specified
 - NSLog
 	- Rename NSLog to Log
 	- Add 2 radio buttons
@@ -201,3 +197,8 @@ Done:
 - A way for applications to detect the current version of Growl which is being used.
 - Make sure all bindings register. I think this is already done, but we need to double check as this is now required.
 - Fix minor visual problems
+- Specify license in each file.
+	- Growl is BSD
+	- The framework is public domain
+	- Examples are public domain unless specified
+
