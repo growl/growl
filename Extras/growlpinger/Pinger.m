@@ -36,32 +36,32 @@ extern int verbose;
 
 @implementation Pinger
 
-- (id)initWithInterval:(NSTimeInterval)interval
-{
-	if ( (self = [super init]) ) {
+- (id)initWithInterval:(NSTimeInterval)interval {
+	if ((self = [super init])) {
 		NSTimer *timeout, *ping;
-		NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
-		[NSDNC addObserver:self
-				  selector:@selector(receivedPong:)
-					  name:GROWL_PONG
-					object:nil];
-		[NSDNC addObserver:self
-				  selector:@selector(receivedReady:)
-					  name:GROWL_IS_READY
-					object:nil];
+		NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
+		[distCenter addObserver:self
+					   selector:@selector(receivedPong:)
+						   name:GROWL_PONG
+						 object:nil];
+		[distCenter addObserver:self
+					   selector:@selector(receivedReady:)
+						   name:GROWL_IS_READY
+						 object:nil];
 		
-		if (interval)
+		if (interval) {
 			timeout = [NSTimer scheduledTimerWithTimeInterval:interval
 													   target:self
 													 selector:@selector(timeout:)
 													 userInfo:nil
 													  repeats:NO];
+		}
 		
-		timeout = [NSTimer scheduledTimerWithTimeInterval:0.5
-												   target:self
-												 selector:@selector(sendPing:)
-												 userInfo:nil
-												  repeats:YES];
+		ping = [NSTimer scheduledTimerWithTimeInterval:0.5
+												target:self
+											  selector:@selector(sendPing:)
+											  userInfo:nil
+											   repeats:YES];
 		[self sendPing: self];
 	}
 	
@@ -78,7 +78,7 @@ extern int verbose;
 {
 	code = 0;
 	if (verbose)
-		printf("Growl is alive: received pong\n");
+		fputs("Growl is alive: received pong\n", stdout);
 	[NSApp terminate:self];
 }
 
@@ -86,7 +86,7 @@ extern int verbose;
 {
 	code = 0;
 	if (verbose)
-		printf("Growl is alive: received startup notification\n");
+		fputs("Growl is alive: received startup notification\n", stdout);
 	[NSApp terminate:self];
 }
 
@@ -94,13 +94,13 @@ extern int verbose;
 {
 	code = 1;
 	if (verbose)
-		printf("Growl is dead: timed out\n");
+		fputs("Growl is dead: timed out\n", stdout);
 	[NSApp terminate:self];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-	/* die rather inelegantly so we can send the right code to the parent */
+	//die rather inelegantly so we can send the right code to the parent
 	exit(code);
 }
 

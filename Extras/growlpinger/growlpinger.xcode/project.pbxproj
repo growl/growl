@@ -196,15 +196,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = GrowlDefines.h;
-			path = /Users/andrew/Documents/Coding/growl/growl/Common/Source/GrowlDefines.h;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		497B3D2C07EBDED700E470C9 = {
-			fileRef = 497B3D2A07EBDED700E470C9;
-			isa = PBXBuildFile;
-			settings = {
-			};
+			path = ../../Common/Source/GrowlDefines.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		497B3D2E07EBDEDB00E470C9 = {
 			children = (
@@ -288,7 +282,6 @@
 			files = (
 				8DD76F9F0486AA7600D96B5E,
 				496ED86607E9B1B50047F24A,
-				497B3D2C07EBDED700E470C9,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 1;

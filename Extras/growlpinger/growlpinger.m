@@ -46,14 +46,12 @@ int code = 0;
 int	verbose = 0;
 
 int main (int argc, char *argv[]) {
-    NSAutoreleasePool *pool;
-	Pinger *pinger;
-	long timeout = 0;
+	NSTimeInterval timeout = 0.0;
 	
-	/* options */
+	//options
 	int ch;
 
-	while ((ch = getopt(argc, argv, "ht:v")) != -1)
+	while ((ch = getopt(argc, argv, "ht:v")) != -1) {
 		switch (ch) {
 			case '?':
 			case 'h':
@@ -62,9 +60,8 @@ int main (int argc, char *argv[]) {
 				exit(1);
 				break;
 			case 't':
-				timeout = strtol(optarg, NULL, 0);
-				if (timeout <= 0)
-				{
+				timeout = strtod(optarg, NULL);
+				if (timeout <= 0) {
 					printf("Timeout value invalid\n");
 					printf(usage, argv[0]);
 					exit(1);
@@ -74,16 +71,17 @@ int main (int argc, char *argv[]) {
 				verbose = 1;
 				break;
 		}
+	}
 	argc -= optind;
 	argv += optind;
 	
-	pool = [[NSAutoreleasePool alloc] init];
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
-	pinger = [[Pinger alloc] initWithInterval:timeout];
+	Pinger *pinger = [[Pinger alloc] initWithInterval:timeout];
 	
-	[NSApp setDelegate: pinger];
+	[NSApp setDelegate:pinger];
 	[NSApp run];
 	
-	/* We should never return according to the NSApplication documentation */
+	//We should never return according to the NSApplication documentation.
     return EXIT_FAILURE;
 }
