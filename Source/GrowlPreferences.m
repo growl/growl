@@ -158,7 +158,6 @@ static GrowlPreferences * sharedPreferences;
 	[defs setPersistentDomain:[NSDictionary dictionaryWithDictionary:loginWindowPrefs] 
 					  forName:@"loginwindow"];
 	[defs synchronize];
-	[defs release];	
 }
 
 @end
