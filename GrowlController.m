@@ -185,7 +185,7 @@
 													andNotifications:allNotes
 													 andDefaultNotes:defaultNotes
 														  fromParent:self];
-		[_tickets setValue:newApp forKey:appName];
+		[_tickets setObject:newApp forKey:appName];
 		[newApp autorelease];
 		NSLog( @"%@ has registered", appName );
 	} else {
