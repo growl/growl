@@ -39,6 +39,8 @@
 	IBOutlet NSTableView	* displayPlugins;
 	IBOutlet NSView			* displayPrefView;
 	IBOutlet NSView			* displayDefaultPrefView;
+	IBOutlet NSTextField	* displayAuthor;
+	IBOutlet NSTextField	* displayVersion;
 	
 	IBOutlet NSButton		* apply;
 	IBOutlet NSButton		* revert;

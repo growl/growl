@@ -71,6 +71,7 @@
 	[self buildDisplayMenu];
 	
 	[self reloadAppTab];
+	[self reloadDisplayTab];
 	[self setPrefsChanged:NO];
 }
 
@@ -124,6 +125,9 @@
 		[displayPlugins selectRow:0 byExtendingSelection:NO];
 	currentPlugin = [[[[GrowlPluginController controller] allDisplayPlugins] objectAtIndex:[displayPlugins selectedRow]] retain];
 	[self loadViewForDisplay:currentPlugin];
+	NSDictionary * info = [[[GrowlPluginController controller] displayPluginNamed:currentPlugin] pluginInfo];
+	[displayAuthor setStringValue:[info objectForKey:@"Author"]];
+	[displayVersion setStringValue:[info objectForKey:@"Version"]];
 }
 
 #pragma mark "General" tab pane
@@ -186,7 +190,7 @@
 
 #pragma mark "Display Options" tab pane
 //This is the frame of the preference view that we should get back.
-#define DISPLAY_PREF_FRAME NSMakeRect(165., 20., 354., 311.)
+#define DISPLAY_PREF_FRAME NSMakeRect(165., 20., 354., 289.)
 - (void)loadViewForDisplay:(NSString*)displayName
 {
 	if (displayName == nil)
