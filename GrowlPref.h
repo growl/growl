@@ -39,6 +39,7 @@
 	IBOutlet NSProgressIndicator	*growlRunningProgress;
 	IBOutlet NSPopUpButton			*allDisplayPlugins;
 	IBOutlet NSTextField			*growlVersion;
+	IBOutlet NSProgressIndicator	*growlVersionProgress;
 
 	//"Applications" tab pane
 	IBOutlet NSTableView	*applicationNotifications;
@@ -72,7 +73,7 @@
 
 - (NSString *) bundleVersion;
 - (IBAction) checkVersion:(id)sender;
-- (void) checkVersionAtURL:(NSString *)url displayText:(NSString *)message downloadURL:(NSString *)goURL;
+- (void) checkVersionAtURL:(NSURL *)url displayText:(NSString *)message downloadURL:(NSURL *)goURL;
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(id)contextInfo;
 
 - (void) reloadPreferences;

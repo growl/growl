@@ -33,6 +33,7 @@
                 growlRunningStatus = NSTextField; 
                 growlServiceList = NSTableView; 
                 growlVersion = NSTextField; 
+                growlVersionProgress = NSProgressIndicator; 
                 networkPassword = NSSecureTextField; 
                 remove = NSButton; 
                 revert = NSButton; 

@@ -35,7 +35,7 @@ static const char *keychainAccountName = "Growl";
 		loadedPrefPanes = [[NSMutableArray alloc] init];
 		
 		NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
-		[nc addObserver:self selector:@selector(growlLaunched:) name:GROWL_IS_READY object:nil];
+		[nc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
 		[nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
 	}
 	
@@ -62,17 +62,27 @@ static const char *keychainAccountName = "Growl";
 }
 
 - (IBAction) checkVersion:(id)sender {
-	[self checkVersionAtURL:@"http://growl.info/version.xml" 
+	[growlVersionProgress startAnimation:self];
+
+	static NSURL *versionCheckURL = nil;
+	if(!versionCheckURL) versionCheckURL = [NSURL URLWithString:@"http://growl.info/version.xml"];
+	static NSURL *downloadURL = nil;
+	if(!downloadURL) downloadURL = [NSURL URLWithString:@"http://growl.info/"];
+
+	[self checkVersionAtURL:versionCheckURL
 				displayText:NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @"")
-				downloadURL:@"http://growl.info"];
+				downloadURL:downloadURL];
+
+	[growlVersionProgress stopAnimation:self];
 }
 
-- (void) checkVersionAtURL:(NSString *)url displayText:(NSString *)message downloadURL:(NSString *)goURL {
+- (void) checkVersionAtURL:(NSURL *)url displayText:(NSString *)message downloadURL:(NSURL *)goURL {
 	NSBundle *bundle = [self bundle];
-	NSString *currVersionNumber = [[bundle infoDictionary] objectForKey:@"CFBundleVersion"];
-	NSDictionary *productVersionDict = [NSDictionary dictionaryWithContentsOfURL: [NSURL URLWithString:url]];
-	NSString *latestVersionNumber = [productVersionDict valueForKey:
-		[[[self bundle] infoDictionary] objectForKey:@"CFBundleExecutable"] ];
+	NSDictionary *infoDict = [bundle infoDictionary];
+	NSString *currVersionNumber = [infoDict objectForKey:@"CFBundleVersion"];
+	NSDictionary *productVersionDict = [NSDictionary dictionaryWithContentsOfURL:url];
+	NSString *latestVersionNumber = [productVersionDict objectForKey:
+		[infoDict objectForKey:@"CFBundleExecutable"] ];
 	
 	/*
 	NSLog([[[NSBundle bundleForClass:[self class]] infoDictionary] objectForKey:@"CFBundleExecutable"] );
@@ -86,20 +96,24 @@ static const char *keychainAccountName = "Growl";
 		NSBeginAlertSheet(NSLocalizedStringFromTableInBundle(@"Update Available", nil, bundle, @""),
 						  NSLocalizedStringFromTableInBundle(@"OK", nil, bundle, @""), 
 						  NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
-						  nil, nil, self, NULL,
-						  @selector(downloadSelector:returnCode:contextInfo:), goURL, message, nil);
+						  /*otherButton*/ nil,
+						  /*window*/ nil, /*modalDelegate*/ self,
+						  /*didEndSelector*/ NULL,
+						  /*didDismissSelector*/ @selector(downloadSelector:returnCode:contextInfo:),
+						  /*contextInfo*/ goURL,
+						  message);
 	}
 }
 
-- (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(id)contextInfo {
+- (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(NSURL *)contextInfo {
 	if ( returnCode == NSAlertDefaultReturn ) { 
-		[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: contextInfo]];
+		[[NSWorkspace sharedWorkspace] openURL:contextInfo];
 	}
 }
 
 - (void) awakeFromNib {
-	NSTableColumn* tableColumn = [growlApplications tableColumnWithIdentifier: @"application"];
-	ACImageAndTextCell* imageAndTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
+	NSTableColumn *tableColumn = [growlApplications tableColumnWithIdentifier: @"application"];
+	ACImageAndTextCell *imageAndTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
 	[imageAndTextCell setEditable: YES];
 	[tableColumn setDataCell:imageAndTextCell];
 	NSButtonCell *cell = [[applicationNotifications tableColumnWithIdentifier:@"sticky"] dataCell];
@@ -181,13 +195,13 @@ static const char *keychainAccountName = "Growl";
 	while ( (key = [enumerator nextObject]) ) {
 		NSImage *icon = [[NSImage alloc] initWithData:[[[tickets objectForKey:key] icon] TIFFRepresentation]];
 		[icon setScalesWhenResized:YES];
-		[icon setSize:NSMakeSize(16,16)];
+		[icon setSize:NSMakeSize(16.0f, 16.0f)];
 		[images addObject:icon];
 		[icon release];
 	}
 }
 
-- (void )reloadPreferences {
+- (void) reloadPreferences {
 	if (tickets) {
 		[tickets release];
 	}
