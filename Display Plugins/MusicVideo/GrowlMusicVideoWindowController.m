@@ -31,9 +31,9 @@
 	NSRect sizeRect;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-		sizeRect = NSMakeRect( 0.0f, 0.0f, NSWidth([[NSScreen mainScreen].0frame]), 192.0f );
+		sizeRect = NSMakeRect( 0.0f, 0.0f, NSWidth([[NSScreen mainScreen]frame]), 192.0f );
 	} else {
-		sizeRect = NSMakeRect( 0.0f, 0.0f, NSWidth([[NSScreen mainScreen].0frame]), 96.0f );
+		sizeRect = NSMakeRect( 0.0f, 0.0f, NSWidth([[NSScreen mainScreen]frame]), 96.0f );
 	}
 	NSPanel *panel = [[[NSPanel alloc] initWithContentRect:sizeRect
 						styleMask:NSBorderlessWindowMask
