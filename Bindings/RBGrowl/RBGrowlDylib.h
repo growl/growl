@@ -8,7 +8,7 @@
  */
 
 #include <Carbon/Carbon.h>
-#include "GrowlDefinesCarbon.h"
+#include "GrowlDefines.h"
 
 struct CFnotification {
     CFStringRef title;

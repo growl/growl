@@ -11,7 +11,7 @@
 				CA91A2D30674E8700035DD44,
 				CA91A2E10674EAA20035DD44,
 				CA91A2E20674EAA30035DD44,
-				CAE6485E06B050DD00EA81D8,
+				DA4B5A2007C0087700E5671C,
 			);
 			isa = PBXGroup;
 			refType = 4;
@@ -51,7 +51,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA91A2E30674EAA30035DD44,
-				CAE6485F06B050DD00EA81D8,
+				DA4B5A2107C0087700E5671C,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -158,16 +158,26 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		CAE6485E06B050DD00EA81D8 = {
+//CA0
+//CA1
+//CA2
+//CA3
+//CA4
+//DA0
+//DA1
+//DA2
+//DA3
+//DA4
+		DA4B5A2007C0087700E5671C = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			path = GrowlDefinesCarbon.h;
+			path = GrowlDefines.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		CAE6485F06B050DD00EA81D8 = {
-			fileRef = CAE6485E06B050DD00EA81D8;
+		DA4B5A2107C0087700E5671C = {
+			fileRef = DA4B5A2007C0087700E5671C;
 			isa = PBXBuildFile;
 			settings = {
 			};
