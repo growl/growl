@@ -6,6 +6,7 @@
 //
 
 #import "GrowlPref.h"
+#import "GrowlDisplayProtocol.h"
 
 @interface GrowlPref (PRIVATE)
 - (NSDictionary *)growlHelperAppDescription;
@@ -193,11 +194,21 @@
 #define DISPLAY_PREF_FRAME NSMakeRect(165., 20., 354., 289.)
 - (void)loadViewForDisplay:(NSString*)displayName
 {
-	if (displayName == nil)
+	NSView *newView = nil;
+	if (displayName != nil)
 	{
-		[[displayPrefView superview] replaceSubview:displayPrefView with:displayDefaultPrefView];
-		return;
+		id <GrowlPlugin> plugin = [[GrowlPluginController controller]
+														displayPluginNamed:displayName];
+		newView = [plugin displayPrefView];
 	}
+	if (newView == nil) {
+		newView = displayDefaultPrefView;
+	}
+	// Make sure the new view is framed correctly
+	[newView setFrame:DISPLAY_PREF_FRAME];
+	// Don't release displayPrefView - the replaceSubvview:with: does that already
+	[[displayPrefView superview] replaceSubview:displayPrefView with:newView];
+	displayPrefView = [newView retain];
 }
 
 #pragma mark Notification and Application table view data source methods
