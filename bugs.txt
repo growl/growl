@@ -1,0 +1,3 @@
+- Multiple users getting crashes like the following:
+http://paste.lisp.org/display/3863
+Could be a problem with the fade controller.
