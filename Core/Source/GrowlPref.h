@@ -52,6 +52,7 @@
 	IBOutlet NSTableView	*applicationNotifications;
 	IBOutlet NSTableView	*growlApplications;
 	NSMenu					*applicationDisplayPluginsMenu;
+	NSTableView				*activeTableView;
 	IBOutlet NSMenu			*notificationPriorityMenu;
 	IBOutlet NSTextField	*searchField;
 	IBOutlet NSButton		*remove;

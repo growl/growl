@@ -124,10 +124,15 @@ static const char *keychainAccountName = "Growl";
 - (void) awakeFromNib {
 	NSTableColumn *tableColumn = [growlApplications tableColumnWithIdentifier:@"application"];
 	ACImageAndTextCell *imageAndTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
-	[imageAndTextCell setEditable: YES];
+	[imageAndTextCell setEditable:YES];
 	[tableColumn setDataCell:imageAndTextCell];
 	NSButtonCell *cell = [[applicationNotifications tableColumnWithIdentifier:@"sticky"] dataCell];
 	[cell setAllowsMixedState:YES];
+	[cell setImagePosition:NSImageOnly];
+	cell = [[applicationNotifications tableColumnWithIdentifier:@"enable"] dataCell];
+	[cell setImagePosition:NSImageOnly];
+	cell = [[growlApplications tableColumnWithIdentifier:@"enable"] dataCell];
+	[cell setImagePosition:NSImageOnly];
 
 	[applicationNotifications deselectAll:NULL];
 	[growlApplications deselectAll:NULL];
@@ -330,10 +335,10 @@ static const char *keychainAccountName = "Growl";
 		if (row > -1)
 			currentApplication = [[filteredApplications objectAtIndex:row] retain];
 	}
-	if ([growlApplications selectedRow] > -1) {
-			[remove setEnabled:YES]; 
+	if ((activeTableView == growlApplications) && ([growlApplications selectedRow] > -1)) {
+		[remove setEnabled:YES]; 
 	} else {
-			[remove setEnabled:NO];
+		[remove setEnabled:NO];
 	}
 	appTicket = [tickets objectForKey:currentApplication];
 
@@ -343,7 +348,7 @@ static const char *keychainAccountName = "Growl";
 	[[[applicationNotifications tableColumnWithIdentifier:@"enable"] dataCell] setEnabled:[appTicket ticketEnabled]];
 
 	[applicationNotifications reloadData];
-	
+
 	[growlApplications reloadData];
 }
 
@@ -748,19 +753,14 @@ static const char *keychainAccountName = "Growl";
 #pragma mark TableView delegate methods
 
 - (void) tableViewSelectionDidChange:(NSNotification *)theNote {
-	id object = [theNote object];
-	if (object == growlApplications) {
+	NSTableView *tableView = [theNote object];
+	if (tableView == growlApplications) {
 		[self reloadAppTab];
-		if ([[theNote object] selectedRow] > -1) {
-			[remove setEnabled:YES]; 
-		} else {
-			[remove setEnabled:NO];
-		}
 		[applicationNotifications reloadData];
-	} else if (object == displayPlugins) {
+	} else if (tableView == displayPlugins) {
 		[self reloadDisplayTab];
-		[remove setEnabled:NO];
-	} else if (object == applicationNotifications) {
+		//[remove setEnabled:NO];
+	} else if (tableView == applicationNotifications) {
 		[self reloadAppTab];
 		//[remove setEnabled:NO];
 	}
@@ -800,8 +800,9 @@ static const char *keychainAccountName = "Growl";
 	}
 }
 
--(void) tableViewDidClickInBody:(NSTableView*)tableView {
-	if ((tableView == growlApplications) && ([tableView selectedRow] > -1)) {
+- (void) tableViewDidClickInBody:(NSTableView *)tableView {
+	activeTableView = tableView;
+	if ((activeTableView == growlApplications) && ([growlApplications selectedRow] > -1)) {
 		[remove setEnabled:YES];
 	} else {
 		[remove setEnabled:NO];
