@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <DOM/dom.h>
 
 @interface AppDelegate : NSObject {
 	NSArray *plugins;

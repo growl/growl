@@ -45,6 +45,20 @@
 //0A2
 //0A3
 //0A4
+		0A53296707DBF9F4005FB00B = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = DOM.framework;
+			path = /Users/kevin/Dev/Growl/growl/Extras/GrowlTunes/DOM.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		0A53298507DBFA0F005FB00B = {
+			fileRef = 0A53296707DBF9F4005FB00B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0A8B5992070AAEFE00593A33 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -60,12 +74,6 @@
 			path = AppDelegate.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		0A8B5994070AAEFE00593A33 = {
-			fileRef = 0A8B5992070AAEFE00593A33;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		0A8B5995070AAEFE00593A33 = {
 			fileRef = 0A8B5993070AAEFE00593A33;
@@ -88,12 +96,6 @@
 			path = MyImageView.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		0A8B5D38070AF9F400593A33 = {
-			fileRef = 0A8B5D36070AF9F400593A33;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		0A8B5D39070AF9F400593A33 = {
 			fileRef = 0A8B5D37070AF9F400593A33;
@@ -130,7 +132,7 @@
 		};
 		1058C7A2FEA54F0111CA2CBB = {
 			children = (
-				DDF435B607D79DC6008CC992,
+				0A53296707DBF9F4005FB00B,
 				29B97325FDCFA39411CA2CEA,
 				29B97324FDCFA39411CA2CEA,
 			);
@@ -343,7 +345,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = /Users/diggory/Code/OpenSource/growl/Extras/GrowlTunes;
+				FRAMEWORK_SEARCH_PATHS = /Users/kevin/Dev/Growl/growl/Extras/GrowlTunes;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = TestHarness_Prefix.pch;
@@ -366,8 +368,6 @@
 			files = (
 				8D11072A0486CEB800E47090,
 				8D11072B0486CEB800E47090,
-				0A8B5994070AAEFE00593A33,
-				0A8B5D38070AF9F400593A33,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -406,7 +406,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090,
-				DDF435B707D79DC6008CC992,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,36 +442,15 @@
 //DD2
 //DD3
 //DD4
-		DDF435B607D79DC6008CC992 = {
-			comments = "http://sourceforge.net/projects/iconaradom";
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = DOM.framework;
-			path = ../../DOM.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DDF435B707D79DC6008CC992 = {
-			fileRef = DDF435B607D79DC6008CC992;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DDF435B807D79E05008CC992 = {
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DDF435B907D79E14008CC992,
+				0A53298507DBFA0F005FB00B,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DDF435B907D79E14008CC992 = {
-			fileRef = DDF435B607D79DC6008CC992;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 	};
 	rootObject = 29B97313FDCFA39411CA2CEA;
