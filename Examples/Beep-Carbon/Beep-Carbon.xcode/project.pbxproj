@@ -248,9 +248,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = GrowlAppBridge.framework;
-			path = /Users/boredzo/Projects/Growl/build/GrowlAppBridge.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../build/GrowlAppBridge.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		07D0C5CF068A48340076D89A = {
 			fileRef = 07D0C5CE068A48340076D89A;
