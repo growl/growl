@@ -38,7 +38,7 @@ static const double gMaxDisplayTime = 10.;
 
 	// stop depth wrapping around
 	if (windowSize.height > depth) {
-		depth = 0;
+		depth = 0U;
 	} else {
 		depth -= windowSize.height;
 	}

@@ -20,7 +20,7 @@ static unsigned bubbleWindowDepth = 0U;
 #define MIN_DISPLAY_TIME				4.0
 #define ADDITIONAL_LINES_DISPLAY_TIME	0.5
 #define MAX_DISPLAY_TIME				10.0
-#define GrowlBubblesPadding				10.0f
+#define GrowlBubblesPadding				5.0f
 
 #pragma mark -
 
@@ -41,7 +41,8 @@ static unsigned bubbleWindowDepth = 0U;
 	// if moved on screen later. -Evan
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f ) 
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
-												  backing:NSBackingStoreBuffered defer:NO];
+												  backing:NSBackingStoreBuffered
+													defer:NO];
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
@@ -71,7 +72,7 @@ static unsigned bubbleWindowDepth = 0U;
 	
 	NSRect screen = [[self screen] visibleFrame];
 
-	[panel setFrameTopLeftPoint:NSMakePoint( NSMaxX( screen ) - NSWidth( panelFrame ) - GrowlBubblesPadding, 
+	[panel setFrameTopLeftPoint:NSMakePoint( NSMaxX( screen ) - NSWidth( panelFrame ) - GrowlBubblesPadding,
 											 NSMaxY( screen ) - GrowlBubblesPadding - bubbleWindowDepth )];
 
 	if ((self = [super initWithWindow:panel])) {
@@ -80,7 +81,7 @@ static unsigned bubbleWindowDepth = 0U;
 		if (NSMinY(panelFrame) < 0.0f) {
 			depth = bubbleWindowDepth = 0U;
 		} else {
-			depth = bubbleWindowDepth += NSHeight(panelFrame);
+			depth = bubbleWindowDepth += NSHeight(panelFrame) + GrowlBubblesPadding;
 		}
 		autoFadeOut = !sticky;
 

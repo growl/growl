@@ -230,7 +230,7 @@ static id singleton = nil;
 		return;
 	}
 
-	NSMutableDictionary *aDict = [[NSMutableDictionary alloc] initWithDictionary:dict];
+	NSMutableDictionary *aDict = [dict mutableCopy];
 
 	// Check icon
 	NSImage *icon = nil;

@@ -216,8 +216,8 @@ static float titleHeight;
 	if (!title || ![title length]) {
 		return 0.0f;
 	}
-	
-	if ( !titleHeight ) {
+
+	if (!titleHeight) {
 		NSLayoutManager *lm = [[NSLayoutManager alloc] init];
 		titleHeight = [lm defaultLineHeightForFont:[NSFont boldSystemFontOfSize:GrowlBrushedTitleFontSize]];
 		[lm release];
