@@ -5,12 +5,6 @@
 	};
 	objectVersion = 39;
 	objects = {
-		0700DF9A068B281B005C7E05 = {
-			fileRef = 07D0C5CE068A48340076D89A;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		07025A120680209A0059A4F9 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -258,6 +252,12 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
+		07D9872F07A5963400507393 = {
+			fileRef = 07D0C5CE068A48340076D89A;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //070
 //071
 //072
@@ -491,14 +491,14 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = ../..;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Beep-Carbon-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Static;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "-fconstant-cfstrings";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-lobjc";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "Beep-Carbon";
 				SECTORDER_FLAGS = "";
@@ -567,7 +567,7 @@
 			files = (
 				8D0C4E920486CD37000505A6,
 				072E52A2067C73D10087D469,
-				0700DF9A068B281B005C7E05,
+				07D9872F07A5963400507393,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
