@@ -225,7 +225,7 @@ static BOOL		growlLaunched = NO;
 		//Let's launch in the background (unfortunately, requires Carbon)
 		LSLaunchFSRefSpec spec;
 		FSRef appRef;
-		OSStatus status = FSPathMakeRef([growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
+		OSStatus status = FSPathMakeRef((UInt8 *)[growlHelperAppPath fileSystemRepresentation], &appRef, NULL);
 		if (status == noErr) {
 			FSRef regItemRef;
 			BOOL passRegDict = NO;
@@ -242,7 +242,7 @@ static BOOL		growlLaunched = NO;
 				regDictPath = [NSTemporaryDirectory() stringByAppendingPathComponent:regDictFileName];
 				[registrationDict writeToFile:regDictPath atomically:NO];
 				
-				regStatus = FSPathMakeRef([regDictPath fileSystemRepresentation], &regItemRef, NULL);
+				regStatus = FSPathMakeRef((UInt8 *)[regDictPath fileSystemRepresentation], &regItemRef, NULL);
 				if (regStatus == noErr) passRegDict = YES;
 			}
 
