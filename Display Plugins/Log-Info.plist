@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>Log</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.Growl.Log</string>
+	<string>com.Growl.LogPlugin</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -18,5 +18,7 @@
 	<string>1.0</string>
 	<key>CSResourcesFileMapped</key>
 	<string>yes</string>
+	<key>NSPrincipalClass</key>
+	<string>GrowlLogDisplay</string>
 </dict>
 </plist>

@@ -164,6 +164,90 @@
 //082
 //083
 //084
+//090
+//091
+//092
+//093
+//094
+		0978879A076EB85300071EB6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlLogPrefs.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0978879B076EB85300071EB6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlLogPrefs.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		097887A0076EB87700071EB6 = {
+			fileRef = 0978879B076EB85300071EB6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		097888C9076EC6DA00071EB6 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlLogDefines.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		097888CA076EC6DA00071EB6 = {
+			fileRef = 097888C9076EC6DA00071EB6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		097889E1076ED0BD00071EB6 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = PreferencePanes.framework;
+			path = /System/Library/Frameworks/PreferencePanes.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		097889E2076ED0BD00071EB6 = {
+			fileRef = 097889E1076ED0BD00071EB6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		097889E5076ED0E300071EB6 = {
+			children = (
+				097889E6076ED0E300071EB6,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlLogPrefs.nib;
+			path = "";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		097889E6076ED0E300071EB6 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = GrowlLogPrefs.nib;
+			path = "Display Plugins/Log/GrowlLogPrefs.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		097889E7076ED0E300071EB6 = {
+			fileRef = 097889E5076ED0E300071EB6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//090
+//091
+//092
+//093
+//094
 //0A0
 //0A1
 //0A2
@@ -915,6 +999,7 @@
 		0A7F5F530767C4F200E1C1E4 = {
 			buildActionMask = 2147483647;
 			files = (
+				097889E7076ED0E300071EB6,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -922,6 +1007,7 @@
 		0A7F5F540767C4F200E1C1E4 = {
 			buildActionMask = 2147483647;
 			files = (
+				097887A0076EB87700071EB6,
 				0A7F5F600767C56100E1C1E4,
 			);
 			isa = PBXSourcesBuildPhase;
@@ -932,6 +1018,7 @@
 			files = (
 				0A7F5F620767C58E00E1C1E4,
 				0A7F5F630767C59000E1C1E4,
+				097889E2076ED0BD00071EB6,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -986,8 +1073,12 @@
 		};
 		0A7F5F5C0767C56100E1C1E4 = {
 			children = (
+				097889E5076ED0E300071EB6,
+				097888C9076EC6DA00071EB6,
 				0A7F5F5D0767C56100E1C1E4,
 				0A7F5F5E0767C56100E1C1E4,
+				0978879A076EB85300071EB6,
+				0978879B076EB85300071EB6,
 			);
 			isa = PBXGroup;
 			name = Log;
@@ -1893,11 +1984,12 @@
 			children = (
 				0AEE179C0702C4960024B1A0,
 				95E678F307511471002BF4E6,
-				83282746073A6C110044A959,
 				83282741073A6BD70044A959,
 				089C1672FE841209C02AAC07,
 				089C167FFE841241C02AAC07,
 				0A7F5FD40767C77F00E1C1E4,
+				83282746073A6C110044A959,
+				097889E1076ED0BD00071EB6,
 			);
 			isa = PBXGroup;
 			name = "Other Frameworks";
@@ -2319,6 +2411,7 @@
 				959FAF520738BAD500040AA9,
 				95BF837C0743675700306A77,
 				CB910DA7074E0A3A00278FC5,
+				097888CA076EC6DA00071EB6,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <GrowlDefines.h>
 #import <GrowlDisplayProtocol.h>
+#import "GrowlDefines.h"
 
+@class GrowlLogPrefs;
 
 @interface GrowlLogDisplay : NSObject <GrowlDisplayPlugin> {
-
+	GrowlLogPrefs *logPrefPane;
 }
 
 @end
