@@ -35,6 +35,7 @@
                 growlVersion = NSTextField; 
                 growlVersionProgress = NSProgressIndicator; 
                 networkPassword = NSSecureTextField; 
+                notificationPriorityMenu = NSMenu; 
                 remove = NSButton; 
                 revert = NSButton; 
                 startGrowlAtLogin = NSButton; 

@@ -44,8 +44,8 @@
 	IBOutlet NSTableView	*applicationNotifications;
 	IBOutlet NSTableView	*growlApplications;
 	NSMenu					*applicationDisplayPluginsMenu;
-	NSMenu					*notificationPriorityMenu;
-	
+	IBOutlet NSMenu			*notificationPriorityMenu;
+
 	//"Display Options" tab pane
 	IBOutlet NSTableView	*displayPlugins;
 	IBOutlet NSView			*displayPrefView;

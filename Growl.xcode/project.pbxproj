@@ -229,11 +229,11 @@
 		};
 		089C167CFE841241C02AAC07 = {
 			children = (
+				9532B0B907CE651F0028B2F1,
 				959FAF510738BAD500040AA9,
 				8D202CF70486D31800D8A456,
 				089C167DFE841241C02AAC07,
 				F506C040013D9D8001CA16C8,
-				F506C042013D9D8C01CA16C8,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -3141,7 +3141,6 @@
 			files = (
 				0AAFB91706D2A0E000BA1A13,
 				8D202CED0486D31800D8A456,
-				8D202CEF0486D31800D8A456,
 				CB5FA1BD0638CA2C00EADD7A,
 				959FAF520738BAD500040AA9,
 				95BF837C0743675700306A77,
@@ -3149,18 +3148,13 @@
 				097888CA076EC6DA00071EB6,
 				34E9DC17078FBF1B00662E8E,
 				3494427507BAF6C4000F2A03,
+				9532B0F807CE651F0028B2F1,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8D202CED0486D31800D8A456 = {
 			fileRef = 089C167DFE841241C02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		8D202CEF0486D31800D8A456 = {
-			fileRef = F506C042013D9D8C01CA16C8;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3258,14 +3252,6 @@
 //952
 //953
 //954
-		950B97680737C44B00F76F16 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = GrowlPref.nib;
-			path = Resources/German.lproj/GrowlPref.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		950D794C07901E93001E71B2 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
@@ -3312,6 +3298,39 @@
 			lastKnownFileType = wrapper.nib;
 			name = German;
 			path = Resources/German.lproj/GrowlInstallationPrompt.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9532B0B907CE651F0028B2F1 = {
+			children = (
+				9532B0CE07CE651F0028B2F1,
+				9532B10307CE65310028B2F1,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlPref.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9532B0CE07CE651F0028B2F1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = Resources/English.lproj/GrowlPref.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9532B0F807CE651F0028B2F1 = {
+			fileRef = 9532B0B907CE651F0028B2F1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9532B10307CE65310028B2F1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = Resources/German.lproj/GrowlPref.nib;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -4200,25 +4219,6 @@
 			lastKnownFileType = image.tiff;
 			name = GrowlPref.tiff;
 			path = Resources/GrowlPref.tiff;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		F506C042013D9D8C01CA16C8 = {
-			children = (
-				F506C043013D9D8C01CA16C8,
-				950B97680737C44B00F76F16,
-			);
-			isa = PBXVariantGroup;
-			name = GrowlPref.nib;
-			path = "";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		F506C043013D9D8C01CA16C8 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = GrowlPref.nib;
-			path = Resources/English.lproj/GrowlPref.nib;
 			refType = 4;
 			sourceTree = "<group>";
 		};

@@ -288,19 +288,6 @@ static const char *keychainAccountName = "Growl";
 	}
 	
 	[[[growlApplications tableColumnWithIdentifier:@"display"] dataCell] setMenu:applicationDisplayPluginsMenu];
-
-	if (notificationPriorityMenu) {
-		[notificationPriorityMenu release];
-	}
-	
-	notificationPriorityMenu = [[NSMenu alloc] initWithTitle:@"Priority"];
-	[notificationPriorityMenu addItemWithTitle:@"Default" action:nil keyEquivalent:@""];
-	[notificationPriorityMenu addItem:[NSMenuItem separatorItem]];
-	[notificationPriorityMenu addItemWithTitle:@"Very Low" action:nil keyEquivalent:@""];
-	[notificationPriorityMenu addItemWithTitle:@"Moderate" action:nil keyEquivalent:@""];
-	[notificationPriorityMenu addItemWithTitle:@"Normal" action:nil keyEquivalent:@""];
-	[notificationPriorityMenu addItemWithTitle:@"High" action:nil keyEquivalent:@""];
-	[notificationPriorityMenu addItemWithTitle:@"Emergency" action:nil keyEquivalent:@""];
 	[[[applicationNotifications tableColumnWithIdentifier:@"priority"] dataCell] setMenu:notificationPriorityMenu];
 }
 
