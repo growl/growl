@@ -44,5 +44,7 @@ echo defaults write com.apple.mail BundleCompatibilityVersion -int 1
 defaults write com.apple.mail BundleCompatibilityVersion -int 1
 
 echo "$0: Relaunching Mail if necessary (if Mail is not already running, this will do nothing)
-echo (killall -s Mail 2>/dev/null) && (osascript -l AppleScript -e 'quit application "Mail"') && open -a Mail
-(killall -s Mail 2>/dev/null) && (osascript -l AppleScript -e 'quit application "Mail"') && open -a Mail
+if killall -s Mail 2>/dev/null; then
+	echo (osascript -l AppleScript -e 'quit application "Mail"') && open -a Mail
+	(osascript -l AppleScript -e 'quit application "Mail"') && open -a Mail
+fi
