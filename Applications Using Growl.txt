@@ -1,6 +1,7 @@
 Apps that support Growl!, in alphabetical order:
 
 Adium (http://www.adiumx.com/)
+aMSN (http://amsn.sourceforge.net/) (Next Version)
 Beep-Carbon (Growl Example)
 Beep-Cocoa (Growl Example)
 DriveGauge (first commercial app to support Growl) (http://www.infinitenexus.com/dg/) (Next version will have this)
