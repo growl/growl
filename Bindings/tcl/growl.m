@@ -85,7 +85,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 		++objv, --objc;
 
 		iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
-		notificationIcon = [[[NSImage alloc] initWithContentsOfFile:iconFile] autorelease];
+		notificationIcon = [[NSImage alloc] initWithContentsOfFile:iconFile];
 		++objv, --objc;
 
 		notificationName = GROWL_APP_REGISTRATION;
@@ -111,7 +111,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 
 		if (objc) {
 			iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
-			notificationIcon = [[[NSImage alloc] initWithContentsOfFile:iconFile] autorelease];
+			notificationIcon = [[NSImage alloc] initWithContentsOfFile:iconFile];
 			++objv, --objc;
 		}
 
@@ -130,6 +130,7 @@ int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST
 
 	[distCenter postNotificationName:notificationName object:nil userInfo:userInfo];
 
+	[notificationIcon release];
 	[pool release];
 	return TCL_OK;
 }
