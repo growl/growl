@@ -60,6 +60,7 @@
 		[paragraphStyle release];
 		[textShadow release];
 
+		cache = [[NSImage alloc] initWithSize:frame.size];
 		needsDisplay = YES;
 	}
 
@@ -73,71 +74,90 @@
 	[icon            release];
 	[title           release];
 	[text            release];
+	[cache release];
 
 	[super dealloc];
 }
 
 - (void) drawRect:(NSRect)rect {
-	NSRect bounds = [self bounds];
+	if(needsDisplay) {
+		//draw to cache
+		[cache lockFocus];
 
-	[backgroundColor set];
-	NSRectFill(bounds);
+		NSRect bounds = [self bounds];
 
-	// rects and sizes
-	int sizePref = 0;
-	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
-	NSRect titleRect, textRect;
-	int maxRows;
-	NSPoint iconSourcePoint;
-	NSRect iconRect;
-	NSSize iconSize = [icon size];
+		[backgroundColor set];
+		NSRectFill(bounds);
 
-	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-		titleRect.origin.x = 192.0f;
-		titleRect.origin.y = NSHeight(bounds) - 72.0f;
-		titleRect.size.width = NSWidth(bounds) - 192.0f - 32.0f;
-		titleRect.size.height = 40.0f;
-		textRect.origin.y = NSHeight(bounds) - 176.0f;
-		textRect.size.height = 96.0f;
-		maxRows = 4;
-		iconRect.size.width = 128.0f;
-		iconRect.size.height = 128.0f;
-		iconSourcePoint.x = 32.0f;
-		iconSourcePoint.y = NSHeight(bounds) - 160.0f;
-	} else {
-		titleRect.origin.x = 96.0f;
-		titleRect.origin.y = NSHeight(bounds) - 36.0f;
-		titleRect.size.width = NSWidth(bounds) - 96.0f - 16.0f;
-		titleRect.size.height = 25.0f;
-		textRect.origin.y = NSHeight(bounds) - 88.0f,
-		textRect.size.height = 48.0f;
-		maxRows = 3;
-		iconRect.size.width = 80.0f;
-		iconRect.size.height = 80.0f;
-		iconSourcePoint.x = 8.0f;
-		iconSourcePoint.y = NSHeight(bounds) - 88.0f;
+		// rects and sizes
+		int sizePref = 0;
+		READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
+		NSRect titleRect, textRect;
+		int maxRows;
+		NSPoint iconSourcePoint;
+		NSRect iconRect;
+		NSSize iconSize = [icon size];
+
+		if (sizePref == MUSICVIDEO_SIZE_HUGE) {
+			titleRect.origin.x = 192.0f;
+			titleRect.origin.y = NSHeight(bounds) - 72.0f;
+			titleRect.size.width = NSWidth(bounds) - 192.0f - 32.0f;
+			titleRect.size.height = 40.0f;
+			textRect.origin.y = NSHeight(bounds) - 176.0f;
+			textRect.size.height = 96.0f;
+			maxRows = 4;
+			iconRect.size.width = 128.0f;
+			iconRect.size.height = 128.0f;
+			iconSourcePoint.x = 32.0f;
+			iconSourcePoint.y = NSHeight(bounds) - 160.0f;
+		} else {
+			titleRect.origin.x = 96.0f;
+			titleRect.origin.y = NSHeight(bounds) - 36.0f;
+			titleRect.size.width = NSWidth(bounds) - 96.0f - 16.0f;
+			titleRect.size.height = 25.0f;
+			textRect.origin.y = NSHeight(bounds) - 88.0f,
+			textRect.size.height = 48.0f;
+			maxRows = 3;
+			iconRect.size.width = 80.0f;
+			iconRect.size.height = 80.0f;
+			iconSourcePoint.x = 8.0f;
+			iconSourcePoint.y = NSHeight(bounds) - 88.0f;
+		}
+		textRect.origin.x = titleRect.origin.x;
+		textRect.size.width = titleRect.size.width;
+
+		iconSize = [icon adjustSizeToDrawAtSize:iconRect.size];	
+
+		if (iconSize.width < iconRect.size.width) {
+			iconRect.origin.x = iconSourcePoint.x + ceilf( (iconRect.size.width - iconSize.width) * 0.5f );
+		} else {
+			iconRect.origin.x = iconSourcePoint.x;
+		}
+		if (iconSize.height < iconRect.size.height) {
+			iconRect.origin.y = iconSourcePoint.y + ceilf( (iconRect.size.height - iconSize.height) * 0.5f );
+		} else {
+			iconRect.origin.y = iconSourcePoint.y;
+		}
+
+		[title drawInRect:titleRect withAttributes:titleAttributes];
+
+		[text drawInRect:textRect withAttributes:textAttributes];
+
+		[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
+
+		[cache unlockFocus];
+		needsDisplay = NO;
 	}
-	textRect.origin.x = titleRect.origin.x;
-	textRect.size.width = titleRect.size.width;
 
-	iconSize = [icon adjustSizeToDrawAtSize:iconRect.size];	
-
-	if (iconSize.width < iconRect.size.width) {
-		iconRect.origin.x = iconSourcePoint.x + ceilf( (iconRect.size.width - iconSize.width) * 0.5f );
-	} else {
-		iconRect.origin.x = iconSourcePoint.x;
-	}
-	if (iconSize.height < iconRect.size.height) {
-		iconRect.origin.y = iconSourcePoint.y + ceilf( (iconRect.size.height - iconSize.height) * 0.5f );
-	} else {
-		iconRect.origin.y = iconSourcePoint.y;
-	}
-
-	[title drawInRect:titleRect withAttributes:titleAttributes];
-
-	[text drawInRect:textRect withAttributes:textAttributes];
-
-	[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
+	//draw cache to screen
+	NSRect imageRect = rect;
+	int effect = MUSICVIDEO_EFFECT_SLIDE;
+	READ_GROWL_PREF_BOOL(MUSICVIDEO_EFFECT_PREF, MusicVideoPrefDomain, &effect);
+	if(effect == MUSICVIDEO_EFFECT_SLIDE)
+		/*do nothing*/;
+	else if(effect == MUSICVIDEO_EFFECT_WIPE)
+		imageRect.origin.y = 0.0f;
+	[cache drawInRect:rect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0f];
 }
 
 - (void) setIcon:(NSImage *)anIcon {
@@ -179,14 +199,7 @@
 #pragma mark -
 
 - (BOOL)needsDisplay {
-	return needsDisplay;
-}
-
-- (void)displayIfNeeded {
-	if (needsDisplay) {
-		[super displayIfNeeded];
-		needsDisplay = NO;
-	}
+	return [super needsDisplay] && needsDisplay;
 }
 
 #pragma mark -

@@ -22,6 +22,10 @@
 #define MUSICVIDEO_SIZE_NORMAL			0
 #define MUSICVIDEO_SIZE_HUGE			1
 
+#define MUSICVIDEO_EFFECT_PREF			@"Transition effect"
+#define MUSICVIDEO_EFFECT_SLIDE			0
+#define MUSICVIDEO_EFFECT_WIPE			1
+
 @interface GrowlMusicVideoPrefs : NSPreferencePane {
 	IBOutlet NSMatrix		*radio_Size;
 	IBOutlet NSSlider		*slider_Opacity;
@@ -32,6 +36,6 @@
 }
 
 - (IBAction) preferenceChanged:(id)sender;
-- (IBAction) setScreen:(id)sender;
+- (IBAction) takeScreenAsIntValueFrom:(id)sender;
 
 @end

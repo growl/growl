@@ -71,7 +71,7 @@
 	return [NSNumber numberWithInt:idx];
 }
 
-- (IBAction) setScreen:(id)sender {
+- (IBAction) takeScreenAsIntValueFrom:(id)sender {
 	int pref = [sender intValue];
 	WRITE_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, pref, MusicVideoPrefDomain);	
 	UPDATE_GROWL_PREFS();

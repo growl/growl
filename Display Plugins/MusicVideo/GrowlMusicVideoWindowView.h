@@ -15,9 +15,11 @@
 	NSDictionary		*textAttributes;
 	NSDictionary		*titleAttributes;
 	NSColor				*backgroundColor;
-	SEL					action;
-	id					target;
-	BOOL				needsDisplay;
+	SEL					 action;
+	id					 target;
+
+	NSImage				*cache;
+	BOOL				 needsDisplay;
 }
 
 - (void) setIcon:(NSImage *)icon;

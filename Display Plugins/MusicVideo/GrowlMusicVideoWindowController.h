@@ -21,4 +21,5 @@
 
 - (int) priority;
 - (void) setPriority:(int)newPriority;
+
 @end

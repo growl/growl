@@ -60,7 +60,11 @@
 
 	[view setTarget:self];
 	[view setAction:@selector(_notificationClicked:)]; // Not used for now
-	[panel setContentView:view];
+
+	[view setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
+	NSView *contentView = [[[NSView alloc] initWithFrame:panelFrame] autorelease];
+	[contentView addSubview:view];
+	[panel setContentView:contentView];
 
 	[view setTitle:title];
 	// Sanity check to unify line endings
