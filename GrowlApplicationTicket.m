@@ -91,6 +91,11 @@
 		[self setAllowedNotifications:[ticketsList objectForKey:GROWL_NOTIFICATIONS_USER_SET]];
 		_icon = [[[NSWorkspace sharedWorkspace] iconForApplication:_appName] retain];
 		_useDefaults = [[ticketsList objectForKey:@"useDefaults"] boolValue];
+		if([ticketsList objectForKey:@"enableTicket"]) {
+			ticketEnabled = [[ticketsList objectForKey:@"enableTicket"] boolValue];
+		} else {
+			ticketEnabled = YES;
+		}
 	}
 	
 	return self;
@@ -119,6 +124,7 @@
 		_defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		_allowedNotifications, GROWL_NOTIFICATIONS_USER_SET,
 		[NSNumber numberWithBool:_useDefaults], @"useDefaults",
+		[NSNumber numberWithBool:ticketEnabled], @"ticketEnabled",
 		nil];
 	
 //	NSString *aString = [saveDict description];
@@ -150,6 +156,14 @@
 }
 
 #pragma mark -
+
+- (BOOL)ticketEnabled {
+	return ticketEnabled;
+}
+
+- (void)setEnabled:(BOOL)inEnabled {
+	ticketEnabled = inEnabled;
+}
 
 - (NSArray *) allNotifications {
 	return [[_allNotifications retain] autorelease];
@@ -207,7 +221,7 @@
 }
 
 - (BOOL) isNotificationAllowed:(NSString *) name {
-	return [_allowedNotifications containsObject:name];
+	return ticketEnabled && [_allowedNotifications containsObject:name];
 }
 @end
 

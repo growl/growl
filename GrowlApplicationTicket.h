@@ -17,6 +17,7 @@
 	NSMutableArray	*_allowedNotifications;		// The allowed notifications
 	
 	BOOL			_useDefaults;				// Flag for whether this ticket just uses default
+	BOOL			ticketEnabled;
 }
 
 + (NSDictionary *)allSavedTickets;
@@ -39,6 +40,9 @@
 - (NSString *) applicationName;
 
 #pragma mark -
+
+- (BOOL)ticketEnabled;
+- (void)setEnabled:(BOOL)inEnabled;
 
 - (NSArray *) allNotifications;
 - (void) setAllNotifications:(NSArray *) inArray;
