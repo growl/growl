@@ -3,41 +3,40 @@
 #import "GrowlDefines.h"
 #import "GrowlBubblesDefines.h"
 
-
-void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outData) {
-
+static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outData )
+{
 	//	Original Colors
 	//	static float dark[4] = { .69412, .83147, .96078, .95 };
 	//	static float light[4] = { .93725, .96863, .99216, .95 };
-
 	
-	NSArray *array;	
+	NSArray *array;
 	NSColor *_bgColor;
 	READ_GROWL_PREF_VALUE(GrowlBubblesVeryLowColor, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
 	if (array) {
 		_bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
 										  green:[[array objectAtIndex:1] floatValue]
 										   blue:[[array objectAtIndex:2] floatValue]
-										  alpha:.95];
+										  alpha:.95f];
 		[array release];
 		array = nil;
 	}
 
-	static float darkRed, darkGreen, darkBlue, darkAlpha;
+	float darkRed, darkGreen, darkBlue, darkAlpha;
 	[_bgColor getRed:&darkRed
 			green:&darkGreen
 			blue:&darkBlue
 			alpha:&darkAlpha];
 
 // 	NSLog(@"woo hoo red: %f green: %f blue: %f alpha: %f", darkRed, darkGreen, darkBlue, darkAlpha);
-	float dark[4] = { darkRed, darkGreen, darkBlue, darkAlpha };
-	static float light[4] = { .93725, .96863, .99216, .95 };
+	static const float light[4] = { .93725f, .96863f, .99216f, .95f };
 	
-	register float a = inData[0], a_coeff = 1.0f - a;
-	register int i = 0;
+	register float a = inData[0];
+	register float a_coeff = 1.0f - a;
 
-	for( i = 0; i < 4; i++ )
-		outData[i] = a_coeff * dark[i] + a * light[i];
+	outData[0] = a_coeff * darkRed   + a * light[0];
+	outData[1] = a_coeff * darkGreen + a * light[1];
+	outData[2] = a_coeff * darkBlue  + a * light[2];
+	outData[3] = a_coeff * darkAlpha + a * light[3];
 }
 
 #pragma mark -
@@ -74,11 +73,10 @@ void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outDa
 	static NSColor *_bgColorDeux;
 //	*_bgColorDeux = *_bgColor;
 	static float darkRed, darkGreen, darkBlue, darkAlpha;
-//	_bgColorDeus = [NSColor colorWithCalibratedRed:.69412
-//										  green:.83147
-//										   blue:.96078
-//										  alpha:.95];
-	
+//	_bgColorDeus = [NSColor colorWithCalibratedRed:.69412f
+//										  green:.83147f
+//										   blue:.96078f
+//										  alpha:.95f];
 	
 	[_bgColorDeux getRed:&darkRed
 					green:&darkGreen
@@ -86,43 +84,41 @@ void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outDa
 					alpha:&darkAlpha];
 	NSLog(@" hmmm red: %f green: %f blue: %f alpha %f", darkRed, darkGreen, darkBlue, darkAlpha);
 	
-	
-	
 	NSRect bounds = [self bounds];
 
 	[[NSColor clearColor] set];
 	NSRectFill( [self frame] );
 
-	float lineWidth = 4.;
+	float lineWidth = 4.f;
 	NSBezierPath *path = [NSBezierPath bezierPath];
 	[path setLineWidth:lineWidth];
 
-	float radius = 9.;
+	float radius = 9.f;
+	float minX = NSMinX( irect );
+	float minY = NSMinY( irect );
+	float maxX = NSMaxX( irect );
+	float maxY = NSMaxY( irect );
 	NSRect irect = NSInsetRect( bounds, radius + lineWidth, radius + lineWidth );
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMinX( irect ), 
-														 NSMinY( irect ) ) 
+	[path appendBezierPathWithArcWithCenter:NSMakePoint( minX, minY )
 									 radius:radius 
-								 startAngle:180. 
-								   endAngle:270.];
+								 startAngle:180.f
+								   endAngle:270.f];
 	
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMaxX( irect ), 
-														 NSMinY( irect ) ) 
+	[path appendBezierPathWithArcWithCenter:NSMakePoint( maxX, minY ) 
 									 radius:radius 
-								 startAngle:270. 
-								   endAngle:360.];
+								 startAngle:270.f
+								   endAngle:360.f];
 	
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMaxX( irect ), 
-														 NSMaxY( irect ) ) 
+	[path appendBezierPathWithArcWithCenter:NSMakePoint( maxX, maxY )
 									 radius:radius 
-								 startAngle:0. 
-								   endAngle:90.];
+								 startAngle:0.f
+								   endAngle:90.f];
 	
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( NSMinX( irect ), 
-														 NSMaxY( irect ) ) 
+	[path appendBezierPathWithArcWithCenter:NSMakePoint( minX, maxY )
 									 radius:radius 
-								 startAngle:90. 
-								   endAngle:180.];
-	
+								 startAngle:90.f
+								   endAngle:180.f];
+
 	[path closePath];
 
 	[[NSGraphicsContext currentContext] saveGraphicsState];
@@ -150,52 +146,51 @@ void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outDa
 
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 
-	[[NSColor colorWithCalibratedRed:0. green:0. blue:0. alpha:.5] set];
+	[[NSColor colorWithCalibratedRed:0.f green:0.f blue:0.f alpha:.5f] set];
 	[path stroke];
 
 	// Top of the drawing area. The eye candy takes up 10 pixels on 
 	// the top, so we've reserved some space for it.
 	int heightOffset = [self frame].size.height - 10;
 
-	[_title drawAtPoint:NSMakePoint( 55., heightOffset - 15. ) withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:13.], NSFontAttributeName, [NSColor controlTextColor], NSForegroundColorAttributeName, nil]];
-	[_text drawInRect:NSMakeRect( 55., 10., 200., heightOffset - 25. )];
+	[_title drawAtPoint:NSMakePoint( 55.f, heightOffset - 15.f ) withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:13.], NSFontAttributeName, [NSColor controlTextColor], NSForegroundColorAttributeName, nil]];
+	[_text drawInRect:NSMakeRect( 55.f, 10.f, 200.f, heightOffset - 25.f )];
 
 	NSSize iconSize = [_icon size];
-	if( iconSize.width > 32. || iconSize.height > 32. ) {
+	if( iconSize.width > 32.f || iconSize.height > 32.f ) {
 
 		// scale the image appropriately
 		float newWidth, newHeight, newX, newY;
 		if( iconSize.width > iconSize.height ) {
-			newWidth = 32.;
-			newHeight = 32. / iconSize.width * iconSize.height;
+			newWidth = 32.f;
+			newHeight = 32.f / iconSize.width * iconSize.height;
 		} else if( iconSize.width < iconSize.height ) {
-			newWidth = 32. / iconSize.height * iconSize.width;
-			newHeight = 32.;
+			newWidth = 32.f / iconSize.height * iconSize.width;
+			newHeight = 32.f;
 		} else {
-			newWidth = 32.;
-			newHeight = 32.;
+			newWidth = 32.f;
+			newHeight = 32.f;
 		}
 		
-		newX = floorf((32 - newWidth) / 2.);
-		newY = floorf((32 - newHeight) / 2.);
+		newX = floorf((32 - newWidth) * 0.5f);
+		newY = floorf((32 - newHeight) * 0.5f);
 		
 		NSRect newBounds = { { newX, newY }, { newWidth, newHeight } };
 		NSImageRep *sourceImageRep = [_icon bestRepresentationForDevice:nil];
 		[_icon autorelease];
-		_icon = [[NSImage alloc] initWithSize:NSMakeSize(32., 32.)];
+		_icon = [[NSImage alloc] initWithSize:NSMakeSize(32.f, 32.f)];
 		[_icon lockFocus];
 		[[NSGraphicsContext currentContext] setImageInterpolation: NSImageInterpolationHigh];
 		[sourceImageRep drawInRect:newBounds];
 		[_icon unlockFocus];
 	}
 
-	[_icon compositeToPoint:NSMakePoint( 15., heightOffset - 35. ) operation:NSCompositeSourceAtop fraction:1.];
+	[_icon compositeToPoint:NSMakePoint( 15.f, heightOffset - 35.f ) operation:NSCompositeSourceAtop fraction:1.];
 
 	[[self window] invalidateShadow];
 }
 
 #pragma mark -
-
 
 - (void)setPriority:(int)priority {
     NSString* key;
@@ -222,23 +217,22 @@ void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outDa
 //	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
 //	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
 
-	_bgColor = [NSColor colorWithCalibratedRed:.69412
-									  green:.83147
-									   blue:.96078
-									  alpha:.95];
+	_bgColor = [NSColor colorWithCalibratedRed:.69412f
+									  green:.83147f
+									   blue:.96078f
+									  alpha:.95f];
 
 	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, CFArrayRef, (CFArrayRef*)&array);
     if (array && [array isKindOfClass:[NSArray class]]) {
         _bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
                                              green:[[array objectAtIndex:1] floatValue]
                                               blue:[[array objectAtIndex:2] floatValue]
-                                             alpha:.95];
+                                             alpha:.95f];
         [array release];
     }
     [_bgColor retain];
     
 }
-
 
 - (void) setIcon:(NSImage *) icon {
 	[_icon autorelease];
@@ -276,11 +270,10 @@ void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outDa
 
 - (float) descriptionHeight {
 	
-	if (_textHeight == 0)
-	{
+	if (_textHeight == 0) {
 		NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:_text];
 		NSTextContainer* textContainer = [[[NSTextContainer alloc]
-			initWithContainerSize:NSMakeSize ( 200., FLT_MAX )] autorelease];
+			initWithContainerSize:NSMakeSize ( 200.f, FLT_MAX )] autorelease];
 		NSLayoutManager* layoutManager = [[[NSLayoutManager alloc] init] autorelease];
 
 		[layoutManager addTextContainer:textContainer];
@@ -307,10 +300,11 @@ void GrowlBubblesShadeInterpolate( void *info, float const *inData, float *outDa
 	float lineHeight = [_text size].height;
 	BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(KALimitPref, @"com.growl.BubblesNotificationView", &limitPref);
-	if (limitPref)
+	if (limitPref) {
 		return MIN((int) (height / lineHeight), 5);
-	else
+	} else {
 		return (int) (height / lineHeight);
+	}
 }
 
 #pragma mark -
