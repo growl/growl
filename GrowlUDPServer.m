@@ -20,7 +20,7 @@
 	struct sockaddr_in addr;
 	NSData *addrData;
 	
-	if( (self = [super init]) ) {
+	if ( (self = [super init]) ) {
 		addr.sin_addr.s_addr = INADDR_ANY;
 		addr.sin_port = htons( GROWL_UDP_PORT );
 		addr.sin_family = AF_INET;
@@ -38,7 +38,7 @@
 												   object:fh];
 	}
 	
-	return( self );
+	return self;
 }
 
 - (void) dealloc {
@@ -67,12 +67,15 @@
 	if ( ![error intValue] ) {
 		NSData *data = (NSData *)[userInfo objectForKey:@"NSFileHandleNotificationDataItem"];
 		length = [data length];
+		
 		if ( length >= sizeof(struct GrowlNetworkPacket) ) {
 			struct GrowlNetworkPacket *packet = (struct GrowlNetworkPacket *)[data bytes];
+			
 			switch( packet->type ) {
 				case GROWL_TYPE_REGISTRATION:
 					if ( length >= sizeof(struct GrowlNetworkRegistration) ) {
 						BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
+						
 						if ( enabled ) {
 							struct GrowlNetworkRegistration *nr = (struct GrowlNetworkRegistration *)packet;
 							// TODO
@@ -99,7 +102,7 @@
 						iconLen = ntohl( nn->iconLen );
 						// TODO: icon
 
-						if( length >= sizeof(struct GrowlNetworkNotification) + notificationNameLen
+						if ( length >= sizeof(struct GrowlNetworkNotification) + notificationNameLen
 								+ titleLen + descriptionLen + applicationNameLen ) {
 							NSDictionary *notificationInfo;
 							notificationInfo = [NSDictionary dictionaryWithObjectsAndKeys:
