@@ -19,6 +19,7 @@
 - (void) awakeFromNib
 {
 	voices = [[NSSpeechSynthesizer availableVoices] retain];
+	[voiceList reloadData];
 }
 
 - (void) dealloc
