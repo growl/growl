@@ -64,6 +64,7 @@
 		[self setAllowedNotifications:inDefaults];
 		
 		_useDefaults = YES;
+		ticketEnabled = YES;
 	}
 	return self;
 }
