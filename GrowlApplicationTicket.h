@@ -43,7 +43,7 @@ typedef enum GrowlPriority {
 - (void) resetPriority;
 
 - (BOOL) enabled;
-- (void) setEnabled:(BOOL)yorn;
+- (void) setEnabled:(BOOL)flag;
 - (void) enable;
 - (void) disable;
 
