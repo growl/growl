@@ -130,6 +130,7 @@
 		};
 		1058C7A2FEA54F0111CA2CBB = {
 			children = (
+				DDF435B607D79DC6008CC992,
 				29B97325FDCFA39411CA2CEA,
 				29B97324FDCFA39411CA2CEA,
 			);
@@ -190,6 +191,7 @@
 				29B97323FDCFA39411CA2CEA,
 				19C28FACFE9D520D11CA2CBB,
 			);
+			comments = "To get the DOM framework visit:\nhttp://sourceforge.net/projects/iconaradom";
 			isa = PBXGroup;
 			name = TestHarness;
 			path = "";
@@ -336,10 +338,12 @@
 				8D1107290486CEB800E47090,
 				8D11072C0486CEB800E47090,
 				8D11072E0486CEB800E47090,
+				DDF435B807D79E05008CC992,
 			);
 			buildRules = (
 			);
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = /Users/diggory/Code/OpenSource/growl/Extras/GrowlTunes;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = TestHarness_Prefix.pch;
@@ -402,6 +406,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090,
+				DDF435B707D79DC6008CC992,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,6 +432,47 @@
 			path = "GrowlTunes Test Harness.app";
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+//DD0
+//DD1
+//DD2
+//DD3
+//DD4
+		DDF435B607D79DC6008CC992 = {
+			comments = "http://sourceforge.net/projects/iconaradom";
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = DOM.framework;
+			path = ../../DOM.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DDF435B707D79DC6008CC992 = {
+			fileRef = DDF435B607D79DC6008CC992;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDF435B807D79E05008CC992 = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DDF435B907D79E14008CC992,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDF435B907D79E14008CC992 = {
+			fileRef = DDF435B607D79DC6008CC992;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = 29B97313FDCFA39411CA2CEA;

@@ -38,6 +38,7 @@
 - (void) loadPluginsAtPath:(NSString *)dir {
 	BOOL isDir;
 	if ([[NSFileManager defaultManager] fileExistsAtPath:dir isDirectory:&isDir] && isDir) {
+		NSLog(@"Using plugins from: %@", dir);
 		NSMutableArray *array = [[self plugins] mutableCopy];
 		NSArray *pluginsArray = [[NSFileManager defaultManager] directoryContentsAtPath:dir];
 		NSEnumerator *e = [pluginsArray objectEnumerator];
