@@ -29,7 +29,6 @@
 //
 
 #import "GrowlTunesController.h"
-#import "GrowlDefines.h"
 #import <Growl/Growl.h>
 #import "NSGrowlAdditions.h"
 
@@ -548,8 +547,7 @@ enum {
 			[statusItem setMenu:[self statusItemMenu]];
 			[statusItem setHighlightMode:YES];
 			[statusItem setImage:[NSImage imageNamed:@"growlTunes.tif"]];
-			
-			if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_2)  {
+			if(floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_2)  {
 				[statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.tif"]];
 			}
 			[statusItem setToolTip:NSLocalizedString(@"Status item tooltip", /*comment*/ nil)];
@@ -852,10 +850,11 @@ int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2,
 
 @implementation NSObject(GrowlTunesDummyPlugin)
 
-- (NSImage *) artworkForTitle:(NSString *)track
-					 byArtist:(NSString *)artist
-					  onAlbum:(NSString *)album
-				isCompilation:(BOOL)compilation {
+- (NSImage *)artworkForTitle:(NSString *)track
+					byArtist:(NSString *)artist
+					 onAlbum:(NSString *)album
+			   isCompilation:(BOOL)compilation
+{
 	NSLog(@"Dummy plug-in %p called for artwork", self);
 	return nil;
 }
