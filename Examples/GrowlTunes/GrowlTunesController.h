@@ -33,6 +33,7 @@ typedef enum {
 	int					  trackID;		//The "database ID" of the last-polled track in iTunes, -1 for none
 }
 
+- (BOOL)iTunesIsRunning;
 - (void)registerGrowl:(void *)context;
 - (void)poll: (NSTimer *)timer;
 

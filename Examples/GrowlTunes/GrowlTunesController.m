@@ -65,70 +65,72 @@ static NSString *gAppName = @"GrowlTunes";
 
 - (void)poll: (NSTimer *)timer
 {
-	NSDictionary			* error;
-	NSAppleEventDescriptor  * retVal;
-	NSString				* playerState;
-	iTunesState				newState;
-	int						newTrackID = -1;
-	
-	retVal = [pollScript executeAndReturnError:&error];
-	
-	playerState = [retVal stringValue];
+	if([self iTunesIsRunning]) {
+		NSDictionary			* error;
+		NSAppleEventDescriptor  * retVal;
+		NSString				* playerState;
+		iTunesState				newState;
+		int						newTrackID = -1;
+		
+		retVal = [pollScript executeAndReturnError:&error];
+		
+		playerState = [retVal stringValue];
 
-	if([playerState isEqualToString:@"paused"]) {
-		newState = itPAUSED;
-	} else if([playerState isEqualToString:@"stopped"]) {
-		newState = itSTOPPED;
-	} else {
-		newState = itPLAYING;
-		newTrackID = [retVal int32Value];
-	}
-	
-	if(state == itUNKNOWN) {
-		state = newState;
-		trackID = newTrackID;
-		return;
-	}
-	
-	if(state != newState || trackID != newTrackID) {
-		if(newState == itPLAYING) {
-			if(state == itPLAYING || state == itSTOPPED) {
-				NSString		* track = nil;
-				NSString		* artist = nil;
-				NSString		* album = nil;
-				NSImage			* artwork = nil;
-				NSDictionary	* noteDict;
-				
-				retVal = [getTrackScript executeAndReturnError:&error];
-				if(retVal)
-					track = [retVal stringValue];
-				
-				retVal = [getArtistScript executeAndReturnError:&error];
-				if(retVal)
-					artist = [retVal stringValue];
-				
-				retVal = [getAlbumScript executeAndReturnError:&error];
-				if(retVal)
-					album = [retVal stringValue];
-				
-				retVal = [getArtworkScript executeAndReturnError:&error];
-				if(retVal)
-					artwork = [[[NSImage alloc] initWithData:[retVal data]] autorelease];
-				else
-					NSLog(@"Error getting artwork: %@",[error objectForKey:NSAppleScriptErrorMessage]);
-				
-				noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
-									gAppName, GROWL_APP_NAME,
-									track, GROWL_NOTIFICATION_TITLE,
-									[NSString stringWithFormat:@"%@ \n%@",artist,album], GROWL_NOTIFICATION_DESCRIPTION,
-									artwork?[artwork TIFFRepresentation]:nil, GROWL_NOTIFICATION_ICON,
-									nil];
-				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:(state == itPLAYING)?ITUNES_TRACK_CHANGED:ITUNES_PLAYING
-																			   object:nil userInfo:noteDict];
-			}
+		if([playerState isEqualToString:@"paused"]) {
+			newState = itPAUSED;
+		} else if([playerState isEqualToString:@"stopped"]) {
+			newState = itSTOPPED;
+		} else {
+			newState = itPLAYING;
+			newTrackID = [retVal int32Value];
 		}
-		state = newState;
-		trackID = newTrackID;
+		
+		if(state == itUNKNOWN) {
+			state = newState;
+			trackID = newTrackID;
+			return;
+		}
+		
+		if(state != newState || trackID != newTrackID) {
+			if(newState == itPLAYING) {
+				if(state == itPLAYING || state == itSTOPPED) {
+					NSString		* track = nil;
+					NSString		* artist = nil;
+					NSString		* album = nil;
+					NSImage			* artwork = nil;
+					NSDictionary	* noteDict;
+					
+					retVal = [getTrackScript executeAndReturnError:&error];
+					if(retVal)
+						track = [retVal stringValue];
+					
+					retVal = [getArtistScript executeAndReturnError:&error];
+					if(retVal)
+						artist = [retVal stringValue];
+					
+					retVal = [getAlbumScript executeAndReturnError:&error];
+					if(retVal)
+						album = [retVal stringValue];
+					
+					retVal = [getArtworkScript executeAndReturnError:&error];
+					if(retVal)
+						artwork = [[[NSImage alloc] initWithData:[retVal data]] autorelease];
+					else
+						NSLog(@"Error getting artwork: %@",[error objectForKey:NSAppleScriptErrorMessage]);
+					
+					noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
+										gAppName, GROWL_APP_NAME,
+										track, GROWL_NOTIFICATION_TITLE,
+										[NSString stringWithFormat:@"%@\n%@",artist,album], GROWL_NOTIFICATION_DESCRIPTION,
+										artwork?[artwork TIFFRepresentation]:nil, GROWL_NOTIFICATION_ICON,
+										nil];
+					[[NSDistributedNotificationCenter defaultCenter] postNotificationName:(state == itPLAYING)?ITUNES_TRACK_CHANGED:ITUNES_PLAYING
+																				   object:nil userInfo:noteDict];
+				}
+			}
+			state = newState;
+			trackID = newTrackID;
+		}
 	}
 }
 
@@ -152,6 +154,19 @@ static NSString *gAppName = @"GrowlTunes";
 	url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:name ofType:@"scpt"]];
 	
 	return [[NSAppleScript alloc] initWithContentsOfURL:url error:&error];
+}
+
+- (BOOL)iTunesIsRunning {
+	static NSString *iTunesBundleID = @"com.apple.itunes";
+	NSEnumerator *processesEnum = [[[NSWorkspace sharedWorkspace] launchedApplications] objectEnumerator];
+	NSDictionary *process;
+
+	while(process = [processesEnum nextObject]) {
+		if([iTunesBundleID caseInsensitiveCompare:[process objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
+			return YES; //this is iTunes!
+	}
+
+	return NO;
 }
 
 @end
