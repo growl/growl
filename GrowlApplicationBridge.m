@@ -595,4 +595,3 @@ static NSMutableArray		*launchNotificationTargets = nil;
 }
 
 @end
-

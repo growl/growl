@@ -319,4 +319,3 @@
 @interface GrowlApplicationBridge (GrowlInstallationPrompt_private)
 + (void) _userChoseNotToInstallGrowl;
 @end
-
