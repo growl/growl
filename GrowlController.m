@@ -51,9 +51,20 @@
 #pragma mark -
 
 - (void) dispatchNotification:(NSNotification *) note {
-	//insert code here
-    NSLog( @"%@", note );
-    [_displayController displayNotificationWithInfo:[note userInfo]];
+	NSLog( @"%@", note );
+	
+	NSMutableDictionary *aDict = [NSMutableDictionary dictionaryWithDictionary:[note userInfo]];
+	
+	if ( ![aDict objectForKey:GROWL_NOTIFICATION_ICON] ) {
+		[aDict setObject:[[_tickets objectForKey:[aDict objectForKey:GROWL_APP_NAME]] icon] 
+				  forKey:GROWL_NOTIFICATION_ICON];
+	} else {
+		[aDict setObject:[[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]] autorelease] 
+				  forKey:GROWL_NOTIFICATION_ICON];
+	}
+	
+	//NSLog( @"%@", [aDict objectForKey:GROWL_NOTIFICATION_ICON] );
+	[_displayController displayNotificationWithInfo:aDict];
 }
 
 @end
@@ -111,28 +122,4 @@
 	}
 	
 }
-
-#pragma mark -
-
-- (void) dispatchNotification:(NSNotification *) note {
-    NSImage *image;
-    
-	NSLog( @"%@", note );
-	
-	NSMutableDictionary *aDict = [NSMutableDictionary dictionaryWithDictionary:[note userInfo]];
-        if([aDict objectForKey:GROWL_NOTIFICATION_ICON]){
-            image = [[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]];
-            [aDict removeObjectForKey:GROWL_NOTIFICATION_ICON];
-            [image autorelease];
-        }else{
-            image = [[_tickets objectForKey:[aDict objectForKey:GROWL_APP_NAME]] icon];
-        }
-        
-        if(image != nil){
-            [aDict setObject:image forKey:GROWL_NOTIFICATION_ICON];
-        }
-	NSLog( @"%@", [aDict objectForKey:GROWL_NOTIFICATION_ICON] );
-	[_displayController displayNotificationWithInfo:aDict];
-}
-
 @end

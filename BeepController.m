@@ -33,11 +33,18 @@
 - (IBAction)addNotification:(id)sender {
 	//get Sheet fields and add to the known notifications
 	NSNumber *defaultValue = [NSNumber numberWithBool:[_newNotificationDefault state] == NSOnState];
+	NSData *image = nil;
+	if ( [_newNotificationImage image] ) {
+		image = [[_newNotificationImage image] TIFFRepresentation];
+	}
+	
 	NSDictionary *aNuDict = [NSDictionary dictionaryWithObjectsAndKeys:			[_newNotificationTitle stringValue], GROWL_NOTIFICATION_TITLE,
 																				[_newNotificationDescription stringValue], GROWL_NOTIFICATION_DESCRIPTION,
-																				[[_newNotificationImage image] TIFFRepresentation], GROWL_NOTIFICATION_ICON ,
+																				@"Beep", GROWL_APP_NAME,
 																				defaultValue, GROWL_NOTIFICATION_DEFAULT,
+																				image, GROWL_NOTIFICATION_ICON,
 																				nil];
+
 	[_notifications addObject:aNuDict];
 	//NSLog( @"%@ added to %@", aNuDict, _notifications);
 	[_notificationsTable reloadData];
@@ -81,7 +88,9 @@
 	//send a notification for the selected table cell
 	id note = [_notifications objectAtIndex:[_notificationsTable selectedRow]];
 	
+	//NSLog( @"note - %@", note );
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:[note objectForKey:GROWL_NOTIFICATION_TITLE] object:nil userInfo:note deliverImmediately:YES];
+	//NSLog( @"sent it" );
 }
 
 - (IBAction) endPanel:(id)sender {
