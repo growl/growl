@@ -1,9 +1,6 @@
 Changes
-Growl.xs
-GrowlDefinesCarbon.h
 Makefile.PL
 MANIFEST
-ppport.h
 README
 t/Mac-Growl.t
 lib/Mac/Growl.pm

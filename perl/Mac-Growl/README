@@ -5,8 +5,9 @@ Mac::Growl provides an interface for perl scripts to connect to Growl,
 allowing them to register with it, and send it notifications to be
 displayed.
 
-Consult man Mac::Growl or perldoc Mac::Growl after installation for
-more details, or perldoc lib/Mac/Growl.pm beforehand.
+See http://sourceforge.net/projects/growl for more information on growl,
+or consult man Mac::Growl or perldoc Mac::Growl after installation for
+more details on the module, or perldoc lib/Mac/Growl.pm beforehand.
 
 INSTALLATION
 
