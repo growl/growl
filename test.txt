@@ -1,0 +1,1 @@
+Every *cool* project has a test.txt!
