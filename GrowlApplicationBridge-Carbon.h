@@ -39,8 +39,8 @@ typedef struct GrowlDelegate {
 	 *		If both are present, the iconData member shall prevail.
 	 *		If this key is present, you may omit iconData (set it to NULL).
 	 *
-	 *If you change the contents of this dictionary, be sure to call
-	 *	Growl_Reregister.
+	 *If you change the contents of this dictionary after setting the delegate,
+	 *	be sure to call Growl_Reregister.
 	 */
 	CFDictionaryRef registrationDictionary;
 
