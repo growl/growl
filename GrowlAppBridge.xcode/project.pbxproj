@@ -135,6 +135,20 @@
 //0A2
 //0A3
 //0A4
+		0A7721BF07904BB600ACDA01 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlAppBridgeDefines.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0A7721C007904BB600ACDA01 = {
+			fileRef = 0A7721BF07904BB600ACDA01;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0AEE18750702C53C0024B1A0 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -209,10 +223,12 @@
 			);
 			inputPaths = (
 				GrowlDefines.h,
+				GrowlAppBridgeDefines.h,
 			);
 			isa = PBXShellScriptBuildPhase;
 			outputPaths = (
 				GrowlDefinesCarbon.h,
+				GrowlAppBridgeDefinesCarbon.h,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -278,6 +294,7 @@
 		32C88DFF0371C24200C91783 = {
 			children = (
 				147E0236068A08D200ADA868,
+				0A7721BF07904BB600ACDA01,
 				147E0263068A0C3B00ADA868,
 			);
 			isa = PBXGroup;
@@ -423,6 +440,7 @@
 				344F4D02078E156300226DFC,
 				957EF13D0790364C0074BC2E,
 				957EF167079038740074BC2E,
+				0A7721C007904BB600ACDA01,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
