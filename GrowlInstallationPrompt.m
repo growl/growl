@@ -198,7 +198,7 @@
 
 - (void)performInstallGrowl
 {
-	//Obtain the path to the archived Growl.prefPane
+	// Obtain the path to the archived Growl.prefPane
 	NSBundle *bundle;
 	NSString *archivePath, *tmpDir;
 	NSTask	*unzip;
@@ -222,7 +222,10 @@
 		[unzip waitUntilExit];
 		[unzip release];
 		
-		//Open Growl.prefPane; System Preferences will take care of the rest.
+		// Kill the running Growl helper app if necessary by asking the Growl Helper App to shutdown via the DNC
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
+
+		// Open Growl.prefPane; System Preferences will take care of the rest, and Growl.prefPane will relaunch the GHA if appropriate.
 		[[NSWorkspace sharedWorkspace] openTempFile:[tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME]];
 	}
 }
