@@ -127,15 +127,16 @@
 
 - (void) _registerApplication:(NSNotification *) note {
 	NSString *appName = [[note userInfo] objectForKey:GROWL_APP_NAME];
-	NSSet *allNotes = [NSSet setWithArray:[[note userInfo] objectForKey:GROWL_NOTIFICATIONS_ALL]];
-	NSSet *defaultNotes = [NSSet setWithArray:[[note userInfo] objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
 	
 	NSImage *appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
 	
+	NSArray * allNotes = [[note userInfo] objectForKey:GROWL_NOTIFICATIONS_ALL];
+	NSArray * defaultNotes = [[note userInfo] objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	
 	GrowlApplicationTicket *newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
 																				withIcon:appIcon
-																		andNotifications:allNotes 
-																		   andDefaultSet:defaultNotes 
+																		andNotifications:allNotes
+																		 andDefaultNotes:defaultNotes
 																			  fromParent:self];
 	
 	if ( ! [_tickets objectForKey:appName] ) {
