@@ -39,18 +39,16 @@
 	
 	[slider_opacity setAltIncrementValue:0.05];
 
-	// priority colour settings
 	float opacityPref = 0.95f;
-	float duration = 4.0f;
-
 	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &opacityPref);
 	[slider_opacity setFloatValue:opacityPref];
 	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", (int)floorf(opacityPref * 100.0f)]];
 
+	duration = 4.0f;
 	READ_GROWL_PREF_FLOAT(GrowlBubblesDuration, GrowlBubblesPrefDomain, &duration);
-	[slider_duration setFloatValue:duration];
-	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", duration]];
-	
+	[self setDuration:duration];
+
+	// priority colour settings
 	NSColor *defaultColor = [NSColor colorWithCalibratedRed:0.69412f green:0.83147f blue:0.96078f alpha:1.0f];
 
 	[self loadColorWell:color_veryLow fromKey:GrowlBubblesVeryLowColor defaultColor:defaultColor];
@@ -93,11 +91,16 @@
 	UPDATE_GROWL_PREFS();
 }
 
-- (IBAction) durationChanged:(id)sender {
-	float durationPref = [sender floatValue];
-	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
-	WRITE_GROWL_PREF_FLOAT(GrowlBubblesDuration, durationPref, GrowlBubblesPrefDomain);
-	UPDATE_GROWL_PREFS();
+- (float) getDuration {
+	return duration;
+}
+
+- (void) setDuration:(float)value {
+	if (duration != value) {
+		WRITE_GROWL_PREF_FLOAT(GrowlBubblesDuration, value, GrowlBubblesPrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
+	duration = value;
 }
 
 - (IBAction) topColorChanged:(id)sender {

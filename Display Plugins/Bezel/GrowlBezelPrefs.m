@@ -19,14 +19,12 @@
 	int		positionPref = 0;
 	int		sizePref = 0;
 	int		opacityPref = 40;
-	float	durationPref = 3.0f;
 
 	[slider_opacity setAltIncrementValue:5.0];
 
 	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 	READ_GROWL_PREF_INT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
-	READ_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, BezelPrefDomain, &durationPref);
 
 	if (positionPref == BEZEL_POSITION_DEFAULT) {
 		[radio_PositionD setState:NSOnState];
@@ -65,9 +63,11 @@
 	[slider_opacity setIntValue:opacityPref];
 	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
 
-	[slider_duration setFloatValue:durationPref];
-	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
-
+	// duration
+	duration = 3.0f;
+	READ_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, BezelPrefDomain, &duration);
+	[self setDuration:duration];
+	
 	// screen number
 	int screenNumber = 0;
 	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, BezelPrefDomain, &screenNumber);
@@ -87,7 +87,6 @@
 	int		positionPref;
 	int		sizePref;
 	int		opacityPref;
-	float	durationPref;
 	
 	if (sender == radio_PositionD) {
 		[radio_PositionTR setState:NSOffState];
@@ -131,13 +130,21 @@
 		opacityPref = [slider_opacity intValue];
 		[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
 		WRITE_GROWL_PREF_INT(BEZEL_OPACITY_PREF, opacityPref, BezelPrefDomain);
-	} else if (sender == slider_duration) {
-		durationPref = [slider_duration floatValue];
-		[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
-		WRITE_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, durationPref, BezelPrefDomain);
 	}
 
 	UPDATE_GROWL_PREFS();
+}
+
+- (float) getDuration {
+	return duration;
+}
+
+- (void) setDuration:(float)value {
+	if (duration != value) {
+		WRITE_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, value, BezelPrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
+	duration = value;
 }
 
 - (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {

@@ -18,19 +18,20 @@
 - (void)mainViewDidLoad {
 	int		opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
 	int		sizePref = 0;
-	float	durationPref = MUSICVIDEO_DEFAULT_DURATION;
 
 	[slider_Opacity setAltIncrementValue:5.0];
 
 	READ_GROWL_PREF_INT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacityPref);
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
-	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, MusicVideoPrefDomain, &durationPref);
 
 	[radio_Size selectCellAtRow:sizePref column:0];
 	[slider_Opacity setIntValue:opacityPref];
 	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
-	[slider_Duration setFloatValue:durationPref];
-	[text_Duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
+
+	// duration
+	duration = MUSICVIDEO_DEFAULT_DURATION;
+	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, MusicVideoPrefDomain, &duration);
+	[self setDuration:duration];
 
 	// screen number
 	int screenNumber = 0;
@@ -42,11 +43,22 @@
 	SYNCHRONIZE_GROWL_PREFS();
 }
 
+- (float) getDuration {
+	return duration;
+}
+
+- (void) setDuration:(float)value {
+	if (duration != value) {
+		WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, value, MusicVideoPrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
+	duration = value;
+}
+
 - (IBAction)preferenceChanged:(id)sender {
-	int		opacityPref;
-	int		sizePref;
-	float	durationPref;
-	
+	int opacityPref;
+	int sizePref;
+
 	if (sender == slider_Opacity) {
 		opacityPref = [slider_Opacity intValue];
 		[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
@@ -54,10 +66,6 @@
 	} else if (sender == radio_Size) {
 		sizePref = [radio_Size selectedRow];
 		WRITE_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, sizePref, MusicVideoPrefDomain);
-	} else if (sender == slider_Duration) {
-		durationPref = [slider_Duration floatValue];
-		[text_Duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
-		WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, durationPref, MusicVideoPrefDomain);
 	}
 
 	UPDATE_GROWL_PREFS();

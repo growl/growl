@@ -27,14 +27,15 @@
 #define MUSICVIDEO_EFFECT_WIPE			1
 
 @interface GrowlMusicVideoPrefs : NSPreferencePane {
+	float					duration;
 	IBOutlet NSMatrix		*radio_Size;
 	IBOutlet NSSlider		*slider_Opacity;
 	IBOutlet NSTextField	*text_Opacity;
-	IBOutlet NSSlider		*slider_Duration;
-	IBOutlet NSTextField	*text_Duration;
 	IBOutlet NSComboBox		*combo_screen;
 }
 
+- (float) getDuration;
+- (void) setDuration:(float)value;
 - (IBAction) preferenceChanged:(id)sender;
 - (IBAction) takeScreenAsIntValueFrom:(id)sender;
 

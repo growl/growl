@@ -4,7 +4,6 @@
         {
             ACTIONS = {
                 colorChanged = id; 
-                durationChanged = id; 
                 opacityChanged = id; 
                 setLimit = id; 
                 setScreen = id; 
@@ -21,9 +20,7 @@
                 "color_veryLow" = NSColorWell; 
                 "combo_screen" = NSComboBox; 
                 limitCheck = NSButton; 
-                "slider_duration" = NSSlider; 
                 "slider_opacity" = NSSlider; 
-                "text_duration" = NSTextField; 
                 "text_emergency" = NSColorWell; 
                 "text_high" = NSColorWell; 
                 "text_moderate" = NSColorWell; 

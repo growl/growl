@@ -44,10 +44,9 @@
 	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", (int)floorf(alphaPref * 100.0f)]];
 
 	// duration
-	float durationPref = GrowlSmokeDurationPrefDefault;
-	READ_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, GrowlSmokePrefDomain, &durationPref);
-	[slider_duration setFloatValue:durationPref];
-	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
+	duration = GrowlSmokeDurationPrefDefault;
+	READ_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, GrowlSmokePrefDomain, &duration);
+	[self setDuration:duration];
 
 	// float icon checkbox
 	BOOL floatIconPref = GrowlSmokeFloatIconPrefDefault;
@@ -97,11 +96,16 @@
 	UPDATE_GROWL_PREFS();
 }
 
-- (IBAction) durationChanged:(id)sender {
-	float newValue = [sender floatValue];
-	WRITE_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, newValue, GrowlSmokePrefDomain);
-	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", newValue]];
-	UPDATE_GROWL_PREFS();
+- (float) getDuration {
+	return duration;
+}
+
+- (void) setDuration:(float)value {
+	if (duration != value) {
+		WRITE_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, value, GrowlSmokePrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
+	duration = value;
 }
 
 - (IBAction) colorChanged:(id)sender {

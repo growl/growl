@@ -3,7 +3,6 @@
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {
-                durationChanged = id; 
                 floatIconSwitchChanged = id; 
                 setAqua = id; 
                 setLimit = id; 
@@ -17,8 +16,6 @@
                 "combo_screen" = NSComboBox; 
                 floatIconSwitch = NSButton; 
                 limitCheck = NSButton; 
-                "slider_duration" = NSSlider; 
-                "text_duration" = NSTextField; 
                 "text_emergency" = NSColorWell; 
                 "text_high" = NSColorWell; 
                 "text_moderate" = NSColorWell; 

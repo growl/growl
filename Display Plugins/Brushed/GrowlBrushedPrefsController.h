@@ -9,8 +9,8 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface GrowlBrushedPrefsController : NSPreferencePane {
-	IBOutlet NSSlider		*slider_duration;
-	IBOutlet NSTextField	*text_duration;
+	float					duration;
+
 	IBOutlet NSComboBox		*combo_screen;
 
 	IBOutlet NSColorWell	*text_veryLow;
@@ -24,7 +24,8 @@
 	IBOutlet NSButton		*aquaCheck;
 }
 
-- (IBAction) durationChanged:(id)sender;
+- (float) getDuration;
+- (void) setDuration:(float)value;
 - (IBAction) textColorChanged:(id)sender;
 - (IBAction) floatIconSwitchChanged:(id)sender;
 - (IBAction) setLimit:(id)sender;

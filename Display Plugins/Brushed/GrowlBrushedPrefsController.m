@@ -36,10 +36,9 @@
 
 - (void) mainViewDidLoad {
 	// duration
-	float durationPref = GrowlBrushedDurationPrefDefault;
-	READ_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, &durationPref);
-	[slider_duration setFloatValue:durationPref];
-	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
+	duration = GrowlBrushedDurationPrefDefault;
+	READ_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, &duration);
+	[self setDuration:duration];
 
 	// float icon checkbox
 	BOOL floatIconPref = GrowlBrushedFloatIconPrefDefault;
@@ -91,11 +90,16 @@
 	return [NSNumber numberWithInt:idx];
 }
 
-- (IBAction) durationChanged:(id)sender {
-	float newValue = [sender floatValue];
-	WRITE_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, newValue, GrowlBrushedPrefDomain);
-	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", newValue]];
-	UPDATE_GROWL_PREFS();
+- (float) getDuration {
+	return duration;
+}
+
+- (void) setDuration:(float)value {
+	if (duration != value) {
+		WRITE_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, value, GrowlBrushedPrefDomain);
+		UPDATE_GROWL_PREFS();
+	}
+	duration = value;
 }
 
 - (IBAction) textColorChanged:(id)sender {

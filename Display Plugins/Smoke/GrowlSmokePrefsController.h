@@ -9,30 +9,31 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface GrowlSmokePrefsController : NSPreferencePane {
-  IBOutlet NSSlider		*slider_opacity;
-  IBOutlet NSTextField	*text_opacity;
-  IBOutlet NSSlider		*slider_duration;
-  IBOutlet NSTextField	*text_duration;
-  IBOutlet NSComboBox	*combo_screen;
+	float				duration;
 
-  IBOutlet NSColorWell	*color_veryLow;
-  IBOutlet NSColorWell	*color_moderate;
-  IBOutlet NSColorWell	*color_normal;
-  IBOutlet NSColorWell	*color_high;
-  IBOutlet NSColorWell	*color_emergency;
-  
-  IBOutlet NSColorWell	*text_veryLow;
-  IBOutlet NSColorWell	*text_moderate;
-  IBOutlet NSColorWell	*text_normal;
-  IBOutlet NSColorWell	*text_high;
-  IBOutlet NSColorWell	*text_emergency;
+	IBOutlet NSSlider		*slider_opacity;
+	IBOutlet NSTextField	*text_opacity;
+	IBOutlet NSComboBox		*combo_screen;
 
-  IBOutlet NSButton		*floatIconSwitch;
-  IBOutlet NSButton		*limitCheck;
+	IBOutlet NSColorWell	*color_veryLow;
+	IBOutlet NSColorWell	*color_moderate;
+	IBOutlet NSColorWell	*color_normal;
+	IBOutlet NSColorWell	*color_high;
+	IBOutlet NSColorWell	*color_emergency;
+
+	IBOutlet NSColorWell	*text_veryLow;
+	IBOutlet NSColorWell	*text_moderate;
+	IBOutlet NSColorWell	*text_normal;
+	IBOutlet NSColorWell	*text_high;
+	IBOutlet NSColorWell	*text_emergency;
+
+	IBOutlet NSButton		*floatIconSwitch;
+	IBOutlet NSButton		*limitCheck;
 }
 
+- (float) getDuration;
+- (void) setDuration:(float)value;
 - (IBAction) opacityChanged:(id)sender;
-- (IBAction) durationChanged:(id)sender;
 - (IBAction) colorChanged:(id)sender;
 - (IBAction) textColorChanged:(id)sender;
 - (IBAction) floatIconSwitchChanged:(id)sender;
