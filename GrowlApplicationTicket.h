@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+
 @class GrowlController;
 
 @interface GrowlApplicationTicket : NSObject {
@@ -17,11 +18,16 @@
 	
 	GrowlController *_parent;					// The GrowlController from which we came
 	
-	BOOL useDefaults;							// Flag for whether this ticket just uses default
+	BOOL			_useDefaults;				// Flag for whether this ticket just uses default
 }
 
-- (id) initWithApplication:(NSString *)inAppName withIcon:(NSImage *)inIcon andNotifications:(NSSet *) inAllNotifications andDefaultSet:(NSSet *) inDefaultSet fromParent:(GrowlController *) parent;
-- (void) loadTicket;
+- (id) initWithApplication:(NSString *)inAppName 
+				  withIcon:(NSImage *)inIcon 
+		  andNotifications:(NSSet *) inAllNotifications 
+			 andDefaultSet:(NSSet *) inDefaultSet 
+				fromParent:(GrowlController *) parent;
+
+- (id) initTicketFromPath:(NSString *) inPath;
 - (void) saveTicket;
 
 #pragma mark -

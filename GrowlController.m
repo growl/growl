@@ -14,18 +14,20 @@
 - (void) _registerApplication:(NSNotification *) note;
 @end
 
+#pragma mark -
+
 @implementation GrowlController
 
 - (id) init {
 	if ( self = [super init] ) {
-		//load bundle for selected View Module
-		//View Bundles will conform to a ViewModuleProtocol
+
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self 
 															selector:@selector( _registerApplication: ) 
 																name:GROWL_APP_REGISTRATION
 															  object:nil]; 
 		_tickets = [[NSMutableDictionary alloc] init];
 
+		//load bundle for selected View Module
 		_displayController = [self loadDisplay];
 		[_displayController loadPlugin];
 		
@@ -34,6 +36,7 @@
 																				[_displayController userDescription],
 																				[_displayController version]
 			   );
+		[self loadTickets];
 	}
 	
 	return self;
@@ -51,26 +54,40 @@
 #pragma mark -
 
 - (void) dispatchNotification:(NSNotification *) note {
-    NSImage *icon = nil;
-    
-	NSLog( @"%@", note );
+	//NSLog( @"%@", note );
 	
 	NSMutableDictionary *aDict = [NSMutableDictionary dictionaryWithDictionary:[note userInfo]];
 	
 	if ( ![aDict objectForKey:GROWL_NOTIFICATION_ICON] ) {
-		icon = [[_tickets objectForKey:[aDict objectForKey:GROWL_APP_NAME]] icon];
+		[aDict setObject:[[_tickets objectForKey:[aDict objectForKey:GROWL_APP_NAME]] icon] 
+				  forKey:GROWL_NOTIFICATION_ICON];
 	} else {
-            icon = [[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]] autorelease];
-            if(!icon){
-                [aDict removeObjectForKey:GROWL_NOTIFICATION_ICON];
-            }
+		[aDict setObject:[[[NSImage alloc] initWithData:[aDict objectForKey:GROWL_NOTIFICATION_ICON]] autorelease] 
+				  forKey:GROWL_NOTIFICATION_ICON];
 	}
-        if(icon != nil){
-            [aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
-        }
 	
-	//NSLog( @"%@", [aDict objectForKey:GROWL_NOTIFICATION_ICON] );
 	[_displayController displayNotificationWithInfo:aDict];
+}
+
+
+- (void) loadTickets {
+	NSString *aTicket;
+	NSDirectoryEnumerator *t = [[NSFileManager defaultManager] enumeratorAtPath:GROWL_TICKETS_DIR];
+	NSLog( @"Available Tickets - %@", t );
+	
+	while ( aTicket = [t nextObject] ) {
+		aTicket = [NSString stringWithFormat:@"%@/%@", GROWL_TICKETS_DIR, aTicket];
+		if ( [[aTicket pathExtension] isEqualTo:@"growlTicket"] ) {
+			NSString *appName = [[aTicket lastPathComponent] stringByDeletingPathExtension];
+			//NSLog( @"%@ is being loaded", aTicket );
+			[_tickets setValue:[[GrowlApplicationTicket alloc] initTicketFromPath:aTicket] forKey:appName];
+		}
+	}
+	NSLog( @"tickets loaded - %@", _tickets );
+}
+
+- (void) saveTickets {
+	[[_tickets allValues] makeObjectsPerformSelector:@selector( saveTicket )];
 }
 
 @end
@@ -81,10 +98,6 @@
 - (id <GrowlDisplayPlugin>) loadDisplay {
 	id <GrowlDisplayPlugin> retVal;
 	NSString *viewPath = [NSString stringWithFormat:@"%@/%@", [[NSBundle mainBundle] resourcePath], @"BubblesNotificationView.growlView" ];
-	//NSString *systemBundlesPath = @"/Library/Growl Support/";
-	//NSString *userBundlesPath = @"~/Library/Growl Support/";
-	
-	NSLog( @"default - %@", viewPath );
 	
 	if ( [[NSUserDefaults standardUserDefaults] stringForKey:@"userDisplayPlugin"] ) {
 		viewPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"userDisplayPlugin"];
@@ -92,10 +105,8 @@
 	
 	Class viewClass;
 	NSBundle *viewBundle = [NSBundle bundleWithPath:viewPath];
-	NSLog ( @"bundle loaded - %@", viewBundle );
 	viewClass = [viewBundle principalClass];
 	retVal = [[viewClass alloc] init];
-	NSLog( @"object initialized - %@", retVal );
 	
 	return retVal;
 }
@@ -107,15 +118,15 @@
 	NSSet *allNotes = [NSSet setWithArray:[[note userInfo] objectForKey:GROWL_NOTIFICATIONS_ALL]];
 	NSSet *defaultNotes = [NSSet setWithArray:[[note userInfo] objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
 	
+	NSImage *appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
+	
+	GrowlApplicationTicket *newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
+																				withIcon:appIcon
+																		andNotifications:allNotes 
+																		   andDefaultSet:defaultNotes 
+																			  fromParent:self];
+	
 	if ( ! [_tickets objectForKey:appName] ) {
-		//add category to NSWorkspace for -iconForApplication later
-		NSImage *appIcon = [[NSWorkspace sharedWorkspace] iconForApplication:appName];
-		NSLog( @"AppIcon - %@", appIcon );
-		GrowlApplicationTicket *newApp = [[GrowlApplicationTicket alloc] initWithApplication:appName 
-																					withIcon:appIcon
-																			andNotifications:allNotes 
-																			   andDefaultSet:defaultNotes 
-																				  fromParent:self];
 		[_tickets setValue:newApp forKey:appName];
 		NSLog( @"%@ has registered", appName );
 	} else {
@@ -124,6 +135,8 @@
 		[aApp setAllNotifications:allNotes];
 		[aApp setDefaultNotifications:defaultNotes];
 	}
+	
+	[newApp saveTicket];
 	
 }
 @end

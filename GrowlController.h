@@ -7,6 +7,9 @@
 
 #import <Foundation/Foundation.h>
 
+#define GROWL_SUPPORT_DIR   [@"~/Library/Growl Support" stringByExpandingTildeInPath]
+#define GROWL_TICKETS_DIR   [GROWL_SUPPORT_DIR stringByAppendingString:@"/Application Tickets"]
+
 @protocol GrowlDisplayPlugin;
 
 @interface GrowlController : NSObject {
@@ -15,4 +18,7 @@
 }
 
 - (void) dispatchNotification:(NSNotification *) note;
+
+- (void) loadTickets;
+- (void) saveTickets;
 @end
