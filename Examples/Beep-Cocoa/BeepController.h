@@ -5,6 +5,7 @@
 	//add notification sheet fields
 	IBOutlet NSPanel		*_newNotificationPanel;				// The Add Panel
     IBOutlet NSButton		*_newNotificationDefault;			// Whether this note is on by default
+	IBOutlet NSButton		*_newNotificationSticky;			// Whether this note is sticky
     IBOutlet NSTextField	*_newNotificationDescription;		// The long description
     IBOutlet NSImageView	*_newNotificationImage;				// The associated image
     IBOutlet NSTextField	*_newNotificationTitle;				// The name of this note

@@ -44,17 +44,20 @@
 	//get Sheet fields and add to the known notifications
 	NSLog(@"checkbox %u; on %u; off %u; mixed %u", [_newNotificationDefault state], NSOnState, NSOffState, NSMixedState);
 	NSNumber *defaultValue = [NSNumber numberWithBool:[_newNotificationDefault state] == NSOnState];
+	NSNumber *stickyValue = [NSNumber numberWithBool:[_newNotificationSticky state] == NSOnState];
 	NSData *image = nil;
 	if ( [_newNotificationImage image] ) {
 		image = [[_newNotificationImage image] TIFFRepresentation];
 	}
 	
-	NSDictionary *aNuDict = [NSDictionary dictionaryWithObjectsAndKeys:			[_newNotificationTitle stringValue], GROWL_NOTIFICATION_TITLE,
-																				[_newNotificationDescription stringValue], GROWL_NOTIFICATION_DESCRIPTION,
-																				@"Beep-Cocoa", GROWL_APP_NAME,
-																				defaultValue, GROWL_NOTIFICATION_DEFAULT,
-																				image, GROWL_NOTIFICATION_ICON,
-																				nil];
+	NSDictionary *aNuDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		[_newNotificationTitle stringValue], GROWL_NOTIFICATION_TITLE,
+		[_newNotificationDescription stringValue], GROWL_NOTIFICATION_DESCRIPTION,
+		@"Beep-Cocoa", GROWL_APP_NAME,
+		defaultValue, GROWL_NOTIFICATION_DEFAULT,
+		stickyValue, GROWL_NOTIFICATION_STICKY,
+		image, GROWL_NOTIFICATION_ICON,
+		nil];
 
 	[_notifications addObject:aNuDict];
 	//NSLog( @"%@ added to %@", aNuDict, _notifications);
@@ -81,8 +84,8 @@
 		
 		//Launch growl if possible
 		if ([GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self
-																 selector:@selector(growlDidLaunch:) 
-																  context:nil]){
+														 selector:@selector(growlDidLaunch:) 
+														  context:nil]){
 			//Disable the add/remove buttons
 			[_addNotification setEnabled:NO];
 			[_removeNotification setEnabled:NO];

@@ -18,10 +18,12 @@
                 "_newNotificationDescription" = NSTextField; 
                 "_newNotificationImage" = NSImageView; 
                 "_newNotificationPanel" = NSPanel; 
+                "_newNotificationSticky" = NSButton; 
                 "_newNotificationTitle" = NSTextField; 
                 "_notificationsTable" = NSTableView; 
                 "_registered" = NSButton; 
                 "_removeNotification" = NSButton; 
+                "_sendButton" = NSButton; 
             }; 
             SUPERCLASS = NSObject; 
         }, 
