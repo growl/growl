@@ -6,11 +6,13 @@
 //  Copyright 2004 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
 @interface NSImage (GrowlImageAdditions)
+
 - (void)drawScaledInRect:(NSRect)targetRect operation:(NSCompositingOperation)operation fraction:(float)fraction;
 - (NSSize)adjustSizeToDrawAtSize:(NSSize)theSize;
 - (NSImageRep *)bestRepresentationForSize:(NSSize)theSize;
 - (NSImageRep *)representationOfSize:(NSSize)theSize;
+
 @end

@@ -34,7 +34,7 @@
 		drawRect.origin.x = floorf(targetRect.origin.x + (targetRect.size.width - drawRect.size.width) * 0.5f);
 		drawRect.origin.y = floorf(targetRect.origin.y + (targetRect.size.height - drawRect.size.height) * 0.5f);
 
-		[self setScalesWhenResized:TRUE];
+		[self setScalesWhenResized:YES];
 	} else {
 		drawRect.origin.x = targetRect.origin.x;
 		drawRect.origin.y = targetRect.origin.y;
@@ -63,13 +63,13 @@
 		float thisDistance;
 		NSEnumerator *enumerator = [reps objectEnumerator];
 		while ( (thisRep = [enumerator nextObject]) ) {
-			thisDistance = theSize.width-[thisRep size].width;
-			if (repDistance<0 && thisDistance>0) {
+			thisDistance = theSize.width - [thisRep size].width;
+			if (repDistance < 0 && thisDistance > 0) {
 				continue;
 			}
-			if (ABS(thisDistance)<ABS(repDistance)|| (thisDistance<0 && repDistance>0)){
-				repDistance=thisDistance;
-				bestRep=thisRep;
+			if (ABS(thisDistance) < ABS(repDistance)|| (thisDistance < 0 && repDistance > 0)){
+				repDistance = thisDistance;
+				bestRep = thisRep;
 			}
 		}
 	}
@@ -85,7 +85,7 @@
 	NSImageRep *rep;
 	while ( (rep = [enumerator nextObject]) ) {
         if (NSEqualSizes([rep size], theSize)) {
-            return rep;
+            break;
 		}
 	}
     return nil;
