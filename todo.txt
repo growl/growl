@@ -40,8 +40,10 @@ Done:
 - 3 or 5 parts on priority, we need to decide this
 		All the display plugins seem to work fine with 5 for priority.
 - Confirm installation of plugin.
-- Make GrowlTunes save images into ARTchive
-	
+- GrowlTunes :
+	- add a timeout to the plugins using network to prevent locking the whole app when loosing connection
+	- Make GrowlTunes save images into ARTchive
+
 
 For .7 or sooner
 - Add a menu item/status item (menuling)
@@ -53,8 +55,6 @@ For .7 or sooner
 - Display Plugins
 	- Speech
 	- A square
-- GrowlTunes :
-	- add a timeout to the plugins using network to prevent locking the whole app when loosing connection
 
 
 For .8 or sooner

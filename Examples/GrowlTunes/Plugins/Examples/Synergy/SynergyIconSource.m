@@ -85,7 +85,7 @@ static NSString *empty = @"";
 }	
 
 - (BOOL) usesNetwork {
-	return YES;
+	return NO;
 }
 
 @end

@@ -44,7 +44,13 @@
 			NSLog( @"imageURL(XML) - \"%@\"", imageURL );
 		}
 	} else {						// Everyone Else
-		NSString *xml = [NSString stringWithContentsOfURL:url];
+		NSError *error = nil;
+		NSURLResponse *response = nil;
+		NSURLRequest *request = nil;
+		request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.];
+		NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+		NSString *xml = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
 		NSRange open = [xml rangeOfString:@"<MediumImage><URL>"];
 		if(open.length != 0) {
 			imageURL = [xml substringFromIndex:open.location +open.length];
@@ -56,7 +62,12 @@
 	}
 	
 	if ( imageURL ) {
-		artwork = [[[NSImage alloc] initWithData:[NSData dataWithData:[[NSURL URLWithString:imageURL] resourceDataUsingCache:YES]] ] autorelease];
+		NSError *error = nil;
+		NSURLResponse *response = nil;
+		NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.];
+		NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+		if (data)
+			artwork = [[[NSImage alloc] initWithData:data] autorelease];
 	}
 	
 	return artwork;
