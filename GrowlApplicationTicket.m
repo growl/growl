@@ -26,14 +26,19 @@
 }
 
 - (void) dealloc {
+	[self unregisterParentForNotifications:_allowedNotifications];
+	
 	[_appName release];
-	_appName = nil;
 	[_icon release];
-	_icon = nil;
 	[_allNotifications release];
-	_allNotifications = nil;
 	[_defaultNotifications release];
+	[_allowedNotifications release];
+	
+	_appName = nil;
+	_icon = nil;
+	_allNotifications = nil;
 	_defaultNotifications = nil;
+	_allowedNotifications = nil;
 	
 	[super dealloc];
 }
@@ -53,6 +58,14 @@
 	
 	while ( note = [note nextObject] ) { //register the Controller for all the passed Notifications
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:_parent selector:@selector( dispatchNotification: ) name:(NSString *)note object:nil];
+	}
+}
+
+- (void) unregisterParentForNotifications:(NSArray *) inArray {
+	NSEnumerator *note = [inArray objectEnumerator];
+	
+	while ( note = [note nextObject] ) { //register the Controller for all the passed Notifications
+		[[NSDistributedNotificationCenter defaultCenter] removeObserver:_parent name:(NSString *)note object:nil];
 	}
 }
 @end

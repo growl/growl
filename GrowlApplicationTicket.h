@@ -14,6 +14,7 @@
 	NSSet			*_allNotifications;			// All the notifications possible for this app
 	NSSet			*_defaultNotifications;		// The default notifications
 	NSArray			*_allowedNotifications;		// The allowed notifications
+	
 	GrowlController *_parent;					// The GrowlController from which we came
 	
 	BOOL useDefaults;							// Flag for whether this ticket just uses default
