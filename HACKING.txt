@@ -57,7 +57,7 @@ Allowed sometimes, but try to avoid having too many. Defining 'too many' is an e
 Example of how to avoid this:
 - (NSString *) whosYourDaddy:(NSString *)inChild {
 	NSString *returnString = nil;
-	if ( inChild != nil ) {
+	if (inChild != nil) {
 		returnString = [NSString stringWithString:@"Alan Kay"];
 	}
 	return returnString;
