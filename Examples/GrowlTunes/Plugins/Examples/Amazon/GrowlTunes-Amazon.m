@@ -30,7 +30,7 @@
 	NSString *imageURL = nil;
 	NSLog( @"Go go interweb" );
 	
-	NSString *search = [[NSString stringWithFormat:@"http://aws-beta.amazon.com/onca/xml?Service=AWSProductData&SubscriptionId=1KQJD90W67ZBHT7ZH282&Operation=ItemSearch&SearchIndex=Music&Keywords=%s %s&ResponseGroup=Images", [artist UTF8String],[album UTF8String]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSString *search = [[NSString stringWithFormat:@"http://webservices.amazon.com/onca/xml?Service=AWSProductData&SubscriptionId=1KQJD90W67ZBHT7ZH282&Operation=ItemSearch&SearchIndex=Music&Keywords=%s %s&ResponseGroup=Images", [artist UTF8String],[album UTF8String]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSURL *url = [NSURL URLWithString:search];
 	
 	if ( XMLDocument ) {			// Tiger
