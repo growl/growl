@@ -255,7 +255,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INSTALL_PATH = /opt/growl/bin;
+				INSTALL_PATH = /usr/local/bin;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = growlnotify;
 				WARNING_CFLAGS = "-W -Wall";

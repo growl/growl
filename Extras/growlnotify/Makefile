@@ -1,4 +1,4 @@
-DESTDIR =
+DESTDIR=/
 
 DEFAULT_BUILDSTYLE=Deployment
 
@@ -12,5 +12,5 @@ clean:
 
 install:
 	xcodebuild -alltargets -buildstyle $(BUILDSTYLE) install DSTROOT=$(DESTDIR)
-	mkdir -p $(DESTDIR)/opt/growl/man/man1
-	cp growlnotify.1 $(DESTDIR)/opt/growl/man/man1
+	mkdir -p $(DESTDIR)/usr/local/share/man/man1/
+	cp growlnotify.1 /usr/local/share/man/man1/
