@@ -6,18 +6,23 @@ For .6 (Go Go Growl)
 	- The framework is public domain
 	- Examples are public domain unless specified
 - A way for applications to detect the current version of Growl which is being used.
-- Create a branch for the .6 release.
-	- Finalize things
-	- Fix minor visual problems
-	- Fix any bugs found
-	- Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
-	- Remove speech plugin. We need to rethink how this will appear to the user. Speech and visual notifications should work together. 
-- Rename NSLog to something more user friendly, explain it area usually used for plugin configuration.
+- NSLog
+	- Rename NSLog to Log
+	- Add 2 radio buttons
+		- Console, with a button to open console.app
+		- Choose file. Default to something sane.
 
 Release related issues
+- Fix minor visual problems
+- Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
+- Create a branch for the .6 release.
 - Make sure all bindings register. I think this is already done, but we need to double check as this is now required.
 - Make sure we have user documentation on everything we have. This was a sore point for us last release.
-- Look at creating a mpkg with some of the Extras in it. Figure out what to include and what not to include.
+- Look at creating a mpkg with some of the Extras in it. Include these:
+	- GrowlSafari
+	- GrowlMail
+	- GrowlTunes
+	- growlnotify
 - Include uninstaller in the dmg
 - Include user documentation in the dmg
 - Include links to developer documentation in the dmg. Possibly include docs themselves.
@@ -104,6 +109,10 @@ For .8 or sooner
 - Display Plugins
 	- iCal scheduled events look
 	- Garage Band black look.
+	- Brushed Metal/Aqua
+
+For .9 or sooner
+- We'll probably be using 10.4 by now, let's make a webkit dispaly if feasible.
 
 -----------------------------------------
 Other stuff; old todo
@@ -163,7 +172,7 @@ Done:
 - Move non-example applications in the Examples directory into an Extras directory.
 - Ask if user wants to "configure plugin now". If so, take to proper place to configure.
 - Display Plugins
-	- Brushed Metal/Aqua
+	
 	- Speech
 	- Smoke
 		- Text colorwell
