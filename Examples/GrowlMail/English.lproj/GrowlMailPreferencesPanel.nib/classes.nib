@@ -5,7 +5,7 @@
             ACTIONS = {toggleEnable = id; toggleIgnoreJunk = id; }; 
             CLASS = GrowlMailPreferencesModule; 
             LANGUAGE = ObjC; 
-            OUTLETS = {enabledButton = NSButton; junkButton = NSButton; }; 
+            OUTLETS = {accountsView = NSTableView; enabledButton = NSButton; junkButton = NSButton; }; 
             SUPERCLASS = NSPreferencesModule; 
         }, 
         {

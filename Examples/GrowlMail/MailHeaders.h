@@ -123,10 +123,10 @@
 + (void)enableMailboxListingNotifications;
 + (BOOL)haveAccountsBeenConfigured;
 + (void)_addAccountToSortedPaths:(id)fp8;
-+ (id)mailAccounts;
++ (NSArray *)mailAccounts;
 + (void)setMailAccounts:(id)fp8;
 + (void)_removeAccountFromSortedPaths:(id)fp8;
-+ (id)activeAccounts;
++ (NSArray *)activeAccounts;
 + (void)saveAccountInfoToDefaults;
 + (id)allEmailAddressesIncludingFullUserName:(BOOL)fp8;
 + (id)_accountContainingEmailAddress:(id)fp8 matchingAddress:(id *)fp12 fullUserName:(id *)fp16;
@@ -251,6 +251,39 @@
 - (id)objectSpecifierForMessageStore:(id)fp8;
 - (id)objectSpecifierForMailboxUid:(id)fp8;
 - (id)objectSpecifier;
+
+@end
+
+@interface LocalAccount : MailAccount
+{
+    NSMutableArray *_disembodiedUids;
+}
+
++ (id)localAccount;
++ (id)accountTypeString;
+- (id)initWithPath:(id)fp8;
+- (id)rootMailboxUid;
+- (Class)storeClass;
+- (id)mailboxPathExtension;
+- (id)primaryMailboxUid;
+- (void)setPath:(id)fp8;
+- (id)displayName;
+- (void)setHostname:(id)fp8;
+- (void)setUsername:(id)fp8;
+- (id)password:(BOOL)fp8;
+- (void)setPassword:(id)fp8;
+- (BOOL)canFetch;
+- (BOOL)shouldAutoFetch;
+- (BOOL)isOffline;
+- (void)setIsOffline:(BOOL)fp8;
+- (int)emptyTrashFrequency;
+- (BOOL)shouldMoveDeletedMessagesToTrash;
+- (void)_synchronouslyLoadListingForParent:(id)fp8;
+- (id)_copyMailboxUidWithParent:(id)fp8 name:(id)fp12 attributes:(unsigned int)fp16 existingMailboxUid:(id)fp20;
+- (id)createMailboxWithParent:(id)fp8 name:(id)fp12;
+- (BOOL)renameMailbox:(id)fp8 newName:(id)fp12 parent:(id)fp16;
+- (void)insertInMailboxes:(id)fp8 atIndex:(unsigned int)fp12;
+- (id)mailboxUidForFileSystemPath:(id)fp8;
 
 @end
 

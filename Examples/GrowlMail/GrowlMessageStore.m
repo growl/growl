@@ -8,6 +8,7 @@
 
 #import "GrowlMessageStore.h"
 #import "Message+GrowlMail.h"
+#import "GrowlMail.h"
 
 @implementation GrowlMessageStore
 + (void)load
@@ -16,14 +17,18 @@
 }
 
 - (id)finishRoutingMessages:(NSArray *)messages routed:(NSArray *)routed
-{	
+{
 	Message *message;
-	Class tocClass = [TOCMessage class];
-	NSEnumerator *e = [messages objectEnumerator];
-	while( (message = [e nextObject]) ) {
-//		NSLog( @"Message class: %@", [message className] );
-		if( ![message isKindOfClass: tocClass] ) {
-			[message showNotification];
+	GrowlMail *growlMail = [GrowlMail sharedInstance];
+	if( [growlMail isEnabled] ) {
+		Class tocClass = [TOCMessage class];
+		NSEnumerator *e = [messages objectEnumerator];
+		while( (message = [e nextObject]) ) {
+//			NSLog( @"Message class: %@", [message className] );
+			if( !([message isKindOfClass: tocClass] || ([message isJunk] && [growlMail isIgnoreJunk]))
+					&& [growlMail isAccountEnabled:[[[message messageStore] account] path]] ) {
+				[message showNotification];
+			}
 		}
 	}
 

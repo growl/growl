@@ -107,4 +107,25 @@
 	[[NSUserDefaults standardUserDefaults] setBool:yesOrNo forKey:@"GMIgnoreJunk"];
 }
 
+- (BOOL)isAccountEnabled:(NSString *)path
+{
+	NSDictionary *accountSettings = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"GMAccounts"];
+	NSNumber *isEnabled = (NSNumber *)[accountSettings objectForKey:path];
+	return( isEnabled ? [isEnabled boolValue] : YES );
+}
+
+- (void)setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path;
+{
+	NSDictionary *accountSettings = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"GMAccounts"];
+	NSMutableDictionary *newSettings;
+	if( accountSettings ) {
+		newSettings = [accountSettings mutableCopy];
+	} else {
+		newSettings = [[NSMutableDictionary alloc] initWithCapacity:1];
+	}
+	[newSettings setObject: [NSNumber numberWithBool:yesOrNo] forKey:path];
+	[[NSUserDefaults standardUserDefaults] setObject:newSettings forKey:@"GMAccounts"];
+	[newSettings release];
+}
+
 @end

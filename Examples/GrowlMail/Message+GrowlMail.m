@@ -8,7 +8,6 @@
 
 #import "Message+GrowlMail.h"
 #import "GrowlDefines.h"
-#import "GrowlMail.h"
 
 @interface NSString(GrowlMail)
 - (NSString *)firstNLines: (int)n;
@@ -34,40 +33,37 @@
 @implementation Message(GrowlMail)
 - (void)showNotification
 {
-	GrowlMail *growlMail = [GrowlMail sharedInstance];
-	if( [growlMail isEnabled] && !([self isRead] || ([self isJunk] && [growlMail isIgnoreJunk])) ) {
-		NSString *account = [[[self messageStore] account] displayName];
-		NSString *sender = [self sender];
-		NSString *senderAddress = [sender uncommentedAddress];
-		NSString *subject = [self subject];
-		NSString *body = [[[[self messageBody] stringForIndexing] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]] firstNLines: 4];
-		NSString *title = [NSString stringWithFormat: @"(%@) %@: %@", account, [sender fullName], subject];
+	NSString *account = [[[self messageStore] account] displayName];
+	NSString *sender = [self sender];
+	NSString *senderAddress = [sender uncommentedAddress];
+	NSString *subject = [self subject];
+	NSString *body = [[[[self messageBody] stringForIndexing] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]] firstNLines: 4];
+	NSString *title = [NSString stringWithFormat: @"(%@) %@: %@", account, [sender fullName], subject];
 /*
-		NSLog(@"Subject: '%@'", subject);
-		NSLog(@"Sender: '%@'", sender);
-		NSLog(@"Account: '%@'", account);
-		NSLog(@"Body: '%@'", body);
-		NSLog(@"Title: '%@'", title);
+	NSLog(@"Subject: '%@'", subject);
+	NSLog(@"Sender: '%@'", sender);
+	NSLog(@"Account: '%@'", account);
+	NSLog(@"Body: '%@'", body);
+	NSLog(@"Title: '%@'", title);
 */
-		MailAddressManager *addressManager = [MailAddressManager addressManager];
-		[addressManager fetchImageForAddress: senderAddress];
-		NSImage *image = [addressManager imageForMailAddress: senderAddress];
-		if( !image ) {
+	MailAddressManager *addressManager = [MailAddressManager addressManager];
+	[addressManager fetchImageForAddress: senderAddress];
+	NSImage *image = [addressManager imageForMailAddress: senderAddress];
+	if( !image ) {
 //			NSLog(@"Image: Mail.app");
 //			icon = [[NSApp applicationIconImage] TIFFRepresentation];
-			NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-			image = [workspace iconForFile: [workspace fullPathForApplication: @"Mail"]];
-		}
-		NSDictionary *notif = [NSDictionary dictionaryWithObjectsAndKeys:
-			@"New mail", GROWL_NOTIFICATION_NAME,
-			@"GrowlMail", GROWL_APP_NAME,
-			title, GROWL_NOTIFICATION_TITLE,
-			[image TIFFRepresentation], GROWL_NOTIFICATION_ICON,
-			body, GROWL_NOTIFICATION_DESCRIPTION,
-			nil];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																	   object:nil
-																	 userInfo:notif];
+		NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+		image = [workspace iconForFile: [workspace fullPathForApplication: @"Mail"]];
 	}
+	NSDictionary *notif = [NSDictionary dictionaryWithObjectsAndKeys:
+		@"New mail", GROWL_NOTIFICATION_NAME,
+		@"GrowlMail", GROWL_APP_NAME,
+		title, GROWL_NOTIFICATION_TITLE,
+		[image TIFFRepresentation], GROWL_NOTIFICATION_ICON,
+		body, GROWL_NOTIFICATION_DESCRIPTION,
+		nil];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
+																   object:nil
+																 userInfo:notif];
 }
 @end

@@ -13,8 +13,12 @@
 {
 	IBOutlet NSButton *enabledButton;
 	IBOutlet NSButton *junkButton;
+	IBOutlet NSTableView *accountsView;
 }
 - (IBAction)toggleEnable:(id)sender;
 - (IBAction)toggleIgnoreJunk:(id)sender;
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 
 @end
