@@ -10,6 +10,7 @@
 #import "GrowlController.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlApplicationNotification.h"
+#import "GrowlDistributedNotificationPathway.h"
 #import "GrowlRemotePathway.h"
 #import "GrowlUDPPathway.h"
 #import "CFGrowlAdditions.h"
@@ -27,12 +28,10 @@
 - (void) _unlockQueue;
 - (void) _processNotificationQueue;
 - (void) _processRegistrationQueue;
-- (void) _registerApplication:(NSNotification *) note;
 - (void) _postGrowlIsReady;
 @end
 
 static struct Version version = { 0U, 7U, 0U, releaseType_svn, 0U, };
-//XXX - update these constants whenever the version changes
 
 #pragma mark -
 
@@ -48,10 +47,6 @@ static id singleton = nil;
 	if ( (self = [super init]) ) {
 		NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
 
-		[NSDNC addObserver:self 
-				  selector:@selector( _registerApplication: ) 
-					  name:GROWL_APP_REGISTRATION
-					object:nil];
 		[NSDNC addObserver:self
 				  selector:@selector( preferencesChanged: )
 					  name:GrowlPreferencesChanged
@@ -65,10 +60,6 @@ static id singleton = nil;
 					  name:GROWL_SHUTDOWN
 					object:nil];
 		[NSDNC addObserver:self
-				  selector:@selector( dispatchNotification: )
-					  name:GROWL_NOTIFICATION
-					object:nil];
-		[NSDNC addObserver:self
 				  selector:@selector( replyToPing:)
 					  name:GROWL_PING
 					object:nil];
@@ -78,6 +69,9 @@ static id singleton = nil;
 												 selector:@selector( notificationClicked: )
 													 name:GROWL_NOTIFICATION_CLICKED
 												   object:nil];
+
+		//XXX temporary DNC pathway hack - remove when real pathway support is in
+		dncPathway = [[GrowlDistributedNotificationPathway alloc] init];
 
 		tickets           = [[NSMutableDictionary alloc] init];
 		registrationLock  = [[NSLock              alloc] init];
@@ -112,6 +106,7 @@ static id singleton = nil;
 - (void) dealloc {
 	//free your world
 	[self stopServer];
+	[dncPathway release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
 
 	[tickets           release];
 	[registrationLock  release];
@@ -187,17 +182,6 @@ static id singleton = nil;
 		[NSNumber numberWithBool:YES], GROWL_NOTIFICATION_STICKY,
 		growlIcon, GROWL_NOTIFICATION_ICON,
 		nil]];
-}
-
-- (void) dispatchNotification:(NSNotification *) note {
-	if ([self _tryLockQueue]) {
-		// It's unlocked. We can notify
-		[self dispatchNotificationWithDictionary:[note userInfo]];
-		[self _unlockQueue];
-	} else {
-		// It's locked. We need to queue this notification
-		[notificationQueue addObject:[note userInfo]];
-	}
 }
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
@@ -714,15 +698,6 @@ static id singleton = nil;
 }
 
 #pragma mark -
-
-- (void) _registerApplication:(NSNotification *) note {
-	if ([self _tryLockQueue]) {
-		[self registerApplicationWithDictionary:[note userInfo]];
-		[self _unlockQueue];
-	} else {
-		[registrationQueue addObject:[note userInfo]];
-	}
-}
 
 - (void) _postGrowlIsReady {
 	growlFinishedLaunching = YES;

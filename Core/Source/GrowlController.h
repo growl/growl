@@ -11,13 +11,17 @@
 
 @protocol GrowlDisplayPlugin;
 
-@class GrowlUDPPathway, GrowlRemotePathway;
+@class GrowlDistributedNotificationPathway, GrowlUDPPathway, GrowlRemotePathway;
 
 @interface GrowlController : NSObject {
 	NSMutableDictionary			*tickets;				//Application tickets
 	NSLock						*registrationLock;
 	NSMutableArray				*notificationQueue;
 	NSMutableArray				*registrationQueue;
+
+	//XXX temporary DNC pathway hack - remove when real pathway support is in
+	// DNC server
+	GrowlDistributedNotificationPathway *dncPathway;
 
 	// DistributedObjects server
 	NSNetService				*service;
@@ -50,7 +54,6 @@
 
 - (NSString *) growlVersion;
 
-- (void) dispatchNotification:(NSNotification *)note;
 - (void) dispatchNotificationWithDictionary:(NSDictionary *)dict;
 - (void) registerApplicationWithDictionary:(NSDictionary *) userInfo;
 
