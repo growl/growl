@@ -399,7 +399,7 @@ static const char *keychainAccountName = "Growl";
 }
 
 - (void) _launchGrowl {
-	NSString *helperPath = [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"];
+	NSString *helperPath = [[self bundle] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 
 	// Don't allow the button to be clicked while we update
 	[startStopGrowl setEnabled:NO];
