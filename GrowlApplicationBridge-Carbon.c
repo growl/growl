@@ -45,9 +45,32 @@ static CFMutableArrayRef targetsToNotifyArray = NULL;
 
 struct GrowlDelegate *delegate = NULL;
 
-//these functions are part of Foundation, and return NSStrings.
-//thanks to toll-free bridging, we can simply declare them like this, and use
-//	them as if they were pure CF functions.
+/*NSLog is part of Foundation, and expects an NSString.
+ *thanks to toll-free bridging, we can simply declare it like this, and use it
+ *	as if it were a pure CF function.
+ *
+ *we weighed carefully using NSLog, considering the following points:
+ *con:
+ *	-	NSLog is a Foundation function, and this is advertised as a Carbon API.
+ *		(this is a style point.)
+ *	-	NSLog expects an NSString as a format, and therefore calls two Obj-C
+ *		methods on it (-length and -getCharacters:range:) as of Mac OS X 10.3.5.
+ *pro (mainly non-cons):
+ *	-	CFLog is private and undocumented (it is not declared in any CF header).
+ *	-	fprintf does not work with CoreFoundation objects (no %@), and obtaining
+ *		a UTF-8 C string that could be used for %s from a CF string is
+ *		convoluted and expensive.
+ *	-	rolling our own would invite bugs.
+ *	-	NSLog does not autorelease anything.
+ *	-	the performance hit of the Objective-C messages is offset by these facts:
+ *		-	the hit is minimal
+ *		-	if your app is misbehaving in such a way that we're calling NSLog,
+ *			NSLog's performance should not be uppermost in your mind
+ *		-	other methods (such as fprintf, see above) may be even more
+ *			expensive.
+ *
+ *and so you see NSLog declared here.
+ */
 extern void NSLog(CFStringRef format, ...);
 
 #pragma mark -
