@@ -199,36 +199,34 @@ static void GrowlBubblesShadeInterpolate( void *info, float const *inData, float
 	float backgroundAlpha = 0.95f;
 	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &backgroundAlpha);
 
-	bgColor = [NSColor colorWithCalibratedRed:0.69412f
-										green:0.83147f
-										 blue:0.96078f
-										alpha:backgroundAlpha];
-
 	Class NSArrayClass = [NSArray class];
 	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSArray *, &array);
-	if (array) {
-		if ([array isKindOfClass:NSArrayClass]) {
-			bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-												green:[[array objectAtIndex:1U] floatValue]
-												 blue:[[array objectAtIndex:2U] floatValue]
-												alpha:backgroundAlpha];
-		}
-		[array release];
+	if (array && [array isKindOfClass:NSArrayClass]) {
+		bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
+											green:[[array objectAtIndex:1U] floatValue]
+											 blue:[[array objectAtIndex:2U] floatValue]
+											alpha:backgroundAlpha];
+	} else {
+		bgColor = [NSColor colorWithCalibratedRed:0.69412f
+											green:0.83147f
+											 blue:0.96078f
+											alpha:backgroundAlpha];
 	}
 	[bgColor retain];
+	[array release];
 
-	textColor = [NSColor controlTextColor];
+	array = nil;
 	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, NSArray *, &array);
-	if (array) {
-		if ([array isKindOfClass:NSArrayClass]) {
-			textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-												  green:[[array objectAtIndex:1U] floatValue]
-												   blue:[[array objectAtIndex:2U] floatValue]
-												  alpha:1.0f];
-		}
-		[array release];
+	if (array && [array isKindOfClass:NSArrayClass]) {
+		textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
+											  green:[[array objectAtIndex:1U] floatValue]
+											   blue:[[array objectAtIndex:2U] floatValue]
+											  alpha:1.0f];
+	} else {
+		textColor = [NSColor controlTextColor];
 	}
 	[textColor retain];
+	[array release];
 }
 
 - (void) setIcon:(NSImage *) anIcon {

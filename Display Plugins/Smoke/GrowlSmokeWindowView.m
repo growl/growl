@@ -183,26 +183,28 @@ static float titleHeight;
 	Class NSArrayClass = [NSArray class];
 	READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array && [array isKindOfClass:NSArrayClass]) {
-		bgColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-											 green:[[array objectAtIndex:1U] floatValue]
-											  blue:[[array objectAtIndex:2U] floatValue]
-											 alpha:backgroundAlpha] retain];
+		bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
+											green:[[array objectAtIndex:1U] floatValue]
+											 blue:[[array objectAtIndex:2U] floatValue]
+											alpha:backgroundAlpha];
 	} else {
-		bgColor = [[NSColor colorWithCalibratedWhite:0.1f alpha:backgroundAlpha] retain];
+		bgColor = [NSColor colorWithCalibratedWhite:0.1f alpha:backgroundAlpha];
 	}
+	[bgColor retain];
 	[array release];
 	array = nil;
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlSmokePrefDomain, NSArray *, &array);
 	if (array && [array isKindOfClass:NSArrayClass]) {
-		textColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
-											   green:[[array objectAtIndex:1U] floatValue]
-												blue:[[array objectAtIndex:2U] floatValue]
-											   alpha:1.0f] retain];
+		textColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0U] floatValue]
+											  green:[[array objectAtIndex:1U] floatValue]
+											   blue:[[array objectAtIndex:2U] floatValue]
+											  alpha:1.0f];
 	} else {
-		textColor = [[NSColor colorWithCalibratedWhite:1.0f alpha:1.0f] retain];
+		textColor = [NSColor colorWithCalibratedWhite:1.0f alpha:1.0f];
 	}
+	[textColor retain];
 	[array release];
 }
 

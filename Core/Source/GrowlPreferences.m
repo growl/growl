@@ -68,8 +68,7 @@ static GrowlPreferences * sharedPreferences;
 
 - (id) objectForKey:(NSString *)key {
 	[helperAppDefaults synchronize];
-	id obj = [helperAppDefaults objectForKey:key];
-	return obj;
+	return [helperAppDefaults objectForKey:key];
 }
 
 - (void) setObject:(id)object forKey:(NSString *) key {
