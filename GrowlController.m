@@ -114,9 +114,9 @@ static id _singleton = nil;
 		// We should do nothing
 		return;
 	}
-	
+
 	NSMutableDictionary *aDict = [NSMutableDictionary dictionaryWithDictionary:dict];
-	
+
 	// Check icon
 	NSImage *icon = nil;
 	if ([aDict objectForKey:GROWL_NOTIFICATION_ICON]) {
@@ -301,7 +301,7 @@ static id _singleton = nil;
 
 - (void) _registerApplicationWithDictionary:(NSDictionary *) userInfo {
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
-	
+
 	NSImage *appIcon;
 	
 	NSData  *iconData = [userInfo objectForKey:GROWL_APP_ICON];

@@ -177,8 +177,9 @@
 	// we'll have to call this method after the controller knows about it.
 	NSEnumerator * enumerator;
 	
-	if (applicationDisplayPluginsMenu)
+	if (applicationDisplayPluginsMenu) {
 		[applicationDisplayPluginsMenu release];
+	}
 	
 	applicationDisplayPluginsMenu = [[NSMenu alloc] initWithTitle:@"DisplayPlugins"];
 	enumerator = [[[GrowlPluginController controller] allDisplayPlugins] objectEnumerator];
@@ -188,9 +189,11 @@
 	while (title = [enumerator nextObject]) {
 		[applicationDisplayPluginsMenu addItemWithTitle:title action:nil keyEquivalent:@""];
 	}
-	
-	if (notificationPriorityMenu)
+	[[[growlApplications tableColumnWithIdentifier:@"display"] dataCell] setMenu:applicationDisplayPluginsMenu];
+
+	if (notificationPriorityMenu) {
 		[notificationPriorityMenu release];
+	}
 	notificationPriorityMenu = [[NSMenu alloc] initWithTitle:@"Priority"];
 	[notificationPriorityMenu addItemWithTitle:@"Default" action:nil keyEquivalent:@""];
 	[notificationPriorityMenu addItem:[NSMenuItem separatorItem]];
@@ -199,6 +202,7 @@
 	[notificationPriorityMenu addItemWithTitle:@"Normal" action:nil keyEquivalent:@""];
 	[notificationPriorityMenu addItemWithTitle:@"High" action:nil keyEquivalent:@""];
 	[notificationPriorityMenu addItemWithTitle:@"Emergency" action:nil keyEquivalent:@""];
+	[[[applicationNotifications tableColumnWithIdentifier:@"priority"] dataCell] setMenu:notificationPriorityMenu];
 }
 
 - (void)updateRunningStatus {
@@ -467,24 +471,24 @@
 			[self setPrefsChanged:YES];
 		}
 		if ([[column identifier] isEqualTo:@"display"])	{
-			if ([value intValue] == 0) {
+			int index = [value intValue];
+			if (index == 0) {
 				if ([[tickets objectForKey:application] usesCustomDisplay]) {
 					[[tickets objectForKey:application] setUsesCustomDisplay:NO];
 					[self setPrefsChanged:YES];
 				}
 			} else {
-				if (![[[applicationDisplayPluginsMenu itemAtIndex:[value intValue]] title] isEqualTo:[[[tickets objectForKey:application] displayPlugin] name]] ||
-					![[tickets objectForKey:application] usesCustomDisplay]) {
+				NSString *pluginName = [[applicationDisplayPluginsMenu itemAtIndex:index] title];
+				if (![pluginName isEqualTo:[[[tickets objectForKey:application] displayPlugin] name]] ||
+						![[tickets objectForKey:application] usesCustomDisplay]) {
 					[[tickets objectForKey:application] setUsesCustomDisplay:YES];
-					[[tickets objectForKey:application] setDisplayPluginNamed:[[applicationDisplayPluginsMenu itemAtIndex:[value intValue]] title]];
+					[[tickets objectForKey:application] setDisplayPluginNamed:pluginName];
 					[self setPrefsChanged:YES];
 				}
 			}
 		}
 		[self reloadAppTab];
-		return;
-	}
-	if (tableView == applicationNotifications) {
+	} else if (tableView == applicationNotifications) {
 		NSString * note = [[appTicket allNotifications] objectAtIndex:row];
 		if ([[column identifier] isEqualTo:@"enable"]) {
 			if([value boolValue]) {
@@ -493,28 +497,24 @@
 				[appTicket setNotificationDisabled:note];
 			}
 			[self setPrefsChanged:YES];
-			return;
-		}
-		if ([[column identifier] isEqualTo:@"priority"]) {
-			if ([value intValue] == 0) {
+		} else if ([[column identifier] isEqualTo:@"priority"]) {
+			int index = [value intValue];
+			if (index == 0) {
 				if ([appTicket priorityForNotification:note] != GP_unset) {
 					[appTicket resetPriorityForNotification:note];
 					[self setPrefsChanged:YES];
 				}
-			} else if ([appTicket priorityForNotification:note] != ([value intValue]-4)) {
-				[appTicket setPriority:([value intValue]-4) forNotification:note];
+			} else if ([appTicket priorityForNotification:note] != (index-4)) {
+				[appTicket setPriority:(index-4) forNotification:note];
 				[self setPrefsChanged:YES];
 			}
-			return;
-		}
-		if ([[column identifier] isEqualTo:@"sticky"]) {
+		} else if ([[column identifier] isEqualTo:@"sticky"]) {
             [appTicket setSticky:[value intValue] forNotification:note];
 			[self setPrefsChanged:YES];
-			return;
 		}
-	}
-	if (tableView == displayPlugins)
+	} else if (tableView == displayPlugins) {
 		return;
+	}
 }
 
 #pragma mark Application Tab TableView delegate methods
@@ -529,21 +529,20 @@
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
 	if (tableView == growlApplications) {
 		if ([[column identifier] isEqualTo:@"display"]) {
-			[cell setMenu:[applicationDisplayPluginsMenu copy]];
 			if (![[tickets objectForKey: [applications objectAtIndex:row]] usesCustomDisplay]) {
 				[cell selectItemAtIndex:0]; // Default
 			} else {
 				[cell selectItemWithTitle:[[[tickets objectForKey: [applications objectAtIndex:row]] displayPlugin] name]];
 			}
 		} else if ([[column identifier] isEqualTo:@"application"]) {
-			NSImage* icon = [[tickets objectForKey: [applications objectAtIndex:row]] icon];
+			// TODO: return a copy to avoid resizing the original image stored in the ticket
+			NSImage *icon = [[tickets objectForKey: [applications objectAtIndex:row]] icon];
 			[icon setScalesWhenResized:YES];
 			[icon setSize:NSMakeSize(16,16)];
-			[(ACImageAndTextCell*)cell setImage:icon];
+			[(ACImageAndTextCell *)cell setImage:icon];
 		}
 	} else if (tableView == applicationNotifications) {
 		if ([[column identifier] isEqualTo:@"priority"]) {
-			[cell setMenu:[notificationPriorityMenu copy]];
 			id notif = [[appTicket allNotifications] objectAtIndex:row];
 			int priority = [appTicket priorityForNotification:notif];
 			if (priority != GP_unset) {
