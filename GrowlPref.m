@@ -102,8 +102,11 @@
 	NSDictionary *item;
 	while (item = [e nextObject]) {
 		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:[[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"]]) {
+			NSLog(@"%@ == %@", [[item objectForKey:@"Path"] stringByExpandingTildeInPath], [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"]);
 			[startGrowlAtLogin setState:NSOnState];
 			break;
+		} else {
+			NSLog(@"%@ != %@", [[item objectForKey:@"Path"] stringByExpandingTildeInPath], [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"]);
 		}
 	}
 
@@ -541,7 +544,7 @@
 	[growlApplications reloadData];
 	
 	if([currentApplication isEqualToString:app])
-		[self reloadPreferences];	
+		[self reloadPreferences];
 }
 
 - (void)growlLaunched:(NSNotification *)note {
