@@ -378,7 +378,7 @@ NSString * UsesCustomDisplayKey = @"usesCustomDisplay";
 		}
 		defaultNotifications = mDefaultNotifications;
 	} else {
-		NSLog(@"WARNING: application %@ passed an invalid object for the default notifications.", appName);
+		NSLog(@"WARNING: application %@ passed an invalid object for the default notifications: %@.", appName, inObject);
 		defaultNotifications = [allNotifications copy];
 	}
 

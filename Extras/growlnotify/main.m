@@ -251,10 +251,10 @@ int main(int argc, const char **argv) {
 		notificationName, GROWL_NOTIFICATION_NAME,
 		applicationName, GROWL_APP_NAME,
 		title, GROWL_NOTIFICATION_TITLE,
-		icon, GROWL_NOTIFICATION_ICON,
 		desc, GROWL_NOTIFICATION_DESCRIPTION,
 		[NSNumber numberWithInt:priority], GROWL_NOTIFICATION_PRIORITY,
 		[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
+		icon, GROWL_NOTIFICATION_ICON,
 		nil];
 	
 	if ( host ) {
