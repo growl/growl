@@ -12,7 +12,7 @@
 #define B_AUTHOR      @"Jorge Salvador Caffarena"
 #define B_NAME        @"Music Video"
 #define B_DESCRIPTION @"Music Video notifications, for your tunes"
-#define B_VERSION     @"0.1.0"
+#define B_VERSION     @"0.2.0"
 
 @implementation GrowlMusicVideoDisplay
 

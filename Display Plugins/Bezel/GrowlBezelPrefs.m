@@ -21,7 +21,7 @@
 	int		opacityPref = 40;
 	float	durationPref = 3.0f;
 
-	[slider_Opacity setAltIncrementValue:5.0];
+	[slider_opacity setAltIncrementValue:5.0];
 
 	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
@@ -62,16 +62,21 @@
 	
 	[radio_Size selectCellAtRow:sizePref column:0];
 
-	[slider_Opacity setIntValue:opacityPref];
-	[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
+	[slider_opacity setIntValue:opacityPref];
+	[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
 
-	[slider_Duration setFloatValue:durationPref];
-	[text_Duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
+	[slider_duration setFloatValue:durationPref];
+	[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
 
 	// screen number
 	int screenNumber = 0;
 	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, BezelPrefDomain, &screenNumber);
 	[combo_screen setIntValue:screenNumber];
+
+	// style
+	int style = 0;
+	READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, BezelPrefDomain, &style);
+	[button_style selectItemAtIndex:style];
 }
 
 - (void)didSelect {
@@ -122,13 +127,13 @@
 	} else if (sender == radio_Size) {
 		sizePref = [radio_Size selectedRow];
 		WRITE_GROWL_PREF_INT(BEZEL_SIZE_PREF, sizePref, BezelPrefDomain);
-	} else if (sender == slider_Opacity) {
-		opacityPref = [slider_Opacity intValue];
-		[text_Opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
+	} else if (sender == slider_opacity) {
+		opacityPref = [slider_opacity intValue];
+		[text_opacity setStringValue:[NSString stringWithFormat:@"%d%%", opacityPref]];
 		WRITE_GROWL_PREF_INT(BEZEL_OPACITY_PREF, opacityPref, BezelPrefDomain);
-	} else if (sender == slider_Duration) {
-		durationPref = [slider_Duration floatValue];
-		[text_Duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
+	} else if (sender == slider_duration) {
+		durationPref = [slider_duration floatValue];
+		[text_duration setStringValue:[NSString stringWithFormat:@"%.2f s", durationPref]];
 		WRITE_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, durationPref, BezelPrefDomain);
 	}
 
@@ -146,6 +151,12 @@
 - (IBAction) setScreen:(id)sender {
 	int pref = [sender intValue];
 	WRITE_GROWL_PREF_INT(BEZEL_SCREEN_PREF, pref, BezelPrefDomain);	
+	UPDATE_GROWL_PREFS();
+}
+
+- (IBAction) setStyle:(id)sender {
+	int pref = [sender indexOfSelectedItem];
+	WRITE_GROWL_PREF_INT(BEZEL_STYLE_PREF, pref, BezelPrefDomain);	
 	UPDATE_GROWL_PREFS();
 }
 

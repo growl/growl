@@ -13,7 +13,7 @@
 
 @implementation GrowlBubblesController
 
-#pragma mark Growl Gets Satisfaction
+#pragma mark -
 
 - (id) init {
 	if ( (self = [super init] ) ) {
@@ -44,7 +44,7 @@
 }
 
 - (NSString *) version {
-	return @"1.0b";
+	return @"1.1";
 }
 
 - (void) unloadPlugin {
@@ -56,7 +56,7 @@
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		@"Bubbles", @"Name",
 		@"Karl Adam and Timothy Hatcher", @"Author",
-		@"1.0b", @"Version",
+		@"1.1", @"Version",
 		@"Happy Bubbles!", @"Description",
 		nil];
 }

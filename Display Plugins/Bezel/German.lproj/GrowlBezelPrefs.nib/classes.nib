@@ -2,10 +2,11 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {preferenceChanged = id; setScreen = id; }; 
+            ACTIONS = {preferenceChanged = id; setScreen = id; setStyle = id; }; 
             CLASS = GrowlBezelPrefs; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "button_style" = NSPopUpButton; 
                 "combo_screen" = NSComboBox; 
                 "radio_PositionBL" = NSButton; 
                 "radio_PositionBR" = NSButton; 
@@ -13,10 +14,10 @@
                 "radio_PositionTL" = NSButton; 
                 "radio_PositionTR" = NSButton; 
                 "radio_Size" = NSMatrix; 
-                "slider_Duration" = NSSlider; 
-                "slider_Opacity" = NSSlider; 
-                "text_Duration" = NSTextField; 
-                "text_Opacity" = NSTextField; 
+                "slider_duration" = NSSlider; 
+                "slider_opacity" = NSSlider; 
+                "text_duration" = NSTextField; 
+                "text_opacity" = NSTextField; 
             }; 
             SUPERCLASS = NSPreferencePane; 
         }, 

@@ -15,7 +15,7 @@
 #define SMOKE_AUTHOR		@"Matthew Walton"
 #define SMOKE_NAME			@"Smoke"
 #define SMOKE_DESCRIPTION	@"Dark translucent notifications"
-#define SMOKE_VERSION		@"1.0"
+#define SMOKE_VERSION		@"1.1"
 
 static unsigned smokeDepth = 0U;
 

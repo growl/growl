@@ -12,7 +12,7 @@
 #define B_AUTHOR		@"Jorge Salvador Caffarena"
 #define B_NAME			@"Bezel"
 #define B_DESCRIPTION	@"Bezel like notifications, with a twist"
-#define B_VERSION		@"1.1.0b"
+#define B_VERSION		@"1.2.0"
 
 @implementation GrowlBezelDisplay
 
