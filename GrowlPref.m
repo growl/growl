@@ -102,11 +102,8 @@
 	NSDictionary *item;
 	while (item = [e nextObject]) {
 		if ([[[item objectForKey:@"Path"] stringByExpandingTildeInPath] isEqualToString:[[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"]]) {
-			NSLog(@"%@ == %@", [[item objectForKey:@"Path"] stringByExpandingTildeInPath], [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"]);
 			[startGrowlAtLogin setState:NSOnState];
 			break;
-		} else {
-			NSLog(@"%@ != %@", [[item objectForKey:@"Path"] stringByExpandingTildeInPath], [[[self bundle] resourcePath] stringByAppendingPathComponent:@"GrowlHelperApp.app"]);
 		}
 	}
 
@@ -328,6 +325,8 @@
 			}
 			[pluginPrefPane willSelect];
 		}
+	} else {
+		pluginPrefPane = nil;
 	}
 	if (newView == nil) {
 		newView = displayDefaultPrefView;
