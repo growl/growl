@@ -616,6 +616,7 @@
 				0A04279607088E7D0058CBD0,
 				83282736073A6B750044A959,
 				956BF7550749FBE100D8B367,
+				95B47804075E32B500B566F1,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -1272,6 +1273,21 @@
 			path = German.lproj/Localizable.strings;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		95B47804075E32B500B566F1 = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Brushed.growlView;
+			refType = 3;
+			remoteRef = 95B47808075E32B800B566F1;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95B47808075E32B800B566F1 = {
+			containerPortal = 6C1D4F6D06FA0C0500A5D946;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 955862DA075DB8270015A144;
+			remoteInfo = Brushed;
 		};
 		95BF83760743675700306A77 = {
 			isa = PBXFileReference;

@@ -70,7 +70,7 @@
 
 /*! Tells the display plugin to display a notification with the given information
 	@param noteDict The userInfo dictionary that describes the notification */
-- (void)  displayNotificationWithInfo:(NSDictionary *) noteDict;
+- (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
 
 @end
 
