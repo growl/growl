@@ -15,7 +15,10 @@
 - (NSString *) growlVersion;
 @end
 
-@interface GrowlRemoteDOPathway : NSObject <GrowlNotificationProtocol> {
+@interface GrowlPathway : NSObject {
 }
+
+- (void) registerApplicationWithDictionary:(NSDictionary *)dict;
+- (void) postNotificationWithDictionary:(NSDictionary *)dict;
 
 @end

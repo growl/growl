@@ -10,7 +10,7 @@
 #import "GrowlController.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlApplicationNotification.h"
-#import "GrowlRemoteDOPathway.h"
+#import "GrowlRemotePathway.h"
 #import "GrowlUDPPathway.h"
 #import "CFGrowlAdditions.h"
 #import "NSGrowlAdditions.h"
@@ -126,7 +126,7 @@ static id singleton = nil;
 - (void) startServer {
 	socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
 	serverConnection = [[NSConnection alloc] initWithReceivePort:socketPort sendPort:nil];
-	server = [[GrowlRemoteDOPathway alloc] init];
+	server = [[GrowlRemotePathway alloc] init];
 	[serverConnection setRootObject:server];
 	[serverConnection setDelegate:self];
 	

@@ -8,8 +8,9 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <Foundation/Foundation.h>
+#import "GrowlRemotePathway.h"
 
-@interface GrowlUDPPathway : NSObject {
+@interface GrowlUDPPathway: GrowlRemotePathway {
 	NSSocketPort *sock;
 	NSFileHandle *fh;
 	NSImage *notificationIcon;

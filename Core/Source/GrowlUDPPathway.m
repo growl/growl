@@ -8,7 +8,6 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlUDPPathway.h"
-#import "GrowlController.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
@@ -164,7 +163,7 @@ static const char *keychainAccountName = "Growl";
 											defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 											nil];
 
-										[[GrowlController standardController] registerApplicationWithDictionary:registerInfo];
+										[self registerApplicationWithDictionary:registerInfo];
 									} else {
 										NSLog( @"GrowlUDPServer: authentication failed." );
 									}
@@ -205,7 +204,7 @@ static const char *keychainAccountName = "Growl";
 										[notificationIcon TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 										nil];
 
-									[[GrowlController standardController] dispatchNotificationWithDictionary:notificationInfo];
+									[self postNotificationWithDictionary:notificationInfo];
 								} else {
 									NSLog( @"GrowlUDPServer: authentication failed." );
 								}

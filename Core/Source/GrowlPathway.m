@@ -1,5 +1,5 @@
 //
-//  GrowlNotificationServer.m
+//  GrowlPathway.m
 //  Growl
 //
 //  Created by Ingmar Stein on 15.11.04.
@@ -7,20 +7,20 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import "GrowlRemoteDOPathway.h"
+#import "GrowlPathway.h"
 #import "GrowlController.h"
 
-@implementation GrowlRemoteDOPathway
+@implementation GrowlPathway
 
-- (void) registerApplication:(NSDictionary *)dict {
+- (void) registerApplicationWithDictionary:(NSDictionary *)dict {
 	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
 	if ( enabled ) {
 		[[GrowlController standardController] registerApplicationWithDictionary:dict];
 	}
 }
 
-- (void) postNotification:(NSDictionary *)notification {
-	[[GrowlController standardController] dispatchNotificationWithDictionary:notification];
+- (void) postNotificationWithDictionary:(NSDictionary *)dict {
+	[[GrowlController standardController] dispatchNotificationWithDictionary:dict];
 }
 
 - (NSString *) growlVersion {

@@ -133,6 +133,30 @@
 			settings = {
 			};
 		};
+		074062AA07E2FBE300FA27FA = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlDistributedNotificationPathway.h;
+			path = Core/Source/GrowlDistributedNotificationPathway.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		074062AB07E2FBE300FA27FA = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlDistributedNotificationPathway.m;
+			path = Core/Source/GrowlDistributedNotificationPathway.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		074062AD07E2FBE300FA27FA = {
+			fileRef = 074062AB07E2FBE300FA27FA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		0790135207D932140023B640 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -272,6 +296,30 @@
 			path = include/SVNRevision.h;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		07FCFFC107E2F90C00F0A1CF = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlRemotePathway.h;
+			path = Core/Source/GrowlRemotePathway.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07FCFFC207E2F90C00F0A1CF = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlRemotePathway.m;
+			path = Core/Source/GrowlRemotePathway.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07FCFFC407E2F90C00F0A1CF = {
+			fileRef = 07FCFFC207E2F90C00F0A1CF;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 //070
 //071
@@ -2221,9 +2269,6 @@
 				3433458D0790E3D600C84B15,
 				CB5C315107925B53007CC0D0,
 				95EF059F07C77C1500218584,
-				95C8783107D9DFC000C69DEE,
-				95C8783307D9DFC000C69DEE,
-				CB34BED307E09657001D7D7C,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3819,20 +3864,8 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		95C8783107D9DFC000C69DEE = {
-			fileRef = 95C8774707D9DFC000C69DEE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		95C8783207D9DFC000C69DEE = {
 			fileRef = 95C8777007D9DFC000C69DEE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		95C8783307D9DFC000C69DEE = {
-			fileRef = 95C8779907D9DFC000C69DEE;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3889,8 +3922,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			name = GrowlRemoteDOPathway.h;
-			path = Core/Source/GrowlRemoteDOPathway.h;
+			name = GrowlPathway.h;
+			path = Core/Source/GrowlPathway.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3898,8 +3931,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			name = GrowlRemoteDOPathway.m;
-			path = Core/Source/GrowlRemoteDOPathway.m;
+			name = GrowlPathway.m;
+			path = Core/Source/GrowlPathway.m;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -4223,12 +4256,16 @@
 //CB4
 		CB0EBFBA0790941300CA2157 = {
 			children = (
-				958294EF074CDE3100EC7AF2,
-				958294F0074CDE3100EC7AF2,
+				074062AA07E2FBE300FA27FA,
+				074062AB07E2FBE300FA27FA,
 				95DD14D30748B04700CC05A4,
 				95DD14D80748B04700CC05A4,
+				07FCFFC107E2F90C00F0A1CF,
+				07FCFFC207E2F90C00F0A1CF,
 				CB34BED107E09657001D7D7C,
 				CB34BED207E09657001D7D7C,
+				958294EF074CDE3100EC7AF2,
+				958294F0074CDE3100EC7AF2,
 			);
 			isa = PBXGroup;
 			name = Pathways;
@@ -4274,8 +4311,8 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
-			name = GrowlApplicationPathway.h;
-			path = Core/Source/GrowlApplicationPathway.h;
+			name = GrowlApplicationBridgePathway.h;
+			path = Core/Source/GrowlApplicationBridgePathway.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -4283,16 +4320,10 @@
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			name = GrowlApplicationPathway.m;
-			path = Core/Source/GrowlApplicationPathway.m;
+			name = GrowlApplicationBridgePathway.m;
+			path = Core/Source/GrowlApplicationBridgePathway.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		CB34BED307E09657001D7D7C = {
-			fileRef = CB34BED107E09657001D7D7C;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		CB34BED407E09657001D7D7C = {
 			fileRef = CB34BED207E09657001D7D7C;
@@ -4344,8 +4375,6 @@
 			children = (
 				CB5F83A60638B8C800EADD7A,
 				07C2F34707D6F54E00B18524,
-				CB5F83890638B78200EADD7A,
-				CB5F838A0638B78200EADD7A,
 				CB5F847F0638BD6200EADD7A,
 				CB5F84730638BD4D00EADD7A,
 			);
@@ -4406,6 +4435,8 @@
 		};
 		CB5F847F0638BD6200EADD7A = {
 			children = (
+				CB5F83890638B78200EADD7A,
+				CB5F838A0638B78200EADD7A,
 				5286205506DC4C2F00D3A356,
 				5286205606DC4C2F00D3A356,
 				52861EE306DBA95400D3A356,
@@ -4482,6 +4513,8 @@
 				9550518107DE4B4A002F5315,
 				CB34BED407E09657001D7D7C,
 				070B90FD07E1AEFA00F10FA7,
+				07FCFFC407E2F90C00F0A1CF,
+				074062AD07E2FBE300FA27FA,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
