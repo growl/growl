@@ -283,7 +283,6 @@
 //194
 		19C28FB8FE9D52D311CA2CBB = {
 			children = (
-				952D2633075E42980099EE7D,
 				8D202CF80486D31800D8A456,
 				CB61E5180637763C00E0DDC7,
 				6C1D526806FA0CE000A5D946,
@@ -617,7 +616,6 @@
 				0A04279607088E7D0058CBD0,
 				83282736073A6B750044A959,
 				956BF7550749FBE100D8B367,
-				95B47804075E32B500B566F1,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -1007,38 +1005,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		952D2633075E42980099EE7D = {
-			explicitFileType = wrapper.cfbundle;
-			isa = PBXFileReference;
-			name = Brushed.growlView;
-			path = "Display Plugins/build/Brushed.growlView";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		952D2639075E42980099EE7D = {
-			fileRef = 952D2633075E42980099EE7D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		952D265C075E42D50099EE7D = {
-			fileRef = 952D2633075E42980099EE7D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		952D26BC075E42FD0099EE7D = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 955862D9075DB8270015A144;
-			remoteInfo = Brushed;
-		};
-		952D26BD075E42FD0099EE7D = {
-			isa = PBXTargetDependency;
-			name = "Brushed (from Display Plugins.xcode)";
-			targetProxy = 952D26BC075E42FD0099EE7D;
-		};
 		953C3EFE0747970800F2A737 = {
 			children = (
 				CB910DA6074E0A3A00278FC5,
@@ -1306,21 +1272,6 @@
 			path = German.lproj/Localizable.strings;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		95B47804075E32B500B566F1 = {
-			fileType = wrapper.cfbundle;
-			isa = PBXReferenceProxy;
-			path = Brushed.growlView;
-			refType = 3;
-			remoteRef = 95B47808075E32B800B566F1;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95B47808075E32B800B566F1 = {
-			containerPortal = 6C1D4F6D06FA0C0500A5D946;
-			isa = PBXContainerItemProxy;
-			proxyType = 2;
-			remoteGlobalIDString = 955862DA075DB8270015A144;
-			remoteInfo = Brushed;
 		};
 		95BF83760743675700306A77 = {
 			isa = PBXFileReference;
@@ -1654,7 +1605,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				952D265C075E42D50099EE7D,
 				6C6E2B54073A6D5D00F1A95F,
 				6C4834BA07395F1500F65193,
 				6CCCED0907144EF000C5B203,
@@ -1674,7 +1624,6 @@
 				52861FF006DC463E00D3A356,
 				954F013D074135D400EA8AB5,
 				95BF837D0743675700306A77,
-				952D2639075E42980099EE7D,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1746,7 +1695,6 @@
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 			};
 			dependencies = (
-				952D26BD075E42FD0099EE7D,
 				6C1D4F7106FA0C7E00A5D946,
 				0A0429000708ACA10058CBD0,
 				6C566EFC0716F1D300E139BD,

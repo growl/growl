@@ -19,7 +19,6 @@ New Displays
 	- NSLog
 	- MailMe
 	- Speech
-	- Brushed
 
 Changes to current displays:
 	Bubbles:
