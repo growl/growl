@@ -30,11 +30,86 @@
  */
 
 #include <tcl.h>
-#include <Foundation/Foundation.h>
-#include <AppKit/NSImage.h>
-#include <GrowlDefines.h>
 
-static NSString *appName = nil; // Stores the registered name of the Tcl application.
+#include <Foundation/Foundation.h>
+
+#include <GrowlDefines.h>
+#include <TclGrowler.h>
+
+static TclGrowler *tg = nil;
+
+int
+growl_register(int objc, Tcl_Obj *CONST objv[])
+{
+	NSString *appName = nil;
+	NSArray *allNotifications = nil;
+	NSString *iconFile = nil;
+	NSImage *notificationIcon = nil;
+
+	if (tg != nil || objc != 3) {
+		return TCL_ERROR;
+	}
+
+	appName = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
+	++objv, --objc;
+
+	allNotifications = [[NSString stringWithUTF8String:Tcl_GetString(*objv)] componentsSeparatedByString:@" "];
+	++objv, --objc;
+
+	iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
+	notificationIcon = [[NSImage alloc] initWithContentsOfFile:iconFile];
+	++objv, --objc;
+
+	tg = [[TclGrowler alloc] initWithName:appName notifications:allNotifications icon:notificationIcon];
+
+	[notificationIcon release];
+
+	return TCL_OK;
+}
+
+int
+growl_post(int objc, Tcl_Obj *CONST objv[])
+{
+	NSString *notificationName = nil;
+	NSString *notificationTitle = nil;
+	NSString *notificationDescription = nil;
+	NSString *iconFile = nil;
+	NSImage *notificationIcon = nil;
+
+	if (objc != 3 && objc != 4) {
+		return TCL_ERROR;
+	}
+
+	notificationName = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
+	++objv, --objc;
+
+	notificationTitle = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
+	++objv, --objc;
+
+	notificationDescription = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
+	++objv, --objc;
+
+	if (objc) {
+		iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
+		notificationIcon = [[NSImage alloc] initWithContentsOfFile:iconFile];
+		++objv, --objc;
+	}
+
+	[GrowlApplicationBridge notifyWithTitle:notificationTitle
+		description:notificationDescription
+		notificationName:notificationName
+		iconData:(notificationIcon ? [notificationIcon TIFFRepresentation] : [tg applicationIconDataForGrowl])
+		priority:0
+		isSticky:NO
+		clickContext:nil];
+
+	if (notificationIcon != nil) {
+		[notificationIcon release];
+	}
+
+	return TCL_OK;
+}
+
 
 /*
  * GrowlCmd
@@ -42,95 +117,20 @@ static NSString *appName = nil; // Stores the registered name of the Tcl applica
  */
 int GrowlCmd(ClientData clientData, Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	/* Return value; set success explicitly. */
-	int e = TCL_ERROR;
-
-	/* Action: 'register' or 'post'. */
+	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	NSString *action = nil;
-
-	/* For register only. */
-	NSArray *allNotifications = nil;
-
-	/* For post only. */
-	NSString *notificationType = nil;
-	NSString *notificationTitle = nil;
-	NSString *notificationDescription = nil;
-
-	/* Notification icon. */
-	NSString *iconFile = nil;
-	NSImage *notificationIcon = nil;
-
-	/* Notification information. */
-	NSDistributedNotificationCenter *distCenter = nil;
-	NSString *notificationName = nil;
-	NSDictionary *userInfo = nil;
+	int e = TCL_ERROR;
 
 	++objv, --objc;
 
 	if (objc) {
-		distCenter = [NSDistributedNotificationCenter defaultCenter];
-
 		action = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
 		++objv, --objc;
 
 		if ([action isEqualToString:@"register"]) {
-			if (appName == nil && objc == 3) {
-				appName = [[NSString stringWithUTF8String:Tcl_GetString(*objv)] retain];
-				++objv, --objc;
-
-				allNotifications = [[NSString stringWithUTF8String:Tcl_GetString(*objv)] componentsSeparatedByString:@" "];
-				++objv, --objc;
-
-				iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
-				notificationIcon = [[NSImage alloc] initWithContentsOfFile:iconFile];
-				++objv, --objc;
-
-				notificationName = GROWL_APP_REGISTRATION;
-				userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-					appName, GROWL_APP_NAME,
-					[notificationIcon TIFFRepresentation], GROWL_APP_ICON,
-					allNotifications, GROWL_NOTIFICATIONS_ALL,
-					allNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-					nil];
-				e = TCL_OK;
-			}
+			e = growl_register(objc, objv);
 		} else if ([action isEqualToString:@"post"]) {
-			if (objc == 3 || objc == 4) {
-				notificationType = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
-				++objv, --objc;
-
-				notificationTitle = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
-				++objv, --objc;
-
-				notificationDescription = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
-				++objv, --objc;
-
-				if (objc) {
-					iconFile = [NSString stringWithUTF8String:Tcl_GetString(*objv)];
-					notificationIcon = [[NSImage alloc] initWithContentsOfFile:iconFile];
-					++objv, --objc;
-				}
-
-				notificationName = GROWL_NOTIFICATION;
-				userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-					notificationType, GROWL_NOTIFICATION_NAME,
-					appName, GROWL_APP_NAME,
-					notificationTitle, GROWL_NOTIFICATION_TITLE,
-					notificationDescription, GROWL_NOTIFICATION_DESCRIPTION,
-					notificationIcon ? [notificationIcon TIFFRepresentation] : nil, GROWL_NOTIFICATION_ICON,
-					nil];
-				e = TCL_OK;
-			}
-		}
-
-		if (userInfo != nil) {
-			[distCenter postNotificationName:notificationName object:nil userInfo:userInfo];
-		}
-
-		if (notificationIcon != nil) {
-			[notificationIcon release];
+			e = growl_post(objc, objv);
 		}
 	}
 

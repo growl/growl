@@ -7,11 +7,11 @@ TCLSH = /usr/bin/tclsh
 DESTDIR =
 PREFIX = /Library/Tcl/growl1.0
 
-OBJS = growl.o
+OBJS = GrowlApplicationBridge.o TclGrowler.o growl.o
 TARGET = libgrowl.dylib
 
 CC = gcc
-CFLAGS = -Wall -I../.. -DUSE_TCL_STUBS
+CFLAGS = -Wall -I. -DUSE_TCL_STUBS
 FRAMEWORKS = -framework Cocoa -framework Tcl -ltclstub8.4
 LDFLAGS = -dynamiclib -install_name $(PREFIX)/$(TARGET)
 
