@@ -30,7 +30,7 @@
 
 #import "GrowlTunesController.h"
 #import "GrowlDefines.h"
-#import <GrowlAppBridge/GrowlApplicationBridge.h>
+#import <GrowlAppBridge/GrowlAppBridge.h>
 #import "NSGrowlAdditions.h"
 
 #define ONLINE_HELP_URL		    @"http://growl.info/documentation/growltunes.php"
@@ -73,7 +73,10 @@ enum {
 	self = [super init];
 
 	if(self) {
-		[GrowlAppBridge launchGrowlIfInstalledNotifyingTarget:self selector:@selector(registerGrowl:) context:NULL];
+		Class GABClass = NSClassFromString(@"GrowlAppBridge");
+		[GABClass launchGrowlIfInstalledNotifyingTarget:self
+		                                       selector:@selector(registerGrowl:)
+		                                        context:NULL];
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
 															selector:@selector(growlIsReady:)
 																name:GROWL_IS_READY
