@@ -22,7 +22,9 @@ Release related issues
 
 For .7
 
-- Concentrate just on networking.
+We are dropping 10.2 support in this release. By time it is released Tiger will probably have released.
+
+- Concentrate on networking.
 	- Properly document the networking protocol
 	- Decide on what we want to use for the long term (1-2 years at least)
 	- Create a gui for sensibly managing the remote notifications
@@ -33,9 +35,36 @@ For .7
 	- Should we add password authentification to UDP notifications as well?
 	- Should we be using DO? (directed at Karl)
 
+-Functional plugins
+	- Design a way for functional plugins to work
+	- Move rendezvous out of display plugins into a functional plugin that would allow for any notification.
+		- Make a rendezvous/network tab
+		- Allow for adding hosts from outside the subnet/multicast area.
+		- Use rendezvous for discovery
+		- Use something decently secure
+	- Add a menu item/status item (menuling)
+		- For the logging and re-sending of notifications, if networking is on, maybe even forwarding recieved notifications
+		- Switch default display style on the fly
+		- Turn growl silent mode on, to squelch notifs but still log them
+	- Add a functional plugin that can display all notifications in a log. Make this accessable via the menuling
+
+- Uber passive registration
+	- A GrowlNotifications.plist resource in App bundles that we read on their launch/install to allow them to register
+	- This is for when the app would have a large amount of notifs to prepare or to seperate it out from code and make it
+	  more flexible on app updates and such
+	- Watching app launches and checking on apps for these resources
+
+- GHA.framework -> Growl.framework
+	- add methods for developers to register and notify directly through this framework
+		ie. - notifyWithTitle:(NSString *)inTitle 
+				  description:(NSString *)inDescription 
+				    imageData:(NSData *)inImageData 
+				   andOptions:(GrowlOptionsFlags)inFlags
+
+
 Release related issues (.7)
  -Create a branch for the .7 release
-	- Test on 10.2. Everything needs to run on 10.2 and 10.3. 10.4 if possible, but not a priority.
+	- Everything needs to run on 10.3 and 10.4. 
 - DMG & PKG
 - Make sure we have user documentation on everything we have.
 
@@ -65,31 +94,9 @@ For .8 (The Kitchen Sink) or sooner
 
 
 
--Functional plugins
-	- Design a way for functional plugins to work
-	- Move rendezvous out of display plugins into a functional plugin that would allow for any notification.
-		- Make a rendezvous/network tab
-		- Allow for adding hosts from outside the subnet/multicast area.
-		- Use rendezvous for discovery
-		- Use something decently secure
-	- Add a menu item/status item (menuling)
-		- For the logging and re-sending of notifications, if networking is on, maybe even forwarding recieved notifications
-		- Switch default display style on the fly
-		- Turn growl silent mode on, to squelch notifs but still log them
-	- Add a functional plugin that can display all notifications in a log. Make this accessable via the menuling
 
-- Uber passive registration
-	- A GrowlNotifications.plist resource in App bundles that we read on their launch/install to allow them to register
-	- This is for when the app would have a large amount of notifs to prepare or to seperate it out from code and make it
-	  more flexible on app updates and such
-	- Watching app launches and checking on apps for these resources
 
-- GHA.framework -> Growl.framework
-	- add methods for developers to register and notify directly through this framework
-		ie. - notifyWithTitle:(NSString *)inTitle 
-				  description:(NSString *)inDescription 
-				    imageData:(NSData *)inImageData 
-				   andOptions:(GrowlOptionsFlags)inFlags
+
 
 - Other
 	- Make GrowlMail not run while applying rules if possible
