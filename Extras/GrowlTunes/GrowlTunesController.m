@@ -319,14 +319,13 @@ enum {
 																	   object:nil
 																	 userInfo:noteDict];
 		
-		// set us up some state for next time
+		// set up us some state for next time
 		state = newState;
 		[trackURL release];
 		trackURL = [newTrackURL retain];
 		
 		// Recent Tracks
-		if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
-			[self addTuneToRecentTracks:track fromPlaylist:playlistName];
+		[self addTuneToRecentTracks:track fromPlaylist:playlistName];
 	}
 }
 
@@ -439,13 +438,12 @@ enum {
 																	   object:nil
 																	 userInfo:noteDict];
 			
-		// set us up some state for next time
+		// set up us some state for next time
 		state = newState;
 		trackID = newTrackID;
 		
 		// Recent Tracks
-		if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
-			[self addTuneToRecentTracks:track fromPlaylist:playlistName];
+		[self addTuneToRecentTracks:track fromPlaylist:playlistName];
 	}
 }
 
@@ -623,7 +621,8 @@ enum {
 		[recentTracks removeObjectsInRange:NSMakeRange( 0, len )];
 	}
 	
-	[self buildiTunesMenu];
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
+		[self buildiTunesMenu];
 }
 
 - (IBAction)quitGrowlTunes:(id)sender {
