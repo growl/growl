@@ -22,6 +22,7 @@
 		_textHeight = 0;
 		_target = nil;
 		_action = nil;
+		_bgColor = nil;
 	}
 	return self;
 }
@@ -30,11 +31,7 @@
 	[_icon release];
 	[_title release];
 	[_text release];
-	
-	_icon = nil;
-	_title = nil;
-	_text = nil;
-	_target = nil;
+	[_bgColor release];
 	
 	[super dealloc];
 }
@@ -236,17 +233,19 @@
 	float backgroundAlpha = GrowlSmokeAlphaPrefDefault;
 	READ_GROWL_PREF_FLOAT(GrowlSmokeAlphaPref, GrowlSmokePrefDomain, &backgroundAlpha);
 
-    
-	_bgColor = [NSColor colorWithCalibratedWhite:.1 alpha:backgroundAlpha];
+	[_bgColor release];
     READ_GROWL_PREF_VALUE(key, GrowlSmokePrefDomain, CFArrayRef, (CFArrayRef*)&array);
     if (array && [array isKindOfClass:[NSArray class]]) {
-        _bgColor = [NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
-                                             green:[[array objectAtIndex:1] floatValue]
-                                              blue:[[array objectAtIndex:2] floatValue]
-                                             alpha:backgroundAlpha];
+        _bgColor = [[NSColor colorWithCalibratedRed:[[array objectAtIndex:0] floatValue]
+											  green:[[array objectAtIndex:1] floatValue]
+											   blue:[[array objectAtIndex:2] floatValue]
+											  alpha:backgroundAlpha] retain];
         [array release];
-    }
-    [_bgColor retain];
+    } else {
+		_bgColor = [[NSColor colorWithCalibratedWhite:.1 alpha:backgroundAlpha] retain];
+		if (array)
+			CFRelease((CFTypeRef)array);
+	}
     
 }
 
