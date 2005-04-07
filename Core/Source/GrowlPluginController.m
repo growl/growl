@@ -8,6 +8,7 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlPluginController.h"
+#import "GrowlPreferences.h"
 #import "GrowlDisplayProtocol.h"
 
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER		@"com.growl.prefpanel"

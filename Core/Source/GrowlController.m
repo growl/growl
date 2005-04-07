@@ -8,6 +8,7 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlController.h"
+#import "GrowlPreferences.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlApplicationNotification.h"
 #import "GrowlDistributedNotificationPathway.h"
@@ -16,6 +17,7 @@
 #import "CFGrowlAdditions.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlDisplayProtocol.h"
+#import "GrowlPluginController.h"
 #import "GrowlApplicationBridge.h"
 #import "GrowlDefines.h"
 #import "GrowlVersionUtilities.h"
