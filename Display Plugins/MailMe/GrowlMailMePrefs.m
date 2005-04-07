@@ -25,7 +25,6 @@
 - (NSString *) getDestAddress {
 	NSString *value = nil;
 	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &value);
-	NSLog(@"getDestAddress=%@", value);
 	return value;
 }
 
