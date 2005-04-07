@@ -34,12 +34,15 @@
 	IBOutlet NSComboBox		*combo_screen;
 }
 
-- (float) getDuration;
+- (float) duration;
 - (void) setDuration:(float)value;
-- (float) getOpacity;
+- (unsigned) effect;
+- (void) setEffect:(unsigned)newEffect;
+- (float) opacity;
 - (void) setOpacity:(float)value;
-- (int) getSize;
+- (int) size;
 - (void) setSize:(int)value;
+
 - (IBAction) takeScreenAsIntValueFrom:(id)sender;
 
 @end
