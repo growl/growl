@@ -52,7 +52,7 @@
 	[self loadColorWell:color_high fromKey:GrowlBubblesHighColor defaultColor:defaultColor];
 	[self loadColorWell:color_emergency fromKey:GrowlBubblesEmergencyColor defaultColor:defaultColor];
 
-	defaultColor = [NSColor controlTextColor];
+	defaultColor = [[NSColor controlTextColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 
 	[self loadColorWell:text_veryLow fromKey:GrowlBubblesVeryLowTextColor defaultColor:defaultColor];
 	[self loadColorWell:text_moderate fromKey:GrowlBubblesModerateTextColor defaultColor:defaultColor];

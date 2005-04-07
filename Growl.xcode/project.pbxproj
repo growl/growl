@@ -512,6 +512,7 @@
 				INFOPLIST_FILE = "Display Plugins/Speech-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
+				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = Speech;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = growlView;
