@@ -58,7 +58,7 @@
 	
 	// clear the window
 	[[NSColor clearColor] set];
-	NSRectFill( frame );
+	NSRectFill(frame);
 
 	// calculate bounds based on icon-float pref on or off
 	NSRect shadedBounds;
@@ -76,8 +76,9 @@
 	}
 
 	// set up bezier path for rounded corners
-	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:shadedBounds
+	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(shadedBounds, 1.0f, 1.0f)
 														  radius:GrowlSmokeBorderRadius];
+	[path setLineWidth:2.0f];
 
 	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
 	[graphicsContext saveGraphicsState];
@@ -91,6 +92,12 @@
 
 	// revert to unclipped graphics context
 	[graphicsContext restoreGraphicsState];
+
+	if (mouseOver) {
+		NSColor *borderColor = textColor;
+		[borderColor set];
+		[path stroke];
+	}
 
 	// draw the title and the text
 	NSRect drawRect;
@@ -251,7 +258,7 @@
 	[textShadow setShadowColor:[bgColor blendedColorWithFraction:0.5f ofColor:[NSColor blackColor]]];
 }
 
-- (void)sizeToFit {
+- (void) sizeToFit {
 	NSRect rect = [self frame];
 	rect.size.height = GrowlSmokePadding + GrowlSmokePadding + [self titleHeight] + [self descriptionHeight];
 	if (title && text && [title length] && [text length]) {
@@ -312,8 +319,22 @@
 
 #pragma mark -
 
+- (void) viewDidMoveToWindow {
+	[self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
+}
+
 - (BOOL) acceptsFirstMouse:(NSEvent *) theEvent {
 	return YES;
+}
+
+- (void) mouseEntered:(NSEvent *)theEvent {
+	mouseOver = YES;
+	[self setNeedsDisplay:YES];
+}
+
+- (void) mouseExited:(NSEvent *)theEvent {
+	mouseOver = NO;
+	[self setNeedsDisplay:YES];
 }
 
 - (void) mouseDown:(NSEvent *) event {

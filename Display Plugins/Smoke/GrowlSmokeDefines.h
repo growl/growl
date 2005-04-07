@@ -45,4 +45,4 @@
 #define GrowlSmokeTitleFontSize			13.0f
 
 // the radius of the rounded corners of the notification border
-#define GrowlSmokeBorderRadius			5.0f
+#define GrowlSmokeBorderRadius			9.0f

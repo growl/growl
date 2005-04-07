@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface GrowlSmokeWindowView : NSView {
+	BOOL				mouseOver;
 	NSImage				*icon;
 	NSString			*title;
 	NSString			*text;
