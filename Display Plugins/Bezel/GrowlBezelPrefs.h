@@ -29,10 +29,6 @@
 #define BEZEL_SIZE_SMALL			1
 
 @interface GrowlBezelPrefs : NSPreferencePane {
-	float					duration;
-	float					opacity;
-	int						size;
-
 	IBOutlet NSButton		*radio_PositionD;
 	IBOutlet NSButton		*radio_PositionTR;
 	IBOutlet NSButton		*radio_PositionBR;
@@ -40,17 +36,17 @@
 	IBOutlet NSButton		*radio_PositionTL;
 	IBOutlet NSSlider		*slider_opacity;
 	IBOutlet NSComboBox		*combo_screen;
-	IBOutlet NSPopUpButton	*button_style;
 }
 
-- (float) getDuration;
+- (float) duration;
 - (void) setDuration:(float)value;
-- (float) getOpacity;
+- (float) opacity;
 - (void) setOpacity:(float)value;
-- (int) getSize;
+- (int) size;
 - (void) setSize:(int)value;
-- (IBAction) preferenceChanged:(id)sender;
+- (int) style;
+- (void) setStyle:(int)value;
+- (IBAction) positionChanged:(id)sender;
 - (IBAction) setScreen:(id)sender;
-- (IBAction) setStyle:(id)sender;
 
 @end

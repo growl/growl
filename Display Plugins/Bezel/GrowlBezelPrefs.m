@@ -11,80 +11,67 @@
 
 @implementation GrowlBezelPrefs
 
-- (NSString *)mainNibName {
+- (NSString *) mainNibName {
 	return @"GrowlBezelPrefs";
 }
 
-- (void)mainViewDidLoad {
+- (void) mainViewDidLoad {
 	[slider_opacity setAltIncrementValue:5.0];
-
-	// size
-	size = 0;
-	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &size);
-	[self setSize:size];
-
-	// opacity
-	opacity = BEZEL_OPACITY_DEFAULT;
-	READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacity);
-	[self setOpacity:opacity];
 
 	// position
 	int positionPref = BEZEL_POSITION_DEFAULT;
-	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);	
-	if (positionPref == BEZEL_POSITION_DEFAULT) {
-		[radio_PositionD setState:NSOnState];
-		[radio_PositionTR setState:NSOffState];
-		[radio_PositionBR setState:NSOffState];
-		[radio_PositionBL setState:NSOffState];
-		[radio_PositionTL setState:NSOffState];
-	} else if (positionPref == BEZEL_POSITION_TOPRIGHT) {
-		[radio_PositionD setState:NSOffState];
-		[radio_PositionTR setState:NSOnState];
-		[radio_PositionBR setState:NSOffState];
-		[radio_PositionBL setState:NSOffState];
-		[radio_PositionTL setState:NSOffState];
-	} else if (positionPref == BEZEL_POSITION_BOTTOMRIGHT) {
-		[radio_PositionD setState:NSOffState];
-		[radio_PositionTR setState:NSOffState];
-		[radio_PositionBR setState:NSOnState];
-		[radio_PositionBL setState:NSOffState];
-		[radio_PositionTL setState:NSOffState];
-	} else if (positionPref == BEZEL_POSITION_BOTTOMLEFT) {
-		[radio_PositionD setState:NSOffState];
-		[radio_PositionTR setState:NSOffState];
-		[radio_PositionBR setState:NSOffState];
-		[radio_PositionBL setState:NSOnState];
-		[radio_PositionTL setState:NSOffState];
-	} else if (positionPref == BEZEL_POSITION_TOPLEFT) {
-		[radio_PositionD setState:NSOffState];
-		[radio_PositionTR setState:NSOffState];
-		[radio_PositionBR setState:NSOffState];
-		[radio_PositionBL setState:NSOffState];
-		[radio_PositionTL setState:NSOnState];
+	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &positionPref);
+	switch (positionPref) {
+		default:
+		case BEZEL_POSITION_DEFAULT:
+			[radio_PositionD setState:NSOnState];
+			[radio_PositionTR setState:NSOffState];
+			[radio_PositionBR setState:NSOffState];
+			[radio_PositionBL setState:NSOffState];
+			[radio_PositionTL setState:NSOffState];
+			break;
+		case BEZEL_POSITION_TOPRIGHT:
+			[radio_PositionD setState:NSOffState];
+			[radio_PositionTR setState:NSOnState];
+			[radio_PositionBR setState:NSOffState];
+			[radio_PositionBL setState:NSOffState];
+			[radio_PositionTL setState:NSOffState];
+			break;
+		case BEZEL_POSITION_BOTTOMRIGHT:
+			[radio_PositionD setState:NSOffState];
+			[radio_PositionTR setState:NSOffState];
+			[radio_PositionBR setState:NSOnState];
+			[radio_PositionBL setState:NSOffState];
+			[radio_PositionTL setState:NSOffState];
+			break;
+		case BEZEL_POSITION_BOTTOMLEFT:
+			[radio_PositionD setState:NSOffState];
+			[radio_PositionTR setState:NSOffState];
+			[radio_PositionBR setState:NSOffState];
+			[radio_PositionBL setState:NSOnState];
+			[radio_PositionTL setState:NSOffState];
+			break;
+		case BEZEL_POSITION_TOPLEFT:
+			[radio_PositionD setState:NSOffState];
+			[radio_PositionTR setState:NSOffState];
+			[radio_PositionBR setState:NSOffState];
+			[radio_PositionBL setState:NSOffState];
+			[radio_PositionTL setState:NSOnState];
+			break;
 	}
-
-	// duration
-	duration = 3.0f;
-	READ_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, BezelPrefDomain, &duration);
-	[self setDuration:duration];
 	
 	// screen number
 	int screenNumber = 0;
 	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, BezelPrefDomain, &screenNumber);
 	[combo_screen setIntValue:screenNumber];
-
-	// style
-	int style = 0;
-	READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, BezelPrefDomain, &style);
-	[button_style selectItemAtIndex:style];
 }
 
-- (void)didSelect {
+- (void) didSelect {
 	SYNCHRONIZE_GROWL_PREFS();
 }
 
-- (IBAction)preferenceChanged:(id)sender {
-	int		positionPref;
+- (IBAction) preferenceChanged:(id)sender {
+	int positionPref;
 
 	if (sender == radio_PositionD) {
 		[radio_PositionTR setState:NSOffState];
@@ -92,80 +79,73 @@
 		[radio_PositionBL setState:NSOffState];
 		[radio_PositionTL setState:NSOffState];
 		positionPref = BEZEL_POSITION_DEFAULT;
-		WRITE_GROWL_PREF_INT(BEZEL_POSITION_PREF, positionPref, BezelPrefDomain);
 	} else if (sender == radio_PositionTR) {
 		[radio_PositionD setState:NSOffState];
 		[radio_PositionBR setState:NSOffState];
 		[radio_PositionBL setState:NSOffState];
 		[radio_PositionTL setState:NSOffState];
 		positionPref = BEZEL_POSITION_TOPRIGHT;
-		WRITE_GROWL_PREF_INT(BEZEL_POSITION_PREF, positionPref, BezelPrefDomain);
 	} else if (sender == radio_PositionBR) {
 		[radio_PositionD setState:NSOffState];
 		[radio_PositionTR setState:NSOffState];
 		[radio_PositionBL setState:NSOffState];
 		[radio_PositionTL setState:NSOffState];
 		positionPref = BEZEL_POSITION_BOTTOMRIGHT;
-		WRITE_GROWL_PREF_INT(BEZEL_POSITION_PREF, positionPref, BezelPrefDomain);
 	} else if (sender == radio_PositionBL) {
 		[radio_PositionD setState:NSOffState];
 		[radio_PositionTR setState:NSOffState];
 		[radio_PositionBR setState:NSOffState];
 		[radio_PositionTL setState:NSOffState];
 		positionPref = BEZEL_POSITION_BOTTOMLEFT;
-		WRITE_GROWL_PREF_INT(BEZEL_POSITION_PREF, positionPref, BezelPrefDomain);
 	} else if (sender == radio_PositionTL) {
 		[radio_PositionD setState:NSOffState];
 		[radio_PositionTR setState:NSOffState];
 		[radio_PositionBR setState:NSOffState];
 		[radio_PositionBL setState:NSOffState];
 		positionPref = BEZEL_POSITION_TOPLEFT;
-		WRITE_GROWL_PREF_INT(BEZEL_POSITION_PREF, positionPref, BezelPrefDomain);
 	}
 
+	WRITE_GROWL_PREF_INT(BEZEL_POSITION_PREF, positionPref, BezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
 #pragma mark -
 
-- (float) getOpacity {
-	return opacity;
+- (float) opacity {
+	float value = BEZEL_OPACITY_DEFAULT;
+	READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, BezelPrefDomain, &value);
+	return value;
 }
 
 - (void) setOpacity:(float)value {
-	if (opacity != value) {
-		opacity = value;
-		WRITE_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, value, BezelPrefDomain);
-		UPDATE_GROWL_PREFS();
-	}
+	WRITE_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, value, BezelPrefDomain);
+	UPDATE_GROWL_PREFS();
 }
 
 #pragma mark -
 
-- (float) getDuration {
-	return duration;
+- (float) duration {
+	float value = 3.0f;
+	READ_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, BezelPrefDomain, &value);
+	return value;
 }
 
 - (void) setDuration:(float)value {
-	if (duration != value) {
-		duration = value;
-		WRITE_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, value, BezelPrefDomain);
-		UPDATE_GROWL_PREFS();
-	}
+	WRITE_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, value, BezelPrefDomain);
+	UPDATE_GROWL_PREFS();
 }
 
 #pragma mark -
 
-- (int) getSize {
-	return size;
+- (int) size {
+	int value = 0;
+	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &value);
+	return value;
 }
 
 - (void) setSize:(int)value {
-	if (size != value) {
-		size = value;
-		WRITE_GROWL_PREF_INT(BEZEL_SIZE_PREF, value, BezelPrefDomain);
-		UPDATE_GROWL_PREFS();
-	}
+	WRITE_GROWL_PREF_INT(BEZEL_SIZE_PREF, value, BezelPrefDomain);
+	UPDATE_GROWL_PREFS();
 }
 
 #pragma mark -
@@ -184,9 +164,16 @@
 	UPDATE_GROWL_PREFS();
 }
 
-- (IBAction) setStyle:(id)sender {
-	int pref = [sender indexOfSelectedItem];
-	WRITE_GROWL_PREF_INT(BEZEL_STYLE_PREF, pref, BezelPrefDomain);	
+#pragma mark -
+
+- (int) style {
+	int value = 0;
+	READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, BezelPrefDomain, &value);
+	return value;
+}
+
+- (void) setStyle:(int)value {
+	WRITE_GROWL_PREF_INT(BEZEL_STYLE_PREF, value, BezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
