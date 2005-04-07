@@ -10,11 +10,11 @@
 #import <Foundation/Foundation.h>
 
 @interface GrowlBubblesWindowView : NSView {
+	BOOL			haveText;
 	NSFont			*titleFont;
 	NSFont			*textFont;
 	NSImage			*icon;
 	NSString		*title;
-	NSString		*text;
 	float			textHeight;
 	float			titleHeight;
 	float			lineHeight;

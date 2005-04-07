@@ -41,4 +41,4 @@
 #define GrowlBrushedTitleFontSize			13.0f
 
 // the radius of the rounded corners of the notification border
-#define GrowlBrushedBorderRadius			5.0f
+#define GrowlBrushedBorderRadius			9.0f

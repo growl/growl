@@ -65,7 +65,6 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	[textFont      release];
 	[icon          release];
 	[title         release];
-	[text          release];
 	[bgColor       release];
 	[textColor     release];
 	[borderColor   release];
@@ -167,7 +166,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		drawRect.origin.y += drawRect.size.height + TITLE_VSPACE_PX;
 	}
 
-	if (text && [text length]) {
+	if (haveText) {
 		NSRange glyphRange = [layoutManager glyphRangeForTextContainer:textContainer];
 		[layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
 	}
@@ -279,8 +278,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (void) setText:(NSString *) aText {
-	[text release];
-	text = [aText copy];
+	haveText = [aText length] != 0;
 
 	if (!textStorage) {
 		NSSize containerSize;
@@ -305,7 +303,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		textColor, NSForegroundColorAttributeName,
 		nil];
 
-	[[textStorage mutableString] setString:text];
+	[[textStorage mutableString] setString:aText];
 	[textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
 
 	[attributes release];
@@ -321,7 +319,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	NSRect rect = [self frame];
 	rect.size.width = PANEL_WIDTH_PX;
 	rect.size.height = PANEL_VSPACE_PX + PANEL_VSPACE_PX + [self titleHeight] + [self descriptionHeight];
-	if (title && text && [title length] && [text length]) {
+	if (haveText && title && [title length]) {
 		rect.size.height += TITLE_VSPACE_PX;
 	}
 	if (rect.size.height < MIN_TEXT_HEIGHT) {
@@ -336,7 +334,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (float) descriptionHeight {
-	if (!text || ![text length]) {
+	if (!haveText) {
 		return 0.0f;
 	}
 

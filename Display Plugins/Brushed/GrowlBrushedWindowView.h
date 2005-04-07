@@ -9,9 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 @interface GrowlBrushedWindowView : NSView {
+	BOOL				haveText;
 	NSImage				*icon;
 	NSString			*title;
-	NSString			*text;
 	float				textHeight;
 	float				titleHeight;
 	float				lineHeight;

@@ -39,7 +39,6 @@
 	[textFont      release];
 	[icon          release];
 	[title         release];
-	[text          release];
 	[textColor     release];
 	[textShadow    release];
 	[textStorage   release];
@@ -120,7 +119,7 @@
 		drawRect.origin.y += drawRect.size.height + GrowlBrushedTitleTextPadding;
 	}
 
-	if (text && [text length]) {
+	if (haveText) {
 		NSRange glyphRange = [layoutManager glyphRangeForTextContainer:textContainer];
 		[layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
 	}
@@ -154,8 +153,7 @@
 }
 
 - (void) setText:(NSString *)aText {
-	[text release];
-	text = [aText copy];
+	haveText = [aText length] != 0;
 
 	if (!textStorage) {
 		NSSize containerSize;  
@@ -182,7 +180,7 @@
 		textShadow, NSShadowAttributeName,
 		nil];
 
-	[[textStorage mutableString] setString:text];
+	[[textStorage mutableString] setString:aText];
 	[textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
 
 	[attributes release];
@@ -230,7 +228,7 @@
 - (void) sizeToFit {
 	NSRect rect = [self frame];
 	rect.size.height = GrowlBrushedPadding + GrowlBrushedPadding + [self titleHeight] + [self descriptionHeight];
-	if (title && text && [title length] && [text length]) {
+	if (haveText && title && [title length]) {
 		rect.size.height += GrowlBrushedTitleTextPadding;
 	}
 	if (rect.size.height < GrowlBrushedMinTextHeight) {
@@ -248,7 +246,7 @@
 }
 
 - (float) descriptionHeight {
-	if (!text || ![text length]) {
+	if (!haveText) {
 		return 0.0f;
 	}
 	
