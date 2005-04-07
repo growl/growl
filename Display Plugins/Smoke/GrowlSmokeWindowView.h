@@ -25,10 +25,12 @@
 	NSLayoutManager		*textLayoutManager;
 	NSTextStorage		*textStorage;
 	NSTextContainer		*textContainer;
+	NSRange				textRange;
 
 	NSTextStorage		*titleStorage;
 	NSTextContainer		*titleContainer;
 	NSLayoutManager		*titleLayoutManager;
+	NSRange				titleRange;
 
 	NSColor				*bgColor;
 	NSColor				*textColor;

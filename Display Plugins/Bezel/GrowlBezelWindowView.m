@@ -67,10 +67,6 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 - (void)drawRect:(NSRect)rect {
 	NSRect bounds = [self bounds];
 
-	// clear the window
-	[[NSColor clearColor] set];
-	NSRectFill([self frame]);
-
 	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:bounds radius:BORDER_RADIUS];
 
 	float opacityPref = BEZEL_OPACITY_DEFAULT;

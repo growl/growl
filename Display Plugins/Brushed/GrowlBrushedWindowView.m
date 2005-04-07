@@ -54,11 +54,10 @@
 
 - (void) drawRect:(NSRect)rect {
 	NSRect bounds = [self bounds];
-	NSRect frame  = [self frame];
 
 	// clear the window
 	[[NSColor clearColor] set];
-	NSRectFill( frame );
+	NSRectFill(bounds);
 
 	// calculate bounds based on icon-float pref on or off
 	NSRect shadedBounds;
@@ -89,7 +88,7 @@
 	NSWindow *window = [self window];
 	NSColor *bgColor = [window backgroundColor];
 	[bgColor set];
-	NSRectFill( frame );
+	NSRectFill(bounds);
 
 	// revert to unclipped graphics context
 	[graphicsContext restoreGraphicsState];
@@ -129,7 +128,6 @@
 	drawRect.size.width = GrowlBrushedIconSize;
 	drawRect.size.height = GrowlBrushedIconSize;
 
-	// we do this because we are always working with a copy
 	[icon setFlipped:YES];
 	[icon drawScaledInRect:drawRect
 				 operation:NSCompositeSourceOver

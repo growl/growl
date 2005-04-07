@@ -52,43 +52,38 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	if ((self = [super initWithFrame:frame])) {
 		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
-		borderColor = [[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:0.5f] retain];
-		layoutManager = [[NSLayoutManager alloc] init];
-		titleHeight = [layoutManager defaultLineHeightForFont:titleFont];
-		lineHeight = [layoutManager defaultLineHeightForFont:textFont];
+		borderColor = [[NSColor colorWithCalibratedWhite:0.0f alpha:0.5f] retain];
+		highlightColor = [[NSColor colorWithCalibratedWhite:0.0f alpha:0.75f] retain];
+		textLayoutManager = [[NSLayoutManager alloc] init];
+		titleLayoutManager = [[NSLayoutManager alloc] init];
+		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[titleFont     release];
-	[textFont      release];
-	[icon          release];
-	[title         release];
-	[bgColor       release];
-	[textColor     release];
-	[borderColor   release];
-	[lightColor    release];
-	[textStorage   release];
-	[layoutManager release];
+	[titleFont          release];
+	[textFont           release];
+	[icon               release];
+	[textColor          release];
+	[bgColor            release];
+	[lightColor         release];
+	[borderColor        release];
+	[highlightColor     release];
+	[textStorage        release];
+	[titleStorage       release];
+	[textLayoutManager  release];
+	[titleLayoutManager release];
 
 	[super dealloc];
 }
 
-- (float)titleHeight {
-	if (!title || ![title length]) {
-		return 0.0f;
-	}
-
-	return titleHeight;
+- (float) titleHeight {
+	return haveTitle ? titleHeight : 0.0f;
 }
 
 - (void) drawRect:(NSRect) rect {
 	NSRect bounds = [self bounds];
-	NSRect frame  = [self frame];
-
-	[[NSColor clearColor] set];
-	NSRectFill(frame);
 
 	// Create a path with enough room to strike the border and remain inside our frame.
 	// Since the path is in the middle of the line, this means we must inset it by half the border width.
@@ -140,7 +135,11 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 	[graphicsContext restoreGraphicsState];
 
-	[borderColor set];
+	if (mouseOver) {
+		[highlightColor set];
+	} else {
+		[borderColor set];
+	}
 	[path stroke];
 
 	NSRect drawRect;
@@ -148,27 +147,13 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	drawRect.origin.y = PANEL_VSPACE_PX;
 	drawRect.size.width = TEXT_AREA_WIDTH;
 
-	if (title && [title length]) {
-		drawRect.size.height = titleHeight;
-
-		NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-
-		NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-			titleFont,      NSFontAttributeName,
-			textColor,      NSForegroundColorAttributeName,
-			paragraphStyle, NSParagraphStyleAttributeName,
-			nil];
-		[title drawInRect:drawRect withAttributes:attributes];
-		[attributes release];
-		[paragraphStyle release];
-
-		drawRect.origin.y += drawRect.size.height + TITLE_VSPACE_PX;
+	if (haveTitle) {
+		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
+		drawRect.origin.y += titleHeight + TITLE_VSPACE_PX;
 	}
 
 	if (haveText) {
-		NSRange glyphRange = [layoutManager glyphRangeForTextContainer:textContainer];
-		[layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
+		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 	}
 
 	drawRect.origin.x = PANEL_HSPACE_PX;
@@ -272,13 +257,53 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (void) setTitle:(NSString *) aTitle {
-	[title release];
-	title = [aTitle copy];
+	haveTitle = [aTitle length] != 0;
+
+	if (!haveTitle) {
+		[self sizeToFit];
+		[self setNeedsDisplay:YES];
+		return;
+	}
+
+	if (!titleStorage) {
+		NSSize containerSize = { TEXT_AREA_WIDTH, FLT_MAX };
+		titleStorage = [[NSTextStorage alloc] init];
+		titleContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
+		[titleLayoutManager addTextContainer:titleContainer];	// retains textContainer
+		[titleContainer release];
+		[titleStorage addLayoutManager:titleLayoutManager];	// retains layoutManager
+		[titleContainer setLineFragmentPadding:0.0f];
+	}
+
+	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+		titleFont,      NSFontAttributeName,
+		textColor,      NSForegroundColorAttributeName,
+		paragraphStyle, NSParagraphStyleAttributeName,
+		nil];
+	[paragraphStyle release];
+
+	[[titleStorage mutableString] setString:aTitle];
+	[titleStorage setAttributes:attributes range:NSMakeRange(0, [titleStorage length])];
+
+	titleRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
+	titleHeight = [titleLayoutManager usedRectForTextContainer:titleContainer].size.height;
+
+	[attributes release];
+
+	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setText:(NSString *) aText {
 	haveText = [aText length] != 0;
+
+	if (!haveText) {
+		[self sizeToFit];
+		[self setNeedsDisplay:YES];
+		return;
+	}
 
 	if (!textStorage) {
 		NSSize containerSize;
@@ -292,9 +317,9 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		}
 		textStorage = [[NSTextStorage alloc] init];
   		textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
-		[layoutManager addTextContainer:textContainer];	// retains textContainer
+		[textLayoutManager addTextContainer:textContainer];	// retains textContainer
 		[textContainer release];
-		[textStorage addLayoutManager:layoutManager];	// retains layoutManager
+		[textStorage addLayoutManager:textLayoutManager];	// retains layoutManager
 		[textContainer setLineFragmentPadding:0.0f];
 	}
 
@@ -308,8 +333,8 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 	[attributes release];
 
-	[layoutManager glyphRangeForTextContainer:textContainer];	// force layout		
-	textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout		
+	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;
 
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
@@ -319,7 +344,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	NSRect rect = [self frame];
 	rect.size.width = PANEL_WIDTH_PX;
 	rect.size.height = PANEL_VSPACE_PX + PANEL_VSPACE_PX + [self titleHeight] + [self descriptionHeight];
-	if (haveText && title && [title length]) {
+	if (haveTitle && haveText) {
 		rect.size.height += TITLE_VSPACE_PX;
 	}
 	if (rect.size.height < MIN_TEXT_HEIGHT) {
@@ -334,11 +359,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (float) descriptionHeight {
-	if (!haveText) {
-		return 0.0f;
-	}
-
-	return textHeight;
+	return haveText ? textHeight : 0.0f;
 }
 
 - (int) descriptionRowCount {
@@ -374,8 +395,22 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 #pragma mark -
 
+- (void) viewDidMoveToWindow {
+	[self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
+}
+
 - (BOOL) acceptsFirstMouse:(NSEvent *) event {
 	return YES;
+}
+
+- (void) mouseEntered:(NSEvent *)theEvent {
+	mouseOver = YES;
+	[self setNeedsDisplay:YES];
+}
+
+- (void) mouseExited:(NSEvent *)theEvent {
+	mouseOver = NO;
+	[self setNeedsDisplay:YES];
 }
 
 - (void) mouseDown:(NSEvent *) event {

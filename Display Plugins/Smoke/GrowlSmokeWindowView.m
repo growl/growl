@@ -52,11 +52,6 @@
 
 - (void) drawRect:(NSRect)rect {
 	NSRect bounds = [self bounds];
-	NSRect frame  = [self frame];
-	
-	// clear the window
-	[[NSColor clearColor] set];
-	NSRectFill(frame);
 
 	// calculate bounds based on icon-float pref on or off
 	NSRect shadedBounds;
@@ -64,7 +59,7 @@
 	READ_GROWL_PREF_FLOAT(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
 	if (floatIcon) {
 		float sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding * 0.5f);
-		
+
 		shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
 								  bounds.origin.y,
 								  bounds.size.width - sizeReduction,
@@ -86,7 +81,7 @@
 
 	// fill clipped graphics context with our background colour
 	[bgColor set];
-	NSRectFill(frame);
+	NSRectFill(bounds);
 
 	// revert to unclipped graphics context
 	[graphicsContext restoreGraphicsState];
@@ -103,14 +98,12 @@
 	drawRect.origin.y = GrowlSmokePadding;
 
 	if (haveTitle) {
-		NSRange glyphRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];
-		[titleLayoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
+		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
 		drawRect.origin.y += titleHeight + GrowlSmokeTitleTextPadding;
 	}
 
 	if (haveText) {
-		NSRange glyphRange = [textLayoutManager glyphRangeForTextContainer:textContainer];
-		[textLayoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
+		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 	}
 
 	drawRect.origin.x = GrowlSmokePadding;
@@ -135,6 +128,12 @@
 
 - (void) setTitle:(NSString *)aTitle {
 	haveTitle = [aTitle length] != 0;
+
+	if (!haveTitle) {
+		[self sizeToFit];
+		[self setNeedsDisplay:YES];
+		return;
+	}
 
 	if (!titleStorage) {
 		NSSize containerSize = { GrowlSmokeTextAreaWidth, FLT_MAX };
@@ -163,7 +162,7 @@
 
 	[attributes release];
 
-	[titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
+	titleRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
 	titleHeight = [titleLayoutManager usedRectForTextContainer:titleContainer].size.height;
 
 	[self sizeToFit];
@@ -172,6 +171,12 @@
 
 - (void) setText:(NSString *)aText {
 	haveText = [aText length] != 0;
+
+	if (!haveText) {
+		[self sizeToFit];
+		[self setNeedsDisplay:YES];
+		return;
+	}
 
 	if (!textStorage) {
 		NSSize containerSize;
@@ -203,7 +208,7 @@
 	
 	[attributes release];
 
-	[textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
+	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
 	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;
 
 	[self sizeToFit];
@@ -283,19 +288,11 @@
 }
 
 - (float) titleHeight {
-	if (!haveTitle) {
-		return 0.0f;
-	}
-
-	return titleHeight;
+	return haveTitle ? titleHeight : 0.0f;
 }
 
 - (float) descriptionHeight {
-	if (!haveText) {
-		return 0.0f;
-	}
-
-	return textHeight;
+	return haveText ? textHeight : 0.0f;
 }
 
 - (int) descriptionRowCount {
