@@ -58,6 +58,7 @@
 			}
 			NSLog(@"%@", logString);
 		}
+		[logFile release];
 	}
 
 	[logString release];

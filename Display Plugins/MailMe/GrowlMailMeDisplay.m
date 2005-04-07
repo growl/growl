@@ -55,6 +55,8 @@
 	} else {
 		NSLog(@"(MailMe) WARNING: No destination address set");
 	}
+
+	[destAddress release];
 }
 
 @end

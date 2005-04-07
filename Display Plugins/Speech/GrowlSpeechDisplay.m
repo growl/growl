@@ -26,9 +26,13 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
-	NSString *voice = [NSSpeechSynthesizer defaultVoice];
-
+	NSString *voice = nil;
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
+	if (voice) {
+		[voice autorelease];
+	} else {
+		voice = [NSSpeechSynthesizer defaultVoice];
+	}
 
 	NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
 

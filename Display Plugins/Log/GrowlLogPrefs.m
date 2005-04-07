@@ -31,6 +31,7 @@
 //	NSLog(@"hist1 = %@", s);
 	if (s) {
 		[customHistArray addObject:s];
+		[s release];
 		//NSLog(@"hist1 = %@", s);
 	}
 
@@ -43,6 +44,7 @@
 	READ_GROWL_PREF_VALUE(customHistKey2, LogPrefDomain, NSString *, &s);
 	if (s) {
 		[customHistArray addObject:s];
+		[s release];
 		//NSLog(@"hist2 = %@", s);
 	}
 
@@ -50,6 +52,7 @@
 	READ_GROWL_PREF_VALUE(customHistKey3, LogPrefDomain, NSString *, &s);
 	if (s) {
 		[customHistArray addObject:s];
+		[s release];
 		//NSLog(@"hist3 = %@", s);
 	}
 	 */

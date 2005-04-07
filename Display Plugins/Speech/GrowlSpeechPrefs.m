@@ -26,9 +26,15 @@
 	[self setVoices:voiceAttributes];
 	[voiceAttributes release];
 
-	NSString *voice = [NSSpeechSynthesizer defaultVoice];	
+	NSString *voice = nil;
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
-	int row = [availableVoices indexOfObject:voice];
+	int row;
+	if (voice) {
+		row = [availableVoices indexOfObject:voice];
+		[voice release];
+	} else {
+		row = [availableVoices indexOfObject:[NSSpeechSynthesizer defaultVoice]];
+	}
 	[voiceList selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
 	[voiceList scrollRowToVisible:row];
 }
