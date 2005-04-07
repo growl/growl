@@ -11,7 +11,6 @@
 
 @interface GrowlMailMeDisplay: NSObject <GrowlDisplayPlugin>
 {
-	NSString			*destAddress;
 	NSPreferencePane	*prefPane;
 }
 

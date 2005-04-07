@@ -25,10 +25,14 @@
 - (NSString *) getDestAddress {
 	NSString *value = nil;
 	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &value);
+	NSLog(@"getDestAddress=%@", value);
 	return value;
 }
 
 - (void) setDestAddress:(NSString *)value {
+	if (!value) {
+		value = @"";
+	}
 	WRITE_GROWL_PREF_VALUE(destAddressKey, value, @"com.Growl.MailMe");
 	UPDATE_GROWL_PREFS();
 }

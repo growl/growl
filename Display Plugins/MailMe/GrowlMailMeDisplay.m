@@ -33,25 +33,28 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
+	NSString *destAddress = nil;
 	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &destAddress);
 
-	NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
-	NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
-	//hopefully something can be worked out to use the imageData.
-	//documentation, Apple, documentation!
-//	NSData *imageData = [noteDict objectForKey:GROWL_NOTIFICATION_ICON];
+	if (destAddress && [destAddress length]) {
+		NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
+		NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+		//hopefully something can be worked out to use the imageData.
+		//documentation, Apple, documentation!
+		//	NSData *imageData = [noteDict objectForKey:GROWL_NOTIFICATION_ICON];
 
-	BOOL success = [NSMailDelivery deliverMessage:[NSString stringWithFormat:plainTextMessageFormat, desc]
-										  subject:title
-											   to:destAddress];
+		BOOL success = [NSMailDelivery deliverMessage:[NSString stringWithFormat:plainTextMessageFormat, desc]
+											  subject:title
+												   to:destAddress];
 
-	if (!success) {
-		NSLog(@"(MailMe) WARNING: Could not send email message \"%@\" to address %@", title, destAddress);
-		NSLog(@"(MailMe) description of notification:\n%@", desc);
-	} else
-		NSLog(@"(MailMe) Successfully sent message \"%@\" to address %@", title, destAddress);
-
-	destAddress = nil;
+		if (!success) {
+			NSLog(@"(MailMe) WARNING: Could not send email message \"%@\" to address %@", title, destAddress);
+			NSLog(@"(MailMe) description of notification:\n%@", desc);
+		} else
+			NSLog(@"(MailMe) Successfully sent message \"%@\" to address %@", title, destAddress);
+	} else {
+		NSLog(@"(MailMe) WARNING: No destination address set");
+	}
 }
 
 @end
