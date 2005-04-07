@@ -426,6 +426,8 @@
 	}
 }
 
+#pragma mark -
+
 - (BOOL) isStartGrowlAtLogin {
 	return startGrowlAtLogin;
 }
@@ -436,6 +438,8 @@
 		[[GrowlPreferences preferences] setStartGrowlAtLogin:flag];
 	}
 }
+
+#pragma mark -
 
 - (BOOL) isBackgroundUpdateCheckEnabled {
 	return backgroundUpdateCheckEnabled;
@@ -449,6 +453,8 @@
 		[state release];
 	}
 }
+
+#pragma mark -
 
 - (IBAction) selectDisplayPlugin:(id)sender {
 	[[GrowlPreferences preferences] setObject:[sender titleOfSelectedItem] forKey:GrowlDisplayPluginKey];
@@ -488,12 +494,14 @@
 
 - (void) setGrowlServerEnabled:(BOOL)enabled {
 	if (enabled != growlServerEnabled) {
+		growlServerEnabled = enabled;
 		NSNumber *state = [[NSNumber alloc] initWithBool:enabled];
 		[[GrowlPreferences preferences] setObject:state forKey:GrowlStartServerKey];
 		[state release];
 	}
-	growlServerEnabled = enabled;
 }
+
+#pragma mark -
 
 - (BOOL) isRemoteRegistrationAllowed {
 	return remoteRegistrationAllowed;
@@ -507,6 +515,8 @@
 		[state release];
 	}
 }
+
+#pragma mark -
 
 - (IBAction) setRemotePassword:(id)sender {
 	const char *password = [[sender stringValue] UTF8String];
@@ -547,17 +557,19 @@
 	}
 }
 
+#pragma mark -
+
 - (BOOL) isForwardingEnabled {
 	return forwardingEnabled;
 }
 
 - (void) setForwardingEnabled:(BOOL)enabled {
 	if (enabled != forwardingEnabled) {
+		forwardingEnabled = enabled;
 		NSNumber *state = [[NSNumber alloc] initWithBool:enabled];
 		[[GrowlPreferences preferences] setObject:state forKey:GrowlEnableForwardKey];
 		[state release];
 	}
-	forwardingEnabled = enabled;
 }
 
 #pragma mark "Display Options" tab pane
@@ -570,6 +582,8 @@
 	[plugins release];
 	plugins = [thePlugins retain];
 }
+
+#pragma mark -
 
 - (IBAction) showPreview:(id) sender {
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview object:currentPlugin];
