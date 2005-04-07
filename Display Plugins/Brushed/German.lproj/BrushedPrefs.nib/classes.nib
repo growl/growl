@@ -2,17 +2,8 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {setScreen = id; textColorChanged = id; }; 
             CLASS = GrowlBrushedPrefsController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                "combo_screen" = NSComboBox; 
-                "text_emergency" = NSColorWell; 
-                "text_high" = NSColorWell; 
-                "text_moderate" = NSColorWell; 
-                "text_normal" = NSColorWell; 
-                "text_veryLow" = NSColorWell; 
-            }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 

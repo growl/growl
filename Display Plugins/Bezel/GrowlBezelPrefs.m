@@ -70,7 +70,7 @@
 	SYNCHRONIZE_GROWL_PREFS();
 }
 
-- (IBAction) preferenceChanged:(id)sender {
+- (IBAction) positionChanged:(id)sender {
 	int positionPref;
 
 	if (sender == radio_PositionD) {

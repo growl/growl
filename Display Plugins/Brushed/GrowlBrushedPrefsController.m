@@ -17,7 +17,7 @@
 	return @"BrushedPrefs";
 }
 
-- (void) loadColorWell:(NSColorWell *)colorWell fromKey:(NSString *)key defaultColor:(NSColor *)defaultColor {
++ (NSColor *) loadColor:(NSString *)key defaultColor:(NSColor *)defaultColor {
 	NSData *data = nil;
 	NSColor *color;
 	READ_GROWL_PREF_VALUE(key, GrowlBrushedPrefDomain, NSData *, &data);
@@ -26,44 +26,9 @@
 	} else {
 		color = defaultColor;
 	}
-	[colorWell setColor:color];
 	[data release];
-}
 
-- (void) mainViewDidLoad {
-	// duration
-	duration = GrowlBrushedDurationPrefDefault;
-	READ_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, &duration);
-	[self setDuration:duration];
-
-	// float icon checkbox
-	floatingIcon = GrowlBrushedFloatIconPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatingIcon);
-	[self setFloatingIcon:floatingIcon];
-
-	// limit
-	limit = GrowlBrushedLimitPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limit);
-	[self setLimit:limit];
-
-	// aqua
-	aqua = GrowlBrushedAquaPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &aqua);
-	[self setAqua:aqua];
-	
-	// priority colour settings
-	NSColor *defaultColor = [NSColor colorWithCalibratedWhite:0.1f alpha:1.0f];
-
-	[self loadColorWell:text_veryLow fromKey:GrowlBrushedVeryLowTextColor defaultColor:defaultColor];
-	[self loadColorWell:text_moderate fromKey:GrowlBrushedModerateTextColor defaultColor:defaultColor];
-	[self loadColorWell:text_normal fromKey:GrowlBrushedNormalTextColor defaultColor:defaultColor];
-	[self loadColorWell:text_high fromKey:GrowlBrushedHighTextColor defaultColor:defaultColor];
-	[self loadColorWell:text_emergency fromKey:GrowlBrushedEmergencyTextColor defaultColor:defaultColor];
-
-	// screen number
-	int screenNumber = 0;
-	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
-	[combo_screen setIntValue:screenNumber];
+	return color;
 }
 
 #pragma mark -
@@ -76,94 +41,126 @@
 	return [NSNumber numberWithInt:idx];
 }
 
-- (IBAction) setScreen:(id)sender {
-	int pref = [sender intValue];
-	WRITE_GROWL_PREF_INT(GrowlBrushedScreenPref, pref, GrowlBrushedPrefDomain);	
-	UPDATE_GROWL_PREFS();
-}
-
 #pragma mark -
 
-- (float) getDuration {
-	return duration;
+- (float) duration {
+	float value = GrowlBrushedDurationPrefDefault;
+	READ_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, &value);
+	return value;
 }
 
 - (void) setDuration:(float)value {
-	if (duration != value) {
-		WRITE_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, value, GrowlBrushedPrefDomain);
-		UPDATE_GROWL_PREFS();
-	}
-	duration = value;
+	WRITE_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, value, GrowlBrushedPrefDomain);
+	UPDATE_GROWL_PREFS();
 }
 
-#pragma mark -
+#pragma mark priority color settings
 
-- (IBAction) textColorChanged:(id)sender {
-    NSString *key;
-    switch ([sender tag]) {
-        case -2:
-            key = GrowlBrushedVeryLowTextColor;
-            break;
-        case -1:
-            key = GrowlBrushedModerateTextColor;
-            break;
-        case 1:
-            key = GrowlBrushedHighTextColor;
-            break;
-        case 2:
-            key = GrowlBrushedEmergencyTextColor;
-            break;
-        case 0:
-        default:
-            key = GrowlBrushedNormalTextColor;
-            break;
-    }
+- (NSColor *) textColorVeryLow {
+	return [GrowlBrushedPrefsController loadColor:GrowlBrushedVeryLowTextColor
+			  defaultColor:[NSColor colorWithCalibratedWhite:0.1f alpha:1.0f]];
+}
 
-	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
-    WRITE_GROWL_PREF_VALUE(key, theData, GrowlBrushedPrefDomain);
+- (void) setTextColorVeryLow:(NSColor *)value {
+	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
+    WRITE_GROWL_PREF_VALUE(GrowlBrushedVeryLowTextColor, theData, GrowlBrushedPrefDomain);
+    UPDATE_GROWL_PREFS();
+}
+
+- (NSColor *) textColorModerate {
+	return [GrowlBrushedPrefsController loadColor:GrowlBrushedModerateTextColor
+									 defaultColor:[NSColor colorWithCalibratedWhite:0.1f alpha:1.0f]];
+}
+
+- (void) setTextColorModerate:(NSColor *)value {
+	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
+    WRITE_GROWL_PREF_VALUE(GrowlBrushedModerateTextColor, theData, GrowlBrushedPrefDomain);
+    UPDATE_GROWL_PREFS();
+}
+
+- (NSColor *) textColorNormal {
+	return [GrowlBrushedPrefsController loadColor:GrowlBrushedNormalTextColor
+									 defaultColor:[NSColor colorWithCalibratedWhite:0.1f alpha:1.0f]];
+}
+
+- (void) setTextColorNormal:(NSColor *)value {
+	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
+    WRITE_GROWL_PREF_VALUE(GrowlBrushedNormalTextColor, theData, GrowlBrushedPrefDomain);
+    UPDATE_GROWL_PREFS();
+}
+
+- (NSColor *) textColorHigh {
+	return [GrowlBrushedPrefsController loadColor:GrowlBrushedHighTextColor
+									 defaultColor:[NSColor colorWithCalibratedWhite:0.1f alpha:1.0f]];
+}
+
+- (void) setTextColorHigh:(NSColor *)value {
+	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
+    WRITE_GROWL_PREF_VALUE(GrowlBrushedHighTextColor, theData, GrowlBrushedPrefDomain);
+    UPDATE_GROWL_PREFS();
+}
+
+- (NSColor *) textColorEmergency {
+	return [GrowlBrushedPrefsController loadColor:GrowlBrushedEmergencyTextColor
+									 defaultColor:[NSColor colorWithCalibratedWhite:0.1f alpha:1.0f]];
+}
+
+- (void) setTextColorEmergency:(NSColor *)value {
+	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
+    WRITE_GROWL_PREF_VALUE(GrowlBrushedEmergencyTextColor, theData, GrowlBrushedPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
 #pragma mark -
 
+- (int) screen {
+	int value = 0;
+	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &value);
+	return value;
+}
+
+- (void) setScreen:(int)value {
+	WRITE_GROWL_PREF_INT(GrowlBrushedScreenPref, value, GrowlBrushedPrefDomain);	
+	UPDATE_GROWL_PREFS();
+}
+
+#pragma mark -
+
 - (BOOL) isFloatingIcon {
-	return floatingIcon;
+	BOOL value = GrowlBrushedFloatIconPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &value);
+	return value;
 }
 
 - (void) setFloatingIcon:(BOOL)value {
-	if (floatingIcon != value) {
-		floatingIcon = value;
-		WRITE_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, value, GrowlBrushedPrefDomain);
-		UPDATE_GROWL_PREFS();
-	}
+	WRITE_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, value, GrowlBrushedPrefDomain);
+	UPDATE_GROWL_PREFS();
 }
 
 #pragma mark -
 
 - (BOOL) isLimit {
-	return limit;
+	BOOL value = GrowlBrushedLimitPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &value);
+	return value;
 }
 
 - (void) setLimit:(BOOL)value {
-	if (limit != value) {
-		limit = value;
-		WRITE_GROWL_PREF_BOOL(GrowlBrushedLimitPref, value, GrowlBrushedPrefDomain);
-		UPDATE_GROWL_PREFS();
-	}
+	WRITE_GROWL_PREF_BOOL(GrowlBrushedLimitPref, value, GrowlBrushedPrefDomain);
+	UPDATE_GROWL_PREFS();
 }
 
 #pragma mark -
 
 - (BOOL) isAqua {
-	return aqua;
+	BOOL value = GrowlBrushedAquaPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &value);
+	return value;
 }
 
 - (void) setAqua:(BOOL)value {
-	if (aqua != value) {
-		aqua = value;
-		WRITE_GROWL_PREF_BOOL(GrowlBrushedAquaPref, value, GrowlBrushedPrefDomain);
-		UPDATE_GROWL_PREFS();
-	}
+	WRITE_GROWL_PREF_BOOL(GrowlBrushedAquaPref, value, GrowlBrushedPrefDomain);
+	UPDATE_GROWL_PREFS();
 }
 
 @end
