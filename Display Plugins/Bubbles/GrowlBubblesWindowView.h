@@ -13,6 +13,7 @@
 	BOOL				mouseOver;
 	BOOL				haveText;
 	BOOL				haveTitle;
+	BOOL				closeOnMouseExit;
 	NSFont				*titleFont;
 	NSFont				*textFont;
 	NSImage				*icon;
@@ -54,5 +55,8 @@
 
 - (SEL) action;
 - (void) setAction:(SEL)selector;
+
+- (BOOL) mouseOver;
+- (void) setCloseOnMouseExit:(BOOL)flag;
 @end
 

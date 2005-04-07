@@ -197,6 +197,15 @@ static const double gMaxDisplayTime = 10.0;
 	return self;
 }
 
+- (void) startFadeOut {
+	GrowlSmokeWindowView *view = (GrowlSmokeWindowView *)[[self window] contentView];
+	if ([view mouseOver]) {
+		[view setCloseOnMouseExit:YES];
+	} else {
+		[super startFadeOut];
+	}
+}
+
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 

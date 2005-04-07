@@ -11,6 +11,7 @@
 @interface GrowlBrushedWindowView : NSView {
 	BOOL				mouseOver;
 	BOOL				haveText;
+	BOOL				closeOnMouseExit;
 	NSImage				*icon;
 	NSString			*title;
 	float				textHeight;
@@ -47,4 +48,6 @@
 - (SEL) action;
 - (void) setAction:(SEL)selector;
 
+- (BOOL) mouseOver;
+- (void) setCloseOnMouseExit:(BOOL)flag;
 @end

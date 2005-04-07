@@ -204,6 +204,15 @@ static const double gMaxDisplayTime = 10.;
 	return self;
 }
 
+- (void) startFadeOut {
+	GrowlBrushedWindowView *view = (GrowlBrushedWindowView *)[[self window] contentView];
+	if ([view mouseOver]) {
+		[view setCloseOnMouseExit:YES];
+	} else {
+		[super startFadeOut];
+	}
+}
+
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	

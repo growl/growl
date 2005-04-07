@@ -12,6 +12,7 @@
 	BOOL				mouseOver;
 	BOOL				haveTitle;
 	BOOL				haveText;
+	BOOL				closeOnMouseExit;
 	NSImage				*icon;
 	float				textHeight;
 	float				titleHeight;
@@ -54,4 +55,6 @@
 - (SEL) action;
 - (void) setAction:(SEL)selector;
 
+- (BOOL) mouseOver;
+- (void) setCloseOnMouseExit:(BOOL)flag;
 @end

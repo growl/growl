@@ -300,6 +300,14 @@
 
 #pragma mark -
 
+- (BOOL) mouseOver {
+	return mouseOver;
+}
+
+- (void) setCloseOnMouseExit:(BOOL)flag {
+	closeOnMouseExit = flag;
+}
+
 - (BOOL) acceptsFirstMouse:(NSEvent *) theEvent {
 	return YES;
 }
@@ -312,9 +320,15 @@
 - (void) mouseExited:(NSEvent *)theEvent {
 	mouseOver = NO;
 	[self setNeedsDisplay:YES];
+	
+	// abuse the target object
+	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)]) {
+		[target performSelector:@selector(startFadeOut)];
+	}
 }
 
 - (void) mouseDown:(NSEvent *) event {
+	mouseOver = NO;
 	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];
 	}

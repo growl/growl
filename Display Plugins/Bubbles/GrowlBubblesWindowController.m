@@ -34,7 +34,6 @@ static unsigned bubbleWindowDepth = 0U;
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &screenNumber);
 
-#warning View is bleeding into the controller here; these hardcoded pixels dont belong.
 	// I tried setting the width/height to zero, since the view resizes itself later.
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
 	// A window with a frame of NSZeroRect is off-screen and doesn't respect opacity even
@@ -85,6 +84,7 @@ static unsigned bubbleWindowDepth = 0U;
 			depth = bubbleWindowDepth += NSHeight(panelFrame) + GrowlBubblesPadding;
 		}
 		autoFadeOut = !sticky;
+		delegate = self;
 
 		// the visibility time for this bubble should be the minimum display time plus
 		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
@@ -102,6 +102,15 @@ static unsigned bubbleWindowDepth = 0U;
 	}
 
 	return self;
+}
+
+- (void) startFadeOut {
+	GrowlBubblesWindowView *view = (GrowlBubblesWindowView *)[[self window] contentView];
+	if ([view mouseOver]) {
+		[view setCloseOnMouseExit:YES];
+	} else {
+		[super startFadeOut];
+	}
 }
 
 - (void) dealloc {
