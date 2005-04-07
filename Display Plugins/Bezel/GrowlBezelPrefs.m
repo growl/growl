@@ -59,11 +59,6 @@
 			[radio_PositionTL setState:NSOnState];
 			break;
 	}
-	
-	// screen number
-	int screenNumber = 0;
-	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, BezelPrefDomain, &screenNumber);
-	[combo_screen setIntValue:screenNumber];
 }
 
 - (void) didSelect {
@@ -158,9 +153,14 @@
 	return [NSNumber numberWithInt:idx];
 }
 
-- (IBAction) setScreen:(id)sender {
-	int pref = [sender intValue];
-	WRITE_GROWL_PREF_INT(BEZEL_SCREEN_PREF, pref, BezelPrefDomain);	
+- (int) screen {
+	int value = 0;
+	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, BezelPrefDomain, &value);
+	return value;
+}
+
+- (void) setScreen:(int)value {
+	WRITE_GROWL_PREF_INT(BEZEL_SCREEN_PREF, value, BezelPrefDomain);	
 	UPDATE_GROWL_PREFS();
 }
 

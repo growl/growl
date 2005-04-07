@@ -10,10 +10,6 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface GrowlBubblesPrefsController : NSPreferencePane {
-	float					duration;
-	float					opacity;
-	BOOL					limit;
-
 	IBOutlet NSColorWell	*top_veryLow;
 	IBOutlet NSColorWell	*top_moderate;
 	IBOutlet NSColorWell	*top_normal;
@@ -33,17 +29,17 @@
 	IBOutlet NSColorWell	*text_emergency;
 
 	IBOutlet NSSlider		*slider_opacity;
-	IBOutlet NSComboBox		*combo_screen;
 }
-- (float) getDuration;
+- (float) duration;
 - (void) setDuration:(float)value;
-- (float) getOpacity;
+- (float) opacity;
 - (void) setOpacity:(float)value;
-- (BOOL) getLimit;
+- (BOOL) isLimit;
 - (void) setLimit:(BOOL)value;
+- (int) screen;
+- (void) setScreen:(int)value;
 - (IBAction) colorChanged:(id)sender;
 - (IBAction) textColorChanged:(id)sender;
 - (IBAction) topColorChanged:(id)sender;
-- (IBAction) setScreen:(id)sender;
 
 @end

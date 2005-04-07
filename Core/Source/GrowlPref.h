@@ -40,8 +40,6 @@
 	IBOutlet NSTabView				*tabView;
 
 	//"General" tab pane
-	BOOL							startGrowlAtLogin;
-	BOOL							backgroundUpdateCheckEnabled;
 	IBOutlet NSButton				*startStopGrowl;
 	IBOutlet NSTextField			*growlRunningStatus;
 	IBOutlet NSProgressIndicator	*growlRunningProgress;
@@ -69,9 +67,6 @@
 	//"Network" tab pane
 	IBOutlet NSSecureTextField		*networkPassword;
 	IBOutlet NSTableView			*growlServiceList;
-	BOOL							growlServerEnabled;
-	BOOL							remoteRegistrationAllowed;
-	BOOL							forwardingEnabled;
 
 	NSMutableArray					*services;
 	NSNetServiceBrowser				*browser;

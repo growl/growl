@@ -27,11 +27,7 @@
 #define MUSICVIDEO_EFFECT_WIPE			1
 
 @interface GrowlMusicVideoPrefs : NSPreferencePane {
-	float					duration;
-	float					opacity;
-	int						size;
-	IBOutlet NSSlider		*slider_opacity;
-	IBOutlet NSComboBox		*combo_screen;
+	IBOutlet NSSlider *slider_opacity;
 }
 
 - (float) duration;
@@ -42,7 +38,7 @@
 - (void) setOpacity:(float)value;
 - (int) size;
 - (void) setSize:(int)value;
-
-- (IBAction) takeScreenAsIntValueFrom:(id)sender;
+- (int) screen;
+- (void) setScreen:(int)value;
 
 @end

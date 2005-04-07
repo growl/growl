@@ -2,11 +2,10 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {positionChanged = id; setScreen = id; }; 
+            ACTIONS = {positionChanged = id; }; 
             CLASS = GrowlBezelPrefs; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                "combo_screen" = NSComboBox; 
                 "radio_PositionBL" = NSButton; 
                 "radio_PositionBR" = NSButton; 
                 "radio_PositionD" = NSButton; 

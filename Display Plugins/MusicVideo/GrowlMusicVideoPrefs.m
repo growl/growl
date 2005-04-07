@@ -17,22 +17,6 @@
 
 - (void) mainViewDidLoad {
 	[slider_opacity setAltIncrementValue:5.0];
-
-	opacity = MUSICVIDEO_DEFAULT_OPACITY;
-	READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacity);
-	[self setOpacity:opacity];
-
-	size = 0;
-	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &size);
-	[self setSize:size];
-
-	duration = MUSICVIDEO_DEFAULT_DURATION;
-	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, MusicVideoPrefDomain, &duration);
-	[self setDuration:duration];
-
-	int screenNumber = 0;
-	READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, MusicVideoPrefDomain, &screenNumber);
-	[combo_screen setIntValue:screenNumber];
 }
 
 - (void) didSelect {
@@ -42,14 +26,13 @@
 #pragma mark Accessors
 
 - (float) duration {
-	return duration;
+	float value = MUSICVIDEO_DEFAULT_DURATION;
+	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, MusicVideoPrefDomain, &value);
+	return value;
 }
 - (void) setDuration:(float)value {
-	if (duration != value) {
-		duration = value;
-		WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, value, MusicVideoPrefDomain);
-		UPDATE_GROWL_PREFS();
-	}
+	WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, value, MusicVideoPrefDomain);
+	UPDATE_GROWL_PREFS();
 }
 
 - (unsigned) effect {
@@ -79,25 +62,23 @@
 }
 
 - (float) opacity {
-	return opacity;
+	float value = MUSICVIDEO_DEFAULT_OPACITY;
+	READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &value);
+	return value;
 }
 - (void) setOpacity:(float)value {
-	if (opacity != value) {
-		opacity = value;
-		WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, value, MusicVideoPrefDomain);
-		UPDATE_GROWL_PREFS();
-	}
+	WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, value, MusicVideoPrefDomain);
+	UPDATE_GROWL_PREFS();
 }
 
 - (int) size {
-	return size;
+	int value = 0;
+	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &value);
+	return value;
 }
 - (void) setSize:(int)value {
-	if (size != value) {
-		size = value;
-		WRITE_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, value, MusicVideoPrefDomain);
-		UPDATE_GROWL_PREFS();
-	}
+	WRITE_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, value, MusicVideoPrefDomain);
+	UPDATE_GROWL_PREFS();
 }
 
 #pragma mark Combo box support
@@ -110,9 +91,13 @@
 	return [NSNumber numberWithInt:idx];
 }
 
-- (IBAction) takeScreenAsIntValueFrom:(id)sender {
-	int pref = [sender intValue];
-	WRITE_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, pref, MusicVideoPrefDomain);	
+- (int) screen {
+	int value = 0;
+	READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, MusicVideoPrefDomain, &value);
+	return value;
+}
+- (void) setScreen:(int)value {
+	WRITE_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, value, MusicVideoPrefDomain);	
 	UPDATE_GROWL_PREFS();
 }
 

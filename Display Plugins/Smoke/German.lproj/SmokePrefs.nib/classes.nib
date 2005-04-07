@@ -2,7 +2,7 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {colorChanged = id; setScreen = id; textColorChanged = id; }; 
+            ACTIONS = {colorChanged = id; textColorChanged = id; }; 
             CLASS = GrowlSmokePrefsController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -11,7 +11,6 @@
                 "color_moderate" = NSColorWell; 
                 "color_normal" = NSColorWell; 
                 "color_veryLow" = NSColorWell; 
-                "combo_screen" = NSComboBox; 
                 "slider_opacity" = NSSlider; 
                 "text_emergency" = NSColorWell; 
                 "text_high" = NSColorWell; 

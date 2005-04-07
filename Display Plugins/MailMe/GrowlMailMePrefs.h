@@ -7,9 +7,7 @@
 
 #import <PreferencePanes/PreferencePanes.h>
 
-@interface GrowlMailMePrefs: NSPreferencePane
-{
-	NSMutableString *destAddress;
+@interface GrowlMailMePrefs: NSPreferencePane {
 }
 
 - (NSString *) getDestAddress;

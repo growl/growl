@@ -250,19 +250,6 @@
 	[allDisplayPlugins addItemsWithTitles:plugins];
 	[allDisplayPlugins selectItemWithTitle:[preferences objectForKey:GrowlDisplayPluginKey]];
 
-	startGrowlAtLogin = [preferences startGrowlAtLogin];
-	backgroundUpdateCheckEnabled = [[preferences objectForKey:GrowlUpdateCheckKey] boolValue];
-	growlServerEnabled = [[preferences objectForKey:GrowlStartServerKey] boolValue];
-	remoteRegistrationAllowed = [[preferences objectForKey:GrowlRemoteRegistrationKey] boolValue];
-	forwardingEnabled = [[preferences objectForKey:GrowlEnableForwardKey] boolValue];
-
-	[self setStartGrowlAtLogin:startGrowlAtLogin];
-	[self setBackgroundUpdateCheckEnabled:backgroundUpdateCheckEnabled];
-
-	[self setGrowlServerEnabled:growlServerEnabled];
-	[self setRemoteRegistrationAllowed:remoteRegistrationAllowed];
-	[self setForwardingEnabled:forwardingEnabled];
-
 	// If Growl is enabled, ensure the helper app is launched
 	if ([[preferences objectForKey:GrowlEnabledKey] boolValue]) {
 		[[GrowlPreferences preferences] launchGrowl];
@@ -429,29 +416,23 @@
 #pragma mark -
 
 - (BOOL) isStartGrowlAtLogin {
-	return startGrowlAtLogin;
+	return [[GrowlPreferences preferences] startGrowlAtLogin];
 }
 
 - (void) setStartGrowlAtLogin:(BOOL)flag {
-	if (flag != startGrowlAtLogin) {
-		startGrowlAtLogin = flag;
-		[[GrowlPreferences preferences] setStartGrowlAtLogin:flag];
-	}
+	[[GrowlPreferences preferences] setStartGrowlAtLogin:flag];
 }
 
 #pragma mark -
 
 - (BOOL) isBackgroundUpdateCheckEnabled {
-	return backgroundUpdateCheckEnabled;
+	return [[[GrowlPreferences preferences] objectForKey:GrowlUpdateCheckKey] boolValue];
 }
 
 - (void) setBackgroundUpdateCheckEnabled:(BOOL)flag {
-	if (flag != backgroundUpdateCheckEnabled) {
-		backgroundUpdateCheckEnabled = flag;
-		NSNumber *state = [[NSNumber alloc] initWithBool:flag];
-		[[GrowlPreferences preferences] setObject:state forKey:GrowlUpdateCheckKey];
-		[state release];
-	}
+	NSNumber *state = [[NSNumber alloc] initWithBool:flag];
+	[[GrowlPreferences preferences] setObject:state forKey:GrowlUpdateCheckKey];
+	[state release];
 }
 
 #pragma mark -
@@ -489,31 +470,25 @@
 #pragma mark "Network" tab pane
 
 - (BOOL) isGrowlServerEnabled {
-	return growlServerEnabled;
+	return [[[GrowlPreferences preferences] objectForKey:GrowlStartServerKey] boolValue];
 }
 
 - (void) setGrowlServerEnabled:(BOOL)enabled {
-	if (enabled != growlServerEnabled) {
-		growlServerEnabled = enabled;
-		NSNumber *state = [[NSNumber alloc] initWithBool:enabled];
-		[[GrowlPreferences preferences] setObject:state forKey:GrowlStartServerKey];
-		[state release];
-	}
+	NSNumber *state = [[NSNumber alloc] initWithBool:enabled];
+	[[GrowlPreferences preferences] setObject:state forKey:GrowlStartServerKey];
+	[state release];
 }
 
 #pragma mark -
 
 - (BOOL) isRemoteRegistrationAllowed {
-	return remoteRegistrationAllowed;
+	return [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
 }
 
 - (void) setRemoteRegistrationAllowed:(BOOL)flag {
-	if (flag != remoteRegistrationAllowed) {
-		remoteRegistrationAllowed = flag;
-		NSNumber *state = [[NSNumber alloc] initWithBool:flag];
-		[[GrowlPreferences preferences] setObject:state forKey:GrowlRemoteRegistrationKey];
-		[state release];
-	}
+	NSNumber *state = [[NSNumber alloc] initWithBool:flag];
+	[[GrowlPreferences preferences] setObject:state forKey:GrowlRemoteRegistrationKey];
+	[state release];
 }
 
 #pragma mark -
@@ -560,16 +535,13 @@
 #pragma mark -
 
 - (BOOL) isForwardingEnabled {
-	return forwardingEnabled;
+	return [[[GrowlPreferences preferences] objectForKey:GrowlEnableForwardKey] boolValue];
 }
 
 - (void) setForwardingEnabled:(BOOL)enabled {
-	if (enabled != forwardingEnabled) {
-		forwardingEnabled = enabled;
-		NSNumber *state = [[NSNumber alloc] initWithBool:enabled];
-		[[GrowlPreferences preferences] setObject:state forKey:GrowlEnableForwardKey];
-		[state release];
-	}
+	NSNumber *state = [[NSNumber alloc] initWithBool:enabled];
+	[[GrowlPreferences preferences] setObject:state forKey:GrowlEnableForwardKey];
+	[state release];
 }
 
 #pragma mark "Display Options" tab pane
@@ -923,7 +895,7 @@
 
 #pragma mark -
 
-+ (void)saveTicket:(GrowlApplicationTicket *)ticket {
++ (void) saveTicket:(GrowlApplicationTicket *)ticket {
 	[ticket saveTicket];
 	NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[ticket applicationName], @"TicketName", nil];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
@@ -934,7 +906,7 @@
 
 #pragma mark Detecting Growl
 
-- (void)checkGrowlRunning {
+- (void) checkGrowlRunning {
 	growlIsRunning = [[GrowlPreferences preferences] isGrowlRunning];
 	[self updateRunningStatus];
 }
@@ -942,7 +914,7 @@
 #pragma mark -
 
 // Refresh preferences when a new application registers with Growl
-- (void)appRegistered: (NSNotification *) note {
+- (void) appRegistered: (NSNotification *) note {
 	NSString *app = [note object];
 	GrowlApplicationTicket *ticket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
 
@@ -962,12 +934,12 @@
 	}
 }
 
-- (void)growlLaunched:(NSNotification *)note {
+- (void) growlLaunched:(NSNotification *)note {
 	growlIsRunning = YES;
 	[self updateRunningStatus];
 }
 
-- (void)growlTerminated:(NSNotification *)note {
+- (void) growlTerminated:(NSNotification *)note {
 	growlIsRunning = NO;
 	[self updateRunningStatus];
 }

@@ -35,7 +35,6 @@
 	IBOutlet NSButton		*radio_PositionBL;
 	IBOutlet NSButton		*radio_PositionTL;
 	IBOutlet NSSlider		*slider_opacity;
-	IBOutlet NSComboBox		*combo_screen;
 }
 
 - (float) duration;
@@ -46,7 +45,8 @@
 - (void) setSize:(int)value;
 - (int) style;
 - (void) setStyle:(int)value;
+- (int) screen;
+- (void) setScreen:(int)value;
 - (IBAction) positionChanged:(id)sender;
-- (IBAction) setScreen:(id)sender;
 
 @end
