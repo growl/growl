@@ -53,6 +53,7 @@
 	[panel setHasShadow:NO];
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
+	[panel useOptimizedDrawing:YES];
 	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
 	//[panel setDelegate:self];
 

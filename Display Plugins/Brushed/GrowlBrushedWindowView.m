@@ -75,8 +75,9 @@
 	}
 
 	// set up bezier path for rounded corners
-	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:shadedBounds
+	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(shadedBounds, 1.0f, 1.0f)
 														  radius:GrowlBrushedBorderRadius];
+	[path setLineWidth:2.0f];
 
 	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
 	[graphicsContext saveGraphicsState];
@@ -93,6 +94,11 @@
 	// revert to unclipped graphics context
 	[graphicsContext restoreGraphicsState];
 
+	if (mouseOver) {
+		[[NSColor keyboardFocusIndicatorColor] set];
+		[path stroke];
+	}
+	
 	// draw the title and the text
 	NSRect drawRect;
 	drawRect.origin.x = GrowlBrushedPadding + GrowlBrushedIconSize + GrowlBrushedIconTextPadding;
@@ -233,6 +239,16 @@
 		rect.size.height = GrowlBrushedMinTextHeight;
 	}
 	[self setFrame:rect];
+
+	// resize the window so that it contains the tracking rect
+	NSRect windowRect = [[self window] frame];
+	windowRect.size = rect.size;
+	[[self window] setFrame:windowRect display:NO];
+
+	if (trackingRectTag) {
+		[self removeTrackingRect:trackingRectTag];
+	}
+	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
 }
 
 - (float) titleHeight {
@@ -286,6 +302,16 @@
 
 - (BOOL) acceptsFirstMouse:(NSEvent *) theEvent {
 	return YES;
+}
+
+- (void) mouseEntered:(NSEvent *)theEvent {
+	mouseOver = YES;
+	[self setNeedsDisplay:YES];
+}
+
+- (void) mouseExited:(NSEvent *)theEvent {
+	mouseOver = NO;
+	[self setNeedsDisplay:YES];
 }
 
 - (void) mouseDown:(NSEvent *) event {

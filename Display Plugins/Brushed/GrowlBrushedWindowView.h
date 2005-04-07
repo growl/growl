@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface GrowlBrushedWindowView : NSView {
+	BOOL				mouseOver;
 	BOOL				haveText;
 	NSImage				*icon;
 	NSString			*title;
@@ -17,6 +18,7 @@
 	float				lineHeight;
 	SEL					action;
 	id					target;
+	NSTrackingRectTag	trackingRectTag;
 
 	NSFont				*titleFont;
 	NSFont				*textFont;
