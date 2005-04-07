@@ -10,21 +10,25 @@
 
 @interface GrowlSmokeWindowView : NSView {
 	BOOL				mouseOver;
+	BOOL				haveTitle;
+	BOOL				haveText;
 	NSImage				*icon;
-	NSString			*title;
-	NSString			*text;
 	float				textHeight;
 	float				titleHeight;
 	float				lineHeight;
 	SEL					action;
 	id					target;
 
-	NSFont				*titleFont;
 	NSFont				*textFont;
-	NSLayoutManager		*layoutManager;
 	NSShadow			*textShadow;
+
+	NSLayoutManager		*textLayoutManager;
 	NSTextStorage		*textStorage;
 	NSTextContainer		*textContainer;
+
+	NSTextStorage		*titleStorage;
+	NSTextContainer		*titleContainer;
+	NSLayoutManager		*titleLayoutManager;
 
 	NSColor				*bgColor;
 	NSColor				*textColor;

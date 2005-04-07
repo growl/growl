@@ -19,11 +19,10 @@
 
 - (id) initWithFrame:(NSRect) frame {
 	if ((self = [super initWithFrame:frame])) {
-		titleFont = [[NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize] retain];
 		textFont = [[NSFont systemFontOfSize:GrowlSmokeTextFontSize] retain];
-		layoutManager = [[NSLayoutManager alloc] init];
-		titleHeight = [layoutManager defaultLineHeightForFont:titleFont];
-		lineHeight = [layoutManager defaultLineHeightForFont:textFont];
+		textLayoutManager = [[NSLayoutManager alloc] init];
+		titleLayoutManager = [[NSLayoutManager alloc] init];
+		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
 		textShadow = [[NSShadow alloc] init];
 		[textShadow setShadowOffset:NSMakeSize(0.0f, -2.0f)];
 		[textShadow setShadowBlurRadius:3.0f];
@@ -33,16 +32,15 @@
 }
 
 - (void) dealloc {
-	[titleFont     release];
-	[textFont      release];
-	[icon          release];
-	[title         release];
-	[text          release];
-	[bgColor       release];
-	[textColor     release];
-	[textShadow    release];
-	[textStorage   release];
-	[layoutManager release];
+	[textFont           release];
+	[icon               release];
+	[bgColor            release];
+	[textColor          release];
+	[textShadow         release];
+	[textStorage        release];
+	[textLayoutManager  release];
+	[titleStorage       release];
+	[titleLayoutManager release];
 
 	[super dealloc];
 }
@@ -103,30 +101,16 @@
 	NSRect drawRect;
 	drawRect.origin.x = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
 	drawRect.origin.y = GrowlSmokePadding;
-	drawRect.size.width = GrowlSmokeTextAreaWidth;
 
-	if (title && [title length]) {
-		drawRect.size.height = titleHeight;
-
-		// construct attributes for the title
-		NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-		NSDictionary *titleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-			titleFont,      NSFontAttributeName,
-			textColor,      NSForegroundColorAttributeName,
-			textShadow,     NSShadowAttributeName,
-			paragraphStyle, NSParagraphStyleAttributeName,
-			nil];
-		[title drawInRect:drawRect withAttributes:titleAttributes];
-		[titleAttributes release];
-		[paragraphStyle release];
-
-		drawRect.origin.y += drawRect.size.height + GrowlSmokeTitleTextPadding;
+	if (haveTitle) {
+		NSRange glyphRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];
+		[titleLayoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
+		drawRect.origin.y += titleHeight + GrowlSmokeTitleTextPadding;
 	}
 
-	if (text && [text length]) {
-		NSRange glyphRange = [layoutManager glyphRangeForTextContainer:textContainer];
-		[layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
+	if (haveText) {
+		NSRange glyphRange = [textLayoutManager glyphRangeForTextContainer:textContainer];
+		[textLayoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
 	}
 
 	drawRect.origin.x = GrowlSmokePadding;
@@ -134,7 +118,6 @@
 	drawRect.size.width = GrowlSmokeIconSize;
 	drawRect.size.height = GrowlSmokeIconSize;
 
-	// we do this because we are always working with a copy
 	[icon setFlipped:YES];
 	[icon drawScaledInRect:drawRect
 				 operation:NSCompositeSourceOver
@@ -151,18 +134,47 @@
 }
 
 - (void) setTitle:(NSString *)aTitle {
-	[title release];
-	title = [aTitle copy];
+	haveTitle = [aTitle length] != 0;
+
+	if (!titleStorage) {
+		NSSize containerSize = { GrowlSmokeTextAreaWidth, FLT_MAX };
+		titleStorage = [[NSTextStorage alloc] init];
+		titleContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
+		[titleLayoutManager addTextContainer:titleContainer];	// retains textContainer
+		[titleContainer release];
+		[titleStorage addLayoutManager:titleLayoutManager];	// retains layoutManager
+		[titleContainer setLineFragmentPadding:0.0f];
+	}
+
+	// construct attributes for the title
+	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+	NSFont *titleFont = [NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize];
+	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+		titleFont,      NSFontAttributeName,
+		textColor,		NSForegroundColorAttributeName,
+		textShadow,     NSShadowAttributeName,
+		paragraphStyle, NSParagraphStyleAttributeName,
+		nil];
+	[paragraphStyle release];
+
+	[[titleStorage mutableString] setString:aTitle];
+	[titleStorage setAttributes:attributes range:NSMakeRange(0, [titleStorage length])];
+
+	[attributes release];
+
+	[titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
+	titleHeight = [titleLayoutManager usedRectForTextContainer:titleContainer].size.height;
+
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setText:(NSString *)aText {
-	[text release];
-	text = [aText copy];
+	haveText = [aText length] != 0;
 
 	if (!textStorage) {
-		NSSize containerSize;  
+		NSSize containerSize;
 		BOOL limitPref = GrowlSmokeLimitPrefDefault;
 		READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
 		containerSize.width = GrowlSmokeTextAreaWidth;
@@ -173,9 +185,9 @@
 		}
 		textStorage = [[NSTextStorage alloc] init];
 		textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
-		[layoutManager addTextContainer:textContainer];	// retains textContainer
+		[textLayoutManager addTextContainer:textContainer];	// retains textContainer
 		[textContainer release];
-		[textStorage addLayoutManager:layoutManager];	// retains layoutManager
+		[textStorage addLayoutManager:textLayoutManager];	// retains layoutManager
 		[textContainer setLineFragmentPadding:0.0f];
 	}
 
@@ -186,13 +198,13 @@
 		textShadow, NSShadowAttributeName,
 		nil];
 
-	[[textStorage mutableString] setString:text];
+	[[textStorage mutableString] setString:aText];
 	[textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
 	
 	[attributes release];
 
-	[layoutManager glyphRangeForTextContainer:textContainer];	// force layout		
-	textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+	[textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
+	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;
 
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
@@ -261,7 +273,7 @@
 - (void) sizeToFit {
 	NSRect rect = [self frame];
 	rect.size.height = GrowlSmokePadding + GrowlSmokePadding + [self titleHeight] + [self descriptionHeight];
-	if (title && text && [title length] && [text length]) {
+	if (haveTitle && haveText) {
 		rect.size.height += GrowlSmokeTitleTextPadding;
 	}
 	if (rect.size.height < GrowlSmokeMinTextHeight) {
@@ -271,7 +283,7 @@
 }
 
 - (float) titleHeight {
-	if (!title || ![title length]) {
+	if (!haveTitle) {
 		return 0.0f;
 	}
 
@@ -279,7 +291,7 @@
 }
 
 - (float) descriptionHeight {
-	if (!text || ![text length]) {
+	if (!haveText) {
 		return 0.0f;
 	}
 
