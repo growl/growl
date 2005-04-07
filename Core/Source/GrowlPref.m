@@ -27,6 +27,9 @@
 #define keychainServiceName "Growl"
 #define keychainAccountName "Growl"
 
+//This is the frame of the preference view that we should get back.
+#define DISPLAY_PREF_FRAME NSMakeRect(165.0f, 42.0f, 354.0f, 289.0f)
+
 @implementation GrowlPref
 
 - (id) initWithBundle:(NSBundle *)bundle {
@@ -183,8 +186,6 @@
 - (void) willSelect {
 	[self reloadPreferences];
 	[self checkGrowlRunning];
-
-	[tabView setDelegate:self];
 }
 
 // copy images to avoid resizing the original image stored in the ticket
@@ -574,8 +575,6 @@
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview object:currentPlugin];
 }
 
-//This is the frame of the preference view that we should get back.
-#define DISPLAY_PREF_FRAME NSMakeRect(165.0f, 42.0f, 354.0f, 289.0f)
 - (void)loadViewForDisplay:(NSString*)displayName {
 	NSView *newView = nil;
 	NSPreferencePane *prefPane = nil, *oldPrefPane = nil;
@@ -906,15 +905,6 @@
 		
 		[self writeForwardDestinations];
 	}
-}
-
-#pragma mark Growl Tab View Delegate Methods
-
-- (void) tabView:(NSTabView*)tab willSelectTabViewItem:(NSTabViewItem*)tabViewItem {
-	//NSLog(@"%s %@\n", __FUNCTION__, [tabViewItem label]);
-	if ([[tabViewItem identifier] isEqual:@"2"]) {
-		[[tab window] makeFirstResponder: growlApplications];
-	}			
 }
 
 #pragma mark -
