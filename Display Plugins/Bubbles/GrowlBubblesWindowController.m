@@ -54,6 +54,7 @@ static unsigned bubbleWindowDepth = 0U;
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
+	[panel useOptimizedDrawing:YES];
 	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
 	//[panel setDelegate:self];
 
@@ -69,7 +70,7 @@ static unsigned bubbleWindowDepth = 0U;
 
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
-	
+
 	NSRect screen = [[self screen] visibleFrame];
 
 	[panel setFrameTopLeftPoint:NSMakePoint( NSMaxX( screen ) - NSWidth( panelFrame ) - GrowlBubblesPadding,

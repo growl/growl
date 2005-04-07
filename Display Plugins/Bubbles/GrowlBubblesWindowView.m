@@ -351,6 +351,16 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		rect.size.height = MIN_TEXT_HEIGHT;
 	}
 	[self setFrame:rect];
+
+	// resize the window so that it contains the tracking rect
+	NSRect windowRect = [[self window] frame];
+	windowRect.size = rect.size;
+	[[self window] setFrame:windowRect display:NO];
+
+	if (trackingRectTag) {
+		[self removeTrackingRect:trackingRectTag];
+	}
+	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
 }
 
 - (BOOL)isFlipped {
@@ -394,10 +404,6 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 #pragma mark -
-
-- (void) viewDidMoveToWindow {
-	[self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
-}
 
 - (BOOL) acceptsFirstMouse:(NSEvent *) event {
 	return YES;

@@ -18,6 +18,7 @@
 	float				lineHeight;
 	SEL					action;
 	id					target;
+	NSTrackingRectTag	trackingRectTag;
 
 	NSFont				*textFont;
 	NSShadow			*textShadow;

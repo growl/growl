@@ -10,32 +10,33 @@
 #import <Foundation/Foundation.h>
 
 @interface GrowlBubblesWindowView : NSView {
-	BOOL			mouseOver;
-	BOOL			haveText;
-	BOOL			haveTitle;
-	NSFont			*titleFont;
-	NSFont			*textFont;
-	NSImage			*icon;
-	float			textHeight;
-	float			titleHeight;
-	float			lineHeight;
-	SEL				action;
-	id				target;
-	NSColor			*textColor;
-	NSColor			*bgColor;
-	NSColor			*lightColor;
-	NSColor			*borderColor;
-	NSColor			*highlightColor;
+	BOOL				mouseOver;
+	BOOL				haveText;
+	BOOL				haveTitle;
+	NSFont				*titleFont;
+	NSFont				*textFont;
+	NSImage				*icon;
+	float				textHeight;
+	float				titleHeight;
+	float				lineHeight;
+	SEL					action;
+	id					target;
+	NSColor				*textColor;
+	NSColor				*bgColor;
+	NSColor				*lightColor;
+	NSColor				*borderColor;
+	NSColor				*highlightColor;
+	NSTrackingRectTag	trackingRectTag;
 
-	NSLayoutManager *textLayoutManager;
-	NSTextStorage	*textStorage;
-	NSTextContainer	*textContainer;
-	NSRange			textRange;
+	NSLayoutManager		*textLayoutManager;
+	NSTextStorage		*textStorage;
+	NSTextContainer		*textContainer;
+	NSRange				textRange;
 
-	NSLayoutManager *titleLayoutManager;
-	NSTextStorage	*titleStorage;
-	NSTextContainer	*titleContainer;
-	NSRange			titleRange;
+	NSLayoutManager		*titleLayoutManager;
+	NSTextStorage		*titleStorage;
+	NSTextContainer		*titleContainer;
+	NSRange				titleRange;
 }
 
 - (void) setPriority:(int)priority;

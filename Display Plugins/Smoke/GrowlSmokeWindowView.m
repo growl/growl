@@ -285,6 +285,16 @@
 		rect.size.height = GrowlSmokeMinTextHeight;
 	}
 	[self setFrame:rect];
+
+	// resize the window so that it contains the tracking rect
+	NSRect windowRect = [[self window] frame];
+	windowRect.size = rect.size;
+	[[self window] setFrame:windowRect display:NO];
+	
+	if (trackingRectTag) {
+		[self removeTrackingRect:trackingRectTag];
+	}
+	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
 }
 
 - (float) titleHeight {
@@ -327,10 +337,6 @@
 }
 
 #pragma mark -
-
-- (void) viewDidMoveToWindow {
-	[self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
-}
 
 - (BOOL) acceptsFirstMouse:(NSEvent *) theEvent {
 	return YES;
