@@ -55,7 +55,7 @@
 - (unsigned) effect {
 	int effect = 0;
 	READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, MusicVideoPrefDomain, &effect);
-	switch(effect) {
+	switch (effect) {
 		default:
 			effect = MUSICVIDEO_EFFECT_SLIDE;
 
@@ -66,7 +66,7 @@
 	return (unsigned)effect;
 }
 - (void) setEffect:(unsigned)newEffect {
-	switch(newEffect) {
+	switch (newEffect) {
 		default:
 			NSLog(@"(Music Video) Invalid effect number %u (slide is %u; wipe is %u)", newEffect, MUSICVIDEO_EFFECT_SLIDE, MUSICVIDEO_EFFECT_WIPE);
 			break;
