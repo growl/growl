@@ -58,7 +58,7 @@
 
 	if (-1 != row) {
 		NSString *voice = [[voices objectAtIndex:row] objectForKey:NSVoiceIdentifier];
-		WRITE_GROWL_PREF_VALUE(GrowlSpeechVoicePref, voice, GrowlSpeechPrefDomain );
+		WRITE_GROWL_PREF_VALUE(GrowlSpeechVoicePref, voice, GrowlSpeechPrefDomain);
 		UPDATE_GROWL_PREFS();
 	}
 }

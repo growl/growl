@@ -13,7 +13,6 @@
 
 @interface GrowlLogDisplay : NSObject <GrowlDisplayPlugin> {
 	NSPreferencePane	*preferencePane;
-	NSBundle			*bundle;
 }
 
 @end

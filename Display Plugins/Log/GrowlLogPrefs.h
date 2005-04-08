@@ -13,8 +13,8 @@
 	IBOutlet NSMatrix		*fileType;
 	IBOutlet NSButton		*consoleAppButton;
 	IBOutlet NSPopUpButton	*customMenuButton;
-	
-	NSMutableArray					*customHistArray;
+
+	NSMutableArray			*customHistArray;
 }
 
 - (IBAction) typeChanged:(id)sender;
