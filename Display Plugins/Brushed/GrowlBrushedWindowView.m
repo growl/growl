@@ -19,11 +19,10 @@
 
 - (id) initWithFrame:(NSRect) frame {
 	if ((self = [super initWithFrame:frame])) {
-		titleFont = [[NSFont boldSystemFontOfSize:GrowlBrushedTitleFontSize] retain];
 		textFont = [[NSFont systemFontOfSize:GrowlBrushedTextFontSize] retain];
-		layoutManager = [[NSLayoutManager alloc] init];
-		titleHeight = [layoutManager defaultLineHeightForFont:titleFont];
-		lineHeight = [layoutManager defaultLineHeightForFont:textFont];
+		textLayoutManager = [[NSLayoutManager alloc] init];
+		titleLayoutManager = [[NSLayoutManager alloc] init];
+		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
 		textShadow = [[NSShadow alloc] init];
 		[textShadow setShadowOffset:NSMakeSize(0.0f, -2.0f)];
 		[textShadow setShadowBlurRadius:3.0f];
@@ -35,14 +34,15 @@
 }
 
 - (void) dealloc {
-	[titleFont     release];
-	[textFont      release];
-	[icon          release];
-	[title         release];
-	[textColor     release];
-	[textShadow    release];
-	[textStorage   release];
-	[layoutManager release];
+	[textFont           release];
+	[icon               release];
+	[title              release];
+	[textColor          release];
+	[textShadow         release];
+	[textStorage        release];
+	[textLayoutManager  release];
+	[titleStorage       release];
+	[titleLayoutManager release];
 	
 	[super dealloc];
 }
@@ -103,30 +103,14 @@
 	NSRect drawRect;
 	drawRect.origin.x = GrowlBrushedPadding + GrowlBrushedIconSize + GrowlBrushedIconTextPadding;
 	drawRect.origin.y = GrowlBrushedPadding;
-	drawRect.size.width = GrowlBrushedTextAreaWidth;
 
-	if (title && [title length]) {
-		drawRect.size.height = titleHeight;
-
-		// construct attributes for the title
-		NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-		NSDictionary *titleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-			titleFont,      NSFontAttributeName,
-			textColor,      NSForegroundColorAttributeName,
-			textShadow,     NSShadowAttributeName,
-			paragraphStyle, NSParagraphStyleAttributeName,
-			nil];
-		[title drawInRect:drawRect withAttributes:titleAttributes];
-		[titleAttributes release];
-		[paragraphStyle release];
-
-		drawRect.origin.y += drawRect.size.height + GrowlBrushedTitleTextPadding;
+	if (haveTitle) {
+		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
+		drawRect.origin.y += titleHeight + GrowlBrushedTitleTextPadding;
 	}
 
 	if (haveText) {
-		NSRange glyphRange = [layoutManager glyphRangeForTextContainer:textContainer];
-		[layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:drawRect.origin];
+		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 	}
 
 	drawRect.origin.x = GrowlBrushedPadding;
@@ -150,14 +134,56 @@
 }
 
 - (void) setTitle:(NSString *)aTitle {
-	[title release];
-	title = [aTitle copy];
+	haveTitle = [aTitle length] != 0;
+
+	if (!haveTitle) {
+		[self sizeToFit];
+		[self setNeedsDisplay:YES];
+		return;
+	}
+
+	if (!titleStorage) {
+		NSSize containerSize = { GrowlBrushedTextAreaWidth, FLT_MAX };
+		titleStorage = [[NSTextStorage alloc] init];
+		titleContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
+		[titleLayoutManager addTextContainer:titleContainer];	// retains textContainer
+		[titleContainer release];
+		[titleStorage addLayoutManager:titleLayoutManager];	// retains layoutManager
+		[titleContainer setLineFragmentPadding:0.0f];
+	}
+
+	// construct attributes for the title
+	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	NSFont *titleFont = [NSFont boldSystemFontOfSize:GrowlBrushedTitleFontSize];
+	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+		titleFont,      NSFontAttributeName,
+		textColor,      NSForegroundColorAttributeName,
+		textShadow,     NSShadowAttributeName,
+		paragraphStyle, NSParagraphStyleAttributeName,
+		nil];
+	[paragraphStyle release];
+
+	[[titleStorage mutableString] setString:aTitle];
+	[titleStorage setAttributes:attributes range:NSMakeRange(0, [titleStorage length])];
+
+	[attributes release];
+
+	titleRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
+	titleHeight = [titleLayoutManager usedRectForTextContainer:titleContainer].size.height;
+
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
 - (void) setText:(NSString *)aText {
 	haveText = [aText length] != 0;
+
+	if (!haveText) {
+		[self sizeToFit];
+		[self setNeedsDisplay:YES];
+		return;
+	}
 
 	if (!textStorage) {
 		NSSize containerSize;  
@@ -171,9 +197,9 @@
 		}
 		textStorage = [[NSTextStorage alloc] init];
 		textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
-		[layoutManager addTextContainer:textContainer];	// retains textContainer
+		[textLayoutManager addTextContainer:textContainer];	// retains textContainer
 		[textContainer release];
-		[textStorage addLayoutManager:layoutManager];	// retains layoutManager
+		[textStorage addLayoutManager:textLayoutManager];	// retains layoutManager
 		[textContainer setLineFragmentPadding:0.0f];
 	}
 
@@ -189,8 +215,8 @@
 
 	[attributes release];
 
-	[layoutManager glyphRangeForTextContainer:textContainer];	// force layout		
-	textHeight = [layoutManager usedRectForTextContainer:textContainer].size.height;
+	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout		
+	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;
 
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
@@ -232,7 +258,7 @@
 - (void) sizeToFit {
 	NSRect rect = [self frame];
 	rect.size.height = GrowlBrushedPadding + GrowlBrushedPadding + [self titleHeight] + [self descriptionHeight];
-	if (haveText && title && [title length]) {
+	if (haveTitle && haveText) {
 		rect.size.height += GrowlBrushedTitleTextPadding;
 	}
 	if (rect.size.height < GrowlBrushedMinTextHeight) {
@@ -252,19 +278,11 @@
 }
 
 - (float) titleHeight {
-	if (!title || ![title length]) {
-		return 0.0f;
-	}
-
-	return titleHeight;
+	return haveTitle ? titleHeight : 0.0f;
 }
 
 - (float) descriptionHeight {
-	if (!haveText) {
-		return 0.0f;
-	}
-	
-	return textHeight;
+	return haveText ? textHeight : 0.0f;
 }
 
 - (int) descriptionRowCount {

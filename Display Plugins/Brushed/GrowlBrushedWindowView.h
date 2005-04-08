@@ -10,6 +10,7 @@
 
 @interface GrowlBrushedWindowView : NSView {
 	BOOL				mouseOver;
+	BOOL				haveTitle;
 	BOOL				haveText;
 	BOOL				closeOnMouseExit;
 	NSImage				*icon;
@@ -21,14 +22,19 @@
 	id					target;
 	NSTrackingRectTag	trackingRectTag;
 
-	NSFont				*titleFont;
 	NSFont				*textFont;
-	NSLayoutManager		*layoutManager;
 	NSShadow			*textShadow;
+	NSColor				*textColor;
+
+	NSLayoutManager		*textLayoutManager;
 	NSTextStorage		*textStorage;
 	NSTextContainer		*textContainer;
+	NSRange				textRange;
 	
-	NSColor				*textColor;
+	NSLayoutManager		*titleLayoutManager;
+	NSTextStorage		*titleStorage;
+	NSTextContainer		*titleContainer;
+	NSRange				titleRange;
 }
 
 - (void) setIcon:(NSImage *)icon;

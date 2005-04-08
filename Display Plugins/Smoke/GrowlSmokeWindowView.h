@@ -23,6 +23,8 @@
 
 	NSFont				*textFont;
 	NSShadow			*textShadow;
+	NSColor				*textColor;
+	NSColor				*bgColor;
 
 	NSLayoutManager		*textLayoutManager;
 	NSTextStorage		*textStorage;
@@ -33,9 +35,6 @@
 	NSTextContainer		*titleContainer;
 	NSLayoutManager		*titleLayoutManager;
 	NSRange				titleRange;
-
-	NSColor				*bgColor;
-	NSColor				*textColor;
 }
 
 - (void) setIcon:(NSImage *)icon;
