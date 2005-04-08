@@ -40,15 +40,15 @@ static Class growlApplicationBridge;
 
 @implementation GrowlMail
 
-+ (NSBundle *)bundle {
++ (NSBundle *) bundle {
 	return [NSBundle bundleForClass:[GrowlMail class]];
 }
 
-+ (NSString *)bundleVersion {
++ (NSString *) bundleVersion {
 	return [[[GrowlMail bundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 }
 
-+ (void)initialize {
++ (void) initialize {
 	[super initialize];
 
 	// this image is leaked
@@ -73,7 +73,7 @@ static Class growlApplicationBridge;
 	NSLog( @"Loaded GrowlMail %@", [GrowlMail bundleVersion] );
 }
 
-+ (Class)growlApplicationBridge {
++ (Class) growlApplicationBridge {
 	return growlApplicationBridge;
 }
 
@@ -81,11 +81,11 @@ static Class growlApplicationBridge;
 	return YES;
 }
 
-+ (NSString *)preferencesOwnerClassName {
++ (NSString *) preferencesOwnerClassName {
 	return @"GrowlMailPreferencesModule";
 }
 
-+ (NSString *)preferencesPanelName {
++ (NSString *) preferencesPanelName {
 	return @"GrowlMail";
 }
 
@@ -118,7 +118,7 @@ static Class growlApplicationBridge;
 
 - (void) growlNotificationWasClicked:(id)clickContext {
 	// TODO: open a specific message if not in summary mode
-	if(![GrowlMail ignoreClickHandler])
+	if (![GrowlMail ignoreClickHandler])
 		[NSApp activateIgnoringOtherApps:YES];
 }
 
@@ -136,7 +136,7 @@ static Class growlApplicationBridge;
 
 #pragma mark Preferences
 
-+ (BOOL)isEnabled
++ (BOOL) isEnabled
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMEnableGrowlMailBundle"];
 }
@@ -145,13 +145,13 @@ static Class growlApplicationBridge;
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMIgnoreJunk"];
 }
 
-- (BOOL)isAccountEnabled:(NSString *)path {
+- (BOOL) isAccountEnabled:(NSString *)path {
 	NSDictionary *accountSettings = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"GMAccounts"];
 	NSNumber *isEnabled = [accountSettings objectForKey:path];
 	return isEnabled ? [isEnabled boolValue] : YES;
 }
 
-- (void)setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path {
+- (void) setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path {
 	NSDictionary *accountSettings = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"GMAccounts"];
 	NSMutableDictionary *newSettings;
 	if (accountSettings) {
@@ -166,11 +166,11 @@ static Class growlApplicationBridge;
 	[newSettings release];
 }
 
-+ (BOOL)showSummary {
++ (BOOL) showSummary {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMShowSummary"];
 }
 
-+ (BOOL)ignoreClickHandler {
++ (BOOL) ignoreClickHandler {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMIgnoreClickHandler"];
 }
 

@@ -32,21 +32,21 @@
 @interface GrowlMail : MVMailBundle
 {
 }
-+ (void)initialize;
-+ (NSBundle *)bundle;
-+ (NSString *)bundleVersion;
-+ (BOOL)hasPreferencesPanel;
-+ (NSString *)preferencesOwnerClassName;
-+ (NSString *)preferencesPanelName;
-+ (Class)growlApplicationBridge;
-+ (BOOL)isEnabled;
-+ (BOOL)isIgnoreJunk;
-+ (BOOL)showSummary;
-+ (BOOL)ignoreClickHandler;
++ (void) initialize;
++ (NSBundle *) bundle;
++ (NSString *) bundleVersion;
++ (BOOL) hasPreferencesPanel;
++ (NSString *) preferencesOwnerClassName;
++ (NSString *) preferencesPanelName;
++ (Class) growlApplicationBridge;
++ (BOOL) isEnabled;
++ (BOOL) isIgnoreJunk;
++ (BOOL) showSummary;
++ (BOOL) ignoreClickHandler;
 
-- (id)init;
-- (BOOL)isAccountEnabled:(NSString *)path;
-- (void)setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path;
+- (id) init;
+- (BOOL) isAccountEnabled:(NSString *)path;
+- (void) setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path;
 
 - (NSString *) applicationNameForGrowl;
 - (NSData *) applicationIconDataForGrowl;

@@ -38,13 +38,11 @@
 
 @implementation GrowlMailPreferences
 // we need to do posing as the other mail bundles do that too
-+ (void) load
-{
++ (void) load {
 	[GrowlMailPreferences poseAsClass:[NSPreferences class]];
 }
 
-+ (id)sharedPreferences
-{
++ (id) sharedPreferences {
 	static BOOL	added = NO;
 	id preferences = [super sharedPreferences];
 

@@ -41,8 +41,7 @@
 @end
 
 @implementation NSString(GrowlMail)
-- (NSString *)firstNLines:(unsigned int)n
-{
+- (NSString *)firstNLines:(unsigned int)n {
 	NSRange range;
 	unsigned int i;
 	unsigned int end;
@@ -58,8 +57,7 @@
 @end
 
 @implementation Message(GrowlMail)
-- (void)showNotification
-{
+- (void)showNotification {
 	NSString *account = [[[self messageStore] account] displayName];
 	NSString *sender = [self sender];
 	NSString *senderAddress = [sender uncommentedAddress];
