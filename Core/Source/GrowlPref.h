@@ -94,7 +94,7 @@
 - (BOOL) isStartGrowlAtLogin;
 - (void) setStartGrowlAtLogin:(BOOL)flag;
 - (BOOL) isBackgroundUpdateCheckEnabled;
-- (void) setBackgroundUpdateCheckEnabled:(BOOL)flag;
+- (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag;
 
 #pragma mark "Network" tab pane
 - (BOOL) isGrowlServerEnabled;

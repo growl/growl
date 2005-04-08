@@ -429,7 +429,7 @@
 	return [[[GrowlPreferences preferences] objectForKey:GrowlUpdateCheckKey] boolValue];
 }
 
-- (void) setBackgroundUpdateCheckEnabled:(BOOL)flag {
+- (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag {
 	NSNumber *state = [[NSNumber alloc] initWithBool:flag];
 	[[GrowlPreferences preferences] setObject:state forKey:GrowlUpdateCheckKey];
 	[state release];
