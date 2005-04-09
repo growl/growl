@@ -28,7 +28,7 @@
 #define keychainAccountName "Growl"
 
 //This is the frame of the preference view that we should get back.
-#define DISPLAY_PREF_FRAME NSMakeRect(165.0f, 42.0f, 354.0f, 289.0f)
+#define DISPLAY_PREF_FRAME NSMakeRect(16.0f, 58.0f, 354.0f, 289.0f)
 
 @implementation GrowlPref
 
