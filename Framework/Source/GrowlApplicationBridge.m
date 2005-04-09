@@ -307,7 +307,9 @@ static BOOL				promptedToUpgradeGrowl = NO;
 }
 
 + (NSDictionary *) _registrationDictionary {
-	NSDictionary *registrationDictionary = [delegate registrationDictionaryForGrowl];
+	NSDictionary *registrationDictionary = nil;
+	if(delegate && [delegate respondsToSelector:@selector(registrationDictionaryForGrowl)])
+		registrationDictionary = [delegate registrationDictionaryForGrowl];
 
 	if (!registrationDictionary) {
 		/*delegate didn't supply one.

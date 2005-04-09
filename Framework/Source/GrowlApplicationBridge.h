@@ -174,9 +174,24 @@
  *	@protocol GrowlApplicationBridgeDelegate
  *	@abstract Required protocol for the Growl delegate.
  *	@discussion The methods in this protocol are required and are called automatically as needed by GrowlApplicationBridge. See +[GrowlApplicationBridge setGrowlDelegate:].
+ *	 See also GrowlApplicationBridgeDelegate_InformalProtocol.
  */
 
 @protocol GrowlApplicationBridgeDelegate
+
+// -registrationDictionaryForGrowl has moved to the informal protocol.
+
+@end
+
+//------------------------------------------------------------------------------
+#pragma mark -
+
+/*!
+ *	@category NSObject(GrowlApplicationBridgeDelegate_InformalProtocol)
+ *	@abstract Methods which may be optionally implemented by the GrowlDelegate.
+ *	@discussion The methods in this informal protocol will only be called if implemented by the delegate.
+ */
+@interface NSObject (GrowlApplicationBridgeDelegate_InformalProtocol)
 
 /*!
  *	@method registrationDictionaryForGrowl
@@ -197,22 +212,13 @@
  *	 The dictionary should have 2 key object pairs:
  *	 key: GROWL_NOTIFICATIONS_ALL		object: NSArray of NSString objects
  *	 key: GROWL_NOTIFICATIONS_DEFAULT	object: NSArray of NSString objects
+ *
+ *	 You do not need to implement this method if you have an auto-discoverable
+ *	 plist file in your app bundle. (XXX refer to more information on that)
  *	 
  *	@result The NSDictionary to use for registration.
  */
 - (NSDictionary *) registrationDictionaryForGrowl;
-
-@end
-
-//------------------------------------------------------------------------------
-#pragma mark -
-
-/*!
- *	@category NSObject(GrowlApplicationBridgeDelegate_InformalProtocol)
- *	@abstract Methods which may be optionally implemented by the GrowlDelegate.
- *	@discussion The methods in this informal protocol will only be called if implemented by the delegate.
- */
-@interface NSObject (GrowlApplicationBridgeDelegate_InformalProtocol)
 
 /*!
  *	@method applicationNameForGrowl
@@ -223,6 +229,12 @@
  *	 your application.
  *	 For example, "SurfWriter" is a good app name, whereas "SurfWriter 2.0" and
  *	 "SurfWriter Lite" are not.
+ *
+ *	 You do not need to implement this method if you are providing the
+ *	 application name elsewhere, meaning in an auto-discoverable plist file in
+ *	 your app bundle (XXX refer to more information on that) or in the result
+ *	 of -registrationDictionaryForGrowl.
+ *
  *	@result The name of the application using Growl.
  */
 - (NSString *) applicationNameForGrowl;

@@ -44,7 +44,7 @@ struct Growl_Delegate {
 	 */
 	size_t size;
 
-	/*All of these attributes are optional except registrationDictionary.
+	/*All of these attributes are optional.
 	 *Optional attributes can be NULL; required attributes that are NULL cause
 	 *	setting the Growl delegate to fail.
 	 */
@@ -57,6 +57,10 @@ struct Growl_Delegate {
 	 *	 your application.
 	 *	 For example, "SurfWriter" is a good app name, whereas "SurfWriter 2.0" and
 	 *	 "SurfWriter Lite" are not.
+	 *
+	 *This can be NULL if it is provided elsewhere, namely in an
+	 *	 auto-discoverable plist file in your app bundle
+	 *	 (XXX refer to more information on that) or in registrationDictionary.
 	 */
 	CFStringRef applicationName;
 
@@ -82,6 +86,9 @@ struct Growl_Delegate {
 	 *
 	 *If you change the contents of this dictionary after setting the delegate,
 	 *	be sure to call Growl_Reregister.
+	 *
+	 *This can be NULL if you have an auto-discoverable plist file in your app
+	 *	 bundle. (XXX refer to more information on that)
 	 */
 	CFDictionaryRef registrationDictionary;
 
