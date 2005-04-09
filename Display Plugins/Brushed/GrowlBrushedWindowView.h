@@ -14,7 +14,7 @@
 	BOOL				haveText;
 	BOOL				closeOnMouseExit;
 	NSImage				*icon;
-	NSString			*title;
+	float				iconSize;
 	float				textHeight;
 	float				titleHeight;
 	float				lineHeight;

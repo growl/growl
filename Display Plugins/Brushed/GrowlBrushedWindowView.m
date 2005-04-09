@@ -12,8 +12,8 @@
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 
-#define GrowlBrushedTextAreaWidth	(GrowlBrushedNotificationWidth - GrowlBrushedPadding - GrowlBrushedIconSize - GrowlBrushedIconTextPadding - GrowlBrushedPadding)
-#define GrowlBrushedMinTextHeight	(GrowlBrushedPadding + GrowlBrushedIconSize + GrowlBrushedPadding)
+#define GrowlBrushedTextAreaWidth	(GrowlBrushedNotificationWidth - GrowlBrushedPadding - iconSize - GrowlBrushedIconTextPadding - GrowlBrushedPadding)
+#define GrowlBrushedMinTextHeight	(GrowlBrushedPadding + iconSize + GrowlBrushedPadding)
 
 @implementation GrowlBrushedWindowView
 
@@ -28,6 +28,14 @@
 		[textShadow setShadowBlurRadius:3.0f];
 		[textShadow setShadowColor:[[[self window] backgroundColor] blendedColorWithFraction:0.5f
 																					 ofColor:[NSColor blackColor]]];
+
+		int size = GrowlBrushedSizePrefDefault;
+		READ_GROWL_PREF_INT(GrowlBrushedSizePref, GrowlBrushedPrefDomain, &size);
+		if (size == GrowlBrushedSizeLarge) {
+			iconSize = GrowlBrushedIconSizeLarge;
+		} else {
+			iconSize = GrowlBrushedIconSize;
+		}
 	}
 
 	return self;
@@ -36,7 +44,6 @@
 - (void) dealloc {
 	[textFont           release];
 	[icon               release];
-	[title              release];
 	[textColor          release];
 	[textShadow         release];
 	[textStorage        release];
@@ -62,9 +69,9 @@
 	// calculate bounds based on icon-float pref on or off
 	NSRect shadedBounds;
 	BOOL floatIcon = GrowlBrushedFloatIconPrefDefault;
-	READ_GROWL_PREF_FLOAT(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatIcon);
+	READ_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatIcon);
 	if (floatIcon) {
-		float sizeReduction = GrowlBrushedPadding + GrowlBrushedIconSize + (GrowlBrushedIconTextPadding * 0.5f);
+		float sizeReduction = GrowlBrushedPadding + iconSize + (GrowlBrushedIconTextPadding * 0.5f);
 
 		shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
 								  bounds.origin.y,
@@ -98,11 +105,20 @@
 		[[NSColor keyboardFocusIndicatorColor] set];
 		[path stroke];
 	}
-	
+
 	// draw the title and the text
 	NSRect drawRect;
-	drawRect.origin.x = GrowlBrushedPadding + GrowlBrushedIconSize + GrowlBrushedIconTextPadding;
+	drawRect.origin.x = GrowlBrushedPadding;
 	drawRect.origin.y = GrowlBrushedPadding;
+	drawRect.size.width = iconSize;
+	drawRect.size.height = iconSize;
+
+	[icon setFlipped:YES];
+	[icon drawScaledInRect:drawRect
+				 operation:NSCompositeSourceOver
+				  fraction:1.0f];
+
+	drawRect.origin.x += iconSize + GrowlBrushedIconTextPadding;
 
 	if (haveTitle) {
 		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
@@ -112,16 +128,6 @@
 	if (haveText) {
 		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 	}
-
-	drawRect.origin.x = GrowlBrushedPadding;
-	drawRect.origin.y = GrowlBrushedPadding;
-	drawRect.size.width = GrowlBrushedIconSize;
-	drawRect.size.height = GrowlBrushedIconSize;
-
-	[icon setFlipped:YES];
-	[icon drawScaledInRect:drawRect
-				 operation:NSCompositeSourceOver
-				  fraction:1.0f];
 
 	[window invalidateShadow];
 }
@@ -143,7 +149,9 @@
 	}
 
 	if (!titleStorage) {
-		NSSize containerSize = { GrowlBrushedTextAreaWidth, FLT_MAX };
+		NSSize containerSize;
+		containerSize.width = GrowlBrushedTextAreaWidth;
+		containerSize.height = FLT_MAX;
 		titleStorage = [[NSTextStorage alloc] init];
 		titleContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
 		[titleLayoutManager addTextContainer:titleContainer];	// retains textContainer

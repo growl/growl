@@ -12,8 +12,8 @@
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 
-#define GrowlSmokeTextAreaWidth (GrowlSmokeNotificationWidth - GrowlSmokePadding - GrowlSmokeIconSize - GrowlSmokeIconTextPadding - GrowlSmokePadding)
-#define GrowlSmokeMinTextHeight	(GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokePadding)
+#define GrowlSmokeTextAreaWidth (GrowlSmokeNotificationWidth - GrowlSmokePadding - iconSize - GrowlSmokeIconTextPadding - GrowlSmokePadding)
+#define GrowlSmokeMinTextHeight	(GrowlSmokePadding + iconSize + GrowlSmokePadding)
 
 @implementation GrowlSmokeWindowView
 
@@ -26,6 +26,14 @@
 		textShadow = [[NSShadow alloc] init];
 		[textShadow setShadowOffset:NSMakeSize(0.0f, -2.0f)];
 		[textShadow setShadowBlurRadius:3.0f];
+
+		int size = GrowlSmokeSizePrefDefault;
+		READ_GROWL_PREF_INT(GrowlSmokeSizePref, GrowlSmokePrefDomain, &size);
+		if (size == GrowlSmokeSizeLarge) {
+			iconSize = GrowlSmokeIconSizeLarge;
+		} else {
+			iconSize = GrowlSmokeIconSize;
+		}
 	}
 
 	return self;
@@ -56,9 +64,9 @@
 	// calculate bounds based on icon-float pref on or off
 	NSRect shadedBounds;
 	BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
-	READ_GROWL_PREF_FLOAT(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
+	READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
 	if (floatIcon) {
-		float sizeReduction = GrowlSmokePadding + GrowlSmokeIconSize + (GrowlSmokeIconTextPadding * 0.5f);
+		float sizeReduction = GrowlSmokePadding + iconSize + (GrowlSmokeIconTextPadding * 0.5f);
 
 		shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
 								  bounds.origin.y,
@@ -94,8 +102,17 @@
 
 	// draw the title and the text
 	NSRect drawRect;
-	drawRect.origin.x = GrowlSmokePadding + GrowlSmokeIconSize + GrowlSmokeIconTextPadding;
+	drawRect.origin.x = GrowlSmokePadding;
 	drawRect.origin.y = GrowlSmokePadding;
+	drawRect.size.width = iconSize;
+	drawRect.size.height = iconSize;
+	
+	[icon setFlipped:YES];
+	[icon drawScaledInRect:drawRect
+				 operation:NSCompositeSourceOver
+				  fraction:1.0f];
+
+	drawRect.origin.x += iconSize + GrowlSmokeIconTextPadding;
 
 	if (haveTitle) {
 		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
@@ -105,16 +122,6 @@
 	if (haveText) {
 		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 	}
-
-	drawRect.origin.x = GrowlSmokePadding;
-	drawRect.origin.y = GrowlSmokePadding;
-	drawRect.size.width = GrowlSmokeIconSize;
-	drawRect.size.height = GrowlSmokeIconSize;
-
-	[icon setFlipped:YES];
-	[icon drawScaledInRect:drawRect
-				 operation:NSCompositeSourceOver
-				  fraction:1.0f];
 
 	[[self window] invalidateShadow];
 }
@@ -136,7 +143,9 @@
 	}
 
 	if (!titleStorage) {
-		NSSize containerSize = { GrowlSmokeTextAreaWidth, FLT_MAX };
+		NSSize containerSize;
+		containerSize.width = GrowlSmokeTextAreaWidth;
+		containerSize.height = FLT_MAX;
 		titleStorage = [[NSTextStorage alloc] init];
 		titleContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
 		[titleLayoutManager addTextContainer:titleContainer];	// retains textContainer

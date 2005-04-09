@@ -21,5 +21,10 @@
 
 #define KALimitPref						@"Bubbles - Limit"
 #define GrowlBubblesScreen				@"Bubbles-Screen"
+#define GrowlBubblesSizePref			@"Bubbles-Size"
+
+#define GrowlBubblesSizeNormal			0
+#define GrowlBubblesSizeLarge			1
+#define GrowlBubblesSizePrefDefault		GrowlBubblesSizeNormal
 
 #define GrowlBubblesPrefDomain			@"com.growl.Bubbles"

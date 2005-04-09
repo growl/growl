@@ -19,6 +19,8 @@
 - (void) setLimit:(BOOL)value;
 - (BOOL) isAqua;
 - (void) setAqua:(BOOL)value;
+- (int) size;
+- (void) setSize:(int)value;
 - (NSColor *) textColorVeryLow;
 - (void) setTextColorVeryLow:(NSColor *)value;
 - (NSColor *) textColorModerate;

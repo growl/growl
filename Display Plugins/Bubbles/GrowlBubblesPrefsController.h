@@ -38,6 +38,8 @@
 - (void) setLimit:(BOOL)value;
 - (int) screen;
 - (void) setScreen:(int)value;
+- (int) size;
+- (void) setSize:(int)value;
 - (IBAction) colorChanged:(id)sender;
 - (IBAction) textColorChanged:(id)sender;
 - (IBAction) topColorChanged:(id)sender;

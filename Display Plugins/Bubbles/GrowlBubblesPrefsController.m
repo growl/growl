@@ -201,4 +201,14 @@
 	UPDATE_GROWL_PREFS();
 }
 
+- (int) size {
+	int value = 0;
+	READ_GROWL_PREF_INT(GrowlBubblesSizePref, GrowlBubblesPrefDomain, &value);
+	return value;
+}
+
+- (void) setSize:(int)value {
+	WRITE_GROWL_PREF_INT(GrowlBubblesSizePref, value, GrowlBubblesPrefDomain);	
+	UPDATE_GROWL_PREFS();
+}
 @end

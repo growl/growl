@@ -165,4 +165,15 @@
 	UPDATE_GROWL_PREFS();
 }
 
+- (int) size {
+	int value = 0;
+	READ_GROWL_PREF_INT(GrowlSmokeSizePref, GrowlSmokePrefDomain, &value);
+	return value;
+}
+
+- (void) setSize:(int)value {
+	WRITE_GROWL_PREF_INT(GrowlSmokeSizePref, value, GrowlSmokePrefDomain);	
+	UPDATE_GROWL_PREFS();
+}
+
 @end

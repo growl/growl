@@ -163,4 +163,15 @@
 	UPDATE_GROWL_PREFS();
 }
 
+- (int) size {
+	int value = 0;
+	READ_GROWL_PREF_INT(GrowlBrushedSizePref, GrowlBrushedPrefDomain, &value);
+	return value;
+}
+
+- (void) setSize:(int)value {
+	WRITE_GROWL_PREF_INT(GrowlBrushedSizePref, value, GrowlBrushedPrefDomain);	
+	UPDATE_GROWL_PREFS();
+}
+
 @end

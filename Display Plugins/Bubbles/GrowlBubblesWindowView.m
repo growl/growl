@@ -23,13 +23,14 @@
 #define PANEL_VSPACE_PX			 10.0f /*!< Vertical padding from bounds to content area */
 #define PANEL_HSPACE_PX			 15.0f /*!< Horizontal padding from bounds to content area */
 #define ICON_SIZE_PX			 32.0f /*!< The width and height of the (square) icon */
+#define ICON_SIZE_LARGE_PX		 48.0f /*!< The width and height of the (square) icon */
 #define ICON_HSPACE_PX			  8.0f /*!< Horizontal space between icon and title/description */
 #define TITLE_VSPACE_PX			  5.0f /*!< Vertical space between title and description */
 #define TITLE_FONT_SIZE_PTS		 13.0f
 #define DESCR_FONT_SIZE_PTS		 11.0f
 #define MAX_TEXT_ROWS				5  /*!< The maximum number of rows of text, used only if the limit preference is set. */
-#define MIN_TEXT_HEIGHT			(PANEL_VSPACE_PX + PANEL_VSPACE_PX + ICON_SIZE_PX)
-#define TEXT_AREA_WIDTH			(PANEL_WIDTH_PX - PANEL_HSPACE_PX - PANEL_HSPACE_PX - ICON_SIZE_PX - ICON_HSPACE_PX)
+#define MIN_TEXT_HEIGHT			(PANEL_VSPACE_PX + PANEL_VSPACE_PX + iconSize)
+#define TEXT_AREA_WIDTH			(PANEL_WIDTH_PX - PANEL_HSPACE_PX - PANEL_HSPACE_PX - iconSize - ICON_HSPACE_PX)
 
 static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float *outData ) {
 	float *colors = (float *) info;
@@ -57,6 +58,14 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		textLayoutManager = [[NSLayoutManager alloc] init];
 		titleLayoutManager = [[NSLayoutManager alloc] init];
 		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
+
+		int size = GrowlBubblesSizePrefDefault;
+		READ_GROWL_PREF_INT(GrowlBubblesSizePref, GrowlBubblesPrefDomain, &size);
+		if (size == GrowlBubblesSizeLarge) {
+			iconSize = ICON_SIZE_LARGE_PX;
+		} else {
+			iconSize = ICON_SIZE_PX;
+		}
 	}
 	return self;
 }
@@ -143,9 +152,17 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	[path stroke];
 
 	NSRect drawRect;
-	drawRect.origin.x = PANEL_HSPACE_PX + ICON_SIZE_PX + ICON_HSPACE_PX;
+	drawRect.origin.x = PANEL_HSPACE_PX;
 	drawRect.origin.y = PANEL_VSPACE_PX;
-	drawRect.size.width = TEXT_AREA_WIDTH;
+	drawRect.size.width = iconSize;
+	drawRect.size.height = iconSize;
+	
+	[icon setFlipped:YES];
+	[icon drawScaledInRect:drawRect
+				 operation:NSCompositeSourceOver
+				  fraction:1.0f];
+
+	drawRect.origin.x += iconSize + ICON_HSPACE_PX;
 
 	if (haveTitle) {
 		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
@@ -155,16 +172,6 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	if (haveText) {
 		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 	}
-
-	drawRect.origin.x = PANEL_HSPACE_PX;
-	drawRect.origin.y = PANEL_VSPACE_PX;
-	drawRect.size.width = ICON_SIZE_PX;
-	drawRect.size.height = ICON_SIZE_PX;
-
-	[icon setFlipped:YES];
-	[icon drawScaledInRect:drawRect
-				  operation:NSCompositeSourceOver
-				   fraction:1.0f];
 
 	[[self window] invalidateShadow];
 }
@@ -266,7 +273,9 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	}
 
 	if (!titleStorage) {
-		NSSize containerSize = { TEXT_AREA_WIDTH, FLT_MAX };
+		NSSize containerSize;
+		containerSize.width = TEXT_AREA_WIDTH;
+		containerSize.height = FLT_MAX;
 		titleStorage = [[NSTextStorage alloc] init];
 		titleContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
 		[titleLayoutManager addTextContainer:titleContainer];	// retains textContainer

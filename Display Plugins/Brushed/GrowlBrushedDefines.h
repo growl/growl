@@ -4,6 +4,7 @@
 #define GrowlBrushedDurationPref		@"Brushed - Duration"
 #define GrowlBrushedScreenPref			@"Brushed - Screen"
 #define GrowlBrushedAquaPref			@"Brushed - Aqua"
+#define GrowlBrushedSizePref			@"Brushed - Size"
 
 #define GrowlBrushedVeryLowTextColor	@"Brushed-Priority-VeryLow-Text-Color"
 #define GrowlBrushedModerateTextColor	@"Brushed-Priority-Moderate-Text-Color"
@@ -18,9 +19,13 @@
 // the default value for the duration preference
 #define GrowlBrushedDurationPrefDefault		4.0f
 
+#define GrowlBrushedSizeNormal				0
+#define GrowlBrushedSizeLarge				1
+
 #define GrowlBrushedFloatIconPrefDefault	NO
 #define GrowlBrushedLimitPrefDefault		NO
 #define GrowlBrushedAquaPrefDefault			NO
+#define GrowlBrushedSizePrefDefault			GrowlBrushedSizeNormal
 
 #define GrowlBrushedMaxLines				5
 
@@ -34,6 +39,7 @@
 #define GrowlBrushedTitleTextPadding		10.0f
 // the size of the icon (it's square)
 #define GrowlBrushedIconSize				32.0f
+#define GrowlBrushedIconSizeLarge			48.0f
 
 // the size of the text used for the description
 #define GrowlBrushedTextFontSize			12.0f

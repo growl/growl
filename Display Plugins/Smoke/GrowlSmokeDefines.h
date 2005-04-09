@@ -3,6 +3,7 @@
 #define GrowlSmokeFloatIconPref			@"Smoke - Float Icon"
 #define GrowlSmokeDurationPref			@"Smoke - Duration"
 #define GrowlSmokeScreenPref			@"Smoke - Screen"
+#define GrowlSmokeSizePref				@"Smoke - Size"
 
 #define GrowlSmokeVeryLowColor			@"Smoke-Priority-VeryLow-Color"
 #define GrowlSmokeModerateColor			@"Smoke-Priority-Moderate-Color"
@@ -23,8 +24,12 @@
 // the default value for the duration preference
 #define GrowlSmokeDurationPrefDefault	4.0f
 
+#define GrowlSmokeSizeNormal			0
+#define GrowlSmokeSizeLarge				1
+
 #define GrowlSmokeFloatIconPrefDefault	NO
 #define GrowlSmokeLimitPrefDefault		NO
+#define GrowlSmokeSizePrefDefault		GrowlSmokeSizeNormal
 
 #define GrowlSmokeMaxLines				5
 
@@ -38,6 +43,7 @@
 #define GrowlSmokeTitleTextPadding		10.0f
 // the size of the icon (it's square)
 #define GrowlSmokeIconSize				32.0f
+#define GrowlSmokeIconSizeLarge			48.0f
 
 // the size of the text used for the description
 #define GrowlSmokeTextFontSize			12.0f
