@@ -48,7 +48,6 @@
 
 - (void) dealloc {
 	[image release];
-	image = nil;
 	[super dealloc];
 }
 
@@ -75,16 +74,14 @@
 
 - (NSRect) imageFrameForCellFrame:(NSRect)cellFrame {
 	NSRect retRect = NSZeroRect;
-	
+
 	if (image) {
-		NSRect imageFrame;
-		imageFrame.size = [image size];
-		imageFrame.origin = cellFrame.origin;
-		imageFrame.origin.x += 3;
-		imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
-		retRect = imageFrame;
+		retRect.size = [image size];
+		retRect.origin = cellFrame.origin;
+		retRect.origin.x += 3.0f;
+		retRect.origin.y += ceilf((cellFrame.size.height - retRect.size.height) * 0.5f);
 	}
-	
+
 	return retRect;
 }
 
@@ -95,7 +92,7 @@
 				 event:(NSEvent *)theEvent {
 	NSRect textFrame, imageFrame;
 	
-	NSDivideRect (aRect, &imageFrame, &textFrame, 3 + [image size].width, NSMinXEdge);
+	NSDivideRect (aRect, &imageFrame, &textFrame, 3.0f + [image size].width, NSMinXEdge);
 	[super editWithFrame: textFrame 
 				  inView: controlView 
 				  editor: textObj 
@@ -103,20 +100,20 @@
 				   event: theEvent];
 }
 
-- (void) selectWithFrame:(NSRect)aRect 
-				  inView:(NSView *)controlView 
-				  editor:(NSText *)textObj 
-				delegate:(id)anObject 
-				   start:(int)selStart 
+- (void) selectWithFrame:(NSRect)aRect
+				  inView:(NSView *)controlView
+				  editor:(NSText *)textObj
+				delegate:(id)anObject
+				   start:(int)selStart
 				  length:(int)selLength {
 	NSRect textFrame, imageFrame;
 	
-	NSDivideRect (aRect, &imageFrame, &textFrame, 3 + [image size].width, NSMinXEdge);
-	[super selectWithFrame: textFrame 
-					inView: controlView 
-					editor:textObj 
-				  delegate: anObject 
-					 start: selStart 
+	NSDivideRect (aRect, &imageFrame, &textFrame, 3.0f + [image size].width, NSMinXEdge);
+	[super selectWithFrame: textFrame
+					inView: controlView
+					editor:textObj
+				  delegate: anObject
+					 start: selStart
 					length: selLength];
 }
 
@@ -125,18 +122,18 @@
 		NSSize	imageSize = [image size];
 		NSRect	imageFrame;
 
-		NSDivideRect(cellFrame, &imageFrame, &cellFrame, 3 + imageSize.width, NSMinXEdge);
+		NSDivideRect(cellFrame, &imageFrame, &cellFrame, 3.0f + imageSize.width, NSMinXEdge);
 		if ([self drawsBackground]) {
 			[[self backgroundColor] set];
 			NSRectFill(imageFrame);
 		}
-		imageFrame.origin.x += 3;
-		imageFrame.size = imageSize;
+		imageFrame.origin.x += 3.0f;
+		//imageFrame.size = imageSize;
 
 		if ([controlView isFlipped]) {
-			imageFrame.origin.y += ceil((cellFrame.size.height + imageFrame.size.height) * 0.5f);
+			imageFrame.origin.y += ceilf((cellFrame.size.height + imageSize.height) * 0.5f);
 		} else {
-			imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) * 0.5f);
+			imageFrame.origin.y += ceilf((cellFrame.size.height - imageSize.height) * 0.5f);
 		}
 
 		[image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
@@ -146,10 +143,8 @@
 
 - (NSSize) cellSize {
 	NSSize cellSize = [super cellSize];
-	
-	cellSize.width += (image ? [image size].width : 0) + 3;
+	cellSize.width += (image ? [image size].width + 3.0f : 3.0f);
 	return cellSize;
 }
 
 @end
-

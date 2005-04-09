@@ -18,13 +18,14 @@
 }
 
 - (BOOL) becomeFirstResponder {
-	[super becomeFirstResponder];
-	
-	if ([[self delegate] respondsToSelector:@selector(tableViewDidClickInBody:)]) {
-		[[self delegate] tableViewDidClickInBody:self];
+	BOOL accept = [super becomeFirstResponder];
+
+	id delegate = [self delegate];
+	if ([delegate respondsToSelector:@selector(tableViewDidClickInBody:)]) {
+		[delegate tableViewDidClickInBody:self];
 	}
-	
-	return YES;
+
+	return accept;
 }
 
 @end
