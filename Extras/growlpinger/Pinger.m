@@ -68,22 +68,19 @@ extern int verbose;
 	return self;
 }
 
-- (void)sendPing:(id)sender
-{
+- (void)sendPing:(id)sender {
 	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
 	[distCenter postNotificationName:GROWL_PING object:nil userInfo:nil];
 }
 
-- (void)receivedPong:(NSNotification *)notification
-{
+- (void)receivedPong:(NSNotification *)notification {
 	code = 0;
 	if (verbose)
 		fputs("Growl is alive: received pong\n", stdout);
 	[NSApp terminate:self];
 }
 
-- (void)receivedReady:(NSNotification *)notification
-{
+- (void)receivedReady:(NSNotification *)notification {
 	code = 0;
 	if (verbose)
 		fputs("Growl is alive: received startup notification\n", stdout);
@@ -98,8 +95,7 @@ extern int verbose;
 	[NSApp terminate:self];
 }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification
-{
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
 	//die rather inelegantly so we can send the right code to the parent
 	exit(code);
 }

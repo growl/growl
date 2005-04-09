@@ -75,7 +75,7 @@ int main (int argc, char *argv[]) {
 	argc -= optind;
 	argv += optind;
 	
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	[[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
 	Pinger *pinger = [[Pinger alloc] initWithInterval:timeout];
 	
