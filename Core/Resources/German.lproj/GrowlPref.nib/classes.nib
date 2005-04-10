@@ -5,6 +5,7 @@
             ACTIONS = {
                 checkVersion = id; 
                 deleteTicket = id; 
+                resolveService = id; 
                 search = id; 
                 setRemotePassword = id; 
                 showPreview = id; 

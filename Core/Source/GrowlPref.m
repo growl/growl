@@ -30,6 +30,98 @@
 //This is the frame of the preference view that we should get back.
 #define DISPLAY_PREF_FRAME NSMakeRect(16.0f, 58.0f, 354.0f, 289.0f)
 
+@interface GrowlBrowserEntry : NSObject {
+	NSMutableDictionary *properties;
+	GrowlPref			*owner;
+}
+- (id) initWithDictionary:(NSDictionary *)dict;
+- (id) initWithComputerName:(NSString *)name netService:(NSNetService *)service;
+
+- (BOOL) use;
+- (void) setUse:(BOOL)flag;
+
+- (NSString *) computerName;
+- (void) setComputerName:(NSString *)name;
+
+- (NSNetService *) netService;
+- (void) setNetService:(NSNetService *)service;
+
+- (NSDictionary *) properties;
+
+- (void) setOwner:(GrowlPref *)pref;
+@end
+
+@implementation GrowlBrowserEntry
+- (id) initWithDictionary:(NSDictionary *)dict {
+	if ((self = [super init])) {
+		properties = [dict mutableCopy];
+	}
+
+	return self;
+}
+
+- (id) initWithComputerName:(NSString *)name netService:(NSNetService *)service {
+	if ((self = [super init])) {
+		NSNumber *useValue = [[NSNumber alloc] initWithBool:NO];
+		properties = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+			name,     @"computer",
+			service,  @"netservice",
+			useValue, @"use",
+			nil];
+		[useValue release];
+	}
+
+	return self;
+}
+
+- (BOOL) use {
+	return [[properties objectForKey:@"use"] boolValue];
+}
+
+- (void) setUse:(BOOL)flag {
+	NSNumber *value = [[NSNumber alloc] initWithBool:flag];
+	[properties setObject:value forKey:@"use"];
+	[value release];
+	[owner writeForwardDestinations];
+}
+
+- (NSString *) computerName {
+	return [properties objectForKey:@"computer"];
+}
+
+- (void) setComputerName:(NSString *)name {
+	[properties setObject:name forKey:@"computer"];
+	[owner writeForwardDestinations];
+}
+
+- (NSNetService *) netService {
+	return [properties objectForKey:@"netservice"];
+}
+
+- (void) setNetService:(NSNetService *)service {
+	[properties setObject:service forKey:@"netservice"];
+}
+
+- (void) setAddress:(NSData *)address {
+	[properties setObject:address forKey:@"address"];
+	[properties removeObjectForKey:@"netservice"];
+	[owner writeForwardDestinations];
+}
+
+- (void) setOwner:(GrowlPref *)pref {
+	owner = pref;
+}
+
+- (NSDictionary *) properties {
+	return properties;
+}
+
+- (void) dealloc {
+	[properties release];
+	[super dealloc];
+}
+@end
+
 @implementation GrowlPref
 
 - (id) initWithBundle:(NSBundle *)bundle {
@@ -182,9 +274,9 @@
 	NSMutableArray *theServices = [[NSMutableArray alloc] initWithCapacity:[destinations count]];
 	NSDictionary *destination;
 	while ((destination = [destEnum nextObject])) {
-		NSMutableDictionary *theService = [destination mutableCopy];
-		[theServices addObject:theService];
-		[theService release];
+		GrowlBrowserEntry *entry = [[GrowlBrowserEntry alloc] initWithDictionary:destination];
+		[theServices addObject:entry];
+		[entry release];
 	}
 	[self setServices:theServices];
 	[theServices release];
@@ -227,7 +319,6 @@
 
 - (IBAction) search:(id)sender {
 	[self filterTickets];
-	//[self reloadAppTab];
 }
 
 - (NSMutableArray *)tickets {
@@ -337,10 +428,10 @@
 - (void) writeForwardDestinations {
 	NSMutableArray *destinations = [[NSMutableArray alloc] initWithCapacity:[services count]];
 	NSEnumerator *enumerator = [services objectEnumerator];
-	NSDictionary *entry;
+	GrowlBrowserEntry *entry;
 	while ((entry = [enumerator nextObject])) {
-		if (![entry objectForKey:@"netservice"]) {
-			[destinations addObject:entry];
+		if (![entry netService]) {
+			[destinations addObject:[entry properties]];
 		}
 	}
 	[[GrowlPreferences preferences] setObject:destinations forKey:GrowlForwardDestinationsKey];
@@ -617,37 +708,27 @@
 
 #pragma mark Notification, Application and Service table view data source methods
 
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row {
-	id identifier;
+- (void) resolveService:(id)sender {
+	int row = [sender selectedRow];
+	GrowlBrowserEntry *entry = [services objectAtIndex:row];
+	NSNetService *serviceToResolve = [entry netService];
+	if (serviceToResolve) {
+		// Make sure to cancel any previous resolves.
+		if (serviceBeingResolved) {
+			[serviceBeingResolved stop];
+			[serviceBeingResolved release];
+			serviceBeingResolved = nil;
+		}
 
-	if (tableView == growlServiceList) {
-		identifier = [column identifier];
-		if ([identifier isEqualTo:@"use"]) {
-			// TODO: move this elsewhere
-			NSDictionary *entry = [services objectAtIndex:row];
-			if ([value boolValue]) {
-				NSNetService *serviceToResolve = [entry objectForKey:@"netservice"];
-				if (serviceToResolve) {
-					// Make sure to cancel any previous resolves.
-					if (serviceBeingResolved) {
-						[serviceBeingResolved stop];
-						[serviceBeingResolved release];
-						serviceBeingResolved = nil;
-					}
-
-					currentServiceIndex = row;
-					serviceBeingResolved = serviceToResolve;
-					[serviceBeingResolved retain];
-					[serviceBeingResolved setDelegate:self];
-					if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)]) {
-						[serviceBeingResolved resolveWithTimeout:5.0];
-					} else {
-						// this selector is deprecated in 10.4
-						[serviceBeingResolved resolve];
-					}
-				}
-			}
-			[self writeForwardDestinations];
+		currentServiceIndex = row;
+		serviceBeingResolved = serviceToResolve;
+		[serviceBeingResolved retain];
+		[serviceBeingResolved setDelegate:self];
+		if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)]) {
+			[serviceBeingResolved resolveWithTimeout:5.0];
+		} else {
+			// this selector is deprecated in 10.4
+			[serviceBeingResolved resolve];
 		}
 	}
 }
@@ -706,21 +787,15 @@
 	// check if a computer with this name has already been added
 	NSString *name = [aNetService name];
 	NSEnumerator *enumerator = [services objectEnumerator];
-	NSMutableDictionary *entry;
+	GrowlBrowserEntry *entry;
 	while ((entry = [enumerator nextObject])) {
-		if ([[entry objectForKey:@"computer"] isEqualToString:name]) {
+		if ([[entry computerName] isEqualToString:name]) {
 			return;
 		}
 	}
 
 	// add a new entry at the end
-	NSNumber *use = [[NSNumber alloc] initWithBool:NO];
-	entry = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		aNetService, @"netservice",
-		name,        @"computer",
-		use,         @"use",
-		nil];
-	[use release];
+	entry = [[GrowlBrowserEntry alloc] initWithComputerName:name netService:aNetService];
 	[self willChangeValueForKey:@"services"];
 	[services addObject:entry];
 	[self didChangeValueForKey:@"services"];
@@ -734,12 +809,12 @@
 - (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
 	// This case is slightly more complicated. We need to find the object in the list and remove it.
 	unsigned count = [services count];
-	NSDictionary *currentEntry;
+	GrowlBrowserEntry *currentEntry;
 	NSString *name = [aNetService name];
 
 	for (unsigned i = 0; i < count; ++i) {
 		currentEntry = [services objectAtIndex:i];
-		if ([[currentEntry objectForKey:@"computer"] isEqualToString:name]) {
+		if ([[currentEntry computerName] isEqualToString:name]) {
 			[self willChangeValueForKey:@"services"];
 			[services removeObjectAtIndex:i];
 			[self didChangeValueForKey:@"services"];
@@ -762,11 +837,8 @@
 	NSArray *addresses = [sender addresses];
 	if ([addresses count] > 0U) {
 		NSData *address = [addresses objectAtIndex:0U];
-		NSMutableDictionary *entry = [services objectAtIndex:currentServiceIndex];
-		[self willChangeValueForKey:@"services"];
-		[entry setObject:address forKey:@"address"];
-		[entry removeObjectForKey:@"netservice"];
-		[self didChangeValueForKey:@"services"];
+		GrowlBrowserEntry *entry = [services objectAtIndex:currentServiceIndex];
+		[entry setAddress:address];
 		[self writeForwardDestinations];
 	}
 }

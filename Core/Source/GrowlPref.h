@@ -96,9 +96,12 @@
 - (void) setGrowlServerEnabled:(BOOL)enabled;
 - (BOOL) isRemoteRegistrationAllowed;
 - (void) setRemoteRegistrationAllowed:(BOOL)flag;
-- (IBAction) setRemotePassword:(id)sender;
 - (BOOL) isForwardingEnabled;
 - (void) setForwardingEnabled:(BOOL)enabled;
+
+- (IBAction) setRemotePassword:(id)sender;
+- (IBAction) resolveService:(id)sender;
+- (void) writeForwardDestinations;
 
 - (NSMutableArray *) services;
 - (void) setServices:(NSMutableArray *)theServices;
@@ -116,9 +119,6 @@
 - (NSIndexSet *) displayPluginSelection;
 - (void) setDisplayPluginSelection:(NSIndexSet *)set;
 	
-#pragma mark Notification table view data source methods
-- (void) tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row;
-
 #pragma mark -
 - (void) checkGrowlRunning;
 - (void) appRegistered: (NSNotification *) note;
