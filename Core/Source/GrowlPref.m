@@ -156,8 +156,6 @@
 	[downloadURL     release];
 	[plugins         release];
 	[currentPlugin   release];
-	[ticketSelection release];
-	[displayPluginSelection release];
 	[super dealloc];
 }
 
@@ -223,8 +221,6 @@
 }
 
 - (void) awakeFromNib {
-	ticketSelection = [[NSMutableIndexSet alloc] init];
-	displayPluginSelection = [[NSMutableIndexSet alloc] init];
 	NSTableColumn *tableColumn = [growlApplications tableColumnWithIdentifier:@"application"];
 	ACImageAndTextCell *imageAndTextCell = [[ACImageAndTextCell alloc] init];
 	[imageAndTextCell setEditable:YES];
@@ -245,6 +241,9 @@
 	[cell setImagePosition:NSImageOnly];
 	cell = [[applicationNotifications tableColumnWithIdentifier:@"priority"] dataCell];
 	[cell setMenu:notificationPriorityMenu];
+
+	[ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
+	[displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
 
 	[remove setEnabled:NO];
 
@@ -352,6 +351,24 @@
 	[theTickets release];
 }
 
+- (void) reloadDisplayPluginView {
+	unsigned selectionIndex = [displayPluginsArrayController selectionIndex];
+	unsigned numPlugins = [plugins count];
+	[currentPlugin release];
+	if (numPlugins > 0U && selectionIndex != NSNotFound) {
+		currentPlugin = [[plugins objectAtIndex:selectionIndex] retain];
+	} else {
+		currentPlugin = nil;
+	}
+	
+	[self loadViewForDisplay:currentPlugin];
+	GrowlPluginController *growlPluginController = [GrowlPluginController controller];
+	currentPluginController = [growlPluginController displayPluginNamed:currentPlugin];
+	NSDictionary *info = [growlPluginController infoDictionaryForPluginNamed:currentPlugin];
+	[displayAuthor setStringValue:[info objectForKey:@"GrowlPluginAuthor"]];
+	[displayVersion setStringValue:[info objectForKey:(NSString *)kCFBundleVersionKey]];
+}
+
 - (void) reloadPreferences {
 	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
 	[tickets release];
@@ -368,11 +385,9 @@
 		[[GrowlPreferences preferences] launchGrowl];
 	}
 
-	if ([filteredTickets count] > 0U) {
-		[self setTicketSelection:[NSIndexSet indexSetWithIndex:0U]];
-	}
 	if ([plugins count] > 0U) {
-		[self setDisplayPluginSelection:[NSIndexSet indexSetWithIndex:0U]];
+//		[displayPluginsArrayController setSelectionIndex:0U];
+		[self reloadDisplayPluginView];
 	}
 }
 
@@ -390,40 +405,21 @@
 	[growlRunningProgress stopAnimation:self];
 }
 
-- (NSIndexSet *) ticketSelection {
-	return ticketSelection;
-}
-
-- (void) setTicketSelection:(NSIndexSet *)set {
-	[ticketSelection removeAllIndexes];
-	[ticketSelection addIndexes:set];
-	if ((activeTableView == growlApplications) && ([ticketSelection count] > 0U)) {
-		[remove setEnabled:YES]; 
-	} else {
-		[remove setEnabled:NO];
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+						change:(NSDictionary *)change context:(void *)context {
+	if ([keyPath isEqualToString:@"selection"]) {
+		if ((object == ticketsArrayController)) {
+			unsigned selectionIndex = [ticketsArrayController selectionIndex];
+			if ((activeTableView == growlApplications) && (selectionIndex != NSNotFound)) {
+				[remove setEnabled:YES]; 
+			} else {
+				[remove setEnabled:NO];
+			}
+		} else if (object == displayPluginsArrayController) {
+			[self reloadDisplayPluginView];
+		}
 	}
-}
-
-- (NSIndexSet *) displayPluginSelection {
-	return displayPluginSelection;
-}
-
-- (void) setDisplayPluginSelection:(NSIndexSet *)set {
-	[displayPluginSelection removeAllIndexes];
-	[displayPluginSelection addIndexes:set];
-	unsigned numPlugins = [plugins count];
-	[currentPlugin release];
-	if (numPlugins > 0U && [displayPluginSelection count] > 0U) {
-		currentPlugin = [[plugins objectAtIndex:[displayPluginSelection firstIndex]] retain];
-	}
-
-	GrowlPluginController *growlPluginController = [GrowlPluginController controller];
-	currentPluginController = [growlPluginController displayPluginNamed:currentPlugin];
-	[self loadViewForDisplay:currentPlugin];
-	NSDictionary *info = [growlPluginController infoDictionaryForPluginNamed:currentPlugin];
-	[displayAuthor setStringValue:[info objectForKey:@"GrowlPluginAuthor"]];
-	[displayVersion setStringValue:[info objectForKey:(NSString *)kCFBundleVersionKey]];
-}
+}    
 
 - (void) writeForwardDestinations {
 	NSMutableArray *destinations = [[NSMutableArray alloc] initWithCapacity:[services count]];
@@ -528,8 +524,8 @@
 #pragma mark -
 
 - (void) deleteTicket:(id)sender {
-	unsigned row = [ticketSelection firstIndex];
-	GrowlApplicationTicket *ticket = [filteredTickets objectAtIndex:row];
+	unsigned selectionIndex = [ticketsArrayController selectionIndex];
+	GrowlApplicationTicket *ticket = [filteredTickets objectAtIndex:selectionIndex];
 	NSString *path = [ticket path];
 
 	if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
@@ -539,16 +535,14 @@
 																	 userInfo:userInfo];
 		[userInfo release];
 		unsigned index;
-		[self willChangeValueForKey:@"tickets"];
+		[ticketsArrayController removeObjectAtArrangedObjectIndex:selectionIndex];
 		if (filteredTickets == tickets) {
-			index = row;
+			index = selectionIndex;
 		} else {
 			index = [tickets indexOfObject:ticket];
-			[filteredTickets removeObjectAtIndex:row];
+			[tickets removeObjectAtIndex:index];
 		}
-		[tickets removeObjectAtIndex:index];
 		[images removeObjectAtIndex:index];
-		[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:ticketSelection forKey:@"tickets"];
 	}
 }
 
@@ -774,7 +768,7 @@
 
 - (void) tableViewDidClickInBody:(NSTableView *)tableView {
 	activeTableView = tableView;
-	if ((activeTableView == growlApplications) && ticketSelection && ([ticketSelection count] > 0U)) {
+	if ((activeTableView == growlApplications) && ([ticketsArrayController selectionIndex] != NSNotFound)) {
 		[remove setEnabled:YES];
 	} else {
 		[remove setEnabled:NO];

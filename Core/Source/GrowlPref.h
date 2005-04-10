@@ -48,7 +48,7 @@
 	IBOutlet NSMenu					*notificationPriorityMenu;
 	IBOutlet NSTextField			*searchField;
 	IBOutlet NSButton				*remove;
-	NSMutableIndexSet				*ticketSelection;
+	IBOutlet NSArrayController		*ticketsArrayController;
 
 	//"Display Options" tab pane
 	IBOutlet NSTableView			*displayPluginsTable;
@@ -57,7 +57,7 @@
 	IBOutlet NSTextField			*displayAuthor;
 	IBOutlet NSTextField			*displayVersion;
 	IBOutlet NSButton				*previewButton;
-	NSMutableIndexSet				*displayPluginSelection;
+	IBOutlet NSArrayController		*displayPluginsArrayController;
 
 	//"Network" tab pane
 	IBOutlet NSSecureTextField		*networkPassword;
@@ -77,8 +77,6 @@
 - (void) reloadPreferences;
 - (void) updateRunningStatus;
 - (void) filterTickets;
-- (NSIndexSet *) ticketSelection;
-- (void) setTicketSelection:(NSIndexSet *)set;
 - (IBAction) search:(id)sender;
 - (IBAction) deleteTicket:(id)sender;
 
@@ -116,9 +114,6 @@
 - (NSArray *) displayPlugins;
 - (void) setDisplayPlugins:(NSArray *)thePlugins;
 
-- (NSIndexSet *) displayPluginSelection;
-- (void) setDisplayPluginSelection:(NSIndexSet *)set;
-	
 #pragma mark -
 - (void) checkGrowlRunning;
 - (void) appRegistered: (NSNotification *) note;
