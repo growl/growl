@@ -153,8 +153,6 @@
 	[growlApplications deselectAll:NULL];
 	[remove setEnabled:NO];
 
-	[growlVersion setStringValue:[self bundleVersion]];
-
 	char *password;
 	UInt32 passwordLength;
 	OSStatus status;

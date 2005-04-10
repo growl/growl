@@ -24,7 +24,6 @@
                 growlRunningProgress = NSProgressIndicator; 
                 growlRunningStatus = NSTextField; 
                 growlServiceList = NSTableView; 
-                growlVersion = NSTextField; 
                 growlVersionProgress = NSProgressIndicator; 
                 networkPassword = NSSecureTextField; 
                 notificationPriorityMenu = NSMenu; 

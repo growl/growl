@@ -41,7 +41,6 @@
 	IBOutlet NSButton				*startStopGrowl;
 	IBOutlet NSTextField			*growlRunningStatus;
 	IBOutlet NSProgressIndicator	*growlRunningProgress;
-	IBOutlet NSTextField			*growlVersion;
 	IBOutlet NSProgressIndicator	*growlVersionProgress;
 	IBOutlet NSArrayController		*notificationsArrayController;
 
