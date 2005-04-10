@@ -47,7 +47,10 @@
 		priority = inPriority;
 		enabled = inEnabled;
 		sticky = inSticky;
-		[self setDisplayPluginName:display];
+		if (display) {
+			displayPluginName = [display copy];
+			displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
+		}
 	}
 	return self;
 }
@@ -90,10 +93,7 @@
 
 - (void) setPriority:(GrowlPriority)newPriority {
 	priority = newPriority;
-}
-
-- (void) resetPriority {
-	priority = GP_unset;
+	[ticket synchronize];
 }
 
 - (BOOL) enabled {
@@ -103,6 +103,7 @@
 - (void) setEnabled:(BOOL)flag {
 	enabled = flag;
 	[ticket setUseDefaults:NO];
+	[ticket synchronize];
 }
 
 - (void) enable {
@@ -128,25 +129,26 @@
 }
 
 - (void) setSticky:(int)value {
-	NSLog(@"setSticky:%d", value);
 	sticky = value;
+	[ticket synchronize];
 }
 
 - (id <GrowlDisplayPlugin>) displayPlugin {
 	return displayPlugin;
 }
 
-- (NSString *)displayPluginName {
+- (NSString *) displayPluginName {
 	return displayPluginName;
 }
 
 - (void) setDisplayPluginName: (NSString *)pluginName {
 	[displayPluginName release];
-	displayPluginName = [pluginName copy];
-	if (displayPluginName) {
+	if (pluginName) {
+		displayPluginName = [pluginName copy];
 		displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
 	} else {
 		displayPlugin = nil;
 	}
+	[ticket synchronize];
 }
 @end

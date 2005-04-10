@@ -50,6 +50,7 @@
 - (void) saveTicket;
 - (void) saveTicketToPath:(NSString *)destDir;
 - (NSString *) path;
+- (void) synchronize;
 
 #pragma mark -
 

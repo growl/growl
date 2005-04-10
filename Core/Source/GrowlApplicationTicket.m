@@ -169,9 +169,8 @@
 
 		value = [ticketDict objectForKey:GrowlDisplayPluginKey];
 		if (value) {
-			[self setDisplayPluginName:value];
-		} else {
-			displayPlugin = nil;
+			displayPluginName = [value copy];
+			displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
 		}
 
 		[self setDefaultNotifications:inDefaults];
@@ -283,6 +282,15 @@
 	[saveDict release];
 }
 
+- (void) synchronize {
+	[self saveTicket];
+	NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:appName, @"TicketName", nil];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
+																   object:@"GrowlTicketChanged"
+																 userInfo:userInfo];
+	[userInfo release];
+}
+
 #pragma mark -
 
 - (NSImage *) icon {
@@ -295,7 +303,7 @@
 }
 
 - (void) setIcon:(NSImage *) inIcon {
-	if ( icon != inIcon ) {
+	if (icon != inIcon) {
 		[icon release];
 		icon = [inIcon retain];
 	}
@@ -311,6 +319,7 @@
 
 - (void) setTicketEnabled:(BOOL)inEnabled {
 	ticketEnabled = inEnabled;
+	[self synchronize];
 }
 
 - (BOOL) useDefaults {
@@ -337,6 +346,7 @@
 	} else {
 		displayPlugin = nil;
 	}
+	[self synchronize];
 }
 
 #pragma mark -

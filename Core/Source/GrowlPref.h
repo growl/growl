@@ -23,9 +23,6 @@
 	NSPreferencePane				*pluginPrefPane;
 	NSMutableArray					*loadedPrefPanes;
 
-	//Properties of the app being configured
-	GrowlApplicationTicket			*appTicket;
-
 	//Properties of the plugin being configured
 	NSString						*currentPlugin;
 	id <GrowlPlugin>				currentPluginController;
@@ -51,6 +48,7 @@
 	IBOutlet NSMenu					*notificationPriorityMenu;
 	IBOutlet NSTextField			*searchField;
 	IBOutlet NSButton				*remove;
+	NSMutableIndexSet				*ticketSelection;
 
 	//"Display Options" tab pane
 	IBOutlet NSTableView			*displayPluginsTable;
@@ -59,6 +57,7 @@
 	IBOutlet NSTextField			*displayAuthor;
 	IBOutlet NSTextField			*displayVersion;
 	IBOutlet NSButton				*previewButton;
+	NSMutableIndexSet				*displayPluginSelection;
 
 	//"Network" tab pane
 	IBOutlet NSSecureTextField		*networkPassword;
@@ -70,8 +69,6 @@
 	int								currentServiceIndex;
 }
 
-+ (void)saveTicket:(GrowlApplicationTicket *)ticket;
-
 - (NSString *) bundleVersion;
 - (IBAction) checkVersion:(id)sender;
 - (void) checkVersionAtURL:(NSURL *)url displayText:(NSString *)message downloadURL:(NSURL *)goURL;
@@ -79,9 +76,9 @@
 
 - (void) reloadPreferences;
 - (void) updateRunningStatus;
-- (void) reloadAppTab;
-- (void) reloadDisplayTab;
 - (void) filterTickets;
+- (NSIndexSet *) ticketSelection;
+- (void) setTicketSelection:(NSIndexSet *)set;
 - (IBAction) search:(id)sender;
 - (IBAction) deleteTicket:(id)sender;
 
@@ -110,11 +107,15 @@
 - (void) replaceObjectInServicesAtIndex:(unsigned)index withObject:(id)anObject;
 
 #pragma mark "Display Options" tab pane
-- (NSArray *) displayPlugins;
-- (void) setDisplayPlugins:(NSArray *)thePlugins;
 - (IBAction) showPreview:(id)sender;
 - (void) loadViewForDisplay:(NSString*)displayName;
 
+- (NSArray *) displayPlugins;
+- (void) setDisplayPlugins:(NSArray *)thePlugins;
+
+- (NSIndexSet *) displayPluginSelection;
+- (void) setDisplayPluginSelection:(NSIndexSet *)set;
+	
 #pragma mark Notification table view data source methods
 - (void) tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row;
 

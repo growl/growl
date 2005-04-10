@@ -42,7 +42,6 @@ typedef enum GrowlPriority {
 
 - (GrowlPriority) priority;
 - (void) setPriority:(GrowlPriority)newPriority;
-- (void) resetPriority;
 
 - (BOOL) enabled;
 - (void) setEnabled:(BOOL)flag;
