@@ -53,9 +53,7 @@
 
 - (id) copyWithZone:(NSZone *)zone {
 	ACImageAndTextCell *cell = (ACImageAndTextCell *)[super copyWithZone:zone];
-	
 	cell->image = [image retain];
-	
 	return cell;
 }
 
@@ -73,13 +71,15 @@
 }
 
 - (NSRect) imageFrameForCellFrame:(NSRect)cellFrame {
-	NSRect retRect = NSZeroRect;
+	NSRect retRect;
 
 	if (image) {
 		retRect.size = [image size];
-		retRect.origin = cellFrame.origin;
-		retRect.origin.x += 3.0f;
-		retRect.origin.y += ceilf((cellFrame.size.height - retRect.size.height) * 0.5f);
+		retRect.origin.x = cellFrame.origin.x + 3.0f;
+		retRect.origin.y = cellFrame.origin.y
+			+ ceilf((cellFrame.size.height - retRect.size.height) * 0.5f);
+	} else {
+		retRect = NSZeroRect;
 	}
 
 	return retRect;

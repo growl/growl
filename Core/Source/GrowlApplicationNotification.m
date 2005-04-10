@@ -7,6 +7,7 @@
 //
 
 #import "GrowlApplicationNotification.h"
+#import "GrowlApplicationTicket.h"
 #import "GrowlPluginController.h"
 #import "GrowlDisplayProtocol.h"
 
@@ -46,10 +47,7 @@
 		priority = inPriority;
 		enabled = inEnabled;
 		sticky = inSticky;
-		displayPluginName = display;
-		if (display) {
-			displayPlugin = [[GrowlPluginController controller] displayPluginNamed:display];
-		}
+		[self setDisplayPluginName:display];
 	}
 	return self;
 }
@@ -104,6 +102,7 @@
 
 - (void) setEnabled:(BOOL)flag {
 	enabled = flag;
+	[ticket setUseDefaults:NO];
 }
 
 - (void) enable {
@@ -114,11 +113,22 @@
 	[self setEnabled:NO];
 }
 
+- (GrowlApplicationTicket *) ticket {
+	return ticket;
+}
+
+- (void) setTicket:(GrowlApplicationTicket *)owner {
+	ticket = owner;
+}
+
+// With sticky, 1 is on, 0 is off, -1 means use what's passed
+// This corresponds to NSOnState, NSOffState, and NSMixedState
 - (int) sticky {
 	return sticky;
 }
 
 - (void) setSticky:(int)value {
+	NSLog(@"setSticky:%d", value);
 	sticky = value;
 }
 
@@ -130,9 +140,9 @@
 	return displayPluginName;
 }
 
-- (void) setDisplayPluginNamed: (NSString *)pluginName {
+- (void) setDisplayPluginName: (NSString *)pluginName {
 	[displayPluginName release];
-	displayPluginName = [pluginName retain];
+	displayPluginName = [pluginName copy];
 	if (displayPluginName) {
 		displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
 	} else {

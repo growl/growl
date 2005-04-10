@@ -6,7 +6,6 @@
                 checkVersion = id; 
                 deleteTicket = id; 
                 search = id; 
-                selectDisplayPlugin = id; 
                 setRemotePassword = id; 
                 showPreview = id; 
                 startStopGrowl = id; 
@@ -14,7 +13,6 @@
             CLASS = GrowlPref; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                allDisplayPlugins = NSPopUpButton; 
                 applicationNotifications = NSTableView; 
                 currentPluginController = id; 
                 displayAuthor = NSTextField; 
@@ -30,6 +28,7 @@
                 growlVersionProgress = NSProgressIndicator; 
                 networkPassword = NSSecureTextField; 
                 notificationPriorityMenu = NSMenu; 
+                notificationsArrayController = NSArrayController; 
                 previewButton = NSButton; 
                 remove = NSButton; 
                 searchField = NSTextField; 

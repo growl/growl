@@ -15,9 +15,8 @@
 
 @interface GrowlPref : NSPreferencePane {
 	NSMutableArray					*images;
-	NSMutableDictionary				*tickets;
-	NSMutableArray					*applications;
-	NSMutableArray					*filteredApplications;
+	NSMutableArray					*tickets;
+	NSMutableArray					*filteredTickets;
 	NSArray							*plugins;
 	NSTimer							*startStopTimer;
 
@@ -25,7 +24,6 @@
 	NSMutableArray					*loadedPrefPanes;
 
 	//Properties of the app being configured
-	NSString						*currentApplication;
 	GrowlApplicationTicket			*appTicket;
 
 	//Properties of the plugin being configured
@@ -43,14 +41,13 @@
 	IBOutlet NSButton				*startStopGrowl;
 	IBOutlet NSTextField			*growlRunningStatus;
 	IBOutlet NSProgressIndicator	*growlRunningProgress;
-	IBOutlet NSPopUpButton			*allDisplayPlugins;
 	IBOutlet NSTextField			*growlVersion;
 	IBOutlet NSProgressIndicator	*growlVersionProgress;
+	IBOutlet NSArrayController		*notificationsArrayController;
 
 	//"Applications" tab pane
 	IBOutlet NSTableView			*applicationNotifications;
 	IBOutlet NSTableView			*growlApplications;
-	NSMenu							*applicationDisplayPluginsMenu;
 	NSTableView						*activeTableView;
 	IBOutlet NSMenu					*notificationPriorityMenu;
 	IBOutlet NSTextField			*searchField;
@@ -85,9 +82,9 @@
 - (void) updateRunningStatus;
 - (void) reloadAppTab;
 - (void) reloadDisplayTab;
-- (void) buildMenus;
-- (void) filterApplications;
+- (void) filterTickets;
 - (IBAction) search:(id)sender;
+- (IBAction) deleteTicket:(id)sender;
 
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;
@@ -95,7 +92,9 @@
 - (void) setStartGrowlAtLogin:(BOOL)flag;
 - (BOOL) isBackgroundUpdateCheckEnabled;
 - (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag;
-
+- (NSString *) defaultDisplayPluginName;
+- (void) setDefaultDisplayPluginName:(NSString *)name;
+	
 #pragma mark "Network" tab pane
 - (BOOL) isGrowlServerEnabled;
 - (void) setGrowlServerEnabled:(BOOL)enabled;
@@ -105,8 +104,11 @@
 - (BOOL) isForwardingEnabled;
 - (void) setForwardingEnabled:(BOOL)enabled;
 
-- (IBAction) selectDisplayPlugin:(id)sender;
-- (IBAction) deleteTicket:(id)sender;
+- (NSMutableArray *) services;
+- (void) setServices:(NSMutableArray *)theServices;
+- (unsigned) countOfServices;
+- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)index;
+- (void) replaceObjectInServicesAtIndex:(unsigned)index withObject:(id)anObject;
 
 #pragma mark "Display Options" tab pane
 - (NSArray *) displayPlugins;
@@ -115,8 +117,6 @@
 - (void) loadViewForDisplay:(NSString*)displayName;
 
 #pragma mark Notification table view data source methods
-- (int) numberOfRowsInTableView:(NSTableView *)tableView;
-- (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row;
 - (void) tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row;
 
 #pragma mark -

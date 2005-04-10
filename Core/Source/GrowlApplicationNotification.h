@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class GrowlApplicationTicket;
+
 typedef enum GrowlPriority {
 	GP_unset		= -1000,
 	GP_verylow		= -2,
@@ -18,11 +20,12 @@ typedef enum GrowlPriority {
 } GrowlPriority;
 
 @interface GrowlApplicationNotification : NSObject {
-	NSString		*name;
-	GrowlPriority	priority;
-	BOOL			enabled;
-	int				sticky;
-	NSString		*displayPluginName;
+	NSString				*name;
+	GrowlPriority			priority;
+	BOOL					enabled;
+	int						sticky;
+	NSString				*displayPluginName;
+	GrowlApplicationTicket	*ticket;		// Our owner
 	id <GrowlDisplayPlugin> displayPlugin;	// Non-nil if this notification uses a custom display plugin
 }
 
@@ -43,13 +46,17 @@ typedef enum GrowlPriority {
 
 - (BOOL) enabled;
 - (void) setEnabled:(BOOL)flag;
+
 - (void) enable;
 - (void) disable;
-
+	
 - (int) sticky;
 - (void) setSticky:(int)sticky;
 
+- (GrowlApplicationTicket *) ticket;
+- (void) setTicket:(GrowlApplicationTicket *)owner;
+
 - (NSString *)displayPluginName;
 - (id <GrowlDisplayPlugin>) displayPlugin;
-- (void) setDisplayPluginNamed: (NSString *)name;
+- (void) setDisplayPluginName: (NSString *)name;
 @end

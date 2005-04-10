@@ -12,6 +12,8 @@
 
 @protocol GrowlDisplayPlugin;
 
+@class GrowlApplicationNotification;
+
 @interface GrowlApplicationTicket : NSObject {
 	NSString		*appName;					// This app's name for display by notifications that want it
 	NSString		*appPath;					// This app's location on disk (cached here and in saved tickets)
@@ -57,11 +59,14 @@
 - (NSString *) applicationName;
 
 - (BOOL) ticketEnabled;
-- (void) setEnabled:(BOOL)inEnabled;
+- (void) setTicketEnabled:(BOOL)inEnabled;
+
+- (BOOL) useDefaults;
+- (void) setUseDefaults:(BOOL)flag;
 
 - (NSString *) displayPluginName;
 - (id <GrowlDisplayPlugin>) displayPlugin;
-- (void) setDisplayPluginNamed: (NSString *)name;
+- (void) setDisplayPluginName: (NSString *)name;
 
 #pragma mark -
 
@@ -80,20 +85,9 @@
 - (void) setAllowedNotifications:(NSArray *) inArray;
 - (void) setAllowedNotificationsToDefault;
 
-- (void) setNotificationEnabled:(NSString *) name;
-- (void) setNotificationDisabled:(NSString *) name;
 - (BOOL) isNotificationAllowed:(NSString *) name;
-- (BOOL) isNotificationEnabled:(NSString *) name;
 
 #pragma mark Notification accessors
-- (int) stickyForNotification:(NSString *) name;
-- (void) setSticky:(int)sticky forNotification:(NSString *) name;
-
-- (int) priorityForNotification:(NSString *) name;
-- (void) setPriority:(int)priority forNotification:(NSString *) name;
-- (void) resetPriorityForNotification:(NSString *) name;
-
-- (NSString *) displayPluginNameForNotification:(NSString *)name;
-- (id <GrowlDisplayPlugin>) displayPluginForNotification:(NSString *)name;
-- (void) setDisplayPluginNamed:(NSString *)displayPluginName forNotification:(NSString *)name;
+- (NSArray *) notifications;
+- (GrowlApplicationNotification *) notificationForName:(NSString *)name;
 @end

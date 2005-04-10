@@ -277,7 +277,8 @@ static id singleton = nil;
 	}
 
 	//Retrieve and set the the priority of the notification
-	int priority = [ticket priorityForNotification:notificationName];
+	GrowlApplicationNotification *notification = [ticket notificationForName:notificationName];
+	int priority = [notification priority];
 	NSNumber *value;
 	if (priority == GP_unset) {
 		value = [dict objectForKey:GROWL_NOTIFICATION_PRIORITY];
@@ -290,7 +291,7 @@ static id singleton = nil;
 	[aDict setObject:value forKey:GROWL_NOTIFICATION_PRIORITY];
 
 	// Retrieve and set the sticky bit of the notification
-	int sticky = [ticket stickyForNotification:notificationName];
+	int sticky = [notification sticky];
 	if (sticky >= 0) {
 		value = [[NSNumber alloc] initWithBool:(sticky ? YES : NO)];
 		[aDict setObject:value forKey:GROWL_NOTIFICATION_STICKY];
@@ -302,7 +303,7 @@ static id singleton = nil;
 	[aDict setObject:value forKey:GROWL_SCREENSHOT_MODE];
 	[value release];
 
-	id <GrowlDisplayPlugin> display = [ticket displayPluginForNotification:notificationName];
+	id <GrowlDisplayPlugin> display = [notification displayPlugin];
 
 	if (!display) {
 		NSString *displayPluginName = [aDict objectForKey:GROWL_DISPLAY_PLUGIN];

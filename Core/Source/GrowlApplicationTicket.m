@@ -119,6 +119,7 @@
 				name = [obj objectForKey:@"Name"];
 				notification = [[GrowlApplicationNotification alloc] initWithDict:obj];
 			}
+			[notification setTicket:self];
 			[allNotificationsTemp setObject:notification forKey:name];
 			[notification release];
 		}
@@ -168,7 +169,7 @@
 
 		value = [ticketDict objectForKey:GrowlDisplayPluginKey];
 		if (value) {
-			[self setDisplayPluginNamed:value];
+			[self setDisplayPluginName:value];
 		} else {
 			displayPlugin = nil;
 		}
@@ -308,11 +309,19 @@
 	return ticketEnabled;
 }
 
-- (void) setEnabled:(BOOL)inEnabled {
+- (void) setTicketEnabled:(BOOL)inEnabled {
 	ticketEnabled = inEnabled;
 }
 
-- (NSString *)displayPluginName {
+- (BOOL) useDefaults {
+	return useDefaults;
+}
+
+- (void) setUseDefaults:(BOOL)flag {
+	useDefaults = flag;
+}
+
+- (NSString *) displayPluginName {
 	return displayPluginName;
 }
 
@@ -320,9 +329,9 @@
 	return displayPlugin;
 }
 
-- (void) setDisplayPluginNamed: (NSString *)name {
+- (void) setDisplayPluginName: (NSString *)name {
 	[displayPluginName release];
-	displayPluginName = [name retain];
+	displayPluginName = [name copy];
 	if (name) {
 		displayPlugin = [[GrowlPluginController controller] displayPluginNamed:name];
 	} else {
@@ -577,56 +586,20 @@
 	useDefaults = YES;
 }
 
-- (void) setNotificationEnabled:(NSString *) name {
-	[[allNotifications objectForKey:name] setEnabled:YES];
-	useDefaults = NO;
-}
-
-- (void) setNotificationDisabled:(NSString *) name {
-	[[allNotifications objectForKey:name] setEnabled:NO];
-	useDefaults = NO;
-}
-
 - (BOOL) isNotificationAllowed:(NSString *) name {
-	return ticketEnabled && [self isNotificationEnabled:name];
+	return ticketEnabled && [[allNotifications objectForKey:name] enabled];
 }
 
-- (BOOL) isNotificationEnabled:(NSString *) name {
-	return [[allNotifications objectForKey:name] enabled];
+- (NSComparisonResult) caseInsensitiveCompare:(GrowlApplicationTicket *)aTicket {
+	return [appName caseInsensitiveCompare:[aTicket applicationName]];
 }
 
 #pragma mark Notification Accessors
-// With sticky, 1 is on, 0 is off, -1 means use what's passed
-// This corresponds to NSOnState, NSOffState, and NSMixedState
-- (int) stickyForNotification:(NSString *) name {
-	return [[allNotifications objectForKey:name] sticky];
+- (NSArray *) notifications {
+	return [allNotifications allValues];
 }
 
-- (void) setSticky:(int)sticky forNotification:(NSString *) name {
-	[(GrowlApplicationNotification *)[allNotifications objectForKey:name] setSticky:sticky];
-}
-
-- (int) priorityForNotification:(NSString *) name {
-	return [[allNotifications objectForKey:name] priority];
-}
-
-- (void) setPriority:(int)priority forNotification:(NSString *) name {
-	[[allNotifications objectForKey:name] setPriority:(GrowlPriority)priority];
-}
-
-- (void) resetPriorityForNotification:(NSString *) name {
-	[[allNotifications objectForKey:name] resetPriority];
-}
-
-- (NSString *) displayPluginNameForNotification:(NSString *)name {
-	return [[allNotifications objectForKey:name] displayPluginName];
-}
-
-- (id <GrowlDisplayPlugin>) displayPluginForNotification:(NSString *)name {
-	return [[allNotifications objectForKey:name] displayPlugin];
-}
-
-- (void) setDisplayPluginNamed:(NSString *)pluginName forNotification:(NSString *)name {
-	[[allNotifications objectForKey:name] setDisplayPluginNamed:pluginName];
+- (GrowlApplicationNotification *) notificationForName:(NSString *)name {
+	return [allNotifications objectForKey:name];
 }
 @end

@@ -52,19 +52,17 @@
 
 - (void) dealloc {
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
-	[browser              release];
-	[services             release];
-	[pluginPrefPane       release];
-	[loadedPrefPanes      release];
-	[tickets              release];
-	[currentApplication   release];
-	[startStopTimer       release];
-	[images               release];
-	[versionCheckURL      release];
-	[downloadURL          release];
-	[applications         release];
-	[filteredApplications release];
-	[plugins              release];
+	[browser            release];
+	[services           release];
+	[pluginPrefPane     release];
+	[loadedPrefPanes    release];
+	[tickets            release];
+	[filteredTickets    release];
+	[startStopTimer     release];
+	[images             release];
+	[versionCheckURL    release];
+	[downloadURL        release];
+	[plugins            release];
 	[super dealloc];
 }
 
@@ -135,9 +133,15 @@
 	[imageAndTextCell setEditable:YES];
 	[tableColumn setDataCell:imageAndTextCell];
 	[imageAndTextCell release];
-	NSButtonCell *cell = [[applicationNotifications tableColumnWithIdentifier:@"sticky"] dataCell];
+	tableColumn = [applicationNotifications tableColumnWithIdentifier:@"sticky"];
+	NSButtonCell *cell = [tableColumn dataCell];
 	[cell setAllowsMixedState:YES];
 	[cell setImagePosition:NSImageOnly];
+	// we have to establish this binding programmatically in order to use NSMixedState
+	[tableColumn bind:@"value"
+			 toObject:notificationsArrayController
+		  withKeyPath:@"arrangedObjects.sticky"
+			  options:nil];
 	cell = [[applicationNotifications tableColumnWithIdentifier:@"enable"] dataCell];
 	[cell setImagePosition:NSImageOnly];
 	cell = [[growlApplications tableColumnWithIdentifier:@"enable"] dataCell];
@@ -170,7 +174,20 @@
 	}	
 
 	browser = [[NSNetServiceBrowser alloc] init];
-	services = [[NSMutableArray alloc] initWithArray:[[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey]];
+
+	// create a deep mutable copy of the forward destinations
+	NSArray *destinations = [[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey];
+	NSEnumerator *destEnum = [destinations objectEnumerator];
+	NSMutableArray *theServices = [[NSMutableArray alloc] initWithCapacity:[destinations count]];
+	NSDictionary *destination;
+	while ((destination = [destEnum nextObject])) {
+		NSMutableDictionary *theService = [destination mutableCopy];
+		[theServices addObject:theService];
+		[theService release];
+	}
+	[self setServices:theServices];
+	[theServices release];
+
 	[browser setDelegate:self];
 	[browser searchForServicesOfType:@"_growl._tcp." inDomain:@""];
 }
@@ -190,17 +207,16 @@
 
 // copy images to avoid resizing the original image stored in the ticket
 - (void) cacheImages {
-
 	if (images) {
 		[images release];
 	}
 
-	images = [[NSMutableArray alloc] initWithCapacity:[applications count]];
-	NSEnumerator *enumerator = [applications objectEnumerator];
-	id key;
+	images = [[NSMutableArray alloc] initWithCapacity:[tickets count]];
+	NSEnumerator *enumerator = [tickets objectEnumerator];
+	GrowlApplicationTicket *ticket;
 
-	while ((key = [enumerator nextObject])) {
-		NSImage *icon = [[[tickets objectForKey:key] icon] copy];
+	while ((ticket = [enumerator nextObject])) {
+		NSImage *icon = [[ticket icon] copy];
 		[icon setScalesWhenResized:YES];
 		[icon setSize:NSMakeSize(16.0f, 16.0f)];
 		[images addObject:icon];
@@ -209,76 +225,59 @@
 }
 
 - (IBAction) search:(id)sender {
-	[self filterApplications];
-	[growlApplications reloadData];
+	[self filterTickets];
 	[self reloadAppTab];
 }
 
-- (void) filterApplications {
-	NSString *searchString = [searchField stringValue];
-	[filteredApplications release];
-	if (!searchString || ![searchString length]) {
-		filteredApplications = [applications retain];
-	} else {
-		filteredApplications = [[NSMutableArray alloc] initWithCapacity:[applications count]];
-		NSEnumerator *applicationsEnumerator = [applications objectEnumerator];
-		NSString *name;
-		while ((name = [applicationsEnumerator nextObject])) {
-			if ([name rangeOfString:searchString options:NSAnchoredSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
-				[filteredApplications addObject:name];
-			}
-		}
+- (NSMutableArray *)tickets {
+	return filteredTickets;
+}
+
+- (void) setTickets:(NSMutableArray *)theTickets {
+	if (theTickets != filteredTickets) {
+		[filteredTickets release];
+		filteredTickets = [theTickets retain];
 	}
 }
 
-- (void) reloadPreferences {
-	[tickets release];
-	tickets = [[GrowlApplicationTicket allSavedTickets] mutableCopy];
-	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
-	[self filterApplications];
+- (void) filterTickets {
+	NSString *searchString = [searchField stringValue];
+	NSMutableArray *theTickets;
+	if (!searchString || ![searchString length]) {
+		theTickets = [tickets retain];
+	} else {
+		theTickets = [[NSMutableArray alloc] initWithCapacity:[tickets count]];
+		NSEnumerator *ticketEnumerator = [tickets objectEnumerator];
+		GrowlApplicationTicket *ticket;
+		while ((ticket = [ticketEnumerator nextObject])) {
+			if ([[ticket applicationName] rangeOfString:searchString options:NSAnchoredSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
+				[theTickets addObject:ticket];
+			}
+		}
+	}
 
+	[self setTickets:theTickets];
+	[theTickets release];
+}
+
+- (void) reloadPreferences {
+	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
+	[tickets release];
+	tickets = [[[[GrowlApplicationTicket allSavedTickets] allValues] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
+	[self filterTickets];
 	[self cacheImages];
 
 	[self loadViewForDisplay:nil];
 
-	[growlApplications reloadData];
-
-	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
-
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
-	[allDisplayPlugins removeAllItems];
-	[allDisplayPlugins addItemsWithTitles:plugins];
-	[allDisplayPlugins selectItemWithTitle:[preferences objectForKey:GrowlDisplayPluginKey]];
 
 	// If Growl is enabled, ensure the helper app is launched
 	if ([[preferences objectForKey:GrowlEnabledKey] boolValue]) {
 		[[GrowlPreferences preferences] launchGrowl];
 	}
-
-	[self buildMenus];
 	
 	[self reloadAppTab];
 	[self reloadDisplayTab];
-}
-
-- (void) buildMenus {
-	// Building Menu for the drop down one time.  It's cached from here on out.  If we want to add new display types
-	// we'll have to call this method after the controller knows about it.
-	NSEnumerator *enumerator;
-	
-	[applicationDisplayPluginsMenu release];
-	applicationDisplayPluginsMenu = [[NSMenu alloc] initWithTitle:@"DisplayPlugins"];
-	enumerator = [plugins objectEnumerator];
-	id title;
-	[applicationDisplayPluginsMenu addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Default",nil,[self bundle],@"") action:nil keyEquivalent:@""];
-	[applicationDisplayPluginsMenu addItem:[NSMenuItem separatorItem]];
-	
-	while ((title = [enumerator nextObject])) {
-		[applicationDisplayPluginsMenu addItemWithTitle:title action:nil keyEquivalent:@""];
-	}
-
-	[[[growlApplications tableColumnWithIdentifier:@"display"] dataCell] setMenu:applicationDisplayPluginsMenu];
-	[[[applicationNotifications tableColumnWithIdentifier:@"display"] dataCell] setMenu:applicationDisplayPluginsMenu];
 }
 
 - (void) updateRunningStatus {
@@ -296,30 +295,17 @@
 }
 
 - (void) reloadAppTab {
-	[currentApplication release];
-	currentApplication = nil;
-//	currentApplication = [[growlApplications titleOfSelectedItem] retain];
-	unsigned numApplications = [filteredApplications count];
 	int row = [growlApplications selectedRow];
-	if (numApplications) {
-		if (row > -1)
-			currentApplication = [[filteredApplications objectAtIndex:row] retain];
+	if ([filteredTickets count] && row > -1) {
+		appTicket = [filteredTickets objectAtIndex:row];
+	} else {
+		appTicket = nil;
 	}
-	if ((activeTableView == growlApplications) && ([growlApplications selectedRow] > -1)) {
+	if ((activeTableView == growlApplications) && (row > -1)) {
 		[remove setEnabled:YES]; 
 	} else {
 		[remove setEnabled:NO];
 	}
-	appTicket = [tickets objectForKey:currentApplication];
-
-//	[applicationEnabled setState:[appTicket ticketEnabled]];
-//	[applicationEnabled setTitle:[NSString stringWithFormat:@"Enable notifications for %@",currentApplication]];
-
-	[[[applicationNotifications tableColumnWithIdentifier:@"enable"] dataCell] setEnabled:[appTicket ticketEnabled]];
-
-	[applicationNotifications reloadData];
-
-	[growlApplications reloadData];
 }
 
 - (void) reloadDisplayTab {
@@ -348,7 +334,7 @@
 - (void) writeForwardDestinations {
 	NSMutableArray *destinations = [[NSMutableArray alloc] initWithCapacity:[services count]];
 	NSEnumerator *enumerator = [services objectEnumerator];
-	NSMutableDictionary *entry;
+	NSDictionary *entry;
 	while ((entry = [enumerator nextObject])) {
 		if (![entry objectForKey:@"netservice"]) {
 			[destinations addObject:entry];
@@ -437,32 +423,39 @@
 
 #pragma mark -
 
-- (IBAction) selectDisplayPlugin:(id)sender {
-	[[GrowlPreferences preferences] setObject:[sender titleOfSelectedItem] forKey:GrowlDisplayPluginKey];
+- (NSString *) defaultDisplayPluginName {
+	return [[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey];
 }
 
-- (IBAction) deleteTicket:(id)sender {
+- (void) setDefaultDisplayPluginName:(NSString *)name {
+	[[GrowlPreferences preferences] setObject:name forKey:GrowlDisplayPluginKey];
+}
+
+#pragma mark -
+
+- (void) deleteTicket:(id)sender {
 	int row = [growlApplications selectedRow];
-	id key = [filteredApplications objectAtIndex:row];
-	NSString *path = [[tickets objectForKey:key] path];
+	GrowlApplicationTicket *ticket = [filteredTickets objectAtIndex:row];
+	NSString *path = [ticket path];
 
 	if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys: key, @"TicketName", nil];
+		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys: [ticket applicationName], @"TicketName", nil];
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
 																	   object:@"GrowlTicketDeleted"
 																	 userInfo:userInfo];
 		[userInfo release];
-		[tickets removeObjectForKey:key];
 		unsigned index;
-		if (filteredApplications == applications) {
+		[self willChangeValueForKey:@"tickets"];
+		if (filteredTickets == tickets) {
 			index = row;
 		} else {
-			index = [applications indexOfObject:key];
-			[filteredApplications removeObjectAtIndex:row];
+			index = [tickets indexOfObject:ticket];
+			[filteredTickets removeObjectAtIndex:row];
 		}
-		[applications removeObjectAtIndex:index];
+		[tickets removeObjectAtIndex:index];
 		[images removeObjectAtIndex:index];
 		[growlApplications deselectAll:NULL];
+		[self didChangeValueForKey:@"tickets"];
 		[self reloadAppTab];
 	}
 }
@@ -623,122 +616,18 @@
 
 #pragma mark Notification, Application and Service table view data source methods
 
-- (int) numberOfRowsInTableView:(NSTableView *)tableView {
-	int returnValue = 0;
-
-	if (tableView == growlApplications) {
-		returnValue = [filteredApplications count];
-	} else if (tableView == applicationNotifications) {
-		returnValue = [[appTicket allNotifications] count];
-	} else if (tableView == growlServiceList) {
-		returnValue = [services count];
-	}
-	
-	return returnValue;
-}
-
-- (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row {
-	id returnObject = nil;
-	id identifier;
-	
-	if (tableView == growlApplications) {
-		identifier = [column identifier];
-		if ([identifier isEqualTo:@"enable"]) {
-			returnObject = [NSNumber numberWithBool:[[tickets objectForKey: [filteredApplications objectAtIndex:row]] ticketEnabled]];
-		} else if ([identifier isEqualTo:@"application"]) {
-			returnObject = [filteredApplications objectAtIndex:row];
-		} 
-	} else if (tableView == applicationNotifications) {
-		NSString *note = [[appTicket allNotifications] objectAtIndex:row];
-		identifier = [column identifier];
-
-		if ([identifier isEqualTo:@"enable"]) {
-			returnObject = [NSNumber numberWithBool:[appTicket isNotificationEnabled:note]];
-		} else if ([identifier isEqualTo:@"notification"]) {
-			returnObject = note;
-		} else if ([identifier isEqualTo:@"sticky"]) {
-			returnObject = [NSNumber numberWithInt:[appTicket stickyForNotification:note]];
-		}
-	} else if (tableView == growlServiceList) {
-		identifier = [column identifier];
-		returnObject = [[services objectAtIndex:row] objectForKey:identifier];
-	}
-
-	return returnObject;
-}
-
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)value forTableColumn:(NSTableColumn *)column row:(int)row {
 	id identifier;
 
 	if (tableView == growlApplications) {
-		NSString *application = [filteredApplications objectAtIndex:row];
-		GrowlApplicationTicket *ticket = [tickets objectForKey:application];
-		identifier = [column identifier];
-
-		if ([identifier isEqualTo:@"enable"]) {
-			[ticket setEnabled:[value boolValue]];
-			[GrowlPref saveTicket:ticket];
-		} else if ([identifier isEqualTo:@"display"])	{
-			int index = [value intValue];
-			if (index == 0) {
-				if ([ticket displayPlugin]) {
-					[ticket setDisplayPluginNamed:nil];
-					[GrowlPref saveTicket:ticket];
-				}
-			} else {
-				NSString *pluginName = [[applicationDisplayPluginsMenu itemAtIndex:index] title];
-				if (![pluginName isEqualTo:[[tickets objectForKey:application] displayPluginName]]) {
-					[ticket setDisplayPluginNamed:pluginName];
-					[GrowlPref saveTicket:ticket];
-				}
-			}
-		}
+		[GrowlPref saveTicket:[filteredTickets objectAtIndex:row]];
 		[self reloadAppTab];
 	} else if (tableView == applicationNotifications) {
-		NSString *note = [[appTicket allNotifications] objectAtIndex:row];
-		identifier = [column identifier];
-
-		if ([identifier isEqualTo:@"enable"]) {
-			if ([value boolValue]) {
-				[appTicket setNotificationEnabled:note];
-			} else {
-				[appTicket setNotificationDisabled:note];
-			}
-			[GrowlPref saveTicket:appTicket];
-		} else if ([identifier isEqualTo:@"display"]) {
-			int index = [value intValue];
-			if (index == 0) {
-				if ([appTicket displayPluginForNotification:note]) {
-					[appTicket setDisplayPluginNamed:nil forNotification:note];
-					[GrowlPref saveTicket:appTicket];
-				}
-			} else {
-				NSString *pluginName = [[applicationDisplayPluginsMenu itemAtIndex:index] title];
-				if (![pluginName isEqualTo:[appTicket displayPluginNameForNotification:note]]) {
-					[appTicket setDisplayPluginNamed:pluginName forNotification:note];
-					[GrowlPref saveTicket:appTicket];
-				}
-			}
-		} else if ([identifier isEqualTo:@"priority"]) {
-			int index = [value intValue];
-			
-			if (index == 0) {
-				if ([appTicket priorityForNotification:note] != GP_unset) {
-					[appTicket resetPriorityForNotification:note];
-					[GrowlPref saveTicket:appTicket];
-				}
-			} else if ([appTicket priorityForNotification:note] != (index-4)) {
-				[appTicket setPriority:(index-4) forNotification:note];
-				[GrowlPref saveTicket:appTicket];
-			}
-		} else if ([identifier isEqualTo:@"sticky"]) {
-			[appTicket setSticky:[value intValue] forNotification:note];
-			[GrowlPref saveTicket:appTicket];
-		}
+		[GrowlPref saveTicket:appTicket];
 	} else if (tableView == growlServiceList) {
 		identifier = [column identifier];
 		if ([identifier isEqualTo:@"use"]) {
-			NSMutableDictionary *entry = [[services objectAtIndex:row] mutableCopy];
+			NSDictionary *entry = [services objectAtIndex:row];
 			if ([value boolValue]) {
 				NSNetService *serviceToResolve = [entry objectForKey:@"netservice"];
 				if (serviceToResolve) {
@@ -753,16 +642,44 @@
 					serviceBeingResolved = serviceToResolve;
 					[serviceBeingResolved retain];
 					[serviceBeingResolved setDelegate:self];
-					[serviceBeingResolved resolve];
+					if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)]) {
+						[serviceBeingResolved resolveWithTimeout:5.0];
+					} else {
+						// this selector is deprecated in 10.4
+						[serviceBeingResolved resolve];
+					}
 				}
 			}
-
-			[entry setObject:value forKey:identifier];
-			[services replaceObjectAtIndex:row withObject:entry];
-			[entry release];
 			[self writeForwardDestinations];
 		}
 	}
+}
+
+- (NSMutableArray *) services {
+	return services;
+}
+
+- (void) setServices:(NSMutableArray *)theServices {
+	if (theServices != services) {
+		[services release];
+		services = [theServices retain];
+	}
+}
+
+- (unsigned) countOfServices {
+	return [services count];
+}
+
+- (id) objectInServicesAtIndex:(unsigned)index {
+	return [services objectAtIndex:index];
+}
+
+- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)index {
+	[services insertObject:anObject atIndex:index];
+}
+
+- (void) replaceObjectInServicesAtIndex:(unsigned)index withObject:(id)anObject {
+	[services replaceObjectAtIndex:index withObject:anObject];
 }
 
 #pragma mark TableView delegate methods
@@ -771,47 +688,35 @@
 	NSTableView *tableView = [theNote object];
 	if (tableView == growlApplications) {
 		[self reloadAppTab];
-		[applicationNotifications reloadData];
 	} else if (tableView == displayPluginsTable) {
 		[self reloadDisplayTab];
-		//[remove setEnabled:NO];
 	} else if (tableView == applicationNotifications) {
 		[self reloadAppTab];
-		//[remove setEnabled:NO];
 	}
 }
 
 - (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
 	NSString *identifier = [column identifier];
 	if (tableView == growlApplications) {
-		if ([identifier isEqualTo:@"display"]) {
-			NSString *displayPluginName = [[tickets objectForKey:[filteredApplications objectAtIndex:row]] displayPluginName];
-			if (!displayPluginName) {
-				[cell selectItemAtIndex:0]; // Default
-			} else {
-				[cell selectItemWithTitle:displayPluginName];
-			}
-		} else if ([identifier isEqualTo:@"application"]) {
-			unsigned index = [applications indexOfObject:[filteredApplications objectAtIndex:row]];
+		if ([identifier isEqualTo:@"application"]) {
+			unsigned index = [tickets indexOfObject:[filteredTickets objectAtIndex:row]];
 			[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:index]];
 		}
+		/*
 	} else if (tableView == applicationNotifications) {
-		id notif = [[appTicket allNotifications] objectAtIndex:row];
-		if ([identifier isEqualTo:@"priority"]) {
-			int priority = [appTicket priorityForNotification:notif];
-			if (priority != GP_unset) {
-				[cell selectItemAtIndex:priority+4];
+		NSString *notif = [[appTicket allNotifications] objectAtIndex:row];
+		if ([identifier isEqualTo:@"sticky"]) {
+			int sticky = [appTicket stickyForNotification:notif];
+			[cell setAllowsMixedState:YES];
+			if (sticky > 0) {
+				[cell setState:NSOnState];
+			} else if (sticky == 0) {
+				[cell setState:NSOffState];
 			} else {
-				[cell selectItemAtIndex:0];
-			}
-		} else if ([identifier isEqualTo:@"display"]) {
-			NSString *displayPluginName = [appTicket displayPluginNameForNotification:notif];
-			if (!displayPluginName) {
-				[cell selectItemAtIndex:0]; // Default
-			} else {
-				[cell selectItemWithTitle:displayPluginName];
+				[cell setState:NSMixedState];
 			}
 		}
+		*/
 	}
 }
 
@@ -839,17 +744,18 @@
 
 	// add a new entry at the end
 	NSNumber *use = [[NSNumber alloc] initWithBool:NO];
-	entry = [[NSDictionary alloc] initWithObjectsAndKeys:
+	entry = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		aNetService, @"netservice",
 		name,        @"computer",
 		use,         @"use",
 		nil];
 	[use release];
+	[self willChangeValueForKey:@"services"];
 	[services addObject:entry];
+	[self didChangeValueForKey:@"services"];
 	[entry release];
 
 	if (!moreComing) {
-		[growlServiceList reloadData];
 		[self writeForwardDestinations];
 	}
 }
@@ -858,11 +764,14 @@
 	// This case is slightly more complicated. We need to find the object in the list and remove it.
 	unsigned count = [services count];
 	NSDictionary *currentEntry;
+	NSString *name = [aNetService name];
 
 	for (unsigned i = 0; i < count; ++i) {
 		currentEntry = [services objectAtIndex:i];
-		if ([[currentEntry objectForKey:@"netservice"] isEqual:aNetService]) {
+		if ([[currentEntry objectForKey:@"computer"] isEqualToString:name]) {
+			[self willChangeValueForKey:@"services"];
 			[services removeObjectAtIndex:i];
+			[self didChangeValueForKey:@"services"];
 			break;
 		}
 	}
@@ -874,7 +783,6 @@
 	}
 
 	if (!moreComing) {
-		[growlServiceList reloadData];
 		[self writeForwardDestinations];
 	}
 }
@@ -883,12 +791,11 @@
 	NSArray *addresses = [sender addresses];
 	if ([addresses count] > 0U) {
 		NSData *address = [addresses objectAtIndex:0U];
-		NSMutableDictionary *entry = [[services objectAtIndex:currentServiceIndex] mutableCopy];
+		NSMutableDictionary *entry = [services objectAtIndex:currentServiceIndex];
+		[self willChangeValueForKey:@"services"];
 		[entry setObject:address forKey:@"address"];
 		[entry removeObjectForKey:@"netservice"];
-		[services replaceObjectAtIndex:currentServiceIndex withObject:entry];
-		[entry release];
-		
+		[self didChangeValueForKey:@"services"];
 		[self writeForwardDestinations];
 	}
 }
@@ -916,20 +823,32 @@
 // Refresh preferences when a new application registers with Growl
 - (void) appRegistered: (NSNotification *) note {
 	NSString *app = [note object];
-	GrowlApplicationTicket *ticket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
+	GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
 
 /*	if (![tickets objectForKey:app])
 		[growlApplications addItemWithTitle:app];*/
 
-	[tickets setObject:ticket forKey:app];
-	[ticket release];
-	[applications release];
-	applications = [[[tickets allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
-	[self filterApplications];
+	GrowlApplicationTicket *ticket;
+	unsigned count = [tickets count];
+	unsigned i;
+	for (i=0U; i<count; ++i) {
+		ticket = [tickets objectAtIndex:i];
+		if ([[ticket applicationName] isEqualToString:app]) {
+			[tickets replaceObjectAtIndex:i withObject:newTicket];
+			break;
+		}
+	}
+	if (i==count) {
+		[tickets addObject:newTicket];
+		NSMutableArray *newTickets = [[tickets sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
+		[tickets release];
+		tickets = newTickets;
+	}
+	[newTicket release];
+	[self filterTickets];
 	[self cacheImages];
-	[growlApplications reloadData];
 
-	if ([currentApplication isEqualToString:app]) {
+	if ([[appTicket applicationName] isEqualToString:app]) {
 		[self reloadAppTab];
 	}
 }
