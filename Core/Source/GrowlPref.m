@@ -293,8 +293,13 @@
 
 //subclassed from NSPreferencePane; called before the pane is displayed.
 - (void) willSelect {
-	[self reloadPreferences];
+//	NSLog(@"Growl Prefpane willSelect:");
 	[self checkGrowlRunning];
+}
+
+- (void) didSelect {
+//	NSLog(@"Growl Prefpane didSelect:");
+	[self reloadPreferences];
 }
 
 // copy images to avoid resizing the original image stored in the ticket
