@@ -325,7 +325,7 @@
 	[self filterTickets];
 }
 
-- (NSMutableArray *)tickets {
+- (NSMutableArray *) tickets {
 	return filteredTickets;
 }
 
@@ -340,7 +340,7 @@
 	NSString *searchString = [searchField stringValue];
 	NSMutableArray *theTickets;
 	if (!searchString || ![searchString length]) {
-		theTickets = [tickets retain];
+		theTickets = [tickets copy];
 	} else {
 		theTickets = [[NSMutableArray alloc] initWithCapacity:[tickets count]];
 		NSEnumerator *ticketEnumerator = [tickets objectEnumerator];
@@ -357,15 +357,15 @@
 }
 
 - (void) reloadDisplayPluginView {
-	unsigned selectionIndex = [displayPluginsArrayController selectionIndex];
+	NSArray *selectedPlugins = [displayPluginsArrayController selectedObjects];
 	unsigned numPlugins = [plugins count];
 	[currentPlugin release];
-	if (numPlugins > 0U && selectionIndex != NSNotFound) {
-		currentPlugin = [[plugins objectAtIndex:selectionIndex] retain];
+	if (numPlugins > 0U && selectedPlugins && [selectedPlugins count] > 0U) {
+		currentPlugin = [[selectedPlugins objectAtIndex:0U] retain];
 	} else {
 		currentPlugin = nil;
 	}
-	
+
 	GrowlPluginController *growlPluginController = [GrowlPluginController controller];
 	currentPluginController = [growlPluginController displayPluginNamed:currentPlugin];
 	[self loadViewForDisplay:currentPlugin];
@@ -410,7 +410,7 @@
 	[growlRunningProgress stopAnimation:self];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
 						change:(NSDictionary *)change context:(void *)context {
 	if ([keyPath isEqualToString:@"selection"]) {
 		if ((object == ticketsArrayController)) {
@@ -529,8 +529,7 @@
 #pragma mark -
 
 - (void) deleteTicket:(id)sender {
-	unsigned selectionIndex = [ticketsArrayController selectionIndex];
-	GrowlApplicationTicket *ticket = [filteredTickets objectAtIndex:selectionIndex];
+	GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
 	NSString *path = [ticket path];
 
 	if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
@@ -539,15 +538,10 @@
 																	   object:@"GrowlTicketDeleted"
 																	 userInfo:userInfo];
 		[userInfo release];
-		unsigned index;
-		[ticketsArrayController removeObjectAtArrangedObjectIndex:selectionIndex];
-		if (filteredTickets == tickets) {
-			index = selectionIndex;
-		} else {
-			index = [tickets indexOfObject:ticket];
-			[tickets removeObjectAtIndex:index];
-		}
+		unsigned index = [tickets indexOfObject:ticket];
+		[tickets removeObjectAtIndex:index];
 		[images removeObjectAtIndex:index];
+		[ticketsArrayController removeObject:ticket];
 	}
 }
 
@@ -645,7 +639,7 @@
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview object:currentPlugin];
 }
 
-- (void) loadViewForDisplay:(NSString*)displayName {
+- (void) loadViewForDisplay:(NSString *)displayName {
 	NSView *newView = nil;
 	NSPreferencePane *prefPane = nil, *oldPrefPane = nil;
 
