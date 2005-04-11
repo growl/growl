@@ -4767,6 +4767,7 @@
 				DDF09B1F080AC97A006F4172,
 				DDF09B20080AC97A006F4172,
 				DDF09B22080AC97A006F4172,
+				DDF09C12080AD264006F4172,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4794,6 +4795,7 @@
 				DDF09B06080AC8F3006F4172,
 				DDF09B07080AC8F3006F4172,
 				DDF09B08080AC8F3006F4172,
+				DDF09C13080AD2E8006F4172,
 			);
 			buildRules = (
 			);
@@ -4855,6 +4857,7 @@
 		};
 		DDF09B18080AC952006F4172 = {
 			children = (
+				DDF09C11080AD264006F4172,
 				DDF09B19080AC97A006F4172,
 				DDF09B1A080AC97A006F4172,
 				DDF09B1B080AC97A006F4172,
@@ -4963,6 +4966,35 @@
 			isa = PBXTargetDependency;
 			target = 8D202CE80486D31800D8A456;
 			targetProxy = DDF09BC8080ACA0A006F4172;
+		};
+		DDF09C11080AD264006F4172 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.script.sh;
+			name = generateBuildPath.sh;
+			path = "Prefpane TestHarness/generateBuildPath.sh";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DDF09C12080AD264006F4172 = {
+			fileRef = DDF09C11080AD264006F4172;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDF09C13080AD2E8006F4172 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				$OBJROOT/include/generatedBuildPath.h,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source \"prefpane TestHarness/generateBuildPath.sh\"\n";
 		};
 //DD0
 //DD1

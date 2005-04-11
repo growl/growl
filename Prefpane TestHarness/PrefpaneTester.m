@@ -1,18 +1,20 @@
 #import "PrefpaneTester.h" 
+
+#import "include/generatedBuildPath.h";
+
 @implementation PrefpaneTester 
 
 - (void) awakeFromNib 
 { 
 	NSRect aRect; 
-	NSString *pathToPrefPaneBundle; 
+	NSMutableString *pathToPrefPaneBundle; 
 	NSBundle *prefBundle; 
 	Class prefPaneClass; 
 	NSPreferencePane *prefPaneObject; 
 	NSView *prefView; 
 	
-#warning	This path should of course be dynamic - but I am not sure how / too lazy --Diggory
-	pathToPrefPaneBundle = [NSString stringWithString: 
-		@"/Users/Diggory/Code/OpenSource/Growl/build/Growl.prefPane"]; 
+	pathToPrefPaneBundle = [NSMutableString stringWithCString: GROWL_OBJROOT];
+	[pathToPrefPaneBundle appendString: @"/Growl.prefpane"];
 	
 	prefBundle = [NSBundle bundleWithPath: pathToPrefPaneBundle]; 
 	
