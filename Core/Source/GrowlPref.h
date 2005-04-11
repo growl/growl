@@ -11,12 +11,11 @@
 
 @protocol GrowlPlugin;
 
-@class GrowlApplicationTicket;
+@class GrowlApplicationTicket, TicketsArrayController;
 
 @interface GrowlPref : NSPreferencePane {
 	NSMutableArray					*images;
 	NSMutableArray					*tickets;
-	NSMutableArray					*filteredTickets;
 	NSArray							*plugins;
 	NSTimer							*startStopTimer;
 
@@ -46,9 +45,8 @@
 	IBOutlet NSTableView			*growlApplications;
 	NSTableView						*activeTableView;
 	IBOutlet NSMenu					*notificationPriorityMenu;
-	IBOutlet NSTextField			*searchField;
 	IBOutlet NSButton				*remove;
-	IBOutlet NSArrayController		*ticketsArrayController;
+	IBOutlet TicketsArrayController	*ticketsArrayController;
 
 	//"Display Options" tab pane
 	IBOutlet NSTableView			*displayPluginsTable;
@@ -76,8 +74,6 @@
 
 - (void) reloadPreferences;
 - (void) updateRunningStatus;
-- (void) filterTickets;
-- (IBAction) search:(id)sender;
 - (IBAction) deleteTicket:(id)sender;
 
 #pragma mark "General" tab pane

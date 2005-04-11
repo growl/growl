@@ -18,6 +18,7 @@
 #import "GrowlVersionUtilities.h"
 #import "ACImageAndTextCell.h"
 #import "NSGrowlAdditions.h"
+#import "TicketsArrayController.h"
 #import <ApplicationServices/ApplicationServices.h>
 #import <Security/SecKeychain.h>
 #import <Security/SecKeychainItem.h>
@@ -126,7 +127,7 @@
 
 - (id) initWithBundle:(NSBundle *)bundle {
 	if ((self = [super initWithBundle:bundle])) {
-		loadedPrefPanes    = [[NSMutableArray alloc] init];
+		loadedPrefPanes = [[NSMutableArray alloc] init];
 		
 		NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 		[nc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
@@ -149,7 +150,6 @@
 	[pluginPrefPane  release];
 	[loadedPrefPanes release];
 	[tickets         release];
-	[filteredTickets release];
 	[startStopTimer  release];
 	[images          release];
 	[versionCheckURL release];
@@ -321,39 +321,15 @@
 	}
 }
 
-- (IBAction) search:(id)sender {
-	[self filterTickets];
-}
-
 - (NSMutableArray *) tickets {
-	return filteredTickets;
+	return tickets;
 }
 
 - (void) setTickets:(NSMutableArray *)theTickets {
-	if (theTickets != filteredTickets) {
-		[filteredTickets release];
-		filteredTickets = [theTickets retain];
+	if (theTickets != tickets) {
+		[tickets release];
+		tickets = [theTickets retain];
 	}
-}
-
-- (void) filterTickets {
-	NSString *searchString = [searchField stringValue];
-	NSMutableArray *theTickets;
-	if (!searchString || ![searchString length]) {
-		theTickets = [tickets copy];
-	} else {
-		theTickets = [[NSMutableArray alloc] initWithCapacity:[tickets count]];
-		NSEnumerator *ticketEnumerator = [tickets objectEnumerator];
-		GrowlApplicationTicket *ticket;
-		while ((ticket = [ticketEnumerator nextObject])) {
-			if ([[ticket applicationName] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
-				[theTickets addObject:ticket];
-			}
-		}
-	}
-
-	[self setTickets:theTickets];
-	[theTickets release];
 }
 
 - (void) reloadDisplayPluginView {
@@ -376,9 +352,7 @@
 
 - (void) reloadPreferences {
 	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
-	[tickets release];
-	tickets = [[[[GrowlApplicationTicket allSavedTickets] allValues] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
-	[self filterTickets];
+	[self setTickets:[[[GrowlApplicationTicket allSavedTickets] allValues] mutableCopy]];
 	[self cacheImages];
 
 	[self loadViewForDisplay:nil];
@@ -424,7 +398,7 @@
 			[self reloadDisplayPluginView];
 		}
 	}
-}    
+}
 
 - (void) writeForwardDestinations {
 	NSMutableArray *destinations = [[NSMutableArray alloc] initWithCapacity:[services count]];
@@ -757,9 +731,10 @@
 
 - (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
 	NSString *identifier = [column identifier];
+	NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
 	if (tableView == growlApplications) {
 		if ([identifier isEqualTo:@"application"]) {
-			unsigned index = [tickets indexOfObject:[filteredTickets objectAtIndex:row]];
+			unsigned index = [tickets indexOfObject:[arrangedTickets objectAtIndex:row]];
 			[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:index]];
 		}
 	}
@@ -851,23 +826,19 @@
 	GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
 
 	GrowlApplicationTicket *ticket;
-	unsigned count = [tickets count];
+	NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
+	unsigned count = [arrangedTickets count];
 	unsigned i;
 	for (i=0U; i<count; ++i) {
-		ticket = [tickets objectAtIndex:i];
+		ticket = [arrangedTickets objectAtIndex:i];
 		if ([[ticket applicationName] isEqualToString:app]) {
-			[tickets replaceObjectAtIndex:i withObject:newTicket];
+			[ticketsArrayController removeObjectAtArrangedObjectIndex:i];
 			break;
 		}
 	}
-	if (i==count) {
-		[tickets addObject:newTicket];
-		NSMutableArray *newTickets = [[tickets sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
-		[tickets release];
-		tickets = newTickets;
-	}
+	[ticketsArrayController addObject:newTicket];
+	[ticketsArrayController rearrangeObjects];
 	[newTicket release];
-	[self filterTickets];
 	[self cacheImages];
 }
 

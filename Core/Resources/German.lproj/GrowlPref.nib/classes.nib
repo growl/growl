@@ -6,7 +6,6 @@
                 checkVersion = id; 
                 deleteTicket = id; 
                 resolveService = id; 
-                search = id; 
                 setRemotePassword = id; 
                 showPreview = id; 
                 startStopGrowl = id; 
@@ -32,10 +31,9 @@
                 notificationsArrayController = NSArrayController; 
                 previewButton = NSButton; 
                 remove = NSButton; 
-                searchField = NSTextField; 
                 startStopGrowl = NSButton; 
                 tabView = NSTabView; 
-                ticketsArrayController = NSArrayController; 
+                ticketsArrayController = FilteringArrayController; 
             }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
@@ -50,6 +48,12 @@
                 "_window" = id; 
             }; 
             SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {search = id; }; 
+            CLASS = TicketsArrayController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
         }
     ); 
     IBVersion = 1; 

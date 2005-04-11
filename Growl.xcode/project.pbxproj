@@ -363,6 +363,8 @@
 		};
 		08FB77AFFE84173DC02AAC07 = {
 			children = (
+				95A9E432080B2CAB006A2F29,
+				95A9E433080B2CAB006A2F29,
 				F506C03C013D9D7901CA16C8,
 				F506C03D013D9D7901CA16C8,
 				936FAB01074482BF00A7D430,
@@ -3231,6 +3233,7 @@
 				936FAB04074482BF00A7D430,
 				0790135607D9321B0023B640,
 				95C87BBC07D9E32D00C69DEE,
+				95A9E435080B2CAB006A2F29,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3778,6 +3781,36 @@
 		};
 		9595190E07E48CBE004A4471 = {
 			fileRef = 95C8777007D9DFC000C69DEE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95A9E432080B2CAB006A2F29 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = TicketsArrayController.h;
+			path = Core/Source/TicketsArrayController.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95A9E433080B2CAB006A2F29 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = TicketsArrayController.m;
+			path = Core/Source/TicketsArrayController.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95A9E434080B2CAB006A2F29 = {
+			fileRef = 95A9E432080B2CAB006A2F29;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95A9E435080B2CAB006A2F29 = {
+			fileRef = 95A9E433080B2CAB006A2F29;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4450,6 +4483,7 @@
 			dstSubfolderSpec = 7;
 			files = (
 				CB5FA1C70638CA5300EADD7A,
+				95A9E434080B2CAB006A2F29,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4804,7 +4838,6 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "Prefpane TestHarness/PrefPaneTesting-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
