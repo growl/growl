@@ -271,6 +271,7 @@
 			projectDirPath = "";
 			targets = (
 				8D202CE80486D31800D8A456,
+				DDF09B09080AC8F3006F4172,
 				CB61E5170637763C00E0DDC7,
 				34F60EAA078E1CD500CECA86,
 				34F60EF8078E226300CECA86,
@@ -2096,6 +2097,7 @@
 				0AB508B40767C87B006EA5CB,
 				34F60EAB078E1CD500CECA86,
 				34F60EF9078E226300CECA86,
+				DDF09B0A080AC8F3006F4172,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -4352,6 +4354,7 @@
 			children = (
 				08FB77AFFE84173DC02AAC07,
 				089C167CFE841241C02AAC07,
+				DDF09B18080AC952006F4172,
 			);
 			isa = PBXGroup;
 			name = Prefpane;
@@ -4757,6 +4760,209 @@
 			name = ShellScripts;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		DDF09B06080AC8F3006F4172 = {
+			buildActionMask = 2147483647;
+			files = (
+				DDF09B1F080AC97A006F4172,
+				DDF09B20080AC97A006F4172,
+				DDF09B22080AC97A006F4172,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDF09B07080AC8F3006F4172 = {
+			buildActionMask = 2147483647;
+			files = (
+				DDF09B1E080AC97A006F4172,
+				DDF09B21080AC97A006F4172,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDF09B08080AC8F3006F4172 = {
+			buildActionMask = 2147483647;
+			files = (
+				DDF09BC6080AC9ED006F4172,
+				DDF09BC7080AC9ED006F4172,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDF09B09080AC8F3006F4172 = {
+			buildPhases = (
+				DDF09B06080AC8F3006F4172,
+				DDF09B07080AC8F3006F4172,
+				DDF09B08080AC8F3006F4172,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Prefpane TestHarness/PrefPaneTesting-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = PrefpaneTesting;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			comments = "This target allows you to execute and debug the prefpane within xcode.";
+			dependencies = (
+				DDF09BC9080ACA0A006F4172,
+			);
+			isa = PBXNativeTarget;
+			name = PrefpaneTesting;
+			productName = PrefpaneTesting;
+			productReference = DDF09B0A080AC8F3006F4172;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>PrefpaneTesting</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.PrefpaneTesting</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.application";
+		};
+		DDF09B0A080AC8F3006F4172 = {
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = PrefpaneTesting.app;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DDF09B18080AC952006F4172 = {
+			children = (
+				DDF09B19080AC97A006F4172,
+				DDF09B1A080AC97A006F4172,
+				DDF09B1B080AC97A006F4172,
+				DDF09B1C080AC97A006F4172,
+				DDF09B1D080AC97A006F4172,
+			);
+			isa = PBXGroup;
+			name = "Prefpane Testing";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DDF09B19080AC97A006F4172 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = main.m;
+			path = "Prefpane TestHarness/main.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DDF09B1A080AC97A006F4172 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "PrefPaneTesting-Info.plist";
+			path = "Prefpane TestHarness/PrefPaneTesting-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DDF09B1B080AC97A006F4172 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = PrefpaneTester.h;
+			path = "Prefpane TestHarness/PrefpaneTester.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DDF09B1C080AC97A006F4172 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = PrefpaneTester.m;
+			path = "Prefpane TestHarness/PrefpaneTester.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DDF09B1D080AC97A006F4172 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = PrefpaneTesting.nib;
+			path = "Prefpane TestHarness/PrefpaneTesting.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DDF09B1E080AC97A006F4172 = {
+			fileRef = DDF09B19080AC97A006F4172;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDF09B1F080AC97A006F4172 = {
+			fileRef = DDF09B1A080AC97A006F4172;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDF09B20080AC97A006F4172 = {
+			fileRef = DDF09B1B080AC97A006F4172;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDF09B21080AC97A006F4172 = {
+			fileRef = DDF09B1C080AC97A006F4172;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDF09B22080AC97A006F4172 = {
+			fileRef = DDF09B1D080AC97A006F4172;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDF09BC6080AC9ED006F4172 = {
+			fileRef = 83282746073A6C110044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDF09BC7080AC9ED006F4172 = {
+			fileRef = 83282741073A6BD70044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DDF09BC8080ACA0A006F4172 = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8D202CE80486D31800D8A456;
+			remoteInfo = Growl;
+		};
+		DDF09BC9080ACA0A006F4172 = {
+			isa = PBXTargetDependency;
+			target = 8D202CE80486D31800D8A456;
+			targetProxy = DDF09BC8080ACA0A006F4172;
 		};
 //DD0
 //DD1
