@@ -346,7 +346,7 @@
 		NSEnumerator *ticketEnumerator = [tickets objectEnumerator];
 		GrowlApplicationTicket *ticket;
 		while ((ticket = [ticketEnumerator nextObject])) {
-			if ([[ticket applicationName] rangeOfString:searchString options:NSAnchoredSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
+			if ([[ticket applicationName] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
 				[theTickets addObject:ticket];
 			}
 		}
