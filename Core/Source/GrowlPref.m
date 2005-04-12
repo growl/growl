@@ -49,10 +49,13 @@
 
 - (NSDictionary *) properties;
 
+- (void) setAddress:(NSData *)address;
 - (void) setOwner:(GrowlPref *)pref;
+
 @end
 
 @implementation GrowlBrowserEntry
+
 - (id) initWithDictionary:(NSDictionary *)dict {
 	if ((self = [super init])) {
 		properties = [dict mutableCopy];
@@ -121,6 +124,13 @@
 	[properties release];
 	[super dealloc];
 }
+
+@end
+
+@interface NSNetService(TigerCompatibility)
+
+- (void)resolveWithTimeout:(NSTimeInterval)timeout;
+
 @end
 
 @implementation GrowlPref
@@ -730,6 +740,7 @@
 #pragma mark TableView delegate methods
 
 - (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
+	NSLog(@"will display cell at row: %i", row);
 	NSString *identifier = [column identifier];
 	NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
 	if (tableView == growlApplications) {
