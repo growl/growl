@@ -5027,7 +5027,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "source \"prefpane TestHarness/generateBuildPath.sh\"\n";
+			shellScript = "source \"Prefpane TestHarness/generateBuildPath.sh\"\n";
 		};
 //DD0
 //DD1
