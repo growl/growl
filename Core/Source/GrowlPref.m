@@ -836,7 +836,7 @@
 	NSString *app = [note object];
 	GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
 
-	NSArray *arrangedTickets = [NSArray arrayWithArray:[ticketsArrayController arrangedObjects]];
+	NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
 	GrowlApplicationTicket *ticket;
 
 	for (unsigned i = 0U, count = [arrangedTickets count]; i < count; ++i) {
