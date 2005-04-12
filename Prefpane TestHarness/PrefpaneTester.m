@@ -1,6 +1,6 @@
 #import "PrefpaneTester.h" 
 
-#import "include/generatedBuildPath.h";
+#import "generatedBuildPath.h";
 
 @implementation PrefpaneTester 
 
