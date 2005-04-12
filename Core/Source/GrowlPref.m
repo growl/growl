@@ -836,11 +836,10 @@
 	NSString *app = [note object];
 	GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
 
+	NSArray *arrangedTickets = [NSArray arrayWithArray:[ticketsArrayController arrangedObjects]];
 	GrowlApplicationTicket *ticket;
-	NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
-	unsigned count = [arrangedTickets count];
-	unsigned i;
-	for (i=0U; i<count; ++i) {
+
+	for (unsigned i = 0U, count = [arrangedTickets count]; i < count; ++i) {
 		ticket = [arrangedTickets objectAtIndex:i];
 		if ([[ticket applicationName] isEqualToString:app]) {
 			[ticketsArrayController removeObjectAtArrangedObjectIndex:i];
@@ -849,6 +848,7 @@
 	}
 	[ticketsArrayController addObject:newTicket];
 	[ticketsArrayController rearrangeObjects];
+
 	[newTicket release];
 	[self cacheImages];
 }
