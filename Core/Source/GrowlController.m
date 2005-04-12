@@ -697,14 +697,14 @@ static id singleton = nil;
 	return NO;
 }
 
-- (void)applicationWillTerminate:(NSNotification *)notification {
+- (void) applicationWillTerminate:(NSNotification *)notification {
 	[self release];
 }
 
 #pragma mark Auto-discovery
 
 //called by NSWorkspace when an application launches.
-- (void)applicationLaunched:(NSNotification *)notification {
+- (void) applicationLaunched:(NSNotification *)notification {
 	NSDictionary *userInfo = [notification userInfo];
 
 	NSString *appName = [userInfo objectForKey:@"NSApplicationName"];

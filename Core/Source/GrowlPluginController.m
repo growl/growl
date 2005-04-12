@@ -237,7 +237,7 @@ static GrowlPluginController *sharedController;
 	[filename release];
 }
 
-- (void)installPlugin:(NSString *)filename {
+- (void) installPlugin:(NSString *)filename {
 	NSString *pluginFile = [filename lastPathComponent];
 	NSString *destination = [[[[[NSHomeDirectory()
 		stringByAppendingPathComponent:@"Library"]

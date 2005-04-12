@@ -9,18 +9,18 @@
 		<key>234</key>
 		<string>533 444 374 331 0 0 1440 878 </string>
 		<key>310</key>
-		<string>49 568 112 156 0 0 1280 1002 </string>
+		<string>56 485 118 156 0 0 1440 878 </string>
 	</dict>
 	<key>IBFramework Version</key>
-	<string>364.0</string>
+	<string>437.0</string>
 	<key>IBOldestOS</key>
 	<integer>3</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>12</integer>
 		<integer>310</integer>
+		<integer>12</integer>
 	</array>
 	<key>IBSystem Version</key>
-	<string>7U16</string>
+	<string>8A425</string>
 </dict>
 </plist>

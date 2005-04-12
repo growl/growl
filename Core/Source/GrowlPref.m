@@ -255,7 +255,7 @@
 	[ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
 	[displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
 
-	[remove setEnabled:NO];
+	[self setCanRemoveTicket:NO];
 
 	browser = [[NSNetServiceBrowser alloc] init];
 
@@ -380,12 +380,7 @@
 						change:(NSDictionary *)change context:(void *)context {
 	if ([keyPath isEqualToString:@"selection"]) {
 		if ((object == ticketsArrayController)) {
-			unsigned selectionIndex = [ticketsArrayController selectionIndex];
-			if ((activeTableView == growlApplications) && (selectionIndex != NSNotFound)) {
-				[remove setEnabled:YES]; 
-			} else {
-				[remove setEnabled:NO];
-			}
+			[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
 		} else if (object == displayPluginsArrayController) {
 			[self reloadDisplayPluginView];
 		}
@@ -492,7 +487,15 @@
 	[[GrowlPreferences preferences] setObject:name forKey:GrowlDisplayPluginKey];
 }
 
-#pragma mark -
+#pragma mark "Applications" tab pane
+
+- (BOOL) canRemoveTicket {
+	return canRemoveTicket;
+}
+
+- (void) setCanRemoveTicket:(BOOL)flag {
+	canRemoveTicket = flag;
+}
 
 - (void) deleteTicket:(id)sender {
 	GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
@@ -611,6 +614,58 @@
 	[state release];
 }
 
+- (void) resolveService:(id)sender {
+	int row = [sender selectedRow];
+	GrowlBrowserEntry *entry = [services objectAtIndex:row];
+	NSNetService *serviceToResolve = [entry netService];
+	if (serviceToResolve) {
+		// Make sure to cancel any previous resolves.
+		if (serviceBeingResolved) {
+			[serviceBeingResolved stop];
+			[serviceBeingResolved release];
+			serviceBeingResolved = nil;
+		}
+		
+		currentServiceIndex = row;
+		serviceBeingResolved = serviceToResolve;
+		[serviceBeingResolved retain];
+		[serviceBeingResolved setDelegate:self];
+		if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)]) {
+			[serviceBeingResolved resolveWithTimeout:5.0];
+		} else {
+			// this selector is deprecated in 10.4
+			[serviceBeingResolved resolve];
+		}
+	}
+}
+
+- (NSMutableArray *) services {
+	return services;
+}
+
+- (void) setServices:(NSMutableArray *)theServices {
+	if (theServices != services) {
+		[services release];
+		services = [theServices retain];
+	}
+}
+
+- (unsigned) countOfServices {
+	return [services count];
+}
+
+- (id) objectInServicesAtIndex:(unsigned)index {
+	return [services objectAtIndex:index];
+}
+
+- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)index {
+	[services insertObject:anObject atIndex:index];
+}
+
+- (void) replaceObjectInServicesAtIndex:(unsigned)index withObject:(id)anObject {
+	[services replaceObjectAtIndex:index withObject:anObject];
+}
+
 #pragma mark "Display Options" tab pane
 
 - (NSArray *) displayPlugins {
@@ -688,64 +743,9 @@
 	}
 }
 
-#pragma mark Notification, Application and Service table view data source methods
-
-- (void) resolveService:(id)sender {
-	int row = [sender selectedRow];
-	GrowlBrowserEntry *entry = [services objectAtIndex:row];
-	NSNetService *serviceToResolve = [entry netService];
-	if (serviceToResolve) {
-		// Make sure to cancel any previous resolves.
-		if (serviceBeingResolved) {
-			[serviceBeingResolved stop];
-			[serviceBeingResolved release];
-			serviceBeingResolved = nil;
-		}
-
-		currentServiceIndex = row;
-		serviceBeingResolved = serviceToResolve;
-		[serviceBeingResolved retain];
-		[serviceBeingResolved setDelegate:self];
-		if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)]) {
-			[serviceBeingResolved resolveWithTimeout:5.0];
-		} else {
-			// this selector is deprecated in 10.4
-			[serviceBeingResolved resolve];
-		}
-	}
-}
-
-- (NSMutableArray *) services {
-	return services;
-}
-
-- (void) setServices:(NSMutableArray *)theServices {
-	if (theServices != services) {
-		[services release];
-		services = [theServices retain];
-	}
-}
-
-- (unsigned) countOfServices {
-	return [services count];
-}
-
-- (id) objectInServicesAtIndex:(unsigned)index {
-	return [services objectAtIndex:index];
-}
-
-- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)index {
-	[services insertObject:anObject atIndex:index];
-}
-
-- (void) replaceObjectInServicesAtIndex:(unsigned)index withObject:(id)anObject {
-	[services replaceObjectAtIndex:index withObject:anObject];
-}
-
 #pragma mark TableView delegate methods
 
 - (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
-	NSLog(@"will display cell at row: %i", row);
 	NSString *identifier = [column identifier];
 	NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
 	if (tableView == growlApplications) {
@@ -758,11 +758,7 @@
 
 - (void) tableViewDidClickInBody:(NSTableView *)tableView {
 	activeTableView = tableView;
-	if ((activeTableView == growlApplications) && ([ticketsArrayController selectionIndex] != NSNotFound)) {
-		[remove setEnabled:YES];
-	} else {
-		[remove setEnabled:NO];
-	}
+	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
 }
 
 #pragma mark NSNetServiceBrowser Delegate Methods

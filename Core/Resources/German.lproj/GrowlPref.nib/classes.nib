@@ -27,7 +27,6 @@
                 notificationPriorityMenu = NSMenu; 
                 notificationsArrayController = NSArrayController; 
                 previewButton = NSButton; 
-                remove = NSButton; 
                 startStopGrowl = NSButton; 
                 ticketsArrayController = TicketsArrayController; 
             }; 
