@@ -257,24 +257,6 @@
 
 	[remove setEnabled:NO];
 
-	char *password;
-	UInt32 passwordLength;
-	OSStatus status;
-	status = SecKeychainFindGenericPassword( NULL,
-											 strlen( keychainServiceName ), keychainServiceName,
-											 strlen( keychainAccountName ), keychainAccountName,
-											 &passwordLength, (void **)&password, NULL );
-
-	if (status == noErr) {
-		NSString *passwordString = [[NSString alloc] initWithUTF8String:password length:passwordLength];
-		[networkPassword setStringValue:passwordString];
-		[passwordString release];
-		SecKeychainItemFreeContent( NULL, password );
-	} else if (status != errSecItemNotFound) {
-		NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
-		[networkPassword setStringValue:@""];
-	}	
-
 	browser = [[NSNetServiceBrowser alloc] init];
 
 	// create a deep mutable copy of the forward destinations
@@ -555,20 +537,43 @@
 
 #pragma mark -
 
-- (IBAction) setRemotePassword:(id)sender {
-	const char *password = [[sender stringValue] UTF8String];
-	unsigned length = strlen( password );
+- (NSString *) remotePassword {
+	char *password;
+	UInt32 passwordLength;
+	OSStatus status;
+	status = SecKeychainFindGenericPassword( NULL,
+											 strlen(keychainServiceName), keychainServiceName,
+											 strlen(keychainAccountName), keychainAccountName,
+											 &passwordLength, (void **)&password, NULL );
+
+	NSString *passwordString;
+	if (status == noErr) {
+		passwordString = [NSString stringWithUTF8String:password length:passwordLength];
+		SecKeychainItemFreeContent(NULL, password);
+	} else {
+		if (status != errSecItemNotFound) {
+			NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
+		}
+		passwordString = @"";
+	}
+
+	return passwordString;
+}
+
+- (void) setRemotePassword:(NSString *)value {
+	const char *password = [value UTF8String];
+	unsigned length = strlen(password);
 	OSStatus status;
 	SecKeychainItemRef itemRef = nil;
 	status = SecKeychainFindGenericPassword( NULL,
-											 strlen( keychainServiceName ), keychainServiceName,
-											 strlen( keychainAccountName ), keychainAccountName,
+											 strlen(keychainServiceName), keychainServiceName,
+											 strlen(keychainAccountName), keychainAccountName,
 											 NULL, NULL, &itemRef );
 	if (status == errSecItemNotFound) {
 		// add new item
 		status = SecKeychainAddGenericPassword( NULL,
-												strlen( keychainServiceName ), keychainServiceName,
-												strlen( keychainAccountName ), keychainAccountName,
+												strlen(keychainServiceName), keychainServiceName,
+												strlen(keychainAccountName), keychainAccountName,
 												length, password, NULL );
 		if (status) {
 			NSLog(@"Failed to add password to keychain.");
@@ -576,8 +581,8 @@
 	} else {
 		// change existing password
 		SecKeychainAttribute attrs[] = {
-		{ kSecAccountItemAttr, strlen( keychainAccountName ), (char *)keychainAccountName },
-		{ kSecServiceItemAttr, strlen( keychainServiceName ), (char *)keychainServiceName }
+		{ kSecAccountItemAttr, strlen(keychainAccountName), (char *)keychainAccountName },
+		{ kSecServiceItemAttr, strlen(keychainServiceName), (char *)keychainServiceName }
 		};
 		const SecKeychainAttributeList attributes = { sizeof(attrs) / sizeof(attrs[0]), attrs };
 		status = SecKeychainItemModifyAttributesAndData( itemRef,		// the item reference
@@ -674,7 +679,7 @@
 			[[pluginPrefPane lastKeyView] setNextKeyView:previewButton];
 			//[[displayPluginsTable window] makeFirstResponder:[pluginPrefPane initialKeyView]];
 		} else {
-			[displayPluginsTable setNextKeyView:tabView];
+			[displayPluginsTable setNextKeyView:previewButton];
 		}
 		
 		if (oldPrefPane) {

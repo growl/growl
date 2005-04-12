@@ -6,7 +6,6 @@
                 checkVersion = id; 
                 deleteTicket = id; 
                 resolveService = id; 
-                setRemotePassword = id; 
                 showPreview = id; 
                 startStopGrowl = id; 
             }; 
@@ -24,16 +23,13 @@
                 growlApplications = NSTableView; 
                 growlRunningProgress = NSProgressIndicator; 
                 growlRunningStatus = NSTextField; 
-                growlServiceList = NSTableView; 
                 growlVersionProgress = NSProgressIndicator; 
-                networkPassword = NSSecureTextField; 
                 notificationPriorityMenu = NSMenu; 
                 notificationsArrayController = NSArrayController; 
                 previewButton = NSButton; 
                 remove = NSButton; 
                 startStopGrowl = NSButton; 
-                tabView = NSTabView; 
-                ticketsArrayController = FilteringArrayController; 
+                ticketsArrayController = TicketsArrayController; 
             }; 
             SUPERCLASS = NSPreferencePane; 
         }, 

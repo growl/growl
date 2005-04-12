@@ -31,8 +31,6 @@
 	NSURL							*versionCheckURL;
 	NSURL							*downloadURL;
 
-	IBOutlet NSTabView				*tabView;
-
 	//"General" tab pane
 	IBOutlet NSButton				*startStopGrowl;
 	IBOutlet NSTextField			*growlRunningStatus;
@@ -58,9 +56,6 @@
 	IBOutlet NSArrayController		*displayPluginsArrayController;
 
 	//"Network" tab pane
-	IBOutlet NSSecureTextField		*networkPassword;
-	IBOutlet NSTableView			*growlServiceList;
-
 	NSMutableArray					*services;
 	NSNetServiceBrowser				*browser;
 	NSNetService					*serviceBeingResolved;
@@ -92,8 +87,9 @@
 - (void) setRemoteRegistrationAllowed:(BOOL)flag;
 - (BOOL) isForwardingEnabled;
 - (void) setForwardingEnabled:(BOOL)enabled;
+- (NSString *) remotePassword;
+- (void) setRemotePassword:(NSString *)value;
 
-- (IBAction) setRemotePassword:(id)sender;
 - (IBAction) resolveService:(id)sender;
 - (void) writeForwardDestinations;
 
