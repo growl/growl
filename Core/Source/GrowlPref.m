@@ -362,7 +362,7 @@
 
 - (void) reloadPreferences {
 	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
-	[self setTickets:[[[GrowlApplicationTicket allSavedTickets] allValues] mutableCopy]];
+	[self setTickets:[[[[GrowlApplicationTicket allSavedTickets] allValues] mutableCopy] autorelease]];
 	[self cacheImages];
 
 	[self loadViewForDisplay:nil];
@@ -836,7 +836,7 @@
 	NSString *app = [note object];
 	GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
 
-	NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
+	NSMutableArray *arrangedTickets = [ticketsArrayController arrangedObjects];
 	GrowlApplicationTicket *ticket;
 
 	for (unsigned i = 0U, count = [arrangedTickets count]; i < count; ++i) {
