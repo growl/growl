@@ -61,7 +61,7 @@ static BOOL checkOSXVersion()
 	}
 }
 
-- (id)initWithWindowNibName:(NSString *)nibName forUpdateToVersion:(NSString *)inUpdateVersion {
+- (id) initWithWindowNibName:(NSString *)nibName forUpdateToVersion:(NSString *)inUpdateVersion {
 	if ((self = [super initWithWindowNibName:nibName])) {
 		updateVersion = [inUpdateVersion retain];
 	}
@@ -76,16 +76,14 @@ static BOOL checkOSXVersion()
 }
 
 // closes this window
-- (IBAction)closeWindow:(id)sender
-{
-	if ([self windowShouldClose:nil]){
+- (IBAction) closeWindow:(id)sender {
+	if ([self windowShouldClose:nil]) {
 		[[self window] close];
 	}
 }
 
 // called after the about window loads, so we can set up the window before it's displayed
-- (void)windowDidLoad
-{
+- (void) windowDidLoad {
 	NSObject<GrowlApplicationBridgeDelegate> *growlDelegate = [GrowlApplicationBridge growlDelegate];
 	NSString *windowTitle;
 	NSAttributedString *growlInfo;
@@ -193,16 +191,14 @@ static BOOL checkOSXVersion()
 	[checkBox_dontAskAgain sizeToFit];
 }
 
-- (IBAction) installGrowl:(id)sender
-{
+- (IBAction) installGrowl:(id)sender {
 	[self performInstallGrowl];
 
 	[self releaseAndClose];
 }
 
-- (IBAction) cancel:(id)sender
-{	
-	if (!updateVersion){
+- (IBAction) cancel:(id)sender {
+	if (!updateVersion) {
 		//Tell the app bridge about the user's choice
 		[GrowlApplicationBridge _userChoseNotToInstallGrowl];
 	}
@@ -211,11 +207,10 @@ static BOOL checkOSXVersion()
 	[self releaseAndClose];
 }
 
-- (IBAction) dontAskAgain:(id)sender
-{
+- (IBAction) dontAskAgain:(id)sender {
 	BOOL dontAskAgain = ([sender state] == NSOnState);
-	
-	if (updateVersion){
+
+	if (updateVersion) {
 		if (dontAskAgain) {
 			/* We want to be able to prompt again for the next version, so we track the version for which the user requested
 			 * not to be prompted again. */
@@ -233,16 +228,14 @@ static BOOL checkOSXVersion()
 }
 
 // called as the window closes
-- (BOOL) windowShouldClose:(id)sender
-{
+- (BOOL) windowShouldClose:(id)sender {
 	//If the window closes via the close button or cmd-W, it should be treated as clicking Cancel.
 	[self cancel:nil];
 
 	return YES;
 }
 
-- (void) performInstallGrowl
-{
+- (void) performInstallGrowl {
 	// Obtain the path to the archived Growl.prefPane
 	NSFileManager *mgr = [NSFileManager defaultManager];
 	NSBundle *bundle;
@@ -320,7 +313,7 @@ static BOOL checkOSXVersion()
 				success = [[NSWorkspace sharedWorkspace] openFile:tempGrowlPrefPane
 												  withApplication:@"System Preferences"
 													andDeactivate:YES];
-				if (!success){
+				if (!success) {
 					/* If the System Preferences app could not be found for whatever reason, try opening
 					 * Growl.prefPane with openTempFile so the associated app will launch. This could be the case
 					 * if "System Preferences.app" were renamed or if an alternative program were being used. */

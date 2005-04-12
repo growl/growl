@@ -1,12 +1,12 @@
-#import <PreferencePanes/PreferencePanes.h> 
-#import <Cocoa/Cocoa.h> 
+#import <Cocoa/Cocoa.h>
 
+@class NSPreferencePane;
 
 @interface PrefpaneTester : NSObject { 
-	IBOutlet NSWindow *theWindow; 
-	
-} 
+	IBOutlet NSWindow	*theWindow; 
+	NSPreferencePane	*prefPaneObject;
+}
 
-- (void) awakeFromNib; 
+- (void) awakeFromNib;
 
-@end 
+@end

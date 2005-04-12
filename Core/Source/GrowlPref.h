@@ -83,7 +83,7 @@
 - (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag;
 - (NSString *) defaultDisplayPluginName;
 - (void) setDefaultDisplayPluginName:(NSString *)name;
-	
+
 #pragma mark "Network" tab pane
 - (BOOL) isGrowlServerEnabled;
 - (void) setGrowlServerEnabled:(BOOL)enabled;
