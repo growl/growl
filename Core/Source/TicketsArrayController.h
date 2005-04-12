@@ -9,11 +9,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface TicketsArrayController : NSArrayController {
+@interface TicketsArrayController: NSArrayController
+{
 	NSString *searchString;
 }
 
 - (IBAction) search:(id)sender;
 - (NSString *) searchString;
 - (void) setSearchString:(NSString *)newSearchString;
+
 @end

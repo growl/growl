@@ -11,10 +11,13 @@
 #import "GrowlApplicationTicket.h"
 
 @implementation TicketsArrayController
-- (void) search:(id)sender {
-	[self setSearchString:[sender stringValue]];
-	[self rearrangeObjects];
+
+- (void) dealloc {
+	[searchString release];
+	[super dealloc];
 }
+
+#pragma mark -
 
 - (NSArray *) arrangeObjects:(NSArray *)objects {
 	NSArray *sorted = [objects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
@@ -33,10 +36,12 @@
 	}
 }
 
-- (void) dealloc {
-	[searchString release];
-	[super dealloc];
+- (void) search:(id)sender {
+	[self setSearchString:[sender stringValue]];
+	[self rearrangeObjects];
 }
+
+#pragma mark -
 
 - (NSString *) searchString {
 	return searchString;
@@ -47,4 +52,5 @@
 		searchString = [newSearchString copy];
 	}
 }
+
 @end
