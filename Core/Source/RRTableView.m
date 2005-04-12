@@ -9,13 +9,7 @@
 
 #import "RRTableView.h"
 
-
 @implementation RRTableView
-
-+ (void) load {
-	[super load];
-	[self poseAsClass:[NSTableView class]];
-}
 
 - (BOOL) becomeFirstResponder {
 	BOOL accept = [super becomeFirstResponder];

@@ -44,6 +44,7 @@
             }; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = RRTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {
             ACTIONS = {search = id; }; 
             CLASS = TicketsArrayController; 

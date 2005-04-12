@@ -616,25 +616,27 @@
 
 - (void) resolveService:(id)sender {
 	int row = [sender selectedRow];
-	GrowlBrowserEntry *entry = [services objectAtIndex:row];
-	NSNetService *serviceToResolve = [entry netService];
-	if (serviceToResolve) {
-		// Make sure to cancel any previous resolves.
-		if (serviceBeingResolved) {
-			[serviceBeingResolved stop];
-			[serviceBeingResolved release];
-			serviceBeingResolved = nil;
-		}
-		
-		currentServiceIndex = row;
-		serviceBeingResolved = serviceToResolve;
-		[serviceBeingResolved retain];
-		[serviceBeingResolved setDelegate:self];
-		if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)]) {
-			[serviceBeingResolved resolveWithTimeout:5.0];
-		} else {
-			// this selector is deprecated in 10.4
-			[serviceBeingResolved resolve];
+	if (row != -1) {
+		GrowlBrowserEntry *entry = [services objectAtIndex:row];
+		NSNetService *serviceToResolve = [entry netService];
+		if (serviceToResolve) {
+			// Make sure to cancel any previous resolves.
+			if (serviceBeingResolved) {
+				[serviceBeingResolved stop];
+				[serviceBeingResolved release];
+				serviceBeingResolved = nil;
+			}
+
+			currentServiceIndex = row;
+			serviceBeingResolved = serviceToResolve;
+			[serviceBeingResolved retain];
+			[serviceBeingResolved setDelegate:self];
+			if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)]) {
+				[serviceBeingResolved resolveWithTimeout:5.0];
+			} else {
+				// this selector is deprecated in 10.4
+				[serviceBeingResolved resolve];
+			}
 		}
 	}
 }
@@ -757,6 +759,7 @@
 }
 
 - (void) tableViewDidClickInBody:(NSTableView *)tableView {
+	NSLog(@"tableViewDidClickInBody: %@", tableView);
 	activeTableView = tableView;
 	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
 }
