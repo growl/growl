@@ -14,7 +14,6 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OPTIMIZATION_CFLAGS = "-O0";
 				ZERO_LINK = NO;
 			};
@@ -29,7 +28,6 @@
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
@@ -515,6 +513,7 @@
 				INFOPLIST_FILE = "Display Plugins/Speech-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = Speech;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
@@ -696,6 +695,7 @@
 				INFOPLIST_FILE = "Display Plugins/Bubbles-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = Bubbles;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
@@ -1207,6 +1207,7 @@
 				INFOPLIST_FILE = "Display Plugins/Log-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = Log;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = growlView;
@@ -1320,6 +1321,7 @@
 				INFOPLIST_FILE = "Display Plugins/Smoke-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = Smoke;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
@@ -1557,6 +1559,7 @@
 				INFOPLIST_FILE = "Display Plugins/MailMe-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = MailMe;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
 				WRAPPER_EXTENSION = growlView;
@@ -1749,6 +1752,7 @@
 				INFOPLIST_FILE = "Display Plugins/MusicVideo-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = MusicVideo;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
@@ -2661,6 +2665,7 @@
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-lobjc -sub_library libobjc -seg1addr 0xC0000000";
 				OTHER_REZFLAGS = "";
@@ -2839,6 +2844,7 @@
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = "-DGROWL_WITH_INSTALLER";
 				OTHER_LDFLAGS = "-lobjc -sub_library libobjc -seg1addr 0xC0000000";
 				OTHER_REZFLAGS = "";
@@ -3182,6 +3188,7 @@
 				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-bundle -twolevel_namespace";
 				OTHER_REZFLAGS = "";
@@ -4153,6 +4160,7 @@
 				INFOPLIST_FILE = "Display Plugins/Brushed-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = Brushed;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
@@ -4584,6 +4592,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = GrowlHelperApp;
 				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
@@ -4838,6 +4847,7 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "Prefpane TestHarness/PrefPaneTesting-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
