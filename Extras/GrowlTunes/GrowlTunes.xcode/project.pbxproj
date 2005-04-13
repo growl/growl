@@ -458,12 +458,16 @@
 					ProjectRef = 0A8B5F0F070B140C00593A33;
 				},
 				{
-					ProductGroup = 0A8B6179070B303600593A33;
-					ProjectRef = 0A8B5F08070B140300593A33;
-				},
-				{
 					ProductGroup = 0A8B6180070B303B00593A33;
 					ProjectRef = 0A8B617F070B303B00593A33;
+				},
+				{
+					ProductGroup = DD86247D080D8421001ACC9F;
+					ProjectRef = DD86247B080D8421001ACC9F;
+				},
+				{
+					ProductGroup = 0A8B6179070B303600593A33;
+					ProjectRef = 0A8B5F08070B140300593A33;
 				},
 			);
 			targets = (
@@ -479,6 +483,7 @@
 				29B97317FDCFA39411CA2CEA,
 				29B97323FDCFA39411CA2CEA,
 				19C28FACFE9D520D11CA2CBB,
+				DD86247B080D8421001ACC9F,
 			);
 			comments = "To get the DOM Framework visit:\n\nhttp://sourceforge.net/projects/iconaradom ";
 			isa = PBXGroup;
@@ -735,6 +740,7 @@
 				0A8B6195070B305300593A33,
 				0A8B6197070B305600593A33,
 				0A8B6199070B305900593A33,
+				DD862492080D8430001ACC9F,
 			);
 			isa = PBXNativeTarget;
 			name = GrowlTunes;
@@ -941,6 +947,242 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		DD86247B080D8421001ACC9F = {
+			isa = PBXFileReference;
+			lastKnownFileType = "wrapper.pb-project";
+			name = Growl.xcode;
+			path = ../../Growl.xcode;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		DD86247D080D8421001ACC9F = {
+			children = (
+				DD86247E080D8421001ACC9F,
+				DD86247F080D8421001ACC9F,
+				DD862480080D8421001ACC9F,
+				DD862481080D8421001ACC9F,
+				DD862482080D8421001ACC9F,
+				DD862483080D8421001ACC9F,
+				DD862484080D8421001ACC9F,
+				DD862485080D8421001ACC9F,
+				DD862486080D8421001ACC9F,
+				DD862487080D8421001ACC9F,
+				DD862488080D8421001ACC9F,
+				DD862489080D8421001ACC9F,
+				DD86248A080D8421001ACC9F,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD86247E080D8421001ACC9F = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Growl.prefPane;
+			refType = 3;
+			remoteRef = DD862495080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD86247F080D8421001ACC9F = {
+			fileType = wrapper.application;
+			isa = PBXReferenceProxy;
+			path = PrefpaneTesting.app;
+			refType = 3;
+			remoteRef = DD862496080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD862480080D8421001ACC9F = {
+			fileType = wrapper.application;
+			isa = PBXReferenceProxy;
+			path = GrowlHelperApp.app;
+			refType = 3;
+			remoteRef = DD862497080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD862481080D8421001ACC9F = {
+			fileType = wrapper.framework;
+			isa = PBXReferenceProxy;
+			path = Growl.framework;
+			refType = 3;
+			remoteRef = DD862498080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD862482080D8421001ACC9F = {
+			fileType = wrapper.framework;
+			isa = PBXReferenceProxy;
+			path = "Growl-WithInstaller.framework";
+			refType = 3;
+			remoteRef = DD862499080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD862483080D8421001ACC9F = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Speech.growlView;
+			refType = 3;
+			remoteRef = DD86249A080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD862484080D8421001ACC9F = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Brushed.growlView;
+			refType = 3;
+			remoteRef = DD86249B080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD862485080D8421001ACC9F = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Bubbles.growlView;
+			refType = 3;
+			remoteRef = DD86249C080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD862486080D8421001ACC9F = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Bezel.growlView;
+			refType = 3;
+			remoteRef = DD86249D080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD862487080D8421001ACC9F = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Log.growlView;
+			refType = 3;
+			remoteRef = DD86249E080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD862488080D8421001ACC9F = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = Smoke.growlView;
+			refType = 3;
+			remoteRef = DD86249F080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD862489080D8421001ACC9F = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = MailMe.growlView;
+			refType = 3;
+			remoteRef = DD8624A0080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD86248A080D8421001ACC9F = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = MusicVideo.growlView;
+			refType = 3;
+			remoteRef = DD8624A1080D8450001ACC9F;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD862491080D8430001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+		DD862492080D8430001ACC9F = {
+			isa = PBXTargetDependency;
+			name = "Growl.framework (from Growl.xcode)";
+			targetProxy = DD862491080D8430001ACC9F;
+		};
+		DD862495080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 8D202CF80486D31800D8A456;
+			remoteInfo = Growl;
+		};
+		DD862496080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = DDF09B0A080AC8F3006F4172;
+			remoteInfo = PrefpaneTesting;
+		};
+		DD862497080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = CB61E5180637763C00E0DDC7;
+			remoteInfo = GrowlHelperApp;
+		};
+		DD862498080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
+			remoteInfo = Growl.framework;
+		};
+		DD862499080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 34F60EF9078E226300CECA86;
+			remoteInfo = "Growl-WithInstaller.framework";
+		};
+		DD86249A080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B10767C87B006EA5CB;
+			remoteInfo = Speech;
+		};
+		DD86249B080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 95FC347907E0458E00BD8674;
+			remoteInfo = Brushed;
+		};
+		DD86249C080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AE0767C87B006EA5CB;
+			remoteInfo = Bubbles;
+		};
+		DD86249D080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B40767C87B006EA5CB;
+			remoteInfo = Bezel;
+		};
+		DD86249E080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B20767C87B006EA5CB;
+			remoteInfo = Log;
+		};
+		DD86249F080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508AF0767C87B006EA5CB;
+			remoteInfo = Smoke;
+		};
+		DD8624A0080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B00767C87B006EA5CB;
+			remoteInfo = MailMe;
+		};
+		DD8624A1080D8450001ACC9F = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 0AB508B30767C87B006EA5CB;
+			remoteInfo = MusicVideo;
 		};
 	};
 	rootObject = 29B97313FDCFA39411CA2CEA;
