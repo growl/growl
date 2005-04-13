@@ -41,7 +41,7 @@
 + (Class) growlApplicationBridge;
 + (BOOL) isEnabled;
 + (BOOL) isIgnoreJunk;
-+ (BOOL) showSummary;
++ (int) summaryMode;
 + (BOOL) ignoreClickHandler;
 
 - (id) init;

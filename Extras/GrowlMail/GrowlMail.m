@@ -166,8 +166,8 @@ static Class growlApplicationBridge;
 	[newSettings release];
 }
 
-+ (BOOL) showSummary {
-	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMShowSummary"];
++ (int) summaryMode {
+	return [[NSUserDefaults standardUserDefaults] integerForKey:@"GMSummaryMode"];
 }
 
 + (BOOL) ignoreClickHandler {
