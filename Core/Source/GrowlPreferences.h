@@ -30,7 +30,8 @@
 
 - (void) registerDefaults:(NSDictionary *)inDefaults;
 - (id) objectForKey:(NSString *)key;
-- (void) setObject:(id)object forKey:(NSString *) key;
+- (void) setObject:(id)object forKey:(NSString *)key;
+- (void) setBool:(BOOL)value forKey:(NSString *)key;
 - (void) synchronize;
 
 - (NSBundle *) helperAppBundle;

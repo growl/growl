@@ -58,7 +58,7 @@ static GrowlPreferences * sharedPreferences;
 	return [helperAppDefaults objectForKey:key];
 }
 
-- (void) setObject:(id)object forKey:(NSString *) key {
+- (void) setObject:(id)object forKey:(NSString *)key {
 	CFPreferencesSetAppValue((CFStringRef)key			/* key */,
 							 (CFPropertyListRef)object /* value */,
 							 (CFStringRef)HelperAppBundleIdentifier) /* application ID */;\
@@ -67,6 +67,12 @@ static GrowlPreferences * sharedPreferences;
 
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
 																   object:key];
+}
+
+- (void) setBool:(BOOL)value forKey:(NSString *)key {
+	NSNumber *object = [[NSNumber alloc] initWithBool:value];
+	[self setObject:object forKey:key];
+	[object release];
 }
 
 - (void) synchronize {
@@ -305,9 +311,7 @@ static GrowlPreferences * sharedPreferences;
 
 - (void) setGrowlRunning:(BOOL)flag {
 	// Store the desired running-state of the helper app for use by GHA.
-	NSNumber *growlEnabled = [[NSNumber alloc] initWithBool:flag];
-	[self setObject:growlEnabled forKey:GrowlEnabledKey];
-	[growlEnabled release];
+	[self setBool:flag forKey:GrowlEnabledKey];
 
 	//now launch or terminate as appropriate.
 	if (flag)
@@ -316,7 +320,7 @@ static GrowlPreferences * sharedPreferences;
 		[self terminateGrowl];
 }
 
-- (BOOL)isGrowlRunning {
+- (BOOL) isGrowlRunning {
 	BOOL isRunning = NO;
 	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
 

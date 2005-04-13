@@ -474,9 +474,7 @@
 }
 
 - (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag {
-	NSNumber *state = [[NSNumber alloc] initWithBool:flag];
-	[[GrowlPreferences preferences] setObject:state forKey:GrowlUpdateCheckKey];
-	[state release];
+	[[GrowlPreferences preferences] setBool:flag forKey:GrowlUpdateCheckKey];
 }
 
 #pragma mark -
@@ -522,9 +520,7 @@
 }
 
 - (void) setGrowlServerEnabled:(BOOL)enabled {
-	NSNumber *state = [[NSNumber alloc] initWithBool:enabled];
-	[[GrowlPreferences preferences] setObject:state forKey:GrowlStartServerKey];
-	[state release];
+	[[GrowlPreferences preferences] setBool:enabled forKey:GrowlStartServerKey];
 }
 
 #pragma mark -
@@ -534,9 +530,7 @@
 }
 
 - (void) setRemoteRegistrationAllowed:(BOOL)flag {
-	NSNumber *state = [[NSNumber alloc] initWithBool:flag];
-	[[GrowlPreferences preferences] setObject:state forKey:GrowlRemoteRegistrationKey];
-	[state release];
+	[[GrowlPreferences preferences] setBool:flag forKey:GrowlRemoteRegistrationKey];
 }
 
 #pragma mark -
@@ -610,9 +604,7 @@
 }
 
 - (void) setForwardingEnabled:(BOOL)enabled {
-	NSNumber *state = [[NSNumber alloc] initWithBool:enabled];
-	[[GrowlPreferences preferences] setObject:state forKey:GrowlEnableForwardKey];
-	[state release];
+	[[GrowlPreferences preferences] setBool:enabled forKey:GrowlEnableForwardKey];
 }
 
 - (void) resolveService:(id)sender {
