@@ -9,6 +9,7 @@
 
 #import "NSGrowlAdditions.h"
 #import "CoreGraphicsServices.h"
+#import <mach-o/dyld.h>
 
 #pragma mark Foundation
 
@@ -181,23 +182,50 @@
 // set to NSStatusWindowLevel. See http://www.cocoadev.com/index.pl?DontExposeMe 
 // for more information.
 
+typedef OSStatus (*GrowlCGSGetWindowTags)(CGSConnectionID cid,CGSWindowID window,int *tags,int other);
+typedef OSStatus (*GrowlCGSSetWindowTags)(CGSConnectionID cid,CGSWindowID window,int *tags,int other);
+
+GrowlCGSGetWindowTags GetWindowTags = NULL;
+GrowlCGSSetWindowTags SetWindowTags = NULL;
+
 @implementation NSWindow (GrowlAdditions)
 
 - (void) setSticky:(BOOL)flag {
-	CGSConnectionID cid;
-	CGSWindowID wid;
+	// Check if we are on Panther or better (for expose)
+	if ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 ) {
+		CGSConnectionID cid;
+		CGSWindowID wid;
+		OSStatus retVal;
 		
-	wid = [self windowNumber];
-	cid = _CGSDefaultConnection();
-	int tags[2] = { 0, 0 };
+		wid = [self windowNumber];
+		cid = _CGSDefaultConnection();
+		int tags[2];
+		tags[0] = tags[1] = 0;
 		
-	if (!CGSGetWindowTags(cid, wid, tags, 32)) {
-		if (flag) {
-			tags[0] = tags[0] | 0x00000800;
-		} else {
-			tags[0] = tags[0] & ~0x00000800;
+		NSSymbol getTagsSymbol;
+		NSSymbol setTagsSymbol;
+
+		if (NSIsSymbolNameDefined ("_CGSGetWindowTags")) {
+			getTagsSymbol = NSLookupAndBindSymbol("_CGSGetWindowTags");
 		}
-		CGSSetWindowTags(cid, wid, tags, 32);
+		if (NSIsSymbolNameDefined ("_CGSSetWindowTags")) {
+			setTagsSymbol = NSLookupAndBindSymbol("_CGSSetWindowTags");
+		}
+		//OSStatus retVal = CGSGetWindowTags(cid, wid, tags, 32);
+		if(GetWindowTags = NSAddressOfSymbol(getTagsSymbol)) {
+			retVal = GetWindowTags(cid, wid, tags, 32);
+		}
+		
+		if (!retVal) {
+			if (flag)
+				tags[0] = tags[0] | 0x00000800;
+			else
+				tags[0] = tags[0] & 0x00000800;
+			//retVal = CGSSetWindowTags(cid, wid, tags, 32);
+			if(SetWindowTags = NSAddressOfSymbol(setTagsSymbol)){
+				retVal = SetWindowTags(cid, wid, tags, 32);
+			}
+		}
 	}
 }
 
