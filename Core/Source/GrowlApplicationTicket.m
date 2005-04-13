@@ -125,6 +125,7 @@
 		}
 		allNotifications = allNotificationsTemp;
 
+		BOOL doLookup = YES;
 		NSString *fullPath = nil;
 		id location = [ticketDict objectForKey:GROWL_APP_LOCATION];
 		if (location) {
@@ -137,10 +138,12 @@
 				if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
 					fullPath = nil;
 				}
+			} else if ([location isKindOfClass:[NSNumber class]]) {
+				doLookup = [location boolValue];
 			}
 		}
 		NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-		if (!fullPath) {
+		if (!fullPath && doLookup) {
 			fullPath = [workspace fullPathForApplication:appName];
 		}
 		appPath = [fullPath retain];
@@ -246,6 +249,9 @@
 	}
 
 	id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
+	if (!location) {
+		location = [NSNumber numberWithBool:NO];
+	}
 
 	NSNumber *useDefaultsValue = [[NSNumber alloc] initWithBool:useDefaults];
 	NSNumber *ticketEnabledValue = [[NSNumber alloc] initWithBool:ticketEnabled];
@@ -257,15 +263,13 @@
 		iconData,             GROWL_APP_ICON,
 		useDefaultsValue,     UseDefaultsKey,
 		ticketEnabledValue,   TicketEnabledKey,
+		location,             GROWL_APP_LOCATION,
 		nil];
 	[useDefaultsValue   release];
 	[ticketEnabledValue release];
 	[saveNotifications  release];
 	if (displayPluginName) {
 		[saveDict setObject:displayPluginName forKey:GrowlDisplayPluginKey];
-	}
-	if (location) {
-		[saveDict setObject:location forKey:GROWL_APP_LOCATION];
 	}
 
 	NSData *plistData;
@@ -457,6 +461,9 @@
 				fullPath = nil;
 			}
 		}
+		/* Don't handle the NSNumber case here, the app might have moved and we
+		 * use the re-registration to update our stored appPath.
+		*/
 	}
 	if (!fullPath) {
 		fullPath = [workspace fullPathForApplication:appName];
