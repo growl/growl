@@ -344,7 +344,9 @@
 
 - (void) reloadPreferences {
 	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
-	[self setTickets:[[[[GrowlApplicationTicket allSavedTickets] allValues] mutableCopy] autorelease]];
+	NSMutableArray *newTickets = [[[GrowlApplicationTicket allSavedTickets] allValues] mutableCopy];
+	[self setTickets:newTickets];
+	[newTickets release];
 	[self cacheImages];
 
 	[self loadViewForDisplay:nil];
@@ -508,7 +510,6 @@
 																	 userInfo:userInfo];
 		[userInfo release];
 		unsigned index = [tickets indexOfObject:ticket];
-		[tickets removeObjectAtIndex:index];
 		[images removeObjectAtIndex:index];
 		[ticketsArrayController removeObject:ticket];
 	}
@@ -759,7 +760,6 @@
 }
 
 - (void) tableViewDidClickInBody:(NSTableView *)tableView {
-	NSLog(@"tableViewDidClickInBody: %@", tableView);
 	activeTableView = tableView;
 	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
 }
