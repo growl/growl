@@ -25,23 +25,17 @@
 @interface NSURL (GrowlAdditions)
 
 //'alias' as in the Alias Manager.
-+ (NSURL *)fileURLWithAliasData:(NSData *)aliasData;
-- (NSData *)aliasData;
++ (NSURL *) fileURLWithAliasData:(NSData *)aliasData;
+- (NSData *) aliasData;
 
 //these are the type of external representations used by Dock.app.
-+ (NSURL *)fileURLWithDockDescription:(NSDictionary *)dict;
++ (NSURL *) fileURLWithDockDescription:(NSDictionary *)dict;
 //-dockDescription returns nil for non-file: URLs.
-- (NSDictionary *)dockDescription;
+- (NSDictionary *) dockDescription;
 
 @end
 
 #pragma mark AppKit
-
-@interface NSWindow (GrowlAdditions)
-
-- (void) setSticky:(BOOL)flag;
-
-@end
 
 @interface NSWorkspace (GrowlAdditions)
 

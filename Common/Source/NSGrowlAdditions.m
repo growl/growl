@@ -9,7 +9,6 @@
 
 #import "NSGrowlAdditions.h"
 #import "CoreGraphicsServices.h"
-#import <mach-o/dyld.h>
 
 #pragma mark Foundation
 
@@ -49,7 +48,7 @@
 @implementation NSURL (GrowlAdditions)
 
 //'alias' as in the Alias Manager.
-+ (NSURL *)fileURLWithAliasData:(NSData *)aliasData {
++ (NSURL *) fileURLWithAliasData:(NSData *)aliasData {
 	NSParameterAssert(aliasData != nil);
 
 	NSURL *URL = nil;
@@ -74,7 +73,7 @@
 	return URL;
 }
 
-- (NSData *)aliasData {
+- (NSData *) aliasData {
 	//return nil for non-file: URLs.
 	if ([[self scheme] caseInsensitiveCompare:@"file"] != NSOrderedSame)
 		return nil;
@@ -101,7 +100,7 @@
 }
 
 //these are the type of external representations used by Dock.app.
-+ (NSURL *)fileURLWithDockDescription:(NSDictionary *)dict {
++ (NSURL *) fileURLWithDockDescription:(NSDictionary *)dict {
 	NSURL *URL = nil;
 
 	NSString *path      = [dict objectForKey:_CFURLStringKey];
@@ -127,7 +126,7 @@
 	return URL;
 }
 
-- (NSDictionary *)dockDescription {
+- (NSDictionary *) dockDescription {
 	NSMutableDictionary *dict;
 	NSString *path      = [self path];
 	NSData   *aliasData = [self aliasData];
@@ -167,66 +166,6 @@
 		[appIcon setSize:NSMakeSize(128.0f,128.0f)];
 	}
 	return appIcon;
-}
-
-@end
-
-#pragma mark -
-
-// Thanks to Alcor for the following. This allows us to tell the window manager
-// that the window should be sticky. A sticky window will stay around when the
-// Expose sweep-all-windows-away event happens. Additionally, if a window is not
-// sticky while it fades in (see FadinWindowController for an example of fading
-// in), and simultaneously the desktop is switched via DesktopManager, the window
-// may end up getting left on the previous desktop, even if that window's level 
-// set to NSStatusWindowLevel. See http://www.cocoadev.com/index.pl?DontExposeMe 
-// for more information.
-
-typedef OSStatus (*GrowlCGSGetWindowTags)(CGSConnectionID cid,CGSWindowID window,int *tags,int other);
-typedef OSStatus (*GrowlCGSSetWindowTags)(CGSConnectionID cid,CGSWindowID window,int *tags,int other);
-
-GrowlCGSGetWindowTags GetWindowTags = NULL;
-GrowlCGSSetWindowTags SetWindowTags = NULL;
-
-@implementation NSWindow (GrowlAdditions)
-
-- (void) setSticky:(BOOL)flag {
-	// Check if we are on Panther or better (for expose)
-	if ( floor( NSAppKitVersionNumber ) > NSAppKitVersionNumber10_2 ) {
-		CGSConnectionID cid;
-		CGSWindowID wid;
-		OSStatus retVal;
-		
-		wid = [self windowNumber];
-		cid = _CGSDefaultConnection();
-		int tags[2];
-		tags[0] = tags[1] = 0;
-		
-		NSSymbol getTagsSymbol;
-		NSSymbol setTagsSymbol;
-
-		if (NSIsSymbolNameDefined ("_CGSGetWindowTags")) {
-			getTagsSymbol = NSLookupAndBindSymbol("_CGSGetWindowTags");
-		}
-		if (NSIsSymbolNameDefined ("_CGSSetWindowTags")) {
-			setTagsSymbol = NSLookupAndBindSymbol("_CGSSetWindowTags");
-		}
-		//OSStatus retVal = CGSGetWindowTags(cid, wid, tags, 32);
-		if(GetWindowTags = NSAddressOfSymbol(getTagsSymbol)) {
-			retVal = GetWindowTags(cid, wid, tags, 32);
-		}
-		
-		if (!retVal) {
-			if (flag)
-				tags[0] = tags[0] | 0x00000800;
-			else
-				tags[0] = tags[0] & 0x00000800;
-			//retVal = CGSSetWindowTags(cid, wid, tags, 32);
-			if(SetWindowTags = NSAddressOfSymbol(setTagsSymbol)){
-				retVal = SetWindowTags(cid, wid, tags, 32);
-			}
-		}
-	}
 }
 
 @end

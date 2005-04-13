@@ -9,7 +9,7 @@
 #import "GrowlMusicVideoWindowController.h"
 #import "GrowlMusicVideoWindowView.h"
 #import "GrowlMusicVideoPrefs.h"
-#import "NSGrowlAdditions.h"
+#import "NSWindow+Transforms.h"
 
 @implementation GrowlMusicVideoWindowController
 

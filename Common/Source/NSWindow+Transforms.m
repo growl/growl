@@ -31,7 +31,7 @@
 
 @implementation NSWindow (Transforms)
 
-- (NSPoint)windowToScreenCoordinates:(NSPoint)point {
+- (NSPoint) windowToScreenCoordinates:(NSPoint)point {
 	NSPoint result;
 	NSRect screenFrame = [[self screen] frame];
 
@@ -44,7 +44,7 @@
 	return result;
 }
 
-- (NSPoint)screenToWindowCoordinates:(NSPoint)point { // Untested
+- (NSPoint) screenToWindowCoordinates:(NSPoint)point { // Untested
 	NSPoint result;
 	NSRect screenFrame = [[self screen] frame];
 
@@ -54,11 +54,11 @@
 	return point; // To be completed
 }
 
-- (void)rotate:(double)radians {
+- (void) rotate:(double)radians {
 	[self rotate:radians about:NSMakePoint(_frame.size.width * 0.5, _frame.size.height * 0.5)];
 }
 
-- (void)rotate:(double)radians about:(NSPoint)point {
+- (void) rotate:(double)radians about:(NSPoint)point {
 	CGAffineTransform original;
 	CGSConnectionID connection;
 	NSPoint rotatePoint = [self windowToScreenCoordinates:point];
@@ -73,15 +73,15 @@
 	CGSSetWindowTransform(connection, _windowNum, original);
 }
 
-- (void)scaleX:(double)x Y:(double)y {
+- (void) scaleX:(double)x Y:(double)y {
 	[self scaleX:x Y:y about:NSMakePoint(_frame.size.width * 0.5, _frame.size.height * 0.5) concat:YES];
 }
 
-- (void)setScaleX:(double)x Y:(double)y {
+- (void) setScaleX:(double)x Y:(double)y {
 	[self scaleX:x Y:y about:NSMakePoint(_frame.size.width * 0.5, _frame.size.height * 0.5) concat:NO];
 }
 
-- (void)scaleX:(double)x Y:(double)y about:(NSPoint)point concat:(BOOL)concat {
+- (void) scaleX:(double)x Y:(double)y about:(NSPoint)point concat:(BOOL)concat {
 	CGAffineTransform original;
 	CGSConnectionID connection;
 	NSPoint scalePoint = [self windowToScreenCoordinates:point];
@@ -102,13 +102,42 @@
 	CGSSetWindowTransform(connection, _windowNum, original);
 }
 
-- (void)reset {
+- (void) reset {
 	// Note that this is not quite perfect... if you transform the window enough it may end up anywhere on the screen, but resetting it plonks it back where it started, which may correspond to it's most-logical position at that point in time.  Really what needs to be done is to reset the current transform matrix, in all places except it's translation, such that it stays roughly where it currently is.
 
 	// Get the screen position of the top left corner, by which our window is positioned
 	NSPoint point = [self windowToScreenCoordinates:NSMakePoint(0.0, _frame.size.height)];
 
 	CGSSetWindowTransform(_CGSDefaultConnection(), _windowNum, CGAffineTransformMakeTranslation(-point.x, -point.y));
+}
+
+#pragma mark -
+
+// Thanks to Alcor for the following. This allows us to tell the window manager
+// that the window should be sticky. A sticky window will stay around when the
+// Expose sweep-all-windows-away event happens. Additionally, if a window is not
+// sticky while it fades in (see FadingWindowController for an example of fading
+// in), and simultaneously the desktop is switched via DesktopManager, the window
+// may end up getting left on the previous desktop, even if that window's level 
+// set to NSStatusWindowLevel. See http://www.cocoadev.com/index.pl?DontExposeMe 
+// for more information.
+
+- (void) setSticky:(BOOL)flag {
+	CGSConnectionID cid;
+	CGSWindowID wid;
+	
+	wid = [self windowNumber];
+	cid = _CGSDefaultConnection();
+	int tags[2] = { 0, 0 };
+	
+	if (!CGSGetWindowTags(cid, wid, tags, 32)) {
+		if (flag) {
+			tags[0] = tags[0] | 0x00000800;
+		} else {
+			tags[0] = tags[0] & ~0x00000800;
+		}
+		CGSSetWindowTags(cid, wid, tags, 32);
+	}
 }
 
 @end

@@ -11,7 +11,7 @@
 #import "GrowlSmokeWindowView.h"
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "NSGrowlAdditions.h"
+#import "NSWindow+Transforms.h"
 
 static unsigned globalId = 0U;
 

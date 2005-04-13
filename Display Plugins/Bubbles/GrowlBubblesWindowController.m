@@ -10,8 +10,8 @@
 #import "GrowlBubblesWindowController.h"
 #import "GrowlBubblesWindowView.h"
 #import "GrowlBubblesPrefsController.h"
-#import "NSGrowlAdditions.h"
 #import "GrowlBubblesDefines.h"
+#import "NSWindow+Transforms.h"
 
 static unsigned bubbleWindowDepth = 0U;
 
