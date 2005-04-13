@@ -317,10 +317,10 @@
 	return tickets;
 }
 
-- (void) setTickets:(NSMutableArray *)theTickets {
+- (void) setTickets:(NSArray *)theTickets {
 	if (theTickets != tickets) {
 		[tickets release];
-		tickets = [theTickets retain];
+		tickets = [[NSMutableArray alloc] initWithArray:theTickets];
 	}
 }
 
@@ -344,9 +344,7 @@
 
 - (void) reloadPreferences {
 	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
-	NSMutableArray *newTickets = [[[GrowlApplicationTicket allSavedTickets] allValues] mutableCopy];
-	[self setTickets:newTickets];
-	[newTickets release];
+	[self setTickets:[[GrowlApplicationTicket allSavedTickets] allValues]];
 	[self cacheImages];
 
 	[self loadViewForDisplay:nil];
