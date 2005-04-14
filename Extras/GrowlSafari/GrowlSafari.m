@@ -36,8 +36,7 @@
 // http://www.cocoadev.com/index.pl?MethodSwizzling
 // A couple of modifications made to support swizzling class methods
 
-static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInstance)
-{
+static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInstance) {
     // First, make sure the class isn't nil
 	if (aClass) {
 		Method orig_method = nil, alt_method = nil;
@@ -73,16 +72,40 @@ static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 	return NO;
 }
 
-static BOOL shouldDisplayNotifications = NO;
+// How long should we wait (in seconds) before it's a long download?
+static double longDownload = 15.0;
 
-@implementation GrowlSafari
-+ (NSBundle *)bundle
-{
-	return( [NSBundle bundleForClass:self] );
+static NSMutableDictionary *dates = nil;
+
+static void setDownloadStarted(id dl) {
+	if (!dates)
+		dates = [[NSMutableDictionary alloc] init];
+
+	[dates setObject:[NSDate date] forKey:[dl performSelector:@selector(identifier)]];
 }
 
-+ (void)initialize
-{
+static NSDate *dateStarted(id dl) {
+	if (dates)
+		return [dates objectForKey:[dl performSelector:@selector(identifier)]];
+
+	return nil;
+}
+
+static BOOL isLongDownload(id dl) {
+	NSDate *date = dateStarted(dl);
+	return (date && -[date timeIntervalSinceNow] > longDownload);
+}
+
+static void setDownloadFinished(id dl) {
+	[dates removeObjectForKey:dl];
+}
+
+@implementation GrowlSafari
++ (NSBundle *) bundle {
+	return [NSBundle bundleForClass:self];
+}
+
++ (void) initialize {
 	//NSLog(@"Patching DownloadProgressEntry...");
 	Class class = NSClassFromString( @"DownloadProgressEntry" );
 	PerformSwizzle( class, @selector(setDownloadStage:), @selector(mySetDownloadStage:), YES );
@@ -98,7 +121,8 @@ static BOOL shouldDisplayNotifications = NO;
 						YES );
 	}
 	NSBundle *bundle = [GrowlSafari bundle];
-	NSArray *array = [NSArray arrayWithObjects:
+	NSArray *array = [[NSArray alloc] initWithObjects:
+		NSLocalizedStringFromTableInBundle(@"Short Download Complete", nil, bundle, @""),
 		NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @""),
 		NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @""),
 		NSLocalizedStringFromTableInBundle(@"Compression Status", nil, bundle, @""),
@@ -109,6 +133,7 @@ static BOOL shouldDisplayNotifications = NO;
 		array, GROWL_NOTIFICATIONS_ALL,
 		[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_APP_ICON,
 		nil];
+	[array release];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION
 																	object:nil
 																 userInfo:dict];
@@ -117,12 +142,11 @@ static BOOL shouldDisplayNotifications = NO;
 @end
 
 @implementation NSObject (GrowlSafariPatch)
-- (void) mySetDownloadStage:(int)stage
-{
+- (void) mySetDownloadStage:(int)stage {
 	//NSLog(@"mySetDownloadStage:%d", stage);
 	int oldStage = (int)[self performSelector:@selector(downloadStage)];
 	[self mySetDownloadStage:stage];
-	if (shouldDisplayNotifications) {
+	if (dateStarted(self)) {
 		if (stage == 2) {
 			NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 			NSBundle *bundle = [GrowlSafari bundle];
@@ -150,9 +174,11 @@ static BOOL shouldDisplayNotifications = NO;
 		} else if (stage == 13 || stage == 15) {
 			NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 			NSBundle *bundle = [GrowlSafari bundle];
+			NSString *notificationName = isLongDownload(self) ? NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"") : NSLocalizedStringFromTableInBundle(@"Short Download Complete", nil, bundle, @"");
+			setDownloadFinished(self);
 			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 				@"GrowlSafari", GROWL_APP_NAME,
-				NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @""), GROWL_NOTIFICATION_NAME,
+				notificationName, GROWL_NOTIFICATION_NAME,
 				NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
 				[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ download complete", nil, bundle, @""),
 						[self performSelector:@selector(filename)]],
@@ -162,16 +188,15 @@ static BOOL shouldDisplayNotifications = NO;
 		}
 	}
 	if (stage == 0) {
-		shouldDisplayNotifications = YES;
+		setDownloadStarted(self);
 	}
 }
 
-- (void)myUpdateDiskImageStatus:(NSDictionary *)status
-{
+- (void) myUpdateDiskImageStatus:(NSDictionary *)status {
 	//NSLog(@"myUpdateDiskImageStatus:%@", status);
 	[self myUpdateDiskImageStatus:status];
-	
-	if (shouldDisplayNotifications) {
+
+	if (dateStarted(self)) {
 		if( [[status objectForKey:@"status-stage"] isEqual:@"initialize"] ) {
 			NSBundle *bundle = [GrowlSafari bundle];
 			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -190,13 +215,15 @@ static BOOL shouldDisplayNotifications = NO;
 }
 
 // This is to make sure we're done with the pre-saved downloads
-- (id)myInitWithDownload:(id)fp8 mayOpenWhenDone:(BOOL)fp12 {
-	shouldDisplayNotifications = YES;
-	return [self myInitWithDownload:fp8 mayOpenWhenDone:fp12];
+- (id) myInitWithDownload:(id)fp8 mayOpenWhenDone:(BOOL)fp12 {
+	id retval = [self myInitWithDownload:fp8 mayOpenWhenDone:fp12];
+	setDownloadStarted(self);
+	return retval;
 }
 
-- (id)myInitWithDownload:(id)fp8 mayOpenWhenDone:(BOOL)fp12 allowOverwrite:(BOOL)fp16 {
-	shouldDisplayNotifications = YES;
-	return [self myInitWithDownload:fp8 mayOpenWhenDone:fp12 allowOverwrite:fp16];
+- (id) myInitWithDownload:(id)fp8 mayOpenWhenDone:(BOOL)fp12 allowOverwrite:(BOOL)fp16 {
+	id retval = [self myInitWithDownload:fp8 mayOpenWhenDone:fp12 allowOverwrite:fp16];
+	setDownloadStarted(self);
+	return retval;
 }
 @end

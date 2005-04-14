@@ -12,6 +12,8 @@
 	<string>Disk Image Status</string>
 	<key>Download Complete</key>
 	<string>Download Complete</string>
+	<key>Short Download Complete</key>
+	<string>Short Download Complete</string>
 	<key>Mounting Disk Image</key>
 	<string>Mounting Disk Image</string>
 	<key>%@ decompression started</key>

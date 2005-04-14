@@ -12,6 +12,8 @@
 	<string>ディスクイメージ状況</string>
 	<key>Download Complete</key>
 	<string>ダウンロード完了</string>
+	<key>Download Complete</key>
+	<string>ダウンロード完了</string>
 	<key>Mounting Disk Image</key>
 	<string>ディスクイメージのマウント中</string>
 	<key>%@ decompression started</key>
