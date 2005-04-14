@@ -829,7 +829,31 @@
 - (void) appRegistered: (NSNotification *) note {
 	NSString *app = [note object];
 	GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
-
+	
+	
+	/*
+	*	The controller is observing this class - we don't need to inform it.
+	*	- if we use the correct setters - it will get the changes automatically.
+	*	Alas we cannot guarantee that the controller hasn't made our Mutable Array immutable though... 
+	*/
+	
+	NSMutableArray *ticketsCopy = [tickets mutableCopy];
+	NSEnumerator *enumerator = [ticketsCopy objectEnumerator];
+	GrowlApplicationTicket *ticket;
+	
+	int		i = 0U;
+	while ((ticket = [enumerator nextObject])) {
+		if ([[ticket applicationName] isEqualToString:app]) {
+			[ticketsCopy removeObjectAtIndex:i];
+			break;
+		}
+		i++;
+	}
+	
+	[ticketsCopy addObject: newTicket];	
+	[self setTickets: ticketsCopy];
+	[ticketsCopy release];
+/*
 	NSMutableArray *arrangedTickets = [ticketsArrayController arrangedObjects];
 	GrowlApplicationTicket *ticket;
 
@@ -842,7 +866,8 @@
 	}
 	[ticketsArrayController addObject:newTicket];
 	[ticketsArrayController rearrangeObjects];
-
+*/
+	
 	[newTicket release];
 	[self cacheImages];
 }
