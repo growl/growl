@@ -436,7 +436,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 
 				//We probably will never have more than one callback/context set at a time, but this is cleaner than the alternatives
 				if (!targetsToNotifyArray)
-					targetsToNotifyArray = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 1, &kCFTypeArrayCallBacks);
+					targetsToNotifyArray = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
 
 				CFStringRef keys[] = { CFSTR("Callback"), CFSTR("Context") };
 				void *values[] = { (void *)callback, context };
