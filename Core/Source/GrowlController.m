@@ -70,8 +70,7 @@ static id singleton = nil;
 				  selector:@selector(replyToPing:)
 					  name:GROWL_PING
 					object:nil];
-	
-		
+
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(notificationClicked:)
 													 name:GROWL_NOTIFICATION_CLICKED

@@ -80,7 +80,7 @@ static BOOL				promptedToUpgradeGrowl = NO;
 	//Cache the appName from the delegate or the process name
 	[appName autorelease];
 	appName = [[self _applicationNameForGrowl] retain];
-	
+
 	//Cache the appIconData from the delegate if it responds to the applicationIconDataForGrowl selector
 	[appIconData autorelease];
 	if ([delegate respondsToSelector:@selector(applicationIconDataForGrowl)])

@@ -33,6 +33,7 @@ static CFDictionaryRef _copyRegistrationDictionaryForBundle(CFBundleRef bundle);
 
 //notification callback.
 static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
+static void _growlNotificationWasClicked(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
 
 #ifdef GROWL_WITH_INSTALLER
 //static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundleRef growlPrefPaneBundle);
@@ -109,6 +110,28 @@ Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 		newDelegate = newDelegate->retain(newDelegate);
 	delegate = newDelegate;
 
+	//Watch for notification clicks if our delegate has a growlNotificationWasClicked callback.
+	//Notifications will come in on a unique notification name based on our app name and GROWL_NOTIFICATION_CLICKED
+	CFStringRef appName = delegate->applicationName;
+	if ((!appName) && (delegate->registrationDictionary))
+		appName = CFDictionaryGetValue(delegate->registrationDictionary, GROWL_APP_NAME);
+	if (appName) {
+		CFMutableStringRef growlNotificationClickedName = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, appName);
+		CFStringAppend(growlNotificationClickedName, GROWL_NOTIFICATION_CLICKED);
+		if (delegate->growlNotificationWasClicked){
+			CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(),
+											/*observer*/ (void *)_growlNotificationWasClicked,
+											_growlNotificationWasClicked,
+											growlNotificationClickedName,
+											/*object*/ NULL,
+											CFNotificationSuspensionBehaviorCoalesce);
+		} else {
+			CFNotificationCenterRemoveEveryObserver(CFNotificationCenterGetDistributedCenter(),
+													/*observer*/ (void *)_growlNotificationWasClicked);
+		}
+		CFRelease(growlNotificationClickedName);
+	}
+
 	return Growl_LaunchIfInstalled(/*callback*/ NULL, /*context*/ NULL);
 }
 
@@ -149,9 +172,10 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		stickyIndex,
 		iconIndex,
 		appIconIndex,
+		clickContextIndex,
 
-		highestKeyIndex = 7,
-		numKeys,
+		highestKeyIndex = 8,
+		numKeys
 	};
 	const void *keys[numKeys] = {
 		GROWL_APP_NAME,
@@ -161,11 +185,12 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		GROWL_NOTIFICATION_STICKY,
 		GROWL_NOTIFICATION_ICON,
 		GROWL_NOTIFICATION_APP_ICON,
+		GROWL_NOTIFICATION_CLICK_CONTEXT
 	};
 	CFNumberRef priorityNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &(notification->priority));
 	Boolean isSticky = notification->isSticky;
 	CFNumberRef stickyNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberCharType, &isSticky);
-	
+
 	const void *values[numKeys] = {
 		appName, //0
 		notification->name, //1
@@ -174,6 +199,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		stickyNumber, //5
 		notification->iconData, //6
 		NULL, //7
+		NULL  //8
 	};
 
 	//make sure we have both a name and a title
@@ -191,9 +217,15 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 	unsigned pairIndex = iconIndex + (values[iconIndex] != NULL);
 
 	//...and set the custom application icon there.
-	if (delegate && (delegate->applicationIconData)) {
+	if (delegate->applicationIconData) {
 		keys[pairIndex] = GROWL_NOTIFICATION_APP_ICON;
 		values[pairIndex] = delegate->applicationIconData;
+		++pairIndex;
+	}
+
+	if (notification->clickContext) {
+		keys[pairIndex] = GROWL_NOTIFICATION_CLICK_CONTEXT;
+		values[pairIndex] = notification->clickContext;
 		++pairIndex;
 	}
 
@@ -401,10 +433,10 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 			if (callback) {
 				//the Growl helper app will notify us via growlIsReady when it is done launching
 				CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlIsReady, _growlIsReady, GROWL_IS_READY, /*object*/ NULL, CFNotificationSuspensionBehaviorCoalesce);
-			
+
 				//We probably will never have more than one callback/context set at a time, but this is cleaner than the alternatives
 				if (!targetsToNotifyArray)
-					targetsToNotifyArray = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
+					targetsToNotifyArray = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 1, &kCFTypeArrayCallBacks);
 
 				CFStringRef keys[] = { CFSTR("Callback"), CFSTR("Context") };
 				void *values[] = { (void *)callback, context };
@@ -496,20 +528,16 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 #pragma mark Private API
 
 //notification callback.
-static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo)
-{
-	CFIndex			dictIndex = 0, numDicts = CFArrayGetCount(targetsToNotifyArray);
-	CFDictionaryRef	infoDict;
-
-	while (dictIndex < numDicts) {
-		infoDict = CFArrayGetValueAtIndex(targetsToNotifyArray, dictIndex++);
+static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+	for (CFIndex dictIndex=0, numDicts = CFArrayGetCount(targetsToNotifyArray); dictIndex < numDicts; dictIndex++) {
+		CFDictionaryRef infoDict = CFArrayGetValueAtIndex(targetsToNotifyArray, dictIndex);
 
 		GrowlLaunchCallback callback = (GrowlLaunchCallback)CFDictionaryGetValue(infoDict, CFSTR("Callback"));
 		void *context = (void *)CFDictionaryGetValue(infoDict, CFSTR("Context"));
 
 		callback(context);
 	}
-	
+
 	//Stop observing
 	CFNotificationCenterRemoveEveryObserver(CFNotificationCenterGetDistributedCenter(), (void *)_growlIsReady);
 	
@@ -517,9 +545,13 @@ static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStri
 	CFRelease(targetsToNotifyArray); targetsToNotifyArray = NULL;
 }
 
+//notification callback.
+static void _growlNotificationWasClicked(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+	delegate->growlNotificationWasClicked(CFDictionaryGetValue(userInfo, GROWL_KEY_CLICKED_CONTEXT));
+}
+
 //Returns an array of paths to all user-installed .prefPane bundles
-static CFArrayRef _copyAllPreferencePaneBundles(void)
-{
+static CFArrayRef _copyAllPreferencePaneBundles(void) {
 	CFStringRef			prefPaneExtension = PREFERENCE_PANE_EXTENSION;
 	CFMutableArrayRef	allPreferencePaneBundles = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
 	CFArrayRef			curDirContents;
