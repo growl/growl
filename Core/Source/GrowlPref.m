@@ -507,7 +507,12 @@
 		[userInfo release];
 		unsigned index = [tickets indexOfObject:ticket];
 		[images removeObjectAtIndex:index];
-		[ticketsArrayController removeObject:ticket];
+//		[ticketsArrayController removeObject:ticket];
+		
+		NSMutableArray *newTickets = [tickets mutableCopy];
+		[newTickets removeObject:ticket];
+		[self setTickets:newTickets];
+		[newTickets release];
 	}
 }
 
