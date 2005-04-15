@@ -317,7 +317,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	if (!textStorage) {
 		NSSize containerSize;
 		BOOL limitPref = YES;
-		READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
+		READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &limitPref);
 		containerSize.width = TEXT_AREA_WIDTH;
 		if (limitPref) {
 			containerSize.height = lineHeight * MAX_TEXT_ROWS;
@@ -384,7 +384,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 - (int) descriptionRowCount {
 	int rowCount = textHeight / lineHeight;
 	BOOL limitPref = YES;
-	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
+	READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &limitPref);
 	if (limitPref) {
 		return MIN(rowCount, MAX_TEXT_ROWS);
 	} else {

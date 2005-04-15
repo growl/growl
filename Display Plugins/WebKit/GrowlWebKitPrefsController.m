@@ -2,8 +2,8 @@
 //  GrowlWebKitPrefsController.m
 //  Growl
 //
-//  Created by Kevin Ballard on 9/7/04.
-//  Copyright 2004 TildeSoft. All rights reserved.
+//  Created by Ingmar Stein on Thu Apr 14 2005.
+//  Copyright 2005 The Growl Project. All rights reserved.
 //
 
 #import "GrowlWebKitPrefsController.h"
@@ -23,12 +23,12 @@
 
 - (BOOL) isLimit {
 	BOOL value = YES;
-	READ_GROWL_PREF_BOOL(KALimitPref, GrowlWebKitPrefDomain, &value);
+	READ_GROWL_PREF_BOOL(GrowlWebKitLimitPref, GrowlWebKitPrefDomain, &value);
 	return value;
 }
 
 - (void) setLimit:(BOOL)value {
-	WRITE_GROWL_PREF_BOOL(KALimitPref, value, GrowlWebKitPrefDomain);
+	WRITE_GROWL_PREF_BOOL(GrowlWebKitLimitPref, value, GrowlWebKitPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -36,12 +36,12 @@
 
 - (float) opacity {
 	float value = 95.0f;
-	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacity, GrowlWebKitPrefDomain, &value);
+	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, GrowlWebKitPrefDomain, &value);
 	return value;
 }
 
 - (void) setOpacity:(float)value {
-	WRITE_GROWL_PREF_FLOAT(GrowlWebKitOpacity, value, GrowlWebKitPrefDomain);
+	WRITE_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, value, GrowlWebKitPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -49,12 +49,12 @@
 
 - (float) duration {
 	float value = 4.0f;
-	READ_GROWL_PREF_FLOAT(GrowlWebKitDuration, GrowlWebKitPrefDomain, &value);
+	READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, GrowlWebKitPrefDomain, &value);
 	return value;
 }
 
 - (void) setDuration:(float)value {
-	WRITE_GROWL_PREF_FLOAT(GrowlWebKitDuration, value, GrowlWebKitPrefDomain);
+	WRITE_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, value, GrowlWebKitPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -70,12 +70,12 @@
 
 - (int) screen {
 	int value = 0;
-	READ_GROWL_PREF_INT(GrowlWebKitScreen, GrowlWebKitPrefDomain, &value);
+	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, GrowlWebKitPrefDomain, &value);
 	return value;
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlWebKitScreen, value, GrowlWebKitPrefDomain);	
+	WRITE_GROWL_PREF_INT(GrowlWebKitScreenPref, value, GrowlWebKitPrefDomain);	
 	UPDATE_GROWL_PREFS();
 }
 

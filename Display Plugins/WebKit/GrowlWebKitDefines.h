@@ -1,8 +1,8 @@
-#define GrowlWebKitOpacity				@"WebKit - Opacity"
-#define GrowlWebKitDuration				@"WebKit - Duration"
+#define GrowlWebKitOpacityPref			@"WebKit - Opacity"
+#define GrowlWebKitDurationPref			@"WebKit - Duration"
 
-#define KALimitPref						@"WebKit - Limit"
-#define GrowlWebKitScreen				@"WebKit - Screen"
+#define GrowlWebKitLimitPref			@"WebKit - Limit"
+#define GrowlWebKitScreenPref			@"WebKit - Screen"
 #define GrowlWebKitSizePref				@"WebKit - Size"
 
 #define GrowlWebKitSizeNormal			0

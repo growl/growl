@@ -2,9 +2,8 @@
 //  GrowlWebKitPrefsController.h
 //  Growl
 //
-//  Created by Kevin Ballard on 9/7/04.
-//  Name changed from KABubblePrefsController.h by Justin Burns on Fri Nov 05 2004.
-//  Copyright 2004 TildeSoft. All rights reserved.
+//  Created by Ingmar Stein on Thu Apr 14 2005.
+//  Copyright 2005 The Growl Project. All rights reserved.
 //
 
 #import <PreferencePanes/PreferencePanes.h>

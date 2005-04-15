@@ -772,7 +772,6 @@
 				0A7F5EE40767C30800E1C1E4,
 				0A7F5EE50767C30800E1C1E4,
 				0A7F5EE60767C30800E1C1E4,
-				950F79AC080EEDB700CC5F62,
 			);
 			isa = PBXGroup;
 			name = Bubbles;
@@ -3553,10 +3552,6 @@
 		950F7992080EEDB700CC5F62 = {
 			buildActionMask = 2147483647;
 			files = (
-				950F7993080EEDB700CC5F62,
-				950F7994080EEDB700CC5F62,
-				950F7995080EEDB700CC5F62,
-				950F7996080EEDB700CC5F62,
 				950F79CA080EEE3700CC5F62,
 				950F79CB080EEE3800CC5F62,
 				950F79CC080EEE3900CC5F62,
@@ -3564,30 +3559,6 @@
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		950F7993080EEDB700CC5F62 = {
-			fileRef = 0A7F5EDF0767C30800E1C1E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		950F7994080EEDB700CC5F62 = {
-			fileRef = 0A7F5EE20767C30800E1C1E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		950F7995080EEDB700CC5F62 = {
-			fileRef = 0A7F5EE40767C30800E1C1E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		950F7996080EEDB700CC5F62 = {
-			fileRef = 0A7F5EE60767C30800E1C1E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		950F7997080EEDB700CC5F62 = {
 			buildActionMask = 2147483647;
@@ -3625,14 +3596,6 @@
 			path = WebKit.growlView;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		950F79AC080EEDB700CC5F62 = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			name = "Bubbles-Info copy.plist";
-			path = "/Users/ingmar/Devel/growl/Display Plugins/Bubbles-Info copy.plist";
-			refType = 0;
-			sourceTree = "<absolute>";
 		};
 		950F79C5080EEE2B00CC5F62 = {
 			isa = PBXFileReference;

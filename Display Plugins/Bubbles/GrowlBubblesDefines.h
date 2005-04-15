@@ -19,7 +19,7 @@
 #define GrowlBubblesOpacity				@"Bubbles-Opacity"
 #define GrowlBubblesDuration			@"Bubbles-Duration"
 
-#define KALimitPref						@"Bubbles - Limit"
+#define GrowlBubblesLimitPref			@"Bubbles - Limit"
 #define GrowlBubblesScreen				@"Bubbles-Screen"
 #define GrowlBubblesSizePref			@"Bubbles-Size"
 

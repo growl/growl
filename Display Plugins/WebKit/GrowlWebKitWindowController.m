@@ -2,9 +2,8 @@
 //  GrowlWebKitWindowController.m
 //  Growl
 //
-//  Created by Nelson Elhage on Wed Jun 09 2004.
-//  Name changed from KABubbleWindowController.m by Justin Burns on Fri Nov 05 2004.
-//  Copyright (c) 2004 Nelson Elhage. All rights reserved.
+//  Created by Ingmar Stein on Thu Apr 14 2005.
+//  Copyright 2005 The Growl Project. All rights reserved.
 //
 
 #import "GrowlWebKitWindowController.h"
@@ -36,7 +35,7 @@ static unsigned webkitWindowDepth = 0U;
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
 	screenNumber = 0U;
-	READ_GROWL_PREF_INT(GrowlWebKitScreen, GrowlWebKitPrefDomain, &screenNumber);
+	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, GrowlWebKitPrefDomain, &screenNumber);
 
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f ) 
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
@@ -117,9 +116,9 @@ static unsigned webkitWindowDepth = 0U;
 		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
 		int rowCount = 2;
 		BOOL limitPref = YES;
-		READ_GROWL_PREF_BOOL(KALimitPref, GrowlWebKitPrefDomain, &limitPref);
+		READ_GROWL_PREF_BOOL(GrowlWebKitLimitPref, GrowlWebKitPrefDomain, &limitPref);
 		float duration = MIN_DISPLAY_TIME;
-		READ_GROWL_PREF_FLOAT(GrowlWebKitDuration, GrowlWebKitPrefDomain, &duration);
+		READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, GrowlWebKitPrefDomain, &duration);
 		if (!limitPref) {
 			displayTime = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
 							   MAX_DISPLAY_TIME);

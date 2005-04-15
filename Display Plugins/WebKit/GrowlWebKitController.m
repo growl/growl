@@ -2,9 +2,8 @@
 //  GrowlWebKitController.m
 //  Growl
 //
-//  Created by Nelson Elhage on Wed Jun 09 2004.
-//  Name changed from KABubbleController.h by Justin Burns on Fri Nov 05 2004.
-//  Copyright (c) 2004 Nelson Elhage. All rights reserved.
+//  Created by Ingmar Stein on Thu Apr 14 2005.
+//  Copyright 2005 The Growl Project. All rights reserved.
 //
 
 #import "GrowlWebKitController.h"

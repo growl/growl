@@ -90,7 +90,7 @@ static unsigned bubbleWindowDepth = 0U;
 		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
 		int rowCount = MIN ([view descriptionRowCount], 0) - 2;
 		BOOL limitPref = YES;
-		READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &limitPref);
+		READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &limitPref);
 		float duration = MIN_DISPLAY_TIME;
 		READ_GROWL_PREF_FLOAT(GrowlBubblesDuration, GrowlBubblesPrefDomain, &duration);
 		if (!limitPref) {

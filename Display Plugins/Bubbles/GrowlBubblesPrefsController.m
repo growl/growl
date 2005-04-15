@@ -61,12 +61,12 @@
 
 - (BOOL) isLimit {
 	BOOL value = YES;
-	READ_GROWL_PREF_BOOL(KALimitPref, GrowlBubblesPrefDomain, &value);
+	READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &value);
 	return value;
 }
 
 - (void) setLimit:(BOOL)value {
-	WRITE_GROWL_PREF_BOOL(KALimitPref, value, GrowlBubblesPrefDomain);
+	WRITE_GROWL_PREF_BOOL(GrowlBubblesLimitPref, value, GrowlBubblesPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
