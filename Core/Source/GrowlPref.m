@@ -324,6 +324,29 @@
 	}
 }
 
+- (void) removeFromTicketsAtIndex:(int)indexToRemove {
+	NSMutableArray *ticketsCopy = [tickets mutableCopy];
+	[ticketsCopy removeObjectAtIndex:indexToRemove];
+
+	//	We're not using the setTickets accessor here.
+	//	If we did, the controller would know we had switched out the entire array.
+	//	And UI quirks would happen. (selection jumps back to 0)
+	
+	[tickets release];	
+	tickets = ticketsCopy;
+}
+
+
+
+- (void) insertInTickets:(GrowlApplicationTicket*)newTicket {
+	NSMutableArray			*ticketsCopy = [tickets mutableCopy];
+	[ticketsCopy addObject:newTicket];
+	[self setTickets:ticketsCopy];
+	[ticketsCopy release];
+	
+}
+
+
 - (void) reloadDisplayPluginView {
 	NSArray *selectedPlugins = [displayPluginsArrayController selectedObjects];
 	unsigned numPlugins = [plugins count];
@@ -507,12 +530,16 @@
 		[userInfo release];
 		unsigned index = [tickets indexOfObject:ticket];
 		[images removeObjectAtIndex:index];
-//		[ticketsArrayController removeObject:ticket];
-		
+
+		///	Hmm... This doesn't work for some reason....
+		//	Even though the same method definitely works in the appRegistered: method... 
+
+		//	[self removeFromTicketsAtIndex:	[ticketsArrayController selectionIndex]];
+
 		NSMutableArray *newTickets = [tickets mutableCopy];
 		[newTickets removeObject:ticket];
 		[self setTickets:newTickets];
-		[newTickets release];
+		[newTickets release];		 
 	}
 }
 
@@ -834,46 +861,30 @@
 - (void) appRegistered: (NSNotification *) note {
 	NSString *app = [note object];
 	GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
-	
-	
+		
 	/*
-	*	The controller is observing this class - we don't need to inform it.
-	*	- if we use the correct setters - it will get the changes automatically.
-	*	Alas we cannot guarantee that the controller hasn't made our Mutable Array immutable though... 
-	*/
+	 *	Because the tickets array is under KVObservation by the TicketsArrayController
+	 *	We need to remove the ticket using the correct KVC method:
+	 */
 	
-	NSMutableArray *ticketsCopy = [tickets mutableCopy];
-	NSEnumerator *enumerator = [ticketsCopy objectEnumerator];
+	NSEnumerator *ticketEnumerator = [tickets objectEnumerator];
 	GrowlApplicationTicket *ticket;
+	int removalIndex = -1;
 	
 	int		i = 0U;
-	while ((ticket = [enumerator nextObject])) {
+	while ((ticket = [ticketEnumerator nextObject])) {
 		if ([[ticket applicationName] isEqualToString:app]) {
-			[ticketsCopy removeObjectAtIndex:i];
+			removalIndex = i;
 			break;
 		}
 		i++;
 	}
 	
-	[ticketsCopy addObject: newTicket];	
-	[self setTickets: ticketsCopy];
-	[ticketsCopy release];
-/*
-	NSMutableArray *arrangedTickets = [ticketsArrayController arrangedObjects];
-	GrowlApplicationTicket *ticket;
-
-	for (unsigned i = 0U, count = [arrangedTickets count]; i < count; ++i) {
-		ticket = [arrangedTickets objectAtIndex:i];
-		if ([[ticket applicationName] isEqualToString:app]) {
-			[ticketsArrayController removeObjectAtArrangedObjectIndex:i];
-			break;
-		}
-	}
-	[ticketsArrayController addObject:newTicket];
-	[ticketsArrayController rearrangeObjects];
-*/
-	
+	if (removalIndex != -1)
+		[self removeFromTicketsAtIndex:removalIndex];
+	[self insertInTickets:newTicket];
 	[newTicket release];
+
 	[self cacheImages];
 }
 
