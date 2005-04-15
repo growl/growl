@@ -9,7 +9,8 @@
 #import "FadingWindowController.h"
 
 @interface GrowlWebKitWindowController : FadingWindowController {
-	unsigned				depth;
+	unsigned	depth;
+	NSImage		*image;
 }
 
 + (GrowlWebKitWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky;

@@ -10,6 +10,7 @@
 #import "GrowlWebKitWindowView.h"
 #import "GrowlWebKitPrefsController.h"
 #import "GrowlWebKitDefines.h"
+#import "GrowlImageURLProtocol.h"
 #import "NSWindow+Transforms.h"
 
 static unsigned webkitWindowDepth = 0U;
@@ -98,7 +99,13 @@ static unsigned webkitWindowDepth = 0U;
 	if (!style) {
 		NSLog(@"WARNING: could not read stylesheet '%@'", stylesheet);
 	}
-	NSString *htmlString = [[NSString alloc] initWithFormat:@"<html><head><style type=\"text/css\">%@</style></head><body class=%@><div class=\"title\">%@</div><div class=\"text\">%@</div></body></html>", style, priorityName, title, text];
+
+	NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
+	image = [icon retain];
+	[image setName:UUID];
+	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
+
+	NSString *htmlString = [[NSString alloc] initWithFormat:@"<html><head><style type=\"text/css\">%@</style></head><body class=%@><div class=\"icon\"><img src=\"growlimage://%@\" /></div><div class=\"title\">%@</div><div class=\"text\">%@</div></body></html>", style, priorityName, UUID, title, text];
 	[style release];
 	WebFrame *webFrame = [view mainFrame];
 	[webFrame loadHTMLString:htmlString baseURL:nil];
@@ -134,15 +141,15 @@ static unsigned webkitWindowDepth = 0U;
  * @brief Prevent the webview from following external links.  We direct these to the users web browser.
  */
 - (void) webView:(WebView *)sender
-    decidePolicyForNavigationAction:(NSDictionary *)actionInformation
+	decidePolicyForNavigationAction:(NSDictionary *)actionInformation
 		request:(NSURLRequest *)request
 		  frame:(WebFrame *)frame
-    decisionListener:(id<WebPolicyDecisionListener>)listener
+	decisionListener:(id<WebPolicyDecisionListener>)listener
 {
-    int actionKey = [[actionInformation objectForKey: WebActionNavigationTypeKey] intValue];
-    if (actionKey == WebNavigationTypeOther) {
+	int actionKey = [[actionInformation objectForKey: WebActionNavigationTypeKey] intValue];
+	if (actionKey == WebNavigationTypeOther) {
 		[listener use];
-    } else {
+	} else {
 		NSURL *url = [actionInformation objectForKey:WebActionOriginalURLKey];
 
 		//Ignore file URLs, but open anything else
@@ -151,7 +158,7 @@ static unsigned webkitWindowDepth = 0U;
 		}
 		
 		[listener ignore];
-    }
+	}
 }
 
 /*!
@@ -195,6 +202,7 @@ static unsigned webkitWindowDepth = 0U;
 	[webView setFrameLoadDelegate:nil];
 	[webView release];
 	[myWindow release];
+	[image release];
 
 	[super dealloc];
 }

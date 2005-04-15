@@ -9,10 +9,23 @@ div {
 	font-family: sans-serif;
 }
 
+div.icon {
+	float: left;
+	top: 10px;
+	left: 10px;
+	width: 32px;
+	height: 32px;
+	margin-right: 5px;
+}
+
+div.icon img {
+	width: 32px;
+	height: 32px;
+}
+
 div.title {
 	font-weight:bold;
 	font-size:small;
-	background-color:gray;
 }
 
 div.text {

@@ -3375,8 +3375,10 @@
 				950F797A080EED5C00CC5F62,
 				950F797B080EED5C00CC5F62,
 				950F797C080EED5C00CC5F62,
-				950F79C5080EEE2B00CC5F62,
+				951BD0B5081049C700D803CD,
+				951BD0B6081049C700D803CD,
 				95F77E27080FE28900FF8F67,
+				950F79C5080EEE2B00CC5F62,
 			);
 			isa = PBXGroup;
 			name = WebKit;
@@ -3556,6 +3558,7 @@
 				950F79CB080EEE3800CC5F62,
 				950F79CC080EEE3900CC5F62,
 				950F79CD080EEE3A00CC5F62,
+				951BD0B7081049C700D803CD,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3712,6 +3715,30 @@
 			path = "../MusicVideo-Info.plist";
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		951BD0B5081049C700D803CD = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlImageURLProtocol.h;
+			path = "Display Plugins/WebKit/GrowlImageURLProtocol.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		951BD0B6081049C700D803CD = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlImageURLProtocol.m;
+			path = "Display Plugins/WebKit/GrowlImageURLProtocol.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		951BD0B7081049C700D803CD = {
+			fileRef = 951BD0B6081049C700D803CD;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		9527F2A1073F5A33004727A0 = {
 			isa = PBXFileReference;
