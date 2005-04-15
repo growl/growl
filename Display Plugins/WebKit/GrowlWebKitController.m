@@ -28,31 +28,31 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	GrowlWebKitWindowController *nuBubble = [GrowlWebKitWindowController
-		bubbleWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
+	GrowlWebKitWindowController *controller = [GrowlWebKitWindowController
+		notifyWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
 				   text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 				   icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 			   priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 				 sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
-	[nuBubble setTarget:self];
-	[nuBubble setAction:@selector(_bubbleClicked:)];
-	[nuBubble setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[nuBubble setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-	[nuBubble setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
+	[controller setTarget:self];
+	[controller setAction:@selector(_notificationClicked:)];
+	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+	[controller setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 
-	[nuBubble startFadeIn];
+	[controller startFadeIn];
 }
 
-- (void) _bubbleClicked:(GrowlWebKitWindowController *)bubble {
+- (void) _notificationClicked:(GrowlWebKitWindowController *)windowController {
 	id clickContext;
 
-	if ((clickContext = [bubble clickContext])) {
+	if ((clickContext = [windowController clickContext])) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-														   object:[bubble appName]
+														   object:[windowController appName]
 														  userInfo:clickContext];
 		
 		//Avoid duplicate click messages by immediately clearing the clickContext
-		[bubble setClickContext:nil];
+		[windowController setClickContext:nil];
 	}
 }
 

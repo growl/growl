@@ -13,7 +13,7 @@
 #import "GrowlWebKitDefines.h"
 #import "NSWindow+Transforms.h"
 
-static unsigned bubbleWindowDepth = 0U;
+static unsigned webkitWindowDepth = 0U;
 
 @interface NSString(TigerCompatibility)
 - (id) initWithContentsOfFile:(NSString *)path encoding:(NSStringEncoding)enc error:(NSError **)error;
@@ -28,7 +28,7 @@ static unsigned bubbleWindowDepth = 0U;
 
 #pragma mark -
 
-+ (GrowlWebKitWindowController *) bubbleWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky{
++ (GrowlWebKitWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky{
 	return [[[GrowlWebKitWindowController alloc] initWithTitle:title text:text icon:icon priority:(int)priority sticky:sticky] autorelease];
 }
 
@@ -132,7 +132,7 @@ static unsigned bubbleWindowDepth = 0U;
 }
 
 /*!
-* @brief Prevent the webview from following external links.  We direct these to the users web browser.
+ * @brief Prevent the webview from following external links.  We direct these to the users web browser.
  */
 - (void) webView:(WebView *)sender
     decidePolicyForNavigationAction:(NSDictionary *)actionInformation
@@ -141,13 +141,13 @@ static unsigned bubbleWindowDepth = 0U;
     decisionListener:(id<WebPolicyDecisionListener>)listener
 {
     int actionKey = [[actionInformation objectForKey: WebActionNavigationTypeKey] intValue];
-    if (actionKey == WebNavigationTypeOther){
+    if (actionKey == WebNavigationTypeOther) {
 		[listener use];
     } else {
 		NSURL *url = [actionInformation objectForKey:WebActionOriginalURLKey];
-		
+
 		//Ignore file URLs, but open anything else
-		if(![url isFileURL]){
+		if (![url isFileURL]) {
 			[[NSWorkspace sharedWorkspace] openURL:url];
 		}
 		
@@ -156,7 +156,7 @@ static unsigned bubbleWindowDepth = 0U;
 }
 
 /*!
-* @brief Invoked once the webview has loaded and is ready to accept content
+ * @brief Invoked once the webview has loaded and is ready to accept content
  */
 - (void) webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
 	GrowlWebKitWindowView *view = (GrowlWebKitWindowView *)sender;
@@ -165,15 +165,15 @@ static unsigned bubbleWindowDepth = 0U;
 
 	NSRect screen = [[self screen] visibleFrame];
 
-	[[self window] setFrameTopLeftPoint:NSMakePoint( NSMaxX( screen ) - NSWidth( panelFrame ) - GrowlWebKitPadding,
-											 NSMaxY( screen ) - GrowlWebKitPadding - bubbleWindowDepth )];
-	
+	[[self window] setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - GrowlWebKitPadding,
+											 NSMaxY(screen) - GrowlWebKitPadding - webkitWindowDepth)];
+
 #warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
 	// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
 	if (NSMinY(panelFrame) < 0.0f) {
-		depth = bubbleWindowDepth = 0U;
+		depth = webkitWindowDepth = 0U;
 	} else {
-		depth = bubbleWindowDepth += NSHeight(panelFrame) + GrowlWebKitPadding;
+		depth = webkitWindowDepth += NSHeight(panelFrame) + GrowlWebKitPadding;
 	}
 }
 
@@ -187,8 +187,8 @@ static unsigned bubbleWindowDepth = 0U;
 }
 
 - (void) dealloc {
-	if (depth == bubbleWindowDepth) {
-		bubbleWindowDepth = 0U;
+	if (depth == webkitWindowDepth) {
+		webkitWindowDepth = 0U;
 	}
 	NSWindow *myWindow = [self window];
 	WebView *webView = [myWindow contentView];
