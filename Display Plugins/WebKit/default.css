@@ -1,0 +1,24 @@
+body {
+	margin: 0px 0px 0px 0px;
+	padding: 6px 6px 6px 6px;
+	background-color:#E0E0E0;
+	border: thin solid black;
+}
+
+div {
+	font-family: sans-serif;
+}
+
+div.title {
+	font-weight:bold;
+	font-size:small;
+	background-color:gray;
+}
+
+div.text {
+	font-size:x-small;
+}
+
+body.emergency div.text {
+	color: red;
+}

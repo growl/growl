@@ -41,7 +41,6 @@
 	[nuBubble setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 
 	[nuBubble startFadeIn];
-//	NSLog( @"bubble - %@", nuBubble );
 }
 
 - (void) _bubbleClicked:(GrowlWebKitWindowController *)bubble {

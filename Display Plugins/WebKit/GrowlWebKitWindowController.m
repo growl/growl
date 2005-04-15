@@ -15,6 +15,10 @@
 
 static unsigned bubbleWindowDepth = 0U;
 
+@interface NSString(TigerCompatibility)
+- (id) initWithContentsOfFile:(NSString *)path encoding:(NSStringEncoding)enc error:(NSError **)error;
+@end
+
 @implementation GrowlWebKitWindowController
 
 #define MIN_DISPLAY_TIME				4.0
@@ -34,10 +38,6 @@ static unsigned bubbleWindowDepth = 0U;
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlWebKitScreen, GrowlWebKitPrefDomain, &screenNumber);
 
-	// I tried setting the width/height to zero, since the view resizes itself later.
-	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
-	// A window with a frame of NSZeroRect is off-screen and doesn't respect opacity even
-	// if moved on screen later. -Evan
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f ) 
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												  backing:NSBackingStoreBuffered
@@ -49,7 +49,7 @@ static unsigned bubbleWindowDepth = 0U;
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
 	[panel setAlphaValue:0.0f];
-	[panel setOpaque:NO];
+	[panel setOpaque:YES];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
@@ -67,8 +67,40 @@ static unsigned bubbleWindowDepth = 0U;
 	[view setFrameLoadDelegate:self];
 	[panel setContentView:view];
 
-	NSString *style = @"div.title { font-size:small; font-family: sans-serif; background-color:gray; } div.text { font-size:x-small; font-family: sans-serif; }";
-	NSString *htmlString = [[NSString alloc] initWithFormat:@"<html><head><style type=\"text/css\">%@</style></head><body><div class=\"title\">%@</div><div class=\"text\">%@</div></body></html>", style, title, text];
+	NSString *priorityName;
+	switch (priority) {
+		case -2:
+			priorityName = @"verylow";
+			break;
+		case -1:
+			priorityName = @"moderate";
+			break;
+		default:
+		case 0:
+			priorityName = @"normal";
+			break;
+		case 1:
+			priorityName = @"high";
+			break;
+		case 2:
+			priorityName = @"emergency";
+			break;
+	}
+	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
+	NSString *stylesheet = [bundle pathForResource:@"default" ofType:@"css"];
+	NSString *style = [NSString alloc];
+	if ([style respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {
+		NSError *error;
+		style = [style initWithContentsOfFile:stylesheet encoding:NSUTF8StringEncoding error:&error];
+	} else {
+		// this method has been deprecated in 10.4
+		style = [style initWithContentsOfFile:stylesheet];
+	}
+	if (!style) {
+		NSLog(@"WARNING: could not read stylesheet '%@'", stylesheet);
+	}
+	NSString *htmlString = [[NSString alloc] initWithFormat:@"<html><head><style type=\"text/css\">%@</style></head><body class=%@><div class=\"title\">%@</div><div class=\"text\">%@</div></body></html>", style, priorityName, title, text];
+	[style release];
 	WebFrame *webFrame = [view mainFrame];
 	[webFrame loadHTMLString:htmlString baseURL:nil];
 	[[webFrame frameView] setAllowsScrolling:NO];

@@ -3377,6 +3377,7 @@
 				950F797B080EED5C00CC5F62,
 				950F797C080EED5C00CC5F62,
 				950F79C5080EEE2B00CC5F62,
+				95F77E27080FE28900FF8F67,
 			);
 			isa = PBXGroup;
 			name = WebKit;
@@ -3543,6 +3544,7 @@
 		950F7990080EEDB700CC5F62 = {
 			buildActionMask = 2147483647;
 			files = (
+				95F77E56080FE80D00FF8F67,
 				950F7B11080F094400CC5F62,
 			);
 			isa = PBXResourcesBuildPhase;
@@ -4358,6 +4360,21 @@
 			path = Core/Source/CoreGraphicsServices.h;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		95F77E27080FE28900FF8F67 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			name = default.css;
+			path = "Display Plugins/WebKit/default.css";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95F77E56080FE80D00FF8F67 = {
+			fileRef = 95F77E27080FE28900FF8F67;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		95FC305007E03B0700BD8674 = {
 			children = (
