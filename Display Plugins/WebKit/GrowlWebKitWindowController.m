@@ -38,7 +38,7 @@ static unsigned webkitWindowDepth = 0U;
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, GrowlWebKitPrefDomain, &screenNumber);
 
-	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f ) 
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 1.0f)
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												  backing:NSBackingStoreBuffered
 													defer:NO];
@@ -87,17 +87,25 @@ static unsigned webkitWindowDepth = 0U;
 			break;
 	}
 	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
-	NSString *stylesheet = [bundle pathForResource:@"default" ofType:@"css"];
-	NSString *style = [NSString alloc];
-	if ([style respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {
+
+	NSString *templateFile = [bundle pathForResource:@"template" ofType:@"html"];
+	NSString *stylesheetFile = [bundle pathForResource:@"default" ofType:@"css"];
+	NSString *stylesheet = [NSString alloc];
+	NSString *template = [NSString alloc];
+	if ([stylesheet respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {
 		NSError *error;
-		style = [style initWithContentsOfFile:stylesheet encoding:NSUTF8StringEncoding error:&error];
+		stylesheet = [stylesheet initWithContentsOfFile:stylesheetFile encoding:NSUTF8StringEncoding error:&error];
+		template = [template initWithContentsOfFile:templateFile encoding:NSUTF8StringEncoding error:&error];
 	} else {
 		// this method has been deprecated in 10.4
-		style = [style initWithContentsOfFile:stylesheet];
+		stylesheet = [stylesheet initWithContentsOfFile:stylesheet];
+		template = [template initWithContentsOfFile:templateFile];
 	}
-	if (!style) {
-		NSLog(@"WARNING: could not read stylesheet '%@'", stylesheet);
+	if (!stylesheet) {
+		NSLog(@"WARNING: could not read stylesheet '%@'", stylesheetFile);
+	}
+	if (!template) {
+		NSLog(@"WARNING: could not read template '%@'", templateFile);
 	}
 
 	NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
@@ -105,8 +113,9 @@ static unsigned webkitWindowDepth = 0U;
 	[image setName:UUID];
 	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
 
-	NSString *htmlString = [[NSString alloc] initWithFormat:@"<html><head><style type=\"text/css\">%@</style></head><body class=%@><div class=\"icon\"><img src=\"growlimage://%@\" /></div><div class=\"title\">%@</div><div class=\"text\">%@</div></body></html>", style, priorityName, UUID, title, text];
-	[style release];
+	NSString *htmlString = [[NSString alloc] initWithFormat:template, stylesheet, priorityName, UUID, title, text];
+	[stylesheet release];
+	[template release];
 	WebFrame *webFrame = [view mainFrame];
 	[webFrame loadHTMLString:htmlString baseURL:nil];
 	[[webFrame frameView] setAllowsScrolling:NO];

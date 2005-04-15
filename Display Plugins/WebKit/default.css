@@ -3,6 +3,7 @@ body {
 	padding: 6px 6px 6px 6px;
 	background-color:#E0E0E0;
 	border: thin solid black;
+	min-height: 51px;
 }
 
 div {

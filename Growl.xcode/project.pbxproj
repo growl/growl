@@ -3378,6 +3378,7 @@
 				951BD0B5081049C700D803CD,
 				951BD0B6081049C700D803CD,
 				95F77E27080FE28900FF8F67,
+				9596C4EF081063DB00F43859,
 				950F79C5080EEE2B00CC5F62,
 			);
 			isa = PBXGroup;
@@ -3545,6 +3546,7 @@
 		950F7990080EEDB700CC5F62 = {
 			buildActionMask = 2147483647;
 			files = (
+				9596C4F0081063DB00F43859,
 				95F77E56080FE80D00FF8F67,
 				950F7B11080F094400CC5F62,
 			);
@@ -4134,6 +4136,21 @@
 		};
 		9595190E07E48CBE004A4471 = {
 			fileRef = 95C8777007D9DFC000C69DEE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9596C4EF081063DB00F43859 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.html;
+			name = template.html;
+			path = "Display Plugins/WebKit/template.html";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9596C4F0081063DB00F43859 = {
+			fileRef = 9596C4EF081063DB00F43859;
 			isa = PBXBuildFile;
 			settings = {
 			};
