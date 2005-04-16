@@ -7,7 +7,6 @@
 //
 
 #import "GrowlDelegate.h"
-#import "GrowlDefines.h"
 
 @implementation GrowlDelegate
 - (id) initWithAllNotifications:(NSArray *)allNotifications defaultNotifications:(NSArray *)defaultNotifications {

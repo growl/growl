@@ -7,13 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GrowlApplicationBridge.h"
 
 /*
  * A convenience class for applications which don't need feedback from
  * Growl (e.g. growlIsReady or growlNotificationWasClicked). It can also be used
  * with scripting languages such as F-Script (http://www.fscript.org).
  */
-@interface GrowlDelegate : NSObject {
+@interface GrowlDelegate : NSObject <GrowlApplicationBridgeDelegate> {
 	NSDictionary	*registrationDictionary;
 	NSString		*applicationNameForGrowl;
 	NSData			*applicationIconDataForGrowl;
