@@ -446,8 +446,8 @@
 		[self setTickets:newTickets];
 		[newTickets release];		 
 
-		if (oldSelectionIndex > [tickets count])
-			oldSelectionIndex = [tickets count];
+		if (oldSelectionIndex > [tickets count] -1)
+			oldSelectionIndex = ([tickets count] -1);
 		
 		[ticketsArrayController setSelectionIndex: oldSelectionIndex];
 	}
