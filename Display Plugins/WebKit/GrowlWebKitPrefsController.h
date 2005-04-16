@@ -19,7 +19,7 @@
 - (void) setLimit:(BOOL)value;
 - (int) screen;
 - (void) setScreen:(int)value;
-- (int) size;
-- (void) setSize:(int)value;
+- (NSString *) style;
+- (void) setStyle:(NSString *)style;
 
 @end

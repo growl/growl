@@ -79,14 +79,14 @@
 	UPDATE_GROWL_PREFS();
 }
 
-- (int) size {
-	int value = 0;
-	READ_GROWL_PREF_INT(GrowlWebKitSizePref, GrowlWebKitPrefDomain, &value);
+- (NSString *) style {
+	NSString *value = nil;
+	READ_GROWL_PREF_VALUE(GrowlWebKitStylePref, GrowlWebKitPrefDomain, NSString *, &value);
 	return value;
 }
 
-- (void) setSize:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlWebKitSizePref, value, GrowlWebKitPrefDomain);	
+- (void) setStyle:(NSString *)value {
+	WRITE_GROWL_PREF_VALUE(GrowlWebKitStylePref, value, GrowlWebKitPrefDomain);	
 	UPDATE_GROWL_PREFS();
 }
 @end
