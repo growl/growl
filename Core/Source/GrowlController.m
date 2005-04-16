@@ -346,7 +346,7 @@ static id singleton = nil;
 	}
 }
 
-- (void) registerApplicationWithDictionary:(NSDictionary *) userInfo {
+- (BOOL) registerApplicationWithDictionary:(NSDictionary *) userInfo {
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
 
 	GrowlApplicationTicket *newApp = [tickets objectForKey:appName];
@@ -356,47 +356,67 @@ static id singleton = nil;
 		[newApp reregisterWithDictionary:userInfo];
 		notificationName = @"Application re-registered";
 	} else {
-		newApp = [[GrowlApplicationTicket alloc] initWithDictionary:userInfo];
-		[tickets setObject:newApp forKey:appName];
-		[newApp release];
+		newApp = [[[GrowlApplicationTicket alloc] initWithDictionary:userInfo] autorelease];
 		notificationName = @"Application registered";		
 	}
 
-	[newApp saveTicket];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF
-																   object:appName];
+	BOOL success = YES;
 
-	[GrowlApplicationBridge notifyWithTitle:notificationName
-								description:[appName stringByAppendingString:@" registered"]
-						   notificationName:notificationName
-								   iconData:growlIconData
-								   priority:0
-								   isSticky:NO
-							   clickContext:nil];
-
-	if (enableForward) {
-		NSEnumerator *enumerator = [destinations objectEnumerator];
-		NSDictionary *entry;
-		while ((entry = [enumerator nextObject])) {
-			if ([[entry objectForKey:@"use"] boolValue]) {
-				NSData *destAddress = [entry objectForKey:@"address"];
-				NSSocketPort *serverPort = [[NSSocketPort alloc]
-					initRemoteWithProtocolFamily:AF_INET
-									  socketType:SOCK_STREAM
-										protocol:0
-										 address:destAddress];
-
-				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil
-																			sendPort:serverPort];
-				NSDistantObject *theProxy = [connection rootProxy];
-				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
-				[growlProxy registerApplicationWithDictionary:userInfo];
-				[serverPort release];
-				[connection release];
+	if (appName && newApp) {
+		[tickets setObject:newApp forKey:appName];
+		[newApp saveTicket];
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF
+																	   object:appName];
+	
+		[GrowlApplicationBridge notifyWithTitle:notificationName
+									description:[appName stringByAppendingString:@" registered"]
+							   notificationName:notificationName
+									   iconData:growlIconData
+									   priority:0
+									   isSticky:NO
+								   clickContext:nil];
+	
+		if (enableForward) {
+			NSEnumerator *enumerator = [destinations objectEnumerator];
+			NSDictionary *entry;
+			while ((entry = [enumerator nextObject])) {
+				if ([[entry objectForKey:@"use"] boolValue]) {
+					NSData *destAddress = [entry objectForKey:@"address"];
+					NSSocketPort *serverPort = [[NSSocketPort alloc]
+						initRemoteWithProtocolFamily:AF_INET
+										  socketType:SOCK_STREAM
+											protocol:0
+											 address:destAddress];
+	
+					NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil
+																				sendPort:serverPort];
+					NSDistantObject *theProxy = [connection rootProxy];
+					[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+					id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
+					[growlProxy registerApplicationWithDictionary:userInfo];
+					[serverPort release];
+					[connection release];
+				}
 			}
 		}
+	} else { //!newApp
+		NSString *filename = [(appName ? appName : @"unknown-application") stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+		NSString *path = [@"/var/log" stringByAppendingPathComponent:filename];
+
+		NSFileHandle *fh = [NSFileHandle fileHandleForWritingAtPath:path];
+		[fh seekToEndOfFile];
+		if ([fh offsetInFile]) //we are not at the beginning of the file
+			[fh writeData:[@"\n---\n\n" dataUsingEncoding:NSUTF8StringEncoding]];
+		[fh writeData:[[[userInfo description] stringByAppendingString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+		[fh closeFile];
+
+		if (!appName) appName = @"with no name";
+
+		NSLog(@"Failed application registration for application %@; wrote failed registration dictionary %p to %@", appName, userInfo, path);
+		success = NO;
 	}
+
+	return success;
 }
 
 #pragma mark -
@@ -618,7 +638,9 @@ static id singleton = nil;
 		
 	} else if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
 		NSDictionary *regDict = [[NSDictionary alloc] initWithContentsOfFile:filename];
-		[[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
+		NSLog(@"regdict at path %@ became object %p with %u keys", filename, regDict, [regDict count]);
+		if ([filename isSubpathOf:NSTemporaryDirectory()]) //assume we got here from GAB
+			[[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
 
 		//Register this app using the indicated dictionary
 		if ([self _tryLockQueue]) {
@@ -743,7 +765,7 @@ static id singleton = nil;
 				 *we need to use LS in order to launch it with this specific
 				 *	GHA, rather than some other.
 				 */
-				NSURL *myURL        = [_copyCurrentProcessURL() autorelease];
+				NSURL *myURL        = [copyCurrentProcessURL() autorelease];
 				NSURL *ticketURL    = [NSURL fileURLWithPath:ticketPath];
 				NSArray *URLsToOpen = [NSArray arrayWithObject:ticketURL];
 				struct LSLaunchURLSpec spec = {

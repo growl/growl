@@ -59,7 +59,7 @@
 + (NSString *) growlVersion;
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *)dict;
-- (void) registerApplicationWithDictionary:(NSDictionary *) userInfo;
+- (BOOL) registerApplicationWithDictionary:(NSDictionary *) userInfo;
 
 - (NSDictionary *) versionDictionary;
 - (NSString *) stringWithVersionDictionary:(NSDictionary *)d;
