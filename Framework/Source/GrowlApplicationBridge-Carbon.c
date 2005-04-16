@@ -86,13 +86,13 @@ Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 		delegate = newDelegate;
 	}
 
-	if(delegate) {
-		if(!registeredForClickCallbacks) {
+	if (delegate) {
+		if (!registeredForClickCallbacks) {
 			//register
 			CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlNotificationWasClicked, _growlNotificationWasClicked, GROWL_NOTIFICATION_CLICKED, /*object*/ NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
 			registeredForClickCallbacks = true;
 		}
-	} else if(registeredForClickCallbacks) {
+	} else if (registeredForClickCallbacks) {
 		//unregister
 		CFNotificationCenterRemoveObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlNotificationWasClicked, GROWL_NOTIFICATION_CLICKED, /*object*/ NULL);
 		registeredForClickCallbacks = false;
@@ -236,8 +236,8 @@ void Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
 #pragma mark -
 
 Boolean Growl_RegisterWithDictionary(CFDictionaryRef regDict) {
-	if(regDict) regDict = Growl_CreateRegistrationDictionaryByFillingInDictionary(regDict);
-	else        regDict = Growl_CreateBestRegistrationDictionary();
+	if (regDict) regDict = Growl_CreateRegistrationDictionaryByFillingInDictionary(regDict);
+	else         regDict = Growl_CreateBestRegistrationDictionary();
 
 	Boolean success = _launchGrowlIfInstalledWithRegistrationDictionary(regDict, /*callback*/ NULL, /*context*/ NULL);
 
@@ -354,11 +354,11 @@ CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionary(CFDictio
 }
 
 CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestrictedToKeys(CFDictionaryRef regDict, CFSetRef keys) {
-	if(!regDict) return NULL;
+	if (!regDict) return NULL;
 
 	CFMutableDictionaryRef mRegDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, /*capacity*/ 0, regDict);
 
-	if((!keys) || CFSetContainsValue(keys, GROWL_APP_NAME)) {
+	if ((!keys) || CFSetContainsValue(keys, GROWL_APP_NAME)) {
 		if (!CFDictionaryContainsKey(mRegDict, GROWL_APP_NAME)) {
 			CFStringRef appName = NULL;
 			if (delegate) {
@@ -378,7 +378,7 @@ CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestricte
 		}
 	}
 
-	if((!keys) || CFSetContainsValue(keys, GROWL_APP_ICON)) {
+	if ((!keys) || CFSetContainsValue(keys, GROWL_APP_ICON)) {
 		if (!CFDictionaryContainsKey(mRegDict, GROWL_APP_ICON)) {
 			CFDataRef appIconData = NULL;
 			if (delegate) {
@@ -390,7 +390,7 @@ CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestricte
 			}
 			if (!appIconData) {
 				CFURLRef myURL = copyCurrentProcessURL();
-				if(myURL) {
+				if (myURL) {
 					appIconData = copyIconDataForURL(myURL);
 					CFRelease(myURL);
 				}
@@ -403,7 +403,7 @@ CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestricte
 		}
 	}
 
-	if((!keys) || CFSetContainsValue(keys, GROWL_APP_LOCATION)) {
+	if ((!keys) || CFSetContainsValue(keys, GROWL_APP_LOCATION)) {
 		if (!CFDictionaryContainsKey(mRegDict, GROWL_APP_LOCATION)) {
 			CFURLRef myURL = copyCurrentProcessURL();
 			if (myURL) {
@@ -427,7 +427,7 @@ CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestricte
 		}
 	}
 
-	if((!keys) || CFSetContainsValue(keys, GROWL_NOTIFICATIONS_DEFAULT)) {
+	if ((!keys) || CFSetContainsValue(keys, GROWL_NOTIFICATIONS_DEFAULT)) {
 		if (!CFDictionaryContainsKey(mRegDict, GROWL_NOTIFICATIONS_DEFAULT)) {
 			CFArrayRef all = CFDictionaryGetValue(mRegDict, GROWL_NOTIFICATIONS_ALL);
 			if (all)
@@ -840,24 +840,24 @@ static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStri
 }
 
 static void _growlNotificationWasClicked(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-	if(delegate) {
+	if (delegate) {
 		void (*growlNotificationWasClickedCallback)(CFPropertyListRef) = delegate->growlNotificationWasClicked;
-		if(growlNotificationWasClickedCallback) {
+		if (growlNotificationWasClickedCallback) {
 			//get our app name.
 			CFStringRef appName = NULL;
-			if(delegate->applicationName)
+			if (delegate->applicationName)
 				appName = CFRetain(delegate->applicationName);
-			else if(delegate->registrationDictionary) {
+			else if (delegate->registrationDictionary) {
 				appName = CFDictionaryGetValue(delegate->registrationDictionary, GROWL_APP_NAME);
-				if(appName) appName = CFRetain(appName);
+				if (appName) appName = CFRetain(appName);
 			}
 			//get the name of the application to which this notification is addressed.
 			CFStringRef appNameFromNotification = CFDictionaryGetValue(userInfo, GROWL_APP_NAME);
 
-			if(appName) {
-				if(appNameFromNotification) {
+			if (appName) {
+				if (appNameFromNotification) {
 					CFComparisonResult comparison = CFStringCompare(appName, appNameFromNotification, /*comparisonFlags*/ 0);
-					if(comparison == kCFCompareEqualTo) {
+					if (comparison == kCFCompareEqualTo) {
 						//this notification is for us. fire the callback.
 						growlNotificationWasClickedCallback(CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_CLICK_CONTEXT));
 					}

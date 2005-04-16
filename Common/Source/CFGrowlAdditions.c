@@ -132,7 +132,7 @@ CFDataRef copyIconDataForPath(CFStringRef path) {
 
 	//false is probably safest, and is harmless when the object really is a directory.
 	CFURLRef URL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, kCFURLPOSIXPathStyle, /*isDirectory*/ false);
-	if(URL) {
+	if (URL) {
 		data = copyIconDataForURL(URL);
 		CFRelease(URL);
 	}
@@ -142,9 +142,9 @@ CFDataRef copyIconDataForPath(CFStringRef path) {
 CFDataRef copyIconDataForURL(CFURLRef URL) {
 	CFDataRef data = NULL;
 
-	if(URL) {
+	if (URL) {
 		FSRef ref;
-		if(CFURLGetFSRef(URL, &ref)) {
+		if (CFURLGetFSRef(URL, &ref)) {
 			IconRef icon = NULL;
 			SInt16 label_noOneCares;
 			OSStatus err = GetIconRefFromFileInfo(&ref,
@@ -153,16 +153,16 @@ CFDataRef copyIconDataForURL(CFURLRef URL) {
 												  kIconServicesNoBadgeFlag | kIconServicesUpdateIfNeededFlag,
 												  &icon,
 												  &label_noOneCares);
-			if(err != noErr) {
+			if (err != noErr) {
 				NSLog(CFSTR("in copyIconDataForURL in CFGrowlAdditions: could not get icon for %@: GetIconRefFromFileInfo returned %li\n"), URL, (long)err);
 			} else {
 				IconFamilyHandle fam = NULL;
 				err = IconRefToIconFamily(icon, kSelectorAllAvailableData, &fam);
-				if(err != noErr) {
+				if (err != noErr) {
 					NSLog(CFSTR("in copyIconDataForURL in CFGrowlAdditions: could not get icon for %@: IconRefToIconFamily returned %li\n"), URL, (long)err);
 				} else {
 					HLock((Handle)fam);
-					data = CFDataCreate(kCFAllocatorDefault, *(Handle)fam, GetHandleSize((Handle)fam));
+					data = CFDataCreate(kCFAllocatorDefault, (const UInt8 *)*(Handle)fam, GetHandleSize((Handle)fam));
 					HUnlock((Handle)fam);
 					DisposeHandle((Handle)fam);
 				}

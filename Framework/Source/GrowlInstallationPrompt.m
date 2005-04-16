@@ -259,7 +259,7 @@ static BOOL checkOSXVersion()
 
 			NSString *launchPath = @"/System/Library/CoreServices/BOMArchiveHelper.app/Contents/MacOS/BOMArchiveHelper";
 			NSArray *arguments = nil;
-			if([mgr fileExistsAtPath:launchPath]) {
+			if ([mgr fileExistsAtPath:launchPath]) {
 				//BOMArchiveHelper is more particular than unzip, so we need to do some clean-up first:
 				//(1) copy the zip file into the temporary directory.
 				NSString *archiveFilename = [archivePath lastPathComponent];
@@ -275,7 +275,7 @@ static BOOL checkOSXVersion()
 				launchPath = @"/usr/bin/unzip";
 				hasUnzip = [mgr fileExistsAtPath:launchPath];
 
-				if(hasUnzip) {
+				if (hasUnzip) {
 					arguments = [NSArray arrayWithObjects:
 						@"-o",         //overwrite
 						@"-q",         //quiet!
@@ -285,7 +285,7 @@ static BOOL checkOSXVersion()
 				}
 			}
 
-			if(hasUnzip) {
+			if (hasUnzip) {
 				unzip = [[NSTask alloc] init];
 				[unzip setLaunchPath:launchPath];
 				[unzip setArguments:arguments];

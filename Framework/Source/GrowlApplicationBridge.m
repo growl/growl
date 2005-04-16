@@ -633,7 +633,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 																 errorDescription:&error];
 					if (plistData) {
 						success = [plistData writeToFile:regDictPath atomically:NO];
-						NSDictionary *readBackIn = [NSDictionary dictionaryWithContentsOfFile:regDictPath];
 					} else {
 						NSLog(@"GrowlApplicationBridge: Error writing registration dictionary at %@: %@", regDictPath, error);
 						NSLog(@"GrowlApplicationBridge: Registration dictionary follows\n%@", regDict);

@@ -21,6 +21,6 @@
 }
 
 - (NSString *) growlVersion {
-	return [[GrowlController standardController] growlVersion];
+	return [GrowlController growlVersion];
 }
 @end

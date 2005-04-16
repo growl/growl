@@ -48,7 +48,7 @@
 	NSTimer						*updateTimer;
 }
 
-+ (id) standardController;
++ (GrowlController *) standardController;
 
 - (void) startServer;
 - (void) stopServer;

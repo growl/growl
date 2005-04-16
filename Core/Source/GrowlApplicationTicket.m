@@ -443,7 +443,7 @@
 	//XXX - should assimilate reregisterWithAllNotifications:defaults:icon: here
 	NSArray *all      = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
 	NSArray *defaults = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
-	if(!defaults) defaults = all;
+	if (!defaults) defaults = all;
 	[self reregisterWithAllNotifications:all
 								defaults:defaults
 									icon:theIcon];
