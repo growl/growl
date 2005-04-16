@@ -2187,6 +2187,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				955497B5081125BD0062E27B,
 				3433458D0790E3D600C84B15,
 				95543EE107E04BA9005534FA,
 				3433456E0790E39200C84B15,
@@ -3380,7 +3381,6 @@
 				950F797C080EED5C00CC5F62,
 				951BD0B5081049C700D803CD,
 				951BD0B6081049C700D803CD,
-				95F77E27080FE28900FF8F67,
 				9596C4EF081063DB00F43859,
 				950F79C5080EEE2B00CC5F62,
 			);
@@ -3550,7 +3550,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9596C4F0081063DB00F43859,
-				95F77E56080FE80D00FF8F67,
 				950F7B11080F094400CC5F62,
 			);
 			isa = PBXResourcesBuildPhase;
@@ -4016,6 +4015,26 @@
 			settings = {
 			};
 		};
+		9554979A081125A60062E27B = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = Default.growlStyle;
+			path = Core/Resources/Default.growlStyle;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		955497A2081125A60062E27B = {
+			fileRef = 9554979A081125A60062E27B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		955497B5081125BD0062E27B = {
+			fileRef = 9554979A081125A60062E27B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		9556E5AA07F42F3000D42745 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
@@ -4400,21 +4419,6 @@
 			path = Core/Source/CoreGraphicsServices.h;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		95F77E27080FE28900FF8F67 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = text;
-			name = default.css;
-			path = "Display Plugins/WebKit/default.css";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		95F77E56080FE80D00FF8F67 = {
-			fileRef = 95F77E27080FE28900FF8F67;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		95FC305007E03B0700BD8674 = {
 			children = (
@@ -4867,6 +4871,7 @@
 		};
 		CB5F84730638BD4D00EADD7A = {
 			children = (
+				9554979A081125A60062E27B,
 				954F013B074135D400EA8AB5,
 				CB61E51A0637763C00E0DDC7,
 			);
@@ -4923,6 +4928,7 @@
 		CB61E5140637763C00E0DDC7 = {
 			buildActionMask = 2147483647;
 			files = (
+				955497A2081125A60062E27B,
 				63C92DD806D05D22007368FA,
 				63C92DD906D05D22007368FA,
 				63C92DDA06D05D22007368FA,

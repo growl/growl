@@ -12,6 +12,7 @@
 #import "GrowlWebKitDefines.h"
 #import "GrowlImageURLProtocol.h"
 #import "NSWindow+Transforms.h"
+#import "GrowlPreferences.h"
 
 static unsigned webkitWindowDepth = 0U;
 
@@ -87,9 +88,10 @@ static unsigned webkitWindowDepth = 0U;
 			break;
 	}
 	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
+	NSBundle *styleBundle = [NSBundle bundleWithPath:[[[GrowlPreferences preferences] helperAppBundle] pathForResource:@"Default" ofType:@"growlStyle"]];
 
 	NSString *templateFile = [bundle pathForResource:@"template" ofType:@"html"];
-	NSString *stylePath = [bundle resourcePath];
+	NSString *stylePath = [styleBundle resourcePath];
 	NSString *template = [NSString alloc];
 	if ([template respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {
 		NSError *error;
