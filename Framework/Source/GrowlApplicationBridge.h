@@ -68,6 +68,8 @@
  */
 + (BOOL) isGrowlRunning;
 
+#pragma mark -
+
 /*!
  *	@method setGrowlDelegate:
  *	@abstract Set the object which will be responsible for providing and receiving Growl information.
@@ -93,7 +95,7 @@
  *	 If using the Growl-WithInstaller framework, if Growl is already installed
  *	 but this copy of the framework has an updated version of Growl, the user
  *	 will be prompted to update automatically.
- *	 
+ *
  *	@param inDelegate The delegate for the GrowlApplicationBridge. It must conform to the GrowlApplicationBridgeDelegate protocol.
  */
 + (void) setGrowlDelegate:(NSObject<GrowlApplicationBridgeDelegate> *)inDelegate;
@@ -106,14 +108,16 @@
  */
 + (NSObject<GrowlApplicationBridgeDelegate> *) growlDelegate;
 
+#pragma mark -
+
 /*!
  *	@method notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:
  *	@abstract Send a Growl notification.
  *	@discussion This is the preferred means for sending a Growl notification.
  *	 The notification name and at least one of the title and description are
- *	 required (all three are preferred).  All other parameters may be nil
- *	 (or 0 or NO as appropriate) to accept default values.
- *	 
+ *	 required (all three are preferred).  All other parameters may be
+ *	 <code>nil</code> (or 0 or NO as appropriate) to accept default values.
+ *
  *	 If using the Growl-WithInstaller framework, if Growl is not installed the
  *	 user will be prompted to install Growl. If the user cancels, this method
  *	 will have no effect until the next application session, at which time when
@@ -121,14 +125,14 @@
  *	 option to not be prompted again.  If the user does choose to install Growl,
  *	 the requested notification will be displayed once Growl is installed and
  *	 running.
- *	 
+ *
  *	@param title		The title of the notification displayed to the user.
  *	@param description	The full description of the notification displayed to the user.
  *	@param notifName	The internal name of the notification. Should be human-readable, as it will be displayed in the Growl preference pane.
- *	@param iconData		NSData object to show with the notification as its icon. If nil, the application's icon will be used instead.
+ *	@param iconData		<code>NSData</code> object to show with the notification as its icon. If <code>nil</code>, the application's icon will be used instead.
  *	@param priority		The priority of the notification. The default value is 0; positive values are higher priority and negative values are lower priority. Not all Growl displays support priority.
  *	@param isSticky		If YES, the notification will remain on screen until clicked. Not all Growl displays support sticky notifications.
- *	@param clickContext	A context passed back to the Growl delegate if it implements -(void)growlNotificationWasClicked: and the notification is clicked. Not all display plugins support clicking. The clickContext must be plist-encodable (completely of NSString, NSArray, NSNumber, NSDictionary, and NSData types).
+ *	@param clickContext	A context passed back to the Growl delegate if it implements -(void)growlNotificationWasClicked: and the notification is clicked. Not all display plugins support clicking. The clickContext must be plist-encodable (completely of <code>NSString</code>, <code>NSArray</code>, <code>NSNumber</code>, <code>NSDictionary</code>, and <code>NSData</code> types).
  */
 + (void) notifyWithTitle:(NSString *)title
 			 description:(NSString *)description
@@ -140,30 +144,198 @@
 
 /*!	@method	notifyWithDictionary:
  *	@abstract	Notifies using a userInfo dictionary suitable for passing to
- *	 NSDistributedNotificationCenter.
+ *	 <code>NSDistributedNotificationCenter</code>.
  *	@param	userInfo	The dictionary to notify with.
  *	@discussion	Before Growl 0.6, your application would have posted
- *	 notifications using NSDistributedNotificationCenter by creating a userInfo
- *	 dictionary with the notification data. This had the advantage of allowing
- *	 you to add other data to the dictionary for programs besides Growl that
- *	 might be listening.
- *	 
+ *	 notifications using <code>NSDistributedNotificationCenter</code> by
+ *	 creating a userInfo dictionary with the notification data. This had the
+ *	 advantage of allowing you to add other data to the dictionary for programs
+ *	 besides Growl that might be listening.
+ *
  *	 This method allows you to use such dictionaries without being restricted
- *	 to using NSDistributedNotificationCenter. The keys for this dictionary
+ *	 to using <code>NSDistributedNotificationCenter</code>. The keys for this dictionary
  *	 can be found in GrowlDefines.h.
  */
 + (void) notifyWithDictionary:(NSDictionary *)userInfo;
 
-/*!
- *	@method reregisterGrowlNotifications
- *	@abstract Reregister the notifications for this application.
- *	@discussion This method does not normally need to be called.  If your
- *	 application changes what notifications it is registering with Growl,
- *	 call this method to have the Growl delegate's
- *	 -registrationDictionaryForGrowl method called again and the Growl
- *	 registration information updated.
+#pragma mark -
+
+/*!	@method	registerWithDictionary:
+ *	@abstract	Register your application with Growl without setting a delegate.
+ *	@discussion	When you call this method with a dictionary,
+ *	 GrowlApplicationBridge registers your application using that dictionary.
+ *	 If you pass <code>nil</code>, GrowlApplicationBridge will ask the delegate
+ *	 (if there is one) for a dictionary, and if that doesn't work, it will look
+ *	 in your application's bundle for an auto-discoverable plist.
+ *	 (XXX refer to more information on that)
+ *
+ *	 If you pass a dictionary to this method, it must include the
+ *	 <code>GROWL_APP_NAME</code> key, unless a delegate is set.
+ *
+ *	 This method is mainly an alternative to the delegate system introduced
+ *	 with Growl 0.6. Without a delegate, you cannot receive callbacks such as
+ *	 <code>-growlIsReady</code> (since they are sent to the delegate). You can,
+ *	 however, set a delegate after registering without one.
+ *
+ *	 This method was introduced in Growl.framework 0.7.
+ */
++ (BOOL) registerWithDictionary:(NSDictionary *)regDict;
+
+/*!	@method	reregisterGrowlNotifications
+ *	@abstract	Reregister the notifications for this application.
+ *	@discussion	This method does not normally need to be called.  If your
+ *	 application changes what notifications it is registering with Growl, call
+ *	 this method to have the Growl delegate's
+ *	 <code>-registrationDictionaryForGrowl</code> method called again and the
+ *	 Growl registration information updated.
+ *
+ *	 This method is now implemented using <code>-registerWithDictionary:</code>.
  */
 + (void) reregisterGrowlNotifications;
+
+#pragma mark -
+
+/*!	@method	setWillRegisterWhenGrowlIsReady:
+ *	@abstract	Tells GrowlApplicationBridge to register with Growl when Growl
+ *	 launches (or not).
+ *	@discussion	When Growl has started listening for notifications, it posts a
+ *	 <code>GROWL_IS_READY</code> notification on the Distributed Notification
+ *	 Center. GrowlApplicationBridge listens for this notification, using it to
+ *	 perform various tasks (such as calling your delegate's
+ *	 <code>-growlIsReady</code> method, if it has one). If this method is
+ *	 called with <code>YES</code>, one of those tasks will be to reregister
+ *	 with Growl (in the manner of <code>-reregisterGrowlNotifications</code>).
+ *	 
+ *	 This attribute is automatically set back to <code>NO</code> (the default)
+ *	 after every <code>GROWL_IS_READY</code> notification.
+ *	@param	flag	YES if you want GrowlApplicationBridge to register with
+ *	 Growl when next it is ready; NO if not.
+ */
++ (void) setWillRegisterWhenGrowlIsReady:(BOOL)flag;
+/*!	@method	willRegisterWhenGrowlIsReady
+ *	@abstract	Reports whether GrowlApplicationBridge will register with Growl
+ *	 when Growl next launches.
+ *	@result	YES if GrowlApplicationBridge will register with Growl when next it
+ *	 posts GROWL_IS_READY; NO if not.
+ */
++ (BOOL) willRegisterWhenGrowlIsReady;
+
+#pragma mark -
+
+/*!	@method	registrationDictionaryFromDelegate
+ *	@abstract	Asks the delegate for a registration dictionary.
+ *	@discussion	If no delegate is set, or if the delegate's
+ *	 <code>-registrationDictionaryForGrowl</code> method returns
+ *	 <code>nil</code>, this method returns <code>nil</code>.
+ *
+ *	 This method does not attempt to clean up the dictionary in any way - for
+ *	 example, if it is missing the <code>GROWL_APP_NAME</code> key, the result
+ *	 will be missing it too. Use <code>+[GrowlApplicationBridge
+ *	 registrationDictionaryByFillingInDictionary:]</code> or
+ *	 <code>+[GrowlApplicationBridge
+ *	 registrationDictionaryByFillingInDictionary:restrictToKeys:]</code> to try
+ *	 to fill in missing keys.
+ *
+ *	 This method was introduced in Growl.framework 0.7.
+ *	@result A registration dictionary.
+ */
++ (NSDictionary *) registrationDictionaryFromDelegate;
+
+/*!	@method	registrationDictionaryFromBundle:
+ *	@abstract	Looks in a bundle for a registration dictionary.
+ *	@discussion	This method looks in a bundle for an auto-discoverable
+ *	 registration dictionary file using <code>-[NSBundle
+ *	 pathForResource:ofType:]</code>. If it finds one, it loads the file using
+ *	 <code>+[NSDictionary dictionaryWithContentsOfFile:]</code> and returns the
+ *	 result.
+ *
+ *	 If you pass <code>nil</code> as the bundle, the main bundle is examined.
+ *
+ *	 This method does not attempt to clean up the dictionary in any way - for
+ *	 example, if it is missing the <code>GROWL_APP_NAME</code> key, the result
+ *	 will be missing it too. Use <code>+[GrowlApplicationBridge
+ *	 registrationDictionaryByFillingInDictionary:]</code> or
+ *	 <code>+[GrowlApplicationBridge
+ *	 registrationDictionaryByFillingInDictionary:restrictToKeys:]</code> to try
+ *	 to fill in missing keys.
+ *
+ *	 This method was introduced in Growl.framework 0.7.
+ *	@result A registration dictionary.
+ */
++ (NSDictionary *) registrationDictionaryFromBundle:(NSBundle *)bundle;
+
+/*!	@method	bestRegistrationDictionary
+ *	@abstract	Obtains a registration dictionary, filled out to the best of
+ *	 GrowlApplicationBridge's knowledge.
+ *	@discussion	This method creates a registration dictionary as best
+ *	 GrowlApplicationBridge knows how.
+ *
+ *	 First, GrowlApplicationBridge contacts the Growl delegate (if there is
+ *	 one) and gets the registration dictionary from that. If no such dictionary
+ *	 was obtained, GrowlApplicationBridge looks in your application's main
+ *	 bundle for an auto-discoverable registration dictionary file. If that
+ *	 doesn't exist either, this method returns <code>nil</code>.
+ *
+ *	 Second, GrowlApplicationBridge calls
+ *	 <code>+registrationDictionaryByFillingInDictionary:</code> with whatever
+ *	 dictionary was obtained. The result of that method is the result of this
+ *	 method.
+ *
+ *	 GrowlApplicationBridge uses this method when you call
+ *	 <code>+setGrowlDelegate:</code>, or when you call
+ *	 <code>+registerWithDictionary:</code> with <code>nil</code>.
+ *
+ *	 This method was introduced in Growl.framework 0.7.
+ *	@result	A registration dictionary.
+ */
++ (NSDictionary *) bestRegistrationDictionary;
+
+#pragma mark -
+
+/*!	@method	registrationDictionaryByFillingInDictionary:
+ *	@abstract	Tries to fill in missing keys in a registration dictionary.
+ *	@discussion	This method examines the passed-in dictionary for missing keys,
+ *	 and tries to work out correct values for them. As of 0.7, it uses:
+ *
+ *	 Key							             Value
+ *	 ---							             -----
+ *	 <code>GROWL_APP_NAME</code>                 <code>CFBundleExecutableName</code>
+ *	 <code>GROWL_APP_ICON</code>                 The icon of the application.
+ *	 <code>GROWL_APP_LOCATION</code>             The location of the application.
+ *	 <code>GROWL_NOTIFICATIONS_DEFAULT</code>    <code>GROWL_NOTIFICATIONS_ALL</code>
+ *
+ *	 Keys are only filled in if missing; if a key is present in the dictionary,
+ *	 its value will not be changed.
+ *
+ *	 This method was introduced in Growl.framework 0.7.
+ *	@param	regDict	The dictionary to fill in.
+ *	@result	The dictionary with the keys filled in. This is an autoreleased
+ *	 copy of <code>regDict</code>.
+ */
++ (NSDictionary *) registrationDictionaryByFillingInDictionary:(NSDictionary *)regDict;
+/*!	@method	registrationDictionaryByFillingInDictionary:restrictToKeys:
+ *	@abstract	Tries to fill in missing keys in a registration dictionary.
+ *	@discussion	This method examines the passed-in dictionary for missing keys,
+ *	 and tries to work out correct values for them. As of 0.7, it uses:
+ *
+ *	 Key							             Value
+ *	 ---							             -----
+ *	 <code>GROWL_APP_NAME</code>                 <code>CFBundleExecutableName</code>
+ *	 <code>GROWL_APP_ICON</code>                 The icon of the application.
+ *	 <code>GROWL_APP_LOCATION</code>             The location of the application.
+ *	 <code>GROWL_NOTIFICATIONS_DEFAULT</code>    <code>GROWL_NOTIFICATIONS_ALL</code>
+ *
+ *	 Only those keys that are listed in <code>keys</code> will be filled in.
+ *	 Other missing keys are ignored. Also, keys are only filled in if missing;
+ *	 if a key is present in the dictionary, its value will not be changed.
+ *
+ *	 This method was introduced in Growl.framework 0.7.
+ *	@param	regDict	The dictionary to fill in.
+ *	@param	keys	The keys to fill in. If <code>nil</code>, any missing keys are filled in.
+ *	@result	The dictionary with the keys filled in. This is an autoreleased
+ *	 copy of <code>regDict</code>.
+ */
++ (NSDictionary *) registrationDictionaryByFillingInDictionary:(NSDictionary *)regDict restrictToKeys:(NSSet *)keys;
 
 @end
 
@@ -173,13 +345,15 @@
 /*!
  *	@protocol GrowlApplicationBridgeDelegate
  *	@abstract Required protocol for the Growl delegate.
- *	@discussion The methods in this protocol are required and are called automatically as needed by GrowlApplicationBridge. See +[GrowlApplicationBridge setGrowlDelegate:].
- *	 See also GrowlApplicationBridgeDelegate_InformalProtocol.
+ *	@discussion The methods in this protocol are required and are called
+ *	 automatically as needed by GrowlApplicationBridge. See
+ *	 <code>+[GrowlApplicationBridge setGrowlDelegate:]</code>.
+ *	 See also <code>GrowlApplicationBridgeDelegate_InformalProtocol</code>.
  */
 
 @protocol GrowlApplicationBridgeDelegate
 
-// -registrationDictionaryForGrowl has moved to the informal protocol.
+// -registrationDictionaryForGrowl has moved to the informal protocol as of 0.7.
 
 @end
 
@@ -199,24 +373,24 @@
  *	@discussion The returned dictionary gives Growl the complete list of
  *	 notifications this application will ever send, and it also specifies which
  *	 notifications should be enabled by default.  Each is specified by an array
- *	 of NSString objects.
+ *	 of <code>NSString</code> objects.
  *
  *	 For most applications, these two arrays can be the same (if all sent
  *	 notifications should be displayed by default).
  * 
- *	 The NSString objects of these arrays will correspond to the
- *	 notificationName: parameter passed in +[GrowlApplicationBridge
- *	 notifyWithTitle:description:notificationName:iconData:priority:isSticky:
- *	 clickContext:] calls.
+ *	 The <code>NSString</code> objects of these arrays will correspond to the
+ *	 <code>notificationName:</code> parameter passed in
+ *	 <code>+[GrowlApplicationBridge
+ *	 notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:]</code> calls.
  * 
  *	 The dictionary should have 2 key object pairs:
- *	 key: GROWL_NOTIFICATIONS_ALL		object: NSArray of NSString objects
- *	 key: GROWL_NOTIFICATIONS_DEFAULT	object: NSArray of NSString objects
+ *	 key: GROWL_NOTIFICATIONS_ALL		object: <code>NSArray</code> of <code>NSString</code> objects
+ *	 key: GROWL_NOTIFICATIONS_DEFAULT	object: <code>NSArray</code> of <code>NSString</code> objects
  *
  *	 You do not need to implement this method if you have an auto-discoverable
  *	 plist file in your app bundle. (XXX refer to more information on that)
- *	 
- *	@result The NSDictionary to use for registration.
+ *
+ *	@result The <code>NSDictionary</code> to use for registration.
  */
 - (NSDictionary *) registrationDictionaryForGrowl;
 
@@ -241,11 +415,11 @@
 
 /*!
  *	@method applicationIconDataForGrowl
- *	@abstract Return the NSData to treat as the application icon.
- *	@discussion The delegate may optionally return an NSData object to use as
- *	 the application icon; if this is not implemented, the application's own
- *	 icon is used.  This is not generally needed.
- *	@result The NSData to treat as the application icon.
+ *	@abstract Return the <code>NSData</code> to treat as the application icon.
+ *	@discussion The delegate may optionally return an <code>NSData</code>
+ *	 object to use as the application icon; if this is not implemented, the
+ *	 application's own icon is used.  This is not generally needed.
+ *	@result The <code>NSData</code> to treat as the application icon.
  */
 - (NSData *) applicationIconDataForGrowl;
 
@@ -263,10 +437,10 @@
  *	@method growlNotificationWasClicked:
  *	@abstract Informs the delegate that a Growl notification was clicked.
  *	@discussion Informs the delegate that a Growl notification was clicked.  It
- *	 is only sent for notifications sent with a non-nil clickContext, so if you
- *	 want to receive a message when a notification is clicked, clickContext must
- *	 not be nil when calling +[GrowlApplicationBridge notifyWithTitle:
- *	 description:notificationName:iconData:priority:isSticky:clickContext:].
+ *	 is only sent for notifications sent with a non-<code>nil</code>
+ *	 clickContext, so if you want to receive a message when a notification is
+ *	 clicked, clickContext must not be <code>nil</code> when calling
+ *	 <code>+[GrowlApplicationBridge notifyWithTitle: description:notificationName:iconData:priority:isSticky:clickContext:]</code>.
  *	@param clickContext The clickContext passed when displaying the notification originally via +[GrowlApplicationBridge notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:].
  */
 - (void) growlNotificationWasClicked:(id)clickContext;
@@ -307,9 +481,8 @@
  *	 will be sized to fit it).  It will be displayed to the user as an
  *	 explanation of what Growl is and what it can do in your application.  It
  *	 should probably note that no download is required to install.
- *	 
+ *
  *	 If this is not implemented, Growl will use a default, localized explanation.
- *	 
  *	@result An NSAttributedString object to display.
  */
 - (NSAttributedString *)growlInstallationInformation;
@@ -321,9 +494,8 @@
  *	 will be sized to fit it).  It will be displayed to the user as an
  *	 explanation that an updated version of Growl is included in your
  *	 application and no download is required.
- *	 
+ *
  *	 If this is not implemented, Growl will use a default, localized explanation.
- *	 
  *	@result An NSAttributedString object to display.
  */
 - (NSAttributedString *)growlUpdateInformation;

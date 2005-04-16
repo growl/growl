@@ -26,7 +26,7 @@
 
 #define GROWL_TEXT_SIZE 11
 
-static const long minimumOSXVersionForGrowl = 0x1030L;
+static const long minimumOSXVersionForGrowl = 0x1030L; //Panther (10.3)
 
 @interface GrowlInstallationPrompt (private)
 - (id)initWithWindowNibName:(NSString *)nibName forUpdateToVersion:(NSString *)updateVersion;
@@ -304,19 +304,29 @@ static BOOL checkOSXVersion()
 			if (success) {
 				NSString	*tempGrowlPrefPane;
 				
-				// Kill the running Growl helper app if necessary by asking the Growl Helper App to shutdown via the DNC
+				/*Kill the running GrowlHelperApp if necessary by asking it via
+				 *	DNC to shutdown.
+				 */
 				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
-				
-				/* Open Growl.prefPane using System Preferences, which will take care of the rest.
-				 * Growl.prefPane will relaunch the GHA if appropriate. */
+
+				//tell GAB to register when GHA next launches.
+				[GrowlApplicationBridge setWillRegisterWhenGrowlIsReady:YES];
+
+				/*Open Growl.prefPane using System Preferences, which will
+				 *	take care of the rest.
+				 *Growl.prefPane will relaunch the GHA if appropriate.
+				 */
 				tempGrowlPrefPane = [tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
 				success = [[NSWorkspace sharedWorkspace] openFile:tempGrowlPrefPane
 												  withApplication:@"System Preferences"
 													andDeactivate:YES];
 				if (!success) {
-					/* If the System Preferences app could not be found for whatever reason, try opening
-					 * Growl.prefPane with openTempFile so the associated app will launch. This could be the case
-					 * if "System Preferences.app" were renamed or if an alternative program were being used. */
+					/*If the System Preferences app could not be found for
+					 *	whatever reason, try opening Growl.prefPane with
+					 *	-openTempFile: so the associated app will launch. This
+					 *	could be the case if "System Preferences.app" were
+					 *	renamed or if an alternative program were being used.
+					 */
 					success = [[NSWorkspace sharedWorkspace] openTempFile:tempGrowlPrefPane];
 				}
 			}
@@ -324,7 +334,7 @@ static BOOL checkOSXVersion()
 	}
 
 	if (!success) {
-		//XXX show this to the user; don't just log it.
+#warning XXX - show this to the user; don't just log it.
 		NSLog(@"GrowlInstallationPrompt: Growl was not successfully installed");
 	}
 }
