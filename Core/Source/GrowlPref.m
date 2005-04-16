@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Karl Adam on Wed Apr 21 2004.
-//  Copyright 2004 The Growl Project. All rights reserved.
+//  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 // This file is under the BSD License, refer to License.txt for details
 
@@ -19,6 +19,7 @@
 #import "ACImageAndTextCell.h"
 #import "NSGrowlAdditions.h"
 #import "TicketsArrayController.h"
+#import "GrowlBrowserEntry.h"
 #import <ApplicationServices/ApplicationServices.h>
 #import <Security/SecKeychain.h>
 #import <Security/SecKeychainItem.h>
@@ -31,105 +32,9 @@
 //This is the frame of the preference view that we should get back.
 #define DISPLAY_PREF_FRAME NSMakeRect(16.0f, 58.0f, 354.0f, 289.0f)
 
-@interface GrowlBrowserEntry : NSObject {
-	NSMutableDictionary *properties;
-	GrowlPref			*owner;
-}
-- (id) initWithDictionary:(NSDictionary *)dict;
-- (id) initWithComputerName:(NSString *)name netService:(NSNetService *)service;
-
-- (BOOL) use;
-- (void) setUse:(BOOL)flag;
-
-- (NSString *) computerName;
-- (void) setComputerName:(NSString *)name;
-
-- (NSNetService *) netService;
-- (void) setNetService:(NSNetService *)service;
-
-- (NSDictionary *) properties;
-
-- (void) setAddress:(NSData *)address;
-- (void) setOwner:(GrowlPref *)pref;
-
-@end
-
-@implementation GrowlBrowserEntry
-
-- (id) initWithDictionary:(NSDictionary *)dict {
-	if ((self = [super init])) {
-		properties = [dict mutableCopy];
-	}
-
-	return self;
-}
-
-- (id) initWithComputerName:(NSString *)name netService:(NSNetService *)service {
-	if ((self = [super init])) {
-		NSNumber *useValue = [[NSNumber alloc] initWithBool:NO];
-		properties = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-			name,     @"computer",
-			service,  @"netservice",
-			useValue, @"use",
-			nil];
-		[useValue release];
-	}
-
-	return self;
-}
-
-- (BOOL) use {
-	return [[properties objectForKey:@"use"] boolValue];
-}
-
-- (void) setUse:(BOOL)flag {
-	NSNumber *value = [[NSNumber alloc] initWithBool:flag];
-	[properties setObject:value forKey:@"use"];
-	[value release];
-	[owner writeForwardDestinations];
-}
-
-- (NSString *) computerName {
-	return [properties objectForKey:@"computer"];
-}
-
-- (void) setComputerName:(NSString *)name {
-	[properties setObject:name forKey:@"computer"];
-	[owner writeForwardDestinations];
-}
-
-- (NSNetService *) netService {
-	return [properties objectForKey:@"netservice"];
-}
-
-- (void) setNetService:(NSNetService *)service {
-	[properties setObject:service forKey:@"netservice"];
-}
-
-- (void) setAddress:(NSData *)address {
-	[properties setObject:address forKey:@"address"];
-	[properties removeObjectForKey:@"netservice"];
-	[owner writeForwardDestinations];
-}
-
-- (void) setOwner:(GrowlPref *)pref {
-	owner = pref;
-}
-
-- (NSDictionary *) properties {
-	return properties;
-}
-
-- (void) dealloc {
-	[properties release];
-	[super dealloc];
-}
-
-@end
-
 @interface NSNetService(TigerCompatibility)
 
-- (void)resolveWithTimeout:(NSTimeInterval)timeout;
+- (void) resolveWithTimeout:(NSTimeInterval)timeout;
 
 @end
 

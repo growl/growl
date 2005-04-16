@@ -371,6 +371,8 @@
 				936FAB02074482BF00A7D430,
 				A16BD22606FCC05F00BF033B,
 				A16BD22706FCC05F00BF033B,
+				9596C5F8081102BE00F43859,
+				9596C5F9081102BE00F43859,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -3246,6 +3248,7 @@
 				0790135607D9321B0023B640,
 				95C87BBC07D9E32D00C69DEE,
 				95A9E435080B2CAB006A2F29,
+				9596C5FB081102BE00F43859,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4155,6 +4158,36 @@
 			settings = {
 			};
 		};
+		9596C5F8081102BE00F43859 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlBrowserEntry.h;
+			path = Core/Source/GrowlBrowserEntry.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9596C5F9081102BE00F43859 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlBrowserEntry.m;
+			path = Core/Source/GrowlBrowserEntry.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9596C5FA081102BE00F43859 = {
+			fileRef = 9596C5F8081102BE00F43859;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9596C5FB081102BE00F43859 = {
+			fileRef = 9596C5F9081102BE00F43859;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95A9E432080B2CAB006A2F29 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -4870,6 +4903,7 @@
 			files = (
 				CB5FA1C70638CA5300EADD7A,
 				95A9E434080B2CAB006A2F29,
+				9596C5FA081102BE00F43859,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

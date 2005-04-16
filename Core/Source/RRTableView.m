@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Rudy Richter on 11/12/04.
-//  Copyright 2004 The Growl Project. All rights reserved.
+//  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 // This file is under the BSD License, refer to License.txt for details
 

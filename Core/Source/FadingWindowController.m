@@ -3,7 +3,7 @@
 //  Display Plugins
 //
 //  Created by Ingmar Stein on 16.11.04.
-//  Copyright 2004 The Growl Project. All rights reserved.
+//  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
 #import "FadingWindowController.h"
