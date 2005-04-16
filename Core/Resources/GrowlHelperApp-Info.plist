@@ -36,6 +36,24 @@
 			<key>LSTypeIsPackage</key>
 			<true/>
 		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>growlStyle</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>growl-icon</string>
+			<key>CFBundleTypeName</key>
+			<string>Growl WebKit Style</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>GWKS</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSTypeIsPackage</key>
+			<true/>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>GrowlHelperApp</string>

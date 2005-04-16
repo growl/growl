@@ -89,20 +89,14 @@ static unsigned webkitWindowDepth = 0U;
 	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
 
 	NSString *templateFile = [bundle pathForResource:@"template" ofType:@"html"];
-	NSString *stylesheetFile = [bundle pathForResource:@"default" ofType:@"css"];
-	NSString *stylesheet = [NSString alloc];
+	NSString *stylePath = [bundle resourcePath];
 	NSString *template = [NSString alloc];
-	if ([stylesheet respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {
+	if ([template respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {
 		NSError *error;
-		stylesheet = [stylesheet initWithContentsOfFile:stylesheetFile encoding:NSUTF8StringEncoding error:&error];
 		template = [template initWithContentsOfFile:templateFile encoding:NSUTF8StringEncoding error:&error];
 	} else {
 		// this method has been deprecated in 10.4
-		stylesheet = [stylesheet initWithContentsOfFile:stylesheet];
 		template = [template initWithContentsOfFile:templateFile];
-	}
-	if (!stylesheet) {
-		NSLog(@"WARNING: could not read stylesheet '%@'", stylesheetFile);
 	}
 	if (!template) {
 		NSLog(@"WARNING: could not read template '%@'", templateFile);
@@ -113,8 +107,12 @@ static unsigned webkitWindowDepth = 0U;
 	[image setName:UUID];
 	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
 
-	NSString *htmlString = [[NSString alloc] initWithFormat:template, stylesheet, priorityName, UUID, title, text];
-	[stylesheet release];
+	NSString *htmlString = [[NSString alloc] initWithFormat:template,
+		[[NSURL fileURLWithPath:stylePath] absoluteString],	// base URL
+		priorityName,	// priority class
+		UUID,			// image name
+		title,			// title
+		text];			// text
 	[template release];
 	WebFrame *webFrame = [view mainFrame];
 	[webFrame loadHTMLString:htmlString baseURL:nil];

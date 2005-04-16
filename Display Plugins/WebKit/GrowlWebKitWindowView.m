@@ -96,4 +96,10 @@
 		[target performSelector:action withObject:self];
 	}
 }
+
+- (NSArray *) webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems {
+	// disable context menu
+	return nil;
+}
+
 @end
