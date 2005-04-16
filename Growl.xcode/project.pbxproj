@@ -2472,6 +2472,8 @@
 				343353E80792F7CF00C84B15,
 				95DBC07907C284F300DE4ACA,
 				3433500C079275A300C84B15,
+				95812DB808118FB9004FF8F5,
+				95812DB908118FB9004FF8F5,
 			);
 			isa = PBXGroup;
 			name = Growl.framework;
@@ -2608,6 +2610,7 @@
 				343354C20792F96300C84B15,
 				070B910007E1AEFA00F10FA7,
 				9595190D07E48CBD004A4471,
+				95812DBA08118FB9004FF8F5,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2627,6 +2630,7 @@
 				343353EA0792F7CF00C84B15,
 				9595190E07E48CBE004A4471,
 				070B90FF07E1AEFA00F10FA7,
+				95812DBB08118FB9004FF8F5,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2782,6 +2786,7 @@
 				343354EF0792FC3600C84B15,
 				0790135907D932300023B640,
 				070B910207E1AEFA00F10FA7,
+				95812DBD08118FC5004FF8F5,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2805,6 +2810,7 @@
 				CBE84FE10801AE8D00E9473E,
 				0790135807D932270023B640,
 				070B910107E1AEFA00F10FA7,
+				95812DBC08118FBF004FF8F5,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4122,6 +4128,48 @@
 		};
 		956ADB0207551C4500AF9545 = {
 			fileRef = 956ADADF07551C4500AF9545;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95812DB808118FB9004FF8F5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlDelegate.h;
+			path = Framework/Source/GrowlDelegate.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95812DB908118FB9004FF8F5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlDelegate.m;
+			path = Framework/Source/GrowlDelegate.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95812DBA08118FB9004FF8F5 = {
+			fileRef = 95812DB808118FB9004FF8F5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95812DBB08118FB9004FF8F5 = {
+			fileRef = 95812DB908118FB9004FF8F5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95812DBC08118FBF004FF8F5 = {
+			fileRef = 95812DB908118FB9004FF8F5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95812DBD08118FC5004FF8F5 = {
+			fileRef = 95812DB808118FB9004FF8F5;
 			isa = PBXBuildFile;
 			settings = {
 			};
