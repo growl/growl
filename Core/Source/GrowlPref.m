@@ -247,8 +247,7 @@
 	NSMutableArray			*ticketsCopy = [tickets mutableCopy];
 	[ticketsCopy addObject:newTicket];
 	[self setTickets:ticketsCopy];
-	[ticketsCopy release];
-	
+	[ticketsCopy release];	
 }
 
 
@@ -426,6 +425,7 @@
 - (void) deleteTicket:(id)sender {
 	GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
 	NSString *path = [ticket path];
+	int	oldSelectionIndex = [ticketsArrayController selectionIndex];
 
 	if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
 		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys: [ticket applicationName], @"TicketName", nil];
@@ -437,7 +437,7 @@
 		[images removeObjectAtIndex:index];
 
 		///	Hmm... This doesn't work for some reason....
-		//	Even though the same method definitely works in the appRegistered: method... 
+		//	Even though the same method definitely^H^H^H^H^H^H probably works in the appRegistered: method... 
 
 		//	[self removeFromTicketsAtIndex:	[ticketsArrayController selectionIndex]];
 
@@ -445,6 +445,11 @@
 		[newTickets removeObject:ticket];
 		[self setTickets:newTickets];
 		[newTickets release];		 
+
+		if (oldSelectionIndex > [tickets count])
+			oldSelectionIndex = [tickets count];
+		
+		[ticketsArrayController setSelectionIndex: oldSelectionIndex];
 	}
 }
 
