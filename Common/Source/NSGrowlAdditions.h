@@ -20,6 +20,8 @@
 - (unsigned long) unsignedLongValue;
 - (unsigned) unsignedIntValue;
 
+- (BOOL) isSubpathOf:(NSString *)superpath;
+
 @end
 
 @interface NSURL (GrowlAdditions)
