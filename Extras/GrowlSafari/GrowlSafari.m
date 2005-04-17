@@ -61,12 +61,14 @@ static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 			return YES;
 		} else {
 			// This bit stolen from SubEthaFari's source
-			NSLog(@"GrowlSafari Error: Original %@, Alternate %@",
+			NSLog(@"GrowlSafari Error: Original (selector %s) %@, Alternate (selector %s) %@",
+				  orig_method,
 				  orig_method ? @"found" : @"not found",
+				  alt_method,
 				  alt_method ? @"found" : @"not found");
 		}
 	} else {
-		NSLog(@"GrowlSafari Error: Class not found");
+		NSLog(@"%@", @"GrowlSafari Error: No class to swizzle methods in");
 	}
 
 	return NO;
