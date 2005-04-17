@@ -20,7 +20,7 @@
 	<true/>
 	<key>NSPrincipalClass</key>
 	<string>GrowlSmokeDisplay</string>
-	<key>GrowlPluginName</key>
+	<key>CFBundleName</key>
 	<string>Smoke</string>
 	<key>GrowlPluginAuthor</key>
 	<string>Matthew Walton</string>

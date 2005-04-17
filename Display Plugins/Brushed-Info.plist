@@ -26,7 +26,7 @@
 	<string>yes</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlBrushedDisplay</string>
-	<key>GrowlPluginName</key>
+	<key>CFBundleName</key>
 	<string>Brushed</string>
 	<key>GrowlPluginDescription</key>
 	<string>Aqua/Brushed metal notifications</string>

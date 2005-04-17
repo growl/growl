@@ -23,7 +23,6 @@
 
 @interface GrowlPreferences : NSObject {
 	NSUserDefaults *helperAppDefaults;
-	NSBundle       *helperAppBundle;
 }
 
 + (GrowlPreferences *) preferences;
@@ -33,9 +32,6 @@
 - (void) setObject:(id)object forKey:(NSString *)key;
 - (void) setBool:(BOOL)value forKey:(NSString *)key;
 - (void) synchronize;
-
-- (NSBundle *) helperAppBundle;
-- (NSString *) growlSupportDir;
 
 - (BOOL) startGrowlAtLogin;
 - (void) setStartGrowlAtLogin:(BOOL)flag;

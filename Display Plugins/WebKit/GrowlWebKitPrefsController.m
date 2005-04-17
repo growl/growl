@@ -9,6 +9,7 @@
 #import "GrowlWebKitPrefsController.h"
 #import "GrowlWebKitDefines.h"
 #import "GrowlDefinesInternal.h"
+#import "GrowlPluginController.h"
 
 @implementation GrowlWebKitPrefsController
 - (NSString *) mainNibName {
@@ -79,8 +80,12 @@
 	UPDATE_GROWL_PREFS();
 }
 
+- (NSArray *) styles {
+	return [[GrowlPluginController controller] allStyles];
+}
+
 - (NSString *) style {
-	NSString *value = nil;
+	NSString *value = @"Default";
 	READ_GROWL_PREF_VALUE(GrowlWebKitStylePref, GrowlWebKitPrefDomain, NSString *, &value);
 	return value;
 }

@@ -12,7 +12,7 @@
 #import "GrowlWebKitDefines.h"
 #import "GrowlImageURLProtocol.h"
 #import "NSWindow+Transforms.h"
-#import "GrowlPreferences.h"
+#import "GrowlPluginController.h"
 
 static unsigned webkitWindowDepth = 0U;
 
@@ -87,9 +87,12 @@ static unsigned webkitWindowDepth = 0U;
 			priorityName = @"emergency";
 			break;
 	}
-	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
-	NSBundle *styleBundle = [NSBundle bundleWithPath:[[[GrowlPreferences preferences] helperAppBundle] pathForResource:@"Default" ofType:@"growlStyle"]];
 
+	NSString *styleName = @"Default";
+	READ_GROWL_PREF_VALUE(GrowlWebKitStylePref, GrowlWebKitPrefDomain, NSString *, &styleName);
+
+	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
+	NSBundle *styleBundle = [[GrowlPluginController controller] styleNamed:styleName];
 	NSString *templateFile = [bundle pathForResource:@"template" ofType:@"html"];
 	NSString *stylePath = [styleBundle resourcePath];
 	NSString *template = [NSString alloc];

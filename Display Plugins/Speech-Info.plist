@@ -22,7 +22,7 @@
 	<string>GrowlSpeechDisplay</string>
 	<key>GrowlPluginAuthor</key>
 	<string>Ingmar Stein</string>
-	<key>GrowlPluginName</key>
+	<key>CFBundleName</key>
 	<string>Speech</string>
 	<key>GrowlPluginDescription</key>
 	<string>Speak notifications.</string>

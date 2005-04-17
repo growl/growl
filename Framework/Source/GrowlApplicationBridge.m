@@ -14,6 +14,7 @@
 #import "NSGrowlAdditions.h"
 #import "CFGrowlAdditions.h"
 #import "GrowlDefinesInternal.h"
+#import "GrowlPathUtil.h"
 
 #import <ApplicationServices/ApplicationServices.h>
 
@@ -21,14 +22,6 @@
 #define PREFERENCE_PANE_EXTENSION						@"prefPane"
 
 @interface GrowlApplicationBridge (PRIVATE)
-/*!
- *	@method growlPrefPaneBundle
- *	@abstract Returns the bundle containing Growl's PrefPane.
- *	@discussion Searches all installed PrefPanes for the Growl PrefPane.
- *	@result Returns an NSBundle if Growl's PrefPane is installed, nil otherwise
- */
-+ (NSBundle *) growlPrefPaneBundle;
-
 /*!
  *	@method launchGrowlIfInstalled
  *	@abstract Launches GrowlHelperApp.
@@ -230,7 +223,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 #pragma mark -
 
 + (BOOL) isGrowlInstalled {
-	return ([self growlPrefPaneBundle] != nil);
+	return ([GrowlPathUtil growlPrefPaneBundle] != nil);
 }
 
 + (BOOL) isGrowlRunning {
@@ -462,77 +455,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	[queuedGrowlNotifications release]; queuedGrowlNotifications = nil;
 }
 
-+ (NSBundle *) growlPrefPaneBundle {
-	NSArray			*librarySearchPaths;
-	NSString		*path;
-	NSString		*bundleIdentifier;
-	NSEnumerator	*searchPathEnumerator;
-	NSBundle		*prefPaneBundle;
-
-	static const unsigned bundleIDComparisonFlags = NSCaseInsensitiveSearch | NSBackwardsSearch;
-
-	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
-	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask & ~NSSystemDomainMask, YES);
-	
-	/*First up, we'll have a look for Growl.prefPane, and if it exists, check
-	 *	whether it is our prefPane.
-	 *This is much faster than having to enumerate all preference panes, and
-	 *	can drop a significant amount of time off this code.
-	 */
-	searchPathEnumerator = [librarySearchPaths objectEnumerator];
-	while ((path = [searchPathEnumerator nextObject])) {
-		path = [path stringByAppendingPathComponent:PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY];
-		path = [path stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
-
-		if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-			prefPaneBundle = [NSBundle bundleWithPath:path];
-			
-			if (prefPaneBundle) {
-				bundleIdentifier = [prefPaneBundle bundleIdentifier];
-
-				if (bundleIdentifier && ([bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:bundleIDComparisonFlags] == NSOrderedSame)) {
-					return prefPaneBundle;
-				}
-			}
-		}
-	}
-	
-	/*Enumerate all installed preference panes, looking for the Growl prefpane
-	 *	bundle identifier and stopping when we find it.
-	 *Note that we check the bundle identifier because we should not insist
-	 *	that the user not rename his preference pane files, although most users
-	 *	of course will not.  If the user wants to mutilate the Info.plist file
-	 *	inside the bundle, he/she deserves to not have a working Growl
-	 *	installation.
-	 */
-	searchPathEnumerator = [librarySearchPaths objectEnumerator];
-	while ((path = [searchPathEnumerator nextObject])) {
-		NSString				*bundlePath;
-		NSDirectoryEnumerator   *bundleEnum;
-
-		path = [path stringByAppendingPathComponent:PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY];
-		bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
-
-		while ((bundlePath = [bundleEnum nextObject])) {
-			if ([[bundlePath pathExtension] isEqualToString:PREFERENCE_PANE_EXTENSION]) {
-				prefPaneBundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:bundlePath]];
-
-				if (prefPaneBundle) {
-					bundleIdentifier = [prefPaneBundle bundleIdentifier];
-	
-					if (bundleIdentifier && ([bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:bundleIDComparisonFlags] == NSOrderedSame)) {
-						return prefPaneBundle;
-					}
-				}
-
-				[bundleEnum skipDescendents];
-			}
-		}
-	}
-	
-	return nil;
-}
-
 #ifdef GROWL_WITH_INSTALLER
 /*Sent to us by GrowlInstallationPrompt if the user clicks Cancel so we can
  *	avoid prompting again this session (or ever if they checked Don't Ask Again)
@@ -583,7 +505,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	NSBundle		*growlPrefPaneBundle;
 	BOOL			success = NO;
 
-	growlPrefPaneBundle = [self growlPrefPaneBundle];
+	growlPrefPaneBundle = [GrowlPathUtil growlPrefPaneBundle];
 
 	if (growlPrefPaneBundle) {
 		NSString *growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"

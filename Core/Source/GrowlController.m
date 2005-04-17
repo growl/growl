@@ -629,13 +629,12 @@ static id singleton = nil;
 
 	NSLog(@"Asked to open file %@", filename);
 
-	if ([pathExtension isEqualToString:@"growlView"]) {
+	if ([pathExtension isEqualToString:@"growlView"] || [pathExtension isEqualToString:@"growlStyle"]) {
 		[[GrowlPluginController controller] installPlugin:filename];
-		
+
 		[self _postGrowlIsReady];
-		
+
 		return YES;
-		
 	} else if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
 		NSDictionary *regDict = [[NSDictionary alloc] initWithContentsOfFile:filename];
 		NSLog(@"regdict at path %@ became object %p with %u keys", filename, regDict, [regDict count]);
@@ -667,10 +666,10 @@ static id singleton = nil;
 		} else {
 			[self _postGrowlIsReady];	
 		}
-		
+
 		retVal = YES;
 	}
-	
+
 	return retVal;
 }
 

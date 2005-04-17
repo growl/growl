@@ -14,14 +14,17 @@
 @interface GrowlPluginController : NSObject {
 	NSMutableDictionary		*allDisplayPlugins;
 	NSMutableDictionary		*allDisplayPluginBundles;
+	NSMutableDictionary		*allStyleBundles;
 }
 
 + (GrowlPluginController *) controller;
 
+- (NSArray *) allStyles;
+- (NSBundle *) styleNamed:(NSString *)name;
+
 - (NSArray *) allDisplayPlugins;
 - (id <GrowlDisplayPlugin>) displayPluginNamed:(NSString *)name;
-- (NSDictionary *)infoDictionaryForPluginNamed:(NSString *)name;
-- (void) loadPlugin:(NSString *)path;
+- (NSDictionary *) infoDictionaryForPluginNamed:(NSString *)name;
 - (void) installPlugin:(NSString *)filename;
 
 @end

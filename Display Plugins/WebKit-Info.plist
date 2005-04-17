@@ -28,7 +28,7 @@
 	<string>Ingmar Stein</string>
 	<key>GrowlPluginDescription</key>
 	<string>WebKit based display plugin</string>
-	<key>GrowlPluginName</key>
+	<key>CFBundleName</key>
 	<string>WebKit</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlWebKitController</string>

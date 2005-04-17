@@ -22,7 +22,7 @@
 	<string>GrowlLogDisplay</string>
 	<key>GrowlPluginAuthor</key>
 	<string>Nelson Elhage</string>
-	<key>GrowlPluginName</key>
+	<key>CFBundleName</key>
 	<string>Log</string>
 	<key>GrowlPluginDescription</key>
 	<string>Logs notifications to the console or a file of your choosing</string>

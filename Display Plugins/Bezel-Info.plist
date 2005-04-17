@@ -20,7 +20,7 @@
 	<string>yes</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlBezelDisplay</string>
-	<key>GrowlPluginName</key>
+	<key>CFBundleName</key>
 	<string>Bezel</string>
 	<key>GrowlPluginAuthor</key>
 	<string>Jorge Salvador Caffarena</string>
