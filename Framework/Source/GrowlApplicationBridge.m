@@ -158,8 +158,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				isSticky:(BOOL)isSticky
 			clickContext:(id)clickContext
 {
-	NSAssert(delegate, @"+[GrowlApplicationBridge setGrowlDelegate:] must be called before using this method.");
-	
 	NSParameterAssert(notifName);	//Notification name is required.
 	NSParameterAssert(title || description);	//At least one of title or description is required.
 
