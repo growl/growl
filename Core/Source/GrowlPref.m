@@ -426,6 +426,133 @@
 	[[GrowlPreferences preferences] setObject:name forKey:GrowlDisplayPluginKey];
 }
 
+#pragma mark Logging
+
+- (BOOL) loggingEnabled {
+	return [[[GrowlPreferences preferences] objectForKey:GrowlLoggingEnabledKey] boolValue];
+}
+
+- (void) setLoggingEnabled:(BOOL)flag {
+	[[GrowlPreferences preferences] setBool:flag forKey:GrowlLoggingEnabledKey];
+}
+
+- (IBAction) logTypeChanged:(id)sender {
+	int		typePref;
+
+	typePref = [logFileType selectedRow];
+	if ((typePref != 0) && ([customMenuButton numberOfItems] == 1)) {
+		[self customFileChosen:customMenuButton];
+	}
+	NSNumber *value = [[NSNumber alloc] initWithInt:typePref];
+	[[GrowlPreferences preferences] setObject:value forKey:GrowlLogTypeKey];
+	[value release];
+	[customMenuButton setEnabled:((typePref != 0) && ([customMenuButton numberOfItems] > 1))];
+}
+
+- (IBAction) openConsoleApp:(id)sender {
+	[[NSWorkspace sharedWorkspace] launchApplication:@"Console"];
+}
+
+- (IBAction) customFileChosen:(id)sender {
+	if (sender == customMenuButton) {
+		int selected = [customMenuButton indexOfSelectedItem];
+		//NSLog(@"custom %d", selected);
+		if ((selected == [customMenuButton numberOfItems] - 1) || (selected == -1)) {
+			NSSavePanel *sp = [NSSavePanel savePanel];
+			[sp setRequiredFileType:@"log"];
+			[sp setCanSelectHiddenExtension:YES];
+			
+			int runResult = [sp runModalForDirectory:nil file:@""];
+			NSString *saveFilename = [sp filename];
+			if (runResult == NSOKButton) {
+				unsigned saveFilenameIndex = NSNotFound;
+				unsigned                 i = [customHistArray count];
+				if (i) {
+					while (--i) {
+						if ([[customHistArray objectAtIndex:i] isEqual:saveFilename]) {
+							saveFilenameIndex = i;
+							break;
+						}
+					}
+				}
+				if (saveFilenameIndex == NSNotFound) {
+					//if ([customHistArray count] == 3U)
+					if ([customHistArray count] >= 1U)
+						[customHistArray removeLastObject];
+				} else {
+					[customHistArray removeObjectAtIndex:saveFilenameIndex];
+				}
+				[customHistArray insertObject:saveFilename atIndex:0U];
+			}
+		} else {
+			NSString *temp = [[customHistArray objectAtIndex:selected] retain];
+			[customHistArray removeObjectAtIndex:selected];
+			[customHistArray insertObject:temp atIndex:0U];
+			[temp release];
+		}
+		
+		unsigned numHistItems = [customHistArray count];
+		//NSLog(@"CustomHistArray = %@", customHistArray);
+		if (numHistItems) {
+			NSString *s = [customHistArray objectAtIndex:0U];
+			[[GrowlPreferences preferences] setObject:s forKey:GrowlCustomHistKey1];
+			//NSLog(@"Writing %@ as hist1", s);
+			
+			/*
+			 * Ignore anything beyond one saved item until we know why these
+			 * send out the proper values, but the proper values are not written.
+			 */
+			
+			/*
+			 if ((numHistItems > 1) && (s = [customHistArray objectAtIndex:1U])) {
+				 [[GrowlPreferences preferences] setObject:s forKey:GrowlCustomHistKey2];
+				 //NSLog(@"Writing %@ as hist2", s);
+			 }
+			 
+			 if ((numHistItems > 2) && (s = [customHistArray objectAtIndex:2U])) {
+				 [[GrowlPreferences preferences] setObject:s forKey:GrowlCustomHistKey3];
+				 //NSLog(@"Writing %@ as hist3", s);
+			 }
+			 
+			 */
+			
+			//[[logFileType cellAtRow:1 column:0] setEnabled:YES];
+			[logFileType selectCellAtRow:1 column:0];
+		}
+
+		[self updateLogPopupMenu];
+	}
+}
+
+- (void) updateLogPopupMenu {
+	[customMenuButton removeAllItems];
+
+	unsigned numHistItems = [customHistArray count];
+	for (unsigned i = 0U; i < numHistItems; i++) {
+		NSArray *pathComponentry = [[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] pathComponents];
+		unsigned numPathComponents = [pathComponentry count];
+		if (numPathComponents > 2U) {
+			unichar ellipsis = 0x2026;
+			NSMutableString *arg = [[NSMutableString alloc] initWithCharacters:&ellipsis length:1U];
+			[arg appendString:@"/"];
+			[arg appendString:[pathComponentry objectAtIndex:(numPathComponents - 2U)]];
+			[arg appendString:@"/"];
+			[arg appendString:[pathComponentry objectAtIndex:(numPathComponents - 1U)]];
+			[customMenuButton insertItemWithTitle:arg atIndex:i];
+			[arg release];
+		} else {
+			[customMenuButton insertItemWithTitle:[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] atIndex:i];
+		}
+	}
+	// No separator if there's no file list yet
+	if (numHistItems > 0) {
+		[[customMenuButton menu] addItem:[NSMenuItem separatorItem]];
+	}
+	[customMenuButton addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Browse menu item title", /*tableName*/ nil, [self bundle], /*comment*/ nil)];
+	//select first item, if any
+	[customMenuButton selectItemAtIndex:numHistItems ? 0 : -1];
+}
+
 #pragma mark "Applications" tab pane
 
 - (BOOL) canRemoveTicket {

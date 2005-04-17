@@ -44,5 +44,7 @@
 	<string>'%@'というプラグインのインストールは成功しました。今すぐ設定しますか?</string>
 	<key>There was an error while installing the plugin '%@'.</key>
 	<string>'%@'というプラグインのインストール中にエラーが起こりました。</string>
+	<key>Browse menu item title</key>
+	<string>Browse…</string>
 </dict>
 </plist>

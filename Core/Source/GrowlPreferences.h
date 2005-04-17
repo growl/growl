@@ -20,6 +20,11 @@
 #define GrowlForwardDestinationsKey	@"GrowlForwardDestinations"
 #define GrowlUpdateCheckKey			@"GrowlUpdateCheck"
 #define LastUpdateCheckKey			@"LastUpdateCheck"
+#define	GrowlLoggingEnabledKey		@"Log enabled"
+#define	GrowlLogTypeKey				@"Log type"
+#define	GrowlCustomHistKey1			@"Custom log history 1"
+#define	GrowlCustomHistKey2			@"Custom log history 2"
+#define	GrowlCustomHistKey3			@"Custom log history 3"
 
 @interface GrowlPreferences : NSObject {
 	NSUserDefaults *helperAppDefaults;

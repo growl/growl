@@ -22,6 +22,7 @@
 #import "GrowlDefines.h"
 #import "GrowlVersionUtilities.h"
 #import "SVNRevision.h"
+#import "GrowlLog.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <sys/socket.h>
 
@@ -230,6 +231,8 @@ static id singleton = nil;
 }
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
+	[GrowlLog logNotificationDictionary:dict];
+
 	// Make sure this notification is actually registered
 	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
 	GrowlApplicationTicket *ticket = [tickets objectForKey:appName];
@@ -347,6 +350,8 @@ static id singleton = nil;
 }
 
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *) userInfo {
+	[GrowlLog logRegistrationDictionary:userInfo];
+
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
 
 	GrowlApplicationTicket *newApp = [tickets objectForKey:appName];

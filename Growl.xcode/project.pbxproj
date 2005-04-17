@@ -91,47 +91,6 @@
 			settings = {
 			};
 		};
-		073F04BE0779C00900AE8D60 = {
-			fileEncoding = 10;
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
-			name = English;
-			path = English.lproj/Localizable.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		073F04C50779C02900AE8D60 = {
-			children = (
-				073F04BE0779C00900AE8D60,
-				9556E5AA07F42F3000D42745,
-			);
-			isa = PBXVariantGroup;
-			name = Localizable.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		073F04C60779C02A00AE8D60 = {
-			fileRef = 073F04C50779C02900AE8D60;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		073F050D0779C2C800AE8D60 = {
-			children = (
-				097889E6076ED0E300071EB6,
-				950D794C07901E93001E71B2,
-			);
-			isa = PBXVariantGroup;
-			name = GrowlLogPrefs.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		073F050E0779C2C800AE8D60 = {
-			fileRef = 073F050D0779C2C800AE8D60;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		074062AA07E2FBE300FA27FA = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -277,7 +236,6 @@
 				95FC346D07E0458E00BD8674,
 				0A7F5EC40767C2A600E1C1E4,
 				0A7F5F110767C38200E1C1E4,
-				0A7F5F560767C4F200E1C1E4,
 				0A7F5F6F0767C68000E1C1E4,
 				0A7F5FB70767C70600E1C1E4,
 				0A7F5FE80767C7B300E1C1E4,
@@ -385,60 +343,6 @@
 //082
 //083
 //084
-//090
-//091
-//092
-//093
-//094
-		0978879A076EB85300071EB6 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlLogPrefs.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0978879B076EB85300071EB6 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlLogPrefs.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		097887A0076EB87700071EB6 = {
-			fileRef = 0978879B076EB85300071EB6;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		097888C9076EC6DA00071EB6 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			path = GrowlLogDefines.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		097888CA076EC6DA00071EB6 = {
-			fileRef = 097888C9076EC6DA00071EB6;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		097889E6076ED0E300071EB6 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = English;
-			path = English.lproj/GrowlLogPrefs.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-//090
-//091
-//092
-//093
-//094
 //0A0
 //0A1
 //0A2
@@ -450,7 +354,6 @@
 				0A7F5EDA0767C30800E1C1E4,
 				0A7F5F2D0767C3F600E1C1E4,
 				0A7F5D9A0767C13100E1C1E4,
-				0A7F5F5C0767C56100E1C1E4,
 				0A7F5F890767C6C500E1C1E4,
 				0A7F5FD90767C79100E1C1E4,
 				0A7F624C0767C84E00E1C1E4,
@@ -1150,150 +1053,6 @@
 		};
 		0A7F5F430767C3F600E1C1E4 = {
 			fileRef = 0A7F5F390767C3F600E1C1E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0A7F5F530767C4F200E1C1E4 = {
-			buildActionMask = 2147483647;
-			files = (
-				073F050E0779C2C800AE8D60,
-				073F04C60779C02A00AE8D60,
-			);
-			isa = PBXResourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A7F5F540767C4F200E1C1E4 = {
-			buildActionMask = 2147483647;
-			files = (
-				097887A0076EB87700071EB6,
-				0A7F5F600767C56100E1C1E4,
-			);
-			isa = PBXSourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A7F5F550767C4F200E1C1E4 = {
-			buildActionMask = 2147483647;
-			files = (
-				0A7F5F620767C58E00E1C1E4,
-				0A7F5F630767C59000E1C1E4,
-				6CD175910800736B00154530,
-			);
-			isa = PBXFrameworksBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A7F5F560767C4F200E1C1E4 = {
-			buildPhases = (
-				0A7F5F530767C4F200E1C1E4,
-				0A7F5F540767C4F200E1C1E4,
-				0A7F5F550767C4F200E1C1E4,
-			);
-			buildRules = (
-			);
-			buildSettings = {
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Log-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				PRODUCT_NAME = Log;
-				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
-				WRAPPER_EXTENSION = growlView;
-			};
-			dependencies = (
-			);
-			isa = PBXNativeTarget;
-			name = Log;
-			productName = NSLogging;
-			productReference = 0AB508B20767C87B006EA5CB;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>NSLogging</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.NSLogging</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-</dict>
-</plist>
-";
-			productType = "com.apple.product-type.bundle";
-		};
-		0A7F5F5C0767C56100E1C1E4 = {
-			children = (
-				95125DEA0802D408007FF92A,
-				073F04C50779C02900AE8D60,
-				073F050D0779C2C800AE8D60,
-				097888C9076EC6DA00071EB6,
-				0A7F5F5D0767C56100E1C1E4,
-				0A7F5F5E0767C56100E1C1E4,
-				0978879A076EB85300071EB6,
-				0978879B076EB85300071EB6,
-			);
-			isa = PBXGroup;
-			name = Log;
-			path = "Display Plugins/Log";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0A7F5F5D0767C56100E1C1E4 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlLogDisplay.h;
-			path = "Display Plugins/Log/GrowlLogDisplay.h";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		0A7F5F5E0767C56100E1C1E4 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			path = GrowlLogDisplay.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0A7F5F600767C56100E1C1E4 = {
-			fileRef = 0A7F5F5E0767C56100E1C1E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0A7F5F620767C58E00E1C1E4 = {
-			fileRef = 089C1672FE841209C02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		0A7F5F630767C59000E1C1E4 = {
-			fileRef = 089C167FFE841241C02AAC07;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2009,14 +1768,6 @@
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		0AB508B20767C87B006EA5CB = {
-			explicitFileType = wrapper.cfbundle;
-			includeInIndex = 0;
-			isa = PBXFileReference;
-			path = Log.growlView;
-			refType = 3;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		0AB508B30767C87B006EA5CB = {
 			explicitFileType = wrapper.cfbundle;
 			includeInIndex = 0;
@@ -2103,7 +1854,6 @@
 				0AB508AF0767C87B006EA5CB,
 				0AB508B00767C87B006EA5CB,
 				0AB508B10767C87B006EA5CB,
-				0AB508B20767C87B006EA5CB,
 				0AB508B30767C87B006EA5CB,
 				0AB508B40767C87B006EA5CB,
 				34F60EAB078E1CD500CECA86,
@@ -2191,13 +1941,13 @@
 				3433458D0790E3D600C84B15,
 				95543EE107E04BA9005534FA,
 				3433456E0790E39200C84B15,
-				3433458B0790E3D600C84B15,
 				343345890790E3D600C84B15,
 				3433458C0790E3D600C84B15,
 				343345880790E3D600C84B15,
 				3433458A0790E3D600C84B15,
 				93E0E9E3080F0F42004FFB1D,
 				959DBE4B08127BA4009BB468,
+				950568E50812C2960096EC5C,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2222,12 +1972,6 @@
 		};
 		3433458A0790E3D600C84B15 = {
 			fileRef = 0AB508B10767C87B006EA5CB;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		3433458B0790E3D600C84B15 = {
-			fileRef = 0AB508B20767C87B006EA5CB;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2267,18 +2011,6 @@
 			isa = PBXTargetDependency;
 			target = 0A7F5CCC0767BFD000E1C1E4;
 			targetProxy = 343345900790E3E100C84B15;
-		};
-		343345920790E3E600C84B15 = {
-			containerPortal = 089C1669FE841209C02AAC07;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 0A7F5F560767C4F200E1C1E4;
-			remoteInfo = Log;
-		};
-		343345930790E3E600C84B15 = {
-			isa = PBXTargetDependency;
-			target = 0A7F5F560767C4F200E1C1E4;
-			targetProxy = 343345920790E3E600C84B15;
 		};
 		343345940790E3EF00C84B15 = {
 			containerPortal = 089C1669FE841209C02AAC07;
@@ -3114,22 +2846,6 @@
 //632
 //633
 //634
-//6C0
-//6C1
-//6C2
-//6C3
-//6C4
-		6CD175910800736B00154530 = {
-			fileRef = 83282746073A6C110044A959;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-//6C0
-//6C1
-//6C2
-//6C3
-//6C4
 //830
 //831
 //832
@@ -3233,7 +2949,6 @@
 				CB5FA1BD0638CA2C00EADD7A,
 				95BF837C0743675700306A77,
 				CB910DA7074E0A3A00278FC5,
-				097888CA076EC6DA00071EB6,
 				3494427507BAF6C4000F2A03,
 				9532B0F807CE651F0028B2F1,
 				DD3AD65C07E9DF6E00E9A0A4,
@@ -3370,13 +3085,35 @@
 //952
 //953
 //954
-		950D794C07901E93001E71B2 = {
+		950568E30812C2960096EC5C = {
+			fileEncoding = 4;
 			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = German;
-			path = German.lproj/GrowlLogPrefs.nib;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlLog.h;
+			path = Core/Source/GrowlLog.h;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		950568E40812C2960096EC5C = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlLog.m;
+			path = Core/Source/GrowlLog.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		950568E50812C2960096EC5C = {
+			fileRef = 950568E30812C2960096EC5C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		950568E60812C2960096EC5C = {
+			fileRef = 950568E40812C2960096EC5C;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		950F795C080EECA600CC5F62 = {
 			children = (
@@ -3693,15 +3430,6 @@
 			lastKnownFileType = text.xml;
 			name = "Speech-Info.plist";
 			path = "../Speech-Info.plist";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		95125DEA0802D408007FF92A = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			name = "Log-Info.plist";
-			path = "../Log-Info.plist";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -4046,14 +3774,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		9556E5AA07F42F3000D42745 = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
-			name = German;
-			path = German.lproj/Localizable.strings;
-			refType = 4;
-			sourceTree = "<group>";
 		};
 		9564F82B07438E1D00F1CCE5 = {
 			buildSettings = {
@@ -5015,6 +4735,8 @@
 				CB9E3AE80792679400F8937E,
 				956ADAC607551C4500AF9545,
 				956ADACB07551C4500AF9545,
+				950568E30812C2960096EC5C,
+				950568E40812C2960096EC5C,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -5087,6 +4809,7 @@
 				07FCFFC407E2F90C00F0A1CF,
 				074062AD07E2FBE300FA27FA,
 				959DBE4C08127BA4009BB468,
+				950568E60812C2960096EC5C,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5143,7 +4866,6 @@
 				343345640790E25B00C84B15,
 				3433458F0790E3DD00C84B15,
 				343345910790E3E100C84B15,
-				343345930790E3E600C84B15,
 				343345950790E3EF00C84B15,
 				3433459A0790E40800C84B15,
 				3433459C0790E40B00C84B15,

@@ -4,7 +4,10 @@
         {
             ACTIONS = {
                 checkVersion = id; 
+                customFileChosen = id; 
                 deleteTicket = id; 
+                logTypeChanged = id; 
+                openConsoleApp = id; 
                 resolveService = id; 
                 showPreview = id; 
                 startStopGrowl = id; 
@@ -14,6 +17,7 @@
             OUTLETS = {
                 applicationNotifications = NSTableView; 
                 currentPluginController = id; 
+                customMenuButton = NSPopUpButton; 
                 displayAuthor = NSTextField; 
                 displayDefaultPrefView = NSView; 
                 displayPluginsArrayController = NSArrayController; 
@@ -24,6 +28,7 @@
                 growlRunningProgress = NSProgressIndicator; 
                 growlRunningStatus = NSTextField; 
                 growlVersionProgress = NSProgressIndicator; 
+                logFileType = NSMatrix; 
                 notificationPriorityMenu = NSMenu; 
                 notificationsArrayController = NSArrayController; 
                 previewButton = NSButton; 

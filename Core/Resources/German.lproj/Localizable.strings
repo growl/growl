@@ -44,5 +44,7 @@
 	<string>Plugin '%@' wurde erfolgreich installiert. Möchten Sie es jetzt konfigurieren?</string>
 	<key>There was an error while installing the plugin '%@'.</key>
 	<string>Bei der Installation des Plugins '%@' ist ein Fehler aufgetreten.</string>
+	<key>Browse menu item title</key>
+	<string>Suchen…</string>
 </dict>
 </plist>

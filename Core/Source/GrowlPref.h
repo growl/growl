@@ -39,6 +39,11 @@
 	IBOutlet NSProgressIndicator	*growlVersionProgress;
 	IBOutlet NSArrayController		*notificationsArrayController;
 
+	// Logging
+	IBOutlet NSMatrix				*logFileType;
+	IBOutlet NSPopUpButton			*customMenuButton;	
+	NSMutableArray					*customHistArray;
+
 	//"Applications" tab pane
 	IBOutlet NSTableView			*applicationNotifications;
 	IBOutlet NSTableView			*growlApplications;
@@ -83,6 +88,13 @@
 - (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag;
 - (NSString *) defaultDisplayPluginName;
 - (void) setDefaultDisplayPluginName:(NSString *)name;
+- (BOOL) loggingEnabled;
+- (void) setLoggingEnabled:(BOOL)flag;
+
+- (IBAction) logTypeChanged:(id)sender;
+- (IBAction) openConsoleApp:(id)sender;
+- (IBAction) customFileChosen:(id)sender;
+- (void) updateLogPopupMenu;
 
 #pragma mark "Network" tab pane
 - (BOOL) isGrowlServerEnabled;
