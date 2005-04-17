@@ -97,6 +97,8 @@
 		};
 		07A3BD6907F0199A00973BFB = {
 			children = (
+				9580F7FA0812D54D008FD3BC,
+				9580F7FB0812D54D008FD3BC,
 				07814E3807F05B4D0046C294,
 				07814E3907F05B4D0046C294,
 				07814E6907F05DE80046C294,
@@ -301,6 +303,7 @@
 				07814E3B07F05B4D0046C294,
 				07814E9407F061680046C294,
 				8DD76F9A0486AA7600D96B5E,
+				9580F7FD0812D54D008FD3BC,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -355,6 +358,30 @@
 //952
 //953
 //954
+		9580F7FA0812D54D008FD3BC = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlPathUtil.h;
+			path = Common/Source/GrowlPathUtil.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9580F7FB0812D54D008FD3BC = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlPathUtil.m;
+			path = Common/Source/GrowlPathUtil.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9580F7FD0812D54D008FD3BC = {
+			fileRef = 9580F7FB0812D54D008FD3BC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95C359A107F45E34009E0EC2 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
