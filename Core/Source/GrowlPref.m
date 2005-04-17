@@ -41,6 +41,22 @@
 @implementation GrowlPref
 
 - (id) initWithBundle:(NSBundle *)bundle {
+	//	Check that we're running Panther 
+	//	if a user with a previous OS version tries to launch us - switch out the pane.
+	
+	NSApp = [NSApplication sharedApplication];
+	if (![NSApp respondsToSelector:@selector(replyToOpenOrPrint:)])
+	{
+		NSString *msg = @"Mac OS X 10.3 \"Panther\" or greater is required.";
+		
+		if (NSRunInformationalAlertPanel(@"Growl requires Panther...", msg, @"Quit", @"Get Panther...", nil) == NSAlertAlternateReturn) {
+			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.apple.com/macosx/"]];
+		}
+		exit(0);
+		
+	}
+	
+	
 	if ((self = [super initWithBundle:bundle])) {
 		loadedPrefPanes = [[NSMutableArray alloc] init];
 		
@@ -190,12 +206,10 @@
 
 //subclassed from NSPreferencePane; called before the pane is displayed.
 - (void) willSelect {
-//	NSLog(@"Growl Prefpane willSelect:");
 	[self checkGrowlRunning];
 }
 
 - (void) didSelect {
-//	NSLog(@"Growl Prefpane didSelect:");
 	[self reloadPreferences];
 }
 
