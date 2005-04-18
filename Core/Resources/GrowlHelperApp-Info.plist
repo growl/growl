@@ -81,6 +81,8 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.3</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
