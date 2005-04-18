@@ -82,7 +82,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.3</string>
+	<string>10.3.0</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
