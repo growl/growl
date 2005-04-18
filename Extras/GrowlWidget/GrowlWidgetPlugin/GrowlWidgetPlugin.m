@@ -1,4 +1,5 @@
 #import "GrowlWidgetPlugin.h"
+#import "GrowlImageURLProtocol.h"
 #import <GrowlDefines.h>
 #import <WebKit/WebKit.h>
 
@@ -80,19 +81,19 @@
 	NSRange range = NSMakeRange(0, [inString length]);
 	unsigned delta;
 	//We need to escape a few things to get our string to the javascript without trouble
-	delta = [inString replaceOccurrencesOfString:@"\\" withString:@"\\\\" 
+	delta = [inString replaceOccurrencesOfString:@"\\" withString:@"\\\\"
 										 options:NSLiteralSearch range:range];
 	range.length += delta;
 
-	delta = [inString replaceOccurrencesOfString:@"\"" withString:@"\\\"" 
+	delta = [inString replaceOccurrencesOfString:@"\"" withString:@"\\\""
 											 options:NSLiteralSearch range:range];
 	range.length += delta;
 
-	delta = [inString replaceOccurrencesOfString:@"\n" withString:@"" 
+	delta = [inString replaceOccurrencesOfString:@"\n" withString:@""
 										 options:NSLiteralSearch range:range];
 	range.length -= delta;
 
-	delta = [inString replaceOccurrencesOfString:@"\r" withString:@"<br />" 
+	delta = [inString replaceOccurrencesOfString:@"\r" withString:@"<br />"
 										 options:NSLiteralSearch range:range];
 	enum { lengthOfBRString = 6 };
 	range.length += delta * lengthOfBRString;
@@ -102,10 +103,19 @@
 
 - (void) gotGrowlNotification:(NSNotification *)notification {
 	NSDictionary *userInfo = [notification userInfo];
-	NSMutableString *content = [[NSMutableString alloc] initWithFormat:@"<p>%@</p>",
+
+	NSImage *image = [[NSImage alloc] initWithData:[userInfo objectForKey:GROWL_NOTIFICATION_ICON]];
+	NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
+	[image setName:UUID];
+	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
+	[image autorelease];
+
+	NSMutableString *content = [[NSMutableString alloc] initWithFormat:@"<span><div class=\"icon\"><img src=\"growlimage://%@\" alt=\"icon\" /></div><div class=\"title\">%@</div><div class=\"text\">%@</div></span>",
+		UUID,
+		[userInfo objectForKey:GROWL_NOTIFICATION_TITLE],
 		[userInfo objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
 	[self escapeStringForPassingToScript:content];
-	NSString *newMessage = [[NSString alloc] initWithFormat:@"appendMessage(\"%@\");",
+	NSString *newMessage = [[NSString alloc] initWithFormat:@"setMessage(\"%@\");",
 		content];
 	[webView stringByEvaluatingJavaScriptFromString:newMessage];
 	[content release];

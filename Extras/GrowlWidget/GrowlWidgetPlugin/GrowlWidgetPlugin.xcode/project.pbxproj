@@ -126,6 +126,8 @@
 		};
 		08FB77AFFE84173DC02AAC07 = {
 			children = (
+				953BC8DB081403AF00AF9EA5,
+				953BC8DC081403AF00AF9EA5,
 				198E71DA075EAD77002FFDE7,
 				198E71DF075EAD77002FFDE7,
 			);
@@ -328,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				198E71E6075EAD77002FFDE7,
+				953BC8DD081403AF00AF9EA5,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -362,6 +365,40 @@
 			path = Info.plist;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+//950
+//951
+//952
+//953
+//954
+		953BC8DB081403AF00AF9EA5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlImageURLProtocol.h;
+			path = "../../../Display Plugins/WebKit/GrowlImageURLProtocol.h";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		953BC8DC081403AF00AF9EA5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlImageURLProtocol.m;
+			path = "../../../Display Plugins/WebKit/GrowlImageURLProtocol.m";
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		953BC8DD081403AF00AF9EA5 = {
+			fileRef = 953BC8DC081403AF00AF9EA5;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = 089C1669FE841209C02AAC07;

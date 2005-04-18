@@ -3,11 +3,24 @@ function setup() {
 }
 
 function appendMessage(html) {
-   	//GrowlPlugin.logMessage("appendMessage:" + html);
 	//Append the new message to the bottom of our block
-	notifications = document.getElementById("Notifications");
-	range = document.createRange();
+	var notifications = document.getElementById("Notifications");
+	var range = document.createRange();
 	range.selectNode(notifications);
-	documentFragment = range.createContextualFragment(html);
+	var documentFragment = range.createContextualFragment(html);
 	notifications.appendChild(documentFragment);
+}
+
+function setMessage(html) {
+	//Append the new message to the bottom of our block
+	var notifications = document.getElementById("Notifications");
+	var range = document.createRange();
+	range.selectNode(notifications);
+	var documentFragment = range.createContextualFragment(html);
+	var child = notifications.firstChild;
+	if (child) {
+		notifications.replaceChild(documentFragment, child);
+	} else {
+		notifications.appendChild(documentFragment);
+	}
 }

@@ -20,5 +20,7 @@
 	<string>GrowlWidget.html</string>
 	<key>Plugin</key>
 	<string>GrowlWidgetPlugin.widgetplugin</string>
+	<key>AllowNetworkAccess</key>
+	<true/>
 </dict>
 </plist>
