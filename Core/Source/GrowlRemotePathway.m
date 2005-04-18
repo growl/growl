@@ -12,7 +12,7 @@
 @implementation GrowlRemotePathway
 
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
-	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
+	BOOL enabled = [[GrowlPreferences preferences] boolForKey:GrowlRemoteRegistrationKey];
 	if (enabled) {
 		[super registerApplicationWithDictionary:dict];
 	}

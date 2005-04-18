@@ -12,19 +12,12 @@
 
 @implementation GrowlLog
 + (void) log:(NSString *)message {
-	int typePref;
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
 	if (![preferences boolForKey:GrowlLoggingEnabledKey]) {
 		return;
 	}
 
-	NSNumber *value = [preferences objectForKey:GrowlLogTypeKey];
-	if (value) {
-		typePref = [value intValue];
-	} else {
-		typePref = 0;
-	}
-	[value release];
+	int typePref = [preferences integerForKey:GrowlLogTypeKey];
 	if (typePref == 0) {
 		NSLog(@"%@", message);
 	} else {

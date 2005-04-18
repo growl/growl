@@ -195,13 +195,13 @@ static id singleton = nil;
 }
 
 - (void) startStopServer {
-	BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlStartServerKey] boolValue];
+	BOOL enabled = [[GrowlPreferences preferences] boolForKey:GrowlStartServerKey];
 
 	// Setup notification server
-	if ( enabled && !service ) {
+	if (enabled && !service) {
 		// turn on
 		[self startServer];
-	} else if ( !enabled && service ) {
+	} else if (!enabled && service) {
 		// turn off
 		[self stopServer];
 	}
@@ -437,7 +437,7 @@ static id singleton = nil;
 - (void) checkVersion:(NSTimer *)timer {
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
 
-	if (![[preferences objectForKey:GrowlUpdateCheckKey] boolValue]) {
+	if (![preferences boolForKey:GrowlUpdateCheckKey]) {
 		return;
 	}
 
@@ -585,10 +585,10 @@ static id singleton = nil;
 		[[GrowlPreferences preferences] synchronize];
 	}
 	if (!note || (object && [object isEqualTo:GrowlEnabledKey])) {
-		growlIsEnabled = [[[GrowlPreferences preferences] objectForKey:GrowlEnabledKey] boolValue];
+		growlIsEnabled = [[GrowlPreferences preferences] boolForKey:GrowlEnabledKey];
 	}
 	if (!note || (object && [object isEqualTo:GrowlEnableForwardKey])) {
-		enableForward = [[[GrowlPreferences preferences] objectForKey:GrowlEnableForwardKey] boolValue];
+		enableForward = [[GrowlPreferences preferences] boolForKey:GrowlEnableForwardKey];
 	}
 	if (!note || (object && [object isEqualTo:GrowlForwardDestinationsKey])) {
 		[destinations release];

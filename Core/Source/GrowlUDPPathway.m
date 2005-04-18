@@ -130,7 +130,7 @@
 				switch ( packet->type ) {
 					case GROWL_TYPE_REGISTRATION:
 						if ( length >= sizeof(struct GrowlNetworkRegistration) ) {
-							BOOL enabled = [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
+							BOOL enabled = [[GrowlPreferences preferences] boolForKey:GrowlRemoteRegistrationKey];
 
 							if (enabled) {
 								struct GrowlNetworkRegistration *nr = (struct GrowlNetworkRegistration *)packet;

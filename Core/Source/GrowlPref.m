@@ -293,7 +293,7 @@
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
 
 	// If Growl is enabled, ensure the helper app is launched
-	if ([[preferences objectForKey:GrowlEnabledKey] boolValue]) {
+	if ([preferences boolForKey:GrowlEnabledKey]) {
 		[[GrowlPreferences preferences] launchGrowl];
 	}
 
@@ -409,7 +409,7 @@
 #pragma mark -
 
 - (BOOL) isBackgroundUpdateCheckEnabled {
-	return [[[GrowlPreferences preferences] objectForKey:GrowlUpdateCheckKey] boolValue];
+	return [[GrowlPreferences preferences] boolForKey:GrowlUpdateCheckKey];
 }
 
 - (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag {
@@ -429,7 +429,7 @@
 #pragma mark Logging
 
 - (BOOL) loggingEnabled {
-	return [[[GrowlPreferences preferences] objectForKey:GrowlLoggingEnabledKey] boolValue];
+	return [[GrowlPreferences preferences] boolForKey:GrowlLoggingEnabledKey];
 }
 
 - (void) setLoggingEnabled:(BOOL)flag {
@@ -443,9 +443,7 @@
 	if ((typePref != 0) && ([customMenuButton numberOfItems] == 1)) {
 		[self customFileChosen:customMenuButton];
 	}
-	NSNumber *value = [[NSNumber alloc] initWithInt:typePref];
-	[[GrowlPreferences preferences] setObject:value forKey:GrowlLogTypeKey];
-	[value release];
+	[[GrowlPreferences preferences] setInteger:typePref forKey:GrowlLogTypeKey];
 	[customMenuButton setEnabled:((typePref != 0) && ([customMenuButton numberOfItems] > 1))];
 }
 
@@ -597,7 +595,7 @@
 #pragma mark "Network" tab pane
 
 - (BOOL) isGrowlServerEnabled {
-	return [[[GrowlPreferences preferences] objectForKey:GrowlStartServerKey] boolValue];
+	return [[GrowlPreferences preferences] boolForKey:GrowlStartServerKey];
 }
 
 - (void) setGrowlServerEnabled:(BOOL)enabled {
@@ -607,7 +605,7 @@
 #pragma mark -
 
 - (BOOL) isRemoteRegistrationAllowed {
-	return [[[GrowlPreferences preferences] objectForKey:GrowlRemoteRegistrationKey] boolValue];
+	return [[GrowlPreferences preferences] boolForKey:GrowlRemoteRegistrationKey];
 }
 
 - (void) setRemoteRegistrationAllowed:(BOOL)flag {
@@ -681,7 +679,7 @@
 #pragma mark -
 
 - (BOOL) isForwardingEnabled {
-	return [[[GrowlPreferences preferences] objectForKey:GrowlEnableForwardKey] boolValue];
+	return [[GrowlPreferences preferences] boolForKey:GrowlEnableForwardKey];
 }
 
 - (void) setForwardingEnabled:(BOOL)enabled {
