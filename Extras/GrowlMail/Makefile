@@ -14,7 +14,7 @@ CP = /usr/bin/ditto -v --rsrc
 
 # The build style
 # Possible values are Development and Deployment
-BUILDSTYLE? = Deployment
+BUILDSTYLE ?= Deployment
 
 .PHONY: all $(name) clean install uninstall
 
