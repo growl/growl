@@ -1,20 +1,13 @@
 body {
-	margin: 0;
-	font-size: small;
+	margin: 0px 0px 0px 0px;
 	font-family: sans-serif;
 }
 div.title {
 	font-weight: bold;
-	width: 70px;
-	height: 1em;
-	overflow: hidden;
+	font-size: small;
 }
 div.text {
-	height: 50px;
-	max-height: 50px;
-	font-family: sans-serif;
-	display: inline;
-	overflow: hidden;
+	font-size: x-small;
 }
 div.main {
 	padding-top: 5px;
