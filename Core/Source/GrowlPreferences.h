@@ -35,6 +35,7 @@
 - (void) registerDefaults:(NSDictionary *)inDefaults;
 - (id) objectForKey:(NSString *)key;
 - (void) setObject:(id)object forKey:(NSString *)key;
+- (BOOL) boolForKey:(NSString*) key;
 - (void) setBool:(BOOL)value forKey:(NSString *)key;
 - (void) synchronize;
 

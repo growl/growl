@@ -70,6 +70,11 @@ static GrowlPreferences *sharedPreferences;
 																   object:key];
 }
 
+- (BOOL) boolForKey:(NSString*) key {
+	[helperAppDefaults synchronize];
+	return [helperAppDefaults boolForKey:key];
+}
+
 - (void) setBool:(BOOL)value forKey:(NSString *)key {
 	NSNumber *object = [[NSNumber alloc] initWithBool:value];
 	[self setObject:object forKey:key];
