@@ -107,7 +107,6 @@ static void setDownloadFinished(id dl) {
 	return [NSBundle bundleForClass:self];
 }
 
-//initWithDownload:mayOpenWhenDone:allowOverwrite:
 + (void) initialize {
 	//NSLog(@"Patching DownloadProgressEntry...");
 	Class class = NSClassFromString( @"DownloadProgressEntry" );
