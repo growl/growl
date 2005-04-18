@@ -8,8 +8,8 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlPathUtil.h"
-#import "GrowlPreferences.h"
 
+#define HelperAppBundleIdentifier				@"com.Growl.GrowlHelperApp"
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER		@"com.growl.prefpanel"
 #define GROWL_PREFPANE_NAME						@"Growl.prefPane"
 #define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY	@"PreferencePanes"
@@ -122,7 +122,7 @@ static NSBundle *prefPaneBundle;
 + (NSString *) growlSupportDir {
 	NSString *supportDir;
 	NSArray *searchPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /* expandTilde */ YES);
-	
+
 	supportDir = [searchPath objectAtIndex:0U];
 	supportDir = [supportDir stringByAppendingPathComponent:@"Application Support/Growl"];
 	
