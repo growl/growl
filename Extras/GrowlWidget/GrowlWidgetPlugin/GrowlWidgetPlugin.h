@@ -3,6 +3,7 @@
 @class WebView;
 
 @interface GrowlWidgetPlugin : NSObject {
+	NSImage	*image;
 	WebView *webView;
 }
 

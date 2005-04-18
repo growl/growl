@@ -30,6 +30,7 @@
 }
 
 - (void) dealloc {
+	[image   release];
 	[webView release];
 	[super dealloc];
 }
@@ -104,11 +105,11 @@
 - (void) gotGrowlNotification:(NSNotification *)notification {
 	NSDictionary *userInfo = [notification userInfo];
 
-	NSImage *image = [[NSImage alloc] initWithData:[userInfo objectForKey:GROWL_NOTIFICATION_ICON]];
+	[image release];
+	image = [[NSImage alloc] initWithData:[userInfo objectForKey:GROWL_NOTIFICATION_ICON]];
 	NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
 	[image setName:UUID];
 	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
-	[image autorelease];
 
 	NSMutableString *content = [[NSMutableString alloc] initWithFormat:@"<span><div class=\"icon\"><img src=\"growlimage://%@\" alt=\"icon\" /></div><div class=\"title\">%@</div><div class=\"text\">%@</div></span>",
 		UUID,
