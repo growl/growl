@@ -45,18 +45,15 @@
 	//	if a user with a previous OS version tries to launch us - switch out the pane.
 	
 	NSApp = [NSApplication sharedApplication];
-	if (![NSApp respondsToSelector:@selector(replyToOpenOrPrint:)])
-	{
+	if (![NSApp respondsToSelector:@selector(replyToOpenOrPrint:)]) {
 		NSString *msg = @"Mac OS X 10.3 \"Panther\" or greater is required.";
-		
+
 		if (NSRunInformationalAlertPanel(@"Growl requires Panther...", msg, @"Quit", @"Get Panther...", nil) == NSAlertAlternateReturn) {
 			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.apple.com/macosx/"]];
 		}
-		exit(0);
-		
+		[NSApp terminate:nil];
 	}
-	
-	
+
 	if ((self = [super initWithBundle:bundle])) {
 		loadedPrefPanes = [[NSMutableArray alloc] init];
 		
@@ -572,8 +569,8 @@
 																	   object:@"GrowlTicketDeleted"
 																	 userInfo:userInfo];
 		[userInfo release];
-		unsigned index = [tickets indexOfObject:ticket];
-		[images removeObjectAtIndex:index];
+		unsigned idx = [tickets indexOfObject:ticket];
+		[images removeObjectAtIndex:idx];
 
 		///	Hmm... This doesn't work for some reason....
 		//	Even though the same method definitely^H^H^H^H^H^H probably works in the appRegistered: method... 
@@ -728,16 +725,16 @@
 	return [services count];
 }
 
-- (id) objectInServicesAtIndex:(unsigned)index {
-	return [services objectAtIndex:index];
+- (id) objectInServicesAtIndex:(unsigned)idx {
+	return [services objectAtIndex:idx];
 }
 
-- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)index {
-	[services insertObject:anObject atIndex:index];
+- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)idx {
+	[services insertObject:anObject atIndex:idx];
 }
 
-- (void) replaceObjectInServicesAtIndex:(unsigned)index withObject:(id)anObject {
-	[services replaceObjectAtIndex:index withObject:anObject];
+- (void) replaceObjectInServicesAtIndex:(unsigned)idx withObject:(id)anObject {
+	[services replaceObjectAtIndex:idx withObject:anObject];
 }
 
 #pragma mark "Display Options" tab pane
@@ -824,8 +821,8 @@
 	NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
 	if (tableView == growlApplications) {
 		if ([identifier isEqualTo:@"application"]) {
-			unsigned index = [tickets indexOfObject:[arrangedTickets objectAtIndex:row]];
-			[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:index]];
+			unsigned idx = [tickets indexOfObject:[arrangedTickets objectAtIndex:row]];
+			[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:idx]];
 		}
 	}
 }

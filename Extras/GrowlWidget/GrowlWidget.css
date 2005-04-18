@@ -1,0 +1,13 @@
+body {
+	margin: 0;
+	color: black;
+	font-family: sans-serif;
+	font-size: x-small;
+}
+
+div {
+	padding: 10px;
+	background-image: URL(Default.png);
+	background-repeat: no-repeat;
+	height: 92px;
+}

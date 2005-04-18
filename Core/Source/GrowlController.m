@@ -325,6 +325,13 @@ static id singleton = nil;
 	[display displayNotificationWithInfo:aDict];
 	[aDict release];
 
+	// send to dashboard
+	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
+	[distCenter postNotificationName:GROWL_DASHBOARD_NOTIFICATION
+							  object:nil
+							userInfo:dict];
+
+	// forward to remote destinations
 	if (enableForward) {
 		NSEnumerator *enumerator = [destinations objectEnumerator];
 		NSDictionary *entry;
