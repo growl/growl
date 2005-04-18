@@ -62,10 +62,10 @@ static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 		} else {
 			// This bit stolen from SubEthaFari's source
 			NSLog(@"GrowlSafari Error: Original (selector %s) %@, Alternate (selector %s) %@",
-				  orig_method,
-				  orig_method ? @"found" : @"not found",
-				  alt_method,
-				  alt_method ? @"found" : @"not found");
+				  orig_sel,
+				  orig_method ? @"was found" : @"not found",
+				  alt_sel,
+				  alt_method ? @"was found" : @"not found");
 		}
 	} else {
 		NSLog(@"%@", @"GrowlSafari Error: No class to swizzle methods in");
@@ -107,6 +107,7 @@ static void setDownloadFinished(id dl) {
 	return [NSBundle bundleForClass:self];
 }
 
+//initWithDownload:mayOpenWhenDone:allowOverwrite:
 + (void) initialize {
 	//NSLog(@"Patching DownloadProgressEntry...");
 	Class class = NSClassFromString( @"DownloadProgressEntry" );
@@ -116,7 +117,8 @@ static void setDownloadFinished(id dl) {
 						 @selector(initWithDownload:mayOpenWhenDone:),
 						 @selector(myInitWithDownload:mayOpenWhenDone:),
 						 YES ) ) {
-		// Safari 2.0 adds one more parameter
+		NSLog(@"Trying to swizzle using selector from later versions of Safari.  (1.3 / 2.0)");
+		// Safari 2.0 / 1.3 adds one more parameter
 		PerformSwizzle( class,
 						@selector(initWithDownload:mayOpenWhenDone:allowOverwrite:),
 						@selector(myInitWithDownload:mayOpenWhenDone:allowOverwrite:),
