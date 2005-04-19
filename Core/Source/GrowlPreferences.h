@@ -18,6 +18,8 @@
 #define GrowlRemoteRegistrationKey	@"GrowlRemoteRegistration"
 #define GrowlEnableForwardKey		@"GrowlEnableForward"
 #define GrowlForwardDestinationsKey	@"GrowlForwardDestinations"
+#define GrowlUDPPortKey				@"GrowlUDPPort"
+#define GrowlTCPPortKey				@"GrowlTCPPort"
 #define GrowlUpdateCheckKey			@"GrowlUpdateCheck"
 #define LastUpdateCheckKey			@"LastUpdateCheck"
 #define	GrowlLoggingEnabledKey		@"Log enabled"

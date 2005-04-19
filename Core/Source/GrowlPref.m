@@ -675,6 +675,16 @@
 
 #pragma mark -
 
+- (int) UDPPort {
+	return [[GrowlPreferences preferences] integerForKey:GrowlUDPPortKey];
+}
+
+- (void) setUDPPort:(int)value {
+	[[GrowlPreferences preferences] setInteger:value forKey:GrowlUDPPortKey];
+}
+
+#pragma mark -
+
 - (BOOL) isForwardingEnabled {
 	return [[GrowlPreferences preferences] boolForKey:GrowlEnableForwardKey];
 }

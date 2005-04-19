@@ -105,6 +105,8 @@
 - (void) setForwardingEnabled:(BOOL)enabled;
 - (NSString *) remotePassword;
 - (void) setRemotePassword:(NSString *)value;
+- (int) UDPPort;
+- (void) setUDPPort:(int)value;
 
 - (IBAction) resolveService:(id)sender;
 - (void) writeForwardDestinations;

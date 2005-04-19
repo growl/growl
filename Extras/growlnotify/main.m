@@ -54,6 +54,7 @@ static const char usage[] =
 "    -H,--host     Specify a hostname to which to send a remote notification.\n"
 "    -u,--udp      Use UDP instead of DO to send a remote notification.\n"
 "    -P,--password Password used for UDP notifications.\n"
+"    --port        Port number for UDP notifications.\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
 "message given in the standard input.\n"
@@ -84,7 +85,8 @@ int main(int argc, const char **argv) {
 	char *host = NULL;
 	int priority = 0;
 	BOOL useUDP = NO;
-	int imageset;
+	int flag;
+	short port = 0;
 
 	int code = EXIT_SUCCESS;
 	struct hostent *he;
@@ -95,20 +97,21 @@ int main(int argc, const char **argv) {
 	char *password = NULL;
 
 	struct option longopts[] = {
-		{ "help",		no_argument,		0,			'h' },
-		{ "name",		required_argument,	0,			'n' },
-		{ "icon",		required_argument,	0,			'i' },
-		{ "iconpath",	required_argument,	0,			'I' },
-		{ "appIcon",	required_argument,	0,			'a' },
-		{ "image",		required_argument,	&imageset,	 1  },
-		{ "title",		no_argument,		0,			't' },
-		{ "message",	required_argument,	0,			'm' },
-		{ "priority",	required_argument,	0,			'p' },
-		{ "host",		required_argument,	0,			'H' },
-		{ "udp",		no_argument,		0,			'u' },
-		{ "password",	required_argument,	0,			'P' },
-		{ "version",	no_argument,		0,			'v' },
-		{ 0,			0,					0,			 0  }
+		{ "help",		no_argument,		NULL,	'h' },
+		{ "name",		required_argument,	NULL,	'n' },
+		{ "icon",		required_argument,	NULL,	'i' },
+		{ "iconpath",	required_argument,	NULL,	'I' },
+		{ "appIcon",	required_argument,	NULL,	'a' },
+		{ "image",		required_argument,	&flag,	 1  },
+		{ "title",		no_argument,		NULL,	't' },
+		{ "message",	required_argument,	NULL,	'm' },
+		{ "priority",	required_argument,	NULL,	'p' },
+		{ "host",		required_argument,	NULL,	'H' },
+		{ "udp",		no_argument,		NULL,	'u' },
+		{ "password",	required_argument,	NULL,	'P' },
+		{ "port",		required_argument,	&flag,	 2  },
+		{ "version",	no_argument,		NULL,	'v' },
+		{ NULL,			0,					NULL,	 0  }
 	};
 
 	while ((ch = getopt_long(argc, (char * const *)argv, "hvn:sa:i:I:p:tm:H:uP:", longopts, NULL)) != -1) {
@@ -168,8 +171,10 @@ int main(int argc, const char **argv) {
 			password = optarg;
 			break;
 		case 0:
-			if (imageset) {
+			if (flag == 1) {
 				imagePath = optarg;
+			} else if (flag == 2) {
+				port = strtol(optarg, NULL, 0);
 			}
 			break;
 		}
@@ -276,7 +281,7 @@ int main(int argc, const char **argv) {
 				} else {
 					to.sin_len = sizeof(to);
 					to.sin_family = AF_INET;
-					to.sin_port = htons(GROWL_UDP_PORT);
+					to.sin_port = htons(port ? port : GROWL_UDP_PORT);
 					memcpy(&to.sin_addr.s_addr, he->h_addr_list[0], he->h_length);
 					memset(&to.sin_zero, 0, sizeof(to.sin_zero));
 				}

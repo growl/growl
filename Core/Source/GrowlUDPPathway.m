@@ -11,6 +11,7 @@
 #import "NSGrowlAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
+#import "GrowlPreferences.h"
 #import <Security/SecKeychain.h>
 #import <Security/SecKeychainItem.h>
 #include <netinet/in.h>
@@ -28,9 +29,10 @@
 	NSData *addrData;
 
 	if ((self = [super init])) {
+		short port = [[GrowlPreferences preferences] integerForKey:GrowlUDPPortKey];
 		addr.sin_len = sizeof(addr);
 		addr.sin_family = AF_INET;
-		addr.sin_port = htons(GROWL_UDP_PORT);
+		addr.sin_port = htons(port);
 		addr.sin_addr.s_addr = INADDR_ANY;
 		memset(&addr.sin_zero, 0, sizeof(addr.sin_zero));
 		addrData = [NSData dataWithBytes:&addr length:sizeof(addr)];

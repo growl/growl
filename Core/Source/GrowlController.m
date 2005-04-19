@@ -151,7 +151,7 @@ static id singleton = nil;
 
 #pragma mark -
 
-- (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
+- (void) netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
 	NSLog(@"Could not publish Growl service. Error: %@", errorDict);
 }
 
@@ -628,6 +628,9 @@ static id singleton = nil;
 				[tickets setObject:newTicket forKey:ticketName];
 				[newTicket release];
 			}
+		} else if ([object isEqualTo:GrowlUDPPortKey]) {
+			[self stopServer];
+			[self startServer];
 		}
 	}
 }

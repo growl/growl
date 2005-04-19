@@ -12,6 +12,8 @@
 	<true/>
 	<key>GrowlEnableForward</key>
 	<false/>
+	<key>GrowlUDPPort</key>
+	<integer>9887</integer>
 	<key>GrowlUpdateCheck</key>
 	<true/>
 	<key>GrowlLoggingEnabled</key>
