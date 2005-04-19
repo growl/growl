@@ -39,28 +39,72 @@
  * @brief Escape a string for HTML.
  */
 - (NSMutableString *) escapeForHTML {
-	NSRange range = NSMakeRange(0, [self length]);
-	unsigned delta;
-	delta = [self replaceOccurrencesOfString:@"&" withString:@"&amp;"
-									 options:NSLiteralSearch range:range];
-	range.length += delta * 4;
-	
-	delta = [self replaceOccurrencesOfString:@"<" withString:@"&lt;"
-									 options:NSLiteralSearch range:range];
-	range.length += delta * 3;
-	
-	delta = [self replaceOccurrencesOfString:@">" withString:@"&gt;"
-									 options:NSLiteralSearch range:range];
-	range.length += delta * 3;
-	
-	delta = [self replaceOccurrencesOfString:@"'" withString:@"&apos;"
-									 options:NSLiteralSearch range:range];
-	range.length += delta * 4;
-	
-	delta = [self replaceOccurrencesOfString:@"\n" withString:@"<br />"
-									 options:NSLiteralSearch range:range];
-	range.length += delta * 5;
-	
+	unsigned j = 0U;
+	unsigned count = [self length];
+	NSRange range;
+	range.location = 0U;
+	range.length = count;
+	unichar c;
+	unichar *inbuffer = (unichar *)malloc(count * sizeof(unichar));
+	// worst case is a string consisting only of newlines or apostrophes
+	unichar *outbuffer = (unichar *)malloc(6 * count * sizeof(unichar));
+	[self getCharacters:inbuffer range:range];
+
+	for (unsigned i=0U; i < count; ++i) {
+		switch ((c=inbuffer[i])) {
+			default:
+				outbuffer[j++] = c;
+				break;
+			case '&':
+				outbuffer[j++] = '&';
+				outbuffer[j++] = 'a';
+				outbuffer[j++] = 'm';
+				outbuffer[j++] = 'p';
+				outbuffer[j++] = ';';
+				break;
+			case '"':
+				outbuffer[j++] = '&';
+				outbuffer[j++] = 'q';
+				outbuffer[j++] = 'u';
+				outbuffer[j++] = 'o';
+				outbuffer[j++] = 't';
+				outbuffer[j++] = ';';
+				break;
+			case '<':
+				outbuffer[j++] = '&';
+				outbuffer[j++] = 'l';
+				outbuffer[j++] = 't';
+				outbuffer[j++] = ';';
+				break;
+			case '>':
+				outbuffer[j++] = '&';
+				outbuffer[j++] = 'g';
+				outbuffer[j++] = 't';
+				outbuffer[j++] = ';';
+				break;
+			case '\'':
+				outbuffer[j++] = '&';
+				outbuffer[j++] = 'a';
+				outbuffer[j++] = 'p';
+				outbuffer[j++] = 'o';
+				outbuffer[j++] = 's';
+				outbuffer[j++] = ';';
+				break;
+			case '\n':
+				outbuffer[j++] = '<';
+				outbuffer[j++] = 'b';
+				outbuffer[j++] = 'r';
+				outbuffer[j++] = ' ';
+				outbuffer[j++] = '/';
+				outbuffer[j++] = '>';
+				break;
+		}
+	}
+	NSString *result = [[NSString alloc] initWithCharactersNoCopy:outbuffer length:j freeWhenDone:YES];
+	[self setString:result];
+	[result release];
+	free(inbuffer);
+
 	return self;
 }
 @end
