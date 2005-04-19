@@ -13,6 +13,7 @@
 #import "GrowlImageURLProtocol.h"
 #import "NSWindow+Transforms.h"
 #import "GrowlPluginController.h"
+#import "NSMutableStringAdditions.h"
 
 static unsigned webkitWindowDepth = 0U;
 
@@ -112,13 +113,17 @@ static unsigned webkitWindowDepth = 0U;
 	[image setName:UUID];
 	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
 
+	NSMutableString *titleHTML = [[[NSMutableString alloc] initWithString:title] escapeForHTML];
+	NSMutableString *textHTML = [[[NSMutableString alloc] initWithString:text] escapeForHTML];
 	NSString *htmlString = [[NSString alloc] initWithFormat:template,
 		[[NSURL fileURLWithPath:stylePath] absoluteString],	// base URL
 		priorityName,	// priority class
 		UUID,			// image name
-		title,			// title
-		text];			// text
+		titleHTML,		// title
+		textHTML];		// text
 	[template release];
+	[titleHTML release];
+	[textHTML release];
 	WebFrame *webFrame = [view mainFrame];
 	[webFrame loadHTMLString:htmlString baseURL:nil];
 	[[webFrame frameView] setAllowsScrolling:NO];

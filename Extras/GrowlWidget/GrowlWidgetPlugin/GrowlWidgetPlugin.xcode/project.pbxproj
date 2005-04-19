@@ -126,6 +126,8 @@
 		};
 		08FB77AFFE84173DC02AAC07 = {
 			children = (
+				955C239C081543540013C3CF,
+				955C239D081543540013C3CF,
 				953BC8DB081403AF00AF9EA5,
 				953BC8DC081403AF00AF9EA5,
 				198E71DA075EAD77002FFDE7,
@@ -331,6 +333,7 @@
 			files = (
 				198E71E6075EAD77002FFDE7,
 				953BC8DD081403AF00AF9EA5,
+				955C239E081543540013C3CF,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,6 +399,30 @@
 		};
 		953BC8DD081403AF00AF9EA5 = {
 			fileRef = 953BC8DC081403AF00AF9EA5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		955C239C081543540013C3CF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = NSMutableStringAdditions.h;
+			path = ../../../Common/Source/NSMutableStringAdditions.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		955C239D081543540013C3CF = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = NSMutableStringAdditions.m;
+			path = ../../../Common/Source/NSMutableStringAdditions.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		955C239E081543540013C3CF = {
+			fileRef = 955C239D081543540013C3CF;
 			isa = PBXBuildFile;
 			settings = {
 			};

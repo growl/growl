@@ -1,5 +1,6 @@
 #import "GrowlWidgetPlugin.h"
 #import "GrowlImageURLProtocol.h"
+#import "NSMutableStringAdditions.h"
 #import <GrowlDefines.h>
 #import <WebKit/WebKit.h>
 
@@ -75,33 +76,6 @@
 	return YES;
 }
 
-/*!
- * @brief Escape a string for passing to our BOM scripts
- */
-- (NSMutableString *) escapeStringForPassingToScript:(NSMutableString *)inString {
-	NSRange range = NSMakeRange(0, [inString length]);
-	unsigned delta;
-	//We need to escape a few things to get our string to the javascript without trouble
-	delta = [inString replaceOccurrencesOfString:@"\\" withString:@"\\\\"
-										 options:NSLiteralSearch range:range];
-	range.length += delta;
-
-	delta = [inString replaceOccurrencesOfString:@"\"" withString:@"\\\""
-											 options:NSLiteralSearch range:range];
-	range.length += delta;
-
-	delta = [inString replaceOccurrencesOfString:@"\n" withString:@""
-										 options:NSLiteralSearch range:range];
-	range.length -= delta;
-
-	delta = [inString replaceOccurrencesOfString:@"\r" withString:@"<br />"
-										 options:NSLiteralSearch range:range];
-	enum { lengthOfBRString = 6 };
-	range.length += delta * lengthOfBRString;
-
-	return inString;
-}
-
 - (void) gotGrowlNotification:(NSNotification *)notification {
 	NSDictionary *userInfo = [notification userInfo];
 
@@ -111,13 +85,16 @@
 	[image setName:UUID];
 	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
 
+	NSMutableString *titleHTML = [[[NSMutableString alloc] initWithString:[userInfo objectForKey:GROWL_NOTIFICATION_TITLE]] escapeForHTML];
+	NSMutableString *textHTML = [[[NSMutableString alloc] initWithString:[userInfo objectForKey:GROWL_NOTIFICATION_DESCRIPTION]] escapeForHTML];
 	NSMutableString *content = [[NSMutableString alloc] initWithFormat:@"<span><div class=\"icon\"><img src=\"growlimage://%@\" alt=\"icon\" /></div><div class=\"title\">%@</div><div class=\"text\">%@</div></span>",
 		UUID,
-		[userInfo objectForKey:GROWL_NOTIFICATION_TITLE],
-		[userInfo objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
-	[self escapeStringForPassingToScript:content];
+		titleHTML,
+		textHTML];
+	[titleHTML release];
+	[textHTML release];
 	NSString *newMessage = [[NSString alloc] initWithFormat:@"setMessage(\"%@\");",
-		content];
+		[content escapeForJavaScript]];
 	[webView stringByEvaluatingJavaScriptFromString:newMessage];
 	[content release];
 	[newMessage release];

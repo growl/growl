@@ -1966,6 +1966,7 @@
 				93E0E9E3080F0F42004FFB1D,
 				959DBE4B08127BA4009BB468,
 				950568E50812C2960096EC5C,
+				955C236D081537280013C3CF,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3805,6 +3806,36 @@
 			settings = {
 			};
 		};
+		955C236B081537280013C3CF = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = NSMutableStringAdditions.h;
+			path = Common/Source/NSMutableStringAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		955C236C081537280013C3CF = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = NSMutableStringAdditions.m;
+			path = Common/Source/NSMutableStringAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		955C236D081537280013C3CF = {
+			fileRef = 955C236B081537280013C3CF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		955C236E081537280013C3CF = {
+			fileRef = 955C236C081537280013C3CF;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		9564F82B07438E1D00F1CCE5 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -4843,6 +4874,7 @@
 				074062AD07E2FBE300FA27FA,
 				959DBE4C08127BA4009BB468,
 				950568E60812C2960096EC5C,
+				955C236E081537280013C3CF,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5010,6 +5042,8 @@
 				956ADAD507551C4500AF9545,
 				956ADADA07551C4500AF9545,
 				956ADADF07551C4500AF9545,
+				955C236B081537280013C3CF,
+				955C236C081537280013C3CF,
 			);
 			isa = PBXGroup;
 			name = Additions;
