@@ -323,13 +323,22 @@ static id singleton = nil;
 	}
 
 	[display displayNotificationWithInfo:aDict];
-	[aDict release];
 
 	// send to dashboard
+	icon = [aDict objectForKey:GROWL_NOTIFICATION_ICON];
+	if (icon) {
+		[aDict setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
+	}
+	icon = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON];
+	if (icon) {
+		[aDict setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_APP_ICON];
+	}
 	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
 	[distCenter postNotificationName:GROWL_DASHBOARD_NOTIFICATION
 							  object:nil
-							userInfo:dict];
+							userInfo:aDict];
+
+	[aDict release];
 
 	// forward to remote destinations
 	if (enableForward) {

@@ -2,15 +2,14 @@ DEFAULT_BUILDSTYLE=Deployment
 
 BUILDSTYLE?=$(DEFAULT_BUILDSTYLE)
 
-DESTDIR=/Library/Spotlight/GrowlImpoter.mdimporter
+DESTDIR="/Library/Automator/Show Growl Notification.action"
 
 all:
 	xcodebuild -alltargets -buildstyle $(BUILDSTYLE) build
 
 install:
 	rm -rf $(DESTDIR)
-	cp -R build/GrowlImporter.mdimporter $(DESTDIR)
-	/usr/bin/mdimport -r $(DESTDIR)
+	cp -R "build/Show Growl Notification.action" $(DESTDIR)
 
 clean:
 	xcodebuild -alltargets clean
