@@ -4,7 +4,13 @@
 <dict>
 	<key>Open Growl preferences...</key>
 	<string>Growl Einstellungen öffnen…</string>
+	<key>Start Growl</key>
+	<string>Growl starten</string>
 	<key>Stop Growl</key>
 	<string>Growl beenden</string>
+	<key>Restart Growl</key>
+	<string>Growl neustarten</string>
+	<key>Default display</key>
+	<string>Anzeigestil</string>
 </dict>
 </plist>

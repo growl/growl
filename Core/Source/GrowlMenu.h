@@ -5,7 +5,8 @@
 
 #import <Foundation/Foundation.h>
 #import "SystemUIPlugin.h"
-#import "GrowlPreferences.h"
+
+@class GrowlPreferences;
 
 @interface GrowlMenu : NSMenuExtra {
     NSMenu				*menu;
@@ -17,7 +18,4 @@
 }
 
 - (NSMenu *) buildMenu;
-- (void) clearMenu:(NSMenu *)menu;
-
-//Boolean IsOptionDown( void );
 @end

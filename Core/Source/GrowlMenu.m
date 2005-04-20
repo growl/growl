@@ -15,6 +15,12 @@
 
 @implementation GrowlMenu
 
+#define kRestartGrowl         NSLocalizedStringFromTableInBundle(@"Restart Growl", nil, [self bundle], @"")
+#define kStartGrowl           NSLocalizedStringFromTableInBundle(@"Start Growl", nil, [self bundle], @"")
+#define kStopGrowl            NSLocalizedStringFromTableInBundle(@"Stop Growl", nil, [self bundle], @"")
+#define kDefaultDisplay       NSLocalizedStringFromTableInBundle(@"Default display", nil, [self bundle], @"")
+#define kOpenGrowlPreferences NSLocalizedStringFromTableInBundle(@"Open Growl preferences...", nil, [self bundle], @"")
+
 - (id) initWithBundle:(NSBundle *)bundle {
 	if ((self = [super initWithBundle:bundle])) {
 		preferences = [GrowlPreferences preferences];
@@ -79,25 +85,23 @@
 
 - (NSMenu *)buildMenu {
 	NSMenu *m = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
-	
+
 	NSMenuItem *tempMenuItem;
 
-#warning XXX - localize this
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:@"Start Growl" action:@selector(startGrowl:) keyEquivalent:@""];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStartGrowl action:@selector(startGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
+	[tempMenuItem setTag:1];
 
 	if ([preferences isGrowlRunning])
-		[tempMenuItem setTitle:@"Restart Growl"];
+		[tempMenuItem setTitle:kRestartGrowl];
 
-#warning XXX - localize this
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Stop Growl", nil, [self bundle], @"") action:@selector(stopGrowl:) keyEquivalent:@""];
-	[tempMenuItem setTag:1];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowl action:@selector(stopGrowl:) keyEquivalent:@""];
+	[tempMenuItem setTag:2];
 	[tempMenuItem setTarget:self];
 
 	[m addItem:[NSMenuItem separatorItem]];
 
-#warning XXX - localize this
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:@"Default display" action:NULL keyEquivalent:@""];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kDefaultDisplay action:NULL keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 
 	NSMenu *displays = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
@@ -110,43 +114,29 @@
 	[displays release];
 	[m addItem:[NSMenuItem separatorItem]];
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Open Growl preferences...", nil, [self bundle], @"") action:@selector(openGrowl:) keyEquivalent:@""];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kOpenGrowlPreferences action:@selector(openGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 
 	return [m autorelease];
 }
 
-- (void) clearMenu:(NSMenu *)m {
-	for (register int counter = [m numberOfItems]; counter > 0; --counter) {
-		[m removeItemAtIndex:0];
-	}
-}
-
 - (BOOL) validateMenuItem:(NSMenuItem *)item {
 	NSString *defaultDisplay = [preferences objectForKey:GrowlDisplayPluginKey];
 	NSString *title = [item title];
+	int tag = [item tag];
 
-	if ([item tag] == 1) {
-		return [preferences isGrowlRunning];
-#warning XXX - use a tag here
-	} else if ([title isEqualToString:@"Start Growl"]) {
+	if (tag == 1) {
 		if ([preferences isGrowlRunning]) {
-#warning XXX - localize this
-			[item setTitle:@"Restart Growl"];
+			[item setTitle:kRestartGrowl];
 		} else {
-			[item setTitle:@"Start Growl"];
+			[item setTitle:kStartGrowl];
 		}
+	} else if (tag == 2) {
+		return [preferences isGrowlRunning];
 	} else if ([title isEqualToString:defaultDisplay]) {
 		[item setState:YES];
 	}
 	return YES;
 }
-
-#define _getModifiers GetCurrentKeyModifiers
-
-//Boolean IsOptionDown( void )
-//{
-//	return (_getModifiers() & optionKey) != 0;
-//}
 
 @end

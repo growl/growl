@@ -6,16 +6,24 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>Growl</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Growl Menu, Copyright 2005, The Growl Project.</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.Growl.MenuExtra</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Growl Menu</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.7</string>
 	<key>CFBundleSignature</key>
 	<string>GRWL</string>
 	<key>CFBundleVersion</key>
 	<string>0.7</string>
+	<key>NSMenuExtraWidth</key>
+	<integer>22</integer>
 	<key>NSPrincipalClass</key>
 	<string>GrowlMenu</string>
 </dict>

@@ -4,7 +4,13 @@
 <dict>
 	<key>Open Growl preferences...</key>
 	<string>Open Growl preferences…</string>
+	<key>Start Growl</key>
+	<string>Start Growl</string>
 	<key>Stop Growl</key>
 	<string>Stop Growl</string>
+	<key>Restart Growl</key>
+	<string>Restart Growl</string>
+	<key>Default display</key>
+	<string>Default display</string>
 </dict>
 </plist>
