@@ -867,7 +867,6 @@
 		0A7F5F120767C38200E1C1E4 = {
 			buildActionMask = 2147483647;
 			files = (
-				0A7F5F3A0767C3F600E1C1E4,
 				0A7F5F3B0767C3F600E1C1E4,
 			);
 			isa = PBXResourcesBuildPhase;
@@ -915,7 +914,6 @@
 		0A7F5F2D0767C3F600E1C1E4 = {
 			children = (
 				95125DE80802D3F3007FF92A,
-				0A7F5F2E0767C3F600E1C1E4,
 				0A7F5F2F0767C3F600E1C1E4,
 				0A7F5F320767C3F600E1C1E4,
 				0A7F5F330767C3F600E1C1E4,
@@ -929,13 +927,6 @@
 			isa = PBXGroup;
 			name = Bezel;
 			path = "Display Plugins/Bezel";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		0A7F5F2E0767C3F600E1C1E4 = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.png;
-			path = aquabackground.png;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -1029,12 +1020,6 @@
 			path = GrowlBezelWindowView.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		0A7F5F3A0767C3F600E1C1E4 = {
-			fileRef = 0A7F5F2E0767C3F600E1C1E4;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		0A7F5F3B0767C3F600E1C1E4 = {
 			fileRef = 0A7F5F2F0767C3F600E1C1E4;

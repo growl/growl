@@ -2,17 +2,9 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {positionChanged = id; }; 
             CLASS = GrowlBezelPrefs; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                "radio_PositionBL" = NSButton; 
-                "radio_PositionBR" = NSButton; 
-                "radio_PositionD" = NSButton; 
-                "radio_PositionTL" = NSButton; 
-                "radio_PositionTR" = NSButton; 
-                "slider_opacity" = NSSlider; 
-            }; 
+            OUTLETS = {"slider_opacity" = NSSlider; }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
         {

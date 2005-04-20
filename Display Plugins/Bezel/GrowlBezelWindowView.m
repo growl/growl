@@ -23,10 +23,12 @@
 }
 
 - (void)dealloc {
-	[icon          release];
-	[title         release];
-	[text          release];
-	[layoutManager release];
+	[icon            release];
+	[title           release];
+	[text            release];
+	[textColor       release];
+	[backgroundColor release];
+	[layoutManager   release];
 
 	[super dealloc];
 }
@@ -80,7 +82,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 		default:
 		case 0:
 			// default style
-			[[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.0f alpha:alpha] set];
+			[[backgroundColor colorWithAlphaComponent:alpha] set];
 			[path fill];
 			break;
 		case 1:
@@ -200,7 +202,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 		iconPoint.x = 57.0f;
 		iconPoint.y = 83.0f;
 	}
-	
+
 	NSShadow *textShadow = [[NSShadow alloc] init];
 	NSSize shadowSize = {0.0f, -2.0f};
 	[textShadow setShadowOffset:shadowSize];
@@ -212,7 +214,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	NSMutableParagraphStyle *parrafo = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[parrafo setAlignment:NSCenterTextAlignment];
 	NSMutableDictionary *titleAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		[NSColor whiteColor],                        NSForegroundColorAttributeName,
+		textColor,                                   NSForegroundColorAttributeName,
 		parrafo,                                     NSParagraphStyleAttributeName,
 		[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
 		textShadow,                                  NSShadowAttributeName,
@@ -243,10 +245,10 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 
 	NSFont *textFont = [NSFont systemFontOfSize:14.0f];
 	NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		[NSColor whiteColor], NSForegroundColorAttributeName,
-		parrafo,              NSParagraphStyleAttributeName,
-		textFont,             NSFontAttributeName,
-		textShadow,           NSShadowAttributeName,
+		textColor,  NSForegroundColorAttributeName,
+		parrafo,    NSParagraphStyleAttributeName,
+		textFont,   NSFontAttributeName,
+		textShadow, NSShadowAttributeName,
 		nil];
 	[textShadow release];
 	[parrafo release];
@@ -284,6 +286,59 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	[text release];
 	text = [aText copy];
 	[self setNeedsDisplay:YES];
+}
+
+- (void) setPriority:(int)priority {
+	NSString *key;
+	NSString *textKey;
+	switch (priority) {
+		case -2:
+			key = GrowlBezelVeryLowBackgroundColor;
+			textKey = GrowlBezelVeryLowTextColor;
+			break;
+		case -1:
+			key = GrowlBezelModerateBackgroundColor;
+			textKey = GrowlBezelModerateTextColor;
+			break;
+		case 1:
+			key = GrowlBezelHighBackgroundColor;
+			textKey = GrowlBezelHighTextColor;
+			break;
+		case 2:
+			key = GrowlBezelEmergencyBackgroundColor;
+			textKey = GrowlBezelEmergencyTextColor;
+			break;
+		case 0:
+		default:
+			key = GrowlBezelNormalBackgroundColor;
+			textKey = GrowlBezelNormalTextColor;
+			break;
+	}
+
+	[backgroundColor release];
+
+	Class NSDataClass = [NSData class];
+	NSData *data = nil;
+
+	READ_GROWL_PREF_VALUE(key, BezelPrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:NSDataClass]) {
+		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
+	} else {
+		backgroundColor = [NSColor blackColor];
+	}
+	[backgroundColor retain];
+	[data release];
+	data = nil;
+	
+	[textColor release];
+	READ_GROWL_PREF_VALUE(textKey, BezelPrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:NSDataClass]) {
+		textColor = [NSUnarchiver unarchiveObjectWithData:data];
+	} else {
+		textColor = [NSColor whiteColor];
+	}
+	[textColor retain];
+	[data release];
 }
 
 - (float) descriptionHeight:(NSString *)theText attributes:(NSDictionary *)attributes width:(float)width {

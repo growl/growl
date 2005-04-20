@@ -77,6 +77,7 @@
 	[tempText release];
 
 	[view setIcon:icon];
+	[view setPriority:priority];
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 
