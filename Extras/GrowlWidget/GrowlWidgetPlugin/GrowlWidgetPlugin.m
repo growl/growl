@@ -85,9 +85,31 @@
 	[image setName:UUID];
 	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
 
+	int priority = [[userInfo objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
+	NSString *priorityName;
+	switch (priority) {
+		case -2:
+			priorityName = @"verylow";
+			break;
+		case -1:
+			priorityName = @"moderate";
+			break;
+		default:
+		case 0:
+			priorityName = @"normal";
+			break;
+		case 1:
+			priorityName = @"high";
+			break;
+		case 2:
+			priorityName = @"emergency";
+			break;
+	}
+
 	NSMutableString *titleHTML = [[[NSMutableString alloc] initWithString:[userInfo objectForKey:GROWL_NOTIFICATION_TITLE]] escapeForHTML];
 	NSMutableString *textHTML = [[[NSMutableString alloc] initWithString:[userInfo objectForKey:GROWL_NOTIFICATION_DESCRIPTION]] escapeForHTML];
-	NSMutableString *content = [[NSMutableString alloc] initWithFormat:@"<span><div class=\"icon\"><img src=\"growlimage://%@\" alt=\"icon\" /></div><div class=\"title\">%@</div><div class=\"text\">%@</div></span>",
+	NSMutableString *content = [[NSMutableString alloc] initWithFormat:@"<span class=\"%@\"><div class=\"icon\"><img src=\"growlimage://%@\" alt=\"icon\" /></div><div class=\"title\">%@</div><div class=\"text\">%@</div></span>",
+		priorityName,
 		UUID,
 		titleHTML,
 		textHTML];
