@@ -443,7 +443,7 @@
 	BOOL state = [[GrowlPreferences preferences] boolForKey:GrowlMenuExtraKey];
 	[[GrowlPreferences preferences] setBool:!state forKey:GrowlMenuExtraKey];
 	NSLog(@"%d\n", state); 
-	if (state){
+	if (state) {
 		//turn off
 		UInt32 extraID = 0U;
 		CoreMenuExtraGetMenuExtra (CFSTR("com.Growl.MenuExtra"), &extraID);
