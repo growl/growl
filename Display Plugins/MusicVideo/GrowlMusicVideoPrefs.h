@@ -26,6 +26,18 @@
 #define MUSICVIDEO_EFFECT_SLIDE			0
 #define MUSICVIDEO_EFFECT_WIPE			1
 
+#define GrowlMusicVideoVeryLowBackgroundColor	@"MusicVideo-Priority-VeryLow-Color"
+#define GrowlMusicVideoModerateBackgroundColor	@"MusicVideo-Priority-Moderate-Color"
+#define GrowlMusicVideoNormalBackgroundColor	@"MusicVideo-Priority-Normal-Color"
+#define GrowlMusicVideoHighBackgroundColor		@"MusicVideo-Priority-High-Color"
+#define GrowlMusicVideoEmergencyBackgroundColor	@"MusicVideo-Priority-Emergency-Color"
+
+#define GrowlMusicVideoVeryLowTextColor			@"MusicVideo-Priority-VeryLow-Text-Color"
+#define GrowlMusicVideoModerateTextColor		@"MusicVideo-Priority-Moderate-Text-Color"
+#define GrowlMusicVideoNormalTextColor			@"MusicVideo-Priority-Normal-Text-Color"
+#define GrowlMusicVideoHighTextColor			@"MusicVideo-Priority-High-Text-Color"
+#define GrowlMusicVideoEmergencyTextColor		@"MusicVideo-Priority-Emergency-Text-Color"
+
 @interface GrowlMusicVideoPrefs : NSPreferencePane {
 	IBOutlet NSSlider *slider_opacity;
 }
@@ -40,5 +52,27 @@
 - (void) setSize:(int)value;
 - (int) screen;
 - (void) setScreen:(int)value;
+
+- (NSColor *) textColorVeryLow;
+- (void) setTextColorVeryLow:(NSColor *)value;
+- (NSColor *) textColorModerate;
+- (void) setTextColorModerate:(NSColor *)value;
+- (NSColor *) textColorNormal;
+- (void) setTextColorNormal:(NSColor *)value;
+- (NSColor *) textColorHigh;
+- (void) setTextColorHigh:(NSColor *)value;
+- (NSColor *) textColorEmergency;
+- (void) setTextColorEmergency:(NSColor *)value;
+
+- (NSColor *) backgroundColorVeryLow;
+- (void) setBackgroundColorVeryLow:(NSColor *)value;
+- (NSColor *) backgroundColorModerate;
+- (void) setBackgroundColorModerate:(NSColor *)value;
+- (NSColor *) backgroundColorNormal;
+- (void) setBackgroundColorNormal:(NSColor *)value;
+- (NSColor *) backgroundColorHigh;
+- (void) setBackgroundColorHigh:(NSColor *)value;
+- (NSColor *) backgroundColorEmergency;
+- (void) setBackgroundColorEmergency:(NSColor *)value;
 
 @end

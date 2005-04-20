@@ -14,55 +14,6 @@
 
 - (id) initWithFrame:(NSRect)frame {
 	if ((self = [super initWithFrame:frame])) {
-		float titleFontSize;
-		float textFontSize;
-		int sizePref = 0;
-		READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
-
-		if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-			titleFontSize = 32.0f;
-			textFontSize = 20.0f;
-		} else {
-			titleFontSize = 16.0f;
-			textFontSize = 12.0f;
-		}
-
-		float opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
-		READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacityPref);
-		backgroundColor = [[NSColor colorWithCalibratedRed:0.0f
-													 green:0.0f
-													  blue:0.0f
-													 alpha:(opacityPref * 0.01f)] retain];
-
-		NSShadow *textShadow = [[NSShadow alloc] init];
-
-		NSSize shadowSize = {0.0f, -2.0f};
-		[textShadow setShadowOffset:shadowSize];
-		[textShadow setShadowBlurRadius:3.0f];
-		[textShadow setShadowColor:[NSColor blackColor]];
-
-		NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		[paragraphStyle setAlignment:NSLeftTextAlignment];
-		[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-		titleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[NSColor whiteColor], NSForegroundColorAttributeName,
-			paragraphStyle, NSParagraphStyleAttributeName,
-			[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
-			textShadow, NSShadowAttributeName,
-			nil];
-		[paragraphStyle release];
-
-		paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		[paragraphStyle setAlignment:NSLeftTextAlignment];
-		textAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[NSColor whiteColor], NSForegroundColorAttributeName,
-			paragraphStyle, NSParagraphStyleAttributeName,
-			[NSFont messageFontOfSize:textFontSize], NSFontAttributeName,
-			textShadow, NSShadowAttributeName,
-			nil];
-		[paragraphStyle release];
-		[textShadow release];
-
 		cache = [[NSImage alloc] initWithSize:frame.size];
 		needsDisplay = YES;
 	}
@@ -74,10 +25,11 @@
 	[titleAttributes release];
 	[textAttributes  release];
 	[backgroundColor release];
+	[textColor       release];
 	[icon            release];
 	[title           release];
 	[text            release];
-	[cache release];
+	[cache           release];
 
 	[super dealloc];
 }
@@ -162,6 +114,107 @@
 	[text autorelease];
 	text = [aText copy];
 	[self setNeedsDisplay:(needsDisplay = YES)];
+}
+
+- (void) setPriority:(int)priority {
+	NSString *key;
+	NSString *textKey;
+	switch (priority) {
+		case -2:
+			key = GrowlMusicVideoVeryLowBackgroundColor;
+			textKey = GrowlMusicVideoVeryLowTextColor;
+			break;
+		case -1:
+			key = GrowlMusicVideoModerateBackgroundColor;
+			textKey = GrowlMusicVideoModerateTextColor;
+			break;
+		case 1:
+			key = GrowlMusicVideoHighBackgroundColor;
+			textKey = GrowlMusicVideoHighTextColor;
+			break;
+		case 2:
+			key = GrowlMusicVideoEmergencyBackgroundColor;
+			textKey = GrowlMusicVideoEmergencyTextColor;
+			break;
+		case 0:
+		default:
+			key = GrowlMusicVideoNormalBackgroundColor;
+			textKey = GrowlMusicVideoNormalTextColor;
+			break;
+	}
+
+	[backgroundColor release];
+
+	float opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
+	READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacityPref);
+	float alpha = opacityPref * 0.01f;
+
+	Class NSDataClass = [NSData class];
+	NSData *data = nil;
+
+	READ_GROWL_PREF_VALUE(key, MusicVideoPrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:NSDataClass]) {
+		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
+	} else {
+		backgroundColor = [NSColor blackColor];
+	}
+	backgroundColor = [[backgroundColor colorWithAlphaComponent:alpha] retain];
+	[data release];
+	data = nil;
+
+	[textColor release];
+	READ_GROWL_PREF_VALUE(textKey, MusicVideoPrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:NSDataClass]) {
+		textColor = [NSUnarchiver unarchiveObjectWithData:data];
+	} else {
+		textColor = [NSColor whiteColor];
+	}
+	[textColor retain];
+	[data release];
+
+	float titleFontSize;
+	float textFontSize;
+	int sizePref = 0;
+	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
+
+	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
+		titleFontSize = 32.0f;
+		textFontSize = 20.0f;
+	} else {
+		titleFontSize = 16.0f;
+		textFontSize = 12.0f;
+	}
+
+	NSShadow *textShadow = [[NSShadow alloc] init];
+
+	NSSize shadowSize = {0.0f, -2.0f};
+	[textShadow setShadowOffset:shadowSize];
+	[textShadow setShadowBlurRadius:3.0f];
+	[textShadow setShadowColor:[NSColor blackColor]];
+
+	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[paragraphStyle setAlignment:NSLeftTextAlignment];
+	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+	[titleAttributes release];
+	titleAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+		textColor,                                   NSForegroundColorAttributeName,
+		paragraphStyle,                              NSParagraphStyleAttributeName,
+		[NSFont boldSystemFontOfSize:titleFontSize], NSFontAttributeName,
+		textShadow,                                  NSShadowAttributeName,
+		nil];
+	[paragraphStyle release];
+
+	paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[paragraphStyle setAlignment:NSLeftTextAlignment];
+	[textAttributes release];
+	textAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+		textColor,                               NSForegroundColorAttributeName,
+		paragraphStyle,                          NSParagraphStyleAttributeName,
+		[NSFont messageFontOfSize:textFontSize], NSFontAttributeName,
+		textShadow,                              NSShadowAttributeName,
+		nil];
+	[paragraphStyle release];
+	[textShadow release];
 }
 
 - (id) target {

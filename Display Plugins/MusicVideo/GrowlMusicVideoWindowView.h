@@ -14,17 +14,19 @@
 	NSString			*text;
 	NSDictionary		*textAttributes;
 	NSDictionary		*titleAttributes;
+	NSColor				*textColor;
 	NSColor				*backgroundColor;
-	SEL					 action;
-	id					 target;
+	SEL					action;
+	id					target;
 
 	NSImage				*cache;
-	BOOL				 needsDisplay;
+	BOOL				needsDisplay;
 }
 
 - (void) setIcon:(NSImage *)icon;
 - (void) setTitle:(NSString *)title;
 - (void) setText:(NSString *)text;
+- (void) setPriority:(int)priority;
 
 - (id) target;
 - (void) setTarget:(id)object;

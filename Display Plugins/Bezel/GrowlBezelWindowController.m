@@ -66,6 +66,7 @@
 	//[view setAction:@selector(_notificationClicked:)];
 	[panel setContentView:view];
 
+	[view setPriority:priority];
 	[view setTitle:title];
 	NSMutableString	*tempText = [[NSMutableString alloc] initWithString:text];
 	// Sanity check to unify line endings
@@ -77,7 +78,6 @@
 	[tempText release];
 
 	[view setIcon:icon];
-	[view setPriority:priority];
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 

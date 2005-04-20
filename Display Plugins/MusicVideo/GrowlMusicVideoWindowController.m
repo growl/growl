@@ -68,6 +68,7 @@
 	subview = view;
 	[panel setContentView:contentView];
 
+	[view setPriority:priority];
 	[view setTitle:title];
 	// Sanity check to unify line endings
 	NSMutableString	*tempText = [[NSMutableString alloc] initWithString:text];
