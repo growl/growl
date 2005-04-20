@@ -38,7 +38,8 @@
 	IBOutlet NSProgressIndicator	*growlRunningProgress;
 	IBOutlet NSProgressIndicator	*growlVersionProgress;
 	IBOutlet NSArrayController		*notificationsArrayController;
-
+	IBOutlet NSButton				*menuExtraEnabled;
+	
 	// Logging
 	IBOutlet NSMatrix				*logFileType;
 	IBOutlet NSPopUpButton			*customMenuButton;	
@@ -91,6 +92,7 @@
 - (BOOL) loggingEnabled;
 - (void) setLoggingEnabled:(BOOL)flag;
 
+- (IBAction) menuExtraStateChange:(id)sender;
 - (IBAction) logTypeChanged:(id)sender;
 - (IBAction) openConsoleApp:(id)sender;
 - (IBAction) customFileChosen:(id)sender;
@@ -127,5 +129,10 @@
 #pragma mark -
 - (void) checkGrowlRunning;
 - (void) appRegistered: (NSNotification *) note;
+
+extern OSStatus CoreMenuExtraAddMenuExtra (CFURLRef inMenuExtra, SInt32 position, UInt32 reserved, UInt8 *inData, UInt32 inSize, UInt32 *outExtra);
+// either inExtra or inBundleID can be 0 or nil, but not both
+extern OSStatus CoreMenuExtraRemoveMenuExtra (UInt32 inExtra, CFStringRef inBundleID);
+extern OSStatus CoreMenuExtraGetMenuExtra (CFStringRef inBundleID, UInt32 *outExtra);
 
 @end

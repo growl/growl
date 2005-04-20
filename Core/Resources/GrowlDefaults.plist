@@ -20,5 +20,7 @@
 	<false/>
 	<key>GrowlLogType</key>
 	<integer>0</integer>
+	<key>GrowlMenuExtra</key>
+	<false/>
 </dict>
 </plist>

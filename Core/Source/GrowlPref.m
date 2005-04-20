@@ -15,6 +15,7 @@
 #import "GrowlApplicationTicket.h"
 #import "GrowlDisplayProtocol.h"
 #import "GrowlPluginController.h"
+#import "GrowlPathUtil.h"
 #import "GrowlVersionUtilities.h"
 #import "ACImageAndTextCell.h"
 #import "NSGrowlAdditions.h"
@@ -60,7 +61,8 @@
 		NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 		[nc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
 		[nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
-
+		[nc addObserver:self selector:@selector(reloadPrefs:) name:GrowlPreferencesChanged object:nil];
+		
 		NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithContentsOfFile:
 			[bundle pathForResource:@"GrowlDefaults"
 							 ofType:@"plist"]];
@@ -192,6 +194,13 @@
 
 	[browser setDelegate:self];
 	[browser searchForServicesOfType:@"_growl._tcp." inDomain:@""];
+	
+	UInt32 extraID = 0;
+	CoreMenuExtraGetMenuExtra (CFSTR("com.Growl.MenuExtra"), &extraID);
+	if(extraID != 0)
+		[menuExtraEnabled setState:YES];
+	else
+		[menuExtraEnabled setState:NO];
 }
 
 - (void) mainViewDidLoad {
@@ -280,7 +289,12 @@
 	[displayVersion setStringValue:[info objectForKey:(NSString *)kCFBundleVersionKey]];
 }
 
+- (void) reloadPrefs:(id)sender {
+	[self reloadPreferences];
+}
+
 - (void) reloadPreferences {
+	NSLog(@"%s\n", __FUNCTION__);
 	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
 	[self setTickets:[[GrowlApplicationTicket allSavedTickets] allValues]];
 	[self cacheImages];
@@ -291,7 +305,7 @@
 
 	// If Growl is enabled, ensure the helper app is launched
 	if ([preferences boolForKey:GrowlEnabledKey]) {
-		[[GrowlPreferences preferences] launchGrowl];
+		[[GrowlPreferences preferences] launchGrowl:NO];
 	}
 
 	if ([plugins count] > 0U) {
@@ -349,7 +363,7 @@
 	// Update our status visible to the user
 	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
 	
-	[[GrowlPreferences preferences] setGrowlRunning:YES];
+	[[GrowlPreferences preferences] setGrowlRunning:YES noMatterWhat:NO];
 	
 	// After 4 seconds force a status update, in case Growl didn't start/stop
 	[self performSelector:@selector(checkGrowlRunning)
@@ -366,7 +380,7 @@
 	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
 	
 	// Ask the Growl Helper App to shutdown
-	[[GrowlPreferences preferences] setGrowlRunning:NO];
+	[[GrowlPreferences preferences] setGrowlRunning:NO noMatterWhat:NO];
 	
 	// After 4 seconds force a status update, in case growl didn't start/stop
 	[self performSelector:@selector(checkGrowlRunning)
@@ -421,6 +435,23 @@
 
 - (void) setDefaultDisplayPluginName:(NSString *)name {
 	[[GrowlPreferences preferences] setObject:name forKey:GrowlDisplayPluginKey];
+}
+
+- (IBAction) menuExtraStateChange:(id)sender {
+	BOOL state = [[GrowlPreferences preferences] boolForKey:GrowlMenuExtraKey];
+	[[GrowlPreferences preferences] setBool:!state forKey:GrowlMenuExtraKey];
+	NSLog(@"%d\n", state); 
+	if(state){
+		//turn off
+		UInt32 extraID = 0;
+		CoreMenuExtraGetMenuExtra (CFSTR("com.Growl.MenuExtra"), &extraID);
+		CoreMenuExtraRemoveMenuExtra(extraID, CFSTR("com.Growl.MenuExtra"));
+	}
+	else {
+		//turn on
+		NSURL *url = [NSURL fileURLWithPath:[[[GrowlPathUtil growlPrefPaneBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Resources/Growl.menu"]];
+		CoreMenuExtraAddMenuExtra ((CFURLRef)url, 0, 0, 0, 0, 0);
+	}
 }
 
 #pragma mark Logging

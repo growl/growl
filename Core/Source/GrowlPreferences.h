@@ -27,6 +27,7 @@
 #define	GrowlCustomHistKey1			@"Custom log history 1"
 #define	GrowlCustomHistKey2			@"Custom log history 2"
 #define	GrowlCustomHistKey3			@"Custom log history 3"
+#define GrowlMenuExtraKey			@"GrowlMenuExtra"
 
 @interface GrowlPreferences : NSObject {
 	NSUserDefaults *helperAppDefaults;
@@ -47,8 +48,8 @@
 - (void) setStartGrowlAtLogin:(BOOL)flag;
 
 - (BOOL) isGrowlRunning;
-- (void) setGrowlRunning:(BOOL)flag;
-- (void) launchGrowl;
+- (void) setGrowlRunning:(BOOL)flag noMatterWhat:(BOOL)nmw;
+- (void) launchGrowl:(BOOL)noMatterWhat;
 - (void) terminateGrowl;
 
 @end

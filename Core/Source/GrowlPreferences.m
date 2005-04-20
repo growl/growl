@@ -158,8 +158,10 @@ static GrowlPreferences *sharedPreferences;
 	 *note that other GHAs are ignored.
 	 */
 	BOOL foundOne = NO;
-
-	for (unsigned i = 0U, numItems = [loginItems count]; i < numItems; ) {
+	unsigned i = 0U;
+	unsigned numItems;
+	
+	for (i = 0U, numItems = [loginItems count]; i < numItems; ) {
 		NSDictionary *item = [loginItems objectAtIndex:i];
 		BOOL thisIsUs = NO;
 
@@ -212,13 +214,13 @@ static GrowlPreferences *sharedPreferences;
 #pragma mark -
 #pragma mark Growl running state
 
-- (void) setGrowlRunning:(BOOL)flag {
+- (void) setGrowlRunning:(BOOL)flag noMatterWhat:(BOOL)nmw{
 	// Store the desired running-state of the helper app for use by GHA.
 	[self setBool:flag forKey:GrowlEnabledKey];
 
 	//now launch or terminate as appropriate.
 	if (flag)
-		[self launchGrowl];
+		[self launchGrowl:nmw];
 	else		
 		[self terminateGrowl];
 }
@@ -240,7 +242,7 @@ static GrowlPreferences *sharedPreferences;
 	return isRunning;
 }
 
-- (void) launchGrowl {
+- (void) launchGrowl:(BOOL)noMatterWhat {
 	NSString *helperPath = [[GrowlPathUtil helperAppBundle] bundlePath];
 
 	// We want to launch in background, so we have to resort to Carbon
@@ -254,6 +256,8 @@ static GrowlPreferences *sharedPreferences;
 		spec.itemRefs = NULL;
 		spec.passThruParams = NULL;
 		spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
+		if(noMatterWhat)
+			spec.launchFlags = spec.launchFlags | kLSLaunchNewInstance;
 		spec.asyncRefCon = NULL;
 		status = LSOpenFromRefSpec(&spec, NULL);
 	}	

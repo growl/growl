@@ -240,6 +240,7 @@
 				0A7F5FB70767C70600E1C1E4,
 				0A7F5FE80767C7B300E1C1E4,
 				950F798F080EEDB700CC5F62,
+				93FCE54E0812D85000320D8E,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
@@ -1822,6 +1823,7 @@
 				0A7F5FD40767C77F00E1C1E4,
 				83282746073A6C110044A959,
 				343354B20792F84B00C84B15,
+				93FCE57D0812D93B00320D8E,
 			);
 			isa = PBXGroup;
 			name = "Linked Frameworks";
@@ -1863,6 +1865,7 @@
 				34F60EF9078E226300CECA86,
 				DDF09B0A080AC8F3006F4172,
 				950F799B080EEDB700CC5F62,
+				93FCE54F0812D85000320D8E,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -2910,7 +2913,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -2946,6 +2949,7 @@
 			};
 			dependencies = (
 				3433455E0790E25300C84B15,
+				93FCE5530812D89500320D8E,
 			);
 			isa = PBXNativeTarget;
 			name = Growl;
@@ -3007,6 +3011,7 @@
 				83282742073A6BD70044A959,
 				83282747073A6C110044A959,
 				95E678F907511471002BF4E6,
+				93FCE57E0812D93B00320D8E,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3040,11 +3045,27 @@
 //934
 		93405B0D080D8BD100903735 = {
 			children = (
+				93FCE5E10812DEC800320D8E,
+				93FCE5AE0812DBEB00320D8E,
+				93FCE5A80812DA0100320D8E,
+				93FCE5A90812DA0100320D8E,
 			);
 			isa = PBXGroup;
 			name = MenuExtra;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		935E77060814771500DDCFD7 = {
+			fileRef = 5286205606DC4C2F00D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		935E77070814771600DDCFD7 = {
+			fileRef = 5286205506DC4C2F00D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		936FAB01074482BF00A7D430 = {
 			fileEncoding = 4;
@@ -3070,6 +3091,36 @@
 			settings = {
 			};
 		};
+		937162CC0816BC3800929996 = {
+			fileRef = 93FCE54F0812D85000320D8E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		93BD654C081454EE005FDB70 = {
+			fileRef = 52861EE406DBA95400D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		93BD654D081454EF005FDB70 = {
+			fileRef = 52861EE306DBA95400D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		93BD655508145560005FDB70 = {
+			fileRef = 959DBE4A08127BA4009BB468;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		93BD655608145560005FDB70 = {
+			fileRef = 959DBE4908127BA4009BB468;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		93E0E9D3080F0E95004FFB1D = {
 			containerPortal = 089C1669FE841209C02AAC07;
 			isa = PBXContainerItemProxy;
@@ -3084,6 +3135,220 @@
 		};
 		93E0E9E3080F0F42004FFB1D = {
 			fileRef = 950F799B080EEDB700CC5F62;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		93FCE54B0812D85000320D8E = {
+			buildActionMask = 2147483647;
+			files = (
+				93FCE68A0812E7AA00320D8E,
+				93FCE68B0812E7AA00320D8E,
+				93BD654D081454EF005FDB70,
+				93BD655608145560005FDB70,
+				935E77070814771600DDCFD7,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93FCE54C0812D85000320D8E = {
+			buildActionMask = 2147483647;
+			files = (
+				93FCE5AA0812DA0100320D8E,
+				93BD654C081454EE005FDB70,
+				93BD655508145560005FDB70,
+				935E77060814771500DDCFD7,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93FCE54D0812D85000320D8E = {
+			buildActionMask = 2147483647;
+			files = (
+				93FCE57F0812D93B00320D8E,
+				93FCE64B0812E4D200320D8E,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93FCE54E0812D85000320D8E = {
+			buildPhases = (
+				93FCE54B0812D85000320D8E,
+				93FCE54C0812D85000320D8E,
+				93FCE54D0812D85000320D8E,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Core/Resources/MenuExtra-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-bundle";
+				OTHER_REZFLAGS = "";
+				PREBINDING = YES;
+				PRODUCT_NAME = Growl;
+				SECTORDER_FLAGS = "";
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = menu;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = MenuExtra;
+			productName = MenuExtra;
+			productReference = 93FCE54F0812D85000320D8E;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>MenuExtra</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.MenuExtra</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
+		93FCE54F0812D85000320D8E = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = Growl.menu;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		93FCE5500812D85000320D8E = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "MenuExtra-Info.plist";
+			path = "Core/Resources/MenuExtra-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		93FCE5520812D89500320D8E = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 93FCE54E0812D85000320D8E;
+			remoteInfo = MenuExtra;
+		};
+		93FCE5530812D89500320D8E = {
+			isa = PBXTargetDependency;
+			target = 93FCE54E0812D85000320D8E;
+			targetProxy = 93FCE5520812D89500320D8E;
+		};
+		93FCE57D0812D93B00320D8E = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = SystemUIPlugin.framework;
+			path = /System/Library/PrivateFrameworks/SystemUIPlugin.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		93FCE57E0812D93B00320D8E = {
+			fileRef = 93FCE57D0812D93B00320D8E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		93FCE57F0812D93B00320D8E = {
+			fileRef = 93FCE57D0812D93B00320D8E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		93FCE5A80812DA0100320D8E = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlMenu.h;
+			path = Core/Source/GrowlMenu.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		93FCE5A90812DA0100320D8E = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlMenu.m;
+			path = Core/Source/GrowlMenu.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		93FCE5AA0812DA0100320D8E = {
+			fileRef = 93FCE5A90812DA0100320D8E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		93FCE5AE0812DBEB00320D8E = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = SystemUIPlugin.h;
+			path = Core/Source/SystemUIPlugin.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		93FCE5E10812DEC800320D8E = {
+			children = (
+				93FCE5500812D85000320D8E,
+				93FCE6880812E7AA00320D8E,
+				93FCE6890812E7AA00320D8E,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		93FCE64B0812E4D200320D8E = {
+			fileRef = 83282741073A6BD70044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		93FCE6880812E7AA00320D8E = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = "icon-alt.tiff";
+			path = "Core/Resources/icon-alt.tiff";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		93FCE6890812E7AA00320D8E = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = icon.tiff;
+			path = Core/Resources/icon.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		93FCE68A0812E7AA00320D8E = {
+			fileRef = 93FCE6880812E7AA00320D8E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		93FCE68B0812E7AA00320D8E = {
+			fileRef = 93FCE6890812E7AA00320D8E;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4797,6 +5062,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
+				937162CC0816BC3800929996,
 				CB5FA1C70638CA5300EADD7A,
 				95A9E434080B2CAB006A2F29,
 				9596C5FA081102BE00F43859,
