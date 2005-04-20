@@ -197,7 +197,7 @@
 	
 	UInt32 extraID = 0;
 	CoreMenuExtraGetMenuExtra (CFSTR("com.Growl.MenuExtra"), &extraID);
-	if(extraID != 0)
+	if (extraID)
 		[menuExtraEnabled setState:YES];
 	else
 		[menuExtraEnabled setState:NO];
@@ -441,13 +441,12 @@
 	BOOL state = [[GrowlPreferences preferences] boolForKey:GrowlMenuExtraKey];
 	[[GrowlPreferences preferences] setBool:!state forKey:GrowlMenuExtraKey];
 	NSLog(@"%d\n", state); 
-	if(state){
+	if (state){
 		//turn off
 		UInt32 extraID = 0;
 		CoreMenuExtraGetMenuExtra (CFSTR("com.Growl.MenuExtra"), &extraID);
 		CoreMenuExtraRemoveMenuExtra(extraID, CFSTR("com.Growl.MenuExtra"));
-	}
-	else {
+	} else {
 		//turn on
 		NSURL *url = [NSURL fileURLWithPath:[[[GrowlPathUtil growlPrefPaneBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Resources/Growl.menu"]];
 		CoreMenuExtraAddMenuExtra ((CFURLRef)url, 0, 0, 0, 0, 0);

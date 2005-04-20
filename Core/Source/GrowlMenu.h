@@ -7,21 +7,18 @@
 #import "SystemUIPlugin.h"
 #import "GrowlPreferences.h"
 
-@interface GrowlMenu : NSMenuExtra
-{
-    NSMenu									*menu;
+@interface GrowlMenu : NSMenuExtra {
+    NSMenu				*menu;
 
-    NSImage									*img;
-    NSImage									*altImg;
-	
-	GrowlPreferences						*preferences;
-	NSString								*defaultDisplay;
+    NSImage				*img;
+    NSImage				*altImg;
+
+	GrowlPreferences	*preferences;
+	NSString			*defaultDisplay;
 }
 
-- (NSMenu*)buildMenu;
-- (void)clearMenu:(NSMenu*)menu;
+- (NSMenu *) buildMenu;
+- (void) clearMenu:(NSMenu *)menu;
 
-
-
-Boolean IsOptionDown( void );
+//Boolean IsOptionDown( void );
 @end

@@ -256,7 +256,7 @@ static GrowlPreferences *sharedPreferences;
 		spec.itemRefs = NULL;
 		spec.passThruParams = NULL;
 		spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
-		if(noMatterWhat)
+		if (noMatterWhat)
 			spec.launchFlags = spec.launchFlags | kLSLaunchNewInstance;
 		spec.asyncRefCon = NULL;
 		status = LSOpenFromRefSpec(&spec, NULL);

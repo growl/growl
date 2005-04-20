@@ -62,38 +62,11 @@
 			settings = {
 			};
 		};
-		07814E6907F05DE80046C294 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlDisplayProtocol.h;
-			path = "Display Plugins/GrowlDisplayProtocol.h";
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		07814E9407F061680046C294 = {
 			fileRef = 07A3BE9907F01E6900973BFB;
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		07A3BD5C07F018B000973BFB = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = GrowlPref.m;
-			path = Core/Source/GrowlPref.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		07A3BD6507F0199100973BFB = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlPref.h;
-			path = Core/Source/GrowlPref.h;
-			refType = 4;
-			sourceTree = "<group>";
 		};
 		07A3BD6907F0199A00973BFB = {
 			children = (
@@ -101,9 +74,6 @@
 				9580F7FB0812D54D008FD3BC,
 				07814E3807F05B4D0046C294,
 				07814E3907F05B4D0046C294,
-				07814E6907F05DE80046C294,
-				07A3BD6507F0199100973BFB,
-				07A3BD5C07F018B000973BFB,
 				07A3BE9807F01E6900973BFB,
 				07A3BE9907F01E6900973BFB,
 			);
