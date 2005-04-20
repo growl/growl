@@ -14,7 +14,6 @@
     NSImage				*altImg;
 
 	GrowlPreferences	*preferences;
-	NSString			*defaultDisplay;
 }
 
 - (NSMenu *) buildMenu;

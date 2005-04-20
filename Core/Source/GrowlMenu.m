@@ -22,8 +22,6 @@
 		img = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon" ofType:@"tiff"]];
 		altImg = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon-alt" ofType:@"tiff"]];
 
-		defaultDisplay = [preferences objectForKey:GrowlDisplayPluginKey];
-
 		[self setImage:img];
 		[self setAlternateImage:altImg];
 
@@ -89,24 +87,24 @@
 	if ([preferences isGrowlRunning])
 		[tempMenuItem setTitle:@"Restart Growl"];
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:@"Stop Growl" action:@selector(stopGrowl:) keyEquivalent:@""];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Stop Growl", nil, [self bundle], @"") action:@selector(stopGrowl:) keyEquivalent:@""];
+	[tempMenuItem setTag:1];
 	[tempMenuItem setTarget:self];
 
 	[m addItem:[NSMenuItem separatorItem]];
 
-	tempMenuItem = (NSMenuItem*)[m addItemWithTitle:@"Default Display" action:NULL keyEquivalent:@""];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:@"Default Display" action:NULL keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 
 	NSString *name;
 	displayEnumerator = [[[GrowlPluginController controller] allDisplayPlugins] objectEnumerator];
-	while( name = [displayEnumerator nextObject]) {
+	while ((name = [displayEnumerator nextObject])) {
 		[[displays addItemWithTitle:name action:@selector(defaultDisplay:) keyEquivalent:@""] setTarget:self];
 	}
 	[tempMenuItem setSubmenu:displays];
 	[m addItem:[NSMenuItem separatorItem]];
 
-	// TODO: use unicode ellipsis character
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:@"Open Growl..." action:@selector(openGrowl:) keyEquivalent:@""];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Open Growl...", nil, [self bundle], @"") action:@selector(openGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 
 	return m;
@@ -119,16 +117,17 @@
 	}
 }
 
-- (BOOL) validateMenuItem:(NSMenuItem*)item {
-	defaultDisplay = [preferences objectForKey:GrowlDisplayPluginKey];
+- (BOOL) validateMenuItem:(NSMenuItem *)item {
+	NSString *defaultDisplay = [preferences objectForKey:GrowlDisplayPluginKey];
+	NSString *title = [item title];
 
-	if ([[item title] isEqual:@"Stop Growl"]) {
+	if ([item tag] == 1) {
 		return [preferences isGrowlRunning];
-	} else if ([[item title] isEqual:@"Start Growl"]) {
+	} else if ([title isEqualToString:@"Start Growl"]) {
 		if ([preferences isGrowlRunning]) {
 			[item setTitle:@"Restart Growl"];
 		}
-	} else if ([[item title] isEqual:defaultDisplay]) {
+	} else if ([title isEqualToString:defaultDisplay]) {
 		[item setState:YES];
 	}
 	return YES;

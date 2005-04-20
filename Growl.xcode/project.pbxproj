@@ -3147,6 +3147,7 @@
 				93BD654D081454EF005FDB70,
 				93BD655608145560005FDB70,
 				935E77070814771600DDCFD7,
+				954CA7400816D1D400EB0A98,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3314,6 +3315,7 @@
 				93FCE5500812D85000320D8E,
 				93FCE6880812E7AA00320D8E,
 				93FCE6890812E7AA00320D8E,
+				954CA73F0816D1D400EB0A98,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -3945,6 +3947,40 @@
 			isa = PBXFileReference;
 			name = German;
 			path = Framework/Resources/German.lproj/GrowlInstallation.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		954CA6EE0816D15600EB0A98 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = English;
+			path = "Core/Resources/English.lproj/MenuExtra-Localizable.strings";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		954CA73F0816D1D400EB0A98 = {
+			children = (
+				954CA6EE0816D15600EB0A98,
+				954CA7430816D1E600EB0A98,
+			);
+			isa = PBXVariantGroup;
+			name = "MenuExtra-Localizable.strings";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		954CA7400816D1D400EB0A98 = {
+			fileRef = 954CA73F0816D1D400EB0A98;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		954CA7430816D1E600EB0A98 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = German;
+			path = "Core/Resources/German.lproj/MenuExtra-Localizable.strings";
 			refType = 4;
 			sourceTree = "<group>";
 		};
