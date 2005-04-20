@@ -105,7 +105,8 @@
 	[tempMenuItem setSubmenu:displays];
 	[m addItem:[NSMenuItem separatorItem]];
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:@"Open Growl…" action:@selector(openGrowl:) keyEquivalent:@""];
+	// TODO: use unicode ellipsis character
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:@"Open Growl..." action:@selector(openGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 
 	return m;
