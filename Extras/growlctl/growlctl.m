@@ -1,6 +1,7 @@
 #import <Cocoa/Cocoa.h>
 #import "NSGrowlAdditions.h"
 #import "GrowlPreferences.h"
+#import "GrowlPathUtil.h"
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -28,50 +29,67 @@ static void usage(void) {
 		   argv0);
 }
 
+extern OSStatus CoreMenuExtraAddMenuExtra (CFURLRef inMenuExtra, SInt32 position, UInt32 reserved, UInt8 *inData, UInt32 inSize, UInt32 *outExtra);
+// either inExtra or inBundleID can be 0 or nil, but not both
+extern OSStatus CoreMenuExtraRemoveMenuExtra (UInt32 inExtra, CFStringRef inBundleID);
+extern OSStatus CoreMenuExtraGetMenuExtra (CFStringRef inBundleID, UInt32 *outExtra);
+
 int main (int argc, const char **argv) {
 	argv0 = (argc < 1) ? "growlctl" : argv[0];
 
-	if(argc < 2) {
+	if (argc < 2) {
 		usage();
 		status = EXIT_FAILURE;
 	} else {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		GrowlPreferences *growlPref = [GrowlPreferences preferences];
 
-		if(!strcmp(argv[1], "start")) {
+		//control whether Growl is running
+		if (!strcmp(argv[1], "start")) {
 			[growlPref setGrowlRunning:YES noMatterWhat:NO];
-		} else if(!strcmp(argv[1], "stop")) {
+		} else if (!strcmp(argv[1], "stop")) {
 			[growlPref setGrowlRunning:NO noMatterWhat:NO];
-		} else if(!strcmp(argv[1], "restart")) {
+		} else if (!strcmp(argv[1], "restart")) {
 			[growlPref terminateGrowl];
 			[growlPref setGrowlRunning:YES noMatterWhat:YES];
-		} else if(!strcasecmp(argv[1], "isRunning")) {
+		} else if (!strcasecmp(argv[1], "isRunning")) {
 			BOOL isRunning = [growlPref isGrowlRunning];
-			if((argc < 3) || strcasecmp(argv[2], "-q"))
+			if ((argc < 3) || strcasecmp(argv[2], "-q"))
 				printf("Growl is %s""running\n", isRunning ? "" : "not ");
 			status = !isRunning;
-		} else if(!strcmp(argv[1], "getpref")) {
+
+		//control the state of the Growl Menu Extra
+		} else if (!strcmp(argv[1], "startmenu")) {
+			NSURL *url = [NSURL fileURLWithPath:[[GrowlPathUtil growlPrefPaneBundle] pathForResource:@"Growl" ofType:@"menu"]];
+			CoreMenuExtraAddMenuExtra ((CFURLRef)url, /*position*/ 0, /*reserved*/ 0U, /*inData*/ NULL, /*inSize*/ 0, /*outExtra*/ NULL);
+		} else if (!strcmp(argv[1], "stopmenu")) {
+			UInt32 extraID = 0U;
+			CoreMenuExtraGetMenuExtra (CFSTR("com.Growl.MenuExtra"), &extraID);
+			CoreMenuExtraRemoveMenuExtra(extraID, CFSTR("com.Growl.MenuExtra"));
+
+		//directly (more or less) access Growl defaults
+		} else if (!strcmp(argv[1], "getpref")) {
 			NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 			NSDictionary *growlPrefs = [defaults persistentDomainForName:HelperAppBundleIdentifier];
 
 			id obj = argc > 2 ? [growlPrefs objectForKey:[NSString stringWithUTF8String:argv[2]]] : growlPrefs;
 			NSString *str;
-			if([obj respondsToSelector:@selector(stringValue)]) //e.g. numbers
+			if ([obj respondsToSelector:@selector(stringValue)]) //e.g. numbers
 				str = [obj stringValue];
 			else
 				str = [obj description];
 
-			if(argc > 2) {
+			if (argc > 2) {
 				printf("%s = %s\n", argv[2], [str UTF8String]);
 			} else {
 				printf("%s\n", [str UTF8String]);
 			}
-		} else if(!strcmp(argv[1], "setpref")) {
+		} else if (!strcmp(argv[1], "setpref")) {
 			/*setpref's arguments are of the same syntax as defaults(1).
 			 *rather than reinvent the wheel, we just pass the same arguments
 			 *	to defaults, and let it do the work.
 			 */
-			if(argc < 3) {
+			if (argc < 3) {
 				fprintf(stderr, "%s: setpref requires a name and a value\n", argv0);
 				status = EXIT_FAILURE;
 			} else {
@@ -89,11 +107,11 @@ int main (int argc, const char **argv) {
 				NSString *key = [NSString stringWithUTF8String:argv[2]];
 				id value = propertyListFromArgv(argc, argv, 3, /*next_i*/ NULL);
 
-				if(value) {
+				if (value) {
 					[growlPrefsDict setObject:value forKey:key];
 					[defaults setPersistentDomain:growlPrefsDict forName:HelperAppBundleIdentifier];
 					[defaults synchronize];
-				} else if(plistError) {
+				} else if (plistError) {
 					fprintf(stderr, "%s: could not interpret property list data: %s\n", argv0, [plistError UTF8String]);
 					status = EXIT_FAILURE;
 				}
@@ -110,14 +128,16 @@ int main (int argc, const char **argv) {
 				defaultsArgv[1] = "write";
 				defaultsArgv[2] = [HelperAppBundleIdentifier UTF8String];
 				unsigned i = 2U;
-				for(; i < (unsigned)argc; ++i)
+				for (; i < (unsigned)argc; ++i)
 					defaultsArgv[i+1] = argv[i];
 				defaultsArgv[i+1] = NULL;
 				status = -execvp("defaults", (char *const *)defaultsArgv);
 				free(defaultsArgv);
 #endif
 			}
-		} else if(!strcmp(argv[1], "help")) {
+
+		//other
+		} else if (!strcmp(argv[1], "help")) {
 			usage();
 		} else {
 			fprintf(stderr, "%s: unrecognized command '%s'\n", argv0, argv[1]);
@@ -136,47 +156,47 @@ static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i) 
 	id value = nil;
 	int old_i = i;
 	
-	if(i < argc) {
+	if (i < argc) {
 		NSString *valueType = [NSString stringWithUTF8String:argv[i]];
-		if([valueTypeFlags containsObject:valueType]) {
-			if(++i > argc) {
+		if ([valueTypeFlags containsObject:valueType]) {
+			if (++i > argc) {
 				fprintf(stderr, "%s: value type (%s) supplied, but no value\n", argv0, argv[i-1]);
 				status = EXIT_FAILURE;
 			} else {
 				//interpret according to the rules of defaults.
 				NSString     *valueString = [NSString stringWithUTF8String:argv[i]];
 				BOOL add = NO;
-				if([valueType hasPrefix:@"-bool"]) {
+				if ([valueType hasPrefix:@"-bool"]) {
 					value = [NSNumber numberWithBool: [valueString  boolValue]];
-				} else if([valueType isEqualToString:@"-int"]) {
+				} else if ([valueType isEqualToString:@"-int"]) {
 					value = [NSNumber numberWithInt:  [valueString   intValue]];
-				} else if([valueType isEqualToString:@"-float"]) {
+				} else if ([valueType isEqualToString:@"-float"]) {
 					value = [NSNumber numberWithFloat:[valueString floatValue]];
-				} else if([valueType hasPrefix:@"-array"]) {
+				} else if ([valueType hasPrefix:@"-array"]) {
 					NSMutableArray *a = [NSMutableArray arrayWithCapacity:(argc - 3)];
 					id obj;
 					
-					while((obj = propertyListFromArgv(argc, argv, i, &i)))
+					while ((obj = propertyListFromArgv(argc, argv, i, &i)))
 						[a addObject:obj];
 					
 					add = (i == 4) && [valueType hasSuffix:@"-add"];
-					if(add) {
+					if (add) {
 						NSMutableArray *existing = nil; //[[[growlPrefsDict objectForKey:key] mutableCopy] autorelease];
-						if(existing && [existing isKindOfClass:[NSArray class]]) {
+						if (existing && [existing isKindOfClass:[NSArray class]]) {
 							[existing addObjectsFromArray:a];
 							value = existing;
 						} else
 							value = a;
 					} else
 						value = a;
-				} else if([valueType hasPrefix:@"-dict"]) {
+				} else if ([valueType hasPrefix:@"-dict"]) {
 					NSMutableDictionary *d = [NSMutableDictionary dictionaryWithCapacity:(argc - 3) / 2];
 					
 					NSString *k = valueString, *v = propertyListFromArgv(argc, argv, ++i, &i);
-					while(i < argc) {
+					while (i < argc) {
 						k = [NSString stringWithUTF8String:argv[i++]];
 						v = propertyListFromArgv(argc, argv, i, &i);
-						if(k && !v) {
+						if (k && !v) {
 							fprintf(stderr, "%s: key %s has no value", argv0, argv[i - 1]);
 							goto end;
 						} else {
@@ -184,9 +204,9 @@ static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i) 
 						}
 					}
 					add = (i == 4) && [valueType hasSuffix:@"-add"];
-					if(add) {
+					if (add) {
 						NSMutableDictionary *existing = nil;//[[[growlPrefsDict objectForKey:key] mutableCopy] autorelease];
-						if(existing && [existing isKindOfClass:[NSDictionary class]]) {
+						if (existing && [existing isKindOfClass:[NSDictionary class]]) {
 							[existing addEntriesFromDictionary:d];
 							value = existing;
 						} else
@@ -195,7 +215,7 @@ static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i) 
 						value = d;
 				}
 			}
-		} //if([valueTypeFlags containsObject:valueType])
+		} //if ([valueTypeFlags containsObject:valueType])
 		else {
 			NSData *valueData = [NSData dataWithBytes:argv[i] length:strlen(argv[i])];
 			value = [NSPropertyListSerialization propertyListFromData:valueData
@@ -203,7 +223,7 @@ static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i) 
 															   format:NULL
 													 errorDescription:&plistError];
 		}
-	} //if(i < argc)
+	} //if (i < argc)
 	/*
 	 else {
 		 //read from stdin.
@@ -217,7 +237,7 @@ static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i) 
 	 */
 	
 end:
-		if(next_i)
+		if (next_i)
 			*next_i = value ? i : old_i;
 	return value;
 }
