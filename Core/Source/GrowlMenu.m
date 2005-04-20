@@ -104,7 +104,7 @@
 	[tempMenuItem setSubmenu:displays];
 	[m addItem:[NSMenuItem separatorItem]];
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Open Growl...", nil, [self bundle], @"") action:@selector(openGrowl:) keyEquivalent:@""];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Open Growl preferences...", nil, [self bundle], @"") action:@selector(openGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 
 	return m;

@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Open Growl...</key>
+	<key>Open Growl preferences...</key>
 	<string>Growl öffnen…</string>
 	<key>Stop Growl</key>
 	<string>Growl beenden</string>
