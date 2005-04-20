@@ -58,17 +58,18 @@
 }
 
 - (IBAction) stopGrowl:(id)sender {
-	//Growl is running, we should stop it.
+	//If Growl is running, we should stop it.
 	if ([preferences isGrowlRunning])
 		[preferences setGrowlRunning:NO noMatterWhat:NO];
 }
 
 - (IBAction) startGrowl:(id)sender {
 	if (![preferences isGrowlRunning]) {
-		//Growl isn't running, we should start it
+		//If Growl isn't running, we should start it.
 		[preferences setGrowlRunning:YES noMatterWhat:NO];
 	} else {
-		//Growl is running, the title is Restart Growl, we should HUP it.
+		//If Growl is running, we should restart it.
+		//Actually, we should HUP it, but we don't.
 		[preferences setGrowlRunning:NO noMatterWhat:NO];
 		[preferences setGrowlRunning:YES noMatterWhat:YES];
 	}
@@ -111,8 +112,7 @@
 }
 
 - (void) clearMenu:(NSMenu *)m {
-	int counter = [m numberOfItems];
-	for (int i = 0; i < counter; i++) {
+	for (register int counter = [m numberOfItems]; i > 0; --i) {
 		[m removeItemAtIndex:0];
 	}
 }
