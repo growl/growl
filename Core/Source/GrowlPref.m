@@ -437,6 +437,8 @@
 	[[GrowlPreferences preferences] setObject:name forKey:GrowlDisplayPluginKey];
 }
 
+#pragma mark Menu Extra
+
 - (IBAction) menuExtraStateChange:(id)sender {
 	BOOL state = [[GrowlPreferences preferences] boolForKey:GrowlMenuExtraKey];
 	[[GrowlPreferences preferences] setBool:!state forKey:GrowlMenuExtraKey];
