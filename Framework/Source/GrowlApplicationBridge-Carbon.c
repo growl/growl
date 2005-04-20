@@ -90,6 +90,7 @@ Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 		if (!registeredForClickCallbacks) {
 			//register
 			CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlNotificationWasClicked, _growlNotificationWasClicked, GROWL_NOTIFICATION_CLICKED, /*object*/ NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
+			NSLog(CFSTR("Registering: notification center is %@; observer is %p; callback is %p; notification name is %@; object is %p; suspension behaviour is %i"), CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlNotificationWasClicked, _growlNotificationWasClicked, GROWL_NOTIFICATION_CLICKED, /*object*/ NULL, CFNotificationSuspensionBehaviorDeliverImmediately)
 			registeredForClickCallbacks = true;
 		}
 	} else if (registeredForClickCallbacks) {
