@@ -110,19 +110,11 @@ static void setDownloadFinished(id dl) {
 + (void) initialize {
 	//NSLog(@"Patching DownloadProgressEntry...");
 	Class class = NSClassFromString( @"DownloadProgressEntry" );
-	PerformSwizzle( class, @selector(setDownloadStage:), @selector(mySetDownloadStage:), YES );
-	PerformSwizzle( class, @selector(updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:), YES );
-	if ( !PerformSwizzle( class,
-						 @selector(initWithDownload:mayOpenWhenDone:),
-						 @selector(myInitWithDownload:mayOpenWhenDone:),
-						 YES ) ) {
-		NSLog(@"Trying to swizzle using selector from later versions of Safari.  (1.3 / 2.0)");
-		// Safari 2.0 / 1.3 adds one more parameter
-		PerformSwizzle( class,
-						@selector(initWithDownload:mayOpenWhenDone:allowOverwrite:),
-						@selector(myInitWithDownload:mayOpenWhenDone:allowOverwrite:),
-						YES );
-	}
+	PerformSwizzle(class, @selector(setDownloadStage:), @selector(mySetDownloadStage:), YES);
+	PerformSwizzle(class, @selector(updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:), YES);
+	PerformSwizzle(class, @selector(initWithDownload:mayOpenWhenDone:allowOverwrite:),
+						  @selector(myInitWithDownload:mayOpenWhenDone:allowOverwrite:),
+						  YES);
 	NSBundle *bundle = [GrowlSafari bundle];
 	NSArray *array = [[NSArray alloc] initWithObjects:
 		NSLocalizedStringFromTableInBundle(@"Short Download Complete", nil, bundle, @""),
@@ -218,12 +210,6 @@ static void setDownloadFinished(id dl) {
 }
 
 // This is to make sure we're done with the pre-saved downloads
-- (id) myInitWithDownload:(id)fp8 mayOpenWhenDone:(BOOL)fp12 {
-	id retval = [self myInitWithDownload:fp8 mayOpenWhenDone:fp12];
-	setDownloadStarted(self);
-	return retval;
-}
-
 - (id) myInitWithDownload:(id)fp8 mayOpenWhenDone:(BOOL)fp12 allowOverwrite:(BOOL)fp16 {
 	id retval = [self myInitWithDownload:fp8 mayOpenWhenDone:fp12 allowOverwrite:fp16];
 	setDownloadStarted(self);
