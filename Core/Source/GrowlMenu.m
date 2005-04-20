@@ -115,7 +115,7 @@
 }
 
 - (void) clearMenu:(NSMenu *)m {
-	for (register int counter = [m numberOfItems]; i > 0; --i) {
+	for (register int counter = [m numberOfItems]; counter > 0; --counter) {
 		[m removeItemAtIndex:0];
 	}
 }
