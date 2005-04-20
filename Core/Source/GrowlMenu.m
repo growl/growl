@@ -83,19 +83,22 @@
 	
 	NSMenuItem *tempMenuItem;
 
+#warning XXX - localize this
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:@"Start Growl" action:@selector(startGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 
 	if ([preferences isGrowlRunning])
 		[tempMenuItem setTitle:@"Restart Growl"];
 
+#warning XXX - localize this
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Stop Growl", nil, [self bundle], @"") action:@selector(stopGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTag:1];
 	[tempMenuItem setTarget:self];
 
 	[m addItem:[NSMenuItem separatorItem]];
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:@"Default Display" action:NULL keyEquivalent:@""];
+#warning XXX - localize this
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:@"Default display" action:NULL keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 
 	NSMenu *displays = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
@@ -126,8 +129,10 @@
 
 	if ([item tag] == 1) {
 		return [preferences isGrowlRunning];
+#warning XXX - use a tag here
 	} else if ([title isEqualToString:@"Start Growl"]) {
 		if ([preferences isGrowlRunning]) {
+#warning XXX - localize this
 			[item setTitle:@"Restart Growl"];
 		}
 	} else if ([title isEqualToString:defaultDisplay]) {
