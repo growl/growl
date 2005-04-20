@@ -101,15 +101,16 @@
 
 	[m addItem:[NSMenuItem separatorItem]];
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kDefaultDisplay action:NULL keyEquivalent:@""];
-	[tempMenuItem setTarget:self];
-
 	NSMenu *displays = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 	NSString *name;
 	NSEnumerator *displayEnumerator = [[[GrowlPluginController controller] allDisplayPlugins] objectEnumerator];
 	while ((name = [displayEnumerator nextObject])) {
-		[[displays addItemWithTitle:name action:@selector(defaultDisplay:) keyEquivalent:@""] setTarget:self];
+		tempMenuItem = (NSMenuItem *)[displays addItemWithTitle:name action:@selector(defaultDisplay:) keyEquivalent:@""];
+		[tempMenuItem setTarget:self];
+		[tempMenuItem setTag:3];
 	}
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kDefaultDisplay action:NULL keyEquivalent:@""];
+	[tempMenuItem setTarget:self];
 	[tempMenuItem setSubmenu:displays];
 	[displays release];
 	[m addItem:[NSMenuItem separatorItem]];
@@ -122,7 +123,6 @@
 
 - (BOOL) validateMenuItem:(NSMenuItem *)item {
 	NSString *defaultDisplay = [preferences objectForKey:GrowlDisplayPluginKey];
-	NSString *title = [item title];
 	int tag = [item tag];
 
 	if (tag == 1) {
@@ -133,8 +133,8 @@
 		}
 	} else if (tag == 2) {
 		return [preferences isGrowlRunning];
-	} else if ([title isEqualToString:defaultDisplay]) {
-		[item setState:YES];
+	} else if (tag == 3) {
+		[item setState:[[item title] isEqualToString:defaultDisplay]];
 	}
 	return YES;
 }
