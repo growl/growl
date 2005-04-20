@@ -282,6 +282,7 @@
 		};
 		089C167CFE841241C02AAC07 = {
 			children = (
+				937E5D640817033C00AEC1C6,
 				9532B0B907CE651F0028B2F1,
 				8D202CF70486D31800D8A456,
 				089C167DFE841241C02AAC07,
@@ -2969,6 +2970,7 @@
 				3494427507BAF6C4000F2A03,
 				9532B0F807CE651F0028B2F1,
 				DD3AD65C07E9DF6E00E9A0A4,
+				937E5D660817033C00AEC1C6,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3093,6 +3095,30 @@
 		};
 		937162CC0816BC3800929996 = {
 			fileRef = 93FCE54F0812D85000320D8E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		937E5D640817033C00AEC1C6 = {
+			children = (
+				937E5D650817033C00AEC1C6,
+			);
+			isa = PBXVariantGroup;
+			name = About.rtfd;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		937E5D650817033C00AEC1C6 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.rtfd;
+			name = English;
+			path = Core/Resources/English.lproj/About.rtfd;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		937E5D660817033C00AEC1C6 = {
+			fileRef = 937E5D640817033C00AEC1C6;
 			isa = PBXBuildFile;
 			settings = {
 			};

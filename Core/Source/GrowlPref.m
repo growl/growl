@@ -68,6 +68,7 @@
 							 ofType:@"plist"]];
 		[[GrowlPreferences preferences] registerDefaults:defaultDefaults];
 		[defaultDefaults release];
+		
 	}
 
 	return self;
@@ -201,6 +202,7 @@
 		[menuExtraEnabled setState:YES];
 	else
 		[menuExtraEnabled setState:NO];
+	[self setupAboutTab];
 }
 
 - (void) mainViewDidLoad {
@@ -854,6 +856,11 @@
 			[oldPrefPane didUnselect];
 		}
 	}
+}
+#pragma mark About Tab
+
+- (void) setupAboutTab {
+	[aboutBoxTextView readRTFDFromFile:[[GrowlPathUtil growlPrefPaneBundle] pathForResource:@"About" ofType:@"rtfd"]];
 }
 
 #pragma mark TableView delegate methods

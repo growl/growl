@@ -16,6 +16,7 @@
             CLASS = GrowlPref; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                aboutBoxTextView = NSTextView; 
                 applicationNotifications = NSTableView; 
                 currentPluginController = id; 
                 customMenuButton = NSPopUpButton; 

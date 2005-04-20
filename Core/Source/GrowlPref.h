@@ -66,6 +66,9 @@
 	NSNetServiceBrowser				*browser;
 	NSNetService					*serviceBeingResolved;
 	int								currentServiceIndex;
+	
+	//Aboutbox tab pane
+	IBOutlet NSTextView			*aboutBoxTextView;
 }
 
 - (NSString *) bundleVersion;
@@ -130,9 +133,13 @@
 - (void) checkGrowlRunning;
 - (void) appRegistered: (NSNotification *) note;
 
+#pragma mark CoreMenuExtra Functions
 extern OSStatus CoreMenuExtraAddMenuExtra (CFURLRef inMenuExtra, SInt32 position, UInt32 reserved, UInt8 *inData, UInt32 inSize, UInt32 *outExtra);
 // either inExtra or inBundleID can be 0 or nil, but not both
 extern OSStatus CoreMenuExtraRemoveMenuExtra (UInt32 inExtra, CFStringRef inBundleID);
 extern OSStatus CoreMenuExtraGetMenuExtra (CFStringRef inBundleID, UInt32 *outExtra);
+
+#pragma mark About Tab methods
+- (void) setupAboutTab;
 
 @end
