@@ -39,12 +39,12 @@ int main (int argc, const char **argv) {
 		GrowlPreferences *growlPref = [GrowlPreferences preferences];
 
 		if(!strcmp(argv[1], "start")) {
-			[growlPref setGrowlRunning:YES];
+			[growlPref setGrowlRunning:YES noMatterWhat:NO];
 		} else if(!strcmp(argv[1], "stop")) {
-			[growlPref setGrowlRunning:NO];
+			[growlPref setGrowlRunning:NO noMatterWhat:NO];
 		} else if(!strcmp(argv[1], "restart")) {
 			[growlPref terminateGrowl];
-			[growlPref setGrowlRunning:YES];
+			[growlPref setGrowlRunning:YES noMatterWhat:YES];
 		} else if(!strcasecmp(argv[1], "isRunning")) {
 			BOOL isRunning = [growlPref isGrowlRunning];
 			if((argc < 3) || strcasecmp(argv[2], "-q"))
