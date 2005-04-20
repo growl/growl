@@ -445,13 +445,13 @@
 	NSLog(@"%d\n", state); 
 	if (state){
 		//turn off
-		UInt32 extraID = 0;
+		UInt32 extraID = 0U;
 		CoreMenuExtraGetMenuExtra (CFSTR("com.Growl.MenuExtra"), &extraID);
 		CoreMenuExtraRemoveMenuExtra(extraID, CFSTR("com.Growl.MenuExtra"));
 	} else {
 		//turn on
 		NSURL *url = [NSURL fileURLWithPath:[[[GrowlPathUtil growlPrefPaneBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Resources/Growl.menu"]];
-		CoreMenuExtraAddMenuExtra ((CFURLRef)url, 0, 0, 0, 0, 0);
+		CoreMenuExtraAddMenuExtra ((CFURLRef)url, /*position*/ 0, /*reserved*/ 0U, /*inData*/ NULL, /*inSize*/ 0, /*outExtra*/ NULL);
 	}
 }
 
