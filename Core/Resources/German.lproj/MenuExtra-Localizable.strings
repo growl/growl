@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Open Growl preferences...</key>
-	<string>Growl öffnen…</string>
+	<string>Growl Einstellungen öffnen…</string>
 	<key>Stop Growl</key>
 	<string>Growl beenden</string>
 </dict>
