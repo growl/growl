@@ -860,7 +860,7 @@
 #pragma mark About Tab
 
 - (void) setupAboutTab {
-	[aboutBoxTextView readRTFDFromFile:[[GrowlPathUtil growlPrefPaneBundle] pathForResource:@"About" ofType:@"rtfd"]];
+	[aboutBoxTextView readRTFDFromFile:[[GrowlPathUtil growlPrefPaneBundle] pathForResource:@"About" ofType:@"rtf"]];
 }
 
 #pragma mark TableView delegate methods

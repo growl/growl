@@ -282,7 +282,7 @@
 		};
 		089C167CFE841241C02AAC07 = {
 			children = (
-				937E5D640817033C00AEC1C6,
+				937E64300817193800AEC1C6,
 				9532B0B907CE651F0028B2F1,
 				8D202CF70486D31800D8A456,
 				089C167DFE841241C02AAC07,
@@ -2970,7 +2970,7 @@
 				3494427507BAF6C4000F2A03,
 				9532B0F807CE651F0028B2F1,
 				DD3AD65C07E9DF6E00E9A0A4,
-				937E5D660817033C00AEC1C6,
+				937E64320817193800AEC1C6,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3099,26 +3099,26 @@
 			settings = {
 			};
 		};
-		937E5D640817033C00AEC1C6 = {
+		937E64300817193800AEC1C6 = {
 			children = (
-				937E5D650817033C00AEC1C6,
+				937E64310817193800AEC1C6,
 			);
 			isa = PBXVariantGroup;
-			name = About.rtfd;
+			name = About.rtf;
 			path = "";
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		937E5D650817033C00AEC1C6 = {
+		937E64310817193800AEC1C6 = {
 			isa = PBXFileReference;
-			lastKnownFileType = wrapper.rtfd;
+			lastKnownFileType = text.rtf;
 			name = English;
-			path = Core/Resources/English.lproj/About.rtfd;
+			path = Core/Resources/English.lproj/About.rtf;
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		937E5D660817033C00AEC1C6 = {
-			fileRef = 937E5D640817033C00AEC1C6;
+		937E64320817193800AEC1C6 = {
+			fileRef = 937E64300817193800AEC1C6;
 			isa = PBXBuildFile;
 			settings = {
 			};
