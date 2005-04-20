@@ -40,7 +40,6 @@
 }
 
 - (NSMenu *) menu {
-	menu = [self buildMenu];
 	return menu;
 }
 
@@ -134,6 +133,8 @@
 		if ([preferences isGrowlRunning]) {
 #warning XXX - localize this
 			[item setTitle:@"Restart Growl"];
+		} else {
+			[item setTitle:@"Start Growl"];
 		}
 	} else if ([title isEqualToString:defaultDisplay]) {
 		[item setState:YES];
