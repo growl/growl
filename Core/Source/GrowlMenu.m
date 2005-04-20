@@ -31,8 +31,11 @@
 }
 
 - (void) dealloc {
+	[menu release];
+
 	[img release];
 	[altImg release];
+
 	[super dealloc];
 }
 
