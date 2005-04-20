@@ -122,19 +122,19 @@
 }
 
 - (BOOL) validateMenuItem:(NSMenuItem *)item {
-	NSString *defaultDisplay = [preferences objectForKey:GrowlDisplayPluginKey];
-	int tag = [item tag];
-
-	if (tag == 1) {
-		if ([preferences isGrowlRunning]) {
-			[item setTitle:kRestartGrowl];
-		} else {
-			[item setTitle:kStartGrowl];
-		}
-	} else if (tag == 2) {
-		return [preferences isGrowlRunning];
-	} else if (tag == 3) {
-		[item setState:[[item title] isEqualToString:defaultDisplay]];
+	switch ([item tag]) {
+		case 1:
+			if ([preferences isGrowlRunning]) {
+				[item setTitle:kRestartGrowl];
+			} else {
+				[item setTitle:kStartGrowl];
+			}
+			break;
+		case 2:
+			return [preferences isGrowlRunning];
+		case 3:
+			[item setState:[[item title] isEqualToString:[preferences objectForKey:GrowlDisplayPluginKey]]];
+			break;
 	}
 	return YES;
 }
