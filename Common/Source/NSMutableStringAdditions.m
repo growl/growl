@@ -39,17 +39,26 @@
  * @brief Escape a string for HTML.
  */
 - (NSMutableString *) escapeForHTML {
+	BOOL freeWhenDone;
 	unsigned j = 0U;
-	unsigned count = [self length];
-	NSRange range;
-	range.location = 0U;
-	range.length = count;
-	unichar c;
-	unichar *inbuffer = (unichar *)malloc(count * sizeof(unichar));
+	unsigned count = CFStringGetLength((CFStringRef)self);
+	UniChar c;
+	UniChar *inbuffer = (UniChar *)CFStringGetCharactersPtr((CFStringRef)self);
 	// worst case is a string consisting only of newlines or apostrophes
-	unichar *outbuffer = (unichar *)malloc(6 * count * sizeof(unichar));
-	[self getCharacters:inbuffer range:range];
+	UniChar *outbuffer = (UniChar *)malloc(6 * count * sizeof(UniChar));
 
+	if (inbuffer) {
+		freeWhenDone = NO;
+	} else {
+		CFRange range;
+		range.location = 0U;
+		range.length = count;
+
+		freeWhenDone = YES;
+		inbuffer = (UniChar *)malloc(count * sizeof(UniChar));
+		CFStringGetCharacters((CFStringRef)self, range, inbuffer);
+	}
+	
 	for (unsigned i=0U; i < count; ++i) {
 		switch ((c=inbuffer[i])) {
 			default:
@@ -100,11 +109,14 @@
 				break;
 		}
 	}
-	NSString *result = [[NSString alloc] initWithCharactersNoCopy:outbuffer length:j freeWhenDone:YES];
-	[self setString:result];
-	[result release];
-	free(inbuffer);
-
+	CFStringRef result = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, outbuffer, j, kCFAllocatorNull);
+	CFStringReplaceAll((CFMutableStringRef)self, result);
+	CFRelease(result);
+	free(outbuffer);
+	if (freeWhenDone) {
+		free(inbuffer);
+	}
+	
 	return self;
 }
 @end
