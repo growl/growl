@@ -442,7 +442,7 @@
 - (IBAction) menuExtraStateChange:(id)sender {
 	BOOL state = [[GrowlPreferences preferences] boolForKey:GrowlMenuExtraKey];
 	[[GrowlPreferences preferences] setBool:!state forKey:GrowlMenuExtraKey];
-	NSLog(@"%d\n", state); 
+	NSLog(@"Growl Menu Extra checkbox state: %i\n", state); 
 	if (state) {
 		//turn off
 		UInt32 extraID = 0U;
