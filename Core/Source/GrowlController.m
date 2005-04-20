@@ -661,7 +661,6 @@ static id singleton = nil;
 		return YES;
 	} else if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
 		NSDictionary *regDict = [[NSDictionary alloc] initWithContentsOfFile:filename];
-		NSLog(@"regdict at path %@ became object %p with %u keys", filename, regDict, [regDict count]);
 		if ([filename isSubpathOf:NSTemporaryDirectory()]) //assume we got here from GAB
 			[[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
 
