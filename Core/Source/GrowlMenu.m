@@ -79,11 +79,9 @@
 }
 
 - (NSMenu *)buildMenu {
-	NSMenu *m = [[NSMenu alloc] init];
-	NSMenu *displays = [[NSMenu alloc] init];
+	NSMenu *m = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 	
 	NSMenuItem *tempMenuItem;
-	NSEnumerator *displayEnumerator;
 
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:@"Start Growl" action:@selector(startGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
@@ -100,18 +98,20 @@
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:@"Default Display" action:NULL keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 
+	NSMenu *displays = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 	NSString *name;
-	displayEnumerator = [[[GrowlPluginController controller] allDisplayPlugins] objectEnumerator];
+	NSEnumerator *displayEnumerator = [[[GrowlPluginController controller] allDisplayPlugins] objectEnumerator];
 	while ((name = [displayEnumerator nextObject])) {
 		[[displays addItemWithTitle:name action:@selector(defaultDisplay:) keyEquivalent:@""] setTarget:self];
 	}
 	[tempMenuItem setSubmenu:displays];
+	[displays release];
 	[m addItem:[NSMenuItem separatorItem]];
 
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Open Growl preferences...", nil, [self bundle], @"") action:@selector(openGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 
-	return m;
+	return [m autorelease];
 }
 
 - (void) clearMenu:(NSMenu *)m {
