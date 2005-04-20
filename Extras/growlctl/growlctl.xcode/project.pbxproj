@@ -115,6 +115,34 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		07D943BC0816E3CE0089FA0E = {
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+				BuildDate.h,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "date=$(date +'%Y-%m-%d %I:%M:%S %p %Z')\necho \"#define BUILD_DATE \\\"$date\\\"\" > $SRCROOT/BuildDate.h\necho 'BUILD_DATE is '$date\n";
+		};
+		07D943C00816E3F10089FA0E = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = BuildDate.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07D943C10816E3F10089FA0E = {
+			fileRef = 07D943C00816E3F10089FA0E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //070
 //071
 //072
@@ -156,6 +184,7 @@
 		08FB7795FE84155DC02AAC07 = {
 			children = (
 				07A3BD6907F0199A00973BFB,
+				07D943C00816E3F10089FA0E,
 				32A70AAB03705E1F00C91783,
 				08FB7796FE84155DC02AAC07,
 			);
@@ -230,6 +259,7 @@
 //8D4
 		8DD76F960486AA7600D96B5E = {
 			buildPhases = (
+				07D943BC0816E3CE0089FA0E,
 				8DD76F990486AA7600D96B5E,
 				8DD76F9B0486AA7600D96B5E,
 				8DD76F9E0486AA7600D96B5E,
@@ -300,6 +330,7 @@
 			dstSubfolderSpec = 0;
 			files = (
 				8DD76F9F0486AA7600D96B5E,
+				07D943C10816E3F10089FA0E,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 1;

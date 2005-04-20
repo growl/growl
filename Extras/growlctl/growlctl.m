@@ -5,6 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#import "BuildDate.h"
 
 static const char *argv0 = NULL;
 static int status = EXIT_SUCCESS;
@@ -17,15 +18,22 @@ static NSString *plistError     = nil;
 static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i);
 #endif
 
-static void usage(void) {
+static void printversion(void) {
+	printf("%s 0.7 built on %s\n", argv0, BUILD_DATE);
+}
+static void printusage(void) {
 	printf("usage: %s <command> [arguments]\n"
 		   "commands:\n"
 		   "\t""start - start Growl\n"
 		   "\t""stop - stop Growl\n"
 		   "\t""restart - restart Growl\n"
 		   "\t""isRunning [-q] - query whether Growl is running (with -q, reflect this in the exit status rather than stdout)\n"
+		   "\t""startmenu - add the Growl Menu Extra to your menu bar\n"
+		   "\t""stopmenu - remove the Growl Menu Extra from your menu bar\n"
 		   "\t""getpref [name] - obtain one or all of Growl's preferences\n"
-		   "\t""setpref <name> <value> - set one of Growl's preferences\n",
+		   "\t""setpref <name> <value> - set one of Growl's preferences\n"
+		   "\t""help - print this message\n"
+		   "\t""version - print version information\n",
 		   argv0);
 }
 
@@ -38,8 +46,8 @@ int main (int argc, const char **argv) {
 	argv0 = (argc < 1) ? "growlctl" : argv[0];
 
 	if (argc < 2) {
-		usage();
-		status = EXIT_FAILURE;
+		printversion();
+		printusage();
 	} else {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		GrowlPreferences *growlPref = [GrowlPreferences preferences];
@@ -138,7 +146,9 @@ int main (int argc, const char **argv) {
 
 		//other
 		} else if (!strcmp(argv[1], "help")) {
-			usage();
+			printusage();
+		} else if (!strcmp(argv[1], "version")) {
+			printversion();
 		} else {
 			fprintf(stderr, "%s: unrecognized command '%s'\n", argv0, argv[1]);
 			status = EXIT_FAILURE;
