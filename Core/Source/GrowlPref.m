@@ -450,7 +450,7 @@
 		CoreMenuExtraRemoveMenuExtra(extraID, CFSTR("com.Growl.MenuExtra"));
 	} else {
 		//turn on
-		NSURL *url = [NSURL fileURLWithPath:[[[GrowlPathUtil growlPrefPaneBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Resources/Growl.menu"]];
+		NSURL *url = [NSURL fileURLWithPath:[[GrowlPathUtil growlPrefPaneBundle] pathForResource:@"Growl" ofType:@"menu"]];
 		CoreMenuExtraAddMenuExtra ((CFURLRef)url, /*position*/ 0, /*reserved*/ 0U, /*inData*/ NULL, /*inSize*/ 0, /*outExtra*/ NULL);
 	}
 }
