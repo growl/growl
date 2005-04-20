@@ -37,9 +37,11 @@
 	return [self unsignedLongValue];
 }
 
-#warning XXX - currently does not handle equivalence of things such as .. or .
 - (BOOL) isSubpathOf:(NSString *)superpath {
-	return [self isEqualToString:superpath] || [self hasPrefix:[superpath stringByAppendingString:@"/"]];
+	NSString *canonicalSuperpath = [superpath stringByStandardizingPath];
+	NSString *canonicalSubpath = [self stringByStandardizingPath];
+	return [canonicalSubpath isEqualToString:canonicalSuperpath]
+		|| [canonicalSubpath hasPrefix:[canonicalSuperpath stringByAppendingString:@"/"]];
 }
 
 @end
