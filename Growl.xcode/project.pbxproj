@@ -3057,7 +3057,6 @@
 		93405B0D080D8BD100903735 = {
 			children = (
 				93FCE5E10812DEC800320D8E,
-				93FCE5AE0812DBEB00320D8E,
 				93FCE5A80812DA0100320D8E,
 				93FCE5A90812DA0100320D8E,
 			);
@@ -3161,15 +3160,6 @@
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlMenu.m;
 			path = Core/Source/GrowlMenu.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		93FCE5AE0812DBEB00320D8E = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = SystemUIPlugin.h;
-			path = Core/Source/SystemUIPlugin.h;
 			refType = 4;
 			sourceTree = "<group>";
 		};
