@@ -57,12 +57,12 @@
 
 	if ((self = [super initWithBundle:bundle])) {
 		loadedPrefPanes = [[NSMutableArray alloc] init];
-		
+
 		NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 		[nc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
 		[nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
-		[nc addObserver:self selector:@selector(reloadPrefs:) name:GrowlPreferencesChanged object:nil];
-		
+		[nc addObserver:self selector:@selector(reloadPrefs:)     name:GrowlPreferencesChanged object:nil];
+
 		NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithContentsOfFile:
 			[bundle pathForResource:@"GrowlDefaults"
 							 ofType:@"plist"]];
@@ -97,6 +97,7 @@
 }
 
 - (IBAction) checkVersion:(id)sender {
+#pragma unused(sender)
 	[growlVersionProgress startAnimation:self];
 
 	if (!versionCheckURL) {
@@ -146,9 +147,54 @@
 }
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+#pragma unused(sheet)
 	if (returnCode == NSAlertDefaultReturn) {
 		[[NSWorkspace sharedWorkspace] openURL:contextInfo];
 	}
+}
+
++ (BOOL) isGrowlMenuRunning {
+	BOOL growlMenuIsRunning = NO;
+	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
+
+	while (GetNextProcess(&PSN) == noErr) {
+		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
+
+		if ([[infoDict objectForKey:(NSString *)kCFBundleIdentifierKey] isEqualToString:@"com.Growl.MenuExtra"]) {
+			growlMenuIsRunning = YES;
+			[infoDict release];
+			break;
+		}
+		[infoDict release];
+	}
+
+	return growlMenuIsRunning;
+}
+
+- (void) startGrowlMenu {
+	NSString *growlMenuPath = [[self bundle] pathForResource:@"GrowlMenu" ofType:@"app"];
+	NSLog(@"growlMenuPath=%@", growlMenuPath);
+	// We want to launch in background, so we have to resort to Carbon
+	LSLaunchFSRefSpec spec;
+	FSRef appRef;
+	OSStatus status = FSPathMakeRef((const UInt8 *)[growlMenuPath fileSystemRepresentation], &appRef, NULL);
+
+	if (status == noErr) {
+		NSLog(@"noErr");
+		spec.appRef = &appRef;
+		spec.numDocs = 0;
+		spec.itemRefs = NULL;
+		spec.passThruParams = NULL;
+		spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
+		spec.asyncRefCon = NULL;
+		status = LSOpenFromRefSpec(&spec, NULL);
+		NSLog(@"status=%d", status);
+	}	
+}
+
+- (void) stopGrowlMenu {
+	// Ask the GrowlMenu to shutdown via the DNC
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GrowlMenuShutdown" object:nil];
 }
 
 - (void) awakeFromNib {
@@ -195,11 +241,14 @@
 
 	[browser setDelegate:self];
 	[browser searchForServicesOfType:@"_growl._tcp." inDomain:@""];
-	
-	UInt32 extraID = 0U;
-	CoreMenuExtraGetMenuExtra(CFSTR("com.Growl.MenuExtra"), &extraID);
-	[menuExtraEnabled setState:(extraID != 0U)];
+
+	BOOL menuExtraState = [[GrowlPreferences preferences] boolForKey:GrowlMenuExtraKey];
+	[menuExtraEnabled setState:menuExtraState];
 	[self setupAboutTab];
+
+	if (menuExtraState && ![GrowlPref isGrowlMenuRunning]) {
+		[self startGrowlMenu];
+	}
 }
 
 - (void) mainViewDidLoad {
@@ -289,6 +338,7 @@
 }
 
 - (void) reloadPrefs:(id)sender {
+#pragma unused(sender)
 	[self reloadPreferences];
 }
 
@@ -329,6 +379,7 @@
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
 						change:(NSDictionary *)change context:(void *)context {
+#pragma unused(change, context)
 	if ([keyPath isEqualToString:@"selection"]) {
 		if ((object == ticketsArrayController)) {
 			[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
@@ -390,6 +441,7 @@
 #pragma mark "General" tab pane
 
 - (IBAction) startStopGrowl:(id) sender {
+#pragma unused(sender)
 	// Make sure growlIsRunning is correct
 	if (growlIsRunning != [[GrowlPreferences preferences] isGrowlRunning]) {
 		// Nope - lets just flip it and update status
@@ -443,14 +495,9 @@
 	[[GrowlPreferences preferences] setBool:state forKey:GrowlMenuExtraKey];
 	NSLog(@"Growl Menu Extra checkbox state: %i\n", state); 
 	if (state) {
-		//turn on
-		NSURL *url = [NSURL fileURLWithPath:[[GrowlPathUtil growlPrefPaneBundle] pathForResource:@"Growl" ofType:@"menu"]];
-		CoreMenuExtraAddMenuExtra((CFURLRef)url, /*position*/ 0, /*reserved*/ 0U, /*inData*/ NULL, /*inSize*/ 0, /*outExtra*/ NULL);
+		[self startGrowlMenu];
 	} else {
-		//turn off
-		UInt32 extraID = 0U;
-		CoreMenuExtraGetMenuExtra(CFSTR("com.Growl.MenuExtra"), &extraID);
-		CoreMenuExtraRemoveMenuExtra(extraID, CFSTR("com.Growl.MenuExtra"));
+		[self stopGrowlMenu];
 	}
 }
 
@@ -465,6 +512,7 @@
 }
 
 - (IBAction) logTypeChanged:(id)sender {
+#pragma unused(sender)
 	int		typePref;
 
 	typePref = [logFileType selectedRow];
@@ -476,10 +524,12 @@
 }
 
 - (IBAction) openConsoleApp:(id)sender {
+#pragma unused(sender)
 	[[NSWorkspace sharedWorkspace] launchApplication:@"Console"];
 }
 
 - (IBAction) customFileChosen:(id)sender {
+#pragma unused(sender)
 	if (sender == customMenuButton) {
 		int selected = [customMenuButton indexOfSelectedItem];
 		//NSLog(@"custom %d", selected);
@@ -590,6 +640,7 @@
 }
 
 - (void) deleteTicket:(id)sender {
+#pragma unused(sender)
 	GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
 	NSString *path = [ticket path];
 	int	oldSelectionIndex = [ticketsArrayController selectionIndex];
@@ -792,6 +843,7 @@
 #pragma mark -
 
 - (IBAction) showPreview:(id) sender {
+#pragma unused(sender)
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview object:currentPlugin];
 }
 
@@ -857,7 +909,7 @@
 #pragma mark About Tab
 
 - (void) setupAboutTab {
-	[aboutBoxTextView readRTFDFromFile:[[GrowlPathUtil growlPrefPaneBundle] pathForResource:@"About" ofType:@"rtf"]];
+	[aboutBoxTextView readRTFDFromFile:[[self bundle] pathForResource:@"About" ofType:@"rtf"]];
 }
 
 #pragma mark TableView delegate methods
@@ -881,6 +933,7 @@
 #pragma mark NSNetServiceBrowser Delegate Methods
 
 - (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
+#pragma unused(aNetServiceBrowser)
 	// check if a computer with this name has already been added
 	NSString *name = [aNetService name];
 	NSEnumerator *enumerator = [services objectEnumerator];
@@ -904,6 +957,7 @@
 }
 
 - (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
+#pragma unused(aNetServiceBrowser)
 	// This case is slightly more complicated. We need to find the object in the list and remove it.
 	unsigned count = [services count];
 	GrowlBrowserEntry *currentEntry;
@@ -981,11 +1035,13 @@
 }
 
 - (void) growlLaunched:(NSNotification *)note {
+#pragma unused(note)
 	growlIsRunning = YES;
 	[self updateRunningStatus];
 }
 
 - (void) growlTerminated:(NSNotification *)note {
+#pragma unused(note)
 	growlIsRunning = NO;
 	[self updateRunningStatus];
 }

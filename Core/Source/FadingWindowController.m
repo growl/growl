@@ -48,6 +48,7 @@
 }
 
 - (void) _fadeIn:(NSTimer *)inTimer {
+#pragma unused(inTimer)
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
 	if (alpha < 1.0f) {
@@ -58,6 +59,7 @@
 }
 
 - (void) _fadeOut:(NSTimer *)inTimer {
+#pragma unused(inTimer)
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
 	if (alpha > 0.0f) {
@@ -267,6 +269,7 @@
 #pragma mark -
 
 - (void) _notificationClicked:(id) sender {
+#pragma unused(sender)
 	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];
 	}

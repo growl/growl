@@ -77,6 +77,7 @@ static BOOL checkOSXVersion()
 
 // closes this window
 - (IBAction) closeWindow:(id)sender {
+#pragma unused(sender)
 	if ([self windowShouldClose:nil]) {
 		[[self window] close];
 	}
@@ -192,12 +193,14 @@ static BOOL checkOSXVersion()
 }
 
 - (IBAction) installGrowl:(id)sender {
+#pragma unused(sender)
 	[self performInstallGrowl];
 
 	[self releaseAndClose];
 }
 
 - (IBAction) cancel:(id)sender {
+#pragma unused(sender)
 	if (!updateVersion) {
 		//Tell the app bridge about the user's choice
 		[GrowlApplicationBridge _userChoseNotToInstallGrowl];
@@ -220,7 +223,7 @@ static BOOL checkOSXVersion()
 			[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Growl Update:Do Not Prompt Again:Last Version"];			
 		}
 
-	}else{
+	} else {
 		//Store the user's preference to the user defaults dictionary
 		[[NSUserDefaults standardUserDefaults] setBool:dontAskAgain
 												forKey:@"Growl Installation:Do Not Prompt Again"];
@@ -229,6 +232,7 @@ static BOOL checkOSXVersion()
 
 // called as the window closes
 - (BOOL) windowShouldClose:(id)sender {
+#pragma unused(sender)
 	//If the window closes via the close button or cmd-W, it should be treated as clicking Cancel.
 	[self cancel:nil];
 

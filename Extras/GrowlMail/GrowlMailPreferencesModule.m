@@ -67,6 +67,7 @@
 }
 
 - (id) viewForPreferenceNamed:(NSString *)aName {
+#pragma unused(aName)
 	if (!_preferencesView) {
 		[NSBundle loadNibNamed:[self preferencesNibName] owner:self];
 	}
@@ -74,10 +75,12 @@
 }
 
 - (NSString *) titleForIdentifier:(NSString *)aName {
+#pragma unused(aName)
 	return @"GrowlMail";
 }
 
 - (NSImage *) imageForPreferenceNamed:(NSString *)aName {
+#pragma unused(aName)
 	return [NSImage imageNamed:@"GrowlMail"];
 }
 
@@ -86,10 +89,12 @@
 }
 
 - (int) numberOfRowsInTableView:(NSTableView *)aTableView {
+#pragma unused(aTableView)
 	return [[MailAccount remoteMailAccounts] count];
 }
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+#pragma unused(aTableView)
 	MailAccount *account = [[MailAccount remoteMailAccounts] objectAtIndex:rowIndex];
 	if ([[aTableColumn identifier] isEqualToString:@"active"]) {
 		return [NSNumber numberWithBool:[[GrowlMail sharedInstance] isAccountEnabled:[account path]]];
@@ -99,6 +104,8 @@
 }
 
 - (void) tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+#pragma unused(aTableView)
+#pragma unused(aTableColumn)
 	MailAccount *account = [[MailAccount remoteMailAccounts] objectAtIndex:rowIndex];
 	[[GrowlMail sharedInstance] setAccountEnabled:[anObject boolValue] path:[account path]];
 }

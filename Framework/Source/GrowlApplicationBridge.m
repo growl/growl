@@ -415,6 +415,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 #pragma mark -
 
 + (void) _growlIsReady:(NSNotification *)notification {
+#pragma unused(notification)
 	
 	//Growl has now launched; we may get here with (growlLaunched == NO) when the user first installs
 	growlLaunched = YES;

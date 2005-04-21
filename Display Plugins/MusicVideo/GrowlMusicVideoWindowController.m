@@ -19,6 +19,7 @@
 }
 
 - (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
+#pragma unused(sticky)
 	int sizePref = MUSICVIDEO_SIZE_NORMAL;
 	float duration = MUSICVIDEO_DEFAULT_DURATION;
 
@@ -119,6 +120,7 @@
 }
 
 - (void) _fadeIn:(NSTimer *)inTimer {
+#pragma unused(inTimer)
 	if (frameOrigin.y < 0.0f) {
 		frameOrigin.y += fadeIncrement;
 		[subview setFrameOrigin:frameOrigin];
@@ -129,6 +131,7 @@
 }
 
 - (void) _fadeOut:(NSTimer *)inTimer {
+#pragma unused(inTimer)
 	if (frameOrigin.y > -frameHeight) {
 		frameOrigin.y -= fadeIncrement;
 		[subview setFrameOrigin:frameOrigin];

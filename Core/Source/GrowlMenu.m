@@ -11,35 +11,80 @@
 #import "GrowlPathUtil.h"
 #import "GrowlPluginController.h"
 
+#define kRestartGrowl         NSLocalizedString(@"Restart Growl", @"")
+#define kStartGrowl           NSLocalizedString(@"Start Growl", @"")
+#define kStopGrowl            NSLocalizedString(@"Stop Growl", @"")
+#define kDefaultDisplay       NSLocalizedString(@"Default display", @"")
+#define kOpenGrowlPreferences NSLocalizedString(@"Open Growl preferences...", @"")
+#define kSquelchMode          NSLocalizedString(@"Squelch mode", @"")
+
+/*
+ *  HelperMain.m
+ *  Growl
+ *
+ *  Created by Karl Adam on Thu Apr 22 2004.
+ *  Copyright (c) 2004 The Growl Project. All rights reserved.
+ *
+ */
+
+#import "GrowlController.h"
+
+int main(void) {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	[NSApplication sharedApplication];
+
+	GrowlMenu *menu = [[GrowlMenu alloc] init];
+	[NSApp run];
+
+	[menu release];
+	[NSApp release];
+	[pool release];
+
+	return EXIT_SUCCESS;
+}
+
 @implementation GrowlMenu
 
-#define kRestartGrowl         NSLocalizedStringFromTableInBundle(@"Restart Growl", nil, [self bundle], @"")
-#define kStartGrowl           NSLocalizedStringFromTableInBundle(@"Start Growl", nil, [self bundle], @"")
-#define kStopGrowl            NSLocalizedStringFromTableInBundle(@"Stop Growl", nil, [self bundle], @"")
-#define kDefaultDisplay       NSLocalizedStringFromTableInBundle(@"Default display", nil, [self bundle], @"")
-#define kOpenGrowlPreferences NSLocalizedStringFromTableInBundle(@"Open Growl preferences...", nil, [self bundle], @"")
-
-- (id) initWithBundle:(NSBundle *)bundle {
-	if ((self = [super initWithBundle:bundle])) {
+- (id) init {
+	if ((self = [super init])) {
 		preferences = [GrowlPreferences preferences];
 
+		NSBundle *bundle = [NSBundle mainBundle];
 		NSImage *img = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon" ofType:@"tiff"]];
 		NSImage *altImg = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon-alt" ofType:@"tiff"]];
 		NSMenu *m = [self buildMenu];
 
-		[self setImage:img];				// retains image
-		[self setAlternateImage:altImg];	// retains image
-		[self setMenu:m];					// retains menu
-		[self setToolTip:@"Growl"];
+		statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength] retain];
+		[statusItem setImage:img];				// retains image
+		[statusItem setAlternateImage:altImg];	// retains image
+		[statusItem setMenu:m];					// retains menu
+		[statusItem setToolTip:@"Growl"];
+		[statusItem setHighlightMode:YES];
 
 		[img release];
 		[altImg release];
 		[m release];
+
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+															selector:@selector(shutdown:)
+																name:@"GrowlMenuShutdown"
+															  object:nil];
 	}
 	return self;
 }
 
+- (void) dealloc {
+	[statusItem release];
+	[super dealloc];
+}
+
+- (void) shutdown:(NSNotification *)theNotification {
+#pragma unused(theNotification)
+	[NSApp terminate:self];
+}
+
 - (IBAction) openGrowl:(id)sender {
+#pragma unused(sender)
 	NSString *prefPane = [[GrowlPathUtil growlPrefPaneBundle] bundlePath];
 	[[NSWorkspace sharedWorkspace] openFile:prefPane];
 }
@@ -49,12 +94,14 @@
 }
 
 - (IBAction) stopGrowl:(id)sender {
+#pragma unused(sender)
 	//If Growl is running, we should stop it.
 	if ([preferences isGrowlRunning])
 		[preferences setGrowlRunning:NO noMatterWhat:NO];
 }
 
 - (IBAction) startGrowl:(id)sender {
+#pragma unused(sender)
 	if (![preferences isGrowlRunning]) {
 		//If Growl isn't running, we should start it.
 		[preferences setGrowlRunning:YES noMatterWhat:NO];
@@ -66,7 +113,12 @@
 	}
 }
 
-- (NSMenu *)buildMenu {
+- (IBAction) squelchMode:(id)sender {
+#pragma unused(sender)
+	[preferences setBool:![preferences boolForKey:GrowlSquelchModeKey] forKey:GrowlSquelchModeKey];
+}
+
+- (NSMenu *) buildMenu {
 	NSMenu *m = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 
 	NSMenuItem *tempMenuItem;
@@ -83,6 +135,10 @@
 	[tempMenuItem setTarget:self];
 
 	[m addItem:[NSMenuItem separatorItem]];
+
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kSquelchMode action:@selector(squelchMode:) keyEquivalent:@""];
+	[tempMenuItem setTarget:self];
+	[tempMenuItem setTag:4];
 
 	NSMenu *displays = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 	NSString *name;
@@ -117,6 +173,9 @@
 			return [preferences isGrowlRunning];
 		case 3:
 			[item setState:[[item title] isEqualToString:[preferences objectForKey:GrowlDisplayPluginKey]]];
+			break;
+		case 4:
+			[item setState:[preferences boolForKey:GrowlSquelchModeKey]];
 			break;
 	}
 	return YES;

@@ -12,5 +12,7 @@
 	<string>Restart Growl</string>
 	<key>Default display</key>
 	<string>Default display</string>
+	<key>Squelch mode</key>
+	<string>Squelch mode></string>
 </dict>
 </plist>

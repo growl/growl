@@ -12,5 +12,7 @@
 	<string>Growl neustarten</string>
 	<key>Default display</key>
 	<string>Anzeigestil</string>
+	<key>Squelch mode</key>
+	<string>Stiller Modus</string>
 </dict>
 </plist>

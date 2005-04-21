@@ -240,7 +240,7 @@
 				0A7F5FB70767C70600E1C1E4,
 				0A7F5FE80767C7B300E1C1E4,
 				950F798F080EEDB700CC5F62,
-				93FCE54E0812D85000320D8E,
+				95075AAF0817F5DB00D862A5,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
@@ -420,6 +420,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
@@ -429,7 +430,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = Speech;
-				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -605,6 +606,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
@@ -614,7 +616,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = Bubbles;
-				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -846,6 +848,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
@@ -855,7 +858,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = Bezel;
-				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -1078,6 +1081,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
@@ -1087,7 +1091,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = Smoke;
-				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -1319,6 +1323,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
@@ -1327,7 +1332,7 @@
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = MailMe;
-				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -1515,6 +1520,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
@@ -1524,7 +1530,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = MusicVideo;
-				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -1866,7 +1872,7 @@
 				34F60EF9078E226300CECA86,
 				DDF09B0A080AC8F3006F4172,
 				950F799B080EEDB700CC5F62,
-				93FCE54F0812D85000320D8E,
+				95075AB00817F5DB00D862A5,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -2418,6 +2424,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
@@ -2430,7 +2437,7 @@
 				PRODUCT_NAME = Growl;
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WARNING_CFLAGS = "-W -Wall";
 			};
 			dependencies = (
 			);
@@ -2604,6 +2611,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
@@ -2616,7 +2624,7 @@
 				PRODUCT_NAME = "Growl-WithInstaller";
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WARNING_CFLAGS = "-W -Wall";
 			};
 			dependencies = (
 				34E9EE6B0790871D00662E8E,
@@ -2933,6 +2941,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
@@ -2945,12 +2954,12 @@
 				OTHER_LDFLAGS = "-bundle -twolevel_namespace";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Growl;
-				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = prefPane;
 			};
 			dependencies = (
 				3433455E0790E25300C84B15,
-				93FCE5530812D89500320D8E,
+				95075B4D0817FDA200D862A5,
 			);
 			isa = PBXNativeTarget;
 			name = Growl;
@@ -3057,18 +3066,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		935E77060814771500DDCFD7 = {
-			fileRef = 5286205606DC4C2F00D3A356;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		935E77070814771600DDCFD7 = {
-			fileRef = 5286205506DC4C2F00D3A356;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		936FAB01074482BF00A7D430 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -3089,12 +3086,6 @@
 		};
 		936FAB04074482BF00A7D430 = {
 			fileRef = 936FAB02074482BF00A7D430;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		937162CC0816BC3800929996 = {
-			fileRef = 93FCE54F0812D85000320D8E;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3123,30 +3114,6 @@
 			settings = {
 			};
 		};
-		93BD654C081454EE005FDB70 = {
-			fileRef = 52861EE406DBA95400D3A356;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		93BD654D081454EF005FDB70 = {
-			fileRef = 52861EE306DBA95400D3A356;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		93BD655508145560005FDB70 = {
-			fileRef = 959DBE4A08127BA4009BB468;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		93BD655608145560005FDB70 = {
-			fileRef = 959DBE4908127BA4009BB468;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		93E0E9D3080F0E95004FFB1D = {
 			containerPortal = 089C1669FE841209C02AAC07;
 			isa = PBXContainerItemProxy;
@@ -3165,128 +3132,6 @@
 			settings = {
 			};
 		};
-		93FCE54B0812D85000320D8E = {
-			buildActionMask = 2147483647;
-			files = (
-				93BD654D081454EF005FDB70,
-				93BD655608145560005FDB70,
-				935E77070814771600DDCFD7,
-				950758460817C23100D862A5,
-				950758490817C28500D862A5,
-				9507584A0817C28500D862A5,
-				9507584D0817C2F400D862A5,
-			);
-			isa = PBXResourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		93FCE54C0812D85000320D8E = {
-			buildActionMask = 2147483647;
-			files = (
-				93FCE5AA0812DA0100320D8E,
-				93BD654C081454EE005FDB70,
-				93BD655508145560005FDB70,
-				935E77060814771500DDCFD7,
-			);
-			isa = PBXSourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		93FCE54D0812D85000320D8E = {
-			buildActionMask = 2147483647;
-			files = (
-				93FCE57F0812D93B00320D8E,
-				93FCE64B0812E4D200320D8E,
-			);
-			isa = PBXFrameworksBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		93FCE54E0812D85000320D8E = {
-			buildPhases = (
-				93FCE54B0812D85000320D8E,
-				93FCE54C0812D85000320D8E,
-				93FCE54D0812D85000320D8E,
-			);
-			buildRules = (
-			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Core/Resources/MenuExtra/MenuExtra-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LIBRARY_STYLE = BUNDLE;
-				PREBINDING = YES;
-				PRODUCT_NAME = Growl;
-				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
-				WRAPPER_EXTENSION = menu;
-			};
-			dependencies = (
-			);
-			isa = PBXNativeTarget;
-			name = MenuExtra;
-			productName = MenuExtra;
-			productReference = 93FCE54F0812D85000320D8E;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>MenuExtra</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.MenuExtra</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-</dict>
-</plist>
-";
-			productType = "com.apple.product-type.bundle";
-		};
-		93FCE54F0812D85000320D8E = {
-			explicitFileType = wrapper.cfbundle;
-			includeInIndex = 0;
-			isa = PBXFileReference;
-			path = Growl.menu;
-			refType = 3;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		93FCE5520812D89500320D8E = {
-			containerPortal = 089C1669FE841209C02AAC07;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 93FCE54E0812D85000320D8E;
-			remoteInfo = MenuExtra;
-		};
-		93FCE5530812D89500320D8E = {
-			isa = PBXTargetDependency;
-			target = 93FCE54E0812D85000320D8E;
-			targetProxy = 93FCE5520812D89500320D8E;
-		};
 		93FCE57D0812D93B00320D8E = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -3296,12 +3141,6 @@
 			sourceTree = "<absolute>";
 		};
 		93FCE57E0812D93B00320D8E = {
-			fileRef = 93FCE57D0812D93B00320D8E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		93FCE57F0812D93B00320D8E = {
 			fileRef = 93FCE57D0812D93B00320D8E;
 			isa = PBXBuildFile;
 			settings = {
@@ -3325,12 +3164,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		93FCE5AA0812DA0100320D8E = {
-			fileRef = 93FCE5A90812DA0100320D8E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		93FCE5AE0812DBEB00320D8E = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -3351,12 +3184,6 @@
 			name = Resources;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		93FCE64B0812E4D200320D8E = {
-			fileRef = 83282741073A6BD70044A959;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 //930
 //931
@@ -3407,12 +3234,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		950758460817C23100D862A5 = {
-			fileRef = 950758450817C23100D862A5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		950758470817C28500D862A5 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.tiff;
@@ -3429,18 +3250,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		950758490817C28500D862A5 = {
-			fileRef = 950758470817C28500D862A5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		9507584A0817C28500D862A5 = {
-			fileRef = 950758480817C28500D862A5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		9507584B0817C2F400D862A5 = {
 			children = (
 				9507584C0817C2F400D862A5,
@@ -3453,7 +3262,7 @@
 			sourceTree = "<group>";
 		};
 		9507584C0817C2F400D862A5 = {
-			fileEncoding = 30;
+			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
 			name = English;
@@ -3461,19 +3270,190 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		9507584D0817C2F400D862A5 = {
-			fileRef = 9507584B0817C2F400D862A5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		9507584E0817C30300D862A5 = {
+			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
 			name = German;
 			path = Core/Resources/MenuExtra/German.lproj/Localizable.strings;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		95075AAC0817F5DB00D862A5 = {
+			buildActionMask = 2147483647;
+			files = (
+				95075B030817F8DB00D862A5,
+				95075B040817F8DB00D862A5,
+				95075B050817F8DB00D862A5,
+				95075B060817F8DB00D862A5,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95075AAD0817F5DB00D862A5 = {
+			buildActionMask = 2147483647;
+			files = (
+				95075B020817F8A200D862A5,
+				95075B0F0817F93D00D862A5,
+				95075B100817F95300D862A5,
+				95075B110817F95600D862A5,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95075AAE0817F5DB00D862A5 = {
+			buildActionMask = 2147483647;
+			files = (
+				95075BC80817FF0800D862A5,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95075AAF0817F5DB00D862A5 = {
+			buildPhases = (
+				95075AAC0817F5DB00D862A5,
+				95075AAD0817F5DB00D862A5,
+				95075AAE0817F5DB00D862A5,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Core/Resources/MenuExtra/MenuExtra-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				PREBINDING = NO;
+				PRODUCT_NAME = GrowlMenu;
+				WARNING_CFLAGS = "-W -Wall";
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = GrowlMenu;
+			productName = GrowlMenu;
+			productReference = 95075AB00817F5DB00D862A5;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>GrowlMenu</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.GrowlMenu</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.application";
+		};
+		95075AB00817F5DB00D862A5 = {
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = GrowlMenu.app;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95075B020817F8A200D862A5 = {
+			fileRef = 93FCE5A90812DA0100320D8E;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95075B030817F8DB00D862A5 = {
+			fileRef = 9507584B0817C2F400D862A5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95075B040817F8DB00D862A5 = {
+			fileRef = 950758470817C28500D862A5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95075B050817F8DB00D862A5 = {
+			fileRef = 950758480817C28500D862A5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95075B060817F8DB00D862A5 = {
+			fileRef = 950758450817C23100D862A5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95075B0F0817F93D00D862A5 = {
+			fileRef = 959DBE4A08127BA4009BB468;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95075B100817F95300D862A5 = {
+			fileRef = 52861EE406DBA95400D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95075B110817F95600D862A5 = {
+			fileRef = 5286205606DC4C2F00D3A356;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95075B4C0817FDA200D862A5 = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 95075AAF0817F5DB00D862A5;
+			remoteInfo = GrowlMenu;
+		};
+		95075B4D0817FDA200D862A5 = {
+			isa = PBXTargetDependency;
+			target = 95075AAF0817F5DB00D862A5;
+			targetProxy = 95075B4C0817FDA200D862A5;
+		};
+		95075B740817FE1E00D862A5 = {
+			fileRef = 95075AB00817F5DB00D862A5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95075BC80817FF0800D862A5 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		950F795C080EECA600CC5F62 = {
 			children = (
@@ -3638,6 +3618,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
@@ -3647,7 +3628,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = WebKit;
-				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -4362,12 +4343,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		9596C5FA081102BE00F43859 = {
-			fileRef = 9596C5F8081102BE00F43859;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		9596C5FB081102BE00F43859 = {
 			fileRef = 9596C5F9081102BE00F43859;
 			isa = PBXBuildFile;
@@ -4400,12 +4375,6 @@
 		};
 		959DBE4C08127BA4009BB468 = {
 			fileRef = 959DBE4A08127BA4009BB468;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		959DBE9608127EC5009BB468 = {
-			fileRef = 959DBE4908127BA4009BB468;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -4457,12 +4426,6 @@
 			path = Core/Source/TicketsArrayController.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		95A9E434080B2CAB006A2F29 = {
-			fileRef = 95A9E432080B2CAB006A2F29;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		95A9E435080B2CAB006A2F29 = {
 			fileRef = 95A9E433080B2CAB006A2F29;
@@ -4805,6 +4768,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
@@ -4814,7 +4778,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-undefined dynamic_lookup";
 				PRODUCT_NAME = Brushed;
-				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = growlView;
 			};
 			dependencies = (
@@ -5144,11 +5108,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				937162CC0816BC3800929996,
+				95075B740817FE1E00D862A5,
 				CB5FA1C70638CA5300EADD7A,
-				95A9E434080B2CAB006A2F29,
-				9596C5FA081102BE00F43859,
-				959DBE9608127EC5009BB468,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5252,6 +5213,7 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
@@ -5259,7 +5221,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = GrowlHelperApp;
-				WARNING_CFLAGS = "-W -Wall -Wno-unused-parameter";
+				WARNING_CFLAGS = "-W -Wall";
 			};
 			dependencies = (
 				955430E807E04683005534FA,
@@ -5513,6 +5475,22 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Prefpane TestHarness/PrefPaneTesting-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -5521,7 +5499,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = PrefpaneTesting;
 				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WARNING_CFLAGS = "-W -Wall";
 			};
 			comments = "This target allows you to execute and debug the prefpane within xcode.";
 			dependencies = (

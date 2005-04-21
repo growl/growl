@@ -152,6 +152,7 @@ static id singleton = nil;
 #pragma mark -
 
 - (void) netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
+#pragma unused(sender)
 	NSLog(@"Could not publish Growl service. Error: %@", errorDict);
 }
 
@@ -305,24 +306,26 @@ static id singleton = nil;
 	[aDict setObject:value forKey:GROWL_SCREENSHOT_MODE];
 	[value release];
 
-	id <GrowlDisplayPlugin> display = [notification displayPlugin];
+	if (![[GrowlPreferences preferences] boolForKey:GrowlSquelchModeKey]) {
+		id <GrowlDisplayPlugin> display = [notification displayPlugin];
 
-	if (!display) {
-		NSString *displayPluginName = [aDict objectForKey:GROWL_DISPLAY_PLUGIN];
-		if (displayPluginName) {
-			display = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
+		if (!display) {
+			NSString *displayPluginName = [aDict objectForKey:GROWL_DISPLAY_PLUGIN];
+			if (displayPluginName) {
+				display = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
+			}
 		}
-	}
 
-	if (!display) {
-		display = [ticket displayPlugin];
-	}
+		if (!display) {
+			display = [ticket displayPlugin];
+		}
 
-	if (!display) {
-		display = displayController;
-	}
+		if (!display) {
+			display = displayController;
+		}
 
-	[display displayNotificationWithInfo:aDict];
+		[display displayNotificationWithInfo:aDict];
+	}
 
 	// send to dashboard
 	icon = [aDict objectForKey:GROWL_NOTIFICATION_ICON];
@@ -451,6 +454,7 @@ static id singleton = nil;
 }
 
 - (void) checkVersion:(NSTimer *)timer {
+#pragma unused(timer)
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
 
 	if (![preferences boolForKey:GrowlUpdateCheckKey]) {
@@ -636,10 +640,12 @@ static id singleton = nil;
 }
 
 - (void) shutdown:(NSNotification *) note {
+#pragma unused(note)
 	[NSApp terminate: nil];
 }
 
 - (void) replyToPing:(NSNotification *) note {
+#pragma unused(note)
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_PONG
 																   object:nil
 																 userInfo:versionInfo];
@@ -648,6 +654,7 @@ static id singleton = nil;
 #pragma mark NSApplication Delegate Methods
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {	
+#pragma unused(theApplication)
 	BOOL retVal = NO;
 	NSString *pathExtension = [filename pathExtension];
 
@@ -697,6 +704,7 @@ static id singleton = nil;
 }
 
 - (void) applicationWillFinishLaunching:(NSNotification *)aNotification {
+#pragma unused(aNotification)
 	BOOL printVersionAndExit = [[NSUserDefaults standardUserDefaults] boolForKey:@"PrintVersionAndExit"];
 	if (printVersionAndExit) {
 		printf("This is GrowlHelperApp version %s.\n"
@@ -726,21 +734,25 @@ static id singleton = nil;
 
 //Post a notification when we are done launching so the application bridge can inform participating applications
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
+#pragma unused(aNotification)
 	[self _postGrowlIsReady];
 }
 
 //Same as applicationDidFinishLaunching, called when we are asked to reopen (that is, we are already running)
 - (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
+#pragma unused(theApplication, flag)
 	[self _postGrowlIsReady];
-	
+
 	return YES;
 }
 
 - (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
+#pragma unused(theApplication)
 	return NO;
 }
 
 - (void) applicationWillTerminate:(NSNotification *)notification {
+#pragma unused(notification)
 	[self release];
 }
 

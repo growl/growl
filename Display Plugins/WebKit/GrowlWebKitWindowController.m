@@ -163,6 +163,7 @@ static unsigned webkitWindowDepth = 0U;
 		  frame:(WebFrame *)frame
 	decisionListener:(id<WebPolicyDecisionListener>)listener
 {
+#pragma unused(sender, request, frame)
 	int actionKey = [[actionInformation objectForKey: WebActionNavigationTypeKey] intValue];
 	if (actionKey == WebNavigationTypeOther) {
 		[listener use];
@@ -182,6 +183,7 @@ static unsigned webkitWindowDepth = 0U;
  * @brief Invoked once the webview has loaded and is ready to accept content
  */
 - (void) webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
+#pragma unused(frame)
 	GrowlWebKitWindowView *view = (GrowlWebKitWindowView *)sender;
 	[view sizeToFit];
 	NSRect panelFrame = [view frame];

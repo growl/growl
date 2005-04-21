@@ -53,6 +53,7 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 }
 
 static void GlassShadeInterpolate( void *info, const float *inData, float *outData ) {
+#pragma unused(inData)
 	outData[0] = 1.0f;
 	outData[1] = 1.0f;
 	outData[2] = 1.0f;
@@ -60,13 +61,15 @@ static void GlassShadeInterpolate( void *info, const float *inData, float *outDa
 }
 
 static void GlassShineInterpolate( void *info, const float *inData, float *outData ) {
+#pragma unused(info)
 	outData[0] = 1.0f;
 	outData[1] = 1.0f;
 	outData[2] = 1.0f;
 	outData[3] = inData[0] * 0.25f;
 }
 
-- (void)drawRect:(NSRect)rect {
+- (void) drawRect:(NSRect)rect {
+#pragma unused(rect)
 	NSRect bounds = [self bounds];
 
 	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:bounds radius:BORDER_RADIUS];
@@ -383,6 +386,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 #pragma mark -
 
 - (void) mouseUp:(NSEvent *) event {
+#pragma unused(event)
 	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];
 	}

@@ -60,6 +60,7 @@
 }
 
 - (void) drawRect:(NSRect)rect {
+#pragma unused(rect)
 	NSRect bounds = [self bounds];
 
 	// clear the window
@@ -335,15 +336,18 @@
 }
 
 - (BOOL) acceptsFirstMouse:(NSEvent *) theEvent {
+#pragma unused(theEvent)
 	return YES;
 }
 
 - (void) mouseEntered:(NSEvent *)theEvent {
+#pragma unused(theEvent)
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
+#pragma unused(theEvent)
 	mouseOver = NO;
 	[self setNeedsDisplay:YES];
 	
@@ -354,6 +358,7 @@
 }
 
 - (void) mouseDown:(NSEvent *) event {
+#pragma unused(event)
 	mouseOver = NO;
 	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];

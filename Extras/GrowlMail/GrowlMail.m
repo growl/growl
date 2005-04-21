@@ -77,7 +77,7 @@ static Class growlApplicationBridge;
 	return growlApplicationBridge;
 }
 
-+ (BOOL)hasPreferencesPanel {
++ (BOOL) hasPreferencesPanel {
 	return YES;
 }
 
@@ -89,7 +89,7 @@ static Class growlApplicationBridge;
 	return @"GrowlMail";
 }
 
-- (id)init {
+- (id) init {
 	if ((self = [super init])) {
 		NSString *growlPath = [[[GrowlMail bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
 		NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
@@ -117,6 +117,7 @@ static Class growlApplicationBridge;
 }
 
 - (void) growlNotificationWasClicked:(id)clickContext {
+#pragma unused(clickContext)
 	// TODO: open a specific message if not in summary mode
 	if (![GrowlMail ignoreClickHandler])
 		[NSApp activateIgnoringOtherApps:YES];
@@ -136,8 +137,7 @@ static Class growlApplicationBridge;
 
 #pragma mark Preferences
 
-+ (BOOL) isEnabled
-{
++ (BOOL) isEnabled {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMEnableGrowlMailBundle"];
 }
 

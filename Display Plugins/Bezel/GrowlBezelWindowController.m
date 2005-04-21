@@ -22,6 +22,7 @@
 }
 
 - (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
+#pragma unused(sticky)
 	int sizePref = 0;
 	float duration = MIN_DISPLAY_TIME;
 	screenNumber = 0U;

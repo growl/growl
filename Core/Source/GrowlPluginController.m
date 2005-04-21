@@ -136,6 +136,7 @@ static GrowlPluginController *sharedController;
 }
 
 - (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+#pragma unused(sheet, contextInfo)
 	if (returnCode == NSAlertAlternateReturn) {
 		NSBundle *prefPane = [GrowlPathUtil growlPrefPaneBundle];
 
@@ -146,6 +147,7 @@ static GrowlPluginController *sharedController;
 }
 
 - (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+#pragma unused(sheet)
 	NSString *filename = (NSString *)contextInfo;
 
 	if (returnCode == NSAlertAlternateReturn) {

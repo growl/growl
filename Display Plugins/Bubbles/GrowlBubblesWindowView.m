@@ -92,6 +92,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (void) drawRect:(NSRect) rect {
+#pragma unused(rect)
 	NSRect bounds = [self bounds];
 
 	// Create a path with enough room to strike the border and remain inside our frame.
@@ -423,15 +424,18 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (BOOL) acceptsFirstMouse:(NSEvent *) event {
+#pragma unused(event)
 	return YES;
 }
 
 - (void) mouseEntered:(NSEvent *)theEvent {
+#pragma unused(theEvent)
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
+#pragma unused(theEvent)
 	mouseOver = NO;
 	[self setNeedsDisplay:YES];
 
@@ -442,6 +446,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (void) mouseDown:(NSEvent *) event {
+#pragma unused(event)
 	mouseOver = NO;
 	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];

@@ -20,7 +20,7 @@
 - (id)initWithBundle:(NSBundle *)fp8 data:(id)fp12;
 - (void)willUnload;
 - (void)dealloc;
-- (id)bundle;
+- (NSBundle *)bundle;
 - (float)length;
 - (void)setLength:(float)fp8;
 - (NSImage *)image;
@@ -44,8 +44,8 @@
 - (void)setTarget:(id)fp8;
 - (id)title;
 - (void)setTitle:(id)fp8;
-- (id)attributedTitle;
-- (void)setAttributedTitle:(id)fp8;
+- (NSAttributedString *)attributedTitle;
+- (void)setAttributedTitle:(NSAttributedString *)fp8;
 - (BOOL)isEnabled;
 - (void)setEnabled:(BOOL)fp8;
 - (void)setHighlightMode:(BOOL)fp8;

@@ -5,6 +5,7 @@
 @implementation PrefpaneTester
 
 - (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
+#pragma unused(theApplication)
 	return YES;
 }
 

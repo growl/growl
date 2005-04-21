@@ -4,12 +4,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SystemUIPlugin.h"
+//#import "SystemUIPlugin.h"
 
-@class GrowlPreferences;
+@class GrowlPreferences, NSStatusItem;
 
-@interface GrowlMenu : NSMenuExtra {
+@interface GrowlMenu : NSObject {
 	GrowlPreferences	*preferences;
+	NSStatusItem		*statusItem;
 }
 
 - (IBAction) openGrowl:(id)sender;

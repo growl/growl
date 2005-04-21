@@ -76,12 +76,14 @@
 }
 
 - (void) willFadeOut:(FadingWindowController *)sender {
+#pragma unused(sender)
 	if ([notificationQueue count] > 1U) {
 		[[notificationQueue objectAtIndex:1U] startFadeIn];
 	}
 }
 
 - (void) didFadeOut:(FadingWindowController *)sender {
+#pragma unused(sender)
 	[notificationQueue removeObjectAtIndex:0U];
 }
 

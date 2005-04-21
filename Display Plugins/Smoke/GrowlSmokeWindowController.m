@@ -33,6 +33,7 @@ static const double gMaxDisplayTime = 10.0;
 */
 
 - (void) didFadeOut:(FadingWindowController *)sender {
+#pragma unused(sender)
 	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->identifier);
 

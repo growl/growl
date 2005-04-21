@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>Growl</string>
+	<string>GrowlMenu</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Growl Menu, Copyright 2005, The Growl Project.</string>
 	<key>CFBundleIdentifier</key>
@@ -22,9 +22,9 @@
 	<string>GRWL</string>
 	<key>CFBundleVersion</key>
 	<string>0.7</string>
-	<key>NSMenuExtraWidth</key>
-	<integer>22</integer>
 	<key>NSPrincipalClass</key>
 	<string>GrowlMenu</string>
+	<key>LSUIElement</key>
+	<integer>1</integer>
 </dict>
 </plist>

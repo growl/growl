@@ -34,10 +34,12 @@
 #pragma mark -
 
 - (int) numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+#pragma unused(aComboBox)
 	return [[NSScreen screens] count];
 }
 
 - (id) comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)idx {
+#pragma unused(aComboBox)
 	return [NSNumber numberWithInt:idx];
 }
 

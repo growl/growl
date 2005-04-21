@@ -72,15 +72,18 @@
 }
 
 - (BOOL) acceptsFirstMouse:(NSEvent *) event {
+#pragma unused(event)
 	return YES;
 }
 
 - (void) mouseEntered:(NSEvent *)theEvent {
+#pragma unused(theEvent)
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
+#pragma unused(theEvent)
 	mouseOver = NO;
 	[self setNeedsDisplay:YES];
 
@@ -91,6 +94,7 @@
 }
 
 - (void) webView:(WebView *)sender makeFirstResponder:(NSResponder *)responder {
+#pragma unused(sender, responder)
 	mouseOver = NO;
 	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];
@@ -98,6 +102,7 @@
 }
 
 - (NSArray *) webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems {
+#pragma unused(sender, element, defaultMenuItems)
 	// disable context menu
 	return nil;
 }

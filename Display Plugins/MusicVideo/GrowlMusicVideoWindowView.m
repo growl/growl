@@ -244,6 +244,7 @@
 #pragma mark -
 
 - (void) mouseUp:(NSEvent *) event {
+#pragma unused(event)
 	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];
 	}

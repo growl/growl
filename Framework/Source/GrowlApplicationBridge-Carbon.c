@@ -824,6 +824,7 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 #pragma mark Notification callbacks
 
 static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+#pragma unused(center, observer, name, object, userInfo)
 	for (CFIndex dictIndex=0, numDicts = CFArrayGetCount(targetsToNotifyArray); dictIndex < numDicts; dictIndex++) {
 		CFDictionaryRef infoDict = CFArrayGetValueAtIndex(targetsToNotifyArray, dictIndex);
 
@@ -841,6 +842,7 @@ static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStri
 }
 
 static void _growlNotificationWasClicked(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+#pragma unused(center, observer, name, object)
 	if (delegate) {
 		void (*growlNotificationWasClickedCallback)(CFPropertyListRef) = delegate->growlNotificationWasClicked;
 		if (growlNotificationWasClickedCallback) {
