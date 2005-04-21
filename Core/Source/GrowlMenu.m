@@ -1,5 +1,5 @@
 //
-//  RRGrowlMenu.m
+//  GrowlMenu.m
 //  
 //
 //  Created by rudy on Sun Apr 17 2005.
@@ -10,8 +10,6 @@
 #import "GrowlPreferences.h"
 #import "GrowlPathUtil.h"
 #import "GrowlPluginController.h"
-
-#import <Cocoa/Cocoa.h>
 
 @implementation GrowlMenu
 
@@ -25,35 +23,20 @@
 	if ((self = [super initWithBundle:bundle])) {
 		preferences = [GrowlPreferences preferences];
 
-		img = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon" ofType:@"tiff"]];
-		altImg = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon-alt" ofType:@"tiff"]];
+		NSImage *img = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon" ofType:@"tiff"]];
+		NSImage *altImg = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon-alt" ofType:@"tiff"]];
+		NSMenu *m = [self buildMenu];
 
-		[self setImage:img];
-		[self setAlternateImage:altImg];
+		[self setImage:img];				// retains image
+		[self setAlternateImage:altImg];	// retains image
+		[self setMenu:m];					// retains menu
+		[self setToolTip:@"Growl"];
 
-		[self setMenu:[self buildMenu]];
+		[img release];
+		[altImg release];
+		[m release];
 	}
 	return self;
-}
-
-- (void) dealloc {
-	[menu release];
-
-	[img release];
-	[altImg release];
-
-	[super dealloc];
-}
-
-- (NSMenu *) menu {
-	return menu;
-}
-
-- (void) setMenu: (NSMenu *)m {
-	if (m != menu) {
-		[menu release];
-		menu = [m retain];
-	}
 }
 
 - (IBAction) openGrowl:(id)sender {
@@ -118,7 +101,7 @@
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kOpenGrowlPreferences action:@selector(openGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 
-	return [m autorelease];
+	return m;
 }
 
 - (BOOL) validateMenuItem:(NSMenuItem *)item {

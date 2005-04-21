@@ -16,23 +16,23 @@
     id _controller;
 }
 
-- (id)initWithBundle:(id)fp8;
-- (id)initWithBundle:(id)fp8 data:(id)fp12;
+- (id)initWithBundle:(NSBundle *)fp8;
+- (id)initWithBundle:(NSBundle *)fp8 data:(id)fp12;
 - (void)willUnload;
 - (void)dealloc;
 - (id)bundle;
 - (float)length;
 - (void)setLength:(float)fp8;
-- (id)image;
-- (void)setImage:(id)fp8;
-- (id)alternateImage;
-- (void)setAlternateImage:(id)fp8;
-- (id)menu;
-- (void)setMenu:(id)fp8;
-- (id)toolTip;
-- (void)setToolTip:(id)fp8;
-- (id)view;
-- (void)setView:(id)fp8;
+- (NSImage *)image;
+- (void)setImage:(NSImage *)fp8;
+- (NSImage *)alternateImage;
+- (void)setAlternateImage:(NSImage *)fp8;
+- (NSMenu *)menu;
+- (void)setMenu:(NSMenu *)fp8;
+- (NSString *)toolTip;
+- (void)setToolTip:(NSString *)fp8;
+- (NSView *)view;
+- (void)setView:(NSView *)fp8;
 - (BOOL)isMenuDown;
 - (void)drawMenuBackground:(BOOL)fp8;
 - (void)popUpMenu:(id)fp8;
@@ -56,38 +56,4 @@
 - (id)_button;
 - (void)_adjustLength;
 
-@end
-
-@interface NSMenuExtra (NSMenuExtraPrivate)
-+ (unsigned int)defaultLength;
-- (void)setController:(id)fp8;
-- (id)controller;
-- (void)setMenuDown:(BOOL)fp8;
-- (float)defaultLength;
-- (id)accessibilityAttributeNames;
-- (id)accessibilityAttributeValue:(id)fp8;
-- (BOOL)accessibilityIsAttributeSettable:(id)fp8;
-- (void)accessibilitySetValue:(id)fp8 forAttribute:(id)fp12;
-- (id)accessibilityActionNames;
-- (id)accessibilityActionDescription:(id)fp8;
-- (void)accessibilityPerformAction:(id)fp8;
-- (BOOL)accessibilityIsIgnored;
-- (id)accessibilityHitTest:(struct _NSPoint)fp8;
-- (id)accessibilityFocusedUIElement;
-- (id)AXRole;
-- (id)AXRoleDescription;
-- (id)AXSubrole;
-- (id)AXDescription;
-- (id)AXChildren;
-- (id)AXParent;
-- (id)AXTitle;
-- (id)AXValue;
-- (id)AXEnabled;
-- (id)AXSelected;
-- (BOOL)isAXSelectedSettable;
-- (void)setAXSelected:(id)fp8;
-- (id)AXPosition;
-- (id)AXSize;
-- (void)performAXPress;
-- (void)performAXCancel;
 @end
