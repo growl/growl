@@ -3229,7 +3229,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Core/Resources/MenuExtra-Info.plist";
+				INFOPLIST_FILE = "Core/Resources/MenuExtra/MenuExtra-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_STYLE = BUNDLE;
 				PREBINDING = YES;
