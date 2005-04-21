@@ -47,7 +47,9 @@
 
 - (BOOL) startGrowlAtLogin;
 - (void) setStartGrowlAtLogin:(BOOL)flag;
+- (void) setStartAtLogin:(NSString *)path enabled:(BOOL)flag;
 
+- (BOOL) isRunning:(NSString *)theBundleIdentifier;
 - (BOOL) isGrowlRunning;
 - (void) setGrowlRunning:(BOOL)flag noMatterWhat:(BOOL)nmw;
 - (void) launchGrowl:(BOOL)noMatterWhat;

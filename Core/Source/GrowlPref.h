@@ -136,4 +136,9 @@
 #pragma mark About Tab methods
 - (void) setupAboutTab;
 
+#pragma mark GrowlMenu method
+- (void) enableGrowlMenu;
+- (void) disableGrowlMenu;
++ (BOOL) isGrowlMenuRunning;
+
 @end

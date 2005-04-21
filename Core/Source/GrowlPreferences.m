@@ -135,13 +135,17 @@ static GrowlPreferences *sharedPreferences;
 }
 
 - (void) setStartGrowlAtLogin:(BOOL)flag {
+	//get the prefpane bundle and find GHA within it.
+	NSString *pathToGHA = [[NSBundle bundleForClass:[GrowlPreferences class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	[self setStartAtLogin:pathToGHA enabled:flag];
+}
+
+- (void) setStartAtLogin:(NSString *)path enabled:(BOOL)flag {
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 
-	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA      = [[NSBundle bundleForClass:[GrowlPreferences class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 	//get an Alias (as in Alias Manager) representation of same.
-	NSURL    *URLToGHA       = [NSURL fileURLWithPath:pathToGHA];
-	NSData   *aliasDataToGHA = [URLToGHA aliasData];
+	NSURL    *URL       = [NSURL fileURLWithPath:path];
+	NSData   *aliasData = [URL aliasData];
 
 	/*the start-at-login pref is an array of dictionaries, like so:
 	 *	{
@@ -158,10 +162,8 @@ static GrowlPreferences *sharedPreferences;
 	 *note that other GHAs are ignored.
 	 */
 	BOOL foundOne = NO;
-	unsigned i = 0U;
-	unsigned numItems;
-	
-	for (i = 0U, numItems = [loginItems count]; i < numItems; ) {
+
+	for (unsigned i = 0U, numItems = [loginItems count]; i < numItems; ) {
 		NSDictionary *item = [loginItems objectAtIndex:i];
 		BOOL thisIsUs = NO;
 
@@ -172,11 +174,11 @@ static GrowlPreferences *sharedPreferences;
 		NSData *thisAliasData = [item objectForKey:@"AliasData"];
 		if (thisAliasData) {
 			NSURL *thisURL = [NSURL fileURLWithAliasData:thisAliasData];
-			thisIsUs = [thisURL isEqual:URLToGHA];
+			thisIsUs = [thisURL isEqual:URL];
 		} else {
 			//nope, not the same alias. try comparing by path.
 			/*NSString **/thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
-			thisIsUs = (thisPath && [thisPath isEqualToString:pathToGHA]);
+			thisIsUs = (thisPath && [thisPath isEqualToString:path]);
 		}
 
 		if (thisIsUs && ((!flag) || (!foundOne))) {
@@ -193,9 +195,9 @@ static GrowlPreferences *sharedPreferences;
 		 */
 		NSNumber *hide = [[NSNumber alloc] initWithBool:NO];
 		NSDictionary *launchDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-			hide,           @"Hide",
-			pathToGHA,      @"Path",
-			aliasDataToGHA, @"AliasData",
+			hide,      @"Hide",
+			path,      @"Path",
+			aliasData, @"AliasData",
 			nil];
 		[hide release];
 		[loginItems addObject:launchDict];
@@ -225,21 +227,25 @@ static GrowlPreferences *sharedPreferences;
 		[self terminateGrowl];
 }
 
-- (BOOL) isGrowlRunning {
+- (BOOL) isRunning:(NSString *)theBundleIdentifier {
 	BOOL isRunning = NO;
 	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
-
+	
 	while (GetNextProcess(&PSN) == noErr) {
 		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
 		NSString *bundleID = [infoDict objectForKey:(NSString *)kCFBundleIdentifierKey];
-		isRunning = bundleID && [bundleID isEqualToString:@"com.Growl.GrowlHelperApp"];
+		isRunning = bundleID && [bundleID isEqualToString:theBundleIdentifier];
 		[infoDict release];
-
+		
 		if (isRunning)
 			break;
 	}
-
+	
 	return isRunning;
+}
+
+- (BOOL) isGrowlRunning {
+	return [self isRunning:@"com.Growl.GrowlHelperApp"];
 }
 
 - (void) launchGrowl:(BOOL)noMatterWhat {
@@ -259,8 +265,8 @@ static GrowlPreferences *sharedPreferences;
 		if (noMatterWhat)
 			spec.launchFlags = spec.launchFlags | kLSLaunchNewInstance;
 		spec.asyncRefCon = NULL;
-		status = LSOpenFromRefSpec(&spec, NULL);
-	}	
+		LSOpenFromRefSpec(&spec, NULL);
+	}
 }
 
 - (void) terminateGrowl {

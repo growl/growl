@@ -154,47 +154,39 @@
 }
 
 + (BOOL) isGrowlMenuRunning {
-	BOOL growlMenuIsRunning = NO;
-	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
-
-	while (GetNextProcess(&PSN) == noErr) {
-		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-
-		if ([[infoDict objectForKey:(NSString *)kCFBundleIdentifierKey] isEqualToString:@"com.Growl.MenuExtra"]) {
-			growlMenuIsRunning = YES;
-			[infoDict release];
-			break;
-		}
-		[infoDict release];
-	}
-
-	return growlMenuIsRunning;
+	return [[GrowlPreferences preferences] isRunning:@"com.Growl.MenuExtra"];
 }
 
-- (void) startGrowlMenu {
+- (void) enableGrowlMenu {
 	NSString *growlMenuPath = [[self bundle] pathForResource:@"GrowlMenu" ofType:@"app"];
-	NSLog(@"growlMenuPath=%@", growlMenuPath);
+
+	// Add to login items
+	[[GrowlPreferences preferences] setStartAtLogin:growlMenuPath enabled:YES];
+
 	// We want to launch in background, so we have to resort to Carbon
 	LSLaunchFSRefSpec spec;
 	FSRef appRef;
 	OSStatus status = FSPathMakeRef((const UInt8 *)[growlMenuPath fileSystemRepresentation], &appRef, NULL);
 
 	if (status == noErr) {
-		NSLog(@"noErr");
 		spec.appRef = &appRef;
 		spec.numDocs = 0;
 		spec.itemRefs = NULL;
 		spec.passThruParams = NULL;
 		spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
 		spec.asyncRefCon = NULL;
-		status = LSOpenFromRefSpec(&spec, NULL);
-		NSLog(@"status=%d", status);
+		LSOpenFromRefSpec(&spec, NULL);
 	}	
 }
 
-- (void) stopGrowlMenu {
-	// Ask the GrowlMenu to shutdown via the DNC
+- (void) disableGrowlMenu {
+	NSString *growlMenuPath = [[self bundle] pathForResource:@"GrowlMenu" ofType:@"app"];
+
+	// Ask GrowlMenu to shutdown via the DNC
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GrowlMenuShutdown" object:nil];
+
+	// Remove from login items
+	[[GrowlPreferences preferences] setStartAtLogin:growlMenuPath enabled:NO];
 }
 
 - (void) awakeFromNib {
@@ -247,7 +239,7 @@
 	[self setupAboutTab];
 
 	if (menuExtraState && ![GrowlPref isGrowlMenuRunning]) {
-		[self startGrowlMenu];
+		[self enableGrowlMenu];
 	}
 }
 
@@ -495,9 +487,9 @@
 	[[GrowlPreferences preferences] setBool:state forKey:GrowlMenuExtraKey];
 	NSLog(@"Growl Menu Extra checkbox state: %i\n", state); 
 	if (state) {
-		[self startGrowlMenu];
+		[self enableGrowlMenu];
 	} else {
-		[self stopGrowlMenu];
+		[self disableGrowlMenu];
 	}
 }
 
