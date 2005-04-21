@@ -196,12 +196,9 @@
 	[browser setDelegate:self];
 	[browser searchForServicesOfType:@"_growl._tcp." inDomain:@""];
 	
-	UInt32 extraID = 0;
-	CoreMenuExtraGetMenuExtra (CFSTR("com.Growl.MenuExtra"), &extraID);
-	if (extraID)
-		[menuExtraEnabled setState:YES];
-	else
-		[menuExtraEnabled setState:NO];
+	UInt32 extraID = 0U;
+	CoreMenuExtraGetMenuExtra(CFSTR("com.Growl.MenuExtra"), &extraID);
+	[menuExtraEnabled setState:(extraID != 0U)];
 	[self setupAboutTab];
 }
 
@@ -442,18 +439,18 @@
 #pragma mark Menu Extra
 
 - (IBAction) menuExtraStateChange:(id)sender {
-	BOOL state = [[GrowlPreferences preferences] boolForKey:GrowlMenuExtraKey];
-	[[GrowlPreferences preferences] setBool:!state forKey:GrowlMenuExtraKey];
+	BOOL state = ([sender state] == NSOnState);
+	[[GrowlPreferences preferences] setBool:state forKey:GrowlMenuExtraKey];
 	NSLog(@"Growl Menu Extra checkbox state: %i\n", state); 
 	if (state) {
-		//turn off
-		UInt32 extraID = 0U;
-		CoreMenuExtraGetMenuExtra (CFSTR("com.Growl.MenuExtra"), &extraID);
-		CoreMenuExtraRemoveMenuExtra(extraID, CFSTR("com.Growl.MenuExtra"));
-	} else {
 		//turn on
 		NSURL *url = [NSURL fileURLWithPath:[[GrowlPathUtil growlPrefPaneBundle] pathForResource:@"Growl" ofType:@"menu"]];
-		CoreMenuExtraAddMenuExtra ((CFURLRef)url, /*position*/ 0, /*reserved*/ 0U, /*inData*/ NULL, /*inSize*/ 0, /*outExtra*/ NULL);
+		CoreMenuExtraAddMenuExtra((CFURLRef)url, /*position*/ 0, /*reserved*/ 0U, /*inData*/ NULL, /*inSize*/ 0, /*outExtra*/ NULL);
+	} else {
+		//turn off
+		UInt32 extraID = 0U;
+		CoreMenuExtraGetMenuExtra(CFSTR("com.Growl.MenuExtra"), &extraID);
+		CoreMenuExtraRemoveMenuExtra(extraID, CFSTR("com.Growl.MenuExtra"));
 	}
 }
 
