@@ -14,5 +14,7 @@
 	<string>Anzeigestil</string>
 	<key>Squelch mode</key>
 	<string>Stiller Modus</string>
+	<key>Quit GrowlMenu</key>
+	<string>GrowlMenu beenden</string>
 </dict>
 </plist>

@@ -10,6 +10,8 @@
 #import "GrowlPreferences.h"
 #import "GrowlPathUtil.h"
 #import "GrowlPluginController.h"
+#import "NSGrowlAdditions.h"
+
 
 #define kRestartGrowl         NSLocalizedString(@"Restart Growl", @"")
 #define kStartGrowl           NSLocalizedString(@"Start Growl", @"")
@@ -17,6 +19,8 @@
 #define kDefaultDisplay       NSLocalizedString(@"Default display", @"")
 #define kOpenGrowlPreferences NSLocalizedString(@"Open Growl preferences...", @"")
 #define kSquelchMode          NSLocalizedString(@"Squelch mode", @"")
+#define kStopGrowlMenu        NSLocalizedString(@"Quit GrowlMenu", @"")
+
 
 /*
  *  HelperMain.m
@@ -118,6 +122,16 @@ int main(void) {
 	[preferences setBool:![preferences boolForKey:GrowlSquelchModeKey] forKey:GrowlSquelchModeKey];
 }
 
+- (IBAction) quitMenuExtra:(id)sender {
+#pragma unused(sender)
+	NSString *growlMenuPath = [[NSBundle mainBundle] bundlePath];
+	[preferences setStartAtLogin:growlMenuPath enabled:NO];
+	[preferences setBool:NO forKey:GrowlMenuExtraKey];
+
+	[NSApp terminate:self];
+}
+
+
 - (NSMenu *) buildMenu {
 	NSMenu *m = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 
@@ -133,7 +147,11 @@ int main(void) {
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowl action:@selector(stopGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTag:2];
 	[tempMenuItem setTarget:self];
-
+	
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(quitMenuExtra:) keyEquivalent:@""];
+	[tempMenuItem setTag:5];
+	[tempMenuItem setTarget:self];
+	
 	[m addItem:[NSMenuItem separatorItem]];
 
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kSquelchMode action:@selector(squelchMode:) keyEquivalent:@""];

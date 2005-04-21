@@ -14,5 +14,7 @@
 	<string>Default display</string>
 	<key>Squelch mode</key>
 	<string>Squelch mode</string>
+	<key>Quit GrowlMenu</key>
+	<string>Quit GrowlMenu</string>
 </dict>
 </plist>
