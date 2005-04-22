@@ -7,7 +7,6 @@
                 customFileChosen = id; 
                 deleteTicket = id; 
                 logTypeChanged = id; 
-                menuExtraStateChange = id; 
                 openConsoleApp = id; 
                 resolveService = id; 
                 showPreview = id; 
@@ -31,7 +30,6 @@
                 growlRunningStatus = NSTextField; 
                 growlVersionProgress = NSProgressIndicator; 
                 logFileType = NSMatrix; 
-                menuExtraEnabled = NSButton; 
                 notificationPriorityMenu = NSMenu; 
                 notificationsArrayController = NSArrayController; 
                 previewButton = NSButton; 

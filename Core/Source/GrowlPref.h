@@ -38,7 +38,6 @@
 	IBOutlet NSProgressIndicator	*growlRunningProgress;
 	IBOutlet NSProgressIndicator	*growlVersionProgress;
 	IBOutlet NSArrayController		*notificationsArrayController;
-	IBOutlet NSButton				*menuExtraEnabled;
 
 	// Logging
 	IBOutlet NSMatrix				*logFileType;
@@ -95,11 +94,17 @@
 - (BOOL) loggingEnabled;
 - (void) setLoggingEnabled:(BOOL)flag;
 
-- (IBAction) menuExtraStateChange:(id)sender;
 - (IBAction) logTypeChanged:(id)sender;
 - (IBAction) openConsoleApp:(id)sender;
 - (IBAction) customFileChosen:(id)sender;
 - (void) updateLogPopupMenu;
+
+#pragma mark GrowlMenu methods
+- (void) enableGrowlMenu;
+- (void) disableGrowlMenu;
++ (BOOL) isGrowlMenuRunning;
+- (BOOL) growlMenuEnabled;
+- (void) setGrowlMenuEnabled:(BOOL)state;
 
 #pragma mark "Network" tab pane
 - (BOOL) isGrowlServerEnabled;
@@ -135,10 +140,5 @@
 
 #pragma mark About Tab methods
 - (void) setupAboutTab;
-
-#pragma mark GrowlMenu method
-- (void) enableGrowlMenu;
-- (void) disableGrowlMenu;
-+ (BOOL) isGrowlMenuRunning;
 
 @end

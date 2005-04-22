@@ -131,7 +131,6 @@ int main(void) {
 	[NSApp terminate:self];
 }
 
-
 - (NSMenu *) buildMenu {
 	NSMenu *m = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 

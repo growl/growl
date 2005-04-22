@@ -234,11 +234,9 @@
 	[browser setDelegate:self];
 	[browser searchForServicesOfType:@"_growl._tcp." inDomain:@""];
 
-	BOOL menuExtraState = [[GrowlPreferences preferences] boolForKey:GrowlMenuExtraKey];
-	[menuExtraEnabled setState:menuExtraState];
 	[self setupAboutTab];
 
-	if (menuExtraState && ![GrowlPref isGrowlMenuRunning]) {
+	if ([self growlMenuEnabled] && ![GrowlPref isGrowlMenuRunning]) {
 		[self enableGrowlMenu];
 	}
 }
@@ -346,7 +344,7 @@
 
 	// If Growl is enabled, ensure the helper app is launched
 	if ([preferences boolForKey:GrowlEnabledKey]) {
-		[[GrowlPreferences preferences] launchGrowl:NO];
+		[preferences launchGrowl:NO];
 	}
 
 	if ([plugins count] > 0U) {
@@ -482,8 +480,11 @@
 
 #pragma mark Menu Extra
 
-- (IBAction) menuExtraStateChange:(id)sender {
-	BOOL state = ([sender state] == NSOnState);
+- (BOOL) growlMenuEnabled {
+	return [[GrowlPreferences preferences] boolForKey:GrowlMenuExtraKey];
+}
+
+- (void) setGrowlMenuEnabled:(BOOL)state {
 	[[GrowlPreferences preferences] setBool:state forKey:GrowlMenuExtraKey];
 	NSLog(@"Growl Menu Extra checkbox state: %i\n", state); 
 	if (state) {
@@ -898,6 +899,7 @@
 		}
 	}
 }
+
 #pragma mark About Tab
 
 - (void) setupAboutTab {
