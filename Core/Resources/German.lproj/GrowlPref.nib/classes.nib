@@ -8,6 +8,9 @@
                 deleteTicket = id; 
                 logTypeChanged = id; 
                 openConsoleApp = id; 
+                openGrowlForum = id; 
+                openGrowlTrac = id; 
+                openGrowlWebSite = id; 
                 resolveService = id; 
                 showPreview = id; 
                 startStopGrowl = id; 
@@ -26,9 +29,12 @@
                 displayPrefView = NSView; 
                 displayVersion = NSTextField; 
                 growlApplications = NSTableView; 
+                growlForum = NSButton; 
                 growlRunningProgress = NSProgressIndicator; 
                 growlRunningStatus = NSTextField; 
+                growlTrac = NSButton; 
                 growlVersionProgress = NSProgressIndicator; 
+                growlWebSite = NSButton; 
                 logFileType = NSMatrix; 
                 notificationPriorityMenu = NSMenu; 
                 notificationsArrayController = NSArrayController; 

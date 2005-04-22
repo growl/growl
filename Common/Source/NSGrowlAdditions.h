@@ -21,7 +21,7 @@
 - (unsigned) unsignedIntValue;
 
 - (BOOL) isSubpathOf:(NSString *)superpath;
-
+- (NSAttributedString *) hyperlink;
 @end
 
 @interface NSURL (GrowlAdditions)

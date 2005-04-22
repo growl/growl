@@ -44,6 +44,18 @@
 		|| [canonicalSubpath hasPrefix:[canonicalSuperpath stringByAppendingString:@"/"]];
 }
 
+- (NSAttributedString *) hyperlink {
+	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+		[NSNumber numberWithInt:NSSingleUnderlineStyle], NSUnderlineStyleAttributeName,
+		self, NSLinkAttributeName,    // link to self
+		[NSFont systemFontOfSize:[NSFont smallSystemFontSize]],	NSFontAttributeName,
+		[NSColor blueColor], NSForegroundColorAttributeName,
+		[NSCursor pointingHandCursor], NSCursorAttributeName,
+        nil];
+	NSAttributedString *result = [[[NSAttributedString alloc] initWithString:self attributes:attributes] autorelease];
+	[attributes release];
+	return result;
+}
 @end
 
 #pragma mark -

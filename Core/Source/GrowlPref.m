@@ -87,6 +87,9 @@
 	[downloadURL     release];
 	[plugins         release];
 	[currentPlugin   release];
+	[growlWebSiteURL release];
+	[growlForumURL   release];
+	[growlTracURL    release];
 	[super dealloc];
 }
 
@@ -239,6 +242,13 @@
 	if ([self growlMenuEnabled] && ![GrowlPref isGrowlMenuRunning]) {
 		[self enableGrowlMenu];
 	}
+
+	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
+	growlForumURL = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
+	growlTracURL = [[NSURL alloc] initWithString:@"http://trac.growl.info/trac"];
+	[growlWebSite setAttributedTitle:[[growlWebSiteURL absoluteString] hyperlink]];
+	[growlForum setAttributedTitle:[[growlForumURL absoluteString] hyperlink]];
+	[growlTrac setAttributedTitle:[[growlTracURL absoluteString] hyperlink]];
 }
 
 - (void) mainViewDidLoad {
@@ -904,6 +914,21 @@
 
 - (void) setupAboutTab {
 	[aboutBoxTextView readRTFDFromFile:[[self bundle] pathForResource:@"About" ofType:@"rtf"]];
+}
+
+- (IBAction) openGrowlWebSite:(id)sender {
+#pragma unused(sender)
+	[[NSWorkspace sharedWorkspace] openURL:growlWebSiteURL];
+}
+
+- (IBAction) openGrowlForum:(id)sender {
+#pragma unused(sender)
+	[[NSWorkspace sharedWorkspace] openURL:growlForumURL];
+}
+
+- (IBAction) openGrowlTrac:(id)sender {
+#pragma unused(sender)
+	[[NSWorkspace sharedWorkspace] openURL:growlTracURL];
 }
 
 #pragma mark TableView delegate methods

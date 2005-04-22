@@ -68,6 +68,12 @@
 
 	//About box tab pane
 	IBOutlet NSTextView				*aboutBoxTextView;
+	IBOutlet NSButton				*growlWebSite;
+	IBOutlet NSButton				*growlForum;
+	IBOutlet NSButton				*growlTrac;
+	NSURL							*growlWebSiteURL;
+	NSURL							*growlForumURL;
+	NSURL							*growlTracURL;
 }
 
 - (NSString *) bundleVersion;
@@ -140,5 +146,8 @@
 
 #pragma mark About Tab methods
 - (void) setupAboutTab;
+- (IBAction) openGrowlWebSite:(id)sender;
+- (IBAction) openGrowlForum:(id)sender;
+- (IBAction) openGrowlTrac:(id)sender;
 
 @end
