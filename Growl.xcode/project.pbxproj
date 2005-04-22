@@ -1959,9 +1959,6 @@
 				343345880790E3D600C84B15,
 				3433458A0790E3D600C84B15,
 				93E0E9E3080F0F42004FFB1D,
-				959DBE4B08127BA4009BB468,
-				950568E50812C2960096EC5C,
-				955C236D081537280013C3CF,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3203,12 +3200,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		950568E50812C2960096EC5C = {
-			fileRef = 950568E30812C2960096EC5C;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		950568E60812C2960096EC5C = {
 			fileRef = 950568E40812C2960096EC5C;
 			isa = PBXBuildFile;
@@ -4129,12 +4120,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		955C236D081537280013C3CF = {
-			fileRef = 955C236B081537280013C3CF;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		955C236E081537280013C3CF = {
 			fileRef = 955C236C081537280013C3CF;
 			isa = PBXBuildFile;
@@ -4358,12 +4343,6 @@
 			path = Common/Source/GrowlPathUtil.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		959DBE4B08127BA4009BB468 = {
-			fileRef = 959DBE4908127BA4009BB468;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		959DBE4C08127BA4009BB468 = {
 			fileRef = 959DBE4A08127BA4009BB468;
@@ -5128,7 +5107,6 @@
 				52861FF006DC463E00D3A356,
 				954F013D074135D400EA8AB5,
 				95BF837D0743675700306A77,
-				DDB6462707DE034800807F8D,
 				950F798A080EED7400CC5F62,
 			);
 			isa = PBXResourcesBuildPhase;
@@ -5417,12 +5395,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		DDB6462707DE034800807F8D = {
-			fileRef = DDB6462607DE034800807F8D;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DDB6463707DE04A700807F8D = {
 			children = (
 				DDB6462607DE034800807F8D,
@@ -5436,9 +5408,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDF09B1F080AC97A006F4172,
-				DDF09B20080AC97A006F4172,
 				DDF09B22080AC97A006F4172,
-				DDF09C12080AD264006F4172,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5612,12 +5582,6 @@
 			settings = {
 			};
 		};
-		DDF09B20080AC97A006F4172 = {
-			fileRef = DDF09B1B080AC97A006F4172;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DDF09B21080AC97A006F4172 = {
 			fileRef = DDF09B1C080AC97A006F4172;
 			isa = PBXBuildFile;
@@ -5662,12 +5626,6 @@
 			path = "Prefpane TestHarness/generateBuildPath.sh";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		DDF09C12080AD264006F4172 = {
-			fileRef = DDF09C11080AD264006F4172;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DDF09C13080AD2E8006F4172 = {
 			buildActionMask = 2147483647;
