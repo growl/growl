@@ -65,9 +65,9 @@
 	NSNetServiceBrowser				*browser;
 	NSNetService					*serviceBeingResolved;
 	int								currentServiceIndex;
-	
-	//Aboutbox tab pane
-	IBOutlet NSTextView			*aboutBoxTextView;
+
+	//About box tab pane
+	IBOutlet NSTextView				*aboutBoxTextView;
 }
 
 - (NSString *) bundleVersion;
