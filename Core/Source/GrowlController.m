@@ -188,6 +188,7 @@ static id singleton = nil;
 	[serverConnection registerName:nil];	// unregister
 	[serverConnection invalidate];
 	[serverConnection release];
+	[socketPort invalidate];
 	[socketPort release];
 	[server release];
 	[service stop];
@@ -361,6 +362,8 @@ static id singleton = nil;
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
 				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
 				[growlProxy postNotificationWithDictionary:dict];
+				[connection invalidate];
+				[serverPort invalidate];
 				[serverPort release];
 				[connection release];
 			}
@@ -418,6 +421,8 @@ static id singleton = nil;
 					[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
 					id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
 					[growlProxy registerApplicationWithDictionary:userInfo];
+					[connection invalidate];
+					[serverPort invalidate];
 					[serverPort release];
 					[connection release];
 				}
