@@ -137,6 +137,260 @@
 		</chapter>
 		<chapter>
 			<title>Extras</title>
+			<sect1 id="growltunes">
+				<title>GrowlTunes</title>
+				<sect3>
+					<title>Requirements</title>
+					<itemizedlist>
+						<listitem>Mac OS X 10.3 or higher</listitem>
+						<listitem>iTunes</listitem>
+						<listitem>Growl</listitem>
+					</itemizedlist>
+				</sect3>
+
+				<sect3>
+					<title>Installing GrowlTunes</title>
+					<inlinemediaobject>
+						<imageobject>
+							<imagedata fileref="../img/growlTunesIcon.png" format="PNG"/>
+						</imageobject>
+					</inlinemediaobject>
+					<para>Place GrowlTunes in your Applications folder by dragging and dropping it from the GrowlTunes disk image.</para>
+				</sect3>
+
+				<sect3>
+					<title>Using GrowlTunes</title>
+					<inlinemediaobject>
+						<imageobject>
+							<imagedata fileref="../img/growlTunesMenuIcon.png" format="PNG"/>
+						</imageobject>
+					</inlinemediaobject>
+					<para>Once you have installed GrowlTunes, double click it. This will put the headphones shown here in the menubar at the top of your screen. From here you can control GrowlTunes.</para>
+
+					<para>For users of iTunes 4.7 and later, that is all you have to do to get GrowlTunes working. Note: GrowlTunes does not poll for its information with iTunes 4.7 and later.</para>
+					<para>For iTunes 4.6 and below, the most important part of using GrowlTunes is the polling button at the bottom of the menu. This allows you to turn on and off polling of iTunes (asking it what song is currently being played).</para>
+					<para>Once you get GrowlTunes to start polling, you should see a bubble like the image below. You will see one of these each time the track changes in iTunes.</para>
+					<para>
+						<inlinemediaobject>
+							<imageobject>
+								<imagedata fileref="../img/growltunes2.png" format="PNG"/>
+							</imageobject>
+						</inlinemediaobject>
+					</para>
+				</sect3>
+
+				<sect3>
+					<title>Artwork</title>
+					<para>Starting with Growl 0.6, GrowlTunes can get artwork from Amazon.com. (Growl 0.5 came with a version that did not have this capability.) If GrowlTunes does not see artwork in the current track playing, and it also does not see that the album artwork was previously downloaded, it will download the track. GrowlTunes does not write this information to the track, but instead to files on disk. GrowlTunes will place the downloaded artwork in your home directory, in Library/Images/Music.</para>
+				</sect3>
+			</sect1>
+
+			<sect1>
+				<title>GrowlMail</title>
+				<sect3>
+					<title>About GrowlMail</title>
+					<para>GrowlMail is a plug-in for <ulink url="http://www.apple.com/macosx/features/mail/">Apple Mail</ulink> that posts a Growl notification every time new mail arrives containing the text of the message.</para>
+				</sect3>
+				<sect3>
+					<title>Installing GrowlMail</title>
+					<para>Move the GrowlMail.mailbundle package into <code>~/Library/Mail/Bundles/</code>, quit Mail.app, and run the following 2 commands in the terminal:</para>
+					<blockquote>
+						<code>defaults write com.apple.mail EnableBundles -bool True
+defaults write com.apple.mail BundleCompatibilityVersion 1</code>
+					</blockquote>
+					<para>Now relaunch Mail.app. Whenever new mail arrives, Growl will display a notification.</para>
+				</sect3>
+				<sect3>
+					<title>Compiling GrowlMail yourself</title>
+					<para><emphasis>If you're happy with the pre-built GrowlMail available at the <ulink url="http://growl.info/downloads.php">Downloads</ulink> page, you don't need to read this section.</emphasis></para>
+					<para>GrowlMail relies on having Growl compiled and installed, and Growl.framework compiled (the framework does not need to be installed anywhere). Once these tasks are complete, compiling GrowlMail is easy.</para>
+					<para>GrowlMail lives in the <code>Extras/GrowlMail/</code> directory. Simply open GrowlMail.xcode, select the build style you wish to use, and build. The finished product will be called <code>GrowlMail.mailbundle</code> and will be in the <code>build</code> directory.</para>
+				</sect3>
+			</sect1>
+
+			<sect1>
+				<title>GrowlSafari</title>
+				<sect3>
+					<title>Requirements</title>
+					<itemizedlist>
+						<listitem>OS X 10.3 or higher</listitem>
+						<listitem>Safari 1.1 or higher</listitem>
+						<listitem>Growl</listitem>
+					</itemizedlist>
+				</sect3>
+
+				<sect3>
+					<title>About</title>
+					<para>GrowlSafari is a plug-in to Safari to make it post Growl notifications on download-related events.</para>
+				</sect3>
+
+				<sect3>
+					<title>Installing GrowlSafari</title>
+					<para>GrowlSafari requires <ulink url="http://culater.net/software/SIMBL/SIMBL.php">SIMBL</ulink>.  If you have <ulink url="http://culater.net/software/PithHelmet/PithHelmet.php">PithHelmet</ulink> installed, then you already have SIMBL.</para>
+
+					<para>Once SIMBL is installed, put <emphasis role="bold">GrowlSafari.bundle</emphasis> into <emphasis role="bold">/Library/Application Support/SIMBL/Plugins</emphasis></para>
+
+					<para>Then restart Safari.</para>
+
+					<para>You should now receive Growl notifications when downloads complete.</para>
+				</sect3>
+
+				<sect3>
+					<title>Notification Types</title>
+				<para>Currently, GrowlSafari posts notifications for these events:</para>
+				<itemizedlist>
+					<listitem>Decompression started</listitem>
+					<listitem>Copying disk image</listitem>
+					<listitem>Download complete</listitem>
+					<listitem>Mounting disk image</listitem>
+				</itemizedlist>
+				</sect3>
+
+				<sect3>
+					<title>Compatibility</title>
+					<para>GrowlSafari works in all versions of Safari (except 1.0) on Mac OS X 10.3 or later.</para>
+				</sect3>
+			</sect1>
+
+			<sect1>
+				<title>GrowlDict</title>
+				<sect3>
+					<title>Requirements</title>
+					<itemizedlist>
+						<listitem>OS X 10.3 or higher</listitem>
+						<listitem>Growl</listitem>
+					</itemizedlist>
+				</sect3>
+
+				<sect3>
+					<title>Installing GrowlDict</title>
+					<inlinemediaobject>
+						<imageobject>
+							<imagedata fileref="../img/growldict.png" format="PNG"/>
+						</imageobject>
+					</inlinemediaobject>
+					<para>In order to install GrowlDict, you will need to place it into the Library/Services folder, located in your home directory. Once GrowlDict is placed there, you will need to log out of your computer, and then log back in.</para>
+				</sect3>
+
+				<sect3>
+					<title>Using GrowlDict</title>
+					<para>Once you have logged back in, you will be able to use GrowlDict. Using GrowlDict is a 3 step process:</para>
+
+					<orderedlist>
+						<listitem>Select the text you would like to look up.
+							<para>
+								<inlinemediaobject>
+									<imageobject>
+										<imagedata fileref="../img/growldict_hilight.png" format="PNG"/>
+									</imageobject>
+								</inlinemediaobject>
+							</para>
+						</listitem>
+
+						<listitem>Select the GrowlDict service in the Services menu for the application with the word you want to look up.
+							<para>
+								<inlinemediaobject>
+									<imageobject>
+										<imagedata fileref="../img/growldict_selection.png" format="PNG"/>
+									</imageobject>
+								</inlinemediaobject>
+							</para>
+						</listitem>
+
+						<listitem>The definition will appear in a Growl notification.
+							<para>
+								<inlinemediaobject>
+									<imageobject>
+										<imagedata fileref="../img/growldict_notification.png" format="PNG"/>
+									</imageobject>
+								</inlinemediaobject>
+							</para>
+						</listitem>
+					</orderedlist>
+				</sect3>
+			</sect1>
+
+			<sect1>
+				<title>growlnotify</title>
+				<inlinemediaobject>
+					<imageobject>
+						<imagedata fileref="../img/executableIcon.png" format="PNG"/>
+					</imageobject>
+				</inlinemediaobject>
+			
+				<sect3>
+					<title>About</title>
+					<para><code>growlnotify</code> is a command-line tool to post Growl notifications. You can control all aspects of the notification (within any boundaries set up in the Growl pane of System Preferences). It can be very useful in shell scripts.</para>
+				</sect3>
+
+				<sect3>
+					<title>Installing</title>
+					<para>In your shell, cd to the directory on the Growl disk image containing <code>growlnotify</code>, and type <code>./install.sh</code>. That script will install <code>growlnotify</code> to <code>/usr/local/bin</code> and the manpage to <code>/usr/local/man</code>.</para>
+				</sect3>
+
+				<sect3>
+					<title>Building from sources</title>
+					<para>Running '<code>make</code>' will build <code>growlnotify</code> into your build folder if you want to test it before installation.</para>
+					<para>Running '<code>make install</code>' will install <code>growlnotify</code> into <code>/usr/local/bin</code> and install the manpage into <code>/usr/local/man</code>. It will also do a build first if necessary.</para>
+					<para>The Makefile uses <code>xcodebuild</code> internally, with the Deployment buildstyle.</para>
+				</sect3>
+
+				<sect3>
+					<title>Usage</title>
+					<code>
+Usage: growlnotify [-hs] [-i ext] [-I filepath] [--image filepath]
+[-p priority] [title]
+Options:
+    -h,--help     Display this help
+    -n,--name     Set the name of the application that sends the notification
+                  [Default: growlnotify]
+    -s            Make the notification sticky
+    -a,--appIcon  Specify an application name  to take the icon from
+    -i,--icon     Specify a file type or extension to look up for
+    the notification icon
+    -I,--iconpath Specify a file whose icon will be the notification icon
+    --image       Specify an image file to be used for the notification icon
+    -p,--priority Specify an int or named key (default is 0)
+
+Display a notification using the title given on the command-line and the
+message given in the standard input.
+
+Priority can be one of the following named keys: Very Low, Moderate, 
+Normal, High,
+Emergency. It can also be an int between -2 and 2.
+
+To be compatible with gNotify the following switches are accepted:
+    -t,--title    Does nothing. Any text following will be treated as the
+                  title because that's the default argument behaviour
+    -m,--message  Sets the message to the following instead of using stdin
+    </code>
+
+					<para>The manpage provides more information on the usage of <code>growlnotify</code>. Just type '<code>man 1 growlnotify</code>' after installing <code>growlnotify</code>.</para>
+				</sect3>
+			</sect1>
+
+			<sect1>
+				<title>MacYac</title>
+				<inlinemediaobject>
+					<imageobject>
+						<imagedata fileref="../img/executableIcon.png" format="PNG"/>
+					</imageobject>
+				</inlinemediaobject>
+
+				<sect2>
+					<title>About</title>
+					<para>A client for the <ulink url="http://sunflowerhead.com/software/yac/">Yac</ulink> Caller-ID application.</para>
+
+					<para>Author:	Andrew Wellington (proton)</para>
+
+					<para>License:	BSD</para>
+				</sect2>
+
+				<sect2>
+					<title>Download</title>
+					<para>The MacYac source is available from the <ulink url="http://growl.info/downloads.php">Downloads</ulink> page.</para>
+				</sect2>
+			</sect1>
 		</chapter>
 	</book>
 </set>
