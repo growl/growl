@@ -296,7 +296,6 @@
 				07944BBB07C3C540002D0BAF,
 				8D5B49B1048680CD000E48DA,
 				8D5B49B3048680CD000E48DA,
-				8D5B49B5048680CD000E48DA,
 			);
 			buildRules = (
 			);
@@ -380,13 +379,6 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
-		};
-		8D5B49B5048680CD000E48DA = {
-			buildActionMask = 2147483647;
-			files = (
-			);
-			isa = PBXRezBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8D5B49B6048680CD000E48DA = {
 			explicitFileType = wrapper.cfbundle;

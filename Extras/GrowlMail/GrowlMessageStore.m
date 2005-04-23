@@ -37,18 +37,18 @@
 #import "GrowlMail.h"
 #import <Growl/Growl.h>
 
+#define MODE_AUTO		0
+#define MODE_SINGLE		1
+#define MODE_SUMMARY	2
+
+#define AUTO_THRESHOLD	10
+
 static NSMutableArray *collectedMessages;
 
 @implementation GrowlMessageStore
 + (void) load {
 	[GrowlMessageStore poseAsClass:[MessageStore class]];
 }
-
-#define MODE_AUTO		0
-#define MODE_SINGLE		1
-#define MODE_SUMMARY	2
-
-#define AUTO_THRESHOLD	10
 
 - (void) showSummary {
 	Message *message;
@@ -71,9 +71,8 @@ static NSMutableArray *collectedMessages;
 		case MODE_SINGLE:
 			while ((message = [e nextObject])) {
 				// NSLog( @"Message class: %@", [message className] );
-				MailAccount *account = [[message messageStore] account];
 				if (!([message isKindOfClass: tocClass] || ([message isJunk] && [GrowlMail isIgnoreJunk]))
-						&& [growlMail isAccountEnabled:[account path]] ) {
+						&& [growlMail isAccountEnabled:[[[message messageStore] account] path]] ) {
 					[message showNotification];
 				}
 			}
@@ -128,9 +127,9 @@ static NSMutableArray *collectedMessages;
 	if ([GrowlMail isEnabled]) {
 		if (!collectedMessages) {
 			collectedMessages = [[NSMutableArray alloc] init];
-			[self performSelector:@selector(showSummary)
-					   withObject:nil
-					   afterDelay:0.0];
+			[self performSelectorOnMainThread:@selector(showSummary)
+								   withObject:nil
+								waitUntilDone:NO];
 		}
 		[collectedMessages addObjectsFromArray:messages];
 	}
