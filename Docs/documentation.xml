@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <book>
 	<title>Growl Documentation</title>
-	<chapter>
+	<chapter id="getting-started">
 		<title>Getting Started</title>
 		<sect1 id="growl-package-install">
 			<title>Installing Growl from Disk Image/Package</title>
@@ -133,7 +133,7 @@
 			<para>One note, if you are uninstalling Growl for a reason that the developers might want to know about, please email us at discuss &#x41;&#x54; growl.info and we can look into fixing those problems.</para>
 		</sect1>
 	</chapter>
-	<chapter>
+	<chapter id="extras">
 		<title>Extras</title>
 		<sect1 id="growltunes">
 			<title>GrowlTunes</title>
@@ -186,7 +186,7 @@
 			</sect2>
 		</sect1>
 
-		<sect1>
+		<sect1 id="growlmail">
 			<title>GrowlMail</title>
 			<sect2>
 				<title>About GrowlMail</title>
@@ -211,7 +211,7 @@ defaults write com.apple.mail BundleCompatibilityVersion 1
 			</sect2>
 		</sect1>
 
-		<sect1>
+		<sect1 id="growlsafari">
 			<title>GrowlSafari</title>
 			<sect2>
 				<title>Requirements</title>
@@ -255,7 +255,7 @@ defaults write com.apple.mail BundleCompatibilityVersion 1
 			</sect2>
 		</sect1>
 
-		<sect1>
+		<sect1 id="growldict">
 			<title>GrowlDict</title>
 			<sect2>
 				<title>Requirements</title>
@@ -326,7 +326,7 @@ defaults write com.apple.mail BundleCompatibilityVersion 1
 			</sect2>
 		</sect1>
 
-		<sect1>
+		<sect1 id="growlnotify">
 			<title>growlnotify</title>
 			<mediaobject>
 				<imageobject>
@@ -388,7 +388,7 @@ To be compatible with gNotify the following switches are accepted:
 			</sect2>
 		</sect1>
 
-		<sect1>
+		<sect1 id="macyac">
 			<title>MacYac</title>
 			<mediaobject>
 				<imageobject>
@@ -413,7 +413,7 @@ To be compatible with gNotify the following switches are accepted:
 		</sect1>
 	</chapter>
 
-	<chapter>
+	<chapter id="other">
 		<title>Other</title>
 		<sect1 id="catalog-of-applications">
 			<title>Catalog of applications</title>
@@ -568,7 +568,7 @@ notify with &not;
  					</example>
 					<para><emphasis>Supported Types:</emphasis> PICT, TIFF</para>
 					<para>Carbon apps tend to return PICT</para>
-					<para>When you are dealing with raw image data you should use the <strong>notify ... Image</strong>  or <strong>notify ... pictImage</strong> commands.</para>
+					<para>When you are dealing with raw image data you should use the <emphasis role="bold">notify ... Image</emphasis>  or <emphasis role="bold">notify ... pictImage</emphasis> commands.</para>
 					<para>Cocoa apps tend to return TIFF</para>
 					<example>
 						<title>TIFF Image Data</title>
@@ -596,9 +596,9 @@ notify with &not;
 					<title>Notes on File Paths</title>
 					<para>For the "notify ... image from location" and "notify ... icon of file" commands Growl accepts any of the following types as 'locations':</para>
 					<itemizedlist>
-						<listitem>Aliases - the default file reference type in AppleScript.</listitem>
-						<listitem>Local file:// URLs (as text) - e.g. "file:///Applications/" &mdash; <emphasis>n.b. you must have three slashes after the colon &mdash; the third represents the root of the filesystem.</emphasis></listitem>
-						<listitem>Paths - e.g. "~/Pictures"</listitem>
+						<listitem><simpara>Aliases - the default file reference type in AppleScript.</simpara></listitem>
+						<listitem><simpara>Local file:// URLs (as text) - e.g. "file:///Applications/" &mdash; <emphasis>n.b. you must have three slashes after the colon &mdash; the third represents the root of the filesystem.</emphasis></simpara></listitem>
+						<listitem><simpara>Paths - e.g. "~/Pictures"</simpara></listitem>
 					</itemizedlist>
 				</sect3>
 			</sect2>
@@ -609,7 +609,7 @@ notify with &not;
 	 			<para>v0.5 &mdash; Adam Nolley &mdash; <ulink url="http://nanovivid.com/contact">nanovivid.com</ulink></para>
 	 		</sect2>
 		</sect1>
-		<sect1>
+		<sect1 id="developers">
 			<title>Developers</title>
 			<!--
 			<a href="developer/"><img alt="Developers" class="headerIcon" src="../img/DeveloperFolderIcon.png"/></a>
