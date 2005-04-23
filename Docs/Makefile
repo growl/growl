@@ -20,3 +20,5 @@ documentation-a4.fo: documentation.xml
 
 clean:
 	rm -rf output
+	rm -f documentation.fo documentation-a4.fo documentation.pdf documentation-a4.pdf
+
