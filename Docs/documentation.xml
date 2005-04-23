@@ -412,4 +412,209 @@ To be compatible with gNotify the following switches are accepted:
 			</sect2>
 		</sect1>
 	</chapter>
+
+	<chapter>
+		<title>Other</title>
+		<sect1 id="catalog-of-applications">
+			<title>Catalog of applications</title>
+			<para>There is a <ulink url="http://growl.info/applications.php">catalog of applications</ulink> that have Growl support built in.</para>
+		</sect1>
+		<sect1 id="applescript-support">
+			<title>AppleScript Support for Growl</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../img/scriptEditorIcon.png" format="PNG"/>
+				</imageobject>
+				<textobject><phrase>Script Editor</phrase></textobject>
+			</mediaobject>
+
+			<sect2 id="about">
+				<title>About AppleScript Support</title>
+				<para>AppleScript support is built into Growl; nothing special needs to be done to enable it.</para>
+
+				<sect3 id="v06Changes">
+					<title>A Note on AppleScript changes in Growl 0.6</title>
+					<para><emphasis role="bold">You must update your existing AppleScripts for Growl 0.6</emphasis>. In Growl 0.6 AppleScripts must register their notifications every time the script is run &mdash; unregistered notifications will <emphasis>not</emphasis> be displayed.  See below for an example of registration.</para>
+				</sect3>
+			</sect2>
+
+			<sect2 id="usage">
+				<title>Usage</title>
+				<sect3 id="basics">
+					<title>Basics</title>
+					<para>To send a Growl notification via AppleScript, you talk to GrowlHelperApp using two commands: <emphasis role="bold">register</emphasis> and <emphasis role="bold">notify</emphasis>. A script, like an application, must register itself (once, though multiple times is harmless) with Growl before sending any notifications.  The full syntax of the <code>register</code> and <code>notify</code> commands can be viewed by opening Script Editor, choosing File &rarr; Open Dictionary, and selecting GrowlHelperApp from the list.</para>
+
+					<example>
+						<title>Sample AppleScript Notification</title>
+						<programlisting id="simpleNotificationSampleCode">tell application &quot;GrowlHelperApp&quot;
+ -- Make a list of all the notification types 
+ -- that this script will ever send:
+ set the allNotificationsList to &not;
+  {"Test Notification" , "Another Test Notification"}
+
+ -- Make a list of the notifications 
+ -- that will be enabled by default.      
+ -- Those not enabled by default can be enabled later 
+ -- in the 'Applications' tab of the growl prefpane.
+ set the enabledNotificationsList to &not;
+  {"Test Notification"}
+
+ -- Register our script with growl.
+ -- You can optionally (as here) set a default icon 
+ -- for this script's notifications.
+ register as application "Growl AppleScript Sample" &not;
+   all notifications allNotificationsList &not;
+   default notifications enabledNotificationsList &not;
+   icon of application "Script Editor"
+	 
+ --	Send a Notification...
+ notify with name "Test Notification" &not;
+   title "Test Notification" &not;
+   description "This is a test AppleScript notification." &not;
+   application name "Growl AppleScript Sample" 
+
+ notify with name "Another Test Notification" &not;
+   title "Another Test Notification :) " &not; 
+   description "Alas &mdash; you won't see me until you enable me..." &not;
+   application name "Growl AppleScript Sample" 
+
+end tell</programlisting>
+					</example>
+					<para>Once you send the <emphasis role="bold">Registration</emphasis> command - your script will appear in the 'applications' tab of the Growl prefpane.</para>
+					<screenshot>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../img/appleScriptRegistration.png" format="PNG"/>
+							</imageobject>
+							<textobject><phrase>AppleScript Registration</phrase></textobject>
+						</mediaobject>
+					</screenshot>
+					<para>
+						<ulink url="http://growl.info/files/growlAppleScriptBasicSample.zip">Download Sample Script</ulink> 
+					</para>
+				</sect3>
+
+				<sect3 id="usingImages">
+					<title>Notifications Using Images</title>
+					<para>Growl's notify command supports four types of images for notification when using AppleScript:</para>
+					<example>
+						<title>Application Icons</title>
+						<programlisting>notify with &not;
+  name "Some Notification"  &not;
+  title "This is a Notification with an App Icon"  &not;
+  description "We are using an Application Icon..."  &not;
+  application name "Growl AppleScript Sample" &not; 
+  icon of application "Script Editor.app"</programlisting>
+					</example>
+					<para>Note that the &quot;.app&quot; at the end is optional.</para>
+					<screenshot>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../img/appleScriptImageAppNotific.png" format="PNG"/>
+							</imageobject>
+							<textobject><phrase>ImageFile</phrase></textobject>
+						</mediaobject>
+					</screenshot>
+
+					<example>
+						<title>File Icons</title>
+						<programlisting>notify with &not;
+  name "Some Notification"  &not;
+  title "This is a Notification with an File Icon"  &not;
+  description "We are using a File's Icon..."  &not;
+  application name "Growl AppleScript Sample" &not;
+  icon of file "file:///Users/someone/Growl"</programlisting>
+ 					</example>
+					<para>See <xref linkend="filepaths">Notes on File Paths</xref> for details on how to specify the path to a file icon.</para>
+					<screenshot>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../img/appleScriptImageIconNotific.png" format="PNG"/>
+							</imageobject>
+							<textobject><phrase>ImageFile</phrase></textobject>
+						</mediaobject>
+					</screenshot>
+
+					<example>
+						<title>Image Files</title>
+						<programlisting>notify with &not;
+  name "Some Notification"  &not;
+  title "This is a Notification with an Image File"  &not;
+  description "We are using an Image File..." &not;
+  application name  "Growl AppleScript Sample" &not;
+  image from location &not;
+    "file:///Users/someone/pictures/stopWatch.png"</programlisting>
+   					</example>
+					<para><emphasis>Supported Types:</emphasis> BMP, GIF, ICNS, ICO, JPEG, JPEG 2000, PNG, PSD, TGA, TIFF</para>
+					<screenshot>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../img/appleScriptImageFileNotific.png" format="PNG"/>
+							</imageobject>
+							<textobject><phrase>ImageFile</phrase></textobject>
+						</mediaobject>
+					</screenshot>
+
+					<example>
+						<title>Image Data</title>
+						<programlisting>set the PICTdata to my getArtworkFromiTunesRoutine() 
+
+notify with &not;
+  name "Some Notification"  &not;
+  title "This is a Notification with PICT Image Data"  &not;
+  description "We are using PICT data..." &not;
+  application name  "Growl AppleScript Sample" &not;
+  PICTimage the PICTdata</programlisting>
+ 					</example>
+					<para><emphasis>Supported Types:</emphasis> PICT, TIFF</para>
+					<para>Carbon apps tend to return PICT</para>
+					<para>When you are dealing with raw image data you should use the <strong>notify ... Image</strong>  or <strong>notify ... pictImage</strong> commands.</para>
+					<para>Cocoa apps tend to return TIFF</para>
+					<example>
+						<title>TIFF Image Data</title>
+						<programlisting>set the TIFFdata to my getPhotoFromAddressBookRoutine() 
+
+notify with &not;
+  name "Some Notification"  &not;
+  title "This is a Notification with TIFF Image Data"  &not;
+  description "We are using TIFF data..." &not;
+  application name  "Growl AppleScript Sample" &not;
+  image the TIFFdata</programlisting>
+					</example>
+					<para>If you're not sure which type you are dealing with then you can look in Script Editor's <emphasis>Event Log</emphasis>. The first four chars of the data will show the type:</para>
+					<screenshot>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../img/applescriptPICTData.png" format="PNG"/>
+							</imageobject>
+							<textobject><phrase>PICT data returned by iTunes</phrase></textobject>
+						</mediaobject>
+					</screenshot>
+				</sect3>
+			
+				<sect3 id="filepaths">
+					<title>Notes on File Paths</title>
+					<para>For the "notify ... image from location" and "notify ... icon of file" commands Growl accepts any of the following types as 'locations':</para>
+					<itemizedlist>
+						<listitem>Aliases - the default file reference type in AppleScript.</listitem>
+						<listitem>Local file:// URLs (as text) - e.g. "file:///Applications/" &mdash; <emphasis>n.b. you must have three slashes after the colon &mdash; the third represents the root of the filesystem.</emphasis></listitem>
+						<listitem>Paths - e.g. "~/Pictures"</listitem>
+					</itemizedlist>
+				</sect3>
+			</sect2>
+						
+			<sect2>
+				<title>Authors</title>
+				<para>v0.6 (update) &mdash; Diggory Laycock &mdash; <ulink url="http://www.monkeyfood.com">www.monkeyfood.com</ulink></para>
+	 			<para>v0.5 &mdash; Adam Nolley &mdash; <ulink url="http://nanovivid.com/contact">nanovivid.com</ulink></para>
+	 		</sect2>
+		</sect1>
+		<sect1>
+			<title>Developers</title>
+			<!--
+			<a href="developer/"><img alt="Developers" class="headerIcon" src="../img/DeveloperFolderIcon.png"/></a>
+			-->
+			<para>If you're interested in supporting Growl in your application or working on Growl itself, check out the <ulink url="http://growl.info/developer/">developer docs</ulink>.</para>
+		</sect1>
+	</chapter>
 </book>
