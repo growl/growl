@@ -13,14 +13,14 @@
 			<sect2>
 				<title>Starting Growl</title>
 				<para>Open the System Preferences and click on the Growl Preference pane.</para>
-				<para>
-					<inlinemediaobject>
+				<screenshot>
+					<mediaobject>
 						<imageobject>
 							<imagedata fileref="../img/syspref_general.png" format="PNG"/>
 						</imageobject>
 						<textobject><phrase>System Preference</phrase></textobject>
-					</inlinemediaobject>
-				</para>
+					</mediaobject>
+				</screenshot>
 				<para>Click on the <emphasis>Start Growl</emphasis> button.  Optionally check the <emphasis>Start on Login</emphasis> checkbox. If this is not checked, you will need to manually start Growl before you can see notifications.</para>
 			</sect2>
 		</sect1>
@@ -47,14 +47,14 @@
 			<sect2>
 				<title>Displaying notifications</title>
 				<para>When an application (or script) wants to display a notification to the user (that's you), it sends the information to a background application running on your Mac called GrowlHelperApp. GrowlHelperApp will then, depending on your preferences, show the notification using one of the display plug-ins.</para>
-				<para>
-					<inlinemediaobject>
+				<screenshot>
+					<mediaobject>
 						<imageobject>
 							<imagedata fileref="../img/growlFlowDiag.png" format="PNG"/>
 						</imageobject>
 						<textobject><phrase>flow of data</phrase></textobject>
-					</inlinemediaobject>
-				</para>
+					</mediaobject>
+				</screenshot>
 				<para>
 					<emphasis>An example of the 'Bubble' display.</emphasis>
 				</para>
@@ -65,27 +65,27 @@
 				<para>The Growl preference pane has three tabs:</para>
 				<sect3>
 					<title>General</title>
-					<para>
-					<inlinemediaobject>
-						<imageobject>
-							<imagedata fileref="../img/prefPaneGeneralTab.png" format="PNG"/>
-						</imageobject>
-						<textobject><phrase>General Tab</phrase></textobject>
-					</inlinemediaobject>
-					</para>
+					<screenshot>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../img/prefPaneGeneralTab.png" format="PNG"/>
+							</imageobject>
+							<textobject><phrase>General Tab</phrase></textobject>
+						</mediaobject>
+					</screenshot>
 					<para>The General Tab holds preferences that refer to Growl as a whole. The default display is set here.</para>
 				</sect3>
 
 				<sect3>
 					<title>Applications</title>
-					<para>
-						<inlinemediaobject>
+					<screenshot>
+						<mediaobject>
 							<imageobject>
 								<imagedata fileref="../img/prefPaneAppsTab.png" format="PNG"/>
 							</imageobject>
 							<textobject><phrase>Applications Tab</phrase></textobject>
-						</inlinemediaobject>
-					</para>
+						</mediaobject>
+					</screenshot>
 					<para>You have complete control over which notifications are displayed on your computer - In the 'Applications' tab you can configure which notifications are active - and which display they use.</para>
 					<sect4>
 						<title>Priority</title>
@@ -101,12 +101,14 @@
 				<sect3>
 					<title>Display Options</title>
 					<para>Display Options is where you can configure what you are shown when Growl notifies you.</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../img/prefPaneDisplayTab.png" format="PNG"/>
-						</imageobject>
-						<textobject><phrase>Display Options Tab</phrase></textobject>
-					</mediaobject>
+					<screenshot>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../img/prefPaneDisplayTab.png" format="PNG"/>
+							</imageobject>
+							<textobject><phrase>Display Options Tab</phrase></textobject>
+						</mediaobject>
+					</screenshot>
 					<para>First you select which display you would like to configure. Then you can change settings on each display however you wish. Some displays have priority settings, some provide preference on the transparency, etc.</para>
 				</sect3>
 			</sect2>
@@ -119,14 +121,14 @@
 				<listitem><simpara>Growl.prefpane: /Library/PreferencePanes/</simpara></listitem>
 			</itemizedlist>
 			<para>The first time you run Growl, it will also create a folder in your <emphasis>Library/Application Support/</emphasis> directory called <emphasis>Growl</emphasis>. This folder contains some data that Growl uses, as well as a folder called <emphasis>Plugins</emphasis>.</para>
-			<para>
-				<inlinemediaobject>
+			<screenshot>
+				<mediaobject>
 					<imageobject>
 						<imagedata fileref="../img/application_support.png" format="PNG"/>
 					</imageobject>
 					<textobject><phrase>Growl Application Support Directory</phrase></textobject>
-				</inlinemediaobject>
-			</para>
+				</mediaobject>
+			</screenshot>
 			<para>If you trash all of these, log out, and then log back in, Growl will be uninstalled. You can now empty your trash.</para>
 			<para>One note, if you are uninstalling Growl for a reason that the developers might want to know about, please email us at discuss &#x41;&#x54; growl.info and we can look into fixing those problems.</para>
 		</sect1>
@@ -168,14 +170,14 @@
 				<para>For users of iTunes 4.7 and later, that is all you have to do to get GrowlTunes working. Note: GrowlTunes does not poll for its information with iTunes 4.7 and later.</para>
 				<para>For iTunes 4.6 and below, the most important part of using GrowlTunes is the polling button at the bottom of the menu. This allows you to turn on and off polling of iTunes (asking it what song is currently being played).</para>
 				<para>Once you get GrowlTunes to start polling, you should see a bubble like the image below. You will see one of these each time the track changes in iTunes.</para>
-				<para>
-					<inlinemediaobject>
+				<screenshot>
+					<mediaobject>
 						<imageobject>
 							<imagedata fileref="../img/growltunes2.png" format="PNG"/>
 						</imageobject>
 						<textobject><phrase>Growl bubble</phrase></textobject>
-					</inlinemediaobject>
-				</para>
+					</mediaobject>
+				</screenshot>
 			</sect2>
 
 			<sect2>
@@ -194,8 +196,10 @@
 				<title>Installing GrowlMail</title>
 				<para>Move the GrowlMail.mailbundle package into <code>~/Library/Mail/Bundles/</code>, quit Mail.app, and run the following 2 commands in the terminal:</para>
 				<para>
-					<code>defaults write com.apple.mail EnableBundles -bool True
-defaults write com.apple.mail BundleCompatibilityVersion 1</code>
+					<screen>
+defaults write com.apple.mail EnableBundles -bool True
+defaults write com.apple.mail BundleCompatibilityVersion 1
+					</screen>
 				</para>
 				<para>Now relaunch Mail.app. Whenever new mail arrives, Growl will display a notification.</para>
 			</sect2>
@@ -280,36 +284,42 @@ defaults write com.apple.mail BundleCompatibilityVersion 1</code>
 					<listitem>
 						<para>
 							Select the text you would like to look up.
-							<mediaobject>
-								<imageobject>
-									<imagedata fileref="../img/growldict_hilight.png" format="PNG"/>
-								</imageobject>
-								<textobject><phrase>Text on which the service will be invoked.</phrase></textobject>
-							</mediaobject>
+							<screenshot>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="../img/growldict_hilight.png" format="PNG"/>
+									</imageobject>
+									<textobject><phrase>Text on which the service will be invoked.</phrase></textobject>
+								</mediaobject>
+							</screenshot>
 						</para>
 					</listitem>
 
 					<listitem>
 						<para>
 							Select the GrowlDict service in the Services menu for the application with the word you want to look up.
-							<mediaobject>
-								<imageobject>
-									<imagedata fileref="../img/growldict_selection.png" format="PNG"/>
-								</imageobject>
-								<textobject><phrase>GrowlDict Service Selection</phrase></textobject>
-							</mediaobject>
+							<screenshot>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="../img/growldict_selection.png" format="PNG"/>
+									</imageobject>
+									<textobject><phrase>GrowlDict Service Selection</phrase></textobject>
+								</mediaobject>
+							</screenshot>
 						</para>
 					</listitem>
 
 					<listitem>
 						<para>
 							The definition will appear in a Growl notification.
-							<mediaobject>
-								<imageobject>
-									<imagedata fileref="../img/growldict_notification.png" format="PNG"/>
-								</imageobject>
-								<textobject><phrase>GrowlDict Notification</phrase></textobject>
-							</mediaobject>
+							<screenshot>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="../img/growldict_notification.png" format="PNG"/>
+									</imageobject>
+									<textobject><phrase>GrowlDict Notification</phrase></textobject>
+								</mediaobject>
+							</screenshot>
 						</para>
 					</listitem>
 				</orderedlist>
@@ -345,7 +355,7 @@ defaults write com.apple.mail BundleCompatibilityVersion 1</code>
 			<sect2>
 				<title>Usage</title>
 				<para>
-					<code>
+					<screen>
 Usage: growlnotify [-hs] [-i ext] [-I filepath] [--image filepath]
 [-p priority] [title]
 Options:
@@ -371,7 +381,7 @@ To be compatible with gNotify the following switches are accepted:
     -t,--title    Does nothing. Any text following will be treated as the
                   title because that's the default argument behaviour
     -m,--message  Sets the message to the following instead of using stdin
-			    	</code>
+			    	</screen>
 			    </para>
 
 				<para>The manpage provides more information on the usage of <code>growlnotify</code>. Just type '<code>man 1 growlnotify</code>' after installing <code>growlnotify</code>.</para>
