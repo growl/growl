@@ -56,7 +56,7 @@
 	// add checksum
 	MD5_Init( &ctx );
 	MD5_Update( &ctx, (const void *)nn, length-MD5_DIGEST_LENGTH );
-	if ( password ) {
+	if (password) {
 		MD5_Update( &ctx, password, strlen( password ) );
 	}
 	MD5_Final( data, &ctx );
@@ -95,12 +95,12 @@
 	size = numDefaultNotifications;
 	for(i = 0; i < numDefaultNotifications; ++i) {
 		NSNumber *num = [defaultNotifications objectAtIndex:i];
-		if([num isKindOfClass:NSNumberClass]) {
+		if ([num isKindOfClass:NSNumberClass]) {
 			notificationIndex = [num unsignedIntValue];
-			if(notificationIndex >= numAllNotifications) {
+			if (notificationIndex >= numAllNotifications) {
 				NSLog(@"Warning: index %u found in defaultNotifications is not within the range (%u) of the notifications array", notificationIndex, numAllNotifications);
 				--size;
-			} else if(notificationIndex > UCHAR_MAX) {
+			} else if (notificationIndex > UCHAR_MAX) {
 				NSLog(@"Warning: index %u found in defaultNotifications is not within the range (%u) of an 8-bit unsigned number", notificationIndex);
 				--size;
 			} else {
@@ -108,7 +108,7 @@
 			}
 		} else {
 			notificationIndex = [allNotifications indexOfObject:num];
-			if( notificationIndex == NSNotFound ) {
+			if (notificationIndex == NSNotFound) {
 				NSLog(@"Warning: defaultNotifications is not a subset of allNotifications (object found in defaultNotifications that is not in allNotifications; description of object is %@)", num);
 				--size;
 			} else {
@@ -136,19 +136,17 @@
 	}
 	for(i = 0; i < numDefaultNotifications; ++i) {
 		NSNumber *num = [defaultNotifications objectAtIndex:i];
-		if([num isKindOfClass:NSNumberClass]) {
+		if ([num isKindOfClass:NSNumberClass]) {
 			notificationIndex = [num unsignedIntValue];
-			if((notificationIndex <  numAllNotifications)
-			&& (notificationIndex <= UCHAR_MAX))
-			{
+			if ((notificationIndex <  numAllNotifications)
+			&& (notificationIndex <= UCHAR_MAX)) {
 				*data++ = notificationIndex;
 			}
 		} else {
 			notificationIndex = [allNotifications indexOfObject:num];
-			if((notificationIndex <  numAllNotifications)
+			if ((notificationIndex <  numAllNotifications)
 			&& (notificationIndex <= UCHAR_MAX)
-			&& (notificationIndex != NSNotFound))
-			{
+			&& (notificationIndex != NSNotFound)) {
 				*data++ = notificationIndex;
 			}
 		}
@@ -157,7 +155,7 @@
 	// add checksum
 	MD5_Init( &ctx );
 	MD5_Update( &ctx, (const void *)nr, length-MD5_DIGEST_LENGTH );
-	if ( password ) {
+	if (password) {
 		MD5_Update( &ctx, password, strlen( password ) );
 	}
 	MD5_Final( data, &ctx );

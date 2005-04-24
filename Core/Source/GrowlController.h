@@ -11,13 +11,15 @@
 
 @protocol GrowlDisplayPlugin;
 
-@class GrowlDistributedNotificationPathway, GrowlUDPPathway, GrowlRemotePathway;
+@class GrowlDistributedNotificationPathway, GrowlUDPPathway, GrowlRemotePathway,
+	MD5Authenticator;
 
 @interface GrowlController : NSObject {
 	NSMutableDictionary			*tickets;				//Application tickets
 	NSLock						*registrationLock;
 	NSMutableArray				*notificationQueue;
 	NSMutableArray				*registrationQueue;
+	MD5Authenticator			*authenticator;
 
 	//XXX temporary DNC pathway hack - remove when real pathway support is in
 	// DNC server

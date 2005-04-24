@@ -51,6 +51,8 @@
 				95C876E007D9DF4100C69DEE,
 				95583F9F079E4B4900C79085,
 				9526247C074F92F600C5F344,
+				9526BD9B081BCFD500B9D0D0,
+				32A70AAB03705E1F00C91783,
 			);
 			isa = PBXGroup;
 			name = Headers;
@@ -115,8 +117,8 @@
 		};
 		08FB7795FE84155DC02AAC07 = {
 			children = (
+				9526BD9C081BCFD500B9D0D0,
 				9526247D074F92F600C5F344,
-				32A70AAB03705E1F00C91783,
 				08FB7796FE84155DC02AAC07,
 			);
 			isa = PBXGroup;
@@ -134,6 +136,7 @@
 		};
 		08FB779DFE84155DC02AAC07 = {
 			children = (
+				9526BDA5081BD22600B9D0D0,
 				DAA31DA0078D239500BE4DA9,
 				0A95FC900739AAC800E585F8,
 				08FB779EFE84155DC02AAC07,
@@ -238,6 +241,7 @@
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -275,6 +279,7 @@
 			files = (
 				8DD76F9A0486AA7600D96B5E,
 				9526247F074F92F600C5F344,
+				9526BD9D081BCFD500B9D0D0,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,6 +298,7 @@
 				0A95FC1D0739AA7300E585F8,
 				0A95FC910739AAC800E585F8,
 				DAA31DA1078D239500BE4DA9,
+				9526BDA6081BD22600B9D0D0,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -335,6 +341,44 @@
 		};
 		9526247F074F92F600C5F344 = {
 			fileRef = 9526247D074F92F600C5F344;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9526BD9B081BCFD500B9D0D0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MD5Authenticator.h;
+			path = ../../Common/Source/MD5Authenticator.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		9526BD9C081BCFD500B9D0D0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = MD5Authenticator.m;
+			path = ../../Common/Source/MD5Authenticator.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		9526BD9D081BCFD500B9D0D0 = {
+			fileRef = 9526BD9C081BCFD500B9D0D0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9526BDA5081BD22600B9D0D0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Security.framework;
+			path = /System/Library/Frameworks/Security.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		9526BDA6081BD22600B9D0D0 = {
+			fileRef = 9526BDA5081BD22600B9D0D0;
 			isa = PBXBuildFile;
 			settings = {
 			};

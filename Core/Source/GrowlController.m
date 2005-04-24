@@ -23,8 +23,9 @@
 #import "GrowlVersionUtilities.h"
 #import "SVNRevision.h"
 #import "GrowlLog.h"
+#import "MD5Authenticator.h"
 #import <SystemConfiguration/SystemConfiguration.h>
-#import <sys/socket.h>
+#include <sys/socket.h>
 
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
@@ -76,6 +77,8 @@ static id singleton = nil;
 												 selector:@selector(notificationClicked:)
 													 name:GROWL_NOTIFICATION_CLICKED
 												   object:nil];
+
+		authenticator = [[MD5Authenticator alloc] init];
 
 		//XXX temporary DNC pathway hack - remove when real pathway support is in
 		dncPathway = [[GrowlDistributedNotificationPathway alloc] init];
@@ -130,8 +133,9 @@ static id singleton = nil;
 - (void) dealloc {
 	//free your world
 	[self stopServer];
-	[dncPathway release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
-	[destinations release];
+	[authenticator release];
+	[dncPathway    release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
+	[destinations  release];
 
 	[tickets           release];
 	[registrationLock  release];
@@ -156,6 +160,19 @@ static id singleton = nil;
 	NSLog(@"Could not publish Growl service. Error: %@", errorDict);
 }
 
+- (BOOL) connection:(NSConnection *)ancestor shouldMakeNewConnection:(NSConnection *)conn {
+	[conn setDelegate:[ancestor delegate]];
+	return YES;
+}
+
+- (NSData *) authenticationDataForComponents:(NSArray *)components {
+	return [authenticator authenticationDataForComponents:components];
+}
+
+- (BOOL) authenticateComponents:(NSArray *)components withData:(NSData *)signature {
+	return [authenticator authenticateComponents:components withData:signature];
+}
+
 - (void) startServer {
 	socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
 	serverConnection = [[NSConnection alloc] initWithReceivePort:socketPort sendPort:nil];
@@ -168,7 +185,7 @@ static id singleton = nil;
 		NSLog(@"Could not register Growl server.");
 	}
 
-	// configure and publish the Rendezvous service
+	// configure and publish the Bonjour service
 	NSString *serviceName = (NSString *)SCDynamicStoreCopyComputerName(/*store*/ NULL,
 																	   /*nameEncoding*/ NULL);
 	service = [[NSNetService alloc] initWithDomain:@""	// use local registration domain

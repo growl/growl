@@ -3753,6 +3753,30 @@
 			settings = {
 			};
 		};
+		9526BD51081BCC9100B9D0D0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MD5Authenticator.h;
+			path = Common/Source/MD5Authenticator.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9526BD52081BCC9100B9D0D0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = MD5Authenticator.m;
+			path = Common/Source/MD5Authenticator.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9526BD54081BCC9100B9D0D0 = {
+			fileRef = 9526BD52081BCC9100B9D0D0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		9527F2A1073F5A33004727A0 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
@@ -4953,6 +4977,8 @@
 		};
 		CB5F847F0638BD6200EADD7A = {
 			children = (
+				9526BD51081BCC9100B9D0D0,
+				9526BD52081BCC9100B9D0D0,
 				CB5F83890638B78200EADD7A,
 				CB5F838A0638B78200EADD7A,
 				5286205506DC4C2F00D3A356,
@@ -5039,6 +5065,7 @@
 				959DBE4C08127BA4009BB468,
 				950568E60812C2960096EC5C,
 				955C236E081537280013C3CF,
+				9526BD54081BCC9100B9D0D0,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

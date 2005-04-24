@@ -26,6 +26,7 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathway.h"
 #import "GrowlUDPUtils.h"
+#import "MD5Authenticator.h"
 
 #include <unistd.h>
 #include <getopt.h>
@@ -313,15 +314,33 @@ int main(int argc, const char **argv) {
 		} else {
 			NSSocketPort *port = [[NSSocketPort alloc] initRemoteWithTCPPort:GROWL_TCP_PORT host:[NSString stringWithCString:host]];
 			NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:port];
-			NSDistantObject *theProxy = [connection rootProxy];
-			[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-			id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
+			NSString *passwordString;
+			if (password) {
+				passwordString = [[NSString alloc] initWithUTF8String:password];
+			} else {
+				passwordString = nil;
+			}
+			MD5Authenticator *authenticator = [[MD5Authenticator alloc] initWithPassword:passwordString];
+			[passwordString release];
+			[connection setDelegate:authenticator];
+			@try {
+				NSDistantObject *theProxy = [connection rootProxy];
+				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
 
-			[growlProxy registerApplicationWithDictionary:registerInfo];
-			[growlProxy postNotificationWithDictionary:notificationInfo];
-
-			[port release];
-			[connection release];
+				[growlProxy registerApplicationWithDictionary:registerInfo];
+				[growlProxy postNotificationWithDictionary:notificationInfo];
+			} @catch(NSException *e) {
+				if ([[e name] isEqualToString:NSFailedAuthenticationException]) {
+					NSLog(@"Authentication failed");
+				} else {
+					NSLog(@"Exception: %@", [e name]);
+				}
+			} @finally {
+				[port release];
+				[connection release];
+				[authenticator release];
+			}
 		}
 	} else {
 		NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
