@@ -61,6 +61,19 @@
 	[properties setObject:service forKey:@"netservice"];
 }
 
+- (NSString *) password {
+	return [properties objectForKey:@"password"];
+}
+
+- (void) setPassword:(NSString *)password {
+	if (password) {
+		[properties setObject:password forKey:@"password"];
+	} else {
+		[properties removeObjectForKey:@"password"];
+	}
+	[owner writeForwardDestinations];
+}
+
 - (void) setAddress:(NSData *)address {
 	[properties setObject:address forKey:@"address"];
 	[properties removeObjectForKey:@"netservice"];

@@ -26,6 +26,9 @@
 - (NSNetService *) netService;
 - (void) setNetService:(NSNetService *)service;
 
+- (NSString *) password;
+- (void) setPassword:(NSString *)password;
+
 - (NSDictionary *) properties;
 
 - (void) setAddress:(NSData *)address;

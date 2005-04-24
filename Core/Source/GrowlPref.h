@@ -45,7 +45,7 @@
 	NSMutableArray					*customHistArray;
 
 	//"Applications" tab pane
-	IBOutlet NSTableView			*applicationNotifications;
+	IBOutlet NSTableColumn			*notificationStickyColumn;
 	IBOutlet NSTableView			*growlApplications;
 	NSTableView						*activeTableView;
 	IBOutlet NSMenu					*notificationPriorityMenu;
@@ -65,6 +65,7 @@
 	NSNetServiceBrowser				*browser;
 	NSNetService					*serviceBeingResolved;
 	int								currentServiceIndex;
+	IBOutlet NSTableColumn			*servicePasswordColumn;
 
 	//About box tab pane
 	IBOutlet NSTextView				*aboutBoxTextView;

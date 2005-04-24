@@ -19,7 +19,6 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 aboutBoxTextView = NSTextView; 
-                applicationNotifications = NSTableView; 
                 currentPluginController = id; 
                 customMenuButton = NSPopUpButton; 
                 displayAuthor = NSTextField; 
@@ -37,8 +36,10 @@
                 growlWebSite = NSButton; 
                 logFileType = NSMatrix; 
                 notificationPriorityMenu = NSMenu; 
+                notificationStickyColumn = NSTableColumn; 
                 notificationsArrayController = NSArrayController; 
                 previewButton = NSButton; 
+                servicePasswordColumn = NSTableColumn; 
                 startStopGrowl = NSButton; 
                 ticketsArrayController = TicketsArrayController; 
             }; 

@@ -198,21 +198,17 @@
 	[imageAndTextCell setEditable:YES];
 	[tableColumn setDataCell:imageAndTextCell];
 	[imageAndTextCell release];
-	tableColumn = [applicationNotifications tableColumnWithIdentifier:@"sticky"];
-	NSButtonCell *cell = [tableColumn dataCell];
+	// TODO: this does not work
+	//NSSecureTextFieldCell *secureTextCell = [[NSSecureTextFieldCell alloc] init];
+	//[servicePasswordColumn setDataCell:secureTextCell];
+	//[secureTextCell release];
+	NSButtonCell *cell = [notificationStickyColumn dataCell];
 	[cell setAllowsMixedState:YES];
-	[cell setImagePosition:NSImageOnly];
 	// we have to establish this binding programmatically in order to use NSMixedState
-	[tableColumn bind:@"value"
+	[notificationStickyColumn bind:@"value"
 			 toObject:notificationsArrayController
 		  withKeyPath:@"arrangedObjects.sticky"
 			  options:nil];
-	cell = [[applicationNotifications tableColumnWithIdentifier:@"enable"] dataCell];
-	[cell setImagePosition:NSImageOnly];
-	cell = [[growlApplications tableColumnWithIdentifier:@"enable"] dataCell];
-	[cell setImagePosition:NSImageOnly];
-	cell = [[applicationNotifications tableColumnWithIdentifier:@"priority"] dataCell];
-	[cell setMenu:notificationPriorityMenu];
 
 	[ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
 	[displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
@@ -228,6 +224,7 @@
 	NSDictionary *destination;
 	while ((destination = [destEnum nextObject])) {
 		GrowlBrowserEntry *entry = [[GrowlBrowserEntry alloc] initWithDictionary:destination];
+		[entry setOwner:self];
 		[theServices addObject:entry];
 		[entry release];
 	}
@@ -337,8 +334,8 @@
 	[displayVersion setStringValue:[info objectForKey:(NSString *)kCFBundleVersionKey]];
 }
 
-- (void) reloadPrefs:(id)sender {
-#pragma unused(sender)
+- (void) reloadPrefs:(NSNotification *)notification {
+#pragma unused(notification)
 	[self reloadPreferences];
 }
 
