@@ -525,7 +525,7 @@ end tell</programlisting>
   application name "Growl AppleScript Sample" &not;
   icon of file "file:///Users/someone/Growl"</programlisting>
  					</example>
-					<para>See <xref linkend="filepaths">Notes on File Paths</xref> for details on how to specify the path to a file icon.</para>
+					<para>See <link linkend="filepaths">Notes on File Paths</link> for details on how to specify the path to a file icon.</para>
 					<screenshot>
 						<mediaobject>
 							<imageobject>
@@ -609,6 +609,263 @@ notify with &not;
 	 			<para>v0.5 &mdash; Adam Nolley &mdash; <ulink url="http://nanovivid.com/contact">nanovivid.com</ulink></para>
 	 		</sect2>
 		</sect1>
+
+		<sect1 id="folder-actions">
+			<title>Folder Actions</title>
+			<sect2>
+				<title>About the Folder Actions Script</title>
+				<para>For the Folder Notification scripts to work, they have to be placed in "Scripts/Folder Action Scripts" ... either in /Library or ~/Library. If this neither the 'scripts' nor the 'Folder Action Scripts' folders exist, create them yourself.</para>
+				<screenshot>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../img/FolderActionScriptsDir.png" format="PNG"/>
+						</imageobject>
+						<textobject><phrase>Folder Action Scripts Directory</phrase></textobject>
+					</mediaobject>
+				</screenshot>
+		 		<para>After placing them there, right-click on the folder for which you want notifications and choose "Attach a Folder Action."</para>
+		 		<screenshot>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../img/folderAttach.png" format="PNG"/>
+						</imageobject>
+						<textobject><phrase>Folder Attach</phrase></textobject>
+					</mediaobject>
+				</screenshot>
+				<para>You will then be presented with a file browser pointing at your Folder Action Scripts directory - choose the appropriate script.</para>
+			</sect2>
+		</sect1>
+
+		<sect1 id="growlichat">
+			<title>GrowliChat</title>
+			<sect2>
+				<title>About</title>
+				<para>GrowliChat is an AppleScript that runs as an application.</para>
+			</sect2>
+			<sect2>
+				<title>Installation</title>
+				<para>To use the app you will need to do the following:</para>
+				<orderedlist>
+					<listitem><simpara>Open the script in Script Editor</simpara></listitem>
+					<listitem>
+						<para>Save the script as an application.</para>
+				 		<screenshot>
+							<mediaobject>
+								<imageobject>
+									<imagedata fileref="../img/growliChat.png" format="PNG"/>
+								</imageobject>
+								<textobject><phrase>GrowliChat Save Dialogue</phrase></textobject>
+							</mediaobject>
+						</screenshot>
+					</listitem>
+					<listitem><simpara>Remember to check the "Stays Open" option when saving.</simpara></listitem>
+					<listitem><simpara>Launch the new application and enjoy.</simpara></listitem>
+				</orderedlist>
+			</sect2>
+
+			<sect2>
+				<title>Usage</title>
+				<para>While it is running It will periodically check your contacts, and notify you of changes in their statuses.</para>
+			</sect2>
+		</sect1>
+
+		<sect1 id="growlquicksilver">
+			<title>Growl and Quicksilver</title>
+			<!--<img class="headerIcon" alt="GrowlTunes" src="../img/growlTunesIcon.png"/>-->
+			<sect2>
+				<title>About</title>
+				<para><ulink url="http://quicksilver.blacktree.com/">QuickSilver</ulink> supports Growl via a plug-in.</para>
+			</sect2>
+
+			<sect2>
+				<title>Installing The QS Growl Plug-in</title>
+
+				<para>In QuickSilver's Application menu, select the "Get More Plug-ins..." item. </para>
+		 		<screenshot>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../img/qsGetMorePlugins.png" format="PNG"/>
+						</imageobject>
+						<textobject><phrase>Get More Plug-ins</phrase></textobject>
+					</mediaobject>
+				</screenshot>
+
+				<para>You can install from the web using the plus icon - or download (and double-click) the plug-in using the arrow icon. </para>
+		 		<screenshot>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../img/qsPluginsPage.png" format="PNG"/>
+						</imageobject>
+						<textobject><phrase>QuickSilver Plug-ins Page</phrase></textobject>
+					</mediaobject>
+				</screenshot>
+
+				<para>QuickSilver will use Growl to notify you that the plug-in has been installed.</para>
+		 		<screenshot>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../img/qsPluginWasInstalled.png" format="PNG"/>
+						</imageobject>
+						<textobject><phrase>Installation Notification</phrase></textobject>
+					</mediaobject>
+				</screenshot>
+
+				<para>Other notifications that the QuickSilver plug-in sends are iTunes track changes and when you use QuickSilver to switch network locations.</para>
+			</sect2>
+		</sect1>
+
+		<sect1 id="ical-script">
+			<title>Get today's iCal events</title>
+
+			<sect2>
+				<title>Installation</title>
+				<para>Place the scripts in your 'Scripts' folder of your Library</para>
+				<note><simpara>If the scripts folder does not exist then create it yourself.</simpara></note>
+				<para>This will give you quick access to the Script via the Script Menu
+                (/Applications/AppleScript/Script/Install Script Menu)</para>
+
+		 		<screenshot>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../img/Scripts-Folder.png" format="PNG"/>
+						</imageobject>
+						<textobject><phrase>Scripts Folder</phrase></textobject>
+					</mediaobject>
+				</screenshot>
+			</sect2>
+
+			<sect2>
+				<title>Usage</title>
+				<para>The script is very simple - and requires iCal to be running.</para>
+
+				<para>When the script is run it notifies once for every event it finds for today.</para>
+			</sect2>
+		</sect1>
+
+		<sect1>
+			<title>iPod Checker</title>
+			<sect2>
+				<title>About</title>
+				<para>This script will sync your ipod with iTunes.</para>
+			</sect2>
+			<sect2>
+				<title>Installation</title>
+				<para>Place the scripts in your 'Scripts' folder of your Library</para>
+				<note><simpara>If the scripts folder does not exist then create it yourself.</simpara></note>
+				<para>This will give you quick access to the Script via the Script Menu
+				(/Applications/AppleScript/Script/Install Script Menu) </para>
+
+		 		<screenshot>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../img/Scripts-Folder.png" format="PNG"/>
+						</imageobject>
+						<textobject><phrase>Scripts Folder</phrase></textobject>
+					</mediaobject>
+				</screenshot>
+			</sect2>
+
+			<sect2>
+				<title>Modifying the Script</title>
+				<para>You will need to change a few properties in the script:</para>
+				<blockquote>
+					<programlisting>set theiPod to "foo.Propaganda"</programlisting>
+				</blockquote>
+				<para>Change "foo.propaganda" to the name of your iPod.
+				You will also need to change two Image references
+				- see the in-script comments for more details.</para>
+			</sect2>
+		</sect1>
+
+		<sect1 id="irssi">
+			<title>irssi</title>
+			<para>In order to install and run this irssi plugin, you must have 3 things preinstalled:</para>
+			<orderedlist>
+				<listitem>
+					<para>irssi with perl support.</para>
+					<para>To get perl support in irssi, do one of the following:</para>
+
+					<para>When configuring irssi, do this:</para>
+					<para><code>./configure --with-perl=yes</code></para>
+
+					<para>or, if you have a install of darwinports, do this:</para>
+					<para><code>sudo port install irssi +perl</code></para>
+				</listitem>
+				<listitem><para>A working Growl install.</para></listitem>
+				<listitem>
+					<para>Mac::Growl installed.</para>
+					<para>Available as part of the 'bindings' package http://growl.info/downloads_developers.php</para>
+
+					<para>Once you have these three, move growl.pl to ~/.irssi/scripts/ and then run this command in irssi:</para>
+					<para><code>/script load growl.pl</code></para>
+
+					<para>You should get a visual notification that growl installed.</para>
+
+					<para>If you desire growl to automatically start every time you begin irssi put it in ~/.irssi/scripts/autorun/.  If you ever need to load it manually you'll need to run this command in irssi:</para>
+
+					<para><code>/script load autorun/growl.pl</code></para>
+				</listitem>
+			</orderedlist>
+		</sect1>
+
+		<sect1 id="salling-clicker">
+			<title>GrowlCalling for Salling Clicker</title>
+			<para>The Script comes in two forms</para>
+			<itemizedlist>
+				<listitem><simpara>The .cgz archive. This is the form that Clicker is expecting.</simpara></listitem>
+				<listitem><simpara>The source .scpt. This is the applescript source of the archive.</simpara></listitem>
+			</itemizedlist>
+
+			<sect2>
+				<title>Installation</title>
+				<orderedlist>
+					<listitem><simpara>Open the Salling Clicker Preference Pane.</simpara></listitem>
+					<listitem><simpara>Switch to the 'Phone Events' tab.</simpara></listitem>
+					<listitem><simpara>Drop the archive into the list.</simpara></listitem>
+				</orderedlist>
+		 		<screenshot>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../img/clickerPhoneTab.png" format="PNG"/>
+						</imageobject>
+						<textobject><phrase>Clicker Tab</phrase></textobject>
+					</mediaobject>
+				</screenshot>
+			</sect2>
+
+			<sect2>
+				<title>Usage</title>
+				<para>The script will notify via growl when clicker receives call notifications from your mobile device.</para>
+			</sect2>
+			<sect2>
+				<title>Modifying the script</title>
+				<para>To edit the script use the gear below the list.</para>
+			</sect2>
+		</sect1>
+
+		<sect1 id="snak">
+			<title>Snak and Growl</title>
+
+			<para>Place the script in the 'Scripts' folder of your 'Snak' folder:</para>
+	 		<screenshot>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="../img/snak.png" format="PNG"/>
+					</imageobject>
+					<textobject><phrase>Snak</phrase></textobject>
+				</mediaobject>
+			</screenshot>
+			<para>Then - once Snak is running type "/load Growl.scpt" into the chat box:</para>
+	 		<screenshot>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="../img/snakScriptLoad.png" format="PNG"/>
+					</imageobject>
+					<textobject><phrase>Snak Script Loading</phrase></textobject>
+				</mediaobject>
+			</screenshot>
+		</sect1>
+
 		<sect1 id="developers">
 			<title>Developers</title>
 			<!--
