@@ -79,25 +79,25 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 	if (sticky)
 		[noteDict setObject:sticky   forKey:GROWL_NOTIFICATION_STICKY];
 
-	NS_DURING
+	@try {
 		NSImage *icon = nil;
 		NSURL   *url = nil;
 
 		//Command used the "image from URL" argument
 		if (imageUrl) {
 			if (!(url = [self fileUrlForLocationReference:imageUrl])) {
-				NS_VALUERETURN(nil,id);
+				return nil;
 			}
 			if (!(icon = [[[NSImage alloc] initWithContentsOfURL:url] autorelease])) {
 				//File exists, but is not a valid image format
 				[self setError:ERROR_ICON_OF_FILE_PATH_NOT_IMAGE];
-				NS_VALUERETURN(nil,id);
+				return nil;
 			}
 		} else if (iconOfFile) {
 			//Command used the "icon of file" argument
 			if (!(url = [self fileUrlForLocationReference: iconOfFile])) {
 				//NSLog(@"That's a no go on that file's icon.");
-				NS_VALUERETURN(nil,id);
+				return nil;
 			}
 			icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
 		} else if (iconOfApplication) {
@@ -119,18 +119,15 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 		}
 
 		[[GrowlController standardController] dispatchNotificationWithDictionary:noteDict];
-	NS_HANDLER
-		NSLog (@"error processing AppleScript request: %@", localException);
-		[self setError:ERROR_EXCEPTION failure:localException];
-	NS_ENDHANDLER
+	} @catch(NSException *e) {
+		NSLog(@"error processing AppleScript request: %@", e);
+		[self setError:ERROR_EXCEPTION failure:e];
+	}
 
 	[noteDict release];
 
 	return nil;
 }
-
-
-
 
 //This method will attempt to locate an image given either a path or an URL
 - (NSURL *)fileUrlForLocationReference:(NSString *)imageReference {

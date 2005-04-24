@@ -67,7 +67,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 		nil];
 	[defaultNotifications release];
 
-	NS_DURING
+	@try {
 		if (iconOfApplication) {
 			NSData *iconData;
 			NSImage *icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
@@ -80,10 +80,10 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 		}
 
 		[[GrowlController standardController] registerApplicationWithDictionary:registerDict];
-	NS_HANDLER
-		NSLog (@"error processing AppleScript request: %@", localException);
-		[self setError:ERROR_EXCEPTION failure:localException];
-	NS_ENDHANDLER
+	} @catch(NSException *e) {
+		NSLog(@"error processing AppleScript request: %@", e);
+		[self setError:ERROR_EXCEPTION failure:e];
+	}
 
 	[registerDict release];
 
@@ -97,7 +97,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 - (void) setError:(int)errorCode failure:(id)failure {
 	[self setScriptErrorNumber:errorCode];
 	NSString *str;
-	
+
 	switch (errorCode) {
 		case ERROR_EXCEPTION:
 			str = [NSString stringWithFormat:@"Exception raised while processing: %@", failure];
@@ -105,7 +105,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 		default:
 			str = nil;
 	}
-	
+
 	if (str)
 		[self setScriptErrorString:str];
 }
