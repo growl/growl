@@ -2,6 +2,20 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <book>
 	<title>Growl Documentation</title>
+	<titleabbrev>Growl</titleabbrev>
+	<bookinfo>
+		<title>Growl Documentation</title>
+		<authorgroup>
+			<author><firstname>Ingmar</firstname><surname>Stein</surname></author>
+		</authorgroup>
+		<edition>Growl User's Guide version 0.7</edition>
+		<pubdate>2005</pubdate>
+		<copyright>
+			<year>2004</year>
+			<year>2005</year>
+			<holder>The Growl Project</holder>
+		</copyright>
+	</bookinfo>
 	<chapter id="getting-started">
 		<title>Getting Started</title>
 		<sect1 id="growl-package-install">
@@ -400,9 +414,7 @@ To be compatible with gNotify the following switches are accepted:
 			<sect2>
 				<title>About</title>
 				<para>A client for the <ulink url="http://sunflowerhead.com/software/yac/">Yac</ulink> Caller-ID application.</para>
-
 				<para>Author:	Andrew Wellington (proton)</para>
-
 				<para>License:	BSD</para>
 			</sect2>
 
