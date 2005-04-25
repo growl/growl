@@ -1,3 +1,10 @@
+# In order to generate the HTML documentation, xsltproc and the DocBook DTDs and
+# XSL stylesheets need to be installed. The PDFs additionally require fop.
+#
+# Those packages can be installed via fink:
+#   fink install libxslt docbook-dtd docbook-xsl fop
+#
+
 all: html documentation.pdf documentation-a4.pdf
 
 html: documentation.xml
