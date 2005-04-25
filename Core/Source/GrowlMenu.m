@@ -58,10 +58,10 @@ int main(void) {
 		//build the menu images.
 		{
 			//the basic Growl claw image.
-			images[0] = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon" ofType:@"tiff"]];
+			images[NO] = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon" ofType:@"tiff"]];
 
 			//get our metrics.
-			NSRect imageRect = { .origin = NSZeroPoint, .size = [images[0] size] };
+			NSRect imageRect = { .origin = NSZeroPoint, .size = [images[NO] size] };
 			NSRect pathRect = { .origin = { 2.0f, 2.0f }, .size = imageRect.size };
 			pathRect.size.width  -= 4.0f;
 			pathRect.size.height -= 4.0f;
@@ -80,9 +80,9 @@ int main(void) {
 			NSGraphicsContext *context = [NSApp context];
 
 			//Growl claw with red slash.
-			images[1] = [[NSImage alloc] initWithSize:imageRect.size];
-			[images[1] lockFocus];
-			[images[0] drawInRect:imageRect
+			images[YES] = [[NSImage alloc] initWithSize:imageRect.size];
+			[images[YES] lockFocus];
+			[images[NO] drawInRect:imageRect
 			             fromRect:imageRect
 			            operation:NSCompositeSourceOver
 			             fraction:1.0f];
@@ -91,15 +91,15 @@ int main(void) {
 			[rectPath addClip];
 			[linePath stroke];
 			[context restoreGraphicsState];
-			[images[1] unlockFocus];
+			[images[YES] unlockFocus];
 
 			//highlighted Growl claw.
-			highlightImages[0] = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon-alt" ofType:@"tiff"]];
+			highlightImages[NO] = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon-alt" ofType:@"tiff"]];
 
 			//highlighted Growl claw with white slash (because highlight images should be all-white).
-			highlightImages[1] = [[NSImage alloc] initWithSize:imageRect.size];
-			[highlightImages[1] lockFocus];
-			[highlightImages[0] drawInRect:imageRect
+			highlightImages[YES] = [[NSImage alloc] initWithSize:imageRect.size];
+			[highlightImages[YES] lockFocus];
+			[highlightImages[NO] drawInRect:imageRect
 			             fromRect:imageRect
 			            operation:NSCompositeSourceOver
 			             fraction:1.0f];
@@ -108,7 +108,7 @@ int main(void) {
 			[rectPath addClip];
 			[linePath stroke];
 			[context restoreGraphicsState];
-			[highlightImages[1] unlockFocus];
+			[highlightImages[YES] unlockFocus];
 		}
 
 		NSMenu *m = [self buildMenu];
@@ -133,10 +133,10 @@ int main(void) {
 }
 
 - (void) dealloc {
-	[images[0] release];
-	[images[1] release];
-	[highlightImages[0] release];
-	[highlightImages[1] release];
+	[images[NO] release];
+	[images[YES] release];
+	[highlightImages[NO] release];
+	[highlightImages[YES] release];
 	[statusItem release];
 	[super dealloc];
 }
