@@ -3108,6 +3108,8 @@
 				9507584B0817C2F400D862A5,
 				950758470817C28500D862A5,
 				950758480817C28500D862A5,
+				9E975111081D8EED0044337B,
+				9E975112081D8EED0044337B,
 				950758450817C23100D862A5,
 			);
 			isa = PBXGroup;
@@ -3210,6 +3212,8 @@
 				95075B040817F8DB00D862A5,
 				95075B050817F8DB00D862A5,
 				95075B060817F8DB00D862A5,
+				9E975113081D8EED0044337B,
+				9E975114081D8EED0044337B,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4753,6 +4757,44 @@
 //952
 //953
 //954
+//9E0
+//9E1
+//9E2
+//9E3
+//9E4
+		9E975111081D8EED0044337B = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = "squelch-alt.tiff";
+			path = "Core/Resources/MenuExtra/squelch-alt.tiff";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9E975112081D8EED0044337B = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = squelch.tiff;
+			path = Core/Resources/MenuExtra/squelch.tiff;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9E975113081D8EED0044337B = {
+			fileRef = 9E975111081D8EED0044337B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9E975114081D8EED0044337B = {
+			fileRef = 9E975112081D8EED0044337B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//9E0
+//9E1
+//9E2
+//9E3
+//9E4
 //A10
 //A11
 //A12

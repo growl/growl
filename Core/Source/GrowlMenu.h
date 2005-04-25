@@ -11,8 +11,6 @@
 @interface GrowlMenu : NSObject {
 	GrowlPreferences	*preferences;
 	NSStatusItem		*statusItem;
-	NSImage				*images[2];
-	NSImage				*highlightImages[2];
 }
 
 - (IBAction) openGrowl:(id)sender;

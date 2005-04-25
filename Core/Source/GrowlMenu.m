@@ -33,14 +33,30 @@
 
 #import "GrowlController.h"
 
+static NSImage *clawImage = nil;
+static NSImage *clawHighlightImage = nil;
+static NSImage *squelchImage = nil;
+static NSImage *squelchHighlightImage = nil;
+
 int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
 
+	NSBundle *bundle = [NSBundle mainBundle];
+	
+	clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon" ofType:@"tiff"]];
+	clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon-alt" ofType:@"tiff"]];
+	squelchImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"tiff"]];
+	squelchHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch-alt" ofType:@"tiff"]];
+	
 	GrowlMenu *menu = [[GrowlMenu alloc] init];
 	[NSApp run];
 
 	[menu release];
+	[clawImage release];
+	[clawHighlightImage release];
+	[squelchImage release];
+	[squelchHighlightImage release];
 	[NSApp release];
 	[pool release];
 
@@ -53,72 +69,19 @@ int main(void) {
 	if ((self = [super init])) {
 		preferences = [GrowlPreferences preferences];
 
-		NSBundle *bundle = [NSBundle mainBundle];
-
-		//build the menu images.
-		{
-			//the basic Growl claw image.
-			images[NO] = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon" ofType:@"tiff"]];
-
-			//get our metrics.
-			NSRect imageRect = { .origin = NSZeroPoint, .size = [images[NO] size] };
-			NSRect pathRect = { .origin = { 2.0f, 2.0f }, .size = imageRect.size };
-			pathRect.size.width  -= 4.0f;
-			pathRect.size.height -= 4.0f;
-			NSPoint *topRight = (NSPoint *)&pathRect.size;
-
-			//draw a line from the bottom-left to the top-right.
-			NSBezierPath *linePath = [NSBezierPath bezierPath];
-			[linePath moveToPoint:pathRect.origin];
-			[linePath lineToPoint:*topRight];
-			[linePath closePath];
-			[linePath setLineWidth:2.0f];
-
-			//create our clipping path, used to give the line pointed edges.
-			NSBezierPath *rectPath = [NSBezierPath bezierPathWithRect:pathRect];
-
-			NSGraphicsContext *context = [NSApp context];
-
-			//Growl claw with red slash.
-			images[YES] = [[NSImage alloc] initWithSize:imageRect.size];
-			[images[YES] lockFocus];
-			[images[NO] drawInRect:imageRect
-			             fromRect:imageRect
-			            operation:NSCompositeSourceOver
-			             fraction:1.0f];
-			[context saveGraphicsState];
-			[[NSColor redColor] set];
-			[rectPath addClip];
-			[linePath stroke];
-			[context restoreGraphicsState];
-			[images[YES] unlockFocus];
-
-			//highlighted Growl claw.
-			highlightImages[NO] = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon-alt" ofType:@"tiff"]];
-
-			//highlighted Growl claw with white slash (because highlight images should be all-white).
-			highlightImages[YES] = [[NSImage alloc] initWithSize:imageRect.size];
-			[highlightImages[YES] lockFocus];
-			[highlightImages[NO] drawInRect:imageRect
-			             fromRect:imageRect
-			            operation:NSCompositeSourceOver
-			             fraction:1.0f];
-			[context saveGraphicsState];
-			[[NSColor whiteColor] set];
-			[rectPath addClip];
-			[linePath stroke];
-			[context restoreGraphicsState];
-			[highlightImages[YES] unlockFocus];
-		}
-
 		NSMenu *m = [self buildMenu];
 
-		BOOL squelchMode = ([preferences boolForKey:GrowlSquelchModeKey] != NO);
-
 		statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength] retain];
-		[statusItem setImage:images[squelchMode]];
-		[statusItem setAlternateImage:highlightImages[squelchMode]];
-		[statusItem setMenu:m]; // retains menu
+
+		if ([preferences boolForKey:GrowlSquelchModeKey]) {
+			[statusItem setImage:squelchImage];
+			[statusItem setAlternateImage:squelchHighlightImage];
+		} else {
+			[statusItem setImage:clawImage];
+			[statusItem setAlternateImage:clawHighlightImage];
+		}
+		
+		[statusItem setMenu:m]; // retains m
 		[statusItem setToolTip:@"Growl"];
 		[statusItem setHighlightMode:YES];
 
@@ -133,10 +96,6 @@ int main(void) {
 }
 
 - (void) dealloc {
-	[images[NO] release];
-	[images[YES] release];
-	[highlightImages[NO] release];
-	[highlightImages[YES] release];
 	[statusItem release];
 	[super dealloc];
 }
@@ -180,8 +139,13 @@ int main(void) {
 #pragma unused(sender)
 	BOOL squelchMode = ![preferences boolForKey:GrowlSquelchModeKey];
 	[preferences setBool:squelchMode forKey:GrowlSquelchModeKey];
-	[statusItem setImage:images[squelchMode]];
-	[statusItem setAlternateImage:highlightImages[squelchMode]];
+	if (squelchMode) {
+		[statusItem setImage:squelchImage];
+		[statusItem setAlternateImage:squelchHighlightImage];
+	} else {
+		[statusItem setImage:clawImage];
+		[statusItem setAlternateImage:clawHighlightImage];
+	}
 }
 
 - (IBAction) quitMenuExtra:(id)sender {
