@@ -26,7 +26,7 @@ static unsigned brushedDepth = 0U;
 	return self;
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[preferencePane release];
 	[super dealloc];
 }
@@ -74,8 +74,8 @@ static unsigned brushedDepth = 0U;
 - (void) _brushedClicked:(GrowlBrushedWindowController *)brushed {
 	id clickContext;
 
-	if ( (clickContext = [brushed clickContext]) ) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED	
+	if ((clickContext = [brushed clickContext])) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:[brushed appName]
 														  userInfo:clickContext];
 

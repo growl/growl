@@ -224,6 +224,18 @@ struct Growl_Delegate {
 	 *	 Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext.
 	 */
 	void (*growlNotificationWasClicked)(CFPropertyListRef clickContext);
+
+	/*!	@field	growlNotificationTimedOut
+	 *	@abstract	Called when a Growl notification timed out.
+	 *	@discussion	
+	 *	 Informs the delegate that a Growl notification timed out. It is only
+	 *	 sent for notifications sent with a non-<code>NULL</code> clickContext,
+	 *	 so if you want to receive a message when a notification is clicked,
+	 *	 clickContext must not be <code>NULL</code> when calling
+	 *	 Growl_PostNotification or
+	 *	 Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext.
+	 */
+	void (*growlNotificationTimedOut)(CFPropertyListRef clickContext);
 };
 
 /*!	@struct Growl_Notification

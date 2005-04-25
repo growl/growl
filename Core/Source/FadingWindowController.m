@@ -8,6 +8,7 @@
 
 #import "FadingWindowController.h"
 #import "GrowlController.h"
+#import "GrowlDefines.h"
 
 #define TIMER_INTERVAL (1.0 / 30.0)
 #define FADE_INCREMENT 0.05f
@@ -125,6 +126,16 @@
 	if (delegate && [delegate respondsToSelector:@selector(didFadeOut:)]) {
 		[delegate didFadeOut:self];
 	}
+
+	if (clickContext) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
+															object:appName
+														  userInfo:clickContext];
+		
+		//Avoid duplicate click messages by immediately clearing the clickContext
+		clickContext = nil;
+	}
+
 	[self close];	// close our window
 	[self release];	// we retained when we fade in
 }

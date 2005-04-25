@@ -275,6 +275,7 @@
  *	 callback in its delegate.
  */
 #define GROWL_NOTIFICATION_CLICKED		XSTR("GrowlClicked!")
+#define GROWL_NOTIFICATION_TIMED_OUT	XSTR("GrowlTimedOut!")
 
 /*!	@group Other symbols
  *	@abstract Symbols which don't fit into any of the other categories.

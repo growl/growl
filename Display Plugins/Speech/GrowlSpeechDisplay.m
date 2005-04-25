@@ -47,5 +47,12 @@
 	}
 
 	[syn autorelease];
+
+	id clickContext = [noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+	if (clickContext) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
+															object:[noteDict objectForKey:GROWL_APP_NAME]
+														  userInfo:clickContext];
+	}
 }
 @end

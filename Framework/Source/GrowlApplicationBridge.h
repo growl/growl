@@ -445,6 +445,18 @@
  */
 - (void) growlNotificationWasClicked:(id)clickContext;
 
+/*!
+ *	@method growlNotificationTimedOut:
+ *	@abstract Informs the delegate that a Growl notification timed out.
+ *	@discussion Informs the delegate that a Growl notification timed out. It
+ *	 is only sent for notifications sent with a non-<code>nil</code>
+ *	 clickContext, so if you want to receive a message when a notification is
+ *	 clicked, clickContext must not be <code>nil</code> when calling
+ *	 <code>+[GrowlApplicationBridge notifyWithTitle: description:notificationName:iconData:priority:isSticky:clickContext:]</code>.
+ *	@param clickContext The clickContext passed when displaying the notification originally via +[GrowlApplicationBridge notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:].
+ */
+- (void) growlNotificationTimedOut:(id)clickContext;
+
 @end
 
 #pragma mark -

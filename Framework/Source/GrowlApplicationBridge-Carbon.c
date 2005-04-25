@@ -34,6 +34,7 @@ static Boolean _launchGrowlIfInstalledWithRegistrationDictionary(CFDictionaryRef
 //notification callbacks.
 static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
 static void _growlNotificationWasClicked(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
+static void _growlNotificationTimedOut(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
 static Boolean registeredForClickCallbacks = false;
 
 #ifdef GROWL_WITH_INSTALLER
@@ -90,12 +91,14 @@ Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 		if (!registeredForClickCallbacks) {
 			//register
 			CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlNotificationWasClicked, _growlNotificationWasClicked, GROWL_NOTIFICATION_CLICKED, /*object*/ NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
+			CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlNotificationWasClicked, _growlNotificationTimedOut, GROWL_NOTIFICATION_CLICKED, /*object*/ NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
 			NSLog(CFSTR("Registering: notification center is %@; observer is %p; callback is %p; notification name is %@; object is %p; suspension behaviour is %i"), CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlNotificationWasClicked, _growlNotificationWasClicked, GROWL_NOTIFICATION_CLICKED, /*object*/ NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
 			registeredForClickCallbacks = true;
 		}
 	} else if (registeredForClickCallbacks) {
 		//unregister
 		CFNotificationCenterRemoveObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlNotificationWasClicked, GROWL_NOTIFICATION_CLICKED, /*object*/ NULL);
+		CFNotificationCenterRemoveObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlNotificationTimedOut, GROWL_NOTIFICATION_CLICKED, /*object*/ NULL);
 		registeredForClickCallbacks = false;
 	}
 
@@ -863,6 +866,36 @@ static void _growlNotificationWasClicked(CFNotificationCenterRef center, void *o
 					if (comparison == kCFCompareEqualTo) {
 						//this notification is for us. fire the callback.
 						growlNotificationWasClickedCallback(CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_CLICK_CONTEXT));
+					}
+				}
+				CFRelease(appName);
+			}
+		}
+	}
+}
+
+static void _growlNotificationTimedOut(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+#pragma unused(center, observer, name, object)
+	if (delegate && delegate->size == sizeof(struct Growl_Delegate)) {
+		void (*growlNotificationTimedOutCallback)(CFPropertyListRef) = delegate->growlNotificationTimedOut;
+		if (growlNotificationTimedOutCallback) {
+			//get our app name.
+			CFStringRef appName = NULL;
+			if (delegate->applicationName)
+				appName = CFRetain(delegate->applicationName);
+			else if (delegate->registrationDictionary) {
+				appName = CFDictionaryGetValue(delegate->registrationDictionary, GROWL_APP_NAME);
+				if (appName) appName = CFRetain(appName);
+			}
+			//get the name of the application to which this notification is addressed.
+			CFStringRef appNameFromNotification = CFDictionaryGetValue(userInfo, GROWL_APP_NAME);
+
+			if (appName) {
+				if (appNameFromNotification) {
+					CFComparisonResult comparison = CFStringCompare(appName, appNameFromNotification, /*comparisonFlags*/ 0);
+					if (comparison == kCFCompareEqualTo) {
+						//this notification is for us. fire the callback.
+						growlNotificationTimedOutCallback(CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_CLICK_CONTEXT));
 					}
 				}
 				CFRelease(appName);

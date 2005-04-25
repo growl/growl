@@ -118,11 +118,22 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	if ([delegate respondsToSelector:@selector(growlNotificationWasClicked:)]) {
 		[NSDNC addObserver:self
 				  selector:@selector(_growlNotificationWasClicked:)
-					  name:growlNotificationClickedName 
+					  name:growlNotificationClickedName
 					object:nil];
 	} else {
 		[NSDNC removeObserver:self
 						 name:growlNotificationClickedName
+					   object:nil];
+	}
+	NSString *growlNotificationTimedOutName = [appName stringByAppendingString:GROWL_NOTIFICATION_TIMED_OUT];
+	if ([delegate respondsToSelector:@selector(growlNotificationTimedOut:)]) {
+		[NSDNC addObserver:self
+				  selector:@selector(_growlNotificationTimedOut:)
+					  name:growlNotificationTimedOutName
+					object:nil];
+	} else {
+		[NSDNC removeObserver:self
+						 name:growlNotificationTimedOutName
 					   object:nil];
 	}
 
@@ -409,6 +420,10 @@ static BOOL		registerWhenGrowlIsReady = NO;
  */
 + (void) _growlNotificationWasClicked:(NSNotification *)notification {
 	[delegate performSelector:@selector(growlNotificationWasClicked:)
+				   withObject:[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
+}
++ (void) _growlNotificationTimedOut:(NSNotification *)notification {
+	[delegate performSelector:@selector(growlNotificationTimedOut:)
 				   withObject:[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
 }
 

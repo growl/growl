@@ -350,7 +350,7 @@
 #pragma unused(theEvent)
 	mouseOver = NO;
 	[self setNeedsDisplay:YES];
-	
+
 	// abuse the target object
 	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)]) {
 		[target performSelector:@selector(startFadeOut)];

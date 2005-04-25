@@ -240,14 +240,14 @@ static NSMutableDictionary *notificationsByIdentifier;
 		[notificationsByIdentifier removeObjectForKey:identifier];
 		[identifier release];
 	}
+
 	[super stopFadeOut];
 }
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
+
 	//extern unsigned BrushedWindowDepth;
-//	NSLog(@"BrushedController deallocking");
 	//if ( depth == brushedWindowDepth ) 
 	// 	brushedWindowDepth = 0;
 

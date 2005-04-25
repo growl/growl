@@ -73,11 +73,16 @@ static id singleton = nil;
 					  name:GROWL_PING
 					object:nil];
 
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(notificationClicked:)
-													 name:GROWL_NOTIFICATION_CLICKED
-												   object:nil];
-
+		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+		[nc addObserver:self
+			   selector:@selector(notificationClicked:)
+				   name:GROWL_NOTIFICATION_CLICKED
+				 object:nil];
+		[nc addObserver:self
+			   selector:@selector(notificationTimedOut:)
+				   name:GROWL_NOTIFICATION_TIMED_OUT
+				 object:nil];
+		
 		authenticator = [[MD5Authenticator alloc] init];
 
 		//XXX temporary DNC pathway hack - remove when real pathway support is in
@@ -969,7 +974,25 @@ static id singleton = nil;
 	userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[notification userInfo],
 		GROWL_KEY_CLICKED_CONTEXT, nil];
 
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName 
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName
+																   object:nil 
+																 userInfo:userInfo
+													   deliverImmediately:YES];
+
+	[userInfo release];
+}
+
+- (void) notificationTimedOut:(NSNotification *)notification {
+	NSString *appName, *growlNotificationTimedOutName;
+	NSDictionary *userInfo;
+
+	//Build the application-specific notification name
+	appName = [notification object];
+	growlNotificationTimedOutName = [appName stringByAppendingString:GROWL_NOTIFICATION_TIMED_OUT];
+	userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[notification userInfo],
+		GROWL_KEY_CLICKED_CONTEXT, nil];
+
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationTimedOutName
 																   object:nil 
 																 userInfo:userInfo
 													   deliverImmediately:YES];

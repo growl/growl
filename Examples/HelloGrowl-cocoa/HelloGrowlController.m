@@ -7,8 +7,6 @@
  *
  */
 
-
-
 	/*
 	 *		Import the Growl Framework.
 	 *		---------------------------
@@ -36,14 +34,6 @@
 
 #define SampleNotificationName	@"The HelloGrowl Sample Notification"
 
-
-
-
-
-
-
-
-
 /*	Our Application Controller	*/
 @implementation HelloGrowlController
 
@@ -51,7 +41,7 @@
 #pragma mark Initialisation & De-allocation
 
 //	It's good to be alive...
-- (id)init {
+- (id) init {
 	if ((self = [super init])) {		
 
 		/*
@@ -65,29 +55,22 @@
 		 */
 		
 		[GrowlApplicationBridge setGrowlDelegate:self];
-		return self;
 	}	
-	return nil;
+	return self;
 }
-
 
 //	Death comes to us all...
-- (void)dealloc
-{
-	[super release];
+- (void) dealloc {
+	[super dealloc];
 }
 
-
-
-
-
-
-
-
+- (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
+#pragma unused(theApplication)
+	return YES;
+}
 
 #pragma mark -
 #pragma mark Growl Delegate Methods
-
 
 /*
  *		Registration
@@ -117,7 +100,7 @@
 	NSArray *notifications = [NSArray arrayWithObjects:
 		SampleNotificationName,
 		nil];
-	
+
 	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"HelloGrowl", GROWL_APP_NAME,
 		notifications, GROWL_NOTIFICATIONS_ALL,
@@ -127,23 +110,19 @@
 	return regDict;
 }
 
-- (void) growlNotificationWasClicked:(id)clickContext
-{
+- (void) growlNotificationWasClicked:(id)clickContext {
 	NSLog(@"Hey - the user clicked one of my notifications - the context is: %@", clickContext);
 }
 
-
-
-
-
-
-
+- (void) growlNotificationTimedOut:(id)clickContext {
+	NSLog(@"Hey - nobody clicked one of my notifications - the context is: %@", clickContext);
+}
 
 #pragma mark -
 #pragma mark InterfaceBuilder Actions
 
-- (IBAction)growlIt:(id)sender
-{
+- (IBAction) growlIt:(id)sender {
+#pragma unused(sender)
 	/*
 	 *		Sending a notification.
 	 *		-----------------------
@@ -165,12 +144,7 @@
 								   iconData: nil
 								   priority:0
 								   isSticky:NO
-							   clickContext:[notificationTitleTextField stringValue]];
-	
+							   clickContext:[notificationTitleTextField stringValue]];	
 }
-
-
-
-
 
 @end
