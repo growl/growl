@@ -62,14 +62,22 @@ int main(void) {
 
 			//get our metrics.
 			NSRect imageRect = { .origin = NSZeroPoint, .size = [images[0] size] };
-			union { NSPoint point; NSSize size; } ptOrSize = { .size = imageRect.size };
+			NSRect pathRect = { .origin = { 2.0f, 2.0f }, .size = imageRect.size };
+			pathRect.size.width  -= 4.0f;
+			pathRect.size.height -= 4.0f;
+			NSPoint *topRight = (NSPoint *)&pathRect.size;
 
 			//draw a line from the bottom-left to the top-right.
 			NSBezierPath *linePath = [NSBezierPath bezierPath];
-			[linePath moveToPoint:NSZeroPoint];
-			[linePath lineToPoint:ptOrSize.point];
+			[linePath moveToPoint:pathRect.origin];
+			[linePath lineToPoint:*topRight];
 			[linePath closePath];
 			[linePath setLineWidth:2.0f];
+
+			//create our clipping path, used to give the line pointed edges.
+			NSBezierPath *rectPath = [NSBezierPath bezierPathWithRect:pathRect];
+
+			NSGraphicsContext *context = [NSApp context];
 
 			//Growl claw with red slash.
 			images[1] = [[NSImage alloc] initWithSize:imageRect.size];
@@ -78,8 +86,11 @@ int main(void) {
 			             fromRect:imageRect
 			            operation:NSCompositeSourceOver
 			             fraction:1.0f];
+			[context saveGraphicsState];
 			[[NSColor redColor] set];
+			[rectPath addClip];
 			[linePath stroke];
+			[context restoreGraphicsState];
 			[images[1] unlockFocus];
 
 			//highlighted Growl claw.
@@ -92,8 +103,11 @@ int main(void) {
 			             fromRect:imageRect
 			            operation:NSCompositeSourceOver
 			             fraction:1.0f];
+			[context saveGraphicsState];
 			[[NSColor whiteColor] set];
+			[rectPath addClip];
 			[linePath stroke];
+			[context restoreGraphicsState];
 			[highlightImages[1] unlockFocus];
 		}
 
