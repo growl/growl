@@ -18,12 +18,13 @@ static unsigned globalId = 0U;
 @implementation GrowlBrushedWindowController
 
 static const double gAdditionalLinesDisplayTime = 0.5;
-static const double gMaxDisplayTime = 10.;
+static const double gMaxDisplayTime = 10.0;
+static NSMutableDictionary *notificationsByIdentifier;
 
 #pragma mark -
 
-+ (GrowlBrushedWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned) theDepth {
-	return [[[GrowlBrushedWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky depth:theDepth] autorelease];
++ (GrowlBrushedWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned) theDepth identifier:(NSString *)identifier {
+	return [[[GrowlBrushedWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky depth:theDepth identifier:identifier] autorelease];
 }
 
 #pragma mark Delegate Methods
@@ -35,7 +36,7 @@ static const double gMaxDisplayTime = 10.;
 - (void) didFadeOut:(FadingWindowController *)sender {
 #pragma unused(sender)
 	NSSize windowSize = [[self window] frame].size;
-//	NSLog(@"self id: [%d]", self->identifier);
+//	NSLog(@"self id: [%d]", self->uid);
 
 	// stop depth wrapping around
 	if (windowSize.height > depth) {
@@ -44,7 +45,7 @@ static const double gMaxDisplayTime = 10.;
 		depth -= windowSize.height;
 	}
 
-	NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:identifier];
+	NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:uid];
 	NSNumber *depthValue = [[NSNumber alloc] initWithInt:depth];
 	NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
 		idValue,    @"ID",
@@ -62,15 +63,15 @@ static const double gMaxDisplayTime = 10.;
 - (void) _glideUp:(NSNotification *)note {
 	NSDictionary *userInfo = [note userInfo];
 //	NSLog(@"id: %d depth: %f", [[userInfo objectForKey:@"ID"] unsignedIntValue], [[userInfo objectForKey:@"Depth"] floatValue]);
-//	NSLog(@"self id: %d BrushedWindowDepth: %d", identifier, BrushedWindowDepth);
-	if ([[userInfo objectForKey:@"ID"] unsignedIntValue] < identifier) {
+//	NSLog(@"self id: %d BrushedWindowDepth: %d", uid, BrushedWindowDepth);
+	if ([[userInfo objectForKey:@"ID"] unsignedIntValue] < uid) {
 		NSWindow *window = [self window];
 		NSRect theFrame = [window frame];
 		theFrame.origin.y += [[[note userInfo] objectForKey:@"Depth"] floatValue];
 		// don't allow notification to fly off the top of the screen
 		if (theFrame.origin.y < NSMaxY( [[self screen] visibleFrame] ) - GrowlBrushedPadding) {
 			[window setFrame:theFrame display:NO animate:YES];
-			NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:identifier];
+			NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:uid];
 			NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
 				idValue, @"ID",
 				[NSValue valueWithRect:theFrame], @"Space",
@@ -89,15 +90,15 @@ static const double gMaxDisplayTime = 10.;
 	NSWindow *window = [self window];
 	NSRect theFrame = [window frame];
 	/*NSLog(@"Notification %u (%f, %f, %f, %f) received clear space message from notification %u (%f, %f, %f, %f)\n",
-		  identifier, i,
+		  uid, i,
 		  theFrame.origin.x, theFrame.origin.y, theFrame.size.width, theFrame.size.height,
 		  space.origin.x, space.origin.y, space.size.width, space.size.height);*/
-	if (i != identifier && NSIntersectsRect(space, theFrame)) {
+	if (i != uid && NSIntersectsRect(space, theFrame)) {
 		//NSLog(@"I intersect with this frame\n");
 		theFrame.origin.y = space.origin.y - space.size.height - GrowlBrushedPadding;
 		//NSLog(@"New origin: (%f, %f)\n", theFrame.origin.x, theFrame.origin.y);
 		[window setFrame:theFrame display:NO animate:YES];
-		NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:identifier];
+		NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:uid];
 		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			idValue, @"ID",
 			[NSValue valueWithRect:theFrame], @"Space",
@@ -110,8 +111,21 @@ static const double gMaxDisplayTime = 10.;
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned) theDepth {
-	identifier = globalId++;
+- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned)theDepth identifier:(NSString *)ident {
+	identifier = [ident retain];
+	GrowlBrushedWindowController *oldController = [notificationsByIdentifier objectForKey:identifier];
+	if (oldController) {
+		// coalescing
+		GrowlBrushedWindowView *view = (GrowlBrushedWindowView *)[[oldController window] contentView];
+		[view setPriority:priority];
+		[view setTitle:title];
+		[view setText:text];
+		[view setIcon:icon];
+		[self release];
+		self = oldController;
+		return self;
+	}
+	uid = globalId++;
 	depth = theDepth;
 	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
 
@@ -188,7 +202,7 @@ static const double gMaxDisplayTime = 10.;
 			displayTime = gMinDisplayTime;
 		}*/
 
-		NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:identifier];
+		NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:uid];
 		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			idValue, @"ID",
 			[NSValue valueWithRect:[[self window] frame]], @"Space",
@@ -201,6 +215,13 @@ static const double gMaxDisplayTime = 10.;
 			   selector:@selector(_clearSpace:)
 				   name:@"Clear Space"
 				 object:nil];
+
+		if (identifier) {
+			if (!notificationsByIdentifier) {
+				notificationsByIdentifier = [[NSMutableDictionary alloc] init];
+			}
+			[notificationsByIdentifier setObject:self forKey:identifier];
+		}
 	}
 	return self;
 }
@@ -212,6 +233,14 @@ static const double gMaxDisplayTime = 10.;
 	} else {
 		[super startFadeOut];
 	}
+}
+
+- (void) stopFadeOut {
+	if (identifier) {
+		[notificationsByIdentifier removeObjectForKey:identifier];
+		[identifier release];
+	}
+	[super stopFadeOut];
 }
 
 - (void) dealloc {
@@ -231,7 +260,7 @@ static const double gMaxDisplayTime = 10.;
 
 #pragma mark -
 
-- (unsigned)depth {
+- (unsigned) depth {
 	return depth;
 }
 @end

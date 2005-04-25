@@ -16,6 +16,7 @@
 #import "NSMutableStringAdditions.h"
 
 static unsigned webkitWindowDepth = 0U;
+static NSMutableDictionary *notificationsByIdentifier;
 
 @interface NSString(TigerCompatibility)
 - (id) initWithContentsOfFile:(NSString *)path encoding:(NSStringEncoding)enc error:(NSError **)error;
@@ -30,13 +31,24 @@ static unsigned webkitWindowDepth = 0U;
 
 #pragma mark -
 
-+ (GrowlWebKitWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky{
-	return [[[GrowlWebKitWindowController alloc] initWithTitle:title text:text icon:icon priority:(int)priority sticky:sticky] autorelease];
++ (GrowlWebKitWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL)sticky identifier:(NSString *)ident {
+	return [[[GrowlWebKitWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky identifier:ident] autorelease];
 }
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
+- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL)sticky identifier:(NSString *)ident {
+	identifier = [ident retain];
+	GrowlWebKitWindowController *oldController = [notificationsByIdentifier objectForKey:identifier];
+	if (oldController) {
+		// coalescing
+		WebView *view = (WebView *)[[oldController window] contentView];
+		[oldController setTitle:title text:text icon:icon priority:priority forView:view];
+		[self release];
+		self = oldController;
+		return self;
+	}
+
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, GrowlWebKitPrefDomain, &screenNumber);
 
@@ -69,65 +81,7 @@ static unsigned webkitWindowDepth = 0U;
 	[view setFrameLoadDelegate:self];
 	[panel setContentView:view];
 
-	NSString *priorityName;
-	switch (priority) {
-		case -2:
-			priorityName = @"verylow";
-			break;
-		case -1:
-			priorityName = @"moderate";
-			break;
-		default:
-		case 0:
-			priorityName = @"normal";
-			break;
-		case 1:
-			priorityName = @"high";
-			break;
-		case 2:
-			priorityName = @"emergency";
-			break;
-	}
-
-	NSString *styleName = @"Default";
-	READ_GROWL_PREF_VALUE(GrowlWebKitStylePref, GrowlWebKitPrefDomain, NSString *, &styleName);
-
-	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
-	NSBundle *styleBundle = [[GrowlPluginController controller] styleNamed:styleName];
-	NSString *templateFile = [bundle pathForResource:@"template" ofType:@"html"];
-	NSString *stylePath = [styleBundle resourcePath];
-	NSString *template = [NSString alloc];
-	if ([template respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {
-		NSError *error;
-		template = [template initWithContentsOfFile:templateFile encoding:NSUTF8StringEncoding error:&error];
-	} else {
-		// this method has been deprecated in 10.4
-		template = [template initWithContentsOfFile:templateFile];
-	}
-	if (!template) {
-		NSLog(@"WARNING: could not read template '%@'", templateFile);
-	}
-
-	NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
-	image = [icon retain];
-	[image setName:UUID];
-	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
-
-	NSMutableString *titleHTML = [[[NSMutableString alloc] initWithString:title] escapeForHTML];
-	NSMutableString *textHTML = [[[NSMutableString alloc] initWithString:text] escapeForHTML];
-	NSString *htmlString = [[NSString alloc] initWithFormat:template,
-		[[NSURL fileURLWithPath:stylePath] absoluteString],	// base URL
-		priorityName,	// priority class
-		UUID,			// image name
-		titleHTML,		// title
-		textHTML];		// text
-	[template release];
-	[titleHTML release];
-	[textHTML release];
-	WebFrame *webFrame = [view mainFrame];
-	[webFrame loadHTMLString:htmlString baseURL:nil];
-	[[webFrame frameView] setAllowsScrolling:NO];
-	[htmlString release];
+	[self setTitle:title text:text icon:icon priority:priority forView:view];
 
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
@@ -149,9 +103,78 @@ static unsigned webkitWindowDepth = 0U;
 		} else {
 			displayTime = duration;
 		}
+
+		if (identifier) {
+			if (!notificationsByIdentifier) {
+				notificationsByIdentifier = [[NSMutableDictionary alloc] init];
+			}
+			[notificationsByIdentifier setObject:self forKey:identifier];
+		}
 	}
 
 	return self;
+}
+
+- (void) setTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority forView:(WebView *)view {
+	NSString *priorityName;
+	switch (priority) {
+		case -2:
+			priorityName = @"verylow";
+			break;
+		case -1:
+			priorityName = @"moderate";
+			break;
+		default:
+		case 0:
+			priorityName = @"normal";
+			break;
+		case 1:
+			priorityName = @"high";
+			break;
+		case 2:
+			priorityName = @"emergency";
+			break;
+	}
+	
+	NSString *styleName = @"Default";
+	READ_GROWL_PREF_VALUE(GrowlWebKitStylePref, GrowlWebKitPrefDomain, NSString *, &styleName);
+	
+	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
+	NSBundle *styleBundle = [[GrowlPluginController controller] styleNamed:styleName];
+	NSString *templateFile = [bundle pathForResource:@"template" ofType:@"html"];
+	NSString *stylePath = [styleBundle resourcePath];
+	NSString *template = [NSString alloc];
+	if ([template respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {
+		NSError *error;
+		template = [template initWithContentsOfFile:templateFile encoding:NSUTF8StringEncoding error:&error];
+	} else {
+		// this method has been deprecated in 10.4
+		template = [template initWithContentsOfFile:templateFile];
+	}
+	if (!template) {
+		NSLog(@"WARNING: could not read template '%@'", templateFile);
+	}
+
+	NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
+	image = [icon retain];
+	[image setName:UUID];
+	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
+	
+	NSMutableString *titleHTML = [[[NSMutableString alloc] initWithString:title] escapeForHTML];
+	NSMutableString *textHTML = [[[NSMutableString alloc] initWithString:text] escapeForHTML];
+	NSString *htmlString = [[NSString alloc] initWithFormat:template,
+		[[NSURL fileURLWithPath:stylePath] absoluteString],	// base URL
+		priorityName,	// priority class
+		UUID,			// image name
+		titleHTML,		// title
+		textHTML];		// text
+	[template release];
+	[titleHTML release];
+	[textHTML release];
+	WebFrame *webFrame = [view mainFrame];
+	[webFrame loadHTMLString:htmlString baseURL:nil];
+	[[webFrame frameView] setAllowsScrolling:NO];
+	[htmlString release];
 }
 
 /*!
@@ -186,19 +209,20 @@ static unsigned webkitWindowDepth = 0U;
 #pragma unused(frame)
 	GrowlWebKitWindowView *view = (GrowlWebKitWindowView *)sender;
 	[view sizeToFit];
-	NSRect panelFrame = [view frame];
-
-	NSRect screen = [[self screen] visibleFrame];
-
-	[[self window] setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - GrowlWebKitPadding,
-											 NSMaxY(screen) - GrowlWebKitPadding - webkitWindowDepth)];
+	if (!positioned) {
+		NSRect panelFrame = [view frame];
+		NSRect screen = [[self screen] visibleFrame];
+		[[self window] setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - GrowlWebKitPadding,
+														NSMaxY(screen) - GrowlWebKitPadding - webkitWindowDepth)];
 
 #warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
-	// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
-	if (NSMinY(panelFrame) < 0.0f) {
-		depth = webkitWindowDepth = 0U;
-	} else {
-		depth = webkitWindowDepth += NSHeight(panelFrame) + GrowlWebKitPadding;
+		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
+		if (NSMinY(panelFrame) < 0.0f) {
+			depth = webkitWindowDepth = 0U;
+		} else {
+			depth = webkitWindowDepth += NSHeight(panelFrame) + GrowlWebKitPadding;
+		}
+		positioned = true;
 	}
 }
 
@@ -209,6 +233,14 @@ static unsigned webkitWindowDepth = 0U;
 	} else {
 		[super startFadeOut];
 	}
+}
+
+- (void) stopFadeOut {
+	if (identifier) {
+		[notificationsByIdentifier removeObjectForKey:identifier];
+		[identifier release];
+	}
+	[super stopFadeOut];
 }
 
 - (void) dealloc {

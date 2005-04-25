@@ -42,20 +42,21 @@ static const char usage[] =
 "Usage: growlnotify [-hsv] [-i ext] [-I filepath] [--image filepath]\n"
 "                   [-p priority] [-H host] [-U] [-P password] [title]\n"
 "Options:\n"
-"    -h,--help     Display this help\n"
-"    -v,--version  Display version number\n"
-"    -n,--name     Set the name of the application that sends the notification\n"
-"                  [Default: growlnotify]\n"
-"    -s            Make the notification sticky\n"
-"    -a,--appIcon  Specify an application name  to take the icon from\n"
-"    -i,--icon     Specify a file type or extension to look up for the notification icon\n"
-"    -I,--iconpath Specify a file whose icon will be the notification icon\n"
-"    --image       Specify an image file to be used for the notification icon\n"
-"    -p,--priority Specify an int or named key (default is 0)\n"
-"    -H,--host     Specify a hostname to which to send a remote notification.\n"
-"    -u,--udp      Use UDP instead of DO to send a remote notification.\n"
-"    -P,--password Password used for UDP notifications.\n"
-"    --port        Port number for UDP notifications.\n"
+"    -h,--help       Display this help\n"
+"    -v,--version    Display version number\n"
+"    -n,--name       Set the name of the application that sends the notification\n"
+"                    [Default: growlnotify]\n"
+"    -s              Make the notification sticky\n"
+"    -a,--appIcon    Specify an application name  to take the icon from\n"
+"    -i,--icon       Specify a file type or extension to look up for the notification icon\n"
+"    -I,--iconpath   Specify a file whose icon will be the notification icon\n"
+"    --image         Specify an image file to be used for the notification icon\n"
+"    -p,--priority   Specify an int or named key (default is 0)\n"
+"    -d,--identifier Specify a notification identifier\n"
+"    -H,--host       Specify a hostname to which to send a remote notification.\n"
+"    -P,--password   Password used for remote notifications.\n"
+"    -u,--udp        Use UDP instead of DO to send a remote notification.\n"
+"    --port          Port number for UDP notifications.\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
 "message given in the standard input.\n"
@@ -96,6 +97,7 @@ int main(int argc, const char **argv) {
 	unsigned char *registrationPacket, *notificationPacket;
 	struct sockaddr_in to;
 	char *password = NULL;
+	char *identifier = NULL;
 
 	struct option longopts[] = {
 		{ "help",		no_argument,		NULL,	'h' },
@@ -112,10 +114,11 @@ int main(int argc, const char **argv) {
 		{ "password",	required_argument,	NULL,	'P' },
 		{ "port",		required_argument,	&flag,	 2  },
 		{ "version",	no_argument,		NULL,	'v' },
+		{ "identifier", required_argument,  NULL,   'd' },
 		{ NULL,			0,					NULL,	 0  }
 	};
 
-	while ((ch = getopt_long(argc, (char * const *)argv, "hvn:sa:i:I:p:tm:H:uP:", longopts, NULL)) != -1) {
+	while ((ch = getopt_long(argc, (char * const *)argv, "hvn:sa:i:I:p:tm:H:uP:d:", longopts, NULL)) != -1) {
 		switch (ch) {
 		case '?':
 			puts(usage);
@@ -170,6 +173,9 @@ int main(int argc, const char **argv) {
 			break;
 		case 'P':
 			password = optarg;
+			break;
+		case 'd':
+			identifier = optarg;
 			break;
 		case 0:
 			if (flag == 1) {
@@ -244,30 +250,38 @@ int main(int argc, const char **argv) {
 	} else {
 		applicationName = @"growlnotify";
 	}
+
+	NSString *identifierString;
+	if (identifier) {
+		identifierString = [[NSString alloc] initWithUTF8String:identifier];
+	} else {
+		identifierString = nil;
+	}
 	
 	// Register with Growl
 	NSDictionary *registerInfo;
 	NSArray *defaultAndAllNotifications = [[NSArray alloc] initWithObjects:NOTIFICATION_NAME, nil];
 	registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-		applicationName, GROWL_APP_NAME,
+		applicationName,            GROWL_APP_NAME,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-		icon, GROWL_APP_ICON,
+		icon,                       GROWL_APP_ICON,
 		nil];
 	[defaultAndAllNotifications release];
 
 	// Notify
 	NSDictionary *notificationInfo;
 	notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-		NOTIFICATION_NAME, GROWL_NOTIFICATION_NAME,
-		applicationName, GROWL_APP_NAME,
-		title, GROWL_NOTIFICATION_TITLE,
-		desc, GROWL_NOTIFICATION_DESCRIPTION,
-		[NSNumber numberWithInt:priority], GROWL_NOTIFICATION_PRIORITY,
+		NOTIFICATION_NAME,                  GROWL_NOTIFICATION_NAME,
+		applicationName,                    GROWL_APP_NAME,
+		title,                              GROWL_NOTIFICATION_TITLE,
+		desc,                               GROWL_NOTIFICATION_DESCRIPTION,
+		[NSNumber numberWithInt:priority],  GROWL_NOTIFICATION_PRIORITY,
 		[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
-		icon, GROWL_NOTIFICATION_ICON,
+		icon,                               GROWL_NOTIFICATION_ICON,
+		identifierString,					GROWL_NOTIFICATION_IDENTIFIER,
 		nil];
-	
+
 	if (host) {
 		if (useUDP) {
 			he = gethostbyname(host);

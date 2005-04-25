@@ -335,8 +335,11 @@
 }
 
 - (void) reloadPrefs:(NSNotification *)notification {
-#pragma unused(notification)
-	[self reloadPreferences];
+	// ignore notifications which are sent by ourselves
+	NSNumber *pid = [[notification userInfo] objectForKey:@"pid"];
+	if (!pid || [pid intValue] != [[NSProcessInfo processInfo] processIdentifier]) {
+		[self reloadPreferences];
+	}
 }
 
 - (void) reloadPreferences {
@@ -646,7 +649,12 @@
 	int	oldSelectionIndex = [ticketsArrayController selectionIndex];
 
 	if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys: [ticket applicationName], @"TicketName", nil];
+		NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
+		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+			[ticket applicationName], @"TicketName",
+			pid,                      @"pid",
+			nil];
+		[pid release];
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
 																	   object:@"GrowlTicketDeleted"
 																	 userInfo:userInfo];

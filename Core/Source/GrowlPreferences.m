@@ -66,8 +66,13 @@ static GrowlPreferences *sharedPreferences;
 
 	CFPreferencesAppSynchronize((CFStringRef)HelperAppBundleIdentifier);
 
+	NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
+	NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:pid, @"pid", nil];
+	[pid release];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
-																   object:key];
+																   object:key
+																 userInfo:userInfo];
+	[userInfo release];
 }
 
 - (BOOL) boolForKey:(NSString *)key {

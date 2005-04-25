@@ -28,20 +28,20 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	GrowlBubblesWindowController *nuBubble = [GrowlBubblesWindowController
-		bubbleWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
-				   text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-				   icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-			   priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
-				 sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
+	GrowlBubblesWindowController *nuBubble = [[GrowlBubblesWindowController alloc]
+		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
+				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+			   sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
+		   identifier:[noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]];
 	[nuBubble setTarget:self];
 	[nuBubble setAction:@selector(_bubbleClicked:)];
 	[nuBubble setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[nuBubble setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[nuBubble setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
-
-	[nuBubble startFadeIn];
-//	NSLog( @"bubble - %@", nuBubble );
+	[nuBubble startFadeIn];	// retains nuBubble
+	[nuBubble release];
 }
 
 - (void) _bubbleClicked:(GrowlBubblesWindowController *)bubble {

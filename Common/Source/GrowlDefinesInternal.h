@@ -218,8 +218,14 @@ struct GrowlNetworkNotification {
  */
 #define UPDATE_GROWL_PREFS() do { \
 	SYNCHRONIZE_GROWL_PREFS(); \
-	[[NSDistributedNotificationCenter defaultCenter] \
-		postNotificationName:@"GrowlPreferencesChanged" object:@"GrowlUserDefaults"];\
+	NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];\
+	NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:\
+		pid,     @"pid",\
+		nil];\
+	[pid release];\
+	[[NSDistributedNotificationCenter defaultCenter]\
+		postNotificationName:@"GrowlPreferencesChanged" object:@"GrowlUserDefaults" userInfo:userInfo];\
+	[userInfo release];\
 	} while(0)
 
 /*!	@function    READ_GROWL_PREF_VALUE

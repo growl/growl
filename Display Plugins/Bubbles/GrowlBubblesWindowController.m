@@ -14,6 +14,7 @@
 #import "NSWindow+Transforms.h"
 
 static unsigned bubbleWindowDepth = 0U;
+static NSMutableDictionary *notificationsByIdentifier;
 
 @implementation GrowlBubblesWindowController
 
@@ -24,13 +25,27 @@ static unsigned bubbleWindowDepth = 0U;
 
 #pragma mark -
 
-+ (GrowlBubblesWindowController *) bubbleWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky{
-	return [[[GrowlBubblesWindowController alloc] initWithTitle:title text:text icon:icon priority:(int)priority sticky:sticky] autorelease];
++ (GrowlBubblesWindowController *) bubbleWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky identifier:(NSString *)identifier {
+	return [[[GrowlBubblesWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky identifier:identifier] autorelease];
 }
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky {
+- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky identifier:(NSString *)ident {
+	identifier = [ident retain];
+	GrowlBubblesWindowController *oldController = [notificationsByIdentifier objectForKey:identifier];
+	if (oldController) {
+		// coalescing
+		GrowlBubblesWindowView *view = (GrowlBubblesWindowView *)[[oldController window] contentView];
+		[view setPriority:priority];
+		[view setTitle:title];
+		[view setText:text];
+		[view setIcon:icon];
+		[self release];
+		self = oldController;
+		return self;
+	}
+
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &screenNumber);
 
@@ -72,8 +87,8 @@ static unsigned bubbleWindowDepth = 0U;
 
 	NSRect screen = [[self screen] visibleFrame];
 
-	[panel setFrameTopLeftPoint:NSMakePoint( NSMaxX( screen ) - NSWidth( panelFrame ) - GrowlBubblesPadding,
-											 NSMaxY( screen ) - GrowlBubblesPadding - bubbleWindowDepth )];
+	[panel setFrameTopLeftPoint:NSMakePoint( NSMaxX(screen) - NSWidth(panelFrame) - GrowlBubblesPadding,
+											 NSMaxY(screen) - GrowlBubblesPadding - bubbleWindowDepth )];
 
 	if ((self = [super initWithWindow:panel])) {
 		#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
@@ -99,6 +114,13 @@ static unsigned bubbleWindowDepth = 0U;
 		} else {
 			displayTime = duration;
 		}
+
+		if (identifier) {
+			if (!notificationsByIdentifier) {
+				notificationsByIdentifier = [[NSMutableDictionary alloc] init];
+			}
+			[notificationsByIdentifier setObject:self forKey:identifier];
+		}
 	}
 
 	return self;
@@ -111,6 +133,14 @@ static unsigned bubbleWindowDepth = 0U;
 	} else {
 		[super startFadeOut];
 	}
+}
+
+- (void) stopFadeOut {
+	if (identifier) {
+		[notificationsByIdentifier removeObjectForKey:identifier];
+		[identifier release];
+	}
+	[super stopFadeOut];
 }
 
 - (void) dealloc {

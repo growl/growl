@@ -10,15 +10,16 @@
 
 @interface GrowlBrushedWindowController : FadingWindowController {
 	unsigned	depth;
-	unsigned	identifier;
+	NSString	*identifier;
+	unsigned	uid;
 	id			plugin; // the GrowlBrushedDisplay object which created us
 }
 
-+ (GrowlBrushedWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned) depth;
++ (GrowlBrushedWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) ticky depth:(unsigned)depth identifier:(NSString *)ident;
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned)depth;
+- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned)depth identifier:(NSString *)ident;
 
 - (unsigned) depth;
 @end

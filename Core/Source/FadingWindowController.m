@@ -125,47 +125,47 @@
 	if (delegate && [delegate respondsToSelector:@selector(didFadeOut:)]) {
 		[delegate didFadeOut:self];
 	}
-	[self close]; // close our window
-	[self release]; // we retained when we fade in
+	[self close];	// close our window
+	[self release];	// we retained when we fade in
 }
 
 #pragma mark -
 
-- (BOOL)automaticallyFadeOut {
+- (BOOL) automaticallyFadeOut {
 	return autoFadeOut;
 }
 
-- (void)setAutomaticallyFadesOut:(BOOL) autoFade {
+- (void) setAutomaticallyFadesOut:(BOOL)autoFade {
 	autoFadeOut = autoFade;
 }
 
 #pragma mark -
 
-- (float)fadeIncrement {
+- (float) fadeIncrement {
 	return fadeIncrement;
 }
 
-- (void)setFadeIncrement:(float) increment {
+- (void) setFadeIncrement:(float)increment {
 	fadeIncrement = increment;
 }
 
 #pragma mark -
 
-- (float)timerInterval {
+- (float) timerInterval {
 	return timerInterval;
 }
 
-- (void)setTimerInterval:(float) interval {
+- (void) setTimerInterval:(float) interval {
 	timerInterval = interval;
 }
 
 #pragma mark -
 
-- (double)displayTime {
+- (double) displayTime {
 	return displayTime;
 }
 
-- (void)setDisplayTime:(double) t {
+- (void) setDisplayTime:(double) t {
 	displayTime = t;
 }
 
@@ -189,7 +189,7 @@
 	screenshotMode = newScreenshotMode;
 }
 
-- (void)takeScreenshot {
+- (void) takeScreenshot {
 	NSWindow *window = [self window];
 
 	NSRect frame = [window frame];
@@ -246,11 +246,11 @@
 
 #pragma mark -
 
-- (NSString *)appName {
+- (NSString *) appName {
 	return appName;
 }
 
-- (void) setAppName:(NSString *) inAppName {
+- (void) setAppName:(NSString *)inAppName {
 	[appName autorelease];
 	appName = [inAppName retain];
 }
@@ -268,7 +268,7 @@
 
 #pragma mark -
 
-- (void) _notificationClicked:(id) sender {
+- (void) _notificationClicked:(id)sender {
 #pragma unused(sender)
 	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];

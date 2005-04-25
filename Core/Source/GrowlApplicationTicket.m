@@ -289,7 +289,12 @@
 
 - (void) synchronize {
 	[self saveTicket];
-	NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:appName, @"TicketName", nil];
+	NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
+	NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+		appName, @"TicketName",
+		pid,     @"pid",
+		nil];
+	[pid release];
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
 																   object:@"GrowlTicketChanged"
 																 userInfo:userInfo];

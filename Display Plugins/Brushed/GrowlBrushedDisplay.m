@@ -40,13 +40,14 @@ static unsigned brushedDepth = 0U;
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
 	//NSLog(@"Brushed: displayNotificationWithInfo");
-	GrowlBrushedWindowController *controller
-		= [GrowlBrushedWindowController notifyWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
-												   text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
-												   icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-											   priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
-												 sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
-												  depth:brushedDepth];
+	GrowlBrushedWindowController *controller = [[GrowlBrushedWindowController alloc]
+		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
+				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
+				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+			   sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
+				depth:brushedDepth
+		   identifier:[noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]];
 
 	[controller setTarget:self];
 	[controller setAction:@selector(_brushedClicked:)];
@@ -58,6 +59,7 @@ static unsigned brushedDepth = 0U;
 	// which will take into account the new notification's height
 	brushedDepth = [controller depth] + GrowlBrushedPadding;
 	[controller startFadeIn];
+	[controller release];
 }
 
 - (void) _brushedGone:(NSNotification *)note {
