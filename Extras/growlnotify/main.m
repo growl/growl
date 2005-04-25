@@ -57,6 +57,7 @@ static const char usage[] =
 "    -P,--password   Password used for remote notifications.\n"
 "    -u,--udp        Use UDP instead of DO to send a remote notification.\n"
 "    --port          Port number for UDP notifications.\n"
+"    -w,--wait       Wait until the notification has been dismissed.\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
 "message given in the standard input.\n"
@@ -72,12 +73,25 @@ static const char usage[] =
 static const char *version = "growlnotify 0.6\n"
 "Copyright (c) The Growl Project, 2004-2005";
 
+@interface GrowlNotificationObserver : NSObject
+- (void) notificationDismissed:(id)clickContext;
+@end
+
+@implementation GrowlNotificationObserver {
+}
+- (void) notificationDismissed:(id)clickContext {
+#pragma unused(clickContext)
+	[NSApp terminate:self];
+}
+@end
+
 int main(int argc, const char **argv) {
 	// options
 	extern char *optarg;
 	extern int optind;
 	int ch;
 	BOOL isSticky = NO;
+	BOOL wait = NO;
 	char *appName = NULL;
 	char *appIcon = NULL;
 	char *iconExt = NULL;
@@ -115,10 +129,11 @@ int main(int argc, const char **argv) {
 		{ "port",		required_argument,	&flag,	 2  },
 		{ "version",	no_argument,		NULL,	'v' },
 		{ "identifier", required_argument,  NULL,   'd' },
+		{ "wait",		no_argument,		NULL,   'w' },
 		{ NULL,			0,					NULL,	 0  }
 	};
 
-	while ((ch = getopt_long(argc, (char * const *)argv, "hvn:sa:i:I:p:tm:H:uP:d:", longopts, NULL)) != -1) {
+	while ((ch = getopt_long(argc, (char * const *)argv, "hvn:sa:i:I:p:tm:H:uP:d:w", longopts, NULL)) != -1) {
 		switch (ch) {
 		case '?':
 			puts(usage);
@@ -176,6 +191,9 @@ int main(int argc, const char **argv) {
 			break;
 		case 'd':
 			identifier = optarg;
+			break;
+		case 'w':
+			wait = YES;
 			break;
 		case 0:
 			if (flag == 1) {
@@ -259,9 +277,8 @@ int main(int argc, const char **argv) {
 	}
 	
 	// Register with Growl
-	NSDictionary *registerInfo;
 	NSArray *defaultAndAllNotifications = [[NSArray alloc] initWithObjects:NOTIFICATION_NAME, nil];
-	registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+	NSDictionary *registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 		applicationName,            GROWL_APP_NAME,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_DEFAULT,
@@ -270,8 +287,8 @@ int main(int argc, const char **argv) {
 	[defaultAndAllNotifications release];
 
 	// Notify
-	NSDictionary *notificationInfo;
-	notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+	NSString *clickContext = [[NSProcessInfo processInfo] globallyUniqueString];
+	NSDictionary *notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 		NOTIFICATION_NAME,                  GROWL_NOTIFICATION_NAME,
 		applicationName,                    GROWL_APP_NAME,
 		title,                              GROWL_NOTIFICATION_TITLE,
@@ -279,6 +296,7 @@ int main(int argc, const char **argv) {
 		[NSNumber numberWithInt:priority],  GROWL_NOTIFICATION_PRIORITY,
 		[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
 		icon,                               GROWL_NOTIFICATION_ICON,
+		clickContext,                       GROWL_NOTIFICATION_CLICK_CONTEXT,
 		identifierString,					GROWL_NOTIFICATION_IDENTIFIER,
 		nil];
 
@@ -358,8 +376,24 @@ int main(int argc, const char **argv) {
 		}
 	} else {
 		NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
+		GrowlNotificationObserver *growlNotificationObserver = nil;
+		if (wait) {
+			growlNotificationObserver = [[GrowlNotificationObserver alloc] init];
+			[distCenter addObserver:growlNotificationObserver
+						   selector:@selector(notificationDismissed:)
+							   name:[applicationName stringByAppendingString:GROWL_NOTIFICATION_CLICKED]
+							 object:nil];
+			[distCenter addObserver:growlNotificationObserver
+						   selector:@selector(notificationDismissed:)
+							   name:[applicationName stringByAppendingString:GROWL_NOTIFICATION_TIMED_OUT]
+							 object:nil];
+		}
 		[distCenter postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:registerInfo options:NSNotificationPostToAllSessions];
 		[distCenter postNotificationName:GROWL_NOTIFICATION object:nil userInfo:notificationInfo options:NSNotificationPostToAllSessions];
+		if (wait) {
+			[[NSRunLoop currentRunLoop] run];
+			[growlNotificationObserver release];
+		}
 	}
 
 	[registerInfo     release];
