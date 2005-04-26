@@ -1,6 +1,7 @@
 DEFAULT_BUILDSTYLE=Deployment
 
-DESTDIR=/Library/Widgets/Growl.wdgt
+PREFIX?=
+DESTDIR=${PREFIX}/Library/Widgets/Growl.wdgt
 
 BUILDSTYLE?=$(DEFAULT_BUILDSTYLE)
 
