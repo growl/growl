@@ -33,30 +33,14 @@
 
 #import "GrowlController.h"
 
-static NSImage *clawImage = nil;
-static NSImage *clawHighlightImage = nil;
-static NSImage *squelchImage = nil;
-static NSImage *squelchHighlightImage = nil;
-
 int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
-
-	NSBundle *bundle = [NSBundle mainBundle];
-	
-	clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon" ofType:@"tiff"]];
-	clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon-alt" ofType:@"tiff"]];
-	squelchImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"tiff"]];
-	squelchHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch-alt" ofType:@"tiff"]];
 	
 	GrowlMenu *menu = [[GrowlMenu alloc] init];
 	[NSApp run];
 
 	[menu release];
-	[clawImage release];
-	[clawHighlightImage release];
-	[squelchImage release];
-	[squelchHighlightImage release];
 	[NSApp release];
 	[pool release];
 
@@ -72,6 +56,13 @@ int main(void) {
 		NSMenu *m = [self buildMenu];
 
 		statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength] retain];
+
+		NSBundle *bundle = [NSBundle mainBundle];
+		
+		clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon" ofType:@"tiff"]];
+		clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon-alt" ofType:@"tiff"]];
+		squelchImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"tiff"]];
+		squelchHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch-alt" ofType:@"tiff"]];
 
 		if ([preferences boolForKey:GrowlSquelchModeKey]) {
 			[statusItem setImage:squelchImage];
@@ -97,6 +88,10 @@ int main(void) {
 
 - (void) dealloc {
 	[statusItem release];
+	[clawImage release];
+	[clawHighlightImage release];
+	[squelchImage release];
+	[squelchHighlightImage release];
 	[super dealloc];
 }
 
