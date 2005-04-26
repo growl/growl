@@ -12,7 +12,6 @@
 #import "GrowlPluginController.h"
 #import "NSGrowlAdditions.h"
 
-
 #define kRestartGrowl         NSLocalizedString(@"Restart Growl", @"")
 #define kStartGrowl           NSLocalizedString(@"Start Growl", @"")
 #define kStopGrowl            NSLocalizedString(@"Stop Growl", @"")
@@ -20,18 +19,6 @@
 #define kOpenGrowlPreferences NSLocalizedString(@"Open Growl preferences...", @"")
 #define kSquelchMode          NSLocalizedString(@"Squelch mode", @"")
 #define kStopGrowlMenu        NSLocalizedString(@"Quit GrowlMenu", @"")
-
-
-/*
- *  HelperMain.m
- *  Growl
- *
- *  Created by Karl Adam on Thu Apr 22 2004.
- *  Copyright (c) 2004 The Growl Project. All rights reserved.
- *
- */
-
-#import "GrowlController.h"
 
 int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];

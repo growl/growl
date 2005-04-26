@@ -22,4 +22,9 @@
 + (NSBundle *) helperAppBundle;
 + (NSString *) growlSupportDir;
 
+//the current screenshots directory: $HOME/Library/Application\ Support/Growl/Screenshots
++ (NSString *) screenshotsDirectory;
+//returns e.g. @"Screenshot 1". you append your own pathname extension; it is guaranteed not to exist.
++ (NSString *) nextScreenshotName;
+
 @end

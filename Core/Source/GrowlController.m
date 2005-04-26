@@ -602,44 +602,6 @@ static id singleton = nil;
 
 #pragma mark -
 
-- (NSString *)screenshotsDirectory {
-	NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Application Support/Growl/Screenshots"];
-	[[NSFileManager defaultManager] createDirectoryAtPath:path
-											   attributes:nil];
-	return path;
-}
-
-- (NSString *)nextScreenshotName {
-	NSFileManager *mgr = [NSFileManager defaultManager];
-
-	NSString *directory = [self screenshotsDirectory];
-	NSString *filename = nil;
-
-	NSArray *origContents = [mgr directoryContentsAtPath:directory];
-	NSMutableSet *directoryContents = [[NSMutableSet alloc] initWithCapacity:[origContents count]];
-
-	NSEnumerator *filesEnum = [origContents objectEnumerator];
-	NSString *existingFilename;
-	while ((existingFilename = [filesEnum nextObject])) {
-		existingFilename = [directory stringByAppendingPathComponent:[existingFilename stringByDeletingPathExtension]];
-		[directoryContents addObject:existingFilename];
-	}
-
-	for (unsigned long i = 1UL; i < ULONG_MAX; ++i) {
-		[filename release];
-		filename = [[NSString alloc] initWithFormat:@"Screenshot %lu", i];
-		NSString *path = [directory stringByAppendingPathComponent:filename];
-		if (![directoryContents containsObject:path]) {
-			break;
-		}
-	}
-	[directoryContents release];
-
-	return [filename autorelease];
-}
-
-#pragma mark -
-
 - (void) preferencesChanged: (NSNotification *) note {
 	//[note object] is the changed key. A nil key means reload our tickets.
 	id object = [note object];

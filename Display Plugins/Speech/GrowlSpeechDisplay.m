@@ -9,8 +9,8 @@
 #import "GrowlSpeechDisplay.h"
 #import "GrowlSpeechPrefs.h"
 #import "GrowlSpeechDefines.h"
+#import "GrowlPathUtil.h"
 #import <GrowlDefinesInternal.h>
-#import "GrowlController.h"
 
 @implementation GrowlSpeechDisplay
 - (void) dealloc {
@@ -40,8 +40,7 @@
 	[syn startSpeakingString:desc];
 
 	if ([[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]) {
-		GrowlController *growlController = [GrowlController standardController];
-		NSString *path = [[[growlController screenshotsDirectory] stringByAppendingPathComponent:[growlController nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
+		NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
 		NSURL *URL = [NSURL fileURLWithPath:path];
 		[syn startSpeakingString:desc toURL:URL];
 	}

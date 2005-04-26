@@ -7,7 +7,7 @@
 //
 
 #import "FadingWindowController.h"
-#import "GrowlController.h"
+#import "GrowlPathUtil.h"
 #import "GrowlDefines.h"
 
 #define TIMER_INTERVAL (1.0 / 30.0)
@@ -218,8 +218,7 @@
 									   properties:nil];
 	[bitmap release];
 
-	GrowlController *growlController = [GrowlController standardController];
-	NSString *path = [[[growlController screenshotsDirectory] stringByAppendingPathComponent:[growlController nextScreenshotName]] stringByAppendingPathExtension:@"png"];
+	NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:@"png"];
 	[PNG writeToFile:path atomically:NO];
 }
 

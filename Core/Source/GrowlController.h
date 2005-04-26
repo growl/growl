@@ -66,11 +66,6 @@
 - (NSDictionary *) versionDictionary;
 - (NSString *) stringWithVersionDictionary:(NSDictionary *)d;
 
-//the current screenshots directory: $HOME/Library/Application\ Support/Growl/Screenshots
-- (NSString *)screenshotsDirectory;
-//returns e.g. @"Screenshot 1". you append your own pathname extension; it is guaranteed not to exist.
-- (NSString *)nextScreenshotName;
-
 - (void) preferencesChanged:(NSNotification *) note;
 
 - (void) shutdown:(NSNotification *)note;
