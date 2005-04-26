@@ -137,12 +137,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		07D943C10816E3F10089FA0E = {
-			fileRef = 07D943C00816E3F10089FA0E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 //070
 //071
 //072
@@ -262,7 +256,6 @@
 				07D943BC0816E3CE0089FA0E,
 				8DD76F990486AA7600D96B5E,
 				8DD76F9B0486AA7600D96B5E,
-				8DD76F9E0486AA7600D96B5E,
 			);
 			buildRules = (
 			);
@@ -323,23 +316,6 @@
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8DD76F9E0486AA7600D96B5E = {
-			buildActionMask = 8;
-			dstPath = /usr/local/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-				8DD76F9F0486AA7600D96B5E,
-				07D943C10816E3F10089FA0E,
-			);
-			isa = PBXCopyFilesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		8DD76F9F0486AA7600D96B5E = {
-			fileRef = C6859EA3029092ED04C91782;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		8DD76FA10486AA7600D96B5E = {
 			explicitFileType = "compiled.mach-o.executable";
