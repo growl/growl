@@ -122,23 +122,26 @@ use constant GROWL_NOTIFICATION					=> "GrowlNotification";
 
 use constant GROWL_PING							=> "Honey, Mind Taking Out The Trash";
 use constant GROWL_PONG							=> "What Do You Want From Me, Woman";
-use constant NSNotificationPostToAllSessions		=> 1 << 1;
+use constant NSNotificationPostToAllSessions	=> 1 << 1;
 
 sub Foundation_RegisterNotifications($$$;$)
 {
 	my($appName, $allNotes, $defaultNotes, $iconOfApp) = @_;
 	
-	my $appString    = NSString->stringWithCString_($appName);
-	my $notesArray   = NSMutableArray->array;
-	my $defaultArray = NSMutableArray->array;
+	my $appString    = NSString->alloc->initWithCString_($appName);
+	my $notesArray   = NSMutableArray->alloc->init;
+	my $defaultArray = NSMutableArray->alloc->init;
 
 	$notesArray->addObject_($_)   for @$allNotes;
 	$defaultArray->addObject_($_) for @$defaultNotes;
 
-	my $regDict = NSMutableDictionary->dictionary;
-	$regDict->setObject_forKey_($appName,      GROWL_APP_NAME);
+	my $regDict = NSMutableDictionary->alloc->initWithCapacity_(4);
+	$regDict->setObject_forKey_($appString,    GROWL_APP_NAME);
 	$regDict->setObject_forKey_($notesArray,   GROWL_NOTIFICATIONS_ALL);
 	$regDict->setObject_forKey_($defaultArray, GROWL_NOTIFICATIONS_DEFAULT);
+	$appString->release;
+	$notesArray->release;
+	$defaultArray->release;
 
 	if ($appkit && defined $iconOfApp) {
 		my $path = NSWorkspace->sharedWorkspace->fullPathForApplication_(
@@ -158,6 +161,7 @@ sub Foundation_RegisterNotifications($$$;$)
 		$regDict,
 		NSNotificationPostToAllSessions
 	);
+	$regDict->release;
 }
 
 sub Foundation_PostNotification($$$$;$$$)
@@ -165,23 +169,37 @@ sub Foundation_PostNotification($$$$;$$$)
 	my($appName, $noteName, $noteTitle, $noteDescription, $sticky, $priority, $image) = @_;
 	$sticky = $sticky ? 1 : 0;
 
-	my $noteDict = NSMutableDictionary->dictionary;
-	$noteDict->setObject_forKey_($noteName,        GROWL_NOTIFICATION_NAME);
-	$noteDict->setObject_forKey_($appName,         GROWL_APP_NAME);
-	$noteDict->setObject_forKey_($noteTitle,       GROWL_NOTIFICATION_TITLE);
-	$noteDict->setObject_forKey_($noteDescription, GROWL_NOTIFICATION_DESCRIPTION);
-	$noteDict->setObject_forKey_(NSNumber->numberWithBool_($sticky),  GROWL_NOTIFICATION_STICKY)
-		if defined $sticky;
-	$noteDict->setObject_forKey_(NSNumber->numberWithInt_($priority), GROWL_NOTIFICATION_PRIORITY)
-		if defined $priority;
+	my $noteDict = NSMutableDictionary->alloc->initWithCapacity_(7);
+	my $title = NSString->alloc->initWithUTF8String_($noteTitle);
+	my $description = NSString->alloc->initWithUTF8String_($noteDescription);
+	$noteDict->setObject_forKey_($noteName,     GROWL_NOTIFICATION_NAME);
+	$noteDict->setObject_forKey_($appName,      GROWL_APP_NAME);
+	$noteDict->setObject_forKey_($title,        GROWL_NOTIFICATION_TITLE);
+	$noteDict->setObject_forKey_($description,  GROWL_NOTIFICATION_DESCRIPTION);
+	$title->release;
+	$description->release;
+	if (defined $sticky) {
+		my $noteSticky = NSNumber->alloc->initWithBool_($sticky);
+		$noteDict->setObject_forKey_($noteSticky,   GROWL_NOTIFICATION_STICKY);
+		$noteSticky->release;
+	}
+	if (defined $priority) {
+		my $notePriority = NSNumber->alloc->initWithInt_($priority);
+		$noteDict->setObject_forKey_($notePriority, GROWL_NOTIFICATION_PRIORITY);
+		$notePriority->release;
+	}
 
 	if ($appkit && defined $image && -e $image) {
-		my $path = NSString->stringWithCString_($image);
+		my $path = NSString->alloc->initWithCString_($image);
 		if ($path) {
 			my $icon = NSImage->alloc->initWithContentsOfFile_($path);
-			if ($icon && $icon->isValid) {
-				$noteDict->setObject_forKey_($icon->TIFFRepresentation, GROWL_NOTIFICATION_ICON);
+			if ($icon) {
+			   	if ($icon->isValid) {
+					$noteDict->setObject_forKey_($icon->TIFFRepresentation, GROWL_NOTIFICATION_ICON);
+				}
+				$icon->release;
 			}
+			$path->release;
 		}
 	}
 
@@ -191,6 +209,7 @@ sub Foundation_PostNotification($$$$;$$$)
 		$noteDict,
 		NSNotificationPostToAllSessions
 	);
+	$noteDict->release;
 }
 
 
