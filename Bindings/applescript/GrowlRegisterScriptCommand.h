@@ -14,5 +14,5 @@
 
 - (void) setError:(int)errorCode;
 - (void) setError:(int)errorCode failure:(id)failure;
-	
+
 @end

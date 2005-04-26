@@ -19,7 +19,7 @@
 	delta = [self replaceOccurrencesOfString:@"\\" withString:@"\\\\"
 									 options:NSLiteralSearch range:range];
 	range.length += delta;
-	
+
 	delta = [self replaceOccurrencesOfString:@"\"" withString:@"\\\""
 									 options:NSLiteralSearch range:range];
 	range.length += delta;
@@ -58,7 +58,7 @@
 		inbuffer = (UniChar *)malloc(count * sizeof(UniChar));
 		CFStringGetCharacters((CFStringRef)self, range, inbuffer);
 	}
-	
+
 	for (unsigned i=0U; i < count; ++i) {
 		switch ((c=inbuffer[i])) {
 			default:
@@ -116,7 +116,7 @@
 	if (freeWhenDone) {
 		free(inbuffer);
 	}
-	
+
 	return self;
 }
 @end

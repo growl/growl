@@ -15,8 +15,8 @@
 - (void)ioKitTearDown;
 
 - (void)registerForUSBNotifications;
-- (void)usbDeviceAdded: (io_iterator_t ) iterator; 
-- (void)usbDeviceRemoved: (io_iterator_t ) iterator; 
+- (void)usbDeviceAdded: (io_iterator_t ) iterator;
+- (void)usbDeviceRemoved: (io_iterator_t ) iterator;
 
 @end
 

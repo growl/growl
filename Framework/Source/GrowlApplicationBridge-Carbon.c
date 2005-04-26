@@ -506,7 +506,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 		if (regDict) {
 			CFMutableDictionaryRef mRegDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, regDict);
 			CFRelease(regDict);
-	
+
 			if (delegate->applicationName) {
 				CFDictionarySetValue(mRegDict, GROWL_APP_NAME, delegate->applicationName);
 			} else {
@@ -516,7 +516,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 				else
 					NSLog(CFSTR("%@"), CFSTR("GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined"));
 			}
-	
+
 			if (!CFDictionaryContainsKey(mRegDict, GROWL_APP_NAME)
 			||  !CFDictionaryContainsKey(mRegDict, GROWL_NOTIFICATIONS_ALL))
 			{
@@ -598,7 +598,7 @@ static Boolean _launchGrowlIfInstalledWithRegistrationDictionary(CFDictionaryRef
 		/*Here we could check against a current version number and ensure the
 		 *	installed Growl pane is the newest.
 		 */
-		
+
 		CFURLRef	growlHelperAppURL = NULL;
 
 		//Extract the path to the Growl helper app from the prefpane's bundle
@@ -762,7 +762,7 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 		COPYPREFPANE(kUserDomain, &prefPaneBundle);
 		if (prefPaneBundle) {
 			bundleIdentifier = CFBundleGetIdentifier(prefPaneBundle);
-		
+
 			if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, bundleIDComparisonFlags) == kCFCompareEqualTo)) {
 				growlPrefPaneBundle = prefPaneBundle;
 			}
@@ -773,7 +773,7 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 			COPYPREFPANE(kLocalDomain, &prefPaneBundle);
 			if (prefPaneBundle) {
 				bundleIdentifier = CFBundleGetIdentifier(prefPaneBundle);
-			
+
 				if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, bundleIDComparisonFlags) == kCFCompareEqualTo)) {
 					growlPrefPaneBundle = prefPaneBundle;
 				}
@@ -802,20 +802,20 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 		CFArrayRef		prefPanes = _copyAllPreferencePaneBundles();
 		if (prefPanes) {
 			CFIndex		prefPaneIndex = 0, numPrefPanes = CFArrayGetCount(prefPanes);
-	
+
 			while (prefPaneIndex < numPrefPanes) {
 				prefPaneBundle = (CFBundleRef)CFArrayGetValueAtIndex(prefPanes, prefPaneIndex++);
-	
+
 				if (prefPaneBundle){
 					bundleIdentifier = CFBundleGetIdentifier(prefPaneBundle);
-	
+
 					if (bundleIdentifier && (CFStringCompare(bundleIdentifier, GROWL_PREFPANE_BUNDLE_IDENTIFIER, bundleIDComparisonFlags) == kCFCompareEqualTo)) {
 						growlPrefPaneBundle = (CFBundleRef)CFRetain(prefPaneBundle);
 						break;
 					}
 				}
 			}
-	
+
 			CFRelease(prefPanes);
 		}
 	}
@@ -839,7 +839,7 @@ static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStri
 
 	//Stop observing
 	CFNotificationCenterRemoveEveryObserver(CFNotificationCenterGetDistributedCenter(), (void *)_growlIsReady);
-	
+
 	//Clear our tracking array
 	CFRelease(targetsToNotifyArray); targetsToNotifyArray = NULL;
 }

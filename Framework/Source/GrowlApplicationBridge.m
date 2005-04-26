@@ -107,10 +107,10 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
 
 	//Add the observer for GROWL_IS_READY which will be triggered later if all goes well
-	[NSDNC addObserver:self 
+	[NSDNC addObserver:self
 			  selector:@selector(_growlIsReady:)
 				  name:GROWL_IS_READY
-				object:nil]; 
+				object:nil];
 
 	//Watch for notification clicks if our delegate responds to the growlNotificationWasClicked: selector
 	//Notifications will come in on a unique notification name based on our app name and GROWL_NOTIFICATION_CLICKED
@@ -159,7 +159,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 + (void) notifyWithTitle:(NSString *)title
 			 description:(NSString *)description
 		notificationName:(NSString *)notifName
-				iconData:(NSData *)iconData 
+				iconData:(NSData *)iconData
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
 			clickContext:(id)clickContext
@@ -240,7 +240,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 + (BOOL) isGrowlRunning {
 	BOOL growlIsRunning = NO;
 	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
-	
+
 	while (GetNextProcess(&PSN) == noErr) {
 		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
 
@@ -251,7 +251,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		}
 		[infoDict release];
 	}
-	
+
 	return growlIsRunning;
 }
 
@@ -431,19 +431,19 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 + (void) _growlIsReady:(NSNotification *)notification {
 #pragma unused(notification)
-	
+
 	//Growl has now launched; we may get here with (growlLaunched == NO) when the user first installs
 	growlLaunched = YES;
-	
+
 	//Inform our delegate if it is interested
 	if ([delegate respondsToSelector:@selector(growlIsReady)]) {
 		[delegate growlIsReady];
 	}
-	
+
 	//Post a notification locally
 	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
 														object:nil];
-	
+
 	//Stop observing for GROWL_IS_READY
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self
 															   name:GROWL_IS_READY
@@ -458,7 +458,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	//Perform any queued notifications
 	NSEnumerator *enumerator;
 	NSDictionary *noteDict;
-	
+
 	enumerator = [queuedGrowlNotifications objectEnumerator];
 	while ((noteDict = [enumerator nextObject])) {
 		//Post to Growl via NSDistributedNotificationCenter
@@ -489,8 +489,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	NSDictionary *infoDictionary;
 	NSString *packagedVersion, *installedVersion;
 	BOOL upgradeIsAvailable;
-	
-	ourGrowlPrefPaneInfoPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlPrefPaneInfo" 
+
+	ourGrowlPrefPaneInfoPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlPrefPaneInfo"
 																								  ofType:@"plist"];
 
 	NSDictionary *infoDict = [[NSDictionary alloc] initWithContentsOfFile:ourGrowlPrefPaneInfoPath];
@@ -504,7 +504,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	if (upgradeIsAvailable && !promptedToUpgradeGrowl) {
 		NSString	*lastDoNotPromptVersion;
 		lastDoNotPromptVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"Growl Update:Do Not Prompt Again:Last Version"];
-		
+
 		if (!lastDoNotPromptVersion ||
 			(compareVersionStringsTranslating1_0To0_5(packagedVersion, lastDoNotPromptVersion) == kCFCompareGreaterThan)) {
 			[GrowlInstallationPrompt showUpdatePromptForVersion:packagedVersion];

@@ -16,19 +16,19 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 
 - (void)dealloc {
 	[self ioKitTearDown];
-	
+
 	[super dealloc];
 }
 
 - (void)ioKitSetUp {
-//#warning	kIOMasterPortDefault is only available on 10.2 and above... 
+//#warning	kIOMasterPortDefault is only available on 10.2 and above...
 	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	notificationRunLoopSource = IONotificationPortGetRunLoopSource(ioKitNotificationPort);
-	
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), 
-					   notificationRunLoopSource, 
+
+	CFRunLoopAddSource(CFRunLoopGetCurrent(),
+					   notificationRunLoopSource,
 					   kCFRunLoopDefaultMode);
-	
+
 }
 
 - (void)ioKitTearDown {
@@ -46,44 +46,44 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 //	NSLog(@"registerForFireWireNotifications");
 
 	//	Setup a matching Dictionary.
-	CFDictionaryRef myFireWireMatchDictionary;	
-	myFireWireMatchDictionary = nil;	
+	CFDictionaryRef myFireWireMatchDictionary;
+	myFireWireMatchDictionary = nil;
 	//		myFireWireMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
 	myFireWireMatchDictionary = IOServiceMatching("IOFireWireDevice");
-	
+
 	//	Register our notification
-	gFWAddedIter = nil;				
+	gFWAddedIter = nil;
 	matchingResult = IOServiceAddMatchingNotification(
 													  ioKitNotificationPort,
 													  kIOPublishNotification,
 													  (CFDictionaryRef) myFireWireMatchDictionary,
 													  fwDeviceAdded,
 													  (void *) self,
-													  (io_iterator_t *) &gFWAddedIter ); 
-	
+													  (io_iterator_t *) &gFWAddedIter );
+
 	if (matchingResult) {
 		NSLog(@"matching notification registration failed: %d" , matchingResult);
 	}
-	
+
 	//	Prime the Notifications (And Deal with the existing devices)...
 	[self fwDeviceAdded: gFWAddedIter];
 
 	//	Register for removal notifications.
 	//	It seems we have to make a new dictionary...  reusing the old one didn't work.
-	
-	myFireWireMatchDictionary = nil;	
+
+	myFireWireMatchDictionary = nil;
 	//		myFireWireMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
 	myFireWireMatchDictionary = IOServiceMatching("IOFireWireDevice");
 	kern_return_t			removeNoteResult;
 	io_iterator_t			removedIterator ;
-	removeNoteResult = IOServiceAddMatchingNotification(ioKitNotificationPort, 
+	removeNoteResult = IOServiceAddMatchingNotification(ioKitNotificationPort,
 														kIOTerminatedNotification,
-														(CFDictionaryRef) myFireWireMatchDictionary, 
-														fwDeviceRemoved, 
-														self, 
+														(CFDictionaryRef) myFireWireMatchDictionary,
+														fwDeviceRemoved,
+														self,
 														&removedIterator );
-	
-	// Matching notification must be "primed" by iterating over the 
+
+	// Matching notification must be "primed" by iterating over the
 	// iterator returned from IOServiceAddMatchingNotification(), so
 	// we call our device removed method here...
 	//
@@ -99,10 +99,10 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 	io_object_t		thisObject = nil;
 	while ((thisObject = IOIteratorNext( iterator ))) {
 		NSString		*deviceName;
-		
+
 //		NSLog(@"got one new object.");
 		deviceName = [self nameForFireWireObject: thisObject];
-		// NSLog(@"FireWire Device Attached: %@" , deviceName);		
+		// NSLog(@"FireWire Device Attached: %@" , deviceName);
 		[delegate fwDidConnect:deviceName];
 
 		IOObjectRelease(thisObject);
@@ -118,7 +118,7 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 
 //		NSLog(@"got one new object.");
 		deviceName = [self nameForFireWireObject: thisObject];
-		// NSLog(@"FireWire Device Removed: %@" , deviceName);		
+		// NSLog(@"FireWire Device Removed: %@" , deviceName);
 		[delegate fwDidDisconnect:deviceName];
 
 		IOObjectRelease(thisObject);
@@ -126,30 +126,30 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 }
 
 - (NSString *)nameForFireWireObject: (io_object_t) thisObject {
-	//	This works with USB devices...  
+	//	This works with USB devices...
 	//	but apparently not firewire
 	kern_return_t	nameResult;
 	io_name_t		deviceNameChars;
 
-	nameResult = IORegistryEntryGetName( thisObject, 
-										 deviceNameChars ); 		
+	nameResult = IORegistryEntryGetName( thisObject,
+										 deviceNameChars );
 	NSString	*tempDeviceName = [NSString stringWithCString: deviceNameChars];
 	if (tempDeviceName  && ![tempDeviceName isEqualToString:@"IOFireWireDevice"])  {
-		return tempDeviceName;	
+		return tempDeviceName;
 	}
 
-	tempDeviceName = 
+	tempDeviceName =
 		(NSString *)IORegistryEntrySearchCFProperty(thisObject,
 										kIOFireWirePlane,
 										(CFStringRef) @"FireWire Product Name",
 										nil,
 										kIORegistryIterateRecursively);
-	
+
 	if (tempDeviceName) {
 		return tempDeviceName;
 	}
-		
-	tempDeviceName = 
+
+	tempDeviceName =
 		(NSString *)IORegistryEntrySearchCFProperty(thisObject,
 										kIOFireWirePlane,
 										(CFStringRef) @"FireWire Vendor Name",

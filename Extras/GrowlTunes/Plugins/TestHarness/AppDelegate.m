@@ -21,7 +21,7 @@
 		album = @"";
 		artist = @"";
 		compilation = [[NSNumber alloc] initWithBool:NO];
-		
+
 		// find all the GrowlTunes plugins
 		NSString *growlTunesPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"GrowlTunes"];
 		if (growlTunesPath) {
@@ -62,9 +62,9 @@
 
 - (void) dealloc {
 	[pluginsController removeObserver:self forKeyPath:@"selection"];
-	
+
 	[plugins release];
-	
+
 	[super dealloc];
 }
 
@@ -99,7 +99,7 @@
 // - artist:
 - (NSString *)artist
 {
-    return [[artist retain] autorelease]; 
+    return [[artist retain] autorelease];
 }
 
 // - setArtist:
@@ -108,14 +108,14 @@
     [anArtist retain];
     [artist release];
     artist = anArtist;
-	
+
 	[self testPlugin];
 }
 
 // - album:
 - (NSString *)album
 {
-    return [[album retain] autorelease]; 
+    return [[album retain] autorelease];
 }
 
 // - setAlbum:
@@ -124,14 +124,14 @@
     [anAlbum retain];
     [album release];
     album = anAlbum;
-	
+
 	[self testPlugin];
 }
 
 // - song:
 - (NSString *)song
 {
-    return [[song retain] autorelease]; 
+    return [[song retain] autorelease];
 }
 
 // - setSong:
@@ -140,7 +140,7 @@
     [aSong retain];
     [song release];
     song = aSong;
-	
+
 	[self testPlugin];
 }
 
@@ -154,7 +154,7 @@
 	[isCompilation retain];
 	[compilation release];
 	compilation = isCompilation;
-	
+
 	[self testPlugin];
 }
 
@@ -204,7 +204,7 @@
 
 - (IBAction) open:(id)sender {
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-	
+
 	if ([openPanel runModalForTypes:[NSArray arrayWithObject:@"plugin"]] == NSOKButton) {
 		[self addPlugin:[openPanel filename]];
 	}

@@ -1,6 +1,6 @@
 //
 //  GrowlMenu.m
-//  
+//
 //
 //  Created by rudy on Sun Apr 17 2005.
 //  Copyright (c) 2005 Rudy Richter. All rights reserved.
@@ -36,7 +36,7 @@
 int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
-	
+
 	GrowlMenu *menu = [[GrowlMenu alloc] init];
 	[NSApp run];
 
@@ -58,7 +58,7 @@ int main(void) {
 		statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength] retain];
 
 		NSBundle *bundle = [NSBundle mainBundle];
-		
+
 		clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon" ofType:@"tiff"]];
 		clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon-alt" ofType:@"tiff"]];
 		squelchImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"tiff"]];
@@ -71,7 +71,7 @@ int main(void) {
 			[statusItem setImage:clawImage];
 			[statusItem setAlternateImage:clawHighlightImage];
 		}
-		
+
 		[statusItem setMenu:m]; // retains m
 		[statusItem setToolTip:@"Growl"];
 		[statusItem setHighlightMode:YES];
@@ -167,11 +167,11 @@ int main(void) {
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowl action:@selector(stopGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTag:2];
 	[tempMenuItem setTarget:self];
-	
+
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(quitMenuExtra:) keyEquivalent:@""];
 	[tempMenuItem setTag:5];
 	[tempMenuItem setTarget:self];
-	
+
 	[m addItem:[NSMenuItem separatorItem]];
 
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kSquelchMode action:@selector(squelchMode:) keyEquivalent:@""];

@@ -210,7 +210,7 @@
 }
 
 - (id) initTicketForApplication: (NSString *) inApp {
-	return [self initTicketFromPath:[[[[GrowlPathUtil growlSupportDir] 
+	return [self initTicketFromPath:[[[[GrowlPathUtil growlSupportDir]
 										stringByAppendingPathComponent:@"Tickets"]
 										stringByAppendingPathComponent:inApp]
 										stringByAppendingPathExtension:@"growlTicket"]];

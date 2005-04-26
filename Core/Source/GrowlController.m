@@ -82,7 +82,7 @@ static id singleton = nil;
 			   selector:@selector(notificationTimedOut:)
 				   name:GROWL_NOTIFICATION_TIMED_OUT
 				 object:nil];
-		
+
 		authenticator = [[MD5Authenticator alloc] init];
 
 		//XXX temporary DNC pathway hack - remove when real pathway support is in
@@ -415,7 +415,7 @@ static id singleton = nil;
 		notificationName = @"Application re-registered";
 	} else {
 		newApp = [[[GrowlApplicationTicket alloc] initWithDictionary:userInfo] autorelease];
-		notificationName = @"Application registered";		
+		notificationName = @"Application registered";
 	}
 
 	BOOL success = YES;
@@ -425,7 +425,7 @@ static id singleton = nil;
 		[newApp saveTicket];
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF
 																	   object:appName];
-	
+
 		[GrowlApplicationBridge notifyWithTitle:notificationName
 									description:[appName stringByAppendingString:@" registered"]
 							   notificationName:notificationName
@@ -433,7 +433,7 @@ static id singleton = nil;
 									   priority:0
 									   isSticky:NO
 								   clickContext:nil];
-	
+
 		if (enableForward) {
 			NSEnumerator *enumerator = [destinations objectEnumerator];
 			NSDictionary *entry;
@@ -446,7 +446,7 @@ static id singleton = nil;
 										  socketType:SOCK_STREAM
 											protocol:0
 											 address:destAddress];
-	
+
 					NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil
 																				sendPort:serverPort];
 					MD5Authenticator *auth = [[MD5Authenticator alloc] initWithPassword:password];
@@ -641,7 +641,7 @@ static id singleton = nil;
 #pragma mark -
 
 - (void) preferencesChanged: (NSNotification *) note {
-	//[note object] is the changed key. A nil key means reload our tickets.	
+	//[note object] is the changed key. A nil key means reload our tickets.
 	id object = [note object];
 	if (!note || (object && [object isEqualTo:GrowlStartServerKey])) {
 		[self startStopServer];
@@ -698,7 +698,7 @@ static id singleton = nil;
 
 #pragma mark NSApplication Delegate Methods
 
-- (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {	
+- (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {
 #pragma unused(theApplication)
 	BOOL retVal = NO;
 	NSString *pathExtension = [filename pathExtension];
@@ -739,7 +739,7 @@ static id singleton = nil;
 
 			[NSApp terminate:self];
 		} else {
-			[self _postGrowlIsReady];	
+			[self _postGrowlIsReady];
 		}
 
 		retVal = YES;
@@ -955,11 +955,11 @@ static id singleton = nil;
 
 - (void) _postGrowlIsReady {
 	growlFinishedLaunching = YES;
-	
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY 
-																   object:nil 
+
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
+																   object:nil
 																 userInfo:nil
-													   deliverImmediately:YES];	
+													   deliverImmediately:YES];
 }
 
 #pragma mark -
@@ -975,7 +975,7 @@ static id singleton = nil;
 		GROWL_KEY_CLICKED_CONTEXT, nil];
 
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName
-																   object:nil 
+																   object:nil
 																 userInfo:userInfo
 													   deliverImmediately:YES];
 
@@ -993,7 +993,7 @@ static id singleton = nil;
 		GROWL_KEY_CLICKED_CONTEXT, nil];
 
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationTimedOutName
-																   object:nil 
+																   object:nil
 																 userInfo:userInfo
 													   deliverImmediately:YES];
 

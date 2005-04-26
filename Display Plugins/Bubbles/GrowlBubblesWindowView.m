@@ -106,7 +106,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 	[path setClip];
 
-	// Create a callback function to generate the 
+	// Create a callback function to generate the
 	// fill clipped graphics context with our gradient
 	struct CGFunctionCallbacks callbacks = { 0U, GrowlBubblesShadeInterpolate, NULL };
 	float colors[8];
@@ -135,7 +135,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	dst.x = src.x;
 	dst.y = NSMinY( bounds );
 	CGShadingRef shading = CGShadingCreateAxial( cspace, src, dst,
-												 function, false, false );	
+												 function, false, false );
 
 	CGContextDrawShading( [graphicsContext graphicsPort], shading );
 
@@ -157,7 +157,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	drawRect.origin.y = PANEL_VSPACE_PX;
 	drawRect.size.width = iconSize;
 	drawRect.size.height = iconSize;
-	
+
 	[icon setFlipped:YES];
 	[icon drawScaledInRect:drawRect
 				 operation:NSCompositeSourceOver
@@ -343,7 +343,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 	[attributes release];
 
-	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout		
+	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
 	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;
 
 	[self sizeToFit];

@@ -125,7 +125,7 @@ static NSBundle *prefPaneBundle;
 
 	supportDir = [searchPath objectAtIndex:0U];
 	supportDir = [supportDir stringByAppendingPathComponent:@"Application Support/Growl"];
-	
+
 	return supportDir;
 }
 @end

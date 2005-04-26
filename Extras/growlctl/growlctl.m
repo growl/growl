@@ -165,7 +165,7 @@ int main (int argc, const char **argv) {
 static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i) {
 	id value = nil;
 	int old_i = i;
-	
+
 	if (i < argc) {
 		NSString *valueType = [NSString stringWithUTF8String:argv[i]];
 		if ([valueTypeFlags containsObject:valueType]) {
@@ -185,10 +185,10 @@ static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i) 
 				} else if ([valueType hasPrefix:@"-array"]) {
 					NSMutableArray *a = [NSMutableArray arrayWithCapacity:(argc - 3)];
 					id obj;
-					
+
 					while ((obj = propertyListFromArgv(argc, argv, i, &i)))
 						[a addObject:obj];
-					
+
 					add = (i == 4) && [valueType hasSuffix:@"-add"];
 					if (add) {
 						NSMutableArray *existing = nil; //[[[growlPrefsDict objectForKey:key] mutableCopy] autorelease];
@@ -201,7 +201,7 @@ static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i) 
 						value = a;
 				} else if ([valueType hasPrefix:@"-dict"]) {
 					NSMutableDictionary *d = [NSMutableDictionary dictionaryWithCapacity:(argc - 3) / 2];
-					
+
 					NSString *k = valueString, *v = propertyListFromArgv(argc, argv, ++i, &i);
 					while (i < argc) {
 						k = [NSString stringWithUTF8String:argv[i++]];
@@ -245,7 +245,7 @@ static id propertyListFromArgv(int argc, const char **argv, int i, int *next_i) 
 												  errorDescription:&plistError];
 	 }
 	 */
-	
+
 end:
 		if (next_i)
 			*next_i = value ? i : old_i;

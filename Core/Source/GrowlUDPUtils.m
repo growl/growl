@@ -62,7 +62,7 @@
 	MD5_Final( data, &ctx );
 
 	*packetSize = length;
-	
+
 	return (unsigned char *)nn;
 }
 

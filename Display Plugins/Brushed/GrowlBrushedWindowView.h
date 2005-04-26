@@ -30,7 +30,7 @@
 	NSTextStorage		*textStorage;
 	NSTextContainer		*textContainer;
 	NSRange				textRange;
-	
+
 	NSLayoutManager		*titleLayoutManager;
 	NSTextStorage		*titleStorage;
 	NSTextContainer		*titleContainer;

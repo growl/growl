@@ -13,10 +13,10 @@
 		 [IOBluetoothRFCOMMChannel registerForChannelOpenNotifications: self
 															  selector: @selector(channelOpened:withChannel:)
 														 withChannelID: 0
-															 direction: kIOBluetoothUserNotificationChannelDirectionAny]; 
+															 direction: kIOBluetoothUserNotificationChannelDirectionAny];
 		 */
-		
-		connectionNotification = [IOBluetoothDevice registerForConnectNotifications:self 
+
+		connectionNotification = [IOBluetoothDevice registerForConnectNotifications:self
 																		   selector:@selector(bluetoothConnection:toDevice:)];
 	}
 
@@ -35,8 +35,8 @@
 
 	NSLog(@"%@" , [[chan getDevice] name] );
 
-	[chan registerForChannelCloseNotification: self 
-									 selector: @selector(channelClosed:withChannel:)]; 
+	[chan registerForChannelCloseNotification: self
+									 selector: @selector(channelClosed:withChannel:)];
 
 }
 
@@ -54,7 +54,7 @@
 }
 
 - (void)bluetoothDisconnection: (IOBluetoothUserNotification*)note fromDevice: (IOBluetoothDevice *)device {
-	// NSLog(@"BT Device Disconnection: %@" , [device name]);	
+	// NSLog(@"BT Device Disconnection: %@" , [device name]);
 	[delegate bluetoothDidDisconnect:[device name]];
 
 	[note unregister];

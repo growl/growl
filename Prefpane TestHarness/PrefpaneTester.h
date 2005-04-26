@@ -2,8 +2,8 @@
 
 @class NSPreferencePane;
 
-@interface PrefpaneTester : NSObject { 
-	IBOutlet NSWindow	*theWindow; 
+@interface PrefpaneTester : NSObject {
+	IBOutlet NSWindow	*theWindow;
 	NSPreferencePane	*prefPaneObject;
 }
 

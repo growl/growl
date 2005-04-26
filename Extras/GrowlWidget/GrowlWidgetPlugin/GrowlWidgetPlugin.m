@@ -51,7 +51,7 @@
 
 // webScriptNameForSelector
 //
-// This method lets you offer friendly names for methods that normally 
+// This method lets you offer friendly names for methods that normally
 // get mangled when bridged into JavaScript.
 + (NSString *) webScriptNameForSelector:(SEL)aSel {
 #pragma unused(aSel)
@@ -61,7 +61,7 @@
 
 // isSelectorExcludedFromWebScript
 //
-// This method lets you filter which methods in your plugin are accessible 
+// This method lets you filter which methods in your plugin are accessible
 // to the JavaScript side.
 + (BOOL) isSelectorExcludedFromWebScript:(SEL)aSel {
 #pragma unused(aSel)

@@ -35,7 +35,7 @@
 		color = defaultColor;
 	}
 	[data release];
-	
+
 	return color;
 }
 
@@ -115,7 +115,7 @@
 	return value;
 }
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, value, MusicVideoPrefDomain);	
+	WRITE_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, value, MusicVideoPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 

@@ -131,7 +131,7 @@
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
 															object:appName
 														  userInfo:clickContext];
-		
+
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		clickContext = nil;
 	}

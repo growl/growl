@@ -125,7 +125,7 @@
 	NSString *path      = [dict objectForKey:_CFURLStringKey];
 	NSData   *aliasData = [dict objectForKey:_CFURLAliasDataKey];
 
-	if (aliasData) 
+	if (aliasData)
 		URL = [self fileURLWithAliasData:aliasData];
 
 	if (!URL) {

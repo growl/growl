@@ -1,11 +1,11 @@
 /*
- Copyright (c) The Growl Project, 2004 
+ Copyright (c) The Growl Project, 2004
  All rights reserved.
- 
- 
+
+
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
- 
- 
+
+
  1. Redistributions of source code must retain the above copyright
  notice, this list of conditions and the following disclaimer.
  2. Redistributions in binary form must reproduce the above copyright
@@ -14,10 +14,10 @@
  3. Neither the name of Growl nor the names of its contributors
  may be used to endorse or promote products derived from this software
  without specific prior written permission.
- 
- 
+
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 
 //
@@ -77,7 +77,7 @@ enum {
 			[NSNumber numberWithDouble:DEFAULT_POLL_INTERVAL], pollIntervalKey,
 			[NSNumber numberWithInt:20], recentTrackCount,
 			nil]];
-		
+
 		state = itUNKNOWN;
 		playlistName = [[NSString alloc] init];
 		recentTracks = [[NSMutableArray alloc] initWithCapacity:[[defaults objectForKey:recentTrackCount] unsignedIntValue]];
@@ -86,7 +86,7 @@ enum {
 		trackID = 0;
 		trackURL = @"";
 	}
-	
+
 	return self;
 }
 
@@ -101,18 +101,18 @@ enum {
 	} else {
 		[self setPolling:YES];
 	}
-	
+
 	if (polling) {
 		pollInterval = [[NSUserDefaults standardUserDefaults] floatForKey:pollIntervalKey];
-	
+
 		if ([self iTunesIsRunning]) [self startTimer];
-		
+
 		NSNotificationCenter *workspaceCenter = [[NSWorkspace sharedWorkspace] notificationCenter];
 		[workspaceCenter addObserver:self
 							selector:@selector(handleAppLaunch:)
 								name:NSWorkspaceDidLaunchApplicationNotification
 							  object:nil];
-		
+
 		[workspaceCenter addObserver:self
 							selector:@selector(handleAppQuit:)
 								name:NSWorkspaceDidTerminateApplicationNotification
@@ -146,11 +146,11 @@ enum {
 #pragma mark Growl delegate conformance
 
 - (NSDictionary *) registrationDictionaryForGrowl {
-	NSArray			* allNotes = [NSArray arrayWithObjects: 
-		ITUNES_TRACK_CHANGED, 
-//		ITUNES_PAUSED, 
+	NSArray			* allNotes = [NSArray arrayWithObjects:
+		ITUNES_TRACK_CHANGED,
+//		ITUNES_PAUSED,
 //		ITUNES_STOPPED,
-		ITUNES_PLAYING, 
+		ITUNES_PLAYING,
 		nil];
 	NSImage			* iTunesIcon = [[NSWorkspace sharedWorkspace] iconForApplication:iTunesAppName];
 	NSDictionary	* regDict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -239,7 +239,7 @@ enum {
 	iTunesState   newState    = itUNKNOWN;
 	NSString     *newTrackURL = nil;
 	NSDictionary *userInfo    = [aNotification userInfo];
-	
+
 	playerState = [[aNotification userInfo] objectForKey:@"Player State"];
 	if ([playerState isEqualToString:@"Paused"]) {
 		newState = itPAUSED;
@@ -270,7 +270,7 @@ enum {
 			newTrackURL = [[NSNumber numberWithUnsignedLong:[newTrackURL hash]] stringValue];
 		}
 	}
-	
+
 	if (newTrackURL && ![newTrackURL isEqualToString:trackURL]) { // this is different from previous notification
 		NSString		*track         = nil;
 		NSString		*length        = nil;
@@ -282,13 +282,13 @@ enum {
 		NSImage			*artwork       = nil;
 		NSString		*displayString = nil;
 		NSDictionary	*error         = nil;
-		
+
 		if ([userInfo objectForKey:@"Artist"])
 			artist = [userInfo objectForKey:@"Artist"];
 		if ([userInfo objectForKey:@"Album"])
 			album = [userInfo objectForKey:@"Album"];
 		track = [userInfo objectForKey:@"Name"];
-		
+
 		length  = [userInfo objectForKey:@"Total Time"];
 		// need to format a bit the length as it is returned in ms
 		int lv  = [length intValue];
@@ -299,7 +299,7 @@ enum {
 			length = [NSString stringWithFormat:@"%d:%02d:%02d", hr, min, sec];
 		else
 			length = [NSString stringWithFormat:@"%d:%02d", min, sec];
-		
+
 		compilation = ([userInfo objectForKey:@"Compilation"] != nil);
 
 		if ([newTrackURL hasPrefix:@"file:/"] || [newTrackURL hasPrefix:@"itms:/"]) {
@@ -316,8 +316,8 @@ enum {
 			if (type != 'null') {
 				artwork = [[[NSImage alloc] initWithData:[curDescriptor data]] autorelease];
 			}
-		} 
-		
+		}
+
 		//get artwork via plugins if needed (for file:/ and itms:/ id only)
 		if (!artwork && ![newTrackURL hasPrefix:@"http://"]) {
 				NSEnumerator *pluginEnum = [plugins objectEnumerator];
@@ -331,15 +331,15 @@ enum {
 						[archivePlugin archiveImage:artwork	track:track artist:artist album:album compilation:compilation];
 					}
 				}
-			
+
 			}
-		
+
 		if (!artwork) {
 			if (!error && !![newTrackURL hasPrefix:@"http://"]) {
 				NSLog(@"Error getting artwork: %@", [error objectForKey:NSAppleScriptErrorMessage]);
 				if ([plugins count]) NSLog(@"No plug-ins found anything either, or you wouldn't have this message.");
 			}
-			
+
 			// Use the iTunes icon instead
 			artwork = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"];
 			[artwork setSize:NSMakeSize(128.0f, 128.0f)];
@@ -352,7 +352,7 @@ enum {
 			if (!album)  album  = @"";
 			displayString = [NSString stringWithFormat:NSLocalizedString(@"Display-string format", /*comment*/ nil), length, ratingString, artist, album];
 		}
-		
+
 		// Tell Growl
 		NSDictionary	*noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
 			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,
@@ -364,12 +364,12 @@ enum {
 			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
-		
+
 		// set up us some state for next time
 		state = newState;
 		[trackURL release];
 		trackURL = [newTrackURL retain];
-		
+
 		// Recent Tracks
 		[self addTuneToRecentTracks:track fromPlaylist:playlistName];
 	}
@@ -384,10 +384,10 @@ enum {
 	NSString				* playerState;
 	iTunesState				newState = itUNKNOWN;
 	int						newTrackID = -1;
-	
+
 	curDescriptor = [theDescriptor descriptorAtIndex:1L];
 	playerState = [curDescriptor stringValue];
-	
+
 	if ([playerState isEqualToString:@"paused"]) {
 		newState = itPAUSED;
 	} else if ([playerState isEqualToString:@"stopped"]) {
@@ -396,13 +396,13 @@ enum {
 		newState = itPLAYING;
 		newTrackID = [curDescriptor int32Value];
 	}
-	
+
 	if (state == itUNKNOWN) {
 		state = newState;
 		trackID = newTrackID;
 		return;
 	}
-	
+
 	if (newTrackID != 0 && trackID != newTrackID) { // this is different from previous note
 		NSString		*track = nil;
 		NSString		*length = nil;
@@ -413,35 +413,35 @@ enum {
 		NSString		*ratingString = nil;
 		NSImage			*artwork = nil;
 		NSDictionary	*noteDict;
-		
+
 		curDescriptor = [theDescriptor descriptorAtIndex:9L];
 		playlistName = [curDescriptor stringValue];
-		
+
 		if (curDescriptor = [theDescriptor descriptorAtIndex:2L])
 			track = [curDescriptor stringValue];
-		
+
 		if (curDescriptor = [theDescriptor descriptorAtIndex:3L])
 			length = [curDescriptor stringValue];
-		
+
 		if (curDescriptor = [theDescriptor descriptorAtIndex:4L])
 			artist = [curDescriptor stringValue];
-		
+
 		if (curDescriptor = [theDescriptor descriptorAtIndex:5L])
 			album = [curDescriptor stringValue];
-		
+
 		if (curDescriptor = [theDescriptor descriptorAtIndex:6L])
 			compilation = (BOOL)[curDescriptor booleanValue];
-		
+
 		if (curDescriptor = [theDescriptor descriptorAtIndex:7L]) {
 			int ratingInt = [[curDescriptor stringValue] intValue];
 			if (ratingInt < 0) ratingInt = 0;
 			rating = [NSNumber numberWithInt:ratingInt];
 			ratingString = [self starsForRating:rating];
 		}
-		
+
 		curDescriptor = [theDescriptor descriptorAtIndex:8L];
 		const OSType type = [curDescriptor typeCodeValue];
-		
+
 		if (type != 'null') {
 			artwork = [[[NSImage alloc] initWithData:[curDescriptor data]] autorelease];
 		} else {
@@ -456,20 +456,20 @@ enum {
 					[archivePlugin archiveImage:artwork	track:track artist:artist album:album compilation:compilation];
 				}
 			}
-			
+
 		}
-		
+
 		if (!artwork) {
 			if (!error) {
 				NSLog(@"Error getting artwork: %@", [error objectForKey:NSAppleScriptErrorMessage]);
 				if ([plugins count]) NSLog(@"No plug-ins found anything either, or you wouldn't have this message.");
 			}
-			
+
 			// Use the iTunes icon instead
 			artwork = [[NSWorkspace sharedWorkspace] iconForApplication:@"iTunes"];
 			[artwork setSize:NSMakeSize(128.0f, 128.0f)];
 		}
-		
+
 		// Tell growl
 		noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
 			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,
@@ -481,11 +481,11 @@ enum {
 			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
-			
+
 		// set up us some state for next time
 		state = newState;
 		trackID = newTrackID;
-		
+
 		// Recent Tracks
 		[self addTuneToRecentTracks:track fromPlaylist:playlistName];
 	}
@@ -493,7 +493,7 @@ enum {
 
 - (void) startTimer {
 	if (pollTimer == nil) {
-		pollTimer = [[NSTimer scheduledTimerWithTimeInterval:pollInterval 
+		pollTimer = [[NSTimer scheduledTimerWithTimeInterval:pollInterval
 													  target:self
 													selector:@selector(poll:)
 													userInfo:nil
@@ -553,14 +553,14 @@ enum {
 		[menu addItem:item];
 
 		item = [menu addItemWithTitle:@"iTunes" action:NULL keyEquivalent:empty];
-		
+
 		// Set us up a submenu
 		[item setSubmenu:[self buildiTunesSubmenu]];
-		
+
 		// Back to our regularly scheduled Status Menu
 		item = [NSMenuItem separatorItem];
 		[menu addItem:item];
-		
+
 		item = [menu addItemWithTitle:@"Quit GrowlTunes" action:@selector(quitGrowlTunes:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:quitGrowlTunesTag];
@@ -568,11 +568,11 @@ enum {
 		[item setTarget:self];
 		[item setTag:quitBothTag];
 		[item setToolTip:NSLocalizedString(@"Status item Quit Both item tooltip", /*comment*/ nil)];
-		
+
 		if (polling) {
 			item = [NSMenuItem separatorItem];
 			[menu addItem:item];
-			
+
 			item = [menu addItemWithTitle:@"Toggle Polling" action:@selector(togglePolling:) keyEquivalent:empty];
 			[item setTarget:self];
 			[item setTag:togglePollingTag];
@@ -592,32 +592,32 @@ enum {
 
 - (NSMenu *) buildiTunesSubmenu {
 	id <NSMenuItem> item;
-	if (!iTunesSubMenu) 
+	if (!iTunesSubMenu)
 		iTunesSubMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"iTunes"] autorelease];
-	
+
 	// Out with the old
 	NSArray *items = [iTunesSubMenu itemArray];
 	NSEnumerator *itemEnumerator = [items objectEnumerator];
 	while (item = [itemEnumerator nextObject]) {
 		[iTunesSubMenu removeItem:item];
 	}
-	
+
 	// In with the new
 	item = [iTunesSubMenu addItemWithTitle:@"Recently Played Tunes" action:NULL keyEquivalent:@""];
 	NSEnumerator *tunesEnumerator = [recentTracks objectEnumerator];
 	NSDictionary *aTuneDict = nil;
 	int k = 0;
-	
+
 	while (aTuneDict = [tunesEnumerator nextObject]) {
 		item = [iTunesSubMenu addItemWithTitle:[aTuneDict objectForKey:@"name"]
-										action:@selector(jumpToTune:) 
+										action:@selector(jumpToTune:)
 								 keyEquivalent:@""];
 		[item setTarget:self];
 		[item setIndentationLevel:1];
 		[item setTag:k++];
 		[item setToolTip:NSLocalizedString(@"Status item recent track tooltip", /*comment*/ nil)];
 	}
-	
+
 	[iTunesSubMenu addItem:[NSMenuItem separatorItem]];
 	item = [iTunesSubMenu addItemWithTitle:@"Launch iTunes" action:@selector(launchQuitiTunes:) keyEquivalent:@""];
 	[item setTarget:self];
@@ -630,7 +630,7 @@ enum {
 
 - (BOOL) validateMenuItem:(NSMenuItem *)item {
 	BOOL retVal = YES;
-	
+
 	switch ([item tag]) {
 		case launchQuitiTunesTag:;
 			if ([self iTunesIsRunning])
@@ -657,7 +657,7 @@ enum {
 			retVal = YES;
 			break;
 		}
-	
+
 	return retVal;
 }
 
@@ -675,7 +675,7 @@ enum {
 	if (delta > 0L)
 		[recentTracks removeObjectsInRange:NSMakeRange(0U, delta)];
 	[recentTracks addObject:tuneDict];
-	
+
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
 		[self buildiTunesSubmenu];
 }
@@ -702,7 +702,7 @@ enum {
 	if (success) {
 		//first disarm the timer. we don't want to launch iTunes right after we quit it if the timer fires.
 		[self stopTimer];
-		
+
 		//now quit iTunes.
 		NSDictionary *errorInfo = nil;
 		[quitiTunesScript executeAndReturnError:&errorInfo];
@@ -715,9 +715,9 @@ enum {
 - (NSAppleScript *) appleScriptNamed:(NSString *)name {
 	NSURL			* url;
 	NSDictionary	* error;
-	
+
 	url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:name ofType:@"scpt"]];
-	
+
 	return [[NSAppleScript alloc] initWithContentsOfURL:url error:&error];
 }
 
@@ -727,7 +727,7 @@ enum {
 - (NSDictionary *) iTunesProcess {
 	NSEnumerator *processesEnum = [[[NSWorkspace sharedWorkspace] launchedApplications] objectEnumerator];
 	NSDictionary *process;
-	
+
 	while (process = [processesEnum nextObject]) {
 		if ([iTunesBundleID caseInsensitiveCompare:[process objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
 			break; //this is iTunes!
@@ -738,7 +738,7 @@ enum {
 
 - (void) jumpToTune:(id) sender {
 	NSDictionary *tuneDict = [recentTracks objectAtIndex:[sender tag]];
-	NSString *jumpScript = [NSString stringWithFormat:@"tell application \"iTunes\"\nplay track \"%@\" of playlist \"%@\"\nend tell", 
+	NSString *jumpScript = [NSString stringWithFormat:@"tell application \"iTunes\"\nplay track \"%@\" of playlist \"%@\"\nend tell",
 									[tuneDict objectForKey:@"name"],
 									[tuneDict objectForKey:@"playlist"]];
 	NSAppleScript *as = [[[NSAppleScript alloc] initWithSource:jumpScript] autorelease];
@@ -780,23 +780,23 @@ int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2,
 		NSString *loadPath;
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		static NSString *pluginPathExtension = @"plugin";
-		
+
 		while (loadPath = [loadPathsEnum nextObject]) {
 			NSEnumerator *pluginEnum = [[[NSFileManager defaultManager] directoryContentsAtPath:loadPath] objectEnumerator];
 			NSString *curPath;
-			
+
 			while (curPath = [pluginEnum nextObject]) {
 				if ([[curPath pathExtension] isEqualToString:pluginPathExtension]) {
 					curPath = [pluginsPath stringByAppendingPathComponent:curPath];
 					NSBundle *plugin = [NSBundle bundleWithPath:curPath];
-					
+
 					if ([plugin load]) {
 						Class principalClass = [plugin principalClass];
-						
+
 						if ([principalClass conformsToProtocol:@protocol(GrowlTunesPlugin)]) {
 							id instance = [[principalClass alloc] init];
 							[newPlugins addObject:instance];
-							
+
 							if (!archivePlugin && ([principalClass conformsToProtocol:@protocol(GrowlTunesPluginArchive)])) {
 								archivePlugin = [instance retain];
 //								NSLog(@"plug-in %@ is archive-Plugin with id %p", [curPath lastPathComponent], instance);

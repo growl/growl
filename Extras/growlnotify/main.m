@@ -1,11 +1,11 @@
 /*
  Copyright (c) The Growl Project, 2004-2005
  All rights reserved.
- 
- 
+
+
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
- 
- 
+
+
  1. Redistributions of source code must retain the above copyright
  notice, this list of conditions and the following disclaimer.
  2. Redistributions in binary form must reproduce the above copyright
@@ -14,10 +14,10 @@
  3. Neither the name of Growl nor the names of its contributors
  may be used to endorse or promote products derived from this software
  without specific prior written permission.
- 
- 
+
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
 */
 #import <Foundation/Foundation.h>
 #import <AppKit/NSImage.h>
@@ -38,7 +38,7 @@
 
 #define NOTIFICATION_NAME @"Command-Line Growl Notification"
 
-static const char usage[] = 
+static const char usage[] =
 "Usage: growlnotify [-hsv] [-i ext] [-I filepath] [--image filepath]\n"
 "                   [-p priority] [-H host] [-U] [-P password] [title]\n"
 "Options:\n"
@@ -206,7 +206,7 @@ int main(int argc, const char **argv) {
 	}
 	argc -= optind;
 	argv += optind;
-	
+
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	// Deal with title
@@ -217,7 +217,7 @@ int main(int argc, const char **argv) {
 	}
 	[argArray removeObject:@""];
 	NSString *title = [argArray componentsJoinedByString:@" "];
-	
+
 	// Deal with image
 	// --image takes precedence over -I takes precedence over -i takes precedence over --a
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
@@ -260,7 +260,7 @@ int main(int argc, const char **argv) {
 		desc = [[[NSString alloc] initWithData:descData encoding:NSUTF8StringEncoding] autorelease];
 		desc = [desc stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	}
-	
+
 	// Application name
 	NSString *applicationName;
 	if (appName) {
@@ -275,7 +275,7 @@ int main(int argc, const char **argv) {
 	} else {
 		identifierString = nil;
 	}
-	
+
 	// Register with Growl
 	NSArray *defaultAndAllNotifications = [[NSArray alloc] initWithObjects:NOTIFICATION_NAME, nil];
 	NSDictionary *registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:

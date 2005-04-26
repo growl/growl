@@ -36,7 +36,7 @@ static GrowlPreferences *sharedPreferences;
 
 - (void) dealloc {
 	[helperAppDefaults release];
-	
+
 	[super dealloc];
 }
 
@@ -228,24 +228,24 @@ static GrowlPreferences *sharedPreferences;
 	//now launch or terminate as appropriate.
 	if (flag)
 		[self launchGrowl:nmw];
-	else		
+	else
 		[self terminateGrowl];
 }
 
 - (BOOL) isRunning:(NSString *)theBundleIdentifier {
 	BOOL isRunning = NO;
 	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
-	
+
 	while (GetNextProcess(&PSN) == noErr) {
 		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
 		NSString *bundleID = [infoDict objectForKey:(NSString *)kCFBundleIdentifierKey];
 		isRunning = bundleID && [bundleID isEqualToString:theBundleIdentifier];
 		[infoDict release];
-		
+
 		if (isRunning)
 			break;
 	}
-	
+
 	return isRunning;
 }
 
@@ -260,7 +260,7 @@ static GrowlPreferences *sharedPreferences;
 	LSLaunchFSRefSpec spec;
 	FSRef appRef;
 	OSStatus status = FSPathMakeRef((const UInt8 *)[helperPath fileSystemRepresentation], &appRef, NULL);
-	
+
 	if (status == noErr) {
 		spec.appRef = &appRef;
 		spec.numDocs = 0;

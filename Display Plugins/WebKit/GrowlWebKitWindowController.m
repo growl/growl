@@ -98,7 +98,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		float duration = MIN_DISPLAY_TIME;
 		READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, GrowlWebKitPrefDomain, &duration);
 		if (!limitPref) {
-			displayTime = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
+			displayTime = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
 							   MAX_DISPLAY_TIME);
 		} else {
 			displayTime = duration;
@@ -135,10 +135,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 			priorityName = @"emergency";
 			break;
 	}
-	
+
 	NSString *styleName = @"Default";
 	READ_GROWL_PREF_VALUE(GrowlWebKitStylePref, GrowlWebKitPrefDomain, NSString *, &styleName);
-	
+
 	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
 	NSBundle *styleBundle = [[GrowlPluginController controller] styleNamed:styleName];
 	NSString *templateFile = [bundle pathForResource:@"template" ofType:@"html"];
@@ -159,7 +159,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	image = [icon retain];
 	[image setName:UUID];
 	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
-	
+
 	NSMutableString *titleHTML = [[[NSMutableString alloc] initWithString:title] escapeForHTML];
 	NSMutableString *textHTML = [[[NSMutableString alloc] initWithString:text] escapeForHTML];
 	NSString *htmlString = [[NSString alloc] initWithFormat:template,
@@ -197,7 +197,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		if (![url isFileURL]) {
 			[[NSWorkspace sharedWorkspace] openURL:url];
 		}
-		
+
 		[listener ignore];
 	}
 }

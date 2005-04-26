@@ -137,7 +137,7 @@
 + (void) notifyWithTitle:(NSString *)title
 			 description:(NSString *)description
 		notificationName:(NSString *)notifName
-				iconData:(NSData *)iconData 
+				iconData:(NSData *)iconData
 				priority:(signed int)priority
 				isSticky:(BOOL)isSticky
 			clickContext:(id)clickContext;
@@ -205,7 +205,7 @@
  *	 <code>-growlIsReady</code> method, if it has one). If this method is
  *	 called with <code>YES</code>, one of those tasks will be to reregister
  *	 with Growl (in the manner of <code>-reregisterGrowlNotifications</code>).
- *	 
+ *
  *	 This attribute is automatically set back to <code>NO</code> (the default)
  *	 after every <code>GROWL_IS_READY</code> notification.
  *	@param	flag	YES if you want GrowlApplicationBridge to register with
@@ -377,12 +377,12 @@
  *
  *	 For most applications, these two arrays can be the same (if all sent
  *	 notifications should be displayed by default).
- * 
+ *
  *	 The <code>NSString</code> objects of these arrays will correspond to the
  *	 <code>notificationName:</code> parameter passed in
  *	 <code>+[GrowlApplicationBridge
  *	 notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:]</code> calls.
- * 
+ *
  *	 The dictionary should have 2 key object pairs:
  *	 key: GROWL_NOTIFICATIONS_ALL		object: <code>NSArray</code> of <code>NSString</code> objects
  *	 key: GROWL_NOTIFICATIONS_DEFAULT	object: <code>NSArray</code> of <code>NSString</code> objects
@@ -498,7 +498,7 @@
  *	@result An NSAttributedString object to display.
  */
 - (NSAttributedString *)growlInstallationInformation;
-	
+
 /*!
  *	@method growlUpdateInformation
  *	@abstract Return the information to display when upgrading.

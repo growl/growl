@@ -36,7 +36,7 @@ static GrowlPluginController *sharedController;
 	if (!sharedController) {
 		sharedController = [[GrowlPluginController alloc] init];
 	}
-	
+
 	return sharedController;
 }
 

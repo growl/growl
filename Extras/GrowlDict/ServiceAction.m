@@ -1,11 +1,11 @@
 /*
- Copyright © The Growl Project, 2004 
+ Copyright © The Growl Project, 2004
  All rights reserved.
- 
- 
+
+
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
- 
- 
+
+
  1. Redistributions of source code must retain the above copyright
  notice, this list of conditions and the following disclaimer.
  2. Redistributions in binary form must reproduce the above copyright
@@ -14,10 +14,10 @@
  3. Neither the name of Growl nor the names of its contributors
  may be used to endorse or promote products derived from this software
  without specific prior written permission.
- 
- 
+
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 
 //
@@ -45,7 +45,7 @@ static NSString *definitionNotificationName = @"GrowlDict-Definition";
 
 - (NSString*)applicationNameForGrowl {
 	return @"GrowlDict";
-}	
+}
 
 - (NSDictionary*)registrationDictionaryForGrowl {
 	NSArray *objects = [NSArray arrayWithObject:definitionNotificationName];
@@ -60,7 +60,7 @@ static NSString *definitionNotificationName = @"GrowlDict-Definition";
 - (void)doLookupWordService:(NSPasteboard *)pboard
 				   userData:(NSString *)data
 					  error:(NSString **)error
-{ 
+{
 	NSString *pboardString;
 	NSArray *types;
 	NSTask *curlTask;
@@ -70,10 +70,10 @@ static NSString *definitionNotificationName = @"GrowlDict-Definition";
 	NSFileHandle *file;
 	NSData *curlData;
 	NSString *curlResult;
-	
+
 	types = [pboard types];
-	
-	
+
+
 	if (![types containsObject:NSStringPboardType] || !(pboardString = [pboard stringForType:NSStringPboardType])) {
 	    *error = NSLocalizedString(@"Error: Pasteboard doesn't contain a string.",
 								   @"Pasteboard couldn't give string.");
@@ -89,17 +89,17 @@ static NSString *definitionNotificationName = @"GrowlDict-Definition";
 	[curlTask setStandardOutput: pipe];
 	[curlTask setStandardError: pipe2];
 	file = [pipe fileHandleForReading];
-	[curlTask launch]; 
+	[curlTask launch];
 	curlData = [file readDataToEndOfFile];
 	curlResult = [[[NSString alloc] initWithData: curlData encoding: NSUTF8StringEncoding] autorelease];
 	[file closeFile];
-	[curlTask release];	
-	
+	[curlTask release];
+
 	//Cleanup the string so it's just the first definition
 	NSRange toprange = [curlResult rangeOfString: @"151 "];
 	if(toprange.location != NSNotFound){
 		curlResult = [curlResult substringFromIndex: toprange.location];
-		
+
 		toprange = [curlResult rangeOfString: @"\n"];
 		curlResult = [curlResult substringFromIndex: toprange.location+1];
 		NSRange bottomrange = [curlResult rangeOfString: @"\n250"];
@@ -111,7 +111,7 @@ static NSString *definitionNotificationName = @"GrowlDict-Definition";
 	} else {
 		curlResult = [NSString stringWithString:@"Not Found"];
 	}
-	
+
 	NSString *notificationTitle = [@"Definition of " stringByAppendingString:pboardString];
 	[GrowlApplicationBridge notifyWithTitle:notificationTitle
 	                            description:curlResult

@@ -15,7 +15,7 @@
 	if ((self = [super init])) {
 		properties = [dict mutableCopy];
 	}
-	
+
 	return self;
 }
 
@@ -29,7 +29,7 @@
 			nil];
 		[useValue release];
 	}
-	
+
 	return self;
 }
 

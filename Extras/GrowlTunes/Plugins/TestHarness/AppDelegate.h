@@ -16,11 +16,11 @@
 	NSString *song;
 	NSNumber *compilation;
 	IBOutlet NSWindow *mainWindow;
-	
+
 	/*IBOutlet NSTextField *artistField;
 	IBOutlet NSTextField *albumField;
 	IBOutlet NSTextField *songField;*/
-	
+
 	IBOutlet NSArrayController *pluginsController;
 }
 - (NSArray *) plugins;

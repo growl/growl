@@ -118,18 +118,18 @@
 // Expose sweep-all-windows-away event happens. Additionally, if a window is not
 // sticky while it fades in (see FadingWindowController for an example of fading
 // in), and simultaneously the desktop is switched via DesktopManager, the window
-// may end up getting left on the previous desktop, even if that window's level 
-// set to NSStatusWindowLevel. See http://www.cocoadev.com/index.pl?DontExposeMe 
+// may end up getting left on the previous desktop, even if that window's level
+// set to NSStatusWindowLevel. See http://www.cocoadev.com/index.pl?DontExposeMe
 // for more information.
 
 - (void) setSticky:(BOOL)flag {
 	CGSConnectionID cid;
 	CGSWindowID wid;
-	
+
 	wid = [self windowNumber];
 	cid = _CGSDefaultConnection();
 	int tags[2] = { 0, 0 };
-	
+
 	if (!CGSGetWindowTags(cid, wid, tags, 32)) {
 		if (flag) {
 			tags[0] = tags[0] | 0x00000800;

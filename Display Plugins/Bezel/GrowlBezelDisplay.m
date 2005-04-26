@@ -32,8 +32,8 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	GrowlBezelWindowController *nuBezel = [GrowlBezelWindowController bezelWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
-			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
+	GrowlBezelWindowController *nuBezel = [GrowlBezelWindowController bezelWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
+			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 			priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
@@ -42,7 +42,7 @@
 	[nuBezel setTarget:self];
 	[nuBezel setAction:@selector(_bezelClicked:)];
 	[nuBezel setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[nuBezel setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];	
+	[nuBezel setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[nuBezel setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 
 	if ([notificationQueue count] > 0U) {
@@ -50,7 +50,7 @@
 		GrowlBezelWindowController *aNotification;
 		BOOL	inserted = NO;
 		int		theIndex = 0;
-		
+
 		while (!inserted && (aNotification = [enumerator nextObject])) {
 			if ([aNotification priority] < [nuBezel priority]) {
 				[notificationQueue insertObject: nuBezel atIndex:theIndex];
@@ -98,7 +98,7 @@
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:[bezel appName]
 														  userInfo:clickContext];
-		
+
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		[bezel setClickContext:nil];
 	}

@@ -132,16 +132,16 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 //This method will attempt to locate an image given either a path or an URL
 - (NSURL *)fileUrlForLocationReference:(NSString *)imageReference {
 	NSURL   *url = nil;
-	
+
 	NSRange testRange = [imageReference rangeOfString: @"://"];
 	if (!(testRange.location == NSNotFound)) {
-		//It looks like a protocol string 
+		//It looks like a protocol string
 		if (![imageReference hasPrefix: @"file://"]) {
 			//The protocol is not valid  - we only accept file:// URLs
 			[self setError:ERROR_NOT_FILE_URL];
 			return nil;
 		}
-		
+
 		//it was a file URL that was passed
 		url = [NSURL URLWithString: imageReference];
 		//Check that it's properly encoded
@@ -163,7 +163,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 			return nil;
 		}
 	}
-	
+
 	//Sanity check the URL
 	if (![url isFileURL]) {
 		//Bail - wrong protocol.
@@ -178,7 +178,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 	if (![[NSFileManager defaultManager] fileExistsAtPath:[url path]]) {
 		[self setError:ERROR_ICON_OF_FILE_PATH_FILE_MISSING];
 		return nil;
-	} 
+	}
 	return url;
 }
 
@@ -190,7 +190,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 - (void)setError:(int)errorCode failure:(id)failure {
 	[self setScriptErrorNumber:errorCode];
 	NSString *str;
-	
+
 	switch (errorCode) {
 		case ERROR_EXCEPTION:
 			str = [NSString stringWithFormat:@"Exception raised while processing: %@", failure];
@@ -208,12 +208,12 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 			str = @"'image from URL' parameter - Supplied file is not a valid image type.";
 			break;
 		case ERROR_ICON_OF_FILE_UNSUPPORTED_PROTOCOL:
-			str = @"'image from URL' parameter - Unsupported URL protocol. (Only 'file://' supported)";	
+			str = @"'image from URL' parameter - Unsupported URL protocol. (Only 'file://' supported)";
 			break;
 		default:
 			str = nil;
 	}
-	
+
 	if (str)
 		[self setScriptErrorString:str];
 }

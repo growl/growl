@@ -18,7 +18,7 @@ static unsigned smokeDepth = 0U;
 
 - (id) init {
 	if ((self = [super init])) {
-		[[NSNotificationCenter defaultCenter] addObserver:self 
+		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(_smokeGone:)
 													 name:@"SmokeGone"
 												   object:nil];
@@ -41,8 +41,8 @@ static unsigned smokeDepth = 0U;
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
 	//NSLog(@"Smoke: displayNotificationWithInfo");
 	GrowlSmokeWindowController *controller = [[GrowlSmokeWindowController alloc]
-		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
-				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
+		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
+				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 			   sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
@@ -74,12 +74,12 @@ static unsigned smokeDepth = 0U;
 - (void) _smokeClicked:(GrowlSmokeWindowController *)smoke
 {
 	id clickContext;
-	
+
 	if ( (clickContext = [smoke clickContext]) ) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED	
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:[smoke appName]
 														  userInfo:clickContext];
-		
+
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		[smoke setClickContext:nil];
 	}

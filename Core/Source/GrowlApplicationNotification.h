@@ -48,7 +48,7 @@ typedef enum GrowlPriority {
 
 - (void) enable;
 - (void) disable;
-	
+
 - (int) sticky;
 - (void) setSticky:(int)sticky;
 

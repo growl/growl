@@ -28,7 +28,7 @@
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
 	GrowlWebKitWindowController *controller = [[GrowlWebKitWindowController alloc]
-		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
+		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
 				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
@@ -50,7 +50,7 @@
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 														   object:[windowController appName]
 														  userInfo:clickContext];
-		
+
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		[windowController setClickContext:nil];
 	}

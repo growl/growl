@@ -107,7 +107,7 @@
 	drawRect.origin.y = GrowlSmokePadding;
 	drawRect.size.width = iconSize;
 	drawRect.size.height = iconSize;
-	
+
 	[icon setFlipped:YES];
 	[icon drawScaledInRect:drawRect
 				 operation:NSCompositeSourceOver
@@ -215,7 +215,7 @@
 
 	[[textStorage mutableString] setString:aText];
 	[textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
-	
+
 	[attributes release];
 
 	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
@@ -300,7 +300,7 @@
 	NSRect windowRect = [[self window] frame];
 	windowRect.size = rect.size;
 	[[self window] setFrame:windowRect display:NO];
-	
+
 	if (trackingRectTag) {
 		[self removeTrackingRect:trackingRectTag];
 	}
@@ -371,7 +371,7 @@
 #pragma unused(theEvent)
 	mouseOver = NO;
 	[self setNeedsDisplay:YES];
-	
+
 	// abuse the target object
 	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)]) {
 		[target performSelector:@selector(startFadeOut)];

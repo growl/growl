@@ -31,7 +31,7 @@ static NSString *empty = @"";
 
 - (void)dealloc {
 	[synergySubPath release];
-	
+
 	[super dealloc];
 }
 
@@ -82,7 +82,7 @@ static NSString *empty = @"";
 
 	//we got nothin'.
 	return nil;
-}	
+}
 
 - (BOOL) usesNetwork {
 	return NO;

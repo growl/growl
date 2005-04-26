@@ -38,7 +38,7 @@
 
 - (NSImage *)artworkForTitle:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album isCompilation:(BOOL)compilation {
 	NSString *artworkDir = [self pathForTrack:track artist:artist album:album compilation:compilation];
-	
+
 	NSFileManager *manager = [NSFileManager defaultManager];
 	BOOL isDir;
 	if ([manager fileExistsAtPath:artworkDir isDirectory:&isDir] && isDir) {
@@ -95,15 +95,15 @@
 	// Protect string from itself
 	if ([track length])
 		track = [track stringByMakingPathSafe];
-	
+
 	if ([artist length])
 		artist = [artist stringByMakingPathSafe];
-	
+
 	if ([album length])
 		album = [album stringByMakingPathSafe];
-	
+
 	NSString *path = libraryLocation;
-	
+
 	if (compilation) {
 		path = [path stringByAppendingPathComponent:@"Compilations"];
 	} else {
@@ -113,16 +113,16 @@
 			path = [path stringByAppendingPathComponent:@"Unknown Artist"];
 		}
 	}
-	
+
 	if ([album length]) {
 		path = [path stringByAppendingPathComponent:album];
 	} else {
 		path = [path stringByAppendingPathComponent:@"Unknown Album"];
 	}
-	
+
 	if (artworkSubdirectory)
 		path = [path stringByAppendingPathComponent:artworkSubdirectory];
-	
+
 	return path;
 }
 

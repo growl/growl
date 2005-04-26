@@ -30,7 +30,7 @@
 
 	[addButtonTitle release];
 	[editButtonTitle release];
-	
+
 	[mainWindow release];
 	[notificationsTable release];
 	[registered release];
@@ -49,7 +49,7 @@
 
 	addButtonTitle = [[addEditButton title] retain]; //this is the default title in the nib
 	editButtonTitle = [NSLocalizedString(@"Edit", /*comment*/ NULL) retain];
-	
+
 	[GrowlApplicationBridge setGrowlDelegate:self];
 }
 
@@ -113,18 +113,18 @@
 		[notifications removeObjectAtIndex:selectedRow];
 		[notificationsTable reloadData];
 	}
-	
+
 	[self notificationsDidChange];
 }
 
 - (IBAction)sendNotification:(id)sender {
 #pragma unused(sender)
 	int selectedRow = [notificationsTable selectedRow];
-	
+
 	if (selectedRow != -1){
 		//send a notification for the selected table cell
 		NSDictionary *note = [notifications objectAtIndex:selectedRow];
-		
+
 		//NSLog( @"note - %@", note );
 		[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
 							description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
@@ -189,7 +189,7 @@
 	}
 
 	[sheet orderOut:self];
-	
+
 	[self notificationsDidChange];
 }
 
@@ -221,7 +221,7 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)notification {
 #pragma unused(notification)
 	BOOL rowIsSelected = ([notificationsTable selectedRow] != -1);
-	
+
 	[sendButton setEnabled:rowIsSelected];
 }
 
@@ -239,34 +239,34 @@
 
 //Return the registration dictionary
 - (NSDictionary *)registrationDictionaryForGrowl {
-	
+
 	NSMutableArray *defNotesArray = [NSMutableArray array];
 	NSMutableArray *allNotesArray = [NSMutableArray array];
 	NSNumber *isDefaultNum;
 	unsigned numNotifications = [notifications count];
-	
+
 	//Build an array of all notifications we want to use
 	for ( unsigned i = 0U; i < numNotifications; ++i ) {
 		NSDictionary *def = [notifications objectAtIndex:i];
 		[allNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_NAME]];
-		
+
 		isDefaultNum = [def objectForKey:GROWL_NOTIFICATION_DEFAULT];
 		if ( isDefaultNum && [isDefaultNum boolValue] ) {
 			[defNotesArray addObject:[NSNumber numberWithUnsignedInt:i]];
 		}
 	}
-	
+
 	//Set these notifications both for ALL (all possibilites) and DEFAULT (the ones enabled by default)
 	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
-		allNotesArray, GROWL_NOTIFICATIONS_ALL, 
+		allNotesArray, GROWL_NOTIFICATIONS_ALL,
 		defNotesArray, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
-	
+
 	return regDict;
 }
 
 - (void)growlIsReady {
-	NSLog(@"Growl engaged, Captain!");	
+	NSLog(@"Growl engaged, Captain!");
 }
 
 @end

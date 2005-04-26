@@ -45,7 +45,7 @@ static BOOL checkOSXVersion()
 		//we proceed anyway, on the theory that it is better to show the installation prompt when inappropriate than to suppress it when not.
 		OSXVersion = minimumOSXVersionForGrowl;
 	}
-	
+
 	return (OSXVersion >= minimumOSXVersionForGrowl);
 }
 
@@ -95,28 +95,28 @@ static BOOL checkOSXVersion()
 	[textView_growlInfo setVerticallyResizable:YES];
 	[textView_growlInfo setDrawsBackground:NO];
 	[scrollView_growlInfo setDrawsBackground:NO];
-	
+
 	//Window title
-	if (updateVersion ? 
+	if (updateVersion ?
 		[growlDelegate respondsToSelector:@selector(growlUpdateWindowTitle)] :
 		[growlDelegate respondsToSelector:@selector(growlInstallationWindowTitle)]) {
-		
+
 		windowTitle = (updateVersion ? [growlDelegate growlUpdateWindowTitle] : [growlDelegate growlInstallationWindowTitle]);
 	} else {
 		windowTitle = (updateVersion ? DEFAULT_UPDATE_WINDOW_TITLE : DEFAULT_INSTALLATION_WINDOW_TITLE);
 	}
-	
+
 	[theWindow setTitle:windowTitle];
-	
+
 	//Growl information
-	if (updateVersion ? 
+	if (updateVersion ?
 		[growlDelegate respondsToSelector:@selector(growlUpdateInformation)] :
 		[growlDelegate respondsToSelector:@selector(growlInstallationInformation)]) {
 		growlInfo = (updateVersion ? [growlDelegate growlUpdateInformation] : [growlDelegate growlInstallationInformation]);
 
 	} else {
 		NSMutableAttributedString	*defaultGrowlInfo;
-		
+
 		//Start with the window title, centered and bold
 		NSMutableParagraphStyle	*centeredStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 		[centeredStyle setAlignment:NSCenterTextAlignment];
@@ -133,8 +133,8 @@ static BOOL checkOSXVersion()
 
 		//Now provide a default explanation
 		NSAttributedString *defaultExplanation;
-		defaultExplanation = [[NSAttributedString alloc] initWithString:(updateVersion ? 
-																		  DEFAULT_UPDATE_EXPLANATION : 
+		defaultExplanation = [[NSAttributedString alloc] initWithString:(updateVersion ?
+																		  DEFAULT_UPDATE_EXPLANATION :
 																		  DEFAULT_INSTALLATION_EXPLANATION)
 															  attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 																  [NSFont systemFontOfSize:GROWL_TEXT_SIZE], NSFontAttributeName,
@@ -142,7 +142,7 @@ static BOOL checkOSXVersion()
 
 		[defaultGrowlInfo appendAttributedString:defaultExplanation];
 		[defaultExplanation release];
-		
+
 		growlInfo = defaultGrowlInfo;
 	}
 
@@ -156,9 +156,9 @@ static BOOL checkOSXVersion()
 	frame.size.height += heightChange;
 	frame.origin.y -= heightChange;
 	[theWindow setFrame:frame display:YES];
-	
+
 	//Localize and size the buttons
-	
+
 	//The install button should maintain its distance from the right side of the window
 	NSRect	newInstallButtonFrame, oldInstallButtonFrame;
 	int installButtonOriginLeftShift;
@@ -187,7 +187,7 @@ static BOOL checkOSXVersion()
 	//Adjust the origin to put the right edge at the proper place (same distance from the left edge of the install button as before)
 	newCancelButtonFrame.origin.x = ((oldCancelButtonFrame.origin.x + oldCancelButtonFrame.size.width) - newCancelButtonFrame.size.width) - installButtonOriginLeftShift;
 	[button_cancel setFrame:newCancelButtonFrame];
-	
+
 	[checkBox_dontAskAgain setTitle:DONT_ASK_AGAIN_CHECKBOX_TITLE];
 	[checkBox_dontAskAgain sizeToFit];
 }
@@ -205,7 +205,7 @@ static BOOL checkOSXVersion()
 		//Tell the app bridge about the user's choice
 		[GrowlApplicationBridge _userChoseNotToInstallGrowl];
 	}
-	
+
 	//Shut down the installation prompt
 	[self releaseAndClose];
 }
@@ -220,7 +220,7 @@ static BOOL checkOSXVersion()
 			[[NSUserDefaults standardUserDefaults] setObject:updateVersion
 													  forKey:@"Growl Update:Do Not Prompt Again:Last Version"];
 		} else {
-			[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Growl Update:Do Not Prompt Again:Last Version"];			
+			[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Growl Update:Do Not Prompt Again:Last Version"];
 		}
 
 	} else {
@@ -255,7 +255,7 @@ static BOOL checkOSXVersion()
 	tmpDir = [NSTemporaryDirectory() stringByAppendingPathComponent:@"GrowlInstallations"];
 	if (tmpDir) {
 		[[NSFileManager defaultManager] createDirectoryAtPath:tmpDir attributes:nil];
-		
+
 		tmpDir = [tmpDir stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
 		if (tmpDir) {
 			[mgr createDirectoryAtPath:tmpDir attributes:nil];
@@ -294,7 +294,7 @@ static BOOL checkOSXVersion()
 				[unzip setLaunchPath:launchPath];
 				[unzip setArguments:arguments];
 				[unzip setCurrentDirectoryPath:tmpDir];
-				
+
 				NS_DURING
 					[unzip launch];
 					[unzip waitUntilExit];
@@ -304,10 +304,10 @@ static BOOL checkOSXVersion()
 				NS_ENDHANDLER
 				[unzip release];
 			}
-				
+
 			if (success) {
 				NSString	*tempGrowlPrefPane;
-				
+
 				/*Kill the running GrowlHelperApp if necessary by asking it via
 				 *	DNC to shutdown.
 				 */
@@ -346,7 +346,7 @@ static BOOL checkOSXVersion()
 - (void)releaseAndClose
 {
 	[self autorelease];
-	[[self window] close];	
+	[[self window] close];
 }
 
 @end

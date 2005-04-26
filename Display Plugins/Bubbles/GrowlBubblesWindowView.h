@@ -50,7 +50,7 @@
 - (float) titleHeight;
 - (float) descriptionHeight;
 - (int) descriptionRowCount;
-	
+
 - (id) target;
 - (void) setTarget:(id)object;
 

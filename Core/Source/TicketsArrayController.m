@@ -26,7 +26,7 @@
 	} else {
 		NSMutableArray *matchedObjects = [NSMutableArray arrayWithCapacity:[sorted count]];
 		NSEnumerator *ticketEnum = [sorted objectEnumerator];
-		GrowlApplicationTicket *ticket;	
+		GrowlApplicationTicket *ticket;
 		while ((ticket = [ticketEnum nextObject])) {
 			if ([[ticket applicationName] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
 				[matchedObjects addObject:ticket];

@@ -53,7 +53,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
 	// A window with a frame of NSZeroRect is off-screen and doesn't respect opacity even
 	// if moved on screen later. -Evan
-	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f ) 
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f )
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												  backing:NSBackingStoreBuffered
 													defer:NO];
@@ -109,7 +109,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		float duration = MIN_DISPLAY_TIME;
 		READ_GROWL_PREF_FLOAT(GrowlBubblesDuration, GrowlBubblesPrefDomain, &duration);
 		if (!limitPref) {
-			displayTime = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME, 
+			displayTime = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
 							   MAX_DISPLAY_TIME);
 		} else {
 			displayTime = duration;

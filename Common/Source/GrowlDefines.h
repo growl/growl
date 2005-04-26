@@ -17,7 +17,7 @@
  *	@abstract   Defines all the notification keys.
  *	@discussion Defines all the keys used for registration with Growl and for
  *	 Growl notifications.
- *	 
+ *
  *	 Most applications should use the functions or methods of Growl.framework
  *	 instead of posting notifications such as those described here.
  *	@updated 2004-01-25

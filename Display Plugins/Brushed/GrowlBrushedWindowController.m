@@ -28,7 +28,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 }
 
 #pragma mark Delegate Methods
-/*	
+/*
 	These methods are the methods that this class calls on the delegate.  In this case
 	this class is the delegate for the class
 */
@@ -138,12 +138,12 @@ static NSMutableDictionary *notificationsByIdentifier;
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
 
-	/*[[NSNotificationCenter defaultCenter] addObserver:self 
-											selector:@selector( _glideUp: ) 
+	/*[[NSNotificationCenter defaultCenter] addObserver:self
+											selector:@selector( _glideUp: )
 												name:@"Glide"
 											  object:nil];*/
 
-	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f ) 
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f )
 												styleMask:styleMask
 												  backing:NSBackingStoreBuffered
 													defer:NO];
@@ -196,7 +196,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		/*BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
 		if (!limitPref) {*/
-			displayTime = MIN (duration + rowCount * gAdditionalLinesDisplayTime, 
+			displayTime = MIN (duration + rowCount * gAdditionalLinesDisplayTime,
 							   gMaxDisplayTime);
 		/*} else {
 			displayTime = gMinDisplayTime;
@@ -211,7 +211,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		[nc postNotificationName:@"Clear Space" object:nil userInfo:dict];
 		[dict release];
-		[nc addObserver:self 
+		[nc addObserver:self
 			   selector:@selector(_clearSpace:)
 				   name:@"Clear Space"
 				 object:nil];
@@ -248,7 +248,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	//extern unsigned BrushedWindowDepth;
-	//if ( depth == brushedWindowDepth ) 
+	//if ( depth == brushedWindowDepth )
 	// 	brushedWindowDepth = 0;
 
 	NSWindow *myWindow = [self window];

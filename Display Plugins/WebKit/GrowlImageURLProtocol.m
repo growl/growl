@@ -32,12 +32,12 @@
 										   expectedContentLength:[imageData length]
 												textEncodingName:nil];
 	[response autorelease];
-	
+
 	id <NSURLProtocolClient> client = [self client];
 	[client URLProtocol:self
 	 didReceiveResponse:response
 	 cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-	[client URLProtocol:self 
+	[client URLProtocol:self
 			didLoadData:imageData];
 	[client URLProtocolDidFinishLoading:self];
 }

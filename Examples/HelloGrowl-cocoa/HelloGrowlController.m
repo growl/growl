@@ -2,7 +2,7 @@
 
 /*
  *		This is a super-simple example of how to use Growl Notifications from Cocoa.
- *		
+ *
  *		Also see: http://growl.info/documentation/developer/implementing-growl.php?lang=cocoa
  *
  */
@@ -18,7 +18,7 @@
 
 #import <Growl/Growl.h>
 
-	/*	
+	/*
 	*		Define the name of our notification.
 	*		------------------------------------
 	*
@@ -28,7 +28,7 @@
 	*		by their name.
 	*
 	*		This differentiation allows the user to customise which of your notification-types
-	*		are enabled and also allows them to customise the notifications' appearances separately.   
+	*		are enabled and also allows them to customise the notifications' appearances separately.
 	*
 	*/
 
@@ -42,7 +42,7 @@
 
 //	It's good to be alive...
 - (id) init {
-	if ((self = [super init])) {		
+	if ((self = [super init])) {
 
 		/*
 		 *	Register ourselves as a Growl delegate for registration purposes
@@ -50,12 +50,12 @@
 		 *
 		 *	The GrowlApplicationBridge (GAB) is how your application communicates with Growl.
 		 *
-		 *	Using the Delegate Pattern, the GAB will call your delegate object when it needs 
+		 *	Using the Delegate Pattern, the GAB will call your delegate object when it needs
 		 *	information.
 		 */
-		
+
 		[GrowlApplicationBridge setGrowlDelegate:self];
-	}	
+	}
 	return self;
 }
 
@@ -80,9 +80,9 @@
  *		for its registrationDictionary.
  *
  *		This dictionary gives Growl the complete list of notifications this application will ever send,
- *		and it also specifies which notifications should be enabled by default. 
+ *		and it also specifies which notifications should be enabled by default.
  *
- *		For most applications, these two arrays can be the same 
+ *		For most applications, these two arrays can be the same
  *		(if all sent notifications should be displayed by default).
  *
  *		The NSString objects in these arrays are the Notification names
@@ -92,9 +92,9 @@
  *			GROWL_NOTIFICATIONS_ALL
  *				An NSArray of all possible names of notifications.
  *			GROWL_NOTIFICATIONS_DEFAULT
- *				An NSArray of notifications enabled by default 
+ *				An NSArray of notifications enabled by default
  *				(either by name, or by index into the GROWL_NOTIFICATIONS_ALL array).
- */	
+ */
 
 - (NSDictionary *) registrationDictionaryForGrowl {
 	NSArray *notifications = [NSArray arrayWithObjects:
@@ -106,7 +106,7 @@
 		notifications, GROWL_NOTIFICATIONS_ALL,
 		notifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
-	
+
 	return regDict;
 }
 
@@ -130,21 +130,21 @@
 	 *		Call the GrowlApplicationBridge's notifyWithTitle: method
 	 *
 	 *		To include an image - pass image NSData for the iconData pararmeter
-	 *		Priority ranges from -2 (low) to +2 (emergency) 
+	 *		Priority ranges from -2 (low) to +2 (emergency)
 	 *		Sticky makes the notification stay on screen until clicked.
 	 *			(Unless over-riden by the user in their preferences.)
 	 *
 	 *		clickContext will be passed back to the delegate method if the
 	 *		user clicks the notification.  If can be anything you want.
 	 */
-	
+
 	[GrowlApplicationBridge notifyWithTitle:[notificationTitleTextField stringValue]
 								description:[notificationDescriptionTextField stringValue]
 						   notificationName:SampleNotificationName
 								   iconData: nil
 								   priority:0
 								   isSticky:NO
-							   clickContext:[notificationTitleTextField stringValue]];	
+							   clickContext:[notificationTitleTextField stringValue]];
 }
 
 @end

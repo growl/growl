@@ -41,7 +41,7 @@
 
 	// Logging
 	IBOutlet NSMatrix				*logFileType;
-	IBOutlet NSPopUpButton			*customMenuButton;	
+	IBOutlet NSPopUpButton			*customMenuButton;
 	NSMutableArray					*customHistArray;
 
 	//"Applications" tab pane

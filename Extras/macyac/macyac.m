@@ -6,16 +6,16 @@
  * License:
  * Copyright (C) 2004 Andrew Wellington.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
  * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -41,7 +41,7 @@
 #include <strings.h>
 #include <unistd.h>
 
-#define DEFAULT_YAC_PORT 10629 
+#define DEFAULT_YAC_PORT 10629
 #define MAX_BACKLOG 10
 
 static int port = DEFAULT_YAC_PORT;
@@ -59,7 +59,7 @@ void usage(char *argv[])
 void getoptions(int argc, char *argv[])
 {
 	int ch;
-	
+
 	while ((ch = getopt(argc, argv, "p:hs")) != -1)
 		switch (ch) {
 			case 'h':
@@ -78,7 +78,7 @@ void getoptions(int argc, char *argv[])
 				usage(argv);
 		}
 	argc -= optind;
-	argv += optind;	
+	argv += optind;
 }
 
 void growl_notify (NSString *title, NSString *content)
@@ -87,7 +87,7 @@ void growl_notify (NSString *title, NSString *content)
 	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
 	NSDictionary *userInfo;
 	NSNumber *stick;
-	
+
 	/* register with Growl. */
 	NSArray *defaultAndAllNotifications = [NSArray arrayWithObjects:@"Incoming Caller", @"Network Message", nil];
 	userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -98,7 +98,7 @@ void growl_notify (NSString *title, NSString *content)
 	[distCenter postNotificationName:GROWL_APP_REGISTRATION
 							  object:nil
 							userInfo:userInfo];
-	
+
 	/* and send notification */
 	stick = [NSNumber numberWithInt: sticky];
 	userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -108,11 +108,11 @@ void growl_notify (NSString *title, NSString *content)
 		content, GROWL_NOTIFICATION_DESCRIPTION,
 		stick, GROWL_NOTIFICATION_STICKY,
 		nil];
-	
+
 	[distCenter postNotificationName:GROWL_NOTIFICATION
 							  object:nil
 							userInfo:userInfo];
-	
+
 	[pool release];
 }
 
@@ -124,16 +124,16 @@ void yac_read(int client)
 	int exit_flag = 0;
 	int i;
 	char inbuf[301];
-	
+
 	/* read for max 300 characters, or until null */
 	while (len < 300 && !exit_flag)
 	{
 		bytes_read = read(client, inbuf + len, 300 - len);
 		if (bytes_read == -1 || bytes_read == 0)
 			break;
-		
+
 		len += bytes_read;
-		
+
 		for (i = 0; i < len; i++)
 		{
 			if (inbuf[i] == '\0')
@@ -146,8 +146,8 @@ void yac_read(int client)
 	/* ensure we're null terminated if we hit 300 limit */
 	inbuf[len] = '\0';
 	inbuf[301] = '\0';
-	
-	
+
+
 	char caller[296];
 	char number[296];
 	if (sscanf(inbuf, "@CALL%[^~]~%300c", caller, number) < 2)
@@ -165,10 +165,10 @@ void yac_read(int client)
 void chld_handler (int signum)
 {
 	int status;
-	
+
 	if (signum != SIGCHLD)
 		return;
-	
+
 	wait3(&status, WNOHANG, NULL);
 }
 
@@ -178,9 +178,9 @@ int main (int argc, char *argv[])
 	int client;
 	int optval;
 	struct sockaddr_in addr;
-	
+
 	getoptions(argc, argv);
-	
+
 	/* setup socket */
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == -1)
@@ -188,32 +188,32 @@ int main (int argc, char *argv[])
 		perror("socket");
 		exit(1);
 	}
-	
+
 	optval = 1;
 	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)) < 0)
 	{
 		perror("setsockopt");
 		exit(1);
 	}
-	
+
 	bzero(&addr, sizeof(addr));
 	addr.sin_len = sizeof(addr);
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
 	addr.sin_addr.s_addr = INADDR_ANY;
-	
+
 	if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0)
 	{
 		perror("bind");
 		exit(1);
 	}
-	
+
 	if (listen(sock, MAX_BACKLOG) < 0)
 	{
 		perror("listen");
 		exit(1);
 	}
-	
+
     /* Become a daemon */
     switch (fork())
 	{
@@ -235,13 +235,13 @@ int main (int argc, char *argv[])
 			/* parent returns to calling process */
 			return 0;
 	}
-	
+
 	if (signal(SIGCHLD, chld_handler) == SIG_ERR)
 	{
 		perror("signal");
 		exit(1);
 	}
-	
+
 	/* infinite loop accepting connections */
 	while (1)
 	{
@@ -252,7 +252,7 @@ int main (int argc, char *argv[])
 			perror("accept");
 			continue;
 		}
-		
+
 		switch(fork())
 		{
 			case 0:
@@ -269,9 +269,9 @@ int main (int argc, char *argv[])
 				close(client);
 				/* get back to processing */
 				break;
-				
+
 		}
-		
+
 	}
-		
+
 }

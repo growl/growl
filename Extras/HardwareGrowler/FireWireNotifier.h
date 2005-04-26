@@ -14,8 +14,8 @@
 - (void)ioKitTearDown;
 
 - (void)registerForFireWireNotifications;
-- (void)fwDeviceAdded: (io_iterator_t ) iterator; 
-- (void)fwDeviceRemoved: (io_iterator_t ) iterator; 
+- (void)fwDeviceAdded: (io_iterator_t ) iterator;
+- (void)fwDeviceRemoved: (io_iterator_t ) iterator;
 
 - (NSString *)nameForFireWireObject: (io_object_t) thisObject;
 

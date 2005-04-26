@@ -15,13 +15,13 @@
 	IBOutlet	NSButton	*button_install;
 	IBOutlet	NSButton	*button_cancel;
 	IBOutlet	NSButton	*checkBox_dontAskAgain;
-	
+
 	NSString	*updateVersion;
 }
 
 /*!
  *	@method showInstallationPrompt
- *	@abstract Shows the installation prompt for Growl-WithInstaller 
+ *	@abstract Shows the installation prompt for Growl-WithInstaller
  */
 + (void) showInstallationPrompt;
 

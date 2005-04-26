@@ -19,7 +19,7 @@ static unsigned brushedDepth = 0U;
 - (id) init {
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(_brushedGone:) 
+												 selector:@selector(_brushedGone:)
 													 name:@"BrushedGone"
 												   object:nil];
 	}
@@ -41,8 +41,8 @@ static unsigned brushedDepth = 0U;
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
 	//NSLog(@"Brushed: displayNotificationWithInfo");
 	GrowlBrushedWindowController *controller = [[GrowlBrushedWindowController alloc]
-		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
-				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
+		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
+				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 			   sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]

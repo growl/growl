@@ -28,7 +28,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 }
 
 #pragma mark Delegate Methods
-/*	
+/*
 	These methods are the methods that this class calls on the delegate.  In this case
 	this class is the delegate for the class
 */
@@ -53,7 +53,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		nil];
 	[idValue    release];
 	[depthValue release];
-	
+
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc postNotificationName:@"Glide" object:nil userInfo:dict];
 	[nc postNotificationName:@"SmokeGone" object:nil userInfo:dict];
@@ -131,12 +131,12 @@ static NSMutableDictionary *notificationsByIdentifier;
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlSmokeScreenPref, GrowlSmokePrefDomain, &screenNumber);
 
-	/*[[NSNotificationCenter defaultCenter] addObserver:self 
-											selector:@selector( _glideUp: ) 
+	/*[[NSNotificationCenter defaultCenter] addObserver:self
+											selector:@selector( _glideUp: )
 												name:@"Glide"
 											  object:nil];*/
 
-	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, GrowlSmokeNotificationWidth, 65.0f ) 
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, GrowlSmokeNotificationWidth, 65.0f )
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												  backing:NSBackingStoreBuffered
 													defer:NO];
@@ -159,7 +159,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[view setTarget:self];
 	[view setAction:@selector(_notificationClicked:)];
 	[panel setContentView:view];
-	
+
 	[view setPriority:priority];
 	[view setTitle:title];
 	[view setText:text];
@@ -189,7 +189,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		/*BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
 		if (!limitPref) {*/
-			displayTime = MIN (duration + rowCount * gAdditionalLinesDisplayTime, 
+			displayTime = MIN (duration + rowCount * gAdditionalLinesDisplayTime,
 								gMaxDisplayTime);
 		/*} else {
 			displayTime = gMinDisplayTime;
@@ -204,7 +204,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		[nc postNotificationName:@"Clear Space" object:nil userInfo:dict];
 		[dict release];
-		[nc addObserver:self 
+		[nc addObserver:self
 			   selector:@selector(_clearSpace:)
 				   name:@"Clear Space"
 				 object:nil];
@@ -241,7 +241,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	//extern unsigned smokeWindowDepth;
 //	NSLog(@"smokeController deallocking");
-	//if ( depth == smokeWindowDepth ) 
+	//if ( depth == smokeWindowDepth )
 	// 	smokeWindowDepth = 0;
 
 	NSWindow *myWindow = [self window];

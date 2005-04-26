@@ -28,7 +28,7 @@
 	[data release];
 }
 
-- (void) mainViewDidLoad {	
+- (void) mainViewDidLoad {
 	[slider_opacity setAltIncrementValue:0.05];
 
 	// priority colour settings
@@ -154,7 +154,7 @@
 	UPDATE_GROWL_PREFS();
 }
 
-- (IBAction) textColorChanged:(id)sender {	
+- (IBAction) textColorChanged:(id)sender {
 	NSString *key;
 	switch ([sender tag]) {
 		case -2:
@@ -199,7 +199,7 @@
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlBubblesScreen, value, GrowlBubblesPrefDomain);	
+	WRITE_GROWL_PREF_INT(GrowlBubblesScreen, value, GrowlBubblesPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -210,7 +210,7 @@
 }
 
 - (void) setSize:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlBubblesSizePref, value, GrowlBubblesPrefDomain);	
+	WRITE_GROWL_PREF_INT(GrowlBubblesSizePref, value, GrowlBubblesPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 @end

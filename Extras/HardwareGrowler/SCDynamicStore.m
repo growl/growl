@@ -61,7 +61,7 @@ static void scCallback(SCDynamicStoreRef dynStore, CFArrayRef changedKeys, void 
 		NSEnumerator *observers = [[self->watchedKeysDict objectForKey:key] objectEnumerator];
 		SLObserver *o = nil;
 		NSDictionary *newValue = [(NSDictionary*) SCDynamicStoreCopyValue(dynStore, (CFStringRef) key) autorelease];
-		
+
 		while ( (o = [observers nextObject]) ) {
 			[[o observer] performSelector:[o selector]
 							   withObject:newValue];
@@ -81,17 +81,17 @@ static void scCallback(SCDynamicStoreRef dynStore, CFArrayRef changedKeys, void 
 		.release			= NULL,
 		.copyDescription	= NULL
 	};
-	
+
 	dynStore = SCDynamicStoreCreate(
-		NULL, 
+		NULL,
 		(CFStringRef) [[NSBundle mainBundle] bundleIdentifier],
 		scCallback,
 		&context
 	);
-	
+
 	rlSrc = SCDynamicStoreCreateRunLoopSource(NULL, dynStore, 0);
 	CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], rlSrc, kCFRunLoopCommonModes);
-	
+
 	return self;
 }
 

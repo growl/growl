@@ -108,7 +108,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 			dst.x = NSMaxX( bounds );
 			dst.y = src.y;
 			CGShadingRef shading = CGShadingCreateAxial( cspace, src, dst,
-														 function, false, false );	
+														 function, false, false );
 
 			CGContextDrawShading( [graphicsContext graphicsPort], shading );
 
@@ -137,7 +137,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 			src.y = NSMinY( bounds ) - 80.0f;
 			shading = CGShadingCreateRadial( cspace, src, 200.0f,
 											 src, 400.0f, function,
-											 false, false );	
+											 false, false );
 
 			CGContextDrawShading( [graphicsContext graphicsPort], shading );
 
@@ -155,8 +155,8 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 			src.y = NSMidY( bounds );
 			shading = CGShadingCreateRadial( cspace, src, 100.0f,
 											 src, 0.0f, function,
-											 false, false );	
-			
+											 false, false );
+
 			CGContextDrawShading( [graphicsContext graphicsPort], shading );
 
 			CGColorSpaceRelease( cspace );
@@ -259,7 +259,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	float height = [self descriptionHeight:text attributes:textAttributes width:textRect.size.width];
 	float lineHeight = [layoutManager defaultLineHeightForFont:textFont];
 	int rowCount = height / lineHeight;
-	
+
 	if (rowCount > maxRows) {
 		[textAttributes setObject:[NSFont systemFontOfSize:12.0f] forKey:NSFontAttributeName];
 	}
@@ -332,7 +332,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	[backgroundColor retain];
 	[data release];
 	data = nil;
-	
+
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, BezelPrefDomain, NSData *, &data);
 	if (data && [data isKindOfClass:NSDataClass]) {

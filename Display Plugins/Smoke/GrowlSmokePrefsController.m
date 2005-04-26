@@ -131,7 +131,7 @@
 }
 
 - (void) setFloatingIcon:(BOOL)value {
-	WRITE_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, value, GrowlSmokePrefDomain);	
+	WRITE_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, value, GrowlSmokePrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -163,7 +163,7 @@
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlSmokeScreenPref, value, GrowlSmokePrefDomain);	
+	WRITE_GROWL_PREF_INT(GrowlSmokeScreenPref, value, GrowlSmokePrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -174,7 +174,7 @@
 }
 
 - (void) setSize:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlSmokeSizePref, value, GrowlSmokePrefDomain);	
+	WRITE_GROWL_PREF_INT(GrowlSmokeSizePref, value, GrowlSmokePrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 

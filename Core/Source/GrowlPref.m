@@ -42,9 +42,9 @@
 @implementation GrowlPref
 
 - (id) initWithBundle:(NSBundle *)bundle {
-	//	Check that we're running Panther 
+	//	Check that we're running Panther
 	//	if a user with a previous OS version tries to launch us - switch out the pane.
-	
+
 	NSApp = [NSApplication sharedApplication];
 	if (![NSApp respondsToSelector:@selector(replyToOpenOrPrint:)]) {
 		NSString *msg = @"Mac OS X 10.3 \"Panther\" or greater is required.";
@@ -68,7 +68,6 @@
 							 ofType:@"plist"]];
 		[[GrowlPreferences preferences] registerDefaults:defaultDefaults];
 		[defaultDefaults release];
-		
 	}
 
 	return self;
@@ -179,7 +178,7 @@
 		spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
 		spec.asyncRefCon = NULL;
 		LSOpenFromRefSpec(&spec, NULL);
-	}	
+	}
 }
 
 - (void) disableGrowlMenu {
@@ -249,7 +248,7 @@
 }
 
 - (void) mainViewDidLoad {
-	[[NSDistributedNotificationCenter defaultCenter] addObserver:self 
+	[[NSDistributedNotificationCenter defaultCenter] addObserver:self
 														selector:@selector(appRegistered:)
 															name:GROWL_APP_REGISTRATION_CONF
 														  object:nil];
@@ -301,8 +300,8 @@
 	//	We're not using the setTickets accessor here.
 	//	If we did, the controller would know we had switched out the entire array.
 	//	And UI quirks would happen. (selection jumps back to 0)
-	
-	[tickets release];	
+
+	[tickets release];
 	tickets = ticketsCopy;
 }
 
@@ -312,7 +311,7 @@
 	NSMutableArray			*ticketsCopy = [tickets mutableCopy];
 	[ticketsCopy addObject:newTicket];
 	[self setTickets:ticketsCopy];
-	[ticketsCopy release];	
+	[ticketsCopy release];
 }
 
 
@@ -409,33 +408,33 @@
 	// Don't allow the button to be clicked while we update
 	[startStopGrowl setEnabled:NO];
 	[growlRunningProgress startAnimation:self];
-	
+
 	// Update our status visible to the user
 	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
-	
+
 	[[GrowlPreferences preferences] setGrowlRunning:YES noMatterWhat:NO];
-	
+
 	// After 4 seconds force a status update, in case Growl didn't start/stop
 	[self performSelector:@selector(checkGrowlRunning)
 			   withObject:nil
-			   afterDelay:4.0];	
+			   afterDelay:4.0];
 }
 
 - (void) terminateGrowl {
 	// Don't allow the button to be clicked while we update
 	[startStopGrowl setEnabled:NO];
 	[growlRunningProgress startAnimation:self];
-	
+
 	// Update our status visible to the user
 	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
-	
+
 	// Ask the Growl Helper App to shutdown
 	[[GrowlPreferences preferences] setGrowlRunning:NO noMatterWhat:NO];
-	
+
 	// After 4 seconds force a status update, in case growl didn't start/stop
 	[self performSelector:@selector(checkGrowlRunning)
 			   withObject:nil
-			   afterDelay:4.0];	
+			   afterDelay:4.0];
 }
 
 #pragma mark "General" tab pane
@@ -496,7 +495,7 @@
 
 - (void) setGrowlMenuEnabled:(BOOL)state {
 	[[GrowlPreferences preferences] setBool:state forKey:GrowlMenuExtraKey];
-	NSLog(@"Growl Menu Extra checkbox state: %i\n", state); 
+	NSLog(@"Growl Menu Extra checkbox state: %i\n", state);
 	if (state) {
 		[self enableGrowlMenu];
 	} else {
@@ -540,7 +539,7 @@
 			NSSavePanel *sp = [NSSavePanel savePanel];
 			[sp setRequiredFileType:@"log"];
 			[sp setCanSelectHiddenExtension:YES];
-			
+
 			int runResult = [sp runModalForDirectory:nil file:@""];
 			NSString *saveFilename = [sp filename];
 			if (runResult == NSOKButton) {
@@ -569,32 +568,32 @@
 			[customHistArray insertObject:temp atIndex:0U];
 			[temp release];
 		}
-		
+
 		unsigned numHistItems = [customHistArray count];
 		//NSLog(@"CustomHistArray = %@", customHistArray);
 		if (numHistItems) {
 			NSString *s = [customHistArray objectAtIndex:0U];
 			[[GrowlPreferences preferences] setObject:s forKey:GrowlCustomHistKey1];
 			//NSLog(@"Writing %@ as hist1", s);
-			
+
 			/*
 			 * Ignore anything beyond one saved item until we know why these
 			 * send out the proper values, but the proper values are not written.
 			 */
-			
+
 			/*
 			 if ((numHistItems > 1) && (s = [customHistArray objectAtIndex:1U])) {
 				 [[GrowlPreferences preferences] setObject:s forKey:GrowlCustomHistKey2];
 				 //NSLog(@"Writing %@ as hist2", s);
 			 }
-			 
+
 			 if ((numHistItems > 2) && (s = [customHistArray objectAtIndex:2U])) {
 				 [[GrowlPreferences preferences] setObject:s forKey:GrowlCustomHistKey3];
 				 //NSLog(@"Writing %@ as hist3", s);
 			 }
-			 
+
 			 */
-			
+
 			//[[logFileType cellAtRow:1 column:0] setEnabled:YES];
 			[logFileType selectCellAtRow:1 column:0];
 		}
@@ -663,14 +662,14 @@
 		[images removeObjectAtIndex:idx];
 
 		///	Hmm... This doesn't work for some reason....
-		//	Even though the same method definitely^H^H^H^H^H^H probably works in the appRegistered: method... 
+		//	Even though the same method definitely^H^H^H^H^H^H probably works in the appRegistered: method...
 
 		//	[self removeFromTicketsAtIndex:	[ticketsArrayController selectionIndex]];
 
 		NSMutableArray *newTickets = [tickets mutableCopy];
 		[newTickets removeObject:ticket];
 		[self setTickets:newTickets];
-		[newTickets release];		 
+		[newTickets release];
 
 		if ((unsigned)oldSelectionIndex >= [tickets count])
 			oldSelectionIndex = [tickets count] - 1;
@@ -908,7 +907,7 @@
 		} else {
 			[displayPluginsTable setNextKeyView:previewButton];
 		}
-		
+
 		if (oldPrefPane) {
 			[oldPrefPane didUnselect];
 		}
@@ -1031,16 +1030,16 @@
 - (void) appRegistered: (NSNotification *) note {
 	NSString *app = [note object];
 	GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
-		
+
 	/*
 	 *	Because the tickets array is under KVObservation by the TicketsArrayController
 	 *	We need to remove the ticket using the correct KVC method:
 	 */
-	
+
 	NSEnumerator *ticketEnumerator = [tickets objectEnumerator];
 	GrowlApplicationTicket *ticket;
 	int removalIndex = -1;
-	
+
 	int		i = 0U;
 	while ((ticket = [ticketEnumerator nextObject])) {
 		if ([[ticket applicationName] isEqualToString:app]) {
@@ -1049,7 +1048,7 @@
 		}
 		i++;
 	}
-	
+
 	if (removalIndex != -1)
 		[self removeFromTicketsAtIndex:removalIndex];
 	[self insertInTickets:newTicket];

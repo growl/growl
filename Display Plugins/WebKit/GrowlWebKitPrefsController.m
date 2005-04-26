@@ -16,7 +16,7 @@
 	return @"WebKitPrefs";
 }
 
-- (void) mainViewDidLoad {	
+- (void) mainViewDidLoad {
 	[slider_opacity setAltIncrementValue:0.05];
 }
 
@@ -78,7 +78,7 @@
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlWebKitScreenPref, value, GrowlWebKitPrefDomain);	
+	WRITE_GROWL_PREF_INT(GrowlWebKitScreenPref, value, GrowlWebKitPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -93,7 +93,7 @@
 }
 
 - (void) setStyle:(NSString *)value {
-	WRITE_GROWL_PREF_VALUE(GrowlWebKitStylePref, value, GrowlWebKitPrefDomain);	
+	WRITE_GROWL_PREF_VALUE(GrowlWebKitStylePref, value, GrowlWebKitPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 @end

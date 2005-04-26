@@ -19,22 +19,22 @@
 	NSBezierPath *path = [NSBezierPath bezierPath];
 
 	[path appendBezierPathWithArcWithCenter:NSMakePoint( minX, minY )
-									 radius:radius 
+									 radius:radius
 								 startAngle:180.0f
 								   endAngle:270.0f];
 
-	[path appendBezierPathWithArcWithCenter:NSMakePoint( maxX, minY ) 
-									 radius:radius 
+	[path appendBezierPathWithArcWithCenter:NSMakePoint( maxX, minY )
+									 radius:radius
 								 startAngle:270.0f
 								   endAngle:360.0f];
 
 	[path appendBezierPathWithArcWithCenter:NSMakePoint( maxX, maxY )
-									 radius:radius 
+									 radius:radius
 								 startAngle:0.0f
 								   endAngle:90.0f];
 
 	[path appendBezierPathWithArcWithCenter:NSMakePoint( minX, maxY )
-									 radius:radius 
+									 radius:radius
 								 startAngle:90.0f
 								   endAngle:180.0f];
 

@@ -1,6 +1,6 @@
 //
 //  GrowlMenu.h
-//  
+//
 //
 
 #import <Foundation/Foundation.h>
@@ -11,7 +11,7 @@
 @interface GrowlMenu : NSObject {
 	GrowlPreferences	*preferences;
 	NSStatusItem		*statusItem;
-	
+
 	NSImage				*clawImage;
 	NSImage				*clawHighlightImage;
 	NSImage				*squelchImage;

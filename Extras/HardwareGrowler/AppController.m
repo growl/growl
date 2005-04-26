@@ -30,7 +30,7 @@
 	usbLogoData = [[[NSImage imageNamed: @"usbLogoWhite.png"] TIFFRepresentation] retain];
 
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-	
+
 	NSString *path = [ws fullPathForApplication:@"Airport Admin Utility.app"];
 	airportIconData = [[[ws iconForFile:path] TIFFRepresentation] retain];
 
@@ -111,11 +111,11 @@
 }
 
 - (IBAction)doSimpleHelp: (id)sender {
-	[[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"readme" ofType:@"txt"]]; 
+	[[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"readme" ofType:@"txt"]];
 }
 
 #pragma mark -
-#pragma mark Notification methods 
+#pragma mark Notification methods
 - (void)willSleep:(NSNotification *)note {
 	//NSLog(@"willSleep");
 	sleeping = YES;
@@ -132,7 +132,7 @@
 	[GrowlApplicationBridge notifyWithTitle:@"FireWire Connection"
 							description:deviceName
 							notificationName:NotifierFireWireConnectionNotification
-							iconData:firewireLogoData 
+							iconData:firewireLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -145,7 +145,7 @@
 	[GrowlApplicationBridge notifyWithTitle:@"FireWire Disconnection"
 							description:deviceName
 							notificationName:NotifierFireWireConnectionNotification
-							iconData:firewireLogoData 
+							iconData:firewireLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -156,7 +156,7 @@
 	[GrowlApplicationBridge notifyWithTitle:@"USB Connection"
 							description:deviceName
 							notificationName:NotifierUSBConnectionNotification
-							iconData:usbLogoData 
+							iconData:usbLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -167,7 +167,7 @@
 	[GrowlApplicationBridge notifyWithTitle:@"USB Disconnection"
 							description:deviceName
 							notificationName:NotifierUSBDisconnectionNotification
-							iconData:usbLogoData 
+							iconData:usbLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -178,7 +178,7 @@
 	[GrowlApplicationBridge notifyWithTitle:@"Bluetooth Connection"
 							description:device
 							notificationName:NotifierBluetoothConnectionNotification
-							iconData:bluetoothLogoData 
+							iconData:bluetoothLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -189,7 +189,7 @@
 	[GrowlApplicationBridge notifyWithTitle:@"Bluetooth Disconnection"
 							description:device
 							notificationName:NotifierBluetoothDisconnectionNotification
-							iconData:bluetoothLogoData 
+							iconData:bluetoothLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -198,12 +198,12 @@
 - (void)volumeDidMount:(NSString *)path {
 	//NSLog(@"volume Mount: %@", path );
 
-	NSData *iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation];  
+	NSData *iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation];
 
 	[GrowlApplicationBridge notifyWithTitle:@"Volume Mounted"
 							description:[path lastPathComponent]
 							notificationName:NotifierVolumeMountedNotification
-							iconData:iconData 
+							iconData:iconData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -211,12 +211,12 @@
 
 - (void)volumeDidUnmount:(NSString *)path {
 //	NSLog(@"volume UnMount: %@", path );
-	
-//	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation];  
+
+//	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation];
 	[GrowlApplicationBridge notifyWithTitle:@"Volume Unmounted"
 							description:[path lastPathComponent]
 							notificationName:NotifierVolumeUnmountedNotification
-							iconData:ejectLogoData 
+							iconData:ejectLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -232,7 +232,7 @@
 	[GrowlApplicationBridge notifyWithTitle:@"Airport connected"
 								description:description
 						   notificationName:NotifierNetworkAirportConnectNotification
-								   iconData:airportIconData 
+								   iconData:airportIconData
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
@@ -244,11 +244,11 @@
 	if (sleeping) {
 		return;
 	}
-	
+
 	[GrowlApplicationBridge notifyWithTitle:@"Airport disconnected"
 								description:description
 						   notificationName:NotifierNetworkAirportDisconnectNotification
-								   iconData:airportIconData 
+								   iconData:airportIconData
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
@@ -260,7 +260,7 @@
 	if (sleeping) {
 		return;
 	}
-	
+
 	[GrowlApplicationBridge notifyWithTitle:@"Ethernet activated"
 								description:description
 						   notificationName:NotifierNetworkLinkUpNotification
@@ -292,7 +292,7 @@
 	if (sleeping) {
 		return;
 	}
-	
+
 	[GrowlApplicationBridge notifyWithTitle:@"IP address acquired"
 								description:[NSString stringWithFormat:@"New primary IP: %@", ip]
 						   notificationName:NotifierNetworkIpAcquiredNotification
@@ -308,7 +308,7 @@
 	if (sleeping) {
 		return;
 	}
-	
+
 	[GrowlApplicationBridge notifyWithTitle:@"IP address released"
 								description:@"No IP address now"
 						   notificationName:NotifierNetworkIpReleasedNotification

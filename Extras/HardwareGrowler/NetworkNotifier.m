@@ -49,7 +49,7 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 									forKey:@"State:/Network/Interface/en1/AirPort"];
 		airportStatus = [[scNotificationManager valueForKey:@"State:/Network/Interface/en1/AirPort"] retain];
 	}
-	
+
 	return self;
 }
 
@@ -74,7 +74,7 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 	} else {
 		NSString *desc = @"Interface:\ten0";
 		[delegate linkDown:desc];
-	}		
+	}
 }
 
 - (void)ipAddressChange:(NSDictionary*)newValue {
@@ -121,7 +121,7 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 	// This is all made by looking through Darwin's src/network_cmds/ifconfig.tproj.
 	// There's no pretty way to get media stuff; I've stripped it down to the essentials
 	// for what I'm doing.
-	
+
 	NSAssert([anInterface cStringLength] < IFNAMSIZ, @"Interface name too long");
 
 	int s = socket(AF_INET, SOCK_DGRAM, 0);
@@ -129,21 +129,21 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 	struct ifmediareq ifmr;
 	memset(&ifmr, 0, sizeof(ifmr));
 	strncpy(ifmr.ifm_name, [anInterface cString], [anInterface cStringLength]);
-	
+
 	if (ioctl(s, SIOCGIFMEDIA, (caddr_t)&ifmr) < 0) {
 		// Media not supported.
 		close(s);
 		return nil;
 	}
-	
+
 	close(s);
-	
+
 	// Now ifmr.ifm_current holds the selected type (probably auto-select)
 	// ifmr.ifm_active holds details (100baseT <full-duplex> or similar)
 	// We only want the ifm_active bit.
-	
+
 	const char *type = "Unknown";
-	
+
 	// We'll only look in the Ethernet list. I don't care about anything else.
 	struct ifmedia_description *desc;
 	for (desc = ifm_subtype_ethernet_descriptions; desc->ifmt_string; desc++) {
@@ -152,9 +152,9 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 			break;
 		}
 	}
-	
+
 	NSString *options = nil;
-	
+
 	// And fill in the duplex settings.
 	for (desc = ifm_shared_option_descriptions; desc->ifmt_string; desc++) {
 		if (ifmr.ifm_active & desc->ifmt_word) {

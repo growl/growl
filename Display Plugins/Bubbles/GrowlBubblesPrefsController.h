@@ -21,7 +21,7 @@
 	IBOutlet NSColorWell	*color_normal;
 	IBOutlet NSColorWell	*color_high;
 	IBOutlet NSColorWell	*color_emergency;
-	
+
 	IBOutlet NSColorWell	*text_veryLow;
 	IBOutlet NSColorWell	*text_moderate;
 	IBOutlet NSColorWell	*text_normal;

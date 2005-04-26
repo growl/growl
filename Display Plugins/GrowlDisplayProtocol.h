@@ -26,7 +26,7 @@
  *	 preferences.
  *	@discussion	Your plug-in should put the controls for its preferences in
  *	 this preference pane.
- *	 
+ *
  *	 The size of the preference pane's view should be 354 pixels by 289 pixels.
  *	 This is because that's all the available space right now. We haven't yet
  *	 figured out what to do if there are more options than fit in that space.

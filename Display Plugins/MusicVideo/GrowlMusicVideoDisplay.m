@@ -35,17 +35,17 @@
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
 	GrowlMusicVideoWindowController *nuMusicVideo = [GrowlMusicVideoWindowController
-		musicVideoWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE] 
-					   text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION] 
+		musicVideoWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
+					   text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 					   icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 				   priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 					 sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
-	
+
 	[nuMusicVideo setDelegate:self];
 	[nuMusicVideo setTarget:self];
 	[nuMusicVideo setAction:@selector(_musicVideoClicked:)];
 	[nuMusicVideo setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[nuMusicVideo setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];	
+	[nuMusicVideo setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[nuMusicVideo setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 
 	if ([notificationQueue count] > 0U) {
@@ -53,7 +53,7 @@
 		GrowlMusicVideoWindowController *aNotification;
 		BOOL		inserted = NO;
 		unsigned	theIndex = 0U;
-		
+
 		while (!inserted && (aNotification = [enumerator nextObject])) {
 			if ([aNotification priority] < [nuMusicVideo priority]) {
 				[notificationQueue insertObject: nuMusicVideo atIndex:theIndex];
@@ -65,7 +65,7 @@
 			}
 			theIndex++;
 		}
-		
+
 		if (!inserted) {
 			[notificationQueue addObject:nuMusicVideo];
 		}
@@ -94,7 +94,7 @@
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:[musicVideo appName]
 														  userInfo:clickContext];
-		
+
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		[musicVideo setClickContext:nil];
 	}

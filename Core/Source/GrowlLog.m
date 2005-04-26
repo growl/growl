@@ -48,7 +48,7 @@
 	NSString *logString = [[NSString alloc] initWithFormat:@"%@ %@: %@ (%@) - Priority %d",
 		[NSDate date],
 		[noteDict objectForKey:GROWL_APP_NAME],
-		[noteDict objectForKey:GROWL_NOTIFICATION_TITLE], 
+		[noteDict objectForKey:GROWL_NOTIFICATION_TITLE],
 		[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION],
 		[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
 	[self log:logString];

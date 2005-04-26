@@ -6,16 +6,16 @@
  * License:
  * Copyright (C) 2005 Andrew Wellington.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
  * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -35,7 +35,7 @@
 #include <unistd.h>
 
 
-static const char usage[] = 
+static const char usage[] =
 "Usage: %s [-h] [-t timeout]\n"
 "Options:\n"
 "    -h		display this help\n"
@@ -47,7 +47,7 @@ int	verbose = 0;
 
 int main (int argc, char *argv[]) {
 	NSTimeInterval timeout = 0.0;
-	
+
 	//options
 	int ch;
 
@@ -74,14 +74,14 @@ int main (int argc, char *argv[]) {
 	}
 	argc -= optind;
 	argv += optind;
-	
+
 	[[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
 	Pinger *pinger = [[Pinger alloc] initWithInterval:timeout];
-	
+
 	[NSApp setDelegate:pinger];
 	[NSApp run];
-	
+
 	//We should never return according to the NSApplication documentation.
     return EXIT_FAILURE;
 }

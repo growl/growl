@@ -63,13 +63,13 @@
 	}
 
 	MD5_Final(checksum, &ctx);
-	
+
 	return [NSData dataWithBytes:&checksum length:sizeof(checksum)];
 }
 
 - (BOOL) authenticateComponents:(NSArray *)components withData:(NSData *)signature {
 	NSData *recomputedSignature = [self authenticationDataForComponents:components];
-	
+
 	// If the two NSDatas are not equal, authentication failure!
 	if (![recomputedSignature isEqual:signature]) {
 		NSLog(@"authentication failure: received signature doesn't match computed signature");

@@ -6,16 +6,16 @@
  * License:
  * Copyright (C) 2005 Andrew Wellington.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
  * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -48,7 +48,7 @@ extern int verbose;
 					   selector:@selector(receivedReady:)
 						   name:GROWL_IS_READY
 						 object:nil];
-		
+
 		if (interval) {
 			timeout = [NSTimer scheduledTimerWithTimeInterval:interval
 													   target:self
@@ -56,7 +56,7 @@ extern int verbose;
 													 userInfo:nil
 													  repeats:NO];
 		}
-		
+
 		ping = [NSTimer scheduledTimerWithTimeInterval:0.5
 												target:self
 											  selector:@selector(sendPing:)
@@ -64,7 +64,7 @@ extern int verbose;
 											   repeats:YES];
 		[self sendPing: self];
 	}
-	
+
 	return self;
 }
 

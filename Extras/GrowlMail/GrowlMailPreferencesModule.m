@@ -59,7 +59,7 @@
 @implementation GrowlMailPreferencesModule
 - (void) awakeFromNib {
 	NSTableColumn *activeColumn = [accountsView tableColumnWithIdentifier:@"active"];
-	[[activeColumn dataCell] setImagePosition:NSImageOnly]; // center the checkbox 
+	[[activeColumn dataCell] setImagePosition:NSImageOnly]; // center the checkbox
 }
 
 - (NSString *) preferencesNibName {

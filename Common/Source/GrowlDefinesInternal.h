@@ -20,7 +20,7 @@
 /*!	@header	GrowlDefinesInternal.h
  *	@abstract	Defines internal Growl macros and types.
  *	@discussion	These constants are used both by GrowlHelperApp and by plug-ins.
- *	 
+ *
  *	 Notification keys (used in GrowlHelperApp, in GrowlApplicationBridge, and
  *	 by applications that don't use GrowlApplicationBridge) are defined in
  *	 GrowlDefines.h.
@@ -73,7 +73,7 @@ struct GrowlNetworkRegistration {
 	 *	@abstract	The name of the application that is registering.
 	 *	@discussion	This name is used both internally and in the Growl
 	 *	 preferences.
-	 *	 
+	 *
 	 *	 The application name should remain stable between different versions
 	 *	 and incarnations of your application.
 	 *	 For example, "SurfWriter" is a good app name, whereas "SurfWriter 2.0"
@@ -101,7 +101,7 @@ struct GrowlNetworkRegistration {
 	 *	 - The list of all notification names.
 	 *	 - The list of default notifications, as 8-bit unsigned indices into the list of all notifications.
 	 *	 - The MD5 checksum of all the data preceding the checksum.
-	 *	 
+	 *
 	 *	 Each notification name is encoded as:
 	 *	 - Length: two bytes, unsigned, network byte order.
 	 *	 - Name: As many bytes of UTF-8-encoded text as the length says.
@@ -237,7 +237,7 @@ struct GrowlNetworkNotification {
  *	@param	domain	The bundle ID of the plug-in.
  *	@param	type	The type of the result expected.
  *	@param	result	A pointer to an id. Set to the value if exists, left unchanged if not.
- *	
+ *
  *	 If the value is set, you are responsible for releasing it.
  */
 #define READ_GROWL_PREF_VALUE(key, domain, type, result) do {\

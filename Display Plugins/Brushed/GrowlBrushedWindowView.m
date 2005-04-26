@@ -50,7 +50,7 @@
 	[textLayoutManager  release];
 	[titleStorage       release];
 	[titleLayoutManager release];
-	
+
 	[super dealloc];
 }
 
@@ -195,7 +195,7 @@
 	}
 
 	if (!textStorage) {
-		NSSize containerSize;  
+		NSSize containerSize;
 		BOOL limitPref = GrowlBrushedLimitPrefDefault;
 		READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
 		containerSize.width = GrowlBrushedTextAreaWidth;
@@ -224,7 +224,7 @@
 
 	[attributes release];
 
-	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout		
+	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
 	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;
 
 	[self sizeToFit];

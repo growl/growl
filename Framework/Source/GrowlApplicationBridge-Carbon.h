@@ -132,7 +132,7 @@ struct Growl_Delegate {
 	 *
 	 *	 If this is <code>NULL</code>, Growl will use a default, localized
 	 *	 explanation.
-	 *	
+	 *
 	 *	 Only used if you're using Growl-WithInstaller.framework. Otherwise,
 	 *	 this member is ignored.
 	 */
@@ -141,7 +141,7 @@ struct Growl_Delegate {
 	 *	@abstract	The title of the update window.
 	 *	@discussion	If this is <code>NULL</code>, Growl will use a default,
 	 *	 localized title.
-	 *	
+	 *
 	 *	 Only used if you're using Growl-WithInstaller.framework. Otherwise,
 	 *	 this member is ignored.
 	 */
@@ -156,7 +156,7 @@ struct Growl_Delegate {
 	 *
 	 *	 If this is <code>NULL</code>, Growl will use a default, localized
 	 *	 explanation.
-	 *	
+	 *
 	 *	 Only used if you're using Growl-WithInstaller.framework. Otherwise,
 	 *	 this member is ignored.
 	 */
@@ -166,7 +166,7 @@ struct Growl_Delegate {
 	 *	@abstract	A count of owners of the delegate.
 	 *	@discussion	This member is provided for use by your retain and release
 	 *	 callbacks (see below).
-	 *	
+	 *
 	 *	 GrowlApplicationBridge never directly uses this member. Instead, it
 	 *	 calls your retain callback (if non-<code>NULL</code>) and your release
 	 *	 callback (if non-<code>NULL</code>).
@@ -177,7 +177,7 @@ struct Growl_Delegate {
 
 	/*!	@field	retain
 	 *	@abstract	Called when GrowlApplicationBridge receives this delegate.
-	 *	@discussion	
+	 *	@discussion
 	 *	 When you call Growl_SetDelegate(newDelegate), it will call
 	 *	 oldDelegate->release(oldDelegate), and then it will call
 	 *	 newDelegate->retain(newDelegate), and the return value from retain
@@ -191,7 +191,7 @@ struct Growl_Delegate {
 	void *(*retain)(void *);
 	/*!	@field	release
 	 *	@abstract	Called when GrowlApplicationBridge no longer needs this delegate.
-	 *	@discussion	
+	 *	@discussion
 	 *	 When you call Growl_SetDelegate(newDelegate), it will call
 	 *	 oldDelegate->release(oldDelegate), and then it will call
 	 *	 newDelegate->retain(newDelegate), and the return value from retain
@@ -206,7 +206,7 @@ struct Growl_Delegate {
 
 	/*!	@field	growlIsReady
 	 *	@abstract	Called when GrowlHelperApp is listening for notifications.
-	 *	@discussion	
+	 *	@discussion
 	 *	 Informs the delegate that Growl (specifically, the GrowlHelperApp) was
 	 *	 launched successfully (or was already running). The application can
 	 *	 take actions with the knowledge that Growl is installed and functional.
@@ -215,7 +215,7 @@ struct Growl_Delegate {
 
 	/*!	@field	growlNotificationWasClicked
 	 *	@abstract	Called when a Growl notification is clicked.
-	 *	@discussion	
+	 *	@discussion
 	 *	 Informs the delegate that a Growl notification was clicked. It is only
 	 *	 sent for notifications sent with a non-<code>NULL</code> clickContext,
 	 *	 so if you want to receive a message when a notification is clicked,
@@ -227,7 +227,7 @@ struct Growl_Delegate {
 
 	/*!	@field	growlNotificationTimedOut
 	 *	@abstract	Called when a Growl notification timed out.
-	 *	@discussion	
+	 *	@discussion
 	 *	 Informs the delegate that a Growl notification timed out. It is only
 	 *	 sent for notifications sent with a non-<code>NULL</code> clickContext,
 	 *	 so if you want to receive a message when a notification is clicked,
@@ -265,7 +265,7 @@ struct Growl_Notification {
 	/*!	@field	title
 	 *	@abstract	Short synopsis of the notification.
 	 *	@discussion	A notification's title describes the notification briefly.
-	 *	 It should be easy to read quickly by the user. 
+	 *	 It should be easy to read quickly by the user.
 	 */
 	CFStringRef title;
 
@@ -390,7 +390,7 @@ struct Growl_Notification {
  *	@abstract	Callable macro. Initializes a Growl notification structure to defaults.
  *	@discussion	Call with a pointer to a struct Growl_Notification. All of
  *	 the members of the structure will be set to 0 or <code>NULL</code>, except
- *	 for size (which will be set to 
+ *	 for size (which will be set to
  *	<code>sizeof(struct Growl_Notification)</code>).
  */
 #define InitGrowlNotification(notification) \
@@ -494,7 +494,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification);
 *	 dictionary with the notification data. This had the advantage of allowing
 *	 you to add other data to the dictionary for programs besides Growl that
 *	 might be listening.
-*	 
+*
 *	 This function allows you to use such dictionaries without being restricted
 *	 to using CFDistributedNotificationCenter. The keys for this dictionary
  *	 can be found in GrowlDefines.h.
@@ -588,7 +588,7 @@ void Growl_Reregister(void);
  *
  *	 This function does not attempt to clean up the dictionary in any way - for
  *	 example, if it is missing the <code>GROWL_APP_NAME</code> key, the result
- *	 will be missing it too. Use 
+ *	 will be missing it too. Use
  *	 <code>Growl_CreateRegistrationDictionaryByFillingInDictionary:</code> or
  *	 <code>Growl_CreateRegistrationDictionaryByFillingInDictionaryRestrictedToKeys</code>
  *	 to try to fill in missing keys.
@@ -609,7 +609,7 @@ CFDictionaryRef Growl_CopyRegistrationDictionaryFromDelegate(void);
  *
  *	 This function does not attempt to clean up the dictionary in any way - for
  *	 example, if it is missing the <code>GROWL_APP_NAME</code> key, the result
- *	 will be missing it too. Use 
+ *	 will be missing it too. Use
  *	 <code>Growl_CreateRegistrationDictionaryByFillingInDictionary:</code> or
  *	 <code>Growl_CreateRegistrationDictionaryByFillingInDictionaryRestrictedToKeys</code>
  *	 to try to fill in missing keys.

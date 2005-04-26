@@ -458,16 +458,16 @@
 					ProjectRef = 0A8B5F0F070B140C00593A33;
 				},
 				{
-					ProductGroup = 0A8B6180070B303B00593A33;
-					ProjectRef = 0A8B617F070B303B00593A33;
+					ProductGroup = 0A8B6179070B303600593A33;
+					ProjectRef = 0A8B5F08070B140300593A33;
 				},
 				{
 					ProductGroup = DD86247D080D8421001ACC9F;
 					ProjectRef = DD86247B080D8421001ACC9F;
 				},
 				{
-					ProductGroup = 0A8B6179070B303600593A33;
-					ProjectRef = 0A8B5F08070B140300593A33;
+					ProductGroup = 0A8B6180070B303B00593A33;
+					ProjectRef = 0A8B617F070B303B00593A33;
 				},
 			);
 			targets = (
@@ -847,6 +847,36 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		954FCAF4081E843C00B9491D = {
+			fileType = wrapper.application;
+			isa = PBXReferenceProxy;
+			path = GrowlMenu.app;
+			refType = 3;
+			remoteRef = 954FCB04081E844C00B9491D;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		954FCAF5081E843D00B9491D = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = WebKit.growlView;
+			refType = 3;
+			remoteRef = 954FCB05081E844C00B9491D;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		954FCB04081E844C00B9491D = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 95075AB00817F5DB00D862A5;
+			remoteInfo = GrowlMenu;
+		};
+		954FCB05081E844C00B9491D = {
+			containerPortal = DD86247B080D8421001ACC9F;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 950F799B080EEDB700CC5F62;
+			remoteInfo = WebKit;
+		};
 		9556E6AA07F435FA00D42745 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
@@ -967,10 +997,11 @@
 				DD862484080D8421001ACC9F,
 				DD862485080D8421001ACC9F,
 				DD862486080D8421001ACC9F,
-				DD862487080D8421001ACC9F,
 				DD862488080D8421001ACC9F,
 				DD862489080D8421001ACC9F,
 				DD86248A080D8421001ACC9F,
+				954FCAF4081E843C00B9491D,
+				954FCAF5081E843D00B9491D,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -1047,14 +1078,6 @@
 			path = Bezel.growlView;
 			refType = 3;
 			remoteRef = DD86249D080D8450001ACC9F;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DD862487080D8421001ACC9F = {
-			fileType = wrapper.cfbundle;
-			isa = PBXReferenceProxy;
-			path = Log.growlView;
-			refType = 3;
-			remoteRef = DD86249E080D8450001ACC9F;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		DD862488080D8421001ACC9F = {
@@ -1155,13 +1178,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 0AB508B40767C87B006EA5CB;
 			remoteInfo = Bezel;
-		};
-		DD86249E080D8450001ACC9F = {
-			containerPortal = DD86247B080D8421001ACC9F;
-			isa = PBXContainerItemProxy;
-			proxyType = 2;
-			remoteGlobalIDString = 0AB508B20767C87B006EA5CB;
-			remoteInfo = Log;
 		};
 		DD86249F080D8450001ACC9F = {
 			containerPortal = DD86247B080D8421001ACC9F;

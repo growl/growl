@@ -122,7 +122,7 @@
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlBrushedScreenPref, value, GrowlBrushedPrefDomain);	
+	WRITE_GROWL_PREF_INT(GrowlBrushedScreenPref, value, GrowlBrushedPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -172,7 +172,7 @@
 }
 
 - (void) setSize:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlBrushedSizePref, value, GrowlBrushedPrefDomain);	
+	WRITE_GROWL_PREF_INT(GrowlBrushedSizePref, value, GrowlBrushedPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 

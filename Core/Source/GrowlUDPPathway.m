@@ -61,7 +61,7 @@
 				@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"];
 		}
 	}
-	
+
 	return self;
 }
 
@@ -127,7 +127,7 @@
 
 		if ( length >= sizeof(struct GrowlNetworkPacket) ) {
 			struct GrowlNetworkPacket *packet = (struct GrowlNetworkPacket *)[data bytes];
-			
+
 			if ( packet->version == GROWL_PROTOCOL_VERSION ) {
 				switch ( packet->type ) {
 					case GROWL_TYPE_REGISTRATION:

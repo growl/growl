@@ -28,26 +28,26 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 
 - (void)dealloc {
 	[self ioKitTearDown];
-	
+
 	[super dealloc];
 }
 
 - (void)ioKitSetUp {
-//#warning	kIOMasterPortDefault is only available on 10.2 and above... 
+//#warning	kIOMasterPortDefault is only available on 10.2 and above...
 	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	notificationRunLoopSource = IONotificationPortGetRunLoopSource(ioKitNotificationPort);
-	
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), 
-					   notificationRunLoopSource, 
+
+	CFRunLoopAddSource(CFRunLoopGetCurrent(),
+					   notificationRunLoopSource,
 					   kCFRunLoopDefaultMode);
-	
+
 }
 
 - (void)ioKitTearDown {
 	if (ioKitNotificationPort) {
 		CFRunLoopRemoveSource( CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode );
 		IONotificationPortDestroy(ioKitNotificationPort) ;
-	}	
+	}
 }
 
 - (void)registerForUSBNotifications {
@@ -55,46 +55,46 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 	kern_return_t			matchingResult;
 	io_iterator_t			addedIterator;
 	io_iterator_t			removedIterator;
-	
+
 //	NSLog(@"registerForUSBNotifications");
-	
+
 	//	Setup a matching Dictionary.
-	CFDictionaryRef myMatchDictionary;	
-	myMatchDictionary = nil;	
+	CFDictionaryRef myMatchDictionary;
+	myMatchDictionary = nil;
 	myMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
 
 	//	Register our notification
-	addedIterator = nil;				
+	addedIterator = nil;
 	matchingResult = IOServiceAddMatchingNotification(
 													  ioKitNotificationPort,
 													  kIOPublishNotification,
 													  myMatchDictionary,
 													  usbDeviceAdded,
 													  (void *) self,
-													  (io_iterator_t *) &addedIterator ); 
-	
+													  (io_iterator_t *) &addedIterator );
+
 	if (matchingResult) {
 		NSLog(@"matching notification registration failed: %d" , matchingResult);
 	}
-	
+
 	//	Prime the Notifications (And Deal with the existing devices)...
 	[self usbDeviceAdded: addedIterator];
-	
+
 	//	Register for removal notifications.
 	//	It seems we have to make a new dictionary...  reusing the old one didn't work.
-	
-	myMatchDictionary = nil;	
+
+	myMatchDictionary = nil;
 	myMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
 	kern_return_t			removeNoteResult;
 //	io_iterator_t			removedIterator ;
-	removeNoteResult = IOServiceAddMatchingNotification(ioKitNotificationPort, 
+	removeNoteResult = IOServiceAddMatchingNotification(ioKitNotificationPort,
 														kIOTerminatedNotification,
-														myMatchDictionary, 
-														usbDeviceRemoved, 
-														self, 
+														myMatchDictionary,
+														usbDeviceRemoved,
+														self,
 														&removedIterator );
-	
-	// Matching notification must be "primed" by iterating over the 
+
+	// Matching notification must be "primed" by iterating over the
 	// iterator returned from IOServiceAddMatchingNotification(), so
 	// we call our device removed method here...
 	//
@@ -111,13 +111,13 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 	while ((thisObject = IOIteratorNext( iterator ))) {
 		kern_return_t	nameResult;
 		io_name_t		deviceNameChars;
-		
+
 //		NSLog(@"got one new object.");
-		
-		//	This works with USB devices...  
+
+		//	This works with USB devices...
 		//	but apparently not firewire
-		nameResult = IORegistryEntryGetName( thisObject, 
-											 deviceNameChars ); 		
+		nameResult = IORegistryEntryGetName( thisObject,
+											 deviceNameChars );
 
 		NSString *deviceName = [NSString stringWithCString: deviceNameChars];
 		if (!deviceName) {
@@ -127,7 +127,7 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 		} else if ([deviceName isEqualToString:@"EHCI Root Hub Simulation"]) {
 			deviceName = @"USB 2.0 Bus";
 		}
-		
+
 		// NSLog(@"USB Device Attached: %@" , deviceName);
 		[delegate usbDidConnect:deviceName];
 
@@ -140,21 +140,21 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 	io_object_t		thisObject = nil;
 	while ((thisObject = IOIteratorNext( iterator ))) {
 //		NSLog(@"got one new removed object.");
-		
+
 		kern_return_t	nameResult;
 		io_name_t		deviceNameChars;
 
-		//	This works with USB devices...  
+		//	This works with USB devices...
 		//	but apparently not firewire
-		nameResult = IORegistryEntryGetName( thisObject, 
-											 deviceNameChars ); 		
+		nameResult = IORegistryEntryGetName( thisObject,
+											 deviceNameChars );
 		NSString *deviceName = [NSString stringWithCString: deviceNameChars];
 		if (!deviceName) {
 			deviceName = @"Unnamed USB Device";
 		}
-		// NSLog(@"USB Device Detached: %@" , deviceName);		
+		// NSLog(@"USB Device Detached: %@" , deviceName);
 		[delegate usbDidDisconnect:deviceName];
-		
+
 		IOObjectRelease(thisObject);
 	}
 }

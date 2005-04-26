@@ -35,7 +35,7 @@
 		color = defaultColor;
 	}
 	[data release];
-	
+
 	return color;
 }
 
@@ -97,7 +97,7 @@
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(BEZEL_SCREEN_PREF, value, BezelPrefDomain);	
+	WRITE_GROWL_PREF_INT(BEZEL_SCREEN_PREF, value, BezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
