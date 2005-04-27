@@ -40,7 +40,8 @@
 
 static const char usage[] =
 "Usage: growlnotify [-hsv] [-i ext] [-I filepath] [--image filepath]\n"
-"                   [-p priority] [-H host] [-U] [-P password] [title]\n"
+"                   [-a appname] [-p priority] [-H host] [-U] [-P password]\n"
+"                   [-n name] [-m message] [-t] [title]\n"
 "Options:\n"
 "    -h,--help       Display this help\n"
 "    -v,--version    Display version number\n"
@@ -48,7 +49,8 @@ static const char usage[] =
 "                    [Default: growlnotify]\n"
 "    -s              Make the notification sticky\n"
 "    -a,--appIcon    Specify an application name  to take the icon from\n"
-"    -i,--icon       Specify a file type or extension to look up for the notification icon\n"
+"    -i,--icon       Specify a file type or extension to look up for the\n"
+"                    notification icon\n"
 "    -I,--iconpath   Specify a file whose icon will be the notification icon\n"
 "    --image         Specify an image file to be used for the notification icon\n"
 "    -p,--priority   Specify an int or named key (default is 0)\n"
@@ -62,13 +64,14 @@ static const char usage[] =
 "Display a notification using the title given on the command-line and the\n"
 "message given in the standard input.\n"
 "\n"
-"Priority can be one of the following named keys: Very Low, Moderate, Normal, High,\n"
-"Emergency. It can also be an int between -2 and 2.\n"
+"Priority can be one of the following named keys: Very Low, Moderate, Normal,\n"
+"High, Emergency. It can also be an int between -2 and 2.\n"
 "\n"
 "To be compatible with gNotify the following switches are accepted:\n"
 "    -t,--title    Does nothing. Any text following will be treated as the\n"
 "                  title because that's the default argument behaviour\n"
-"    -m,--message  Sets the message to the following instead of using stdin";
+"    -m,--message  Sets the message to the following instead of using stdin\n"
+"                  Passing - as the argument means read from stdin";
 
 static const char *version = "growlnotify 0.6\n"
 "Copyright (c) The Growl Project, 2004-2005";
