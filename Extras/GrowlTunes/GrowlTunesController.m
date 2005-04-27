@@ -216,7 +216,7 @@ enum {
 		} else {
 			/*examples:
 			 *if the original rating is 95, then rating = 15, and we get 3/4.
-			 *if the original rating is 80, then rating = 0,  and we get WHITE STAR.
+			 *if the original rating is 80, then rating = 0,  and we get MIDDLE DOT.
 			 */
 			starBuffer[i] = fractionChars[rating];
 			if (!starBuffer[i]) {
@@ -224,7 +224,7 @@ enum {
 				if (i) starBuffer[i++] = SPACE;
 				starBuffer[i] = MIDDLE_DOT;
 			}
-			rating = 0; //ensure that remaining characters are WHITE STAR.
+			rating = 0; //ensure that remaining characters are MIDDLE DOT.
 		}
 	}
 
