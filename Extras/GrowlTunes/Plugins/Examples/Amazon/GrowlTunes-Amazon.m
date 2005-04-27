@@ -209,7 +209,7 @@
 - (NSImage *)imageWithAlbumInfo:(NSDictionary *)albumInfo {
 	NSData *imageData;
 	NSImage *image = nil;
-	NSSize imageSize;
+	NSSize imageSize = NSZeroSize;
 
 	/*first try large, then medium, then small, looking for a viable image.
 	 *an image is unviable if no URL exists for it (obviously) or if the image
@@ -219,37 +219,91 @@
 	 *	--boredzo
 	 */
 
+	NSMutableArray *imageReps = [NSMutableArray arrayWithCapacity:3U];
+	NSMutableArray *theseImageReps = nil;
+	unsigned i, numImageReps;
+	NSImageRep *thisImageRep = nil;
+	int width, height, mostPixels = 0;
+
 	imageData = [self imageDataForKey:AMAZON_IMAGE_URL_LARGE_KEY fromAlbumInfo:albumInfo];
 	if (imageData) {
-		image = [[[NSImage alloc] initWithData:imageData] autorelease];
-		imageSize = [image size];
-		if ((imageSize.width == 1.0f) && (imageSize.height == 1.0f)) {
-			image = nil;
-			imageData = nil;
+		theseImageReps = [[NSBitmapImageRep imageRepsWithData:imageData] mutableCopy];
+		numImageReps = [theseImageReps count];
+		for(i = 0U; i < numImageReps;) {
+			thisImageRep = [theseImageReps objectAtIndex:i];
+			width  = [thisImageRep pixelsWide];
+			height = [thisImageRep pixelsHigh];
+			if ((width == 1) && (height == 1)) {
+				imageData = nil;
+				[theseImageReps removeObjectAtIndex:i];
+				--numImageReps;
+			} else {
+				++i;
+				if((width * height) > mostPixels) {
+					imageSize = NSMakeSize(width, height);
+					mostPixels = (width * height);
+				}
+			}
 		}
+		if(numImageReps) [imageReps addObjectsFromArray:theseImageReps];
+		[theseImageReps release];
 	}
 	if (!imageData) {
 		imageData = [self imageDataForKey:AMAZON_IMAGE_URL_MEDIUM_KEY fromAlbumInfo:albumInfo];
 		if (imageData) {
-			image = [[[NSImage alloc] initWithData:imageData] autorelease];
-			imageSize = [image size];
-			if ((imageSize.width == 1.0f) && (imageSize.height == 1.0f)) {
-				image = nil;
-				imageData = nil;
+			theseImageReps = [[NSBitmapImageRep imageRepsWithData:imageData] mutableCopy];
+			numImageReps = [theseImageReps count];
+			for(i = 0U; i < numImageReps;) {
+				thisImageRep = [theseImageReps objectAtIndex:i];
+				width  = [thisImageRep pixelsWide];
+				height = [thisImageRep pixelsHigh];
+				if ((width == 1) && (height == 1)) {
+					imageData = nil;
+					[theseImageReps removeObjectAtIndex:i];
+					--numImageReps;
+				} else {
+					++i;
+					if((width * height) > mostPixels) {
+						imageSize = NSMakeSize(width, height);
+						mostPixels = (width * height);
+					}
+				}
 			}
+			if(numImageReps) [imageReps addObjectsFromArray:theseImageReps];
+			[theseImageReps release];
 		}
 		if (!imageData) {
 			imageData = [self imageDataForKey:AMAZON_IMAGE_URL_SMALL_KEY fromAlbumInfo:albumInfo];
 			if (imageData) {
-				image = [[[NSImage alloc] initWithData:imageData] autorelease];
-				imageSize = [image size];
-				if ((imageSize.width == 1.0f) && (imageSize.height == 1.0f)) {
-					image = nil;
-					imageData = nil;
+				theseImageReps = [[NSBitmapImageRep imageRepsWithData:imageData] mutableCopy];
+				numImageReps = [theseImageReps count];
+				for(i = 0U; i < numImageReps;) {
+					thisImageRep = [theseImageReps objectAtIndex:i];
+					width  = [thisImageRep pixelsWide];
+					height = [thisImageRep pixelsHigh];
+					if ((width == 1) && (height == 1)) {
+						imageData = nil;
+						[theseImageReps removeObjectAtIndex:i];
+						--numImageReps;
+					} else {
+						++i;
+						if((width * height) > mostPixels) {
+							imageSize = NSMakeSize(width, height);
+							mostPixels = (width * height);
+						}
+					}
 				}
+				if(numImageReps) [imageReps addObjectsFromArray:theseImageReps];
+				[theseImageReps release];
 			}
 		}
 	}
+
+	if([imageReps count]) {
+		image = [[[NSImage alloc] initWithSize:imageSize] autorelease];
+		[image addRepresentations:imageReps];
+	}
+	
 	return image;
 }
 
