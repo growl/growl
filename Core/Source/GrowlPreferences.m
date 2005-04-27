@@ -205,7 +205,7 @@ static GrowlPreferences *sharedPreferences;
 			aliasData, @"AliasData",
 			nil];
 		[hide release];
-		[loginItems addObject:launchDict];
+		[loginItems insertObject:launchDict atIndex:0U];
 		[launchDict release];
 	}
 
