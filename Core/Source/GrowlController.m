@@ -151,7 +151,6 @@ static id singleton = nil;
 	[growlIconData release];
 
 	[versionCheckURL release];
-	[downloadURL     release];
 	[updateTimer     invalidate];
 	[updateTimer     release];
 
@@ -490,12 +489,9 @@ static id singleton = nil;
 
 #pragma mark -
 - (void) growlNotificationWasClicked:(id)clickContext {
-	if ([clickContext isEqual:@"update"]) {
-		if (!downloadURL) {
-			downloadURL = [[NSURL alloc] initWithString:@"http://growl.info/"];
-		}
-		[[NSWorkspace sharedWorkspace] openURL:downloadURL];
-	}
+	NSURL *downloadURL = (NSURL *)clickContext;
+	[[NSWorkspace sharedWorkspace] openURL:downloadURL];
+	[downloadURL release];
 }
 
 - (void) checkVersion:(NSTimer *)timer {
@@ -513,6 +509,8 @@ static id singleton = nil;
 	NSString *currVersionNumber = [GrowlController growlVersion];
 	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:@"Growl"];
+	NSURL *downloadURL = [[NSURL alloc] initWithString:
+		[productVersionDict objectForKey:@"GrowlDownloadURL"]];
 
 	// do nothing--be quiet if there is no active connection or if the
 	// version number could not be downloaded
@@ -525,8 +523,10 @@ static id singleton = nil;
 										   iconData:growlIconData
 										   priority:1
 										   isSticky:YES
-									   clickContext:@"update"];
+									   clickContext:downloadURL];
 		}
+	} else {
+		[downloadURL release];
 	}
 
 	[productVersionDict release];

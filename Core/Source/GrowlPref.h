@@ -30,7 +30,6 @@
 	BOOL							growlIsRunning;
 
 	NSURL							*versionCheckURL;
-	NSURL							*downloadURL;
 
 	//"General" tab pane
 	IBOutlet NSButton				*startStopGrowl;
@@ -79,7 +78,7 @@
 
 - (NSString *) bundleVersion;
 - (IBAction) checkVersion:(id)sender;
-- (void) checkVersionAtURL:(NSURL *)url displayText:(NSString *)message downloadURL:(NSURL *)goURL;
+- (void) checkVersionAtURL:(NSURL *)url displayText:(NSString *)message;
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 - (void) reloadPreferences;

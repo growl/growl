@@ -83,7 +83,6 @@
 	[startStopTimer  release];
 	[images          release];
 	[versionCheckURL release];
-	[downloadURL     release];
 	[plugins         release];
 	[currentPlugin   release];
 	[growlWebSiteURL release];
@@ -105,25 +104,23 @@
 	if (!versionCheckURL) {
 		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
 	}
-	if (!downloadURL) {
-		downloadURL = [[NSURL alloc] initWithString:@"http://growl.info/"];
-	}
 
 	[self checkVersionAtURL:versionCheckURL
-				displayText:NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @"")
-				downloadURL:downloadURL];
+				displayText:NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @"")];
 
 	[growlVersionProgress stopAnimation:self];
 }
 
-- (void) checkVersionAtURL:(NSURL *)url displayText:(NSString *)message downloadURL:(NSURL *)goURL {
+- (void) checkVersionAtURL:(NSURL *)url displayText:(NSString *)message {
 	NSBundle *bundle = [self bundle];
 	NSDictionary *infoDict = [bundle infoDictionary];
 	NSString *currVersionNumber = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
 	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:url];
-	NSString *latestVersionNumber = [productVersionDict objectForKey:
-		[infoDict objectForKey:(NSString *)kCFBundleExecutableKey]];
+	NSString *executableName = [infoDict objectForKey:(NSString *)kCFBundleExecutableKey];
+	NSString *latestVersionNumber = [productVersionDict objectForKey:executableName];
 
+	NSURL *downloadURL = [[NSURL alloc] initWithString:
+		[productVersionDict objectForKey:[executableName stringByAppendingString:@"DownloadURL"]]];
 	/*
 	NSLog([[[NSBundle bundleForClass:[GrowlPref class]] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
 	NSLog(currVersionNumber);
@@ -141,8 +138,10 @@
 						  /*modalDelegate*/ self,
 						  /*didEndSelector*/ NULL,
 						  /*didDismissSelector*/ @selector(downloadSelector:returnCode:contextInfo:),
-						  /*contextInfo*/ goURL,
+						  /*contextInfo*/ downloadURL,
 						  /*msg*/ message);
+	} else {
+		[downloadURL release];
 	}
 
 	[productVersionDict release];
@@ -150,9 +149,11 @@
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 #pragma unused(sheet)
+	NSURL *downloadURL = (NSURL *)contextInfo;
 	if (returnCode == NSAlertDefaultReturn) {
-		[[NSWorkspace sharedWorkspace] openURL:contextInfo];
+		[[NSWorkspace sharedWorkspace] openURL:downloadURL];
 	}
+	[downloadURL release];
 }
 
 + (BOOL) isGrowlMenuRunning {

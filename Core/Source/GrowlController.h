@@ -46,7 +46,6 @@
 	NSData						*growlIconData;
 
 	NSURL						*versionCheckURL;
-	NSURL						*downloadURL;
 	NSTimer						*updateTimer;
 }
 
