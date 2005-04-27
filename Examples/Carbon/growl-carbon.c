@@ -14,8 +14,17 @@
 #include <Growl/GrowlDefines.h>
 #include <stdlib.h>
 
-int main()
-{
+static void growlNotificationWasClicked(CFPropertyListRef clickContext) {
+	printf("Notification was clicked, clickContext=%p\n", clickContext);
+	exit(EXIT_SUCCESS);
+}
+
+static void growlNotificationTimedOut(CFPropertyListRef clickContext) {
+	printf("Notification timed out, clickContext=%p\n", clickContext);
+	exit(EXIT_SUCCESS);
+}
+
+int main() {
 	// ******************** Registration  ********************
 
 	// Create & fill the array containing the notifications
@@ -43,6 +52,9 @@ int main()
 														 &kCFTypeDictionaryKeyCallBacks,
 														 &kCFTypeDictionaryValueCallBacks);
 
+	delegate.growlNotificationWasClicked = growlNotificationWasClicked;
+	delegate.growlNotificationTimedOut = growlNotificationTimedOut;
+
 	// Register with Growl
 	if (!Growl_SetDelegate(&delegate)) {
 		printf("Delegate registration failed !\n");
@@ -55,12 +67,15 @@ int main()
 	// have to enable it in the Growl preferences.
 	Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
 																	   CFSTR("My title 1"), CFSTR("My description 1"), CFSTR("Notification 1"),
-																	   0, 0, false, 0);
+																	   0, 0, false, CFSTR("clickMe"));
 
 	// Show notification 2, and make it sticky.
 	Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
 																	   CFSTR("My title 2"), CFSTR("My description 2"), CFSTR("Notification 2"),
-																	   0, 0, true, 0);
+																	   0, 0, true, CFSTR("clickMe"));
+
+	// Uncomment the following line if the application should wait for clicked or timedOut notifications
+	//CFRunLoopRun();
 
 	return EXIT_SUCCESS;
 }

@@ -383,6 +383,7 @@ struct Growl_Notification {
 			(delegate)->release = NULL; \
 			(delegate)->growlIsReady = NULL; \
 			(delegate)->growlNotificationWasClicked = NULL; \
+			(delegate)->growlNotificationTimedOut = NULL; \
 		} \
 	} while(0)
 
