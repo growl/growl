@@ -5,8 +5,9 @@
 
 @implementation BluetoothNotifier
 
-- (id)initWithDelegate:(id)object {
+- (id) initWithDelegate:(id)object {
 	if ((self = [super init])) {
+		initializing = YES;
 		delegate = object;
 		//	NSLog(@"registering for BT Notes.");
 		/*
@@ -18,19 +19,20 @@
 
 		connectionNotification = [IOBluetoothDevice registerForConnectNotifications:self
 																		   selector:@selector(bluetoothConnection:toDevice:)];
+		initializing = NO;
 	}
 
 	return self;
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[connectionNotification unregister];
 
 	[super dealloc];
 }
 
 /*
-- (void)channelOpened: (IOBluetoothUserNotification*)note withChannel: (IOBluetoothRFCOMMChannel *) chan {
+- (void) channelOpened: (IOBluetoothUserNotification*)note withChannel: (IOBluetoothRFCOMMChannel *) chan {
 	NSLog(@"BT Channel opened." );
 
 	NSLog(@"%@" , [[chan getDevice] name] );
@@ -40,20 +42,22 @@
 
 }
 
-- (void)channelClosed: (IOBluetoothUserNotification*)note withChannel: (IOBluetoothRFCOMMChannel *) chan {
+- (void) channelClosed: (IOBluetoothUserNotification*)note withChannel: (IOBluetoothRFCOMMChannel *) chan {
 	NSLog(@"BT Channel closed. %@" , note);
 }
 */
 
-- (void)bluetoothConnection: (IOBluetoothUserNotification*)note toDevice: (IOBluetoothDevice *)device {
+- (void) bluetoothConnection: (IOBluetoothUserNotification*)note toDevice: (IOBluetoothDevice *)device {
 	// NSLog(@"BT Device connection: %@" , [device name]);
-	[delegate bluetoothDidConnect:[device name]];
+	if (!initializing || [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"]) {
+		[delegate bluetoothDidConnect:[device name]];
+	}
 
 	[device registerForDisconnectNotification: self
 									 selector:@selector(bluetoothDisconnection:fromDevice:)];
 }
 
-- (void)bluetoothDisconnection: (IOBluetoothUserNotification*)note fromDevice: (IOBluetoothDevice *)device {
+- (void) bluetoothDisconnection: (IOBluetoothUserNotification*)note fromDevice: (IOBluetoothDevice *)device {
 	// NSLog(@"BT Device Disconnection: %@" , [device name]);
 	[delegate bluetoothDidDisconnect:[device name]];
 

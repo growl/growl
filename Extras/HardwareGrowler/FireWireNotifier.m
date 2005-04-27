@@ -5,7 +5,7 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 
 @implementation FireWireNotifier
 
-- (id)initWithDelegate:(id)object {
+- (id) initWithDelegate:(id)object {
 	if ((self = [super init])) {
 		delegate = object;
 		[self ioKitSetUp];
@@ -14,13 +14,13 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 	return self;
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[self ioKitTearDown];
 
 	[super dealloc];
 }
 
-- (void)ioKitSetUp {
+- (void) ioKitSetUp {
 //#warning	kIOMasterPortDefault is only available on 10.2 and above...
 	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	notificationRunLoopSource = IONotificationPortGetRunLoopSource(ioKitNotificationPort);
@@ -31,14 +31,14 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 
 }
 
-- (void)ioKitTearDown {
+- (void) ioKitTearDown {
 	if (ioKitNotificationPort) {
-		CFRunLoopRemoveSource( CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode );
+		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode);
 		IONotificationPortDestroy(ioKitNotificationPort) ;
 	}
 }
 
-- (void)registerForFireWireNotifications {
+- (void) registerForFireWireNotifications {
 	//http://developer.apple.com/documentation/DeviceDrivers/Conceptual/AccessingHardware/AH_Finding_Devices/chapter_4_section_2.html#//apple_ref/doc/uid/TP30000379/BABEACCJ
 	kern_return_t			matchingResult;
 	io_iterator_t			gFWAddedIter;
@@ -65,13 +65,14 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 		NSLog(@"matching notification registration failed: %d" , matchingResult);
 	}
 
-	//	Prime the Notifications (And Deal with the existing devices)...
-	[self fwDeviceAdded: gFWAddedIter];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"]) {
+		//	Prime the Notifications (And Deal with the existing devices)...
+		[self fwDeviceAdded: gFWAddedIter];
+	}
 
 	//	Register for removal notifications.
 	//	It seems we have to make a new dictionary...  reusing the old one didn't work.
 
-	myFireWireMatchDictionary = nil;
 	//		myFireWireMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
 	myFireWireMatchDictionary = IOServiceMatching("IOFireWireDevice");
 	kern_return_t			removeNoteResult;
@@ -94,14 +95,11 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 	}
 }
 
-- (void)fwDeviceAdded: (io_iterator_t ) iterator {
+- (void) fwDeviceAdded: (io_iterator_t ) iterator {
 //	NSLog(@"FireWire Device Added Notification.");
-	io_object_t		thisObject = nil;
+	io_object_t	thisObject;
 	while ((thisObject = IOIteratorNext( iterator ))) {
-		NSString		*deviceName;
-
-//		NSLog(@"got one new object.");
-		deviceName = [self nameForFireWireObject: thisObject];
+		NSString *deviceName = [self nameForFireWireObject:thisObject];
 		// NSLog(@"FireWire Device Attached: %@" , deviceName);
 		[delegate fwDidConnect:deviceName];
 
@@ -109,15 +107,11 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 	}
 }
 
-- (void)fwDeviceRemoved: (io_iterator_t ) iterator {
+- (void) fwDeviceRemoved: (io_iterator_t ) iterator {
 //	NSLog(@"FireWire Device Removed Notification.");
-	io_object_t		thisObject = nil;
+	io_object_t thisObject;
 	while ((thisObject = IOIteratorNext( iterator ))) {
-		NSString *deviceName;
-//		NSLog(@"got one new removed object.");
-
-//		NSLog(@"got one new object.");
-		deviceName = [self nameForFireWireObject: thisObject];
+		NSString *deviceName = [self nameForFireWireObject: thisObject];
 		// NSLog(@"FireWire Device Removed: %@" , deviceName);
 		[delegate fwDidDisconnect:deviceName];
 
@@ -125,7 +119,7 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 	}
 }
 
-- (NSString *)nameForFireWireObject: (io_object_t) thisObject {
+- (NSString *) nameForFireWireObject: (io_object_t) thisObject {
 	//	This works with USB devices...
 	//	but apparently not firewire
 	kern_return_t	nameResult;
