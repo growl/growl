@@ -279,5 +279,4 @@ static GrowlPreferences *sharedPreferences;
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
 }
 
-
 @end
