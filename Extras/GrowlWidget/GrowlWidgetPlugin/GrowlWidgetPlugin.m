@@ -23,14 +23,16 @@
 	if ((self = [super init])) {
 		NSDistributedNotificationCenter *dnc = [NSDistributedNotificationCenter defaultCenter];
 		[dnc addObserver:self
-				selector:@selector(gotGrowlNotification:)
-					name:GROWL_DASHBOARD_NOTIFICATION
+				selector:@selector(growlIsReady:)
+					name:GROWL_IS_READY
 				  object:nil];
+		[self subscribeToGrowlNotificationCenter];
 	}
 	return self;
 }
 
 - (void) dealloc {
+	[growlNotificationCenter removeObserver:self];
 	[image   release];
 	[webView release];
 	[super dealloc];
@@ -76,11 +78,33 @@
 	return YES;
 }
 
-- (void) gotGrowlNotification:(NSNotification *)notification {
-	NSDictionary *userInfo = [notification userInfo];
+#pragma mark -
 
+- (void) subscribeToGrowlNotificationCenter {
+	@try {
+		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlNotificationCenter" host:nil];
+		NSDistantObject *theProxy = [connection rootProxy];
+		[theProxy setProtocolForProxy:@protocol(GrowlNotificationCenterProtocol)];
+		growlNotificationCenter = (id<GrowlNotificationCenterProtocol>)theProxy;
+		[growlNotificationCenter addObserver:self];
+		NSLog(@"Successfully subscribed to GrowlNotificationCenter");
+	} @catch(NSException *e) {
+		NSLog(@"Failed to subscribe to GrowlNotificationCenter: %@", e);
+	}
+}
+
+- (void) growlIsReady:(NSNotification *)notification {
+#pragma unused(notification)
+	[self subscribeToGrowlNotificationCenter];
+}
+
+- (void) notifyWithDictionary:(NSDictionary *)userInfo {
 	[image release];
-	image = [[NSImage alloc] initWithData:[userInfo objectForKey:GROWL_NOTIFICATION_ICON]];
+	// TODO: find out why this doesn't work ([NSImage imageNamed] returns nil)
+	//image = [[userInfo objectForKey:GROWL_NOTIFICATION_ICON] copy];
+	// WORKAROUND:
+	image = [[NSImage alloc] initWithData:[[userInfo objectForKey:GROWL_NOTIFICATION_ICON] TIFFRepresentation]];
+
 	NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
 	[image setName:UUID];
 	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized

@@ -23,6 +23,7 @@
 #import "GrowlVersionUtilities.h"
 #import "SVNRevision.h"
 #import "GrowlLog.h"
+#import "GrowlNotificationCenter.h"
 #import "MD5Authenticator.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #include <sys/socket.h>
@@ -130,6 +131,13 @@ static id singleton = nil;
 											   selector:@selector(checkVersion:)
 											   userInfo:nil
 												repeats:YES];
+
+		growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
+		NSConnection *conn = [NSConnection defaultConnection];
+		[conn setRootObject:growlNotificationCenter];
+		if (![conn registerName:@"GrowlNotificationCenter"]) {
+			NSLog(@"WARNING: could not register GrowlNotificationCenter");
+		}
 	}
 
 	return self;
@@ -142,6 +150,8 @@ static id singleton = nil;
 	[dncPathway    release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
 	[destinations  release];
 
+	[growlNotificationCenter release];
+	
 	[tickets           release];
 	[registrationLock  release];
 	[notificationQueue release];
@@ -153,6 +163,8 @@ static id singleton = nil;
 	[versionCheckURL release];
 	[updateTimer     invalidate];
 	[updateTimer     release];
+
+	[[NSConnection defaultConnection] invalidate];
 
 	[super dealloc];
 }
@@ -349,19 +361,8 @@ static id singleton = nil;
 		[display displayNotificationWithInfo:aDict];
 	}
 
-	// send to dashboard
-	icon = [aDict objectForKey:GROWL_NOTIFICATION_ICON];
-	if (icon) {
-		[aDict setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
-	}
-	icon = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON];
-	if (icon) {
-		[aDict setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_APP_ICON];
-	}
-	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
-	[distCenter postNotificationName:GROWL_DASHBOARD_NOTIFICATION
-							  object:nil
-							userInfo:aDict];
+	// send to DO observers
+	[growlNotificationCenter notifyObservers:aDict];
 
 	[aDict release];
 

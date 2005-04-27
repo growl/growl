@@ -241,7 +241,6 @@
  *	 Growl_PostNotification.
  */
 #define GROWL_NOTIFICATION				XSTR("GrowlNotification")
-#define GROWL_DASHBOARD_NOTIFICATION	XSTR("GrowlDashboardNotification")
 /*!	@defined GROWL_SHUTDOWN
 *	@abstract The distributed notification name that tells Growl to shutdown.
 *	@discussion The Growl preference pane posts this notification when the

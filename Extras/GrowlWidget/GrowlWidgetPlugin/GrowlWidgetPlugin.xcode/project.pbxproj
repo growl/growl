@@ -125,6 +125,7 @@
 		};
 		08FB77AFFE84173DC02AAC07 = {
 			children = (
+				953F73AF081FFC0D00823EFE,
 				955C239C081543540013C3CF,
 				955C239D081543540013C3CF,
 				953BC8DB081403AF00AF9EA5,
@@ -277,6 +278,7 @@
 			);
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GrowlWidgetPlugin_Prefix.pch;
@@ -402,6 +404,15 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		953F73AF081FFC0D00823EFE = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlNotificationCenter.h;
+			path = ../../../Core/Source/GrowlNotificationCenter.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		955C239C081543540013C3CF = {
 			fileEncoding = 30;

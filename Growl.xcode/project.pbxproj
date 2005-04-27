@@ -1941,6 +1941,7 @@
 				343345880790E3D600C84B15,
 				3433458A0790E3D600C84B15,
 				93E0E9E3080F0F42004FFB1D,
+				953F73A0081FFB9E00823EFE,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3929,6 +3930,36 @@
 			settings = {
 			};
 		};
+		953F739E081FFB9E00823EFE = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlNotificationCenter.h;
+			path = Core/Source/GrowlNotificationCenter.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		953F739F081FFB9E00823EFE = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlNotificationCenter.m;
+			path = Core/Source/GrowlNotificationCenter.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		953F73A0081FFB9E00823EFE = {
+			fileRef = 953F739E081FFB9E00823EFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		953F73A1081FFB9E00823EFE = {
+			fileRef = 953F739F081FFB9E00823EFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		9542E51C07C28C3A0056BAC9 = {
 			children = (
 				9542E53107C28C3A0056BAC9,
@@ -5037,6 +5068,8 @@
 				956ADACB07551C4500AF9545,
 				950568E30812C2960096EC5C,
 				950568E40812C2960096EC5C,
+				953F739E081FFB9E00823EFE,
+				953F739F081FFB9E00823EFE,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -5109,6 +5142,7 @@
 				950568E60812C2960096EC5C,
 				955C236E081537280013C3CF,
 				9526BD54081BCC9100B9D0D0,
+				953F73A1081FFB9E00823EFE,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
