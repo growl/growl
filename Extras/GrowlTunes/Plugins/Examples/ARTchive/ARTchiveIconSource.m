@@ -12,7 +12,7 @@
 @implementation ARTchiveIconSource
 
 - (id) init {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 		NSDictionary *dict   = [defs persistentDomainForName:@"public.music.artwork"];
 
@@ -48,7 +48,7 @@
 			NSString *path = [artworkDir stringByAppendingPathComponent:preferredImage];
 			NSEnumerator *e = [extensions objectEnumerator];
 			NSString *ext;
-			while (ext = [e nextObject]) {
+			while ((ext = [e nextObject])) {
 				NSString *fullPath = [path stringByAppendingPathExtension:ext];
 				if ([manager fileExistsAtPath:fullPath]) {
 					return [[[NSImage alloc] initByReferencingFile:fullPath] autorelease];
@@ -70,11 +70,11 @@
 			artworkDir = [artworkDir stringByAppendingPathComponent:track];
 			NSEnumerator *nameEnum = [[NSArray arrayWithObjects:@"Track", @"Album", @"Artist", nil] objectEnumerator];
 			NSString *name;
-			while (name = [nameEnum nextObject]) {
+			while ((name = [nameEnum nextObject])) {
 				NSString *path = [artworkDir stringByAppendingPathComponent:name];
 				NSEnumerator *e = [extensions objectEnumerator];
 				NSString *ext;
-				while (ext = [e nextObject]) {
+				while ((ext = [e nextObject])) {
 					NSString *fullPath = [path stringByAppendingPathExtension:ext];
 					if ([manager fileExistsAtPath:fullPath]) {
 						return [[[NSImage alloc] initByReferencingFile:fullPath] autorelease];
@@ -157,7 +157,7 @@
 }
 
 
-- (BOOL)archiveImage:(NSImage *)image track:(NSString *)track artist:(NSString *)artist album:(NSString *)album compilation:(BOOL)compilation {
+- (BOOL) archiveImage:(NSImage *)image track:(NSString *)track artist:(NSString *)artist album:(NSString *)album compilation:(BOOL)compilation {
 	NSFileManager *manager = [NSFileManager defaultManager];
 	NSString *artworkDir = [self pathForTrack:track artist:artist album:album compilation:compilation];
 
@@ -177,7 +177,7 @@
 	else {
 		NSData *imageData = [NSBitmapImageRep representationOfImageRepsInArray:[image representations] usingType:NSPNGFileType properties:nil];
 		NSString *directory = [fullPath stringByDeletingLastPathComponent];
-		BOOL success = [self createDirectoriesAtPath:directory attributes:nil];
+		success = [self createDirectoriesAtPath:directory attributes:nil];
 		if (success) {
 			success = [manager createFileAtPath:fullPath
 			                           contents:imageData

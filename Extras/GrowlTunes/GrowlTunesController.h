@@ -63,26 +63,26 @@ typedef enum {
 	NSString			* trackURL;		//The file location of the last-known track in iTunes, @"" for none
 }
 
-- (BOOL)iTunesIsRunning;
-- (NSDictionary *)iTunesProcess;
-- (BOOL)quitiTunes;
+- (BOOL) iTunesIsRunning;
+- (NSDictionary *) iTunesProcess;
+- (BOOL) quitiTunes;
 
-- (void)setPolling:(BOOL)flag;
+- (void) setPolling:(BOOL)flag;
 
 #pragma mark Poll timer
 
-- (void)poll:(NSTimer *)timer;
-- (void)startTimer;
-- (void)stopTimer;
+- (void) poll:(NSTimer *)timer;
+- (void) startTimer;
+- (void) stopTimer;
 
 #pragma mark Status item
 
-- (void)createStatusItem;
-- (void)tearDownStatusItem;
-- (NSMenu *)statusItemMenu;
+- (void) createStatusItem;
+- (void) tearDownStatusItem;
+- (NSMenu *) statusItemMenu;
 
 #pragma mark Plug-ins
 
-- (NSMutableArray *)loadPlugins;
+- (NSMutableArray *) loadPlugins;
 
 @end

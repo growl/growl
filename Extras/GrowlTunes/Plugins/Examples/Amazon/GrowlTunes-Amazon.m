@@ -206,7 +206,8 @@
 	}
 	return imageData;
 }
-- (NSImage *)imageWithAlbumInfo:(NSDictionary *)albumInfo {
+
+- (NSImage *) imageWithAlbumInfo:(NSDictionary *)albumInfo {
 	NSData *imageData;
 	NSImage *image = nil;
 	NSSize imageSize = NSZeroSize;
@@ -239,13 +240,13 @@
 				--numImageReps;
 			} else {
 				++i;
-				if((width * height) > mostPixels) {
+				if ((width * height) > mostPixels) {
 					imageSize = NSMakeSize(width, height);
 					mostPixels = (width * height);
 				}
 			}
 		}
-		if(numImageReps) [imageReps addObjectsFromArray:theseImageReps];
+		if (numImageReps) [imageReps addObjectsFromArray:theseImageReps];
 		[theseImageReps release];
 	}
 	if (!imageData) {
@@ -263,13 +264,13 @@
 					--numImageReps;
 				} else {
 					++i;
-					if((width * height) > mostPixels) {
+					if ((width * height) > mostPixels) {
 						imageSize = NSMakeSize(width, height);
 						mostPixels = (width * height);
 					}
 				}
 			}
-			if(numImageReps) [imageReps addObjectsFromArray:theseImageReps];
+			if (numImageReps) [imageReps addObjectsFromArray:theseImageReps];
 			[theseImageReps release];
 		}
 		if (!imageData) {
@@ -287,19 +288,19 @@
 						--numImageReps;
 					} else {
 						++i;
-						if((width * height) > mostPixels) {
+						if ((width * height) > mostPixels) {
 							imageSize = NSMakeSize(width, height);
 							mostPixels = (width * height);
 						}
 					}
 				}
-				if(numImageReps) [imageReps addObjectsFromArray:theseImageReps];
+				if (numImageReps) [imageReps addObjectsFromArray:theseImageReps];
 				[theseImageReps release];
 			}
 		}
 	}
 
-	if([imageReps count]) {
+	if ([imageReps count]) {
 		image = [[[NSImage alloc] initWithSize:imageSize] autorelease];
 		[image addRepresentations:imageReps];
 	}

@@ -10,13 +10,13 @@
 
 @implementation GrowlAmazonXMLResponse
 
-- (id)init {
+- (id) init {
 	if ((self = [super init])) {
 		foundItems = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
-- (void)dealloc {
+- (void) dealloc {
 	[foundItems release];
 	[super dealloc];
 }
@@ -24,7 +24,7 @@
 #pragma mark -
 #pragma mark Accessors
 
-- (NSArray *)foundItems {
+- (NSArray *) foundItems {
 	return [NSArray arrayWithArray:foundItems];
 }
 
@@ -36,12 +36,13 @@
  *for comparing element names in the XML data, we use the literal strings.
  */
 
-- (void)parser:(NSXMLParser *)parser
+- (void) parser:(NSXMLParser *)parser
  didStartElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qualifiedName
 	attributes:(NSDictionary *)attributeDict
 {
+#pragma unused(parser,namespaceURI,qualifiedName,attributeDict)
 	//fortunately, we don't need to maintain nesting currently.
 	[currentElementName release];
 	currentElementName = [elementName copy];
@@ -55,15 +56,17 @@
 		artists = [[NSMutableArray alloc] init];
 }
 
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+- (void) parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+#pragma unused(parser)
 	[currentElementContents appendString:string];
 }
 
-- (void)parser:(NSXMLParser *)parser
+- (void) parser:(NSXMLParser *)parser
  didEndElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI
  qualifiedName:(NSString *)qName
 {
+#pragma unused(parser,namespaceURI,qName)
 	if ([elementName       hasPrefix:@"ImageUrl"]
 	||  [elementName isEqualToString:@"ProductName"])
 	{

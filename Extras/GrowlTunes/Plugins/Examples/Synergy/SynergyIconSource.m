@@ -19,7 +19,7 @@ static NSString *empty = @"";
 - init {
 	self = [super init];
 	//create this middle section all at once in advance.
-	if(!synergySubPath)
+	if (!synergySubPath)
 		synergySubPath = [[[@"Application Support" stringByAppendingPathComponent:@"Synergy"] stringByAppendingPathComponent:@"Album Covers"] retain];
 	return self;
 }
@@ -29,7 +29,7 @@ static NSString *empty = @"";
 // *actually, it releases the array in which it keeps the plug-ins, and the
 //  array releases it.
 
-- (void)dealloc {
+- (void) dealloc {
 	[synergySubPath release];
 
 	[super dealloc];
@@ -37,7 +37,7 @@ static NSString *empty = @"";
 
 //a debugging pleasantry. GrowlTunes doesn't actually use this ATM.
 
-- (NSString *)description {
+- (NSString *) description {
 	return [NSString stringWithFormat:@"<GrowlTunes-Synergy instance at %p>", self];
 }
 
@@ -45,13 +45,14 @@ static NSString *empty = @"";
 //  artwork from iTunes, it calls - artworkForTitle:byArtist:onAlbum: on your
 //  plug-in.
 
-- (NSImage *)artworkForTitle:(NSString *)song byArtist:(NSString *)artist onAlbum:(NSString *)album isCompilation:(BOOL)compilation {
+- (NSImage *) artworkForTitle:(NSString *)song byArtist:(NSString *)artist onAlbum:(NSString *)album isCompilation:(BOOL)compilation {
+#pragma unused(compilation)
 	NSMutableString *synergyFile;
 
 	/*construct the filename that Synergy would use to save album art.*/
 	{
 		//albums are preferred over songs.
-		if([album length])
+		if ([album length])
 			synergyFile = [NSMutableString stringWithFormat:@"Artist-%@,Album-%@.tiff", artist, album];
 		else
 			synergyFile = [NSMutableString stringWithFormat:@"Artist-%@,Song-%@.tiff",  artist, song];
@@ -75,8 +76,8 @@ static NSString *empty = @"";
 
 		//we return an image created from the first matching file we find - if we do find one.
 		//note: thisFullPath = [libraryEnum nextObject] + synergySubPath + synergyFile.
-		while(thisFullPath = [[libraryEnum nextObject] stringByAppendingPathComponent:thisSubPath])
-			if([mgr fileExistsAtPath:thisFullPath])
+		while ((thisFullPath = [[libraryEnum nextObject] stringByAppendingPathComponent:thisSubPath]))
+			if ([mgr fileExistsAtPath:thisFullPath])
 				return [[[NSImage alloc] initWithContentsOfFile:thisFullPath] autorelease];
 	}
 

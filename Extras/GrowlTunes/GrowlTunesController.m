@@ -37,11 +37,6 @@
 #define EXTENSION_GROWLTUNES_TRACK_LENGTH  @"Extended Info - GrowlTunes Track Length"
 #define EXTENSION_GROWLTUNES_TRACK_RATING  @"Extended Info - GrowlTunes Track Rating"
 
-// sticking this here for a bit of version checking while setting the menu icon
-#ifndef NSAppKitVersionNumber10_2
-#define NSAppKitVersionNumber10_2 663
-#endif
-
 @interface GrowlTunesController (PRIVATE)
 - (NSAppleScript *)appleScriptNamed:(NSString *)name;
 - (void) addTuneToRecentTracks:(NSString *)inTune fromPlaylist:(NSString *)inPlaylist;
@@ -91,6 +86,7 @@ enum {
 }
 
 - (void) applicationWillFinishLaunching: (NSNotification *)notification {
+#pragma unused(notification)
 	pollScript       = [self appleScriptNamed:@"jackItunesInfo"];
 	quitiTunesScript = [self appleScriptNamed:@"quitiTunes"];
 	getInfoScript    = [self appleScriptNamed:@"jackItunesArtwork"];
@@ -126,7 +122,9 @@ enum {
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
 		[self createStatusItem];
 }
+
 - (void) applicationWillTerminate:(NSNotification *)notification {
+#pragma unused(notification)
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 	[self stopTimer];
@@ -378,6 +376,7 @@ enum {
 #pragma mark Poll timer
 
 - (void) poll:(NSTimer *)timer {
+#pragma unused(timer)
 	NSDictionary			* error = nil;
 	NSAppleEventDescriptor	* theDescriptor = [pollScript executeAndReturnError:&error];
 	NSAppleEventDescriptor  * curDescriptor;
@@ -417,22 +416,22 @@ enum {
 		curDescriptor = [theDescriptor descriptorAtIndex:9L];
 		playlistName = [curDescriptor stringValue];
 
-		if (curDescriptor = [theDescriptor descriptorAtIndex:2L])
+		if ((curDescriptor = [theDescriptor descriptorAtIndex:2L]))
 			track = [curDescriptor stringValue];
 
-		if (curDescriptor = [theDescriptor descriptorAtIndex:3L])
+		if ((curDescriptor = [theDescriptor descriptorAtIndex:3L]))
 			length = [curDescriptor stringValue];
 
-		if (curDescriptor = [theDescriptor descriptorAtIndex:4L])
+		if ((curDescriptor = [theDescriptor descriptorAtIndex:4L]))
 			artist = [curDescriptor stringValue];
 
-		if (curDescriptor = [theDescriptor descriptorAtIndex:5L])
+		if ((curDescriptor = [theDescriptor descriptorAtIndex:5L]))
 			album = [curDescriptor stringValue];
 
-		if (curDescriptor = [theDescriptor descriptorAtIndex:6L])
+		if ((curDescriptor = [theDescriptor descriptorAtIndex:6L]))
 			compilation = (BOOL)[curDescriptor booleanValue];
 
-		if (curDescriptor = [theDescriptor descriptorAtIndex:7L]) {
+		if ((curDescriptor = [theDescriptor descriptorAtIndex:7L])) {
 			int ratingInt = [[curDescriptor stringValue] intValue];
 			if (ratingInt < 0) ratingInt = 0;
 			rating = [NSNumber numberWithInt:ratingInt];
@@ -522,9 +521,7 @@ enum {
 			[statusItem setMenu:[self statusItemMenu]];
 			[statusItem setHighlightMode:YES];
 			[statusItem setImage:[NSImage imageNamed:@"growlTunes.tif"]];
-			if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_2)  {
-				[statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.tif"]];
-			}
+			[statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.tif"]];
 			[statusItem setToolTip:NSLocalizedString(@"Status item tooltip", /*comment*/ nil)];
 		}
 	}
@@ -584,6 +581,7 @@ enum {
 }
 
 - (IBAction) togglePolling:(id)sender {
+#pragma unused(sender)
 	if (pollTimer)
 		[self stopTimer];
 	else
@@ -598,7 +596,7 @@ enum {
 	// Out with the old
 	NSArray *items = [iTunesSubMenu itemArray];
 	NSEnumerator *itemEnumerator = [items objectEnumerator];
-	while (item = [itemEnumerator nextObject]) {
+	while ((item = [itemEnumerator nextObject])) {
 		[iTunesSubMenu removeItem:item];
 	}
 
@@ -608,7 +606,7 @@ enum {
 	NSDictionary *aTuneDict = nil;
 	int k = 0;
 
-	while (aTuneDict = [tunesEnumerator nextObject]) {
+	while ((aTuneDict = [tunesEnumerator nextObject])) {
 		item = [iTunesSubMenu addItemWithTitle:[aTuneDict objectForKey:@"name"]
 										action:@selector(jumpToTune:)
 								 keyEquivalent:@""];
@@ -662,6 +660,7 @@ enum {
 }
 
 - (IBAction) onlineHelp:(id)sender{
+#pragma unused(sender)
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ONLINE_HELP_URL]];
 }
 
@@ -681,10 +680,12 @@ enum {
 }
 
 - (IBAction) quitGrowlTunes:(id)sender {
+#pragma unused(sender)
 	[NSApp terminate:sender];
 }
 
 - (IBAction) launchQuitiTunes:(id)sender {
+#pragma unused(sender)
 	if (![self quitiTunes]) {
 		//quit failed, so it wasn't running: launch it.
 		[[NSWorkspace sharedWorkspace] launchApplication:iTunesAppName];
@@ -728,7 +729,7 @@ enum {
 	NSEnumerator *processesEnum = [[[NSWorkspace sharedWorkspace] launchedApplications] objectEnumerator];
 	NSDictionary *process;
 
-	while (process = [processesEnum nextObject]) {
+	while ((process = [processesEnum nextObject])) {
 		if ([iTunesBundleID caseInsensitiveCompare:[process objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
 			break; //this is iTunes!
 	}
@@ -757,7 +758,8 @@ enum {
 #pragma mark Plug-ins
 
 // This function is used to sort plugins, trying first the local ones, and then the network ones
-int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2, void *context) {
+static int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2, void *context) {
+#pragma unused(context)
 	BOOL b1 = [plugin1 usesNetwork];
 	BOOL b2 = [plugin2 usesNetwork];
 	if ((b1 && b2) || (!b1 && !b2)) //both plugins have the same behaviour
@@ -781,11 +783,11 @@ int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2,
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		static NSString *pluginPathExtension = @"plugin";
 
-		while (loadPath = [loadPathsEnum nextObject]) {
+		while ((loadPath = [loadPathsEnum nextObject])) {
 			NSEnumerator *pluginEnum = [[[NSFileManager defaultManager] directoryContentsAtPath:loadPath] objectEnumerator];
 			NSString *curPath;
 
-			while (curPath = [pluginEnum nextObject]) {
+			while ((curPath = [pluginEnum nextObject])) {
 				if ([[curPath pathExtension] isEqualToString:pluginPathExtension]) {
 					curPath = [pluginsPath stringByAppendingPathComponent:curPath];
 					NSBundle *plugin = [NSBundle bundleWithPath:curPath];
@@ -831,6 +833,7 @@ int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> plugin2,
 					 onAlbum:(NSString *)album
 			   isCompilation:(BOOL)compilation
 {
+#pragma unused(track,artist,album,compilation)
 	NSLog(@"Dummy plug-in %p called for artwork", self);
 	return nil;
 }
