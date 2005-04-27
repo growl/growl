@@ -87,7 +87,6 @@
 		[theProxy setProtocolForProxy:@protocol(GrowlNotificationCenterProtocol)];
 		growlNotificationCenter = (id<GrowlNotificationCenterProtocol>)theProxy;
 		[growlNotificationCenter addObserver:self];
-		NSLog(@"Successfully subscribed to GrowlNotificationCenter");
 	} @catch(NSException *e) {
 		NSLog(@"Failed to subscribe to GrowlNotificationCenter: %@", e);
 	}

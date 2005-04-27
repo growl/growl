@@ -17,12 +17,10 @@
 }
 
 - (void) addObserver:(id<GrowlNotificationObserver>)observer {
-	NSLog(@"adding observer");
 	[observers addObject:observer];
 }
 
 - (void) removeObserver:(id<GrowlNotificationObserver>)observer {
-	NSLog(@"removing observer");
 	[observers removeObject:observer];
 }
 
@@ -30,7 +28,6 @@
 	NSEnumerator *e = [observers objectEnumerator];
 	id<GrowlNotificationObserver> observer;
 	while ((observer = [e nextObject])) {
-		NSLog(@"notifying observer");
 		@try {
 			[observer notifyWithDictionary:notificationDict];
 		} @catch(NSException *ex) {
