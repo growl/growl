@@ -26,7 +26,9 @@
 
 #define GROWL_TEXT_SIZE 11
 
-static const long minimumOSXVersionForGrowl = 0x1030L; //Panther (10.3)
+#ifndef NSAppKitVersionNumber10_3
+# define NSAppKitVersionNumber10_3 743
+#endif
 
 @interface GrowlInstallationPrompt (private)
 - (id)initWithWindowNibName:(NSString *)nibName forUpdateToVersion:(NSString *)updateVersion;
@@ -36,17 +38,8 @@ static const long minimumOSXVersionForGrowl = 0x1030L; //Panther (10.3)
 
 @implementation GrowlInstallationPrompt
 
-static BOOL checkOSXVersion()
-{
-	long OSXVersion = 0L;
-	OSStatus err = Gestalt(gestaltSystemVersion, &OSXVersion);
-	if (err != noErr) {
-		NSLog(@"WARNING in GrowlInstallationPrompt: could not get Mac OS X version (selector = %x); got error code %li (will show the installation prompt anyway)", (unsigned)gestaltSystemVersion, (long)err);
-		//we proceed anyway, on the theory that it is better to show the installation prompt when inappropriate than to suppress it when not.
-		OSXVersion = minimumOSXVersionForGrowl;
-	}
-
-	return (OSXVersion >= minimumOSXVersionForGrowl);
+static BOOL checkOSXVersion() {
+	return (floor(NSAppKitVersionNumber) >= NSAppKitVersionNumber10_3);
 }
 
 + (void) showInstallationPrompt {
