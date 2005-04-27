@@ -6,13 +6,17 @@
 .Nd send a notification to Growl
 .Sh SYNOPSIS             \" Section Header - required - don't modify
 .Nm
-.Op Fl hs
-.Op Fl n Ar name
-.Op Fl a Ar name
+.Op Fl hsv
 .Op Fl i Ar ext
 .Op Fl I Ar filepath
 .Op Fl -image Ar filepath
+.Op Fl a Ar appname
 .Op Fl p Ar priority
+.Op Fl H Ar host
+.Op Fl u
+.Op Fl P Ar password
+.Op Fl -port Ar port
+.Op Fl n Ar name
 .Op Fl m Ar message
 .Op Fl t
 .Op Ar title
@@ -67,6 +71,28 @@ Priority is not supported by all displays, so this may be ignored.
 Causes the notification to stick around until clicked.
 .Pp
 Sticky notifications are not supported by all displays, so this may be ignored.
+.It Fl d , Fl -identifier
+Sets the identifier for the notification. The identifier is used for
+coalescing, which means multiple notifications with the same identifer
+will use a single bubble, the latest notification taking precedence.
+.Pp
+Coalescing is not supported by all displays, so this may be ignored.
+.It Fl w , Fl -wait
+Causes
+.Nm
+to wait until the notification is dismissed (either by clicking or timing out)
+before it returns.
+.It Fl H , Fl -host
+Sends the notification to a remote host instead of the local computer.
+This option requires the remote host being set up to accept remote notifications.
+The argument is the host to send the notification to.
+.It Fl P , Fl -password
+Sets the password to be used for the remote notification.
+This is necessary if the remote host requires a password for remote notifications.
+.It Fl u , Fl -udp
+Sends the remote notification with UDP instead of Distributed Objects.
+.It Fl -port
+Sets the port number to use for UDP notifications.
 .El
 .Pp
 .Nm

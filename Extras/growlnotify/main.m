@@ -39,9 +39,9 @@
 #define NOTIFICATION_NAME @"Command-Line Growl Notification"
 
 static const char usage[] =
-"Usage: growlnotify [-hsv] [-i ext] [-I filepath] [--image filepath]\n"
-"                   [-a appname] [-p priority] [-H host] [-U] [-P password]\n"
-"                   [-n name] [-m message] [-t] [title]\n"
+"Usage: growlnotify [-hsvw] [-i ext] [-I filepath] [--image filepath]\n"
+"                   [-a appname] [-p priority] [-H host] [-u] [-P password]\n"
+"                   [--port port] [-n name] [-m message] [-t] [title]\n"
 "Options:\n"
 "    -h,--help       Display this help\n"
 "    -v,--version    Display version number\n"
@@ -52,13 +52,15 @@ static const char usage[] =
 "    -i,--icon       Specify a file type or extension to look up for the\n"
 "                    notification icon\n"
 "    -I,--iconpath   Specify a file whose icon will be the notification icon\n"
-"    --image         Specify an image file to be used for the notification icon\n"
+"       --image      Specify an image file to be used for the notification icon\n"
+"    -m,--message    Sets the message to be used instead of using stdin\n"
+"                    Passing - as the argument means read from stdin\n"
 "    -p,--priority   Specify an int or named key (default is 0)\n"
-"    -d,--identifier Specify a notification identifier\n"
+"    -d,--identifier Specify a notification identifier (used for coalescing)\n"
 "    -H,--host       Specify a hostname to which to send a remote notification.\n"
 "    -P,--password   Password used for remote notifications.\n"
 "    -u,--udp        Use UDP instead of DO to send a remote notification.\n"
-"    --port          Port number for UDP notifications.\n"
+"       --port       Port number for UDP notifications.\n"
 "    -w,--wait       Wait until the notification has been dismissed.\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
@@ -67,11 +69,9 @@ static const char usage[] =
 "Priority can be one of the following named keys: Very Low, Moderate, Normal,\n"
 "High, Emergency. It can also be an int between -2 and 2.\n"
 "\n"
-"To be compatible with gNotify the following switches are accepted:\n"
-"    -t,--title    Does nothing. Any text following will be treated as the\n"
-"                  title because that's the default argument behaviour\n"
-"    -m,--message  Sets the message to the following instead of using stdin\n"
-"                  Passing - as the argument means read from stdin";
+"To be compatible with gNotify the following switch is accepted:\n"
+"    -t,--title      Does nothing. Any text following will be treated as the\n"
+"                    title because that's the default argument behaviour\n";
 
 static const char *version = "growlnotify 0.6\n"
 "Copyright (c) The Growl Project, 2004-2005";
