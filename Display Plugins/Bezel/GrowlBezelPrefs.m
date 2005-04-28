@@ -127,6 +127,21 @@
 	UPDATE_GROWL_PREFS();
 }
 
+#pragma mark -
+
+- (BOOL) shrink {
+	BOOL shrink = YES;
+	READ_GROWL_PREF_BOOL(BEZEL_SHRINK_PREF, BezelPrefDomain, &shrink);
+	return shrink;
+}
+
+- (void) setShrink:(BOOL)flag {
+	WRITE_GROWL_PREF_BOOL(BEZEL_SHRINK_PREF, flag, BezelPrefDomain);
+	UPDATE_GROWL_PREFS();
+}
+
+#pragma mark -
+
 - (NSColor *) textColorVeryLow {
 	return [GrowlBezelPrefs loadColor:GrowlBezelVeryLowTextColor
 						 defaultColor:[NSColor whiteColor]];
@@ -181,6 +196,8 @@
     WRITE_GROWL_PREF_VALUE(GrowlBezelEmergencyTextColor, theData, BezelPrefDomain);
     UPDATE_GROWL_PREFS();
 }
+
+#pragma mark -
 
 - (NSColor *) backgroundColorVeryLow {
 	return [GrowlBezelPrefs loadColor:GrowlBezelVeryLowBackgroundColor
