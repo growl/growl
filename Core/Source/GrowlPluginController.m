@@ -120,7 +120,7 @@ static GrowlPluginController *sharedController;
 }
 
 - (void) loadPlugin:(NSString *)path intoDictionary:(NSMutableDictionary *)pluginDictionary {
-	NSBundle *pluginBundle = [NSBundle bundleWithPath:path];
+	NSBundle *pluginBundle = [[NSBundle alloc] initWithPath:path];
 
 	if (pluginBundle) {
 		// TODO: We should use CFBundleIdentifier as the key and display CFBundleName to the user
@@ -130,6 +130,7 @@ static GrowlPluginController *sharedController;
 		} else {
 			NSLog(@"Plugin at path '%@' has no name", path);
 		}
+		[pluginBundle release];
 	} else {
 		NSLog(@"Failed to load: %@", path);
 	}
