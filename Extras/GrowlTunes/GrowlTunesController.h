@@ -48,7 +48,6 @@ typedef enum {
 	NSTimer				*pollTimer;
 	NSAppleScript		*pollScript;
 	NSAppleScript		*getInfoScript;
-	NSAppleScript		*quitiTunesScript;
 	NSMutableArray		*plugins;
 	NSStatusItem		*statusItem;
 	NSString			*playlistName;

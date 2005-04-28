@@ -63,20 +63,6 @@
 			settings = {
 			};
 		};
-		07D08B21068D3DA800756873 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.scpt;
-			name = quitiTunes.scpt;
-			path = Scripts/quitiTunes.scpt;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		07D08B22068D3DA800756873 = {
-			fileRef = 07D08B21068D3DA800756873;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 //070
 //071
 //072
@@ -442,16 +428,16 @@
 					ProjectRef = 0A8B617F070B303B00593A33;
 				},
 				{
-					ProductGroup = 0A8B6179070B303600593A33;
-					ProjectRef = 0A8B5F08070B140300593A33;
+					ProductGroup = 0A8B6174070B2F6A00593A33;
+					ProjectRef = 0A8B5F0F070B140C00593A33;
 				},
 				{
 					ProductGroup = DD86247D080D8421001ACC9F;
 					ProjectRef = DD86247B080D8421001ACC9F;
 				},
 				{
-					ProductGroup = 0A8B6174070B2F6A00593A33;
-					ProjectRef = 0A8B5F0F070B140C00593A33;
+					ProductGroup = 0A8B6179070B303600593A33;
+					ProjectRef = 0A8B5F08070B140300593A33;
 				},
 			);
 			targets = (
@@ -504,7 +490,6 @@
 				CB57B4CA0711E503001968B0,
 				0A5ECB46073444AB0032ED97,
 				5275B5440687D634006F5704,
-				07D08B21068D3DA800756873,
 				8D1107310486CEB800E47090,
 				089C165CFE840E0CC02AAC07,
 				07B1BAB5077D59B200474D89,
@@ -761,7 +746,6 @@
 			files = (
 				8D11072B0486CEB800E47090,
 				5275B5480687D634006F5704,
-				07D08B22068D3DA800756873,
 				4C29096306A8CB8B00FDB6CE,
 				4C29096406A8CB8B00FDB6CE,
 				CB57B4CB0711E503001968B0,
