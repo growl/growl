@@ -1,4 +1,5 @@
 #import <Cocoa/Cocoa.h>
+#include <Carbon/Carbon.h>
 #import "NSGrowlAdditions.h"
 #import "GrowlPreferences.h"
 #import "GrowlPathUtil.h"
@@ -37,11 +38,6 @@ static void printusage(void) {
 		   argv0);
 }
 
-extern OSStatus CoreMenuExtraAddMenuExtra (CFURLRef inMenuExtra, SInt32 position, UInt32 reserved, UInt8 *inData, UInt32 inSize, UInt32 *outExtra);
-// either inExtra or inBundleID can be 0 or nil, but not both
-extern OSStatus CoreMenuExtraRemoveMenuExtra (UInt32 inExtra, CFStringRef inBundleID);
-extern OSStatus CoreMenuExtraGetMenuExtra (CFStringRef inBundleID, UInt32 *outExtra);
-
 int main (int argc, const char **argv) {
 	argv0 = (argc < 1) ? "growlctl" : argv[0];
 
@@ -68,12 +64,39 @@ int main (int argc, const char **argv) {
 
 		//control the state of the Growl Menu Extra
 		} else if (!strcmp(argv[1], "startmenu")) {
-			NSURL *url = [NSURL fileURLWithPath:[[GrowlPathUtil growlPrefPaneBundle] pathForResource:@"Growl" ofType:@"menu"]];
-			CoreMenuExtraAddMenuExtra ((CFURLRef)url, /*position*/ 0, /*reserved*/ 0U, /*inData*/ NULL, /*inSize*/ 0, /*outExtra*/ NULL);
+			NSBundle *prefpane = [GrowlPathUtil growlPrefPaneBundle];
+			NSString *path = [prefpane pathForResource:@"GrowlMenu" ofType:@"app"];
+			if(!path) {
+				fprintf(stderr, "Could not launch the status item, because it was not found in the Growl preference-pane bundle at %s\n", [[prefpane bundlePath] UTF8String]);
+				status = EXIT_FAILURE;
+			} else {
+				BOOL success = [[NSWorkspace sharedWorkspace] openFile:nil
+													   withApplication:path
+														 andDeactivate:NO];
+				if(!success) {
+					fputs("Could not launch the status item (unknown reason)\n", stderr);
+					status = EXIT_FAILURE;
+				}
+			}
 		} else if (!strcmp(argv[1], "stopmenu")) {
-			UInt32 extraID = 0U;
-			CoreMenuExtraGetMenuExtra (CFSTR("com.Growl.MenuExtra"), &extraID);
-			CoreMenuExtraRemoveMenuExtra(extraID, CFSTR("com.Growl.MenuExtra"));
+			//quit the status item with a Quit Apple event
+			NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplicationBundleID data:[@"com.Growl.MenuExtra" dataUsingEncoding:NSUTF8StringEncoding]];
+			NSAppleEventDescriptor *event = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass
+			                                                                         eventID:kAEQuitApplication
+			                                                                targetDescriptor:target
+			                                                                        returnID:kAutoGenerateReturnID
+			                                                                   transactionID:kAnyTransactionID];
+			OSStatus err = AESend([event aeDesc],
+			                      /*reply*/ NULL,
+			                      /*sendMode*/ kAENoReply | kAEDontReconnect | kAENeverInteract | kAEDontRecord,
+			                      kAENormalPriority,
+			                      kAEDefaultTimeout,
+			                      /*idleProc*/ NULL,
+			                      /*filterProc*/ NULL);
+			if((err != noErr) && (err != procNotFound)) {
+				fprintf(stderr, "Could not remove the status item: AESend returned %li\n", (long)err);
+				status = EXIT_FAILURE;
+			}
 
 		//directly (more or less) access Growl defaults
 		} else if (!strcmp(argv[1], "getpref")) {

@@ -38,6 +38,20 @@
 //072
 //073
 //074
+		074FC03E0820E41200ABE399 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Carbon.framework;
+			path = /System/Library/Frameworks/Carbon.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		074FC03F0820E41200ABE399 = {
+			fileRef = 074FC03E0820E41200ABE399;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		07814E3807F05B4D0046C294 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -198,6 +212,7 @@
 		08FB779DFE84155DC02AAC07 = {
 			children = (
 				07A3BD8907F01A7C00973BFB,
+				074FC03E0820E41200ABE399,
 			);
 			isa = PBXGroup;
 			name = "External Frameworks and Libraries";
@@ -313,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				07A3BD8A07F01A7C00973BFB,
+				074FC03F0820E41200ABE399,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
