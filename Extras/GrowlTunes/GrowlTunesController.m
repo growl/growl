@@ -52,6 +52,8 @@ static NSString *pollIntervalKey = @"Poll interval";
 static NSString *noMenuKey = @"GrowlTunesWithoutMenu";
 static NSString *recentTrackCount = @"Recent Tracks Count";
 
+static const unsigned defaultRecentTracksLimit = 20U;
+
 //status item menu item tags.
 enum {
 	onlineHelpTag = -5,
@@ -75,7 +77,8 @@ enum {
 
 		state = itUNKNOWN;
 		playlistName = [[NSString alloc] init];
-		recentTracks = [[NSMutableArray alloc] initWithCapacity:[[defaults objectForKey:recentTrackCount] unsignedIntValue]];
+		NSNumber *recentTrackCountNum = [defaults objectForKey:recentTrackCount];
+		recentTracks = [[NSMutableArray alloc] initWithCapacity:(recentTrackCountNum ? [recentTrackCountNum unsignedIntValue] : defaultRecentTracksLimit)];
 		archivePlugin = nil;
 		plugins = [[self loadPlugins] retain];
 		trackID = 0;
@@ -664,12 +667,13 @@ enum {
 }
 
 - (void) addTuneToRecentTracks:(NSString *)inTune fromPlaylist:(NSString *)inPlaylist {
-	int trackLimit = [[[NSUserDefaults standardUserDefaults] objectForKey:recentTrackCount] intValue];
+	NSNumber *recentTrackCountNum = [[NSUserDefaults standardUserDefaults] objectForKey:recentTrackCount];
+	unsigned trackLimit = recentTrackCountNum ? [recentTrackCountNum unsignedIntValue] : defaultRecentTracksLimit;
 	NSDictionary *tuneDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		inTune,     @"name",
 		inPlaylist, @"playlist",
 		nil];
-	signed long delta = ([recentTracks count] + 1U) - trackLimit;
+	signed long delta = ([recentTracks count] + 1U) - (signed long)trackLimit;
 	if (delta > 0L)
 		[recentTracks removeObjectsInRange:NSMakeRange(0U, delta)];
 	[recentTracks addObject:tuneDict];
