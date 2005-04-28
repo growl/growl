@@ -46,10 +46,10 @@ int main(void) {
 
 		NSBundle *bundle = [NSBundle mainBundle];
 
-		clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon" ofType:@"tiff"]];
-		clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"icon-alt" ofType:@"tiff"]];
-		squelchImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"tiff"]];
-		squelchHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch-alt" ofType:@"tiff"]];
+		clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu" ofType:@"png"]];
+		clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu-alt" ofType:@"png"]];
+		squelchImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"png"]];
+		squelchHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch-alt" ofType:@"png"]];
 
 		if ([preferences boolForKey:GrowlSquelchModeKey]) {
 			[statusItem setImage:squelchImage];
