@@ -88,7 +88,6 @@ enum {
 - (void) applicationWillFinishLaunching: (NSNotification *)notification {
 #pragma unused(notification)
 	pollScript       = [self appleScriptNamed:@"jackItunesInfo"];
-	quitiTunesScript = [self appleScriptNamed:@"quitiTunes"];
 	getInfoScript    = [self appleScriptNamed:@"jackItunesArtwork"];
 
 	NSString *itunesPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"iTunes"];
@@ -705,8 +704,24 @@ enum {
 		[self stopTimer];
 
 		//now quit iTunes.
-		NSDictionary *errorInfo = nil;
-		[quitiTunesScript executeAndReturnError:&errorInfo];
+		NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplicationBundleID data:[iTunesBundleID dataUsingEncoding:NSUTF8StringEncoding]];
+		NSAppleEventDescriptor *event = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass
+		                                                                         eventID:kAEQuitApplication
+		                                                                targetDescriptor:target
+		                                                                        returnID:kAutoGenerateReturnID
+		                                                                   transactionID:kAnyTransactionID];
+		OSStatus err = AESend([event aeDesc],
+		                      /*reply*/ NULL,
+		                      /*sendMode*/ kAENoReply | kAEDontReconnect | kAENeverInteract | kAEDontRecord,
+		                      kAENormalPriority,
+		                      kAEDefaultTimeout,
+		                      /*idleProc*/ NULL,
+		                      /*filterProc*/ NULL);
+		success = ((err == noErr) || (err == procNotFound));
+		if (!success) {
+			//XXX this should be an alert panel (with a better message)
+			NSLog(@"Could not quit iTunes: AESend returned %li", (long)err);
+		}
 	}
 	return success;
 }
@@ -714,10 +729,8 @@ enum {
 #pragma mark AppleScript
 
 - (NSAppleScript *) appleScriptNamed:(NSString *)name {
-	NSURL			* url;
-	NSDictionary	* error;
-
-	url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:name ofType:@"scpt"]];
+	NSURL			*url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:name ofType:@"scpt"]];
+	NSDictionary	*error;
 
 	return [[NSAppleScript alloc] initWithContentsOfURL:url error:&error];
 }
@@ -762,11 +775,11 @@ static int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> p
 #pragma unused(context)
 	BOOL b1 = [plugin1 usesNetwork];
 	BOOL b2 = [plugin2 usesNetwork];
-	if ((b1 && b2) || (!b1 && !b2)) //both plugins have the same behaviour
-		return NSOrderedSame;
-	else if (b1 && !b2) // b1 is using network but not b2 so plugin2 should be smaller than 1
+	if (b2 && !b1) //b1 is local; b2 is network
+		return NSOrderedAscending;
+	else if (b1 && !b2) //b1 is network; b2 is local
 		return NSOrderedDescending;
-	else
+	else //both have the same behaviour
 		return NSOrderedAscending;
 }
 
