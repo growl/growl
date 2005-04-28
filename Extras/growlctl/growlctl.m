@@ -66,14 +66,14 @@ int main (int argc, const char **argv) {
 		} else if (!strcmp(argv[1], "startmenu")) {
 			NSBundle *prefpane = [GrowlPathUtil growlPrefPaneBundle];
 			NSString *path = [prefpane pathForResource:@"GrowlMenu" ofType:@"app"];
-			if(!path) {
+			if (!path) {
 				fprintf(stderr, "Could not launch the status item, because it was not found in the Growl preference-pane bundle at %s\n", [[prefpane bundlePath] UTF8String]);
 				status = EXIT_FAILURE;
 			} else {
 				BOOL success = [[NSWorkspace sharedWorkspace] openFile:nil
 													   withApplication:path
 														 andDeactivate:NO];
-				if(!success) {
+				if (!success) {
 					fputs("Could not launch the status item (unknown reason)\n", stderr);
 					status = EXIT_FAILURE;
 				}
@@ -93,7 +93,7 @@ int main (int argc, const char **argv) {
 			                      kAEDefaultTimeout,
 			                      /*idleProc*/ NULL,
 			                      /*filterProc*/ NULL);
-			if((err != noErr) && (err != procNotFound)) {
+			if ((err != noErr) && (err != procNotFound)) {
 				fprintf(stderr, "Could not remove the status item: AESend returned %li\n", (long)err);
 				status = EXIT_FAILURE;
 			}
