@@ -16,6 +16,7 @@
 #define BEZEL_DURATION_PREF					@"Bezel - Duration"
 #define BEZEL_SCREEN_PREF					@"Bezel - Screen"
 #define BEZEL_STYLE_PREF					@"Bezel - Style"
+#define BEZEL_SHRINK_PREF					@"Bezel - Shrink"
 
 #define GrowlBezelVeryLowBackgroundColor	@"Bezel-Priority-VeryLow-Color"
 #define GrowlBezelModerateBackgroundColor	@"Bezel-Priority-Moderate-Color"

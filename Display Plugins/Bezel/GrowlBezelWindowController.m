@@ -16,20 +16,22 @@
 #define MIN_DISPLAY_TIME 3.0
 #define GrowlBezelPadding 10.0f
 
-+ (GrowlBezelWindowController *)bezelWithTitle:(NSString *)title text:(NSString *)text
++ (GrowlBezelWindowController *) bezelWithTitle:(NSString *)title text:(NSString *)text
 		icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
 	return [[[GrowlBezelWindowController alloc] initWithTitle:title text:text icon:icon priority:prio sticky:sticky] autorelease];
 }
 
-- (id)initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
+- (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
 #pragma unused(sticky)
 	int sizePref = 0;
 	float duration = MIN_DISPLAY_TIME;
 	screenNumber = 0U;
+	shrinkEnabled = YES;
 
 	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, BezelPrefDomain, &screenNumber);
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 	READ_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, BezelPrefDomain, &duration);
+	READ_GROWL_PREF_BOOL(BEZEL_SHRINK_PREF, BezelPrefDomain, &shrinkEnabled);
 
 	NSRect sizeRect;
 	sizeRect.origin.x = 0.0f;
@@ -131,11 +133,11 @@
 
 #pragma mark -
 
-- (int)priority {
+- (int) priority {
 	return priority;
 }
 
-- (void)setPriority:(int)newPriority {
+- (void) setPriority:(int)newPriority {
 	priority = newPriority;
 }
 
@@ -162,7 +164,7 @@
 - (void) _fadeIn:(NSTimer *)timer {
 	if (flipIn) {
 		NSWindow *myWindow = [self window];
-		if ( scaleFactor < 1.0 ) {
+		if (scaleFactor < 1.0) {
 			scaleFactor += 0.05;
 			[myWindow setScaleX:scaleFactor Y:1.0];
 		} else {
@@ -182,15 +184,17 @@
 
 - (void) _fadeOut:(NSTimer *)timer {
 	NSWindow *myWindow = [self window];
-	if ( flipOut ) {
-		if ( scaleFactor > 0.0 ) {
+	if (flipOut) {
+		if (scaleFactor > 0.0) {
 			scaleFactor -= 0.05;
 			[myWindow setScaleX:scaleFactor Y:1.0];
 		} else {
 			[self stopFadeOut];
 		}
 	} else {
-		[myWindow scaleX:0.8 Y:0.8];
+		if (shrinkEnabled) {
+			[myWindow scaleX:0.8 Y:0.8];
+		}
 		[super _fadeOut:timer];
 	}
 }

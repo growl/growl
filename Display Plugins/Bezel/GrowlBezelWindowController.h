@@ -13,6 +13,7 @@
 	double			scaleFactor;
 	BOOL			flipIn;
 	BOOL			flipOut;
+	BOOL			shrinkEnabled;
 }
 
 + (GrowlBezelWindowController *) bezelWithTitle:(NSString *)title text:(NSString *)text
