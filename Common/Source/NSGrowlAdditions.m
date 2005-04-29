@@ -70,26 +70,34 @@
 + (NSURL *) fileURLWithAliasData:(NSData *)aliasData {
 	NSParameterAssert(aliasData != nil);
 
-	NSURL *URL = nil;
+	NSURL *url = nil;
 
 	AliasHandle alias = NULL;
 	OSStatus err = PtrToHand([aliasData bytes], (Handle *)&alias, [aliasData length]);
 	if (err != noErr) {
 		NSLog(@"in +[NSURL(GrowlAdditions) fileURLWithAliasData:]: Could not allocate an alias handle from %u bytes of alias data (data follows) because PtrToHand returned %li\n%@", [aliasData length], aliasData, (long)err);
 	} else {
-		FSRef fsref;
-		Boolean nobodyCares;
-		err = FSResolveAlias(/*fromFile*/ NULL, alias, &fsref, /*wasChanged*/ &nobodyCares);
+		NSString *path = nil;
+		/*
+		 * FSResolveAlias mounts disk images or network shares to resolve
+		 * aliases, thus we resort to FSCopyAliasInfo.
+		 */
+		err = FSCopyAliasInfo(alias,
+							  /* targetName */ NULL,
+							  /* volumeName */ NULL,
+							  (CFStringRef *)&path,
+							  /* whichInfo */ NULL,
+							  /* info */ NULL);
 		if (err != noErr) {
 			if (err != fnfErr) { //ignore file-not-found; it's harmless
 				NSLog(@"in +[NSURL(GrowlAdditions) fileURLWithAliasData:]: Could not resolve alias (alias data follows) because FSResolveAlias returned %li - will try path\n%@", (long)err, aliasData);
 			}
 		} else {
-			URL = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorDefault, &fsref) autorelease];
+			url = [NSURL fileURLWithPath:path];
 		}
 	}
 
-	return URL;
+	return url;
 }
 
 - (NSData *) aliasData {
