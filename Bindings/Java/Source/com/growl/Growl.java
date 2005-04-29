@@ -9,6 +9,8 @@
  *
  */
 
+package com.growl;
+
 import com.apple.cocoa.foundation.NSDistributedNotificationCenter;
 import com.apple.cocoa.foundation.NSArray;
 import com.apple.cocoa.foundation.NSDictionary;
@@ -25,7 +27,7 @@ public class Growl {
 
 	// defines
 	/** The name of the growl registration notification for DNC. */
-    	public static final String GROWL_APP_REGISTRATION = "GrowlApplicationRegistrationNotification";
+	public static final String GROWL_APP_REGISTRATION = "GrowlApplicationRegistrationNotification";
 
 	//  Ticket Defines
 	/** Ticket key for the application name. */
@@ -65,82 +67,82 @@ public class Growl {
 	//************  Constructors **************//
 
 	/**
-	 * Convenience method to contruct a growl instance, defers to Growl( String 
+	 * Convenience method to contruct a growl instance, defers to Growl(String 
 	 * inAppName, NSData inImageData, NSArray inAllNotes, NSArray inDefNotes, 
-	 * boolean registerNow ) with empty arrays for your notifications.
+	 * boolean registerNow) with empty arrays for your notifications.
 	 *
 	 *
 	 * @param inAppName - The Name of your "application"
 	 * @param inImage - The NSImage Icon for your Application
 	 *
 	 */
-	Growl( String inAppName, NSImage inImage ) {
+	public Growl(String inAppName, NSImage inImage) {
 	
-		this( inAppName,
+		this(inAppName,
 			  inImage.TIFFRepresentation(),
 			  new NSArray(),
 			  new NSArray(),
-			  false );
+			  false);
 	}
 
 	/**
-	 * Convenience method to contruct a growl instance, defers to Growl( String 
+	 * Convenience method to contruct a growl instance, defers to Growl(String 
 	 * inAppName, NSData inImageData, NSArray inAllNotes, NSArray inDefNotes, 
-	 * boolean registerNow ) with empty arrays for your notifications.
+	 * boolean registerNow) with empty arrays for your notifications.
 	 *
 	 * @param inAppName - The Name of your "Application"
 	 * @param inImageData - The NSData for your NSImage
 	 */
-	Growl( String inAppName, NSData inImageData ) {
+	public Growl(String inAppName, NSData inImageData) {
 
-		this( inAppName,
-			  inImageData,
-			  new NSArray(),
-			  new NSArray(),
-			  false );
+		this(inAppName,
+			 inImageData,
+			 new NSArray(),
+			 new NSArray(),
+			 false);
 	}
 
 	/**
-	 * Convenience method to contruct a growl instance, defers to Growl( String 
+	 * Convenience method to contruct a growl instance, defers to Growl(String 
 	 * inAppName, NSData inImageData, NSArray inAllNotes, NSArray inDefNotes, 
-	 * boolean registerNow ) with empty arrays for your notifications.
+	 * boolean registerNow) with empty arrays for your notifications.
 	 * 
 	 * @param inAppName - The Name of your "Application"
 	 * @param inImagePath - The path to your icon
 	 *
 	 */
-	Growl( String inAppName, String inImagePath ) {
+	public Growl(String inAppName, String inImagePath) {
 	
-		this( inAppName, 
-			  new NSImage( inImagePath, false).TIFFRepresentation(), 
-			  new NSArray(), 
-			  new NSArray(), 
-			  false );
+		this(inAppName, 
+			 new NSImage(inImagePath, false).TIFFRepresentation(), 
+			 new NSArray(), 
+			 new NSArray(), 
+			 false);
 	}
 
 	/**
-	 * Convenience method to contruct a growl instance, defers to Growl( String 
+	 * Convenience method to contruct a growl instance, defers to Growl(String 
 	 * inAppName, NSData inImageData, NSArray inAllNotes, NSArray inDefNotes, 
-	 * boolean registerNow ) with the arrays passed here and empty Data for the icon.
+	 * boolean registerNow) with the arrays passed here and empty Data for the icon.
 	 *
 	 * @param inAppName - The Name of your "Application"
 	 * @param inAllNotes - A String Array with the name of all your notifications
 	 * @param inDefNotes - A String Array with the na,es of the Notifications on 
 	 *                     by default
 	 */
-	Growl( String inAppName, String [] inAllNotes, String [] inDefNotes ) {
+	public Growl(String inAppName, String [] inAllNotes, String [] inDefNotes) {
 
-		this( inAppName, 
-			  new NSData(), 
-			  new NSArray( inAllNotes ), 
-			  new NSArray( inDefNotes ), 
-			  false );
+		this(inAppName, 
+			 new NSData(), 
+			 new NSArray(inAllNotes), 
+			 new NSArray(inDefNotes), 
+			 false);
 	}
 
 	/**
-	 * Convenience method to contruct a growl instance, defers to Growl( String 
+	 * Convenience method to contruct a growl instance, defers to Growl(String 
 	 * inAppName, NSData inImageData, NSArray inAllNotes, NSArray inDefNotes, 
-	 * boolean registerNow ) with empty arrays for your notifications.
+	 * boolean registerNow) with empty arrays for your notifications.
 	 *
 	 * @param inAppName - The Name of your "Application"
 	 * @param inImageData - The Data of your "Application"'s icon
@@ -149,8 +151,8 @@ public class Growl {
 	 * @param registerNow - Since we have all the necessary info we can go ahead 
 	 *                      and register
 	 */
-	Growl( String inAppName, NSData inImageData, NSArray inAllNotes, 
-	   NSArray inDefNotes, boolean registerNow ) {
+	public Growl(String inAppName, NSData inImageData, NSArray inAllNotes, 
+	   NSArray inDefNotes, boolean registerNow) {
 		appName = inAppName;
 		appImageData = inImageData;
 		allNotes = inAllNotes;
@@ -158,7 +160,7 @@ public class Growl {
 
 		theCenter  = (NSDistributedNotificationCenter)NSDistributedNotificationCenter.defaultCenter();
 
-		if ( registerNow ) {
+		if (registerNow) {
 			register();
 		}
 	}
@@ -171,7 +173,7 @@ public class Growl {
 	 * @return <code>true</code>.
 	 */
 	public boolean register() {
-		if ( ! registered ) {
+		if (!registered) {
 
 			// Construct our dictionary
 			// Make the arrays of objects then keys
@@ -182,12 +184,12 @@ public class Growl {
 					GROWL_APP_ICON};
 
 			// Make the Dictionary
-			regDict = new NSDictionary( objects, keys );
+			regDict = new NSDictionary(objects, keys);
 
-			theCenter.postNotification( GROWL_APP_REGISTRATION,	// notificationName
-										(String)null,			// anObject
-										regDict,					// userInfoDictionary
-										true );					// deliverImmediately
+			theCenter.postNotification(GROWL_APP_REGISTRATION,	// notificationName
+									   (String)null,			// anObject
+									   regDict,					// userInfoDictionary
+									   true);					// deliverImmediately
 		}
 
 		return true;
@@ -212,41 +214,41 @@ public class Growl {
 	 *
 	 * @throws Exception When a notification is not known
 	 */
-	public void notifyGrowlOf( String inNotificationName, NSData inIconData, 
+	public void notifyGrowlOf(String inNotificationName, NSData inIconData, 
 			       String inTitle, String inDescription, 
-			       NSDictionary inExtraInfo, boolean inSticky ) throws Exception {
+			       NSDictionary inExtraInfo, boolean inSticky) throws Exception {
 		NSMutableDictionary noteDict = new NSMutableDictionary();
 
-		if ( ! allNotes.containsObject( inNotificationName ) ) {
-			throw new Exception( "Undefined Notification attempted" );
+		if (!allNotes.containsObject(inNotificationName)) {
+			throw new Exception("Undefined Notification attempted");
 		}
 
-		noteDict.setObjectForKey( inNotificationName, GROWL_NOTIFICATION_NAME );
-		noteDict.setObjectForKey( inTitle, GROWL_NOTIFICATION_TITLE );
-		noteDict.setObjectForKey( inDescription, GROWL_NOTIFICATION_DESCRIPTION );
-		noteDict.setObjectForKey( appName, GROWL_APP_NAME );
-		if ( inIconData != null ) {
-			noteDict.setObjectForKey( inIconData, GROWL_NOTIFICATION_ICON );
+		noteDict.setObjectForKey(inNotificationName, GROWL_NOTIFICATION_NAME);
+		noteDict.setObjectForKey(inTitle, GROWL_NOTIFICATION_TITLE);
+		noteDict.setObjectForKey(inDescription, GROWL_NOTIFICATION_DESCRIPTION);
+		noteDict.setObjectForKey(appName, GROWL_APP_NAME);
+		if (inIconData != null) {
+			noteDict.setObjectForKey(inIconData, GROWL_NOTIFICATION_ICON);
 		}
 
 		if (inSticky) {
-			noteDict.setObjectForKey( new Integer(1), GROWL_NOTIFICATION_STICKY );
+			noteDict.setObjectForKey(new Integer(1), GROWL_NOTIFICATION_STICKY);
 		}
 
-		if ( inExtraInfo != null ) {
-			noteDict.addEntriesFromDictionary( inExtraInfo );
+		if (inExtraInfo != null) {
+			noteDict.addEntriesFromDictionary(inExtraInfo);
 		}
 
-		theCenter.postNotification( GROWL_NOTIFICATION,
+		theCenter.postNotification(GROWL_NOTIFICATION,
 									(String)null,
 									noteDict,
-									true );
+									true);
 	}
 
 	/**
-	  * Convenience method that defers to notifyGrowlOf( String inNotificationName, 
+	  * Convenience method that defers to notifyGrowlOf(String inNotificationName, 
 	  * NSData inIconData, String inTitle, String inDescription, 
-	  * NSDictionary inExtraInfo, boolean inSticky )
+	  * NSDictionary inExtraInfo, boolean inSticky)
 	  * This is primarily for compatibility with older code
 	  *
 	  * @param inNotificationName - The name of one of the notifications we told growl
@@ -264,18 +266,18 @@ public class Growl {
 	  * @throws Exception When a notification is not known
 	  *
 	  */
-	public void notifyGrowlOf( String inNotificationName, NSData inIconData, 
+	public void notifyGrowlOf(String inNotificationName, NSData inIconData, 
 		                       String inTitle, String inDescription, 
-		                       NSDictionary inExtraInfo ) throws Exception {
+		                       NSDictionary inExtraInfo) throws Exception {
 
-		notifyGrowlOf( inNotificationName, inIconData, inTitle, inDescription,
-			           inExtraInfo, false );
+		notifyGrowlOf(inNotificationName, inIconData, inTitle, inDescription,
+			           inExtraInfo, false);
 	}
 
 	/**
-	 * Convenienve method that defers to notifyGrowlOf( String inNotificationName, 
+	 * Convenienve method that defers to notifyGrowlOf(String inNotificationName, 
 	 * NSData inIconData, String inTitle, String inDescription, 
-	 * NSDictionary inExtraInfo ) with null passed for icon and extraInfo arguments
+	 * NSDictionary inExtraInfo) with null passed for icon and extraInfo arguments
 	 *
 	 * @param inNotificationName - The name of one of the notifications we told growl
 	 *                             about.
@@ -285,16 +287,16 @@ public class Growl {
 	 *
 	 * @throws Exception When a notification is not known
 	 */
-	public void notifyGrowlOf( String inNotificationName, String inTitle, 
-			       String inDescription ) throws Exception {
-		notifyGrowlOf( inNotificationName, (NSData)null, 
-					   inTitle, inDescription, (NSDictionary)null, false );
+	public void notifyGrowlOf(String inNotificationName, String inTitle, 
+			       String inDescription) throws Exception {
+		notifyGrowlOf(inNotificationName, (NSData)null, 
+					   inTitle, inDescription, (NSDictionary)null, false);
 	}
 
 	/**
-	  * Convenience method that defers to notifyGrowlOf( String inNotificationName, 
+	  * Convenience method that defers to notifyGrowlOf(String inNotificationName, 
 	  * NSData inIconData, String inTitle, String inDescription, 
-	  * NSDictionary inExtraInfo, boolean inSticky )
+	  * NSDictionary inExtraInfo, boolean inSticky)
 	  * with null passed for icon and extraInfo arguments
 	  *
 	  * @param inNotificationName - The name of one of the notifications we told growl
@@ -307,15 +309,15 @@ public class Growl {
 	  * @throws Exception When a notification is not known
 	  *
 	  */
-	public void notifyGrowlOf( String inNotificationName, String inTitle, 
-							   String inDescription, boolean inSticky ) throws Exception {
-		notifyGrowlOf( inNotificationName, (NSData)null, 
-					   inTitle, inDescription, (NSDictionary)null, inSticky );
+	public void notifyGrowlOf(String inNotificationName, String inTitle, 
+							   String inDescription, boolean inSticky) throws Exception {
+		notifyGrowlOf(inNotificationName, (NSData)null, 
+					   inTitle, inDescription, (NSDictionary)null, inSticky);
 	}
 
 	/**
-	 * Defers to notifyGrowlOf( String inNotificationName, NSData inIconData, 
-	 * String inTitle, String inDescription, NSDictionary inExtraInfo ) with null 
+	 * Defers to notifyGrowlOf(String inNotificationName, NSData inIconData, 
+	 * String inTitle, String inDescription, NSDictionary inExtraInfo) with null 
 	 * passed for icon and extraInfo arguments
 	 *
 	 * @param inNotificationName - The name of one of the notifications we told growl
@@ -329,18 +331,18 @@ public class Growl {
 	 * @throws Exception When a notification is not known
 	 *
 	 */
-	public void notifyGrowlOf( String inNotificationName, NSImage inImage, 
+	public void notifyGrowlOf(String inNotificationName, NSImage inImage, 
 			       String inTitle, String inDescription, 
-			       NSDictionary inExtraInfo ) throws Exception {
+			       NSDictionary inExtraInfo) throws Exception {
 
-		notifyGrowlOf( inNotificationName, inImage.TIFFRepresentation(),
-					   inTitle, inDescription, inExtraInfo, false );
+		notifyGrowlOf(inNotificationName, inImage.TIFFRepresentation(),
+					   inTitle, inDescription, inExtraInfo, false);
 	}
 
 	/**
-	 * Convenienve method that defers to notifyGrowlOf( String inNotificationName, 
+	 * Convenienve method that defers to notifyGrowlOf(String inNotificationName, 
 	 * NSData inIconData, String inTitle, String inDescription, 
-	 * NSDictionary inExtraInfo ) with null passed for extraInfo
+	 * NSDictionary inExtraInfo) with null passed for extraInfo
 	 *
 	 * @param inNotificationName - The name of one of the notifications we told growl
 	 *                             about.
@@ -351,12 +353,12 @@ public class Growl {
 	 *
 	 * @throws Exception When a notification is not known
 	 */
-	public void notifyGrowlOf( String inNotificationName, String inImagePath,
-			       String inTitle, String inDescription ) throws Exception {
+	public void notifyGrowlOf(String inNotificationName, String inImagePath,
+			       String inTitle, String inDescription) throws Exception {
 
-		notifyGrowlOf( inNotificationName,
-					  new NSImage( inImagePath, false ).TIFFRepresentation(), 
-					  inTitle, inDescription, (NSDictionary)null, false );
+		notifyGrowlOf(inNotificationName,
+					  new NSImage(inImagePath, false).TIFFRepresentation(), 
+					  inTitle, inDescription, (NSDictionary)null, false);
 	}
 
 	//************  Accessors **************//
@@ -395,7 +397,7 @@ public class Growl {
 	 *
 	 * @param inAppName - The Application Name
 	 */
-	public void setApplicationName( String inAppName ) {
+	public void setApplicationName(String inAppName) {
 		appName = inAppName;
 	}
 
@@ -404,7 +406,7 @@ public class Growl {
 	 *
 	 * @param inAllNotes - The array of allowed Notifications
 	 */
-	public void setAllowedNotifications( NSArray inAllNotes ) {
+	public void setAllowedNotifications(NSArray inAllNotes) {
 		allNotes = inAllNotes;
 	}
 
@@ -414,8 +416,8 @@ public class Growl {
 	 * @param inAllNotes - The array of allowed Notifications
 	 *
 	 */
-	public void setAllowedNotifications( String[] inAllNotes ) {
-		allNotes = new NSArray( inAllNotes );
+	public void setAllowedNotifications(String[] inAllNotes) {
+		allNotes = new NSArray(inAllNotes);
 	}
 
 	/**
@@ -426,13 +428,13 @@ public class Growl {
 	 * @throws Exception when an element of the array is not in the 
 	 *                   allowedNotifications
 	 */
-	public void setDefaultNotifications( NSArray inDefNotes ) throws Exception {
+	public void setDefaultNotifications(NSArray inDefNotes) throws Exception {
 		int stop = inDefNotes.count();
 		int i = 0;
 
-		for( i = 0; i < stop; i++ ) {
-			if ( ! allNotes.containsObject( inDefNotes.objectAtIndex(i) ) ) {
-				throw new Exception( "Array Element not in Allowed Notifications" );
+		for(i = 0; i < stop; i++) {
+			if (!allNotes.containsObject(inDefNotes.objectAtIndex(i))) {
+				throw new Exception("Array Element not in Allowed Notifications");
 			}
 		} 
 
@@ -448,16 +450,16 @@ public class Growl {
 	 *                   allowedNotifications
 	 *
 	 */
-	public void setDefaultNotifications( String [] inDefNotes ) throws Exception {
+	public void setDefaultNotifications(String [] inDefNotes) throws Exception {
 		int stop = inDefNotes.length;
 		int i = 0;
 
-		for( i = 0; i < stop; i++ ) {
-			if ( ! allNotes.containsObject( inDefNotes[i] ) ) {
-				throw new Exception( "Array Element not in Allowed Notifications" );
+		for(i = 0; i < stop; i++) {
+			if (! allNotes.containsObject(inDefNotes[i])) {
+				throw new Exception("Array Element not in Allowed Notifications");
 			}
 		} 
 
-		defNotes = new NSArray( inDefNotes );
+		defNotes = new NSArray(inDefNotes);
 	}
 }
