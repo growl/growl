@@ -291,10 +291,11 @@ enum {
 
 		length  = [userInfo objectForKey:@"Total Time"];
 		// need to format a bit the length as it is returned in ms
-		int lv  = [length intValue];
-		int hr  = lv/3600000;
-		int min = lv/60000;
-		int sec = lv/1000 - 60*min;
+		int sec  = [length intValue] / 1000;
+		int hr  = sec/3600;
+		sec -= 3600*hr;
+		int min = sec/60;
+		sec -= 60*min;
 		if (hr > 0)
 			length = [NSString stringWithFormat:@"%d:%02d:%02d", hr, min, sec];
 		else
