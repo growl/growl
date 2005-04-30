@@ -29,7 +29,7 @@
 //
 
 #import "GrowlSafari.h"
-#import <Growl/GrowlDefines.h>
+#import <Growl/Growl.h>
 #import <objc/objc-runtime.h>
 
 // Using method swizzling as outlined here:
@@ -74,6 +74,8 @@ static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 	return NO;
 }
 
+static Class growlApplicationBridge;
+
 // How long should we wait (in seconds) before it's a long download?
 static double longDownload = 15.0;
 
@@ -108,13 +110,39 @@ static void setDownloadFinished(id dl) {
 }
 
 + (void) initialize {
+	[super initialize];
+
 	//NSLog(@"Patching DownloadProgressEntry...");
-	Class class = NSClassFromString( @"DownloadProgressEntry" );
+	Class class = NSClassFromString(@"DownloadProgressEntry");
 	PerformSwizzle(class, @selector(setDownloadStage:), @selector(mySetDownloadStage:), YES);
 	PerformSwizzle(class, @selector(updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:), YES);
 	PerformSwizzle(class, @selector(initWithDownload:mayOpenWhenDone:allowOverwrite:),
 						  @selector(myInitWithDownload:mayOpenWhenDone:allowOverwrite:),
 						  YES);
+
+	NSString *growlPath = [[[GrowlSafari bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
+	NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
+	growlApplicationBridge = [growlBundle classNamed:@"GrowlApplicationBridge"];
+
+	if ([growlApplicationBridge isGrowlInstalled]) {
+		// Register ourselves as a Growl delegate
+		[growlApplicationBridge setGrowlDelegate:self];
+	} else {
+		NSLog( @"Growl not installed, GrowlSafari disabled" );
+	}
+}
+
+#pragma mark GrowlApplicationBridge delegate methods
+
++ (NSString *) applicationNameForGrowl {
+	return @"GrowlSafari";
+}
+
++ (NSData *) applicationIconDataForGrowl {
+	return [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
+}
+
++ (NSDictionary *) registrationDictionaryForGrowl {
 	NSBundle *bundle = [GrowlSafari bundle];
 	NSArray *array = [[NSArray alloc] initWithObjects:
 		NSLocalizedStringFromTableInBundle(@"Short Download Complete", nil, bundle, @""),
@@ -129,10 +157,8 @@ static void setDownloadFinished(id dl) {
 		[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_APP_ICON,
 		nil];
 	[array release];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION
-																	object:nil
-																 userInfo:dict];
-	[super initialize];
+
+	return dict;
 }
 @end
 
@@ -143,43 +169,37 @@ static void setDownloadFinished(id dl) {
 	[self mySetDownloadStage:stage];
 	if (dateStarted(self)) {
 		if (stage == 2) {
-			NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 			NSBundle *bundle = [GrowlSafari bundle];
-			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-				@"GrowlSafari", GROWL_APP_NAME,
-				NSLocalizedStringFromTableInBundle(@"Compression Status", nil, bundle, @""), GROWL_NOTIFICATION_NAME,
-				NSLocalizedStringFromTableInBundle(@"Decompressing File", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
-				[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ decompression started", nil, bundle, @""),
-						[[self performSelector:@selector(downloadPath)] lastPathComponent]],
-					GROWL_NOTIFICATION_DESCRIPTION,
-				nil];
-			[nc postNotificationName:GROWL_NOTIFICATION	object:nil userInfo:dict];
+			[growlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Decompressing File", nil, bundle, @"")
+										description:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ decompression started", nil, bundle, @""),
+											[[self performSelector:@selector(downloadPath)] lastPathComponent]]
+								   notificationName:NSLocalizedStringFromTableInBundle(@"Compression Status", nil, bundle, @"")
+										   iconData:nil
+										   priority:0
+										   isSticky:NO
+									   clickContext:nil];
 		} else if (stage == 9 && oldStage != 9) {
-			NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 			NSBundle *bundle = [GrowlSafari bundle];
-			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-				@"GrowlSafari", GROWL_APP_NAME,
-				NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @""), GROWL_NOTIFICATION_NAME,
-				NSLocalizedStringFromTableInBundle(@"Copying Disk Image", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
-				[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Copying application from %@", nil, bundle, @""),
-						[[self performSelector:@selector(downloadPath)] lastPathComponent]],
-					GROWL_NOTIFICATION_DESCRIPTION,
-				nil];
-			[nc postNotificationName:GROWL_NOTIFICATION object:nil userInfo:dict];
+			[growlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Copying Disk Image", nil, bundle, @"")
+										description:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Copying application from %@", nil, bundle, @""),
+											[[self performSelector:@selector(downloadPath)] lastPathComponent]]
+								   notificationName:NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @"")
+										   iconData:nil
+										   priority:0
+										   isSticky:NO
+									   clickContext:nil];
 		} else if (stage == 13 || stage == 15) {
-			NSDistributedNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 			NSBundle *bundle = [GrowlSafari bundle];
 			NSString *notificationName = isLongDownload(self) ? NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"") : NSLocalizedStringFromTableInBundle(@"Short Download Complete", nil, bundle, @"");
 			setDownloadFinished(self);
-			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-				@"GrowlSafari", GROWL_APP_NAME,
-				notificationName, GROWL_NOTIFICATION_NAME,
-				NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
-				[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ download complete", nil, bundle, @""),
-						[self performSelector:@selector(filename)]],
-					GROWL_NOTIFICATION_DESCRIPTION,
-				nil];
-			[nc postNotificationName:GROWL_NOTIFICATION object:nil userInfo:dict];
+			[growlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"")
+										description:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ download complete", nil, bundle, @""),
+											[self performSelector:@selector(filename)]]
+								   notificationName:notificationName
+										   iconData:nil
+										   priority:0
+										   isSticky:NO
+									   clickContext:nil];
 		}
 	}
 	if (stage == 0) {
@@ -192,19 +212,16 @@ static void setDownloadFinished(id dl) {
 	[self myUpdateDiskImageStatus:status];
 
 	if (dateStarted(self)) {
-		if( [[status objectForKey:@"status-stage"] isEqual:@"initialize"] ) {
+		if ([[status objectForKey:@"status-stage"] isEqual:@"initialize"]) {
 			NSBundle *bundle = [GrowlSafari bundle];
-			NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-				@"GrowlSafari", GROWL_APP_NAME,
-				NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @""), GROWL_NOTIFICATION_NAME,
-				NSLocalizedStringFromTableInBundle(@"Mounting Disk Image", nil, bundle, @""), GROWL_NOTIFICATION_TITLE,
-				[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Mounting %@", nil, bundle, @""),
-					[[self performSelector:@selector(downloadPath)] lastPathComponent]],
-				GROWL_NOTIFICATION_DESCRIPTION,
-				nil];
-			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																		   object:nil
-																		 userInfo:dict];
+			[growlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Mounting Disk Image", nil, bundle, @"")
+										description:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Mounting %@", nil, bundle, @""),
+											[[self performSelector:@selector(downloadPath)] lastPathComponent]]
+								   notificationName:NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @"")
+										   iconData:nil
+										   priority:0
+										   isSticky:NO
+									   clickContext:nil];
 		}
 	}
 }

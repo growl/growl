@@ -263,6 +263,7 @@
 				8D5B49AF048680CD000E48DA,
 				8D5B49B1048680CD000E48DA,
 				8D5B49B3048680CD000E48DA,
+				95D639460823F6D500DB66DA,
 			);
 			buildRules = (
 			);
@@ -431,6 +432,22 @@
 			path = German.lproj/Localizable.strings;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		95D639460823F6D500DB66DA = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				95D639480823F6E900DB66DA,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95D639480823F6E900DB66DA = {
+			fileRef = 950F179C07E0D6D2001723BE;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = 089C1669FE841209C02AAC07;

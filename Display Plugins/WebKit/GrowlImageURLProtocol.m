@@ -10,6 +10,7 @@
 
 @implementation GrowlImageURLProtocol
 + (void) initialize {
+	[super initialize];
 	[NSURLProtocol registerClass:[GrowlImageURLProtocol class]];
 }
 
