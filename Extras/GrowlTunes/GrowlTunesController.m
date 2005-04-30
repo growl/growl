@@ -684,7 +684,6 @@ enum {
 }
 
 - (IBAction) quitGrowlTunes:(id)sender {
-#pragma unused(sender)
 	[NSApp terminate:sender];
 }
 

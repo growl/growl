@@ -132,11 +132,20 @@ static id singleton = nil;
 											   userInfo:nil
 												repeats:YES];
 
+		// create and register GrowlNotificationCenter
 		growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
-		NSConnection *conn = [NSConnection defaultConnection];
-		[conn setRootObject:growlNotificationCenter];
-		if (![conn registerName:@"GrowlNotificationCenter"]) {
+		growlNotificationCenterConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
+		[growlNotificationCenterConnection setRootObject:growlNotificationCenter];
+		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"]) {
 			NSLog(@"WARNING: could not register GrowlNotificationCenter");
+		}
+
+		// create and register local NSConnection pathway
+		localPathwayConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
+		localPathway = [[GrowlPathway alloc] init];
+		[localPathwayConnection setRootObject:localPathway];
+		if (![localPathwayConnection registerName:@"GrowlPathway"]) {
+			NSLog(@"WARNING: could not register local Growl pathway.");
 		}
 	}
 
@@ -150,8 +159,6 @@ static id singleton = nil;
 	[dncPathway    release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
 	[destinations  release];
 
-	[growlNotificationCenter release];
-	
 	[tickets           release];
 	[registrationLock  release];
 	[notificationQueue release];
@@ -164,7 +171,13 @@ static id singleton = nil;
 	[updateTimer     invalidate];
 	[updateTimer     release];
 
-	[[NSConnection defaultConnection] invalidate];
+	[growlNotificationCenterConnection invalidate];
+	[growlNotificationCenterConnection release];
+	[growlNotificationCenter release];
+
+	[localPathwayConnection invalidate];
+	[localPathwayConnection release];
+	[localPathway release];
 
 	[super dealloc];
 }
@@ -173,7 +186,7 @@ static id singleton = nil;
 
 - (void) netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
 #pragma unused(sender)
-	NSLog(@"Could not publish Growl service. Error: %@", errorDict);
+	NSLog(@"WARNING: could not publish Growl service. Error: %@", errorDict);
 }
 
 - (BOOL) connection:(NSConnection *)ancestor shouldMakeNewConnection:(NSConnection *)conn {
@@ -198,7 +211,7 @@ static id singleton = nil;
 
 	// register with the default NSPortNameServer on the local host
 	if (![serverConnection registerName:@"GrowlServer"]) {
-		NSLog(@"Could not register Growl server.");
+		NSLog(@"WARNING: could not register Growl server.");
 	}
 
 	// configure and publish the Bonjour service
@@ -374,7 +387,7 @@ static id singleton = nil;
 			if ([[entry objectForKey:@"use"] boolValue]) {
 				NSData *destAddress = [entry objectForKey:@"address"];
 				NSString *password = [entry objectForKey:@"password"];
-				NSSocketPort *serverPort = [[NSSocketPort alloc]
+				NSPort *serverPort = [[NSSocketPort alloc]
 					initRemoteWithProtocolFamily:AF_INET
 									  socketType:SOCK_STREAM
 										protocol:0
@@ -441,7 +454,7 @@ static id singleton = nil;
 				if ([[entry objectForKey:@"use"] boolValue]) {
 					NSData *destAddress = [entry objectForKey:@"address"];
 					NSString *password = [entry objectForKey:@"password"];
-					NSSocketPort *serverPort = [[NSSocketPort alloc]
+					NSPort *serverPort = [[NSSocketPort alloc]
 						initRemoteWithProtocolFamily:AF_INET
 										  socketType:SOCK_STREAM
 											protocol:0

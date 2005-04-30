@@ -25,12 +25,19 @@
 	// DNC server
 	GrowlDistributedNotificationPathway *dncPathway;
 
-	// DistributedObjects server
+	// local GrowlNotificationCenter
+	NSConnection				*growlNotificationCenterConnection;
+	GrowlNotificationCenter		*growlNotificationCenter;
+
+	// local NSConnection pathway
+	NSConnection				*localPathwayConnection;
+	GrowlNotificationCenter		*localPathway;
+
+	// remote DistributedObjects server
 	NSNetService				*service;
-	NSSocketPort				*socketPort;
+	NSPort						*socketPort;
 	NSConnection				*serverConnection;
 	GrowlRemotePathway			*server;
-	GrowlNotificationCenter		*growlNotificationCenter;
 
 	// UDP server
 	GrowlUDPPathway				*udpServer;

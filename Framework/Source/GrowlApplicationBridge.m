@@ -15,6 +15,7 @@
 #import "CFGrowlAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathUtil.h"
+#import "GrowlPathway.h"
 
 #import <ApplicationServices/ApplicationServices.h>
 
@@ -201,11 +202,25 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 + (void) notifyWithDictionary:(NSDictionary *)userInfo {
 	if (growlLaunched) {
-		//Post to Growl via NSDistributedNotificationCenter
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																	   object:nil
-																	 userInfo:userInfo
-														   deliverImmediately:NO];
+		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlPathway" host:nil];
+		if (connection) {
+			//Post to Growl via local NSConnection pathway
+			NS_DURING
+				NSDistantObject *theProxy = [connection rootProxy];
+				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
+				[growlProxy postNotificationWithDictionary:userInfo];
+			NS_HANDLER
+				NSLog(@"GrowlApplicationBridge: exception while sending notification: %@", localException);
+			NS_ENDHANDLER
+		} else {
+			//Post to Growl via NSDistributedNotificationCenter
+			NSLog(@"GrowlApplicationBridge: could not find local GrowlPathway, falling back to NSDNC");
+			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
+																		   object:nil
+																		 userInfo:userInfo
+															   deliverImmediately:NO];
+		}
 	} else {
 #ifdef GROWL_WITH_INSTALLER
 		/*if Growl launches, and the user hasn't already said NO to installing
@@ -264,6 +279,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		regDict = [self bestRegistrationDictionary];
 	return [self _launchGrowlIfInstalledWithRegistrationDictionary:regDict];
 }
+
 + (void) reregisterGrowlNotifications {
 	[self registerWithDictionary:nil];
 }
@@ -320,6 +336,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 + (NSDictionary *) registrationDictionaryByFillingInDictionary:(NSDictionary *)regDict {
 	return [self registrationDictionaryByFillingInDictionary:regDict restrictToKeys:nil];
 }
+
 + (NSDictionary *) registrationDictionaryByFillingInDictionary:(NSDictionary *)regDict restrictToKeys:(NSSet *)keys {
 	if (!regDict) return nil;
 
@@ -461,11 +478,25 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	enumerator = [queuedGrowlNotifications objectEnumerator];
 	while ((noteDict = [enumerator nextObject])) {
-		//Post to Growl via NSDistributedNotificationCenter
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																	   object:nil
-																	 userInfo:noteDict
-														   deliverImmediately:NO];
+		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlPathway" host:nil];
+		if (connection) {
+			//Post to Growl via NSDistributedNotificationCenter
+			NS_DURING
+				NSDistantObject *theProxy = [connection rootProxy];
+				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
+				[growlProxy postNotificationWithDictionary:noteDict];
+			NS_HANDLER
+				NSLog(@"GrowlApplicationBridge: exception while sending notification: %@", localException);
+			NS_ENDHANDLER
+		} else {
+			//Post to Growl via NSDistributedNotificationCenter
+			NSLog(@"GrowlApplicationBridge: could not find local GrowlPathway, falling back to NSDNC");
+			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
+																		   object:nil
+																		 userInfo:noteDict
+															   deliverImmediately:NO];
+		}
 	}
 
 	[queuedGrowlNotifications release]; queuedGrowlNotifications = nil;
