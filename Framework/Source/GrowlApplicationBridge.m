@@ -202,7 +202,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 + (void) notifyWithDictionary:(NSDictionary *)userInfo {
 	if (growlLaunched) {
-		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlPathway" host:nil];
+		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
 		if (connection) {
 			//Post to Growl via local NSConnection pathway
 			NS_DURING
@@ -478,7 +478,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	enumerator = [queuedGrowlNotifications objectEnumerator];
 	while ((noteDict = [enumerator nextObject])) {
-		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlPathway" host:nil];
+		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
 		if (connection) {
 			//Post to Growl via NSDistributedNotificationCenter
 			NS_DURING

@@ -29,10 +29,6 @@
 	NSConnection				*growlNotificationCenterConnection;
 	GrowlNotificationCenter		*growlNotificationCenter;
 
-	// local NSConnection pathway
-	NSConnection				*localPathwayConnection;
-	GrowlNotificationCenter		*localPathway;
-
 	// remote DistributedObjects server
 	NSNetService				*service;
 	NSPort						*socketPort;

@@ -14,6 +14,7 @@
 #import "GrowlDistributedNotificationPathway.h"
 #import "GrowlRemotePathway.h"
 #import "GrowlUDPPathway.h"
+#import "GrowlApplicationBridgePathway.h"
 #import "CFGrowlAdditions.h"
 #import "NSGrowlAdditions.h"
 #import "GrowlDisplayProtocol.h"
@@ -140,13 +141,8 @@ static id singleton = nil;
 			NSLog(@"WARNING: could not register GrowlNotificationCenter");
 		}
 
-		// create and register local NSConnection pathway
-		localPathwayConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
-		localPathway = [[GrowlPathway alloc] init];
-		[localPathwayConnection setRootObject:localPathway];
-		if (![localPathwayConnection registerName:@"GrowlPathway"]) {
-			NSLog(@"WARNING: could not register local Growl pathway.");
-		}
+		// initialize GrowlApplicationBridgePathway
+		[GrowlApplicationBridgePathway standardPathway];
 	}
 
 	return self;
@@ -174,10 +170,6 @@ static id singleton = nil;
 	[growlNotificationCenterConnection invalidate];
 	[growlNotificationCenterConnection release];
 	[growlNotificationCenter release];
-
-	[localPathwayConnection invalidate];
-	[localPathwayConnection release];
-	[localPathway release];
 
 	[super dealloc];
 }
