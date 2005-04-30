@@ -329,7 +329,7 @@
 	GrowlPluginController *growlPluginController = [GrowlPluginController controller];
 	currentPluginController = [growlPluginController displayPluginNamed:currentPlugin];
 	[self loadViewForDisplay:currentPlugin];
-	NSDictionary *info = [growlPluginController infoDictionaryForPluginNamed:currentPlugin];
+	NSDictionary *info = [[growlPluginController bundleForPluginNamed:currentPlugin] infoDictionary];
 	[displayAuthor setStringValue:[info objectForKey:@"GrowlPluginAuthor"]];
 	[displayVersion setStringValue:[info objectForKey:(NSString *)kCFBundleVersionKey]];
 }

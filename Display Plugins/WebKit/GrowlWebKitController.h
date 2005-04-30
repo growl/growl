@@ -10,8 +10,10 @@
 
 @interface GrowlWebKitController : NSObject <GrowlDisplayPlugin> {
 	NSPreferencePane	*preferencePane;
+	NSString			*style;
 }
 
+- (id) initWithStyle:(NSString *)styleName;
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
 
 @end

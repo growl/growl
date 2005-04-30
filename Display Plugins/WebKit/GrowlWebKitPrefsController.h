@@ -10,7 +10,10 @@
 
 @interface GrowlWebKitPrefsController : NSPreferencePane {
 	IBOutlet NSSlider		*slider_opacity;
+	NSString				*style;
+	NSString				*prefDomain;
 }
+- (id) initWithStyle:(NSString *)style;
 - (float) duration;
 - (void) setDuration:(float)value;
 - (float) opacity;
@@ -19,7 +22,5 @@
 - (void) setLimit:(BOOL)value;
 - (int) screen;
 - (void) setScreen:(int)value;
-- (NSString *) style;
-- (void) setStyle:(NSString *)style;
 
 @end

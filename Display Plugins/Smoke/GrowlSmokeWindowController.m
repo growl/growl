@@ -21,12 +21,6 @@ static const double gAdditionalLinesDisplayTime = 0.5;
 static const double gMaxDisplayTime = 10.0;
 static NSMutableDictionary *notificationsByIdentifier;
 
-#pragma mark -
-
-+ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned)theDepth identifier:(NSString *)ident {
-	return [[[GrowlSmokeWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky depth:theDepth identifier:ident] autorelease];
-}
-
 #pragma mark Delegate Methods
 /*
 	These methods are the methods that this class calls on the delegate.  In this case

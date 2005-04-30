@@ -14,10 +14,6 @@
 	NSString	*identifier;
 }
 
-+ (GrowlBubblesWindowController *) bubbleWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky identifier:(NSString *)identifier;
-
-#pragma mark Regularly Scheduled Coding
-
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL)sticky identifier:(NSString *)identifier;
 
 @end

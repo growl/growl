@@ -12,6 +12,20 @@
 #import "GrowlPluginController.h"
 
 @implementation GrowlWebKitPrefsController
+- (id) initWithStyle:(NSString *)styleName {
+	if ((self = [super initWithBundle:[NSBundle bundleForClass:[GrowlWebKitPrefsController class]]])) {
+		style = [styleName retain];
+		prefDomain = [[NSString alloc] initWithFormat:@"%@.%@", GrowlWebKitPrefDomain, style];
+	}
+	return self;
+}
+
+- (void) dealloc {
+	[style      release];
+	[prefDomain release];
+	[super dealloc];
+}
+
 - (NSString *) mainNibName {
 	return @"WebKitPrefs";
 }
@@ -24,12 +38,12 @@
 
 - (BOOL) isLimit {
 	BOOL value = YES;
-	READ_GROWL_PREF_BOOL(GrowlWebKitLimitPref, GrowlWebKitPrefDomain, &value);
+	READ_GROWL_PREF_BOOL(GrowlWebKitLimitPref, prefDomain, &value);
 	return value;
 }
 
 - (void) setLimit:(BOOL)value {
-	WRITE_GROWL_PREF_BOOL(GrowlWebKitLimitPref, value, GrowlWebKitPrefDomain);
+	WRITE_GROWL_PREF_BOOL(GrowlWebKitLimitPref, value, prefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -37,12 +51,12 @@
 
 - (float) opacity {
 	float value = 95.0f;
-	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, GrowlWebKitPrefDomain, &value);
+	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, prefDomain, &value);
 	return value;
 }
 
 - (void) setOpacity:(float)value {
-	WRITE_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, value, GrowlWebKitPrefDomain);
+	WRITE_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, value, prefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -50,12 +64,12 @@
 
 - (float) duration {
 	float value = 4.0f;
-	READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, GrowlWebKitPrefDomain, &value);
+	READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, prefDomain, &value);
 	return value;
 }
 
 - (void) setDuration:(float)value {
-	WRITE_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, value, GrowlWebKitPrefDomain);
+	WRITE_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, value, prefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -73,27 +87,12 @@
 
 - (int) screen {
 	int value = 0;
-	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, GrowlWebKitPrefDomain, &value);
+	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, prefDomain, &value);
 	return value;
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlWebKitScreenPref, value, GrowlWebKitPrefDomain);
-	UPDATE_GROWL_PREFS();
-}
-
-- (NSArray *) styles {
-	return [[GrowlPluginController controller] allStyles];
-}
-
-- (NSString *) style {
-	NSString *value = @"Default";
-	READ_GROWL_PREF_VALUE(GrowlWebKitStylePref, GrowlWebKitPrefDomain, NSString *, &value);
-	return value;
-}
-
-- (void) setStyle:(NSString *)value {
-	WRITE_GROWL_PREF_VALUE(GrowlWebKitStylePref, value, GrowlWebKitPrefDomain);
+	WRITE_GROWL_PREF_INT(GrowlWebKitScreenPref, value, prefDomain);
 	UPDATE_GROWL_PREFS();
 }
 @end

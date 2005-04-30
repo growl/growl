@@ -9,31 +9,48 @@
 #import "GrowlWebKitController.h"
 #import "GrowlWebKitWindowController.h"
 #import "GrowlWebKitPrefsController.h"
+#import "GrowlDefines.h"
 
 @implementation GrowlWebKitController
 
 #pragma mark -
+- (id) initWithStyle:(NSString *)styleName {
+	if ((self = [super init])) {
+		NSLog(@"GWKController style=%@", styleName);
+		style = [styleName retain];
+	}
+	return self;
+}
 
 - (void) dealloc {
+	[style release];
 	[preferencePane release];
 	[super dealloc];
 }
 
 - (NSPreferencePane *) preferencePane {
 	if (!preferencePane) {
-		preferencePane = [[GrowlWebKitPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlWebKitPrefsController class]]];
+		// load GrowlWebKitPrefsController dynamically so that GHA does not
+		// have to link against it and all of its dependencies
+		Class prefsController = NSClassFromString(@"GrowlWebKitPrefsController");
+		preferencePane = [[prefsController alloc] initWithStyle:style];
 	}
 	return preferencePane;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	GrowlWebKitWindowController *controller = [[GrowlWebKitWindowController alloc]
+	NSLog(@"GWKController displayNotificationWithInfo: %@", style);
+	// load GrowlWebKitWindowController dynamically so that the prefpane does not
+	// have to link against it and all of its dependencies
+	Class webKitWindowController = NSClassFromString(@"GrowlWebKitWindowController");
+	GrowlWebKitWindowController *controller = [[webKitWindowController alloc]
 		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
 				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 			   sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
-		   identifier:[noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]];
+		   identifier:[noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]
+				style:style];
 	[controller setTarget:self];
 	[controller setAction:@selector(_notificationClicked:)];
 	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];

@@ -15,11 +15,6 @@
 	id			plugin; // the GrowlSmokeDisplay object which created us
 }
 
-+ (GrowlSmokeWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky depth:(unsigned)depth identifier:(NSString *)ident;
-
-#pragma mark Regularly Scheduled Coding
-
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned)depth identifier:(NSString *)ident;
-
 - (unsigned) depth;
 @end

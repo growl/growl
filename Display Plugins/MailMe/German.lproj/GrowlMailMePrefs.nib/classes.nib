@@ -1,13 +1,7 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {preferenceChanged = id; }; 
-            CLASS = GrowlMailMePrefs; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {destAddressField = NSTextField; }; 
-            SUPERCLASS = NSPreferencePane; 
-        }, 
+        {CLASS = GrowlMailMePrefs; LANGUAGE = ObjC; SUPERCLASS = NSPreferencePane; }, 
         {
             CLASS = NSPreferencePane; 
             LANGUAGE = ObjC; 

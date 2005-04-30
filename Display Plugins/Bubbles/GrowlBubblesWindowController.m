@@ -25,12 +25,6 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 #pragma mark -
 
-+ (GrowlBubblesWindowController *) bubbleWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky identifier:(NSString *)identifier {
-	return [[[GrowlBubblesWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky identifier:identifier] autorelease];
-}
-
-#pragma mark Regularly Scheduled Coding
-
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky identifier:(NSString *)ident {
 	identifier = [ident retain];
 	GrowlBubblesWindowController *oldController = [notificationsByIdentifier objectForKey:identifier];

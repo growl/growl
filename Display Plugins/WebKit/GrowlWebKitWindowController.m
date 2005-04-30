@@ -31,13 +31,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 #pragma mark -
 
-+ (GrowlWebKitWindowController *) notifyWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL)sticky identifier:(NSString *)ident {
-	return [[[GrowlWebKitWindowController alloc] initWithTitle:title text:text icon:icon priority:priority sticky:sticky identifier:ident] autorelease];
-}
-
-#pragma mark Regularly Scheduled Coding
-
-- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL)sticky identifier:(NSString *)ident {
+- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL)sticky identifier:(NSString *)ident style:(NSString *)styleName {
+	NSLog(@"GWKWindowController %@", styleName);
 	identifier = [ident retain];
 	GrowlWebKitWindowController *oldController = [notificationsByIdentifier objectForKey:identifier];
 	if (oldController) {
@@ -48,6 +43,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 		self = oldController;
 		return self;
 	}
+
+	style = [styleName retain];
 
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, GrowlWebKitPrefDomain, &screenNumber);
@@ -140,7 +137,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	READ_GROWL_PREF_VALUE(GrowlWebKitStylePref, GrowlWebKitPrefDomain, NSString *, &styleName);
 
 	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
-	NSBundle *styleBundle = [[GrowlPluginController controller] styleNamed:styleName];
+	NSBundle *styleBundle = [[GrowlPluginController controller] bundleForPluginNamed:style];
 	NSString *templateFile = [bundle pathForResource:@"template" ofType:@"html"];
 	NSString *stylePath = [styleBundle resourcePath];
 	NSString *template = [NSString alloc];
@@ -254,6 +251,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[webView release];
 	[myWindow release];
 	[image release];
+	[style release];
 
 	[super dealloc];
 }

@@ -11,6 +11,7 @@
 #import "GrowlPreferences.h"
 #import "GrowlDisplayProtocol.h"
 #import "GrowlPathUtil.h"
+#import "GrowlWebKitController.h"
 
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER		@"com.growl.prefpanel"
 #define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY	@"PreferencePanes"
@@ -22,8 +23,8 @@
 static GrowlPluginController *sharedController;
 
 @interface GrowlPluginController (PRIVATE)
-- (void) loadPlugin:(NSString *)path intoDictionary:(NSMutableDictionary *)pluginDictionary;
-- (void) findPluginsInDirectory:(NSString *)dir ofType:(NSString *)type intoDictionary:(NSMutableDictionary *)pluginDictionary;
+- (void) loadPlugin:(NSString *)path;
+- (void) findPluginsInDirectory:(NSString *)dir;
 - (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 @end
@@ -48,34 +49,23 @@ static GrowlPluginController *sharedController;
 	if ((self = [super init])) {
 		allDisplayPlugins = [[NSMutableDictionary alloc] init];
 		allDisplayPluginBundles = [[NSMutableDictionary alloc] init];
-		allStyleBundles = [[NSMutableDictionary alloc] init];
 
 		libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
 
 		enumerator = [libraries objectEnumerator];
 		while ((dir = [enumerator nextObject])) {
-			dir = [dir stringByAppendingPathComponent:@"Application Support/Growl"];
-			[self findPluginsInDirectory:[dir stringByAppendingPathComponent:@"Plugins"] ofType:GROWL_VIEW_EXTENSION intoDictionary:allDisplayPluginBundles];
-			[self findPluginsInDirectory:[dir stringByAppendingPathComponent:@"Styles"] ofType:GROWL_STYLE_EXTENSION intoDictionary:allStyleBundles];
+			dir = [dir stringByAppendingPathComponent:@"Application Support/Growl/Plugins"];
+			[self findPluginsInDirectory:dir];
 		}
 
 		NSBundle *helperAppBundle = [GrowlPathUtil helperAppBundle];
-		[self findPluginsInDirectory:[helperAppBundle builtInPlugInsPath] ofType:GROWL_VIEW_EXTENSION intoDictionary:allDisplayPluginBundles];
-		[self findPluginsInDirectory:[helperAppBundle resourcePath] ofType:GROWL_STYLE_EXTENSION intoDictionary:allStyleBundles];
+		[self findPluginsInDirectory:[helperAppBundle builtInPlugInsPath]];
 	}
 
 	return self;
 }
 
 #pragma mark -
-
-- (NSArray *) allStyles {
-	return [[allStyleBundles allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-}
-
-- (NSBundle *) styleNamed:(NSString *)name {
-	return [allStyleBundles objectForKey:name];
-}
 
 - (NSArray *) allDisplayPlugins {
 	return [[allDisplayPluginBundles allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
@@ -85,48 +75,61 @@ static GrowlPluginController *sharedController;
 	id <GrowlDisplayPlugin> plugin = [allDisplayPlugins objectForKey:name];
 	if (!plugin) {
 		NSBundle *pluginBundle = [allDisplayPluginBundles objectForKey:name];
-		if (pluginBundle && (plugin = [[[pluginBundle principalClass] alloc] init])) {
+		NSString *pathExtension = [[pluginBundle bundlePath] pathExtension];
+		if ([pathExtension isEqualToString:GROWL_VIEW_EXTENSION]) {
+			if (pluginBundle && (plugin = [[[pluginBundle principalClass] alloc] init])) {
+				[allDisplayPlugins setObject:plugin forKey:name];
+				[plugin release];
+			} else {
+				NSLog(@"Could not load %@", name);
+			}
+		} else if ([pathExtension isEqualToString:GROWL_STYLE_EXTENSION]) {
+			// load GrowlWebKitController dynamically so that GrowlMenu does not
+			// have to link against it and all of its dependencies
+			NSLog(@"GPluginController %@", name);
+			Class webKitController = NSClassFromString(@"GrowlWebKitController");
+			plugin = [[webKitController alloc] initWithStyle:name];
 			[allDisplayPlugins setObject:plugin forKey:name];
 			[plugin release];
 		} else {
-			NSLog(@"Could not load %@", name);
+			NSLog(@"Unknown plugin type %@", name);
 		}
 	}
 
 	return plugin;
 }
 
-- (NSDictionary *) infoDictionaryForPluginNamed:(NSString *)name {
-	return [[allDisplayPluginBundles objectForKey:name] infoDictionary];
+- (NSBundle *) bundleForPluginNamed:(NSString *)name {
+	return [allDisplayPluginBundles objectForKey:name];
 }
 
 - (void) dealloc {
 	[allDisplayPlugins       release];
 	[allDisplayPluginBundles release];
-	[allStyleBundles         release];
 
 	[super dealloc];
 }
 
-- (void) findPluginsInDirectory:(NSString *)dir ofType:(NSString *)type intoDictionary:(NSMutableDictionary *)pluginDictionary {
+- (void) findPluginsInDirectory:(NSString *)dir {
 	NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:dir];
 	NSString *file;
 	while ((file = [enumerator nextObject])) {
-		if ([[file pathExtension] isEqualToString:type]) {
-			[self loadPlugin:[dir stringByAppendingPathComponent:file] intoDictionary:pluginDictionary];
+		NSString *pathExtension = [file pathExtension];
+		if ([pathExtension isEqualToString:GROWL_VIEW_EXTENSION] || [pathExtension isEqualToString:GROWL_STYLE_EXTENSION]) {
+			[self loadPlugin:[dir stringByAppendingPathComponent:file]];
 			[enumerator skipDescendents];
 		}
 	}
 }
 
-- (void) loadPlugin:(NSString *)path intoDictionary:(NSMutableDictionary *)pluginDictionary {
+- (void) loadPlugin:(NSString *)path {
 	NSBundle *pluginBundle = [[NSBundle alloc] initWithPath:path];
 
 	if (pluginBundle) {
 		// TODO: We should use CFBundleIdentifier as the key and display CFBundleName to the user
 		NSString *pluginName = [[pluginBundle infoDictionary] objectForKey:(NSString *)kCFBundleNameKey];
 		if (pluginName) {
-			[pluginDictionary setObject:pluginBundle forKey:pluginName];
+			[allDisplayPluginBundles setObject:pluginBundle forKey:pluginName];
 		} else {
 			NSLog(@"Plugin at path '%@' has no name", path);
 		}
@@ -153,16 +156,8 @@ static GrowlPluginController *sharedController;
 
 	if (returnCode == NSAlertAlternateReturn) {
 		NSString *pluginFile = [filename lastPathComponent];
-		NSString *pathExtension = [pluginFile pathExtension];
-		NSString *pluginDirectory;
-		if ([pathExtension isEqualToString:GROWL_VIEW_EXTENSION]) {
-			pluginDirectory = @"Plugins";
-		} else {
-			pluginDirectory = @"Styles";
-		}
-		NSString *destination = [[[NSHomeDirectory()
-			stringByAppendingPathComponent:@"Library/Application Support/Growl"]
-			stringByAppendingPathComponent:pluginDirectory]
+		NSString *destination = [[NSHomeDirectory()
+			stringByAppendingPathComponent:@"Library/Application Support/Growl/Plugins"]
 			stringByAppendingPathComponent:pluginFile];
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 
@@ -193,16 +188,8 @@ static GrowlPluginController *sharedController;
 
 - (void) installPlugin:(NSString *)filename {
 	NSString *pluginFile = [filename lastPathComponent];
-	NSString *pathExtension = [pluginFile pathExtension];
-	NSString *pluginDirectory;
-	if ([pathExtension isEqualToString:GROWL_VIEW_EXTENSION]) {
-		pluginDirectory = @"Plugins";
-	} else {
-		pluginDirectory = @"Styles";
-	}
-	NSString *destination = [[[NSHomeDirectory()
-		stringByAppendingPathComponent:@"Library/Application Support/Growl"]
-		stringByAppendingPathComponent:pluginDirectory]
+	NSString *destination = [[NSHomeDirectory()
+		stringByAppendingPathComponent:@"Library/Application Support/Growl/Plugins"]
 		stringByAppendingPathComponent:pluginFile];
 	// retain a copy of the filename because it is passed as context to the sheetDidEnd selectors
 	NSString *filenameCopy = [[NSString alloc] initWithString:filename];

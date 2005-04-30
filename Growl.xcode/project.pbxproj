@@ -278,7 +278,6 @@
 				0A7F5F6F0767C68000E1C1E4,
 				0A7F5FB70767C70600E1C1E4,
 				0A7F5FE80767C7B300E1C1E4,
-				950F798F080EEDB700CC5F62,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
@@ -1859,6 +1858,7 @@
 //104
 		1058C7ACFEA557BF11CA2CBB = {
 			children = (
+				950F79C5080EEE2B00CC5F62,
 				DA96AFDA0801795100326661,
 				95AA8653080065DE0045589D,
 				0AEE179C0702C4960024B1A0,
@@ -1909,7 +1909,6 @@
 				34F60EAB078E1CD500CECA86,
 				34F60EF9078E226300CECA86,
 				DDF09B0A080AC8F3006F4172,
-				950F799B080EEDB700CC5F62,
 				95075AB00817F5DB00D862A5,
 			);
 			isa = PBXGroup;
@@ -1996,8 +1995,6 @@
 				3433458C0790E3D600C84B15,
 				343345880790E3D600C84B15,
 				3433458A0790E3D600C84B15,
-				93E0E9E3080F0F42004FFB1D,
-				953F73A0081FFB9E00823EFE,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2968,6 +2965,7 @@
 		8D202CEC0486D31800D8A456 = {
 			buildActionMask = 2147483647;
 			files = (
+				95D89A9B082419A70068A4BD,
 				9528EF8007F5A2DF00061D90,
 				8D202CED0486D31800D8A456,
 				CB5FA1BD0638CA2C00EADD7A,
@@ -3002,6 +3000,8 @@
 				95A9E435080B2CAB006A2F29,
 				9596C5FB081102BE00F43859,
 				959DBE9B08127EDF009BB468,
+				95D89A95082418DA0068A4BD,
+				95D89B1A082422350068A4BD,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3106,24 +3106,6 @@
 		};
 		937E64320817193800AEC1C6 = {
 			fileRef = 937E64300817193800AEC1C6;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		93E0E9D3080F0E95004FFB1D = {
-			containerPortal = 089C1669FE841209C02AAC07;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 950F798F080EEDB700CC5F62;
-			remoteInfo = WebKit;
-		};
-		93E0E9D4080F0E95004FFB1D = {
-			isa = PBXTargetDependency;
-			target = 950F798F080EEDB700CC5F62;
-			targetProxy = 93E0E9D3080F0E95004FFB1D;
-		};
-		93E0E9E3080F0F42004FFB1D = {
-			fileRef = 950F799B080EEDB700CC5F62;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3430,7 +3412,6 @@
 				951BD0B5081049C700D803CD,
 				951BD0B6081049C700D803CD,
 				9596C4EF081063DB00F43859,
-				950F79C5080EEE2B00CC5F62,
 			);
 			isa = PBXGroup;
 			name = WebKit;
@@ -3552,110 +3533,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		950F798F080EEDB700CC5F62 = {
-			buildPhases = (
-				950F7990080EEDB700CC5F62,
-				950F7992080EEDB700CC5F62,
-				950F7997080EEDB700CC5F62,
-			);
-			buildRules = (
-			);
-			buildSettings = {
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/WebKit-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_LDFLAGS = "-undefined dynamic_lookup";
-				PRODUCT_NAME = WebKit;
-				WARNING_CFLAGS = "-W -Wall";
-				WRAPPER_EXTENSION = growlView;
-			};
-			dependencies = (
-			);
-			isa = PBXNativeTarget;
-			name = WebKit;
-			productName = Speech;
-			productReference = 950F799B080EEDB700CC5F62;
-			productType = "com.apple.product-type.bundle";
-		};
-		950F7990080EEDB700CC5F62 = {
-			buildActionMask = 2147483647;
-			files = (
-				9596C4F0081063DB00F43859,
-				950F7B11080F094400CC5F62,
-			);
-			isa = PBXResourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		950F7992080EEDB700CC5F62 = {
-			buildActionMask = 2147483647;
-			files = (
-				950F79CA080EEE3700CC5F62,
-				950F79CB080EEE3800CC5F62,
-				950F79CC080EEE3900CC5F62,
-				950F79CD080EEE3A00CC5F62,
-				951BD0B7081049C700D803CD,
-			);
-			isa = PBXSourcesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		950F7997080EEDB700CC5F62 = {
-			buildActionMask = 2147483647;
-			files = (
-				950F7998080EEDB700CC5F62,
-				950F7999080EEDB700CC5F62,
-				950F799A080EEDB700CC5F62,
-				950F79C6080EEE2B00CC5F62,
-			);
-			isa = PBXFrameworksBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		950F7998080EEDB700CC5F62 = {
-			fileRef = 089C1672FE841209C02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		950F7999080EEDB700CC5F62 = {
-			fileRef = 089C167FFE841241C02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		950F799A080EEDB700CC5F62 = {
-			fileRef = 83282746073A6C110044A959;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		950F799B080EEDB700CC5F62 = {
-			explicitFileType = wrapper.cfbundle;
-			includeInIndex = 0;
-			isa = PBXFileReference;
-			path = WebKit.growlView;
-			refType = 3;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		950F79C5080EEE2B00CC5F62 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -3663,36 +3540,6 @@
 			path = /System/Library/Frameworks/WebKit.framework;
 			refType = 0;
 			sourceTree = "<absolute>";
-		};
-		950F79C6080EEE2B00CC5F62 = {
-			fileRef = 950F79C5080EEE2B00CC5F62;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		950F79CA080EEE3700CC5F62 = {
-			fileRef = 950F7975080EED5C00CC5F62;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		950F79CB080EEE3800CC5F62 = {
-			fileRef = 950F7978080EED5C00CC5F62;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		950F79CC080EEE3900CC5F62 = {
-			fileRef = 950F797A080EED5C00CC5F62;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		950F79CD080EEE3A00CC5F62 = {
-			fileRef = 950F797C080EED5C00CC5F62;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		950F7A5F080EF16500CC5F62 = {
 			fileEncoding = 30;
@@ -3702,12 +3549,6 @@
 			path = "Display Plugins/WebKit-Info.plist";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		950F7B11080F094400CC5F62 = {
-			fileRef = 950F7988080EED7400CC5F62;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		95125DE70802D3E8007FF92A = {
 			fileEncoding = 30;
@@ -3780,12 +3621,6 @@
 			path = "Display Plugins/WebKit/GrowlImageURLProtocol.m";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		951BD0B7081049C700D803CD = {
-			fileRef = 951BD0B6081049C700D803CD;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		9526BD51081BCC9100B9D0D0 = {
 			fileEncoding = 30;
@@ -3976,12 +3811,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		953F73A0081FFB9E00823EFE = {
-			fileRef = 953F739E081FFB9E00823EFE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		953F73A1081FFB9E00823EFE = {
 			fileRef = 953F739F081FFB9E00823EFE;
 			isa = PBXBuildFile;
@@ -4119,12 +3948,6 @@
 			path = Core/Resources/Default.growlStyle;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		955497A2081125A60062E27B = {
-			fileRef = 9554979A081125A60062E27B;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		955497B5081125BD0062E27B = {
 			fileRef = 9554979A081125A60062E27B;
@@ -4307,12 +4130,6 @@
 			path = "Display Plugins/WebKit/template.html";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		9596C4F0081063DB00F43859 = {
-			fileRef = 9596C4EF081063DB00F43859;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		9596C5F8081102BE00F43859 = {
 			fileEncoding = 4;
@@ -4506,6 +4323,60 @@
 		};
 		95C87BBC07D9E32D00C69DEE = {
 			fileRef = 95C8777007D9DFC000C69DEE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D89A95082418DA0068A4BD = {
+			fileRef = 950F7978080EED5C00CC5F62;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D89A9B082419A70068A4BD = {
+			fileRef = 950F7988080EED7400CC5F62;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D89B1A082422350068A4BD = {
+			fileRef = 950F7975080EED5C00CC5F62;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D89B1B0824224E0068A4BD = {
+			fileRef = 950F7975080EED5C00CC5F62;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D89B21082422A00068A4BD = {
+			fileRef = 950F797A080EED5C00CC5F62;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D89B22082422A10068A4BD = {
+			fileRef = 950F797C080EED5C00CC5F62;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D89B23082422A60068A4BD = {
+			fileRef = 951BD0B6081049C700D803CD;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D89B55082422C50068A4BD = {
+			fileRef = 950F79C5080EEE2B00CC5F62;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D89BC308242AD80068A4BD = {
+			fileRef = 9596C4EF081063DB00F43859;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -5092,7 +4963,7 @@
 		CB61E5140637763C00E0DDC7 = {
 			buildActionMask = 2147483647;
 			files = (
-				955497A2081125A60062E27B,
+				95D89BC308242AD80068A4BD,
 				63C92DD806D05D22007368FA,
 				63C92DD906D05D22007368FA,
 				63C92DDA06D05D22007368FA,
@@ -5133,6 +5004,10 @@
 				955C236E081537280013C3CF,
 				9526BD54081BCC9100B9D0D0,
 				953F73A1081FFB9E00823EFE,
+				95D89B1B0824224E0068A4BD,
+				95D89B21082422A00068A4BD,
+				95D89B22082422A10068A4BD,
+				95D89B23082422A60068A4BD,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5140,6 +5015,7 @@
 		CB61E5160637763C00E0DDC7 = {
 			buildActionMask = 2147483647;
 			files = (
+				95D89B55082422C50068A4BD,
 				95C36A620753299E009FAEA2,
 				95C36A630753299E009FAEA2,
 				95C36A640753299E009FAEA2,
@@ -5196,7 +5072,6 @@
 				343345950790E3EF00C84B15,
 				3433459A0790E40800C84B15,
 				3433459C0790E40B00C84B15,
-				93E0E9D4080F0E95004FFB1D,
 			);
 			isa = PBXNativeTarget;
 			name = GrowlHelperApp;
