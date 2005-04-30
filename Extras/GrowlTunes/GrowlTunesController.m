@@ -38,7 +38,7 @@
 #define EXTENSION_GROWLTUNES_TRACK_RATING  @"Extended Info - GrowlTunes Track Rating"
 
 @interface GrowlTunesController (PRIVATE)
-- (NSAppleScript *)appleScriptNamed:(NSString *)name;
+- (NSAppleScript *) appleScriptNamed:(NSString *)name;
 - (void) addTuneToRecentTracks:(NSString *)inTune fromPlaylist:(NSString *)inPlaylist;
 - (NSMenu *) buildiTunesSubmenu;
 - (void) jumpToTune:(id) sender;
@@ -89,7 +89,9 @@ enum {
 
 - (void) applicationWillFinishLaunching: (NSNotification *)notification {
 #pragma unused(notification)
+	NSDate *now = [NSDate date];
 	getInfoScript    = [self appleScriptNamed:@"jackItunesArtwork"];
+	NSLog(@"getInfoScript: %f", [[NSDate date] timeIntervalSinceDate:now]);
 
 	NSString *itunesPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"iTunes"];
 	if ([[[NSBundle bundleWithPath:itunesPath] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] floatValue] > 4.6f) {
@@ -131,12 +133,13 @@ enum {
 	[self stopTimer];
 	[self tearDownStatusItem];
 
-	[pollScript   release]; pollScript   = nil;
-	[recentTracks release]; recentTracks = nil;
+	[pollScript    release]; 
+	[getInfoScript release];
+	[recentTracks  release];
 
-	[plugins release]; plugins = nil;
+	[plugins release];
 	if (archivePlugin) {
-		[archivePlugin release]; archivePlugin = nil;
+		[archivePlugin release];
 	}
 }
 

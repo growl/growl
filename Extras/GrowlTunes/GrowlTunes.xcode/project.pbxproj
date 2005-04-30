@@ -439,8 +439,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 0A8B6180070B303B00593A33;
-					ProjectRef = 0A8B617F070B303B00593A33;
+					ProductGroup = 0A8B6174070B2F6A00593A33;
+					ProjectRef = 0A8B5F0F070B140C00593A33;
 				},
 				{
 					ProductGroup = 0A8B6179070B303600593A33;
@@ -451,8 +451,8 @@
 					ProjectRef = DD86247B080D8421001ACC9F;
 				},
 				{
-					ProductGroup = 0A8B6174070B2F6A00593A33;
-					ProjectRef = 0A8B5F0F070B140C00593A33;
+					ProductGroup = 0A8B6180070B303B00593A33;
+					ProjectRef = 0A8B617F070B303B00593A33;
 				},
 			);
 			targets = (
@@ -504,7 +504,6 @@
 				4C29096206A8CB8A00FDB6CE,
 				CB57B4CA0711E503001968B0,
 				0A5ECB46073444AB0032ED97,
-				5275B5440687D634006F5704,
 				8D1107310486CEB800E47090,
 				089C165CFE840E0CC02AAC07,
 				07B1BAB5077D59B200474D89,
@@ -642,20 +641,6 @@
 //522
 //523
 //524
-		5275B5440687D634006F5704 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.scpt;
-			name = polliTunes.scpt;
-			path = Scripts/polliTunes.scpt;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		5275B5480687D634006F5704 = {
-			fileRef = 5275B5440687D634006F5704;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		52F5774906872B3A0068B46C = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -690,7 +675,7 @@
 //8D4
 		8D1107260486CEB800E47090 = {
 			buildPhases = (
-				8D1107270486CEB800E47090,
+				9561B0C608240A4500E55B5E,
 				8D1107290486CEB800E47090,
 				0A8B5F37070B145800593A33,
 				CB9CC0E207A5DEE00057EF2C,
@@ -748,19 +733,10 @@
 			productReference = 8D1107320486CEB800E47090;
 			productType = "com.apple.product-type.application";
 		};
-		8D1107270486CEB800E47090 = {
-			buildActionMask = 2147483647;
-			files = (
-				DD3472C3080356ED00830628,
-			);
-			isa = PBXHeadersBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8D1107290486CEB800E47090 = {
 			buildActionMask = 2147483647;
 			files = (
 				8D11072B0486CEB800E47090,
-				5275B5480687D634006F5704,
 				4C29096306A8CB8B00FDB6CE,
 				4C29096406A8CB8B00FDB6CE,
 				CB57B4CB0711E503001968B0,
@@ -883,6 +859,35 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		9561B0C608240A4500E55B5E = {
+			buildActionMask = 2147483647;
+			contextName = "";
+			files = (
+				9561B10208240A8300E55B5E,
+				9561B10308240A8300E55B5E,
+			);
+			isSharedContext = 0;
+			isa = PBXAppleScriptBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9561B10208240A8300E55B5E = {
+			fileRef = CB57B4CA0711E503001968B0;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Debug,
+				);
+			};
+		};
+		9561B10308240A8300E55B5E = {
+			fileRef = 0A5ECB46073444AB0032ED97;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Debug,
+				);
+			};
+		};
 //950
 //951
 //952
@@ -956,12 +961,6 @@
 			path = ../../Core/Source/CoreGraphicsServices.h;
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
-		};
-		DD3472C3080356ED00830628 = {
-			fileRef = DD3472C2080356ED00830628;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DD5BBFF907B7D50400048F1D = {
 			isa = PBXFileReference;
