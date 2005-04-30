@@ -76,7 +76,6 @@ enum {
 			nil]];
 
 		state = itUNKNOWN;
-		playlistName = [[NSString alloc] init];
 		NSNumber *recentTrackCountNum = [defaults objectForKey:recentTrackCount];
 		recentTracks = [[NSMutableArray alloc] initWithCapacity:(recentTrackCountNum ? [recentTrackCountNum unsignedIntValue] : defaultRecentTracksLimit)];
 		archivePlugin = nil;
@@ -90,7 +89,6 @@ enum {
 
 - (void) applicationWillFinishLaunching: (NSNotification *)notification {
 #pragma unused(notification)
-	pollScript       = [self appleScriptNamed:@"jackItunesInfo"];
 	getInfoScript    = [self appleScriptNamed:@"jackItunesArtwork"];
 
 	NSString *itunesPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"iTunes"];
@@ -101,6 +99,7 @@ enum {
 	}
 
 	if (polling) {
+		pollScript   = [self appleScriptNamed:@"jackItunesInfo"];
 		pollInterval = [[NSUserDefaults standardUserDefaults] floatForKey:pollIntervalKey];
 
 		if ([self iTunesIsRunning]) [self startTimer];
@@ -133,7 +132,6 @@ enum {
 	[self tearDownStatusItem];
 
 	[pollScript   release]; pollScript   = nil;
-	[playlistName release]; playlistName = nil;
 	[recentTracks release]; recentTracks = nil;
 
 	[plugins release]; plugins = nil;
@@ -146,7 +144,7 @@ enum {
 #pragma mark Growl delegate conformance
 
 - (NSDictionary *) registrationDictionaryForGrowl {
-	NSArray			* allNotes = [NSArray arrayWithObjects:
+	NSArray	*allNotes = [[NSArray alloc] initWithObjects:
 		ITUNES_TRACK_CHANGED,
 //		ITUNES_PAUSED,
 //		ITUNES_STOPPED,
@@ -159,6 +157,7 @@ enum {
 		allNotes, GROWL_NOTIFICATIONS_ALL,
 		allNotes, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
+	[allNotes release];
 	return regDict;
 }
 
@@ -355,7 +354,7 @@ enum {
 		}
 
 		// Tell Growl
-		NSDictionary	*noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		NSDictionary *noteDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,
 			appName, GROWL_APP_NAME,
 			track, GROWL_NOTIFICATION_TITLE,
@@ -365,6 +364,7 @@ enum {
 			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
+		[noteDict release];
 
 		// set up us some state for next time
 		state = newState;
@@ -473,7 +473,7 @@ enum {
 		}
 
 		// Tell growl
-		noteDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		noteDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,
 			appName, GROWL_APP_NAME,
 			track, GROWL_NOTIFICATION_TITLE,
@@ -483,6 +483,7 @@ enum {
 			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
+		[noteDict release];
 
 		// set up us some state for next time
 		state = newState;
@@ -494,7 +495,7 @@ enum {
 }
 
 - (void) startTimer {
-	if (pollTimer == nil) {
+	if (!pollTimer) {
 		pollTimer = [[NSTimer scheduledTimerWithTimeInterval:pollInterval
 													  target:self
 													selector:@selector(poll:)
@@ -657,7 +658,7 @@ enum {
 		case onlineHelpTag:
 			retVal = YES;
 			break;
-		}
+	}
 
 	return retVal;
 }
@@ -670,7 +671,7 @@ enum {
 - (void) addTuneToRecentTracks:(NSString *)inTune fromPlaylist:(NSString *)inPlaylist {
 	NSNumber *recentTrackCountNum = [[NSUserDefaults standardUserDefaults] objectForKey:recentTrackCount];
 	unsigned trackLimit = recentTrackCountNum ? [recentTrackCountNum unsignedIntValue] : defaultRecentTracksLimit;
-	NSDictionary *tuneDict = [NSDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary *tuneDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 		inTune,     @"name",
 		inPlaylist, @"playlist",
 		nil];
@@ -678,6 +679,7 @@ enum {
 	if (delta > 0L)
 		[recentTracks removeObjectsInRange:NSMakeRange(0U, delta)];
 	[recentTracks addObject:tuneDict];
+	[tuneDict release];
 
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:noMenuKey])
 		[self buildiTunesSubmenu];
@@ -691,7 +693,10 @@ enum {
 #pragma unused(sender)
 	if (![self quitiTunes]) {
 		//quit failed, so it wasn't running: launch it.
-		[[NSWorkspace sharedWorkspace] launchApplication:iTunesAppName];
+		[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:iTunesBundleID
+															 options:NSWorkspaceLaunchDefault
+									  additionalEventParamDescriptor:nil
+													launchIdentifier:NULL];
 	}
 }
 
