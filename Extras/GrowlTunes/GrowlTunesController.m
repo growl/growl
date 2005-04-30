@@ -89,9 +89,7 @@ enum {
 
 - (void) applicationWillFinishLaunching: (NSNotification *)notification {
 #pragma unused(notification)
-	NSDate *now = [NSDate date];
-	getInfoScript    = [self appleScriptNamed:@"jackItunesArtwork"];
-	NSLog(@"getInfoScript: %f", [[NSDate date] timeIntervalSinceDate:now]);
+	getInfoScript = [self appleScriptNamed:@"jackItunesArtwork"];
 
 	NSString *itunesPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"iTunes"];
 	if ([[[NSBundle bundleWithPath:itunesPath] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] floatValue] > 4.6f) {
