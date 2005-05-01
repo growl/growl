@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Auto Encode</key>
+	<string>FALSE</string>
+	<key>Auto Open</key>
+	<string>FALSE</string>
+	<key>Background Image Path</key>
+	<string>/Users/chris/source_code/projects/growl/images/dmg/growlSDK.png</string>
+	<key>Build Format</key>
+	<string>DMG (OS X only)</string>
+	<key>Custom Icon Path</key>
+	<string></string>
+	<key>Disk Image Name</key>
+	<string>~/Desktop/Growl-0.6.2-SDK.dmg</string>
+	<key>Encode Format</key>
+	<string>None</string>
+	<key>Encryption Type</key>
+	<string>None</string>
+	<key>Finalize Format</key>
+	<string>Read-only with compression</string>
+	<key>Icon Size</key>
+	<string>60</string>
+	<key>Image Size Extra</key>
+	<string>0</string>
+	<key>Image Size Type</key>
+	<string>Automatic</string>
+	<key>Internet Enable</key>
+	<string>FALSE</string>
+	<key>Item List</key>
+	<array>
+		<dict>
+			<key>Origin</key>
+			<string>{183, 20}</string>
+			<key>Path</key>
+			<string>/Users/chris/source_code/test/growl-0.6.2/Bindings</string>
+			<key>Type</key>
+			<string>File Item</string>
+		</dict>
+		<dict>
+			<key>Origin</key>
+			<string>{290, 20}</string>
+			<key>Path</key>
+			<string>/Users/chris/source_code/test/SDK/Frameworks</string>
+			<key>Type</key>
+			<string>File Item</string>
+		</dict>
+		<dict>
+			<key>Origin</key>
+			<string>{239, 154}</string>
+			<key>Path</key>
+			<string>/Users/chris/source_code/test/SDK/Documentation/Growl Developer Documentation.webloc</string>
+			<key>Type</key>
+			<string>File Item</string>
+		</dict>
+	</array>
+	<key>License List</key>
+	<array/>
+	<key>Lock Frame</key>
+	<string>TRUE</string>
+	<key>Project File Path</key>
+	<string>/Users/chris/Desktop/growl stuff/</string>
+	<key>Show Toolbar</key>
+	<string>TRUE</string>
+	<key>Volume Name</key>
+	<string>Growl-0.6.2-SDK</string>
+	<key>Window Frame</key>
+	<string>{{0, 22}, {455, 411}}</string>
+</dict>
+</plist>
