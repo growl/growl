@@ -724,7 +724,7 @@
 }
 
 - (void) setRemotePassword:(NSString *)value {
-	const char *password = [value UTF8String];
+	const char *password = value ? [value UTF8String] : "";
 	unsigned length = strlen(password);
 	OSStatus status;
 	SecKeychainItemRef itemRef = nil;

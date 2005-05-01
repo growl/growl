@@ -28,6 +28,7 @@
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
 				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
@@ -3989,6 +3990,7 @@
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
 				ZERO_LINK = NO;
@@ -4058,6 +4060,30 @@
 		};
 		956ADB0207551C4500AF9545 = {
 			fileRef = 956ADADF07551C4500AF9545;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		956D7E83082514A80083D772 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = sha2.c;
+			path = Common/Source/sha2.c;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		956D7E84082514A80083D772 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = sha2.h;
+			path = Common/Source/sha2.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		956D7E85082514B00083D772 = {
+			fileRef = 956D7E83082514A80083D772;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -5008,6 +5034,7 @@
 				95D89B21082422A00068A4BD,
 				95D89B22082422A10068A4BD,
 				95D89B23082422A60068A4BD,
+				956D7E85082514B00083D772,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5142,6 +5169,8 @@
 		};
 		CB910DA8074E0A5F00278FC5 = {
 			children = (
+				956D7E83082514A80083D772,
+				956D7E84082514A80083D772,
 				34E9AA79074BC98A00D59950,
 				34E9DC16078FBF1B00662E8E,
 				A14BBE0E06EE1D5600530EED,

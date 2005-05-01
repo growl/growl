@@ -47,6 +47,7 @@
 //074
 		07C7692606831F1D0025D426 = {
 			children = (
+				956D7F0508251E190083D772,
 				9595184F07E4859F004A4471,
 				95C876E007D9DF4100C69DEE,
 				95583F9F079E4B4900C79085,
@@ -117,6 +118,7 @@
 		};
 		08FB7795FE84155DC02AAC07 = {
 			children = (
+				956D7F0408251E190083D772,
 				9526BD9C081BCFD500B9D0D0,
 				9526247D074F92F600C5F344,
 				08FB7796FE84155DC02AAC07,
@@ -280,6 +282,7 @@
 				8DD76F9A0486AA7600D96B5E,
 				9526247F074F92F600C5F344,
 				9526BD9D081BCFD500B9D0D0,
+				956D7F0608251E190083D772,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +412,30 @@
 			};
 			isa = PBXBuildStyle;
 			name = "Deployment - Tiger - G4";
+		};
+		956D7F0408251E190083D772 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = sha2.c;
+			path = ../../Common/Source/sha2.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956D7F0508251E190083D772 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = sha2.h;
+			path = ../../Common/Source/sha2.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		956D7F0608251E190083D772 = {
+			fileRef = 956D7F0408251E190083D772;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		9595184F07E4859F004A4471 = {
 			fileEncoding = 30;

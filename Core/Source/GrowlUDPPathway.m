@@ -18,6 +18,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <openssl/md5.h>
+#include "sha2.h"
 
 #define keychainServiceName "Growl"
 #define keychainAccountName "Growl"
@@ -78,15 +79,15 @@
 
 #pragma mark -
 
-+ (BOOL) authenticatePacket:(const unsigned char *)packet length:(unsigned)length {
-	char *password;
++ (BOOL) authenticatePacketMD5:(const unsigned char *)packet length:(unsigned)length {
+	unsigned char *password;
 	unsigned messageLength;
 	UInt32 passwordLength;
 	OSStatus status;
 	MD5_CTX ctx;
 	unsigned char digest[MD5_DIGEST_LENGTH];
 
-	messageLength = length-MD5_DIGEST_LENGTH;
+	messageLength = length-sizeof(digest);
 	MD5_Init(&ctx);
 	MD5_Update(&ctx, packet, messageLength);
 	status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
@@ -105,6 +106,53 @@
 	return !memcmp(digest, packet+messageLength, sizeof(digest));
 }
 
++ (BOOL) authenticatePacketSHA256:(const unsigned char *)packet length:(unsigned)length {
+	unsigned char *password;
+	unsigned messageLength;
+	UInt32 passwordLength;
+	OSStatus status;
+	SHA_CTX ctx;
+	unsigned char digest[SHA256_DIGEST_LENGTH];
+
+	messageLength = length-sizeof(digest);
+	SHA256_Init(&ctx);
+	SHA256_Update(&ctx, packet, messageLength);
+	status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
+											strlen(keychainServiceName), keychainServiceName,
+											strlen(keychainAccountName), keychainAccountName,
+											&passwordLength, (void **)&password, NULL);
+
+	if (status == noErr) {
+		SHA256_Update(&ctx, password, passwordLength);
+		SecKeychainItemFreeContent(/*attrList*/ NULL, password);
+	} else if (status != errSecItemNotFound) {
+		NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
+	}
+	SHA256_Final(digest, &ctx);
+
+	return !memcmp(digest, packet+messageLength, sizeof(digest));
+}
+
++ (BOOL) authenticatePacketNONE:(const unsigned char *)packet length:(unsigned)length {
+#pragma unused(packet,length)
+	unsigned char *password;
+	OSStatus status;
+	UInt32 passwordLength = 0U;
+
+	status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
+											strlen(keychainServiceName), keychainServiceName,
+											strlen(keychainAccountName), keychainAccountName,
+											&passwordLength, (void **)&password, NULL);
+
+	if (status == noErr) {
+		SecKeychainItemFreeContent(/*attrList*/ NULL, password);
+	} else if (status != errSecItemNotFound) {
+		NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
+	}
+
+	return !passwordLength;
+}
+
 #pragma mark -
 
 - (void) fileHandleRead:(NSNotification *)aNotification {
@@ -115,8 +163,9 @@
 	char *notification;
 	unsigned notificationNameLen, titleLen, descriptionLen, priority, applicationNameLen;
 	unsigned length, num, i, size, packetSize, notificationIndex;
+	unsigned digestLength;
 	int error;
-	BOOL isSticky;
+	BOOL isSticky, authenticated;
 
 	NSDictionary *userInfo = [aNotification userInfo];
 	error = [[userInfo objectForKey:@"NSFileHandleError"] intValue];
@@ -131,6 +180,8 @@
 			if (packet->version == GROWL_PROTOCOL_VERSION) {
 				switch (packet->type) {
 					case GROWL_TYPE_REGISTRATION:
+					case GROWL_TYPE_REGISTRATION_SHA256:
+					case GROWL_TYPE_REGISTRATION_NOAUTH:
 						if (length >= sizeof(struct GrowlNetworkRegistration)) {
 							BOOL enabled = [[GrowlPreferences preferences] boolForKey:GrowlRemoteRegistrationKey];
 
@@ -141,7 +192,19 @@
 								applicationNameLen = ntohs(nr->appNameLen);
 
 								// check packet size
-								packetSize = sizeof(*nr) + nr->numDefaultNotifications + applicationNameLen + MD5_DIGEST_LENGTH;
+								switch (packet->type) {
+									default:
+									case GROWL_TYPE_REGISTRATION:
+										digestLength = MD5_DIGEST_LENGTH;
+										break;
+									case GROWL_TYPE_REGISTRATION_SHA256:
+										digestLength = SHA256_DIGEST_LENGTH;
+										break;
+									case GROWL_TYPE_REGISTRATION_NOAUTH:
+										digestLength = 0U;
+										break;
+								}
+								packetSize = sizeof(*nr) + nr->numDefaultNotifications + applicationNameLen + digestLength;
 								if (packetSize > length) {
 									valid = NO;
 								} else {
@@ -187,11 +250,23 @@
 										}
 									}
 
-									if ([GrowlUDPPathway authenticatePacket:(const unsigned char *)nr length:length]) {
+									switch (packet->type) {
+										default:
+										case GROWL_TYPE_REGISTRATION:
+											authenticated = [GrowlUDPPathway authenticatePacketMD5:(const unsigned char *)nr length:length];
+											break;
+										case GROWL_TYPE_REGISTRATION_SHA256:
+											authenticated = [GrowlUDPPathway authenticatePacketSHA256:(const unsigned char *)nr length:length];
+											break;
+										case GROWL_TYPE_REGISTRATION_NOAUTH:
+											authenticated = [GrowlUDPPathway authenticatePacketNONE:(const unsigned char *)nr length:length];
+											break;
+									}
+									if (authenticated) {
 										NSString *appName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
 										NSDictionary *registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-											appName, GROWL_APP_NAME,
-											allNotifications, GROWL_NOTIFICATIONS_ALL,
+											appName,              GROWL_APP_NAME,
+											allNotifications,     GROWL_NOTIFICATIONS_ALL,
 											defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 											nil];
 										[appName release];
@@ -212,6 +287,8 @@
 						}
 						break;
 					case GROWL_TYPE_NOTIFICATION:
+					case GROWL_TYPE_NOTIFICATION_SHA256:
+					case GROWL_TYPE_NOTIFICATION_NOAUTH:
 						if (length >= sizeof(struct GrowlNetworkNotification)) {
 							struct GrowlNetworkNotification *nn = (struct GrowlNetworkNotification *)packet;
 
@@ -225,10 +302,34 @@
 							descriptionLen = ntohs(nn->descriptionLen);
 							applicationName = description + descriptionLen;
 							applicationNameLen = ntohs(nn->appNameLen);
-							packetSize = sizeof(*nn) + notificationNameLen + titleLen + descriptionLen + applicationNameLen + MD5_DIGEST_LENGTH;
+							switch (packet->type) {
+								default:
+								case GROWL_TYPE_NOTIFICATION:
+									digestLength = MD5_DIGEST_LENGTH;
+									break;
+								case GROWL_TYPE_NOTIFICATION_SHA256:
+									digestLength = SHA256_DIGEST_LENGTH;
+									break;
+								case GROWL_TYPE_NOTIFICATION_NOAUTH:
+									digestLength = 0U;
+									break;
+							}
+							packetSize = sizeof(*nn) + notificationNameLen + titleLen + descriptionLen + applicationNameLen + digestLength;
 
 							if (length == packetSize) {
-								if ([GrowlUDPPathway authenticatePacket:(const unsigned char *)nn length:length]) {
+								switch (packet->type) {
+									default:
+									case GROWL_TYPE_NOTIFICATION:
+										authenticated = [GrowlUDPPathway authenticatePacketMD5:(const unsigned char *)nn length:length];
+										break;
+									case GROWL_TYPE_NOTIFICATION_SHA256:
+										authenticated = [GrowlUDPPathway authenticatePacketSHA256:(const unsigned char *)nn length:length];
+										break;
+									case GROWL_TYPE_NOTIFICATION_NOAUTH:
+										authenticated = [GrowlUDPPathway authenticatePacketNONE:(const unsigned char *)nn length:length];
+										break;
+								}
+								if (authenticated) {
 									NSString *growlNotificationName = [[NSString alloc] initWithUTF8String:notificationName length:notificationNameLen];
 									NSString *growlAppName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
 									NSString *growlNotificationTitle = [[NSString alloc] initWithUTF8String:title length:titleLen];
@@ -242,7 +343,7 @@
 										growlNotificationDesc,     GROWL_NOTIFICATION_DESCRIPTION,
 										growlNotificationPriority, GROWL_NOTIFICATION_PRIORITY,
 										growlNotificationSticky,   GROWL_NOTIFICATION_STICKY,
-										[notificationIcon TIFFRepresentation], GROWL_NOTIFICATION_ICON,
+										notificationIcon,          GROWL_NOTIFICATION_ICON,
 										nil];
 									[growlNotificationName     release];
 									[growlAppName              release];

@@ -42,6 +42,7 @@ static const char usage[] =
 "Usage: growlnotify [-hsvw] [-i ext] [-I filepath] [--image filepath]\n"
 "                   [-a appname] [-p priority] [-H host] [-u] [-P password]\n"
 "                   [--port port] [-n name] [-m message] [-t] [title]\n"
+"                   [-A method]\n"
 "Options:\n"
 "    -h,--help       Display this help\n"
 "    -v,--version    Display version number\n"
@@ -61,6 +62,8 @@ static const char usage[] =
 "    -P,--password   Password used for remote notifications.\n"
 "    -u,--udp        Use UDP instead of DO to send a remote notification.\n"
 "       --port       Port number for UDP notifications.\n"
+"    -A,--auth       Specify digest algorithm for UDP authentication.\n"
+"                    Either MD5 [Default], SHA256 or NONE.\n"
 "    -w,--wait       Wait until the notification has been dismissed.\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
@@ -106,6 +109,7 @@ int main(int argc, const char **argv) {
 	BOOL useUDP = NO;
 	int flag;
 	short port = 0;
+	enum GrowlAuthenticationMethod authMethod = GROWL_AUTH_MD5;
 
 	int code = EXIT_SUCCESS;
 	struct hostent *he;
@@ -133,6 +137,7 @@ int main(int argc, const char **argv) {
 		{ "version",	no_argument,		NULL,	'v' },
 		{ "identifier", required_argument,  NULL,   'd' },
 		{ "wait",		no_argument,		NULL,   'w' },
+		{ "auth",		required_argument,	NULL,   'A' },
 		{ NULL,			0,					NULL,	 0  }
 	};
 
@@ -175,6 +180,17 @@ int main(int argc, const char **argv) {
 						break;
 					}
 				}
+			}
+			break;
+		case 'A':
+			if (!strcasecmp(optarg, "md5")) {
+				authMethod = GROWL_AUTH_MD5;
+			} else if (!strcasecmp(optarg, "sha256")) {
+				authMethod = GROWL_AUTH_SHA256;
+			} else if (!strcasecmp(optarg, "none")) {
+				authMethod = GROWL_AUTH_NONE;
+			} else {
+				fprintf(stderr, "Unknown digest algorithm, using default.\n");
 			}
 			break;
 		case 't':
@@ -322,13 +338,15 @@ int main(int argc, const char **argv) {
 					memset(&to.sin_zero, 0, sizeof(to.sin_zero));
 				}
 				registrationPacket = [GrowlUDPUtils registrationToPacket:registerInfo
+																  digest:authMethod
 																password:password
 															  packetSize:&registrationSize];
 				notificationPacket = [GrowlUDPUtils notificationToPacket:notificationInfo
+																  digest:authMethod
 																password:password
 															  packetSize:&notificationSize];
 				size = (registrationSize > notificationSize) ? registrationSize : notificationSize;
-				if (setsockopt( sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size) ) < 0) {
+				if (setsockopt(sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size)) < 0) {
 					perror("setsockopt: SO_SNDBUF");
 				}
 				//printf( "sendbuf: %d\n", size );

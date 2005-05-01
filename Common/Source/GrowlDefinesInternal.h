@@ -42,13 +42,29 @@
 #define GROWL_PROTOCOL_VERSION	1
 
 /*!	@defined	GROWL_TYPE_REGISTRATION
- *	@abstract	The packet type of registration packets.
+ *	@abstract	The packet type of registration packets with MD5 authentication.
  */
-#define GROWL_TYPE_REGISTRATION	0
+#define GROWL_TYPE_REGISTRATION			0
 /*!	@defined	GROWL_TYPE_NOTIFICATION
- *	@abstract	The packet type of notification packets.
+ *	@abstract	The packet type of notification packets with MD5 authentication.
  */
-#define GROWL_TYPE_NOTIFICATION	1
+#define GROWL_TYPE_NOTIFICATION			1
+/*!	@defined	GROWL_TYPE_REGISTRATION_SHA256
+ *	@abstract	The packet type of registration packets with SHA-256 authentication.
+ */
+#define GROWL_TYPE_REGISTRATION_SHA256	2
+/*!	@defined	GROWL_TYPE_NOTIFICATION_SHA256
+ *	@abstract	The packet type of notification packets with SHA-256 authentication.
+ */
+#define GROWL_TYPE_NOTIFICATION_SHA256	3
+/*!	@defined	GROWL_TYPE_REGISTRATION_NOAUTH
+*	@abstract	The packet type of registration packets without authentication.
+*/
+#define GROWL_TYPE_REGISTRATION_NOAUTH	4
+/*!	@defined	GROWL_TYPE_NOTIFICATION_NOAUTH
+*	@abstract	The packet type of notification packets without authentication.
+*/
+#define GROWL_TYPE_NOTIFICATION_NOAUTH	5
 
 /*!	@struct	GrowlNetworkPacket
  *	@abstract	This struct is a header common to all incoming Growl network
@@ -100,7 +116,7 @@ struct GrowlNetworkRegistration {
 	 *	 - The application name, in UTF-8 encoding, for appNameLen bytes.
 	 *	 - The list of all notification names.
 	 *	 - The list of default notifications, as 8-bit unsigned indices into the list of all notifications.
-	 *	 - The MD5 checksum of all the data preceding the checksum.
+	 *	 - The MD5/SHA256 checksum of all the data preceding the checksum.
 	 *
 	 *	 Each notification name is encoded as:
 	 *	 - Length: two bytes, unsigned, network byte order.
@@ -162,7 +178,7 @@ struct GrowlNetworkNotification {
 	 *	 - Title, in UTF-8 encoding, for titleLen bytes.
 	 *	 - Description, in UTF-8 encoding, for descriptionLen bytes.
 	 *	 - Application name, in UTF-8 encoding, for appNameLen bytes.
-	 *	 - The MD5 checksum of all the data preceding the checksum.
+	 *	 - The MD5/SHA256 checksum of all the data preceding the checksum.
 	 */
 	unsigned char data[];
 } __attribute__((packed));
