@@ -16,6 +16,7 @@
 	NSImage		*image;
 	BOOL		positioned;
 	NSString    *style;
+	NSString	*prefDomain;
 }
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL)sticky identifier:(NSString *)ident style:(NSString *)styleName;

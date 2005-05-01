@@ -32,7 +32,6 @@ static NSMutableDictionary *notificationsByIdentifier;
 #pragma mark -
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL)sticky identifier:(NSString *)ident style:(NSString *)styleName {
-	NSLog(@"GWKWindowController %@", styleName);
 	identifier = [ident retain];
 	GrowlWebKitWindowController *oldController = [notificationsByIdentifier objectForKey:identifier];
 	if (oldController) {
@@ -45,9 +44,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 	}
 
 	style = [styleName retain];
+	prefDomain = [[NSString alloc] initWithFormat:@"%@.%@", GrowlWebKitPrefDomain, style];
 
 	screenNumber = 0U;
-	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, GrowlWebKitPrefDomain, &screenNumber);
+	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, prefDomain, &screenNumber);
 
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 1.0f)
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
@@ -91,9 +91,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
 		int rowCount = 2;
 		BOOL limitPref = YES;
-		READ_GROWL_PREF_BOOL(GrowlWebKitLimitPref, GrowlWebKitPrefDomain, &limitPref);
+		READ_GROWL_PREF_BOOL(GrowlWebKitLimitPref, prefDomain, &limitPref);
 		float duration = MIN_DISPLAY_TIME;
-		READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, GrowlWebKitPrefDomain, &duration);
+		READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, prefDomain, &duration);
 		if (!limitPref) {
 			displayTime = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
 							   MAX_DISPLAY_TIME);
@@ -134,7 +134,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	}
 
 	NSString *styleName = @"Default";
-	READ_GROWL_PREF_VALUE(GrowlWebKitStylePref, GrowlWebKitPrefDomain, NSString *, &styleName);
+	READ_GROWL_PREF_VALUE(GrowlWebKitStylePref, prefDomain, NSString *, &styleName);
 
 	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
 	NSBundle *styleBundle = [[GrowlPluginController controller] bundleForPluginNamed:style];
@@ -246,12 +246,13 @@ static NSMutableDictionary *notificationsByIdentifier;
 	}
 	NSWindow *myWindow = [self window];
 	WebView *webView = [myWindow contentView];
-	[webView setPolicyDelegate:nil];
-	[webView setFrameLoadDelegate:nil];
-	[webView release];
-	[myWindow release];
-	[image release];
-	[style release];
+	[webView    setPolicyDelegate:nil];
+	[webView    setFrameLoadDelegate:nil];
+	[webView    release];
+	[myWindow   release];
+	[image      release];
+	[style      release];
+	[prefDomain release];
 
 	[super dealloc];
 }
