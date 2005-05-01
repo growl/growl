@@ -496,7 +496,6 @@
 
 - (void) setGrowlMenuEnabled:(BOOL)state {
 	[[GrowlPreferences preferences] setBool:state forKey:GrowlMenuExtraKey];
-	NSLog(@"Growl Menu Extra checkbox state: %i\n", state);
 	if (state) {
 		[self enableGrowlMenu];
 	} else {

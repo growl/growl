@@ -251,7 +251,6 @@ static id singleton = nil;
 
 - (void) showPreview:(NSNotification *) note {
 	NSString *displayName = [note object];
-	NSLog(@"showPreview %@", displayName);
 	id <GrowlDisplayPlugin> displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayName];
 
 	NSString *desc = [[NSString alloc] initWithFormat:@"This is a preview of the %@ display", displayName];

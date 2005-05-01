@@ -86,7 +86,6 @@ static GrowlPluginController *sharedController;
 		} else if ([pathExtension isEqualToString:GROWL_STYLE_EXTENSION]) {
 			// load GrowlWebKitController dynamically so that GrowlMenu does not
 			// have to link against it and all of its dependencies
-			NSLog(@"GPluginController %@", name);
 			Class webKitController = NSClassFromString(@"GrowlWebKitController");
 			plugin = [[webKitController alloc] initWithStyle:name];
 			[allDisplayPlugins setObject:plugin forKey:name];

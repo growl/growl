@@ -34,7 +34,7 @@
 			written = YES;
 		}
 		if (!written) {
-			// Falling back to NSLogging…
+			// Falling back to NSLogging...
 			if (logFile) {
 				NSLog(@"Failed to write notification to file %@", logFile);
 			}

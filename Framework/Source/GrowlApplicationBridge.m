@@ -215,7 +215,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			NS_ENDHANDLER
 		} else {
 			//Post to Growl via NSDistributedNotificationCenter
-			NSLog(@"GrowlApplicationBridge: could not find local GrowlPathway, falling back to NSDNC");
+			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDNC");
 			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																		   object:nil
 																		 userInfo:userInfo
@@ -491,7 +491,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			NS_ENDHANDLER
 		} else {
 			//Post to Growl via NSDistributedNotificationCenter
-			NSLog(@"GrowlApplicationBridge: could not find local GrowlPathway, falling back to NSDNC");
+			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDNC");
 			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																		   object:nil
 																		 userInfo:noteDict
