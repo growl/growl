@@ -16,7 +16,6 @@
 #pragma mark -
 - (id) initWithStyle:(NSString *)styleName {
 	if ((self = [super init])) {
-		NSLog(@"GWKController style=%@", styleName);
 		style = [styleName retain];
 	}
 	return self;
@@ -39,7 +38,6 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	NSLog(@"GWKController displayNotificationWithInfo: %@", style);
 	// load GrowlWebKitWindowController dynamically so that the prefpane does not
 	// have to link against it and all of its dependencies
 	Class webKitWindowController = NSClassFromString(@"GrowlWebKitWindowController");
