@@ -41,6 +41,7 @@
 - (NSAppleScript *) appleScriptNamed:(NSString *)name;
 - (void) addTuneToRecentTracks:(NSString *)inTune fromPlaylist:(NSString *)inPlaylist;
 - (NSMenu *) buildiTunesSubmenu;
+- (NSMenu *) buildRatingSubmenu;
 - (void) jumpToTune:(id) sender;
 @end
 
@@ -56,6 +57,7 @@ static const unsigned defaultRecentTracksLimit = 20U;
 
 //status item menu item tags.
 enum {
+	ratingTag = -11,
 	onlineHelpTag = -5,
 	quitGrowlTunesTag,
 	launchQuitiTunesTag,
@@ -307,7 +309,8 @@ enum {
 			NSAppleEventDescriptor	*theDescriptor = [getInfoScript executeAndReturnError:&error];
 			NSAppleEventDescriptor  *curDescriptor;
 
-			ratingString = [self starsForRating:[userInfo objectForKey:@"Rating"]];
+			rating = [userInfo objectForKey:@"Rating"];
+			ratingString = [self starsForRating:rating];
 
 			curDescriptor = [theDescriptor descriptorAtIndex:2L];
 			playlistName = [curDescriptor stringValue];
@@ -357,12 +360,12 @@ enum {
 		// Tell Growl
 		NSDictionary *noteDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,
-			appName, GROWL_APP_NAME,
-			track, GROWL_NOTIFICATION_TITLE,
+			appName,       GROWL_APP_NAME,
+			track,         GROWL_NOTIFICATION_TITLE,
 			displayString, GROWL_NOTIFICATION_DESCRIPTION,
+			length,        EXTENSION_GROWLTUNES_TRACK_LENGTH,
+			rating,        EXTENSION_GROWLTUNES_TRACK_RATING,
 			(artwork ? [artwork TIFFRepresentation] : nil), GROWL_NOTIFICATION_ICON,
-			length, EXTENSION_GROWLTUNES_TRACK_LENGTH,
-			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
 		[noteDict release];
@@ -477,11 +480,11 @@ enum {
 		noteDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,
 			appName, GROWL_APP_NAME,
-			track, GROWL_NOTIFICATION_TITLE,
+			track,   GROWL_NOTIFICATION_TITLE,
 			[NSString stringWithFormat:@"%@ - %@\n%@\n%@",length,ratingString,artist,album], GROWL_NOTIFICATION_DESCRIPTION,
+			length,  EXTENSION_GROWLTUNES_TRACK_LENGTH,
+			rating,  EXTENSION_GROWLTUNES_TRACK_RATING,
 			(artwork ? [artwork TIFFRepresentation] : nil), GROWL_NOTIFICATION_ICON,
-			length, EXTENSION_GROWLTUNES_TRACK_LENGTH,
-			rating, EXTENSION_GROWLTUNES_TRACK_RATING,
 			nil];
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
 		[noteDict release];
@@ -559,6 +562,10 @@ enum {
 		// Set us up a submenu
 		[item setSubmenu:[self buildiTunesSubmenu]];
 
+		// The rating submenu
+		item = [menu addItemWithTitle:@"Rating" action:NULL keyEquivalent:empty];
+		[item setSubmenu:[self buildRatingSubmenu]];
+
 		// Back to our regularly scheduled Status Menu
 		item = [NSMenuItem separatorItem];
 		[menu addItem:item];
@@ -630,12 +637,50 @@ enum {
 	return iTunesSubMenu;
 }
 
+- (NSMenu *) buildRatingSubmenu {
+	id <NSMenuItem> item;
+	if (!ratingSubMenu) {
+		ratingSubMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Rating"] autorelease];
+		NSString *rating0 = [[NSString alloc] initWithUTF8String:"\u2606\u2606\u2606\u2606\u2606"];
+		NSString *rating1 = [[NSString alloc] initWithUTF8String:"\u2605\u2606\u2606\u2606\u2606"];
+		NSString *rating2 = [[NSString alloc] initWithUTF8String:"\u2605\u2605\u2606\u2606\u2606"];
+		NSString *rating3 = [[NSString alloc] initWithUTF8String:"\u2605\u2605\u2605\u2606\u2606"];
+		NSString *rating4 = [[NSString alloc] initWithUTF8String:"\u2605\u2605\u2605\u2605\u2606"];
+		NSString *rating5 = [[NSString alloc] initWithUTF8String:"\u2605\u2605\u2605\u2605\u2605"];
+		item = [ratingSubMenu addItemWithTitle:rating0 action:@selector(setRating:) keyEquivalent:@""];
+		[item setTarget:self];
+		[item setTag:ratingTag+0];
+		item = [ratingSubMenu addItemWithTitle:rating1 action:@selector(setRating:) keyEquivalent:@""];
+		[item setTarget:self];
+		[item setTag:ratingTag+1];
+		item = [ratingSubMenu addItemWithTitle:rating2 action:@selector(setRating:) keyEquivalent:@""];
+		[item setTarget:self];
+		[item setTag:ratingTag+2];
+		item = [ratingSubMenu addItemWithTitle:rating3 action:@selector(setRating:) keyEquivalent:@""];
+		[item setTarget:self];
+		[item setTag:ratingTag+3];
+		item = [ratingSubMenu addItemWithTitle:rating4 action:@selector(setRating:) keyEquivalent:@""];
+		[item setTarget:self];
+		[item setTag:ratingTag+4];
+		item = [ratingSubMenu addItemWithTitle:rating5 action:@selector(setRating:) keyEquivalent:@""];
+		[item setTarget:self];
+		[item setTag:ratingTag+5];
+		[rating0 release];
+		[rating1 release];
+		[rating2 release];
+		[rating3 release];
+		[rating4 release];
+		[rating5 release];
+	}
 
+	return ratingSubMenu;
+}
+	
 - (BOOL) validateMenuItem:(NSMenuItem *)item {
 	BOOL retVal = YES;
 
 	switch ([item tag]) {
-		case launchQuitiTunesTag:;
+		case launchQuitiTunesTag:
 			if ([self iTunesIsRunning])
 				[item setTitle:@"Quit iTunes"];
 			else
@@ -657,7 +702,6 @@ enum {
 
 		case quitGrowlTunesTag:
 		case onlineHelpTag:
-			retVal = YES;
 			break;
 	}
 
@@ -736,6 +780,15 @@ enum {
 	return success;
 }
 
+- (IBAction) setRating:(id)sender {
+	int rating = ([sender tag] - ratingTag) * 20;
+	NSString *ratingScript = [[NSString alloc] initWithFormat:@"tell application \"iTunes\" to set rating of current track to %d", rating];
+	NSAppleScript *as = [[NSAppleScript alloc] initWithSource:ratingScript];
+	[as executeAndReturnError:NULL];
+	[as release];
+	[ratingScript release];
+}
+
 #pragma mark AppleScript
 
 - (NSAppleScript *) appleScriptNamed:(NSString *)name {
@@ -762,17 +815,20 @@ enum {
 
 - (void) jumpToTune:(id) sender {
 	NSDictionary *tuneDict = [recentTracks objectAtIndex:[sender tag]];
-	NSString *jumpScript = [NSString stringWithFormat:@"tell application \"iTunes\"\nplay track \"%@\" of playlist \"%@\"\nend tell",
+	NSString *jumpScript = [[NSString alloc] initWithFormat:@"tell application \"iTunes\"\nplay track \"%@\" of playlist \"%@\"\nend tell",
 									[tuneDict objectForKey:@"name"],
 									[tuneDict objectForKey:@"playlist"]];
-	NSAppleScript *as = [[[NSAppleScript alloc] initWithSource:jumpScript] autorelease];
+	NSAppleScript *as = [[NSAppleScript alloc] initWithSource:jumpScript];
 	[as executeAndReturnError:NULL];
+	[as release];
+	[jumpScript release];
 }
 
 - (void) handleAppLaunch:(NSNotification *)notification {
 	if ([iTunesBundleID caseInsensitiveCompare:[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
 		[self startTimer];
 }
+
 - (void) handleAppQuit:(NSNotification *)notification {
 	if ([iTunesBundleID caseInsensitiveCompare:[[notification userInfo] objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
 		[self stopTimer];
