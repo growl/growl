@@ -196,7 +196,7 @@ static GrowlPreferences *sharedPreferences;
 
 	if (flag && !foundOne) {
 		/*we were called with YES, and we weren't already in the start-at-login
-		 *	array, so add ourselves to its end.
+		 *	array, so add ourselves at the beginning.
 		 */
 		NSNumber *hide = [[NSNumber alloc] initWithBool:NO];
 		NSDictionary *launchDict = [[NSDictionary alloc] initWithObjectsAndKeys:
