@@ -348,8 +348,6 @@
 	[self setTickets:[[GrowlApplicationTicket allSavedTickets] allValues]];
 	[self cacheImages];
 
-	[self loadViewForDisplay:nil];
-
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
 
 	// If Growl is enabled, ensure the helper app is launched
@@ -358,8 +356,15 @@
 	}
 
 	if ([plugins count] > 0U) {
-//		[displayPluginsArrayController setSelectionIndex:0U];
+		NSString *defaultPlugin = [preferences objectForKey:GrowlDisplayPluginKey];
+		unsigned defaultIndex = [[displayPluginsArrayController arrangedObjects] indexOfObject:defaultPlugin];
+		if (defaultIndex == NSNotFound) {
+			defaultIndex = 0U;
+		}
+		[displayPluginsArrayController setSelectionIndex:defaultIndex];
 		[self reloadDisplayPluginView];
+	} else {
+		[self loadViewForDisplay:nil];
 	}
 }
 
