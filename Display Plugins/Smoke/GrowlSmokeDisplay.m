@@ -39,7 +39,7 @@ static unsigned smokeDepth = 0U;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
-	//NSLog(@"Smoke: displayNotificationWithInfo");
+	clickHandlerEnabled = [noteDict objectForKey:@"ClickHandlerEnabled"];
 	GrowlSmokeWindowController *controller = [[GrowlSmokeWindowController alloc]
 		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
 				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
@@ -71,14 +71,18 @@ static unsigned smokeDepth = 0U;
 	//NSLog(@"My depth is now %u\n", smokeDepth);
 }
 
-- (void) _smokeClicked:(GrowlSmokeWindowController *)smoke
-{
+- (void) _smokeClicked:(GrowlSmokeWindowController *)smoke {
 	id clickContext;
 
-	if ( (clickContext = [smoke clickContext]) ) {
+	if ((clickContext = [smoke clickContext])) {
+		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+			clickHandlerEnabled, @"ClickHandlerEnabled",
+			clickContext,        @"ClickContext",
+			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:[smoke appName]
-														  userInfo:clickContext];
+														  userInfo:userInfo];
+		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		[smoke setClickContext:nil];

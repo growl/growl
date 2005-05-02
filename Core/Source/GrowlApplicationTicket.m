@@ -17,6 +17,7 @@
 
 #define UseDefaultsKey			@"useDefaults"
 #define TicketEnabledKey		@"ticketEnabled"
+#define ClickHandlersEnabledKey	@"clickHandlersEnabled"
 
 #pragma mark -
 
@@ -71,7 +72,7 @@
 }
 
 //these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
-+ (BOOL)isValidTicketDictionary:(NSDictionary *)dict {
++ (BOOL) isValidTicketDictionary:(NSDictionary *)dict {
 	NSNumber *versionNum = [dict objectForKey:GROWL_TICKET_VERSION];
 	if ([versionNum intValue] == 1) {
 		return [dict objectForKey:GROWL_NOTIFICATIONS_ALL]
@@ -81,18 +82,18 @@
 	}
 }
 
-+ (BOOL)isKnownTicketVersion:(NSDictionary *)dict {
++ (BOOL) isKnownTicketVersion:(NSDictionary *)dict {
 	id version = [dict objectForKey:GROWL_TICKET_VERSION];
 	return version && ([version intValue] == 1);
 }
 
 #pragma mark -
 
-+ (id)ticketWithDictionary:(NSDictionary *)ticketDict {
++ (id) ticketWithDictionary:(NSDictionary *)ticketDict {
 	return [[[GrowlApplicationTicket alloc] initWithDictionary:ticketDict] autorelease];
 }
 
-- (id)initWithDictionary:(NSDictionary *)ticketDict {
+- (id) initWithDictionary:(NSDictionary *)ticketDict {
 	if (!ticketDict) {
 		[self release];
 		NSParameterAssert(ticketDict != nil);
@@ -177,6 +178,13 @@
 			displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
 		}
 
+		value = [ticketDict objectForKey:ClickHandlersEnabledKey];
+		if (value) {
+			clickHandlersEnabled = [value boolValue];
+		} else {
+			clickHandlersEnabled = YES;
+		}
+
 		[self setDefaultNotifications:inDefaults];
 	}
 
@@ -256,19 +264,22 @@
 
 	NSNumber *useDefaultsValue = [[NSNumber alloc] initWithBool:useDefaults];
 	NSNumber *ticketEnabledValue = [[NSNumber alloc] initWithBool:ticketEnabled];
+	NSNumber *clickHandlersEnabledValue = [[NSNumber alloc] initWithBool:clickHandlersEnabled];
 	NSData *iconData = icon ? [icon TIFFRepresentation] : [NSData data];
 	NSMutableDictionary *saveDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		appName,              GROWL_APP_NAME,
-		saveNotifications,    GROWL_NOTIFICATIONS_ALL,
-		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-		iconData,             GROWL_APP_ICON,
-		useDefaultsValue,     UseDefaultsKey,
-		ticketEnabledValue,   TicketEnabledKey,
-		location,             GROWL_APP_LOCATION,
+		appName,                   GROWL_APP_NAME,
+		saveNotifications,         GROWL_NOTIFICATIONS_ALL,
+		defaultNotifications,      GROWL_NOTIFICATIONS_DEFAULT,
+		iconData,                  GROWL_APP_ICON,
+		useDefaultsValue,          UseDefaultsKey,
+		ticketEnabledValue,        TicketEnabledKey,
+		clickHandlersEnabledValue, ClickHandlersEnabledKey,
+		location,                  GROWL_APP_LOCATION,
 		nil];
-	[useDefaultsValue   release];
-	[ticketEnabledValue release];
-	[saveNotifications  release];
+	[useDefaultsValue          release];
+	[ticketEnabledValue        release];
+	[clickHandlersEnabledValue release];
+	[saveNotifications         release];
 	if (displayPluginName) {
 		[saveDict setObject:displayPluginName forKey:GrowlDisplayPluginKey];
 	}
@@ -329,6 +340,15 @@
 
 - (void) setTicketEnabled:(BOOL)inEnabled {
 	ticketEnabled = inEnabled;
+	[self synchronize];
+}
+
+- (BOOL) clickHandlersEnabled {
+	return clickHandlersEnabled;
+}
+
+- (void) setClickHandlersEnabled:(BOOL)inEnabled {
+	clickHandlersEnabled = inEnabled;
 	[self synchronize];
 }
 

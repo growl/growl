@@ -28,6 +28,7 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
+	clickHandlerEnabled = [noteDict objectForKey:@"ClickHandlerEnabled"];
 	GrowlBubblesWindowController *nuBubble = [[GrowlBubblesWindowController alloc]
 		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
 				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
@@ -48,9 +49,14 @@
 	id clickContext;
 
 	if ((clickContext = [bubble clickContext])) {
+		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+			clickHandlerEnabled, @"ClickHandlerEnabled",
+			clickContext,        @"ClickContext",
+			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 														   object:[bubble appName]
-														  userInfo:clickContext];
+														  userInfo:userInfo];
+		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		[bubble setClickContext:nil];

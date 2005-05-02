@@ -13,6 +13,7 @@
 
 @interface GrowlSmokeDisplay : NSObject <GrowlDisplayPlugin> {
 	NSPreferencePane	*preferencePane;
+	NSNumber			*clickHandlerEnabled;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict;

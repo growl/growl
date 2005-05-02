@@ -38,6 +38,7 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
+	clickHandlerEnabled = [noteDict objectForKey:@"ClickHandlerEnabled"];
 	// load GrowlWebKitWindowController dynamically so that the prefpane does not
 	// have to link against it and all of its dependencies
 	Class webKitWindowController = NSClassFromString(@"GrowlWebKitWindowController");
@@ -62,9 +63,14 @@
 	id clickContext;
 
 	if ((clickContext = [windowController clickContext])) {
+		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+			clickHandlerEnabled, @"ClickHandlerEnabled",
+			clickContext,        @"ClickContext",
+			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 														   object:[windowController appName]
-														  userInfo:clickContext];
+														  userInfo:userInfo];
+		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		[windowController setClickContext:nil];

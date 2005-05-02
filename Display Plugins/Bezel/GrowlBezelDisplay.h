@@ -13,6 +13,7 @@
 @interface GrowlBezelDisplay : NSObject <GrowlDisplayPlugin> {
 	NSMutableArray		*notificationQueue;
 	NSPreferencePane	*preferencePane;
+	NSNumber			*clickHandlerEnabled;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict;

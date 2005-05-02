@@ -11,6 +11,7 @@
 
 @interface GrowlBubblesController : NSObject <GrowlDisplayPlugin> {
 	NSPreferencePane	*preferencePane;
+	NSNumber			*clickHandlerEnabled;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict;

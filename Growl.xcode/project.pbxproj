@@ -3059,7 +3059,7 @@
 				93FCE5A90812DA0100320D8E,
 			);
 			isa = PBXGroup;
-			name = MenuExtra;
+			name = StatusItem;
 			refType = 4;
 			sourceTree = "<group>";
 		};

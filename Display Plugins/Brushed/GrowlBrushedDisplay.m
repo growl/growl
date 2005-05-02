@@ -39,7 +39,7 @@ static unsigned brushedDepth = 0U;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
-	//NSLog(@"Brushed: displayNotificationWithInfo");
+	clickHandlerEnabled = [noteDict objectForKey:@"ClickHandlerEnabled"];
 	GrowlBrushedWindowController *controller = [[GrowlBrushedWindowController alloc]
 		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
 				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
@@ -75,9 +75,14 @@ static unsigned brushedDepth = 0U;
 	id clickContext;
 
 	if ((clickContext = [brushed clickContext])) {
+		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+			clickHandlerEnabled, @"ClickHandlerEnabled",
+			clickContext,        @"ClickContext",
+			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:[brushed appName]
-														  userInfo:clickContext];
+														  userInfo:userInfo];
+		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		[brushed setClickContext:nil];

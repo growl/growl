@@ -34,6 +34,7 @@
 #pragma mark -
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
+	clickHandlerEnabled = [noteDict objectForKey:@"ClickHandlerEnabled"];
 	GrowlMusicVideoWindowController *nuMusicVideo = [GrowlMusicVideoWindowController
 		musicVideoWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
 					   text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
@@ -91,9 +92,14 @@
 	id clickContext;
 
 	if ((clickContext = [musicVideo clickContext])) {
+		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+			clickHandlerEnabled, @"ClickHandlerEnabled",
+			clickContext,        @"ClickContext",
+			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:[musicVideo appName]
-														  userInfo:clickContext];
+														  userInfo:userInfo];
+		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		[musicVideo setClickContext:nil];

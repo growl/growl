@@ -345,6 +345,10 @@ static id singleton = nil;
 	[aDict setObject:value forKey:GROWL_SCREENSHOT_MODE];
 	[value release];
 
+	value = [[NSNumber alloc] initWithBool:[ticket clickHandlersEnabled]];
+	[aDict setObject:value forKey:@"ClickHandlerEnabled"];
+	[value release];
+
 	if (![[GrowlPreferences preferences] boolForKey:GrowlSquelchModeKey]) {
 		id <GrowlDisplayPlugin> display = [notification displayPlugin];
 
@@ -934,20 +938,31 @@ static id singleton = nil;
 
 - (void) notificationClicked:(NSNotification *)notification {
 	NSString *appName, *growlNotificationClickedName;
+	NSDictionary *clickInfo;
 	NSDictionary *userInfo;
+
+	userInfo = [notification userInfo];
 
 	//Build the application-specific notification name
 	appName = [notification object];
-	growlNotificationClickedName = [appName stringByAppendingString:GROWL_NOTIFICATION_CLICKED];
-	userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[notification userInfo],
+	if ([[userInfo objectForKey:@"ClickHandlerEnabled"] boolValue]) {
+		growlNotificationClickedName = [appName stringByAppendingString:GROWL_NOTIFICATION_CLICKED];
+	} else {
+		/*
+		 * send GROWL_NOTIFICATION_TIMED_OUT instead, so that an application is
+		 * guaranteed to receive feedback for every notification.
+		 */
+		growlNotificationClickedName = [appName stringByAppendingString:GROWL_NOTIFICATION_TIMED_OUT];
+	}
+	clickInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[userInfo objectForKey:@"ClickContext"],
 		GROWL_KEY_CLICKED_CONTEXT, nil];
-
+	
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName
 																   object:nil
-																 userInfo:userInfo
+																 userInfo:clickInfo
 													   deliverImmediately:YES];
 
-	[userInfo release];
+	[clickInfo release];
 }
 
 - (void) notificationTimedOut:(NSNotification *)notification {

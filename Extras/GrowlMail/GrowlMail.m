@@ -58,16 +58,15 @@ static Class growlApplicationBridge;
 	[GrowlMail registerBundle];
 
 	NSNumber *enabled = [[NSNumber alloc] initWithBool:YES];
-	NSNumber *disabled = [[NSNumber alloc] initWithBool:NO];
+	NSNumber *automatic = [[NSNumber alloc] initWithInt:0];
 	NSDictionary *defaultsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-		enabled, @"GMEnableGrowlMailBundle",
-		enabled, @"GMIgnoreJunk",
-		disabled, @"GMShowSummary",
-		disabled, @"GMIgnoreClickHandler",
+		enabled,   @"GMEnableGrowlMailBundle",
+		enabled,   @"GMIgnoreJunk",
+		automatic, @"GMSummaryMode",
 		nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDictionary];
 	[defaultsDictionary release];
-	[disabled release];
+	[automatic release];
 	[enabled release];
 
 	NSLog( @"Loaded GrowlMail %@", [GrowlMail bundleVersion] );
@@ -119,8 +118,7 @@ static Class growlApplicationBridge;
 - (void) growlNotificationWasClicked:(id)clickContext {
 #pragma unused(clickContext)
 	// TODO: open a specific message if not in summary mode
-	if (![GrowlMail ignoreClickHandler])
-		[NSApp activateIgnoringOtherApps:YES];
+	[NSApp activateIgnoringOtherApps:YES];
 }
 
 - (NSDictionary *) registrationDictionaryForGrowl {
@@ -168,10 +166,6 @@ static Class growlApplicationBridge;
 
 + (int) summaryMode {
 	return [[NSUserDefaults standardUserDefaults] integerForKey:@"GMSummaryMode"];
-}
-
-+ (BOOL) ignoreClickHandler {
-	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMIgnoreClickHandler"];
 }
 
 @end

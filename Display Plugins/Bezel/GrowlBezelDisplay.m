@@ -32,6 +32,7 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
+	clickHandlerEnabled = [noteDict objectForKey:@"ClickHandlerEnabled"];
 	GrowlBezelWindowController *nuBezel = [GrowlBezelWindowController bezelWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
 			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
@@ -95,9 +96,14 @@
 	id clickContext;
 
 	if ((clickContext = [bezel clickContext])) {
+		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+			clickHandlerEnabled, @"ClickHandlerEnabled",
+			clickContext,        @"ClickContext",
+			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:[bezel appName]
-														  userInfo:clickContext];
+														  userInfo:userInfo];
+		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		[bezel setClickContext:nil];

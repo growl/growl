@@ -42,7 +42,6 @@
 + (BOOL) isEnabled;
 + (BOOL) isIgnoreJunk;
 + (int) summaryMode;
-+ (BOOL) ignoreClickHandler;
 
 - (id) init;
 - (BOOL) isAccountEnabled:(NSString *)path;

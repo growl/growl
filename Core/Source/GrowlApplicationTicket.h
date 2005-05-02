@@ -29,14 +29,15 @@
 
 	BOOL			useDefaults;				// Flag for whether this ticket just uses default
 	BOOL			ticketEnabled;
+	BOOL			clickHandlersEnabled;		// Flag whether click handlers are enabled
 }
 
 + (NSDictionary *) allSavedTickets;
 + (void) loadTicketsFromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber;
 
 //these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
-+ (BOOL)isValidTicketDictionary:(NSDictionary *)dict;
-+ (BOOL)isKnownTicketVersion:(NSDictionary *)dict;
++ (BOOL) isValidTicketDictionary:(NSDictionary *)dict;
++ (BOOL) isKnownTicketVersion:(NSDictionary *)dict;
 
 #pragma mark -
 
@@ -61,6 +62,9 @@
 
 - (BOOL) ticketEnabled;
 - (void) setTicketEnabled:(BOOL)inEnabled;
+
+- (BOOL) clickHandlersEnabled;
+- (void) setClickHandlersEnabled:(BOOL)inEnabled;
 
 - (BOOL) useDefaults;
 - (void) setUseDefaults:(BOOL)flag;
