@@ -38,7 +38,6 @@
 - (void) _unlockQueue;
 - (void) _processNotificationQueue;
 - (void) _processRegistrationQueue;
-- (void) _postGrowlIsReady;
 @end
 
 static struct Version version = { 0U, 7U, 0U, releaseType_svn, 0U, };
@@ -658,7 +657,7 @@ static id singleton = nil;
 
 - (void) shutdown:(NSNotification *) note {
 #pragma unused(note)
-	[NSApp terminate: nil];
+	[NSApp terminate:nil];
 }
 
 - (void) replyToPing:(NSNotification *) note {
@@ -672,49 +671,49 @@ static id singleton = nil;
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {
 #pragma unused(theApplication)
-	BOOL retVal = NO;
+	BOOL retVal;
 	NSString *pathExtension = [filename pathExtension];
 
 	NSLog(@"Asked to open file %@", filename);
 
 	if ([pathExtension isEqualToString:@"growlView"] || [pathExtension isEqualToString:@"growlStyle"]) {
 		[[GrowlPluginController controller] installPlugin:filename];
-
-		[self _postGrowlIsReady];
-
-		return YES;
+		retVal = YES;
 	} else if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
 		NSDictionary *regDict = [[NSDictionary alloc] initWithContentsOfFile:filename];
 		if ([filename isSubpathOf:NSTemporaryDirectory()]) //assume we got here from GAB
 			[[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
 
-		//Register this app using the indicated dictionary
-		if ([self _tryLockQueue]) {
-			[self registerApplicationWithDictionary:regDict];
-			[self _unlockQueue];
+		if (regDict) {
+			//Register this app using the indicated dictionary
+			if ([self _tryLockQueue]) {
+				[self registerApplicationWithDictionary:regDict];
+				[self _unlockQueue];
+			} else {
+				[registrationQueue addObject:regDict];
+			}
+			[regDict release];
+			retVal = YES;
 		} else {
-			[registrationQueue addObject:regDict];
+			retVal = NO;
 		}
-		[regDict release];
+	} else {
+		retVal = NO;
+	}
 
-		/*If Growl is not enabled and was not already running before
-		 *	(for example, via an autolaunch even though the user's last
-		 *	preference setting was to click "Stop Growl," setting enabled to NO),
-		 *	quit having registered; otherwise, remain running.
-		 */
-		if (!growlIsEnabled && !growlFinishedLaunching) {
-			/*We want to hold in this thread until we can lock/unlock the queue
-			 *	and ensure our registration is sent
-			 */
-			[registrationLock lock]; [registrationLock unlock];
-			[self _unlockQueue];
+	/* If Growl is not enabled and was not already running before
+	 *	(for example, via an autolaunch even though the user's last
+	 *	preference setting was to click "Stop Growl," setting enabled to NO),
+	 *	quit having registered; otherwise, remain running.
+	 */
+	if (!growlIsEnabled && !growlFinishedLaunching) {
+		/*We want to hold in this thread until we can lock/unlock the queue
+		*	and ensure our registration is sent
+		*/
+		[registrationLock lock]; [registrationLock unlock];
+		[self _unlockQueue];
 
-			[NSApp terminate:self];
-		} else {
-			[self _postGrowlIsReady];
-		}
-
-		retVal = YES;
+		[NSApp terminate:self];
 	}
 
 	return retVal;
@@ -752,15 +751,17 @@ static id singleton = nil;
 //Post a notification when we are done launching so the application bridge can inform participating applications
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
 #pragma unused(aNotification)
-	[self _postGrowlIsReady];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
+																   object:nil
+																 userInfo:nil
+													   deliverImmediately:YES];
+	growlFinishedLaunching = YES;
 }
 
 //Same as applicationDidFinishLaunching, called when we are asked to reopen (that is, we are already running)
 - (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
 #pragma unused(theApplication, flag)
-	[self _postGrowlIsReady];
-
-	return YES;
+	return NO;
 }
 
 - (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
@@ -921,17 +922,6 @@ static id singleton = nil;
 		[self registerApplicationWithDictionary:dict];
 	}
 	[queue release];
-}
-
-#pragma mark -
-
-- (void) _postGrowlIsReady {
-	growlFinishedLaunching = YES;
-
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
-																   object:nil
-																 userInfo:nil
-													   deliverImmediately:YES];
 }
 
 #pragma mark -
