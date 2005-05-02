@@ -40,7 +40,7 @@ static GrowlApplicationBridgePathway *_theOneTrueGrowlApplicationBridgePathway;
 			 */
 			NSLog( @"%@", @"It appears that at least one other instance of Growl is running. This one will quit." );
 			[self release];
-			[NSApp terminate];
+			[NSApp terminate:self];
 		}
 
 		_theOneTrueGrowlApplicationBridgePathway = self;
