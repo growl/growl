@@ -145,7 +145,6 @@ void yac_read(int client)
 	}
 	/* ensure we're null terminated if we hit 300 limit */
 	inbuf[len] = '\0';
-	inbuf[301] = '\0';
 
 
 	char caller[296];
