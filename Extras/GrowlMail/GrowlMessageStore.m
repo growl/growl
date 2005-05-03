@@ -53,7 +53,6 @@ static NSMutableArray *collectedMessages;
 - (void) showSummary {
 	Message *message;
 	int summaryMode = [GrowlMail summaryMode];
-	GrowlMail *growlMail = [GrowlMail sharedInstance];
 
 	unsigned messageCount = [collectedMessages count];
 	if (summaryMode == MODE_AUTO) {
@@ -64,45 +63,34 @@ static NSMutableArray *collectedMessages;
 		}
 	}
 
-	Class tocClass = [TOCMessage class];
-	NSEnumerator *e = [collectedMessages objectEnumerator];
 	switch (summaryMode) {
 		default:
 		case MODE_SINGLE:
-			while ((message = [e nextObject])) {
-				// NSLog( @"Message class: %@", [message className] );
-				if (!([message isKindOfClass: tocClass] || ([message isJunk] && [GrowlMail isIgnoreJunk]))
-						&& [growlMail isAccountEnabled:[[[message messageStore] account] path]] ) {
-					[message showNotification];
-				}
-			}
+			[collectedMessages makeObjectsPerformSelector:@selector(showNotification)];
 			break;
 		case MODE_SUMMARY: {
 			NSMutableDictionary *accountSummary = [[NSMutableDictionary alloc] initWithCapacity:[[MailAccount mailAccounts] count]];
-			while ((message = [e nextObject])) {
-				// NSLog( @"Message class: %@", [message className] );
+			NSEnumerator *enumerator = [collectedMessages objectEnumerator];
+			while ((message = [enumerator nextObject])) {
 				MailAccount *account = [[message messageStore] account];
-				if (!([message isKindOfClass: tocClass] || ([message isJunk] && [GrowlMail isIgnoreJunk]))
-						&& [growlMail isAccountEnabled:[account path]] ) {
-					NSString *accountName = [account displayName];
-					NSNumber *oldCount = [accountSummary objectForKey:accountName];
-					int count;
-					if (oldCount) {
-						count = [oldCount intValue] + 1;
-					} else {
-						count = 1;
-					}
-					NSNumber *value = [[NSNumber alloc] initWithInt:count];
-					[accountSummary setObject:value forKey:accountName];
-					[value release];
+				NSString *accountName = [account displayName];
+				NSNumber *oldCount = [accountSummary objectForKey:accountName];
+				int count;
+				if (oldCount) {
+					count = [oldCount intValue] + 1;
+				} else {
+					count = 1;
 				}
+				NSNumber *value = [[NSNumber alloc] initWithInt:count];
+				[accountSummary setObject:value forKey:accountName];
+				[value release];
 			}
-			NSEnumerator *enumerator = [accountSummary keyEnumerator];
 			NSBundle *bundle = [GrowlMail bundle];
 			NSString *title = NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"");
 			NSData *iconData = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
 			Class gab = [GrowlMail growlApplicationBridge];
 			NSString *key;
+			enumerator = [accountSummary keyEnumerator];
 			while ((key = [enumerator nextObject])) {
 				NSNumber *count = [accountSummary objectForKey:key];
 				NSString *description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n%d new mail(s)", nil, bundle, @""), key, [count intValue]];
@@ -131,7 +119,17 @@ static NSMutableArray *collectedMessages;
 								   withObject:nil
 								waitUntilDone:NO];
 		}
-		[collectedMessages addObjectsFromArray:messages];
+		Message *message;
+		Class tocClass = [TOCMessage class];
+		GrowlMail *growlMail = [GrowlMail sharedInstance];
+		NSEnumerator *enumerator = [messages objectEnumerator];
+		while ((message = [enumerator nextObject])) {
+			// NSLog( @"Message class: %@", [message className] );
+			if (!([message isKindOfClass: tocClass] || ([message isJunk] && [GrowlMail isIgnoreJunk]))
+				&& [growlMail isAccountEnabled:[[[message messageStore] account] path]]) {
+				[collectedMessages addObject:message];
+			}
+		}
 	}
 
 	return [super finishRoutingMessages: messages routed: routed];
