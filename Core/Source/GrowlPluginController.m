@@ -165,6 +165,7 @@ static GrowlPluginController *sharedController;
 
 		// copy new version to destination
 		if ([fileManager copyPath:filename toPath:destination handler:nil]) {
+			[self loadPlugin:destination];
 			NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
 											NSLocalizedString( @"No", @"" ),
 											NSLocalizedString( @"Yes", @"" ),
