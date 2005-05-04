@@ -7,7 +7,7 @@
 	<key>Auto Open</key>
 	<string>FALSE</string>
 	<key>Background Image Path</key>
-	<string>/Users/chris/source_code/projects/growl/images/dmg/growlSDK.png</string>
+	<string>growlSDK.png</string>
 	<key>Build Format</key>
 	<string>DMG (OS X only)</string>
 	<key>Custom Icon Path</key>
@@ -48,9 +48,17 @@
 		</dict>
 		<dict>
 			<key>Origin</key>
-			<string>{239, 154}</string>
+			<string>{185, 162}</string>
 			<key>Path</key>
-			<string>/Users/chris/source_code/test/SDK/Documentation/Growl Developer Documentation.webloc</string>
+			<string>/Users/chris/source_code/test/SDK/Growl Developer Documentation.webloc</string>
+			<key>Type</key>
+			<string>File Item</string>
+		</dict>
+		<dict>
+			<key>Origin</key>
+			<string>{296, 133}</string>
+			<key>Path</key>
+			<string>/Users/chris/Desktop/Growl version history for developers.webloc</string>
 			<key>Type</key>
 			<string>File Item</string>
 		</dict>
@@ -60,7 +68,7 @@
 	<key>Lock Frame</key>
 	<string>TRUE</string>
 	<key>Project File Path</key>
-	<string>/Users/chris/Desktop/growl stuff/</string>
+	<string>/Users/chris/source_code/projects/growl/images/dmg/</string>
 	<key>Show Toolbar</key>
 	<string>TRUE</string>
 	<key>Volume Name</key>
