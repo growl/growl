@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>DISP</string>
 	<key>CFBundleShortVersionString</key>
-	<string></string>
+	<string>WebKit 0.1</string>
 	<key>CFBundleSignature</key>
 	<string>GRRR</string>
 	<key>CFBundleVersion</key>
