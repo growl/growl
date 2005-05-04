@@ -46,7 +46,7 @@
 	if (compilation)
 		artist = @"compilation";
 
-	NSLog(@"Go go interweb (%@ by %@ from %@)", song, artist, album);
+//	NSLog(@"Go go interweb (%@ by %@ from %@)", song, artist, album);
 	NSDictionary *albumInfo = [self getAlbum:album byArtist:artist];
 
 	return [self imageWithAlbumInfo:albumInfo];
@@ -309,7 +309,7 @@
 }
 
 - (NSData *)download:(NSURL *)url {
-	NSLog(@"Go go interweb: %@", url);
+//	NSLog(@"Go go interweb: %@", url);
 
 	/*the default time-out is 60 seconds.
 	 *this is far too long for GrowlTunes; the song could easily be over by then.
