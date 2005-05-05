@@ -516,34 +516,37 @@ static id singleton = nil;
 #pragma unused(timer)
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
 
-	if (![preferences boolForKey:GrowlUpdateCheckKey]) {
+	if (![preferences boolForKey:GrowlUpdateCheckKey])
 		return;
-	}
 
-	if (!versionCheckURL) {
+	if (!versionCheckURL)
 		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
-	}
+
+	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
 
 	NSString *currVersionNumber = [GrowlController growlVersion];
-	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:@"Growl"];
-	NSURL *downloadURL = [[NSURL alloc] initWithString:
-		[productVersionDict objectForKey:@"GrowlDownloadURL"]];
 
-	// do nothing--be quiet if there is no active connection or if the
-	// version number could not be downloaded
-	if (latestVersionNumber) {
+	NSString *downloadURLString = [productVersionDict objectForKey:@"GrowlDownloadURL"];
+
+	/*do nothing and be quiet if there is no active connection, if the
+	 *	version dictionary could not be downloaded, or if the version dictionary
+	 *	is missing either of these keys.
+	 */
+	if(downloadURLString && latestVersionNumber) {
+		NSURL *downloadURL = [[NSURL alloc] initWithString:downloadURLString];
+
 		[preferences setObject:[NSDate date] forKey:LastUpdateCheckKey];
 		if (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0) {
-			[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Update Available", @"")
-										description:NSLocalizedString(@"A newer version of Growl is available online. Click here to download it now.", @"")
-								   notificationName:@"Growl update available"
-										   iconData:growlIconData
-										   priority:1
-										   isSticky:YES
-									   clickContext:downloadURL];
+			[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Update Available", /*comment*/ nil)
+				                        description:NSLocalizedString(@"A newer version of Growl is available online. Click here to download it now.", /*comment*/ nil)
+				                   notificationName:@"Growl update available"
+			                               iconData:growlIconData
+			                               priority:1
+			                               isSticky:YES
+			                           clickContext:downloadURL];
 		}
-	} else {
+
 		[downloadURL release];
 	}
 
