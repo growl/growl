@@ -26,6 +26,7 @@
 #import "GrowlLog.h"
 #import "GrowlNotificationCenter.h"
 #import "MD5Authenticator.h"
+#import "cdsa.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #include <sys/socket.h>
 
