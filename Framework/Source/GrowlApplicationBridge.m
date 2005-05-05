@@ -204,7 +204,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	if (growlLaunched) {
 		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
 		if (connection) {
-			//Post to Growl via local NSConnection pathway
+			//Post to Growl via GrowlApplicationBridgePathway
 			NS_DURING
 				NSDistantObject *theProxy = [connection rootProxy];
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
@@ -480,7 +480,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	while ((noteDict = [enumerator nextObject])) {
 		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
 		if (connection) {
-			//Post to Growl via NSDistributedNotificationCenter
+			//Post to Growl via GrowlApplicationBridgePathway
 			NS_DURING
 				NSDistantObject *theProxy = [connection rootProxy];
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
