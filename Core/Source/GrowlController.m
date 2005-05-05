@@ -84,6 +84,12 @@ static id singleton = nil;
 				   name:GROWL_NOTIFICATION_TIMED_OUT
 				 object:nil];
 
+		if (cdsaInit()) {
+			NSLog(@"ERROR: Could not initialize CDSA.");
+			[self release];
+			return nil;
+		}
+
 		authenticator = [[MD5Authenticator alloc] init];
 
 		//XXX temporary DNC pathway hack - remove when real pathway support is in
@@ -169,6 +175,8 @@ static id singleton = nil;
 	[growlNotificationCenterConnection invalidate];
 	[growlNotificationCenterConnection release];
 	[growlNotificationCenter release];
+
+	cdsaShutdown();
 
 	[super dealloc];
 }

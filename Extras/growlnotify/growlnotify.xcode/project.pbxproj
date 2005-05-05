@@ -47,6 +47,7 @@
 //074
 		07C7692606831F1D0025D426 = {
 			children = (
+				95CF98F4082A5DA5001A409D,
 				956D7F0508251E190083D772,
 				9595184F07E4859F004A4471,
 				95C876E007D9DF4100C69DEE,
@@ -118,6 +119,7 @@
 		};
 		08FB7795FE84155DC02AAC07 = {
 			children = (
+				95CF98F3082A5DA5001A409D,
 				956D7F0408251E190083D772,
 				9526BD9C081BCFD500B9D0D0,
 				9526247D074F92F600C5F344,
@@ -139,7 +141,6 @@
 		08FB779DFE84155DC02AAC07 = {
 			children = (
 				9526BDA5081BD22600B9D0D0,
-				DAA31DA0078D239500BE4DA9,
 				0A95FC900739AAC800E585F8,
 				08FB779EFE84155DC02AAC07,
 			);
@@ -283,6 +284,7 @@
 				9526247F074F92F600C5F344,
 				9526BD9D081BCFD500B9D0D0,
 				956D7F0608251E190083D772,
+				95CF98F5082A5DA5001A409D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,7 +302,6 @@
 			files = (
 				0A95FC1D0739AA7300E585F8,
 				0A95FC910739AAC800E585F8,
-				DAA31DA1078D239500BE4DA9,
 				9526BDA6081BD22600B9D0D0,
 			);
 			isa = PBXFrameworksBuildPhase;
@@ -455,26 +456,26 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-//950
-//951
-//952
-//953
-//954
-//DA0
-//DA1
-//DA2
-//DA3
-//DA4
-		DAA31DA0078D239500BE4DA9 = {
+		95CF98F3082A5DA5001A409D = {
+			fileEncoding = 30;
 			isa = PBXFileReference;
-			lastKnownFileType = "compiled.mach-o.dylib";
-			name = libcrypto.dylib;
-			path = /usr/lib/libcrypto.dylib;
-			refType = 0;
-			sourceTree = "<absolute>";
+			lastKnownFileType = sourcecode.c.c;
+			name = cdsa.c;
+			path = ../../Common/Source/cdsa.c;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
-		DAA31DA1078D239500BE4DA9 = {
-			fileRef = DAA31DA0078D239500BE4DA9;
+		95CF98F4082A5DA5001A409D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = cdsa.h;
+			path = ../../Common/Source/cdsa.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		95CF98F5082A5DA5001A409D = {
+			fileRef = 95CF98F3082A5DA5001A409D;
 			isa = PBXBuildFile;
 			settings = {
 			};

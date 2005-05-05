@@ -7,9 +7,7 @@
 //
 
 #import "MD5Authenticator.h"
-#import <Security/SecKeychain.h>
-#import <Security/SecKeychainItem.h>
-#include <openssl/md5.h>
+#import "cdsa.h"
 
 #define keychainServiceName "Growl"
 #define keychainAccountName "Growl"
@@ -28,26 +26,49 @@
 }
 
 - (NSData *) authenticationDataForComponents:(NSArray *)components {
-	MD5_CTX ctx;
-	NSEnumerator *e;
-	unsigned char checksum[MD5_DIGEST_LENGTH];
-	OSStatus status;
-	char *passwordBytes;
-	UInt32 passwordLength;
+	NSEnumerator   *e;
+	OSStatus       status;
+	char           *passwordBytes;
+	UInt32         passwordLength;
+	CSSM_DATA      digestData;
+	CSSM_RETURN    crtn;
+	CSSM_CC_HANDLE ccHandle;
+	CSSM_DATA      inData;
 
-	MD5_Init(&ctx);
+	crtn = CSSM_CSP_CreateDigestContext(cspHandle, CSSM_ALGID_MD5, &ccHandle);
+	if (crtn) {
+		return nil;
+	}
+
+	crtn = CSSM_DigestDataInit(ccHandle);
+	if (crtn) {
+		CSSM_DeleteContext(ccHandle);
+		return nil;
+	}
+
 	e = [components objectEnumerator];
 	id item;
 	while ((item = [e nextObject])) {
 		if ([item isKindOfClass:[NSData class]]) {
-			MD5_Update(&ctx, [item bytes], [item length]);
+			inData.Data = (uint8 *)[item bytes];
+			inData.Length = [item length];
+			crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
+			if (crtn) {
+				CSSM_DeleteContext(ccHandle);
+				return nil;
+			}
 		}
 	}
 
 	if (password) {
 		passwordBytes = (char *)[password UTF8String];
-		passwordLength = strlen(passwordBytes);
-		MD5_Update(&ctx, passwordBytes, passwordLength);
+		inData.Data = (uint8 *)passwordBytes;
+		inData.Length = strlen(passwordBytes);
+		crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
+		if (crtn) {
+			CSSM_DeleteContext(ccHandle);
+			return nil;
+		}
 	} else {
 		status = SecKeychainFindGenericPassword( /*keychainOrArray*/ NULL,
 												 strlen(keychainServiceName), keychainServiceName,
@@ -55,16 +76,29 @@
 												 &passwordLength, (void **)&passwordBytes,
 												 NULL);
 		if (status == noErr) {
-			MD5_Update(&ctx, passwordBytes, passwordLength);
+			inData.Data = (uint8 *)passwordBytes;
+			inData.Length = passwordLength;
+			crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
 			SecKeychainItemFreeContent(/*attrList*/ NULL, passwordBytes);
+			if (crtn) {
+				CSSM_DeleteContext(ccHandle);
+				return nil;
+			}
 		} else if (status != errSecItemNotFound) {
 			NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
 		}
 	}
 
-	MD5_Final(checksum, &ctx);
+	digestData.Data = NULL;
+	digestData.Length = 0U;
+	crtn = CSSM_DigestDataFinal(ccHandle, &digestData);
+	CSSM_DeleteContext(ccHandle);
+	if (crtn) {
+		CSSM_DeleteContext(ccHandle);
+		return nil;
+	}
 
-	return [NSData dataWithBytes:&checksum length:sizeof(checksum)];
+	return [NSData dataWithBytesNoCopy:digestData.Data length:digestData.Length freeWhenDone:YES];
 }
 
 - (BOOL) authenticateComponents:(NSArray *)components withData:(NSData *)signature {

@@ -3,19 +3,82 @@
 //  Growl
 //
 //  Created by Ingmar Stein on 20.11.04.
-//  Copyright 2004 __MyCompanyName__. All rights reserved.
+//  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
 #import "GrowlUDPUtils.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
-#include <openssl/md5.h>
 #include "sha2.h"
+#include "cdsa.h"
+
+#ifndef SHA256_DIGEST_LENGTH
+# define SHA256_DIGEST_LENGTH	32
+#endif
+#ifndef MD5_DIGEST_LENGTH
+# define MD5_DIGEST_LENGTH		16
+#endif
 
 @implementation GrowlUDPUtils
++ (void) addChecksumToPacket:(unsigned char *)packet length:(unsigned)length authMethod:(enum GrowlAuthenticationMethod)authMethod password:(const char *)password {
+	unsigned       messageLength;
+	CSSM_DATA      digestData;
+	CSSM_CC_HANDLE ccHandle;
+	CSSM_DATA      inData;
+	switch (authMethod) {
+		default:
+		case GROWL_AUTH_MD5:
+			CSSM_CSP_CreateDigestContext(cspHandle, CSSM_ALGID_MD5, &ccHandle);
+			CSSM_DigestDataInit(ccHandle);
+			messageLength = length - MD5_DIGEST_LENGTH;
+			inData.Data = packet;
+			inData.Length = messageLength;
+			CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
+			if (password) {
+				inData.Data = (uint8 *)password;
+				inData.Length = strlen(password);
+				CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
+			}
+			digestData.Data = packet + messageLength;
+			digestData.Length = MD5_DIGEST_LENGTH;
+			CSSM_DigestDataFinal(ccHandle, &digestData);
+			CSSM_DeleteContext(ccHandle);
+			break;
+		case GROWL_AUTH_SHA256: {
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
+			CSSM_CSP_CreateDigestContext(cspHandle, CSSM_ALGID_SHA256, &ccHandle);
+			CSSM_DigestDataInit(ccHandle);
+			messageLength = length - SHA256_DIGEST_LENGTH;
+			inData.Data = packet;
+			inData.Length = messageLength;
+			CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
+			if (password) {
+				inData.Data = (uint8 *)password;
+				inData.Length = strlen(password);
+				CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
+			}
+			digestData.Data = packet + messageLength;
+			digestData.Length = SHA256_DIGEST_LENGTH;
+			CSSM_DigestDataFinal(ccHandle, &digestData);
+			CSSM_DeleteContext(ccHandle);
+#else
+			SHA_CTX sha_ctx;
+			messageLength = length-SHA256_DIGEST_LENGTH;
+			SHA256_Init(&sha_ctx);
+			SHA256_Update(&sha_ctx, (const void *)packet, messageLength);
+			if (password) {
+				SHA256_Update(&sha_ctx, (const unsigned char *)password, strlen(password));
+			}
+			SHA256_Final(packet + messageLength, &sha_ctx);
+#endif
+			break;
+		}
+		case GROWL_AUTH_NONE:
+			break;
+	}
+}
+
 + (unsigned char *) notificationToPacket:(NSDictionary *)aNotification digest:(enum GrowlAuthenticationMethod)authMethod password:(const char *)password packetSize:(unsigned int *)packetSize {
-	MD5_CTX md5_ctx;
-	SHA_CTX sha_ctx;
 	struct GrowlNetworkNotification *nn;
 	unsigned char *data;
 	size_t length;
@@ -79,28 +142,7 @@
 	memcpy(data, applicationName, applicationNameLen);
 	data += applicationNameLen;
 
-	// add checksum
-	switch (authMethod) {
-		default:
-		case GROWL_AUTH_MD5:
-			MD5_Init(&md5_ctx);
-			MD5_Update(&md5_ctx, (const void *)nn, length-MD5_DIGEST_LENGTH);
-			if (password) {
-				MD5_Update(&md5_ctx, password, strlen(password));
-			}
-			MD5_Final(data, &md5_ctx);
-			break;
-		case GROWL_AUTH_SHA256:
-			SHA256_Init(&sha_ctx);
-			SHA256_Update(&sha_ctx, (const void *)nn, length-SHA256_DIGEST_LENGTH);
-			if (password) {
-				SHA256_Update(&sha_ctx, (const unsigned char *)password, strlen(password));
-			}
-			SHA256_Final(data, &sha_ctx);
-			break;
-		case GROWL_AUTH_NONE:
-			break;
-	}
+	[GrowlUDPUtils addChecksumToPacket:(unsigned char *)nn length:length authMethod:authMethod password:password];
 
 	*packetSize = length;
 
@@ -117,8 +159,6 @@
 	size_t length;
 	unsigned short applicationNameLen;
 	unsigned numAllNotifications, numDefaultNotifications;
-	MD5_CTX md5_ctx;
-	SHA_CTX sha_ctx;
 	Class NSNumberClass = [NSNumber class];
 
 	const char *applicationName   = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
@@ -217,28 +257,7 @@
 		}
 	}
 
-	// add checksum
-	switch (authMethod) {
-		default:
-		case GROWL_AUTH_MD5:
-			MD5_Init(&md5_ctx);
-			MD5_Update(&md5_ctx, (const void *)nr, length-MD5_DIGEST_LENGTH);
-			if (password) {
-				MD5_Update(&md5_ctx, password, strlen(password));
-			}
-			MD5_Final(data, &md5_ctx);
-			break;
-		case GROWL_AUTH_SHA256:
-			SHA256_Init(&sha_ctx);
-			SHA256_Update(&sha_ctx, (const void *)nr, length-SHA256_DIGEST_LENGTH);
-			if (password) {
-				SHA256_Update(&sha_ctx, (const unsigned char *)password, strlen(password));
-			}
-			SHA256_Final(data, &sha_ctx);
-			break;
-		case GROWL_AUTH_NONE:
-			break;
-	}
+	[GrowlUDPUtils addChecksumToPacket:(unsigned char *)nr length:length authMethod:authMethod password:password];
 
 	*packetSize = length;
 

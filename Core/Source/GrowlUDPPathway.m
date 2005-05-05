@@ -12,13 +12,18 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlPreferences.h"
-#import <Security/SecKeychain.h>
-#import <Security/SecKeychainItem.h>
+#import "cdsa.h"
 #include <netinet/in.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <openssl/md5.h>
 #include "sha2.h"
+
+#ifndef SHA256_DIGEST_LENGTH
+# define SHA256_DIGEST_LENGTH	32
+#endif
+#ifndef MD5_DIGEST_LENGTH
+# define MD5_DIGEST_LENGTH		16
+#endif
 
 #define keychainServiceName "Growl"
 #define keychainAccountName "Growl"
@@ -78,35 +83,82 @@
 }
 
 #pragma mark -
+- (BOOL) authenticateWithCSSM:(const unsigned char *)packet length:(unsigned)length algorithm:(CSSM_ALGORITHMS)digestAlg digestLength:(unsigned)digestLength {
+	unsigned char  *password;
+	unsigned       messageLength;
+	UInt32         passwordLength;
+	OSStatus       status;
+	CSSM_DATA      digestData;
+	CSSM_RETURN    crtn;
+	CSSM_CC_HANDLE ccHandle;
+	CSSM_DATA      inData;
 
-+ (BOOL) authenticatePacketMD5:(const unsigned char *)packet length:(unsigned)length {
-	unsigned char *password;
-	unsigned messageLength;
-	UInt32 passwordLength;
-	OSStatus status;
-	MD5_CTX ctx;
-	unsigned char digest[MD5_DIGEST_LENGTH];
+	crtn = CSSM_CSP_CreateDigestContext(cspHandle, digestAlg, &ccHandle);
+	if (crtn) {
+		return NO;
+	}
 
-	messageLength = length-sizeof(digest);
-	MD5_Init(&ctx);
-	MD5_Update(&ctx, packet, messageLength);
+	crtn = CSSM_DigestDataInit(ccHandle);
+	if (crtn) {
+		CSSM_DeleteContext(ccHandle);
+		return NO;
+	}
+
+	messageLength = length - digestLength;
+	inData.Data = (uint8 *)packet;
+	inData.Length = messageLength;
+	crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
+	if (crtn) {
+		CSSM_DeleteContext(ccHandle);
+		return NO;
+	}
+	
 	status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
 											strlen(keychainServiceName), keychainServiceName,
 											strlen(keychainAccountName), keychainAccountName,
 											&passwordLength, (void **)&password, NULL);
 
 	if (status == noErr) {
-		MD5_Update(&ctx, password, passwordLength);
+		inData.Length = passwordLength;
+		inData.Data = password;
+		crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
 		SecKeychainItemFreeContent(/*attrList*/ NULL, password);
+		if (crtn) {
+			CSSM_DeleteContext(ccHandle);
+			return NO;
+		}
 	} else if (status != errSecItemNotFound) {
 		NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
 	}
-	MD5_Final(digest, &ctx);
+	digestData.Data = NULL;
+	digestData.Length = 0U;
+	crtn = CSSM_DigestDataFinal(ccHandle, &digestData);
+	CSSM_DeleteContext(ccHandle);
+	if (crtn) {
+		return NO;
+	}
 
-	return !memcmp(digest, packet+messageLength, sizeof(digest));
+	BOOL authenticated;
+	if (digestData.Length != digestLength) {
+		NSLog(@"GrowlUDPPathway: digestData.Length != digestLength (%u != %u)", digestData.Length, digestLength);
+		authenticated = NO;
+	} else {
+		authenticated = !memcmp(digestData.Data, packet+messageLength, digestData.Length);
+	}
+	free(digestData.Data);
+
+	return authenticated;
 }
 
-+ (BOOL) authenticatePacketSHA256:(const unsigned char *)packet length:(unsigned)length {
+- (BOOL) authenticatePacketMD5:(const unsigned char *)packet length:(unsigned)length {
+	return [self authenticateWithCSSM:packet length:length algorithm:CSSM_ALGID_MD5 digestLength:MD5_DIGEST_LENGTH];
+}
+
+- (BOOL) authenticatePacketSHA256:(const unsigned char *)packet length:(unsigned)length {
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
+	// CSSM_ALGID_SHA256 is only available on Mac OS X >= 10.4
+	return [self authenticateWithCSSM:packet length:length algorithm:CSSM_ALGID_SHA256 digestLength:SHA256_DIGEST_LENGTH];
+#else
 	unsigned char *password;
 	unsigned messageLength;
 	UInt32 passwordLength;
@@ -131,9 +183,10 @@
 	SHA256_Final(digest, &ctx);
 
 	return !memcmp(digest, packet+messageLength, sizeof(digest));
+#endif
 }
 
-+ (BOOL) authenticatePacketNONE:(const unsigned char *)packet length:(unsigned)length {
+- (BOOL) authenticatePacketNONE:(const unsigned char *)packet length:(unsigned)length {
 #pragma unused(packet,length)
 	unsigned char *password;
 	OSStatus status;
@@ -253,13 +306,13 @@
 									switch (packet->type) {
 										default:
 										case GROWL_TYPE_REGISTRATION:
-											authenticated = [GrowlUDPPathway authenticatePacketMD5:(const unsigned char *)nr length:length];
+											authenticated = [self authenticatePacketMD5:(const unsigned char *)nr length:length];
 											break;
 										case GROWL_TYPE_REGISTRATION_SHA256:
-											authenticated = [GrowlUDPPathway authenticatePacketSHA256:(const unsigned char *)nr length:length];
+											authenticated = [self authenticatePacketSHA256:(const unsigned char *)nr length:length];
 											break;
 										case GROWL_TYPE_REGISTRATION_NOAUTH:
-											authenticated = [GrowlUDPPathway authenticatePacketNONE:(const unsigned char *)nr length:length];
+											authenticated = [self authenticatePacketNONE:(const unsigned char *)nr length:length];
 											break;
 									}
 									if (authenticated) {
@@ -320,13 +373,13 @@
 								switch (packet->type) {
 									default:
 									case GROWL_TYPE_NOTIFICATION:
-										authenticated = [GrowlUDPPathway authenticatePacketMD5:(const unsigned char *)nn length:length];
+										authenticated = [self authenticatePacketMD5:(const unsigned char *)nn length:length];
 										break;
 									case GROWL_TYPE_NOTIFICATION_SHA256:
-										authenticated = [GrowlUDPPathway authenticatePacketSHA256:(const unsigned char *)nn length:length];
+										authenticated = [self authenticatePacketSHA256:(const unsigned char *)nn length:length];
 										break;
 									case GROWL_TYPE_NOTIFICATION_NOAUTH:
-										authenticated = [GrowlUDPPathway authenticatePacketNONE:(const unsigned char *)nn length:length];
+										authenticated = [self authenticatePacketNONE:(const unsigned char *)nn length:length];
 										break;
 								}
 								if (authenticated) {

@@ -4353,6 +4353,30 @@
 			settings = {
 			};
 		};
+		95CF98A0082A5B8E001A409D = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = cdsa.h;
+			path = Common/Source/cdsa.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95CF98A1082A5B8E001A409D = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = cdsa.c;
+			path = Common/Source/cdsa.c;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95CF9929082A5EBE001A409D = {
+			fileRef = 95CF98A1082A5B8E001A409D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95D89A95082418DA0068A4BD = {
 			fileRef = 950F7978080EED5C00CC5F62;
 			isa = PBXBuildFile;
@@ -5035,6 +5059,7 @@
 				95D89B22082422A10068A4BD,
 				95D89B23082422A60068A4BD,
 				956D7E85082514B00083D772,
+				95CF9929082A5EBE001A409D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5047,7 +5072,6 @@
 				95C36A630753299E009FAEA2,
 				95C36A640753299E009FAEA2,
 				95AA8654080065DE0045589D,
-				DA96AFDB0801795100326661,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5181,6 +5205,8 @@
 				32DBCFA20370C41700C91783,
 				959DBE4908127BA4009BB468,
 				959DBE4A08127BA4009BB468,
+				95CF98A0082A5B8E001A409D,
+				95CF98A1082A5B8E001A409D,
 			);
 			isa = PBXGroup;
 			name = "Global Resources";
@@ -5243,12 +5269,6 @@
 			path = /usr/lib/libcrypto.0.9.7.dylib;
 			refType = 0;
 			sourceTree = "<absolute>";
-		};
-		DA96AFDB0801795100326661 = {
-			fileRef = DA96AFDA0801795100326661;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 //DA0
 //DA1

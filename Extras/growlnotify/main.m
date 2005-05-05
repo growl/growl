@@ -27,6 +27,7 @@
 #import "GrowlPathway.h"
 #import "GrowlUDPUtils.h"
 #import "MD5Authenticator.h"
+#import "cdsa.h"
 
 #include <unistd.h>
 #include <getopt.h>
@@ -34,7 +35,6 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
-#include <openssl/md5.h>
 
 #define NOTIFICATION_NAME @"Command-Line Growl Notification"
 
@@ -320,84 +320,88 @@ int main(int argc, const char **argv) {
 		nil];
 
 	if (host) {
-		if (useUDP) {
-			he = gethostbyname(host);
-			if (!he) {
-				herror("gethostbyname");
-				code = EXIT_FAILURE;
-			} else {
-				sock = socket( AF_INET, SOCK_DGRAM, IPPROTO_UDP );
-				if (sock == -1) {
-					perror("socket");
-					code = EXIT_FAILURE;
-				} else {
-					to.sin_len = sizeof(to);
-					to.sin_family = AF_INET;
-					to.sin_port = htons(port ? port : GROWL_UDP_PORT);
-					memcpy(&to.sin_addr.s_addr, he->h_addr_list[0], he->h_length);
-					memset(&to.sin_zero, 0, sizeof(to.sin_zero));
-				}
-				registrationPacket = [GrowlUDPUtils registrationToPacket:registerInfo
-																  digest:authMethod
-																password:password
-															  packetSize:&registrationSize];
-				notificationPacket = [GrowlUDPUtils notificationToPacket:notificationInfo
-																  digest:authMethod
-																password:password
-															  packetSize:&notificationSize];
-				size = (registrationSize > notificationSize) ? registrationSize : notificationSize;
-				if (setsockopt(sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size)) < 0) {
-					perror("setsockopt: SO_SNDBUF");
-				}
-				//printf( "sendbuf: %d\n", size );
-				//printf( "registration packet length: %d\n", registrationSize );
-				//printf( "notification packet length: %d\n", notificationSize );
-				if (sendto(sock, registrationPacket, registrationSize, 0, (struct sockaddr *)&to, sizeof(to)) < 0) {
-					perror("sendto");
-					code = EXIT_FAILURE;
-				}
-				if (sendto(sock, notificationPacket, notificationSize, 0, (struct sockaddr *)&to, sizeof(to)) < 0) {
-					perror("sendto");
-					code = EXIT_FAILURE;
-				}
-				free(registrationPacket);
-				free(notificationPacket);
-				close(sock);
-			}
+		if (cdsaInit()) {
+			NSLog(@"ERROR: Could not initialize CDSA.");
 		} else {
-			NSSocketPort *port = [[NSSocketPort alloc] initRemoteWithTCPPort:GROWL_TCP_PORT host:[NSString stringWithCString:host]];
-			NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:port];
-			NSString *passwordString;
-			if (password) {
-				passwordString = [[NSString alloc] initWithUTF8String:password];
-			} else {
-				passwordString = nil;
-			}
-			MD5Authenticator *authenticator = [[MD5Authenticator alloc] initWithPassword:passwordString];
-			[passwordString release];
-			[connection setDelegate:authenticator];
-			@try {
-				NSDistantObject *theProxy = [connection rootProxy];
-				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
-
-				[growlProxy registerApplicationWithDictionary:registerInfo];
-				[growlProxy postNotificationWithDictionary:notificationInfo];
-			} @catch(NSException *e) {
-				if ([[e name] isEqualToString:NSFailedAuthenticationException]) {
-					NSLog(@"Authentication failed");
+			if (useUDP) {
+				he = gethostbyname(host);
+				if (!he) {
+					herror("gethostbyname");
+					code = EXIT_FAILURE;
 				} else {
-					NSLog(@"Exception: %@", [e name]);
+					sock = socket( AF_INET, SOCK_DGRAM, IPPROTO_UDP );
+					if (sock == -1) {
+						perror("socket");
+						code = EXIT_FAILURE;
+					} else {
+						to.sin_len = sizeof(to);
+						to.sin_family = AF_INET;
+						to.sin_port = htons(port ? port : GROWL_UDP_PORT);
+						memcpy(&to.sin_addr.s_addr, he->h_addr_list[0], he->h_length);
+						memset(&to.sin_zero, 0, sizeof(to.sin_zero));
+					}
+					registrationPacket = [GrowlUDPUtils registrationToPacket:registerInfo
+																	  digest:authMethod
+																	password:password
+																  packetSize:&registrationSize];
+					notificationPacket = [GrowlUDPUtils notificationToPacket:notificationInfo
+																	  digest:authMethod
+																	password:password
+																  packetSize:&notificationSize];
+					size = (registrationSize > notificationSize) ? registrationSize : notificationSize;
+					if (setsockopt(sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size)) < 0) {
+						perror("setsockopt: SO_SNDBUF");
+					}
+					//printf( "sendbuf: %d\n", size );
+					//printf( "registration packet length: %d\n", registrationSize );
+					//printf( "notification packet length: %d\n", notificationSize );
+					if (sendto(sock, registrationPacket, registrationSize, 0, (struct sockaddr *)&to, sizeof(to)) < 0) {
+						perror("sendto");
+						code = EXIT_FAILURE;
+					}
+					if (sendto(sock, notificationPacket, notificationSize, 0, (struct sockaddr *)&to, sizeof(to)) < 0) {
+						perror("sendto");
+						code = EXIT_FAILURE;
+					}
+					free(registrationPacket);
+					free(notificationPacket);
+					close(sock);
 				}
-			} @finally {
-				[port release];
-				[connection release];
-				[authenticator release];
+			} else {
+				NSSocketPort *port = [[NSSocketPort alloc] initRemoteWithTCPPort:GROWL_TCP_PORT host:[NSString stringWithCString:host]];
+				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:port];
+				NSString *passwordString;
+				if (password) {
+					passwordString = [[NSString alloc] initWithUTF8String:password];
+				} else {
+					passwordString = nil;
+				}
+				MD5Authenticator *authenticator = [[MD5Authenticator alloc] initWithPassword:passwordString];
+				[passwordString release];
+				[connection setDelegate:authenticator];
+				@try {
+					NSDistantObject *theProxy = [connection rootProxy];
+					[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+					id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
+
+					[growlProxy registerApplicationWithDictionary:registerInfo];
+					[growlProxy postNotificationWithDictionary:notificationInfo];
+				} @catch(NSException *e) {
+					if ([[e name] isEqualToString:NSFailedAuthenticationException]) {
+						NSLog(@"Authentication failed");
+					} else {
+						NSLog(@"Exception: %@", [e name]);
+					}
+				} @finally {
+					[port release];
+					[connection release];
+					[authenticator release];
+				}
 			}
 		}
 	} else {
 		NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
-		GrowlNotificationObserver *growlNotificationObserver = nil;
+		GrowlNotificationObserver *growlNotificationObserver;
 		if (wait) {
 			growlNotificationObserver = [[GrowlNotificationObserver alloc] init];
 			[distCenter addObserver:growlNotificationObserver
@@ -408,9 +412,29 @@ int main(int argc, const char **argv) {
 						   selector:@selector(notificationDismissed:)
 							   name:[applicationName stringByAppendingString:GROWL_NOTIFICATION_TIMED_OUT]
 							 object:nil];
+		} else {
+			growlNotificationObserver = nil;
 		}
-		[distCenter postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:registerInfo options:NSNotificationPostToAllSessions];
-		[distCenter postNotificationName:GROWL_NOTIFICATION object:nil userInfo:notificationInfo options:NSNotificationPostToAllSessions];
+
+		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
+		if (connection) {
+			//Post to Growl via GrowlApplicationBridgePathway
+			@try {
+				NSDistantObject *theProxy = [connection rootProxy];
+				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+				id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
+				[growlProxy registerApplicationWithDictionary:registerInfo];
+				[growlProxy postNotificationWithDictionary:notificationInfo];
+			} @catch(NSException *e) {
+				NSLog(@"exception while sending notification: %@", e);
+			}
+		} else {
+			//Post to Growl via NSDistributedNotificationCenter
+			NSLog(@"could not find local GrowlApplicationBridgePathway, falling back to NSDNC");
+			[distCenter postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:registerInfo options:NSNotificationPostToAllSessions];
+			[distCenter postNotificationName:GROWL_NOTIFICATION object:nil userInfo:notificationInfo options:NSNotificationPostToAllSessions];
+		}
+
 		if (wait) {
 			[[NSRunLoop currentRunLoop] run];
 			[growlNotificationObserver release];

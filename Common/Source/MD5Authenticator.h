@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface MD5Authenticator : NSObject {
 	NSString *password;
 }

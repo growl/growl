@@ -11,9 +11,9 @@
 #import "GrowlRemotePathway.h"
 
 @interface GrowlUDPPathway: GrowlRemotePathway {
-	NSSocketPort *sock;
-	NSFileHandle *fh;
-	NSImage *notificationIcon;
+	NSSocketPort    *sock;
+	NSFileHandle    *fh;
+	NSImage         *notificationIcon;
 }
 
 @end

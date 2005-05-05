@@ -33,6 +33,8 @@
  * $Id$
  */
 
+#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4
+
 #include <string.h>	/* memcpy()/memset() or bcopy()/bzero() */
 #include <assert.h>	/* assert() */
 #include "sha2.h"
@@ -1592,7 +1594,7 @@ char *SHA384_End(SHA_CTX* context, char buffer[]) {
 	return buffer;
 }
 
-char* SHA384_Data(const sha_byte* data, size_t len, char digest[SHA384_DIGEST_STRING_LENGTH]) {
+char *SHA384_Data(const sha_byte* data, size_t len, char digest[SHA384_DIGEST_STRING_LENGTH]) {
 	SHA_CTX	context;
 
 	SHA384_Init(&context);
@@ -1600,3 +1602,4 @@ char* SHA384_Data(const sha_byte* data, size_t len, char digest[SHA384_DIGEST_ST
 	return SHA384_End(&context, digest);
 }
 
+#endif
