@@ -874,7 +874,7 @@ static void _growlNotificationWasClicked(CFNotificationCenterRef center, void *o
 	if (delegate) {
 		void (*growlNotificationWasClickedCallback)(CFPropertyListRef) = delegate->growlNotificationWasClicked;
 		if (growlNotificationWasClickedCallback) {
-			growlNotificationWasClickedCallback(CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_CLICK_CONTEXT));
+			growlNotificationWasClickedCallback(CFDictionaryGetValue(userInfo, GROWL_KEY_CLICKED_CONTEXT));
 		}
 	}
 }
@@ -884,7 +884,7 @@ static void _growlNotificationTimedOut(CFNotificationCenterRef center, void *obs
 	if (delegate) {
 		void (*growlNotificationTimedOutCallback)(CFPropertyListRef) = delegate->growlNotificationTimedOut;
 		if (growlNotificationTimedOutCallback) {
-			growlNotificationTimedOutCallback(CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_CLICK_CONTEXT));
+			growlNotificationTimedOutCallback(CFDictionaryGetValue(userInfo, GROWL_KEY_CLICKED_CONTEXT));
 		}
 	}
 }
