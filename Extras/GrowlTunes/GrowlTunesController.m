@@ -324,19 +324,18 @@ enum {
 
 		//get artwork via plugins if needed (for file:/ and itms:/ id only)
 		if (!artwork && ![newTrackURL hasPrefix:@"http://"]) {
-				NSEnumerator *pluginEnum = [plugins objectEnumerator];
-				id <GrowlTunesPlugin> plugin;
-				while (!artwork && (plugin = [pluginEnum nextObject])) {
-					artwork = [plugin artworkForTitle:track
-											byArtist:artist
-											onAlbum:album
-										isCompilation:(compilation ? compilation : NO)];
-					if (artwork && [plugin usesNetwork]) {
-						[archivePlugin archiveImage:artwork	track:track artist:artist album:album compilation:compilation];
-					}
+			NSEnumerator *pluginEnum = [plugins objectEnumerator];
+			id <GrowlTunesPlugin> plugin;
+			while (!artwork && (plugin = [pluginEnum nextObject])) {
+				artwork = [plugin artworkForTitle:track
+										 byArtist:artist
+										  onAlbum:album
+									isCompilation:(compilation ? compilation : NO)];
+				if (artwork && [plugin usesNetwork]) {
+					[archivePlugin archiveImage:artwork	track:track artist:artist album:album compilation:compilation];
 				}
-
 			}
+		}
 
 		if (!artwork) {
 			if (!error && !![newTrackURL hasPrefix:@"http://"]) {
@@ -358,15 +357,17 @@ enum {
 		}
 
 		// Tell Growl
-		NSDictionary *noteDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+		NSMutableDictionary *noteDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,
 			appName,       GROWL_APP_NAME,
 			track,         GROWL_NOTIFICATION_TITLE,
 			displayString, GROWL_NOTIFICATION_DESCRIPTION,
 			length,        EXTENSION_GROWLTUNES_TRACK_LENGTH,
-			rating,        EXTENSION_GROWLTUNES_TRACK_RATING,
-			(artwork ? [artwork TIFFRepresentation] : nil), GROWL_NOTIFICATION_ICON,
+			[artwork TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 			nil];
+		if (rating) {
+			[noteDict setObject:rating forKey:EXTENSION_GROWLTUNES_TRACK_RATING];
+		}
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
 		[noteDict release];
 

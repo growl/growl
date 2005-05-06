@@ -55,12 +55,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		074D478E07EEE798000DE3CC = {
-			fileRef = 074D478C07EEE798000DE3CC;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		074D478F07EEE798000DE3CC = {
 			fileRef = 074D478D07EEE798000DE3CC;
 			isa = PBXBuildFile;
@@ -268,7 +262,6 @@
 //8D4
 		8D5B49AC048680CD000E48DA = {
 			buildPhases = (
-				8D5B49AD048680CD000E48DA,
 				8D5B49AF048680CD000E48DA,
 				8D5B49B1048680CD000E48DA,
 				8D5B49B3048680CD000E48DA,
@@ -315,22 +308,6 @@
 			productName = "GrowlTunes-Amazon";
 			productReference = 8D5B49B6048680CD000E48DA;
 			productType = "com.apple.product-type.bundle";
-		};
-		8D5B49AD048680CD000E48DA = {
-			buildActionMask = 2147483647;
-			files = (
-				8D5B49AE048680CD000E48DA,
-				CB0778ED070A6C8200FF9E66,
-				074D478E07EEE798000DE3CC,
-			);
-			isa = PBXHeadersBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8D5B49AE048680CD000E48DA = {
-			fileRef = 32DBCF630370AF2F00C91783;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		8D5B49AF048680CD000E48DA = {
 			buildActionMask = 2147483647;
@@ -417,12 +394,6 @@
 			path = "GrowlTunes-Amazon.m";
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		CB0778ED070A6C8200FF9E66 = {
-			fileRef = CB0778EB070A6C8200FF9E66;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		CB0778EE070A6C8200FF9E66 = {
 			fileRef = CB0778EC070A6C8200FF9E66;

@@ -432,6 +432,7 @@
 			buildStyles = (
 				4A9504CCFFE6A4B311CA0CBA,
 				4A9504CDFFE6A4B311CA0CBA,
+				958B0A47082BF09F00E4EB2C,
 			);
 			hasScannedForEncodings = 1;
 			isa = PBXProject;
@@ -439,8 +440,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 0A8B6180070B303B00593A33;
-					ProjectRef = 0A8B617F070B303B00593A33;
+					ProductGroup = 0A8B6174070B2F6A00593A33;
+					ProjectRef = 0A8B5F0F070B140C00593A33;
 				},
 				{
 					ProductGroup = 0A8B6179070B303600593A33;
@@ -451,8 +452,8 @@
 					ProjectRef = DD86247B080D8421001ACC9F;
 				},
 				{
-					ProductGroup = 0A8B6174070B2F6A00593A33;
-					ProjectRef = 0A8B5F0F070B140C00593A33;
+					ProductGroup = 0A8B6180070B303B00593A33;
+					ProjectRef = 0A8B617F070B303B00593A33;
 				},
 			);
 			targets = (
@@ -589,6 +590,9 @@
 		4A9504CDFFE6A4B311CA0CBA = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				ZERO_LINK = NO;
 			};
@@ -687,8 +691,8 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "../../build .";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GrowlTunes_Prefix.pch;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -708,15 +712,10 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "-fobjc-exceptions";
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = GrowlTunes;
-				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = app;
 			};
@@ -872,6 +871,21 @@
 					Debug,
 				);
 			};
+		};
+		958B0A47082BF09F00E4EB2C = {
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				PREBINDING = NO;
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = "Deployment - Tiger - G4";
 		};
 //950
 //951

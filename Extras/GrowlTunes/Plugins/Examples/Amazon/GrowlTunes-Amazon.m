@@ -38,6 +38,7 @@
 					 onAlbum:(NSString *)album
 			   isCompilation:(BOOL)compilation;
 {
+#pragma unused(song)
 //	NSLog(@"Called getArtwork");
 
 	/*If the album is a compilation, we don't look for the artist;
@@ -55,19 +56,19 @@
 #pragma mark -
 #pragma mark Amazon searching methods
 
-#define AMAZON_QUERY_FORMAT     \
-	@"?locale=us"                \
+#define AMAZON_QUERY_FORMAT       \
+	@"?locale=us"                 \
 	@"&t=0C8PCNE1KCKFJN5EHP02"    \
-	@"&dev-t=0C8PCNE1KCKFJN5EHP02" \
-	@"&ArtistSearch=%@"             \
-	@"&mode=music"                   \
-	@"&sort=+salesrank"               \
-	@"&offer=All"                      \
-	@"&type=lite"                       \
-	@"&page=1"                           \
+	@"&dev-t=0C8PCNE1KCKFJN5EHP02"\
+	@"&ArtistSearch=%@"           \
+	@"&mode=music"                \
+	@"&sort=+salesrank"           \
+	@"&offer=All"                 \
+	@"&type=lite"                 \
+	@"&page=1"                    \
 	@"&f=xml"
 
-- (NSArray *)getAlbumsByArtist:(NSString *)artistName {
+- (NSArray *) getAlbumsByArtist:(NSString *)artistName {
 	NSMutableArray *result = nil;
 
 	NSString *query = [[NSString stringWithFormat:AMAZON_QUERY_FORMAT, artistName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -119,7 +120,7 @@
 	return result;
 }
 
-- (NSDictionary *)getAlbum:(NSString *)albumName byArtist:(NSString *)artistName {
+- (NSDictionary *) getAlbum:(NSString *)albumName byArtist:(NSString *)artistName {
 	//Now that we have all the info we need, we can decide which result to use.
 	BOOL found = NO; //This var is set to YES once we finally select the album to use.
 
@@ -177,7 +178,7 @@
 }
 
 // "query" is actually just the GET args after the address.
-- (NSData *)queryAmazon:(NSString *)query {
+- (NSData *) queryAmazon:(NSString *)query {
 	NSString *search = [@"http://xml.amazon.com/onca/xml3" stringByAppendingString:query];
 	NSURL *url = [NSURL URLWithString:search];
 
@@ -191,7 +192,7 @@
 #pragma mark -
 #pragma mark Helper methods
 
-- (NSData *)imageDataForKey:(NSString *)key fromAlbumInfo:(NSDictionary *)albumInfo {
+- (NSData *) imageDataForKey:(NSString *)key fromAlbumInfo:(NSDictionary *)albumInfo {
 	NSData *imageData = nil;
 	NSString *URLString = [albumInfo objectForKey:key];
 	if (URLString && [URLString length]) {
