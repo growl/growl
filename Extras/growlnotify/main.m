@@ -39,7 +39,7 @@
 #define NOTIFICATION_NAME @"Command-Line Growl Notification"
 
 static const char usage[] =
-"Usage: growlnotify [-hsvw] [-i ext] [-I filepath] [--image filepath]\n"
+"Usage: growlnotify [-hsvwc] [-i ext] [-I filepath] [--image filepath]\n"
 "                   [-a appname] [-p priority] [-H host] [-u] [-P password]\n"
 "                   [--port port] [-n name] [-m message] [-t] [title]\n"
 "                   [-A method]\n"
@@ -64,6 +64,7 @@ static const char usage[] =
 "       --port       Port number for UDP notifications.\n"
 "    -A,--auth       Specify digest algorithm for UDP authentication.\n"
 "                    Either MD5 [Default], SHA256 or NONE.\n"
+"    -c,--crypt      Encrypt UDP notifications.\n"
 "    -w,--wait       Wait until the notification has been dismissed.\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
@@ -107,6 +108,7 @@ int main(int argc, const char **argv) {
 	char *host = NULL;
 	int priority = 0;
 	BOOL useUDP = NO;
+	BOOL crypt = NO;
 	int flag;
 	short port = 0;
 	enum GrowlAuthenticationMethod authMethod = GROWL_AUTH_MD5;
@@ -114,8 +116,8 @@ int main(int argc, const char **argv) {
 	int code = EXIT_SUCCESS;
 	struct hostent *he;
 	int sock;
-	unsigned size, registrationSize, notificationSize;
-	unsigned char *registrationPacket, *notificationPacket;
+	unsigned size;
+	CSSM_DATA registrationPacket, notificationPacket;
 	struct sockaddr_in to;
 	char *password = NULL;
 	char *identifier = NULL;
@@ -138,10 +140,11 @@ int main(int argc, const char **argv) {
 		{ "identifier", required_argument,  NULL,   'd' },
 		{ "wait",		no_argument,		NULL,   'w' },
 		{ "auth",		required_argument,	NULL,   'A' },
+		{ "crypt",      no_argument,        NULL,   'c' },
 		{ NULL,			0,					NULL,	 0  }
 	};
 
-	while ((ch = getopt_long(argc, (char * const *)argv, "hvn:sa:i:I:p:tm:H:uP:d:w", longopts, NULL)) != -1) {
+	while ((ch = getopt_long(argc, (char * const *)argv, "hvn:sa:i:I:p:tm:H:uP:d:wc", longopts, NULL)) != -1) {
 		switch (ch) {
 		case '?':
 			puts(usage);
@@ -213,6 +216,9 @@ int main(int argc, const char **argv) {
 			break;
 		case 'w':
 			wait = YES;
+			break;
+		case 'c':
+			crypt = YES;
 			break;
 		case 0:
 			if (flag == 1) {
@@ -340,31 +346,43 @@ int main(int argc, const char **argv) {
 						memcpy(&to.sin_addr.s_addr, he->h_addr_list[0], he->h_length);
 						memset(&to.sin_zero, 0, sizeof(to.sin_zero));
 					}
-					registrationPacket = [GrowlUDPUtils registrationToPacket:registerInfo
-																	  digest:authMethod
-																	password:password
-																  packetSize:&registrationSize];
-					notificationPacket = [GrowlUDPUtils notificationToPacket:notificationInfo
-																	  digest:authMethod
-																	password:password
-																  packetSize:&notificationSize];
-					size = (registrationSize > notificationSize) ? registrationSize : notificationSize;
+					registrationPacket.Data = [GrowlUDPUtils registrationToPacket:registerInfo
+																		   digest:authMethod
+																		 password:password
+																	   packetSize:(unsigned *)&registrationPacket.Length];
+					notificationPacket.Data = [GrowlUDPUtils notificationToPacket:notificationInfo
+																		   digest:authMethod
+																		 password:password
+																	   packetSize:(unsigned *)&notificationPacket.Length];
+					if (crypt) {
+						CSSM_DATA passwordData;
+						passwordData.Data = (uint8 *)password;
+						if (password) {
+							passwordData.Length = strlen(password);
+						} else {
+							passwordData.Length = 0U;
+						}
+
+						[GrowlUDPUtils cryptPacket:&registrationPacket algorithm:CSSM_ALGID_AES password:&passwordData encrypt:YES];
+						[GrowlUDPUtils cryptPacket:&notificationPacket algorithm:CSSM_ALGID_AES password:&passwordData encrypt:YES];
+					}
+					size = (registrationPacket.Length > notificationPacket.Length) ? registrationPacket.Length : notificationPacket.Length;
 					if (setsockopt(sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size)) < 0) {
 						perror("setsockopt: SO_SNDBUF");
 					}
 					//printf( "sendbuf: %d\n", size );
-					//printf( "registration packet length: %d\n", registrationSize );
-					//printf( "notification packet length: %d\n", notificationSize );
-					if (sendto(sock, registrationPacket, registrationSize, 0, (struct sockaddr *)&to, sizeof(to)) < 0) {
+					//printf( "registration packet length: %d\n", registrationPacket.Length );
+					//printf( "notification packet length: %d\n", notificationPacket.Length );
+					if (sendto(sock, registrationPacket.Data, registrationPacket.Length, 0, (struct sockaddr *)&to, sizeof(to)) < 0) {
 						perror("sendto");
 						code = EXIT_FAILURE;
 					}
-					if (sendto(sock, notificationPacket, notificationSize, 0, (struct sockaddr *)&to, sizeof(to)) < 0) {
+					if (sendto(sock, notificationPacket.Data, notificationPacket.Length, 0, (struct sockaddr *)&to, sizeof(to)) < 0) {
 						perror("sendto");
 						code = EXIT_FAILURE;
 					}
-					free(registrationPacket);
-					free(notificationPacket);
+					free(registrationPacket.Data);
+					free(notificationPacket.Data);
 					close(sock);
 				}
 			} else {

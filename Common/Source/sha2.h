@@ -40,8 +40,6 @@
 extern "C" {
 #endif
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4
-
 /*
  * Import u_intXX_t size_t type definitions from system headers.  You
  * may need to change this, or define these things yourself in this
@@ -251,8 +249,6 @@ char* SHA512_End();
 char* SHA512_Data();
 
 #endif /* NOPROTO */
-
-#endif /* MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4 */
 
 #ifdef    __cplusplus
 }

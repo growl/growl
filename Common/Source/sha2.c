@@ -33,8 +33,6 @@
  * $Id$
  */
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_4
-
 #include <string.h>	/* memcpy()/memset() or bcopy()/bzero() */
 #include <assert.h>	/* assert() */
 #include "sha2.h"
@@ -1601,5 +1599,3 @@ char *SHA384_Data(const sha_byte* data, size_t len, char digest[SHA384_DIGEST_ST
 	SHA384_Update(&context, data, len);
 	return SHA384_End(&context, digest);
 }
-
-#endif

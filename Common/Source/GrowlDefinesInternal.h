@@ -37,9 +37,14 @@
 #define GROWL_UDP_PORT	9887
 
 /*!	@defined	GROWL_PROTOCOL_VERSION
- *	@abstract	The current version of the Growl network-notifications protocol.
+ *	@abstract	The current version of the Growl network-notifications protocol (without encryption).
  */
 #define GROWL_PROTOCOL_VERSION	1
+
+/*!	@defined	GROWL_PROTOCOL_VERSION
+*	@abstract	The current version of the Growl network-notifications protocol (with AES-128 encryption).
+*/
+#define GROWL_PROTOCOL_VERSION_AES128	2
 
 /*!	@defined	GROWL_TYPE_REGISTRATION
  *	@abstract	The packet type of registration packets with MD5 authentication.

@@ -12,6 +12,7 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlPreferences.h"
+#import "GrowlUDPUtils.h"
 #import "cdsa.h"
 #include <netinet/in.h>
 #include <sys/types.h>
@@ -83,11 +84,8 @@
 }
 
 #pragma mark -
-- (BOOL) authenticateWithCSSM:(const unsigned char *)packet length:(unsigned)length algorithm:(CSSM_ALGORITHMS)digestAlg digestLength:(unsigned)digestLength {
-	unsigned char  *password;
++ (BOOL) authenticateWithCSSM:(const CSSM_DATA_PTR)packet algorithm:(CSSM_ALGORITHMS)digestAlg digestLength:(unsigned)digestLength password:(const CSSM_DATA_PTR)password {
 	unsigned       messageLength;
-	UInt32         passwordLength;
-	OSStatus       status;
 	CSSM_DATA      digestData;
 	CSSM_RETURN    crtn;
 	CSSM_CC_HANDLE ccHandle;
@@ -104,32 +102,23 @@
 		return NO;
 	}
 
-	messageLength = length - digestLength;
-	inData.Data = (uint8 *)packet;
+	messageLength = packet->Length - digestLength;
+	inData.Data = (uint8 *)packet->Data;
 	inData.Length = messageLength;
 	crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
 	if (crtn) {
 		CSSM_DeleteContext(ccHandle);
 		return NO;
 	}
-	
-	status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
-											strlen(keychainServiceName), keychainServiceName,
-											strlen(keychainAccountName), keychainAccountName,
-											&passwordLength, (void **)&password, NULL);
 
-	if (status == noErr) {
-		inData.Length = passwordLength;
-		inData.Data = password;
-		crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
-		SecKeychainItemFreeContent(/*attrList*/ NULL, password);
+	if (password && password->Length) {
+		crtn = CSSM_DigestDataUpdate(ccHandle, password, 1U);
 		if (crtn) {
 			CSSM_DeleteContext(ccHandle);
 			return NO;
 		}
-	} else if (status != errSecItemNotFound) {
-		NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
 	}
+
 	digestData.Data = NULL;
 	digestData.Length = 0U;
 	crtn = CSSM_DigestDataFinal(ccHandle, &digestData);
@@ -143,67 +132,47 @@
 		NSLog(@"GrowlUDPPathway: digestData.Length != digestLength (%u != %u)", digestData.Length, digestLength);
 		authenticated = NO;
 	} else {
-		authenticated = !memcmp(digestData.Data, packet+messageLength, digestData.Length);
+		authenticated = !memcmp(digestData.Data, packet->Data+messageLength, digestData.Length);
 	}
 	free(digestData.Data);
 
 	return authenticated;
 }
 
-- (BOOL) authenticatePacketMD5:(const unsigned char *)packet length:(unsigned)length {
-	return [self authenticateWithCSSM:packet length:length algorithm:CSSM_ALGID_MD5 digestLength:MD5_DIGEST_LENGTH];
++ (BOOL) authenticatePacketMD5:(const CSSM_DATA_PTR)packet password:(const CSSM_DATA_PTR)password {
+	return [GrowlUDPPathway authenticateWithCSSM:packet
+									   algorithm:CSSM_ALGID_MD5
+									digestLength:MD5_DIGEST_LENGTH
+										password:password];
 }
 
-- (BOOL) authenticatePacketSHA256:(const unsigned char *)packet length:(unsigned)length {
++ (BOOL) authenticatePacketSHA256:(const CSSM_DATA_PTR)packet password:(const CSSM_DATA_PTR)password {
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
 	// CSSM_ALGID_SHA256 is only available on Mac OS X >= 10.4
-	return [self authenticateWithCSSM:packet length:length algorithm:CSSM_ALGID_SHA256 digestLength:SHA256_DIGEST_LENGTH];
+	return [GrowlUDPPathway authenticateWithCSSM:packet
+									   algorithm:CSSM_ALGID_SHA256
+									digestLength:SHA256_DIGEST_LENGTH
+										password:password];
 #else
-	unsigned char *password;
 	unsigned messageLength;
-	UInt32 passwordLength;
-	OSStatus status;
 	SHA_CTX ctx;
 	unsigned char digest[SHA256_DIGEST_LENGTH];
 
-	messageLength = length-sizeof(digest);
+	messageLength = packet->Length-sizeof(digest);
 	SHA256_Init(&ctx);
-	SHA256_Update(&ctx, packet, messageLength);
-	status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
-											strlen(keychainServiceName), keychainServiceName,
-											strlen(keychainAccountName), keychainAccountName,
-											&passwordLength, (void **)&password, NULL);
-
-	if (status == noErr) {
-		SHA256_Update(&ctx, password, passwordLength);
-		SecKeychainItemFreeContent(/*attrList*/ NULL, password);
-	} else if (status != errSecItemNotFound) {
-		NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
+	SHA256_Update(&ctx, packet->Data, messageLength);
+	if (password->Length) {
+		SHA256_Update(&ctx, password->Data, password->Length);
 	}
 	SHA256_Final(digest, &ctx);
 
-	return !memcmp(digest, packet+messageLength, sizeof(digest));
+	return !memcmp(digest, packet->Data+messageLength, sizeof(digest));
 #endif
 }
 
-- (BOOL) authenticatePacketNONE:(const unsigned char *)packet length:(unsigned)length {
-#pragma unused(packet,length)
-	unsigned char *password;
-	OSStatus status;
-	UInt32 passwordLength = 0U;
-
-	status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
-											strlen(keychainServiceName), keychainServiceName,
-											strlen(keychainAccountName), keychainAccountName,
-											&passwordLength, (void **)&password, NULL);
-
-	if (status == noErr) {
-		SecKeychainItemFreeContent(/*attrList*/ NULL, password);
-	} else if (status != errSecItemNotFound) {
-		NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
-	}
-
-	return !passwordLength;
++ (BOOL) authenticatePacketNONE:(const CSSM_DATA_PTR)packet password:(const CSSM_DATA_PTR)password {
+#pragma unused(packet)
+	return !password->Length;
 }
 
 #pragma mark -
@@ -219,6 +188,8 @@
 	unsigned digestLength;
 	int error;
 	BOOL isSticky, authenticated;
+	CSSM_DATA packetData;
+	CSSM_DATA passwordData;
 
 	NSDictionary *userInfo = [aNotification userInfo];
 	error = [[userInfo objectForKey:@"NSFileHandleError"] intValue];
@@ -229,8 +200,35 @@
 
 		if (length >= sizeof(struct GrowlNetworkPacket)) {
 			struct GrowlNetworkPacket *packet = (struct GrowlNetworkPacket *)[data bytes];
+			packetData.Data = (uint8 *)packet;
+			packetData.Length = length;
 
-			if (packet->version == GROWL_PROTOCOL_VERSION) {
+			if (packet->version == GROWL_PROTOCOL_VERSION || packet->version == GROWL_PROTOCOL_VERSION_AES128) {
+				unsigned char *password;
+				OSStatus status;
+				UInt32 passwordLength = 0U;
+
+				status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
+														strlen(keychainServiceName), keychainServiceName,
+														strlen(keychainAccountName), keychainAccountName,
+														&passwordLength, (void **)&password, NULL);
+
+				if (status == noErr) {
+					passwordData.Data = password;
+					passwordData.Length = passwordLength;
+				} else if (status != errSecItemNotFound) {
+					NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
+					passwordData.Data = NULL;
+					passwordData.Length = 0U;
+				}
+
+				if (packet->version == GROWL_PROTOCOL_VERSION_AES128) {
+					[GrowlUDPUtils cryptPacket:&packetData
+									 algorithm:CSSM_ALGID_AES
+									  password:&passwordData
+									   encrypt:NO];
+					length = packetData.Length;
+				}
 				switch (packet->type) {
 					case GROWL_TYPE_REGISTRATION:
 					case GROWL_TYPE_REGISTRATION_SHA256:
@@ -306,13 +304,13 @@
 									switch (packet->type) {
 										default:
 										case GROWL_TYPE_REGISTRATION:
-											authenticated = [self authenticatePacketMD5:(const unsigned char *)nr length:length];
+											authenticated = [GrowlUDPPathway authenticatePacketMD5:&packetData password:&passwordData];
 											break;
 										case GROWL_TYPE_REGISTRATION_SHA256:
-											authenticated = [self authenticatePacketSHA256:(const unsigned char *)nr length:length];
+											authenticated = [GrowlUDPPathway authenticatePacketSHA256:&packetData password:&passwordData];
 											break;
 										case GROWL_TYPE_REGISTRATION_NOAUTH:
-											authenticated = [self authenticatePacketNONE:(const unsigned char *)nr length:length];
+											authenticated = [GrowlUDPPathway authenticatePacketNONE:&packetData password:&passwordData];
 											break;
 									}
 									if (authenticated) {
@@ -373,13 +371,13 @@
 								switch (packet->type) {
 									default:
 									case GROWL_TYPE_NOTIFICATION:
-										authenticated = [self authenticatePacketMD5:(const unsigned char *)nn length:length];
+										authenticated = [GrowlUDPPathway authenticatePacketMD5:&packetData password:&passwordData];
 										break;
 									case GROWL_TYPE_NOTIFICATION_SHA256:
-										authenticated = [self authenticatePacketSHA256:(const unsigned char *)nn length:length];
+										authenticated = [GrowlUDPPathway authenticatePacketSHA256:&packetData password:&passwordData];
 										break;
 									case GROWL_TYPE_NOTIFICATION_NOAUTH:
-										authenticated = [self authenticatePacketNONE:(const unsigned char *)nn length:length];
+										authenticated = [GrowlUDPPathway authenticatePacketNONE:&packetData password:&passwordData];
 										break;
 								}
 								if (authenticated) {
@@ -420,8 +418,11 @@
 						NSLog(@"GrowlUDPServer: received packet of invalid type.");
 						break;
 				}
+				if (password) {
+					SecKeychainItemFreeContent(/*attrList*/ NULL, password);
+				}
 			} else {
-				NSLog(@"GrowlUDPServer: unknown version %u, expected %d", packet->version, GROWL_PROTOCOL_VERSION);
+				NSLog(@"GrowlUDPServer: unknown version %u, expected %d or %d", packet->version, GROWL_PROTOCOL_VERSION, GROWL_PROTOCOL_VERSION_AES128);
 			}
 		} else {
 			NSLog(@"GrowlUDPServer: received runt packet.");

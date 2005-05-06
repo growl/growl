@@ -78,12 +78,12 @@
 	}
 }
 
-+ (unsigned char *) notificationToPacket:(NSDictionary *)aNotification digest:(enum GrowlAuthenticationMethod)authMethod password:(const char *)password packetSize:(unsigned int *)packetSize {
++ (unsigned char *) notificationToPacket:(NSDictionary *)aNotification digest:(enum GrowlAuthenticationMethod)authMethod password:(const char *)password packetSize:(unsigned *)packetSize {
 	struct GrowlNetworkNotification *nn;
 	unsigned char *data;
 	size_t length;
 	unsigned short notificationNameLen, titleLen, descriptionLen, applicationNameLen;
-	unsigned int digestLength;
+	unsigned digestLength;
 
 	const char *notificationName = [[aNotification objectForKey:GROWL_NOTIFICATION_NAME] UTF8String];
 	const char *applicationName  = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
@@ -151,7 +151,7 @@
 
 #warning we need a way to handle the unlikely but fully-possible case wherein the dictionary contains more All notifications than the 8-bit Default indices can hold (Zero-One-Infinity) - first stage would be to try moving all the default notifications to the lower indices of the All array, second stage would be to create multiple packets
 
-+ (unsigned char *) registrationToPacket:(NSDictionary *)aNotification digest:(enum GrowlAuthenticationMethod)authMethod password:(const char *)password packetSize:(unsigned int *)packetSize {
++ (unsigned char *) registrationToPacket:(NSDictionary *)aNotification digest:(enum GrowlAuthenticationMethod)authMethod password:(const char *)password packetSize:(unsigned *)packetSize {
 	struct GrowlNetworkRegistration *nr;
 	unsigned char *data;
 	const char *notification;
@@ -262,5 +262,89 @@
 	*packetSize = length;
 
 	return (unsigned char *)nr;
+}
+
+static uint8 iv[16] = { 0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U };
+static const CSSM_DATA ivCommon = {16U, iv};
+
++ (void) cryptPacket:(CSSM_DATA_PTR)packet algorithm:(CSSM_ALGORITHMS)algorithm password:(CSSM_DATA_PTR)password encrypt:(BOOL)encrypt {
+	CSSM_CC_HANDLE ccHandle;
+	CSSM_KEY key;
+	CSSM_DATA inData;
+	CSSM_DATA remData;
+	CSSM_CRYPTO_DATA seed;
+	CSSM_RETURN crtn;
+	uint32 bytesCrypted;
+
+	seed.Param = *password;
+	seed.Callback = NULL;
+	seed.CallerCtx = NULL;
+
+	crtn = CSSM_CSP_CreateDeriveKeyContext(cspHandle, CSSM_ALGID_PKCS12_PBE_ENCR,
+										   algorithm, 128U,
+										   /*AccessCred*/ NULL,
+										   /*BaseKey*/ NULL,
+										   /*IterationCount*/ 1U,
+										   /*Salt*/ NULL,
+										   /*Seed*/ &seed,
+										   &ccHandle);
+	crtn = CSSM_DeriveKey(ccHandle,
+						  (CSSM_DATA_PTR)&ivCommon,
+						  encrypt ? CSSM_KEYUSE_ENCRYPT : CSSM_KEYUSE_DECRYPT,
+						  /*KeyAttr*/ 0U,
+						  /*KeyLabel*/ NULL,
+						  /*CredAndAclEntry*/ NULL,
+						  &key);
+	CSSM_DeleteContext(ccHandle);
+
+	crtn = CSSM_CSP_CreateSymmetricContext(cspHandle,
+										   algorithm,
+										   CSSM_ALGMODE_CBCPadIV8,
+										   /*AccessCred*/ NULL,
+										   &key,
+										   &ivCommon,
+										   CSSM_PADDING_PKCS7,	
+										   /*Reserved*/ NULL,
+										   &ccHandle);
+
+	inData.Data = packet->Data + 1;	// skip the version byte
+	inData.Length = packet->Length - 1;
+	remData.Data = NULL;
+	remData.Length = 0U;
+	if (encrypt) {
+		crtn = CSSM_EncryptData(ccHandle,
+								&inData,
+								1U,
+								&inData,
+								1U,
+								&bytesCrypted,
+								&remData);
+		if (remData.Length) {
+			unsigned newlength = packet->Length + remData.Length;
+			packet->Data = realloc(packet->Data, newlength);
+			memcpy(packet->Data + packet->Length, remData.Data, remData.Length);
+			packet->Length = newlength;
+		}
+		packet->Data[0] = GROWL_PROTOCOL_VERSION_AES128;	// adjust version byte
+	} else {
+		crtn = CSSM_DecryptData(ccHandle,
+								&inData,
+								1U,
+								&inData,
+								1U,
+								&bytesCrypted,
+								&remData);
+		packet->Data[0] = GROWL_PROTOCOL_VERSION;	// adjust version byte
+	}
+	packet->Length = bytesCrypted + 1;
+	if (remData.Data) {
+		free(remData.Data);
+	}
+
+	CSSM_DeleteContext(ccHandle);
+	CSSM_FreeKey(cspHandle,
+				 /*AccessCred*/ NULL,
+				 &key,
+				 /*Delete*/ CSSM_FALSE);
 }
 @end

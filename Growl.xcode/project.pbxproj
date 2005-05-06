@@ -4377,6 +4377,21 @@
 			settings = {
 			};
 		};
+		95CF9B46082AE3B7001A409D = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlUDPUtils.m;
+			path = Core/Source/GrowlUDPUtils.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95CF9B47082AE3B7001A409D = {
+			fileRef = 95CF9B46082AE3B7001A409D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95D89A95082418DA0068A4BD = {
 			fileRef = 950F7978080EED5C00CC5F62;
 			isa = PBXBuildFile;
@@ -4962,6 +4977,7 @@
 		};
 		CB5F847F0638BD6200EADD7A = {
 			children = (
+				95CF9B46082AE3B7001A409D,
 				9526BD51081BCC9100B9D0D0,
 				9526BD52081BCC9100B9D0D0,
 				CB5F83890638B78200EADD7A,
@@ -5060,6 +5076,7 @@
 				95D89B23082422A60068A4BD,
 				956D7E85082514B00083D772,
 				95CF9929082A5EBE001A409D,
+				95CF9B47082AE3B7001A409D,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
