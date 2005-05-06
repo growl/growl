@@ -1860,7 +1860,6 @@
 		1058C7ACFEA557BF11CA2CBB = {
 			children = (
 				950F79C5080EEE2B00CC5F62,
-				DA96AFDA0801795100326661,
 				95AA8653080065DE0045589D,
 				0AEE179C0702C4960024B1A0,
 				95E678F307511471002BF4E6,
@@ -3021,6 +3020,7 @@
 				83282747073A6C110044A959,
 				95E678F907511471002BF4E6,
 				93FCE57E0812D93B00320D8E,
+				95AFFE20082BCDFB0033A7FF,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4261,6 +4261,12 @@
 			settings = {
 			};
 		};
+		95AFFE20082BCDFB0033A7FF = {
+			fileRef = 95AA8653080065DE0045589D;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95BF83760743675700306A77 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
@@ -5274,24 +5280,6 @@
 //CB2
 //CB3
 //CB4
-//DA0
-//DA1
-//DA2
-//DA3
-//DA4
-		DA96AFDA0801795100326661 = {
-			isa = PBXFileReference;
-			lastKnownFileType = "compiled.mach-o.dylib";
-			name = libcrypto.0.9.7.dylib;
-			path = /usr/lib/libcrypto.0.9.7.dylib;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-//DA0
-//DA1
-//DA2
-//DA3
-//DA4
 //DD0
 //DD1
 //DD2

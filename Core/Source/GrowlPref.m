@@ -24,6 +24,7 @@
 #import <ApplicationServices/ApplicationServices.h>
 #import <Security/SecKeychain.h>
 #import <Security/SecKeychainItem.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 
 #define PING_TIMEOUT		3
 
@@ -970,6 +971,15 @@
 		if ([[entry computerName] isEqualToString:name]) {
 			return;
 		}
+	}
+
+	// don't add the local machine
+	NSString *localHostName = (NSString *)SCDynamicStoreCopyComputerName(/*store*/ NULL,
+																		 /*nameEncoding*/ NULL);
+	BOOL isLocalHost = [localHostName isEqualToString:name];
+	[localHostName release];
+	if (isLocalHost) {
+		return;
 	}
 
 	// add a new entry at the end
