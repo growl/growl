@@ -20,7 +20,8 @@
 #endif
 
 @implementation GrowlUDPUtils
-+ (void) addChecksumToPacket:(unsigned char *)packet length:(unsigned)length authMethod:(enum GrowlAuthenticationMethod)authMethod password:(const char *)password {
+
++ (void) addChecksumToPacket:(CSSM_DATA_PTR)packet authMethod:(enum GrowlAuthenticationMethod)authMethod password:(const CSSM_DATA_PTR)password {
 	unsigned       messageLength;
 	CSSM_DATA      digestData;
 	CSSM_CC_HANDLE ccHandle;
@@ -30,16 +31,14 @@
 		case GROWL_AUTH_MD5:
 			CSSM_CSP_CreateDigestContext(cspHandle, CSSM_ALGID_MD5, &ccHandle);
 			CSSM_DigestDataInit(ccHandle);
-			messageLength = length - MD5_DIGEST_LENGTH;
-			inData.Data = packet;
+			messageLength = packet->Length - MD5_DIGEST_LENGTH;
+			inData.Data = packet->Data;
 			inData.Length = messageLength;
 			CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
-			if (password) {
-				inData.Data = (uint8 *)password;
-				inData.Length = strlen(password);
-				CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
+			if (password && password->Length) {
+				CSSM_DigestDataUpdate(ccHandle, password, 1U);
 			}
-			digestData.Data = packet + messageLength;
+			digestData.Data = packet->Data + messageLength;
 			digestData.Length = MD5_DIGEST_LENGTH;
 			CSSM_DigestDataFinal(ccHandle, &digestData);
 			CSSM_DeleteContext(ccHandle);
@@ -48,28 +47,26 @@
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
 			CSSM_CSP_CreateDigestContext(cspHandle, CSSM_ALGID_SHA256, &ccHandle);
 			CSSM_DigestDataInit(ccHandle);
-			messageLength = length - SHA256_DIGEST_LENGTH;
-			inData.Data = packet;
+			messageLength = packet->Length - SHA256_DIGEST_LENGTH;
+			inData.Data = packet->Data;
 			inData.Length = messageLength;
 			CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
-			if (password) {
-				inData.Data = (uint8 *)password;
-				inData.Length = strlen(password);
-				CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
+			if (password && password->Length) {
+				CSSM_DigestDataUpdate(ccHandle, password, 1U);
 			}
-			digestData.Data = packet + messageLength;
+			digestData.Data = packet->Data + messageLength;
 			digestData.Length = SHA256_DIGEST_LENGTH;
 			CSSM_DigestDataFinal(ccHandle, &digestData);
 			CSSM_DeleteContext(ccHandle);
 #else
 			SHA_CTX sha_ctx;
-			messageLength = length-SHA256_DIGEST_LENGTH;
+			messageLength = packet->Length-SHA256_DIGEST_LENGTH;
 			SHA256_Init(&sha_ctx);
-			SHA256_Update(&sha_ctx, (const void *)packet, messageLength);
-			if (password) {
-				SHA256_Update(&sha_ctx, (const unsigned char *)password, strlen(password));
+			SHA256_Update(&sha_ctx, packet->Data, messageLength);
+			if (password && password->Length) {
+				SHA256_Update(&sha_ctx, password->Data, password->Length);
 			}
-			SHA256_Final(packet + messageLength, &sha_ctx);
+			SHA256_Final(packet->Data + messageLength, &sha_ctx);
 #endif
 			break;
 		}
@@ -84,6 +81,7 @@
 	size_t length;
 	unsigned short notificationNameLen, titleLen, descriptionLen, applicationNameLen;
 	unsigned digestLength;
+	CSSM_DATA packetData, passwordData;
 
 	const char *notificationName = [[aNotification objectForKey:GROWL_NOTIFICATION_NAME] UTF8String];
 	const char *applicationName  = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
@@ -142,7 +140,15 @@
 	memcpy(data, applicationName, applicationNameLen);
 	data += applicationNameLen;
 
-	[GrowlUDPUtils addChecksumToPacket:(unsigned char *)nn length:length authMethod:authMethod password:password];
+	packetData.Data = (unsigned char *)nn;
+	packetData.Length = length;
+	passwordData.Data = (uint8 *)password;
+	if (password) {
+		passwordData.Length = strlen(password);
+	} else {
+		passwordData.Length = 0U;
+	}
+	[GrowlUDPUtils addChecksumToPacket:&packetData authMethod:authMethod password:&passwordData];
 
 	*packetSize = length;
 
@@ -160,6 +166,7 @@
 	unsigned short applicationNameLen;
 	unsigned numAllNotifications, numDefaultNotifications;
 	Class NSNumberClass = [NSNumber class];
+	CSSM_DATA packetData, passwordData;
 
 	const char *applicationName   = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
 	NSArray *allNotifications     = [aNotification objectForKey:GROWL_NOTIFICATIONS_ALL];
@@ -257,8 +264,16 @@
 		}
 	}
 
-	[GrowlUDPUtils addChecksumToPacket:(unsigned char *)nr length:length authMethod:authMethod password:password];
-
+	packetData.Data = (unsigned char *)nr;
+	packetData.Length = length;
+	passwordData.Data = (uint8 *)password;
+	if (password) {
+		passwordData.Length = strlen(password);
+	} else {
+		passwordData.Length = 0U;
+	}
+	[GrowlUDPUtils addChecksumToPacket:&packetData authMethod:authMethod password:&passwordData];
+	
 	*packetSize = length;
 
 	return (unsigned char *)nr;

@@ -139,40 +139,40 @@
 	return authenticated;
 }
 
-+ (BOOL) authenticatePacketMD5:(const CSSM_DATA_PTR)packet password:(const CSSM_DATA_PTR)password {
-	return [GrowlUDPPathway authenticateWithCSSM:packet
-									   algorithm:CSSM_ALGID_MD5
-									digestLength:MD5_DIGEST_LENGTH
-										password:password];
-}
-
-+ (BOOL) authenticatePacketSHA256:(const CSSM_DATA_PTR)packet password:(const CSSM_DATA_PTR)password {
++ (BOOL) authenticatePacket:(const CSSM_DATA_PTR)packet password:(const CSSM_DATA_PTR)password authMethod:(enum GrowlAuthenticationMethod)authMethod {
+	switch (authMethod) {
+		default:
+		case GROWL_AUTH_MD5:
+			return [GrowlUDPPathway authenticateWithCSSM:packet
+											   algorithm:CSSM_ALGID_MD5
+											digestLength:MD5_DIGEST_LENGTH
+												password:password];
+		case GROWL_AUTH_SHA256: {
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
-	// CSSM_ALGID_SHA256 is only available on Mac OS X >= 10.4
-	return [GrowlUDPPathway authenticateWithCSSM:packet
-									   algorithm:CSSM_ALGID_SHA256
-									digestLength:SHA256_DIGEST_LENGTH
-										password:password];
+			// CSSM_ALGID_SHA256 is only available on Mac OS X >= 10.4
+			return [GrowlUDPPathway authenticateWithCSSM:packet
+											   algorithm:CSSM_ALGID_SHA256
+											digestLength:SHA256_DIGEST_LENGTH
+												password:password];
 #else
-	unsigned messageLength;
-	SHA_CTX ctx;
-	unsigned char digest[SHA256_DIGEST_LENGTH];
+			unsigned messageLength;
+			SHA_CTX ctx;
+			unsigned char digest[SHA256_DIGEST_LENGTH];
 
-	messageLength = packet->Length-sizeof(digest);
-	SHA256_Init(&ctx);
-	SHA256_Update(&ctx, packet->Data, messageLength);
-	if (password->Length) {
-		SHA256_Update(&ctx, password->Data, password->Length);
-	}
-	SHA256_Final(digest, &ctx);
+			messageLength = packet->Length-sizeof(digest);
+			SHA256_Init(&ctx);
+			SHA256_Update(&ctx, packet->Data, messageLength);
+			if (password && password->Length) {
+				SHA256_Update(&ctx, password->Data, password->Length);
+			}
+			SHA256_Final(digest, &ctx);
 
-	return !memcmp(digest, packet->Data+messageLength, sizeof(digest));
+			return !memcmp(digest, packet->Data+messageLength, sizeof(digest));
 #endif
-}
-
-+ (BOOL) authenticatePacketNONE:(const CSSM_DATA_PTR)packet password:(const CSSM_DATA_PTR)password {
-#pragma unused(packet)
-	return !password->Length;
+		}
+		case GROWL_AUTH_NONE:
+			return !password->Length;
+	}
 }
 
 #pragma mark -
@@ -187,7 +187,8 @@
 	unsigned length, num, i, size, packetSize, notificationIndex;
 	unsigned digestLength;
 	int error;
-	BOOL isSticky, authenticated;
+	BOOL isSticky;
+	enum GrowlAuthenticationMethod authMethod;
 	CSSM_DATA packetData;
 	CSSM_DATA passwordData;
 
@@ -246,12 +247,15 @@
 								switch (packet->type) {
 									default:
 									case GROWL_TYPE_REGISTRATION:
+										authMethod = GROWL_AUTH_MD5;
 										digestLength = MD5_DIGEST_LENGTH;
 										break;
 									case GROWL_TYPE_REGISTRATION_SHA256:
+										authMethod = GROWL_AUTH_SHA256;
 										digestLength = SHA256_DIGEST_LENGTH;
 										break;
 									case GROWL_TYPE_REGISTRATION_NOAUTH:
+										authMethod = GROWL_AUTH_NONE;
 										digestLength = 0U;
 										break;
 								}
@@ -301,19 +305,7 @@
 										}
 									}
 
-									switch (packet->type) {
-										default:
-										case GROWL_TYPE_REGISTRATION:
-											authenticated = [GrowlUDPPathway authenticatePacketMD5:&packetData password:&passwordData];
-											break;
-										case GROWL_TYPE_REGISTRATION_SHA256:
-											authenticated = [GrowlUDPPathway authenticatePacketSHA256:&packetData password:&passwordData];
-											break;
-										case GROWL_TYPE_REGISTRATION_NOAUTH:
-											authenticated = [GrowlUDPPathway authenticatePacketNONE:&packetData password:&passwordData];
-											break;
-									}
-									if (authenticated) {
+									if ([GrowlUDPPathway authenticatePacket:&packetData password:&passwordData authMethod:authMethod]) {
 										NSString *appName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
 										NSDictionary *registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 											appName,              GROWL_APP_NAME,
@@ -356,31 +348,22 @@
 							switch (packet->type) {
 								default:
 								case GROWL_TYPE_NOTIFICATION:
+									authMethod = GROWL_AUTH_MD5;
 									digestLength = MD5_DIGEST_LENGTH;
 									break;
 								case GROWL_TYPE_NOTIFICATION_SHA256:
+									authMethod = GROWL_AUTH_SHA256;
 									digestLength = SHA256_DIGEST_LENGTH;
 									break;
 								case GROWL_TYPE_NOTIFICATION_NOAUTH:
+									authMethod = GROWL_AUTH_NONE;
 									digestLength = 0U;
 									break;
 							}
 							packetSize = sizeof(*nn) + notificationNameLen + titleLen + descriptionLen + applicationNameLen + digestLength;
 
 							if (length == packetSize) {
-								switch (packet->type) {
-									default:
-									case GROWL_TYPE_NOTIFICATION:
-										authenticated = [GrowlUDPPathway authenticatePacketMD5:&packetData password:&passwordData];
-										break;
-									case GROWL_TYPE_NOTIFICATION_SHA256:
-										authenticated = [GrowlUDPPathway authenticatePacketSHA256:&packetData password:&passwordData];
-										break;
-									case GROWL_TYPE_NOTIFICATION_NOAUTH:
-										authenticated = [GrowlUDPPathway authenticatePacketNONE:&packetData password:&passwordData];
-										break;
-								}
-								if (authenticated) {
+								if ([GrowlUDPPathway authenticatePacket:&packetData password:&passwordData authMethod:authMethod]) {
 									NSString *growlNotificationName = [[NSString alloc] initWithUTF8String:notificationName length:notificationNameLen];
 									NSString *growlAppName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
 									NSString *growlNotificationTitle = [[NSString alloc] initWithUTF8String:title length:titleLen];
