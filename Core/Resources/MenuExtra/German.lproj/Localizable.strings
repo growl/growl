@@ -16,5 +16,13 @@
 	<string>Stiller Modus</string>
 	<key>Quit GrowlMenu</key>
 	<string>GrowlMenu beenden</string>
+	<key>Set the default display style</key>
+	<string>Standard-Anzeigestil festlegen</string>
+	<key>Open the Growl preference pane</key>
+	<string>Growl Einstellungen öffnen</string>
+	<key>Don't show notifications, but still log them</key>
+	<string>Benachrichtigungen nicht anzeigen aber immer noch in die Logdatei schreiben</string>
+	<key>Remove this status item</key>
+	<string>Diese Statusanzeige entfernen</string>
 </dict>
 </plist>

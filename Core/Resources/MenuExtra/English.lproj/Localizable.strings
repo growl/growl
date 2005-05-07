@@ -16,5 +16,13 @@
 	<string>Squelch mode</string>
 	<key>Quit GrowlMenu</key>
 	<string>Quit GrowlMenu</string>
+	<key>Set the default display style</key>
+	<string>Set the default display style</string>
+	<key>Open the Growl preference pane</key>
+	<string>Open the Growl preference pane</string>
+	<key>Don't show notifications, but still log them</key>
+	<string>Don't show notifications, but still log them</string>
+	<key>Remove this status item</key>
+	<string>Remove this status item</string>
 </dict>
 </plist>

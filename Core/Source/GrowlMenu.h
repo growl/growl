@@ -1,10 +1,11 @@
 //
 //  GrowlMenu.h
 //
+//  Created by rudy on Sun Apr 17 2005.
+//  Copyright (c) 2005 The Growl Project. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-//#import "SystemUIPlugin.h"
 
 @class GrowlPreferences, NSStatusItem;
 
@@ -18,7 +19,7 @@
 	NSImage				*squelchHighlightImage;
 }
 
-- (IBAction) openGrowl:(id)sender;
+- (IBAction) openGrowlPreferences:(id)sender;
 - (IBAction) defaultDisplay:(id)sender;
 - (IBAction) stopGrowl:(id)sender;
 - (IBAction) startGrowl:(id)sender;

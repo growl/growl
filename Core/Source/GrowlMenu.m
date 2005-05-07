@@ -3,7 +3,7 @@
 //
 //
 //  Created by rudy on Sun Apr 17 2005.
-//  Copyright (c) 2005 Rudy Richter. All rights reserved.
+//  Copyright (c) 2005 The Growl Project. All rights reserved.
 //
 
 #import "GrowlMenu.h"
@@ -12,13 +12,20 @@
 #import "GrowlPluginController.h"
 #import "NSGrowlAdditions.h"
 
-#define kRestartGrowl         NSLocalizedString(@"Restart Growl", @"")
-#define kStartGrowl           NSLocalizedString(@"Start Growl", @"")
-#define kStopGrowl            NSLocalizedString(@"Stop Growl", @"")
-#define kDefaultDisplay       NSLocalizedString(@"Default display", @"")
-#define kOpenGrowlPreferences NSLocalizedString(@"Open Growl preferences...", @"")
-#define kSquelchMode          NSLocalizedString(@"Squelch mode", @"")
-#define kStopGrowlMenu        NSLocalizedString(@"Quit GrowlMenu", @"")
+#define kRestartGrowl                NSLocalizedString(@"Restart Growl", @"")
+#define kRestartGrowlTooltip         NSLocalizedString(@"Restart Growl", @"")
+#define kStartGrowl                  NSLocalizedString(@"Start Growl", @"")
+#define kStartGrowlTooltip           NSLocalizedString(@"Start Growl", @"")
+#define kStopGrowl                   NSLocalizedString(@"Stop Growl", @"")
+#define kStopGrowlTooltip            NSLocalizedString(@"Stop Growl", @"")
+#define kDefaultDisplay              NSLocalizedString(@"Default display", @"")
+#define kDefaultDisplayTooltip       NSLocalizedString(@"Set the default display style", @"")
+#define kOpenGrowlPreferences        NSLocalizedString(@"Open Growl preferences...", @"")
+#define kOpenGrowlPreferencesTooltip NSLocalizedString(@"Open the Growl preference pane", @"")
+#define kSquelchMode                 NSLocalizedString(@"Squelch mode", @"")
+#define kSquelchModeTooltip          NSLocalizedString(@"Don't show notifications, but still log them", @"")
+#define kStopGrowlMenu               NSLocalizedString(@"Quit GrowlMenu", @"")
+#define kStopGrowlMenuTooltip        NSLocalizedString(@"Remove this status item", @"")
 
 int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -87,7 +94,7 @@ int main(void) {
 	[NSApp terminate:self];
 }
 
-- (IBAction) openGrowl:(id)sender {
+- (IBAction) openGrowlPreferences:(id)sender {
 #pragma unused(sender)
 	NSString *prefPane = [[GrowlPathUtil growlPrefPaneBundle] bundlePath];
 	[[NSWorkspace sharedWorkspace] openFile:prefPane];
@@ -148,22 +155,29 @@ int main(void) {
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setTag:1];
 
-	if ([preferences isGrowlRunning])
+	if ([preferences isGrowlRunning]) {
 		[tempMenuItem setTitle:kRestartGrowl];
+		[tempMenuItem setToolTip:kRestartGrowlTooltip];
+	} else {
+		[tempMenuItem setToolTip:kStartGrowlTooltip];
+	}
 
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowl action:@selector(stopGrowl:) keyEquivalent:@""];
 	[tempMenuItem setTag:2];
 	[tempMenuItem setTarget:self];
+	[tempMenuItem setToolTip:kStopGrowlTooltip];
 
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(quitMenuExtra:) keyEquivalent:@""];
 	[tempMenuItem setTag:5];
 	[tempMenuItem setTarget:self];
+	[tempMenuItem setToolTip:kStopGrowlMenuTooltip];
 
 	[m addItem:[NSMenuItem separatorItem]];
 
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kSquelchMode action:@selector(squelchMode:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setTag:4];
+	[tempMenuItem setToolTip:kSquelchModeTooltip];
 
 	NSMenu *displays = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 	NSString *name;
@@ -179,8 +193,9 @@ int main(void) {
 	[displays release];
 	[m addItem:[NSMenuItem separatorItem]];
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kOpenGrowlPreferences action:@selector(openGrowl:) keyEquivalent:@""];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kOpenGrowlPreferences action:@selector(openGrowlPreferences:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
+	[tempMenuItem setToolTip:kOpenGrowlPreferencesTooltip];
 
 	return m;
 }
@@ -190,8 +205,10 @@ int main(void) {
 		case 1:
 			if ([preferences isGrowlRunning]) {
 				[item setTitle:kRestartGrowl];
+				[item setToolTip:kRestartGrowlTooltip];
 			} else {
 				[item setTitle:kStartGrowl];
+				[item setToolTip:kStartGrowlTooltip];
 			}
 			break;
 		case 2:
