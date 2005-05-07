@@ -1,7 +1,7 @@
 #We do this so that people who launch Xcode from the UI will be able to run
 #svnversion.  If we come across any other paths here where people would install
 #svn by default, we should add them here.
-PATH="$PATH:/opt/local/bin:/usr/local/bin:/usr/local/subversion/bin"
+PATH="$PATH:/opt/local/bin:/usr/local/bin:/usr/local/subversion/bin:/sw/bin"
 REVISION=`svnversion .`
 echo "*** Building Growl Revision: $REVISION"
 mkdir -p $OBJROOT/include
