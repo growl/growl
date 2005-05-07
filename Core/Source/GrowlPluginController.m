@@ -29,6 +29,10 @@ static GrowlPluginController *sharedController;
 - (void) pluginExistsSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 @end
 
+@interface WebCoreCache
++ (void) empty;
+@end
+
 #pragma mark -
 
 @implementation GrowlPluginController
@@ -84,6 +88,10 @@ static GrowlPluginController *sharedController;
 				NSLog(@"Could not load %@", name);
 			}
 		} else if ([pathExtension isEqualToString:GROWL_STYLE_EXTENSION]) {
+			// empty the WebCoreCache to reload stylesheets
+			Class webCoreCache = NSClassFromString(@"WebCoreCache");
+			[webCoreCache empty];
+
 			// load GrowlWebKitController dynamically so that GrowlMenu does not
 			// have to link against it and all of its dependencies
 			Class webKitController = NSClassFromString(@"GrowlWebKitController");
@@ -129,6 +137,7 @@ static GrowlPluginController *sharedController;
 		NSString *pluginName = [[pluginBundle infoDictionary] objectForKey:(NSString *)kCFBundleNameKey];
 		if (pluginName) {
 			[allDisplayPluginBundles setObject:pluginBundle forKey:pluginName];
+			[allDisplayPlugins removeObjectForKey:pluginName];
 		} else {
 			NSLog(@"Plugin at path '%@' has no name", path);
 		}
