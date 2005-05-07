@@ -34,21 +34,22 @@
 
 #import "Message+GrowlMail.h"
 #import "GrowlMail.h"
+#import <AddressBook/AddressBook.h>
 #import <Growl/Growl.h>
 
 @interface NSString(GrowlMail)
-- (NSString *)firstNLines:(unsigned int)n;
+- (NSString *) firstNLines:(unsigned int)n;
 @end
 
 @implementation NSString(GrowlMail)
-- (NSString *)firstNLines:(unsigned int)n {
+- (NSString *) firstNLines:(unsigned int)n {
 	NSRange range;
 	unsigned int i;
 	unsigned int end;
 
 	range.location = 0;
 	range.length = 0;
-	for( i=0; i<n; ++i ) {
+	for(i=0; i<n; ++i) {
 		[self getLineStart:NULL end:&range.location contentsEnd:&end forRange:range];
 	}
 
@@ -64,37 +65,53 @@
 	NSString *subject = [self subject];
 	NSString *body;
 	MessageBody *messageBody = [self messageBody];
-	if ( [messageBody respondsToSelector:@selector(stringForIndexing)] ) {
+	if ([messageBody respondsToSelector:@selector(stringForIndexing)]) {
 		body = [messageBody stringForIndexing];
 	} else {
 		/* Mail.app 2.0. */
-		body = [messageBody stringValueForJunkEvaluation: NO];
+		body = [messageBody stringValueForJunkEvaluation:NO];
 	}
-	body = [[body stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]] firstNLines: 4U];
+	body = [[body stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] firstNLines:4U];
 
 	/* The fullName selector is not available in Mail.app 2.0. */
-	if ( [sender respondsToSelector:@selector(fullName)] ) {
+	if ([sender respondsToSelector:@selector(fullName)]) {
 		sender = [sender fullName];
-	} else if ( [sender addressComment] ) {
+	} else if ([sender addressComment]) {
 		sender = [sender addressComment];
 	}
-	NSString *title = [NSString stringWithFormat: @"(%@) %@", account, sender];
-	NSString *description = [NSString stringWithFormat: @"%@\n%@",  subject, body];
+	NSString *title = [NSString stringWithFormat:@"(%@) %@", account, sender];
+	NSString *description = [NSString stringWithFormat:@"%@\n%@",  subject, body];
 /*
-	NSLog( @"Subject: '%@'", subject );
-	NSLog( @"Sender: '%@'", sender );
-	NSLog( @"Account: '%@'", account );
-	NSLog( @"Body: '%@'", body );
-	NSLog( @"Title: '%@'", title );
+	NSLog(@"Subject: '%@'", subject);
+	NSLog(@"Sender: '%@'", sender);
+	NSLog(@"Account: '%@'", account);
+	NSLog(@"Body: '%@'", body);
+	NSLog(@"Title: '%@'", title);
 */
+	/*
+	 * MailAddressManager fetches images asynchronously so they might arrive
+	 * after we have sent our notification.
+	 */
+	/*
 	MailAddressManager *addressManager = [MailAddressManager addressManager];
-	[addressManager fetchImageForAddress: senderAddress];
-	NSImage *image = [addressManager imageForMailAddress: senderAddress];
-	if ( !image ) {
+	[addressManager fetchImageForAddress:senderAddress];
+	NSImage *image = [addressManager imageForMailAddress:senderAddress];
+	*/
+	ABSearchElement *personSearch = [ABPerson searchElementForProperty:kABEmailProperty
+																 label:nil
+																   key:nil
+																 value:senderAddress
+															comparison:kABEqualCaseInsensitive];
+	NSArray *matches = [[ABAddressBook sharedAddressBook] recordsMatchingSearchElement:personSearch];
+	NSImage *image = nil;
+	if ([matches count] > 0U) {
+		image = [[[NSImage alloc] initWithData:[[matches objectAtIndex:0U] imageData]] autorelease];
+	}
+	if (!image) {
 //		NSLog(@"Image: Mail.app");
 //		icon = [[NSApp applicationIconImage] TIFFRepresentation];
 //		NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-//		image = [workspace iconForFile: [workspace fullPathForApplication: @"Mail"]];
+//		image = [workspace iconForFile:[workspace fullPathForApplication:@"Mail"]];
 		image = [NSImage imageNamed:@"NSApplicationIcon"];
 	}
 	Class gab = [GrowlMail growlApplicationBridge];

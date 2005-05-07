@@ -180,6 +180,7 @@
 //104
 		1058C7ACFEA557BF11CA2CBB = {
 			children = (
+				953EE18D082CC7420040C586,
 				4B2E729506B5776B00386BF2,
 				1058C7ADFEA557BF11CA2CBB,
 			);
@@ -370,6 +371,7 @@
 			files = (
 				8D5B49B4048680CD000E48DA,
 				4B2E729606B5776B00386BF2,
+				953EE18E082CC7420040C586,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,6 +479,20 @@
 			path = Japanese.lproj/GrowlMailPreferencesPanel.nib;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		953EE18D082CC7420040C586 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = AddressBook.framework;
+			path = /System/Library/Frameworks/AddressBook.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		953EE18E082CC7420040C586 = {
+			fileRef = 953EE18D082CC7420040C586;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		9550E79F077A207E00436674 = {
 			isa = PBXFileReference;
