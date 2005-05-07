@@ -29,6 +29,7 @@
 #import "cdsa.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
@@ -394,7 +395,7 @@ static id singleton = nil;
 				NSPort *serverPort = [[NSSocketPort alloc]
 					initRemoteWithProtocolFamily:AF_INET
 									  socketType:SOCK_STREAM
-										protocol:0
+										protocol:IPPROTO_TCP
 										 address:destAddress];
 
 				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
@@ -461,7 +462,7 @@ static id singleton = nil;
 					NSPort *serverPort = [[NSSocketPort alloc]
 						initRemoteWithProtocolFamily:AF_INET
 										  socketType:SOCK_STREAM
-											protocol:0
+											protocol:IPPROTO_TCP
 											 address:destAddress];
 
 					NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil
@@ -686,7 +687,7 @@ static id singleton = nil;
 	BOOL retVal;
 	NSString *pathExtension = [filename pathExtension];
 
-	NSLog(@"Asked to open file %@", filename);
+//	NSLog(@"Asked to open file %@", filename);
 
 	if ([pathExtension isEqualToString:@"growlView"] || [pathExtension isEqualToString:@"growlStyle"]) {
 		[[GrowlPluginController controller] installPlugin:filename];

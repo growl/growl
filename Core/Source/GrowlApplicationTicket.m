@@ -24,8 +24,8 @@
 @implementation GrowlApplicationTicket
 
 + (NSDictionary *) allSavedTickets {
-	NSDate *start, *end; //TEMP
-	start = [NSDate date]; //TEMP
+//	NSDate *start, *end; //TEMP
+//	start = [NSDate date]; //TEMP
 
 	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, /*expandTilde*/ YES);
 	NSEnumerator *libraryDirEnum = [libraryDirs objectEnumerator];
@@ -41,8 +41,8 @@
 		[GrowlApplicationTicket loadTicketsFromDirectory:growlSupportPath intoDictionary:result clobbering:NO];
 	}
 
-	end = [NSDate date]; //TEMP
-	NSLog(@"Got all saved tickets in %f seconds", [end timeIntervalSinceDate:start]); //TEMP
+//	end = [NSDate date]; //TEMP
+//	NSLog(@"Got all saved tickets in %f seconds", [end timeIntervalSinceDate:start]); //TEMP
 
 	return result;
 }
@@ -149,7 +149,7 @@
 			fullPath = [workspace fullPathForApplication:appName];
 		}
 		appPath = [fullPath retain];
-		NSLog(@"got appPath: %@", appPath);
+//		NSLog(@"got appPath: %@", appPath);
 
 		NSData *iconData = [ticketDict objectForKey:GROWL_APP_ICON];
 		if (iconData) {
@@ -496,7 +496,7 @@
 	}
 	[appPath release];
 	appPath = [fullPath retain];
-	NSLog(@"(in reregisterWithDictionary:) got appPath: %@", appPath);
+//	NSLog(@"(in reregisterWithDictionary:) got appPath: %@", appPath);
 }
 
 - (NSArray *) allNotifications {

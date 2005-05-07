@@ -344,7 +344,7 @@
 }
 
 - (void) reloadPreferences {
-	NSLog(@"%s\n", __FUNCTION__);
+//	NSLog(@"%s\n", __FUNCTION__);
 	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
 	[self setTickets:[[GrowlApplicationTicket allSavedTickets] allValues]];
 	[self cacheImages];
