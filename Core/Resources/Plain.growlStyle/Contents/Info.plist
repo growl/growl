@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>Default</string>
+	<string>Plain</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Default Growl WebKit Style</string>
+	<string>Plain Growl WebKit Style</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>com.Growl.WebKit.Default</string>
+	<string>com.Growl.WebKit.Plain</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>GWKS</string>
 	<key>CFBundleShortVersionString</key>
-	<string>Default 1.0</string>
+	<string>Plain 1.0</string>
 	<key>CFBundleSignature</key>
 	<string>GRRR</string>
 	<key>CFBundleVersion</key>

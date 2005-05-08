@@ -3945,8 +3945,8 @@
 		9554979A081125A60062E27B = {
 			isa = PBXFileReference;
 			lastKnownFileType = folder;
-			name = Default.growlStyle;
-			path = Core/Resources/Default.growlStyle;
+			name = Plain.growlStyle;
+			path = Core/Resources/Plain.growlStyle;
 			refType = 4;
 			sourceTree = "<group>";
 		};
