@@ -1,0 +1,88 @@
+<?xml version="1.0" standalone="yes"?>
+<object class="NSIBObjectData">
+  <string name="targetFramework">IBCarbonFramework</string>
+  <object name="rootObject" class="NSCustomObject" id="1">
+    <string name="customClass">NSApplication</string>
+  </object>
+  <array count="7" name="allObjects">
+    <object class="IBCarbonWindow" id="166">
+      <string name="windowRect">454 245 593 665 </string>
+      <string name="title">Title</string>
+      <object name="rootControl" class="IBCarbonRootControl" id="167">
+        <string name="bounds">0 0 139 420 </string>
+        <string name="viewFrame">0 0 420 139 </string>
+        <array count="5" name="subviews">
+          <object class="IBCarbonButton" id="182">
+            <string name="bounds">99 298 119 396 </string>
+            <string name="viewFrame">298 99 98 20 </string>
+            <ostype name="controlSignature">GRRR</ostype>
+            <int name="controlID">1000</int>
+            <string name="title">Installieren</string>
+            <ostype name="command">ok  </ostype>
+          </object>
+          <object class="IBCarbonButton" id="183">
+            <string name="bounds">99 190 119 286 </string>
+            <string name="viewFrame">190 99 96 20 </string>
+            <ostype name="controlSignature">GRRR</ostype>
+            <int name="controlID">1001</int>
+            <string name="title">Abbrechen</string>
+            <ostype name="command">not!</ostype>
+          </object>
+          <object class="IBCarbonCheckBox" id="184">
+            <string name="bounds">100 24 118 183 </string>
+            <string name="viewFrame">24 100 159 18 </string>
+            <ostype name="controlSignature">GRRR</ostype>
+            <int name="controlID">2000</int>
+            <string name="title">Nichn nochmal fragen</string>
+          </object>
+          <object class="IBCarbonImageView" id="180">
+            <string name="bounds">15 24 79 88 </string>
+            <string name="viewFrame">24 15 64 64 </string>
+            <ostype name="controlSignature">GRRR</ostype>
+            <int name="controlID">3000</int>
+            <boolean name="opaque">FALSE</boolean>
+            <boolean name="scaleToFit">TRUE</boolean>
+          </object>
+          <object class="IBCarbonStaticText" id="181">
+            <string name="bounds">15 104 79 396 </string>
+            <string name="viewFrame">104 15 292 64 </string>
+            <int name="fontStyle">0</int>
+            <string name="title">More information</string>
+          </object>
+        </array>
+      </object>
+      <boolean name="receiveUpdates">FALSE</boolean>
+      <boolean name="isResizable">FALSE</boolean>
+      <boolean name="compositing">TRUE</boolean>
+      <int name="carbonWindowClass">4</int>
+      <int name="windowPosition">7</int>
+      <int name="scalingMode">1048576</int>
+      <boolean name="doesNotCycle">TRUE</boolean>
+      <boolean name="inWindowMenu">FALSE</boolean>
+    </object>
+    <reference idRef="167"/>
+    <reference idRef="180"/>
+    <reference idRef="181"/>
+    <reference idRef="182"/>
+    <reference idRef="183"/>
+    <reference idRef="184"/>
+  </array>
+  <array count="7" name="allParents">
+    <reference idRef="1"/>
+    <reference idRef="166"/>
+    <reference idRef="167"/>
+    <reference idRef="167"/>
+    <reference idRef="167"/>
+    <reference idRef="167"/>
+    <reference idRef="167"/>
+  </array>
+  <dictionary count="3" name="nameTable">
+    <string>Dialog</string>
+    <reference idRef="166"/>
+    <string>File&apos;s Owner</string>
+    <reference idRef="1"/>
+    <string>View</string>
+    <reference idRef="180"/>
+  </dictionary>
+  <unsigned_int name="nextObjectID">185</unsigned_int>
+</object>
