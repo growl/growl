@@ -22,8 +22,9 @@
 }
 
 - (void) dealloc {
-	[style release];
-	[preferencePane release];
+	[style               release];
+	[preferencePane      release];
+	[clickHandlerEnabled release];
 	[super dealloc];
 }
 
@@ -38,7 +39,7 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	clickHandlerEnabled = [noteDict objectForKey:@"ClickHandlerEnabled"];
+	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	// load GrowlWebKitWindowController dynamically so that the prefpane does not
 	// have to link against it and all of its dependencies
 	Class webKitWindowController = NSClassFromString(@"GrowlWebKitWindowController");
@@ -53,6 +54,7 @@
 	[controller setTarget:self];
 	[controller setAction:@selector(_notificationClicked:)];
 	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[controller setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[controller setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 	[controller startFadeIn];
@@ -64,8 +66,9 @@
 
 	if ((clickContext = [windowController clickContext])) {
 		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			clickHandlerEnabled, @"ClickHandlerEnabled",
-			clickContext,        @"ClickContext",
+			clickHandlerEnabled,       @"ClickHandlerEnabled",
+			clickContext,              GROWL_KEY_CLICKED_CONTEXT,
+			[windowController appPid], GROWL_APP_PID,
 			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 														   object:[windowController appName]

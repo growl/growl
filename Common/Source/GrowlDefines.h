@@ -177,6 +177,15 @@
  */
 #define GROWL_NOTIFICATION_IDENTIFIER	XSTR("GrowlNotificationIdentifier")
 
+/*!	@defined GROWL_APP_PID
+ *	@abstract The process identifier of the process which sends this
+ *   notification. If this field is set, the application will only receive
+ *   clicked and timed out notifications which originate from this process.
+ *
+ *	 Optional.
+ */
+#define GROWL_APP_PID					XSTR("ApplicationPID")
+
 // Notifications
 #pragma mark Notifications
 

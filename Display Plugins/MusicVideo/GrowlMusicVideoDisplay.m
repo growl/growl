@@ -19,8 +19,9 @@
 }
 
 - (void) dealloc {
-	[notificationQueue release];
-	[preferencePane    release];
+	[notificationQueue   release];
+	[preferencePane      release];
+	[clickHandlerEnabled release];
 	[super dealloc];
 }
 
@@ -34,7 +35,7 @@
 #pragma mark -
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	clickHandlerEnabled = [noteDict objectForKey:@"ClickHandlerEnabled"];
+	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	GrowlMusicVideoWindowController *nuMusicVideo = [GrowlMusicVideoWindowController
 		musicVideoWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
 					   text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
@@ -46,6 +47,7 @@
 	[nuMusicVideo setTarget:self];
 	[nuMusicVideo setAction:@selector(_musicVideoClicked:)];
 	[nuMusicVideo setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[nuMusicVideo setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[nuMusicVideo setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[nuMusicVideo setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 
@@ -88,21 +90,22 @@
 	[notificationQueue removeObjectAtIndex:0U];
 }
 
-- (void) _musicVideoClicked:(GrowlMusicVideoWindowController *)musicVideo {
+- (void) _musicVideoClicked:(GrowlMusicVideoWindowController *)controller {
 	id clickContext;
 
-	if ((clickContext = [musicVideo clickContext])) {
+	if ((clickContext = [controller clickContext])) {
 		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 			clickHandlerEnabled, @"ClickHandlerEnabled",
-			clickContext,        @"ClickContext",
+			clickContext,        GROWL_KEY_CLICKED_CONTEXT,
+			[controller appPid], GROWL_APP_PID,
 			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-															object:[musicVideo appName]
+															object:[controller appName]
 														  userInfo:userInfo];
 		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
-		[musicVideo setClickContext:nil];
+		[controller setClickContext:nil];
 	}
 }
 

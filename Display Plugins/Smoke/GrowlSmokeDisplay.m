@@ -27,7 +27,8 @@ static unsigned smokeDepth = 0U;
 }
 
 - (void) dealloc {
-	[preferencePane release];
+	[preferencePane      release];
+	[clickHandlerEnabled release];
 	[super dealloc];
 }
 
@@ -39,7 +40,7 @@ static unsigned smokeDepth = 0U;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
-	clickHandlerEnabled = [noteDict objectForKey:@"ClickHandlerEnabled"];
+	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	GrowlSmokeWindowController *controller = [[GrowlSmokeWindowController alloc]
 		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
 				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
@@ -52,6 +53,7 @@ static unsigned smokeDepth = 0U;
 	[controller setTarget:self];
 	[controller setAction:@selector(_smokeClicked:)];
 	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[controller setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[controller setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 
@@ -71,21 +73,22 @@ static unsigned smokeDepth = 0U;
 	//NSLog(@"My depth is now %u\n", smokeDepth);
 }
 
-- (void) _smokeClicked:(GrowlSmokeWindowController *)smoke {
+- (void) _smokeClicked:(GrowlSmokeWindowController *)controller {
 	id clickContext;
 
-	if ((clickContext = [smoke clickContext])) {
+	if ((clickContext = [controller clickContext])) {
 		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 			clickHandlerEnabled, @"ClickHandlerEnabled",
-			clickContext,        @"ClickContext",
+			clickContext,        GROWL_KEY_CLICKED_CONTEXT,
+			[controller appPid], GROWL_APP_PID,
 			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-															object:[smoke appName]
+															object:[controller appName]
 														  userInfo:userInfo];
 		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
-		[smoke setClickContext:nil];
+		[controller setClickContext:nil];
 	}
 }
 

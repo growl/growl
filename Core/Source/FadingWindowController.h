@@ -25,6 +25,7 @@
 	id			target;
 	id			clickContext;
 	NSString	*appName;
+	NSNumber	*appPid;
 }
 - (void) startFadeIn;
 - (void) startFadeOut;
@@ -68,6 +69,9 @@
 
 - (NSString *) appName;
 - (void) setAppName:(NSString *) inAppName;
+
+- (NSNumber *) appPid;
+- (void) setAppPid:(NSNumber *) inAppPid;
 
 - (id) clickContext;
 - (void) setClickContext:(id) clickContext;

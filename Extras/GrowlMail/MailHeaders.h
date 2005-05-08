@@ -32,15 +32,15 @@
 {
 }
 
-+ allBundles;
-+ composeAccessoryViewOwners;
++ (id)allBundles;
++ (id)composeAccessoryViewOwners;
 + (void)registerBundle;
-+ sharedInstance;
++ (id)sharedInstance;
 + (BOOL)hasPreferencesPanel;
-+ preferencesOwnerClassName;
-+ preferencesPanelName;
++ (id)preferencesOwnerClassName;
++ (id)preferencesPanelName;
 + (BOOL)hasComposeAccessoryViewOwner;
-+ composeAccessoryViewOwnerClassName;
++ (id)composeAccessoryViewOwnerClassName;
 - (void)dealloc;
 - (void)_registerBundleForNotifications;
 

@@ -115,7 +115,9 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	//Watch for notification clicks if our delegate responds to the growlNotificationWasClicked: selector
 	//Notifications will come in on a unique notification name based on our app name and GROWL_NOTIFICATION_CLICKED
-	NSString *growlNotificationClickedName = [appName stringByAppendingString:GROWL_NOTIFICATION_CLICKED];
+	int pid = [[NSProcessInfo processInfo] processIdentifier];
+	NSString *growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
+		appName, pid, GROWL_NOTIFICATION_CLICKED];
 	if ([delegate respondsToSelector:@selector(growlNotificationWasClicked:)]) {
 		[NSDNC addObserver:self
 				  selector:@selector(_growlNotificationWasClicked:)
@@ -126,7 +128,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 						 name:growlNotificationClickedName
 					   object:nil];
 	}
-	NSString *growlNotificationTimedOutName = [appName stringByAppendingString:GROWL_NOTIFICATION_TIMED_OUT];
+	NSString *growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
+		appName, pid, GROWL_NOTIFICATION_TIMED_OUT];
 	if ([delegate respondsToSelector:@selector(growlNotificationTimedOut:)]) {
 		[NSDNC addObserver:self
 				  selector:@selector(_growlNotificationTimedOut:)
@@ -173,13 +176,17 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		appName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] retain];
 	if (!appIconData)
 		appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
+	NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
 
 	// Build our noteDict from all passed parameters
 	NSMutableDictionary *noteDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		appName,	 GROWL_APP_NAME,
+		pid,         GROWL_APP_PID,
 		notifName,	 GROWL_NOTIFICATION_NAME,
 		appIconData, GROWL_NOTIFICATION_APP_ICON,
 		nil];
+
+	[pid release];
 
 	if (title)			[noteDict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
 	if (description)	[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];

@@ -440,8 +440,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 0A8B6180070B303B00593A33;
-					ProjectRef = 0A8B617F070B303B00593A33;
+					ProductGroup = 0A8B6174070B2F6A00593A33;
+					ProjectRef = 0A8B5F0F070B140C00593A33;
 				},
 				{
 					ProductGroup = 0A8B6179070B303600593A33;
@@ -452,8 +452,8 @@
 					ProjectRef = DD86247B080D8421001ACC9F;
 				},
 				{
-					ProductGroup = 0A8B6174070B2F6A00593A33;
-					ProjectRef = 0A8B5F0F070B140C00593A33;
+					ProductGroup = 0A8B6180070B303B00593A33;
+					ProjectRef = 0A8B617F070B303B00593A33;
 				},
 			);
 			targets = (

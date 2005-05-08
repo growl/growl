@@ -35,6 +35,7 @@
 	[target       release];
 	[clickContext release];
 	[appName      release];
+	[appPid       release];
 
 	[self _stopTimer];
 	[super dealloc];
@@ -128,9 +129,14 @@
 	}
 
 	if (clickContext) {
+		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+			clickContext, GROWL_KEY_CLICKED_CONTEXT,
+			appPid,       GROWL_APP_PID,
+			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
 															object:appName
-														  userInfo:clickContext];
+														  userInfo:userInfo];
+		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		clickContext = nil;
@@ -261,8 +267,23 @@
 }
 
 - (void) setAppName:(NSString *)inAppName {
-	[appName autorelease];
-	appName = [inAppName retain];
+	if (inAppName != appName) {
+		[appName release];
+		appName = [inAppName retain];
+	}
+}
+
+#pragma mark -
+
+- (NSNumber *) appPid {
+	return appPid;
+}
+
+- (void) setAppPid:(NSNumber *)inAppPid {
+	if (inAppPid != appPid) {
+		[appPid release];
+		appPid = [inAppPid retain];
+	}
 }
 
 #pragma mark -

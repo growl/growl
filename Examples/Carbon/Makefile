@@ -20,4 +20,4 @@ growl-carbon: growl-carbon.o
 
 clean:
 	rm -rf $(BUNDLE_NAME)
-	rm -f *.o growl-carbon
+	rm -f *~ *.o growl-carbon

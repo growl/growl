@@ -27,7 +27,8 @@ static unsigned brushedDepth = 0U;
 }
 
 - (void) dealloc {
-	[preferencePane release];
+	[preferencePane      release];
+	[clickHandlerEnabled release];
 	[super dealloc];
 }
 
@@ -39,7 +40,7 @@ static unsigned brushedDepth = 0U;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
-	clickHandlerEnabled = [noteDict objectForKey:@"ClickHandlerEnabled"];
+	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	GrowlBrushedWindowController *controller = [[GrowlBrushedWindowController alloc]
 		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
 				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
@@ -52,6 +53,7 @@ static unsigned brushedDepth = 0U;
 	[controller setTarget:self];
 	[controller setAction:@selector(_brushedClicked:)];
 	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[controller setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[controller setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 
@@ -71,21 +73,22 @@ static unsigned brushedDepth = 0U;
 	//NSLog(@"My depth is now %u\n", brushedDepth);
 }
 
-- (void) _brushedClicked:(GrowlBrushedWindowController *)brushed {
+- (void) _brushedClicked:(GrowlBrushedWindowController *)controller {
 	id clickContext;
 
-	if ((clickContext = [brushed clickContext])) {
+	if ((clickContext = [controller clickContext])) {
 		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 			clickHandlerEnabled, @"ClickHandlerEnabled",
-			clickContext,        @"ClickContext",
+			clickContext,        GROWL_KEY_CLICKED_CONTEXT,
+			[controller appPid], GROWL_APP_PID,
 			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-															object:[brushed appName]
+															object:[controller appName]
 														  userInfo:userInfo];
 		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
-		[brushed setClickContext:nil];
+		[controller setClickContext:nil];
 	}
 }
 

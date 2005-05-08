@@ -51,7 +51,8 @@
 	if (clickContext) {
 		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 			[noteDict objectForKey:@"ClickHandlerEnabled"], @"ClickHandlerEnabled",
-			clickContext,                                   @"ClickContext",
+			clickContext,                                   GROWL_KEY_CLICKED_CONTEXT,
+			[noteDict objectForKey:GROWL_APP_PID],          GROWL_APP_PID,
 			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
 															object:[noteDict objectForKey:GROWL_APP_NAME]

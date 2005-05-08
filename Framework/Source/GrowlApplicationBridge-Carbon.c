@@ -12,6 +12,7 @@
 #include "GrowlDefines.h"
 #include "GrowlDefinesInternal.h"
 #include "CFGrowlAdditions.h"
+#include <unistd.h>
 
 #pragma mark Constants
 
@@ -95,18 +96,15 @@ Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 		return false;
 	}
 
-	CFIndex appNameLength = CFStringGetLength(appName);
-	CFMutableStringRef growlNotificationClickedName = CFStringCreateMutableCopy(
+	CFStringRef growlNotificationClickedName = CFStringCreateWithFormat(
 		kCFAllocatorDefault,
-		appNameLength + CFStringGetLength(GROWL_NOTIFICATION_CLICKED),
-		appName);
-	CFStringAppend(growlNotificationClickedName, GROWL_NOTIFICATION_CLICKED);
+		/*formatOptions*/ NULL,
+		CFSTR("%@-%d-%@"), appName, getpid(), GROWL_NOTIFICATION_CLICKED);
 
-	CFMutableStringRef growlNotificationTimedOutName = CFStringCreateMutableCopy(
+	CFStringRef growlNotificationTimedOutName = CFStringCreateWithFormat(
 		kCFAllocatorDefault,
-		appNameLength + CFStringGetLength(GROWL_NOTIFICATION_TIMED_OUT),
-		appName);
-	CFStringAppend(growlNotificationTimedOutName, GROWL_NOTIFICATION_TIMED_OUT);
+		/*formatOptions*/ NULL,
+		CFSTR("%@-%d-%@"), appName, getpid(), GROWL_NOTIFICATION_TIMED_OUT);
 
 	if (delegate) {
 		if (!registeredForClickCallbacks) {
@@ -163,6 +161,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 
 	enum {
 		appNameIndex,
+		appPidIndex,
 		nameIndex,
 		titleIndex, descriptionIndex,
 		priorityIndex,
@@ -171,11 +170,12 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		appIconIndex,
 		clickContextIndex,
 
-		highestKeyIndex = 8,
+		highestKeyIndex = 9,
 		numKeys
 	};
 	const void *keys[numKeys] = {
 		GROWL_APP_NAME,
+		GROWL_APP_PID,
 		GROWL_NOTIFICATION_NAME,
 		GROWL_NOTIFICATION_TITLE, GROWL_NOTIFICATION_DESCRIPTION,
 		GROWL_NOTIFICATION_PRIORITY,
@@ -184,19 +184,22 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		GROWL_NOTIFICATION_APP_ICON,
 		GROWL_NOTIFICATION_CLICK_CONTEXT,
 	};
+	int pid = getpid();
+	CFNumberRef pidNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
 	CFNumberRef priorityNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &(notification->priority));
 	Boolean isSticky = notification->isSticky;
 	CFNumberRef stickyNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberCharType, &isSticky);
 
 	const void *values[numKeys] = {
 		appName, //0
-		notification->name, //1
-		notification->title, notification->description, //2, 3
-		priorityNumber, //4
-		stickyNumber, //5
-		notification->iconData, //6
-		NULL, //7
+		pidNumber, //1
+		notification->name, //2
+		notification->title, notification->description, //3, 4
+		priorityNumber, //5
+		stickyNumber, //6
+		notification->iconData, //7
 		NULL, //8
+		NULL, //9
 	};
 
 	//make sure we have both a name and a title
@@ -210,7 +213,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		values[descriptionIndex] = CFSTR("");
 
 	//now, target the first NULL value.
-	//if there was iconData, this is index 7; else, it is index 6.
+	//if there was iconData, this is index 8; else, it is index 7.
 	unsigned pairIndex = iconIndex + (values[iconIndex] != NULL);
 
 	//...and set the custom application icon there.
@@ -235,6 +238,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 	Growl_PostNotificationWithDictionary(userInfo);
 
 	CFRelease(userInfo);
+	CFRelease(pidNumber);
 	CFRelease(priorityNumber);
 	CFRelease(stickyNumber);
 }

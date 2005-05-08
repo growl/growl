@@ -941,6 +941,7 @@ static id singleton = nil;
 
 - (void) notificationClicked:(NSNotification *)notification {
 	NSString *appName, *growlNotificationClickedName;
+	NSString *suffix;
 	NSDictionary *clickInfo;
 	NSDictionary *userInfo;
 
@@ -949,41 +950,63 @@ static id singleton = nil;
 	//Build the application-specific notification name
 	appName = [notification object];
 	if ([[userInfo objectForKey:@"ClickHandlerEnabled"] boolValue]) {
-		growlNotificationClickedName = [appName stringByAppendingString:GROWL_NOTIFICATION_CLICKED];
+		suffix = GROWL_NOTIFICATION_CLICKED;
 	} else {
 		/*
 		 * send GROWL_NOTIFICATION_TIMED_OUT instead, so that an application is
 		 * guaranteed to receive feedback for every notification.
 		 */
-		growlNotificationClickedName = [appName stringByAppendingString:GROWL_NOTIFICATION_TIMED_OUT];
+		suffix = GROWL_NOTIFICATION_TIMED_OUT;
 	}
-	clickInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[userInfo objectForKey:@"ClickContext"],
-		GROWL_KEY_CLICKED_CONTEXT, nil];
-	
+	NSNumber *pid = [userInfo objectForKey:GROWL_APP_PID];
+	if (pid) {
+		growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%@-%@",
+			appName, pid, suffix];
+	} else {
+		growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@%@",
+			appName, suffix];
+	}
+	clickInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+		[userInfo objectForKey:GROWL_KEY_CLICKED_CONTEXT], GROWL_KEY_CLICKED_CONTEXT,
+		nil];
+
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName
 																   object:nil
 																 userInfo:clickInfo
 													   deliverImmediately:YES];
 
 	[clickInfo release];
+	[growlNotificationClickedName release];
 }
 
 - (void) notificationTimedOut:(NSNotification *)notification {
 	NSString *appName, *growlNotificationTimedOutName;
+	NSDictionary *clickInfo;
 	NSDictionary *userInfo;
+
+	userInfo = [notification userInfo];
 
 	//Build the application-specific notification name
 	appName = [notification object];
-	growlNotificationTimedOutName = [appName stringByAppendingString:GROWL_NOTIFICATION_TIMED_OUT];
-	userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[notification userInfo],
-		GROWL_KEY_CLICKED_CONTEXT, nil];
+	NSNumber *pid = [userInfo objectForKey:GROWL_APP_PID];
+	if (pid) {
+		growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@-%@-%@",
+			appName, pid, GROWL_NOTIFICATION_TIMED_OUT];
+	} else {
+		growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@%@",
+			appName, GROWL_NOTIFICATION_TIMED_OUT];
+	}
+	clickInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+		[userInfo objectForKey:GROWL_KEY_CLICKED_CONTEXT], GROWL_KEY_CLICKED_CONTEXT,
+		nil];
 
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationTimedOutName
 																   object:nil
-																 userInfo:userInfo
+																 userInfo:clickInfo
 													   deliverImmediately:YES];
 
-	[userInfo release];
+	[clickInfo release];
+	[growlNotificationTimedOutName release];
 }
 
 @end

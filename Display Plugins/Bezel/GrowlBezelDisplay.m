@@ -19,8 +19,9 @@
 }
 
 - (void) dealloc {
-	[notificationQueue release];
-	[preferencePane    release];
+	[notificationQueue   release];
+	[preferencePane      release];
+	[clickHandlerEnabled release];
 	[super dealloc];
 }
 
@@ -32,7 +33,7 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	clickHandlerEnabled = [noteDict objectForKey:@"ClickHandlerEnabled"];
+	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	GrowlBezelWindowController *nuBezel = [GrowlBezelWindowController bezelWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
 			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
@@ -43,6 +44,7 @@
 	[nuBezel setTarget:self];
 	[nuBezel setAction:@selector(_bezelClicked:)];
 	[nuBezel setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[nuBezel setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[nuBezel setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[nuBezel setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 
@@ -92,21 +94,22 @@
 	}
 }
 
-- (void) _bezelClicked:(GrowlBezelWindowController *)bezel {
+- (void) _bezelClicked:(GrowlBezelWindowController *)controller {
 	id clickContext;
 
-	if ((clickContext = [bezel clickContext])) {
+	if ((clickContext = [controller clickContext])) {
 		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 			clickHandlerEnabled, @"ClickHandlerEnabled",
-			clickContext,        @"ClickContext",
+			clickContext,        GROWL_KEY_CLICKED_CONTEXT,
+			[controller appPid], GROWL_APP_PID,
 			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-															object:[bezel appName]
+															object:[controller appName]
 														  userInfo:userInfo];
 		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
-		[bezel setClickContext:nil];
+		[controller setClickContext:nil];
 	}
 }
 
