@@ -143,8 +143,8 @@
 
 - (void) setDisplayPluginName: (NSString *)pluginName {
 	[displayPluginName release];
+	displayPluginName = [pluginName copy];
 	if (pluginName) {
-		displayPluginName = [pluginName copy];
 		displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
 	} else {
 		displayPlugin = nil;
