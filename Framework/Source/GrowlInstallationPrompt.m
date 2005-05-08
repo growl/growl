@@ -36,7 +36,7 @@
 - (void) releaseAndClose;
 @end
 
-static BOOL checkOSXVersion() {
+static BOOL checkOSXVersion(void) {
 	return (floor(NSAppKitVersionNumber) >= NSAppKitVersionNumber10_3);
 }
 
