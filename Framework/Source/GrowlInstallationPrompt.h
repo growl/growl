@@ -29,7 +29,7 @@
  * @method showUpdatePromptForVersion:
  * @abstract Show the update prompt for Growl-WithInstaller
  *
- * @param updateVersion The version for which an update is available
+ * @param updateVersion The version for which an update is available (that is, the version the user will have after updating)
  */
 + (void) showUpdatePromptForVersion:(NSString *)updateVersion;
 
