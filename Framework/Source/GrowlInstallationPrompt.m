@@ -36,11 +36,11 @@
 - (void) releaseAndClose;
 @end
 
-@implementation GrowlInstallationPrompt
-
 static BOOL checkOSXVersion() {
 	return (floor(NSAppKitVersionNumber) >= NSAppKitVersionNumber10_3);
 }
+
+@implementation GrowlInstallationPrompt
 
 + (void) showInstallationPrompt {
 	if (checkOSXVersion()) {
@@ -336,8 +336,7 @@ static BOOL checkOSXVersion() {
 	}
 }
 
-- (void)releaseAndClose
-{
+- (void)releaseAndClose {
 	[self autorelease];
 	[[self window] close];
 }
