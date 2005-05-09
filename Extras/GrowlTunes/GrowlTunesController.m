@@ -34,9 +34,6 @@
 
 #define ONLINE_HELP_URL		    @"http://growl.info/documentation/growltunes.php"
 
-#define EXTENSION_GROWLTUNES_TRACK_LENGTH  @"Extended Info - GrowlTunes Track Length"
-#define EXTENSION_GROWLTUNES_TRACK_RATING  @"Extended Info - GrowlTunes Track Rating"
-
 @interface GrowlTunesController (PRIVATE)
 - (NSAppleScript *) appleScriptNamed:(NSString *)name;
 - (void) addTuneToRecentTracks:(NSString *)inTune fromPlaylist:(NSString *)inPlaylist;
@@ -49,8 +46,8 @@ static NSString *appName		= @"GrowlTunes";
 static NSString *iTunesAppName	= @"iTunes.app";
 static NSString *iTunesBundleID = @"com.apple.itunes";
 
-static NSString *pollIntervalKey = @"Poll interval";
-static NSString *noMenuKey = @"GrowlTunesWithoutMenu";
+static NSString *pollIntervalKey  = @"Poll interval";
+static NSString *noMenuKey        = @"GrowlTunesWithoutMenu";
 static NSString *recentTrackCount = @"Recent Tracks Count";
 
 static const unsigned defaultRecentTracksLimit = 20U;
@@ -357,17 +354,13 @@ enum {
 		}
 
 		// Tell Growl
-		NSMutableDictionary *noteDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+		NSDictionary *noteDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,
 			appName,       GROWL_APP_NAME,
 			track,         GROWL_NOTIFICATION_TITLE,
 			displayString, GROWL_NOTIFICATION_DESCRIPTION,
-			length,        EXTENSION_GROWLTUNES_TRACK_LENGTH,
 			[artwork TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 			nil];
-		if (rating) {
-			[noteDict setObject:rating forKey:EXTENSION_GROWLTUNES_TRACK_RATING];
-		}
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
 		[noteDict release];
 
@@ -483,8 +476,6 @@ enum {
 			appName, GROWL_APP_NAME,
 			track,   GROWL_NOTIFICATION_TITLE,
 			[NSString stringWithFormat:@"%@ - %@\n%@\n%@",length,ratingString,artist,album], GROWL_NOTIFICATION_DESCRIPTION,
-			length,  EXTENSION_GROWLTUNES_TRACK_LENGTH,
-			rating,  EXTENSION_GROWLTUNES_TRACK_RATING,
 			(artwork ? [artwork TIFFRepresentation] : nil), GROWL_NOTIFICATION_ICON,
 			nil];
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
