@@ -13,18 +13,11 @@
 #import "GrowlDefines.h"
 #import "GrowlPreferences.h"
 #import "GrowlUDPUtils.h"
+#import "sha2.h"
 #import "cdsa.h"
 #include <netinet/in.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include "sha2.h"
-
-#ifndef SHA256_DIGEST_LENGTH
-# define SHA256_DIGEST_LENGTH	32
-#endif
-#ifndef MD5_DIGEST_LENGTH
-# define MD5_DIGEST_LENGTH		16
-#endif
 
 #define keychainServiceName "Growl"
 #define keychainAccountName "Growl"

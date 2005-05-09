@@ -12,13 +12,6 @@
 #include "sha2.h"
 #include "cdsa.h"
 
-#ifndef SHA256_DIGEST_LENGTH
-# define SHA256_DIGEST_LENGTH	32
-#endif
-#ifndef MD5_DIGEST_LENGTH
-# define MD5_DIGEST_LENGTH		16
-#endif
-
 @implementation GrowlUDPUtils
 
 + (void) addChecksumToPacket:(CSSM_DATA_PTR)packet authMethod:(enum GrowlAuthenticationMethod)authMethod password:(const CSSM_DATA_PTR)password {
