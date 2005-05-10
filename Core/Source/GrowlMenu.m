@@ -32,10 +32,10 @@ int main(void) {
 	[NSApplication sharedApplication];
 
 	GrowlMenu *menu = [[GrowlMenu alloc] init];
+	[NSApp setDelegate:menu];
 	[NSApp run];
 
-	[menu release];
-	[NSApp release];
+	// dead code
 	[pool release];
 
 	return EXIT_SUCCESS;
@@ -43,45 +43,48 @@ int main(void) {
 
 @implementation GrowlMenu
 
-- (id) init {
-	if ((self = [super init])) {
-		preferences = [GrowlPreferences preferences];
+- (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
+#pragma unused(aNotification)
+	preferences = [GrowlPreferences preferences];
 
-		NSMenu *m = [self buildMenu];
+	NSMenu *m = [self createMenu];
 
-		statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength] retain];
+	statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength] retain];
 
-		NSBundle *bundle = [NSBundle mainBundle];
+	NSBundle *bundle = [NSBundle mainBundle];
 
-		clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu" ofType:@"png"]];
-		clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu-alt" ofType:@"png"]];
-		squelchImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"png"]];
-		squelchHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch-alt" ofType:@"png"]];
+	clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu" ofType:@"png"]];
+	clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu-alt" ofType:@"png"]];
+	squelchImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"png"]];
+	squelchHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch-alt" ofType:@"png"]];
 
-		if ([preferences boolForKey:GrowlSquelchModeKey]) {
-			[statusItem setImage:squelchImage];
-			[statusItem setAlternateImage:squelchHighlightImage];
-		} else {
-			[statusItem setImage:clawImage];
-			[statusItem setAlternateImage:clawHighlightImage];
-		}
-
-		[statusItem setMenu:m]; // retains m
-		[statusItem setToolTip:@"Growl"];
-		[statusItem setHighlightMode:YES];
-
-		[m release];
-
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-															selector:@selector(shutdown:)
-																name:@"GrowlMenuShutdown"
-															  object:nil];
+	if ([preferences boolForKey:GrowlSquelchModeKey]) {
+		[statusItem setImage:squelchImage];
+		[statusItem setAlternateImage:squelchHighlightImage];
+	} else {
+		[statusItem setImage:clawImage];
+		[statusItem setAlternateImage:clawHighlightImage];
 	}
-	return self;
+
+	[statusItem setMenu:m]; // retains m
+	[statusItem setToolTip:@"Growl"];
+	[statusItem setHighlightMode:YES];
+
+	[m release];
+
+	[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+														selector:@selector(shutdown:)
+															name:@"GrowlMenuShutdown"
+														  object:nil];
+}
+
+- (void) applicationWillTerminate:(NSNotification *)aNotification {
+#pragma unused(aNotification)
+	[self release];
 }
 
 - (void) dealloc {
-	[statusItem release];
+//	[statusItem release];
 	[clawImage release];
 	[clawHighlightImage release];
 	[squelchImage release];
@@ -146,8 +149,9 @@ int main(void) {
 	[NSApp terminate:self];
 }
 
-- (NSMenu *) buildMenu {
-	NSMenu *m = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+- (NSMenu *) createMenu {
+	NSZone *menuZone = [NSMenu menuZone];
+	NSMenu *m = [[NSMenu allocWithZone:menuZone] init];
 
 	NSMenuItem *tempMenuItem;
 
@@ -179,7 +183,7 @@ int main(void) {
 	[tempMenuItem setTag:4];
 	[tempMenuItem setToolTip:kSquelchModeTooltip];
 
-	NSMenu *displays = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu *displays = [[NSMenu allocWithZone:menuZone] init];
 	NSString *name;
 	NSEnumerator *displayEnumerator = [[[GrowlPluginController controller] allDisplayPlugins] objectEnumerator];
 	while ((name = [displayEnumerator nextObject])) {

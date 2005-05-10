@@ -177,7 +177,7 @@
 		spec.numDocs = 0;
 		spec.itemRefs = NULL;
 		spec.passThruParams = NULL;
-		spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
+		spec.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
 		spec.asyncRefCon = NULL;
 		LSOpenFromRefSpec(&spec, NULL);
 	}
@@ -524,11 +524,12 @@
 	int		typePref;
 
 	typePref = [logFileType selectedRow];
-	if ((typePref != 0) && ([customMenuButton numberOfItems] == 1)) {
+	BOOL hasSelection = (typePref != 0);
+	if (hasSelection && ([customMenuButton numberOfItems] == 1)) {
 		[self customFileChosen:customMenuButton];
 	}
 	[[GrowlPreferences preferences] setInteger:typePref forKey:GrowlLogTypeKey];
-	[customMenuButton setEnabled:((typePref != 0) && ([customMenuButton numberOfItems] > 1))];
+	[customMenuButton setEnabled:(hasSelection && ([customMenuButton numberOfItems] > 1))];
 }
 
 - (IBAction) openConsoleApp:(id)sender {
@@ -588,12 +589,12 @@
 			 */
 
 			/*
-			 if ((numHistItems > 1) && (s = [customHistArray objectAtIndex:1U])) {
+			 if ((numHistItems > 1U) && (s = [customHistArray objectAtIndex:1U])) {
 				 [[GrowlPreferences preferences] setObject:s forKey:GrowlCustomHistKey2];
 				 //NSLog(@"Writing %@ as hist2", s);
 			 }
 
-			 if ((numHistItems > 2) && (s = [customHistArray objectAtIndex:2U])) {
+			 if ((numHistItems > 2U) && (s = [customHistArray objectAtIndex:2U])) {
 				 [[GrowlPreferences preferences] setObject:s forKey:GrowlCustomHistKey3];
 				 //NSLog(@"Writing %@ as hist3", s);
 			 }
@@ -629,7 +630,7 @@
 		}
 	}
 	// No separator if there's no file list yet
-	if (numHistItems > 0) {
+	if (numHistItems > 0U) {
 		[[customMenuButton menu] addItem:[NSMenuItem separatorItem]];
 	}
 	[customMenuButton addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Browse menu item title", /*tableName*/ nil, [self bundle], /*comment*/ nil)];
@@ -651,7 +652,6 @@
 #pragma unused(sender)
 	GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
 	NSString *path = [ticket path];
-	int	oldSelectionIndex = [ticketsArrayController selectionIndex];
 
 	if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
 		NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
@@ -667,6 +667,8 @@
 		unsigned idx = [tickets indexOfObject:ticket];
 		[images removeObjectAtIndex:idx];
 
+		unsigned oldSelectionIndex = [ticketsArrayController selectionIndex];
+
 		///	Hmm... This doesn't work for some reason....
 		//	Even though the same method definitely^H^H^H^H^H^H probably works in the appRegistered: method...
 
@@ -677,10 +679,10 @@
 		[self setTickets:newTickets];
 		[newTickets release];
 
-		if ((unsigned)oldSelectionIndex >= [tickets count])
+		if (oldSelectionIndex >= [tickets count])
 			oldSelectionIndex = [tickets count] - 1;
 
-		[ticketsArrayController setSelectionIndex: oldSelectionIndex];
+		[ticketsArrayController setSelectionIndex:oldSelectionIndex];
 	}
 }
 
@@ -944,13 +946,10 @@
 #pragma mark TableView delegate methods
 
 - (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
-	NSString *identifier = [column identifier];
-	NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
-	if (tableView == growlApplications) {
-		if ([identifier isEqualTo:@"application"]) {
-			unsigned idx = [tickets indexOfObject:[arrangedTickets objectAtIndex:row]];
-			[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:idx]];
-		}
+	if (tableView == growlApplications && [[column identifier] isEqualTo:@"application"]) {
+		NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
+		unsigned idx = [tickets indexOfObject:[arrangedTickets objectAtIndex:row]];
+		[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:idx]];
 	}
 }
 

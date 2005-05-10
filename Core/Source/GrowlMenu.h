@@ -23,7 +23,7 @@
 - (IBAction) defaultDisplay:(id)sender;
 - (IBAction) stopGrowl:(id)sender;
 - (IBAction) startGrowl:(id)sender;
-- (NSMenu *) buildMenu;
+- (NSMenu *) createMenu;
 - (BOOL) validateMenuItem:(NSMenuItem *)item;
 
 @end
