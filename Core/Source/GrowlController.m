@@ -830,7 +830,7 @@ static id singleton = nil;
 				 *we need to use LS in order to launch it with this specific
 				 *	GHA, rather than some other.
 				 */
-				NSURL *myURL        = [copyCurrentProcessURL() autorelease];
+				NSURL *myURL        = copyCurrentProcessURL();
 				NSURL *ticketURL    = [NSURL fileURLWithPath:ticketPath];
 				NSArray *URLsToOpen = [NSArray arrayWithObject:ticketURL];
 				struct LSLaunchURLSpec spec = {
@@ -844,6 +844,7 @@ static id singleton = nil;
 				if (err != noErr) {
 					NSLog(@"The registration ticket for %@ could not be opened (LSOpenFromURLSpec returned %li). Pathname for the ticket file: %@", appName, (long)err, ticketPath);
 				}
+				[myURL release];
 			} else if ([GrowlApplicationTicket isKnownTicketVersion:ticket]) {
 				NSLog(@"%@ (located at %@) contains an invalid registration ticket - developer, please consult Growl developer documentation (http://growl.info/documentation/developer/)", appName, appPath);
 			} else {

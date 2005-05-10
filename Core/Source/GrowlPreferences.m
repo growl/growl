@@ -263,7 +263,7 @@ static GrowlPreferences *sharedPreferences;
 
 	if (status == noErr) {
 		spec.appRef = &appRef;
-		spec.numDocs = 0;
+		spec.numDocs = 0U;
 		spec.itemRefs = NULL;
 		spec.passThruParams = NULL;
 		spec.launchFlags = kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;

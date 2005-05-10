@@ -622,7 +622,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				spec.passThruParams = NULL;
 				spec.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchNoParams | kLSLaunchAsync;
 				spec.asyncRefCon = NULL;
-				status = LSOpenFromRefSpec( &spec, NULL );
+				status = LSOpenFromRefSpec(&spec, NULL);
 
 				success = (status == noErr);
 			}
