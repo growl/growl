@@ -89,9 +89,9 @@
 			explicitFileType = wrapper.framework;
 			isa = PBXFileReference;
 			name = Growl.framework;
-			path = /Users/boredzo/Projects/otherpeoplesprojects/Growl/build/Growl.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../build/Growl.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		93D2180D07A20E2100A4BD79 = {
 			fileRef = 93D2180C07A20E2100A4BD79;
