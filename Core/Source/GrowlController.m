@@ -42,7 +42,7 @@
 - (void) _processRegistrationQueue;
 @end
 
-static struct Version version = { 0U, 7U, 0U, releaseType_svn, 0U, };
+static struct Version version = { 0U, 7U, 0U, releaseType_beta, 1U, };
 //XXX - update these constants whenever the version changes
 
 #pragma mark -
