@@ -15,7 +15,7 @@
 #import "GrowlWebKitPrefsController.h"
 
 @implementation GrowlWebKitWindowView
-- (id)initWithFrame:(NSRect)frameRect frameName:(NSString *)frameName groupName:(NSString *)groupName {
+- (id) initWithFrame:(NSRect)frameRect frameName:(NSString *)frameName groupName:(NSString *)groupName {
 	if ((self = [super initWithFrame:frameRect frameName:frameName groupName:groupName])) {
 		[self setUIDelegate:self];
 	}

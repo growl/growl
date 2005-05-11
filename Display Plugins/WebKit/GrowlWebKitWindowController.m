@@ -101,6 +101,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 			displayTime = duration;
 		}
 
+		maxAlpha = 95.0f;
+		READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, prefDomain, &maxAlpha);
+		maxAlpha *= 0.01f;
+
 		if (identifier) {
 			if (!notificationsByIdentifier) {
 				notificationsByIdentifier = [[NSMutableDictionary alloc] init];
