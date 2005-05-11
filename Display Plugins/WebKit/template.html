@@ -4,17 +4,17 @@
 	<head>
 		<title>Growl notification</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<base href="%@" />
+		<base href="%baseurl%" />
 		<style type="text/css">
 			#background {
 				position: absolute;
 				background-color: white;
 				left: 0;
 				top: 0;
-				width: 100%%;
-				height: 100%%;
+				width: 100%;
+				height: 100%;
 				z-index: -1;
-				opacity: %f;
+				opacity: %opacity%;
 			}
 		</style>
 		<style type="text/css">
@@ -22,11 +22,11 @@
 		</style>
 	</head>
 	<body>
-		<div id="%@">
+		<div id="%priority%">
 			<div id="background"></div>
-			<div id="icon"><img src="growlimage://%@" alt="icon" /></div>
-			<div id="title">%@</div>
-			<div id="text">%@</div>
+			<div id="icon"><img src="growlimage://%image%" alt="icon" /></div>
+			<div id="title">%title%</div>
+			<div id="text">%text%</div>
 		</div>
 	</body>
 </html>

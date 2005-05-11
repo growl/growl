@@ -148,15 +148,15 @@ static NSMutableDictionary *notificationsByIdentifier;
 		templateFile = [bundle pathForResource:@"template" ofType:@"html"];
 	}
 	NSString *stylePath = [styleBundle resourcePath];
-	NSString *template = [NSString alloc];
-	if ([template respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {
+	NSMutableString *htmlString = [NSMutableString alloc];
+	if ([htmlString respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {
 		NSError *error;
-		template = [template initWithContentsOfFile:templateFile encoding:NSUTF8StringEncoding error:&error];
+		htmlString = [htmlString initWithContentsOfFile:templateFile encoding:NSUTF8StringEncoding error:&error];
 	} else {
 		// this method has been deprecated in 10.4
-		template = [template initWithContentsOfFile:templateFile];
+		htmlString = [htmlString initWithContentsOfFile:templateFile];
 	}
-	if (!template) {
+	if (!htmlString) {
 		NSLog(@"WARNING: could not read template '%@'", templateFile);
 	}
 
@@ -168,17 +168,37 @@ static NSMutableDictionary *notificationsByIdentifier;
 	float opacity = 95.0f;
 	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, prefDomain, &opacity);
 	opacity *= 0.01f;
+	NSNumber *opacityNumber = [[NSNumber alloc] initWithFloat:opacity];
 
 	NSMutableString *titleHTML = [[[NSMutableString alloc] initWithString:title] escapeForHTML];
 	NSMutableString *textHTML = [[[NSMutableString alloc] initWithString:text] escapeForHTML];
-	NSString *htmlString = [[NSString alloc] initWithFormat:template,
-		[[NSURL fileURLWithPath:stylePath] absoluteString],	// base URL
-		opacity,		// opacity
-		priorityName,	// priority class
-		UUID,			// image name
-		titleHTML,		// title
-		textHTML];		// text
-	[template release];
+
+	[htmlString replaceOccurrencesOfString:@"%baseurl%"
+								withString:[[NSURL fileURLWithPath:stylePath] absoluteString]
+								   options:NSLiteralSearch
+									 range:NSMakeRange(0U, [htmlString length])];
+	[htmlString replaceOccurrencesOfString:@"%opacity%"
+								withString:[opacityNumber stringValue]
+								   options:NSLiteralSearch
+									 range:NSMakeRange(0U, [htmlString length])];
+	[htmlString replaceOccurrencesOfString:@"%priority%"
+								withString:priorityName
+								   options:NSLiteralSearch
+									 range:NSMakeRange(0U, [htmlString length])];
+	[htmlString replaceOccurrencesOfString:@"%image%"
+								withString:UUID
+								   options:NSLiteralSearch
+									 range:NSMakeRange(0U, [htmlString length])];
+	[htmlString replaceOccurrencesOfString:@"%title%"
+								withString:titleHTML
+								   options:NSLiteralSearch
+									 range:NSMakeRange(0U, [htmlString length])];
+	[htmlString replaceOccurrencesOfString:@"%text%"
+								withString:textHTML
+								   options:NSLiteralSearch
+									 range:NSMakeRange(0U, [htmlString length])];
+
+	[opacityNumber release];
 	[titleHTML release];
 	[textHTML release];
 	WebFrame *webFrame = [view mainFrame];
