@@ -21,6 +21,7 @@
 		doFadeOut = YES;
 		fadeIncrement = FADE_INCREMENT;
 		timerInterval = TIMER_INTERVAL;
+		maxAlpha = 1.0f;
 	}
 	return self;
 }
@@ -53,8 +54,12 @@
 #pragma unused(inTimer)
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
-	if (alpha < 1.0f) {
-		[myWindow setAlphaValue: alpha + fadeIncrement];
+	if (alpha < maxAlpha) {
+		alpha += fadeIncrement;
+		if (alpha > maxAlpha) {
+			alpha = maxAlpha;
+		}
+		[myWindow setAlphaValue:alpha];
 	} else {
 		[self stopFadeIn];
 	}
@@ -65,7 +70,11 @@
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
 	if (alpha > 0.0f) {
-		[myWindow setAlphaValue: alpha - fadeIncrement];
+		alpha -= fadeIncrement;
+		if (alpha < 0.0f) {
+			alpha = 0.0f;
+		}
+		[myWindow setAlphaValue:alpha];
 	} else {
 		[self stopFadeOut];
 	}
@@ -75,6 +84,7 @@
 	if (delegate && [delegate respondsToSelector:@selector(willFadeIn:)]) {
 		[delegate willFadeIn:self];
 	}
+	isFadingIn = YES;
 	[self retain]; // release after fade out
 	[self showWindow:nil];
 	[self _stopTimer];
@@ -92,6 +102,7 @@
 }
 
 - (void) stopFadeIn {
+	isFadingIn = NO;
 	[self _stopTimer];
 	if (delegate && [delegate respondsToSelector:@selector(didFadeIn:)]) {
 		[delegate didFadeIn:self];
@@ -108,6 +119,7 @@
 	if (delegate && [delegate respondsToSelector:@selector(willFadeOut:)]) {
 		[delegate willFadeOut:self];
 	}
+	isFadingOut = YES;
 	[self _stopTimer];
 	if (doFadeOut) {
 		animationTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
@@ -123,6 +135,7 @@
 }
 
 - (void) stopFadeOut {
+	isFadingOut = NO;
 	[self _stopTimer];
 	if (delegate && [delegate respondsToSelector:@selector(didFadeOut:)]) {
 		[delegate didFadeOut:self];
@@ -164,6 +177,16 @@
 
 - (void) setFadeIncrement:(float)increment {
 	fadeIncrement = increment;
+}
+
+#pragma mark -
+
+- (BOOL) isFadingIn {
+	return isFadingIn;
+}
+
+- (BOOL) isFadingOut {
+	return isFadingOut;
 }
 
 #pragma mark -

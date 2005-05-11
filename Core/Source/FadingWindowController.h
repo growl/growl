@@ -15,8 +15,11 @@
 	BOOL		autoFadeOut;
 	BOOL		doFadeIn;
 	BOOL		doFadeOut;
+	BOOL		isFadingIn;
+	BOOL		isFadingOut;
 	float		fadeIncrement;
 	float		timerInterval;
+	float		maxAlpha;
 	double		displayTime;
 	BOOL		screenshotMode;
 	unsigned	screenNumber;
@@ -58,6 +61,9 @@
 
 - (void) _fadeIn:(NSTimer *)inTimer;
 - (void) _fadeOut:(NSTimer *)inTimer;
+
+- (BOOL) isFadingIn;
+- (BOOL) isFadingOut;
 
 - (NSScreen *) screen;
 

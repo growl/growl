@@ -13,7 +13,7 @@
 
 - (id) init {
 	if ((self = [super init])) {
-		notificationQueue = [[NSMutableArray array] retain];
+		notificationQueue = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
@@ -59,7 +59,7 @@
 
 		while (!inserted && (aNotification = [enumerator nextObject])) {
 			if ([aNotification priority] < [nuMusicVideo priority]) {
-				[notificationQueue insertObject: nuMusicVideo atIndex:theIndex];
+				[notificationQueue insertObject:nuMusicVideo atIndex:theIndex];
 				if (theIndex == 0U) {
 					[aNotification stopFadeOut];
 					[nuMusicVideo startFadeIn];
@@ -88,6 +88,12 @@
 - (void) didFadeOut:(FadingWindowController *)sender {
 #pragma unused(sender)
 	[notificationQueue removeObjectAtIndex:0U];
+	if ([notificationQueue count] > 0U) {
+		FadingWindowController *controller = [notificationQueue objectAtIndex:0U];
+		if (![controller isFadingIn]) {
+			[controller startFadeIn];
+		}
+	}
 }
 
 - (void) _musicVideoClicked:(GrowlMusicVideoWindowController *)controller {
