@@ -1,16 +1,17 @@
 body {
 	margin: 0px 0px 0px 0px;
 	padding: 6px 6px 6px 6px;
-	background-color:#E0E0E0;
 	border: thin solid black;
 	min-height: 51px;
-}
-
-div {
 	font-family: sans-serif;
 }
 
-div.icon {
+#background {
+	background-color:#E0E0E0;
+	color: green;
+}
+
+#icon {
 	float: left;
 	top: 10px;
 	left: 10px;
@@ -19,20 +20,20 @@ div.icon {
 	margin-right: 5px;
 }
 
-div.icon img {
+#icon img {
 	width: 32px;
 	height: 32px;
 }
 
-div.title {
+#title {
 	font-weight:bold;
 	font-size:small;
 }
 
-div.text {
+#text {
 	font-size:x-small;
 }
 
-body.emergency div.text {
+#emergency #text {
 	color: red;
 }

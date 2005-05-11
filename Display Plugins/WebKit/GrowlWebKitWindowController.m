@@ -60,7 +60,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
 	[panel setAlphaValue:0.0f];
-	[panel setOpaque:YES];
+	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
@@ -76,6 +76,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[view setAction:@selector(_notificationClicked:)];
 	[view setPolicyDelegate:self];
 	[view setFrameLoadDelegate:self];
+	[view setDrawsBackground:YES];
 	[panel setContentView:view];
 
 	[self setTitle:title text:text icon:icon priority:priority forView:view];
@@ -100,11 +101,11 @@ static NSMutableDictionary *notificationsByIdentifier;
 		} else {
 			displayTime = duration;
 		}
-
+/*
 		maxAlpha = 95.0f;
 		READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, prefDomain, &maxAlpha);
 		maxAlpha *= 0.01f;
-
+*/
 		if (identifier) {
 			if (!notificationsByIdentifier) {
 				notificationsByIdentifier = [[NSMutableDictionary alloc] init];
@@ -142,7 +143,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
 	NSBundle *styleBundle = [[GrowlPluginController controller] bundleForPluginNamed:style];
-	NSString *templateFile = [bundle pathForResource:@"template" ofType:@"html"];
+	NSString *templateFile = [styleBundle pathForResource:@"template" ofType:@"html"];
+	if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile]) {
+		templateFile = [bundle pathForResource:@"template" ofType:@"html"];
+	}
 	NSString *stylePath = [styleBundle resourcePath];
 	NSString *template = [NSString alloc];
 	if ([template respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {
@@ -161,10 +165,15 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[image setName:UUID];
 	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
 
+	float opacity = 95.0f;
+	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, prefDomain, &opacity);
+	opacity *= 0.01f;
+
 	NSMutableString *titleHTML = [[[NSMutableString alloc] initWithString:title] escapeForHTML];
 	NSMutableString *textHTML = [[[NSMutableString alloc] initWithString:text] escapeForHTML];
 	NSString *htmlString = [[NSString alloc] initWithFormat:template,
 		[[NSURL fileURLWithPath:stylePath] absoluteString],	// base URL
+		opacity,		// opacity
 		priorityName,	// priority class
 		UUID,			// image name
 		titleHTML,		// title

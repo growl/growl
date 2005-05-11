@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
 
+@interface WebView(Transparency)
+- (void) setDrawsBackground:(BOOL)flag;
+- (BOOL) drawsBackground;
+@end
+
 @interface GrowlWebKitWindowView : WebView {
 	BOOL				mouseOver;
 	BOOL				closeOnMouseExit;
