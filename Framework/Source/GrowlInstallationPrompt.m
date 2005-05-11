@@ -243,7 +243,8 @@ static BOOL checkOSXVersion(void) {
 	bundle = [NSBundle bundleForClass:[GrowlInstallationPrompt class]];
 	archivePath = [bundle pathForResource:GROWL_PREFPANE_NAME ofType:@"zip"];
 
-	//desired folder: /private/tmp/$UID/GrowlInstallations/`uuidgen`
+	//desired folder (Panther): /private/tmp/$UID/GrowlInstallations/`uuidgen`
+	//desired folder (Tiger):   /private/var/tmp/folders.$UID/TemporaryItems/GrowlInstallations/`uuidgen`
 
 	tmpDir = [NSTemporaryDirectory() stringByAppendingPathComponent:@"GrowlInstallations"];
 	if (tmpDir) {
