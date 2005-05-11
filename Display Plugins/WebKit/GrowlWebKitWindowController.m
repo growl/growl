@@ -138,13 +138,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 			break;
 	}
 
-	NSString *styleName = @"Default";
-	READ_GROWL_PREF_VALUE(GrowlWebKitStylePref, prefDomain, NSString *, &styleName);
-
-	NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
 	NSBundle *styleBundle = [[GrowlPluginController controller] bundleForPluginNamed:style];
 	NSString *templateFile = [styleBundle pathForResource:@"template" ofType:@"html"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile]) {
+		NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
 		templateFile = [bundle pathForResource:@"template" ofType:@"html"];
 	}
 	NSString *stylePath = [styleBundle resourcePath];
