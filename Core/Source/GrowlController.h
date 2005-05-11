@@ -16,9 +16,6 @@
 
 @interface GrowlController : NSObject {
 	NSMutableDictionary			*tickets;				//Application tickets
-	NSLock						*registrationLock;
-	NSMutableArray				*notificationQueue;
-	NSMutableArray				*registrationQueue;
 	MD5Authenticator			*authenticator;
 
 	//XXX temporary DNC pathway hack - remove when real pathway support is in

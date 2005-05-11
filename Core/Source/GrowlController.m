@@ -36,10 +36,8 @@
 
 @interface GrowlController (private)
 - (void) loadDisplay;
-- (BOOL) _tryLockQueue;
-- (void) _unlockQueue;
-- (void) _processNotificationQueue;
-- (void) _processRegistrationQueue;
+- (void) notificationClicked:(NSNotification *)notification;
+- (void) notificationTimedOut:(NSNotification *)notification;
 @end
 
 static struct Version version = { 0U, 7U, 0U, releaseType_beta, 1U, };
@@ -98,9 +96,6 @@ static id singleton = nil;
 		dncPathway = [[GrowlDistributedNotificationPathway alloc] init];
 
 		tickets           = [[NSMutableDictionary alloc] init];
-		registrationLock  = [[NSLock              alloc] init];
-		notificationQueue = [[NSMutableArray      alloc] init];
-		registrationQueue = [[NSMutableArray      alloc] init];
 
 		[self versionDictionary];
 
@@ -163,9 +158,6 @@ static id singleton = nil;
 	[destinations  release];
 
 	[tickets           release];
-	[registrationLock  release];
-	[notificationQueue release];
-	[registrationQueue release];
 
 	[growlIcon     release];
 	[growlIconData release];
@@ -534,7 +526,7 @@ static id singleton = nil;
 	 *	version dictionary could not be downloaded, or if the version dictionary
 	 *	is missing either of these keys.
 	 */
-	if(downloadURLString && latestVersionNumber) {
+	if (downloadURLString && latestVersionNumber) {
 		NSURL *downloadURL = [[NSURL alloc] initWithString:downloadURLString];
 
 		[preferences setObject:[NSDate date] forKey:LastUpdateCheckKey];
@@ -699,12 +691,7 @@ static id singleton = nil;
 
 		if (regDict) {
 			//Register this app using the indicated dictionary
-			if ([self _tryLockQueue]) {
-				[self registerApplicationWithDictionary:regDict];
-				[self _unlockQueue];
-			} else {
-				[registrationQueue addObject:regDict];
-			}
+			[self registerApplicationWithDictionary:regDict];
 			[regDict release];
 			retVal = YES;
 		} else {
@@ -720,12 +707,6 @@ static id singleton = nil;
 	 *	quit having registered; otherwise, remain running.
 	 */
 	if (!growlIsEnabled && !growlFinishedLaunching) {
-		/*We want to hold in this thread until we can lock/unlock the queue
-		*	and ensure our registration is sent
-		*/
-		[registrationLock lock]; [registrationLock unlock];
-		[self _unlockQueue];
-
 		[NSApp terminate:self];
 	}
 
@@ -898,44 +879,6 @@ static id singleton = nil;
 - (void) loadDisplay {
 	NSString *displayPlugin = [[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey];
 	displayController = [[GrowlPluginController controller] displayPluginNamed:displayPlugin];
-}
-
-#pragma mark -
-
-- (BOOL) _tryLockQueue {
-	return [registrationLock tryLock];
-}
-
-- (void) _unlockQueue {
-	// Make sure it's locked
-	[registrationLock tryLock];
-	[self _processRegistrationQueue];
-	[self _processNotificationQueue];
-	[registrationLock unlock];
-}
-
-- (void) _processNotificationQueue {
-	NSArray *queue = [[NSArray alloc] initWithArray:notificationQueue];
-	[notificationQueue removeAllObjects];
-	NSEnumerator *e = [queue objectEnumerator];
-	NSDictionary *dict;
-
-	while ((dict = [e nextObject])) {
-		[self dispatchNotificationWithDictionary:dict];
-	}
-	[queue release];
-}
-
-- (void) _processRegistrationQueue {
-	NSArray *queue = [[NSArray alloc] initWithArray:registrationQueue];
-	[registrationQueue removeAllObjects];
-	NSEnumerator *e = [queue objectEnumerator];
-	NSDictionary *dict;
-
-	while ((dict = [e nextObject])) {
-		[self registerApplicationWithDictionary:dict];
-	}
-	[queue release];
 }
 
 #pragma mark -
