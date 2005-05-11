@@ -172,9 +172,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	NSMutableString *titleHTML = [[[NSMutableString alloc] initWithString:title] escapeForHTML];
 	NSMutableString *textHTML = [[[NSMutableString alloc] initWithString:text] escapeForHTML];
+	NSURL *baseURL = [[NSURL alloc] initFileURLWithPath:stylePath];
 
 	[htmlString replaceOccurrencesOfString:@"%baseurl%"
-								withString:[[NSURL fileURLWithPath:stylePath] absoluteString]
+								withString:[baseURL absoluteString]
 								   options:NSLiteralSearch
 									 range:NSMakeRange(0U, [htmlString length])];
 	[htmlString replaceOccurrencesOfString:@"%opacity%"
@@ -205,6 +206,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[webFrame loadHTMLString:htmlString baseURL:nil];
 	[[webFrame frameView] setAllowsScrolling:NO];
 	[htmlString release];
+	[baseURL release];
 }
 
 /*!
