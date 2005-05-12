@@ -8,7 +8,8 @@ all:
 	xcodebuild -alltargets -buildstyle $(BUILDSTYLE) build
 
 install:
-	rm -rf $(DESTDIR)
+	-rm -rf $(DESTDIR)
+	if [[ ! -d /Library/Automator ]]; then mkdir /Library/Automator; fi
 	cp -R "build/Show Growl Notification.action" $(DESTDIR)
 
 clean:
