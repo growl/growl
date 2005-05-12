@@ -333,7 +333,7 @@ static BOOL checkOSXVersion(void) {
 
 	if (!success) {
 #warning XXX - show this to the user; do not just log it.
-		NSLog(@"GrowlInstallationPrompt: Growl was not successfully installed");
+		NSLog(@"%@", @"GrowlInstallationPrompt: Growl was not successfully installed");
 	}
 }
 
