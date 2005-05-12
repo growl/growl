@@ -19,7 +19,6 @@
 	BOOL		isFadingOut;
 	float		fadeIncrement;
 	float		timerInterval;
-	float		maxAlpha;
 	double		displayTime;
 	BOOL		screenshotMode;
 	unsigned	screenNumber;

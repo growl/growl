@@ -21,7 +21,6 @@
 		doFadeOut = YES;
 		fadeIncrement = FADE_INCREMENT;
 		timerInterval = TIMER_INTERVAL;
-		maxAlpha = 1.0f;
 	}
 	return self;
 }
@@ -54,10 +53,10 @@
 #pragma unused(inTimer)
 	NSWindow *myWindow = [self window];
 	float alpha = [myWindow alphaValue];
-	if (alpha < maxAlpha) {
+	if (alpha < 1.0f) {
 		alpha += fadeIncrement;
-		if (alpha > maxAlpha) {
-			alpha = maxAlpha;
+		if (alpha > 1.0f) {
+			alpha = 1.0f;
 		}
 		[myWindow setAlphaValue:alpha];
 	} else {

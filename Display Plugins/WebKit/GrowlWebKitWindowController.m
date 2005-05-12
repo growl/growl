@@ -76,7 +76,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[view setAction:@selector(_notificationClicked:)];
 	[view setPolicyDelegate:self];
 	[view setFrameLoadDelegate:self];
-	[view setDrawsBackground:YES];
+	[view setDrawsBackground:NO];
 	[panel setContentView:view];
 
 	[self setTitle:title text:text icon:icon priority:priority forView:view];
@@ -101,11 +101,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		} else {
 			displayTime = duration;
 		}
-/*
-		maxAlpha = 95.0f;
-		READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, prefDomain, &maxAlpha);
-		maxAlpha *= 0.01f;
-*/
+
 		if (identifier) {
 			if (!notificationsByIdentifier) {
 				notificationsByIdentifier = [[NSMutableDictionary alloc] init];

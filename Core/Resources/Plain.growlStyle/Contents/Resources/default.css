@@ -2,8 +2,8 @@ body {
 	margin: 0px 0px 0px 0px;
 	padding: 6px 6px 6px 6px;
 	border: thin solid black;
-	min-height: 51px;
 	font-family: sans-serif;
+	min-height: 51px;
 }
 
 #background {
