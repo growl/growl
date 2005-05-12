@@ -540,11 +540,11 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	//If the installed version is earlier than our packaged version, we can offer an upgrade.
 	upgradeIsAvailable = (compareVersionStringsTranslating1_0To0_5(packagedVersion, installedVersion) == kCFCompareGreaterThan);
 	if (upgradeIsAvailable && !promptedToUpgradeGrowl) {
-		NSString	*lastDoNotPromptVersion;
-		lastDoNotPromptVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"Growl Update:Do Not Prompt Again:Last Version"];
+		NSString	*lastDoNotPromptVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"Growl Update:Do Not Prompt Again:Last Version"];
 
 		if (!lastDoNotPromptVersion ||
-			(compareVersionStringsTranslating1_0To0_5(packagedVersion, lastDoNotPromptVersion) == kCFCompareGreaterThan)) {
+			(compareVersionStringsTranslating1_0To0_5(packagedVersion, lastDoNotPromptVersion) == kCFCompareGreaterThan))
+		{
 			[GrowlInstallationPrompt showUpdatePromptForVersion:packagedVersion];
 			promptedToUpgradeGrowl = YES;
 		}
