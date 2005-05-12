@@ -13,7 +13,7 @@
 	<key>Custom Icon Path</key>
 	<string></string>
 	<key>Disk Image Name</key>
-	<string>~/Desktop/Growl-0.7b1.dmg</string>
+	<string>~/Desktop/Growl-0.7b2.dmg</string>
 	<key>Encode Format</key>
 	<string>None</string>
 	<key>Encryption Type</key>
@@ -80,7 +80,7 @@
 	<key>Show Toolbar</key>
 	<string>TRUE</string>
 	<key>Volume Name</key>
-	<string>Growl-0.7b1</string>
+	<string>Growl-0.7b2</string>
 	<key>Window Frame</key>
 	<string>{{30, 30}, {452, 416}}</string>
 </dict>
