@@ -61,6 +61,7 @@ static NSString *definitionNotificationName = @"GrowlDict-Definition";
 				   userData:(NSString *)data
 					  error:(NSString **)error
 {
+#pragma unused(data)
 	NSString *pboardString;
 	NSArray *types;
 	NSTask *curlTask;

@@ -633,12 +633,12 @@ enum {
 	id <NSMenuItem> item;
 	if (!ratingSubMenu) {
 		ratingSubMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@"Rating"] autorelease];
-		NSString *rating0 = [[NSString alloc] initWithUTF8String:"\u2606\u2606\u2606\u2606\u2606"];
-		NSString *rating1 = [[NSString alloc] initWithUTF8String:"\u2605\u2606\u2606\u2606\u2606"];
-		NSString *rating2 = [[NSString alloc] initWithUTF8String:"\u2605\u2605\u2606\u2606\u2606"];
-		NSString *rating3 = [[NSString alloc] initWithUTF8String:"\u2605\u2605\u2605\u2606\u2606"];
-		NSString *rating4 = [[NSString alloc] initWithUTF8String:"\u2605\u2605\u2605\u2605\u2606"];
-		NSString *rating5 = [[NSString alloc] initWithUTF8String:"\u2605\u2605\u2605\u2605\u2605"];
+		NSString *rating0 = [[NSString alloc] initWithUTF8String:"\xe2\x98\x86\xe2\x98\x86\xe2\x98\x86\xe2\x98\x86\xe2\x98\x86"];
+		NSString *rating1 = [[NSString alloc] initWithUTF8String:"\xe2\x98\x85\xe2\x98\x86\xe2\x98\x86\xe2\x98\x86\xe2\x98\x86"];
+		NSString *rating2 = [[NSString alloc] initWithUTF8String:"\xe2\x98\x85\xe2\x98\x85\xe2\x98\x86\xe2\x98\x86\xe2\x98\x86"];
+		NSString *rating3 = [[NSString alloc] initWithUTF8String:"\xe2\x98\x85\xe2\x98\x85\xe2\x98\x85\xe2\x98\x86\xe2\x98\x86"];
+		NSString *rating4 = [[NSString alloc] initWithUTF8String:"\xe2\x98\x85\xe2\x98\x85\xe2\x98\x85\xe2\x98\x85\xe2\x98\x86"];
+		NSString *rating5 = [[NSString alloc] initWithUTF8String:"\xe2\x98\x85\xe2\x98\x85\xe2\x98\x85\xe2\x98\x85\xe2\x98\x85"];
 		item = [ratingSubMenu addItemWithTitle:rating0 action:@selector(setRating:) keyEquivalent:@""];
 		[item setTarget:self];
 		[item setTag:ratingTag+0];

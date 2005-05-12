@@ -323,6 +323,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = HardwareGrowler;
 				WRAPPER_EXTENSION = app;
 			};
