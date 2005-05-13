@@ -68,6 +68,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
 	//[panel setDelegate:self];
 
+	NSBundle *styleBundle = [[GrowlPluginController controller] bundleForPluginNamed:style];
+	NSNumber *hasShadow = [[styleBundle infoDictionary] objectForKey:@"GrowlHasShadow"];
+	[panel setHasShadow:(hasShadow && [hasShadow boolValue])];
+
 	GrowlWebKitWindowView *view = [[GrowlWebKitWindowView alloc] initWithFrame:panelFrame
 																	 frameName:nil
 																	 groupName:nil];

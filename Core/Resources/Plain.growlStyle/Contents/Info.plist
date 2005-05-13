@@ -26,5 +26,7 @@
 	<string>yes</string>
 	<key>GrowlPluginAuthor</key>
 	<string>Ingmar Stein</string>
+	<key>GrowlHasShadow</key>
+	<true/>
 </dict>
 </plist>
