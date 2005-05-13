@@ -460,18 +460,18 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	growlLaunched = YES;
 
 	//Inform our delegate if it is interested
-	if ([delegate respondsToSelector:@selector(growlIsReady)]) {
+	if ([delegate respondsToSelector:@selector(growlIsReady)])
 		[delegate growlIsReady];
-	}
 
 	//Post a notification locally
 	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
 														object:nil];
 
 	//Stop observing for GROWL_IS_READY
-	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self
-															   name:GROWL_IS_READY
-															 object:nil];
+	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
+	[distCenter removeObserver:self
+						  name:GROWL_IS_READY
+						object:nil];
 
 	//register (fixes #102: this is necessary if we got here by Growl having just been installed)
 	if (registerWhenGrowlIsReady) {
@@ -480,10 +480,9 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	}
 
 	//Perform any queued notifications
-	NSEnumerator *enumerator;
+	NSEnumerator *enumerator = [queuedGrowlNotifications objectEnumerator];
 	NSDictionary *noteDict;
 
-	enumerator = [queuedGrowlNotifications objectEnumerator];
 	while ((noteDict = [enumerator nextObject])) {
 		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
 		if (connection) {
@@ -499,10 +498,10 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		} else {
 			//Post to Growl via NSDistributedNotificationCenter
 			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDNC");
-			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																		   object:nil
-																		 userInfo:noteDict
-															   deliverImmediately:NO];
+			[distCenter postNotificationName:GROWL_NOTIFICATION
+									  object:nil
+									userInfo:noteDict
+						  deliverImmediately:NO];
 		}
 	}
 
