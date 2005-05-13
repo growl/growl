@@ -13,7 +13,7 @@ our %EXPORT_TAGS = (all => \@EXPORT_OK);
 #### we have various options here ...
 #### in declining order of preference, we pick an implementation to use,
 #### and stick with it.
-our($base, $glue, $helper, $appkit);
+our($base, $glue, $helper, $appkit, $encode);
 
 # we could use gotos or something, but this is the most efficient and reliable
 # way; we could also try to put all the implementations in one function, but
@@ -43,9 +43,13 @@ sub _Define_Subs {
 		*PostNotification      = *AppleScript_PostNotification{CODE};
 		*RegisterNotifications = *AppleScript_RegisterNotifications{CODE};
 	}
+
+	sub _Fix_AppleScript_String(\$);
+	sub _Fix_Encode(\$;$);
 }
 
 sub BEGIN {
+	$encode = eval { require Encode; };
 	$helper = 'GrowlHelperApp';
 
 	if (!$base || $base eq 'Foundation') {
@@ -127,7 +131,8 @@ use constant NSNotificationPostToAllSessions	=> 1 << 1;
 sub Foundation_RegisterNotifications($$$;$)
 {
 	my($appName, $allNotes, $defaultNotes, $iconOfApp) = @_;
-	
+	_Fix_Encode($_) for ($appName);
+
 	my $appString    = NSString->alloc->initWithCString_($appName);
 	my $notesArray   = NSMutableArray->alloc->init;
 	my $defaultArray = NSMutableArray->alloc->init;
@@ -167,6 +172,7 @@ sub Foundation_RegisterNotifications($$$;$)
 sub Foundation_PostNotification($$$$;$$$)
 {
 	my($appName, $noteName, $noteTitle, $noteDescription, $sticky, $priority, $image) = @_;
+	_Fix_Encode($_) for ($appName, $noteName, $noteTitle, $noteDescription);
 	$sticky = $sticky ? 1 : 0;
 
 	my $noteDict = NSMutableDictionary->alloc->initWithCapacity_(7);
@@ -219,6 +225,7 @@ sub Foundation_PostNotification($$$$;$$$)
 sub Glue_RegisterNotifications($$$;$)
 {
 	my($appName, $allNotes, $defaultNotes, $iconOfApp) = @_;
+	_Fix_Encode($_) for ($appName);
 
 	for my $notes ($allNotes, $defaultNotes) {
 		$notes = [ map {
@@ -237,6 +244,7 @@ sub Glue_RegisterNotifications($$$;$)
 sub Glue_PostNotification($$$$;$$$)
 {
 	my($appName, $noteName, $noteTitle, $noteDescription, $sticky, $priority, $image) = @_;
+	_Fix_Encode($_) for ($appName, $noteName, $noteTitle, $noteDescription);
 	$sticky = $sticky ? 1 : 0;
 
 	my %params = (
@@ -261,11 +269,10 @@ sub Glue_PostNotification($$$$;$$$)
 ##################################
 ### AppleScript implementation ###
 
-sub _Fix_AppleScript_String(\$);
-
 sub AppleScript_RegisterNotifications($$$;$)
 {
 	my($appName, $allNotes, $defaultNotes, $iconOfApp) = @_;
+	_Fix_Encode($_, 'MacRoman') for ($appName);
 
 	# protect quotes and slashes
 	for ($appName, $iconOfApp) {
@@ -296,6 +303,7 @@ sub AppleScript_PostNotification($$$$;$$$)
 	for ($appName, $noteName, $noteTitle, $noteDescription) {
 		next unless defined;
 		_Fix_AppleScript_String($_);
+		_Fix_Encode($_, 'MacRoman');  # can't get to work with UTF8, so this will do
 	}
 
 	my $script = qq'tell application "$helper" to notify ' .
@@ -319,6 +327,13 @@ sub _Fix_AppleScript_String(\$)
 	my($string) = @_;
 	$$string =~ s/\\/\\\\/g;
 	$$string =~ s/"/\\"/g;
+}
+
+sub _Fix_Encode (\$;$)
+{
+	my($str, $encoding) = @_;
+	$$str = Encode::decode('utf8', $$str) if $encode;
+	$$str = Encode::encode($encoding, $$str) if $encode && $encoding;
 }
 
 sub _Execute_AppleScript
@@ -466,8 +481,33 @@ details how this all fits together.  It is specific to AppleScript, but
 the concepts apply to this module as well, except that file paths for
 images are Unix paths, not URLs.
 
+=head2 Unicode
+
+Mac::Growl expects strings to be passed as UTF-8, if they have high-bit
+characters.  You must take responsibility to encode the characters
+properly yourself.  This can usually be accomplished with L<utf8>
+or L<Encode>, such as:
+
+	use utf8;
+	utf8::encode($string);
+
+or:
+
+	require Encode;
+	$string = Encode::encode('utf8', $string);
+
+If you have a string that is not in some representation other than
+"Perl's internal representation" -- for example, maybe you have been
+passed a MacRoman string from another source -- you can use Encode:
+
+	require Encode;
+	Encode::from_to($string, 'MacRoman', 'utf8');
+
+
 
 =head1 CAVEATS
+
+=head2 Architecture
 
 This module is designed to use L<Foundation>, a perl module included
 with Mac OS X that is probably only available if you are using the
@@ -481,9 +521,16 @@ C<DoAppleScript>), and L<Mac::AppleScript>.  As a last resort, it will
 use C<osascript(1)>, a command line program that should be available on
 all Mac OS X machines.
 
-=head2 Advanced Method Selection
+The methods should all function the same way, except that the various
+AppleScript methods (all except for Foundation and Mac::Glue) convert
+text to MacRoman instead of passing in UTF-8, and the Foundation method
+will send notifications to all logged-in users instead of just the
+current user.
 
-You can specify which method is used, by defining $Mac::Growl::base before
+
+=head2 Advanced Architecture Selection
+
+You can specify which arechitecture is used, by defining $Mac::Growl::base before
 loading the module, e.g.:
 
 	BEGIN { $Mac::Growl::base = 'Mac::Glue' }
@@ -492,7 +539,8 @@ loading the module, e.g.:
 Possible values for this var are, as described above: Foundation, Mac::Glue,
 Mac::OSA::Simple, MacPerl, Mac::AppleScript, and osascript.  B<Note>: You
 normally do not want to do this.  The default is sensible in almost all
-cases.
+cases.  The only case I've found where I need to use this is in X-Chat,
+where X-Chat dies when Foundation is loaded.
 
 
 =head1 EXPORT
