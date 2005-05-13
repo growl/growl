@@ -208,15 +208,15 @@
  *
  *	 This attribute is automatically set back to <code>NO</code> (the default)
  *	 after every <code>GROWL_IS_READY</code> notification.
- *	@param	flag	YES if you want GrowlApplicationBridge to register with
- *	 Growl when next it is ready; NO if not.
+ *	@param	flag	<code>YES</code> if you want GrowlApplicationBridge to register with
+ *	 Growl when next it is ready; <code>NO</code> if not.
  */
 + (void) setWillRegisterWhenGrowlIsReady:(BOOL)flag;
 /*!	@method	willRegisterWhenGrowlIsReady
  *	@abstract	Reports whether GrowlApplicationBridge will register with Growl
  *	 when Growl next launches.
- *	@result	YES if GrowlApplicationBridge will register with Growl when next it
- *	 posts GROWL_IS_READY; NO if not.
+ *	@result	<code>YES</code> if GrowlApplicationBridge will register with Growl
+ *	 when next it posts GROWL_IS_READY; <code>NO</code> if not.
  */
 + (BOOL) willRegisterWhenGrowlIsReady;
 
