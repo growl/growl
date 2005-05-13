@@ -20,11 +20,11 @@ get an error from trying to create a glue file during make, make clean
 and try again with sudo.
 
 make test will register "PerlApp" with growl with Growl, with two
-notifications, "a" and "b", and then post to those notification with various
-messages.  Since there is currently no Growl->Caller communication, there is
-no way for the test script to tell if it's working, and therefore will always
-report success. If you don't see the notification, check console, wait a while
-and try again, and/or ask in #growl on irc.freenode.net.
+notifications, "test 1" and "test 2", and then post to those notification with
+various messages.  Since there is currently no Growl->Caller communication,
+there is no way for the test script to tell if it's working, and therefore will
+always report success. If you don't see the notification, check console, wait
+a while and try again, and/or ask in #growl on irc.freenode.net.
 
 DEPENDENCIES
 
