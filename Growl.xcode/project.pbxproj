@@ -265,6 +265,16 @@
 			isa = PBXProject;
 			mainGroup = 089C166AFE841209C02AAC07;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 95D165B70834DB7500D996B2;
+					ProjectRef = 95D165B60834DB7500D996B2;
+				},
+				{
+					ProductGroup = 95D1659E0834DB5200D996B2;
+					ProjectRef = 95D1659D0834DB5200D996B2;
+				},
+			);
 			targets = (
 				8D202CE80486D31800D8A456,
 				DDF09B09080AC8F3006F4172,
@@ -283,6 +293,8 @@
 		};
 		089C166AFE841209C02AAC07 = {
 			children = (
+				95D165B60834DB7500D996B2,
+				95D1659D0834DB5200D996B2,
 				DDB6463707DE04A700807F8D,
 				953C3EFE0747970800F2A737,
 				CB910DA8074E0A5F00278FC5,
@@ -1897,6 +1909,8 @@
 //194
 		19C28FB8FE9D52D311CA2CBB = {
 			children = (
+				95D166650834EC0200D996B2,
+				95D1662E0834EBEF00D996B2,
 				8D202CF80486D31800D8A456,
 				CB61E5180637763C00E0DDC7,
 				0AB508AE0767C87B006EA5CB,
@@ -4398,6 +4412,154 @@
 			settings = {
 			};
 		};
+		95D1659D0834DB5200D996B2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = "wrapper.pb-project";
+			name = GrowlAction.xcode;
+			path = Extras/GrowlAction/GrowlAction.xcode;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95D1659E0834DB5200D996B2 = {
+			children = (
+				95D165A00834DB5200D996B2,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95D165A00834DB5200D996B2 = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = "Show Growl Notification.action";
+			refType = 3;
+			remoteRef = 95D165B50834DB5300D996B2;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D165B50834DB5300D996B2 = {
+			containerPortal = 95D1659D0834DB5200D996B2;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 65942E150711D4310089E4F1;
+			remoteInfo = GrowlAction;
+		};
+		95D165B60834DB7500D996B2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = "wrapper.pb-project";
+			name = GrowlImporter.xcode;
+			path = Extras/GrowlImporter/GrowlImporter.xcode;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95D165B70834DB7500D996B2 = {
+			children = (
+				95D165B90834DB7500D996B2,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95D165B90834DB7500D996B2 = {
+			fileType = wrapper.cfbundle;
+			isa = PBXReferenceProxy;
+			path = GrowlImporter.mdimporter;
+			refType = 3;
+			remoteRef = 95D165CE0834DB7600D996B2;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D165CE0834DB7600D996B2 = {
+			containerPortal = 95D165B60834DB7500D996B2;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 8D576316048677EA00EA77CD;
+			remoteInfo = GrowlImporter;
+		};
+		95D165CF0834DBC300D996B2 = {
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/Spotlight;
+			dstSubfolderSpec = 1;
+			files = (
+				95D166890834EC1700D996B2,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95D165D50834E55B00D996B2 = {
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/Automator;
+			dstSubfolderSpec = 1;
+			files = (
+				95D166880834EC0900D996B2,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95D165DA0834E57F00D996B2 = {
+			containerPortal = 95D165B60834DB7500D996B2;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
+			remoteInfo = GrowlImporter;
+		};
+		95D165DB0834E57F00D996B2 = {
+			isa = PBXTargetDependency;
+			name = "GrowlImporter (from GrowlImporter.xcode)";
+			targetProxy = 95D165DA0834E57F00D996B2;
+		};
+		95D165DC0834E57F00D996B2 = {
+			containerPortal = 95D1659D0834DB5200D996B2;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 65942E070711D4310089E4F1;
+			remoteInfo = GrowlAction;
+		};
+		95D165DD0834E57F00D996B2 = {
+			isa = PBXTargetDependency;
+			name = "GrowlAction (from GrowlAction.xcode)";
+			targetProxy = 95D165DC0834E57F00D996B2;
+		};
+		95D1662E0834EBEF00D996B2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = GrowlImporter.mdimporter;
+			path = Extras/GrowlImporter/build/GrowlImporter.mdimporter;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95D1663C0834EBEF00D996B2 = {
+			fileRef = 95D1662E0834EBEF00D996B2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D166650834EC0200D996B2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = "Show Growl Notification.action";
+			path = "Extras/GrowlAction/build/Show Growl Notification.action";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95D166730834EC0200D996B2 = {
+			fileRef = 95D166650834EC0200D996B2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D166880834EC0900D996B2 = {
+			fileRef = 95D166650834EC0200D996B2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D166890834EC1700D996B2 = {
+			fileRef = 95D1662E0834EBEF00D996B2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95D89A95082418DA0068A4BD = {
 			fileRef = 950F7978080EED5C00CC5F62;
 			isa = PBXBuildFile;
@@ -5043,6 +5205,8 @@
 				954F013D074135D400EA8AB5,
 				95BF837D0743675700306A77,
 				950F798A080EED7400CC5F62,
+				95D1663C0834EBEF00D996B2,
+				95D166730834EC0200D996B2,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5107,6 +5271,8 @@
 				CB61E5160637763C00E0DDC7,
 				63C060F406C8946E00B0B7D4,
 				3433456D0790E38B00C84B15,
+				95D165CF0834DBC300D996B2,
+				95D165D50834E55B00D996B2,
 			);
 			buildRules = (
 			);
@@ -5146,6 +5312,8 @@
 				343345950790E3EF00C84B15,
 				3433459A0790E40800C84B15,
 				3433459C0790E40B00C84B15,
+				95D165DB0834E57F00D996B2,
+				95D165DD0834E57F00D996B2,
 			);
 			isa = PBXNativeTarget;
 			name = GrowlHelperApp;

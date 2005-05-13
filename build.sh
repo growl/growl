@@ -11,7 +11,7 @@ make -C Extras/growlnotify $@
 make -C Extras/HardwareGrowler $@
 make -C Extras/growlctl $@
 make -C Extras/GrowlWidget $@
-make -C Extras/GrowlImporter $@
-make -C Extras/GrowlAction $@
+#make -C Extras/GrowlImporter $@
+#make -C Extras/GrowlAction $@
 make -C Extras/GrowlTunes $@
 
