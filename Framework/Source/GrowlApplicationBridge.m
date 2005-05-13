@@ -74,9 +74,9 @@ static NSData	*appIconData = nil;
 static id		delegate = nil;
 static BOOL		growlLaunched = NO;
 
+#ifdef GROWL_WITH_INSTALLER
 static NSMutableArray	*queuedGrowlNotifications = nil;
 
-#ifdef GROWL_WITH_INSTALLER
 static BOOL				userChoseNotToInstallGrowl = NO;
 static BOOL				promptedToInstallGrowl = NO;
 static BOOL				promptedToUpgradeGrowl = NO;
@@ -479,6 +479,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		registerWhenGrowlIsReady = NO;
 	}
 
+#ifdef GROWL_WITH_INSTALLER
 	//Perform any queued notifications
 	NSEnumerator *enumerator = [queuedGrowlNotifications objectEnumerator];
 	NSDictionary *noteDict;
@@ -506,6 +507,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	}
 
 	[queuedGrowlNotifications release]; queuedGrowlNotifications = nil;
+#endif
 }
 
 #ifdef GROWL_WITH_INSTALLER
