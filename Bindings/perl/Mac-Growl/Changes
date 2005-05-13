@@ -1,6 +1,8 @@
-0.63  ???
+0.63  Fri May 13 20:28:00 2005
 	- Updated warning in Mac-Growl.t to be less fear-inducing
-
+	- Make notifications go out to all logged-in users under
+	  Foundation
+	- Be smarter with encodings 
 
 0.62  Thu Mar 10 21:53:19 2005
 	- Check installed Growl version in Makefile
