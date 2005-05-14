@@ -5,6 +5,7 @@ GROWL_PREFPANE=Growl.prefPane
 GROWL_FRAMEWORK=Growl.framework
 BUILD_DIR=build
 GROWL_HELPER_APP=$(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)/Contents/Resources/GrowlHelperApp.app
+HEADERDOC_DIR=Docs/HeaderDoc
 
 #DEFAULT_BUILDSTYLE=Deployment
 DEFAULT_BUILDSTYLE=Development
@@ -45,6 +46,11 @@ install-growl:
 	-$(RM) -rf $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
 	$(CP) $(BUILD_DIR)/$(GROWL_PREFPANE) $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
 	open $(GROWL_HELPER_APP)
+
+headerdoc:
+	rm -rf $(HEADERDOC_DIR)
+	headerdoc2html -o $(HEADERDOC_DIR) Common/Source/GrowlDefines.h Common/Source/GrowlDefinesInternal.h Framework/Source/GrowlInstallationPrompt.h Framework/Source/GrowlInstallationPrompt-Carbon.h Framework/Source/GrowlApplicationBridge.h Framework/Source/GrowlApplicationBridge-Carbon.h Common/Source/GrowlPathUtil.h Framework/Source/GrowlDelegate.h Display\ Plugins/GrowlDisplayProtocol.h Framework/Source/Growl.hdoc
+	gatherheaderdoc $(HEADERDOC_DIR)
 
 uninstall:
 	killall GrowlHelperApp || true
