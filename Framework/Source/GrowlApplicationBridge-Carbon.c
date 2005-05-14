@@ -151,10 +151,12 @@ Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 	CFRelease(growlNotificationClickedName);
 	CFRelease(growlNotificationTimedOutName);
 
+#ifdef GROWL_WITH_INSTALLER
 	Boolean keyExistsAndHasValidFormat_nobodyCares;
 	userChoseNotToInstallGrowl = CFPreferencesGetAppBooleanValue(CFSTR("Growl Installation:Do Not Prompt Again"),
 																 kCFPreferencesCurrentApplication,
 																 &keyExistsAndHasValidFormat_nobodyCares);
+#endif
 
 	return (growlLaunched = Growl_RegisterWithDictionary(NULL));
 }
@@ -621,7 +623,9 @@ static Boolean _launchGrowlIfInstalledWithRegistrationDictionary(CFDictionaryRef
 	}
 
 	if (growlPrefPaneBundle) {
+#ifdef GROWL_WITH_INSTALLER
 		_checkForPackagedUpdateForGrowlPrefPaneBundle(growlPrefPaneBundle);
+#endif
 
 		CFURLRef	growlHelperAppURL = NULL;
 
