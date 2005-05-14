@@ -143,7 +143,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 #ifdef GROWL_WITH_INSTALLER
 	//Determine if the user has previously told us not to ever request installation again
-	userChoseNotToInstallGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"Growl Installation: Do Not Prompt Again"];
+	userChoseNotToInstallGrowl = [[NSUserDefaults standardUserDefaults] boolForKey:@"Growl Installation:Do Not Prompt Again"];
 #endif
 
 	growlLaunched = [self _launchGrowlIfInstalledWithRegistrationDictionary:regDict];
