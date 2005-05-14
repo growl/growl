@@ -530,7 +530,7 @@ current user.
 
 =head2 Advanced Architecture Selection
 
-You can specify which arechitecture is used, by defining $Mac::Growl::base before
+You can specify which architecture is used, by defining $Mac::Growl::base before
 loading the module, e.g.:
 
 	BEGIN { $Mac::Growl::base = 'Mac::Glue' }
