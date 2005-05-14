@@ -99,6 +99,8 @@
 - (void) setDefaultDisplayPluginName:(NSString *)name;
 - (BOOL) loggingEnabled;
 - (void) setLoggingEnabled:(BOOL)flag;
+- (BOOL) growlIsRunning;
+- (void) setGrowlIsRunning:(BOOL)flag;
 
 - (IBAction) logTypeChanged:(id)sender;
 - (IBAction) openConsoleApp:(id)sender;

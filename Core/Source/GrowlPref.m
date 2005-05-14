@@ -369,6 +369,14 @@
 	}
 }
 
+- (BOOL) growlIsRunning {
+	return growlIsRunning;
+}
+
+- (void) setGrowlIsRunning:(BOOL)flag {
+	growlIsRunning = flag;
+}
+
 - (void) updateRunningStatus {
 	[startStopTimer invalidate];
 	startStopTimer = nil;
@@ -451,7 +459,7 @@
 	// Make sure growlIsRunning is correct
 	if (growlIsRunning != [[GrowlPreferences preferences] isGrowlRunning]) {
 		// Nope - lets just flip it and update status
-		growlIsRunning = !growlIsRunning;
+		[self setGrowlIsRunning:!growlIsRunning];
 		[self updateRunningStatus];
 		return;
 	}
@@ -1034,7 +1042,7 @@
 #pragma mark Detecting Growl
 
 - (void) checkGrowlRunning {
-	growlIsRunning = [[GrowlPreferences preferences] isGrowlRunning];
+	[self setGrowlIsRunning:[[GrowlPreferences preferences] isGrowlRunning]];
 	[self updateRunningStatus];
 }
 
@@ -1073,13 +1081,13 @@
 
 - (void) growlLaunched:(NSNotification *)note {
 #pragma unused(note)
-	growlIsRunning = YES;
+	[self setGrowlIsRunning:YES];
 	[self updateRunningStatus];
 }
 
 - (void) growlTerminated:(NSNotification *)note {
 #pragma unused(note)
-	growlIsRunning = NO;
+	[self setGrowlIsRunning:NO];
 	[self updateRunningStatus];
 }
 

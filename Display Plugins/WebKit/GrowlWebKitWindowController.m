@@ -80,7 +80,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[view setAction:@selector(_notificationClicked:)];
 	[view setPolicyDelegate:self];
 	[view setFrameLoadDelegate:self];
-	[view setDrawsBackground:NO];
+	if ([view respondsToSelector:@selector(setDrawsBackground:)]) {
+		[view setDrawsBackground:NO];
+	}
 	[panel setContentView:view];
 
 	[self setTitle:title text:text icon:icon priority:priority forView:view];
