@@ -8,16 +8,16 @@
 #define synonym_verb__ reply_none__, dp_none__, { }
 #define plural__    "", {"", kAESpecialClassProperties, cType, "", reserved, singleItem, notEnumerated, readOnly, Reserved8, noApostrophe, notFeminine, notMasculine, plural}, {}
 
-resource 'aete' (0, "") {
+resource 'aete' (0, "Growl Terminology") {
 	0x1,  // major version
 	0x0,  // minor version
 	english,
 	roman,
 	{
-				"Growl Suite",
-				"AppleScript for the Growl Notification System",
-				'Grwl',
-				1,
+		"Growl Suite",
+		"AppleScript for the Growl Notification System",
+		'Grwl',
+		1,
 		1,
 		{
 			/* Events */
@@ -101,22 +101,21 @@ resource 'aete' (0, "") {
 		{
 			/* Classes */
 
-			"Picture", 'PICT',
+			"picture", 'PICT',
 			"",
 			{
 			},
 			{
 			},
-			"Pictures", 'PICT', plural__,
+			"pictures", 'PICT', plural__,
 
-			"Image", 'TIFF',
+			"image", 'TIFF',
 			"",
 			{
 			},
 			{
 			},
-			"Images", 'TIFF', plural__
-
+			"images", 'TIFF', plural__
 		},
 		{
 			/* Comparisons */
