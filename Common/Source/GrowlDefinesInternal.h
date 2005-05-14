@@ -19,6 +19,7 @@
 
 /*!	@header	GrowlDefinesInternal.h
  *	@abstract	Defines internal Growl macros and types.
+ *  @ignore ATTRIBUTE_PACKED
  *	@discussion	These constants are used both by GrowlHelperApp and by plug-ins.
  *
  *	 Notification keys (used in GrowlHelperApp, in GrowlApplicationBridge, and
@@ -41,7 +42,7 @@
  */
 #define GROWL_PROTOCOL_VERSION	1
 
-/*!	@defined	GROWL_PROTOCOL_VERSION
+/*!	@defined	GROWL_PROTOCOL_VERSION_AES128
 *	@abstract	The current version of the Growl network-notifications protocol (with AES-128 encryption).
 */
 #define GROWL_PROTOCOL_VERSION_AES128	2
@@ -71,6 +72,8 @@
 */
 #define GROWL_TYPE_NOTIFICATION_NOAUTH	5
 
+#define ATTRIBUTE_PACKED __attribute((packed))
+
 /*!	@struct	GrowlNetworkPacket
  *	@abstract	This struct is a header common to all incoming Growl network
  *	 packets which identifies the type and version of the packet.
@@ -78,21 +81,22 @@
 struct GrowlNetworkPacket {
 	unsigned char version;
 	unsigned char type;
-} __attribute__((packed));
+} ATTRIBUTE_PACKED;
 
-/*!	@struct	GrowlNetworkRegistration
- *	@abstract	The format of a registration packet.
- *	@discussion	A Growl client that wants to register with a Growl server sends
- *	 a packet in this format.
+/*!
+ * @struct GrowlNetworkRegistration
+ * @abstract The format of a registration packet.
+ * @discussion A Growl client that wants to register with a Growl server sends
+ * a packet in this format.
+ * @field common The Growl packet header.
+ * @field appNameLen The name of the application that is registering.
+ * @field numAllNotifications The number of notifications in the list.
+ * @field numDefaultNotifications The number of notifications in the list that are enabled by default.
+ * @field data Variable-sized data.
  */
 struct GrowlNetworkRegistration {
-	/*!	@field	common
-	 *	@abstract	The Growl packet header.
-	 */
 	struct GrowlNetworkPacket common;
-	/*!	@field	appNameLen
-	 *	@abstract	The name of the application that is registering.
-	 *	@discussion	This name is used both internally and in the Growl
+	/*	This name is used both internally and in the Growl
 	 *	 preferences.
 	 *
 	 *	 The application name should remain stable between different versions
@@ -104,20 +108,13 @@ struct GrowlNetworkRegistration {
 	 *	 network byte order.
 	 */
 	unsigned short appNameLen;
-	/*!	@field	numAllNotifications
-	 *	@abstract	The number of notifications in the list.
-	 *	@discussion	These names are used both internally and in the Growl
+	/*	These names are used both internally and in the Growl
 	 *	 preferences. For this reason, they should be human-readable.
 	 */
 	unsigned char numAllNotifications;
-	/*!	@field	numDefaultNotifications
-	 *	@abstract	The number of notifications in the list that are enabled by
-	 *	 default.
-	 */
+
 	unsigned char numDefaultNotifications;
-	/*!	@field	data
-	 *	@abstract	Variable-sized data.
-	 *	@discussion	The variable-sized data of a registration is:
+	/*	The variable-sized data of a registration is:
 	 *	 - The application name, in UTF-8 encoding, for appNameLen bytes.
 	 *	 - The list of all notification names.
 	 *	 - The list of default notifications, as 8-bit unsigned indices into the list of all notifications.
@@ -129,56 +126,56 @@ struct GrowlNetworkRegistration {
 	 *	 And there are numAllNotifications of these.
 	 */
 	unsigned char data[];
-} __attribute__((packed));
+} ATTRIBUTE_PACKED;
 
-/*!	@struct	GrowlNetworkNotification
- *	@abstract	The format of a notification packet.
- *	@discussion	A Growl client that wants to post a notification to a Growl
- *	 server sends a packet in this format.
+/*!
+ * @struct GrowlNetworkNotification
+ * @abstract The format of a notification packet.
+ * @discussion	A Growl client that wants to post a notification to a Growl
+ * server sends a packet in this format.
+ * @field common The Growl packet header.
+ * @field flags The priority number and the sticky bit.
+ * @field nameLen The length of the notification name.
+ * @field titleLen The length of the notification title.
+ * @field descriptionLen The length of the notification description.
+ * @field appNameLen The length of the application name.
+ * @field data Variable-sized data.
  */
 struct GrowlNetworkNotification {
-	/*!	@field	common
-	 *	@abstract	The Growl packet header.
-	 */
 	struct GrowlNetworkPacket common;
-	/*!	@field	flags
-	 *	@abstract	The priority number and the sticky bit.
-	 *	@discussion	This 16-bit packed structure contains the priority as a
-	 *	 signed 3-bit integer from -2 to +2, and the priority as a single bit.
-	 *	 The high 12 bits of the structure are reserved for future use.
+	/*!
+	 * @struct GrowlNetworkNotificationFlags
+	 * @abstract Various flags.
+	 * @discussion This 16-bit packed structure contains the priority as a
+	 *  signed 3-bit integer from -2 to +2, and the sticky flag as a single bit.
+	 *  The high 12 bits of the structure are reserved for future use.
+	 * @field reserved reserved for future use.
+	 * @field priority the priority as a signed 3-bit integer from -2 to +2.
+	 * @field sticky the sticky flag.
 	 */
 	struct GrowlNetworkNotificationFlags {
 		unsigned reserved: 12;
 		signed   priority: 3;
 		unsigned sticky:   1;
-	} __attribute__((packed)) flags; //size = 16 (12 + 3 + 1)
-	/*!	@field	nameLen
-	 *	@abstract	The length of the notification name.
-	 *	@discussion	In addition to being unsigned, the notification name length
+	} ATTRIBUTE_PACKED flags; //size = 16 (12 + 3 + 1)
+	
+	/*	In addition to being unsigned, the notification name length
 	 *	 is in network byte order.
 	 */
 	unsigned short nameLen;
-	/*!	@field	titleLen
-	 *	@abstract	The length of the notification title.
-	 *	@discussion	In addition to being unsigned, the title length is in
+	/*	@discussion	In addition to being unsigned, the title length is in
 	 *	 network byte order.
 	 */
 	unsigned short titleLen;
-	/*!	@field	descriptionLen
-	 *	@abstract	The length of the notification description.
-	 *	@discussion	In addition to being unsigned, the description length is in
+	/*	In addition to being unsigned, the description length is in
 	 *	 network byte order.
 	 */
 	unsigned short descriptionLen;
-	/*!	@field	appNameLen
-	 *	@abstract	The length of the application name.
-	 *	@discussion	In addition to being unsigned, the application name length
+	/*	In addition to being unsigned, the application name length
 	 *	 is in network byte order.
 	 */
 	unsigned short appNameLen;
-	/*!	@field	data
-	 *	@abstract	Variable-sized data.
-	 *	@discussion	The variable-sized data of a notification is:
+	/*	The variable-sized data of a notification is:
 	 *	 - Notification name, in UTF-8 encoding, for nameLen bytes.
 	 *	 - Title, in UTF-8 encoding, for titleLen bytes.
 	 *	 - Description, in UTF-8 encoding, for descriptionLen bytes.
@@ -186,7 +183,7 @@ struct GrowlNetworkNotification {
 	 *	 - The MD5/SHA256 checksum of all the data preceding the checksum.
 	 */
 	unsigned char data[];
-} __attribute__((packed));
+} ATTRIBUTE_PACKED;
 
 /*!	@defined	GrowlEnabledKey
  *	@abstract	Preference key controlling whether Growl is enabled.

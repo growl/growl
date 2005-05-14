@@ -26,8 +26,8 @@
 // UserInfo Keys for Registration
 #pragma mark UserInfo Keys for Registration
 
-/*!	@group Registration userInfo keys
- *	@abstract	Keys for the userInfo dictionary of a GROWL_APP_REGISTRATION distributed notification.
+/*!	@group Registration userInfo keys */
+/*	@abstract	Keys for the userInfo dictionary of a GROWL_APP_REGISTRATION distributed notification.
  *	@discussion The values of these keys describe the application and the
  *	 notifications it may post.
  *
@@ -83,8 +83,8 @@
 // UserInfo Keys for Notifications
 #pragma mark UserInfo Keys for Notifications
 
-/*!	@group Notification userInfo keys
- *	@abstract	Keys for the userInfo dictionary of a GROWL_NOTIFICATION distributed notification.
+/*!	@group Notification userInfo keys */
+/*	@abstract	Keys for the userInfo dictionary of a GROWL_NOTIFICATION distributed notification.
  *	@discussion The values of these keys describe the content of a Growl
  *	 notification.
  *
@@ -189,8 +189,8 @@
 // Notifications
 #pragma mark Notifications
 
-/*!	@group Notification names
- *	@abstract	Names of distributed notifications used by Growl.
+/*!	@group Notification names */
+/*	@abstract	Names of distributed notifications used by Growl.
  *	@discussion	These are notifications used by applications (directly or
  *	 indirectly) to interact with Growl, and by Growl for interaction between
  *	 its components.
@@ -285,9 +285,8 @@
 #define GROWL_NOTIFICATION_CLICKED		XSTR("GrowlClicked!")
 #define GROWL_NOTIFICATION_TIMED_OUT	XSTR("GrowlTimedOut!")
 
-/*!	@group Other symbols
- *	@abstract Symbols which don't fit into any of the other categories.
- */
+/*!	@group Other symbols */
+/* Symbols which don't fit into any of the other categories. */
 
 /*!	@defined GROWL_KEY_CLICKED_CONTEXT
  *	@abstract Used internally as the key for the clickedContext passed over DNC.

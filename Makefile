@@ -49,7 +49,7 @@ install-growl:
 
 headerdoc:
 	rm -rf $(HEADERDOC_DIR)
-	headerdoc2html -o $(HEADERDOC_DIR) Common/Source/GrowlDefines.h Common/Source/GrowlDefinesInternal.h Framework/Source/GrowlInstallationPrompt.h Framework/Source/GrowlInstallationPrompt-Carbon.h Framework/Source/GrowlApplicationBridge.h Framework/Source/GrowlApplicationBridge-Carbon.h Common/Source/GrowlPathUtil.h Framework/Source/GrowlDelegate.h Display\ Plugins/GrowlDisplayProtocol.h Framework/Source/Growl.hdoc
+	headerdoc2html -C -o $(HEADERDOC_DIR) Common/Source/GrowlDefines.h Common/Source/GrowlDefinesInternal.h Framework/Source/*.h Common/Source/GrowlPathUtil.h Display\ Plugins/GrowlDisplayProtocol.h Framework/Source/Growl.hdoc
 	gatherheaderdoc $(HEADERDOC_DIR)
 
 uninstall:

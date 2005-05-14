@@ -37,11 +37,23 @@ __BEGIN_DECLS
  *	 looks for a callback in the delegate and calls it if present
  *	 (meaning, if it is not <code>NULL</code>).
  *	XXX on all of that
+ *  @field size The size of the delegate structure.
+ * 	@field applicationName The name of your application.
+ * 	@field registrationDictionary A dictionary describing your application and the notifications it can send out.
+ * 	@field applicationIconData Your application's icon.
+ * 	@field growlInstallationWindowTitle The title of the installation window.
+ * 	@field growlInstallationInformation Text to display in the installation window.
+ * 	@field growlUpdateWindowTitle The title of the update window.
+ * 	@field growlUpdateInformation Text to display in the update window.
+ * 	@field referenceCount A count of owners of the delegate.
+ * 	@field retain Called when GrowlApplicationBridge receives this delegate.
+ * 	@field release Called when GrowlApplicationBridge no longer needs this delegate.
+ * 	@field growlIsReady Called when GrowlHelperApp is listening for notifications.
+ * 	@field growlNotificationWasClicked Called when a Growl notification is clicked.
+ *  @field growlNotificationTimedOut Called when a Growl notification timed out.
  */
 struct Growl_Delegate {
-	/*!	@field size
-	 *	@abstract The size of the delegate structure.
-	 *	@discussion This should be sizeof(struct Growl_Delegate).
+	/*	@discussion This should be sizeof(struct Growl_Delegate).
 	 */
 	size_t size;
 
@@ -51,29 +63,25 @@ struct Growl_Delegate {
 	 *XXX - move optional/required status into the discussion for each field
 	 */
 
-	/*!	@field applicationName
-	 *	@abstract The name of your application.
-	 *	@discussion This name is used both internally and in the Growl preferences.
+	/* This name is used both internally and in the Growl preferences.
 	 *
 	 *	 This should remain stable between different versions and incarnations of
 	 *	 your application.
 	 *	 For example, "SurfWriter" is a good app name, whereas "SurfWriter 2.0" and
 	 *	 "SurfWriter Lite" are not.
 	 *
-	 *This can be <code>NULL</code> if it is provided elsewhere, namely in an
+	 * This can be <code>NULL</code> if it is provided elsewhere, namely in an
 	 *	 auto-discoverable plist file in your app bundle
 	 *	 (XXX refer to more information on that) or in registrationDictionary.
 	 */
 	CFStringRef applicationName;
 
-	/*!	@field registrationDictionary
-	 *	@abstract	A dictionary describing your application and the notifications it can send out.
-	 *	@discussion
-	 *Must contain at least these keys:
+	/*
+	 * Must contain at least these keys:
 	 *	GROWL_NOTIFICATIONS_ALL (CFArray):
 	 *		Contains the names of all notifications your application may post.
 	 *
-	 *Can also contain these keys:
+	 * Can also contain these keys:
 	 *	GROWL_NOTIFICATIONS_DEFAULT (CFArray):
 	 *		Names of notifications that should be enabled by default.
 	 *		If omitted, GROWL_NOTIFICATIONS_ALL will be used.
@@ -86,17 +94,15 @@ struct Growl_Delegate {
 	 *		If both are present, the iconData member shall prevail.
 	 *		If this key is present, you may omit iconData (set it to <code>NULL</code>).
 	 *
-	 *If you change the contents of this dictionary after setting the delegate,
+	 * If you change the contents of this dictionary after setting the delegate,
 	 *	be sure to call Growl_Reregister.
 	 *
-	 *This can be <code>NULL</code> if you have an auto-discoverable plist file in your app
+	 * This can be <code>NULL</code> if you have an auto-discoverable plist file in your app
 	 *	 bundle. (XXX refer to more information on that)
 	 */
 	CFDictionaryRef registrationDictionary;
 
-	/*!	@field	applicationIconData
-	 *	@abstract	Your application's icon.
-	 *	@discussion	The data can be in any format supported by NSImage. As of
+	/* The data can be in any format supported by NSImage. As of
 	 *	 Mac OS X 10.3, this includes the .icns, TIFF, JPEG, GIF, PNG, PDF, and
 	 *	 PICT formats.
 	 *
@@ -105,26 +111,22 @@ struct Growl_Delegate {
 	 */
 	CFDataRef applicationIconData;
 
-	/*Installer display attributes
+	/* Installer display attributes
 	 *
-	 *These four attributes are used by the Growl installer, if this framework
+	 * These four attributes are used by the Growl installer, if this framework
 	 *	supports it.
-	 *For any of these being <code>NULL</code>, a localised default will be
+	 * For any of these being <code>NULL</code>, a localised default will be
 	 *	supplied.
 	 */
 
-	/*!	@field	growlInstallationWindowTitle
-	 *	@abstract	The title of the installation window.
-	 *	@discussion	If this is <code>NULL</code>, Growl will use a default,
+	/*	If this is <code>NULL</code>, Growl will use a default,
 	 *	 localized title.
 	 *
 	 *	 Only used if you're using Growl-WithInstaller.framework. Otherwise,
 	 *	 this member is ignored.
 	 */
 	CFStringRef growlInstallationWindowTitle;
-	/*!	@field	growlInstallationInformation
-	 *	@abstract	Text to display in the installation window.
-	 *	@discussion	This information may be as long or short as desired (the
+	/*	This information may be as long or short as desired (the
 	 *	 window will be sized to fit it).  If Growl is not installed, it will
 	 *	 be displayed to the user as an explanation of what Growl is and what
 	 *	 it can do in your application.
@@ -137,18 +139,14 @@ struct Growl_Delegate {
 	 *	 this member is ignored.
 	 */
 	CFStringRef growlInstallationInformation;
-	/*!	@field	growlUpdateWindowTitle
-	 *	@abstract	The title of the update window.
-	 *	@discussion	If this is <code>NULL</code>, Growl will use a default,
+	/*	If this is <code>NULL</code>, Growl will use a default,
 	 *	 localized title.
 	 *
 	 *	 Only used if you're using Growl-WithInstaller.framework. Otherwise,
 	 *	 this member is ignored.
 	 */
 	CFStringRef growlUpdateWindowTitle;
-	/*!	@field	growlUpdateInformation
-	 *	@abstract	Text to display in the update window.
-	 *	@discussion	This information may be as long or short as desired (the
+	/*	This information may be as long or short as desired (the
 	 *	 window will be sized to fit it).  If an older version of Growl is
 	 *	 installed, it will be displayed to the user as an explanation that an
 	 *	 updated version of Growl is included in your application and
@@ -162,9 +160,7 @@ struct Growl_Delegate {
 	 */
 	CFStringRef growlUpdateInformation;
 
-	/*!	@field referenceCount
-	 *	@abstract	A count of owners of the delegate.
-	 *	@discussion	This member is provided for use by your retain and release
+	/*	This member is provided for use by your retain and release
 	 *	 callbacks (see below).
 	 *
 	 *	 GrowlApplicationBridge never directly uses this member. Instead, it
@@ -175,10 +171,7 @@ struct Growl_Delegate {
 
 	//Functions. Currently all of these are optional (any of them can be NULL).
 
-	/*!	@field	retain
-	 *	@abstract	Called when GrowlApplicationBridge receives this delegate.
-	 *	@discussion
-	 *	 When you call Growl_SetDelegate(newDelegate), it will call
+	/*	When you call Growl_SetDelegate(newDelegate), it will call
 	 *	 oldDelegate->release(oldDelegate), and then it will call
 	 *	 newDelegate->retain(newDelegate), and the return value from retain
 	 *	 is what will be set as the delegate.
@@ -189,10 +182,7 @@ struct Growl_Delegate {
 	 *	@result	A delegate to which GrowlApplicationBridge holds a reference.
 	 */
 	void *(*retain)(void *);
-	/*!	@field	release
-	 *	@abstract	Called when GrowlApplicationBridge no longer needs this delegate.
-	 *	@discussion
-	 *	 When you call Growl_SetDelegate(newDelegate), it will call
+	/*	When you call Growl_SetDelegate(newDelegate), it will call
 	 *	 oldDelegate->release(oldDelegate), and then it will call
 	 *	 newDelegate->retain(newDelegate), and the return value from retain
 	 *	 is what will be set as the delegate.
@@ -204,19 +194,13 @@ struct Growl_Delegate {
 	 */
 	void (*release)(void *);
 
-	/*!	@field	growlIsReady
-	 *	@abstract	Called when GrowlHelperApp is listening for notifications.
-	 *	@discussion
-	 *	 Informs the delegate that Growl (specifically, the GrowlHelperApp) was
+	/*	Informs the delegate that Growl (specifically, the GrowlHelperApp) was
 	 *	 launched successfully (or was already running). The application can
 	 *	 take actions with the knowledge that Growl is installed and functional.
 	 */
 	void (*growlIsReady)(void);
 
-	/*!	@field	growlNotificationWasClicked
-	 *	@abstract	Called when a Growl notification is clicked.
-	 *	@discussion
-	 *	 Informs the delegate that a Growl notification was clicked. It is only
+	/*	Informs the delegate that a Growl notification was clicked. It is only
 	 *	 sent for notifications sent with a non-<code>NULL</code> clickContext,
 	 *	 so if you want to receive a message when a notification is clicked,
 	 *	 clickContext must not be <code>NULL</code> when calling
@@ -225,10 +209,7 @@ struct Growl_Delegate {
 	 */
 	void (*growlNotificationWasClicked)(CFPropertyListRef clickContext);
 
-	/*!	@field	growlNotificationTimedOut
-	 *	@abstract	Called when a Growl notification timed out.
-	 *	@discussion
-	 *	 Informs the delegate that a Growl notification timed out. It is only
+	/*	Informs the delegate that a Growl notification timed out. It is only
 	 *	 sent for notifications sent with a non-<code>NULL</code> clickContext,
 	 *	 so if you want to receive a message when a notification is clicked,
 	 *	 clickContext must not be <code>NULL</code> when calling
@@ -241,18 +222,23 @@ struct Growl_Delegate {
 /*!	@struct Growl_Notification
  *	@abstract Structure describing a Growl notification.
  *	@discussion XXX
+ * 	@field size The size of the notification structure.
+ * 	@field name Identifies the notification.
+ * 	@field title Short synopsis of the notification.
+ *  @field description Additional text.
+ * 	@field iconData An icon for the notification.
+ * 	@field priority An indicator of the notification's importance.
+ * 	@field reserved Bits reserved for future usage.
+ * 	@field isSticky Requests that a notification stay on-screen until dismissed explicitly.
+ * 	@field clickContext An identifier to be passed to your click callback when a notification is clicked.
+ * 	@field clickCallback A callback to call when the notification is clicked.
  */
-
 struct Growl_Notification {
-	/*!	@field	size
-	 *	@abstract	The size of the notification structure.
-	 *	@discussion	This should be sizeof(struct Growl_Notification).
+	/*	This should be sizeof(struct Growl_Notification).
 	 */
  	size_t size;
 
-	/*!	@field	name
-	 *	@abstract	Identifies the notification.
-	 *	@discussion	The notification name distinguishes one type of
+	/*	The notification name distinguishes one type of
 	 *	 notification from another. The name should be human-readable, as it
 	 *	 will be displayed in the Growl preference pane.
 	 *
@@ -262,16 +248,12 @@ struct Growl_Notification {
 	 */
 	CFStringRef name;
 
-	/*!	@field	title
-	 *	@abstract	Short synopsis of the notification.
-	 *	@discussion	A notification's title describes the notification briefly.
+	/*	A notification's title describes the notification briefly.
 	 *	 It should be easy to read quickly by the user.
 	 */
 	CFStringRef title;
 
-	/*!	@field	description
-	 *	@abstract	Additional text.
-	 *	@discussion	The description supplements the title with more
+	/*	The description supplements the title with more
 	 *	 information. It is usually longer and sometimes involves a list of
 	 *	 subjects. For example, for a 'Download complete' notification, the
 	 *	 description might have one filename per line. GrowlMail in Growl 0.6
@@ -280,9 +262,7 @@ struct Growl_Notification {
 	 */
 	CFStringRef description;
 
-	/*!	@field	iconData
-	 *	@abstract	An icon for the notification.
-	 *	@discussion	The notification icon usually indicates either what
+	/*	The notification icon usually indicates either what
 	 *	 happened (it may have the same icon as e.g. a toolbar item that
 	 *	 started the process that led to the notification), or what it happened
 	 *	 to (e.g. a document icon).
@@ -297,9 +277,7 @@ struct Growl_Notification {
 	 */
 	CFDataRef iconData;
 
-	/*!	@field	priority
-	 *	@abstract	An indicator of the notification's importance.
-	 *	@discussion	Priority is new in Growl 0.6, and is represented as a
+	/*	Priority is new in Growl 0.6, and is represented as a
 	 *	 signed integer from -2 to +2. 0 is Normal priority, -2 is Very Low
 	 *	 priority, and +2 is Very High priority.
 	 *
@@ -308,16 +286,11 @@ struct Growl_Notification {
 	 */
 	signed int priority;
 
-	/*!	@field	reserved
-	 *	@abstract	Bits reserved for future usage.
-	 *	@discussion	These bits are not used in Growl 0.6. Set them to 0.
+	/*	These bits are not used in Growl 0.6. Set them to 0.
 	 */
 	unsigned reserved: 31;
 
-	/*!	@field	isSticky
-	 *	@abstract	Requests that a notification stay on-screen until dismissed
-	 *	 explicitly.
-	 *	@discussion	When the sticky bit is clear, in most displays,
+	/*	When the sticky bit is clear, in most displays,
 	 *	 notifications disappear after a certain amount of time. Sticky
 	 *	 notifications, however, remain on-screen until the user dismisses them
 	 *	 explicitly, usually by clicking them.
@@ -330,10 +303,7 @@ struct Growl_Notification {
 	 */
 	unsigned isSticky: 1;
 
-	/*!	@field	clickContext
-	 *	@abstract	An identifier to be passed to your click callback when a
-	 *	 notification is clicked.
-	 *	@discussion	If this is not <code>NULL</code>, and your click callback
+	/*	If this is not <code>NULL</code>, and your click callback
 	 *	 is not <code>NULL</code> either, this will be passed to the callback
 	 *	 when your notification is clicked by the user.
 	 *
@@ -342,9 +312,7 @@ struct Growl_Notification {
 	 */
 	CFPropertyListRef clickContext;
 
-	/*!	@field	clickCallback
-	 *	@abstract	A callback to call when the notification is clicked.
-	 *	@discussion	If this is not <code>NULL</code>, it will be called instead
+	/*	If this is not <code>NULL</code>, it will be called instead
 	 *	 of the Growl delegate's click callback when clickContext is
 	 *	 non-<code>NULL</code> and the notification is clicked on by the user.
 	 *
@@ -782,7 +750,7 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context);
  *	 application probably does not need to use this macro itself.
  */
 #ifndef GROWL_PREFPANE_BUNDLE_IDENTIFIER
-# define GROWL_PREFPANE_BUNDLE_IDENTIFIER	CFSTR("com.growl.prefpanel")
+#define GROWL_PREFPANE_BUNDLE_IDENTIFIER	CFSTR("com.growl.prefpanel")
 #endif
 
 __END_DECLS
