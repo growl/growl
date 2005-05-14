@@ -50,8 +50,9 @@
 	id item;
 	while ((item = [e nextObject])) {
 		if ([item isKindOfClass:[NSData class]]) {
-			inData.Data = (uint8 *)[item bytes];
-			inData.Length = [item length];
+			NSData *dataItem = item;
+			inData.Data = (uint8 *)[dataItem bytes];
+			inData.Length = [dataItem length];
 			crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
 			if (crtn) {
 				CSSM_DeleteContext(ccHandle);
