@@ -8,40 +8,18 @@
 <h1><font face="Geneva,Arial,Helvtica">Methods</font></h1><br>
 <a name="HeaderDoc_methods"></a>
 <dl>
-<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlInstallationWindowTitle" target="doc">-growlInstallationWindowTitle</a></tt></dt>
-<dd>Return the title of the installation window.
-</dd>
-<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlUpdateWindowTitle" target="doc">-growlUpdateWindowTitle</a></tt></dt>
-<dd>Return the title of the upgrade window.
-</dd>
-<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlInstallationInformation" target="doc">-growlInstallationInformation</a></tt></dt>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlInstallationInformation" target="doc">-growlInstallationInformation</a></tt></dt>
 <dd>Return the information to display when installing.
 </dd>
-<dt><tt><a href="CompositePage.html#//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlUpdateInformation" target="doc">-growlUpdateInformation</a></tt></dt>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlInstallationWindowTitle" target="doc">-growlInstallationWindowTitle</a></tt></dt>
+<dd>Return the title of the installation window.
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlUpdateInformation" target="doc">-growlUpdateInformation</a></tt></dt>
 <dd>Return the information to display when upgrading.
 </dd>
-</dl>
-<hr><!-- headerDoc=instm;  uid=//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlInstallationWindowTitle;  name=NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)::growlInstallationWindowTitle -->
-<a name="//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlInstallationWindowTitle"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="growlInstallationWindowTitle">growlInstallationWindowTitle</a></h3>
-</td></tr></table><hr><dl></dl><p>Return the title of the installation window.
-</p>
-<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString" --><font class="type">NSString</font><!-- /a --> <font class="type">*</font>)<font class="param">growlInstallationWindowTitle</font>;</pre></blockquote>
-<dl><dt><i>method result</i></dt><dd>An NSString object to use as the title.
- </dd>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>If not implemented, Growl will use a default, localized title.
-</p>
-</dl>
-<hr><!-- headerDoc=instm;  uid=//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlUpdateWindowTitle;  name=NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)::growlUpdateWindowTitle -->
-<a name="//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlUpdateWindowTitle"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="growlUpdateWindowTitle">growlUpdateWindowTitle</a></h3>
-</td></tr></table><hr><dl></dl><p>Return the title of the upgrade window.
-</p>
-<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString" --><font class="type">NSString</font><!-- /a --> <font class="type">*</font>)<font class="param">growlUpdateWindowTitle</font>;</pre></blockquote>
-<dl><dt><i>method result</i></dt><dd>An NSString object to use as the title.
- </dd>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>If not implemented, Growl will use a default, localized title.
-</p>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlUpdateWindowTitle" target="doc">-growlUpdateWindowTitle</a></tt></dt>
+<dd>Return the title of the upgrade window.
+</dd>
 </dl>
 <hr><!-- headerDoc=instm;  uid=//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlInstallationInformation;  name=NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)::growlInstallationInformation -->
 <a name="//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlInstallationInformation"></a>
@@ -55,7 +33,18 @@
 will be sized to fit it). It will be displayed to the user as an
 explanation of what Growl is and what it can do in your application. It
 should probably note that no download is required to install.<br>
-If this is not implemented, Growl will use a default, localized explanation.<br>
+If this is not implemented, Growl will use a default, localized explanation.
+</p>
+</dl>
+<hr><!-- headerDoc=instm;  uid=//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlInstallationWindowTitle;  name=NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)::growlInstallationWindowTitle -->
+<a name="//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlInstallationWindowTitle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="growlInstallationWindowTitle">growlInstallationWindowTitle</a></h3>
+</td></tr></table><hr><dl></dl><p>Return the title of the installation window.
+</p>
+<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString" --><font class="type">NSString</font><!-- /a --> <font class="type">*</font>)<font class="param">growlInstallationWindowTitle</font>;</pre></blockquote>
+<dl><dt><i>method result</i></dt><dd>An NSString object to use as the title.
+ </dd>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>If not implemented, Growl will use a default, localized title.
 </p>
 </dl>
 <hr><!-- headerDoc=instm;  uid=//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlUpdateInformation;  name=NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)::growlUpdateInformation -->
@@ -70,8 +59,19 @@ If this is not implemented, Growl will use a default, localized explanation.<br>
 will be sized to fit it). It will be displayed to the user as an
 explanation that an updated version of Growl is included in your
 application and no download is required.<br>
-If this is not implemented, Growl will use a default, localized explanation.<br>
+If this is not implemented, Growl will use a default, localized explanation.
 </p>
 </dl>
-<p>(Last Updated March 04, 2005)
+<hr><!-- headerDoc=instm;  uid=//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlUpdateWindowTitle;  name=NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)::growlUpdateWindowTitle -->
+<a name="//apple_ref/occ/instm/NSObject(GrowlApplicationBridgeDelegate_Installation_InformalProtocol)/growlUpdateWindowTitle"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="growlUpdateWindowTitle">growlUpdateWindowTitle</a></h3>
+</td></tr></table><hr><dl></dl><p>Return the title of the upgrade window.
+</p>
+<blockquote><pre>- (<!-- a logicalPath="//apple_ref/occ/cl/NSString //apple_ref/occ/cl/NSString //apple_ref/occ/tdef/NSString //apple_ref/occ/tag/NSString //apple_ref/occ/econst/NSString //apple_ref/occ/struct/NSString //apple_ref/occ/clconst/NSString" --><font class="type">NSString</font><!-- /a --> <font class="type">*</font>)<font class="param">growlUpdateWindowTitle</font>;</pre></blockquote>
+<dl><dt><i>method result</i></dt><dd>An NSString object to use as the title.
+ </dd>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>If not implemented, Growl will use a default, localized title.
+</p>
+</dl>
+<p>(Last Updated May 14, 2005)
 </p></body></html>

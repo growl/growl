@@ -10,29 +10,105 @@
 <hr><br><h2>Functions</h2>
 <a name="HeaderDoc_functions"></a>
 <dl>
-<dt><tt><a href="CompositePage.html#//apple_ref/c/func/growlPrefPaneBundle" target="_top">growlPrefPaneBundle</a></tt></dt>
-<dd>Returns the bundle containing Growl's PrefPane.
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/c/func/_applicationIconDataForGrowlSearchingRegistrationDictionary:" target="_top">_applicationIconDataForGrowlSearchingRegistrationDictionary:</a></tt></dt>
+<dd>Obtain the icon of the current application.
 </dd>
-<dt><tt><a href="CompositePage.html#//apple_ref/c/func/launchGrowlIfInstalled" target="_top">launchGrowlIfInstalled</a></tt></dt>
-<dd>Launches GrowlHelperApp
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/c/func/_applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary)" target="_top">_applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary)</a></tt></dt>
+<dd>Obtain the name of the current application.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/c/func/_applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary)" target="_top">_applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary)</a></tt></dt>
+<dd>Obtain the icon of the current application.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/c/func/_launchGrowlIfInstalledWithRegistrationDictionary:" target="_top">_launchGrowlIfInstalledWithRegistrationDictionary:</a></tt></dt>
+<dd>Launches GrowlHelperApp and registers.
+</dd>
+<dt><tt><a href="CompositePage.html#//apple_ref/doc/compositePage/c/func/launchGrowlIfInstalled" target="_top">launchGrowlIfInstalled</a></tt></dt>
+<dd>Launches GrowlHelperApp.
 </dd>
 </dl>
-<hr><!-- headerDoc=func;  uid=//apple_ref/c/func/growlPrefPaneBundle;  name=growlPrefPaneBundle -->
-<a name="//apple_ref/c/func/growlPrefPaneBundle"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="growlPrefPaneBundle">growlPrefPaneBundle</a></h3>
-</td></tr></table><hr><dl></dl><p>Returns the bundle containing Growl's PrefPane.
+<hr><!-- headerDoc=func;  uid=//apple_ref/doc/compositePage/c/func/_applicationIconDataForGrowlSearchingRegistrationDictionary:;  name=_applicationIconDataForGrowlSearchingRegistrationDictionary: -->
+<a name="//apple_ref/doc/compositePage/c/func/_applicationIconDataForGrowlSearchingRegistrationDictionary:"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="_applicationIconDataForGrowlSearchingRegistrationDictionary:">_applicationIconDataForGrowlSearchingRegistrationDictionary:</a></h3>
+</td></tr></table><hr><dl></dl><p>Obtain the icon of the current application.
 </p>
 <blockquote><pre>+ (
-        <!-- a logicalPath="//apple_ref/c/cl/NSBundle //apple_ref/c/cl/NSBundle //apple_ref/c/tdef/NSBundle //apple_ref/c/tag/NSBundle //apple_ref/c/econst/NSBundle //apple_ref/c/struct/NSBundle //apple_ref/c/clconst/NSBundle" --><font class="type">NSBundle</font><!-- /a --> <font class="type">*</font>) <!-- a logicalPath="//apple_ref/c/cl/growlPrefPaneBundle //apple_ref/c/cl/growlPrefPaneBundle //apple_ref/c/tdef/growlPrefPaneBundle //apple_ref/c/tag/growlPrefPaneBundle //apple_ref/c/econst/growlPrefPaneBundle //apple_ref/c/struct/growlPrefPaneBundle //apple_ref/c/clconst/growlPrefPaneBundle" --><font class="type">growlPrefPaneBundle</font><!-- /a -->; </pre></blockquote>
-<dl><dt><i>function result</i></dt><dd>Returns an NSBundle if Growl's PrefPane is installed, nil otherwise
+        <!-- a logicalPath="//apple_ref/c/cl/NSData //apple_ref/c/cl/NSData //apple_ref/c/tdef/NSData //apple_ref/c/tag/NSData //apple_ref/c/econst/NSData //apple_ref/c/struct/NSData //apple_ref/c/clconst/NSData" --><font class="type">NSData</font><!-- /a --> <font class="type">*</font>) <!-- a logicalPath="//apple_ref/c/cl/_applicationIconDataForGrowlSearchingRegistrationDictionary //apple_ref/c/cl/_applicationIconDataForGrowlSearchingRegistrationDictionary //apple_ref/c/tdef/_applicationIconDataForGrowlSearchingRegistrationDictionary //apple_ref/c/tag/_applicationIconDataForGrowlSearchingRegistrationDictionary //apple_ref/c/econst/_applicationIconDataForGrowlSearchingRegistrationDictionary //apple_ref/c/struct/_applicationIconDataForGrowlSearchingRegistrationDictionary //apple_ref/c/clconst/_applicationIconDataForGrowlSearchingRegistrationDictionary" --><font class="type">_applicationIconDataForGrowlSearchingRegistrationDictionary</font><!-- /a -->:(
+        <!-- a logicalPath="//apple_ref/c/cl/NSDictionary //apple_ref/c/cl/NSDictionary //apple_ref/c/tdef/NSDictionary //apple_ref/c/tag/NSDictionary //apple_ref/c/econst/NSDictionary //apple_ref/c/struct/NSDictionary //apple_ref/c/clconst/NSDictionary" --><font class="type">NSDictionary</font><!-- /a --> <font class="type">*</font>)<!-- a logicalPath="//apple_ref/c/cl/regDict //apple_ref/c/cl/regDict //apple_ref/c/tdef/regDict //apple_ref/c/tag/regDict //apple_ref/c/econst/regDict //apple_ref/c/struct/regDict //apple_ref/c/clconst/regDict" --><font class="type">regDict</font><!-- /a -->; </pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><code><i>regDict</i></code></dt><dd>The dictionary to search, or <code>nil</code> not to.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The icon of the current application, in IconFamily format (same as is used in 'icns' resources and .icns files).
+</dd>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Does not call +bestRegistrationDictionary, and is therefore safe to call from it.
+ </p>
+</dl>
+<hr><!-- headerDoc=func;  uid=//apple_ref/doc/compositePage/c/func/_applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary);  name=_applicationNameForGrowlSearchingRegistrationDictionary: -->
+<a name="//apple_ref/doc/compositePage/c/func/_applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary)"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="_applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary)">_applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary)</a></h3>
+</td></tr></table><hr><dl></dl><p>Obtain the name of the current application.
+</p>
+<blockquote><pre>+ (
+        <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/econst/NSString //apple_ref/c/struct/NSString //apple_ref/c/clconst/NSString" --><font class="type">NSString</font><!-- /a --> <font class="type">*</font>) <!-- a logicalPath="//apple_ref/c/cl/_applicationNameForGrowlSearchingRegistrationDictionary //apple_ref/c/cl/_applicationNameForGrowlSearchingRegistrationDictionary //apple_ref/c/tdef/_applicationNameForGrowlSearchingRegistrationDictionary //apple_ref/c/tag/_applicationNameForGrowlSearchingRegistrationDictionary //apple_ref/c/econst/_applicationNameForGrowlSearchingRegistrationDictionary //apple_ref/c/struct/_applicationNameForGrowlSearchingRegistrationDictionary //apple_ref/c/clconst/_applicationNameForGrowlSearchingRegistrationDictionary" --><font class="type">_applicationNameForGrowlSearchingRegistrationDictionary</font><!-- /a -->:(
+        <!-- a logicalPath="//apple_ref/c/cl/NSDictionary //apple_ref/c/cl/NSDictionary //apple_ref/c/tdef/NSDictionary //apple_ref/c/tag/NSDictionary //apple_ref/c/econst/NSDictionary //apple_ref/c/struct/NSDictionary //apple_ref/c/clconst/NSDictionary" --><font class="type">NSDictionary</font><!-- /a --> <font class="type">*</font>)<!-- a logicalPath="//apple_ref/c/cl/regDict //apple_ref/c/cl/regDict //apple_ref/c/tdef/regDict //apple_ref/c/tag/regDict //apple_ref/c/econst/regDict //apple_ref/c/struct/regDict //apple_ref/c/clconst/regDict" --><font class="type">regDict</font><!-- /a -->; </pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><code><i>regDict</i></code></dt><dd>The dictionary to search, or <code>nil</code> not to.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The name of the current application.
+</dd>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Does not call +bestRegistrationDictionary, and is therefore safe to call from it.
+ </p>
+</dl>
+<hr><!-- headerDoc=func;  uid=//apple_ref/doc/compositePage/c/func/_applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary);  name=_applicationNameForGrowlSearchingRegistrationDictionary: -->
+<a name="//apple_ref/doc/compositePage/c/func/_applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary)"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="_applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary)">_applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary)</a></h3>
+</td></tr></table><hr><dl></dl><p>Obtain the icon of the current application.
+</p>
+<blockquote><pre>+ (
+        <!-- a logicalPath="//apple_ref/c/cl/NSData //apple_ref/c/cl/NSData //apple_ref/c/tdef/NSData //apple_ref/c/tag/NSData //apple_ref/c/econst/NSData //apple_ref/c/struct/NSData //apple_ref/c/clconst/NSData" --><font class="type">NSData</font><!-- /a --> <font class="type">*</font>) <!-- a logicalPath="//apple_ref/c/cl/_applicationIconDataForGrowlSearchingRegistrationDictionary //apple_ref/c/cl/_applicationIconDataForGrowlSearchingRegistrationDictionary //apple_ref/c/tdef/_applicationIconDataForGrowlSearchingRegistrationDictionary //apple_ref/c/tag/_applicationIconDataForGrowlSearchingRegistrationDictionary //apple_ref/c/econst/_applicationIconDataForGrowlSearchingRegistrationDictionary //apple_ref/c/struct/_applicationIconDataForGrowlSearchingRegistrationDictionary //apple_ref/c/clconst/_applicationIconDataForGrowlSearchingRegistrationDictionary" --><font class="type">_applicationIconDataForGrowlSearchingRegistrationDictionary</font><!-- /a -->:(
+        <!-- a logicalPath="//apple_ref/c/cl/NSDictionary //apple_ref/c/cl/NSDictionary //apple_ref/c/tdef/NSDictionary //apple_ref/c/tag/NSDictionary //apple_ref/c/econst/NSDictionary //apple_ref/c/struct/NSDictionary //apple_ref/c/clconst/NSDictionary" --><font class="type">NSDictionary</font><!-- /a --> <font class="type">*</font>)<!-- a logicalPath="//apple_ref/c/cl/regDict //apple_ref/c/cl/regDict //apple_ref/c/tdef/regDict //apple_ref/c/tag/regDict //apple_ref/c/econst/regDict //apple_ref/c/struct/regDict //apple_ref/c/clconst/regDict" --><font class="type">regDict</font><!-- /a -->; </pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><code><i>regDict</i></code></dt><dd>The dictionary to search, or <code>nil</code> not to.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The icon of the current application, in IconFamily format (same as is used in 'icns' resources and .icns files).
+</dd>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Does not call +bestRegistrationDictionary, and is therefore safe to call from it.
+ </p>
+</dl>
+<hr><!-- headerDoc=func;  uid=//apple_ref/doc/compositePage/c/func/_launchGrowlIfInstalledWithRegistrationDictionary:;  name=_launchGrowlIfInstalledWithRegistrationDictionary: -->
+<a name="//apple_ref/doc/compositePage/c/func/_launchGrowlIfInstalledWithRegistrationDictionary:"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="_launchGrowlIfInstalledWithRegistrationDictionary:">_launchGrowlIfInstalledWithRegistrationDictionary:</a></h3>
+</td></tr></table><hr><dl></dl><p>Launches GrowlHelperApp and registers.
+</p>
+<blockquote><pre>+ (
+        <font class="param">BOOL</font>) <!-- a logicalPath="//apple_ref/c/cl/_launchGrowlIfInstalledWithRegistrationDictionary //apple_ref/c/cl/_launchGrowlIfInstalledWithRegistrationDictionary //apple_ref/c/tdef/_launchGrowlIfInstalledWithRegistrationDictionary //apple_ref/c/tag/_launchGrowlIfInstalledWithRegistrationDictionary //apple_ref/c/econst/_launchGrowlIfInstalledWithRegistrationDictionary //apple_ref/c/struct/_launchGrowlIfInstalledWithRegistrationDictionary //apple_ref/c/clconst/_launchGrowlIfInstalledWithRegistrationDictionary" --><font class="type">_launchGrowlIfInstalledWithRegistrationDictionary</font><!-- /a -->:(
+        <!-- a logicalPath="//apple_ref/c/cl/NSDictionary //apple_ref/c/cl/NSDictionary //apple_ref/c/tdef/NSDictionary //apple_ref/c/tag/NSDictionary //apple_ref/c/econst/NSDictionary //apple_ref/c/struct/NSDictionary //apple_ref/c/clconst/NSDictionary" --><font class="type">NSDictionary</font><!-- /a --> <font class="type">*</font>)<!-- a logicalPath="//apple_ref/c/cl/regDict //apple_ref/c/cl/regDict //apple_ref/c/tdef/regDict //apple_ref/c/tag/regDict //apple_ref/c/econst/regDict //apple_ref/c/struct/regDict //apple_ref/c/clconst/regDict" --><font class="type">regDict</font><!-- /a -->; </pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><code><i>regDict</i></code></dt><dd>The dictionary with which to register.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Returns YES if GrowlHelperApp began launching or was already running, NO if Growl isn't installed
  </dd>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Searches all installed PrefPanes for the Growl PrefPane.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Launches the GrowlHelperApp if it's not already running, and passes it a registration dictionary.
+If Growl is turned on in the Growl prefpane, GROWL_IS_READY will be posted
+to the distributed notification center when Growl is listening for
+notifications.
 </p>
 </dl>
-<hr><!-- headerDoc=func;  uid=//apple_ref/c/func/launchGrowlIfInstalled;  name=launchGrowlIfInstalled -->
-<a name="//apple_ref/c/func/launchGrowlIfInstalled"></a>
+<hr><!-- headerDoc=func;  uid=//apple_ref/doc/compositePage/c/func/launchGrowlIfInstalled;  name=launchGrowlIfInstalled -->
+<a name="//apple_ref/doc/compositePage/c/func/launchGrowlIfInstalled"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h3><a name="launchGrowlIfInstalled">launchGrowlIfInstalled</a></h3>
-</td></tr></table><hr><dl></dl><p>Launches GrowlHelperApp
+</td></tr></table><hr><dl></dl><p>Launches GrowlHelperApp.
 </p>
 <blockquote><pre>+ (
         <font class="param">BOOL</font>) <!-- a logicalPath="//apple_ref/c/cl/launchGrowlIfInstalled //apple_ref/c/cl/launchGrowlIfInstalled //apple_ref/c/tdef/launchGrowlIfInstalled //apple_ref/c/tag/launchGrowlIfInstalled //apple_ref/c/econst/launchGrowlIfInstalled //apple_ref/c/struct/launchGrowlIfInstalled //apple_ref/c/clconst/launchGrowlIfInstalled" --><font class="type">launchGrowlIfInstalled</font><!-- /a -->; </pre></blockquote>
@@ -41,7 +117,9 @@
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Launches the GrowlHelperApp if it's not already running.
 GROWL_IS_READY will be posted to the distributed notification center
 once it is ready.
+<br><br>
+Uses <code>+_launchGrowlIfInstalledWithRegistrationDictionary:</code>.
 </p>
 </dl>
-<p>(Last Updated March 04, 2005)
+<p>(Last Updated May 14, 2005)
 </p></body></html>
