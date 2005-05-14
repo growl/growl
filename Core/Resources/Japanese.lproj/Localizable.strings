@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>Growl is running.</key>
-	<string>Growlは作動しています。</string>
+	<string>Growl は起動しています。</string>
 	<key>Growl is stopped.</key>
-	<string>Growlは停止しています</string>
+	<string>Growl は停止しています</string>
 	<key>Launching Growl...</key>
-	<string>Growlを起動しています…</string>
+	<string>Growl を起動しています…</string>
 	<key>Start Growl</key>
-	<string>Growl開始</string>
+	<string>Growl を開始</string>
 	<key>Stop Growl</key>
-	<string>Growl停止</string>
+	<string>Growl を終了</string>
 	<key>Terminating Growl...</key>
-	<string>Growlを終了させる…</string>
+	<string>Growl を終了させる…</string>
 	<key>Cancel</key>
 	<string>キャンセル</string>
 	<key>A newer version of Growl is available online. Would you like to download it now?</key>
-	<string>新しいバージョンのGrowlが公開されています。今すぐダウンロードしますか?</string>
+	<string>新しいバージョンの Growl が公開されています。今すぐダウンロードしますか?</string>
 	<key>A newer version of Growl is available online. Click here to download it now.</key>
-	<string>A newer version of Growl is available online. Click here to download it now.</string>
+	<string>新しいバージョンの Growl が公開されています。クリックするとダウンロードを開始します。</string>
 	<key>Update Available</key>
 	<string>アップデートがあります</string>
 	<key>OK</key>
@@ -31,7 +31,7 @@
 	<key>No</key>
 	<string>いいえ</string>
 	<key>Default</key>
-	<string>Default</string>
+	<string>標準</string>
 	<key>Plugin already exists</key>
 	<string>すでにプラグインがあります</string>
 	<key>Plugin installed</key>
@@ -45,6 +45,6 @@
 	<key>There was an error while installing the plugin '%@'.</key>
 	<string>'%@'というプラグインのインストール中にエラーが起こりました。</string>
 	<key>Browse menu item title</key>
-	<string>Browse…</string>
+	<string>ブラウズ…</string>
 </dict>
 </plist>
