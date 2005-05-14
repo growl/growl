@@ -475,3 +475,46 @@ CFURLRef createURLByCopyingFileFromURLToDirectoryURL(CFURLRef file, CFURLRef des
 
 	return destFileURL;
 }
+
+CFPropertyListRef createPropertyListFromURL(CFURLRef file, u_int32_t mutability, CFPropertyListFormat *outFormat, CFStringRef *outErrorString) {
+	CFPropertyListRef plist = NULL;
+
+	if(!file)
+		NSLog(CFSTR("in createPropertyListFromURL in CFGrowlAdditions: cannot read from a NULL URL"));
+	else {
+		CFReadStreamRef stream = CFReadStreamCreateWithFile(kCFAllocatorDefault, file);
+		if(!stream)
+			NSLog(CFSTR("in createPropertyListFromURL in CFGrowlAdditions: could not create stream for reading from URL %@"), file);
+		else {
+			if(!CFReadStreamOpen(stream))
+				NSLog(CFSTR("in createPropertyListFromURL in CFGrowlAdditions: could not open stream for reading from URL %@"), file);
+			else {
+				CFPropertyListFormat format;
+				CFStringRef errorString = NULL;
+
+				plist = CFPropertyListCreateFromStream(kCFAllocatorDefault,
+													   stream,
+													   /*streamLength*/ 0,
+													   mutability,
+													   &format,
+													   &errorString);
+				if(!plist)
+					NSLog(CFSTR("in createPropertyListFromURL in CFGrowlAdditions: could not read property list from URL %@ (error string: %@)"), file, errorString);
+
+				if(outFormat) *outFormat = format;
+				if(errorString) {
+					if(outErrorString)
+						*outErrorString = errorString;
+					else
+						CFRelease(errorString);
+				}
+
+				CFReadStreamClose(stream);
+			}
+
+			CFRelease(stream);
+		}
+	}
+
+	return plist;
+}
