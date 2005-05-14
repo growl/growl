@@ -43,7 +43,7 @@
             <string name="viewFrame">24 161 159 18 </string>
             <ostype name="controlSignature">GRRR</ostype>
             <int name="controlID">2000</int>
-            <string name="title">Nichn nochmal fragen</string>
+            <string name="title">Nicht nochmal fragen</string>
             <ostype name="command">NO!!</ostype>
             <object name="layoutInfo" class="IBCarbonHILayoutInfo">
               <int name="bindingLeftKind">1</int>
