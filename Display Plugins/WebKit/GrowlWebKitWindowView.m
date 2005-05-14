@@ -53,7 +53,7 @@
 	// resize the window so that it contains the tracking rect
 	NSRect windowRect = [[self window] frame];
 	windowRect.size = rect.size;
-	[[self window] setFrame:windowRect display:NO];
+	[[self window] setFrame:windowRect display:YES];
 
 	if (trackingRectTag) {
 		[self removeTrackingRect:trackingRectTag];
