@@ -254,7 +254,9 @@
 
 	NSDictionary *file_data = nil;
 	if (appPath) {
-		file_data = [[NSURL fileURLWithPath:appPath] dockDescription];
+		NSURL *url = [[NSURL alloc] initFileURLWithPath:appPath];
+		file_data = [url dockDescription];
+		[url release];
 	}
 
 	id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;

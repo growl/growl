@@ -112,7 +112,7 @@ static GrowlPreferences *sharedPreferences;
 	//get the prefpane bundle and find GHA within it.
 	NSString *pathToGHA      = [[NSBundle bundleForClass:[GrowlPreferences class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 	//get an Alias (as in Alias Manager) representation of same.
-	NSURL    *URLToGHA       = [NSURL fileURLWithPath:pathToGHA];
+	NSURL    *urlToGHA       = [[NSURL alloc] initFileURLWithPath:pathToGHA];
 
 	BOOL foundIt = NO;
 
@@ -125,7 +125,7 @@ static GrowlPreferences *sharedPreferences;
 		NSData *thisAliasData = [item objectForKey:@"AliasData"];
 		if (thisAliasData) {
 			NSURL *thisURL = [NSURL fileURLWithAliasData:thisAliasData];
-			foundIt = [thisURL isEqual:URLToGHA];
+			foundIt = [thisURL isEqual:urlToGHA];
 		} else {
 			//nope, not the same alias. try comparing by path.
 			NSString *thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
@@ -135,6 +135,7 @@ static GrowlPreferences *sharedPreferences;
 		if (foundIt)
 			break;
 	}
+	[urlToGHA release];
 
 	return foundIt;
 }
@@ -149,8 +150,8 @@ static GrowlPreferences *sharedPreferences;
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
 
 	//get an Alias (as in Alias Manager) representation of same.
-	NSURL    *URL       = [NSURL fileURLWithPath:path];
-	NSData   *aliasData = [URL aliasData];
+	NSURL    *url       = [[NSURL alloc] initFileURLWithPath:path];
+	NSData   *aliasData = [url aliasData];
 
 	/*the start-at-login pref is an array of dictionaries, like so:
 	 *	{
@@ -179,7 +180,7 @@ static GrowlPreferences *sharedPreferences;
 		NSData *thisAliasData = [item objectForKey:@"AliasData"];
 		if (thisAliasData) {
 			NSURL *thisURL = [NSURL fileURLWithAliasData:thisAliasData];
-			thisIsUs = [thisURL isEqual:URL];
+			thisIsUs = [thisURL isEqual:url];
 		} else {
 			//nope, not the same alias. try comparing by path.
 			/*NSString **/thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
@@ -193,6 +194,7 @@ static GrowlPreferences *sharedPreferences;
 		} else //only increment if we did not change the array
 			++i;
 	}
+	[url release];
 
 	if (flag && !foundOne) {
 		/*we were called with YES, and we weren't already in the start-at-login

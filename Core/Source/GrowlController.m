@@ -796,10 +796,11 @@ static id singleton = nil;
 				 *	lookups later.
 				 */
 				{
-					NSURL *URL = [NSURL fileURLWithPath:appPath];
-					NSDictionary *file_data = [URL dockDescription];
+					NSURL *url = [[NSURL alloc] initFileURLWithPath:appPath];
+					NSDictionary *file_data = [url dockDescription];
 					id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
 					[mTicket setObject:location forKey:GROWL_APP_LOCATION];
+					[url release];
 
 					//write the new ticket to disk, and be sure to launch this ticket instead of the one in the app bundle.
 					NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
@@ -812,7 +813,7 @@ static id singleton = nil;
 				 *	GHA, rather than some other.
 				 */
 				NSURL *myURL        = copyCurrentProcessURL();
-				NSURL *ticketURL    = [NSURL fileURLWithPath:ticketPath];
+				NSURL *ticketURL    = [[NSURL alloc] initFileURLWithPath:ticketPath];
 				NSArray *URLsToOpen = [NSArray arrayWithObject:ticketURL];
 				struct LSLaunchURLSpec spec = {
 					.appURL = (CFURLRef)myURL,
@@ -826,6 +827,7 @@ static id singleton = nil;
 					NSLog(@"The registration ticket for %@ could not be opened (LSOpenFromURLSpec returned %li). Pathname for the ticket file: %@", appName, (long)err, ticketPath);
 				}
 				[myURL release];
+				[ticketURL release];
 			} else if ([GrowlApplicationTicket isKnownTicketVersion:ticket]) {
 				NSLog(@"%@ (located at %@) contains an invalid registration ticket - developer, please consult Growl developer documentation (http://growl.info/documentation/developer/)", appName, appPath);
 			} else {
