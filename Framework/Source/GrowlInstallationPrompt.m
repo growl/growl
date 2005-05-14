@@ -209,7 +209,8 @@ static BOOL checkOSXVersion(void) {
 	if (updateVersion) {
 		if (dontAskAgain) {
 			/* We want to be able to prompt again for the next version, so we track the version for which the user requested
-			 * not to be prompted again. */
+			 * not to be prompted again.
+			 */
 			[[NSUserDefaults standardUserDefaults] setObject:updateVersion
 													  forKey:@"Growl Update:Do Not Prompt Again:Last Version"];
 		} else {
