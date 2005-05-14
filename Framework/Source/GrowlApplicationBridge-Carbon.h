@@ -579,6 +579,33 @@ void Growl_Reregister(void);
 
 #pragma mark -
 
+/*!	@function	Growl_SetWillRegisterWhenGrowlIsReady
+ *	@abstract	Tells GrowlApplicationBridge to register with Growl when Growl
+ *	 launches (or not).
+ *	@discussion	When Growl has started listening for notifications, it posts a
+ *	 <code>GROWL_IS_READY</code> notification on the Distributed Notification
+ *	 Center. GrowlApplicationBridge listens for this notification, using it to
+ *	 perform various tasks (such as calling your delegate's
+ *	 <code>growlIsReady</code> callback, if it has one). If this function is
+ *	 called with <code>true</code>, one of those tasks will be to reregister
+ *	 with Growl (in the manner of <code>Growl_Reregister</code>).
+ *
+ *	 This attribute is automatically set back to <code>false</code>
+ *	 (the default) after every <code>GROWL_IS_READY</code> notification.
+ *	@param	flag	<code>true</code> if you want GrowlApplicationBridge to register with
+ *	 Growl when next it is ready; <code>false</code> if not.
+ */
+void Growl_SetWillRegisterWhenGrowlIsReady(Boolean flag);
+/*!	@function	Growl_WillRegisterWhenGrowlIsReady
+ *	@abstract	Reports whether GrowlApplicationBridge will register with Growl
+ *	 when Growl next launches.
+ *	@result	<code>true</code> if GrowlApplicationBridge will register with
+ *	 Growl when next it posts GROWL_IS_READY; <code>false</code> if not.
+ */
+Boolean Growl_WillRegisterWhenGrowlIsReady(void);
+
+#pragma mark -
+
 //	@functiongroup	Obtaining registration dictionaries
 
 /*!	@function	Growl_CopyRegistrationDictionaryFromDelegate

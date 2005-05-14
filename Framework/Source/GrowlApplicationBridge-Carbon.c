@@ -9,9 +9,11 @@
 //
 
 #include "GrowlApplicationBridge-Carbon.h"
+#include "GrowlInstallationPrompt-Carbon.h"
 #include "GrowlDefines.h"
 #include "GrowlDefinesInternal.h"
 #include "CFGrowlAdditions.h"
+#include "GrowlVersionUtilities.h"
 #include <unistd.h>
 
 #pragma mark Constants
@@ -21,6 +23,8 @@
 
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER	CFSTR("com.growl.prefpanel")
 #define GROWL_PREFPANE_NAME					CFSTR("Growl.prefPane")
+
+#define GROWL_WITHINSTALLER_FRAMEWORK_IDENTIFIER CFSTR("com.growl.growlwithinstallerframework")
 
 #pragma mark -
 #pragma mark Private API (declarations)
@@ -36,17 +40,39 @@ static Boolean _launchGrowlIfInstalledWithRegistrationDictionary(CFDictionaryRef
 static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
 static void _growlNotificationWasClicked(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
 static void _growlNotificationTimedOut(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo);
-static Boolean registeredForClickCallbacks = false;
 
 #ifdef GROWL_WITH_INSTALLER
-//static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundleRef growlPrefPaneBundle);
+//not static because GIP uses them.
+void _userChoseToInstallGrowl(void);
+void _userChoseNotToInstallGrowl(void);
+
+static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundleRef growlPrefPaneBundle);
 #endif
+
+#pragma mark -
+#pragma mark Static variables
+
+static Boolean registeredForClickCallbacks = false;
 
 static const CFOptionFlags bundleIDComparisonFlags = kCFCompareCaseInsensitive | kCFCompareBackwards;
 
 static CFMutableArrayRef targetsToNotifyArray = NULL;
 
+#ifdef GROWL_WITH_INSTALLER
+static CFMutableArrayRef queuedGrowlNotifications = NULL;
+
+static Boolean userChoseNotToInstallGrowl = false;
+static Boolean promptedToInstallGrowl     = false;
+static Boolean promptedToUpgradeGrowl     = false;
+#endif
+
+static Boolean registerWhenGrowlIsReady   = false;
+
 static struct Growl_Delegate *delegate = NULL;
+static Boolean growlLaunched = false;
+
+#pragma mark -
+#pragma mark Pay no attention to that Cocoa behind the curtain
 
 /*NSLog is part of Foundation, and expects an NSString.
  *thanks to toll-free bridging, we can simply declare it like this, and use it
@@ -125,7 +151,12 @@ Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate) {
 	CFRelease(growlNotificationClickedName);
 	CFRelease(growlNotificationTimedOutName);
 
-	return Growl_RegisterWithDictionary(NULL);
+	Boolean keyExistsAndHasValidFormat_nobodyCares;
+	userChoseNotToInstallGrowl = CFPreferencesGetAppBooleanValue(CFSTR("Growl Installation:Do Not Prompt Again"),
+																 kCFPreferencesCurrentApplication,
+																 &keyExistsAndHasValidFormat_nobodyCares);
+
+	return (growlLaunched = Growl_RegisterWithDictionary(NULL));
 }
 
 struct Growl_Delegate *Growl_GetDelegate(void) {
@@ -135,11 +166,36 @@ struct Growl_Delegate *Growl_GetDelegate(void) {
 #pragma mark -
 
 void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
-	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
-	                                     GROWL_NOTIFICATION,
-	                                     /*object*/ NULL,
-	                                     userInfo,
-	                                     /*deliverImmediately*/ false);
+	if (growlLaunched) {
+		CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+		                                     GROWL_NOTIFICATION,
+		                                     /*object*/ NULL,
+		                                     userInfo,
+		                                     /*deliverImmediately*/ false);
+#ifdef GROWL_WITH_INSTALLER
+	} else {
+		/*if Growl launches, and the user hasn't already said NO to installing
+		 *	it, store this notification for posting
+		 */
+		if (!userChoseNotToInstallGrowl) {
+			//in case the dictionary is mutable, make a copy.
+			userInfo = CFDictionaryCreateCopy(CFGetAllocator(userInfo), userInfo);
+
+			if (!queuedGrowlNotifications)
+				queuedGrowlNotifications = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
+			CFArrayAppendValue(queuedGrowlNotifications, userInfo);
+
+			//if we have not already asked the user to install Growl, do it now
+			if (!promptedToInstallGrowl) {
+				OSStatus err = _Growl_ShowInstallationPrompt();
+				promptedToInstallGrowl = (err == noErr);
+				//_Growl_ShowInstallationPrompt prints its own errors.
+			}
+
+			CFRelease(userInfo);
+		}
+#endif GROWL_WITH_INSTALLER
+	}
 }
 
 void Growl_PostNotification(const struct Growl_Notification *notification) {
@@ -281,6 +337,15 @@ Boolean Growl_RegisterWithDictionary(CFDictionaryRef regDict) {
 
 void Growl_Reregister(void) {
 	Growl_RegisterWithDictionary(NULL);
+}
+
+#pragma mark -
+
+void Growl_SetWillRegisterWhenGrowlIsReady(Boolean flag) {
+	registerWhenGrowlIsReady = flag;
+}
+Boolean Growl_WillRegisterWhenGrowlIsReady(void) {
+	return registerWhenGrowlIsReady;
 }
 
 #pragma mark -
@@ -556,9 +621,7 @@ static Boolean _launchGrowlIfInstalledWithRegistrationDictionary(CFDictionaryRef
 	}
 
 	if (growlPrefPaneBundle) {
-		/*Here we could check against a current version number and ensure the
-		 *	installed Growl pane is the newest.
-		 */
+		_checkForPackagedUpdateForGrowlPrefPaneBundle(growlPrefPaneBundle);
 
 		CFURLRef	growlHelperAppURL = NULL;
 
@@ -566,20 +629,27 @@ static Boolean _launchGrowlIfInstalledWithRegistrationDictionary(CFDictionaryRef
 		growlHelperAppURL = CFBundleCopyResourceURL(growlPrefPaneBundle, CFSTR("GrowlHelperApp"), CFSTR("app"), /*subDirName*/ NULL);
 
 		if (growlHelperAppURL) {
-			if (callback) {
+			if (callback || (delegate && delegate->growlIsReady)) {
 				//the Growl helper app will notify us via growlIsReady when it is done launching
 				CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlIsReady, _growlIsReady, GROWL_IS_READY, /*object*/ NULL, CFNotificationSuspensionBehaviorCoalesce);
 
-				//We probably will never have more than one callback/context set at a time, but this is cleaner than the alternatives
-				if (!targetsToNotifyArray)
-					targetsToNotifyArray = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
+				if (callback) {
+					//We probably will never have more than one callback/context set at a time, but this is cleaner than the alternatives
+					if (!targetsToNotifyArray)
+						targetsToNotifyArray = CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeArrayCallBacks);
 
-				CFStringRef keys[] = { CFSTR("Callback"), CFSTR("Context") };
-				void *values[] = { (void *)callback, context };
-				CFDictionaryRef	infoDict = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, /*numValues*/ 2, &kCFTypeDictionaryKeyCallBacks, /*valueCallbacks*/ NULL);
-				if (infoDict) {
-					CFArrayAppendValue(targetsToNotifyArray, infoDict);
-					CFRelease(infoDict);
+					CFStringRef keys[] = { CFSTR("Callback"), CFSTR("Context") };
+					void *values[] = { (void *)callback, context };
+					CFDictionaryRef	infoDict = CFDictionaryCreate(kCFAllocatorDefault,
+																  (const void **)keys,
+																  (const void **)values,
+																  /*numValues*/ 2,
+																  &kCFTypeDictionaryKeyCallBacks,
+																  /*valueCallbacks*/ NULL);
+					if (infoDict) {
+						CFArrayAppendValue(targetsToNotifyArray, infoDict);
+						CFRelease(infoDict);
+					}
 				}
 			}
 
@@ -784,34 +854,143 @@ static CFBundleRef _copyGrowlPrefPaneBundle(void) {
 	return growlPrefPaneBundle;
 }
 
+#ifdef GROWL_WITH_INSTALLER
+void _userChoseToInstallGrowl(void) {
+	//the Growl helper app will notify us via growlIsReady after the user launches it
+	CFNotificationCenterAddObserver(CFNotificationCenterGetDistributedCenter(), /*observer*/ (void *)_growlIsReady, _growlIsReady, GROWL_IS_READY, /*object*/ NULL, CFNotificationSuspensionBehaviorCoalesce);
+}
+void _userChoseNotToInstallGrowl(void) {
+	//Note the user's action so we stop queueing notifications, etc.
+	userChoseNotToInstallGrowl = true;
+	
+	//Clear our queued notifications; we won't be needing them
+	if (queuedGrowlNotifications) {
+		CFRelease(queuedGrowlNotifications);
+		queuedGrowlNotifications = NULL;
+	}
+}
+
+static void _checkForPackagedUpdateForGrowlPrefPaneBundle(CFBundleRef growlPrefPaneBundle) {
+	if (!growlPrefPaneBundle)
+		NSLog(CFSTR("GrowlApplicationBridge: can't check for an update for a NULL prefPane"));
+	else {
+		CFBundleRef frameworkBundle = CFBundleGetBundleWithIdentifier(GROWL_WITHINSTALLER_FRAMEWORK_IDENTIFIER);
+
+		if (!frameworkBundle)
+			NSLog(CFSTR("GrowlApplicationBridge: could not locate framework bundle (forget about installing Growl); had looked for bundle with identifier '%@'"), GROWL_WITHINSTALLER_FRAMEWORK_IDENTIFIER);
+		else {
+			CFURLRef ourInfoDictURL = CFBundleCopyResourceURL(frameworkBundle,
+															  CFSTR("GrowlPrefPaneInfo"),
+															  CFSTR("plist"),
+															  /*subDirName*/ NULL);
+			if (!ourInfoDictURL)
+				NSLog(CFSTR("GrowlApplicationBridge: could not find '%@.%@' in framework bundle %@"), CFSTR("GrowlPrefPaneInfo"), CFSTR("plist"), frameworkBundle);
+			else {
+				CFPropertyListFormat format_nobodyCares;
+				CFStringRef errorString = NULL;
+				CFDictionaryRef ourInfoDict = createPropertyListFromURL(ourInfoDictURL, kCFPropertyListImmutable, &format_nobodyCares, &errorString);
+				if (!ourInfoDict)
+					NSLog(CFSTR("GrowlApplicationBridge: could not create property list from data at %@ (which should be inside the framework bundle)"), CFSTR("GrowlPrefPaneInfo"), ourInfoDictURL);
+				else {
+					CFStringRef ourVersion = CFDictionaryGetValue(ourInfoDict, kCFBundleVersionKey);
+
+					if (!ourVersion)
+						NSLog(CFSTR("GrowlApplicationBridge: our property list does not contain a version; cannot compare agaist the installed Growl (description of our property list follows)\n%@"), ourInfoDict);
+					else {
+						CFDictionaryRef installedInfoDict = CFBundleGetInfoDictionary(growlPrefPaneBundle);
+						CFStringRef installedVersion = CFDictionaryGetValue(installedInfoDict, kCFBundleVersionKey);
+
+						if (!installedVersion) {
+							NSLog(CFSTR("GrowlApplicationBridge: no installed version (description of installed prefpane's Info.plist follows)\n%@"), installedInfoDict);
+							_Growl_ShowInstallationPrompt();
+							//_Growl_ShowInstallationPrompt prints its own errors
+						} else {
+							Boolean upgradeIsAvailable = (compareVersionStringsTranslating1_0To0_5(ourVersion, installedVersion) == kCFCompareGreaterThan);
+
+							if (upgradeIsAvailable && !promptedToUpgradeGrowl) {
+								CFStringRef lastDoNotPromptVersion = CFPreferencesCopyAppValue(CFSTR("Growl Update:Do Not Prompt Again:Last Version"),
+																							   kCFPreferencesCurrentApplication);
+
+								if (!lastDoNotPromptVersion ||
+									(compareVersionStringsTranslating1_0To0_5(ourVersion, lastDoNotPromptVersion) == kCFCompareGreaterThan))
+								{
+									OSStatus err = _Growl_ShowUpdatePromptForVersion(ourVersion);
+									promptedToUpgradeGrowl = (err == noErr);
+									//_Growl_ShowUpdatePromptForVersion prints its own errors
+								}
+
+								if (lastDoNotPromptVersion)
+									CFRelease(lastDoNotPromptVersion);
+							}
+						} //if (installedVersion)
+					} //if (ourVersion)
+
+					CFRelease(ourInfoDict);
+				} //if (ourInfoDict)
+
+				CFRelease(ourInfoDictURL);
+			} //if (ourInfoDictURL)
+		} //if (frameworkBundle)
+	} //if (growlPrefPaneBundle)
+}
+#endif
+
 #pragma mark -
 #pragma mark Notification callbacks
 
 static void _growlIsReady(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
 #pragma unused(center, observer, name, object, userInfo)
-	for (CFIndex dictIndex=0, numDicts = CFArrayGetCount(targetsToNotifyArray); dictIndex < numDicts; dictIndex++) {
-		CFDictionaryRef infoDict = CFArrayGetValueAtIndex(targetsToNotifyArray, dictIndex);
-
-		GrowlLaunchCallback callback = (GrowlLaunchCallback)CFDictionaryGetValue(infoDict, CFSTR("Callback"));
-		void *context = (void *)CFDictionaryGetValue(infoDict, CFSTR("Context"));
-
-		callback(context);
-	}
+	CFNotificationCenterRef distCenter = CFNotificationCenterGetDistributedCenter();
 
 	//Stop observing
-	CFNotificationCenterRemoveEveryObserver(CFNotificationCenterGetDistributedCenter(), (void *)_growlIsReady);
+	CFNotificationCenterRemoveEveryObserver(distCenter, (void *)_growlIsReady);
 
-	//Clear our tracking array
-	CFRelease(targetsToNotifyArray); targetsToNotifyArray = NULL;
+	//since Growl is ready, it must be running.
+	growlLaunched = true;
+
+	if (targetsToNotifyArray) {
+		for (CFIndex dictIndex = 0, numDicts = CFArrayGetCount(targetsToNotifyArray); dictIndex < numDicts; dictIndex++) {
+			CFDictionaryRef infoDict = CFArrayGetValueAtIndex(targetsToNotifyArray, dictIndex);
+
+			GrowlLaunchCallback callback = (GrowlLaunchCallback)CFDictionaryGetValue(infoDict, CFSTR("Callback"));
+			void *context = (void *)CFDictionaryGetValue(infoDict, CFSTR("Context"));
+
+			callback(context);
+		}
+
+		//Clear our tracking array
+		CFRelease(targetsToNotifyArray); targetsToNotifyArray = NULL;
+	}
+
+	//register (fixes #102: this is necessary if we got here by Growl having just been installed)
+	if (registerWhenGrowlIsReady) {
+		Growl_Reregister();
+		registerWhenGrowlIsReady = false;
+	}
+
+#ifdef GROWL_WITH_INSTALLER
+	//flush queuedGrowlNotifications
+	if (queuedGrowlNotifications) {
+		for (CFIndex notificationIndex = 0, numNotifications = CFArrayGetCount(queuedGrowlNotifications); notificationIndex < numNotifications; ++notificationIndex) {
+			CFDictionaryRef notificationDict = CFArrayGetValueAtIndex(queuedGrowlNotifications, notificationIndex);
+			CFNotificationCenterPostNotification(distCenter,
+												 GROWL_NOTIFICATION,
+												 /*object*/ NULL,
+												 notificationDict,
+												 /*deliverImmediately*/ false);
+		}
+
+		CFRelease(queuedGrowlNotifications); queuedGrowlNotifications = NULL;
+	}
+#endif
 }
 
 static void _growlNotificationWasClicked(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
 #pragma unused(center, observer, name, object)
 	if (delegate) {
 		void (*growlNotificationWasClickedCallback)(CFPropertyListRef) = delegate->growlNotificationWasClicked;
-		if (growlNotificationWasClickedCallback) {
+		if (growlNotificationWasClickedCallback)
 			growlNotificationWasClickedCallback(CFDictionaryGetValue(userInfo, GROWL_KEY_CLICKED_CONTEXT));
-		}
 	}
 }
 

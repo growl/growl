@@ -136,6 +136,71 @@
 			settings = {
 			};
 		};
+		07217168082DE85B00F338F7 = {
+			children = (
+				07217169082DE85B00F338F7,
+				07217170082DEB0700F338F7,
+			);
+			isa = PBXVariantGroup;
+			name = "GrowlInstallationPrompt-Carbon.nib";
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07217169082DE85B00F338F7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = "Framework/Resources/English.lproj/GrowlInstallationPrompt-Carbon.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		0721716A082DE85B00F338F7 = {
+			fileRef = 07217168082DE85B00F338F7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		07217170082DEB0700F338F7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = "Framework/Resources/German.lproj/GrowlInstallationPrompt-Carbon.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07217173082DEDB500F338F7 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = "GrowlInstallationPrompt-Carbon.h";
+			path = "Framework/Source/GrowlInstallationPrompt-Carbon.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07217174082DEDB500F338F7 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = "GrowlInstallationPrompt-Carbon.c";
+			path = "Framework/Source/GrowlInstallationPrompt-Carbon.c";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		07217175082DEDB500F338F7 = {
+			fileRef = 07217173082DEDB500F338F7;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		07217176082DEDB500F338F7 = {
+			fileRef = 07217174082DEDB500F338F7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		074062AA07E2FBE300FA27FA = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -156,6 +221,20 @@
 		};
 		074062AD07E2FBE300FA27FA = {
 			fileRef = 074062AB07E2FBE300FA27FA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		074C26F5082E536E00A5D541 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = QuickTime.framework;
+			path = /System/Library/Frameworks/QuickTime.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		074C26F6082E536E00A5D541 = {
+			fileRef = 074C26F5082E536E00A5D541;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1871,6 +1950,7 @@
 //104
 		1058C7ACFEA557BF11CA2CBB = {
 			children = (
+				074C26F5082E536E00A5D541,
 				950F79C5080EEE2B00CC5F62,
 				95AA8653080065DE0045589D,
 				0AEE179C0702C4960024B1A0,
@@ -2115,6 +2195,9 @@
 				34E9EFB30790926400662E8E,
 				34E9EFB40790926400662E8E,
 				952EFC9007C2869700952C6B,
+				07217173082DEDB500F338F7,
+				07217174082DEDB500F338F7,
+				07217168082DE85B00F338F7,
 				9542E51C07C28C3A0056BAC9,
 			);
 			isa = PBXGroup;
@@ -2549,6 +2632,7 @@
 				34E9EE69079086F000662E8E,
 				343354E50792FAFE00C84B15,
 				343354E70792FB0000C84B15,
+				07217175082DEDB500F338F7,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2558,6 +2642,7 @@
 			files = (
 				952EFCCF07C2869700952C6B,
 				9542E55B07C28C3A0056BAC9,
+				0721716A082DE85B00F338F7,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2568,6 +2653,7 @@
 				34E9EE68079086E300662E8E,
 				34E9F1310790AF3800662E8E,
 				343354E60792FAFF00C84B15,
+				07217176082DEDB500F338F7,
 				CBE84FE10801AE8D00E9473E,
 				0790135807D932270023B640,
 				070B910107E1AEFA00F10FA7,
@@ -2583,6 +2669,7 @@
 				3433502B0792769000C84B15,
 				343350E5079276A700C84B15,
 				343354EE0792FC2000C84B15,
+				074C26F6082E536E00A5D541,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2625,7 +2712,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				OTHER_CFLAGS = "-DGROWL_WITH_INSTALLER";
+				OTHER_CFLAGS = "-DGROWL_WITH_INSTALLER -fconstant-cfstrings";
 				OTHER_LDFLAGS = "-lobjc -sub_library libobjc -seg1addr 0xC0000000";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "Growl-WithInstaller";
@@ -5412,8 +5499,8 @@
 		};
 		CB9E3AE80792679400F8937E = {
 			children = (
-				070B90FB07E1AEFA00F10FA7,
 				070B90FC07E1AEFA00F10FA7,
+				070B90FB07E1AEFA00F10FA7,
 				95C8774707D9DFC000C69DEE,
 				95C8777007D9DFC000C69DEE,
 				95C8779907D9DFC000C69DEE,
