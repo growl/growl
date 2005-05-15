@@ -17,7 +17,7 @@ use Mac::Growl ':all';
 
 my $encode = eval { require Encode; };
 my $app    = 'Mac::Growl Test';
-my $as_app = 'Installer.app';
+my $as_app = 'GrowlHelperApp.app';
 my @names  = ('test 1', 'test 2');
 my($image) = grep { -e } (
 	'/Applications/Utilities/Installer.app/Contents/Resources/Caut.tiff',
