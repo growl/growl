@@ -6,7 +6,7 @@ RELEASE_NAME="Growl-0.7b5"
 # What to do before running this script:
 # - Set RELEASE_NAME
 # - Set version number in GHA
-# - Compile with build.sh
+# - Compile with build.sh using gcc 3.3
 # - Build GrowlSafari.mpkg with PackageMaker and copy it into the Release directory
 # What to do after running the release target:
 # - Build the diskimages with FileStorm using the project files in the build directory
