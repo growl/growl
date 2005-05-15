@@ -7,13 +7,13 @@
 	<key>Auto Open</key>
 	<string>FALSE</string>
 	<key>Background Image Path</key>
-	<string>../images/dmg/growl07DMGBackground.png</string>
+	<string>%releasedir%/../images/dmg/growlSDK.png</string>
 	<key>Build Format</key>
 	<string>DMG (OS X only)</string>
 	<key>Custom Icon Path</key>
 	<string></string>
 	<key>Disk Image Name</key>
-	<string>~/Desktop/Growl-0.7b5.dmg</string>
+	<string>%builddir%/%releasename%-SDK.dmg</string>
 	<key>Encode Format</key>
 	<string>None</string>
 	<key>Encryption Type</key>
@@ -21,7 +21,7 @@
 	<key>Finalize Format</key>
 	<string>Read-only with compression</string>
 	<key>Icon Size</key>
-	<string>56</string>
+	<string>60</string>
 	<key>Image Size Extra</key>
 	<string>0</string>
 	<key>Image Size Type</key>
@@ -32,49 +32,33 @@
 	<array>
 		<dict>
 			<key>Origin</key>
-			<string>{82, 5}</string>
+			<string>{183, 46}</string>
 			<key>Path</key>
-			<string>/Users/ingmar/Desktop/Extras</string>
+			<string>%builddir%/Bindings</string>
 			<key>Type</key>
 			<string>File Item</string>
 		</dict>
 		<dict>
 			<key>Origin</key>
-			<string>{-44, 125}</string>
+			<string>{290, 46}</string>
 			<key>Path</key>
-			<string>/Users/ingmar/Desktop/Scripts</string>
+			<string>%builddir%/Frameworks</string>
 			<key>Type</key>
 			<string>File Item</string>
 		</dict>
 		<dict>
 			<key>Origin</key>
-			<string>{-35, 13}</string>
+			<string>{285, 153}</string>
 			<key>Path</key>
-			<string>../build/Growl.prefPane</string>
+			<string>%releasedir%/Growl version history for developers.webloc</string>
 			<key>Type</key>
 			<string>File Item</string>
 		</dict>
 		<dict>
 			<key>Origin</key>
-			<string>{48, 95}</string>
+			<string>{175, 166}</string>
 			<key>Path</key>
-			<string>Growl Documentation.webloc</string>
-			<key>Type</key>
-			<string>File Item</string>
-		</dict>
-		<dict>
-			<key>Origin</key>
-			<string>{185, 13}</string>
-			<key>Path</key>
-			<string>Growl version history.webloc</string>
-			<key>Type</key>
-			<string>File Item</string>
-		</dict>
-		<dict>
-			<key>Origin</key>
-			<string>{311, 13}</string>
-			<key>Path</key>
-			<string>Uninstall Growl.app</string>
+			<string>%releasedir%/Growl Developer Documentation.webloc</string>
 			<key>Type</key>
 			<string>File Item</string>
 		</dict>
@@ -84,12 +68,12 @@
 	<key>Lock Frame</key>
 	<string>TRUE</string>
 	<key>Project File Path</key>
-	<string>/Users/ingmar/Devel/growl/Release/</string>
+	<string>%releasedir%/</string>
 	<key>Show Toolbar</key>
 	<string>TRUE</string>
 	<key>Volume Name</key>
-	<string>Growl-0.7b5</string>
+	<string>%releasename%-SDK</string>
 	<key>Window Frame</key>
-	<string>{{30, 30}, {452, 416}}</string>
+	<string>{{0, 22}, {455, 411}}</string>
 </dict>
 </plist>

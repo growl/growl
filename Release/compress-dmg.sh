@@ -1,5 +1,9 @@
 #!/bin/sh
-hdiutil convert -format UDZO -imagekey zlib-level=9 -o Growl-0.7b5-compressed.dmg Growl-0.7b5.dmg
-hdiutil convert -format UDZO -imagekey zlib-level=9 -o Growl-0.7b5-SDK-compressed.dmg Growl-0.7b5-SDK.dmg
-mv Growl-0.7b5-compressed.dmg Growl-0.7b5.dmg
-mv Growl-0.7b5-SDK-compressed.dmg Growl-0.7b5-SDK.dmg
+if [ $# -ne 1  ]; then
+	echo "Usage: $0 <prefix>"
+else
+	hdiutil convert -format UDZO -imagekey zlib-level=9 -o $1-compressed.dmg $1.dmg
+	hdiutil convert -format UDZO -imagekey zlib-level=9 -o $1-SDK-compressed.dmg $1-SDK.dmg
+	mv $1-compressed.dmg $1.dmg
+	mv $1-SDK-compressed.dmg $1-SDK.dmg
+fi
