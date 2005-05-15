@@ -51,7 +51,9 @@
 		NSString *msg = @"Mac OS X 10.3 \"Panther\" or greater is required.";
 
 		if (NSRunInformationalAlertPanel(@"Growl requires Panther...", msg, @"Quit", @"Get Panther...", nil) == NSAlertAlternateReturn) {
-			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.apple.com/macosx/"]];
+			NSURL *pantherURL = [[NSURL alloc] initWithString:@"http://www.apple.com/macosx/"];
+			[[NSWorkspace sharedWorkspace] openURL:pantherURL];
+			[pantherURL release];
 		}
 		[NSApp terminate:nil];
 	}
@@ -206,10 +208,16 @@
 	NSButtonCell *cell = [notificationStickyColumn dataCell];
 	[cell setAllowsMixedState:YES];
 	// we have to establish this binding programmatically in order to use NSMixedState
+	NSNumber *no = [[NSNumber alloc] initWithBool:NO];
+	NSDictionary *bindOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
+		no, NSCreatesSortDescriptorBindingOption,
+		nil];
+	[no release];
 	[notificationStickyColumn bind:@"value"
-			 toObject:notificationsArrayController
-		  withKeyPath:@"arrangedObjects.sticky"
-			  options:nil];
+						  toObject:notificationsArrayController
+					   withKeyPath:@"arrangedObjects.sticky"
+						   options:bindOptions];
+	[bindOptions release];
 
 	[ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
 	[displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
