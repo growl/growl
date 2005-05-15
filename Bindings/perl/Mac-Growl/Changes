@@ -1,3 +1,7 @@
+0.64  Sun May 15 07:06:05 2005
+	- Fix Mac::Glue method to specify typeUnicodeText
+	- Include glues for people not using Mac::Glue 1.24 or above
+
 0.63  Fri May 13 20:28:00 2005
 	- Updated warning in Mac-Growl.t to be less fear-inducing
 	- Make notifications go out to all logged-in users under

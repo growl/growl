@@ -79,10 +79,26 @@ sub findbin {
 	return $path;
 }
 
+
 sub MY::postamble {
 	return '' unless -e $GHA && $goodversion;
-	my $path = findbin('gluemac') or return '';
-	return <<"MAKE_FRAG";
+
+	eval { require Mac::Glue };
+
+	if ($Mac::Glue::VERSION && $Mac::Glue::VERSION < 1.24) {
+		return <<"MAKE_FRAG";
+.makeglue:
+	@\$(ECHO) "Copying glue files to $Mac::Glue::Common::MACGLUEDIR"
+	@\$(CP) 'lib/Mac/Glue/glues/GrowlHelperApp' 'lib/Mac/Glue/glues/GrowlHelperApp.pod' '$Mac::Glue::Common::MACGLUEDIR'
+	@\$(TOUCH) .makeglue
+
+all :: .makeglue
+
+MAKE_FRAG
+	} else {
+		my $path = findbin('gluemac') or return '';
+
+		return <<"MAKE_FRAG";
 .makeglue:
 	@\$(PERL) '$path' -I '$GHA'
 	@\$(TOUCH) .makeglue
@@ -90,4 +106,5 @@ sub MY::postamble {
 all :: .makeglue
 
 MAKE_FRAG
+	}
 }

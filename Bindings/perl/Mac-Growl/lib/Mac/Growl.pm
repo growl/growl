@@ -3,7 +3,7 @@ package Mac::Growl;
 use strict;
 use warnings;
 
-our $VERSION = '0.63';
+our $VERSION = '0.64';
 
 use base 'Exporter';
 our @EXPORT = qw();
@@ -44,6 +44,7 @@ sub _Define_Subs {
 		*RegisterNotifications = *AppleScript_RegisterNotifications{CODE};
 	}
 
+	sub _Fix_Glue_String(\$);
 	sub _Fix_AppleScript_String(\$);
 	sub _Fix_Encode(\$;$);
 }
@@ -225,7 +226,10 @@ sub Foundation_PostNotification($$$$;$$$)
 sub Glue_RegisterNotifications($$$;$)
 {
 	my($appName, $allNotes, $defaultNotes, $iconOfApp) = @_;
-	_Fix_Encode($_) for ($appName);
+	for ($appName) {
+		_Fix_Encode($_);
+		_Fix_Glue_String($_);
+    }
 
 	for my $notes ($allNotes, $defaultNotes) {
 		$notes = [ map {
@@ -244,7 +248,10 @@ sub Glue_RegisterNotifications($$$;$)
 sub Glue_PostNotification($$$$;$$$)
 {
 	my($appName, $noteName, $noteTitle, $noteDescription, $sticky, $priority, $image) = @_;
-	_Fix_Encode($_) for ($appName, $noteName, $noteTitle, $noteDescription);
+	for ($appName, $noteName, $noteTitle, $noteDescription) {
+		_Fix_Encode($_);
+		_Fix_Glue_String($_);
+    }
 	$sticky = $sticky ? 1 : 0;
 
 	my %params = (
@@ -265,6 +272,12 @@ sub Glue_PostNotification($$$$;$$$)
 	$glue->notify(%params);
 }
 
+# make sure the strings are converted to Unicode, just in case
+sub _Fix_Glue_String(\$)
+{
+	my($string) = @_;
+	$$string = Mac::Glue::param_type(Mac::Glue::typeUnicodeText(), $$string);
+}
 
 ##################################
 ### AppleScript implementation ###
@@ -327,13 +340,6 @@ sub _Fix_AppleScript_String(\$)
 	my($string) = @_;
 	$$string =~ s/\\/\\\\/g;
 	$$string =~ s/"/\\"/g;
-}
-
-sub _Fix_Encode (\$;$)
-{
-	my($str, $encoding) = @_;
-	$$str = Encode::decode('utf8', $$str) if $encode;
-	$$str = Encode::encode($encoding, $$str) if $encode && $encoding;
 }
 
 sub _Execute_AppleScript
@@ -424,6 +430,13 @@ EOT
 
 	return;
 }
+}
+
+sub _Fix_Encode (\$;$)
+{
+	my($str, $encoding) = @_;
+	$$str = Encode::decode('utf8', $$str) if $encode;
+	$$str = Encode::encode($encoding, $$str) if $encode && $encoding;
 }
 
 1;

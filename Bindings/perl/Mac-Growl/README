@@ -31,6 +31,10 @@ DEPENDENCIES
 This module should work on any Mac OS X system, although it requires
 the developer tools to build and install.  See the docs for more information.
 
+If using Mac::Glue with Mac::Growl, Mac::Glue 1.24 may be needed to create
+a new glue file for Growl 0.7, so a glue file is included and installed for
+you if you are using Mac::Glue 1.23 or earlier.
+
 COPYRIGHT AND LICENCE
 
 Copyright (C) 2004-2005 The Growl Project.  All rights reserved.
