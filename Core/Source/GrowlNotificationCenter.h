@@ -13,12 +13,12 @@
 @end
 
 @protocol GrowlNotificationCenterProtocol
-- (oneway void) addObserver:(in byref id<GrowlNotificationObserver>)observer;
-- (oneway void) removeObserver:(in byref id<GrowlNotificationObserver>)observer;
+- (oneway void) addObserver:(byref id<GrowlNotificationObserver>)observer;
+- (oneway void) removeObserver:(byref id<GrowlNotificationObserver>)observer;
 @end
 
 @interface GrowlNotificationCenter : NSObject <GrowlNotificationCenterProtocol> {
-	NSMutableArray				*observers;
+	NSMutableArray *observers;
 }
 - (void) addObserver:(id<GrowlNotificationObserver>)observer;
 - (void) removeObserver:(id<GrowlNotificationObserver>)observer;
