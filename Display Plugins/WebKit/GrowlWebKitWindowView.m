@@ -9,10 +9,6 @@
 #import "GrowlWebKitWindowView.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlWebKitDefines.h"
-#import "GrowlImageAdditions.h"
-
-/* to get the limit pref */
-#import "GrowlWebKitPrefsController.h"
 
 @implementation GrowlWebKitWindowView
 - (id) initWithFrame:(NSRect)frameRect frameName:(NSString *)frameName groupName:(NSString *)groupName {
@@ -25,6 +21,11 @@
 - (void) dealloc {
 	[self setUIDelegate:nil];
 	[super dealloc];
+}
+
+// hide mouse events from our subviews
+- (NSView *)hitTest:(NSPoint)aPoint {
+	return [super hitTest:aPoint] ? self : nil;
 }
 
 #pragma mark -
@@ -103,9 +104,8 @@
 	return WebDragSourceActionNone;
 }
 
-
-- (void) webView:(WebView *)sender makeFirstResponder:(NSResponder *)responder {
-#pragma unused(sender, responder)
+- (void) mouseDown:(NSEvent *) event {
+#pragma unused(event)
 	mouseOver = NO;
 	if (target && action && [target respondsToSelector:action]) {
 		[target performSelector:action withObject:self];
