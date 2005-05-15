@@ -93,6 +93,17 @@
 	}
 }
 
+- (unsigned) webView:(WebView *)sender dragDestinationActionMaskForDraggingInfo:(id <NSDraggingInfo>)draggingInfo {
+#pragma unused(sender, draggingInfo)
+	return WebDragDestinationActionNone;
+}
+
+- (unsigned) webView:(WebView *)sender dragSourceActionMaskForPoint:(NSPoint)point {
+#pragma unused(sender, point)
+	return WebDragSourceActionNone;
+}
+
+
 - (void) webView:(WebView *)sender makeFirstResponder:(NSResponder *)responder {
 #pragma unused(sender, responder)
 	mouseOver = NO;
