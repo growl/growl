@@ -17,6 +17,8 @@
 	BOOL		positioned;
 	NSString    *style;
 	NSString	*prefDomain;
+	float		paddingX;
+	float		paddingY;
 }
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL)sticky identifier:(NSString *)ident style:(NSString *)styleName;

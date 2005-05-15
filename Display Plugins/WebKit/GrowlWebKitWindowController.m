@@ -69,9 +69,23 @@ static NSMutableDictionary *notificationsByIdentifier;
 	//[panel setDelegate:self];
 
 	NSBundle *styleBundle = [[GrowlPluginController controller] bundleForPluginNamed:style];
-	NSNumber *hasShadow = [[styleBundle infoDictionary] objectForKey:@"GrowlHasShadow"];
+	NSDictionary *styleInfo = [styleBundle infoDictionary];
+	NSNumber *hasShadow = [styleInfo objectForKey:@"GrowlHasShadow"];
 	[panel setHasShadow:(hasShadow && [hasShadow boolValue])];
 
+	NSNumber *paddingValue = [styleInfo objectForKey:@"GrowlPaddingX"];
+	if (paddingValue) {
+		paddingX = [paddingValue floatValue];
+	} else {
+		paddingX = GrowlWebKitPadding;
+	}
+	paddingValue = [styleInfo objectForKey:@"GrowlPaddingY"];
+	if (paddingValue) {
+		paddingY = [paddingValue floatValue];
+	} else {
+		paddingY = GrowlWebKitPadding;
+	}
+	
 	GrowlWebKitWindowView *view = [[GrowlWebKitWindowView alloc] initWithFrame:panelFrame
 																	 frameName:nil
 																	 groupName:nil];
@@ -243,15 +257,15 @@ static NSMutableDictionary *notificationsByIdentifier;
 	if (!positioned) {
 		NSRect panelFrame = [view frame];
 		NSRect screen = [[self screen] visibleFrame];
-		[[self window] setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - GrowlWebKitPadding,
-														NSMaxY(screen) - GrowlWebKitPadding - webkitWindowDepth)];
+		[[self window] setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - paddingX,
+														NSMaxY(screen) - paddingY - webkitWindowDepth)];
 
 #warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
 		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
 		if (NSMinY(panelFrame) < 0.0f) {
 			depth = webkitWindowDepth = 0U;
 		} else {
-			depth = webkitWindowDepth += NSHeight(panelFrame) + GrowlWebKitPadding;
+			depth = webkitWindowDepth += NSHeight(panelFrame) + paddingY;
 		}
 		positioned = true;
 	}
