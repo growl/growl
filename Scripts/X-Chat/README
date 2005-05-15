@@ -1,0 +1,3 @@
+Just install Growl and Mac::Growl, put this script in the
+X-Chat Aqua/Plugins/ folder, making sure the correct perl plugin is
+also in there, and then start X-Chat (or reload the perl plugin).
