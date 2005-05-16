@@ -12,7 +12,8 @@
 #import "GrowlApplicationNotification.h"
 #import "GrowlDefines.h"
 #import "GrowlDisplayProtocol.h"
-#import "NSGrowlAdditions.h"
+#import "NSWorkspaceAdditions.h"
+#import "NSURLAdditions.h"
 #import "GrowlPathUtil.h"
 
 #define UseDefaultsKey			@"useDefaults"

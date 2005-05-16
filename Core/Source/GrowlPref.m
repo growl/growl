@@ -18,7 +18,7 @@
 #import "GrowlPathUtil.h"
 #import "GrowlVersionUtilities.h"
 #import "ACImageAndTextCell.h"
-#import "NSGrowlAdditions.h"
+#import "NSStringAdditions.h"
 #import "TicketsArrayController.h"
 #import "GrowlBrowserEntry.h"
 #import <ApplicationServices/ApplicationServices.h>

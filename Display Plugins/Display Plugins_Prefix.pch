@@ -7,5 +7,4 @@
 	#import "GrowlDefines.h"
 	#import "GrowlDefinesInternal.h"
 	#import "GrowlDisplayProtocol.h"
-	#import "NSGrowlAdditions.h"
 #endif

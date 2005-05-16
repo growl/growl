@@ -9,14 +9,14 @@
 #import "GrowlRegisterScriptCommand.h"
 #import "GrowlController.h"
 #import "GrowlDefines.h"
-#import "NSGrowlAdditions.h"
+#import "NSWorkspaceAdditions.h"
 
 #define KEY_APP_NAME					@"asApplication"
 #define KEY_NOTIFICATIONS_ALL			@"allNotifications"
 #define KEY_NOTIFICATIONS_DEFAULT		@"defaultNotifications"
 #define KEY_ICON_APP_NAME				@"iconOfApplication"
 
-#define ERROR_EXCEPTION						1
+#define ERROR_EXCEPTION					1
 
 static const NSSize iconSize = { 128.0f, 128.0f };
 

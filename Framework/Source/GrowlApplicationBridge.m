@@ -11,7 +11,7 @@
 #import "GrowlInstallationPrompt.h"
 #import "GrowlVersionUtilities.h"
 #endif
-#import "NSGrowlAdditions.h"
+#import "NSURLAdditions.h"
 #import "CFGrowlAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathUtil.h"

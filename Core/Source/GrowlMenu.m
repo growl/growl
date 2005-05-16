@@ -10,7 +10,6 @@
 #import "GrowlPreferences.h"
 #import "GrowlPathUtil.h"
 #import "GrowlPluginController.h"
-#import "NSGrowlAdditions.h"
 
 #define kRestartGrowl                NSLocalizedString(@"Restart Growl", @"")
 #define kRestartGrowlTooltip         NSLocalizedString(@"Restart Growl", @"")

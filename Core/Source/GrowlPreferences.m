@@ -9,7 +9,7 @@
 
 
 #import "GrowlPreferences.h"
-#import "NSGrowlAdditions.h"
+#import "NSURLAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtil.h"

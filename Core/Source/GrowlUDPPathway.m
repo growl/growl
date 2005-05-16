@@ -8,7 +8,7 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlUDPPathway.h"
-#import "NSGrowlAdditions.h"
+#import "NSStringAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlPreferences.h"
