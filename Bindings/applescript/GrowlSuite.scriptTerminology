@@ -32,7 +32,7 @@
 				<key>iconOfFile</key>
 				<dict>
 					<key>Description</key>
-					<string>Location of the image file whose icon should be used as the image for this notification. Accepts aliases, paths and file:/// URLs. e.g. 'file:///Applications'.</string>
+					<string>Location of the file whose icon should be used as the image for this notification. Accepts aliases, paths and file:/// URLs. e.g. 'file:///Applications'.</string>
 					<key>Name</key>
 					<string>icon of file</string>
 				</dict>
@@ -46,7 +46,7 @@
 				<key>imageFromURL</key>
 				<dict>
 					<key>Description</key>
-					<string>Location of the image to use for this notification. Accepts aliases, paths and file:/// URLs.</string>
+					<string>Location of the image file to use for this notification. Accepts aliases, paths and file:/// URLs.</string>
 					<key>Name</key>
 					<string>image from location</string>
 				</dict>

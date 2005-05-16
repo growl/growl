@@ -55,15 +55,6 @@
 					<key>Type</key>
 					<string>NSData&lt;Image&gt;</string>
 				</dict>
-				<key>pictImage</key>
-				<dict>
-					<key>AppleEventCode</key>
-					<string>pict</string>
-					<key>Optional</key>
-					<string>YES</string>
-					<key>Type</key>
-					<string>NSData&lt;Picture&gt;</string>
-				</dict>
 				<key>imageFromURL</key>
 				<dict>
 					<key>AppleEventCode</key>
@@ -79,6 +70,15 @@
 					<string>name</string>
 					<key>Type</key>
 					<string>NSString</string>
+				</dict>
+				<key>pictImage</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>pict</string>
+					<key>Optional</key>
+					<string>YES</string>
+					<key>Type</key>
+					<string>NSData&lt;Picture&gt;</string>
 				</dict>
 				<key>priority</key>
 				<dict>

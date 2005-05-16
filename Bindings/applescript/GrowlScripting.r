@@ -101,21 +101,21 @@ resource 'aete' (0, "Growl Terminology") {
 		{
 			/* Classes */
 
-			"picture", 'PICT',
+			"Picture", 'PICT',
 			"",
 			{
 			},
 			{
 			},
-			"pictures", 'PICT', plural__,
+			"Pictures", 'PICT', plural__,
 
-			"image", 'TIFF',
+			"Image", 'TIFF',
 			"",
 			{
 			},
 			{
 			},
-			"images", 'TIFF', plural__
+			"Images", 'TIFF', plural__
 		},
 		{
 			/* Comparisons */
