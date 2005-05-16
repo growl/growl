@@ -93,7 +93,7 @@
 		case BEZEL_POSITION_DEFAULT:
 			screen = [[self screen] frame];
 			panelTopLeft.x = screen.origin.x + ceilf((NSWidth(screen) - NSWidth(panelFrame)) * 0.5f);
-			panelTopLeft.y = screen.origin.y + 215.0f + NSHeight(panelFrame);
+			panelTopLeft.y = screen.origin.y + 140.0f + NSHeight(panelFrame);
 			break;
 		case BEZEL_POSITION_TOPRIGHT:
 			screen = [[self screen] visibleFrame];
