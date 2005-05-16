@@ -29,11 +29,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Safari.h"
 
 @interface GrowlSafari : NSObject
 {
 }
 + (NSBundle *) bundle;
++ (NSString *) applicationNameForGrowl;
++ (NSData *) applicationIconDataForGrowl;
++ (NSDictionary *) registrationDictionaryForGrowl;
++ (void) growlNotificationWasClicked:(id)clickContext;
++ (void) notifyRSSUpdate:(WebBookmark *)bookmark newEntries:(int)newEntries;
 @end
 
 @interface NSObject (GrowlSafariPatch)

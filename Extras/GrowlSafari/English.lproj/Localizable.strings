@@ -24,5 +24,7 @@
 	<string>Copying application from %@</string>
 	<key>%@ download complete</key>
 	<string>%@ download complete</string>
+	<key>New feed entry</key>
+	<string>New feed entry</string>
 </dict>
 </plist>

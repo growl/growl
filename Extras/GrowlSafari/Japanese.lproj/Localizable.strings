@@ -24,5 +24,7 @@
 	<string>%@からアプリケーションをコピー中</string>
 	<key>%@ download complete</key>
 	<string>%@ のダウンロード完了</string>
+	<key>New feed entry</key>
+	<string>New feed entry</string>
 </dict>
 </plist>

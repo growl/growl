@@ -29,6 +29,7 @@
 //
 
 #import "GrowlSafari.h"
+#import "GSWebBookmark.h"
 #import <Growl/Growl.h>
 #import <objc/objc-runtime.h>
 
@@ -131,6 +132,13 @@ static void setDownloadFinished(id dl) {
 	}
 }
 
++ (void) load {
+	Class webBookmarkClass = NSClassFromString(@"WebBookmark");
+	if (webBookmarkClass) {
+		[[GSWebBookmark class] poseAsClass:webBookmarkClass];
+	}
+}
+
 #pragma mark GrowlApplicationBridge delegate methods
 
 + (NSString *) applicationNameForGrowl {
@@ -148,6 +156,7 @@ static void setDownloadFinished(id dl) {
 		NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @""),
 		NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @""),
 		NSLocalizedStringFromTableInBundle(@"Compression Status", nil, bundle, @""),
+		NSLocalizedStringFromTableInBundle(@"New feed entry", nil, bundle, @""),
 		nil];
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"GrowlSafari", GROWL_APP_NAME,
@@ -158,6 +167,31 @@ static void setDownloadFinished(id dl) {
 	[array release];
 
 	return dict;
+}
+
++ (void) growlNotificationWasClicked:(id)clickContext {
+	NSURL *url = [[NSURL alloc] initWithString:clickContext];
+	[[NSWorkspace sharedWorkspace] openURL:url];
+	[url release];
+}
+
++ (void) notifyRSSUpdate:(WebBookmark*)bookmark newEntries:(int)newEntries {
+	NSBundle *bundle = [GrowlSafari bundle];
+	NSData *icon = [[bookmark icon] isKindOfClass:[NSImage class]] ? [[bookmark icon] TIFFRepresentation] : nil;
+	NSMutableString	*description = [NSMutableString stringWithFormat:newEntries == 1 ? @"%d new entry" : @"%d new entries", 
+		newEntries, 
+		[bookmark unreadRSSCount]];
+	if (newEntries != [bookmark unreadRSSCount])
+		[description appendFormat:@" (%d unread)", [bookmark unreadRSSCount]];
+
+	NSString *title = [bookmark title];
+	[GrowlApplicationBridge notifyWithTitle:(title ? title : [bookmark URLString])
+								description:description
+						   notificationName:NSLocalizedStringFromTableInBundle(@"New feed entry", nil, bundle, @"")
+								   iconData:icon
+								   priority:0
+								   isSticky:NO
+							   clickContext:[bookmark URLString]];
 }
 @end
 

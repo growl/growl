@@ -126,6 +126,9 @@
 			children = (
 				0A17E73807333A22008CCDC5,
 				0A17E73907333A22008CCDC5,
+				954E6B8008393A6800C76A74,
+				954E6B8108393A6800C76A74,
+				954E6B8D08393AC000C76A74,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -270,10 +273,10 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = ../../build;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GrowlSafari_Prefix.pch;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_MISSING_PARENTHESES = YES;
@@ -289,7 +292,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				OTHER_LDFLAGS = "-weak_framework Growl";
+				OTHER_LDFLAGS = "-weak_framework Growl -undefined suppress -force_flat_namespace";
 				PRODUCT_NAME = GrowlSafari;
 				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = bundle;
@@ -322,6 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A17E73B07333A22008CCDC5,
+				954E6B8308393A6800C76A74,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,6 +378,36 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
+		954E6B8008393A6800C76A74 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GSWebBookmark.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		954E6B8108393A6800C76A74 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GSWebBookmark.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		954E6B8308393A6800C76A74 = {
+			fileRef = 954E6B8108393A6800C76A74;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		954E6B8D08393AC000C76A74 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = Safari.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		9556E66107F4346B00D42745 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -400,9 +434,9 @@
 			name = "Deployment - Tiger - G4";
 		};
 		95AC93AC073A044E007871AB = {
+			explicitFileType = text.xml;
 			fileEncoding = 4;
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
 			name = English;
 			path = English.lproj/Localizable.strings;
 			refType = 4;
@@ -426,9 +460,9 @@
 			};
 		};
 		95AC93B3073A052F007871AB = {
+			explicitFileType = text.xml;
 			fileEncoding = 4;
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
 			name = German;
 			path = German.lproj/Localizable.strings;
 			refType = 4;

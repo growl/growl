@@ -24,5 +24,7 @@
 	<string>Kopiere Anwendung von %@</string>
 	<key>%@ download complete</key>
 	<string>Download beendet: %@</string>
+	<key>New feed entry</key>
+	<string>Neuer Feed-Eintrag</string>
 </dict>
 </plist>
