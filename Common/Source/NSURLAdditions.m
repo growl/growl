@@ -1,5 +1,5 @@
 //
-//  NSGrowlAdditions.m
+//  NSURLAdditions.m
 //  Growl
 //
 //  Created by Karl Adam on Fri May 28 2004.
@@ -7,58 +7,7 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import "NSGrowlAdditions.h"
-#import "CoreGraphicsServices.h"
-
-#pragma mark Foundation
-
-@implementation NSString (GrowlAdditions)
-
-+ (NSString *) stringWithUTF8String:(const char *)bytes length:(unsigned)len {
-	return [[[NSString alloc] initWithUTF8String:bytes length:len] autorelease];
-}
-
-- (id) initWithUTF8String:(const char *)bytes length:(unsigned)len {
-	return [self initWithBytes:bytes length:len encoding:NSUTF8StringEncoding];
-}
-
-//for greater polymorphism with NSNumber.
-- (BOOL) boolValue {
-	return [self intValue] != 0
-		|| [self caseInsensitiveCompare:@"yes"]  == NSOrderedSame
-		|| [self caseInsensitiveCompare:@"true"] == NSOrderedSame;
-}
-
-- (unsigned long) unsignedLongValue {
-	return strtoul([self UTF8String], /*endptr*/ NULL, /*base*/ 0);
-}
-
-- (unsigned) unsignedIntValue {
-	return [self unsignedLongValue];
-}
-
-- (BOOL) isSubpathOf:(NSString *)superpath {
-	NSString *canonicalSuperpath = [superpath stringByStandardizingPath];
-	NSString *canonicalSubpath = [self stringByStandardizingPath];
-	return [canonicalSubpath isEqualToString:canonicalSuperpath]
-		|| [canonicalSubpath hasPrefix:[canonicalSuperpath stringByAppendingString:@"/"]];
-}
-
-- (NSAttributedString *) hyperlink {
-	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-		[NSNumber numberWithInt:NSSingleUnderlineStyle], NSUnderlineStyleAttributeName,
-		self, NSLinkAttributeName,    // link to self
-		[NSFont systemFontOfSize:[NSFont smallSystemFontSize]],	NSFontAttributeName,
-		[NSColor blueColor], NSForegroundColorAttributeName,
-		[NSCursor pointingHandCursor], NSCursorAttributeName,
-        nil];
-	NSAttributedString *result = [[[NSAttributedString alloc] initWithString:self attributes:attributes] autorelease];
-	[attributes release];
-	return result;
-}
-@end
-
-#pragma mark -
+#import "NSURLAdditions.h"
 
 #define _CFURLAliasDataKey  @"_CFURLAliasData"
 #define _CFURLStringKey     @"_CFURLString"
@@ -176,23 +125,6 @@
 	}
 
 	return dict;
-}
-
-@end
-
-#pragma mark -
-#pragma mark AppKit
-
-@implementation NSWorkspace (GrowlAdditions)
-
-- (NSImage *) iconForApplication:(NSString *) inName {
-	NSString *path = [self fullPathForApplication:inName];
-	NSImage *appIcon = path ? [self iconForFile:path] : nil;
-
-	if (appIcon) {
-		[appIcon setSize:NSMakeSize(128.0f,128.0f)];
-	}
-	return appIcon;
 }
 
 @end

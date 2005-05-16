@@ -1,5 +1,5 @@
 //
-//  NSGrowlAdditions.h
+//  NSURLAdditions.h
 //  Growl
 //
 //  Created by Karl Adam on Fri May 28 2004.
@@ -7,22 +7,7 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import <Cocoa/Cocoa.h>
-
-#pragma mark Foundation
-
-@interface NSString (GrowlAdditions)
-
-+ (NSString *) stringWithUTF8String:(const char *)bytes length:(unsigned)len;
-- (id) initWithUTF8String:(const char *)bytes length:(unsigned)len;
-
-- (BOOL) boolValue;
-- (unsigned long) unsignedLongValue;
-- (unsigned) unsignedIntValue;
-
-- (BOOL) isSubpathOf:(NSString *)superpath;
-- (NSAttributedString *) hyperlink;
-@end
+#import <Foundation/Foundation.h>
 
 @interface NSURL (GrowlAdditions)
 
@@ -34,13 +19,5 @@
 + (NSURL *) fileURLWithDockDescription:(NSDictionary *)dict;
 //-dockDescription returns nil for non-file: URLs.
 - (NSDictionary *) dockDescription;
-
-@end
-
-#pragma mark AppKit
-
-@interface NSWorkspace (GrowlAdditions)
-
-- (NSImage *) iconForApplication:(NSString *) inName;
 
 @end
