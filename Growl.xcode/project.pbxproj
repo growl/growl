@@ -140,6 +140,7 @@
 			children = (
 				07217169082DE85B00F338F7,
 				07217170082DEB0700F338F7,
+				9574B99A0838FC1E00106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = "GrowlInstallationPrompt-Carbon.nib";
@@ -427,6 +428,7 @@
 			children = (
 				089C167EFE841241C02AAC07,
 				9527F2A1073F5A33004727A0,
+				9574B9830838FB4B00106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = InfoPlist.strings;
@@ -611,6 +613,7 @@
 			children = (
 				0A7F5D9C0767C13100E1C1E4,
 				0A7F5D9D0767C13100E1C1E4,
+				9574B99F0838FC8800106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlSpeechPrefs.nib;
@@ -827,6 +830,7 @@
 			children = (
 				0A7F5EDC0767C30800E1C1E4,
 				0A7F5EDD0767C30800E1C1E4,
+				9574B99D0838FC5F00106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = BubblesPrefs.nib;
@@ -1068,6 +1072,7 @@
 			children = (
 				0A7F5F300767C3F600E1C1E4,
 				0A7F5F310767C3F600E1C1E4,
+				9574B99E0838FC7300106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlBezelPrefs.nib;
@@ -1302,6 +1307,7 @@
 			children = (
 				0A7F5F8B0767C6C500E1C1E4,
 				0A7F5F8C0767C6C500E1C1E4,
+				9574B9A00838FC9500106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = SmokePrefs.nib;
@@ -1551,6 +1557,7 @@
 			children = (
 				0A7F5FDB0767C79100E1C1E4,
 				0A7F5FDC0767C79100E1C1E4,
+				9574B9A10838FCBC00106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlMailMePrefs.nib;
@@ -1759,6 +1766,7 @@
 			children = (
 				0A7F624E0767C84E00E1C1E4,
 				0A7F624F0767C84E00E1C1E4,
+				9574B9A20838FCCA00106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlMusicVideoPrefs.nib;
@@ -3301,6 +3309,7 @@
 			children = (
 				9507584C0817C2F400D862A5,
 				9507584E0817C30300D862A5,
+				9574B9980838FB8300106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = Localizable.strings;
@@ -3601,6 +3610,7 @@
 			children = (
 				950F7989080EED7400CC5F62,
 				950F798B080EED8900CC5F62,
+				9574B9A30838FCDC00106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = WebKitPrefs.nib;
@@ -3770,6 +3780,7 @@
 			children = (
 				952EFCA507C2869700952C6B,
 				952EFD0F07C286A700952C6B,
+				9574B9990838FBEE00106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlInstallationPrompt.nib;
@@ -3803,6 +3814,7 @@
 			children = (
 				9532B0CE07CE651F0028B2F1,
 				9532B10307CE65310028B2F1,
+				9574B9800838FADA00106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlPref.nib;
@@ -3918,6 +3930,7 @@
 			children = (
 				9542E53107C28C3A0056BAC9,
 				9542E65907C28D230056BAC9,
+				9574B99B0838FC2E00106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlInstallation.strings;
@@ -4279,6 +4292,118 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		9574B9800838FADA00106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = Core/Resources/Japanese.lproj/GrowlPref.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B9830838FB4B00106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Japanese;
+			path = Core/Resources/Japanese.lproj/InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B9980838FB8300106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = Japanese;
+			path = Core/Resources/MenuExtra/Japanese.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B9990838FBEE00106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = Framework/Resources/Japanese.lproj/GrowlInstallationPrompt.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B99A0838FC1E00106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = "Framework/Resources/Japanese.lproj/GrowlInstallationPrompt-Carbon.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B99B0838FC2E00106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = Japanese;
+			path = Framework/Resources/Japanese.lproj/GrowlInstallation.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B99C0838FC4E00106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = "Display Plugins/Brushed/Japanese.lproj/BrushedPrefs.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B99D0838FC5F00106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = Japanese.lproj/BubblesPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B99E0838FC7300106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = Japanese.lproj/GrowlBezelPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B99F0838FC8800106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = Japanese.lproj/GrowlSpeechPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B9A00838FC9500106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = Japanese.lproj/SmokePrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B9A10838FCBC00106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = Japanese.lproj/GrowlMailMePrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B9A20838FCCA00106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = Japanese.lproj/GrowlMusicVideoPrefs.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		9574B9A30838FCDC00106CA3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = "Display Plugins/WebKit/Japanese.lproj/WebKitPrefs.nib";
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		95812DB808118FB9004FF8F5 = {
 			fileEncoding = 4;
@@ -4925,6 +5050,7 @@
 			children = (
 				95FC32B207E03B3400BD8674,
 				95FC32E607E03B4000BD8674,
+				9574B99C0838FC4E00106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = BrushedPrefs.nib;
