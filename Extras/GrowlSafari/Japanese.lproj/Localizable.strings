@@ -26,5 +26,11 @@
 	<string>%@ のダウンロード完了</string>
 	<key>New feed entry</key>
 	<string>New feed entry</string>
+	<key>%d new entry</key>
+	<string>%d new entry</string>
+	<key>%d new entries</key>
+	<string>%d new entries</string>
+	<key> (%d unread)</key>
+	<string> (%d unread)</string>
 </dict>
 </plist>

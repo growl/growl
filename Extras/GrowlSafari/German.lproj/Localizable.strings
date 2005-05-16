@@ -26,5 +26,11 @@
 	<string>Download beendet: %@</string>
 	<key>New feed entry</key>
 	<string>Neuer Feed-Eintrag</string>
+	<key>%d new entry</key>
+	<string>%d neuer Eintrag</string>
+	<key>%d new entries</key>
+	<string>%d neue Einträge</string>
+	<key> (%d unread)</key>
+	<string> (%d ungelesen)</string>
 </dict>
 </plist>

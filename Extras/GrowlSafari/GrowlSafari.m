@@ -108,6 +108,10 @@ static void setDownloadFinished(id dl) {
 	return [NSBundle bundleForClass:self];
 }
 
++ (NSString *) bundleVersion {
+	return [[[GrowlSafari bundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+}
+
 + (void) initialize {
 	[super initialize];
 
@@ -127,8 +131,9 @@ static void setDownloadFinished(id dl) {
 	} else if ([GrowlApplicationBridge isGrowlInstalled]) {
 		// Register ourselves as a Growl delegate
 		[GrowlApplicationBridge setGrowlDelegate:self];
+		NSLog(@"Loaded GrowlSafari %@", [GrowlSafari bundleVersion]);
 	} else {
-		NSLog( @"Growl not installed, GrowlSafari disabled" );
+		NSLog(@"Growl not installed, GrowlSafari disabled");
 	}
 }
 
@@ -178,11 +183,12 @@ static void setDownloadFinished(id dl) {
 + (void) notifyRSSUpdate:(WebBookmark*)bookmark newEntries:(int)newEntries {
 	NSBundle *bundle = [GrowlSafari bundle];
 	NSData *icon = [[bookmark icon] isKindOfClass:[NSImage class]] ? [[bookmark icon] TIFFRepresentation] : nil;
-	NSMutableString	*description = [NSMutableString stringWithFormat:newEntries == 1 ? @"%d new entry" : @"%d new entries", 
-		newEntries, 
+	NSMutableString	*description = [[NSMutableString alloc]
+		initWithFormat:newEntries == 1 ? NSLocalizedStringFromTableInBundle(@"%d new entry", nil, bundle, @"") : NSLocalizedStringFromTableInBundle(@"%d new entries", nil, bundle, @""),
+		newEntries,
 		[bookmark unreadRSSCount]];
 	if (newEntries != [bookmark unreadRSSCount])
-		[description appendFormat:@" (%d unread)", [bookmark unreadRSSCount]];
+		[description appendFormat:NSLocalizedStringFromTableInBundle(@" (%d unread)", nil, bundle, @""), [bookmark unreadRSSCount]];
 
 	NSString *title = [bookmark title];
 	[GrowlApplicationBridge notifyWithTitle:(title ? title : [bookmark URLString])
@@ -192,6 +198,7 @@ static void setDownloadFinished(id dl) {
 								   priority:0
 								   isSticky:NO
 							   clickContext:[bookmark URLString]];
+	[description release];
 }
 @end
 

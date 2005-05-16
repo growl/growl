@@ -67,7 +67,7 @@
 	[automatic release];
 	[enabled release];
 
-	NSLog( @"Loaded GrowlMail %@", [GrowlMail bundleVersion] );
+	NSLog(@"Loaded GrowlMail %@", [GrowlMail bundleVersion]);
 }
 
 + (BOOL) hasPreferencesPanel {
@@ -92,7 +92,7 @@
 			// Register ourselves as a Growl delegate
 			[GrowlApplicationBridge setGrowlDelegate:self];
 		} else {
-			NSLog( @"Growl not installed, GrowlMail disabled" );
+			NSLog(@"Growl not installed, GrowlMail disabled");
 		}
 	}
 
