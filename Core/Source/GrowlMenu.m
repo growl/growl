@@ -57,13 +57,7 @@ int main(void) {
 	squelchImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"png"]];
 	squelchHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch-alt" ofType:@"png"]];
 
-	if ([preferences boolForKey:GrowlSquelchModeKey]) {
-		[statusItem setImage:squelchImage];
-		[statusItem setAlternateImage:squelchHighlightImage];
-	} else {
-		[statusItem setImage:clawImage];
-		[statusItem setAlternateImage:clawHighlightImage];
-	}
+	[self setImage];
 
 	[statusItem setMenu:m]; // retains m
 	[statusItem setToolTip:@"Growl"];
@@ -71,10 +65,15 @@ int main(void) {
 
 	[m release];
 
-	[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-														selector:@selector(shutdown:)
-															name:@"GrowlMenuShutdown"
-														  object:nil];
+	NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
+	[nc addObserver:self
+		   selector:@selector(shutdown:)
+			   name:@"GrowlMenuShutdown"
+			 object:nil];
+	[nc addObserver:self
+		   selector:@selector(reloadPrefs:)
+			   name:GrowlPreferencesChanged
+			 object:nil];
 }
 
 - (void) applicationWillTerminate:(NSNotification *)aNotification {
@@ -89,6 +88,14 @@ int main(void) {
 	[squelchImage release];
 	[squelchHighlightImage release];
 	[super dealloc];
+}
+
+- (void) reloadPrefs:(NSNotification *)notification {
+	// ignore notifications which are sent by ourselves
+	NSNumber *pid = [[notification userInfo] objectForKey:@"pid"];
+	if (!pid || [pid intValue] != [[NSProcessInfo processInfo] processIdentifier]) {
+		[self setImage];
+	}
 }
 
 - (void) shutdown:(NSNotification *)theNotification {
@@ -130,6 +137,11 @@ int main(void) {
 #pragma unused(sender)
 	BOOL squelchMode = ![preferences boolForKey:GrowlSquelchModeKey];
 	[preferences setBool:squelchMode forKey:GrowlSquelchModeKey];
+	[self setImage];
+}
+
+- (void) setImage {
+	BOOL squelchMode = [preferences boolForKey:GrowlSquelchModeKey];
 	if (squelchMode) {
 		[statusItem setImage:squelchImage];
 		[statusItem setAlternateImage:squelchHighlightImage];

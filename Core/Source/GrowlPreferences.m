@@ -223,7 +223,7 @@ static GrowlPreferences *sharedPreferences;
 #pragma mark -
 #pragma mark Growl running state
 
-- (void) setGrowlRunning:(BOOL)flag noMatterWhat:(BOOL)nmw{
+- (void) setGrowlRunning:(BOOL)flag noMatterWhat:(BOOL)nmw {
 	// Store the desired running-state of the helper app for use by GHA.
 	[self setBool:flag forKey:GrowlEnabledKey];
 

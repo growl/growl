@@ -355,6 +355,7 @@
 //	NSLog(@"%s\n", __FUNCTION__);
 	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
 	[self setTickets:[[GrowlApplicationTicket allSavedTickets] allValues]];
+	[self setSquelchMode:[self squelchMode]];
 	[self cacheImages];
 
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
@@ -508,6 +509,16 @@
 
 - (void) setDefaultDisplayPluginName:(NSString *)name {
 	[[GrowlPreferences preferences] setObject:name forKey:GrowlDisplayPluginKey];
+}
+
+#pragma mark -
+
+- (BOOL) squelchMode {
+	return [[GrowlPreferences preferences] boolForKey:GrowlSquelchModeKey];
+}
+
+- (void) setSquelchMode:(BOOL)flag {
+	[[GrowlPreferences preferences] setBool:flag forKey:GrowlSquelchModeKey];
 }
 
 #pragma mark Menu Extra
