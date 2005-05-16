@@ -74,8 +74,6 @@ static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 	return NO;
 }
 
-static Class growlApplicationBridge;
-
 // How long should we wait (in seconds) before it's a long download?
 static double longDownload = 15.0;
 
@@ -122,11 +120,12 @@ static void setDownloadFinished(id dl) {
 
 	NSString *growlPath = [[[GrowlSafari bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
 	NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
-	growlApplicationBridge = [growlBundle classNamed:@"GrowlApplicationBridge"];
 
-	if ([growlApplicationBridge isGrowlInstalled]) {
+	if (!(growlBundle && [growlBundle load])) {
+		NSLog(@"Could not load Growl.framework, GrowlSafari disabled");
+	} else if ([GrowlApplicationBridge isGrowlInstalled]) {
 		// Register ourselves as a Growl delegate
-		[growlApplicationBridge setGrowlDelegate:self];
+		[GrowlApplicationBridge setGrowlDelegate:self];
 	} else {
 		NSLog( @"Growl not installed, GrowlSafari disabled" );
 	}
@@ -170,7 +169,7 @@ static void setDownloadFinished(id dl) {
 	if (dateStarted(self)) {
 		if (stage == 2) {
 			NSBundle *bundle = [GrowlSafari bundle];
-			[growlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Decompressing File", nil, bundle, @"")
+			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Decompressing File", nil, bundle, @"")
 										description:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ decompression started", nil, bundle, @""),
 											[[self performSelector:@selector(downloadPath)] lastPathComponent]]
 								   notificationName:NSLocalizedStringFromTableInBundle(@"Compression Status", nil, bundle, @"")
@@ -180,7 +179,7 @@ static void setDownloadFinished(id dl) {
 									   clickContext:nil];
 		} else if (stage == 9 && oldStage != 9) {
 			NSBundle *bundle = [GrowlSafari bundle];
-			[growlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Copying Disk Image", nil, bundle, @"")
+			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Copying Disk Image", nil, bundle, @"")
 										description:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Copying application from %@", nil, bundle, @""),
 											[[self performSelector:@selector(downloadPath)] lastPathComponent]]
 								   notificationName:NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @"")
@@ -192,7 +191,7 @@ static void setDownloadFinished(id dl) {
 			NSBundle *bundle = [GrowlSafari bundle];
 			NSString *notificationName = isLongDownload(self) ? NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"") : NSLocalizedStringFromTableInBundle(@"Short Download Complete", nil, bundle, @"");
 			setDownloadFinished(self);
-			[growlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"")
+			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"")
 										description:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ download complete", nil, bundle, @""),
 											[self performSelector:@selector(filename)]]
 								   notificationName:notificationName
@@ -214,7 +213,7 @@ static void setDownloadFinished(id dl) {
 	if (dateStarted(self)) {
 		if ([[status objectForKey:@"status-stage"] isEqual:@"initialize"]) {
 			NSBundle *bundle = [GrowlSafari bundle];
-			[growlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Mounting Disk Image", nil, bundle, @"")
+			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Mounting Disk Image", nil, bundle, @"")
 										description:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Mounting %@", nil, bundle, @""),
 											[[self performSelector:@selector(downloadPath)] lastPathComponent]]
 								   notificationName:NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @"")

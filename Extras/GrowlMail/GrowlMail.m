@@ -36,8 +36,6 @@
 #import "GrowlMail.h"
 #import <Growl/Growl.h>
 
-static Class growlApplicationBridge;
-
 @implementation GrowlMail
 
 + (NSBundle *) bundle {
@@ -72,10 +70,6 @@ static Class growlApplicationBridge;
 	NSLog( @"Loaded GrowlMail %@", [GrowlMail bundleVersion] );
 }
 
-+ (Class) growlApplicationBridge {
-	return growlApplicationBridge;
-}
-
 + (BOOL) hasPreferencesPanel {
 	return YES;
 }
@@ -92,11 +86,11 @@ static Class growlApplicationBridge;
 	if ((self = [super init])) {
 		NSString *growlPath = [[[GrowlMail bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
 		NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
-		growlApplicationBridge = [growlBundle classNamed:@"GrowlApplicationBridge"];
-
-		if ([growlApplicationBridge isGrowlInstalled]) {
+		if (!(growlBundle && [growlBundle load])) {
+			NSLog(@"Could not load Growl.framework, GrowlMail disabled");
+		} else if ([GrowlApplicationBridge isGrowlInstalled]) {
 			// Register ourselves as a Growl delegate
-			[growlApplicationBridge setGrowlDelegate:self];
+			[GrowlApplicationBridge setGrowlDelegate:self];
 		} else {
 			NSLog( @"Growl not installed, GrowlMail disabled" );
 		}

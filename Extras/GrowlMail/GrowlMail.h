@@ -38,7 +38,6 @@
 + (BOOL) hasPreferencesPanel;
 + (NSString *) preferencesOwnerClassName;
 + (NSString *) preferencesPanelName;
-+ (Class) growlApplicationBridge;
 + (BOOL) isEnabled;
 + (BOOL) isIgnoreJunk;
 + (int) summaryMode;

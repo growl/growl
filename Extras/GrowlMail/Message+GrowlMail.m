@@ -114,13 +114,12 @@
 //		image = [workspace iconForFile:[workspace fullPathForApplication:@"Mail"]];
 		image = [NSImage imageNamed:@"NSApplicationIcon"];
 	}
-	Class gab = [GrowlMail growlApplicationBridge];
-	[gab notifyWithTitle:title
-			 description:description
-		notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")
-				iconData:[image TIFFRepresentation]
-				priority:0
-				isSticky:NO
-			clickContext:@""];	// non-nil click context
+	[GrowlApplicationBridge notifyWithTitle:title
+								description:description
+						   notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")
+								   iconData:[image TIFFRepresentation]
+								   priority:0
+								   isSticky:NO
+							   clickContext:@""];	// non-nil click context
 }
 @end

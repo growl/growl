@@ -323,7 +323,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
 				LIBRARY_STYLE = BUNDLE;
-				OTHER_LDFLAGS = "-undefined dynamic_lookup";
+				OTHER_LDFLAGS = "-undefined dynamic_lookup -weak_framework Growl";
 				PRODUCT_NAME = GrowlMail;
 				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = mailbundle;

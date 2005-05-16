@@ -88,19 +88,18 @@ static NSMutableArray *collectedMessages;
 			NSBundle *bundle = [GrowlMail bundle];
 			NSString *title = NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"");
 			NSData *iconData = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
-			Class gab = [GrowlMail growlApplicationBridge];
 			NSString *key;
 			enumerator = [accountSummary keyEnumerator];
 			while ((key = [enumerator nextObject])) {
 				NSNumber *count = [accountSummary objectForKey:key];
 				NSString *description = [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n%d new mail(s)", nil, bundle, @""), key, [count intValue]];
-				[gab notifyWithTitle:title
-						 description:description
-					notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")
-							iconData:iconData
-							priority:0
-							isSticky:NO
-						clickContext:@""];	// non-nil click context
+				[GrowlApplicationBridge notifyWithTitle:title
+											description:description
+									   notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")
+											   iconData:iconData
+											   priority:0
+											   isSticky:NO
+										   clickContext:@""];	// non-nil click context
 			}
 			[accountSummary release];
 			break;
