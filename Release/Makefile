@@ -1,7 +1,7 @@
 # These must be absolute paths
 BUILD_DIR="$(CURDIR)/build"
 RELEASE_DIR="$(CURDIR)"
-RELEASE_NAME="Growl-0.7b5"
+RELEASE_NAME="Growl-0.7b6"
 
 # What to do before running this script:
 # - Set RELEASE_NAME
@@ -79,6 +79,9 @@ release:
 	find $(BUILD_DIR) -name ".DS_Store" -delete
 	# open FS projects
 	open $(BUILD_DIR)/*.fsproj
+	# build FS projects
+	osascript build-dmg.scpt
 
 finalize:
 	./compress-dmg.sh "$(BUILD_DIR)/$(RELEASE_NAME)"
+
