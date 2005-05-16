@@ -32,19 +32,10 @@
 			settings = {
 			};
 		};
-		07A2B56907FBE671009917B6 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = NSGrowlAdditions.h;
-			path = ../../Common/Source/NSGrowlAdditions.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		07A2B56F07FBE67A009917B6 = {
 			children = (
-				DD3472C2080356ED00830628,
-				07A2B56907FBE671009917B6,
+				9574BAB408391F3A00106CA3,
+				9574BAB308391F3A00106CA3,
 			);
 			isa = PBXGroup;
 			name = Additions;
@@ -212,6 +203,7 @@
 				0A8B61AF070B307B00593A33,
 				0A8B61B0070B307E00593A33,
 				0A8B61B1070B308000593A33,
+				9574BAB508391F3A00106CA3,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -440,8 +432,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 0A8B6180070B303B00593A33;
-					ProjectRef = 0A8B617F070B303B00593A33;
+					ProductGroup = 0A8B6174070B2F6A00593A33;
+					ProjectRef = 0A8B5F0F070B140C00593A33;
 				},
 				{
 					ProductGroup = 0A8B6179070B303600593A33;
@@ -452,8 +444,8 @@
 					ProjectRef = DD86247B080D8421001ACC9F;
 				},
 				{
-					ProductGroup = 0A8B6174070B2F6A00593A33;
-					ProjectRef = 0A8B5F0F070B140C00593A33;
+					ProductGroup = 0A8B6180070B303B00593A33;
+					ProjectRef = 0A8B617F070B303B00593A33;
 				},
 			);
 			targets = (
@@ -758,6 +750,7 @@
 			files = (
 				8D11072D0486CEB800E47090,
 				52F5774C06872B3A0068B46C,
+				9574BAB608391F3A00106CA3,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -872,6 +865,36 @@
 				);
 			};
 		};
+		9574BAB308391F3A00106CA3 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = NSWorkspaceAdditions.h;
+			path = ../../Common/Source/NSWorkspaceAdditions.h;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		9574BAB408391F3A00106CA3 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = NSWorkspaceAdditions.m;
+			path = ../../Common/Source/NSWorkspaceAdditions.m;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		9574BAB508391F3A00106CA3 = {
+			fileRef = 9574BAB308391F3A00106CA3;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		9574BAB608391F3A00106CA3 = {
+			fileRef = 9574BAB408391F3A00106CA3;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		958B0A47082BF09F00E4EB2C = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -952,15 +975,6 @@
 //DD2
 //DD3
 //DD4
-		DD3472C2080356ED00830628 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = CoreGraphicsServices.h;
-			path = ../../Core/Source/CoreGraphicsServices.h;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
 		DD5BBFF907B7D50400048F1D = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;

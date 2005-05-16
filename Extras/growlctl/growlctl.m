@@ -1,6 +1,5 @@
 #import <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
-#import "NSGrowlAdditions.h"
 #import "GrowlPreferences.h"
 #import "GrowlPathUtil.h"
 #include <string.h>

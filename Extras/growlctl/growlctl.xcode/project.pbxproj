@@ -54,30 +54,6 @@
 			settings = {
 			};
 		};
-		07814E3807F05B4D0046C294 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = NSGrowlAdditions.h;
-			path = Common/Source/NSGrowlAdditions.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		07814E3907F05B4D0046C294 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = NSGrowlAdditions.m;
-			path = Common/Source/NSGrowlAdditions.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		07814E3B07F05B4D0046C294 = {
-			fileRef = 07814E3907F05B4D0046C294;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		07814E9407F061680046C294 = {
 			fileRef = 07A3BE9907F01E6900973BFB;
 			isa = PBXBuildFile;
@@ -88,8 +64,6 @@
 			children = (
 				9580F7FA0812D54D008FD3BC,
 				9580F7FB0812D54D008FD3BC,
-				07814E3807F05B4D0046C294,
-				07814E3907F05B4D0046C294,
 				07A3BE9807F01E6900973BFB,
 				07A3BE9907F01E6900973BFB,
 			);
@@ -310,7 +284,6 @@
 		8DD76F990486AA7600D96B5E = {
 			buildActionMask = 2147483647;
 			files = (
-				07814E3B07F05B4D0046C294,
 				07814E9407F061680046C294,
 				9580F7FD0812D54D008FD3BC,
 				8DD76F9A0486AA7600D96B5E,

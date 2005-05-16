@@ -30,7 +30,7 @@
 
 #import "GrowlTunesController.h"
 #import <Growl/Growl.h>
-#import "NSGrowlAdditions.h"
+#import "NSWorkspaceAdditions.h"
 
 #define ONLINE_HELP_URL		    @"http://growl.info/documentation/growltunes.php"
 
