@@ -6,10 +6,12 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>growliChat</string>
+	<key>CFBundleGetInfoString</key>
+	<string>0.81 check the latest version at www.andrew.cmu.edu/~pongmong</string>
 	<key>CFBundleIconFile</key>
 	<string>growliChat</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.apple.myCocoaApplication</string>
+	<string>com.apple.growliChat</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
