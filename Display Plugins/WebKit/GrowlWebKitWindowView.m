@@ -96,12 +96,12 @@
 
 - (unsigned) webView:(WebView *)sender dragDestinationActionMaskForDraggingInfo:(id <NSDraggingInfo>)draggingInfo {
 #pragma unused(sender, draggingInfo)
-	return WebDragDestinationActionNone;
+	return 0U; //WebDragDestinationActionNone;
 }
 
 - (unsigned) webView:(WebView *)sender dragSourceActionMaskForPoint:(NSPoint)point {
 #pragma unused(sender, point)
-	return WebDragSourceActionNone;
+	return 0U; //WebDragSourceActionNone;
 }
 
 - (void) mouseDown:(NSEvent *) event {
