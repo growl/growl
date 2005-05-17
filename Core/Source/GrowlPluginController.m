@@ -99,7 +99,7 @@ static GrowlPluginController *sharedController;
 			[allDisplayPlugins setObject:plugin forKey:name];
 			[plugin release];
 		} else {
-			NSLog(@"Unknown plugin type %@", name);
+			NSLog(@"Unknown plugin type '%@' of plugin named '%@'", pathExtension, name);
 		}
 	}
 
