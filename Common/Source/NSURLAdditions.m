@@ -41,8 +41,10 @@
 			if (err != fnfErr) { //ignore file-not-found; it's harmless
 				NSLog(@"in +[NSURL(GrowlAdditions) fileURLWithAliasData:]: Could not resolve alias (alias data follows) because FSResolveAlias returned %li - will try path\n%@", (long)err, aliasData);
 			}
-		} else {
+		} else if (path) {
 			url = [NSURL fileURLWithPath:path];
+		} else {
+			NSLog(@"in +[NSURL(GrowlAdditions) fileURLWithAliasData:]: FSCopyAliasInfo returned a nil path");
 		}
 	}
 
