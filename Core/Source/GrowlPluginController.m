@@ -79,7 +79,8 @@ static GrowlPluginController *sharedController;
 	id <GrowlDisplayPlugin> plugin = [allDisplayPlugins objectForKey:name];
 	if (!plugin) {
 		NSBundle *pluginBundle = [allDisplayPluginBundles objectForKey:name];
-		NSString *pathExtension = [[pluginBundle bundlePath] pathExtension];
+		NSString *filename = [[pluginBundle bundlePath] lastPathComponent];
+		NSString *pathExtension = [filename pathExtension];
 		if ([pathExtension isEqualToString:GROWL_VIEW_EXTENSION]) {
 			if (pluginBundle && (plugin = [[[pluginBundle principalClass] alloc] init])) {
 				[allDisplayPlugins setObject:plugin forKey:name];
@@ -99,7 +100,7 @@ static GrowlPluginController *sharedController;
 			[allDisplayPlugins setObject:plugin forKey:name];
 			[plugin release];
 		} else {
-			NSLog(@"Unknown plugin type '%@' of plugin named '%@'", pathExtension, name);
+			NSLog(@"Unknown plugin filename extension '%@' (from '%@' of plugin named '%@'", pathExtension, filename, name);
 		}
 	}
 
