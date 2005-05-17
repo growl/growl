@@ -100,7 +100,7 @@ static GrowlPluginController *sharedController;
 			[allDisplayPlugins setObject:plugin forKey:name];
 			[plugin release];
 		} else {
-			NSLog(@"Unknown plugin filename extension '%@' (from '%@' of plugin named '%@'", pathExtension, filename, name);
+			NSLog(@"Unknown plugin filename extension '%@' (from filename '%@' of plugin named '%@')", pathExtension, filename, name);
 		}
 	}
 
