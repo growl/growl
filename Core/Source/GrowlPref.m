@@ -205,14 +205,22 @@
 	//NSSecureTextFieldCell *secureTextCell = [[NSSecureTextFieldCell alloc] init];
 	//[servicePasswordColumn setDataCell:secureTextCell];
 	//[secureTextCell release];
+
 	NSButtonCell *cell = [notificationStickyColumn dataCell];
 	[cell setAllowsMixedState:YES];
+
+	NSDictionary *bindOptions;
+	if (NSCreatesSortDescriptorBindingOption) {
+		// NSCreatesSortDescriptorBindingOption is only available on 10.4 or later
+		NSNumber *no = [[NSNumber alloc] initWithBool:NO];
+		bindOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
+			no, NSCreatesSortDescriptorBindingOption,
+			nil];
+		[no release];
+	} else {
+		bindOptions = nil;
+	}
 	// we have to establish this binding programmatically in order to use NSMixedState
-	NSNumber *no = [[NSNumber alloc] initWithBool:NO];
-	NSDictionary *bindOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
-		no, NSCreatesSortDescriptorBindingOption,
-		nil];
-	[no release];
 	[notificationStickyColumn bind:@"value"
 						  toObject:notificationsArrayController
 					   withKeyPath:@"arrangedObjects.sticky"
