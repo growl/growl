@@ -209,7 +209,8 @@
 	NSButtonCell *cell = [notificationStickyColumn dataCell];
 	[cell setAllowsMixedState:YES];
 
-	NSDictionary *bindOptions;
+	NSDictionary *bindOptions = nil;
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if (NSCreatesSortDescriptorBindingOption) {
 		// NSCreatesSortDescriptorBindingOption is only available on 10.4 or later
 		NSNumber *no = [[NSNumber alloc] initWithBool:NO];
@@ -217,9 +218,9 @@
 			no, NSCreatesSortDescriptorBindingOption,
 			nil];
 		[no release];
-	} else {
-		bindOptions = nil;
 	}
+#endif
+
 	// we have to establish this binding programmatically in order to use NSMixedState
 	[notificationStickyColumn bind:@"value"
 						  toObject:notificationsArrayController
