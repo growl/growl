@@ -1,0 +1,16 @@
+Title SIMBL
+Version 0.5
+Description Allows plugin bundles to be loaded for a particular application.
+DefaultLocation /Library/InputManagers
+DeleteWarning Remove SIMBL? This will remove all plugins as well.
+
+### Package Flags
+
+NeedsAuthorization YES
+Required NO
+Relocatable NO
+RequiresReboot NO
+UseUserMask NO
+OverwritePermissions NO
+InstallFat NO
+RootVolumeOnly YES

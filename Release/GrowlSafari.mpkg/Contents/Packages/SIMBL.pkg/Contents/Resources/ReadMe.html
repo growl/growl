@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- $Header: /Users/msolomon/Developer/cvs/SIMBL/simbl-resources/ReadMe.html,v 1.6 2004/07/02 07:10:45 msolomon Exp $ -->
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<meta name="keywords" content="cocoa, hacking, plugin, inputmanager" />
+  <title>SIMBL</title>
+  <link href="/css/software.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+  <div style="padding: .5em">
+    <h2>SIMBL</h2>
+		<div style="float: right; border: #999999 solid 1px; margin-left: 1em;">
+			<p style="margin: 0px; background-color: #999999; color: #ffffff; text-align: center; font-weight: bold;">Links and Downloads</p>
+
+      <p style="text-align: center; padding-left: 1em; padding-right: 1em;">
+				<a href="SIMBL.html">SIMBL Information</a><br />
+				<a href="/thc/index.php?category=/Development">Development Related News</a><br />
+			</p>
+			<p style="text-align: center; padding-left: 1em; padding-right: 1em;">
+				<a href="/dl/files/SIMBL-0.5.tbz">SIMBL-0.5.tbz</a><br />
+			</p>
+			<p style="text-align: center; padding-left: 1em; padding-right: 1em;">
+				<a href="/dl/files/SIMBL-0.2-src.dmg">SIMBL-0.2-src.dmg</a><br  />
+			</p>
+			<form style="text-align: center" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+				<p>
+					<input type="hidden" name="cmd" value="_xclick" />
+					<input type="hidden" name="business" value="donations@culater.net" />
+					<input type="hidden" name="item_name" value="PithHelmet Development" />
+					<input type="hidden" name="no_shipping" value="1" />
+					<input type="hidden" name="no_note" value="1" />
+					<input type="hidden" name="currency_code" value="USD" />
+					<input type="hidden" name="tax" value="0" />
+					<input type="submit" value="Donate" />
+				</p>
+      </form>
+    </div>
+    <dl>
+      <dt>Problem:</dt>
+
+      <dd>Some applications do about 90% of what I want.</dd>
+
+      <dt>Solution:</dt>
+
+      <dd>Develop my own applications.</dd>
+
+      <dt>Better Solution:</dt>
+
+      <dd>Patch the application myself...</dd>
+    </dl>
+
+    <h2>1. What It Does</h2>
+
+		<p>SIMBL (Smart InputManager Bundle Loader) - pronounced like "symbol" or "cymbal" allows you to build hacks for Cocoa applications and apply the code selectively based on an application's unique identifier.</p>
+		<p>For example, Safari's application identifier is <code>com.apple.Safari</code>.  You can use this to prevent bundles that link against application-specific frameworks from bombing on startup when they encounter another application that does not support those libraries.</p>
+
+<!--
+		<p>This technique is roughly analogous to genetically engineering corn.</p>
+-->
+    <h2>2. Installing</h2>
+
+    <p>There are two parts to SIMBL, the bundle itself, which is packaged as an InputManager, and the plugins.</p>
+		
+		<p>Due to the limitations of Apple's Installer.app, these packages install to <code>/Library/InputManagers</code>, though they work equally well in the user domain as well (<code>~/Library/InputManagers</code>).  If Apple ever provides the option for a user-specific install option, I'll enable it.</p>
+
+		<p>Since there isn't much point to installing SIMBL without some plugins, there is no SIMBL package per se - it is included with the plugin installers.</p>
+
+    <h2>3. How To</h2>
+		
+		<p>Once you've installed SIMBL, you need to drop some bundles into the Plugins folder. (<code>/Library/Application Support/SIMBL/Plugins</code>) SIMBL scans this folder for bundles each time an application launches.  It will check both the Local and User domain for this special folder.</p>
+		<p>This means that it will check <code>~/Library/Application Support/SIMBL/Plugins</code> before looking in <code>/Library/Application Support/SIMBL/Plugins</code>.  Additionally, SIMBL detects if you have two conflicting plugins and prevents potentially undesirable behavior by only loading one.</p>
+
+		<p>SIMBL plugins are nothing more than standard Cocoa bundles created by Project Builder, with the addition of one key in the bundle's <code>Info.plist</code>.</p>
+
+		<p>The <b>SIMBLApplicationIdentifier</b> key allows you to specify which applications should load a particular bundle by supplying an Array of application identifier Strings.  The special string "*" matches all applications.</p>
+
+		<p>There are only a limited number of bundles that support SIMBL:</p>
+		
+		<ul>
+			<li><a href="/osd/PithHelmet/PithHelmet.html">PithHelmet</a></li>
+			<li><a href="/osd/TerminalColors/TerminalColors.html">TerminalColors</a></li>
+			<li><a href="http://www.pygmysoftware.com/cgi-bin/product.pl?icar-info">iCar</a> by Adrian Sampson</li>
+		</ul>
+
+    <h2>4. Caveats</h2>
+
+    <ol style="list-style-type: lower-alpha">
+			<li>Given the amount of flexibility Cocoa gives you for loading arbitrary code, you can shoot yourself in the foot pretty easily.  Luckily, removing SIMBL from the InputManagers folder will remove any problems you may experience.</li>
+
+			<li>It seems like this functionality would have been built into Mac OS X already, so I may be duplicating some native functionality - I hope not, as that would be a waste of time.</li>
+
+    </ol>
+
+    <h2>5. Questions | Comments | Feedback</h2>
+
+    <p>Please feel free to <a href="/personal/email.html">contact me via email</a> - I'm interested to here your criticisms and thoughts.</p>
+
+		<p>You can always read about my current projects in my <a href="/thc">development journal</a>.</p>
+
+    <h2>6. Revision History</h2>
+
+    <p>v0.5 - <i>released 2004-08-12</i></p>
+
+    <ul class="revision">
+      <li>Fixed version checking bug</li>
+    </ul>
+
+    <p>v0.4 - <i>released 2004-07-02</i></p>
+
+    <ul class="revision">
+      <li>Added version as a new match criteria</li>
+			<li>Implemented legacy compatibility for old plugins</li>
+    </ul>
+
+    <p>v0.3 - <i>unreleased</i></p>
+
+    <ul class="revision">
+      <li>Changed installation mechanism</li>
+    </ul>
+
+    <p>v0.2 - <i>released 2003-06-23</i></p>
+
+    <ul class="revision">
+      <li>Changed the search paths</li>
+      <li>Added conflict resolution</li>
+			<li>Built an actual installer</li>
+    </ul>
+
+    <p>v0.1 - <i>released 2003-02-03</i></p>
+
+    <ul class="revision">
+      <li>Designed to prevent runtime load errors after installing PithHelmet</li>
+    </ul>
+
+  </div>
+
+  <div class="footer">
+    �2003 <a href="/personal/email.html">Mike Solomon</a> | <a href="http://validator.w3.org/check/referer">XHTML</a> 1.1 | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> 2.0
+  </div>
+</body>
+</html>

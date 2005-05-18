@@ -1,0 +1,6 @@
+#!/bin/bash
+# $Header: /Users/msolomon/Developer/cvs/SIMBL/simbl-resources/preupgrade,v 1.5 2004/07/02 07:03:46 msolomon Exp $
+
+source "${1}/Contents/Resources/script.inc"
+ensure_root_admin_directory "/Library/InputManagers"
+exit $?

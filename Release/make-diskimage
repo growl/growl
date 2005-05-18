@@ -98,19 +98,19 @@ echo "copying content to disk image"
 ditto -rsrcFork $SRC_FOLDER $MOUNT_DIR
 rc=$?
 if [ $rc != "0" ]; then
-        echo "ERROR: 'ditto -rsrcFork $SRC_FOLDER $MOUNT_DIR' failed ($rc)"
-        exit 1
+	echo "ERROR: 'ditto -rsrcFork $SRC_FOLDER $MOUNT_DIR' failed ($rc)"
+	exit 1
 fi
 
 # add optional Finder window layout and background image
 if [ ! -z ${DMG_DSSTORE} ]; then
-        echo "adding .DS_Store"
-        cp -p ${DMG_DSSTORE} ${MOUNT_DIR}/.DS_Store
+	echo "adding .DS_Store"
+	cp -p ${DMG_DSSTORE} ${MOUNT_DIR}/.DS_Store
 fi
 if [ ! -z ${DMG_BKGND_IMG} ]; then
-        echo "adding background image"
-        mkdir ${MOUNT_DIR}/.background
-        cp -p ${DMG_BKGND_IMG} ${MOUNT_DIR}/.background/
+	echo "adding background image"
+	mkdir ${MOUNT_DIR}/.background
+	cp -p ${DMG_BKGND_IMG} ${MOUNT_DIR}/.background/
 fi
 
 # make sure it's not world writeable
@@ -119,7 +119,7 @@ chmod -R go-w ${MOUNT_DIR} || true
 
 # make the top window open itself on mount:
 if [ -x /usr/local/bin/openUp ]; then
-    /usr/local/bin/openUp ${MOUNT_DIR}
+	/usr/local/bin/openUp ${MOUNT_DIR}
 fi
 
 # unmount

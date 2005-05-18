@@ -1,0 +1,4 @@
+{
+    IBClasses = ({CLASS = AlertDelegate; LANGUAGE = ObjC; SUPERCLASS = NSObject; }); 
+    IBVersion = 1; 
+}

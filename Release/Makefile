@@ -2,14 +2,12 @@
 BUILD_DIR="$(CURDIR)/build"
 GROWL_DIR="$(BUILD_DIR)/Growl"
 SDK_DIR="$(BUILD_DIR)/SDK"
-RELEASE_DIR="$(CURDIR)"
 RELEASE_NAME="Growl-0.7b7"
 
 # What to do before running this script:
 # - Set RELEASE_NAME
 # - Set version number in GHA
 # - Compile with build.sh using gcc 3.3
-# - Build GrowlSafari.mpkg with PackageMaker and copy it into the Release directory
 
 all: release
 
@@ -21,19 +19,14 @@ release:
 	rm -rf $(BUILD_DIR)
 	mkdir -p $(BUILD_DIR)
 	mkdir -p $(GROWL_DIR)
-	mkdir -p $(SDK_DIR)
-	# copy webloc files
-	cp "Growl Developer Documentation.webloc" "Growl version history for developers.webloc" $(SDK_DIR)
-	cp "Growl Documentation.webloc" "Growl version history.webloc" $(GROWL_DIR)
 	# copy uninstaller
 	cp -R "Uninstall Growl.app" $(GROWL_DIR)
+	# copy webloc files
+	cp "Growl Documentation.webloc" "Growl version history.webloc" $(GROWL_DIR)
 	# hide extensions of webloc files
-	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc $(SDK_DIR)/*.webloc
+	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc
 	# copy the prefpane
 	cp -R ../build/Growl.prefPane $(GROWL_DIR)
-	# copy the frameworks
-	mkdir -p $(SDK_DIR)/Frameworks
-	cp -R ../build/Growl.framework ../build/Growl-WithInstaller.framework $(SDK_DIR)/Frameworks
 	# copy the extras
 	mkdir -p $(GROWL_DIR)/Extras
 	mkdir -p $(GROWL_DIR)/Extras/growlctl
@@ -51,17 +44,31 @@ release:
 	cp ../Extras/growlnotify/growlnotify.1 $(GROWL_DIR)/Extras/growlnotify
 	cp ../Extras/growlnotify/install.sh $(GROWL_DIR)/Extras/growlnotify
 	cp ../Extras/growlnotify/README.txt $(GROWL_DIR)/Extras/growlnotify
-	mkdir -p $(GROWL_DIR)/Extras/GrowlSafari
-	cp -R GrowlSafari.mpkg $(GROWL_DIR)/Extras/GrowlSafari
-	cp -R ../Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
 	mkdir -p $(GROWL_DIR)/Extras/GrowlTunes
 	cp -R ../Extras/GrowlTunes/build/GrowlTunes.app $(GROWL_DIR)/Extras/GrowlTunes
 	cp -R ../Extras/GrowlTunes/ReadMe.rtfd $(GROWL_DIR)/Extras/GrowlTunes
 	mkdir -p $(GROWL_DIR)/Extras/HardwareGrowler
 	cp -R ../Extras/HardwareGrowler/build/HardwareGrowler.app $(GROWL_DIR)/Extras/HardwareGrowler
 	cp ../Extras/HardwareGrowler/readme.txt $(GROWL_DIR)/Extras/HardwareGrowler
-	# copy the scripts and bindings
+	# build GrowlSafari package
+	mkdir -p $(GROWL_DIR)/Extras/GrowlSafari
+	cp -R GrowlSafari.mpkg $(GROWL_DIR)/Extras/GrowlSafari
+	mkdir -p $(BUILD_DIR)/GrowlSafari
+	cp -R ../Extras/GrowlSafari/build/GrowlSafari.bundle $(BUILD_DIR)/GrowlSafari
+	/Developer/Tools/packagemaker -build -p $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.mpkg/Contents/Packages/GrowlSafari.pkg -f $(BUILD_DIR)/GrowlSafari -ds -v -i GrowlSafari-Info.plist -d GrowlSafari-Description.plist
+	cp -R ../Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
+	# build the SDK
+	mkdir -p $(SDK_DIR)
+	# copy the webloc files
+	cp "Growl Developer Documentation.webloc" "Growl version history for developers.webloc" $(SDK_DIR)
+	# hide extensions of webloc files
+	/Developer/Tools/SetFile -a E $(SDK_DIR)/*.webloc
+	# copy the scripts
 	cp -R ../Scripts $(GROWL_DIR)
+	# copy the frameworks
+	mkdir -p $(SDK_DIR)/Frameworks
+	cp -R ../build/Growl.framework ../build/Growl-WithInstaller.framework $(SDK_DIR)/Frameworks
+	# copy the bindings
 	cp -R ../Bindings $(SDK_DIR)
 	# remove the AppleScript binding
 	rm -rf $(SDK_DIR)/Bindings/applescript%
