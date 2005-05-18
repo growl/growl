@@ -29,19 +29,19 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 release:
-	# clean build directory
+	@# clean build directory
 	rm -rf $(BUILD_DIR)
 	mkdir $(BUILD_DIR)
 	mkdir $(GROWL_DIR)
-	# copy uninstaller
+	@# copy uninstaller
 	cp -R "Uninstall Growl.app" $(GROWL_DIR)
-	# copy webloc files
+	@# copy webloc files
 	cp "Growl Documentation.webloc" "Growl version history.webloc" $(GROWL_DIR)
-	# hide extensions of webloc files
+	@# hide extensions of webloc files
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc
-	# copy the prefpane
+	@# copy the prefpane
 	cp -R ../build/Growl.prefPane $(GROWL_DIR)
-	# copy the extras
+	@# copy the extras
 	mkdir $(GROWL_DIR)/Extras
 	mkdir $(GROWL_DIR)/Extras/growlctl
 	cp ../Extras/growlctl/build/growlctl $(GROWL_DIR)/Extras/growlctl
@@ -64,49 +64,50 @@ release:
 	mkdir $(GROWL_DIR)/Extras/HardwareGrowler
 	cp -R ../Extras/HardwareGrowler/build/HardwareGrowler.app $(GROWL_DIR)/Extras/HardwareGrowler
 	cp ../Extras/HardwareGrowler/readme.txt $(GROWL_DIR)/Extras/HardwareGrowler
-	# build GrowlSafari package
+	@# build GrowlSafari package
 	mkdir $(GROWL_DIR)/Extras/GrowlSafari
 	cp -R GrowlSafari.mpkg $(GROWL_DIR)/Extras/GrowlSafari
 	mkdir $(BUILD_DIR)/GrowlSafari
 	cp -R ../Extras/GrowlSafari/build/GrowlSafari.bundle $(BUILD_DIR)/GrowlSafari
 	/Developer/Tools/packagemaker -build -p $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.mpkg/Contents/Packages/GrowlSafari.pkg -f $(BUILD_DIR)/GrowlSafari -ds -v -i GrowlSafari-Info.plist -d GrowlSafari-Description.plist
 	cp -R ../Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
-	# build the SDK
+	@# build the SDK
 	mkdir $(SDK_DIR)
-	# copy the webloc files
+	@# copy the webloc files
 	cp "Growl Developer Documentation.webloc" "Growl version history for developers.webloc" $(SDK_DIR)
-	# hide extensions of webloc files
+	@# hide extensions of webloc files
 	/Developer/Tools/SetFile -a E $(SDK_DIR)/*.webloc
-	# copy the scripts
+	@# copy the scripts
 	cp -R ../Scripts $(GROWL_DIR)
-	# copy the frameworks
+	@# copy the frameworks
 	mkdir $(SDK_DIR)/Frameworks
 	cp -R ../build/Growl.framework ../build/Growl-WithInstaller.framework $(SDK_DIR)/Frameworks
-	# copy the bindings
+	@# copy the bindings
 	cp -R ../Bindings $(SDK_DIR)
-	# remove the AppleScript binding
+	@# remove the AppleScript binding
 	rm -rf $(SDK_DIR)/Bindings/applescript%
-	# remove some symlinks
+	@# remove some symlinks
 	rm $(SDK_DIR)/Bindings/realbasic/GrowlDefines.h
 	rm $(SDK_DIR)/Bindings/tcl/GrowlDefines.h
 	rm $(SDK_DIR)/Bindings/tcl/GrowlApplicationBridge.h
 	rm $(SDK_DIR)/Bindings/tcl/GrowlApplicationBridge.m
-	# delete svn and backup files
+	@# delete svn and backup files
 	find $(BUILD_DIR) -name ".svn" -exec rm -rf {} \; -prune
 	find $(BUILD_DIR) -name "*~" -delete
 	find $(BUILD_DIR) -name ".DS_Store" -delete
-	# make Growl disk image
+	@# make Growl disk image
 	cp DS_Store $(GROWL_DIR)/.DS_Store
 	mkdir $(GROWL_DIR)/.background
 	cp ../images/dmg/growl07DMGBackground.png $(GROWL_DIR)/.background
 	hdiutil create -srcfolder $(GROWL_DIR) -volname Growl -format UDZO $(BUILD_DIR)/tmp.dmg
 	hdiutil convert -format UDZO -imagekey zlib-level=9 -o "$(BUILD_DIR)/$(RELEASE_NAME).dmg" $(BUILD_DIR)/tmp.dmg
 	rm $(BUILD_DIR)/tmp.dmg
-	# make SDK disk image
+	@# make SDK disk image
 	cp DS_Store_SDK $(SDK_DIR)/.DS_Store
 	mkdir $(SDK_DIR)/.background
 	cp ../images/dmg/growlSDK.png $(SDK_DIR)/.background
 	hdiutil create -srcfolder $(SDK_DIR) -volname Growl-SDK -format UDZO "$(BUILD_DIR)/tmp.dmg"
 	hdiutil convert -format UDZO -imagekey zlib-level=9 -o "$(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg" $(BUILD_DIR)/tmp.dmg
 	rm $(BUILD_DIR)/tmp.dmg
+	@echo Build finished
 
