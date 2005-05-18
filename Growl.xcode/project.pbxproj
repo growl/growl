@@ -3018,9 +3018,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-bundle -twolevel_namespace";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = Growl;
 				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = prefPane;
