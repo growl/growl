@@ -1,5 +1,7 @@
 # These must be absolute paths
 BUILD_DIR="$(CURDIR)/build"
+GROWL_DIR="$(BUILD_DIR)/Growl"
+SDK_DIR="$(BUILD_DIR)/SDK"
 RELEASE_DIR="$(CURDIR)"
 RELEASE_NAME="Growl-0.7b7"
 
@@ -8,9 +10,6 @@ RELEASE_NAME="Growl-0.7b7"
 # - Set version number in GHA
 # - Compile with build.sh using gcc 3.3
 # - Build GrowlSafari.mpkg with PackageMaker and copy it into the Release directory
-# What to do after running the release target:
-# - Build the diskimages with FileStorm using the project files in the build directory
-# - Run make finalize
 
 all: release
 
@@ -21,67 +20,61 @@ release:
 	# clean build directory
 	rm -rf $(BUILD_DIR)
 	mkdir -p $(BUILD_DIR)
+	mkdir -p $(GROWL_DIR)
+	mkdir -p $(SDK_DIR)
+	# copy webloc files
+	cp "Growl Developer Documentation.webloc" "Growl version history for developers.webloc" $(SDK_DIR)
+	cp "Growl Documentation.webloc" "Growl version history.webloc" $(GROWL_DIR)
+	# copy uninstaller
+	cp -R "Uninstall Growl.app" $(GROWL_DIR)
 	# hide extensions of webloc files
-	/Developer/Tools/SetFile -a E *.webloc
-	# copy FS templates and substitute paths
-	cp -R Growl.fsproj.tmpl $(BUILD_DIR)/Growl.fsproj
-	cp -R Growl-SDK.fsproj.tmpl $(BUILD_DIR)/Growl-SDK.fsproj
-	perl -pi.bak -e "s'%builddir%'$(BUILD_DIR)'" $(BUILD_DIR)/Growl.fsproj/project.plist
-	perl -pi.bak -e "s'%releasedir%'$(RELEASE_DIR)'" $(BUILD_DIR)/Growl.fsproj/project.plist
-	perl -pi.bak -e "s'%releasename%'$(RELEASE_NAME)'" $(BUILD_DIR)/Growl.fsproj/project.plist
-	perl -pi.bak -e "s'%builddir%'$(BUILD_DIR)'" $(BUILD_DIR)/Growl-SDK.fsproj/project.plist
-	perl -pi.bak -e "s'%releasedir%'$(RELEASE_DIR)'" $(BUILD_DIR)/Growl-SDK.fsproj/project.plist
-	perl -pi.bak -e "s'%releasename%'$(RELEASE_NAME)'" $(BUILD_DIR)/Growl-SDK.fsproj/project.plist
+	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc $(SDK_DIR)/*.webloc
 	# copy the prefpane
-	cp -R ../build/Growl.prefPane $(BUILD_DIR)
+	cp -R ../build/Growl.prefPane $(GROWL_DIR)
 	# copy the frameworks
-	mkdir -p $(BUILD_DIR)/Frameworks
-	cp -R ../build/Growl.framework ../build/Growl-WithInstaller.framework $(BUILD_DIR)/Frameworks
+	mkdir -p $(SDK_DIR)/Frameworks
+	cp -R ../build/Growl.framework ../build/Growl-WithInstaller.framework $(SDK_DIR)/Frameworks
 	# copy the extras
-	mkdir -p $(BUILD_DIR)/Extras
-	mkdir -p $(BUILD_DIR)/Extras/growlctl
-	cp ../Extras/growlctl/build/growlctl $(BUILD_DIR)/Extras/growlctl
-	cp ../Extras/growlctl/growlctl.1 $(BUILD_DIR)/Extras/growlctl
-	cp ../Extras/growlctl/install.sh $(BUILD_DIR)/Extras/growlctl
-	mkdir -p $(BUILD_DIR)/Extras/GrowlDict
-	cp -R ../Extras/GrowlDict/build/GrowlDict.app $(BUILD_DIR)/Extras/GrowlDict
-	cp ../Extras/GrowlDict/README.txt $(BUILD_DIR)/Extras/GrowlDict
-	mkdir -p $(BUILD_DIR)/Extras/GrowlMail
-	cp -R ../Extras/GrowlMail/build/GrowlMail.mailbundle $(BUILD_DIR)/Extras/GrowlMail
-	cp ../Extras/GrowlMail/GrowlMail\ Installation.rtf $(BUILD_DIR)/Extras/GrowlMail
-	mkdir -p $(BUILD_DIR)/Extras/growlnotify
-	cp ../Extras/growlnotify/build/growlnotify $(BUILD_DIR)/Extras/growlnotify
-	cp ../Extras/growlnotify/growlnotify.1 $(BUILD_DIR)/Extras/growlnotify
-	cp ../Extras/growlnotify/install.sh $(BUILD_DIR)/Extras/growlnotify
-	cp ../Extras/growlnotify/README.txt $(BUILD_DIR)/Extras/growlnotify
-	mkdir -p $(BUILD_DIR)/Extras/GrowlSafari
-	cp -R GrowlSafari.mpkg $(BUILD_DIR)/Extras/GrowlSafari
-	cp -R ../Extras/GrowlSafari/README.txt $(BUILD_DIR)/Extras/GrowlSafari
-	mkdir -p $(BUILD_DIR)/Extras/GrowlTunes
-	cp -R ../Extras/GrowlTunes/build/GrowlTunes.app $(BUILD_DIR)/Extras/GrowlTunes
-	cp -R ../Extras/GrowlTunes/ReadMe.rtfd $(BUILD_DIR)/Extras/GrowlTunes
-	mkdir -p $(BUILD_DIR)/Extras/HardwareGrowler
-	cp -R ../Extras/HardwareGrowler/build/HardwareGrowler.app $(BUILD_DIR)/Extras/HardwareGrowler
-	cp ../Extras/HardwareGrowler/readme.txt $(BUILD_DIR)/Extras/HardwareGrowler
+	mkdir -p $(GROWL_DIR)/Extras
+	mkdir -p $(GROWL_DIR)/Extras/growlctl
+	cp ../Extras/growlctl/build/growlctl $(GROWL_DIR)/Extras/growlctl
+	cp ../Extras/growlctl/growlctl.1 $(GROWL_DIR)/Extras/growlctl
+	cp ../Extras/growlctl/install.sh $(GROWL_DIR)/Extras/growlctl
+	mkdir -p $(GROWL_DIR)/Extras/GrowlDict
+	cp -R ../Extras/GrowlDict/build/GrowlDict.app $(GROWL_DIR)/Extras/GrowlDict
+	cp ../Extras/GrowlDict/README.txt $(GROWL_DIR)/Extras/GrowlDict
+	mkdir -p $(GROWL_DIR)/Extras/GrowlMail
+	cp -R ../Extras/GrowlMail/build/GrowlMail.mailbundle $(GROWL_DIR)/Extras/GrowlMail
+	cp ../Extras/GrowlMail/GrowlMail\ Installation.rtf $(GROWL_DIR)/Extras/GrowlMail
+	mkdir -p $(GROWL_DIR)/Extras/growlnotify
+	cp ../Extras/growlnotify/build/growlnotify $(GROWL_DIR)/Extras/growlnotify
+	cp ../Extras/growlnotify/growlnotify.1 $(GROWL_DIR)/Extras/growlnotify
+	cp ../Extras/growlnotify/install.sh $(GROWL_DIR)/Extras/growlnotify
+	cp ../Extras/growlnotify/README.txt $(GROWL_DIR)/Extras/growlnotify
+	mkdir -p $(GROWL_DIR)/Extras/GrowlSafari
+	cp -R GrowlSafari.mpkg $(GROWL_DIR)/Extras/GrowlSafari
+	cp -R ../Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
+	mkdir -p $(GROWL_DIR)/Extras/GrowlTunes
+	cp -R ../Extras/GrowlTunes/build/GrowlTunes.app $(GROWL_DIR)/Extras/GrowlTunes
+	cp -R ../Extras/GrowlTunes/ReadMe.rtfd $(GROWL_DIR)/Extras/GrowlTunes
+	mkdir -p $(GROWL_DIR)/Extras/HardwareGrowler
+	cp -R ../Extras/HardwareGrowler/build/HardwareGrowler.app $(GROWL_DIR)/Extras/HardwareGrowler
+	cp ../Extras/HardwareGrowler/readme.txt $(GROWL_DIR)/Extras/HardwareGrowler
 	# copy the scripts and bindings
-	cp -R ../Scripts $(BUILD_DIR)
-	cp -R ../Bindings $(BUILD_DIR)
+	cp -R ../Scripts $(GROWL_DIR)
+	cp -R ../Bindings $(SDK_DIR)
 	# remove the AppleScript binding
-	rm -rf $(BUILD_DIR)/Bindings/applescript%
+	rm -rf $(SDK_DIR)/Bindings/applescript%
 	# remove some symlinks
-	rm $(BUILD_DIR)/Bindings/realbasic/GrowlDefines.h
-	rm $(BUILD_DIR)/Bindings/tcl/GrowlDefines.h
-	rm $(BUILD_DIR)/Bindings/tcl/GrowlApplicationBridge.h
-	rm $(BUILD_DIR)/Bindings/tcl/GrowlApplicationBridge.m
+	rm $(SDK_DIR)/Bindings/realbasic/GrowlDefines.h
+	rm $(SDK_DIR)/Bindings/tcl/GrowlDefines.h
+	rm $(SDK_DIR)/Bindings/tcl/GrowlApplicationBridge.h
+	rm $(SDK_DIR)/Bindings/tcl/GrowlApplicationBridge.m
 	# delete svn and backup files
 	find $(BUILD_DIR) -name ".svn" -exec rm -rf {} \; -prune
 	find $(BUILD_DIR) -name "*~" -delete
 	find $(BUILD_DIR) -name ".DS_Store" -delete
-	# open FS projects
-	open $(BUILD_DIR)/*.fsproj
-	# build FS projects
-	osascript build-dmg.scpt
-
-finalize:
-	./compress-dmg.sh "$(BUILD_DIR)/$(RELEASE_NAME)"
+	# make disk images
+	./make-diskimage "$(BUILD_DIR)/$(RELEASE_NAME).dmg" $(GROWL_DIR) Growl -null- DS_Store ../images/dmg/growl07DMGBackground.png
+	./make-diskimage "$(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg" $(SDK_DIR) Growl-SDK -null- DS_Store_SDK ../images/dmg/growlSDK.png
 
