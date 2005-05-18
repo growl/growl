@@ -81,7 +81,18 @@ release:
 	find $(BUILD_DIR) -name ".svn" -exec rm -rf {} \; -prune
 	find $(BUILD_DIR) -name "*~" -delete
 	find $(BUILD_DIR) -name ".DS_Store" -delete
-	# make disk images
-	./make-diskimage "$(BUILD_DIR)/$(RELEASE_NAME).dmg" $(GROWL_DIR) Growl -null- DS_Store ../images/dmg/growl07DMGBackground.png
-	./make-diskimage "$(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg" $(SDK_DIR) Growl-SDK -null- DS_Store_SDK ../images/dmg/growlSDK.png
+	# make Growl disk image
+	cp DS_Store $(GROWL_DIR)/.DS_Store
+	mkdir -p $(GROWL_DIR)/.background
+	cp ../images/dmg/growl07DMGBackground.png $(GROWL_DIR)/.background
+	hdiutil create -srcfolder $(GROWL_DIR) -volname Growl -format UDZO $(BUILD_DIR)/tmp.dmg
+	hdiutil convert -format UDZO -imagekey zlib-level=9 -o "$(BUILD_DIR)/$(RELEASE_NAME).dmg" $(BUILD_DIR)/tmp.dmg
+	rm $(BUILD_DIR)/tmp.dmg
+	# make SDK disk image
+	cp DS_Store_SDK $(SDK_DIR)/.DS_Store
+	mkdir -p $(SDK_DIR)/.background
+	cp ../images/dmg/growlSDK.png $(SDK_DIR)/.background
+	hdiutil create -srcfolder $(SDK_DIR) -volname Growl-SDK -format UDZO "$(BUILD_DIR)/tmp.dmg"
+	hdiutil convert -format UDZO -imagekey zlib-level=9 -o "$(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg" $(BUILD_DIR)/tmp.dmg
+	rm $(BUILD_DIR)/tmp.dmg
 
