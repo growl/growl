@@ -1,7 +1,7 @@
 # These must be absolute paths
 BUILD_DIR="$(CURDIR)/build"
 RELEASE_DIR="$(CURDIR)"
-RELEASE_NAME="Growl-0.7b6"
+RELEASE_NAME="Growl-0.7b7"
 
 # What to do before running this script:
 # - Set RELEASE_NAME
