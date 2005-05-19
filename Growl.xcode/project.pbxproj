@@ -347,12 +347,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95D1659E0834DB5200D996B2;
-					ProjectRef = 95D1659D0834DB5200D996B2;
-				},
-				{
 					ProductGroup = 95D165B70834DB7500D996B2;
 					ProjectRef = 95D165B60834DB7500D996B2;
+				},
+				{
+					ProductGroup = 95D1659E0834DB5200D996B2;
+					ProjectRef = 95D1659D0834DB5200D996B2;
 				},
 			);
 			targets = (
@@ -538,7 +538,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -725,7 +724,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -968,7 +966,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1202,7 +1199,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1445,7 +1441,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1643,7 +1638,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -2225,18 +2219,6 @@
 			settings = {
 			};
 		};
-		343350E1079276A100C84B15 = {
-			fileRef = 83282741073A6BD70044A959;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		343350E5079276A700C84B15 = {
-			fileRef = 83282741073A6BD70044A959;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		343353E80792F7CF00C84B15 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2495,8 +2477,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				343350E00792769900C84B15,
-				343350E1079276A100C84B15,
 				343354B30792F84B00C84B15,
+				957B5028083D155000F562B8,
+				957B5029083D155100F562B8,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2517,7 +2500,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -2672,9 +2654,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3433502B0792769000C84B15,
-				343350E5079276A700C84B15,
 				343354EE0792FC2000C84B15,
 				074C26F6082E536E00A5D541,
+				957B502A083D155600F562B8,
+				957B502B083D155900F562B8,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2697,7 +2680,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -2948,12 +2930,6 @@
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
-		83282742073A6BD70044A959 = {
-			fileRef = 83282741073A6BD70044A959;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		83282746073A6C110044A959 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -2996,7 +2972,6 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -3012,13 +2987,10 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Core/Resources/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
-				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_STYLE = Bundle;
+				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_LDFLAGS = "-bundle -twolevel_namespace";
 				PRODUCT_NAME = Growl;
 				WARNING_CFLAGS = "-W -Wall";
 				WRAPPER_EXTENSION = prefPane;
@@ -3089,11 +3061,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AEE179D0702C4960024B1A0,
-				83282742073A6BD70044A959,
 				83282747073A6C110044A959,
 				95E678F907511471002BF4E6,
 				93FCE57E0812D93B00320D8E,
 				95AFFE20082BCDFB0033A7FF,
+				957B4F75083D14FB00F562B8,
+				957B4F76083D14FE00F562B8,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3331,6 +3304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95075BC80817FF0800D862A5,
+				957B4F3A083D139500F562B8,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3364,7 +3338,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Core/Resources/MenuExtra/MenuExtra-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				PREBINDING = NO;
 				PRODUCT_NAME = GrowlMenu;
 				WARNING_CFLAGS = "-W -Wall";
@@ -4403,6 +4376,60 @@
 			settings = {
 			};
 		};
+		957B4F3A083D139500F562B8 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		957B4F6A083D147200F562B8 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		957B4F6B083D147400F562B8 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		957B4F75083D14FB00F562B8 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		957B4F76083D14FE00F562B8 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		957B5028083D155000F562B8 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		957B5029083D155100F562B8 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		957B502A083D155600F562B8 = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		957B502B083D155900F562B8 = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95812DB808118FB9004FF8F5 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -5061,7 +5088,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -5746,7 +5772,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDF09BC6080AC9ED006F4172,
-				DDF09BC7080AC9ED006F4172,
+				957B4F6A083D147200F562B8,
+				957B4F6B083D147400F562B8,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5763,7 +5790,6 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -5782,11 +5808,7 @@
 				INFOPLIST_FILE = "Prefpane TestHarness/PrefPaneTesting-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = PrefpaneTesting;
-				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-W -Wall";
 			};
 			comments = "This target allows you to execute and debug the prefpane within xcode.";
@@ -5916,12 +5938,6 @@
 		};
 		DDF09BC6080AC9ED006F4172 = {
 			fileRef = 83282746073A6C110044A959;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDF09BC7080AC9ED006F4172 = {
-			fileRef = 83282741073A6BD70044A959;
 			isa = PBXBuildFile;
 			settings = {
 			};
