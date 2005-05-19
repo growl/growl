@@ -1,8 +1,0 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = growlBridgeDelegate; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = iChatListener; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
-    ); 
-    IBVersion = 1; 
-}
