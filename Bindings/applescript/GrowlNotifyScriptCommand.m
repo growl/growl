@@ -79,6 +79,16 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 	if (sticky)
 		[noteDict setObject:sticky   forKey:GROWL_NOTIFICATION_STICKY];
 
+	NSAppleEventDescriptor *addrDesc = [[self appleEvent] attributeDescriptorForKeyword:keyAddressAttr];
+	NSData *psnData = [[addrDesc coerceToDescriptorType:typeProcessSerialNumber] data];
+	if (psnData) {
+		pid_t pid;
+		GetProcessPID([psnData bytes], &pid);
+		NSNumber *pidNumber = [[NSNumber alloc] initWithInt:pid];
+		[noteDict setObject:pidNumber forKey:GROWL_APP_PID];
+		[pidNumber release];
+	}
+
 	@try {
 		NSImage *icon = nil;
 		NSURL   *url = nil;

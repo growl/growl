@@ -61,8 +61,8 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 	defaultNotifications = temp;
 
 	NSMutableDictionary *registerDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		appName, GROWL_APP_NAME,
-		allNotifications, GROWL_NOTIFICATIONS_ALL,
+		appName,              GROWL_APP_NAME,
+		allNotifications,     GROWL_NOTIFICATIONS_ALL,
 		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
 	[defaultNotifications release];
