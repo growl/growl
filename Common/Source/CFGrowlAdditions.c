@@ -461,13 +461,13 @@ CFURLRef createURLByCopyingFileFromURLToDirectoryURL(CFURLRef file, CFURLRef des
 		 * 10.2 has a problem with weak symbols in frameworks so we use
 		 * MAC_OS_X_VERSION_MIN_REQUIRED >= 10.3.
 		 */
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4 && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#if defined(NSAppKitVersionNumber10_3) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4 && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
 		if (FSCopyObjectSync) {
 			err = FSCopyObjectSync(&fileRef, &destRef, /*destName*/ NULL, &destFileRef, kFSFileOperationOverwrite);
 		} else {
 #endif
 			err = GrowlCopyObjectSync(&fileRef, &destRef, &destFileRef);
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4 && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+#if defined(NSAppKitVersionNumber10_3) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4 && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
 		}
 #endif
 
