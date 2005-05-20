@@ -15,6 +15,7 @@
 #include <alloca.h>
 #include <unistd.h>
 #include <limits.h>
+#include <sys/wait.h>
 
 //see GrowlApplicationBridge-Carbon.c for information about why NSLog is declared here.
 
