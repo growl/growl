@@ -15,7 +15,6 @@
 	imageRect.origin.x = 0.0f;
 	imageRect.origin.y = 0.0f;
 	imageRect.size = [self size];
-	NSLog(@"iconSize=%@ rectSize=%@", NSStringFromSize(imageRect.size), NSStringFromSize(targetRect.size));
 	// make sure the icon isn't too large. If it is, scale it down
 	if (imageRect.size.width > targetRect.size.width || imageRect.size.height > targetRect.size.height) {
 		// scale the image appropriately
