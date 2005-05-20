@@ -226,20 +226,6 @@
 			settings = {
 			};
 		};
-		074C26F5082E536E00A5D541 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = QuickTime.framework;
-			path = /System/Library/Frameworks/QuickTime.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
-		};
-		074C26F6082E536E00A5D541 = {
-			fileRef = 074C26F5082E536E00A5D541;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		0790135207D932140023B640 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -347,12 +333,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95D1659E0834DB5200D996B2;
-					ProjectRef = 95D1659D0834DB5200D996B2;
-				},
-				{
 					ProductGroup = 95D165B70834DB7500D996B2;
 					ProjectRef = 95D165B60834DB7500D996B2;
+				},
+				{
+					ProductGroup = 95D1659E0834DB5200D996B2;
+					ProjectRef = 95D1659D0834DB5200D996B2;
 				},
 			);
 			targets = (
@@ -1952,7 +1938,6 @@
 //104
 		1058C7ACFEA557BF11CA2CBB = {
 			children = (
-				074C26F5082E536E00A5D541,
 				950F79C5080EEE2B00CC5F62,
 				95AA8653080065DE0045589D,
 				0AEE179C0702C4960024B1A0,
@@ -2657,7 +2642,6 @@
 			files = (
 				3433502B0792769000C84B15,
 				343354EE0792FC2000C84B15,
-				074C26F6082E536E00A5D541,
 				957B502A083D155600F562B8,
 				957B502B083D155900F562B8,
 			);
