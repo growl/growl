@@ -99,7 +99,7 @@ release:
 	cp DS_Store $(GROWL_DIR)/.DS_Store
 	mkdir $(GROWL_DIR)/.background
 	cp ../images/dmg/growl07DMGBackground.png $(GROWL_DIR)/.background
-	hdiutil create -srcfolder $(GROWL_DIR) -volname Growl -format UDZO $(BUILD_DIR)/tmp.dmg
+	hdiutil create -srcfolder $(GROWL_DIR) -volname Growl -fs HFS+ -format UDZO $(BUILD_DIR)/tmp.dmg
 	hdiutil convert -format UDZO -imagekey zlib-level=9 -o "$(BUILD_DIR)/$(RELEASE_NAME).dmg" $(BUILD_DIR)/tmp.dmg
 	rm $(BUILD_DIR)/tmp.dmg
 	@# make SDK disk image
