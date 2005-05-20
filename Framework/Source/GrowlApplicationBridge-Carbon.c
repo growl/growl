@@ -167,13 +167,101 @@ struct Growl_Delegate *Growl_GetDelegate(void) {
 
 #pragma mark -
 
+#ifdef GAB_USES_AE
+static OSErr AEPutParamString(AppleEvent *event, AEKeyword keyword, CFStringRef stringRef) {
+	UInt8 *textBuf;
+	CFIndex length, maxBytes, actualBytes;
+
+	length = CFStringGetLength(stringRef); 
+	maxBytes = CFStringGetMaximumSizeForEncoding(length,
+												 kCFStringEncodingUTF8); 
+	textBuf = malloc(maxBytes);
+	if (textBuf) {
+		CFStringGetBytes(stringRef, CFRangeMake(0, length),
+						 kCFStringEncodingUnicode, 0, true,
+						 (UInt8 *) textBuf, maxBytes, &actualBytes);
+
+		OSErr err = AEPutParamPtr(event, keyword,
+								  typeUnicodeText, textBuf, actualBytes);
+		free(textBuf);
+		return err;
+	} else
+		return memFullErr;
+}
+#endif
+
 void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
 	if (growlLaunched) {
+#ifdef GAB_USES_AE
+		OSErr err;
+		AppleEvent postNotificationEvent;
+		AppleEvent replyEvent;
+		AEDesc targetGHA;
+		OSType ghaSignature = 'GRRR';
+		// could use typeApplicationBundleID on 10.3 and later
+		err = AECreateDesc(/*typeCode*/ typeApplSignature,
+						   /*dataPtr*/ &ghaSignature,
+						   /*dataSize*/ sizeof(ghaSignature),
+						   /*result*/ &targetGHA);
+		if (err != noErr) {
+		   NSLog(CFSTR("GrowlApplicationBridge: AECreateDesc returned %li"), (long)err);
+		}
+		err = AECreateAppleEvent(/*theAEEventClass*/ 'noti',
+								 /*theAEEventID*/ 'fygr',
+								 /*target*/ &targetGHA,
+								 /*returnID*/ kAutoGenerateReturnID,
+								 /*transactionID*/ kAnyTransactionID,
+								 /*result*/ &postNotificationEvent);
+		if (err != noErr) {
+			NSLog(CFSTR("GrowlApplicationBridge: AECreateAppleEvent returned %li"), (long)err);
+		}
+		AEDisposeDesc(&targetGHA);
+		if (err != noErr) {
+			NSLog(CFSTR("GrowlApplicationBridge: AEDisposeDesc returned %li"), (long)err);
+		}
+
+		Boolean sticky;
+		int priority;
+		CFNumberGetValue(CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_STICKY), kCFNumberCharType, &sticky);
+		CFNumberGetValue(CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_PRIORITY), kCFNumberIntType, &priority);
+		err = AEPutParamString(&postNotificationEvent, 'appl', CFDictionaryGetValue(userInfo, GROWL_APP_NAME));
+		if (err != noErr) {
+			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamString(GROWL_APP_NAME) returned %li"), (long)err);
+		}
+		err = AEPutParamString(&postNotificationEvent, 'desc', CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_DESCRIPTION));
+		if (err != noErr) {
+			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamString(GROWL_NOTIFICATION_DESCRIPTION) returned %li"), (long)err);
+		}
+		err = AEPutParamString(&postNotificationEvent, 'name', CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_NAME));
+		if (err != noErr) {
+			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamString(GROWL_NOTIFICATION_NAME) returned %li"), (long)err);
+		}
+		err = AEPutParamString(&postNotificationEvent, 'titl', CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_TITLE));
+		if (err != noErr) {
+			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamString(GROWL_NOTIFICATION_TITLE) returned %li"), (long)err);
+		}
+		err = AEPutParamPtr(&postNotificationEvent, 'prio', typeSInt32, &priority, sizeof(priority));
+		if (err != noErr) {
+			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamPtr(GROWL_NOTIFICATION_PRIORITY) returned %li"), (long)err);
+		}
+		err = AEPutParamPtr(&postNotificationEvent, 'stck', sticky ? typeTrue : typeFalse, &sticky, sizeof(sticky));
+		if (err != noErr) {
+			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamPtr(GROWL_NOTIFICATION_STICKY) returned %li"), (long)err);
+		}
+		err = AESendMessage(/*event*/ &postNotificationEvent,
+							/*reply*/ &replyEvent,
+							/*sendMode*/ kAENoReply,
+							/*timeOutInTicks*/ kAEDefaultTimeout);
+		if (err != noErr) {
+			NSLog(CFSTR("GrowlApplicationBridge: AESendMessage returned %li"), (long)err);
+		}
+#else
 		CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
 		                                     GROWL_NOTIFICATION,
 		                                     /*object*/ NULL,
 		                                     userInfo,
 		                                     /*deliverImmediately*/ false);
+#endif
 #ifdef GROWL_WITH_INSTALLER
 	} else {
 		/*if Growl launches, and the user hasn't already said NO to installing

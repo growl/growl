@@ -8,9 +8,11 @@ all: bundle
 BUNDLE_NAME=GrowlCarbon.app
 
 bundle: growl-carbon
-	mkdir -p $(BUNDLE_NAME)/Contents/MacOS
-	mkdir -p $(BUNDLE_NAME)/Contents/Resources
-	mkdir -p $(BUNDLE_NAME)/Contents/Frameworks
+	mkdir $(BUNDLE_NAME)
+	mkdir $(BUNDLE_NAME)/Contents
+	mkdir $(BUNDLE_NAME)/Contents/MacOS
+	mkdir $(BUNDLE_NAME)/Contents/Resources
+	mkdir $(BUNDLE_NAME)/Contents/Frameworks
 	echo "APPL????" > $(BUNDLE_NAME)/Contents/PkgInfo
 	cp growl-carbon $(BUNDLE_NAME)/Contents/MacOS
 	cp Info.plist $(BUNDLE_NAME)/Contents
