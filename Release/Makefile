@@ -128,15 +128,11 @@ release:
 	cp DS_Store $(GROWL_DIR)/.DS_Store
 	mkdir $(GROWL_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growl07DMGBackground.png $(GROWL_DIR)/.background
-	hdiutil create -srcfolder $(GROWL_DIR) -volname Growl -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDZO $(BUILD_DIR)/tmp.dmg
-	hdiutil convert -format UDZO -imagekey zlib-level=9 -o "$(BUILD_DIR)/$(RELEASE_NAME).dmg" $(BUILD_DIR)/tmp.dmg
-	rm $(BUILD_DIR)/tmp.dmg
+	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(GROWL_DIR) Growl dmg_growl.scpt
 	@# make SDK disk image
 	cp DS_Store_SDK $(SDK_DIR)/.DS_Store
 	mkdir $(SDK_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlSDK.png $(SDK_DIR)/.background
-	hdiutil create -srcfolder $(SDK_DIR) -volname Growl-SDK -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDZO "$(BUILD_DIR)/tmp.dmg"
-	hdiutil convert -format UDZO -imagekey zlib-level=9 -o "$(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg" $(BUILD_DIR)/tmp.dmg
-	rm $(BUILD_DIR)/tmp.dmg
+	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg $(SDK_DIR) Growl-SDK dmg_sdk.scpt
 	@echo Build finished
 
