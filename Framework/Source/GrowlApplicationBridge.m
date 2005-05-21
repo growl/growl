@@ -208,6 +208,22 @@ static BOOL		registerWhenGrowlIsReady = NO;
 }
 
 + (void) notifyWithDictionary:(NSDictionary *)userInfo {
+	//clean up things that need to be cleaned up.
+	NSMutableDictionary *mUserInfo = [userInfo mutableCopy];
+
+	Class NSImageClass = [NSImage class];
+	//notification icon.
+	NSImage *icon = [mUserInfo objectForKey:GROWL_NOTIFICATION_ICON];
+	if(icon && [icon isKindOfClass:NSImageClass])
+		[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
+	//per-notification application icon.
+	icon = [mUserInfo objectForKey:GROWL_NOTIFICATION_APP_ICON];
+	if(icon && [icon isKindOfClass:NSImageClass])
+		[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_APP_ICON];
+
+	userInfo = [mUserInfo autorelease];
+
+	//post it.
 	if (growlLaunched) {
 		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
 		if (connection) {
@@ -222,7 +238,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			NS_ENDHANDLER
 		} else {
 			//Post to Growl via NSDistributedNotificationCenter
-			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDNC");
+			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDistributedNotificationCenter");
 			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																		   object:nil
 																		 userInfo:userInfo
@@ -361,8 +377,12 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	if ((!keys) || [keys containsObject:GROWL_APP_ICON]) {
 		if (![mRegDict objectForKey:GROWL_APP_ICON]) {
-			if (!appIconData)
-				appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
+			if (!appIconData) {
+				appIconData = [self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict];
+				if(appIconData && [appIconData isKindOfClass:[NSImage class]])
+					appIconData = [(NSImage *)appIconData TIFFRepresentation];
+				appIconData = [appIconData retain];
+			}
 			if (appIconData) {
 				[mRegDict setObject:appIconData
 							 forKey:GROWL_APP_ICON];
@@ -498,7 +518,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			NS_ENDHANDLER
 		} else {
 			//Post to Growl via NSDistributedNotificationCenter
-			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDNC");
+			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDistributedNotificationCenter");
 			[distCenter postNotificationName:GROWL_NOTIFICATION
 									  object:nil
 									userInfo:noteDict
