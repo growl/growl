@@ -65,6 +65,7 @@ release:
 	mkdir $(GROWL_DIR)
 	@# copy uninstaller
 	cp -R "Uninstall Growl.app" $(GROWL_DIR)
+	/Developer/Tools/SetFile -a E $(GROWL_DIR)/Uninstall\ Growl.app
 	@# copy webloc files
 	cp "Growl Documentation.webloc" "Growl version history.webloc" $(GROWL_DIR)
 	@# hide extensions of webloc files
