@@ -26,18 +26,13 @@ hdiutil create -srcfolder $SRC_FOLDER -volname $VOLUME_NAME -fs HFS+ -fsargs "-c
 
 # mount it
 echo "mounting disk image"
-MOUNT_DIR=dmg-temp
-mkdir -p $MOUNT_DIR
-DEV_NAME=`hdiutil attach -readwrite -noverify -noautoopen -mountpoint $MOUNT_DIR $DMG_TEMP_NAME | egrep '^/dev/' | sed 1q | awk '{print $1}'`
+MOUNT_DIR=/Volumes/$VOLUME_NAME
+DEV_NAME=`hdiutil attach -readwrite -noverify -noautoopen $DMG_TEMP_NAME | egrep '^/dev/' | sed 1q | awk '{print $1}'`
 
 # run applescript
 if [ ! -z "${APPLESCRIPT}" -a "${APPLESCRIPT}" != "-null-" ]; then
 	osascript $APPLESCRIPT
 fi
-
-# remove trash directory
-chmod 0700 ${MOUNT_DIR}/.Trashes
-rm -rf ${MOUNT_DIR}/.Trashes
 
 # make sure it's not world writeable
 echo "fixing permissions"
@@ -51,7 +46,6 @@ fi
 # unmount
 echo "unmounting disk image"
 hdiutil detach $DEV_NAME
-rm -rf $MOUNT_DIR
 
 # compress image
 echo "compressing disk image"
