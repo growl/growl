@@ -126,12 +126,10 @@ release:
 	find $(BUILD_DIR) -name ".svn" -exec rm -rf {} \; -prune
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -delete
 	@# make Growl disk image
-	cp DS_Store $(GROWL_DIR)/.DS_Store
 	mkdir $(GROWL_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growl07DMGBackground.png $(GROWL_DIR)/.background
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(GROWL_DIR) Growl dmg_growl.scpt
 	@# make SDK disk image
-	cp DS_Store_SDK $(SDK_DIR)/.DS_Store
 	mkdir $(SDK_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growlSDK.png $(SDK_DIR)/.background
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME)-SDK.dmg $(SDK_DIR) Growl-SDK dmg_sdk.scpt
