@@ -21,7 +21,7 @@
 	<key>NSMainNibFile</key>
 	<string>GrowlPref</string>
 	<key>NSPrefPaneIconFile</key>
-	<string>growl-claw128px.tiff</string>
+	<string>growl-claw32.tiff</string>
 	<key>NSPrefPaneIconLabel</key>
 	<string>Growl</string>
 	<key>NSPrincipalClass</key>

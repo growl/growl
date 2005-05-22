@@ -402,7 +402,7 @@
 				9532B0B907CE651F0028B2F1,
 				8D202CF70486D31800D8A456,
 				089C167DFE841241C02AAC07,
-				DD3AD65B07E9DF6E00E9A0A4,
+				950627A40840D34900C01CD2,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -3003,8 +3003,8 @@
 				CB910DA7074E0A3A00278FC5,
 				3494427507BAF6C4000F2A03,
 				9532B0F807CE651F0028B2F1,
-				DD3AD65C07E9DF6E00E9A0A4,
 				937E64320817193800AEC1C6,
+				950627A50840D34900C01CD2,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3219,6 +3219,20 @@
 		};
 		950568E60812C2960096EC5C = {
 			fileRef = 950568E40812C2960096EC5C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		950627A40840D34900C01CD2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.tiff;
+			name = "growl-claw32.tiff";
+			path = "Core/Resources/growl-claw32.tiff";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		950627A50840D34900C01CD2 = {
+			fileRef = 950627A40840D34900C01CD2;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -5735,20 +5749,6 @@
 //DD2
 //DD3
 //DD4
-		DD3AD65B07E9DF6E00E9A0A4 = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.tiff;
-			name = "growl-claw128px.tiff";
-			path = "Core/Resources/growl-claw128px.tiff";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		DD3AD65C07E9DF6E00E9A0A4 = {
-			fileRef = DD3AD65B07E9DF6E00E9A0A4;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DDB6462607DE034800807F8D = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
