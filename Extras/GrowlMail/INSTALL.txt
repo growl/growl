@@ -15,7 +15,13 @@ Installing GrowlMail
 --------------------
 1. Quit Apple Mail
 2. Move the GrowlMail.mailbundle package into either ~/Library/Mail/Bundles/ or /Library/Mail/Bundles/.
-3. Run these two commands in a terminal:
+3. If you are using Mail 2.0.1 which comes with Mac OS X 10.4.1,
+run these two commands in a terminal:
 
-	defaults write com.apple.mail EnableBundles -bool True
-	defaults write com.apple.mail BundleCompatibilityVersion -int 1
+	defaults write com.apple.mail EnableBundles 1
+	defaults write com.apple.mail BundleCompatibilityVersion 2
+
+for older versions of Mail, run these two commands:
+
+	defaults write com.apple.mail EnableBundles 1
+	defaults write com.apple.mail BundleCompatibilityVersion 1
