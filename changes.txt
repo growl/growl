@@ -1,3 +1,62 @@
+0.7
+
+Growl Core
+- Added a status item (#23)
+- Growl sends notifications when an applications registers (#112)
+- Passive version check (#62)
+- Added an option to log all notifications (#27)
+- Squelch mode (#26)
+- Networking support
+- Bonjour support (#21)
+
+Preference Pane
+- Ability to enable or disable click handlers (#143)
+- New about tab (#139)
+- Application search field (#41)
+- New preview button (#32)
+
+Display Plugins
+- New display: WebKit (#2). See http://growl.info/documentation/webkit.php for more information.
+- New display: Brushed (#5)
+- Bezel: new option for fading/shrinking (#170)
+- Bezel: two new variants (#30)
+- More customizable colors (#86, #34)
+- MusicVideo: new effect when a queued notification fades in (#125)
+- Mouse over effect for Bezel, Brushed, Bubbles and Smoke (#144)
+- Hold non sticky notifications on screen with mouseover (#133)
+- Multimonitor support (#87)
+- Smaller notifications without title or description (#56)
+- Duration sliders (#54)
+- Opacity sliders (#44, #74)
+
+Extras
+- Updated growliChat (#189)
+- New automatic summary option for GrowlMail
+- Fixed summary mode (#100)
+- GrowlMail is now compatible with Mail 2.0 (Tiger)
+- Fixed GrowlMail image fetching from Address Book (#198)
+- Fixed GrowlTunes showing 5 stars for unrated tracks (#127)
+- GrowlSafari now sends different notifications for short and long downloads (#106)
+- GrowlSafari can now send notifications for RSS feed updates
+- growlnotify can wait until the notification is clicked or timed out (#42)
+
+Developers and Scripters
+- Growl Core
+	- Passive registration (#70)
+	- Coalescing support (#33)
+	- Get GrowlHelperApp version number via the command line (#29)
+	- Applications can now specify a preferred display plugin (#126)
+- Framework
+	- Fixed click notifiations using the Carbon API (#152)
+	- Easier functions for registering manually (#91)
+	- Only return click & timeout notification to the application requesting it (#203)
+- Bindings
+	- Sticky support for the Java bindings (#72)
+	- Icon support for the Perl bindings (#6)
+- Documentation
+	- More sample code (#82)
+
+
 0.6.2
 
 General
