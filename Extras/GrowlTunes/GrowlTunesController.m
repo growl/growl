@@ -520,8 +520,8 @@ enum {
 		if (statusItem) {
 			[statusItem setMenu:[self statusItemMenu]];
 			[statusItem setHighlightMode:YES];
-			[statusItem setImage:[NSImage imageNamed:@"growlTunes.tif"]];
-			[statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.tif"]];
+			[statusItem setImage:[NSImage imageNamed:@"growlTunes.png"]];
+			[statusItem setAlternateImage:[NSImage imageNamed:@"growlTunes-selected.png"]];
 			[statusItem setToolTip:NSLocalizedString(@"Status item tooltip", /*comment*/ nil)];
 		}
 	}

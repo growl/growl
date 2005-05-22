@@ -491,10 +491,10 @@
 		};
 		29B97317FDCFA39411CA2CEA = {
 			children = (
+				950627B20840D44600C01CD2,
+				950627B30840D44600C01CD2,
 				07A2B52907FBDCAD009917B6,
 				DD5BBFF907B7D50400048F1D,
-				4C29096106A8CB8A00FDB6CE,
-				4C29096206A8CB8A00FDB6CE,
 				CB57B4CA0711E503001968B0,
 				0A5ECB46073444AB0032ED97,
 				8D1107310486CEB800E47090,
@@ -596,42 +596,6 @@
 //4A2
 //4A3
 //4A4
-//4C0
-//4C1
-//4C2
-//4C3
-//4C4
-		4C29096106A8CB8A00FDB6CE = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.tiff;
-			path = "growlTunes-selected.tif";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		4C29096206A8CB8A00FDB6CE = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.tiff;
-			path = growlTunes.tif;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		4C29096306A8CB8B00FDB6CE = {
-			fileRef = 4C29096106A8CB8A00FDB6CE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		4C29096406A8CB8B00FDB6CE = {
-			fileRef = 4C29096206A8CB8A00FDB6CE;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-//4C0
-//4C1
-//4C2
-//4C3
-//4C4
 //520
 //521
 //522
@@ -728,13 +692,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072B0486CEB800E47090,
-				4C29096306A8CB8B00FDB6CE,
-				4C29096406A8CB8B00FDB6CE,
 				CB57B4CB0711E503001968B0,
 				0A5ECB47073444AB0032ED97,
 				07B1BAB6077D59B200474D89,
 				DD5BBFFA07B7D50400048F1D,
 				07A2B52A07FBDCAD009917B6,
+				950627B40840D44600C01CD2,
+				950627B50840D44600C01CD2,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -805,6 +769,32 @@
 //952
 //953
 //954
+		950627B20840D44600C01CD2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = "growlTunes-selected.png";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		950627B30840D44600C01CD2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = growlTunes.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		950627B40840D44600C01CD2 = {
+			fileRef = 950627B20840D44600C01CD2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		950627B50840D44600C01CD2 = {
+			fileRef = 950627B30840D44600C01CD2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95100E8B078867E5005DBB70 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
