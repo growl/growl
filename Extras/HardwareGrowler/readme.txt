@@ -19,8 +19,7 @@ Bugs:
 	I can't get the name of many FireWire devices 
 		- it may be that they don't even have them.
 
-	It should probably run without appearing in the dock.
+	It should probably have the option to run without appearing in the dock.
 
-	It has a terrible icon.
+	The icon isn't the greatest.
 	
-	It should probably have some kind of preferences UI where the user can disable start-up notifications. ("OHCI Root Hub Simulation")

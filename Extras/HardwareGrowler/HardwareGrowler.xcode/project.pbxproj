@@ -7,12 +7,12 @@
 	objects = {
 		080E96DDFE201D6D7F000001 = {
 			children = (
+				DD54996E07BA5E420010BE54,
+				DD54996F07BA5E420010BE54,
 				958AB97207C6A20100F56B45,
 				958AB97307C6A20100F56B45,
 				DDF9B42707BBE38A0007B5B7,
 				DDF9B42807BBE38A0007B5B7,
-				DD54996E07BA5E420010BE54,
-				DD54996F07BA5E420010BE54,
 				DDE55D2507BAEDE2000631AC,
 				DDE55D2607BAEDE2000631AC,
 				DDF9B2AD07BBD4600007B5B7,
@@ -189,6 +189,7 @@
 		29B97318FDCFA39411CA2CEA = {
 			children = (
 				29B97319FDCFA39411CA2CEA,
+				DD43C6EF0840C0100022A0D1,
 			);
 			isa = PBXVariantGroup;
 			name = MainMenu.nib;
@@ -589,6 +590,14 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		DD43C6EF0840C0100022A0D1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = German.lproj/MainMenu.nib;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		DD54996E07BA5E420010BE54 = {
 			fileEncoding = 30;

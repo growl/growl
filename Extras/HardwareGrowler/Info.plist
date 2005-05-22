@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string>hwGrowlerIcon</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.monkeyfood.hardwaregrowler</string>
+	<string>com.growl.hardwaregrowler</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
