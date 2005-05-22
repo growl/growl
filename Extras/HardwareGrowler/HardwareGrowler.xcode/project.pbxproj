@@ -168,13 +168,13 @@
 		};
 		29B97317FDCFA39411CA2CEA = {
 			children = (
+				950626460840CB8200C01CD2,
 				DDF9B81007BC20630007B5B7,
 				DD1E135B07C923FD005BD5FC,
 				DD1E113E07C7558B005BD5FC,
 				DDF9B70607BC1D5D0007B5B7,
 				DDF9B6FA07BC1C800007B5B7,
 				DDF9B6D007BC16E30007B5B7,
-				DDF9B6B107BC10C80007B5B7,
 				DDF9B6B207BC10C80007B5B7,
 				8D1107310486CEB800E47090,
 				089C165CFE840E0CC02AAC07,
@@ -349,7 +349,6 @@
 				DDF9B2FF07BBD9020007B5B7,
 				DDF9B42907BBE38A0007B5B7,
 				DDF9B63907BC07B30007B5B7,
-				DDF9B6B307BC10C80007B5B7,
 				DDF9B6B407BC10C80007B5B7,
 				DDF9B6D107BC16E30007B5B7,
 				DDF9B6FB07BC1C800007B5B7,
@@ -357,6 +356,7 @@
 				DDF9B81107BC20630007B5B7,
 				DD1E113F07C7558B005BD5FC,
 				DD1E135C07C923FD005BD5FC,
+				950626470840CB8200C01CD2,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -481,6 +481,19 @@
 //952
 //953
 //954
+		950626460840CB8200C01CD2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = BluetoothLogo.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		950626470840CB8200C01CD2 = {
+			fileRef = 950626460840CB8200C01CD2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		955B830D07BE066400B60D06 = {
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -795,25 +808,12 @@
 			settings = {
 			};
 		};
-		DDF9B6B107BC10C80007B5B7 = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.tiff;
-			path = BluetoothLogo.tiff;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		DDF9B6B207BC10C80007B5B7 = {
 			isa = PBXFileReference;
 			lastKnownFileType = image.icns;
 			path = eject.icns;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		DDF9B6B307BC10C80007B5B7 = {
-			fileRef = DDF9B6B107BC10C80007B5B7;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DDF9B6B407BC10C80007B5B7 = {
 			fileRef = DDF9B6B207BC10C80007B5B7;

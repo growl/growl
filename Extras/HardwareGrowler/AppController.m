@@ -23,8 +23,8 @@
 
 @implementation AppController
 
-- (void)awakeFromNib {
-	bluetoothLogoData = [[[NSImage imageNamed: @"BluetoothLogo.tiff"] TIFFRepresentation] retain];
+- (void) awakeFromNib {
+	bluetoothLogoData = [[[NSImage imageNamed: @"BluetoothLogo.png"] TIFFRepresentation] retain];
 	ejectLogoData = [[[NSImage imageNamed: @"eject.icns"] TIFFRepresentation] retain];
 	firewireLogoData = [[[NSImage imageNamed: @"FireWireLogo.png"] TIFFRepresentation] retain];
 	usbLogoData = [[[NSImage imageNamed: @"usbLogoWhite.png"] TIFFRepresentation] retain];
@@ -58,7 +58,7 @@
 	netNotifier = [[NetworkNotifier alloc] initWithDelegate:self];
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[fwNotifier release];
 	[usbNotifier release];
 	[btNotifier release];
@@ -110,23 +110,23 @@
 	return regDict;
 }
 
-- (IBAction)doSimpleHelp: (id)sender {
+- (IBAction) doSimpleHelp: (id)sender {
 	[[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"readme" ofType:@"txt"]];
 }
 
 #pragma mark -
 #pragma mark Notification methods
-- (void)willSleep:(NSNotification *)note {
+- (void) willSleep:(NSNotification *)note {
 	//NSLog(@"willSleep");
 	sleeping = YES;
 }
 
-- (void)didWake:(NSNotification *)note {
+- (void) didWake:(NSNotification *)note {
 	//NSLog(@"didWake");
 	sleeping = NO;
 }
 
-- (void)fwDidConnect:(NSString *)deviceName {
+- (void) fwDidConnect:(NSString *)deviceName {
 //	NSLog(@"FireWire Connect: %@", deviceName );
 
 	[GrowlApplicationBridge notifyWithTitle:@"FireWire Connection"
@@ -139,7 +139,7 @@
 
 }
 
-- (void)fwDidDisconnect:(NSString *)deviceName {
+- (void) fwDidDisconnect:(NSString *)deviceName {
 //	NSLog(@"FireWire Disconnect: %@", deviceName );
 
 	[GrowlApplicationBridge notifyWithTitle:@"FireWire Disconnection"
@@ -151,7 +151,7 @@
 							clickContext:nil];
 }
 
-- (void)usbDidConnect:(NSString *)deviceName {
+- (void) usbDidConnect:(NSString *)deviceName {
 //	NSLog(@"USB Connect: %@", deviceName );
 	[GrowlApplicationBridge notifyWithTitle:@"USB Connection"
 							description:deviceName
@@ -162,7 +162,7 @@
 							clickContext:nil];
 }
 
-- (void)usbDidDisconnect:(NSString *)deviceName {
+- (void) usbDidDisconnect:(NSString *)deviceName {
 //	NSLog(@"USB Disconnect: %@", deviceName );
 	[GrowlApplicationBridge notifyWithTitle:@"USB Disconnection"
 							description:deviceName
@@ -173,7 +173,7 @@
 							clickContext:nil];
 }
 
-- (void)bluetoothDidConnect:(NSString *)device {
+- (void) bluetoothDidConnect:(NSString *)device {
 //	NSLog(@"Bluetooth Connect: %@", device );
 	[GrowlApplicationBridge notifyWithTitle:@"Bluetooth Connection"
 							description:device
@@ -184,7 +184,7 @@
 							clickContext:nil];
 }
 
-- (void)bluetoothDidDisconnect:(NSString *)device {
+- (void) bluetoothDidDisconnect:(NSString *)device {
 //	NSLog(@"Bluetooth Disconnect: %@", device );
 	[GrowlApplicationBridge notifyWithTitle:@"Bluetooth Disconnection"
 							description:device
@@ -195,7 +195,7 @@
 							clickContext:nil];
 }
 
-- (void)volumeDidMount:(NSString *)path {
+- (void) volumeDidMount:(NSString *)path {
 	//NSLog(@"volume Mount: %@", path );
 
 	NSData *iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation];
@@ -209,7 +209,7 @@
 							clickContext:nil];
 }
 
-- (void)volumeDidUnmount:(NSString *)path {
+- (void) volumeDidUnmount:(NSString *)path {
 //	NSLog(@"volume UnMount: %@", path );
 
 //	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation];
@@ -222,7 +222,7 @@
 							clickContext:nil];
 }
 
-- (void)airportConnect:(NSString *)description {
+- (void) airportConnect:(NSString *)description {
 	//NSLog(@"AirPort connect: %@", description);
 
 	if (sleeping) {
@@ -238,7 +238,7 @@
 							   clickContext:nil];
 }
 
-- (void)airportDisconnect:(NSString *)description {
+- (void) airportDisconnect:(NSString *)description {
 	//NSLog(@"AirPort disconnect: %@", description);
 
 	if (sleeping) {
@@ -254,7 +254,7 @@
 							   clickContext:nil];
 }
 
-- (void)linkUp:(NSString *)description {
+- (void) linkUp:(NSString *)description {
 	//NSLog(@"Link up: %@", description);
 
 	if (sleeping) {
@@ -270,7 +270,7 @@
 							   clickContext:nil];
 }
 
-- (void)linkDown:(NSString *)description {
+- (void) linkDown:(NSString *)description {
 	//NSLog(@"Link down: %@", description);
 
 	if (sleeping) {
@@ -286,7 +286,7 @@
 							   clickContext:nil];
 }
 
-- (void)ipAcquired:(NSString *)ip {
+- (void) ipAcquired:(NSString *)ip {
 	//NSLog(@"IP acquired: %@", ip);
 
 	if (sleeping) {
@@ -302,7 +302,7 @@
 							   clickContext:nil];
 }
 
-- (void)ipReleased {
+- (void) ipReleased {
 	//NSLog(@"IP released");
 
 	if (sleeping) {
