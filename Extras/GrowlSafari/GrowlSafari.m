@@ -33,6 +33,14 @@
 #import <Growl/Growl.h>
 #import <objc/objc-runtime.h>
 
+
+#define SAFARI_VERSION_2_0	412
+
+// How long should we wait (in seconds) before it's a long download?
+static double longDownload = 15.0;
+static int safariVersion;
+static NSMutableDictionary *dates = nil;
+
 // Using method swizzling as outlined here:
 // http://www.cocoadev.com/index.pl?MethodSwizzling
 // A couple of modifications made to support swizzling class methods
@@ -75,21 +83,16 @@ static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel, BOOL forInst
 	return NO;
 }
 
-// How long should we wait (in seconds) before it's a long download?
-static double longDownload = 15.0;
-
-static NSMutableDictionary *dates = nil;
-
 static void setDownloadStarted(id dl) {
 	if (!dates)
 		dates = [[NSMutableDictionary alloc] init];
 
-	[dates setObject:[NSDate date] forKey:[dl performSelector:@selector(identifier)]];
+	[dates setObject:[NSDate date] forKey:[dl identifier]];
 }
 
 static NSDate *dateStarted(id dl) {
 	if (dates)
-		return [dates objectForKey:[dl performSelector:@selector(identifier)]];
+		return [dates objectForKey:[dl identifier]];
 
 	return nil;
 }
@@ -135,6 +138,8 @@ static void setDownloadFinished(id dl) {
 	} else {
 		NSLog(@"Growl not installed, GrowlSafari disabled");
 	}
+
+	safariVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] intValue];
 }
 
 + (void) load {
@@ -164,10 +169,8 @@ static void setDownloadFinished(id dl) {
 		NSLocalizedStringFromTableInBundle(@"New feed entry", nil, bundle, @""),
 		nil];
 	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-		@"GrowlSafari", GROWL_APP_NAME,
 		array, GROWL_NOTIFICATIONS_DEFAULT,
 		array, GROWL_NOTIFICATIONS_ALL,
-		[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], GROWL_APP_ICON,
 		nil];
 	[array release];
 
@@ -204,65 +207,78 @@ static void setDownloadFinished(id dl) {
 
 @implementation NSObject (GrowlSafariPatch)
 - (void) mySetDownloadStage:(int)stage {
-	//NSLog(@"mySetDownloadStage:%d", stage);
-	int oldStage = (int)[self performSelector:@selector(downloadStage)];
+	int oldStage = [self downloadStage];
+	//NSLog(@"mySetDownloadStage:%d -> %d", oldStage, stage);
 	[self mySetDownloadStage:stage];
 	if (dateStarted(self)) {
 		if (stage == 2) {
 			NSBundle *bundle = [GrowlSafari bundle];
+			NSString *description = [[NSString alloc] initWithFormat:
+				NSLocalizedStringFromTableInBundle(@"%@ decompression started", nil, bundle, @""),
+				[[self downloadPath] lastPathComponent]];
 			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Decompressing File", nil, bundle, @"")
-										description:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ decompression started", nil, bundle, @""),
-											[[self performSelector:@selector(downloadPath)] lastPathComponent]]
+										description:description
 								   notificationName:NSLocalizedStringFromTableInBundle(@"Compression Status", nil, bundle, @"")
 										   iconData:nil
 										   priority:0
 										   isSticky:NO
 									   clickContext:nil];
+			[description release];
 		} else if (stage == 9 && oldStage != 9) {
 			NSBundle *bundle = [GrowlSafari bundle];
+			NSString *description = [[NSString alloc] initWithFormat:
+				NSLocalizedStringFromTableInBundle(@"Copying application from %@", nil, bundle, @""),
+				[[self downloadPath] lastPathComponent]];
 			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Copying Disk Image", nil, bundle, @"")
-										description:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Copying application from %@", nil, bundle, @""),
-											[[self performSelector:@selector(downloadPath)] lastPathComponent]]
+										description:description
 								   notificationName:NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @"")
 										   iconData:nil
 										   priority:0
 										   isSticky:NO
 									   clickContext:nil];
-		} else if (stage == 13 || stage == 15) {
+			[description release];
+		} else if ((safariVersion < SAFARI_VERSION_2_0 && stage == 13) || (safariVersion >= SAFARI_VERSION_2_0 && stage == 15)) {
 			NSBundle *bundle = [GrowlSafari bundle];
 			NSString *notificationName = isLongDownload(self) ? NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"") : NSLocalizedStringFromTableInBundle(@"Short Download Complete", nil, bundle, @"");
 			setDownloadFinished(self);
+			NSString *description = [[NSString alloc] initWithFormat:
+				NSLocalizedStringFromTableInBundle(@"%@ download complete", nil, bundle, @""),
+				[self filename]];
 			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Download Complete", nil, bundle, @"")
-										description:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%@ download complete", nil, bundle, @""),
-											[self performSelector:@selector(filename)]]
+										description:description
 								   notificationName:notificationName
 										   iconData:nil
 										   priority:0
 										   isSticky:NO
 									   clickContext:nil];
+			[description release];
 		}
-	}
-	if (stage == 0) {
+	} else if (stage == 0) {
 		setDownloadStarted(self);
 	}
 }
 
 - (void) myUpdateDiskImageStatus:(NSDictionary *)status {
-	//NSLog(@"myUpdateDiskImageStatus:%@", status);
+	int oldStage = [self downloadStage];
 	[self myUpdateDiskImageStatus:status];
+	//NSLog(@"myUpdateDiskImageStatus:%@ stage=%d -> %d", status, oldStage, [self downloadStage]);
 
-	if (dateStarted(self)) {
-		if ([[status objectForKey:@"status-stage"] isEqual:@"initialize"]) {
-			NSBundle *bundle = [GrowlSafari bundle];
-			[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Mounting Disk Image", nil, bundle, @"")
-										description:[NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"Mounting %@", nil, bundle, @""),
-											[[self performSelector:@selector(downloadPath)] lastPathComponent]]
-								   notificationName:NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @"")
-										   iconData:nil
-										   priority:0
-										   isSticky:NO
-									   clickContext:nil];
-		}
+	if (dateStarted(self)
+			&& oldStage == 3
+			&& [self downloadStage] == 8
+			&& [[status objectForKey:@"status-stage"] isEqualToString:@"attach"]) {
+		NSBundle *bundle = [GrowlSafari bundle];
+		NSString *description = [[NSString alloc] initWithFormat:
+			NSLocalizedStringFromTableInBundle(@"Mounting %@", nil, bundle, @""),
+			[[self downloadPath] lastPathComponent]];
+		[GrowlApplicationBridge notifyWithTitle:NSLocalizedStringFromTableInBundle(@"Mounting Disk Image", nil, bundle, @"")
+									description:description
+							   notificationName:NSLocalizedStringFromTableInBundle(@"Disk Image Status", nil, bundle, @"")
+									   iconData:nil
+									   priority:0
+									   isSticky:NO
+								   clickContext:nil];
+		[description release];
 	}
 }
 

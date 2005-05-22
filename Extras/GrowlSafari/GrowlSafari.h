@@ -42,6 +42,13 @@
 + (void) notifyRSSUpdate:(WebBookmark *)bookmark newEntries:(int)newEntries;
 @end
 
+@interface NSObject (DownloadInfo)
+- (id) identifier;
+- (int) downloadStage;
+- (NSString *) filename;
+- (NSString *) downloadPath;
+@end
+
 @interface NSObject (GrowlSafariPatch)
 - (void) mySetDownloadStage:(int)stage;
 - (void) myUpdateDiskImageStatus:(NSDictionary *)status;
