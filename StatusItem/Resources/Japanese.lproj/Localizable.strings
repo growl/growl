@@ -1,28 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>Open Growl preferences...</key>
-	<string>Growl 環境設定を開く…</string>
-	<key>Start Growl</key>
-	<string>Growl を起動</string>
-	<key>Stop Growl</key>
-	<string>Growl を終了</string>
-	<key>Restart Growl</key>
-	<string>Growl を再起動</string>
-	<key>Default display</key>
-	<string>標準ディスプレイ</string>
-	<key>Squelch mode</key>
-	<string>沈黙モード</string>
-	<key>Quit GrowlMenu</key>
-	<string>GrowlMenu を終了</string>
-	<key>Set the default display style</key>
-	<string>標準ディスプレイスタイルに設定</string>
-	<key>Open the Growl preference pane</key>
-	<string>Growl 環境設定を開く</string>
-	<key>Don't show notifications, but still log them</key>
-	<string>通知は非表示にし、履歴を残す</string>
-	<key>Remove this status item</key>
-	<string>このステータスアイテムを削除する</string>
-</dict>
-</plist>
+"Open Growl preferences..." = "Growl 環境設定を開く…"
+"Start Growl" = "Growl を起動"
+"Stop Growl" = "Growl を終了"
+"Restart Growl" = "Growl を再起動"
+"Default display" = "標準ディスプレイ"
+"Squelch mode" = "沈黙モード"
+"Quit GrowlMenu" = "GrowlMenu を終了"
+"Set the default display style" = "標準ディスプレイスタイルに設定"
+"Open the Growl preference pane" = "Growl 環境設定を開く"
+"Don't show notifications, but still log them" = "通知は非表示にし、履歴を残す"
+"Remove this status item" = "このステータスアイテムを削除する"
