@@ -80,62 +80,6 @@
 			settings = {
 			};
 		};
-		071EAD370820C12200F46D09 = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.png;
-			name = "growlmenu-alt.png";
-			path = "Core/Resources/MenuExtra/growlmenu-alt.png";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		071EAD380820C12200F46D09 = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.png;
-			name = growlmenu.png;
-			path = Core/Resources/MenuExtra/growlmenu.png;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		071EAD390820C12200F46D09 = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.png;
-			name = "squelch-alt.png";
-			path = "Core/Resources/MenuExtra/squelch-alt.png";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		071EAD3A0820C12200F46D09 = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.png;
-			name = squelch.png;
-			path = Core/Resources/MenuExtra/squelch.png;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		071EAD3B0820C12200F46D09 = {
-			fileRef = 071EAD370820C12200F46D09;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		071EAD3C0820C12200F46D09 = {
-			fileRef = 071EAD380820C12200F46D09;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		071EAD3D0820C12200F46D09 = {
-			fileRef = 071EAD390820C12200F46D09;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		071EAD3E0820C12200F46D09 = {
-			fileRef = 071EAD3A0820C12200F46D09;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		07217168082DE85B00F338F7 = {
 			children = (
 				07217169082DE85B00F338F7,
@@ -333,12 +277,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95D1659E0834DB5200D996B2;
-					ProjectRef = 95D1659D0834DB5200D996B2;
-				},
-				{
 					ProductGroup = 95D165B70834DB7500D996B2;
 					ProjectRef = 95D165B60834DB7500D996B2;
+				},
+				{
+					ProductGroup = 95D1659E0834DB5200D996B2;
+					ProjectRef = 95D1659D0834DB5200D996B2;
 				},
 			);
 			targets = (
@@ -2304,6 +2248,101 @@
 			settings = {
 			};
 		};
+		34B2755208423BE80092A5A0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			name = "growlmenu-alt.png";
+			path = "StatusItem/Resources/growlmenu-alt.png";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34B2755308423BE80092A5A0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			name = growlmenu.png;
+			path = StatusItem/Resources/growlmenu.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34B2755408423BE80092A5A0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "MenuExtra-Info.plist";
+			path = "StatusItem/Resources/MenuExtra-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34B2755508423BE80092A5A0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			name = "squelch-alt.png";
+			path = "StatusItem/Resources/squelch-alt.png";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34B2755608423BE80092A5A0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			name = squelch.png;
+			path = StatusItem/Resources/squelch.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34B2755708423BE80092A5A0 = {
+			fileRef = 34B2755208423BE80092A5A0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34B2755808423BE80092A5A0 = {
+			fileRef = 34B2755308423BE80092A5A0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34B2755908423BE80092A5A0 = {
+			fileRef = 34B2755408423BE80092A5A0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34B2755A08423BE80092A5A0 = {
+			fileRef = 34B2755508423BE80092A5A0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34B2755B08423BE80092A5A0 = {
+			fileRef = 34B2755608423BE80092A5A0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34B2755C08423BFF0092A5A0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlMenu.h;
+			path = StatusItem/Source/GrowlMenu.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34B2755D08423BFF0092A5A0 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlMenu.m;
+			path = StatusItem/Source/GrowlMenu.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34B2755E08423BFF0092A5A0 = {
+			fileRef = 34B2755D08423BFF0092A5A0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		34CEA3930680A77C00670E0D = {
 			children = (
 				343354C10792F96300C84B15,
@@ -3087,8 +3126,8 @@
 		93405B0D080D8BD100903735 = {
 			children = (
 				93FCE5E10812DEC800320D8E,
-				93FCE5A80812DA0100320D8E,
-				93FCE5A90812DA0100320D8E,
+				34B2755C08423BFF0092A5A0,
+				34B2755D08423BFF0092A5A0,
 			);
 			isa = PBXGroup;
 			name = StatusItem;
@@ -3157,32 +3196,13 @@
 			settings = {
 			};
 		};
-		93FCE5A80812DA0100320D8E = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = GrowlMenu.h;
-			path = Core/Source/GrowlMenu.h;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		93FCE5A90812DA0100320D8E = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.objc;
-			name = GrowlMenu.m;
-			path = Core/Source/GrowlMenu.m;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		93FCE5E10812DEC800320D8E = {
 			children = (
-				9507584B0817C2F400D862A5,
-				071EAD380820C12200F46D09,
-				071EAD370820C12200F46D09,
-				071EAD3A0820C12200F46D09,
-				071EAD390820C12200F46D09,
-				950758450817C23100D862A5,
+				34B2755308423BE80092A5A0,
+				34B2755208423BE80092A5A0,
+				34B2755608423BE80092A5A0,
+				34B2755508423BE80092A5A0,
+				34B2755408423BE80092A5A0,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -3237,54 +3257,14 @@
 			settings = {
 			};
 		};
-		950758450817C23100D862A5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			name = "MenuExtra-Info.plist";
-			path = "Core/Resources/MenuExtra/MenuExtra-Info.plist";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		9507584B0817C2F400D862A5 = {
-			children = (
-				9507584C0817C2F400D862A5,
-				9507584E0817C30300D862A5,
-				9574B9980838FB8300106CA3,
-			);
-			isa = PBXVariantGroup;
-			name = Localizable.strings;
-			path = "";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		9507584C0817C2F400D862A5 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			name = English;
-			path = Core/Resources/MenuExtra/English.lproj/Localizable.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		9507584E0817C30300D862A5 = {
-			fileEncoding = 4;
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			name = German;
-			path = Core/Resources/MenuExtra/German.lproj/Localizable.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		95075AAC0817F5DB00D862A5 = {
 			buildActionMask = 2147483647;
 			files = (
-				95075B030817F8DB00D862A5,
-				95075B060817F8DB00D862A5,
-				071EAD3B0820C12200F46D09,
-				071EAD3C0820C12200F46D09,
-				071EAD3D0820C12200F46D09,
-				071EAD3E0820C12200F46D09,
+				34B2755708423BE80092A5A0,
+				34B2755808423BE80092A5A0,
+				34B2755908423BE80092A5A0,
+				34B2755A08423BE80092A5A0,
+				34B2755B08423BE80092A5A0,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3292,11 +3272,11 @@
 		95075AAD0817F5DB00D862A5 = {
 			buildActionMask = 2147483647;
 			files = (
-				95075B020817F8A200D862A5,
 				95075B0F0817F93D00D862A5,
 				95075B100817F95300D862A5,
 				95075B110817F95600D862A5,
 				95394F9D0841A70F005B7CE3,
+				34B2755E08423BFF0092A5A0,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3383,24 +3363,6 @@
 			path = GrowlMenu.app;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95075B020817F8A200D862A5 = {
-			fileRef = 93FCE5A90812DA0100320D8E;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		95075B030817F8DB00D862A5 = {
-			fileRef = 9507584B0817C2F400D862A5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		95075B060817F8DB00D862A5 = {
-			fileRef = 950758450817C23100D862A5;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		95075B0F0817F93D00D862A5 = {
 			fileRef = 959DBE4A08127BA4009BB468;
@@ -4254,14 +4216,6 @@
 			lastKnownFileType = text.plist.strings;
 			name = Japanese;
 			path = Core/Resources/Japanese.lproj/InfoPlist.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		9574B9980838FB8300106CA3 = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			name = Japanese;
-			path = Core/Resources/MenuExtra/Japanese.lproj/Localizable.strings;
 			refType = 4;
 			sourceTree = "<group>";
 		};
