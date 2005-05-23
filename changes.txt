@@ -47,6 +47,7 @@ Developers and Scripters
 	- Get GrowlHelperApp version number via the command line (#29)
 	- Applications can now specify a preferred display plugin (#126)
 - Framework
+	- Carbon apps can have a Growl installer now (#77)
 	- Fixed click notifiations using the Carbon API (#152)
 	- Easier functions for registering manually (#91)
 	- Only return click & timeout notification to the application requesting it (#203)
