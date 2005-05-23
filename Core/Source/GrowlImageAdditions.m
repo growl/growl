@@ -16,8 +16,8 @@
 	imageRect.origin.x = 0.0f;
 	imageRect.origin.y = 0.0f;
 	imageRect.size = [self size];
-	if (!NSEqualSizes(targetRect.size, imageRect.size)) {
-		// scale the image appropriately
+	if (imageRect.size.width > targetRect.size.width || imageRect.size.height > targetRect.size.height) {
+		// make sure the icon isn't too large. If it is, scale it down
 		if (imageRect.size.width > imageRect.size.height) {
 			float oldHeight = targetRect.size.height;
 			targetRect.size.height = oldHeight / imageRect.size.width * imageRect.size.height;
@@ -30,6 +30,15 @@
 
 		[self setScalesWhenResized:YES];
 		[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+	} else {
+		// center image if it is too small
+		if (imageRect.size.width < targetRect.size.width) {
+			targetRect.origin.x += ceilf((targetRect.size.width - imageRect.size.width) * 0.5f);
+		}
+	 	if (imageRect.size.height < targetRect.size.height) {
+			targetRect.origin.y += ceilf((targetRect.size.height - imageRect.size.height) * 0.5f);
+		}
+		targetRect.size = imageRect.size;
 	}
 
 	[self drawInRect:targetRect fromRect:imageRect operation:operation fraction:f];
