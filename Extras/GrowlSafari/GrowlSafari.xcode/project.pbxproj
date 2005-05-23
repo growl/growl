@@ -292,6 +292,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_LDFLAGS = "-weak_framework Growl -undefined suppress -force_flat_namespace";
 				PRODUCT_NAME = GrowlSafari;
 				WARNING_CFLAGS = "-W -Wall";
