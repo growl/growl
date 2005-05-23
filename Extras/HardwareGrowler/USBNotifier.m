@@ -20,6 +20,7 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 - (id) initWithDelegate:(id)object {
 	if ((self = [super init])) {
 		delegate = object;
+		notificationsArePrimed = NO;
 		[self ioKitSetUp];
 		[self registerForUSBNotifications];
 	}
@@ -76,10 +77,8 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 		NSLog(@"matching notification registration failed: %d" , matchingResult);
 	}
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"]) {
-		//	Prime the Notifications (And Deal with the existing devices)...
-		[self usbDeviceAdded:addedIterator];
-	}
+	//	Prime the Notifications (And Deal with the existing devices)...
+	[self usbDeviceAdded:addedIterator];
 
 	//	Register for removal notifications.
 	//	It seems we have to make a new dictionary...  reusing the old one didn't work.
@@ -103,32 +102,36 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 	} else {
 		[self usbDeviceRemoved: removedIterator];
 	}
+	notificationsArePrimed = YES;
 }
 
 - (void) usbDeviceAdded: (io_iterator_t ) iterator {
 //	NSLog(@"USB Device Added Notification.");
 	io_object_t	thisObject;
 	while ((thisObject = IOIteratorNext(iterator))) {
-		kern_return_t	nameResult;
-		io_name_t		deviceNameChars;
+		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"] && !notificationsArePrimed) {
+		} else {
+			kern_return_t	nameResult;
+			io_name_t		deviceNameChars;
 
-		//	This works with USB devices...
-		//	but apparently not firewire
-		nameResult = IORegistryEntryGetName(thisObject,
-											deviceNameChars);
+			//	This works with USB devices...
+			//	but apparently not firewire
+			nameResult = IORegistryEntryGetName(thisObject,
+												deviceNameChars);
 
-		NSString *deviceName = [[NSString alloc] initWithCString:deviceNameChars];
-		if (!deviceName) {
-			deviceName = @"Unnamed USB Device";
-		} else if ([deviceName isEqualToString:@"OHCI Root Hub Simulation"]) {
-			deviceName = @"USB Bus";
-		} else if ([deviceName isEqualToString:@"EHCI Root Hub Simulation"]) {
-			deviceName = @"USB 2.0 Bus";
+			NSString *deviceName = [[NSString alloc] initWithCString:deviceNameChars];
+			if (!deviceName) {
+				deviceName = @"Unnamed USB Device";
+			} else if ([deviceName isEqualToString:@"OHCI Root Hub Simulation"]) {
+				deviceName = @"USB Bus";
+			} else if ([deviceName isEqualToString:@"EHCI Root Hub Simulation"]) {
+				deviceName = @"USB 2.0 Bus";
+			}
+
+			// NSLog(@"USB Device Attached: %@" , deviceName);
+			[delegate usbDidConnect:deviceName];
+			[deviceName release];
 		}
-
-		// NSLog(@"USB Device Attached: %@" , deviceName);
-		[delegate usbDidConnect:deviceName];
-		[deviceName release];
 
 		IOObjectRelease(thisObject);
 	}

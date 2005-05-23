@@ -7,6 +7,7 @@
 	id                      delegate;
 	IONotificationPortRef	ioKitNotificationPort;
 	CFRunLoopSourceRef		notificationRunLoopSource;
+	bool					notificationsArePrimed;
 }
 
 - (id)initWithDelegate:(id)object;

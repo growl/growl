@@ -8,6 +8,7 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 - (id) initWithDelegate:(id)object {
 	if ((self = [super init])) {
 		delegate = object;
+		notificationsArePrimed = NO;
 		[self ioKitSetUp];
 		[self registerForFireWireNotifications];
 	}
@@ -65,10 +66,8 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 		NSLog(@"matching notification registration failed: %d" , matchingResult);
 	}
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"]) {
 		//	Prime the Notifications (And Deal with the existing devices)...
 		[self fwDeviceAdded: gFWAddedIter];
-	}
 
 	//	Register for removal notifications.
 	//	It seems we have to make a new dictionary...  reusing the old one didn't work.
@@ -93,18 +92,21 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 	} else {
 		[self fwDeviceRemoved: removedIterator];
 	}
+	notificationsArePrimed = YES;
 }
 
 - (void) fwDeviceAdded: (io_iterator_t ) iterator {
-//	NSLog(@"FireWire Device Added Notification.");
+	//	NSLog(@"FireWire Device Added Notification.");
 	io_object_t	thisObject;
 	while ((thisObject = IOIteratorNext( iterator ))) {
-		NSString *deviceName = [self nameForFireWireObject:thisObject];
-		// NSLog(@"FireWire Device Attached: %@" , deviceName);
-		[delegate fwDidConnect:deviceName];
-
-		IOObjectRelease(thisObject);
+		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"] && !notificationsArePrimed) {
+		} else {
+			NSString *deviceName = [self nameForFireWireObject:thisObject];
+			// NSLog(@"FireWire Device Attached: %@" , deviceName);
+			[delegate fwDidConnect:deviceName];
+		}
 	}
+	IOObjectRelease(thisObject);
 }
 
 - (void) fwDeviceRemoved: (io_iterator_t ) iterator {
