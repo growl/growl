@@ -53,7 +53,7 @@
 					<key>Optional</key>
 					<string>YES</string>
 					<key>Type</key>
-					<string>NSData&lt;Image&gt;</string>
+					<string>GrowlSuite.NSData&lt;Image&gt;</string>
 				</dict>
 				<key>imageFromURL</key>
 				<dict>
@@ -78,7 +78,7 @@
 					<key>Optional</key>
 					<string>YES</string>
 					<key>Type</key>
-					<string>NSData&lt;Picture&gt;</string>
+					<string>GrowlSuite.NSData&lt;Picture&gt;</string>
 				</dict>
 				<key>priority</key>
 				<dict>
@@ -158,12 +158,5 @@
 	<array>
 		<string>UnnamedArguments</string>
 	</array>
-	<key>ValueTypes</key>
-	<dict>
-		<key>Image</key>
-		<string>TIFF</string>
-		<key>Picture</key>
-		<string>PICT</string>
-	</dict>
 </dict>
 </plist>
