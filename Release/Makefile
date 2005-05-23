@@ -67,7 +67,7 @@ release:
 	cp -R "Uninstall Growl.app" $(GROWL_DIR)
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/Uninstall\ Growl.app
 	@# copy webloc files
-	cp "Growl Documentation.webloc" "Growl version history.webloc" $(GROWL_DIR)
+	cp "Growl Documentation.webloc" "Growl version history.webloc" "Get more styles.webloc" $(GROWL_DIR)
 	@# hide extensions of webloc files
 	/Developer/Tools/SetFile -a E $(GROWL_DIR)/*.webloc
 	@# copy the prefpane
@@ -116,7 +116,7 @@ release:
 	@# copy the bindings
 	cp -R $(SRC_DIR)/Bindings $(SDK_DIR)
 	@# remove the AppleScript binding
-	rm -rf $(SDK_DIR)/Bindings/applescript%
+	rm -rf $(SDK_DIR)/Bindings/applescript
 	@# remove some symlinks
 	rm $(SDK_DIR)/Bindings/realbasic/GrowlDefines.h
 	rm $(SDK_DIR)/Bindings/tcl/GrowlDefines.h
