@@ -216,6 +216,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[titleHTML release];
 	[textHTML release];
 	WebFrame *webFrame = [view mainFrame];
+	[[self window] disableFlushWindow];
 	[webFrame loadHTMLString:htmlString baseURL:nil];
 	[[webFrame frameView] setAllowsScrolling:NO];
 	[htmlString release];
@@ -252,6 +253,10 @@ static NSMutableDictionary *notificationsByIdentifier;
  */
 - (void) webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
 #pragma unused(frame)
+	NSWindow *myWindow = [self window];
+	if ([myWindow isFlushWindowDisabled])
+		[myWindow enableFlushWindow];
+
 	GrowlWebKitWindowView *view = (GrowlWebKitWindowView *)sender;
 	[view sizeToFit];
 	if (!positioned) {

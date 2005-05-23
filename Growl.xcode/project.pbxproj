@@ -277,12 +277,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95D165B70834DB7500D996B2;
-					ProjectRef = 95D165B60834DB7500D996B2;
-				},
-				{
 					ProductGroup = 95D1659E0834DB5200D996B2;
 					ProjectRef = 95D1659D0834DB5200D996B2;
+				},
+				{
+					ProductGroup = 95D165B70834DB7500D996B2;
+					ProjectRef = 95D165B60834DB7500D996B2;
 				},
 			);
 			targets = (
@@ -3361,7 +3361,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "Core/Resources/MenuExtra/MenuExtra-Info.plist";
+				INFOPLIST_FILE = "StatusItem/Resources/MenuExtra-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PREBINDING = NO;
 				PRODUCT_NAME = GrowlMenu;
@@ -4979,7 +4979,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/perl;
-			shellScript = "########################################################\n\nmy $SYSTEM_VERS \t\t= \"/System/Library/CoreServices/SystemVersion.plist\";\nmy $EXIT_VALUE\t\t\t= 0;\n\n########################################################\n\n# If system version is NOT 10.4 or higher, show error\nif (CheckVersion( $SYSTEM_VERS, \"10.4\", \"ProductVersion\", \">=\" )) {\n\t$EXIT_VALUE = system(\"xcodebuild -project Extras/GrowlImporter/GrowlImporter.xcode -buildstyle \\\"\".$ENV{\"BUILD_STYLE\"}.\"\\\" -alltargets build\");\n\tif ($EXIT_VALUE) {\n\t\texit($EXIT_VALUE);\n\t}\n\t$EXIT_VALUE = system(\"xcodebuild -project Extras/GrowlAction/GrowlAction.xcode -buildstyle \\\"\".$ENV{\"BUILD_STYLE\"}.\"\\\" -alltargets build\");\n} else {\n\tmkdir(\"Extras/GrowlAction/build\");\n\tmkdir(\"Extras/GrowlAction/build/Show Growl Notification.action\");\n\tmkdir(\"Extras/GrowlImporter/build\");\n\tmkdir(\"Extras/GrowlImporter/build/GrowlImporter.mdimporter\");\n}\n\nexit($EXIT_VALUE);\n\n########################################################\n\nsub CheckVersion {\n\tmy $path\t\t\t= $_[0];\n\tmy $version \t\t= $_[1];\n\tmy $keyName \t\t= $_[2];\n\tmy $operator\t\t= $_[3];\n\tmy $i;\n\tmy $oldSeperator;\n\tmy $plistData;\n\tmy @items;\n\tmy $item;\n\tmy @theVersionArray;\n\tmy @versionArray;\n\tmy %versiondata;\n\n\tif (! -e $path) {\n\t\treturn 0;\n\t}\n\n\tif (!$operator) {\n\t\t$operator = \"==\";\n\t}\n\n\t$oldSeperator = $/;\n\t$/ = \\0;\n\n\topen( PLIST, \"$path\") || do {\n\t\treturn 0;\n\t};\n\n\t$plistData = <PLIST>;\n\t$plistData =~ /<dict>(.*?)<\\/dict>/gis;\n\n\t@items = split(/<key>/, $plistData);\n\n\tshift @items;\n\tforeach $item (@items) {\n\t\t$item =~ /(.*?)<\\/key>.*?<string>(.*?)<\\/string>/gis;\n\t\t$versiondata{ $1 } = $2;\n\t}\n\n\tclose(PLIST);\n\n\t$/ = $oldSeperator;\n\n\t@theVersionArray = split(/\\./, $versiondata{$keyName});\n\tfor ($i = 0; $i < 3; $i++) {\n\t\tif(!$theVersionArray[$i]) {\n\t\t\t$theVersionArray[$i] = '0';\n\t\t}\n\t}\n\n\t@versionArray = split(/\\./, $version);\n\t\n\tmy $actualVersion;\n\n\tfor ($i = 0; $i < 3; $i++) {\n\t\tif (($theVersionArray[$i] != $versionArray[$i]) or ($i == 2)) {\n\t\t\t$actualVersion = $theVersionArray[$i];\n\t\t\t$version = $versionArray[$i];\n\t\t\tlast;\n\t\t}\n\t}\n\n\tmy $expression = '$actualVersion ' . $operator . ' $version';\n\tif( eval ($expression) ) {\n\t\treturn 1;\n\t} else {\n\t\treturn 0;\n\t}\n}\n";
+			shellScript = "########################################################\n\nmy $SYSTEM_VERS \t\t= \"/System/Library/CoreServices/SystemVersion.plist\";\nmy $EXIT_VALUE\t\t\t= 0;\n\n#######################################################\n\n# If system version is NOT 10.4 or higher, create empty directories\nif (CheckVersion($SYSTEM_VERS, \"10.4\", \"ProductVersion\", \">=\" )) {\n\t$EXIT_VALUE = system(\"xcodebuild -project Extras/GrowlImporter/GrowlImporter.xcode -buildstyle \\\"\".$ENV{\"BUILD_STYLE\"}.\"\\\" -alltargets build\");\n\tif ($EXIT_VALUE) {\n\t\texit($EXIT_VALUE);\n\t}\n\t$EXIT_VALUE = system(\"xcodebuild -project Extras/GrowlAction/GrowlAction.xcode -buildstyle \\\"\".$ENV{\"BUILD_STYLE\"}.\"\\\" -alltargets build\");\n} else {\n\tmkdir(\"Extras/GrowlAction/build\");\n\tmkdir(\"Extras/GrowlAction/build/Show Growl Notification.action\");\n\tmkdir(\"Extras/GrowlImporter/build\");\n\tmkdir(\"Extras/GrowlImporter/build/GrowlImporter.mdimporter\");\n}\n\nexit($EXIT_VALUE);\n\n########################################################\n\nsub CheckVersion {\n\tmy $path\t\t\t= $_[0];\n\tmy $version \t\t= $_[1];\n\tmy $keyName \t\t= $_[2];\n\tmy $operator\t\t= $_[3];\n\tmy $i;\n\tmy $oldSeperator;\n\tmy $plistData;\n\tmy @items;\n\tmy $item;\n\tmy @theVersionArray;\n\tmy @versionArray;\n\tmy %versiondata;\n\n\tif (! -e $path) {\n\t\treturn 0;\n\t}\n\n\tif (!$operator) {\n\t\t$operator = \"==\";\n\t}\n\n\t$oldSeperator = $/;\n\t$/ = \\0;\n\n\topen( PLIST, \"$path\") || do {\n\t\treturn 0;\n\t};\n\n\t$plistData = <PLIST>;\n\t$plistData =~ /<dict>(.*?)<\\/dict>/gis;\n\n\t@items = split(/<key>/, $plistData);\n\n\tshift @items;\n\tforeach $item (@items) {\n\t\t$item =~ /(.*?)<\\/key>.*?<string>(.*?)<\\/string>/gis;\n\t\t$versiondata{ $1 } = $2;\n\t}\n\n\tclose(PLIST);\n\n\t$/ = $oldSeperator;\n\n\t@theVersionArray = split(/\\./, $versiondata{$keyName});\n\tfor ($i = 0; $i < 3; $i++) {\n\t\tif(!$theVersionArray[$i]) {\n\t\t\t$theVersionArray[$i] = '0';\n\t\t}\n\t}\n\n\t@versionArray = split(/\\./, $version);\n\t\n\tmy $actualVersion;\n\n\tfor ($i = 0; $i < 3; $i++) {\n\t\tif (($theVersionArray[$i] != $versionArray[$i]) or ($i == 2)) {\n\t\t\t$actualVersion = $theVersionArray[$i];\n\t\t\t$version = $versionArray[$i];\n\t\t\tlast;\n\t\t}\n\t}\n\n\tmy $expression = '$actualVersion ' . $operator . ' $version';\n\tif( eval ($expression) ) {\n\t\treturn 1;\n\t} else {\n\t\treturn 0;\n\t}\n}\n";
 		};
 		95FC305007E03B0700BD8674 = {
 			children = (
