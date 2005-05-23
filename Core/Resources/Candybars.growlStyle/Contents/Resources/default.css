@@ -2,9 +2,8 @@ body
 {
 	color: rgba(0, 0, 0, .8);
 
-	margin: 0;
+	margin: 10px 0  0 0;
 	padding: 0;
-	background-color:#fff;
 	border: 0;
 }
 
@@ -13,12 +12,13 @@ div
 	font-family: Lucida Grande;
 	font-size: 11px;
 	line-height: 14px;
+	background-color:#fff;
 }
 
 div#icon
 {
 	position: absolute;
-	top: 22px;
+	top: 28px;
 
 	width: 32px;
 	height: 32px;
@@ -50,6 +50,7 @@ div#title
 div#text
 {
 	padding: 3px 38px;
+	min-height: 40px;
 
 	overflow: hidden;
 	
