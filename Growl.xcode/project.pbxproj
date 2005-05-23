@@ -2343,6 +2343,48 @@
 			settings = {
 			};
 		};
+		34B2756708423F9F0092A5A0 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = StatusItem/Resources/English.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34B2756B08423FA30092A5A0 = {
+			children = (
+				34B2756708423F9F0092A5A0,
+				34B2756D08423FAD0092A5A0,
+				34B2756E08423FB00092A5A0,
+			);
+			isa = PBXVariantGroup;
+			name = Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34B2756C08423FA30092A5A0 = {
+			fileRef = 34B2756B08423FA30092A5A0;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		34B2756D08423FAD0092A5A0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = German;
+			path = StatusItem/Resources/German.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		34B2756E08423FB00092A5A0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Japanese;
+			path = StatusItem/Resources/Japanese.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		34CEA3930680A77C00670E0D = {
 			children = (
 				343354C10792F96300C84B15,
@@ -3198,6 +3240,7 @@
 		};
 		93FCE5E10812DEC800320D8E = {
 			children = (
+				34B2756B08423FA30092A5A0,
 				34B2755308423BE80092A5A0,
 				34B2755208423BE80092A5A0,
 				34B2755608423BE80092A5A0,
@@ -3265,6 +3308,7 @@
 				34B2755908423BE80092A5A0,
 				34B2755A08423BE80092A5A0,
 				34B2755B08423BE80092A5A0,
+				34B2756C08423FA30092A5A0,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
