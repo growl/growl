@@ -151,7 +151,7 @@ int main(void) {
 	}
 }
 
-- (IBAction) quitMenuExtra:(id)sender {
+- (IBAction) quitGrowlMenu:(id)sender {
 #pragma unused(sender)
 	NSString *growlMenuPath = [[NSBundle mainBundle] bundlePath];
 	[preferences setStartAtLogin:growlMenuPath enabled:NO];
@@ -182,7 +182,7 @@ int main(void) {
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setToolTip:kStopGrowlTooltip];
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(quitMenuExtra:) keyEquivalent:@""];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(quitGrowlMenu:) keyEquivalent:@""];
 	[tempMenuItem setTag:5];
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setToolTip:kStopGrowlMenuTooltip];

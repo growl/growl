@@ -24,6 +24,7 @@
 - (IBAction) stopGrowl:(id)sender;
 - (IBAction) startGrowl:(id)sender;
 - (IBAction) squelchMode:(id)sender;
+- (IBAction) quitGrowlMenu:(id)sender;
 - (NSMenu *) createMenu;
 - (void) setImage;
 - (BOOL) validateMenuItem:(NSMenuItem *)item;

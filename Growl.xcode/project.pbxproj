@@ -333,12 +333,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95D165B70834DB7500D996B2;
-					ProjectRef = 95D165B60834DB7500D996B2;
-				},
-				{
 					ProductGroup = 95D1659E0834DB5200D996B2;
 					ProjectRef = 95D1659D0834DB5200D996B2;
+				},
+				{
+					ProductGroup = 95D165B70834DB7500D996B2;
+					ProjectRef = 95D165B60834DB7500D996B2;
 				},
 			);
 			targets = (
@@ -3296,6 +3296,7 @@
 				95075B0F0817F93D00D862A5,
 				95075B100817F95300D862A5,
 				95075B110817F95600D862A5,
+				95394F9D0841A70F005B7CE3,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3784,6 +3785,12 @@
 			path = Core/Resources/German.lproj/GrowlPref.nib;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		95394F9D0841A70F005B7CE3 = {
+			fileRef = 9574B7AC0838CB5500106CA3;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		953C3EFE0747970800F2A737 = {
 			children = (
