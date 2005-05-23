@@ -30,7 +30,7 @@ Display Plugins
 - Opacity sliders (#44, #74)
 
 Extras
-- Updated growliChat (#189)
+- Removed growliChat, it has moved to http://www.growlichat.com
 - New automatic summary option for GrowlMail
 - Fixed summary mode (#100)
 - GrowlMail is now compatible with Mail 2.0 (Tiger)
