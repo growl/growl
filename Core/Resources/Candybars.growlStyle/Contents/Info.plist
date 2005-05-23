@@ -29,7 +29,7 @@
 	<key>GrowlPaddingX</key>
 	<string>10</string>
 	<key>GrowlPaddingY</key>
-	<string>0</string>
+	<string>5</string>
 	<key>GrowlPluginAuthor</key>
 	<string>Peter Simonsson</string>
 </dict>
