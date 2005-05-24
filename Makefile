@@ -15,12 +15,9 @@ BUILDSTYLE?=$(DEFAULT_BUILDSTYLE)
 CP=ditto --rsrc
 RM=rm
 
-.PHONY : default all growl growlhelperapp growlappbridge clean install
+.PHONY : all growl growlhelperapp growlapplicationbridge growlapplicationbridge-withinstaller frameworks clean install
 
-default:
-	xcodebuild -project Growl.xcode -alltargets -buildstyle $(BUILDSTYLE) build
-
-all: growlapplicationbridge
+all: frameworks
 	xcodebuild -project Growl.xcode -alltargets -buildstyle $(BUILDSTYLE) build
 
 growl:
@@ -29,8 +26,13 @@ growl:
 growlhelperapp:
 	xcodebuild -project Growl.xcode -target GrowlHelperApp -buildstyle $(BUILDSTYLE) build
 
+frameworks: growlapplicationbridge growlapplicationbridge-withinstaller
+
 growlapplicationbridge:
-	xcodebuild -project Growl.xcode -target Growl.framework -buildstyle $(BUILDSTYLE) build
+	xcodebuild -project Growl.xcode -target Growl.framework -buildstyle $(BUILDSTYLE) build GCC_VERSION=3.3
+
+growlapplicationbridge-withinstaller:
+	xcodebuild -project Growl.xcode -target Growl-WithInstaller.framework -buildstyle $(BUILDSTYLE) build GCC_VERSION=3.3
 
 clean:
 	xcodebuild -project Growl.xcode -alltargets clean
