@@ -343,12 +343,6 @@
 			files = (
 				8D11072A0486CEB800E47090,
 				8D11072B0486CEB800E47090,
-				DD54997007BA5E420010BE54,
-				DDE55D2707BAEDE2000631AC,
-				DDF9B2AF07BBD4600007B5B7,
-				DDF9B2FF07BBD9020007B5B7,
-				DDF9B42907BBE38A0007B5B7,
-				DDF9B63907BC07B30007B5B7,
 				DDF9B6B407BC10C80007B5B7,
 				DDF9B6D107BC16E30007B5B7,
 				DDF9B6FB07BC1C800007B5B7,
@@ -628,12 +622,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		DD54997007BA5E420010BE54 = {
-			fileRef = DD54996E07BA5E420010BE54;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DD54997107BA5E420010BE54 = {
 			fileRef = DD54996F07BA5E420010BE54;
 			isa = PBXBuildFile;
@@ -670,12 +658,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		DDE55D2707BAEDE2000631AC = {
-			fileRef = DDE55D2507BAEDE2000631AC;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DDE55D2807BAEDE2000631AC = {
 			fileRef = DDE55D2607BAEDE2000631AC;
 			isa = PBXBuildFile;
@@ -697,12 +679,6 @@
 			path = USBNotifier.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		DDF9B2AF07BBD4600007B5B7 = {
-			fileRef = DDF9B2AD07BBD4600007B5B7;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DDF9B2B007BBD4600007B5B7 = {
 			fileRef = DDF9B2AE07BBD4600007B5B7;
@@ -728,12 +704,6 @@
 		};
 		DDF9B2FE07BBD9020007B5B7 = {
 			fileRef = DDF9B2FC07BBD9020007B5B7;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		DDF9B2FF07BBD9020007B5B7 = {
-			fileRef = DDF9B2FD07BBD9020007B5B7;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -768,12 +738,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		DDF9B42907BBE38A0007B5B7 = {
-			fileRef = DDF9B42707BBE38A0007B5B7;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		DDF9B42A07BBE38A0007B5B7 = {
 			fileRef = DDF9B42807BBE38A0007B5B7;
 			isa = PBXBuildFile;
@@ -795,12 +759,6 @@
 			path = VolumeNotifier.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		DDF9B63907BC07B30007B5B7 = {
-			fileRef = DDF9B63707BC07B30007B5B7;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		DDF9B63A07BC07B30007B5B7 = {
 			fileRef = DDF9B63807BC07B30007B5B7;
