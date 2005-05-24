@@ -360,10 +360,11 @@
 	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
 	[self setTickets:[[GrowlApplicationTicket allSavedTickets] allValues]];
 	[self setSquelchMode:[self squelchMode]];
+	[self setGrowlMenuEnabled:[self growlMenuEnabled]];
 	[self cacheImages];
 
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
-
+	
 	// If Growl is enabled, ensure the helper app is launched
 	if ([preferences boolForKey:GrowlEnabledKey]) {
 		[preferences launchGrowl:NO];
@@ -532,11 +533,13 @@
 }
 
 - (void) setGrowlMenuEnabled:(BOOL)state {
-	[[GrowlPreferences preferences] setBool:state forKey:GrowlMenuExtraKey];
-	if (state) {
-		[self enableGrowlMenu];
-	} else {
-		[self disableGrowlMenu];
+	if (state != [self growlMenuEnabled]) {
+		[[GrowlPreferences preferences] setBool:state forKey:GrowlMenuExtraKey];
+		if (state) {
+			[self enableGrowlMenu];
+		} else {
+			[self disableGrowlMenu];
+		}
 	}
 }
 

@@ -85,15 +85,12 @@ int main (int argc, const char **argv) {
 			                                                                targetDescriptor:target
 			                                                                        returnID:kAutoGenerateReturnID
 			                                                                   transactionID:kAnyTransactionID];
-			OSStatus err = AESend([event aeDesc],
+			OSStatus err = AESendMessage([event aeDesc],
 			                      /*reply*/ NULL,
 			                      /*sendMode*/ kAENoReply | kAEDontReconnect | kAENeverInteract | kAEDontRecord,
-			                      kAENormalPriority,
-			                      kAEDefaultTimeout,
-			                      /*idleProc*/ NULL,
-			                      /*filterProc*/ NULL);
+			                      kAEDefaultTimeout);
 			if ((err != noErr) && (err != procNotFound)) {
-				fprintf(stderr, "Could not remove the status item: AESend returned %li\n", (long)err);
+				fprintf(stderr, "Could not remove the status item: AESendMessage returned %li\n", (long)err);
 				status = EXIT_FAILURE;
 			}
 

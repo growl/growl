@@ -65,9 +65,11 @@ int main(void) {
 
 	[m release];
 
+	[self setGrowlMenuEnabled:YES];
+
 	NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
-	[nc addObserver:self
-		   selector:@selector(shutdown:)
+	[nc addObserver:NSApp
+		   selector:@selector(terminate:)
 			   name:@"GrowlMenuShutdown"
 			 object:nil];
 	[nc addObserver:self
@@ -76,8 +78,16 @@ int main(void) {
 			 object:nil];
 }
 
+- (void) setGrowlMenuEnabled:(BOOL)state {
+	NSString *growlMenuPath = [[NSBundle mainBundle] bundlePath];
+	[preferences setStartAtLogin:growlMenuPath enabled:state];
+	[preferences setBool:state forKey:GrowlMenuExtraKey];
+}
+
 - (void) applicationWillTerminate:(NSNotification *)aNotification {
 #pragma unused(aNotification)
+	[self setGrowlMenuEnabled:NO];
+
 	[self release];
 }
 
@@ -96,11 +106,6 @@ int main(void) {
 	if (!pid || [pid intValue] != [[NSProcessInfo processInfo] processIdentifier]) {
 		[self setImage];
 	}
-}
-
-- (void) shutdown:(NSNotification *)theNotification {
-#pragma unused(theNotification)
-	[NSApp terminate:self];
 }
 
 - (IBAction) openGrowlPreferences:(id)sender {
@@ -151,15 +156,6 @@ int main(void) {
 	}
 }
 
-- (IBAction) quitGrowlMenu:(id)sender {
-#pragma unused(sender)
-	NSString *growlMenuPath = [[NSBundle mainBundle] bundlePath];
-	[preferences setStartAtLogin:growlMenuPath enabled:NO];
-	[preferences setBool:NO forKey:GrowlMenuExtraKey];
-
-	[NSApp terminate:self];
-}
-
 - (NSMenu *) createMenu {
 	NSZone *menuZone = [NSMenu menuZone];
 	NSMenu *m = [[NSMenu allocWithZone:menuZone] init];
@@ -182,9 +178,9 @@ int main(void) {
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setToolTip:kStopGrowlTooltip];
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(quitGrowlMenu:) keyEquivalent:@""];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(terminate:) keyEquivalent:@""];
 	[tempMenuItem setTag:5];
-	[tempMenuItem setTarget:self];
+	[tempMenuItem setTarget:NSApp];
 	[tempMenuItem setToolTip:kStopGrowlMenuTooltip];
 
 	[m addItem:[NSMenuItem separatorItem]];

@@ -756,17 +756,14 @@ enum {
 		                                                                targetDescriptor:target
 		                                                                        returnID:kAutoGenerateReturnID
 		                                                                   transactionID:kAnyTransactionID];
-		OSStatus err = AESend([event aeDesc],
-		                      /*reply*/ NULL,
-		                      /*sendMode*/ kAENoReply | kAEDontReconnect | kAENeverInteract | kAEDontRecord,
-		                      kAENormalPriority,
-		                      kAEDefaultTimeout,
-		                      /*idleProc*/ NULL,
-		                      /*filterProc*/ NULL);
+		OSStatus err = AESendMessage([event aeDesc],
+									 /*reply*/ NULL,
+									 /*sendMode*/ kAENoReply | kAEDontReconnect | kAENeverInteract | kAEDontRecord,
+									 kAEDefaultTimeout);
 		success = ((err == noErr) || (err == procNotFound));
 		if (!success) {
 			//XXX this should be an alert panel (with a better message)
-			NSLog(@"Could not quit iTunes: AESend returned %li", (long)err);
+			NSLog(@"Could not quit iTunes: AESendMessage returned %li", (long)err);
 		}
 	}
 	return success;
