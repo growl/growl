@@ -30,7 +30,7 @@ div#icon
 {
 	position: absolute;
 	top: 14px;
-	left: 14px;
+	left: 15px;
 
 	width: 32px;
 	height: 32px;
@@ -40,8 +40,8 @@ div#icon
 
 div#icon img
 {
-	width: 38px;
-	height: 38px;
+	width: 32px;
+	height: 32px;
 }
 
 
@@ -49,7 +49,7 @@ div#title, div#text
 {
 	position: absolute;
 	left: 0;
-	padding-left: 60px;
+	padding-left: 54px;
 	padding-right: 22px;
 	
 	width: 190px;
@@ -58,8 +58,7 @@ div#title, div#text
 div#title
 {
 	top: 0;
-	padding-top: 17px;
-	height: 18px;
+	padding-top: 15px;
 
 	font-weight: bold;
 	overflow: hidden;
@@ -67,8 +66,8 @@ div#title
 
 div#text
 {
-	top: 32px;
-	padding-bottom: 20px;
+	top: 30px;
+	padding-bottom: 17px;
 	
 	background: url("images/background_bottom.png") bottom left no-repeat;
 }

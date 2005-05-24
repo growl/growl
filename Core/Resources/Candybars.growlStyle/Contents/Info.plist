@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>GWKS</string>
 	<key>CFBundleShortVersionString</key>
-	<string>Candybars 0.5</string>
+	<string>Candybars 0.6</string>
 	<key>CFBundleSignature</key>
 	<string>GRRR</string>
 	<key>CFBundleVersion</key>
-	<string>0.5</string>
+	<string>0.6</string>
 	<key>CSResourcesFileMapped</key>
 	<string>yes</string>
 	<key>GrowlHasShadow</key>
