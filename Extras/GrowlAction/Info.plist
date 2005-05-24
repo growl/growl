@@ -25,7 +25,7 @@
 	<dict>
 		<key>notificationTitle</key>
 		<string></string>
-		<key>description</key>
+		<key>notificationDescription</key>
 		<string></string>
 		<key>priority</key>
 		<integer>0</integer>
