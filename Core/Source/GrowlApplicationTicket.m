@@ -152,9 +152,13 @@
 		appPath = [fullPath retain];
 //		NSLog(@"got appPath: %@", appPath);
 
-		NSData *iconData = [ticketDict objectForKey:GROWL_APP_ICON];
-		if (iconData) {
-			icon = [[NSImage alloc] initWithData:iconData];
+		id appIcon = [ticketDict objectForKey:GROWL_APP_ICON];
+		if (appIcon) {
+			if ([appIcon isKindOfClass:[NSImage class]]) {
+				icon = [appIcon copy];
+			} else {
+				icon = [[NSImage alloc] initWithData:appIcon];
+			}
 		} else if (fullPath) {
 			icon = [[workspace iconForFile:fullPath] retain];
 		}
@@ -462,9 +466,13 @@
 	NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
 
 	NSImage *theIcon;
-	NSData  *iconData = [dict objectForKey:GROWL_APP_ICON];
-	if (iconData) {
-		theIcon = [[[NSImage alloc] initWithData:iconData] autorelease];
+	id appIcon = [dict objectForKey:GROWL_APP_ICON];
+	if (appIcon) {
+		if ([appIcon isKindOfClass:[NSImage class]]) {
+			theIcon = [[appIcon copy] autorelease];
+		} else {
+			theIcon = [[[NSImage alloc] initWithData:appIcon] autorelease];
+		}
 	} else {
 		theIcon = [workspace iconForApplication:[dict objectForKey:GROWL_APP_NAME]];
 	}

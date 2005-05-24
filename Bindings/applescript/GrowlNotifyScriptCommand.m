@@ -98,34 +98,32 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 			if (!(url = [self fileUrlForLocationReference:imageUrl])) {
 				return nil;
 			}
-			if (!(icon = [[[NSImage alloc] initWithContentsOfURL:url] autorelease])) {
+			if (!(icon = [[NSImage alloc] initWithContentsOfURL:url])) {
 				//File exists, but is not a valid image format
 				[self setError:ERROR_ICON_OF_FILE_PATH_NOT_IMAGE];
 				return nil;
 			}
 		} else if (iconOfFile) {
 			//Command used the "icon of file" argument
-			if (!(url = [self fileUrlForLocationReference: iconOfFile])) {
+			if (!(url = [self fileUrlForLocationReference:iconOfFile])) {
 				//NSLog(@"That's a no go on that file's icon.");
 				return nil;
 			}
-			icon = [[NSWorkspace sharedWorkspace] iconForFile:[url path]];
+			icon = [[[NSWorkspace sharedWorkspace] iconForFile:[url path]] retain];
 		} else if (iconOfApplication) {
 			//Command used the "icon of application" argument
-			icon = [[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication];
+			icon = [[[NSWorkspace sharedWorkspace] iconForApplication:iconOfApplication] retain];
 		} else if (imageData) {
-			icon = [[[NSImage alloc] initWithData:imageData] autorelease];
+			icon = [[NSImage alloc] initWithData:imageData];
 		} else if (pictureData) {
-			icon = [[[NSImage alloc] initWithData:pictureData] autorelease];
-			[icon setScalesWhenResized: YES];
+			icon = [[NSImage alloc] initWithData:pictureData];
+			[icon setScalesWhenResized:YES];
 		}
 
 		if (icon) {
-			NSData *iconData;
 			[icon setSize:iconSize];
-			iconData = [icon TIFFRepresentation];
-			if (iconData)
-				[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON];
+			[noteDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
+			[icon release];
 		}
 
 		[[GrowlController standardController] dispatchNotificationWithDictionary:noteDict];
