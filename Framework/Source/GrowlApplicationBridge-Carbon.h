@@ -14,6 +14,10 @@
 #include <sys/cdefs.h>
 #include <Carbon/Carbon.h>
 
+#ifndef GROWL_EXPORT
+#define GROWL_EXPORT __attribute__((visibility("default")))
+#endif
+
 /*!	@header GrowlApplicationBridge-Carbon.h
  *	@abstract	Declares an API that Carbon applications can use to interact with Growl.
  *	@discussion	GrowlApplicationBridge uses a delegate to provide information //XXX
@@ -417,7 +421,7 @@ struct Growl_Notification {
  *	 structure, except possibly the referenceCount by calling the retain and
  *	 release members.
  */
-Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate);
+GROWL_EXPORT Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate);
 
 /*!	@function	Growl_GetDelegate
  *	@abstract	Returns the current Growl delegate, if any.
@@ -430,7 +434,7 @@ Boolean Growl_SetDelegate(struct Growl_Delegate *newDelegate);
  *	 delegate on your behalf. You are responsible for retaining and releasing
  *	 the delegate as needed.
  */
-struct Growl_Delegate *Growl_GetDelegate(void);
+GROWL_EXPORT struct Growl_Delegate *Growl_GetDelegate(void);
 
 #pragma mark -
 
@@ -452,7 +456,7 @@ struct Growl_Delegate *Growl_GetDelegate(void);
  *	 If the user does choose to install Growl, the requested notification will
  *	 be displayed once Growl is installed and running.
  */
-void Growl_PostNotification(const struct Growl_Notification *notification);
+GROWL_EXPORT void Growl_PostNotification(const struct Growl_Notification *notification);
 
 /*!	@function Growl_PostNotificationWithDictionary
 *	@abstract	Notifies using a userInfo dictionary suitable for passing to
@@ -468,7 +472,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification);
 *	 to using CFDistributedNotificationCenter. The keys for this dictionary
  *	 can be found in GrowlDefines.h.
 */
-void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo);
+GROWL_EXPORT void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo);
 
 /*!	@function	Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext
  *	@abstract	Posts a Growl notification using parameter values.
@@ -491,7 +495,7 @@ void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo);
  *	 The icon data can be in any format supported by NSImage. As of Mac OS X
  *	 10.3, this includes the .icns, TIFF, JPEG, GIF, PNG, PDF, and PICT formats.
  */
-void Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
+GROWL_EXPORT void Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
  /*inhale*/
 	CFStringRef title,
 	CFStringRef description,
@@ -525,7 +529,7 @@ void Growl_NotifyWithTitleDescriptionNameIconPriorityStickyClickContext(
  *	 This function was introduced in Growl.framework 0.7.
  *	@result <code>false</code> if registration failed (e.g. if Growl isn't installed).
  */
-Boolean Growl_RegisterWithDictionary(CFDictionaryRef regDict);
+GROWL_EXPORT Boolean Growl_RegisterWithDictionary(CFDictionaryRef regDict);
 
 /*!	@function	Growl_Reregister
  *	@abstract	Updates your registration with Growl.
@@ -543,7 +547,7 @@ Boolean Growl_RegisterWithDictionary(CFDictionaryRef regDict);
  *	 This function is now implemented using
  *	 <code>Growl_RegisterWithDictionary</code>.
  */
-void Growl_Reregister(void);
+GROWL_EXPORT void Growl_Reregister(void);
 
 #pragma mark -
 
@@ -563,14 +567,14 @@ void Growl_Reregister(void);
  *	@param	flag	<code>true</code> if you want GrowlApplicationBridge to register with
  *	 Growl when next it is ready; <code>false</code> if not.
  */
-void Growl_SetWillRegisterWhenGrowlIsReady(Boolean flag);
+GROWL_EXPORT void Growl_SetWillRegisterWhenGrowlIsReady(Boolean flag);
 /*!	@function	Growl_WillRegisterWhenGrowlIsReady
  *	@abstract	Reports whether GrowlApplicationBridge will register with Growl
  *	 when Growl next launches.
  *	@result	<code>true</code> if GrowlApplicationBridge will register with
  *	 Growl when next it posts GROWL_IS_READY; <code>false</code> if not.
  */
-Boolean Growl_WillRegisterWhenGrowlIsReady(void);
+GROWL_EXPORT Boolean Growl_WillRegisterWhenGrowlIsReady(void);
 
 #pragma mark -
 
@@ -592,7 +596,7 @@ Boolean Growl_WillRegisterWhenGrowlIsReady(void);
  *	 This function was introduced in Growl.framework 0.7.
  *	@result A registration dictionary.
  */
-CFDictionaryRef Growl_CopyRegistrationDictionaryFromDelegate(void);
+GROWL_EXPORT CFDictionaryRef Growl_CopyRegistrationDictionaryFromDelegate(void);
 
 /*!	@function	Growl_CopyRegistrationDictionaryFromBundle
  *	@abstract	Looks in a bundle for a registration dictionary.
@@ -613,7 +617,7 @@ CFDictionaryRef Growl_CopyRegistrationDictionaryFromDelegate(void);
  *	 This function was introduced in Growl.framework 0.7.
  *	@result A registration dictionary.
  */
-CFDictionaryRef Growl_CopyRegistrationDictionaryFromBundle(CFBundleRef bundle);
+GROWL_EXPORT CFDictionaryRef Growl_CopyRegistrationDictionaryFromBundle(CFBundleRef bundle);
 
 /*!	@function	Growl_CreateBestRegistrationDictionary
  *	@abstract	Obtains a registration dictionary, filled out to the best of
@@ -639,7 +643,7 @@ CFDictionaryRef Growl_CopyRegistrationDictionaryFromBundle(CFBundleRef bundle);
  *	 This function was introduced in Growl.framework 0.7.
  *	@result	A registration dictionary.
  */
-CFDictionaryRef Growl_CreateBestRegistrationDictionary(void);
+GROWL_EXPORT CFDictionaryRef Growl_CreateBestRegistrationDictionary(void);
 
 #pragma mark -
 
@@ -664,7 +668,7 @@ CFDictionaryRef Growl_CreateBestRegistrationDictionary(void);
  *
  *	 This function was introduced in Growl.framework 0.7.
  */
-CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionary(CFDictionaryRef regDict);
+GROWL_EXPORT CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionary(CFDictionaryRef regDict);
 /*!	@function	Growl_CreateRegistrationDictionaryByFillingInDictionaryRestrictedToKeys
  *	@abstract	Tries to fill in missing keys in a registration dictionary.
  *	@param	regDict	The dictionary to fill in.
@@ -686,7 +690,7 @@ CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionary(CFDictio
  *
  *	 This function was introduced in Growl.framework 0.7.
  */
-CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestrictedToKeys(CFDictionaryRef regDict, CFSetRef keys);
+GROWL_EXPORT CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestrictedToKeys(CFDictionaryRef regDict, CFSetRef keys);
 
 #pragma mark -
 
@@ -697,14 +701,14 @@ CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestricte
  *	 installed.
  *	@result	Returns true if Growl is installed, false otherwise.
  */
-Boolean Growl_IsInstalled(void);
+GROWL_EXPORT Boolean Growl_IsInstalled(void);
 
 /*!	@function	Growl_IsRunning
  *	@abstract	Cycles through the process list to find whether GrowlHelperApp
  *	 is running.
  *	@result	Returns true if Growl is running, false otherwise.
  */
-Boolean Growl_IsRunning(void);
+GROWL_EXPORT Boolean Growl_IsRunning(void);
 
 #pragma mark -
 
@@ -738,7 +742,7 @@ typedef void (*GrowlLaunchCallback)(void *context);
  *	 acceptable for context to be <code>NULL</code>. The callback itself can be
  *	 <code>NULL</code> if you don't want one.
  */
-Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context);
+GROWL_EXPORT Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context);
 
 #pragma mark -
 #pragma mark Constants

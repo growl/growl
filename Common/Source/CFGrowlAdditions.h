@@ -6,6 +6,9 @@
 //  Copyright 2005 The Growl Project.
 //
 
+#ifndef HAVE_CFGROWLADDITIONS_H
+#define HAVE_CFGROWLADDITIONS_H
+
 #ifdef __OBJC__
 #	define DATA_TYPE NSData *
 #	define DICTIONARY_TYPE NSDictionary *
@@ -75,3 +78,5 @@ URL_TYPE createURLByCopyingFileFromURLToDirectoryURL(URL_TYPE file, URL_TYPE des
  *	@result	The property list. You are responsible for releasing this object.
  */
 PLIST_TYPE createPropertyListFromURL(URL_TYPE file, u_int32_t mutability, CFPropertyListFormat *outFormat, STRING_TYPE *outErrorString);
+
+#endif
