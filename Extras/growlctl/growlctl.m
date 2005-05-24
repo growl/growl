@@ -79,16 +79,19 @@ int main (int argc, const char **argv) {
 			}
 		} else if (!strcmp(argv[1], "stopmenu")) {
 			//quit the status item with a Quit Apple event
-			NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplicationBundleID data:[@"com.Growl.MenuExtra" dataUsingEncoding:NSUTF8StringEncoding]];
-			NSAppleEventDescriptor *event = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass
-			                                                                         eventID:kAEQuitApplication
-			                                                                targetDescriptor:target
-			                                                                        returnID:kAutoGenerateReturnID
-			                                                                   transactionID:kAnyTransactionID];
+			NSAppleEventDescriptor *target = [[NSAppleEventDescriptor alloc] initWithDescriptorType:typeApplicationBundleID
+																							   data:[@"com.Growl.MenuExtra" dataUsingEncoding:NSUTF8StringEncoding]];
+			NSAppleEventDescriptor *event = [[NSAppleEventDescriptor alloc] initWithEventClass:kCoreEventClass
+																					   eventID:kAEQuitApplication
+																			  targetDescriptor:target
+																					  returnID:kAutoGenerateReturnID
+																				 transactionID:kAnyTransactionID];
 			OSStatus err = AESendMessage([event aeDesc],
 			                      /*reply*/ NULL,
 			                      /*sendMode*/ kAENoReply | kAEDontReconnect | kAENeverInteract | kAEDontRecord,
 			                      kAEDefaultTimeout);
+			[target release];
+			[event release];
 			if ((err != noErr) && (err != procNotFound)) {
 				fprintf(stderr, "Could not remove the status item: AESendMessage returned %li\n", (long)err);
 				status = EXIT_FAILURE;

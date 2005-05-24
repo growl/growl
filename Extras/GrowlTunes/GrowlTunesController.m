@@ -750,16 +750,19 @@ enum {
 		[self stopTimer];
 
 		//now quit iTunes.
-		NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplicationBundleID data:[iTunesBundleID dataUsingEncoding:NSUTF8StringEncoding]];
-		NSAppleEventDescriptor *event = [NSAppleEventDescriptor appleEventWithEventClass:kCoreEventClass
-		                                                                         eventID:kAEQuitApplication
-		                                                                targetDescriptor:target
-		                                                                        returnID:kAutoGenerateReturnID
-		                                                                   transactionID:kAnyTransactionID];
+		NSAppleEventDescriptor *target = [[NSAppleEventDescriptor alloc] initWithDescriptorType:typeApplicationBundleID
+																						   data:[iTunesBundleID dataUsingEncoding:NSUTF8StringEncoding]];
+		NSAppleEventDescriptor *event = [[NSAppleEventDescriptor alloc] initWithEventClass:kCoreEventClass
+																				   eventID:kAEQuitApplication
+																		  targetDescriptor:target
+																				  returnID:kAutoGenerateReturnID
+																			 transactionID:kAnyTransactionID];
 		OSStatus err = AESendMessage([event aeDesc],
 									 /*reply*/ NULL,
 									 /*sendMode*/ kAENoReply | kAEDontReconnect | kAENeverInteract | kAEDontRecord,
 									 kAEDefaultTimeout);
+		[target release];
+		[event release];
 		success = ((err == noErr) || (err == procNotFound));
 		if (!success) {
 			//XXX this should be an alert panel (with a better message)
