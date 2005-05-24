@@ -131,12 +131,10 @@ static void setDownloadFinished(id dl) {
 
 	if (!(growlBundle && [growlBundle load])) {
 		NSLog(@"Could not load Growl.framework, GrowlSafari disabled");
-	} else if ([GrowlApplicationBridge isGrowlInstalled]) {
+	} else {
 		// Register ourselves as a Growl delegate
 		[GrowlApplicationBridge setGrowlDelegate:self];
 		NSLog(@"Loaded GrowlSafari %@", [GrowlSafari bundleVersion]);
-	} else {
-		NSLog(@"Growl not installed, GrowlSafari disabled");
 	}
 
 	safariVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] intValue];
