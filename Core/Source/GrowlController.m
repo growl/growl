@@ -41,7 +41,7 @@
 - (void) notificationTimedOut:(NSNotification *)notification;
 @end
 
-static struct Version version = { 0U, 7U, 0U, releaseType_release, 0U, };
+static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
 //XXX - update these constants whenever the version changes
 
 #pragma mark -
