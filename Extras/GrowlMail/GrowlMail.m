@@ -86,13 +86,11 @@
 	if ((self = [super init])) {
 		NSString *growlPath = [[[GrowlMail bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
 		NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
-		if (!(growlBundle && [growlBundle load])) {
-			NSLog(@"Could not load Growl.framework, GrowlMail disabled");
-		} else if ([GrowlApplicationBridge isGrowlInstalled]) {
+		if (growlBundle && [growlBundle load]) {
 			// Register ourselves as a Growl delegate
 			[GrowlApplicationBridge setGrowlDelegate:self];
 		} else {
-			NSLog(@"Growl not installed, GrowlMail disabled");
+			NSLog(@"Could not load Growl.framework, GrowlMail disabled");
 		}
 	}
 

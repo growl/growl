@@ -129,12 +129,12 @@ static void setDownloadFinished(id dl) {
 	NSString *growlPath = [[[GrowlSafari bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
 	NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
 
-	if (!(growlBundle && [growlBundle load])) {
-		NSLog(@"Could not load Growl.framework, GrowlSafari disabled");
-	} else {
+	if (growlBundle && [growlBundle load]) {
 		// Register ourselves as a Growl delegate
 		[GrowlApplicationBridge setGrowlDelegate:self];
 		NSLog(@"Loaded GrowlSafari %@", [GrowlSafari bundleVersion]);
+	} else {
+		NSLog(@"Could not load Growl.framework, GrowlSafari disabled");
 	}
 
 	safariVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] intValue];
