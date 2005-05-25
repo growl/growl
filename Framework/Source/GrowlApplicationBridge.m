@@ -217,11 +217,11 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	Class NSImageClass = [NSImage class];
 	//notification icon.
 	NSImage *icon = [mUserInfo objectForKey:GROWL_NOTIFICATION_ICON];
-	if(icon && [icon isKindOfClass:NSImageClass])
+	if (icon && [icon isKindOfClass:NSImageClass])
 		[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
 	//per-notification application icon.
 	icon = [mUserInfo objectForKey:GROWL_NOTIFICATION_APP_ICON];
-	if(icon && [icon isKindOfClass:NSImageClass])
+	if (icon && [icon isKindOfClass:NSImageClass])
 		[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_APP_ICON];
 
 	userInfo = [mUserInfo autorelease];
@@ -380,7 +380,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		if (![mRegDict objectForKey:GROWL_APP_ICON]) {
 			if (!appIconData) {
 				appIconData = [self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict];
-				if(appIconData && [appIconData isKindOfClass:[NSImage class]])
+				if (appIconData && [appIconData isKindOfClass:[NSImage class]])
 					appIconData = [(NSImage *)appIconData TIFFRepresentation];
 				appIconData = [appIconData retain];
 			}
