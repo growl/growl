@@ -171,11 +171,14 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	NSParameterAssert(notifName);	//Notification name is required.
 	NSParameterAssert(title || description);	//At least one of title or description is required.
 
-	NSDictionary *regDict = [self bestRegistrationDictionary];
-	if (!appName)
-		appName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] retain];
-	if (!appIconData)
-		appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
+	if (!(appName && appIconData)) {
+		NSDictionary *regDict = [self bestRegistrationDictionary];
+		if (!appName)
+			appName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] retain];
+		if (!appIconData)
+			appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
+	}
+
 	NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
 
 	// Build our noteDict from all passed parameters
@@ -349,9 +352,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		NSLog(@"GrowlApplicationBridge: The Growl delegate did not supply a registration dictionary, and the app bundle at %@ does not have one. Please tell this application's developer.", [[NSBundle mainBundle] bundlePath]);
 	}
 
-	registrationDictionary = [self registrationDictionaryByFillingInDictionary:registrationDictionary];
-
-	return registrationDictionary;
+	return [self registrationDictionaryByFillingInDictionary:registrationDictionary];
 }
 
 #pragma mark -
