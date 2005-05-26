@@ -47,7 +47,7 @@
 	[notificationsTable setDoubleAction:@selector(showEditSheet:)];
 	[self tableViewSelectionDidChange:nil];
 
-	addButtonTitle = [[addEditButton title] retain]; //this is the default title in the nib
+	addButtonTitle  = [[addEditButton title] retain]; //this is the default title in the nib
 	editButtonTitle = [NSLocalizedString(@"Edit", /*comment*/ NULL) retain];
 
 	[GrowlApplicationBridge setGrowlDelegate:self];
@@ -125,11 +125,11 @@
 		//send a notification for the selected table cell
 		NSDictionary *note = [notifications objectAtIndex:selectedRow];
 
-		//NSLog( @"note - %@", note );
+		//NSLog(@"note - %@", note);
 		[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
-							description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-					   notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
-							   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON]
+							description: [note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+					   notificationName: [note objectForKey:GROWL_NOTIFICATION_NAME]
+							   iconData: [note objectForKey:GROWL_NOTIFICATION_ICON]
 							   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 							   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
 						   clickContext:nil];
@@ -159,8 +159,8 @@
 
 - (void) sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	if (returnCode == NSOKButton) {
-		NSNumber *defaultValue = [NSNumber numberWithBool:[notificationDefault state] == NSOnState];
-		NSNumber *stickyValue  = [NSNumber numberWithBool:[notificationSticky state] == NSOnState];
+		NSNumber *defaultValue = [NSNumber numberWithBool:[notificationDefault  state] == NSOnState];
+		NSNumber *stickyValue  = [NSNumber numberWithBool:[notificationSticky   state] == NSOnState];
 		NSNumber *priority     = [NSNumber numberWithInt:[[notificationPriority selectedItem] tag]];
 		NSData   *imageData    = [[notificationImage image] TIFFRepresentation];
 		NSString *title        = [notificationTitle stringValue];
@@ -246,14 +246,13 @@
 	unsigned numNotifications = [notifications count];
 
 	//Build an array of all notifications we want to use
-	for ( unsigned i = 0U; i < numNotifications; ++i ) {
+	for (unsigned i = 0U; i < numNotifications; ++i) {
 		NSDictionary *def = [notifications objectAtIndex:i];
 		[allNotesArray addObject:[def objectForKey:GROWL_NOTIFICATION_NAME]];
 
 		isDefaultNum = [def objectForKey:GROWL_NOTIFICATION_DEFAULT];
-		if ( isDefaultNum && [isDefaultNum boolValue] ) {
+		if (isDefaultNum && [isDefaultNum boolValue])
 			[defNotesArray addObject:[NSNumber numberWithUnsignedInt:i]];
-		}
 	}
 
 	//Set these notifications both for ALL (all possibilites) and DEFAULT (the ones enabled by default)
