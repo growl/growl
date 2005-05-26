@@ -279,8 +279,8 @@ enum {
 		NSNumber		*rating        = nil;
 		NSString		*ratingString  = nil;
 		NSImage			*artwork       = nil;
-		NSString		*displayString = nil;
 		NSDictionary	*error         = nil;
+		NSString		*displayString;
 
 		if ([userInfo objectForKey:@"Artist"])
 			artist = [userInfo objectForKey:@"Artist"];
@@ -346,11 +346,11 @@ enum {
 		}
 		if ([newTrackURL hasPrefix:@"http://"]) {
 			//If we're streaming music, display only the name of the station and genre
-			displayString = [NSString stringWithFormat:NSLocalizedString(@"Display-string format for streams", /*comment*/ nil), [userInfo objectForKey:@"Genre"]];
+			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format for streams", /*comment*/ nil), [userInfo objectForKey:@"Genre"]];
 		} else {
 			if (!artist) artist = @"";
 			if (!album)  album  = @"";
-			displayString = [NSString stringWithFormat:NSLocalizedString(@"Display-string format", /*comment*/ nil), length, ratingString, artist, album];
+			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format", /*comment*/ nil), length, ratingString, artist, album];
 		}
 
 		// Tell Growl
@@ -359,8 +359,10 @@ enum {
 			appName,       GROWL_APP_NAME,
 			track,         GROWL_NOTIFICATION_TITLE,
 			displayString, GROWL_NOTIFICATION_DESCRIPTION,
+			@"GrowlTunes", GROWL_NOTIFICATION_IDENTIFIER,
 			[artwork TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 			nil];
+		[displayString release];
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
 		[noteDict release];
 
@@ -378,10 +380,10 @@ enum {
 
 - (void) poll:(NSTimer *)timer {
 #pragma unused(timer)
-	NSDictionary			* error = nil;
-	NSAppleEventDescriptor	* theDescriptor = [pollScript executeAndReturnError:&error];
-	NSAppleEventDescriptor  * curDescriptor;
-	NSString				* playerState;
+	NSDictionary			*error = nil;
+	NSAppleEventDescriptor	*theDescriptor = [pollScript executeAndReturnError:&error];
+	NSAppleEventDescriptor  *curDescriptor;
+	NSString				*playerState;
 	iTunesState				newState = itUNKNOWN;
 	int						newTrackID = -1;
 
@@ -471,13 +473,16 @@ enum {
 		}
 
 		// Tell growl
+		NSString *description = [[NSString alloc] initWithFormat:@"%@ - %@\n%@\n%@", length, ratingString, artist, album];
 		noteDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,
-			appName, GROWL_APP_NAME,
-			track,   GROWL_NOTIFICATION_TITLE,
-			[NSString stringWithFormat:@"%@ - %@\n%@\n%@",length,ratingString,artist,album], GROWL_NOTIFICATION_DESCRIPTION,
+			appName,       GROWL_APP_NAME,
+			track,         GROWL_NOTIFICATION_TITLE,
+			description,   GROWL_NOTIFICATION_DESCRIPTION,
+			@"GrowlTunes", GROWL_NOTIFICATION_IDENTIFIER,
 			(artwork ? [artwork TIFFRepresentation] : nil), GROWL_NOTIFICATION_ICON,
 			nil];
+		[description release];
 		[GrowlApplicationBridge notifyWithDictionary:noteDict];
 		[noteDict release];
 
