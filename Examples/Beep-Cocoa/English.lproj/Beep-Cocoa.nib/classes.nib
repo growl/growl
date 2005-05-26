@@ -25,7 +25,6 @@
                 notificationSticky = NSButton; 
                 notificationTitle = NSTextField; 
                 notificationsTable = NSTableView; 
-                registered = NSButton; 
                 removeNotification = NSButton; 
                 sendButton = NSButton; 
             }; 
