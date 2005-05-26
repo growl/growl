@@ -139,9 +139,8 @@ static id singleton = nil;
 		growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
 		growlNotificationCenterConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
 		[growlNotificationCenterConnection setRootObject:growlNotificationCenter];
-		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"]) {
+		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
 			NSLog(@"WARNING: could not register GrowlNotificationCenter");
-		}
 
 		// initialize GrowlApplicationBridgePathway
 		[GrowlApplicationBridgePathway standardPathway];
@@ -164,7 +163,7 @@ static id singleton = nil;
 
 	[growlNotificationCenterConnection invalidate];
 	[growlNotificationCenterConnection release];
-	[growlNotificationCenter release];
+	[growlNotificationCenter           release];
 
 	cdsaShutdown();
 
@@ -219,15 +218,15 @@ static id singleton = nil;
 }
 
 - (void) stopServer {
-	[udpServer release];
+	[udpServer        release];
 	[serverConnection registerName:nil];	// unregister
 	[serverConnection invalidate];
 	[serverConnection release];
-	[socketPort invalidate];
-	[socketPort release];
-	[server release];
-	[service stop];
-	[service release];
+	[socketPort       invalidate];
+	[socketPort       release];
+	[server           release];
+	[service          stop];
+	[service          release];
 	service = nil;
 }
 
@@ -287,13 +286,15 @@ static id singleton = nil;
 	Class NSDataClass = [NSData class];
 	NSImage *icon = nil;
 	id image = [aDict objectForKey:GROWL_NOTIFICATION_ICON];
-	if (image && [image isKindOfClass:NSImageClass]) {
-		icon = [image copy];
-	} else if (image && [image isKindOfClass:NSDataClass]) {
-		icon = [[NSImage alloc] initWithData:image];
-	} else {
-		icon = [[ticket icon] copy];
+	if (image) {
+		if ([image isKindOfClass:NSImageClass])
+			icon = [image copy];
+		else if ([image isKindOfClass:NSDataClass])
+			icon = [[NSImage alloc] initWithData:image];
 	}
+	if (!icon)
+		icon = [[ticket icon] copy];
+
 	if (icon) {
 		[aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
 		[icon release];
@@ -304,13 +305,13 @@ static id singleton = nil;
 	// If app icon present, convert to NSImage
 	image = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON];
 	if (image) {
-		if ([image isKindOfClass:NSImageClass]) {
+		if ([image isKindOfClass:NSImageClass])
 			icon = [image copy];
-		} else if ([image isKindOfClass:NSDataClass]) {
+		else if ([image isKindOfClass:NSDataClass])
 			icon = [[NSImage alloc] initWithData:image];
-		} else {
+		else
 			icon = nil;
-		}
+
 		if (icon) {
 			[aDict setObject:icon forKey:GROWL_NOTIFICATION_APP_ICON];
 			[icon release];
@@ -320,12 +321,10 @@ static id singleton = nil;
 	}
 
 	// To avoid potential exceptions, make sure we have both text and title
-	if (![aDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]) {
+	if (![aDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
 		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_DESCRIPTION];
-	}
-	if (![aDict objectForKey:GROWL_NOTIFICATION_TITLE]) {
+	if (![aDict objectForKey:GROWL_NOTIFICATION_TITLE])
 		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_TITLE];
-	}
 
 	//Retrieve and set the the priority of the notification
 	GrowlApplicationNotification *notification = [ticket notificationForName:notificationName];
@@ -333,9 +332,8 @@ static id singleton = nil;
 	NSNumber *value;
 	if (priority == GP_unset) {
 		value = [dict objectForKey:GROWL_NOTIFICATION_PRIORITY];
-		if (!value) {
+		if (!value)
 			value = [NSNumber numberWithInt:0];
-		}
 	} else {
 		value = [NSNumber numberWithInt:priority];
 	}
@@ -363,18 +361,15 @@ static id singleton = nil;
 
 		if (!display) {
 			NSString *displayPluginName = [aDict objectForKey:GROWL_DISPLAY_PLUGIN];
-			if (displayPluginName) {
+			if (displayPluginName)
 				display = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
-			}
 		}
 
-		if (!display) {
+		if (!display)
 			display = [ticket displayPlugin];
-		}
 
-		if (!display) {
+		if (!display)
 			display = displayController;
-		}
 
 		[display displayNotificationWithInfo:aDict];
 	}
