@@ -277,12 +277,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95D1659E0834DB5200D996B2;
-					ProjectRef = 95D1659D0834DB5200D996B2;
-				},
-				{
 					ProductGroup = 95D165B70834DB7500D996B2;
 					ProjectRef = 95D165B60834DB7500D996B2;
+				},
+				{
+					ProductGroup = 95D1659E0834DB5200D996B2;
+					ProjectRef = 95D1659D0834DB5200D996B2;
 				},
 			);
 			targets = (
@@ -2344,7 +2344,7 @@
 			};
 		};
 		34B2756708423F9F0092A5A0 = {
-			fileEncoding = 4;
+			fileEncoding = 10;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = English;
@@ -3712,9 +3712,9 @@
 			sourceTree = "<group>";
 		};
 		9528EF7907F5A27300061D90 = {
-			fileEncoding = 4;
+			explicitFileType = text.plist.strings;
+			fileEncoding = 10;
 			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
 			name = Japanese;
 			path = Core/Resources/Japanese.lproj/Localizable.strings;
 			refType = 4;
@@ -3919,9 +3919,9 @@
 			sourceTree = "<group>";
 		};
 		954F012F074135CC00EA8AB5 = {
-			fileEncoding = 4;
+			explicitFileType = text.plist.strings;
+			fileEncoding = 10;
 			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
 			name = English;
 			path = Core/Resources/English.lproj/Localizable.strings;
 			refType = 2;
@@ -3945,9 +3945,9 @@
 			};
 		};
 		954F0148074135D700EA8AB5 = {
-			fileEncoding = 4;
+			explicitFileType = text.plist.strings;
+			fileEncoding = 10;
 			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
 			name = German;
 			path = Core/Resources/German.lproj/Localizable.strings;
 			refType = 2;
