@@ -269,7 +269,6 @@ static id singleton = nil;
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
 	[GrowlLog logNotificationDictionary:dict];
-	NSLog(@"dispatchNotificationWithDictionary:%@", dict);
 
 	// Make sure this notification is actually registered
 	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
