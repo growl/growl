@@ -104,7 +104,7 @@
 }
 
 - (NSData *) applicationIconDataForGrowl {
-	return [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
+	return (id)[NSImage imageNamed:@"NSApplicationIcon"];
 }
 
 - (void) growlNotificationWasClicked:(id)clickContext {

@@ -58,7 +58,7 @@
 @end
 
 @implementation Message(GrowlMail)
-- (void)showNotification {
+- (void) showNotification {
 	NSString *account = [[[self messageStore] account] displayName];
 	NSString *sender = [self sender];
 	NSString *senderAddress = [sender uncommentedAddress];
@@ -103,21 +103,18 @@
 																 value:senderAddress
 															comparison:kABEqualCaseInsensitive];
 	NSArray *matches = [[ABAddressBook sharedAddressBook] recordsMatchingSearchElement:personSearch];
-	NSImage *image = nil;
+	id image = nil;
 	if ([matches count] > 0U) {
-		image = [[[NSImage alloc] initWithData:[[matches objectAtIndex:0U] imageData]] autorelease];
+		image = [[matches objectAtIndex:0U] imageData];
 	}
 	if (!image) {
 //		NSLog(@"Image: Mail.app");
-//		icon = [[NSApp applicationIconImage] TIFFRepresentation];
-//		NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-//		image = [workspace iconForFile:[workspace fullPathForApplication:@"Mail"]];
 		image = [NSImage imageNamed:@"NSApplicationIcon"];
 	}
 	[GrowlApplicationBridge notifyWithTitle:title
 								description:description
 						   notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")
-								   iconData:[image TIFFRepresentation]
+								   iconData:image
 								   priority:0
 								   isSticky:NO
 							   clickContext:@""];	// non-nil click context

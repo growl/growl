@@ -35,5 +35,5 @@
 #import "MailHeaders.h"
 
 @interface Message(GrowlMail)
-- (void)showNotification;
+- (void) showNotification;
 @end
