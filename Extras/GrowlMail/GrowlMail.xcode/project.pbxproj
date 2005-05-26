@@ -72,6 +72,13 @@
 			);
 			hasScannedForEncodings = 1;
 			isa = PBXProject;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				zh_CN,
+			);
 			mainGroup = 089C166AFE841209C02AAC07;
 			projectDirPath = "";
 			targets = (
@@ -423,9 +430,9 @@
 			};
 		};
 		950A023B0737CBDB0075BDE4 = {
+			explicitFileType = text.xml;
 			fileEncoding = 4;
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
 			name = English;
 			path = English.lproj/Localizable.strings;
 			refType = 4;
@@ -436,6 +443,7 @@
 				950A023B0737CBDB0075BDE4,
 				950A02490737CDDA0075BDE4,
 				9556E69907F4354600D42745,
+				95B00A56084689D0004A8623,
 			);
 			isa = PBXVariantGroup;
 			name = Localizable.strings;
@@ -449,8 +457,9 @@
 			};
 		};
 		950A02490737CDDA0075BDE4 = {
+			explicitFileType = text.xml;
+			fileEncoding = 4;
 			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
 			name = German;
 			path = German.lproj/Localizable.strings;
 			refType = 4;
@@ -553,6 +562,7 @@
 				955347EB0732C14400D12875,
 				950DAC0E0737AF630096F066,
 				9528EFE607F5A60600061D90,
+				95B00A55084689C4004A8623,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlMailPreferencesPanel.nib;
@@ -633,6 +643,23 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			path = GrowlMail_Prefix.pch;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95B00A55084689C4004A8623 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = zh_CN;
+			path = zh_CN.lproj/GrowlMailPreferencesPanel.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95B00A56084689D0004A8623 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = zh_CN;
+			path = zh_CN.lproj/Localizable.strings;
 			refType = 4;
 			sourceTree = "<group>";
 		};

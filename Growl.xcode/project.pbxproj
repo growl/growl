@@ -273,6 +273,14 @@
 			);
 			hasScannedForEncodings = 1;
 			isa = PBXProject;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				cs,
+				zh_CN,
+			);
 			mainGroup = 089C166AFE841209C02AAC07;
 			projectDirPath = "";
 			projectReferences = (
@@ -357,8 +365,6 @@
 		089C167DFE841241C02AAC07 = {
 			children = (
 				089C167EFE841241C02AAC07,
-				9527F2A1073F5A33004727A0,
-				9574B9830838FB4B00106CA3,
 			);
 			isa = PBXVariantGroup;
 			name = InfoPlist.strings;
@@ -2357,6 +2363,7 @@
 				34B2756708423F9F0092A5A0,
 				34B2756D08423FAD0092A5A0,
 				34B2756E08423FB00092A5A0,
+				95B00A18084688F6004A8623,
 			);
 			isa = PBXVariantGroup;
 			name = Localizable.strings;
@@ -3561,6 +3568,8 @@
 				950F7989080EED7400CC5F62,
 				950F798B080EED8900CC5F62,
 				9574B9A30838FCDC00106CA3,
+				95B00A3208468969004A8623,
+				95B00A330846897A004A8623,
 			);
 			isa = PBXVariantGroup;
 			name = WebKitPrefs.nib;
@@ -3703,14 +3712,6 @@
 			settings = {
 			};
 		};
-		9527F2A1073F5A33004727A0 = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
-			name = German;
-			path = Core/Resources/German.lproj/InfoPlist.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		9528EF7907F5A27300061D90 = {
 			explicitFileType = text.plist.strings;
 			fileEncoding = 10;
@@ -3765,6 +3766,8 @@
 				9532B0CE07CE651F0028B2F1,
 				9532B10307CE65310028B2F1,
 				9574B9800838FADA00106CA3,
+				953A3FFB08468818001AC823,
+				95B009D008468840004A8623,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlPref.nib;
@@ -3799,6 +3802,14 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		953A3FFB08468818001AC823 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = cs;
+			path = Core/Resources/cs.lproj/GrowlPref.nib;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		953C3EFE0747970800F2A737 = {
 			children = (
@@ -3932,6 +3943,8 @@
 				954F012F074135CC00EA8AB5,
 				954F0148074135D700EA8AB5,
 				9528EF7907F5A27300061D90,
+				95B00A3008468932004A8623,
+				95B00A3108468941004A8623,
 			);
 			isa = PBXVariantGroup;
 			name = Localizable.strings;
@@ -4254,14 +4267,6 @@
 			lastKnownFileType = wrapper.nib;
 			name = Japanese;
 			path = Core/Resources/Japanese.lproj/GrowlPref.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		9574B9830838FB4B00106CA3 = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
-			name = Japanese;
-			path = Core/Resources/Japanese.lproj/InfoPlist.strings;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -4609,6 +4614,57 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		95B009D008468840004A8623 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = zh_CN;
+			path = Core/Resources/zh_CN.lproj/GrowlPref.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95B00A18084688F6004A8623 = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = zh_CN;
+			path = StatusItem/Resources/zh_CN.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95B00A3008468932004A8623 = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = cs;
+			path = Core/Resources/cs.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95B00A3108468941004A8623 = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = zh_CN;
+			path = Core/Resources/zh_CN.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95B00A3208468969004A8623 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = cs;
+			path = "Display Plugins/WebKit/cs.lproj/WebKitPrefs.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95B00A330846897A004A8623 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = zh_CN;
+			path = "Display Plugins/WebKit/zh_CN.lproj/WebKitPrefs.nib";
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		95BF83760743675700306A77 = {
 			isa = PBXFileReference;

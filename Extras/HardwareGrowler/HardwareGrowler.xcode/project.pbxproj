@@ -127,6 +127,13 @@
 			);
 			hasScannedForEncodings = 1;
 			isa = PBXProject;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				zh_CN,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA;
 			projectDirPath = "";
 			targets = (
@@ -190,6 +197,7 @@
 			children = (
 				29B97319FDCFA39411CA2CEA,
 				DD43C6EF0840C0100022A0D1,
+				95B00A8C08468A62004A8623,
 			);
 			isa = PBXVariantGroup;
 			name = MainMenu.nib;
@@ -561,6 +569,14 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		95B00A8C08468A62004A8623 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = zh_CN;
+			path = zh_CN.lproj/MainMenu.nib;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 //950
 //951

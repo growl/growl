@@ -56,6 +56,7 @@
 				07B1BAB3077D59A600474D89,
 				95100E8B078867E5005DBB70,
 				9556E6AA07F435FA00D42745,
+				95B00A9908468AB7004A8623,
 			);
 			isa = PBXVariantGroup;
 			name = Localizable.strings;
@@ -428,12 +429,19 @@
 			);
 			hasScannedForEncodings = 1;
 			isa = PBXProject;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				zh_CN,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA;
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 0A8B6180070B303B00593A33;
-					ProjectRef = 0A8B617F070B303B00593A33;
+					ProductGroup = 0A8B6174070B2F6A00593A33;
+					ProjectRef = 0A8B5F0F070B140C00593A33;
 				},
 				{
 					ProductGroup = 0A8B6179070B303600593A33;
@@ -444,8 +452,8 @@
 					ProjectRef = DD86247B080D8421001ACC9F;
 				},
 				{
-					ProductGroup = 0A8B6174070B2F6A00593A33;
-					ProjectRef = 0A8B5F0F070B140C00593A33;
+					ProductGroup = 0A8B6180070B303B00593A33;
+					ProjectRef = 0A8B617F070B303B00593A33;
 				},
 			);
 			targets = (
@@ -796,6 +804,7 @@
 			};
 		};
 		95100E8B078867E5005DBB70 = {
+			fileEncoding = 10;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = German;
@@ -819,6 +828,7 @@
 			remoteInfo = GrowlMenu;
 		};
 		9556E6AA07F435FA00D42745 = {
+			fileEncoding = 10;
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.strings;
 			name = Japanese;
@@ -899,6 +909,15 @@
 			};
 			isa = PBXBuildStyle;
 			name = "Deployment - Tiger - G4";
+		};
+		95B00A9908468AB7004A8623 = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = zh_CN;
+			path = zh_CN.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 //950
 //951
