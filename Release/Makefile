@@ -53,8 +53,8 @@ source:
 	cp $(SRC_DIR)/changes.txt $(BUILD_DIR)/source
 	cp $(SRC_DIR)/generateSVNRevision.sh $(BUILD_DIR)/source
 	cp $(SRC_DIR)/headerDoc2HTML.config $(BUILD_DIR)/source
-	find $(BUILD_DIR)/source \( -name build -or -name .svn \) -exec rm -rf {} \; -prune
-	find $(BUILD_DIR)/source \( -name "*~" -or -name .DS_Store \) -delete
+	find $(BUILD_DIR)/source \( -name build -or -name .svn \) -type d -exec rm -rf {} \; -prune
+	find $(BUILD_DIR)/source \( -name "*~" -or -name .DS_Store \) -type f -delete
 	tar -c -C $(BUILD_DIR)/source -f $(BUILD_DIR)/$(RELEASE_NAME)-src.tar .
 	bzip2 $(BUILD_DIR)/$(RELEASE_NAME)-src.tar
 
@@ -125,8 +125,8 @@ release:
 	rm $(SDK_DIR)/Bindings/tcl/GrowlApplicationBridge.h
 	rm $(SDK_DIR)/Bindings/tcl/GrowlApplicationBridge.m
 	@# delete svn and backup files
-	find $(BUILD_DIR) -name ".svn" -exec rm -rf {} \; -prune
-	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -delete
+	find $(BUILD_DIR) -name ".svn" -type d -exec rm -rf {} \; -prune
+	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store -or -name classes.nib -or -name info.nib \) -type f -delete
 	@# make Growl disk image
 	mkdir $(GROWL_DIR)/.background
 	cp $(SRC_DIR)/images/dmg/growl07DMGBackground.png $(GROWL_DIR)/.background
