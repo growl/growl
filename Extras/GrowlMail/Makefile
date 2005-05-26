@@ -34,8 +34,8 @@ install: $(name)
 	$(stopmail)
 	mkdir -p "$(datadir)"
 	$(CP) "$(builddir)/$<.mailbundle" "$(datadir)/$(name).mailbundle"
-	defaults write com.apple.mail EnableBundles -bool YES
-	defaults write com.apple.mail BundleCompatibilityVersion -int 1
+	defaults write com.apple.mail EnableBundles 1
+	defaults write com.apple.mail BundleCompatibilityVersion 2
 	$(POST_INSTALL)
 	$(startmail)
 

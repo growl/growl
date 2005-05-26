@@ -90,10 +90,10 @@ function installGrowlMail ()
 	exec 1>&5 2>&6
 	
 	if [[ ! ( $HAS_ENABLE_BUNDLES && $ENABLE_BUNDLES == 1 &&
-			  $HAS_BUNDLE_COMPATIBILITY_VERSION && $BUNDLE_COMPATIBILITY_VERSION == 1 ) ]]; then
+			  $HAS_BUNDLE_COMPATIBILITY_VERSION && $BUNDLE_COMPATIBILITY_VERSION == 2 ) ]]; then
 		ui_echo "Enabling plug-ins in Mail"
-		run "defaults write com.apple.mail EnableBundles -bool YES"
-		run "defaults write com.apple.mail BundleCompatibilityVersion -int 1"
+		run "defaults write com.apple.mail EnableBundles 1"
+		run "defaults write com.apple.mail BundleCompatibilityVersion 2"
 	fi
 }
 
