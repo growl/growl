@@ -184,7 +184,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	NSNumber *opacityNumber = [[NSNumber alloc] initWithFloat:opacity];
 
 	NSMutableString *titleHTML = [[[NSMutableString alloc] initWithString:title] escapeForHTML];
-	NSMutableString *textHTML = [[[NSMutableString alloc] initWithString:text] escapeForHTML];
+	NSMutableString  *textHTML = [[[NSMutableString alloc] initWithString:text] escapeForHTML];
 	NSURL *baseURL = [[NSURL alloc] initFileURLWithPath:stylePath];
 
 	[htmlString replaceOccurrencesOfString:@"%baseurl%"
