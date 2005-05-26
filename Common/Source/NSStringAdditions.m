@@ -40,16 +40,24 @@
 		|| [canonicalSubpath hasPrefix:[canonicalSuperpath stringByAppendingString:@"/"]];
 }
 
-- (NSAttributedString *) hyperlink {
+- (NSAttributedString *) hyperlinkWithColor:(NSColor *)color {
 	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 		[NSNumber numberWithInt:NSSingleUnderlineStyle], NSUnderlineStyleAttributeName,
 		self, NSLinkAttributeName,    // link to self
 		[NSFont systemFontOfSize:[NSFont smallSystemFontSize]],	NSFontAttributeName,
-		[NSColor blueColor], NSForegroundColorAttributeName,
+		color, NSForegroundColorAttributeName,
 		[NSCursor pointingHandCursor], NSCursorAttributeName,
         nil];
 	NSAttributedString *result = [[[NSAttributedString alloc] initWithString:self attributes:attributes] autorelease];
 	[attributes release];
 	return result;
 }
+
+- (NSAttributedString *) hyperlink {
+	return [self hyperlinkWithColor:[NSColor blueColor]];
+}
+- (NSAttributedString *) activeHyperlink {
+	return [self hyperlinkWithColor:[NSColor redColor]];
+}
+
 @end
