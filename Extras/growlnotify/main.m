@@ -48,7 +48,7 @@ static const char usage[] =
 "    -v,--version    Display version number\n"
 "    -n,--name       Set the name of the application that sends the notification\n"
 "                    [Default: growlnotify]\n"
-"    -s              Make the notification sticky\n"
+"    -s,--sticky     Make the notification sticky\n"
 "    -a,--appIcon    Specify an application name  to take the icon from\n"
 "    -i,--icon       Specify a file type or extension to look up for the\n"
 "                    notification icon\n"
@@ -141,6 +141,7 @@ int main(int argc, const char **argv) {
 		{ "wait",		no_argument,		NULL,   'w' },
 		{ "auth",		required_argument,	NULL,   'A' },
 		{ "crypt",      no_argument,        NULL,   'c' },
+		{ "sticky",     no_argument,        NULL,   's' },
 		{ NULL,			0,					NULL,	 0  }
 	};
 
@@ -235,13 +236,15 @@ int main(int argc, const char **argv) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	// Deal with title
-	NSMutableArray *argArray = [NSMutableArray array];
+	NSMutableArray *argArray = [[NSMutableArray alloc] initWithCapacity:argc];
 	while (argc--) {
-		NSString *temp = [NSString stringWithUTF8String:(argv++)[0]];
+		NSString *temp = [[NSString alloc] initWithUTF8String:(argv++)[0]];
 		[argArray addObject:temp];
+		[temp release];
 	}
 	[argArray removeObject:@""];
 	NSString *title = [argArray componentsJoinedByString:@" "];
+	[argArray release];
 
 	// Deal with image
 	// --image takes precedence over -I takes precedence over -i takes precedence over --a
@@ -264,10 +267,13 @@ int main(int argc, const char **argv) {
 		}
 		image = [ws iconForFile:path];
 	} else if (iconExt) {
-		image = [ws iconForFileType:[NSString stringWithUTF8String:iconExt]];
+		NSString *fileType = [[NSString alloc] initWithUTF8String:iconExt];
+		image = [ws iconForFileType:fileType];
+		[fileType release];
 	} else if (appIcon) {
-		NSString *app = [NSString stringWithUTF8String:appIcon];
+		NSString *app = [[NSString alloc] initWithUTF8String:appIcon];
 		image = [ws iconForFile:[ws fullPathForApplication:app]];
+		[app release];
 	}
 	if (!image) {
 		image = [ws iconForFile:[ws fullPathForApplication:@"Terminal"]];
@@ -313,17 +319,21 @@ int main(int argc, const char **argv) {
 
 	// Notify
 	NSString *clickContext = [[NSProcessInfo processInfo] globallyUniqueString];
+	NSNumber *priorityNumber = [[NSNumber alloc] initWithInt:priority];
+	NSNumber *stickyNumber = [[NSNumber alloc] initWithBool:isSticky];
 	NSDictionary *notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-		NOTIFICATION_NAME,                  GROWL_NOTIFICATION_NAME,
-		applicationName,                    GROWL_APP_NAME,
-		title,                              GROWL_NOTIFICATION_TITLE,
-		desc,                               GROWL_NOTIFICATION_DESCRIPTION,
-		[NSNumber numberWithInt:priority],  GROWL_NOTIFICATION_PRIORITY,
-		[NSNumber numberWithBool:isSticky], GROWL_NOTIFICATION_STICKY,
-		icon,                               GROWL_NOTIFICATION_ICON,
-		clickContext,                       GROWL_NOTIFICATION_CLICK_CONTEXT,
-		identifierString,					GROWL_NOTIFICATION_IDENTIFIER,
+		NOTIFICATION_NAME, GROWL_NOTIFICATION_NAME,
+		applicationName,   GROWL_APP_NAME,
+		title,             GROWL_NOTIFICATION_TITLE,
+		desc,              GROWL_NOTIFICATION_DESCRIPTION,
+		priorityNumber,    GROWL_NOTIFICATION_PRIORITY,
+		stickyNumber,      GROWL_NOTIFICATION_STICKY,
+		icon,              GROWL_NOTIFICATION_ICON,
+		clickContext,      GROWL_NOTIFICATION_CLICK_CONTEXT,
+		identifierString,  GROWL_NOTIFICATION_IDENTIFIER,
 		nil];
+	[priorityNumber release];
+	[stickyNumber   release];
 
 	if (host) {
 		if (cdsaInit()) {
