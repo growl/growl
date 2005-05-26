@@ -114,7 +114,6 @@ static id singleton = nil;
 																 object:nil];
 
 		growlIcon = [[NSImage imageNamed:@"NSApplicationIcon"] retain];
-		growlIconData = [[growlIcon TIFFRepresentation] retain];
 
 		[GrowlApplicationBridge setGrowlDelegate:self];
 
@@ -154,15 +153,11 @@ static id singleton = nil;
 - (void) dealloc {
 	//free your world
 	[self stopServer];
-	[authenticator release];
-	[dncPathway    release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
-	[destinations  release];
-
-	[tickets           release];
-
-	[growlIcon     release];
-	[growlIconData release];
-
+	[authenticator   release];
+	[dncPathway      release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
+	[destinations    release];
+	[tickets         release];
+	[growlIcon       release];
 	[versionCheckURL release];
 	[updateTimer     invalidate];
 	[updateTimer     release];
@@ -274,6 +269,7 @@ static id singleton = nil;
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
 	[GrowlLog logNotificationDictionary:dict];
+	NSLog(@"dispatchNotificationWithDictionary:%@", dict);
 
 	// Make sure this notification is actually registered
 	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
@@ -288,11 +284,13 @@ static id singleton = nil;
 	NSMutableDictionary *aDict = [dict mutableCopy];
 
 	// Check icon
+	Class NSImageClass = [NSImage class];
+	Class NSDataClass = [NSData class];
 	NSImage *icon = nil;
 	id image = [aDict objectForKey:GROWL_NOTIFICATION_ICON];
-	if (image && [image isKindOfClass:[NSImage class]]) {
+	if (image && [image isKindOfClass:NSImageClass]) {
 		icon = [image copy];
-	} else if (image && [image isKindOfClass:[NSData class]]) {
+	} else if (image && [image isKindOfClass:NSDataClass]) {
 		icon = [[NSImage alloc] initWithData:image];
 	} else {
 		icon = [[ticket icon] copy];
@@ -305,11 +303,21 @@ static id singleton = nil;
 	}
 
 	// If app icon present, convert to NSImage
-	NSData *appIconData = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON];
-	if (appIconData) {
-		NSImage *appIcon = [[NSImage alloc] initWithData:appIconData];
-		[aDict setObject:appIcon forKey:GROWL_NOTIFICATION_APP_ICON];
-		[appIcon release];
+	image = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON];
+	if (image) {
+		if ([image isKindOfClass:NSImageClass]) {
+			icon = [image copy];
+		} else if ([image isKindOfClass:NSDataClass]) {
+			icon = [[NSImage alloc] initWithData:image];
+		} else {
+			icon = nil;
+		}
+		if (icon) {
+			[aDict setObject:icon forKey:GROWL_NOTIFICATION_APP_ICON];
+			[icon release];
+		} else {
+			[aDict removeObjectForKey:GROWL_NOTIFICATION_APP_ICON];
+		}
 	}
 
 	// To avoid potential exceptions, make sure we have both text and title
@@ -440,7 +448,7 @@ static id singleton = nil;
 		[GrowlApplicationBridge notifyWithTitle:notificationName
 									description:[appName stringByAppendingString:@" registered"]
 							   notificationName:notificationName
-									   iconData:growlIconData
+									   iconData:(id)growlIcon
 									   priority:0
 									   isSticky:NO
 								   clickContext:nil];
@@ -535,7 +543,7 @@ static id singleton = nil;
 			[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Update Available", /*comment*/ nil)
 				                        description:NSLocalizedString(@"A newer version of Growl is available online. Click here to download it now.", /*comment*/ nil)
 				                   notificationName:@"Growl update available"
-			                               iconData:growlIconData
+			                               iconData:(id)growlIcon
 			                               priority:1
 			                               isSticky:YES
 			                           clickContext:downloadURL];
@@ -841,7 +849,7 @@ static id singleton = nil;
 
 #pragma mark Growl Delegate Methods
 - (NSData *) applicationIconDataForGrowl {
-	return growlIconData;
+	return (id)growlIcon;
 }
 
 - (NSString *) applicationNameForGrowl {

@@ -211,21 +211,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 }
 
 + (void) notifyWithDictionary:(NSDictionary *)userInfo {
-	//clean up things that need to be cleaned up.
-	NSMutableDictionary *mUserInfo = [userInfo mutableCopy];
-
-	Class NSImageClass = [NSImage class];
-	//notification icon.
-	NSImage *icon = [mUserInfo objectForKey:GROWL_NOTIFICATION_ICON];
-	if (icon && [icon isKindOfClass:NSImageClass])
-		[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
-	//per-notification application icon.
-	icon = [mUserInfo objectForKey:GROWL_NOTIFICATION_APP_ICON];
-	if (icon && [icon isKindOfClass:NSImageClass])
-		[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_APP_ICON];
-
-	userInfo = [mUserInfo autorelease];
-
 	//post it.
 	if (growlLaunched) {
 		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
@@ -240,6 +225,24 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				NSLog(@"GrowlApplicationBridge: exception while sending notification: %@", localException);
 			NS_ENDHANDLER
 		} else {
+			//clean up things that need to be cleaned up.
+			Class NSImageClass = [NSImage class];
+			NSImage *icon = [userInfo objectForKey:GROWL_NOTIFICATION_ICON];
+			NSImage *appIcon = [userInfo objectForKey:GROWL_NOTIFICATION_APP_ICON];
+			BOOL iconIsImage = icon && [icon isKindOfClass:NSImageClass];
+			BOOL appIconIsImage = appIcon && [appIcon isKindOfClass:NSImageClass];
+			if (iconIsImage || appIconIsImage) {
+				NSMutableDictionary *mUserInfo = [userInfo mutableCopy];
+				//notification icon.
+				if (icon && [icon isKindOfClass:NSImageClass])
+					[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
+				//per-notification application icon.
+				if (appIcon && [appIcon isKindOfClass:NSImageClass])
+					[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_APP_ICON];
+
+				userInfo = [mUserInfo autorelease];
+			}
+
 			//Post to Growl via NSDistributedNotificationCenter
 			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDistributedNotificationCenter");
 			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
@@ -253,9 +256,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		 *	it, store this notification for posting
 		 */
 		if (!userChoseNotToInstallGrowl) {
-			//in case the dictionary is mutable, make a copy.
-			userInfo = [userInfo copy];
-
 			if (!queuedGrowlNotifications) {
 				queuedGrowlNotifications = [[NSMutableArray alloc] init];
 			}
@@ -266,7 +266,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				[GrowlInstallationPrompt showInstallationPrompt];
 				promptedToInstallGrowl = YES;
 			}
-			[userInfo release];
 		}
 #endif
 	}
