@@ -44,12 +44,12 @@
 	// have to link against it and all of its dependencies
 	Class webKitWindowController = NSClassFromString(@"GrowlWebKitWindowController");
 	GrowlWebKitWindowController *controller = [[webKitWindowController alloc]
-		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
-				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+		initWithTitle: [noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
+				 text: [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+				 icon: [noteDict objectForKey:GROWL_NOTIFICATION_ICON]
 			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
-			   sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
-		   identifier:[noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]
+			   sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY]  boolValue]
+		   identifier: [noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]
 				style:style];
 	[controller setTarget:self];
 	[controller setAction:@selector(_notificationClicked:)];
