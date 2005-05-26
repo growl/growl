@@ -88,6 +88,7 @@
 	[versionCheckURL release];
 	[plugins         release];
 	[currentPlugin   release];
+	[customHistArray release];
 	[growlWebSiteURL release];
 	[growlForumURL   release];
 	[growlTracURL    release];
@@ -230,8 +231,10 @@
 
 	browser = [[NSNetServiceBrowser alloc] init];
 
+	GrowlPreferences *preferences = [GrowlPreferences preferences];
+
 	// create a deep mutable copy of the forward destinations
-	NSArray *destinations = [[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey];
+	NSArray *destinations = [preferences objectForKey:GrowlForwardDestinationsKey];
 	NSEnumerator *destEnum = [destinations objectEnumerator];
 	NSMutableArray *theServices = [[NSMutableArray alloc] initWithCapacity:[destinations count]];
 	NSDictionary *destination;
@@ -269,6 +272,15 @@
 	[growlTrac    setAttributedTitle:         [growlTracURLString          hyperlink]];
 	[growlTrac    setAttributedAlternateTitle:[growlTracURLString    activeHyperlink]];
 	[[growlTrac    cell] setHighlightsBy:NSContentsCellMask];
+
+	customHistArray = [[NSMutableArray alloc] initWithObjects:
+		[preferences objectForKey:GrowlCustomHistKey1],
+		[preferences objectForKey:GrowlCustomHistKey2],
+		[preferences objectForKey:GrowlCustomHistKey3],
+		nil];
+	[self updateLogPopupMenu];
+	int typePref = [preferences integerForKey:GrowlLogTypeKey];
+	[logFileType selectCellAtRow:typePref column:0];
 }
 
 - (void) mainViewDidLoad {
@@ -582,75 +594,63 @@
 }
 
 - (IBAction) customFileChosen:(id)sender {
-#pragma unused(sender)
-	if (sender == customMenuButton) {
-		int selected = [customMenuButton indexOfSelectedItem];
-		//NSLog(@"custom %d", selected);
-		if ((selected == [customMenuButton numberOfItems] - 1) || (selected == -1)) {
-			NSSavePanel *sp = [NSSavePanel savePanel];
-			[sp setRequiredFileType:@"log"];
-			[sp setCanSelectHiddenExtension:YES];
+	int selected = [sender indexOfSelectedItem];
+	if ((selected == [sender numberOfItems] - 1) || (selected == -1)) {
+		NSSavePanel *sp = [NSSavePanel savePanel];
+		[sp setRequiredFileType:@"log"];
+		[sp setCanSelectHiddenExtension:YES];
 
-			int runResult = [sp runModalForDirectory:nil file:@""];
-			NSString *saveFilename = [sp filename];
-			if (runResult == NSOKButton) {
-				unsigned saveFilenameIndex = NSNotFound;
-				unsigned                 i = [customHistArray count];
-				if (i) {
-					while (--i) {
-						if ([[customHistArray objectAtIndex:i] isEqual:saveFilename]) {
-							saveFilenameIndex = i;
-							break;
-						}
+		int runResult = [sp runModalForDirectory:nil file:@""];
+		NSString *saveFilename = [sp filename];
+		if (runResult == NSFileHandlingPanelOKButton) {
+			unsigned saveFilenameIndex = NSNotFound;
+			unsigned                 i = [customHistArray count];
+			if (i) {
+				while (--i) {
+					if ([[customHistArray objectAtIndex:i] isEqual:saveFilename]) {
+						saveFilenameIndex = i;
+						break;
 					}
 				}
-				if (saveFilenameIndex == NSNotFound) {
-					//if ([customHistArray count] == 3U)
-					if ([customHistArray count] >= 1U)
-						[customHistArray removeLastObject];
-				} else {
-					[customHistArray removeObjectAtIndex:saveFilenameIndex];
-				}
-				[customHistArray insertObject:saveFilename atIndex:0U];
 			}
-		} else {
-			NSString *temp = [[customHistArray objectAtIndex:selected] retain];
-			[customHistArray removeObjectAtIndex:selected];
-			[customHistArray insertObject:temp atIndex:0U];
-			[temp release];
+			if (saveFilenameIndex == NSNotFound) {
+				if ([customHistArray count] == 3U)
+					[customHistArray removeLastObject];
+			} else {
+				[customHistArray removeObjectAtIndex:saveFilenameIndex];
+			}
+			[customHistArray insertObject:saveFilename atIndex:0U];
 		}
-
-		unsigned numHistItems = [customHistArray count];
-		//NSLog(@"CustomHistArray = %@", customHistArray);
-		if (numHistItems) {
-			NSString *s = [customHistArray objectAtIndex:0U];
-			[[GrowlPreferences preferences] setObject:s forKey:GrowlCustomHistKey1];
-			//NSLog(@"Writing %@ as hist1", s);
-
-			/*
-			 * Ignore anything beyond one saved item until we know why these
-			 * send out the proper values, but the proper values are not written.
-			 */
-
-			/*
-			 if ((numHistItems > 1U) && (s = [customHistArray objectAtIndex:1U])) {
-				 [[GrowlPreferences preferences] setObject:s forKey:GrowlCustomHistKey2];
-				 //NSLog(@"Writing %@ as hist2", s);
-			 }
-
-			 if ((numHistItems > 2U) && (s = [customHistArray objectAtIndex:2U])) {
-				 [[GrowlPreferences preferences] setObject:s forKey:GrowlCustomHistKey3];
-				 //NSLog(@"Writing %@ as hist3", s);
-			 }
-
-			 */
-
-			//[[logFileType cellAtRow:1 column:0] setEnabled:YES];
-			[logFileType selectCellAtRow:1 column:0];
-		}
-
-		[self updateLogPopupMenu];
+	} else {
+		NSString *temp = [[customHistArray objectAtIndex:selected] retain];
+		[customHistArray removeObjectAtIndex:selected];
+		[customHistArray insertObject:temp atIndex:0U];
+		[temp release];
 	}
+
+	unsigned numHistItems = [customHistArray count];
+	//NSLog(@"CustomHistArray = %@", customHistArray);
+	if (numHistItems) {
+		GrowlPreferences *preferences = [GrowlPreferences preferences];
+		NSString *s = [customHistArray objectAtIndex:0U];
+		[preferences setObject:s forKey:GrowlCustomHistKey1];
+		//NSLog(@"Writing %@ as hist1", s);
+
+		if ((numHistItems > 1U) && (s = [customHistArray objectAtIndex:1U])) {
+			[preferences setObject:s forKey:GrowlCustomHistKey2];
+			//NSLog(@"Writing %@ as hist2", s);
+		}
+
+		if ((numHistItems > 2U) && (s = [customHistArray objectAtIndex:2U])) {
+			[preferences setObject:s forKey:GrowlCustomHistKey3];
+			//NSLog(@"Writing %@ as hist3", s);
+		}
+
+		//[[logFileType cellAtRow:1 column:0] setEnabled:YES];
+		[logFileType selectCellAtRow:1 column:0];
+	}
+
+	[self updateLogPopupMenu];
 }
 
 - (void) updateLogPopupMenu {
