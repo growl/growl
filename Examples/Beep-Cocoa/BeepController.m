@@ -19,24 +19,24 @@
 }
 
 - (void) dealloc {
-	[notificationPanel release];
-	[notificationDefault release];
-	[notificationSticky release];
-	[notificationPriority release];
+	[notificationPanel       release];
+	[notificationDefault     release];
+	[notificationSticky      release];
+	[notificationPriority    release];
 	[notificationDescription release];
-	[notificationImage release];
-	[notificationTitle release];
-	[addEditButton release];
+	[notificationImage       release];
+	[notificationTitle       release];
+	[addEditButton           release];
 
-	[addButtonTitle release];
+	[addButtonTitle  release];
 	[editButtonTitle release];
 
-	[mainWindow release];
+	[mainWindow         release];
 	[notificationsTable release];
-	[registered release];
-	[addNotification release];
+	[registered         release];
+	[addNotification    release];
 	[removeNotification release];
-	[sendButton release];
+	[sendButton         release];
 
     [notifications release];
 
