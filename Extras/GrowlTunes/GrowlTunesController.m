@@ -759,7 +759,7 @@ enum {
 																			 transactionID:kAnyTransactionID];
 		OSStatus err = AESendMessage([event aeDesc],
 									 /*reply*/ NULL,
-									 /*sendMode*/ kAENoReply | kAEDontReconnect | kAENeverInteract | kAEDontRecord,
+									 /*sendMode*/ kAENoReply | kAENeverInteract | kAEDontRecord,
 									 kAEDefaultTimeout);
 		[target release];
 		[event release];
@@ -773,12 +773,71 @@ enum {
 }
 
 - (IBAction) setRating:(id)sender {
+	OSStatus err;
+	AppleEvent event;
+	AEDesc currentTrackObject;
+	AEDesc ratingProperty;
+	AEDesc trackDescriptor;
+	AEDesc ratingDescriptor;
+	AEDesc ratingValue;
+	AEDesc target;
+	AEDesc nullDescriptor = {typeNull, nil};
+	DescType trackType = 'pTrk';
+	DescType ratingType = 'pRte';
+	NSData *bundleID = [iTunesBundleID dataUsingEncoding:NSUTF8StringEncoding];
 	int rating = ([sender tag] - ratingTag) * 20;
-	NSString *ratingScript = [[NSString alloc] initWithFormat:@"tell application \"iTunes\" to set rating of current track to %d", rating];
-	NSAppleScript *as = [[NSAppleScript alloc] initWithSource:ratingScript];
-	[as executeAndReturnError:NULL];
-	[as release];
-	[ratingScript release];
+
+	err = AECreateDesc(typeType, &trackType, sizeof(trackType), &trackDescriptor);
+	if (err != noErr)
+		NSLog(@"AECreateDesc returned %li", (long)err);
+	err = AECreateDesc(typeType, &ratingType, sizeof(ratingType), &ratingDescriptor);
+	if (err != noErr)
+		NSLog(@"AECreateDesc returned %li", (long)err);
+	err = AECreateDesc(typeSInt32, &rating, sizeof(rating), &ratingValue);
+	if (err != noErr)
+		NSLog(@"AECreateDesc returned %li", (long)err);
+	err = AECreateDesc(typeApplicationBundleID, [bundleID bytes], [bundleID length], &target);
+	if (err != noErr)
+		NSLog(@"AECreateDesc returned %li", (long)err);
+
+	err = CreateObjSpecifier(typeProperty,
+							 &nullDescriptor,
+							 formPropertyID,
+							 &trackDescriptor,
+							 TRUE,
+							 &currentTrackObject);
+	if (err != noErr)
+		NSLog(@"CreateObjSpecifier returned %li", (long)err);
+	err = CreateObjSpecifier(typeProperty,
+							 &currentTrackObject,
+							 formPropertyID,
+							 &ratingDescriptor,
+							 TRUE,
+							 &ratingProperty);
+	if (err != noErr)
+		NSLog(@"CreateObjSpecifier returned %li", (long)err);
+
+	err = AECreateAppleEvent('core', 'setd', &target, kAutoGenerateReturnID, kAnyTransactionID, &event);
+	if (err != noErr)
+		NSLog(@"AECreateAppleEvent returned %li", (long)err);
+	err = AEPutParamDesc(&event, 'data', &ratingValue);
+	if (err != noErr)
+		NSLog(@"AEPutParamDesc returned %li", (long)err);
+	err = AEPutParamDesc(&event, keyDirectObject, &ratingProperty);
+	if (err != noErr)
+		NSLog(@"AEPutParamDesc returned %li", (long)err);
+
+	err = AESendMessage(&event,
+						/*reply*/ NULL,
+						/*sendMode*/ kAENoReply | kAENeverInteract | kAEDontRecord,
+						kAEDefaultTimeout);
+	if (err != noErr)
+		NSLog(@"AESendMessage returned %li", (long)err);
+
+	AEDisposeDesc(&event);
+	AEDisposeDesc(&target);
+	AEDisposeDesc(&ratingValue);
+	AEDisposeDesc(&ratingProperty);
 }
 
 #pragma mark AppleScript
