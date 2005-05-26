@@ -283,13 +283,19 @@ static id singleton = nil;
 
 	// Check icon
 	Class NSImageClass = [NSImage class];
-	Class NSDataClass = [NSData class];
+	Class NSDataClass  = [NSData  class];
 	NSImage *icon = nil;
 	id image = [aDict objectForKey:GROWL_NOTIFICATION_ICON];
 	if (image) {
-		if ([image isKindOfClass:NSImageClass])
-			icon = [image copy];
-		else if ([image isKindOfClass:NSDataClass])
+		if ([image isKindOfClass:NSImageClass]) {
+			if ([image class] == [NSDistantObject class]) {
+				//this is a distant object, so simply copying it isn't enough for WebKit displays.
+				image = [image TIFFRepresentation];
+			} else {
+				icon = [image copy];
+			}
+		}
+		if ([image isKindOfClass:NSDataClass])
 			icon = [[NSImage alloc] initWithData:image];
 	}
 	if (!icon)
@@ -303,21 +309,25 @@ static id singleton = nil;
 	}
 
 	// If app icon present, convert to NSImage
+	icon = nil;
 	image = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON];
 	if (image) {
-		if ([image isKindOfClass:NSImageClass])
-			icon = [image copy];
-		else if ([image isKindOfClass:NSDataClass])
-			icon = [[NSImage alloc] initWithData:image];
-		else
-			icon = nil;
-
-		if (icon) {
-			[aDict setObject:icon forKey:GROWL_NOTIFICATION_APP_ICON];
-			[icon release];
-		} else {
-			[aDict removeObjectForKey:GROWL_NOTIFICATION_APP_ICON];
+		if ([image isKindOfClass:NSImageClass]) {
+			if ([image class] == [NSDistantObject class]) {
+				//this is a distant object, so simply copying it isn't enough for WebKit displays.
+				image = [image TIFFRepresentation];
+			} else {
+				icon = [image copy];
+			}
 		}
+		if ([image isKindOfClass:NSDataClass])
+			icon = [[NSImage alloc] initWithData:image];
+	}
+	if (icon) {
+		[aDict setObject:icon forKey:GROWL_NOTIFICATION_APP_ICON];
+		[icon release];
+	} else {
+		[aDict removeObjectForKey:GROWL_NOTIFICATION_APP_ICON];
 	}
 
 	// To avoid potential exceptions, make sure we have both text and title
