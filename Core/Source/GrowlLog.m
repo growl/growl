@@ -23,9 +23,9 @@
 	} else {
 		BOOL written = NO;
 		NSString *logFile = [preferences objectForKey:GrowlCustomHistKey1];
-		if (![[NSFileManager defaultManager] fileExistsAtPath:logFile]) {
-			[[NSFileManager defaultManager] createFileAtPath:logFile contents:nil attributes:nil];
-		}
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		if (![fileManager fileExistsAtPath:logFile])
+			[fileManager createFileAtPath:logFile contents:nil attributes:nil];
 		NSFileHandle *logHandle = [NSFileHandle fileHandleForWritingAtPath:logFile];
 		if (logHandle) {
 			[logHandle seekToEndOfFile];
@@ -40,7 +40,6 @@
 			}
 			NSLog(@"%@", message);
 		}
-		[logFile release];
 	}
 }
 
