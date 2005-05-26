@@ -12,7 +12,7 @@
 @implementation BeepController
 
 - (id) init {
-    if ( self = [super init] ) {
+    if (self = [super init]) {
         notifications = [[NSMutableArray alloc] init];
     }
     return self;
@@ -78,7 +78,7 @@
 - (IBAction)showEditSheet:(id)sender {
 #pragma unused(sender)
 	int index = [notificationsTable selectedRow];
-	if(index < 0)
+	if (index < 0)
 		NSBeep();
 	else {
 		NSDictionary *dict = [notifications objectAtIndex:index];
@@ -105,7 +105,7 @@
 - (IBAction)removeNotification:(id)sender {
 #pragma unused(sender)
 	int selectedRow = [notificationsTable selectedRow];
-	if(selectedRow < 0) {
+	if (selectedRow < 0) {
 		//no selection
 		NSBeep();
 		return;
@@ -158,7 +158,7 @@
 */
 
 - (void) sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-	if(returnCode == NSOKButton) {
+	if (returnCode == NSOKButton) {
 		NSNumber *defaultValue = [NSNumber numberWithBool:[notificationDefault state] == NSOnState];
 		NSNumber *stickyValue  = [NSNumber numberWithBool:[notificationSticky state] == NSOnState];
 		NSNumber *priority     = [NSNumber numberWithInt:[[notificationPriority selectedItem] tag]];
@@ -177,7 +177,7 @@
 			nil];
 
 		NSNumber *indexNum = contextInfo;
-		if(indexNum) {
+		if (indexNum) {
 			[notifications replaceObjectAtIndex:[indexNum unsignedIntValue]
 									 withObject:dict];
 			[indexNum release];
