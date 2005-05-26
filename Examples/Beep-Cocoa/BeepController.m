@@ -81,12 +81,11 @@
 		NSBeep();
 	else {
 		NSDictionary *dict = [notifications objectAtIndex:index];
-		[notificationDefault     setState:[dict stateForKey:GROWL_NOTIFICATION_DEFAULT]];
-		[notificationSticky      setState:[dict stateForKey:GROWL_NOTIFICATION_STICKY]];
+		[notificationDefault     setState:      [dict stateForKey:GROWL_NOTIFICATION_DEFAULT]];
+		[notificationSticky      setState:      [dict stateForKey:GROWL_NOTIFICATION_STICKY]];
 		int priority = [[dict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
 		[notificationPriority    selectItemAtIndex:[notificationPriority indexOfItemWithTag:priority]];
-		NSImage *image = [[[NSImage alloc] initWithData:[dict objectForKey:GROWL_NOTIFICATION_ICON]] autorelease];
-		[notificationImage       setImage:image];
+		[notificationImage       setImage:      [dict objectForKey:GROWL_NOTIFICATION_ICON]];
 		[notificationDescription setStringValue:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
 		[notificationTitle       setStringValue:[dict objectForKey:GROWL_NOTIFICATION_TITLE]];
 
@@ -161,8 +160,8 @@
 		NSNumber *defaultValue = [NSNumber numberWithBool:[notificationDefault  state] == NSOnState];
 		NSNumber *stickyValue  = [NSNumber numberWithBool:[notificationSticky   state] == NSOnState];
 		NSNumber *priority     = [NSNumber numberWithInt:[[notificationPriority selectedItem] tag]];
-		NSData   *imageData    = [[notificationImage image] TIFFRepresentation];
-		NSString *title        = [notificationTitle stringValue];
+		NSImage  *image        = [notificationImage image];
+		NSString *title        = [notificationTitle       stringValue];
 		NSString *desc         = [notificationDescription stringValue];
 
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -172,7 +171,7 @@
 			priority,      GROWL_NOTIFICATION_PRIORITY,
 			defaultValue,  GROWL_NOTIFICATION_DEFAULT,
 			stickyValue,   GROWL_NOTIFICATION_STICKY,
-			imageData,     GROWL_NOTIFICATION_ICON,
+			image,         GROWL_NOTIFICATION_ICON,
 			nil];
 
 		NSNumber *indexNum = contextInfo;
