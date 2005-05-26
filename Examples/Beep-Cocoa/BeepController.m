@@ -33,7 +33,6 @@
 
 	[mainWindow         release];
 	[notificationsTable release];
-	[registered         release];
 	[addNotification    release];
 	[removeNotification release];
 	[sendButton         release];

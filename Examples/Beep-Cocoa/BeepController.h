@@ -18,7 +18,6 @@
 
 	IBOutlet NSWindow		*mainWindow;
 	IBOutlet NSTableView	*notificationsTable;		// The table of notifications
-	IBOutlet NSButton		*registered;				// The magic button that registers/unregisters
 	IBOutlet NSButton		*addNotification;			// The button button that opens the add note pane
 	IBOutlet NSButton		*removeNotification;		// The remove button (TBR)
 	IBOutlet NSButton		*sendButton;				// The button to send a notification
