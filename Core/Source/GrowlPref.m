@@ -254,11 +254,21 @@
 	}
 
 	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
-	growlForumURL = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
-	growlTracURL = [[NSURL alloc] initWithString:@"http://trac.growl.info/trac"];
-	[growlWebSite setAttributedTitle:[[growlWebSiteURL absoluteString] hyperlink]];
-	[growlForum setAttributedTitle:[[growlForumURL absoluteString] hyperlink]];
-	[growlTrac setAttributedTitle:[[growlTracURL absoluteString] hyperlink]];
+	growlForumURL   = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
+	growlTracURL    = [[NSURL alloc] initWithString:@"http://trac.growl.info/trac"];
+	NSString *growlWebSiteURLString = [growlWebSiteURL absoluteString];
+	NSString *growlForumURLString   = [growlForumURL   absoluteString];
+	NSString *growlTracURLString    = [growlTracURL    absoluteString];
+
+	[growlWebSite setAttributedTitle:         [growlWebSiteURLString       hyperlink]];
+	[growlWebSite setAttributedAlternateTitle:[growlWebSiteURLString activeHyperlink]];
+	[[growlWebSite cell] setHighlightsBy:NSContentsCellMask];
+	[growlForum   setAttributedTitle:         [growlForumURLString         hyperlink]];
+	[growlForum   setAttributedAlternateTitle:[growlForumURLString   activeHyperlink]];
+	[[growlForum   cell] setHighlightsBy:NSContentsCellMask];
+	[growlTrac    setAttributedTitle:         [growlTracURLString          hyperlink]];
+	[growlTrac    setAttributedAlternateTitle:[growlTracURLString    activeHyperlink]];
+	[[growlTrac    cell] setHighlightsBy:NSContentsCellMask];
 }
 
 - (void) mainViewDidLoad {
