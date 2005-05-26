@@ -225,26 +225,27 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				NSLog(@"GrowlApplicationBridge: exception while sending notification: %@", localException);
 			NS_ENDHANDLER
 		} else {
-			//clean up things that need to be cleaned up.
-			Class NSImageClass = [NSImage class];
-			NSImage *icon = [userInfo objectForKey:GROWL_NOTIFICATION_ICON];
-			NSImage *appIcon = [userInfo objectForKey:GROWL_NOTIFICATION_APP_ICON];
-			BOOL iconIsImage = icon && [icon isKindOfClass:NSImageClass];
-			BOOL appIconIsImage = appIcon && [appIcon isKindOfClass:NSImageClass];
+			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDistributedNotificationCenter");
+
+			//DNC needs a plist. this means we must pass data, not an NSImage.
+			Class     NSImageClass = [NSImage class];
+			NSImage          *icon = [userInfo objectForKey:GROWL_NOTIFICATION_ICON];
+			NSImage       *appIcon = [userInfo objectForKey:GROWL_NOTIFICATION_APP_ICON];
+			BOOL       iconIsImage =    icon &&    [icon isKindOfClass:NSImageClass];
+			BOOL    appIconIsImage = appIcon && [appIcon isKindOfClass:NSImageClass];
 			if (iconIsImage || appIconIsImage) {
 				NSMutableDictionary *mUserInfo = [userInfo mutableCopy];
 				//notification icon.
-				if (icon && [icon isKindOfClass:NSImageClass])
+				if (iconIsImage)
 					[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
 				//per-notification application icon.
-				if (appIcon && [appIcon isKindOfClass:NSImageClass])
+				if (appIconIsImage)
 					[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_APP_ICON];
 
 				userInfo = [mUserInfo autorelease];
 			}
 
 			//Post to Growl via NSDistributedNotificationCenter
-			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDistributedNotificationCenter");
 			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
 																		   object:nil
 																		 userInfo:userInfo
@@ -377,12 +378,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	if ((!keys) || [keys containsObject:GROWL_APP_ICON]) {
 		if (![mRegDict objectForKey:GROWL_APP_ICON]) {
-			if (!appIconData) {
-				appIconData = [self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict];
-				if (appIconData && [appIconData isKindOfClass:[NSImage class]])
-					appIconData = [(NSImage *)appIconData TIFFRepresentation];
-				appIconData = [appIconData retain];
-			}
+			if (!appIconData)
+				appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
 			if (appIconData) {
 				[mRegDict setObject:appIconData
 							 forKey:GROWL_APP_ICON];
@@ -443,11 +440,18 @@ static BOOL		registerWhenGrowlIsReady = NO;
 + (NSData *) _applicationIconDataForGrowlSearchingRegistrationDictionary:(NSDictionary *)regDict {
 	NSData *iconData = nil;
 
-	if (delegate && [delegate respondsToSelector:@selector(applicationIconDataForGrowl)])
-		iconData = [delegate applicationIconDataForGrowl];
+	if (delegate) {
+		if ([delegate respondsToSelector:@selector(applicationIconForGrowl)])
+			iconData = (NSData *)[delegate applicationIconForGrowl];
+		else if ([delegate respondsToSelector:@selector(applicationIconDataForGrowl)])
+			iconData = [delegate applicationIconDataForGrowl];
+	}
 
 	if (!iconData)
 		iconData = [regDict objectForKey:GROWL_APP_ICON];
+
+	if (iconData && [iconData isKindOfClass:[NSImage class]])
+		iconData = [(NSImage *)iconData TIFFRepresentation];
 
 	if (!iconData) {
 		NSURL *URL = copyCurrentProcessURL();

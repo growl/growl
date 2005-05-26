@@ -414,12 +414,25 @@
 - (NSString *) applicationNameForGrowl;
 
 /*!
+ *	@method applicationIconForGrowl
+ *	@abstract Return the <code>NSImage</code> to treat as the application icon.
+ *	@discussion The delegate may optionally return an <code>NSImage</code>
+ *	 object to use as the application icon. If this method is not implemented, 
+ *	 {{{-applicationIconDataForGrowl}}} is tried. If that method is not
+ *	 implemented, the application's own icon is used. Neither method is
+ *	 generally needed.
+ *	@result The <code>NSImage</code> to treat as the application icon.
+ */
+- (NSImage *) applicationIconForGrowl;
+
+/*!
  *	@method applicationIconDataForGrowl
  *	@abstract Return the <code>NSData</code> to treat as the application icon.
  *	@discussion The delegate may optionally return an <code>NSData</code>
  *	 object to use as the application icon; if this is not implemented, the
  *	 application's own icon is used.  This is not generally needed.
  *	@result The <code>NSData</code> to treat as the application icon.
+ *	@deprecated In version 0.8, in favor of {{{-applicationIconForGrowl}}}.
  */
 - (NSData *) applicationIconDataForGrowl;
 
