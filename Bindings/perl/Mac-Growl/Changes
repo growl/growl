@@ -1,3 +1,7 @@
+0.65  Fri May 27 22:12:20 2005
+	- Fix some logic problems in $base stuff, make sure we catch errors
+	  in loading Mac::Glue, so we don't use it for base even if set
+
 0.64  Sun May 15 07:06:05 2005
 	- Fix Mac::Glue method to specify typeUnicodeText
 	- Include glues for people not using Mac::Glue 1.24 or above

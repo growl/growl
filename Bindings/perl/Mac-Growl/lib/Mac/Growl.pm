@@ -3,7 +3,7 @@ package Mac::Growl;
 use strict;
 use warnings;
 
-our $VERSION = '0.64';
+our $VERSION = '0.65';
 
 use base 'Exporter';
 our @EXPORT = qw();
@@ -55,7 +55,9 @@ sub BEGIN {
 
 	if (!$base || $base eq 'Foundation') {
 		eval 'require Foundation';
-		if (!$@) {
+		if ($@) {
+			$base = undef;
+		} else {
 			$base = 'Foundation';
 
 			# load classes for images
@@ -70,14 +72,14 @@ sub BEGIN {
 			} else {
 				undef $appkit;
 			}
-		} else {
-			$base = undef;
 		}
 	}
 
 	if (!$base || $base eq 'Mac::Glue') {
 		eval 'require Mac::Glue';
-		unless ($@) {
+		if ($@) {
+			$base = undef;
+		} else {
 			eval { $glue = Mac::Glue->new($helper) };
 			$base = $glue ? 'Mac::Glue' : undef;
 		}
