@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.7</string>
+	<string>0.8</string>
 	<key>CFBundleSignature</key>
 	<string>GRWL</string>
 	<key>CFBundleVersion</key>
-	<string>0.7</string>
+	<string>0.8</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlMenu</string>
 	<key>LSUIElement</key>

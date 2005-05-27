@@ -2,12 +2,11 @@ SRC_DIR=..
 BUILD_DIR=build
 GROWL_DIR=$(BUILD_DIR)/Growl
 SDK_DIR=$(BUILD_DIR)/SDK
-RELEASE_NAME=Growl-0.7
+RELEASE_NAME=Growl-0.8
 BUILDSTYLE="\"Deployment\""
 BUILDFLAGS="BUILDSTYLE=$(BUILDSTYLE)"
 
 # What to do before running this script:
-# - gcc_select 3.3
 # - Set version number in GHA
 # - Set RELEASE_NAME
 
