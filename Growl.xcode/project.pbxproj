@@ -2567,6 +2567,7 @@
 				34F6105E078E4D4B00CECA86,
 			);
 			buildRules = (
+				95E9DE620847B0380057425A,
 			);
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2747,6 +2748,7 @@
 				34E9EF9107908B5200662E8E,
 			);
 			buildRules = (
+				95E9DE5F0847B0200057425A,
 			);
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -5016,6 +5018,22 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		95E9DE5F0847B0200057425A = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
+		};
+		95E9DE620847B0380057425A = {
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			isa = PBXBuildRule;
+			outputFiles = (
+			);
 		};
 		95EF04F207C77C1500218584 = {
 			fileEncoding = 30;
