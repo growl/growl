@@ -29,10 +29,10 @@ growlhelperapp:
 frameworks: growlapplicationbridge growlapplicationbridge-withinstaller
 
 growlapplicationbridge:
-	xcodebuild -project Growl.xcode -target Growl.framework -buildstyle $(BUILDSTYLE) build GCC_VERSION=3.3
+	xcodebuild -project Growl.xcode -target Growl.framework -buildstyle $(BUILDSTYLE) build
 
 growlapplicationbridge-withinstaller:
-	xcodebuild -project Growl.xcode -target Growl-WithInstaller.framework -buildstyle $(BUILDSTYLE) build GCC_VERSION=3.3
+	xcodebuild -project Growl.xcode -target Growl-WithInstaller.framework -buildstyle $(BUILDSTYLE) build
 
 clean:
 	xcodebuild -project Growl.xcode -alltargets clean
