@@ -172,6 +172,9 @@ static OSErr AEPutParamString(AppleEvent *event, AEKeyword keyword, CFStringRef 
 	UInt8 *textBuf;
 	CFIndex length, maxBytes, actualBytes;
 
+	if (!stringRef)
+		return noErr;
+
 	length = CFStringGetLength(stringRef); 
 	maxBytes = CFStringGetMaximumSizeForEncoding(length,
 												 kCFStringEncodingUTF8); 
@@ -203,58 +206,52 @@ void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
 						   /*dataPtr*/ &ghaSignature,
 						   /*dataSize*/ sizeof(ghaSignature),
 						   /*result*/ &targetGHA);
-		if (err != noErr) {
+		if (err != noErr)
 		   NSLog(CFSTR("GrowlApplicationBridge: AECreateDesc returned %li"), (long)err);
-		}
+
 		err = AECreateAppleEvent(/*theAEEventClass*/ 'noti',
 								 /*theAEEventID*/ 'fygr',
 								 /*target*/ &targetGHA,
 								 /*returnID*/ kAutoGenerateReturnID,
 								 /*transactionID*/ kAnyTransactionID,
 								 /*result*/ &postNotificationEvent);
-		if (err != noErr) {
+		if (err != noErr)
 			NSLog(CFSTR("GrowlApplicationBridge: AECreateAppleEvent returned %li"), (long)err);
-		}
 		AEDisposeDesc(&targetGHA);
-		if (err != noErr) {
+		if (err != noErr)
 			NSLog(CFSTR("GrowlApplicationBridge: AEDisposeDesc returned %li"), (long)err);
-		}
 
 		Boolean sticky;
 		int priority;
 		CFNumberGetValue(CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_STICKY), kCFNumberCharType, &sticky);
 		CFNumberGetValue(CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_PRIORITY), kCFNumberIntType, &priority);
 		err = AEPutParamString(&postNotificationEvent, 'appl', CFDictionaryGetValue(userInfo, GROWL_APP_NAME));
-		if (err != noErr) {
+		if (err != noErr)
 			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamString(GROWL_APP_NAME) returned %li"), (long)err);
-		}
 		err = AEPutParamString(&postNotificationEvent, 'desc', CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_DESCRIPTION));
-		if (err != noErr) {
+		if (err != noErr)
 			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamString(GROWL_NOTIFICATION_DESCRIPTION) returned %li"), (long)err);
-		}
 		err = AEPutParamString(&postNotificationEvent, 'name', CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_NAME));
-		if (err != noErr) {
+		if (err != noErr)
 			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamString(GROWL_NOTIFICATION_NAME) returned %li"), (long)err);
-		}
 		err = AEPutParamString(&postNotificationEvent, 'titl', CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_TITLE));
-		if (err != noErr) {
+		if (err != noErr)
 			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamString(GROWL_NOTIFICATION_TITLE) returned %li"), (long)err);
-		}
 		err = AEPutParamPtr(&postNotificationEvent, 'prio', typeSInt32, &priority, sizeof(priority));
-		if (err != noErr) {
+		if (err != noErr)
 			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamPtr(GROWL_NOTIFICATION_PRIORITY) returned %li"), (long)err);
-		}
 		err = AEPutParamPtr(&postNotificationEvent, 'stck', sticky ? typeTrue : typeFalse, &sticky, sizeof(sticky));
-		if (err != noErr) {
+		if (err != noErr)
 			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamPtr(GROWL_NOTIFICATION_STICKY) returned %li"), (long)err);
-		}
+		err = AEPutParamString(&postNotificationEvent, 'iden', CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_IDENTIFIER));
+		if (err != noErr)
+			NSLog(CFSTR("GrowlApplicationBridge: AEPutParamString(GROWL_NOTIFICATION_IDENTIFIER) returned %li"), (long)err);
 		err = AESendMessage(/*event*/ &postNotificationEvent,
 							/*reply*/ &replyEvent,
-							/*sendMode*/ kAENoReply,
+							/*sendMode*/ kAENoReply | kAENeverInteract,
 							/*timeOutInTicks*/ kAEDefaultTimeout);
-		if (err != noErr) {
+		if (err != noErr)
 			NSLog(CFSTR("GrowlApplicationBridge: AESendMessage returned %li"), (long)err);
-		}
 #else
 		CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
 		                                     GROWL_NOTIFICATION,
