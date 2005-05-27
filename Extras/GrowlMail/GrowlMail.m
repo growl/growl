@@ -103,8 +103,8 @@
 	return @"GrowlMail";
 }
 
-- (NSData *) applicationIconDataForGrowl {
-	return (id)[NSImage imageNamed:@"NSApplicationIcon"];
+- (NSImage *) applicationIconForGrowl {
+	return [NSImage imageNamed:@"NSApplicationIcon"];
 }
 
 - (void) growlNotificationWasClicked:(id)clickContext {
@@ -131,7 +131,7 @@
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMEnableGrowlMailBundle"];
 }
 
-+ (BOOL)isIgnoreJunk {
++ (BOOL) isIgnoreJunk {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMIgnoreJunk"];
 }
 

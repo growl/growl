@@ -47,7 +47,7 @@
 - (void) setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path;
 
 - (NSString *) applicationNameForGrowl;
-- (NSData *) applicationIconDataForGrowl;
+- (NSImage *) applicationIconForGrowl;
 - (void) growlNotificationWasClicked:(id)clickContext;
 - (NSDictionary *) registrationDictionaryForGrowl;
 
