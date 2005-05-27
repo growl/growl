@@ -48,7 +48,7 @@
 
 	range.location = 0U;
 	range.length = 0U;
-	for (unsigned i=0; i<n; ++i)
+	for (unsigned i=0U; i<n; ++i)
 		[self getLineStart:NULL end:&range.location contentsEnd:&end forRange:range];
 
 	return [self substringToIndex:end];
