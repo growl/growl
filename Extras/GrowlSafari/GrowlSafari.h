@@ -36,7 +36,7 @@
 }
 + (NSBundle *) bundle;
 + (NSString *) applicationNameForGrowl;
-+ (NSData *) applicationIconDataForGrowl;
++ (NSImage *) applicationIconForGrowl;
 + (NSDictionary *) registrationDictionaryForGrowl;
 + (void) growlNotificationWasClicked:(id)clickContext;
 + (void) notifyRSSUpdate:(WebBookmark *)bookmark newEntries:(int)newEntries;

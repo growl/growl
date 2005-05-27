@@ -142,9 +142,8 @@ static void setDownloadFinished(id dl) {
 
 + (void) load {
 	Class webBookmarkClass = NSClassFromString(@"WebBookmark");
-	if (webBookmarkClass) {
+	if (webBookmarkClass)
 		[[GSWebBookmark class] poseAsClass:webBookmarkClass];
-	}
 }
 
 #pragma mark GrowlApplicationBridge delegate methods
@@ -153,8 +152,8 @@ static void setDownloadFinished(id dl) {
 	return @"GrowlSafari";
 }
 
-+ (NSData *) applicationIconDataForGrowl {
-	return [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
++ (NSImage *) applicationIconForGrowl {
+	return [NSImage imageNamed:@"NSApplicationIcon"];
 }
 
 + (NSDictionary *) registrationDictionaryForGrowl {
@@ -181,21 +180,23 @@ static void setDownloadFinished(id dl) {
 	[url release];
 }
 
-+ (void) notifyRSSUpdate:(WebBookmark*)bookmark newEntries:(int)newEntries {
++ (void) notifyRSSUpdate:(WebBookmark *)bookmark newEntries:(int)newEntries {
 	NSBundle *bundle = [GrowlSafari bundle];
-	NSData *icon = [[bookmark icon] isKindOfClass:[NSImage class]] ? [[bookmark icon] TIFFRepresentation] : nil;
+	NSImage *icon = [bookmark icon];
 	NSMutableString	*description = [[NSMutableString alloc]
 		initWithFormat:newEntries == 1 ? NSLocalizedStringFromTableInBundle(@"%d new entry", nil, bundle, @"") : NSLocalizedStringFromTableInBundle(@"%d new entries", nil, bundle, @""),
 		newEntries,
 		[bookmark unreadRSSCount]];
 	if (newEntries != [bookmark unreadRSSCount])
 		[description appendFormat:NSLocalizedStringFromTableInBundle(@" (%d unread)", nil, bundle, @""), [bookmark unreadRSSCount]];
+	if (![icon isKindOfClass:[NSImage class]])
+		icon = nil;
 
 	NSString *title = [bookmark title];
 	[GrowlApplicationBridge notifyWithTitle:(title ? title : [bookmark URLString])
 								description:description
 						   notificationName:NSLocalizedStringFromTableInBundle(@"New feed entry", nil, bundle, @"")
-								   iconData:icon
+								   iconData:(id)icon
 								   priority:0
 								   isSticky:NO
 							   clickContext:[bookmark URLString]];
