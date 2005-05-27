@@ -29,6 +29,7 @@
 #define	GrowlCustomHistKey3			@"Custom log history 3"
 #define GrowlMenuExtraKey			@"GrowlMenuExtra"
 #define GrowlSquelchModeKey			@"GrowlSquelchMode"
+#define LastKnownVersionKey			@"LastKnownVersion"
 
 @interface GrowlPreferences : NSObject {
 	NSUserDefaults *helperAppDefaults;

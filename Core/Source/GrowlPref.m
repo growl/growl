@@ -292,6 +292,16 @@
 
 //subclassed from NSPreferencePane; called before the pane is displayed.
 - (void) willSelect {
+	GrowlPreferences *preferences = [GrowlPreferences preferences];
+	NSString *lastVersion = [preferences objectForKey:LastKnownVersionKey];
+	NSString *currentVersion = [self bundleVersion];
+	if (![lastVersion isEqualToString:currentVersion]) {
+		if ([preferences isGrowlRunning]) {
+			[preferences setGrowlRunning:NO noMatterWhat:NO];
+			[preferences setGrowlRunning:YES noMatterWhat:YES];
+		}
+		[preferences setObject:currentVersion forKey:LastKnownVersionKey];
+	}
 	[self checkGrowlRunning];
 }
 
@@ -301,9 +311,8 @@
 
 // copy images to avoid resizing the original image stored in the ticket
 - (void) cacheImages {
-	if (images) {
+	if (images)
 		[images release];
-	}
 
 	images = [[NSMutableArray alloc] initWithCapacity:[tickets count]];
 	NSEnumerator *enumerator = [tickets objectEnumerator];
