@@ -46,6 +46,15 @@
 					<key>Type</key>
 					<string>NSPositionalSpecifier</string>
 				</dict>
+				<key>identifier</key>
+				<dict>
+					<key>AppleEventCode</key>
+					<string>iden</string>
+					<key>Optional</key>
+					<string>YES</string>
+					<key>Type</key>
+					<string>NSString</string>
+				</dict>
 				<key>image</key>
 				<dict>
 					<key>AppleEventCode</key>

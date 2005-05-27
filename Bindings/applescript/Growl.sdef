@@ -42,6 +42,9 @@
 			<parameter name="priority" optional="yes" code="prio" type="integer" description="The priority of the notification, from -2 (low) to 0 (normal) to 2 (emergency).">
 				<cocoa key="priority"/>
 			</parameter>
+			<parameter name="identifier" optional="yes" code="iden" type="text" description="The identifier of the notification for coalescing.">
+				<cocoa key="identifier"/>
+			</parameter>
 		</command>
 		<command name="register" code="register" description="Register an application with Growl">
 			<cocoa class="GrowlRegisterScriptCommand"/>

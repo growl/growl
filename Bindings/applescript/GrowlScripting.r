@@ -71,6 +71,10 @@ resource 'aete' (0, "Growl Terminology") {
 				"priority", 'prio', 'long',
 				"The priority of the notification, from -2 (low) to 0 (normal) to 2 (emergency).",
 				optional,
+				singleItem, notEnumerated, Reserved13,
+				"identifier", 'iden', 'TEXT',
+				"The identifier of the notification for coalescing.",
+				optional,
 				singleItem, notEnumerated, Reserved13
 			},
 

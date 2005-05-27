@@ -36,6 +36,13 @@
 					<key>Name</key>
 					<string>icon of file</string>
 				</dict>
+				<key>identifier</key>
+				<dict>
+					<key>Description</key>
+					<string>The identifier of the notification for coalescing.</string>
+					<key>Name</key>
+					<string>identifier</string>
+				</dict>
 				<key>image</key>
 				<dict>
 					<key>Description</key>

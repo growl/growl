@@ -27,17 +27,18 @@
 #import "GrowlDefines.h"
 #import "NSWorkspaceAdditions.h"
 
-#define KEY_TITLE				@"title"
-#define KEY_DESC				@"description"
-#define KEY_STICKY				@"sticky"
-#define KEY_PRIORITY			@"priority"
-#define KEY_IMAGE_URL			@"imageFromURL"
-#define KEY_ICON_APP_NAME		@"iconOfApplication"
-#define KEY_ICON_FILE			@"iconOfFile"
-#define KEY_IMAGE				@"image"
-#define KEY_PICTURE				@"pictImage"
-#define KEY_APP_NAME			@"appName"
-#define KEY_NOTIFICATION_NAME	@"notificationName"
+#define KEY_TITLE					@"title"
+#define KEY_DESC					@"description"
+#define KEY_STICKY					@"sticky"
+#define KEY_PRIORITY				@"priority"
+#define KEY_IMAGE_URL				@"imageFromURL"
+#define KEY_ICON_APP_NAME			@"iconOfApplication"
+#define KEY_ICON_FILE				@"iconOfFile"
+#define KEY_IMAGE					@"image"
+#define KEY_PICTURE					@"pictImage"
+#define KEY_APP_NAME				@"appName"
+#define KEY_NOTIFICATION_NAME		@"notificationName"
+#define KEY_NOTIFICATION_IDENTIFIER	@"identifier"
 
 #define ERROR_EXCEPTION								1
 #define ERROR_NOT_FILE_URL							2
@@ -61,10 +62,11 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 	NSString *imageUrl          = [args objectForKey:KEY_IMAGE_URL];
 	NSString *iconOfFile        = [args objectForKey:KEY_ICON_FILE];
 	NSString *iconOfApplication = [args objectForKey:KEY_ICON_APP_NAME];
-	NSData *imageData           = [args objectForKey:KEY_IMAGE];
-	NSData *pictureData         = [args objectForKey:KEY_PICTURE];
+	NSData   *imageData         = [args objectForKey:KEY_IMAGE];
+	NSData   *pictureData       = [args objectForKey:KEY_PICTURE];
 	NSString *appName           = [args objectForKey:KEY_APP_NAME];
 	NSString *notifName         = [args objectForKey:KEY_NOTIFICATION_NAME];
+	NSString *notifIdentifier   = [args objectForKey:KEY_NOTIFICATION_IDENTIFIER];
 
 	NSMutableDictionary *noteDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		appName,   GROWL_APP_NAME,
@@ -74,10 +76,13 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 		nil];
 
 	if (priority)
-		[noteDict setObject:priority forKey:GROWL_NOTIFICATION_PRIORITY];
+		[noteDict setObject:priority        forKey:GROWL_NOTIFICATION_PRIORITY];
 
 	if (sticky)
-		[noteDict setObject:sticky   forKey:GROWL_NOTIFICATION_STICKY];
+		[noteDict setObject:sticky          forKey:GROWL_NOTIFICATION_STICKY];
+
+	if (notifIdentifier)
+		[noteDict setObject:notifIdentifier forKey:GROWL_NOTIFICATION_IDENTIFIER];
 
 	NSAppleEventDescriptor *addrDesc = [[self appleEvent] attributeDescriptorForKeyword:keyAddressAttr];
 	NSData *psnData = [[addrDesc coerceToDescriptorType:typeProcessSerialNumber] data];
@@ -138,7 +143,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 }
 
 //This method will attempt to locate an image given either a path or an URL
-- (NSURL *)fileUrlForLocationReference:(NSString *)imageReference {
+- (NSURL *) fileUrlForLocationReference:(NSString *)imageReference {
 	NSURL   *url = nil;
 
 	NSRange testRange = [imageReference rangeOfString: @"://"];
