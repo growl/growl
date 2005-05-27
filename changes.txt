@@ -1,3 +1,28 @@
+0.8
+Framework
+- added applicationIconForGrowl delegate method, applicationIconDataForGrowl is now deprecated.
+
+0.7.1
+Preference Pane
+- Fixed preference pane crash on 10.3 when using the German or Japanese localization (#240)
+- Fixed logging preferences (#250)
+- Fixed cosmetic issue with hyperlinks in the about tab (#248)
+- Status item checkbox is now updated when stopping the status item with growlctl (#242)
+Styles
+- Updated Crystal style (#238)
+- Updated Candybars style
+- Fixed flickering when reloading a WebKit style on coalesce (#233)
+Localizations
+- Added Czech localization by Frantisek Erben
+- Added Simplified Chinese localization by JT Lee
+Extras
+- Fixed GrowlSafari package installer permissions (#223)
+- Fixed HardwareGrowler build settings (#239)
+- GrowlMail better truncates long message bodies
+- GrowlTunes now coalesces its notifications (for displays that support it)
+Framework
+- registrationDictionaryForGrowl is no longer called for each notification
+
 0.7
 
 Growl Core
