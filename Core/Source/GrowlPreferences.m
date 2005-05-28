@@ -20,9 +20,9 @@ static GrowlPreferences *sharedPreferences;
 @implementation GrowlPreferences
 
 + (GrowlPreferences *) preferences {
-	if (!sharedPreferences) {
+	if (!sharedPreferences)
 		sharedPreferences = [[GrowlPreferences alloc] init];
-	}
+
 	return sharedPreferences;
 }
 

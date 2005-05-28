@@ -27,5 +27,5 @@
 - (void) setTitle:(NSString *)title;
 - (void) setText:(NSString *)text;
 - (void) setIcon:(NSImage *)icon;
-	
+
 @end

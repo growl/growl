@@ -235,7 +235,7 @@ URL_TYPE createURLByMakingDirectoryAtURLWithName(URL_TYPE parent, STRING_TYPE na
 					.textEncodingHint = kTextEncodingUnknown,
 					.newRef           = &newDirectoryRef,
 				};
-				
+
 				OSStatus err = PBCreateDirectoryUnicodeSync(&refPB);
 				if (err == dupFNErr) {
 					//dupFNErr == file (or folder) exists already. this is fine.
@@ -432,7 +432,7 @@ static OSStatus GrowlCopyObjectSync(const FSRef *fileRef, const FSRef *destRef, 
 		},
 		.outForkName = &forkName,
 	};
-	
+
 	do {
 		err = PBIterateForksSync(&forkPB);
 		NSLog(CFSTR("PBIterateForksSync returned %li"), (long)err);

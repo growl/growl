@@ -38,7 +38,7 @@
 
 	NSString *identifier = [noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
 	unsigned count = [notificationQueue count];
-	
+
 	if (count > 0U) {
 		GrowlMusicVideoWindowController *aNotification;
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];

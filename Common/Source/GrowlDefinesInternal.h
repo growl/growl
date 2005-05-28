@@ -158,7 +158,7 @@ struct GrowlNetworkNotification {
 		signed   priority: 3;
 		unsigned sticky:   1;
 	} ATTRIBUTE_PACKED flags; //size = 16 (12 + 3 + 1)
-	
+
 	/*	In addition to being unsigned, the notification name length
 	 *	 is in network byte order.
 	 */

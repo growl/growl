@@ -395,11 +395,10 @@
 	[self cacheImages];
 
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
-	
+
 	// If Growl is enabled, ensure the helper app is launched
-	if ([preferences boolForKey:GrowlEnabledKey]) {
+	if ([preferences boolForKey:GrowlEnabledKey])
 		[preferences launchGrowl:NO];
-	}
 
 	if ([plugins count] > 0U) {
 		NSString *defaultPlugin = [preferences objectForKey:GrowlDisplayPluginKey];

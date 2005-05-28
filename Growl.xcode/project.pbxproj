@@ -285,12 +285,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95D165B70834DB7500D996B2;
-					ProjectRef = 95D165B60834DB7500D996B2;
-				},
-				{
 					ProductGroup = 95D1659E0834DB5200D996B2;
 					ProjectRef = 95D1659D0834DB5200D996B2;
+				},
+				{
+					ProductGroup = 95D165B70834DB7500D996B2;
+					ProjectRef = 95D165B60834DB7500D996B2;
 				},
 			);
 			targets = (

@@ -11,7 +11,7 @@ body
 
 /*body:hover {
 	background-image: url("images/background_top_hover.png");
-	
+
 	color: rgba(0, 0, 0, 1.0);
 }
 
@@ -34,7 +34,7 @@ div#icon
 
 	width: 32px;
 	height: 32px;
-	
+
 	z-index:2;
 }
 
@@ -51,7 +51,7 @@ div#title, div#text
 	left: 0;
 	padding-left: 54px;
 	padding-right: 22px;
-	
+
 	width: 190px;
 }
 
@@ -68,7 +68,7 @@ div#text
 {
 	top: 30px;
 	padding-bottom: 17px;
-	
+
 	background: url("images/background_bottom.png") bottom left no-repeat;
 }
 

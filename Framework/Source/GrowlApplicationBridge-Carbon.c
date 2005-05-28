@@ -175,9 +175,9 @@ static OSErr AEPutParamString(AppleEvent *event, AEKeyword keyword, CFStringRef 
 	if (!stringRef)
 		return noErr;
 
-	length = CFStringGetLength(stringRef); 
+	length = CFStringGetLength(stringRef);
 	maxBytes = CFStringGetMaximumSizeForEncoding(length,
-												 kCFStringEncodingUTF8); 
+												 kCFStringEncodingUTF8);
 	textBuf = malloc(maxBytes);
 	if (textBuf) {
 		CFStringGetBytes(stringRef, CFRangeMake(0, length),
@@ -951,7 +951,7 @@ void _userChoseToInstallGrowl(void) {
 void _userChoseNotToInstallGrowl(void) {
 	//Note the user's action so we stop queueing notifications, etc.
 	userChoseNotToInstallGrowl = true;
-	
+
 	//Clear our queued notifications; we won't be needing them
 	if (queuedGrowlNotifications) {
 		CFRelease(queuedGrowlNotifications);

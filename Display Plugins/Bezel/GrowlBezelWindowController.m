@@ -18,7 +18,7 @@
 
 - (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio identifier:(NSString *)ident {
 	identifier = [ident retain];
-	
+
 	int sizePref = 0;
 	float duration = MIN_DISPLAY_TIME;
 	screenNumber = 0U;

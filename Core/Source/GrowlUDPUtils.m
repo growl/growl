@@ -266,7 +266,7 @@
 		passwordData.Length = 0U;
 	}
 	[GrowlUDPUtils addChecksumToPacket:&packetData authMethod:authMethod password:&passwordData];
-	
+
 	*packetSize = length;
 
 	return (unsigned char *)nr;
@@ -311,7 +311,7 @@ static const CSSM_DATA ivCommon = {16U, iv};
 										   /*AccessCred*/ NULL,
 										   &key,
 										   &ivCommon,
-										   CSSM_PADDING_PKCS7,	
+										   CSSM_PADDING_PKCS7,
 										   /*Reserved*/ NULL,
 										   &ccHandle);
 

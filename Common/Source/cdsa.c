@@ -50,12 +50,12 @@ CSSM_RETURN cdsaInit(void) {
 		return crtn;
 	}
 
-	/* Obtain a handle which will be used to refer to the CSP */ 
+	/* Obtain a handle which will be used to refer to the CSP */
 	crtn = CSSM_ModuleAttach(&gGuidAppleCSP,
 							 &cspversion,
 							 &memFuncs,      // memFuncs
 							 0,          // SubserviceID
-							 CSSM_SERVICE_CSP,  
+							 CSSM_SERVICE_CSP,
 							 0,          // AttachFlags
 							 CSSM_KEY_HIERARCHY_NONE,
 							 NULL,        // FunctionTable

@@ -417,7 +417,7 @@
  *	@method applicationIconForGrowl
  *	@abstract Return the <code>NSImage</code> to treat as the application icon.
  *	@discussion The delegate may optionally return an <code>NSImage</code>
- *	 object to use as the application icon. If this method is not implemented, 
+ *	 object to use as the application icon. If this method is not implemented,
  *	 {{{-applicationIconDataForGrowl}}} is tried. If that method is not
  *	 implemented, the application's own icon is used. Neither method is
  *	 generally needed.

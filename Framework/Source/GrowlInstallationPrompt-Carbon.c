@@ -142,7 +142,7 @@ OSStatus _Growl_ShowUpdatePromptForVersion(CFStringRef updateVersion) {
 						else {
 							HIViewID chasingArrowsID = { GROWL_SIGNATURE, chasingArrowsIDNumber };
 							HIViewRef chasingArrows = NULL;
-							
+
 							//stop and hide the chasing arrows, until the user clicks Install.
 							OSStatus chasingArrowsErr = HIViewFindByID(HIViewGetRoot(window), chasingArrowsID, &chasingArrows);
 							if (chasingArrowsErr == noErr) {
