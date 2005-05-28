@@ -4,14 +4,14 @@
   <object name="rootObject" class="NSCustomObject" id="1">
     <string name="customClass">NSApplication</string>
   </object>
-  <array count="8" name="allObjects">
+  <array count="9" name="allObjects">
     <object class="IBCarbonWindow" id="166">
       <string name="windowRect">293 245 493 665 </string>
       <string name="title">Growl Installer</string>
       <object name="rootControl" class="IBCarbonRootControl" id="167">
         <string name="bounds">0 0 200 420 </string>
         <string name="viewFrame">0 0 420 200 </string>
-        <array count="5" name="subviews">
+        <array count="6" name="subviews">
           <object class="IBCarbonButton" id="182">
             <string name="bounds">160 326 180 396 </string>
             <string name="viewFrame">326 160 70 20 </string>
@@ -86,6 +86,12 @@
             <boolean name="scrollHorizontally">FALSE</boolean>
             <boolean name="autoHideScrollBars">TRUE</boolean>
           </object>
+          <object class="IBCarbonChasingArrows" id="195">
+            <string name="bounds">162 220 178 236 </string>
+            <string name="viewFrame">220 162 16 16 </string>
+            <ostype name="controlSignature">GRRR</ostype>
+            <int name="controlID">5000</int>
+          </object>
         </array>
       </object>
       <boolean name="receiveUpdates">FALSE</boolean>
@@ -104,8 +110,9 @@
     <reference idRef="184"/>
     <reference idRef="185"/>
     <reference idRef="186"/>
+    <reference idRef="195"/>
   </array>
-  <array count="8" name="allParents">
+  <array count="9" name="allParents">
     <reference idRef="1"/>
     <reference idRef="166"/>
     <reference idRef="167"/>
@@ -113,6 +120,7 @@
     <reference idRef="167"/>
     <reference idRef="167"/>
     <reference idRef="186"/>
+    <reference idRef="167"/>
     <reference idRef="167"/>
   </array>
   <dictionary count="3" name="nameTable">
@@ -123,5 +131,5 @@
     <string>View</string>
     <reference idRef="180"/>
   </dictionary>
-  <unsigned_int name="nextObjectID">195</unsigned_int>
+  <unsigned_int name="nextObjectID">196</unsigned_int>
 </object>

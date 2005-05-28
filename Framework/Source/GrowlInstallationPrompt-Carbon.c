@@ -27,8 +27,11 @@ extern void NSLog(CFStringRef format, ...);
 #define GROWL_SIGNATURE FOUR_CHAR_CODE('GRRR')
 
 enum {
-	imageViewIDNumber = 3000,
-	textViewIDNumber = 4000,
+	OKButtonIDNumber      = 1000,
+	cancelButtonIDNumber  = 1001,
+	imageViewIDNumber     = 3000,
+	textViewIDNumber      = 4000,
+	chasingArrowsIDNumber = 5000,
 };
 
 //for associating the update version with the window.
@@ -69,7 +72,7 @@ static OSStatus _fillOutIconInWindow(WindowRef window);
  *	@discussion	Copies Growl.prefpane.zip, unzips it, and launches the prefpane
  *	 with System Preferences to get it installed.
  */
-static OSStatus _installGrowl(void);
+static OSStatus _installGrowl(CFRunLoopRef mainThreadRunLoop);
 
 #pragma mark -
 
@@ -137,6 +140,21 @@ OSStatus _Growl_ShowUpdatePromptForVersion(CFStringRef updateVersion) {
 						if (err != noErr)
 							NSLog(CFSTR("GrowlInstallationPrompt: InstallWindowEventHandler returned %li"), (long)err);
 						else {
+							HIViewID chasingArrowsID = { GROWL_SIGNATURE, chasingArrowsIDNumber };
+							HIViewRef chasingArrows = NULL;
+							
+							//stop and hide the chasing arrows, until the user clicks Install.
+							OSStatus chasingArrowsErr = HIViewFindByID(HIViewGetRoot(window), chasingArrowsID, &chasingArrows);
+							if (chasingArrowsErr == noErr) {
+								Boolean truth = false;
+								SetControlData(chasingArrows,
+											   kControlEntireControl,
+											   kControlChasingArrowsAnimatingTag,
+											   sizeof(truth),
+											   &truth);
+								HIViewSetVisible(chasingArrows, false);
+							}
+
 							SelectWindow(window);
 							ShowWindow(window);
 
@@ -189,21 +207,87 @@ static OSStatus _handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef
 				if ((err != noErr) && (err != errWindowPropertyNotFound))
 					NSLog(CFSTR("GrowlInstallationPrompt: cannot retrieve the update version (if any) from the confirmation dialog: GetWindowProperty returned %li"), (long)err);
 
+				WindowRef window = refcon;
+
 				switch(cmd.commandID) {
 					case kHICommandOK:
+#pragma mark OK button
 						/*tell GAB so it can register for GROWL_IS_READY.
-						*(note that this needs to be done for both updates and
-						  *	clean installations.)
-						*/
+						 *(note that this needs to be done for both updates and
+						 *	clean installations.)
+						 */
 						_userChoseToInstallGrowl();
 
-						err = _installGrowl();
-						//_installGrowl prints its own errors
+						HIViewID \
+							chasingArrowsID = { GROWL_SIGNATURE, chasingArrowsIDNumber },
+							OKButtonID      = { GROWL_SIGNATURE,      OKButtonIDNumber },
+							cancelButtonID  = { GROWL_SIGNATURE,  cancelButtonIDNumber };
+						HIViewRef rootView = HIViewGetRoot(window), chasingArrows = NULL, OKButton = NULL, cancelButton = NULL;
 
+						//start and show the chasing arrows (optional, but preferred).
+						OSStatus chasingArrowsErr = HIViewFindByID(rootView, chasingArrowsID, &chasingArrows);
+						if (chasingArrowsErr == noErr) {
+							Boolean truth = true;
+							SetControlData(chasingArrows,
+										   kControlEntireControl,
+										   kControlChasingArrowsAnimatingTag,
+										   sizeof(truth),
+										   &truth);
+							HIViewSetVisible(chasingArrows, true);
+						}
+						//disable the OK and Cancel buttons (optional, but preferred).
+						OSStatus OKButtonErr = HIViewFindByID(rootView, OKButtonID, &OKButton);
+						if (OKButtonErr == noErr)
+							HIViewSetEnabled(OKButton, true);
+						OSStatus cancelButtonErr = HIViewFindByID(rootView, cancelButtonID, &cancelButton);
+						if (cancelButtonErr == noErr)
+							HIViewSetEnabled(cancelButton, true);
+
+						MPTaskID task = NULL;
+						err = MPCreateTask((TaskProc)_installGrowl,
+										   CFRunLoopGetCurrent(), //&context,
+										   /*stackSize*/ 0U,
+										   /*notifyQueue*/ NULL,
+										   /*terminationParameter1,2*/ NULL, NULL,
+										   /*options*/ 0U,
+										   &task);
+						/*XXX figure out how to handle errors returned by
+						 *	MPCreateTask, while ignoring errors returned by
+						 *	_installGrowl
+						 */
+
+						//run the run loop, so that the chasing arrows animate.
+						CFRunLoopRun(); //terminated by the work thread
+
+						//stop and hide the chasing arrows, if appropriate.
+						if (chasingArrowsErr == noErr) {
+							Boolean truth = false;
+							SetControlData(chasingArrows,
+										   kControlEntireControl,
+										   kControlChasingArrowsAnimatingTag,
+										   sizeof(truth),
+										   &truth);
+							HIViewSetVisible(chasingArrows, false);
+							//make sure we hide the chasing arrows before we hide the window.
+							HIViewRender(chasingArrows);
+							//and make sure the user can see it.
+							usleep(1000000U); //1/10 sec
+						}
+
+						HideWindow(window);
+
+						//reenable the OK and Cancel buttons (optional, but preferred).
+						if (OKButtonErr == noErr)
+							HIViewSetEnabled(OKButton, true);
+						if (cancelButtonErr == noErr)
+							HIViewSetEnabled(cancelButton, true);
+
+						if(!err) err = chasingArrowsErr;
 						//skip over the Cancel-specific code
 						goto common;
 
 					case kHICommandCancel:;
+#pragma mark Cancel button
 						//if there is an update version, this is the time to release it.
 						//if there is no update version, then this was an install request, and we need to tell GAB that it was cancelled.
 						if (updateVersion)
@@ -212,10 +296,12 @@ static OSStatus _handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef
 							_userChoseNotToInstallGrowl();
 
 					common:
+#pragma mark Common to OK and Cancel buttons
 						err = QuitAppModalLoopForWindow(refcon);
 						break;
 
 					case 'NO!!':;
+#pragma mark Dont Ask Again
 						//the 'Don't ask again' checkbox.
 						ControlRef     checkbox = cmd.source.control;
 						Boolean    dontAskAgain = (GetControl32BitValue(checkbox) != kControlCheckBoxUncheckedValue);
@@ -537,7 +623,7 @@ static OSStatus _fillOutIconInWindow(WindowRef window) {
 
 #include "CFGrowlAdditions.h"
 
-static OSStatus _installGrowl(void) {
+static OSStatus _installGrowl(CFRunLoopRef mainThreadRunLoop) {
 	OSStatus err = noErr;
 
 	//get temporary directory
@@ -703,6 +789,9 @@ static OSStatus _installGrowl(void) {
 #warning XXX - show this to the user; do not just log it.
 		NSLog(CFSTR("GrowlInstallationPrompt: Growl was not successfully installed"));
 	}
+
+	if(mainThreadRunLoop)
+		CFRunLoopStop(mainThreadRunLoop);
 
 	return err;
 }
