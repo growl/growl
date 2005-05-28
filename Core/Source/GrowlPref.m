@@ -295,7 +295,7 @@
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
 	NSString *lastVersion = [preferences objectForKey:LastKnownVersionKey];
 	NSString *currentVersion = [self bundleVersion];
-	if (![lastVersion isEqualToString:currentVersion]) {
+	if (!(lastVersion && [lastVersion isEqualToString:currentVersion])) {
 		if ([preferences isGrowlRunning]) {
 			[preferences setGrowlRunning:NO noMatterWhat:NO];
 			[preferences setGrowlRunning:YES noMatterWhat:YES];

@@ -26,9 +26,8 @@
 }
 
 - (NSPreferencePane *) preferencePane {
-	if (!preferencePane) {
+	if (!preferencePane)
 		preferencePane = [[GrowlMusicVideoPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMusicVideoPrefs class]]];
-	}
 	return preferencePane;
 }
 
@@ -36,13 +35,39 @@
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
 	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
-	GrowlMusicVideoWindowController *nuMusicVideo = [GrowlMusicVideoWindowController
-		musicVideoWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
-					   text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-					   icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-				   priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
-					 sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
 
+	NSString *identifier = [noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+	unsigned count = [notificationQueue count];
+	
+	if (count > 0U) {
+		GrowlMusicVideoWindowController *aNotification;
+		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
+
+		while ((aNotification = [enumerator nextObject])) {
+			if ([[aNotification identifier] isEqualToString:identifier]) {
+				if (![aNotification isFadingOut]) {
+					// coalescing
+					[aNotification setPriority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
+					[aNotification setTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]];
+					[aNotification setText:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
+					[aNotification setIcon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]];
+					[aNotification setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
+					[aNotification setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
+					[aNotification setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+					[aNotification setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
+					return;
+				}
+				break;
+			}
+		}
+	}
+
+	GrowlMusicVideoWindowController *nuMusicVideo = [[GrowlMusicVideoWindowController alloc]
+		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
+				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+		   identifier:identifier];
 	[nuMusicVideo setDelegate:self];
 	[nuMusicVideo setTarget:self];
 	[nuMusicVideo setAction:@selector(_musicVideoClicked:)];
@@ -51,38 +76,36 @@
 	[nuMusicVideo setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[nuMusicVideo setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 
-	if ([notificationQueue count] > 0U) {
-		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
+	if (count > 0U) {
 		GrowlMusicVideoWindowController *aNotification;
-		BOOL		inserted = NO;
-		unsigned	theIndex = 0U;
+		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
+		unsigned theIndex = 0U;
 
-		while (!inserted && (aNotification = [enumerator nextObject])) {
+		while ((aNotification = [enumerator nextObject])) {
 			if ([aNotification priority] < [nuMusicVideo priority]) {
 				[notificationQueue insertObject:nuMusicVideo atIndex:theIndex];
 				if (theIndex == 0U) {
 					[aNotification stopFadeOut];
 					[nuMusicVideo startFadeIn];
 				}
-				inserted = YES;
+				break;
 			}
-			theIndex++;
+			++theIndex;
 		}
 
-		if (!inserted) {
+		if (theIndex == count)
 			[notificationQueue addObject:nuMusicVideo];
-		}
 	} else {
 		[notificationQueue addObject:nuMusicVideo];
 		[nuMusicVideo startFadeIn];
 	}
+	[nuMusicVideo release];
 }
 
 - (void) willFadeOut:(FadingWindowController *)sender {
 #pragma unused(sender)
-	if ([notificationQueue count] > 1U) {
+	if ([notificationQueue count] > 1U)
 		[[notificationQueue objectAtIndex:1U] startFadeIn];
-	}
 }
 
 - (void) didFadeOut:(FadingWindowController *)sender {

@@ -13,13 +13,9 @@
 
 @implementation GrowlMusicVideoWindowController
 
-+ (GrowlMusicVideoWindowController *)musicVideoWithTitle:(NSString *)title text:(NSString *)text
-		icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
-	return [[[GrowlMusicVideoWindowController alloc] initWithTitle:title text:text icon:icon priority:prio sticky:sticky] autorelease];
-}
+- (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio identifier:(NSString *)ident {
+	identifier = [ident retain];
 
-- (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
-#pragma unused(sticky)
 	int sizePref = MUSICVIDEO_SIZE_NORMAL;
 	float duration = MUSICVIDEO_DEFAULT_DURATION;
 
@@ -71,15 +67,7 @@
 
 	[view setPriority:priority];
 	[view setTitle:title];
-	// Sanity check to unify line endings
-	NSMutableString	*tempText = [[NSMutableString alloc] initWithString:text];
-	[tempText replaceOccurrencesOfString:@"\r"
-			withString:@"\n"
-			options:nil
-			range:NSMakeRange(0U, [tempText length])];
-	[view setText:tempText];
-	[tempText release];
-
+	[self setText:text];
 	[view setIcon:icon];
 
 	panelFrame.origin = screen.origin;
@@ -92,7 +80,7 @@
 	[subview setFrameOrigin:frameOrigin];
 
 	if ((self = [super initWithWindow:panel])) {
-		autoFadeOut = YES;	// !sticky
+		autoFadeOut = YES;
 		displayTime = duration;
 		priority = prio;
 		if (sizePref == MUSICVIDEO_SIZE_HUGE) {
@@ -144,21 +132,46 @@
 #pragma mark -
 
 - (void) dealloc {
-	[contentView release];
+	[identifier    release];
+	[contentView   release];
 	[[self window] release];
 	[super dealloc];
 }
 
 #pragma mark Accessors
 
+- (NSString *) identifier {
+	return identifier;
+}
+
 #pragma mark -
 
-- (int)priority {
+- (int) priority {
 	return priority;
 }
 
-- (void)setPriority:(int)newPriority {
+- (void) setPriority:(int)newPriority {
 	priority = newPriority;
+	[subview setPriority:priority];
+}
+
+- (void) setTitle:(NSString *)title {
+	[subview setTitle:title];
+}
+
+- (void) setText:(NSString *)text {
+	// Sanity check to unify line endings
+	NSMutableString	*tempText = [[NSMutableString alloc] initWithString:text];
+	[tempText replaceOccurrencesOfString:@"\r"
+							  withString:@"\n"
+								 options:nil
+								   range:NSMakeRange(0U, [tempText length])];
+	[subview setText:tempText];
+	[tempText release];
+}
+
+- (void) setIcon:(NSImage *)icon {
+	[subview setIcon:icon];
 }
 
 @end

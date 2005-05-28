@@ -8,20 +8,24 @@
 
 #import "FadingWindowController.h"
 
+@class GrowlMusicVideoWindowView;
+
 @interface GrowlMusicVideoWindowController : FadingWindowController {
-	float	frameHeight;
-	int		priority;
-	NSView	*contentView;
-	NSView	*subview;
-	NSPoint	frameOrigin;
+	float						frameHeight;
+	int							priority;
+	NSView						*contentView;
+	GrowlMusicVideoWindowView	*subview;
+	NSPoint						frameOrigin;
+	NSString					*identifier;
 }
 
-+ (GrowlMusicVideoWindowController *) musicVideoWithTitle:(NSString *)title text:(NSString *)text
-		icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
+- (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority identifier:(NSString *)ident;
 
-- (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority sticky:(BOOL)sticky;
-
+- (NSString *) identifier;
 - (int) priority;
 - (void) setPriority:(int)newPriority;
-
+- (void) setTitle:(NSString *)title;
+- (void) setText:(NSString *)text;
+- (void) setIcon:(NSImage *)icon;
+	
 @end

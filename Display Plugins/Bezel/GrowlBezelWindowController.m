@@ -16,13 +16,9 @@
 #define MIN_DISPLAY_TIME 3.0
 #define GrowlBezelPadding 10.0f
 
-+ (GrowlBezelWindowController *) bezelWithTitle:(NSString *)title text:(NSString *)text
-		icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
-	return [[[GrowlBezelWindowController alloc] initWithTitle:title text:text icon:icon priority:prio sticky:sticky] autorelease];
-}
-
-- (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio sticky:(BOOL)sticky {
-#pragma unused(sticky)
+- (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio identifier:(NSString *)ident {
+	identifier = [ident retain];
+	
 	int sizePref = 0;
 	float duration = MIN_DISPLAY_TIME;
 	screenNumber = 0U;
@@ -63,25 +59,17 @@
 	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
 	//[panel setDelegate:self];
 
-	GrowlBezelWindowView *view = [[GrowlBezelWindowView alloc] initWithFrame:panelFrame];
+	contentView = [[GrowlBezelWindowView alloc] initWithFrame:panelFrame];
 
 	//[view setTarget:self];
 	//[view setAction:@selector(_notificationClicked:)];
-	[panel setContentView:view];
+	[panel setContentView:contentView];
 
-	[view setPriority:priority];
-	[view setTitle:title];
-	NSMutableString	*tempText = [[NSMutableString alloc] initWithString:text];
-	// Sanity check to unify line endings
-	[tempText replaceOccurrencesOfString:@"\r"
-			withString:@"\n"
-			options:nil
-			range:NSMakeRange(0U, [tempText length])];
-	[view setText:tempText];
-	[tempText release];
-
-	[view setIcon:icon];
-	panelFrame = [view frame];
+	[contentView setPriority:priority];
+	[contentView setTitle:title];
+	[self setText:text];
+	[contentView setIcon:icon];
+	panelFrame = [contentView frame];
 	[panel setFrame:panelFrame display:NO];
 
 	NSPoint panelTopLeft;
@@ -131,6 +119,10 @@
 	return self;
 }
 
+- (NSString *) identifier {
+	return identifier;
+}
+
 #pragma mark -
 
 - (int) priority {
@@ -139,6 +131,26 @@
 
 - (void) setPriority:(int)newPriority {
 	priority = newPriority;
+	[contentView setPriority:priority];
+}
+
+- (void) setTitle:(NSString *)title {
+	[contentView setTitle:title];
+}
+
+- (void) setText:(NSString *)text {
+	// Sanity check to unify line endings
+	NSMutableString	*tempText = [[NSMutableString alloc] initWithString:text];
+	[tempText replaceOccurrencesOfString:@"\r"
+							  withString:@"\n"
+								 options:nil
+								   range:NSMakeRange(0U, [tempText length])];
+	[contentView setText:tempText];
+	[tempText release];
+}
+
+- (void) setIcon:(NSImage *)icon {
+	[contentView setIcon:icon];
 }
 
 #pragma mark -
@@ -201,8 +213,9 @@
 
 - (void) dealloc {
 	NSWindow *myWindow = [self window];
-	[[myWindow contentView] release];
-	[myWindow release];
+	[identifier  release];
+	[contentView release];
+	[myWindow    release];
 	[super dealloc];
 }
 

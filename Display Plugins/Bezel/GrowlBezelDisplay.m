@@ -26,19 +26,46 @@
 }
 
 - (NSPreferencePane *) preferencePane {
-	if (!preferencePane) {
+	if (!preferencePane)
 		preferencePane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBezelPrefs class]]];
-	}
 	return preferencePane;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
 	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
-	GrowlBezelWindowController *nuBezel = [GrowlBezelWindowController bezelWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
-			text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-			icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-			priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
-			sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]];
+
+	NSString *identifier = [noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+	unsigned count = [notificationQueue count];
+
+	if (count > 0U) {
+		GrowlBezelWindowController *aNotification;
+		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
+
+		while ((aNotification = [enumerator nextObject])) {
+			if ([[aNotification identifier] isEqualToString:identifier]) {
+				if (![aNotification isFadingOut]) {
+					// coalescing
+					[aNotification setPriority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
+					[aNotification setTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]];
+					[aNotification setText:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
+					[aNotification setIcon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]];
+					[aNotification setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
+					[aNotification setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
+					[aNotification setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+					[aNotification setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
+					return;
+				}
+				break;
+			}
+		}
+	}
+
+	GrowlBezelWindowController *nuBezel = [[GrowlBezelWindowController alloc]
+		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
+				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
+			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+		   identifier:identifier];
 
 	[nuBezel setDelegate:self];
 	[nuBezel setTarget:self];
@@ -48,31 +75,30 @@
 	[nuBezel setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[nuBezel setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 
-	if ([notificationQueue count] > 0U) {
+	if (count > 0U) {
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
 		GrowlBezelWindowController *aNotification;
-		BOOL	inserted = NO;
-		int		theIndex = 0;
+		unsigned theIndex = 0U;
 
-		while (!inserted && (aNotification = [enumerator nextObject])) {
+		while ((aNotification = [enumerator nextObject])) {
 			if ([aNotification priority] < [nuBezel priority]) {
 				[notificationQueue insertObject: nuBezel atIndex:theIndex];
-				if (theIndex == 0) {
+				if (theIndex == 0U) {
 					[aNotification stopFadeOut];
 					[nuBezel startFadeIn];
 				}
-				inserted = YES;
+				break;
 			}
 			theIndex++;
 		}
 
-		if (!inserted) {
+		if (theIndex == count)
 			[notificationQueue addObject:nuBezel];
-		}
 	} else {
 		[notificationQueue addObject:nuBezel];
 		[nuBezel startFadeIn];
 	}
+	[nuBezel release];
 }
 
 - (void) willFadeOut:(FadingWindowController *)sender {
