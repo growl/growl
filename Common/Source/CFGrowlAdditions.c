@@ -322,9 +322,9 @@ static OSStatus copyFork(const struct HFSUniStr255 *forkName, const FSRef *srcFi
 				CFStringRef debuggingFilename = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault,
 																				   destName->unicode,
 																				   destName->length,
-																				   /*contentsDeallocator*/ NULL);
+																				   /*contentsDeallocator*/ kCFAllocatorNull);
 				if (!debuggingFilename)
-					debuggingFilename = CFStringCreateWithCStringNoCopy(kCFAllocatorDefault, "(could not get filename for destination file: CFStringCreateWithCharactersNoCopy returned NULL)", kCFStringEncodingASCII, /*contentsDeallocator*/ NULL);
+					debuggingFilename = CFStringCreateWithCStringNoCopy(kCFAllocatorDefault, "(could not get filename for destination file: CFStringCreateWithCharactersNoCopy returned NULL)", kCFStringEncodingASCII, /*contentsDeallocator*/ kCFAllocatorNull);
 
 				NSLog(CFSTR("in copyFork in CFGrowlAdditions: %s (destination: %s/%@) returned %li"), functionName, debuggingPathBuf, debuggingFilename, (long)err);
 
@@ -332,15 +332,20 @@ static OSStatus copyFork(const struct HFSUniStr255 *forkName, const FSRef *srcFi
 			} else {
 				//that file doesn't exist in that folder; create it.
 				err = PBCreateFileUnicodeSync(&refPB);
-				if (err != noErr) {
-					functionName = "PBCreateFileUnicodeSync";
-					goto handleMakeFSRefError;
-				} else {
+				if (err == noErr) {
 					/*make sure the Finder knows about the new file.
 					 *FNNotify returns a status code too, but this isn't an
 					 *	essential step, so we just ignore it.
 					 */
 					FNNotify(destDir, kFNDirectoryModifiedMessage, kNilOptions);
+				} else if (err == dupFNErr) {
+					/*dupFNErr: the file already exists.
+					 *we can safely ignore this error.
+					 */
+					err = noErr;
+				} else {
+					functionName = "PBCreateFileUnicodeSync";
+					goto handleMakeFSRefError;
 				}
 			}
 		}
