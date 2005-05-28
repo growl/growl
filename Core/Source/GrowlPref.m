@@ -105,9 +105,8 @@
 #pragma unused(sender)
 	[growlVersionProgress startAnimation:self];
 
-	if (!versionCheckURL) {
+	if (!versionCheckURL)
 		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
-	}
 
 	[self checkVersionAtURL:versionCheckURL
 				displayText:NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @"")];
@@ -133,7 +132,7 @@
 
 	// do nothing--be quiet if there is no active connection or if the
 	// version number could not be downloaded
-	if (latestVersionNumber && (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0)) {
+	if (latestVersionNumber && (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0))
 		NSBeginAlertSheet(/*title*/ NSLocalizedStringFromTableInBundle(@"Update Available", nil, bundle, @""),
 						  /*defaultButton*/ nil, // use default localized button title ("OK" in English)
 						  /*alternateButton*/ NSLocalizedStringFromTableInBundle(@"Cancel", nil, bundle, @""),
@@ -144,9 +143,8 @@
 						  /*didDismissSelector*/ @selector(downloadSelector:returnCode:contextInfo:),
 						  /*contextInfo*/ downloadURL,
 						  /*msg*/ message);
-	} else {
+	else
 		[downloadURL release];
-	}
 
 	[productVersionDict release];
 }
@@ -154,9 +152,8 @@
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 #pragma unused(sheet)
 	NSURL *downloadURL = (NSURL *)contextInfo;
-	if (returnCode == NSAlertDefaultReturn) {
+	if (returnCode == NSAlertDefaultReturn)
 		[[NSWorkspace sharedWorkspace] openURL:downloadURL];
-	}
 	[downloadURL release];
 }
 
@@ -252,9 +249,8 @@
 
 	[self setupAboutTab];
 
-	if ([self growlMenuEnabled] && ![GrowlPref isGrowlMenuRunning]) {
+	if ([self growlMenuEnabled] && ![GrowlPref isGrowlMenuRunning])
 		[self enableGrowlMenu];
-	}
 
 	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
 	growlForumURL   = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
@@ -350,15 +346,12 @@
 	tickets = ticketsCopy;
 }
 
-
-
-- (void) insertInTickets:(GrowlApplicationTicket*)newTicket {
-	NSMutableArray			*ticketsCopy = [tickets mutableCopy];
+- (void) insertInTickets:(GrowlApplicationTicket *)newTicket {
+	NSMutableArray *ticketsCopy = [tickets mutableCopy];
 	[ticketsCopy addObject:newTicket];
 	[self setTickets:ticketsCopy];
 	[ticketsCopy release];
 }
-
 
 - (void) reloadDisplayPluginView {
 	NSArray *selectedPlugins = [displayPluginsArrayController selectedObjects];
@@ -381,9 +374,8 @@
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
 	NSNumber *pid = [[notification userInfo] objectForKey:@"pid"];
-	if (!pid || [pid intValue] != [[NSProcessInfo processInfo] processIdentifier]) {
+	if (!pid || [pid intValue] != [[NSProcessInfo processInfo] processIdentifier])
 		[self reloadPreferences];
-	}
 }
 
 - (void) reloadPreferences {
@@ -439,11 +431,10 @@
 						change:(NSDictionary *)change context:(void *)context {
 #pragma unused(change, context)
 	if ([keyPath isEqualToString:@"selection"]) {
-		if ((object == ticketsArrayController)) {
+		if ((object == ticketsArrayController))
 			[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
-		} else if (object == displayPluginsArrayController) {
+		else if (object == displayPluginsArrayController)
 			[self reloadDisplayPluginView];
-		}
 	}
 }
 
@@ -451,11 +442,9 @@
 	NSMutableArray *destinations = [[NSMutableArray alloc] initWithCapacity:[services count]];
 	NSEnumerator *enumerator = [services objectEnumerator];
 	GrowlBrowserEntry *entry;
-	while ((entry = [enumerator nextObject])) {
-		if (![entry netService]) {
+	while ((entry = [enumerator nextObject]))
+		if (![entry netService])
 			[destinations addObject:[entry properties]];
-		}
-	}
 	[[GrowlPreferences preferences] setObject:destinations forKey:GrowlForwardDestinationsKey];
 	[destinations release];
 }
@@ -509,11 +498,10 @@
 	}
 
 	// Our desired state is a toggle of the current state;
-	if (growlIsRunning) {
+	if (growlIsRunning)
 		[self terminateGrowl];
-	} else {
+	else
 		[self launchGrowl];
-	}
 }
 
 #pragma mark -
@@ -565,11 +553,10 @@
 - (void) setGrowlMenuEnabled:(BOOL)state {
 	if (state != [self growlMenuEnabled]) {
 		[[GrowlPreferences preferences] setBool:state forKey:GrowlMenuExtraKey];
-		if (state) {
+		if (state)
 			[self enableGrowlMenu];
-		} else {
+		else
 			[self disableGrowlMenu];
-		}
 	}
 }
 
@@ -589,16 +576,18 @@
 
 	typePref = [logFileType selectedRow];
 	BOOL hasSelection = (typePref != 0);
-	if (hasSelection && ([customMenuButton numberOfItems] == 1)) {
+	if (hasSelection && ([customMenuButton numberOfItems] == 1))
 		[self customFileChosen:customMenuButton];
-	}
 	[[GrowlPreferences preferences] setInteger:typePref forKey:GrowlLogTypeKey];
 	[customMenuButton setEnabled:(hasSelection && ([customMenuButton numberOfItems] > 1))];
 }
 
 - (IBAction) openConsoleApp:(id)sender {
 #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] launchApplication:@"Console"];
+	[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:@"com.apple.Console"
+														 options:NSWorkspaceLaunchAsync
+								  additionalEventParamDescriptor:nil
+												launchIdentifier:nil];
 }
 
 - (IBAction) customFileChosen:(id)sender {
@@ -642,17 +631,12 @@
 		GrowlPreferences *preferences = [GrowlPreferences preferences];
 		NSString *s = [customHistArray objectAtIndex:0U];
 		[preferences setObject:s forKey:GrowlCustomHistKey1];
-		//NSLog(@"Writing %@ as hist1", s);
 
-		if ((numHistItems > 1U) && (s = [customHistArray objectAtIndex:1U])) {
+		if ((numHistItems > 1U) && (s = [customHistArray objectAtIndex:1U]))
 			[preferences setObject:s forKey:GrowlCustomHistKey2];
-			//NSLog(@"Writing %@ as hist2", s);
-		}
 
-		if ((numHistItems > 2U) && (s = [customHistArray objectAtIndex:2U])) {
+		if ((numHistItems > 2U) && (s = [customHistArray objectAtIndex:2U]))
 			[preferences setObject:s forKey:GrowlCustomHistKey3];
-			//NSLog(@"Writing %@ as hist3", s);
-		}
 
 		//[[logFileType cellAtRow:1 column:0] setEnabled:YES];
 		[logFileType selectCellAtRow:1 column:0];
@@ -677,14 +661,12 @@
 			[arg appendString:[pathComponentry objectAtIndex:(numPathComponents - 1U)]];
 			[customMenuButton insertItemWithTitle:arg atIndex:i];
 			[arg release];
-		} else {
+		} else
 			[customMenuButton insertItemWithTitle:[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] atIndex:i];
-		}
 	}
 	// No separator if there's no file list yet
-	if (numHistItems > 0U) {
+	if (numHistItems > 0U)
 		[[customMenuButton menu] addItem:[NSMenuItem separatorItem]];
-	}
 	[customMenuButton addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Browse menu item title", /*tableName*/ nil, [self bundle], /*comment*/ nil)];
 	//select first item, if any
 	[customMenuButton selectItemAtIndex:numHistItems ? 0 : -1];
@@ -774,9 +756,8 @@
 		passwordString = [NSString stringWithUTF8String:password length:passwordLength];
 		SecKeychainItemFreeContent(NULL, password);
 	} else {
-		if (status != errSecItemNotFound) {
+		if (status != errSecItemNotFound)
 			NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
-		}
 		passwordString = @"";
 	}
 
@@ -798,9 +779,8 @@
 												strlen(keychainServiceName), keychainServiceName,
 												strlen(keychainAccountName), keychainAccountName,
 												length, password, NULL );
-		if (status) {
+		if (status)
 			NSLog(@"Failed to add password to keychain.");
-		}
 	} else {
 		// change existing password
 		SecKeychainAttribute attrs[] = {
@@ -813,12 +793,10 @@
 														 length,		// length of password
 														 password		// pointer to password data
 														 );
-		if (itemRef) {
+		if (itemRef)
 			CFRelease(itemRef);
-		}
-		if (status) {
+		if (status)
 			NSLog(@"Failed to change password in keychain.");
-		}
 	}
 }
 
@@ -859,12 +837,11 @@
 			serviceBeingResolved = serviceToResolve;
 			[serviceBeingResolved retain];
 			[serviceBeingResolved setDelegate:self];
-			if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)]) {
+			if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)])
 				[serviceBeingResolved resolveWithTimeout:5.0];
-			} else {
+			else
 				// this selector is deprecated in 10.4
 				[serviceBeingResolved resolve];
-			}
 		}
 	}
 }
@@ -918,15 +895,13 @@
 	NSView *newView = nil;
 	NSPreferencePane *prefPane = nil, *oldPrefPane = nil;
 
-	if (pluginPrefPane) {
+	if (pluginPrefPane)
 		oldPrefPane = pluginPrefPane;
-	}
 
 	if (displayName) {
 		// Old plugins won't support the new protocol. Check first
-		if ([currentPluginController respondsToSelector:@selector(preferencePane)]) {
+		if ([currentPluginController respondsToSelector:@selector(preferencePane)])
 			prefPane = [currentPluginController preferencePane];
-		}
 
 		if (prefPane == pluginPrefPane) {
 			// Don't bother swapping anything
@@ -949,9 +924,8 @@
 		[pluginPrefPane release];
 		pluginPrefPane = nil;
 	}
-	if (!newView) {
+	if (!newView)
 		newView = displayDefaultPrefView;
-	}
 	if (displayPrefView != newView) {
 		// Make sure the new view is framed correctly
 		[newView setFrame:DISPLAY_PREF_FRAME];
@@ -968,9 +942,8 @@
 			[displayPluginsTable setNextKeyView:previewButton];
 		}
 
-		if (oldPrefPane) {
+		if (oldPrefPane)
 			[oldPrefPane didUnselect];
-		}
 	}
 }
 
@@ -1018,20 +991,17 @@
 	NSString *name = [aNetService name];
 	NSEnumerator *enumerator = [services objectEnumerator];
 	GrowlBrowserEntry *entry;
-	while ((entry = [enumerator nextObject])) {
-		if ([[entry computerName] isEqualToString:name]) {
+	while ((entry = [enumerator nextObject]))
+		if ([[entry computerName] isEqualToString:name])
 			return;
-		}
-	}
 
 	// don't add the local machine
 	NSString *localHostName = (NSString *)SCDynamicStoreCopyComputerName(/*store*/ NULL,
 																		 /*nameEncoding*/ NULL);
 	BOOL isLocalHost = [localHostName isEqualToString:name];
 	[localHostName release];
-	if (isLocalHost) {
+	if (isLocalHost)
 		return;
-	}
 
 	// add a new entry at the end
 	entry = [[GrowlBrowserEntry alloc] initWithComputerName:name netService:aNetService];
@@ -1040,9 +1010,8 @@
 	[self didChangeValueForKey:@"services"];
 	[entry release];
 
-	if (!moreComing) {
+	if (!moreComing)
 		[self writeForwardDestinations];
-	}
 }
 
 - (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
@@ -1068,9 +1037,8 @@
 		serviceBeingResolved = nil;
 	}
 
-	if (!moreComing) {
+	if (!moreComing)
 		[self writeForwardDestinations];
-	}
 }
 
 - (void) netServiceDidResolveAddress:(NSNetService *)sender {
