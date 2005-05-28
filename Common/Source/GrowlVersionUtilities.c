@@ -7,6 +7,10 @@ CFStringRef releaseTypeNames[numberOfReleaseTypes] = {
 	CFSTR(""), CFSTR(" SVN "), CFSTR("d"), CFSTR("a"), CFSTR("b"),
 };
 
+//TEMP: for debugging version parsing and comparison.
+//see GrowlApplicationBridge-Carbon.c for information about why NSLog is declared here.
+extern void NSLog(CFStringRef format, ...);
+
 #pragma mark Parsing and unparsing
 
 bool parseVersionString(CFStringRef string, struct Version *outVersion) {
@@ -206,11 +210,19 @@ CFComparisonResult compareVersionStrings(CFStringRef a, CFStringRef b) {
 	else if (!a) return kCFCompareGreaterThan;
 	else if (!b) return kCFCompareLessThan;
 
+	NSLog(CFSTR("GrowlVersionUtilities: comparing version strings %@ and %@"), a, b);
+
 	struct Version v_a, v_b;
 	bool parsed_a, parsed_b;
 
 	parsed_a = parseVersionString(a, &v_a);
 	parsed_b = parseVersionString(b, &v_b);
+
+	CFStringRef aDesc = createVersionDescription(v_a), bDesc = createVersionDescription(v_b);
+	NSLog(CFSTR("GrowlVersionUtilites: comparing versions %@ and %@"), aDesc, bDesc);	//TEMP: for debugging version parsing and comparison.
+
+	if (aDesc) CFRelease(aDesc);
+	if (bDesc) CFRelease(bDesc);
 
 	//strings that could not be parsed sort above strings that could.
 	if (!parsed_a) {
@@ -229,9 +241,14 @@ CFComparisonResult compareVersionStringsTranslating1_0To0_5(CFStringRef a, CFStr
 	else if (!a) return kCFCompareGreaterThan;
 	else if (!b) return kCFCompareLessThan;
 
+	NSLog(CFSTR("GrowlVersionUtilities: comparing version strings %@ and %@ (replacing 1.0 with 0.5 first)"), a, b);	//TEMP: for debugging version parsing and comparison.
 	CFStringRef  one_zero = CFSTR("1.0");
 	CFStringRef zero_five = CFSTR("0.5");
 	if (CFEqual(a, one_zero)) a = zero_five;
 	if (CFEqual(b, one_zero)) b = zero_five;
-	return compareVersionStrings(a, b);
+//	return compareVersionStrings(a, b);
+	//TEMP: for debugging version parsing and comparison.
+	CFComparisonResult result = compareVersionStrings(a, b);
+	NSLog(CFSTR("GrowlVersionUtilities: result: %i"), result);
+	return result;
 }
