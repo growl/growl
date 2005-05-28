@@ -571,15 +571,13 @@
 }
 
 - (IBAction) logTypeChanged:(id)sender {
-#pragma unused(sender)
-	int		typePref;
-
-	typePref = [logFileType selectedRow];
+	int typePref = [sender selectedRow];
 	BOOL hasSelection = (typePref != 0);
-	if (hasSelection && ([customMenuButton numberOfItems] == 1))
+	int numberOfItems = [customMenuButton numberOfItems];
+	if (hasSelection && (numberOfItems == 1))
 		[self customFileChosen:customMenuButton];
 	[[GrowlPreferences preferences] setInteger:typePref forKey:GrowlLogTypeKey];
-	[customMenuButton setEnabled:(hasSelection && ([customMenuButton numberOfItems] > 1))];
+	[customMenuButton setEnabled:(hasSelection && (numberOfItems > 1))];
 }
 
 - (IBAction) openConsoleApp:(id)sender {
