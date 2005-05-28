@@ -183,10 +183,23 @@ static BOOL checkOSXVersion(void) {
 
 	[checkBox_dontAskAgain setTitle:DONT_ASK_AGAIN_CHECKBOX_TITLE];
 	[checkBox_dontAskAgain sizeToFit];
+
+	//put the spinner to the left of the Cancel button
+	NSRect spinnerFrame = [spinner frame];
+	spinnerFrame.origin.x = newCancelButtonFrame.origin.x - (spinnerFrame.size.width + 8.0f);
+	[spinner setFrame:spinnerFrame];
+
+	[spinner stopAnimation:nil];
+	[button_install setEnabled:YES];
+	[button_cancel  setEnabled:YES];
 }
 
 - (IBAction) installGrowl:(id)sender {
 #pragma unused(sender)
+	[spinner startAnimation:sender];
+	[button_install setEnabled:NO];
+	[button_cancel  setEnabled:NO];
+
 	[self performInstallGrowl];
 
 	[self releaseAndClose];

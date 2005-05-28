@@ -12,9 +12,10 @@
 	IBOutlet	NSTextView		*textView_growlInfo;
 	IBOutlet	NSScrollView	*scrollView_growlInfo;
 
-	IBOutlet	NSButton	*button_install;
-	IBOutlet	NSButton	*button_cancel;
-	IBOutlet	NSButton	*checkBox_dontAskAgain;
+	IBOutlet	NSButton			*button_install;
+	IBOutlet	NSButton			*button_cancel;
+	IBOutlet	NSButton			*checkBox_dontAskAgain;
+	IBOutlet	NSProgressIndicator	*spinner;
 
 	NSString	*updateVersion;
 }
