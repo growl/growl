@@ -101,6 +101,7 @@
 				outbuffer[j++] = ';';
 				break;
 			case '\n':
+			case '\r':
 				outbuffer[j++] = '<';
 				outbuffer[j++] = 'b';
 				outbuffer[j++] = 'r';
@@ -114,9 +115,8 @@
 	CFStringReplaceAll((CFMutableStringRef)self, result);
 	CFRelease(result);
 	free(outbuffer);
-	if (freeWhenDone) {
+	if (freeWhenDone)
 		free(inbuffer);
-	}
 
 	return self;
 }
