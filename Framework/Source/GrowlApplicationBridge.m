@@ -155,6 +155,25 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 #pragma mark -
 
++ (void) notifyWithTitle:(NSString *)title
+			 description:(NSString *)description
+		notificationName:(NSString *)notifName
+				iconData:(NSData *)iconData
+				priority:(int)priority
+				isSticky:(BOOL)isSticky
+			clickContext:(id)clickContext
+{
+	[GrowlApplicationBridge notifyWithTitle:title
+								description:description
+						   notificationName:notifName
+								   iconData:iconData
+								   priority:priority
+								   isSticky:isSticky
+							   clickContext:clickContext
+								 identifier:nil];
+}
+
+
 /*Send a notification to Growl for display.
  *title, description, and notifName are required.
  *All other id parameters may be nil to accept defaults.
@@ -167,6 +186,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
 			clickContext:(id)clickContext
+			  identifier:(NSString *)identifier
 {
 	NSParameterAssert(notifName);	//Notification name is required.
 	NSParameterAssert(title || description);	//At least one of title or description is required.
@@ -205,6 +225,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		[noteDict setObject:value forKey:GROWL_NOTIFICATION_STICKY];
 		[value release];
 	}
+	if (identifier)		[noteDict setObject:identifier forKey:GROWL_NOTIFICATION_IDENTIFIER];
 
 	[self notifyWithDictionary:noteDict];
 	[noteDict release];
