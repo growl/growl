@@ -286,7 +286,6 @@ static id singleton = nil;
 																		sendPort:serverPort];
 			MD5Authenticator *auth = [[MD5Authenticator alloc] initWithPassword:password];
 			[connection setDelegate:auth];
-			[connection runInNewThread];
 
 			NSNumber *num = [defaults objectForKey:@"ForwardingRequestTimeout"];
 			if (num && [num respondsToSelector:@selector(floatValue)])
@@ -311,6 +310,14 @@ static id singleton = nil;
 			}
 		}
 	}
+}
+
+- (void) forwardNotification:(NSDictionary *)dict {
+	[self forwardDictionary:dict withSelector:@selector(postNotificationWithDictionary:)];
+}
+
+- (void) forwardRegistration:(NSDictionary *)dict {
+	[self forwardDictionary:dict withSelector:@selector(registerApplicationWithDictionary:)];
 }
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
@@ -438,7 +445,9 @@ static id singleton = nil;
 
 	// forward to remote destinations
 	if (enableForward)
-		[self forwardDictionary:dict withSelector:@selector(postNotificationWithDictionary:)];
+		[NSThread detachNewThreadSelector:@selector(forwardNotification:)
+								 toTarget:self
+							   withObject:dict];
 }
 
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *) userInfo {
@@ -474,7 +483,9 @@ static id singleton = nil;
 								   clickContext:nil];
 
 		if (enableForward)
-			[self forwardDictionary:userInfo withSelector:@selector(registerApplicationWithDictionary:)];
+			[NSThread detachNewThreadSelector:@selector(forwardRegistration:)
+									 toTarget:self
+								   withObject:userInfo];
 	} else { //!newApp
 		NSString *filename = [(appName ? appName : @"unknown-application") stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 		NSString *path = [@"/var/log" stringByAppendingPathComponent:filename];
