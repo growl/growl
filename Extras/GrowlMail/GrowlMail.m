@@ -30,7 +30,7 @@
 //  GrowlMail
 //
 //  Created by Adam Iser on Mon Jul 26 2004.
-//  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2004-2005 The Growl Project. All rights reserved.
 //
 
 #import "GrowlMail.h"
@@ -86,12 +86,11 @@
 	if ((self = [super init])) {
 		NSString *growlPath = [[[GrowlMail bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
 		NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
-		if (growlBundle && [growlBundle load]) {
+		if (growlBundle && [growlBundle load])
 			// Register ourselves as a Growl delegate
 			[GrowlApplicationBridge setGrowlDelegate:self];
-		} else {
+		else
 			NSLog(@"Could not load Growl.framework, GrowlMail disabled");
-		}
 	}
 
 	return self;

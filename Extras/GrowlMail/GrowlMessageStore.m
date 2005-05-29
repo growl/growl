@@ -52,15 +52,12 @@
 
 - (void) showSummary:(id)object {
 #pragma unused(object)
-	Message *message;
-	int summaryMode = [GrowlMail summaryMode];
-
 	NSMutableDictionary *threadDictionary = [[NSThread currentThread] threadDictionary];
 	NSArray *collectedMessages = [threadDictionary objectForKey:PendingMessagesKey];
 
-	unsigned messageCount = [collectedMessages count];
+	int summaryMode = [GrowlMail summaryMode];
 	if (summaryMode == MODE_AUTO) {
-		if (messageCount >= AUTO_THRESHOLD)
+		if ([collectedMessages count] >= AUTO_THRESHOLD)
 			summaryMode = MODE_SUMMARY;
 		else
 			summaryMode = MODE_SINGLE;
@@ -74,6 +71,7 @@
 		case MODE_SUMMARY: {
 			NSCountedSet *accountSummary = [[NSCountedSet alloc] initWithCapacity:[[MailAccount mailAccounts] count]];
 			NSEnumerator *enumerator = [collectedMessages objectEnumerator];
+			Message *message;
 			while ((message = [enumerator nextObject]))
 				[accountSummary addObject:[[[message messageStore] account] displayName]];
 			NSBundle *bundle = [GrowlMail bundle];

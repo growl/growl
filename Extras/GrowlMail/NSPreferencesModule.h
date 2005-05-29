@@ -30,46 +30,46 @@
 //  GrowlMail
 //
 //  Created by Ingmar Stein on Fri Oct 29 2004.
-//  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2004-2005 The Growl Project. All rights reserved.
 
 #import <Cocoa/Cocoa.h>
 
 @protocol NSPreferencesModule
-- (void)moduleWasInstalled;
-- (void)moduleWillBeRemoved;
-- (void)didChange;
-- (void)initializeFromDefaults;
-- (void)willBeDisplayed;
-- (void)saveChanges;
-- (char)hasChangesPending;
-- imageForPreferenceNamed:fp12;
-- viewForPreferenceNamed:fp12;
+- (void) moduleWasInstalled;
+- (void) moduleWillBeRemoved;
+- (void) didChange;
+- (void) initializeFromDefaults;
+- (void) willBeDisplayed;
+- (void) saveChanges;
+- (char) hasChangesPending;
+- (NSImage *) imageForPreferenceNamed:(NSString *)aName;
+- (NSView *) viewForPreferenceNamed:(NSString *)aName;
 @end
 
 @interface NSPreferencesModule:NSObject <NSPreferencesModule>
 {
 	IBOutlet NSBox *_preferencesView;
-	struct _NSSize _minSize;
-	char _hasChanges;
+	NSSize _minSize;
+	BOOL _hasChanges;
 	void *_reserved;
 }
 
-+ (id)sharedInstance;
-- (void)dealloc;
-- (id)init;
-- (NSString *)preferencesNibName;
-- (void)setPreferencesView:fp12;
-- (id)viewForPreferenceNamed:(NSString *)aName;
-- (NSImage *)imageForPreferenceNamed:(NSString *)aName;
-- (NSString *)titleForIdentifier:(NSString *)aName;
-- (char)hasChangesPending;
-- (void)saveChanges;
-- (void)willBeDisplayed;
-- (void)initializeFromDefaults;
-- (void)didChange;
-- (NSSize)minSize;
-- (void)moduleWillBeRemoved;
-- (void)moduleWasInstalled;
-- (char)isResizable;
++ (id) sharedInstance;
+- (void) dealloc;
+- (id) init;
+- (NSString *) preferencesNibName;
+- (void) setPreferencesView:fp12;
+- (id) viewForPreferenceNamed:(NSString *)aName;
+- (NSImage *) imageForPreferenceNamed:(NSString *)aName;
+- (NSString *) titleForIdentifier:(NSString *)aName;
+- (BOOL) hasChangesPending;
+- (void) saveChanges;
+- (void) willBeDisplayed;
+- (void) initializeFromDefaults;
+- (void) didChange;
+- (NSSize) minSize;
+- (void) moduleWillBeRemoved;
+- (void) moduleWasInstalled;
+- (BOOL) isResizable;
 
 @end
