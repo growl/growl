@@ -30,6 +30,7 @@
 #import "cdsa.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #include <sys/socket.h>
+#include <sys/fcntl.h>
 #include <netinet/in.h>
 
 // check every 24 hours
@@ -275,11 +276,12 @@ static id singleton = nil;
 		if ([[entry objectForKey:@"use"] boolValue]) {
 			NSData *destAddress = [entry objectForKey:@"address"];
 			NSString *password = [entry objectForKey:@"password"];
-			NSPort *serverPort = [[NSSocketPort alloc]
+			NSSocketPort *serverPort = [[NSSocketPort alloc]
 				initRemoteWithProtocolFamily:AF_INET
 								  socketType:SOCK_STREAM
 									protocol:IPPROTO_TCP
 									 address:destAddress];
+			fcntl([serverPort socket], F_SETFL, O_NONBLOCK);
 
 			NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil
 																		sendPort:serverPort];
