@@ -114,7 +114,9 @@
 	NSArray *matches = [[ABAddressBook sharedAddressBook] recordsMatchingSearchElement:personSearch];
 
 	id image = nil;
-	for (unsigned i = 0U, num = [matches count]; (i < num) && !image; ++i)
+	NSEnumerator *matchesEnum;
+	ABPerson *person;
+	while ((!image) && (person = [matchesEnum nextObject]))
 		image = [[matches objectAtIndex:i] imageData];
 
 	if (!image) {
