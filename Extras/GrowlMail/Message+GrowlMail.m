@@ -117,7 +117,7 @@
 	NSEnumerator *matchesEnum = [matches objectEnumerator];
 	ABPerson *person;
 	while ((!image) && (person = [matchesEnum nextObject]))
-		image = [[matches objectAtIndex:i] imageData];
+		image = [person imageData];
 
 	if (!image) {
 		//no matches in the Address Book with an icon, so use Mail's icon instead.
