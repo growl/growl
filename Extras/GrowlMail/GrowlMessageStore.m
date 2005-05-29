@@ -43,24 +43,27 @@
 
 #define AUTO_THRESHOLD	10
 
-static NSMutableArray *collectedMessages;
+#define PendingMessagesKey @"PendingMessages"
 
 @implementation GrowlMessageStore
 + (void) load {
 	[GrowlMessageStore poseAsClass:[MessageStore class]];
 }
 
-- (void) showSummary {
+- (void) showSummary:(id)object {
+#pragma unused(object)
 	Message *message;
 	int summaryMode = [GrowlMail summaryMode];
 
+	NSMutableDictionary *threadDictionary = [[NSThread currentThread] threadDictionary];
+	NSArray *collectedMessages = [threadDictionary objectForKey:PendingMessagesKey];
+
 	unsigned messageCount = [collectedMessages count];
 	if (summaryMode == MODE_AUTO) {
-		if (messageCount >= AUTO_THRESHOLD) {
+		if (messageCount >= AUTO_THRESHOLD)
 			summaryMode = MODE_SUMMARY;
-		} else {
+		else
 			summaryMode = MODE_SINGLE;
-		}
 	}
 
 	switch (summaryMode) {
@@ -71,10 +74,8 @@ static NSMutableArray *collectedMessages;
 		case MODE_SUMMARY: {
 			NSCountedSet *accountSummary = [[NSCountedSet alloc] initWithCapacity:[[MailAccount mailAccounts] count]];
 			NSEnumerator *enumerator = [collectedMessages objectEnumerator];
-			while ((message = [enumerator nextObject])) {
-				MailAccount *account = [[message messageStore] account];
-				[accountSummary addObject:[account displayName]];
-			}
+			while ((message = [enumerator nextObject]))
+				[accountSummary addObject:[[[message messageStore] account] displayName]];
 			NSBundle *bundle = [GrowlMail bundle];
 			NSString *title = NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"");
 			id icon = [NSImage imageNamed:@"NSApplicationIcon"];
@@ -97,15 +98,19 @@ static NSMutableArray *collectedMessages;
 		}
 	}
 
-	[collectedMessages release];
-	collectedMessages = nil;
+	[threadDictionary removeObjectForKey:PendingMessagesKey];
 }
 
 - (id) finishRoutingMessages:(NSArray *)messages routed:(NSArray *)routed {
 	if ([GrowlMail isEnabled]) {
+		NSMutableDictionary *threadDictionary = [[NSThread currentThread] threadDictionary];
+		NSMutableArray *collectedMessages = [threadDictionary objectForKey:PendingMessagesKey];
 		if (!collectedMessages) {
 			collectedMessages = [[NSMutableArray alloc] init];
+			[threadDictionary setObject:collectedMessages forKey:PendingMessagesKey];
+			[collectedMessages release];
 		}
+
 		Message *message;
 		Class tocMessageClass = [TOCMessage class];
 		GrowlMail *growlMail = [GrowlMail sharedInstance];
@@ -113,18 +118,16 @@ static NSMutableArray *collectedMessages;
 		while ((message = [enumerator nextObject])) {
 			//NSLog(@"Message class: %@", [message className]);
 			if (!([message isKindOfClass:tocMessageClass]|| ([message isJunk] && [GrowlMail isIgnoreJunk]))
-				&& [growlMail isAccountEnabled:[[[message messageStore] account] path]]) {
+				&& [growlMail isAccountEnabled:[[[message messageStore] account] path]])
 				[collectedMessages addObject:message];
-			}
 		}
-		if ([collectedMessages count]) {
-			[self performSelectorOnMainThread:@selector(showSummary)
-								   withObject:nil
-								waitUntilDone:NO];
-		} else {
-			[collectedMessages release];
-			collectedMessages = nil;
-		}
+		if ([collectedMessages count])
+			// perform selector in the same thread
+			[self performSelector:@selector(showSummary:)
+					   withObject:nil
+					   afterDelay:0.0];
+		else
+			[threadDictionary removeObjectForKey:PendingMessagesKey];
 	}
 
 	return [super finishRoutingMessages:messages routed:routed];
