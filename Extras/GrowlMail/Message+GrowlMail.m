@@ -114,10 +114,13 @@
 	NSArray *matches = [[ABAddressBook sharedAddressBook] recordsMatchingSearchElement:personSearch];
 
 	id image = nil;
-	if ([matches count] > 0U)
-		image = [[matches objectAtIndex:0U] imageData];
-	if (!image)
+	for (unsigned i = 0U, num = [matches count]; (i < num) && !image; ++i)
+		image = [[matches objectAtIndex:i] imageData];
+
+	if (!image) {
+		//no matches in the Address Book with an icon, so use Mail's icon instead.
 		image = [NSImage imageNamed:@"NSApplicationIcon"];
+	}
 
 	[GrowlApplicationBridge notifyWithTitle:title
 								description:description
