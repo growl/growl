@@ -266,6 +266,41 @@ static id singleton = nil;
 	[info release];
 }
 
+- (void) forwardDictionary:(NSDictionary *)dict withSelector:(SEL)forwardMethod {
+	NSEnumerator *enumerator = [destinations objectEnumerator];
+	NSDictionary *entry;
+	while ((entry = [enumerator nextObject])) {
+		if ([[entry objectForKey:@"use"] boolValue]) {
+			NSData *destAddress = [entry objectForKey:@"address"];
+			NSString *password = [entry objectForKey:@"password"];
+			NSPort *serverPort = [[NSSocketPort alloc]
+				initRemoteWithProtocolFamily:AF_INET
+								  socketType:SOCK_STREAM
+									protocol:IPPROTO_TCP
+									 address:destAddress];
+
+			NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil
+																		sendPort:serverPort];
+			MD5Authenticator *auth = [[MD5Authenticator alloc] initWithPassword:password];
+			[connection setDelegate:auth];
+			@try {
+				NSDistantObject *theProxy = [connection rootProxy];
+				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
+				NSProxy <GrowlNotificationProtocol> *growlProxy = (id)theProxy;
+				[growlProxy performSelector:forwardMethod withObject:dict];
+			} @catch(NSException *e) {
+				NSLog(@"Exception while forwarding notification: %@", e);
+			} @finally {
+				[connection invalidate];
+				[serverPort invalidate];
+				[serverPort release];
+				[connection release];
+				[auth release];
+			}
+		}
+	}
+}
+
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
 	[GrowlLog logNotificationDictionary:dict];
 
@@ -390,39 +425,8 @@ static id singleton = nil;
 	[aDict release];
 
 	// forward to remote destinations
-	if (enableForward) {
-		NSEnumerator *enumerator = [destinations objectEnumerator];
-		NSDictionary *entry;
-		while ((entry = [enumerator nextObject])) {
-			if ([[entry objectForKey:@"use"] boolValue]) {
-				NSData *destAddress = [entry objectForKey:@"address"];
-				NSString *password = [entry objectForKey:@"password"];
-				NSPort *serverPort = [[NSSocketPort alloc]
-					initRemoteWithProtocolFamily:AF_INET
-									  socketType:SOCK_STREAM
-										protocol:IPPROTO_TCP
-										 address:destAddress];
-
-				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:serverPort];
-				MD5Authenticator *auth = [[MD5Authenticator alloc] initWithPassword:password];
-				[connection setDelegate:auth];
-				@try {
-					NSDistantObject *theProxy = [connection rootProxy];
-					[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-					id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
-					[growlProxy postNotificationWithDictionary:dict];
-				} @catch(NSException *e) {
-					NSLog(@"Exception while forwarding notification: %@", e);
-				} @finally {
-					[connection invalidate];
-					[serverPort invalidate];
-					[serverPort release];
-					[connection release];
-					[auth release];
-				}
-			}
-		}
-	}
+	if (enableForward)
+		[self forwardDictionary:dict withSelector:@selector(postNotificationWithDictionary:)];
 }
 
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *) userInfo {
@@ -457,40 +461,8 @@ static id singleton = nil;
 									   isSticky:NO
 								   clickContext:nil];
 
-		if (enableForward) {
-			NSEnumerator *enumerator = [destinations objectEnumerator];
-			NSDictionary *entry;
-			while ((entry = [enumerator nextObject])) {
-				if ([[entry objectForKey:@"use"] boolValue]) {
-					NSData *destAddress = [entry objectForKey:@"address"];
-					NSString *password = [entry objectForKey:@"password"];
-					NSPort *serverPort = [[NSSocketPort alloc]
-						initRemoteWithProtocolFamily:AF_INET
-										  socketType:SOCK_STREAM
-											protocol:IPPROTO_TCP
-											 address:destAddress];
-
-					NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil
-																				sendPort:serverPort];
-					MD5Authenticator *auth = [[MD5Authenticator alloc] initWithPassword:password];
-					[connection setDelegate:auth];
-					@try {
-						NSDistantObject *theProxy = [connection rootProxy];
-						[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-						id<GrowlNotificationProtocol> growlProxy = (id)theProxy;
-						[growlProxy registerApplicationWithDictionary:userInfo];
-					} @catch(NSException *e) {
-						NSLog(@"Exception while forwarding notification: %@", e);
-					} @finally {
-						[connection invalidate];
-						[serverPort invalidate];
-						[serverPort release];
-						[connection release];
-						[auth release];
-					}
-				}
-			}
-		}
+		if (enableForward)
+			[self forwardDictionary:userInfo withSelector:@selector(registerApplicationWithDictionary:)];
 	} else { //!newApp
 		NSString *filename = [(appName ? appName : @"unknown-application") stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 		NSString *path = [@"/var/log" stringByAppendingPathComponent:filename];
