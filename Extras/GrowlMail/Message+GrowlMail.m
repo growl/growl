@@ -88,8 +88,8 @@
 	else if ([sender addressComment])
 		sender = [sender addressComment];
 
-	NSString *title = [[NSString alloc] initWithFormat:@"(%@) %@", account, sender];
-	NSString *description = [[NSString alloc] initWithFormat:@"%@\n%@", subject, body];
+	NSString *title = [NSString stringWithFormat:@"(%@) %@", account, sender];
+	NSString *description = [NSString stringWithFormat:@"%@\n%@", subject, body];
 /*
 	NSLog(@"Subject: '%@'", subject);
 	NSLog(@"Sender: '%@'", sender);
@@ -126,7 +126,5 @@
 								   priority:0
 								   isSticky:NO
 							   clickContext:@""];	// non-nil click context
-	[title       release];
-	[description release];
 }
 @end
