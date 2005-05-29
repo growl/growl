@@ -267,6 +267,8 @@ static id singleton = nil;
 }
 
 - (void) forwardDictionary:(NSDictionary *)dict withSelector:(SEL)forwardMethod {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
 	NSEnumerator *enumerator = [destinations objectEnumerator];
 	NSDictionary *entry;
 	while ((entry = [enumerator nextObject])) {
@@ -283,13 +285,21 @@ static id singleton = nil;
 																		sendPort:serverPort];
 			MD5Authenticator *auth = [[MD5Authenticator alloc] initWithPassword:password];
 			[connection setDelegate:auth];
+
+			NSNumber *num = [defaults objectForKey:@"ForwardingRequestTimeout"];
+			if (num && [num respondsToSelector:@selector(floatValue)])
+				[connection setRequestTimeout:[num floatValue]];
+			num = [defaults objectForKey:@"ForwardingReplyTimeout"];
+			if (num && [num respondsToSelector:@selector(floatValue)])
+				[connection setReplyTimeout:[num floatValue]];
+
 			@try {
 				NSDistantObject *theProxy = [connection rootProxy];
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
 				NSProxy <GrowlNotificationProtocol> *growlProxy = (id)theProxy;
 				[growlProxy performSelector:forwardMethod withObject:dict];
 			} @catch(NSException *e) {
-				NSLog(@"Exception while forwarding notification: %@", e);
+				NSLog(@"Exception while forwarding dictionary with selector %s (description of dictionary follows): %@\n%@", forwardMethod, e, dict);
 			} @finally {
 				[connection invalidate];
 				[serverPort invalidate];
