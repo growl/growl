@@ -117,7 +117,7 @@
 	if ([matches count] > 0U)
 		image = [[matches objectAtIndex:0U] imageData];
 	if (!image)
-		image = [NSImage imageNamed:@"NSApplicationIcon"];
+		image = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
 
 	[GrowlApplicationBridge notifyWithTitle:title
 								description:description
