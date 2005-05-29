@@ -40,6 +40,7 @@
 	if (count > 0U) {
 		GrowlBezelWindowController *aNotification;
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];
+		unsigned theIndex = 0U;
 
 		while ((aNotification = [enumerator nextObject])) {
 			if ([[aNotification identifier] isEqualToString:identifier]) {
@@ -53,10 +54,13 @@
 					[aNotification setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 					[aNotification setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 					[aNotification setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
+					if (theIndex == 0U)
+						[aNotification startFadeIn];
 					return;
 				}
 				break;
 			}
+			++theIndex;
 		}
 	}
 

@@ -80,9 +80,8 @@
 }
 
 - (void) startFadeIn {
-	if (delegate && [delegate respondsToSelector:@selector(willFadeIn:)]) {
+	if (delegate && [delegate respondsToSelector:@selector(willFadeIn:)])
 		[delegate willFadeIn:self];
-	}
 	isFadingIn = YES;
 	[self retain]; // release after fade out
 	[self showWindow:nil];
@@ -103,21 +102,17 @@
 - (void) stopFadeIn {
 	isFadingIn = NO;
 	[self _stopTimer];
-	if (delegate && [delegate respondsToSelector:@selector(didFadeIn:)]) {
+	if (delegate && [delegate respondsToSelector:@selector(didFadeIn:)])
 		[delegate didFadeIn:self];
-	}
-	if (screenshotMode) {
+	if (screenshotMode)
 		[self takeScreenshot];
-	}
-	if (autoFadeOut) {
+	if (autoFadeOut)
 		[self _waitBeforeFadeOut];
-	}
 }
 
 - (void) startFadeOut {
-	if (delegate && [delegate respondsToSelector:@selector(willFadeOut:)]) {
+	if (delegate && [delegate respondsToSelector:@selector(willFadeOut:)])
 		[delegate willFadeOut:self];
-	}
 	isFadingOut = YES;
 	[self _stopTimer];
 	if (doFadeOut) {
@@ -136,9 +131,8 @@
 - (void) stopFadeOut {
 	isFadingOut = NO;
 	[self _stopTimer];
-	if (delegate && [delegate respondsToSelector:@selector(didFadeOut:)]) {
+	if (delegate && [delegate respondsToSelector:@selector(didFadeOut:)])
 		[delegate didFadeOut:self];
-	}
 
 	if (clickContext) {
 		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -254,11 +248,10 @@
 
 - (NSScreen *) screen {
 	NSArray *screens = [NSScreen screens];
-	if (screenNumber < [screens count] ) {
+	if (screenNumber < [screens count])
 		return [screens objectAtIndex:screenNumber];
-	} else {
+	else
 		return [NSScreen mainScreen];
-	}
 }
 
 #pragma mark -
@@ -323,9 +316,8 @@
 
 - (void) _notificationClicked:(id)sender {
 #pragma unused(sender)
-	if (target && action && [target respondsToSelector:action]) {
+	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
-	}
 	[self startFadeOut];
 }
 
