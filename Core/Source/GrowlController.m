@@ -281,13 +281,12 @@ static id singleton = nil;
 								  socketType:SOCK_STREAM
 									protocol:IPPROTO_TCP
 									 address:destAddress];
-			if (fcntl([serverPort socket], F_SETFL, O_NONBLOCK) == -1)
-				NSLog(@"Could not set set socket to non-blocking mode");
 
 			NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil
 																		sendPort:serverPort];
 			MD5Authenticator *auth = [[MD5Authenticator alloc] initWithPassword:password];
 			[connection setDelegate:auth];
+			[connection runInNewThread];
 
 			NSNumber *num = [defaults objectForKey:@"ForwardingRequestTimeout"];
 			if (num && [num respondsToSelector:@selector(floatValue)])
