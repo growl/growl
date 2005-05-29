@@ -26,6 +26,7 @@
 #import "GrowlController.h"
 #import "GrowlDefines.h"
 #import "NSWorkspaceAdditions.h"
+#import "NSMutableDictionaryAdditions.h"
 
 #define KEY_TITLE					@"title"
 #define KEY_DESC					@"description"
@@ -89,9 +90,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 	if (psnData) {
 		pid_t pid;
 		GetProcessPID([psnData bytes], &pid);
-		NSNumber *pidNumber = [[NSNumber alloc] initWithInt:pid];
-		[noteDict setObject:pidNumber forKey:GROWL_APP_PID];
-		[pidNumber release];
+		[noteDict setInteger:pid forKey:GROWL_APP_PID];
 	}
 
 	@try {

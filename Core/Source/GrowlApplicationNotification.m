@@ -10,6 +10,8 @@
 #import "GrowlApplicationTicket.h"
 #import "GrowlPluginController.h"
 #import "GrowlDisplayProtocol.h"
+#import "NSDictionaryAdditions.h"
+#import "NSMutableDictionaryAdditions.h"
 
 @implementation GrowlApplicationNotification
 + (GrowlApplicationNotification *) notificationWithName:(NSString *)theName {
@@ -29,8 +31,8 @@
 	} else {
 		inPriority = GP_unset;
 	}
-	BOOL inEnabled = [[dict objectForKey:@"Enabled"] boolValue];
-	int inSticky = [[dict objectForKey:@"Sticky"] intValue];
+	BOOL inEnabled = [dict boolForKey:@"Enabled"];
+	int inSticky = [dict integerForKey:@"Sticky"];
 	inSticky = (inSticky >= 0 ? (inSticky > 0 ? NSOnState : NSOffState) : NSMixedState);
 	NSString *inDisplay = [dict objectForKey:@"Display"];
 
@@ -65,14 +67,10 @@
 		nil];
 	[enabledValue release];
 	[stickyValue  release];
-	if (priority != GP_unset) {
-		NSNumber *priorityValue = [[NSNumber alloc] initWithInt:priority];
-		[dict setObject:priorityValue forKey:@"Priority"];
-		[priorityValue release];
-	}
-	if (displayPluginName) {
+	if (priority != GP_unset)
+		[dict setInteger:priority forKey:@"Priority"];
+	if (displayPluginName)
 		[dict setObject:displayPluginName forKey:@"Display"];
-	}
 	return dict;
 }
 

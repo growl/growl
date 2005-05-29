@@ -14,6 +14,7 @@
 #import "NSWindow+Transforms.h"
 #import "GrowlPluginController.h"
 #import "NSMutableStringAdditions.h"
+#import "NSDictionaryAdditions.h"
 
 static unsigned webkitWindowDepth = 0U;
 static NSMutableDictionary *notificationsByIdentifier;
@@ -222,7 +223,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	decisionListener:(id<WebPolicyDecisionListener>)listener
 {
 #pragma unused(sender, request, frame)
-	int actionKey = [[actionInformation objectForKey: WebActionNavigationTypeKey] intValue];
+	int actionKey = [actionInformation integerForKey: WebActionNavigationTypeKey];
 	if (actionKey == WebNavigationTypeOther) {
 		[listener use];
 	} else {

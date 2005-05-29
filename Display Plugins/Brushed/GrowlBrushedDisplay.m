@@ -11,6 +11,7 @@
 #import "GrowlBrushedPrefsController.h"
 #import "GrowlBrushedDefines.h"
 #import "GrowlDefinesInternal.h"
+#import "NSDictionaryAdditions.h"
 
 static unsigned brushedDepth = 0U;
 
@@ -42,20 +43,20 @@ static unsigned brushedDepth = 0U;
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
 	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	GrowlBrushedWindowController *controller = [[GrowlBrushedWindowController alloc]
-		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
-				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
-			   sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
+		initWithTitle:[noteDict objectForKey: GROWL_NOTIFICATION_TITLE]
+				 text:[noteDict objectForKey: GROWL_NOTIFICATION_DESCRIPTION]
+				 icon:[noteDict objectForKey: GROWL_NOTIFICATION_ICON]
+			 priority:[noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY]
+			   sticky:[noteDict boolForKey:   GROWL_NOTIFICATION_STICKY]
 				depth:brushedDepth
-		   identifier:[noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]];
+		   identifier:[noteDict objectForKey: GROWL_NOTIFICATION_IDENTIFIER]];
 
 	[controller setTarget:self];
 	[controller setAction:@selector(_brushedClicked:)];
 	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[controller setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-	[controller setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
+	[controller setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 
 	// update the depth for the next notification with the depth given by this new one
 	// which will take into account the new notification's height
@@ -65,11 +66,10 @@ static unsigned brushedDepth = 0U;
 }
 
 - (void) _brushedGone:(NSNotification *)note {
-	unsigned notifiedDepth = [[[note userInfo] objectForKey:@"Depth"] intValue];
+	unsigned notifiedDepth = [[[note userInfo] objectForKey:@"Depth"] unsignedIntValue];
 	//NSLog(@"Received notification of departure with depth %u, my depth is %u\n", notifiedDepth, brushedDepth);
-	if (brushedDepth > notifiedDepth) {
+	if (brushedDepth > notifiedDepth)
 		brushedDepth = notifiedDepth;
-	}
 	//NSLog(@"My depth is now %u\n", brushedDepth);
 }
 

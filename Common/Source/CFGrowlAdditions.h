@@ -5,6 +5,7 @@
 //  Created by Mac-arena the Bored Zo on Wed Jun 18 2004.
 //  Copyright 2005 The Growl Project.
 //
+// This file is under the BSD License, refer to License.txt for details
 
 #ifndef HAVE_CFGROWLADDITIONS_H
 #define HAVE_CFGROWLADDITIONS_H

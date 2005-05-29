@@ -9,6 +9,7 @@
 #import "GrowlLog.h"
 #import "GrowlPreferences.h"
 #import "GrowlDefines.h"
+#import "NSDictionaryAdditions.h"
 
 @implementation GrowlLog
 + (void) log:(NSString *)message {
@@ -46,10 +47,10 @@
 + (void) logNotificationDictionary:(NSDictionary *)noteDict {
 	NSString *logString = [[NSString alloc] initWithFormat:@"%@ %@: %@ (%@) - Priority %d",
 		[NSDate date],
-		[noteDict objectForKey:GROWL_APP_NAME],
-		[noteDict objectForKey:GROWL_NOTIFICATION_TITLE],
-		[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION],
-		[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
+		[noteDict objectForKey: GROWL_APP_NAME],
+		[noteDict objectForKey: GROWL_NOTIFICATION_TITLE],
+		[noteDict objectForKey: GROWL_NOTIFICATION_DESCRIPTION],
+		[noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY]];
 	[self log:logString];
 	[logString release];
 }

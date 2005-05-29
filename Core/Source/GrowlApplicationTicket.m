@@ -287,9 +287,8 @@
 	[ticketEnabledValue        release];
 	[clickHandlersEnabledValue release];
 	[saveNotifications         release];
-	if (displayPluginName) {
+	if (displayPluginName)
 		[saveDict setObject:displayPluginName forKey:GrowlDisplayPluginKey];
-	}
 
 	NSData *plistData;
 	NSString *error;

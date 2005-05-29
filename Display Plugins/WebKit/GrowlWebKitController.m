@@ -10,6 +10,7 @@
 #import "GrowlWebKitWindowController.h"
 #import "GrowlWebKitPrefsController.h"
 #import "GrowlDefines.h"
+#import "NSDictionaryAdditions.h"
 
 @implementation GrowlWebKitController
 
@@ -44,19 +45,19 @@
 	// have to link against it and all of its dependencies
 	Class webKitWindowController = NSClassFromString(@"GrowlWebKitWindowController");
 	GrowlWebKitWindowController *controller = [[webKitWindowController alloc]
-		initWithTitle: [noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
-				 text: [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-				 icon: [noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
-			   sticky:[[noteDict objectForKey:GROWL_NOTIFICATION_STICKY]  boolValue]
-		   identifier: [noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]
+		initWithTitle:[noteDict objectForKey: GROWL_NOTIFICATION_TITLE]
+				 text:[noteDict objectForKey: GROWL_NOTIFICATION_DESCRIPTION]
+				 icon:[noteDict objectForKey: GROWL_NOTIFICATION_ICON]
+			 priority:[noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY]
+			   sticky:[noteDict boolForKey:   GROWL_NOTIFICATION_STICKY]
+		   identifier:[noteDict objectForKey: GROWL_NOTIFICATION_IDENTIFIER]
 				style:style];
 	[controller setTarget:self];
 	[controller setAction:@selector(_notificationClicked:)];
 	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[controller setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-	[controller setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
+	[controller setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 	[controller release];
 }
 

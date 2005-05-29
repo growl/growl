@@ -33,14 +33,13 @@ static NSMutableDictionary *notificationsByIdentifier;
 //	NSLog(@"self id: [%d]", self->uid);
 
 	// stop depth wrapping around
-	if (windowSize.height > depth) {
+	if (windowSize.height > depth)
 		depth = 0U;
-	} else {
+	else
 		depth -= windowSize.height;
-	}
 
 	NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:uid];
-	NSNumber *depthValue = [[NSNumber alloc] initWithInt:depth];
+	NSNumber *depthValue = [[NSNumber alloc] initWithUnsignedInt:depth];
 	NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
 		idValue,    @"ID",
 		depthValue, @"Depth",

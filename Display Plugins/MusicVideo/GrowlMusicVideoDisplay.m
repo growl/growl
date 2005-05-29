@@ -8,6 +8,7 @@
 #import "GrowlMusicVideoWindowController.h"
 #import "GrowlMusicVideoPrefs.h"
 #import <GrowlDefinesInternal.h>
+#import "NSDictionaryAdditions.h"
 
 @implementation GrowlMusicVideoDisplay
 
@@ -48,14 +49,14 @@
 			if ([[aNotification identifier] isEqualToString:identifier]) {
 				if (![aNotification isFadingOut]) {
 					// coalescing
-					[aNotification setPriority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
+					[aNotification setPriority:[noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY]];
 					[aNotification setTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]];
 					[aNotification setText:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
 					[aNotification setIcon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]];
 					[aNotification setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 					[aNotification setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 					[aNotification setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-					[aNotification setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
+					[aNotification setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 					if (theIndex == 0U)
 						[aNotification startFadeIn];
 					return;
@@ -70,7 +71,7 @@
 		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
 				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
 				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+			 priority:[noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY]
 		   identifier:identifier];
 	[nuMusicVideo setDelegate:self];
 	[nuMusicVideo setTarget:self];
@@ -78,7 +79,7 @@
 	[nuMusicVideo setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[nuMusicVideo setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[nuMusicVideo setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-	[nuMusicVideo setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
+	[nuMusicVideo setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 
 	if (count > 0U) {
 		GrowlMusicVideoWindowController *aNotification;

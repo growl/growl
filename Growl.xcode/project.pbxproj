@@ -2544,6 +2544,8 @@
 				95812DBB08118FB9004FF8F5,
 				959DBE9A08127ED9009BB468,
 				9574B8050838CEBE00106CA3,
+				95F975AE084A23F500915BFE,
+				95F9767C084A297400915BFE,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2723,6 +2725,8 @@
 				95812DBC08118FBF004FF8F5,
 				959DBE9908127ED4009BB468,
 				9574B8060838CEC200106CA3,
+				95F97735084A2CB000915BFE,
+				95F97736084A2CB300915BFE,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3125,6 +3129,8 @@
 				95D89B1A082422350068A4BD,
 				9574B75C0838CA1E00106CA3,
 				9574B96D0838F41F00106CA3,
+				95F9771E084A2C7700915BFE,
+				95F9771F084A2C7A00915BFE,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5057,6 +5063,90 @@
 			shellPath = /usr/bin/perl;
 			shellScript = "########################################################\n\nmy $SYSTEM_VERS \t\t= \"/System/Library/CoreServices/SystemVersion.plist\";\nmy $EXIT_VALUE\t\t\t= 0;\n\n#######################################################\n\n# If system version is NOT 10.4 or higher, create empty directories\nif (CheckVersion($SYSTEM_VERS, \"10.4\", \"ProductVersion\", \">=\" )) {\n\t$EXIT_VALUE = system(\"xcodebuild -project Extras/GrowlImporter/GrowlImporter.xcode -buildstyle \\\"\".$ENV{\"BUILD_STYLE\"}.\"\\\" -alltargets build\");\n\tif ($EXIT_VALUE) {\n\t\texit($EXIT_VALUE);\n\t}\n\t$EXIT_VALUE = system(\"xcodebuild -project Extras/GrowlAction/GrowlAction.xcode -buildstyle \\\"\".$ENV{\"BUILD_STYLE\"}.\"\\\" -alltargets build\");\n} else {\n\tmkdir(\"Extras/GrowlAction/build\");\n\tmkdir(\"Extras/GrowlAction/build/Show Growl Notification.action\");\n\tmkdir(\"Extras/GrowlImporter/build\");\n\tmkdir(\"Extras/GrowlImporter/build/GrowlImporter.mdimporter\");\n}\n\nexit($EXIT_VALUE);\n\n########################################################\n\nsub CheckVersion {\n\tmy $path\t\t\t= $_[0];\n\tmy $version \t\t= $_[1];\n\tmy $keyName \t\t= $_[2];\n\tmy $operator\t\t= $_[3];\n\tmy $i;\n\tmy $oldSeperator;\n\tmy $plistData;\n\tmy @items;\n\tmy $item;\n\tmy @theVersionArray;\n\tmy @versionArray;\n\tmy %versiondata;\n\n\tif (! -e $path) {\n\t\treturn 0;\n\t}\n\n\tif (!$operator) {\n\t\t$operator = \"==\";\n\t}\n\n\t$oldSeperator = $/;\n\t$/ = \\0;\n\n\topen( PLIST, \"$path\") || do {\n\t\treturn 0;\n\t};\n\n\t$plistData = <PLIST>;\n\t$plistData =~ /<dict>(.*?)<\\/dict>/gis;\n\n\t@items = split(/<key>/, $plistData);\n\n\tshift @items;\n\tforeach $item (@items) {\n\t\t$item =~ /(.*?)<\\/key>.*?<string>(.*?)<\\/string>/gis;\n\t\t$versiondata{ $1 } = $2;\n\t}\n\n\tclose(PLIST);\n\n\t$/ = $oldSeperator;\n\n\t@theVersionArray = split(/\\./, $versiondata{$keyName});\n\tfor ($i = 0; $i < 3; $i++) {\n\t\tif(!$theVersionArray[$i]) {\n\t\t\t$theVersionArray[$i] = '0';\n\t\t}\n\t}\n\n\t@versionArray = split(/\\./, $version);\n\t\n\tmy $actualVersion;\n\n\tfor ($i = 0; $i < 3; $i++) {\n\t\tif (($theVersionArray[$i] != $versionArray[$i]) or ($i == 2)) {\n\t\t\t$actualVersion = $theVersionArray[$i];\n\t\t\t$version = $versionArray[$i];\n\t\t\tlast;\n\t\t}\n\t}\n\n\tmy $expression = '$actualVersion ' . $operator . ' $version';\n\tif( eval ($expression) ) {\n\t\treturn 1;\n\t} else {\n\t\treturn 0;\n\t}\n}\n";
 		};
+		95F975AB084A23F500915BFE = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = NSMutableDictionaryAdditions.h;
+			path = Common/Source/NSMutableDictionaryAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95F975AC084A23F500915BFE = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = NSMutableDictionaryAdditions.m;
+			path = Common/Source/NSMutableDictionaryAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95F975AE084A23F500915BFE = {
+			fileRef = 95F975AC084A23F500915BFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95F97679084A297400915BFE = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = NSDictionaryAdditions.h;
+			path = Common/Source/NSDictionaryAdditions.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95F9767A084A297400915BFE = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = NSDictionaryAdditions.m;
+			path = Common/Source/NSDictionaryAdditions.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95F9767C084A297400915BFE = {
+			fileRef = 95F9767A084A297400915BFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95F9771E084A2C7700915BFE = {
+			fileRef = 95F975AC084A23F500915BFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95F9771F084A2C7A00915BFE = {
+			fileRef = 95F9767A084A297400915BFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95F97733084A2CA000915BFE = {
+			fileRef = 95F975AC084A23F500915BFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95F97734084A2CA300915BFE = {
+			fileRef = 95F9767A084A297400915BFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95F97735084A2CB000915BFE = {
+			fileRef = 95F9767A084A297400915BFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95F97736084A2CB300915BFE = {
+			fileRef = 95F975AC084A23F500915BFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		95FC305007E03B0700BD8674 = {
 			children = (
 				95FC34D807E0458E00BD8674,
@@ -5627,6 +5717,8 @@
 				9574B6FC0838C7A100106CA3,
 				9574B75A0838CA1E00106CA3,
 				9574B7AE0838CB5500106CA3,
+				95F97733084A2CA000915BFE,
+				95F97734084A2CA300915BFE,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5808,6 +5900,10 @@
 				9574B6FA0838C7A100106CA3,
 				9574B7570838CA1E00106CA3,
 				9574B7580838CA1E00106CA3,
+				95F975AB084A23F500915BFE,
+				95F975AC084A23F500915BFE,
+				95F97679084A297400915BFE,
+				95F9767A084A297400915BFE,
 			);
 			isa = PBXGroup;
 			name = Additions;

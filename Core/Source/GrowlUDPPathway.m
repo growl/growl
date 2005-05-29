@@ -9,6 +9,7 @@
 
 #import "GrowlUDPPathway.h"
 #import "NSStringAdditions.h"
+#import "NSDictionaryAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlPreferences.h"
@@ -186,7 +187,7 @@
 	CSSM_DATA passwordData;
 
 	NSDictionary *userInfo = [aNotification userInfo];
-	error = [[userInfo objectForKey:@"NSFileHandleError"] intValue];
+	error = [userInfo integerForKey:@"NSFileHandleError"];
 
 	if (!error) {
 		NSData *data = [userInfo objectForKey:NSFileHandleNotificationDataItem];

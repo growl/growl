@@ -8,6 +8,7 @@
 #import "GrowlBezelWindowController.h"
 #import "GrowlBezelPrefs.h"
 #import <GrowlDefinesInternal.h>
+#import "NSDictionaryAdditions.h"
 
 @implementation GrowlBezelDisplay
 
@@ -46,14 +47,14 @@
 			if ([[aNotification identifier] isEqualToString:identifier]) {
 				if (![aNotification isFadingOut]) {
 					// coalescing
-					[aNotification setPriority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
+					[aNotification setPriority:[noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY]];
 					[aNotification setTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]];
 					[aNotification setText:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
 					[aNotification setIcon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]];
 					[aNotification setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 					[aNotification setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 					[aNotification setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-					[aNotification setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
+					[aNotification setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 					if (theIndex == 0U)
 						[aNotification startFadeIn];
 					return;
@@ -65,10 +66,10 @@
 	}
 
 	GrowlBezelWindowController *nuBezel = [[GrowlBezelWindowController alloc]
-		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
-				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-			 priority:[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+		initWithTitle:[noteDict objectForKey: GROWL_NOTIFICATION_TITLE]
+				 text:[noteDict objectForKey: GROWL_NOTIFICATION_DESCRIPTION]
+				 icon:[noteDict objectForKey: GROWL_NOTIFICATION_ICON]
+			 priority:[noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY]
 		   identifier:identifier];
 
 	[nuBezel setDelegate:self];
@@ -77,7 +78,7 @@
 	[nuBezel setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[nuBezel setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[nuBezel setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-	[nuBezel setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
+	[nuBezel setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 
 	if (count > 0U) {
 		NSEnumerator *enumerator = [notificationQueue objectEnumerator];

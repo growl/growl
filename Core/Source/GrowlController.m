@@ -18,6 +18,8 @@
 #import "CFGrowlAdditions.h"
 #import "NSStringAdditions.h"
 #import "NSURLAdditions.h"
+#import "NSDictionaryAdditions.h"
+#import "NSMutableDictionaryAdditions.h"
 #import "GrowlDisplayProtocol.h"
 #import "GrowlPluginController.h"
 #import "GrowlApplicationBridge.h"
@@ -273,7 +275,7 @@ static id singleton = nil;
 	NSEnumerator *enumerator = [destinations objectEnumerator];
 	NSDictionary *entry;
 	while ((entry = [enumerator nextObject])) {
-		if ([[entry objectForKey:@"use"] boolValue]) {
+		if ([entry boolForKey:@"use"]) {
 			NSData *destAddress = [entry objectForKey:@"address"];
 			NSString *password = [entry objectForKey:@"password"];
 			NSSocketPort *serverPort = [[NSSocketPort alloc]
@@ -412,13 +414,8 @@ static id singleton = nil;
 	}
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
-	value = [[NSNumber alloc] initWithBool:saveScreenshot];
-	[aDict setObject:value forKey:GROWL_SCREENSHOT_MODE];
-	[value release];
-
-	value = [[NSNumber alloc] initWithBool:[ticket clickHandlersEnabled]];
-	[aDict setObject:value forKey:@"ClickHandlerEnabled"];
-	[value release];
+	[aDict setBool:saveScreenshot forKey:GROWL_SCREENSHOT_MODE];
+	[aDict setBool:[ticket clickHandlersEnabled] forKey:@"ClickHandlerEnabled"];
 
 	if (![[GrowlPreferences preferences] boolForKey:GrowlSquelchModeKey]) {
 		id <GrowlDisplayPlugin> display = [notification displayPlugin];
@@ -902,7 +899,7 @@ static id singleton = nil;
 
 	//Build the application-specific notification name
 	appName = [notification object];
-	if ([[userInfo objectForKey:@"ClickHandlerEnabled"] boolValue]) {
+	if ([userInfo boolForKey:@"ClickHandlerEnabled"]) {
 		suffix = GROWL_NOTIFICATION_CLICKED;
 	} else {
 		/*

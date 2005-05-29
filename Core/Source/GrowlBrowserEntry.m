@@ -8,6 +8,8 @@
 
 #import "GrowlBrowserEntry.h"
 #import "GrowlPref.h"
+#import "NSDictionaryAdditions.h"
+#import "NSMutableDictionaryAdditions.h"
 
 @implementation GrowlBrowserEntry
 
@@ -34,13 +36,11 @@
 }
 
 - (BOOL) use {
-	return [[properties objectForKey:@"use"] boolValue];
+	return [properties boolForKey:@"use"];
 }
 
 - (void) setUse:(BOOL)flag {
-	NSNumber *value = [[NSNumber alloc] initWithBool:flag];
-	[properties setObject:value forKey:@"use"];
-	[value release];
+	[properties setBool:flag forKey:@"use"];
 	[owner writeForwardDestinations];
 }
 
@@ -66,11 +66,10 @@
 }
 
 - (void) setPassword:(NSString *)password {
-	if (password) {
+	if (password)
 		[properties setObject:password forKey:@"password"];
-	} else {
+	else
 		[properties removeObjectForKey:@"password"];
-	}
 	[owner writeForwardDestinations];
 }
 

@@ -40,7 +40,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	}
 
 	NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:uid];
-	NSNumber *depthValue = [[NSNumber alloc] initWithInt:depth];
+	NSNumber *depthValue = [[NSNumber alloc] initWithUnsignedInt:depth];
 	NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
 		idValue,    @"ID",
 		depthValue, @"Depth",

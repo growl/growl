@@ -12,6 +12,7 @@
 #import "GrowlVersionUtilities.h"
 #endif
 #import "NSURLAdditions.h"
+#import "NSMutableDictionaryAdditions.h"
 #import "CFGrowlAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathUtil.h"
@@ -211,21 +212,13 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	[pid release];
 
-	if (title)			[noteDict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
-	if (description)	[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
-	if (iconData)		[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON];
+	if (title)			[noteDict setObject:title        forKey:GROWL_NOTIFICATION_TITLE];
+	if (description)	[noteDict setObject:description  forKey:GROWL_NOTIFICATION_DESCRIPTION];
+	if (iconData)		[noteDict setObject:iconData     forKey:GROWL_NOTIFICATION_ICON];
 	if (clickContext)	[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-	if (priority) {
-		NSNumber *value = [[NSNumber alloc] initWithInt:priority];
-		[noteDict setObject:value forKey:GROWL_NOTIFICATION_PRIORITY];
-		[value release];
-	}
-	if (isSticky) {
-		NSNumber *value = [[NSNumber alloc] initWithBool:isSticky];
-		[noteDict setObject:value forKey:GROWL_NOTIFICATION_STICKY];
-		[value release];
-	}
-	if (identifier)		[noteDict setObject:identifier forKey:GROWL_NOTIFICATION_IDENTIFIER];
+	if (priority)		[noteDict setInteger:priority    forKey:GROWL_NOTIFICATION_PRIORITY];
+	if (isSticky)		[noteDict setBool:isSticky       forKey:GROWL_NOTIFICATION_STICKY];
+	if (identifier)		[noteDict setObject:identifier   forKey:GROWL_NOTIFICATION_IDENTIFIER];
 
 	[self notifyWithDictionary:noteDict];
 	[noteDict release];

@@ -8,6 +8,7 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "NSURLAdditions.h"
+#import "NSMutableDictionaryAdditions.h"
 
 #define _CFURLAliasDataKey  @"_CFURLAliasData"
 #define _CFURLStringKey     @"_CFURLString"
@@ -113,15 +114,12 @@
 		dict = [NSMutableDictionary dictionaryWithCapacity:3U];
 
 		if (path) {
-			NSNumber *type = [[NSNumber alloc] initWithInt:kCFURLPOSIXPathStyle];
 			[dict setObject:path forKey:_CFURLStringKey];
-			[dict setObject:type forKey:_CFURLStringTypeKey];
-			[type release];
+			[dict setInteger:kCFURLPOSIXPathStyle forKey:_CFURLStringTypeKey];
 		}
 
-		if (aliasData) {
+		if (aliasData)
 			[dict setObject:aliasData forKey:_CFURLAliasDataKey];
-		}
 	} else {
 		dict = nil;
 	}
