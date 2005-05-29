@@ -74,17 +74,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[panel setHasShadow:(hasShadow && [hasShadow boolValue])];
 
 	NSNumber *paddingValue = [styleInfo objectForKey:@"GrowlPaddingX"];
-	if (paddingValue) {
-		paddingX = [paddingValue floatValue];
-	} else {
-		paddingX = GrowlWebKitPadding;
-	}
+	paddingX = paddingValue ? [paddingValue floatValue] : GrowlWebKitPadding;
 	paddingValue = [styleInfo objectForKey:@"GrowlPaddingY"];
-	if (paddingValue) {
-		paddingY = [paddingValue floatValue];
-	} else {
-		paddingY = GrowlWebKitPadding;
-	}
+	paddingY = paddingValue ? [paddingValue floatValue] : GrowlWebKitPadding;
 
 	GrowlWebKitWindowView *view = [[GrowlWebKitWindowView alloc] initWithFrame:panelFrame
 																	 frameName:nil
@@ -94,9 +86,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[view setAction:@selector(_notificationClicked:)];
 	[view setPolicyDelegate:self];
 	[view setFrameLoadDelegate:self];
-	if ([view respondsToSelector:@selector(setDrawsBackground:)]) {
+	if ([view respondsToSelector:@selector(setDrawsBackground:)])
 		[view setDrawsBackground:NO];
-	}
 	[panel setContentView:view];
 
 	[self setTitle:title text:text icon:icon priority:priority forView:view];
@@ -115,17 +106,15 @@ static NSMutableDictionary *notificationsByIdentifier;
 		READ_GROWL_PREF_BOOL(GrowlWebKitLimitPref, prefDomain, &limitPref);
 		float duration = MIN_DISPLAY_TIME;
 		READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, prefDomain, &duration);
-		if (!limitPref) {
+		if (limitPref)
+			displayTime = duration;
+		else
 			displayTime = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
 							   MAX_DISPLAY_TIME);
-		} else {
-			displayTime = duration;
-		}
 
 		if (identifier) {
-			if (!notificationsByIdentifier) {
+			if (!notificationsByIdentifier)
 				notificationsByIdentifier = [[NSMutableDictionary alloc] init];
-			}
 			[notificationsByIdentifier setObject:self forKey:identifier];
 		}
 	}
@@ -169,9 +158,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 		// this method has been deprecated in 10.4
 		htmlString = [htmlString initWithContentsOfFile:templateFile];
 	}
-	if (!htmlString) {
+	if (!htmlString)
 		NSLog(@"WARNING: could not read template '%@'", templateFile);
-	}
 
 	NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
 	image = [icon retain];
@@ -217,6 +205,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[textHTML release];
 	WebFrame *webFrame = [view mainFrame];
 	[[self window] disableFlushWindow];
+	[self retain];
 	[webFrame loadHTMLString:htmlString baseURL:nil];
 	[[webFrame frameView] setAllowsScrolling:NO];
 	[htmlString release];
@@ -240,9 +229,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 		NSURL *url = [actionInformation objectForKey:WebActionOriginalURLKey];
 
 		//Ignore file URLs, but open anything else
-		if (![url isFileURL]) {
+		if (![url isFileURL])
 			[[NSWorkspace sharedWorkspace] openURL:url];
-		}
 
 		[listener ignore];
 	}
@@ -267,22 +255,22 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 #warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
 		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
-		if (NSMinY(panelFrame) < 0.0f) {
+		if (NSMinY(panelFrame) < 0.0f)
 			depth = webkitWindowDepth = 0U;
-		} else {
+		else
 			depth = webkitWindowDepth += NSHeight(panelFrame) + paddingY;
-		}
 		positioned = true;
 	}
+	[self startFadeIn];
+	[self release];	// we retained before loadHTMLString
 }
 
 - (void) startFadeOut {
 	GrowlWebKitWindowView *view = (GrowlWebKitWindowView *)[[self window] contentView];
-	if ([view mouseOver]) {
+	if ([view mouseOver])
 		[view setCloseOnMouseExit:YES];
-	} else {
+	else
 		[super startFadeOut];
-	}
 }
 
 - (void) stopFadeOut {
@@ -294,9 +282,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 }
 
 - (void) dealloc {
-	if (depth == webkitWindowDepth) {
+	if (depth == webkitWindowDepth)
 		webkitWindowDepth = 0U;
-	}
+
 	NSWindow *myWindow = [self window];
 	WebView *webView = [myWindow contentView];
 	[webView    setPolicyDelegate:nil];

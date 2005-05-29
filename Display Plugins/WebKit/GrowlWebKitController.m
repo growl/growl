@@ -57,7 +57,6 @@
 	[controller setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[controller setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
-	[controller startFadeIn];
 	[controller release];
 }
 
