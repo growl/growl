@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @protocol GrowlNotificationObserver
-- (void) notifyWithDictionary:(NSDictionary *)dict;
+- (oneway void) notifyWithDictionary:(bycopy NSDictionary *)dict;
 @end
 
 @protocol GrowlNotificationCenterProtocol
@@ -20,8 +20,6 @@
 @interface GrowlNotificationCenter : NSObject <GrowlNotificationCenterProtocol> {
 	NSMutableArray *observers;
 }
-- (void) addObserver:(id<GrowlNotificationObserver>)observer;
-- (void) removeObserver:(id<GrowlNotificationObserver>)observer;
 - (void) notifyObservers:(NSDictionary *)dict;
 @end
 
