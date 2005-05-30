@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleGetInfoString</key>
-	<string>GrowlSafari 1.1 Copyrights © 2005 The Growl Project</string>
+	<string>GrowlSafari 1.2 Copyrights © 2005 The Growl Project</string>
 	<key>CFBundleIdentifier</key>
 	<string>info.growl.pkg.pkg.GrowlSafari</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.2</string>
 	<key>IFPkgFlagAllowBackRev</key>
 	<false/>
 	<key>IFPkgFlagAuthorizationAction</key>
@@ -17,7 +17,7 @@
 	<key>IFPkgFlagBackgroundScaling</key>
 	<string>none</string>
 	<key>IFPkgFlagDefaultLocation</key>
-	<string>/Library/Application Support/SIMBL/Plugins</string>
+	<string>/Library/InputManagers</string>
 	<key>IFPkgFlagFollowLinks</key>
 	<true/>
 	<key>IFPkgFlagInstallFat</key>
