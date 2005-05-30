@@ -18,6 +18,8 @@
 	<string>sfri</string>
 	<key>CFBundleVersion</key>
 	<string>1.2</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.2</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlSafari</string>
 </dict>

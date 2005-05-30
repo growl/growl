@@ -6,8 +6,7 @@
 //  Copyright 2005 The Growl Project. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
+#import <Foundation/Foundation.h>
 
 @interface GrowlSafariLoader : NSObject {
 

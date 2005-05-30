@@ -51,9 +51,9 @@
 			mainGroup = 089C166AFE841209C02AAC07;
 			projectDirPath = "";
 			targets = (
+				95D7409F084B984E000D67BC,
 				8D5B49AC048680CD000E48DA,
 				95D740A9084B9887000D67BC,
-				95D7409F084B984E000D67BC,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
@@ -550,6 +550,7 @@
 		95D740A8084B9887000D67BC = {
 			buildActionMask = 2147483647;
 			files = (
+				95D7415D084B9F3F000D67BC,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -707,6 +708,12 @@
 			isa = PBXTargetDependency;
 			target = 95D740A9084B9887000D67BC;
 			targetProxy = 95D74138084B9CD6000D67BC;
+		};
+		95D7415D084B9F3F000D67BC = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 	};
 	rootObject = 089C1669FE841209C02AAC07;

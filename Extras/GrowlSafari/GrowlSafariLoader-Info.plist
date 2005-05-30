@@ -16,6 +16,8 @@
 	<string>GrSL</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlSafariLoader</string>
 </dict>
