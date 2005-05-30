@@ -91,7 +91,8 @@ enum {
 	getInfoScript = [self appleScriptNamed:@"jackItunesArtwork"];
 
 	NSString *itunesPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"iTunes"];
-	if ([[[NSBundle bundleWithPath:itunesPath] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] floatValue] > 4.6f) {
+	NSLog(@"detected iTunes (%@) version %@", iTunesPath, [[NSBundle bundleWithPath:itunesPath] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]);
+	if ([[[NSBundle bundleWithPath:itunesPath] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] floatValue] >= 4.7f) {
 		[self setPolling:NO];
 	} else {
 		[self setPolling:YES];
