@@ -115,7 +115,7 @@
 		NSEnumerator *enumerator = [messages objectEnumerator];
 		while ((message = [enumerator nextObject])) {
 			//NSLog(@"Message class: %@", [message className]);
-			if (!([message isKindOfClass:tocMessageClass]|| ([message isJunk] && [GrowlMail isIgnoreJunk]))
+			if (!([message isKindOfClass:tocMessageClass] || ([message isJunk] && [GrowlMail isIgnoreJunk]))
 				&& [growlMail isAccountEnabled:[[[message messageStore] account] path]])
 				[collectedMessages addObject:message];
 		}

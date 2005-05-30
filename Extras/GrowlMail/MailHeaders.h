@@ -364,7 +364,7 @@
 + (int)copyMessages:(id)fp8 toMailboxUid:(id)fp12 shouldDelete:(BOOL)fp16;
 - (void)release;
 - (id)initWithMailboxUid:(id)fp8 readOnly:(BOOL)fp12;
-- (id)copyWithZone:(struct _NSZone *)fp8;
+- (id)copyWithZone:(NSZone *)fp8;
 - (void)dealloc;
 - (void)openAsynchronouslyUpdatingIndex:(BOOL)fp8 andOtherMetadata:(BOOL)fp12;
 - (void)openAsynchronously;
@@ -487,7 +487,7 @@
 + (id)makeUniqueAttachmentNamed:(id)fp8 inDirectory:(id)fp12;
 + (id)makeUniqueAttachmentNamed:(id)fp8 withExtension:(id)fp12 inDirectory:(id)fp16;
 - (id)init;
-- (id)copyWithZone:(struct _NSZone *)fp8;
+- (id)copyWithZone:(NSZone *)fp8;
 - (MessageStore *)messageStore;
 - (void)setMessageStore:(MessageStore *)fp8;
 - (id)headers;
@@ -613,7 +613,7 @@
 
 @interface TOCMessage : Message
 {
-	struct _NSRange _mboxRange;
+	NSRange _mboxRange;
 	NSString *_attachments;
 	NSString *_messageID;
 }
@@ -623,8 +623,8 @@
 - (void)dealloc;
 - (unsigned int)loadCachedInfoFromBytes:(const char *)fp8 length:(unsigned int)fp12 isDirty:(char *)fp16 usingUniqueStrings:(id)fp20;
 - (id)cachedData;
-- (struct _NSRange)mboxRange;
-- (void)setMboxRange:(struct _NSRange)fp8;
+- (NSRange)mboxRange;
+- (void)setMboxRange:(NSRange)fp8;
 - (id)attachment;
 - (id)messageID;
 - (int)compareByNumberWithMessage:(id)fp8;

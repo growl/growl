@@ -127,11 +127,13 @@
 #pragma mark Preferences
 
 + (BOOL) isEnabled {
-	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMEnableGrowlMailBundle"];
+	NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:@"GMEnableGrowlMailBundle"];
+	return value ? [value boolValue] : NO;
 }
 
 + (BOOL) isIgnoreJunk {
-	return [[NSUserDefaults standardUserDefaults] boolForKey:@"GMIgnoreJunk"];
+	NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:@"GMIgnoreJunk"];
+	return value ? [value boolValue] : NO;
 }
 
 - (BOOL) isAccountEnabled:(NSString *)path {
@@ -143,11 +145,10 @@
 - (void) setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path {
 	NSDictionary *accountSettings = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"GMAccounts"];
 	NSMutableDictionary *newSettings;
-	if (accountSettings) {
+	if (accountSettings)
 		newSettings = [accountSettings mutableCopy];
-	} else {
+	else
 		newSettings = [[NSMutableDictionary alloc] initWithCapacity:1U];
-	}
 	NSNumber *value = [[NSNumber alloc] initWithBool:yesOrNo];
 	[newSettings setObject:value forKey:path];
 	[value release];

@@ -299,7 +299,7 @@ static id singleton = nil;
 			@try {
 				NSDistantObject *theProxy = [connection rootProxy];
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-				NSProxy <GrowlNotificationProtocol> *growlProxy = (id)theProxy;
+				NSProxy <GrowlNotificationProtocol> *growlProxy = (id<GrowlNotificationProtocol>)theProxy;
 				[growlProxy performSelector:forwardMethod withObject:dict];
 			} @catch(NSException *e) {
 				NSLog(@"Exception while forwarding dictionary with selector %s (description of dictionary follows): %@\n%@", forwardMethod, e, dict);
@@ -329,11 +329,10 @@ static id singleton = nil;
 	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
 	GrowlApplicationTicket *ticket = [tickets objectForKey:appName];
 	NSString *notificationName = [dict objectForKey:GROWL_NOTIFICATION_NAME];
-	if (!ticket || ![ticket isNotificationAllowed:notificationName]) {
+	if (!ticket || ![ticket isNotificationAllowed:notificationName])
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
 		return;
-	}
 
 	NSMutableDictionary *aDict = [dict mutableCopy];
 
@@ -343,15 +342,9 @@ static id singleton = nil;
 	NSImage *icon = nil;
 	id image = [aDict objectForKey:GROWL_NOTIFICATION_ICON];
 	if (image) {
-		if ([image isKindOfClass:NSImageClass]) {
-			if ([image class] == [NSDistantObject class]) {
-				//this is a distant object, so simply copying it isn't enough for WebKit displays.
-				image = [image TIFFRepresentation];
-			} else {
-				icon = [image copy];
-			}
-		}
-		if ([image isKindOfClass:NSDataClass])
+		if ([image isKindOfClass:NSImageClass])
+			icon = [image copy];
+		else if ([image isKindOfClass:NSDataClass])
 			icon = [[NSImage alloc] initWithData:image];
 	}
 	if (!icon)
@@ -368,15 +361,9 @@ static id singleton = nil;
 	icon = nil;
 	image = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON];
 	if (image) {
-		if ([image isKindOfClass:NSImageClass]) {
-			if ([image class] == [NSDistantObject class]) {
-				//this is a distant object, so simply copying it isn't enough for WebKit displays.
-				image = [image TIFFRepresentation];
-			} else {
-				icon = [image copy];
-			}
-		}
-		if ([image isKindOfClass:NSDataClass])
+		if ([image isKindOfClass:NSImageClass])
+			icon = [image copy];
+		else if ([image isKindOfClass:NSDataClass])
 			icon = [[NSImage alloc] initWithData:image];
 	}
 	if (icon) {
@@ -407,11 +394,8 @@ static id singleton = nil;
 
 	// Retrieve and set the sticky bit of the notification
 	int sticky = [notification sticky];
-	if (sticky >= 0) {
-		value = [[NSNumber alloc] initWithBool:(sticky ? YES : NO)];
-		[aDict setObject:value forKey:GROWL_NOTIFICATION_STICKY];
-		[value release];
-	}
+	if (sticky >= 0)
+		[aDict setBool:(sticky ? YES : NO) forKey:GROWL_NOTIFICATION_STICKY];
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
 	[aDict setBool:saveScreenshot forKey:GROWL_SCREENSHOT_MODE];

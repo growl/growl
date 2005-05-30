@@ -33,12 +33,10 @@
 		[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
 	} else {
 		// center image if it is too small
-		if (imageRect.size.width < targetRect.size.width) {
+		if (imageRect.size.width < targetRect.size.width)
 			targetRect.origin.x += ceilf((targetRect.size.width - imageRect.size.width) * 0.5f);
-		}
-	 	if (imageRect.size.height < targetRect.size.height) {
+	 	if (imageRect.size.height < targetRect.size.height)
 			targetRect.origin.y += ceilf((targetRect.size.height - imageRect.size.height) * 0.5f);
-		}
 		targetRect.size = imageRect.size;
 	}
 
@@ -85,6 +83,14 @@
 		if (NSEqualSizes([rep size], theSize))
 			break;
 	return rep;
+}
+
+// Send NSImages as copies via DO
+- (id) replacementObjectForPortCoder:(NSPortCoder *)encoder {
+	if ([encoder isBycopy])
+		return self;
+	else
+		return [super replacementObjectForPortCoder:encoder];
 }
 
 @end
