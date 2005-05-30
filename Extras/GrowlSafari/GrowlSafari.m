@@ -193,7 +193,7 @@ static void setDownloadFinished(id dl) {
 	[GrowlApplicationBridge notifyWithTitle:(title ? title : [bookmark URLString])
 								description:description
 						   notificationName:NSLocalizedStringFromTableInBundle(@"New feed entry", nil, bundle, @"")
-								   iconData:(id)icon
+								   iconData:[icon TIFFRepresentation]
 								   priority:0
 								   isSticky:NO
 							   clickContext:[bookmark URLString]];
