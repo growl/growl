@@ -116,34 +116,31 @@ static void setDownloadFinished(id dl) {
 }
 
 + (void) initialize {
-	[super initialize];
-
-	//NSLog(@"Patching DownloadProgressEntry...");
-	Class class = NSClassFromString(@"DownloadProgressEntry");
-	PerformSwizzle(class, @selector(setDownloadStage:), @selector(mySetDownloadStage:), YES);
-	PerformSwizzle(class, @selector(updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:), YES);
-	PerformSwizzle(class, @selector(initWithDownload:mayOpenWhenDone:allowOverwrite:),
-						  @selector(myInitWithDownload:mayOpenWhenDone:allowOverwrite:),
-						  YES);
-
 	NSString *growlPath = [[[GrowlSafari bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
 	NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
 
 	if (growlBundle && [growlBundle load]) {
 		// Register ourselves as a Growl delegate
 		[GrowlApplicationBridge setGrowlDelegate:self];
+
+		//	NSLog(@"Patching DownloadProgressEntry...");
+		Class class = NSClassFromString(@"DownloadProgressEntry");
+		PerformSwizzle(class, @selector(setDownloadStage:), @selector(mySetDownloadStage:), YES);
+		PerformSwizzle(class, @selector(updateDiskImageStatus:), @selector(myUpdateDiskImageStatus:), YES);
+		PerformSwizzle(class, @selector(initWithDownload:mayOpenWhenDone:allowOverwrite:),
+					   @selector(myInitWithDownload:mayOpenWhenDone:allowOverwrite:),
+					   YES);
+		
+		Class webBookmarkClass = NSClassFromString(@"WebBookmark");
+		if (webBookmarkClass)
+			[[GSWebBookmark class] poseAsClass:webBookmarkClass];
+
 		NSLog(@"Loaded GrowlSafari %@", [GrowlSafari bundleVersion]);
 	} else {
 		NSLog(@"Could not load Growl.framework, GrowlSafari disabled");
 	}
 
 	safariVersion = [[[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] intValue];
-}
-
-+ (void) load {
-	Class webBookmarkClass = NSClassFromString(@"WebBookmark");
-	if (webBookmarkClass)
-		[[GSWebBookmark class] poseAsClass:webBookmarkClass];
 }
 
 #pragma mark GrowlApplicationBridge delegate methods

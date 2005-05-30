@@ -52,6 +52,8 @@
 			projectDirPath = "";
 			targets = (
 				8D5B49AC048680CD000E48DA,
+				95D740A9084B9887000D67BC,
+				95D7409F084B984E000D67BC,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
@@ -87,9 +89,11 @@
 		};
 		089C167CFE841241C02AAC07 = {
 			children = (
+				95D7410F084B997C000D67BC,
 				95AC93B1073A052B007871AB,
 				8D5B49B7048680CD000E48DA,
 				089C167DFE841241C02AAC07,
+				95D740AB084B9887000D67BC,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -129,6 +133,8 @@
 				954E6B8008393A6800C76A74,
 				954E6B8108393A6800C76A74,
 				954E6B8D08393AC000C76A74,
+				95D74085084B96C4000D67BC,
+				95D74086084B96C4000D67BC,
 			);
 			isa = PBXGroup;
 			name = Classes;
@@ -218,6 +224,7 @@
 		19C28FB8FE9D52D311CA2CBB = {
 			children = (
 				8D5B49B6048680CD000E48DA,
+				95D740AA084B9887000D67BC,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -484,6 +491,222 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		95D74085084B96C4000D67BC = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = GrowlSafariLoader.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95D74086084B96C4000D67BC = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = GrowlSafariLoader.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95D7409F084B984E000D67BC = {
+			buildPhases = (
+				95D740A0084B985F000D67BC,
+			);
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = GrowlSafariAggregate;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+			};
+			dependencies = (
+				95D74139084B9CD6000D67BC,
+			);
+			isa = PBXAggregateTarget;
+			name = GrowlSafariAggregate;
+			productName = GrowlSafariAggregate;
+		};
+		95D740A0084B985F000D67BC = {
+			buildActionMask = 2147483647;
+			dstPath = GrowlSafari;
+			dstSubfolderSpec = 16;
+			files = (
+				95D74114084B9983000D67BC,
+				95D740E9084B996C000D67BC,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95D740A7084B9887000D67BC = {
+			buildActionMask = 2147483647;
+			files = (
+				95D740AD084B9897000D67BC,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95D740A8084B9887000D67BC = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95D740A9084B9887000D67BC = {
+			buildPhases = (
+				95D740A7084B9887000D67BC,
+				95D740BA084B98CD000D67BC,
+				95D740A8084B9887000D67BC,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "GrowlSafariLoader-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = GrowlSafariLoader;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-W -Wall";
+			};
+			dependencies = (
+				95D740AF084B98A4000D67BC,
+			);
+			isa = PBXNativeTarget;
+			name = GrowlSafariLoader;
+			productName = GrowlSafariLoader;
+			productReference = 95D740AA084B9887000D67BC;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>GrowlSafariLoader</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.GrowlSafariLoader</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
+		95D740AA084B9887000D67BC = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			name = GrowlSafariLoader.bundle;
+			path = build/GrowlSafariLoader.bundle;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95D740AB084B9887000D67BC = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = "GrowlSafariLoader-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95D740AD084B9897000D67BC = {
+			fileRef = 95D74086084B96C4000D67BC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D740AE084B98A4000D67BC = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = GrowlSafari;
+		};
+		95D740AF084B98A4000D67BC = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA;
+			targetProxy = 95D740AE084B98A4000D67BC;
+		};
+		95D740BA084B98CD000D67BC = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				95D740C1084B98E1000D67BC,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95D740C1084B98E1000D67BC = {
+			fileRef = 8D5B49B6048680CD000E48DA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D740E9084B996C000D67BC = {
+			fileRef = 95D740AA084B9887000D67BC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D7410F084B997C000D67BC = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			path = Info;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95D74114084B9983000D67BC = {
+			fileRef = 95D7410F084B997C000D67BC;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95D74138084B9CD6000D67BC = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 95D740A9084B9887000D67BC;
+			remoteInfo = GrowlSafariLoader;
+		};
+		95D74139084B9CD6000D67BC = {
+			isa = PBXTargetDependency;
+			target = 95D740A9084B9887000D67BC;
+			targetProxy = 95D74138084B9CD6000D67BC;
 		};
 	};
 	rootObject = 089C1669FE841209C02AAC07;
