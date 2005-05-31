@@ -174,7 +174,6 @@ static BOOL		registerWhenGrowlIsReady = NO;
 								 identifier:nil];
 }
 
-
 /*Send a notification to Growl for display.
  *title, description, and notifName are required.
  *All other id parameters may be nil to accept defaults.
@@ -394,10 +393,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		if (![mRegDict objectForKey:GROWL_APP_ICON]) {
 			if (!appIconData)
 				appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
-			if (appIconData) {
-				[mRegDict setObject:appIconData
-							 forKey:GROWL_APP_ICON];
-			}
+			if (appIconData)
+				[mRegDict setObject:appIconData forKey:GROWL_APP_ICON];
 		}
 	}
 
@@ -422,10 +419,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	if ((!keys) || [keys containsObject:GROWL_NOTIFICATIONS_DEFAULT]) {
 		if (![mRegDict objectForKey:GROWL_NOTIFICATIONS_DEFAULT]) {
 			NSArray *all = [mRegDict objectForKey:GROWL_NOTIFICATIONS_ALL];
-			if (all) {
-				[mRegDict setObject:all
-							 forKey:GROWL_NOTIFICATIONS_DEFAULT];
-			}
+			if (all)
+				[mRegDict setObject:all forKey:GROWL_NOTIFICATIONS_DEFAULT];
 		}
 	}
 

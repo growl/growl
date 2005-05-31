@@ -112,7 +112,7 @@
 																 value:senderAddress
 															comparison:kABEqualCaseInsensitive];
 
-	id image = nil;
+	NSData *image = nil;
 	NSEnumerator *matchesEnum = [[[ABAddressBook sharedAddressBook] recordsMatchingSearchElement:personSearch] objectEnumerator];
 	ABPerson *person;
 	while ((!image) && (person = [matchesEnum nextObject]))
@@ -120,7 +120,7 @@
 
 	//no matches in the Address Book with an icon, so use Mail's icon instead.
 	if (!image)
-		image = [NSImage imageNamed:@"NSApplicationIcon"];
+		image = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
 
 	[GrowlApplicationBridge notifyWithTitle:title
 								description:description

@@ -103,9 +103,8 @@ int main(void) {
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
 	NSNumber *pid = [[notification userInfo] objectForKey:@"pid"];
-	if (!pid || [pid intValue] != [[NSProcessInfo processInfo] processIdentifier]) {
+	if (!pid || [pid intValue] != [[NSProcessInfo processInfo] processIdentifier])
 		[self setImage];
-	}
 }
 
 - (IBAction) openGrowlPreferences:(id)sender {
