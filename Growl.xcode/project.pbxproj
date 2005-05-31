@@ -285,12 +285,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95D165B70834DB7500D996B2;
-					ProjectRef = 95D165B60834DB7500D996B2;
-				},
-				{
 					ProductGroup = 95D1659E0834DB5200D996B2;
 					ProjectRef = 95D1659D0834DB5200D996B2;
+				},
+				{
+					ProductGroup = 95D165B70834DB7500D996B2;
+					ProjectRef = 95D165B60834DB7500D996B2;
 				},
 			);
 			targets = (
@@ -4455,6 +4455,14 @@
 			settings = {
 			};
 		};
+		957E5910084D07D80090ACC4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = "Display Plugins/SMS/German.lproj/GrowlSMSPrefs.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		95812DB808118FB9004FF8F5 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -6011,7 +6019,6 @@
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -6111,6 +6118,7 @@
 		DD493A03084BAD7700D1CCCB = {
 			children = (
 				DD493A04084BAD7700D1CCCB,
+				957E5910084D07D80090ACC4,
 			);
 			isa = PBXVariantGroup;
 			name = GrowlSMSPrefs.nib;
