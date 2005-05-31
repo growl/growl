@@ -54,6 +54,8 @@ public class Growl {
 	public static final String GROWL_NOTIFICATION_APP_ICON = "NotificationAppIcon";
 	/** Notification key for the sticky flag. */
 	public static final String GROWL_NOTIFICATION_STICKY = "NotificationSticky";
+	/** Notification key for the identifier. */
+	public static final String GROWL_NOTIFICATION_IDENTIFIER = "GrowlNotificationIdentifier";
 
 	// Actual instance data
 	private boolean      registered;    // We should only register once
@@ -211,12 +213,14 @@ public class Growl {
 	 *                      them here. These may be ignored by either the user's 
 	 *                      preferences or the current Display Plugin. This can be null
 	 * @param inSticky - Whether the Growl notification should be sticky
+	 * @param inIdentifier - Notification identifier for coalescing. This can be null.
 	 *
 	 * @throws Exception When a notification is not known
 	 */
 	public void notifyGrowlOf(String inNotificationName, NSData inIconData, 
 			       String inTitle, String inDescription, 
-			       NSDictionary inExtraInfo, boolean inSticky) throws Exception {
+			       NSDictionary inExtraInfo, boolean inSticky,
+				   String inIdentifier) throws Exception {
 		NSMutableDictionary noteDict = new NSMutableDictionary();
 
 		if (!allNotes.containsObject(inNotificationName)) {
@@ -235,6 +239,10 @@ public class Growl {
 			noteDict.setObjectForKey(new Integer(1), GROWL_NOTIFICATION_STICKY);
 		}
 
+		if (inIdentifier != null) {
+			noteDict.setObjectForKey(inIdentifier, GROWL_NOTIFICATION_IDENTIFIER);
+		}
+
 		if (inExtraInfo != null) {
 			noteDict.addEntriesFromDictionary(inExtraInfo);
 		}
@@ -248,7 +256,37 @@ public class Growl {
 	/**
 	  * Convenience method that defers to notifyGrowlOf(String inNotificationName, 
 	  * NSData inIconData, String inTitle, String inDescription, 
-	  * NSDictionary inExtraInfo, boolean inSticky)
+	  * NSDictionary inExtraInfo, boolean inSticky, String inIdentifier).
+	  * This is primarily for compatibility with older code
+	  *
+	  * @param inNotificationName - The name of one of the notifications we told growl
+	  *                             about.
+	  * @param inIconData - The NSData for the icon for this notification, can be null
+	  * @param inTitle - The Title of our Notification as Growl will show it
+	  * @param inDescription - The Description of our Notification as Growl will 
+	  *                        display it
+	  * @param inExtraInfo - Growl is flexible and allows Display Plugins to do as
+	  *                      they please with their own special keys and values, you
+	  *                      may use them here. These may be ignored by either the
+	  *                      user's  preferences or the current Display Plugin. This
+	  *                      can be null.
+	  * @param inSticky - Whether the Growl notification should be sticky.
+	  *
+	  * @throws Exception When a notification is not known
+	  *
+	  */
+	public void notifyGrowlOf(String inNotificationName, NSData inIconData, 
+			       String inTitle, String inDescription, 
+			       NSDictionary inExtraInfo, boolean inSticky) throws Exception {
+		notifyGrowlOf(inNotificationName, inIconData, inTitle, inDescription,
+				inExtraInfo, inSticky, null);
+	}
+
+
+	/**
+	  * Convenience method that defers to notifyGrowlOf(String inNotificationName, 
+	  * NSData inIconData, String inTitle, String inDescription, 
+	  * NSDictionary inExtraInfo, boolean inSticky, String inIdentifier).
 	  * This is primarily for compatibility with older code
 	  *
 	  * @param inNotificationName - The name of one of the notifications we told growl
@@ -271,13 +309,14 @@ public class Growl {
 		                       NSDictionary inExtraInfo) throws Exception {
 
 		notifyGrowlOf(inNotificationName, inIconData, inTitle, inDescription,
-			           inExtraInfo, false);
+			           inExtraInfo, false, null);
 	}
 
 	/**
 	 * Convenienve method that defers to notifyGrowlOf(String inNotificationName, 
 	 * NSData inIconData, String inTitle, String inDescription, 
-	 * NSDictionary inExtraInfo) with null passed for icon and extraInfo arguments
+	 * NSDictionary inExtraInfo, boolean inSticky, String inIdentifier) with
+	 * <code>null</code> passed for icon, extraInfo and identifier arguments
 	 *
 	 * @param inNotificationName - The name of one of the notifications we told growl
 	 *                             about.
@@ -290,14 +329,14 @@ public class Growl {
 	public void notifyGrowlOf(String inNotificationName, String inTitle, 
 			       String inDescription) throws Exception {
 		notifyGrowlOf(inNotificationName, (NSData)null, 
-					   inTitle, inDescription, (NSDictionary)null, false);
+					   inTitle, inDescription, (NSDictionary)null, false, null);
 	}
 
 	/**
 	  * Convenience method that defers to notifyGrowlOf(String inNotificationName, 
 	  * NSData inIconData, String inTitle, String inDescription, 
 	  * NSDictionary inExtraInfo, boolean inSticky)
-	  * with null passed for icon and extraInfo arguments
+	  * with <code>null</code> passed for icon and extraInfo arguments.
 	  *
 	  * @param inNotificationName - The name of one of the notifications we told growl
 	  *                             about.
@@ -312,13 +351,14 @@ public class Growl {
 	public void notifyGrowlOf(String inNotificationName, String inTitle, 
 							   String inDescription, boolean inSticky) throws Exception {
 		notifyGrowlOf(inNotificationName, (NSData)null, 
-					   inTitle, inDescription, (NSDictionary)null, inSticky);
+					   inTitle, inDescription, (NSDictionary)null, inSticky, null);
 	}
 
 	/**
 	 * Defers to notifyGrowlOf(String inNotificationName, NSData inIconData, 
-	 * String inTitle, String inDescription, NSDictionary inExtraInfo) with null 
-	 * passed for icon and extraInfo arguments
+	 * String inTitle, String inDescription, NSDictionary inExtraInfo,
+	 * boolean inSticky, String inIdentifier) with <code>null</code> 
+	 * passed for icon and extraInfo arguments.
 	 *
 	 * @param inNotificationName - The name of one of the notifications we told growl
 	 *                             about.
@@ -336,13 +376,14 @@ public class Growl {
 			       NSDictionary inExtraInfo) throws Exception {
 
 		notifyGrowlOf(inNotificationName, inImage.TIFFRepresentation(),
-					   inTitle, inDescription, inExtraInfo, false);
+					   inTitle, inDescription, inExtraInfo, false, null);
 	}
 
 	/**
 	 * Convenienve method that defers to notifyGrowlOf(String inNotificationName, 
 	 * NSData inIconData, String inTitle, String inDescription, 
-	 * NSDictionary inExtraInfo) with null passed for extraInfo
+	 * NSDictionary inExtraInfo, boolean inSticky, String inIdentifier) with
+	 * <code>null</code> passed for extraInfo.
 	 *
 	 * @param inNotificationName - The name of one of the notifications we told growl
 	 *                             about.
@@ -358,7 +399,7 @@ public class Growl {
 
 		notifyGrowlOf(inNotificationName,
 					  new NSImage(inImagePath, false).TIFFRepresentation(), 
-					  inTitle, inDescription, (NSDictionary)null, false);
+					  inTitle, inDescription, (NSDictionary)null, false, null);
 	}
 
 	//************  Accessors **************//
