@@ -357,11 +357,10 @@
 	NSArray *selectedPlugins = [displayPluginsArrayController selectedObjects];
 	unsigned numPlugins = [plugins count];
 	[currentPlugin release];
-	if (numPlugins > 0U && selectedPlugins && [selectedPlugins count] > 0U) {
+	if (numPlugins > 0U && selectedPlugins && [selectedPlugins count] > 0U)
 		currentPlugin = [[selectedPlugins objectAtIndex:0U] retain];
-	} else {
+	else
 		currentPlugin = nil;
-	}
 
 	GrowlPluginController *growlPluginController = [GrowlPluginController controller];
 	currentPluginController = [growlPluginController displayPluginNamed:currentPlugin];
@@ -395,9 +394,8 @@
 	if ([plugins count] > 0U) {
 		NSString *defaultPlugin = [preferences objectForKey:GrowlDisplayPluginKey];
 		unsigned defaultIndex = [[displayPluginsArrayController arrangedObjects] indexOfObject:defaultPlugin];
-		if (defaultIndex == NSNotFound) {
+		if (defaultIndex == NSNotFound)
 			defaultIndex = 0U;
-		}
 		[displayPluginsArrayController setSelectionIndex:defaultIndex];
 		[self reloadDisplayPluginView];
 	} else {

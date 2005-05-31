@@ -120,9 +120,8 @@ static id singleton = nil;
 
 		[GrowlApplicationBridge setGrowlDelegate:self];
 
-		if (!singleton) {
+		if (!singleton)
 			singleton = self;
-		}
 
 		NSDate *lastCheck = [preferences objectForKey:LastUpdateCheckKey];
 		NSDate *now = [NSDate date];
@@ -130,8 +129,7 @@ static id singleton = nil;
 			[self checkVersion:nil];
 			lastCheck = now;
 		}
-		[lastCheck addTimeInterval:UPDATE_CHECK_INTERVAL];
-		updateTimer = [[NSTimer alloc] initWithFireDate:lastCheck
+		updateTimer = [[NSTimer alloc] initWithFireDate:[lastCheck addTimeInterval:UPDATE_CHECK_INTERVAL]
 											   interval:UPDATE_CHECK_INTERVAL
 												 target:self
 											   selector:@selector(checkVersion:)
@@ -607,18 +605,14 @@ static id singleton = nil;
 - (void) preferencesChanged: (NSNotification *) note {
 	//[note object] is the changed key. A nil key means reload our tickets.
 	id object = [note object];
-	if (!note || (object && [object isEqualTo:GrowlStartServerKey])) {
+	if (!note || (object && [object isEqualTo:GrowlStartServerKey]))
 		[self startStopServer];
-	}
-	if (!note || (object && [object isEqualTo:GrowlUserDefaultsKey])) {
+	if (!note || (object && [object isEqualTo:GrowlUserDefaultsKey]))
 		[[GrowlPreferences preferences] synchronize];
-	}
-	if (!note || (object && [object isEqualTo:GrowlEnabledKey])) {
+	if (!note || (object && [object isEqualTo:GrowlEnabledKey]))
 		growlIsEnabled = [[GrowlPreferences preferences] boolForKey:GrowlEnabledKey];
-	}
-	if (!note || (object && [object isEqualTo:GrowlEnableForwardKey])) {
+	if (!note || (object && [object isEqualTo:GrowlEnableForwardKey]))
 		enableForward = [[GrowlPreferences preferences] boolForKey:GrowlEnableForwardKey];
-	}
 	if (!note || (object && [object isEqualTo:GrowlForwardDestinationsKey])) {
 		[destinations release];
 		destinations = [[[GrowlPreferences preferences] objectForKey:GrowlForwardDestinationsKey] retain];
@@ -627,9 +621,8 @@ static id singleton = nil;
 		[tickets removeAllObjects];
 		[tickets addEntriesFromDictionary:[GrowlApplicationTicket allSavedTickets]];
 	}
-	if (!note || (object && [object isEqualTo:GrowlDisplayPluginKey])) {
+	if (!note || (object && [object isEqualTo:GrowlDisplayPluginKey]))
 		[self loadDisplay];
-	}
 	if (object) {
 		if ([object isEqualTo:@"GrowlTicketDeleted"]) {
 			NSString *ticketName = [[note userInfo] objectForKey:@"TicketName"];
@@ -850,7 +843,7 @@ static id singleton = nil;
 	[default1 release];
 
 	NSDictionary *registrationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-		allNotifications, GROWL_NOTIFICATIONS_ALL,
+		allNotifications,     GROWL_NOTIFICATIONS_ALL,
 		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
 

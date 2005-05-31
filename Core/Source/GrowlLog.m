@@ -14,15 +14,13 @@
 @implementation GrowlLog
 + (void) log:(NSString *)message {
 	GrowlPreferences *preferences = [GrowlPreferences preferences];
-	if (![preferences boolForKey:GrowlLoggingEnabledKey]) {
+	if (![preferences boolForKey:GrowlLoggingEnabledKey])
 		return;
-	}
 
 	int typePref = [preferences integerForKey:GrowlLogTypeKey];
 	if (typePref == 0) {
 		NSLog(@"%@", message);
 	} else {
-		BOOL written = NO;
 		NSString *logFile = [preferences objectForKey:GrowlCustomHistKey1];
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 		if (![fileManager fileExistsAtPath:logFile])
@@ -32,13 +30,10 @@
 			[logHandle seekToEndOfFile];
 			[logHandle writeData:[[message stringByAppendingString:@"\n"] dataUsingEncoding:NSUTF8StringEncoding]];
 			[logHandle closeFile];
-			written = YES;
-		}
-		if (!written) {
+		} else  {
 			// Falling back to NSLogging...
-			if (logFile) {
+			if (logFile)
 				NSLog(@"Failed to write notification to file %@", logFile);
-			}
 			NSLog(@"%@", message);
 		}
 	}
