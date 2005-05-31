@@ -307,6 +307,7 @@
 				0A7F5F6F0767C68000E1C1E4,
 				0A7F5FB70767C70600E1C1E4,
 				0A7F5FE80767C7B300E1C1E4,
+				DD4939CB084BACA700D1CCCB,
 			);
 		};
 		089C166AFE841209C02AAC07 = {
@@ -426,6 +427,7 @@
 				0A7F5F890767C6C500E1C1E4,
 				0A7F5FD90767C79100E1C1E4,
 				0A7F624C0767C84E00E1C1E4,
+				DD4939A9084B937400D1CCCB,
 				950F795C080EECA600CC5F62,
 				0A7F5FF70767C7FB00E1C1E4,
 			);
@@ -1941,6 +1943,7 @@
 				34F60EF9078E226300CECA86,
 				DDF09B0A080AC8F3006F4172,
 				95075AB00817F5DB00D862A5,
+				DD4939CC084BACA700D1CCCB,
 			);
 			isa = PBXGroup;
 			name = Products;
@@ -5799,6 +5802,7 @@
 				343345950790E3EF00C84B15,
 				3433459A0790E40800C84B15,
 				3433459C0790E40B00C84B15,
+				DD493C93084BE7FB00D1CCCB,
 			);
 			isa = PBXNativeTarget;
 			name = GrowlHelperApp;
@@ -5940,6 +5944,245 @@
 //DD2
 //DD3
 //DD4
+		DD4939A9084B937400D1CCCB = {
+			children = (
+				DD493B7C084BB07900D1CCCB,
+				DD493A03084BAD7700D1CCCB,
+				DD4939FD084BAD4500D1CCCB,
+				DD4939FE084BAD4500D1CCCB,
+				DD4939FB084BAD4500D1CCCB,
+				DD4939FC084BAD4500D1CCCB,
+			);
+			isa = PBXGroup;
+			name = SMS;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD4939C8084BACA700D1CCCB = {
+			buildActionMask = 2147483647;
+			files = (
+				DD493A05084BAD7700D1CCCB,
+				DD493B7D084BB07900D1CCCB,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD4939C9084BACA700D1CCCB = {
+			buildActionMask = 2147483647;
+			files = (
+				DD4939FF084BAD4500D1CCCB,
+				DD493A00084BAD4500D1CCCB,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD4939CA084BACA700D1CCCB = {
+			buildActionMask = 2147483647;
+			files = (
+				DD493C31084BDF0200D1CCCB,
+				DD493BE2084BB89100D1CCCB,
+				DD493B73084BB02A00D1CCCB,
+				DD493B74084BB02A00D1CCCB,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD4939CB084BACA700D1CCCB = {
+			buildPhases = (
+				DD4939C8084BACA700D1CCCB,
+				DD4939C9084BACA700D1CCCB,
+				DD4939CA084BACA700D1CCCB,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = source;
+				INFOPLIST_FILE = "Display Plugins/SMS-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PREBINDING = YES;
+				PRODUCT_NAME = GrowlSMS;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = growlView;
+			};
+			dependencies = (
+			);
+			isa = PBXNativeTarget;
+			name = SMS;
+			productName = SMS;
+			productReference = DD4939CC084BACA700D1CCCB;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>SMS</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.SMS</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>CSResourcesFileMapped</key>
+	<string>yes</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
+		DD4939CC084BACA700D1CCCB = {
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = GrowlSMS.growlView;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DD4939FB084BAD4500D1CCCB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlSMSDisplay.h;
+			path = "Display Plugins/SMS/GrowlSMSDisplay.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD4939FC084BAD4500D1CCCB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlSMSDisplay.m;
+			path = "Display Plugins/SMS/GrowlSMSDisplay.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD4939FD084BAD4500D1CCCB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = GrowlSMSPrefs.h;
+			path = "Display Plugins/SMS/GrowlSMSPrefs.h";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD4939FE084BAD4500D1CCCB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			name = GrowlSMSPrefs.m;
+			path = "Display Plugins/SMS/GrowlSMSPrefs.m";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD4939FF084BAD4500D1CCCB = {
+			fileRef = DD4939FC084BAD4500D1CCCB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD493A00084BAD4500D1CCCB = {
+			fileRef = DD4939FE084BAD4500D1CCCB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD493A03084BAD7700D1CCCB = {
+			children = (
+				DD493A04084BAD7700D1CCCB,
+			);
+			isa = PBXVariantGroup;
+			name = GrowlSMSPrefs.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD493A04084BAD7700D1CCCB = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = "Display Plugins/SMS/English.lproj/GrowlSMSPrefs.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD493A05084BAD7700D1CCCB = {
+			fileRef = DD493A03084BAD7700D1CCCB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD493B73084BB02A00D1CCCB = {
+			fileRef = 089C1672FE841209C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD493B74084BB02A00D1CCCB = {
+			fileRef = 089C167FFE841241C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD493B7C084BB07900D1CCCB = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = text.xml;
+			name = "SMS-Info.plist";
+			path = "Display Plugins/SMS-Info.plist";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		DD493B7D084BB07900D1CCCB = {
+			fileRef = DD493B7C084BB07900D1CCCB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD493BE2084BB89100D1CCCB = {
+			fileRef = 83282746073A6C110044A959;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD493C31084BDF0200D1CCCB = {
+			fileRef = 95E678F307511471002BF4E6;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		DD493C92084BE7FB00D1CCCB = {
+			containerPortal = 089C1669FE841209C02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = DD4939CB084BACA700D1CCCB;
+			remoteInfo = SMS;
+		};
+		DD493C93084BE7FB00D1CCCB = {
+			isa = PBXTargetDependency;
+			target = DD4939CB084BACA700D1CCCB;
+			targetProxy = DD493C92084BE7FB00D1CCCB;
+		};
 		DDB6462607DE034800807F8D = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
