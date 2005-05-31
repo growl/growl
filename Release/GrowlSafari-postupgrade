@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "Removing old SIMBL plugin..."
+
+rm -rf /Library/Application\ Support/SIMBL/Plugins/GrowlSafari.bundle
+
+echo "GrowlSafari postupgrade script done."

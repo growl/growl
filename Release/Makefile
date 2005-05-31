@@ -97,10 +97,13 @@ release:
 	@# build GrowlSafari package
 	mkdir $(GROWL_DIR)/Extras/GrowlSafari
 	mkdir $(BUILD_DIR)/GrowlSafari
+	mkdir $(BUILD_DIR)/GrowlSafari-Resources
 	cp -R $(SRC_DIR)/Extras/GrowlSafari/build/GrowlSafari $(BUILD_DIR)/GrowlSafari
+	cp GrowlSafari-postupgrade $(BUILD_DIR)/GrowlSafari-Resources/postupgrade
 	sudo chown -Rh root:admin $(BUILD_DIR)/GrowlSafari
-	/Developer/Tools/packagemaker -build -p $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg -f $(BUILD_DIR)/GrowlSafari -ds -v -i GrowlSafari-Info.plist -d GrowlSafari-Description.plist
+	/Developer/Tools/packagemaker -build -p $(GROWL_DIR)/Extras/GrowlSafari/GrowlSafari.pkg -f $(BUILD_DIR)/GrowlSafari -ds -v -i GrowlSafari-Info.plist -d GrowlSafari-Description.plist -r $(BUILD_DIR)/GrowlSafari-Resources
 	sudo rm -rf $(BUILD_DIR)/GrowlSafari
+	rm -rf $(BUILD_DIR)/GrowlSafari-Resources
 	cp -R $(SRC_DIR)/Extras/GrowlSafari/README.txt $(GROWL_DIR)/Extras/GrowlSafari
 	@# build the SDK
 	mkdir $(SDK_DIR)
