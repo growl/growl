@@ -4,6 +4,8 @@
 <dict>
 	<key>New mail</key>
 	<string>Neue Mail</string>
+	<key>New junk mail</key>
+	<string>Neue unerwünschte Werbung</string>
 	<key>%@ - %d new mail(s)</key>
 	<string>%@ - %d neue Mail(s)</string>
 </dict>

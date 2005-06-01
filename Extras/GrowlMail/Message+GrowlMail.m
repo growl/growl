@@ -39,6 +39,7 @@
 
 @interface NSString(GrowlMail)
 - (NSString *) firstNLines:(unsigned)n;
+- (NSString *) stringByReplacingKeywords:(NSDictionary *)keywords;
 @end
 
 @implementation NSString(GrowlMail)
@@ -52,6 +53,19 @@
 		[self getLineStart:NULL end:&range.location contentsEnd:&end forRange:range];
 
 	return [self substringToIndex:end];
+}
+
+- (NSString *) stringByReplacingKeywords:(NSDictionary *)keywords {
+	NSString *keyword;
+	NSEnumerator *keyEnum = [keywords keyEnumerator];
+	NSMutableString *text = [self mutableCopy];
+	while ((keyword = [keyEnum nextObject])) {
+		[text replaceOccurrencesOfString:keyword
+							  withString:[keywords objectForKey:keyword]
+								 options:NSLiteralSearch
+								   range:NSMakeRange(0U, [text length])];
+	}
+	return [text autorelease];
 }
 @end
 
@@ -88,14 +102,21 @@
 	else if ([sender addressComment])
 		sender = [sender addressComment];
 
-	NSString *title = [[NSString alloc] initWithFormat:@"(%@) %@", account, sender];
-	NSString *description = [[NSString alloc] initWithFormat:@"%@\n%@", subject, body];
-/*
+	NSDictionary *keywords = [[NSDictionary alloc] initWithObjectsAndKeys:
+		sender,  @"%sender",
+		subject, @"%subject",
+		body,    @"%body",
+		account, @"%account",
+		nil];
+	NSString *title = [[GrowlMail titleFormatString] stringByReplacingKeywords:keywords];
+	NSString *description = [[GrowlMail descriptionFormatString] stringByReplacingKeywords:keywords];
+	[keywords release];
+
+	/*
 	NSLog(@"Subject: '%@'", subject);
 	NSLog(@"Sender: '%@'", sender);
 	NSLog(@"Account: '%@'", account);
 	NSLog(@"Body: '%@'", body);
-	NSLog(@"Title: '%@'", title);
 */
 	/*
 	 * MailAddressManager fetches images asynchronously so they might arrive
@@ -122,14 +143,18 @@
 	if (!image)
 		image = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
 
+	NSString *notificationName;
+	if ([self isJunk])
+		notificationName = NSLocalizedStringFromTableInBundle(@"New junk mail", nil, [GrowlMail bundle], @"");
+	else
+		notificationName = NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"");
+
 	[GrowlApplicationBridge notifyWithTitle:title
 								description:description
-						   notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"")
+						   notificationName:notificationName
 								   iconData:image
 								   priority:0
 								   isSticky:NO
 							   clickContext:@""];	// non-nil click context
-	[title       release];
-	[description release];
 }
 @end

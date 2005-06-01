@@ -36,6 +36,14 @@
 #import "GrowlMail.h"
 #import <Growl/Growl.h>
 
+#define MODE_AUTO		0
+#define MODE_SINGLE		1
+#define MODE_SUMMARY	2
+
+#define AUTO_THRESHOLD	10
+
+static NSMutableArray *collectedMessages;
+
 @implementation GrowlMail
 
 + (NSBundle *) bundle {
@@ -58,9 +66,10 @@
 	NSNumber *enabled = [[NSNumber alloc] initWithBool:YES];
 	NSNumber *automatic = [[NSNumber alloc] initWithInt:0];
 	NSDictionary *defaultsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-		enabled,   @"GMEnableGrowlMailBundle",
-		enabled,   @"GMIgnoreJunk",
-		automatic, @"GMSummaryMode",
+		enabled,               @"GMEnableGrowlMailBundle",
+		automatic,             @"GMSummaryMode",
+		@"(%account) %sender", @"GMTitleFormat",
+		@"%subject\n%body",    @"GMDescriptionFormat",
 		nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDictionary];
 	[defaultsDictionary release];
@@ -86,14 +95,21 @@
 	if ((self = [super init])) {
 		NSString *growlPath = [[[GrowlMail bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
 		NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
-		if (growlBundle && [growlBundle load])
+		if (growlBundle && [growlBundle load]) {
 			// Register ourselves as a Growl delegate
 			[GrowlApplicationBridge setGrowlDelegate:self];
-		else
+			queueLock = [[NSLock alloc] init];
+		} else {
 			NSLog(@"Could not load Growl.framework, GrowlMail disabled");
+		}
 	}
 
 	return self;
+}
+
+- (void) dealloc {
+	[queueLock release];
+	[super dealloc];
 }
 
 #pragma mark GrowlApplicationBridge delegate methods
@@ -114,25 +130,93 @@
 
 - (NSDictionary *) registrationDictionaryForGrowl {
 	// Register our ticket with Growl
-	NSArray *allowedNotifications = [[NSArray alloc] initWithObjects:NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @""), nil];
+	NSBundle *bundle = [GrowlMail bundle];
+	NSArray *allowedNotifications = [[NSArray alloc] initWithObjects:
+		NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @""),
+		NSLocalizedStringFromTableInBundle(@"New junk mail", nil, bundle, @""),
+		nil];
+	NSNumber *default0 = [[NSNumber alloc] initWithInt:0];
+	NSArray *defaultNotifications = [[NSArray alloc] initWithObjects:
+		default0,
+		nil];
+	[default0 release];
 	NSDictionary *ticket = [NSDictionary dictionaryWithObjectsAndKeys:
 		allowedNotifications, GROWL_NOTIFICATIONS_ALL,
-		allowedNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
 	[allowedNotifications release];
+	[defaultNotifications release];
 
 	return ticket;
+}
+
+#pragma mark -
+
+- (void) queueMessage:(Message *)message {
+	[queueLock lock];
+	if (!collectedMessages) {
+		collectedMessages = [[NSMutableArray alloc] init];
+		[self performSelectorOnMainThread:@selector(showSummary)
+							   withObject:nil
+							waitUntilDone:NO];
+	}
+	[collectedMessages addObject:message];
+	[queueLock unlock];
+}
+
+- (void) showSummary {
+	[queueLock lock];
+
+	int summaryMode = [GrowlMail summaryMode];
+	if (summaryMode == MODE_AUTO) {
+		if ([collectedMessages count] >= AUTO_THRESHOLD)
+			summaryMode = MODE_SUMMARY;
+		else
+			summaryMode = MODE_SINGLE;
+	}
+
+	switch (summaryMode) {
+		default:
+		case MODE_SINGLE:
+			[collectedMessages makeObjectsPerformSelector:@selector(showNotification)];
+			break;
+		case MODE_SUMMARY: {
+			NSCountedSet *accountSummary = [[NSCountedSet alloc] initWithCapacity:[[MailAccount mailAccounts] count]];
+			NSEnumerator *enumerator = [collectedMessages objectEnumerator];
+			Message *message;
+			while ((message = [enumerator nextObject]))
+				[accountSummary addObject:[[[message messageStore] account] displayName]];
+			NSBundle *bundle = [GrowlMail bundle];
+			NSString *title = NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"");
+			id icon = [NSImage imageNamed:@"NSApplicationIcon"];
+			NSString *account;
+			enumerator = [accountSummary objectEnumerator];
+			while ((account = [enumerator nextObject])) {
+				unsigned count = [accountSummary countForObject:account];
+				NSString *description = [[NSString alloc] initWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n%u new mail(s)", nil, bundle, @""), account, count];
+				[GrowlApplicationBridge notifyWithTitle:title
+											description:description
+									   notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"")
+											   iconData:icon
+											   priority:0
+											   isSticky:NO
+										   clickContext:@""];	// non-nil click context
+				[description release];
+			}
+			[accountSummary release];
+			break;
+		}
+	}
+
+	[collectedMessages release];
+	collectedMessages = nil;
+	[queueLock unlock];
 }
 
 #pragma mark Preferences
 
 + (BOOL) isEnabled {
 	NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:@"GMEnableGrowlMailBundle"];
-	return value ? [value boolValue] : NO;
-}
-
-+ (BOOL) isIgnoreJunk {
-	NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:@"GMIgnoreJunk"];
 	return value ? [value boolValue] : NO;
 }
 
@@ -160,4 +244,11 @@
 	return [[NSUserDefaults standardUserDefaults] integerForKey:@"GMSummaryMode"];
 }
 
++ (NSString *) titleFormatString {
+	return [[NSUserDefaults standardUserDefaults] objectForKey:@"GMTitleFormat"];
+}
+
++ (NSString *) descriptionFormatString {
+	return [[NSUserDefaults standardUserDefaults] objectForKey:@"GMDescriptionFormat"];
+}
 @end

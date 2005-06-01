@@ -31,6 +31,7 @@
 
 @interface GrowlMail : MVMailBundle
 {
+	NSLock	*queueLock;
 }
 + (void) initialize;
 + (NSBundle *) bundle;
@@ -39,8 +40,10 @@
 + (NSString *) preferencesOwnerClassName;
 + (NSString *) preferencesPanelName;
 + (BOOL) isEnabled;
-+ (BOOL) isIgnoreJunk;
 + (int) summaryMode;
+
++ (NSString *) titleFormatString;
++ (NSString *) descriptionFormatString;
 
 - (id) init;
 - (BOOL) isAccountEnabled:(NSString *)path;
@@ -50,5 +53,8 @@
 - (NSImage *) applicationIconForGrowl;
 - (void) growlNotificationWasClicked:(id)clickContext;
 - (NSDictionary *) registrationDictionaryForGrowl;
+
+- (void) queueMessage:(Message *)message;
+- (void) showSummary;
 
 @end
