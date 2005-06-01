@@ -56,9 +56,8 @@
 	windowRect.size = rect.size;
 	[[self window] setFrame:windowRect display:YES];
 
-	if (trackingRectTag) {
+	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
-	}
 	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
 }
 
@@ -89,9 +88,8 @@
 	[self setNeedsDisplay:YES];
 
 	// abuse the target object
-	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)]) {
+	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)])
 		[target performSelector:@selector(startFadeOut)];
-	}
 }
 
 - (unsigned) webView:(WebView *)sender dragDestinationActionMaskForDraggingInfo:(id <NSDraggingInfo>)draggingInfo {
@@ -107,9 +105,8 @@
 - (void) mouseDown:(NSEvent *) event {
 #pragma unused(event)
 	mouseOver = NO;
-	if (target && action && [target respondsToSelector:action]) {
+	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
-	}
 }
 
 - (NSArray *) webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems {
