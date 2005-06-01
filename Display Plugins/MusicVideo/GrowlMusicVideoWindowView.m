@@ -153,22 +153,20 @@
 	NSData *data = nil;
 
 	READ_GROWL_PREF_VALUE(key, MusicVideoPrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass]) {
+	if (data && [data isKindOfClass:NSDataClass])
 		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
-	} else {
+	else
 		backgroundColor = [NSColor blackColor];
-	}
 	backgroundColor = [[backgroundColor colorWithAlphaComponent:alpha] retain];
 	[data release];
 	data = nil;
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, MusicVideoPrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass]) {
+	if (data && [data isKindOfClass:NSDataClass])
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
-	} else {
+	else
 		textColor = [NSColor whiteColor];
-	}
 	[textColor retain];
 	[data release];
 

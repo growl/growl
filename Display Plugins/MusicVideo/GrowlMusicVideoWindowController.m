@@ -27,11 +27,10 @@
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
 	sizeRect.origin = screen.origin;
 	sizeRect.size.width = screen.size.width;
-	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
+	if (sizePref == MUSICVIDEO_SIZE_HUGE)
 		sizeRect.size.height = 192.0f;
-	} else {
+	else
 		sizeRect.size.height = 96.0f;
-	}
 	frameHeight = sizeRect.size.height;
 	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, MusicVideoPrefDomain, &duration);
 	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
@@ -65,7 +64,7 @@
 	subview = view;
 	[panel setContentView:contentView];
 
-	[view setPriority:priority];
+	[view setPriority:prio];
 	[view setTitle:title];
 	[self setText:text];
 	[view setIcon:icon];
