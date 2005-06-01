@@ -223,25 +223,18 @@
 }
 
 - (void) takeScreenshot {
-	NSWindow *window = [self window];
+	NSView *view = [[self window] contentView];
+	NSRect rect = [view bounds];
+	[view lockFocus];
+	NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithFocusedViewRect:rect];
+	[view unlockFocus];
 
-	NSRect frame = [window frame];
-	frame.origin = NSZeroPoint;
-
-	NSImage *image = [[NSImage alloc] initWithSize:frame.size];
-	[image lockFocus];
-	[[window contentView] drawRect:frame];
-	NSData *TIFF = [image TIFFRepresentation];
-	[image unlockFocus];
-	[image release];
-
-	NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithData:TIFF];
-	NSData *PNG = [bitmap representationUsingType:NSPNGFileType
-									   properties:nil];
+	NSData *pngData = [bitmap representationUsingType:NSPNGFileType
+										   properties:nil];
 	[bitmap release];
 
 	NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:@"png"];
-	[PNG writeToFile:path atomically:NO];
+	[pngData writeToFile:path atomically:NO];
 }
 
 #pragma mark -
