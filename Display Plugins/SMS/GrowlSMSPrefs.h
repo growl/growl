@@ -2,7 +2,8 @@
 //  GrowlSMSMePrefs.h
 //  Display Plugins
 //
-//  Copyright 2005 Diggory Laycock All rights reserved.
+//  Created by Diggory Laycock
+//  Copyright 2005 The Growl Project All rights reserved.
 //
 
 #import <PreferencePanes/PreferencePanes.h>
@@ -18,7 +19,6 @@
 
 - (NSString *) getDestinationNumber;
 - (void) setDestinationNumber:(NSString *)value;
-
 
 - (NSString *) accountPassword;
 - (void) setAccountPassword:(NSString *)value;

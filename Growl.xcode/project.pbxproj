@@ -2030,6 +2030,7 @@
 				343345890790E3D600C84B15,
 				3433458C0790E3D600C84B15,
 				343345880790E3D600C84B15,
+				DDFADA6C084D1C770055DBC8,
 				3433458A0790E3D600C84B15,
 			);
 			isa = PBXCopyFilesBuildPhase;
@@ -6434,6 +6435,12 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "source \"Prefpane TestHarness/generateBuildPath.sh\"\n";
+		};
+		DDFADA6C084D1C770055DBC8 = {
+			fileRef = DD4939CC084BACA700D1CCCB;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 //DD0
 //DD1

@@ -2,7 +2,8 @@
 //  GrowlSMSDisplay.h
 //  Growl Display Plugins
 //
-//  Copyright 2005 Diggory Laycock All rights reserved.
+//  Created by Diggory Laycock
+//  Copyright 2005 The Growl Project All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -12,8 +13,7 @@
 @interface GrowlSMSDisplay: NSObject <GrowlDisplayPlugin>
 {
 	NSPreferencePane	*prefPane;
-	
-	
+
 	NSMutableArray		*commandQueue;
 	NSData				*responseData;
 	NSXMLParser			*responseParser;	
@@ -21,19 +21,17 @@
 
 	float				creditBalance;
 
-	bool				waitingForResponse;
-	bool				inBalanceResponseElement;
-	bool				inMessageSendResponseElement;
-	
+	BOOL				waitingForResponse;
+	BOOL				inBalanceResponseElement;
+	BOOL				inMessageSendResponseElement;	
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
 
-
 - (NSData *)responseData;
 - (void)setResponseData:(NSData *)newResponseData;
 
-- (void) sendXMLCommand: (NSString*) commandString;
+- (void) sendXMLCommand: (NSString *)commandString;
 
 - (void) processQueue;
 

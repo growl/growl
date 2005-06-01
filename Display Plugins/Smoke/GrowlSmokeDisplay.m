@@ -34,9 +34,8 @@ static unsigned smokeDepth = 0U;
 }
 
 - (NSPreferencePane *) preferencePane {
-	if (!preferencePane) {
+	if (!preferencePane)
 		preferencePane = [[GrowlSmokePrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlSmokePrefsController class]]];
-	}
 	return preferencePane;
 }
 

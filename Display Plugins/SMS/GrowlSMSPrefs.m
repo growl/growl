@@ -2,16 +2,17 @@
 //  GrowlSMSPrefs.m
 //  Display Plugins
 //
-//  Copyright 2005 Diggory Laycock All rights reserved.
+//  Created by Diggory Laycock
+//  Copyright 2005 The Growl Project All rights reserved.
 //
 
 #import "GrowlSMSPrefs.h"
 #import <GrowlDefinesInternal.h>
+#import <NSStringAdditions.h>
 #import <Security/SecKeychain.h>
 #import <Security/SecKeychainItem.h>
 
-
-
+#define GrowlSMSPrefDomain		@"com.Growl.SMS"
 #define accountNameKey			@"SMS - Account Name"
 #define accountAPIIDKey			@"SMS - Account API ID"
 #define destinationNumberKey	@"SMS - Destination Number"
@@ -32,54 +33,46 @@
 
 #pragma mark -
 
-
 - (NSString *) getAccountName {
 	NSString *value = nil;
-	READ_GROWL_PREF_VALUE(accountNameKey, @"com.Growl.SMS", NSString *, &value);
+	READ_GROWL_PREF_VALUE(accountNameKey, GrowlSMSPrefDomain, NSString *, &value);
 	return [value autorelease];
 }
 
 - (void) setAccountName:(NSString *)value {
-	if (!value) {
+	if (!value)
 		value = @"";
-	}
-	WRITE_GROWL_PREF_VALUE(accountNameKey, value, @"com.Growl.SMS");
+	WRITE_GROWL_PREF_VALUE(accountNameKey, value, GrowlSMSPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
 
 - (NSString *) getAccountAPIID {
 	NSString *value = nil;
-	READ_GROWL_PREF_VALUE(accountAPIIDKey, @"com.Growl.SMS", NSString *, &value);
+	READ_GROWL_PREF_VALUE(accountAPIIDKey, GrowlSMSPrefDomain, NSString *, &value);
 	return [value autorelease];
 }
 
 - (void) setAccountAPIID:(NSString *)value {
-	if (!value) {
+	if (!value)
 		value = @"";
-	}
-	WRITE_GROWL_PREF_VALUE(accountAPIIDKey, value, @"com.Growl.SMS");
+	WRITE_GROWL_PREF_VALUE(accountAPIIDKey, value, GrowlSMSPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
 
 - (NSString *) getDestinationNumber {
 	NSString *value = nil;
-	READ_GROWL_PREF_VALUE(destinationNumberKey, @"com.Growl.SMS", NSString *, &value);
+	READ_GROWL_PREF_VALUE(destinationNumberKey, GrowlSMSPrefDomain, NSString *, &value);
 	return [value autorelease];
 }
 
 - (void) setDestinationNumber:(NSString *)value {
-	if (!value) {
+	if (!value)
 		value = @"";
-	}
-	WRITE_GROWL_PREF_VALUE(destinationNumberKey, value, @"com.Growl.SMS");
+	WRITE_GROWL_PREF_VALUE(destinationNumberKey, value, GrowlSMSPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
-
-
-
-
 
 
 - (NSString *) accountPassword {
@@ -124,8 +117,8 @@
 	} else {
 		// change existing password
 		SecKeychainAttribute attrs[] = {
-		{ kSecAccountItemAttr, strlen(keychainAccountName), (char *)keychainAccountName },
-		{ kSecServiceItemAttr, strlen(keychainServiceName), (char *)keychainServiceName }
+			{ kSecAccountItemAttr, strlen(keychainAccountName), (char *)keychainAccountName },
+			{ kSecServiceItemAttr, strlen(keychainServiceName), (char *)keychainServiceName }
 		};
 		const SecKeychainAttributeList attributes = { sizeof(attrs) / sizeof(attrs[0]), attrs };
 		status = SecKeychainItemModifyAttributesAndData( itemRef,		// the item reference
@@ -139,8 +132,5 @@
 			NSLog(@"Failed to change SMS password in keychain.");
 	}
 }
-
-
-
 
 @end
