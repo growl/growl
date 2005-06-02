@@ -263,14 +263,15 @@ enum {
 			NSArray *args = [userInfo objectsForKeys:
 				[NSArray arrayWithObjects:@"Name", @"Artist", @"Album", @"Composer", @"Genre",
 					@"Year",@"Track Number", @"Track Count", @"Disc Number", @"Disc Count",
-					@"Total Time", nil]
+					@"Total Time", @"Stream Title",
+					nil]
 									  notFoundMarker:@""];
 			newTrackURL = [args componentsJoinedByString:@"|"];
 			newTrackURL = [[NSNumber numberWithUnsignedLong:[newTrackURL hash]] stringValue];
 		}
 	}
 
-	if (newTrackURL && ![newTrackURL isEqualToString:trackURL]) { // this is different from previous notification
+	if (newTrackURL && (![newTrackURL isEqualToString:trackURL] || [newTrackURL hasPrefix:@"http://"])) { // this is different from previous notification, or it's a stream
 		NSString		*track         = nil;
 		NSString		*length        = nil;
 		NSString		*artist        = @"";
@@ -281,20 +282,20 @@ enum {
 		NSImage			*artwork       = nil;
 		NSDictionary	*error         = nil;
 		NSString		*displayString;
+ 		NSString		*streamTitle   = @"";
 
-		if ([userInfo objectForKey:@"Artist"])
-			artist = [userInfo objectForKey:@"Artist"];
-		if ([userInfo objectForKey:@"Album"])
-			album = [userInfo objectForKey:@"Album"];
-		track = [userInfo objectForKey:@"Name"];
+		artist      = [userInfo objectForKey:@"Artist"];
+		album       = [userInfo objectForKey:@"Album"];
+		track       = [userInfo objectForKey:@"Name"];
+		streamTitle = [userInfo objectForKey:@"Stream Title"];
 
 		length  = [userInfo objectForKey:@"Total Time"];
 		// need to format a bit the length as it is returned in ms
 		int sec  = [length intValue] / 1000;
-		int hr  = sec/3600;
-		sec -= 3600*hr;
-		int min = sec/60;
-		sec -= 60*min;
+		int hr   = sec/3600;
+		sec -= 3600 * hr;
+		int min  = sec/60;
+		sec -= 60 * min;
 		if (hr > 0)
 			length = [NSString stringWithFormat:@"%d:%02d:%02d", hr, min, sec];
 		else
@@ -346,7 +347,7 @@ enum {
 		}
 		if ([newTrackURL hasPrefix:@"http://"]) {
 			//If we're streaming music, display only the name of the station and genre
-			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format for streams", /*comment*/ nil), [userInfo objectForKey:@"Genre"]];
+			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format for streams", /*comment*/ nil), streamTitle, [userInfo objectForKey:@"Genre"]];
 		} else {
 			if (!artist) artist = @"";
 			if (!album)  album  = @"";
