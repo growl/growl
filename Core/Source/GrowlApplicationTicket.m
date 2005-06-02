@@ -299,7 +299,6 @@
 		[plistData writeToFile:savePath atomically:YES];
 	} else {
 		NSLog(@"Error writing ticket for application %@: %@", appName, error);
-		[error release];
 	}
 	[saveDict release];
 }
