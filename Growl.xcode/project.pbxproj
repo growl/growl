@@ -492,7 +492,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Speech-Info.plist";
+				INFOPLIST_FILE = "Display Plugins/Speech/Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -678,7 +678,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Bubbles-Info.plist";
+				INFOPLIST_FILE = "Display Plugins/Bubbles/Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -920,7 +920,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Bezel-Info.plist";
+				INFOPLIST_FILE = "Display Plugins/Bezel/Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -1153,7 +1153,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Smoke-Info.plist";
+				INFOPLIST_FILE = "Display Plugins/Smoke/Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -1395,7 +1395,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/MailMe-Info.plist";
+				INFOPLIST_FILE = "Display Plugins/MailMe/Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -1592,7 +1592,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/MusicVideo-Info.plist";
+				INFOPLIST_FILE = "Display Plugins/MusicVideo/Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3475,7 +3475,6 @@
 		};
 		950F795C080EECA600CC5F62 = {
 			children = (
-				950F7A5F080EF16500CC5F62,
 				950F7988080EED7400CC5F62,
 				950F7974080EED5C00CC5F62,
 				950F7975080EED5C00CC5F62,
@@ -3621,21 +3620,12 @@
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
-		950F7A5F080EF16500CC5F62 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			lastKnownFileType = text.xml;
-			name = "WebKit-Info.plist";
-			path = "Display Plugins/WebKit-Info.plist";
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		95125DE70802D3E8007FF92A = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "Bubbles-Info.plist";
-			path = "../Bubbles-Info.plist";
+			name = Info.plist;
+			path = ../Bubbles/Info.plist;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3643,8 +3633,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "Bezel-Info.plist";
-			path = "../Bezel-Info.plist";
+			name = Info.plist;
+			path = ../Bezel/Info.plist;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3652,8 +3642,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "Speech-Info.plist";
-			path = "../Speech-Info.plist";
+			name = Info.plist;
+			path = ../Speech/Info.plist;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3661,8 +3651,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "Smoke-Info.plist";
-			path = "../Smoke-Info.plist";
+			name = Info.plist;
+			path = ../Smoke/Info.plist;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3670,8 +3660,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "MailMe-Info.plist";
-			path = "../MailMe-Info.plist";
+			name = Info.plist;
+			path = ../MailMe/Info.plist;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -3679,8 +3669,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "MusicVideo-Info.plist";
-			path = "../MusicVideo-Info.plist";
+			name = Info.plist;
+			path = ../MusicVideo/Info.plist;
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -5329,7 +5319,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Brushed-Info.plist";
+				INFOPLIST_FILE = "Display Plugins/Brushed/Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -5404,8 +5394,8 @@
 		95FC34D807E0458E00BD8674 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "Brushed-Info.plist";
-			path = "Display Plugins/Brushed-Info.plist";
+			name = Info.plist;
+			path = "Display Plugins/Brushed/Info.plist";
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -6016,7 +6006,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = source;
-				INFOPLIST_FILE = "Display Plugins/SMS-Info.plist";
+				INFOPLIST_FILE = "Display Plugins/SMS/Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -6157,8 +6147,8 @@
 			fileEncoding = 30;
 			isa = PBXFileReference;
 			lastKnownFileType = text.xml;
-			name = "SMS-Info.plist";
-			path = "Display Plugins/SMS-Info.plist";
+			name = Info.plist;
+			path = "Display Plugins/SMS/Info.plist";
 			refType = 4;
 			sourceTree = "<group>";
 		};

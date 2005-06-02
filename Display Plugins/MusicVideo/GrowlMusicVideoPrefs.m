@@ -121,7 +121,7 @@
 
 - (NSColor *) textColorVeryLow {
 	return [GrowlMusicVideoPrefs loadColor:GrowlMusicVideoVeryLowTextColor
-						 defaultColor:[NSColor whiteColor]];
+							  defaultColor:[NSColor whiteColor]];
 }
 
 - (void) setTextColorVeryLow:(NSColor *)value {
@@ -132,7 +132,7 @@
 
 - (NSColor *) textColorModerate {
 	return [GrowlMusicVideoPrefs loadColor:GrowlMusicVideoModerateTextColor
-						 defaultColor:[NSColor whiteColor]];
+							  defaultColor:[NSColor whiteColor]];
 }
 
 - (void) setTextColorModerate:(NSColor *)value {
@@ -143,7 +143,7 @@
 
 - (NSColor *) textColorNormal {
 	return [GrowlMusicVideoPrefs loadColor:GrowlMusicVideoNormalTextColor
-						 defaultColor:[NSColor whiteColor]];
+							  defaultColor:[NSColor whiteColor]];
 }
 
 - (void) setTextColorNormal:(NSColor *)value {
@@ -154,7 +154,7 @@
 
 - (NSColor *) textColorHigh {
 	return [GrowlMusicVideoPrefs loadColor:GrowlMusicVideoHighTextColor
-						 defaultColor:[NSColor whiteColor]];
+							  defaultColor:[NSColor whiteColor]];
 }
 
 - (void) setTextColorHigh:(NSColor *)value {
@@ -165,7 +165,7 @@
 
 - (NSColor *) textColorEmergency {
 	return [GrowlMusicVideoPrefs loadColor:GrowlMusicVideoEmergencyTextColor
-						 defaultColor:[NSColor whiteColor]];
+							  defaultColor:[NSColor whiteColor]];
 }
 
 - (void) setTextColorEmergency:(NSColor *)value {
@@ -176,7 +176,7 @@
 
 - (NSColor *) backgroundColorVeryLow {
 	return [GrowlMusicVideoPrefs loadColor:GrowlMusicVideoVeryLowBackgroundColor
-						 defaultColor:[NSColor blackColor]];
+							  defaultColor:[NSColor blackColor]];
 }
 
 - (void) setBackgroundColorVeryLow:(NSColor *)value {
@@ -187,7 +187,7 @@
 
 - (NSColor *) backgroundColorModerate {
 	return [GrowlMusicVideoPrefs loadColor:GrowlMusicVideoModerateBackgroundColor
-						 defaultColor:[NSColor blackColor]];
+							  defaultColor:[NSColor blackColor]];
 }
 
 - (void) setBackgroundColorModerate:(NSColor *)value {
@@ -209,7 +209,7 @@
 
 - (NSColor *) backgroundColorHigh {
 	return [GrowlMusicVideoPrefs loadColor:GrowlMusicVideoHighBackgroundColor
-						 defaultColor:[NSColor blackColor]];
+							  defaultColor:[NSColor blackColor]];
 }
 
 - (void) setBackgroundColorHigh:(NSColor *)value {
@@ -220,7 +220,7 @@
 
 - (NSColor *) backgroundColorEmergency {
 	return [GrowlMusicVideoPrefs loadColor:GrowlMusicVideoEmergencyBackgroundColor
-						 defaultColor:[NSColor blackColor]];
+							  defaultColor:[NSColor blackColor]];
 }
 
 - (void) setBackgroundColorEmergency:(NSColor *)value {
