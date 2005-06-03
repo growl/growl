@@ -513,7 +513,6 @@
 				95D740A0084B985F000D67BC,
 			);
 			buildSettings = {
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -588,7 +587,6 @@
 				INFOPLIST_FILE = "GrowlSafariLoader-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_STYLE = BUNDLE;
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-framework Foundation -framework AppKit";
 				OTHER_REZFLAGS = "";
@@ -631,10 +629,9 @@
 			explicitFileType = wrapper.cfbundle;
 			includeInIndex = 0;
 			isa = PBXFileReference;
-			name = GrowlSafariLoader.bundle;
-			path = build/GrowlSafariLoader.bundle;
-			refType = 4;
-			sourceTree = "<group>";
+			path = GrowlSafariLoader.bundle;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		95D740AB084B9887000D67BC = {
 			isa = PBXFileReference;

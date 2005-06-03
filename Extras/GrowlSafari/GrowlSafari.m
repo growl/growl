@@ -150,7 +150,12 @@ static void setDownloadFinished(id dl) {
 }
 
 + (NSImage *) applicationIconForGrowl {
-	return [NSImage imageNamed:@"NSApplicationIcon"];
+	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
+	NSImage 	*icon = nil;
+	if (!(icon = [ws iconForFile: [ws fullPathForApplication: @"Safari"]]))
+		return [NSImage imageNamed:@"NSApplicationIcon"];
+	else
+		return icon; 
 }
 
 + (NSDictionary *) registrationDictionaryForGrowl {
