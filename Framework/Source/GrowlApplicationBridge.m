@@ -93,18 +93,24 @@ static BOOL		registerWhenGrowlIsReady = NO;
 + (void) setGrowlDelegate:(NSObject<GrowlApplicationBridgeDelegate> *)inDelegate {
 	NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
 
-	[delegate autorelease];
-	delegate = [inDelegate retain];
+	if (inDelegate != delegate) {
+		[delegate release];
+		delegate = [inDelegate retain];
+	}
 
 	NSDictionary *regDict = [self bestRegistrationDictionary];
 
 	//Cache the appName from the delegate or the process name
 	[appName autorelease];
 	appName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] retain];
-	if (!appName)
+	if (!appName) {
 		NSLog(@"%@", @"GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined");
+		return;
+	}
 
-	//Cache the appIconData from the delegate if it responds to the applicationIconDataForGrowl selector, or the application if not
+	/* Cache the appIconData from the delegate if it responds to the
+	 * applicationIconDataForGrowl selector, or the application if not
+	 */
 	[appIconData autorelease];
 	appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
 
@@ -114,33 +120,35 @@ static BOOL		registerWhenGrowlIsReady = NO;
 				  name:GROWL_IS_READY
 				object:nil];
 
-	//Watch for notification clicks if our delegate responds to the growlNotificationWasClicked: selector
-	//Notifications will come in on a unique notification name based on our app name and GROWL_NOTIFICATION_CLICKED
+	/* Watch for notification clicks if our delegate responds to the
+	 * growlNotificationWasClicked: selector. Notifications will come in on a
+	 * unique notification name based on our app name, pid and
+	 * GROWL_NOTIFICATION_CLICKED.
+	 */
 	int pid = [[NSProcessInfo processInfo] processIdentifier];
 	NSString *growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
 		appName, pid, GROWL_NOTIFICATION_CLICKED];
-	if ([delegate respondsToSelector:@selector(growlNotificationWasClicked:)]) {
+	if ([delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
 		[NSDNC addObserver:self
 				  selector:@selector(_growlNotificationWasClicked:)
 					  name:growlNotificationClickedName
 					object:nil];
-	} else {
+	else
 		[NSDNC removeObserver:self
 						 name:growlNotificationClickedName
 					   object:nil];
-	}
+
 	NSString *growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
 		appName, pid, GROWL_NOTIFICATION_TIMED_OUT];
-	if ([delegate respondsToSelector:@selector(growlNotificationTimedOut:)]) {
+	if ([delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
 		[NSDNC addObserver:self
 				  selector:@selector(_growlNotificationTimedOut:)
 					  name:growlNotificationTimedOutName
 					object:nil];
-	} else {
+	else
 		[NSDNC removeObserver:self
 						 name:growlNotificationTimedOutName
 					   object:nil];
-	}
 
 #ifdef GROWL_WITH_INSTALLER
 	//Determine if the user has previously told us not to ever request installation again
