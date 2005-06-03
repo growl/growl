@@ -19,60 +19,86 @@
 #include <netinet/in.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
 #define keychainServiceName "Growl"
 #define keychainAccountName "Growl"
 
+static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef addr, const void *data, void *info) {
+#pragma unused(s,type)
+	[(GrowlUDPPathway *)info handlePacketFrom:(NSData *)addr data:(NSData *)data];
+}
+
 @implementation GrowlUDPPathway
 
 - (id) init {
-	struct sockaddr_in addr;
-	NSData *addrData;
-
 	if ((self = [super init])) {
-		short port = [[GrowlPreferences preferences] integerForKey:GrowlUDPPortKey];
+		struct sockaddr_in addr;
+		short port;
+		int native;
+
+		port = [[GrowlPreferences preferences] integerForKey:GrowlUDPPortKey];
+
 		addr.sin_len = sizeof(addr);
 		addr.sin_family = AF_INET;
 		addr.sin_port = htons(port);
 		addr.sin_addr.s_addr = INADDR_ANY;
 		memset(&addr.sin_zero, 0, sizeof(addr.sin_zero));
-		addrData = [NSData dataWithBytes:&addr length:sizeof(addr)];
-		sock = [[NSSocketPort alloc] initWithProtocolFamily:AF_INET
-												 socketType:SOCK_DGRAM
-												   protocol:IPPROTO_UDP
-													address:addrData];
 
-		if (!sock) {
+		native = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+		if (native == -1) {
 			NSLog(@"GrowlUDPPathway: could not create socket.");
 			[self release];
 			return nil;
 		}
 
-		fh = [[NSFileHandle alloc] initWithFileDescriptor:[sock socket]];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(fileHandleRead:)
-													 name:NSFileHandleReadCompletionNotification
-												   object:fh];
-		[fh readInBackgroundAndNotify];
+		if (bind(native, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
+			NSLog(@"GrowlUDPPathway: could not bind socket.");
+			close(native);
+			[self release];
+			return nil;
+		}
+
+		// create CFSocket
+		CFSocketContext context = { 0, self, NULL, NULL, NULL };
+		cfSocket = CFSocketCreateWithNative(kCFAllocatorDefault,
+											native,
+											kCFSocketDataCallBack,
+											socketCallBack,
+											&context);
+		if (!cfSocket) {
+			close(native);
+			[self release];
+			return nil;
+		}
+
+		// add to run loop
+		CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault,
+																cfSocket,
+																0);
+		if (!source) {
+			[self release];
+			return nil;
+		}
+		CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopDefaultMode);
+		CFRelease(source);
+
 		notificationIcon = [[NSImage alloc] initWithContentsOfFile:
 			@"/System/Library/CoreServices/SystemIcons.bundle/Contents/Resources/GenericNetworkIcon.icns"];
-		if (!notificationIcon) {
-			// the icon has moved on 10.4
+		// the icon has moved on 10.4
+		if (!notificationIcon)
 			notificationIcon = [[NSImage alloc] initWithContentsOfFile:
 				@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"];
-		}
 	}
 
 	return self;
 }
 
 - (void) dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-													name:NSFileHandleReadCompletionNotification
-												  object:nil];
+	if (cfSocket)
+		CFSocketInvalidate(cfSocket);
 	[notificationIcon release];
-	[fh release];
-	[sock release];
 
 	[super dealloc];
 }
@@ -86,9 +112,8 @@
 	CSSM_DATA      inData;
 
 	crtn = CSSM_CSP_CreateDigestContext(cspHandle, digestAlg, &ccHandle);
-	if (crtn) {
+	if (crtn)
 		return NO;
-	}
 
 	crtn = CSSM_DigestDataInit(ccHandle);
 	if (crtn) {
@@ -117,9 +142,8 @@
 	digestData.Length = 0U;
 	crtn = CSSM_DigestDataFinal(ccHandle, &digestData);
 	CSSM_DeleteContext(ccHandle);
-	if (crtn) {
+	if (crtn)
 		return NO;
-	}
 
 	BOOL authenticated;
 	if (digestData.Length != digestLength) {
@@ -156,9 +180,8 @@
 			messageLength = packet->Length-sizeof(digest);
 			SHA256_Init(&ctx);
 			SHA256_Update(&ctx, packet->Data, messageLength);
-			if (password && password->Length) {
+			if (password && password->Length)
 				SHA256_Update(&ctx, password->Data, password->Length);
-			}
 			SHA256_Final(digest, &ctx);
 
 			return !memcmp(digest, packet->Data+messageLength, sizeof(digest));
@@ -171,7 +194,7 @@
 
 #pragma mark -
 
-- (void) fileHandleRead:(NSNotification *)aNotification {
+- (void) handlePacketFrom:(NSData *)address data:(NSData *)data {
 	char *notificationName;
 	char *title;
 	char *description;
@@ -180,235 +203,216 @@
 	unsigned notificationNameLen, titleLen, descriptionLen, priority, applicationNameLen;
 	unsigned length, num, i, size, packetSize, notificationIndex;
 	unsigned digestLength;
-	int error;
 	BOOL isSticky;
 	enum GrowlAuthenticationMethod authMethod;
 	CSSM_DATA packetData;
 	CSSM_DATA passwordData;
 
-	NSDictionary *userInfo = [aNotification userInfo];
-	error = [userInfo integerForKey:@"NSFileHandleError"];
+//	NSLog(@"Received UDP packet from %@", [NSString stringWithAddressData:address]);
 
-	if (!error) {
-		NSData *data = [userInfo objectForKey:NSFileHandleNotificationDataItem];
-		length = [data length];
+	length = [data length];
+	if (length >= sizeof(struct GrowlNetworkPacket)) {
+		struct GrowlNetworkPacket *packet = (struct GrowlNetworkPacket *)[data bytes];
+		packetData.Data = (uint8 *)packet;
+		packetData.Length = length;
 
-		if (length >= sizeof(struct GrowlNetworkPacket)) {
-			struct GrowlNetworkPacket *packet = (struct GrowlNetworkPacket *)[data bytes];
-			packetData.Data = (uint8 *)packet;
-			packetData.Length = length;
+		if (packet->version == GROWL_PROTOCOL_VERSION || packet->version == GROWL_PROTOCOL_VERSION_AES128) {
+			unsigned char *password;
+			OSStatus status;
+			UInt32 passwordLength = 0U;
 
-			if (packet->version == GROWL_PROTOCOL_VERSION || packet->version == GROWL_PROTOCOL_VERSION_AES128) {
-				unsigned char *password;
-				OSStatus status;
-				UInt32 passwordLength = 0U;
+			status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
+													strlen(keychainServiceName), keychainServiceName,
+													strlen(keychainAccountName), keychainAccountName,
+													&passwordLength, (void **)&password, NULL);
 
-				status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
-														strlen(keychainServiceName), keychainServiceName,
-														strlen(keychainAccountName), keychainAccountName,
-														&passwordLength, (void **)&password, NULL);
+			if (status == noErr) {
+				passwordData.Data = password;
+				passwordData.Length = passwordLength;
+			} else if (status != errSecItemNotFound) {
+				NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
+				passwordData.Data = NULL;
+				passwordData.Length = 0U;
+			}
 
-				if (status == noErr) {
-					passwordData.Data = password;
-					passwordData.Length = passwordLength;
-				} else if (status != errSecItemNotFound) {
-					NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
-					passwordData.Data = NULL;
-					passwordData.Length = 0U;
-				}
+			if (packet->version == GROWL_PROTOCOL_VERSION_AES128) {
+				[GrowlUDPUtils cryptPacket:&packetData
+								 algorithm:CSSM_ALGID_AES
+								  password:&passwordData
+								   encrypt:NO];
+				length = packetData.Length;
+			}
+			switch (packet->type) {
+				case GROWL_TYPE_REGISTRATION:
+				case GROWL_TYPE_REGISTRATION_SHA256:
+				case GROWL_TYPE_REGISTRATION_NOAUTH:
+					if (length >= sizeof(struct GrowlNetworkRegistration)) {
+						BOOL enabled = [[GrowlPreferences preferences] boolForKey:GrowlRemoteRegistrationKey];
 
-				if (packet->version == GROWL_PROTOCOL_VERSION_AES128) {
-					[GrowlUDPUtils cryptPacket:&packetData
-									 algorithm:CSSM_ALGID_AES
-									  password:&passwordData
-									   encrypt:NO];
-					length = packetData.Length;
-				}
-				switch (packet->type) {
-					case GROWL_TYPE_REGISTRATION:
-					case GROWL_TYPE_REGISTRATION_SHA256:
-					case GROWL_TYPE_REGISTRATION_NOAUTH:
-						if (length >= sizeof(struct GrowlNetworkRegistration)) {
-							BOOL enabled = [[GrowlPreferences preferences] boolForKey:GrowlRemoteRegistrationKey];
+						if (enabled) {
+							BOOL valid = YES;
+							struct GrowlNetworkRegistration *nr = (struct GrowlNetworkRegistration *)packet;
+							applicationName = (char *)nr->data;
+							applicationNameLen = ntohs(nr->appNameLen);
 
-							if (enabled) {
-								BOOL valid = YES;
-								struct GrowlNetworkRegistration *nr = (struct GrowlNetworkRegistration *)packet;
-								applicationName = (char *)nr->data;
-								applicationNameLen = ntohs(nr->appNameLen);
-
-								// check packet size
-								switch (packet->type) {
-									default:
-									case GROWL_TYPE_REGISTRATION:
-										authMethod = GROWL_AUTH_MD5;
-										digestLength = MD5_DIGEST_LENGTH;
-										break;
-									case GROWL_TYPE_REGISTRATION_SHA256:
-										authMethod = GROWL_AUTH_SHA256;
-										digestLength = SHA256_DIGEST_LENGTH;
-										break;
-									case GROWL_TYPE_REGISTRATION_NOAUTH:
-										authMethod = GROWL_AUTH_NONE;
-										digestLength = 0U;
-										break;
-								}
-								packetSize = sizeof(*nr) + nr->numDefaultNotifications + applicationNameLen + digestLength;
-								if (packetSize > length) {
-									valid = NO;
-								} else {
-									num = nr->numAllNotifications;
-									notification = applicationName + applicationNameLen;
-									for (i = 0U; i < num; ++i) {
-										if (packetSize >= length) {
-											valid = NO;
-											break;
-										}
-										size = ntohs(*(unsigned short *)notification) + sizeof(unsigned short);
-										notification += size;
-										packetSize += size;
-									}
-									if (packetSize != length) {
-										valid = NO;
-									}
-								}
-
-								if (valid) {
-									// all notifications
-									num = nr->numAllNotifications;
-									notification = applicationName + applicationNameLen;
-									NSMutableArray *allNotifications = [[NSMutableArray alloc] initWithCapacity:num];
-									for (i = 0U; i < num; ++i) {
-										size = ntohs(*(unsigned short *)notification);
-										notification += sizeof(unsigned short);
-										NSString *n = [[NSString alloc] initWithUTF8String:notification length:size];
-										[allNotifications addObject:n];
-										[n release];
-										notification += size;
-									}
-
-									// default notifications
-									num = nr->numDefaultNotifications;
-									NSMutableArray *defaultNotifications = [[NSMutableArray alloc] initWithCapacity:num];
-									for (i = 0U; i < num; ++i) {
-										notificationIndex = *notification++;
-										if (notificationIndex < nr->numAllNotifications) {
-											[defaultNotifications addObject:[allNotifications objectAtIndex: notificationIndex]];
-										} else {
-											NSLog(@"GrowlUDPServer: Bad notification index: %u", notificationIndex);
-										}
-									}
-
-									if ([GrowlUDPPathway authenticatePacket:&packetData password:&passwordData authMethod:authMethod]) {
-										NSString *appName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
-										NSDictionary *registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-											appName,              GROWL_APP_NAME,
-											allNotifications,     GROWL_NOTIFICATIONS_ALL,
-											defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-											nil];
-										[appName release];
-										[self registerApplicationWithDictionary:registerInfo];
-										[registerInfo release];
-									} else {
-										NSLog(@"GrowlUDPServer: authentication failed.");
-									}
-
-									[allNotifications     release];
-									[defaultNotifications release];
-								} else {
-									NSLog(@"GrowlUDPServer: received invalid registration packet.");
-								}
-							}
-						} else {
-							NSLog(@"GrowlUDPServer: received runt registration packet.");
-						}
-						break;
-					case GROWL_TYPE_NOTIFICATION:
-					case GROWL_TYPE_NOTIFICATION_SHA256:
-					case GROWL_TYPE_NOTIFICATION_NOAUTH:
-						if (length >= sizeof(struct GrowlNetworkNotification)) {
-							struct GrowlNetworkNotification *nn = (struct GrowlNetworkNotification *)packet;
-
-							priority = nn->flags.priority;
-							isSticky = nn->flags.sticky;
-							notificationName = (char *)nn->data;
-							notificationNameLen = ntohs(nn->nameLen);
-							title = notificationName + notificationNameLen;
-							titleLen = ntohs(nn->titleLen);
-							description = title + titleLen;
-							descriptionLen = ntohs(nn->descriptionLen);
-							applicationName = description + descriptionLen;
-							applicationNameLen = ntohs(nn->appNameLen);
+							// check packet size
 							switch (packet->type) {
 								default:
-								case GROWL_TYPE_NOTIFICATION:
+								case GROWL_TYPE_REGISTRATION:
 									authMethod = GROWL_AUTH_MD5;
 									digestLength = MD5_DIGEST_LENGTH;
 									break;
-								case GROWL_TYPE_NOTIFICATION_SHA256:
+								case GROWL_TYPE_REGISTRATION_SHA256:
 									authMethod = GROWL_AUTH_SHA256;
 									digestLength = SHA256_DIGEST_LENGTH;
 									break;
-								case GROWL_TYPE_NOTIFICATION_NOAUTH:
+								case GROWL_TYPE_REGISTRATION_NOAUTH:
 									authMethod = GROWL_AUTH_NONE;
 									digestLength = 0U;
 									break;
 							}
-							packetSize = sizeof(*nn) + notificationNameLen + titleLen + descriptionLen + applicationNameLen + digestLength;
-
-							if (length == packetSize) {
-								if ([GrowlUDPPathway authenticatePacket:&packetData password:&passwordData authMethod:authMethod]) {
-									NSString *growlNotificationName = [[NSString alloc] initWithUTF8String:notificationName length:notificationNameLen];
-									NSString *growlAppName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
-									NSString *growlNotificationTitle = [[NSString alloc] initWithUTF8String:title length:titleLen];
-									NSString *growlNotificationDesc = [[NSString alloc] initWithUTF8String:description length:descriptionLen];
-									NSNumber *growlNotificationPriority = [[NSNumber alloc] initWithInt:priority];
-									NSNumber *growlNotificationSticky = [[NSNumber alloc] initWithBool:isSticky];
-									NSDictionary *notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-										growlNotificationName,     GROWL_NOTIFICATION_NAME,
-										growlAppName,              GROWL_APP_NAME,
-										growlNotificationTitle,    GROWL_NOTIFICATION_TITLE,
-										growlNotificationDesc,     GROWL_NOTIFICATION_DESCRIPTION,
-										growlNotificationPriority, GROWL_NOTIFICATION_PRIORITY,
-										growlNotificationSticky,   GROWL_NOTIFICATION_STICKY,
-										notificationIcon,          GROWL_NOTIFICATION_ICON,
-										nil];
-									[growlNotificationName     release];
-									[growlAppName              release];
-									[growlNotificationTitle    release];
-									[growlNotificationDesc     release];
-									[growlNotificationPriority release];
-									[growlNotificationSticky   release];
-									[self postNotificationWithDictionary:notificationInfo];
-									[notificationInfo release];
-								} else {
-									NSLog(@"GrowlUDPServer: authentication failed.");
-								}
+							packetSize = sizeof(*nr) + nr->numDefaultNotifications + applicationNameLen + digestLength;
+							if (packetSize > length) {
+								valid = NO;
 							} else {
-								NSLog(@"GrowlUDPServer: received invalid notification packet.");
+								num = nr->numAllNotifications;
+								notification = applicationName + applicationNameLen;
+								for (i = 0U; i < num; ++i) {
+									if (packetSize >= length) {
+										valid = NO;
+										break;
+									}
+									size = ntohs(*(unsigned short *)notification) + sizeof(unsigned short);
+									notification += size;
+									packetSize += size;
+								}
+								if (packetSize != length)
+									valid = NO;
 							}
-						} else {
-							NSLog(@"GrowlUDPServer: received runt notification packet.");
-						}
-						break;
-					default:
-						NSLog(@"GrowlUDPServer: received packet of invalid type.");
-						break;
-				}
-				if (password) {
-					SecKeychainItemFreeContent(/*attrList*/ NULL, password);
-				}
-			} else {
-				NSLog(@"GrowlUDPServer: unknown version %u, expected %d or %d", packet->version, GROWL_PROTOCOL_VERSION, GROWL_PROTOCOL_VERSION_AES128);
-			}
-		} else {
-			NSLog(@"GrowlUDPServer: received runt packet.");
-		}
-	} else {
-		NSLog(@"GrowlUDPServer: error %d.", error);
-	}
 
-	[fh readInBackgroundAndNotify];
+							if (valid) {
+								// all notifications
+								num = nr->numAllNotifications;
+								notification = applicationName + applicationNameLen;
+								NSMutableArray *allNotifications = [[NSMutableArray alloc] initWithCapacity:num];
+								for (i = 0U; i < num; ++i) {
+									size = ntohs(*(unsigned short *)notification);
+									notification += sizeof(unsigned short);
+									NSString *n = [[NSString alloc] initWithUTF8String:notification length:size];
+									[allNotifications addObject:n];
+									[n release];
+									notification += size;
+								}
+
+								// default notifications
+								num = nr->numDefaultNotifications;
+								NSMutableArray *defaultNotifications = [[NSMutableArray alloc] initWithCapacity:num];
+								for (i = 0U; i < num; ++i) {
+									notificationIndex = *notification++;
+									if (notificationIndex < nr->numAllNotifications)
+										[defaultNotifications addObject:[allNotifications objectAtIndex: notificationIndex]];
+									else
+										NSLog(@"GrowlUDPServer: Bad notification index: %u", notificationIndex);
+								}
+
+								if ([GrowlUDPPathway authenticatePacket:&packetData password:&passwordData authMethod:authMethod]) {
+									NSString *appName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
+									NSDictionary *registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+										appName,              GROWL_APP_NAME,
+										allNotifications,     GROWL_NOTIFICATIONS_ALL,
+										defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+										address,              GROWL_REMOTE_ADDRESS,
+										nil];
+									[appName release];
+									[self registerApplicationWithDictionary:registerInfo];
+									[registerInfo release];
+								} else
+									NSLog(@"GrowlUDPServer: authentication failed.");
+
+								[allNotifications     release];
+								[defaultNotifications release];
+							} else
+								NSLog(@"GrowlUDPServer: received invalid registration packet.");
+						}
+					} else
+						NSLog(@"GrowlUDPServer: received runt registration packet.");
+					break;
+				case GROWL_TYPE_NOTIFICATION:
+				case GROWL_TYPE_NOTIFICATION_SHA256:
+				case GROWL_TYPE_NOTIFICATION_NOAUTH:
+					if (length >= sizeof(struct GrowlNetworkNotification)) {
+						struct GrowlNetworkNotification *nn = (struct GrowlNetworkNotification *)packet;
+
+						priority = nn->flags.priority;
+						isSticky = nn->flags.sticky;
+						notificationName = (char *)nn->data;
+						notificationNameLen = ntohs(nn->nameLen);
+						title = notificationName + notificationNameLen;
+						titleLen = ntohs(nn->titleLen);
+						description = title + titleLen;
+						descriptionLen = ntohs(nn->descriptionLen);
+						applicationName = description + descriptionLen;
+						applicationNameLen = ntohs(nn->appNameLen);
+						switch (packet->type) {
+							default:
+							case GROWL_TYPE_NOTIFICATION:
+								authMethod = GROWL_AUTH_MD5;
+								digestLength = MD5_DIGEST_LENGTH;
+								break;
+							case GROWL_TYPE_NOTIFICATION_SHA256:
+								authMethod = GROWL_AUTH_SHA256;
+								digestLength = SHA256_DIGEST_LENGTH;
+								break;
+							case GROWL_TYPE_NOTIFICATION_NOAUTH:
+								authMethod = GROWL_AUTH_NONE;
+								digestLength = 0U;
+								break;
+						}
+						packetSize = sizeof(*nn) + notificationNameLen + titleLen + descriptionLen + applicationNameLen + digestLength;
+
+						if (length == packetSize) {
+							if ([GrowlUDPPathway authenticatePacket:&packetData password:&passwordData authMethod:authMethod]) {
+								NSString *growlNotificationName = [[NSString alloc] initWithUTF8String:notificationName length:notificationNameLen];
+								NSString *growlAppName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
+								NSString *growlNotificationTitle = [[NSString alloc] initWithUTF8String:title length:titleLen];
+								NSString *growlNotificationDesc = [[NSString alloc] initWithUTF8String:description length:descriptionLen];
+								NSNumber *growlNotificationPriority = [[NSNumber alloc] initWithInt:priority];
+								NSNumber *growlNotificationSticky = [[NSNumber alloc] initWithBool:isSticky];
+								NSDictionary *notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+									growlNotificationName,     GROWL_NOTIFICATION_NAME,
+									growlAppName,              GROWL_APP_NAME,
+									growlNotificationTitle,    GROWL_NOTIFICATION_TITLE,
+									growlNotificationDesc,     GROWL_NOTIFICATION_DESCRIPTION,
+									growlNotificationPriority, GROWL_NOTIFICATION_PRIORITY,
+									growlNotificationSticky,   GROWL_NOTIFICATION_STICKY,
+									notificationIcon,          GROWL_NOTIFICATION_ICON,
+									address,                   GROWL_REMOTE_ADDRESS,
+									nil];
+								[growlNotificationName     release];
+								[growlAppName              release];
+								[growlNotificationTitle    release];
+								[growlNotificationDesc     release];
+								[growlNotificationPriority release];
+								[growlNotificationSticky   release];
+								[self postNotificationWithDictionary:notificationInfo];
+								[notificationInfo release];
+							} else
+								NSLog(@"GrowlUDPServer: authentication failed.");
+						} else
+							NSLog(@"GrowlUDPServer: received invalid notification packet.");
+					} else
+						NSLog(@"GrowlUDPServer: received runt notification packet.");
+					break;
+				default:
+					NSLog(@"GrowlUDPServer: received packet of invalid type.");
+					break;
+			}
+			if (password)
+				SecKeychainItemFreeContent(/*attrList*/ NULL, password);
+		} else
+			NSLog(@"GrowlUDPServer: unknown version %u, expected %d or %d", packet->version, GROWL_PROTOCOL_VERSION, GROWL_PROTOCOL_VERSION_AES128);
+	} else
+		NSLog(@"GrowlUDPServer: received runt packet.");
 }
 
 @end

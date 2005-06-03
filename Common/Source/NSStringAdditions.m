@@ -8,6 +8,8 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "NSStringAdditions.h"
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 @implementation NSString (GrowlAdditions)
 
@@ -59,6 +61,35 @@
 }
 - (NSAttributedString *) activeHyperlink {
 	return [self hyperlinkWithColor:[NSColor redColor]];
+}
+
++ (NSString *) stringWithAddressData:(NSData *)aAddressData {
+	struct sockaddr *socketAddress = (struct sockaddr *)[aAddressData bytes];
+	// IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF" 
+	//      at max, which is 40 bytes (0-terminated)
+	// IPv4 Addresses are "255.255.255.255" at max which is smaller
+	char stringBuffer[40];
+	NSString *addressAsString = nil;
+	if (socketAddress->sa_family == AF_INET) {
+		struct sockaddr_in *ipv4 = (struct sockaddr_in *)socketAddress;
+		if (inet_ntop(AF_INET, &(ipv4->sin_addr), stringBuffer, 40))
+			addressAsString = [NSString stringWithUTF8String:stringBuffer];
+		else
+			addressAsString = @"IPv4 un-ntopable";
+		addressAsString = [addressAsString stringByAppendingFormat:@":%d", ipv4->sin_port];
+	} else if (socketAddress->sa_family == AF_INET6) {
+		struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)socketAddress;
+		if (inet_ntop(AF_INET6, &(ipv6->sin6_addr), stringBuffer, 40))
+			addressAsString=[NSString stringWithUTF8String:stringBuffer];
+		else
+			addressAsString = @"IPv6 un-ntopable";
+		// Suggested IPv6 format (see http://www.faqs.org/rfcs/rfc2732.html)
+		addressAsString = [NSString stringWithFormat:@"[%@]:%d", addressAsString, ipv6->sin6_port];
+	} else {
+		addressAsString = @"neither IPv6 nor IPv4";
+	}
+	
+	return addressAsString;
 }
 
 @end

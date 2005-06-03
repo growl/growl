@@ -212,7 +212,12 @@ struct GrowlNetworkNotification {
  */
 #define GROWL_APP_LOCATION				XSTR("AppLocation")
 
-#endif //ndef _GROWL_GROWLDEFINESINTERNAL_H
+/*!	@defined	GROWL_REMOTE_ADDRESS
+ *	@abstract	The address of the host who sent this notification/registration.
+ *	@discussion	Contains an NSData with the address of the remote host who
+ *    sent this notification/registration.
+ */
+#define GROWL_REMOTE_ADDRESS			XSTR("RemoteAddress")
 
 /* --- These following macros are intended for plug-ins --- */
 
@@ -384,3 +389,5 @@ struct GrowlNetworkNotification {
 	CFRelease(floatValue); } while(0)
 
 #endif /* __OBJC__ */
+
+#endif //ndef _GROWL_GROWLDEFINESINTERNAL_H

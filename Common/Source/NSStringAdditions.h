@@ -24,4 +24,6 @@
 - (NSAttributedString *) hyperlink;
 - (NSAttributedString *) activeHyperlink;
 
++ (NSString *) stringWithAddressData:(NSData *)aAddressData;
+
 @end
