@@ -3097,7 +3097,6 @@
 		8D202CEC0486D31800D8A456 = {
 			buildActionMask = 2147483647;
 			files = (
-				95D89A9B082419A70068A4BD,
 				9528EF8007F5A2DF00061D90,
 				8D202CED0486D31800D8A456,
 				CB5FA1BD0638CA2C00EADD7A,
@@ -3107,6 +3106,7 @@
 				9532B0F807CE651F0028B2F1,
 				937E64320817193800AEC1C6,
 				950627A50840D34900C01CD2,
+				95BF38FE0851F82200873BE1,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3475,7 +3475,7 @@
 		};
 		950F795C080EECA600CC5F62 = {
 			children = (
-				950F7988080EED7400CC5F62,
+				95BF38FC0851F82200873BE1,
 				950F7974080EED5C00CC5F62,
 				950F7975080EED5C00CC5F62,
 				950F7976080EED5C00CC5F62,
@@ -3573,42 +3573,6 @@
 			lastKnownFileType = sourcecode.c.objc;
 			name = GrowlWebKitWindowView.m;
 			path = "Display Plugins/WebKit/GrowlWebKitWindowView.m";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		950F7988080EED7400CC5F62 = {
-			children = (
-				950F7989080EED7400CC5F62,
-				950F798B080EED8900CC5F62,
-				9574B9A30838FCDC00106CA3,
-				95B00A3208468969004A8623,
-				95B00A330846897A004A8623,
-			);
-			isa = PBXVariantGroup;
-			name = WebKitPrefs.nib;
-			path = "";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		950F7989080EED7400CC5F62 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = English;
-			path = "Display Plugins/WebKit/English.lproj/WebKitPrefs.nib";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		950F798A080EED7400CC5F62 = {
-			fileRef = 950F7988080EED7400CC5F62;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		950F798B080EED8900CC5F62 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = German;
-			path = "Display Plugins/WebKit/German.lproj/WebKitPrefs.nib";
 			refType = 4;
 			sourceTree = "<group>";
 		};
@@ -4354,14 +4318,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		9574B9A30838FCDC00106CA3 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = Japanese;
-			path = "Display Plugins/WebKit/Japanese.lproj/WebKitPrefs.nib";
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		9574BBA808392CC500106CA3 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -4662,7 +4618,21 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		95B00A3208468969004A8623 = {
+		95BF38FC0851F82200873BE1 = {
+			children = (
+				95BF38FD0851F82200873BE1,
+				95BF38FF0851F83500873BE1,
+				95BF39000851F83F00873BE1,
+				95BF39010851F84A00873BE1,
+				95BF39020851F85400873BE1,
+			);
+			isa = PBXVariantGroup;
+			name = WebKitPrefs.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95BF38FD0851F82200873BE1 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
 			name = cs;
@@ -4670,7 +4640,37 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		95B00A330846897A004A8623 = {
+		95BF38FE0851F82200873BE1 = {
+			fileRef = 95BF38FC0851F82200873BE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		95BF38FF0851F83500873BE1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = "Display Plugins/WebKit/English.lproj/WebKitPrefs.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95BF39000851F83F00873BE1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = German;
+			path = "Display Plugins/WebKit/German.lproj/WebKitPrefs.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95BF39010851F84A00873BE1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Japanese;
+			path = "Display Plugins/WebKit/Japanese.lproj/WebKitPrefs.nib";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		95BF39020851F85400873BE1 = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.nib;
 			name = zh_CN;
@@ -4905,12 +4905,6 @@
 		};
 		95D89A95082418DA0068A4BD = {
 			fileRef = 950F7978080EED5C00CC5F62;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		95D89A9B082419A70068A4BD = {
-			fileRef = 950F7988080EED7400CC5F62;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -5688,7 +5682,6 @@
 				52861FF006DC463E00D3A356,
 				954F013D074135D400EA8AB5,
 				95BF837D0743675700306A77,
-				950F798A080EED7400CC5F62,
 				9574BBAA08392CC500106CA3,
 				9574BBAB08392CC500106CA3,
 			);
