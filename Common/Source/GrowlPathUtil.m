@@ -27,11 +27,16 @@ static NSBundle *prefPaneBundle;
 	NSEnumerator	*searchPathEnumerator;
 	NSBundle		*bundle;
 
-	if (prefPaneBundle) {
+	if (prefPaneBundle)
 		return prefPaneBundle;
-	}
+
+	prefPaneBundle = [NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER];
+	if (prefPaneBundle)
+		return prefPaneBundle;
 
 	static const unsigned bundleIDComparisonFlags = NSCaseInsensitiveSearch | NSBackwardsSearch;
+
+	NSFileManager *fileManager = [NSFileManager defaultManager];
 
 	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
 	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask & ~NSSystemDomainMask, YES);
@@ -46,7 +51,7 @@ static NSBundle *prefPaneBundle;
 		path = [path stringByAppendingPathComponent:PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY];
 		path = [path stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
 
-		if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+		if ([fileManager fileExistsAtPath:path]) {
 			bundle = [NSBundle bundleWithPath:path];
 
 			if (bundle) {
@@ -74,7 +79,7 @@ static NSBundle *prefPaneBundle;
 		NSDirectoryEnumerator   *bundleEnum;
 
 		path = [path stringByAppendingPathComponent:PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY];
-		bundleEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
+		bundleEnum = [fileManager enumeratorAtPath:path];
 
 		while ((bundlePath = [bundleEnum nextObject])) {
 			if ([[bundlePath pathExtension] isEqualToString:PREFERENCE_PANE_EXTENSION]) {
@@ -102,16 +107,10 @@ static NSBundle *prefPaneBundle;
 
 + (NSBundle *) helperAppBundle {
 	if (!helperAppBundle) {
-		NSBundle *bundle = [NSBundle mainBundle];
-		if ([[bundle bundleIdentifier] isEqualToString:HelperAppBundleIdentifier]) {
-			//we are running in GHA.
-			helperAppBundle = bundle;
-		} else {
+		helperAppBundle = [NSBundle bundleWithIdentifier:HelperAppBundleIdentifier];
+		if (!helperAppBundle) {
 			//look in the prefpane bundle.
-			bundle = [NSBundle bundleForClass:[GrowlPathUtil class]];
-			if (![[bundle bundleIdentifier] isEqualToString:GROWL_PREFPANE_BUNDLE_IDENTIFIER]) {
-				bundle = [GrowlPathUtil growlPrefPaneBundle];
-			}
+			NSBundle *bundle = [GrowlPathUtil growlPrefPaneBundle];
 			NSString *helperAppPath = [bundle pathForResource:@"GrowlHelperApp" ofType:@"app"];
 			helperAppBundle = [NSBundle bundleWithPath:helperAppPath];
 		}

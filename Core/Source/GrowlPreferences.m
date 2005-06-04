@@ -110,7 +110,7 @@ static GrowlPreferences *sharedPreferences;
 	NSArray        *loginItems = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
 
 	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA      = [[NSBundle bundleForClass:[GrowlPreferences class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	NSString *pathToGHA      = [[NSBundle bundleWithIdentifier:@"com.growl.prefpanel"] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 	//get an Alias (as in Alias Manager) representation of same.
 	NSURL    *urlToGHA       = [[NSURL alloc] initFileURLWithPath:pathToGHA];
 
@@ -142,7 +142,7 @@ static GrowlPreferences *sharedPreferences;
 
 - (void) setStartGrowlAtLogin:(BOOL)flag {
 	//get the prefpane bundle and find GHA within it.
-	NSString *pathToGHA = [[NSBundle bundleForClass:[GrowlPreferences class]] pathForResource:@"GrowlHelperApp" ofType:@"app"];
+	NSString *pathToGHA = [[NSBundle bundleWithIdentifier:@"com.growl.prefpanel"] pathForResource:@"GrowlHelperApp" ofType:@"app"];
 	[self setStartAtLogin:pathToGHA enabled:flag];
 }
 

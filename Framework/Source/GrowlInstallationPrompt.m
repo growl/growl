@@ -254,7 +254,7 @@ static BOOL checkOSXVersion(void) {
 	NSTask	*unzip;
 	BOOL success = NO;
 
-	bundle = [NSBundle bundleForClass:[GrowlInstallationPrompt class]];
+	bundle = [NSBundle bundleWithIdentifier:@"com.growl.growlwithinstallerframework"];
 	archivePath = [bundle pathForResource:GROWL_PREFPANE_NAME ofType:@"zip"];
 
 	//desired folder (Panther): /private/tmp/$UID/GrowlInstallations/`uuidgen`

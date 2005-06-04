@@ -146,10 +146,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	NSBundle *styleBundle = [[GrowlPluginController controller] bundleForPluginNamed:style];
 	NSString *templateFile = [styleBundle pathForResource:@"template" ofType:@"html"];
-	if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile]) {
-		NSBundle *bundle = [NSBundle bundleForClass:[GrowlWebKitWindowController class]];
-		templateFile = [bundle pathForResource:@"template" ofType:@"html"];
-	}
+	if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile])
+		templateFile = [[NSBundle mainBundle] pathForResource:@"template" ofType:@"html"];
+
 	NSString *stylePath = [styleBundle resourcePath];
 	NSMutableString *htmlString = [NSMutableString alloc];
 	if ([htmlString respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {

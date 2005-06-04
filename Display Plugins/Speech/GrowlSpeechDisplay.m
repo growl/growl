@@ -20,20 +20,18 @@
 }
 
 - (NSPreferencePane *) preferencePane {
-	if (!prefPane) {
-		prefPane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlSpeechPrefs class]]];
-	}
+	if (!prefPane)
+		prefPane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.growl.Speech"]];
 	return prefPane;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
 	NSString *voice = nil;
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
-	if (voice) {
+	if (voice)
 		[voice autorelease];
-	} else {
+	else
 		voice = [NSSpeechSynthesizer defaultVoice];
-	}
 
 	NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
 

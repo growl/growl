@@ -47,7 +47,7 @@ static NSMutableArray *collectedMessages;
 @implementation GrowlMail
 
 + (NSBundle *) bundle {
-	return [NSBundle bundleForClass:[GrowlMail class]];
+	return [NSBundle bundleWithIdentifier:@"com.growl.GrowlMail"];
 }
 
 + (NSString *) bundleVersion {

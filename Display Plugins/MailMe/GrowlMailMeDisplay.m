@@ -27,7 +27,7 @@
 
 - (NSPreferencePane *) preferencePane {
 	if (!prefPane)
-		prefPane = [[GrowlMailMePrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMailMePrefs class]]];
+		prefPane = [[GrowlMailMePrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.MailMe"]];
 	return prefPane;
 }
 

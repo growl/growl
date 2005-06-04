@@ -570,8 +570,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	NSString *packagedVersion, *installedVersion;
 	BOOL upgradeIsAvailable;
 
-	ourGrowlPrefPaneInfoPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"GrowlPrefPaneInfo"
-																								  ofType:@"plist"];
+	ourGrowlPrefPaneInfoPath = [[NSBundle bundleWithIdentifier:@"com.growl.growlwithinstallerframework"] pathForResource:@"GrowlPrefPaneInfo"
+																												  ofType:@"plist"];
 
 	NSDictionary *infoDict = [[NSDictionary alloc] initWithContentsOfFile:ourGrowlPrefPaneInfoPath];
 	packagedVersion = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];

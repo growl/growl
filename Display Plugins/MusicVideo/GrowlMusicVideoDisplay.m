@@ -28,7 +28,7 @@
 
 - (NSPreferencePane *) preferencePane {
 	if (!preferencePane)
-		preferencePane = [[GrowlMusicVideoPrefs alloc] initWithBundle:[NSBundle bundleForClass:[GrowlMusicVideoPrefs class]]];
+		preferencePane = [[GrowlMusicVideoPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.MusicVideo"]];
 	return preferencePane;
 }
 

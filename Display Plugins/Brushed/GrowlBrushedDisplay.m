@@ -34,9 +34,8 @@ static unsigned brushedDepth = 0U;
 }
 
 - (NSPreferencePane *) preferencePane {
-	if (!preferencePane) {
-		preferencePane = [[GrowlBrushedPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBrushedPrefsController class]]];
-	}
+	if (!preferencePane)
+		preferencePane = [[GrowlBrushedPrefsController alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Brushed"]];
 	return preferencePane;
 }
 

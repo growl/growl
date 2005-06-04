@@ -125,7 +125,7 @@
 	NSURL *downloadURL = [[NSURL alloc] initWithString:
 		[productVersionDict objectForKey:[executableName stringByAppendingString:@"DownloadURL"]]];
 	/*
-	NSLog([[[NSBundle bundleForClass:[GrowlPref class]] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
+	NSLog([[[NSBundle bundleWithIdentifier:@"com.growl.prefpanel"] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
 	NSLog(currVersionNumber);
 	NSLog(latestVersionNumber);
 	*/

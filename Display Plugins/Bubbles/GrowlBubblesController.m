@@ -24,7 +24,7 @@
 
 - (NSPreferencePane *) preferencePane {
 	if (!preferencePane)
-		preferencePane = [[GrowlBubblesPrefsController alloc] initWithBundle:[NSBundle bundleForClass:[GrowlBubblesPrefsController class]]];
+		preferencePane = [[GrowlBubblesPrefsController alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Bubbles"]];
 	return preferencePane;
 }
 
