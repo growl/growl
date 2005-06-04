@@ -11,13 +11,21 @@
 @implementation GrowlSafariLoader
 
 + (void) load {
-	if ([[[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleIdentifierKey] isEqualToString:@"com.apple.Safari"]) {
-		NSBundle *loaderBundle = [NSBundle bundleForClass:[GrowlSafariLoader class]];
-		NSString *growlSafariPath = [[loaderBundle builtInPlugInsPath] stringByAppendingPathComponent:@"GrowlSafari.bundle"];
-		NSBundle *growlSafariBundle = [NSBundle bundleWithPath:growlSafariPath];
-		if (!(growlSafariBundle && [growlSafariBundle load]))
-			NSLog(@"GrowlSafariLoader: could not load %@", growlSafariPath);
-	}
+	if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.Safari"])
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(loadGrowlSafari:)
+													 name:NSApplicationWillFinishLaunchingNotification
+												   object:nil];
+}
+
++ (void) loadGrowlSafari:(NSNotification *)notification {
+#pragma unused(notification)
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	NSBundle *loaderBundle = [NSBundle bundleWithIdentifier:@"com.growl.GrowlSafariLoader"];
+	NSString *growlSafariPath = [[loaderBundle builtInPlugInsPath] stringByAppendingPathComponent:@"GrowlSafari.bundle"];
+	NSBundle *growlSafariBundle = [NSBundle bundleWithPath:growlSafariPath];
+	if (!(growlSafariBundle && [growlSafariBundle load]))
+		NSLog(@"GrowlSafariLoader: could not load %@", growlSafariPath);
 }
 
 @end
