@@ -37,6 +37,8 @@
 - (BOOL) automaticallyFadeOut;
 - (void) setAutomaticallyFadesOut:(BOOL) autoFade;
 
+- (void) resetTimeout;
+
 - (NSTimeInterval) animationDuration;
 - (void) setAnimationDuration:(NSTimeInterval)duration;
 

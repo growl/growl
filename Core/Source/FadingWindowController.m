@@ -76,14 +76,6 @@
 		[self stopFadeOut];
 }
 
-- (void) animationDidEnd:(NSAnimation *)animation {
-#pragma unused(animation)
-	if (isFadingIn)
-		[self stopFadeIn];
-	else if (isFadingOut)
-		[self stopFadeOut];
-}
-
 - (void) startFadeIn {
 	if (delegate && [delegate respondsToSelector:@selector(willFadeIn:)])
 		[delegate willFadeIn:self];
@@ -159,6 +151,13 @@
 
 	[self close];	// close our window
 	[self release];	// we retained when we fade in
+}
+
+- (void) resetTimeout {
+	if (autoFadeOut && !(isFadingIn || isFadingOut)) {
+		[self _stopTimer];
+		[self _waitBeforeFadeOut];
+	}
 }
 
 #pragma mark -

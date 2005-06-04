@@ -58,7 +58,7 @@
 					[aNotification setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 					[aNotification setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 					if (theIndex == 0U)
-						[aNotification startFadeIn];
+						[aNotification resetTimeout];
 					return;
 				}
 				break;
