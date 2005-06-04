@@ -108,7 +108,7 @@ static void setDownloadFinished(id dl) {
 
 @implementation GrowlSafari
 + (NSBundle *) bundle {
-	return [NSBundle bundleForClass:self];
+	return [NSBundle bundleWithIdentifier:@"com.growl.GrowlSafari"];
 }
 
 + (NSString *) bundleVersion {
@@ -150,12 +150,7 @@ static void setDownloadFinished(id dl) {
 }
 
 + (NSImage *) applicationIconForGrowl {
-	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-	NSImage 	*icon = nil;
-	if (!(icon = [ws iconForFile: [ws fullPathForApplication: @"Safari"]]))
-		return [NSImage imageNamed:@"NSApplicationIcon"];
-	else
-		return icon; 
+	return [NSImage imageNamed:@"NSApplicationIcon"];
 }
 
 + (NSDictionary *) registrationDictionaryForGrowl {
