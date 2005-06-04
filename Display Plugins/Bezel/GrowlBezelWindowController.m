@@ -111,9 +111,7 @@
 		doFadeIn = NO;
 		displayTime = duration;
 		priority = prio;
-		scaleFactor = 1.0;
-		fadeIncrement = 0.04f;
-		timerInterval = 0.01;
+		animationDuration = 0.25;
 	}
 
 	return self;
@@ -164,50 +162,26 @@
 	flipOut = flag;
 }
 
-- (void) startFadeIn {
-	if (flipIn) {
-		scaleFactor = 0.05;
-		[[self window] setScaleX:scaleFactor Y:1.0];
-	}
-
-	[super startFadeIn];
+- (void) fadeInAnimation:(double)progress {
+	if (flipIn)
+		[[self window] setScaleX:progress Y:1.0];
+	else
+		[super fadeInAnimation:progress];
 }
 
-- (void) _fadeIn:(NSTimer *)timer {
-	if (flipIn) {
-		NSWindow *myWindow = [self window];
-		if (scaleFactor < 1.0) {
-			scaleFactor += 0.05;
-			[myWindow setScaleX:scaleFactor Y:1.0];
-		} else {
-			scaleFactor = 1.0;
-			[myWindow reset];
-			[self stopFadeIn];
-		}
-	} else {
-		[super _fadeIn:timer];
-	}
+- (void) stopFadeIn {
+	if (flipIn)
+		[[self window] reset];
+	[super stopFadeIn];
 }
 
-- (void) startFadeOut {
-	scaleFactor = 1.0;
-	[super startFadeOut];
-}
-
-- (void) _fadeOut:(NSTimer *)timer {
-	NSWindow *myWindow = [self window];
+- (void) fadeOutAnimation:(double)progress {
 	if (flipOut) {
-		if (scaleFactor > 0.0) {
-			scaleFactor -= 0.05;
-			[myWindow setScaleX:scaleFactor Y:1.0];
-		} else {
-			[self stopFadeOut];
-		}
+		[[self window] setScaleX:1.0 - progress Y:1.0];
 	} else {
-		if (shrinkEnabled) {
-			[myWindow scaleX:0.8 Y:0.8];
-		}
-		[super _fadeOut:timer];
+		if (shrinkEnabled)
+			[[self window] scaleX:0.8 Y:0.8];
+		[super fadeOutAnimation:progress];
 	}
 }
 

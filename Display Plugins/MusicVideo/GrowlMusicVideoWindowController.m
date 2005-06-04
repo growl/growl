@@ -82,13 +82,7 @@
 		autoFadeOut = YES;
 		displayTime = duration;
 		priority = prio;
-		if (sizePref == MUSICVIDEO_SIZE_HUGE) {
-			timerInterval = (1.0 / 128.0);
-			fadeIncrement = 6.0f;
-		} else {
-			timerInterval = (1.0 / 64.0);
-			fadeIncrement = 6.0f;
-		}
+		animationDuration = 0.25;
 	}
 
 	return self;
@@ -106,26 +100,16 @@
 	[super stopFadeIn];
 }
 
-- (void) _fadeIn:(NSTimer *)inTimer {
-#pragma unused(inTimer)
-	if (frameOrigin.y < 0.0f) {
-		frameOrigin.y += fadeIncrement;
-		[subview setFrameOrigin:frameOrigin];
-		[contentView setNeedsDisplay:YES];
-	} else {
-		[self stopFadeIn];
-	}
+- (void) fadeInAnimation:(double)progress {
+	frameOrigin.y = frameHeight * (progress - 1.0f);
+	[subview setFrameOrigin:frameOrigin];
+	[contentView setNeedsDisplay:YES];
 }
 
-- (void) _fadeOut:(NSTimer *)inTimer {
-#pragma unused(inTimer)
-	if (frameOrigin.y > -frameHeight) {
-		frameOrigin.y -= fadeIncrement;
-		[subview setFrameOrigin:frameOrigin];
-		[contentView setNeedsDisplay:YES];
-	} else {
-		[self stopFadeOut];
-	}
+- (void) fadeOutAnimation:(double)progress {
+	frameOrigin.y = -frameHeight * progress;
+	[subview setFrameOrigin:frameOrigin];
+	[contentView setNeedsDisplay:YES];
 }
 
 #pragma mark -

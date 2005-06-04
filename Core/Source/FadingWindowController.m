@@ -10,8 +10,8 @@
 #import "GrowlPathUtil.h"
 #import "GrowlDefines.h"
 
-#define TIMER_INTERVAL (1.0 / 30.0)
-#define FADE_INCREMENT 0.05f
+#define TIMER_INTERVAL	0.01
+#define DURATION		0.5
 
 @implementation FadingWindowController
 - (id) initWithWindow:(NSWindow *)window {
@@ -19,8 +19,7 @@
 		autoFadeOut = NO;
 		doFadeIn = YES;
 		doFadeOut = YES;
-		fadeIncrement = FADE_INCREMENT;
-		timerInterval = TIMER_INTERVAL;
+		animationDuration = DURATION;
 	}
 	return self;
 }
@@ -32,10 +31,10 @@
 }
 
 - (void) dealloc {
-	[target       release];
-	[clickContext release];
-	[appName      release];
-	[appPid       release];
+	[target        release];
+	[clickContext  release];
+	[appName       release];
+	[appPid        release];
 
 	[self _stopTimer];
 	[super dealloc];
@@ -49,34 +48,40 @@
 													  repeats:NO] retain];
 }
 
+- (void) fadeInAnimation:(double)progress {
+	[[self window] setAlphaValue:progress];
+}
+
 - (void) _fadeIn:(NSTimer *)inTimer {
 #pragma unused(inTimer)
-	NSWindow *myWindow = [self window];
-	float alpha = [myWindow alphaValue];
-	if (alpha < 1.0f) {
-		alpha += fadeIncrement;
-		if (alpha > 1.0f) {
-			alpha = 1.0f;
-		}
-		[myWindow setAlphaValue:alpha];
-	} else {
+	double progress = [[NSDate date] timeIntervalSinceDate:animationStart] / animationDuration;
+	if (progress > 1.0)
+		progress = 1.0;
+	[self fadeInAnimation:progress];
+	if (progress > 1.0 - DBL_EPSILON)
 		[self stopFadeIn];
-	}
+}
+
+- (void) fadeOutAnimation:(double)progress {
+	[[self window] setAlphaValue:1.0f - progress];
 }
 
 - (void) _fadeOut:(NSTimer *)inTimer {
 #pragma unused(inTimer)
-	NSWindow *myWindow = [self window];
-	float alpha = [myWindow alphaValue];
-	if (alpha > 0.0f) {
-		alpha -= fadeIncrement;
-		if (alpha < 0.0f) {
-			alpha = 0.0f;
-		}
-		[myWindow setAlphaValue:alpha];
-	} else {
+	double progress = [[NSDate date] timeIntervalSinceDate:animationStart] / animationDuration;
+	if (progress > 1.0)
+		progress = 1.0;
+	[self fadeOutAnimation:progress];
+	if (progress > 1.0 - DBL_EPSILON)
 		[self stopFadeOut];
-	}
+}
+
+- (void) animationDidEnd:(NSAnimation *)animation {
+#pragma unused(animation)
+	if (isFadingIn)
+		[self stopFadeIn];
+	else if (isFadingOut)
+		[self stopFadeOut];
 }
 
 - (void) startFadeIn {
@@ -87,7 +92,8 @@
 	[self showWindow:nil];
 	[self _stopTimer];
 	if (doFadeIn) {
-		animationTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
+		animationStart = [[NSDate date] retain];
+		animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
 														   target:self
 														 selector:@selector(_fadeIn:)
 														 userInfo:nil
@@ -101,6 +107,7 @@
 
 - (void) stopFadeIn {
 	isFadingIn = NO;
+	[animationStart release];
 	[self _stopTimer];
 	if (delegate && [delegate respondsToSelector:@selector(didFadeIn:)])
 		[delegate didFadeIn:self];
@@ -116,7 +123,8 @@
 	isFadingOut = YES;
 	[self _stopTimer];
 	if (doFadeOut) {
-		animationTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
+		animationStart = [[NSDate date] retain];
+		animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
 														   target:self
 														 selector:@selector(_fadeOut:)
 														 userInfo:nil
@@ -130,6 +138,7 @@
 
 - (void) stopFadeOut {
 	isFadingOut = NO;
+	[animationStart release];
 	[self _stopTimer];
 	if (delegate && [delegate respondsToSelector:@selector(didFadeOut:)])
 		[delegate didFadeOut:self];
@@ -164,12 +173,12 @@
 
 #pragma mark -
 
-- (float) fadeIncrement {
-	return fadeIncrement;
+- (NSTimeInterval) animationDuration {
+	return animationDuration;
 }
 
-- (void) setFadeIncrement:(float)increment {
-	fadeIncrement = increment;
+- (void) setAnimationDuration:(NSTimeInterval)duration {
+	animationDuration = duration;
 }
 
 #pragma mark -
@@ -184,21 +193,11 @@
 
 #pragma mark -
 
-- (float) timerInterval {
-	return timerInterval;
-}
-
-- (void) setTimerInterval:(float) interval {
-	timerInterval = interval;
-}
-
-#pragma mark -
-
 - (double) displayTime {
 	return displayTime;
 }
 
-- (void) setDisplayTime:(double) t {
+- (void) setDisplayTime:(double)t {
 	displayTime = t;
 }
 
@@ -208,7 +207,7 @@
 	return delegate;
 }
 
-- (void) setDelegate:(id) object {
+- (void) setDelegate:(id)object {
 	delegate = object;
 }
 

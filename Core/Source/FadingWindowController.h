@@ -10,24 +10,24 @@
 
 @interface FadingWindowController : NSWindowController
 {
-	id			delegate;
-	NSTimer		*animationTimer;
-	BOOL		autoFadeOut;
-	BOOL		doFadeIn;
-	BOOL		doFadeOut;
-	BOOL		isFadingIn;
-	BOOL		isFadingOut;
-	float		fadeIncrement;
-	float		timerInterval;
-	double		displayTime;
-	BOOL		screenshotMode;
-	unsigned	screenNumber;
+	id				delegate;
+	NSTimer			*animationTimer;
+	BOOL			autoFadeOut;
+	BOOL			doFadeIn;
+	BOOL			doFadeOut;
+	BOOL			isFadingIn;
+	BOOL			isFadingOut;
+	double			displayTime;
+	BOOL			screenshotMode;
+	unsigned		screenNumber;
+	NSTimeInterval	animationDuration;
+	NSDate			*animationStart;
 
-	SEL			action;
-	id			target;
-	id			clickContext;
-	NSString	*appName;
-	NSNumber	*appPid;
+	SEL				action;
+	id				target;
+	id				clickContext;
+	NSString		*appName;
+	NSNumber		*appPid;
 }
 - (void) startFadeIn;
 - (void) startFadeOut;
@@ -37,11 +37,8 @@
 - (BOOL) automaticallyFadeOut;
 - (void) setAutomaticallyFadesOut:(BOOL) autoFade;
 
-- (float) fadeIncrement;
-- (void) setFadeIncrement:(float)increment;
-
-- (float) timerInterval;
-- (void) setTimerInterval:(float)interval;
+- (NSTimeInterval) animationDuration;
+- (void) setAnimationDuration:(NSTimeInterval)duration;
 
 - (double) displayTime;
 - (void) setDisplayTime:(double)t;
@@ -60,6 +57,9 @@
 
 - (void) _fadeIn:(NSTimer *)inTimer;
 - (void) _fadeOut:(NSTimer *)inTimer;
+
+- (void) fadeInAnimation:(double)progress;
+- (void) fadeOutAnimation:(double)progress;
 
 - (BOOL) isFadingIn;
 - (BOOL) isFadingOut;

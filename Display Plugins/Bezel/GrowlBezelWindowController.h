@@ -12,7 +12,6 @@
 
 @interface GrowlBezelWindowController : FadingWindowController {
 	int						priority;
-	double					scaleFactor;
 	BOOL					flipIn;
 	BOOL					flipOut;
 	BOOL					shrinkEnabled;
@@ -29,8 +28,8 @@
 - (void) setText:(NSString *)text;
 - (void) setIcon:(NSImage *)icon;
 
-- (void) _fadeIn:(NSTimer *)timer;
-- (void) _fadeOut:(NSTimer *)timer;
+- (void) fadeInAnimation:(double)progress;
+- (void) fadeOutAnimation:(double)progress;
 
 - (void) setFlipIn:(BOOL)flag;
 - (void) setFlipOut:(BOOL)flag;
