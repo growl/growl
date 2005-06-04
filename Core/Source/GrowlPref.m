@@ -164,9 +164,6 @@
 - (void) enableGrowlMenu {
 	NSString *growlMenuPath = [[self bundle] pathForResource:@"GrowlMenu" ofType:@"app"];
 
-	// Add to login items
-	[[GrowlPreferences preferences] setStartAtLogin:growlMenuPath enabled:YES];
-
 	// We want to launch in background, so we have to resort to Carbon
 	LSLaunchFSRefSpec spec;
 	FSRef appRef;
@@ -184,13 +181,8 @@
 }
 
 - (void) disableGrowlMenu {
-	NSString *growlMenuPath = [[self bundle] pathForResource:@"GrowlMenu" ofType:@"app"];
-
 	// Ask GrowlMenu to shutdown via the DNC
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GrowlMenuShutdown" object:nil];
-
-	// Remove from login items
-	[[GrowlPreferences preferences] setStartAtLogin:growlMenuPath enabled:NO];
 }
 
 - (void) awakeFromNib {

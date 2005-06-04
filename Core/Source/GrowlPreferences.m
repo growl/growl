@@ -187,12 +187,13 @@ static GrowlPreferences *sharedPreferences;
 			thisIsUs = (thisPath && [thisPath isEqualToString:path]);
 		}
 
-		if (thisIsUs && ((!flag) || (!foundOne))) {
+		if (thisIsUs && (!flag || foundOne)) {
 			[loginItems removeObjectAtIndex:i];
 			--numItems;
-			foundOne = YES;
 		} else //only increment if we did not change the array
 			++i;
+		if (thisIsUs)
+			foundOne = YES;
 	}
 	[url release];
 
