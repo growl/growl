@@ -29,15 +29,22 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (void) didFadeOut:(FadingWindowController *)sender {
 #pragma unused(sender)
+	if (identifier) {
+		[notificationsByIdentifier removeObjectForKey:identifier];
+		if (![notificationsByIdentifier count]) {
+			[notificationsByIdentifier release];
+			notificationsByIdentifier = nil;
+		}
+	}
+
 	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->uid);
 
 	// stop depth wrapping around
-	if (windowSize.height > depth) {
+	if (windowSize.height > depth)
 		depth = 0U;
-	} else {
+	else
 		depth -= windowSize.height;
-	}
 
 	NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:uid];
 	NSNumber *depthValue = [[NSNumber alloc] initWithUnsignedInt:depth];
@@ -106,9 +113,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 #pragma mark Regularly Scheduled Coding
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned)theDepth identifier:(NSString *)ident {
-	identifier = [ident retain];
-	GrowlBrushedWindowController *oldController = [notificationsByIdentifier objectForKey:identifier];
-	if (oldController) {
+	GrowlBrushedWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
+	if (oldController && ![oldController isFadingOut]) {
 		// coalescing
 		GrowlBrushedWindowView *view = (GrowlBrushedWindowView *)[[oldController window] contentView];
 		[view setPriority:priority];
@@ -119,15 +125,15 @@ static NSMutableDictionary *notificationsByIdentifier;
 		self = oldController;
 		return self;
 	}
+	identifier = [ident retain];
 	uid = globalId++;
 	depth = theDepth;
 	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
 
 	BOOL aquaPref = GrowlBrushedAquaPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &aquaPref);
-	if (!aquaPref) {
+	if (!aquaPref)
 		styleMask |= NSTexturedBackgroundWindowMask;
-	}
 
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
@@ -182,9 +188,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 		// the visibility time for this notification should be the minimum display time plus
 		// some multiple of gAdditionalLinesDisplayTime, not to exceed gMaxDisplayTime
 		int rowCount = [view descriptionRowCount];
-		if (rowCount <= 2) {
+		if (rowCount <= 2)
 			rowCount = 0;
-		}
 		float duration = GrowlBrushedDurationPrefDefault;
 		READ_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, &duration);
 		/*BOOL limitPref = YES;
@@ -211,9 +216,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 				 object:nil];
 
 		if (identifier) {
-			if (!notificationsByIdentifier) {
+			if (!notificationsByIdentifier)
 				notificationsByIdentifier = [[NSMutableDictionary alloc] init];
-			}
 			[notificationsByIdentifier setObject:self forKey:identifier];
 		}
 	}
@@ -222,20 +226,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (void) startFadeOut {
 	GrowlBrushedWindowView *view = (GrowlBrushedWindowView *)[[self window] contentView];
-	if ([view mouseOver]) {
+	if ([view mouseOver])
 		[view setCloseOnMouseExit:YES];
-	} else {
+	else
 		[super startFadeOut];
-	}
-}
-
-- (void) stopFadeOut {
-	if (identifier) {
-		[notificationsByIdentifier removeObjectForKey:identifier];
-		[identifier release];
-	}
-
-	[super stopFadeOut];
 }
 
 - (void) dealloc {
@@ -248,6 +242,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	NSWindow *myWindow = [self window];
 	[[myWindow contentView] release];
 	[myWindow release];
+	[identifier release];
 
 	[super dealloc];
 }

@@ -26,9 +26,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 #pragma mark -
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky identifier:(NSString *)ident {
-	identifier = [ident retain];
-	GrowlBubblesWindowController *oldController = [notificationsByIdentifier objectForKey:identifier];
-	if (oldController) {
+	GrowlBubblesWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
+	if (oldController && ![oldController isFadingOut]) {
 		// coalescing
 		GrowlBubblesWindowView *view = (GrowlBubblesWindowView *)[[oldController window] contentView];
 		[view setPriority:priority];
@@ -39,6 +38,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		self = oldController;
 		return self;
 	}
+	identifier = [ident retain];
 
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &screenNumber);
@@ -87,11 +87,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 	if ((self = [super initWithWindow:panel])) {
 		#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
 		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
-		if (NSMinY(panelFrame) < 0.0f) {
+		if (NSMinY(panelFrame) < 0.0f)
 			depth = bubbleWindowDepth = 0U;
-		} else {
+		else
 			depth = bubbleWindowDepth += NSHeight(panelFrame) + GrowlBubblesPadding;
-		}
 		autoFadeOut = !sticky;
 		delegate = self;
 
@@ -102,17 +101,15 @@ static NSMutableDictionary *notificationsByIdentifier;
 		READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &limitPref);
 		float duration = MIN_DISPLAY_TIME;
 		READ_GROWL_PREF_FLOAT(GrowlBubblesDuration, GrowlBubblesPrefDomain, &duration);
-		if (!limitPref) {
+		if (!limitPref)
 			displayTime = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
 							   MAX_DISPLAY_TIME);
-		} else {
+		else
 			displayTime = duration;
-		}
 
 		if (identifier) {
-			if (!notificationsByIdentifier) {
+			if (!notificationsByIdentifier)
 				notificationsByIdentifier = [[NSMutableDictionary alloc] init];
-			}
 			[notificationsByIdentifier setObject:self forKey:identifier];
 		}
 	}
@@ -122,28 +119,30 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (void) startFadeOut {
 	GrowlBubblesWindowView *view = (GrowlBubblesWindowView *)[[self window] contentView];
-	if ([view mouseOver]) {
+	if ([view mouseOver])
 		[view setCloseOnMouseExit:YES];
-	} else {
+	else
 		[super startFadeOut];
-	}
 }
 
 - (void) stopFadeOut {
 	if (identifier) {
 		[notificationsByIdentifier removeObjectForKey:identifier];
-		[identifier release];
+		if (![notificationsByIdentifier count]) {
+			[notificationsByIdentifier release];
+			notificationsByIdentifier = nil;
+		}
 	}
 	[super stopFadeOut];
 }
 
 - (void) dealloc {
-	if (depth == bubbleWindowDepth) {
+	if (depth == bubbleWindowDepth)
 		bubbleWindowDepth = 0U;
-	}
 	NSWindow *myWindow = [self window];
 	[[myWindow contentView] release];
 	[myWindow release];
+	[identifier release];
 
 	[super dealloc];
 }

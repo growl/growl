@@ -15,6 +15,7 @@
 	BOOL			autoFadeOut;
 	BOOL			doFadeIn;
 	BOOL			doFadeOut;
+	BOOL			didFadeIn;
 	BOOL			isFadingIn;
 	BOOL			isFadingOut;
 	double			displayTime;
@@ -36,8 +37,6 @@
 
 - (BOOL) automaticallyFadeOut;
 - (void) setAutomaticallyFadesOut:(BOOL) autoFade;
-
-- (void) resetTimeout;
 
 - (NSTimeInterval) animationDuration;
 - (void) setAnimationDuration:(NSTimeInterval)duration;

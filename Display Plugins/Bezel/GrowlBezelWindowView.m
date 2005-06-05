@@ -324,22 +324,20 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	NSData *data = nil;
 
 	READ_GROWL_PREF_VALUE(key, BezelPrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass]) {
+	if (data && [data isKindOfClass:NSDataClass])
 		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
-	} else {
+	else
 		backgroundColor = [NSColor blackColor];
-	}
 	[backgroundColor retain];
 	[data release];
 	data = nil;
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, BezelPrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass]) {
+	if (data && [data isKindOfClass:NSDataClass])
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
-	} else {
+	else
 		textColor = [NSColor whiteColor];
-	}
 	[textColor retain];
 	[data release];
 }

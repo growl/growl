@@ -29,6 +29,14 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (void) didFadeOut:(FadingWindowController *)sender {
 #pragma unused(sender)
+	if (identifier) {
+		[notificationsByIdentifier removeObjectForKey:identifier];
+		if (![notificationsByIdentifier count]) {
+			[notificationsByIdentifier release];
+			notificationsByIdentifier = nil;
+		}
+	}
+
 	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->uid);
 
@@ -105,10 +113,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 #pragma mark Regularly Scheduled Coding
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned)theDepth identifier:(NSString *)ident {
-	uid = globalId++;
-	identifier = [ident retain];
-	GrowlSmokeWindowController *oldController = [notificationsByIdentifier objectForKey:identifier];
-	if (oldController) {
+	GrowlSmokeWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
+	if (oldController && ![oldController isFadingOut]) {
 		// coalescing
 		GrowlSmokeWindowView *view = (GrowlSmokeWindowView *)[[oldController window] contentView];
 		[view setPriority:priority];
@@ -119,6 +125,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 		self = oldController;
 		return self;
 	}
+	identifier = [ident retain];
+	uid = globalId++;
 	depth = theDepth;
 
 	screenNumber = 0U;
@@ -203,9 +211,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 				 object:nil];
 
 		if (identifier) {
-			if (!notificationsByIdentifier) {
+			if (!notificationsByIdentifier)
 				notificationsByIdentifier = [[NSMutableDictionary alloc] init];
-			}
 			[notificationsByIdentifier setObject:self forKey:identifier];
 		}
 	}
@@ -214,19 +221,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (void) startFadeOut {
 	GrowlSmokeWindowView *view = (GrowlSmokeWindowView *)[[self window] contentView];
-	if ([view mouseOver]) {
+	if ([view mouseOver])
 		[view setCloseOnMouseExit:YES];
-	} else {
+	else
 		[super startFadeOut];
-	}
-}
-
-- (void) stopFadeOut {
-	if (identifier) {
-		[notificationsByIdentifier removeObjectForKey:identifier];
-		[identifier release];
-	}
-	[super stopFadeOut];
 }
 
 - (void) dealloc {
@@ -240,6 +238,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	NSWindow *myWindow = [self window];
 	[[myWindow contentView] release];
 	[myWindow release];
+	[identifier release];
 
 	[super dealloc];
 }

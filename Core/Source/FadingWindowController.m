@@ -79,19 +79,21 @@
 - (void) startFadeIn {
 	if (delegate && [delegate respondsToSelector:@selector(willFadeIn:)])
 		[delegate willFadeIn:self];
-	isFadingIn = YES;
 	[self retain]; // release after fade out
 	[self showWindow:nil];
 	[self _stopTimer];
-	if (doFadeIn) {
-		animationStart = [[NSDate date] retain];
-		animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
-														   target:self
-														 selector:@selector(_fadeIn:)
-														 userInfo:nil
-														  repeats:YES] retain];
-		//Start immediately
-		[self _fadeIn:nil];
+	if (doFadeIn && !didFadeIn) {
+		if (!isFadingIn) {
+			isFadingIn = YES;
+			animationStart = [[NSDate date] retain];
+			animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
+															   target:self
+															 selector:@selector(_fadeIn:)
+															 userInfo:nil
+															  repeats:YES] retain];
+			//Start immediately
+			[self _fadeIn:nil];
+		}
 	} else {
 		[self stopFadeIn];
 	}
@@ -99,7 +101,9 @@
 
 - (void) stopFadeIn {
 	isFadingIn = NO;
+	didFadeIn = YES;
 	[animationStart release];
+	animationStart = nil;
 	[self _stopTimer];
 	if (delegate && [delegate respondsToSelector:@selector(didFadeIn:)])
 		[delegate didFadeIn:self];
@@ -112,15 +116,17 @@
 - (void) startFadeOut {
 	if (delegate && [delegate respondsToSelector:@selector(willFadeOut:)])
 		[delegate willFadeOut:self];
-	isFadingOut = YES;
 	[self _stopTimer];
 	if (doFadeOut) {
-		animationStart = [[NSDate date] retain];
-		animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
-														   target:self
-														 selector:@selector(_fadeOut:)
-														 userInfo:nil
-														  repeats:YES] retain];
+		if (!isFadingOut) {
+			isFadingOut = YES;
+			animationStart = [[NSDate date] retain];
+			animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
+															   target:self
+															 selector:@selector(_fadeOut:)
+															 userInfo:nil
+															  repeats:YES] retain];
+		}
 		//Start immediately
 		[self _fadeOut:nil];
 	} else {
@@ -131,6 +137,7 @@
 - (void) stopFadeOut {
 	isFadingOut = NO;
 	[animationStart release];
+	animationStart = nil;
 	[self _stopTimer];
 	if (delegate && [delegate respondsToSelector:@selector(didFadeOut:)])
 		[delegate didFadeOut:self];
@@ -151,13 +158,6 @@
 
 	[self close];	// close our window
 	[self release];	// we retained when we fade in
-}
-
-- (void) resetTimeout {
-	if (autoFadeOut && !(isFadingIn || isFadingOut)) {
-		[self _stopTimer];
-		[self _waitBeforeFadeOut];
-	}
 }
 
 #pragma mark -

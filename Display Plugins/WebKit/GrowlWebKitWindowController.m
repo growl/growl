@@ -33,9 +33,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 #pragma mark -
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL)sticky identifier:(NSString *)ident style:(NSString *)styleName {
-	identifier = [ident retain];
-	GrowlWebKitWindowController *oldController = [notificationsByIdentifier objectForKey:identifier];
-	if (oldController) {
+	GrowlWebKitWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
+	if (oldController && ![oldController isFadingOut]) {
 		// coalescing
 		WebView *view = (WebView *)[[oldController window] contentView];
 		[oldController setTitle:title text:text icon:icon priority:priority forView:view];
@@ -43,6 +42,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		self = oldController;
 		return self;
 	}
+	identifier = [ident retain];
 
 	style = [styleName retain];
 	prefDomain = [[NSString alloc] initWithFormat:@"%@.%@", GrowlWebKitPrefDomain, style];
@@ -276,7 +276,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 - (void) stopFadeOut {
 	if (identifier) {
 		[notificationsByIdentifier removeObjectForKey:identifier];
-		[identifier release];
+		if (![notificationsByIdentifier count]) {
+			[notificationsByIdentifier release];
+			notificationsByIdentifier = nil;
+		}
 	}
 	[super stopFadeOut];
 }
@@ -294,6 +297,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[image      release];
 	[style      release];
 	[prefDomain release];
+	[identifier release];
 
 	[super dealloc];
 }
