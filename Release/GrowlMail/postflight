@@ -1,0 +1,4 @@
+#!/bin/sh
+defaults write com.apple.mail EnableBundles 1
+defaults write com.apple.mail BundleCompatibilityVersion 2
+
