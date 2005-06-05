@@ -28,11 +28,11 @@
  * Retrieves the value of the specified key.
  * @return The key's dictionary of values, or null if the key is not found.
  */
-- (NSDictionary*)valueForKey:(NSString*)aKey;
+- (NSDictionary *) valueForKey:(NSString *)aKey;
 
 /**
  * Monitors a single key for changes.
  */
-- (void)addObserver:(id)anObserver selector:(SEL)aSelector forKey:(NSString*)aKey;
+- (void) addObserver:(id)anObserver selector:(SEL)aSelector forKey:(NSString *)aKey;
 
 @end

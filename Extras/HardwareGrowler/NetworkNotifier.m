@@ -3,7 +3,7 @@
 //  HardwareGrowler
 //
 //  Created by Ingmar Stein on 18.02.05.
-//  Copyright 2005 __MyCompanyName__. All rights reserved.
+//  Copyright 2005 The Growl Project. All rights reserved.
 //  Copyright (C) 2004 Scott Lamb <slamb@slamb.org>
 //
 
@@ -26,15 +26,15 @@ static struct ifmedia_description ifm_subtype_ethernet_descriptions[] = IFM_SUBT
 static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_OPTION_DESCRIPTIONS;
 
 @interface NetworkNotifier (PRIVATE)
-- (void)linkStatusChange:(NSDictionary*)newValue;
-- (void)ipAddressChange:(NSDictionary*)newValue;
-- (void)airportStatusChange:(NSDictionary*)newValue;
-- (NSString *)getMediaForInterface:(NSString*)anInterface;
+- (void) linkStatusChange:(NSDictionary *)newValue;
+- (void) ipAddressChange:(NSDictionary *)newValue;
+- (void) airportStatusChange:(NSDictionary *)newValue;
+- (NSString *) getMediaForInterface:(NSString *)anInterface;
 @end
 
 @implementation NetworkNotifier
-- (id)initWithDelegate:(id)object {
-	if ( (self = [super init]) ) {
+- (id) initWithDelegate:(id)object {
+	if ((self = [super init])) {
 		delegate = object;
 
 		scNotificationManager = [[SCDynamicStore alloc] init];
@@ -53,7 +53,7 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 	return self;
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self
 													name:nil
 												  object:scNotificationManager];
@@ -62,8 +62,7 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 	[super dealloc];
 }
 
-- (void)linkStatusChange:(NSDictionary*)newValue
-{
+- (void) linkStatusChange:(NSDictionary *)newValue {
 	BOOL active = [[newValue objectForKey:@"Active"] boolValue];
 
 	if (active) {
@@ -77,7 +76,7 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 	}
 }
 
-- (void)ipAddressChange:(NSDictionary*)newValue {
+- (void) ipAddressChange:(NSDictionary*)newValue {
 	if (newValue) {
 		NSLog(@"IP address acquired");
 		NSString *ipv4Key = [NSString stringWithFormat:@"State:/Network/Interface/%@/IPv4",
@@ -92,32 +91,32 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 	}
 }
 
-- (void)airportStatusChange:(NSDictionary*)newValue {
+- (void) airportStatusChange:(NSDictionary*)newValue {
 	NSLog(@"AirPort event");
 	if (![[airportStatus objectForKey:@"BSSID"] isEqualToData:[newValue objectForKey:@"BSSID"]]) {
 		if ([[newValue objectForKey:@"Link Status"] intValue] == AIRPORT_DISCONNECTED) {
-			NSString *desc = [NSString stringWithFormat:@"Left network %@.",
+			NSString *desc = [[NSString alloc] initWithFormat:@"Left network %@.",
 				[airportStatus objectForKey:@"SSID"]];
 			[delegate airportDisconnect:desc];
+			[desc release];
 		} else {
 			const unsigned char *bssidBytes = [[newValue objectForKey:@"BSSID"] bytes];
-			NSString *bssid = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+			NSString *desc = [[NSString alloc] initWithFormat:@"Joined network.\nSSID:\t\t%@\nBSSID:\t%02X:%02X:%02X:%02X:%02X:%02X",
+				[newValue objectForKey:@"SSID"],
 				bssidBytes[0],
 				bssidBytes[1],
 				bssidBytes[2],
 				bssidBytes[3],
 				bssidBytes[4],
 				bssidBytes[5]];
-			NSString *desc = [NSString stringWithFormat:@"Joined network.\nSSID:\t\t%@\nBSSID:\t%@",
-				[newValue objectForKey:@"SSID"],
-				bssid];
-			[delegate airportDisconnect:desc];
+			[delegate airportConnect:desc];
+			[desc release];
 		}
 	}
 	airportStatus = [newValue retain];
 }
 
-- (NSString *)getMediaForInterface:(NSString *)anInterface {
+- (NSString *) getMediaForInterface:(NSString *)anInterface {
 	// This is all made by looking through Darwin's src/network_cmds/ifconfig.tproj.
 	// There's no pretty way to get media stuff; I've stripped it down to the essentials
 	// for what I'm doing.
@@ -158,11 +157,10 @@ static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_
 	// And fill in the duplex settings.
 	for (desc = ifm_shared_option_descriptions; desc->ifmt_string; desc++) {
 		if (ifmr.ifm_active & desc->ifmt_word) {
-			if (options) {
+			if (options)
 				options = [NSString stringWithFormat:@"%@,%s", options, desc->ifmt_string];
-			} else {
+			else
 				options = [NSString stringWithCString:desc->ifmt_string];
-			}
 		}
 	}
 

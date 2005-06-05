@@ -10,18 +10,18 @@
 	bool					notificationsArePrimed;
 }
 
-- (id)initWithDelegate:(id)object;
+- (id) initWithDelegate:(id)object;
 
-- (void)ioKitSetUp;
-- (void)ioKitTearDown;
+- (void) ioKitSetUp;
+- (void) ioKitTearDown;
 
-- (void)registerForUSBNotifications;
-- (void)usbDeviceAdded: (io_iterator_t ) iterator;
-- (void)usbDeviceRemoved: (io_iterator_t ) iterator;
+- (void) registerForUSBNotifications;
+- (void) usbDeviceAdded: (io_iterator_t ) iterator;
+- (void) usbDeviceRemoved: (io_iterator_t ) iterator;
 
 @end
 
 @interface NSObject(USBNotifierDelegate)
-- (void)usbDidConnect:(NSString *)deviceName;
-- (void)usbDidDisconnect:(NSString *)deviceName;
+- (void) usbDidConnect:(NSString *)deviceName;
+- (void) usbDidDisconnect:(NSString *)deviceName;
 @end

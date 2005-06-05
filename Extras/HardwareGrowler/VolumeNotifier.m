@@ -3,14 +3,14 @@
 //  HardwareGrowler
 //
 //  Created by Diggory Laycock on 10/02/2005.
-//  Copyright 2005 __MyCompanyName__. All rights reserved.
+//  Copyright 2005 The Growl Project. All rights reserved.
 //
 
 #import "VolumeNotifier.h"
 
 @implementation VolumeNotifier
 
-- (id)initWithDelegate:(id)object {
+- (id) initWithDelegate:(id)object {
 	if ((self = [super init])) {
 		delegate = object;
 
@@ -30,7 +30,7 @@
 	return self;
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self
 																  name:nil
 																object:nil];
@@ -38,13 +38,13 @@
 	[super dealloc];
 }
 
-- (void)volumeDidMount:(NSNotification*) note {
+- (void) volumeDidMount:(NSNotification *)note {
 //	NSLog(@"mount.");
 
 	[delegate volumeDidMount:[[note userInfo] objectForKey:@"NSDevicePath"]];
 }
 
-- (void)volumeDidUnmount:(NSNotification*) note {
+- (void) volumeDidUnmount:(NSNotification *)note {
 //	NSLog(@"unmount.");
 
 	[delegate volumeDidUnmount:[[note userInfo] objectForKey:@"NSDevicePath"]];

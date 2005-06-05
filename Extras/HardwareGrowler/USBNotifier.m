@@ -73,9 +73,8 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 													  (void *) self,
 													  (io_iterator_t *) &addedIterator );
 
-	if (matchingResult) {
+	if (matchingResult)
 		NSLog(@"matching notification registration failed: %d" , matchingResult);
-	}
 
 	//	Prime the Notifications (And Deal with the existing devices)...
 	[self usbDeviceAdded:addedIterator];
@@ -97,11 +96,11 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 	// iterator returned from IOServiceAddMatchingNotification(), so
 	// we call our device removed method here...
 	//
-	if (kIOReturnSuccess != removeNoteResult) {
+	if (kIOReturnSuccess != removeNoteResult)
 		NSLog(@"Couldn't add device removal notification") ;
-	} else {
+	else
 		[self usbDeviceRemoved: removedIterator];
-	}
+
 	notificationsArePrimed = YES;
 }
 
@@ -109,24 +108,21 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 //	NSLog(@"USB Device Added Notification.");
 	io_object_t	thisObject;
 	while ((thisObject = IOIteratorNext(iterator))) {
-		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"] && !notificationsArePrimed) {
-		} else {
+		if (notificationsArePrimed || [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"]) {
 			kern_return_t	nameResult;
 			io_name_t		deviceNameChars;
 
 			//	This works with USB devices...
 			//	but apparently not firewire
-			nameResult = IORegistryEntryGetName(thisObject,
-												deviceNameChars);
+			nameResult = IORegistryEntryGetName(thisObject, deviceNameChars);
 
 			NSString *deviceName = [[NSString alloc] initWithCString:deviceNameChars];
-			if (!deviceName) {
+			if (!deviceName)
 				deviceName = @"Unnamed USB Device";
-			} else if ([deviceName isEqualToString:@"OHCI Root Hub Simulation"]) {
+			else if ([deviceName isEqualToString:@"OHCI Root Hub Simulation"])
 				deviceName = @"USB Bus";
-			} else if ([deviceName isEqualToString:@"EHCI Root Hub Simulation"]) {
+			else if ([deviceName isEqualToString:@"EHCI Root Hub Simulation"])
 				deviceName = @"USB 2.0 Bus";
-			}
 
 			// NSLog(@"USB Device Attached: %@" , deviceName);
 			[delegate usbDidConnect:deviceName];
@@ -149,9 +145,9 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iter) {
 		nameResult = IORegistryEntryGetName(thisObject,
 											deviceNameChars);
 		NSString *deviceName = [[NSString alloc] initWithCString:deviceNameChars];
-		if (!deviceName) {
+		if (!deviceName)
 			deviceName = @"Unnamed USB Device";
-		}
+
 		// NSLog(@"USB Device Detached: %@" , deviceName);
 		[delegate usbDidDisconnect:deviceName];
 		[deviceName release];

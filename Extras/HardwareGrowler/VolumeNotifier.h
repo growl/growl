@@ -3,7 +3,7 @@
 //  HardwareGrowler
 //
 //  Created by Diggory Laycock on 10/02/2005.
-//  Copyright 2005 __MyCompanyName__. All rights reserved.
+//  Copyright 2005 The Growl Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -12,6 +12,6 @@
 	id delegate;
 }
 
-- (id)initWithDelegate:(id)object;
+- (id) initWithDelegate:(id)object;
 
 @end

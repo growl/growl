@@ -9,20 +9,20 @@
 	bool					notificationsArePrimed;
 }
 
-- (id)initWithDelegate:(id)object;
+- (id) initWithDelegate:(id)object;
 
-- (void)ioKitSetUp;
-- (void)ioKitTearDown;
+- (void) ioKitSetUp;
+- (void) ioKitTearDown;
 
-- (void)registerForFireWireNotifications;
-- (void)fwDeviceAdded: (io_iterator_t ) iterator;
-- (void)fwDeviceRemoved: (io_iterator_t ) iterator;
+- (void) registerForFireWireNotifications;
+- (void) fwDeviceAdded: (io_iterator_t ) iterator;
+- (void) fwDeviceRemoved: (io_iterator_t ) iterator;
 
-- (NSString *)nameForFireWireObject: (io_object_t) thisObject;
+- (NSString *) nameForFireWireObject: (io_object_t) thisObject;
 
 @end
 
 @interface NSObject(FireWireNotifierDelegate)
-- (void)fwDidConnect:(NSString *)deviceName;
-- (void)fwDidDisconnect:(NSString *)deviceName;
+- (void) fwDidConnect:(NSString *)deviceName;
+- (void) fwDidDisconnect:(NSString *)deviceName;
 @end

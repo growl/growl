@@ -62,12 +62,11 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 													  (void *) self,
 													  (io_iterator_t *) &gFWAddedIter );
 
-	if (matchingResult) {
+	if (matchingResult)
 		NSLog(@"matching notification registration failed: %d" , matchingResult);
-	}
 
-		//	Prime the Notifications (And Deal with the existing devices)...
-		[self fwDeviceAdded: gFWAddedIter];
+	//	Prime the Notifications (And Deal with the existing devices)...
+	[self fwDeviceAdded: gFWAddedIter];
 
 	//	Register for removal notifications.
 	//	It seems we have to make a new dictionary...  reusing the old one didn't work.
@@ -87,32 +86,31 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 	// iterator returned from IOServiceAddMatchingNotification(), so
 	// we call our device removed method here...
 	//
-	if (kIOReturnSuccess != removeNoteResult) {
+	if (kIOReturnSuccess != removeNoteResult)
 		NSLog(@"Couldn't add device removal notification") ;
-	} else {
+	else
 		[self fwDeviceRemoved: removedIterator];
-	}
+
 	notificationsArePrimed = YES;
 }
 
 - (void) fwDeviceAdded: (io_iterator_t ) iterator {
 	//	NSLog(@"FireWire Device Added Notification.");
 	io_object_t	thisObject;
-	while ((thisObject = IOIteratorNext( iterator ))) {
-		if (![[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"] && !notificationsArePrimed) {
-		} else {
+	while ((thisObject = IOIteratorNext(iterator))) {
+		if (notificationsArePrimed || [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowExisting"]) {
 			NSString *deviceName = [self nameForFireWireObject:thisObject];
 			// NSLog(@"FireWire Device Attached: %@" , deviceName);
 			[delegate fwDidConnect:deviceName];
 		}
+		IOObjectRelease(thisObject);
 	}
-	IOObjectRelease(thisObject);
 }
 
 - (void) fwDeviceRemoved: (io_iterator_t ) iterator {
 //	NSLog(@"FireWire Device Removed Notification.");
 	io_object_t thisObject;
-	while ((thisObject = IOIteratorNext( iterator ))) {
+	while ((thisObject = IOIteratorNext(iterator))) {
 		NSString *deviceName = [self nameForFireWireObject: thisObject];
 		// NSLog(@"FireWire Device Removed: %@" , deviceName);
 		[delegate fwDidDisconnect:deviceName];
@@ -127,35 +125,31 @@ static void fwDeviceRemoved (void *refCon, io_iterator_t iter);
 	kern_return_t	nameResult;
 	io_name_t		deviceNameChars;
 
-	nameResult = IORegistryEntryGetName( thisObject,
-										 deviceNameChars );
+	nameResult = IORegistryEntryGetName(thisObject, deviceNameChars);
 	NSString	*tempDeviceName = [NSString stringWithCString: deviceNameChars];
-	if (tempDeviceName  && ![tempDeviceName isEqualToString:@"IOFireWireDevice"])  {
+	if (tempDeviceName  && ![tempDeviceName isEqualToString:@"IOFireWireDevice"])
 		return tempDeviceName;
-	}
 
 	tempDeviceName =
 		(NSString *)IORegistryEntrySearchCFProperty(thisObject,
 										kIOFireWirePlane,
-										(CFStringRef) @"FireWire Product Name",
+										CFSTR("FireWire Product Name"),
 										nil,
 										kIORegistryIterateRecursively);
 
-	if (tempDeviceName) {
+	if (tempDeviceName)
 		return tempDeviceName;
-	}
 
 	tempDeviceName =
 		(NSString *)IORegistryEntrySearchCFProperty(thisObject,
 										kIOFireWirePlane,
-										(CFStringRef) @"FireWire Vendor Name",
+										CFSTR("FireWire Vendor Name"),
 										nil,
 										kIORegistryIterateRecursively);
 
 
-	if (tempDeviceName)  {
+	if (tempDeviceName)
 		return tempDeviceName;
-	}
 
 	return @"Unnamed FireWire Device";
 }

@@ -19,28 +19,25 @@
 	SEL selector;
 }
 
-+ observer:(id)anObserver withSelector:(SEL)aSelector;
++ (id)observer:(id)anObserver withSelector:(SEL)aSelector;
 - (id)observer;
 - (SEL)selector;
 
 @end
 
 @implementation SLObserver
-+ observer:(id)anObserver withSelector:(SEL)aSelector
-{
++ (id) observer:(id)anObserver withSelector:(SEL)aSelector {
 	SLObserver *o = [[SLObserver alloc] init];
 	o->observer = anObserver;
 	o->selector = aSelector;
 	return [o autorelease];
 }
 
-- (id)observer
-{
+- (id)observer {
 	return observer;
 }
 
-- (SEL)selector
-{
+- (SEL)selector {
 	return selector;
 }
 
@@ -52,25 +49,22 @@ static void scCallback(SCDynamicStoreRef dynStore, CFArrayRef changedKeys, void 
 
 @implementation SCDynamicStore
 
-- (void)notificationOfChangedKeys:(NSArray*)changedKeys
-{
+- (void) notificationOfChangedKeys:(NSArray*)changedKeys {
 	NSEnumerator *keysE = [changedKeys objectEnumerator];
 	NSString *key = nil;
 
-	while ( (key = [keysE nextObject]) ) {
+	while ((key = [keysE nextObject])) {
 		NSEnumerator *observers = [[self->watchedKeysDict objectForKey:key] objectEnumerator];
 		SLObserver *o = nil;
 		NSDictionary *newValue = [(NSDictionary*) SCDynamicStoreCopyValue(dynStore, (CFStringRef) key) autorelease];
 
-		while ( (o = [observers nextObject]) ) {
-			[[o observer] performSelector:[o selector]
-							   withObject:newValue];
-		}
+		while ((o = [observers nextObject]))
+			[[o observer] performSelector:[o selector] withObject:newValue];
 	}
 }
 
 
-- (id)init {
+- (id) init {
 	self = [super init];
 	watchedKeysDict = [[NSMutableDictionary alloc] init];
 
@@ -90,23 +84,21 @@ static void scCallback(SCDynamicStoreRef dynStore, CFArrayRef changedKeys, void 
 	);
 
 	rlSrc = SCDynamicStoreCreateRunLoopSource(NULL, dynStore, 0);
-	CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], rlSrc, kCFRunLoopCommonModes);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopCommonModes);
 
 	return self;
 }
 
-- (NSDictionary*)valueForKey:(NSString*)aKey
-{
+- (NSDictionary *) valueForKey:(NSString*)aKey {
 	CFPropertyListRef dict = SCDynamicStoreCopyValue(dynStore, (CFStringRef) aKey);
 	return [(NSDictionary*) dict autorelease];
 }
 
-- (void)addObserver:(id)anObserver selector:(SEL)aSelector forKey:(NSString*)aKey
-{
+- (void) addObserver:(id)anObserver selector:(SEL)aSelector forKey:(NSString *)aKey {
 	NSMutableArray *observers = [self->watchedKeysDict objectForKey:aKey];
-	if (!observers) {
+	if (!observers)
 		observers = [NSMutableArray array];
-	}
+
 	[observers addObject:[SLObserver observer:anObserver withSelector:aSelector]];
 	[watchedKeysDict setObject:observers forKey:aKey];
 	SCDynamicStoreSetNotificationKeys(dynStore,
@@ -114,8 +106,8 @@ static void scCallback(SCDynamicStoreRef dynStore, CFArrayRef changedKeys, void 
 									  NULL);
 }
 
-- (void)dealloc {
-	CFRunLoopRemoveSource([[NSRunLoop currentRunLoop] getCFRunLoop], rlSrc, kCFRunLoopCommonModes);
+- (void) dealloc {
+	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopCommonModes);
 
 	CFRelease(rlSrc);
 	CFRelease(dynStore);

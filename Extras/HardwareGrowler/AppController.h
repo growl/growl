@@ -21,6 +21,6 @@
 	BOOL				sleeping;
 }
 
-- (IBAction)doSimpleHelp: (id)sender;
+- (IBAction) doSimpleHelp:(id)sender;
 
 @end

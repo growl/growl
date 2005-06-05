@@ -10,8 +10,8 @@
 
 @interface IOBluetoothDevice (MFIOBluetoothDeviceAdditions)
 
-- (NSString *)name;
-- (NSString *)address;
-- (NSString *)deviceClassMajorName;
+- (NSString *) name;
+- (NSString *) address;
+- (NSString *) deviceClassMajorName;
 
 @end

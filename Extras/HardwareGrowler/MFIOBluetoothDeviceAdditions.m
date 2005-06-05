@@ -11,15 +11,15 @@
 
 @implementation IOBluetoothDevice (MFIOBluetoothDeviceAdditions)
 
-- (NSString *)name {
+- (NSString *) name {
 	return [self getName];
 }
 
-- (NSString  *)address {
+- (NSString  *) address {
 	return IOBluetoothNSStringFromDeviceAddress([self getAddress]);
 }
 
-- (NSString *)deviceClassMajorName {
+- (NSString *) deviceClassMajorName {
 	BluetoothDeviceClassMajor classMajor;
 	classMajor = [self getDeviceClassMajor];
 

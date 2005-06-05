@@ -225,9 +225,8 @@
 - (void) airportConnect:(NSString *)description {
 	//NSLog(@"AirPort connect: %@", description);
 
-	if (sleeping) {
+	if (sleeping)
 		return;
-	}
 
 	[GrowlApplicationBridge notifyWithTitle:@"Airport connected"
 								description:description
@@ -241,9 +240,8 @@
 - (void) airportDisconnect:(NSString *)description {
 	//NSLog(@"AirPort disconnect: %@", description);
 
-	if (sleeping) {
+	if (sleeping)
 		return;
-	}
 
 	[GrowlApplicationBridge notifyWithTitle:@"Airport disconnected"
 								description:description
@@ -257,9 +255,8 @@
 - (void) linkUp:(NSString *)description {
 	//NSLog(@"Link up: %@", description);
 
-	if (sleeping) {
+	if (sleeping)
 		return;
-	}
 
 	[GrowlApplicationBridge notifyWithTitle:@"Ethernet activated"
 								description:description
@@ -273,9 +270,8 @@
 - (void) linkDown:(NSString *)description {
 	//NSLog(@"Link down: %@", description);
 
-	if (sleeping) {
+	if (sleeping)
 		return;
-	}
 
 	[GrowlApplicationBridge notifyWithTitle:@"Ethernet deactivated"
 								description:description
@@ -289,9 +285,8 @@
 - (void) ipAcquired:(NSString *)ip {
 	//NSLog(@"IP acquired: %@", ip);
 
-	if (sleeping) {
+	if (sleeping)
 		return;
-	}
 
 	[GrowlApplicationBridge notifyWithTitle:@"IP address acquired"
 								description:[NSString stringWithFormat:@"New primary IP: %@", ip]
@@ -305,9 +300,8 @@
 - (void) ipReleased {
 	//NSLog(@"IP released");
 
-	if (sleeping) {
+	if (sleeping)
 		return;
-	}
 
 	[GrowlApplicationBridge notifyWithTitle:@"IP address released"
 								description:@"No IP address now"
