@@ -92,10 +92,11 @@ int main(void) {
 }
 
 - (void) dealloc {
-//	[statusItem release];
-	[clawImage release];
-	[clawHighlightImage release];
-	[squelchImage release];
+//	[[NSStatusBar systemStatusBar] removeStatusItem:statusItem];
+//	[statusItem            release];
+	[clawImage             release];
+	[clawHighlightImage    release];
+	[squelchImage          release];
 	[squelchHighlightImage release];
 	[super dealloc];
 }

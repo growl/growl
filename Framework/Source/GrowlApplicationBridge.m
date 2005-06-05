@@ -628,15 +628,13 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 					//Obtain a truly unique file name
 					regDictFileName = [[[[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] stringByAppendingString:@"-"] stringByAppendingString:[[NSProcessInfo processInfo] globallyUniqueString]] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
-					if ([regDictFileName length] > NAME_MAX) {
+					if ([regDictFileName length] > NAME_MAX)
 						regDictFileName = [[regDictFileName substringToIndex:(NAME_MAX - [GROWL_REG_DICT_EXTENSION length])] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
-					}
 
 					//make sure it's within pathname length constraints
 					regDictPath = [NSTemporaryDirectory() stringByAppendingPathComponent:regDictFileName];
-					if ([regDictPath length] > PATH_MAX) {
+					if ([regDictPath length] > PATH_MAX)
 						regDictPath = [[regDictPath substringToIndex:(PATH_MAX - [GROWL_REG_DICT_EXTENSION length])] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
-					}
 
 					//Write the registration dictionary out to the temporary directory
 					NSData *plistData;
@@ -645,7 +643,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 																		   format:NSPropertyListBinaryFormat_v1_0
 																 errorDescription:&error];
 					if (plistData) {
-						success = [plistData writeToFile:regDictPath atomically:NO];
+						if (![plistData writeToFile:regDictPath atomically:NO])
+							NSLog(@"GrowlApplicationBridge: Error writing registration dictionary at %@", regDictPath);
 					} else {
 						NSLog(@"GrowlApplicationBridge: Error writing registration dictionary at %@: %@", regDictPath, error);
 						NSLog(@"GrowlApplicationBridge: Registration dictionary follows\n%@", regDict);
@@ -653,9 +652,8 @@ static BOOL		registerWhenGrowlIsReady = NO;
 					}
 
 					regStatus = FSPathMakeRef((UInt8 *)[regDictPath fileSystemRepresentation], &regItemRef, NULL);
-					if (regStatus == noErr) {
+					if (regStatus == noErr)
 						passRegDict = YES;
-					}
 				}
 
 				spec.appRef = &appRef;

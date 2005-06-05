@@ -474,9 +474,8 @@
  *	@method growlIsReady
  *	@abstract Informs the delegate that Growl has launched.
  *	@discussion Informs the delegate that Growl (specifically, the
- *	 GrowlHelperApp) was launched successfully or was already running.  The
- *	 application can take actions with the knowledge that Growl is installed and
- *	 functional.
+ *	 GrowlHelperApp) was launched successfully. The application can take actions
+ *   with the knowledge that Growl is installed and functional.
  */
 - (void) growlIsReady;
 
