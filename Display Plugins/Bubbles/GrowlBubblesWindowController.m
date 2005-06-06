@@ -27,7 +27,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL) sticky identifier:(NSString *)ident {
 	GrowlBubblesWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
-	if (oldController && ![oldController isFadingOut]) {
+	if (oldController) {
 		// coalescing
 		GrowlBubblesWindowView *view = (GrowlBubblesWindowView *)[[oldController window] contentView];
 		[view setPriority:priority];
@@ -47,7 +47,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
 	// A window with a frame of NSZeroRect is off-screen and doesn't respect opacity even
 	// if moved on screen later. -Evan
-	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, 270.0f, 65.0f )
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 65.0f)
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												  backing:NSBackingStoreBuffered
 													defer:NO];
@@ -119,21 +119,18 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (void) startFadeOut {
 	GrowlBubblesWindowView *view = (GrowlBubblesWindowView *)[[self window] contentView];
-	if ([view mouseOver])
+	if ([view mouseOver]) {
 		[view setCloseOnMouseExit:YES];
-	else
-		[super startFadeOut];
-}
-
-- (void) stopFadeOut {
-	if (identifier) {
-		[notificationsByIdentifier removeObjectForKey:identifier];
-		if (![notificationsByIdentifier count]) {
-			[notificationsByIdentifier release];
-			notificationsByIdentifier = nil;
+	} else {
+		if (identifier) {
+			[notificationsByIdentifier removeObjectForKey:identifier];
+			if (![notificationsByIdentifier count]) {
+				[notificationsByIdentifier release];
+				notificationsByIdentifier = nil;
+			}
 		}
+		[super startFadeOut];
 	}
-	[super stopFadeOut];
 }
 
 - (void) dealloc {

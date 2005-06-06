@@ -274,11 +274,10 @@
 
 	[textColor release];
 	READ_GROWL_PREF_VALUE(textKey, GrowlSmokePrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass]) {
+	if (data && [data isKindOfClass:NSDataClass])
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
-	} else {
+	else
 		textColor = [NSColor whiteColor];
-	}
 	[textColor retain];
 	[data release];
 
@@ -288,12 +287,10 @@
 - (void) sizeToFit {
 	NSRect rect = [self frame];
 	rect.size.height = GrowlSmokePadding + GrowlSmokePadding + [self titleHeight] + [self descriptionHeight];
-	if (haveTitle && haveText) {
+	if (haveTitle && haveText)
 		rect.size.height += GrowlSmokeTitleTextPadding;
-	}
-	if (rect.size.height < GrowlSmokeMinTextHeight) {
+	if (rect.size.height < GrowlSmokeMinTextHeight)
 		rect.size.height = GrowlSmokeMinTextHeight;
-	}
 	[self setFrame:rect];
 
 	// resize the window so that it contains the tracking rect
@@ -301,9 +298,8 @@
 	windowRect.size = rect.size;
 	[[self window] setFrame:windowRect display:NO];
 
-	if (trackingRectTag) {
+	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
-	}
 	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
 }
 
@@ -319,11 +315,10 @@
 	int rowCount = textHeight / lineHeight;
 	BOOL limitPref = GrowlSmokeLimitPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
-	if (limitPref) {
+	if (limitPref)
 		return MIN(rowCount, GrowlSmokeMaxLines);
-	} else {
+	else
 		return rowCount;
-	}
 }
 
 #pragma mark -
@@ -373,17 +368,15 @@
 	[self setNeedsDisplay:YES];
 
 	// abuse the target object
-	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)]) {
+	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)])
 		[target performSelector:@selector(startFadeOut)];
-	}
 }
 
 - (void) mouseDown:(NSEvent *) event {
 #pragma unused(event)
 	mouseOver = NO;
-	if (target && action && [target respondsToSelector:action]) {
+	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
-	}
 }
 
 @end

@@ -81,7 +81,8 @@
 		[delegate willFadeIn:self];
 	[self retain]; // release after fade out
 	[self showWindow:nil];
-	[self _stopTimer];
+	if (!isFadingIn)
+		[self _stopTimer];
 	if (doFadeIn && !didFadeIn) {
 		if (!isFadingIn) {
 			isFadingIn = YES;

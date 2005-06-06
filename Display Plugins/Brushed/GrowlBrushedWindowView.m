@@ -267,12 +267,10 @@
 - (void) sizeToFit {
 	NSRect rect = [self frame];
 	rect.size.height = GrowlBrushedPadding + GrowlBrushedPadding + [self titleHeight] + [self descriptionHeight];
-	if (haveTitle && haveText) {
+	if (haveTitle && haveText)
 		rect.size.height += GrowlBrushedTitleTextPadding;
-	}
-	if (rect.size.height < GrowlBrushedMinTextHeight) {
+	if (rect.size.height < GrowlBrushedMinTextHeight)
 		rect.size.height = GrowlBrushedMinTextHeight;
-	}
 	[self setFrame:rect];
 
 	// resize the window so that it contains the tracking rect
@@ -298,11 +296,10 @@
 	int rowCount = textHeight / lineHeight;
 	BOOL limitPref = GrowlBrushedLimitPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
-	if (limitPref) {
+	if (limitPref)
 		return MIN(rowCount, GrowlBrushedMaxLines);
-	} else {
+	else
 		return rowCount;
-	}
 }
 
 #pragma mark -
@@ -352,17 +349,15 @@
 	[self setNeedsDisplay:YES];
 
 	// abuse the target object
-	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)]) {
+	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)])
 		[target performSelector:@selector(startFadeOut)];
-	}
 }
 
 - (void) mouseDown:(NSEvent *) event {
 #pragma unused(event)
 	mouseOver = NO;
-	if (target && action && [target respondsToSelector:action]) {
+	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
-	}
 }
 
 @end

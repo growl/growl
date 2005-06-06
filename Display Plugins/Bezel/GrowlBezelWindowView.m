@@ -22,7 +22,7 @@
 	return self;
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[icon            release];
 	[title           release];
 	[text            release];
@@ -41,9 +41,8 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 	float a_coeff;
 	float c;
 
-	if (a > 1.0f) {
+	if (a > 1.0f)
 		a = 2.0f - a;
-	}
 	a_coeff = 1.0f - a;
 	c = a * colors[1] + a_coeff * colors[0];
 	outData[0] = c;
@@ -103,18 +102,18 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 													   &callbacks );
 			CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 			CGPoint src, dst;
-			src.x = NSMinX( bounds );
-			src.y = NSMinY( bounds );
-			dst.x = NSMaxX( bounds );
+			src.x = NSMinX(bounds);
+			src.y = NSMinY(bounds);
+			dst.x = NSMaxX(bounds);
 			dst.y = src.y;
 			CGShadingRef shading = CGShadingCreateAxial( cspace, src, dst,
 														 function, false, false );
 
-			CGContextDrawShading( [graphicsContext graphicsPort], shading );
+			CGContextDrawShading([graphicsContext graphicsPort], shading);
 
-			CGShadingRelease( shading );
-			CGColorSpaceRelease( cspace );
-			CGFunctionRelease( function );
+			CGShadingRelease(shading);
+			CGColorSpaceRelease(cspace);
+			CGFunctionRelease(function);
 
 			[graphicsContext restoreGraphicsState];
 			break;
@@ -134,15 +133,15 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 										 &glass_callbacks );
 			cspace = CGColorSpaceCreateDeviceRGB();
 			src.x = bounds.origin.x + bounds.size.width * 0.75f;
-			src.y = NSMinY( bounds ) - 80.0f;
+			src.y = NSMinY(bounds) - 80.0f;
 			shading = CGShadingCreateRadial( cspace, src, 200.0f,
 											 src, 400.0f, function,
 											 false, false );
 
-			CGContextDrawShading( [graphicsContext graphicsPort], shading );
+			CGContextDrawShading([graphicsContext graphicsPort], shading);
 
-			CGShadingRelease( shading );
-			CGFunctionRelease( function );
+			CGShadingRelease(shading);
+			CGFunctionRelease(function);
 
 			struct CGFunctionCallbacks shine_callbacks = { 0U, GlassShineInterpolate, NULL };
 			function = CGFunctionCreate( /*info*/ NULL,
@@ -228,9 +227,8 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 
 	while (titleSize.width > (NSWidth(titleRect) - (titleSize.height * 0.5f))) {
 		minFontSize = ( titleFontSize < 12.9f );
-		if (minFontSize) {
+		if (minFontSize)
 			break;
-		}
 		titleFontSize -= 1.9f;
 		accumulator += 0.5f;
 		[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
@@ -240,9 +238,8 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	titleRect.origin.y += ceilf(accumulator);
 	titleRect.size.height = titleSize.height;
 
-	if (minFontSize) {
+	if (minFontSize)
 		[parrafo setLineBreakMode:NSLineBreakByTruncatingTail];
-	}
 	[title drawInRect:titleRect withAttributes:titleAttributes];
 	[titleAttributes release];
 
@@ -260,9 +257,8 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	float lineHeight = [layoutManager defaultLineHeightForFont:textFont];
 	int rowCount = height / lineHeight;
 
-	if (rowCount > maxRows) {
+	if (rowCount > maxRows)
 		[textAttributes setObject:[NSFont systemFontOfSize:12.0f] forKey:NSFontAttributeName];
-	}
 	[text drawInRect:textRect withAttributes:textAttributes];
 	[textAttributes release];
 
@@ -385,9 +381,8 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 
 - (void) mouseUp:(NSEvent *) event {
 #pragma unused(event)
-	if (target && action && [target respondsToSelector:action]) {
+	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
-	}
 }
 
 @end

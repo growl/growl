@@ -24,7 +24,7 @@
 }
 
 // hide mouse events from our subviews
-- (NSView *)hitTest:(NSPoint)aPoint {
+- (NSView *) hitTest:(NSPoint)aPoint {
 	return [super hitTest:aPoint] ? self : nil;
 }
 

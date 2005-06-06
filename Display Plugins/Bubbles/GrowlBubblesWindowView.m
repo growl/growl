@@ -320,11 +320,10 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &limitPref);
 		containerSize.width = TEXT_AREA_WIDTH;
-		if (limitPref) {
+		if (limitPref)
 			containerSize.height = lineHeight * MAX_TEXT_ROWS;
-		} else {
+		else
 			containerSize.height = FLT_MAX;
-		}
 		textStorage = [[NSTextStorage alloc] init];
   		textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
 		[textLayoutManager addTextContainer:textContainer];	// retains textContainer
@@ -354,12 +353,10 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	NSRect rect = [self frame];
 	rect.size.width = PANEL_WIDTH_PX;
 	rect.size.height = PANEL_VSPACE_PX + PANEL_VSPACE_PX + [self titleHeight] + [self descriptionHeight];
-	if (haveTitle && haveText) {
+	if (haveTitle && haveText)
 		rect.size.height += TITLE_VSPACE_PX;
-	}
-	if (rect.size.height < MIN_TEXT_HEIGHT) {
+	if (rect.size.height < MIN_TEXT_HEIGHT)
 		rect.size.height = MIN_TEXT_HEIGHT;
-	}
 	[self setFrame:rect];
 
 	// resize the window so that it contains the tracking rect
@@ -367,9 +364,8 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	windowRect.size = rect.size;
 	[[self window] setFrame:windowRect display:NO];
 
-	if (trackingRectTag) {
+	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
-	}
 	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
 }
 
@@ -386,11 +382,10 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	int rowCount = textHeight / lineHeight;
 	BOOL limitPref = YES;
 	READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &limitPref);
-	if (limitPref) {
+	if (limitPref)
 		return MIN(rowCount, MAX_TEXT_ROWS);
-	} else {
+	else
 		return rowCount;
-	}
 }
 
 #pragma mark -
@@ -440,16 +435,14 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	[self setNeedsDisplay:YES];
 
 	// abuse the target object
-	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)]) {
+	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)])
 		[target performSelector:@selector(startFadeOut)];
-	}
 }
 
 - (void) mouseDown:(NSEvent *) event {
 #pragma unused(event)
 	mouseOver = NO;
-	if (target && action && [target respondsToSelector:action]) {
+	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
-	}
 }
 @end

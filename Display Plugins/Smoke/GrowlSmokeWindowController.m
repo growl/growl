@@ -29,14 +29,6 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (void) didFadeOut:(FadingWindowController *)sender {
 #pragma unused(sender)
-	if (identifier) {
-		[notificationsByIdentifier removeObjectForKey:identifier];
-		if (![notificationsByIdentifier count]) {
-			[notificationsByIdentifier release];
-			notificationsByIdentifier = nil;
-		}
-	}
-
 	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->uid);
 
@@ -114,7 +106,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned)theDepth identifier:(NSString *)ident {
 	GrowlSmokeWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
-	if (oldController && ![oldController isFadingOut]) {
+	if (oldController) {
 		// coalescing
 		GrowlSmokeWindowView *view = (GrowlSmokeWindowView *)[[oldController window] contentView];
 		[view setPriority:priority];
@@ -182,9 +174,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 		// the visibility time for this notification should be the minimum display time plus
 		// some multiple of gAdditionalLinesDisplayTime, not to exceed gMaxDisplayTime
 		int rowCount = [view descriptionRowCount];
-		if (rowCount <= 2) {
+		if (rowCount <= 2)
 			rowCount = 0;
-		}
 		float duration = GrowlSmokeDurationPrefDefault;
 		READ_GROWL_PREF_FLOAT(GrowlSmokeDurationPref, GrowlSmokePrefDomain, &duration);
 		/*BOOL limitPref = YES;
@@ -221,10 +212,18 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (void) startFadeOut {
 	GrowlSmokeWindowView *view = (GrowlSmokeWindowView *)[[self window] contentView];
-	if ([view mouseOver])
+	if ([view mouseOver]) {
 		[view setCloseOnMouseExit:YES];
-	else
+	} else {
+		if (identifier) {
+			[notificationsByIdentifier removeObjectForKey:identifier];
+			if (![notificationsByIdentifier count]) {
+				[notificationsByIdentifier release];
+				notificationsByIdentifier = nil;
+			}
+		}
 		[super startFadeOut];
+	}
 }
 
 - (void) dealloc {
@@ -245,7 +244,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 #pragma mark -
 
-- (unsigned)depth {
+- (unsigned) depth {
 	return depth;
 }
 

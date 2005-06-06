@@ -29,14 +29,6 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (void) didFadeOut:(FadingWindowController *)sender {
 #pragma unused(sender)
-	if (identifier) {
-		[notificationsByIdentifier removeObjectForKey:identifier];
-		if (![notificationsByIdentifier count]) {
-			[notificationsByIdentifier release];
-			notificationsByIdentifier = nil;
-		}
-	}
-
 	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->uid);
 
@@ -114,7 +106,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned)theDepth identifier:(NSString *)ident {
 	GrowlBrushedWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
-	if (oldController && ![oldController isFadingOut]) {
+	if (oldController) {
 		// coalescing
 		GrowlBrushedWindowView *view = (GrowlBrushedWindowView *)[[oldController window] contentView];
 		[view setPriority:priority];
@@ -226,10 +218,18 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (void) startFadeOut {
 	GrowlBrushedWindowView *view = (GrowlBrushedWindowView *)[[self window] contentView];
-	if ([view mouseOver])
+	if ([view mouseOver]) {
 		[view setCloseOnMouseExit:YES];
-	else
+	} else {
+		if (identifier) {
+			[notificationsByIdentifier removeObjectForKey:identifier];
+			if (![notificationsByIdentifier count]) {
+				[notificationsByIdentifier release];
+				notificationsByIdentifier = nil;
+			}
+		}
 		[super startFadeOut];
+	}
 }
 
 - (void) dealloc {
