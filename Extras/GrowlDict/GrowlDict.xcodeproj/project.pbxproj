@@ -53,7 +53,7 @@
 
 /* Begin PBXFileReference section */
 		079E1FE107D9AFC20031EA17 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		93D2180C07A20E2100A4BD79 /* Growl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Growl.framework; path = ../../build/Growl.framework; sourceTree = SOURCE_ROOT; };
+		93D2180C07A20E2100A4BD79 /* Growl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Growl.framework; path = ../../build/Deployment/Growl.framework; sourceTree = SOURCE_ROOT; };
 		D3E21C3A0675FCBB005772E5 /* Info-GrowlDict.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Info-GrowlDict.plist"; sourceTree = "<group>"; };
 		D3E21C5C0675FDC1005772E5 /* ServiceAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceAction.h; sourceTree = "<group>"; };
 		D3E21C5D0675FDC1005772E5 /* ServiceAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceAction.m; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = ../../build;
+				FRAMEWORK_SEARCH_PATHS = ../../build/Development;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.h;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -323,7 +323,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = ../../build;
+				FRAMEWORK_SEARCH_PATHS = ../../build/Deployment;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.h;
@@ -363,7 +363,7 @@
 		95E4A3770855C18B006B3F45 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = ../../build;
+				FRAMEWORK_SEARCH_PATHS = ../../build/Default;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.h;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;

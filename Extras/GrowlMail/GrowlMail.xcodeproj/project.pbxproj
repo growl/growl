@@ -11,7 +11,6 @@
 		4B7E5EA806B6AC1700137892 /* GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7E5EA306B6AC1700137892 /* GrowlMail.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		95014E0D07C91BC400A7A86C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 950148C707C9110B00A7A86C /* Growl.framework */; };
 		950A02480737CDD60075BDE4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 950A02470737CDD60075BDE4 /* Localizable.strings */; };
 		953EE18E082CC7420040C586 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 953EE18D082CC7420040C586 /* AddressBook.framework */; };
 		9550E7A5077A207E00436674 /* GrowlMail.png in Resources */ = {isa = PBXBuildFile; fileRef = 9550E79F077A207E00436674 /* GrowlMail.png */; };
@@ -74,7 +73,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				95014E0D07C91BC400A7A86C /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,7 +89,6 @@
 		4BF8974D06B6A7EF00C30E88 /* MailHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailHeaders.h; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* GrowlMail.mailbundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlMail.mailbundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
-		950148C707C9110B00A7A86C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Growl.framework; sourceTree = SOURCE_ROOT; };
 		950A023B0737CBDB0075BDE4 /* English */ = {isa = PBXFileReference; explicitFileType = text.xml; fileEncoding = 4; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		950A02490737CDDA0075BDE4 /* German */ = {isa = PBXFileReference; explicitFileType = text.xml; fileEncoding = 4; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		950DAC0E0737AF630096F066 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
@@ -108,6 +105,7 @@
 		955348660732FA2500D12875 /* NSPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSPreferences.h; sourceTree = "<group>"; };
 		9556E69907F4354600D42745 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9594E8DF07A18C5600EC79BF /* GrowlMail_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlMail_Prefix.pch; sourceTree = "<group>"; };
+		95AC1E9B08562FFB006241FD /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Deployment/Growl.framework; sourceTree = SOURCE_ROOT; };
 		95B00A55084689C4004A8623 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
 		95B00A56084689D0004A8623 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95BF5458072F9D6300834811 /* GrowlMessageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMessageStore.h; sourceTree = "<group>"; };
@@ -194,7 +192,7 @@
 		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				950148C707C9110B00A7A86C /* Growl.framework */,
+				95AC1E9B08562FFB006241FD /* Growl.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
 			);
@@ -375,7 +373,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = ../../build;
+				FRAMEWORK_SEARCH_PATHS = ../../build/Development;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -425,7 +423,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = ../../build;
+				FRAMEWORK_SEARCH_PATHS = ../../build/Deployment;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -473,7 +471,13 @@
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = ../../build;
+				FRAMEWORK_SEARCH_PATHS = (
+					../../build/Deployment,
+					"-",
+					Tiger,
+					"-",
+					G4,
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -520,7 +524,7 @@
 		95E4A3620855C16F006B3F45 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = ../../build;
+				FRAMEWORK_SEARCH_PATHS = ../../build/Default;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
