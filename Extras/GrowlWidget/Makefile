@@ -1,9 +1,5 @@
-DEFAULT_BUILDSTYLE=Deployment
-
 PREFIX?=
 DESTDIR=${PREFIX}/Library/Widgets/Growl.wdgt
-
-BUILDSTYLE?=$(DEFAULT_BUILDSTYLE)
 
 all:
 	make -C GrowlWidgetPlugin all

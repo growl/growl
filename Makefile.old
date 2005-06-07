@@ -7,10 +7,10 @@ BUILD_DIR=build
 GROWL_HELPER_APP=$(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)/Contents/Resources/GrowlHelperApp.app
 HEADERDOC_DIR=Docs/HeaderDoc
 
-DEFAULT_BUILDCONFIGURATION=Deployment
-#DEFAULT_BUILDCONFIGURATION=Development
+DEFAULT_BUILDSTYLE=Deployment
+#DEFAULT_BUILDSTYLE=Development
 
-BUILDCONFIGURATION?=$(DEFAULT_BUILDCONFIGURATION)
+BUILDSTYLE?=$(DEFAULT_BUILDSTYLE)
 
 CP=ditto --rsrc
 RM=rm
@@ -18,21 +18,21 @@ RM=rm
 .PHONY : all growl growlhelperapp growlapplicationbridge growlapplicationbridge-withinstaller frameworks clean install
 
 all: frameworks
-	xcodebuild -alltargets -configuration $(BUILDCONFIGURATION) build
+	xcodebuild -alltargets -buildstyle $(BUILDSTYLE) build
 
 growl:
-	xcodebuild -target Growl -configuration $(BUILDCONFIGURATION) build
+	xcodebuild -target Growl -buildstyle $(BUILDSTYLE) build
 
 growlhelperapp:
-	xcodebuild -target GrowlHelperApp -configuration $(BUILDCONFIGURATION) build
+	xcodebuild -target GrowlHelperApp -buildstyle $(BUILDSTYLE) build
 
 frameworks: growlapplicationbridge growlapplicationbridge-withinstaller
 
 growlapplicationbridge:
-	xcodebuild -target Growl.framework -configuration $(BUILDCONFIGURATION) build
+	xcodebuild -target Growl.framework -buildstyle $(BUILDSTYLE) build
 
 growlapplicationbridge-withinstaller:
-	xcodebuild -target Growl-WithInstaller.framework -configuration $(BUILDCONFIGURATION) build
+	xcodebuild -target Growl-WithInstaller.framework -buildstyle $(BUILDSTYLE) build
 
 clean:
 	xcodebuild -alltargets clean

@@ -14,7 +14,7 @@ CP = /usr/bin/ditto -v --rsrc
 
 # The build style
 # Possible values are Development and Deployment
-BUILDCONFIGURATION?=Deployment
+BUILDSTYLE?=Deployment
 
 .PHONY: all $(name) clean install uninstall
 
@@ -27,7 +27,7 @@ startmail = $(if $(should_restart_mail),open -a Mail)
 all: $(name)
 
 $(name):
-	xcodebuild -configuration $(BUILDCONFIGURATION) build "SYMROOT=$(builddir)" "OBJROOT=$(builddir)"
+	xcodebuild -buildstyle $(BUILDSTYLE) build "SYMROOT=$(builddir)" "OBJROOT=$(builddir)"
 
 install: $(name)
 	$(PRE_INSTALL)

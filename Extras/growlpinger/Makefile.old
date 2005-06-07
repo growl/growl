@@ -1,11 +1,11 @@
 DESTDIR =
 
-DEFAULT_BUILDCONFIGURATION=Deployment
+DEFAULT_BUILDSTYLE=Deployment
 
-BUILDCONFIGURATION?=$(DEFAULT_BUILDCONFIGURATION)
+BUILDSTYLE?=$(DEFAULT_BUILDSTYLE)
 
 all:
-	xcodebuild -alltargets -configuration $(BUILDCONFIGURATION) build
+	xcodebuild -alltargets -buildstyle $(BUILDSTYLE) build
 
 clean:
 	xcodebuild -alltargets clean

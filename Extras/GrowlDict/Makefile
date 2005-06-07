@@ -1,9 +1,9 @@
-DEFAULT_BUILDSTYLE=Deployment
+DEFAULT_BUILDCONFIGURATION=Deployment
 
-BUILDSTYLE?=$(DEFAULT_BUILDSTYLE)
+BUILDCONFIGURATION?=$(DEFAULT_BUILDCONFIGURATION)
 
 all:
-	xcodebuild -alltargets -buildstyle $(BUILDSTYLE) build
+	xcodebuild -alltargets -configuration $(BUILDCONFIGURATION) build
 
 clean:
 	xcodebuild -alltargets clean

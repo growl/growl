@@ -1,2 +1,2 @@
 all:
-	xcodebuild -alltargets -buildstyle Deployment build
+	xcodebuild -alltargets -configuration Deployment build
