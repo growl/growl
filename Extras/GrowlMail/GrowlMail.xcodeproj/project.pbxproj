@@ -1,0 +1,613 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4B2E729606B5776B00386BF2 /* Message.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B2E729506B5776B00386BF2 /* Message.framework */; };
+		4B7E5EA806B6AC1700137892 /* GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7E5EA306B6AC1700137892 /* GrowlMail.m */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		95014E0D07C91BC400A7A86C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 950148C707C9110B00A7A86C /* Growl.framework */; };
+		950A02480737CDD60075BDE4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 950A02470737CDD60075BDE4 /* Localizable.strings */; };
+		953EE18E082CC7420040C586 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 953EE18D082CC7420040C586 /* AddressBook.framework */; };
+		9550E7A5077A207E00436674 /* GrowlMail.png in Resources */ = {isa = PBXBuildFile; fileRef = 9550E79F077A207E00436674 /* GrowlMail.png */; };
+		9553469F0732BD4800D12875 /* GrowlMailPreferencesModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553469D0732BD4800D12875 /* GrowlMailPreferencesModule.m */; };
+		955347EC0732C14400D12875 /* GrowlMailPreferencesPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 955347EA0732C14400D12875 /* GrowlMailPreferencesPanel.nib */; };
+		955348600732F93600D12875 /* GrowlMailPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553485E0732F93600D12875 /* GrowlMailPreferences.m */; };
+		95BF545B072F9D6300834811 /* GrowlMessageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BF5459072F9D6300834811 /* GrowlMessageStore.m */; };
+		95BF5483072FB08000834811 /* Message+GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BF5481072FB08000834811 /* Message+GrowlMail.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		014CEA420018CDE011CA2923 /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		014CEA430018CDE011CA2923 /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		9564FAD707438EA100F1CCE5 /* Deployment - Tiger - G4 */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_MODEL_CPU = G4;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				ZERO_LINK = NO;
+			};
+			name = "Deployment - Tiger - G4";
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		07944BBB07C3C540002D0BAF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				95014E0D07C91BC400A7A86C /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		4B2E729506B5776B00386BF2 /* Message.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Message.framework; path = /System/Library/Frameworks/Message.framework; sourceTree = "<absolute>"; };
+		4B7E5EA206B6AC1700137892 /* GrowlMail.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlMail.h; sourceTree = "<group>"; };
+		4B7E5EA306B6AC1700137892 /* GrowlMail.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlMail.m; sourceTree = "<group>"; };
+		4BF8974D06B6A7EF00C30E88 /* MailHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailHeaders.h; sourceTree = "<group>"; };
+		8D5B49B6048680CD000E48DA /* GrowlMail.mailbundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlMail.mailbundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		950148C707C9110B00A7A86C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Growl.framework; sourceTree = SOURCE_ROOT; };
+		950A023B0737CBDB0075BDE4 /* English */ = {isa = PBXFileReference; explicitFileType = text.xml; fileEncoding = 4; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		950A02490737CDDA0075BDE4 /* German */ = {isa = PBXFileReference; explicitFileType = text.xml; fileEncoding = 4; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
+		950DAC0E0737AF630096F066 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
+		950DAC1A0737B0550096F066 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9528EFE607F5A60600061D90 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
+		953EE18D082CC7420040C586 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
+		9550E79F077A207E00436674 /* GrowlMail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GrowlMail.png; sourceTree = "<group>"; };
+		9553469C0732BD4800D12875 /* GrowlMailPreferencesModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMailPreferencesModule.h; sourceTree = "<group>"; };
+		9553469D0732BD4800D12875 /* GrowlMailPreferencesModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlMailPreferencesModule.m; sourceTree = "<group>"; };
+		955347DE0732BFE200D12875 /* NSPreferencesModule.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSPreferencesModule.h; sourceTree = "<group>"; };
+		955347EB0732C14400D12875 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
+		9553485D0732F93600D12875 /* GrowlMailPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMailPreferences.h; sourceTree = "<group>"; };
+		9553485E0732F93600D12875 /* GrowlMailPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlMailPreferences.m; sourceTree = "<group>"; };
+		955348660732FA2500D12875 /* NSPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSPreferences.h; sourceTree = "<group>"; };
+		9556E69907F4354600D42745 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9594E8DF07A18C5600EC79BF /* GrowlMail_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlMail_Prefix.pch; sourceTree = "<group>"; };
+		95B00A55084689C4004A8623 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
+		95B00A56084689D0004A8623 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
+		95BF5458072F9D6300834811 /* GrowlMessageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMessageStore.h; sourceTree = "<group>"; };
+		95BF5459072F9D6300834811 /* GrowlMessageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlMessageStore.m; sourceTree = "<group>"; };
+		95BF5480072FB08000834811 /* Message+GrowlMail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Message+GrowlMail.h"; sourceTree = "<group>"; };
+		95BF5481072FB08000834811 /* Message+GrowlMail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Message+GrowlMail.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				4B2E729606B5776B00386BF2 /* Message.framework in Frameworks */,
+				953EE18E082CC7420040C586 /* AddressBook.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* MailGrowl */ = {
+			isa = PBXGroup;
+			children = (
+				955347E10732BFEF00D12875 /* PrivateHeaders */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = MailGrowl;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9594E8DF07A18C5600EC79BF /* GrowlMail_Prefix.pch */,
+				9550E79F077A207E00436674 /* GrowlMail.png */,
+				950A02470737CDD60075BDE4 /* Localizable.strings */,
+				955347EA0732C14400D12875 /* GrowlMailPreferencesPanel.nib */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9553485D0732F93600D12875 /* GrowlMailPreferences.h */,
+				9553485E0732F93600D12875 /* GrowlMailPreferences.m */,
+				9553469C0732BD4800D12875 /* GrowlMailPreferencesModule.h */,
+				9553469D0732BD4800D12875 /* GrowlMailPreferencesModule.m */,
+				95BF5480072FB08000834811 /* Message+GrowlMail.h */,
+				95BF5481072FB08000834811 /* Message+GrowlMail.m */,
+				95BF5458072F9D6300834811 /* GrowlMessageStore.h */,
+				95BF5459072F9D6300834811 /* GrowlMessageStore.m */,
+				4B7E5EA206B6AC1700137892 /* GrowlMail.h */,
+				4B7E5EA306B6AC1700137892 /* GrowlMail.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				953EE18D082CC7420040C586 /* AddressBook.framework */,
+				4B2E729506B5776B00386BF2 /* Message.framework */,
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				950148C707C9110B00A7A86C /* Growl.framework */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* GrowlMail.mailbundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		955347E10732BFEF00D12875 /* PrivateHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				955348660732FA2500D12875 /* NSPreferences.h */,
+				4BF8974D06B6A7EF00C30E88 /* MailHeaders.h */,
+				955347DE0732BFE200D12875 /* NSPreferencesModule.h */,
+			);
+			name = PrivateHeaders;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* GrowlMail */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 95E4A35E0855C16F006B3F45 /* Build configuration list for PBXNativeTarget "GrowlMail" */;
+			buildPhases = (
+				8D5B49AF048680CD000E48DA /* Resources */,
+				07944BBB07C3C540002D0BAF /* CopyFiles */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = ../../build;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+					"-weak_framework",
+					Growl,
+				);
+				PRODUCT_NAME = GrowlMail;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+				);
+				WRAPPER_EXTENSION = mailbundle;
+			};
+			dependencies = (
+			);
+			name = GrowlMail;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = MailGrowl;
+			productReference = 8D5B49B6048680CD000E48DA /* GrowlMail.mailbundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 95E4A3630855C16F006B3F45 /* Build configuration list for PBXProject "GrowlMail" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA420018CDE011CA2923 /* Development */,
+				014CEA430018CDE011CA2923 /* Deployment */,
+				9564FAD707438EA100F1CCE5 /* Deployment - Tiger - G4 */,
+			);
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				zh_CN,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* MailGrowl */;
+			projectDirPath = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* GrowlMail */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				955347EC0732C14400D12875 /* GrowlMailPreferencesPanel.nib in Resources */,
+				950A02480737CDD60075BDE4 /* Localizable.strings in Resources */,
+				9550E7A5077A207E00436674 /* GrowlMail.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4B7E5EA806B6AC1700137892 /* GrowlMail.m in Sources */,
+				95BF545B072F9D6300834811 /* GrowlMessageStore.m in Sources */,
+				95BF5483072FB08000834811 /* Message+GrowlMail.m in Sources */,
+				9553469F0732BD4800D12875 /* GrowlMailPreferencesModule.m in Sources */,
+				955348600732F93600D12875 /* GrowlMailPreferences.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+				950DAC1A0737B0550096F066 /* German */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		950A02470737CDD60075BDE4 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				950A023B0737CBDB0075BDE4 /* English */,
+				950A02490737CDDA0075BDE4 /* German */,
+				9556E69907F4354600D42745 /* Japanese */,
+				95B00A56084689D0004A8623 /* zh_CN */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		955347EA0732C14400D12875 /* GrowlMailPreferencesPanel.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				955347EB0732C14400D12875 /* English */,
+				950DAC0E0737AF630096F066 /* German */,
+				9528EFE607F5A60600061D90 /* Japanese */,
+				95B00A55084689C4004A8623 /* zh_CN */,
+			);
+			name = GrowlMailPreferencesPanel.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		95E4A35F0855C16F006B3F45 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = ../../build;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+					"-weak_framework",
+					Growl,
+				);
+				PRODUCT_NAME = GrowlMail;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+				);
+				WRAPPER_EXTENSION = mailbundle;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		95E4A3600855C16F006B3F45 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				FRAMEWORK_SEARCH_PATHS = ../../build;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+					"-weak_framework",
+					Growl,
+				);
+				PRODUCT_NAME = GrowlMail;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+				);
+				WRAPPER_EXTENSION = mailbundle;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		95E4A3610855C16F006B3F45 /* Deployment - Tiger - G4 */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				FRAMEWORK_SEARCH_PATHS = ../../build;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_MODEL_CPU = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+					"-weak_framework",
+					Growl,
+				);
+				PRODUCT_NAME = GrowlMail;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+				);
+				WRAPPER_EXTENSION = mailbundle;
+				ZERO_LINK = NO;
+			};
+			name = "Deployment - Tiger - G4";
+		};
+		95E4A3620855C16F006B3F45 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = ../../build;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GrowlMail_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Mail/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+					"-weak_framework",
+					Growl,
+				);
+				PRODUCT_NAME = GrowlMail;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+				);
+				WRAPPER_EXTENSION = mailbundle;
+			};
+			name = Default;
+		};
+		95E4A3640855C16F006B3F45 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		95E4A3650855C16F006B3F45 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Deployment;
+		};
+		95E4A3660855C16F006B3F45 /* Deployment - Tiger - G4 */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = "Deployment - Tiger - G4";
+		};
+		95E4A3670855C16F006B3F45 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		95E4A35E0855C16F006B3F45 /* Build configuration list for PBXNativeTarget "GrowlMail" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				95E4A35F0855C16F006B3F45 /* Development */,
+				95E4A3600855C16F006B3F45 /* Deployment */,
+				95E4A3610855C16F006B3F45 /* Deployment - Tiger - G4 */,
+				95E4A3620855C16F006B3F45 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		95E4A3630855C16F006B3F45 /* Build configuration list for PBXProject "GrowlMail" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				95E4A3640855C16F006B3F45 /* Development */,
+				95E4A3650855C16F006B3F45 /* Deployment */,
+				95E4A3660855C16F006B3F45 /* Deployment - Tiger - G4 */,
+				95E4A3670855C16F006B3F45 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
