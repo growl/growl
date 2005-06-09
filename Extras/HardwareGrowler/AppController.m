@@ -21,6 +21,21 @@
 #define NotifierNetworkAirportConnectNotification		@"AirPort-Connect"
 #define NotifierNetworkAirportDisconnectNotification	@"AirPort-Disconnect"
 
+#define NotifierFireWireConnectionTitle			NSLocalizedString(@"FireWire Connection", @"")
+#define NotifierFireWireDisconnectionTitle		NSLocalizedString(@"FireWire Disconnection", @"")
+#define NotifierUSBConnectionTitle				NSLocalizedString(@"USB Connection", @"")
+#define NotifierUSBDisconnectionTitle			NSLocalizedString(@"USB Disconnection", @"")
+#define NotifierBluetoothConnectionTitle		NSLocalizedString(@"Bluetooth Connection", @"")
+#define NotifierBluetoothDisconnectionTitle		NSLocalizedString(@"Bluetooth Disconnection", @"")
+#define NotifierVolumeMountedTitle				NSLocalizedString(@"Volume Mounted", @"")
+#define NotifierVolumeUnmountedTitle			NSLocalizedString(@"Volume Unmounted", @"")
+#define NotifierNetworkAirportConnectTitle		NSLocalizedString(@"Airport connected", @"")
+#define NotifierNetworkAirportDisconnectTitle	NSLocalizedString(@"Airport disconnected", @"")
+#define NotifierNetworkLinkUpTitle				NSLocalizedString(@"Ethernet activated", @"")
+#define NotifierNetworkLinkDownTitle			NSLocalizedString(@"Ethernet deactivated", @"")
+#define NotifierNetworkIpAcquiredTitle			NSLocalizedString(@"IP address acquired", @"")
+#define NotifierNetworkIpReleasedTitle			NSLocalizedString(@"IP address released", @"")
+
 @implementation AppController
 
 - (void) awakeFromNib {
@@ -129,7 +144,7 @@
 - (void) fwDidConnect:(NSString *)deviceName {
 //	NSLog(@"FireWire Connect: %@", deviceName );
 
-	[GrowlApplicationBridge notifyWithTitle:@"FireWire Connection"
+	[GrowlApplicationBridge notifyWithTitle:NotifierFireWireConnectionTitle
 							description:deviceName
 							notificationName:NotifierFireWireConnectionNotification
 							iconData:firewireLogoData
@@ -142,9 +157,9 @@
 - (void) fwDidDisconnect:(NSString *)deviceName {
 //	NSLog(@"FireWire Disconnect: %@", deviceName );
 
-	[GrowlApplicationBridge notifyWithTitle:@"FireWire Disconnection"
+	[GrowlApplicationBridge notifyWithTitle:NotifierFireWireDisconnectionTitle
 							description:deviceName
-							notificationName:NotifierFireWireConnectionNotification
+							notificationName:NotifierFireWireDisconnectionNotification
 							iconData:firewireLogoData
 							priority:0
 							isSticky:NO
@@ -153,7 +168,7 @@
 
 - (void) usbDidConnect:(NSString *)deviceName {
 //	NSLog(@"USB Connect: %@", deviceName );
-	[GrowlApplicationBridge notifyWithTitle:@"USB Connection"
+	[GrowlApplicationBridge notifyWithTitle:NotifierUSBConnectionTitle
 							description:deviceName
 							notificationName:NotifierUSBConnectionNotification
 							iconData:usbLogoData
@@ -164,7 +179,7 @@
 
 - (void) usbDidDisconnect:(NSString *)deviceName {
 //	NSLog(@"USB Disconnect: %@", deviceName );
-	[GrowlApplicationBridge notifyWithTitle:@"USB Disconnection"
+	[GrowlApplicationBridge notifyWithTitle:NotifierUSBDisconnectionTitle
 							description:deviceName
 							notificationName:NotifierUSBDisconnectionNotification
 							iconData:usbLogoData
@@ -175,7 +190,7 @@
 
 - (void) bluetoothDidConnect:(NSString *)device {
 //	NSLog(@"Bluetooth Connect: %@", device );
-	[GrowlApplicationBridge notifyWithTitle:@"Bluetooth Connection"
+	[GrowlApplicationBridge notifyWithTitle:NotifierBluetoothConnectionTitle
 							description:device
 							notificationName:NotifierBluetoothConnectionNotification
 							iconData:bluetoothLogoData
@@ -186,7 +201,7 @@
 
 - (void) bluetoothDidDisconnect:(NSString *)device {
 //	NSLog(@"Bluetooth Disconnect: %@", device );
-	[GrowlApplicationBridge notifyWithTitle:@"Bluetooth Disconnection"
+	[GrowlApplicationBridge notifyWithTitle:NotifierBluetoothDisconnectionTitle
 							description:device
 							notificationName:NotifierBluetoothDisconnectionNotification
 							iconData:bluetoothLogoData
@@ -200,7 +215,7 @@
 
 	NSData *iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation];
 
-	[GrowlApplicationBridge notifyWithTitle:@"Volume Mounted"
+	[GrowlApplicationBridge notifyWithTitle:NotifierVolumeMountedTitle
 							description:[path lastPathComponent]
 							notificationName:NotifierVolumeMountedNotification
 							iconData:iconData
@@ -213,7 +228,7 @@
 //	NSLog(@"volume UnMount: %@", path );
 
 //	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation];
-	[GrowlApplicationBridge notifyWithTitle:@"Volume Unmounted"
+	[GrowlApplicationBridge notifyWithTitle:NotifierVolumeUnmountedTitle
 							description:[path lastPathComponent]
 							notificationName:NotifierVolumeUnmountedNotification
 							iconData:ejectLogoData
@@ -228,7 +243,7 @@
 	if (sleeping)
 		return;
 
-	[GrowlApplicationBridge notifyWithTitle:@"Airport connected"
+	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkAirportConnectTitle
 								description:description
 						   notificationName:NotifierNetworkAirportConnectNotification
 								   iconData:airportIconData
@@ -243,7 +258,7 @@
 	if (sleeping)
 		return;
 
-	[GrowlApplicationBridge notifyWithTitle:@"Airport disconnected"
+	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkAirportDisconnectTitle
 								description:description
 						   notificationName:NotifierNetworkAirportDisconnectNotification
 								   iconData:airportIconData
@@ -258,7 +273,7 @@
 	if (sleeping)
 		return;
 
-	[GrowlApplicationBridge notifyWithTitle:@"Ethernet activated"
+	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkLinkUpTitle
 								description:description
 						   notificationName:NotifierNetworkLinkUpNotification
 								   iconData:ipIconData
@@ -273,7 +288,7 @@
 	if (sleeping)
 		return;
 
-	[GrowlApplicationBridge notifyWithTitle:@"Ethernet deactivated"
+	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkLinkDownTitle
 								description:description
 						   notificationName:NotifierNetworkLinkDownNotification
 								   iconData:ipIconData
@@ -288,7 +303,7 @@
 	if (sleeping)
 		return;
 
-	[GrowlApplicationBridge notifyWithTitle:@"IP address acquired"
+	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkIpAcquiredTitle
 								description:[NSString stringWithFormat:@"New primary IP: %@", ip]
 						   notificationName:NotifierNetworkIpAcquiredNotification
 								   iconData:ipIconData
@@ -303,7 +318,7 @@
 	if (sleeping)
 		return;
 
-	[GrowlApplicationBridge notifyWithTitle:@"IP address released"
+	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkIpReleasedTitle
 								description:@"No IP address now"
 						   notificationName:NotifierNetworkIpReleasedNotification
 								   iconData:ipIconData

@@ -17,6 +17,7 @@
 		958AB93807C69DE000F56B45 /* NetworkNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 958AB93607C69DE000F56B45 /* NetworkNotifier.m */; };
 		958AB97507C6A20100F56B45 /* SCDynamicStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 958AB97307C6A20100F56B45 /* SCDynamicStore.m */; };
 		958AB9DE07C6A7FD00F56B45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */; };
+		95AC163C0858A3BF008213B8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 95AC163A0858A3BF008213B8 /* Localizable.strings */; };
 		DD1E113F07C7558B005BD5FC /* hwGrowlerIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */; };
 		DD1E135C07C923FD005BD5FC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DD1E135B07C923FD005BD5FC /* Credits.rtf */; };
 		DD54997107BA5E420010BE54 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD54996F07BA5E420010BE54 /* AppController.m */; };
@@ -108,6 +109,8 @@
 		958AB97207C6A20100F56B45 /* SCDynamicStore.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SCDynamicStore.h; sourceTree = "<group>"; };
 		958AB97307C6A20100F56B45 /* SCDynamicStore.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SCDynamicStore.m; sourceTree = "<group>"; };
 		958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
+		95AC163B0858A3BF008213B8 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		95AC16450858A3ED008213B8 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95B00A8C08468A62004A8623 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hwGrowlerIcon.icns; sourceTree = "<group>"; };
 		DD1E135B07C923FD005BD5FC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
@@ -225,6 +228,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				95AC163A0858A3BF008213B8 /* Localizable.strings */,
 				950626460840CB8200C01CD2 /* BluetoothLogo.png */,
 				DDF9B81007BC20630007B5B7 /* readme.txt */,
 				DD1E135B07C923FD005BD5FC /* Credits.rtf */,
@@ -340,6 +344,7 @@
 				DD1E113F07C7558B005BD5FC /* hwGrowlerIcon.icns in Resources */,
 				DD1E135C07C923FD005BD5FC /* Credits.rtf in Resources */,
 				950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */,
+				95AC163C0858A3BF008213B8 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +386,15 @@
 				95B00A8C08468A62004A8623 /* zh_CN */,
 			);
 			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		95AC163A0858A3BF008213B8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				95AC163B0858A3BF008213B8 /* English */,
+				95AC16450858A3ED008213B8 /* German */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
