@@ -25,8 +25,7 @@
 @implementation GrowlApplicationTicket
 
 + (NSDictionary *) allSavedTickets {
-//	NSDate *start, *end; //TEMP
-//	start = [NSDate date]; //TEMP
+//	CFAbsoluteTime start = CFAbsoluteTimeGetCurrent(); //TEMP
 
 	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, /*expandTilde*/ YES);
 	NSEnumerator *libraryDirEnum = [libraryDirs objectEnumerator];
@@ -42,8 +41,7 @@
 		[GrowlApplicationTicket loadTicketsFromDirectory:growlSupportPath intoDictionary:result clobbering:NO];
 	}
 
-//	end = [NSDate date]; //TEMP
-//	NSLog(@"Got all saved tickets in %f seconds", [end timeIntervalSinceDate:start]); //TEMP
+//	NSLog(@"Got all saved tickets in %f seconds", CFAbsoluteTimeGetCurrent() - start); //TEMP
 
 	return result;
 }

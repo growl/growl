@@ -278,9 +278,8 @@
 	windowRect.size = rect.size;
 	[[self window] setFrame:windowRect display:NO];
 
-	if (trackingRectTag) {
+	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
-	}
 	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
 }
 
@@ -323,6 +322,12 @@
 }
 
 #pragma mark -
+
+- (BOOL) shouldDelayWindowOrderingForEvent:(NSEvent *)theEvent {
+#pragma unused(theEvent)
+	[NSApp preventWindowOrdering];
+	return YES;
+}
 
 - (BOOL) mouseOver {
 	return mouseOver;

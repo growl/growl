@@ -19,6 +19,22 @@
 static unsigned webkitWindowDepth = 0U;
 static NSMutableDictionary *notificationsByIdentifier;
 
+@interface TrackingPanel : NSPanel {
+}
+@end
+
+@implementation TrackingPanel
+- (BOOL) canBecomeKeyWindow {
+	return YES;
+}
+
+- (void) sendEvent:(NSEvent *)theEvent {
+	if ([theEvent type] == NSMouseMoved)
+		[[[self contentView] hitTest:[theEvent locationInWindow]] mouseMoved:theEvent];
+	[super sendEvent:theEvent];
+}
+@end
+
 @interface NSString(TigerCompatibility)
 - (id) initWithContentsOfFile:(NSString *)path encoding:(NSStringEncoding)enc error:(NSError **)error;
 @end
@@ -50,7 +66,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, prefDomain, &screenNumber);
 
-	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 1.0f)
+	NSPanel *panel = [[TrackingPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 1.0f)
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												  backing:NSBackingStoreBuffered
 													defer:NO];
@@ -90,7 +106,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	if ([view respondsToSelector:@selector(setDrawsBackground:)])
 		[view setDrawsBackground:NO];
 	[panel setContentView:view];
-
+	
 	[self setTitle:title text:text icon:icon priority:priority forView:view];
 
 	panelFrame = [view frame];

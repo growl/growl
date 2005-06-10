@@ -23,9 +23,15 @@
 	[super dealloc];
 }
 
-// hide mouse events from our subviews
+// forward mouseMoved events to subviews but catch all other events here
 - (NSView *) hitTest:(NSPoint)aPoint {
-	return [super hitTest:aPoint] ? self : nil;
+	if ([[[self window] currentEvent] type] == NSMouseMoved)
+		return [super hitTest:aPoint];
+
+	if ([[self superview] mouse:aPoint inRect:[self frame]])
+		return self;
+
+	return nil;
 }
 
 #pragma mark -
@@ -63,6 +69,12 @@
 
 #pragma mark -
 
+- (BOOL) shouldDelayWindowOrderingForEvent:(NSEvent *)theEvent {
+#pragma unused(theEvent)
+	[NSApp preventWindowOrdering];
+	return YES;
+}
+
 - (BOOL) mouseOver {
 	return mouseOver;
 }
@@ -78,12 +90,18 @@
 
 - (void) mouseEntered:(NSEvent *)theEvent {
 #pragma unused(theEvent)
+	// TODO: find a way to receive NSMouseMoved events without activating the app
+	if (![NSApp isActive])
+		[NSApp activateIgnoringOtherApps:YES];
+	[[self window] setAcceptsMouseMovedEvents:YES];
+	[[self window] makeKeyWindow];
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
 #pragma unused(theEvent)
+	[[self window] setAcceptsMouseMovedEvents:NO];
 	mouseOver = NO;
 	[self setNeedsDisplay:YES];
 
@@ -102,13 +120,21 @@
 	return 0U; //WebDragSourceActionNone;
 }
 
-- (void) mouseDown:(NSEvent *) event {
+- (void) mouseDown:(NSEvent *)event {
 #pragma unused(event)
 	mouseOver = NO;
 	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
 }
+/*
+- (void) mouseMoved:(NSEvent *)event {
+	NSLog(@"mouseMoved in GWBWV");
+	//NSView *subview = [[[self mainFrame] frameView] hitTest:[event locationInWindow]];
+	//[subview mouseMoved:event];
 
+	//[[[self mainFrame] frameView] mouseMoved:event];
+}
+*/
 - (NSArray *) webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems {
 #pragma unused(sender, element, defaultMenuItems)
 	// disable context menu

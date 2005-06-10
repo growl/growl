@@ -6,6 +6,11 @@ body {
 	min-height: 51px;
 }
 
+body:hover {
+	border: 2px solid black;
+	padding: 5px 5px 5px 5px;
+}
+
 #background {
 	background-color:#E0E0E0;
 }

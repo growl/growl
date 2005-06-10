@@ -343,6 +343,12 @@
 
 #pragma mark -
 
+- (BOOL) shouldDelayWindowOrderingForEvent:(NSEvent *)theEvent {
+#pragma unused(theEvent)
+	[NSApp preventWindowOrdering];
+	return YES;
+}
+
 - (BOOL) mouseOver {
 	return mouseOver;
 }
