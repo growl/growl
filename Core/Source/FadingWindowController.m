@@ -54,7 +54,7 @@
 
 - (void) _fadeIn:(NSTimer *)inTimer {
 #pragma unused(inTimer)
-	double progress = [[NSDate date] timeIntervalSinceDate:animationStart] / animationDuration;
+	double progress = (CFAbsoluteTimeGetCurrent() - animationStart) / animationDuration;
 	if (progress > 1.0)
 		progress = 1.0;
 	[self fadeInAnimation:progress];
@@ -68,7 +68,7 @@
 
 - (void) _fadeOut:(NSTimer *)inTimer {
 #pragma unused(inTimer)
-	double progress = [[NSDate date] timeIntervalSinceDate:animationStart] / animationDuration;
+	double progress = (CFAbsoluteTimeGetCurrent() - animationStart) / animationDuration;
 	if (progress > 1.0)
 		progress = 1.0;
 	[self fadeOutAnimation:progress];
@@ -86,7 +86,7 @@
 	if (doFadeIn && !didFadeIn) {
 		if (!isFadingIn) {
 			isFadingIn = YES;
-			animationStart = [[NSDate date] retain];
+			animationStart = CFAbsoluteTimeGetCurrent();
 			animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
 															   target:self
 															 selector:@selector(_fadeIn:)
@@ -103,8 +103,6 @@
 - (void) stopFadeIn {
 	isFadingIn = NO;
 	didFadeIn = YES;
-	[animationStart release];
-	animationStart = nil;
 	[self _stopTimer];
 	if (delegate && [delegate respondsToSelector:@selector(didFadeIn:)])
 		[delegate didFadeIn:self];
@@ -121,7 +119,7 @@
 	if (doFadeOut) {
 		if (!isFadingOut) {
 			isFadingOut = YES;
-			animationStart = [[NSDate date] retain];
+			animationStart = CFAbsoluteTimeGetCurrent();
 			animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
 															   target:self
 															 selector:@selector(_fadeOut:)
@@ -137,8 +135,6 @@
 
 - (void) stopFadeOut {
 	isFadingOut = NO;
-	[animationStart release];
-	animationStart = nil;
 	[self _stopTimer];
 	if (delegate && [delegate respondsToSelector:@selector(didFadeOut:)])
 		[delegate didFadeOut:self];

@@ -22,7 +22,7 @@
 	BOOL			screenshotMode;
 	unsigned		screenNumber;
 	NSTimeInterval	animationDuration;
-	NSDate			*animationStart;
+	CFAbsoluteTime	animationStart;
 
 	SEL				action;
 	id				target;
