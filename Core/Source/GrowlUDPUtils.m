@@ -260,11 +260,10 @@
 	packetData.Data = (unsigned char *)nr;
 	packetData.Length = length;
 	passwordData.Data = (uint8 *)password;
-	if (password) {
+	if (password)
 		passwordData.Length = strlen(password);
-	} else {
+	else
 		passwordData.Length = 0U;
-	}
 	[GrowlUDPUtils addChecksumToPacket:&packetData authMethod:authMethod password:&passwordData];
 
 	*packetSize = length;
@@ -345,9 +344,8 @@ static const CSSM_DATA ivCommon = {16U, iv};
 		packet->Data[0] = GROWL_PROTOCOL_VERSION;	// adjust version byte
 	}
 	packet->Length = bytesCrypted + 1;
-	if (remData.Data) {
+	if (remData.Data)
 		free(remData.Data);
-	}
 
 	CSSM_DeleteContext(ccHandle);
 	CSSM_FreeKey(cspHandle,

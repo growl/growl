@@ -154,9 +154,15 @@ struct GrowlNetworkNotification {
 	 * @field sticky the sticky flag.
 	 */
 	struct GrowlNetworkNotificationFlags {
+#ifdef __BIG_ENDIAN__
 		unsigned reserved: 12;
 		signed   priority: 3;
 		unsigned sticky:   1;
+#else
+		unsigned sticky:   1;
+		signed   priority: 3;
+		unsigned reserved: 12;
+#endif
 	} ATTRIBUTE_PACKED flags; //size = 16 (12 + 3 + 1)
 
 	/*	In addition to being unsigned, the notification name length
