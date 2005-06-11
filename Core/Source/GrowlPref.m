@@ -59,6 +59,7 @@
 	}
 
 	if ((self = [super initWithBundle:bundle])) {
+		pid = [[NSProcessInfo processInfo] processIdentifier];
 		loadedPrefPanes = [[NSMutableArray alloc] init];
 
 		NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
@@ -364,8 +365,8 @@
 
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
-	NSNumber *pid = [[notification userInfo] objectForKey:@"pid"];
-	if (!pid || [pid intValue] != [[NSProcessInfo processInfo] processIdentifier])
+	NSNumber *pidValue = [[notification userInfo] objectForKey:@"pid"];
+	if (!pidValue || [pidValue intValue] != pid)
 		[self reloadPreferences];
 }
 
@@ -676,12 +677,12 @@
 	NSString *path = [ticket path];
 
 	if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
-		NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
+		NSNumber *pidValue = [[NSNumber alloc] initWithInt:pid];
 		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 			[ticket applicationName], @"TicketName",
-			pid,                      @"pid",
+			pidValue,                 @"pid",
 			nil];
-		[pid release];
+		[pidValue release];
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
 																	   object:@"GrowlTicketDeleted"
 																	 userInfo:userInfo];

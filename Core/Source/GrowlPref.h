@@ -14,6 +14,8 @@
 @class GrowlApplicationTicket, TicketsArrayController;
 
 @interface GrowlPref : NSPreferencePane {
+	int								pid;
+
 	NSMutableArray					*images;
 	NSMutableArray					*tickets;
 	NSArray							*plugins;

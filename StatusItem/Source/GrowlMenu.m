@@ -44,6 +44,7 @@ int main(void) {
 
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
 #pragma unused(aNotification)
+	pid = [[NSProcessInfo processInfo] processIdentifier];
 	preferences = [GrowlPreferences preferences];
 
 	NSMenu *m = [self createMenu];
@@ -68,8 +69,8 @@ int main(void) {
 	[self setGrowlMenuEnabled:YES];
 
 	NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
-	[nc addObserver:NSApp
-		   selector:@selector(terminate:)
+	[nc addObserver:self
+		   selector:@selector(shutdown:)
 			   name:@"GrowlMenuShutdown"
 			 object:nil];
 	[nc addObserver:self
@@ -86,8 +87,6 @@ int main(void) {
 
 - (void) applicationWillTerminate:(NSNotification *)aNotification {
 #pragma unused(aNotification)
-	[self setGrowlMenuEnabled:NO];
-
 	[self release];
 }
 
@@ -101,31 +100,36 @@ int main(void) {
 	[super dealloc];
 }
 
+- (void) shutdown:(id)sender {
+	[self setGrowlMenuEnabled:NO];
+	[NSApp terminate:sender];
+}
+
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
-	NSNumber *pid = [[notification userInfo] objectForKey:@"pid"];
-	if (!pid || [pid intValue] != [[NSProcessInfo processInfo] processIdentifier])
+	NSNumber *pidValue = [[notification userInfo] objectForKey:@"pid"];
+	if (!pidValue || [pidValue intValue] != pid)
 		[self setImage];
 }
 
-- (IBAction) openGrowlPreferences:(id)sender {
+- (void) openGrowlPreferences:(id)sender {
 #pragma unused(sender)
 	NSString *prefPane = [[GrowlPathUtil growlPrefPaneBundle] bundlePath];
 	[[NSWorkspace sharedWorkspace] openFile:prefPane];
 }
 
-- (IBAction) defaultDisplay:(id)sender {
+- (void) defaultDisplay:(id)sender {
 	[preferences setObject:[sender title] forKey:GrowlDisplayPluginKey];
 }
 
-- (IBAction) stopGrowl:(id)sender {
+- (void) stopGrowl:(id)sender {
 #pragma unused(sender)
 	//If Growl is running, we should stop it.
 	if ([preferences isGrowlRunning])
 		[preferences setGrowlRunning:NO noMatterWhat:NO];
 }
 
-- (IBAction) startGrowl:(id)sender {
+- (void) startGrowl:(id)sender {
 #pragma unused(sender)
 	if (![preferences isGrowlRunning]) {
 		//If Growl isn't running, we should start it.
@@ -138,7 +142,7 @@ int main(void) {
 	}
 }
 
-- (IBAction) squelchMode:(id)sender {
+- (void) squelchMode:(id)sender {
 #pragma unused(sender)
 	BOOL squelchMode = ![preferences boolForKey:GrowlSquelchModeKey];
 	[preferences setBool:squelchMode forKey:GrowlSquelchModeKey];
@@ -178,9 +182,9 @@ int main(void) {
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setToolTip:kStopGrowlTooltip];
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(terminate:) keyEquivalent:@""];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(shutdown:) keyEquivalent:@""];
 	[tempMenuItem setTag:5];
-	[tempMenuItem setTarget:NSApp];
+	[tempMenuItem setTarget:self];
 	[tempMenuItem setToolTip:kStopGrowlMenuTooltip];
 
 	[m addItem:[NSMenuItem separatorItem]];

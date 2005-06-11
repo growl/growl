@@ -10,6 +10,7 @@
 @class GrowlPreferences, NSStatusItem;
 
 @interface GrowlMenu : NSObject {
+	int					pid;
 	GrowlPreferences	*preferences;
 	NSStatusItem		*statusItem;
 
@@ -19,11 +20,13 @@
 	NSImage				*squelchHighlightImage;
 }
 
-- (IBAction) openGrowlPreferences:(id)sender;
-- (IBAction) defaultDisplay:(id)sender;
-- (IBAction) stopGrowl:(id)sender;
-- (IBAction) startGrowl:(id)sender;
-- (IBAction) squelchMode:(id)sender;
+- (void) shutdown:(id)sender;
+- (void) reloadPrefs:(NSNotification *)notification;
+- (void) openGrowlPreferences:(id)sender;
+- (void) defaultDisplay:(id)sender;
+- (void) stopGrowl:(id)sender;
+- (void) startGrowl:(id)sender;
+- (void) squelchMode:(id)sender;
 - (NSMenu *) createMenu;
 - (void) setImage;
 - (BOOL) validateMenuItem:(NSMenuItem *)item;
