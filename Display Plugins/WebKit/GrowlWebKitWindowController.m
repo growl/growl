@@ -82,6 +82,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
 	[panel useOptimizedDrawing:YES];
+	[panel disableCursorRects];
 	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
 	//[panel setDelegate:self];
 
