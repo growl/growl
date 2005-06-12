@@ -162,7 +162,12 @@ static GrowlPreferences *sharedPreferences;
 	 *	}
 	 */
 	NSMutableDictionary *loginWindowPrefs = [[defs persistentDomainForName:@"loginwindow"] mutableCopy];
+	if (!loginWindowPrefs)
+		loginWindowPrefs = [[NSMutableDictionary alloc] initWithCapacity:1U];
+
 	NSMutableArray      *loginItems = [[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy];
+	if (!loginItems)
+		loginItems = [[NSMutableArray alloc] initWithCapacity:1U];
 
 	/*remove any previous mentions of this GHA in the start-at-login array.
 	 *note that other GHAs are ignored.
