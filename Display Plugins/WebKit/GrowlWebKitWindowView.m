@@ -126,15 +126,7 @@
 	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
 }
-/*
-- (void) mouseMoved:(NSEvent *)event {
-	NSLog(@"mouseMoved in GWBWV");
-	//NSView *subview = [[[self mainFrame] frameView] hitTest:[event locationInWindow]];
-	//[subview mouseMoved:event];
 
-	//[[[self mainFrame] frameView] mouseMoved:event];
-}
-*/
 - (NSArray *) webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems {
 #pragma unused(sender, element, defaultMenuItems)
 	// disable context menu
