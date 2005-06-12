@@ -603,8 +603,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95E4A30A0855C145006B3F45 /* Products */;
-					ProjectRef = 0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */;
+					ProductGroup = 95E4A31B0855C14E006B3F45 /* Products */;
+					ProjectRef = 0A8B5F0F070B140C00593A33 /* GrowlTunes-Synergy.xcodeproj */;
 				},
 				{
 					ProductGroup = 95E4A3030855C13D006B3F45 /* Products */;
@@ -615,8 +615,8 @@
 					ProjectRef = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
 				},
 				{
-					ProductGroup = 95E4A31B0855C14E006B3F45 /* Products */;
-					ProjectRef = 0A8B5F0F070B140C00593A33 /* GrowlTunes-Synergy.xcodeproj */;
+					ProductGroup = 95E4A30A0855C145006B3F45 /* Products */;
+					ProjectRef = 0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */;
 				},
 			);
 			targets = (
@@ -778,7 +778,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "GROWL_FRAMEWORK=\"$SRCROOT/../../build/$CONFIGURATION/Growl.framework\"\nif [ -d \"$GROWL_FRAMEWORK\" ]; then\n\tln -fs \"$GROWL_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/Growl.framework\"\nfi\n\nAMAZON_PLUGIN=\"$SRCROOT/Plugins/Examples/Amazon/build/$CONFIGURATION/GrowlTunes-Amazon.plugin\"\nif [ -d \"$AMAZON_PLUGIN\" ]; then\n\tln -fs \"$AMAZON_PLUGIN\" \"$BUILT_PRODUCTS_DIR/GrowlTunes-Amazon.plugin\"\nfi\n\nARTCHIVE_PLUGIN=\"$SRCROOT/Plugins/Examples/ARTchive/build/$CONFIGURATION/GrowlTunes-ARTchive.plugin\"\nif [ -d \"$ARTCHIVE_PLUGIN\" ]; then\n\tln -fs \"$ARTCHIVE_PLUGIN\" \"$BUILT_PRODUCTS_DIR/GrowlTunes-ARTchive.plugin\"\nfi\n\nSYNERGY_PLUGIN=\"$SRCROOT/Plugins/Examples/Synergy/build/$CONFIGURATION/GrowlTunes-Synergy.plugin\"\nif [ -d \"$SYNERGY_PLUGIN\" ]; then\n\tln -fs \"$SYNERGY_PLUGIN\" \"$BUILT_PRODUCTS_DIR/GrowlTunes-Synergy.plugin\"\nfi\n";
+			shellScript = "mkdir -p \"$BUILT_PRODUCTS_DIR\"\nGROWL_FRAMEWORK=\"$SRCROOT/../../build/$CONFIGURATION/Growl.framework\"\nif [ -d \"$GROWL_FRAMEWORK\" ]; then\n\tln -fs \"$GROWL_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/Growl.framework\"\nfi\n\nAMAZON_PLUGIN=\"$SRCROOT/Plugins/Examples/Amazon/build/$CONFIGURATION/GrowlTunes-Amazon.plugin\"\nif [ -d \"$AMAZON_PLUGIN\" ]; then\n\tln -fs \"$AMAZON_PLUGIN\" \"$BUILT_PRODUCTS_DIR/GrowlTunes-Amazon.plugin\"\nfi\n\nARTCHIVE_PLUGIN=\"$SRCROOT/Plugins/Examples/ARTchive/build/$CONFIGURATION/GrowlTunes-ARTchive.plugin\"\nif [ -d \"$ARTCHIVE_PLUGIN\" ]; then\n\tln -fs \"$ARTCHIVE_PLUGIN\" \"$BUILT_PRODUCTS_DIR/GrowlTunes-ARTchive.plugin\"\nfi\n\nSYNERGY_PLUGIN=\"$SRCROOT/Plugins/Examples/Synergy/build/$CONFIGURATION/GrowlTunes-Synergy.plugin\"\nif [ -d \"$SYNERGY_PLUGIN\" ]; then\n\tln -fs \"$SYNERGY_PLUGIN\" \"$BUILT_PRODUCTS_DIR/GrowlTunes-Synergy.plugin\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
