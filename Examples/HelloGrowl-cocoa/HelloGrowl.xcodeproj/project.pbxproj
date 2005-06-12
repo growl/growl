@@ -67,7 +67,7 @@
 		8D1107320486CEB800E47090 /* HelloGrowl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloGrowl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDDDE901081291CA0074195D /* HelloGrowlController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HelloGrowlController.h; sourceTree = "<group>"; };
 		DDDDE902081291CA0074195D /* HelloGrowlController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HelloGrowlController.m; sourceTree = "<group>"; };
-		DDDDE93C08129C3D0074195D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Growl.framework; sourceTree = SOURCE_ROOT; };
+		DDDDE93C08129C3D0074195D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Deployment/Growl.framework; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

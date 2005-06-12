@@ -21,7 +21,6 @@
 		074A202C067B01220078098C /* Beep-Carbon.h in Headers */ = {isa = PBXBuildFile; fileRef = 074A2025067B01220078098C /* Beep-Carbon.h */; };
 		074A202E067B013A0078098C /* Beep-Carbon.nib in Resources */ = {isa = PBXBuildFile; fileRef = 074A202D067B013A0078098C /* Beep-Carbon.nib */; };
 		07901C1307B8E1F300FD6DF2 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07901C1207B8E1F300FD6DF2 /* Growl.framework */; };
-		07901E5C07B8E20D00FD6DF2 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07990D8D07B7FFCA00E79C50 /* Growl.framework */; };
 		8D0C4E8B0486CD37000505A6 /* Beep-Carbon_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF6D0370B57F00C91783 /* Beep-Carbon_Prefix.pch */; };
 		8D0C4E8D0486CD37000505A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0867D6AAFE840B52C02AAC07 /* InfoPlist.strings */; };
 		8D0C4E920486CD37000505A6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
@@ -63,7 +62,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				07901E5C07B8E20D00FD6DF2 /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,8 +81,7 @@
 		074A2024067B01220078098C /* Beep-Carbon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "Beep-Carbon.c"; sourceTree = "<group>"; };
 		074A2025067B01220078098C /* Beep-Carbon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Beep-Carbon.h"; sourceTree = "<group>"; };
 		074A202D067B013A0078098C /* Beep-Carbon.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = "Beep-Carbon.nib"; sourceTree = "<group>"; };
-		07901C1207B8E1F300FD6DF2 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = "build/Beep-Carbon.app/Contents/Frameworks/Growl.framework"; sourceTree = "<group>"; };
-		07990D8D07B7FFCA00E79C50 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Growl.framework; sourceTree = SOURCE_ROOT; };
+		07901C1207B8E1F300FD6DF2 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Deployment/Growl.framework; sourceTree = "<group>"; };
 		0867D6ABFE840B52C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		32DBCF6D0370B57F00C91783 /* Beep-Carbon_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Beep-Carbon_Prefix.pch"; sourceTree = "<group>"; };
@@ -124,14 +121,6 @@
 				07901C1207B8E1F300FD6DF2 /* Growl.framework */,
 			);
 			name = "Linked frameworks";
-			sourceTree = "<group>";
-		};
-		07901E3E07B8E20000FD6DF2 /* Copied frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				07990D8D07B7FFCA00E79C50 /* Growl.framework */,
-			);
-			name = "Copied frameworks";
 			sourceTree = "<group>";
 		};
 		195DF8CFFE9D517E11CA2CBB /* Products */ = {
@@ -183,7 +172,6 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				07901E3E07B8E20000FD6DF2 /* Copied frameworks */,
 				07901CD107B8E1F700FD6DF2 /* Linked frameworks */,
 			);
 			name = "External Frameworks and Libraries";

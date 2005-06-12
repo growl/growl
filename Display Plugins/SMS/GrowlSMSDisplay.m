@@ -232,7 +232,7 @@
 #pragma mark NSXMLParser Delegate methods:
 
 - (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
-
+#pragma unused(parser,namespaceURI,qName,attributeDict)
 	if ([elementName isEqualToString:@"clickAPI"]) {
 //		NSLog(@"Found the clickAPI element in the response.  That means we got the HTTP part right.");
 	} else if ([elementName isEqualToString:@"xmlErrorResp"]) {
@@ -255,6 +255,7 @@
 
 
 - (void) parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+#pragma unused(parser)
 	if (!xmlHoldingStringValue)
 		xmlHoldingStringValue = [[NSMutableString alloc] initWithCapacity:50];
 	[xmlHoldingStringValue appendString:string];
@@ -262,7 +263,7 @@
 
 
 - (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-
+#pragma unused(parser,namespaceURI,qName)
 	if (   [elementName isEqualToString:@"clickAPI"]
 		|| [elementName isEqualToString:@"xmlErrorResp"]) {
 		// nothing to do
@@ -313,6 +314,7 @@
 	The delegate receives this message if connection has cancelled the authentication challenge specified by challenge.
  */
 - (void) connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+#pragma unused(connection,challenge)
 	NSLog(@"didCancelAuthenticationChallenge:");
 	[self connectionDidRespond];
 }
@@ -323,7 +325,8 @@
 	Once the delegate receives this message, it will receive no further messages for connection.
  */
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	NSLog(@"Connection to SMS Web API failed: (%@)" ,[error localizedDescription]);
+#pragma unused(connection)
+	NSLog(@"Connection to SMS Web API failed: (%@)", [error localizedDescription]);
 
 	[self connectionDidRespond];
 }
@@ -342,7 +345,7 @@
  See Also: Ð cancelAuthenticationChallenge:, Ð continueWithoutCredentialForAuthenticationChallenge:, Ð useCredential:forAuthenticationChallenge:
  */
 - (void) connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-	NSLog(@"didReceiveAuthenticationChallenge: %@" ,challenge);
+	NSLog(@"didReceiveAuthenticationChallenge: %@", challenge);
 	//	It doesn't need web auth currently - so we're not going to handle this case.
 	[connection cancel];
 	//	[self connectionDidRespond];
@@ -354,6 +357,7 @@
 	This method provides the only way for an asynchronous delegate to retrieve the loaded data. It is the responsibility of the delegate to retain or copy this data as it is delivered.
  */
 - (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+#pragma unused(connection)
 	//	NSLog(@"didReceiveData:  %@", data);
 	[self setResponseData: data];
 	[self handleResponse];
@@ -372,6 +376,7 @@
  */
 
 - (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+#pragma unused(connection,response)
 //	NSLog(@"didReceiveResponse:  URL(%@) expectedDataLength:(%d)", [response URL], [response expectedContentLength]  );
 
 //	NSLog(@" MIME:(%@)" , [response MIMEType]);
@@ -380,6 +385,7 @@
 
 
 - (NSCachedURLResponse *) connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
+#pragma unused(connection,cachedResponse)
 	//	No Caching please...  Since we're using HTTPS none should occur - but no harm in being cautious.
 	return nil;
 }
@@ -402,6 +408,7 @@
  */
 
 - (NSURLRequest *) connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse {
+#pragma unused(request,redirectResponse)
 	NSLog(@"redirectResponse:");
 	[connection cancel];
 	return nil;
@@ -410,6 +417,7 @@
 
 // This delegate method is called when connection has finished loading successfully. The delegate will receive no further messages for connection.
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
+#pragma unused(connection)
 	// NSLog(@"connectionDidFinishLoading:");
 	[self connectionDidRespond];
 }

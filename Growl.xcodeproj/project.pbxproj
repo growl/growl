@@ -164,20 +164,6 @@
 		955437E807E048CB005534FA /* BrushedPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 95FC329D07E03B3400BD8674 /* BrushedPrefs.nib */; };
 		95543EE107E04BA9005534FA /* Brushed.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95FC347907E0458E00BD8674 /* Brushed.growlView */; };
 		955497B5081125BD0062E27B /* Plain.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9554979A081125A60062E27B /* Plain.growlStyle */; };
-		955817D9085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817DA085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817DB085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817DC085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817DD085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817DE085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817DF085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817E0085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817E1085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817E2085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817E3085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817E4085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817E5085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
-		955817E6085B2ED500775936 /* libSystemStubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 955817D8085B2ED500775936 /* libSystemStubs.a */; };
 		955C236E081537280013C3CF /* NSMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 955C236C081537280013C3CF /* NSMutableStringAdditions.m */; };
 		956ADB0007551C4500AF9545 /* GrowlBezierPathAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.m */; };
 		956ADB0207551C4500AF9545 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
@@ -679,7 +665,6 @@
 		954F012F074135CC00EA8AB5 /* English */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = English; path = Core/Resources/English.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		954F0148074135D700EA8AB5 /* German */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = German; path = Core/Resources/German.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		9554979A081125A60062E27B /* Plain.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Plain.growlStyle; path = Core/Resources/Plain.growlStyle; sourceTree = "<group>"; };
-		955817D8085B2ED500775936 /* libSystemStubs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSystemStubs.a; path = /usr/lib/libSystemStubs.a; sourceTree = "<absolute>"; };
 		955C236B081537280013C3CF /* NSMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableStringAdditions.h; path = Common/Source/NSMutableStringAdditions.h; sourceTree = "<group>"; };
 		955C236C081537280013C3CF /* NSMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableStringAdditions.m; path = Common/Source/NSMutableStringAdditions.m; sourceTree = "<group>"; };
 		956ADAC607551C4500AF9545 /* FadingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FadingWindowController.h; path = Core/Source/FadingWindowController.h; sourceTree = SOURCE_ROOT; };
@@ -809,7 +794,6 @@
 				0A7F5DA90767C15900E1C1E4 /* Foundation.framework in Frameworks */,
 				0A7F5E170767C15C00E1C1E4 /* AppKit.framework in Frameworks */,
 				0A7F5EAC0767C15E00E1C1E4 /* PreferencePanes.framework in Frameworks */,
-				955817DF085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -820,7 +804,6 @@
 				0A7F5ECB0767C2A600E1C1E4 /* Foundation.framework in Frameworks */,
 				0A7F5ECC0767C2A600E1C1E4 /* AppKit.framework in Frameworks */,
 				0A7F5ECD0767C2A600E1C1E4 /* PreferencePanes.framework in Frameworks */,
-				955817E1085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,7 +814,6 @@
 				0A7F5F1A0767C38200E1C1E4 /* Foundation.framework in Frameworks */,
 				0A7F5F1B0767C38200E1C1E4 /* AppKit.framework in Frameworks */,
 				0A7F5F1C0767C38200E1C1E4 /* PreferencePanes.framework in Frameworks */,
-				955817E2085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -842,7 +824,6 @@
 				0A7F5F780767C68000E1C1E4 /* Foundation.framework in Frameworks */,
 				0A7F5F790767C68000E1C1E4 /* AppKit.framework in Frameworks */,
 				0A7F5F7A0767C68000E1C1E4 /* PreferencePanes.framework in Frameworks */,
-				955817E3085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,7 +835,6 @@
 				0A7F5FC10767C70600E1C1E4 /* AppKit.framework in Frameworks */,
 				0A7F5FC20767C70600E1C1E4 /* PreferencePanes.framework in Frameworks */,
 				0A7F5FD50767C77F00E1C1E4 /* Message.framework in Frameworks */,
-				955817E4085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -865,7 +845,6 @@
 				0A7F5FF10767C7B300E1C1E4 /* Foundation.framework in Frameworks */,
 				0A7F5FF20767C7B300E1C1E4 /* AppKit.framework in Frameworks */,
 				0A7F5FF30767C7B300E1C1E4 /* PreferencePanes.framework in Frameworks */,
-				955817E5085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -877,7 +856,6 @@
 				343354B30792F84B00C84B15 /* Carbon.framework in Frameworks */,
 				957B5028083D155000F562B8 /* AppKit.framework in Frameworks */,
 				957B5029083D155100F562B8 /* Foundation.framework in Frameworks */,
-				955817DD085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -889,7 +867,6 @@
 				343354EE0792FC2000C84B15 /* Carbon.framework in Frameworks */,
 				957B502A083D155600F562B8 /* AppKit.framework in Frameworks */,
 				957B502B083D155900F562B8 /* Foundation.framework in Frameworks */,
-				955817DE085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -904,7 +881,6 @@
 				95AFFE20082BCDFB0033A7FF /* SystemConfiguration.framework in Frameworks */,
 				957B4F75083D14FB00F562B8 /* AppKit.framework in Frameworks */,
 				957B4F76083D14FE00F562B8 /* Foundation.framework in Frameworks */,
-				955817DA085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -914,7 +890,6 @@
 			files = (
 				95075BC80817FF0800D862A5 /* Foundation.framework in Frameworks */,
 				957B4F3A083D139500F562B8 /* AppKit.framework in Frameworks */,
-				955817DC085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -925,7 +900,6 @@
 				95FC347607E0458E00BD8674 /* Foundation.framework in Frameworks */,
 				95FC347707E0458E00BD8674 /* AppKit.framework in Frameworks */,
 				95FC347807E0458E00BD8674 /* PreferencePanes.framework in Frameworks */,
-				955817E0085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -938,7 +912,6 @@
 				95C36A630753299E009FAEA2 /* Foundation.framework in Frameworks */,
 				95C36A640753299E009FAEA2 /* AppKit.framework in Frameworks */,
 				95AA8654080065DE0045589D /* SystemConfiguration.framework in Frameworks */,
-				955817D9085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -950,7 +923,6 @@
 				DD493BE2084BB89100D1CCCB /* PreferencePanes.framework in Frameworks */,
 				DD493B73084BB02A00D1CCCB /* Foundation.framework in Frameworks */,
 				DD493B74084BB02A00D1CCCB /* AppKit.framework in Frameworks */,
-				955817E6085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -961,7 +933,6 @@
 				DDF09BC6080AC9ED006F4172 /* PreferencePanes.framework in Frameworks */,
 				957B4F6A083D147200F562B8 /* AppKit.framework in Frameworks */,
 				957B4F6B083D147400F562B8 /* Foundation.framework in Frameworks */,
-				955817DB085B2ED500775936 /* libSystemStubs.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1157,7 +1128,6 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				955817D8085B2ED500775936 /* libSystemStubs.a */,
 				950F79C5080EEE2B00CC5F62 /* WebKit.framework */,
 				95AA8653080065DE0045589D /* SystemConfiguration.framework */,
 				0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */,
@@ -2470,12 +2440,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
-					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
-				},
-				{
 					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
 					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
+				},
+				{
+					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
+					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
 				},
 			);
 			targets = (
