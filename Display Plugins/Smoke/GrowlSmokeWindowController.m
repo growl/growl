@@ -167,7 +167,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 											NSMaxY(screen) - GrowlSmokePadding - depth)];
 
 	if ((self = [super initWithWindow:panel])) {
-		depth += NSHeight( panelFrame );
+		depth += NSHeight(panelFrame);
 		autoFadeOut = !sticky;
 		delegate = self;
 
@@ -224,6 +224,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 		}
 		[super startFadeOut];
 	}
+}
+
+- (void) setProgress:(NSNumber *)value {
+	[(GrowlSmokeWindowView *)[[self window] contentView] setProgress:value];
 }
 
 - (void) dealloc {

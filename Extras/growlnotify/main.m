@@ -42,7 +42,7 @@ static const char usage[] =
 "Usage: growlnotify [-hsvwc] [-i ext] [-I filepath] [--image filepath]\n"
 "                   [-a appname] [-p priority] [-H host] [-u] [-P password]\n"
 "                   [--port port] [-n name] [-m message] [-t] [title]\n"
-"                   [-A method]\n"
+"                   [-A method] [--progress value]\n"
 "Options:\n"
 "    -h,--help       Display this help\n"
 "    -v,--version    Display version number\n"
@@ -66,6 +66,7 @@ static const char usage[] =
 "                    Either MD5 [Default], SHA256 or NONE.\n"
 "    -c,--crypt      Encrypt UDP notifications.\n"
 "    -w,--wait       Wait until the notification has been dismissed.\n"
+"       --progress   Set a progress value for this notification.\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
 "message given in the standard input.\n"
@@ -107,6 +108,8 @@ int main(int argc, const char **argv) {
 	char *message = NULL;
 	char *host = NULL;
 	int priority = 0;
+	double progress;
+	BOOL haveProgress = NO;
 	BOOL useUDP = NO;
 	BOOL crypt = NO;
 	int flag;
@@ -142,6 +145,7 @@ int main(int argc, const char **argv) {
 		{ "auth",		required_argument,	NULL,   'A' },
 		{ "crypt",      no_argument,        NULL,   'c' },
 		{ "sticky",     no_argument,        NULL,   's' },
+		{ "progress",   required_argument,  &flag,   3  },
 		{ NULL,			0,					NULL,	 0  }
 	};
 
@@ -187,15 +191,14 @@ int main(int argc, const char **argv) {
 			}
 			break;
 		case 'A':
-			if (!strcasecmp(optarg, "md5")) {
+			if (!strcasecmp(optarg, "md5"))
 				authMethod = GROWL_AUTH_MD5;
-			} else if (!strcasecmp(optarg, "sha256")) {
+			else if (!strcasecmp(optarg, "sha256"))
 				authMethod = GROWL_AUTH_SHA256;
-			} else if (!strcasecmp(optarg, "none")) {
+			else if (!strcasecmp(optarg, "none"))
 				authMethod = GROWL_AUTH_NONE;
-			} else {
+			else
 				fprintf(stderr, "Unknown digest algorithm, using default.\n");
-			}
 			break;
 		case 't':
 			// do nothing
@@ -222,10 +225,17 @@ int main(int argc, const char **argv) {
 			crypt = YES;
 			break;
 		case 0:
-			if (flag == 1) {
-				imagePath = optarg;
-			} else if (flag == 2) {
-				port = strtol(optarg, NULL, 0);
+			switch (flag) {
+				case 1:
+					imagePath = optarg;
+					break;
+				case 2:
+					port = strtol(optarg, NULL, 0);
+					break;
+				case 3:
+					haveProgress = YES;
+					progress = strtod(optarg, NULL);
+					break;
 			}
 			break;
 		}
@@ -294,18 +304,16 @@ int main(int argc, const char **argv) {
 
 	// Application name
 	NSString *applicationName;
-	if (appName) {
+	if (appName)
 		applicationName = [NSString stringWithUTF8String:appName];
-	} else {
+	else
 		applicationName = @"growlnotify";
-	}
 
 	NSString *identifierString;
-	if (identifier) {
+	if (identifier)
 		identifierString = [[NSString alloc] initWithUTF8String:identifier];
-	} else {
+	else
 		identifierString = nil;
-	}
 
 	// Register with Growl
 	NSArray *defaultAndAllNotifications = [[NSArray alloc] initWithObjects:NOTIFICATION_NAME, nil];
@@ -321,7 +329,7 @@ int main(int argc, const char **argv) {
 	NSString *clickContext = [[NSProcessInfo processInfo] globallyUniqueString];
 	NSNumber *priorityNumber = [[NSNumber alloc] initWithInt:priority];
 	NSNumber *stickyNumber = [[NSNumber alloc] initWithBool:isSticky];
-	NSDictionary *notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+	NSMutableDictionary *notificationInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		NOTIFICATION_NAME, GROWL_NOTIFICATION_NAME,
 		applicationName,   GROWL_APP_NAME,
 		title,             GROWL_NOTIFICATION_TITLE,
@@ -334,6 +342,11 @@ int main(int argc, const char **argv) {
 		nil];
 	[priorityNumber release];
 	[stickyNumber   release];
+	if (haveProgress) {
+		NSNumber *progressNumber = [[NSNumber alloc] initWithDouble:progress];
+		[notificationInfo setObject:progressNumber forKey:GROWL_NOTIFICATION_PROGRESS];
+		[progressNumber release];
+	}
 
 	if (host) {
 		if (cdsaInit()) {

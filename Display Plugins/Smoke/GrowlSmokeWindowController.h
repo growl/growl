@@ -17,4 +17,5 @@
 
 - (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned)depth identifier:(NSString *)ident;
 - (unsigned) depth;
+- (void) setProgress:(NSNumber *)value;
 @end

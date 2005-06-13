@@ -15,9 +15,24 @@
 #define GrowlSmokeTextAreaWidth (GrowlSmokeNotificationWidth - GrowlSmokePadding - iconSize - GrowlSmokeIconTextPadding - GrowlSmokePadding)
 #define GrowlSmokeMinTextHeight	(GrowlSmokePadding + iconSize + GrowlSmokePadding)
 
+@interface ISProgressIndicator : NSProgressIndicator {
+}
+@end
+@implementation ISProgressIndicator
+- (void) startAnimation:(id)sender {
+#pragma unused(sender)
+}
+- (void) stopAnimation:(id)sender {
+#pragma unused(sender)
+}
+- (void) animate:(id)sender {
+#pragma unused(sender)
+}
+@end
+
 @implementation GrowlSmokeWindowView
 
-- (id) initWithFrame:(NSRect) frame {
+- (id) initWithFrame:(NSRect)frame {
 	if ((self = [super initWithFrame:frame])) {
 		textFont = [[NSFont systemFontOfSize:GrowlSmokeTextFontSize] retain];
 		textLayoutManager = [[NSLayoutManager alloc] init];
@@ -29,14 +44,34 @@
 
 		int size = GrowlSmokeSizePrefDefault;
 		READ_GROWL_PREF_INT(GrowlSmokeSizePref, GrowlSmokePrefDomain, &size);
-		if (size == GrowlSmokeSizeLarge) {
+		if (size == GrowlSmokeSizeLarge)
 			iconSize = GrowlSmokeIconSizeLarge;
-		} else {
+		else
 			iconSize = GrowlSmokeIconSize;
-		}
 	}
 
 	return self;
+}
+
+- (void) setProgress:(NSNumber *)value {
+	if (value) {
+		if (!progressIndicator) {
+			progressIndicator = [[ISProgressIndicator alloc] initWithFrame:NSMakeRect(GrowlSmokePadding, GrowlSmokePadding + iconSize + GrowlSmokeIconProgressPadding, iconSize, NSProgressIndicatorPreferredSmallThickness)];
+			[progressIndicator setStyle:NSProgressIndicatorBarStyle];
+			[progressIndicator setControlSize:NSSmallControlSize];
+			[progressIndicator setBezeled:NO];
+			[progressIndicator setControlTint:NSDefaultControlTint];
+			[progressIndicator setIndeterminate:NO];
+			[self addSubview:progressIndicator];
+			[progressIndicator release];
+		}
+		[progressIndicator setDoubleValue:[value doubleValue]];
+		[self sizeToFit];
+		[self setNeedsDisplay:YES];
+	} else if (progressIndicator) {
+		[progressIndicator removeFromSuperview];
+		progressIndicator = nil;
+	}
 }
 
 - (void) dealloc {
@@ -53,7 +88,7 @@
 	[super dealloc];
 }
 
-- (BOOL)isFlipped {
+- (BOOL) isFlipped {
 	// Coordinates are based on top left corner
     return YES;
 }
@@ -120,9 +155,8 @@
 		drawRect.origin.y += titleHeight + GrowlSmokeTitleTextPadding;
 	}
 
-	if (haveText) {
+	if (haveText)
 		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
-	}
 
 	[[self window] invalidateShadow];
 }
@@ -289,6 +323,8 @@
 	rect.size.height = GrowlSmokePadding + GrowlSmokePadding + [self titleHeight] + [self descriptionHeight];
 	if (haveTitle && haveText)
 		rect.size.height += GrowlSmokeTitleTextPadding;
+	if (progressIndicator)
+		rect.size.height += GrowlSmokeIconProgressPadding + [progressIndicator bounds].size.height;
 	if (rect.size.height < GrowlSmokeMinTextHeight)
 		rect.size.height = GrowlSmokeMinTextHeight;
 	[self setFrame:rect];

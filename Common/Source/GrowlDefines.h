@@ -186,6 +186,15 @@
  */
 #define GROWL_APP_PID					XSTR("ApplicationPID")
 
+/*!	@defined GROWL_NOTIFICATION_PROGRESS
+*	@abstract If this key is set, it should contain a double value wrapped
+*     in a NSNumber which describes some sort of progress (from 0.0 to 100.0).
+*     If this is key is not set, no progress bar is shown.
+*
+*	 Optional. Not supported by all display plugins.
+*/
+#define GROWL_NOTIFICATION_PROGRESS		XSTR("NotificationProgress")
+
 // Notifications
 #pragma mark Notifications
 

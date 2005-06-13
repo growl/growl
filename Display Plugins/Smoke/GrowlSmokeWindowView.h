@@ -21,6 +21,7 @@
 	SEL					action;
 	id					target;
 	NSTrackingRectTag	trackingRectTag;
+	NSProgressIndicator	*progressIndicator;
 
 	NSFont				*textFont;
 	NSShadow			*textShadow;
@@ -43,6 +44,7 @@
 - (void) setText:(NSString *)text;
 
 - (void) setPriority:(int)priority;
+- (void) setProgress:(NSNumber *)value;
 
 - (void) sizeToFit;
 - (float) titleHeight;

@@ -39,6 +39,8 @@
 #define GrowlSmokePadding				10.0f
 // the padding between the icon and the text
 #define GrowlSmokeIconTextPadding		20.0f
+// the padding between the icon and the progress bar
+#define GrowlSmokeIconProgressPadding	5.0f
 // the padding between the title and the description
 #define GrowlSmokeTitleTextPadding		10.0f
 // the size of the icon (it's square)
