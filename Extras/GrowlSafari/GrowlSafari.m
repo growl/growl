@@ -136,6 +136,10 @@ static void setDownloadFinished(id dl) {
 			[[GSWebBookmark class] poseAsClass:webBookmarkClass];
 
 		NSLog(@"Loaded GrowlSafari %@", [GrowlSafari bundleVersion]);
+		NSDictionary *infoDictionary = [GrowlApplicationBridge frameworkInfoDictionary];
+		NSLog(@"Using Growl.framework %@ (%@)",
+			  [infoDictionary objectForKey:@"CFBundleShortVersionString"],
+			  [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]);
 	} else {
 		NSLog(@"Could not load Growl.framework, GrowlSafari disabled");
 	}
