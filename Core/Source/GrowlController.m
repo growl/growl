@@ -252,7 +252,7 @@ static id singleton = nil;
 
 	NSString *desc = [[NSString alloc] initWithFormat:@"This is a preview of the %@ display", displayName];
 	NSNumber *priority = [[NSNumber alloc] initWithInt:0];
-	NSNumber *sticky = [[NSNumber alloc] initWithBool:YES];
+	NSNumber *sticky = [[NSNumber alloc] initWithBool:NO];
 	NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
 		@"Preview", GROWL_NOTIFICATION_TITLE,
 		desc,       GROWL_NOTIFICATION_DESCRIPTION,
