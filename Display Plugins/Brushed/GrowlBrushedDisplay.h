@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <GrowlDisplayProtocol.h>
+#import "GrowlDisplayProtocol.h"
 
 @class NSPreferencePane;
 

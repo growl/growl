@@ -6,7 +6,7 @@
 //
 
 #import "GrowlMailMePrefs.h"
-#import <GrowlDefinesInternal.h>
+#import "GrowlDefinesInternal.h"
 
 #define destAddressKey @"MailMe - Recipient address"
 

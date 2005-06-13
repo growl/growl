@@ -7,9 +7,9 @@
 //
 #import "GrowlSMSDisplay.h"
 #import "GrowlSMSPrefs.h"
-#import <NSStringAdditions.h>
-#import <GrowlDefinesInternal.h>
-#import <GrowlDisplayProtocol.h>
+#import "NSStringAdditions.h"
+#import "GrowlDefinesInternal.h"
+#import "GrowlDisplayProtocol.h"
 #import <Security/SecKeychain.h>
 #import <Security/SecKeychainItem.h>
 

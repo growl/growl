@@ -7,7 +7,7 @@
 //
 
 #import "GrowlMusicVideoPrefs.h"
-#import <GrowlDefinesInternal.h>
+#import "GrowlDefinesInternal.h"
 
 @implementation GrowlMusicVideoPrefs
 

@@ -7,8 +7,8 @@
 #import "GrowlMailMeDisplay.h"
 #import "GrowlMailMePrefs.h"
 #import <Message/NSMailDelivery.h>
-#import <GrowlDefinesInternal.h>
-#import <GrowlDisplayProtocol.h>
+#import "GrowlDefinesInternal.h"
+#import "GrowlDisplayProtocol.h"
 
 #define destAddressKey @"MailMe - Recipient address"
 

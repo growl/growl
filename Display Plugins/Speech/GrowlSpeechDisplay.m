@@ -10,7 +10,7 @@
 #import "GrowlSpeechPrefs.h"
 #import "GrowlSpeechDefines.h"
 #import "GrowlPathUtil.h"
-#import <GrowlDefinesInternal.h>
+#import "GrowlDefinesInternal.h"
 #import "NSDictionaryAdditions.h"
 
 @implementation GrowlSpeechDisplay

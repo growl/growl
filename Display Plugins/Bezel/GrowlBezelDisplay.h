@@ -6,7 +6,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <GrowlDisplayProtocol.h>
+#import "GrowlDisplayProtocol.h"
 
 @class NSPreferencePane;
 

@@ -7,7 +7,7 @@
 #import "GrowlBezelDisplay.h"
 #import "GrowlBezelWindowController.h"
 #import "GrowlBezelPrefs.h"
-#import <GrowlDefinesInternal.h>
+#import "GrowlDefinesInternal.h"
 #import "NSDictionaryAdditions.h"
 
 @implementation GrowlBezelDisplay

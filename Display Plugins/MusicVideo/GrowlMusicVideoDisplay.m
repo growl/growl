@@ -7,7 +7,7 @@
 #import "GrowlMusicVideoDisplay.h"
 #import "GrowlMusicVideoWindowController.h"
 #import "GrowlMusicVideoPrefs.h"
-#import <GrowlDefinesInternal.h>
+#import "GrowlDefinesInternal.h"
 #import "NSDictionaryAdditions.h"
 
 @implementation GrowlMusicVideoDisplay
