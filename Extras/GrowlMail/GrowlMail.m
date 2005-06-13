@@ -99,6 +99,10 @@ static NSMutableArray *collectedMessages;
 			// Register ourselves as a Growl delegate
 			[GrowlApplicationBridge setGrowlDelegate:self];
 			queueLock = [[NSLock alloc] init];
+			NSDictionary *infoDictionary = [GrowlApplicationBridge frameworkInfoDictionary];
+			NSLog(@"Using Growl.framework %@ (%@)",
+				  [infoDictionary objectForKey:@"CFBundleShortVersionString"],
+				  [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]);
 		} else {
 			NSLog(@"Could not load Growl.framework, GrowlMail disabled");
 		}

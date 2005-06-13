@@ -371,6 +371,7 @@
  */
 + (NSDictionary *) registrationDictionaryByFillingInDictionary:(NSDictionary *)regDict restrictToKeys:(NSSet *)keys;
 
++ (NSDictionary *) frameworkInfoDictionary;
 @end
 
 //------------------------------------------------------------------------------

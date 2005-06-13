@@ -18,6 +18,8 @@
 	<string>emal</string>
 	<key>CFBundleVersion</key>
 	<string>2.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.0</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlMail</string>
 </dict>

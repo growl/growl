@@ -437,6 +437,14 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	return result;
 }
 
++ (NSDictionary *) frameworkInfoDictionary {
+#ifdef GROWL_WITH_INSTALLER
+	return [[NSBundle bundleWithIdentifier:@"com.growl.growlwithinstallerframework"] infoDictionary];
+#else
+	return [[NSBundle bundleWithIdentifier:@"com.growl.growlframework"] infoDictionary];
+#endif
+}
+
 #pragma mark -
 #pragma mark Private methods
 
