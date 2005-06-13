@@ -33,6 +33,30 @@
 			name = "External Targets";
 			productName = "External Targets";
 		};
+		95E17B8F085E216A00990AB3 /* SVNRevision */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 95E17B99085E21C400990AB3 /* Build configuration list for PBXAggregateTarget "SVNRevision" */;
+			buildPhases = (
+				95E17B8E085E216A00990AB3 /* ShellScript */,
+			);
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SVNRevision;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			dependencies = (
+			);
+			name = SVNRevision;
+			productName = SVNRevision;
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -419,6 +443,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 95FC346D07E0458E00BD8674;
 			remoteInfo = Brushed;
+		};
+		95E17BC9085E22B800990AB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95E17B8F085E216A00990AB3 /* SVNRevision */;
+			remoteInfo = SVNRevision;
+		};
+		95E17BCD085E22FE00990AB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95E17B8F085E216A00990AB3 /* SVNRevision */;
+			remoteInfo = SVNRevision;
+		};
+		95E17BEE085E24B500990AB3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95E17B8F085E216A00990AB3 /* SVNRevision */;
+			remoteInfo = SVNRevision;
 		};
 		95EE27B50855AA7B0045DB39 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1887,6 +1932,7 @@
 				);
 			};
 			dependencies = (
+				95E17BCA085E22B800990AB3 /* PBXTargetDependency */,
 			);
 			name = Growl.framework;
 			productName = Growl.framework;
@@ -1975,6 +2021,7 @@
 			};
 			dependencies = (
 				34E9EE6B0790871D00662E8E /* PBXTargetDependency */,
+				95E17BCE085E22FE00990AB3 /* PBXTargetDependency */,
 			);
 			name = "Growl-WithInstaller.framework";
 			productName = "Growl-WithInstaller.framework";
@@ -2185,7 +2232,6 @@
 			buildConfigurationList = 95EE27730855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "GrowlHelperApp" */;
 			buildPhases = (
 				CB61E5140637763C00E0DDC7 /* Resources */,
-				07C2F33207D6F45800B18524 /* ShellScript */,
 				CB61E5150637763C00E0DDC7 /* Sources */,
 				CB61E5160637763C00E0DDC7 /* Frameworks */,
 				63C060F406C8946E00B0B7D4 /* Rez */,
@@ -2236,6 +2282,7 @@
 				3433459C0790E40B00C84B15 /* PBXTargetDependency */,
 				DD493C93084BE7FB00D1CCCB /* PBXTargetDependency */,
 				955285B7085C3C4E00D21D10 /* PBXTargetDependency */,
+				95E17BEF085E24B500990AB3 /* PBXTargetDependency */,
 			);
 			name = GrowlHelperApp;
 			productName = GrowlHelperApp;
@@ -2440,12 +2487,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
-					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
-				},
-				{
 					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
 					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
+				},
+				{
+					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
+					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
 				},
 			);
 			targets = (
@@ -2464,6 +2511,7 @@
 				0A7F5FE80767C7B300E1C1E4 /* MusicVideo */,
 				DD4939CB084BACA700D1CCCB /* SMS */,
 				955285AF085C3C3000D21D10 /* External Targets */,
+				95E17B8F085E216A00990AB3 /* SVNRevision */,
 			);
 		};
 /* End PBXProject section */
@@ -2628,20 +2676,6 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		07C2F33207D6F45800B18524 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-				$TARGET_BUILD_DIR/include/SVNRevision.h,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "source generateSVNRevision.sh";
-		};
 		340832FE075C2C0A00703011 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2706,6 +2740,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "mkdir -p \"$BUILT_PRODUCTS_DIR\"\nGROWLACTION=\"$SRCROOT/Extras/GrowlAction/build/$CONFIGURATION/Show Growl Notification.action\"\nif [ -d \"$GROWLACTION\" ]; then\n\tln -fs \"$GROWLACTION\" \"$BUILT_PRODUCTS_DIR/Show Growl Notification.action\"\nfi\n\nGROWLIMPORTER=\"$SRCROOT/Extras/GrowlImporter/build/$CONFIGURATION/GrowlImporter.mdimporter\"\nif [ -d \"$GROWLACTION\" ]; then\n\tln -fs \"$GROWLACTION\" \"$BUILT_PRODUCTS_DIR/GrowlImporter.mdimporter\"\nfi\n";
+		};
+		95E17B8E085E216A00990AB3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+				$TARGET_BUILD_DIR/include/SVNRevision.h,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source generateSVNRevision.sh";
 		};
 		DDF09C13080AD2E8006F4172 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2998,6 +3046,21 @@
 			target = 95FC346D07E0458E00BD8674 /* Brushed */;
 			targetProxy = 955430E707E04683005534FA /* PBXContainerItemProxy */;
 		};
+		95E17BCA085E22B800990AB3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95E17B8F085E216A00990AB3 /* SVNRevision */;
+			targetProxy = 95E17BC9085E22B800990AB3 /* PBXContainerItemProxy */;
+		};
+		95E17BCE085E22FE00990AB3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95E17B8F085E216A00990AB3 /* SVNRevision */;
+			targetProxy = 95E17BCD085E22FE00990AB3 /* PBXContainerItemProxy */;
+		};
+		95E17BEF085E24B500990AB3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95E17B8F085E216A00990AB3 /* SVNRevision */;
+			targetProxy = 95E17BEE085E24B500990AB3 /* PBXContainerItemProxy */;
+		};
 		DD493C93084BE7FB00D1CCCB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DD4939CB084BACA700D1CCCB /* SMS */;
@@ -3232,6 +3295,61 @@
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "External Targets";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = "Deployment - Tiger - G4";
+		};
+		95E17B9A085E21C400990AB3 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SVNRevision;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Development;
+		};
+		95E17B9B085E21C400990AB3 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SVNRevision;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Deployment;
+		};
+		95E17B9C085E21C400990AB3 /* Deployment - Tiger - G4 */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SVNRevision;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -3998,6 +4116,8 @@
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
@@ -4028,6 +4148,8 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
@@ -4059,6 +4181,8 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -4085,6 +4209,8 @@
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
@@ -4119,6 +4245,8 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
@@ -4154,6 +4282,8 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -4200,6 +4330,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
@@ -4232,6 +4363,7 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
@@ -4266,6 +4398,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
@@ -4283,6 +4416,15 @@
 				955285BA085C3C7900D21D10 /* Development */,
 				955285BB085C3C7900D21D10 /* Deployment */,
 				955285BC085C3C7900D21D10 /* Deployment - Tiger - G4 */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		95E17B99085E21C400990AB3 /* Build configuration list for PBXAggregateTarget "SVNRevision" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				95E17B9A085E21C400990AB3 /* Development */,
+				95E17B9B085E21C400990AB3 /* Deployment */,
+				95E17B9C085E21C400990AB3 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
