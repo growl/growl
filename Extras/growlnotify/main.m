@@ -38,6 +38,9 @@
 
 #define NOTIFICATION_NAME @"Command-Line Growl Notification"
 
+#define STRINGIFY(x) STRINGIFY2(x)
+#define STRINGIFY2(x) #x
+
 static const char usage[] =
 "Usage: growlnotify [-hsvwc] [-i ext] [-I filepath] [--image filepath]\n"
 "                   [-a appname] [-p priority] [-H host] [-u] [-P password]\n"
@@ -113,15 +116,14 @@ int main(int argc, const char **argv) {
 	BOOL useUDP = NO;
 	BOOL crypt = NO;
 	int flag;
-	short port = 0;
+	char *port = NULL;
 	enum GrowlAuthenticationMethod authMethod = GROWL_AUTH_MD5;
+	struct addrinfo hints;
 
 	int code = EXIT_SUCCESS;
-	struct hostent *he;
 	int sock;
 	unsigned size;
 	CSSM_DATA registrationPacket, notificationPacket;
-	struct sockaddr_in to;
 	char *password = NULL;
 	char *identifier = NULL;
 
@@ -230,7 +232,7 @@ int main(int argc, const char **argv) {
 					imagePath = optarg;
 					break;
 				case 2:
-					port = strtol(optarg, NULL, 0);
+					port = strdup(optarg);
 					break;
 				case 3:
 					haveProgress = YES;
@@ -285,9 +287,9 @@ int main(int argc, const char **argv) {
 		image = [ws iconForFile:[ws fullPathForApplication:app]];
 		[app release];
 	}
-	if (!image) {
+	if (!image)
 		image = [ws iconForFile:[ws fullPathForApplication:@"Terminal"]];
-	}
+
 	NSData *icon = [image TIFFRepresentation];
 
 	// Check message
@@ -353,70 +355,73 @@ int main(int argc, const char **argv) {
 			NSLog(@"ERROR: Could not initialize CDSA.");
 		} else {
 			if (useUDP) {
-				he = gethostbyname(host);
-				if (!he) {
-					herror("gethostbyname");
+				struct addrinfo *ai;
+				int error;
+
+				memset(&hints, 0, sizeof(hints));
+				hints.ai_family = PF_UNSPEC;
+				hints.ai_socktype = SOCK_DGRAM;
+				hints.ai_protocol = IPPROTO_UDP;
+				error = getaddrinfo(host, port ? port : STRINGIFY(GROWL_UDP_PORT), &hints, &ai);
+				if (error) {
+					fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(error));
 					code = EXIT_FAILURE;
 				} else {
-					sock = socket( AF_INET, SOCK_DGRAM, IPPROTO_UDP );
+					sock = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
 					if (sock == -1) {
 						perror("socket");
 						code = EXIT_FAILURE;
 					} else {
-						to.sin_len = sizeof(to);
-						to.sin_family = AF_INET;
-						to.sin_port = htons(port ? port : GROWL_UDP_PORT);
-						memcpy(&to.sin_addr.s_addr, he->h_addr_list[0], he->h_length);
-						memset(&to.sin_zero, 0, sizeof(to.sin_zero));
-					}
-					registrationPacket.Data = [GrowlUDPUtils registrationToPacket:registerInfo
-																		   digest:authMethod
-																		 password:password
-																	   packetSize:(unsigned *)&registrationPacket.Length];
-					notificationPacket.Data = [GrowlUDPUtils notificationToPacket:notificationInfo
-																		   digest:authMethod
-																		 password:password
-																	   packetSize:(unsigned *)&notificationPacket.Length];
-					if (crypt) {
-						CSSM_DATA passwordData;
-						passwordData.Data = (uint8 *)password;
-						if (password) {
-							passwordData.Length = strlen(password);
-						} else {
-							passwordData.Length = 0U;
-						}
+						registrationPacket.Data = [GrowlUDPUtils registrationToPacket:registerInfo
+																			   digest:authMethod
+																			 password:password
+																		   packetSize:(unsigned *)&registrationPacket.Length];
+						notificationPacket.Data = [GrowlUDPUtils notificationToPacket:notificationInfo
+																			   digest:authMethod
+																			 password:password
+																		   packetSize:(unsigned *)&notificationPacket.Length];
+						if (crypt) {
+							CSSM_DATA passwordData;
+							passwordData.Data = (uint8 *)password;
+							if (password)
+								passwordData.Length = strlen(password);
+							else
+								passwordData.Length = 0U;
 
-						[GrowlUDPUtils cryptPacket:&registrationPacket algorithm:CSSM_ALGID_AES password:&passwordData encrypt:YES];
-						[GrowlUDPUtils cryptPacket:&notificationPacket algorithm:CSSM_ALGID_AES password:&passwordData encrypt:YES];
+							[GrowlUDPUtils cryptPacket:&registrationPacket algorithm:CSSM_ALGID_AES password:&passwordData encrypt:YES];
+							[GrowlUDPUtils cryptPacket:&notificationPacket algorithm:CSSM_ALGID_AES password:&passwordData encrypt:YES];
+						}
+						size = (registrationPacket.Length > notificationPacket.Length) ? registrationPacket.Length : notificationPacket.Length;
+						if (setsockopt(sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size)) < 0)
+							perror("setsockopt: SO_SNDBUF");
+
+						//printf( "sendbuf: %d\n", size );
+						//printf( "registration packet length: %d\n", registrationPacket.Length );
+						//printf( "notification packet length: %d\n", notificationPacket.Length );
+						if (sendto(sock, registrationPacket.Data, registrationPacket.Length, 0, ai->ai_addr, ai->ai_addrlen) < 0) {
+							perror("sendto");
+							code = EXIT_FAILURE;
+						}
+						if (sendto(sock, notificationPacket.Data, notificationPacket.Length, 0, ai->ai_addr, ai->ai_addrlen) < 0) {
+							perror("sendto");
+							code = EXIT_FAILURE;
+						}
+						free(registrationPacket.Data);
+						free(notificationPacket.Data);
+						close(sock);
+						printf("done\n");
 					}
-					size = (registrationPacket.Length > notificationPacket.Length) ? registrationPacket.Length : notificationPacket.Length;
-					if (setsockopt(sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size)) < 0) {
-						perror("setsockopt: SO_SNDBUF");
-					}
-					//printf( "sendbuf: %d\n", size );
-					//printf( "registration packet length: %d\n", registrationPacket.Length );
-					//printf( "notification packet length: %d\n", notificationPacket.Length );
-					if (sendto(sock, registrationPacket.Data, registrationPacket.Length, 0, (struct sockaddr *)&to, sizeof(to)) < 0) {
-						perror("sendto");
-						code = EXIT_FAILURE;
-					}
-					if (sendto(sock, notificationPacket.Data, notificationPacket.Length, 0, (struct sockaddr *)&to, sizeof(to)) < 0) {
-						perror("sendto");
-						code = EXIT_FAILURE;
-					}
-					free(registrationPacket.Data);
-					free(notificationPacket.Data);
-					close(sock);
+					freeaddrinfo(ai);
 				}
 			} else {
 				NSSocketPort *port = [[NSSocketPort alloc] initRemoteWithTCPPort:GROWL_TCP_PORT host:[NSString stringWithCString:host]];
 				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:port];
 				NSString *passwordString;
-				if (password) {
+				if (password)
 					passwordString = [[NSString alloc] initWithUTF8String:password];
-				} else {
+				else
 					passwordString = nil;
-				}
+
 				MD5Authenticator *authenticator = [[MD5Authenticator alloc] initWithPassword:passwordString];
 				[passwordString release];
 				[connection setDelegate:authenticator];
@@ -481,6 +486,9 @@ int main(int argc, const char **argv) {
 			[growlNotificationObserver release];
 		}
 	}
+
+	if (port)
+		free(port);
 
 	[registerInfo     release];
 	[notificationInfo release];
