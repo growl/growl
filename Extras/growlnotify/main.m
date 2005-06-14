@@ -42,10 +42,10 @@
 #define STRINGIFY2(x) #x
 
 static const char usage[] =
-"Usage: growlnotify [-hsvwc] [-i ext] [-I filepath] [--image filepath]\n"
-"                   [-a appname] [-p priority] [-H host] [-u] [-P password]\n"
-"                   [--port port] [-n name] [-m message] [-t] [title]\n"
-"                   [-A method] [--progress value]\n"
+"Usage: growlnotify [-hsvuwc] [-i ext] [-I filepath] [--image filepath]\n"
+"                   [-a appname] [-p priority] [-H host] [-P password]\n"
+"                   [--port port] [-n name] [-A method] [--progress value]\n"
+"                   [-m message] [-t] [title]\n"
 "Options:\n"
 "    -h,--help       Display this help\n"
 "    -v,--version    Display version number\n"

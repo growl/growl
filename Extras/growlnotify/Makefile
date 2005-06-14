@@ -12,6 +12,7 @@ clean:
 	xcodebuild -alltargets clean
 
 install:
-	xcodebuild -alltargets -buildstyle $(BUILDCONFIGURATION) install DSTROOT=$(destroot)
+	xcodebuild -alltargets -configuration $(BUILDCONFIGURATION) install DSTROOT=$(destroot)
 	mkdir -p $(destroot)usr/local/share/man/man1/
 	cp growlnotify.1 $(destroot)usr/local/share/man/man1/
+	gzip -f $(destroot)usr/local/share/man/man1/growlnotify.1

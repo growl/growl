@@ -1,22 +1,23 @@
 .Dd 2004-10-29           \" DATE 
-.Dt GROWLNOTIFY 1      \" Program name and manual section number 
+.Dt GROWLNOTIFY 1        \" Program name and manual section number 
 .Os Darwin
 .Sh NAME                 \" Section Header - required - don't modify 
 .Nm growlnotify
 .Nd send a notification to Growl
 .Sh SYNOPSIS             \" Section Header - required - don't modify
 .Nm
-.Op Fl hsv
+.Op Fl hsvuwc
 .Op Fl i Ar ext
 .Op Fl I Ar filepath
 .Op Fl -image Ar filepath
 .Op Fl a Ar appname
 .Op Fl p Ar priority
 .Op Fl H Ar host
-.Op Fl u
 .Op Fl P Ar password
 .Op Fl -port Ar port
 .Op Fl n Ar name
+.Op Fl A Ar method
+.Op Fl -progress Ar value
 .Op Fl m Ar message
 .Op Fl t
 .Op Ar title
@@ -27,7 +28,9 @@ posts a distributed notification to Growl.
 The options are as follows:
 .Bl -tag -width Fl
 .It Fl h , Fl -help
-Displays this help and exit.
+Display this help and exit.
+.It Fl v , Fl -version
+Display version number and exit.
 .It Fl n , Fl -name Ar name
 Sets the application name to register the notification under.
 By default 'growlnotify' is used.
@@ -93,6 +96,13 @@ This is necessary if the remote host requires a password for remote notification
 Sends the remote notification with UDP instead of Distributed Objects.
 .It Fl -port
 Sets the port number to use for UDP notifications.
+.It Fl A , Fl -auth
+Specify digest algorithm for UDP authentication.
+Either MD5 [Default], SHA256 or NONE.
+.It Fl c , Fl -crypt
+Encrypt UDP notifications. By default, UDP notifications are sent unencrypted.
+.It Fl -progress
+Set a progress value for this notification.
 .El
 .Pp
 .Nm
