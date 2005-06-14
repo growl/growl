@@ -36,9 +36,8 @@
 	CSSM_DATA      inData;
 
 	crtn = CSSM_CSP_CreateDigestContext(cspHandle, CSSM_ALGID_MD5, &ccHandle);
-	if (crtn) {
+	if (crtn)
 		return nil;
-	}
 
 	crtn = CSSM_DigestDataInit(ccHandle);
 	if (crtn) {
@@ -71,11 +70,14 @@
 			return nil;
 		}
 	} else {
-		status = SecKeychainFindGenericPassword( /*keychainOrArray*/ NULL,
-												 strlen(keychainServiceName), keychainServiceName,
-												 strlen(keychainAccountName), keychainAccountName,
-												 &passwordLength, (void **)&passwordBytes,
-												 NULL);
+		status = SecKeychainFindGenericPassword(/*keychainOrArray*/ NULL,
+												strlen(keychainServiceName),
+												keychainServiceName,
+												strlen(keychainAccountName),
+												keychainAccountName,
+												&passwordLength,
+												(void **)&passwordBytes,
+												NULL);
 		if (status == noErr) {
 			inData.Data = (uint8 *)passwordBytes;
 			inData.Length = passwordLength;

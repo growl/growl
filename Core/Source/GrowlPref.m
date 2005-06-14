@@ -735,10 +735,10 @@
 	char *password;
 	UInt32 passwordLength;
 	OSStatus status;
-	status = SecKeychainFindGenericPassword( NULL,
-											 strlen(keychainServiceName), keychainServiceName,
-											 strlen(keychainAccountName), keychainAccountName,
-											 &passwordLength, (void **)&password, NULL );
+	status = SecKeychainFindGenericPassword(NULL,
+											strlen(keychainServiceName), keychainServiceName,
+											strlen(keychainAccountName), keychainAccountName,
+											&passwordLength, (void **)&password, NULL);
 
 	NSString *passwordString;
 	if (status == noErr) {
@@ -758,30 +758,30 @@
 	unsigned length = strlen(password);
 	OSStatus status;
 	SecKeychainItemRef itemRef = nil;
-	status = SecKeychainFindGenericPassword( NULL,
-											 strlen(keychainServiceName), keychainServiceName,
-											 strlen(keychainAccountName), keychainAccountName,
-											 NULL, NULL, &itemRef );
+	status = SecKeychainFindGenericPassword(NULL,
+											strlen(keychainServiceName), keychainServiceName,
+											strlen(keychainAccountName), keychainAccountName,
+											NULL, NULL, &itemRef);
 	if (status == errSecItemNotFound) {
 		// add new item
-		status = SecKeychainAddGenericPassword( NULL,
-												strlen(keychainServiceName), keychainServiceName,
-												strlen(keychainAccountName), keychainAccountName,
-												length, password, NULL );
+		status = SecKeychainAddGenericPassword(NULL,
+											   strlen(keychainServiceName), keychainServiceName,
+											   strlen(keychainAccountName), keychainAccountName,
+											   length, password, NULL);
 		if (status)
 			NSLog(@"Failed to add password to keychain.");
 	} else {
 		// change existing password
 		SecKeychainAttribute attrs[] = {
-		{ kSecAccountItemAttr, strlen(keychainAccountName), (char *)keychainAccountName },
-		{ kSecServiceItemAttr, strlen(keychainServiceName), (char *)keychainServiceName }
+			{ kSecAccountItemAttr, strlen(keychainAccountName), (char *)keychainAccountName },
+			{ kSecServiceItemAttr, strlen(keychainServiceName), (char *)keychainServiceName }
 		};
 		const SecKeychainAttributeList attributes = { sizeof(attrs) / sizeof(attrs[0]), attrs };
-		status = SecKeychainItemModifyAttributesAndData( itemRef,		// the item reference
-														 &attributes,	// no change to attributes
-														 length,		// length of password
-														 password		// pointer to password data
-														 );
+		status = SecKeychainItemModifyAttributesAndData(itemRef,		// the item reference
+														&attributes,	// no change to attributes
+														length,			// length of password
+														password		// pointer to password data
+														);
 		if (itemRef)
 			CFRelease(itemRef);
 		if (status)
