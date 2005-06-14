@@ -235,13 +235,10 @@ static id singleton = nil;
 	BOOL enabled = [[GrowlPreferences preferences] boolForKey:GrowlStartServerKey];
 
 	// Setup notification server
-	if (enabled && !service) {
-		// turn on
+	if (enabled && !service)
 		[self startServer];
-	} else if (!enabled && service) {
-		// turn off
+	else if (!enabled && service)
 		[self stopServer];
-	}
 }
 
 #pragma mark -
@@ -268,6 +265,8 @@ static id singleton = nil;
 }
 
 - (void) forwardDictionary:(NSDictionary *)dict withSelector:(SEL)forwardMethod {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
 	NSEnumerator *enumerator = [destinations objectEnumerator];
@@ -300,7 +299,12 @@ static id singleton = nil;
 				NSProxy <GrowlNotificationProtocol> *growlProxy = (id<GrowlNotificationProtocol>)theProxy;
 				[growlProxy performSelector:forwardMethod withObject:dict];
 			} @catch(NSException *e) {
-				NSLog(@"Exception while forwarding dictionary with selector %s (description of dictionary follows): %@\n%@", forwardMethod, e, dict);
+				if ([[e name] isEqualToString:@"NSFailedAuthenticationException"]) {
+					NSLog(@"Authentication failed while forwarding to %@ (%@)",
+						  [NSString stringWithAddressData:destAddress],
+						  [NSString hostNameForAddressData:destAddress]);
+				} else
+					NSLog(@"Exception while forwarding dictionary with selector %s (description of dictionary follows): %@\n%@", forwardMethod, e, dict);
 			} @finally {
 				[connection invalidate];
 				[serverPort invalidate];
@@ -310,6 +314,8 @@ static id singleton = nil;
 			}
 		}
 	}
+
+	[pool release];
 }
 
 - (void) forwardNotification:(NSDictionary *)dict {
