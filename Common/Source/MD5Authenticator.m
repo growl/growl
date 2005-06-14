@@ -105,13 +105,19 @@
 }
 
 - (BOOL) authenticateComponents:(NSArray *)components withData:(NSData *)signature {
+	if (!signature)
+		return NO;
+
 	NSData *recomputedSignature = [self authenticationDataForComponents:components];
+	if (!recomputedSignature)
+		return NO;
 
 	// If the two NSDatas are not equal, authentication failure!
 	if (![recomputedSignature isEqual:signature]) {
 		NSLog(@"authentication failure: received signature doesn't match computed signature");
 		return NO;
 	}
+
 	return YES;
 }
 

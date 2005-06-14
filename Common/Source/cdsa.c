@@ -23,48 +23,44 @@ static const CSSM_API_MEMORY_FUNCS memFuncs = {
 CSSM_CSP_HANDLE cspHandle;
 
 CSSM_RETURN cdsaInit(void) {
-	if (cdsaInitialized) {
+	if (cdsaInitialized)
 		return CSSM_OK;
-	}
 
 	CSSM_RETURN crtn;
 	CSSM_PVC_MODE pvcPolicy = CSSM_PVC_NONE;
 
 	/* Initialize CSSM. */
 	crtn = CSSM_Init(&cspversion,
-					 CSSM_PRIVILEGE_SCOPE_NONE,
+					 CSSM_PRIVILEGE_SCOPE_PROCESS,
 					 &guid,
 					 CSSM_KEY_HIERARCHY_NONE,
 					 &pvcPolicy,
 					 /*reserved*/NULL);
-	if (crtn) {
+	if (crtn)
 		return crtn;
-	}
 
 	/* Load the CSP bundle into this app's memory space */
 	crtn = CSSM_ModuleLoad(&gGuidAppleCSP,
 						   CSSM_KEY_HIERARCHY_NONE,
 						   NULL,      // eventHandler
-						   NULL);      // AppNotifyCallbackCtx
-	if (crtn) {
+						   NULL);     // AppNotifyCallbackCtx
+	if (crtn)
 		return crtn;
-	}
 
 	/* Obtain a handle which will be used to refer to the CSP */
 	crtn = CSSM_ModuleAttach(&gGuidAppleCSP,
 							 &cspversion,
 							 &memFuncs,      // memFuncs
-							 0,          // SubserviceID
+							 0,              // SubserviceID
 							 CSSM_SERVICE_CSP,
-							 0,          // AttachFlags
+							 0,              // AttachFlags
 							 CSSM_KEY_HIERARCHY_NONE,
-							 NULL,        // FunctionTable
-							 0,          // NumFuncTable
-							 NULL,        // reserved
+							 NULL,           // FunctionTable
+							 0,              // NumFuncTable
+							 NULL,           // reserved
 							 &cspHandle);
-	if (crtn) {
+	if (crtn)
 		return crtn;
-	}
 
 	cdsaInitialized = 1;
 
