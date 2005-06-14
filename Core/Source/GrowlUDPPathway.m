@@ -33,19 +33,20 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 - (id) init {
 	if ((self = [super init])) {
-		struct sockaddr_in addr;
+		struct sockaddr_in6 addr;
 		short port;
 		int native;
 
 		port = [[GrowlPreferences preferences] integerForKey:GrowlUDPPortKey];
 
-		addr.sin_len = sizeof(addr);
-		addr.sin_family = AF_INET;
-		addr.sin_port = htons(port);
-		addr.sin_addr.s_addr = INADDR_ANY;
-		memset(&addr.sin_zero, 0, sizeof(addr.sin_zero));
+		addr.sin6_len = sizeof(addr);
+		addr.sin6_family = AF_INET6;
+		addr.sin6_port = htons(port);
+		addr.sin6_flowinfo = 0U;
+		addr.sin6_addr = in6addr_any;
+		addr.sin6_scope_id = 0U;
 
-		native = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+		native = socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDP);
 
 		if (native == -1) {
 			NSLog(@"GrowlUDPPathway: could not create socket.");
