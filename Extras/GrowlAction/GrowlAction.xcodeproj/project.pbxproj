@@ -154,27 +154,14 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		65942E0A0711D4310089E4F1 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		65942E070711D4310089E4F1 /* GrowlAction */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95EE279A0855AA6E0045DB39 /* Build configuration list for PBXNativeTarget "GrowlAction" */;
 			buildPhases = (
 				65942E080711D4310089E4F1 /* AppleScript */,
-				65942E0A0711D4310089E4F1 /* Headers */,
 				65942E0B0711D4310089E4F1 /* Resources */,
-				65942E0F0711D4310089E4F1 /* Sources */,
 				65942E100711D4310089E4F1 /* Frameworks */,
-				65942E130711D4310089E4F1 /* Rez */,
 			);
 			buildRules = (
 			);
@@ -237,26 +224,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXRezBuildPhase section */
-		65942E130711D4310089E4F1 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		65942E0F0711D4310089E4F1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
 		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {

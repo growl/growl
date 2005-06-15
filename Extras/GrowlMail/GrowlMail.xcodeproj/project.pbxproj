@@ -608,7 +608,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$BUILT_PRODUCTS_DIR\"\nGROWL_FRAMEWORK=\"$SRCROOT/../../build/$CONFIGURATION/Growl.framework\"\nif [ -d \"$GROWL_FRAMEWORK\" ]; then\n\tln -fs \"$GROWL_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/Growl.framework\"\nfi\n";
+			shellScript = "mkdir -p \"$BUILT_PRODUCTS_DIR\"\nGROWL_FRAMEWORK=\"$SRCROOT/../../build/$CONFIGURATION/Growl.framework\"\nif [ -d \"$GROWL_FRAMEWORK\" ]; then\n\trm -f \"$BUILT_PRODUCTS_DIR/Growl.framework\"\n\tln -s \"$GROWL_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/Growl.framework\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
