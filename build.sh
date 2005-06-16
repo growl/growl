@@ -1,7 +1,7 @@
 #!/bin/sh
 #BUILDSTYLE="\"Deployment - Tiger - G4\""
-BUILDSTYLE="\"Deployment\""
-export BUILDSTYLE
+BUILDCONFIGURATION="\"Deployment\""
+export BUILDCONFIGURATION
 
 make $@
 make -C Extras/GrowlMail $@
