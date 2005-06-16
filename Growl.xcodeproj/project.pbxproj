@@ -710,6 +710,19 @@
 		954F012F074135CC00EA8AB5 /* English */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = English; path = Core/Resources/English.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		954F0148074135D700EA8AB5 /* German */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = German; path = Core/Resources/German.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		9554979A081125A60062E27B /* Plain.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Plain.growlStyle; path = Core/Resources/Plain.growlStyle; sourceTree = "<group>"; };
+		955A4E52086175EC009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = "Display Plugins/Brushed/French.lproj/BrushedPrefs.nib"; sourceTree = "<group>"; };
+		955A4E53086175F6009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/BubblesPrefs.nib; sourceTree = "<group>"; };
+		955A4E5408617601009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/GrowlBezelPrefs.nib; sourceTree = "<group>"; };
+		955A4E550861760C009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
+		955A4E5608617616009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
+		955A4E5708617620009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/GrowlMailMePrefs.nib; sourceTree = "<group>"; };
+		955A4E580861762A009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/GrowlMusicVideoPrefs.nib; sourceTree = "<group>"; };
+		955A4E5908617637009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = "Display Plugins/WebKit/French.lproj/WebKitPrefs.nib"; sourceTree = "<group>"; };
+		955A4E5A08617653009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = French; path = Core/Resources/French.lproj/About.rtf; sourceTree = "<group>"; };
+		955A4E5B0861765F009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Core/Resources/French.lproj/GrowlPref.nib; sourceTree = "<group>"; };
+		955A4E5C0861766D009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Core/Resources/French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		955A4E5D0861767F009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Core/Resources/French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		955A4EDC08617747009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = StatusItem/Resources/French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		955C236B081537280013C3CF /* NSMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableStringAdditions.h; path = Common/Source/NSMutableStringAdditions.h; sourceTree = "<group>"; };
 		955C236C081537280013C3CF /* NSMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableStringAdditions.m; path = Common/Source/NSMutableStringAdditions.m; sourceTree = "<group>"; };
 		956ADAC607551C4500AF9545 /* FadingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FadingWindowController.h; path = Core/Source/FadingWindowController.h; sourceTree = SOURCE_ROOT; };
@@ -3088,6 +3101,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C167EFE841241C02AAC07 /* English */,
+				955A4E5C0861766D009B6EA5 /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3098,6 +3112,7 @@
 				0A7F5D9C0767C13100E1C1E4 /* English */,
 				0A7F5D9D0767C13100E1C1E4 /* German */,
 				9574B99F0838FC8800106CA3 /* Japanese */,
+				955A4E550861760C009B6EA5 /* French */,
 			);
 			name = GrowlSpeechPrefs.nib;
 			sourceTree = "<group>";
@@ -3108,6 +3123,7 @@
 				0A7F5EDC0767C30800E1C1E4 /* English */,
 				0A7F5EDD0767C30800E1C1E4 /* German */,
 				9574B99D0838FC5F00106CA3 /* Japanese */,
+				955A4E53086175F6009B6EA5 /* French */,
 			);
 			name = BubblesPrefs.nib;
 			sourceTree = "<group>";
@@ -3118,6 +3134,7 @@
 				0A7F5F300767C3F600E1C1E4 /* English */,
 				0A7F5F310767C3F600E1C1E4 /* German */,
 				9574B99E0838FC7300106CA3 /* Japanese */,
+				955A4E5408617601009B6EA5 /* French */,
 			);
 			name = GrowlBezelPrefs.nib;
 			sourceTree = "<group>";
@@ -3128,6 +3145,7 @@
 				0A7F5F8B0767C6C500E1C1E4 /* English */,
 				0A7F5F8C0767C6C500E1C1E4 /* German */,
 				9574B9A00838FC9500106CA3 /* Japanese */,
+				955A4E5608617616009B6EA5 /* French */,
 			);
 			name = SmokePrefs.nib;
 			sourceTree = "<group>";
@@ -3138,6 +3156,7 @@
 				0A7F5FDB0767C79100E1C1E4 /* English */,
 				0A7F5FDC0767C79100E1C1E4 /* German */,
 				9574B9A10838FCBC00106CA3 /* Japanese */,
+				955A4E5708617620009B6EA5 /* French */,
 			);
 			name = GrowlMailMePrefs.nib;
 			sourceTree = "<group>";
@@ -3148,6 +3167,7 @@
 				0A7F624E0767C84E00E1C1E4 /* English */,
 				0A7F624F0767C84E00E1C1E4 /* German */,
 				9574B9A20838FCCA00106CA3 /* Japanese */,
+				955A4E580861762A009B6EA5 /* French */,
 			);
 			name = GrowlMusicVideoPrefs.nib;
 			sourceTree = "<group>";
@@ -3159,6 +3179,7 @@
 				34B2756D08423FAD0092A5A0 /* German */,
 				34B2756E08423FB00092A5A0 /* Japanese */,
 				95B00A18084688F6004A8623 /* zh_CN */,
+				955A4EDC08617747009B6EA5 /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3167,6 +3188,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				937E64310817193800AEC1C6 /* English */,
+				955A4E5A08617653009B6EA5 /* French */,
 			);
 			name = About.rtf;
 			sourceTree = "<group>";
@@ -3189,6 +3211,7 @@
 				9574B9800838FADA00106CA3 /* Japanese */,
 				953A3FFB08468818001AC823 /* cs */,
 				95B009D008468840004A8623 /* zh_CN */,
+				955A4E5B0861765F009B6EA5 /* French */,
 			);
 			name = GrowlPref.nib;
 			sourceTree = "<group>";
@@ -3211,6 +3234,7 @@
 				9528EF7907F5A27300061D90 /* Japanese */,
 				95B00A3008468932004A8623 /* cs */,
 				95B00A3108468941004A8623 /* zh_CN */,
+				955A4E5D0861767F009B6EA5 /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3223,6 +3247,7 @@
 				95BF39000851F83F00873BE1 /* German */,
 				95BF39010851F84A00873BE1 /* Japanese */,
 				95BF39020851F85400873BE1 /* zh_CN */,
+				955A4E5908617637009B6EA5 /* French */,
 			);
 			name = WebKitPrefs.nib;
 			sourceTree = "<group>";
@@ -3233,6 +3258,7 @@
 				95FC32B207E03B3400BD8674 /* English */,
 				95FC32E607E03B4000BD8674 /* German */,
 				9574B99C0838FC4E00106CA3 /* Japanese */,
+				955A4E52086175EC009B6EA5 /* French */,
 			);
 			name = BrushedPrefs.nib;
 			sourceTree = "<group>";

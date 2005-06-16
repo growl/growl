@@ -331,6 +331,8 @@
 		950627B30840D44600C01CD2 /* growlTunes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = growlTunes.png; sourceTree = "<group>"; };
 		95100E8B078867E5005DBB70 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9556E6AA07F435FA00D42745 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
+		955A4DE708617580009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		955A4DE80861758B009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9574BAB308391F3A00106CA3 /* NSWorkspaceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NSWorkspaceAdditions.h; path = ../../Common/Source/NSWorkspaceAdditions.h; sourceTree = SOURCE_ROOT; };
 		9574BAB408391F3A00106CA3 /* NSWorkspaceAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NSWorkspaceAdditions.m; path = ../../Common/Source/NSWorkspaceAdditions.m; sourceTree = SOURCE_ROOT; };
 		95B00A9908468AB7004A8623 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -603,8 +605,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95E4A30A0855C145006B3F45 /* Products */;
-					ProjectRef = 0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */;
+					ProductGroup = 95E4A31B0855C14E006B3F45 /* Products */;
+					ProjectRef = 0A8B5F0F070B140C00593A33 /* GrowlTunes-Synergy.xcodeproj */;
 				},
 				{
 					ProductGroup = 95E4A3030855C13D006B3F45 /* Products */;
@@ -615,8 +617,8 @@
 					ProjectRef = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
 				},
 				{
-					ProductGroup = 95E4A31B0855C14E006B3F45 /* Products */;
-					ProjectRef = 0A8B5F0F070B140C00593A33 /* GrowlTunes-Synergy.xcodeproj */;
+					ProductGroup = 95E4A30A0855C145006B3F45 /* Products */;
+					ProjectRef = 0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */;
 				},
 			);
 			targets = (
@@ -831,6 +833,7 @@
 				95100E8B078867E5005DBB70 /* German */,
 				9556E6AA07F435FA00D42745 /* Japanese */,
 				95B00A9908468AB7004A8623 /* zh_CN */,
+				955A4DE80861758B009B6EA5 /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -839,6 +842,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C165DFE840E0CC02AAC07 /* English */,
+				955A4DE708617580009B6EA5 /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

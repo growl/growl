@@ -249,6 +249,9 @@
 		9553485E0732F93600D12875 /* GrowlMailPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlMailPreferences.m; sourceTree = "<group>"; };
 		955348660732FA2500D12875 /* NSPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSPreferences.h; sourceTree = "<group>"; };
 		9556E69907F4354600D42745 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
+		955A4E23086175AD009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		955A4E24086175B6009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		955A4E25086175BE009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
 		9594E8DF07A18C5600EC79BF /* GrowlMail_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlMail_Prefix.pch; sourceTree = "<group>"; };
 		95AC1E9B08562FFB006241FD /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		95AE2740085C44A600271F5F /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -646,6 +649,7 @@
 			children = (
 				089C167EFE841241C02AAC07 /* English */,
 				950DAC1A0737B0550096F066 /* German */,
+				955A4E24086175B6009B6EA5 /* French */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -657,6 +661,7 @@
 				950A02490737CDDA0075BDE4 /* German */,
 				9556E69907F4354600D42745 /* Japanese */,
 				95B00A56084689D0004A8623 /* zh_CN */,
+				955A4E23086175AD009B6EA5 /* French */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -668,6 +673,7 @@
 				950DAC0E0737AF630096F066 /* German */,
 				9528EFE607F5A60600061D90 /* Japanese */,
 				95B00A55084689C4004A8623 /* zh_CN */,
+				955A4E25086175BE009B6EA5 /* French */,
 			);
 			name = GrowlMailPreferencesPanel.nib;
 			sourceTree = "<group>";
