@@ -28,14 +28,7 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
-#import "GrowlTunesPlugin.h"
-
-#define ITUNES_TRACK_CHANGED	@"Changed Tracks"
-#define ITUNES_PAUSED			@"Paused"
-#define ITUNES_STOPPED			@"Stopped"
-#define ITUNES_PLAYING			@"Started Playing"
-
-#define DEFAULT_POLL_INTERVAL	2
+@protocol GrowlTunesPluginArchive;
 
 typedef enum {
 	itPLAYING,
@@ -54,6 +47,7 @@ typedef enum {
 	NSMutableArray		*recentTracks;
 	NSMenu				*iTunesSubMenu;
 	NSMenu				*ratingSubMenu;
+	NSDictionary		*noteDict;
 	id <GrowlTunesPluginArchive> archivePlugin;
 
 	iTunesState			state;
@@ -62,6 +56,10 @@ typedef enum {
 	int					trackID;
 	NSString			*trackURL;		//The file location of the last-known track in iTunes, @"" for none
 }
+
++ (GrowlTunesController *) sharedController;
+
+- (void) showCurrentTrack;
 
 - (BOOL) iTunesIsRunning;
 - (NSDictionary *) iTunesProcess;

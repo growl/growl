@@ -67,7 +67,11 @@
 		950627B50840D44600C01CD2 /* growlTunes.png in Resources */ = {isa = PBXBuildFile; fileRef = 950627B30840D44600C01CD2 /* growlTunes.png */; };
 		9561B10208240A8300E55B5E /* jackItunesInfo.scpt in AppleScript */ = {isa = PBXBuildFile; fileRef = CB57B4CA0711E503001968B0 /* jackItunesInfo.scpt */; settings = {ATTRIBUTES = (Debug, ); }; };
 		9561B10308240A8300E55B5E /* jackItunesArtwork.scpt in AppleScript */ = {isa = PBXBuildFile; fileRef = 0A5ECB46073444AB0032ED97 /* jackItunesArtwork.scpt */; settings = {ATTRIBUTES = (Debug, ); }; };
-		9574BAB508391F3A00106CA3 /* NSWorkspaceAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9574BAB308391F3A00106CA3 /* NSWorkspaceAdditions.h */; };
+		9571A475086238E1008AEBB3 /* GrowlTunesSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 9571A46F086238D6008AEBB3 /* GrowlTunesSuite.scriptSuite */; };
+		9571A476086238E1008AEBB3 /* GrowlTunesSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 9571A470086238D6008AEBB3 /* GrowlTunesSuite.scriptTerminology */; };
+		9571A47B086238FF008AEBB3 /* GrowlTunesScripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 9571A46E086238D6008AEBB3 /* GrowlTunesScripting.r */; };
+		9571A4C908623B2D008AEBB3 /* ShowTrackScriptCommand.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9571A4C708623B2D008AEBB3 /* ShowTrackScriptCommand.h */; };
+		9571A4CA08623B2D008AEBB3 /* ShowTrackScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 9571A4C808623B2D008AEBB3 /* ShowTrackScriptCommand.m */; };
 		9574BAB608391F3A00106CA3 /* NSWorkspaceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574BAB408391F3A00106CA3 /* NSWorkspaceAdditions.m */; };
 		CB57B4CB0711E503001968B0 /* jackItunesInfo.scpt in Resources */ = {isa = PBXBuildFile; fileRef = CB57B4CA0711E503001968B0 /* jackItunesInfo.scpt */; };
 		CB9CC0E307A5DF040057EF2C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CBB772AD07A5DD9F00D77326 /* Growl.framework */; };
@@ -289,7 +293,7 @@
 				0A8B61AF070B307B00593A33 /* GrowlTunes-Amazon.plugin in CopyFiles */,
 				0A8B61B0070B307E00593A33 /* GrowlTunes-ARTchive.plugin in CopyFiles */,
 				0A8B61B1070B308000593A33 /* GrowlTunes-Synergy.plugin in CopyFiles */,
-				9574BAB508391F3A00106CA3 /* NSWorkspaceAdditions.h in CopyFiles */,
+				9571A4C908623B2D008AEBB3 /* ShowTrackScriptCommand.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +337,12 @@
 		9556E6AA07F435FA00D42745 /* Japanese */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
 		955A4DE708617580009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		955A4DE80861758B009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9571A436086237E7008AEBB3 /* GrowlTunes.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.sdef; path = GrowlTunes.sdef; sourceTree = "<group>"; };
+		9571A46E086238D6008AEBB3 /* GrowlTunesScripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; path = GrowlTunesScripting.r; sourceTree = "<group>"; };
+		9571A46F086238D6008AEBB3 /* GrowlTunesSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = GrowlTunesSuite.scriptSuite; sourceTree = "<group>"; };
+		9571A470086238D6008AEBB3 /* GrowlTunesSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = GrowlTunesSuite.scriptTerminology; sourceTree = "<group>"; };
+		9571A4C708623B2D008AEBB3 /* ShowTrackScriptCommand.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ShowTrackScriptCommand.h; sourceTree = "<group>"; };
+		9571A4C808623B2D008AEBB3 /* ShowTrackScriptCommand.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ShowTrackScriptCommand.m; sourceTree = "<group>"; };
 		9574BAB308391F3A00106CA3 /* NSWorkspaceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NSWorkspaceAdditions.h; path = ../../Common/Source/NSWorkspaceAdditions.h; sourceTree = SOURCE_ROOT; };
 		9574BAB408391F3A00106CA3 /* NSWorkspaceAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NSWorkspaceAdditions.m; path = ../../Common/Source/NSWorkspaceAdditions.m; sourceTree = SOURCE_ROOT; };
 		95B00A9908468AB7004A8623 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -368,6 +378,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9571A4C708623B2D008AEBB3 /* ShowTrackScriptCommand.h */,
+				9571A4C808623B2D008AEBB3 /* ShowTrackScriptCommand.m */,
 				0A55D72A071325D500D09C04 /* GrowlTunesPlugin.h */,
 				52F5774906872B3A0068B46C /* GrowlTunesController.h */,
 				52F5774A06872B3A0068B46C /* GrowlTunesController.m */,
@@ -451,6 +463,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9571A46E086238D6008AEBB3 /* GrowlTunesScripting.r */,
+				9571A46F086238D6008AEBB3 /* GrowlTunesSuite.scriptSuite */,
+				9571A470086238D6008AEBB3 /* GrowlTunesSuite.scriptTerminology */,
+				9571A436086237E7008AEBB3 /* GrowlTunes.sdef */,
 				950627B20840D44600C01CD2 /* growlTunes-selected.png */,
 				950627B30840D44600C01CD2 /* growlTunes.png */,
 				07A2B52907FBDCAD009917B6 /* GrowlTunes.nib */,
@@ -525,12 +541,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95E4A2D90855C125006B3F45 /* Build configuration list for PBXNativeTarget "GrowlTunes" */;
 			buildPhases = (
+				9571A45A08623829008AEBB3 /* ShellScript */,
 				9561B0C608240A4500E55B5E /* AppleScript */,
 				8D1107290486CEB800E47090 /* Resources */,
 				0A8B5F37070B145800593A33 /* CopyFiles */,
 				CB9CC0E207A5DEE00057EF2C /* CopyFiles */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				9571A477086238F4008AEBB3 /* Rez */,
 			);
 			buildRules = (
 			);
@@ -605,8 +623,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95E4A31B0855C14E006B3F45 /* Products */;
-					ProjectRef = 0A8B5F0F070B140C00593A33 /* GrowlTunes-Synergy.xcodeproj */;
+					ProductGroup = 95E4A30A0855C145006B3F45 /* Products */;
+					ProjectRef = 0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */;
 				},
 				{
 					ProductGroup = 95E4A3030855C13D006B3F45 /* Products */;
@@ -617,8 +635,8 @@
 					ProjectRef = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
 				},
 				{
-					ProductGroup = 95E4A30A0855C145006B3F45 /* Products */;
-					ProjectRef = 0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */;
+					ProductGroup = 95E4A31B0855C14E006B3F45 /* Products */;
+					ProjectRef = 0A8B5F0F070B140C00593A33 /* GrowlTunes-Synergy.xcodeproj */;
 				},
 			);
 			targets = (
@@ -755,6 +773,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9571A475086238E1008AEBB3 /* GrowlTunesSuite.scriptSuite in Resources */,
+				9571A476086238E1008AEBB3 /* GrowlTunesSuite.scriptTerminology in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				CB57B4CB0711E503001968B0 /* jackItunesInfo.scpt in Resources */,
 				0A5ECB47073444AB0032ED97 /* jackItunesArtwork.scpt in Resources */,
@@ -768,7 +788,35 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXRezBuildPhase section */
+		9571A477086238F4008AEBB3 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9571A47B086238FF008AEBB3 /* GrowlTunesScripting.r in Rez */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
 /* Begin PBXShellScriptBuildPhase section */
+		9571A45A08623829008AEBB3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/GrowlTunes.sdef",
+			);
+			outputPaths = (
+				"$(SRCROOT)/GrowlTunesScripting.r",
+				"$(SRCROOT)/GrowlTunesSuite.scriptTerminology",
+				"$(SRCROOT)/GrowlTunesSuite.scriptSuite",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sdp -f ast -V 10.3 GrowlTunes.sdef";
+		};
 		95AE269E085C426100271F5F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -792,6 +840,7 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				52F5774C06872B3A0068B46C /* GrowlTunesController.m in Sources */,
 				9574BAB608391F3A00106CA3 /* NSWorkspaceAdditions.m in Sources */,
+				9571A4CA08623B2D008AEBB3 /* ShowTrackScriptCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
