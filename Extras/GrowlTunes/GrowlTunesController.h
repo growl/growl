@@ -55,6 +55,7 @@ typedef enum {
 	double				pollInterval;
 	int					trackID;
 	NSString			*trackURL;		//The file location of the last-known track in iTunes, @"" for none
+	int					trackRating;
 }
 
 + (GrowlTunesController *) sharedController;

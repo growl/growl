@@ -101,6 +101,7 @@ static GrowlTunesController *sharedController;
 		plugins = [[self loadPlugins] retain];
 		trackID = 0;
 		trackURL = @"";
+		trackRating = -1;
 		sharedController = self;
 	}
 
@@ -265,6 +266,7 @@ static GrowlTunesController *sharedController;
 		newState = itPAUSED;
 	} else if ([playerState isEqualToString:@"Stopped"]) {
 		newState = itSTOPPED;
+		trackRating = -1;
 		[noteDict release];
 		noteDict = nil;
 	} else if ([playerState isEqualToString:@"Playing"]){
@@ -283,12 +285,12 @@ static GrowlTunesController *sharedController;
 			 *Then we hash it and turn that into our identifier string.
 			 *That way a track name of "file://foo" won't confuse our code later on.
 			 */
-			NSArray *args = [userInfo objectsForKeys:
-				[NSArray arrayWithObjects:@"Name", @"Artist", @"Album", @"Composer", @"Genre",
-					@"Year",@"Track Number", @"Track Count", @"Disc Number", @"Disc Count",
-					@"Total Time", @"Stream Title",
-					nil]
-									  notFoundMarker:@""];
+			NSArray *keys = [[NSArray alloc] initWithObjects:@"Name", @"Artist",
+				@"Album", @"Composer", @"Genre", @"Year", @"Track Number",
+				@"Track Count", @"Disc Number", @"Disc Count", @"Total Time",
+				@"Stream Title", nil];
+			NSArray *args = [userInfo objectsForKeys:keys notFoundMarker:@""];
+			[keys release];
 			newTrackURL = [args componentsJoinedByString:@"|"];
 			newTrackURL = [[NSNumber numberWithUnsignedLong:[newTrackURL hash]] stringValue];
 		}
@@ -332,6 +334,7 @@ static GrowlTunesController *sharedController;
 
 			rating = [userInfo objectForKey:@"Rating"];
 			ratingString = [self starsForRating:rating];
+			trackRating = [rating intValue];
 
 			curDescriptor = [theDescriptor descriptorAtIndex:2L];
 			playlistName = [curDescriptor stringValue];
@@ -416,6 +419,7 @@ static GrowlTunesController *sharedController;
 		newState = itPAUSED;
 	} else if ([playerState isEqualToString:@"stopped"]) {
 		newState = itSTOPPED;
+		trackRating = -1;
 		[noteDict release];
 		noteDict = nil;
 	} else {
@@ -458,9 +462,8 @@ static GrowlTunesController *sharedController;
 			compilation = (BOOL)[curDescriptor booleanValue];
 
 		if ((curDescriptor = [theDescriptor descriptorAtIndex:7L])) {
-			int ratingInt = [[curDescriptor stringValue] intValue];
-			if (ratingInt < 0) ratingInt = 0;
-			rating = [NSNumber numberWithInt:ratingInt];
+			trackRating = [[curDescriptor stringValue] intValue];
+			rating = [NSNumber numberWithInt:trackRating < 0 ? 0 : trackRating];
 			ratingString = [self starsForRating:rating];
 		}
 
@@ -573,7 +576,7 @@ static GrowlTunesController *sharedController;
 		id <NSMenuItem> item;
 		NSString *empty = @""; //used for the key equivalent of all the menu items.
 
-		item = [menu addItemWithTitle:@"Online Help" action:@selector(onlineHelp:) keyEquivalent:empty];
+		item = [menu addItemWithTitle:NSLocalizedString(@"Online Help", @"") action:@selector(onlineHelp:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:onlineHelpTag];
 		[item setToolTip:NSLocalizedString(@"Status item Online Help item tooltip", /*comment*/ nil)];
@@ -587,17 +590,17 @@ static GrowlTunesController *sharedController;
 		[item setSubmenu:[self buildiTunesSubmenu]];
 
 		// The rating submenu
-		item = [menu addItemWithTitle:@"Rating" action:NULL keyEquivalent:empty];
+		item = [menu addItemWithTitle:NSLocalizedString(@"Rating", @"") action:NULL keyEquivalent:empty];
 		[item setSubmenu:[self buildRatingSubmenu]];
 
 		// Back to our regularly scheduled Status Menu
 		item = [NSMenuItem separatorItem];
 		[menu addItem:item];
 
-		item = [menu addItemWithTitle:@"Quit GrowlTunes" action:@selector(quitGrowlTunes:) keyEquivalent:empty];
+		item = [menu addItemWithTitle:NSLocalizedString(@"Quit GrowlTunes", @"") action:@selector(quitGrowlTunes:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:quitGrowlTunesTag];
-		item = [menu addItemWithTitle:@"Quit Both" action:@selector(quitBoth:) keyEquivalent:empty];
+		item = [menu addItemWithTitle:NSLocalizedString(@"Quit Both", @"") action:@selector(quitBoth:) keyEquivalent:empty];
 		[item setTarget:self];
 		[item setTag:quitBothTag];
 		[item setToolTip:NSLocalizedString(@"Status item Quit Both item tooltip", /*comment*/ nil)];
@@ -636,7 +639,7 @@ static GrowlTunesController *sharedController;
 		[iTunesSubMenu removeItem:item];
 
 	// In with the new
-	item = [iTunesSubMenu addItemWithTitle:@"Recently Played Tunes" action:NULL keyEquivalent:@""];
+	item = [iTunesSubMenu addItemWithTitle:NSLocalizedString(@"Recently Played Tunes", @"") action:NULL keyEquivalent:@""];
 	NSEnumerator *tunesEnumerator = [recentTracks objectEnumerator];
 	NSDictionary *aTuneDict = nil;
 	int k = 0;
@@ -698,16 +701,18 @@ static GrowlTunesController *sharedController;
 
 	return ratingSubMenu;
 }
-	
+
 - (BOOL) validateMenuItem:(NSMenuItem *)item {
 	BOOL retVal = YES;
+	int tag = [item tag];
+	int i;
 
-	switch ([item tag]) {
+	switch (tag) {
 		case launchQuitiTunesTag:
 			if ([self iTunesIsRunning])
-				[item setTitle:@"Quit iTunes"];
+				[item setTitle:NSLocalizedString(@"Quit iTunes", @"")];
 			else
-				[item setTitle:@"Launch iTunes"];
+				[item setTitle:NSLocalizedString(@"Launch iTunes", @"")];
 			break;
 
 		case quitBothTag:
@@ -716,15 +721,31 @@ static GrowlTunesController *sharedController;
 
 		case togglePollingTag:
 			if (pollTimer) {
-				[item setTitle:@"Stop Polling"];
+				[item setTitle:NSLocalizedString(@"Stop Polling", @"")];
 				[item setToolTip:NSLocalizedString(@"Status item Stop Polling item tooltip", /*comment*/ nil)];
 			} else {
-				[item setTitle:@"Start Polling"];
+				[item setTitle:NSLocalizedString(@"Start Polling", @"")];
 				[item setToolTip:NSLocalizedString(@"Status item Start Polling item tooltip", /*comment*/ nil)];
 			}
 
 		case quitGrowlTunesTag:
 		case onlineHelpTag:
+			break;
+
+		case ratingTag+0:
+		case ratingTag+1:
+		case ratingTag+2:
+		case ratingTag+3:
+		case ratingTag+4:
+		case ratingTag+5:
+			i = (tag-ratingTag)*20;
+			if (trackRating < 0) {
+				retVal = NO;
+				[item setState:NSOffState];
+			} else if (trackRating >= i && trackRating < i+20)
+				[item setState:NSOnState];
+			else
+				[item setState:NSOffState];
 			break;
 	}
 
@@ -795,10 +816,9 @@ static GrowlTunesController *sharedController;
 		[target release];
 		[event release];
 		success = ((err == noErr) || (err == procNotFound));
-		if (!success) {
-			//XXX this should be an alert panel (with a better message)
+		//XXX this should be an alert panel (with a better message)
+		if (!success)
 			NSLog(@"Could not quit iTunes: AESendMessage returned %li", (long)err);
-		}
 	}
 	return success;
 }
@@ -869,6 +889,8 @@ static GrowlTunesController *sharedController;
 	AEDisposeDesc(&target);
 	AEDisposeDesc(&ratingValue);
 	AEDisposeDesc(&ratingProperty);
+
+	trackRating = rating;
 }
 
 #pragma mark AppleScript
