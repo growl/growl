@@ -3,12 +3,16 @@ PREFERENCEPANES_DIR=$(PREFIX)/Library/PreferencePanes
 FRAMEWORKS_DIR=$(PREFIX)/Library/Frameworks
 GROWL_PREFPANE=Growl.prefPane
 GROWL_FRAMEWORK=Growl.framework
-BUILD_DIR=build
 GROWL_HELPER_APP=$(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)/Contents/Resources/GrowlHelperApp.app
 HEADERDOC_DIR=Docs/HeaderDoc
 
+BUILD_DIR?=$(shell defaults read com.apple.Xcode PBXProductDirectory)
+
+ifeq ($(strip $(BUILD_DIR)),)
+	BUILD_DIR=build
+endif
+
 DEFAULT_BUILDCONFIGURATION=Deployment
-#DEFAULT_BUILDCONFIGURATION=Development
 
 BUILDCONFIGURATION?=$(DEFAULT_BUILDCONFIGURATION)
 
@@ -37,13 +41,10 @@ growlapplicationbridge-withinstaller:
 clean:
 	xcodebuild -alltargets clean
 
-install:
-	killall GrowlHelperApp || true
-	-$(RM) -rf $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE) $(FRAMEWORKS_DIR)/$(GROWL_FRAMEWORK)
-	$(CP) $(BUILD_DIR)/$(BUILDCONFIGURATION)/$(GROWL_PREFPANE) $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
-	open $(GROWL_HELPER_APP)
+install: install-growl
+	-$(RM) -rf $(FRAMEWORKS_DIR)/$(GROWL_FRAMEWORK)
 
-install-growl:
+install-growl: growl
 	killall GrowlHelperApp || true
 	-$(RM) -rf $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
 	$(CP) $(BUILD_DIR)/$(BUILDCONFIGURATION)/$(GROWL_PREFPANE) $(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)
