@@ -23,6 +23,7 @@
 #import "GrowlDisplayProtocol.h"
 #import "GrowlPluginController.h"
 #import "GrowlApplicationBridge.h"
+#import "GrowlStatusController.h"
 #import "GrowlDefines.h"
 #import "GrowlVersionUtilities.h"
 #import "SVNRevision.h"
@@ -99,7 +100,7 @@ static id singleton = nil;
 		//XXX temporary DNC pathway hack - remove when real pathway support is in
 		dncPathway = [[GrowlDistributedNotificationPathway alloc] init];
 
-		tickets           = [[NSMutableDictionary alloc] init];
+		tickets = [[NSMutableDictionary alloc] init];
 
 		[self versionDictionary];
 
@@ -122,6 +123,8 @@ static id singleton = nil;
 
 		if (!singleton)
 			singleton = self;
+
+		statusController = [[GrowlStatusController alloc] init];
 
 		NSDate *lastCheck = [preferences objectForKey:LastUpdateCheckKey];
 		NSDate *now = [NSDate date];
@@ -153,14 +156,15 @@ static id singleton = nil;
 - (void) dealloc {
 	//free your world
 	[self stopServer];
-	[authenticator   release];
-	[dncPathway      release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
-	[destinations    release];
-	[tickets         release];
-	[growlIcon       release];
-	[versionCheckURL release];
-	[updateTimer     invalidate];
-	[updateTimer     release];
+	[authenticator    release];
+	[dncPathway       release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
+	[destinations     release];
+	[tickets          release];
+	[growlIcon        release];
+	[versionCheckURL  release];
+	[updateTimer      invalidate];
+	[updateTimer      release];
+	[statusController release];
 
 	[growlNotificationCenterConnection invalidate];
 	[growlNotificationCenterConnection release];
@@ -373,9 +377,8 @@ static id singleton = nil;
 	if (icon) {
 		[aDict setObject:icon forKey:GROWL_NOTIFICATION_APP_ICON];
 		[icon release];
-	} else {
+	} else
 		[aDict removeObjectForKey:GROWL_NOTIFICATION_APP_ICON];
-	}
 
 	// To avoid potential exceptions, make sure we have both text and title
 	if (![aDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
@@ -391,15 +394,16 @@ static id singleton = nil;
 		value = [dict objectForKey:GROWL_NOTIFICATION_PRIORITY];
 		if (!value)
 			value = [NSNumber numberWithInt:0];
-	} else {
+	} else
 		value = [NSNumber numberWithInt:priority];
-	}
 	[aDict setObject:value forKey:GROWL_NOTIFICATION_PRIORITY];
 
 	// Retrieve and set the sticky bit of the notification
 	int sticky = [notification sticky];
 	if (sticky >= 0)
 		[aDict setBool:(sticky ? YES : NO) forKey:GROWL_NOTIFICATION_STICKY];
+	else
+		[aDict setBool:[statusController isIdle] forKey:GROWL_NOTIFICATION_STICKY];
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
 	[aDict setBool:saveScreenshot forKey:GROWL_SCREENSHOT_MODE];

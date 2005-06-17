@@ -12,7 +12,7 @@
 @protocol GrowlDisplayPlugin;
 
 @class GrowlDistributedNotificationPathway, GrowlUDPPathway, GrowlRemotePathway,
-	MD5Authenticator, GrowlNotificationCenter;
+	MD5Authenticator, GrowlNotificationCenter, GrowlStatusController;
 
 @interface GrowlController : NSObject {
 	NSMutableDictionary			*tickets;				//Application tickets
@@ -25,6 +25,8 @@
 	// local GrowlNotificationCenter
 	NSConnection				*growlNotificationCenterConnection;
 	GrowlNotificationCenter		*growlNotificationCenter;
+
+	GrowlStatusController		*statusController;
 
 	// remote DistributedObjects server
 	NSNetService				*service;

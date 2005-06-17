@@ -6,7 +6,7 @@ GROWL_FRAMEWORK=Growl.framework
 GROWL_HELPER_APP=$(PREFERENCEPANES_DIR)/$(GROWL_PREFPANE)/Contents/Resources/GrowlHelperApp.app
 HEADERDOC_DIR=Docs/HeaderDoc
 
-BUILD_DIR?=$(shell defaults read com.apple.Xcode PBXProductDirectory)
+BUILD_DIR?=$(shell defaults read com.apple.Xcode PBXProductDirectory 2> /dev/null)
 
 ifeq ($(strip $(BUILD_DIR)),)
 	BUILD_DIR=build
