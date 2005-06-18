@@ -296,7 +296,7 @@ static GrowlTunesController *sharedController;
 		}
 	}
 
-	if (newTrackURL && (![newTrackURL isEqualToString:trackURL] || [newTrackURL hasPrefix:@"http://"])) { // this is different from previous notification, or it's a stream
+	if (newTrackURL) {
 		NSString		*track         = nil;
 		NSString		*length        = nil;
 		NSString		*artist        = @"";
@@ -378,7 +378,6 @@ static GrowlTunesController *sharedController;
 			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format", /*comment*/ nil), length, ratingString, artist, album];
 		}
 
-		// Tell Growl
 		[noteDict release];
 		noteDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,
@@ -389,15 +388,19 @@ static GrowlTunesController *sharedController;
 			[artwork TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 			nil];
 		[displayString release];
-		[GrowlApplicationBridge notifyWithDictionary:noteDict];
+
+		if (![newTrackURL isEqualToString:trackURL] || [newTrackURL hasPrefix:@"http://"]) { // this is different from previous notification, or it's a stream
+			// Tell Growl
+			[GrowlApplicationBridge notifyWithDictionary:noteDict];
+
+			// Recent Tracks
+			[self addTuneToRecentTracks:track fromPlaylist:playlistName];
+		}
 
 		// set up us some state for next time
 		state = newState;
 		[trackURL release];
 		trackURL = [newTrackURL retain];
-
-		// Recent Tracks
-		[self addTuneToRecentTracks:track fromPlaylist:playlistName];
 	}
 }
 
@@ -433,7 +436,7 @@ static GrowlTunesController *sharedController;
 		return;
 	}
 
-	if (newTrackID && trackID != newTrackID) { // this is different from previous note
+	if (newTrackID) {
 		NSString		*track = nil;
 		NSString		*length = nil;
 		NSString		*artist = nil;
@@ -483,7 +486,6 @@ static GrowlTunesController *sharedController;
 				if (artwork && [plugin usesNetwork])
 					[archivePlugin archiveImage:artwork	track:track artist:artist album:album compilation:compilation];
 			}
-
 		}
 
 		if (!artwork) {
@@ -497,7 +499,6 @@ static GrowlTunesController *sharedController;
 			[artwork setSize:NSMakeSize(128.0f, 128.0f)];
 		}
 
-		// Tell growl
 		NSString *description = [[NSString alloc] initWithFormat:@"%@ - %@\n%@\n%@", length, ratingString, artist, album];
 		[noteDict release];
 		noteDict = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -509,14 +510,18 @@ static GrowlTunesController *sharedController;
 			[artwork TIFFRepresentation], GROWL_NOTIFICATION_ICON,
 			nil];
 		[description release];
-		[GrowlApplicationBridge notifyWithDictionary:noteDict];
+
+		if (trackID != newTrackID) { // this is different from previous note
+			// Tell growl
+			[GrowlApplicationBridge notifyWithDictionary:noteDict];
+
+			// Recent Tracks
+			[self addTuneToRecentTracks:track fromPlaylist:playlistName];
+		}
 
 		// set up us some state for next time
 		state = newState;
 		trackID = newTrackID;
-
-		// Recent Tracks
-		[self addTuneToRecentTracks:track fromPlaylist:playlistName];
 	}
 }
 
