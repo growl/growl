@@ -53,7 +53,7 @@
 		   identifier:[noteDict objectForKey: GROWL_NOTIFICATION_IDENTIFIER]
 				style:style];
 	[controller setTarget:self];
-	[controller setAction:@selector(_notificationClicked:)];
+	[controller setAction:@selector(notificationClicked:)];
 	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[controller setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
@@ -61,7 +61,7 @@
 	[controller release];
 }
 
-- (void) _notificationClicked:(GrowlWebKitWindowController *)windowController {
+- (void) notificationClicked:(GrowlWebKitWindowController *)windowController {
 	id clickContext;
 
 	if ((clickContext = [windowController clickContext])) {

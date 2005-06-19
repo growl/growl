@@ -48,35 +48,11 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[depthValue release];
 
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	[nc postNotificationName:@"Glide" object:nil userInfo:dict];
 	[nc postNotificationName:@"BrushedGone" object:nil userInfo:dict];
 	[dict release];
 }
 
-- (void) _glideUp:(NSNotification *)note {
-	NSDictionary *userInfo = [note userInfo];
-//	NSLog(@"id: %d depth: %f", [[userInfo objectForKey:@"ID"] unsignedIntValue], [[userInfo objectForKey:@"Depth"] floatValue]);
-//	NSLog(@"self id: %d BrushedWindowDepth: %d", uid, BrushedWindowDepth);
-	if ([[userInfo objectForKey:@"ID"] unsignedIntValue] < uid) {
-		NSWindow *window = [self window];
-		NSRect theFrame = [window frame];
-		theFrame.origin.y += [[[note userInfo] objectForKey:@"Depth"] floatValue];
-		// don't allow notification to fly off the top of the screen
-		if (theFrame.origin.y < NSMaxY( [[self screen] visibleFrame] ) - GrowlBrushedPadding) {
-			[window setFrame:theFrame display:NO animate:YES];
-			NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:uid];
-			NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
-				idValue, @"ID",
-				[NSValue valueWithRect:theFrame], @"Space",
-				nil];
-			[idValue release];
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];
-			[dict release];
-		}
-	}
-}
-
-- (void) _clearSpace:(NSNotification *)note {
+- (void) clearSpace:(NSNotification *)note {
 	NSDictionary *userInfo = [note userInfo];
 	unsigned i = [[userInfo objectForKey:@"ID"] unsignedIntValue];
 	NSRect space = [[userInfo objectForKey:@"Space"] rectValue];
@@ -130,12 +106,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
 
-	/*[[NSNotificationCenter defaultCenter] addObserver:self
-											selector:@selector( _glideUp: )
-												name:@"Glide"
-											  object:nil];*/
-
-	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect( 0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f )
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f)
 												styleMask:styleMask
 												  backing:NSBackingStoreBuffered
 													defer:NO];
@@ -156,7 +127,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	GrowlBrushedWindowView *view = [[GrowlBrushedWindowView alloc] initWithFrame:panelFrame];
 	[view setTarget:self];
-	[view setAction:@selector(_notificationClicked:)];
+	[view setAction:@selector(notificationClicked:)];
 	[panel setContentView:view];
 
     [view setPriority:priority];
@@ -203,7 +174,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		[nc postNotificationName:@"Clear Space" object:nil userInfo:dict];
 		[dict release];
 		[nc addObserver:self
-			   selector:@selector(_clearSpace:)
+			   selector:@selector(clearSpace:)
 				   name:@"Clear Space"
 				 object:nil];
 

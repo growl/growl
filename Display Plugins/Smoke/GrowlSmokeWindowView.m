@@ -11,6 +11,8 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
+#import "NSMutableAttributedStringAdditions.h"
+#import <WebKit/WebPreferences.h>
 
 #define GrowlSmokeTextAreaWidth (GrowlSmokeNotificationWidth - GrowlSmokePadding - iconSize - GrowlSmokeIconTextPadding - GrowlSmokePadding)
 #define GrowlSmokeMinTextHeight	(GrowlSmokePadding + iconSize + GrowlSmokePadding)
@@ -193,18 +195,38 @@
 	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 	NSFont *titleFont = [NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize];
-	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-		titleFont,      NSFontAttributeName,
+	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 		textColor,		NSForegroundColorAttributeName,
 		textShadow,     NSShadowAttributeName,
 		paragraphStyle, NSParagraphStyleAttributeName,
 		nil];
 	[paragraphStyle release];
 
-	[[titleStorage mutableString] setString:aTitle];
-	[titleStorage setAttributes:attributes range:NSMakeRange(0, [titleStorage length])];
+	WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlSmokeTitle"];
+	[webPreferences setJavaEnabled:NO];
+	[webPreferences setJavaScriptEnabled:NO];
+	[webPreferences setPlugInsEnabled:NO];
+	[webPreferences setUserStyleSheetEnabled:NO];
+	[webPreferences setStandardFontFamily:[titleFont familyName]];
+	[webPreferences setDefaultFontSize:GrowlSmokeTitleFontSize];
+	NSNumber *useWebKit = [[NSNumber alloc] initWithInt:1];
+	NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:
+		useWebKit,      @"UseWebKit",
+		webPreferences, NSWebPreferencesDocumentOption,
+		nil];
+	[useWebKit      release];
+	[webPreferences release];
 
-	[attributes release];
+	NSString *boldTitle = [[NSString alloc] initWithFormat:@"<strong>%@</strong>", aTitle];
+	NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithHTML:[boldTitle dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:NO]
+																				 options:options
+																	  documentAttributes:NULL];
+	[boldTitle release];
+	[options   release];
+	[content addDefaultAttributes:defaultAttributes];
+	[titleStorage setAttributedString:content];
+
+	[defaultAttributes release];
 
 	titleRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
 	titleHeight = [titleLayoutManager usedRectForTextContainer:titleContainer].size.height;
@@ -227,11 +249,10 @@
 		BOOL limitPref = GrowlSmokeLimitPrefDefault;
 		READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
 		containerSize.width = GrowlSmokeTextAreaWidth;
-		if (limitPref) {
+		if (limitPref)
 			containerSize.height = lineHeight * GrowlSmokeMaxLines;
-		} else {
+		else
 			containerSize.height = FLT_MAX;
-		}
 		textStorage = [[NSTextStorage alloc] init];
 		textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
 		[textLayoutManager addTextContainer:textContainer];	// retains textContainer
@@ -240,17 +261,36 @@
 		[textContainer setLineFragmentPadding:0.0f];
 	}
 
-	// construct attributes for the description text
-	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-		textFont,   NSFontAttributeName,
+	// construct default attributes for the description text
+	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 		textColor,  NSForegroundColorAttributeName,
 		textShadow, NSShadowAttributeName,
 		nil];
 
-	[[textStorage mutableString] setString:aText];
-	[textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
+	WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlSmokeText"];
+	[webPreferences setJavaEnabled:NO];
+	[webPreferences setJavaScriptEnabled:NO];
+	[webPreferences setPlugInsEnabled:NO];
+	[webPreferences setUserStyleSheetEnabled:NO];
+	[webPreferences setStandardFontFamily:[textFont familyName]];
+	[webPreferences setDefaultFontSize:GrowlSmokeTextFontSize];
+	NSNumber *useWebKit = [[NSNumber alloc] initWithInt:1];
+	NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:
+		useWebKit,      @"UseWebKit",
+		webPreferences, NSWebPreferencesDocumentOption,
+		nil];
+	[useWebKit      release];
+	[webPreferences release];
 
-	[attributes release];
+	NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithHTML:[aText dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:NO]
+																				 options:options
+																	  documentAttributes:NULL];
+	[options release];
+	[content addDefaultAttributes:defaultAttributes];
+	[textStorage setAttributedString:content];
+
+	[defaultAttributes release];
+	[content release];
 
 	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
 	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;

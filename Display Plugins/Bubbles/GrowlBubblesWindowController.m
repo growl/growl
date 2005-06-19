@@ -68,7 +68,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	GrowlBubblesWindowView *view = [[GrowlBubblesWindowView alloc] initWithFrame:panelFrame];
 	[view setTarget:self];
-	[view setAction:@selector(_notificationClicked:)];
+	[view setAction:@selector(notificationClicked:)];
 	[panel setContentView:view];
 
 	[view setPriority:priority];

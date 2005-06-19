@@ -302,7 +302,7 @@
 
 #pragma mark -
 
-- (void) _notificationClicked:(id)sender {
+- (void) notificationClicked:(id)sender {
 #pragma unused(sender)
 	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];

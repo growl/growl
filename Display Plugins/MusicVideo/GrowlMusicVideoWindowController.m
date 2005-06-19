@@ -56,7 +56,7 @@
 	GrowlMusicVideoWindowView *view = [[GrowlMusicVideoWindowView alloc] initWithFrame:panelFrame];
 
 	[view setTarget:self];
-	[view setAction:@selector(_notificationClicked:)]; // Not used for now
+	[view setAction:@selector(notificationClicked:)]; // Not used for now
 
 	contentView = [[NSView alloc] initWithFrame:panelFrame];
 	[contentView addSubview:view]; // retains subview

@@ -222,6 +222,7 @@
 		95A9E435080B2CAB006A2F29 /* TicketsArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A9E433080B2CAB006A2F29 /* TicketsArrayController.m */; };
 		95AA8654080065DE0045589D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AA8653080065DE0045589D /* SystemConfiguration.framework */; };
 		95AFFE20082BCDFB0033A7FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AA8653080065DE0045589D /* SystemConfiguration.framework */; };
+		95B92F470865BA5D00DA02F0 /* NSMutableAttributedStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B92F1C0865B5A900DA02F0 /* NSMutableAttributedStringAdditions.m */; };
 		95BF38FE0851F82200873BE1 /* WebKitPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 95BF38FC0851F82200873BE1 /* WebKitPrefs.nib */; };
 		95BF837C0743675700306A77 /* growl-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 95BF83760743675700306A77 /* growl-icon.icns */; };
 		95BF837D0743675700306A77 /* growl-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 95BF83760743675700306A77 /* growl-icon.icns */; };
@@ -772,6 +773,8 @@
 		95B00A18084688F6004A8623 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = StatusItem/Resources/zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95B00A3008468932004A8623 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = Core/Resources/cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95B00A3108468941004A8623 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = Core/Resources/zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
+		95B92F1B0865B5A900DA02F0 /* NSMutableAttributedStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableAttributedStringAdditions.h; path = Common/Source/NSMutableAttributedStringAdditions.h; sourceTree = "<group>"; };
+		95B92F1C0865B5A900DA02F0 /* NSMutableAttributedStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableAttributedStringAdditions.m; path = Common/Source/NSMutableAttributedStringAdditions.m; sourceTree = "<group>"; };
 		95BF38FD0851F82200873BE1 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = "Display Plugins/WebKit/cs.lproj/WebKitPrefs.nib"; sourceTree = "<group>"; };
 		95BF38FF0851F83500873BE1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "Display Plugins/WebKit/English.lproj/WebKitPrefs.nib"; sourceTree = "<group>"; };
 		95BF39000851F83F00873BE1 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = "Display Plugins/WebKit/German.lproj/WebKitPrefs.nib"; sourceTree = "<group>"; };
@@ -1500,6 +1503,8 @@
 				95F975AC084A23F500915BFE /* NSMutableDictionaryAdditions.m */,
 				95F97679084A297400915BFE /* NSDictionaryAdditions.h */,
 				95F9767A084A297400915BFE /* NSDictionaryAdditions.m */,
+				95B92F1B0865B5A900DA02F0 /* NSMutableAttributedStringAdditions.h */,
+				95B92F1C0865B5A900DA02F0 /* NSMutableAttributedStringAdditions.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -2505,12 +2510,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
-					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
-				},
-				{
 					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
 					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
+				},
+				{
+					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
+					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
 				},
 			);
 			targets = (
@@ -2976,6 +2981,7 @@
 				95F97733084A2CA000915BFE /* NSMutableDictionaryAdditions.m in Sources */,
 				95F97734084A2CA300915BFE /* NSDictionaryAdditions.m in Sources */,
 				95416E06086343180098C914 /* GrowlStatusController.m in Sources */,
+				95B92F470865BA5D00DA02F0 /* NSMutableAttributedStringAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

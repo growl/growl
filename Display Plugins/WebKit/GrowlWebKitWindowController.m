@@ -101,7 +101,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 																	 groupName:nil];
 	[view setMaintainsBackForwardList:NO];
 	[view setTarget:self];
-	[view setAction:@selector(_notificationClicked:)];
+	[view setAction:@selector(notificationClicked:)];
 	[view setPolicyDelegate:self];
 	[view setFrameLoadDelegate:self];
 	if ([view respondsToSelector:@selector(setDrawsBackground:)])

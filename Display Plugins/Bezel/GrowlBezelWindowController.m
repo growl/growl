@@ -62,7 +62,7 @@
 	contentView = [[GrowlBezelWindowView alloc] initWithFrame:panelFrame];
 
 	//[view setTarget:self];
-	//[view setAction:@selector(_notificationClicked:)];
+	//[view setAction:@selector(notificationClicked:)];
 	[panel setContentView:contentView];
 
 	[contentView setPriority:priority];
