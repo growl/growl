@@ -535,6 +535,16 @@
 	[[GrowlPreferences preferences] setBool:flag forKey:GrowlSquelchModeKey];
 }
 
+#pragma mark -
+
+- (BOOL) stickyWhenAway {
+	return [[GrowlPreferences preferences] boolForKey:GrowlStickyWhenAwayKey];
+}
+
+- (void) setStickyWhenAway:(BOOL)flag {
+	[[GrowlPreferences preferences] setBool:flag forKey:GrowlStickyWhenAwayKey];
+}
+
 #pragma mark Menu Extra
 
 - (BOOL) growlMenuEnabled {

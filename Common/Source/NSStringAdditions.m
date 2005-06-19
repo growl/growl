@@ -66,7 +66,7 @@
 
 + (NSString *) stringWithAddressData:(NSData *)aAddressData {
 	struct sockaddr *socketAddress = (struct sockaddr *)[aAddressData bytes];
-	// IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF" 
+	// IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
 	//      at max, which is 40 bytes (0-terminated)
 	// IPv4 Addresses are "255.255.255.255" at max which is smaller
 	char stringBuffer[40];

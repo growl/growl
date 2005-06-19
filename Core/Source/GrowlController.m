@@ -272,6 +272,8 @@ static id singleton = nil;
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSNumber *requestTimeout = [defaults objectForKey:@"ForwardingRequestTimeout"];
+	NSNumber *replyTimeout = [defaults objectForKey:@"ForwardingReplyTimeout"];
 
 	NSEnumerator *enumerator = [destinations objectEnumerator];
 	NSDictionary *entry;
@@ -290,12 +292,10 @@ static id singleton = nil;
 			MD5Authenticator *auth = [[MD5Authenticator alloc] initWithPassword:password];
 			[connection setDelegate:auth];
 
-			NSNumber *num = [defaults objectForKey:@"ForwardingRequestTimeout"];
-			if (num && [num respondsToSelector:@selector(floatValue)])
-				[connection setRequestTimeout:[num floatValue]];
-			num = [defaults objectForKey:@"ForwardingReplyTimeout"];
-			if (num && [num respondsToSelector:@selector(floatValue)])
-				[connection setReplyTimeout:[num floatValue]];
+			if (requestTimeout && [requestTimeout respondsToSelector:@selector(floatValue)])
+				[connection setRequestTimeout:[requestTimeout floatValue]];
+			if (replyTimeout && [replyTimeout respondsToSelector:@selector(floatValue)])
+				[connection setReplyTimeout:[replyTimeout floatValue]];
 
 			@try {
 				NSDistantObject *theProxy = [connection rootProxy];
@@ -398,18 +398,20 @@ static id singleton = nil;
 		value = [NSNumber numberWithInt:priority];
 	[aDict setObject:value forKey:GROWL_NOTIFICATION_PRIORITY];
 
+	GrowlPreferences *preferences = [GrowlPreferences preferences];
+
 	// Retrieve and set the sticky bit of the notification
 	int sticky = [notification sticky];
 	if (sticky >= 0)
 		[aDict setBool:(sticky ? YES : NO) forKey:GROWL_NOTIFICATION_STICKY];
-	else
+	else if ([preferences boolForKey:GrowlStickyWhenAwayKey])
 		[aDict setBool:[statusController isIdle] forKey:GROWL_NOTIFICATION_STICKY];
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
 	[aDict setBool:saveScreenshot forKey:GROWL_SCREENSHOT_MODE];
 	[aDict setBool:[ticket clickHandlersEnabled] forKey:@"ClickHandlerEnabled"];
 
-	if (![[GrowlPreferences preferences] boolForKey:GrowlSquelchModeKey]) {
+	if (![preferences boolForKey:GrowlSquelchModeKey]) {
 		id <GrowlDisplayPlugin> display = [notification displayPlugin];
 
 		if (!display) {

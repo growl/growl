@@ -83,7 +83,7 @@
 											 strlen(keychainServiceName), keychainServiceName,
 											 strlen(keychainAccountName), keychainAccountName,
 											 &passwordLength, (void **)&password, NULL );
-	
+
 	NSString *passwordString;
 	if (status == noErr) {
 		passwordString = [NSString stringWithUTF8String:password length:passwordLength];
@@ -93,7 +93,7 @@
 			NSLog(@"Failed to retrieve SMS Account password from keychain. Error: %d", status);
 		passwordString = @"";
 	}
-	
+
 	return passwordString;
 }
 

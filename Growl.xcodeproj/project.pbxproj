@@ -178,7 +178,6 @@
 		953F5CF107403B67008E2AEB /* GrowlNotifyScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F5CEB07403B67008E2AEB /* GrowlNotifyScriptCommand.m */; };
 		953F5D3807403BC7008E2AEB /* GrowlRegisterScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F5D2C07403BC7008E2AEB /* GrowlRegisterScriptCommand.m */; };
 		953F73A1081FFB9E00823EFE /* GrowlNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F739F081FFB9E00823EFE /* GrowlNotificationCenter.m */; };
-		95416E05086343180098C914 /* GrowlStatusController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95416E03086343180098C914 /* GrowlStatusController.h */; };
 		95416E06086343180098C914 /* GrowlStatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95416E04086343180098C914 /* GrowlStatusController.m */; };
 		9542E55B07C28C3A0056BAC9 /* GrowlInstallation.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9542E51C07C28C3A0056BAC9 /* GrowlInstallation.strings */; };
 		954F013D074135D400EA8AB5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 954F013B074135D400EA8AB5 /* Localizable.strings */; };
@@ -515,7 +514,6 @@
 				343345880790E3D600C84B15 /* Smoke.growlView in CopyFiles */,
 				DDFADA6C084D1C770055DBC8 /* GrowlSMS.growlView in CopyFiles */,
 				3433458A0790E3D600C84B15 /* Speech.growlView in CopyFiles */,
-				95416E05086343180098C914 /* GrowlStatusController.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

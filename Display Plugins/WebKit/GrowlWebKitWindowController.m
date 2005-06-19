@@ -107,7 +107,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	if ([view respondsToSelector:@selector(setDrawsBackground:)])
 		[view setDrawsBackground:NO];
 	[panel setContentView:view];
-	
+
 	[self setTitle:title text:text icon:icon priority:priority forView:view];
 
 	panelFrame = [view frame];

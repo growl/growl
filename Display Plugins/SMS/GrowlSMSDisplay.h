@@ -16,14 +16,14 @@
 
 	NSMutableArray		*commandQueue;
 	NSData				*responseData;
-	NSXMLParser			*responseParser;	
+	NSXMLParser			*responseParser;
 	NSMutableString		*xmlHoldingStringValue;
 
 	float				creditBalance;
 
 	BOOL				waitingForResponse;
 	BOOL				inBalanceResponseElement;
-	BOOL				inMessageSendResponseElement;	
+	BOOL				inMessageSendResponseElement;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict;

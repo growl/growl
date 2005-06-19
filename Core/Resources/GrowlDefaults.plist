@@ -24,5 +24,7 @@
 	<false/>
 	<key>GrowlSquelchMode</key>
 	<false/>
+	<key>StickyWhenAway</key>
+	<true/>
 </dict>
 </plist>

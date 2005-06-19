@@ -30,6 +30,7 @@
 #define GrowlMenuExtraKey			@"GrowlMenuExtra"
 #define GrowlSquelchModeKey			@"GrowlSquelchMode"
 #define LastKnownVersionKey			@"LastKnownVersion"
+#define GrowlStickyWhenAwayKey		@"StickyWhenAway"
 
 @interface GrowlPreferences : NSObject {
 	NSUserDefaults *helperAppDefaults;
