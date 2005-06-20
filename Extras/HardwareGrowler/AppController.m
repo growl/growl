@@ -36,6 +36,9 @@
 #define NotifierNetworkIpAcquiredTitle			NSLocalizedString(@"IP address acquired", @"")
 #define NotifierNetworkIpReleasedTitle			NSLocalizedString(@"IP address released", @"")
 
+#define NotifierNetworkIpAcquiredDescription	NSLocalizedString(@"New primary IP: %@", @"")
+#define NotifierNetworkIpReleasedDescription	NSLocalizedString(@"No IP address now", @"")
+
 @implementation AppController
 
 - (void) awakeFromNib {
@@ -304,7 +307,7 @@
 		return;
 
 	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkIpAcquiredTitle
-								description:[NSString stringWithFormat:@"New primary IP: %@", ip]
+								description:[NSString stringWithFormat:NotifierNetworkIpAcquiredDescription, ip]
 						   notificationName:NotifierNetworkIpAcquiredNotification
 								   iconData:ipIconData
 								   priority:0
@@ -319,7 +322,7 @@
 		return;
 
 	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkIpReleasedTitle
-								description:@"No IP address now"
+								description:NotifierNetworkIpReleasedDescription
 						   notificationName:NotifierNetworkIpReleasedNotification
 								   iconData:ipIconData
 								   priority:0
