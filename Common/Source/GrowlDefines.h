@@ -107,6 +107,12 @@
  *	 The title usually says what happened, e.g. "Download complete".
  */
 #define GROWL_NOTIFICATION_TITLE		XSTR("NotificationTitle")
+/*!	@defined GROWL_NOTIFICATION_TITLE_HTML
+ *	@abstract The title to display in the notification.
+ *	@discussion The title of the notification. Should be very brief.
+ *	 The title usually says what happened, e.g. "Download complete".
+ */
+#define GROWL_NOTIFICATION_TITLE_HTML	XSTR("NotificationTitleHTML")
 /*!	@defined GROWL_NOTIFICATION_DESCRIPTION
  *	@abstract The description to display in the notification.
  *	@discussion The description should be longer and more verbose than the title.
@@ -114,6 +120,13 @@
  *	 e.g. "Growl-0.6.dmg downloaded in 5.02 minutes".
  */
 #define GROWL_NOTIFICATION_DESCRIPTION  	XSTR("NotificationDescription")
+/*!	@defined GROWL_NOTIFICATION_DESCRIPTION_HTML
+ *	@abstract The description to display in the notification.
+ *	@discussion The description should be longer and more verbose than the title.
+ *	 The description usually tells the subject of the action,
+ *	 e.g. "Growl-0.6.dmg downloaded in 5.02 minutes".
+ */
+#define GROWL_NOTIFICATION_DESCRIPTION_HTML	XSTR("NotificationDescriptionHTML")
 /*!	@defined GROWL_NOTIFICATION_ICON
  *	@discussion Image data for the notification icon. Must be in a format
  *	 supported by NSImage, such as TIFF, PNG, GIF, JPEG, BMP, PICT, or PDF.

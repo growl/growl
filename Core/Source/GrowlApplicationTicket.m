@@ -61,9 +61,8 @@
 			if (newTicket) {
 				NSString *applicationName = [newTicket applicationName];
 
-				if (clobber || ![dict objectForKey:applicationName]) {
+				if (clobber || ![dict objectForKey:applicationName])
 					[dict setObject:newTicket forKey:applicationName];
-				}
 				[newTicket release];
 			}
 		}

@@ -45,7 +45,7 @@ static const char usage[] =
 "Usage: growlnotify [-hsvuwc] [-i ext] [-I filepath] [--image filepath]\n"
 "                   [-a appname] [-p priority] [-H host] [-P password]\n"
 "                   [--port port] [-n name] [-A method] [--progress value]\n"
-"                   [-m message] [-t] [title]\n"
+"                   [--html] [-m message] [-t] [title]\n"
 "Options:\n"
 "    -h,--help       Display this help\n"
 "    -v,--version    Display version number\n"
@@ -70,6 +70,7 @@ static const char usage[] =
 "    -c,--crypt      Encrypt UDP notifications.\n"
 "    -w,--wait       Wait until the notification has been dismissed.\n"
 "       --progress   Set a progress value for this notification.\n"
+"       --html       Use HTML markup in the title and message.\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
 "message given in the standard input.\n"
@@ -115,6 +116,7 @@ int main(int argc, const char **argv) {
 	BOOL haveProgress = NO;
 	BOOL useUDP = NO;
 	BOOL crypt = NO;
+	BOOL useHTML = NO;
 	int flag;
 	char *port = NULL;
 	enum GrowlAuthenticationMethod authMethod = GROWL_AUTH_MD5;
@@ -148,6 +150,7 @@ int main(int argc, const char **argv) {
 		{ "crypt",      no_argument,        NULL,   'c' },
 		{ "sticky",     no_argument,        NULL,   's' },
 		{ "progress",   required_argument,  &flag,   3  },
+		{ "html",       no_argument,        &flag,   4  },
 		{ NULL,			0,					NULL,	 0  }
 	};
 
@@ -237,6 +240,9 @@ int main(int argc, const char **argv) {
 				case 3:
 					haveProgress = YES;
 					progress = strtod(optarg, NULL);
+					break;
+				case 4:
+					useHTML = YES;
 					break;
 			}
 			break;
@@ -334,8 +340,8 @@ int main(int argc, const char **argv) {
 	NSMutableDictionary *notificationInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		NOTIFICATION_NAME, GROWL_NOTIFICATION_NAME,
 		applicationName,   GROWL_APP_NAME,
-		title,             GROWL_NOTIFICATION_TITLE,
-		desc,              GROWL_NOTIFICATION_DESCRIPTION,
+		title,             useHTML ? GROWL_NOTIFICATION_TITLE_HTML : GROWL_NOTIFICATION_TITLE,
+		desc,              useHTML ? GROWL_NOTIFICATION_DESCRIPTION_HTML : GROWL_NOTIFICATION_DESCRIPTION,
 		priorityNumber,    GROWL_NOTIFICATION_PRIORITY,
 		stickyNumber,      GROWL_NOTIFICATION_STICKY,
 		icon,              GROWL_NOTIFICATION_ICON,

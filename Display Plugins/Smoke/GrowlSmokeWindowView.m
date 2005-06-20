@@ -170,7 +170,7 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (void) setTitle:(NSString *)aTitle {
+- (void) setTitle:(NSString *)aTitle isHTML:(BOOL)isHTML {
 	haveTitle = [aTitle length] != 0;
 
 	if (!haveTitle) {
@@ -196,35 +196,42 @@
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 	NSFont *titleFont = [NSFont boldSystemFontOfSize:GrowlSmokeTitleFontSize];
 	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+		titleFont,		NSFontAttributeName,
 		textColor,		NSForegroundColorAttributeName,
 		textShadow,     NSShadowAttributeName,
 		paragraphStyle, NSParagraphStyleAttributeName,
 		nil];
 	[paragraphStyle release];
 
-	WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlSmokeTitle"];
-	[webPreferences setJavaEnabled:NO];
-	[webPreferences setJavaScriptEnabled:NO];
-	[webPreferences setPlugInsEnabled:NO];
-	[webPreferences setUserStyleSheetEnabled:NO];
-	[webPreferences setStandardFontFamily:[titleFont familyName]];
-	[webPreferences setDefaultFontSize:GrowlSmokeTitleFontSize];
-	NSNumber *useWebKit = [[NSNumber alloc] initWithInt:1];
-	NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:
-		useWebKit,      @"UseWebKit",
-		webPreferences, NSWebPreferencesDocumentOption,
-		nil];
-	[useWebKit      release];
-	[webPreferences release];
+	if (isHTML) {
+		WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlSmokeTitle"];
+		[webPreferences setJavaEnabled:NO];
+		[webPreferences setJavaScriptEnabled:NO];
+		[webPreferences setPlugInsEnabled:NO];
+		[webPreferences setUserStyleSheetEnabled:NO];
+		[webPreferences setStandardFontFamily:[titleFont familyName]];
+		[webPreferences setDefaultFontSize:GrowlSmokeTitleFontSize];
+		NSNumber *useWebKit = [[NSNumber alloc] initWithInt:1];
+		NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:
+			useWebKit,      @"UseWebKit",
+			webPreferences, NSWebPreferencesDocumentOption,
+			nil];
+		[useWebKit      release];
+		[webPreferences release];
 
-	NSString *boldTitle = [[NSString alloc] initWithFormat:@"<strong>%@</strong>", aTitle];
-	NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithHTML:[boldTitle dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:NO]
+		NSString *boldTitle = [[NSString alloc] initWithFormat:@"<strong>%@</strong>", aTitle];
+		NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithHTML:[boldTitle dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:NO]
 																				 options:options
 																	  documentAttributes:NULL];
-	[boldTitle release];
-	[options   release];
-	[content addDefaultAttributes:defaultAttributes];
-	[titleStorage setAttributedString:content];
+		[boldTitle release];
+		[options   release];
+		[content addDefaultAttributes:defaultAttributes];
+		[titleStorage setAttributedString:content];
+		[content release];
+	} else {
+		[[titleStorage mutableString] setString:aTitle];
+		[titleStorage setAttributes:defaultAttributes range:NSMakeRange(0U, [aTitle length])];
+	}
 
 	[defaultAttributes release];
 
@@ -235,7 +242,7 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (void) setText:(NSString *)aText {
+- (void) setText:(NSString *)aText isHTML:(BOOL)isHTML {
 	haveText = [aText length] != 0;
 
 	if (!haveText) {
@@ -263,34 +270,40 @@
 
 	// construct default attributes for the description text
 	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+		textFont,	NSFontAttributeName,
 		textColor,  NSForegroundColorAttributeName,
 		textShadow, NSShadowAttributeName,
 		nil];
 
-	WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlSmokeText"];
-	[webPreferences setJavaEnabled:NO];
-	[webPreferences setJavaScriptEnabled:NO];
-	[webPreferences setPlugInsEnabled:NO];
-	[webPreferences setUserStyleSheetEnabled:NO];
-	[webPreferences setStandardFontFamily:[textFont familyName]];
-	[webPreferences setDefaultFontSize:GrowlSmokeTextFontSize];
-	NSNumber *useWebKit = [[NSNumber alloc] initWithInt:1];
-	NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:
-		useWebKit,      @"UseWebKit",
-		webPreferences, NSWebPreferencesDocumentOption,
-		nil];
-	[useWebKit      release];
-	[webPreferences release];
+	if (isHTML) {
+		WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlSmokeText"];
+		[webPreferences setJavaEnabled:NO];
+		[webPreferences setJavaScriptEnabled:NO];
+		[webPreferences setPlugInsEnabled:NO];
+		[webPreferences setUserStyleSheetEnabled:NO];
+		[webPreferences setStandardFontFamily:[textFont familyName]];
+		[webPreferences setDefaultFontSize:GrowlSmokeTextFontSize];
+		NSNumber *useWebKit = [[NSNumber alloc] initWithInt:1];
+		NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:
+			useWebKit,      @"UseWebKit",
+			webPreferences, NSWebPreferencesDocumentOption,
+			nil];
+		[useWebKit      release];
+		[webPreferences release];
 
-	NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithHTML:[aText dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:NO]
-																				 options:options
-																	  documentAttributes:NULL];
-	[options release];
-	[content addDefaultAttributes:defaultAttributes];
-	[textStorage setAttributedString:content];
+		NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithHTML:[aText dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:NO]
+																					 options:options
+																		  documentAttributes:NULL];
+		[options release];
+		[content addDefaultAttributes:defaultAttributes];
+		[textStorage setAttributedString:content];
+		[content release];
+	} else {
+		[[textStorage mutableString] setString:aText];
+		[textStorage setAttributes:defaultAttributes range:NSMakeRange(0U, [aText length])];
+	}
 
 	[defaultAttributes release];
-	[content release];
 
 	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
 	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;

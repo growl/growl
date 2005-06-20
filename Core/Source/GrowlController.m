@@ -404,7 +404,7 @@ static id singleton = nil;
 	int sticky = [notification sticky];
 	if (sticky >= 0)
 		[aDict setBool:(sticky ? YES : NO) forKey:GROWL_NOTIFICATION_STICKY];
-	else if ([preferences boolForKey:GrowlStickyWhenAwayKey])
+	else if ([preferences boolForKey:GrowlStickyWhenAwayKey] && ![aDict boolForKey:GROWL_NOTIFICATION_STICKY])
 		[aDict setBool:[statusController isIdle] forKey:GROWL_NOTIFICATION_STICKY];
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];

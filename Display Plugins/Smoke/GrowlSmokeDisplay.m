@@ -42,13 +42,8 @@ static unsigned smokeDepth = 0U;
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
 	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	GrowlSmokeWindowController *controller = [[GrowlSmokeWindowController alloc]
-		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
-				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-			 priority:[noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY]
-			   sticky:[noteDict boolForKey:GROWL_NOTIFICATION_STICKY]
-				depth:smokeDepth
-		   identifier:[noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER]];
+		initWithDictionary:noteDict
+					 depth:smokeDepth];
 
 	[controller setTarget:self];
 	[controller setAction:@selector(_smokeClicked:)];

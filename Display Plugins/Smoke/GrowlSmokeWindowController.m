@@ -12,6 +12,7 @@
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "NSWindow+Transforms.h"
+#import "NSDictionaryAdditions.h"
 
 static unsigned globalId = 0U;
 
@@ -80,14 +81,35 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int) priority sticky:(BOOL) sticky depth:(unsigned)theDepth identifier:(NSString *)ident {
+- (id) initWithDictionary:(NSDictionary *)noteDict depth:(unsigned)theDepth {
+	NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE_HTML];
+	NSString *text = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION_HTML];
+	NSImage *icon = [noteDict objectForKey:GROWL_NOTIFICATION_ICON];
+	int priority = [noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY];
+	BOOL sticky = [noteDict boolForKey:GROWL_NOTIFICATION_STICKY];
+	NSString *ident = [noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+	BOOL textHTML, titleHTML;
+
+	if (title)
+		titleHTML = YES;
+	else {
+		titleHTML = NO;
+		title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
+	}
+	if (text)
+		textHTML = YES;
+	else {
+		textHTML = NO;
+		text = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+	}
+
 	GrowlSmokeWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
 	if (oldController) {
 		// coalescing
 		GrowlSmokeWindowView *view = (GrowlSmokeWindowView *)[[oldController window] contentView];
 		[view setPriority:priority];
-		[view setTitle:title];
-		[view setText:text];
+		[view setTitle:title isHTML:titleHTML];
+		[view setText:text isHTML:textHTML];
 		[view setIcon:icon];
 		[self release];
 		self = oldController;
@@ -125,8 +147,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[panel setContentView:view];
 
 	[view setPriority:priority];
-	[view setTitle:title];
-	[view setText:text];
+	[view setTitle:title isHTML:titleHTML];
+	[view setText:text isHTML:textHTML];
 	[view setIcon:icon];
 
 	panelFrame = [view frame];
