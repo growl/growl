@@ -82,12 +82,12 @@ static NSMutableDictionary *notificationsByIdentifier;
 #pragma mark Regularly Scheduled Coding
 
 - (id) initWithDictionary:(NSDictionary *)noteDict depth:(unsigned)theDepth {
-	NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE_HTML];
-	NSString *text = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION_HTML];
-	NSImage *icon = [noteDict objectForKey:GROWL_NOTIFICATION_ICON];
-	int priority = [noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY];
-	BOOL sticky = [noteDict boolForKey:GROWL_NOTIFICATION_STICKY];
-	NSString *ident = [noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+	NSString *title = [noteDict objectForKey: GROWL_NOTIFICATION_TITLE_HTML];
+	NSString *text  = [noteDict objectForKey: GROWL_NOTIFICATION_DESCRIPTION_HTML];
+	NSImage *icon   = [noteDict objectForKey: GROWL_NOTIFICATION_ICON];
+	int priority    = [noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY];
+	BOOL sticky     = [noteDict boolForKey:   GROWL_NOTIFICATION_STICKY];
+	NSString *ident = [noteDict objectForKey: GROWL_NOTIFICATION_IDENTIFIER];
 	BOOL textHTML, titleHTML;
 
 	if (title)

@@ -15,6 +15,7 @@
 #import "GrowlPluginController.h"
 #import "NSMutableStringAdditions.h"
 #import "NSDictionaryAdditions.h"
+#import "GrowlDefines.h"
 
 static unsigned webkitWindowDepth = 0U;
 static NSMutableDictionary *notificationsByIdentifier;
@@ -48,12 +49,33 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 #pragma mark -
 
-- (id) initWithTitle:(NSString *) title text:(NSString *) text icon:(NSImage *) icon priority:(int)priority sticky:(BOOL)sticky identifier:(NSString *)ident style:(NSString *)styleName {
+- (id) initWithDictionary:(NSDictionary *)noteDict style:(NSString *)styleName {
+	NSString *title = [noteDict objectForKey: GROWL_NOTIFICATION_TITLE_HTML];
+	NSString *text  = [noteDict objectForKey: GROWL_NOTIFICATION_DESCRIPTION_HTML];
+	NSImage *icon   = [noteDict objectForKey: GROWL_NOTIFICATION_ICON];
+	int priority    = [noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY];
+	BOOL sticky     = [noteDict boolForKey:   GROWL_NOTIFICATION_STICKY];
+	NSString *ident = [noteDict objectForKey: GROWL_NOTIFICATION_IDENTIFIER];
+	BOOL textHTML, titleHTML;
+
+	if (title)
+		titleHTML = YES;
+	else {
+		titleHTML = NO;
+		title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
+	}
+	if (text)
+		textHTML = YES;
+	else {
+		textHTML = NO;
+		text = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+	}
+
 	GrowlWebKitWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
 	if (oldController) {
 		// coalescing
 		WebView *view = (WebView *)[[oldController window] contentView];
-		[oldController setTitle:title text:text icon:icon priority:priority forView:view];
+		[oldController setTitle:title titleHTML:titleHTML text:text textHTML:textHTML icon:icon priority:priority forView:view];
 		[self release];
 		self = oldController;
 		return self;
@@ -108,7 +130,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		[view setDrawsBackground:NO];
 	[panel setContentView:view];
 
-	[self setTitle:title text:text icon:icon priority:priority forView:view];
+	[self setTitle:title titleHTML:titleHTML text:text textHTML:textHTML icon:icon priority:priority forView:view];
 
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
@@ -140,7 +162,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	return self;
 }
 
-- (void) setTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority forView:(WebView *)view {
+- (void) setTitle:(NSString *)title titleHTML:(BOOL)titleIsHTML text:(NSString *)text textHTML:(BOOL)textIsHTML icon:(NSImage *)icon priority:(int)priority forView:(WebView *)view {
 	NSString *priorityName;
 	switch (priority) {
 		case -2:
@@ -188,9 +210,13 @@ static NSMutableDictionary *notificationsByIdentifier;
 	opacity *= 0.01f;
 	NSNumber *opacityNumber = [[NSNumber alloc] initWithFloat:opacity];
 
-	NSString        *titleHTML = [[[NSMutableString alloc] initWithString:title] escapeForHTML];
-	NSMutableString *textHTML = [[[NSMutableString alloc] initWithString:text] escapeForHTML];
+	NSMutableString *titleHTML = [[NSMutableString alloc] initWithString:title];
+	NSMutableString *textHTML = [[NSMutableString alloc] initWithString:text];
 	NSURL           *baseURL = [[NSURL alloc] initFileURLWithPath:stylePath];
+	if (!titleIsHTML)
+		[titleHTML escapeForHTML];
+	if (!textIsHTML)
+		[textHTML escapeForHTML];
 
 	[htmlString replaceOccurrencesOfString:@"%baseurl%"
 								withString:[baseURL absoluteString]
