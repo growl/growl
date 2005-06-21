@@ -7,10 +7,14 @@
 # - Relaunch Mail.
 
 name = GrowlMail
-builddir = build
 datadir = $(HOME)/Library/Mail/Bundles
 
 CP = /usr/bin/ditto -v --rsrc
+BUILD_DIR?=$(shell defaults read com.apple.Xcode PBXProductDirectory 2> /dev/null)
+
+ifeq ($(strip $(BUILD_DIR)),)
+	BUILD_DIR=build
+endif
 
 # The build style
 # Possible values are Development and Deployment
@@ -27,13 +31,13 @@ startmail = $(if $(should_restart_mail),open -a Mail)
 all: $(name)
 
 $(name):
-	xcodebuild -configuration $(BUILDCONFIGURATION) build "SYMROOT=$(builddir)" "OBJROOT=$(builddir)"
+	xcodebuild -configuration $(BUILDCONFIGURATION) build
 
 install: $(name)
 	$(PRE_INSTALL)
 	$(stopmail)
 	mkdir -p "$(datadir)"
-	$(CP) "$(builddir)/$<.mailbundle" "$(datadir)/$(name).mailbundle"
+	$(CP) "$(BUILD_DIR)/$(BUILDCONFIGURATION)/$<.mailbundle" "$(datadir)/$(name).mailbundle"
 	defaults write com.apple.mail EnableBundles 1
 	defaults write com.apple.mail BundleCompatibilityVersion 2
 	$(POST_INSTALL)
@@ -48,4 +52,4 @@ uninstall:
 
 
 clean:
-	xcodebuild clean "SYMROOT=$(builddir)" "OBJROOT=$(builddir)"
+	xcodebuild clean

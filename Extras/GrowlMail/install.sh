@@ -67,7 +67,7 @@ function cleanGrowlMail ()
 function buildGrowlMail ()
 {
 	ui_echo "Building GrowlMail"
-	run "cd \"$CURDIR\" && xcodebuild -buildstyle Deployment build \"SYMROOT=$BUILD\" \"OBJROOT=$BUILD\"" || exit 1
+	run "cd \"$CURDIR\" && xcodebuild -configuration Deployment build \"SYMROOT=$BUILD\" \"OBJROOT=$BUILD\"" || exit 1
 }
 
 function installGrowlMail ()
