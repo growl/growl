@@ -137,6 +137,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		[NSDNC removeObserver:self
 						 name:growlNotificationClickedName
 					   object:nil];
+	[growlNotificationClickedName release];
 
 	NSString *growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
 		appName, pid, GROWL_NOTIFICATION_TIMED_OUT];
@@ -149,6 +150,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		[NSDNC removeObserver:self
 						 name:growlNotificationTimedOutName
 					   object:nil];
+	[growlNotificationTimedOutName release];
 
 #ifdef GROWL_WITH_INSTALLER
 	//Determine if the user has previously told us not to ever request installation again
