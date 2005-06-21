@@ -4,7 +4,7 @@
 //
 //  Created by Nelson Elhage on Wed Jun 09 2004.
 //  Name changed from KABubbleWindowView.h by Justin Burns on Fri Nov 05 2004.
-//  Copyright (c) 2004 Nelson Elhage. All rights reserved.
+//  Copyright (c) 2004-2005 The Growl Project. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -43,8 +43,8 @@
 
 - (void) setPriority:(int)priority;
 - (void) setIcon:(NSImage *)icon;
-- (void) setTitle:(NSString *)title;
-- (void) setText:(NSString *)text;
+- (void) setTitle:(NSString *)title isHTML:(BOOL)isHTML;
+- (void) setText:(NSString *)text isHTML:(BOOL)isHTML;
 
 - (void) sizeToFit;
 - (float) titleHeight;

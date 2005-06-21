@@ -4,7 +4,7 @@
 //
 //  Created by Nelson Elhage on Wed Jun 09 2004.
 //  Name changed from KABubbleWindowView.m by Justin Burns on Fri Nov 05 2004.
-//  Copyright (c) 2004 Nelson Elhage. All rights reserved.
+//  Copyright (c) 2004-2005 The Growl Project. All rights reserved.
 //
 
 #import "GrowlBubblesWindowView.h"
@@ -12,6 +12,8 @@
 #import "GrowlBubblesDefines.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
+#import "NSMutableAttributedStringAdditions.h"
+#import <WebKit/WebPreferences.h>
 
 /* to get the limit pref */
 #import "GrowlBubblesPrefsController.h"
@@ -130,26 +132,25 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
 	CGPoint src, dst;
-	src.x = NSMinX( bounds );
-	src.y = NSMaxY( bounds );
+	src.x = NSMinX(bounds);
+	src.y = NSMaxY(bounds);
 	dst.x = src.x;
-	dst.y = NSMinY( bounds );
-	CGShadingRef shading = CGShadingCreateAxial( cspace, src, dst,
-												 function, false, false );
+	dst.y = NSMinY(bounds);
+	CGShadingRef shading = CGShadingCreateAxial(cspace, src, dst,
+												function, false, false);
 
-	CGContextDrawShading( [graphicsContext graphicsPort], shading );
+	CGContextDrawShading([graphicsContext graphicsPort], shading);
 
-	CGShadingRelease( shading );
-	CGColorSpaceRelease( cspace );
-	CGFunctionRelease( function );
+	CGShadingRelease(shading);
+	CGColorSpaceRelease(cspace);
+	CGFunctionRelease(function);
 
 	[graphicsContext restoreGraphicsState];
 
-	if (mouseOver) {
+	if (mouseOver)
 		[highlightColor set];
-	} else {
+	else
 		[borderColor set];
-	}
 	[path stroke];
 
 	NSRect drawRect;
@@ -170,9 +171,8 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		drawRect.origin.y += titleHeight + TITLE_VSPACE_PX;
 	}
 
-	if (haveText) {
+	if (haveText)
 		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
-	}
 
 	[[self window] invalidateShadow];
 }
@@ -264,7 +264,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	[self setNeedsDisplay:YES];
 }
 
-- (void) setTitle:(NSString *) aTitle {
+- (void) setTitle:(NSString *) aTitle isHTML:(BOOL)isHTML {
 	haveTitle = [aTitle length] != 0;
 
 	if (!haveTitle) {
@@ -287,26 +287,53 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 		titleFont,      NSFontAttributeName,
 		textColor,      NSForegroundColorAttributeName,
 		paragraphStyle, NSParagraphStyleAttributeName,
 		nil];
 	[paragraphStyle release];
 
-	[[titleStorage mutableString] setString:aTitle];
-	[titleStorage setAttributes:attributes range:NSMakeRange(0, [titleStorage length])];
+	if (isHTML) {
+		WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlBubblesTitle"];
+		[webPreferences setJavaEnabled:NO];
+		[webPreferences setJavaScriptEnabled:NO];
+		[webPreferences setPlugInsEnabled:NO];
+		[webPreferences setUserStyleSheetEnabled:NO];
+		[webPreferences setStandardFontFamily:[titleFont familyName]];
+		[webPreferences setDefaultFontSize:TITLE_FONT_SIZE_PTS];
+		NSNumber *useWebKit = [[NSNumber alloc] initWithInt:1];
+		NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:
+			useWebKit,      @"UseWebKit",
+			webPreferences, NSWebPreferencesDocumentOption,
+			nil];
+		[useWebKit      release];
+		[webPreferences release];
+
+		NSString *boldTitle = [[NSString alloc] initWithFormat:@"<strong>%@</strong>", aTitle];
+		NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithHTML:[boldTitle dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:NO]
+																					 options:options
+																		  documentAttributes:NULL];
+		[boldTitle release];
+		[options   release];
+		[content addDefaultAttributes:defaultAttributes];
+		[titleStorage setAttributedString:content];
+		[content release];
+	} else {
+		[[titleStorage mutableString] setString:aTitle];
+		[titleStorage setAttributes:defaultAttributes range:NSMakeRange(0, [titleStorage length])];
+	}
+
+	[defaultAttributes release];
 
 	titleRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
 	titleHeight = [titleLayoutManager usedRectForTextContainer:titleContainer].size.height;
-
-	[attributes release];
 
 	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
-- (void) setText:(NSString *) aText {
+- (void) setText:(NSString *) aText isHTML:(BOOL)isHTML {
 	haveText = [aText length] != 0;
 
 	if (!haveText) {
@@ -332,15 +359,40 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		[textContainer setLineFragmentPadding:0.0f];
 	}
 
-	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 		textFont,  NSFontAttributeName,
 		textColor, NSForegroundColorAttributeName,
 		nil];
 
-	[[textStorage mutableString] setString:aText];
-	[textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
+	if (isHTML) {
+		WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlBubblesText"];
+		[webPreferences setJavaEnabled:NO];
+		[webPreferences setJavaScriptEnabled:NO];
+		[webPreferences setPlugInsEnabled:NO];
+		[webPreferences setUserStyleSheetEnabled:NO];
+		[webPreferences setStandardFontFamily:[textFont familyName]];
+		[webPreferences setDefaultFontSize:DESCR_FONT_SIZE_PTS];
+		NSNumber *useWebKit = [[NSNumber alloc] initWithInt:1];
+		NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:
+			useWebKit,      @"UseWebKit",
+			webPreferences, NSWebPreferencesDocumentOption,
+			nil];
+		[useWebKit      release];
+		[webPreferences release];
 
-	[attributes release];
+		NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithHTML:[aText dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:NO]
+																					 options:options
+																		  documentAttributes:NULL];
+		[options release];
+		[content addDefaultAttributes:defaultAttributes];
+		[textStorage setAttributedString:content];
+		[content release];
+	} else {
+		[[textStorage mutableString] setString:aText];
+		[textStorage setAttributes:defaultAttributes range:NSMakeRange(0, [textStorage length])];
+	}
+
+	[defaultAttributes release];
 
 	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
 	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;

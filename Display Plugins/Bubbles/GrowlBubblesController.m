@@ -31,12 +31,7 @@
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
 	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	GrowlBubblesWindowController *nuBubble = [[GrowlBubblesWindowController alloc]
-		initWithTitle:[noteDict objectForKey: GROWL_NOTIFICATION_TITLE]
-				 text:[noteDict objectForKey: GROWL_NOTIFICATION_DESCRIPTION]
-				 icon:[noteDict objectForKey: GROWL_NOTIFICATION_ICON]
-			 priority:[noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY]
-			   sticky:[noteDict boolForKey:   GROWL_NOTIFICATION_STICKY]
-		   identifier:[noteDict objectForKey: GROWL_NOTIFICATION_IDENTIFIER]];
+		initWithDictionary:noteDict];
 	[nuBubble setTarget:self];
 	[nuBubble setAction:@selector(bubbleClicked:)];
 	[nuBubble setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
