@@ -129,13 +129,13 @@
 			break;
 	}
 
-	NSMutableString *titleHTML = [[[NSMutableString alloc] initWithString:[userInfo objectForKey:GROWL_NOTIFICATION_TITLE]] escapeForHTML];
-	NSMutableString *textHTML = [[[NSMutableString alloc] initWithString:[userInfo objectForKey:GROWL_NOTIFICATION_DESCRIPTION]] escapeForHTML];
+	NSMutableString *titleHTML = [[[userInfo objectForKey:GROWL_NOTIFICATION_TITLE] mutableCopy] escapeForHTML];
+	NSMutableString *textHTML = [[[userInfo objectForKey:GROWL_NOTIFICATION_DESCRIPTION] mutableCopy] escapeForHTML];
 	NSMutableString *content = [[NSMutableString alloc] initWithFormat:@"<span class=\"%@\"><div class=\"icon\"><img src=\"growlimage://%@\" alt=\"icon\" /></div><div class=\"title\">%@</div><div class=\"text\">%@</div></span>",
 		priorityName,
 		UUID,
-		titleHTML,
-		textHTML];
+		titleHTML ? titleHTML : @"",
+		textHTML ? textHTML : @""];
 	[titleHTML release];
 	[textHTML release];
 	NSString *newMessage = [[NSString alloc] initWithFormat:@"setMessage(\"%@\");",
