@@ -74,7 +74,7 @@
 
 	[nuBezel setDelegate:self];
 	[nuBezel setTarget:self];
-	[nuBezel setAction:@selector(_bezelClicked:)];
+	[nuBezel setAction:@selector(bezelClicked:)];
 	[nuBezel setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[nuBezel setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[nuBezel setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
@@ -125,7 +125,7 @@
 	}
 }
 
-- (void) _bezelClicked:(GrowlBezelWindowController *)controller {
+- (void) bezelClicked:(GrowlBezelWindowController *)controller {
 	id clickContext;
 
 	if ((clickContext = [controller clickContext])) {

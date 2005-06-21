@@ -38,7 +38,7 @@
 			   sticky:[noteDict boolForKey:   GROWL_NOTIFICATION_STICKY]
 		   identifier:[noteDict objectForKey: GROWL_NOTIFICATION_IDENTIFIER]];
 	[nuBubble setTarget:self];
-	[nuBubble setAction:@selector(_bubbleClicked:)];
+	[nuBubble setAction:@selector(bubbleClicked:)];
 	[nuBubble setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[nuBubble setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[nuBubble setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
@@ -47,7 +47,7 @@
 	[nuBubble release];
 }
 
-- (void) _bubbleClicked:(GrowlBubblesWindowController *)controller {
+- (void) bubbleClicked:(GrowlBubblesWindowController *)controller {
 	id clickContext;
 
 	if ((clickContext = [controller clickContext])) {

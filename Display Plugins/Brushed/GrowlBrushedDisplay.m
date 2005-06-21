@@ -20,7 +20,7 @@ static unsigned brushedDepth = 0U;
 - (id) init {
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(_brushedGone:)
+												 selector:@selector(brushedGone:)
 													 name:@"BrushedGone"
 												   object:nil];
 	}
@@ -42,16 +42,11 @@ static unsigned brushedDepth = 0U;
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
 	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	GrowlBrushedWindowController *controller = [[GrowlBrushedWindowController alloc]
-		initWithTitle:[noteDict objectForKey: GROWL_NOTIFICATION_TITLE]
-				 text:[noteDict objectForKey: GROWL_NOTIFICATION_DESCRIPTION]
-				 icon:[noteDict objectForKey: GROWL_NOTIFICATION_ICON]
-			 priority:[noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY]
-			   sticky:[noteDict boolForKey:   GROWL_NOTIFICATION_STICKY]
-				depth:brushedDepth
-		   identifier:[noteDict objectForKey: GROWL_NOTIFICATION_IDENTIFIER]];
+		initWithDictionary:noteDict
+					 depth:brushedDepth];
 
 	[controller setTarget:self];
-	[controller setAction:@selector(_brushedClicked:)];
+	[controller setAction:@selector(brushedClicked:)];
 	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[controller setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
@@ -64,7 +59,7 @@ static unsigned brushedDepth = 0U;
 	[controller release];
 }
 
-- (void) _brushedGone:(NSNotification *)note {
+- (void) brushedGone:(NSNotification *)note {
 	unsigned notifiedDepth = [[[note userInfo] objectForKey:@"Depth"] unsignedIntValue];
 	//NSLog(@"Received notification of departure with depth %u, my depth is %u\n", notifiedDepth, brushedDepth);
 	if (brushedDepth > notifiedDepth)
@@ -72,7 +67,7 @@ static unsigned brushedDepth = 0U;
 	//NSLog(@"My depth is now %u\n", brushedDepth);
 }
 
-- (void) _brushedClicked:(GrowlBrushedWindowController *)controller {
+- (void) brushedClicked:(GrowlBrushedWindowController *)controller {
 	id clickContext;
 
 	if ((clickContext = [controller clickContext])) {

@@ -11,6 +11,8 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
+#import "NSMutableAttributedStringAdditions.h"
+#import <WebKit/WebPreferences.h>
 
 #define GrowlBrushedTextAreaWidth	(GrowlBrushedNotificationWidth - GrowlBrushedPadding - iconSize - GrowlBrushedIconTextPadding - GrowlBrushedPadding)
 #define GrowlBrushedMinTextHeight	(GrowlBrushedPadding + iconSize + GrowlBrushedPadding)
@@ -140,7 +142,7 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (void) setTitle:(NSString *)aTitle {
+- (void) setTitle:(NSString *)aTitle isHTML:(BOOL)isHTML {
 	haveTitle = [aTitle length] != 0;
 
 	if (!haveTitle) {
@@ -165,7 +167,7 @@
 	NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	NSFont *titleFont = [NSFont boldSystemFontOfSize:GrowlBrushedTitleFontSize];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 		titleFont,      NSFontAttributeName,
 		textColor,      NSForegroundColorAttributeName,
 		textShadow,     NSShadowAttributeName,
@@ -173,10 +175,37 @@
 		nil];
 	[paragraphStyle release];
 
-	[[titleStorage mutableString] setString:aTitle];
-	[titleStorage setAttributes:attributes range:NSMakeRange(0, [titleStorage length])];
+	if (isHTML) {
+		WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlBrushedTitle"];
+		[webPreferences setJavaEnabled:NO];
+		[webPreferences setJavaScriptEnabled:NO];
+		[webPreferences setPlugInsEnabled:NO];
+		[webPreferences setUserStyleSheetEnabled:NO];
+		[webPreferences setStandardFontFamily:[titleFont familyName]];
+		[webPreferences setDefaultFontSize:GrowlBrushedTitleFontSize];
+		NSNumber *useWebKit = [[NSNumber alloc] initWithInt:1];
+		NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:
+			useWebKit,      @"UseWebKit",
+			webPreferences, NSWebPreferencesDocumentOption,
+			nil];
+		[useWebKit      release];
+		[webPreferences release];
 
-	[attributes release];
+		NSString *boldTitle = [[NSString alloc] initWithFormat:@"<strong>%@</strong>", aTitle];
+		NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithHTML:[boldTitle dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:NO]
+																					 options:options
+																		  documentAttributes:NULL];
+		[boldTitle release];
+		[options   release];
+		[content addDefaultAttributes:defaultAttributes];
+		[titleStorage setAttributedString:content];
+		[content release];
+	} else {
+		[[titleStorage mutableString] setString:aTitle];
+		[titleStorage setAttributes:defaultAttributes range:NSMakeRange(0, [titleStorage length])];
+	}
+
+	[defaultAttributes release];
 
 	titleRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
 	titleHeight = [titleLayoutManager usedRectForTextContainer:titleContainer].size.height;
@@ -185,7 +214,7 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (void) setText:(NSString *)aText {
+- (void) setText:(NSString *)aText isHTML:(BOOL)isHTML {
 	haveText = [aText length] != 0;
 
 	if (!haveText) {
@@ -199,11 +228,10 @@
 		BOOL limitPref = GrowlBrushedLimitPrefDefault;
 		READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
 		containerSize.width = GrowlBrushedTextAreaWidth;
-		if (limitPref) {
+		if (limitPref)
 			containerSize.height = lineHeight * GrowlBrushedMaxLines;
-		} else {
+		else
 			containerSize.height = FLT_MAX;
-		}
 		textStorage = [[NSTextStorage alloc] init];
 		textContainer = [[NSTextContainer alloc] initWithContainerSize:containerSize];
 		[textLayoutManager addTextContainer:textContainer];	// retains textContainer
@@ -213,16 +241,41 @@
 	}
 
 	// construct attributes for the description text
-	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+	NSDictionary *defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
 		textFont,   NSFontAttributeName,
 		textColor,  NSForegroundColorAttributeName,
 		textShadow, NSShadowAttributeName,
 		nil];
 
-	[[textStorage mutableString] setString:aText];
-	[textStorage setAttributes:attributes range:NSMakeRange(0, [textStorage length])];
+	if (isHTML) {
+		WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlBrushedText"];
+		[webPreferences setJavaEnabled:NO];
+		[webPreferences setJavaScriptEnabled:NO];
+		[webPreferences setPlugInsEnabled:NO];
+		[webPreferences setUserStyleSheetEnabled:NO];
+		[webPreferences setStandardFontFamily:[textFont familyName]];
+		[webPreferences setDefaultFontSize:GrowlBrushedTextFontSize];
+		NSNumber *useWebKit = [[NSNumber alloc] initWithInt:1];
+		NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:
+			useWebKit,      @"UseWebKit",
+			webPreferences, NSWebPreferencesDocumentOption,
+			nil];
+		[useWebKit      release];
+		[webPreferences release];
 
-	[attributes release];
+		NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithHTML:[aText dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:NO]
+																					 options:options
+																		  documentAttributes:NULL];
+		[options release];
+		[content addDefaultAttributes:defaultAttributes];
+		[textStorage setAttributedString:content];
+		[content release];
+	} else {
+		[[textStorage mutableString] setString:aText];
+		[textStorage setAttributes:defaultAttributes range:NSMakeRange(0, [textStorage length])];
+	}
+
+	[defaultAttributes release];
 
 	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
 	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;

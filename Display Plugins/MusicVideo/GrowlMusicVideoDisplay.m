@@ -75,7 +75,7 @@
 		   identifier:identifier];
 	[nuMusicVideo setDelegate:self];
 	[nuMusicVideo setTarget:self];
-	[nuMusicVideo setAction:@selector(_musicVideoClicked:)];
+	[nuMusicVideo setAction:@selector(musicVideoClicked:)];
 	[nuMusicVideo setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[nuMusicVideo setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[nuMusicVideo setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
@@ -118,13 +118,12 @@
 	[notificationQueue removeObjectAtIndex:0U];
 	if ([notificationQueue count] > 0U) {
 		FadingWindowController *controller = [notificationQueue objectAtIndex:0U];
-		if (![controller isFadingIn]) {
+		if (![controller isFadingIn])
 			[controller startFadeIn];
-		}
 	}
 }
 
-- (void) _musicVideoClicked:(GrowlMusicVideoWindowController *)controller {
+- (void) musicVideoClicked:(GrowlMusicVideoWindowController *)controller {
 	id clickContext;
 
 	if ((clickContext = [controller clickContext])) {

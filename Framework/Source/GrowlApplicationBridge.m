@@ -130,7 +130,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		appName, pid, GROWL_NOTIFICATION_CLICKED];
 	if ([delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
 		[NSDNC addObserver:self
-				  selector:@selector(_growlNotificationWasClicked:)
+				  selector:@selector(growlNotificationWasClicked:)
 					  name:growlNotificationClickedName
 					object:nil];
 	else
@@ -143,7 +143,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		appName, pid, GROWL_NOTIFICATION_TIMED_OUT];
 	if ([delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
 		[NSDNC addObserver:self
-				  selector:@selector(_growlNotificationTimedOut:)
+				  selector:@selector(growlNotificationTimedOut:)
 					  name:growlNotificationTimedOutName
 					object:nil];
 	else
@@ -515,13 +515,13 @@ static BOOL		registerWhenGrowlIsReady = NO;
  *	called manually, and the calling observer should only be registered if the
  *	delegate responds to growlNotificationWasClicked:.
  */
-+ (void) _growlNotificationWasClicked:(NSNotification *)notification {
-	[delegate performSelector:@selector(growlNotificationWasClicked:)
-				   withObject:[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
++ (void) growlNotificationWasClicked:(NSNotification *)notification {
+	[delegate growlNotificationWasClicked:
+		[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
 }
-+ (void) _growlNotificationTimedOut:(NSNotification *)notification {
-	[delegate performSelector:@selector(growlNotificationTimedOut:)
-				   withObject:[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
++ (void) growlNotificationTimedOut:(NSNotification *)notification {
+	[delegate growlNotificationTimedOut:
+		[[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
 }
 
 #pragma mark -

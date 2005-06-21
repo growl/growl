@@ -17,6 +17,6 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict;
-- (void) _brushedGone:(NSNotification *)note;
+- (void) brushedGone:(NSNotification *)note;
 
 @end

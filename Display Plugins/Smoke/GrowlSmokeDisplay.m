@@ -20,7 +20,7 @@ static unsigned smokeDepth = 0U;
 - (id) init {
 	if ((self = [super init])) {
 		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(_smokeGone:)
+												 selector:@selector(smokeGone:)
 													 name:@"SmokeGone"
 												   object:nil];
 	}
@@ -46,7 +46,7 @@ static unsigned smokeDepth = 0U;
 					 depth:smokeDepth];
 
 	[controller setTarget:self];
-	[controller setAction:@selector(_smokeClicked:)];
+	[controller setAction:@selector(smokeClicked:)];
 	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
 	[controller setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
@@ -60,7 +60,7 @@ static unsigned smokeDepth = 0U;
 	[controller release];
 }
 
-- (void) _smokeGone:(NSNotification *)note {
+- (void) smokeGone:(NSNotification *)note {
 	unsigned notifiedDepth = [[[note userInfo] objectForKey:@"Depth"] unsignedIntValue];
 	//NSLog(@"Received notification of departure with depth %u, my depth is %u\n", notifiedDepth, smokeDepth);
 	if (smokeDepth > notifiedDepth)
@@ -68,7 +68,7 @@ static unsigned smokeDepth = 0U;
 	//NSLog(@"My depth is now %u\n", smokeDepth);
 }
 
-- (void) _smokeClicked:(GrowlSmokeWindowController *)controller {
+- (void) smokeClicked:(GrowlSmokeWindowController *)controller {
 	id clickContext;
 
 	if ((clickContext = [controller clickContext])) {
