@@ -193,24 +193,26 @@
  *	 running.
  *
  *	@param title		The title of the notification displayed to the user.
+ *	@param titleHTML	The title of the notification displayed to the user with HTML formatting.
  *	@param description	The full description of the notification displayed to the user.
+ *	@param description	The full description of the notification displayed to the user with HTML formatting.
  *	@param notifName	The internal name of the notification. Should be human-readable, as it will be displayed in the Growl preference pane.
  *	@param iconData		<code>NSData</code> object to show with the notification as its icon. If <code>nil</code>, the application's icon will be used instead.
  *	@param priority		The priority of the notification. The default value is 0; positive values are higher priority and negative values are lower priority. Not all Growl displays support priority.
  *	@param isSticky		If YES, the notification will remain on screen until clicked. Not all Growl displays support sticky notifications.
  *	@param clickContext	A context passed back to the Growl delegate if it implements -(void)growlNotificationWasClicked: and the notification is clicked. Not all display plugins support clicking. The clickContext must be plist-encodable (completely of <code>NSString</code>, <code>NSArray</code>, <code>NSNumber</code>, <code>NSDictionary</code>, and <code>NSData</code> types).
  *	@param identifier	An identifier for this notification. Notifications with equal identifiers are coalesced.
- *  @param useHTML      If YES, the title and description can contain HTML markup.
  */
 + (void) notifyWithTitle:(NSString *)title
+			   titleHTML:(NSString *)titleHTML
 			 description:(NSString *)description
+		 descriptionHTML:(NSString *)descriptionHTML
 		notificationName:(NSString *)notifName
 				iconData:(NSData *)iconData
 				priority:(signed int)priority
 				isSticky:(BOOL)isSticky
 			clickContext:(id)clickContext
-			  identifier:(NSString *)identifier
-				 useHTML:(BOOL)useHTML;
+			  identifier:(NSString *)identifier;
 
 /*!	@method	notifyWithDictionary:
  *	@abstract	Notifies using a userInfo dictionary suitable for passing to

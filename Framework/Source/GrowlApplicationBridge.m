@@ -175,14 +175,15 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			clickContext:(id)clickContext
 {
 	[GrowlApplicationBridge notifyWithTitle:title
+								  titleHTML:nil
 								description:description
+							descriptionHTML:nil
 						   notificationName:notifName
 								   iconData:iconData
 								   priority:priority
 								   isSticky:isSticky
 							   clickContext:clickContext
-								 identifier:nil
-									useHTML:NO];
+								 identifier:nil];
 }
 
 + (void) notifyWithTitle:(NSString *)title
@@ -195,14 +196,15 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			  identifier:(NSString *)identifier
 {
 	[GrowlApplicationBridge notifyWithTitle:title
+								  titleHTML:nil
 								description:description
+							descriptionHTML:nil
 						   notificationName:notifName
 								   iconData:iconData
 								   priority:priority
 								   isSticky:isSticky
 							   clickContext:clickContext
-								 identifier:identifier
-									useHTML:NO];
+								 identifier:identifier];
 }
 
 /* Send a notification to Growl for display.
@@ -211,14 +213,15 @@ static BOOL		registerWhenGrowlIsReady = NO;
  * priority is 0 by default; isSticky and useHTML are NO by default.
  */
 + (void) notifyWithTitle:(NSString *)title
+			   titleHTML:(NSString *)titleHTML
 			 description:(NSString *)description
+		 descriptionHTML:(NSString *)descriptionHTML
 		notificationName:(NSString *)notifName
 				iconData:(NSData *)iconData
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
 			clickContext:(id)clickContext
 			  identifier:(NSString *)identifier
-				 useHTML:(BOOL)useHTML
 {
 	NSParameterAssert(notifName);	//Notification name is required.
 	NSParameterAssert(title || description);	//At least one of title or description is required.
@@ -243,13 +246,23 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 	[pid release];
 
-	if (title)			[noteDict setObject:title        forKey:useHTML ? GROWL_NOTIFICATION_TITLE_HTML : GROWL_NOTIFICATION_TITLE];
-	if (description)	[noteDict setObject:description  forKey:useHTML ? GROWL_NOTIFICATION_DESCRIPTION_HTML : GROWL_NOTIFICATION_DESCRIPTION];
+	if (title)			[noteDict setObject:title        forKey:GROWL_NOTIFICATION_TITLE];
+	if (description)	[noteDict setObject:description  forKey:GROWL_NOTIFICATION_DESCRIPTION];
 	if (iconData)		[noteDict setObject:iconData     forKey:GROWL_NOTIFICATION_ICON];
 	if (clickContext)	[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 	if (priority)		[noteDict setInteger:priority    forKey:GROWL_NOTIFICATION_PRIORITY];
 	if (isSticky)		[noteDict setBool:isSticky       forKey:GROWL_NOTIFICATION_STICKY];
 	if (identifier)		[noteDict setObject:identifier   forKey:GROWL_NOTIFICATION_IDENTIFIER];
+	if (titleHTML) {
+		[noteDict setObject:titleHTML forKey:GROWL_NOTIFICATION_TITLE_HTML];
+		if (!title)
+			[noteDict setObject:titleHTML forKey:GROWL_NOTIFICATION_TITLE];
+	}
+	if (descriptionHTML) {
+		[noteDict setObject:descriptionHTML forKey:GROWL_NOTIFICATION_DESCRIPTION_HTML];
+		if (!description)
+			[noteDict setObject:descriptionHTML forKey:GROWL_NOTIFICATION_DESCRIPTION];
+	}
 
 	[self notifyWithDictionary:noteDict];
 	[noteDict release];
