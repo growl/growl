@@ -33,6 +33,58 @@
 			name = "External Targets";
 			productName = "External Targets";
 		};
+		9560BF4D086DC4F800A173B1 /* Growl.framework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9560BF64086DC54800A173B1 /* Build configuration list for PBXAggregateTarget "Growl.framework" */;
+			buildPhases = (
+				9560BF4C086DC4F800A173B1 /* ShellScript */,
+			);
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Growl.framework;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			dependencies = (
+				9560BF53086DC50500A173B1 /* PBXTargetDependency */,
+				9560BF55086DC50500A173B1 /* PBXTargetDependency */,
+			);
+			name = Growl.framework;
+			productName = Growl.framework;
+		};
+		9560BF57086DC51D00A173B1 /* Growl-WithInstaller.framework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9560BF68086DC54800A173B1 /* Build configuration list for PBXAggregateTarget "Growl-WithInstaller.framework" */;
+			buildPhases = (
+				9560BF56086DC51D00A173B1 /* ShellScript */,
+			);
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Growl-WithInstaller";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			dependencies = (
+				9560BF5F086DC52F00A173B1 /* PBXTargetDependency */,
+				9560BF61086DC52F00A173B1 /* PBXTargetDependency */,
+			);
+			name = "Growl-WithInstaller.framework";
+			productName = "Growl-WithInstaller";
+		};
 		95E17B8F085E216A00990AB3 /* SVNRevision */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 95E17B99085E21C400990AB3 /* Build configuration list for PBXAggregateTarget "SVNRevision" */;
@@ -190,6 +242,47 @@
 		95543EE107E04BA9005534FA /* Brushed.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95FC347907E0458E00BD8674 /* Brushed.growlView */; };
 		955497B5081125BD0062E27B /* Plain.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9554979A081125A60062E27B /* Plain.growlStyle */; };
 		955C236E081537280013C3CF /* NSMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 955C236C081537280013C3CF /* NSMutableStringAdditions.m */; };
+		9560BEB9086DC45100A173B1 /* GrowlApplicationBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9560BEBA086DC45100A173B1 /* Growl.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EC2078E1D5600CECA86 /* Growl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9560BEBB086DC45100A173B1 /* GrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E9DC16078FBF1B00662E8E /* GrowlDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9560BEBC086DC45100A173B1 /* GrowlApplicationBridge-Carbon.h in Headers */ = {isa = PBXBuildFile; fileRef = 343353E90792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9560BEBE086DC45100A173B1 /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
+		9560BEBF086DC45100A173B1 /* GrowlApplicationBridge-Carbon.c in Sources */ = {isa = PBXBuildFile; fileRef = 343353E80792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.c */; };
+		9560BEC0086DC45100A173B1 /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 070B90FB07E1AEFA00F10FA7 /* CFGrowlAdditions.c */; };
+		9560BEC1086DC45100A173B1 /* GrowlDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95812DB908118FB9004FF8F5 /* GrowlDelegate.m */; };
+		9560BEC2086DC45100A173B1 /* GrowlPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 959DBE4A08127BA4009BB468 /* GrowlPathUtil.m */; };
+		9560BEC3086DC45100A173B1 /* NSURLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7AC0838CB5500106CA3 /* NSURLAdditions.m */; };
+		9560BEC4086DC45100A173B1 /* NSMutableDictionaryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F975AC084A23F500915BFE /* NSMutableDictionaryAdditions.m */; };
+		9560BEC5086DC45100A173B1 /* NSDictionaryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* NSDictionaryAdditions.m */; };
+		9560BEC6086DC45100A173B1 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
+		9560BEC8086DC45100A173B1 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */; };
+		9560BEC9086DC45100A173B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
+		9560BECA086DC45100A173B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
+		9560BECB086DC45100A173B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
+		9560BEEC086DC46700A173B1 /* GrowlApplicationBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9560BEED086DC46700A173B1 /* GrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E9DC16078FBF1B00662E8E /* GrowlDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9560BEEE086DC46700A173B1 /* Growl.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EC2078E1D5600CECA86 /* Growl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9560BEEF086DC46700A173B1 /* GrowlApplicationBridge-Carbon.h in Headers */ = {isa = PBXBuildFile; fileRef = 343353E90792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9560BEF0086DC46700A173B1 /* GrowlInstallationPrompt-Carbon.h in Headers */ = {isa = PBXBuildFile; fileRef = 07217173082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.h */; settings = {ATTRIBUTES = (); }; };
+		9560BEF2086DC46700A173B1 /* GrowlInstallationPrompt.nib in Resources */ = {isa = PBXBuildFile; fileRef = 952EFC9007C2869700952C6B /* GrowlInstallationPrompt.nib */; };
+		9560BEF3086DC46700A173B1 /* GrowlInstallation.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9542E51C07C28C3A0056BAC9 /* GrowlInstallation.strings */; };
+		9560BEF4086DC46700A173B1 /* GrowlInstallationPrompt-Carbon.nib in Resources */ = {isa = PBXBuildFile; fileRef = 07217168082DE85B00F338F7 /* GrowlInstallationPrompt-Carbon.nib */; };
+		9560BEF6086DC46700A173B1 /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
+		9560BEF7086DC46700A173B1 /* GrowlInstallationPrompt.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E9EFB40790926400662E8E /* GrowlInstallationPrompt.m */; };
+		9560BEF8086DC46700A173B1 /* GrowlApplicationBridge-Carbon.c in Sources */ = {isa = PBXBuildFile; fileRef = 343353E80792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.c */; };
+		9560BEF9086DC46700A173B1 /* GrowlInstallationPrompt-Carbon.c in Sources */ = {isa = PBXBuildFile; fileRef = 07217174082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.c */; };
+		9560BEFA086DC46700A173B1 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
+		9560BEFB086DC46700A173B1 /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 070B90FB07E1AEFA00F10FA7 /* CFGrowlAdditions.c */; };
+		9560BEFC086DC46700A173B1 /* GrowlDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95812DB908118FB9004FF8F5 /* GrowlDelegate.m */; };
+		9560BEFD086DC46700A173B1 /* GrowlPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 959DBE4A08127BA4009BB468 /* GrowlPathUtil.m */; };
+		9560BEFE086DC46700A173B1 /* NSURLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9574B7AC0838CB5500106CA3 /* NSURLAdditions.m */; };
+		9560BEFF086DC46700A173B1 /* NSDictionaryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* NSDictionaryAdditions.m */; };
+		9560BF00086DC46700A173B1 /* NSMutableDictionaryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F975AC084A23F500915BFE /* NSMutableDictionaryAdditions.m */; };
+		9560BF01086DC46700A173B1 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
+		9560BF03086DC46700A173B1 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */; };
+		9560BF04086DC46700A173B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
+		9560BF05086DC46700A173B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
+		9560BF06086DC46700A173B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		956ADB0007551C4500AF9545 /* GrowlBezierPathAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.m */; };
 		956ADB0207551C4500AF9545 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
 		956D7E85082514B00083D772 /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = 956D7E83082514A80083D772 /* sha2.c */; };
@@ -446,6 +539,55 @@
 			remoteGlobalIDString = 95FC346D07E0458E00BD8674;
 			remoteInfo = Brushed;
 		};
+		9560BEB7086DC45100A173B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95E17B8F085E216A00990AB3;
+			remoteInfo = SVNRevision;
+		};
+		9560BEE8086DC46700A173B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D202CE80486D31800D8A456;
+			remoteInfo = Growl;
+		};
+		9560BEEA086DC46700A173B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95E17B8F085E216A00990AB3;
+			remoteInfo = SVNRevision;
+		};
+		9560BF52086DC50500A173B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
+			remoteInfo = "Growl ppc";
+		};
+		9560BF54086DC50500A173B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9560BEB5086DC45100A173B1;
+			remoteInfo = "Growl i386";
+		};
+		9560BF5E086DC52F00A173B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34F60EF8078E226300CECA86;
+			remoteInfo = "Growl-WithInstaller ppc";
+		};
+		9560BF60086DC52F00A173B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9560BEE6086DC46700A173B1;
+			remoteInfo = "Growl-WithInstaller i386";
+		};
 		95E17BC9085E22B800990AB3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -651,11 +793,11 @@
 		34E9DC16078FBF1B00662E8E /* GrowlDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDefines.h; path = Common/Source/GrowlDefines.h; sourceTree = "<group>"; };
 		34E9EFB30790926400662E8E /* GrowlInstallationPrompt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlInstallationPrompt.h; path = Framework/Source/GrowlInstallationPrompt.h; sourceTree = "<group>"; };
 		34E9EFB40790926400662E8E /* GrowlInstallationPrompt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlInstallationPrompt.m; path = Framework/Source/GrowlInstallationPrompt.m; sourceTree = "<group>"; };
-		34F60EAB078E1CD500CECA86 /* Growl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		34F60EAB078E1CD500CECA86 /* Growl ppc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Growl ppc.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationBridge.m; path = Framework/Source/GrowlApplicationBridge.m; sourceTree = "<group>"; };
 		34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationBridge.h; path = Framework/Source/GrowlApplicationBridge.h; sourceTree = "<group>"; };
 		34F60EC2078E1D5600CECA86 /* Growl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Growl.h; path = Framework/Source/Growl.h; sourceTree = "<group>"; };
-		34F60EF9078E226300CECA86 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Growl-WithInstaller.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		34F60EF9078E226300CECA86 /* Growl-WithInstaller ppc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Growl-WithInstaller ppc.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52861EE306DBA95400D3A356 /* GrowlPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPreferences.h; path = Core/Source/GrowlPreferences.h; sourceTree = "<group>"; };
 		52861EE406DBA95400D3A356 /* GrowlPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPreferences.m; path = Core/Source/GrowlPreferences.m; sourceTree = "<group>"; };
 		52861FEF06DC463E00D3A356 /* GrowlDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = GrowlDefaults.plist; path = Core/Resources/GrowlDefaults.plist; sourceTree = "<group>"; };
@@ -729,6 +871,10 @@
 		955A4EDC08617747009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = StatusItem/Resources/French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		955C236B081537280013C3CF /* NSMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableStringAdditions.h; path = Common/Source/NSMutableStringAdditions.h; sourceTree = "<group>"; };
 		955C236C081537280013C3CF /* NSMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableStringAdditions.m; path = Common/Source/NSMutableStringAdditions.m; sourceTree = "<group>"; };
+		9560BED2086DC45100A173B1 /* Growl i386.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Growl i386.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9560BEE3086DC45100A173B1 /* Growl.framework-Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Growl.framework-Info copy.plist"; path = "/Users/ingmar/Devel/growl/Framework/Resources/Growl.framework-Info copy.plist"; sourceTree = "<absolute>"; };
+		9560BF0E086DC46700A173B1 /* Growl-WithInstaller i386.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Growl-WithInstaller i386.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9560BF1F086DC46700A173B1 /* Growl-WithInstaller.framework-Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Growl-WithInstaller.framework-Info copy.plist"; path = "/Users/ingmar/Devel/growl/Framework/Resources/Growl-WithInstaller.framework-Info copy.plist"; sourceTree = "<absolute>"; };
 		956ADAC607551C4500AF9545 /* GrowlDisplayFadingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDisplayFadingWindowController.h; path = Plugins/Displays/GrowlDisplayFadingWindowController.h; sourceTree = SOURCE_ROOT; };
 		956ADACB07551C4500AF9545 /* GrowlDisplayFadingWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlDisplayFadingWindowController.m; path = Plugins/Displays/GrowlDisplayFadingWindowController.m; sourceTree = SOURCE_ROOT; };
 		956ADAD007551C4500AF9545 /* GrowlBezierPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBezierPathAdditions.h; path = Core/Source/GrowlBezierPathAdditions.h; sourceTree = SOURCE_ROOT; };
@@ -954,6 +1100,28 @@
 			files = (
 				95075BC80817FF0800D862A5 /* Foundation.framework in Frameworks */,
 				957B4F3A083D139500F562B8 /* AppKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9560BEC7086DC45100A173B1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9560BEC8086DC45100A173B1 /* ApplicationServices.framework in Frameworks */,
+				9560BEC9086DC45100A173B1 /* Carbon.framework in Frameworks */,
+				9560BECA086DC45100A173B1 /* AppKit.framework in Frameworks */,
+				9560BECB086DC45100A173B1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9560BF02086DC46700A173B1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9560BF03086DC46700A173B1 /* ApplicationServices.framework in Frameworks */,
+				9560BF04086DC46700A173B1 /* Carbon.framework in Frameworks */,
+				9560BF05086DC46700A173B1 /* AppKit.framework in Frameworks */,
+				9560BF06086DC46700A173B1 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1228,11 +1396,13 @@
 				0AB508B10767C87B006EA5CB /* Speech.growlView */,
 				0AB508B30767C87B006EA5CB /* MusicVideo.growlView */,
 				0AB508B40767C87B006EA5CB /* Bezel.growlView */,
-				34F60EAB078E1CD500CECA86 /* Growl.framework */,
-				34F60EF9078E226300CECA86 /* Growl-WithInstaller.framework */,
+				34F60EAB078E1CD500CECA86 /* Growl ppc.framework */,
+				34F60EF9078E226300CECA86 /* Growl-WithInstaller ppc.framework */,
 				DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */,
 				95075AB00817F5DB00D862A5 /* GrowlMenu.app */,
 				DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */,
+				9560BED2086DC45100A173B1 /* Growl i386.framework */,
+				9560BF0E086DC46700A173B1 /* Growl-WithInstaller i386.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1248,6 +1418,7 @@
 				07217174082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.c */,
 				07217168082DE85B00F338F7 /* GrowlInstallationPrompt-Carbon.nib */,
 				9542E51C07C28C3A0056BAC9 /* GrowlInstallation.strings */,
+				9560BF1F086DC46700A173B1 /* Growl-WithInstaller.framework-Info copy.plist */,
 			);
 			name = "Growl-WithInstaller.framework";
 			sourceTree = "<group>";
@@ -1265,6 +1436,7 @@
 				3433500C079275A300C84B15 /* Growl-WithInstaller.framework */,
 				95812DB808118FB9004FF8F5 /* GrowlDelegate.h */,
 				95812DB908118FB9004FF8F5 /* GrowlDelegate.m */,
+				9560BEE3086DC45100A173B1 /* Growl.framework-Info copy.plist */,
 			);
 			name = Growl.framework;
 			sourceTree = "<group>";
@@ -1566,6 +1738,29 @@
 				343354E50792FAFE00C84B15 /* Growl.h in Headers */,
 				343354E70792FB0000C84B15 /* GrowlApplicationBridge-Carbon.h in Headers */,
 				07217175082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9560BEB8086DC45100A173B1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9560BEB9086DC45100A173B1 /* GrowlApplicationBridge.h in Headers */,
+				9560BEBA086DC45100A173B1 /* Growl.h in Headers */,
+				9560BEBB086DC45100A173B1 /* GrowlDefines.h in Headers */,
+				9560BEBC086DC45100A173B1 /* GrowlApplicationBridge-Carbon.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9560BEEB086DC46700A173B1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9560BEEC086DC46700A173B1 /* GrowlApplicationBridge.h in Headers */,
+				9560BEED086DC46700A173B1 /* GrowlDefines.h in Headers */,
+				9560BEEE086DC46700A173B1 /* Growl.h in Headers */,
+				9560BEEF086DC46700A173B1 /* GrowlApplicationBridge-Carbon.h in Headers */,
+				9560BEF0086DC46700A173B1 /* GrowlInstallationPrompt-Carbon.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1901,9 +2096,9 @@
 			productReference = 0AB508B30767C87B006EA5CB /* MusicVideo.growlView */;
 			productType = "com.apple.product-type.bundle";
 		};
-		34F60EAA078E1CD500CECA86 /* Growl.framework */ = {
+		34F60EAA078E1CD500CECA86 /* Growl.framework ppc */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 95EE27870855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl.framework" */;
+			buildConfigurationList = 95EE27870855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl.framework ppc" */;
 			buildPhases = (
 				34F60EA6078E1CD500CECA86 /* Headers */,
 				34F60EA8078E1CD500CECA86 /* Sources */,
@@ -1957,9 +2152,9 @@
 			dependencies = (
 				95E17BCA085E22B800990AB3 /* PBXTargetDependency */,
 			);
-			name = Growl.framework;
+			name = "Growl.framework ppc";
 			productName = Growl.framework;
-			productReference = 34F60EAB078E1CD500CECA86 /* Growl.framework */;
+			productReference = 34F60EAB078E1CD500CECA86 /* Growl ppc.framework */;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
 <plist version=\"1.0\">
@@ -1983,9 +2178,9 @@
 ";
 			productType = "com.apple.product-type.framework";
 		};
-		34F60EF8078E226300CECA86 /* Growl-WithInstaller.framework */ = {
+		34F60EF8078E226300CECA86 /* Growl-WithInstaller.framework ppc */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 95EE278C0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl-WithInstaller.framework" */;
+			buildConfigurationList = 95EE278C0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl-WithInstaller.framework ppc" */;
 			buildPhases = (
 				34F60EF4078E226300CECA86 /* Headers */,
 				34F60EF5078E226300CECA86 /* Resources */,
@@ -2046,9 +2241,9 @@
 				34E9EE6B0790871D00662E8E /* PBXTargetDependency */,
 				95E17BCE085E22FE00990AB3 /* PBXTargetDependency */,
 			);
-			name = "Growl-WithInstaller.framework";
+			name = "Growl-WithInstaller.framework ppc";
 			productName = "Growl-WithInstaller.framework";
-			productReference = 34F60EF9078E226300CECA86 /* Growl-WithInstaller.framework */;
+			productReference = 34F60EF9078E226300CECA86 /* Growl-WithInstaller ppc.framework */;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
 <plist version=\"1.0\">
@@ -2197,6 +2392,175 @@
 </plist>
 ";
 			productType = "com.apple.product-type.application";
+		};
+		9560BEB5086DC45100A173B1 /* Growl.framework i386 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9560BECE086DC45100A173B1 /* Build configuration list for PBXNativeTarget "Growl.framework i386" */;
+			buildPhases = (
+				9560BEB8086DC45100A173B1 /* Headers */,
+				9560BEBD086DC45100A173B1 /* Sources */,
+				9560BEC7086DC45100A173B1 /* Frameworks */,
+				9560BECC086DC45100A173B1 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_LDFLAGS = (
+					"-lobjc",
+					"-sub_library",
+					libobjc,
+					"-seg1addr",
+					0xC0000000,
+				);
+				PRODUCT_NAME = Growl;
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+				);
+			};
+			dependencies = (
+				9560BEB6086DC45100A173B1 /* PBXTargetDependency */,
+			);
+			name = "Growl.framework i386";
+			productName = Growl.framework;
+			productReference = 9560BED2086DC45100A173B1 /* Growl i386.framework */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Growl.framework</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Growl_framework</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>FMWK</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.framework";
+		};
+		9560BEE6086DC46700A173B1 /* Growl-WithInstaller.framework i386 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9560BF0A086DC46700A173B1 /* Build configuration list for PBXNativeTarget "Growl-WithInstaller.framework i386" */;
+			buildPhases = (
+				9560BEEB086DC46700A173B1 /* Headers */,
+				9560BEF1086DC46700A173B1 /* Resources */,
+				9560BEF5086DC46700A173B1 /* Sources */,
+				9560BF02086DC46700A173B1 /* Frameworks */,
+				9560BF07086DC46700A173B1 /* ShellScript */,
+				9560BF08086DC46700A173B1 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_CFLAGS = (
+					"-DGROWL_WITH_INSTALLER",
+					"-fconstant-cfstrings",
+				);
+				OTHER_LDFLAGS = (
+					"-lobjc",
+					"-sub_library",
+					libobjc,
+					"-seg1addr",
+					0xC0000000,
+				);
+				PRODUCT_NAME = "Growl-WithInstaller";
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+				);
+			};
+			dependencies = (
+				9560BEE7086DC46700A173B1 /* PBXTargetDependency */,
+				9560BEE9086DC46700A173B1 /* PBXTargetDependency */,
+			);
+			name = "Growl-WithInstaller.framework i386";
+			productName = "Growl-WithInstaller.framework";
+			productReference = 9560BF0E086DC46700A173B1 /* Growl-WithInstaller i386.framework */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Growl-WithInstaller.framework</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Growl_WithInstaller_framework</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>FMWK</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.framework";
 		};
 		95FC346D07E0458E00BD8674 /* Brushed */ = {
 			isa = PBXNativeTarget;
@@ -2523,8 +2887,12 @@
 				DDF09B09080AC8F3006F4172 /* PrefpaneTesting */,
 				CB61E5170637763C00E0DDC7 /* GrowlHelperApp */,
 				95075AAF0817F5DB00D862A5 /* GrowlMenu */,
-				34F60EAA078E1CD500CECA86 /* Growl.framework */,
-				34F60EF8078E226300CECA86 /* Growl-WithInstaller.framework */,
+				9560BF4D086DC4F800A173B1 /* Growl.framework */,
+				34F60EAA078E1CD500CECA86 /* Growl.framework ppc */,
+				9560BEB5086DC45100A173B1 /* Growl.framework i386 */,
+				9560BF57086DC51D00A173B1 /* Growl-WithInstaller.framework */,
+				34F60EF8078E226300CECA86 /* Growl-WithInstaller.framework ppc */,
+				9560BEE6086DC46700A173B1 /* Growl-WithInstaller.framework i386 */,
 				0A7F5CCC0767BFD000E1C1E4 /* Speech */,
 				95FC346D07E0458E00BD8674 /* Brushed */,
 				0A7F5EC40767C2A600E1C1E4 /* Bubbles */,
@@ -2642,6 +3010,16 @@
 				34B2755A08423BE80092A5A0 /* squelch-alt.png in Resources */,
 				34B2755B08423BE80092A5A0 /* squelch.png in Resources */,
 				34B2756C08423FA30092A5A0 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9560BEF1086DC46700A173B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9560BEF2086DC46700A173B1 /* GrowlInstallationPrompt.nib in Resources */,
+				9560BEF3086DC46700A173B1 /* GrowlInstallation.strings in Resources */,
+				9560BEF4086DC46700A173B1 /* GrowlInstallationPrompt-Carbon.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2763,6 +3141,71 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "mkdir -p \"$BUILT_PRODUCTS_DIR\"\nGROWLACTION=\"$SRCROOT/Extras/GrowlAction/build/$CONFIGURATION/Show Growl Notification.action\"\nif [ -d \"$GROWLACTION\" ]; then\n\trm -f \"$BUILT_PRODUCTS_DIR/Show Growl Notification.action\"\n\tln -s \"$GROWLACTION\" \"$BUILT_PRODUCTS_DIR/Show Growl Notification.action\"\nfi\n\nGROWLIMPORTER=\"$SRCROOT/Extras/GrowlImporter/build/$CONFIGURATION/GrowlImporter.mdimporter\"\nif [ -d \"$GROWLIMPORTER\" ]; then\n\trm -f \"$BUILT_PRODUCTS_DIR/GrowlImporter.mdimporter\"\n\tln -s \"$GROWLIMPORTER\" \"$BUILT_PRODUCTS_DIR/GrowlImporter.mdimporter\"\nfi\n";
+		};
+		9560BECC086DC45100A173B1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "find \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n";
+		};
+		9560BF07086DC46700A173B1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\ngrowl_prefPane_name=\"Growl.prefPane\"\ngrowl_prefPane_archive=\"$growl_prefPane_name.zip\"\n\n# Want to create the zip file relative to BUILT_PRODUCTS_DIR.\n# Using path names will cause those names to be included in the zip file.\ncd \"$BUILT_PRODUCTS_DIR\"\n\n# Zip it up\n/usr/bin/zip -q -r \"$BUILT_PRODUCTS_DIR/$growl_prefPane_archive\" $growl_prefPane_name\n\n# Ensure the Resources directory exists\nif (! [ -e \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Versions/A/Resources\" ]); then\n\tmkdir -p \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Versions/A/Resources\"\nfi\n\n# Copy the prefPane's info.plist so it can be accessed by the framework without unzipping the archive\ncp \"$BUILT_PRODUCTS_DIR/$growl_prefPane_name/Contents/Info.plist\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Versions/A/Resources/GrowlPrefPaneInfo.plist\"\n\n# Copy the Growl.prefPane archive\n\ncp \"$BUILT_PRODUCTS_DIR/$growl_prefPane_archive\" \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Versions/A/Resources/$growl_prefPane_archive\"\n";
+		};
+		9560BF08086DC46700A173B1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "find \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n";
+		};
+		9560BF4C086DC4F800A173B1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "ditto ${BUILT_PRODUCTS_DIR}/Growl\\ ppc.framework ${BUILT_PRODUCTS_DIR}/Growl.framework\nrm ${BUILT_PRODUCTS_DIR}/Growl.framework/Versions/Current/Growl\\ ppc\nlipo -create -output ${BUILT_PRODUCTS_DIR}/Growl.framework/Versions/Current/Growl ${BUILT_PRODUCTS_DIR}/Growl\\ ppc.framework/Versions/Current/Growl\\ ppc ${BUILT_PRODUCTS_DIR}/Growl\\ i386.framework/Versions/Current/Growl\\ i386";
+		};
+		9560BF56086DC51D00A173B1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "ditto ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller\\ ppc.framework ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework\nrm ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework/Versions/Current/Growl-WithInstaller\\ ppc\nlipo -create -output ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework/Versions/Current/Growl-WithInstaller ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller\\ ppc.framework/Versions/Current/Growl-WithInstaller\\ ppc ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller\\ i386.framework/Versions/Current/Growl-WithInstaller\\ i386";
 		};
 		95E17B8E085E216A00990AB3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2928,6 +3371,41 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9560BEBD086DC45100A173B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9560BEBE086DC45100A173B1 /* GrowlApplicationBridge.m in Sources */,
+				9560BEBF086DC45100A173B1 /* GrowlApplicationBridge-Carbon.c in Sources */,
+				9560BEC0086DC45100A173B1 /* CFGrowlAdditions.c in Sources */,
+				9560BEC1086DC45100A173B1 /* GrowlDelegate.m in Sources */,
+				9560BEC2086DC45100A173B1 /* GrowlPathUtil.m in Sources */,
+				9560BEC3086DC45100A173B1 /* NSURLAdditions.m in Sources */,
+				9560BEC4086DC45100A173B1 /* NSMutableDictionaryAdditions.m in Sources */,
+				9560BEC5086DC45100A173B1 /* NSDictionaryAdditions.m in Sources */,
+				9560BEC6086DC45100A173B1 /* GrowlImageAdditions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9560BEF5086DC46700A173B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9560BEF6086DC46700A173B1 /* GrowlApplicationBridge.m in Sources */,
+				9560BEF7086DC46700A173B1 /* GrowlInstallationPrompt.m in Sources */,
+				9560BEF8086DC46700A173B1 /* GrowlApplicationBridge-Carbon.c in Sources */,
+				9560BEF9086DC46700A173B1 /* GrowlInstallationPrompt-Carbon.c in Sources */,
+				9560BEFA086DC46700A173B1 /* GrowlVersionUtilities.c in Sources */,
+				9560BEFB086DC46700A173B1 /* CFGrowlAdditions.c in Sources */,
+				9560BEFC086DC46700A173B1 /* GrowlDelegate.m in Sources */,
+				9560BEFD086DC46700A173B1 /* GrowlPathUtil.m in Sources */,
+				9560BEFE086DC46700A173B1 /* NSURLAdditions.m in Sources */,
+				9560BEFF086DC46700A173B1 /* NSDictionaryAdditions.m in Sources */,
+				9560BF00086DC46700A173B1 /* NSMutableDictionaryAdditions.m in Sources */,
+				9560BF01086DC46700A173B1 /* GrowlImageAdditions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		95FC347007E0458E00BD8674 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3070,6 +3548,41 @@
 			isa = PBXTargetDependency;
 			target = 95FC346D07E0458E00BD8674 /* Brushed */;
 			targetProxy = 955430E707E04683005534FA /* PBXContainerItemProxy */;
+		};
+		9560BEB6086DC45100A173B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95E17B8F085E216A00990AB3 /* SVNRevision */;
+			targetProxy = 9560BEB7086DC45100A173B1 /* PBXContainerItemProxy */;
+		};
+		9560BEE7086DC46700A173B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D202CE80486D31800D8A456 /* Growl */;
+			targetProxy = 9560BEE8086DC46700A173B1 /* PBXContainerItemProxy */;
+		};
+		9560BEE9086DC46700A173B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95E17B8F085E216A00990AB3 /* SVNRevision */;
+			targetProxy = 9560BEEA086DC46700A173B1 /* PBXContainerItemProxy */;
+		};
+		9560BF53086DC50500A173B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34F60EAA078E1CD500CECA86 /* Growl.framework ppc */;
+			targetProxy = 9560BF52086DC50500A173B1 /* PBXContainerItemProxy */;
+		};
+		9560BF55086DC50500A173B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9560BEB5086DC45100A173B1 /* Growl.framework i386 */;
+			targetProxy = 9560BF54086DC50500A173B1 /* PBXContainerItemProxy */;
+		};
+		9560BF5F086DC52F00A173B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34F60EF8078E226300CECA86 /* Growl-WithInstaller.framework ppc */;
+			targetProxy = 9560BF5E086DC52F00A173B1 /* PBXContainerItemProxy */;
+		};
+		9560BF61086DC52F00A173B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9560BEE6086DC46700A173B1 /* Growl-WithInstaller.framework i386 */;
+			targetProxy = 9560BF60086DC52F00A173B1 /* PBXContainerItemProxy */;
 		};
 		95E17BCA085E22B800990AB3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3342,6 +3855,326 @@
 			};
 			name = "Deployment - Tiger - G4";
 		};
+		9560BECF086DC45100A173B1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = "/Users/ingmar/Devel/growl/Framework/Resources/Growl.framework-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREPROCESS = YES;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_LDFLAGS = (
+					"-lobjc",
+					"-sub_library",
+					libobjc,
+					"-seg1addr",
+					0xC0000000,
+				);
+				PRODUCT_NAME = "Growl i386";
+				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SKIP_INSTALL = YES;
+			};
+			name = Development;
+		};
+		9560BED0086DC45100A173B1 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+					NS_BLOCK_ASSERTIONS,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = "/Users/ingmar/Devel/growl/Framework/Resources/Growl.framework-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREPROCESS = YES;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_LDFLAGS = (
+					"-lobjc",
+					"-sub_library",
+					libobjc,
+					"-seg1addr",
+					0xC0000000,
+				);
+				PRODUCT_NAME = "Growl i386";
+				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SKIP_INSTALL = YES;
+			};
+			name = Deployment;
+		};
+		9560BED1086DC45100A173B1 /* Deployment - Tiger - G4 */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_MODEL_CPU = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+					NS_BLOCK_ASSERTIONS,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = "/Users/ingmar/Devel/growl/Framework/Resources/Growl.framework-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREPROCESS = YES;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_LDFLAGS = (
+					"-lobjc",
+					"-sub_library",
+					libobjc,
+					"-seg1addr",
+					0xC0000000,
+				);
+				PRODUCT_NAME = "Growl i386";
+				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SKIP_INSTALL = YES;
+			};
+			name = "Deployment - Tiger - G4";
+		};
+		9560BF0B086DC46700A173B1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = "/Users/ingmar/Devel/growl/Framework/Resources/Growl-WithInstaller.framework-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREPROCESS = YES;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_CFLAGS = (
+					"-DGROWL_WITH_INSTALLER",
+					"-fconstant-cfstrings",
+				);
+				OTHER_LDFLAGS = (
+					"-lobjc",
+					"-sub_library",
+					libobjc,
+					"-seg1addr",
+					0xC0000000,
+				);
+				PRODUCT_NAME = "Growl-WithInstaller i386";
+				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SKIP_INSTALL = YES;
+			};
+			name = Development;
+		};
+		9560BF0C086DC46700A173B1 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+					NS_BLOCK_ASSERTIONS,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = "/Users/ingmar/Devel/growl/Framework/Resources/Growl-WithInstaller.framework-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREPROCESS = YES;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_CFLAGS = (
+					"-DGROWL_WITH_INSTALLER",
+					"-fconstant-cfstrings",
+				);
+				OTHER_LDFLAGS = (
+					"-lobjc",
+					"-sub_library",
+					libobjc,
+					"-seg1addr",
+					0xC0000000,
+				);
+				PRODUCT_NAME = "Growl-WithInstaller i386";
+				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SKIP_INSTALL = YES;
+			};
+			name = Deployment;
+		};
+		9560BF0D086DC46700A173B1 /* Deployment - Tiger - G4 */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_MODEL_CPU = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+					NS_BLOCK_ASSERTIONS,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = "/Users/ingmar/Devel/growl/Framework/Resources/Growl-WithInstaller.framework-Info.plist";
+				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
+				INFOPLIST_PREPROCESS = YES;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_CFLAGS = (
+					"-DGROWL_WITH_INSTALLER",
+					"-fconstant-cfstrings",
+				);
+				OTHER_LDFLAGS = (
+					"-lobjc",
+					"-sub_library",
+					libobjc,
+					"-seg1addr",
+					0xC0000000,
+				);
+				PRODUCT_NAME = "Growl-WithInstaller i386";
+				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SKIP_INSTALL = YES;
+			};
+			name = "Deployment - Tiger - G4";
+		};
+		9560BF65086DC54800A173B1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Growl.framework;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Development;
+		};
+		9560BF66086DC54800A173B1 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Growl.framework;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Deployment;
+		};
+		9560BF67086DC54800A173B1 /* Deployment - Tiger - G4 */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Growl.framework;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = "Deployment - Tiger - G4";
+		};
+		9560BF69086DC54800A173B1 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Growl-WithInstaller";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Development;
+		};
+		9560BF6A086DC54800A173B1 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Growl-WithInstaller";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Deployment;
+		};
+		9560BF6B086DC54800A173B1 /* Deployment - Tiger - G4 */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "Growl-WithInstaller";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = "Deployment - Tiger - G4";
+		};
 		95E17B9A085E21C400990AB3 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3400,6 +4233,10 @@
 		95EE274C0855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -3413,6 +4250,7 @@
 				);
 				PRODUCT_NAME = Brushed;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Development;
@@ -3420,6 +4258,10 @@
 		95EE274D0855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3437,6 +4279,7 @@
 				);
 				PRODUCT_NAME = Brushed;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Deployment;
@@ -3444,6 +4287,10 @@
 		95EE274E0855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
@@ -3462,6 +4309,7 @@
 				);
 				PRODUCT_NAME = Brushed;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = "Deployment - Tiger - G4";
@@ -3469,6 +4317,10 @@
 		95EE27510855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -3482,6 +4334,7 @@
 				);
 				PRODUCT_NAME = Bubbles;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Development;
@@ -3489,6 +4342,10 @@
 		95EE27520855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3506,6 +4363,7 @@
 				);
 				PRODUCT_NAME = Bubbles;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Deployment;
@@ -3513,6 +4371,10 @@
 		95EE27530855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
@@ -3531,6 +4393,7 @@
 				);
 				PRODUCT_NAME = Bubbles;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = "Deployment - Tiger - G4";
@@ -3538,6 +4401,10 @@
 		95EE27560855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -3551,6 +4418,7 @@
 				);
 				PRODUCT_NAME = Bezel;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Development;
@@ -3558,6 +4426,10 @@
 		95EE27570855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3575,6 +4447,7 @@
 				);
 				PRODUCT_NAME = Bezel;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Deployment;
@@ -3582,6 +4455,10 @@
 		95EE27580855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
@@ -3600,6 +4477,7 @@
 				);
 				PRODUCT_NAME = Bezel;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = "Deployment - Tiger - G4";
@@ -3607,6 +4485,10 @@
 		95EE275B0855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -3620,6 +4502,7 @@
 				);
 				PRODUCT_NAME = Speech;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Development;
@@ -3627,6 +4510,10 @@
 		95EE275C0855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3644,6 +4531,7 @@
 				);
 				PRODUCT_NAME = Speech;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Deployment;
@@ -3651,6 +4539,10 @@
 		95EE275D0855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
@@ -3669,6 +4561,7 @@
 				);
 				PRODUCT_NAME = Speech;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = "Deployment - Tiger - G4";
@@ -3676,6 +4569,10 @@
 		95EE27600855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -3689,6 +4586,7 @@
 				);
 				PRODUCT_NAME = Smoke;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Development;
@@ -3696,6 +4594,10 @@
 		95EE27610855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3713,6 +4615,7 @@
 				);
 				PRODUCT_NAME = Smoke;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Deployment;
@@ -3720,6 +4623,10 @@
 		95EE27620855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
@@ -3738,6 +4645,7 @@
 				);
 				PRODUCT_NAME = Smoke;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = "Deployment - Tiger - G4";
@@ -3745,6 +4653,10 @@
 		95EE27650855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -3754,6 +4666,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = MailMe;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Development;
@@ -3761,6 +4674,10 @@
 		95EE27660855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3774,6 +4691,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = MailMe;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Deployment;
@@ -3781,6 +4699,10 @@
 		95EE27670855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
@@ -3795,6 +4717,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PRODUCT_NAME = MailMe;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = "Deployment - Tiger - G4";
@@ -3802,6 +4725,10 @@
 		95EE276A0855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
@@ -3815,6 +4742,7 @@
 				);
 				PRODUCT_NAME = MusicVideo;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Development;
@@ -3822,6 +4750,10 @@
 		95EE276B0855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3839,6 +4771,7 @@
 				);
 				PRODUCT_NAME = MusicVideo;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Deployment;
@@ -3846,6 +4779,10 @@
 		95EE276C0855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
@@ -3864,6 +4801,7 @@
 				);
 				PRODUCT_NAME = MusicVideo;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = "Deployment - Tiger - G4";
@@ -3871,6 +4809,10 @@
 		95EE276F0855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = source;
@@ -3883,6 +4825,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = GrowlSMS;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
 				WRAPPER_EXTENSION = growlView;
 			};
@@ -3891,6 +4834,10 @@
 		95EE27700855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3907,6 +4854,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = GrowlSMS;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
 				WRAPPER_EXTENSION = growlView;
 			};
@@ -3915,6 +4863,10 @@
 		95EE27710855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
@@ -3932,6 +4884,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = GrowlSMS;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
 				WRAPPER_EXTENSION = growlView;
 			};
@@ -3940,6 +4893,10 @@
 		95EE27740855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
@@ -3948,12 +4905,17 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
 		95EE27750855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
@@ -3966,12 +4928,17 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
 		};
 		95EE27760855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3985,12 +4952,17 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PRODUCT_NAME = GrowlHelperApp;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = "Deployment - Tiger - G4";
 		};
 		95EE27790855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "StatusItem/Resources/MenuExtra-Info.plist";
@@ -3998,12 +4970,17 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = GrowlMenu;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
 		95EE277A0855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4015,12 +4992,17 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = GrowlMenu;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
 		};
 		95EE277B0855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -4033,12 +5015,17 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PRODUCT_NAME = GrowlMenu;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = "Deployment - Tiger - G4";
 		};
 		95EE277E0855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4049,6 +5036,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = Growl;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = prefPane;
 			};
 			name = Development;
@@ -4056,6 +5044,10 @@
 		95EE277F0855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -4070,6 +5062,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = Growl;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = prefPane;
 			};
 			name = Deployment;
@@ -4077,6 +5070,10 @@
 		95EE27800855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_CPU = G4;
@@ -4092,6 +5089,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PRODUCT_NAME = Growl;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				WRAPPER_EXTENSION = prefPane;
 			};
 			name = "Deployment - Tiger - G4";
@@ -4099,6 +5097,10 @@
 		95EE27830855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "Prefpane TestHarness/PrefPaneTesting-Info.plist";
@@ -4106,12 +5108,17 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = PrefpaneTesting;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
 		95EE27840855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4123,12 +5130,17 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = PrefpaneTesting;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
 		};
 		95EE27850855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -4141,12 +5153,14 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PRODUCT_NAME = PrefpaneTesting;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = "Deployment - Tiger - G4";
 		};
 		95EE27880855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = ppc;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -4166,7 +5180,7 @@
 					"-seg1addr",
 					0xC0000000,
 				);
-				PRODUCT_NAME = Growl;
+				PRODUCT_NAME = "Growl ppc";
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SKIP_INSTALL = YES;
 			};
@@ -4175,6 +5189,7 @@
 		95EE27890855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = ppc;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -4198,7 +5213,7 @@
 					"-seg1addr",
 					0xC0000000,
 				);
-				PRODUCT_NAME = Growl;
+				PRODUCT_NAME = "Growl ppc";
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SKIP_INSTALL = YES;
 			};
@@ -4207,6 +5222,7 @@
 		95EE278A0855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = ppc;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -4231,7 +5247,7 @@
 					"-seg1addr",
 					0xC0000000,
 				);
-				PRODUCT_NAME = Growl;
+				PRODUCT_NAME = "Growl ppc";
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SKIP_INSTALL = YES;
 			};
@@ -4240,6 +5256,7 @@
 		95EE278D0855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = ppc;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -4263,7 +5280,7 @@
 					"-seg1addr",
 					0xC0000000,
 				);
-				PRODUCT_NAME = "Growl-WithInstaller";
+				PRODUCT_NAME = "Growl-WithInstaller ppc";
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SKIP_INSTALL = YES;
 			};
@@ -4272,6 +5289,7 @@
 		95EE278E0855AA6C0045DB39 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = ppc;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -4299,7 +5317,7 @@
 					"-seg1addr",
 					0xC0000000,
 				);
-				PRODUCT_NAME = "Growl-WithInstaller";
+				PRODUCT_NAME = "Growl-WithInstaller ppc";
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SKIP_INSTALL = YES;
 			};
@@ -4308,6 +5326,7 @@
 		95EE278F0855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = ppc;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -4336,7 +5355,7 @@
 					"-seg1addr",
 					0xC0000000,
 				);
-				PRODUCT_NAME = "Growl-WithInstaller";
+				PRODUCT_NAME = "Growl-WithInstaller ppc";
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SKIP_INSTALL = YES;
 			};
@@ -4457,6 +5476,44 @@
 				955285BA085C3C7900D21D10 /* Development */,
 				955285BB085C3C7900D21D10 /* Deployment */,
 				955285BC085C3C7900D21D10 /* Deployment - Tiger - G4 */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		9560BECE086DC45100A173B1 /* Build configuration list for PBXNativeTarget "Growl.framework i386" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9560BECF086DC45100A173B1 /* Development */,
+				9560BED0086DC45100A173B1 /* Deployment */,
+				9560BED1086DC45100A173B1 /* Deployment - Tiger - G4 */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		9560BF0A086DC46700A173B1 /* Build configuration list for PBXNativeTarget "Growl-WithInstaller.framework i386" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9560BF0B086DC46700A173B1 /* Development */,
+				9560BF0C086DC46700A173B1 /* Deployment */,
+				9560BF0D086DC46700A173B1 /* Deployment - Tiger - G4 */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		9560BF64086DC54800A173B1 /* Build configuration list for PBXAggregateTarget "Growl.framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9560BF65086DC54800A173B1 /* Development */,
+				9560BF66086DC54800A173B1 /* Deployment */,
+				9560BF67086DC54800A173B1 /* Deployment - Tiger - G4 */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		9560BF68086DC54800A173B1 /* Build configuration list for PBXAggregateTarget "Growl-WithInstaller.framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9560BF69086DC54800A173B1 /* Development */,
+				9560BF6A086DC54800A173B1 /* Deployment */,
+				9560BF6B086DC54800A173B1 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
@@ -4589,7 +5646,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		95EE27870855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl.framework" */ = {
+		95EE27870855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl.framework ppc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95EE27880855AA6C0045DB39 /* Development */,
@@ -4599,7 +5656,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		95EE278C0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl-WithInstaller.framework" */ = {
+		95EE278C0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Growl-WithInstaller.framework ppc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95EE278D0855AA6C0045DB39 /* Development */,
