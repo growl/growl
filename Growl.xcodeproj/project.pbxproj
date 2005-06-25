@@ -132,7 +132,7 @@
 		343354E60792FAFF00C84B15 /* GrowlApplicationBridge-Carbon.c in Sources */ = {isa = PBXBuildFile; fileRef = 343353E80792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.c */; };
 		343354E70792FB0000C84B15 /* GrowlApplicationBridge-Carbon.h in Headers */ = {isa = PBXBuildFile; fileRef = 343353E90792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		343354EE0792FC2000C84B15 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
-		3434E8EA0790D6E600A97A48 /* FadingWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADACB07551C4500AF9545 /* FadingWindowController.m */; };
+		3434E8EA0790D6E600A97A48 /* GrowlDisplayFadingWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADACB07551C4500AF9545 /* GrowlDisplayFadingWindowController.m */; };
 		3494427507BAF6C4000F2A03 /* GrowlDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52861FEF06DC463E00D3A356 /* GrowlDefaults.plist */; };
 		34B2755708423BE80092A5A0 /* growlmenu-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755208423BE80092A5A0 /* growlmenu-alt.png */; };
 		34B2755808423BE80092A5A0 /* growlmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755308423BE80092A5A0 /* growlmenu.png */; };
@@ -614,7 +614,7 @@
 		0A7F5FDE0767C79100E1C1E4 /* GrowlMailMeDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlMailMeDisplay.m; sourceTree = "<group>"; };
 		0A7F5FDF0767C79100E1C1E4 /* GrowlMailMePrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMailMePrefs.h; sourceTree = "<group>"; };
 		0A7F5FE00767C79100E1C1E4 /* GrowlMailMePrefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlMailMePrefs.m; sourceTree = "<group>"; };
-		0A7F60000767C80E00E1C1E4 /* Display Plugins_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Display Plugins_Prefix.pch"; path = "Display Plugins/Display Plugins_Prefix.pch"; sourceTree = "<group>"; };
+		0A7F60000767C80E00E1C1E4 /* Display Plugins_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Display Plugins_Prefix.pch"; path = "Plugins/Displays/Display Plugins_Prefix.pch"; sourceTree = "<group>"; };
 		0A7F624E0767C84E00E1C1E4 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GrowlMusicVideoPrefs.nib; sourceTree = "<group>"; };
 		0A7F624F0767C84E00E1C1E4 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/GrowlMusicVideoPrefs.nib; sourceTree = "<group>"; };
 		0A7F62500767C84E00E1C1E4 /* GrowlMusicVideoDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMusicVideoDisplay.h; sourceTree = "<group>"; };
@@ -675,15 +675,15 @@
 		950568E40812C2960096EC5C /* GrowlLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlLog.m; path = Core/Source/GrowlLog.m; sourceTree = "<group>"; };
 		950627A40840D34900C01CD2 /* growl-claw32.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "growl-claw32.tiff"; path = "Core/Resources/growl-claw32.tiff"; sourceTree = "<group>"; };
 		95075AB00817F5DB00D862A5 /* GrowlMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		950F7974080EED5C00CC5F62 /* GrowlWebKitController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitController.h; path = "Display Plugins/WebKit/GrowlWebKitController.h"; sourceTree = "<group>"; };
-		950F7975080EED5C00CC5F62 /* GrowlWebKitController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitController.m; path = "Display Plugins/WebKit/GrowlWebKitController.m"; sourceTree = "<group>"; };
-		950F7976080EED5C00CC5F62 /* GrowlWebKitDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitDefines.h; path = "Display Plugins/WebKit/GrowlWebKitDefines.h"; sourceTree = "<group>"; };
-		950F7977080EED5C00CC5F62 /* GrowlWebKitPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitPrefsController.h; path = "Display Plugins/WebKit/GrowlWebKitPrefsController.h"; sourceTree = "<group>"; };
-		950F7978080EED5C00CC5F62 /* GrowlWebKitPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitPrefsController.m; path = "Display Plugins/WebKit/GrowlWebKitPrefsController.m"; sourceTree = "<group>"; };
-		950F7979080EED5C00CC5F62 /* GrowlWebKitWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitWindowController.h; path = "Display Plugins/WebKit/GrowlWebKitWindowController.h"; sourceTree = "<group>"; };
-		950F797A080EED5C00CC5F62 /* GrowlWebKitWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitWindowController.m; path = "Display Plugins/WebKit/GrowlWebKitWindowController.m"; sourceTree = "<group>"; };
-		950F797B080EED5C00CC5F62 /* GrowlWebKitWindowView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitWindowView.h; path = "Display Plugins/WebKit/GrowlWebKitWindowView.h"; sourceTree = "<group>"; };
-		950F797C080EED5C00CC5F62 /* GrowlWebKitWindowView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitWindowView.m; path = "Display Plugins/WebKit/GrowlWebKitWindowView.m"; sourceTree = "<group>"; };
+		950F7974080EED5C00CC5F62 /* GrowlWebKitController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitController.h; path = Plugins/Displays/WebKit/GrowlWebKitController.h; sourceTree = "<group>"; };
+		950F7975080EED5C00CC5F62 /* GrowlWebKitController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitController.m; path = Plugins/Displays/WebKit/GrowlWebKitController.m; sourceTree = "<group>"; };
+		950F7976080EED5C00CC5F62 /* GrowlWebKitDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitDefines.h; path = Plugins/Displays/WebKit/GrowlWebKitDefines.h; sourceTree = "<group>"; };
+		950F7977080EED5C00CC5F62 /* GrowlWebKitPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitPrefsController.h; path = Plugins/Displays/WebKit/GrowlWebKitPrefsController.h; sourceTree = "<group>"; };
+		950F7978080EED5C00CC5F62 /* GrowlWebKitPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitPrefsController.m; path = Plugins/Displays/WebKit/GrowlWebKitPrefsController.m; sourceTree = "<group>"; };
+		950F7979080EED5C00CC5F62 /* GrowlWebKitWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitWindowController.h; path = Plugins/Displays/WebKit/GrowlWebKitWindowController.h; sourceTree = "<group>"; };
+		950F797A080EED5C00CC5F62 /* GrowlWebKitWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitWindowController.m; path = Plugins/Displays/WebKit/GrowlWebKitWindowController.m; sourceTree = "<group>"; };
+		950F797B080EED5C00CC5F62 /* GrowlWebKitWindowView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitWindowView.h; path = Plugins/Displays/WebKit/GrowlWebKitWindowView.h; sourceTree = "<group>"; };
+		950F797C080EED5C00CC5F62 /* GrowlWebKitWindowView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitWindowView.m; path = Plugins/Displays/WebKit/GrowlWebKitWindowView.m; sourceTree = "<group>"; };
 		950F79C5080EEE2B00CC5F62 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		95125DE70802D3E8007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../Bubbles/Info.plist; sourceTree = "<group>"; };
 		95125DE80802D3F3007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../Bezel/Info.plist; sourceTree = "<group>"; };
@@ -691,8 +691,8 @@
 		95125DEB0802D414007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../Smoke/Info.plist; sourceTree = "<group>"; };
 		95125DEC0802D41E007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../MailMe/Info.plist; sourceTree = "<group>"; };
 		95125DED0802D428007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../MusicVideo/Info.plist; sourceTree = "<group>"; };
-		951BD0B5081049C700D803CD /* GrowlImageURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlImageURLProtocol.h; path = "Display Plugins/WebKit/GrowlImageURLProtocol.h"; sourceTree = "<group>"; };
-		951BD0B6081049C700D803CD /* GrowlImageURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlImageURLProtocol.m; path = "Display Plugins/WebKit/GrowlImageURLProtocol.m"; sourceTree = "<group>"; };
+		951BD0B5081049C700D803CD /* GrowlImageURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlImageURLProtocol.h; path = Plugins/Displays/WebKit/GrowlImageURLProtocol.h; sourceTree = "<group>"; };
+		951BD0B6081049C700D803CD /* GrowlImageURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlImageURLProtocol.m; path = Plugins/Displays/WebKit/GrowlImageURLProtocol.m; sourceTree = "<group>"; };
 		9526BD51081BCC9100B9D0D0 /* MD5Authenticator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MD5Authenticator.h; path = Common/Source/MD5Authenticator.h; sourceTree = "<group>"; };
 		9526BD52081BCC9100B9D0D0 /* MD5Authenticator.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MD5Authenticator.m; path = Common/Source/MD5Authenticator.m; sourceTree = "<group>"; };
 		9528EF7907F5A27300061D90 /* Japanese */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = Japanese; path = Core/Resources/Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -714,14 +714,14 @@
 		954F012F074135CC00EA8AB5 /* English */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = English; path = Core/Resources/English.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		954F0148074135D700EA8AB5 /* German */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = German; path = Core/Resources/German.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		9554979A081125A60062E27B /* Plain.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Plain.growlStyle; path = Core/Resources/Plain.growlStyle; sourceTree = "<group>"; };
-		955A4E52086175EC009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = "Display Plugins/Brushed/French.lproj/BrushedPrefs.nib"; sourceTree = "<group>"; };
+		955A4E52086175EC009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Plugins/Displays/Brushed/French.lproj/BrushedPrefs.nib; sourceTree = "<group>"; };
 		955A4E53086175F6009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/BubblesPrefs.nib; sourceTree = "<group>"; };
 		955A4E5408617601009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/GrowlBezelPrefs.nib; sourceTree = "<group>"; };
 		955A4E550861760C009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
 		955A4E5608617616009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/SmokePrefs.nib; sourceTree = "<group>"; };
 		955A4E5708617620009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/GrowlMailMePrefs.nib; sourceTree = "<group>"; };
 		955A4E580861762A009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/GrowlMusicVideoPrefs.nib; sourceTree = "<group>"; };
-		955A4E5908617637009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = "Display Plugins/WebKit/French.lproj/WebKitPrefs.nib"; sourceTree = "<group>"; };
+		955A4E5908617637009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Plugins/Displays/WebKit/French.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
 		955A4E5A08617653009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = French; path = Core/Resources/French.lproj/About.rtf; sourceTree = "<group>"; };
 		955A4E5B0861765F009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Core/Resources/French.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		955A4E5C0861766D009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Core/Resources/French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -729,8 +729,8 @@
 		955A4EDC08617747009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = StatusItem/Resources/French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		955C236B081537280013C3CF /* NSMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableStringAdditions.h; path = Common/Source/NSMutableStringAdditions.h; sourceTree = "<group>"; };
 		955C236C081537280013C3CF /* NSMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableStringAdditions.m; path = Common/Source/NSMutableStringAdditions.m; sourceTree = "<group>"; };
-		956ADAC607551C4500AF9545 /* FadingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FadingWindowController.h; path = Core/Source/FadingWindowController.h; sourceTree = SOURCE_ROOT; };
-		956ADACB07551C4500AF9545 /* FadingWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FadingWindowController.m; path = Core/Source/FadingWindowController.m; sourceTree = SOURCE_ROOT; };
+		956ADAC607551C4500AF9545 /* GrowlDisplayFadingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDisplayFadingWindowController.h; path = Plugins/Displays/GrowlDisplayFadingWindowController.h; sourceTree = SOURCE_ROOT; };
+		956ADACB07551C4500AF9545 /* GrowlDisplayFadingWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlDisplayFadingWindowController.m; path = Plugins/Displays/GrowlDisplayFadingWindowController.m; sourceTree = SOURCE_ROOT; };
 		956ADAD007551C4500AF9545 /* GrowlBezierPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBezierPathAdditions.h; path = Core/Source/GrowlBezierPathAdditions.h; sourceTree = SOURCE_ROOT; };
 		956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlBezierPathAdditions.m; path = Core/Source/GrowlBezierPathAdditions.m; sourceTree = SOURCE_ROOT; };
 		956ADADA07551C4500AF9545 /* GrowlImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlImageAdditions.h; path = Core/Source/GrowlImageAdditions.h; sourceTree = SOURCE_ROOT; };
@@ -747,7 +747,7 @@
 		9574B9990838FBEE00106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Framework/Resources/Japanese.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		9574B99A0838FC1E00106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = "Framework/Resources/Japanese.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
 		9574B99B0838FC2E00106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Japanese; path = Framework/Resources/Japanese.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
-		9574B99C0838FC4E00106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = "Display Plugins/Brushed/Japanese.lproj/BrushedPrefs.nib"; sourceTree = "<group>"; };
+		9574B99C0838FC4E00106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Plugins/Displays/Brushed/Japanese.lproj/BrushedPrefs.nib; sourceTree = "<group>"; };
 		9574B99D0838FC5F00106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/BubblesPrefs.nib; sourceTree = "<group>"; };
 		9574B99E0838FC7300106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/GrowlBezelPrefs.nib; sourceTree = "<group>"; };
 		9574B99F0838FC8800106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/GrowlSpeechPrefs.nib; sourceTree = "<group>"; };
@@ -756,12 +756,12 @@
 		9574B9A20838FCCA00106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/GrowlMusicVideoPrefs.nib; sourceTree = "<group>"; };
 		9574BBA808392CC500106CA3 /* GrowlSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = GrowlSuite.scriptSuite; path = Bindings/applescript/GrowlSuite.scriptSuite; sourceTree = "<group>"; };
 		9574BBA908392CC500106CA3 /* GrowlSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = GrowlSuite.scriptTerminology; path = Bindings/applescript/GrowlSuite.scriptTerminology; sourceTree = "<group>"; };
-		957E5910084D07D80090ACC4 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = "Display Plugins/SMS/German.lproj/GrowlSMSPrefs.nib"; sourceTree = "<group>"; };
+		957E5910084D07D80090ACC4 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = Plugins/Displays/SMS/German.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		95812DB808118FB9004FF8F5 /* GrowlDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDelegate.h; path = Framework/Source/GrowlDelegate.h; sourceTree = "<group>"; };
 		95812DB908118FB9004FF8F5 /* GrowlDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlDelegate.m; path = Framework/Source/GrowlDelegate.m; sourceTree = "<group>"; };
 		958294EF074CDE3100EC7AF2 /* GrowlUDPPathway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlUDPPathway.h; path = Core/Source/GrowlUDPPathway.h; sourceTree = "<group>"; };
 		958294F0074CDE3100EC7AF2 /* GrowlUDPPathway.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlUDPPathway.m; path = Core/Source/GrowlUDPPathway.m; sourceTree = "<group>"; };
-		9596C4EF081063DB00F43859 /* template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = template.html; path = "Display Plugins/WebKit/template.html"; sourceTree = "<group>"; };
+		9596C4EF081063DB00F43859 /* template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = template.html; path = Plugins/Displays/WebKit/template.html; sourceTree = "<group>"; };
 		9596C5F8081102BE00F43859 /* GrowlBrowserEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlBrowserEntry.h; path = Core/Source/GrowlBrowserEntry.h; sourceTree = "<group>"; };
 		9596C5F9081102BE00F43859 /* GrowlBrowserEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlBrowserEntry.m; path = Core/Source/GrowlBrowserEntry.m; sourceTree = "<group>"; };
 		959DBE4908127BA4009BB468 /* GrowlPathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPathUtil.h; path = Common/Source/GrowlPathUtil.h; sourceTree = "<group>"; };
@@ -775,11 +775,11 @@
 		95B00A3108468941004A8623 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = Core/Resources/zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95B92F1B0865B5A900DA02F0 /* NSMutableAttributedStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableAttributedStringAdditions.h; path = Common/Source/NSMutableAttributedStringAdditions.h; sourceTree = "<group>"; };
 		95B92F1C0865B5A900DA02F0 /* NSMutableAttributedStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableAttributedStringAdditions.m; path = Common/Source/NSMutableAttributedStringAdditions.m; sourceTree = "<group>"; };
-		95BF38FD0851F82200873BE1 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = "Display Plugins/WebKit/cs.lproj/WebKitPrefs.nib"; sourceTree = "<group>"; };
-		95BF38FF0851F83500873BE1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "Display Plugins/WebKit/English.lproj/WebKitPrefs.nib"; sourceTree = "<group>"; };
-		95BF39000851F83F00873BE1 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = "Display Plugins/WebKit/German.lproj/WebKitPrefs.nib"; sourceTree = "<group>"; };
-		95BF39010851F84A00873BE1 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = "Display Plugins/WebKit/Japanese.lproj/WebKitPrefs.nib"; sourceTree = "<group>"; };
-		95BF39020851F85400873BE1 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = "Display Plugins/WebKit/zh_CN.lproj/WebKitPrefs.nib"; sourceTree = "<group>"; };
+		95BF38FD0851F82200873BE1 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = Plugins/Displays/WebKit/cs.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
+		95BF38FF0851F83500873BE1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/WebKit/English.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
+		95BF39000851F83F00873BE1 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = Plugins/Displays/WebKit/German.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
+		95BF39010851F84A00873BE1 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Plugins/Displays/WebKit/Japanese.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
+		95BF39020851F85400873BE1 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = Plugins/Displays/WebKit/zh_CN.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
 		95BF83760743675700306A77 /* growl-icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "growl-icon.icns"; path = "images/icons/growl-icon.icns"; sourceTree = SOURCE_ROOT; };
 		95C8779907D9DFC000C69DEE /* NSWindow+Transforms.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSWindow+Transforms.h"; path = "Common/Source/NSWindow+Transforms.h"; sourceTree = "<group>"; };
 		95C877C207D9DFC000C69DEE /* NSWindow+Transforms.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSWindow+Transforms.m"; path = "Common/Source/NSWindow+Transforms.m"; sourceTree = "<group>"; };
@@ -802,20 +802,20 @@
 		95F975AC084A23F500915BFE /* NSMutableDictionaryAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableDictionaryAdditions.m; path = Common/Source/NSMutableDictionaryAdditions.m; sourceTree = "<group>"; };
 		95F97679084A297400915BFE /* NSDictionaryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDictionaryAdditions.h; path = Common/Source/NSDictionaryAdditions.h; sourceTree = "<group>"; };
 		95F9767A084A297400915BFE /* NSDictionaryAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDictionaryAdditions.m; path = Common/Source/NSDictionaryAdditions.m; sourceTree = "<group>"; };
-		95FC306F07E03B2600BD8674 /* GrowlBrushedDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBrushedDefines.h; path = "Display Plugins/Brushed/GrowlBrushedDefines.h"; sourceTree = "<group>"; };
-		95FC309807E03B2600BD8674 /* GrowlBrushedDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBrushedDisplay.h; path = "Display Plugins/Brushed/GrowlBrushedDisplay.h"; sourceTree = "<group>"; };
-		95FC30C107E03B2600BD8674 /* GrowlBrushedDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlBrushedDisplay.m; path = "Display Plugins/Brushed/GrowlBrushedDisplay.m"; sourceTree = "<group>"; };
-		95FC30EA07E03B2600BD8674 /* GrowlBrushedPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBrushedPrefsController.h; path = "Display Plugins/Brushed/GrowlBrushedPrefsController.h"; sourceTree = "<group>"; };
-		95FC311307E03B2600BD8674 /* GrowlBrushedPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlBrushedPrefsController.m; path = "Display Plugins/Brushed/GrowlBrushedPrefsController.m"; sourceTree = "<group>"; };
-		95FC313C07E03B2600BD8674 /* GrowlBrushedWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBrushedWindowController.h; path = "Display Plugins/Brushed/GrowlBrushedWindowController.h"; sourceTree = "<group>"; };
-		95FC316507E03B2600BD8674 /* GrowlBrushedWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlBrushedWindowController.m; path = "Display Plugins/Brushed/GrowlBrushedWindowController.m"; sourceTree = "<group>"; };
-		95FC318E07E03B2600BD8674 /* GrowlBrushedWindowView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBrushedWindowView.h; path = "Display Plugins/Brushed/GrowlBrushedWindowView.h"; sourceTree = "<group>"; };
-		95FC31B707E03B2600BD8674 /* GrowlBrushedWindowView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlBrushedWindowView.m; path = "Display Plugins/Brushed/GrowlBrushedWindowView.m"; sourceTree = "<group>"; };
-		95FC32B207E03B3400BD8674 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "Display Plugins/Brushed/English.lproj/BrushedPrefs.nib"; sourceTree = "<group>"; };
-		95FC32E607E03B4000BD8674 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = "Display Plugins/Brushed/German.lproj/BrushedPrefs.nib"; sourceTree = "<group>"; };
+		95FC306F07E03B2600BD8674 /* GrowlBrushedDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBrushedDefines.h; path = Plugins/Displays/Brushed/GrowlBrushedDefines.h; sourceTree = "<group>"; };
+		95FC309807E03B2600BD8674 /* GrowlBrushedDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBrushedDisplay.h; path = Plugins/Displays/Brushed/GrowlBrushedDisplay.h; sourceTree = "<group>"; };
+		95FC30C107E03B2600BD8674 /* GrowlBrushedDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlBrushedDisplay.m; path = Plugins/Displays/Brushed/GrowlBrushedDisplay.m; sourceTree = "<group>"; };
+		95FC30EA07E03B2600BD8674 /* GrowlBrushedPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBrushedPrefsController.h; path = Plugins/Displays/Brushed/GrowlBrushedPrefsController.h; sourceTree = "<group>"; };
+		95FC311307E03B2600BD8674 /* GrowlBrushedPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlBrushedPrefsController.m; path = Plugins/Displays/Brushed/GrowlBrushedPrefsController.m; sourceTree = "<group>"; };
+		95FC313C07E03B2600BD8674 /* GrowlBrushedWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBrushedWindowController.h; path = Plugins/Displays/Brushed/GrowlBrushedWindowController.h; sourceTree = "<group>"; };
+		95FC316507E03B2600BD8674 /* GrowlBrushedWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlBrushedWindowController.m; path = Plugins/Displays/Brushed/GrowlBrushedWindowController.m; sourceTree = "<group>"; };
+		95FC318E07E03B2600BD8674 /* GrowlBrushedWindowView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBrushedWindowView.h; path = Plugins/Displays/Brushed/GrowlBrushedWindowView.h; sourceTree = "<group>"; };
+		95FC31B707E03B2600BD8674 /* GrowlBrushedWindowView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlBrushedWindowView.m; path = Plugins/Displays/Brushed/GrowlBrushedWindowView.m; sourceTree = "<group>"; };
+		95FC32B207E03B3400BD8674 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/Brushed/English.lproj/BrushedPrefs.nib; sourceTree = "<group>"; };
+		95FC32E607E03B4000BD8674 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = Plugins/Displays/Brushed/German.lproj/BrushedPrefs.nib; sourceTree = "<group>"; };
 		95FC347907E0458E00BD8674 /* Brushed.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Brushed.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
-		95FC34D807E0458E00BD8674 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Info.plist; path = "Display Plugins/Brushed/Info.plist"; sourceTree = SOURCE_ROOT; };
-		A14BBE0E06EE1D5600530EED /* GrowlDisplayProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDisplayProtocol.h; path = "Display Plugins/GrowlDisplayProtocol.h"; sourceTree = SOURCE_ROOT; };
+		95FC34D807E0458E00BD8674 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Info.plist; path = Plugins/Displays/Brushed/Info.plist; sourceTree = SOURCE_ROOT; };
+		A14BBE0E06EE1D5600530EED /* GrowlDisplayProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDisplayProtocol.h; path = Plugins/Displays/GrowlDisplayProtocol.h; sourceTree = SOURCE_ROOT; };
 		A16BD22606FCC05F00BF033B /* ACImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ACImageAndTextCell.h; path = Core/Source/ACImageAndTextCell.h; sourceTree = "<group>"; };
 		A16BD22706FCC05F00BF033B /* ACImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ACImageAndTextCell.m; path = Core/Source/ACImageAndTextCell.m; sourceTree = "<group>"; };
 		CB1C5D1B063E432F007052EE /* GrowlApplicationTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationTicket.h; path = Core/Source/GrowlApplicationTicket.h; sourceTree = "<group>"; };
@@ -832,12 +832,12 @@
 		CB61E51A0637763C00E0DDC7 /* GrowlHelperApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "GrowlHelperApp-Info.plist"; path = "Core/Resources/GrowlHelperApp-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CB910DA6074E0A3A00278FC5 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlSMS.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD4939FB084BAD4500D1CCCB /* GrowlSMSDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlSMSDisplay.h; path = "Display Plugins/SMS/GrowlSMSDisplay.h"; sourceTree = "<group>"; };
-		DD4939FC084BAD4500D1CCCB /* GrowlSMSDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlSMSDisplay.m; path = "Display Plugins/SMS/GrowlSMSDisplay.m"; sourceTree = "<group>"; };
-		DD4939FD084BAD4500D1CCCB /* GrowlSMSPrefs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlSMSPrefs.h; path = "Display Plugins/SMS/GrowlSMSPrefs.h"; sourceTree = "<group>"; };
-		DD4939FE084BAD4500D1CCCB /* GrowlSMSPrefs.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlSMSPrefs.m; path = "Display Plugins/SMS/GrowlSMSPrefs.m"; sourceTree = "<group>"; };
-		DD493A04084BAD7700D1CCCB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "Display Plugins/SMS/English.lproj/GrowlSMSPrefs.nib"; sourceTree = "<group>"; };
-		DD493B7C084BB07900D1CCCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = "Display Plugins/SMS/Info.plist"; sourceTree = "<group>"; };
+		DD4939FB084BAD4500D1CCCB /* GrowlSMSDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlSMSDisplay.h; path = Plugins/Displays/SMS/GrowlSMSDisplay.h; sourceTree = "<group>"; };
+		DD4939FC084BAD4500D1CCCB /* GrowlSMSDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlSMSDisplay.m; path = Plugins/Displays/SMS/GrowlSMSDisplay.m; sourceTree = "<group>"; };
+		DD4939FD084BAD4500D1CCCB /* GrowlSMSPrefs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlSMSPrefs.h; path = Plugins/Displays/SMS/GrowlSMSPrefs.h; sourceTree = "<group>"; };
+		DD4939FE084BAD4500D1CCCB /* GrowlSMSPrefs.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlSMSPrefs.m; path = Plugins/Displays/SMS/GrowlSMSPrefs.m; sourceTree = "<group>"; };
+		DD493A04084BAD7700D1CCCB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/SMS/English.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
+		DD493B7C084BB07900D1CCCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = Plugins/Displays/SMS/Info.plist; sourceTree = "<group>"; };
 		DDB6462607DE034800807F8D /* generateSVNRevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = generateSVNRevision.sh; sourceTree = "<group>"; };
 		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF09B19080AC97A006F4172 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Prefpane TestHarness/main.m"; sourceTree = "<group>"; };
@@ -1090,7 +1090,7 @@
 				0A7F5DA20767C13200E1C1E4 /* GrowlSpeechPrefs.m */,
 			);
 			name = Speech;
-			path = "Display Plugins/Speech";
+			path = Plugins/Displays/Speech;
 			sourceTree = "<group>";
 		};
 		0A7F5EDA0767C30800E1C1E4 /* Bubbles */ = {
@@ -1109,7 +1109,7 @@
 				0A7F5EE60767C30800E1C1E4 /* GrowlBubblesWindowView.m */,
 			);
 			name = Bubbles;
-			path = "Display Plugins/Bubbles";
+			path = Plugins/Displays/Bubbles;
 			sourceTree = "<group>";
 		};
 		0A7F5F2D0767C3F600E1C1E4 /* Bezel */ = {
@@ -1127,7 +1127,7 @@
 				0A7F5F390767C3F600E1C1E4 /* GrowlBezelWindowView.m */,
 			);
 			name = Bezel;
-			path = "Display Plugins/Bezel";
+			path = Plugins/Displays/Bezel;
 			sourceTree = "<group>";
 		};
 		0A7F5F890767C6C500E1C1E4 /* Smoke */ = {
@@ -1146,7 +1146,7 @@
 				0A7F5F950767C6C500E1C1E4 /* GrowlSmokeWindowView.m */,
 			);
 			name = Smoke;
-			path = "Display Plugins/Smoke";
+			path = Plugins/Displays/Smoke;
 			sourceTree = "<group>";
 		};
 		0A7F5FD90767C79100E1C1E4 /* MailMe */ = {
@@ -1160,7 +1160,7 @@
 				0A7F5FE00767C79100E1C1E4 /* GrowlMailMePrefs.m */,
 			);
 			name = MailMe;
-			path = "Display Plugins/MailMe";
+			path = Plugins/Displays/MailMe;
 			sourceTree = "<group>";
 		};
 		0A7F5FF70767C7FB00E1C1E4 /* Other Sources */ = {
@@ -1186,7 +1186,7 @@
 				0A7F62570767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m */,
 			);
 			name = MusicVideo;
-			path = "Display Plugins/MusicVideo";
+			path = Plugins/Displays/MusicVideo;
 			sourceTree = "<group>";
 		};
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
@@ -1446,8 +1446,8 @@
 				CB34BEC507E09557001D7D7C /* GrowlNotification */,
 				CB0EBFBA0790941300CA2157 /* Pathways */,
 				CB9E3AE80792679400F8937E /* Additions */,
-				956ADAC607551C4500AF9545 /* FadingWindowController.h */,
-				956ADACB07551C4500AF9545 /* FadingWindowController.m */,
+				956ADAC607551C4500AF9545 /* GrowlDisplayFadingWindowController.h */,
+				956ADACB07551C4500AF9545 /* GrowlDisplayFadingWindowController.m */,
 				950568E30812C2960096EC5C /* GrowlLog.h */,
 				950568E40812C2960096EC5C /* GrowlLog.m */,
 				953F739E081FFB9E00823EFE /* GrowlNotificationCenter.h */,
@@ -1585,7 +1585,7 @@
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1602,7 +1602,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Speech/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Speech/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -1658,7 +1658,7 @@
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1675,7 +1675,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Bubbles/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Bubbles/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -1710,7 +1710,7 @@
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1727,7 +1727,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Bezel/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Bezel/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -1762,7 +1762,7 @@
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1779,7 +1779,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Smoke/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Smoke/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -1814,7 +1814,7 @@
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1831,7 +1831,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/MailMe/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/MailMe/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -1862,7 +1862,7 @@
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -1879,7 +1879,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/MusicVideo/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/MusicVideo/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -2211,7 +2211,7 @@
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -2228,7 +2228,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Brushed/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Brushed/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -2358,14 +2358,14 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = source;
-				INFOPLIST_FILE = "Display Plugins/SMS/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/SMS/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -2954,7 +2954,7 @@
 				958294F2074CDE3100EC7AF2 /* GrowlUDPPathway.m in Sources */,
 				956ADB0007551C4500AF9545 /* GrowlBezierPathAdditions.m in Sources */,
 				956ADB0207551C4500AF9545 /* GrowlImageAdditions.m in Sources */,
-				3434E8EA0790D6E600A97A48 /* FadingWindowController.m in Sources */,
+				3434E8EA0790D6E600A97A48 /* GrowlDisplayFadingWindowController.m in Sources */,
 				CB5C315C07925B53007CC0D0 /* GrowlApplicationNotification.m in Sources */,
 				0790135707D9321B0023B640 /* GrowlVersionUtilities.c in Sources */,
 				95C8783407D9DFC000C69DEE /* NSWindow+Transforms.m in Sources */,
@@ -3401,9 +3401,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Brushed/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Brushed/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3421,13 +3421,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Brushed/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Brushed/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3446,13 +3446,13 @@
 			buildSettings = {
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Brushed/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Brushed/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3470,9 +3470,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Bubbles/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Bubbles/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3490,13 +3490,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Bubbles/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Bubbles/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3515,13 +3515,13 @@
 			buildSettings = {
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Bubbles/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Bubbles/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3539,9 +3539,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Bezel/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Bezel/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3559,13 +3559,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Bezel/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Bezel/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3584,13 +3584,13 @@
 			buildSettings = {
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Bezel/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Bezel/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3608,9 +3608,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Speech/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Speech/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3628,13 +3628,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Speech/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Speech/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3653,13 +3653,13 @@
 			buildSettings = {
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Speech/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Speech/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3677,9 +3677,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Smoke/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Smoke/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3697,13 +3697,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Smoke/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Smoke/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3722,13 +3722,13 @@
 			buildSettings = {
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/Smoke/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/Smoke/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3746,9 +3746,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/MailMe/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/MailMe/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3762,13 +3762,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/MailMe/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/MailMe/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3783,13 +3783,13 @@
 			buildSettings = {
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/MailMe/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/MailMe/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3803,9 +3803,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/MusicVideo/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/MusicVideo/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3823,13 +3823,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/MusicVideo/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/MusicVideo/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3848,13 +3848,13 @@
 			buildSettings = {
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = "Display Plugins/MusicVideo/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/MusicVideo/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3872,9 +3872,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				HEADER_SEARCH_PATHS = source;
-				INFOPLIST_FILE = "Display Plugins/SMS/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/SMS/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3892,13 +3892,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = source;
-				INFOPLIST_FILE = "Display Plugins/SMS/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/SMS/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
@@ -3917,13 +3917,13 @@
 			buildSettings = {
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Display Plugins/Display Plugins_Prefix.pch";
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
 					NS_BLOCK_ASSERTIONS,
 				);
 				HEADER_SEARCH_PATHS = source;
-				INFOPLIST_FILE = "Display Plugins/SMS/Info.plist";
+				INFOPLIST_FILE = Plugins/Displays/SMS/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_STYLE = BUNDLE;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;

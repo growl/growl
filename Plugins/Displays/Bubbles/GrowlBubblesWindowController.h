@@ -7,7 +7,7 @@
 //  Copyright (c) 2004-2005 The Growl Project. All rights reserved.
 //
 
-#import "FadingWindowController.h"
+#import "GrowlDisplayFadingWindowController.h"
 
 @interface GrowlBubblesWindowController : FadingWindowController {
 	unsigned	depth;
