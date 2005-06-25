@@ -227,6 +227,20 @@
 			remoteGlobalIDString = 95AE27BD085C452600271F5F;
 			remoteInfo = "External Frameworks";
 		};
+		95B30627086DD0F300CA108B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95AE278B085C451A00271F5F /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9560BED2086DC45100A173B1 /* Growl i386.framework */;
+			remoteInfo = "Growl.framework i386";
+		};
+		95B30629086DD0F300CA108B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95AE278B085C451A00271F5F /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9560BF0E086DC46700A173B1 /* Growl-WithInstaller i386.framework */;
+			remoteInfo = "Growl-WithInstaller.framework i386";
+		};
 		95D740AE084B98A4000D67BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -412,8 +426,10 @@
 				95AE27A0085C451A00271F5F /* PrefpaneTesting.app */,
 				95AE27A2085C451A00271F5F /* GrowlHelperApp.app */,
 				95AE27A4085C451A00271F5F /* GrowlMenu.app */,
-				95AE27A6085C451A00271F5F /* Growl.framework */,
-				95AE27A8085C451A00271F5F /* Growl-WithInstaller.framework */,
+				95AE27A6085C451A00271F5F /* Growl ppc.framework */,
+				95B30628086DD0F300CA108B /* Growl i386.framework */,
+				95AE27A8085C451A00271F5F /* Growl-WithInstaller ppc.framework */,
+				95B3062A086DD0F300CA108B /* Growl-WithInstaller i386.framework */,
 				95AE27AA085C451A00271F5F /* Speech.growlView */,
 				95AE27AC085C451A00271F5F /* Brushed.growlView */,
 				95AE27AE085C451A00271F5F /* Bubbles.growlView */,
@@ -626,17 +642,17 @@
 			remoteRef = 95AE27A3085C451A00271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		95AE27A6085C451A00271F5F /* Growl.framework */ = {
+		95AE27A6085C451A00271F5F /* Growl ppc.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = Growl.framework;
+			path = "Growl ppc.framework";
 			remoteRef = 95AE27A5085C451A00271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		95AE27A8085C451A00271F5F /* Growl-WithInstaller.framework */ = {
+		95AE27A8085C451A00271F5F /* Growl-WithInstaller ppc.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = "Growl-WithInstaller.framework";
+			path = "Growl-WithInstaller ppc.framework";
 			remoteRef = 95AE27A7085C451A00271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -694,6 +710,20 @@
 			fileType = wrapper.cfbundle;
 			path = GrowlSMS.growlView;
 			remoteRef = 95AE27B7085C451A00271F5F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95B30628086DD0F300CA108B /* Growl i386.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = "Growl i386.framework";
+			remoteRef = 95B30627086DD0F300CA108B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95B3062A086DD0F300CA108B /* Growl-WithInstaller i386.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = "Growl-WithInstaller i386.framework";
+			remoteRef = 95B30629086DD0F300CA108B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1213,18 +1243,36 @@
 		95E4A3440855C15F006B3F45 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
 		95E4A3450855C15F006B3F45 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
 		};
 		95E4A3460855C15F006B3F45 /* Deployment - Tiger - G4 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = "Deployment - Tiger - G4";
 		};

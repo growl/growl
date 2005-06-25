@@ -177,6 +177,20 @@
 			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
 			remoteInfo = Growl.framework;
 		};
+		95B30672086DD1B200CA108B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95AE26FB085C443700271F5F /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9560BED2086DC45100A173B1 /* Growl i386.framework */;
+			remoteInfo = "Growl.framework i386";
+		};
+		95B30674086DD1B200CA108B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95AE26FB085C443700271F5F /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9560BF0E086DC46700A173B1 /* Growl-WithInstaller i386.framework */;
+			remoteInfo = "Growl-WithInstaller.framework i386";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -261,8 +275,10 @@
 				95AE2710085C443700271F5F /* PrefpaneTesting.app */,
 				95AE2712085C443700271F5F /* GrowlHelperApp.app */,
 				95AE2714085C443700271F5F /* GrowlMenu.app */,
-				95AE2716085C443700271F5F /* Growl.framework */,
-				95AE2718085C443700271F5F /* Growl-WithInstaller.framework */,
+				95AE2716085C443700271F5F /* Growl ppc.framework */,
+				95B30673086DD1B200CA108B /* Growl i386.framework */,
+				95AE2718085C443700271F5F /* Growl-WithInstaller ppc.framework */,
+				95B30675086DD1B200CA108B /* Growl-WithInstaller i386.framework */,
 				95AE271A085C443700271F5F /* Speech.growlView */,
 				95AE271C085C443700271F5F /* Brushed.growlView */,
 				95AE271E085C443700271F5F /* Bubbles.growlView */,
@@ -441,17 +457,17 @@
 			remoteRef = 95AE2713085C443700271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		95AE2716085C443700271F5F /* Growl.framework */ = {
+		95AE2716085C443700271F5F /* Growl ppc.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = Growl.framework;
+			path = "Growl ppc.framework";
 			remoteRef = 95AE2715085C443700271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		95AE2718085C443700271F5F /* Growl-WithInstaller.framework */ = {
+		95AE2718085C443700271F5F /* Growl-WithInstaller ppc.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = "Growl-WithInstaller.framework";
+			path = "Growl-WithInstaller ppc.framework";
 			remoteRef = 95AE2717085C443700271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -509,6 +525,20 @@
 			fileType = wrapper.cfbundle;
 			path = GrowlSMS.growlView;
 			remoteRef = 95AE2727085C443700271F5F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95B30673086DD1B200CA108B /* Growl i386.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = "Growl i386.framework";
+			remoteRef = 95B30672086DD1B200CA108B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95B30675086DD1B200CA108B /* Growl-WithInstaller i386.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = "Growl-WithInstaller i386.framework";
+			remoteRef = 95B30674086DD1B200CA108B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -690,12 +720,24 @@
 		95E4A3790855C18B006B3F45 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
 		95E4A37A0855C18B006B3F45 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
 		};

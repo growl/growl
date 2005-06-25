@@ -55,8 +55,8 @@
 		32DBCF630370AF2F00C91783 /* GrowlWidgetPlugin_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlWidgetPlugin_Prefix.pch; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* GrowlWidgetPlugin.widgetplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlWidgetPlugin.widgetplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
-		953BC8DB081403AF00AF9EA5 /* GrowlImageURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlImageURLProtocol.h; path = "../../../Display Plugins/WebKit/GrowlImageURLProtocol.h"; sourceTree = SOURCE_ROOT; };
-		953BC8DC081403AF00AF9EA5 /* GrowlImageURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlImageURLProtocol.m; path = "../../../Display Plugins/WebKit/GrowlImageURLProtocol.m"; sourceTree = SOURCE_ROOT; };
+		953BC8DB081403AF00AF9EA5 /* GrowlImageURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlImageURLProtocol.h; path = ../../../Plugins/Displays/WebKit/GrowlImageURLProtocol.h; sourceTree = SOURCE_ROOT; };
+		953BC8DC081403AF00AF9EA5 /* GrowlImageURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlImageURLProtocol.m; path = ../../../Plugins/Displays/WebKit/GrowlImageURLProtocol.m; sourceTree = SOURCE_ROOT; };
 		953F73AF081FFC0D00823EFE /* GrowlNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationCenter.h; path = ../../../Core/Source/GrowlNotificationCenter.h; sourceTree = SOURCE_ROOT; };
 		955C239C081543540013C3CF /* NSMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NSMutableStringAdditions.h; path = ../../../Common/Source/NSMutableStringAdditions.h; sourceTree = SOURCE_ROOT; };
 		955C239D081543540013C3CF /* NSMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NSMutableStringAdditions.m; path = ../../../Common/Source/NSMutableStringAdditions.m; sourceTree = SOURCE_ROOT; };
@@ -394,18 +394,36 @@
 		95E4A2C70855C0ED006B3F45 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
 		95E4A2C80855C0ED006B3F45 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
 		};
 		95E4A2C90855C0ED006B3F45 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Default;
 		};
