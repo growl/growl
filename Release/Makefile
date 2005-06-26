@@ -55,7 +55,7 @@ source:
 	cp -R $(SRC_DIR)/Bindings $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/Common $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/Core $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Display\ Plugins $(BUILD_DIR)/source
+	cp -R $(SRC_DIR)/Plugins $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/Docs $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/Examples $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/Extras $(BUILD_DIR)/source
