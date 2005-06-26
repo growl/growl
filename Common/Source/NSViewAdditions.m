@@ -32,7 +32,7 @@
 	                                                   factor:1.0f];
 	[bitmap release];
 
-	return pngData;
+	return data;
 }
 
 @end
