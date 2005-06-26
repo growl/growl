@@ -3198,7 +3198,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ditto ${BUILT_PRODUCTS_DIR}/Growl\\ ppc.framework ${BUILT_PRODUCTS_DIR}/Growl.framework\nrm ${BUILT_PRODUCTS_DIR}/Growl.framework/Versions/Current/Growl\\ ppc\nrm ${BUILT_PRODUCTS_DIR}/Growl.framework/Growl\\ ppc\nlipo -create -output ${BUILT_PRODUCTS_DIR}/Growl.framework/Versions/Current/Growl ${BUILT_PRODUCTS_DIR}/Growl\\ ppc.framework/Versions/Current/Growl\\ ppc ${BUILT_PRODUCTS_DIR}/Growl\\ i386.framework/Versions/Current/Growl\\ i386\ncd ${BUILT_PRODUCTS_DIR}/Growl.framework\nln -s Versions/Current/Growl Growl\n";
+			shellScript = "ditto ${BUILT_PRODUCTS_DIR}/Growl\\ ppc.framework ${BUILT_PRODUCTS_DIR}/Growl.framework\nrm ${BUILT_PRODUCTS_DIR}/Growl.framework/Versions/Current/Growl\\ ppc\nrm ${BUILT_PRODUCTS_DIR}/Growl.framework/Growl\\ ppc\nlipo -create -output ${BUILT_PRODUCTS_DIR}/Growl.framework/Versions/Current/Growl ${BUILT_PRODUCTS_DIR}/Growl\\ ppc.framework/Versions/Current/Growl\\ ppc ${BUILT_PRODUCTS_DIR}/Growl\\ i386.framework/Versions/Current/Growl\\ i386\ncd ${BUILT_PRODUCTS_DIR}/Growl.framework\nln -sf Versions/Current/Growl Growl\ninstall_name_tool -id \"@executable_path/../Frameworks/Growl.framework/Versions/A/Growl\" Growl\n";
 		};
 		9560BF56086DC51D00A173B1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3211,7 +3211,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ditto ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller\\ ppc.framework ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework\nrm ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework/Versions/Current/Growl-WithInstaller\\ ppc\nrm ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework/Growl-WithInstaller\\ ppc\nlipo -create -output ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework/Versions/Current/Growl-WithInstaller ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller\\ ppc.framework/Versions/Current/Growl-WithInstaller\\ ppc ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller\\ i386.framework/Versions/Current/Growl-WithInstaller\\ i386\ncd ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework\nln -s Versions/Current/Growl-WithInstaller Growl-WithInstaller\n";
+			shellScript = "ditto ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller\\ ppc.framework ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework\nrm ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework/Versions/Current/Growl-WithInstaller\\ ppc\nrm ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework/Growl-WithInstaller\\ ppc\nlipo -create -output ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework/Versions/Current/Growl-WithInstaller ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller\\ ppc.framework/Versions/Current/Growl-WithInstaller\\ ppc ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller\\ i386.framework/Versions/Current/Growl-WithInstaller\\ i386\ncd ${BUILT_PRODUCTS_DIR}/Growl-WithInstaller.framework\nln -sf Versions/Current/Growl-WithInstaller Growl-WithInstaller\ninstall_name_tool -id \"@executable_path/../Frameworks/Growl-WithInstaller.framework/Versions/A/Growl-WithInstaller\" Growl-WithInstaller\n";
 		};
 		95E17B8E085E216A00990AB3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

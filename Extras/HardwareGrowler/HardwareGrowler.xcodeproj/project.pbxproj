@@ -27,7 +27,7 @@
 				);
 			};
 			dependencies = (
-				9533C2B6085C3EE2009F8046 /* PBXTargetDependency */,
+				9598A0A1086F4D410014C386 /* PBXTargetDependency */,
 			);
 			name = "External Frameworks";
 			productName = "External Frameworks";
@@ -206,13 +206,6 @@
 			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
 			remoteInfo = SMS;
 		};
-		9533C2B5085C3EE2009F8046 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
-			remoteInfo = Growl.framework;
-		};
 		9533C2BB085C3F4E009F8046 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -233,6 +226,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 9560BF0E086DC46700A173B1;
 			remoteInfo = "Growl-WithInstaller.framework i386";
+		};
+		9598A0A0086F4D410014C386 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9560BF4D086DC4F800A173B1 /* Growl.framework */;
+			remoteInfo = Growl.framework;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -691,15 +691,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9533C2B6085C3EE2009F8046 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Growl.framework;
-			targetProxy = 9533C2B5085C3EE2009F8046 /* PBXContainerItemProxy */;
-		};
 		9533C2BC085C3F4E009F8046 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9533C229085C3E8C009F8046 /* External Frameworks */;
 			targetProxy = 9533C2BB085C3F4E009F8046 /* PBXContainerItemProxy */;
+		};
+		9598A0A1086F4D410014C386 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Growl.framework;
+			targetProxy = 9598A0A0086F4D410014C386 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

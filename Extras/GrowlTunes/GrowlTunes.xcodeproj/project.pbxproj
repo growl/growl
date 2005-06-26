@@ -27,7 +27,7 @@
 				);
 			};
 			dependencies = (
-				95AE2693085C423C00271F5F /* PBXTargetDependency */,
+				9598A094086F4D1A0014C386 /* PBXTargetDependency */,
 				95AE2699085C424F00271F5F /* PBXTargetDependency */,
 				95AE269B085C424F00271F5F /* PBXTargetDependency */,
 				95AE269D085C424F00271F5F /* PBXTargetDependency */,
@@ -127,6 +127,13 @@
 /* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
+		9598A093086F4D1A0014C386 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9560BF4D086DC4F800A173B1 /* Growl.framework */;
+			remoteInfo = Growl.framework;
+		};
 		95AC231808563965006241FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
@@ -225,13 +232,6 @@
 			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
 			remoteInfo = SMS;
 		};
-		95AE2692085C423C00271F5F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
-			remoteInfo = Growl.framework;
-		};
 		95AE2696085C424800271F5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -264,14 +264,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 9560BED2086DC45100A173B1 /* Growl i386.framework */;
+			remoteGlobalIDString = 9560BED2086DC45100A173B1;
 			remoteInfo = "Growl.framework i386";
 		};
 		95B30575086DCF1C00CA108B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 9560BF0E086DC46700A173B1 /* Growl-WithInstaller i386.framework */;
+			remoteGlobalIDString = 9560BF0E086DC46700A173B1;
 			remoteInfo = "Growl-WithInstaller.framework i386";
 		};
 		95E4A3060855C13D006B3F45 /* PBXContainerItemProxy */ = {
@@ -639,8 +639,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95E4A31B0855C14E006B3F45 /* Products */;
-					ProjectRef = 0A8B5F0F070B140C00593A33 /* GrowlTunes-Synergy.xcodeproj */;
+					ProductGroup = 95E4A30A0855C145006B3F45 /* Products */;
+					ProjectRef = 0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */;
 				},
 				{
 					ProductGroup = 95E4A3030855C13D006B3F45 /* Products */;
@@ -651,8 +651,8 @@
 					ProjectRef = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
 				},
 				{
-					ProductGroup = 95E4A30A0855C145006B3F45 /* Products */;
-					ProjectRef = 0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */;
+					ProductGroup = 95E4A31B0855C14E006B3F45 /* Products */;
+					ProjectRef = 0A8B5F0F070B140C00593A33 /* GrowlTunes-Synergy.xcodeproj */;
 				},
 			);
 			targets = (
@@ -877,10 +877,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		95AE2693085C423C00271F5F /* PBXTargetDependency */ = {
+		9598A094086F4D1A0014C386 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Growl.framework;
-			targetProxy = 95AE2692085C423C00271F5F /* PBXContainerItemProxy */;
+			targetProxy = 9598A093086F4D1A0014C386 /* PBXContainerItemProxy */;
 		};
 		95AE2697085C424800271F5F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

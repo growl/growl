@@ -27,7 +27,7 @@
 				);
 			};
 			dependencies = (
-				95AE27BF085C452C00271F5F /* PBXTargetDependency */,
+				9598A06D086F4CFC0014C386 /* PBXTargetDependency */,
 			);
 			name = "External Frameworks";
 			productName = "External Frameworks";
@@ -115,6 +115,13 @@
 /* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
+		9598A06C086F4CFC0014C386 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95AE278B085C451A00271F5F /* Growl.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9560BF4D086DC4F800A173B1 /* Growl.framework */;
+			remoteInfo = Growl.framework;
+		};
 		95AE279D085C451A00271F5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 95AE278B085C451A00271F5F /* Growl.xcodeproj */;
@@ -212,13 +219,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = DD4939CC084BACA700D1CCCB;
 			remoteInfo = SMS;
-		};
-		95AE27BE085C452C00271F5F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95AE278B085C451A00271F5F /* Growl.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
-			remoteInfo = Growl.framework;
 		};
 		95AE27C2085C453800271F5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -777,10 +777,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		95AE27BF085C452C00271F5F /* PBXTargetDependency */ = {
+		9598A06D086F4CFC0014C386 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Growl.framework;
-			targetProxy = 95AE27BE085C452C00271F5F /* PBXContainerItemProxy */;
+			targetProxy = 9598A06C086F4CFC0014C386 /* PBXContainerItemProxy */;
 		};
 		95AE27C3085C453800271F5F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
