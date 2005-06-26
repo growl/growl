@@ -168,7 +168,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	if ((self = [super initWithWindow:panel])) {
 		depth += NSHeight(panelFrame);
 		autoFadeOut = !sticky;
-		delegate = self;
+		[self setDelegate:self];
 
 		// the visibility time for this notification should be the minimum display time plus
 		// some multiple of gAdditionalLinesDisplayTime, not to exceed gMaxDisplayTime

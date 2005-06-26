@@ -52,8 +52,8 @@
 - (NSTimeInterval) animationDuration;
 - (void) setAnimationDuration:(NSTimeInterval)duration;
 
-- (void) fadeInTimer:(NSTimer *)inTimer;
-- (void) fadeOutTimer:(NSTimer *)inTimer;
+- (void) fadeInTimer;
+- (void) fadeOutTimer;
 
 - (void) fadeInAnimation:(double)progress;
 - (void) fadeOutAnimation:(double)progress;

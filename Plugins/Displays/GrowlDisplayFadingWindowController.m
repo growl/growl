@@ -46,11 +46,11 @@
 	animationStart = CFAbsoluteTimeGetCurrent();
 	fadeTimer = [[NSTimer scheduledTimerWithTimeInterval:fadeInInterval
 												  target:self
-												selector:@selector(fadeInTimer:)
+												selector:@selector(fadeInTimer)
 												userInfo:nil
 												 repeats:YES] retain];
 	//Start immediately
-	[fadeTimer fire];
+	[self fadeInTimer];
 }
 - (void) startFadeOutTimer {
 	[self stopFadeTimer];
@@ -58,11 +58,11 @@
 	animationStart = CFAbsoluteTimeGetCurrent();
 	fadeTimer = [[NSTimer scheduledTimerWithTimeInterval:fadeOutInterval
 												  target:self
-												selector:@selector(fadeOutTimer:)
+												selector:@selector(fadeOutTimer)
 												userInfo:nil
 												 repeats:YES] retain];
 	//Start immediately
-	[fadeTimer fire];
+	[self fadeOutTimer];
 }
 - (void) stopFadeTimer {
 	[fadeTimer invalidate];
@@ -73,8 +73,7 @@
 #pragma mark -
 #pragma mark Timer callbacks
 
-- (void) fadeInTimer:(NSTimer *)inTimer {
-#pragma unused(inTimer)
+- (void) fadeInTimer {
 	double progress = (CFAbsoluteTimeGetCurrent() - animationStart) / animationDuration;
 	BOOL finished = (progress > (1.0 - DBL_EPSILON));
 	if (finished) progress = 1.0; //in case progress > 1.0
@@ -83,8 +82,7 @@
 		[self stopFadeIn];
 }
 
-- (void) fadeOutTimer:(NSTimer *)inTimer {
-#pragma unused(inTimer)
+- (void) fadeOutTimer {
 	double progress = (CFAbsoluteTimeGetCurrent() - animationStart) / animationDuration;
 	BOOL finished = (progress > (1.0 - DBL_EPSILON));
 	if (finished) progress = 1.0; //in case progress > 1.0
@@ -116,7 +114,8 @@
 		if (!isFadingIn) {
 			isFadingIn = YES;
 			[self willDisplayNotification];
-			[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerWillFadeInNotification object:self];
+			[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerWillFadeInNotification
+																object:self];
 			[self startFadeInTimer];
 		}
 	} else
@@ -125,20 +124,22 @@
 
 - (void) stopFadeIn {
 	isFadingIn = NO;
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerDidFadeInNotification object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerDidFadeInNotification
+														object:self];
 	didFadeIn = YES;
 	[self stopFadeTimer];
 	[self didDisplayNotification];
 	if (autoFadeOut)
-		displayTimer = [[NSTimer scheduledTimerWithTimeInterval:displayDuration
-														 target:self
-													   selector:@selector(startFadeOut)
-													   userInfo:nil
-														repeats:YES] retain];
+		[NSTimer scheduledTimerWithTimeInterval:displayDuration
+										 target:self
+									   selector:@selector(startFadeOut)
+									   userInfo:nil
+										repeats:NO];
 }
 
 - (void) startFadeOut {
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerWillFadeOutNotification object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerWillFadeOutNotification
+														object:self];
 	[self stopFadeTimer];
 	if (doFadeOut) {
 		if (!isFadingOut) {
@@ -151,7 +152,8 @@
 
 - (void) stopFadeOut {
 	isFadingOut = NO;
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerDidFadeOutNotification object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerDidFadeOutNotification
+														object:self];
 	[self stopFadeTimer];
 
 	[self close];	// close our window
@@ -225,31 +227,27 @@
 	if (newDelegate) {
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 
-		if ([newDelegate respondsToSelector:@selector(displayWindowControllerWillFadeIn:)]) {
+		if ([newDelegate respondsToSelector:@selector(displayWindowControllerWillFadeIn:)])
 			[nc addObserver:newDelegate
 				   selector:@selector(displayWindowControllerWillFadeIn:)
 					   name:GrowlDisplayFadingWindowControllerWillFadeInNotification
 					 object:self];
-		}
-		if ([newDelegate respondsToSelector:@selector(displayWindowControllerDidFadeIn:)]) {
+		if ([newDelegate respondsToSelector:@selector(displayWindowControllerDidFadeIn:)])
 			[nc addObserver:newDelegate
 				   selector:@selector(displayWindowControllerDidFadeIn:)
 					   name:GrowlDisplayFadingWindowControllerDidFadeInNotification
 					 object:self];
-		}
 
-		if ([newDelegate respondsToSelector:@selector(displayWindowControllerWillFadeOut:)]) {
+		if ([newDelegate respondsToSelector:@selector(displayWindowControllerWillFadeOut:)])
 			[nc addObserver:newDelegate
 				   selector:@selector(displayWindowControllerWillFadeOut:)
 					   name:GrowlDisplayFadingWindowControllerWillFadeOutNotification
 					 object:self];
-		}
-		if ([newDelegate respondsToSelector:@selector(displayWindowControllerDidFadeOut:)]) {
+		if ([newDelegate respondsToSelector:@selector(displayWindowControllerDidFadeOut:)])
 			[nc addObserver:newDelegate
 				   selector:@selector(displayWindowControllerDidFadeOut:)
 					   name:GrowlDisplayFadingWindowControllerDidFadeOutNotification
 					 object:self];
-		}
 	}
 }
 

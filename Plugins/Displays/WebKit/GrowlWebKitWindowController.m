@@ -138,7 +138,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	if ((self = [super initWithWindow:panel])) {
 		autoFadeOut = !sticky;
-		delegate = self;
+		[self setDelegate:self];
 
 		// the visibility time for this bubble should be the minimum display time plus
 		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME

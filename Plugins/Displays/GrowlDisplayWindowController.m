@@ -101,16 +101,11 @@
 #pragma mark Display timer
 
 - (void) startDisplayTimer {
-	displayTimer = [[NSTimer scheduledTimerWithTimeInterval:displayDuration
-													 target:self
-												   selector:@selector(stopDisplay)
-												   userInfo:nil
-													repeats:YES] retain];
-}
-- (void) stopDisplayTimer {
-	[displayTimer invalidate];
-	[displayTimer release];
-	 displayTimer = nil;
+	[NSTimer scheduledTimerWithTimeInterval:displayDuration
+									 target:self
+								   selector:@selector(stopDisplay)
+								   userInfo:nil
+									repeats:NO];
 }
 
 #pragma mark -

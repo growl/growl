@@ -22,7 +22,6 @@
 	//appPid declared below
 	id             delegate;
 
-	NSTimer       *displayTimer;
 	NSTimeInterval displayDuration;
 	unsigned       screenNumber;
 	NSNumber      *appPid;
@@ -47,7 +46,6 @@
 #pragma mark -
 
 - (void) startDisplayTimer;
-- (void)  stopDisplayTimer;
 
 #pragma mark -
 
