@@ -10,24 +10,36 @@
 #import "GrowlApplicationBridge.h"
 #import "GrowlDefines.h"
 
-#define GROWL_INSTALLATION_NIB @"GrowlInstallationPrompt"
+#define GROWL_INSTALLATION_NIB     @"GrowlInstallationPrompt"
 #define GROWL_INSTALLATION_STRINGS @"GrowlInstallation.strings"
 
 #define DEFAULT_INSTALLATION_WINDOW_TITLE NSLocalizedStringFromTable(@"Growl Installation Recommended", GROWL_INSTALLATION_STRINGS, @"Growl installation window title")
-#define DEFAULT_UPDATE_WINDOW_TITLE NSLocalizedStringFromTable(@"Growl Update Available", GROWL_INSTALLATION_STRINGS, @"Growl update window title")
+#define DEFAULT_UPDATE_WINDOW_TITLE       NSLocalizedStringFromTable(@"Growl Update Available", GROWL_INSTALLATION_STRINGS, @"Growl update window title")
 
 #define DEFAULT_INSTALLATION_EXPLANATION NSLocalizedStringFromTable(@"This program displays information via Growl, a centralized notification system.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.", GROWL_INSTALLATION_STRINGS, @"Default Growl installation explanation")
-#define DEFAULT_UPDATE_EXPLANATION NSLocalizedStringFromTable(@"This program displays information via Growl, a centralized notification system.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.", GROWL_INSTALLATION_STRINGS, @"Default Growl update explanation")
+#define DEFAULT_UPDATE_EXPLANATION       NSLocalizedStringFromTable(@"This program displays information via Growl, a centralized notification system.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.", GROWL_INSTALLATION_STRINGS, @"Default Growl update explanation")
 
-#define INSTALL_BUTTON_TITLE NSLocalizedStringFromTable(@"Install", GROWL_INSTALLATION_STRINGS, @"Button title for installing Growl")
-#define UPDATE_BUTTON_TITLE NSLocalizedStringFromTable(@"Update", GROWL_INSTALLATION_STRINGS, @"Button title for updating Growl")
-#define CANCEL_BUTTON_TITLE NSLocalizedStringFromTable(@"Cancel", GROWL_INSTALLATION_STRINGS, @"Button title for canceling installation of Growl")
+#define INSTALL_BUTTON_TITLE          NSLocalizedStringFromTable(@"Install", GROWL_INSTALLATION_STRINGS, @"Button title for installing Growl")
+#define UPDATE_BUTTON_TITLE           NSLocalizedStringFromTable(@"Update", GROWL_INSTALLATION_STRINGS, @"Button title for updating Growl")
+#define CANCEL_BUTTON_TITLE           NSLocalizedStringFromTable(@"Cancel", GROWL_INSTALLATION_STRINGS, @"Button title for canceling installation of Growl")
 #define DONT_ASK_AGAIN_CHECKBOX_TITLE NSLocalizedStringFromTable(@"Don't Ask Again", GROWL_INSTALLATION_STRINGS, @"Don't ask again checkbox title for installation of Growl")
 
 #define GROWL_TEXT_SIZE 11
 
 #ifndef NSAppKitVersionNumber10_3
 # define NSAppKitVersionNumber10_3 743
+#endif
+
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+# define TRY		@try {
+# define ENDTRY		}
+# define CATCH		@catch(NSException *e) {
+# define ENDCATCH	}
+#else
+# define TRY		NS_DURING
+# define ENDTRY
+# define CATCH		NS_HANDLER
+# define ENDCATCH	NS_ENDHANDLER
 #endif
 
 @interface GrowlInstallationPrompt (private)
@@ -303,13 +315,14 @@ static BOOL checkOSXVersion(void) {
 				[unzip setArguments:arguments];
 				[unzip setCurrentDirectoryPath:tmpDir];
 
-				NS_DURING
+				TRY
 					[unzip launch];
 					[unzip waitUntilExit];
 					success = ([unzip terminationStatus] == 0);
-				NS_HANDLER
+				ENDTRY
+				CATCH
 					/* No exception handler needed */
-				NS_ENDHANDLER
+				ENDCATCH
 				[unzip release];
 			}
 

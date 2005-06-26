@@ -872,9 +872,7 @@
 		955C236B081537280013C3CF /* NSMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableStringAdditions.h; path = Common/Source/NSMutableStringAdditions.h; sourceTree = "<group>"; };
 		955C236C081537280013C3CF /* NSMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableStringAdditions.m; path = Common/Source/NSMutableStringAdditions.m; sourceTree = "<group>"; };
 		9560BED2086DC45100A173B1 /* Growl i386.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Growl i386.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9560BEE3086DC45100A173B1 /* Growl.framework-Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Growl.framework-Info copy.plist"; path = "/Users/ingmar/Devel/growl/Framework/Resources/Growl.framework-Info copy.plist"; sourceTree = "<absolute>"; };
 		9560BF0E086DC46700A173B1 /* Growl-WithInstaller i386.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Growl-WithInstaller i386.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9560BF1F086DC46700A173B1 /* Growl-WithInstaller.framework-Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Growl-WithInstaller.framework-Info copy.plist"; path = "/Users/ingmar/Devel/growl/Framework/Resources/Growl-WithInstaller.framework-Info copy.plist"; sourceTree = "<absolute>"; };
 		956ADAC607551C4500AF9545 /* GrowlDisplayFadingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDisplayFadingWindowController.h; path = Plugins/Displays/GrowlDisplayFadingWindowController.h; sourceTree = SOURCE_ROOT; };
 		956ADACB07551C4500AF9545 /* GrowlDisplayFadingWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlDisplayFadingWindowController.m; path = Plugins/Displays/GrowlDisplayFadingWindowController.m; sourceTree = SOURCE_ROOT; };
 		956ADAD007551C4500AF9545 /* GrowlBezierPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBezierPathAdditions.h; path = Core/Source/GrowlBezierPathAdditions.h; sourceTree = SOURCE_ROOT; };
@@ -1418,7 +1416,6 @@
 				07217174082DEDB500F338F7 /* GrowlInstallationPrompt-Carbon.c */,
 				07217168082DE85B00F338F7 /* GrowlInstallationPrompt-Carbon.nib */,
 				9542E51C07C28C3A0056BAC9 /* GrowlInstallation.strings */,
-				9560BF1F086DC46700A173B1 /* Growl-WithInstaller.framework-Info copy.plist */,
 			);
 			name = "Growl-WithInstaller.framework";
 			sourceTree = "<group>";
@@ -1436,7 +1433,6 @@
 				3433500C079275A300C84B15 /* Growl-WithInstaller.framework */,
 				95812DB808118FB9004FF8F5 /* GrowlDelegate.h */,
 				95812DB908118FB9004FF8F5 /* GrowlDelegate.m */,
-				9560BEE3086DC45100A173B1 /* Growl.framework-Info copy.plist */,
 			);
 			name = Growl.framework;
 			sourceTree = "<group>";
@@ -2874,12 +2870,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
-					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
-				},
-				{
 					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
 					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
+				},
+				{
+					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
+					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
 				},
 			);
 			targets = (
@@ -3862,6 +3858,8 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
@@ -3870,7 +3868,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
 					"-lobjc",
 					"-sub_library",
@@ -3878,6 +3876,7 @@
 					"-seg1addr",
 					0xC0000000,
 				);
+				PREBINDING = NO;
 				PRODUCT_NAME = "Growl i386";
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
@@ -3892,6 +3891,8 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -3904,7 +3905,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
 					"-lobjc",
 					"-sub_library",
@@ -3912,6 +3913,7 @@
 					"-seg1addr",
 					0xC0000000,
 				);
+				PREBINDING = NO;
 				PRODUCT_NAME = "Growl i386";
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
@@ -3926,6 +3928,8 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
@@ -3947,6 +3951,7 @@
 					"-seg1addr",
 					0xC0000000,
 				);
+				PREBINDING = NO;
 				PRODUCT_NAME = "Growl i386";
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
@@ -3961,6 +3966,8 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
@@ -3969,7 +3976,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-DGROWL_WITH_INSTALLER",
 					"-fconstant-cfstrings",
@@ -3981,6 +3988,7 @@
 					"-seg1addr",
 					0xC0000000,
 				);
+				PREBINDING = NO;
 				PRODUCT_NAME = "Growl-WithInstaller i386";
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
@@ -3995,6 +4003,8 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4007,7 +4017,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-DGROWL_WITH_INSTALLER",
 					"-fconstant-cfstrings",
@@ -4019,6 +4029,7 @@
 					"-seg1addr",
 					0xC0000000,
 				);
+				PREBINDING = NO;
 				PRODUCT_NAME = "Growl-WithInstaller i386";
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
@@ -4033,6 +4044,8 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
@@ -4058,6 +4071,7 @@
 					"-seg1addr",
 					0xC0000000,
 				);
+				PREBINDING = NO;
 				PRODUCT_NAME = "Growl-WithInstaller i386";
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;

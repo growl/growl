@@ -23,6 +23,18 @@
 #define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY			@"PreferencePanes"
 #define PREFERENCE_PANE_EXTENSION						@"prefPane"
 
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+# define TRY		@try {
+# define ENDTRY		}
+# define CATCH		@catch(NSException *localException) {
+# define ENDCATCH	}
+#else
+# define TRY		NS_DURING
+# define ENDTRY
+# define CATCH		NS_HANDLER
+# define ENDCATCH	NS_ENDHANDLER
+#endif
+
 @interface GrowlApplicationBridge (PRIVATE)
 /*!
  *	@method launchGrowlIfInstalled
@@ -274,16 +286,17 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
 		if (connection) {
 			//Post to Growl via GrowlApplicationBridgePathway
-			NS_DURING
+			TRY
 				NSDistantObject *theProxy = [connection rootProxy];
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
 				id<GrowlNotificationProtocol> growlProxy = (id<GrowlNotificationProtocol>)theProxy;
 				[growlProxy postNotificationWithDictionary:userInfo];
-			NS_HANDLER
+			ENDTRY
+			CATCH
 				NSLog(@"GrowlApplicationBridge: exception while sending notification: %@", localException);
-			NS_ENDHANDLER
+			ENDCATCH
 		} else {
-			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDistributedNotificationCenter");
+			//NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDistributedNotificationCenter");
 
 			//DNC needs a plist. this means we must pass data, not an NSImage.
 			Class     NSImageClass = [NSImage class];
