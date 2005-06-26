@@ -53,7 +53,7 @@
 - (void) setScreenshotModeEnabled:(BOOL) newScreenshotMode;
 
 - (NSScreen *) screen;
-- (void) setScreen:(NSScreen) newScreen;
+- (void) setScreen:(NSScreen *) newScreen;
 
 - (id) target;
 - (void) setTarget:(id) object;
