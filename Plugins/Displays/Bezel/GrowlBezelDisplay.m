@@ -20,9 +20,8 @@
 }
 
 - (void) dealloc {
-	[notificationQueue   release];
-	[preferencePane      release];
-	[clickHandlerEnabled release];
+	[notificationQueue release];
+	[preferencePane    release];
 	[super dealloc];
 }
 
@@ -33,8 +32,6 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
-
 	NSString *identifier = [noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
 	unsigned count = [notificationQueue count];
 
@@ -51,9 +48,10 @@
 					[aNotification setTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]];
 					[aNotification setText:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
 					[aNotification setIcon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]];
-					[aNotification setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
-					[aNotification setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
+					[aNotification setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
+					[aNotification setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
 					[aNotification setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+					[aNotification setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
 					[aNotification setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 					if (theIndex == 0U)
 						[aNotification startFadeIn];
@@ -74,10 +72,10 @@
 
 	[nuBezel setDelegate:self];
 	[nuBezel setTarget:self];
-	[nuBezel setAction:@selector(bezelClicked:)];
-	[nuBezel setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[nuBezel setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
+	[nuBezel setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[nuBezel setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
 	[nuBezel setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+	[nuBezel setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
 	[nuBezel setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 
 	if (count > 0U) {
@@ -106,7 +104,7 @@
 	[nuBezel release];
 }
 
-- (void) willFadeOut:(FadingWindowController *)sender {
+- (void) displayWindowControllerWillFadeOut:(GrowlDisplayFadingWindowController *)sender {
 	GrowlBezelWindowController *olBezel;
 	if ([notificationQueue count] > 1U) {
 		olBezel = (GrowlBezelWindowController *)sender;
@@ -114,7 +112,7 @@
 	}
 }
 
-- (void) didFadeOut:(FadingWindowController *)sender {
+- (void) displayWindowControllerDidFadeOut:(GrowlDisplayFadingWindowController *)sender {
 #pragma unused(sender)
 	GrowlBezelWindowController *olBezel;
 	[notificationQueue removeObjectAtIndex:0U];
@@ -124,24 +122,4 @@
 		[olBezel startFadeIn];
 	}
 }
-
-- (void) bezelClicked:(GrowlBezelWindowController *)controller {
-	id clickContext;
-
-	if ((clickContext = [controller clickContext])) {
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			clickHandlerEnabled, @"ClickHandlerEnabled",
-			clickContext,        GROWL_KEY_CLICKED_CONTEXT,
-			[controller appPid], GROWL_APP_PID,
-			nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-															object:[controller appName]
-														  userInfo:userInfo];
-		[userInfo release];
-
-		//Avoid duplicate click messages by immediately clearing the clickContext
-		[controller setClickContext:nil];
-	}
-}
-
 @end

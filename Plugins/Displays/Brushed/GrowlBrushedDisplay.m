@@ -28,8 +28,7 @@ static unsigned brushedDepth = 0U;
 }
 
 - (void) dealloc {
-	[preferencePane      release];
-	[clickHandlerEnabled release];
+	[preferencePane release];
 	[super dealloc];
 }
 
@@ -40,17 +39,15 @@ static unsigned brushedDepth = 0U;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
-	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	GrowlBrushedWindowController *controller = [[GrowlBrushedWindowController alloc]
 		initWithDictionary:noteDict
 					 depth:brushedDepth];
 
-	[controller setTarget:self];
-	[controller setAction:@selector(brushedClicked:)];
-	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[controller setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
+	[controller setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[controller setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
+	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
 
 	// update the depth for the next notification with the depth given by this new one
 	// which will take into account the new notification's height
@@ -66,24 +63,4 @@ static unsigned brushedDepth = 0U;
 		brushedDepth = notifiedDepth;
 	//NSLog(@"My depth is now %u\n", brushedDepth);
 }
-
-- (void) brushedClicked:(GrowlBrushedWindowController *)controller {
-	id clickContext;
-
-	if ((clickContext = [controller clickContext])) {
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			clickHandlerEnabled, @"ClickHandlerEnabled",
-			clickContext,        GROWL_KEY_CLICKED_CONTEXT,
-			[controller appPid], GROWL_APP_PID,
-			nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-															object:[controller appName]
-														  userInfo:userInfo];
-		[userInfo release];
-
-		//Avoid duplicate click messages by immediately clearing the clickContext
-		[controller setClickContext:nil];
-	}
-}
-
 @end

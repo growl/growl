@@ -10,17 +10,14 @@
 #import "GrowlPathUtil.h"
 #import "GrowlDefines.h"
 
-NSString *GrowlDisplayWindowControllerWillDisplayWindowNotification = @"GrowlDisplayWindowControllerWillDisplayWindowNotification";
-NSString *GrowlDisplayWindowControllerDidDisplayWindowNotification = @"GrowlDisplayWindowControllerDidDisplayWindowNotification";
-NSString *GrowlDisplayWindowControllerWillTakeDownWindowNotification = @"GrowlDisplayWindowControllerWillTakeDownWindowNotification";
-NSString *GrowlDisplayWindowControllerDidTakeDownWindowNotification = @"GrowlDisplayWindowControllerDidTakeDownWindowNotification";
-
 @implementation GrowlDisplayWindowController
 
 - (void) dealloc {
-	[target       release];
-	[clickContext release];
-	[appName      release];
+	[target              release];
+	[clickContext        release];
+	[clickHandlerEnabled release];
+	[appName             release];
+	[appPid              release];
 
 	[super dealloc];
 }
@@ -70,23 +67,23 @@ NSString *GrowlDisplayWindowControllerDidTakeDownWindowNotification = @"GrowlDis
 #pragma mark Display stages
 
 - (void) willDisplayNotification {
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillDisplayNotification object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillDisplayWindowNotification object:self];
 }
 - (void)  didDisplayNotification {
 	if (screenshotMode)
 		[self takeScreenshot];
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerDidDisplayNotification object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerDidDisplayWindowNotification object:self];
 }
 - (void) willTakeDownNotification {
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillTakeDownNotification object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillTakeDownWindowNotification object:self];
 }
 - (void)  didTakeDownNotification {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	if (clickContext) {
 		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			clickContext,                    GROWL_KEY_CLICKED_CONTEXT,
-			[NSNumber numberWithInt:appPid], GROWL_APP_PID,
+			clickContext, GROWL_KEY_CLICKED_CONTEXT,
+			appPid,       GROWL_APP_PID,
 			nil];
 		[nc postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
 						  object:appName
@@ -97,7 +94,7 @@ NSString *GrowlDisplayWindowControllerDidTakeDownWindowNotification = @"GrowlDis
 		clickContext = nil;
 	}
 
-	[nc postNotificationName:GrowlDisplayWindowControllerWillDisplayNotification object:self];
+	[nc postNotificationName:GrowlDisplayWindowControllerWillDisplayWindowNotification object:self];
 }
 
 #pragma mark -
@@ -121,7 +118,6 @@ NSString *GrowlDisplayWindowControllerDidTakeDownWindowNotification = @"GrowlDis
 
 - (void) notificationClicked:(id) sender {
 #pragma unused(sender)
-	id clickContext = [self clickContext];
 	if (clickContext) {
 		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 			clickHandlerEnabled,                          @"ClickHandlerEnabled",
@@ -134,7 +130,7 @@ NSString *GrowlDisplayWindowControllerDidTakeDownWindowNotification = @"GrowlDis
 		[userInfo release];
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
-		[controller setClickContext:nil];
+		[self setClickContext:nil];
 	}
 
 	if (target && action && [target respondsToSelector:action])
@@ -173,9 +169,8 @@ NSString *GrowlDisplayWindowControllerDidTakeDownWindowNotification = @"GrowlDis
 }
 - (void) setScreen:(NSScreen *) newScreen {
 	unsigned newScreenNumber = [[NSScreen screens] indexOfObjectIdenticalTo:newScreen];
-	if (newScreenNumber == NSNotFound) {
+	if (newScreenNumber == NSNotFound)
 		[NSException raise:NSInternalInconsistencyException format:@"Tried to set %@ %p to a screen %p that isn't in the screen list", [self class], self, newScreen];
-	}
 	[self willChangeValueForKey:@"screenNumber"];
 	screenNumber = newScreenNumber;
 	[self  didChangeValueForKey:@"screenNumber"];
@@ -192,8 +187,10 @@ NSString *GrowlDisplayWindowControllerDidTakeDownWindowNotification = @"GrowlDis
 }
 
 - (void) setTarget:(id) object {
-	[target autorelease];
-	target = [object retain];
+	if (object != target) {
+		[target release];
+		target = [object retain];
+	}
 }
 
 #pragma mark -
@@ -221,13 +218,14 @@ NSString *GrowlDisplayWindowControllerDidTakeDownWindowNotification = @"GrowlDis
 
 #pragma mark -
 
-- (pid_t) notifyingApplicationProcessIdentifier {
+- (NSNumber *) notifyingApplicationProcessIdentifier {
 	return appPid;
 }
 
-- (void) setNotifyingApplicationProcessIdentifier:(pid_t) inAppPid {
+- (void) setNotifyingApplicationProcessIdentifier:(NSNumber *) inAppPid {
 	if (inAppPid != appPid) {
-		appPid = inAppPid;
+		[appPid release];
+		appPid = [inAppPid retain];
 	}
 }
 
@@ -259,6 +257,19 @@ NSString *GrowlDisplayWindowControllerDidTakeDownWindowNotification = @"GrowlDis
 
 #pragma mark -
 
+- (NSNumber *) clickHandlerEnabled {
+	return clickHandlerEnabled;
+}
+
+- (void) setClickHandlerEnabled:(NSNumber *) flag {
+	if (flag != clickHandlerEnabled) {
+		[clickHandlerEnabled release];
+		clickHandlerEnabled = [flag retain];
+	}
+}
+
+#pragma mark -
+
 - (void) addNotificationObserver:(id) observer {
 	NSParameterAssert(observer != nil);
 
@@ -266,31 +277,27 @@ NSString *GrowlDisplayWindowControllerDidTakeDownWindowNotification = @"GrowlDis
 
 	if (observer) {
 		//register the new delegate.
-		if ([observer respondsToSelector:@selector(displayWindowControllerWillDisplayWindow:)]) {
+		if ([observer respondsToSelector:@selector(displayWindowControllerWillDisplayWindow:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerWillDisplayWindow:)
 					   name:GrowlDisplayWindowControllerWillDisplayWindowNotification
 					 object:self];
-		}
-		if ([observer respondsToSelector:@selector(displayWindowControllerDidDisplayWindow:)]) {
+		if ([observer respondsToSelector:@selector(displayWindowControllerDidDisplayWindow:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerDidDisplayWindow:)
 					   name:GrowlDisplayWindowControllerDidDisplayWindowNotification
 					 object:self];
-		}
 
-		if ([observer respondsToSelector:@selector(displayWindowControllerWillTakeDownWindow:)]) {
+		if ([observer respondsToSelector:@selector(displayWindowControllerWillTakeDownWindow:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerWillTakeDownWindow:)
 					   name:GrowlDisplayWindowControllerWillTakeDownWindowNotification
 					 object:self];
-		}
-		if ([observer respondsToSelector:@selector(displayWindowControllerDidTakeDownWindow:)]) {
+		if ([observer respondsToSelector:@selector(displayWindowControllerDidTakeDownWindow:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerDidTakeDownWindow:)
 					   name:GrowlDisplayWindowControllerDidTakeDownWindowNotification
 					 object:self];
-		}
 	}
 }
 - (void) removeNotificationObserver:(id) observer {

@@ -11,7 +11,6 @@
 @interface GrowlWebKitController : NSObject <GrowlDisplayPlugin> {
 	NSPreferencePane	*preferencePane;
 	NSString			*style;
-	NSNumber			*clickHandlerEnabled;
 }
 
 - (id) initWithStyle:(NSString *)styleName;

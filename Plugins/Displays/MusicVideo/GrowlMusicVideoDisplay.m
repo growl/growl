@@ -20,9 +20,8 @@
 }
 
 - (void) dealloc {
-	[notificationQueue   release];
-	[preferencePane      release];
-	[clickHandlerEnabled release];
+	[notificationQueue release];
+	[preferencePane    release];
 	[super dealloc];
 }
 
@@ -35,8 +34,6 @@
 #pragma mark -
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
-
 	NSString *identifier = [noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
 	unsigned count = [notificationQueue count];
 
@@ -53,9 +50,10 @@
 					[aNotification setTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]];
 					[aNotification setText:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
 					[aNotification setIcon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]];
-					[aNotification setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
-					[aNotification setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
+					[aNotification setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
+					[aNotification setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
 					[aNotification setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+					[aNotification setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
 					[aNotification setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 					if (theIndex == 0U)
 						[aNotification startFadeIn];
@@ -75,10 +73,10 @@
 		   identifier:identifier];
 	[nuMusicVideo setDelegate:self];
 	[nuMusicVideo setTarget:self];
-	[nuMusicVideo setAction:@selector(musicVideoClicked:)];
-	[nuMusicVideo setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[nuMusicVideo setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
+	[nuMusicVideo setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[nuMusicVideo setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
 	[nuMusicVideo setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+	[nuMusicVideo setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
 	[nuMusicVideo setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 
 	if (count > 0U) {
@@ -107,39 +105,19 @@
 	[nuMusicVideo release];
 }
 
-- (void) willFadeOut:(FadingWindowController *)sender {
+- (void) displayWindowControllerWillFadeOut:(GrowlDisplayFadingWindowController *)sender {
 #pragma unused(sender)
 	if ([notificationQueue count] > 1U)
 		[[notificationQueue objectAtIndex:1U] startFadeIn];
 }
 
-- (void) didFadeOut:(FadingWindowController *)sender {
+- (void) displayWindowControllerDidFadeOut:(GrowlDisplayFadingWindowController *)sender {
 #pragma unused(sender)
 	[notificationQueue removeObjectAtIndex:0U];
 	if ([notificationQueue count] > 0U) {
-		FadingWindowController *controller = [notificationQueue objectAtIndex:0U];
+		GrowlDisplayFadingWindowController *controller = [notificationQueue objectAtIndex:0U];
 		if (![controller isFadingIn])
 			[controller startFadeIn];
 	}
 }
-
-- (void) musicVideoClicked:(GrowlMusicVideoWindowController *)controller {
-	id clickContext;
-
-	if ((clickContext = [controller clickContext])) {
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			clickHandlerEnabled, @"ClickHandlerEnabled",
-			clickContext,        GROWL_KEY_CLICKED_CONTEXT,
-			[controller appPid], GROWL_APP_PID,
-			nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-															object:[controller appName]
-														  userInfo:userInfo];
-		[userInfo release];
-
-		//Avoid duplicate click messages by immediately clearing the clickContext
-		[controller setClickContext:nil];
-	}
-}
-
 @end

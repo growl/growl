@@ -124,10 +124,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 		float duration = MIN_DISPLAY_TIME;
 		READ_GROWL_PREF_FLOAT(GrowlBubblesDuration, GrowlBubblesPrefDomain, &duration);
 		if (!limitPref)
-			displayTime = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
+			displayDuration = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
 							   MAX_DISPLAY_TIME);
 		else
-			displayTime = duration;
+			displayDuration = duration;
 
 		if (identifier) {
 			if (!notificationsByIdentifier)

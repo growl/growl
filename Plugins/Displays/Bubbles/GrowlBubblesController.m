@@ -17,8 +17,7 @@
 #pragma mark -
 
 - (void) dealloc {
-	[preferencePane      release];
-	[clickHandlerEnabled release];
+	[preferencePane release];
 	[super dealloc];
 }
 
@@ -29,36 +28,15 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	GrowlBubblesWindowController *nuBubble = [[GrowlBubblesWindowController alloc]
 		initWithDictionary:noteDict];
 	[nuBubble setTarget:self];
-	[nuBubble setAction:@selector(bubbleClicked:)];
-	[nuBubble setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[nuBubble setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
+	[nuBubble setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[nuBubble setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
 	[nuBubble setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+	[nuBubble setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
 	[nuBubble setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 	[nuBubble startFadeIn];	// retains nuBubble
 	[nuBubble release];
 }
-
-- (void) bubbleClicked:(GrowlBubblesWindowController *)controller {
-	id clickContext;
-
-	if ((clickContext = [controller clickContext])) {
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			clickHandlerEnabled, @"ClickHandlerEnabled",
-			clickContext,        GROWL_KEY_CLICKED_CONTEXT,
-			[controller appPid], GROWL_APP_PID,
-			nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-														   object:[controller appName]
-														  userInfo:userInfo];
-		[userInfo release];
-
-		//Avoid duplicate click messages by immediately clearing the clickContext
-		[controller setClickContext:nil];
-	}
-}
-
 @end

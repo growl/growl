@@ -23,9 +23,8 @@
 }
 
 - (void) dealloc {
-	[style               release];
-	[preferencePane      release];
-	[clickHandlerEnabled release];
+	[style          release];
+	[preferencePane release];
 	[super dealloc];
 }
 
@@ -40,7 +39,6 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
-	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	// load GrowlWebKitWindowController dynamically so that the prefpane does not
 	// have to link against it and all of its dependencies
 	Class webKitWindowController = NSClassFromString(@"GrowlWebKitWindowController");
@@ -48,31 +46,11 @@
 		initWithDictionary:noteDict
 					 style:style];
 	[controller setTarget:self];
-	[controller setAction:@selector(notificationClicked:)];
-	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[controller setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
+	[controller setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
 	[controller setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 	[controller release];
 }
-
-- (void) notificationClicked:(GrowlWebKitWindowController *)windowController {
-	id clickContext;
-
-	if ((clickContext = [windowController clickContext])) {
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			clickHandlerEnabled,       @"ClickHandlerEnabled",
-			clickContext,              GROWL_KEY_CLICKED_CONTEXT,
-			[windowController appPid], GROWL_APP_PID,
-			nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-														   object:[windowController appName]
-														  userInfo:userInfo];
-		[userInfo release];
-
-		//Avoid duplicate click messages by immediately clearing the clickContext
-		[windowController setClickContext:nil];
-	}
-}
-
 @end

@@ -45,7 +45,6 @@
 - (void) startFadeInTimer;
 - (void) startFadeOutTimer;
 - (void) stopFadeTimer;
-- (void) _waitBeforeFadeOut;
 
 - (BOOL) automaticallyFadeOut;
 - (void) setAutomaticallyFadesOut:(BOOL) autoFade;
@@ -64,10 +63,10 @@
 
 @end
 
-@interface NSObject (FadingWindowControllerDelegate)
-- (void) willFadeIn:(FadingWindowController *)controller;
-- (void) didFadeIn:(FadingWindowController *)controller;
+@interface NSObject (GrowlDisplayFadingWindowControllerDelegate)
+- (void) displayWindowControllerWillFadeIn:(GrowlDisplayFadingWindowController *)controller;
+- (void) displayWindowControllerDidFadeIn:(GrowlDisplayFadingWindowController *)controller;
 
-- (void) willFadeOut:(FadingWindowController *)controller;
-- (void) didFadeOut:(FadingWindowController *)controller;
+- (void) displayWindowControllerWillFadeOut:(GrowlDisplayFadingWindowController *)controller;
+- (void) displayWindowControllerDidFadeOut:(GrowlDisplayFadingWindowController *)controller;
 @end

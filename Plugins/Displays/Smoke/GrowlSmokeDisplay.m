@@ -28,8 +28,7 @@ static unsigned smokeDepth = 0U;
 }
 
 - (void) dealloc {
-	[preferencePane      release];
-	[clickHandlerEnabled release];
+	[preferencePane release];
 	[super dealloc];
 }
 
@@ -40,16 +39,15 @@ static unsigned smokeDepth = 0U;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
-	clickHandlerEnabled = [[noteDict objectForKey:@"ClickHandlerEnabled"] retain];
 	GrowlSmokeWindowController *controller = [[GrowlSmokeWindowController alloc]
 		initWithDictionary:noteDict
 					 depth:smokeDepth];
 
 	[controller setTarget:self];
-	[controller setAction:@selector(smokeClicked:)];
-	[controller setAppName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[controller setAppPid:[noteDict objectForKey:GROWL_APP_PID]];
+	[controller setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
 	[controller setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
 	[controller setProgress:[noteDict objectForKey:GROWL_NOTIFICATION_PROGRESS]];
 
@@ -67,24 +65,4 @@ static unsigned smokeDepth = 0U;
 		smokeDepth = notifiedDepth;
 	//NSLog(@"My depth is now %u\n", smokeDepth);
 }
-
-- (void) smokeClicked:(GrowlSmokeWindowController *)controller {
-	id clickContext;
-
-	if ((clickContext = [controller clickContext])) {
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			clickHandlerEnabled, @"ClickHandlerEnabled",
-			clickContext,        GROWL_KEY_CLICKED_CONTEXT,
-			[controller appPid], GROWL_APP_PID,
-			nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-															object:[controller appName]
-														  userInfo:userInfo];
-		[userInfo release];
-
-		//Avoid duplicate click messages by immediately clearing the clickContext
-		[controller setClickContext:nil];
-	}
-}
-
 @end

@@ -10,7 +10,7 @@
 
 @class WebView;
 
-@interface GrowlWebKitWindowController : FadingWindowController {
+@interface GrowlWebKitWindowController : GrowlDisplayFadingWindowController {
 	unsigned	depth;
 	NSString	*identifier;
 	NSImage		*image;

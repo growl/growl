@@ -6,11 +6,18 @@
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
+
+#define GrowlDisplayWindowControllerWillDisplayWindowNotification  @"GrowlDisplayWindowControllerWillDisplayWindowNotification"
+#define GrowlDisplayWindowControllerDidDisplayWindowNotification   @"GrowlDisplayWindowControllerDidDisplayWindowNotification"
+#define GrowlDisplayWindowControllerWillTakeDownWindowNotification @"GrowlDisplayWindowControllerWillTakeDownWindowNotification"
+#define GrowlDisplayWindowControllerDidTakeDownWindowNotification  @"GrowlDisplayWindowControllerDidTakeDownWindowNotification"
+
 @interface GrowlDisplayWindowController : NSWindowController
 {
 	SEL            action;
 	id             target;
 	id             clickContext;
+	NSNumber      *clickHandlerEnabled;
 	NSString      *appName;
 	//appPid declared below
 	id             delegate;
@@ -18,7 +25,7 @@
 	NSTimer       *displayTimer;
 	NSTimeInterval displayDuration;
 	unsigned       screenNumber;
-	pid_t          appPid;
+	NSNumber      *appPid;
 	unsigned       WCReserved: 31;
 	unsigned       screenshotMode: 1;
 }
@@ -47,8 +54,6 @@
 - (NSTimeInterval) displayDuration;
 - (void) setDisplayDuration:(NSTimeInterval) newDuration;
 
-- (enum displayPhase) displayPhase;
-
 - (BOOL) screenshotModeEnabled;
 - (void) setScreenshotModeEnabled:(BOOL) newScreenshotMode;
 
@@ -64,11 +69,13 @@
 - (NSString *) notifyingApplicationName;
 - (void) setNotifyingApplicationName:(NSString *) inAppName;
 
-- (pid_t) notifyingApplicationProcessIdentifier;
-- (void) setNotifyingApplicationProcessIdentifier:(pid_t) inAppPid;
+- (NSNumber *) notifyingApplicationProcessIdentifier;
+- (void) setNotifyingApplicationProcessIdentifier:(NSNumber *) inAppPid;
 
 - (id) clickContext;
 - (void) setClickContext:(id) clickContext;
+
+- (void) notificationClicked:(id) sender;
 
 - (void) addNotificationObserver:(id) observer;
 - (void) removeNotificationObserver:(id) observer;
@@ -76,9 +83,7 @@
 - (id) delegate;
 - (void) setDelegate:(id) newDelegate;
 
-@end
+- (NSNumber *) clickHandlerEnabled;
+- (void) setClickHandlerEnabled:(NSNumber *) flag;
 
-extern NSString *GrowlDisplayWindowControllerWillDisplayWindowNotification;
-extern NSString *GrowlDisplayWindowControllerDidDisplayWindowNotification;
-extern NSString *GrowlDisplayWindowControllerWillTakeDownWindowNotification;
-extern NSString *GrowlDisplayWindowControllerDidTakeDownWindowNotification;
+@end

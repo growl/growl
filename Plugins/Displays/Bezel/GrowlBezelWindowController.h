@@ -10,7 +10,7 @@
 
 @class GrowlBezelWindowView;
 
-@interface GrowlBezelWindowController : FadingWindowController {
+@interface GrowlBezelWindowController : GrowlDisplayFadingWindowController {
 	int						priority;
 	BOOL					flipIn;
 	BOOL					flipOut;

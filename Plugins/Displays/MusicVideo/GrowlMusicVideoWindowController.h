@@ -10,7 +10,7 @@
 
 @class GrowlMusicVideoWindowView;
 
-@interface GrowlMusicVideoWindowController : FadingWindowController {
+@interface GrowlMusicVideoWindowController : GrowlDisplayFadingWindowController {
 	float						frameHeight;
 	int							priority;
 	NSView						*contentView;

@@ -16,6 +16,7 @@
 #import "NSMutableStringAdditions.h"
 #import "NSDictionaryAdditions.h"
 #import "GrowlDefines.h"
+#import "GrowlPathUtil.h"
 
 static unsigned webkitWindowDepth = 0U;
 static NSMutableDictionary *notificationsByIdentifier;
@@ -147,9 +148,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 		float duration = MIN_DISPLAY_TIME;
 		READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, prefDomain, &duration);
 		if (limitPref)
-			displayTime = duration;
+			displayDuration = duration;
 		else
-			displayTime = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
+			displayDuration = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
 							   MAX_DISPLAY_TIME);
 
 		if (identifier) {

@@ -13,7 +13,6 @@
 
 @interface GrowlBrushedDisplay : NSObject <GrowlDisplayPlugin> {
 	NSPreferencePane	*preferencePane;
-	NSNumber			*clickHandlerEnabled;
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict;

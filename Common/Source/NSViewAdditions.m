@@ -13,9 +13,9 @@
 @implementation NSView (GrowlAdditions)
 
 - (NSData *) dataWithPNGInsideRect:(NSRect)rect {
-	[view lockFocus];
+	[self lockFocus];
 	NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithFocusedViewRect:rect];
-	[view unlockFocus];
+	[self unlockFocus];
 
 	NSData *data = [bitmap representationUsingType:NSPNGFileType
 	                                    properties:nil];
@@ -24,9 +24,9 @@
 	return data;
 }
 - (NSData *) dataWithTIFFInsideRect:(NSRect)rect {
-	[view lockFocus];
+	[self lockFocus];
 	NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithFocusedViewRect:rect];
-	[view unlockFocus];
+	[self unlockFocus];
 
 	NSData *data = [bitmap TIFFRepresentationUsingCompression:NSTIFFCompressionPackBits
 	                                                   factor:1.0f];

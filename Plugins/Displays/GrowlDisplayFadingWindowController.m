@@ -11,13 +11,13 @@
 #import "GrowlPathUtil.h"
 #import "GrowlDefines.h"
 
-#define TIMER_INTERVAL	0.01f
-#define DURATION		0.5f
+#define TIMER_INTERVAL	0.01
+#define DURATION		0.5
 
-NSString *GrowlDisplayFadingWindowControllerWillFadeInNotification  = @"GrowlDisplayFadingWindowControllerWillFadeInNotification";
-NSString *GrowlDisplayFadingWindowControllerDidFadeInNotification   = @"GrowlDisplayFadingWindowControllerDidFadeInNotification";
-NSString *GrowlDisplayFadingWindowControllerWillFadeOutNotification = @"GrowlDisplayFadingWindowControllerWillFadeOutNotification";
-NSString *GrowlDisplayFadingWindowControllerDidFadeOutNotification  = @"GrowlDisplayFadingWindowControllerDidFadeOutNotification";
+#define GrowlDisplayFadingWindowControllerWillFadeInNotification  @"GrowlDisplayFadingWindowControllerWillFadeInNotification"
+#define GrowlDisplayFadingWindowControllerDidFadeInNotification   @"GrowlDisplayFadingWindowControllerDidFadeInNotification"
+#define GrowlDisplayFadingWindowControllerWillFadeOutNotification @"GrowlDisplayFadingWindowControllerWillFadeOutNotification"
+#define GrowlDisplayFadingWindowControllerDidFadeOutNotification  @"GrowlDisplayFadingWindowControllerDidFadeOutNotification"
 
 @implementation GrowlDisplayFadingWindowController
 
@@ -130,7 +130,7 @@ NSString *GrowlDisplayFadingWindowControllerDidFadeOutNotification  = @"GrowlDis
 	[self stopFadeTimer];
 	[self didDisplayNotification];
 	if (autoFadeOut)
-		displayTimer = [[NSTimer scheduledTimerWithTimeInterval:displayInterval
+		displayTimer = [[NSTimer scheduledTimerWithTimeInterval:displayDuration
 														 target:self
 													   selector:@selector(startFadeOut)
 													   userInfo:nil
@@ -215,21 +215,11 @@ NSString *GrowlDisplayFadingWindowControllerDidFadeOutNotification  = @"GrowlDis
 
 #pragma mark -
 
-- (double) displayTime {
-	return displayTime;
-}
-
-- (void) setDisplayTime:(double)t {
-	displayTime = t;
-}
-
-#pragma mark -
-
 - (id) delegate {
 	return delegate;
 }
 
-- (void) setDelegate:(id)object {
+- (void) setDelegate:(id)newDelegate {
 	[super setDelegate:newDelegate];
 
 	if (newDelegate) {
@@ -238,26 +228,26 @@ NSString *GrowlDisplayFadingWindowControllerDidFadeOutNotification  = @"GrowlDis
 		if ([newDelegate respondsToSelector:@selector(displayWindowControllerWillFadeIn:)]) {
 			[nc addObserver:newDelegate
 				   selector:@selector(displayWindowControllerWillFadeIn:)
-					   name:GrowlDisplayWindowControllerWillFadeInWindowNotification
+					   name:GrowlDisplayFadingWindowControllerWillFadeInNotification
 					 object:self];
 		}
 		if ([newDelegate respondsToSelector:@selector(displayWindowControllerDidFadeIn:)]) {
 			[nc addObserver:newDelegate
 				   selector:@selector(displayWindowControllerDidFadeIn:)
-					   name:GrowlDisplayWindowControllerDidFadeInWindowNotification
+					   name:GrowlDisplayFadingWindowControllerDidFadeInNotification
 					 object:self];
 		}
 
 		if ([newDelegate respondsToSelector:@selector(displayWindowControllerWillFadeOut:)]) {
 			[nc addObserver:newDelegate
 				   selector:@selector(displayWindowControllerWillFadeOut:)
-					   name:GrowlDisplayWindowControllerWillFadeOutWindowNotification
+					   name:GrowlDisplayFadingWindowControllerWillFadeOutNotification
 					 object:self];
 		}
 		if ([newDelegate respondsToSelector:@selector(displayWindowControllerDidFadeOut:)]) {
 			[nc addObserver:newDelegate
 				   selector:@selector(displayWindowControllerDidFadeOut:)
-					   name:GrowlDisplayWindowControllerDidFadeOutWindowNotification
+					   name:GrowlDisplayFadingWindowControllerDidFadeOutNotification
 					 object:self];
 		}
 	}

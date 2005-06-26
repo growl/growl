@@ -28,7 +28,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	this class is the delegate for the class
 */
 
-- (void) didFadeOut:(FadingWindowController *)sender {
+- (void) displayWindowControllerDidFadeOut:(GrowlDisplayFadingWindowController *)sender {
 #pragma unused(sender)
 	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->uid);
@@ -174,10 +174,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 		/*BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
 		if (!limitPref) {*/
-			displayTime = MIN (duration + rowCount * gAdditionalLinesDisplayTime,
+			displayDuration = MIN (duration + rowCount * gAdditionalLinesDisplayTime,
 								gMaxDisplayTime);
 		/*} else {
-			displayTime = gMinDisplayTime;
+			displayDuration = gMinDisplayTime;
 		}*/
 
 		NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:uid];

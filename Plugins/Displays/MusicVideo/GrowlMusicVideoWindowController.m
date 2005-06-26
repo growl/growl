@@ -80,7 +80,7 @@
 
 	if ((self = [super initWithWindow:panel])) {
 		autoFadeOut = YES;
-		displayTime = duration;
+		displayDuration = duration;
 		priority = prio;
 		animationDuration = 0.25;
 	}

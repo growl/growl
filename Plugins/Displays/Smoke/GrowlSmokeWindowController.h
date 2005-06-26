@@ -8,7 +8,7 @@
 
 #import "GrowlDisplayFadingWindowController.h"
 
-@interface GrowlSmokeWindowController : FadingWindowController {
+@interface GrowlSmokeWindowController : GrowlDisplayFadingWindowController {
 	unsigned	depth;
 	NSString	*identifier;
 	unsigned	uid;
