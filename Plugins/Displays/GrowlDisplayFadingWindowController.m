@@ -1,8 +1,9 @@
 //
-//  FadingWindowController.m
+//  GrowlDisplayFadingWindowController.m
 //  Display Plugins
 //
 //  Created by Ingmar Stein on 16.11.04.
+//  Renamed from FadingWindowController by Mac-arena the Bored Zo on 2005-06-03.
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
@@ -10,154 +11,179 @@
 #import "GrowlPathUtil.h"
 #import "GrowlDefines.h"
 
-#define TIMER_INTERVAL	0.01
-#define DURATION		0.5
+#define TIMER_INTERVAL	0.01f
+#define DURATION		0.5f
 
-@implementation FadingWindowController
+NSString *GrowlDisplayFadingWindowControllerWillFadeInNotification  = @"GrowlDisplayFadingWindowControllerWillFadeInNotification";
+NSString *GrowlDisplayFadingWindowControllerDidFadeInNotification   = @"GrowlDisplayFadingWindowControllerDidFadeInNotification";
+NSString *GrowlDisplayFadingWindowControllerWillFadeOutNotification = @"GrowlDisplayFadingWindowControllerWillFadeOutNotification";
+NSString *GrowlDisplayFadingWindowControllerDidFadeOutNotification  = @"GrowlDisplayFadingWindowControllerDidFadeOutNotification";
+
+@implementation GrowlDisplayFadingWindowController
+
 - (id) initWithWindow:(NSWindow *)window {
 	if ((self = [super initWithWindow:window])) {
 		autoFadeOut = NO;
 		doFadeIn = YES;
 		doFadeOut = YES;
 		animationDuration = DURATION;
+		fadeInInterval = fadeOutInterval = TIMER_INTERVAL;
 	}
 	return self;
 }
 
-- (void) _stopTimer {
-	[animationTimer invalidate];
-	[animationTimer release];
-	animationTimer = nil;
-}
-
 - (void) dealloc {
-	[target        release];
-	[clickContext  release];
-	[appName       release];
-	[appPid        release];
-
-	[self _stopTimer];
+	[self stopFadeTimer];
 	[super dealloc];
 }
 
-- (void) _waitBeforeFadeOut {
-	animationTimer = [[NSTimer scheduledTimerWithTimeInterval:displayTime
-													   target:self
-													 selector:@selector(startFadeOut)
-													 userInfo:nil
-													  repeats:NO] retain];
+#pragma mark -
+#pragma mark Timer control
+
+- (void) startFadeInTimer {
+	[self stopFadeTimer];
+
+	animationStart = CFAbsoluteTimeGetCurrent();
+	fadeTimer = [[NSTimer scheduledTimerWithTimeInterval:fadeInInterval
+												  target:self
+												selector:@selector(fadeInTimer:)
+												userInfo:nil
+												 repeats:YES] retain];
+	//Start immediately
+	[fadeTimer fire];
 }
+- (void) startFadeOutTimer {
+	[self stopFadeTimer];
+
+	animationStart = CFAbsoluteTimeGetCurrent();
+	fadeTimer = [[NSTimer scheduledTimerWithTimeInterval:fadeOutInterval
+												  target:self
+												selector:@selector(fadeOutTimer:)
+												userInfo:nil
+												 repeats:YES] retain];
+	//Start immediately
+	[fadeTimer fire];
+}
+- (void) stopFadeTimer {
+	[fadeTimer invalidate];
+	[fadeTimer release];
+	 fadeTimer = nil;
+}
+
+#pragma mark -
+#pragma mark Timer callbacks
+
+- (void) fadeInTimer:(NSTimer *)inTimer {
+#pragma unused(inTimer)
+	double progress = (CFAbsoluteTimeGetCurrent() - animationStart) / animationDuration;
+	BOOL finished = (progress > (1.0 - DBL_EPSILON));
+	if (finished) progress = 1.0; //in case progress > 1.0
+	[self fadeInAnimation:progress];
+	if (finished)
+		[self stopFadeIn];
+}
+
+- (void) fadeOutTimer:(NSTimer *)inTimer {
+#pragma unused(inTimer)
+	double progress = (CFAbsoluteTimeGetCurrent() - animationStart) / animationDuration;
+	BOOL finished = (progress > (1.0 - DBL_EPSILON));
+	if (finished) progress = 1.0; //in case progress > 1.0
+	[self fadeOutAnimation:progress];
+	if (finished)
+		[self stopFadeOut];
+}
+
+#pragma mark -
+#pragma mark Fade steps
 
 - (void) fadeInAnimation:(double)progress {
 	[[self window] setAlphaValue:progress];
-}
-
-- (void) _fadeIn:(NSTimer *)inTimer {
-#pragma unused(inTimer)
-	double progress = (CFAbsoluteTimeGetCurrent() - animationStart) / animationDuration;
-	if (progress > 1.0)
-		progress = 1.0;
-	[self fadeInAnimation:progress];
-	if (progress > 1.0 - DBL_EPSILON)
-		[self stopFadeIn];
 }
 
 - (void) fadeOutAnimation:(double)progress {
 	[[self window] setAlphaValue:1.0f - progress];
 }
 
-- (void) _fadeOut:(NSTimer *)inTimer {
-#pragma unused(inTimer)
-	double progress = (CFAbsoluteTimeGetCurrent() - animationStart) / animationDuration;
-	if (progress > 1.0)
-		progress = 1.0;
-	[self fadeOutAnimation:progress];
-	if (progress > 1.0 - DBL_EPSILON)
-		[self stopFadeOut];
-}
+#pragma mark -
+#pragma mark Fade control
 
 - (void) startFadeIn {
-	if (delegate && [delegate respondsToSelector:@selector(willFadeIn:)])
-		[delegate willFadeIn:self];
 	[self retain]; // release after fade out
 	[self showWindow:nil];
 	if (!isFadingIn)
-		[self _stopTimer];
+		[self stopFadeTimer];
 	if (doFadeIn && !didFadeIn) {
 		if (!isFadingIn) {
 			isFadingIn = YES;
-			animationStart = CFAbsoluteTimeGetCurrent();
-			animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
-															   target:self
-															 selector:@selector(_fadeIn:)
-															 userInfo:nil
-															  repeats:YES] retain];
-			//Start immediately
-			[self _fadeIn:nil];
+			[self willDisplayNotification];
+			[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerWillFadeInNotification object:self];
+			[self startFadeInTimer];
 		}
-	} else {
+	} else
 		[self stopFadeIn];
-	}
 }
 
 - (void) stopFadeIn {
 	isFadingIn = NO;
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerDidFadeInNotification object:self];
 	didFadeIn = YES;
-	[self _stopTimer];
-	if (delegate && [delegate respondsToSelector:@selector(didFadeIn:)])
-		[delegate didFadeIn:self];
-	if (screenshotMode)
-		[self takeScreenshot];
+	[self stopFadeTimer];
+	[self didDisplayNotification];
 	if (autoFadeOut)
-		[self _waitBeforeFadeOut];
+		displayTimer = [[NSTimer scheduledTimerWithTimeInterval:displayInterval
+														 target:self
+													   selector:@selector(startFadeOut)
+													   userInfo:nil
+														repeats:YES] retain];
 }
 
 - (void) startFadeOut {
-	if (delegate && [delegate respondsToSelector:@selector(willFadeOut:)])
-		[delegate willFadeOut:self];
-	[self _stopTimer];
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerWillFadeOutNotification object:self];
+	[self stopFadeTimer];
 	if (doFadeOut) {
 		if (!isFadingOut) {
 			isFadingOut = YES;
-			animationStart = CFAbsoluteTimeGetCurrent();
-			animationTimer = [[NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
-															   target:self
-															 selector:@selector(_fadeOut:)
-															 userInfo:nil
-															  repeats:YES] retain];
+			[self startFadeOutTimer];
 		}
-		//Start immediately
-		[self _fadeOut:nil];
-	} else {
+	} else
 		[self stopFadeOut];
-	}
 }
 
 - (void) stopFadeOut {
 	isFadingOut = NO;
-	[self _stopTimer];
-	if (delegate && [delegate respondsToSelector:@selector(didFadeOut:)])
-		[delegate didFadeOut:self];
-
-	if (clickContext) {
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			clickContext, GROWL_KEY_CLICKED_CONTEXT,
-			appPid,       GROWL_APP_PID,
-			nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
-															object:appName
-														  userInfo:userInfo];
-		[userInfo release];
-
-		//Avoid duplicate click messages by immediately clearing the clickContext
-		clickContext = nil;
-	}
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerDidFadeOutNotification object:self];
+	[self stopFadeTimer];
 
 	[self close];	// close our window
-	[self release];	// we retained when we fade in
+	[self didTakeDownNotification];
+	[self release];	// we retained when we began fade in
 }
 
 #pragma mark -
+#pragma mark Display control
+
+- (void) startDisplay {
+	if (!isFadingIn)
+		[self startFadeIn]; //posts {will,did}DisplayNotification
+}
+
+- (void) stopDisplay {
+	if (isFadingIn)
+		[self stopFadeIn]; //posts didDisplayNotification
+	else if (!isFadingOut)
+		[self startFadeOut]; //posts {will,did}TakeDownNotification
+}
+
+#pragma mark -
+#pragma mark Click feedback
+
+- (void) notificationClicked:(id)sender {
+	[super notificationClicked:sender];
+	[self stopDisplay];
+}
+
+#pragma mark -
+#pragma mark Accessors
 
 - (BOOL) automaticallyFadeOut {
 	return autoFadeOut;
@@ -204,109 +230,37 @@
 }
 
 - (void) setDelegate:(id)object {
-	delegate = object;
-}
+	[super setDelegate:newDelegate];
 
-#pragma mark -
+	if (newDelegate) {
+		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 
-- (BOOL) screenshotModeEnabled {
-	return screenshotMode;
-}
+		if ([newDelegate respondsToSelector:@selector(displayWindowControllerWillFadeIn:)]) {
+			[nc addObserver:newDelegate
+				   selector:@selector(displayWindowControllerWillFadeIn:)
+					   name:GrowlDisplayWindowControllerWillFadeInWindowNotification
+					 object:self];
+		}
+		if ([newDelegate respondsToSelector:@selector(displayWindowControllerDidFadeIn:)]) {
+			[nc addObserver:newDelegate
+				   selector:@selector(displayWindowControllerDidFadeIn:)
+					   name:GrowlDisplayWindowControllerDidFadeInWindowNotification
+					 object:self];
+		}
 
-- (void) setScreenshotModeEnabled:(BOOL)newScreenshotMode {
-	screenshotMode = newScreenshotMode;
-}
-
-- (void) takeScreenshot {
-	NSView *view = [[self window] contentView];
-	NSRect rect = [view bounds];
-	[view lockFocus];
-	NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithFocusedViewRect:rect];
-	[view unlockFocus];
-
-	NSData *pngData = [bitmap representationUsingType:NSPNGFileType
-										   properties:nil];
-	[bitmap release];
-
-	NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:@"png"];
-	[pngData writeToFile:path atomically:NO];
-}
-
-#pragma mark -
-
-- (NSScreen *) screen {
-	NSArray *screens = [NSScreen screens];
-	if (screenNumber < [screens count])
-		return [screens objectAtIndex:screenNumber];
-	else
-		return [NSScreen mainScreen];
-}
-
-#pragma mark -
-
-- (id) target {
-	return target;
-}
-
-- (void) setTarget:(id) object {
-	[target autorelease];
-	target = [object retain];
-}
-
-#pragma mark -
-
-- (SEL) action {
-	return action;
-}
-
-- (void) setAction:(SEL) selector {
-	action = selector;
-}
-
-#pragma mark -
-
-- (NSString *) appName {
-	return appName;
-}
-
-- (void) setAppName:(NSString *)inAppName {
-	if (inAppName != appName) {
-		[appName release];
-		appName = [inAppName retain];
+		if ([newDelegate respondsToSelector:@selector(displayWindowControllerWillFadeOut:)]) {
+			[nc addObserver:newDelegate
+				   selector:@selector(displayWindowControllerWillFadeOut:)
+					   name:GrowlDisplayWindowControllerWillFadeOutWindowNotification
+					 object:self];
+		}
+		if ([newDelegate respondsToSelector:@selector(displayWindowControllerDidFadeOut:)]) {
+			[nc addObserver:newDelegate
+				   selector:@selector(displayWindowControllerDidFadeOut:)
+					   name:GrowlDisplayWindowControllerDidFadeOutWindowNotification
+					 object:self];
+		}
 	}
-}
-
-#pragma mark -
-
-- (NSNumber *) appPid {
-	return appPid;
-}
-
-- (void) setAppPid:(NSNumber *)inAppPid {
-	if (inAppPid != appPid) {
-		[appPid release];
-		appPid = [inAppPid retain];
-	}
-}
-
-#pragma mark -
-
-- (id) clickContext {
-	return clickContext;
-}
-
-- (void) setClickContext:(id)inClickContext {
-	[clickContext autorelease];
-	clickContext = [inClickContext retain];
-}
-
-#pragma mark -
-
-- (void) notificationClicked:(id)sender {
-#pragma unused(sender)
-	if (target && action && [target respondsToSelector:action])
-		[target performSelector:action withObject:self];
-	[self startFadeOut];
 }
 
 @end

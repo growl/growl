@@ -1,39 +1,51 @@
 //
-//  FadingWindowController.h
+//  GrowlDisplayFadingWindowController.h
 //  Display Plugins
 //
 //  Created by Ingmar Stein on 16.11.04.
+//  Renamed from FadingWindowController by Mac-arena the Bored Zo on 2005-06-03.
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "GrowlDisplayWindowController.h"
 
-@interface FadingWindowController : NSWindowController
+@interface GrowlDisplayFadingWindowController : GrowlDisplayWindowController
 {
-	id				delegate;
-	NSTimer			*animationTimer;
-	BOOL			autoFadeOut;
-	BOOL			doFadeIn;
-	BOOL			doFadeOut;
-	BOOL			didFadeIn;
-	BOOL			isFadingIn;
-	BOOL			isFadingOut;
-	double			displayTime;
-	BOOL			screenshotMode;
-	unsigned		screenNumber;
-	NSTimeInterval	animationDuration;
-	CFAbsoluteTime	animationStart;
+	NSTimer         *fadeTimer;
+	NSTimeInterval   fadeInInterval, fadeOutInterval;
+	NSTimeInterval	 animationDuration;
+	CFAbsoluteTime	 animationStart;
+	float            fadeIncrement;
 
-	SEL				action;
-	id				target;
-	id				clickContext;
-	NSString		*appName;
-	NSNumber		*appPid;
+	unsigned         FWCReserved: 25;
+	/*on deleting doFade{In,Out}:
+	 *
+	 *pro (by boredzo)
+	 *I think these are unnecessary. GDWC provides for non-fading displays.
+	 *if a display wants to do one but not the other, it can inherit from GDFWC
+	 *	and call up to GDWC (skipping GDFWC's implementation) for the fade
+	 *	it doesn't want to implement.
+	 *
+	 *con:
+	 */
+	unsigned         doFadeIn:     1; //VfD: +boredzo
+	unsigned         doFadeOut:    1; //VfD: +boredzo
+	unsigned         didFadeIn:    1;
+	unsigned         didFadeOut:   1;
+	unsigned         isFadingIn:   1;
+	unsigned         isFadingOut:  1;
+	unsigned         autoFadeOut:  1; //NO for sticky displays
 }
+
 - (void) startFadeIn;
 - (void) startFadeOut;
 - (void) stopFadeIn;
 - (void) stopFadeOut;
+
+- (void) startFadeInTimer;
+- (void) startFadeOutTimer;
+- (void) stopFadeTimer;
+- (void) _waitBeforeFadeOut;
 
 - (BOOL) automaticallyFadeOut;
 - (void) setAutomaticallyFadesOut:(BOOL) autoFade;
@@ -41,23 +53,8 @@
 - (NSTimeInterval) animationDuration;
 - (void) setAnimationDuration:(NSTimeInterval)duration;
 
-- (double) displayTime;
-- (void) setDisplayTime:(double)t;
-
-- (id) delegate;
-- (void) setDelegate:(id)delegate;
-
-- (BOOL) screenshotModeEnabled;
-- (void) setScreenshotModeEnabled:(BOOL)newScreenshotMode;
-//-takeScreenshot is declared here mainly for the benefit of subclasses.
-//you probably don't need to call it if you aren't a subclass.
-- (void) takeScreenshot;
-
-- (void) _stopTimer;
-- (void) _waitBeforeFadeOut;
-
-- (void) _fadeIn:(NSTimer *)inTimer;
-- (void) _fadeOut:(NSTimer *)inTimer;
+- (void) fadeInTimer:(NSTimer *)inTimer;
+- (void) fadeOutTimer:(NSTimer *)inTimer;
 
 - (void) fadeInAnimation:(double)progress;
 - (void) fadeOutAnimation:(double)progress;
@@ -65,22 +62,6 @@
 - (BOOL) isFadingIn;
 - (BOOL) isFadingOut;
 
-- (NSScreen *) screen;
-
-- (id) target;
-- (void) setTarget:(id)object;
-
-- (SEL) action;
-- (void) setAction:(SEL)selector;
-
-- (NSString *) appName;
-- (void) setAppName:(NSString *) inAppName;
-
-- (NSNumber *) appPid;
-- (void) setAppPid:(NSNumber *) inAppPid;
-
-- (id) clickContext;
-- (void) setClickContext:(id) clickContext;
 @end
 
 @interface NSObject (FadingWindowControllerDelegate)
