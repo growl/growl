@@ -162,6 +162,24 @@ static NSMutableDictionary *notificationsByIdentifier;
 	return self;
 }
 
+- (void) dealloc {
+	if (depth == webkitWindowDepth)
+		webkitWindowDepth = 0U;
+
+	NSWindow *myWindow = [self window];
+	WebView *webView = [myWindow contentView];
+	[webView    setPolicyDelegate:nil];
+	[webView    setFrameLoadDelegate:nil];
+	[webView    release];
+	[myWindow   release];
+	[image      release];
+	[style      release];
+	[prefDomain release];
+	[identifier release];
+
+	[super dealloc];
+}
+
 - (void) setTitle:(NSString *)title titleHTML:(BOOL)titleIsHTML text:(NSString *)text textHTML:(BOOL)textIsHTML icon:(NSImage *)icon priority:(int)priority forView:(WebView *)view {
 	NSString *priorityName;
 	switch (priority) {
@@ -324,22 +342,17 @@ static NSMutableDictionary *notificationsByIdentifier;
 	}
 }
 
-- (void) dealloc {
-	if (depth == webkitWindowDepth)
-		webkitWindowDepth = 0U;
+#pragma mark -
+#pragma mark Screenshot mode
 
-	NSWindow *myWindow = [self window];
-	WebView *webView = [myWindow contentView];
-	[webView    setPolicyDelegate:nil];
-	[webView    setFrameLoadDelegate:nil];
-	[webView    release];
-	[myWindow   release];
-	[image      release];
-	[style      release];
-	[prefDomain release];
-	[identifier release];
+- (void) takeScreenshot {
+	NSView *view = [[[[self window] contentView] mainFrame] frameView];
+	NSRect rect = [view bounds];
 
-	[super dealloc];
+	NSData *pdfData = [view dataWithPDFInsideRect:rect];
+
+	NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:@"pdf"];
+	[pdfData writeToFile:path atomically:NO];
 }
 
 @end
