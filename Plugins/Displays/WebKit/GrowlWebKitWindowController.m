@@ -151,7 +151,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		if (limitPref)
 			displayDuration = duration;
 		else
-			displayDuration = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
+			displayDuration = MIN(duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
 							   MAX_DISPLAY_TIME);
 
 		if (identifier) {
