@@ -52,12 +52,12 @@ static NSMutableDictionary *notificationsByIdentifier;
 #pragma mark -
 
 - (id) initWithDictionary:(NSDictionary *)noteDict style:(NSString *)styleName {
-	NSString *title = [noteDict objectForKey: GROWL_NOTIFICATION_TITLE_HTML];
-	NSString *text  = [noteDict objectForKey: GROWL_NOTIFICATION_DESCRIPTION_HTML];
-	NSImage *icon   = [noteDict objectForKey: GROWL_NOTIFICATION_ICON];
+	NSString *title = [noteDict  objectForKey:GROWL_NOTIFICATION_TITLE_HTML];
+	NSString *text  = [noteDict  objectForKey:GROWL_NOTIFICATION_DESCRIPTION_HTML];
+	NSImage *icon   = [noteDict  objectForKey:GROWL_NOTIFICATION_ICON];
 	int priority    = [noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY];
-	BOOL sticky     = [noteDict boolForKey:   GROWL_NOTIFICATION_STICKY];
-	NSString *ident = [noteDict objectForKey: GROWL_NOTIFICATION_IDENTIFIER];
+	BOOL sticky     = [noteDict    boolForKey:GROWL_NOTIFICATION_STICKY];
+	NSString *ident = [noteDict  objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
 	BOOL textHTML, titleHTML;
 
 	if (title)
