@@ -10,6 +10,8 @@
 #import "GrowlPathUtil.h"
 #import "GrowlDefines.h"
 
+static NSMutableDictionary *screenshotExtensions = nil;
+
 @implementation GrowlDisplayWindowController
 
 - (void) dealloc {
@@ -25,28 +27,60 @@
 #pragma mark -
 #pragma mark Screenshot mode
 
-- (void) takeScreenshot {
-	NSWindow *window = [self window];
-
-	NSRect frame = [window frame];
-	frame.origin = NSZeroPoint;
-
-	NSImage *image = [[NSImage alloc] initWithSize:frame.size];
-	[image lockFocus];
-	[[window contentView] drawRect:frame];
-	NSData *TIFF = [image TIFFRepresentation];
-	[image unlockFocus];
-	[image release];
-
-	NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithData:TIFF];
-	NSData *PNG = [bitmap representationUsingType:NSPNGFileType
-									   properties:nil];
-	[bitmap release];
-
-	NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:@"png"];
-	[PNG writeToFile:path atomically:NO];
+//in subclasses, call up to super, then call +registerExtension:forScreenshotFormat: for each extra format.
++ (void) registerDefaultExtensions {
+	if(!extensions) {
+		extensions = [[NSDictionary alloc] initWithObjectsAndKeys:
+		    @"png",  @"PNG",
+		    @"tiff", @"TIFF",
+		    @"pdf",  @"PDF",
+		    nil];
+	}
 }
 
+//public
++ (void) registerExtension:(NSString *)ext forScreenshotFormat:(NSString *)format {
+	[self registerDefaultExtensions];
+
+	[extensions setObject:ext forKey:format];
+}
++ (NSString *) extensionForScreenshotFormat:(NSString *)format {
+	[self registerDefaultExtensions];
+
+	return [screenshotExtensions objectForKey:format];
+}
+
+//these methods can be subclassed.
+- (NSString *) defaultScreenshotFormat {
+	return @"PNG";
+}
+
+- (BOOL) takeScreenshot {
+	NSView *view = [self contentView]; //needed to support WebKit window controllers (XXX: this is ugly)
+	NSRect  rect = [view bounds];
+
+	NSData  *data;
+	NSString *ext;
+
+	//XXX: should have a way for the user to specify a format for certain displays.
+	NSString *preferredFormat = [[[NSUserDefaults standardUserDefaults] stringForKey:GROWL_SCREENSHOT_FORMAT] uppercaseString];
+	if(!preferredFormat)
+		preferredFormat = [self defaultScreenshotFormat];
+	//XXX: should work out a way to map a format to a selector, then call it.
+	if([preferredType isEqualToString:@"PNG"])
+		data = [view dataWithPNGInsideRect:rect];
+	else if([preferredType isEqualToString:@"TIFF"])
+		data = [view dataWithTIFFInsideRect:rect];
+	else if([preferredType isEqualToString:@"PDF"])
+		data = [view dataWithPDFInsideRect:rect];
+
+	if(data && ext) {
+		NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:[self extensionForScreenshotFormat:preferredFormat]];
+		return [data writeToFile:path atomically:NO];
+	}
+
+	return NO;
+}
 
 #pragma mark -
 #pragma mark Display control
