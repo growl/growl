@@ -15,6 +15,7 @@
 #import "GrowlPluginController.h"
 #import "NSMutableStringAdditions.h"
 #import "NSDictionaryAdditions.h"
+#import "NSViewAdditions.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtil.h"
 
@@ -346,14 +347,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 #pragma mark -
 #pragma mark Screenshot mode
 
-- (void) takeScreenshot {
+- (NSString *) takeScreenshot {
 	NSView *view = [[[[self window] contentView] mainFrame] frameView];
-	NSRect rect = [view bounds];
-
-	NSData *pdfData = [view dataWithPDFInsideRect:rect];
-
 	NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:@"pdf"];
-	[pdfData writeToFile:path atomically:NO];
+	[[view dataWithPDFInsideRect:[view frame]] writeToFile:path atomically:NO];
 }
 
 @end
