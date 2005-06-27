@@ -18,6 +18,7 @@
 #import "NSViewAdditions.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtil.h"
+#import "NSStringAdditions.h"
 
 static unsigned webkitWindowDepth = 0U;
 static NSMutableDictionary *notificationsByIdentifier;
