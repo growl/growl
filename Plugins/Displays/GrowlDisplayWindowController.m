@@ -9,6 +9,7 @@
 #import "GrowlDisplayWindowController.h"
 #import "GrowlPathUtil.h"
 #import "GrowlDefines.h"
+#import "NSViewAdditions.h"
 
 @implementation GrowlDisplayWindowController
 
@@ -26,27 +27,10 @@
 #pragma mark Screenshot mode
 
 - (void) takeScreenshot {
-	NSWindow *window = [self window];
-
-	NSRect frame = [window frame];
-	frame.origin = NSZeroPoint;
-
-	NSImage *image = [[NSImage alloc] initWithSize:frame.size];
-	[image lockFocus];
-	[[window contentView] drawRect:frame];
-	NSData *TIFF = [image TIFFRepresentation];
-	[image unlockFocus];
-	[image release];
-
-	NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithData:TIFF];
-	NSData *PNG = [bitmap representationUsingType:NSPNGFileType
-									   properties:nil];
-	[bitmap release];
-
+	NSView *view = [[self window] contentView];
 	NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:@"png"];
-	[PNG writeToFile:path atomically:NO];
+	[[view dataWithPNGInsideRect:[view frame]] writeToFile:path atomically:NO];
 }
-
 
 #pragma mark -
 #pragma mark Display control
