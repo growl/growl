@@ -105,4 +105,47 @@
 		return [NSString stringWithCString:hostname encoding:NSASCIIStringEncoding];
 }
 
++ (NSString *) stringWithString:(NSString *)str0 andCharacter:(unichar)ch andString:(NSString *)str1 {
+	unsigned len0 = (str ? [str0 length] : 0U), len1 = (str1 ? [str1 length] : 0U);
+
+	unichar *buf = malloc(sizeof(unichar) * (len0 + (ch != 0xffff) + len1));
+	unsigned i = 0U;
+
+	if(str0) {
+		memcpy(&buf[i], [[str0 dataUsingEncoding:NSUnicodeStringEncoding] bytes], len0);
+		i += len0;
+	}
+	if(ch != 0xffff) {
+		buf[i++] = ch;
+	}
+	if(str1) {
+		memcpy(&buf[i], [[str1 dataUsingEncoding:NSUnicodeStringEncoding] bytes], len1);
+		i += len1;
+	}
+
+	return [(NSString *)CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, buf, /*length*/ i, kCFAllocatorMalloc) autorelease];
+}
+- (NSString *) initWithString:(NSString *)str0 andCharacter:(unichar)ch andString:(NSString *)str1 {
+	[self release];
+
+	unsigned len0 = (str ? [str0 length] : 0U), len1 = (str1 ? [str1 length] : 0U);
+
+	unichar *buf = malloc(sizeof(unichar) * (len0 + (ch != 0xffff) + len1));
+	unsigned i = 0U;
+
+	if(str0) {
+		memcpy(&buf[i], [[str0 dataUsingEncoding:NSUnicodeStringEncoding] bytes], len0);
+		i += len0;
+	}
+	if(ch != 0xffff) {
+		buf[i++] = ch;
+	}
+	if(str1) {
+		memcpy(&buf[i], [[str1 dataUsingEncoding:NSUnicodeStringEncoding] bytes], len1);
+		i += len1;
+	}
+
+	return (NSString *)CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, buf, /*length*/ i, /*contentsDeallocator*/ kCFAllocatorMalloc);
+}
+
 @end
