@@ -3875,7 +3875,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = "/Users/ingmar/Devel/growl/Framework/Resources/Growl.framework-Info.plist";
+				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -3912,7 +3912,7 @@
 					NS_BLOCK_ASSERTIONS,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = "/Users/ingmar/Devel/growl/Framework/Resources/Growl.framework-Info.plist";
+				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -3950,7 +3950,7 @@
 					NS_BLOCK_ASSERTIONS,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = "/Users/ingmar/Devel/growl/Framework/Resources/Growl.framework-Info.plist";
+				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -3983,7 +3983,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = "/Users/ingmar/Devel/growl/Framework/Resources/Growl-WithInstaller.framework-Info.plist";
+				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -4024,7 +4024,7 @@
 					NS_BLOCK_ASSERTIONS,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = "/Users/ingmar/Devel/growl/Framework/Resources/Growl-WithInstaller.framework-Info.plist";
+				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
@@ -4066,7 +4066,7 @@
 					NS_BLOCK_ASSERTIONS,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = "/Users/ingmar/Devel/growl/Framework/Resources/Growl-WithInstaller.framework-Info.plist";
+				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
