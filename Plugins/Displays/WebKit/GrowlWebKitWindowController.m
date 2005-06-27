@@ -85,7 +85,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	identifier = [ident retain];
 
 	style = [styleName retain];
-	prefDomain = [[NSString alloc] initWithFormat:@"%@.%@", GrowlWebKitPrefDomain, style];
+	prefDomain = [[NSString alloc] initWithString:GrowlWebKitPrefDomain andCharacter:'.' andString:style];
 
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, prefDomain, &screenNumber);
