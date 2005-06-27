@@ -106,7 +106,7 @@
 }
 
 + (NSString *) stringWithString:(NSString *)str0 andCharacter:(unichar)ch andString:(NSString *)str1 {
-	unsigned len0 = (str ? [str0 length] : 0U), len1 = (str1 ? [str1 length] : 0U);
+	unsigned len0 = (str0 ? [str0 length] : 0U), len1 = (str1 ? [str1 length] : 0U);
 
 	unichar *buf = malloc(sizeof(unichar) * (len0 + (ch != 0xffff) + len1));
 	unsigned i = 0U;
@@ -128,7 +128,7 @@
 - (NSString *) initWithString:(NSString *)str0 andCharacter:(unichar)ch andString:(NSString *)str1 {
 	[self release];
 
-	unsigned len0 = (str ? [str0 length] : 0U), len1 = (str1 ? [str1 length] : 0U);
+	unsigned len0 = (str0 ? [str0 length] : 0U), len1 = (str1 ? [str1 length] : 0U);
 
 	unichar *buf = malloc(sizeof(unichar) * (len0 + (ch != 0xffff) + len1));
 	unsigned i = 0U;
