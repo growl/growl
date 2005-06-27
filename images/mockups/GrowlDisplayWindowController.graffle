@@ -36,7 +36,7 @@
 	<array>
 		<dict>
 			<key>Bounds</key>
-			<string>{{162.071, 170.179}, {34, 14}}</string>
+			<string>{{158.919, 175.833}, {34, 14}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -47,11 +47,15 @@
 			<dict>
 				<key>ID</key>
 				<integer>12</integer>
+				<key>Offset</key>
+				<real>-5.6338024139404297</real>
 				<key>Position</key>
-				<real>0.35806575417518616</real>
+				<real>0.39893618226051331</real>
 				<key>RotationType</key>
-				<integer>0</integer>
+				<integer>2</integer>
 			</dict>
+			<key>Rotation</key>
+			<real>359.63272094726562</real>
 			<key>Shape</key>
 			<string>Rectangle</string>
 			<key>Style</key>
@@ -187,7 +191,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{274, 263.42}, {30, 13}}</string>
+			<string>{{283.014, 263.42}, {30, 13}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -198,11 +202,15 @@
 			<dict>
 				<key>ID</key>
 				<integer>16</integer>
+				<key>Offset</key>
+				<real>-9.0140838623046875</real>
 				<key>Position</key>
 				<real>0.33813440799713135</real>
 				<key>RotationType</key>
-				<integer>0</integer>
+				<integer>2</integer>
 			</dict>
+			<key>Rotation</key>
+			<real>270</real>
 			<key>Shape</key>
 			<string>Rectangle</string>
 			<key>Style</key>
@@ -236,7 +244,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{158.789, 339.168}, {34, 14}}</string>
+			<string>{{164.852, 347.297}, {34, 14}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -247,6 +255,8 @@
 			<dict>
 				<key>ID</key>
 				<integer>36</integer>
+				<key>Offset</key>
+				<real>-10.140846252441406</real>
 				<key>Position</key>
 				<real>0.23092366755008698</real>
 				<key>RotationType</key>
@@ -582,7 +592,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{390.506, 170.059}, {29, 14}}</string>
+			<string>{{390.497, 175.693}, {29, 14}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -600,11 +610,15 @@
 			<dict>
 				<key>ID</key>
 				<integer>29</integer>
+				<key>Offset</key>
+				<real>-5.6338024139404297</real>
 				<key>Position</key>
 				<real>0.4744340181350708</real>
 				<key>RotationType</key>
-				<integer>0</integer>
+				<integer>2</integer>
 			</dict>
+			<key>Rotation</key>
+			<real>0.091796875</real>
 			<key>Shape</key>
 			<string>Rectangle</string>
 			<key>Style</key>
@@ -1416,7 +1430,7 @@
 		</dict>
 	</array>
 	<key>ModificationDate</key>
-	<string>2005-06-07 02:18:19 -0700</string>
+	<string>2005-06-27 03:15:00 -0700</string>
 	<key>Modifier</key>
 	<string>Mac-arena the Bored Zo</string>
 	<key>NotesVisible</key>
