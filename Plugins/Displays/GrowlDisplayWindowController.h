@@ -19,12 +19,11 @@
 	id             clickContext;
 	NSNumber      *clickHandlerEnabled;
 	NSString      *appName;
-	//appPid declared below
+	NSNumber      *appPid;
 	id             delegate;
 
 	NSTimeInterval displayDuration;
 	unsigned       screenNumber;
-	NSNumber      *appPid;
 	unsigned       WCReserved: 31;
 	unsigned       screenshotMode: 1;
 }
