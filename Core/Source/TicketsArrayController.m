@@ -43,7 +43,7 @@
 						break;
 					}
 				}
-				if (shouldAddTicket == YES)
+				if (shouldAddTicket)
 					[matchedObjects addObject:ticket];
 			}
 		}
