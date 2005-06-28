@@ -9,6 +9,7 @@
 
 #import "TicketsArrayController.h"
 #import "GrowlApplicationTicket.h"
+#import "GrowlApplicationNotification.h"
 
 @implementation TicketsArrayController
 
@@ -28,8 +29,23 @@
 		NSEnumerator *ticketEnum = [sorted objectEnumerator];
 		GrowlApplicationTicket *ticket;
 		while ((ticket = [ticketEnum nextObject])) {
+			// Filter application's name
 			if ([[ticket applicationName] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
 				[matchedObjects addObject:ticket];
+			}
+			else {
+				// Filter notifications
+				NSEnumerator *notificationsEnum = [[ticket notifications] objectEnumerator];
+				GrowlApplicationNotification *notification;
+				BOOL shouldAddTicket = NO;
+				while ((notification = [notificationsEnum nextObject])) {
+					if ([[notification name] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
+						shouldAddTicket = YES;
+					}
+				}
+				if (shouldAddTicket == YES) {
+					[matchedObjects addObject:ticket];
+				}
 			}
 		}
 		return [super arrangeObjects:matchedObjects];
