@@ -42,7 +42,7 @@ enum GrowlPriority {
 										enabled:(BOOL)enabled
 										 sticky:(int)sticky;
 
-- (NSDictionary *) dictionaryRepresentation;;
+- (NSDictionary *) dictionaryRepresentation;
 
 #pragma mark -
 
