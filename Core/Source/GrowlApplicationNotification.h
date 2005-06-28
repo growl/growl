@@ -8,54 +8,59 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class GrowlApplicationTicket;
+@class GrowlApplicationTicket, GrowlDisplayPlugin;
 
-typedef enum GrowlPriority {
-	GP_unset		= -1000,
-	GP_verylow		= -2,
-	GP_low			= -1,
-	GP_normal		=  0,
-	GP_high			=  1,
-	GP_emergency	=  2
-} GrowlPriority;
+enum GrowlPriority {
+	GrowlPriorityUnset     = -1000,
+	GrowlPriorityVeryLow   = -2,
+	GrowlPriorityLow       = -1,
+	GrowlPriorityNormal    =  0,
+	GrowlPriorityHigh      =  1,
+	GrowlPriorityEmergency =  2
+};
 
 @interface GrowlApplicationNotification : NSObject {
-	NSString				*name;
-	GrowlPriority			priority;
-	BOOL					enabled;
-	int						sticky;
-	NSString				*displayPluginName;
-	GrowlApplicationTicket	*ticket;		// Our owner
-	id <GrowlDisplayPlugin> displayPlugin;	// Non-nil if this notification uses a custom display plugin
+	NSString                *name;
+	GrowlApplicationTicket  *ticket;        // Our owner
+	int                      sticky;
+	enum GrowlPriority       priority;
+	unsigned                 GANReserved: 31;
+	unsigned                 enabled: 1;
 }
 
 + (GrowlApplicationNotification *) notificationWithName:(NSString *)name;
-+ (GrowlApplicationNotification *) notificationFromDict:(NSDictionary *)dict;
++ (GrowlApplicationNotification *) notificationWithDictionary:(NSDictionary *)dict;
++ (GrowlApplicationNotification *) notificationWithName:(NSString *)name
+											   priority:(enum GrowlPriority)priority
+												enabled:(BOOL)enabled
+												 sticky:(int)sticky;
+
 - (GrowlApplicationNotification *) initWithName:(NSString *)name;
-- (GrowlApplicationNotification *) initWithDict:(NSDictionary *)dict;
-- (GrowlApplicationNotification *) initWithName:(NSString *)name priority:(GrowlPriority)priority enabled:(BOOL)enabled sticky:(int)sticky displayPlugin:(NSString *)display;
-- (NSDictionary *) notificationAsDict;
+- (GrowlApplicationNotification *) initWithDictionary:(NSDictionary *)dict;
+- (GrowlApplicationNotification *) initWithName:(NSString *)name
+									   priority:(enum GrowlPriority)priority
+										enabled:(BOOL)enabled
+										 sticky:(int)sticky;
+
+- (NSDictionary *) dictionaryRepresentation;;
 
 #pragma mark -
 
 - (NSString *) name;
 
-- (GrowlPriority) priority;
-- (void) setPriority:(GrowlPriority)newPriority;
+- (enum GrowlPriority) priority;
+- (void) setPriority:(enum GrowlPriority)newPriority;
 
 - (BOOL) enabled;
 - (void) setEnabled:(BOOL)flag;
-
-- (void) enable;
-- (void) disable;
 
 - (int) sticky;
 - (void) setSticky:(int)sticky;
 
 - (GrowlApplicationTicket *) ticket;
-- (void) setTicket:(GrowlApplicationTicket *)owner;
+- (void) setTicket:(GrowlApplicationTicket *)newTicket;
 
 - (NSString *)displayPluginName;
-- (id <GrowlDisplayPlugin>) displayPlugin;
-- (void) setDisplayPluginName: (NSString *)name;
+- (GrowlDisplayPlugin *) displayPlugin;
+
 @end
