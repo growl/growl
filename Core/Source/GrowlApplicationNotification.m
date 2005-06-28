@@ -99,6 +99,18 @@
 	return [NSString stringWithFormat:@"<%@ %p %@>", [self class], self, [[self dictionaryRepresentation] description]];
 }
 
+- (BOOL) isEqualToNotification:(GrowlApplicationNotification *) other {
+	return [[self name] isEqualToString:[other name]];
+}
+#define GENERIC_EQUALITY_METHOD(other) {                                                                      \
+	return ([other isKindOfClass:[GrowlApplicationNotification class]] && [self isEqualToNotification:other]); \
+}
+//NSObject's way
+- (BOOL) isEqualTo:(id) other GENERIC_EQUALITY_METHOD(other)
+//Object's way
+- (BOOL) isEqual:(id) other GENERIC_EQUALITY_METHOD(other)
+#undef GENERIC_EQUALITY_METHOD
+
 #pragma mark -
 
 - (NSString *) name {
@@ -108,7 +120,6 @@
 - (enum GrowlPriority) priority {
 	return priority;
 }
-
 - (void) setPriority:(enum GrowlPriority)newPriority {
 	priority = newPriority;
 	[ticket synchronize];
@@ -117,7 +128,6 @@
 - (BOOL) enabled {
 	return enabled;
 }
-
 - (void) setEnabled:(BOOL)flag {
 	enabled = flag;
 	[ticket setUseDefaults:NO];
@@ -127,7 +137,6 @@
 - (GrowlApplicationTicket *) ticket {
 	return ticket;
 }
-
 - (void) setTicket:(GrowlApplicationTicket *)newTicket {
 	ticket = newTicket;
 }
@@ -137,10 +146,27 @@
 - (int) sticky {
 	return sticky;
 }
-
 - (void) setSticky:(int)value {
 	sticky = value;
 	[ticket synchronize];
+}
+
+- (NSString *) displayPluginName {
+	return displayPluginName;
+}
+- (void) setDisplayPluginName: (NSString *)pluginName {
+	[displayPluginName release];
+	displayPluginName = [pluginName copy];
+	if (displayPluginName) {
+		displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
+	} else {
+		displayPlugin = nil;
+	}
+	[ticket synchronize];
+}
+
+- (GrowlDisplayPlugin *) displayPlugin {
+	return displayPlugin;
 }
 
 @end

@@ -42,7 +42,11 @@ enum GrowlPriority {
 										enabled:(BOOL)enabled
 										 sticky:(int)sticky;
 
+#pragma mark -
+
 - (NSDictionary *) dictionaryRepresentation;
+
+- (BOOL) isEqualToNotification:(GrowlApplicationNotification *) other;
 
 #pragma mark -
 
