@@ -1,13 +1,14 @@
 //
-//  GrowlController.m
+//  GrowlApplicationController.m
 //  Growl
 //
 //  Created by Karl Adam on Thu Apr 22 2004.
+//  Renamed from GrowlController by Mac-arena the Bored Zo on 2005-06-28.
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import "GrowlController.h"
+#import "GrowlApplicationController.h"
 #import "GrowlPreferences.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlApplicationNotification.h"
@@ -39,7 +40,7 @@
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
 
-@interface GrowlController (private)
+@interface GrowlApplicationController (private)
 - (void) loadDisplay;
 - (void) notificationClicked:(NSNotification *)notification;
 - (void) notificationTimedOut:(NSNotification *)notification;
@@ -50,11 +51,11 @@ static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
 
 #pragma mark -
 
-static id singleton = nil;
+static GrowlApplicationController *singleton = nil;
 
-@implementation GrowlController
+@implementation GrowlApplicationController
 
-+ (GrowlController *) standardController {
++ (GrowlApplicationController *) sharedController {
 	return singleton;
 }
 

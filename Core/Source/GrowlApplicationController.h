@@ -1,20 +1,19 @@
 //
-//  GrowlController.h
+//  GrowlApplicationController.h
 //  Growl
 //
 //  Created by Karl Adam on Thu Apr 22 2004.
+//  Renamed from GrowlController by Mac-arena the Bored Zo on 2005-06-28.
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 // This file is under the BSD License, refer to License.txt for details
 
 #import <Foundation/Foundation.h>
 
-@protocol GrowlDisplayPlugin;
-
 @class GrowlDistributedNotificationPathway, GrowlUDPPathway, GrowlRemotePathway,
 	MD5Authenticator, GrowlNotificationCenter, GrowlStatusController;
 
-@interface GrowlController : NSObject {
+@interface GrowlApplicationController : NSObject {
 	NSMutableDictionary			*tickets;				//Application tickets
 	MD5Authenticator			*authenticator;
 
@@ -52,7 +51,7 @@
 	NSTimer						*updateTimer;
 }
 
-+ (GrowlController *) standardController;
++ (GrowlApplicationController *) sharedController;
 
 - (void) startServer;
 - (void) stopServer;
