@@ -8,7 +8,7 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlPref.h"
-#import "GrowlPreferences.h"
+#import "GrowlPreferencesController.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlApplicationNotification.h"
@@ -70,7 +70,7 @@
 		NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithContentsOfFile:
 			[bundle pathForResource:@"GrowlDefaults"
 							 ofType:@"plist"]];
-		[[GrowlPreferences preferences] registerDefaults:defaultDefaults];
+		[[GrowlPreferencesController preferences] registerDefaults:defaultDefaults];
 		[defaultDefaults release];
 	}
 
@@ -159,7 +159,7 @@
 }
 
 + (BOOL) isGrowlMenuRunning {
-	return [[GrowlPreferences preferences] isRunning:@"com.Growl.MenuExtra"];
+	return [[GrowlPreferencesController preferences] isRunning:@"com.Growl.MenuExtra"];
 }
 
 - (void) enableGrowlMenu {
@@ -221,7 +221,7 @@
 
 	browser = [[NSNetServiceBrowser alloc] init];
 
-	GrowlPreferences *preferences = [GrowlPreferences preferences];
+	GrowlPreferencesController *preferences = [GrowlPreferencesController preferences];
 
 	// create a deep mutable copy of the forward destinations
 	NSArray *destinations = [preferences objectForKey:GrowlForwardDestinationsKey];
@@ -281,7 +281,7 @@
 
 //subclassed from NSPreferencePane; called before the pane is displayed.
 - (void) willSelect {
-	GrowlPreferences *preferences = [GrowlPreferences preferences];
+	GrowlPreferencesController *preferences = [GrowlPreferencesController preferences];
 	NSString *lastVersion = [preferences objectForKey:LastKnownVersionKey];
 	NSString *currentVersion = [self bundleVersion];
 	if (!(lastVersion && [lastVersion isEqualToString:currentVersion])) {
@@ -378,7 +378,7 @@
 	[self setGrowlMenuEnabled:[self growlMenuEnabled]];
 	[self cacheImages];
 
-	GrowlPreferences *preferences = [GrowlPreferences preferences];
+	GrowlPreferencesController *preferences = [GrowlPreferencesController preferences];
 
 	// If Growl is enabled, ensure the helper app is launched
 	if ([preferences boolForKey:GrowlEnabledKey])
@@ -436,7 +436,7 @@
 	while ((entry = [enumerator nextObject]))
 		if (![entry netService])
 			[destinations addObject:[entry properties]];
-	[[GrowlPreferences preferences] setObject:destinations forKey:GrowlForwardDestinationsKey];
+	[[GrowlPreferencesController preferences] setObject:destinations forKey:GrowlForwardDestinationsKey];
 	[destinations release];
 }
 
@@ -451,7 +451,7 @@
 	// Update our status visible to the user
 	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
 
-	[[GrowlPreferences preferences] setGrowlRunning:YES noMatterWhat:NO];
+	[[GrowlPreferencesController preferences] setGrowlRunning:YES noMatterWhat:NO];
 
 	// After 4 seconds force a status update, in case Growl didn't start/stop
 	[self performSelector:@selector(checkGrowlRunning)
@@ -468,7 +468,7 @@
 	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
 
 	// Ask the Growl Helper App to shutdown
-	[[GrowlPreferences preferences] setGrowlRunning:NO noMatterWhat:NO];
+	[[GrowlPreferencesController preferences] setGrowlRunning:NO noMatterWhat:NO];
 
 	// After 4 seconds force a status update, in case growl didn't start/stop
 	[self performSelector:@selector(checkGrowlRunning)
@@ -481,7 +481,7 @@
 - (IBAction) startStopGrowl:(id) sender {
 #pragma unused(sender)
 	// Make sure growlIsRunning is correct
-	if (growlIsRunning != [[GrowlPreferences preferences] isGrowlRunning]) {
+	if (growlIsRunning != [[GrowlPreferencesController preferences] isGrowlRunning]) {
 		// Nope - lets just flip it and update status
 		[self setGrowlIsRunning:!growlIsRunning];
 		[self updateRunningStatus];
@@ -498,62 +498,62 @@
 #pragma mark -
 
 - (BOOL) isStartGrowlAtLogin {
-	return [[GrowlPreferences preferences] startGrowlAtLogin];
+	return [[GrowlPreferencesController preferences] startGrowlAtLogin];
 }
 
 - (void) setStartGrowlAtLogin:(BOOL)flag {
-	[[GrowlPreferences preferences] setStartGrowlAtLogin:flag];
+	[[GrowlPreferencesController preferences] setStartGrowlAtLogin:flag];
 }
 
 #pragma mark -
 
 - (BOOL) isBackgroundUpdateCheckEnabled {
-	return [[GrowlPreferences preferences] boolForKey:GrowlUpdateCheckKey];
+	return [[GrowlPreferencesController preferences] boolForKey:GrowlUpdateCheckKey];
 }
 
 - (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag {
-	[[GrowlPreferences preferences] setBool:flag forKey:GrowlUpdateCheckKey];
+	[[GrowlPreferencesController preferences] setBool:flag forKey:GrowlUpdateCheckKey];
 }
 
 #pragma mark -
 
 - (NSString *) defaultDisplayPluginName {
-	return [[GrowlPreferences preferences] objectForKey:GrowlDisplayPluginKey];
+	return [[GrowlPreferencesController preferences] objectForKey:GrowlDisplayPluginKey];
 }
 
 - (void) setDefaultDisplayPluginName:(NSString *)name {
-	[[GrowlPreferences preferences] setObject:name forKey:GrowlDisplayPluginKey];
+	[[GrowlPreferencesController preferences] setObject:name forKey:GrowlDisplayPluginKey];
 }
 
 #pragma mark -
 
 - (BOOL) squelchMode {
-	return [[GrowlPreferences preferences] boolForKey:GrowlSquelchModeKey];
+	return [[GrowlPreferencesController preferences] boolForKey:GrowlSquelchModeKey];
 }
 
 - (void) setSquelchMode:(BOOL)flag {
-	[[GrowlPreferences preferences] setBool:flag forKey:GrowlSquelchModeKey];
+	[[GrowlPreferencesController preferences] setBool:flag forKey:GrowlSquelchModeKey];
 }
 
 #pragma mark -
 
 - (BOOL) stickyWhenAway {
-	return [[GrowlPreferences preferences] boolForKey:GrowlStickyWhenAwayKey];
+	return [[GrowlPreferencesController preferences] boolForKey:GrowlStickyWhenAwayKey];
 }
 
 - (void) setStickyWhenAway:(BOOL)flag {
-	[[GrowlPreferences preferences] setBool:flag forKey:GrowlStickyWhenAwayKey];
+	[[GrowlPreferencesController preferences] setBool:flag forKey:GrowlStickyWhenAwayKey];
 }
 
 #pragma mark Menu Extra
 
 - (BOOL) growlMenuEnabled {
-	return [[GrowlPreferences preferences] boolForKey:GrowlMenuExtraKey];
+	return [[GrowlPreferencesController preferences] boolForKey:GrowlMenuExtraKey];
 }
 
 - (void) setGrowlMenuEnabled:(BOOL)state {
 	if (state != [self growlMenuEnabled]) {
-		[[GrowlPreferences preferences] setBool:state forKey:GrowlMenuExtraKey];
+		[[GrowlPreferencesController preferences] setBool:state forKey:GrowlMenuExtraKey];
 		if (state)
 			[self enableGrowlMenu];
 		else
@@ -564,11 +564,11 @@
 #pragma mark Logging
 
 - (BOOL) loggingEnabled {
-	return [[GrowlPreferences preferences] boolForKey:GrowlLoggingEnabledKey];
+	return [[GrowlPreferencesController preferences] boolForKey:GrowlLoggingEnabledKey];
 }
 
 - (void) setLoggingEnabled:(BOOL)flag {
-	[[GrowlPreferences preferences] setBool:flag forKey:GrowlLoggingEnabledKey];
+	[[GrowlPreferencesController preferences] setBool:flag forKey:GrowlLoggingEnabledKey];
 }
 
 - (IBAction) logTypeChanged:(id)sender {
@@ -577,7 +577,7 @@
 	int numberOfItems = [customMenuButton numberOfItems];
 	if (hasSelection && (numberOfItems == 1))
 		[self customFileChosen:customMenuButton];
-	[[GrowlPreferences preferences] setInteger:typePref forKey:GrowlLogTypeKey];
+	[[GrowlPreferencesController preferences] setInteger:typePref forKey:GrowlLogTypeKey];
 	[customMenuButton setEnabled:(hasSelection && (numberOfItems > 1))];
 }
 
@@ -627,7 +627,7 @@
 	unsigned numHistItems = [customHistArray count];
 	//NSLog(@"CustomHistArray = %@", customHistArray);
 	if (numHistItems) {
-		GrowlPreferences *preferences = [GrowlPreferences preferences];
+		GrowlPreferencesController *preferences = [GrowlPreferencesController preferences];
 		NSString *s = [customHistArray objectAtIndex:0U];
 		[preferences setObject:s forKey:GrowlCustomHistKey1];
 
@@ -722,21 +722,21 @@
 #pragma mark "Network" tab pane
 
 - (BOOL) isGrowlServerEnabled {
-	return [[GrowlPreferences preferences] boolForKey:GrowlStartServerKey];
+	return [[GrowlPreferencesController preferences] boolForKey:GrowlStartServerKey];
 }
 
 - (void) setGrowlServerEnabled:(BOOL)enabled {
-	[[GrowlPreferences preferences] setBool:enabled forKey:GrowlStartServerKey];
+	[[GrowlPreferencesController preferences] setBool:enabled forKey:GrowlStartServerKey];
 }
 
 #pragma mark -
 
 - (BOOL) isRemoteRegistrationAllowed {
-	return [[GrowlPreferences preferences] boolForKey:GrowlRemoteRegistrationKey];
+	return [[GrowlPreferencesController preferences] boolForKey:GrowlRemoteRegistrationKey];
 }
 
 - (void) setRemoteRegistrationAllowed:(BOOL)flag {
-	[[GrowlPreferences preferences] setBool:flag forKey:GrowlRemoteRegistrationKey];
+	[[GrowlPreferencesController preferences] setBool:flag forKey:GrowlRemoteRegistrationKey];
 }
 
 #pragma mark -
@@ -802,21 +802,21 @@
 #pragma mark -
 
 - (int) UDPPort {
-	return [[GrowlPreferences preferences] integerForKey:GrowlUDPPortKey];
+	return [[GrowlPreferencesController preferences] integerForKey:GrowlUDPPortKey];
 }
 
 - (void) setUDPPort:(int)value {
-	[[GrowlPreferences preferences] setInteger:value forKey:GrowlUDPPortKey];
+	[[GrowlPreferencesController preferences] setInteger:value forKey:GrowlUDPPortKey];
 }
 
 #pragma mark -
 
 - (BOOL) isForwardingEnabled {
-	return [[GrowlPreferences preferences] boolForKey:GrowlEnableForwardKey];
+	return [[GrowlPreferencesController preferences] boolForKey:GrowlEnableForwardKey];
 }
 
 - (void) setForwardingEnabled:(BOOL)enabled {
-	[[GrowlPreferences preferences] setBool:enabled forKey:GrowlEnableForwardKey];
+	[[GrowlPreferencesController preferences] setBool:enabled forKey:GrowlEnableForwardKey];
 }
 
 - (void) resolveService:(id)sender {
@@ -1053,7 +1053,7 @@
 #pragma mark Detecting Growl
 
 - (void) checkGrowlRunning {
-	[self setGrowlIsRunning:[[GrowlPreferences preferences] isGrowlRunning]];
+	[self setGrowlIsRunning:[[GrowlPreferencesController preferences] isGrowlRunning]];
 	[self updateRunningStatus];
 }
 

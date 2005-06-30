@@ -8,7 +8,7 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlPluginController.h"
-#import "GrowlPreferences.h"
+#import "GrowlPreferencesController.h"
 #import "GrowlDisplayProtocol.h"
 #import "GrowlPathUtil.h"
 #import "GrowlWebKitController.h"

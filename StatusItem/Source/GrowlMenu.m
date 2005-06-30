@@ -7,7 +7,7 @@
 //
 
 #import "GrowlMenu.h"
-#import "GrowlPreferences.h"
+#import "GrowlPreferencesController.h"
 #import "GrowlPathUtil.h"
 #import "GrowlPluginController.h"
 
@@ -45,7 +45,7 @@ int main(void) {
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
 #pragma unused(aNotification)
 	pid = [[NSProcessInfo processInfo] processIdentifier];
-	preferences = [GrowlPreferences preferences];
+	preferences = [GrowlPreferencesController preferences];
 
 	NSMenu *m = [self createMenu];
 

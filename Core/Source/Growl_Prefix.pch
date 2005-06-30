@@ -7,6 +7,6 @@
 	#import <AppKit/AppKit.h>
 	#import "GrowlDefinesInternal.h"
 	#import "GrowlApplicationTicket.h"
-	#import "GrowlPreferences.h"
+	#import "GrowlPreferencesController.h"
 	#import "GrowlPluginController.h"
 #endif

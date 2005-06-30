@@ -7,17 +7,17 @@
 
 #import <Foundation/Foundation.h>
 
-@class GrowlPreferences, NSStatusItem;
+@class GrowlPreferencesController, NSStatusItem;
 
 @interface GrowlMenu : NSObject {
-	int					pid;
-	GrowlPreferences	*preferences;
-	NSStatusItem		*statusItem;
+	int							pid;
+	GrowlPreferencesController	*preferences;
+	NSStatusItem				*statusItem;
 
-	NSImage				*clawImage;
-	NSImage				*clawHighlightImage;
-	NSImage				*squelchImage;
-	NSImage				*squelchHighlightImage;
+	NSImage						*clawImage;
+	NSImage						*clawHighlightImage;
+	NSImage						*squelchImage;
+	NSImage						*squelchHighlightImage;
 }
 
 - (void) shutdown:(id)sender;

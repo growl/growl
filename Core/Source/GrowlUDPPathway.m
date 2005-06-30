@@ -12,7 +12,7 @@
 #import "NSDictionaryAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
-#import "GrowlPreferences.h"
+#import "GrowlPreferencesController.h"
 #import "GrowlUDPUtils.h"
 #import "sha2.h"
 #import "cdsa.h"
@@ -37,7 +37,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 		short port;
 		int native;
 
-		port = [[GrowlPreferences preferences] integerForKey:GrowlUDPPortKey];
+		port = [[GrowlPreferencesController preferences] integerForKey:GrowlUDPPortKey];
 
 		addr.sin6_len = sizeof(addr);
 		addr.sin6_family = AF_INET6;
@@ -248,7 +248,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 				case GROWL_TYPE_REGISTRATION_SHA256:
 				case GROWL_TYPE_REGISTRATION_NOAUTH:
 					if (length >= sizeof(struct GrowlNetworkRegistration)) {
-						BOOL enabled = [[GrowlPreferences preferences] boolForKey:GrowlRemoteRegistrationKey];
+						BOOL enabled = [[GrowlPreferencesController preferences] boolForKey:GrowlRemoteRegistrationKey];
 
 						if (enabled) {
 							BOOL valid = YES;

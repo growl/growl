@@ -7,13 +7,13 @@
 //
 
 #import "GrowlLog.h"
-#import "GrowlPreferences.h"
+#import "GrowlPreferencesController.h"
 #import "GrowlDefines.h"
 #import "NSDictionaryAdditions.h"
 
 @implementation GrowlLog
 + (void) log:(NSString *)message {
-	GrowlPreferences *preferences = [GrowlPreferences preferences];
+	GrowlPreferencesController *preferences = [GrowlPreferencesController preferences];
 	if (![preferences boolForKey:GrowlLoggingEnabledKey])
 		return;
 
