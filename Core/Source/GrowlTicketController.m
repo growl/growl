@@ -47,7 +47,7 @@ static GrowlTicketController *singleton = nil;
 		[mgr fileExistsAtPath:filename isDirectory:&isDir];
 
 		if ((!isDir) && [[filename pathExtension] isEqualToString:GROWL_PATHEXTENSION_TICKET]) {
-			GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initWithContentsOfFile:filename];
+			GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketFromPath:filename];
 			if (newTicket) {
 				NSString *applicationName = [newTicket applicationName];
 
