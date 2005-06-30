@@ -19,7 +19,7 @@
 	return [[[GrowlApplicationNotification alloc] initWithName:theName] autorelease];
 }
 
-+ (GrowlApplicationNotification *) notificationFromDictionary:(NSDictionary *)dict {
++ (GrowlApplicationNotification *) notificationWithDictionary:(NSDictionary *)dict {
 	return [[[GrowlApplicationNotification alloc] initWithDictionary:dict] autorelease];
 }
 
@@ -27,11 +27,13 @@
 											   priority:(enum GrowlPriority)priority
 												enabled:(BOOL)enabled
 												 sticky:(int)sticky
+									  displayPluginName:(NSString *)display
 {
 	return [[[self alloc] initWithName:name
 							  priority:priority
 							   enabled:enabled
-								sticky:sticky] autorelease];
+								sticky:sticky
+					 displayPluginName:display] autorelease];
 }
 
 - (GrowlApplicationNotification *) initWithDictionary:(NSDictionary *)dict {
@@ -62,12 +64,14 @@
 									   priority:(enum GrowlPriority)inPriority
 										enabled:(BOOL)inEnabled
 										 sticky:(int)inSticky
+							  displayPluginName:(NSString *)display
 {
 	if ((self = [super init])) {
 		name     = [inName retain];
 		priority = inPriority;
 		enabled  = inEnabled;
 		sticky   = inSticky;
+		[self setDisplayPluginName:display];
 	}
 	return self;
 }
@@ -157,15 +161,14 @@
 - (void) setDisplayPluginName: (NSString *)pluginName {
 	[displayPluginName release];
 	displayPluginName = [pluginName copy];
-	if (displayPluginName) {
+	if (displayPluginName)
 		displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
-	} else {
+	else
 		displayPlugin = nil;
-	}
 	[ticket synchronize];
 }
 
-- (GrowlDisplayPlugin *) displayPlugin {
+- (id <GrowlDisplayPlugin>) displayPlugin {
 	return displayPlugin;
 }
 

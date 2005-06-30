@@ -117,7 +117,7 @@
 				notification = [[GrowlApplicationNotification alloc] initWithName:obj];
 			} else {
 				name = [obj objectForKey:@"Name"];
-				notification = [[GrowlApplicationNotification alloc] initWithDict:obj];
+				notification = [[GrowlApplicationNotification alloc] initWithDictionary:obj];
 			}
 			[notification setTicket:self];
 			[allNotificationsTemp setObject:notification forKey:name];
@@ -250,9 +250,8 @@
 	NSMutableArray *saveNotifications = [[NSMutableArray alloc] initWithCapacity:[allNotifications count]];
 	NSEnumerator *notificationEnum = [allNotifications objectEnumerator];
 	GrowlApplicationNotification *obj;
-	while ((obj = [notificationEnum nextObject])) {
-		[saveNotifications addObject:[obj notificationAsDict]];
-	}
+	while ((obj = [notificationEnum nextObject]))
+		[saveNotifications addObject:[obj dictionaryRepresentation]];
 
 	NSDictionary *file_data = nil;
 	if (appPath) {
@@ -262,9 +261,8 @@
 	}
 
 	id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
-	if (!location) {
+	if (!location)
 		location = [NSNumber numberWithBool:NO];
-	}
 
 	NSNumber *useDefaultsValue = [[NSNumber alloc] initWithBool:useDefaults];
 	NSNumber *ticketEnabledValue = [[NSNumber alloc] initWithBool:ticketEnabled];
@@ -624,9 +622,8 @@
 	NSEnumerator *notificationEnum = [inArray objectEnumerator];
 	[[allNotifications allValues] makeObjectsPerformSelector:@selector(disable)];
 	id obj;
-	while ((obj = [notificationEnum nextObject])) {
-		[[allNotifications objectForKey:obj] enable];
-	}
+	while ((obj = [notificationEnum nextObject]))
+		[[allNotifications objectForKey:obj] setEnabled:YES];
 	useDefaults = NO;
 }
 

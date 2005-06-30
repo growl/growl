@@ -8,19 +8,19 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlPathway.h"
-#import "GrowlController.h"
+#import "GrowlApplicationController.h"
 
 @implementation GrowlPathway
 
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
-	[[GrowlController standardController] registerApplicationWithDictionary:dict];
+	[[GrowlApplicationController sharedController] registerApplicationWithDictionary:dict];
 }
 
 - (void) postNotificationWithDictionary:(NSDictionary *)dict {
-	[[GrowlController standardController] dispatchNotificationWithDictionary:dict];
+	[[GrowlApplicationController sharedController] dispatchNotificationWithDictionary:dict];
 }
 
 - (NSString *) growlVersion {
-	return [GrowlController growlVersion];
+	return [GrowlApplicationController growlVersion];
 }
 @end

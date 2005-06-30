@@ -7,7 +7,7 @@
 //
 
 #import "GrowlRegisterScriptCommand.h"
-#import "GrowlController.h"
+#import "GrowlApplicationController.h"
 #import "GrowlDefines.h"
 #import "NSWorkspaceAdditions.h"
 
@@ -76,7 +76,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 			}
 		}
 
-		[[GrowlController standardController] registerApplicationWithDictionary:registerDict];
+		[[GrowlApplicationController sharedController] registerApplicationWithDictionary:registerDict];
 	} @catch(NSException *e) {
 		NSLog(@"error processing AppleScript request: %@", e);
 		[self setError:ERROR_EXCEPTION failure:e];

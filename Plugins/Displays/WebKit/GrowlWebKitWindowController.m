@@ -348,7 +348,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 #pragma mark -
 #pragma mark Screenshot mode
 
-- (NSString *) takeScreenshot {
+- (void) takeScreenshot {
 	NSView *view = [[[[self window] contentView] mainFrame] frameView];
 	NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:@"pdf"];
 	[[view dataWithPDFInsideRect:[view frame]] writeToFile:path atomically:NO];

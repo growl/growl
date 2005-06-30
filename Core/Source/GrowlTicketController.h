@@ -20,4 +20,5 @@
 - (GrowlApplicationTicket *) ticketForApplicationName:(NSString *) appName;
 - (void) addTicket:(GrowlApplicationTicket *) newTicket;
 
+- (void) loadAllSavedTickets;
 @end

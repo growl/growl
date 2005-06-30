@@ -7,14 +7,14 @@
  *
  */
 
-#import "GrowlController.h"
+#import "GrowlApplicationController.h"
 
 int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
 
-	GrowlController *theOneRingToRuleThemAll;
-	theOneRingToRuleThemAll = [[GrowlController alloc] init];
+	GrowlApplicationController *theOneRingToRuleThemAll;
+	theOneRingToRuleThemAll = [[GrowlApplicationController alloc] init];
 
 	[NSApp setDelegate:theOneRingToRuleThemAll];
 	[NSApp run];

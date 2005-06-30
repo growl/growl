@@ -23,7 +23,7 @@
  */
 
 #import "GrowlNotifyScriptCommand.h"
-#import "GrowlController.h"
+#import "GrowlApplicationController.h"
 #import "GrowlDefines.h"
 #import "NSWorkspaceAdditions.h"
 #import "NSMutableDictionaryAdditions.h"
@@ -130,7 +130,7 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 			[icon release];
 		}
 
-		[[GrowlController standardController] dispatchNotificationWithDictionary:noteDict];
+		[[GrowlApplicationController sharedController] dispatchNotificationWithDictionary:noteDict];
 	} @catch(NSException *e) {
 		NSLog(@"error processing AppleScript request: %@", e);
 		[self setError:ERROR_EXCEPTION failure:e];

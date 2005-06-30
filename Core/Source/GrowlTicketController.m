@@ -7,13 +7,14 @@
 //
 
 #import "GrowlTicketController.h"
+#import "GrowlPathUtil.h"
 
 static GrowlTicketController *singleton = nil;
 
 @implementation GrowlTicketController
 
 + (id) sharedController {
-	if(!singleton)
+	if (!singleton)
 		singleton = [[GrowlTicketController alloc] init];
 	return singleton;
 }
