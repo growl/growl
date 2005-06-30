@@ -36,15 +36,12 @@
 				// Filter notifications
 				NSEnumerator *notificationsEnum = [[ticket notifications] objectEnumerator];
 				GrowlApplicationNotification *notification;
-				BOOL shouldAddTicket = NO;
 				while ((notification = [notificationsEnum nextObject])) {
 					if ([[notification name] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
-						shouldAddTicket = YES;
+						[matchedObjects addObject:ticket];
 						break;
 					}
 				}
-				if (shouldAddTicket)
-					[matchedObjects addObject:ticket];
 			}
 		}
 		return [super arrangeObjects:matchedObjects];
