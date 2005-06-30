@@ -24,51 +24,6 @@
 
 @implementation GrowlApplicationTicket
 
-+ (NSDictionary *) allSavedTickets {
-//	CFAbsoluteTime start = CFAbsoluteTimeGetCurrent(); //TEMP
-
-	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, /*expandTilde*/ YES);
-	NSEnumerator *libraryDirEnum = [libraryDirs objectEnumerator];
-	NSString *libraryPath, *growlSupportPath;
-	NSMutableDictionary *result = [NSMutableDictionary dictionary];
-
-	while ((libraryPath = [libraryDirEnum nextObject])) {
-		growlSupportPath = [libraryPath      stringByAppendingPathComponent:@"Application Support"];
-		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Growl"];
-		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Tickets"];
-		//The search paths are returned in the order we should search in, so earlier results should take priority
-		//Thus, clobbering:NO
-		[GrowlApplicationTicket loadTicketsFromDirectory:growlSupportPath intoDictionary:result clobbering:NO];
-	}
-
-//	NSLog(@"Got all saved tickets in %f seconds", CFAbsoluteTimeGetCurrent() - start); //TEMP
-
-	return result;
-}
-
-+ (void) loadTicketsFromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber {
-	NSFileManager *mgr = [NSFileManager defaultManager];
-	BOOL isDir;
-	NSDirectoryEnumerator *growlSupportEnum = [mgr enumeratorAtPath:srcDir];
-	NSString *filename;
-
-	while ((filename = [growlSupportEnum nextObject])) {
-		filename = [srcDir stringByAppendingPathComponent:filename];
-		[mgr fileExistsAtPath:filename isDirectory:&isDir];
-
-		if ((!isDir) && [[filename pathExtension] isEqualToString:@"growlTicket"]) {
-			GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketFromPath:filename];
-			if (newTicket) {
-				NSString *applicationName = [newTicket applicationName];
-
-				if (clobber || ![dict objectForKey:applicationName])
-					[dict setObject:newTicket forKey:applicationName];
-				[newTicket release];
-			}
-		}
-	}
-}
-
 //these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
 + (BOOL) isValidTicketDictionary:(NSDictionary *)dict {
 	NSNumber *versionNum = [dict objectForKey:GROWL_TICKET_VERSION];

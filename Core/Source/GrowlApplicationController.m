@@ -11,6 +11,7 @@
 #import "GrowlApplicationController.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlApplicationTicket.h"
+#import "GrowlTicketController.h"
 #import "GrowlApplicationNotification.h"
 #import "GrowlDistributedNotificationPathway.h"
 #import "GrowlRemotePathway.h"
@@ -101,7 +102,7 @@ static GrowlApplicationController *singleton = nil;
 		//XXX temporary DNC pathway hack - remove when real pathway support is in
 		dncPathway = [[GrowlDistributedNotificationPathway alloc] init];
 
-		tickets = [[NSMutableDictionary alloc] init];
+		ticketController = [GrowlTicketController sharedController];
 
 		[self versionDictionary];
 
@@ -160,7 +161,6 @@ static GrowlApplicationController *singleton = nil;
 	[authenticator    release];
 	[dncPathway       release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
 	[destinations     release];
-	[tickets          release];
 	[growlIcon        release];
 	[versionCheckURL  release];
 	[updateTimer      invalidate];
@@ -336,7 +336,7 @@ static GrowlApplicationController *singleton = nil;
 
 	// Make sure this notification is actually registered
 	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
-	GrowlApplicationTicket *ticket = [tickets objectForKey:appName];
+	GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName];
 	NSString *notificationName = [dict objectForKey:GROWL_NOTIFICATION_NAME];
 	if (!ticket || ![ticket isNotificationAllowed:notificationName])
 		// Either the app isn't registered or the notification is turned off
@@ -447,7 +447,7 @@ static GrowlApplicationController *singleton = nil;
 
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
 
-	GrowlApplicationTicket *newApp = [tickets objectForKey:appName];
+	GrowlApplicationTicket *newApp = [ticketController ticketForApplicationName:appName];
 
 	NSString *notificationName;
 	if (newApp) {
@@ -461,7 +461,7 @@ static GrowlApplicationController *singleton = nil;
 	BOOL success = YES;
 
 	if (appName && newApp) {
-		[tickets setObject:newApp forKey:appName];
+		[ticketController addTicket:newApp];
 		[newApp saveTicket];
 		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF
 																	   object:appName];
@@ -630,21 +630,19 @@ static GrowlApplicationController *singleton = nil;
 		[destinations release];
 		destinations = [[[GrowlPreferencesController preferences] objectForKey:GrowlForwardDestinationsKey] retain];
 	}
-	if (!note || !object) {
-		[tickets removeAllObjects];
-		[tickets addEntriesFromDictionary:[GrowlApplicationTicket allSavedTickets]];
-	}
+	if (!note || !object)
+		[ticketController loadAllSavedTickets];
 	if (!note || (object && [object isEqualTo:GrowlDisplayPluginKey]))
 		[self loadDisplay];
 	if (object) {
 		if ([object isEqualTo:@"GrowlTicketDeleted"]) {
 			NSString *ticketName = [[note userInfo] objectForKey:@"TicketName"];
-			[tickets removeObjectForKey:ticketName];
+			[ticketController removeTicketForApplicationName:ticketName];
 		} else if ([object isEqualTo:@"GrowlTicketChanged"]) {
 			NSString *ticketName = [[note userInfo] objectForKey:@"TicketName"];
 			GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:ticketName];
 			if (newTicket) {
-				[tickets setObject:newTicket forKey:ticketName];
+				[ticketController addTicket:newTicket];
 				[newTicket release];
 			}
 		} else if ([object isEqualTo:GrowlUDPPortKey]) {

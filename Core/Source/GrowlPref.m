@@ -12,6 +12,7 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlApplicationNotification.h"
+#import "GrowlTicketController.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlDisplayProtocol.h"
 #import "GrowlPluginController.h"
@@ -372,8 +373,10 @@
 
 - (void) reloadPreferences {
 //	NSLog(@"%s\n", __func__);
+	GrowlTicketController *ticketController = [GrowlTicketController sharedController];
+	[ticketController loadAllSavedTickets];
 	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
-	[self setTickets:[[GrowlApplicationTicket allSavedTickets] allValues]];
+	[self setTickets:[[ticketController allSavedTickets] allValues]];
 	[self setSquelchMode:[self squelchMode]];
 	[self setGrowlMenuEnabled:[self growlMenuEnabled]];
 	[self cacheImages];

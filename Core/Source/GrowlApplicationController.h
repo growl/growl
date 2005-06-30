@@ -11,11 +11,12 @@
 #import <Foundation/Foundation.h>
 
 @class GrowlDistributedNotificationPathway, GrowlUDPPathway, GrowlRemotePathway,
-	MD5Authenticator, GrowlNotificationCenter, GrowlStatusController;
+	MD5Authenticator, GrowlNotificationCenter, GrowlStatusController,
+	GrowlTicketController;
 
 @interface GrowlApplicationController : NSObject {
-	NSMutableDictionary			*tickets;				//Application tickets
 	MD5Authenticator			*authenticator;
+	GrowlTicketController		*ticketController;
 
 	//XXX temporary DNC pathway hack - remove when real pathway support is in
 	// DNC server

@@ -9,6 +9,8 @@
 #import "GrowlTicketController.h"
 #import "GrowlPathUtil.h"
 
+#define GROWL_PATHEXTENSION_TICKET	@"growlTicket"
+
 static GrowlTicketController *singleton = nil;
 
 @implementation GrowlTicketController
@@ -21,6 +23,7 @@ static GrowlTicketController *singleton = nil;
 
 - (id) init {
 	if ((self = [super init])) {
+		ticketsByApplicationName = [[NSMutableDictionary alloc] init];
 		[self loadAllSavedTickets];
 	}
 	return self;
@@ -33,7 +36,7 @@ static GrowlTicketController *singleton = nil;
 #pragma mark -
 #pragma mark Private methods
 
-- (void) loadTicketsFromDirectory:(NSString *)srcDir intoDictionary:(NSMutableDictionary *)dict clobbering:(BOOL)clobber {
+- (void) loadTicketsFromDirectory:(NSString *)srcDir clobbering:(BOOL)clobber {
 	NSFileManager *mgr = [NSFileManager defaultManager];
 	BOOL isDir;
 	NSDirectoryEnumerator *ticketsEnum = [mgr enumeratorAtPath:srcDir];
@@ -52,37 +55,35 @@ static GrowlTicketController *singleton = nil;
 				 *	or if we're clobbering already-loaded tickets,
 				 *	set this ticket in the dictionary.
 				 */
-				if (clobber || ![dict objectForKey:applicationName])
-					[dict setObject:newTicket forKey:applicationName];
+				if (clobber || ![ticketsByApplicationName objectForKey:applicationName])
+					[ticketsByApplicationName setObject:newTicket forKey:applicationName];
 
 				[newTicket release];
 			}
 		}
 	}
 }
+
 - (void) loadAllSavedTickets {
-//	NSDate *start, *end; //TEMP
-//	start = [NSDate date]; //TEMP
+//	CFAbsoluteTime start = CFAbsoluteTimeGetCurrent(); //TEMP
 
-	//XXX use GrowlPathUtil here.
-	NSArray *ticketDirs = [GrowlPathUtil searchPathForDirectory:GrowlTicketsDirectory inDomains:NSAllDomainsMask];
-	NSEnumerator *ticketDirEnum = [ticketDirs objectEnumerator];
-	NSString *ticketPath;
-	ticketsByApplicationName = [[NSMutableDictionary alloc] init];
+	// XXX: should use GrowlPathUtil here
+	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, /*expandTilde*/ YES);
+	NSEnumerator *libraryDirEnum = [libraryDirs objectEnumerator];
+	NSString *libraryPath, *growlSupportPath;
+	[ticketsByApplicationName removeAllObjects];
 
-	while ((ticketPath = [ticketDirEnum nextObject])) {
+	while ((libraryPath = [libraryDirEnum nextObject])) {
+		growlSupportPath = [libraryPath      stringByAppendingPathComponent:@"Application Support"];
+		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Growl"];
+		growlSupportPath = [growlSupportPath stringByAppendingPathComponent:@"Tickets"];
 		/*the search paths are returned in the order we should search in, so
 		 *	earlier results should take priority. thus, clobbering:NO.
 		 */
-		[self loadTicketsFromDirectory:ticketPath
-						intoDictionary:ticketsByApplicationName
-							clobbering:NO];
+		[self loadTicketsFromDirectory:growlSupportPath clobbering:NO];
 	}
 
-//	end = [NSDate date]; //TEMP
-//	NSLog(@"Got all saved tickets in %f seconds", [end timeIntervalSinceDate:start]); //TEMP
-
-	return ticketsByApplicationName;
+//	NSLog(@"Got all saved tickets in %f seconds", CFAbsoluteTimeGetCurrent() - start); //TEMP
 }
 
 #pragma mark -
@@ -102,10 +103,14 @@ static GrowlTicketController *singleton = nil;
 	else {
 		[ticketsByApplicationName setObject:newTicket forKey:appName];
 		//XXX this here is pretty barftastic. what about tickets that already have a path? should we clobber the existing path? create a copy? leave it alone, as now? --boredzo
-		if (![newTicket path])
-			[newTicket setPath:[GrowlPathUtil defaultSavePathForTicketWithApplicationName:appName]];
+		//if (![newTicket path])
+		//	[newTicket setPath:[GrowlPathUtil defaultSavePathForTicketWithApplicationName:appName]];
 		[newTicket synchronize];
 	}
+}
+
+- (void) removeTicketForApplicationName:(NSString *)appName {
+	[ticketsByApplicationName removeObjectForKey:appName];
 }
 
 @end
