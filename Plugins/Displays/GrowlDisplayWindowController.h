@@ -21,6 +21,7 @@
 	NSString      *appName;
 	NSNumber      *appPid;
 	id             delegate;
+	NSTimer       *displayTimer;
 
 	NSTimeInterval displayDuration;
 	unsigned       screenNumber;
@@ -45,6 +46,7 @@
 #pragma mark -
 
 - (void) startDisplayTimer;
+- (void) stopDisplayTimer;
 
 #pragma mark -
 

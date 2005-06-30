@@ -130,11 +130,7 @@
 	[self stopFadeTimer];
 	[self didDisplayNotification];
 	if (autoFadeOut)
-		[NSTimer scheduledTimerWithTimeInterval:displayDuration
-										 target:self
-									   selector:@selector(startFadeOut)
-									   userInfo:nil
-										repeats:NO];
+		[self startDisplayTimer];
 }
 
 - (void) startFadeOut {
@@ -170,9 +166,12 @@
 }
 
 - (void) stopDisplay {
-	if (isFadingIn)
+	[self stopDisplayTimer];
+	if (isFadingIn) {
+		autoFadeOut = NO;
 		[self stopFadeIn]; //posts didDisplayNotification
-	else if (!isFadingOut)
+	}
+	if (!isFadingOut)
 		[self startFadeOut]; //posts {will,did}TakeDownNotification
 }
 

@@ -14,6 +14,8 @@
 @implementation GrowlDisplayWindowController
 
 - (void) dealloc {
+	[self stopDisplayTimer];
+
 	[target              release];
 	[clickContext        release];
 	[clickHandlerEnabled release];
@@ -85,11 +87,17 @@
 #pragma mark Display timer
 
 - (void) startDisplayTimer {
-	[NSTimer scheduledTimerWithTimeInterval:displayDuration
-									 target:self
-								   selector:@selector(stopDisplay)
-								   userInfo:nil
-									repeats:NO];
+	displayTimer = [[NSTimer scheduledTimerWithTimeInterval:displayDuration
+													target:self
+												  selector:@selector(stopDisplay)
+												  userInfo:nil
+												   repeats:NO] retain];
+}
+
+- (void) stopDisplayTimer {
+	[displayTimer invalidate];
+	[displayTimer release];
+	 displayTimer = nil;
 }
 
 #pragma mark -
