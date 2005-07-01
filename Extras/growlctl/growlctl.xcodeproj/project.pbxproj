@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		074FC03F0820E41200ABE399 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 074FC03E0820E41200ABE399 /* Carbon.framework */; };
-		07814E9407F061680046C294 /* GrowlPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A3BE9907F01E6900973BFB /* GrowlPreferences.m */; };
 		07A3BD8A07F01A7C00973BFB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A3BD8907F01A7C00973BFB /* Cocoa.framework */; };
 		8DD76F9A0486AA7600D96B5E /* growlctl.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* growlctl.m */; settings = {ATTRIBUTES = (); }; };
-		9580F7FD0812D54D008FD3BC /* GrowlPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9580F7FB0812D54D008FD3BC /* GrowlPathUtil.m */; };
+		95D0AC8C087530F1000AAF58 /* GrowlPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D0AC8B087530EE000AAF58 /* GrowlPreferencesController.m */; };
+		95D0AC8D087530F3000AAF58 /* GrowlPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D0AC89087530D6000AAF58 /* GrowlPathUtilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -62,14 +62,14 @@
 /* Begin PBXFileReference section */
 		074FC03E0820E41200ABE399 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		07A3BD8907F01A7C00973BFB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		07A3BE9807F01E6900973BFB /* GrowlPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPreferences.h; path = Core/Source/GrowlPreferences.h; sourceTree = "<group>"; };
-		07A3BE9907F01E6900973BFB /* GrowlPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlPreferences.m; path = Core/Source/GrowlPreferences.m; sourceTree = "<group>"; };
 		07D943C00816E3F10089FA0E /* BuildDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildDate.h; sourceTree = "<group>"; };
 		08FB7796FE84155DC02AAC07 /* growlctl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = growlctl.m; sourceTree = "<group>"; };
 		32A70AAB03705E1F00C91783 /* growlctl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = growlctl_Prefix.pch; sourceTree = "<group>"; };
 		8DD76FA10486AA7600D96B5E /* growlctl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = growlctl; sourceTree = BUILT_PRODUCTS_DIR; };
-		9580F7FA0812D54D008FD3BC /* GrowlPathUtil.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPathUtil.h; path = Common/Source/GrowlPathUtil.h; sourceTree = "<group>"; };
-		9580F7FB0812D54D008FD3BC /* GrowlPathUtil.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlPathUtil.m; path = Common/Source/GrowlPathUtil.m; sourceTree = "<group>"; };
+		95D0AC88087530D6000AAF58 /* GrowlPathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPathUtilities.h; path = Common/Source/GrowlPathUtilities.h; sourceTree = "<group>"; };
+		95D0AC89087530D6000AAF58 /* GrowlPathUtilities.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlPathUtilities.m; path = Common/Source/GrowlPathUtilities.m; sourceTree = "<group>"; };
+		95D0AC8A087530EE000AAF58 /* GrowlPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPreferencesController.h; path = Core/Source/GrowlPreferencesController.h; sourceTree = "<group>"; };
+		95D0AC8B087530EE000AAF58 /* GrowlPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlPreferencesController.m; path = Core/Source/GrowlPreferencesController.m; sourceTree = "<group>"; };
 		C6859EA3029092ED04C91782 /* growlctl.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = growlctl.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,10 +89,10 @@
 		07A3BD6907F0199A00973BFB /* Growl */ = {
 			isa = PBXGroup;
 			children = (
-				9580F7FA0812D54D008FD3BC /* GrowlPathUtil.h */,
-				9580F7FB0812D54D008FD3BC /* GrowlPathUtil.m */,
-				07A3BE9807F01E6900973BFB /* GrowlPreferences.h */,
-				07A3BE9907F01E6900973BFB /* GrowlPreferences.m */,
+				95D0AC8A087530EE000AAF58 /* GrowlPreferencesController.h */,
+				95D0AC8B087530EE000AAF58 /* GrowlPreferencesController.m */,
+				95D0AC88087530D6000AAF58 /* GrowlPathUtilities.h */,
+				95D0AC89087530D6000AAF58 /* GrowlPathUtilities.m */,
 			);
 			name = Growl;
 			path = ../..;
@@ -235,9 +235,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07814E9407F061680046C294 /* GrowlPreferences.m in Sources */,
-				9580F7FD0812D54D008FD3BC /* GrowlPathUtil.m in Sources */,
 				8DD76F9A0486AA7600D96B5E /* growlctl.m in Sources */,
+				95D0AC8C087530F1000AAF58 /* GrowlPreferencesController.m in Sources */,
+				95D0AC8D087530F3000AAF58 /* GrowlPathUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
