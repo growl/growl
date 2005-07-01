@@ -1,5 +1,5 @@
 //
-//  GrowlPathUtil.m
+//  GrowlPathGenerator.m
 //  Growl
 //
 //  Created by Ingmar Stein on 17.04.05.
@@ -7,7 +7,7 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import "GrowlPathUtil.h"
+#import "GrowlPathGenerator.h"
 
 #define HelperAppBundleIdentifier				@"com.Growl.GrowlHelperApp"
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER		@"com.growl.prefpanel"
@@ -18,7 +18,7 @@
 static NSBundle *helperAppBundle;
 static NSBundle *prefPaneBundle;
 
-@implementation GrowlPathUtil
+@implementation GrowlPathGenerator
 
 + (NSBundle *) growlPrefPaneBundle {
 	NSArray			*librarySearchPaths;
@@ -110,7 +110,7 @@ static NSBundle *prefPaneBundle;
 		helperAppBundle = [NSBundle bundleWithIdentifier:HelperAppBundleIdentifier];
 		if (!helperAppBundle) {
 			//look in the prefpane bundle.
-			NSBundle *bundle = [GrowlPathUtil growlPrefPaneBundle];
+			NSBundle *bundle = [GrowlPathGenerator growlPrefPaneBundle];
 			NSString *helperAppPath = [bundle pathForResource:@"GrowlHelperApp" ofType:@"app"];
 			helperAppBundle = [NSBundle bundleWithPath:helperAppPath];
 		}
@@ -140,7 +140,7 @@ static NSBundle *prefPaneBundle;
 + (NSString *) nextScreenshotName {
 	NSFileManager *mgr = [NSFileManager defaultManager];
 
-	NSString *directory = [GrowlPathUtil screenshotsDirectory];
+	NSString *directory = [GrowlPathGenerator screenshotsDirectory];
 	NSString *filename = nil;
 
 	NSArray *origContents = [mgr directoryContentsAtPath:directory];

@@ -1,5 +1,5 @@
 //
-//  GrowlPathUtil.h
+//  GrowlPathGenerator.h
 //  Growl
 //
 //  Created by Ingmar Stein on 17.04.05.
@@ -9,7 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface GrowlPathUtil : NSObject {
+@interface GrowlPathGenerator : NSObject {
 
 }
 /*!
