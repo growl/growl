@@ -13,7 +13,7 @@
 #import "NSURLAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
-#import "GrowlPathUtil.h"
+#import "GrowlPathUtilities.h"
 #include <Carbon/Carbon.h>
 
 static GrowlPreferencesController *sharedPreferences;
@@ -263,7 +263,7 @@ static GrowlPreferencesController *sharedPreferences;
 }
 
 - (void) launchGrowl:(BOOL)noMatterWhat {
-	NSString *helperPath = [[GrowlPathUtil helperAppBundle] bundlePath];
+	NSString *helperPath = [[GrowlPathUtilities helperAppBundle] bundlePath];
 
 	// We want to launch in background, so we have to resort to Carbon
 	LSLaunchFSRefSpec spec;

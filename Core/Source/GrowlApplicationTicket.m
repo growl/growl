@@ -14,7 +14,7 @@
 #import "GrowlDisplayProtocol.h"
 #import "NSWorkspaceAdditions.h"
 #import "NSURLAdditions.h"
-#import "GrowlPathUtil.h"
+#import "GrowlPathUtilities.h"
 
 #define UseDefaultsKey			@"useDefaults"
 #define TicketEnabledKey		@"ticketEnabled"
@@ -175,7 +175,7 @@
 }
 
 - (id) initTicketForApplication: (NSString *) inApp {
-	return [self initTicketFromPath:[[[[GrowlPathUtil growlSupportDir]
+	return [self initTicketFromPath:[[[[GrowlPathUtilities growlSupportDir]
 										stringByAppendingPathComponent:@"Tickets"]
 										stringByAppendingPathComponent:inApp]
 										stringByAppendingPathExtension:@"growlTicket"]];
@@ -183,7 +183,7 @@
 
 - (NSString *) path {
 	NSString *destDir;
-	destDir = [GrowlPathUtil growlSupportDir];
+	destDir = [GrowlPathUtilities growlSupportDir];
 	destDir = [destDir stringByAppendingPathComponent:@"Tickets"];
 	destDir = [destDir stringByAppendingPathComponent:[appName stringByAppendingPathExtension:@"growlTicket"]];
 	return destDir;
@@ -192,7 +192,7 @@
 - (void) saveTicket {
 	NSString *destDir;
 
-	destDir = [GrowlPathUtil growlSupportDir];
+	destDir = [GrowlPathUtilities growlSupportDir];
 	destDir = [destDir stringByAppendingPathComponent:@"Tickets"];
 
 	[self saveTicketToPath:destDir];

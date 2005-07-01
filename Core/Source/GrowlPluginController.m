@@ -10,7 +10,7 @@
 #import "GrowlPluginController.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlDisplayProtocol.h"
-#import "GrowlPathUtil.h"
+#import "GrowlPathUtilities.h"
 #import "GrowlWebKitController.h"
 
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER		@"com.growl.prefpanel"
@@ -62,7 +62,7 @@ static GrowlPluginController *sharedController;
 			[self findPluginsInDirectory:dir];
 		}
 
-		NSBundle *helperAppBundle = [GrowlPathUtil helperAppBundle];
+		NSBundle *helperAppBundle = [GrowlPathUtilities helperAppBundle];
 		[self findPluginsInDirectory:[helperAppBundle builtInPlugInsPath]];
 	}
 
@@ -151,7 +151,7 @@ static GrowlPluginController *sharedController;
 - (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 #pragma unused(sheet, contextInfo)
 	if (returnCode == NSAlertAlternateReturn) {
-		NSBundle *prefPane = [GrowlPathUtil growlPrefPaneBundle];
+		NSBundle *prefPane = [GrowlPathUtilities growlPrefPaneBundle];
 
 		if (prefPane && ![[NSWorkspace sharedWorkspace] openFile: [prefPane bundlePath]]) {
 			NSLog(@"Could not open Growl PrefPane");

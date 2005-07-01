@@ -15,7 +15,7 @@
 #import "NSMutableDictionaryAdditions.h"
 #import "CFGrowlAdditions.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlPathUtil.h"
+#import "GrowlPathUtilities.h"
 #import "GrowlPathway.h"
 
 #import <ApplicationServices/ApplicationServices.h>
@@ -346,7 +346,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 #pragma mark -
 
 + (BOOL) isGrowlInstalled {
-	return ([GrowlPathUtil growlPrefPaneBundle] != nil);
+	return ([GrowlPathUtilities growlPrefPaneBundle] != nil);
 }
 
 + (BOOL) isGrowlRunning {
@@ -659,7 +659,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	NSBundle		*growlPrefPaneBundle;
 	BOOL			success = NO;
 
-	growlPrefPaneBundle = [GrowlPathUtil growlPrefPaneBundle];
+	growlPrefPaneBundle = [GrowlPathUtilities growlPrefPaneBundle];
 
 	if (growlPrefPaneBundle) {
 		NSString *growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"

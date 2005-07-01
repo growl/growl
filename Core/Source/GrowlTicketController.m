@@ -7,7 +7,7 @@
 //
 
 #import "GrowlTicketController.h"
-#import "GrowlPathUtil.h"
+#import "GrowlPathUtilities.h"
 
 #define GROWL_PATHEXTENSION_TICKET	@"growlTicket"
 
@@ -67,7 +67,7 @@ static GrowlTicketController *singleton = nil;
 - (void) loadAllSavedTickets {
 //	CFAbsoluteTime start = CFAbsoluteTimeGetCurrent(); //TEMP
 
-	// XXX: should use GrowlPathUtil here
+	// XXX: should use GrowlPathUtilities here
 	NSArray *libraryDirs = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, /*expandTilde*/ YES);
 	NSEnumerator *libraryDirEnum = [libraryDirs objectEnumerator];
 	NSString *libraryPath, *growlSupportPath;
@@ -104,7 +104,7 @@ static GrowlTicketController *singleton = nil;
 		[ticketsByApplicationName setObject:newTicket forKey:appName];
 		//XXX this here is pretty barftastic. what about tickets that already have a path? should we clobber the existing path? create a copy? leave it alone, as now? --boredzo
 		//if (![newTicket path])
-		//	[newTicket setPath:[GrowlPathUtil defaultSavePathForTicketWithApplicationName:appName]];
+		//	[newTicket setPath:[GrowlPathUtilities defaultSavePathForTicketWithApplicationName:appName]];
 		//Don't synchronize here to avoid an infinite loop in -[GrowlApplicationController preferencesChanged]
 		//[newTicket synchronize];
 	}
