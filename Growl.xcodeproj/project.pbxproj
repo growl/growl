@@ -829,6 +829,10 @@
 		950F797B080EED5C00CC5F62 /* GrowlWebKitWindowView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitWindowView.h; path = Plugins/Displays/WebKit/GrowlWebKitWindowView.h; sourceTree = "<group>"; };
 		950F797C080EED5C00CC5F62 /* GrowlWebKitWindowView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitWindowView.m; path = Plugins/Displays/WebKit/GrowlWebKitWindowView.m; sourceTree = "<group>"; };
 		950F79C5080EEE2B00CC5F62 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		951152B708753A8E00DBB3EA /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Russian; path = Framework/Resources/Russian.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
+		951152B808753AA700DBB3EA /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = Core/Resources/Russian.lproj/Localizable.strings; sourceTree = "<group>"; };
+		951152B908753AC500DBB3EA /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Russian; path = Core/Resources/Russian.lproj/About.rtf; sourceTree = "<group>"; };
+		951152BA08753ADA00DBB3EA /* Russian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Russian; path = StatusItem/Resources/Russian.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95125DE70802D3E8007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../Bubbles/Info.plist; sourceTree = "<group>"; };
 		95125DE80802D3F3007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../Bezel/Info.plist; sourceTree = "<group>"; };
 		95125DE90802D3FE007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../Speech/Info.plist; sourceTree = "<group>"; };
@@ -2883,17 +2887,18 @@
 				German,
 				cs,
 				zh_CN,
+				Russian,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Growl */;
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
-					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
-				},
-				{
 					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
 					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
+				},
+				{
+					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
+					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
 				},
 			);
 			targets = (
@@ -3723,6 +3728,7 @@
 				34B2756E08423FB00092A5A0 /* Japanese */,
 				95B00A18084688F6004A8623 /* zh_CN */,
 				955A4EDC08617747009B6EA5 /* French */,
+				951152BA08753ADA00DBB3EA /* Russian */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3732,6 +3738,7 @@
 			children = (
 				937E64310817193800AEC1C6 /* English */,
 				955A4E5A08617653009B6EA5 /* French */,
+				951152B908753AC500DBB3EA /* Russian */,
 			);
 			name = About.rtf;
 			sourceTree = "<group>";
@@ -3765,6 +3772,7 @@
 				9542E53107C28C3A0056BAC9 /* English */,
 				9542E65907C28D230056BAC9 /* German */,
 				9574B99B0838FC2E00106CA3 /* Japanese */,
+				951152B708753A8E00DBB3EA /* Russian */,
 			);
 			name = GrowlInstallation.strings;
 			sourceTree = "<group>";
@@ -3778,6 +3786,7 @@
 				95B00A3008468932004A8623 /* cs */,
 				95B00A3108468941004A8623 /* zh_CN */,
 				955A4E5D0861767F009B6EA5 /* French */,
+				951152B808753AA700DBB3EA /* Russian */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
