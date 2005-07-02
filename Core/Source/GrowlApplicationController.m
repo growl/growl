@@ -62,6 +62,12 @@ static GrowlApplicationController *singleton = nil;
 
 - (id) init {
 	if ((self = [super init])) {
+		if (cdsaInit()) {
+			NSLog(@"ERROR: Could not initialize CDSA.");
+			[self release];
+			return nil;
+		}
+
 		NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
 
 		[NSDNC addObserver:self
@@ -90,12 +96,6 @@ static GrowlApplicationController *singleton = nil;
 			   selector:@selector(notificationTimedOut:)
 				   name:GROWL_NOTIFICATION_TIMED_OUT
 				 object:nil];
-
-		if (cdsaInit()) {
-			NSLog(@"ERROR: Could not initialize CDSA.");
-			[self release];
-			return nil;
-		}
 
 		authenticator = [[MD5Authenticator alloc] init];
 
