@@ -9,18 +9,28 @@
 
 #import <Cocoa/Cocoa.h>
 
-@protocol GrowlDisplayPlugin;
+@class GrowlPlugin, GrowlDisplayPlugin;
 
 @interface GrowlPluginController : NSObject {
-	NSMutableDictionary		*allDisplayPlugins;
-	NSMutableDictionary		*allDisplayPluginBundles;
+	//keys: plug-in names; values: GrowlPlugins.
+	NSMutableDictionary		*pluginInstances;
+	//keys: plug-in names; values: NSBundles.
+	NSMutableDictionary		*pluginBundles;
 }
 
-+ (GrowlPluginController *) controller;
++ (GrowlPluginController *) sharedController;
 
-- (NSArray *) allDisplayPlugins;
-- (id <GrowlDisplayPlugin>) displayPluginNamed:(NSString *)name;
-- (NSBundle *) bundleForPluginNamed:(NSString *)name;
+//takes a filename extension (or nil) and filters the list of plug-ins by it, using their path.
+- (NSArray *) pluginsOfType:(NSString *)type;
+//returns an array of display plug-ins (WebKit and Obj-C both).
+- (NSArray *) displayPlugins;
+
+- (GrowlDisplayPlugin *) displayPluginInstanceWithName:(NSString *)name;
+-           (NSBundle *)   displayPluginBundleWithName:(NSString *)name;
+
+- (GrowlPlugin *) pluginInstanceWithName:(NSString *)name type:(NSString *)type;
+-    (NSBundle *)   pluginBundleWithName:(NSString *)name type:(NSString *)type;
+
 - (void) installPlugin:(NSString *)filename;
 
 @end

@@ -8,17 +8,10 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlPluginController.h"
-#import "GrowlPreferencesController.h"
+#import "GrowlPreferences.h"
 #import "GrowlDisplayProtocol.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlWebKitController.h"
-
-#define GROWL_PREFPANE_BUNDLE_IDENTIFIER		@"com.growl.prefpanel"
-#define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY	@"PreferencePanes"
-#define PREFERENCE_PANE_EXTENSION				@"prefPane"
-#define GROWL_VIEW_EXTENSION					@"growlView"
-#define GROWL_STYLE_EXTENSION					@"growlStyle"
-#define GROWL_PREFPANE_NAME						@"Growl.prefPane"
 
 static GrowlPluginController *sharedController;
 
@@ -37,7 +30,7 @@ static GrowlPluginController *sharedController;
 
 @implementation GrowlPluginController
 
-+ (GrowlPluginController *) controller {
++ (GrowlPluginController *) sharedController {
 	if (!sharedController) {
 		sharedController = [[GrowlPluginController alloc] init];
 	}
@@ -46,17 +39,13 @@ static GrowlPluginController *sharedController;
 }
 
 - (id) init {
-	NSArray *libraries;
-	NSEnumerator *enumerator;
-	NSString *dir;
-
 	if ((self = [super init])) {
-		allDisplayPlugins = [[NSMutableDictionary alloc] init];
-		allDisplayPluginBundles = [[NSMutableDictionary alloc] init];
+		pluginInstances = [[NSMutableDictionary alloc] init];
+		pluginBundles   = [[NSMutableDictionary alloc] init];
 
-		libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
-
-		enumerator = [libraries objectEnumerator];
+		NSArray *libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
+		NSEnumerator *enumerator = [libraries objectEnumerator];
+		NSString *dir;
 		while ((dir = [enumerator nextObject])) {
 			dir = [dir stringByAppendingPathComponent:@"Application Support/Growl/Plugins"];
 			[self findPluginsInDirectory:dir];
@@ -69,16 +58,40 @@ static GrowlPluginController *sharedController;
 	return self;
 }
 
-#pragma mark -
+- (void) dealloc {
+	[pluginInstances release];
+	[pluginBundles   release];
 
-- (NSArray *) allDisplayPlugins {
-	return [[allDisplayPluginBundles allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+	[super dealloc];
 }
 
-- (id <GrowlDisplayPlugin>) displayPluginNamed:(NSString *)name {
-	id <GrowlDisplayPlugin> plugin = [allDisplayPlugins objectForKey:name];
+#pragma mark -
+
+- (NSArray *) pluginsOfType:(NSString *)type {
+	NSParameterAssert(type != nil);
+
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:pluginBundles];
+
+	NSEnumerator *pluginBundlesEnum = [pluginBundles objectEnumerator];
+	NSBundle *bundle;
+	while((bundle = [pluginBundlesEnum nextObject])) {
+		if([[[bundle path] pathExtension] caseInsensitiveCompare:type] == NSOrderedSame)
+			[array addObject:bundle];
+	}
+
+	return array;
+}
+
+- (NSArray *) displayPlugins {
+	return [[pluginBundles allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+}
+
+#pragma mark -
+
+- (GrowlDisplayPlugin *) displayPluginNamed:(NSString *)name {
+	GrowlDisplayPlugin *plugin = [pluginInstances objectForKey:name];
 	if (!plugin) {
-		NSBundle *pluginBundle = [allDisplayPluginBundles objectForKey:name];
+		NSBundle *pluginBundle = [pluginBundles objectForKey:name];
 		NSString *filename = [[pluginBundle bundlePath] lastPathComponent];
 		NSString *pathExtension = [filename pathExtension];
 		if ([pathExtension isEqualToString:GROWL_VIEW_EXTENSION]) {
@@ -107,15 +120,9 @@ static GrowlPluginController *sharedController;
 	return plugin;
 }
 
-- (NSBundle *) bundleForPluginNamed:(NSString *)name {
-	return [allDisplayPluginBundles objectForKey:name];
-}
-
-- (void) dealloc {
-	[allDisplayPlugins       release];
-	[allDisplayPluginBundles release];
-
-	[super dealloc];
+- (NSBundle *) displayPluginBundleWithName:(NSString *)name {
+	GrowlDisplayPlugin *plugin = [pluginBundles objectForKey:name];
+	return [plugin isKindOfClass:[GrowlDisplayPlugin class]] ? plugin : nil;
 }
 
 - (void) findPluginsInDirectory:(NSString *)dir {
@@ -177,7 +184,7 @@ static GrowlPluginController *sharedController;
 		if ([fileManager copyPath:filename toPath:destination handler:nil]) {
 			[self loadPlugin:destination];
 			NSBeginInformationalAlertSheet( NSLocalizedString( @"Plugin installed", @"" ),
-											NSLocalizedString( @"No", @"" ),
+											NSLocalizedString( @"No",  @"" ),
 											NSLocalizedString( @"Yes", @"" ),
 											nil, nil, self,
 											@selector(pluginInstalledSelector:returnCode:contextInfo:),
