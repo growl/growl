@@ -111,14 +111,13 @@
 	unichar *buf = malloc(sizeof(unichar) * (len0 + (ch != 0xffff) + len1));
 	unsigned i = 0U;
 
-	if(str0) {
+	if (str0) {
 		memcpy(&buf[i], [[str0 dataUsingEncoding:NSUnicodeStringEncoding] bytes], len0);
 		i += len0;
 	}
-	if(ch != 0xffff) {
+	if (ch != 0xffff)
 		buf[i++] = ch;
-	}
-	if(str1) {
+	if (str1) {
 		memcpy(&buf[i], [[str1 dataUsingEncoding:NSUnicodeStringEncoding] bytes], len1);
 		i += len1;
 	}
@@ -133,14 +132,13 @@
 	unichar *buf = malloc(sizeof(unichar) * (len0 + (ch != 0xffff) + len1));
 	unsigned i = 0U;
 
-	if(str0) {
+	if (str0) {
 		memcpy(&buf[i], [[str0 dataUsingEncoding:NSUnicodeStringEncoding] bytes], len0);
 		i += len0;
 	}
-	if(ch != 0xffff) {
+	if (ch != 0xffff)
 		buf[i++] = ch;
-	}
-	if(str1) {
+	if (str1) {
 		memcpy(&buf[i], [[str1 dataUsingEncoding:NSUnicodeStringEncoding] bytes], len1);
 		i += len1;
 	}

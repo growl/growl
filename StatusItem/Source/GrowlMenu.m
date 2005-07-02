@@ -8,7 +8,7 @@
 
 #import "GrowlMenu.h"
 #import "GrowlPreferencesController.h"
-#import "GrowlPathUtil.h"
+#import "GrowlPathUtilities.h"
 #import "GrowlPluginController.h"
 
 #define kRestartGrowl                NSLocalizedString(@"Restart Growl", @"")

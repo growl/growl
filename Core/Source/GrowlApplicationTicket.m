@@ -98,49 +98,44 @@
 			}
 		}
 		NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-		if (!fullPath && doLookup) {
+		if (!fullPath && doLookup)
 			fullPath = [workspace fullPathForApplication:appName];
-		}
 		appPath = [fullPath retain];
 //		NSLog(@"got appPath: %@", appPath);
 
 		id appIcon = [ticketDict objectForKey:GROWL_APP_ICON];
 		if (appIcon) {
-			if ([appIcon isKindOfClass:[NSImage class]]) {
+			if ([appIcon isKindOfClass:[NSImage class]])
 				icon = [appIcon copy];
-			} else {
+			else
 				icon = [[NSImage alloc] initWithData:appIcon];
-			}
 		} else if (fullPath) {
 			icon = [[workspace iconForFile:fullPath] retain];
 		}
 
 		id value = [ticketDict objectForKey:UseDefaultsKey];
-		if (value) {
+		if (value)
 			useDefaults = [value boolValue];
-		} else {
+		else
 			useDefaults = YES;
-		}
 
 		value = [ticketDict objectForKey:TicketEnabledKey];
-		if (value) {
+		if (value)
 			ticketEnabled = [value boolValue];
-		} else {
+		else
 			ticketEnabled = YES;
-		}
 
 		value = [ticketDict objectForKey:GrowlDisplayPluginKey];
 		if (value) {
 			displayPluginName = [value copy];
-			displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
+			displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
 		}
 
 		value = [ticketDict objectForKey:ClickHandlersEnabledKey];
-		if (value) {
+		if (value)
 			clickHandlersEnabled = [value boolValue];
-		} else {
+		else
 			clickHandlersEnabled = YES;
-		}
 
 		[self setDefaultNotifications:inDefaults];
 	}
@@ -175,7 +170,7 @@
 }
 
 - (id) initTicketForApplication: (NSString *) inApp {
-	return [self initTicketFromPath:[[[[GrowlPathUtilities growlSupportDir]
+	return [self initTicketFromPath:[[[[GrowlPathUtilities growlSupportDirectory]
 										stringByAppendingPathComponent:@"Tickets"]
 										stringByAppendingPathComponent:inApp]
 										stringByAppendingPathExtension:@"growlTicket"]];
@@ -183,7 +178,7 @@
 
 - (NSString *) path {
 	NSString *destDir;
-	destDir = [GrowlPathUtilities growlSupportDir];
+	destDir = [GrowlPathUtilities growlSupportDirectory];
 	destDir = [destDir stringByAppendingPathComponent:@"Tickets"];
 	destDir = [destDir stringByAppendingPathComponent:[appName stringByAppendingPathExtension:@"growlTicket"]];
 	return destDir;
@@ -192,7 +187,7 @@
 - (void) saveTicket {
 	NSString *destDir;
 
-	destDir = [GrowlPathUtilities growlSupportDir];
+	destDir = [GrowlPathUtilities growlSupportDirectory];
 	destDir = [destDir stringByAppendingPathComponent:@"Tickets"];
 
 	[self saveTicketToPath:destDir];
@@ -319,18 +314,17 @@
 	return displayPluginName;
 }
 
-- (id <GrowlDisplayPlugin>) displayPlugin {
+- (GrowlDisplayPlugin *) displayPlugin {
 	return displayPlugin;
 }
 
 - (void) setDisplayPluginName: (NSString *)name {
 	[displayPluginName release];
 	displayPluginName = [name copy];
-	if (name) {
-		displayPlugin = [[GrowlPluginController controller] displayPluginNamed:name];
-	} else {
+	if (name)
+		displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:name];
+	else
 		displayPlugin = nil;
-	}
 	[self synchronize];
 }
 

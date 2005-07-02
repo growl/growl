@@ -7,7 +7,7 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import "GrowlPathUtil.h"
+#import "GrowlPathUtilities.h"
 
 static NSBundle *helperAppBundle;
 static NSBundle *prefPaneBundle;
@@ -15,7 +15,7 @@ static NSBundle *prefPaneBundle;
 #define NAME_OF_SCREENSHOTS_DIRECTORY @"Screenshots"
 #define NAME_OF_TICKETS_DIRECTORY     @"Tickets"
 
-@implementation GrowlPathUtil
+@implementation GrowlPathUtilities
 
 #pragma mark Bundles
 
@@ -120,7 +120,7 @@ static NSBundle *prefPaneBundle;
 + (NSArray *) searchPathForDirectory:(GrowlSearchPathDirectory) directory inDomains:(GrowlSearchPathDomainMask) domainMask mustBeWritable:(BOOL)flag {
 	if (directory < GrowlSupportDirectory) {
 		NSArray *searchPath = NSSearchPathForDirectoriesInDomains(directory, domainMask, /*expandTilde*/ YES);
-		if(!flag)
+		if (!flag)
 			return searchPath;
 		else {
 			//flag is not NO: exclude non-writable directories.
@@ -129,8 +129,8 @@ static NSBundle *prefPaneBundle;
 
 			NSEnumerator *searchPathEnum = [searchPath objectEnumerator];
 			NSString *dir;
-			while((dir = [searchPathEnum nextObject])) {
-				if([mgr isWritableFileAtPath:dir])
+			while ((dir = [searchPathEnum nextObject])) {
+				if ([mgr isWritableFileAtPath:dir])
 					[result addObject:dir];
 			}
 
@@ -173,7 +173,7 @@ static NSBundle *prefPaneBundle;
 		NSString *path;
 		while ((path = [searchPathEnum nextObject])) {
 			path = [path stringByAppendingPathComponent:subpath];
-			if([mgr fileExistsAtPath:path isDirectory:&isDir] && isDir)
+			if ([mgr fileExistsAtPath:path isDirectory:&isDir] && isDir)
 				[mSearchPath addObject:path];
 		}
 
@@ -188,38 +188,37 @@ static NSBundle *prefPaneBundle;
 
 + (NSString *) growlSupportDirectory {
 	NSArray *searchPath = [self searchPathForDirectory:GrowlSupportDirectory inDomains:NSUserDomainMask mustBeWritable:YES];
-	if([searchPath count])
+	if ([searchPath count])
 		return [searchPath objectAtIndex:0U];
 	else {
 		NSString *path = nil;
-		
+
 		//if this doesn't return any writable directories, path will still be nil.
 		searchPath = [self searchPathForDirectory:NSLibraryDirectory inDomains:NSAllDomainsMask mustBeWritable:YES];
-		if([searchPath count]) {
+		if ([searchPath count]) {
 			path = [[[searchPath objectAtIndex:0U] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"Growl"];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
-			if(![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
+			if (![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
 				path = nil;
 		}
 		
 		return path;
 	}
-	return ;
 }
 
 + (NSString *) screenshotsDirectory {
 	NSArray *searchPath = [self searchPathForDirectory:GrowlScreenshotsDirectory inDomains:NSAllDomainsMask mustBeWritable:YES];
-	if([searchPath count])
+	if ([searchPath count])
 		return [searchPath objectAtIndex:0U];
 	else {
 		NSString *path = nil;
 
 		//if this doesn't return any writable directories, path will still be nil.
 		searchPath = [self growlSupportDirectory];
-		if([searchPath count]) {
+		if ([searchPath count]) {
 			path = [[searchPath objectAtIndex:0U] stringByAppendingPathComponent:NAME_OF_SCREENSHOTS_DIRECTORY];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
-			if(![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
+			if (![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
 				path = nil;
 		}
 
@@ -229,17 +228,17 @@ static NSBundle *prefPaneBundle;
 
 + (NSString *) ticketsDirectory {
 	NSArray *searchPath = [self searchPathForDirectory:GrowlTicketsDirectory inDomains:NSAllDomainsMask mustBeWritable:YES];
-	if([searchPath count])
+	if ([searchPath count])
 		return [searchPath objectAtIndex:0U];
 	else {
 		NSString *path = nil;
 		
 		//if this doesn't return any writable directories, path will still be nil.
 		searchPath = [self growlSupportDirectory];
-		if([searchPath count]) {
+		if ([searchPath count]) {
 			path = [[searchPath objectAtIndex:0U] stringByAppendingPathComponent:NAME_OF_TICKETS_DIRECTORY];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
-			if(![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
+			if (![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
 				path = nil;
 		}
 		

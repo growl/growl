@@ -8,7 +8,7 @@
 //
 
 #import "GrowlDisplayFadingWindowController.h"
-#import "GrowlPathUtil.h"
+#import "GrowlPathUtilities.h"
 #import "GrowlDefines.h"
 
 #define TIMER_INTERVAL	0.01

@@ -9,7 +9,7 @@
 #import "GrowlSpeechDisplay.h"
 #import "GrowlSpeechPrefs.h"
 #import "GrowlSpeechDefines.h"
-#import "GrowlPathUtil.h"
+#import "GrowlPathUtilities.h"
 #import "GrowlDefinesInternal.h"
 #import "NSDictionaryAdditions.h"
 
@@ -39,7 +39,7 @@
 	[syn startSpeakingString:desc];
 
 	if ([noteDict boolForKey:GROWL_SCREENSHOT_MODE]) {
-		NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
+		NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
 		NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
 		[syn startSpeakingString:desc toURL:url];
 		[url release];

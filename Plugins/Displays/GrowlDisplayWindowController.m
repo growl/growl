@@ -7,7 +7,7 @@
 //
 
 #import "GrowlDisplayWindowController.h"
-#import "GrowlPathUtil.h"
+#import "GrowlPathUtilities.h"
 #import "GrowlDefines.h"
 #import "NSViewAdditions.h"
 

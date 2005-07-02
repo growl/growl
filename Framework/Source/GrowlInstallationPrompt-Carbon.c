@@ -282,7 +282,7 @@ static OSStatus _handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef
 						if (cancelButtonErr == noErr)
 							HIViewSetEnabled(cancelButton, true);
 
-						if(!err) err = chasingArrowsErr;
+						if (!err) err = chasingArrowsErr;
 						//skip over the Cancel-specific code
 						goto common;
 
@@ -790,7 +790,7 @@ static OSStatus _installGrowl(CFRunLoopRef mainThreadRunLoop) {
 		NSLog(CFSTR("GrowlInstallationPrompt: Growl was not successfully installed"));
 	}
 
-	if(mainThreadRunLoop)
+	if (mainThreadRunLoop)
 		CFRunLoopStop(mainThreadRunLoop);
 
 	return err;

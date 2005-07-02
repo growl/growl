@@ -8,7 +8,7 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlPluginController.h"
-#import "GrowlPreferences.h"
+#import "GrowlPreferencesController.h"
 #import "GrowlDisplayProtocol.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlWebKitController.h"
@@ -34,9 +34,8 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 @implementation GrowlPluginController
 
 + (GrowlPluginController *) sharedController {
-	if (!sharedController) {
+	if (!sharedController)
 		sharedController = [[GrowlPluginController alloc] init];
-	}
 
 	return sharedController;
 }
@@ -73,14 +72,16 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 - (NSSet *) pluginPathExtensions {
 	//XXX: make this non-hard-coded so that plug-ins can have plug-ins
 	NSString *pathExtensions[] = { @"growlStyle", @"growlView", @"growlPlugin" };
-	static CFSetCallBacks callbacks = kCFTypeSetCallBacks; //XXX use kCFCopyStringSetCallBacks when making this mutable
+	static CFSetCallBacks callbacks;
 	static BOOL hasSetUpCallbacks = NO;
-	if(!hasSetUpCallbacks)
+	if (!hasSetUpCallbacks) {
+		callbacks = kCFTypeSetCallBacks; //XXX use kCFCopyStringSetCallBacks when making this mutable
 		callbacks.equal = caseInsensitiveStringComparator;
-	return [CFSetCreate(kCFAllocatorDefault,
-	                    pathExtensions,
-	                    /*numValues*/ 2,
-	                    &callbacks) autorelease];
+	}
+	return [(NSSet *)CFSetCreate(kCFAllocatorDefault,
+								 (CFTypeRef *)pathExtensions,
+								 /*numValues*/ 2,
+								 &callbacks) autorelease];
 }
 
 - (void) addPluginPathExtension:(NSString *)ext {
@@ -92,14 +93,13 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 - (NSArray *) pluginsOfType:(NSString *)type {
 	NSParameterAssert(type != nil);
 
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:pluginBundles];
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:[pluginBundles count]];
 
 	NSEnumerator *pluginBundlesEnum = [pluginBundles objectEnumerator];
 	NSBundle *bundle;
-	while((bundle = [pluginBundlesEnum nextObject])) {
-		if([[[bundle path] pathExtension] caseInsensitiveCompare:type] == NSOrderedSame)
+	while ((bundle = [pluginBundlesEnum nextObject]))
+		if ([[[bundle bundlePath] pathExtension] caseInsensitiveCompare:type] == NSOrderedSame)
 			[array addObject:bundle];
-	}
 
 	return array;
 }
@@ -110,7 +110,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 
 #pragma mark -
 
-- (GrowlDisplayPlugin *) displayPluginNamed:(NSString *)name {
+- (GrowlDisplayPlugin *) displayPluginInstanceWithName:(NSString *)name {
 	GrowlDisplayPlugin *plugin = [pluginInstances objectForKey:name];
 	if (!plugin) {
 		NSBundle *pluginBundle = [pluginBundles objectForKey:name];
@@ -118,7 +118,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 		NSString *pathExtension = [filename pathExtension];
 		if ([pathExtension isEqualToString:GROWL_VIEW_EXTENSION]) {
 			if (pluginBundle && (plugin = [[[pluginBundle principalClass] alloc] init])) {
-				[allDisplayPlugins setObject:plugin forKey:name];
+				[pluginInstances setObject:plugin forKey:name];
 				[plugin release];
 			} else {
 				NSLog(@"Could not load %@", name);
@@ -132,7 +132,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 			// have to link against it and all of its dependencies
 			Class webKitController = NSClassFromString(@"GrowlWebKitController");
 			plugin = [[webKitController alloc] initWithStyle:name];
-			[allDisplayPlugins setObject:plugin forKey:name];
+			[pluginInstances setObject:plugin forKey:name];
 			[plugin release];
 		} else {
 			NSLog(@"Unknown plugin filename extension '%@' (from filename '%@' of plugin named '%@')", pathExtension, filename, name);
@@ -166,8 +166,8 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 		// TODO: We should use CFBundleIdentifier as the key and display CFBundleName to the user
 		NSString *pluginName = [[pluginBundle infoDictionary] objectForKey:(NSString *)kCFBundleNameKey];
 		if (pluginName) {
-			[allDisplayPluginBundles setObject:pluginBundle forKey:pluginName];
-			[allDisplayPlugins removeObjectForKey:pluginName];
+			[pluginBundles setObject:pluginBundle forKey:pluginName];
+			[pluginInstances removeObjectForKey:pluginName];
 		} else {
 			NSLog(@"Plugin at path '%@' has no name", path);
 		}
@@ -182,9 +182,8 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 	if (returnCode == NSAlertAlternateReturn) {
 		NSBundle *prefPane = [GrowlPathUtilities growlPrefPaneBundle];
 
-		if (prefPane && ![[NSWorkspace sharedWorkspace] openFile: [prefPane bundlePath]]) {
+		if (prefPane && ![[NSWorkspace sharedWorkspace] openFile: [prefPane bundlePath]])
 			NSLog(@"Could not open Growl PrefPane");
-		}
 	}
 }
 
