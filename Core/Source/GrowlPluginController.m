@@ -26,6 +26,9 @@ static GrowlPluginController *sharedController;
 + (void) empty;
 @end
 
+//for use as CFSetCallBacks.equal
+static Boolean caseInsensitiveStringComparator(const void *value1, const void *value2);
+
 #pragma mark -
 
 @implementation GrowlPluginController
@@ -63,6 +66,25 @@ static GrowlPluginController *sharedController;
 	[pluginBundles   release];
 
 	[super dealloc];
+}
+
+#pragma mark -
+
+- (NSSet *) pluginPathExtensions {
+	//XXX: make this non-hard-coded so that plug-ins can have plug-ins
+	NSString *pathExtensions[] = { @"growlStyle", @"growlView", @"growlPlugin" };
+	static CFSetCallBacks callbacks = kCFTypeSetCallBacks; //XXX use kCFCopyStringSetCallBacks when making this mutable
+	static BOOL hasSetUpCallbacks = NO;
+	if(!hasSetUpCallbacks)
+		callbacks.equal = caseInsensitiveStringComparator;
+	return [CFSetCreate(kCFAllocatorDefault,
+	                    pathExtensions,
+	                    /*numValues*/ 2,
+	                    &callbacks) autorelease];
+}
+
+- (void) addPluginPathExtension:(NSString *)ext {
+	//XXX
 }
 
 #pragma mark -
@@ -226,3 +248,10 @@ static GrowlPluginController *sharedController;
 }
 
 @end
+
+static Boolean caseInsensitiveStringComparator(const void *value1, const void *value2) {
+	Class NSStringClass = [NSString class];
+	return [(id)value1 isKindOfClass:NSStringClass] \
+	    && [(id)value2 isKindOfClass:NSStringClass]  \
+	    && ([(NSString *)value1 caseInsensitiveCompare:(NSString *)value2] == NSOrderedSame);
+}

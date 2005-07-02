@@ -668,16 +668,20 @@ static GrowlApplicationController *singleton = nil;
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename {
 #pragma unused(theApplication)
-	BOOL retVal;
+	BOOL retVal = NO;
 	NSString *pathExtension = [filename pathExtension];
 
 //	NSLog(@"Asked to open file %@", filename);
 
-	if ([pathExtension isEqualToString:@"growlView"] || [pathExtension isEqualToString:@"growlStyle"]) {
-		[[GrowlPluginController controller] installPlugin:filename];
-		retVal = YES;
-	} else if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
+	if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
 		NSDictionary *regDict = [[NSDictionary alloc] initWithContentsOfFile:filename];
+
+		/*GrowlApplicationBridge 0.6 communicates registration to Growl by
+		 *	writing a dictionary file to the temporary items folder, then
+		 *	opening the file with GrowlHelperApp.
+		 *we need to delete these, lest we fill up the user's disk or (on Tiger)
+		 *	surprise him with a 'Recovered items' folder in his Trash.
+		 */
 		if ([filename isSubpathOf:NSTemporaryDirectory()]) //assume we got here from GAB
 			[[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
 
@@ -685,15 +689,20 @@ static GrowlApplicationController *singleton = nil;
 			//Register this app using the indicated dictionary
 			[self registerApplicationWithDictionary:regDict];
 			[regDict release];
+
 			retVal = YES;
-		} else {
-			retVal = NO;
 		}
 	} else {
-		retVal = NO;
+		GrowlPluginController *controller = [GrowlPluginController sharedController];
+		//the set returned by GrowlPluginController is case-insensitive. yay!
+		if ([[controller pluginPathExtensions] containsObject:pathExtension]) {
+			[controller installPlugin:filename];
+
+			retVal = YES;
+		}
 	}
 
-	/* If Growl is not enabled and was not already running before
+	/*If Growl is not enabled and was not already running before
 	 *	(for example, via an autolaunch even though the user's last
 	 *	preference setting was to click "Stop Growl," setting enabled to NO),
 	 *	quit having registered; otherwise, remain running.

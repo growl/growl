@@ -20,7 +20,19 @@
 
 + (GrowlPluginController *) sharedController;
 
-//takes a filename extension (or nil) and filters the list of plug-ins by it, using their path.
+/*files or bundles with a pathname extension in this set are plug-ins that the
+ *	plug-in controller believes it can load.
+ */
+- (NSSet *) pluginPathExtensions;
+
+//for use by plug-ins.
+/*NOTE: currently does nothing, in the absence of any way (so far) to bind an
+ *	extension to a plug-in.
+ */
+- (void) addPluginPathExtension:(NSString *)ext;
+
+//takes a filename extension and filters the list of loaded plug-ins by it, using their path.
+//if you pass nil, all loaded plug-ins are returned.
 - (NSArray *) pluginsOfType:(NSString *)type;
 //returns an array of display plug-ins (WebKit and Obj-C both).
 - (NSArray *) displayPlugins;
