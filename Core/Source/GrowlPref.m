@@ -355,7 +355,7 @@
 	else
 		currentPlugin = nil;
 
-	GrowlPluginController *growlPluginController = [GrowlPluginController controller];
+	GrowlPluginController *growlPluginController = [GrowlPluginController sharedController];
 	currentPluginController = [growlPluginController displayPluginNamed:currentPlugin];
 	[self loadViewForDisplay:currentPlugin];
 	NSDictionary *info = [[growlPluginController bundleForPluginNamed:currentPlugin] infoDictionary];
@@ -374,7 +374,7 @@
 //	NSLog(@"%s\n", __func__);
 	GrowlTicketController *ticketController = [GrowlTicketController sharedController];
 	[ticketController loadAllSavedTickets];
-	[self setDisplayPlugins:[[GrowlPluginController controller] allDisplayPlugins]];
+	[self setDisplayPlugins:[[GrowlPluginController sharedController] allDisplayPlugins]];
 	[self setTickets:[[ticketController allSavedTickets] allValues]];
 	[self setSquelchMode:[self squelchMode]];
 	[self setGrowlMenuEnabled:[self growlMenuEnabled]];
