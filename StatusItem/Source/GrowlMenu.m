@@ -114,7 +114,7 @@ int main(void) {
 
 - (void) openGrowlPreferences:(id)sender {
 #pragma unused(sender)
-	NSString *prefPane = [[GrowlPathUtil growlPrefPaneBundle] bundlePath];
+	NSString *prefPane = [[GrowlPathUtilities growlPrefPaneBundle] bundlePath];
 	[[NSWorkspace sharedWorkspace] openFile:prefPane];
 }
 
@@ -196,7 +196,7 @@ int main(void) {
 
 	NSMenu *displays = [[NSMenu allocWithZone:menuZone] init];
 	NSString *name;
-	NSEnumerator *displayEnumerator = [[[GrowlPluginController controller] allDisplayPlugins] objectEnumerator];
+	NSEnumerator *displayEnumerator = [[[GrowlPluginController sharedController] allDisplayPlugins] objectEnumerator];
 	while ((name = [displayEnumerator nextObject])) {
 		tempMenuItem = (NSMenuItem *)[displays addItemWithTitle:name action:@selector(defaultDisplay:) keyEquivalent:@""];
 		[tempMenuItem setTarget:self];
