@@ -20,9 +20,6 @@
 
 #import <ApplicationServices/ApplicationServices.h>
 
-#define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY			@"PreferencePanes"
-#define PREFERENCE_PANE_EXTENSION						@"prefPane"
-
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
 # define TRY		@try {
 # define ENDTRY		}

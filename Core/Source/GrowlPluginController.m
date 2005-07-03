@@ -71,7 +71,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 
 - (NSSet *) pluginPathExtensions {
 	//XXX: make this non-hard-coded so that plug-ins can have plug-ins
-	NSString *pathExtensions[] = { @"growlStyle", @"growlView", @"growlPlugin" };
+	NSString *pathExtensions[] = { GROWL_STYLE_EXTENSION, GROWL_VIEW_EXTENSION, GROWL_PLUGIN_EXTENSION };
 	static CFSetCallBacks callbacks;
 	static BOOL hasSetUpCallbacks = NO;
 	if (!hasSetUpCallbacks) {
@@ -110,8 +110,8 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 
 #pragma mark -
 
-- (GrowlDisplayPlugin *) displayPluginInstanceWithName:(NSString *)name {
-	GrowlDisplayPlugin *plugin = [pluginInstances objectForKey:name];
+- (id<GrowlDisplayPlugin>) displayPluginInstanceWithName:(NSString *)name {
+	id<GrowlDisplayPlugin> plugin = [pluginInstances objectForKey:name];
 	if (!plugin) {
 		NSBundle *pluginBundle = [pluginBundles objectForKey:name];
 		NSString *filename = [[pluginBundle bundlePath] lastPathComponent];
@@ -143,8 +143,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 }
 
 - (NSBundle *) displayPluginBundleWithName:(NSString *)name {
-	GrowlDisplayPlugin *plugin = [pluginBundles objectForKey:name];
-	return [plugin isKindOfClass:[GrowlDisplayPlugin class]] ? plugin : nil;
+	return [pluginBundles objectForKey:name];
 }
 
 - (void) findPluginsInDirectory:(NSString *)dir {

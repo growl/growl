@@ -6,11 +6,10 @@
  */
 
 #import <CoreFoundation/CoreFoundation.h>
-#import <CoreFoundation/CFArray.h>
 #import "SCDynamicStore.h"
 
 @interface SCDynamicStore (PRIVATE)
-- (void)notificationOfChangedKeys:(NSArray*)changedKeys;
+- (void) notificationOfChangedKeys:(NSArray*)changedKeys;
 @end
 
 @interface SLObserver : NSObject
@@ -19,9 +18,9 @@
 	SEL selector;
 }
 
-+ (id)observer:(id)anObserver withSelector:(SEL)aSelector;
-- (id)observer;
-- (SEL)selector;
++ (id) observer:(id)anObserver withSelector:(SEL)aSelector;
+- (id) observer;
+- (SEL) selector;
 
 @end
 

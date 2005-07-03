@@ -250,7 +250,7 @@ static GrowlApplicationController *singleton = nil;
 
 - (void) showPreview:(NSNotification *) note {
 	NSString *displayName = [note object];
-	id <GrowlDisplayPlugin> displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayName];
+	id <GrowlDisplayPlugin> displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayName];
 
 	NSString *desc = [[NSString alloc] initWithFormat:@"This is a preview of the %@ display", displayName];
 	NSNumber *priority = [[NSNumber alloc] initWithInt:0];
@@ -418,7 +418,7 @@ static GrowlApplicationController *singleton = nil;
 		if (!display) {
 			NSString *displayPluginName = [aDict objectForKey:GROWL_DISPLAY_PLUGIN];
 			if (displayPluginName)
-				display = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
+				display = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
 		}
 
 		if (!display)
@@ -881,7 +881,7 @@ static GrowlApplicationController *singleton = nil;
 
 - (void) loadDisplay {
 	NSString *displayPlugin = [[GrowlPreferencesController preferences] objectForKey:GrowlDisplayPluginKey];
-	displayController = [[GrowlPluginController controller] displayPluginNamed:displayPlugin];
+	displayController = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPlugin];
 }
 
 #pragma mark -

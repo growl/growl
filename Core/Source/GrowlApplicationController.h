@@ -37,7 +37,7 @@
 	// UDP server
 	GrowlUDPPathway				*udpServer;
 
-	GrowlDisplayPlugin			*displayController;
+	id <GrowlDisplayPlugin>		displayController;
 
 	BOOL						growlIsEnabled;
 	BOOL						growlFinishedLaunching;

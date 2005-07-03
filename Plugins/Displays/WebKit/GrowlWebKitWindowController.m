@@ -111,7 +111,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
 	//[panel setDelegate:self];
 
-	NSBundle *styleBundle = [[GrowlPluginController controller] bundleForPluginNamed:style];
+	NSBundle *styleBundle = [[GrowlPluginController sharedController] pluginBundleWithName:style type:GROWL_STYLE_EXTENSION];
 	NSDictionary *styleInfo = [styleBundle infoDictionary];
 	NSNumber *hasShadow = [styleInfo objectForKey:@"GrowlHasShadow"];
 	[panel setHasShadow:(hasShadow && [hasShadow boolValue])];
@@ -204,7 +204,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 			break;
 	}
 
-	NSBundle *styleBundle = [[GrowlPluginController controller] bundleForPluginNamed:style];
+	NSBundle *styleBundle = [[GrowlPluginController sharedController] pluginBundleWithName:style type:GROWL_STYLE_EXTENSION];
 	NSString *templateFile = [styleBundle pathForResource:@"template" ofType:@"html"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile])
 		templateFile = [[NSBundle mainBundle] pathForResource:@"template" ofType:@"html"];
@@ -350,7 +350,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (void) takeScreenshot {
 	NSView *view = [[[[self window] contentView] mainFrame] frameView];
-	NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:@"pdf"];
+	NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"pdf"];
 	[[view dataWithPDFInsideRect:[view frame]] writeToFile:path atomically:NO];
 }
 

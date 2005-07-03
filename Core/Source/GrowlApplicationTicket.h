@@ -10,7 +10,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class GrowlApplicationNotification, GrowlDisplayPlugin;
+@class GrowlApplicationNotification;
+@protocol GrowlDisplayPlugin;
 
 @interface GrowlApplicationTicket : NSObject {
 	NSString		*appName;					// This app's name for display by notifications that want it
@@ -23,7 +24,7 @@
 	NSArray			*defaultNotifications;		// The default notifications
 
 	NSString		*displayPluginName;
-	GrowlDisplayPlugin *displayPlugin;		// Non-nil if this ticket uses a custom display plugin
+	id<GrowlDisplayPlugin> displayPlugin;		// Non-nil if this ticket uses a custom display plugin
 
 	BOOL			useDefaults;				// Flag for whether this ticket just uses default
 	BOOL			ticketEnabled;
@@ -65,7 +66,7 @@
 - (void) setUseDefaults:(BOOL)flag;
 
 - (NSString *) displayPluginName;
-- (GrowlDisplayPlugin *) displayPlugin;
+- (id<GrowlDisplayPlugin>) displayPlugin;
 - (void) setDisplayPluginName: (NSString *)name;
 
 #pragma mark -

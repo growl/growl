@@ -69,24 +69,24 @@
 			   name:NSWorkspaceWillSleepNotification
 			 object:ws];
 
-	fwNotifier = [[FireWireNotifier alloc] initWithDelegate:self];
-	usbNotifier = [[USBNotifier alloc] initWithDelegate:self];
-	btNotifier = [[BluetoothNotifier alloc] initWithDelegate:self];
-	volNotifier = [[VolumeNotifier alloc] initWithDelegate:self];
-	netNotifier = [[NetworkNotifier alloc] initWithDelegate:self];
+	fwNotifier  = [[FireWireNotifier  alloc] initWithDelegate:self];
+	usbNotifier = [[USBNotifier       alloc] initWithDelegate:self];
+	btNotifier  = [[BluetoothNotifier alloc] initWithDelegate:self];
+	volNotifier = [[VolumeNotifier    alloc] initWithDelegate:self];
+	netNotifier = [[NetworkNotifier   alloc] initWithDelegate:self];
 }
 
 - (void) dealloc {
-	[fwNotifier release];
+	[fwNotifier  release];
 	[usbNotifier release];
-	[btNotifier release];
+	[btNotifier  release];
 	[volNotifier release];
 	[netNotifier release];
 
 	[bluetoothLogoData release];
-	[ejectLogoData release];
-	[airportIconData release];
-	[ipIconData release];
+	[ejectLogoData     release];
+	[airportIconData   release];
+	[ipIconData        release];
 
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self
 																 name:nil
@@ -102,7 +102,7 @@
 - (NSDictionary *) registrationDictionaryForGrowl {
 	//	Register with Growl
 
-	NSArray *notifications = [NSArray arrayWithObjects:
+	NSArray *notifications = [[NSArray alloc] initWithObjects:
 		NotifierBluetoothConnectionNotification,
 		NotifierBluetoothDisconnectionNotification,
 		NotifierFireWireConnectionNotification,
@@ -124,6 +124,8 @@
 		notifications, GROWL_NOTIFICATIONS_ALL,
 		notifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
+
+	[notifications release];
 
 	return regDict;
 }

@@ -314,7 +314,7 @@
 	return displayPluginName;
 }
 
-- (GrowlDisplayPlugin *) displayPlugin {
+- (id<GrowlDisplayPlugin>) displayPlugin {
 	return displayPlugin;
 }
 

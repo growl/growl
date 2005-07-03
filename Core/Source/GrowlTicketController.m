@@ -9,8 +9,6 @@
 #import "GrowlTicketController.h"
 #import "GrowlPathUtilities.h"
 
-#define GROWL_PATHEXTENSION_TICKET	@"growlTicket"
-
 static GrowlTicketController *singleton = nil;
 
 @implementation GrowlTicketController

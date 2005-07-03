@@ -18,8 +18,7 @@
 
 #pragma mark Constants
 
-#define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY			CFSTR("PreferencePanes")
-#define PREFERENCE_PANE_EXTENSION						CFSTR("prefPane")
+#define PREFERENCE_PANE_EXTENSION			CFSTR("prefPane")
 
 #define GROWL_PREFPANE_BUNDLE_IDENTIFIER	CFSTR("com.growl.prefpanel")
 #define GROWL_PREFPANE_NAME					CFSTR("Growl.prefPane")

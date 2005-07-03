@@ -30,7 +30,7 @@
 
 - (void) takeScreenshot {
 	NSView *view = [[self window] contentView];
-	NSString *path = [[[GrowlPathUtil screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtil nextScreenshotName]] stringByAppendingPathExtension:@"png"];
+	NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"png"];
 	[[view dataWithPNGInsideRect:[view frame]] writeToFile:path atomically:NO];
 }
 

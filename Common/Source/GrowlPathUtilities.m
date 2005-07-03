@@ -8,12 +8,18 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlPathUtilities.h"
+#import "GrowlApplicationBridge.h"
+#import "GrowlPreferencesController.h"
+#import "GrowlTicketController.h"
 
 static NSBundle *helperAppBundle;
 static NSBundle *prefPaneBundle;
 
-#define NAME_OF_SCREENSHOTS_DIRECTORY @"Screenshots"
-#define NAME_OF_TICKETS_DIRECTORY     @"Tickets"
+#define NAME_OF_SCREENSHOTS_DIRECTORY			@"Screenshots"
+#define NAME_OF_TICKETS_DIRECTORY				@"Tickets"
+
+#define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY	@"PreferencePanes"
+#define PREFERENCE_PANE_EXTENSION				@"prefPane"
 
 @implementation GrowlPathUtilities
 
@@ -196,12 +202,12 @@ static NSBundle *prefPaneBundle;
 		//if this doesn't return any writable directories, path will still be nil.
 		searchPath = [self searchPathForDirectory:NSLibraryDirectory inDomains:NSAllDomainsMask mustBeWritable:YES];
 		if ([searchPath count]) {
-			path = [[[searchPath objectAtIndex:0U] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"Growl"];
+			path = [[searchPath objectAtIndex:0U] stringByAppendingPathComponent:@"Application Support/Growl"];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
 			if (![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
 				path = nil;
 		}
-		
+
 		return path;
 	}
 }
@@ -214,9 +220,9 @@ static NSBundle *prefPaneBundle;
 		NSString *path = nil;
 
 		//if this doesn't return any writable directories, path will still be nil.
-		searchPath = [self growlSupportDirectory];
-		if ([searchPath count]) {
-			path = [[searchPath objectAtIndex:0U] stringByAppendingPathComponent:NAME_OF_SCREENSHOTS_DIRECTORY];
+		path = [self growlSupportDirectory];
+		if (path) {
+			path = [path stringByAppendingPathComponent:NAME_OF_SCREENSHOTS_DIRECTORY];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
 			if (![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
 				path = nil;
@@ -234,9 +240,9 @@ static NSBundle *prefPaneBundle;
 		NSString *path = nil;
 		
 		//if this doesn't return any writable directories, path will still be nil.
-		searchPath = [self growlSupportDirectory];
-		if ([searchPath count]) {
-			path = [[searchPath objectAtIndex:0U] stringByAppendingPathComponent:NAME_OF_TICKETS_DIRECTORY];
+		path = [self growlSupportDirectory];
+		if (path) {
+			path = [path stringByAppendingPathComponent:NAME_OF_TICKETS_DIRECTORY];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
 			if (![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
 				path = nil;
@@ -257,7 +263,7 @@ static NSBundle *prefPaneBundle;
 	NSFileManager *mgr = [NSFileManager defaultManager];
 
 	if (!directory)
-		directory = [GrowlPathUtil screenshotsDirectory];
+		directory = [GrowlPathUtilities screenshotsDirectory];
 
 	//build a set of all the files in the directory, without their filename extensions.
 	NSArray *origContents = [mgr directoryContentsAtPath:directory];
@@ -285,7 +291,7 @@ static NSBundle *prefPaneBundle;
 #pragma mark Tickets
 
 + (NSString *) defaultSavePathForTicketWithApplicationName:(NSString *) appName {
-	return [[self ticketsDirectory] stringByAppendingPathComponent:[appName stringByAppendingPathExtension:GROWL_TICKET_EXTENSION]];
+	return [[self ticketsDirectory] stringByAppendingPathComponent:[appName stringByAppendingPathExtension:GROWL_PATHEXTENSION_TICKET]];
 }
 
 @end

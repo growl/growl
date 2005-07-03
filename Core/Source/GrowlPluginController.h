@@ -7,9 +7,13 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-@class GrowlPlugin, GrowlDisplayPlugin;
+#define GROWL_VIEW_EXTENSION	@"growlView"
+#define GROWL_STYLE_EXTENSION	@"growlStyle"
+#define GROWL_PLUGIN_EXTENSION	@"growlPlugin"
+
+@protocol GrowlPlugin, GrowlDisplayPlugin;
 
 @interface GrowlPluginController : NSObject {
 	//keys: plug-in names; values: GrowlPlugins.
@@ -37,10 +41,10 @@
 //returns an array of display plug-ins (WebKit and Obj-C both).
 - (NSArray *) displayPlugins;
 
-- (GrowlDisplayPlugin *) displayPluginInstanceWithName:(NSString *)name;
+- (id<GrowlDisplayPlugin>) displayPluginInstanceWithName:(NSString *)name;
 -           (NSBundle *)   displayPluginBundleWithName:(NSString *)name;
 
-- (GrowlPlugin *) pluginInstanceWithName:(NSString *)name type:(NSString *)type;
+- (id<GrowlPlugin>) pluginInstanceWithName:(NSString *)name type:(NSString *)type;
 -    (NSBundle *)   pluginBundleWithName:(NSString *)name type:(NSString *)type;
 
 - (void) installPlugin:(NSString *)filename;

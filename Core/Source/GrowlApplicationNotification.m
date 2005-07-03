@@ -162,7 +162,7 @@
 	[displayPluginName release];
 	displayPluginName = [pluginName copy];
 	if (displayPluginName)
-		displayPlugin = [[GrowlPluginController controller] displayPluginNamed:displayPluginName];
+		displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
 	else
 		displayPlugin = nil;
 	[ticket synchronize];

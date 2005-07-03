@@ -6,6 +6,8 @@
 //  Copyright 2005 Mac-arena the Bored Zo. All rights reserved.
 //
 
+#define GROWL_PATHEXTENSION_TICKET	@"growlTicket"
+
 @class GrowlApplicationTicket;
 
 @interface GrowlTicketController: NSObject
