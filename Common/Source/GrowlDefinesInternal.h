@@ -225,6 +225,24 @@ struct GrowlNetworkNotification {
  */
 #define GROWL_REMOTE_ADDRESS			XSTR("RemoteAddress")
 
+/*!
+ *	@defined    GROWL_PREFPANE_BUNDLE_IDENTIFIER
+ *	@discussion The bundle identifier for the Growl preference pane.
+ */
+#define GROWL_PREFPANE_BUNDLE_IDENTIFIER		XSTR("com.growl.prefpanel")
+/*!
+ *	@defined    GROWL_PREFPANE_NAME
+ *	@discussion The file name of the Growl preference pane.
+ */
+#define GROWL_PREFPANE_NAME						XSTR("Growl.prefPane")
+#define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY	XSTR("PreferencePanes")
+#define PREFERENCE_PANE_EXTENSION				XSTR("prefPane")
+
+//plug-in bundle filename extensions
+#define GROWL_PLUGIN_EXTENSION                  XSTR("growlPlugin")
+#define GROWL_VIEW_EXTENSION					XSTR("growlView")
+#define GROWL_STYLE_EXTENSION					XSTR("growlStyle")
+
 /* --- These following macros are intended for plug-ins --- */
 
 /*Since anything that needs the include guards won't be using these macros, we

@@ -19,9 +19,6 @@ static NSBundle *prefPaneBundle;
 #define NAME_OF_TICKETS_DIRECTORY               @"Tickets"
 #define NAME_OF_PLUGINS_DIRECTORY               @"Plugins"
 
-#define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY   @"PreferencePanes"
-#define PREFERENCE_PANE_EXTENSION               @"prefPane"
-
 @implementation GrowlPathUtilities
 
 #pragma mark Bundles

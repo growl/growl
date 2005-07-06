@@ -37,8 +37,6 @@ enum {
 //for associating the update version with the window.
 #define GIPC_UPDATE_VERSION FOUR_CHAR_CODE('UPDV')
 
-#define GROWL_PREFPANE_NAME					CFSTR("Growl.prefPane")
-
 #pragma mark -
 
 //from GrowlApplicationBridge.

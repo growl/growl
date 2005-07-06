@@ -9,10 +9,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define GROWL_VIEW_EXTENSION	@"growlView"
-#define GROWL_STYLE_EXTENSION	@"growlStyle"
-#define GROWL_PLUGIN_EXTENSION	@"growlPlugin"
-
 @protocol GrowlPlugin, GrowlDisplayPlugin;
 
 @interface GrowlPluginController : NSObject {
