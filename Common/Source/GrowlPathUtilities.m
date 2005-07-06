@@ -15,11 +15,12 @@
 static NSBundle *helperAppBundle;
 static NSBundle *prefPaneBundle;
 
-#define NAME_OF_SCREENSHOTS_DIRECTORY			@"Screenshots"
-#define NAME_OF_TICKETS_DIRECTORY				@"Tickets"
+#define NAME_OF_SCREENSHOTS_DIRECTORY           @"Screenshots"
+#define NAME_OF_TICKETS_DIRECTORY               @"Tickets"
+#define NAME_OF_PLUGINS_DIRECTORY               @"Plugins"
 
-#define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY	@"PreferencePanes"
-#define PREFERENCE_PANE_EXTENSION				@"prefPane"
+#define PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY   @"PreferencePanes"
+#define PREFERENCE_PANE_EXTENSION               @"prefPane"
 
 @implementation GrowlPathUtilities
 
@@ -156,6 +157,10 @@ static NSBundle *prefPaneBundle;
 
 			case GrowlTicketsDirectory:
 				subpath = NAME_OF_TICKETS_DIRECTORY;
+				break;
+
+			case GrowlPluginsDirectory:
+				subpath = NAME_OF_PLUGINS_DIRECTORY;
 				break;
 
 			default:

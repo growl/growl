@@ -19,6 +19,7 @@ enum {
 	//all other directory constants refer to subdirectories of Growl Support.
 	GrowlScreenshotsDirectory,
 	GrowlTicketsDirectory,
+	GrowlPluginsDirectory,
 };
 typedef NSSearchPathDomainMask GrowlSearchPathDomainMask; //consistency
 
