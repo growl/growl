@@ -11,6 +11,7 @@
 #import "GrowlApplicationBridge.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlTicketController.h"
+#import "GrowlDefinesInternal.h"
 
 static NSBundle *helperAppBundle;
 static NSBundle *prefPaneBundle;

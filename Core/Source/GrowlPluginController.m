@@ -10,6 +10,7 @@
 #import "GrowlPluginController.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlDisplayProtocol.h"
+#import "GrowlDefinesInternal.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlWebKitController.h"
 

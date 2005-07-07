@@ -22,18 +22,6 @@
 //Forward declarations
 @protocol GrowlApplicationBridgeDelegate;
 
-/*!
- *	@defined    GROWL_PREFPANE_BUNDLE_IDENTIFIER
- *	@discussion The bundle identifier for the Growl prefpane.
- */
-#define GROWL_PREFPANE_BUNDLE_IDENTIFIER	@"com.growl.prefpanel"
-
-/*!
- *	@defined    GROWL_PREFPANE_NAME
- *	@discussion The file name of the Growl prefpane.
- */
-#define GROWL_PREFPANE_NAME					@"Growl.prefPane"
-
 //Internal notification when the user chooses not to install (to avoid continuing to cache notifications awaiting installation)
 #define GROWL_USER_CHOSE_NOT_TO_INSTALL_NOTIFICATION @"User chose not to install"
 
