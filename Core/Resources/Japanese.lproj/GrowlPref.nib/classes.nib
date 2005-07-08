@@ -15,7 +15,7 @@
                 showPreview = id; 
                 startStopGrowl = id; 
             }; 
-            CLASS = GrowlPref; 
+            CLASS = GrowlPreferencePane; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 aboutBoxTextView = NSTextView; 

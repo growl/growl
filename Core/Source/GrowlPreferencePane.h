@@ -1,5 +1,5 @@
 //
-//  GrowlPref.h
+//  GrowlPreferencePane.h
 //  Growl
 //
 //  Created by Karl Adam on Wed Apr 21 2004.
@@ -13,7 +13,7 @@
 
 @class GrowlApplicationTicket, TicketsArrayController;
 
-@interface GrowlPref : NSPreferencePane {
+@interface GrowlPreferencePane : NSPreferencePane {
 	int								pid;
 
 	NSMutableArray					*images;

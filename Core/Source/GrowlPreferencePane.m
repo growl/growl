@@ -1,5 +1,5 @@
 //
-//  GrowlPref.m
+//  GrowlPreferencePane.m
 //  Growl
 //
 //  Created by Karl Adam on Wed Apr 21 2004.
@@ -7,7 +7,7 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import "GrowlPref.h"
+#import "GrowlPreferencePane.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
@@ -40,7 +40,7 @@
 
 @end
 
-@implementation GrowlPref
+@implementation GrowlPreferencePane
 
 - (id) initWithBundle:(NSBundle *)bundle {
 	//	Check that we're running Panther
@@ -242,7 +242,7 @@
 
 	[self setupAboutTab];
 
-	if ([self growlMenuEnabled] && ![GrowlPref isGrowlMenuRunning])
+	if ([self growlMenuEnabled] && ![GrowlPreferencePane isGrowlMenuRunning])
 		[self enableGrowlMenu];
 
 	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];

@@ -8,11 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class GrowlPref;
+@class GrowlPreferencePane;
 
 @interface GrowlBrowserEntry : NSObject {
 	NSMutableDictionary *properties;
-	GrowlPref			*owner;
+	GrowlPreferencePane			*owner;
 }
 - (id) initWithDictionary:(NSDictionary *)dict;
 - (id) initWithComputerName:(NSString *)name netService:(NSNetService *)service;
@@ -32,6 +32,6 @@
 - (NSDictionary *) properties;
 
 - (void) setAddress:(NSData *)address;
-- (void) setOwner:(GrowlPref *)pref;
+- (void) setOwner:(GrowlPreferencePane *)pref;
 
 @end

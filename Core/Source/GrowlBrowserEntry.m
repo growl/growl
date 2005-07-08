@@ -7,7 +7,7 @@
 //
 
 #import "GrowlBrowserEntry.h"
-#import "GrowlPref.h"
+#import "GrowlPreferencePane.h"
 #import "NSDictionaryAdditions.h"
 #import "NSMutableDictionaryAdditions.h"
 
@@ -79,7 +79,7 @@
 	[owner writeForwardDestinations];
 }
 
-- (void) setOwner:(GrowlPref *)pref {
+- (void) setOwner:(GrowlPreferencePane *)pref {
 	owner = pref;
 }
 
