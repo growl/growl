@@ -196,7 +196,7 @@ int main(void) {
 
 	NSMenu *displays = [[NSMenu allocWithZone:menuZone] init];
 	NSString *name;
-	NSEnumerator *displayEnumerator = [[[GrowlPluginController sharedController] allDisplayPlugins] objectEnumerator];
+	NSEnumerator *displayEnumerator = [[[GrowlPluginController sharedController] displayPlugins] objectEnumerator];
 	while ((name = [displayEnumerator nextObject])) {
 		tempMenuItem = (NSMenuItem *)[displays addItemWithTitle:name action:@selector(defaultDisplay:) keyEquivalent:@""];
 		[tempMenuItem setTarget:self];
