@@ -26,6 +26,22 @@ there is no way for the test script to tell if it's working, and therefore will
 always report success. If you don't see the notification, check console, wait
 a while and try again, and/or ask in #growl on irc.freenode.net.
 
+
+NOTE: Mac OS X v10.4 "Tiger"
+
+If you are using the Perl included with Tiger, Mac::Glue is already installed
+(as are Mac::OSA::Simple, and MacPerl; see "Architecture" in the Mac::Growl
+manpage for more information).  However, it is not installed entirely.  The
+following steps should be run from the command line to complete installation,
+before installing Mac::Growl:
+
+   cd /System/Library/Perl/Extras/bin/
+   sudo ./gluedialect
+   sudo ./gluescriptadds 
+   sudo ./gluemac '/System/Library/CoreServices/System Events.app'
+   sudo ./gluemac /System/Library/CoreServices/Finder.app
+
+
 DEPENDENCIES
 
 This module should work on any Mac OS X system, although it requires
