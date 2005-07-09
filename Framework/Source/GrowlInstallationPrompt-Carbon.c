@@ -10,6 +10,7 @@
 #include "GrowlInstallationPrompt-Carbon.h"
 #include "GrowlApplicationBridge-Carbon.h"
 #include "GrowlDefines.h"
+#include "GrowlDefinesInternal.h"
 
 #include <QuickTime/QuickTime.h>
 #include <alloca.h>

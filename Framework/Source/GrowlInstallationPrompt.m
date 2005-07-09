@@ -9,6 +9,7 @@
 #import "GrowlInstallationPrompt.h"
 #import "GrowlApplicationBridge.h"
 #import "GrowlDefines.h"
+#import "GrowlDefinesInternal.h"
 
 #define GROWL_INSTALLATION_NIB     @"GrowlInstallationPrompt"
 #define GROWL_INSTALLATION_STRINGS @"GrowlInstallation.strings"

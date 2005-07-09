@@ -8,20 +8,15 @@
 //    program.
 //
 
+#include "GrowlDefinesInternal.h"
 #include "GrowlApplicationBridge-Carbon.h"
 #include "GrowlInstallationPrompt-Carbon.h"
 #include "GrowlDefines.h"
-#include "GrowlDefinesInternal.h"
 #include "CFGrowlAdditions.h"
 #include "GrowlVersionUtilities.h"
 #include <unistd.h>
 
 #pragma mark Constants
-
-#define PREFERENCE_PANE_EXTENSION			CFSTR("prefPane")
-
-#define GROWL_PREFPANE_BUNDLE_IDENTIFIER	CFSTR("com.growl.prefpanel")
-#define GROWL_PREFPANE_NAME					CFSTR("Growl.prefPane")
 
 #define GROWL_WITHINSTALLER_FRAMEWORK_IDENTIFIER CFSTR("com.growl.growlwithinstallerframework")
 
