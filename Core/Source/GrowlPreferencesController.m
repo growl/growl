@@ -61,9 +61,9 @@ static GrowlPreferencesController *sharedPreferences;
 }
 
 - (void) setObject:(id)object forKey:(NSString *)key {
-	CFPreferencesSetAppValue((CFStringRef)key			/* key */,
-							 (CFPropertyListRef)object /* value */,
-							 (CFStringRef)HelperAppBundleIdentifier) /* application ID */;\
+	CFPreferencesSetAppValue((CFStringRef)key,
+							 (CFPropertyListRef)object,
+							 (CFStringRef)HelperAppBundleIdentifier);
 
 	CFPreferencesAppSynchronize((CFStringRef)HelperAppBundleIdentifier);
 
