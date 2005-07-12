@@ -166,7 +166,6 @@
 }
 
 - (void) stopDisplay {
-	[self stopDisplayTimer];
 	if (isFadingIn) {
 		autoFadeOut = NO;
 		[self stopFadeIn]; //posts didDisplayNotification
