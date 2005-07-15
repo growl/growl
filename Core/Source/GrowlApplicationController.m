@@ -106,7 +106,7 @@ static GrowlApplicationController *singleton = nil;
 
 		[self versionDictionary];
 
-		GrowlPreferencesController *preferences = [GrowlPreferencesController preferences];
+		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 		NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithContentsOfFile:
 			[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]];
 		[preferences registerDefaults:defaultDefaults];
@@ -237,7 +237,7 @@ static GrowlApplicationController *singleton = nil;
 }
 
 - (void) startStopServer {
-	BOOL enabled = [[GrowlPreferencesController preferences] boolForKey:GrowlStartServerKey];
+	BOOL enabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey];
 
 	// Setup notification server
 	if (enabled && !service)
@@ -399,7 +399,7 @@ static GrowlApplicationController *singleton = nil;
 		value = [NSNumber numberWithInt:priority];
 	[aDict setObject:value forKey:GROWL_NOTIFICATION_PRIORITY];
 
-	GrowlPreferencesController *preferences = [GrowlPreferencesController preferences];
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 
 	// Retrieve and set the sticky bit of the notification
 	int sticky = [notification sticky];
@@ -507,7 +507,7 @@ static GrowlApplicationController *singleton = nil;
 
 - (void) checkVersion:(NSTimer *)timer {
 #pragma unused(timer)
-	GrowlPreferencesController *preferences = [GrowlPreferencesController preferences];
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 
 	if (![preferences boolForKey:GrowlUpdateCheckKey])
 		return;
@@ -621,14 +621,14 @@ static GrowlApplicationController *singleton = nil;
 	if (!note || (object && [object isEqualTo:GrowlStartServerKey]))
 		[self startStopServer];
 	if (!note || (object && [object isEqualTo:GrowlUserDefaultsKey]))
-		[[GrowlPreferencesController preferences] synchronize];
+		[[GrowlPreferencesController sharedController] synchronize];
 	if (!note || (object && [object isEqualTo:GrowlEnabledKey]))
-		growlIsEnabled = [[GrowlPreferencesController preferences] boolForKey:GrowlEnabledKey];
+		growlIsEnabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlEnabledKey];
 	if (!note || (object && [object isEqualTo:GrowlEnableForwardKey]))
-		enableForward = [[GrowlPreferencesController preferences] boolForKey:GrowlEnableForwardKey];
+		enableForward = [[GrowlPreferencesController sharedController] boolForKey:GrowlEnableForwardKey];
 	if (!note || (object && [object isEqualTo:GrowlForwardDestinationsKey])) {
 		[destinations release];
-		destinations = [[[GrowlPreferencesController preferences] objectForKey:GrowlForwardDestinationsKey] retain];
+		destinations = [[[GrowlPreferencesController sharedController] objectForKey:GrowlForwardDestinationsKey] retain];
 	}
 	if (!note || !object)
 		[ticketController loadAllSavedTickets];
@@ -880,7 +880,7 @@ static GrowlApplicationController *singleton = nil;
 @implementation GrowlApplicationController (private)
 
 - (void) loadDisplay {
-	NSString *displayPlugin = [[GrowlPreferencesController preferences] objectForKey:GrowlDisplayPluginKey];
+	NSString *displayPlugin = [[GrowlPreferencesController sharedController] objectForKey:GrowlDisplayPluginKey];
 	displayController = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPlugin];
 }
 

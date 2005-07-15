@@ -70,7 +70,7 @@
 		NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithContentsOfFile:
 			[bundle pathForResource:@"GrowlDefaults"
 							 ofType:@"plist"]];
-		[[GrowlPreferencesController preferences] registerDefaults:defaultDefaults];
+		[[GrowlPreferencesController sharedController] registerDefaults:defaultDefaults];
 		[defaultDefaults release];
 	}
 
@@ -94,6 +94,99 @@
 	[growlForumURL   release];
 	[growlTracURL    release];
 	[super dealloc];
+}
+
+- (void) awakeFromNib {
+	NSTableColumn *tableColumn = [growlApplications tableColumnWithIdentifier:@"application"];
+	ACImageAndTextCell *imageAndTextCell = [[ACImageAndTextCell alloc] init];
+	[imageAndTextCell setEditable:YES];
+	[tableColumn setDataCell:imageAndTextCell];
+	[imageAndTextCell release];
+	// TODO: this does not work
+	//NSSecureTextFieldCell *secureTextCell = [[NSSecureTextFieldCell alloc] init];
+	//[servicePasswordColumn setDataCell:secureTextCell];
+	//[secureTextCell release];
+
+	NSButtonCell *cell = [notificationStickyColumn dataCell];
+	[cell setAllowsMixedState:YES];
+
+	// NSCreatesSortDescriptorBindingOption is only available on 10.4 or later
+	NSNumber *no = [[NSNumber alloc] initWithBool:NO];
+	NSDictionary *bindOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
+		no, @"NSCreatesSortDescriptor", //NSCreatesSortDescriptorBindingOption,
+		nil];
+	[no release];
+
+	// we have to establish this binding programmatically in order to use NSMixedState
+	[notificationStickyColumn bind:@"value"
+						  toObject:notificationsArrayController
+					   withKeyPath:@"arrangedObjects.sticky"
+						   options:bindOptions];
+	[bindOptions release];
+
+	[ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
+	[displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
+
+	[self setCanRemoveTicket:NO];
+
+	browser = [[NSNetServiceBrowser alloc] init];
+
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+
+	// create a deep mutable copy of the forward destinations
+	NSArray *destinations = [preferences objectForKey:GrowlForwardDestinationsKey];
+	NSEnumerator *destEnum = [destinations objectEnumerator];
+	NSMutableArray *theServices = [[NSMutableArray alloc] initWithCapacity:[destinations count]];
+	NSDictionary *destination;
+	while ((destination = [destEnum nextObject])) {
+		GrowlBrowserEntry *entry = [[GrowlBrowserEntry alloc] initWithDictionary:destination];
+		[entry setOwner:self];
+		[theServices addObject:entry];
+		[entry release];
+	}
+	[self setServices:theServices];
+	[theServices release];
+
+	[browser setDelegate:self];
+	[browser searchForServicesOfType:@"_growl._tcp." inDomain:@""];
+
+	[self setupAboutTab];
+
+	if ([self growlMenuEnabled] && ![GrowlPreferencePane isGrowlMenuRunning])
+		[self enableGrowlMenu];
+
+	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
+	growlForumURL   = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
+	growlTracURL    = [[NSURL alloc] initWithString:@"http://trac.growl.info/trac"];
+	NSString *growlWebSiteURLString = [growlWebSiteURL absoluteString];
+	NSString *growlForumURLString   = [growlForumURL   absoluteString];
+	NSString *growlTracURLString    = [growlTracURL    absoluteString];
+
+	[growlWebSite setAttributedTitle:         [growlWebSiteURLString       hyperlink]];
+	[growlWebSite setAttributedAlternateTitle:[growlWebSiteURLString activeHyperlink]];
+	[[growlWebSite cell] setHighlightsBy:NSContentsCellMask];
+	[growlForum   setAttributedTitle:         [growlForumURLString         hyperlink]];
+	[growlForum   setAttributedAlternateTitle:[growlForumURLString   activeHyperlink]];
+	[[growlForum   cell] setHighlightsBy:NSContentsCellMask];
+	[growlTrac    setAttributedTitle:         [growlTracURLString          hyperlink]];
+	[growlTrac    setAttributedAlternateTitle:[growlTracURLString    activeHyperlink]];
+	[[growlTrac    cell] setHighlightsBy:NSContentsCellMask];
+
+	customHistArray = [[NSMutableArray alloc] initWithObjects:
+		[preferences objectForKey:GrowlCustomHistKey1],
+		[preferences objectForKey:GrowlCustomHistKey2],
+		[preferences objectForKey:GrowlCustomHistKey3],
+		nil];
+	[self updateLogPopupMenu];
+	int typePref = [preferences integerForKey:GrowlLogTypeKey];
+	[logFileType selectCellAtRow:typePref column:0];
+}
+
+- (void) mainViewDidLoad {
+	[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+														selector:@selector(appRegistered:)
+															name:GROWL_APP_REGISTRATION_CONF
+														  object:nil];
 }
 
 #pragma mark -
@@ -159,129 +252,12 @@
 }
 
 + (BOOL) isGrowlMenuRunning {
-	return [[GrowlPreferencesController preferences] isRunning:@"com.Growl.MenuExtra"];
-}
-
-- (void) enableGrowlMenu {
-	NSString *growlMenuPath = [[self bundle] pathForResource:@"GrowlMenu" ofType:@"app"];
-
-	// We want to launch in background, so we have to resort to Carbon
-	LSLaunchFSRefSpec spec;
-	FSRef appRef;
-	OSStatus status = FSPathMakeRef((const UInt8 *)[growlMenuPath fileSystemRepresentation], &appRef, NULL);
-
-	if (status == noErr) {
-		spec.appRef = &appRef;
-		spec.numDocs = 0U;
-		spec.itemRefs = NULL;
-		spec.passThruParams = NULL;
-		spec.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchNoParams | kLSLaunchAsync | kLSLaunchDontSwitch;
-		spec.asyncRefCon = NULL;
-		LSOpenFromRefSpec(&spec, NULL);
-	}
-}
-
-- (void) disableGrowlMenu {
-	// Ask GrowlMenu to shutdown via the DNC
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GrowlMenuShutdown" object:nil];
-}
-
-- (void) awakeFromNib {
-	NSTableColumn *tableColumn = [growlApplications tableColumnWithIdentifier:@"application"];
-	ACImageAndTextCell *imageAndTextCell = [[ACImageAndTextCell alloc] init];
-	[imageAndTextCell setEditable:YES];
-	[tableColumn setDataCell:imageAndTextCell];
-	[imageAndTextCell release];
-	// TODO: this does not work
-	//NSSecureTextFieldCell *secureTextCell = [[NSSecureTextFieldCell alloc] init];
-	//[servicePasswordColumn setDataCell:secureTextCell];
-	//[secureTextCell release];
-
-	NSButtonCell *cell = [notificationStickyColumn dataCell];
-	[cell setAllowsMixedState:YES];
-
-	// NSCreatesSortDescriptorBindingOption is only available on 10.4 or later
-	NSNumber *no = [[NSNumber alloc] initWithBool:NO];
-	NSDictionary *bindOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
-		no, @"NSCreatesSortDescriptor", //NSCreatesSortDescriptorBindingOption,
-		nil];
-	[no release];
-
-	// we have to establish this binding programmatically in order to use NSMixedState
-	[notificationStickyColumn bind:@"value"
-						  toObject:notificationsArrayController
-					   withKeyPath:@"arrangedObjects.sticky"
-						   options:bindOptions];
-	[bindOptions release];
-
-	[ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
-	[displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
-
-	[self setCanRemoveTicket:NO];
-
-	browser = [[NSNetServiceBrowser alloc] init];
-
-	GrowlPreferencesController *preferences = [GrowlPreferencesController preferences];
-
-	// create a deep mutable copy of the forward destinations
-	NSArray *destinations = [preferences objectForKey:GrowlForwardDestinationsKey];
-	NSEnumerator *destEnum = [destinations objectEnumerator];
-	NSMutableArray *theServices = [[NSMutableArray alloc] initWithCapacity:[destinations count]];
-	NSDictionary *destination;
-	while ((destination = [destEnum nextObject])) {
-		GrowlBrowserEntry *entry = [[GrowlBrowserEntry alloc] initWithDictionary:destination];
-		[entry setOwner:self];
-		[theServices addObject:entry];
-		[entry release];
-	}
-	[self setServices:theServices];
-	[theServices release];
-
-	[browser setDelegate:self];
-	[browser searchForServicesOfType:@"_growl._tcp." inDomain:@""];
-
-	[self setupAboutTab];
-
-	if ([self growlMenuEnabled] && ![GrowlPreferencePane isGrowlMenuRunning])
-		[self enableGrowlMenu];
-
-	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
-	growlForumURL   = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
-	growlTracURL    = [[NSURL alloc] initWithString:@"http://trac.growl.info/trac"];
-	NSString *growlWebSiteURLString = [growlWebSiteURL absoluteString];
-	NSString *growlForumURLString   = [growlForumURL   absoluteString];
-	NSString *growlTracURLString    = [growlTracURL    absoluteString];
-
-	[growlWebSite setAttributedTitle:         [growlWebSiteURLString       hyperlink]];
-	[growlWebSite setAttributedAlternateTitle:[growlWebSiteURLString activeHyperlink]];
-	[[growlWebSite cell] setHighlightsBy:NSContentsCellMask];
-	[growlForum   setAttributedTitle:         [growlForumURLString         hyperlink]];
-	[growlForum   setAttributedAlternateTitle:[growlForumURLString   activeHyperlink]];
-	[[growlForum   cell] setHighlightsBy:NSContentsCellMask];
-	[growlTrac    setAttributedTitle:         [growlTracURLString          hyperlink]];
-	[growlTrac    setAttributedAlternateTitle:[growlTracURLString    activeHyperlink]];
-	[[growlTrac    cell] setHighlightsBy:NSContentsCellMask];
-
-	customHistArray = [[NSMutableArray alloc] initWithObjects:
-		[preferences objectForKey:GrowlCustomHistKey1],
-		[preferences objectForKey:GrowlCustomHistKey2],
-		[preferences objectForKey:GrowlCustomHistKey3],
-		nil];
-	[self updateLogPopupMenu];
-	int typePref = [preferences integerForKey:GrowlLogTypeKey];
-	[logFileType selectCellAtRow:typePref column:0];
-}
-
-- (void) mainViewDidLoad {
-	[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-														selector:@selector(appRegistered:)
-															name:GROWL_APP_REGISTRATION_CONF
-														  object:nil];
+	return [[GrowlPreferencesController sharedController] isRunning:@"com.Growl.MenuExtra"];
 }
 
 //subclassed from NSPreferencePane; called before the pane is displayed.
 - (void) willSelect {
-	GrowlPreferencesController *preferences = [GrowlPreferencesController preferences];
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 	NSString *lastVersion = [preferences objectForKey:LastKnownVersionKey];
 	NSString *currentVersion = [self bundleVersion];
 	if (!(lastVersion && [lastVersion isEqualToString:currentVersion])) {
@@ -380,7 +356,7 @@
 	[self setGrowlMenuEnabled:[self growlMenuEnabled]];
 	[self cacheImages];
 
-	GrowlPreferencesController *preferences = [GrowlPreferencesController preferences];
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 
 	// If Growl is enabled, ensure the helper app is launched
 	if ([preferences boolForKey:GrowlEnabledKey])
@@ -438,11 +414,26 @@
 	while ((entry = [enumerator nextObject]))
 		if (![entry netService])
 			[destinations addObject:[entry properties]];
-	[[GrowlPreferencesController preferences] setObject:destinations forKey:GrowlForwardDestinationsKey];
+	[[GrowlPreferencesController sharedController] setObject:destinations forKey:GrowlForwardDestinationsKey];
 	[destinations release];
 }
 
 #pragma mark -
+#pragma mark Bindings accessors (not for programmatic use)
+
+- (GrowlPluginController *) pluginController {
+	if (!pluginController)
+		pluginController = [GrowlPluginController sharedController];
+
+	return pluginController;
+}
+- (GrowlPreferencesController *) preferencesController {
+	if (!preferencesController)
+		preferencesController = [GrowlPreferencesController sharedController];
+
+	return preferencesController;
+}
+
 #pragma mark Growl running state
 
 - (void) launchGrowl {
@@ -453,7 +444,7 @@
 	// Update our status visible to the user
 	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
 
-	[[GrowlPreferencesController preferences] setGrowlRunning:YES noMatterWhat:NO];
+	[[GrowlPreferencesController sharedController] setGrowlRunning:YES noMatterWhat:NO];
 
 	// After 4 seconds force a status update, in case Growl didn't start/stop
 	[self performSelector:@selector(checkGrowlRunning)
@@ -470,7 +461,7 @@
 	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
 
 	// Ask the Growl Helper App to shutdown
-	[[GrowlPreferencesController preferences] setGrowlRunning:NO noMatterWhat:NO];
+	[[GrowlPreferencesController sharedController] setGrowlRunning:NO noMatterWhat:NO];
 
 	// After 4 seconds force a status update, in case growl didn't start/stop
 	[self performSelector:@selector(checkGrowlRunning)
@@ -483,7 +474,7 @@
 - (IBAction) startStopGrowl:(id) sender {
 #pragma unused(sender)
 	// Make sure growlIsRunning is correct
-	if (growlIsRunning != [[GrowlPreferencesController preferences] isGrowlRunning]) {
+	if (growlIsRunning != [[GrowlPreferencesController sharedController] isGrowlRunning]) {
 		// Nope - lets just flip it and update status
 		[self setGrowlIsRunning:!growlIsRunning];
 		[self updateRunningStatus];
@@ -497,89 +488,13 @@
 		[self launchGrowl];
 }
 
-#pragma mark -
-
-- (BOOL) isStartGrowlAtLogin {
-	return [[GrowlPreferencesController preferences] startGrowlAtLogin];
-}
-
-- (void) setStartGrowlAtLogin:(BOOL)flag {
-	[[GrowlPreferencesController preferences] setStartGrowlAtLogin:flag];
-}
-
-#pragma mark -
-
-- (BOOL) isBackgroundUpdateCheckEnabled {
-	return [[GrowlPreferencesController preferences] boolForKey:GrowlUpdateCheckKey];
-}
-
-- (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag {
-	[[GrowlPreferencesController preferences] setBool:flag forKey:GrowlUpdateCheckKey];
-}
-
-#pragma mark -
-
-- (NSString *) defaultDisplayPluginName {
-	return [[GrowlPreferencesController preferences] objectForKey:GrowlDisplayPluginKey];
-}
-
-- (void) setDefaultDisplayPluginName:(NSString *)name {
-	[[GrowlPreferencesController preferences] setObject:name forKey:GrowlDisplayPluginKey];
-}
-
-#pragma mark -
-
-- (BOOL) squelchMode {
-	return [[GrowlPreferencesController preferences] boolForKey:GrowlSquelchModeKey];
-}
-
-- (void) setSquelchMode:(BOOL)flag {
-	[[GrowlPreferencesController preferences] setBool:flag forKey:GrowlSquelchModeKey];
-}
-
-#pragma mark -
-
-- (BOOL) stickyWhenAway {
-	return [[GrowlPreferencesController preferences] boolForKey:GrowlStickyWhenAwayKey];
-}
-
-- (void) setStickyWhenAway:(BOOL)flag {
-	[[GrowlPreferencesController preferences] setBool:flag forKey:GrowlStickyWhenAwayKey];
-}
-
-#pragma mark Menu Extra
-
-- (BOOL) growlMenuEnabled {
-	return [[GrowlPreferencesController preferences] boolForKey:GrowlMenuExtraKey];
-}
-
-- (void) setGrowlMenuEnabled:(BOOL)state {
-	if (state != [self growlMenuEnabled]) {
-		[[GrowlPreferencesController preferences] setBool:state forKey:GrowlMenuExtraKey];
-		if (state)
-			[self enableGrowlMenu];
-		else
-			[self disableGrowlMenu];
-	}
-}
-
-#pragma mark Logging
-
-- (BOOL) loggingEnabled {
-	return [[GrowlPreferencesController preferences] boolForKey:GrowlLoggingEnabledKey];
-}
-
-- (void) setLoggingEnabled:(BOOL)flag {
-	[[GrowlPreferencesController preferences] setBool:flag forKey:GrowlLoggingEnabledKey];
-}
-
 - (IBAction) logTypeChanged:(id)sender {
 	int typePref = [sender selectedRow];
 	BOOL hasSelection = (typePref != 0);
 	int numberOfItems = [customMenuButton numberOfItems];
 	if (hasSelection && (numberOfItems == 1))
 		[self customFileChosen:customMenuButton];
-	[[GrowlPreferencesController preferences] setInteger:typePref forKey:GrowlLogTypeKey];
+	[[GrowlPreferencesController sharedController] setInteger:typePref forKey:GrowlLogTypeKey];
 	[customMenuButton setEnabled:(hasSelection && (numberOfItems > 1))];
 }
 
@@ -629,7 +544,7 @@
 	unsigned numHistItems = [customHistArray count];
 	//NSLog(@"CustomHistArray = %@", customHistArray);
 	if (numHistItems) {
-		GrowlPreferencesController *preferences = [GrowlPreferencesController preferences];
+		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 		NSString *s = [customHistArray objectAtIndex:0U];
 		[preferences setObject:s forKey:GrowlCustomHistKey1];
 
@@ -722,170 +637,6 @@
 }
 
 #pragma mark "Network" tab pane
-
-- (BOOL) isGrowlServerEnabled {
-	return [[GrowlPreferencesController preferences] boolForKey:GrowlStartServerKey];
-}
-
-- (void) setGrowlServerEnabled:(BOOL)enabled {
-	[[GrowlPreferencesController preferences] setBool:enabled forKey:GrowlStartServerKey];
-}
-
-#pragma mark -
-
-- (BOOL) isRemoteRegistrationAllowed {
-	return [[GrowlPreferencesController preferences] boolForKey:GrowlRemoteRegistrationKey];
-}
-
-- (void) setRemoteRegistrationAllowed:(BOOL)flag {
-	[[GrowlPreferencesController preferences] setBool:flag forKey:GrowlRemoteRegistrationKey];
-}
-
-#pragma mark -
-
-- (NSString *) remotePassword {
-	char *password;
-	UInt32 passwordLength;
-	OSStatus status;
-	status = SecKeychainFindGenericPassword(NULL,
-											strlen(keychainServiceName), keychainServiceName,
-											strlen(keychainAccountName), keychainAccountName,
-											&passwordLength, (void **)&password, NULL);
-
-	NSString *passwordString;
-	if (status == noErr) {
-		passwordString = [NSString stringWithUTF8String:password length:passwordLength];
-		SecKeychainItemFreeContent(NULL, password);
-	} else {
-		if (status != errSecItemNotFound)
-			NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
-		passwordString = @"";
-	}
-
-	return passwordString;
-}
-
-- (void) setRemotePassword:(NSString *)value {
-	const char *password = value ? [value UTF8String] : "";
-	unsigned length = strlen(password);
-	OSStatus status;
-	SecKeychainItemRef itemRef = nil;
-	status = SecKeychainFindGenericPassword(NULL,
-											strlen(keychainServiceName), keychainServiceName,
-											strlen(keychainAccountName), keychainAccountName,
-											NULL, NULL, &itemRef);
-	if (status == errSecItemNotFound) {
-		// add new item
-		status = SecKeychainAddGenericPassword(NULL,
-											   strlen(keychainServiceName), keychainServiceName,
-											   strlen(keychainAccountName), keychainAccountName,
-											   length, password, NULL);
-		if (status)
-			NSLog(@"Failed to add password to keychain.");
-	} else {
-		// change existing password
-		SecKeychainAttribute attrs[] = {
-			{ kSecAccountItemAttr, strlen(keychainAccountName), (char *)keychainAccountName },
-			{ kSecServiceItemAttr, strlen(keychainServiceName), (char *)keychainServiceName }
-		};
-		const SecKeychainAttributeList attributes = { sizeof(attrs) / sizeof(attrs[0]), attrs };
-		status = SecKeychainItemModifyAttributesAndData(itemRef,		// the item reference
-														&attributes,	// no change to attributes
-														length,			// length of password
-														password		// pointer to password data
-														);
-		if (itemRef)
-			CFRelease(itemRef);
-		if (status)
-			NSLog(@"Failed to change password in keychain.");
-	}
-}
-
-#pragma mark -
-
-- (int) UDPPort {
-	return [[GrowlPreferencesController preferences] integerForKey:GrowlUDPPortKey];
-}
-
-- (void) setUDPPort:(int)value {
-	[[GrowlPreferencesController preferences] setInteger:value forKey:GrowlUDPPortKey];
-}
-
-#pragma mark -
-
-- (BOOL) isForwardingEnabled {
-	return [[GrowlPreferencesController preferences] boolForKey:GrowlEnableForwardKey];
-}
-
-- (void) setForwardingEnabled:(BOOL)enabled {
-	[[GrowlPreferencesController preferences] setBool:enabled forKey:GrowlEnableForwardKey];
-}
-
-- (void) resolveService:(id)sender {
-	int row = [sender selectedRow];
-	if (row != -1) {
-		GrowlBrowserEntry *entry = [services objectAtIndex:row];
-		NSNetService *serviceToResolve = [entry netService];
-		if (serviceToResolve) {
-			// Make sure to cancel any previous resolves.
-			if (serviceBeingResolved) {
-				[serviceBeingResolved stop];
-				[serviceBeingResolved release];
-				serviceBeingResolved = nil;
-			}
-
-			currentServiceIndex = row;
-			serviceBeingResolved = serviceToResolve;
-			[serviceBeingResolved retain];
-			[serviceBeingResolved setDelegate:self];
-			if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)])
-				[serviceBeingResolved resolveWithTimeout:5.0];
-			else
-				// this selector is deprecated in 10.4
-				[serviceBeingResolved resolve];
-		}
-	}
-}
-
-- (NSMutableArray *) services {
-	return services;
-}
-
-- (void) setServices:(NSMutableArray *)theServices {
-	if (theServices != services) {
-		[services release];
-		services = [theServices retain];
-	}
-}
-
-- (unsigned) countOfServices {
-	return [services count];
-}
-
-- (id) objectInServicesAtIndex:(unsigned)idx {
-	return [services objectAtIndex:idx];
-}
-
-- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)idx {
-	[services insertObject:anObject atIndex:idx];
-}
-
-- (void) replaceObjectInServicesAtIndex:(unsigned)idx withObject:(id)anObject {
-	[services replaceObjectAtIndex:idx withObject:anObject];
-}
-
-#pragma mark "Display Options" tab pane
-
-- (NSArray *) displayPlugins {
-	return plugins;
-}
-
-- (void) setDisplayPlugins:(NSArray *)thePlugins {
-	[plugins release];
-	plugins = [thePlugins retain];
-}
-
-#pragma mark -
 
 - (IBAction) showPreview:(id) sender {
 #pragma unused(sender)
@@ -1055,7 +806,7 @@
 #pragma mark Detecting Growl
 
 - (void) checkGrowlRunning {
-	[self setGrowlIsRunning:[[GrowlPreferencesController preferences] isGrowlRunning]];
+	[self setGrowlIsRunning:[[GrowlPreferencesController sharedController] isGrowlRunning]];
 	[self updateRunningStatus];
 }
 

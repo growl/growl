@@ -45,7 +45,7 @@ int main (int argc, const char **argv) {
 		printusage();
 	} else {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		GrowlPreferencesController *growlPref = [GrowlPreferencesController preferences];
+		GrowlPreferencesController *growlPref = [GrowlPreferencesController sharedController];
 
 		//control whether Growl is running
 		if (!strcmp(argv[1], "start")) {

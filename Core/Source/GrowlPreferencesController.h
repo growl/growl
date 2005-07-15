@@ -35,7 +35,7 @@
 	NSUserDefaults *helperAppDefaults;
 }
 
-+ (GrowlPreferencesController *) preferences;
++ (GrowlPreferencesController *) sharedController;
 
 - (void) registerDefaults:(NSDictionary *)inDefaults;
 - (id) objectForKey:(NSString *)key;
@@ -46,8 +46,8 @@
 - (void) setInteger:(int)value forKey:(NSString *)key;
 - (void) synchronize;
 
-- (BOOL) startGrowlAtLogin;
-- (void) setStartGrowlAtLogin:(BOOL)flag;
+- (BOOL) shouldStartGrowlAtLogin;
+- (void) setShouldStartGrowlAtLogin:(BOOL)flag;
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)flag;
 
 - (BOOL) isRunning:(NSString *)theBundleIdentifier;
@@ -55,5 +55,44 @@
 - (void) setGrowlRunning:(BOOL)flag noMatterWhat:(BOOL)nmw;
 - (void) launchGrowl:(BOOL)noMatterWhat;
 - (void) terminateGrowl;
+
+#pragma mark -
+//Simplified accessors
+
+#pragma mark GrowlMenu methods
+
+- (BOOL) isGrowlMenuEnabled;
+- (void) setGrowlMenuEnabled:(BOOL)state;
+
+#pragma mark "Network" tab pane
+
+- (BOOL) isGrowlServerEnabled;
+- (void) setGrowlServerEnabled:(BOOL)enabled;
+
+- (BOOL) isRemoteRegistrationAllowed;
+- (void) setRemoteRegistrationAllowed:(BOOL)flag;
+
+- (BOOL) isForwardingEnabled;
+- (void) setForwardingEnabled:(BOOL)enabled;
+
+- (NSString *) remotePassword;
+- (void) setRemotePassword:(NSString *)value;
+
+- (int) UDPPort;
+- (void) setUDPPort:(int)value;
+
+//XXX use NSArrayController
+- (NSMutableArray *) services;
+- (void) setServices:(NSMutableArray *)theServices;
+
+- (unsigned) countOfServices;
+- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)index;
+- (void) replaceObjectInServicesAtIndex:(unsigned)index withObject:(id)anObject;
+
+#pragma mark "Display Options" tab pane
+
+//XXX use NSArrayController
+- (NSArray *) displayPlugins;
+- (void) setDisplayPlugins:(NSArray *)thePlugins;
 
 @end

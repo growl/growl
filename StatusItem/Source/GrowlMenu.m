@@ -45,7 +45,7 @@ int main(void) {
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
 #pragma unused(aNotification)
 	pid = [[NSProcessInfo processInfo] processIdentifier];
-	preferences = [GrowlPreferencesController preferences];
+	preferences = [GrowlPreferencesController sharedController];
 
 	NSMenu *m = [self createMenu];
 

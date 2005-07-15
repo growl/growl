@@ -37,7 +37,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 		short port;
 		int native;
 
-		port = [[GrowlPreferencesController preferences] integerForKey:GrowlUDPPortKey];
+		port = [[GrowlPreferencesController sharedController] integerForKey:GrowlUDPPortKey];
 
 		addr.sin6_len = sizeof(addr);
 		addr.sin6_family = AF_INET6;
@@ -248,7 +248,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 				case GROWL_TYPE_REGISTRATION_SHA256:
 				case GROWL_TYPE_REGISTRATION_NOAUTH:
 					if (length >= sizeof(struct GrowlNetworkRegistration)) {
-						BOOL enabled = [[GrowlPreferencesController preferences] boolForKey:GrowlRemoteRegistrationKey];
+						BOOL enabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlRemoteRegistrationKey];
 
 						if (enabled) {
 							BOOL valid = YES;

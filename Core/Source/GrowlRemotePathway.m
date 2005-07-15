@@ -12,7 +12,7 @@
 @implementation GrowlRemotePathway
 
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
-	if ([[GrowlPreferencesController preferences] boolForKey:GrowlRemoteRegistrationKey])
+	if ([[GrowlPreferencesController sharedController] boolForKey:GrowlRemoteRegistrationKey])
 		[super registerApplicationWithDictionary:dict];
 }
 

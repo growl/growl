@@ -11,71 +11,80 @@
 
 @protocol GrowlPlugin;
 
-@class GrowlApplicationTicket, TicketsArrayController;
+@class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController;
 
 @interface GrowlPreferencePane : NSPreferencePane {
-	int								pid;
+	int                             pid;
 
-	NSMutableArray					*images;
-	NSMutableArray					*tickets;
-	NSArray							*plugins;
-	NSTimer							*startStopTimer;
+	NSMutableArray                 *images;
+	NSMutableArray                 *tickets;
+	NSArray                        *plugins;
+	NSTimer                        *startStopTimer;
 
-	NSPreferencePane				*pluginPrefPane;
-	NSMutableArray					*loadedPrefPanes;
+	NSPreferencePane               *pluginPrefPane;
+	NSMutableArray                 *loadedPrefPanes;
 
 	//Properties of the plugin being configured
-	NSString						*currentPlugin;
-	id <GrowlPlugin>				currentPluginController;
+	NSString                       *currentPlugin;
+	id <GrowlPlugin>                currentPluginController;
 
-	BOOL							canRemoveTicket;
-	BOOL							growlIsRunning;
+	BOOL                            canRemoveTicket;
+	BOOL                            growlIsRunning;
 
-	NSURL							*versionCheckURL;
+	NSURL                          *versionCheckURL;
+
+	//cached controllers
+	/*these are cached to avoid redundant calls to
+	 *	[GrowlXController sharedController].
+	 *though that method also caches its return value, we're dealing with
+	 *	Bindings here, so we want to pick up all the speed boosts that we can.
+	 */
+	GrowlPluginController          *pluginController;
+	GrowlPreferencesController     *preferencesController;
 
 	//"General" tab pane
-	IBOutlet NSButton				*startStopGrowl;
-	IBOutlet NSTextField			*growlRunningStatus;
-	IBOutlet NSProgressIndicator	*growlRunningProgress;
-	IBOutlet NSProgressIndicator	*growlVersionProgress;
-	IBOutlet NSArrayController		*notificationsArrayController;
+	IBOutlet NSButton              *startStopGrowl;
+	IBOutlet NSTextField           *growlRunningStatus;
+	IBOutlet NSProgressIndicator   *growlRunningProgress;
+	IBOutlet NSProgressIndicator   *growlVersionProgress;
+	IBOutlet NSArrayController     *notificationsArrayController;
 
 	// Logging
-	IBOutlet NSMatrix				*logFileType;
-	IBOutlet NSPopUpButton			*customMenuButton;
-	NSMutableArray					*customHistArray;
+	IBOutlet NSMatrix              *logFileType;
+	IBOutlet NSPopUpButton         *customMenuButton;
+	NSMutableArray                 *customHistArray;
 
 	//"Applications" tab pane
-	IBOutlet NSTableColumn			*notificationStickyColumn;
-	IBOutlet NSTableView			*growlApplications;
-	NSTableView						*activeTableView;
-	IBOutlet NSMenu					*notificationPriorityMenu;
+	IBOutlet NSTableColumn         *notificationStickyColumn;
+	IBOutlet NSTableView           *growlApplications;
+	NSTableView                    *activeTableView;
+	IBOutlet NSMenu                *notificationPriorityMenu;
 	IBOutlet TicketsArrayController	*ticketsArrayController;
 
 	//"Display Options" tab pane
-	IBOutlet NSTableView			*displayPluginsTable;
-	IBOutlet NSView					*displayPrefView;
-	IBOutlet NSView					*displayDefaultPrefView;
-	IBOutlet NSTextField			*displayAuthor;
-	IBOutlet NSTextField			*displayVersion;
-	IBOutlet NSButton				*previewButton;
-	IBOutlet NSArrayController		*displayPluginsArrayController;
+	IBOutlet NSTableView           *displayPluginsTable;
+	IBOutlet NSView                *displayPrefView;
+	IBOutlet NSView                *displayDefaultPrefView;
+	IBOutlet NSTextField           *displayAuthor;
+	IBOutlet NSTextField           *displayVersion;
+	IBOutlet NSButton              *previewButton;
+	IBOutlet NSArrayController     *displayPluginsArrayController;
 
 	//"Network" tab pane
-	NSMutableArray					*services;
-	NSNetServiceBrowser				*browser;
-	NSNetService					*serviceBeingResolved;
-	int								currentServiceIndex;
-	IBOutlet NSTableColumn			*servicePasswordColumn;
+	NSMutableArray                 *services;
+	NSNetServiceBrowser            *browser;
+	NSNetService                   *serviceBeingResolved;
+	int                             currentServiceIndex;
+	IBOutlet NSTableColumn         *servicePasswordColumn;
 
 	//About box tab pane
-	IBOutlet NSTextView				*aboutBoxTextView;
-	IBOutlet NSButton				*growlWebSite;
-	IBOutlet NSButton				*growlForum;
-	IBOutlet NSButton				*growlTrac;
-	NSURL							*growlWebSiteURL;
-	NSURL							*growlForumURL;
-	NSURL							*growlTracURL;
+	IBOutlet NSTextView            *aboutBoxTextView;
+	IBOutlet NSButton              *growlWebSite;
+	IBOutlet NSButton              *growlForum;
+	IBOutlet NSButton              *growlTrac;
+	NSURL                          *growlWebSiteURL;
+	NSURL                          *growlForumURL;
+	NSURL                          *growlTracURL;
 }
 
 - (NSString *) bundleVersion;
@@ -85,6 +94,11 @@
 
 - (void) reloadPreferences;
 - (void) updateRunningStatus;
+
+#pragma mark Bindings accessors (not for programmatic use)
+
+- (GrowlPluginController *) pluginController;
+- (GrowlPreferencesController *) preferencesController;
 
 #pragma mark "Applications" tab pane
 - (BOOL) canRemoveTicket;
@@ -146,7 +160,6 @@
 - (NSArray *) displayPlugins;
 - (void) setDisplayPlugins:(NSArray *)thePlugins;
 
-#pragma mark -
 - (void) checkGrowlRunning;
 - (void) appRegistered: (NSNotification *) note;
 
