@@ -15,6 +15,8 @@
 
 - (void) dealloc {
 	[self stopDisplayTimer];
+	
+	[self setDelegate:nil];
 
 	[target              release];
 	[clickContext        release];
