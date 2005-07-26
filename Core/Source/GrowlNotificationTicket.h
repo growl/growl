@@ -1,5 +1,5 @@
 //
-//  GrowlApplicationNotification.h
+//  GrowlNotificationTicket.h
 //  Growl
 //
 //  Created by Karl Adam on 01.10.05.
@@ -20,7 +20,7 @@ enum GrowlPriority {
 	GrowlPriorityEmergency =  2
 };
 
-@interface GrowlApplicationNotification : NSObject {
+@interface GrowlNotificationTicket : NSObject {
 	NSString                *name;
 	GrowlApplicationTicket  *ticket;        // Our owner
 	NSString				*displayPluginName;
@@ -31,27 +31,27 @@ enum GrowlPriority {
 	unsigned                 enabled: 1;
 }
 
-+ (GrowlApplicationNotification *) notificationWithName:(NSString *)name;
-+ (GrowlApplicationNotification *) notificationWithDictionary:(NSDictionary *)dict;
-+ (GrowlApplicationNotification *) notificationWithName:(NSString *)name
-											   priority:(enum GrowlPriority)priority
-												enabled:(BOOL)enabled
-												 sticky:(int)sticky
-									  displayPluginName:(NSString *)display;
++ (GrowlNotificationTicket *) notificationWithName:(NSString *)name;
++ (GrowlNotificationTicket *) notificationWithDictionary:(NSDictionary *)dict;
++ (GrowlNotificationTicket *) notificationWithName:(NSString *)name
+										  priority:(enum GrowlPriority)priority
+										   enabled:(BOOL)enabled
+											sticky:(int)sticky
+								 displayPluginName:(NSString *)display;
 
-- (GrowlApplicationNotification *) initWithName:(NSString *)name;
-- (GrowlApplicationNotification *) initWithDictionary:(NSDictionary *)dict;
-- (GrowlApplicationNotification *) initWithName:(NSString *)name
-									   priority:(enum GrowlPriority)priority
-										enabled:(BOOL)enabled
-										 sticky:(int)sticky
-							  displayPluginName:(NSString *)display;
+- (GrowlNotificationTicket *) initWithName:(NSString *)name;
+- (GrowlNotificationTicket *) initWithDictionary:(NSDictionary *)dict;
+- (GrowlNotificationTicket *) initWithName:(NSString *)name
+								  priority:(enum GrowlPriority)priority
+								   enabled:(BOOL)enabled
+									sticky:(int)sticky
+						 displayPluginName:(NSString *)display;
 
 #pragma mark -
 
 - (NSDictionary *) dictionaryRepresentation;
 
-- (BOOL) isEqualToNotification:(GrowlApplicationNotification *) other;
+- (BOOL) isEqualToNotification:(GrowlNotificationTicket *) other;
 
 #pragma mark -
 

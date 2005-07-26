@@ -11,7 +11,7 @@
 #import "GrowlPreferencesController.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotificationTicket.h"
 #import "GrowlTicketController.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlDisplayProtocol.h"

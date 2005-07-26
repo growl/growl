@@ -12,7 +12,7 @@
 #import "GrowlPreferencesController.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlTicketController.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotificationTicket.h"
 #import "GrowlDistributedNotificationPathway.h"
 #import "GrowlRemotePathway.h"
 #import "GrowlUDPPathway.h"
@@ -388,7 +388,7 @@ static GrowlApplicationController *singleton = nil;
 		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_TITLE];
 
 	//Retrieve and set the the priority of the notification
-	GrowlApplicationNotification *notification = [ticket notificationForName:notificationName];
+	GrowlNotificationTicket *notification = [ticket notificationTicketForName:notificationName];
 	int priority = [notification priority];
 	NSNumber *value;
 	if (priority == GrowlPriorityUnset) {

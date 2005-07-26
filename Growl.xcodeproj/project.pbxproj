@@ -359,12 +359,12 @@
 		95FC347807E0458E00BD8674 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		A16BD22906FCC05F00BF033B /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A16BD22706FCC05F00BF033B /* ACImageAndTextCell.m */; };
 		CB34BED407E09657001D7D7C /* GrowlApplicationBridgePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */; };
-		CB5C315C07925B53007CC0D0 /* GrowlApplicationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5C312807925B53007CC0D0 /* GrowlApplicationNotification.m */; };
+		CB5C315C07925B53007CC0D0 /* GrowlNotificationTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */; };
 		CB5F83A80638B8C800EADD7A /* HelperMain.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5F83A60638B8C800EADD7A /* HelperMain.m */; };
 		CB5FA1BD0638CA2C00EADD7A /* GrowlHelperApp.app in Resources */ = {isa = PBXBuildFile; fileRef = CB61E5180637763C00E0DDC7 /* GrowlHelperApp.app */; };
 		CB5FA1C70638CA5300EADD7A /* GrowlHelperApp.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = CB61E5180637763C00E0DDC7 /* GrowlHelperApp.app */; };
 		CB910DA7074E0A3A00278FC5 /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = CB910DA6074E0A3A00278FC5 /* License.txt */; };
-		CB9E378D07925D7A00F8937E /* GrowlApplicationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5C312807925B53007CC0D0 /* GrowlApplicationNotification.m */; };
+		CB9E378D07925D7A00F8937E /* GrowlNotificationTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */; };
 		CBF0743F0659B202000B4B77 /* GrowlApplicationTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1C5D1C063E432F007052EE /* GrowlApplicationTicket.m */; };
 		DD4939FF084BAD4500D1CCCB /* GrowlSMSDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4939FC084BAD4500D1CCCB /* GrowlSMSDisplay.m */; };
 		DD493A00084BAD4500D1CCCB /* GrowlSMSPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4939FE084BAD4500D1CCCB /* GrowlSMSPrefs.m */; };
@@ -987,8 +987,8 @@
 		CB1C5D95063E523F007052EE /* README.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = README.rtf; sourceTree = "<group>"; };
 		CB34BED107E09657001D7D7C /* GrowlApplicationBridgePathway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationBridgePathway.h; path = Core/Source/GrowlApplicationBridgePathway.h; sourceTree = "<group>"; };
 		CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationBridgePathway.m; path = Core/Source/GrowlApplicationBridgePathway.m; sourceTree = "<group>"; };
-		CB5C30FF07925B53007CC0D0 /* GrowlApplicationNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationNotification.h; path = Core/Source/GrowlApplicationNotification.h; sourceTree = "<group>"; };
-		CB5C312807925B53007CC0D0 /* GrowlApplicationNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationNotification.m; path = Core/Source/GrowlApplicationNotification.m; sourceTree = "<group>"; };
+		CB5C30FF07925B53007CC0D0 /* GrowlNotificationTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationTicket.h; path = Core/Source/GrowlNotificationTicket.h; sourceTree = "<group>"; };
+		CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationTicket.m; path = Core/Source/GrowlNotificationTicket.m; sourceTree = "<group>"; };
 		CB5F83A60638B8C800EADD7A /* HelperMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelperMain.m; path = Core/Source/HelperMain.m; sourceTree = "<group>"; };
 		CB61E5180637763C00E0DDC7 /* GrowlHelperApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlHelperApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB61E51A0637763C00E0DDC7 /* GrowlHelperApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "GrowlHelperApp-Info.plist"; path = "Core/Resources/GrowlHelperApp-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -1575,8 +1575,8 @@
 		CB34BEC507E09557001D7D7C /* GrowlNotification */ = {
 			isa = PBXGroup;
 			children = (
-				CB5C30FF07925B53007CC0D0 /* GrowlApplicationNotification.h */,
-				CB5C312807925B53007CC0D0 /* GrowlApplicationNotification.m */,
+				CB5C30FF07925B53007CC0D0 /* GrowlNotificationTicket.h */,
+				CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */,
 			);
 			name = GrowlNotification;
 			sourceTree = "<group>";
@@ -3361,7 +3361,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				525277AB06D95BED007BC87D /* GrowlApplicationTicket.m in Sources */,
-				CB9E378D07925D7A00F8937E /* GrowlApplicationNotification.m in Sources */,
+				CB9E378D07925D7A00F8937E /* GrowlNotificationTicket.m in Sources */,
 				5286205A06DC4C2F00D3A356 /* GrowlPluginController.m in Sources */,
 				A16BD22906FCC05F00BF033B /* ACImageAndTextCell.m in Sources */,
 				936FAB04074482BF00A7D430 /* RRTableView.m in Sources */,
@@ -3453,7 +3453,7 @@
 				956ADB0007551C4500AF9545 /* GrowlBezierPathAdditions.m in Sources */,
 				956ADB0207551C4500AF9545 /* GrowlImageAdditions.m in Sources */,
 				3434E8EA0790D6E600A97A48 /* GrowlDisplayFadingWindowController.m in Sources */,
-				CB5C315C07925B53007CC0D0 /* GrowlApplicationNotification.m in Sources */,
+				CB5C315C07925B53007CC0D0 /* GrowlNotificationTicket.m in Sources */,
 				0790135707D9321B0023B640 /* GrowlVersionUtilities.c in Sources */,
 				95C8783407D9DFC000C69DEE /* NSWindow+Transforms.m in Sources */,
 				9550518107DE4B4A002F5315 /* GrowlApplicationBridge.m in Sources */,

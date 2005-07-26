@@ -9,7 +9,7 @@
 
 
 #import "GrowlApplicationTicket.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotificationTicket.h"
 #import "GrowlDefines.h"
 #import "GrowlDisplayProtocol.h"
 #import "NSWorkspaceAdditions.h"
@@ -66,13 +66,13 @@
 		id obj;
 		while ((obj = [notificationsEnum nextObject])) {
 			NSString *name;
-			GrowlApplicationNotification *notification;
+			GrowlNotificationTicket *notification;
 			if ([obj isKindOfClass:[NSString class]]) {
 				name = obj;
-				notification = [[GrowlApplicationNotification alloc] initWithName:obj];
+				notification = [[GrowlNotificationTicket alloc] initWithName:obj];
 			} else {
 				name = [obj objectForKey:@"Name"];
-				notification = [[GrowlApplicationNotification alloc] initWithDictionary:obj];
+				notification = [[GrowlNotificationTicket alloc] initWithDictionary:obj];
 			}
 			[notification setTicket:self];
 			[allNotificationsTemp setObject:notification forKey:name];
@@ -199,7 +199,7 @@
 	NSString *savePath = [destDir stringByAppendingPathComponent:[appName stringByAppendingPathExtension:@"growlTicket"]];
 	NSMutableArray *saveNotifications = [[NSMutableArray alloc] initWithCapacity:[allNotifications count]];
 	NSEnumerator *notificationEnum = [allNotifications objectEnumerator];
-	GrowlApplicationNotification *obj;
+	GrowlNotificationTicket *obj;
 	while ((obj = [notificationEnum nextObject]))
 		[saveNotifications addObject:[obj dictionaryRepresentation]];
 
@@ -367,7 +367,7 @@
 					note = obj;
 				}
 				if (note && ![allNotesCopy objectForKey:note]) {
-					[allNotesCopy setObject:[GrowlApplicationNotification notificationWithName:note] forKey:note];
+					[allNotesCopy setObject:[GrowlNotificationTicket notificationWithName:note] forKey:note];
 				}
 			}
 		} else if ([inDefaults isKindOfClass:[NSIndexSet class]]) {
@@ -382,7 +382,7 @@
 				} else {
 					NSString *note = [inAllNotes objectAtIndex:notificationIndex];
 					if (![allNotesCopy objectForKey:note]) {
-						[allNotesCopy setObject:[GrowlApplicationNotification notificationWithName:note] forKey:note];
+						[allNotesCopy setObject:[GrowlNotificationTicket notificationWithName:note] forKey:note];
 					}
 				}
 			}
@@ -470,7 +470,7 @@
 			if (obj) {
 				[tmp setObject:obj forKey:key];
 			} else {
-				GrowlApplicationNotification *notification = [[GrowlApplicationNotification alloc] initWithName:key];
+				GrowlNotificationTicket *notification = [[GrowlNotificationTicket alloc] initWithName:key];
 				[tmp setObject:notification forKey:key];
 				[notification release];
 			}
@@ -594,7 +594,7 @@
 	return [allNotifications allValues];
 }
 
-- (GrowlApplicationNotification *) notificationForName:(NSString *)name {
+- (GrowlNotificationTicket *) notificationTicketForName:(NSString *)name {
 	return [allNotifications objectForKey:name];
 }
 @end

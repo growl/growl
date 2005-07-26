@@ -1,33 +1,33 @@
 //
-//  GrowlApplicationNotification.m
+//  GrowlNotificationTicket.m
 //  Growl
 //
 //  Created by Karl Adam on 01.10.05.
 //  Copyright 2005 matrixPointer. All rights reserved.
 //
 
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotificationTicket.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlPluginController.h"
 #import "GrowlDisplayProtocol.h"
 #import "NSDictionaryAdditions.h"
 #import "NSMutableDictionaryAdditions.h"
 
-@implementation GrowlApplicationNotification
+@implementation GrowlNotificationTicket
 
-+ (GrowlApplicationNotification *) notificationWithName:(NSString *)theName {
-	return [[[GrowlApplicationNotification alloc] initWithName:theName] autorelease];
++ (GrowlNotificationTicket *) notificationWithName:(NSString *)theName {
+	return [[[GrowlNotificationTicket alloc] initWithName:theName] autorelease];
 }
 
-+ (GrowlApplicationNotification *) notificationWithDictionary:(NSDictionary *)dict {
-	return [[[GrowlApplicationNotification alloc] initWithDictionary:dict] autorelease];
++ (GrowlNotificationTicket *) notificationWithDictionary:(NSDictionary *)dict {
+	return [[[GrowlNotificationTicket alloc] initWithDictionary:dict] autorelease];
 }
 
-+ (GrowlApplicationNotification *) notificationWithName:(NSString *)name
-											   priority:(enum GrowlPriority)priority
-												enabled:(BOOL)enabled
-												 sticky:(int)sticky
-									  displayPluginName:(NSString *)display
++ (GrowlNotificationTicket *) notificationWithName:(NSString *)name
+										  priority:(enum GrowlPriority)priority
+										   enabled:(BOOL)enabled
+											sticky:(int)sticky
+								 displayPluginName:(NSString *)display
 {
 	return [[[self alloc] initWithName:name
 							  priority:priority
@@ -36,7 +36,7 @@
 					 displayPluginName:display] autorelease];
 }
 
-- (GrowlApplicationNotification *) initWithDictionary:(NSDictionary *)dict {
+- (GrowlNotificationTicket *) initWithDictionary:(NSDictionary *)dict {
 	NSString *inName = [dict objectForKey:@"Name"];
 
 	id value = [dict objectForKey:@"Priority"];
@@ -56,15 +56,15 @@
 			displayPluginName:inDisplay];
 }
 
-- (GrowlApplicationNotification *) initWithName:(NSString *)theName {
+- (GrowlNotificationTicket *) initWithName:(NSString *)theName {
 	return [self initWithName:theName priority:GrowlPriorityUnset enabled:YES sticky:NSMixedState displayPluginName:nil];
 }
 
-- (GrowlApplicationNotification *) initWithName:(NSString *)inName
-									   priority:(enum GrowlPriority)inPriority
-										enabled:(BOOL)inEnabled
-										 sticky:(int)inSticky
-							  displayPluginName:(NSString *)display
+- (GrowlNotificationTicket *) initWithName:(NSString *)inName
+								  priority:(enum GrowlPriority)inPriority
+								   enabled:(BOOL)inEnabled
+									sticky:(int)inSticky
+						 displayPluginName:(NSString *)display
 {
 	if ((self = [super init])) {
 		name     = [inName retain];
@@ -103,11 +103,11 @@
 	return [NSString stringWithFormat:@"<%@ %p %@>", [self class], self, [[self dictionaryRepresentation] description]];
 }
 
-- (BOOL) isEqualToNotification:(GrowlApplicationNotification *) other {
+- (BOOL) isEqualToNotification:(GrowlNotificationTicket *) other {
 	return [[self name] isEqualToString:[other name]];
 }
 #define GENERIC_EQUALITY_METHOD(other) {                                                                      \
-	return ([other isKindOfClass:[GrowlApplicationNotification class]] && [self isEqualToNotification:other]); \
+	return ([other isKindOfClass:[GrowlNotificationTicket class]] && [self isEqualToNotification:other]); \
 }
 //NSObject's way
 - (BOOL) isEqualTo:(id) other GENERIC_EQUALITY_METHOD(other)

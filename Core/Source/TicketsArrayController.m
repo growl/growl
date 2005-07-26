@@ -9,7 +9,7 @@
 
 #import "TicketsArrayController.h"
 #import "GrowlApplicationTicket.h"
-#import "GrowlApplicationNotification.h"
+#import "GrowlNotificationTicket.h"
 
 @implementation TicketsArrayController
 
@@ -35,7 +35,7 @@
 			} else {
 				// Filter notifications
 				NSEnumerator *notificationsEnum = [[ticket notifications] objectEnumerator];
-				GrowlApplicationNotification *notification;
+				GrowlNotificationTicket *notification;
 				while ((notification = [notificationsEnum nextObject])) {
 					if ([[notification name] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
 						[matchedObjects addObject:ticket];
