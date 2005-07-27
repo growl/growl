@@ -9,9 +9,20 @@
 #import "GrowlDisplayWindowController.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlDefines.h"
+#import "GrowlWindowTransition.h"
 #import "NSViewAdditions.h"
 
 @implementation GrowlDisplayWindowController
+
+- (id) init {
+	self = [super init];
+	
+	if (self) {
+		windowTransitions = [[NSMutableArray alloc] init];
+	}
+	
+	return self;
+}
 
 - (void) dealloc {
 	[self stopDisplayTimer];
@@ -23,6 +34,7 @@
 	[clickHandlerEnabled release];
 	[appName             release];
 	[appPid              release];
+	[windowTransitions	 release];
 
 	[super dealloc];
 }
@@ -124,6 +136,79 @@
 
 	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
+}
+
+#pragma mark -
+#pragma mark Window Transitions
+
+- (void) addTransition:(GrowlWindowTransition *)transition {
+	[transition setWindow:[self window]];
+	[transition setDelegate:self];
+	[windowTransitions addObject:transition];
+}
+
+- (void) removeTransition:(GrowlWindowTransition *)transition {
+	[windowTransitions removeObject:transition];
+	[transition setDelegate:nil];
+	[transition setWindow:nil];
+}
+
+- (NSArray *) allTransitions {
+	return windowTransitions;
+}
+
+- (NSArray *) activeTransitions {
+	NSMutableArray *result = [[NSMutableArray alloc] init];
+	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
+	GrowlWindowTransition *transition;
+	
+	while ((transition = [enumerator nextObject])) {
+		if ([transition isAnimating])
+			[result addObject:transition];
+	}
+	
+	return [result autorelease];
+}
+
+- (NSArray *) inactiveTransitions {
+	NSMutableArray *result = [[NSMutableArray alloc] init];
+	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
+	GrowlWindowTransition *transition;
+	
+	while ((transition = [enumerator nextObject])) {
+		if (![transition isAnimating])
+			[result addObject:transition];
+	}
+	
+	return [result autorelease];
+}
+
+- (void) startAllTransitions {
+	[windowTransitions makeObjectsPerformSelector:@selector(startAnimation)];
+}
+
+- (void) startAllTransitionsOfKind:(Class)transitionsClass {
+	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
+	GrowlWindowTransition *transition;
+	
+	while ((transition = [enumerator nextObject])) {
+		if ([transition isKindOfClass:transitionsClass])
+			[transition startAnimation];
+	}
+}
+
+- (void) stopAllTransitions {
+	[windowTransitions makeObjectsPerformSelector:@selector(stopAnimation)];
+}
+
+- (void) StopAllTransitionsOfKind:(Class)transitionsClass {
+	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
+	GrowlWindowTransition *transition;
+	
+	while ((transition = [enumerator nextObject])) {
+		if ([transition isKindOfClass:transitionsClass])
+			[transition stopAnimation];
+	}
 }
 
 #pragma mark -

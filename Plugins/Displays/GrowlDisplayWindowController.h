@@ -12,21 +12,24 @@
 #define GrowlDisplayWindowControllerWillTakeDownWindowNotification @"GrowlDisplayWindowControllerWillTakeDownWindowNotification"
 #define GrowlDisplayWindowControllerDidTakeDownWindowNotification  @"GrowlDisplayWindowControllerDidTakeDownWindowNotification"
 
+@class GrowlWindowTransition;
+
 @interface GrowlDisplayWindowController : NSWindowController
 {
-	SEL            action;
-	id             target;
-	id             clickContext;
-	NSNumber      *clickHandlerEnabled;
-	NSString      *appName;
-	NSNumber      *appPid;
-	id             delegate;
-	NSTimer       *displayTimer;
+	SEL					action;
+	id					target;
+	id					clickContext;
+	NSNumber			*clickHandlerEnabled;
+	NSString			*appName;
+	NSNumber			*appPid;
+	id					delegate;
+	NSTimer				*displayTimer;
+	NSMutableArray		*windowTransitions;
 
-	NSTimeInterval displayDuration;
-	unsigned       screenNumber;
-	unsigned       WCReserved: 31;
-	unsigned       screenshotMode: 1;
+	NSTimeInterval		displayDuration;
+	unsigned			screenNumber;
+	unsigned			WCReserved: 31;
+	unsigned			screenshotMode: 1;
 }
 
 - (void) takeScreenshot;
@@ -47,6 +50,21 @@
 
 - (void) startDisplayTimer;
 - (void) stopDisplayTimer;
+
+#pragma mark -
+
+- (void) addTransition:(GrowlWindowTransition *)transition;
+- (void) removeTransition:(GrowlWindowTransition *)transition;
+
+- (NSArray *) allTransitions;
+- (NSArray *) activeTransitions;
+- (NSArray *) inactiveTransitions;
+
+- (void) startAllTransitions;
+- (void) startAllTransitionsOfKind:(Class)transitionsClass;
+
+- (void) stopAllTransitions;
+- (void) StopAllTransitionsOfKind:(Class)transitionsClass;
 
 #pragma mark -
 
