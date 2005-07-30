@@ -93,14 +93,14 @@
 
 #pragma mark -
 
-- (void) drawFrame:(GrowlAnimationProgress)progress {
-	if ([self window]) {
+- (void) drawTransitionWithWindow:(NSWindow)aWindow progress:(GrowlAnimationProgress)progress {
+	if (aWindow) {
 		switch (fadeAction) {
 			case GrowlFadeIn:
-				[[self window] setAlphaValue:progress];
+				[aWindow setAlphaValue:progress];
 				break;
 			case GrowlFadeOut:
-				[[self window] setAlphaValue:(1.0 - progress)];
+				[aWindow setAlphaValue:(1.0 - progress)];
 				break;
 			default:
 				break;

@@ -18,4 +18,7 @@
 - (NSWindow *) window;
 - (void) setWindow:(NSWindow *)inWindow;
 
+	//Override this in your subclass in order to draw your animation.
+- (void) drawTransitionWithWindow:(NSWindow)aWindow progress:(GrowlAnimationProgress)progress;
+
 @end

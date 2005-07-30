@@ -35,6 +35,7 @@
 		startAnimationProgress = -1.0;
 		stopAnimation = nil;
 		stopAnimationProgress = -1.0;
+		repeats = NO;
 	}
 	
 	return self;
@@ -98,8 +99,11 @@
 		//Let our delegate know what's going on
 		if (progress < 1.0)
 			[delegate growlAnimationDidStop:self];
-		else
+		else {
 			[delegate growlAnimationDidEnd:self];
+			if (repeats)
+				[self startAnimation];
+		}
 	}
 }
 
@@ -174,6 +178,16 @@
 	delegate = newDelegate;
 }
 
+#pragma mark -
+
+- (BOOL) repeats {
+	return repeats;
+}
+
+- (void) setRepeats:(BOOL)value {
+	repeats = value;
+}
+
 //===============================================================================//
 //===============================================================================//
 //===============================================================================//
@@ -231,7 +245,7 @@
 				progress = completedPercentage;
 				break;
 			case GrowlAnimationEaseInOut:
-				//y=sin(x*π)
+				//y=sin(x*pi)
 				progress = sinf(completedPercentage * M_PI);
 				break;
 			case GrowlAnimationEaseOut:

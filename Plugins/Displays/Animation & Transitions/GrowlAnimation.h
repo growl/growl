@@ -29,6 +29,7 @@ typedef enum {
 	unsigned int				framesPassed;
 	GrowlAnimationCurve			animationCurve;		//Default to GrowlAnimationEaseInOut
 	id							delegate;
+	BOOL						repeats;
 	
 	/* Linked Animations */
 	GrowlAnimation				*startAnimation;
@@ -49,11 +50,14 @@ typedef enum {
 
 - (void) drawFrame:(GrowlAnimationProgress)progress;	//Override this in your subclass in order to draw your animation.
 
+- (BOOL) repeats;
+- (void) setRepeats:(BOOL)value;
+
 - (GrowlAnimationProgress) currentProgress;
 - (void) setCurrentProgress:(GrowlAnimationProgress)value;
 
 - (GrowlAnimationCurve) animationCurve;
-- (void )setAnimationCurve:(GrowlAnimationCurve)curve;
+- (void) setAnimationCurve:(GrowlAnimationCurve)curve;
 
 - (NSTimeInterval) duration;
 - (void) setDuration:(NSTimeInterval)duration;
