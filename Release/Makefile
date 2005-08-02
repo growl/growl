@@ -28,7 +28,7 @@ else
 endif
 
 # What to do before running this script:
-# - Set version number in GHA
+# - Set version number in GHA. You can do this in GrowlController.m. Look for the "static struct Version version" line.
 # - Set RELEASE_NAME
 
 .PHONY: all compile clean release source
