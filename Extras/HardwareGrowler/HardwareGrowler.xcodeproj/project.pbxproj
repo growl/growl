@@ -268,7 +268,7 @@
 		958AB97307C6A20100F56B45 /* SCDynamicStore.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SCDynamicStore.m; sourceTree = "<group>"; };
 		958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		95AC163B0858A3BF008213B8 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		95AC16450858A3ED008213B8 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
+		95AC16450858A3ED008213B8 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95B00A8C08468A62004A8623 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hwGrowlerIcon.icns; sourceTree = "<group>"; };
 		DD1E135B07C923FD005BD5FC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
