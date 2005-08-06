@@ -237,10 +237,10 @@ static OSStatus _handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef
 						//disable the OK and Cancel buttons (optional, but preferred).
 						OSStatus OKButtonErr = HIViewFindByID(rootView, OKButtonID, &OKButton);
 						if (OKButtonErr == noErr)
-							HIViewSetEnabled(OKButton, true);
+							EnableControl(OKButton);
 						OSStatus cancelButtonErr = HIViewFindByID(rootView, cancelButtonID, &cancelButton);
 						if (cancelButtonErr == noErr)
-							HIViewSetEnabled(cancelButton, true);
+							EnableControl(cancelButton);
 
 						MPTaskID task = NULL;
 						err = MPCreateTask((TaskProc)_installGrowl,
@@ -277,9 +277,9 @@ static OSStatus _handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef
 
 						//reenable the OK and Cancel buttons (optional, but preferred).
 						if (OKButtonErr == noErr)
-							HIViewSetEnabled(OKButton, true);
+							EnableControl(OKButton, true);
 						if (cancelButtonErr == noErr)
-							HIViewSetEnabled(cancelButton, true);
+							EnableControl(cancelButton, true);
 
 						if (!err) err = chasingArrowsErr;
 						//skip over the Cancel-specific code
