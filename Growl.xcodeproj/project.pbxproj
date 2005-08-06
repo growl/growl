@@ -793,6 +793,7 @@
 		343353E90792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "GrowlApplicationBridge-Carbon.h"; path = "Framework/Source/GrowlApplicationBridge-Carbon.h"; sourceTree = "<group>"; };
 		343354B20792F84B00C84B15 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		343354C10792F96300C84B15 /* GrowlFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlFramework_Prefix.pch; path = Framework/Source/GrowlFramework_Prefix.pch; sourceTree = "<group>"; };
+		346F5E1608A47EB70055C610 /* Russian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Russian; path = Framework/Resources/Russian.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		34B2755208423BE80092A5A0 /* growlmenu-alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "growlmenu-alt.png"; path = "StatusItem/Resources/growlmenu-alt.png"; sourceTree = "<group>"; };
 		34B2755308423BE80092A5A0 /* growlmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = growlmenu.png; path = StatusItem/Resources/growlmenu.png; sourceTree = "<group>"; };
 		34B2755408423BE80092A5A0 /* MenuExtra-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = "MenuExtra-Info.plist"; path = "StatusItem/Resources/MenuExtra-Info.plist"; sourceTree = "<group>"; };
@@ -3800,6 +3801,7 @@
 				952EFCA507C2869700952C6B /* English */,
 				952EFD0F07C286A700952C6B /* German */,
 				9574B9990838FBEE00106CA3 /* Japanese */,
+				346F5E1608A47EB70055C610 /* Russian */,
 			);
 			name = GrowlInstallationPrompt.nib;
 			sourceTree = "<group>";
