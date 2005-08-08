@@ -8,6 +8,8 @@
 
 #import "GrowlStatusController.h"
 
+//Idle monitoring code from Adium X ( http://www.adiumx.com ), used with permission
+
 //30 seconds of inactivity is considered idle
 #define MACHINE_IDLE_THRESHOLD			30
 //Poll every 30 seconds when the user is active
