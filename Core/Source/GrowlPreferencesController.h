@@ -81,18 +81,4 @@
 - (int) UDPPort;
 - (void) setUDPPort:(int)value;
 
-//XXX use NSArrayController
-- (NSMutableArray *) services;
-- (void) setServices:(NSMutableArray *)theServices;
-
-- (unsigned) countOfServices;
-- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)index;
-- (void) replaceObjectInServicesAtIndex:(unsigned)index withObject:(id)anObject;
-
-#pragma mark "Display Options" tab pane
-
-//XXX use NSArrayController
-- (NSArray *) displayPlugins;
-- (void) setDisplayPlugins:(NSArray *)thePlugins;
-
 @end

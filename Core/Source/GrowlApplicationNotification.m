@@ -6,6 +6,9 @@
 //	Copyright 2005 The Growl Project. All rights reserved.
 //
 
+#import "GrowlApplicationNotification.h"
+#import "GrowlDefines.h"
+
 @implementation GrowlApplicationNotification
 
 + (GrowlApplicationNotification *) notificationWithDictionary:(NSDictionary *)dict {
@@ -117,10 +120,9 @@
 
 		NSEnumerator *auxKeyEnum = [auxiliaryDictionary keyEnumerator];
 		id key;
-		while ((key = [auxKeyEnum nextObject])) {
+		while ((key = [auxKeyEnum nextObject]))
 			if (![dict objectForKey:key])
-				[dict setObject:[auxiliaryDictionary objectForKey:key]]
-		}
+				[dict setObject:[auxiliaryDictionary objectForKey:key] forKey:key];
 	} else {
 		//only include keys in the set.
 		dict = [[NSMutableDictionary alloc] initWithCapacity:[keys count]];
@@ -132,7 +134,7 @@
 		if ([keys containsObject:GROWL_NOTIFICATION_TITLE])
 			[dict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
 		if ([keys containsObject:GROWL_NOTIFICATION_DESCRIPTION])
-			[dict setObject:description forKey:];
+			[dict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
 		if (HTMLTitle && [keys containsObject:GROWL_NOTIFICATION_TITLE_HTML])
 			[dict setObject:HTMLTitle forKey:GROWL_NOTIFICATION_TITLE_HTML];
 		if (HTMLDescription && [keys containsObject:GROWL_NOTIFICATION_DESCRIPTION_HTML])
@@ -140,10 +142,9 @@
 
 		NSEnumerator *auxKeyEnum = [auxiliaryDictionary keyEnumerator];
 		id key;
-		while ((key = [auxKeyEnum nextObject])) {
+		while ((key = [auxKeyEnum nextObject]))
 			if ([keys containsObject:key] && ![dict objectForKey:key])
-				[dict setObject:[auxiliaryDictionary objectForKey:key]]
-		}
+				[dict setObject:[auxiliaryDictionary objectForKey:key] forKey:key];
 	}
 
 	NSDictionary *result = [NSDictionary dictionaryWithDictionary:dict];
@@ -175,6 +176,8 @@
 - (NSAttributedString *)attributedTitle {
 	if (HTMLTitle) 
 		return [[[NSAttributedString alloc] initWithHTML:[HTMLTitle dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL] autorelease];
+	else
+		return nil;
 }
 - (NSString *)HTMLTitle; {
 	return HTMLTitle;
@@ -186,6 +189,8 @@
 - (NSAttributedString *)attributedDescription {
 	if (HTMLDescription) 
 		return [[[NSAttributedString alloc] initWithHTML:[HTMLDescription dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL] autorelease];
+	else
+		return nil;
 }
 - (NSString *)HTMLDescription; {
 	return HTMLDescription;

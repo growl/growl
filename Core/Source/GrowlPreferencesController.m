@@ -14,7 +14,13 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
+#import "NSStringAdditions.h"
+#import <Security/SecKeychain.h>
+#import <Security/SecKeychainItem.h>
 #include <Carbon/Carbon.h>
+
+#define keychainServiceName "Growl"
+#define keychainAccountName "Growl"
 
 @implementation GrowlPreferencesController
 
@@ -234,7 +240,8 @@
 #pragma mark GrowlMenu running state
 
 - (void) enableGrowlMenu {
-	NSString *growlMenuPath = [[self bundle] pathForResource:@"GrowlMenu" ofType:@"app"];
+	NSBundle *bundle = [NSBundle bundleForClass:[GrowlPreferencesController class]];
+	NSString *growlMenuPath = [bundle pathForResource:@"GrowlMenu" ofType:@"app"];
 	NSURL *growlMenuURL = [NSURL fileURLWithPath:growlMenuPath];
 	[[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:growlMenuURL]
 	                withAppBundleIdentifier:nil
@@ -452,80 +459,13 @@
 	[[GrowlPreferencesController sharedController] setBool:enabled forKey:GrowlEnableForwardKey];
 }
 
-#pragma mark Bonjour
-
-- (void) resolveService:(id)sender {
-	int row = [sender selectedRow];
-	if (row != -1) {
-		GrowlBrowserEntry *entry = [services objectAtIndex:row];
-		NSNetService *serviceToResolve = [entry netService];
-		if (serviceToResolve) {
-			// Make sure to cancel any previous resolves.
-			if (serviceBeingResolved) {
-				[serviceBeingResolved stop];
-				[serviceBeingResolved release];
-				serviceBeingResolved = nil;
-			}
-
-			currentServiceIndex = row;
-			serviceBeingResolved = serviceToResolve;
-			[serviceBeingResolved retain];
-			[serviceBeingResolved setDelegate:self];
-			if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)])
-				[serviceBeingResolved resolveWithTimeout:5.0];
-			else
-				// this selector is deprecated in 10.4
-				[serviceBeingResolved resolve];
-		}
-	}
-}
-
-- (NSMutableArray *) services {
-	return services;
-}
-
-- (void) setServices:(NSMutableArray *)theServices {
-	if (theServices != services) {
-		[services release];
-		services = [theServices retain];
-	}
-}
-
-- (unsigned) countOfServices {
-	return [services count];
-}
-
-- (id) objectInServicesAtIndex:(unsigned)idx {
-	return [services objectAtIndex:idx];
-}
-
-- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)idx {
-	[services insertObject:anObject atIndex:idx];
-}
-
-- (void) replaceObjectInServicesAtIndex:(unsigned)idx withObject:(id)anObject {
-	[services replaceObjectAtIndex:idx withObject:anObject];
-}
-
-#pragma mark "Display Options" tab pane
-
-- (NSArray *) displayPlugins {
-	return plugins;
-}
-
-- (void) setDisplayPlugins:(NSArray *)thePlugins {
-	[plugins release];
-	plugins = [thePlugins retain];
-}
-
 #pragma mark -
 /*
  * @brief Growl preferences changed
  *
  * Synchronize our NSUserDefaults to immediately get any changes from the disk
  */
-- (void)growlPreferencesChanged:(NSNotification *)notification
-{
+- (void) growlPreferencesChanged:(NSNotification *)notification {
 #pragma unused(notification)
 	[self synchronize];	
 }

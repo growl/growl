@@ -17,19 +17,14 @@
 #import "GrowlDisplayProtocol.h"
 #import "GrowlPluginController.h"
 #import "GrowlVersionUtilities.h"
+#import "GrowlBrowserEntry.h"
 #import "ACImageAndTextCell.h"
 #import "NSStringAdditions.h"
 #import "TicketsArrayController.h"
-#import "GrowlBrowserEntry.h"
 #import <ApplicationServices/ApplicationServices.h>
-#import <Security/SecKeychain.h>
-#import <Security/SecKeychainItem.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
 #define PING_TIMEOUT		3
-
-#define keychainServiceName "Growl"
-#define keychainAccountName "Growl"
 
 //This is the frame of the preference view that we should get back.
 #define DISPLAY_PREF_FRAME NSMakeRect(16.0f, 58.0f, 354.0f, 289.0f)
@@ -803,11 +798,77 @@
 	}
 }
 
+#pragma mark Bonjour
+
+- (void) resolveService:(id)sender {
+	int row = [sender selectedRow];
+	if (row != -1) {
+		GrowlBrowserEntry *entry = [services objectAtIndex:row];
+		NSNetService *serviceToResolve = [entry netService];
+		if (serviceToResolve) {
+			// Make sure to cancel any previous resolves.
+			if (serviceBeingResolved) {
+				[serviceBeingResolved stop];
+				[serviceBeingResolved release];
+				serviceBeingResolved = nil;
+			}
+			
+			currentServiceIndex = row;
+			serviceBeingResolved = serviceToResolve;
+			[serviceBeingResolved retain];
+			[serviceBeingResolved setDelegate:self];
+			if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)])
+				[serviceBeingResolved resolveWithTimeout:5.0];
+			else
+				// this selector is deprecated in 10.4
+				[serviceBeingResolved resolve];
+		}
+	}
+}
+
+- (NSMutableArray *) services {
+	return services;
+}
+
+- (void) setServices:(NSMutableArray *)theServices {
+	if (theServices != services) {
+		[services release];
+		services = [theServices retain];
+	}
+}
+
+- (unsigned) countOfServices {
+	return [services count];
+}
+
+- (id) objectInServicesAtIndex:(unsigned)idx {
+	return [services objectAtIndex:idx];
+}
+
+- (void) insertObject:(id)anObject inServicesAtIndex:(unsigned)idx {
+	[services insertObject:anObject atIndex:idx];
+}
+
+- (void) replaceObjectInServicesAtIndex:(unsigned)idx withObject:(id)anObject {
+	[services replaceObjectAtIndex:idx withObject:anObject];
+}
+
 #pragma mark Detecting Growl
 
 - (void) checkGrowlRunning {
 	[self setGrowlIsRunning:[[GrowlPreferencesController sharedController] isGrowlRunning]];
 	[self updateRunningStatus];
+}
+
+#pragma mark "Display Options" tab pane
+
+- (NSArray *) displayPlugins {
+	return plugins;
+}
+
+- (void) setDisplayPlugins:(NSArray *)thePlugins {
+	[plugins release];
+	plugins = [thePlugins retain];
 }
 
 #pragma mark -

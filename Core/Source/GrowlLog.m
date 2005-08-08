@@ -13,7 +13,7 @@
 
 @implementation GrowlLog
 + (void) _performLog:(NSString *)message {
-	GrowlPreferences *preferences = [GrowlPreferences preferences];
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 	
 	int typePref = [preferences integerForKey:GrowlLogTypeKey];
 	if (typePref == 0) {
@@ -42,41 +42,34 @@
 }
 
 + (void) log:(NSString *)message {
-	GrowlPreferences *preferences = [GrowlPreferences preferences];
-	if (![preferences boolForKey:GrowlLoggingEnabledKey]) {
-		return;
-	}
-	
-	[self _performLog:message];
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+	if ([preferences boolForKey:GrowlLoggingEnabledKey])
+		[self _performLog:message];
 }
 
 + (void) logNotificationDictionary:(NSDictionary *)noteDict {
-	GrowlPreferences *preferences = [GrowlPreferences preferences];
-	if (![preferences boolForKey:GrowlLoggingEnabledKey]) {
-		return;
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+	if ([preferences boolForKey:GrowlLoggingEnabledKey]) {
+		NSString *logString = [[NSString alloc] initWithFormat:@"%@ %@: %@ (%@) - Priority %d",
+			[NSDate date],
+			[noteDict objectForKey:GROWL_APP_NAME],
+			[noteDict objectForKey:GROWL_NOTIFICATION_TITLE],
+			[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION],
+			[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
+		[self _performLog:logString];
+		[logString release];
 	}
-	
-	NSString *logString = [[NSString alloc] initWithFormat:@"%@ %@: %@ (%@) - Priority %d",
-		[NSDate date],
-		[noteDict objectForKey:GROWL_APP_NAME],
-		[noteDict objectForKey:GROWL_NOTIFICATION_TITLE],
-		[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION],
-		[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
-	[self _performLog:logString];
-	[logString release];
 }
 
 + (void) logRegistrationDictionary:(NSDictionary *)regDict {
-	GrowlPreferences *preferences = [GrowlPreferences preferences];
-	if (![preferences boolForKey:GrowlLoggingEnabledKey]) {
-		return;
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+	if ([preferences boolForKey:GrowlLoggingEnabledKey]) {
+		NSString *logString = [[NSString alloc] initWithFormat:@"%@ %@ registered",
+			[NSDate date],
+			[regDict objectForKey:GROWL_APP_NAME]];
+		[self _performLog:logString];
+		[logString release];
 	}
-	
-	NSString *logString = [[NSString alloc] initWithFormat:@"%@ %@ registered",
-		[NSDate date],
-		[regDict objectForKey:GROWL_APP_NAME]];
-	[self _performLog:logString];
-	[logString release];
 }
 
 @end

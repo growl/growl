@@ -93,7 +93,7 @@
 
 #pragma mark -
 
-- (void) drawTransitionWithWindow:(NSWindow)aWindow progress:(GrowlAnimationProgress)progress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
 	if (aWindow) {
 		switch (fadeAction) {
 			case GrowlFadeIn:

@@ -11,23 +11,11 @@
 
 @implementation GrowlWindowTransition
 
-- (id) init {
-	self = [super init];
-	
-	if (self) {
-		window = nil;
-	}
-	
-	return self;
-}
-
 - (id) initWithWindow:(NSWindow *)inWindow {
-	self = [self init];	//Init with GrowlAnimation's default values
-	
-	if (self) {
+	if ((self = [super init])) {
 		[self setWindow:inWindow];
 	}
-	
+
 	return self;
 }
 
@@ -49,7 +37,8 @@
 	[self drawTransitionWithWindow:window progress:progress];
 }
 
-- (void) drawTransitionWithWindow:(NSWindow)aWindow progress:(GrowlAnimationProgress)progress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
+#pragma unused(aWindow, progress)
 	//
 }
 

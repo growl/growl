@@ -10,7 +10,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class GrowlApplicationNotification;
+@class GrowlNotificationTicket;
 @protocol GrowlDisplayPlugin;
 
 @interface GrowlApplicationTicket : NSObject {
@@ -90,5 +90,5 @@
 
 #pragma mark Notification accessors
 - (NSArray *) notifications;
-- (GrowlApplicationNotification *) notificationForName:(NSString *)name;
+- (GrowlNotificationTicket *) notificationTicketForName:(NSString *)name;
 @end
