@@ -31,12 +31,18 @@
 	if ((self = [super init])) {
 		helperAppDefaults = [[NSUserDefaults alloc] init];
 		[helperAppDefaults addSuiteNamed:HelperAppBundleIdentifier];
+		
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+															selector:@selector(growlPreferencesChanged:)
+																name:GrowlPreferencesChanged
+															  object:nil];		
 	}
 	return self;
 }
 
 - (void) dealloc {
 	[helperAppDefaults release];
+	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 
 	[super dealloc];
 }
@@ -56,7 +62,6 @@
 }
 
 - (id) objectForKey:(NSString *)key {
-	[helperAppDefaults synchronize];
 	return [helperAppDefaults objectForKey:key];
 }
 
@@ -77,7 +82,6 @@
 }
 
 - (BOOL) boolForKey:(NSString *)key {
-	[helperAppDefaults synchronize];
 	return [helperAppDefaults boolForKey:key];
 }
 
@@ -88,7 +92,6 @@
 }
 
 - (int) integerForKey:(NSString *)key {
-	[helperAppDefaults synchronize];
 	return [helperAppDefaults integerForKey:key];
 }
 
@@ -515,5 +518,16 @@
 	plugins = [thePlugins retain];
 }
 
+#pragma mark -
+/*
+ * @brief Growl preferences changed
+ *
+ * Synchronize our NSUserDefaults to immediately get any changes from the disk
+ */
+- (void)growlPreferencesChanged:(NSNotification *)notification
+{
+#pragma unused(notification)
+	[self synchronize];	
+}
 
 @end
