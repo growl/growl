@@ -9,13 +9,13 @@
 #import "GrowlAnimation.h"
 
 @interface GrowlAnimation (private)
-- (void) _doAnimationStep;
+- (void) doAnimationStep;
 
-- (void) _setStartAnimation:(GrowlAnimation *)animation;
-- (void) _setStartAnimationProgress:(GrowlAnimationProgress)animationProgress;
+- (void) setStartAnimation:(GrowlAnimation *)animation;
+- (void) setStartAnimationProgress:(GrowlAnimationProgress)animationProgress;
 
-- (void) _setStopAnimation:(GrowlAnimation *)animation;
-- (void) _setStopAnimationProgress:(GrowlAnimationProgress)animationProgress;
+- (void) setStopAnimation:(GrowlAnimation *)animation;
+- (void) setStopAnimationProgress:(GrowlAnimationProgress)animationProgress;
 @end
 
 @implementation GrowlAnimation
@@ -194,27 +194,27 @@
 #pragma mark -
 #pragma mark Private
 
-- (void) _setStartAnimation:(GrowlAnimation *)animation {
+- (void) setStartAnimation:(GrowlAnimation *)animation {
 	startAnimation = animation;
 }
 
-- (void) _setStartAnimationProgress:(GrowlAnimationProgress)animationProgress {
+- (void) setStartAnimationProgress:(GrowlAnimationProgress)animationProgress {
 	startAnimationProgress = animationProgress;
 }
 
 #pragma mark -
 
-- (void) _setStopAnimation:(GrowlAnimation *)animation {
+- (void) setStopAnimation:(GrowlAnimation *)animation {
 	stopAnimation = animation;
 }
 
-- (void) _setStopAnimationProgress:(GrowlAnimationProgress)animationProgress {
+- (void) setStopAnimationProgress:(GrowlAnimationProgress)animationProgress {
 	stopAnimationProgress = animationProgress;
 }
 
 #pragma mark -
 
-- (void) _doAnimationStep {
+- (void) doAnimationStep {
 	//The delegate may want to change our progress
 	if (delegate)
 		progress = [delegate growlAnimation:self valueForProgress:progress];
