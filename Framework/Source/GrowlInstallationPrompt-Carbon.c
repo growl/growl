@@ -7,10 +7,10 @@
  *
  */
 
-#include "GrowlInstallationPrompt-Carbon.h"
-#include "GrowlApplicationBridge-Carbon.h"
 #include "GrowlDefines.h"
 #include "GrowlDefinesInternal.h"
+#include "GrowlInstallationPrompt-Carbon.h"
+#include "GrowlApplicationBridge-Carbon.h"
 
 #include <QuickTime/QuickTime.h>
 #include <alloca.h>
@@ -277,9 +277,9 @@ static OSStatus _handleCommandInWindow(EventHandlerCallRef nextHandler, EventRef
 
 						//reenable the OK and Cancel buttons (optional, but preferred).
 						if (OKButtonErr == noErr)
-							EnableControl(OKButton, true);
+							EnableControl(OKButton);
 						if (cancelButtonErr == noErr)
-							EnableControl(cancelButton, true);
+							EnableControl(cancelButton);
 
 						if (!err) err = chasingArrowsErr;
 						//skip over the Cancel-specific code
