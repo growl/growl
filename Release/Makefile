@@ -33,6 +33,7 @@ endif
 # - Edit the following two plist keys
 #       - Core/Resources/Info.plist
 #       - Core/Resources/GrowlHelperApp-Info.plist
+
 .PHONY: all compile clean release source
 
 all: compile release source
