@@ -163,36 +163,36 @@
 
 #pragma mark -
 
-- (NSString *)name; {
+- (NSString *)name {
 	return name;
 }
-- (NSString *)applicationName; {
+- (NSString *)applicationName {
 	return applicationName;
 }
 
-- (NSString *)title; {
+- (NSString *)title {
 	return title;
 }
 - (NSAttributedString *)attributedTitle {
 	if (HTMLTitle) 
 		return [[[NSAttributedString alloc] initWithHTML:[HTMLTitle dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL] autorelease];
 	else
-		return nil;
+		return [[[NSAttributedString alloc] initWithString:title] autorelease];
 }
-- (NSString *)HTMLTitle; {
+- (NSString *)HTMLTitle {
 	return HTMLTitle;
 }
 
-- (NSString *)description; {
+- (NSString *)description {
 	return description;
 }
 - (NSAttributedString *)attributedDescription {
 	if (HTMLDescription) 
 		return [[[NSAttributedString alloc] initWithHTML:[HTMLDescription dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL] autorelease];
 	else
-		return nil;
+		return [[[NSAttributedString alloc] initWithString:description] autorelease];
 }
-- (NSString *)HTMLDescription; {
+- (NSString *)HTMLDescription {
 	return HTMLDescription;
 }
 
