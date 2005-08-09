@@ -30,7 +30,9 @@ endif
 # What to do before running this script:
 # - Set version number in GHA. You can do this in GrowlController.m. Look for the "static struct Version version" line.
 # - Set RELEASE_NAME
-
+# - Edit the following two plist keys
+#       - Core/Resources/Info.plist
+#       - Core/Resources/GrowlHelperApp-Info.plist
 .PHONY: all compile clean release source
 
 all: compile release source
