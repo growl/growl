@@ -33,6 +33,12 @@
 #import <Growl/Growl.h>
 #import "NSWorkspaceAdditions.h"
 
+@interface NSString (GrowlTunesMultiplicationAdditions)
+
+- (NSString *)stringByMultiplyingBy:(unsigned)multi;
+
+@end
+
 #define ONLINE_HELP_URL		    @"http://growl.info/documentation/growltunes.php"
 
 @interface GrowlTunesController (PRIVATE)
@@ -193,7 +199,7 @@ static GrowlTunesController *sharedController;
 
 #pragma mark -
 
-- (NSString *) starsForRating:(NSNumber *)aRating {
+- (NSString *) starsForRating:(NSNumber *)aRating withStarCharacter:(unichar)star {
 	int rating = aRating ? [aRating intValue] : 0;
 
 	enum {
@@ -232,7 +238,7 @@ static GrowlTunesController *sharedController;
 	unsigned i = 0U;
 	for (; starsRemaining--; ++i) {
 		if (rating >= wholeStarRequirement) {
-			starBuffer[i] = BLACK_STAR;
+			starBuffer[i] = star;
 			rating -= 20;
 		} else {
 			/*examples:
@@ -250,6 +256,87 @@ static GrowlTunesController *sharedController;
 	}
 
 	return [NSString stringWithCharacters:starBuffer length:i];
+}
+
+- (NSString *) starsForRating:(NSNumber *)aRating withStarString:(NSString *)star {
+	if (!star)
+		star = [[NSUserDefaults standardUserDefaults] stringForKey:@"Substitute for BLACK STAR"];
+
+	enum {
+		BLACK_STAR  = 0x2605, PINWHEEL_STAR  = 0x272F,
+		SPACE       = 0x0020, MIDDLE_DOT     = 0x00B7,
+		ONE_HALF    = 0x00BD,
+		ONE_QUARTER = 0x00BC, THREE_QUARTERS = 0x00BE,
+		ONE_THIRD   = 0x2153, TWO_THIRDS     = 0x2154,
+		ONE_FIFTH   = 0x2155, TWO_FIFTHS     = 0x2156, THREE_FIFTHS = 0x2157, FOUR_FIFTHS   = 0x2158,
+		ONE_SIXTH   = 0x2159, FIVE_SIXTHS    = 0x215a,
+		ONE_EIGHTH  = 0x215b, THREE_EIGHTHS  = 0x215c, FIVE_EIGHTHS = 0x215d, SEVEN_EIGHTHS = 0x215e,
+	};
+
+	unsigned starLength = [star length];
+	if( (!star) || (starLength == 0U))
+		return [self starsForRating:aRating withStarCharacter:(floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3_5) ? PINWHEEL_STAR : BLACK_STAR];
+	else if (starLength == 1U)
+		return [self starsForRating:aRating withStarCharacter:[star characterAtIndex:0U]];
+	else {
+		int rating = aRating ? [aRating intValue] : 0;
+		//invert.
+		int ratingInv = 100 - rating;
+
+		int numStars = rating / 20;
+		int numDots = ratingInv / 20;
+		unsigned fractionIndex = ratingInv % 20;
+
+		static unichar fractionChars[] = {
+			/*0/20*/ 0,
+			/*1/20*/ ONE_FIFTH, TWO_FIFTHS, THREE_FIFTHS,
+			/*4/20 = 1/5*/ ONE_FIFTH,
+			/*5/20 = 1/4*/ ONE_QUARTER,
+			/*6/20*/ ONE_THIRD, FIVE_EIGHTHS,
+			/*8/20 = 2/5*/ TWO_FIFTHS, TWO_FIFTHS,
+			/*10/20 = 1/2*/ ONE_HALF, ONE_HALF,
+			/*12/20 = 3/5*/ THREE_FIFTHS,
+			/*13/20 = 0.65; 5/8 = 0.625*/ FIVE_EIGHTHS,
+			/*14/20 = 7/10*/ FIVE_EIGHTHS, //highly approximate, of course, but it's as close as I could get :)
+			/*15/20 = 3/4*/ THREE_QUARTERS,
+			/*16/20 = 4/5*/ FOUR_FIFTHS, FOUR_FIFTHS,
+			/*18/20 = 9/10*/ SEVEN_EIGHTHS, SEVEN_EIGHTHS, //another approximation
+		};
+
+		unichar *buf = alloca(sizeof(unichar) * ((numDots * 2) - (!rating) + (fractionIndex > 0)));
+		unsigned i = 0U;
+		if (fractionIndex > 0)
+			buf[i++] = fractionChars[fractionIndex];
+
+		//place first dot without a leading space.
+		if ((!rating) && numDots) {
+			buf[i++] = MIDDLE_DOT;
+			--numDots;
+		}
+
+		while(numDots--) {
+			buf[i++] = SPACE;
+			buf[i++] = MIDDLE_DOT;
+		}
+
+		//place first star without a leading space.
+		NSString *firstStar = nil;
+		if ((starLength > 1U) && ([star characterAtIndex:0U] == SPACE)) {
+			NSRange range = { 1U, starLength - 1U };
+			firstStar = [star substringWithRange:range];
+		}
+
+		NSString *stars = (numStars && firstStar) ? [firstStar stringByAppendingString:[star stringByMultiplyingBy:numStars - 1]] : [star stringByMultiplyingBy:numStars];
+		NSString *dots = [[NSString alloc] initWithCharacters:buf length:i];
+		NSString *ratingString = [stars stringByAppendingString:dots];
+		[dots release];
+
+		return ratingString;
+	}
+}
+
+- (NSString *) starsForRating:(NSNumber *)rating {
+	return [self starsForRating:rating withStarString:nil];
 }
 
 #pragma mark -
@@ -1023,6 +1110,26 @@ static int comparePlugins(id <GrowlTunesPlugin> plugin1, id <GrowlTunesPlugin> p
 #pragma unused(track,artist,album,compilation)
 	NSLog(@"Dummy plug-in %p called for artwork", self);
 	return nil;
+}
+
+@end
+
+@implementation NSString (GrowlTunesMultiplicationAdditions)
+
+- (NSString *)stringByMultiplyingBy:(unsigned)multi {
+	unsigned length = [self length];
+	unsigned length_multi = length * multi;
+
+	unichar *buf = malloc(sizeof(unichar) * length_multi);
+	if (!buf)
+		return nil;
+
+	for (unsigned i = 0U; i < multi; ++i)
+		[self getCharacters:&buf[length * i]];
+
+	NSString *result = [NSString stringWithCharacters:buf length:length_multi];
+	free(buf);
+	return result;
 }
 
 @end
