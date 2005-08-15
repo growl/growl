@@ -284,7 +284,6 @@
 		9560BF04086DC46700A173B1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 343354B20792F84B00C84B15 /* Carbon.framework */; };
 		9560BF05086DC46700A173B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
 		9560BF06086DC46700A173B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
-		956ADB0007551C4500AF9545 /* GrowlBezierPathAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.m */; };
 		956ADB0207551C4500AF9545 /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
 		956D7E85082514B00083D772 /* sha2.c in Sources */ = {isa = PBXBuildFile; fileRef = 956D7E83082514A80083D772 /* sha2.c */; };
 		9570364D08A7DE15008B9FC9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
@@ -342,6 +341,10 @@
 		95D89B23082422A60068A4BD /* GrowlImageURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 951BD0B6081049C700D803CD /* GrowlImageURLProtocol.m */; };
 		95D89B55082422C50068A4BD /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 950F79C5080EEE2B00CC5F62 /* WebKit.framework */; };
 		95D89BC308242AD80068A4BD /* template.html in Resources */ = {isa = PBXBuildFile; fileRef = 9596C4EF081063DB00F43859 /* template.html */; };
+		95D8C1A508B0A07500A75BD6 /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
+		95D8C1A608B0A07900A75BD6 /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
+		95D8C1A708B0A07D00A75BD6 /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
+		95D8C1A808B0A08200A75BD6 /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
 		95D8C62A083D552B003601C3 /* Candybars.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95D8C60E083D552B003601C3 /* Candybars.growlStyle */; };
 		95D8C62B083D552B003601C3 /* Crystal.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95D8C61A083D552B003601C3 /* Crystal.growlStyle */; };
 		95D93724086EFA7C00A1AD50 /* NSViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D93723086EFA7200A1AD50 /* NSViewAdditions.m */; };
@@ -899,7 +902,7 @@
 		956ADAC607551C4500AF9545 /* GrowlDisplayFadingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDisplayFadingWindowController.h; path = Plugins/Displays/GrowlDisplayFadingWindowController.h; sourceTree = SOURCE_ROOT; };
 		956ADACB07551C4500AF9545 /* GrowlDisplayFadingWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlDisplayFadingWindowController.m; path = Plugins/Displays/GrowlDisplayFadingWindowController.m; sourceTree = SOURCE_ROOT; };
 		956ADAD007551C4500AF9545 /* GrowlBezierPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBezierPathAdditions.h; path = Core/Source/GrowlBezierPathAdditions.h; sourceTree = SOURCE_ROOT; };
-		956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlBezierPathAdditions.m; path = Core/Source/GrowlBezierPathAdditions.m; sourceTree = SOURCE_ROOT; };
+		956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GrowlBezierPathAdditions.c; path = Core/Source/GrowlBezierPathAdditions.c; sourceTree = "<group>"; };
 		956ADADA07551C4500AF9545 /* GrowlImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlImageAdditions.h; path = Core/Source/GrowlImageAdditions.h; sourceTree = SOURCE_ROOT; };
 		956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlImageAdditions.m; path = Core/Source/GrowlImageAdditions.m; sourceTree = SOURCE_ROOT; };
 		956D7E83082514A80083D772 /* sha2.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = sha2.c; path = Common/Source/sha2.c; sourceTree = "<group>"; };
@@ -1708,7 +1711,7 @@
 				95C877C207D9DFC000C69DEE /* NSWindow+Transforms.m */,
 				95EF04F207C77C1500218584 /* CoreGraphicsServices.h */,
 				956ADAD007551C4500AF9545 /* GrowlBezierPathAdditions.h */,
-				956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.m */,
+				956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */,
 				956ADADA07551C4500AF9545 /* GrowlImageAdditions.h */,
 				956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */,
 				955C236B081537280013C3CF /* NSMutableStringAdditions.h */,
@@ -2943,12 +2946,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
-					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
-				},
-				{
 					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
 					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
+				},
+				{
+					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
+					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
 				},
 			);
 			targets = (
@@ -3324,6 +3327,7 @@
 				0A7F5EEC0767C30800E1C1E4 /* GrowlBubblesPrefsController.m in Sources */,
 				0A7F5EEE0767C30800E1C1E4 /* GrowlBubblesWindowController.m in Sources */,
 				0A7F5EF00767C30800E1C1E4 /* GrowlBubblesWindowView.m in Sources */,
+				95D8C1A608B0A07900A75BD6 /* GrowlBezierPathAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3335,6 +3339,7 @@
 				0A7F5F3F0767C3F600E1C1E4 /* GrowlBezelPrefs.m in Sources */,
 				0A7F5F410767C3F600E1C1E4 /* GrowlBezelWindowController.m in Sources */,
 				0A7F5F430767C3F600E1C1E4 /* GrowlBezelWindowView.m in Sources */,
+				95D8C1A708B0A07D00A75BD6 /* GrowlBezierPathAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3346,6 +3351,7 @@
 				0A7F5F9B0767C6C500E1C1E4 /* GrowlSmokePrefsController.m in Sources */,
 				0A7F5F9D0767C6C500E1C1E4 /* GrowlSmokeWindowController.m in Sources */,
 				0A7F5F9F0767C6C500E1C1E4 /* GrowlSmokeWindowView.m in Sources */,
+				95D8C1A808B0A08200A75BD6 /* GrowlBezierPathAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3484,6 +3490,7 @@
 				955437E207E048BE005534FA /* GrowlBrushedPrefsController.m in Sources */,
 				955437E407E048BF005534FA /* GrowlBrushedWindowController.m in Sources */,
 				955437E607E048C0005534FA /* GrowlBrushedWindowView.m in Sources */,
+				95D8C1A508B0A07500A75BD6 /* GrowlBezierPathAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3498,7 +3505,6 @@
 				953F5D3807403BC7008E2AEB /* GrowlRegisterScriptCommand.m in Sources */,
 				95DD14E10748B04700CC05A4 /* GrowlPathway.m in Sources */,
 				958294F2074CDE3100EC7AF2 /* GrowlUDPPathway.m in Sources */,
-				956ADB0007551C4500AF9545 /* GrowlBezierPathAdditions.m in Sources */,
 				956ADB0207551C4500AF9545 /* GrowlImageAdditions.m in Sources */,
 				3434E8EA0790D6E600A97A48 /* GrowlDisplayFadingWindowController.m in Sources */,
 				CB5C315C07925B53007CC0D0 /* GrowlNotificationTicket.m in Sources */,

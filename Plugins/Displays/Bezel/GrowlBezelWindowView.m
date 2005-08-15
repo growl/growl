@@ -69,9 +69,12 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 
 - (void) drawRect:(NSRect)rect {
 #pragma unused(rect)
-	NSRect bounds = [self bounds];
+	NSRect b = [self bounds];
+	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
 
-	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:bounds radius:BORDER_RADIUS];
+	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+
+	addRoundedRectToPath(context, bounds, BORDER_RADIUS);
 
 	float opacityPref = BEZEL_OPACITY_DEFAULT;
 	READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
@@ -79,20 +82,18 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 
 	int style = 0;
 	READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, BezelPrefDomain, &style);
-	NSGraphicsContext *graphicsContext;
 	switch (style) {
 		default:
 		case 0:
 			// default style
 			[[backgroundColor colorWithAlphaComponent:alpha] set];
-			[path fill];
+			CGContextFillPath(context);
 			break;
 		case 1:
 			// charcoal
-			graphicsContext = [NSGraphicsContext currentContext];
-			[graphicsContext saveGraphicsState];
+			CGContextSaveGState(context);
+			CGContextClip(context);
 
-			[path setClip];
 			struct CGFunctionCallbacks callbacks = { 0U, CharcoalShadeInterpolate, NULL };
 			CGFunctionRef function = CGFunctionCreate( &alpha,
 													   1U,
@@ -102,28 +103,27 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 													   &callbacks );
 			CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 			CGPoint src, dst;
-			src.x = NSMinX(bounds);
-			src.y = NSMinY(bounds);
-			dst.x = NSMaxX(bounds);
+			src.x = CGRectGetMinX(bounds);
+			src.y = CGRectGetMinY(bounds);
+			dst.x = CGRectGetMaxX(bounds);
 			dst.y = src.y;
-			CGShadingRef shading = CGShadingCreateAxial( cspace, src, dst,
-														 function, false, false );
+			CGShadingRef shading = CGShadingCreateAxial(cspace, src, dst,
+														function, false, false);
 
-			CGContextDrawShading([graphicsContext graphicsPort], shading);
+			CGContextDrawShading(context, shading);
 
 			CGShadingRelease(shading);
 			CGColorSpaceRelease(cspace);
 			CGFunctionRelease(function);
 
-			[graphicsContext restoreGraphicsState];
+			CGContextRestoreGState(context);
 			break;
 		case 2:
 			// glass
 			[[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:0.03f] set];
-			[path fill];
-			graphicsContext = [NSGraphicsContext currentContext];
-			[graphicsContext saveGraphicsState];
-			[path setClip];
+			CGContextFillPath(context);
+			CGContextSaveGState(context);
+			CGContextClip(context);
 			struct CGFunctionCallbacks glass_callbacks = { 0U, GlassShadeInterpolate, NULL };
 			function = CGFunctionCreate( &alpha,
 										 1U,
@@ -133,12 +133,12 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 										 &glass_callbacks );
 			cspace = CGColorSpaceCreateDeviceRGB();
 			src.x = bounds.origin.x + bounds.size.width * 0.75f;
-			src.y = NSMinY(bounds) - 80.0f;
-			shading = CGShadingCreateRadial( cspace, src, 200.0f,
-											 src, 400.0f, function,
-											 false, false );
+			src.y = CGRectGetMinY(bounds) - 80.0f;
+			shading = CGShadingCreateRadial(cspace, src, 200.0f,
+											src, 400.0f, function,
+											false, false);
 
-			CGContextDrawShading([graphicsContext graphicsPort], shading);
+			CGContextDrawShading(context, shading);
 
 			CGShadingRelease(shading);
 			CGFunctionRelease(function);
@@ -150,20 +150,21 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 										 4U,
 										 /*range*/ NULL,
 										 &shine_callbacks );
-			src.x = NSMidX( bounds );
-			src.y = NSMidY( bounds );
-			shading = CGShadingCreateRadial( cspace, src, 100.0f,
-											 src, 0.0f, function,
-											 false, false );
+			src.x = CGRectGetMidX(bounds);
+			src.y = CGRectGetMidY(bounds);
+			shading = CGShadingCreateRadial(cspace, src, 100.0f,
+											src, 0.0f, function,
+											false, false);
 
-			CGContextDrawShading( [graphicsContext graphicsPort], shading );
+			CGContextDrawShading(context, shading);
 
-			CGColorSpaceRelease( cspace );
-			CGShadingRelease( shading );
-			CGFunctionRelease( function );
-			[graphicsContext restoreGraphicsState];
+			CGColorSpaceRelease(cspace);
+			CGShadingRelease(shading);
+			CGFunctionRelease(function);
+			CGContextRestoreGState(context);
 			[[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:0.75f] set];
-			[path stroke];
+			addRoundedRectToPath(context, bounds, BORDER_RADIUS);
+			CGContextStrokePath(context);
 			break;
 	}
 

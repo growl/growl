@@ -95,18 +95,19 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 - (void) drawRect:(NSRect) rect {
 #pragma unused(rect)
-	NSRect bounds = [self bounds];
+	NSRect b = [self bounds];
+	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
+	CGRect shape = CGRectInset(bounds, BORDER_WIDTH_PX*0.5f, BORDER_WIDTH_PX*0.5f);
+
+	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 
 	// Create a path with enough room to strike the border and remain inside our frame.
 	// Since the path is in the middle of the line, this means we must inset it by half the border width.
-	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(bounds, BORDER_WIDTH_PX*0.5f, BORDER_WIDTH_PX*0.5f)
-														  radius:BORDER_RADIUS_PX];
-	[path setLineWidth:BORDER_WIDTH_PX];
+	addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
+	CGContextSetLineWidth(context, BORDER_WIDTH_PX);
 
-	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
-	[graphicsContext saveGraphicsState];
-
-	[path setClip];
+	CGContextSaveGState(context);
+	CGContextClip(context);
 
 	// Create a callback function to generate the
 	// fill clipped graphics context with our gradient
@@ -132,26 +133,28 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
 	CGPoint src, dst;
-	src.x = NSMinX(bounds);
-	src.y = NSMaxY(bounds);
+	src.x = CGRectGetMinX(bounds);
+	src.y = CGRectGetMaxY(bounds);
 	dst.x = src.x;
-	dst.y = NSMinY(bounds);
+	dst.y = CGRectGetMinY(bounds);
 	CGShadingRef shading = CGShadingCreateAxial(cspace, src, dst,
 												function, false, false);
 
-	CGContextDrawShading([graphicsContext graphicsPort], shading);
+	CGContextDrawShading(context, shading);
 
 	CGShadingRelease(shading);
 	CGColorSpaceRelease(cspace);
 	CGFunctionRelease(function);
 
-	[graphicsContext restoreGraphicsState];
+	CGContextRestoreGState(context);
 
+	addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
+	CGContextSetLineWidth(context, BORDER_WIDTH_PX);
 	if (mouseOver)
 		[highlightColor set];
 	else
 		[borderColor set];
-	[path stroke];
+	CGContextStrokePath(context);
 
 	NSRect drawRect;
 	drawRect.origin.x = PANEL_HSPACE_PX;

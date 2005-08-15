@@ -7,8 +7,11 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import <Foundation/Foundation.h>
+#ifndef _GROWLBEZIERPATHADDITIONS_H
+#define _GROWLBEZIERPATHADDITIONS_H
 
-@interface NSBezierPath(GrowlBezierPathAdditions)
-+ (NSBezierPath *) bezierPathWithRoundedRect:(NSRect)rect radius:(float)radius;
-@end
+#include <ApplicationServices/ApplicationServices.h>
+
+void addRoundedRectToPath(CGContextRef context, CGRect rect, float radius);
+
+#endif

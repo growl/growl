@@ -97,45 +97,39 @@
 
 - (void) drawRect:(NSRect)rect {
 #pragma unused(rect)
-	NSRect bounds = [self bounds];
+	NSRect b = [self bounds];
+	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
+
+	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 
 	// calculate bounds based on icon-float pref on or off
-	NSRect shadedBounds;
+	CGRect shadedBounds;
 	BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
 	if (floatIcon) {
 		float sizeReduction = GrowlSmokePadding + iconSize + (GrowlSmokeIconTextPadding * 0.5f);
 
-		shadedBounds = NSMakeRect(bounds.origin.x + sizeReduction,
-								  bounds.origin.y,
-								  bounds.size.width - sizeReduction,
-								  bounds.size.height);
+		shadedBounds = CGRectMake(bounds.origin.x + sizeReduction + 1.0f,
+								  bounds.origin.y + 1.0f,
+								  bounds.size.width - sizeReduction - 2.0f,
+								  bounds.size.height - 2.0f);
 	} else {
-		shadedBounds = bounds;
+		shadedBounds = CGRectInset(bounds, 1.0f, 1.0f);
 	}
 
 	// set up bezier path for rounded corners
-	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(shadedBounds, 1.0f, 1.0f)
-														  radius:GrowlSmokeBorderRadius];
-	[path setLineWidth:2.0f];
-
-	NSGraphicsContext *graphicsContext = [NSGraphicsContext currentContext];
-	[graphicsContext saveGraphicsState];
-
-	// clip graphics context to path
-	[path setClip];
+	addRoundedRectToPath(context, shadedBounds, GrowlSmokeBorderRadius);
+	CGContextSetLineWidth(context, 2.0f);
 
 	// fill clipped graphics context with our background colour
 	[bgColor set];
-	NSRectFill(bounds);
-
-	// revert to unclipped graphics context
-	[graphicsContext restoreGraphicsState];
+	CGContextFillPath(context);
 
 	if (mouseOver) {
-		NSColor *borderColor = textColor;
-		[borderColor set];
-		[path stroke];
+		[textColor set];
+		addRoundedRectToPath(context, shadedBounds, GrowlSmokeBorderRadius);
+		CGContextSetLineWidth(context, 2.0f);
+		CGContextStrokePath(context);
 	}
 
 	// draw the title and the text
