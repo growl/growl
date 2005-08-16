@@ -3,11 +3,10 @@
 //  Growl
 //
 //  Created by Ofri Wolfus on 27/07/05.
-//  Copyright 2005 Ofri Wolfus. All rights reserved.
+//  Copyright 2005 The Growl Project. All rights reserved.
 //
 
 #import "GrowlWindowTransition.h"
-
 
 @implementation GrowlWindowTransition
 
@@ -24,8 +23,10 @@
 }
 
 - (void) setWindow:(NSWindow *)inWindow {
-	[window release];
-	window = [inWindow retain];
+	if (inWindow != window) {
+		[window release];
+		window = [inWindow retain];
+	}
 }
 
 - (void) dealloc {

@@ -136,6 +136,7 @@
 - (void) startFadeOut {
 	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerWillFadeOutNotification
 														object:self];
+	[self stopDisplayTimer];
 	[self stopFadeTimer];
 	if (doFadeOut) {
 		if (!isFadingOut) {
@@ -178,8 +179,10 @@
 #pragma mark Click feedback
 
 - (void) notificationClicked:(id)sender {
-	[super notificationClicked:sender];
-	[self stopDisplay];
+	if (!isFadingOut) {
+		[super notificationClicked:sender];
+		[self stopDisplay];
+	}
 }
 
 #pragma mark -

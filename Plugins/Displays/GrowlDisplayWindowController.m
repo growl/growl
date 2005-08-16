@@ -162,10 +162,9 @@
 	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
 	GrowlWindowTransition *transition;
 	
-	while ((transition = [enumerator nextObject])) {
+	while ((transition = [enumerator nextObject]))
 		if ([transition isAnimating])
 			[result addObject:transition];
-	}
 	
 	return [result autorelease];
 }
@@ -175,10 +174,9 @@
 	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
 	GrowlWindowTransition *transition;
 	
-	while ((transition = [enumerator nextObject])) {
+	while ((transition = [enumerator nextObject]))
 		if (![transition isAnimating])
 			[result addObject:transition];
-	}
 	
 	return [result autorelease];
 }
