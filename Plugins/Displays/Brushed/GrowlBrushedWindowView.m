@@ -69,8 +69,7 @@
 	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 
 	// clear the window
-	[[NSColor clearColor] set];
-	NSRectFill(b);
+	CGContextClearRect(context, bounds);
 
 	// calculate bounds based on icon-float pref on or off
 	CGRect shadedBounds;
@@ -91,18 +90,19 @@
 	addRoundedRectToPath(context, shadedBounds, GrowlBrushedBorderRadius);
 	CGContextSetLineWidth(context, 2.0f);
 
-	// fill clipped graphics context with our background colour
+	// draw background
 	NSWindow *window = [self window];
 	NSColor *bgColor = [window backgroundColor];
-	[bgColor set];
-	CGContextFillPath(context);
-
+	CGPathDrawingMode drawingMode;
 	if (mouseOver) {
-		[[NSColor keyboardFocusIndicatorColor] set];
-		addRoundedRectToPath(context, shadedBounds, GrowlBrushedBorderRadius);
-		CGContextSetLineWidth(context, 2.0f);
-		CGContextStrokePath(context);
+		drawingMode = kCGPathFillStroke;
+		[bgColor setFill];
+		[[NSColor keyboardFocusIndicatorColor] setStroke];
+	} else {
+		drawingMode = kCGPathFill;
+		[bgColor set];
 	}
+	CGContextDrawPath(context, drawingMode);
 
 	// draw the title and the text
 	NSRect drawRect;

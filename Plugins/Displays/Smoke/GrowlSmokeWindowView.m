@@ -121,16 +121,17 @@
 	addRoundedRectToPath(context, shadedBounds, GrowlSmokeBorderRadius);
 	CGContextSetLineWidth(context, 2.0f);
 
-	// fill clipped graphics context with our background colour
-	[bgColor set];
-	CGContextFillPath(context);
-
+	// draw background
+	CGPathDrawingMode drawingMode;
 	if (mouseOver) {
-		[textColor set];
-		addRoundedRectToPath(context, shadedBounds, GrowlSmokeBorderRadius);
-		CGContextSetLineWidth(context, 2.0f);
-		CGContextStrokePath(context);
+		drawingMode = kCGPathFillStroke;
+		[bgColor setFill];
+		[textColor setStroke];
+	} else {
+		drawingMode = kCGPathFill;
+		[bgColor set];
 	}
+	CGContextDrawPath(context, drawingMode);
 
 	// draw the title and the text
 	NSRect drawRect;
