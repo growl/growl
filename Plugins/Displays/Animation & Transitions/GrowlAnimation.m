@@ -21,34 +21,26 @@
 @implementation GrowlAnimation
 
 - (id) init {
-	self = [super init];
-	
-	if (self) {
-		animationTimer = nil;
+	if ((self = [super init])) {
 		animationDuration = 1.0;
 		frameRate = 36.0;
 		progress = 0.0;
 		framesPassed = 0.0;
 		animationCurve = GrowlAnimationEaseInOut;
-		delegate = nil;
-		startAnimation = nil;
 		startAnimationProgress = -1.0;
-		stopAnimation = nil;
 		stopAnimationProgress = -1.0;
 		repeats = NO;
 	}
-	
+
 	return self;
 }
 
 - (id) initWithDuration:(NSTimeInterval)duration animationCurve:(GrowlAnimationCurve)curve {
-	self = [self init];
-	
-	if (self) {
+	if ((self = [self init])) {
 		animationDuration = duration;
 		animationCurve = curve;
 	}
-	
+
 	return self;
 }
 
@@ -61,19 +53,19 @@
 
 - (void) startAnimation {
 	BOOL shouldStart = YES;
-	
+
 	//Ask for permission to start from our delegate
 	if (delegate)
 		shouldStart = [delegate growlAnimationShouldStart:self];
-	
+
 	if (shouldStart) {
 		//Clear any running timers
 		[self stopAnimation];
-		
+
 		//Reset our progress
 		progress = 0.0;
 		framesPassed = 0;
-		
+
 		//Create a new timer
 		animationTimer = [NSTimer scheduledTimerWithTimeInterval:(1.0/frameRate)
 														  target:self
@@ -85,8 +77,8 @@
 
 - (void) startWhenAnimation:(GrowlAnimation *)animation reachesProgress:(GrowlAnimationProgress)startProgress {
 	//It's their job to let us know when to start!
-	[animation _setStartAnimation:self];
-	[animation _setStartAnimationProgress:startProgress];
+	[animation setStartAnimation:self];
+	[animation setStartAnimationProgress:startProgress];
 }
 
 #pragma mark -
@@ -95,7 +87,7 @@
 	if ([self isAnimating]) {
 		[animationTimer invalidate];
 		animationTimer = nil;
-		
+
 		//Let our delegate know what's going on
 		if (progress < 1.0)
 			[delegate growlAnimationDidStop:self];
@@ -109,8 +101,8 @@
 
 - (void) stopWhenAnimation:(GrowlAnimation *)animation reachesProgress:(GrowlAnimationProgress)stopProgress {
 	//They will let us know when to stop when time comes...
-	[animation _setStopAnimation:self];
-	[animation _setStopAnimationProgress:stopProgress];
+	[animation setStopAnimation:self];
+	[animation setStopAnimationProgress:stopProgress];
 }
 
 #pragma mark -
@@ -218,28 +210,31 @@
 	//The delegate may want to change our progress
 	if (delegate)
 		progress = [delegate growlAnimation:self valueForProgress:progress];
-	
+
 	//Draw the animation
 	[self drawFrame:progress];
-	
+
 	//Support for linked animations
+#warning evil floating point comparison
 	if (startAnimation && progress == startAnimationProgress)
 		[startAnimation startAnimation];
-	
+
+#warning evil floating point comparison
 	if (stopAnimation && progress == stopAnimationProgress)
 		[stopAnimation stopAnimation];
-	
+
 	//Update our progress
+#warning evil floating point comparison
 	if (progress >= 1.0) {
 		progress = 1.0;
 		[self stopAnimation];
 	} else {
 		float completedPercentage;
-		
+
 		++framesPassed;
-		
+
 		completedPercentage = (framesPassed / (frameRate*animationDuration));
-		
+
 		switch (animationCurve) {
 			case GrowlAnimationLinear:
 				progress = completedPercentage;
@@ -250,11 +245,11 @@
 				break;
 			case GrowlAnimationEaseOut:
 				//y=x^2
-				progress = powf(completedPercentage, 2.0);
+				progress = completedPercentage * completedPercentage;
 				break;
 			case GrowlAnimationEaseIn:
 				//y=-x^2+2x
-				progress = -powf(completedPercentage, 2.0);
+				progress = -(completedPercentage * completedPercentage);
 				progress += 2.0 * completedPercentage;
 				break;
 			default:
