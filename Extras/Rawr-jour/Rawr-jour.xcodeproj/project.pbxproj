@@ -1,0 +1,428 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0211012B0705F3C5004AA0F2 /* JKServiceBrowserDelegate.h in Resources */ = {isa = PBXBuildFile; fileRef = 021101290705F3C5004AA0F2 /* JKServiceBrowserDelegate.h */; };
+		0211012C0705F3C5004AA0F2 /* JKServiceBrowserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0211012A0705F3C5004AA0F2 /* JKServiceBrowserDelegate.m */; };
+		0220D2AA06FBD39200DEB979 /* JKPreferencesController.h in Resources */ = {isa = PBXBuildFile; fileRef = 0220D2A806FBD39200DEB979 /* JKPreferencesController.h */; };
+		0220D2AB06FBD39200DEB979 /* JKPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0220D2A906FBD39200DEB979 /* JKPreferencesController.m */; };
+		0220D2B006FBD3EA00DEB979 /* JKMenuController.h in Resources */ = {isa = PBXBuildFile; fileRef = 0220D2AE06FBD3EA00DEB979 /* JKMenuController.h */; };
+		0220D2B106FBD3EA00DEB979 /* JKMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0220D2AF06FBD3EA00DEB979 /* JKMenuController.m */; };
+		0220D31006FBD90F00DEB979 /* serviceDb.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0220D30F06FBD90F00DEB979 /* serviceDb.plist */; };
+		0220D3B306FBE1AA00DEB979 /* JKServiceManager.h in Resources */ = {isa = PBXBuildFile; fileRef = 0220D29A06FBD1AA00DEB979 /* JKServiceManager.h */; };
+		0220D3B406FBE1AC00DEB979 /* JKServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0220D29B06FBD1AA00DEB979 /* JKServiceManager.m */; };
+		0220D51306FBFA1A00DEB979 /* rendezvous.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0220D51206FBFA1A00DEB979 /* rendezvous.icns */; };
+		02AC85F4073F398600DF4198 /* libobjc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 02AC85F3073F398600DF4198 /* libobjc.dylib */; };
+		02CFFF8108638A2400B59684 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02CFFF8008638A2400B59684 /* Growl.framework */; };
+		02CFFF8908638A3000B59684 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 02CFFF8008638A2400B59684 /* Growl.framework */; };
+		02D3D863073F244E00E0C04C /* statusItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 02D3D862073F244E00E0C04C /* statusItemIcon.png */; };
+		02D3D88F073F25F100E0C04C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 02D3D88D073F25F100E0C04C /* Credits.rtf */; };
+		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		4A9504CCFFE6A4B311CA0CBA /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		4A9504CDFFE6A4B311CA0CBA /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		02BDBFBC06FCCE85003B184B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				02CFFF8908638A3000B59684 /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		021101290705F3C5004AA0F2 /* JKServiceBrowserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKServiceBrowserDelegate.h; sourceTree = "<group>"; };
+		0211012A0705F3C5004AA0F2 /* JKServiceBrowserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKServiceBrowserDelegate.m; sourceTree = "<group>"; };
+		0220D29A06FBD1AA00DEB979 /* JKServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKServiceManager.h; sourceTree = "<group>"; };
+		0220D29B06FBD1AA00DEB979 /* JKServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKServiceManager.m; sourceTree = "<group>"; };
+		0220D2A806FBD39200DEB979 /* JKPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKPreferencesController.h; sourceTree = "<group>"; };
+		0220D2A906FBD39200DEB979 /* JKPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKPreferencesController.m; sourceTree = "<group>"; };
+		0220D2AE06FBD3EA00DEB979 /* JKMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKMenuController.h; sourceTree = "<group>"; };
+		0220D2AF06FBD3EA00DEB979 /* JKMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKMenuController.m; sourceTree = "<group>"; };
+		0220D30F06FBD90F00DEB979 /* serviceDb.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = serviceDb.plist; sourceTree = "<group>"; };
+		0220D51206FBFA1A00DEB979 /* rendezvous.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = rendezvous.icns; sourceTree = "<group>"; };
+		02AC85F3073F398600DF4198 /* libobjc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.dylib; path = /usr/lib/libobjc.A.dylib; sourceTree = "<absolute>"; };
+		02CFFF8008638A2400B59684 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		02D3D862073F244E00E0C04C /* statusItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = statusItemIcon.png; path = "Icon and Readme/statusItemIcon.png"; sourceTree = "<group>"; };
+		02D3D88E073F25F100E0C04C /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* Rawr-jour_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Rawr-jour_Prefix.pch"; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* Rawr-jour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rawr-jour.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				02AC85F4073F398600DF4198 /* libobjc.dylib in Frameworks */,
+				02CFFF8108638A2400B59684 /* Growl.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				021101290705F3C5004AA0F2 /* JKServiceBrowserDelegate.h */,
+				0211012A0705F3C5004AA0F2 /* JKServiceBrowserDelegate.m */,
+				0220D2AE06FBD3EA00DEB979 /* JKMenuController.h */,
+				0220D2AF06FBD3EA00DEB979 /* JKMenuController.m */,
+				0220D2A806FBD39200DEB979 /* JKPreferencesController.h */,
+				0220D2A906FBD39200DEB979 /* JKPreferencesController.m */,
+				0220D29A06FBD1AA00DEB979 /* JKServiceManager.h */,
+				0220D29B06FBD1AA00DEB979 /* JKServiceManager.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				02CFFF8008638A2400B59684 /* Growl.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* Rawr-jour.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* Rawr-endezvous */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = "Rawr-endezvous";
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* Rawr-jour_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				02D3D88D073F25F100E0C04C /* Credits.rtf */,
+				0220D51206FBFA1A00DEB979 /* rendezvous.icns */,
+				02D3D862073F244E00E0C04C /* statusItemIcon.png */,
+				0220D30F06FBD90F00DEB979 /* serviceDb.plist */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				02AC85F3073F398600DF4198 /* libobjc.dylib */,
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* Rawr-jour */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 02CFFF70086389D200B59684 /* Build configuration list for PBXNativeTarget "Rawr-jour" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				02BDBFBC06FCCE85003B184B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "/Users/jerome/OSSProjects/growl-0.6/build";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Rawr-endezvous_Prefix.pch";
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "Rawr-endezvous";
+				WRAPPER_EXTENSION = app;
+			};
+			dependencies = (
+			);
+			name = "Rawr-jour";
+			productInstallPath = "$(HOME)/Applications";
+			productName = "Rawr-endezvous";
+			productReference = 8D1107320486CEB800E47090 /* Rawr-jour.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 02CFFF74086389D200B59684 /* Build configuration list for PBXProject "Rawr-jour" */;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				SDKROOT = /Developer/SDKs/MacOSX10.2.8.sdk;
+			};
+			buildStyles = (
+				4A9504CCFFE6A4B311CA0CBA /* Development */,
+				4A9504CDFFE6A4B311CA0CBA /* Deployment */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* Rawr-endezvous */;
+			projectDirPath = "";
+			targets = (
+				8D1107260486CEB800E47090 /* Rawr-jour */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				0220D2AA06FBD39200DEB979 /* JKPreferencesController.h in Resources */,
+				0220D2B006FBD3EA00DEB979 /* JKMenuController.h in Resources */,
+				0220D31006FBD90F00DEB979 /* serviceDb.plist in Resources */,
+				0220D3B306FBE1AA00DEB979 /* JKServiceManager.h in Resources */,
+				0220D51306FBFA1A00DEB979 /* rendezvous.icns in Resources */,
+				0211012B0705F3C5004AA0F2 /* JKServiceBrowserDelegate.h in Resources */,
+				02D3D863073F244E00E0C04C /* statusItemIcon.png in Resources */,
+				02D3D88F073F25F100E0C04C /* Credits.rtf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				0220D2AB06FBD39200DEB979 /* JKPreferencesController.m in Sources */,
+				0220D2B106FBD3EA00DEB979 /* JKMenuController.m in Sources */,
+				0220D3B406FBE1AC00DEB979 /* JKServiceManager.m in Sources */,
+				0211012C0705F3C5004AA0F2 /* JKServiceBrowserDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		02D3D88D073F25F100E0C04C /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				02D3D88E073F25F100E0C04C /* English */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		02CFFF71086389D200B59684 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Rawr-jour_Prefix.pch";
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "Rawr-jour";
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		02CFFF72086389D200B59684 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Rawr-jour_Prefix.pch";
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					Growl,
+				);
+				PRODUCT_NAME = "Rawr-jour";
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		02CFFF73086389D200B59684 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"/Users/jerome/OSSProjects/growl-0.6/build",
+					"$(SRCROOT)",
+				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Rawr-endezvous_Prefix.pch";
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "Rawr-endezvous";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Default;
+		};
+		02CFFF75086389D200B59684 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
+			};
+			name = Development;
+		};
+		02CFFF76086389D200B59684 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
+			};
+			name = Deployment;
+		};
+		02CFFF77086389D200B59684 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				SDKROOT = /Developer/SDKs/MacOSX10.3.9.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		02CFFF70086389D200B59684 /* Build configuration list for PBXNativeTarget "Rawr-jour" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02CFFF71086389D200B59684 /* Development */,
+				02CFFF72086389D200B59684 /* Deployment */,
+				02CFFF73086389D200B59684 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		02CFFF74086389D200B59684 /* Build configuration list for PBXProject "Rawr-jour" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02CFFF75086389D200B59684 /* Development */,
+				02CFFF76086389D200B59684 /* Deployment */,
+				02CFFF77086389D200B59684 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
