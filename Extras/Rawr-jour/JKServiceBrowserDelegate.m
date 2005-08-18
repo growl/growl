@@ -80,17 +80,16 @@
 - (void)browser:(NSBrowser *)sender willDisplayCell:(id)cell atRow:(int)row column:(int)column {
 	//NSLog(@"Display for browser");
 	NSNetService *serv;
-	NSString *name;
-	if(column == 0)
+	NSString *name = nil;
+	if (column == 0)
 		name = [[services objectAtIndex:row] objectForKey:@"name"];
-	else if(column == 1) {
-		if(row >= 0) {
+	else if (column == 1) {
+		if (row >= 0) {
 			serv = [[[services objectAtIndex:[sender selectedRowInColumn:0]] objectForKey:@"contents"] objectAtIndex:row];
 			name = [serv name];
-		}
-		else
+		} else
 			name = @"Error";
-        //[cell setLeaf:YES];
+		//[cell setLeaf:YES];
 	}
 	else if(column == 2) {
 		serv = [[[services objectAtIndex:[sender selectedRowInColumn:0]] objectForKey:@"contents"] objectAtIndex:[sender selectedRowInColumn:1]];
@@ -102,14 +101,14 @@
 				name = [serv name];
 				break;
 			case 1:
-				if(resAddress != nil && resPort != nil)
+				if(resAddress && resPort)
 					name = @"Unimplemented"; //name = [NSString stringWithFormat:@"%@:%@",resAddress,resPort];
 				else
 					name = @"No addresses yet";
 				break;
 			case 2:
 				name = [serv protocolSpecificInformation];
-				if(name == nil)
+				if (!name)
 					name = @"";
 				break;
 			default:
@@ -122,53 +121,52 @@
 }
 
 - (void)netServiceDidResolveAddress:(NSNetService *)sender {
-    //NSLog(@"Did resolve!");
-    if ([[sender addresses] count] > 0) {
-        NSData * address;
-        struct sockaddr * socketAddress;
-        NSString * ipAddressString = nil;
-        NSString * portString = nil;
-        //int socketToRemoteServer;
-        char buffer[256];
-        int index;
-        
-        // Iterate through addresses until we find an IPv4 address
-        for (index = 0; index < [[sender addresses] count]; index++) {
-            address = [[sender addresses] objectAtIndex:index];
-            socketAddress = (struct sockaddr *)[address bytes];
-            
-            if (socketAddress->sa_len == sizeof(struct sockaddr_in))
-                break;
-        }
-        
-        if (socketAddress) {
-            switch(socketAddress->sa_len) {
-                case sizeof(struct sockaddr_in):
-                    if (inet_ntop(AF_INET, &((struct sockaddr_in *)socketAddress)->sin_addr, buffer, sizeof(buffer)))
-                        ipAddressString = [NSString stringWithCString:buffer];
-                    portString = [NSString stringWithFormat:@"%d", ntohs(((struct sockaddr_in *)socketAddress)->sin_port)];
-                    
-                    // Cancel the resolve now that we have an IPv4 address.
-                    [sender stop];
-                    [sender release];
-                    serviceBeingResolved = nil;
-                    
-                    break;
-                case sizeof(struct sockaddr_in6):
-                    // PictureSharing server doesn't support IPv6
-                    return;
-            }
-        }   
-             
-        if (ipAddressString && portString) {
-            //NSString *urlString;
-            //urlString = [NSString stringWithFormat:@"%@://%@:%@",[[[serviceManager getProtocolNames] objectForKey:[sender type]] objectForKey:@"protocol"],ipAddressString,portString];
-            //NSLog(@"Opening: %@",urlString);
-            //NSURL *myURL = [NSURL URLWithString:urlString];
-            //[[NSWorkspace sharedWorkspace] openURL:myURL];
+	//NSLog(@"Did resolve!");
+	if ([[sender addresses] count]) {
+		NSData * address;
+		struct sockaddr * socketAddress = NULL;
+		NSString * ipAddressString = nil;
+		NSString * portString = nil;
+		//int socketToRemoteServer;
+		char buffer[256];
+		
+		// Iterate through addresses until we find an IPv4 address
+		for (unsigned idx = 0U; idx < [[sender addresses] count]; ++idx) {
+			address = [[sender addresses] objectAtIndex:idx];
+			socketAddress = (struct sockaddr *)[address bytes];
+
+			if (socketAddress->sa_len == sizeof(struct sockaddr_in))
+				break;
+		}
+		
+		if (socketAddress) {
+			switch (socketAddress->sa_len) {
+				case sizeof(struct sockaddr_in):
+					if (inet_ntop(AF_INET, &((struct sockaddr_in *)socketAddress)->sin_addr, buffer, sizeof(buffer)))
+						ipAddressString = [NSString stringWithCString:buffer];
+					portString = [NSString stringWithFormat:@"%d", ntohs(((struct sockaddr_in *)socketAddress)->sin_port)];
+					
+					// Cancel the resolve now that we have an IPv4 address.
+					[sender stop];
+					[sender release];
+					serviceBeingResolved = nil;
+					
+					break;
+				case sizeof(struct sockaddr_in6):
+					// PictureSharing server doesn't support IPv6
+					return;
+			}
+		}   
+			 
+		if (ipAddressString && portString) {
+			//NSString *urlString;
+			//urlString = [NSString stringWithFormat:@"%@://%@:%@",[[[serviceManager getProtocolNames] objectForKey:[sender type]] objectForKey:@"protocol"],ipAddressString,portString];
+			//NSLog(@"Opening: %@",urlString);
+			//NSURL *myURL = [NSURL URLWithString:urlString];
+			//[[NSWorkspace sharedWorkspace] openURL:myURL];
 			resAddress = ipAddressString;
 			resPort = portString;
-        }
-    }
+		}
+	}
 }
 @end
