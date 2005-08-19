@@ -7,26 +7,25 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "JKServiceManager.h"
 
-@class JKPreferencesController;
+@class JKPreferencesController, JKServiceManager;
 
 @interface JKMenuController : NSObject {
 	IBOutlet JKPreferencesController* prefs;
 	JKServiceManager *serviceManager;
-	
-    NSStatusItem *statusItem;
-    
+
+	NSStatusItem *statusItem;
+
 	IBOutlet NSMenu *dockMenu;
-	
-    NSMutableDictionary *menuServices; // for holding menu->service relations i hope
-    NSNetService *serviceBeingResolved;
-    
-    BOOL isGrowlInstalled;
+
+	NSMutableDictionary *menuServices; // for holding menu->service relations i hope
+	NSNetService *serviceBeingResolved;
+
+	BOOL isGrowlInstalled;
 }
 
-- (void)addMenuItemForService:(NSNetService *)newService;
-- (void)removeMenuItemForService:(NSNetService *)oldService;
+- (void) addMenuItemForService:(NSNetService *)newService;
+- (void) removeMenuItemForService:(NSNetService *)oldService;
 - (void) itemClicked:(id)sender;
-- (IBAction)refreshServices:(id)sender;
+- (IBAction) refreshServices:(id)sender;
 @end
