@@ -160,21 +160,19 @@
 
 - (void) netServiceDidResolveAddress:(NSNetService *)sender {
 	//NSLog(@"Did resolve!");
-	if ([[sender addresses] count]) {
-		NSData *address;
-		// Iterate through addresses until we find an IPv4 or IPv6 address
-		NSEnumerator *addrEnum = [[sender addresses] objectEnumerator];
-		while ((address = [addrEnum nextObject])) {
-			struct sockaddr *socketAddress;
-			socketAddress = (struct sockaddr *)[address bytes];
+	NSData *address;
+	// Iterate through addresses until we find an IPv4 or IPv6 address
+	NSEnumerator *addrEnum = [[sender addresses] objectEnumerator];
+	while ((address = [addrEnum nextObject])) {
+		struct sockaddr *socketAddress;
+		socketAddress = (struct sockaddr *)[address bytes];
 
-			if (socketAddress->sa_len == sizeof(struct sockaddr_in) || socketAddress->sa_len == sizeof(struct sockaddr_in6)) {
-				// Cancel the resolve now
-				[sender stop];
-				serviceBeingResolved = nil;
-				[serviceBrowser reloadColumn:2];
-				break;
-			}
+		if (socketAddress->sa_len == sizeof(struct sockaddr_in) || socketAddress->sa_len == sizeof(struct sockaddr_in6)) {
+			// Cancel the resolve now
+			[sender stop];
+			serviceBeingResolved = nil;
+			[serviceBrowser reloadColumn:2];
+			break;
 		}
 	}
 }

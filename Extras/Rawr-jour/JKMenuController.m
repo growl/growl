@@ -9,6 +9,7 @@
 #import "JKMenuController.h"
 #import "JKPreferencesController.h"
 #import "JKServiceManager.h"
+#import "NSStringAdditions.h"
 #import <Growl/Growl.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -103,20 +104,22 @@
 	newItem = [[NSMenuItem alloc] init];
 	[newItem setTitle:[newService name]];
 
-	int j=0; // counter to go thru protocol menu
-	int newIndex = -1; // for inserting item
-
-	for (j=0;j<[proMenu numberOfItems];j++) {
+	BOOL found = NO;
+	unsigned newIndex = 0U;
+	unsigned count = [proMenu numberOfItems];
+	for (unsigned j=0U; j<count; ++j) {
 		if (DEBUG)
-			NSLog(@"Comparing %@ < %@ or == ",[[proMenu itemAtIndex:j] title],[newItem title]);
-		if ([[[proMenu itemAtIndex:j] title] caseInsensitiveCompare:[newItem title]] == NSOrderedAscending || [[[proMenu itemAtIndex:j] title] caseInsensitiveCompare:[newItem title]] == NSOrderedSame) {
+			NSLog(@"Comparing %@ < %@ or == ", [[proMenu itemAtIndex:j] title], [newItem title]);
+		NSComparisonResult result = [[[proMenu itemAtIndex:j] title] caseInsensitiveCompare:[newItem title]];
+		if (result == NSOrderedAscending || result == NSOrderedSame) {
+			found = YES;
 			newIndex = j+1;
 			if (DEBUG)
-				NSLog(@"Found first item less than second, setting: %i",newIndex);
+				NSLog(@"Found first item less than second, setting: %i", newIndex);
 		}
 	}
-	if (newIndex == -1)
-		newIndex = 0;
+	if (!found)
+		newIndex = 0U;
 	[proMenu insertItem:newItem atIndex:newIndex];
 	// add service to dict of services
 	if (![[menuServices objectForKey:protocolName] containsObject:newService])
@@ -261,67 +264,30 @@
 
 - (void) netServiceDidResolveAddress:(NSNetService *)sender {
 	//NSLog(@"Did resolve!");
-	if ([[sender addresses] count]) {
-		NSData * address;
-		struct sockaddr * socketAddress = NULL;
-		NSString * ipAddressString = nil;
-		NSString * portString = nil;
-		//int socketToRemoteServer;
-		char buffer[256];
+	NSData *address;
+	// Iterate through addresses until we find an IPv4 or IPv6 address
+	NSEnumerator *addrEnum = [[sender addresses] objectEnumerator];
+	while ((address = [addrEnum nextObject])) {
+		struct sockaddr *socketAddress;
+		socketAddress = (struct sockaddr *)[address bytes];
 
-		// Iterate through addresses until we find an IPv4 address
-		for (unsigned idx = 0; idx < [[sender addresses] count]; ++idx) {
-			address = [[sender addresses] objectAtIndex:idx];
-			socketAddress = (struct sockaddr *)[address bytes];
+		if (socketAddress->sa_len == sizeof(struct sockaddr_in) || socketAddress->sa_len == sizeof(struct sockaddr_in6)) {
+			// Cancel the resolve now
+			[sender stop];
+			[sender release];
+			serviceBeingResolved = nil;
 
-			if (socketAddress->sa_len == sizeof(struct sockaddr_in))
-				break;
-		}
-
-		if (socketAddress) {
-			switch(socketAddress->sa_len) {
-				case sizeof(struct sockaddr_in):
-					if (inet_ntop(AF_INET, &((struct sockaddr_in *)socketAddress)->sin_addr, buffer, sizeof(buffer)))
-						ipAddressString = [NSString stringWithCString:buffer];
-					portString = [NSString stringWithFormat:@"%d", ntohs(((struct sockaddr_in *)socketAddress)->sin_port)];
-
-					// Cancel the resolve now that we have an IPv4 address.
-					[sender stop];
-					[sender release];
-					serviceBeingResolved = nil;
-
-					break;
-				case sizeof(struct sockaddr_in6):
-					// PictureSharing server doesn't support IPv6
-					return;
-			}
-		}
-
-		if (ipAddressString && portString) {
-			NSString *urlString;
-			urlString = [NSString stringWithFormat:@"%@://%@:%@",[[[serviceManager getProtocolNames] objectForKey:[sender type]] objectForKey:@"protocol"],ipAddressString,portString];
+			NSString *urlString =
+				[[NSString alloc] initWithFormat:@"%@://%@",
+					[[[serviceManager getProtocolNames] objectForKey:[sender type]] objectForKey:@"protocol"],
+					[NSString stringWithAddressData:address]];
 			//NSLog(@"Opening: %@",urlString);
-			NSURL *myURL = [NSURL URLWithString:urlString];
+			NSURL *myURL = [[NSURL alloc] initWithString:urlString];
+			[urlString release];
 			[[NSWorkspace sharedWorkspace] openURL:myURL];
+			[myURL release];
+			break;
 		}
-			//[ipAddressField setStringValue:ipAddressString];
-
-		//if (portString)
-			//NSLog(@"  and port: %@",portString);
-			//[portField setStringValue:portString];
-/*
-		socketToRemoteServer = socket(AF_INET, SOCK_STREAM, 0);
-		if (socketToRemoteServer > 0) {
-			NSFileHandle * remoteConnection = [[NSFileHandle alloc] initWithFileDescriptor:socketToRemoteServer closeOnDealloc:YES];
-			if (remoteConnection) {
-				//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readAllTheData:) name:NSFileHandleReadToEndOfFileCompletionNotification object:remoteConnection];
-				if (connect(socketToRemoteServer, (struct sockaddr *)socketAddress, sizeof(*socketAddress)) == 0) {
-				[remoteConnection readToEndOfFileInBackgroundAndNotify];
-				}
-			} else {
-				close(socketToRemoteServer);
-			}
-		}*/
 	}
 }
 @end

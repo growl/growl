@@ -11,7 +11,7 @@
 @class JKPreferencesController, JKServiceManager;
 
 @interface JKMenuController : NSObject {
-	IBOutlet JKPreferencesController* prefs;
+	IBOutlet JKPreferencesController *prefs;
 	JKServiceManager *serviceManager;
 
 	NSStatusItem *statusItem;
