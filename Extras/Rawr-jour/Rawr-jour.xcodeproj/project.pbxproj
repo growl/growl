@@ -7,14 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0211012B0705F3C5004AA0F2 /* JKServiceBrowserDelegate.h in Resources */ = {isa = PBXBuildFile; fileRef = 021101290705F3C5004AA0F2 /* JKServiceBrowserDelegate.h */; };
 		0211012C0705F3C5004AA0F2 /* JKServiceBrowserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0211012A0705F3C5004AA0F2 /* JKServiceBrowserDelegate.m */; };
-		0220D2AA06FBD39200DEB979 /* JKPreferencesController.h in Resources */ = {isa = PBXBuildFile; fileRef = 0220D2A806FBD39200DEB979 /* JKPreferencesController.h */; };
 		0220D2AB06FBD39200DEB979 /* JKPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0220D2A906FBD39200DEB979 /* JKPreferencesController.m */; };
-		0220D2B006FBD3EA00DEB979 /* JKMenuController.h in Resources */ = {isa = PBXBuildFile; fileRef = 0220D2AE06FBD3EA00DEB979 /* JKMenuController.h */; };
 		0220D2B106FBD3EA00DEB979 /* JKMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0220D2AF06FBD3EA00DEB979 /* JKMenuController.m */; };
 		0220D31006FBD90F00DEB979 /* serviceDb.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0220D30F06FBD90F00DEB979 /* serviceDb.plist */; };
-		0220D3B306FBE1AA00DEB979 /* JKServiceManager.h in Resources */ = {isa = PBXBuildFile; fileRef = 0220D29A06FBD1AA00DEB979 /* JKServiceManager.h */; };
 		0220D3B406FBE1AC00DEB979 /* JKServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0220D29B06FBD1AA00DEB979 /* JKServiceManager.m */; };
 		0220D51306FBFA1A00DEB979 /* rendezvous.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0220D51206FBFA1A00DEB979 /* rendezvous.icns */; };
 		02CFFF8108638A2400B59684 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02CFFF8008638A2400B59684 /* Growl.framework */; };
@@ -25,6 +21,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		95FC923D08B67ADF004D6BA7 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 95FC923B08B67ADF004D6BA7 /* NSStringAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -88,6 +85,8 @@
 		32CA4F630368D1EE00C91783 /* Rawr-jour_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Rawr-jour_Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Rawr-jour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rawr-jour.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		95FC923A08B67ADF004D6BA7 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NSStringAdditions.h; path = ../../Common/Source/NSStringAdditions.h; sourceTree = SOURCE_ROOT; };
+		95FC923B08B67ADF004D6BA7 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NSStringAdditions.m; path = ../../Common/Source/NSStringAdditions.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +105,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				95FC923A08B67ADF004D6BA7 /* NSStringAdditions.h */,
+				95FC923B08B67ADF004D6BA7 /* NSStringAdditions.m */,
 				021101290705F3C5004AA0F2 /* JKServiceBrowserDelegate.h */,
 				0211012A0705F3C5004AA0F2 /* JKServiceBrowserDelegate.m */,
 				0220D2AE06FBD3EA00DEB979 /* JKMenuController.h */,
@@ -252,12 +253,8 @@
 			files = (
 				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
-				0220D2AA06FBD39200DEB979 /* JKPreferencesController.h in Resources */,
-				0220D2B006FBD3EA00DEB979 /* JKMenuController.h in Resources */,
 				0220D31006FBD90F00DEB979 /* serviceDb.plist in Resources */,
-				0220D3B306FBE1AA00DEB979 /* JKServiceManager.h in Resources */,
 				0220D51306FBFA1A00DEB979 /* rendezvous.icns in Resources */,
-				0211012B0705F3C5004AA0F2 /* JKServiceBrowserDelegate.h in Resources */,
 				02D3D863073F244E00E0C04C /* statusItemIcon.png in Resources */,
 				02D3D88F073F25F100E0C04C /* Credits.rtf in Resources */,
 			);
@@ -275,6 +272,7 @@
 				0220D2B106FBD3EA00DEB979 /* JKMenuController.m in Sources */,
 				0220D3B406FBE1AC00DEB979 /* JKServiceManager.m in Sources */,
 				0211012C0705F3C5004AA0F2 /* JKServiceBrowserDelegate.m in Sources */,
+				95FC923D08B67ADF004D6BA7 /* NSStringAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

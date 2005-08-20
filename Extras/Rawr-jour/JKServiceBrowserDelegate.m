@@ -7,6 +7,7 @@
 //
 
 #import "JKServiceBrowserDelegate.h"
+#import "NSStringAdditions.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -103,20 +104,21 @@
 			break;
 		case 2:
 			serv = [[[services objectAtIndex:[sender selectedRowInColumn:0]] objectForKey:@"contents"] objectAtIndex:[sender selectedRowInColumn:1]];
-			[serv setDelegate:self];
-			if ([serv respondsToSelector:@selector(resolveWithTimeout:)])
-				[serv resolveWithTimeout:5.0];
-			else
-				[serv resolve];
+			if (![[serv addresses] count]) {
+				[serv setDelegate:self];
+				if ([serv respondsToSelector:@selector(resolveWithTimeout:)])
+					[serv resolveWithTimeout:5.0];
+				else
+					[serv resolve];
+			}
 			switch (row) {
 				case 0:
 					//name = @"Name here";
 					name = [serv name];
 					break;
 				case 1:
-					if (resAddress && resPort)
-						name = @"Unimplemented"; //name = [NSString stringWithFormat:@"%@:%@",resAddress,resPort];
-					else
+					name = [JKServiceBrowserDelegate stringForService:serv];
+					if (!name)
 						name = @"No addresses yet";
 					break;
 				case 2:
@@ -130,9 +132,10 @@
 						name = [serv protocolSpecificInformation];
 					if (!name)
 						name = @"";
-						break;
+					break;
 				default:
 					name = @"Invalid row";
+					break;
 			}
 			[cell setLeaf:YES];
 			break;
@@ -141,57 +144,37 @@
 	[cell setStringValue:name];
 }
 
++ (NSString *) stringForService:(NSNetService *)service {
+	NSEnumerator *addrEnum = [[service addresses] objectEnumerator];
+	NSData *address;
+	while ((address = [addrEnum nextObject])) {
+		struct sockaddr *socketAddress;
+		socketAddress = (struct sockaddr *)[address bytes];
+		
+		if (socketAddress->sa_len == sizeof(struct sockaddr_in) || socketAddress->sa_len == sizeof(struct sockaddr_in6))
+			return [NSString stringWithAddressData:address];
+	}
+
+	return nil;
+}
+
 - (void) netServiceDidResolveAddress:(NSNetService *)sender {
 	//NSLog(@"Did resolve!");
 	if ([[sender addresses] count]) {
-		NSData * address;
-		struct sockaddr * socketAddress = NULL;
-		NSString * ipAddressString = nil;
-		NSString * portString = nil;
-		//int socketToRemoteServer;
-		char buffer[256];
-
-		// Iterate through addresses until we find an IPv4 address
+		NSData *address;
+		// Iterate through addresses until we find an IPv4 or IPv6 address
 		NSEnumerator *addrEnum = [[sender addresses] objectEnumerator];
 		while ((address = [addrEnum nextObject])) {
+			struct sockaddr *socketAddress;
 			socketAddress = (struct sockaddr *)[address bytes];
 
-			if (socketAddress->sa_len == sizeof(struct sockaddr_in))
+			if (socketAddress->sa_len == sizeof(struct sockaddr_in) || socketAddress->sa_len == sizeof(struct sockaddr_in6)) {
+				// Cancel the resolve now
+				[sender stop];
+				serviceBeingResolved = nil;
+				[serviceBrowser reloadColumn:2];
 				break;
-		}
-
-		if (socketAddress) {
-			switch (socketAddress->sa_len) {
-				case sizeof(struct sockaddr_in):
-					if (inet_ntop(AF_INET, &((struct sockaddr_in *)socketAddress)->sin_addr, buffer, sizeof(buffer)))
-						ipAddressString = [[NSString alloc] initWithCString:buffer];
-					portString = [[NSString alloc] initWithFormat:@"%d", ntohs(((struct sockaddr_in *)socketAddress)->sin_port)];
-
-					// Cancel the resolve now that we have an IPv4 address.
-					[sender stop];
-					[sender release];
-					serviceBeingResolved = nil;
-
-					break;
-				case sizeof(struct sockaddr_in6):
-					// PictureSharing server doesn't support IPv6
-					return;
 			}
-		}
-
-		if (ipAddressString && portString) {
-			//NSString *urlString;
-			//urlString = [NSString stringWithFormat:@"%@://%@:%@",[[[serviceManager getProtocolNames] objectForKey:[sender type]] objectForKey:@"protocol"],ipAddressString,portString];
-			//NSLog(@"Opening: %@",urlString);
-			//NSURL *myURL = [NSURL URLWithString:urlString];
-			//[[NSWorkspace sharedWorkspace] openURL:myURL];
-			[resAddress release];
-			[resPort    release];
-			resAddress = ipAddressString;
-			resPort = portString;
-		} else {
-			[ipAddressString release];
-			[portString      release];
 		}
 	}
 }

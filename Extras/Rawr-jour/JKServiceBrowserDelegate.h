@@ -18,11 +18,10 @@
     //IBOutlet NSTextField *addressField;
 
 	// sucky
-	NSString *resAddress;
-	NSString *resPort;
 	NSNetService *serviceBeingResolved;
 }
 
++ (NSString *) stringForService:(NSNetService *)service;
 - (void) awakeFromNib;
 
 - (void) addService:(NSNotification *)note;
