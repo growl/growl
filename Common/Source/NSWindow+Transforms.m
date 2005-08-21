@@ -73,6 +73,10 @@
 	CGSSetWindowTransform(connection, _windowNum, original);
 }
 
+- (void) scaleBy:(double)scaleFactor {
+	[self scaleX:scaleFactor Y:scaleFactor];
+}
+
 - (void) scaleX:(double)x Y:(double)y {
 	[self scaleX:x Y:y about:NSMakePoint(_frame.size.width * 0.5, _frame.size.height * 0.5) concat:YES];
 }
