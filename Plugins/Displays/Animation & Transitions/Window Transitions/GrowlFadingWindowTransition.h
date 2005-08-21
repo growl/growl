@@ -8,7 +8,7 @@
 
 #import "GrowlWindowTransition.h"
 
-// Warning: Don't try to use more then one fade transition at once!
+// Warning: Don't try to use more then one fade transition on one window at once!
 
 typedef enum {
 	GrowlNoFadeAction = -1,

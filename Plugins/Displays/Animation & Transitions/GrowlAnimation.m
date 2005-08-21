@@ -8,8 +8,6 @@
 
 #import "GrowlAnimation.h"
 
-#define FLOAT_EQ(x,y) (((y - FLT_EPSILON) < x) && (x < (y + FLT_EPSILON)))
-
 @interface GrowlAnimation (private)
 - (void) doAnimationStep;
 
