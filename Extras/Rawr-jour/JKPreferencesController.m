@@ -10,14 +10,14 @@
 #import "JKMenuController.h"
 
 @implementation JKPreferencesController
-- (void)awakeFromNib {
+- (void) awakeFromNib {
 	// *** Load service 'presets'
 	NSString *dbPath;
-	dbPath = [NSString stringWithFormat:@"%@/%@",[[NSBundle mainBundle] resourcePath],@"serviceDb.plist"];
+	dbPath = [[NSBundle mainBundle] pathForResource:@"serviceDb" ofType:@"plist"];
 	if (DEBUG)
-		NSLog(@"Loading : %@",dbPath);
-	//NSMutableDictionary *serviceList;
-	serviceList = [NSDictionary dictionaryWithContentsOfFile:dbPath];
+		NSLog(@"Loading : %@", dbPath);
+	NSDictionary *serviceList;
+	serviceList = [[NSDictionary alloc] initWithContentsOfFile:dbPath];
 	itemPresets = [[NSMutableDictionary alloc] init];
 	NSDictionary *myDict;
 	NSEnumerator *myEnum;
@@ -32,6 +32,7 @@
 		[[servicePopUp menu] insertItem:newItem atIndex:[[servicePopUp menu] numberOfItems]];
 		[itemPresets setObject:myDict forKey:[newItem title]];
 	}
+	[serviceList release];
 	//services = [[NSMutableArray alloc] init];
 	//services = [NSMutableArray arrayWithObjects:@"_http._tcp.",@"_ssh._tcp.",@"_ftp._tcp.",nil];
 	//NSLog(@"Number of services %i",[services count]);
@@ -110,7 +111,7 @@
 	[serviceTable reloadData];
 }
 
-- (void)savePrefs {
+- (void) savePrefs {
 	//NSLog(@"Saving prefs");
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults setObject:services forKey:@"services"];
@@ -229,7 +230,7 @@
 - (void) tableView:(NSTableView *)theTableView setObjectValue:anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
 #pragma unused(theTableView)
 	if (DEBUG)
-		NSLog(@"PrefsController:: Setting %@ for %@",anObject,[aTableColumn identifier]);
+		NSLog(@"PrefsController:: Setting %@ for %@", anObject, [aTableColumn identifier]);
 	[[services objectAtIndex:rowIndex] setObject:anObject forKey:[aTableColumn identifier]];
 }
 

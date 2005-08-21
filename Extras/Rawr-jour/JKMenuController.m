@@ -182,17 +182,13 @@
 }
 
 - (void) itemClicked:(id)sender {
-	//NSLog(@"Clicked on: %@",[sender title]);
 	NSMenu *proMenu = [sender menu];
 	int idx = [proMenu indexOfItem:sender];
-	//NSLog(@"Clicked at index: %i",idx);
 	//NSLog(@"Requesting array for %@ and index in array: %i",[proMenu title],idx);
-	serviceBeingResolved = [[menuServices objectForKey:[proMenu title]] objectAtIndex:idx];
+	NSNetService *serviceBeingResolved = [[menuServices objectForKey:[proMenu title]] objectAtIndex:idx];
 	//NSLog(@"Resolving %@ for %@",[serviceBeingResolved name],[serviceBeingResolved type]);
-	[serviceBeingResolved retain];
 	[serviceBeingResolved setDelegate:self];
 	[serviceBeingResolved resolve];
-	//NSLog(@"Should be resolving now");
 }
 
 - (IBAction) refreshServices:(id)sender {
@@ -274,8 +270,6 @@
 		if (socketAddress->sa_len == sizeof(struct sockaddr_in) || socketAddress->sa_len == sizeof(struct sockaddr_in6)) {
 			// Cancel the resolve now
 			[sender stop];
-			[sender release];
-			serviceBeingResolved = nil;
 
 			NSString *urlString =
 				[[NSString alloc] initWithFormat:@"%@://%@",

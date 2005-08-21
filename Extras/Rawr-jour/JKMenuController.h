@@ -19,9 +19,6 @@
 	IBOutlet NSMenu *dockMenu;
 
 	NSMutableDictionary *menuServices; // for holding menu->service relations i hope
-	NSNetService *serviceBeingResolved;
-
-	BOOL isGrowlInstalled;
 }
 
 - (void) addMenuItemForService:(NSNetService *)newService;

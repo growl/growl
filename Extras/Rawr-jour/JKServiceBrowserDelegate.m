@@ -170,7 +170,6 @@
 		if (socketAddress->sa_len == sizeof(struct sockaddr_in) || socketAddress->sa_len == sizeof(struct sockaddr_in6)) {
 			// Cancel the resolve now
 			[sender stop];
-			serviceBeingResolved = nil;
 			[serviceBrowser reloadColumn:2];
 			break;
 		}

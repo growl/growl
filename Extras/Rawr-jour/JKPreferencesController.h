@@ -25,7 +25,6 @@
     NSMutableArray      *serviceNames;  // their names
     NSMutableDictionary *tableData;
     NSMutableDictionary *prefs;
-    NSDictionary        *serviceList;
     NSMutableDictionary *itemPresets;
 
     BOOL showStatusMenuItem;

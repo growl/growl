@@ -73,7 +73,7 @@
 }
 
 - (void) refreshServices {
-	id aProtocol;
+	NSDictionary *aProtocol;
 	//id aBrowser;
 	NSNetServiceBrowser *newBrowser;
 
@@ -99,12 +99,11 @@
 	while ((aKey = [en nextObject])) { // for every key, a service type...
 		foundKey = NO;
 		// every damn protcol name...
-		//NSLog(@"Going thru names comparing");
-		for (unsigned i = 0U; (i < [[prefs getServices] count]) && !foundKey; ++i) {
-			//NSLog(@"Comparing %@ with %@",aKey,[[[prefs getServices] objectAtIndex:i] objectForKey:@"service"]);
-			if ([aKey isEqualToString:[[[prefs getServices] objectAtIndex:i] objectForKey:@"service"]]) {
+		enumerator = [[prefs getServices] objectEnumerator];
+		while ((aProtocol = [enumerator nextObject])) {
+			if ([aKey isEqualToString:[aProtocol objectForKey:@"service"]]) {
 				foundKey = YES;
-				//break;
+				break;
 			}
 		}
 		if (!foundKey) {
@@ -113,8 +112,9 @@
 			// we need to loop thru and send out removals for each service of said type
 			NSEnumerator *serviceEnum = [[foundServices objectForKey:aKey] objectEnumerator];
 			NSNetService *service;
+			NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 			while ((service = [serviceEnum nextObject]))
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"RawrEndezvousRemoveService" object:service];
+				[nc postNotificationName:@"RawrEndezvousRemoveService" object:service];
 			[foundServices removeObjectForKey:aKey];
 		}
 	}
