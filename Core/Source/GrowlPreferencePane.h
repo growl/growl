@@ -107,18 +107,8 @@
 
 #pragma mark "General" tab pane
 - (IBAction) startStopGrowl:(id)sender;
-- (BOOL) isStartGrowlAtLogin;
-- (void) setStartGrowlAtLogin:(BOOL)flag;
-- (BOOL) isBackgroundUpdateCheckEnabled;
-- (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag;
-- (NSString *) defaultDisplayPluginName;
-- (void) setDefaultDisplayPluginName:(NSString *)name;
-- (BOOL) loggingEnabled;
-- (void) setLoggingEnabled:(BOOL)flag;
 - (BOOL) growlIsRunning;
 - (void) setGrowlIsRunning:(BOOL)flag;
-- (BOOL) squelchMode;
-- (void) setSquelchMode:(BOOL)flag;
 
 - (IBAction) logTypeChanged:(id)sender;
 - (IBAction) openConsoleApp:(id)sender;
@@ -126,24 +116,9 @@
 - (void) updateLogPopupMenu;
 
 #pragma mark GrowlMenu methods
-- (void) enableGrowlMenu;
-- (void) disableGrowlMenu;
 + (BOOL) isGrowlMenuRunning;
-- (BOOL) growlMenuEnabled;
-- (void) setGrowlMenuEnabled:(BOOL)state;
 
 #pragma mark "Network" tab pane
-- (BOOL) isGrowlServerEnabled;
-- (void) setGrowlServerEnabled:(BOOL)enabled;
-- (BOOL) isRemoteRegistrationAllowed;
-- (void) setRemoteRegistrationAllowed:(BOOL)flag;
-- (BOOL) isForwardingEnabled;
-- (void) setForwardingEnabled:(BOOL)enabled;
-- (NSString *) remotePassword;
-- (void) setRemotePassword:(NSString *)value;
-- (int) UDPPort;
-- (void) setUDPPort:(int)value;
-
 - (IBAction) resolveService:(id)sender;
 - (void) writeForwardDestinations;
 

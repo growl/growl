@@ -8,6 +8,8 @@
 
 #import "GrowlAnimation.h"
 
+#define FLOAT_EQ(x,y) (((y - FLT_EPSILON) < x) && (x < (y + FLT_EPSILON)))
+
 @interface GrowlAnimation (private)
 - (void) doAnimationStep;
 
@@ -23,12 +25,12 @@
 - (id) init {
 	if ((self = [super init])) {
 		animationDuration = 1.0;
-		frameRate = 36.0;
-		progress = 0.0;
-		framesPassed = 0.0;
+		frameRate = 36.0f;
+		progress = 0.0f;
+		framesPassed = 0U;
 		animationCurve = GrowlAnimationEaseInOut;
-		startAnimationProgress = -1.0;
-		stopAnimationProgress = -1.0;
+		startAnimationProgress = -1.0f;
+		stopAnimationProgress = -1.0f;
 		repeats = NO;
 	}
 
@@ -63,11 +65,11 @@
 		[self stopAnimation];
 
 		//Reset our progress
-		progress = 0.0;
-		framesPassed = 0;
+		progress = 0.0f;
+		framesPassed = 0U;
 
 		//Create a new timer
-		animationTimer = [NSTimer scheduledTimerWithTimeInterval:(1.0/frameRate)
+		animationTimer = [NSTimer scheduledTimerWithTimeInterval:(1.0f/frameRate)
 														  target:self
 														selector:@selector(_doAnimationStep)
 														userInfo:nil
@@ -89,7 +91,7 @@
 		animationTimer = nil;
 
 		//Let our delegate know what's going on
-		if (progress < 1.0)
+		if (progress < 1.0f)
 			[delegate growlAnimationDidStop:self];
 		else {
 			[delegate growlAnimationDidEnd:self];
@@ -122,10 +124,10 @@
 }
 
 - (void) setCurrentProgress:(GrowlAnimationProgress)value {
-	if (value < 0.0)
-		progress = 0.0;
-	else if (value > 1.0)
-		progress = 1.0;
+	if (value < 0.0f)
+		progress = 0.0f;
+	else if (value > 1.0f)
+		progress = 1.0f;
 	else
 		progress = value;
 }
@@ -215,18 +217,15 @@
 	[self drawFrame:progress];
 
 	//Support for linked animations
-#warning evil floating point comparison
-	if (startAnimation && progress == startAnimationProgress)
+	if (startAnimation && FLOAT_EQ(progress, startAnimationProgress))
 		[startAnimation startAnimation];
 
-#warning evil floating point comparison
-	if (stopAnimation && progress == stopAnimationProgress)
+	if (stopAnimation && FLOAT_EQ(progress, stopAnimationProgress))
 		[stopAnimation stopAnimation];
 
 	//Update our progress
-#warning evil floating point comparison
-	if (progress >= 1.0) {
-		progress = 1.0;
+	if (FLOAT_EQ(progress, 1.0f)) {
+		progress = 1.0f;
 		[self stopAnimation];
 	} else {
 		float completedPercentage;
@@ -250,7 +249,7 @@
 			case GrowlAnimationEaseIn:
 				//y=-x^2+2x
 				progress = -(completedPercentage * completedPercentage);
-				progress += 2.0 * completedPercentage;
+				progress += 2.0f * completedPercentage;
 				break;
 			default:
 				break;

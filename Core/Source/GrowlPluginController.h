@@ -16,6 +16,8 @@
 	NSMutableDictionary		*pluginInstances;
 	//keys: plug-in names; values: NSBundles.
 	NSMutableDictionary		*pluginBundles;
+	//the set of registered plugin path extensions.
+	NSMutableSet            *pluginPathExtensions;
 }
 
 + (GrowlPluginController *) sharedController;

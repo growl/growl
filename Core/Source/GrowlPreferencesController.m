@@ -344,12 +344,12 @@
 
 #pragma mark Status Item
 
-- (BOOL) growlMenuEnabled {
+- (BOOL) isGrowlMenuEnabled {
 	return [self boolForKey:GrowlMenuExtraKey];
 }
 
 - (void) setGrowlMenuEnabled:(BOOL)state {
-	if (state != [self growlMenuEnabled]) {
+	if (state != [self isGrowlMenuEnabled]) {
 		[self setBool:state forKey:GrowlMenuExtraKey];
 		if (state)
 			[self enableGrowlMenu];

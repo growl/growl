@@ -8,6 +8,8 @@
 
 #import "GrowlFadingWindowTransition.h"
 
+#define FLOAT_EQ(x,y) (((y - FLT_EPSILON) < x) && (x < (y + FLT_EPSILON)))
+
 @implementation GrowlFadingWindowTransition
 
 - (id) init {
@@ -71,7 +73,7 @@
 	[super stopAnimation];
 	
 	//Notify our delegate
-	if ([self currentProgress] == 1.0) {
+	if (FLOAT_EQ([self currentProgress], 1.0f)) {
 		switch (fadeAction) {
 			case GrowlFadeIn:
 				[[NSNotificationCenter defaultCenter] postNotificationName:GrowlFadeInWindowTransitionDidEnd

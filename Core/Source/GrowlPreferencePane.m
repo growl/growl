@@ -56,6 +56,7 @@
 	if ((self = [super initWithBundle:bundle])) {
 		pid = [[NSProcessInfo processInfo] processIdentifier];
 		loadedPrefPanes = [[NSMutableArray alloc] init];
+		preferencesController = [GrowlPreferencesController sharedController];
 
 		NSNotificationCenter *nc = [NSDistributedNotificationCenter defaultCenter];
 		[nc addObserver:self selector:@selector(growlLaunched:)   name:GROWL_IS_READY object:nil];
@@ -65,7 +66,7 @@
 		NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithContentsOfFile:
 			[bundle pathForResource:@"GrowlDefaults"
 							 ofType:@"plist"]];
-		[[GrowlPreferencesController sharedController] registerDefaults:defaultDefaults];
+		[preferencesController registerDefaults:defaultDefaults];
 		[defaultDefaults release];
 	}
 
@@ -126,10 +127,8 @@
 
 	browser = [[NSNetServiceBrowser alloc] init];
 
-	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-
 	// create a deep mutable copy of the forward destinations
-	NSArray *destinations = [preferences objectForKey:GrowlForwardDestinationsKey];
+	NSArray *destinations = [preferencesController objectForKey:GrowlForwardDestinationsKey];
 	NSEnumerator *destEnum = [destinations objectEnumerator];
 	NSMutableArray *theServices = [[NSMutableArray alloc] initWithCapacity:[destinations count]];
 	NSDictionary *destination;
@@ -147,8 +146,8 @@
 
 	[self setupAboutTab];
 
-	if ([self growlMenuEnabled] && ![GrowlPreferencePane isGrowlMenuRunning])
-		[self enableGrowlMenu];
+	if ([preferencesController isGrowlMenuEnabled] && ![GrowlPreferencePane isGrowlMenuRunning])
+		[preferencesController enableGrowlMenu];
 
 	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
 	growlForumURL   = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
@@ -168,12 +167,12 @@
 	[[growlTrac    cell] setHighlightsBy:NSContentsCellMask];
 
 	customHistArray = [[NSMutableArray alloc] initWithObjects:
-		[preferences objectForKey:GrowlCustomHistKey1],
-		[preferences objectForKey:GrowlCustomHistKey2],
-		[preferences objectForKey:GrowlCustomHistKey3],
+		[preferencesController objectForKey:GrowlCustomHistKey1],
+		[preferencesController objectForKey:GrowlCustomHistKey2],
+		[preferencesController objectForKey:GrowlCustomHistKey3],
 		nil];
 	[self updateLogPopupMenu];
-	int typePref = [preferences integerForKey:GrowlLogTypeKey];
+	int typePref = [preferencesController integerForKey:GrowlLogTypeKey];
 	[logFileType selectCellAtRow:typePref column:0];
 }
 
@@ -252,15 +251,14 @@
 
 //subclassed from NSPreferencePane; called before the pane is displayed.
 - (void) willSelect {
-	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-	NSString *lastVersion = [preferences objectForKey:LastKnownVersionKey];
+	NSString *lastVersion = [preferencesController objectForKey:LastKnownVersionKey];
 	NSString *currentVersion = [self bundleVersion];
 	if (!(lastVersion && [lastVersion isEqualToString:currentVersion])) {
-		if ([preferences isGrowlRunning]) {
-			[preferences setGrowlRunning:NO noMatterWhat:NO];
-			[preferences setGrowlRunning:YES noMatterWhat:YES];
+		if ([preferencesController isGrowlRunning]) {
+			[preferencesController setGrowlRunning:NO noMatterWhat:NO];
+			[preferencesController setGrowlRunning:YES noMatterWhat:YES];
 		}
-		[preferences setObject:currentVersion forKey:LastKnownVersionKey];
+		[preferencesController setObject:currentVersion forKey:LastKnownVersionKey];
 	}
 	[self checkGrowlRunning];
 }
@@ -347,18 +345,16 @@
 	[ticketController loadAllSavedTickets];
 	[self setDisplayPlugins:[[GrowlPluginController sharedController] displayPlugins]];
 	[self setTickets:[[ticketController allSavedTickets] allValues]];
-	[self setSquelchMode:[self squelchMode]];
-	[self setGrowlMenuEnabled:[self growlMenuEnabled]];
+	[preferencesController setSquelchMode:[preferencesController squelchMode]];
+	[preferencesController setGrowlMenuEnabled:[preferencesController isGrowlMenuEnabled]];
 	[self cacheImages];
 
-	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-
 	// If Growl is enabled, ensure the helper app is launched
-	if ([preferences boolForKey:GrowlEnabledKey])
-		[preferences launchGrowl:NO];
+	if ([preferencesController boolForKey:GrowlEnabledKey])
+		[preferencesController launchGrowl:NO];
 
 	if ([plugins count] > 0U) {
-		NSString *defaultPlugin = [preferences objectForKey:GrowlDisplayPluginKey];
+		NSString *defaultPlugin = [preferencesController objectForKey:GrowlDisplayPluginKey];
 		unsigned defaultIndex = [[displayPluginsArrayController arrangedObjects] indexOfObject:defaultPlugin];
 		if (defaultIndex == NSNotFound)
 			defaultIndex = 0U;
@@ -409,7 +405,7 @@
 	while ((entry = [enumerator nextObject]))
 		if (![entry netService])
 			[destinations addObject:[entry properties]];
-	[[GrowlPreferencesController sharedController] setObject:destinations forKey:GrowlForwardDestinationsKey];
+	[preferencesController setObject:destinations forKey:GrowlForwardDestinationsKey];
 	[destinations release];
 }
 
@@ -439,7 +435,7 @@
 	// Update our status visible to the user
 	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Launching Growl...",nil,[self bundle],@"")];
 
-	[[GrowlPreferencesController sharedController] setGrowlRunning:YES noMatterWhat:NO];
+	[preferencesController setGrowlRunning:YES noMatterWhat:NO];
 
 	// After 4 seconds force a status update, in case Growl didn't start/stop
 	[self performSelector:@selector(checkGrowlRunning)
@@ -456,7 +452,7 @@
 	[growlRunningStatus setStringValue:NSLocalizedStringFromTableInBundle(@"Terminating Growl...",nil,[self bundle],@"")];
 
 	// Ask the Growl Helper App to shutdown
-	[[GrowlPreferencesController sharedController] setGrowlRunning:NO noMatterWhat:NO];
+	[preferencesController setGrowlRunning:NO noMatterWhat:NO];
 
 	// After 4 seconds force a status update, in case growl didn't start/stop
 	[self performSelector:@selector(checkGrowlRunning)
@@ -469,7 +465,7 @@
 - (IBAction) startStopGrowl:(id) sender {
 #pragma unused(sender)
 	// Make sure growlIsRunning is correct
-	if (growlIsRunning != [[GrowlPreferencesController sharedController] isGrowlRunning]) {
+	if (growlIsRunning != [preferencesController isGrowlRunning]) {
 		// Nope - lets just flip it and update status
 		[self setGrowlIsRunning:!growlIsRunning];
 		[self updateRunningStatus];
@@ -489,7 +485,7 @@
 	int numberOfItems = [customMenuButton numberOfItems];
 	if (hasSelection && (numberOfItems == 1))
 		[self customFileChosen:customMenuButton];
-	[[GrowlPreferencesController sharedController] setInteger:typePref forKey:GrowlLogTypeKey];
+	[preferencesController setInteger:typePref forKey:GrowlLogTypeKey];
 	[customMenuButton setEnabled:(hasSelection && (numberOfItems > 1))];
 }
 
@@ -539,15 +535,14 @@
 	unsigned numHistItems = [customHistArray count];
 	//NSLog(@"CustomHistArray = %@", customHistArray);
 	if (numHistItems) {
-		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 		NSString *s = [customHistArray objectAtIndex:0U];
-		[preferences setObject:s forKey:GrowlCustomHistKey1];
+		[preferencesController setObject:s forKey:GrowlCustomHistKey1];
 
 		if ((numHistItems > 1U) && (s = [customHistArray objectAtIndex:1U]))
-			[preferences setObject:s forKey:GrowlCustomHistKey2];
+			[preferencesController setObject:s forKey:GrowlCustomHistKey2];
 
 		if ((numHistItems > 2U) && (s = [customHistArray objectAtIndex:2U]))
-			[preferences setObject:s forKey:GrowlCustomHistKey3];
+			[preferencesController setObject:s forKey:GrowlCustomHistKey3];
 
 		//[[logFileType cellAtRow:1 column:0] setEnabled:YES];
 		[logFileType selectCellAtRow:1 column:0];
@@ -856,7 +851,7 @@
 #pragma mark Detecting Growl
 
 - (void) checkGrowlRunning {
-	[self setGrowlIsRunning:[[GrowlPreferencesController sharedController] isGrowlRunning]];
+	[self setGrowlIsRunning:[preferencesController isGrowlRunning]];
 	[self updateRunningStatus];
 }
 
@@ -887,13 +882,13 @@
 	GrowlApplicationTicket *ticket;
 	int removalIndex = -1;
 
-	int		i = 0U;
+	int	i = 0;
 	while ((ticket = [ticketEnumerator nextObject])) {
 		if ([[ticket applicationName] isEqualToString:app]) {
 			removalIndex = i;
 			break;
 		}
-		i++;
+		++i;
 	}
 
 	if (removalIndex != -1)

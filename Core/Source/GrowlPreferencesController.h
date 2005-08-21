@@ -56,8 +56,27 @@
 - (void) launchGrowl:(BOOL)noMatterWhat;
 - (void) terminateGrowl;
 
+#pragma mark GrowlMenu running state
+
+- (void) enableGrowlMenu;
+- (void) disableGrowlMenu;
+
 #pragma mark -
 //Simplified accessors
+
+#pragma mark UI
+
+- (BOOL) isBackgroundUpdateCheckEnabled;
+- (void) setIsBackgroundUpdateCheckEnabled:(BOOL)flag;
+
+- (NSString *) defaultDisplayPluginName;
+- (void) setDefaultDisplayPluginName:(NSString *)name;
+
+- (BOOL) squelchMode;
+- (void) setSquelchMode:(BOOL)flag;
+
+- (BOOL) stickyWhenAway;
+- (void) setStickyWhenAway:(BOOL)flag;
 
 #pragma mark GrowlMenu methods
 

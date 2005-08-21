@@ -46,6 +46,17 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 		pluginInstances = [[NSMutableDictionary alloc] init];
 		pluginBundles   = [[NSMutableDictionary alloc] init];
 
+		CFSetCallBacks callbacks;
+		callbacks = kCFCopyStringSetCallBacks;
+		callbacks.equal = caseInsensitiveStringComparator;
+		pluginPathExtensions = (NSMutableSet *)CFSetCreateMutable(kCFAllocatorDefault,
+																  /*numValues*/ 0,
+																  &callbacks);
+		// add default extensions
+		[pluginPathExtensions addObject:GROWL_STYLE_EXTENSION];
+		[pluginPathExtensions addObject:GROWL_VIEW_EXTENSION];
+		[pluginPathExtensions addObject:GROWL_PLUGIN_EXTENSION];
+		
 		NSArray *libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
 		NSEnumerator *enumerator = [libraries objectEnumerator];
 		NSString *dir;
@@ -62,8 +73,9 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 }
 
 - (void) dealloc {
-	[pluginInstances release];
-	[pluginBundles   release];
+	[pluginInstances      release];
+	[pluginBundles        release];
+	[pluginPathExtensions release];
 
 	[super dealloc];
 }
@@ -71,22 +83,11 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 #pragma mark -
 
 - (NSSet *) pluginPathExtensions {
-	//XXX: make this non-hard-coded so that plug-ins can have plug-ins
-	NSString *pathExtensions[] = { GROWL_STYLE_EXTENSION, GROWL_VIEW_EXTENSION, GROWL_PLUGIN_EXTENSION };
-	static CFSetCallBacks callbacks;
-	static BOOL hasSetUpCallbacks = NO;
-	if (!hasSetUpCallbacks) {
-		callbacks = kCFTypeSetCallBacks; //XXX use kCFCopyStringSetCallBacks when making this mutable
-		callbacks.equal = caseInsensitiveStringComparator;
-	}
-	return [(NSSet *)CFSetCreate(kCFAllocatorDefault,
-								 (CFTypeRef *)pathExtensions,
-								 /*numValues*/ 2,
-								 &callbacks) autorelease];
+	return pluginPathExtensions;
 }
 
 - (void) addPluginPathExtension:(NSString *)ext {
-	//XXX
+	[pluginPathExtensions addObject:ext];
 }
 
 #pragma mark -
@@ -145,6 +146,33 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 
 - (NSBundle *) displayPluginBundleWithName:(NSString *)name {
 	return [pluginBundles objectForKey:name];
+}
+
+- (id<GrowlPlugin>) pluginInstanceWithName:(NSString *)name type:(NSString *)type {
+	id<GrowlDisplayPlugin> plugin = [pluginInstances objectForKey:name];
+	if (!plugin) {
+		NSBundle *pluginBundle = [pluginBundles objectForKey:name];
+		NSString *filename = [[pluginBundle bundlePath] lastPathComponent];
+		NSString *pathExtension = [filename pathExtension];
+		if ([pathExtension isEqualToString:type]) {
+			if (pluginBundle && (plugin = [[[pluginBundle principalClass] alloc] init])) {
+				[pluginInstances setObject:plugin forKey:name];
+				[plugin release];
+			} else {
+				NSLog(@"Could not load %@", name);
+			}
+		} else {
+			NSLog(@"Unknown plugin filename extension '%@' (from filename '%@' of plugin named '%@')", pathExtension, filename, name);
+		}
+	}
+	return plugin;
+}
+
+- (NSBundle *) pluginBundleWithName:(NSString *)name type:(NSString *)type {
+	NSBundle *pluginBundle = [pluginBundles objectForKey:name];
+	NSString *filename = [[pluginBundle bundlePath] lastPathComponent];
+	NSString *pathExtension = [filename pathExtension];
+	return [pathExtension isEqualToString:type] ? pluginBundle : nil;
 }
 
 - (void) findPluginsInDirectory:(NSString *)dir {

@@ -26,7 +26,7 @@ typedef enum {
 	NSTimeInterval				animationDuration;	//Default to 1 second
 	float						frameRate;			//Default to 36 frames per second
 	GrowlAnimationProgress		progress;
-	unsigned int				framesPassed;
+	unsigned					framesPassed;
 	GrowlAnimationCurve			animationCurve;		//Default to GrowlAnimationEaseInOut
 	id							delegate;
 	BOOL						repeats;
