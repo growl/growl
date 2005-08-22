@@ -240,6 +240,7 @@ struct GrowlNetworkNotification {
 
 //plug-in bundle filename extensions
 #define GROWL_PLUGIN_EXTENSION                  XSTR("growlPlugin")
+#define GROWL_PATHWAY_EXTENSION                 XSTR("growlPathway")
 #define GROWL_VIEW_EXTENSION					XSTR("growlView")
 #define GROWL_STYLE_EXTENSION					XSTR("growlStyle")
 
