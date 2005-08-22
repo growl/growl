@@ -424,7 +424,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
 }
 
-- (BOOL)isFlipped {
+- (BOOL) isFlipped {
 	// Coordinates are based on top left corner
     return YES;
 }

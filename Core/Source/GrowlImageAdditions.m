@@ -12,7 +12,8 @@
 @implementation NSImage (GrowlImageAdditions)
 
 - (void) drawScaledInRect:(NSRect)targetRect operation:(NSCompositingOperation)operation fraction:(float)f {
-	[self adjustSizeToDrawAtSize:targetRect.size];
+	if (!NSEqualSizes([self size], targetRect.size))
+		[self adjustSizeToDrawAtSize:targetRect.size];
 	NSRect imageRect;
 	imageRect.origin.x = 0.0f;
 	imageRect.origin.y = 0.0f;
@@ -45,25 +46,24 @@
 
 - (NSSize) adjustSizeToDrawAtSize:(NSSize)theSize {
 	NSImageRep *bestRep = [self bestRepresentationForSize:theSize];
-	[self setSize:[bestRep size]];
-	return [bestRep size];
+	NSSize size = [bestRep size];
+	[self setSize:size];
+	return size;
 }
 
 - (NSImageRep *) bestRepresentationForSize:(NSSize)theSize {
 	NSImageRep *bestRep = [self representationOfSize:theSize];
 	if (!bestRep) {
-		NSArray *reps = [self representations];
-		// ***warning   * handle other sizes
-		float repDistance = 65536.0f;
-		// ***warning   * this is totally not the highest, but hey...
+		BOOL isFirst = YES;
+		float repDistance = 0.0f;
 		NSImageRep *thisRep;
-		float thisDistance;
-		NSEnumerator *enumerator = [reps objectEnumerator];
+		NSEnumerator *enumerator = [[self representations] objectEnumerator];
 		while ((thisRep = [enumerator nextObject])) {
-			thisDistance = theSize.width - [thisRep size].width;
+			float thisDistance = theSize.width - [thisRep size].width;
 			if (repDistance < 0.0f && thisDistance > 0.0f)
 				continue;
-			if (ABS(thisDistance) < ABS(repDistance) || (thisDistance < 0.0f && repDistance > 0.0f)) {
+			if (isFirst || fabsf(thisDistance) < fabsf(repDistance) || (thisDistance < 0.0f && repDistance > 0.0f)) {
+				isFirst = NO;
 				repDistance = thisDistance;
 				bestRep = thisRep;
 			}
@@ -76,8 +76,7 @@
 }
 
 - (NSImageRep *) representationOfSize:(NSSize)theSize {
-	NSArray *reps = [self representations];
-	NSEnumerator *enumerator = [reps objectEnumerator];
+	NSEnumerator *enumerator = [[self representations] objectEnumerator];
 	NSImageRep *rep;
 	while ((rep = [enumerator nextObject]))
 		if (NSEqualSizes([rep size], theSize))
