@@ -116,7 +116,7 @@
 	[notificationQueue removeObjectAtIndex:0U];
 	if ([notificationQueue count] > 0U) {
 		GrowlDisplayFadingWindowController *controller = [notificationQueue objectAtIndex:0U];
-		if (![controller isFadingIn])
+		if (!([controller isFadingIn] || [controller didFadeIn]))
 			[controller startFadeIn];
 	}
 }

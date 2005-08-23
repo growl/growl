@@ -61,6 +61,9 @@
 - (BOOL) isFadingIn;
 - (BOOL) isFadingOut;
 
+- (BOOL) didFadeIn;
+- (BOOL) didFadeOut;
+
 @end
 
 @interface NSObject (GrowlDisplayFadingWindowControllerDelegate)

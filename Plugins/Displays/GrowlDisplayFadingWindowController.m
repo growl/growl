@@ -23,7 +23,6 @@
 
 - (id) initWithWindow:(NSWindow *)window {
 	if ((self = [super initWithWindow:window])) {
-		autoFadeOut = NO;
 		doFadeIn = YES;
 		doFadeOut = YES;
 		animationDuration = DURATION;
@@ -214,6 +213,16 @@
 
 - (BOOL) isFadingOut {
 	return isFadingOut;
+}
+
+#pragma mark -
+
+- (BOOL) didFadeIn {
+	return didFadeIn;
+}
+
+- (BOOL) didFadeOut {
+	return didFadeOut;
 }
 
 #pragma mark -
