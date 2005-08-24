@@ -42,6 +42,7 @@
 		9324AE7907BD77DB001CB55C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9324AE7807BD77DB001CB55C /* Growl.framework */; };
 		9324AE8807BD781B001CB55C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9324AE7807BD77DB001CB55C /* Growl.framework */; };
 		950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 950626460840CB8200C01CD2 /* BluetoothLogo.png */; };
+		9522B89208BC57F20000DC20 /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9522B89108BC57F20000DC20 /* DiskArbitration.framework */; };
 		958AB93807C69DE000F56B45 /* NetworkNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 958AB93607C69DE000F56B45 /* NetworkNotifier.m */; };
 		958AB97507C6A20100F56B45 /* SCDynamicStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 958AB97307C6A20100F56B45 /* SCDynamicStore.m */; };
 		958AB9DE07C6A7FD00F56B45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */; };
@@ -261,6 +262,7 @@
 		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		950626460840CB8200C01CD2 /* BluetoothLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BluetoothLogo.png; sourceTree = "<group>"; };
+		9522B89108BC57F20000DC20 /* DiskArbitration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiskArbitration.framework; path = /System/Library/Frameworks/DiskArbitration.framework; sourceTree = "<absolute>"; };
 		9533C287085C3ED6009F8046 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		958AB93507C69DE000F56B45 /* NetworkNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkNotifier.h; sourceTree = "<group>"; };
 		958AB93607C69DE000F56B45 /* NetworkNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkNotifier.m; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				DDF9B33A07BBDAA40007B5B7 /* IOBluetooth.framework in Frameworks */,
 				9324AE7907BD77DB001CB55C /* Growl.framework in Frameworks */,
 				958AB9DE07C6A7FD00F56B45 /* SystemConfiguration.framework in Frameworks */,
+				9522B89208BC57F20000DC20 /* DiskArbitration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +339,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9522B89108BC57F20000DC20 /* DiskArbitration.framework */,
 				958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				9324AE7807BD77DB001CB55C /* Growl.framework */,
@@ -836,7 +840,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = HardwareGrowler;
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Development;
 		};
@@ -942,6 +946,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = HardwareGrowler;
 				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
 			};
 			name = Default;
 		};

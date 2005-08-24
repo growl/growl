@@ -215,13 +215,13 @@
 							clickContext:nil];
 }
 
-- (void) volumeDidMount:(NSString *)path {
-	//NSLog(@"volume Mount: %@", path );
+- (void) volumeDidMount:(NSString *)name atPath:(NSString *)path {
+	//NSLog(@"volume Mount: %@", name);
 
 	NSData *iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation];
 
 	[GrowlApplicationBridge notifyWithTitle:NotifierVolumeMountedTitle
-							description:[path lastPathComponent]
+							description:name
 							notificationName:NotifierVolumeMountedNotification
 							iconData:iconData
 							priority:0
@@ -229,12 +229,11 @@
 							clickContext:nil];
 }
 
-- (void) volumeDidUnmount:(NSString *)path {
-//	NSLog(@"volume UnMount: %@", path );
+- (void) volumeDidUnmount:(NSString *)name {
+	//NSLog(@"volume Unmount: %@", name);
 
-//	NSData	*iconData = [[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation];
 	[GrowlApplicationBridge notifyWithTitle:NotifierVolumeUnmountedTitle
-							description:[path lastPathComponent]
+							description:name
 							notificationName:NotifierVolumeUnmountedNotification
 							iconData:ejectLogoData
 							priority:0

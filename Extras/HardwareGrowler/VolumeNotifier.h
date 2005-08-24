@@ -7,11 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <DiskArbitration/DiskArbitration.h>
 
 @interface VolumeNotifier : NSObject {
-	id delegate;
+	DASessionRef session;
 }
 
-- (id) initWithDelegate:(id)object;
+- (id) initWithDelegate:(id)delegate;
 
+@end
+
+@interface NSObject(VolumeNotifierDelegate)
+- (void) volumeDidMount:(NSString *)name atPath:(NSString *)path;
+- (void) volumeDidUnmount:(NSString *)name;
 @end
