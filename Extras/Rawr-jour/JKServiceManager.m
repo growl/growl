@@ -42,7 +42,7 @@
 - (id) init {
 	if ((self = [super init])) {
 		serviceBrowserLinks = [[NSMutableDictionary alloc] init];
-		foundServices = [[NSMutableDictionary alloc] initWithCapacity:1U];
+		foundServices = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }

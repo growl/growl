@@ -18,7 +18,7 @@
 		NSLog(@"Loading : %@", dbPath);
 	NSDictionary *serviceList;
 	serviceList = [[NSDictionary alloc] initWithContentsOfFile:dbPath];
-	itemPresets = [[NSMutableDictionary alloc] init];
+	itemPresets = [[NSMutableDictionary alloc] initWithCapacity:[serviceList count]];
 	NSDictionary *myDict;
 	NSEnumerator *myEnum;
 	myEnum = [[serviceList objectForKey:@"services"] objectEnumerator];
@@ -135,10 +135,6 @@
 	return showStatusMenuItem;
 }
 
-- (NSArray *) getOldServices {
-	return oldServices;
-}
-
 - (IBAction) addService:(id)sender {
 #pragma unused(sender)
 	//[[tableData objectForKey:@"services"] addObject:@"_????._tcp."];
@@ -182,11 +178,7 @@
 	}
 	if (!found) {
 		NSDictionary *preset = [itemPresets objectForKey:[sender title]];
-		NSMutableDictionary *temp = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-			[preset objectForKey:@"service"],  @"service",
-			[preset objectForKey:@"protocol"], @"protocol",
-			[preset objectForKey:@"name"],     @"name",
-			nil];
+		NSMutableDictionary *temp = [preset mutableCopy];
 		[services addObject:temp];
 		[temp release];
 		[serviceTable reloadData];
@@ -202,8 +194,6 @@
 - (IBAction) openPrefsWindow:(id)sender {
 #pragma unused(sender)
 	[self openPrefs];
-	[oldServices release];
-	oldServices = [services copy]; // save our old services so we can check them later in service manager
 	[prefWindow makeKeyAndOrderFront:nil];
 }
 

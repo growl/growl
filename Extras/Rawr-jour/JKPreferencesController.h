@@ -12,7 +12,7 @@
 
 @interface JKPreferencesController : NSObject {
     IBOutlet id serviceTable;
-	IBOutlet JKMenuController* main;
+	IBOutlet JKMenuController *main;
     IBOutlet id prefWindow;
     IBOutlet id addServiceButton;
     IBOutlet id removeServiceButton;
@@ -21,7 +21,6 @@
     IBOutlet id showStatusMenuItemCheck;
 
     NSMutableArray      *services;      // current services to look for
-    NSArray             *oldServices;   // used to find out what services are gone after change
     NSMutableArray      *serviceNames;  // their names
     NSMutableDictionary *tableData;
     NSMutableDictionary *prefs;
@@ -42,7 +41,6 @@
 - (void) savePrefs;
 - (NSArray *) getServices;
 - (BOOL) getShowStatusMenuItem;
-- (NSArray *) getOldServices;
 - (int) numberOfRowsInTableView:(NSTableView *)theTableView;
 - (id) tableView:(NSTableView *)theTableView objectValueForTableColumn:(NSTableColumn *)theColumn row:(int)rowIndex;
 @end

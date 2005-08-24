@@ -131,10 +131,8 @@
 }
 
 - (void) removeMenuItemForService:(NSNetService *)oldService { // needs old services to find the name...
-	NSString *protocol;
 	NSMenuItem *anItem;
 	NSArray *items;
-	NSString *aKey;
 
 	if (oldService) {
 		NSLog(@"Old service: %@", oldService);
@@ -142,43 +140,25 @@
 		NSLog(@"**WARNING** we don't have an old service, shouldn't happen");
 		return;
 	}
-	aKey = nil;
-	//NSString *aKey = [[[serviceManager getProtocolNames] objectForKey:[oldService type]] objectForKey:@"name"];
-	// loop thru each old services comparing type with oldService type
-	NSEnumerator *oldServiceEnum = [[prefs getOldServices] objectEnumerator];
-	NSDictionary *entry;
-	while ((entry = [oldServiceEnum nextObject])) {
-		if ([[oldService type] isEqualToString:[entry objectForKey:@"service"]]) {
-			aKey = [entry objectForKey:@"name"];
-			break;
+	NSString *protocolName = [[[serviceManager getProtocolNames] objectForKey:[oldService type]] objectForKey:@"name"];
+	NSMenuItem *proItem = [dockMenu itemWithTitle:protocolName];
+	NSMenu *proMenu = [proItem submenu];
+	//proMenu = [proMenu submenu];
+	items = [proMenu itemArray];
+	int i = 0;
+	NSEnumerator *myEnum = [items objectEnumerator];
+	while ((anItem = [myEnum nextObject])) {
+		//NSLog(@"Searching... looking for %@",[oldService name]);
+		if ([[anItem title] isEqualToString:[oldService name]]) {
+			//NSLog(@"We gotta remove %@",[anItem title]);
+			[proMenu removeItem:anItem];
+			[[menuServices objectForKey:protocolName] removeObjectAtIndex:i];
+			//NSLog(@"Menu item removed");
 		}
+		i++;
 	}
-	if (!aKey) {
-		NSLog(@"FAILED to get a key for old service removal");
-		return;
-	}
-	protocol = [oldService type];
-	//NSMenu *servicesMenu = dockMenu;
-	if (aKey && [aKey isKindOfClass:[NSString class]]) {
-		NSMenuItem *proItem = [dockMenu itemWithTitle:aKey];
-		NSMenu *proMenu = [[dockMenu itemWithTitle:aKey] submenu];
-		//proMenu = [proMenu submenu];
-		items = [proMenu itemArray];
-		int i = 0;
-		NSEnumerator * myEnum = [items objectEnumerator];
-		while ((anItem = [myEnum nextObject])) {
-			//NSLog(@"Searching... looking for %@",[oldService name]);
-			if ([[anItem title] isEqualToString:[oldService name]]) {
-				//NSLog(@"We gotta remove %@",[anItem title]);
-				[proMenu removeItem:anItem];
-				[[menuServices objectForKey:aKey] removeObjectAtIndex:i];
-				//NSLog(@"Menu item removed");
-			}
-			i++;
-		}
-		if (![[proMenu itemArray] count])
-			[dockMenu removeItem:proItem];
-	}
+	if (![[proMenu itemArray] count])
+		[dockMenu removeItem:proItem];
 }
 
 - (void) itemClicked:(id)sender {
@@ -188,7 +168,10 @@
 	NSNetService *serviceBeingResolved = [[menuServices objectForKey:[proMenu title]] objectAtIndex:idx];
 	//NSLog(@"Resolving %@ for %@",[serviceBeingResolved name],[serviceBeingResolved type]);
 	[serviceBeingResolved setDelegate:self];
-	[serviceBeingResolved resolve];
+	if ([serviceBeingResolved respondsToSelector:@selector(resolveWithTimeout:)])
+		[serviceBeingResolved resolveWithTimeout:5.0];
+	else
+		[serviceBeingResolved resolve];
 }
 
 - (IBAction) refreshServices:(id)sender {
@@ -220,7 +203,6 @@
 	}
 	NSLog(@"Telling service manager to refresh");
 	*/
-	//[serviceManager setProtocols:[prefs getOldServices]];
 	[serviceManager refreshServices];
 }
 
@@ -228,9 +210,10 @@
 	NSNetService *aNetService = [noti object];
 	//NSLog(@"Notifying growl of new service: %@",[aNetService name]);
 	[self addMenuItemForService:aNetService];
+	NSString *protocolName = [[[serviceManager getProtocolNames] objectForKey:[aNetService type]] objectForKey:@"name"];
 	NSString *description = [[NSString alloc] initWithFormat:@"%@\n%@",
 		[aNetService name],
-		[aNetService type]];
+		protocolName];
 	[GrowlApplicationBridge notifyWithTitle:@"Found Service"
 		description:description
 		notificationName:@"New Service Discovered"
@@ -245,9 +228,10 @@
 	NSNetService *aNetService = [noti object];
 	//NSLog(@"Notifying growl of disconnected service: %@",[aNetService name]);
 	[self removeMenuItemForService:aNetService];
+	NSString *protocolName = [[[serviceManager getProtocolNames] objectForKey:[aNetService type]] objectForKey:@"name"];
 	NSString *description = [[NSString alloc] initWithFormat:@"%@\n%@",
 		[aNetService name],
-		[aNetService type]];
+		protocolName];
 	[GrowlApplicationBridge notifyWithTitle:@"Service went offline"
 		description:description
 		notificationName:@"Service offline"
