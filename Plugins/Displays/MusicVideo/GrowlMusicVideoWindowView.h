@@ -19,6 +19,7 @@
 	SEL					action;
 	id					target;
 
+	CGLayerRef			layer;
 	NSImage				*cache;
 	BOOL				needsDisplay;
 }

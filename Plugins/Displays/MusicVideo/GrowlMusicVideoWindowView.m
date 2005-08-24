@@ -30,20 +30,17 @@
 	[title           release];
 	[text            release];
 	[cache           release];
+	if (layer)
+		CGLayerRelease(layer);
 
 	[super dealloc];
 }
 
 - (void) drawRect:(NSRect)rect {
+	NSGraphicsContext *context = [NSGraphicsContext currentContext];
+	CGContextRef cgContext = [context graphicsPort];
+	NSRect bounds = [self bounds];
 	if (needsDisplay) {
-		//draw to cache
-		[cache lockFocus];
-
-		NSRect bounds = [self bounds];
-
-		[backgroundColor set];
-		NSRectFill(bounds);
-
 		// rects and sizes
 		int sizePref = 0;
 		READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
@@ -76,6 +73,19 @@
 		textRect.origin.x = titleRect.origin.x;
 		textRect.size.width = titleRect.size.width;
 
+		//draw to cache
+		if (CGLayerCreateWithContext) {
+			if (!layer)
+				layer = CGLayerCreateWithContext(cgContext, CGSizeMake(bounds.size.width, bounds.size.height), NULL);
+			[NSGraphicsContext setCurrentContext:
+				[NSGraphicsContext graphicsContextWithGraphicsPort:CGLayerGetContext(layer) flipped:NO]];
+		} else {
+			[cache lockFocus];
+		}
+
+		[backgroundColor set];
+		NSRectFill(bounds);
+
 		[title drawInRect:titleRect withAttributes:titleAttributes];
 
 		[text drawInRect:textRect withAttributes:textAttributes];
@@ -83,7 +93,11 @@
 		[icon setFlipped:NO];
 		[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
 
-		[cache unlockFocus];
+		if (CGLayerCreateWithContext)
+			[NSGraphicsContext setCurrentContext:context];
+		else
+			[cache unlockFocus];
+
 		needsDisplay = NO;
 	}
 
@@ -91,11 +105,20 @@
 	NSRect imageRect = rect;
 	int effect = MUSICVIDEO_EFFECT_SLIDE;
 	READ_GROWL_PREF_BOOL(MUSICVIDEO_EFFECT_PREF, MusicVideoPrefDomain, &effect);
-	if (effect == MUSICVIDEO_EFFECT_SLIDE)
-		/*do nothing*/;
-	else if (effect == MUSICVIDEO_EFFECT_WIPE)
-		imageRect.origin.y = 0.0f;
-	[cache drawInRect:rect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0f];
+	if (effect == MUSICVIDEO_EFFECT_SLIDE) {
+		if (CGLayerCreateWithContext)
+			imageRect.origin.y = 0.0f;
+	} else if (effect == MUSICVIDEO_EFFECT_WIPE) {
+		if (!CGLayerCreateWithContext)
+			imageRect.origin.y = 0.0f;
+	}
+
+	NSDate *start = [NSDate date];
+	if (CGLayerCreateWithContext)
+		CGContextDrawLayerInRect(cgContext, CGRectMake(imageRect.origin.x,imageRect.origin.y,bounds.size.width,bounds.size.height), layer);
+	else
+		[cache drawInRect:rect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0f];
+	NSLog(@"%f", [[NSDate date] timeIntervalSinceDate:start]);
 }
 
 - (void) setIcon:(NSImage *)anIcon {
