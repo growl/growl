@@ -13,7 +13,7 @@ static void diskDescriptionChanged(DADiskRef disk, CFArrayRef keys, void *delega
 	CFStringRef name = CFDictionaryGetValue(description, kDADiskDescriptionVolumeNameKey);
 	CFURLRef pathURL = CFDictionaryGetValue(description, kDADiskDescriptionVolumePathKey);
 	if (pathURL) {
-		CFStringRef path = CFURLCopyPath(pathURL);
+		CFStringRef path = CFURLCopyFileSystemPath(pathURL, kCFURLPOSIXPathStyle);
 		[(id)delegate volumeDidMount:(NSString *)name atPath:(NSString *)path];
 		CFRelease(path);
 	} else {
