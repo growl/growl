@@ -54,6 +54,49 @@ static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
 
 static GrowlApplicationController *singleton = nil;
 
+static void checkVersion(CFRunLoopTimerRef timer, void *context) {
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+	GrowlApplicationController *appController = (GrowlApplicationController *)context;
+
+	if (![preferences boolForKey:GrowlUpdateCheckKey])
+		return;
+
+	NSURL *versionCheckURL = [appController versionCheckURL];
+
+	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
+
+	NSString *currVersionNumber = [GrowlApplicationController growlVersion];
+	NSString *latestVersionNumber = [productVersionDict objectForKey:@"Growl"];
+
+	NSString *downloadURLString = [productVersionDict objectForKey:@"GrowlDownloadURL"];
+
+	/* do nothing and be quiet if there is no active connection, if the
+	 *	version dictionary could not be downloaded, or if the version dictionary
+	 *	is missing either of these keys.
+	 */
+	if (downloadURLString && latestVersionNumber) {
+		NSURL *downloadURL = [[NSURL alloc] initWithString:downloadURLString];
+
+		[preferences setObject:[NSDate date] forKey:LastUpdateCheckKey];
+		if (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0) {
+			[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Update Available", /*comment*/ nil)
+				                        description:NSLocalizedString(@"A newer version of Growl is available online. Click here to download it now.", /*comment*/ nil)
+				                   notificationName:@"Growl update available"
+			                               iconData:[appController applicationIconDataForGrowl]
+			                               priority:1
+			                               isSticky:YES
+			                           clickContext:downloadURL];
+		}
+
+		[downloadURL release];
+	}
+
+	[productVersionDict release];
+
+	if (timer)
+		CFRunLoopTimerSetNextFireDate(timer, CFAbsoluteTimeGetCurrent() + CFRunLoopTimerGetInterval(timer));
+}
+
 @implementation GrowlApplicationController
 
 + (GrowlApplicationController *) sharedController {
@@ -131,15 +174,12 @@ static GrowlApplicationController *singleton = nil;
 		NSDate *lastCheck = [preferences objectForKey:LastUpdateCheckKey];
 		NSDate *now = [NSDate date];
 		if (!lastCheck || [now timeIntervalSinceDate:lastCheck] > UPDATE_CHECK_INTERVAL) {
-			[self checkVersion:nil];
+			checkVersion(NULL, self);
 			lastCheck = now;
 		}
-		updateTimer = [[NSTimer alloc] initWithFireDate:[lastCheck addTimeInterval:UPDATE_CHECK_INTERVAL]
-											   interval:UPDATE_CHECK_INTERVAL
-												 target:self
-											   selector:@selector(checkVersion:)
-											   userInfo:nil
-												repeats:YES];
+		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
+		updateTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, [[lastCheck addTimeInterval:UPDATE_CHECK_INTERVAL] timeIntervalSinceReferenceDate], UPDATE_CHECK_INTERVAL, 0, 0, checkVersion, &context);
+		CFRunLoopAddTimer(CFRunLoopGetCurrent(), updateTimer, kCFRunLoopCommonModes);
 
 		// create and register GrowlNotificationCenter
 		growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
@@ -163,9 +203,10 @@ static GrowlApplicationController *singleton = nil;
 	[destinations     release];
 	[growlIcon        release];
 	[versionCheckURL  release];
-	[updateTimer      invalidate];
-	[updateTimer      release];
 	[statusController release];
+
+	CFRunLoopTimerInvalidate(updateTimer);
+	CFRelease(updateTimer);
 
 	[growlNotificationCenterConnection invalidate];
 	[growlNotificationCenterConnection release];
@@ -505,47 +546,6 @@ static GrowlApplicationController *singleton = nil;
 	[downloadURL release];
 }
 
-- (void) checkVersion:(NSTimer *)timer {
-#pragma unused(timer)
-	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-
-	if (![preferences boolForKey:GrowlUpdateCheckKey])
-		return;
-
-	if (!versionCheckURL)
-		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
-
-	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
-
-	NSString *currVersionNumber = [GrowlApplicationController growlVersion];
-	NSString *latestVersionNumber = [productVersionDict objectForKey:@"Growl"];
-
-	NSString *downloadURLString = [productVersionDict objectForKey:@"GrowlDownloadURL"];
-
-	/*do nothing and be quiet if there is no active connection, if the
-	 *	version dictionary could not be downloaded, or if the version dictionary
-	 *	is missing either of these keys.
-	 */
-	if (downloadURLString && latestVersionNumber) {
-		NSURL *downloadURL = [[NSURL alloc] initWithString:downloadURLString];
-
-		[preferences setObject:[NSDate date] forKey:LastUpdateCheckKey];
-		if (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0) {
-			[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Update Available", /*comment*/ nil)
-				                        description:NSLocalizedString(@"A newer version of Growl is available online. Click here to download it now.", /*comment*/ nil)
-				                   notificationName:@"Growl update available"
-			                               iconData:(id)growlIcon
-			                               priority:1
-			                               isSticky:YES
-			                           clickContext:downloadURL];
-		}
-
-		[downloadURL release];
-	}
-
-	[productVersionDict release];
-}
-
 + (NSString *) growlVersion {
 	return [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 }
@@ -611,6 +611,12 @@ static GrowlApplicationController *singleton = nil;
 	}
 
 	return result;
+}
+
+- (NSURL *) versionCheckURL {
+	if (!versionCheckURL)
+		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
+	return versionCheckURL;
 }
 
 #pragma mark -

@@ -80,7 +80,6 @@
 	[pluginPrefPane  release];
 	[loadedPrefPanes release];
 	[tickets         release];
-	[startStopTimer  release];
 	[images          release];
 	[versionCheckURL release];
 	[plugins         release];
@@ -374,8 +373,6 @@
 }
 
 - (void) updateRunningStatus {
-	[startStopTimer invalidate];
-	startStopTimer = nil;
 	[startStopGrowl setEnabled:YES];
 	NSBundle *bundle = [self bundle];
 	[startStopGrowl setTitle:

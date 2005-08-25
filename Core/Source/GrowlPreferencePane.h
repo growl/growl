@@ -19,7 +19,6 @@
 	NSMutableArray                 *images;
 	NSMutableArray                 *tickets;
 	NSArray                        *plugins;
-	NSTimer                        *startStopTimer;
 
 	NSPreferencePane               *pluginPrefPane;
 	NSMutableArray                 *loadedPrefPanes;

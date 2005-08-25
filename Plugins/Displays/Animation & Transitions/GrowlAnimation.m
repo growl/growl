@@ -69,7 +69,7 @@
 		//Create a new timer
 		animationTimer = [NSTimer scheduledTimerWithTimeInterval:(1.0f/frameRate)
 														  target:self
-														selector:@selector(_doAnimationStep)
+														selector:@selector(doAnimationStep)
 														userInfo:nil
 														 repeats:YES];
 	}

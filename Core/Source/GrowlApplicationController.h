@@ -49,7 +49,7 @@
 	NSData						*growlIconData;
 
 	NSURL						*versionCheckURL;
-	NSTimer						*updateTimer;
+	CFRunLoopTimerRef			updateTimer;
 }
 
 + (GrowlApplicationController *) sharedController;
@@ -63,17 +63,16 @@
 + (NSString *) growlVersion;
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *)dict;
-- (BOOL) registerApplicationWithDictionary:(NSDictionary *) userInfo;
+- (BOOL) registerApplicationWithDictionary:(NSDictionary *)userInfo;
 
 - (NSDictionary *) versionDictionary;
 - (NSString *) stringWithVersionDictionary:(NSDictionary *)d;
+- (NSURL *) versionCheckURL;
 
 - (void) preferencesChanged:(NSNotification *) note;
 
 - (void) shutdown:(NSNotification *)note;
 
 - (void) replyToPing:(NSNotification *)note;
-
-- (void) checkVersion:(NSTimer *)timer;
 
 @end
