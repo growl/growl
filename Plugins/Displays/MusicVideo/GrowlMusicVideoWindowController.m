@@ -95,14 +95,18 @@
 	float oldY = frameY;
 	frameY = frameHeight * (progress - 1.0f);
 	[subview translateOriginToPoint:NSMakePoint(0.0f, frameY - oldY)];
-	[subview setNeedsDisplay:YES];
+	NSRect dirtyRect = [subview bounds];
+	dirtyRect.size.height = ceilf(dirtyRect.size.height+frameY);
+	[subview setNeedsDisplayInRect:dirtyRect];
 }
 
 - (void) fadeOutAnimation:(double)progress {
 	float oldY = frameY;
 	frameY = -frameHeight * progress;
 	[subview translateOriginToPoint:NSMakePoint(0.0f, frameY - oldY)];
-	[subview setNeedsDisplay:YES];
+	NSRect dirtyRect = [subview bounds];
+	dirtyRect.size.height = ceilf(dirtyRect.size.height+oldY);
+	[subview setNeedsDisplayInRect:dirtyRect];
 }
 
 #pragma mark -

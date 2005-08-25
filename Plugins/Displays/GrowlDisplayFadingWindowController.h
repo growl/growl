@@ -11,7 +11,8 @@
 
 @interface GrowlDisplayFadingWindowController : GrowlDisplayWindowController
 {
-	NSTimer         *fadeTimer;
+	//NSTimer         *fadeTimer;
+	CFRunLoopTimerRef fadeTimer;
 	NSTimeInterval   fadeInInterval, fadeOutInterval;
 	NSTimeInterval	 animationDuration;
 	CFAbsoluteTime	 animationStart;
@@ -51,9 +52,6 @@
 
 - (NSTimeInterval) animationDuration;
 - (void) setAnimationDuration:(NSTimeInterval)duration;
-
-- (void) fadeInTimer;
-- (void) fadeOutTimer;
 
 - (void) fadeInAnimation:(double)progress;
 - (void) fadeOutAnimation:(double)progress;

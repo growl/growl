@@ -37,57 +37,63 @@
 }
 
 #pragma mark -
+#pragma mark Timer callbacks
+
+static void fadeInTimer(CFRunLoopTimerRef timer, void *info) {
+	GrowlDisplayFadingWindowController *controller = (GrowlDisplayFadingWindowController *)info;
+	CFAbsoluteTime now = CFAbsoluteTimeGetCurrent();
+	double progress = (now - controller->animationStart) / controller->animationDuration;
+	BOOL finished = (progress > (1.0 - DBL_EPSILON));
+	if (finished) progress = 1.0; //in case progress > 1.0
+	[controller fadeInAnimation:progress];
+	if (finished)
+		[controller stopFadeIn];
+	else
+		CFRunLoopTimerSetNextFireDate(timer, now + CFRunLoopTimerGetInterval(timer));
+}
+
+static void fadeOutTimer(CFRunLoopTimerRef timer, void *info) {
+	GrowlDisplayFadingWindowController *controller = (GrowlDisplayFadingWindowController *)info;
+	CFAbsoluteTime now = CFAbsoluteTimeGetCurrent();
+	double progress = (now - controller->animationStart) / controller->animationDuration;
+	BOOL finished = (progress > (1.0 - DBL_EPSILON));
+	if (finished) progress = 1.0; //in case progress > 1.0
+	[controller fadeOutAnimation:progress];
+	if (finished)
+		[controller stopFadeOut];
+	else
+		CFRunLoopTimerSetNextFireDate(timer, now + CFRunLoopTimerGetInterval(timer));
+}
+
+#pragma mark -
 #pragma mark Timer control
 
 - (void) startFadeInTimer {
 	[self stopFadeTimer];
 
+	CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
 	animationStart = CFAbsoluteTimeGetCurrent();
-	fadeTimer = [[NSTimer scheduledTimerWithTimeInterval:fadeInInterval
-												  target:self
-												selector:@selector(fadeInTimer)
-												userInfo:nil
-												 repeats:YES] retain];
+	fadeTimer = CFRunLoopTimerCreate(NULL, animationStart, fadeInInterval, 0, 0, fadeInTimer, &context);
+	CFRunLoopAddTimer(CFRunLoopGetCurrent(), fadeTimer, kCFRunLoopCommonModes);
 	//Start immediately
-	[self fadeInTimer];
+	fadeInTimer(fadeTimer, self);
 }
 - (void) startFadeOutTimer {
 	[self stopFadeTimer];
 
+	CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
 	animationStart = CFAbsoluteTimeGetCurrent();
-	fadeTimer = [[NSTimer scheduledTimerWithTimeInterval:fadeOutInterval
-												  target:self
-												selector:@selector(fadeOutTimer)
-												userInfo:nil
-												 repeats:YES] retain];
+	fadeTimer = CFRunLoopTimerCreate(NULL, animationStart, fadeOutInterval, 0, 0, fadeOutTimer, &context);
+	CFRunLoopAddTimer(CFRunLoopGetCurrent(), fadeTimer, kCFRunLoopCommonModes);
 	//Start immediately
-	[self fadeOutTimer];
+	fadeOutTimer(fadeTimer, self);
 }
 - (void) stopFadeTimer {
-	[fadeTimer invalidate];
-	[fadeTimer release];
-	 fadeTimer = nil;
-}
-
-#pragma mark -
-#pragma mark Timer callbacks
-
-- (void) fadeInTimer {
-	double progress = (CFAbsoluteTimeGetCurrent() - animationStart) / animationDuration;
-	BOOL finished = (progress > (1.0 - DBL_EPSILON));
-	if (finished) progress = 1.0; //in case progress > 1.0
-	[self fadeInAnimation:progress];
-	if (finished)
-		[self stopFadeIn];
-}
-
-- (void) fadeOutTimer {
-	double progress = (CFAbsoluteTimeGetCurrent() - animationStart) / animationDuration;
-	BOOL finished = (progress > (1.0 - DBL_EPSILON));
-	if (finished) progress = 1.0; //in case progress > 1.0
-	[self fadeOutAnimation:progress];
-	if (finished)
-		[self stopFadeOut];
+	if (fadeTimer) {
+        CFRunLoopTimerInvalidate(fadeTimer);
+        CFRelease(fadeTimer);
+		fadeTimer = NULL;
+	}
 }
 
 #pragma mark -
