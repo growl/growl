@@ -12,10 +12,9 @@
 
 @interface GrowlMusicVideoWindowController : GrowlDisplayFadingWindowController {
 	float						frameHeight;
+	float						frameY;
 	int							priority;
-	NSView						*contentView;
 	GrowlMusicVideoWindowView	*subview;
-	NSPoint						frameOrigin;
 	NSString					*identifier;
 }
 

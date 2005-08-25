@@ -53,30 +53,21 @@
 	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
 	//[panel setDelegate:self];
 
-	GrowlMusicVideoWindowView *view = [[GrowlMusicVideoWindowView alloc] initWithFrame:panelFrame];
+	subview = [[GrowlMusicVideoWindowView alloc] initWithFrame:panelFrame];
 
-	[view setTarget:self];
-	[view setAction:@selector(notificationClicked:)]; // Not used for now
+	[subview setTarget:self];
+	[subview setAction:@selector(notificationClicked:)]; // Not used for now
 
-	contentView = [[NSView alloc] initWithFrame:panelFrame];
-	[contentView addSubview:view]; // retains subview
-	[view release];
-	subview = view;
-	[panel setContentView:contentView];
+	[panel setContentView:subview]; // retains subview
+	[subview release];
 
-	[view setPriority:prio];
-	[view setTitle:title];
+	[subview setPriority:prio];
+	[subview setTitle:title];
 	[self setText:text];
-	[view setIcon:icon];
+	[subview setIcon:icon];
 
-	panelFrame.origin = screen.origin;
-	panelFrame.size.width = screen.size.width;
-	panelFrame.size.height = frameHeight;
-	[panel setFrame:panelFrame display:NO];
-
-	frameOrigin.x = 0.0f;
-	frameOrigin.y = -frameHeight;
-	[subview setFrameOrigin:frameOrigin];
+	frameY = -frameHeight;
+	[subview translateOriginToPoint:NSMakePoint(0.0f, frameY)];
 
 	if ((self = [super initWithWindow:panel])) {
 		autoFadeOut = YES;
@@ -93,30 +84,31 @@
 
 - (void) stopFadeIn {
 	if (!doFadeIn) {
-		frameOrigin.y = 0.0f;
-		[subview setFrameOrigin:frameOrigin];
-		[contentView setNeedsDisplay:YES];
+		[subview translateOriginToPoint:NSMakePoint(0.0f, -frameY)];
+		frameY = 0.0f;
+		[subview setNeedsDisplay:YES];
 	}
 	[super stopFadeIn];
 }
 
 - (void) fadeInAnimation:(double)progress {
-	frameOrigin.y = frameHeight * (progress - 1.0f);
-	[subview setFrameOrigin:frameOrigin];
-	[contentView setNeedsDisplay:YES];
+	float oldY = frameY;
+	frameY = frameHeight * (progress - 1.0f);
+	[subview translateOriginToPoint:NSMakePoint(0.0f, frameY - oldY)];
+	[subview setNeedsDisplay:YES];
 }
 
 - (void) fadeOutAnimation:(double)progress {
-	frameOrigin.y = -frameHeight * progress;
-	[subview setFrameOrigin:frameOrigin];
-	[contentView setNeedsDisplay:YES];
+	float oldY = frameY;
+	frameY = -frameHeight * progress;
+	[subview translateOriginToPoint:NSMakePoint(0.0f, frameY - oldY)];
+	[subview setNeedsDisplay:YES];
 }
 
 #pragma mark -
 
 - (void) dealloc {
 	[identifier    release];
-	[contentView   release];
 	[[self window] release];
 	[super dealloc];
 }

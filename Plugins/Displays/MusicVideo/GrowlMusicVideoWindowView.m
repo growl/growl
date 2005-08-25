@@ -84,6 +84,7 @@
 		}
 
 		[backgroundColor set];
+		bounds.origin = NSZeroPoint;
 		NSRectFill(bounds);
 
 		[title drawInRect:titleRect withAttributes:titleAttributes];
@@ -101,7 +102,11 @@
 		needsDisplay = NO;
 	}
 
-	//draw cache to screen
+	// draw background
+	[[NSColor clearColor] set];
+	NSRectFill(rect);
+
+	// draw cache to screen
 	NSRect imageRect = rect;
 	int effect = MUSICVIDEO_EFFECT_SLIDE;
 	READ_GROWL_PREF_BOOL(MUSICVIDEO_EFFECT_PREF, MusicVideoPrefDomain, &effect);
@@ -109,16 +114,26 @@
 		if (CGLayerCreateWithContext)
 			imageRect.origin.y = 0.0f;
 	} else if (effect == MUSICVIDEO_EFFECT_WIPE) {
+		rect.size.height -= imageRect.origin.y;
+		imageRect.size.height -= imageRect.origin.y;
 		if (!CGLayerCreateWithContext)
 			imageRect.origin.y = 0.0f;
 	}
 
-	NSDate *start = [NSDate date];
-	if (CGLayerCreateWithContext)
-		CGContextDrawLayerInRect(cgContext, CGRectMake(imageRect.origin.x,imageRect.origin.y,bounds.size.width,bounds.size.height), layer);
-	else
+	if (CGLayerCreateWithContext) {
+		CGRect cgRect;
+		cgRect.origin.x = imageRect.origin.x;
+		cgRect.origin.y = imageRect.origin.y;
+		cgRect.size.width = rect.size.width;
+		if (effect == MUSICVIDEO_EFFECT_WIPE) {
+			cgRect.size.height = rect.size.height;
+			CGContextClipToRect(cgContext, cgRect);
+		}
+		cgRect.size.height = bounds.size.height;
+		CGContextDrawLayerInRect(cgContext, cgRect, layer);
+	} else {
 		[cache drawInRect:rect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0f];
-	NSLog(@"%f", [[NSDate date] timeIntervalSinceDate:start]);
+	}
 }
 
 - (void) setIcon:(NSImage *)anIcon {
