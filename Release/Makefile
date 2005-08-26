@@ -15,6 +15,7 @@ ifeq ($(strip $(PRODUCT_DIR)),)
 	HARDWAREGROWLER_BUILD_DIR=$(SRC_DIR)/Extras/HardwareGrowler/build/$(BUILDSTYLE)
 	GROWLMAIL_BUILD_DIR=$(SRC_DIR)/Extras/GrowlMail/build/$(BUILDSTYLE)
 	GROWLSAFARI_BUILD_DIR=$(SRC_DIR)/Extras/GrowlSafari/build/$(BUILDSTYLE)
+	RAWRJOUR_BUILD_DIR=$(SRC_DIR)/Extras/Rawr-jour/build/$(BUILDSTYLE)
 else
 	TARGET_BUILD_DIR=$(PRODUCT_DIR)/$(BUILDSTYLE)
 	GROWL_BUILD_DIR=$(TARGET_BUILD_DIR)
@@ -25,6 +26,7 @@ else
 	HARDWAREGROWLER_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLMAIL_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLSAFARI_BUILD_DIR=$(TARGET_BUILD_DIR)
+	RAWRJOUR_BUILD_DIR=$(TARGET_BUILD_DIR)
 endif
 
 # What to do before running this script:
@@ -48,6 +50,7 @@ compile:
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlctl
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlWidget
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/Rawr-jour
 
 clean:
 	rm -rf $(BUILD_DIR)
@@ -115,6 +118,9 @@ release:
 	mkdir $(GROWL_DIR)/Extras/HardwareGrowler
 	cp -R $(HARDWAREGROWLER_BUILD_DIR)/HardwareGrowler.app $(GROWL_DIR)/Extras/HardwareGrowler
 	cp $(SRC_DIR)/Extras/HardwareGrowler/readme.txt $(GROWL_DIR)/Extras/HardwareGrowler
+	mkdir $(GROWL_DIR)/Extras/Rawr-jour
+	cp -R $(RAWRJOUR_BUILD_DIR)/Rawr-jour.app $(GROWL_DIR)/Extras/Rawr-jour
+	cp $(SRC_DIR)/Extras/Rawr-jour/Icon\ and\ Readme/Readme.rtf $(GROWL_DIR)/Extras/Rawr-jour
 	@# build GrowlMail package
 	mkdir $(GROWL_DIR)/Extras/GrowlMail
 	mkdir $(BUILD_DIR)/GrowlMail

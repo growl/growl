@@ -14,4 +14,5 @@ make -C Extras/GrowlWidget $@
 #make -C Extras/GrowlImporter $@
 #make -C Extras/GrowlAction $@
 make -C Extras/GrowlTunes $@
+make -C Extras/Rawr-jour $@
 
