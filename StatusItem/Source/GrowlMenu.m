@@ -146,7 +146,10 @@ int main(void) {
 #pragma unused(sender)
 	BOOL squelchMode = ![preferences boolForKey:GrowlSquelchModeKey];
 	[preferences setBool:squelchMode forKey:GrowlSquelchModeKey];
-	[self setImage];
+	[self performSelector:@selector(setImage)
+	           withObject:nil
+	           afterDelay:0.1];
+
 }
 
 - (void) setImage {
