@@ -308,7 +308,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 					[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_ICON];
 				//per-notification application icon.
 				if (appIconIsImage)
-					[mUserInfo setObject:[icon TIFFRepresentation] forKey:GROWL_NOTIFICATION_APP_ICON];
+					[mUserInfo setObject:[appIcon TIFFRepresentation] forKey:GROWL_NOTIFICATION_APP_ICON];
 
 				userInfo = [mUserInfo autorelease];
 			}
