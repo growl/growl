@@ -119,7 +119,7 @@ int main(void) {
 }
 
 - (void) defaultDisplay:(id)sender {
-	[preferences setObject:[sender title] forKey:GrowlDisplayPluginKey];
+	[preferences setDefaultDisplayPluginName:[sender title]];
 }
 
 - (void) stopGrowl:(id)sender {
@@ -144,17 +144,13 @@ int main(void) {
 
 - (void) squelchMode:(id)sender {
 #pragma unused(sender)
-	BOOL squelchMode = ![preferences boolForKey:GrowlSquelchModeKey];
-	[preferences setBool:squelchMode forKey:GrowlSquelchModeKey];
-	[self performSelector:@selector(setImage)
-	           withObject:nil
-	           afterDelay:0.1];
-
+	BOOL squelchMode = ![preferences squelchMode];
+	[preferences setSquelchMode:squelchMode];
+	[self setImage];
 }
 
 - (void) setImage {
-	BOOL squelchMode = [preferences boolForKey:GrowlSquelchModeKey];
-	if (squelchMode) {
+	if ([preferences squelchMode]) {
 		[statusItem setImage:squelchImage];
 		[statusItem setAlternateImage:squelchHighlightImage];
 	} else {
@@ -232,10 +228,10 @@ int main(void) {
 		case 2:
 			return [preferences isGrowlRunning];
 		case 3:
-			[item setState:[[item title] isEqualToString:[preferences objectForKey:GrowlDisplayPluginKey]]];
+			[item setState:[[item title] isEqualToString:[preferences defaultDisplayPluginName]]];
 			break;
 		case 4:
-			[item setState:[preferences boolForKey:GrowlSquelchModeKey]];
+			[item setState:[preferences squelchMode]];
 			break;
 	}
 	return YES;

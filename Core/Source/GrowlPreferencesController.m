@@ -37,7 +37,7 @@
 	if ((self = [super init])) {
 		helperAppDefaults = [[NSUserDefaults alloc] init];
 		[helperAppDefaults addSuiteNamed:HelperAppBundleIdentifier];
-		
+
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
 															selector:@selector(growlPreferencesChanged:)
 																name:GrowlPreferencesChanged
@@ -88,7 +88,8 @@
 }
 
 - (BOOL) boolForKey:(NSString *)key {
-	return [helperAppDefaults boolForKey:key];
+	Boolean keyExistsAndHasValidFormat;
+	return CFPreferencesGetAppBooleanValue((CFStringRef)key, (CFStringRef)HelperAppBundleIdentifier, &keyExistsAndHasValidFormat);
 }
 
 - (void) setBool:(BOOL)value forKey:(NSString *)key {
@@ -98,7 +99,8 @@
 }
 
 - (int) integerForKey:(NSString *)key {
-	return [helperAppDefaults integerForKey:key];
+	Boolean keyExistsAndHasValidFormat;
+	return CFPreferencesGetAppIntegerValue((CFStringRef)key, (CFStringRef)HelperAppBundleIdentifier, &keyExistsAndHasValidFormat);
 }
 
 - (void) setInteger:(int)value forKey:(NSString *)key {
