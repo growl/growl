@@ -32,7 +32,6 @@
 #define GrowlStickyWhenAwayKey		@"StickyWhenAway"
 
 @interface GrowlPreferencesController : NSObject {
-	NSUserDefaults *helperAppDefaults;
 }
 
 + (GrowlPreferencesController *) sharedController;

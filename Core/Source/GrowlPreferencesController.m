@@ -35,9 +35,6 @@
 
 - (id) init {
 	if ((self = [super init])) {
-		helperAppDefaults = [[NSUserDefaults alloc] init];
-		[helperAppDefaults addSuiteNamed:HelperAppBundleIdentifier];
-
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
 															selector:@selector(growlPreferencesChanged:)
 																name:GrowlPreferencesChanged
@@ -47,7 +44,6 @@
 }
 
 - (void) dealloc {
-	[helperAppDefaults release];
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 
 	[super dealloc];
@@ -56,6 +52,8 @@
 #pragma mark -
 
 - (void) registerDefaults:(NSDictionary *)inDefaults {
+	NSUserDefaults *helperAppDefaults = [[NSUserDefaults alloc] init];
+	[helperAppDefaults addSuiteNamed:HelperAppBundleIdentifier];
 	NSDictionary *existing = [helperAppDefaults persistentDomainForName:HelperAppBundleIdentifier];
 	if (existing) {
 		NSMutableDictionary *domain = [inDefaults mutableCopy];
@@ -65,10 +63,13 @@
 	} else {
 		[helperAppDefaults setPersistentDomain:inDefaults forName:HelperAppBundleIdentifier];
 	}
+	[helperAppDefaults release];
+	SYNCHRONIZE_GROWL_PREFS();
 }
 
 - (id) objectForKey:(NSString *)key {
-	return [helperAppDefaults objectForKey:key];
+	id value = (id)CFPreferencesCopyAppValue((CFStringRef)key, (CFStringRef)HelperAppBundleIdentifier);
+	return [value autorelease];
 }
 
 - (void) setObject:(id)object forKey:(NSString *)key {
@@ -76,7 +77,7 @@
 							 (CFPropertyListRef)object,
 							 (CFStringRef)HelperAppBundleIdentifier);
 
-	CFPreferencesAppSynchronize((CFStringRef)HelperAppBundleIdentifier);
+	SYNCHRONIZE_GROWL_PREFS();
 
 	NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
 	NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:pid, @"pid", nil];
@@ -110,7 +111,6 @@
 }
 
 - (void) synchronize {
-	[helperAppDefaults synchronize];
 	SYNCHRONIZE_GROWL_PREFS();
 }
 
