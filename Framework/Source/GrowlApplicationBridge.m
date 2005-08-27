@@ -413,11 +413,10 @@ static BOOL		registerWhenGrowlIsReady = NO;
 
 + (NSDictionary *) bestRegistrationDictionary {
 	NSDictionary *registrationDictionary = [self registrationDictionaryFromDelegate];
-	if (!registrationDictionary)
-		registrationDictionary = [self registrationDictionaryFromBundle:nil];
-
 	if (!registrationDictionary) {
-		NSLog(@"GrowlApplicationBridge: The Growl delegate did not supply a registration dictionary, and the app bundle at %@ does not have one. Please tell this application's developer.", [[NSBundle mainBundle] bundlePath]);
+		registrationDictionary = [self registrationDictionaryFromBundle:nil];
+		if (!registrationDictionary)
+			NSLog(@"GrowlApplicationBridge: The Growl delegate did not supply a registration dictionary, and the app bundle at %@ does not have one. Please tell this application's developer.", [[NSBundle mainBundle] bundlePath]);
 	}
 
 	return [self registrationDictionaryByFillingInDictionary:registrationDictionary];

@@ -7,6 +7,8 @@
 //
 
 #import "GrowlStatusController.h"
+#import "GrowlApplicationController.h"
+#import "GrowlApplicationBridge.h"
 
 //Idle monitoring code from Adium X ( http://www.adiumx.com ), used with permission
 
@@ -23,7 +25,11 @@ extern double CGSSecondsSinceLastInputEvent(unsigned long eventType);
 @implementation GrowlStatusController
 - (id) init {
 	if ((self = [super init])) {
-		[self setIdle:NO];
+		idleTimer = [[NSTimer scheduledTimerWithTimeInterval:MACHINE_ACTIVE_POLL_INTERVAL
+													  target:self
+													selector:@selector(idleCheckTimer:)
+													userInfo:nil
+													 repeats:YES] retain];
 	}
 	return self;
 }
@@ -104,6 +110,29 @@ extern double CGSSecondsSinceLastInputEvent(unsigned long eventType);
 												selector:@selector(idleCheckTimer:)
 												userInfo:nil
 												 repeats:YES] retain];
+
+	if (isIdle) {
+		NSString *description = [NSString stringWithFormat:NSLocalizedString(@"No activity for more than %d seconds.", /*comment*/ nil), MACHINE_IDLE_THRESHOLD];
+		if ([[GrowlPreferencesController sharedController] stickyWhenAway])
+			description = [description stringByAppendingString:NSLocalizedString(@" New notifications will be sticky.", /*comment*/ nil)];
+		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User went idle", /*comment*/ nil)
+									description:description
+							   notificationName:@"User went idle"
+									   iconData:[[GrowlApplicationController sharedController] applicationIconDataForGrowl]
+									   priority:-1
+									   isSticky:NO
+								   clickContext:nil
+									 identifier:nil];
+	} else {
+		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User returned", /*comment*/ nil)
+									description:NSLocalizedString(@"User activity detected. New notifications will not be sticky by default.", /*comment*/ nil)
+							   notificationName:@"User returned"
+									   iconData:[[GrowlApplicationController sharedController] applicationIconDataForGrowl]
+									   priority:-1
+									   isSticky:NO
+								   clickContext:nil
+									 identifier:nil];
+	}
 }
 
 @end

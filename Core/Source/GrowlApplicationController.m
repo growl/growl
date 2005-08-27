@@ -58,7 +58,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 	GrowlApplicationController *appController = (GrowlApplicationController *)context;
 
-	if (![preferences boolForKey:GrowlUpdateCheckKey])
+	if (![preferences isBackgroundUpdateCheckEnabled])
 		return;
 
 	NSURL *versionCheckURL = [appController versionCheckURL];
@@ -85,7 +85,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			                               iconData:[appController applicationIconDataForGrowl]
 			                               priority:1
 			                               isSticky:YES
-			                           clickContext:downloadURL];
+			                           clickContext:downloadURL
+										 identifier:nil];
 		}
 
 		[downloadURL release];
@@ -446,14 +447,14 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	int sticky = [notification sticky];
 	if (sticky >= 0)
 		[aDict setBool:(sticky ? YES : NO) forKey:GROWL_NOTIFICATION_STICKY];
-	else if ([preferences boolForKey:GrowlStickyWhenAwayKey] && ![aDict boolForKey:GROWL_NOTIFICATION_STICKY])
+	else if ([preferences stickyWhenAway] && ![aDict boolForKey:GROWL_NOTIFICATION_STICKY])
 		[aDict setBool:[statusController isIdle] forKey:GROWL_NOTIFICATION_STICKY];
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
 	[aDict setBool:saveScreenshot forKey:GROWL_SCREENSHOT_MODE];
 	[aDict setBool:[ticket clickHandlersEnabled] forKey:@"ClickHandlerEnabled"];
 
-	if (![preferences boolForKey:GrowlSquelchModeKey]) {
+	if (![preferences squelchMode]) {
 		id <GrowlDisplayPlugin> display = [notification displayPlugin];
 
 		if (!display) {
@@ -513,7 +514,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 									   iconData:(id)growlIcon
 									   priority:0
 									   isSticky:NO
-								   clickContext:nil];
+								   clickContext:nil
+									 identifier:nil];
 
 		if (enableForward)
 			[NSThread detachNewThreadSelector:@selector(forwardRegistration:)
@@ -631,7 +633,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	if (!note || (object && [object isEqualTo:GrowlEnabledKey]))
 		growlIsEnabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlEnabledKey];
 	if (!note || (object && [object isEqualTo:GrowlEnableForwardKey]))
-		enableForward = [[GrowlPreferencesController sharedController] boolForKey:GrowlEnableForwardKey];
+		enableForward = [[GrowlPreferencesController sharedController] isForwardingEnabled];
 	if (!note || (object && [object isEqualTo:GrowlForwardDestinationsKey])) {
 		[destinations release];
 		destinations = [[[GrowlPreferencesController sharedController] objectForKey:GrowlForwardDestinationsKey] retain];
@@ -713,9 +715,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	 *	preference setting was to click "Stop Growl," setting enabled to NO),
 	 *	quit having registered; otherwise, remain running.
 	 */
-	if (!growlIsEnabled && !growlFinishedLaunching) {
+	if (!growlIsEnabled && !growlFinishedLaunching)
 		[NSApp terminate:self];
-	}
 
 	return retVal;
 }
@@ -859,6 +860,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		@"Growl update available",
 		@"Application registered",
 		@"Application re-registered",
+		@"User went idle",
+		@"User returned",
 		nil];
 
 	NSNumber *default0 = [[NSNumber alloc] initWithUnsignedInt:0U];
