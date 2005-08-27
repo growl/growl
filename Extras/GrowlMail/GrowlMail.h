@@ -31,7 +31,9 @@
 
 @interface GrowlMail : MVMailBundle
 {
-	NSLock	*queueLock;
+	NSLock              *queueLock;
+	NSLock              *messagesLock;
+	NSMutableDictionary *messagesMap;
 }
 + (void) initialize;
 + (NSBundle *) bundle;
@@ -51,7 +53,9 @@
 
 - (NSString *) applicationNameForGrowl;
 - (NSImage *) applicationIconForGrowl;
-- (void) growlNotificationWasClicked:(id)clickContext;
+- (void) setMessage:(Message *)message forId:(NSString *)messageId;
+- (void) growlNotificationWasClicked:(NSString *)clickContext;
+- (void) growlNotificationTimedOut:(NSString *)clickContext;
 - (NSDictionary *) registrationDictionaryForGrowl;
 
 - (void) queueMessage:(Message *)message;

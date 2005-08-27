@@ -99,6 +99,8 @@ static NSMutableArray *collectedMessages;
 			// Register ourselves as a Growl delegate
 			[GrowlApplicationBridge setGrowlDelegate:self];
 			queueLock = [[NSLock alloc] init];
+			messagesLock = [[NSLock alloc] init];
+			messagesMap = [[NSMutableDictionary alloc] init];
 			NSDictionary *infoDictionary = [GrowlApplicationBridge frameworkInfoDictionary];
 			NSLog(@"Using Growl.framework %@ (%@)",
 				  [infoDictionary objectForKey:@"CFBundleShortVersionString"],
@@ -112,7 +114,9 @@ static NSMutableArray *collectedMessages;
 }
 
 - (void) dealloc {
-	[queueLock release];
+	[queueLock    release];
+	[messagesLock release];
+	[messagesMap  release];
 	[super dealloc];
 }
 
@@ -126,10 +130,33 @@ static NSMutableArray *collectedMessages;
 	return [NSImage imageNamed:@"NSApplicationIcon"];
 }
 
-- (void) growlNotificationWasClicked:(id)clickContext {
-#pragma unused(clickContext)
-	// TODO: open a specific message if not in summary mode
+- (void) setMessage:(Message *)message forId:(NSString *)messageId {
+	[messagesLock lock];
+	[messagesMap setObject:message forKey:messageId];
+	[messagesLock unlock];
+}
+
+- (void) growlNotificationWasClicked:(NSString *)clickContext {
+	if ([clickContext length]) {
+		[messagesLock lock];
+		Message *message = [[messagesMap objectForKey:clickContext] retain];
+		[messagesMap removeObjectForKey:clickContext];
+		[messagesLock unlock];
+		MessageViewingState *viewingState = [[MessageViewingState alloc] init];
+		SingleMessageViewer *messageViewer = [SingleMessageViewer viewerForMessage:message showAllHeaders:NO viewingState:viewingState];
+		[viewingState release];
+		[message release];
+		[messageViewer showAndMakeKey:YES];
+	}
 	[NSApp activateIgnoringOtherApps:YES];
+}
+
+- (void) growlNotificationTimedOut:(NSString *)clickContext {
+	if ([clickContext length]) {
+		[messagesLock lock];
+		[messagesMap removeObjectForKey:clickContext];
+		[messagesLock unlock];
+	}
 }
 
 - (NSDictionary *) registrationDictionaryForGrowl {

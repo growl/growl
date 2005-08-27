@@ -149,12 +149,15 @@
 	else
 		notificationName = NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"");
 
+	NSString *clickContext = [self messageID];
+	[[GrowlMail sharedInstance] setMessage:self forId:clickContext];
+
 	[GrowlApplicationBridge notifyWithTitle:title
 								description:description
 						   notificationName:notificationName
 								   iconData:image
 								   priority:0
 								   isSticky:NO
-							   clickContext:@""];	// non-nil click context
+							   clickContext:clickContext];	// non-nil click context
 }
 @end
