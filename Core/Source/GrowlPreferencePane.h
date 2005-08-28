@@ -54,7 +54,6 @@
 	NSMutableArray                 *customHistArray;
 
 	//"Applications" tab pane
-	IBOutlet NSTableColumn         *notificationStickyColumn;
 	IBOutlet NSTableView           *growlApplications;
 	NSTableView                    *activeTableView;
 	IBOutlet NSMenu                *notificationPriorityMenu;
@@ -88,7 +87,6 @@
 
 - (NSString *) bundleVersion;
 - (IBAction) checkVersion:(id)sender;
-- (void) checkVersionAtURL:(NSURL *)url displayText:(NSString *)message;
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 - (void) reloadPreferences;

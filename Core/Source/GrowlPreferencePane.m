@@ -91,32 +91,17 @@
 }
 
 - (void) awakeFromNib {
+	/*
 	NSTableColumn *tableColumn = [growlApplications tableColumnWithIdentifier:@"application"];
 	ACImageAndTextCell *imageAndTextCell = [[ACImageAndTextCell alloc] init];
 	[imageAndTextCell setEditable:YES];
 	[tableColumn setDataCell:imageAndTextCell];
 	[imageAndTextCell release];
+	*/
 	// TODO: this does not work
 	//NSSecureTextFieldCell *secureTextCell = [[NSSecureTextFieldCell alloc] init];
 	//[servicePasswordColumn setDataCell:secureTextCell];
 	//[secureTextCell release];
-
-	NSButtonCell *cell = [notificationStickyColumn dataCell];
-	[cell setAllowsMixedState:YES];
-
-	// NSCreatesSortDescriptorBindingOption is only available on 10.4 or later
-	NSNumber *no = [[NSNumber alloc] initWithBool:NO];
-	NSDictionary *bindOptions = [[NSDictionary alloc] initWithObjectsAndKeys:
-		no, @"NSCreatesSortDescriptor", //NSCreatesSortDescriptorBindingOption,
-		nil];
-	[no release];
-
-	// we have to establish this binding programmatically in order to use NSMixedState
-	[notificationStickyColumn bind:@"value"
-						  toObject:notificationsArrayController
-					   withKeyPath:@"arrangedObjects.sticky"
-						   options:bindOptions];
-	[bindOptions release];
 
 	[ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
 	[displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
@@ -183,10 +168,19 @@
 
 #pragma mark -
 
+/*!
+ * @brief Returns the bundle version of the Growl.prefPane bundle.
+ */
 - (NSString *) bundleVersion {
 	return [[[self bundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 }
 
+/*!
+ * @brief Checks if a newer version of Growl is available at the Growl download site.
+ *
+ * The version.xml file is a property list which contains version numbers and
+ * download URLs for several components.
+ */
 - (IBAction) checkVersion:(id)sender {
 #pragma unused(sender)
 	[growlVersionProgress startAnimation:self];
@@ -194,28 +188,21 @@
 	if (!versionCheckURL)
 		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
 
-	[self checkVersionAtURL:versionCheckURL
-				displayText:NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @"")];
-
-	[growlVersionProgress stopAnimation:self];
-}
-
-- (void) checkVersionAtURL:(NSURL *)url displayText:(NSString *)message {
 	NSBundle *bundle = [self bundle];
 	NSDictionary *infoDict = [bundle infoDictionary];
 	NSString *currVersionNumber = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
-	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:url];
+	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
 	NSString *executableName = [infoDict objectForKey:(NSString *)kCFBundleExecutableKey];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:executableName];
-
+	
 	NSURL *downloadURL = [[NSURL alloc] initWithString:
 		[productVersionDict objectForKey:[executableName stringByAppendingString:@"DownloadURL"]]];
 	/*
-	NSLog([[[NSBundle bundleWithIdentifier:@"com.growl.prefpanel"] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
-	NSLog(currVersionNumber);
-	NSLog(latestVersionNumber);
-	*/
-
+	 NSLog([[[NSBundle bundleWithIdentifier:@"com.growl.prefpanel"] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
+	 NSLog(currVersionNumber);
+	 NSLog(latestVersionNumber);
+	 */
+	
 	// do nothing--be quiet if there is no active connection or if the
 	// version number could not be downloaded
 	if (latestVersionNumber && (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0))
@@ -228,11 +215,13 @@
 						  /*didEndSelector*/ NULL,
 						  /*didDismissSelector*/ @selector(downloadSelector:returnCode:contextInfo:),
 						  /*contextInfo*/ downloadURL,
-						  /*msg*/ message);
+						  /*msg*/ NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @""));
 	else
 		[downloadURL release];
-
+	
 	[productVersionDict release];
+	
+	[growlVersionProgress stopAnimation:self];
 }
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
@@ -243,6 +232,9 @@
 	[downloadURL release];
 }
 
+/*!
+ * @brief Returns if GrowlMenu is currently running.
+ */
 + (BOOL) isGrowlMenuRunning {
 	return [[GrowlPreferencesController sharedController] isRunning:@"com.Growl.MenuExtra"];
 }
@@ -265,19 +257,21 @@
 	[self reloadPreferences];
 }
 
-// copy images to avoid resizing the original image stored in the ticket
+/*!
+ * @brief copy images to avoid resizing the original images stored in the tickets.
+ */
 - (void) cacheImages {
 	if (images)
-		[images release];
-
-	images = [[NSMutableArray alloc] initWithCapacity:[tickets count]];
+		[images removeAllObjects];
+	else
+		images = [[NSMutableArray alloc] initWithCapacity:[tickets count]];
 	NSEnumerator *enumerator = [tickets objectEnumerator];
 	GrowlApplicationTicket *ticket;
 
 	while ((ticket = [enumerator nextObject])) {
 		NSImage *icon = [[ticket icon] copy];
 		[icon setScalesWhenResized:YES];
-		[icon setSize:NSMakeSize(16.0f, 16.0f)];
+		[icon setSize:NSMakeSize(32.0f, 32.0f)];
 		[images addObject:icon];
 		[icon release];
 	}
@@ -289,8 +283,10 @@
 
 - (void) setTickets:(NSArray *)theTickets {
 	if (theTickets != tickets) {
-		[tickets release];
-		tickets = [[NSMutableArray alloc] initWithArray:theTickets];
+		if (tickets)
+			[tickets setArray:theTickets];
+		else
+			tickets = [theTickets mutableCopy];
 	}
 }
 
@@ -330,6 +326,9 @@
 	[displayVersion setStringValue:[info objectForKey:(NSString *)kCFBundleVersionKey]];
 }
 
+/*!
+ * @brief Called when a distributed GrowlPreferencesChanged notification is received.
+ */
 - (void) reloadPrefs:(NSNotification *)notification {
 	// ignore notifications which are sent by ourselves
 	NSNumber *pidValue = [[notification userInfo] objectForKey:@"pid"];
@@ -337,6 +336,9 @@
 		[self reloadPreferences];
 }
 
+/*!
+ * @brief Reloads the preferences and updates the GUI accordingly.
+ */
 - (void) reloadPreferences {
 //	NSLog(@"%s\n", __func__);
 	GrowlTicketController *ticketController = [GrowlTicketController sharedController];
@@ -423,6 +425,9 @@
 
 #pragma mark Growl running state
 
+/*!
+ * @brief Launches GrowlHelperApp.
+ */
 - (void) launchGrowl {
 	// Don't allow the button to be clicked while we update
 	[startStopGrowl setEnabled:NO];
@@ -439,6 +444,9 @@
 			   afterDelay:4.0];
 }
 
+/*!
+ * @brief Terminates running GrowlHelperApp instances.
+ */
 - (void) terminateGrowl {
 	// Don't allow the button to be clicked while we update
 	[startStopGrowl setEnabled:NO];
@@ -485,6 +493,9 @@
 	[customMenuButton setEnabled:(hasSelection && (numberOfItems > 1))];
 }
 
+/*!
+ * @brief Opens Console.app.
+ */
 - (IBAction) openConsoleApp:(id)sender {
 #pragma unused(sender)
 	[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:@"com.apple.Console"
@@ -529,7 +540,6 @@
 	}
 
 	unsigned numHistItems = [customHistArray count];
-	//NSLog(@"CustomHistArray = %@", customHistArray);
 	if (numHistItems) {
 		NSString *s = [customHistArray objectAtIndex:0U];
 		[preferencesController setObject:s forKey:GrowlCustomHistKey1];
@@ -707,7 +717,7 @@
 }
 
 #pragma mark TableView delegate methods
-
+/*
 - (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
 	if (tableView == growlApplications && [[column identifier] isEqualTo:@"application"]) {
 		NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
@@ -715,7 +725,7 @@
 		[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:idx]];
 	}
 }
-
+*/
 - (void) tableViewDidClickInBody:(NSTableView *)tableView {
 	activeTableView = tableView;
 	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
@@ -858,13 +868,17 @@
 }
 
 - (void) setDisplayPlugins:(NSArray *)thePlugins {
-	[plugins release];
-	plugins = [thePlugins retain];
+	if (thePlugins != plugins) {
+		[plugins release];
+		plugins = [thePlugins retain];
+	}
 }
 
 #pragma mark -
 
-// Refresh preferences when a new application registers with Growl
+/*!
+ * @brief Refresh preferences when a new application registers with Growl
+ */
 - (void) appRegistered: (NSNotification *) note {
 	NSString *app = [note object];
 	GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:app];
