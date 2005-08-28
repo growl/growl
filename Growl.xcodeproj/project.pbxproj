@@ -383,7 +383,6 @@
 		DDF09B1E080AC97A006F4172 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF09B19080AC97A006F4172 /* main.m */; };
 		DDF09B1F080AC97A006F4172 /* PrefPaneTesting-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */; };
 		DDF09B21080AC97A006F4172 /* PrefpaneTester.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF09B1C080AC97A006F4172 /* PrefpaneTester.m */; };
-		DDF09B22080AC97A006F4172 /* PrefpaneTesting.nib in Resources */ = {isa = PBXBuildFile; fileRef = DDF09B1D080AC97A006F4172 /* PrefpaneTesting.nib */; };
 		DDF09BC6080AC9ED006F4172 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		DDFADA6C084D1C770055DBC8 /* GrowlSMS.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */; };
 		EE1AF8D40897DA9400F486FD /* GrowlAnimation.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EE1AF8CD0897DA9400F486FD /* GrowlAnimation.h */; };
@@ -1024,7 +1023,6 @@
 		DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = "PrefPaneTesting-Info.plist"; path = "Prefpane TestHarness/PrefPaneTesting-Info.plist"; sourceTree = "<group>"; };
 		DDF09B1B080AC97A006F4172 /* PrefpaneTester.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefpaneTester.h; path = "Prefpane TestHarness/PrefpaneTester.h"; sourceTree = "<group>"; };
 		DDF09B1C080AC97A006F4172 /* PrefpaneTester.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PrefpaneTester.m; path = "Prefpane TestHarness/PrefpaneTester.m"; sourceTree = "<group>"; };
-		DDF09B1D080AC97A006F4172 /* PrefpaneTesting.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = PrefpaneTesting.nib; path = "Prefpane TestHarness/PrefpaneTesting.nib"; sourceTree = "<group>"; };
 		DDF09C11080AD264006F4172 /* generateBuildPath.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; name = generateBuildPath.sh; path = "Prefpane TestHarness/generateBuildPath.sh"; sourceTree = "<group>"; };
 		EE1AF8CD0897DA9400F486FD /* GrowlAnimation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlAnimation.h; sourceTree = "<group>"; };
 		EE1AF8CE0897DA9400F486FD /* GrowlAnimation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlAnimation.m; sourceTree = "<group>"; };
@@ -1757,7 +1755,6 @@
 				DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */,
 				DDF09B1B080AC97A006F4172 /* PrefpaneTester.h */,
 				DDF09B1C080AC97A006F4172 /* PrefpaneTester.m */,
-				DDF09B1D080AC97A006F4172 /* PrefpaneTesting.nib */,
 			);
 			name = "Prefpane Testing";
 			sourceTree = "<group>";
@@ -2944,12 +2941,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
-					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
-				},
-				{
 					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
 					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
+				},
+				{
+					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
+					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
 				},
 			);
 			targets = (
@@ -3129,7 +3126,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDF09B1F080AC97A006F4172 /* PrefPaneTesting-Info.plist in Resources */,
-				DDF09B22080AC97A006F4172 /* PrefpaneTesting.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
