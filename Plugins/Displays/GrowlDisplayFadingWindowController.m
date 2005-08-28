@@ -23,6 +23,7 @@
 #pragma mark Timer callbacks
 
 static void fadeInTimer(CFRunLoopTimerRef timer, void *info) {
+#pragma unused(timer)
 	GrowlDisplayFadingWindowController *controller = (GrowlDisplayFadingWindowController *)info;
 	CFAbsoluteTime now = CFAbsoluteTimeGetCurrent();
 	double progress = (now - [controller animationStart]) / [controller animationDuration];
@@ -31,11 +32,10 @@ static void fadeInTimer(CFRunLoopTimerRef timer, void *info) {
 	[controller fadeInAnimation:progress];
 	if (finished)
 		[controller stopFadeIn];
-	else
-		CFRunLoopTimerSetNextFireDate(timer, now + CFRunLoopTimerGetInterval(timer));
 }
 
 static void fadeOutTimer(CFRunLoopTimerRef timer, void *info) {
+#pragma unused(timer)
 	GrowlDisplayFadingWindowController *controller = (GrowlDisplayFadingWindowController *)info;
 	CFAbsoluteTime now = CFAbsoluteTimeGetCurrent();
 	double progress = (now - [controller animationStart]) / [controller animationDuration];
@@ -44,8 +44,6 @@ static void fadeOutTimer(CFRunLoopTimerRef timer, void *info) {
 	[controller fadeOutAnimation:progress];
 	if (finished)
 		[controller stopFadeOut];
-	else
-		CFRunLoopTimerSetNextFireDate(timer, now + CFRunLoopTimerGetInterval(timer));
 }
 
 #pragma mark -
