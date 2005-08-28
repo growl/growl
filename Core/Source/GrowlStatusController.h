@@ -9,11 +9,14 @@
 #import <Cocoa/Cocoa.h>
 
 @interface GrowlStatusController : NSObject {
-	BOOL	isIdle;
-	double	lastSeenIdle;
-	NSTimer	*idleTimer;
+	BOOL				isIdle;
+	double				lastSeenIdle;
+	CFRunLoopTimerRef	idleTimer;
 }
 
 - (BOOL) isIdle;
 - (void) setIdle:(BOOL)inIdle;
+
+- (double) currentIdleTime;
+- (void) idleCheckTimer:(CFRunLoopTimerRef)timer;
 @end

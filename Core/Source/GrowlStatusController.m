@@ -22,16 +22,28 @@
 //Private idle function
 extern double CGSSecondsSinceLastInputEvent(unsigned long eventType);
 
+static void idleTimerCallback(CFRunLoopTimerRef timer, void *info) {
+	[(GrowlStatusController *)info idleCheckTimer:timer];
+}
+
 @implementation GrowlStatusController
 - (id) init {
 	if ((self = [super init])) {
-		idleTimer = [[NSTimer scheduledTimerWithTimeInterval:MACHINE_ACTIVE_POLL_INTERVAL
-													  target:self
-													selector:@selector(idleCheckTimer:)
-													userInfo:nil
-													 repeats:YES] retain];
+		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
+		idleTimer = CFRunLoopTimerCreate(kCFAllocatorDefault,
+										 CFAbsoluteTimeGetCurrent() + MACHINE_ACTIVE_POLL_INTERVAL,
+										 MACHINE_ACTIVE_POLL_INTERVAL,
+										 0, 0,
+										 idleTimerCallback,
+										 &context);
 	}
 	return self;
+}
+
+- (void) dealloc {
+	CFRunLoopTimerInvalidate(idleTimer);
+	CFRelease(idleTimer);
+	[super dealloc];
 }
 
 /*!
@@ -56,10 +68,10 @@ extern double CGSSecondsSinceLastInputEvent(unsigned long eventType);
 }
 
 /*!
- * @brief Timer that checkes for machine idle
+ * @brief Timer that checks for machine idle
  *
  * This timer periodically checks the machine for inactivity. When the machine
- * has been inactive for atleast MACHINE_IDLE_THRESHOLD seconds, a notification
+ * has been inactive for at least MACHINE_IDLE_THRESHOLD seconds, a notification
  * is broadcast.
  *
  * When the machine is active, this timer is called infrequently. It's not
@@ -69,8 +81,7 @@ extern double CGSSecondsSinceLastInputEvent(unsigned long eventType);
  * When the machine is idle, the timer is called frequently. It's important to
  * notice immediately when the user returns.
  */
-- (void) idleCheckTimer:(NSTimer *)inTimer {
-#pragma unused(inTimer)
+- (void) idleCheckTimer:(CFRunLoopTimerRef)timer {
 	double currentIdle = [self currentIdleTime];
 
 	if (isIdle) {
@@ -82,6 +93,9 @@ extern double CGSSecondsSinceLastInputEvent(unsigned long eventType);
 		//If machine inactivity is over the threshold, the user has gone idle.
 		if (currentIdle > MACHINE_IDLE_THRESHOLD) [self setIdle:YES];
 	}
+
+	//Update our timer interval for either idle or active polling
+	CFRunLoopTimerSetNextFireDate(timer, CFAbsoluteTimeGetCurrent() + (isIdle ? MACHINE_IDLE_POLL_INTERVAL : MACHINE_ACTIVE_POLL_INTERVAL));
 
 	lastSeenIdle = currentIdle;
 }
@@ -95,21 +109,9 @@ extern double CGSSecondsSinceLastInputEvent(unsigned long eventType);
 
 /*!
  * @brief Sets the machine as idle or not
- *
- * This internal method updates the frequency of our idle timer depending on
- * whether the machine is considered idle or not.
  */
 - (void) setIdle:(BOOL)inIdle {
 	isIdle = inIdle;
-
-	//Update our timer interval for either idle or active polling
-	[idleTimer invalidate];
-	[idleTimer release];
-	idleTimer = [[NSTimer scheduledTimerWithTimeInterval:(isIdle ? MACHINE_IDLE_POLL_INTERVAL : MACHINE_ACTIVE_POLL_INTERVAL)
-												  target:self
-												selector:@selector(idleCheckTimer:)
-												userInfo:nil
-												 repeats:YES] retain];
 
 	if (isIdle) {
 		NSString *description = [NSString stringWithFormat:NSLocalizedString(@"No activity for more than %d seconds.", /*comment*/ nil), MACHINE_IDLE_THRESHOLD];
