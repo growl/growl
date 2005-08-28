@@ -544,35 +544,33 @@
 		}
 		defaultNotifications = mDefaultNotifications;
 	} else {
-		if (inObject) {
+		if (inObject)
 			NSLog(@"WARNING: application %@ passed an invalid object for the default notifications: %@.", appName, inObject);
-		}
 		defaultNotifications = [allNotifications retain];
 	}
 
-	if (useDefaults) {
+	if (useDefaults)
 		[self setAllowedNotificationsToDefault];
-	}
 }
 
 - (NSArray *) allowedNotifications {
 	NSMutableArray* allowed = [NSMutableArray array];
 	NSEnumerator *notificationEnum = [allNotifications objectEnumerator];
-	id obj;
-	while ((obj = [notificationEnum nextObject])) {
-		if ([obj enabled]) {
+	GrowlNotificationTicket *obj;
+	while ((obj = [notificationEnum nextObject]))
+		if ([obj enabled])
 			[allowed addObject:[obj name]];
-		}
-	}
 	return allowed;
 }
 
 - (void) setAllowedNotifications:(NSArray *) inArray {
-	NSEnumerator *notificationEnum = [inArray objectEnumerator];
-	[[allNotifications allValues] makeObjectsPerformSelector:@selector(disable)];
-	id obj;
+	NSSet *allowed = [[NSSet alloc] initWithArray:inArray];
+	NSEnumerator *notificationEnum = [allNotifications objectEnumerator];
+	GrowlNotificationTicket *obj;
 	while ((obj = [notificationEnum nextObject]))
-		[[allNotifications objectForKey:obj] setEnabled:YES];
+		[obj setEnabled:[allowed containsObject:[obj name]]];
+	[allowed release];
+
 	useDefaults = NO;
 }
 

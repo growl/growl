@@ -77,7 +77,7 @@
 }
 
 - (void) dealloc {
-	[name              release];
+	[name release];
 
 	[super dealloc];
 }
