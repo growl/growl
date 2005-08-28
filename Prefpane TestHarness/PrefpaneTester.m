@@ -4,42 +4,41 @@
 
 @implementation PrefpaneTester
 
-- (BOOL) applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
-#pragma unused(theApplication)
-	return YES;
-}
-
 - (void) dealloc {
 	[prefPaneObject release];
 	[super dealloc];
 }
 
-- (void) awakeFromNib {
+- (void) windowWillClose:(NSNotification *)aNotification {
+#pragma unused(aNotification)
+	[NSApp terminate:self];
+}
+
+- (void) init {
 	NSRect aRect;
-	NSMutableString *pathToPrefPaneBundle;
 	NSBundle *prefBundle;
 	Class prefPaneClass;
 	NSView *prefView;
 
-	pathToPrefPaneBundle = [NSMutableString stringWithCString: GROWL_OBJROOT];
-	[pathToPrefPaneBundle appendString: @"/Growl.prefPane"];
-
-	prefBundle = [NSBundle bundleWithPath: pathToPrefPaneBundle];
+	prefBundle = [NSBundle bundleWithPath: GROWL_OBJROOT @"/Growl.prefPane"];
 
 	prefPaneClass = [prefBundle principalClass];
-	prefPaneObject = [[prefPaneClass alloc] initWithBundle: prefBundle];
+	prefPaneObject = [[prefPaneClass alloc] initWithBundle:prefBundle];
 
 	if ([prefPaneObject loadMainView]) {
 		[prefPaneObject willSelect];
 		prefView = [prefPaneObject mainView];
-		/* Add view to window */
-		aRect = [prefView frame];
 
-		// Okay, I know this is not so goood...
-		aRect.size.height = aRect.size.height + 22;
-		[theWindow setFrame: aRect display: YES];
-		[[theWindow contentView] addSubview: prefView];
+		aRect = [prefView frame];
+		aRect.origin = NSZeroPoint;
+		theWindow = [[NSWindow alloc] initWithContentRect:aRect
+												styleMask:NSTitledWindowMask|NSClosableWindowMask|NSMiniaturizableWindowMask|NSResizableWindowMask
+												  backing:NSBackingStoreBuffered
+													defer:YES];
+		[theWindow setDelegate:self];
+		[theWindow setContentView:prefView];
 		[prefPaneObject didSelect];
+		[theWindow makeKeyAndOrderFront:self];
 	} else {
 		/* loadMainView failed -- handle error */
 		NSLog(@"PrefpaneTester -  Error in loadMainView:");
