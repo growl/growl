@@ -4,7 +4,6 @@
         {
             ACTIONS = {
                 checkVersion = id; 
-                configureTicket = id; 
                 customFileChosen = id; 
                 deleteTicket = id; 
                 logTypeChanged = id; 
@@ -20,8 +19,6 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 aboutBoxTextView = NSTextView; 
-                applicationTab = NSTabView; 
-                configureTicketApplicationName = NSBox; 
                 currentPluginController = id; 
                 customMenuButton = NSPopUpButton; 
                 displayAuthor = NSTextField; 
@@ -38,9 +35,7 @@
                 growlVersionProgress = NSProgressIndicator; 
                 growlWebSite = NSButton; 
                 logFileType = NSMatrix; 
-                newGrowlApplications = NSTableView; 
                 notificationPriorityMenu = NSMenu; 
-                notificationStickyColumn = NSTableColumn; 
                 notificationsArrayController = NSArrayController; 
                 previewButton = NSButton; 
                 servicePasswordColumn = NSTableColumn; 

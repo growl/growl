@@ -36,7 +36,6 @@
                 growlWebSite = NSButton; 
                 logFileType = NSMatrix; 
                 notificationPriorityMenu = NSMenu; 
-                notificationStickyColumn = NSTableColumn; 
                 notificationsArrayController = NSArrayController; 
                 previewButton = NSButton; 
                 servicePasswordColumn = NSTableColumn; 
