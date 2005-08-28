@@ -55,12 +55,13 @@ static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
 static GrowlApplicationController *singleton = nil;
 
 static void checkVersion(CFRunLoopTimerRef timer, void *context) {
+#pragma unused(timer)
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-	GrowlApplicationController *appController = (GrowlApplicationController *)context;
 
 	if (![preferences isBackgroundUpdateCheckEnabled])
 		return;
 
+	GrowlApplicationController *appController = (GrowlApplicationController *)context;
 	NSURL *versionCheckURL = [appController versionCheckURL];
 
 	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
@@ -93,9 +94,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	}
 
 	[productVersionDict release];
-
-	if (timer)
-		CFRunLoopTimerSetNextFireDate(timer, CFAbsoluteTimeGetCurrent() + CFRunLoopTimerGetInterval(timer));
 }
 
 @implementation GrowlApplicationController
