@@ -214,10 +214,8 @@
 	}
 	[url release];
 
-	if (flag && !foundOne) {
-		/*we were called with YES, and we weren't already in the start-at-login
-		 *	array, so add ourselves at the beginning.
-		 */
+	if (flag) {
+		//we were called with YES, so add ourselves at the beginning.
 		NSNumber *hide = [[NSNumber alloc] initWithBool:NO];
 		NSDictionary *launchDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			hide,      @"Hide",
