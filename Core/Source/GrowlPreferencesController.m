@@ -185,11 +185,10 @@
 	 *note that other GHAs are ignored.
 	 */
 	BOOL			foundOne = NO;
-	NSEnumerator	*itemsEnum = [loginItems objectEnumerator];
-	NSDictionary	*item;
 	
-	while ((item = [itemsEnum nextObject])) {
-		BOOL thisIsUs = NO;
+	for (unsigned i = 0U; i < [loginItems count];) {
+		NSDictionary	*item = [loginItems objectAtIndex:i];
+		BOOL			thisIsUs = NO;		
 		
 		/*first compare by alias.
 		*we do this by converting to URL and comparing those.
@@ -206,10 +205,14 @@
 		}
 		
 		if (thisIsUs) {
-			if ((!flag) || (!foundOne))
-				[loginItems removeObject:item];
-			else
+			if ((!flag) || (foundOne))
+				[loginItems removeObjectAtIndex:i];
+			else {
 				foundOne = YES;
+				++i;
+			}
+		} else {
+			++i;
 		}
 	}
 	[url release];
