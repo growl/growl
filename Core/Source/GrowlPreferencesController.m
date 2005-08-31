@@ -184,15 +184,16 @@
 	/*remove any previous mentions of this GHA in the start-at-login array.
 	 *note that other GHAs are ignored.
 	 */
-	BOOL foundOne = NO;
-
-	for (unsigned i = 0U, numItems = [loginItems count]; i < numItems; ) {
-		NSDictionary *item = [loginItems objectAtIndex:i];
+	BOOL			foundOne = NO;
+	NSEnumerator	*itemsEnum = [loginItems objectEnumerator];
+	NSDictionary	*item;
+	
+	while ((item = [itemsEnum nextObject])) {
 		BOOL thisIsUs = NO;
-
+		
 		/*first compare by alias.
-		 *we do this by converting to URL and comparing those.
-		 */
+		*we do this by converting to URL and comparing those.
+		*/
 		NSString *thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
 		NSData *thisAliasData = [item objectForKey:@"AliasData"];
 		if (thisAliasData) {
@@ -203,19 +204,21 @@
 			/*NSString **/thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
 			thisIsUs = (thisPath && [thisPath isEqualToString:path]);
 		}
-
-		if (thisIsUs && (!flag || foundOne)) {
-			[loginItems removeObjectAtIndex:i];
-			--numItems;
-		} else //only increment if we did not change the array
-			++i;
-		if (thisIsUs)
-			foundOne = YES;
+		
+		if (thisIsUs) {
+			if ((!flag) || (!foundOne))
+				[loginItems removeObject:item];
+			else
+				foundOne = YES;
+		}
 	}
 	[url release];
-
-	if (flag) {
-		//we were called with YES, so add ourselves at the beginning.
+	
+	if (flag && !foundOne) {
+		/*we were called with YES, and we weren't already in the start-at-login  
+		*      array, so add ourselves at the beginning.  
+		*/ 
+		
 		NSNumber *hide = [[NSNumber alloc] initWithBool:NO];
 		NSDictionary *launchDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			hide,      @"Hide",
