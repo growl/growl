@@ -3,14 +3,14 @@
 //  GBUtilities
 //
 //  Created by Ofri Wolfus on 15/08/05.
-//  Copyright 2005 Ofri Wolfus. All rights reserved.
+//  Copyright 2005 The Growl Project. All rights reserved.
 //
 
 #import "GrowlAbstractSingletonObject.h"
 
 
 @interface GrowlAbstractSingletonObject (_private)
-- (void)_setIsInitialized:(BOOL)flag;
+- (void) setIsInitialized:(BOOL)flag;
 @end
 
 @implementation GrowlAbstractSingletonObject
@@ -19,39 +19,40 @@
 static NSMutableDictionary	*singletonObjects = nil;
 
 //Create our dictionary
-+ (void)initialize {
++ (void) initialize {
 	@synchronized(singletonObjects) {
-		if(!singletonObjects)
+		if (!singletonObjects)
 			singletonObjects = [[NSMutableDictionary alloc] init];
 	}
 }
 
 //Returns the shared instance of this class
-+ (id)sharedInstance {
++ (id) sharedInstance {
 	id	returnedObject = nil;
-	
+
 	if (singletonObjects) {
 		@synchronized(singletonObjects) {
+			Class class = [self class];
 			//Look of we already have an instance
-			returnedObject = [singletonObjects objectForKey:self];
-			
+			returnedObject = [singletonObjects objectForKey:class];
+
 			//We don't have any instance so lets create it
-			if(!returnedObject) {
+			if (!returnedObject) {
 				returnedObject = [[self alloc] initSingleton];
-				
-				if(returnedObject)
-					[singletonObjects setObject:returnedObject forKey:[self class]];
+
+				if (returnedObject)
+					[singletonObjects setObject:returnedObject forKey:class];
 			}
 		}
 	}
-	
+
 	return returnedObject;
 }
 
 //Release the singletonObjects dictionary and by that destory all the object's it contains
-+ (void)destroyAllSingletons {
++ (void) destroyAllSingletons {
 	NSDictionary *dict = singletonObjects;
-	
+
 	//We first make singletonObjects to point to nil in order to allow deallocation of our singletons
 	singletonObjects = nil;
 	//And then release the dictionary. When the dictionary is released, it releases all it's objects.
@@ -62,51 +63,50 @@ static NSMutableDictionary	*singletonObjects = nil;
 }
 
 //Used by +alloc to set the _isInitialized flag.
-- (void)_setIsInitialized:(BOOL)flag {
+- (void) setIsInitialized:(BOOL)flag {
 	_isInitialized = flag;
 }
 
 //Implemented by subclasses
-- (id)initSingleton {
+- (id) initSingleton {
 	id	object = [singletonObjects objectForKey:[self class]];
-	
+
 	if (object || _isInitialized) {
 		[self release];
 		NSLog(@"Initializing an object twice is not a very good idea...");
 		[self doesNotRecognizeSelector:_cmd];
 		return [[self class] sharedInstance];
-	}
-	else
+	} else
 		return self;
 }
 
 //Does nothing by default
-- (oneway void)destroy {
+- (void) destroy {
 	[super dealloc];
 }
 
 //Override to work only in case we don't already have an instance
-+ (id)alloc {
++ (id) alloc {
 	id	object = nil;
-	
+
 	if (singletonObjects) {
 		object = [singletonObjects objectForKey:[self class]];
-		
+
 		if (object) {
 			NSLog(@"An attempt to allocate a new %@ singleton object has been made. "
 				  @"Don't do that! It's not healthy!", NSStringFromClass([self class]));
 			[self doesNotRecognizeSelector:_cmd];	//This wasn't supposed to happen!
 		} else {
 			object = [super alloc];
-			[object _setIsInitialized:NO];
+			[object setIsInitialized:NO];
 		}
 	}
-	
+
 	return object;
 }
 
 //Init should never be called!
-- (id)init {
+- (id) init {
 	[self release];	//In most cases does nothing.
 	NSLog(@"An attempt to initialize a new %@ singleton object has been made. "
 		  @"Don't do that! It's not healthy!", NSStringFromClass([self class]));
@@ -115,32 +115,32 @@ static NSMutableDictionary	*singletonObjects = nil;
 }
 
 //Release anything but our shared class
-- (void)release {
+- (void) release {
 	id	object = [singletonObjects objectForKey:[self class]];
-	
+
 	if (self != object)
 		[super release];
 }
 
 //Allow deallocation only when destroying all singletons
-- (void)dealloc {
-	if (!singletonObjects) {
+- (void) dealloc {
+	if (!singletonObjects)
 		[self destroy];
-	}
+	[super dealloc];
 }
 
 //I think it's pretty obvious what this does.
-- (id)autorelease {
+- (id) autorelease {
 	return self;
 }
 
 //And if you didn't get it from the comment above - it does NOTHING! :D
-- (id)retain {
+- (id) retain {
 	return self;
 }
 
 //I have nothing to write here but i should since i've written in all the above methods...
-- (unsigned)retainCount {
+- (unsigned) retainCount {
 	if (singletonObjects)
 		return UINT_MAX;
 	else

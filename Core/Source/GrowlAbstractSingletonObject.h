@@ -4,7 +4,7 @@
 //
 //	Renamed from GBAbstractSingletonObject to GrowlAbstractSingletonObject.
 //  Created by Ofri Wolfus on 15/08/05.
-//  Copyright 2005 Ofri Wolfus. All rights reserved.
+//  Copyright 2005 The Growl Project. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -25,7 +25,7 @@
 /*!
  * @brief Returns the shared instance of this class.
  */
-+ (id)sharedInstance;
++ (id) sharedInstance;
 
 /*!
  * @brief Releases and deallocates all the singletons that are subclasses of this object.
@@ -38,7 +38,7 @@
  * 
  * USE THIS METHOD WITH GREAT CAUTION!!!
  */
-+ (void)destroyAllSingletons;
++ (void) destroyAllSingletons;
 
 @end
 
@@ -57,7 +57,7 @@
  * You should call [super initSingleton] and return your initialized object.
  * Never call this method directly! It'll be automatically called when needed.
  */
-- (id)initSingleton;
+- (id) initSingleton;
 
 /*!
  * @brief Finish and clean up whatever your singleton does.
@@ -66,6 +66,6 @@
  * You should put whatever you would put in the -dealloc method here instead
  * and then call [super destroy].
  */
-- (oneway void)destroy;
+- (void) destroy;
 
 @end
