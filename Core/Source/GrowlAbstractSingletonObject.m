@@ -82,7 +82,6 @@ static NSMutableDictionary	*singletonObjects = nil;
 
 //Does nothing by default
 - (void) destroy {
-	[super dealloc];
 }
 
 //Override to work only in case we don't already have an instance
@@ -124,9 +123,10 @@ static NSMutableDictionary	*singletonObjects = nil;
 
 //Allow deallocation only when destroying all singletons
 - (void) dealloc {
-	if (!singletonObjects)
+	if (!singletonObjects) {
 		[self destroy];
-	[super dealloc];
+		[super dealloc];
+	}
 }
 
 //I think it's pretty obvious what this does.
