@@ -6,11 +6,13 @@
 //  Copyright 2005 Mac-arena the Bored Zo. All rights reserved.
 //
 
+#import "GrowlAbstractSingletonObject.h"
+
 #define GROWL_PATHEXTENSION_TICKET	@"growlTicket"
 
 @class GrowlApplicationTicket;
 
-@interface GrowlTicketController: NSObject
+@interface GrowlTicketController: GrowlAbstractSingletonObject
 {
 	NSMutableDictionary *ticketsByApplicationName;
 }

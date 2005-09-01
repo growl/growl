@@ -25,16 +25,11 @@
 @implementation GrowlPreferencesController
 
 + (GrowlPreferencesController *) sharedController {
-	static GrowlPreferencesController *sharedPreferences = nil;
-
-	if (!sharedPreferences)
-		sharedPreferences = [[GrowlPreferencesController alloc] init];
-
-	return sharedPreferences;
+	return [self sharedInstance];
 }
 
-- (id) init {
-	if ((self = [super init])) {
+- (id) initSingleton {
+	if ((self = [super initSingleton])) {
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
 															selector:@selector(growlPreferencesChanged:)
 																name:GrowlPreferencesChanged
@@ -43,10 +38,10 @@
 	return self;
 }
 
-- (void) dealloc {
+- (void) destroy {
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
-
-	[super dealloc];
+	
+	[super destroy];
 }
 
 #pragma mark -

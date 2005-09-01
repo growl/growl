@@ -52,8 +52,6 @@ static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
 
 #pragma mark -
 
-static GrowlApplicationController *singleton = nil;
-
 static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
@@ -99,11 +97,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 @implementation GrowlApplicationController
 
 + (GrowlApplicationController *) sharedController {
-	return singleton;
+	return [self sharedInstance];
 }
 
-- (id) init {
-	if ((self = [super init])) {
+- (id) initSingleton {
+	if ((self = [super initSingleton])) {
 		if (cdsaInit()) {
 			NSLog(@"ERROR: Could not initialize CDSA.");
 			[self release];
@@ -165,9 +163,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 		[GrowlApplicationBridge setGrowlDelegate:self];
 
-		if (!singleton)
-			singleton = self;
-
 		statusController = [[GrowlStatusController alloc] init];
 
 		NSDate *lastCheck = [preferences objectForKey:LastUpdateCheckKey];
@@ -194,7 +189,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	return self;
 }
 
-- (void) dealloc {
+- (void) destroy {
 	//free your world
 	[self stopServer];
 	[authenticator    release];
@@ -212,8 +207,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[growlNotificationCenter           release];
 
 	cdsaShutdown();
-
-	[super dealloc];
+	
+	[super destroy];
 }
 
 #pragma mark -

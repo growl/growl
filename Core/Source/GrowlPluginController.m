@@ -14,8 +14,6 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlWebKitController.h"
 
-static GrowlPluginController *sharedController;
-
 @interface GrowlPluginController (PRIVATE)
 - (void) loadPlugin:(NSString *)path;
 - (void) findPluginsInDirectory:(NSString *)dir;
@@ -35,14 +33,11 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 @implementation GrowlPluginController
 
 + (GrowlPluginController *) sharedController {
-	if (!sharedController)
-		sharedController = [[GrowlPluginController alloc] init];
-
-	return sharedController;
+	return [self sharedInstance];
 }
 
-- (id) init {
-	if ((self = [super init])) {
+- (id) initSingleton {
+	if ((self = [super initSingleton])) {
 		pluginInstances = [[NSMutableDictionary alloc] init];
 		pluginBundles   = [[NSMutableDictionary alloc] init];
 
@@ -72,12 +67,12 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 	return self;
 }
 
-- (void) dealloc {
+- (void) destroy {
 	[pluginInstances      release];
 	[pluginBundles        release];
 	[pluginPathExtensions release];
 
-	[super dealloc];
+	[super destroy];
 }
 
 #pragma mark -

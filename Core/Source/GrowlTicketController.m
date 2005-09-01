@@ -9,26 +9,22 @@
 #import "GrowlTicketController.h"
 #import "GrowlPathUtilities.h"
 
-static GrowlTicketController *singleton = nil;
-
 @implementation GrowlTicketController
 
 + (id) sharedController {
-	if (!singleton)
-		singleton = [[GrowlTicketController alloc] init];
-	return singleton;
+	return [self sharedInstance];
 }
 
-- (id) init {
-	if ((self = [super init])) {
+- (id) initSingleton {
+	if ((self = [super initSingleton])) {
 		ticketsByApplicationName = [[NSMutableDictionary alloc] init];
 		[self loadAllSavedTickets];
 	}
 	return self;
 }
-- (void) dealloc {
+- (void) destroy {
 	[ticketsByApplicationName release];
-	[super dealloc];
+	[super destroy];
 }
 
 #pragma mark -

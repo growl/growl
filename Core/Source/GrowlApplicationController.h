@@ -9,12 +9,13 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <Foundation/Foundation.h>
+#import "GrowlAbstractSingletonObject.h"
 
 @class GrowlDistributedNotificationPathway, GrowlUDPPathway, GrowlRemotePathway,
 	MD5Authenticator, GrowlNotificationCenter, GrowlStatusController,
 	GrowlTicketController;
 
-@interface GrowlApplicationController : NSObject {
+@interface GrowlApplicationController : GrowlAbstractSingletonObject {
 	MD5Authenticator			*authenticator;
 	GrowlTicketController		*ticketController;
 

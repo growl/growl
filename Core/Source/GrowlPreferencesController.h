@@ -8,6 +8,8 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
+#import "GrowlAbstractSingletonObject.h"
+
 #define HelperAppBundleIdentifier	@"com.Growl.GrowlHelperApp"
 #define GrowlPreferencesChanged		@"GrowlPreferencesChanged"
 #define GrowlPreview				@"GrowlPreview"
@@ -31,7 +33,7 @@
 #define LastKnownVersionKey			@"LastKnownVersion"
 #define GrowlStickyWhenAwayKey		@"StickyWhenAway"
 
-@interface GrowlPreferencesController : NSObject {
+@interface GrowlPreferencesController : GrowlAbstractSingletonObject {
 }
 
 + (GrowlPreferencesController *) sharedController;

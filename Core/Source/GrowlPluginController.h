@@ -8,10 +8,11 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import <Foundation/Foundation.h>
+#import "GrowlAbstractSingletonObject.h"
 
 @protocol GrowlPlugin, GrowlDisplayPlugin;
 
-@interface GrowlPluginController : NSObject {
+@interface GrowlPluginController : GrowlAbstractSingletonObject {
 	//keys: plug-in names; values: GrowlPlugins.
 	NSMutableDictionary		*pluginInstances;
 	//keys: plug-in names; values: NSBundles.
