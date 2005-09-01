@@ -103,7 +103,6 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[panel setSticky:YES];
 	[panel setAlphaValue:0.0f];
 	[panel setOpaque:NO];
-	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
 	[panel useOptimizedDrawing:YES];
@@ -314,8 +313,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 	if (!positioned) {
 		NSRect panelFrame = [view frame];
 		NSRect screen = [[self screen] visibleFrame];
-		[[self window] setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - paddingX,
-														NSMaxY(screen) - paddingY - webkitWindowDepth)];
+		[myWindow setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - paddingX,
+												   NSMaxY(screen) - paddingY - webkitWindowDepth)];
 
 #warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
 		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
@@ -323,8 +322,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 			depth = webkitWindowDepth = 0U;
 		else
 			depth = webkitWindowDepth += NSHeight(panelFrame) + paddingY;
-		positioned = true;
+		positioned = YES;
 	}
+	[myWindow invalidateShadow];
 	[self startFadeIn];
 	[self release];	// we retained before loadHTMLString
 }

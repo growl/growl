@@ -56,6 +56,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		[view setTitle:title isHTML:titleHTML];
 		[view setText:text isHTML:textHTML];
 		[view setIcon:icon];
+		[view sizeToFit];
 		[self release];
 		self = oldController;
 		return self;
@@ -97,6 +98,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[view setTitle:title isHTML:titleHTML];
 	[view setText:text isHTML:textHTML];
 	[view setIcon:icon];
+	[view sizeToFit];
 
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];

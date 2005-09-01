@@ -271,7 +271,6 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	haveTitle = [aTitle length] != 0;
 
 	if (!haveTitle) {
-		[self sizeToFit];
 		[self setNeedsDisplay:YES];
 		return;
 	}
@@ -332,7 +331,6 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	titleRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
 	titleHeight = [titleLayoutManager usedRectForTextContainer:titleContainer].size.height;
 
-	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
@@ -340,7 +338,6 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	haveText = [aText length] != 0;
 
 	if (!haveText) {
-		[self sizeToFit];
 		[self setNeedsDisplay:YES];
 		return;
 	}
@@ -400,28 +397,26 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
 	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;
 
-	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
 - (void) sizeToFit {
-	NSRect rect = [self frame];
-	rect.size.width = PANEL_WIDTH_PX;
-	rect.size.height = PANEL_VSPACE_PX + PANEL_VSPACE_PX + [self titleHeight] + [self descriptionHeight];
+	float height = PANEL_VSPACE_PX + PANEL_VSPACE_PX + [self titleHeight] + [self descriptionHeight];
 	if (haveTitle && haveText)
-		rect.size.height += TITLE_VSPACE_PX;
-	if (rect.size.height < MIN_TEXT_HEIGHT)
-		rect.size.height = MIN_TEXT_HEIGHT;
-	[self setFrame:rect];
+		height += TITLE_VSPACE_PX;
+	if (height < MIN_TEXT_HEIGHT)
+		height = MIN_TEXT_HEIGHT;
 
 	// resize the window so that it contains the tracking rect
-	NSRect windowRect = [[self window] frame];
-	windowRect.size = rect.size;
-	[[self window] setFrame:windowRect display:NO];
+	NSWindow *window = [self window];
+	NSRect windowRect = [window frame];
+	windowRect.origin.y -= height - windowRect.size.height;
+	windowRect.size.height = height;
+	[window setFrame:windowRect display:NO];
 
 	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
-	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
+	trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:NULL assumeInside:NO];
 }
 
 - (BOOL) isFlipped {

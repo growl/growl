@@ -68,7 +68,6 @@
 			[progressIndicator release];
 		}
 		[progressIndicator setDoubleValue:[value doubleValue]];
-		[self sizeToFit];
 		[self setNeedsDisplay:YES];
 	} else if (progressIndicator) {
 		[progressIndicator removeFromSuperview];
@@ -161,7 +160,6 @@
 - (void) setIcon:(NSImage *)anIcon {
 	[icon release];
 	icon = [anIcon retain];
-	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
@@ -169,7 +167,6 @@
 	haveTitle = [aTitle length] != 0;
 
 	if (!haveTitle) {
-		[self sizeToFit];
 		[self setNeedsDisplay:YES];
 		return;
 	}
@@ -233,7 +230,6 @@
 	titleRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
 	titleHeight = [titleLayoutManager usedRectForTextContainer:titleContainer].size.height;
 
-	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
@@ -241,7 +237,6 @@
 	haveText = [aText length] != 0;
 
 	if (!haveText) {
-		[self sizeToFit];
 		[self setNeedsDisplay:YES];
 		return;
 	}
@@ -303,7 +298,6 @@
 	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
 	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;
 
-	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
@@ -367,24 +361,24 @@
 }
 
 - (void) sizeToFit {
-	NSRect rect = [self frame];
-	rect.size.height = GrowlSmokePadding + GrowlSmokePadding + [self titleHeight] + [self descriptionHeight];
+	float height = GrowlSmokePadding + GrowlSmokePadding + [self titleHeight] + [self descriptionHeight];
 	if (haveTitle && haveText)
-		rect.size.height += GrowlSmokeTitleTextPadding;
+		height += GrowlSmokeTitleTextPadding;
 	if (progressIndicator)
-		rect.size.height += GrowlSmokeIconProgressPadding + [progressIndicator bounds].size.height;
-	if (rect.size.height < GrowlSmokeMinTextHeight)
-		rect.size.height = GrowlSmokeMinTextHeight;
-	[self setFrame:rect];
+		height += GrowlSmokeIconProgressPadding + [progressIndicator bounds].size.height;
+	if (height < GrowlSmokeMinTextHeight)
+		height = GrowlSmokeMinTextHeight;
 
 	// resize the window so that it contains the tracking rect
-	NSRect windowRect = [[self window] frame];
-	windowRect.size = rect.size;
-	[[self window] setFrame:windowRect display:NO];
+	NSWindow *window = [self window];
+	NSRect windowRect = [window frame];
+	windowRect.origin.y -= height - windowRect.size.height;
+	windowRect.size.height = height;
+	[window setFrame:windowRect display:NO];
 
 	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
-	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
+	trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:NULL assumeInside:NO];
 }
 
 - (float) titleHeight {

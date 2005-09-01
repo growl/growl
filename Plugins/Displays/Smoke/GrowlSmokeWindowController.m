@@ -111,6 +111,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		[view setTitle:title isHTML:titleHTML];
 		[view setText:text isHTML:textHTML];
 		[view setIcon:icon];
+		[view sizeToFit];
 		[self release];
 		self = oldController;
 		return self;
@@ -150,13 +151,14 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[view setTitle:title isHTML:titleHTML];
 	[view setText:text isHTML:textHTML];
 	[view setIcon:icon];
+	[view sizeToFit];
 
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 
 	NSRect screen = [[self screen] visibleFrame];
 
-	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth( panelFrame ) - GrowlSmokePadding,
+	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - GrowlSmokePadding,
 											NSMaxY(screen) - GrowlSmokePadding - depth)];
 
 	if ((self = [super initWithWindow:panel])) {

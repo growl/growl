@@ -132,7 +132,6 @@
 - (void) setIcon:(NSImage *)anIcon {
 	[icon release];
 	icon = [anIcon retain];
-	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
@@ -140,7 +139,6 @@
 	haveTitle = [aTitle length] != 0;
 
 	if (!haveTitle) {
-		[self sizeToFit];
 		[self setNeedsDisplay:YES];
 		return;
 	}
@@ -204,7 +202,6 @@
 	titleRange = [titleLayoutManager glyphRangeForTextContainer:titleContainer];	// force layout
 	titleHeight = [titleLayoutManager usedRectForTextContainer:titleContainer].size.height;
 
-	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
@@ -212,7 +209,6 @@
 	haveText = [aText length] != 0;
 
 	if (!haveText) {
-		[self sizeToFit];
 		[self setNeedsDisplay:YES];
 		return;
 	}
@@ -274,7 +270,6 @@
 	textRange = [textLayoutManager glyphRangeForTextContainer:textContainer];	// force layout
 	textHeight = [textLayoutManager usedRectForTextContainer:textContainer].size.height;
 
-	[self sizeToFit];
 	[self setNeedsDisplay:YES];
 }
 
@@ -312,22 +307,22 @@
 }
 
 - (void) sizeToFit {
-	NSRect rect = [self frame];
-	rect.size.height = GrowlBrushedPadding + GrowlBrushedPadding + [self titleHeight] + [self descriptionHeight];
+	float height = GrowlBrushedPadding + GrowlBrushedPadding + [self titleHeight] + [self descriptionHeight];
 	if (haveTitle && haveText)
-		rect.size.height += GrowlBrushedTitleTextPadding;
-	if (rect.size.height < GrowlBrushedMinTextHeight)
-		rect.size.height = GrowlBrushedMinTextHeight;
-	[self setFrame:rect];
+		height += GrowlBrushedTitleTextPadding;
+	if (height < GrowlBrushedMinTextHeight)
+		height = GrowlBrushedMinTextHeight;
 
 	// resize the window so that it contains the tracking rect
+	NSWindow *window = [self window];
 	NSRect windowRect = [[self window] frame];
-	windowRect.size = rect.size;
-	[[self window] setFrame:windowRect display:NO];
+	windowRect.origin.y -= height - windowRect.size.height;
+	windowRect.size.height = height;
+	[window setFrame:windowRect display:NO];
 
 	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
-	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
+	trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:NULL assumeInside:NO];
 }
 
 - (float) titleHeight {

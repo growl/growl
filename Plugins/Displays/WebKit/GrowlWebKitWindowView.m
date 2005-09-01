@@ -58,9 +58,11 @@
 	NSRect rect = [[[[self mainFrame] frameView] documentView] frame];
 
 	// resize the window so that it contains the tracking rect
-	NSRect windowRect = [[self window] frame];
+	NSWindow *window = 	[self window];
+	NSRect windowRect = [window frame];
+	windowRect.origin.y -= rect.size.height - windowRect.size.height;
 	windowRect.size = rect.size;
-	[[self window] setFrame:windowRect display:YES];
+	[[self window] setFrame:windowRect display:NO];
 
 	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
