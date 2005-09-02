@@ -12,7 +12,7 @@
 #import "NSDictionaryAdditions.h"
 
 @implementation GrowlLog
-+ (void) _performLog:(NSString *)message {
++ (void) performLog:(NSString *)message {
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 	
 	int typePref = [preferences integerForKey:GrowlLogTypeKey];
@@ -44,7 +44,7 @@
 + (void) log:(NSString *)message {
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 	if ([preferences boolForKey:GrowlLoggingEnabledKey])
-		[self _performLog:message];
+		[self performLog:message];
 }
 
 + (void) logNotificationDictionary:(NSDictionary *)noteDict {
@@ -56,7 +56,7 @@
 			[noteDict objectForKey:GROWL_NOTIFICATION_TITLE],
 			[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION],
 			[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
-		[self _performLog:logString];
+		[self performLog:logString];
 		[logString release];
 	}
 }
@@ -67,7 +67,7 @@
 		NSString *logString = [[NSString alloc] initWithFormat:@"%@ %@ registered",
 			[NSDate date],
 			[regDict objectForKey:GROWL_APP_NAME]];
-		[self _performLog:logString];
+		[self performLog:logString];
 		[logString release];
 	}
 }

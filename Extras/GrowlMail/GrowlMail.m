@@ -143,10 +143,11 @@ static NSMutableArray *collectedMessages;
 		[messagesMap removeObjectForKey:clickContext];
 		[messagesLock unlock];
 		MessageViewingState *viewingState = [[MessageViewingState alloc] init];
-		SingleMessageViewer *messageViewer = [SingleMessageViewer viewerForMessage:message showAllHeaders:NO viewingState:viewingState];
+		SingleMessageViewer *messageViewer = [[SingleMessageViewer alloc] initForViewingMessage:message showAllHeaders:NO viewingState:viewingState];
 		[viewingState release];
 		[message release];
 		[messageViewer showAndMakeKey:YES];
+		[messageViewer release];
 	}
 	[NSApp activateIgnoringOtherApps:YES];
 }

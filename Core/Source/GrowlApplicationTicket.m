@@ -366,9 +366,8 @@
 					//it's probably a notification name
 					note = obj;
 				}
-				if (note && ![allNotesCopy objectForKey:note]) {
+				if (note && ![allNotesCopy objectForKey:note])
 					[allNotesCopy setObject:[GrowlNotificationTicket notificationWithName:note] forKey:note];
-				}
 			}
 		} else if ([inDefaults isKindOfClass:[NSIndexSet class]]) {
 			unsigned notificationIndex;
@@ -381,15 +380,13 @@
 					break;
 				} else {
 					NSString *note = [inAllNotes objectAtIndex:notificationIndex];
-					if (![allNotesCopy objectForKey:note]) {
+					if (![allNotesCopy objectForKey:note])
 						[allNotesCopy setObject:[GrowlNotificationTicket notificationWithName:note] forKey:note];
-					}
 				}
 			}
 		} else {
-			if (inDefaults) {
+			if (inDefaults)
 				NSLog(@"WARNING: application %@ passed an invalid object for the default notifications: %@.", appName, inDefaults);
-			}
 		}
 
 		[allNotifications release];
@@ -410,11 +407,10 @@
 	NSImage *theIcon;
 	id appIcon = [dict objectForKey:GROWL_APP_ICON];
 	if (appIcon) {
-		if ([appIcon isKindOfClass:[NSImage class]]) {
+		if ([appIcon isKindOfClass:[NSImage class]])
 			theIcon = [[appIcon copy] autorelease];
-		} else {
+		else
 			theIcon = [[[NSImage alloc] initWithData:appIcon] autorelease];
-		}
 	} else {
 		theIcon = [workspace iconForApplication:[dict objectForKey:GROWL_APP_NAME]];
 	}
@@ -436,17 +432,15 @@
 			fullPath = [URL path];
 		} else if ([location isKindOfClass:[NSString class]]) {
 			fullPath = location;
-			if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
+			if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath])
 				fullPath = nil;
-			}
 		}
 		/* Don't handle the NSNumber case here, the app might have moved and we
 		 * use the re-registration to update our stored appPath.
 		*/
 	}
-	if (!fullPath) {
+	if (!fullPath)
 		fullPath = [workspace fullPathForApplication:appName];
-	}
 	[appPath release];
 	appPath = [fullPath retain];
 //	NSLog(@"(in reregisterWithDictionary:) got appPath: %@", appPath);
@@ -517,11 +511,10 @@
 			if ([num isKindOfClass:NSNumberClass]) {
 				//it's an index into the all-notifications list
 				unsigned notificationIndex = [num unsignedIntValue];
-				if (notificationIndex >= numAllNotifications) {
+				if (notificationIndex >= numAllNotifications)
 					NSLog(@"WARNING: application %@ tried to allow notification at index %u by default, but there is no such notification in its list of %u", appName, notificationIndex, numAllNotifications);
-				} else {
+				else
 					[mDefaultNotifications addObject:[allNotificationNames objectAtIndex:notificationIndex]];
-				}
 			} else {
 				//it's probably a notification name
 				[mDefaultNotifications addObject:num];

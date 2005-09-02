@@ -157,6 +157,9 @@
 	[self updateLogPopupMenu];
 	int typePref = [preferencesController integerForKey:GrowlLogTypeKey];
 	[logFileType selectCellAtRow:typePref column:0];
+
+	[growlApplications setDoubleAction:@selector(tableViewDoubleClick:)];
+	[growlApplications setTarget:self];
 }
 
 - (void) mainViewDidLoad {
@@ -729,6 +732,11 @@
 - (void) tableViewDidClickInBody:(NSTableView *)tableView {
 	activeTableView = tableView;
 	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
+}
+
+- (IBAction) tableViewDoubleClick:(id)sender {
+	if ([ticketsArrayController selectionIndex] != NSNotFound)
+		[applicationsTab selectLastTabViewItem:sender];
 }
 
 #pragma mark NSNetServiceBrowser Delegate Methods

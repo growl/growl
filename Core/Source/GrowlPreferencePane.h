@@ -55,6 +55,7 @@
 
 	//"Applications" tab pane
 	IBOutlet NSTableView           *growlApplications;
+	IBOutlet NSTabView             *applicationsTab;
 	NSTableView                    *activeTableView;
 	IBOutlet NSMenu                *notificationPriorityMenu;
 	IBOutlet TicketsArrayController	*ticketsArrayController;
