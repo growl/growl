@@ -27,6 +27,6 @@
 	<key>NSPrefPaneIconLabel</key>
 	<string>Growl</string>
 	<key>NSPrincipalClass</key>
-	<string>GrowlPref</string>
+	<string>GrowlPreferencePane</string>
 </dict>
 </plist>
