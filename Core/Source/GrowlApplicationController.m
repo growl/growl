@@ -42,7 +42,6 @@
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
 
 @interface GrowlApplicationController (private)
-- (void) loadDisplay;
 - (void) notificationClicked:(NSNotification *)notification;
 - (void) notificationTimedOut:(NSNotification *)notification;
 @end
@@ -108,6 +107,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			return nil;
 		}
 
+		// initialize GrowlPreferencesController before observing GrowlPreferencesChanged
+		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+
 		NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
 
 		[NSDNC addObserver:self
@@ -146,7 +148,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 		[self versionDictionary];
 
-		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 		NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithContentsOfFile:
 			[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]];
 		[preferences registerDefaults:defaultDefaults];
@@ -616,7 +617,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 #pragma mark -
 
-- (void) preferencesChanged: (NSNotification *) note {
+- (void) preferencesChanged:(NSNotification *) note {
 	//[note object] is the changed key. A nil key means reload our tickets.
 	id object = [note object];
 	if (!note || (object && [object isEqualTo:GrowlStartServerKey]))
@@ -633,8 +634,10 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	}
 	if (!note || !object)
 		[ticketController loadAllSavedTickets];
-	if (!note || (object && [object isEqualTo:GrowlDisplayPluginKey]))
-		[self loadDisplay];
+	if (!note || (object && [object isEqualTo:GrowlDisplayPluginKey])) {
+		NSString *displayPlugin = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
+		displayController = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPlugin];
+	}
 	if (object) {
 		if ([object isEqualTo:@"GrowlTicketDeleted"]) {
 			NSString *ticketName = [[note userInfo] objectForKey:@"TicketName"];
@@ -880,11 +883,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 #pragma mark -
 
 @implementation GrowlApplicationController (private)
-
-- (void) loadDisplay {
-	NSString *displayPlugin = [[GrowlPreferencesController sharedController] objectForKey:GrowlDisplayPluginKey];
-	displayController = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPlugin];
-}
 
 #pragma mark -
 
