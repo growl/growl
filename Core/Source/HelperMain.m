@@ -13,14 +13,9 @@ int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[NSApplication sharedApplication];
 
-	GrowlApplicationController *theOneRingToRuleThemAll;
-	theOneRingToRuleThemAll = [[GrowlApplicationController alloc] init];
-
-	[NSApp setDelegate:theOneRingToRuleThemAll];
+	[NSApp setDelegate:[GrowlApplicationController sharedInstance]];
 	[NSApp run];
 
-	[theOneRingToRuleThemAll release];
-	[NSApp release];
 	[pool release];
 
 	return EXIT_SUCCESS;

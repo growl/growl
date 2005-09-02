@@ -31,8 +31,8 @@ static NSMutableDictionary	*singletonObjects = nil;
 	id	returnedObject = nil;
 
 	if (singletonObjects) {
+		Class class = [self class];
 		@synchronized(singletonObjects) {
-			Class class = [self class];
 			//Look of we already have an instance
 			returnedObject = [singletonObjects objectForKey:class];
 
@@ -49,13 +49,13 @@ static NSMutableDictionary	*singletonObjects = nil;
 	return returnedObject;
 }
 
-//Release the singletonObjects dictionary and by that destory all the object's it contains
+//Release the singletonObjects dictionary and by that destroy all the objects it contains
 + (void) destroyAllSingletons {
 	NSDictionary *dict = singletonObjects;
 
 	//We first make singletonObjects to point to nil in order to allow deallocation of our singletons
 	singletonObjects = nil;
-	//And then release the dictionary. When the dictionary is released, it releases all it's objects.
+	//And then release the dictionary. When the dictionary is released, it releases all its objects.
 	//When the objects were added to the dict, they received a retain message and since we override
 	//-retain to do nothing, the objects still have a retain count of 1.
 	//That's why all the objects will be released.
