@@ -766,7 +766,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) applicationWillTerminate:(NSNotification *)notification {
 #pragma unused(notification)
-	[self release];
+	[[self class] destroyAllSingletons];	//Release all our controllers
 }
 
 #pragma mark Auto-discovery
