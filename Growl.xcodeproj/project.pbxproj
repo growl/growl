@@ -220,6 +220,10 @@
 		95075B110817F95600D862A5 /* GrowlPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5286205606DC4C2F00D3A356 /* GrowlPluginController.m */; };
 		95075B740817FE1E00D862A5 /* GrowlMenu.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95075AB00817F5DB00D862A5 /* GrowlMenu.app */; };
 		95075BC80817FF0800D862A5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
+		9507CE6D08C9D59D00209F9E /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
+		9507CE8B08C9D5E600209F9E /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 070B90FB07E1AEFA00F10FA7 /* CFGrowlAdditions.c */; };
+		9507CE9008C9D62B00209F9E /* growl-icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 95BF83760743675700306A77 /* growl-icon.icns */; };
+		9507CEA208C9D6C900209F9E /* NSMutableDictionaryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F975AC084A23F500915BFE /* NSMutableDictionaryAdditions.m */; };
 		951A8F4508746D7C0046595C /* GrowlPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B27808745B9000EA34BF /* GrowlPreferencesController.m */; };
 		951A8F4D08746DEC0046595C /* GrowlPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B27808745B9000EA34BF /* GrowlPreferencesController.m */; };
 		951A8F5108746E0F0046595C /* GrowlTicketController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95B2B27A08745B9000EA34BF /* GrowlTicketController.m */; };
@@ -2958,12 +2962,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
-					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
-				},
-				{
 					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
 					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
+				},
+				{
+					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
+					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
 				},
 			);
 			targets = (
@@ -3088,6 +3092,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9507CE9008C9D62B00209F9E /* growl-icon.icns in Resources */,
 				34B2755708423BE80092A5A0 /* growlmenu-alt.png in Resources */,
 				34B2755808423BE80092A5A0 /* growlmenu.png in Resources */,
 				34B2755908423BE80092A5A0 /* MenuExtra-Info.plist in Resources */,
@@ -3457,6 +3462,9 @@
 				34B2755E08423BFF0092A5A0 /* GrowlMenu.m in Sources */,
 				951A8F4508746D7C0046595C /* GrowlPreferencesController.m in Sources */,
 				EED7077708C74DCE004651D0 /* GrowlAbstractSingletonObject.m in Sources */,
+				9507CE6D08C9D59D00209F9E /* GrowlApplicationBridge.m in Sources */,
+				9507CE8B08C9D5E600209F9E /* CFGrowlAdditions.c in Sources */,
+				9507CEA208C9D6C900209F9E /* NSMutableDictionaryAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

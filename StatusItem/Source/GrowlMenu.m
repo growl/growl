@@ -10,6 +10,7 @@
 #import "GrowlPreferencesController.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlPluginController.h"
+#import "GrowlApplicationBridge.h"
 
 #define kRestartGrowl                NSLocalizedString(@"Restart Growl", @"")
 #define kRestartGrowlTooltip         NSLocalizedString(@"Restart Growl", @"")
@@ -25,6 +26,7 @@
 #define kSquelchModeTooltip          NSLocalizedString(@"Don't show notifications, but still log them", @"")
 #define kStopGrowlMenu               NSLocalizedString(@"Quit GrowlMenu", @"")
 #define kStopGrowlMenuTooltip        NSLocalizedString(@"Remove this status item", @"")
+#define kDefaultDisplayChanged       NSLocalizedString(@"Default display changed to %@", @"")
 
 int main(void) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -77,7 +79,29 @@ int main(void) {
 		   selector:@selector(reloadPrefs:)
 			   name:GrowlPreferencesChanged
 			 object:nil];
+
+	[GrowlApplicationBridge setGrowlDelegate:self];
 }
+
+#pragma mark Growl delegate methods
+
+- (NSString *) applicationNameForGrowl {
+	return @"GrowlMenu";
+}
+
+- (NSDictionary *) registrationDictionaryForGrowl {
+	NSArray *notifications = [[NSArray alloc] initWithObjects:
+		@"Display changed", nil];
+	NSDictionary *registrationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+		notifications, GROWL_NOTIFICATIONS_ALL,
+		notifications, GROWL_NOTIFICATIONS_DEFAULT,
+		nil];
+	[notifications release];
+
+	return registrationDictionary;
+}
+
+#pragma mark -
 
 - (void) setGrowlMenuEnabled:(BOOL)state {
 	NSString *growlMenuPath = [[NSBundle mainBundle] bundlePath];
@@ -119,7 +143,20 @@ int main(void) {
 }
 
 - (void) defaultDisplay:(id)sender {
-	[preferences setDefaultDisplayPluginName:[sender title]];
+	NSString *pluginName = [sender title];
+	[preferences setDefaultDisplayPluginName:pluginName];
+
+	NSString *description = [[NSString alloc] initWithFormat:kDefaultDisplayChanged, pluginName];
+	NSDictionary *feedbackDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+		@"GrowlMenu",       GROWL_APP_NAME,
+		@"Display changed", GROWL_NOTIFICATION_NAME,
+		@"Display changed", GROWL_NOTIFICATION_TITLE,
+		description,        GROWL_NOTIFICATION_DESCRIPTION,
+		pluginName,         GROWL_DISPLAY_PLUGIN,
+		nil];
+	[description release];
+	[GrowlApplicationBridge notifyWithDictionary:feedbackDictionary];
+	[feedbackDictionary release];
 }
 
 - (void) stopGrowl:(id)sender {

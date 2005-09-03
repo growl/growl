@@ -8,6 +8,8 @@
 	<string>GrowlMenu</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Growl Menu, Copyright 2005, The Growl Project.</string>
+	<key>CFBundleIconFile</key>
+	<string>growl-icon</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.Growl.MenuExtra</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -22,9 +24,9 @@
 	<string>GRWL</string>
 	<key>CFBundleVersion</key>
 	<string>0.8</string>
-	<key>NSPrincipalClass</key>
-	<string>GrowlMenu</string>
 	<key>LSUIElement</key>
 	<integer>1</integer>
+	<key>NSPrincipalClass</key>
+	<string>GrowlMenu</string>
 </dict>
 </plist>
