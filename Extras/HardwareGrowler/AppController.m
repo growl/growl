@@ -4,6 +4,7 @@
 #import "BluetoothNotifier.h"
 #import "VolumeNotifier.h"
 #import "NetworkNotifier.h"
+#import "SyncNotifier.h"
 #import <Growl/Growl.h>
 
 #define NotifierUSBConnectionNotification				@"USB Device Connected"
@@ -20,6 +21,8 @@
 #define NotifierNetworkIpReleasedNotification			@"IP-Released"
 #define NotifierNetworkAirportConnectNotification		@"AirPort-Connect"
 #define NotifierNetworkAirportDisconnectNotification	@"AirPort-Disconnect"
+#define NotifierSyncStartedNotification					@"Sync started"
+#define NotifierSyncFinishedNotification				@"Sync finished"
 
 #define NotifierFireWireConnectionTitle			NSLocalizedString(@"FireWire Connection", @"")
 #define NotifierFireWireDisconnectionTitle		NSLocalizedString(@"FireWire Disconnection", @"")
@@ -35,6 +38,8 @@
 #define NotifierNetworkLinkDownTitle			NSLocalizedString(@"Ethernet deactivated", @"")
 #define NotifierNetworkIpAcquiredTitle			NSLocalizedString(@"IP address acquired", @"")
 #define NotifierNetworkIpReleasedTitle			NSLocalizedString(@"IP address released", @"")
+#define NotifierSyncStartedTitle				NSLocalizedString(@"Sync started", @"")
+#define NotifierSyncFinishedTitle				NSLocalizedString(@"Sync finished", @"")
 
 #define NotifierNetworkIpAcquiredDescription	NSLocalizedString(@"New primary IP: %@", @"")
 #define NotifierNetworkIpReleasedDescription	NSLocalizedString(@"No IP address now", @"")
@@ -51,6 +56,9 @@
 
 	NSString *path = [ws fullPathForApplication:@"Airport Admin Utility.app"];
 	airportIconData = [[[ws iconForFile:path] TIFFRepresentation] retain];
+
+	path = [ws fullPathForApplication:@"iSync.app"];
+	iSyncIconData = [[[ws iconForFile:path] TIFFRepresentation] retain];
 
 	path = [ws fullPathForApplication:@"Internet Connect.app"];
 	ipIconData = [[[ws iconForFile:path] TIFFRepresentation] retain];
@@ -69,24 +77,27 @@
 			   name:NSWorkspaceWillSleepNotification
 			 object:ws];
 
-	fwNotifier  = [[FireWireNotifier  alloc] initWithDelegate:self];
-	usbNotifier = [[USBNotifier       alloc] initWithDelegate:self];
-	btNotifier  = [[BluetoothNotifier alloc] initWithDelegate:self];
-	volNotifier = [[VolumeNotifier    alloc] initWithDelegate:self];
-	netNotifier = [[NetworkNotifier   alloc] initWithDelegate:self];
+	fwNotifier   = [[FireWireNotifier  alloc] initWithDelegate:self];
+	usbNotifier  = [[USBNotifier       alloc] initWithDelegate:self];
+	btNotifier   = [[BluetoothNotifier alloc] initWithDelegate:self];
+	volNotifier  = [[VolumeNotifier    alloc] initWithDelegate:self];
+	netNotifier  = [[NetworkNotifier   alloc] initWithDelegate:self];
+	syncNotifier = [[SyncNotifier      alloc] initWithDelegate:self];
 }
 
 - (void) dealloc {
-	[fwNotifier  release];
-	[usbNotifier release];
-	[btNotifier  release];
-	[volNotifier release];
-	[netNotifier release];
+	[fwNotifier   release];
+	[usbNotifier  release];
+	[btNotifier   release];
+	[volNotifier  release];
+	[netNotifier  release];
+	[syncNotifier release];
 
 	[bluetoothLogoData release];
 	[ejectLogoData     release];
 	[airportIconData   release];
 	[ipIconData        release];
+	[iSyncIconData     release];
 
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self
 																 name:nil
@@ -117,6 +128,8 @@
 		NotifierNetworkIpReleasedNotification,
 		NotifierNetworkAirportConnectNotification,
 		NotifierNetworkAirportDisconnectNotification,
+		NotifierSyncStartedNotification,
+		NotifierSyncFinishedNotification,
 		nil];
 
 	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -326,6 +339,30 @@
 								description:NotifierNetworkIpReleasedDescription
 						   notificationName:NotifierNetworkIpReleasedNotification
 								   iconData:ipIconData
+								   priority:0
+								   isSticky:NO
+							   clickContext:nil];
+}
+
+- (void) syncStarted {
+	//NSLog(@"Sync started");
+
+	[GrowlApplicationBridge notifyWithTitle:NotifierSyncStartedTitle
+								description:NotifierSyncStartedTitle
+						   notificationName:NotifierSyncStartedNotification
+								   iconData:iSyncIconData
+								   priority:0
+								   isSticky:NO
+							   clickContext:nil];
+}
+
+- (void) syncFinished {
+	//NSLog(@"Sync finished");
+
+	[GrowlApplicationBridge notifyWithTitle:NotifierSyncFinishedTitle
+								description:NotifierSyncFinishedTitle
+						   notificationName:NotifierSyncFinishedNotification
+								   iconData:iSyncIconData
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];

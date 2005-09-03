@@ -43,6 +43,8 @@
 		9324AE8807BD781B001CB55C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9324AE7807BD77DB001CB55C /* Growl.framework */; };
 		950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 950626460840CB8200C01CD2 /* BluetoothLogo.png */; };
 		9522B89208BC57F20000DC20 /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9522B89108BC57F20000DC20 /* DiskArbitration.framework */; };
+		9586EF0308C9C3A40039789E /* SyncNotifier.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9586EF0108C9C3A40039789E /* SyncNotifier.h */; };
+		9586EF0408C9C3A40039789E /* SyncNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9586EF0208C9C3A40039789E /* SyncNotifier.m */; };
 		958AB93807C69DE000F56B45 /* NetworkNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 958AB93607C69DE000F56B45 /* NetworkNotifier.m */; };
 		958AB97507C6A20100F56B45 /* SCDynamicStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 958AB97307C6A20100F56B45 /* SCDynamicStore.m */; };
 		958AB9DE07C6A7FD00F56B45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */; };
@@ -245,6 +247,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9324AE8807BD781B001CB55C /* Growl.framework in CopyFiles */,
+				9586EF0308C9C3A40039789E /* SyncNotifier.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +267,8 @@
 		950626460840CB8200C01CD2 /* BluetoothLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BluetoothLogo.png; sourceTree = "<group>"; };
 		9522B89108BC57F20000DC20 /* DiskArbitration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiskArbitration.framework; path = /System/Library/Frameworks/DiskArbitration.framework; sourceTree = "<absolute>"; };
 		9533C287085C3ED6009F8046 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
+		9586EF0108C9C3A40039789E /* SyncNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncNotifier.h; sourceTree = "<group>"; };
+		9586EF0208C9C3A40039789E /* SyncNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncNotifier.m; sourceTree = "<group>"; };
 		958AB93507C69DE000F56B45 /* NetworkNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkNotifier.h; sourceTree = "<group>"; };
 		958AB93607C69DE000F56B45 /* NetworkNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkNotifier.m; sourceTree = "<group>"; };
 		958AB97207C6A20100F56B45 /* SCDynamicStore.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SCDynamicStore.h; sourceTree = "<group>"; };
@@ -332,6 +337,8 @@
 				DDF9B63807BC07B30007B5B7 /* VolumeNotifier.m */,
 				958AB93507C69DE000F56B45 /* NetworkNotifier.h */,
 				958AB93607C69DE000F56B45 /* NetworkNotifier.m */,
+				9586EF0108C9C3A40039789E /* SyncNotifier.h */,
+				9586EF0208C9C3A40039789E /* SyncNotifier.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -689,6 +696,7 @@
 				DDF9B63A07BC07B30007B5B7 /* VolumeNotifier.m in Sources */,
 				958AB93807C69DE000F56B45 /* NetworkNotifier.m in Sources */,
 				958AB97507C6A20100F56B45 /* SCDynamicStore.m in Sources */,
+				9586EF0408C9C3A40039789E /* SyncNotifier.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
