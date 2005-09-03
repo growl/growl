@@ -17,7 +17,6 @@
 #import "GrowlPluginController.h"
 #import "GrowlVersionUtilities.h"
 #import "GrowlBrowserEntry.h"
-#import "ACImageAndTextCell.h"
 #import "NSStringAdditions.h"
 #import "TicketsArrayController.h"
 #import <ApplicationServices/ApplicationServices.h>
@@ -91,13 +90,6 @@
 }
 
 - (void) awakeFromNib {
-	/*
-	NSTableColumn *tableColumn = [growlApplications tableColumnWithIdentifier:@"application"];
-	ACImageAndTextCell *imageAndTextCell = [[ACImageAndTextCell alloc] init];
-	[imageAndTextCell setEditable:YES];
-	[tableColumn setDataCell:imageAndTextCell];
-	[imageAndTextCell release];
-	*/
 	// TODO: this does not work
 	//NSSecureTextFieldCell *secureTextCell = [[NSSecureTextFieldCell alloc] init];
 	//[servicePasswordColumn setDataCell:secureTextCell];
