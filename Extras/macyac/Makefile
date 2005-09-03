@@ -29,12 +29,16 @@
 #
 
 CC = gcc
-CFLAGS+= -Wall -framework Foundation
+CFLAGS+=-W -Wall
+LDFLAGS+=-framework Foundation
 BINDIR?=/usr/local/bin
 
 ### do not modify below this point ###
 
-macyac: macyac.m
+macyac: macyac.o
+
+macyac.o: macyac.m
+	$(CC) $(CFLAGS) -c macyac.m
 
 #note: $(BINDIR) must be last on this line, as install takes its last argument
 #  as the destination directory.
