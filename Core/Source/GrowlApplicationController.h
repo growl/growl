@@ -12,8 +12,7 @@
 #import "GrowlAbstractSingletonObject.h"
 
 @class GrowlDistributedNotificationPathway, GrowlUDPPathway, GrowlRemotePathway,
-	MD5Authenticator, GrowlNotificationCenter, GrowlStatusController,
-	GrowlTicketController;
+	MD5Authenticator, GrowlNotificationCenter, GrowlTicketController;
 
 @interface GrowlApplicationController : GrowlAbstractSingletonObject {
 	MD5Authenticator			*authenticator;
@@ -26,8 +25,6 @@
 	// local GrowlNotificationCenter
 	NSConnection				*growlNotificationCenterConnection;
 	GrowlNotificationCenter		*growlNotificationCenter;
-
-	GrowlStatusController		*statusController;
 
 	// remote DistributedObjects server
 	NSNetService				*service;

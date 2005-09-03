@@ -164,7 +164,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 		[GrowlApplicationBridge setGrowlDelegate:self];
 
-		statusController = [[GrowlStatusController alloc] init];
+		GrowlStatusController_init();
+		[nc addObserver:self
+			   selector:@selector(idleStatus:)
+				   name:@"GrowlIdleStatus"
+				 object:nil];
 
 		NSDate *lastCheck = [preferences objectForKey:LastUpdateCheckKey];
 		NSDate *now = [NSDate date];
@@ -190,6 +194,31 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	return self;
 }
 
+- (void) idleStatus:(NSNotification *)notification {
+	if ([[notification object] isEqualToString:@"Idle"]) {
+		NSString *description = [NSString stringWithFormat:NSLocalizedString(@"No activity for more than %d seconds.", /*comment*/ nil), 30];
+		if ([[GrowlPreferencesController sharedController] stickyWhenAway])
+			description = [description stringByAppendingString:NSLocalizedString(@" New notifications will be sticky.", /*comment*/ nil)];
+		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User went idle", /*comment*/ nil)
+									description:description
+							   notificationName:@"User went idle"
+									   iconData:growlIconData
+									   priority:-1
+									   isSticky:NO
+								   clickContext:nil
+									 identifier:nil];
+	} else {
+		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User returned", /*comment*/ nil)
+									description:NSLocalizedString(@"User activity detected. New notifications will not be sticky by default.", /*comment*/ nil)
+							   notificationName:@"User returned"
+									   iconData:growlIconData
+									   priority:-1
+									   isSticky:NO
+								   clickContext:nil
+									 identifier:nil];
+	}
+}
+
 - (void) destroy {
 	//free your world
 	[self stopServer];
@@ -198,7 +227,10 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[destinations     release];
 	[growlIcon        release];
 	[versionCheckURL  release];
-	[statusController release];
+
+	GrowlStatusController_dealloc();
+
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
 
 	CFRunLoopTimerInvalidate(updateTimer);
 	CFRelease(updateTimer);
@@ -441,7 +473,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	if (sticky >= 0)
 		[aDict setBool:(sticky ? YES : NO) forKey:GROWL_NOTIFICATION_STICKY];
 	else if ([preferences stickyWhenAway] && ![aDict boolForKey:GROWL_NOTIFICATION_STICKY])
-		[aDict setBool:[statusController isIdle] forKey:GROWL_NOTIFICATION_STICKY];
+		[aDict setBool:GrowlStatusController_isIdle() forKey:GROWL_NOTIFICATION_STICKY];
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
 	[aDict setBool:saveScreenshot forKey:GROWL_SCREENSHOT_MODE];

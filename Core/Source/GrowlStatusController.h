@@ -6,17 +6,17 @@
 //  Copyright 2005 The Growl Project. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#ifndef GROWL_STATUS_CONTROLLER_H
+#define GROWL_STATUS_CONTROLLER_H
 
-@interface GrowlStatusController : NSObject {
-	BOOL				isIdle;
-	double				lastSeenIdle;
-	CFRunLoopTimerRef	idleTimer;
-}
+#include <Carbon/Carbon.h>
 
-- (BOOL) isIdle;
-- (void) setIdle:(BOOL)inIdle;
+__BEGIN_DECLS
 
-- (double) currentIdleTime;
-- (void) idleCheckTimer:(CFRunLoopTimerRef)timer;
-@end
+void GrowlStatusController_init(void);
+Boolean GrowlStatusController_isIdle(void);
+void GrowlStatusController_dealloc(void);
+
+__END_DECLS
+
+#endif
