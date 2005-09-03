@@ -96,6 +96,8 @@
 	[stickyValue  release];
 	if (priority != GrowlPriorityUnset)
 		[dict setInteger:priority forKey:@"Priority"];
+	if (displayPluginName)
+		[dict setObject:displayPluginName forKey:@"Display"];
 	return dict;
 }
 
@@ -161,14 +163,13 @@
 - (void) setDisplayPluginName: (NSString *)pluginName {
 	[displayPluginName release];
 	displayPluginName = [pluginName copy];
-	if (displayPluginName)
-		displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
-	else
-		displayPlugin = nil;
+	displayPlugin = nil;
 	[ticket synchronize];
 }
 
 - (id <GrowlDisplayPlugin>) displayPlugin {
+	if (!displayPlugin && displayPluginName)
+		displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
 	return displayPlugin;
 }
 

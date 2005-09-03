@@ -240,11 +240,10 @@
 	plistData = [NSPropertyListSerialization dataFromPropertyList:saveDict
 														   format:NSPropertyListBinaryFormat_v1_0
 												 errorDescription:&error];
-	if (plistData) {
+	if (plistData)
 		[plistData writeToFile:savePath atomically:YES];
-	} else {
+	else
 		NSLog(@"Error writing ticket for application %@: %@", appName, error);
-	}
 	[saveDict release];
 }
 
@@ -315,16 +314,15 @@
 }
 
 - (id<GrowlDisplayPlugin>) displayPlugin {
+	if (!displayPlugin && displayPluginName)
+		displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
 	return displayPlugin;
 }
 
 - (void) setDisplayPluginName: (NSString *)name {
 	[displayPluginName release];
 	displayPluginName = [name copy];
-	if (name)
-		displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:name];
-	else
-		displayPlugin = nil;
+	displayPlugin = nil;
 	[self synchronize];
 }
 
