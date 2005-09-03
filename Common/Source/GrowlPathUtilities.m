@@ -31,12 +31,12 @@ static NSBundle *prefPaneBundle;
 	NSEnumerator	*searchPathEnumerator;
 	NSBundle		*bundle;
 
-	if (prefPaneBundle)  
-		return prefPaneBundle;  
+	if (prefPaneBundle)
+		return prefPaneBundle;
 
 	prefPaneBundle = [NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER];
- 	if (prefPaneBundle)  
-		return prefPaneBundle; 
+ 	if (prefPaneBundle)
+		return prefPaneBundle;
 
 	static const unsigned bundleIDComparisonFlags = NSCaseInsensitiveSearch | NSBackwardsSearch;
 
@@ -108,8 +108,8 @@ static NSBundle *prefPaneBundle;
 
 + (NSBundle *) helperAppBundle {
 	if (!helperAppBundle) {
-		helperAppBundle = [NSBundle bundleWithIdentifier:HelperAppBundleIdentifier];  
-		if (!helperAppBundle) {  
+		helperAppBundle = [NSBundle bundleWithIdentifier:HelperAppBundleIdentifier];
+		if (!helperAppBundle) {
 			//look in the prefpane bundle.
 			NSBundle *bundle = [GrowlPathUtilities growlPrefPaneBundle];
 			NSString *helperAppPath = [bundle pathForResource:@"GrowlHelperApp" ofType:@"app"];
@@ -241,7 +241,7 @@ static NSBundle *prefPaneBundle;
 		return [searchPath objectAtIndex:0U];
 	else {
 		NSString *path = nil;
-		
+
 		//if this doesn't return any writable directories, path will still be nil.
 		path = [self growlSupportDirectory];
 		if (path) {
@@ -250,7 +250,7 @@ static NSBundle *prefPaneBundle;
 			if (![[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil])
 				path = nil;
 		}
-		
+
 		return path;
 	}
 }

@@ -36,6 +36,7 @@ static void idleTimerCallback(CFRunLoopTimerRef timer, void *info) {
 										 0, 0,
 										 idleTimerCallback,
 										 &context);
+		CFRunLoopAddTimer(CFRunLoopGetCurrent(), idleTimer, kCFRunLoopCommonModes);
 	}
 	return self;
 }

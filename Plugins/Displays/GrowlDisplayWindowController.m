@@ -12,21 +12,24 @@
 #import "GrowlWindowTransition.h"
 #import "NSViewAdditions.h"
 
+static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
+#pragma unused(timer)
+	[(GrowlDisplayWindowController *)context stopDisplay];
+}
+
 @implementation GrowlDisplayWindowController
 
 - (id) init {
-	self = [super init];
-	
-	if (self) {
+	if ((self = [super init])) {
 		windowTransitions = [[NSMutableArray alloc] init];
 	}
-	
+
 	return self;
 }
 
 - (void) dealloc {
 	[self stopDisplayTimer];
-	
+
 	[self setDelegate:nil];
 
 	[target              release];
@@ -101,17 +104,17 @@
 #pragma mark Display timer
 
 - (void) startDisplayTimer {
-	displayTimer = [[NSTimer scheduledTimerWithTimeInterval:displayDuration
-													target:self
-												  selector:@selector(stopDisplay)
-												  userInfo:nil
-												   repeats:NO] retain];
+	CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
+	displayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+displayDuration, 0, 0, 0, stopDisplay, &context);
+	CFRunLoopAddTimer(CFRunLoopGetCurrent(), displayTimer, kCFRunLoopCommonModes);
 }
 
 - (void) stopDisplayTimer {
-	[displayTimer invalidate];
-	[displayTimer release];
-	 displayTimer = nil;
+	if (displayTimer) {
+		CFRunLoopTimerInvalidate(displayTimer);
+		CFRelease(displayTimer);
+		displayTimer = NULL;
+	}
 }
 
 #pragma mark -
@@ -158,26 +161,26 @@
 }
 
 - (NSArray *) activeTransitions {
-	NSMutableArray *result = [[NSMutableArray alloc] init];
+	NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[windowTransitions count]];
 	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
 	GrowlWindowTransition *transition;
-	
+
 	while ((transition = [enumerator nextObject]))
 		if ([transition isAnimating])
 			[result addObject:transition];
-	
+
 	return [result autorelease];
 }
 
 - (NSArray *) inactiveTransitions {
-	NSMutableArray *result = [[NSMutableArray alloc] init];
+	NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[windowTransitions count]];
 	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
 	GrowlWindowTransition *transition;
-	
+
 	while ((transition = [enumerator nextObject]))
 		if (![transition isAnimating])
 			[result addObject:transition];
-	
+
 	return [result autorelease];
 }
 
@@ -188,25 +191,23 @@
 - (void) startAllTransitionsOfKind:(Class)transitionsClass {
 	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
 	GrowlWindowTransition *transition;
-	
-	while ((transition = [enumerator nextObject])) {
+
+	while ((transition = [enumerator nextObject]))
 		if ([transition isKindOfClass:transitionsClass])
 			[transition startAnimation];
-	}
 }
 
 - (void) stopAllTransitions {
 	[windowTransitions makeObjectsPerformSelector:@selector(stopAnimation)];
 }
 
-- (void) StopAllTransitionsOfKind:(Class)transitionsClass {
+- (void) stopAllTransitionsOfKind:(Class)transitionsClass {
 	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
 	GrowlWindowTransition *transition;
-	
-	while ((transition = [enumerator nextObject])) {
+
+	while ((transition = [enumerator nextObject]))
 		if ([transition isKindOfClass:transitionsClass])
 			[transition stopAnimation];
-	}
 }
 
 #pragma mark -

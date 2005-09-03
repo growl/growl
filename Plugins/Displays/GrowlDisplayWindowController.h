@@ -23,7 +23,7 @@
 	NSString			*appName;
 	NSNumber			*appPid;
 	id					delegate;
-	NSTimer				*displayTimer;
+	CFRunLoopTimerRef	displayTimer;
 	NSMutableArray		*windowTransitions;
 
 	NSTimeInterval		displayDuration;
@@ -34,6 +34,9 @@
 
 - (void) takeScreenshot;
 
+- (void) startDisplay;
+- (void) stopDisplay;
+	
 /*call these from subclasses as various phases of display occur.
  *for example, in GrowlDisplayFadingWindowController:
  *	* -startFadeIn  calls -willDisplayNotification
@@ -64,7 +67,7 @@
 - (void) startAllTransitionsOfKind:(Class)transitionsClass;
 
 - (void) stopAllTransitions;
-- (void) StopAllTransitionsOfKind:(Class)transitionsClass;
+- (void) stopAllTransitionsOfKind:(Class)transitionsClass;
 
 #pragma mark -
 

@@ -208,7 +208,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[growlNotificationCenter           release];
 
 	cdsaShutdown();
-	
+
 	[super destroy];
 }
 
@@ -240,9 +240,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[serverConnection setDelegate:self];
 
 	// register with the default NSPortNameServer on the local host
-	if (![serverConnection registerName:@"GrowlServer"]) {
+	if (![serverConnection registerName:@"GrowlServer"])
 		NSLog(@"WARNING: could not register Growl server.");
-	}
 
 	// configure and publish the Bonjour service
 	NSString *serviceName = (NSString *)SCDynamicStoreCopyComputerName(/*store*/ NULL,

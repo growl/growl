@@ -33,14 +33,14 @@
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
 															selector:@selector(growlPreferencesChanged:)
 																name:GrowlPreferencesChanged
-															  object:nil];		
+															  object:nil];
 	}
 	return self;
 }
 
 - (void) destroy {
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
-	
+
 	[super destroy];
 }
 
@@ -180,11 +180,11 @@
 	 *note that other GHAs are ignored.
 	 */
 	BOOL			foundOne = NO;
-	
+
 	for (unsigned i = 0U; i < [loginItems count];) {
 		NSDictionary	*item = [loginItems objectAtIndex:i];
-		BOOL			thisIsUs = NO;		
-		
+		BOOL			thisIsUs = NO;
+
 		/*first compare by alias.
 		*we do this by converting to URL and comparing those.
 		*/
@@ -198,7 +198,7 @@
 			/*NSString **/thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
 			thisIsUs = (thisPath && [thisPath isEqualToString:path]);
 		}
-		
+
 		if (thisIsUs) {
 			if ((!flag) || (foundOne))
 				[loginItems removeObjectAtIndex:i];
@@ -211,12 +211,12 @@
 		}
 	}
 	[url release];
-	
+
 	if (flag && !foundOne) {
-		/*we were called with YES, and we weren't already in the start-at-login  
-		*      array, so add ourselves at the beginning.  
-		*/ 
-		
+		/*we were called with YES, and we weren't already in the start-at-login
+		*      array, so add ourselves at the beginning.
+		*/
+
 		NSNumber *hide = [[NSNumber alloc] initWithBool:NO];
 		NSDictionary *launchDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			hide,      @"Hide",
@@ -468,7 +468,7 @@
  */
 - (void) growlPreferencesChanged:(NSNotification *)notification {
 #pragma unused(notification)
-	[self synchronize];	
+	[self synchronize];
 }
 
 @end

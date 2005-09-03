@@ -13,7 +13,7 @@
 /*!
  * @class GrowlAbstractSingletonObject
  * @brief An Abstract Singleton Object
- * 
+ *
  * This is an abstract object for object that should have only one instnace
  * that is never released (singleton object).
  * This class is thread safe.
@@ -35,7 +35,7 @@
  * Also note that a call to this method will destroy GBAbstractSingletonObject and all it's subclasses.
  * Even though that you generally can't release a singleton object, it's dealloc message WILL be called
  * when it's beeing destroyed.
- * 
+ *
  * USE THIS METHOD WITH GREAT CAUTION!!!
  */
 + (void) destroyAllSingletons;
@@ -52,7 +52,7 @@
 
 /*!
  * @brief An init method for your singleton object.
- * 
+ *
  * Implement this in your subclass to init your shared object.
  * You should call [super initSingleton] and return your initialized object.
  * Never call this method directly! It'll be automatically called when needed.

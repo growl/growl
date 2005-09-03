@@ -12,23 +12,23 @@
 
 - (id) init {
 	self = [super init];
-	
+
 	if (self) {
 		fadeAction = GrowlNoFadeAction;	//We don't animate if someone simply sends us -startAnimation
 		defaultAction = GrowlNoFadeAction;
 	}
-	
+
 	return self;
 }
 
 - (id) initWithWindow:(NSWindow *)inWindow defaultAction:(GrowlFadeAction)action {
 	self = [super initWithWindow:inWindow];
-	
+
 	if (self) {
 		fadeAction = GrowlNoFadeAction;
 		defaultAction = action;
 	}
-	
+
 	return self;
 }
 
@@ -51,7 +51,7 @@
 			break;
 	}
 }
-			
+
 
 - (void) startFadeIn {
 	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlFadeInWindowTransitionWillStart
@@ -69,7 +69,7 @@
 
 - (void) stopAnimation {
 	[super stopAnimation];
-	
+
 	//Notify our delegate
 	if (FLOAT_EQ([self currentProgress], 1.0f)) {
 		switch (fadeAction) {
@@ -111,7 +111,7 @@
 - (void) setDelegate:(id)newDelegate {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	id oldDelegate = [self delegate];
-	
+
 	if (oldDelegate) {
 		[nc removeObserver:oldDelegate
 					  name:GrowlFadeInWindowTransitionWillStart
@@ -126,7 +126,7 @@
 					  name:GrowlFadeOutWindowTransitionDidEnd
 					object:self];
 	}
-	
+
 	if (newDelegate) {
 		[nc addObserver:newDelegate
 			   selector:@selector(fadeInWindowTransitionWillStart:)
@@ -145,7 +145,7 @@
 				   name:GrowlFadeOutWindowTransitionDidEnd
 				 object:self];
 	}
-	
+
 	[super setDelegate:newDelegate];
 }
 

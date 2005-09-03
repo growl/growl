@@ -54,7 +54,7 @@ typedef NSSearchPathDomainMask GrowlSearchPathDomainMask; //consistency
  *	 type that exist (and, if <code>flag</code> is <code>YES</code>, are
  *	 writable). If no directories match this criteria, a valid (but empty)
  *	 array is returned.
- *	 
+ *
  *	 Unlike the <code>NSSearchPathForDirectoriesInDomains</code> function in
  *	 Foundation, this method does not allow you to specify whether tildes are
  *	 expanded: they will always be expanded.
@@ -65,7 +65,7 @@ typedef NSSearchPathDomainMask GrowlSearchPathDomainMask; //consistency
  *	@abstract	Returns an array of absolute paths to a given directory.
  *	@discussion	This method returns an array of all the directories of a given
  *	 type that exist. They need not be writable.
- *	 
+ *
  *	 Unlike the <code>NSSearchPathForDirectoriesInDomains</code> function in
  *	 Foundation, this method does not allow you to specify whether tildes are
  *	 expanded: they will always be expanded.
@@ -105,12 +105,12 @@ typedef NSSearchPathDomainMask GrowlSearchPathDomainMask; //consistency
  *	@discussion	Names returned by this method are currently in the format
  *	 'Screenshot N', where N starts at 1 and continues indefinitely. Note the
  *	 lack of a filename extension: you append it yourself.
- *	 
+ *
  *	 The name returned by this method is guaranteed to not exist with any
  *	 filename extension. This is intentional: it would be confusing for the
  *	 user if the fifth screenshot were assigned the name 'Screenshot 1' simply
  *	 because the previous four screenshots had a different filename extension.
- *	 
+ *
  *	 Calling this method is the same as calling
  *	 <code>nextScreenshotNameInDirectory:</code> with a directory of
  *	 <code>nil</code>.
@@ -141,7 +141,7 @@ typedef NSSearchPathDomainMask GrowlSearchPathDomainMask; //consistency
  *	 it, and the result is appended to the absolute path to the ticket
  *	 directory. When called with <code>nil</code>, the ticket directory itself
  *	 is returned.
- *	 
+ *
  *	 For the purpose of this method, 'the ticket directory' refers to the first
  *	 writable directory returned by
  *	 <code>+searchPathForDirectory:inDomains:</code>. If there is no writable

@@ -197,7 +197,7 @@
 	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
 	NSString *executableName = [infoDict objectForKey:(NSString *)kCFBundleExecutableKey];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:executableName];
-	
+
 	NSURL *downloadURL = [[NSURL alloc] initWithString:
 		[productVersionDict objectForKey:[executableName stringByAppendingString:@"DownloadURL"]]];
 	/*
@@ -205,7 +205,7 @@
 	 NSLog(currVersionNumber);
 	 NSLog(latestVersionNumber);
 	 */
-	
+
 	// do nothing--be quiet if there is no active connection or if the
 	// version number could not be downloaded
 	if (latestVersionNumber && (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0))
@@ -221,9 +221,9 @@
 						  /*msg*/ NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @""));
 	else
 		[downloadURL release];
-	
+
 	[productVersionDict release];
-	
+
 	[growlVersionProgress stopAnimation:self];
 }
 
@@ -821,7 +821,7 @@
 				[serviceBeingResolved release];
 				serviceBeingResolved = nil;
 			}
-			
+
 			currentServiceIndex = row;
 			serviceBeingResolved = serviceToResolve;
 			[serviceBeingResolved retain];

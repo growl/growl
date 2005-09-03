@@ -14,7 +14,7 @@
 @implementation GrowlLog
 + (void) performLog:(NSString *)message {
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-	
+
 	int typePref = [preferences integerForKey:GrowlLogTypeKey];
 	if (typePref == 0) {
 		NSLog(@"%@", message);
@@ -38,7 +38,7 @@
 			}
 			NSLog(@"%@", message);
 		}
-	}	
+	}
 }
 
 + (void) log:(NSString *)message {

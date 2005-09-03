@@ -51,7 +51,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 		[pluginPathExtensions addObject:GROWL_STYLE_EXTENSION];
 		[pluginPathExtensions addObject:GROWL_VIEW_EXTENSION];
 		[pluginPathExtensions addObject:GROWL_PLUGIN_EXTENSION];
-		
+
 		NSArray *libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
 		NSEnumerator *enumerator = [libraries objectEnumerator];
 		NSString *dir;

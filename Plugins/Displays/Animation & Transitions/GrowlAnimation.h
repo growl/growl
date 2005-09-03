@@ -30,7 +30,7 @@ typedef enum {
 	GrowlAnimationCurve			animationCurve;		//Default to GrowlAnimationEaseInOut
 	id							delegate;
 	BOOL						repeats;
-	
+
 	/* Linked Animations */
 	GrowlAnimation				*startAnimation;
 	GrowlAnimationProgress		startAnimationProgress;
