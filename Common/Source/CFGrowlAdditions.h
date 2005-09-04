@@ -26,6 +26,8 @@
 #	define PLIST_TYPE CFPropertyListRef
 #endif
 
+char *copyCString(STRING_TYPE str, CFStringEncoding encoding);
+
 STRING_TYPE copyCurrentProcessName(void);
 URL_TYPE    copyCurrentProcessURL(void);
 STRING_TYPE copyCurrentProcessPath(void);

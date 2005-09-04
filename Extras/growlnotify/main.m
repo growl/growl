@@ -378,14 +378,14 @@ int main(int argc, const char **argv) {
 						perror("socket");
 						code = EXIT_FAILURE;
 					} else {
-						registrationPacket.Data = [GrowlUDPUtils registrationToPacket:registerInfo
-																			   digest:authMethod
-																			 password:password
-																		   packetSize:(unsigned *)&registrationPacket.Length];
-						notificationPacket.Data = [GrowlUDPUtils notificationToPacket:notificationInfo
-																			   digest:authMethod
-																			 password:password
-																		   packetSize:(unsigned *)&notificationPacket.Length];
+						registrationPacket.Data = GrowlUDPUtils_registrationToPacket(registerInfo,
+																					 authMethod,
+																					 password,
+																					 (unsigned *)&registrationPacket.Length);
+						notificationPacket.Data = GrowlUDPUtils_notificationToPacket(notificationInfo,
+																					 authMethod,
+																					 password,
+																					 (unsigned *)&notificationPacket.Length);
 						if (crypt) {
 							CSSM_DATA passwordData;
 							passwordData.Data = (uint8 *)password;
@@ -394,8 +394,8 @@ int main(int argc, const char **argv) {
 							else
 								passwordData.Length = 0U;
 
-							[GrowlUDPUtils cryptPacket:&registrationPacket algorithm:CSSM_ALGID_AES password:&passwordData encrypt:YES];
-							[GrowlUDPUtils cryptPacket:&notificationPacket algorithm:CSSM_ALGID_AES password:&passwordData encrypt:YES];
+							GrowlUDPUtils_cryptPacket(&registrationPacket, CSSM_ALGID_AES, &passwordData, YES);
+							GrowlUDPUtils_cryptPacket(&notificationPacket, CSSM_ALGID_AES, &passwordData, YES);
 						}
 						size = (registrationPacket.Length > notificationPacket.Length) ? registrationPacket.Length : notificationPacket.Length;
 						if (setsockopt(sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size)) < 0)
@@ -415,7 +415,6 @@ int main(int argc, const char **argv) {
 						free(registrationPacket.Data);
 						free(notificationPacket.Data);
 						close(sock);
-						printf("done\n");
 					}
 					freeaddrinfo(ai);
 				}

@@ -399,7 +399,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
-	[GrowlLog logNotificationDictionary:dict];
+	GrowlLog_logNotificationDictionary(dict);
 
 	// Make sure this notification is actually registered
 	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
@@ -510,7 +510,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *) userInfo {
-	[GrowlLog logRegistrationDictionary:userInfo];
+	GrowlLog_logRegistrationDictionary(userInfo);
 
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
 

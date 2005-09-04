@@ -1,5 +1,5 @@
 //
-//  GrowlUDPServer.m
+//  GrowlUDPPathway.m
 //  Growl
 //
 //  Created by Ingmar Stein on 18.11.04.
@@ -237,10 +237,10 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 			}
 
 			if (packet->version == GROWL_PROTOCOL_VERSION_AES128) {
-				[GrowlUDPUtils cryptPacket:&packetData
-								 algorithm:CSSM_ALGID_AES
-								  password:&passwordData
-								   encrypt:NO];
+				GrowlUDPUtils_cryptPacket(&packetData,
+										  CSSM_ALGID_AES,
+										  &passwordData,
+										  NO);
 				length = packetData.Length;
 			}
 			switch (packet->type) {
@@ -313,7 +313,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 									if (notificationIndex < nr->numAllNotifications)
 										[defaultNotifications addObject:[allNotifications objectAtIndex: notificationIndex]];
 									else
-										NSLog(@"GrowlUDPServer: Bad notification index: %u", notificationIndex);
+										NSLog(@"GrowlUDPPathway: Bad notification index: %u", notificationIndex);
 								}
 
 								if ([GrowlUDPPathway authenticatePacket:&packetData password:&passwordData authMethod:authMethod]) {
@@ -328,15 +328,15 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 									[self registerApplicationWithDictionary:registerInfo];
 									[registerInfo release];
 								} else
-									NSLog(@"GrowlUDPServer: authentication failed.");
+									NSLog(@"GrowlUDPPathway: authentication failed.");
 
 								[allNotifications     release];
 								[defaultNotifications release];
 							} else
-								NSLog(@"GrowlUDPServer: received invalid registration packet.");
+								NSLog(@"GrowlUDPPathway: received invalid registration packet.");
 						}
 					} else
-						NSLog(@"GrowlUDPServer: received runt registration packet.");
+						NSLog(@"GrowlUDPPathway: received runt registration packet.");
 					break;
 				case GROWL_TYPE_NOTIFICATION:
 				case GROWL_TYPE_NOTIFICATION_SHA256:
@@ -398,22 +398,22 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 								[self postNotificationWithDictionary:notificationInfo];
 								[notificationInfo release];
 							} else
-								NSLog(@"GrowlUDPServer: authentication failed.");
+								NSLog(@"GrowlUDPPathway: authentication failed.");
 						} else
-							NSLog(@"GrowlUDPServer: received invalid notification packet.");
+							NSLog(@"GrowlUDPPathway: received invalid notification packet.");
 					} else
-						NSLog(@"GrowlUDPServer: received runt notification packet.");
+						NSLog(@"GrowlUDPPathway: received runt notification packet.");
 					break;
 				default:
-					NSLog(@"GrowlUDPServer: received packet of invalid type.");
+					NSLog(@"GrowlUDPPathway: received packet of invalid type.");
 					break;
 			}
 			if (password)
 				SecKeychainItemFreeContent(/*attrList*/ NULL, password);
 		} else
-			NSLog(@"GrowlUDPServer: unknown version %u, expected %d or %d", packet->version, GROWL_PROTOCOL_VERSION, GROWL_PROTOCOL_VERSION_AES128);
+			NSLog(@"GrowlUDPPathway: unknown version %u, expected %d or %d", packet->version, GROWL_PROTOCOL_VERSION, GROWL_PROTOCOL_VERSION_AES128);
 	} else
-		NSLog(@"GrowlUDPServer: received runt packet.");
+		NSLog(@"GrowlUDPPathway: received runt packet.");
 }
 
 @end

@@ -6,15 +6,17 @@
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
-#import "GrowlUDPUtils.h"
-#import "GrowlDefines.h"
-#import "GrowlDefinesInternal.h"
+#include "GrowlUDPUtils.h"
+#include "GrowlDefines.h"
+#include "GrowlDefinesInternal.h"
+#include "CFGrowlAdditions.h"
 #include "sha2.h"
 #include "cdsa.h"
 
-@implementation GrowlUDPUtils
+//see GrowlApplicationBridge-Carbon.c for rationale of using NSLog.
+extern void NSLog(CFStringRef format, ...);
 
-+ (void) addChecksumToPacket:(CSSM_DATA_PTR)packet authMethod:(enum GrowlAuthenticationMethod)authMethod password:(const CSSM_DATA_PTR)password {
+static void addChecksumToPacket(CSSM_DATA_PTR packet, enum GrowlAuthenticationMethod authMethod, const CSSM_DATA_PTR password) {
 	unsigned       messageLength;
 	CSSM_DATA      digestData;
 	CSSM_CC_HANDLE ccHandle;
@@ -28,9 +30,8 @@
 			inData.Data = packet->Data;
 			inData.Length = messageLength;
 			CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
-			if (password && password->Length) {
+			if (password && password->Length)
 				CSSM_DigestDataUpdate(ccHandle, password, 1U);
-			}
 			digestData.Data = packet->Data + messageLength;
 			digestData.Length = MD5_DIGEST_LENGTH;
 			CSSM_DigestDataFinal(ccHandle, &digestData);
@@ -44,9 +45,8 @@
 			inData.Data = packet->Data;
 			inData.Length = messageLength;
 			CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
-			if (password && password->Length) {
+			if (password && password->Length)
 				CSSM_DigestDataUpdate(ccHandle, password, 1U);
-			}
 			digestData.Data = packet->Data + messageLength;
 			digestData.Length = SHA256_DIGEST_LENGTH;
 			CSSM_DigestDataFinal(ccHandle, &digestData);
@@ -56,9 +56,8 @@
 			messageLength = packet->Length-SHA256_DIGEST_LENGTH;
 			SHA256_Init(&sha_ctx);
 			SHA256_Update(&sha_ctx, packet->Data, messageLength);
-			if (password && password->Length) {
+			if (password && password->Length)
 				SHA256_Update(&sha_ctx, password->Data, password->Length);
-			}
 			SHA256_Final(packet->Data + messageLength, &sha_ctx);
 #endif
 			break;
@@ -68,25 +67,27 @@
 	}
 }
 
-+ (unsigned char *) notificationToPacket:(NSDictionary *)aNotification digest:(enum GrowlAuthenticationMethod)authMethod password:(const char *)password packetSize:(unsigned *)packetSize {
+unsigned char *GrowlUDPUtils_notificationToPacket(CFDictionaryRef aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, unsigned *packetSize) {
 	struct GrowlNetworkNotification *nn;
 	unsigned char *data;
 	size_t length;
-	unsigned short notificationNameLen, titleLen, descriptionLen, applicationNameLen;
+	unsigned short notificationNameLen, applicationNameLen, titleLen, descriptionLen;
+	char *notificationName, *applicationName, *title, *description;
 	unsigned digestLength;
 	CSSM_DATA packetData, passwordData;
+	CFNumberRef priority, isSticky;
 
-	const char *notificationName = [[aNotification objectForKey:GROWL_NOTIFICATION_NAME] UTF8String];
-	const char *applicationName  = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
-	const char *title            = [[aNotification objectForKey:GROWL_NOTIFICATION_TITLE] UTF8String];
-	const char *description      = [[aNotification objectForKey:GROWL_NOTIFICATION_DESCRIPTION] UTF8String];
+	notificationName    = copyCString(CFDictionaryGetValue(aNotification, GROWL_NOTIFICATION_NAME), kCFStringEncodingUTF8);
+	applicationName     = copyCString(CFDictionaryGetValue(aNotification, GROWL_APP_NAME), kCFStringEncodingUTF8);
+	title               = copyCString(CFDictionaryGetValue(aNotification, GROWL_NOTIFICATION_TITLE), kCFStringEncodingUTF8);
+	description         = copyCString(CFDictionaryGetValue(aNotification, GROWL_NOTIFICATION_DESCRIPTION), kCFStringEncodingUTF8);
 	notificationNameLen = strlen(notificationName);
 	applicationNameLen  = strlen(applicationName);
 	titleLen            = strlen(title);
 	descriptionLen      = strlen(description);
 
-	NSNumber *priority = [aNotification objectForKey:GROWL_NOTIFICATION_PRIORITY];
-	NSNumber *isSticky = [aNotification objectForKey:GROWL_NOTIFICATION_STICKY];
+	priority = CFDictionaryGetValue(aNotification, GROWL_NOTIFICATION_PRIORITY);
+	isSticky = CFDictionaryGetValue(aNotification, GROWL_NOTIFICATION_STICKY);
 
 	switch (authMethod) {
 		case GROWL_AUTH_NONE:
@@ -117,8 +118,20 @@
 			break;
 	}
 	nn->flags.reserved = 0;
-	nn->flags.priority = [priority intValue];
-	nn->flags.sticky   = [isSticky boolValue];
+	if (priority) {
+		int value;
+		CFNumberGetValue(priority, kCFNumberIntType, &value);
+		nn->flags.priority = value;
+	} else {
+		nn->flags.priority = 0;
+	}
+	if (isSticky) {
+		int value;
+		CFNumberGetValue(priority, kCFNumberIntType, &value);
+		nn->flags.sticky = value;
+	} else {
+		nn->flags.sticky = 0;
+	}
 	nn->nameLen        = htons(notificationNameLen);
 	nn->titleLen       = htons(titleLen);
 	nn->descriptionLen = htons(descriptionLen);
@@ -136,37 +149,40 @@
 	packetData.Data = (unsigned char *)nn;
 	packetData.Length = length;
 	passwordData.Data = (uint8 *)password;
-	if (password) {
-		passwordData.Length = strlen(password);
-	} else {
-		passwordData.Length = 0U;
-	}
-	[GrowlUDPUtils addChecksumToPacket:&packetData authMethod:authMethod password:&passwordData];
+	passwordData.Length = password ? strlen(password) : 0U;
+	addChecksumToPacket(&packetData, authMethod, &passwordData);
 
 	*packetSize = length;
+
+	free(notificationName);
+	free(applicationName);
+	free(title);
+	free(description);
 
 	return (unsigned char *)nn;
 }
 
 #warning we need a way to handle the unlikely but fully-possible case wherein the dictionary contains more All notifications than the 8-bit Default indices can hold (Zero-One-Infinity) - first stage would be to try moving all the default notifications to the lower indices of the All array, second stage would be to create multiple packets
 
-+ (unsigned char *) registrationToPacket:(NSDictionary *)aNotification digest:(enum GrowlAuthenticationMethod)authMethod password:(const char *)password packetSize:(unsigned *)packetSize {
+unsigned char *GrowlUDPUtils_registrationToPacket(CFDictionaryRef aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, unsigned *packetSize) {
 	struct GrowlNetworkRegistration *nr;
 	unsigned char *data;
-	const char *notification;
-	unsigned i, size, notificationIndex, digestLength;
+	char *notification;
+	unsigned i, size, digestLength, notificationIndex;
 	size_t length;
 	unsigned short applicationNameLen;
+	char *applicationName;
 	unsigned numAllNotifications, numDefaultNotifications;
-	Class NSNumberClass = [NSNumber class];
+	CFTypeID CFNumberID = CFNumberGetTypeID();
 	CSSM_DATA packetData, passwordData;
+	CFArrayRef allNotifications, defaultNotifications;
 
-	const char *applicationName   = [[aNotification objectForKey:GROWL_APP_NAME] UTF8String];
-	NSArray *allNotifications     = [aNotification objectForKey:GROWL_NOTIFICATIONS_ALL];
-	NSArray *defaultNotifications = [aNotification objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
-	applicationNameLen            = strlen(applicationName);
-	numAllNotifications           = [allNotifications count];
-	numDefaultNotifications       = [defaultNotifications count];
+	applicationName         = copyCString(CFDictionaryGetValue(aNotification, GROWL_APP_NAME), kCFStringEncodingUTF8);
+	allNotifications        = CFDictionaryGetValue(aNotification, GROWL_NOTIFICATIONS_ALL);
+	defaultNotifications    = CFDictionaryGetValue(aNotification, GROWL_NOTIFICATIONS_DEFAULT);
+	applicationNameLen      = strlen(applicationName);
+	numAllNotifications     = CFArrayGetCount(allNotifications);
+	numDefaultNotifications = CFArrayGetCount(defaultNotifications);
 
 	// compute packet size
 	switch (authMethod) {
@@ -183,27 +199,28 @@
 	}
 	length = sizeof(*nr) + applicationNameLen + digestLength;
 	for (i = 0; i < numAllNotifications; ++i) {
-		notification  = [[allNotifications objectAtIndex:i] UTF8String];
+		notification = copyCString(CFArrayGetValueAtIndex(allNotifications, i), kCFStringEncodingUTF8);
 		length       += sizeof(unsigned short) + strlen(notification);
+		free(notification);
 	}
 	size = numDefaultNotifications;
 	for (i = 0; i < numDefaultNotifications; ++i) {
-		NSNumber *num = [defaultNotifications objectAtIndex:i];
-		if ([num isKindOfClass:NSNumberClass]) {
-			notificationIndex = [num unsignedIntValue];
+		CFNumberRef num = CFArrayGetValueAtIndex(defaultNotifications, i);
+		if (CFGetTypeID(num) == CFNumberID) {
+			CFNumberGetValue(num, kCFNumberIntType, &notificationIndex);
 			if (notificationIndex >= numAllNotifications) {
-				NSLog(@"Warning: index %u found in defaultNotifications is not within the range (%u) of the notifications array", notificationIndex, numAllNotifications);
+				NSLog(CFSTR("Warning: index %u found in defaultNotifications is not within the range (%u) of the notifications array"), notificationIndex, numAllNotifications);
 				--size;
 			} else if (notificationIndex > UCHAR_MAX) {
-				NSLog(@"Warning: index %u found in defaultNotifications is not within the range (%u) of an 8-bit unsigned number", notificationIndex);
+				NSLog(CFSTR("Warning: index %u found in defaultNotifications is not within the range (%u) of an 8-bit unsigned number"), notificationIndex);
 				--size;
 			} else {
 				++length;
 			}
 		} else {
-			notificationIndex = [allNotifications indexOfObject:num];
-			if (notificationIndex == NSNotFound) {
-				NSLog(@"Warning: defaultNotifications is not a subset of allNotifications (object found in defaultNotifications that is not in allNotifications; description of object is %@)", num);
+			notificationIndex = CFArrayGetFirstIndexOfValue(allNotifications, CFRangeMake(0, numAllNotifications), num);
+			if (notificationIndex == (unsigned)-1) {
+				NSLog(CFSTR("Warning: defaultNotifications is not a subset of allNotifications (object found in defaultNotifications that is not in allNotifications; description of object is %@)"), num);
 				--size;
 			} else {
 				++length;
@@ -232,26 +249,27 @@
 	memcpy(data, applicationName, applicationNameLen);
 	data += applicationNameLen;
 	for (i = 0; i < numAllNotifications; ++i) {
-		notification = [[allNotifications objectAtIndex:i] UTF8String];
+		notification = copyCString(CFArrayGetValueAtIndex(allNotifications, i), kCFStringEncodingUTF8);
 		size = strlen(notification);
 		*(unsigned short *)data = htons(size);
 		data += sizeof(unsigned short);
 		memcpy(data, notification, size);
 		data += size;
+		free(notification);
 	}
 	for (i = 0; i < numDefaultNotifications; ++i) {
-		NSNumber *num = [defaultNotifications objectAtIndex:i];
-		if ([num isKindOfClass:NSNumberClass]) {
-			notificationIndex = [num unsignedIntValue];
+		CFNumberRef num = CFArrayGetValueAtIndex(defaultNotifications, i);
+		if (CFGetTypeID(num) == CFNumberID) {
+			CFNumberGetValue(num, kCFNumberIntType, &notificationIndex);
 			if ((notificationIndex <  numAllNotifications)
 			&& (notificationIndex <= UCHAR_MAX)) {
 				*data++ = notificationIndex;
 			}
 		} else {
-			notificationIndex = [allNotifications indexOfObject:num];
+			notificationIndex = CFArrayGetFirstIndexOfValue(allNotifications, CFRangeMake(0, numAllNotifications), num);
 			if ((notificationIndex <  numAllNotifications)
 			&& (notificationIndex <= UCHAR_MAX)
-			&& (notificationIndex != NSNotFound)) {
+			&& (notificationIndex != (unsigned)-1)) {
 				*data++ = notificationIndex;
 			}
 		}
@@ -260,13 +278,12 @@
 	packetData.Data = (unsigned char *)nr;
 	packetData.Length = length;
 	passwordData.Data = (uint8 *)password;
-	if (password)
-		passwordData.Length = strlen(password);
-	else
-		passwordData.Length = 0U;
-	[GrowlUDPUtils addChecksumToPacket:&packetData authMethod:authMethod password:&passwordData];
+	passwordData.Length = password ? strlen(password) : 0U;
+	addChecksumToPacket(&packetData, authMethod, &passwordData);
 
 	*packetSize = length;
+
+	free(applicationName);
 
 	return (unsigned char *)nr;
 }
@@ -274,7 +291,7 @@
 static uint8 iv[16] = { 0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U };
 static const CSSM_DATA ivCommon = {16U, iv};
 
-+ (void) cryptPacket:(CSSM_DATA_PTR)packet algorithm:(CSSM_ALGORITHMS)algorithm password:(CSSM_DATA_PTR)password encrypt:(BOOL)encrypt {
+void GrowlUDPUtils_cryptPacket(CSSM_DATA_PTR packet, CSSM_ALGORITHMS algorithm, CSSM_DATA_PTR password, Boolean encrypt) {
 	CSSM_CC_HANDLE ccHandle;
 	CSSM_KEY key;
 	CSSM_DATA inData;
@@ -353,4 +370,3 @@ static const CSSM_DATA ivCommon = {16U, iv};
 				 &key,
 				 /*Delete*/ CSSM_FALSE);
 }
-@end

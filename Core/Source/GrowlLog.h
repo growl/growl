@@ -6,12 +6,8 @@
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-@interface GrowlLog : NSObject {
-
-}
-+ (void) log:(NSString *)message;
-+ (void) logNotificationDictionary:(NSDictionary *)noteDict;
-+ (void) logRegistrationDictionary:(NSDictionary *)regDict;
-@end
+void GrowlLog_log(NSString *message);
+void GrowlLog_logNotificationDictionary(NSDictionary *noteDict);
+void GrowlLog_logRegistrationDictionary(NSDictionary *regDict);

@@ -6,8 +6,17 @@
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <Security/Security.h>
+#ifndef GROWL_UDP_UTILS_H
+#define GROWL_UDP_UTILS_H
+
+#include <Carbon/Carbon.h>
+#include <Security/Security.h>
+
+#ifdef __OBJC__
+#	define DICTIONARY_TYPE NSDictionary *
+#else
+#	define DICTIONARY_TYPE CFDictionaryRef
+#endif
 
 enum GrowlAuthenticationMethod {
 	GROWL_AUTH_NONE,
@@ -15,10 +24,8 @@ enum GrowlAuthenticationMethod {
 	GROWL_AUTH_SHA256
 };
 
-@interface GrowlUDPUtils : NSObject {
-}
-+ (unsigned char *) registrationToPacket:(NSDictionary *)aNotification digest:(enum GrowlAuthenticationMethod)authMethod password:(const char *)password packetSize:(unsigned *)packetSize;
-+ (unsigned char *) notificationToPacket:(NSDictionary *)aNotification digest:(enum GrowlAuthenticationMethod)authMethod password:(const char *)password packetSize:(unsigned *)packetSize;
-+ (void) cryptPacket:(CSSM_DATA_PTR)packet algorithm:(CSSM_ALGORITHMS)algorithm password:(CSSM_DATA_PTR)password encrypt:(BOOL)encrypt;
+unsigned char *GrowlUDPUtils_registrationToPacket(DICTIONARY_TYPE aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, unsigned *packetSize);
+unsigned char *GrowlUDPUtils_notificationToPacket(DICTIONARY_TYPE aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, unsigned *packetSize);
+void GrowlUDPUtils_cryptPacket(CSSM_DATA_PTR packet, CSSM_ALGORITHMS algorithm, CSSM_DATA_PTR password, Boolean encrypt);
 
-@end
+#endif

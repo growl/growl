@@ -19,6 +19,13 @@ static CFStringRef _CFURLStringTypeKey = CFSTR("_CFURLStringType");
 //see GrowlApplicationBridge-Carbon.c for rationale of using NSLog.
 extern void NSLog(CFStringRef format, ...);
 
+char *copyCString(STRING_TYPE str, CFStringEncoding encoding) {
+	CFIndex size = CFStringGetMaximumSizeForEncoding(CFStringGetLength(str), encoding) + 1;
+	char *buffer = malloc(size);
+	CFStringGetCString(str, buffer, size, encoding);
+	return buffer;
+}
+
 CFStringRef copyCurrentProcessName(void) {
 	ProcessSerialNumber PSN = { 0, kCurrentProcess };
 	CFStringRef name = NULL;

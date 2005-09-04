@@ -11,8 +11,7 @@
 #import "GrowlDefines.h"
 #import "NSDictionaryAdditions.h"
 
-@implementation GrowlLog
-+ (void) performLog:(NSString *)message {
+static void performLog(NSString *message) {
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 
 	int typePref = [preferences integerForKey:GrowlLogTypeKey];
@@ -41,13 +40,13 @@
 	}
 }
 
-+ (void) log:(NSString *)message {
+void GrowlLog_log(NSString *message) {
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 	if ([preferences boolForKey:GrowlLoggingEnabledKey])
-		[self performLog:message];
+		performLog(message);
 }
 
-+ (void) logNotificationDictionary:(NSDictionary *)noteDict {
+void GrowlLog_logNotificationDictionary(NSDictionary *noteDict) {
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 	if ([preferences boolForKey:GrowlLoggingEnabledKey]) {
 		NSString *logString = [[NSString alloc] initWithFormat:@"%@ %@: %@ (%@) - Priority %d",
@@ -56,20 +55,18 @@
 			[noteDict objectForKey:GROWL_NOTIFICATION_TITLE],
 			[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION],
 			[[noteDict objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]];
-		[self performLog:logString];
+		performLog(logString);
 		[logString release];
 	}
 }
 
-+ (void) logRegistrationDictionary:(NSDictionary *)regDict {
+void GrowlLog_logRegistrationDictionary(NSDictionary *regDict) {
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 	if ([preferences boolForKey:GrowlLoggingEnabledKey]) {
 		NSString *logString = [[NSString alloc] initWithFormat:@"%@ %@ registered",
 			[NSDate date],
 			[regDict objectForKey:GROWL_APP_NAME]];
-		[self performLog:logString];
+		performLog(logString);
 		[logString release];
 	}
 }
-
-@end
