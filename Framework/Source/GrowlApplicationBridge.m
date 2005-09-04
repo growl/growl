@@ -343,7 +343,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 #pragma mark -
 
 + (BOOL) isGrowlInstalled {
-	return ([GrowlPathUtilities growlPrefPaneBundle] != nil);
+	return (GrowlPathUtilities_growlPrefPaneBundle() != nil);
 }
 
 + (BOOL) isGrowlRunning {
@@ -655,7 +655,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	NSBundle		*growlPrefPaneBundle;
 	BOOL			success = NO;
 
-	growlPrefPaneBundle = [GrowlPathUtilities growlPrefPaneBundle];
+	growlPrefPaneBundle = GrowlPathUtilities_growlPrefPaneBundle();
 
 	if (growlPrefPaneBundle) {
 		NSString *growlHelperAppPath = [growlPrefPaneBundle pathForResource:@"GrowlHelperApp"

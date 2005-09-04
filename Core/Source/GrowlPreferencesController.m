@@ -292,7 +292,7 @@
 }
 
 - (void) launchGrowl:(BOOL)noMatterWhat {
-	NSString *helperPath = [[GrowlPathUtilities helperAppBundle] bundlePath];
+	NSString *helperPath = [GrowlPathUtilities_helperAppBundle() bundlePath];
 	NSURL *helperURL = [NSURL fileURLWithPath:helperPath];
 
 	unsigned options = NSWorkspaceLaunchWithoutAddingToRecents | NSWorkspaceLaunchWithoutActivation | NSWorkspaceLaunchAsync;

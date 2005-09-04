@@ -138,7 +138,7 @@ int main(void) {
 
 - (void) openGrowlPreferences:(id)sender {
 #pragma unused(sender)
-	NSString *prefPane = [[GrowlPathUtilities growlPrefPaneBundle] bundlePath];
+	NSString *prefPane = [GrowlPathUtilities_growlPrefPaneBundle() bundlePath];
 	[[NSWorkspace sharedWorkspace] openFile:prefPane];
 }
 

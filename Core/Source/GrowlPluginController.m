@@ -60,7 +60,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 			[self findPluginsInDirectory:dir];
 		}
 
-		NSBundle *helperAppBundle = [GrowlPathUtilities helperAppBundle];
+		NSBundle *helperAppBundle = GrowlPathUtilities_helperAppBundle();
 		[self findPluginsInDirectory:[helperAppBundle builtInPlugInsPath]];
 	}
 
@@ -203,7 +203,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 - (void) pluginInstalledSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 #pragma unused(sheet, contextInfo)
 	if (returnCode == NSAlertAlternateReturn) {
-		NSBundle *prefPane = [GrowlPathUtilities growlPrefPaneBundle];
+		NSBundle *prefPane = GrowlPathUtilities_growlPrefPaneBundle();
 
 		if (prefPane && ![[NSWorkspace sharedWorkspace] openFile: [prefPane bundlePath]])
 			NSLog(@"Could not open Growl PrefPane");

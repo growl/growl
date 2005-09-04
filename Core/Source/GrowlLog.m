@@ -32,9 +32,8 @@ static void performLog(NSString *message) {
 		}
 		if (!written) {
 			// Falling back to NSLogging...
-			if (logFile) {
+			if (logFile)
 				NSLog(@"Failed to write notification to file %@", logFile);
-			}
 			NSLog(@"%@", message);
 		}
 	}
