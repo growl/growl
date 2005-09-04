@@ -21,7 +21,7 @@ extern void NSLog(CFStringRef format, ...);
 
 char *copyCString(STRING_TYPE str, CFStringEncoding encoding) {
 	CFIndex size = CFStringGetMaximumSizeForEncoding(CFStringGetLength(str), encoding) + 1;
-	char *buffer = malloc(size);
+	char *buffer = calloc(size, 1);
 	CFStringGetCString(str, buffer, size, encoding);
 	return buffer;
 }
