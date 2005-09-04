@@ -79,7 +79,7 @@ source:
 	cp $(SRC_DIR)/changes.txt $(BUILD_DIR)/source
 	cp $(SRC_DIR)/generateSVNRevision.sh $(BUILD_DIR)/source
 	cp $(SRC_DIR)/headerDoc2HTML.config $(BUILD_DIR)/source
-	find $(BUILD_DIR)/source \( -name build -or -name .svn \) -type d -exec rm -rf {} \; -prune
+	find $(BUILD_DIR)/source \( -name build -or -name .svn -or -name "*~.nib" \) -type d -exec rm -rf {} \; -prune
 	find $(BUILD_DIR)/source \( -name "*~" -or -name .DS_Store \) -type f -delete
 	tar -c -C $(BUILD_DIR)/source -f $(BUILD_DIR)/$(RELEASE_NAME)-src.tar .
 	bzip2 $(BUILD_DIR)/$(RELEASE_NAME)-src.tar
