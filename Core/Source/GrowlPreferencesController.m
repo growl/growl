@@ -17,10 +17,22 @@
 #import "NSStringAdditions.h"
 #import <Security/SecKeychain.h>
 #import <Security/SecKeychainItem.h>
-#include <Carbon/Carbon.h>
+#include <CoreFoundation/CoreFoundation.h>
 
 #define keychainServiceName "Growl"
 #define keychainAccountName "Growl"
+
+CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key) {
+	return [[GrowlPreferencesController sharedController] objectForKey:(id)key];
+}
+
+int GrowlPreferencesController_integerForKey(CFTypeRef key) {
+	return [[GrowlPreferencesController sharedController] integerForKey:(id)key];
+}
+
+Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
+	return [[GrowlPreferencesController sharedController] boolForKey:(id)key];
+}
 
 @implementation GrowlPreferencesController
 

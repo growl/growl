@@ -8,30 +8,45 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import "GrowlAbstractSingletonObject.h"
+#ifndef GROWL_PREFERENCES_CONTROLLER_H
+#define GROWL_PREFERENCES_CONTROLLER_H
 
-#define HelperAppBundleIdentifier	@"com.Growl.GrowlHelperApp"
-#define GrowlPreferencesChanged		@"GrowlPreferencesChanged"
-#define GrowlPreview				@"GrowlPreview"
-#define GrowlDisplayPluginKey		@"GrowlDisplayPluginName"
-#define GrowlUserDefaultsKey		@"GrowlUserDefaults"
-#define GrowlStartServerKey			@"GrowlStartServer"
-#define GrowlRemoteRegistrationKey	@"GrowlRemoteRegistration"
-#define GrowlEnableForwardKey		@"GrowlEnableForward"
-#define GrowlForwardDestinationsKey	@"GrowlForwardDestinations"
-#define GrowlUDPPortKey				@"GrowlUDPPort"
-#define GrowlTCPPortKey				@"GrowlTCPPort"
-#define GrowlUpdateCheckKey			@"GrowlUpdateCheck"
-#define LastUpdateCheckKey			@"LastUpdateCheck"
-#define	GrowlLoggingEnabledKey		@"GrowlLoggingEnabled"
-#define	GrowlLogTypeKey				@"GrowlLogType"
-#define	GrowlCustomHistKey1			@"Custom log history 1"
-#define	GrowlCustomHistKey2			@"Custom log history 2"
-#define	GrowlCustomHistKey3			@"Custom log history 3"
-#define GrowlMenuExtraKey			@"GrowlMenuExtra"
-#define GrowlSquelchModeKey			@"GrowlSquelchMode"
-#define LastKnownVersionKey			@"LastKnownVersion"
-#define GrowlStickyWhenAwayKey		@"StickyWhenAway"
+#ifdef __OBJC__
+#define XSTR(x) (@x)
+#else
+#define XSTR CFSTR
+#endif
+
+#define HelperAppBundleIdentifier	XSTR("com.Growl.GrowlHelperApp")
+#define GrowlPreferencesChanged		XSTR("GrowlPreferencesChanged")
+#define GrowlPreview				XSTR("GrowlPreview")
+#define GrowlDisplayPluginKey		XSTR("GrowlDisplayPluginName")
+#define GrowlUserDefaultsKey		XSTR("GrowlUserDefaults")
+#define GrowlStartServerKey			XSTR("GrowlStartServer")
+#define GrowlRemoteRegistrationKey	XSTR("GrowlRemoteRegistration")
+#define GrowlEnableForwardKey		XSTR("GrowlEnableForward")
+#define GrowlForwardDestinationsKey	XSTR("GrowlForwardDestinations")
+#define GrowlUDPPortKey				XSTR("GrowlUDPPort")
+#define GrowlTCPPortKey				XSTR("GrowlTCPPort")
+#define GrowlUpdateCheckKey			XSTR("GrowlUpdateCheck")
+#define LastUpdateCheckKey			XSTR("LastUpdateCheck")
+#define	GrowlLoggingEnabledKey		XSTR("GrowlLoggingEnabled")
+#define	GrowlLogTypeKey				XSTR("GrowlLogType")
+#define	GrowlCustomHistKey1			XSTR("Custom log history 1")
+#define	GrowlCustomHistKey2			XSTR("Custom log history 2")
+#define	GrowlCustomHistKey3			XSTR("Custom log history 3")
+#define GrowlMenuExtraKey			XSTR("GrowlMenuExtra")
+#define GrowlSquelchModeKey			XSTR("GrowlSquelchMode")
+#define LastKnownVersionKey			XSTR("LastKnownVersion")
+#define GrowlStickyWhenAwayKey		XSTR("StickyWhenAway")
+
+CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
+int       GrowlPreferencesController_integerForKey(CFTypeRef key);
+Boolean   GrowlPreferencesController_boolForKey(CFTypeRef key);
+
+#ifdef __OBJC__
+
+#import "GrowlAbstractSingletonObject.h"
 
 @interface GrowlPreferencesController : GrowlAbstractSingletonObject {
 }
@@ -102,3 +117,7 @@
 - (void) setUDPPort:(int)value;
 
 @end
+
+#endif
+
+#endif

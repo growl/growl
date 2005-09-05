@@ -9,7 +9,7 @@
 #ifndef GROWL_UDP_UTILS_H
 #define GROWL_UDP_UTILS_H
 
-#include <Carbon/Carbon.h>
+#include <CoreFoundation/CoreFoundation.h>
 #include <Security/Security.h>
 
 #ifdef __OBJC__

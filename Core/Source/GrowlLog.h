@@ -6,8 +6,14 @@
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#ifndef GROWL_LOG_H
+#define GROWL_LOG_H
 
-void GrowlLog_log(NSString *message);
-void GrowlLog_logNotificationDictionary(NSDictionary *noteDict);
-void GrowlLog_logRegistrationDictionary(NSDictionary *regDict);
+#include <CoreFoundation/CoreFoundation.h>
+#include "CFGrowlAdditions.h"
+
+void GrowlLog_log(STRING_TYPE message);
+void GrowlLog_logNotificationDictionary(DICTIONARY_TYPE noteDict);
+void GrowlLog_logRegistrationDictionary(DICTIONARY_TYPE regDict);
+
+#endif

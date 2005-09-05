@@ -26,6 +26,12 @@
 #	define PLIST_TYPE CFPropertyListRef
 #endif
 
+//see GrowlApplicationBridge-Carbon.c for rationale of using NSLog.
+extern void NSLog(STRING_TYPE format, ...);
+
+char *createFileSystemRepresentationOfString(CFStringRef str);
+CFStringRef createStringWithDate(CFDateRef date);
+
 char *copyCString(STRING_TYPE str, CFStringEncoding encoding);
 
 STRING_TYPE copyCurrentProcessName(void);

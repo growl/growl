@@ -9,7 +9,7 @@
 #ifndef GROWL_STATUS_CONTROLLER_H
 #define GROWL_STATUS_CONTROLLER_H
 
-#include <Carbon/Carbon.h>
+#include <CoreFoundation/CoreFoundation.h>
 
 __BEGIN_DECLS
 

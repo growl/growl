@@ -8,16 +8,42 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #include <Carbon/Carbon.h>
-#include "CFGrowlAdditions.h"
 #include <c.h>
 #include <unistd.h>
+#include <objc/objc.h>
+#include <objc/objc-runtime.h>
+#include "CFGrowlAdditions.h"
 
 static CFStringRef _CFURLAliasDataKey  = CFSTR("_CFURLAliasData");
 static CFStringRef _CFURLStringKey     = CFSTR("_CFURLString");
 static CFStringRef _CFURLStringTypeKey = CFSTR("_CFURLStringType");
 
-//see GrowlApplicationBridge-Carbon.c for rationale of using NSLog.
-extern void NSLog(CFStringRef format, ...);
+char *createFileSystemRepresentationOfString(CFStringRef str) {
+	char *buffer;
+	if (CFStringGetFileSystemRepresentation) {
+		CFIndex size = CFStringGetMaximumSizeOfFileSystemRepresentation(str);
+		buffer = malloc(size);
+		CFStringGetFileSystemRepresentation(str, buffer, size);
+	} else {
+		objc_msgSend_stret(&buffer, (id)str, sel_getUid("fileSystemRepresentation"));
+		buffer = strdup(buffer);
+	}
+	return buffer;
+}
+
+CFStringRef createStringWithDate(CFDateRef date) {
+	CFLocaleRef locale = CFLocaleCopyCurrent();
+	CFDateFormatterRef dateFormatter = CFDateFormatterCreate(kCFAllocatorDefault,
+															 locale,
+															 kCFDateFormatterMediumStyle,
+															 kCFDateFormatterMediumStyle);
+	CFRelease(locale);
+	CFStringRef dateString = CFDateFormatterCreateStringWithDate(kCFAllocatorDefault,
+																 dateFormatter,
+																 date);
+	CFRelease(dateFormatter);
+	return dateString;
+}
 
 char *copyCString(STRING_TYPE str, CFStringEncoding encoding) {
 	CFIndex size = CFStringGetMaximumSizeForEncoding(CFStringGetLength(str), encoding) + 1;
