@@ -3,8 +3,8 @@ from distutils.core import setup, Extension
 import sys
 
 _growl = Extension('_growl',
-                    extra_link_args = ["-framework","Foundation"],
-                    sources = ['libgrowl.m'])
+                    extra_link_args = ["-framework","CoreFoundation"],
+                    sources = ['libgrowl.c'])
 _growlImage = Extension('_growlImage',
                         extra_link_args = ["-framework","Cocoa"],
                         sources = ['growlImage.m'])
@@ -15,7 +15,7 @@ else:
     modules = []
 
 setup(name="py-Growl",
-      version="0.0.6",
+      version="0.0.7",
       description="Python bindings for posting notifications to the Growl daemon",
       author="Mark Rowe",
       author_email="bdash@users.sourceforge.net",

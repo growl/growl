@@ -195,7 +195,7 @@ class GrowlNotifier(object):
     def register(self):
         if self.applicationIcon is not None:
             self.applicationIcon = self._checkIcon(self.applicationIcon)
-            
+
         regInfo = {GROWL_APP_NAME: self.applicationName,
                    GROWL_NOTIFICATIONS_ALL: self.notifications,
                    GROWL_NOTIFICATIONS_DEFAULT: self.defaultNotifications,
