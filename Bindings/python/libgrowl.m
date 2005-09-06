@@ -1,5 +1,6 @@
 /*
- * Copyright 2004 Jeremy Rossi <jeremy@jeremyrossi.com>
+ * Copyright 2004-2005 The Growl Project.
+ * Created by Jeremy Rossi <jeremy@jeremyrossi.com>
  * Released under the BSD license.
  */
 
@@ -16,7 +17,7 @@ static PyObject * growl_PostDictionary(NSString *name, PyObject *self, PyObject 
 	PyObject *pKey, *pValue;
 
 	NSMutableDictionary *note = [[NSMutableDictionary alloc] init];
-	
+
 	if (!PyArg_ParseTuple(args, "O!", &PyDict_Type, &inputDict))
 		goto error;
 
@@ -32,14 +33,14 @@ static PyObject * growl_PostDictionary(NSString *name, PyObject *self, PyObject 
 		pValue = PyDict_GetItem(inputDict, pKey);
 		if (!pValue) {
 			// XXX Neeed a real Error message here.
-			PyErr_SetString(PyExc_TypeError," "); 
+			PyErr_SetString(PyExc_TypeError," ");
 			goto error;
 		}
 		if (PyUnicode_Check(pKey)) {
 			size = PyUnicode_GET_DATA_SIZE(pKey);
 			value = PyUnicode_AS_DATA(pKey);
 			convertedKey = [[NSString alloc] initWithBytes:value 
-													length:size 
+													length:size
 												  encoding:NSUnicodeStringEncoding];
 		} else if (PyString_Check(pKey)) {
 			key = PyString_AsString(pKey);
@@ -48,7 +49,7 @@ static PyObject * growl_PostDictionary(NSString *name, PyObject *self, PyObject 
 			PyErr_SetString(PyExc_TypeError,"The Dict keys must be strings/unicode");
 			goto error;
 		}
-		
+
 		/* Converting the PyDict value to NSString or NSData based on class  */
 		if (PyString_Check(pValue)) {
 			NSString *convertedValue = [[NSString alloc] initWithUTF8String:PyString_AS_STRING(pValue)];
@@ -57,7 +58,7 @@ static PyObject * growl_PostDictionary(NSString *name, PyObject *self, PyObject 
 		} else if (PyInt_Check(pValue)) {
 			NSNumber *convertedValue = [[NSNumber alloc] initWithLong:PyInt_AS_LONG(pValue)];
 			[note setObject:convertedValue forKey:convertedKey];
-			[convertedValue release];			
+			[convertedValue release];
 		} else if (PyUnicode_Check(pValue)) {
 			NSString *convertedValue = [[NSString alloc] initWithBytes:PyUnicode_AS_DATA(pValue)
 													  length:PyUnicode_GET_DATA_SIZE(pValue)
@@ -78,7 +79,7 @@ static PyObject * growl_PostDictionary(NSString *name, PyObject *self, PyObject 
 					[str release];
 				} else if (PyUnicode_Check(lValue)) {
 					NSString *convertedSubValue = [[NSString alloc] initWithBytes:PyUnicode_AS_DATA(pValue)
-  																 length:PyUnicode_GET_DATA_SIZE(lValue)
+																 length:PyUnicode_GET_DATA_SIZE(lValue)
 															   encoding:NSUnicodeStringEncoding];
 					[listHolder addObject:convertedSubValue];
 					[convertedSubValue release];
@@ -114,7 +115,6 @@ static PyObject * growl_PostDictionary(NSString *name, PyObject *self, PyObject 
 
 	Py_BEGIN_ALLOW_THREADS
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSLog(@"Note=%@", note);
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:name
 																   object:nil 
 																 userInfo:note
