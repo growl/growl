@@ -41,7 +41,7 @@ GROWL_NOTIFICATION_STICKY="NotificationSticky"
 
 GROWL_APP_REGISTRATION="GrowlApplicationRegistrationNotification"
 GROWL_APP_REGISTRATION_CONF="GrowlApplicationRegistrationConfirmationNotification"
-GROWL_NOTIFICATION_NAME="GrowlNotification"
+GROWL_NOTIFICATION="GrowlNotification"
 GROWL_SHUTDOWN="GrowlShutdown"
 GROWL_PING="Honey, Mind Taking Out The Trash"
 GROWL_PONG="What Do You Want From Me, Woman"
@@ -64,21 +64,28 @@ class netgrowl:
     def send(self, data):
         self.socket.sendto(data, (self.hostname, GROWL_UDP_PORT))
         
-    def PostNotification(self, name, userInfo):
-        if name == GROWL_APP_REGISTRATION:
-            data = self.encodeRegistration(userInfo["ApplicationName"],
-                                           userInfo["AllNotifications"],
-                                           userInfo["DefaultNotifications"])
-            return self.send(data)
-        elif name == GROWL_NOTIFICATION_NAME:
-            data = self.encodeNotify(userInfo["ApplicationName"],
-                                     userInfo["NotificationName"],
-                                     userInfo["NotificationTitle"],
-                                     userInfo["NotificationDescription"])
-            return self.send(data)
+    def PostNotification(self, userInfo):
+        if userInfo.has_key(GROWL_NOTIFICATION_PRIORITY):
+            priority = userInfo[GROWL_NOTIFICATION_PRIORITY]
+        else:
+            priority = 0
+        if userInfo.has_key(GROWL_NOTIFICATION_STICKY):
+            sticky = userInfo[GROWL_NOTIFICATION_STICKY]
+        else:
+            priority = False
+        data = self.encodeNotify(userInfo[GROWL_APP_NAME],
+                                 userInfo[GROWL_NOTIFICATION_NAME],
+                                 userInfo[GROWL_NOTIFICATION_TITLE],
+                                 userInfo[GROWL_NOTIFICATION_DESCRIPTION],
+                                 priority,
+                                 sticky)
+        return self.send(data)
 
-
-
+    def PostRegistration(self, userInfo):
+        data = self.encodeRegistration(userInfo[GROWL_APP_NAME],
+                                       userInfo[GROWL_NOTIFICATIONS_ALL],
+                                       userInfo[GROWL_NOTIFICATIONS_DEFAULT])
+        return self.send(data)
 
     def encodeRegistration(self, application, notifications, defaultNotifications):
         data = struct.pack("!BBH",
@@ -136,7 +143,7 @@ class _ImageHook(type):
         global Image
         if Image is self:
             from _growlImage import Image
-        
+
         return getattr(Image, attr)
 
 class Image(object):
@@ -179,8 +186,6 @@ class GrowlNotifier(object):
         elif hostname is not None or password is not None:
             raise KeyError, "Hostname and Password are both required for a network notification"
 
-
-            
     def _checkIcon(self, data):
         if isinstance(data, str):
             return _RawImage(data)
@@ -191,27 +196,27 @@ class GrowlNotifier(object):
         if self.applicationIcon is not None:
             self.applicationIcon = self._checkIcon(self.applicationIcon)
             
-        regInfo = {'ApplicationName': self.applicationName,
-                   'AllNotifications': self.notifications,
-                   'DefaultNotifications': self.defaultNotifications,
-                   'ApplicationIcon':self.applicationIcon,
+        regInfo = {GROWL_APP_NAME: self.applicationName,
+                   GROWL_NOTIFICATIONS_ALL: self.notifications,
+                   GROWL_NOTIFICATIONS_DEFAULT: self.defaultNotifications,
+                   GROWL_APP_ICON:self.applicationIcon,
                   }
-        self._notifyMethod.PostNotification(GROWL_APP_REGISTRATION, regInfo)
+        self._notifyMethod.PostRegistration(regInfo)
 
     def notify(self, noteType, title, description, icon=None, sticky=False, priority=None):
         assert noteType in self.notifications
-        notifyInfo = {'NotificationName': noteType,
-                      'ApplicationName': self.applicationName,
-                      'NotificationTitle': title,
-                      'NotificationDescription': description,
+        notifyInfo = {GROWL_NOTIFICATION_NAME: noteType,
+                      GROWL_APP_NAME: self.applicationName,
+                      GROWL_NOTIFICATION_TITLE: title,
+                      GROWL_NOTIFICATION_DESCRIPTION: description,
                      }
         if sticky:
-            notifyInfo['NotificationSticky'] = "1"
+            notifyInfo[GROWL_NOTIFICATION_STICKY] = int(1)
 
         if priority is not None:
-            notifyInfo['NotificationPriority'] = str(priority)
+            notifyInfo[GROWL_NOTIFICATION_PRIORITY] = priority
 
         if icon:
-            notifyInfo['NotificationIcon'] = self._checkIcon(icon)
+            notifyInfo[GROWL_NOTIFICATION_ICON] = self._checkIcon(icon)
 
-        self._notifyMethod.PostNotification(GROWL_NOTIFICATION_NAME, notifyInfo)
+        self._notifyMethod.PostNotification(notifyInfo)

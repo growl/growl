@@ -19,7 +19,7 @@ setup(name="py-Growl",
       description="Python bindings for posting notifications to the Growl daemon",
       author="Mark Rowe",
       author_email="bdash@users.sourceforge.net",
-      url="http://Growl.info",
+      url="http://growl.info",
       py_modules=["Growl"],
       ext_modules = modules )
 
