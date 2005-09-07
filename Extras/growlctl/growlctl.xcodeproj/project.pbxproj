@@ -10,6 +10,8 @@
 		074FC03F0820E41200ABE399 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 074FC03E0820E41200ABE399 /* Carbon.framework */; };
 		07A3BD8A07F01A7C00973BFB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A3BD8907F01A7C00973BFB /* Cocoa.framework */; };
 		8DD76F9A0486AA7600D96B5E /* growlctl.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* growlctl.m */; settings = {ATTRIBUTES = (); }; };
+		957F3C3D08CF73F700D037D0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 957F3C3C08CF73F700D037D0 /* Security.framework */; };
+		957F3C4208CF741200D037D0 /* GrowlAbstractSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 957F3C4108CF741200D037D0 /* GrowlAbstractSingletonObject.m */; };
 		95D0AC8C087530F1000AAF58 /* GrowlPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D0AC8B087530EE000AAF58 /* GrowlPreferencesController.m */; };
 		95D0AC8D087530F3000AAF58 /* GrowlPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D0AC89087530D6000AAF58 /* GrowlPathUtilities.m */; };
 /* End PBXBuildFile section */
@@ -66,6 +68,9 @@
 		08FB7796FE84155DC02AAC07 /* growlctl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = growlctl.m; sourceTree = "<group>"; };
 		32A70AAB03705E1F00C91783 /* growlctl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = growlctl_Prefix.pch; sourceTree = "<group>"; };
 		8DD76FA10486AA7600D96B5E /* growlctl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = growlctl; sourceTree = BUILT_PRODUCTS_DIR; };
+		957F3C3C08CF73F700D037D0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		957F3C4008CF741200D037D0 /* GrowlAbstractSingletonObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlAbstractSingletonObject.h; path = Core/Source/GrowlAbstractSingletonObject.h; sourceTree = "<group>"; };
+		957F3C4108CF741200D037D0 /* GrowlAbstractSingletonObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlAbstractSingletonObject.m; path = Core/Source/GrowlAbstractSingletonObject.m; sourceTree = "<group>"; };
 		95D0AC88087530D6000AAF58 /* GrowlPathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPathUtilities.h; path = Common/Source/GrowlPathUtilities.h; sourceTree = "<group>"; };
 		95D0AC89087530D6000AAF58 /* GrowlPathUtilities.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlPathUtilities.m; path = Common/Source/GrowlPathUtilities.m; sourceTree = "<group>"; };
 		95D0AC8A087530EE000AAF58 /* GrowlPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPreferencesController.h; path = Core/Source/GrowlPreferencesController.h; sourceTree = "<group>"; };
@@ -80,6 +85,7 @@
 			files = (
 				07A3BD8A07F01A7C00973BFB /* Cocoa.framework in Frameworks */,
 				074FC03F0820E41200ABE399 /* Carbon.framework in Frameworks */,
+				957F3C3D08CF73F700D037D0 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +95,8 @@
 		07A3BD6907F0199A00973BFB /* Growl */ = {
 			isa = PBXGroup;
 			children = (
+				957F3C4008CF741200D037D0 /* GrowlAbstractSingletonObject.h */,
+				957F3C4108CF741200D037D0 /* GrowlAbstractSingletonObject.m */,
 				95D0AC8A087530EE000AAF58 /* GrowlPreferencesController.h */,
 				95D0AC8B087530EE000AAF58 /* GrowlPreferencesController.m */,
 				95D0AC88087530D6000AAF58 /* GrowlPathUtilities.h */,
@@ -123,6 +131,7 @@
 		08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				957F3C3C08CF73F700D037D0 /* Security.framework */,
 				07A3BD8907F01A7C00973BFB /* Cocoa.framework */,
 				074FC03E0820E41200ABE399 /* Carbon.framework */,
 			);
@@ -238,6 +247,7 @@
 				8DD76F9A0486AA7600D96B5E /* growlctl.m in Sources */,
 				95D0AC8C087530F1000AAF58 /* GrowlPreferencesController.m in Sources */,
 				95D0AC8D087530F3000AAF58 /* GrowlPathUtilities.m in Sources */,
+				957F3C4208CF741200D037D0 /* GrowlAbstractSingletonObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +261,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -287,6 +298,7 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = growlctl_Prefix.pch;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -324,6 +336,7 @@
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_FAST_OBJC_DISPATCH = YES;
 				GCC_MODEL_CPU = G4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -358,6 +371,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = growlctl_Prefix.pch;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;

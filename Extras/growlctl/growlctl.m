@@ -63,7 +63,7 @@ int main (int argc, const char **argv) {
 
 		//control the state of the Growl Menu Extra
 		} else if (!strcmp(argv[1], "startmenu")) {
-			NSBundle *prefpane = [GrowlPathUtilities growlPrefPaneBundle];
+			NSBundle *prefpane = GrowlPathUtilities_growlPrefPaneBundle();
 			NSString *path = [prefpane pathForResource:@"GrowlMenu" ofType:@"app"];
 			if (!path) {
 				fprintf(stderr, "Could not launch the status item, because it was not found in the Growl preference-pane bundle at %s\n", [[prefpane bundlePath] UTF8String]);
