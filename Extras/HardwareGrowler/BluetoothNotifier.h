@@ -1,20 +1,16 @@
 /* BluetoothNotifier */
 
-#import <Cocoa/Cocoa.h>
+#ifndef BLUETOOTH_NOTIFIER_H
+#define BLUETOOTH_NOTIFIER_H
 
-@class IOBluetoothUserNotification;
+#include <CoreFoundation/CoreFoundation.h>
 
-@interface BluetoothNotifier : NSObject {
-	id                          delegate;
-	IOBluetoothUserNotification *connectionNotification;
-	BOOL						initializing;
-}
+struct BluetoothNotifierCallbacks {
+	void (*didConnect)(CFStringRef device);
+	void (*didDisconnect)(CFStringRef device);
+};
 
-- (id) initWithDelegate:(id)object;
+void BluetoothNotifier_init(const struct BluetoothNotifierCallbacks *c);
+void BluetoothNotifier_dealloc(void);
 
-@end
-
-@interface NSObject(BluetoothNotifierDelegate)
-- (void) bluetoothDidConnect:(NSString *)device;
-- (void) bluetoothDidDisconnect:(NSString *)device;
-@end
+#endif

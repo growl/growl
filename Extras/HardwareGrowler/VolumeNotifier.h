@@ -6,18 +6,12 @@
 //  Copyright 2005 The Growl Project. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import <DiskArbitration/DiskArbitration.h>
+#include <CoreFoundation/CoreFoundation.h>
 
-@interface VolumeNotifier : NSObject {
-	DASessionRef session;
-}
+struct VolumeNotifierCallbacks {
+	void (*volumeDidMount)(CFStringRef name, CFStringRef path);
+	void (*volumeDidUnmount)(CFStringRef name);
+};
 
-- (id) initWithDelegate:(id)delegate;
-
-@end
-
-@interface NSObject(VolumeNotifierDelegate)
-- (void) volumeDidMount:(NSString *)name atPath:(NSString *)path;
-- (void) volumeDidUnmount:(NSString *)name;
-@end
+void VolumeNotifier_init(const struct VolumeNotifierCallbacks *c);
+void VolumeNotifier_dealloc(void);

@@ -1,27 +1,11 @@
 /* USBNotifier */
 
-#import <Cocoa/Cocoa.h>
-#import <IOKit/IOKitLib.h>
+#include <CoreFoundation/CoreFoundation.h>
 
-@interface USBNotifier : NSObject {
-	id                      delegate;
-	IONotificationPortRef	ioKitNotificationPort;
-	CFRunLoopSourceRef		notificationRunLoopSource;
-	bool					notificationsArePrimed;
-}
+struct USBNotifierCallbacks {
+	void (*didConnect)(CFStringRef deviceName);
+	void (*didDisconnect)(CFStringRef deviceName);
+};
 
-- (id) initWithDelegate:(id)object;
-
-- (void) ioKitSetUp;
-- (void) ioKitTearDown;
-
-- (void) registerForUSBNotifications;
-- (void) usbDeviceAdded: (io_iterator_t ) iterator;
-- (void) usbDeviceRemoved: (io_iterator_t ) iterator;
-
-@end
-
-@interface NSObject(USBNotifierDelegate)
-- (void) usbDidConnect:(NSString *)deviceName;
-- (void) usbDidDisconnect:(NSString *)deviceName;
-@end
+void USBNotifier_init(const struct USBNotifierCallbacks *c);
+void USBNotifier_dealloc(void);

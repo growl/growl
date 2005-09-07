@@ -6,24 +6,16 @@
 //  Copyright 2005 The Growl Project. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#include <CoreFoundation/CoreFoundation.h>
 
-@class SCDynamicStore;
+struct NetworkNotifierCallbacks {
+	void (*linkUp)(CFStringRef description);
+	void (*linkDown)(CFStringRef description);
+	void (*ipAcquired)(CFStringRef ip);
+	void (*ipReleased)(void);
+	void (*airportConnect)(CFStringRef description);
+	void (*airportDisconnect)(CFStringRef description);
+};
 
-@interface NetworkNotifier : NSObject {
-	id                  delegate;
-	SCDynamicStore      *scNotificationManager;
-	NSMutableDictionary *airportStatus;
-}
-
-- (id) initWithDelegate:(id)object;
-@end
-
-@interface NSObject(NetworkNotifierDelegate)
-- (void) linkUp:(NSString *)description;
-- (void) linkDown:(NSString *)description;
-- (void) ipAcquired:(NSString *)ip;
-- (void) ipReleased;
-- (void) airportConnect:(NSString *)description;
-- (void) airportDisconnect:(NSString *)description;
-@end
+void NetworkNotifier_init(const struct NetworkNotifierCallbacks *c);
+void NetworkNotifier_dealloc(void);

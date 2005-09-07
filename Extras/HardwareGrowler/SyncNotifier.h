@@ -6,17 +6,12 @@
 //  Copyright 2005 The Growl Project. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#include <CoreFoundation/CoreFoundation.h>
 
+struct SyncNotifierCallbacks {
+	void (*syncStarted)(void);
+	void (*syncFinished)(void);
+};
 
-@interface SyncNotifier : NSObject {
-	id delegate;
-}
-
-- (id) initWithDelegate:(id)object;
-@end
-
-@interface NSObject(SyncNotifierDelegate)
-- (void) syncStarted;
-- (void) syncFinished;
-@end
+void SyncNotifier_init(const struct SyncNotifierCallbacks *c);
+void SyncNotifier_dealloc(void);

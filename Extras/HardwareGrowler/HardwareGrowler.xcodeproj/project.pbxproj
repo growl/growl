@@ -44,21 +44,19 @@
 		950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 950626460840CB8200C01CD2 /* BluetoothLogo.png */; };
 		9522B89208BC57F20000DC20 /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9522B89108BC57F20000DC20 /* DiskArbitration.framework */; };
 		9586EF0308C9C3A40039789E /* SyncNotifier.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9586EF0108C9C3A40039789E /* SyncNotifier.h */; };
-		9586EF0408C9C3A40039789E /* SyncNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9586EF0208C9C3A40039789E /* SyncNotifier.m */; };
-		958AB93807C69DE000F56B45 /* NetworkNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 958AB93607C69DE000F56B45 /* NetworkNotifier.m */; };
-		958AB97507C6A20100F56B45 /* SCDynamicStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 958AB97307C6A20100F56B45 /* SCDynamicStore.m */; };
+		9586EF0408C9C3A40039789E /* SyncNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = 9586EF0208C9C3A40039789E /* SyncNotifier.c */; };
+		958AB93807C69DE000F56B45 /* NetworkNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = 958AB93607C69DE000F56B45 /* NetworkNotifier.c */; };
 		958AB9DE07C6A7FD00F56B45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */; };
 		95AC163C0858A3BF008213B8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 95AC163A0858A3BF008213B8 /* Localizable.strings */; };
 		DD1E113F07C7558B005BD5FC /* hwGrowlerIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */; };
 		DD1E135C07C923FD005BD5FC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DD1E135B07C923FD005BD5FC /* Credits.rtf */; };
 		DD54997107BA5E420010BE54 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD54996F07BA5E420010BE54 /* AppController.m */; };
 		DD54999B07BA61650010BE54 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD54999A07BA61650010BE54 /* IOKit.framework */; };
-		DDE55D2807BAEDE2000631AC /* FireWireNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE55D2607BAEDE2000631AC /* FireWireNotifier.m */; };
-		DDF9B2B007BBD4600007B5B7 /* USBNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF9B2AE07BBD4600007B5B7 /* USBNotifier.m */; };
-		DDF9B2FE07BBD9020007B5B7 /* BluetoothNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF9B2FC07BBD9020007B5B7 /* BluetoothNotifier.m */; };
+		DDE55D2807BAEDE2000631AC /* FireWireNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = DDE55D2607BAEDE2000631AC /* FireWireNotifier.c */; };
+		DDF9B2B007BBD4600007B5B7 /* USBNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = DDF9B2AE07BBD4600007B5B7 /* USBNotifier.c */; };
+		DDF9B2FE07BBD9020007B5B7 /* BluetoothNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = DDF9B2FC07BBD9020007B5B7 /* BluetoothNotifier.c */; };
 		DDF9B33A07BBDAA40007B5B7 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF9B33907BBDAA40007B5B7 /* IOBluetooth.framework */; };
-		DDF9B42A07BBE38A0007B5B7 /* MFIOBluetoothDeviceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF9B42807BBE38A0007B5B7 /* MFIOBluetoothDeviceAdditions.m */; };
-		DDF9B63A07BC07B30007B5B7 /* VolumeNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF9B63807BC07B30007B5B7 /* VolumeNotifier.m */; };
+		DDF9B63A07BC07B30007B5B7 /* VolumeNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = DDF9B63807BC07B30007B5B7 /* VolumeNotifier.c */; };
 		DDF9B6B407BC10C80007B5B7 /* eject.icns in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6B207BC10C80007B5B7 /* eject.icns */; };
 		DDF9B6D107BC16E30007B5B7 /* FireWireLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */; };
 		DDF9B6FB07BC1C800007B5B7 /* usbLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */; };
@@ -268,11 +266,9 @@
 		9522B89108BC57F20000DC20 /* DiskArbitration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiskArbitration.framework; path = /System/Library/Frameworks/DiskArbitration.framework; sourceTree = "<absolute>"; };
 		9533C287085C3ED6009F8046 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		9586EF0108C9C3A40039789E /* SyncNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyncNotifier.h; sourceTree = "<group>"; };
-		9586EF0208C9C3A40039789E /* SyncNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyncNotifier.m; sourceTree = "<group>"; };
+		9586EF0208C9C3A40039789E /* SyncNotifier.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SyncNotifier.c; sourceTree = "<group>"; };
 		958AB93507C69DE000F56B45 /* NetworkNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkNotifier.h; sourceTree = "<group>"; };
-		958AB93607C69DE000F56B45 /* NetworkNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkNotifier.m; sourceTree = "<group>"; };
-		958AB97207C6A20100F56B45 /* SCDynamicStore.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SCDynamicStore.h; sourceTree = "<group>"; };
-		958AB97307C6A20100F56B45 /* SCDynamicStore.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SCDynamicStore.m; sourceTree = "<group>"; };
+		958AB93607C69DE000F56B45 /* NetworkNotifier.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = NetworkNotifier.c; sourceTree = "<group>"; };
 		958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		95AC163B0858A3BF008213B8 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95AC16450858A3ED008213B8 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -284,16 +280,14 @@
 		DD54996F07BA5E420010BE54 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		DD54999A07BA61650010BE54 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		DDE55D2507BAEDE2000631AC /* FireWireNotifier.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FireWireNotifier.h; sourceTree = "<group>"; };
-		DDE55D2607BAEDE2000631AC /* FireWireNotifier.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FireWireNotifier.m; sourceTree = "<group>"; };
+		DDE55D2607BAEDE2000631AC /* FireWireNotifier.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = FireWireNotifier.c; sourceTree = "<group>"; };
 		DDF9B2AD07BBD4600007B5B7 /* USBNotifier.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = USBNotifier.h; sourceTree = "<group>"; };
-		DDF9B2AE07BBD4600007B5B7 /* USBNotifier.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = USBNotifier.m; sourceTree = "<group>"; };
-		DDF9B2FC07BBD9020007B5B7 /* BluetoothNotifier.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BluetoothNotifier.m; sourceTree = "<group>"; };
+		DDF9B2AE07BBD4600007B5B7 /* USBNotifier.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = USBNotifier.c; sourceTree = "<group>"; };
+		DDF9B2FC07BBD9020007B5B7 /* BluetoothNotifier.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = BluetoothNotifier.c; sourceTree = "<group>"; };
 		DDF9B2FD07BBD9020007B5B7 /* BluetoothNotifier.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BluetoothNotifier.h; sourceTree = "<group>"; };
 		DDF9B33907BBDAA40007B5B7 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = /System/Library/Frameworks/IOBluetooth.framework; sourceTree = "<absolute>"; };
-		DDF9B42707BBE38A0007B5B7 /* MFIOBluetoothDeviceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MFIOBluetoothDeviceAdditions.h; sourceTree = "<group>"; };
-		DDF9B42807BBE38A0007B5B7 /* MFIOBluetoothDeviceAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MFIOBluetoothDeviceAdditions.m; sourceTree = "<group>"; };
 		DDF9B63707BC07B30007B5B7 /* VolumeNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeNotifier.h; sourceTree = "<group>"; };
-		DDF9B63807BC07B30007B5B7 /* VolumeNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VolumeNotifier.m; sourceTree = "<group>"; };
+		DDF9B63807BC07B30007B5B7 /* VolumeNotifier.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = VolumeNotifier.c; sourceTree = "<group>"; };
 		DDF9B6B207BC10C80007B5B7 /* eject.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = eject.icns; sourceTree = "<group>"; };
 		DDF9B6D007BC16E30007B5B7 /* FireWireLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FireWireLogo.png; sourceTree = "<group>"; };
 		DDF9B6FA07BC1C800007B5B7 /* usbLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = usbLogo.png; sourceTree = "<group>"; };
@@ -323,22 +317,18 @@
 			children = (
 				DD54996E07BA5E420010BE54 /* AppController.h */,
 				DD54996F07BA5E420010BE54 /* AppController.m */,
-				958AB97207C6A20100F56B45 /* SCDynamicStore.h */,
-				958AB97307C6A20100F56B45 /* SCDynamicStore.m */,
-				DDF9B42707BBE38A0007B5B7 /* MFIOBluetoothDeviceAdditions.h */,
-				DDF9B42807BBE38A0007B5B7 /* MFIOBluetoothDeviceAdditions.m */,
 				DDE55D2507BAEDE2000631AC /* FireWireNotifier.h */,
-				DDE55D2607BAEDE2000631AC /* FireWireNotifier.m */,
+				DDE55D2607BAEDE2000631AC /* FireWireNotifier.c */,
 				DDF9B2AD07BBD4600007B5B7 /* USBNotifier.h */,
-				DDF9B2AE07BBD4600007B5B7 /* USBNotifier.m */,
+				DDF9B2AE07BBD4600007B5B7 /* USBNotifier.c */,
 				DDF9B2FD07BBD9020007B5B7 /* BluetoothNotifier.h */,
-				DDF9B2FC07BBD9020007B5B7 /* BluetoothNotifier.m */,
+				DDF9B2FC07BBD9020007B5B7 /* BluetoothNotifier.c */,
 				DDF9B63707BC07B30007B5B7 /* VolumeNotifier.h */,
-				DDF9B63807BC07B30007B5B7 /* VolumeNotifier.m */,
+				DDF9B63807BC07B30007B5B7 /* VolumeNotifier.c */,
 				958AB93507C69DE000F56B45 /* NetworkNotifier.h */,
-				958AB93607C69DE000F56B45 /* NetworkNotifier.m */,
+				958AB93607C69DE000F56B45 /* NetworkNotifier.c */,
 				9586EF0108C9C3A40039789E /* SyncNotifier.h */,
-				9586EF0208C9C3A40039789E /* SyncNotifier.m */,
+				9586EF0208C9C3A40039789E /* SyncNotifier.c */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -689,14 +679,12 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				DD54997107BA5E420010BE54 /* AppController.m in Sources */,
-				DDE55D2807BAEDE2000631AC /* FireWireNotifier.m in Sources */,
-				DDF9B2B007BBD4600007B5B7 /* USBNotifier.m in Sources */,
-				DDF9B2FE07BBD9020007B5B7 /* BluetoothNotifier.m in Sources */,
-				DDF9B42A07BBE38A0007B5B7 /* MFIOBluetoothDeviceAdditions.m in Sources */,
-				DDF9B63A07BC07B30007B5B7 /* VolumeNotifier.m in Sources */,
-				958AB93807C69DE000F56B45 /* NetworkNotifier.m in Sources */,
-				958AB97507C6A20100F56B45 /* SCDynamicStore.m in Sources */,
-				9586EF0408C9C3A40039789E /* SyncNotifier.m in Sources */,
+				DDE55D2807BAEDE2000631AC /* FireWireNotifier.c in Sources */,
+				DDF9B2B007BBD4600007B5B7 /* USBNotifier.c in Sources */,
+				DDF9B2FE07BBD9020007B5B7 /* BluetoothNotifier.c in Sources */,
+				DDF9B63A07BC07B30007B5B7 /* VolumeNotifier.c in Sources */,
+				958AB93807C69DE000F56B45 /* NetworkNotifier.c in Sources */,
+				9586EF0408C9C3A40039789E /* SyncNotifier.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

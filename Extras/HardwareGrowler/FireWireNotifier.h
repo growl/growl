@@ -1,28 +1,16 @@
 /* FireWireNotifier */
 
-#import <Cocoa/Cocoa.h>
+#ifndef FIREWIRE_NOTIFIER_H
+#define FIREWIRE_NOTIFIER_H
 
-@interface FireWireNotifier : NSObject {
-	id                      delegate;
-	IONotificationPortRef	ioKitNotificationPort;
-	CFRunLoopSourceRef		notificationRunLoopSource;
-	bool					notificationsArePrimed;
-}
+#include <CoreFoundation/CoreFoundation.h>
 
-- (id) initWithDelegate:(id)object;
+struct FireWireNotifierCallbacks {
+	void (*didConnect)(CFStringRef deviceName);
+	void (*didDisconnect)(CFStringRef deviceName);
+};
 
-- (void) ioKitSetUp;
-- (void) ioKitTearDown;
+void FireWireNotifier_init(const struct FireWireNotifierCallbacks *c);
+void FireWireNotifier_dealloc(void);
 
-- (void) registerForFireWireNotifications;
-- (void) fwDeviceAdded: (io_iterator_t ) iterator;
-- (void) fwDeviceRemoved: (io_iterator_t ) iterator;
-
-- (NSString *) nameForFireWireObject: (io_object_t) thisObject;
-
-@end
-
-@interface NSObject(FireWireNotifierDelegate)
-- (void) fwDidConnect:(NSString *)deviceName;
-- (void) fwDidDisconnect:(NSString *)deviceName;
-@end
+#endif
