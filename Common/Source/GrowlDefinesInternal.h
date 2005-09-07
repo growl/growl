@@ -246,10 +246,6 @@ struct GrowlNetworkNotification {
 
 /* --- These following macros are intended for plug-ins --- */
 
-/*Since anything that needs the include guards won't be using these macros, we
- *	don't need the include guards here.
- */
-
 #ifdef __OBJC__
 
 /*!	@function    SYNCHRONIZE_GROWL_PREFS
