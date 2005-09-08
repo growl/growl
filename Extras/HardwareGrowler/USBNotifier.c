@@ -73,24 +73,6 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator) {
 
 #pragma mark -
 
-static void ioKitSetUp(void) {
-//#warning	kIOMasterPortDefault is only available on 10.2 and above...
-	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
-	notificationRunLoopSource = IONotificationPortGetRunLoopSource(ioKitNotificationPort);
-
-	CFRunLoopAddSource(CFRunLoopGetCurrent(),
-					   notificationRunLoopSource,
-					   kCFRunLoopDefaultMode);
-
-}
-
-static void ioKitTearDown(void) {
-	if (ioKitNotificationPort) {
-		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode);
-		IONotificationPortDestroy(ioKitNotificationPort) ;
-	}
-}
-
 static void registerForUSBNotifications(void) {
 	//http://developer.apple.com/documentation/DeviceDrivers/Conceptual/AccessingHardware/AH_Finding_Devices/chapter_4_section_2.html#//apple_ref/doc/uid/TP30000379/BABEACCJ
 	kern_return_t			matchingResult;
@@ -145,10 +127,19 @@ static void registerForUSBNotifications(void) {
 void USBNotifier_init(const struct USBNotifierCallbacks *c) {
 	callbacks = *c;
 	notificationsArePrimed = false;
-	ioKitSetUp();
+	//#warning	kIOMasterPortDefault is only available on 10.2 and above...
+	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
+	notificationRunLoopSource = IONotificationPortGetRunLoopSource(ioKitNotificationPort);
+	
+	CFRunLoopAddSource(CFRunLoopGetCurrent(),
+					   notificationRunLoopSource,
+					   kCFRunLoopDefaultMode);
 	registerForUSBNotifications();
 }
 
 void USBNotifier_dealloc(void) {
-	ioKitTearDown();
+	if (ioKitNotificationPort) {
+		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode);
+		IONotificationPortDestroy(ioKitNotificationPort) ;
+	}
 }

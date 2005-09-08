@@ -8,23 +8,6 @@ static IONotificationPortRef			ioKitNotificationPort;
 static CFRunLoopSourceRef				notificationRunLoopSource;
 static Boolean							notificationsArePrimed = false;
 
-static void ioKitSetUp(void) {
-//#warning	kIOMasterPortDefault is only available on 10.2 and above...
-	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
-	notificationRunLoopSource = IONotificationPortGetRunLoopSource(ioKitNotificationPort);
-
-	CFRunLoopAddSource(CFRunLoopGetCurrent(),
-					   notificationRunLoopSource,
-					   kCFRunLoopDefaultMode);
-}
-
-static void ioKitTearDown(void) {
-	if (ioKitNotificationPort) {
-		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode);
-		IONotificationPortDestroy(ioKitNotificationPort);
-	}
-}
-
 static CFStringRef nameForFireWireObject(io_object_t thisObject) {
 	//	This works with USB devices...
 	//	but apparently not firewire
@@ -153,10 +136,20 @@ static void registerForFireWireNotifications(void) {
 
 void FireWireNotifier_init(const struct FireWireNotifierCallbacks *c) {
 	callbacks = *c;
-	ioKitSetUp();
+	notificationsArePrimed = false;
+	//#warning	kIOMasterPortDefault is only available on 10.2 and above...
+	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
+	notificationRunLoopSource = IONotificationPortGetRunLoopSource(ioKitNotificationPort);
+	
+	CFRunLoopAddSource(CFRunLoopGetCurrent(),
+					   notificationRunLoopSource,
+					   kCFRunLoopDefaultMode);
 	registerForFireWireNotifications();
 }
 
 void FireWireNotifier_dealloc(void) {
-	ioKitTearDown();
+	if (ioKitNotificationPort) {
+		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode);
+		IONotificationPortDestroy(ioKitNotificationPort);
+	}
 }

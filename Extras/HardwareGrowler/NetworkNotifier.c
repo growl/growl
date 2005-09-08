@@ -124,7 +124,7 @@ static void linkStatusChange(CFDictionaryRef newValue) {
 													CFSTR("Interface:\ten0\nMedia:\t%@"),
 													media);
 		CFRelease(media);
-		NSLog(CFSTR("Ethernet cable plugged"));
+//		NSLog(CFSTR("Ethernet cable plugged"));
 		if (callbacks.linkUp)
 			callbacks.linkUp(desc);
 		CFRelease(desc);
@@ -135,7 +135,7 @@ static void linkStatusChange(CFDictionaryRef newValue) {
 
 static void ipAddressChange(CFDictionaryRef newValue) {
 	if (newValue) {
-		NSLog(CFSTR("IP address acquired"));
+//		NSLog(CFSTR("IP address acquired"));
 		CFStringRef ipv4Key = CFStringCreateWithFormat(kCFAllocatorDefault,
 													   0,
 													   CFSTR("State:/Network/Interface/%@/IPv4"),
@@ -156,7 +156,7 @@ static void ipAddressChange(CFDictionaryRef newValue) {
 }
 
 static void airportStatusChange(CFDictionaryRef newValue) {
-	NSLog(CFSTR("AirPort event"));
+//	NSLog(CFSTR("AirPort event"));
 	if (!CFEqual(CFDictionaryGetValue(airportStatus, CFSTR("BSSID")), CFDictionaryGetValue(newValue, CFSTR("BSSID")))) {
 		int status;
 		CFNumberRef linkStatus = CFDictionaryGetValue(newValue, CFSTR("Link Status"));
@@ -188,32 +188,37 @@ static void airportStatusChange(CFDictionaryRef newValue) {
 			}
 		}
 	}
+	if (airportStatus)
+		CFRelease(airportStatus);
 	airportStatus = CFRetain(newValue);
 }
 
 static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
 #pragma unused(info)
 	CFIndex count = CFArrayGetCount(changedKeys);
-	for (int i=0; i<count; ++i) {
+	for (CFIndex i=0; i<count; ++i) {
 		CFStringRef key = CFArrayGetValueAtIndex(changedKeys, i);
 		if (CFStringCompare(key,
 							CFSTR("State:/Network/Interface/en0/Link"),
 							0) == kCFCompareEqualTo) {
 			CFDictionaryRef newValue = SCDynamicStoreCopyValue(store, key);
 			linkStatusChange(newValue);
-			CFRelease(newValue);
+			if (newValue)
+				CFRelease(newValue);
 		} else if (CFStringCompare(key,
 								   CFSTR("State:/Network/Global/IPv4"),
 								   0) == kCFCompareEqualTo) {
 			CFDictionaryRef newValue = SCDynamicStoreCopyValue(store, key);
 			ipAddressChange(newValue);
-			CFRelease(newValue);
+			if (newValue)
+				CFRelease(newValue);
 		} else if (CFStringCompare(key,
 								   CFSTR("State:/Network/Interface/en1/AirPort"),
 								   0) == kCFCompareEqualTo) {
 			CFDictionaryRef newValue = SCDynamicStoreCopyValue(store, key);
 			airportStatusChange(newValue);
-			CFRelease(newValue);
+			if (newValue)
+				CFRelease(newValue);
 		}
 	}
 }
@@ -255,5 +260,6 @@ void NetworkNotifier_dealloc(void) {
 	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopCommonModes);	
 	CFRelease(rlSrc);
 	CFRelease(dynStore);
-	CFRelease(airportStatus);
+	if (airportStatus)
+		CFRelease(airportStatus);
 }

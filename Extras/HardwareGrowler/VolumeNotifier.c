@@ -36,28 +36,17 @@ void VolumeNotifier_init(const struct VolumeNotifierCallbacks *c) {
 	session = DASessionCreate(kCFAllocatorDefault);
 	DASessionScheduleWithRunLoop(session, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 
-	/* we only want to be notified for volumes that are mountable and ejectable */
-	CFTypeRef keys[2] = {kDADiskDescriptionVolumeMountableKey, kDADiskDescriptionMediaEjectableKey};
-	CFTypeRef values[2] = {kCFBooleanTrue, kCFBooleanTrue};
-	CFDictionaryRef filter = CFDictionaryCreate(kCFAllocatorDefault,
-												keys,
-												values,
-												2,
-												&kCFTypeDictionaryKeyCallBacks,
-												&kCFTypeDictionaryValueCallBacks);
-
 	/* We use the disk description changed callback and not the disk
 	 * appeared callback because we need volume path to find the icon.
 	 * The volume path is not available at the time the disk appears, it
 	 * is set at a later point in time and the disk description changed
 	 * callback is fired.
 	 */
-	DARegisterDiskDescriptionChangedCallback(session, filter, kDADiskDescriptionWatchVolumePath, diskDescriptionChanged, NULL);
-
-	CFRelease(filter);
+	DARegisterDiskDescriptionChangedCallback(session, kDADiskDescriptionMatchVolumeMountable, kDADiskDescriptionWatchVolumePath, diskDescriptionChanged, NULL);
 }
 
 void VolumeNotifier_dealloc(void) {
+	DAUnregisterCallback(session, diskDescriptionChanged, NULL);
 	DASessionUnscheduleFromRunLoop(session, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 	CFRelease(session);
 }
