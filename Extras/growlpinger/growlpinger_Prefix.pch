@@ -28,6 +28,4 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-#endif
+#include <CoreFoundation/CoreFoundation.h>
