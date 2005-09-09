@@ -75,9 +75,10 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator) {
 
 static void registerForUSBNotifications(void) {
 	//http://developer.apple.com/documentation/DeviceDrivers/Conceptual/AccessingHardware/AH_Finding_Devices/chapter_4_section_2.html#//apple_ref/doc/uid/TP30000379/BABEACCJ
-	kern_return_t			matchingResult;
-	io_iterator_t			addedIterator;
-	io_iterator_t			removedIterator;
+	kern_return_t	matchingResult;
+	kern_return_t	removeNoteResult;
+	io_iterator_t	addedIterator;
+	io_iterator_t	removedIterator;
 
 //	NSLog(@"registerForUSBNotifications");
 
@@ -103,8 +104,6 @@ static void registerForUSBNotifications(void) {
 	//	It seems we have to make a new dictionary...  reusing the old one didn't work.
 
 	myMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
-	kern_return_t			removeNoteResult;
-//	io_iterator_t			removedIterator ;
 	removeNoteResult = IOServiceAddMatchingNotification(ioKitNotificationPort,
 														kIOTerminatedNotification,
 														myMatchDictionary,
@@ -127,19 +126,20 @@ static void registerForUSBNotifications(void) {
 void USBNotifier_init(const struct USBNotifierCallbacks *c) {
 	callbacks = *c;
 	notificationsArePrimed = false;
-	//#warning	kIOMasterPortDefault is only available on 10.2 and above...
+//#warning	kIOMasterPortDefault is only available on 10.2 and above...
 	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	notificationRunLoopSource = IONotificationPortGetRunLoopSource(ioKitNotificationPort);
-	
+
 	CFRunLoopAddSource(CFRunLoopGetCurrent(),
 					   notificationRunLoopSource,
 					   kCFRunLoopDefaultMode);
+	CFRelease(notificationRunLoopSource);
 	registerForUSBNotifications();
 }
 
 void USBNotifier_dealloc(void) {
 	if (ioKitNotificationPort) {
 		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), notificationRunLoopSource, kCFRunLoopDefaultMode);
-		IONotificationPortDestroy(ioKitNotificationPort) ;
+		IONotificationPortDestroy(ioKitNotificationPort);
 	}
 }

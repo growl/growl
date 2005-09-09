@@ -245,7 +245,8 @@ void NetworkNotifier_init(const struct NetworkNotifierCallbacks *c) {
 									scCallback,
 									&context);
 	rlSrc = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynStore, 0);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopCommonModes);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
+	CFRelease(rlSrc);
 	CFStringRef keys[3] = {
 		CFSTR("State:/Network/Interface/en0/Link"),
 		CFSTR("State:/Network/Global/IPv4"),
@@ -263,8 +264,7 @@ void NetworkNotifier_init(const struct NetworkNotifierCallbacks *c) {
 }
 
 void NetworkNotifier_dealloc(void) {
-	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopCommonModes);	
-	CFRelease(rlSrc);
+	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);	
 	CFRelease(dynStore);
 	if (airportStatus)
 		CFRelease(airportStatus);

@@ -137,13 +137,14 @@ static void registerForFireWireNotifications(void) {
 void FireWireNotifier_init(const struct FireWireNotifierCallbacks *c) {
 	callbacks = *c;
 	notificationsArePrimed = false;
-	//#warning	kIOMasterPortDefault is only available on 10.2 and above...
+//#warning	kIOMasterPortDefault is only available on 10.2 and above...
 	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);
 	notificationRunLoopSource = IONotificationPortGetRunLoopSource(ioKitNotificationPort);
-	
+
 	CFRunLoopAddSource(CFRunLoopGetCurrent(),
 					   notificationRunLoopSource,
 					   kCFRunLoopDefaultMode);
+	CFRelease(notificationRunLoopSource);
 	registerForFireWireNotifications();
 }
 
