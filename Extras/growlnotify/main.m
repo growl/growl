@@ -254,15 +254,16 @@ int main(int argc, const char **argv) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	// Deal with title
-	NSMutableArray *argArray = [[NSMutableArray alloc] initWithCapacity:argc];
+	NSMutableString *title = [[NSMutableString alloc] init];
 	while (argc--) {
-		NSString *temp = [[NSString alloc] initWithUTF8String:(argv++)[0]];
-		[argArray addObject:temp];
-		[temp release];
+		if (strlen(*argv)) {
+			if ([title length])
+				[title appendString:@" "];
+			NSString *temp = [[NSString alloc] initWithUTF8String:(argv++)[0]];
+			[title appendString:temp];
+			[temp release];
+		}
 	}
-	[argArray removeObject:@""];
-	NSString *title = [argArray componentsJoinedByString:@" "];
-	[argArray release];
 
 	// Deal with image
 	// --image takes precedence over -I takes precedence over -i takes precedence over --a
@@ -350,6 +351,7 @@ int main(int argc, const char **argv) {
 		nil];
 	[priorityNumber release];
 	[stickyNumber   release];
+	[title          release];
 	if (haveProgress) {
 		NSNumber *progressNumber = [[NSNumber alloc] initWithDouble:progress];
 		[notificationInfo setObject:progressNumber forKey:GROWL_NOTIFICATION_PROGRESS];
