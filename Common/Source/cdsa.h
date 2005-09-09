@@ -6,7 +6,10 @@
  *  Copyright 2005 The Growl Project. All rights reserved.
  */
 
-#import <Security/Security.h>
+#ifndef CDSA_H
+#define CDSA_H
+
+#include <Security/Security.h>
 
 #ifndef CSSM_ALGID_SHA256
 # define CSSM_ALGID_SHA256		0x8000000E
@@ -22,3 +25,5 @@ extern CSSM_CSP_HANDLE cspHandle;
 
 CSSM_RETURN cdsaInit(void);
 void cdsaShutdown(void);
+
+#endif

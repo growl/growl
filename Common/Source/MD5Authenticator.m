@@ -7,7 +7,7 @@
 //
 
 #import "MD5Authenticator.h"
-#import "cdsa.h"
+#include "cdsa.h"
 
 #define keychainServiceName "Growl"
 #define keychainAccountName "Growl"

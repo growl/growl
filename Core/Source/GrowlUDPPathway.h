@@ -11,8 +11,9 @@
 #import "GrowlRemotePathway.h"
 
 @interface GrowlUDPPathway: GrowlRemotePathway {
-	CFSocketRef		cfSocket;
-	NSImage         *notificationIcon;
+	CFSocketRef cfSocket;
+	NSImage     *notificationIcon;
 }
-- (void) handlePacketFrom:(NSData *)address data:(NSData *)data;
+
+- (NSImage *) notificationIcon;
 @end

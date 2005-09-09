@@ -13,9 +13,9 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlPreferencesController.h"
-#import "GrowlUDPUtils.h"
-#import "sha2.h"
-#import "cdsa.h"
+#include "GrowlUDPUtils.h"
+#include "sha2.h"
+#include "cdsa.h"
 #include <netinet/in.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -24,88 +24,7 @@
 #define keychainServiceName "Growl"
 #define keychainAccountName "Growl"
 
-static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef addr, const void *data, void *info) {
-#pragma unused(s,type)
-	[(GrowlUDPPathway *)info handlePacketFrom:(NSData *)addr data:(NSData *)data];
-}
-
-@implementation GrowlUDPPathway
-
-- (id) init {
-	if ((self = [super init])) {
-		struct sockaddr_in6 addr;
-		short port;
-		int native;
-
-		port = [[GrowlPreferencesController sharedController] integerForKey:GrowlUDPPortKey];
-
-		addr.sin6_len = sizeof(addr);
-		addr.sin6_family = AF_INET6;
-		addr.sin6_port = htons(port);
-		addr.sin6_flowinfo = 0U;
-		addr.sin6_addr = in6addr_any;
-		addr.sin6_scope_id = 0U;
-
-		native = socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDP);
-
-		if (native == -1) {
-			NSLog(@"GrowlUDPPathway: could not create socket.");
-			[self release];
-			return nil;
-		}
-
-		if (bind(native, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
-			NSLog(@"GrowlUDPPathway: could not bind socket.");
-			close(native);
-			[self release];
-			return nil;
-		}
-
-		// create CFSocket
-		CFSocketContext context = { 0, self, NULL, NULL, NULL };
-		cfSocket = CFSocketCreateWithNative(kCFAllocatorDefault,
-											native,
-											kCFSocketDataCallBack,
-											socketCallBack,
-											&context);
-		if (!cfSocket) {
-			close(native);
-			[self release];
-			return nil;
-		}
-
-		// add to run loop
-		CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault,
-																cfSocket,
-																0);
-		if (!source) {
-			[self release];
-			return nil;
-		}
-		CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopDefaultMode);
-		CFRelease(source);
-
-		notificationIcon = [[NSImage alloc] initWithContentsOfFile:
-			@"/System/Library/CoreServices/SystemIcons.bundle/Contents/Resources/GenericNetworkIcon.icns"];
-		// the icon has moved on 10.4
-		if (!notificationIcon)
-			notificationIcon = [[NSImage alloc] initWithContentsOfFile:
-				@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"];
-	}
-
-	return self;
-}
-
-- (void) dealloc {
-	if (cfSocket)
-		CFSocketInvalidate(cfSocket);
-	[notificationIcon release];
-
-	[super dealloc];
-}
-
-#pragma mark -
-+ (BOOL) authenticateWithCSSM:(const CSSM_DATA_PTR)packet algorithm:(CSSM_ALGORITHMS)digestAlg digestLength:(unsigned)digestLength password:(const CSSM_DATA_PTR)password {
+static Boolean authenticateWithCSSM(const CSSM_DATA_PTR packet, CSSM_ALGORITHMS digestAlg, unsigned digestLength, const CSSM_DATA_PTR password) {
 	unsigned       messageLength;
 	CSSM_DATA      digestData;
 	CSSM_RETURN    crtn;
@@ -114,12 +33,12 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 	crtn = CSSM_CSP_CreateDigestContext(cspHandle, digestAlg, &ccHandle);
 	if (crtn)
-		return NO;
+		return false;
 
 	crtn = CSSM_DigestDataInit(ccHandle);
 	if (crtn) {
 		CSSM_DeleteContext(ccHandle);
-		return NO;
+		return false;
 	}
 
 	messageLength = packet->Length - digestLength;
@@ -128,14 +47,14 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 	crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
 	if (crtn) {
 		CSSM_DeleteContext(ccHandle);
-		return NO;
+		return false;
 	}
 
 	if (password && password->Length) {
 		crtn = CSSM_DigestDataUpdate(ccHandle, password, 1U);
 		if (crtn) {
 			CSSM_DeleteContext(ccHandle);
-			return NO;
+			return false;
 		}
 	}
 
@@ -144,12 +63,12 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 	crtn = CSSM_DigestDataFinal(ccHandle, &digestData);
 	CSSM_DeleteContext(ccHandle);
 	if (crtn)
-		return NO;
+		return false;
 
-	BOOL authenticated;
+	Boolean authenticated;
 	if (digestData.Length != digestLength) {
 		NSLog(@"GrowlUDPPathway: digestData.Length != digestLength (%u != %u)", digestData.Length, digestLength);
-		authenticated = NO;
+		authenticated = false;
 	} else {
 		authenticated = !memcmp(digestData.Data, packet->Data+messageLength, digestData.Length);
 	}
@@ -158,21 +77,21 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 	return authenticated;
 }
 
-+ (BOOL) authenticatePacket:(const CSSM_DATA_PTR)packet password:(const CSSM_DATA_PTR)password authMethod:(enum GrowlAuthenticationMethod)authMethod {
+static Boolean authenticatePacket(const CSSM_DATA_PTR packet, const CSSM_DATA_PTR password, enum GrowlAuthenticationMethod authMethod) {
 	switch (authMethod) {
 		default:
 		case GROWL_AUTH_MD5:
-			return [GrowlUDPPathway authenticateWithCSSM:packet
-											   algorithm:CSSM_ALGID_MD5
-											digestLength:MD5_DIGEST_LENGTH
-												password:password];
+			return authenticateWithCSSM(packet,
+										CSSM_ALGID_MD5,
+										MD5_DIGEST_LENGTH,
+										password);
 		case GROWL_AUTH_SHA256: {
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
 			// CSSM_ALGID_SHA256 is only available on Mac OS X >= 10.4
-			return [GrowlUDPPathway authenticateWithCSSM:packet
-											   algorithm:CSSM_ALGID_SHA256
-											digestLength:SHA256_DIGEST_LENGTH
-												password:password];
+			return authenticateWithCSSM(packet,
+										CSSM_ALGID_SHA256,
+										SHA256_DIGEST_LENGTH,
+										password);
 #else
 			unsigned messageLength;
 			SHA_CTX ctx;
@@ -193,9 +112,8 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 	}
 }
 
-#pragma mark -
-
-- (void) handlePacketFrom:(NSData *)address data:(NSData *)data {
+static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *d, void *info) {
+#pragma unused(s,type)
 	char *notificationName;
 	char *title;
 	char *description;
@@ -208,12 +126,13 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 	enum GrowlAuthenticationMethod authMethod;
 	CSSM_DATA packetData;
 	CSSM_DATA passwordData;
+	CFDataRef data = (CFDataRef)d;
 
 //	NSLog(@"Received UDP packet from %@", [NSString stringWithAddressData:address]);
 
-	length = [data length];
+	length = CFDataGetLength(data);
 	if (length >= sizeof(struct GrowlNetworkPacket)) {
-		struct GrowlNetworkPacket *packet = (struct GrowlNetworkPacket *)[data bytes];
+		struct GrowlNetworkPacket *packet = (struct GrowlNetworkPacket *)CFDataGetBytePtr(data);
 		packetData.Data = (uint8 *)packet;
 		packetData.Length = length;
 
@@ -316,7 +235,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 										NSLog(@"GrowlUDPPathway: Bad notification index: %u", notificationIndex);
 								}
 
-								if ([GrowlUDPPathway authenticatePacket:&packetData password:&passwordData authMethod:authMethod]) {
+								if (authenticatePacket(&packetData, &passwordData, authMethod)) {
 									NSString *appName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
 									NSDictionary *registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 										appName,              GROWL_APP_NAME,
@@ -325,7 +244,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 										address,              GROWL_REMOTE_ADDRESS,
 										nil];
 									[appName release];
-									[self registerApplicationWithDictionary:registerInfo];
+									[(GrowlUDPPathway *)info registerApplicationWithDictionary:registerInfo];
 									[registerInfo release];
 								} else
 									NSLog(@"GrowlUDPPathway: authentication failed.");
@@ -372,13 +291,14 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 						packetSize = sizeof(*nn) + notificationNameLen + titleLen + descriptionLen + applicationNameLen + digestLength;
 
 						if (length == packetSize) {
-							if ([GrowlUDPPathway authenticatePacket:&packetData password:&passwordData authMethod:authMethod]) {
+							if (authenticatePacket(&packetData, &passwordData, authMethod)) {
 								NSString *growlNotificationName = [[NSString alloc] initWithUTF8String:notificationName length:notificationNameLen];
 								NSString *growlAppName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
 								NSString *growlNotificationTitle = [[NSString alloc] initWithUTF8String:title length:titleLen];
 								NSString *growlNotificationDesc = [[NSString alloc] initWithUTF8String:description length:descriptionLen];
 								NSNumber *growlNotificationPriority = [[NSNumber alloc] initWithInt:priority];
 								NSNumber *growlNotificationSticky = [[NSNumber alloc] initWithBool:isSticky];
+								NSImage *growlNotificationIcon = [(GrowlUDPPathway *)info notificationIcon];
 								NSDictionary *notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 									growlNotificationName,     GROWL_NOTIFICATION_NAME,
 									growlAppName,              GROWL_APP_NAME,
@@ -386,7 +306,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 									growlNotificationDesc,     GROWL_NOTIFICATION_DESCRIPTION,
 									growlNotificationPriority, GROWL_NOTIFICATION_PRIORITY,
 									growlNotificationSticky,   GROWL_NOTIFICATION_STICKY,
-									notificationIcon,          GROWL_NOTIFICATION_ICON,
+									growlNotificationIcon,     GROWL_NOTIFICATION_ICON,
 									address,                   GROWL_REMOTE_ADDRESS,
 									nil];
 								[growlNotificationName     release];
@@ -395,7 +315,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 								[growlNotificationDesc     release];
 								[growlNotificationPriority release];
 								[growlNotificationSticky   release];
-								[self postNotificationWithDictionary:notificationInfo];
+								[(GrowlUDPPathway *)info postNotificationWithDictionary:notificationInfo];
 								[notificationInfo release];
 							} else
 								NSLog(@"GrowlUDPPathway: authentication failed.");
@@ -414,6 +334,89 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 			NSLog(@"GrowlUDPPathway: unknown version %u, expected %d or %d", packet->version, GROWL_PROTOCOL_VERSION, GROWL_PROTOCOL_VERSION_AES128);
 	} else
 		NSLog(@"GrowlUDPPathway: received runt packet.");
+}
+
+#pragma mark -
+
+@implementation GrowlUDPPathway
+
+- (id) init {
+	if ((self = [super init])) {
+		struct sockaddr_in6 addr;
+		short port;
+		int native;
+
+		port = [[GrowlPreferencesController sharedController] integerForKey:GrowlUDPPortKey];
+
+		addr.sin6_len = sizeof(addr);
+		addr.sin6_family = AF_INET6;
+		addr.sin6_port = htons(port);
+		addr.sin6_flowinfo = 0U;
+		addr.sin6_addr = in6addr_any;
+		addr.sin6_scope_id = 0U;
+
+		native = socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDP);
+
+		if (native == -1) {
+			NSLog(@"GrowlUDPPathway: could not create socket.");
+			[self release];
+			return nil;
+		}
+
+		if (bind(native, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
+			NSLog(@"GrowlUDPPathway: could not bind socket.");
+			close(native);
+			[self release];
+			return nil;
+		}
+
+		// create CFSocket
+		CFSocketContext context = { 0, self, NULL, NULL, NULL };
+		cfSocket = CFSocketCreateWithNative(kCFAllocatorDefault,
+											native,
+											kCFSocketDataCallBack,
+											socketCallBack,
+											&context);
+		if (!cfSocket) {
+			close(native);
+			[self release];
+			return nil;
+		}
+
+		// add to run loop
+		CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault,
+																cfSocket,
+																0);
+		if (!source) {
+			[self release];
+			return nil;
+		}
+		CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopDefaultMode);
+		CFRelease(source);
+
+		notificationIcon = [[NSImage alloc] initWithContentsOfFile:
+			@"/System/Library/CoreServices/SystemIcons.bundle/Contents/Resources/GenericNetworkIcon.icns"];
+		// the icon has moved on 10.4
+		if (!notificationIcon)
+			notificationIcon = [[NSImage alloc] initWithContentsOfFile:
+				@"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericNetworkIcon.icns"];
+	}
+
+	return self;
+}
+
+- (void) dealloc {
+	if (cfSocket) {
+		CFSocketInvalidate(cfSocket);	// also invalidates the runloop source
+		CFRelease(cfSocket);
+	}
+	[notificationIcon release];
+
+	[super dealloc];
+}
+
+- (NSImage *) notificationIcon {
+	return notificationIcon;
 }
 
 @end

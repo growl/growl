@@ -32,8 +32,8 @@
 #import "GrowlLog.h"
 #import "GrowlNotificationCenter.h"
 #import "MD5Authenticator.h"
-#import "cdsa.h"
-#import <SystemConfiguration/SystemConfiguration.h>
+#include "cdsa.h"
+#include <SystemConfiguration/SystemConfiguration.h>
 #include <sys/socket.h>
 #include <sys/fcntl.h>
 #include <netinet/in.h>
