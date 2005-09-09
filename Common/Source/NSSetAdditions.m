@@ -1,0 +1,28 @@
+//
+//	NSSetAdditions.m
+//	Growl
+//	
+//	Created by Mac-arena the Bored Zo on 2005-09-08.
+//	Copyright 2005 The Growl Project. All rights reserved.
+//
+// This file is under the BSD License, refer to License.txt for details
+
+#import "NSSetAdditions.h"
+
+@implementation NSSetAdditions
+
++ (id) setWithUnionOfSetsInArray:(NSArray *)array {
+	NSMutableSet *unionSet = [[NSMutableSet alloc] init];
+
+	NSEnumerator *arrayEnum = [array objectEnumerator];
+	NSSet *setToAdd;
+	while ((setToAdd = [arrayEnum nextObject]))
+		[unionSet unionSet:setToAdd];
+
+	NSSet *result = [self setWithSet:unionSet];
+	[unionSet release];
+
+	return result;
+}
+
+@end
