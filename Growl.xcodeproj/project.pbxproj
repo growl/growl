@@ -907,10 +907,10 @@
 		9560BF0E086DC46700A173B1 /* Growl-WithInstaller i386.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Growl-WithInstaller i386.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		956ADAC607551C4500AF9545 /* GrowlDisplayFadingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlDisplayFadingWindowController.h; path = Plugins/Displays/GrowlDisplayFadingWindowController.h; sourceTree = SOURCE_ROOT; };
 		956ADACB07551C4500AF9545 /* GrowlDisplayFadingWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlDisplayFadingWindowController.m; path = Plugins/Displays/GrowlDisplayFadingWindowController.m; sourceTree = SOURCE_ROOT; };
-		956ADAD007551C4500AF9545 /* GrowlBezierPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBezierPathAdditions.h; path = Core/Source/GrowlBezierPathAdditions.h; sourceTree = SOURCE_ROOT; };
+		956ADAD007551C4500AF9545 /* GrowlBezierPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBezierPathAdditions.h; path = Core/Source/GrowlBezierPathAdditions.h; sourceTree = "<group>"; };
 		956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GrowlBezierPathAdditions.c; path = Core/Source/GrowlBezierPathAdditions.c; sourceTree = "<group>"; };
-		956ADADA07551C4500AF9545 /* GrowlImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlImageAdditions.h; path = Core/Source/GrowlImageAdditions.h; sourceTree = SOURCE_ROOT; };
-		956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlImageAdditions.m; path = Core/Source/GrowlImageAdditions.m; sourceTree = SOURCE_ROOT; };
+		956ADADA07551C4500AF9545 /* GrowlImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlImageAdditions.h; path = Core/Source/GrowlImageAdditions.h; sourceTree = "<group>"; };
+		956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlImageAdditions.m; path = Core/Source/GrowlImageAdditions.m; sourceTree = "<group>"; };
 		956D7E83082514A80083D772 /* sha2.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = sha2.c; path = Common/Source/sha2.c; sourceTree = "<group>"; };
 		956D7E84082514A80083D772 /* sha2.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sha2.h; path = Common/Source/sha2.h; sourceTree = "<group>"; };
 		9574B6F90838C7A100106CA3 /* NSWorkspaceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSWorkspaceAdditions.h; path = Common/Source/NSWorkspaceAdditions.h; sourceTree = "<group>"; };
@@ -1216,6 +1216,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		072867C508D1635B00ABF0B0 /* Cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				95F97679084A297400915BFE /* NSDictionaryAdditions.h */,
+				95F9767A084A297400915BFE /* NSDictionaryAdditions.m */,
+				95F975AB084A23F500915BFE /* NSMutableDictionaryAdditions.h */,
+				95F975AC084A23F500915BFE /* NSMutableDictionaryAdditions.m */,
+				956ADADA07551C4500AF9545 /* GrowlImageAdditions.h */,
+				956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */,
+				9574B7570838CA1E00106CA3 /* NSStringAdditions.h */,
+				9574B7580838CA1E00106CA3 /* NSStringAdditions.m */,
+				955C236B081537280013C3CF /* NSMutableStringAdditions.h */,
+				955C236C081537280013C3CF /* NSMutableStringAdditions.m */,
+				95B92F1B0865B5A900DA02F0 /* NSMutableAttributedStringAdditions.h */,
+				95B92F1C0865B5A900DA02F0 /* NSMutableAttributedStringAdditions.m */,
+				9574B7AB0838CB5500106CA3 /* NSURLAdditions.h */,
+				9574B7AC0838CB5500106CA3 /* NSURLAdditions.m */,
+				95D93722086EFA7200A1AD50 /* NSViewAdditions.h */,
+				95D93723086EFA7200A1AD50 /* NSViewAdditions.m */,
+				95EF04F207C77C1500218584 /* CoreGraphicsServices.h */,
+				95C8779907D9DFC000C69DEE /* NSWindow+Transforms.h */,
+				95C877C207D9DFC000C69DEE /* NSWindow+Transforms.m */,
+				9574B6F90838C7A100106CA3 /* NSWorkspaceAdditions.h */,
+				9574B6FA0838C7A100106CA3 /* NSWorkspaceAdditions.m */,
+			);
+			name = Cocoa;
+			sourceTree = "<group>";
+		};
+		072867C808D1636D00ABF0B0 /* CF, Carbon, Quartz */ = {
+			isa = PBXGroup;
+			children = (
+				070B90FC07E1AEFA00F10FA7 /* CFGrowlAdditions.h */,
+				070B90FB07E1AEFA00F10FA7 /* CFGrowlAdditions.c */,
+				956ADAD007551C4500AF9545 /* GrowlBezierPathAdditions.h */,
+				956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */,
+			);
+			name = "CF, Carbon, Quartz";
+			sourceTree = "<group>";
+		};
 		089C166AFE841209C02AAC07 /* Growl */ = {
 			isa = PBXGroup;
 			children = (
@@ -1696,31 +1735,8 @@
 		CB9E3AE80792679400F8937E /* Additions */ = {
 			isa = PBXGroup;
 			children = (
-				95D93722086EFA7200A1AD50 /* NSViewAdditions.h */,
-				95D93723086EFA7200A1AD50 /* NSViewAdditions.m */,
-				9574B7AB0838CB5500106CA3 /* NSURLAdditions.h */,
-				9574B7AC0838CB5500106CA3 /* NSURLAdditions.m */,
-				070B90FC07E1AEFA00F10FA7 /* CFGrowlAdditions.h */,
-				070B90FB07E1AEFA00F10FA7 /* CFGrowlAdditions.c */,
-				95C8779907D9DFC000C69DEE /* NSWindow+Transforms.h */,
-				95C877C207D9DFC000C69DEE /* NSWindow+Transforms.m */,
-				95EF04F207C77C1500218584 /* CoreGraphicsServices.h */,
-				956ADAD007551C4500AF9545 /* GrowlBezierPathAdditions.h */,
-				956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */,
-				956ADADA07551C4500AF9545 /* GrowlImageAdditions.h */,
-				956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */,
-				955C236B081537280013C3CF /* NSMutableStringAdditions.h */,
-				955C236C081537280013C3CF /* NSMutableStringAdditions.m */,
-				9574B6F90838C7A100106CA3 /* NSWorkspaceAdditions.h */,
-				9574B6FA0838C7A100106CA3 /* NSWorkspaceAdditions.m */,
-				9574B7570838CA1E00106CA3 /* NSStringAdditions.h */,
-				9574B7580838CA1E00106CA3 /* NSStringAdditions.m */,
-				95F975AB084A23F500915BFE /* NSMutableDictionaryAdditions.h */,
-				95F975AC084A23F500915BFE /* NSMutableDictionaryAdditions.m */,
-				95F97679084A297400915BFE /* NSDictionaryAdditions.h */,
-				95F9767A084A297400915BFE /* NSDictionaryAdditions.m */,
-				95B92F1B0865B5A900DA02F0 /* NSMutableAttributedStringAdditions.h */,
-				95B92F1C0865B5A900DA02F0 /* NSMutableAttributedStringAdditions.m */,
+				072867C808D1636D00ABF0B0 /* CF, Carbon, Quartz */,
+				072867C508D1635B00ABF0B0 /* Cocoa */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -2957,12 +2973,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
-					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
-				},
-				{
 					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
 					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
+				},
+				{
+					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
+					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
 				},
 			);
 			targets = (
