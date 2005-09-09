@@ -15,7 +15,11 @@
 - (bycopy NSString *) growlVersion;
 @end
 
+@class GrowlApplicationController;
+
 @interface GrowlPathway : NSObject <GrowlNotificationProtocol> {
 }
 
 @end
+
+

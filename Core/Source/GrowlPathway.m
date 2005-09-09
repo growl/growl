@@ -12,12 +12,18 @@
 
 @implementation GrowlPathway
 
+static GrowlApplicationController *_sharedApplicationController = nil;
+
++ (void) initialize {
+	_sharedApplicationController = [GrowlApplicationController sharedInstance];
+}
+
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
-	[[GrowlApplicationController sharedController] registerApplicationWithDictionary:dict];
+	[_sharedApplicationController registerApplicationWithDictionary:dict];
 }
 
 - (void) postNotificationWithDictionary:(NSDictionary *)dict {
-	[[GrowlApplicationController sharedController] dispatchNotificationWithDictionary:dict];
+	[_sharedApplicationController dispatchNotificationWithDictionary:dict];
 }
 
 - (NSString *) growlVersion {
