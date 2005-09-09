@@ -70,7 +70,7 @@ static CFStringRef getMediaForInterface(const char *interface) {
 
 	// We'll only look in the Ethernet list. I don't care about anything else.
 	struct ifmedia_description *desc;
-	for (desc = ifm_subtype_ethernet_descriptions; desc->ifmt_string; desc++) {
+	for (desc = ifm_subtype_ethernet_descriptions; desc->ifmt_string; ++desc) {
 		if (IFM_SUBTYPE(ifmr.ifm_active) == desc->ifmt_word) {
 			type = desc->ifmt_string;
 			break;
@@ -118,16 +118,17 @@ static void linkStatusChange(CFDictionaryRef newValue) {
 		active = 0;
 
 	if (active) {
-		CFStringRef media = getMediaForInterface("en0");
-		CFStringRef desc = CFStringCreateWithFormat(kCFAllocatorDefault,
-													0,
-													CFSTR("Interface:\ten0\nMedia:\t%@"),
-													media);
-		CFRelease(media);
-//		NSLog(CFSTR("Ethernet cable plugged"));
-		if (callbacks.linkUp)
+		if (callbacks.linkUp) {
+			CFStringRef media = getMediaForInterface("en0");
+			CFStringRef desc = CFStringCreateWithFormat(kCFAllocatorDefault,
+														0,
+														CFSTR("Interface:\ten0\nMedia:\t%@"),
+														media);
+			if (media)
+				CFRelease(media);
 			callbacks.linkUp(desc);
-		CFRelease(desc);
+			CFRelease(desc);
+		}
 	} else if (callbacks.linkDown) {
 		callbacks.linkDown(CFSTR("Interface:\ten0"));
 	}
@@ -142,14 +143,18 @@ static void ipAddressChange(CFDictionaryRef newValue) {
 													   CFDictionaryGetValue(newValue, CFSTR("PrimaryInterface")));
 		CFDictionaryRef ipv4Info = SCDynamicStoreCopyValue(dynStore, ipv4Key);
 		CFRelease(ipv4Key);
-		CFArrayRef addrs = CFDictionaryGetValue(ipv4Info, CFSTR("Addresses"));
-		if (CFArrayGetCount(addrs)) {
-			if (callbacks.ipAcquired)
-				callbacks.ipAcquired(CFArrayGetValueAtIndex(addrs, 0));
-		} else {
-			NSLog(CFSTR("Empty address array"));
+		if (ipv4Info) {
+			CFArrayRef addrs = CFDictionaryGetValue(ipv4Info, CFSTR("Addresses"));
+			if (addrs) {
+				if (CFArrayGetCount(addrs)) {
+					if (callbacks.ipAcquired)
+						callbacks.ipAcquired(CFArrayGetValueAtIndex(addrs, 0));
+				} else {
+					NSLog(CFSTR("Empty address array"));
+				}
+			}
+			CFRelease(ipv4Info);
 		}
-		CFRelease(ipv4Info);
 	} else if (callbacks.ipReleased) {
 		callbacks.ipReleased();
 	}
@@ -157,7 +162,8 @@ static void ipAddressChange(CFDictionaryRef newValue) {
 
 static void airportStatusChange(CFDictionaryRef newValue) {
 //	NSLog(CFSTR("AirPort event"));
-	if (!CFEqual(CFDictionaryGetValue(airportStatus, CFSTR("BSSID")), CFDictionaryGetValue(newValue, CFSTR("BSSID")))) {
+	CFDataRef newBSSID = CFDictionaryGetValue(newValue, CFSTR("BSSID"));
+	if (!(airportStatus && CFEqual(CFDictionaryGetValue(airportStatus, CFSTR("BSSID")), newBSSID))) {
 		int status;
 		CFNumberRef linkStatus = CFDictionaryGetValue(newValue, CFSTR("Link Status"));
 		if (linkStatus) {
@@ -172,7 +178,7 @@ static void airportStatusChange(CFDictionaryRef newValue) {
 					CFRelease(desc);
 				}
 			} else if (callbacks.airportConnect) {
-				const unsigned char *bssidBytes = CFDataGetBytePtr(CFDictionaryGetValue(newValue, CFSTR("BSSID")));
+				const unsigned char *bssidBytes = CFDataGetBytePtr(newBSSID);
 				CFStringRef desc = CFStringCreateWithFormat(kCFAllocatorDefault,
 															0,
 															CFSTR("Joined network.\nSSID:\t\t%@\nBSSID:\t%02X:%02X:%02X:%02X:%02X:%02X"),
@@ -238,7 +244,7 @@ void NetworkNotifier_init(const struct NetworkNotifierCallbacks *c) {
 									CFBundleGetIdentifier(CFBundleGetMainBundle()),
 									scCallback,
 									&context);
-	rlSrc = SCDynamicStoreCreateRunLoopSource(NULL, dynStore, 0);
+	rlSrc = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynStore, 0);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopCommonModes);
 	CFStringRef keys[3] = {
 		CFSTR("State:/Network/Interface/en0/Link"),
