@@ -1,11 +1,14 @@
-#import "AppController.h"
-#import "FireWireNotifier.h"
-#import "USBNotifier.h"
-#import "BluetoothNotifier.h"
-#import "VolumeNotifier.h"
-#import "NetworkNotifier.h"
-#import "SyncNotifier.h"
 #import <Growl/Growl.h>
+#import "AppController.h"
+#include <IOKit/IOKitLib.h>
+#include <IOKit/IOMessage.h>
+#include <IOKit/pwr_mgt/IOPMLib.h>
+#include "FireWireNotifier.h"
+#include "USBNotifier.h"
+#include "BluetoothNotifier.h"
+#include "VolumeNotifier.h"
+#include "NetworkNotifier.h"
+#include "SyncNotifier.h"
 
 #define NotifierUSBConnectionNotification				@"USB Device Connected"
 #define NotifierUSBDisconnectionNotification			@"USB Device Disconnected"
@@ -52,7 +55,10 @@ static NSData	*airportIconData;
 static NSData	*ipIconData;
 static NSData	*iSyncIconData;
 
-static BOOL	sleeping;
+static io_connect_t			powerConnection;
+static io_object_t			powerNotifier;
+static CFRunLoopSourceRef	powerRunLoopSource;
+static BOOL					sleeping;
 
 static void fwDidConnect(CFStringRef deviceName) {
 //	NSLog(@"FireWire Connect: %@", deviceName );
@@ -294,6 +300,32 @@ static struct SyncNotifierCallbacks syncNotifierCallbacks = {
 	syncFinished
 };
 
+static void powerCallback(void *refcon, io_service_t service, natural_t messageType, void *messageArgument) {
+#pragma unused(refcon,service)
+	switch (messageType) {
+		case kIOMessageSystemWillRestart:
+		case kIOMessageSystemWillPowerOff:
+		case kIOMessageSystemWillSleep:
+		case kIOMessageDeviceWillPowerOff:
+			sleeping = YES;
+			IOAllowPowerChange(powerConnection, (long)messageArgument);
+			break;
+		case kIOMessageCanSystemPowerOff:
+		case kIOMessageCanSystemSleep:
+		case kIOMessageCanDevicePowerOff:
+			IOAllowPowerChange(powerConnection, (long)messageArgument);
+			break;
+		case kIOMessageSystemWillNotSleep:
+		case kIOMessageSystemWillNotPowerOff:
+		case kIOMessageSystemHasPoweredOn:
+		case kIOMessageDeviceWillNotPowerOff:
+		case kIOMessageDeviceHasPoweredOn:
+			sleeping = NO;
+		default:
+			break;
+	}
+}
+
 @implementation AppController
 
 - (void) awakeFromNib {
@@ -313,19 +345,17 @@ static struct SyncNotifierCallbacks syncNotifierCallbacks = {
 	path = [ws fullPathForApplication:@"Internet Connect.app"];
 	ipIconData = [[[ws iconForFile:path] TIFFRepresentation] retain];
 
-	//Register ourselves as a Growl delegate for registration purposes
+	// Register ourselves as a Growl delegate for registration purposes
 	[GrowlApplicationBridge setGrowlDelegate:self];
 
-	NSNotificationCenter *nc = [ws notificationCenter];
-
-	[nc addObserver:self
-		   selector:@selector(didWake:)
-			   name:NSWorkspaceDidWakeNotification
-			 object:ws];
-	[nc addObserver:self
-		   selector:@selector(willSleep:)
-			   name:NSWorkspaceWillSleepNotification
-			 object:ws];
+	// Register for sleep and wake notifications
+	IONotificationPortRef ioNotificationPort;
+	powerConnection = IORegisterForSystemPower(NULL, &ioNotificationPort, powerCallback, &powerNotifier);
+	if (powerConnection) {
+		powerRunLoopSource = IONotificationPortGetRunLoopSource(ioNotificationPort);
+		CFRunLoopAddSource(CFRunLoopGetCurrent(), powerRunLoopSource, kCFRunLoopDefaultMode);
+		CFRelease(powerRunLoopSource);
+	}
 
 	FireWireNotifier_init(&fireWireNotifierCallbacks);
 	USBNotifier_init(&usbNotifierCallbacks);
@@ -349,9 +379,10 @@ static struct SyncNotifierCallbacks syncNotifierCallbacks = {
 	[ipIconData        release];
 	[iSyncIconData     release];
 
-	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self
-																 name:nil
-															   object:nil];
+	if (powerConnection) {
+		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), powerRunLoopSource, kCFRunLoopDefaultMode);
+		IODeregisterForSystemPower(&powerNotifier);
+	}
 
 	[super dealloc];
 }
@@ -395,18 +426,6 @@ static struct SyncNotifierCallbacks syncNotifierCallbacks = {
 
 - (IBAction) doSimpleHelp: (id)sender {
 	[[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"readme" ofType:@"txt"]];
-}
-
-#pragma mark -
-#pragma mark Notification methods
-- (void) willSleep:(NSNotification *)note {
-	//NSLog(@"willSleep");
-	sleeping = YES;
-}
-
-- (void) didWake:(NSNotification *)note {
-	//NSLog(@"didWake");
-	sleeping = NO;
 }
 
 @end
