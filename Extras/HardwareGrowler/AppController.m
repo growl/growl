@@ -392,7 +392,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 }
 
 - (NSDictionary *) registrationDictionaryForGrowl {
-	//	Register with Growl
+	// Register with Growl
 
 	NSArray *notifications = [[NSArray alloc] initWithObjects:
 		NotifierBluetoothConnectionNotification,
