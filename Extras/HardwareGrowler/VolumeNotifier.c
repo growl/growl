@@ -1,5 +1,5 @@
 //
-//  VolumeNotifier.m
+//  VolumeNotifier.c
 //  HardwareGrowler
 //
 //  Created by Diggory Laycock on 10/02/2005.

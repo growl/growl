@@ -1,5 +1,5 @@
 //
-//  NetworkNotifier.m
+//  NetworkNotifier.c
 //  HardwareGrowler
 //
 //  Created by Ingmar Stein on 18.02.05.
@@ -169,29 +169,10 @@ static void airportStatusChange(CFDictionaryRef newValue) {
 		if (linkStatus) {
 			CFNumberGetValue(linkStatus, kCFNumberIntType, &status);
 			if (status == AIRPORT_DISCONNECTED) {
-				if (callbacks.airportDisconnect) {
-					CFStringRef desc = CFStringCreateWithFormat(kCFAllocatorDefault,
-																0,
-																CFSTR("Left network %@."),
-																CFDictionaryGetValue(airportStatus, CFSTR("SSID")));
-					callbacks.airportDisconnect(desc);
-					CFRelease(desc);
-				}
-			} else if (callbacks.airportConnect) {
-				const unsigned char *bssidBytes = CFDataGetBytePtr(newBSSID);
-				CFStringRef desc = CFStringCreateWithFormat(kCFAllocatorDefault,
-															0,
-															CFSTR("Joined network.\nSSID:\t\t%@\nBSSID:\t%02X:%02X:%02X:%02X:%02X:%02X"),
-															CFDictionaryGetValue(newValue, CFSTR("SSID")),
-															bssidBytes[0],
-															bssidBytes[1],
-															bssidBytes[2],
-															bssidBytes[3],
-															bssidBytes[4],
-															bssidBytes[5]);
-				callbacks.airportConnect(desc);
-				CFRelease(desc);
-			}
+				if (callbacks.airportDisconnect)
+					callbacks.airportDisconnect(CFDictionaryGetValue(airportStatus, CFSTR("SSID")));
+			} else if (callbacks.airportConnect)
+				callbacks.airportConnect(CFDictionaryGetValue(newValue, CFSTR("SSID")), CFDataGetBytePtr(newBSSID));
 		}
 	}
 	if (airportStatus)

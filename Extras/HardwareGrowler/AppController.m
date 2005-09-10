@@ -10,42 +10,44 @@
 #include "NetworkNotifier.h"
 #include "SyncNotifier.h"
 
-#define NotifierUSBConnectionNotification				@"USB Device Connected"
-#define NotifierUSBDisconnectionNotification			@"USB Device Disconnected"
-#define NotifierVolumeMountedNotification				@"Volume Mounted"
-#define NotifierVolumeUnmountedNotification				@"Volume Unmounted"
-#define NotifierBluetoothConnectionNotification			@"Bluetooth Device Connected"
-#define NotifierBluetoothDisconnectionNotification		@"Bluetooth Device Disconnected"
-#define NotifierFireWireConnectionNotification			@"FireWire Device Connected"
-#define NotifierFireWireDisconnectionNotification		@"FireWire Device Disconnected"
-#define NotifierNetworkLinkUpNotification				@"Link-Up"
-#define NotifierNetworkLinkDownNotification				@"Link-Down"
-#define NotifierNetworkIpAcquiredNotification			@"IP-Acquired"
-#define NotifierNetworkIpReleasedNotification			@"IP-Released"
-#define NotifierNetworkAirportConnectNotification		@"AirPort-Connect"
-#define NotifierNetworkAirportDisconnectNotification	@"AirPort-Disconnect"
-#define NotifierSyncStartedNotification					@"Sync started"
-#define NotifierSyncFinishedNotification				@"Sync finished"
+#define NotifierUSBConnectionNotification				CFSTR("USB Device Connected")
+#define NotifierUSBDisconnectionNotification			CFSTR("USB Device Disconnected")
+#define NotifierVolumeMountedNotification				CFSTR("Volume Mounted")
+#define NotifierVolumeUnmountedNotification				CFSTR("Volume Unmounted")
+#define NotifierBluetoothConnectionNotification			CFSTR("Bluetooth Device Connected")
+#define NotifierBluetoothDisconnectionNotification		CFSTR("Bluetooth Device Disconnected")
+#define NotifierFireWireConnectionNotification			CFSTR("FireWire Device Connected")
+#define NotifierFireWireDisconnectionNotification		CFSTR("FireWire Device Disconnected")
+#define NotifierNetworkLinkUpNotification				CFSTR("Link-Up")
+#define NotifierNetworkLinkDownNotification				CFSTR("Link-Down")
+#define NotifierNetworkIpAcquiredNotification			CFSTR("IP-Acquired")
+#define NotifierNetworkIpReleasedNotification			CFSTR("IP-Released")
+#define NotifierNetworkAirportConnectNotification		CFSTR("AirPort-Connect")
+#define NotifierNetworkAirportDisconnectNotification	CFSTR("AirPort-Disconnect")
+#define NotifierSyncStartedNotification					CFSTR("Sync started")
+#define NotifierSyncFinishedNotification				CFSTR("Sync finished")
 
-#define NotifierFireWireConnectionTitle			NSLocalizedString(@"FireWire Connection", @"")
-#define NotifierFireWireDisconnectionTitle		NSLocalizedString(@"FireWire Disconnection", @"")
-#define NotifierUSBConnectionTitle				NSLocalizedString(@"USB Connection", @"")
-#define NotifierUSBDisconnectionTitle			NSLocalizedString(@"USB Disconnection", @"")
-#define NotifierBluetoothConnectionTitle		NSLocalizedString(@"Bluetooth Connection", @"")
-#define NotifierBluetoothDisconnectionTitle		NSLocalizedString(@"Bluetooth Disconnection", @"")
-#define NotifierVolumeMountedTitle				NSLocalizedString(@"Volume Mounted", @"")
-#define NotifierVolumeUnmountedTitle			NSLocalizedString(@"Volume Unmounted", @"")
-#define NotifierNetworkAirportConnectTitle		NSLocalizedString(@"Airport connected", @"")
-#define NotifierNetworkAirportDisconnectTitle	NSLocalizedString(@"Airport disconnected", @"")
-#define NotifierNetworkLinkUpTitle				NSLocalizedString(@"Ethernet activated", @"")
-#define NotifierNetworkLinkDownTitle			NSLocalizedString(@"Ethernet deactivated", @"")
-#define NotifierNetworkIpAcquiredTitle			NSLocalizedString(@"IP address acquired", @"")
-#define NotifierNetworkIpReleasedTitle			NSLocalizedString(@"IP address released", @"")
-#define NotifierSyncStartedTitle				NSLocalizedString(@"Sync started", @"")
-#define NotifierSyncFinishedTitle				NSLocalizedString(@"Sync finished", @"")
+#define NotifierFireWireConnectionTitle()				CFCopyLocalizedString(CFSTR("FireWire Connection"), "")
+#define NotifierFireWireDisconnectionTitle()			CFCopyLocalizedString(CFSTR("FireWire Disconnection"), "")
+#define NotifierUSBConnectionTitle()					CFCopyLocalizedString(CFSTR("USB Connection"), "")
+#define NotifierUSBDisconnectionTitle()					CFCopyLocalizedString(CFSTR("USB Disconnection"), "")
+#define NotifierBluetoothConnectionTitle()				CFCopyLocalizedString(CFSTR("Bluetooth Connection"), "")
+#define NotifierBluetoothDisconnectionTitle()			CFCopyLocalizedString(CFSTR("Bluetooth Disconnection"), "")
+#define NotifierVolumeMountedTitle()					CFCopyLocalizedString(CFSTR("Volume Mounted"), "")
+#define NotifierVolumeUnmountedTitle()					CFCopyLocalizedString(CFSTR("Volume Unmounted"), "")
+#define NotifierNetworkAirportConnectTitle()			CFCopyLocalizedString(CFSTR("Airport connected"), "")
+#define NotifierNetworkAirportDisconnectTitle()			CFCopyLocalizedString(CFSTR("Airport disconnected"), "")
+#define NotifierNetworkLinkUpTitle()					CFCopyLocalizedString(CFSTR("Ethernet activated"), "")
+#define NotifierNetworkLinkDownTitle()					CFCopyLocalizedString(CFSTR("Ethernet deactivated"), "")
+#define NotifierNetworkIpAcquiredTitle()				CFCopyLocalizedString(CFSTR("IP address acquired"), "")
+#define NotifierNetworkIpReleasedTitle()				CFCopyLocalizedString(CFSTR("IP address released"), "")
+#define NotifierSyncStartedTitle()						CFCopyLocalizedString(CFSTR("Sync started"), "")
+#define NotifierSyncFinishedTitle()						CFCopyLocalizedString(CFSTR("Sync finished"), "")
 
-#define NotifierNetworkIpAcquiredDescription	NSLocalizedString(@"New primary IP: %@", @"")
-#define NotifierNetworkIpReleasedDescription	NSLocalizedString(@"No IP address now", @"")
+#define NotifierNetworkAirportConnectDescription()		CFCopyLocalizedString(CFSTR("Joined network.\nSSID:\t\t%@\nBSSID:\t%02X:%02X:%02X:%02X:%02X:%02X"), "")
+#define NotifierNetworkAirportDisconnectDescription()	CFCopyLocalizedString(CFSTR("Left network %@."), "")
+#define NotifierNetworkIpAcquiredDescription()			CFCopyLocalizedString(CFSTR("New primary IP: %@"), "")
+#define NotifierNetworkIpReleasedDescription()			CFCopyLocalizedString(CFSTR("No IP address now"), "")
 
 static NSData	*bluetoothLogoData;
 static NSData	*ejectLogoData;
@@ -61,128 +63,171 @@ static CFRunLoopSourceRef	powerRunLoopSource;
 static BOOL					sleeping;
 
 static void fwDidConnect(CFStringRef deviceName) {
-//	NSLog(@"FireWire Connect: %@", deviceName );
+//	NSLog(@"FireWire Connect: %@", deviceName);
 
-	[GrowlApplicationBridge notifyWithTitle:NotifierFireWireConnectionTitle
+	CFStringRef title = NotifierFireWireConnectionTitle();
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)deviceName
-							notificationName:NotifierFireWireConnectionNotification
+							notificationName:(NSString *)NotifierFireWireConnectionNotification
 							iconData:firewireLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
-
+	CFRelease(title);
 }
 
 static void fwDidDisconnect(CFStringRef deviceName) {
-//	NSLog(@"FireWire Disconnect: %@", deviceName );
+//	NSLog(@"FireWire Disconnect: %@", deviceName);
 
-	[GrowlApplicationBridge notifyWithTitle:NotifierFireWireDisconnectionTitle
+	CFStringRef title = NotifierFireWireDisconnectionTitle();
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)deviceName
-							notificationName:NotifierFireWireDisconnectionNotification
+							notificationName:(NSString *)NotifierFireWireDisconnectionNotification
 							iconData:firewireLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
+	CFRelease(title);
 }
 
 static void usbDidConnect(CFStringRef deviceName) {
-//	NSLog(@"USB Connect: %@", deviceName );
-	[GrowlApplicationBridge notifyWithTitle:NotifierUSBConnectionTitle
+//	NSLog(@"USB Connect: %@", deviceName);
+	CFStringRef title = NotifierUSBConnectionTitle();
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)deviceName
-							notificationName:NotifierUSBConnectionNotification
+							notificationName:(NSString *)NotifierUSBConnectionNotification
 							iconData:usbLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
+	CFRelease(title);
 }
 
 static void usbDidDisconnect(CFStringRef deviceName) {
-//	NSLog(@"USB Disconnect: %@", deviceName );
-	[GrowlApplicationBridge notifyWithTitle:NotifierUSBDisconnectionTitle
+//	NSLog(@"USB Disconnect: %@", deviceName);
+	CFStringRef title = NotifierUSBDisconnectionTitle();
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)deviceName
-							notificationName:NotifierUSBDisconnectionNotification
+							notificationName:(NSString *)NotifierUSBDisconnectionNotification
 							iconData:usbLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
+	CFRelease(title);
 }
 
 static void bluetoothDidConnect(CFStringRef device) {
-//	NSLog(@"Bluetooth Connect: %@", device );
-	[GrowlApplicationBridge notifyWithTitle:NotifierBluetoothConnectionTitle
+//	NSLog(@"Bluetooth Connect: %@", device);
+	CFStringRef title = NotifierBluetoothConnectionTitle();
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)device
-							notificationName:NotifierBluetoothConnectionNotification
+							notificationName:(NSString *)NotifierBluetoothConnectionNotification
 							iconData:bluetoothLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
+	CFRelease(title);
 }
 
 static void bluetoothDidDisconnect(CFStringRef device) {
-//	NSLog(@"Bluetooth Disconnect: %@", device );
-	[GrowlApplicationBridge notifyWithTitle:NotifierBluetoothDisconnectionTitle
+//	NSLog(@"Bluetooth Disconnect: %@", device);
+	CFStringRef title = NotifierBluetoothDisconnectionTitle();
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)device
-							notificationName:NotifierBluetoothDisconnectionNotification
+							notificationName:(NSString *)NotifierBluetoothDisconnectionNotification
 							iconData:bluetoothLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
+	CFRelease(title);
 }
 
 static void volumeDidMount(CFStringRef name, CFStringRef path) {
 	//NSLog(@"volume Mount: %@", name);
 
+	CFStringRef title = NotifierVolumeMountedTitle();
 	NSData *iconData = [[[NSWorkspace sharedWorkspace] iconForFile:(NSString *)path] TIFFRepresentation];
 
-	[GrowlApplicationBridge notifyWithTitle:NotifierVolumeMountedTitle
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)name
-							notificationName:NotifierVolumeMountedNotification
+							notificationName:(NSString *)NotifierVolumeMountedNotification
 							iconData:iconData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
+	CFRelease(title);
 }
 
 static void volumeDidUnmount(CFStringRef name) {
 	//NSLog(@"volume Unmount: %@", name);
 
-	[GrowlApplicationBridge notifyWithTitle:NotifierVolumeUnmountedTitle
+	CFStringRef title = NotifierVolumeUnmountedTitle();
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)name
-							notificationName:NotifierVolumeUnmountedNotification
+							notificationName:(NSString *)NotifierVolumeUnmountedNotification
 							iconData:ejectLogoData
 							priority:0
 							isSticky:NO
 							clickContext:nil];
+	CFRelease(title);
 }
 
-static void airportConnect(CFStringRef description) {
+static void airportConnect(CFStringRef networkName, const unsigned char *bssidBytes) {
 	//NSLog(@"AirPort connect: %@", description);
 
 	if (sleeping)
 		return;
 
-	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkAirportConnectTitle
+	CFStringRef title = NotifierNetworkAirportConnectTitle();
+	CFStringRef format = NotifierNetworkAirportConnectDescription();
+	CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault,
+													   0,
+													   format,
+													   networkName,
+													   bssidBytes[0],
+													   bssidBytes[1],
+													   bssidBytes[2],
+													   bssidBytes[3],
+													   bssidBytes[4],
+													   bssidBytes[5]);
+	CFRelease(format);
+
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
-						   notificationName:NotifierNetworkAirportConnectNotification
+						   notificationName:(NSString *)NotifierNetworkAirportConnectNotification
 								   iconData:airportIconData
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
+
+	CFRelease(title);
+	CFRelease(description);
 }
 
-static void airportDisconnect(CFStringRef description) {
+static void airportDisconnect(CFStringRef networkName) {
 	//NSLog(@"AirPort disconnect: %@", description);
 
 	if (sleeping)
 		return;
 
-	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkAirportDisconnectTitle
+	CFStringRef title = NotifierNetworkAirportDisconnectTitle();
+	CFStringRef format = NotifierNetworkAirportDisconnectDescription();
+	CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault,
+													   0,
+													   format,
+													   networkName);
+	CFRelease(format);
+		
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
-						   notificationName:NotifierNetworkAirportDisconnectNotification
+						   notificationName:(NSString *)NotifierNetworkAirportDisconnectNotification
 								   iconData:airportIconData
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
+
+	CFRelease(title);
+	CFRelease(description);
 }
 
 static void linkUp(CFStringRef description) {
@@ -191,13 +236,15 @@ static void linkUp(CFStringRef description) {
 	if (sleeping)
 		return;
 
-	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkLinkUpTitle
+	CFStringRef title = NotifierNetworkLinkUpTitle();
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
-						   notificationName:NotifierNetworkLinkUpNotification
+						   notificationName:(NSString *)NotifierNetworkLinkUpNotification
 								   iconData:ipIconData
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
+	CFRelease(title);
 }
 
 static void linkDown(CFStringRef description) {
@@ -206,13 +253,15 @@ static void linkDown(CFStringRef description) {
 	if (sleeping)
 		return;
 
-	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkLinkDownTitle
+	CFStringRef title = NotifierNetworkLinkDownTitle();
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
-						   notificationName:NotifierNetworkLinkDownNotification
+						   notificationName:(NSString *)NotifierNetworkLinkDownNotification
 								   iconData:ipIconData
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
+	CFRelease(title);
 }
 
 static void ipAcquired(CFStringRef ip) {
@@ -221,15 +270,22 @@ static void ipAcquired(CFStringRef ip) {
 	if (sleeping)
 		return;
 
-	NSString *description = [[NSString alloc] initWithFormat:NotifierNetworkIpAcquiredDescription, ip];
-	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkIpAcquiredTitle
-								description:description
-						   notificationName:NotifierNetworkIpAcquiredNotification
+	CFStringRef title = NotifierNetworkIpAcquiredTitle();
+	CFStringRef format = NotifierNetworkIpAcquiredDescription();
+	CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault,
+													   0,
+													   format,
+													   ip);
+	CFRelease(format);
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
+								description:(NSString *)description
+						   notificationName:(NSString *)NotifierNetworkIpAcquiredNotification
 								   iconData:ipIconData
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
-	[description release];
+	CFRelease(title);
+	CFRelease(description);
 }
 
 static void ipReleased(void) {
@@ -238,67 +294,46 @@ static void ipReleased(void) {
 	if (sleeping)
 		return;
 
-	[GrowlApplicationBridge notifyWithTitle:NotifierNetworkIpReleasedTitle
-								description:NotifierNetworkIpReleasedDescription
-						   notificationName:NotifierNetworkIpReleasedNotification
+	CFStringRef title = NotifierNetworkIpReleasedTitle();
+	CFStringRef description = NotifierNetworkIpReleasedDescription();
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
+								description:(NSString *)description
+						   notificationName:(NSString *)NotifierNetworkIpReleasedNotification
 								   iconData:ipIconData
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
+	CFRelease(title);
+	CFRelease(description);
 }
 
 static void syncStarted(void) {
 	//NSLog(@"Sync started");
 
-	[GrowlApplicationBridge notifyWithTitle:NotifierSyncStartedTitle
-								description:NotifierSyncStartedTitle
-						   notificationName:NotifierSyncStartedNotification
+	CFStringRef title = NotifierSyncStartedTitle();
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
+								description:(NSString *)title
+						   notificationName:(NSString *)NotifierSyncStartedNotification
 								   iconData:iSyncIconData
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
+	CFRelease(title);
 }
 
 static void syncFinished(void) {
 	//NSLog(@"Sync finished");
 
-	[GrowlApplicationBridge notifyWithTitle:NotifierSyncFinishedTitle
-								description:NotifierSyncFinishedTitle
-						   notificationName:NotifierSyncFinishedNotification
+	CFStringRef title = NotifierSyncFinishedTitle();
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
+								description:(NSString *)title
+						   notificationName:(NSString *)NotifierSyncFinishedNotification
 								   iconData:iSyncIconData
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
+	CFRelease(title);
 }
-
-static struct FireWireNotifierCallbacks fireWireNotifierCallbacks = {
-	fwDidConnect,
-	fwDidDisconnect
-};
-static struct USBNotifierCallbacks usbNotifierCallbacks = {
-	usbDidConnect,
-	usbDidDisconnect
-};
-static struct BluetoothNotifierCallbacks bluetoothNotifierCallbacks = {
-	bluetoothDidConnect,
-	bluetoothDidDisconnect
-};
-static struct VolumeNotifierCallbacks volumeNotifierCallbacks = {
-	volumeDidMount,
-	volumeDidUnmount
-};
-static struct NetworkNotifierCallbacks networkNotifierCallbacks = {
-	linkUp,
-	linkDown,
-	ipAcquired,
-	ipReleased,
-	airportConnect,
-	airportDisconnect
-};
-static struct SyncNotifierCallbacks syncNotifierCallbacks = {
-	syncStarted,
-	syncFinished
-};
 
 static void powerCallback(void *refcon, io_service_t service, natural_t messageType, void *messageArgument) {
 #pragma unused(refcon,service)
@@ -329,6 +364,35 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 @implementation AppController
 
 - (void) awakeFromNib {
+	static const struct FireWireNotifierCallbacks fireWireNotifierCallbacks = {
+		fwDidConnect,
+		fwDidDisconnect
+	};
+	static const struct USBNotifierCallbacks usbNotifierCallbacks = {
+		usbDidConnect,
+		usbDidDisconnect
+	};
+	static const struct BluetoothNotifierCallbacks bluetoothNotifierCallbacks = {
+		bluetoothDidConnect,
+		bluetoothDidDisconnect
+	};
+	static const struct VolumeNotifierCallbacks volumeNotifierCallbacks = {
+		volumeDidMount,
+		volumeDidUnmount
+	};
+	static const struct NetworkNotifierCallbacks networkNotifierCallbacks = {
+		linkUp,
+		linkDown,
+		ipAcquired,
+		ipReleased,
+		airportConnect,
+		airportDisconnect
+	};
+	static const struct SyncNotifierCallbacks syncNotifierCallbacks = {
+		syncStarted,
+		syncFinished
+	};
+	
 	bluetoothLogoData = [[[NSImage imageNamed: @"BluetoothLogo.png"] TIFFRepresentation] retain];
 	ejectLogoData = [[[NSImage imageNamed: @"eject.icns"] TIFFRepresentation] retain];
 	firewireLogoData = [[[NSImage imageNamed: @"FireWireLogo.png"] TIFFRepresentation] retain];
@@ -392,9 +456,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 }
 
 - (NSDictionary *) registrationDictionaryForGrowl {
-	// Register with Growl
-
-	NSArray *notifications = [[NSArray alloc] initWithObjects:
+	static const CFStringRef notificationNames[16] = {
 		NotifierBluetoothConnectionNotification,
 		NotifierBluetoothDisconnectionNotification,
 		NotifierFireWireConnectionNotification,
@@ -410,21 +472,26 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 		NotifierNetworkAirportConnectNotification,
 		NotifierNetworkAirportDisconnectNotification,
 		NotifierSyncStartedNotification,
-		NotifierSyncFinishedNotification,
-		nil];
+		NotifierSyncFinishedNotification
+	};
+
+	CFArrayRef notifications = CFArrayCreate(kCFAllocatorDefault,
+											 (const void **)notificationNames,
+											 16,
+											 &kCFTypeArrayCallBacks);
 
 	NSDictionary *regDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"HardwareGrowler", GROWL_APP_NAME,
-		notifications, GROWL_NOTIFICATIONS_ALL,
-		notifications, GROWL_NOTIFICATIONS_DEFAULT,
+		notifications,      GROWL_NOTIFICATIONS_ALL,
+		notifications,      GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
 
-	[notifications release];
+	CFRelease(notifications);
 
 	return regDict;
 }
 
-- (IBAction) doSimpleHelp: (id)sender {
+- (IBAction) doSimpleHelp:(id)sender {
 	[[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"readme" ofType:@"txt"]];
 }
 

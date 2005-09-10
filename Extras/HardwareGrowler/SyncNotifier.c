@@ -1,5 +1,5 @@
 //
-//  SyncNotifier.m
+//  SyncNotifier.c
 //  HardwareGrowler
 //
 //  Created by Ingmar Stein on 03.09.05.

@@ -13,8 +13,8 @@ struct NetworkNotifierCallbacks {
 	void (*linkDown)(CFStringRef description);
 	void (*ipAcquired)(CFStringRef ip);
 	void (*ipReleased)(void);
-	void (*airportConnect)(CFStringRef description);
-	void (*airportDisconnect)(CFStringRef description);
+	void (*airportConnect)(CFStringRef networkName, const unsigned char *bssidBytes);
+	void (*airportDisconnect)(CFStringRef networkName);
 };
 
 void NetworkNotifier_init(const struct NetworkNotifierCallbacks *c);
