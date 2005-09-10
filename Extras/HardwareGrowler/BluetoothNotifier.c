@@ -1,18 +1,17 @@
 #include "BluetoothNotifier.h"
+#include "AppController.h"
 #include <stdlib.h>
 #include <IOBluetooth/Bluetooth.h>
 #include <IOBluetooth/IOBluetoothUserLib.h>
 
 extern void NSLog(CFStringRef format, ...);
 
-static IOBluetoothUserNotificationRef		connectionNotification;
-static Boolean								initializing;
-static struct BluetoothNotifierCallbacks	callbacks;
+static IOBluetoothUserNotificationRef	connectionNotification;
+static Boolean							initializing;
 
 static void bluetoothDisconnection(void *userRefCon, IOBluetoothUserNotificationRef inRef, IOBluetoothObjectRef objectRef) {
 	// NSLog(@"BT Device Disconnection: %@" , [device name]);
-	if (callbacks.didDisconnect)
-		callbacks.didDisconnect(IOBluetoothDeviceGetName(objectRef));
+	AppController_bluetoothDidDisconnect(IOBluetoothDeviceGetName(objectRef));
 
 	IOBluetoothUserNotificationUnregister(inRef);
 }
@@ -22,8 +21,7 @@ static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef
 	// NSLog(@"BT Device connection: %@" , [device name]);
 	Boolean keyExistsAndHasValidFormat;
 	if (!initializing || CFPreferencesGetAppBooleanValue(CFSTR("ShowExisting"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat))
-		if (callbacks.didConnect)
-			callbacks.didConnect(IOBluetoothDeviceGetName(objectRef));
+		AppController_bluetoothDidConnect(IOBluetoothDeviceGetName(objectRef));
 
 	IOBluetoothDeviceRegisterForDisconnectNotification(objectRef, bluetoothDisconnection, NULL);
 }
@@ -44,9 +42,8 @@ static void channelClosed(IOBluetoothUserNotification*)note withChannel: (IOBlue
 }
 */
 
-void BluetoothNotifier_init(const struct BluetoothNotifierCallbacks *c) {
+void BluetoothNotifier_init(void) {
 	initializing = true;
-	callbacks = *c;
 //	NSLog(@"registering for BT Notes.");
 	/*
 	 [IOBluetoothRFCOMMChannel registerForChannelOpenNotifications: self

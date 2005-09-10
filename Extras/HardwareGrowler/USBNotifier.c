@@ -1,4 +1,5 @@
 #include "USBNotifier.h"
+#include "AppController.h"
 #include <IOKit/IOKitLib.h>
 #include <IOKit/IOCFPlugIn.h>
 #include <IOKit/usb/IOUSBLib.h>
@@ -6,10 +7,9 @@
 
 extern void NSLog(CFStringRef format, ...);
 
-static struct USBNotifierCallbacks	callbacks;
-static IONotificationPortRef		ioKitNotificationPort;
-static CFRunLoopSourceRef			notificationRunLoopSource;
-static Boolean						notificationsArePrimed = false;
+static IONotificationPortRef	ioKitNotificationPort;
+static CFRunLoopSourceRef		notificationRunLoopSource;
+static Boolean					notificationsArePrimed = false;
 
 #pragma mark C Callbacks
 
@@ -23,23 +23,21 @@ static void usbDeviceAdded(void *refCon, io_iterator_t iterator) {
 			kern_return_t	nameResult;
 			io_name_t		deviceNameChars;
 
-			if (callbacks.didConnect) {
-				//	This works with USB devices...
-				//	but apparently not firewire
-				nameResult = IORegistryEntryGetName(thisObject, deviceNameChars);
+			//	This works with USB devices...
+			//	but apparently not firewire
+			nameResult = IORegistryEntryGetName(thisObject, deviceNameChars);
 
-				CFStringRef deviceName = CFStringCreateWithCString(kCFAllocatorDefault,
-																   deviceNameChars,
-																   kCFStringEncodingASCII);
-				if (CFStringCompare(deviceName, CFSTR("OHCI Root Hub Simulation"), 0) == kCFCompareEqualTo)
-					deviceName = CFSTR("USB Bus");
-				else if (CFStringCompare(deviceName, CFSTR("EHCI Root Hub Simulation"), 0) == kCFCompareEqualTo)
-					deviceName = CFSTR("USB 2.0 Bus");
+			CFStringRef deviceName = CFStringCreateWithCString(kCFAllocatorDefault,
+															   deviceNameChars,
+															   kCFStringEncodingASCII);
+			if (CFStringCompare(deviceName, CFSTR("OHCI Root Hub Simulation"), 0) == kCFCompareEqualTo)
+				deviceName = CFSTR("USB Bus");
+			else if (CFStringCompare(deviceName, CFSTR("EHCI Root Hub Simulation"), 0) == kCFCompareEqualTo)
+				deviceName = CFSTR("USB 2.0 Bus");
 
-				// NSLog(@"USB Device Attached: %@" , deviceName);
-				callbacks.didConnect(deviceName);
-				CFRelease(deviceName);
-			}
+			// NSLog(@"USB Device Attached: %@" , deviceName);
+			AppController_usbDidConnect(deviceName);
+			CFRelease(deviceName);
 		}
 
 		IOObjectRelease(thisObject);
@@ -54,18 +52,16 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator) {
 		kern_return_t	nameResult;
 		io_name_t		deviceNameChars;
 
-		if (callbacks.didDisconnect) {
-			//	This works with USB devices...
-			//	but apparently not firewire
-			nameResult = IORegistryEntryGetName(thisObject, deviceNameChars);
-			CFStringRef deviceName = CFStringCreateWithCString(kCFAllocatorDefault,
-															   deviceNameChars,
-															   kCFStringEncodingASCII);
+		//	This works with USB devices...
+		//	but apparently not firewire
+		nameResult = IORegistryEntryGetName(thisObject, deviceNameChars);
+		CFStringRef deviceName = CFStringCreateWithCString(kCFAllocatorDefault,
+														   deviceNameChars,
+														   kCFStringEncodingASCII);
 
-			// NSLog(@"USB Device Detached: %@" , deviceName);
-			callbacks.didDisconnect(deviceName);
-			CFRelease(deviceName);
-		}
+		// NSLog(@"USB Device Detached: %@" , deviceName);
+		AppController_usbDidDisconnect(deviceName);
+		CFRelease(deviceName);
 
 		IOObjectRelease(thisObject);
 	}
@@ -123,8 +119,7 @@ static void registerForUSBNotifications(void) {
 	notificationsArePrimed = true;
 }
 
-void USBNotifier_init(const struct USBNotifierCallbacks *c) {
-	callbacks = *c;
+void USBNotifier_init(void) {
 	notificationsArePrimed = false;
 //#warning	kIOMasterPortDefault is only available on 10.2 and above...
 	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);

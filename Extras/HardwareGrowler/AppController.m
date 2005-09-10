@@ -62,7 +62,7 @@ static io_object_t			powerNotifier;
 static CFRunLoopSourceRef	powerRunLoopSource;
 static BOOL					sleeping;
 
-static void fwDidConnect(CFStringRef deviceName) {
+void AppController_fwDidConnect(CFStringRef deviceName) {
 //	NSLog(@"FireWire Connect: %@", deviceName);
 
 	CFStringRef title = NotifierFireWireConnectionTitle();
@@ -76,7 +76,7 @@ static void fwDidConnect(CFStringRef deviceName) {
 	CFRelease(title);
 }
 
-static void fwDidDisconnect(CFStringRef deviceName) {
+void AppController_fwDidDisconnect(CFStringRef deviceName) {
 //	NSLog(@"FireWire Disconnect: %@", deviceName);
 
 	CFStringRef title = NotifierFireWireDisconnectionTitle();
@@ -90,7 +90,7 @@ static void fwDidDisconnect(CFStringRef deviceName) {
 	CFRelease(title);
 }
 
-static void usbDidConnect(CFStringRef deviceName) {
+void AppController_usbDidConnect(CFStringRef deviceName) {
 //	NSLog(@"USB Connect: %@", deviceName);
 	CFStringRef title = NotifierUSBConnectionTitle();
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
@@ -103,7 +103,7 @@ static void usbDidConnect(CFStringRef deviceName) {
 	CFRelease(title);
 }
 
-static void usbDidDisconnect(CFStringRef deviceName) {
+void AppController_usbDidDisconnect(CFStringRef deviceName) {
 //	NSLog(@"USB Disconnect: %@", deviceName);
 	CFStringRef title = NotifierUSBDisconnectionTitle();
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
@@ -116,7 +116,7 @@ static void usbDidDisconnect(CFStringRef deviceName) {
 	CFRelease(title);
 }
 
-static void bluetoothDidConnect(CFStringRef device) {
+void AppController_bluetoothDidConnect(CFStringRef device) {
 //	NSLog(@"Bluetooth Connect: %@", device);
 	CFStringRef title = NotifierBluetoothConnectionTitle();
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
@@ -129,7 +129,7 @@ static void bluetoothDidConnect(CFStringRef device) {
 	CFRelease(title);
 }
 
-static void bluetoothDidDisconnect(CFStringRef device) {
+void AppController_bluetoothDidDisconnect(CFStringRef device) {
 //	NSLog(@"Bluetooth Disconnect: %@", device);
 	CFStringRef title = NotifierBluetoothDisconnectionTitle();
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
@@ -142,7 +142,7 @@ static void bluetoothDidDisconnect(CFStringRef device) {
 	CFRelease(title);
 }
 
-static void volumeDidMount(CFStringRef name, CFStringRef path) {
+void AppController_volumeDidMount(CFStringRef name, CFStringRef path) {
 	//NSLog(@"volume Mount: %@", name);
 
 	CFStringRef title = NotifierVolumeMountedTitle();
@@ -158,7 +158,7 @@ static void volumeDidMount(CFStringRef name, CFStringRef path) {
 	CFRelease(title);
 }
 
-static void volumeDidUnmount(CFStringRef name) {
+void AppController_volumeDidUnmount(CFStringRef name) {
 	//NSLog(@"volume Unmount: %@", name);
 
 	CFStringRef title = NotifierVolumeUnmountedTitle();
@@ -172,7 +172,7 @@ static void volumeDidUnmount(CFStringRef name) {
 	CFRelease(title);
 }
 
-static void airportConnect(CFStringRef networkName, const unsigned char *bssidBytes) {
+void AppController_airportConnect(CFStringRef networkName, const unsigned char *bssidBytes) {
 	//NSLog(@"AirPort connect: %@", description);
 
 	if (sleeping)
@@ -204,7 +204,7 @@ static void airportConnect(CFStringRef networkName, const unsigned char *bssidBy
 	CFRelease(description);
 }
 
-static void airportDisconnect(CFStringRef networkName) {
+void AppController_airportDisconnect(CFStringRef networkName) {
 	//NSLog(@"AirPort disconnect: %@", description);
 
 	if (sleeping)
@@ -230,7 +230,7 @@ static void airportDisconnect(CFStringRef networkName) {
 	CFRelease(description);
 }
 
-static void linkUp(CFStringRef description) {
+void AppController_linkUp(CFStringRef description) {
 	//NSLog(@"Link up: %@", description);
 
 	if (sleeping)
@@ -247,7 +247,7 @@ static void linkUp(CFStringRef description) {
 	CFRelease(title);
 }
 
-static void linkDown(CFStringRef description) {
+void AppController_linkDown(CFStringRef description) {
 	//NSLog(@"Link down: %@", description);
 
 	if (sleeping)
@@ -264,7 +264,7 @@ static void linkDown(CFStringRef description) {
 	CFRelease(title);
 }
 
-static void ipAcquired(CFStringRef ip) {
+void AppController_ipAcquired(CFStringRef ip) {
 	//NSLog(@"IP acquired: %@", ip);
 
 	if (sleeping)
@@ -288,7 +288,7 @@ static void ipAcquired(CFStringRef ip) {
 	CFRelease(description);
 }
 
-static void ipReleased(void) {
+void AppController_ipReleased(void) {
 	//NSLog(@"IP released");
 
 	if (sleeping)
@@ -307,7 +307,7 @@ static void ipReleased(void) {
 	CFRelease(description);
 }
 
-static void syncStarted(void) {
+void AppController_syncStarted(void) {
 	//NSLog(@"Sync started");
 
 	CFStringRef title = NotifierSyncStartedTitle();
@@ -321,7 +321,7 @@ static void syncStarted(void) {
 	CFRelease(title);
 }
 
-static void syncFinished(void) {
+void AppController_syncFinished(void) {
 	//NSLog(@"Sync finished");
 
 	CFStringRef title = NotifierSyncFinishedTitle();
@@ -364,35 +364,6 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 @implementation AppController
 
 - (void) awakeFromNib {
-	static const struct FireWireNotifierCallbacks fireWireNotifierCallbacks = {
-		fwDidConnect,
-		fwDidDisconnect
-	};
-	static const struct USBNotifierCallbacks usbNotifierCallbacks = {
-		usbDidConnect,
-		usbDidDisconnect
-	};
-	static const struct BluetoothNotifierCallbacks bluetoothNotifierCallbacks = {
-		bluetoothDidConnect,
-		bluetoothDidDisconnect
-	};
-	static const struct VolumeNotifierCallbacks volumeNotifierCallbacks = {
-		volumeDidMount,
-		volumeDidUnmount
-	};
-	static const struct NetworkNotifierCallbacks networkNotifierCallbacks = {
-		linkUp,
-		linkDown,
-		ipAcquired,
-		ipReleased,
-		airportConnect,
-		airportDisconnect
-	};
-	static const struct SyncNotifierCallbacks syncNotifierCallbacks = {
-		syncStarted,
-		syncFinished
-	};
-	
 	bluetoothLogoData = [[[NSImage imageNamed: @"BluetoothLogo.png"] TIFFRepresentation] retain];
 	ejectLogoData = [[[NSImage imageNamed: @"eject.icns"] TIFFRepresentation] retain];
 	firewireLogoData = [[[NSImage imageNamed: @"FireWireLogo.png"] TIFFRepresentation] retain];
@@ -421,12 +392,12 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 		CFRelease(powerRunLoopSource);
 	}
 
-	FireWireNotifier_init(&fireWireNotifierCallbacks);
-	USBNotifier_init(&usbNotifierCallbacks);
-	VolumeNotifier_init(&volumeNotifierCallbacks);
-	SyncNotifier_init(&syncNotifierCallbacks);
-	BluetoothNotifier_init(&bluetoothNotifierCallbacks);
-	NetworkNotifier_init(&networkNotifierCallbacks);
+	FireWireNotifier_init();
+	USBNotifier_init();
+	VolumeNotifier_init();
+	SyncNotifier_init();
+	BluetoothNotifier_init();
+	NetworkNotifier_init();
 }
 
 - (void) dealloc {

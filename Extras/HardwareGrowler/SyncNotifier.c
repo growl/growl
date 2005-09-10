@@ -7,8 +7,7 @@
 //
 
 #include "SyncNotifier.h"
-
-static struct SyncNotifierCallbacks callbacks;
+#include "AppController.h"
 
 extern void NSLog(CFStringRef format, ...);
 
@@ -18,8 +17,7 @@ static void syncStarted(CFNotificationCenterRef center,
 						const void *object, 
 						CFDictionaryRef userInfo) {
 #pragma unused(center,observer,name,object,userInfo)
-	if (callbacks.syncStarted)
-		callbacks.syncStarted();
+	AppController_syncStarted();
 }
 
 static void syncFinished(CFNotificationCenterRef center, 
@@ -29,13 +27,12 @@ static void syncFinished(CFNotificationCenterRef center,
 						 CFDictionaryRef userInfo) {
 #pragma unused(center,observer,name,object)
 	CFStringRef status = CFDictionaryGetValue(userInfo, CFSTR("ISyncPlanStatus"));
-	if (callbacks.syncFinished && status && CFStringCompare(status, CFSTR("Finished"), 0) == kCFCompareEqualTo)
-		callbacks.syncFinished();
+	if (status && CFStringCompare(status, CFSTR("Finished"), 0) == kCFCompareEqualTo)
+		AppController_syncFinished();
 	// else if (CFStringCompare(status, CFSTR("Cancelled"), 0) == kCFCompareEqualTo)
 }
 
-void SyncNotifier_init(const struct SyncNotifierCallbacks *c) {
-	callbacks = *c;
+void SyncNotifier_init(void) {
 	CFNotificationCenterRef center = CFNotificationCenterGetDistributedCenter();
 	CFNotificationCenterAddObserver(/*center*/ center,
 									/*observer*/ "SyncNotifier",

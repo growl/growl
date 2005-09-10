@@ -8,6 +8,7 @@
 //
 
 #include "NetworkNotifier.h"
+#include "AppController.h"
 #include <SystemConfiguration/SystemConfiguration.h>
 
 // Media stuff
@@ -30,8 +31,6 @@ static SCDynamicStoreRef dynStore;
 
 /** Our run loop source for notification. */
 static CFRunLoopSourceRef rlSrc;
-
-static struct NetworkNotifierCallbacks callbacks;
 
 static struct ifmedia_description ifm_subtype_ethernet_descriptions[] = IFM_SUBTYPE_ETHERNET_DESCRIPTIONS;
 static struct ifmedia_description ifm_shared_option_descriptions[] = IFM_SHARED_OPTION_DESCRIPTIONS;
@@ -118,20 +117,17 @@ static void linkStatusChange(CFDictionaryRef newValue) {
 		active = 0;
 
 	if (active) {
-		if (callbacks.linkUp) {
-			CFStringRef media = getMediaForInterface("en0");
-			CFStringRef desc = CFStringCreateWithFormat(kCFAllocatorDefault,
-														0,
-														CFSTR("Interface:\ten0\nMedia:\t%@"),
-														media);
-			if (media)
-				CFRelease(media);
-			callbacks.linkUp(desc);
-			CFRelease(desc);
-		}
-	} else if (callbacks.linkDown) {
-		callbacks.linkDown(CFSTR("Interface:\ten0"));
-	}
+		CFStringRef media = getMediaForInterface("en0");
+		CFStringRef desc = CFStringCreateWithFormat(kCFAllocatorDefault,
+													0,
+													CFSTR("Interface:\ten0\nMedia:\t%@"),
+													media);
+		if (media)
+			CFRelease(media);
+		AppController_linkUp(desc);
+		CFRelease(desc);
+	} else
+		AppController_linkDown(CFSTR("Interface:\ten0"));
 }
 
 static void ipAddressChange(CFDictionaryRef newValue) {
@@ -146,18 +142,15 @@ static void ipAddressChange(CFDictionaryRef newValue) {
 		if (ipv4Info) {
 			CFArrayRef addrs = CFDictionaryGetValue(ipv4Info, CFSTR("Addresses"));
 			if (addrs) {
-				if (CFArrayGetCount(addrs)) {
-					if (callbacks.ipAcquired)
-						callbacks.ipAcquired(CFArrayGetValueAtIndex(addrs, 0));
-				} else {
+				if (CFArrayGetCount(addrs))
+					AppController_ipAcquired(CFArrayGetValueAtIndex(addrs, 0));
+				else
 					NSLog(CFSTR("Empty address array"));
-				}
 			}
 			CFRelease(ipv4Info);
 		}
-	} else if (callbacks.ipReleased) {
-		callbacks.ipReleased();
-	}
+	} else
+		AppController_ipReleased();
 }
 
 static void airportStatusChange(CFDictionaryRef newValue) {
@@ -168,11 +161,10 @@ static void airportStatusChange(CFDictionaryRef newValue) {
 		CFNumberRef linkStatus = CFDictionaryGetValue(newValue, CFSTR("Link Status"));
 		if (linkStatus) {
 			CFNumberGetValue(linkStatus, kCFNumberIntType, &status);
-			if (status == AIRPORT_DISCONNECTED) {
-				if (callbacks.airportDisconnect)
-					callbacks.airportDisconnect(CFDictionaryGetValue(airportStatus, CFSTR("SSID")));
-			} else if (callbacks.airportConnect)
-				callbacks.airportConnect(CFDictionaryGetValue(newValue, CFSTR("SSID")), CFDataGetBytePtr(newBSSID));
+			if (status == AIRPORT_DISCONNECTED)
+				AppController_airportDisconnect(CFDictionaryGetValue(airportStatus, CFSTR("SSID")));
+			else
+				AppController_airportConnect(CFDictionaryGetValue(newValue, CFSTR("SSID")), CFDataGetBytePtr(newBSSID));
 		}
 	}
 	if (airportStatus)
@@ -210,9 +202,7 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 	}
 }
 
-void NetworkNotifier_init(const struct NetworkNotifierCallbacks *c) {
-	callbacks = *c;
-
+void NetworkNotifier_init(void) {
 	SCDynamicStoreContext context = {
 		.version			= 0,
 		.info				= NULL,

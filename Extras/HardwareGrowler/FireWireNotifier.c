@@ -1,9 +1,9 @@
 #include "FireWireNotifier.h"
+#include "AppController.h"
 #include <IOKit/IOKitLib.h>
 
 extern void NSLog(CFStringRef format, ...);
 
-static struct FireWireNotifierCallbacks	callbacks;
 static IONotificationPortRef			ioKitNotificationPort;
 static CFRunLoopSourceRef				notificationRunLoopSource;
 static Boolean							notificationsArePrimed = false;
@@ -51,12 +51,10 @@ static void fwDeviceAdded(void *refCon, io_iterator_t iterator) {
 	while ((thisObject = IOIteratorNext(iterator))) {
 		Boolean keyExistsAndHasValidFormat;
 		if (notificationsArePrimed || CFPreferencesGetAppBooleanValue(CFSTR("ShowExisting"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat)) {
-			if (callbacks.didConnect) {
-				CFStringRef deviceName = nameForFireWireObject(thisObject);
-				// NSLog(@"FireWire Device Attached: %@" , deviceName);
-				callbacks.didConnect(deviceName);
-				CFRelease(deviceName);
-			}
+			CFStringRef deviceName = nameForFireWireObject(thisObject);
+			// NSLog(@"FireWire Device Attached: %@" , deviceName);
+			AppController_fwDidConnect(deviceName);
+			CFRelease(deviceName);
 		}
 		IOObjectRelease(thisObject);
 	}
@@ -67,12 +65,10 @@ static void fwDeviceRemoved(void *refCon, io_iterator_t iterator) {
 //	NSLog(@"FireWire Device Removed Notification.");
 	io_object_t thisObject;
 	while ((thisObject = IOIteratorNext(iterator))) {
-		if (callbacks.didDisconnect) {
-			CFStringRef deviceName = nameForFireWireObject(thisObject);
-			// NSLog(@"FireWire Device Removed: %@" , deviceName);
-			callbacks.didDisconnect(deviceName);
-			CFRelease(deviceName);
-		}
+		CFStringRef deviceName = nameForFireWireObject(thisObject);
+		// NSLog(@"FireWire Device Removed: %@" , deviceName);
+		AppController_fwDidDisconnect(deviceName);
+		CFRelease(deviceName);
 		
 		IOObjectRelease(thisObject);
 	}
@@ -134,8 +130,7 @@ static void registerForFireWireNotifications(void) {
 
 #pragma mark -
 
-void FireWireNotifier_init(const struct FireWireNotifierCallbacks *c) {
-	callbacks = *c;
+void FireWireNotifier_init(void) {
 	notificationsArePrimed = false;
 //#warning	kIOMasterPortDefault is only available on 10.2 and above...
 	ioKitNotificationPort = IONotificationPortCreate(kIOMasterPortDefault);

@@ -7,12 +7,12 @@
 //
 
 #include "VolumeNotifier.h"
+#include "AppController.h"
 #include <DiskArbitration/DiskArbitration.h>
 
 extern void NSLog(CFStringRef format, ...);
 
 static DASessionRef session;
-static struct VolumeNotifierCallbacks callbacks;
 
 static void diskDescriptionChanged(DADiskRef disk, CFArrayRef keys, void *userInfo) {
 #pragma(userInfo)
@@ -20,19 +20,15 @@ static void diskDescriptionChanged(DADiskRef disk, CFArrayRef keys, void *userIn
 	CFStringRef name = CFDictionaryGetValue(description, kDADiskDescriptionVolumeNameKey);
 	CFURLRef pathURL = CFDictionaryGetValue(description, kDADiskDescriptionVolumePathKey);
 	if (pathURL) {
-		if (callbacks.volumeDidMount) {
-			CFStringRef path = CFURLCopyFileSystemPath(pathURL, kCFURLPOSIXPathStyle);
-			callbacks.volumeDidMount(name, path);
-			CFRelease(path);
-		}
-	} else if (callbacks.volumeDidUnmount) {
-		callbacks.volumeDidUnmount(name);
-	}
+		CFStringRef path = CFURLCopyFileSystemPath(pathURL, kCFURLPOSIXPathStyle);
+		AppController_volumeDidMount(name, path);
+		CFRelease(path);
+	} else
+		AppController_volumeDidUnmount(name);
 	CFRelease(description);
 }
 
-void VolumeNotifier_init(const struct VolumeNotifierCallbacks *c) {
-	callbacks = *c;
+void VolumeNotifier_init(void) {
 	session = DASessionCreate(kCFAllocatorDefault);
 	DASessionScheduleWithRunLoop(session, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 
