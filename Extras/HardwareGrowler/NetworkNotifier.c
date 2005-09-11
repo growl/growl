@@ -203,21 +203,16 @@ static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *in
 }
 
 void NetworkNotifier_init(void) {
-	SCDynamicStoreContext context = {
-		.version			= 0,
-		.info				= NULL,
-		.retain				= NULL,
-		.release			= NULL,
-		.copyDescription	= NULL
-	};
-
 	dynStore = SCDynamicStoreCreate(kCFAllocatorDefault,
 									CFBundleGetIdentifier(CFBundleGetMainBundle()),
 									scCallback,
-									&context);
-	rlSrc = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynStore, 0);
-	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
-	CFRelease(rlSrc);
+									/*context*/ NULL);
+	if (!dynStore) {
+		NSLog(CFSTR("SCDynamicStoreCreate() failed: %s"),
+			  SCErrorString(SCError()));
+		return;
+	}
+
 	const CFStringRef keys[3] = {
 		CFSTR("State:/Network/Interface/en0/Link"),
 		CFSTR("State:/Network/Global/IPv4"),
@@ -227,16 +222,28 @@ void NetworkNotifier_init(void) {
 										   (const void **)keys,
 										   3,
 										   &kCFTypeArrayCallBacks);
-	SCDynamicStoreSetNotificationKeys(dynStore,
-									  watchedKeys,
-									  NULL);
+	if (!SCDynamicStoreSetNotificationKeys(dynStore,
+										   watchedKeys,
+										   NULL)) {
+		CFRelease(watchedKeys);
+		NSLog(CFSTR("SCDynamicStoreSetNotificationKeys() failed: %s"),
+			  SCErrorString(SCError()));
+		CFRelease(dynStore);
+	}
 	CFRelease(watchedKeys);
+
+	rlSrc = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynStore, 0);
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
+	CFRelease(rlSrc);
+
 	airportStatus = SCDynamicStoreCopyValue(dynStore, CFSTR("State:/Network/Interface/en1/AirPort"));
 }
 
 void NetworkNotifier_dealloc(void) {
-	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);	
-	CFRelease(dynStore);
+	if (rlSrc)
+		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);	
+	if (dynStore)
+		CFRelease(dynStore);
 	if (airportStatus)
 		CFRelease(airportStatus);
 }
