@@ -94,7 +94,7 @@ static CFStringRef getMediaForInterface(const char *interface) {
 	CFStringRef media;
 	if (options) {
 		media = CFStringCreateWithFormat(kCFAllocatorDefault,
-										 0,
+										 NULL,
 										 CFSTR("%s <%@>"),
 										 type,
 										 options);
@@ -119,7 +119,7 @@ static void linkStatusChange(CFDictionaryRef newValue) {
 	if (active) {
 		CFStringRef media = getMediaForInterface("en0");
 		CFStringRef desc = CFStringCreateWithFormat(kCFAllocatorDefault,
-													0,
+													NULL,
 													CFSTR("Interface:\ten0\nMedia:\t%@"),
 													media);
 		if (media)
@@ -134,7 +134,7 @@ static void ipAddressChange(CFDictionaryRef newValue) {
 	if (newValue) {
 //		NSLog(CFSTR("IP address acquired"));
 		CFStringRef ipv4Key = CFStringCreateWithFormat(kCFAllocatorDefault,
-													   0,
+													   NULL,
 													   CFSTR("State:/Network/Interface/%@/IPv4"),
 													   CFDictionaryGetValue(newValue, CFSTR("PrimaryInterface")));
 		CFDictionaryRef ipv4Info = SCDynamicStoreCopyValue(dynStore, ipv4Key);

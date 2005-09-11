@@ -181,7 +181,7 @@ void AppController_airportConnect(CFStringRef networkName, const unsigned char *
 	CFStringRef title = NotifierNetworkAirportConnectTitle();
 	CFStringRef format = NotifierNetworkAirportConnectDescription();
 	CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault,
-													   0,
+													   NULL,
 													   format,
 													   networkName,
 													   bssidBytes[0],
@@ -213,7 +213,7 @@ void AppController_airportDisconnect(CFStringRef networkName) {
 	CFStringRef title = NotifierNetworkAirportDisconnectTitle();
 	CFStringRef format = NotifierNetworkAirportDisconnectDescription();
 	CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault,
-													   0,
+													   NULL,
 													   format,
 													   networkName);
 	CFRelease(format);
@@ -273,7 +273,7 @@ void AppController_ipAcquired(CFStringRef ip) {
 	CFStringRef title = NotifierNetworkIpAcquiredTitle();
 	CFStringRef format = NotifierNetworkIpAcquiredDescription();
 	CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault,
-													   0,
+													   NULL,
 													   format,
 													   ip);
 	CFRelease(format);
@@ -389,7 +389,6 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 	if (powerConnection) {
 		powerRunLoopSource = IONotificationPortGetRunLoopSource(ioNotificationPort);
 		CFRunLoopAddSource(CFRunLoopGetCurrent(), powerRunLoopSource, kCFRunLoopDefaultMode);
-		CFRelease(powerRunLoopSource);
 	}
 
 	FireWireNotifier_init();

@@ -79,15 +79,14 @@ static void fwDeviceRemoved(void *refCon, io_iterator_t iterator) {
 static void registerForFireWireNotifications(void) {
 	//http://developer.apple.com/documentation/DeviceDrivers/Conceptual/AccessingHardware/AH_Finding_Devices/chapter_4_section_2.html#//apple_ref/doc/uid/TP30000379/BABEACCJ
 	kern_return_t   matchingResult;
-	io_iterator_t   gFWAddedIter;
+	io_iterator_t   addedIterator;
 	kern_return_t   removeNoteResult;
 	io_iterator_t   removedIterator;
 	CFDictionaryRef myFireWireMatchDictionary;
 
 //	NSLog(@"registerForFireWireNotifications");
 
-	//	Setup a matching Dictionary.
-	//		myFireWireMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
+	//	Setup a matching dictionary.
 	myFireWireMatchDictionary = IOServiceMatching("IOFireWireDevice");
 
 	//	Register our notification
@@ -96,18 +95,17 @@ static void registerForFireWireNotifications(void) {
 													  myFireWireMatchDictionary,
 													  fwDeviceAdded,
 													  NULL,
-													  &gFWAddedIter);
+													  &addedIterator);
 
 	if (matchingResult)
 		NSLog(CFSTR("matching notification registration failed: %d)"), matchingResult);
 
-	//	Prime the Notifications (And Deal with the existing devices)...
-	fwDeviceAdded(NULL, gFWAddedIter);
+	//	Prime the notifications (And deal with the existing devices)...
+	fwDeviceAdded(NULL, addedIterator);
 
 	//	Register for removal notifications.
-	//	It seems we have to make a new dictionary...  reusing the old one didn't work.
 
-	//		myFireWireMatchDictionary = IOServiceMatching(kIOUSBDeviceClassName);
+	//	It seems we have to make a new dictionary...  reusing the old one didn't work.
 	myFireWireMatchDictionary = IOServiceMatching("IOFireWireDevice");
 	removeNoteResult = IOServiceAddMatchingNotification(ioKitNotificationPort,
 														kIOTerminatedNotification,
@@ -139,7 +137,6 @@ void FireWireNotifier_init(void) {
 	CFRunLoopAddSource(CFRunLoopGetCurrent(),
 					   notificationRunLoopSource,
 					   kCFRunLoopDefaultMode);
-	CFRelease(notificationRunLoopSource);
 	registerForFireWireNotifications();
 }
 

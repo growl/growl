@@ -28,9 +28,9 @@ static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef
 
 /*
 static void channelOpened(IOBluetoothUserNotification*)note withChannel: (IOBluetoothRFCOMMChannel *) chan {
-	NSLog(@"BT Channel opened." );
+	NSLog(@"BT Channel opened.");
 
-	NSLog(@"%@" , [[chan getDevice] name] );
+	NSLog(@"%@" , [[chan getDevice] name]);
 
 	[chan registerForChannelCloseNotification: self
 									 selector: @selector(channelClosed:withChannel:)];

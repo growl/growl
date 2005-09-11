@@ -88,7 +88,7 @@ static void registerForUSBNotifications(void) {
 													  myMatchDictionary,
 													  usbDeviceAdded,
 													  NULL,
-													  &addedIterator );
+													  &addedIterator);
 
 	if (matchingResult)
 		NSLog(CFSTR("matching notification registration failed: %d"), matchingResult);
@@ -128,7 +128,6 @@ void USBNotifier_init(void) {
 	CFRunLoopAddSource(CFRunLoopGetCurrent(),
 					   notificationRunLoopSource,
 					   kCFRunLoopDefaultMode);
-	CFRelease(notificationRunLoopSource);
 	registerForUSBNotifications();
 }
 
