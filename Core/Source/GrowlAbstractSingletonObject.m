@@ -76,8 +76,10 @@ static NSMutableDictionary	*singletonObjects = nil;
 		NSLog(@"Initializing an object twice is not a very good idea...");
 		[self doesNotRecognizeSelector:_cmd];
 		return [[self class] sharedInstance];
-	} else
+	} else {
+		[self setIsInitialized:YES];
 		return self;
+	}
 }
 
 //Does nothing by default
