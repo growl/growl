@@ -12,28 +12,22 @@
 
 @implementation GrowlPathway
 
-static GrowlApplicationController *_sharedApplicationController = nil;
-static SEL registerApplicationWithDictionarySEL = NULL;
 static IMP registerApplicationWithDictionaryIMP = NULL;
-static SEL dispatchNotificationWithDictionarySEL = NULL;
 static IMP dispatchNotificationWithDictionaryIMP = NULL;
 
 + (void) initialize {
-	_sharedApplicationController = [GrowlApplicationController sharedInstance];
-	registerApplicationWithDictionarySEL = @selector(registerApplicationWithDictionary:);
-	registerApplicationWithDictionaryIMP = [_sharedApplicationController methodForSelector:registerApplicationWithDictionarySEL];
-	dispatchNotificationWithDictionarySEL = @selector(dispatchNotificationWithDictionary:);
-	dispatchNotificationWithDictionaryIMP = [_sharedApplicationController methodForSelector:dispatchNotificationWithDictionarySEL];
+	registerApplicationWithDictionaryIMP = [GrowlApplicationController instanceMethodForSelector:@selector(registerApplicationWithDictionary:)];
+	dispatchNotificationWithDictionaryIMP = [GrowlApplicationController instanceMethodForSelector:@selector(dispatchNotificationWithDictionary:)];
 }
 
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
-	//[_sharedApplicationController registerApplicationWithDictionary:dict];
-	registerApplicationWithDictionaryIMP(_sharedApplicationController, registerApplicationWithDictionarySEL, dict);
+	//[[GrowlApplicationController sharedInstance] registerApplicationWithDictionary:dict];
+	registerApplicationWithDictionaryIMP([GrowlApplicationController sharedInstance], @selector(registerApplicationWithDictionary:), dict);
 }
 
 - (void) postNotificationWithDictionary:(NSDictionary *)dict {
-	//[_sharedApplicationController dispatchNotificationWithDictionary:dict];
-	dispatchNotificationWithDictionaryIMP(_sharedApplicationController, dispatchNotificationWithDictionarySEL, dict);
+	//[[GrowlApplicationController sharedInstance] dispatchNotificationWithDictionary:dict];
+	dispatchNotificationWithDictionaryIMP([GrowlApplicationController sharedInstance], @selector(dispatchNotificationWithDictionary:), dict);
 }
 
 - (NSString *) growlVersion {
