@@ -16,6 +16,5 @@
 }
 
 - (void) displayNotificationWithInfo:(NSDictionary *)noteDict;
-- (void) smokeGone:(NSNotification *)note;
 
 @end

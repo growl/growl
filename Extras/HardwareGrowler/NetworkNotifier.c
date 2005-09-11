@@ -218,7 +218,7 @@ void NetworkNotifier_init(void) {
 	rlSrc = SCDynamicStoreCreateRunLoopSource(kCFAllocatorDefault, dynStore, 0);
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
 	CFRelease(rlSrc);
-	CFStringRef keys[3] = {
+	const CFStringRef keys[3] = {
 		CFSTR("State:/Network/Interface/en0/Link"),
 		CFSTR("State:/Network/Global/IPv4"),
 		CFSTR("State:/Network/Interface/en1/AirPort")

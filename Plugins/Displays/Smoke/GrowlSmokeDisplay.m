@@ -15,19 +15,38 @@
 
 static unsigned smokeDepth = 0U;
 
+static void smokeGone(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+#pragma unused(center,observer,name,object)
+	CFNumberRef depth = CFDictionaryGetValue(userInfo, CFSTR("Depth"));
+	if (depth) {
+		unsigned notifiedDepth;
+		CFNumberGetValue(depth, kCFNumberIntType, &notifiedDepth);
+		//NSLog(@"Received notification of departure with depth %u, my depth is %u\n", notifiedDepth, smokeDepth);
+		if (smokeDepth > notifiedDepth)
+			smokeDepth = notifiedDepth;
+		//NSLog(@"My depth is now %u\n", smokeDepth);
+	}
+}
+
 @implementation GrowlSmokeDisplay
 
 - (id) init {
 	if ((self = [super init])) {
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(smokeGone:)
-													 name:@"SmokeGone"
-												   object:nil];
+		CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(),
+										/*observer*/ NULL,
+										smokeGone,
+										CFSTR("SmokeGone"),
+										/*object*/ NULL,
+										CFNotificationSuspensionBehaviorCoalesce);
 	}
 	return self;
 }
 
 - (void) dealloc {
+	CFNotificationCenterRemoveObserver(CFNotificationCenterGetLocalCenter(),
+									   /*observer*/ NULL,
+									   CFSTR("SmokeGone"),
+									   /*object*/ NULL);
 	[preferencePane release];
 	[super dealloc];
 }
@@ -56,13 +75,5 @@ static unsigned smokeDepth = 0U;
 	smokeDepth = [controller depth] + GrowlSmokePadding;
 	[controller startFadeIn];
 	[controller release];
-}
-
-- (void) smokeGone:(NSNotification *)note {
-	unsigned notifiedDepth = [[[note userInfo] objectForKey:@"Depth"] unsignedIntValue];
-	//NSLog(@"Received notification of departure with depth %u, my depth is %u\n", notifiedDepth, smokeDepth);
-	if (smokeDepth > notifiedDepth)
-		smokeDepth = notifiedDepth;
-	//NSLog(@"My depth is now %u\n", smokeDepth);
 }
 @end

@@ -13,12 +13,12 @@
 #import "GrowlImageURLProtocol.h"
 #import "NSWindow+Transforms.h"
 #import "GrowlPluginController.h"
-#import "NSMutableStringAdditions.h"
 #import "NSDictionaryAdditions.h"
 #import "NSViewAdditions.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
 #import "NSStringAdditions.h"
+#include "CFMutableStringAdditions.h"
 
 static unsigned webkitWindowDepth = 0U;
 static NSMutableDictionary *notificationsByIdentifier;
@@ -183,23 +183,23 @@ static NSMutableDictionary *notificationsByIdentifier;
 }
 
 - (void) setTitle:(NSString *)title titleHTML:(BOOL)titleIsHTML text:(NSString *)text textHTML:(BOOL)textIsHTML icon:(NSImage *)icon priority:(int)priority forView:(WebView *)view {
-	NSString *priorityName;
+	CFStringRef priorityName;
 	switch (priority) {
 		case -2:
-			priorityName = @"verylow";
+			priorityName = CFSTR("verylow");
 			break;
 		case -1:
-			priorityName = @"moderate";
+			priorityName = CFSTR("moderate");
 			break;
 		default:
 		case 0:
-			priorityName = @"normal";
+			priorityName = CFSTR("normal");
 			break;
 		case 1:
-			priorityName = @"high";
+			priorityName = CFSTR("high");
 			break;
 		case 2:
-			priorityName = @"emergency";
+			priorityName = CFSTR("emergency");
 			break;
 	}
 
@@ -228,51 +228,31 @@ static NSMutableDictionary *notificationsByIdentifier;
 	float opacity = 95.0f;
 	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, prefDomain, &opacity);
 	opacity *= 0.01f;
-	NSNumber *opacityNumber = [[NSNumber alloc] initWithFloat:opacity];
 
-	NSMutableString *titleHTML = [[NSMutableString alloc] initWithString:title];
-	NSMutableString *textHTML = [[NSMutableString alloc] initWithString:text];
-	NSURL           *baseURL = [[NSURL alloc] initFileURLWithPath:stylePath];
+	CFURLRef baseURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)stylePath, kCFURLPOSIXPathStyle, true);
+	CFStringRef titleHTML = titleIsHTML ? (CFStringRef)title : createStringByEscapingForHTML((CFStringRef)title);
+	CFStringRef textHTML = textIsHTML ? (CFStringRef)text : createStringByEscapingForHTML((CFStringRef)text);
+	CFStringRef opacityString = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%f"), opacity);
+
+	CFStringFindAndReplace((CFMutableStringRef)htmlString, CFSTR("%baseurl%"),  CFURLGetString(baseURL), CFRangeMake(0, CFStringGetLength((CFStringRef)htmlString)), 0);
+	CFStringFindAndReplace((CFMutableStringRef)htmlString, CFSTR("%opacity%"),  opacityString,           CFRangeMake(0, CFStringGetLength((CFStringRef)htmlString)), 0);
+	CFStringFindAndReplace((CFMutableStringRef)htmlString, CFSTR("%priority%"), priorityName,            CFRangeMake(0, CFStringGetLength((CFStringRef)htmlString)), 0);
+	CFStringFindAndReplace((CFMutableStringRef)htmlString, CFSTR("%image%"),    (CFStringRef)UUID,       CFRangeMake(0, CFStringGetLength((CFStringRef)htmlString)), 0);
+	CFStringFindAndReplace((CFMutableStringRef)htmlString, CFSTR("%title%"),    titleHTML,               CFRangeMake(0, CFStringGetLength((CFStringRef)htmlString)), 0);
+	CFStringFindAndReplace((CFMutableStringRef)htmlString, CFSTR("%text%"),     textHTML,                CFRangeMake(0, CFStringGetLength((CFStringRef)htmlString)), 0);
+
+	CFRelease(opacityString);
+	CFRelease(baseURL);
 	if (!titleIsHTML)
-		[titleHTML escapeForHTML];
+		CFRelease(titleHTML);
 	if (!textIsHTML)
-		[textHTML escapeForHTML];
-
-	[htmlString replaceOccurrencesOfString:@"%baseurl%"
-								withString:[baseURL absoluteString]
-								   options:NSLiteralSearch
-									 range:NSMakeRange(0U, [htmlString length])];
-	[htmlString replaceOccurrencesOfString:@"%opacity%"
-								withString:[opacityNumber stringValue]
-								   options:NSLiteralSearch
-									 range:NSMakeRange(0U, [htmlString length])];
-	[htmlString replaceOccurrencesOfString:@"%priority%"
-								withString:priorityName
-								   options:NSLiteralSearch
-									 range:NSMakeRange(0U, [htmlString length])];
-	[htmlString replaceOccurrencesOfString:@"%image%"
-								withString:UUID
-								   options:NSLiteralSearch
-									 range:NSMakeRange(0U, [htmlString length])];
-	[htmlString replaceOccurrencesOfString:@"%title%"
-								withString:titleHTML
-								   options:NSLiteralSearch
-									 range:NSMakeRange(0U, [htmlString length])];
-	[htmlString replaceOccurrencesOfString:@"%text%"
-								withString:textHTML
-								   options:NSLiteralSearch
-									 range:NSMakeRange(0U, [htmlString length])];
-
-	[opacityNumber release];
-	[titleHTML release];
-	[textHTML release];
+		CFRelease(textHTML);
 	WebFrame *webFrame = [view mainFrame];
 	[[self window] disableFlushWindow];
 	[self retain];
 	[webFrame loadHTMLString:htmlString baseURL:nil];
 	[[webFrame frameView] setAllowsScrolling:NO];
 	[htmlString release];
-	[baseURL release];
 }
 
 /*!

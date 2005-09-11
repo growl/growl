@@ -12,7 +12,7 @@
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		953BC8DD081403AF00AF9EA5 /* GrowlImageURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 953BC8DC081403AF00AF9EA5 /* GrowlImageURLProtocol.m */; };
-		955C239E081543540013C3CF /* NSMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 955C239D081543540013C3CF /* NSMutableStringAdditions.m */; };
+		955C239E081543540013C3CF /* CFMutableStringAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 955C239D081543540013C3CF /* CFMutableStringAdditions.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -58,8 +58,8 @@
 		953BC8DB081403AF00AF9EA5 /* GrowlImageURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlImageURLProtocol.h; path = ../../../Plugins/Displays/WebKit/GrowlImageURLProtocol.h; sourceTree = SOURCE_ROOT; };
 		953BC8DC081403AF00AF9EA5 /* GrowlImageURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlImageURLProtocol.m; path = ../../../Plugins/Displays/WebKit/GrowlImageURLProtocol.m; sourceTree = SOURCE_ROOT; };
 		953F73AF081FFC0D00823EFE /* GrowlNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationCenter.h; path = ../../../Core/Source/GrowlNotificationCenter.h; sourceTree = SOURCE_ROOT; };
-		955C239C081543540013C3CF /* NSMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NSMutableStringAdditions.h; path = ../../../Common/Source/NSMutableStringAdditions.h; sourceTree = SOURCE_ROOT; };
-		955C239D081543540013C3CF /* NSMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NSMutableStringAdditions.m; path = ../../../Common/Source/NSMutableStringAdditions.m; sourceTree = SOURCE_ROOT; };
+		955C239C081543540013C3CF /* CFMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CFMutableStringAdditions.h; path = ../../../Common/Source/CFMutableStringAdditions.h; sourceTree = SOURCE_ROOT; };
+		955C239D081543540013C3CF /* CFMutableStringAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = CFMutableStringAdditions.c; path = ../../../Common/Source/CFMutableStringAdditions.c; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,8 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				953F73AF081FFC0D00823EFE /* GrowlNotificationCenter.h */,
-				955C239C081543540013C3CF /* NSMutableStringAdditions.h */,
-				955C239D081543540013C3CF /* NSMutableStringAdditions.m */,
+				955C239C081543540013C3CF /* CFMutableStringAdditions.h */,
+				955C239D081543540013C3CF /* CFMutableStringAdditions.c */,
 				953BC8DB081403AF00AF9EA5 /* GrowlImageURLProtocol.h */,
 				953BC8DC081403AF00AF9EA5 /* GrowlImageURLProtocol.m */,
 				198E71DA075EAD77002FFDE7 /* GrowlWidgetPlugin.h */,
@@ -247,7 +247,7 @@
 			files = (
 				198E71E6075EAD77002FFDE7 /* GrowlWidgetPlugin.m in Sources */,
 				953BC8DD081403AF00AF9EA5 /* GrowlImageURLProtocol.m in Sources */,
-				955C239E081543540013C3CF /* NSMutableStringAdditions.m in Sources */,
+				955C239E081543540013C3CF /* CFMutableStringAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

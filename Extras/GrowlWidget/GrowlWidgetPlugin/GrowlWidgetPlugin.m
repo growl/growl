@@ -1,8 +1,8 @@
 #import "GrowlWidgetPlugin.h"
 #import "GrowlImageURLProtocol.h"
-#import "NSMutableStringAdditions.h"
 #import <GrowlDefines.h>
 #import <WebKit/WebKit.h>
+#include "CFMutableStringAdditions.h"
 
 /*********************************************/
 // The implementation of the widget plugin follows...
@@ -129,19 +129,40 @@
 			break;
 	}
 
-	NSMutableString *titleHTML = [[[userInfo objectForKey:GROWL_NOTIFICATION_TITLE] mutableCopy] escapeForHTML];
-	NSMutableString *textHTML = [[[userInfo objectForKey:GROWL_NOTIFICATION_DESCRIPTION] mutableCopy] escapeForHTML];
+	BOOL titleIsHTML;
+	BOOL textIsHTML;
+	CFStringRef titleHTML = (CFStringRef)[userInfo objectForKey:GROWL_NOTIFICATION_TITLE_HTML];
+	if (titleHTML)
+		titleIsHTML = YES;
+	else {
+		titleIsHTML = NO;
+		titleHTML = (CFStringRef)[userInfo objectForKey:GROWL_NOTIFICATION_TITLE];
+		if (titleHTML)
+			titleHTML = createStringByEscapingForHTML(titleHTML);
+	}
+	CFStringRef textHTML = (CFStringRef)[userInfo objectForKey:GROWL_NOTIFICATION_DESCRIPTION_HTML];
+	if (textHTML)
+		textIsHTML = YES;
+	else {
+		textIsHTML = NO;
+		textHTML = (CFStringRef)[userInfo objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+		if (textHTML)
+			textHTML = createStringByEscapingForHTML(textHTML);
+	}
+
 	NSMutableString *content = [[NSMutableString alloc] initWithFormat:@"<span class=\"%@\"><div class=\"icon\"><img src=\"growlimage://%@\" alt=\"icon\" /></div><div class=\"title\">%@</div><div class=\"text\">%@</div></span>",
 		priorityName,
 		UUID,
-		titleHTML ? titleHTML : @"",
-		textHTML ? textHTML : @""];
-	[titleHTML release];
-	[textHTML release];
+		titleHTML ? titleHTML : CFSTR(""),
+		textHTML ? textHTML : CFSTR("")];
+	if (titleHTML && !titleIsHTML)
+		CFRelease(titleHTML);
+	if (textHTML && !textIsHTML)
+		CFRelease(textHTML);
 	NSString *newMessage = [[NSString alloc] initWithFormat:@"setMessage(\"%@\");",
-		[content escapeForJavaScript]];
-	[webView stringByEvaluatingJavaScriptFromString:newMessage];
+		escapeForJavaScript((CFMutableStringRef)content)];
 	[content release];
+	[webView stringByEvaluatingJavaScriptFromString:newMessage];
 	[newMessage release];
 }
 
