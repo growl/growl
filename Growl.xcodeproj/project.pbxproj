@@ -122,7 +122,6 @@
 		0790135607D9321B0023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		0790135707D9321B0023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		0790135807D932270023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
-		07F9B7A408A49F6D00DF7F42 /* GrowlApplicationNotification.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07F9B7A208A49F6D00DF7F42 /* GrowlApplicationNotification.h */; };
 		07F9B7A508A49F6D00DF7F42 /* GrowlApplicationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */; };
 		07FCFFC407E2F90C00F0A1CF /* GrowlRemotePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FCFFC207E2F90C00F0A1CF /* GrowlRemotePathway.m */; };
 		0A7F5DA30767C13200E1C1E4 /* GrowlSpeechPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0A7F5D9B0767C13100E1C1E4 /* GrowlSpeechPrefs.nib */; };
@@ -388,14 +387,10 @@
 		DDF09B21080AC97A006F4172 /* PrefpaneTester.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF09B1C080AC97A006F4172 /* PrefpaneTester.m */; };
 		DDF09BC6080AC9ED006F4172 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		DDFADA6C084D1C770055DBC8 /* GrowlSMS.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */; };
-		EE1AF8D40897DA9400F486FD /* GrowlAnimation.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EE1AF8CD0897DA9400F486FD /* GrowlAnimation.h */; };
 		EE1AF8D50897DA9400F486FD /* GrowlAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8CE0897DA9400F486FD /* GrowlAnimation.m */; };
-		EE1AF8D60897DA9400F486FD /* GrowlWindowTransition.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EE1AF8CF0897DA9400F486FD /* GrowlWindowTransition.h */; };
 		EE1AF8D70897DA9400F486FD /* GrowlWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8D00897DA9400F486FD /* GrowlWindowTransition.m */; };
-		EE1AF8D80897DA9400F486FD /* GrowlFadingWindowTransition.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EE1AF8D20897DA9400F486FD /* GrowlFadingWindowTransition.h */; };
 		EE1AF8D90897DA9400F486FD /* GrowlFadingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8D30897DA9400F486FD /* GrowlFadingWindowTransition.m */; };
 		EED7068B08C743D9004651D0 /* GrowlAbstractSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EED7068908C743D9004651D0 /* GrowlAbstractSingletonObject.m */; };
-		EED7068C08C743D9004651D0 /* GrowlAbstractSingletonObject.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EED7068A08C743D9004651D0 /* GrowlAbstractSingletonObject.h */; };
 		EED7077708C74DCE004651D0 /* GrowlAbstractSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EED7068908C743D9004651D0 /* GrowlAbstractSingletonObject.m */; };
 		EED707A608C74E7F004651D0 /* GrowlAbstractSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EED7068908C743D9004651D0 /* GrowlAbstractSingletonObject.m */; };
 /* End PBXBuildFile section */
@@ -679,11 +674,6 @@
 				343345880790E3D600C84B15 /* Smoke.growlView in CopyFiles */,
 				DDFADA6C084D1C770055DBC8 /* GrowlSMS.growlView in CopyFiles */,
 				3433458A0790E3D600C84B15 /* Speech.growlView in CopyFiles */,
-				EE1AF8D40897DA9400F486FD /* GrowlAnimation.h in CopyFiles */,
-				EE1AF8D60897DA9400F486FD /* GrowlWindowTransition.h in CopyFiles */,
-				EE1AF8D80897DA9400F486FD /* GrowlFadingWindowTransition.h in CopyFiles */,
-				07F9B7A408A49F6D00DF7F42 /* GrowlApplicationNotification.h in CopyFiles */,
-				EED7068C08C743D9004651D0 /* GrowlAbstractSingletonObject.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
