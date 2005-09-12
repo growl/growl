@@ -19,14 +19,18 @@
 }
 
 - (id) initWithUTF8String:(const char *)bytes length:(unsigned)len {
-	return [self initWithBytes:bytes length:len encoding:NSUTF8StringEncoding];
+	return (id)CFStringCreateWithBytes(kCFAllocatorDefault,
+									   (const UInt8 *)bytes,
+									   len,
+									   kCFStringEncodingUTF8,
+									   false);
 }
 
 //for greater polymorphism with NSNumber.
 - (BOOL) boolValue {
 	return [self intValue] != 0
-	|| [self caseInsensitiveCompare:@"yes"]  == NSOrderedSame
-	|| [self caseInsensitiveCompare:@"true"] == NSOrderedSame;
+		|| (CFStringCompare((CFStringRef)self, CFSTR("yes"), kCFCompareCaseInsensitive) == kCFCompareEqualTo)
+		|| (CFStringCompare((CFStringRef)self, CFSTR("true"), kCFCompareCaseInsensitive) == kCFCompareEqualTo);
 }
 
 - (unsigned long) unsignedLongValue {
@@ -46,11 +50,11 @@
 
 - (NSAttributedString *) hyperlinkWithColor:(NSColor *)color {
 	NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-		[NSNumber numberWithInt:NSSingleUnderlineStyle], NSUnderlineStyleAttributeName,
-		self, NSLinkAttributeName,    // link to self
+		[NSNumber numberWithInt:NSSingleUnderlineStyle],        NSUnderlineStyleAttributeName,
+		self,                                                   NSLinkAttributeName,    // link to self
 		[NSFont systemFontOfSize:[NSFont smallSystemFontSize]],	NSFontAttributeName,
-		color, NSForegroundColorAttributeName,
-		[NSCursor pointingHandCursor], NSCursorAttributeName,
+		color,                                                  NSForegroundColorAttributeName,
+		[NSCursor pointingHandCursor],                          NSCursorAttributeName,
         nil];
 	NSAttributedString *result = [[[NSAttributedString alloc] initWithString:self attributes:attributes] autorelease];
 	[attributes release];
@@ -106,44 +110,48 @@
 }
 
 + (NSString *) stringWithString:(NSString *)str0 andCharacter:(unichar)ch andString:(NSString *)str1 {
-	unsigned len0 = (str0 ? [str0 length] : 0U), len1 = (str1 ? [str1 length] : 0U);
+	CFStringRef cfstr0 = (CFStringRef)str0;
+	CFStringRef cfstr1 = (CFStringRef)str1;
+	CFIndex len0 = (cfstr0 ? CFStringGetLength(cfstr0) : 0);
+	CFIndex len1 = (cfstr1 ? CFStringGetLength(cfstr1) : 0);
+	unsigned length = (len0 + (ch != 0xffff) + len1);
 
-	unichar *buf = malloc(sizeof(unichar) * (len0 + (ch != 0xffff) + len1));
+	unichar *buf = malloc(sizeof(unichar) * length);
 	unsigned i = 0U;
 
-	if (str0) {
-		memcpy(&buf[i], [[str0 dataUsingEncoding:NSUnicodeStringEncoding] bytes], len0);
+	if (cfstr0) {
+		CFStringGetCharacters(cfstr0, CFRangeMake(0, len0), buf);
 		i += len0;
 	}
 	if (ch != 0xffff)
 		buf[i++] = ch;
-	if (str1) {
-		memcpy(&buf[i], [[str1 dataUsingEncoding:NSUnicodeStringEncoding] bytes], len1);
-		i += len1;
-	}
+	if (cfstr1)
+		CFStringGetCharacters(cfstr1, CFRangeMake(0, len1), &buf[i]);
 
-	return [(NSString *)CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, buf, /*length*/ i, kCFAllocatorMalloc) autorelease];
+	return [(NSString *)CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, buf, length, kCFAllocatorMalloc) autorelease];
 }
 - (NSString *) initWithString:(NSString *)str0 andCharacter:(unichar)ch andString:(NSString *)str1 {
 	[self release];
 
-	unsigned len0 = (str0 ? [str0 length] : 0U), len1 = (str1 ? [str1 length] : 0U);
+	CFStringRef cfstr0 = (CFStringRef)str0;
+	CFStringRef cfstr1 = (CFStringRef)str1;
+	CFIndex len0 = (cfstr0 ? CFStringGetLength(cfstr0) : 0);
+	CFIndex len1 = (cfstr1 ? CFStringGetLength(cfstr1) : 0);
+	unsigned length = (len0 + (ch != 0xffff) + len1);
 
-	unichar *buf = malloc(sizeof(unichar) * (len0 + (ch != 0xffff) + len1));
+	unichar *buf = malloc(sizeof(unichar) * length);
 	unsigned i = 0U;
 
-	if (str0) {
-		memcpy(&buf[i], [[str0 dataUsingEncoding:NSUnicodeStringEncoding] bytes], len0);
+	if (cfstr0) {
+		CFStringGetCharacters(cfstr0, CFRangeMake(0, len0), buf);
 		i += len0;
 	}
 	if (ch != 0xffff)
 		buf[i++] = ch;
-	if (str1) {
-		memcpy(&buf[i], [[str1 dataUsingEncoding:NSUnicodeStringEncoding] bytes], len1);
-		i += len1;
-	}
+	if (cfstr1)
+		CFStringGetCharacters(cfstr1, CFRangeMake(0, len1), &buf[i]);
 
-	return (NSString *)CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, buf, /*length*/ i, /*contentsDeallocator*/ kCFAllocatorMalloc);
+	return (NSString *)CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, buf, length, /*contentsDeallocator*/ kCFAllocatorMalloc);
 }
 
 @end

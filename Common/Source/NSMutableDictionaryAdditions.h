@@ -7,7 +7,7 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 @interface NSMutableDictionary(GrowlAdditions)
 
