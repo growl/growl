@@ -12,6 +12,9 @@
 #include <unistd.h>
 #include <objc/objc.h>
 #include <objc/objc-runtime.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 #include "CFGrowlAdditions.h"
 
 static CFStringRef _CFURLAliasDataKey  = CFSTR("_CFURLAliasData");
@@ -126,6 +129,50 @@ CFStringRef copyTemporaryFolderPath(void) {
 	}
 
 	return path;
+}
+
+CFStringRef createStringWithAddressData(CFDataRef aAddressData) {
+	struct sockaddr *socketAddress = (struct sockaddr *)CFDataGetBytePtr(aAddressData);
+	// IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"
+	//      at max, which is 40 bytes (0-terminated)
+	// IPv4 Addresses are "255.255.255.255" at max which is smaller
+	char stringBuffer[40];
+	CFStringRef addressAsString = NULL;
+	if (socketAddress->sa_family == AF_INET) {
+		struct sockaddr_in *ipv4 = (struct sockaddr_in *)socketAddress;
+		if (inet_ntop(AF_INET, &(ipv4->sin_addr), stringBuffer, 40))
+			addressAsString = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%s:%d"), stringBuffer, ipv4->sin_port);
+		else
+			addressAsString = CFSTR("IPv4 un-ntopable");
+	} else if (socketAddress->sa_family == AF_INET6) {
+		struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)socketAddress;
+		if (inet_ntop(AF_INET6, &(ipv6->sin6_addr), stringBuffer, 40))
+			// Suggested IPv6 format (see http://www.faqs.org/rfcs/rfc2732.html)
+			addressAsString = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("[%s]:%d"), stringBuffer, ipv6->sin6_port);
+		else
+			addressAsString = CFSTR("IPv6 un-ntopable");
+	} else
+		addressAsString = CFSTR("neither IPv6 nor IPv4");
+
+	return addressAsString;
+}
+
+CFStringRef createHostNameForAddressData(CFDataRef aAddressData) {
+	char hostname[NI_MAXHOST];
+	struct sockaddr *socketAddress = (struct sockaddr *)CFDataGetBytePtr(aAddressData);
+	if (getnameinfo(socketAddress, CFDataGetLength(aAddressData),
+					hostname, sizeof(hostname),
+					/*serv*/ NULL, /*servlen*/ 0,
+					NI_NAMEREQD))
+		return NULL;
+	else
+		return CFStringCreateWithCString(kCFAllocatorDefault, hostname, kCFStringEncodingASCII);
+}
+
+void setIntegerForKey(CFMutableDictionaryRef dict, const void *key, int value) {
+	CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &value);
+	CFDictionarySetValue(dict, key, num);
+	CFRelease(num);
 }
 
 CFDictionaryRef createDockDescriptionForURL(CFURLRef url) {

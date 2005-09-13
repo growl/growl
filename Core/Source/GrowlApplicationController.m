@@ -276,13 +276,13 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		NSLog(@"WARNING: could not register Growl server.");
 
 	// configure and publish the Bonjour service
-	NSString *serviceName = (NSString *)SCDynamicStoreCopyComputerName(/*store*/ NULL,
-																	   /*nameEncoding*/ NULL);
+	CFStringRef serviceName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
+															 /*nameEncoding*/ NULL);
 	service = [[NSNetService alloc] initWithDomain:@""	// use local registration domain
 											  type:@"_growl._tcp."
-											  name:serviceName
+											  name:(NSString *)serviceName
 											  port:GROWL_TCP_PORT];
-	[serviceName release];
+	CFRelease(serviceName);
 	[service setDelegate:self];
 	[service publish];
 
@@ -370,11 +370,14 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
 				NSProxy <GrowlNotificationProtocol> *growlProxy = (id<GrowlNotificationProtocol>)theProxy;
 				[growlProxy performSelector:forwardMethod withObject:dict];
-			} @catch(NSException *e) {
+			} @catch (NSException *e) {
 				if ([[e name] isEqualToString:@"NSFailedAuthenticationException"]) {
+					NSString *addressString = createStringWithAddressData(destAddress);
+					NSString *hostName = createHostNameForAddressData(destAddress);
 					NSLog(@"Authentication failed while forwarding to %@ (%@)",
-						  [NSString stringWithAddressData:destAddress],
-						  [NSString hostNameForAddressData:destAddress]);
+						  addressString, hostName);
+					[addressString release];
+					[hostName      release];
 				} else
 					NSLog(@"Exception while forwarding dictionary with selector %s (description of dictionary follows): %@\n%@", forwardMethod, e, dict);
 			} @finally {

@@ -11,9 +11,6 @@
 
 @interface NSString (GrowlAdditions)
 
-+ (NSString *) stringWithUTF8String:(const char *)bytes length:(unsigned)len;
-- (id) initWithUTF8String:(const char *)bytes length:(unsigned)len;
-
 - (BOOL) boolValue;
 - (unsigned long) unsignedLongValue;
 - (unsigned) unsignedIntValue;
@@ -23,8 +20,5 @@
 - (NSAttributedString *) hyperlinkWithColor:(NSColor *)color;
 - (NSAttributedString *) hyperlink;
 - (NSAttributedString *) activeHyperlink;
-
-+ (NSString *) stringWithAddressData:(NSData *)aAddressData;
-+ (NSString *) hostNameForAddressData:(NSData *)aAddressData;
 
 @end

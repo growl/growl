@@ -401,7 +401,7 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 }
 
 - (NSString *) remotePassword {
-	char *password;
+	unsigned char *password;
 	UInt32 passwordLength;
 	OSStatus status;
 	status = SecKeychainFindGenericPassword(NULL,
@@ -411,7 +411,8 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 	NSString *passwordString;
 	if (status == noErr) {
-		passwordString = [NSString stringWithUTF8String:password length:passwordLength];
+		passwordString = (NSString *)CFStringCreateWithBytes(kCFAllocatorDefault, password, passwordLength, kCFStringEncodingUTF8, false);
+		[passwordString autorelease];
 		SecKeychainItemFreeContent(NULL, password);
 	} else {
 		if (status != errSecItemNotFound)

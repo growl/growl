@@ -744,11 +744,11 @@
 			return;
 
 	// don't add the local machine
-	NSString *localHostName = (NSString *)SCDynamicStoreCopyComputerName(/*store*/ NULL,
-																		 /*nameEncoding*/ NULL);
-	BOOL isLocalHost = [localHostName isEqualToString:name];
-	[localHostName release];
-	if (isLocalHost)
+	CFStringRef localHostName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
+															   /*nameEncoding*/ NULL);
+	CFComparisonResult isLocalHost = CFStringCompare(localHostName, (CFStringRef)name, 0);
+	CFRelease(localHostName);
+	if (isLocalHost == kCFCompareEqualTo)
 		return;
 
 	// add a new entry at the end

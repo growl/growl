@@ -65,22 +65,22 @@
 	NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
 
 	//	Fetch the SMS password from the keychain:
-	char *password;
+	unsigned char *password;
 	UInt32 passwordLength;
 	OSStatus status;
-	status = SecKeychainFindGenericPassword( NULL,
-											 strlen(keychainServiceName), keychainServiceName,
-											 strlen(keychainAccountName), keychainAccountName,
-											 &passwordLength, (void **)&password, NULL );
+	status = SecKeychainFindGenericPassword(NULL,
+											strlen(keychainServiceName), keychainServiceName,
+											strlen(keychainAccountName), keychainAccountName,
+											&passwordLength, (void **)&password, NULL);
 
-	NSString *passwordString;
+	CFStringRef passwordString;
 	if (status == noErr) {
-		passwordString = [NSString stringWithUTF8String:password length:passwordLength];
+		passwordString = CFStringCreateWithBytes(kCFAllocatorDefault, password, passwordLength, kCFStringEncodingUTF8, false);
 		SecKeychainItemFreeContent(NULL, password);
 	} else {
 		if (status != errSecItemNotFound)
 			NSLog(@"Failed to retrieve SMS Account password from keychain. Error: %d", status);
-		passwordString = @"";
+		passwordString = CFSTR("");
 	}
 
 
@@ -105,6 +105,8 @@
 		apiIDValue,
 		accountNameValue,
 		passwordString];
+
+	CFRelease(passwordString);
 
 	[self sendXMLCommand:checkBalanceCommand];
 	[checkBalanceCommand release];
