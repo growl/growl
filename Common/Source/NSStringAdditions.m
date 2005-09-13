@@ -15,7 +15,11 @@
 @implementation NSString (GrowlAdditions)
 
 + (NSString *) stringWithUTF8String:(const char *)bytes length:(unsigned)len {
-	return [[[NSString alloc] initWithUTF8String:bytes length:len] autorelease];
+	return [(id)CFStringCreateWithBytes(kCFAllocatorDefault,
+										(const UInt8 *)bytes,
+										len,
+										kCFStringEncodingUTF8,
+										false) autorelease];
 }
 
 - (id) initWithUTF8String:(const char *)bytes length:(unsigned)len {
@@ -107,51 +111,6 @@
 		return nil;
 	else
 		return [NSString stringWithCString:hostname encoding:NSASCIIStringEncoding];
-}
-
-+ (NSString *) stringWithString:(NSString *)str0 andCharacter:(unichar)ch andString:(NSString *)str1 {
-	CFStringRef cfstr0 = (CFStringRef)str0;
-	CFStringRef cfstr1 = (CFStringRef)str1;
-	CFIndex len0 = (cfstr0 ? CFStringGetLength(cfstr0) : 0);
-	CFIndex len1 = (cfstr1 ? CFStringGetLength(cfstr1) : 0);
-	unsigned length = (len0 + (ch != 0xffff) + len1);
-
-	unichar *buf = malloc(sizeof(unichar) * length);
-	unsigned i = 0U;
-
-	if (cfstr0) {
-		CFStringGetCharacters(cfstr0, CFRangeMake(0, len0), buf);
-		i += len0;
-	}
-	if (ch != 0xffff)
-		buf[i++] = ch;
-	if (cfstr1)
-		CFStringGetCharacters(cfstr1, CFRangeMake(0, len1), &buf[i]);
-
-	return [(NSString *)CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, buf, length, kCFAllocatorMalloc) autorelease];
-}
-- (NSString *) initWithString:(NSString *)str0 andCharacter:(unichar)ch andString:(NSString *)str1 {
-	[self release];
-
-	CFStringRef cfstr0 = (CFStringRef)str0;
-	CFStringRef cfstr1 = (CFStringRef)str1;
-	CFIndex len0 = (cfstr0 ? CFStringGetLength(cfstr0) : 0);
-	CFIndex len1 = (cfstr1 ? CFStringGetLength(cfstr1) : 0);
-	unsigned length = (len0 + (ch != 0xffff) + len1);
-
-	unichar *buf = malloc(sizeof(unichar) * length);
-	unsigned i = 0U;
-
-	if (cfstr0) {
-		CFStringGetCharacters(cfstr0, CFRangeMake(0, len0), buf);
-		i += len0;
-	}
-	if (ch != 0xffff)
-		buf[i++] = ch;
-	if (cfstr1)
-		CFStringGetCharacters(cfstr1, CFRangeMake(0, len1), &buf[i]);
-
-	return (NSString *)CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, buf, length, /*contentsDeallocator*/ kCFAllocatorMalloc);
 }
 
 @end

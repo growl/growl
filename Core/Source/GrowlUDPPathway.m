@@ -114,15 +114,15 @@ static Boolean authenticatePacket(const CSSM_DATA_PTR packet, const CSSM_DATA_PT
 
 static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *d, void *info) {
 #pragma unused(s,type)
-	char *notificationName;
-	char *title;
-	char *description;
-	char *applicationName;
-	char *notification;
+	const unsigned char *notificationName;
+	const unsigned char *title;
+	const unsigned char *description;
+	const unsigned char *applicationName;
+	const unsigned char *notification;
 	unsigned notificationNameLen, titleLen, descriptionLen, priority, applicationNameLen;
 	unsigned length, num, i, size, packetSize, notificationIndex;
 	unsigned digestLength;
-	BOOL isSticky;
+	int isSticky;
 	enum GrowlAuthenticationMethod authMethod;
 	CSSM_DATA packetData;
 	CSSM_DATA passwordData;
@@ -172,7 +172,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 						if (enabled) {
 							BOOL valid = YES;
 							struct GrowlNetworkRegistration *nr = (struct GrowlNetworkRegistration *)packet;
-							applicationName = (char *)nr->data;
+							applicationName = (const unsigned char *)nr->data;
 							applicationNameLen = ntohs(nr->appNameLen);
 
 							// check packet size
@@ -218,9 +218,13 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 								for (i = 0U; i < num; ++i) {
 									size = ntohs(*(unsigned short *)notification);
 									notification += sizeof(unsigned short);
-									NSString *n = [[NSString alloc] initWithUTF8String:notification length:size];
-									[allNotifications addObject:n];
-									[n release];
+									CFStringRef n = CFStringCreateWithBytes(kCFAllocatorDefault,
+																			notification,
+																			size,
+																			kCFStringEncodingUTF8,
+																			false);
+									[allNotifications addObject:(id)n];
+									CFRelease(n);
 									notification += size;
 								}
 
@@ -236,14 +240,18 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 								}
 
 								if (authenticatePacket(&packetData, &passwordData, authMethod)) {
-									NSString *appName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
+									CFStringRef appName = CFStringCreateWithBytes(kCFAllocatorDefault,
+																				  applicationName,
+																				  applicationNameLen,
+																				  kCFStringEncodingUTF8,
+																				  false);
 									NSDictionary *registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-										appName,              GROWL_APP_NAME,
+										(id)appName,          GROWL_APP_NAME,
 										allNotifications,     GROWL_NOTIFICATIONS_ALL,
 										defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 										address,              GROWL_REMOTE_ADDRESS,
 										nil];
-									[appName release];
+									CFRelease(appName);
 									[(GrowlUDPPathway *)info registerApplicationWithDictionary:registerInfo];
 									[registerInfo release];
 								} else
@@ -265,7 +273,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 						priority = nn->flags.priority;
 						isSticky = nn->flags.sticky;
-						notificationName = (char *)nn->data;
+						notificationName = (const unsigned char *)nn->data;
 						notificationNameLen = ntohs(nn->nameLen);
 						title = notificationName + notificationNameLen;
 						titleLen = ntohs(nn->titleLen);
@@ -292,15 +300,15 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 						if (length == packetSize) {
 							if (authenticatePacket(&packetData, &passwordData, authMethod)) {
-								NSString *growlNotificationName = [[NSString alloc] initWithUTF8String:notificationName length:notificationNameLen];
-								NSString *growlAppName = [[NSString alloc] initWithUTF8String:applicationName length:applicationNameLen];
-								NSString *growlNotificationTitle = [[NSString alloc] initWithUTF8String:title length:titleLen];
-								NSString *growlNotificationDesc = [[NSString alloc] initWithUTF8String:description length:descriptionLen];
-								NSNumber *growlNotificationPriority = [[NSNumber alloc] initWithInt:priority];
-								NSNumber *growlNotificationSticky = [[NSNumber alloc] initWithBool:isSticky];
+								CFStringRef growlNotificationName = CFStringCreateWithBytes(kCFAllocatorDefault, notificationName, notificationNameLen, kCFStringEncodingUTF8, false);
+								CFStringRef growlAppName = CFStringCreateWithBytes(kCFAllocatorDefault, applicationName, applicationNameLen, kCFStringEncodingUTF8, false);
+								CFStringRef growlNotificationTitle = CFStringCreateWithBytes(kCFAllocatorDefault, title, titleLen, kCFStringEncodingUTF8, false);
+								CFStringRef growlNotificationDesc = CFStringCreateWithBytes(kCFAllocatorDefault, description, descriptionLen, kCFStringEncodingUTF8, false);
+								CFNumberRef growlNotificationPriority = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &priority);
+								CFNumberRef growlNotificationSticky = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &isSticky);
 								NSImage *growlNotificationIcon = [(GrowlUDPPathway *)info notificationIcon];
 								NSDictionary *notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-									growlNotificationName,     GROWL_NOTIFICATION_NAME,
+									(id)growlNotificationName, GROWL_NOTIFICATION_NAME,
 									growlAppName,              GROWL_APP_NAME,
 									growlNotificationTitle,    GROWL_NOTIFICATION_TITLE,
 									growlNotificationDesc,     GROWL_NOTIFICATION_DESCRIPTION,
@@ -309,12 +317,12 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 									growlNotificationIcon,     GROWL_NOTIFICATION_ICON,
 									address,                   GROWL_REMOTE_ADDRESS,
 									nil];
-								[growlNotificationName     release];
-								[growlAppName              release];
-								[growlNotificationTitle    release];
-								[growlNotificationDesc     release];
-								[growlNotificationPriority release];
-								[growlNotificationSticky   release];
+								CFRelease(growlNotificationName);
+								CFRelease(growlAppName);
+								CFRelease(growlNotificationTitle);
+								CFRelease(growlNotificationDesc);
+								CFRelease(growlNotificationPriority);
+								CFRelease(growlNotificationSticky);
 								[(GrowlUDPPathway *)info postNotificationWithDictionary:notificationInfo];
 								[notificationInfo release];
 							} else

@@ -27,8 +27,4 @@
 + (NSString *) stringWithAddressData:(NSData *)aAddressData;
 + (NSString *) hostNameForAddressData:(NSData *)aAddressData;
 
-//you can leave out any of these three components. to leave out the character, pass 0xffff.
-+ (NSString *) stringWithString:(NSString *)str0 andCharacter:(unichar)ch andString:(NSString *)str1;
-- (NSString *) initWithString:(NSString *)str0 andCharacter:(unichar)ch andString:(NSString *)str1;
-
 @end

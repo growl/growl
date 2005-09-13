@@ -45,6 +45,28 @@ CFStringRef createStringWithDate(CFDateRef date) {
 	return dateString;
 }
 
+CFStringRef createStringWithStringAndCharacterAndString(CFStringRef str0, UniChar ch, CFStringRef str1) {
+	CFStringRef cfstr0 = (CFStringRef)str0;
+	CFStringRef cfstr1 = (CFStringRef)str1;
+	CFIndex len0 = (cfstr0 ? CFStringGetLength(cfstr0) : 0);
+	CFIndex len1 = (cfstr1 ? CFStringGetLength(cfstr1) : 0);
+	unsigned length = (len0 + (ch != 0xffff) + len1);
+
+	UniChar *buf = malloc(sizeof(UniChar) * length);
+	unsigned i = 0U;
+
+	if (cfstr0) {
+		CFStringGetCharacters(cfstr0, CFRangeMake(0, len0), buf);
+		i += len0;
+	}
+	if (ch != 0xffff)
+		buf[i++] = ch;
+	if (cfstr1)
+		CFStringGetCharacters(cfstr1, CFRangeMake(0, len1), &buf[i]);
+
+	return CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, buf, length, /*contentsDeallocator*/ kCFAllocatorMalloc);
+}
+
 char *copyCString(STRING_TYPE str, CFStringEncoding encoding) {
 	CFIndex size = CFStringGetMaximumSizeForEncoding(CFStringGetLength(str), encoding) + 1;
 	char *buffer = calloc(size, 1);

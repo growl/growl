@@ -17,7 +17,7 @@
 #import "NSViewAdditions.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
-#import "NSStringAdditions.h"
+#include "CFGrowlAdditions.h"
 #include "CFMutableStringAdditions.h"
 
 static unsigned webkitWindowDepth = 0U;
@@ -86,7 +86,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	identifier = [ident retain];
 
 	style = [styleName retain];
-	prefDomain = [[NSString alloc] initWithString:GrowlWebKitPrefDomain andCharacter:'.' andString:style];
+	prefDomain = createStringWithStringAndCharacterAndString(GrowlWebKitPrefDomain, '.', style);
 
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, prefDomain, &screenNumber);

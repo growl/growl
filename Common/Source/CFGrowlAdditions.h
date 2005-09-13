@@ -12,6 +12,7 @@
 
 #ifdef __OBJC__
 #	define DATA_TYPE NSData *
+#	define DATE_TYPE NSDate *
 #	define DICTIONARY_TYPE NSDictionary *
 #	define STRING_TYPE NSString *
 #	define ARRAY_TYPE NSArray *
@@ -19,6 +20,7 @@
 #	define PLIST_TYPE NSObject *
 #else
 #	define DATA_TYPE CFDataRef
+#	define DATE_TYPE CFDateRef
 #	define DICTIONARY_TYPE CFDictionaryRef
 #	define STRING_TYPE CFStringRef
 #	define ARRAY_TYPE CFArrayRef
@@ -29,8 +31,11 @@
 //see GrowlApplicationBridge-Carbon.c for rationale of using NSLog.
 extern void NSLog(STRING_TYPE format, ...);
 
-char *createFileSystemRepresentationOfString(CFStringRef str);
-CFStringRef createStringWithDate(CFDateRef date);
+char *createFileSystemRepresentationOfString(STRING_TYPE str);
+STRING_TYPE createStringWithDate(DATE_TYPE date);
+
+//you can leave out any of these three components. to leave out the character, pass 0xffff.
+STRING_TYPE createStringWithStringAndCharacterAndString(STRING_TYPE str0, UniChar ch, STRING_TYPE str1);
 
 char *copyCString(STRING_TYPE str, CFStringEncoding encoding);
 
