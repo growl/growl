@@ -374,30 +374,29 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 #pragma mark Logging
 
 - (BOOL) loggingEnabled {
-	return [[GrowlPreferencesController sharedController] boolForKey:GrowlLoggingEnabledKey];
+	return [self boolForKey:GrowlLoggingEnabledKey];
 }
 
 - (void) setLoggingEnabled:(BOOL)flag {
-	[[GrowlPreferencesController sharedController] setBool:flag forKey:GrowlLoggingEnabledKey];
+	[self setBool:flag forKey:GrowlLoggingEnabledKey];
 }
 
-
 - (BOOL) isGrowlServerEnabled {
-	return [[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey];
+	return [self boolForKey:GrowlStartServerKey];
 }
 
 - (void) setGrowlServerEnabled:(BOOL)enabled {
-	[[GrowlPreferencesController sharedController] setBool:enabled forKey:GrowlStartServerKey];
+	[self setBool:enabled forKey:GrowlStartServerKey];
 }
 
 #pragma mark Remote Growling
 
 - (BOOL) isRemoteRegistrationAllowed {
-	return [[GrowlPreferencesController sharedController] boolForKey:GrowlRemoteRegistrationKey];
+	return [self boolForKey:GrowlRemoteRegistrationKey];
 }
 
 - (void) setRemoteRegistrationAllowed:(BOOL)flag {
-	[[GrowlPreferencesController sharedController] setBool:flag forKey:GrowlRemoteRegistrationKey];
+	[self setBool:flag forKey:GrowlRemoteRegistrationKey];
 }
 
 - (NSString *) remotePassword {
@@ -460,17 +459,17 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 }
 
 - (int) UDPPort {
-	return [[GrowlPreferencesController sharedController] integerForKey:GrowlUDPPortKey];
+	return [self integerForKey:GrowlUDPPortKey];
 }
 - (void) setUDPPort:(int)value {
-	[[GrowlPreferencesController sharedController] setInteger:value forKey:GrowlUDPPortKey];
+	[self setInteger:value forKey:GrowlUDPPortKey];
 }
 
 - (BOOL) isForwardingEnabled {
-	return [[GrowlPreferencesController sharedController] boolForKey:GrowlEnableForwardKey];
+	return [self boolForKey:GrowlEnableForwardKey];
 }
 - (void) setForwardingEnabled:(BOOL)enabled {
-	[[GrowlPreferencesController sharedController] setBool:enabled forKey:GrowlEnableForwardKey];
+	[self setBool:enabled forKey:GrowlEnableForwardKey];
 }
 
 #pragma mark -
