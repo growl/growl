@@ -31,18 +31,13 @@ static NSMutableDictionary	*singletonObjects = nil;
 	id	returnedObject = nil;
 
 	if (singletonObjects) {
-		Class class = [self class];
 		@synchronized(singletonObjects) {
 			//Look of we already have an instance
-			returnedObject = [singletonObjects objectForKey:class];
+			returnedObject = [singletonObjects objectForKey:[self class]];
 
 			//We don't have any instance so lets create it
-			if (!returnedObject) {
+			if (!returnedObject)
 				returnedObject = [[self alloc] initSingleton];
-
-				if (returnedObject)
-					[singletonObjects setObject:returnedObject forKey:class];
-			}
 		}
 	}
 
@@ -69,7 +64,8 @@ static NSMutableDictionary	*singletonObjects = nil;
 
 //Implemented by subclasses
 - (id) initSingleton {
-	id	object = [singletonObjects objectForKey:[self class]];
+	Class class = [self class];
+	id	object = [singletonObjects objectForKey:class];
 
 	if (object || _isInitialized) {
 		[self release];
@@ -78,6 +74,9 @@ static NSMutableDictionary	*singletonObjects = nil;
 		return [[self class] sharedInstance];
 	} else {
 		[self setIsInitialized:YES];
+		@synchronized(singletonObjects) {
+			[singletonObjects setObject:self forKey:class];
+		}
 		return self;
 	}
 }
