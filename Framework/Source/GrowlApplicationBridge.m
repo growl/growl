@@ -11,9 +11,9 @@
 #import "GrowlInstallationPrompt.h"
 #import "GrowlVersionUtilities.h"
 #endif
-#import "NSURLAdditions.h"
+#include "CFURLAdditions.h"
+#include "CFGrowlAdditions.h"
 #import "NSMutableDictionaryAdditions.h"
-#import "CFGrowlAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlPathway.h"
@@ -456,11 +456,11 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		if (![mRegDict objectForKey:GROWL_APP_LOCATION]) {
 			NSURL *myURL = copyCurrentProcessURL();
 			if (myURL) {
-				NSDictionary *file_data = [myURL dockDescription];
+				NSDictionary *file_data = createDockDescriptionWithURL(myURL);
 				if (file_data) {
 					NSDictionary *location = [[NSDictionary alloc] initWithObjectsAndKeys:file_data, @"file-data", nil];
-					[mRegDict setObject:location
-					             forKey:GROWL_APP_LOCATION];
+					[file_data release];
+					[mRegDict setObject:location forKey:GROWL_APP_LOCATION];
 					[location release];
 				} else {
 					[mRegDict removeObjectForKey:GROWL_APP_LOCATION];

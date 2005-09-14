@@ -17,9 +17,9 @@
 #import "GrowlRemotePathway.h"
 #import "GrowlUDPPathway.h"
 #import "GrowlApplicationBridgePathway.h"
-#import "CFGrowlAdditions.h"
 #import "NSStringAdditions.h"
-#import "NSURLAdditions.h"
+#include "CFGrowlAdditions.h"
+#include "CFURLAdditions.h"
 #import "NSDictionaryAdditions.h"
 #import "NSMutableDictionaryAdditions.h"
 #import "GrowlDisplayProtocol.h"
@@ -839,8 +839,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 				 */
 				{
 					NSURL *url = [[NSURL alloc] initFileURLWithPath:appPath];
-					NSDictionary *file_data = [url dockDescription];
+					NSDictionary *file_data = createDockDescriptionWithURL(url);
 					id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
+					[file_data release];
 					[mTicket setObject:location forKey:GROWL_APP_LOCATION];
 					[url release];
 

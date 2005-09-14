@@ -7,7 +7,7 @@
 //
 // This file is under the BSD License, refer to License.txt for details
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
 @interface NSString (GrowlAdditions)
 

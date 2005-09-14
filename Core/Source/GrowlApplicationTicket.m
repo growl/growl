@@ -13,8 +13,8 @@
 #import "GrowlDefines.h"
 #import "GrowlDisplayProtocol.h"
 #import "NSWorkspaceAdditions.h"
-#import "NSURLAdditions.h"
 #import "GrowlPathUtilities.h"
+#include "CFURLAdditions.h"
 
 #define UseDefaultsKey			@"useDefaults"
 #define TicketEnabledKey		@"ticketEnabled"
@@ -86,13 +86,13 @@
 		if (location) {
 			if ([location isKindOfClass:[NSDictionary class]]) {
 				NSDictionary *file_data = [location objectForKey:@"file-data"];
-				NSURL *URL = [NSURL fileURLWithDockDescription:file_data];
+				NSURL *URL = createFileURLWithDockDescription(file_data);
 				fullPath = [URL path];
+				[URL release];
 			} else if ([location isKindOfClass:[NSString class]]) {
 				fullPath = location;
-				if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
+				if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath])
 					fullPath = nil;
-				}
 			} else if ([location isKindOfClass:[NSNumber class]]) {
 				doLookup = [location boolValue];
 			}
@@ -193,13 +193,14 @@
 	NSDictionary *file_data = nil;
 	if (appPath) {
 		NSURL *url = [[NSURL alloc] initFileURLWithPath:appPath];
-		file_data = [url dockDescription];
+		file_data = createDockDescriptionWithURL(url);
 		[url release];
 	}
 
 	id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
 	if (!location)
 		location = [NSNumber numberWithBool:NO];
+	[file_data release];
 
 	NSNumber *useDefaultsValue = [[NSNumber alloc] initWithBool:useDefaults];
 	NSNumber *ticketEnabledValue = [[NSNumber alloc] initWithBool:ticketEnabled];
@@ -425,8 +426,9 @@
 	if (location) {
 		if ([location isKindOfClass:[NSDictionary class]]) {
 			NSDictionary *file_data = [location objectForKey:@"file-data"];
-			NSURL *URL = [NSURL fileURLWithDockDescription:file_data];
+			NSURL *URL = createFileURLWithDockDescription(file_data);
 			fullPath = [URL path];
+			[URL release];
 		} else if ([location isKindOfClass:[NSString class]]) {
 			fullPath = location;
 			if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath])

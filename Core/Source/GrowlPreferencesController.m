@@ -10,14 +10,13 @@
 
 
 #import "GrowlPreferencesController.h"
-#import "NSURLAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
 #import "NSStringAdditions.h"
-#import <Security/SecKeychain.h>
-#import <Security/SecKeychainItem.h>
-#include <CoreFoundation/CoreFoundation.h>
+#include "CFURLAdditions.h"
+#include <Security/SecKeychain.h>
+#include <Security/SecKeychainItem.h>
 
 #define keychainServiceName "Growl"
 #define keychainAccountName "Growl"
@@ -143,8 +142,9 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 		 */
 		NSData *thisAliasData = [item objectForKey:@"AliasData"];
 		if (thisAliasData) {
-			NSURL *thisURL = [NSURL fileURLWithAliasData:thisAliasData];
+			NSURL *thisURL = createFileURLWithAliasData(thisAliasData);
 			foundIt = [thisURL isEqual:urlToGHA];
+			[thisURL release];
 		} else {
 			//nope, not the same alias. try comparing by path.
 			NSString *thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
@@ -170,7 +170,7 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 	//get an Alias (as in Alias Manager) representation of same.
 	NSURL    *url       = [[NSURL alloc] initFileURLWithPath:path];
-	NSData   *aliasData = [url aliasData];
+	NSData   *aliasData = createAliasDataWithURL(url);
 
 	/*the start-at-login pref is an array of dictionaries, like so:
 	 *	{
@@ -203,7 +203,7 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 		NSString *thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
 		NSData *thisAliasData = [item objectForKey:@"AliasData"];
 		if (thisAliasData) {
-			NSURL *thisURL = [NSURL fileURLWithAliasData:thisAliasData];
+			NSURL *thisURL = createFileURLWithAliasData(thisAliasData);
 			thisIsUs = [thisURL isEqual:url];
 		} else {
 			//nope, not the same alias. try comparing by path.
@@ -239,6 +239,8 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 		[loginItems insertObject:launchDict atIndex:0U];
 		[launchDict release];
 	}
+
+	[aliasData release];
 
 	//save to disk.
 	[loginWindowPrefs setObject:loginItems

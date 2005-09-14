@@ -9,8 +9,8 @@
 #import "JKMenuController.h"
 #import "JKPreferencesController.h"
 #import "JKServiceManager.h"
-#import "NSStringAdditions.h"
 #import <Growl/Growl.h>
+#include "CFGrowlAdditions.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -255,10 +255,12 @@
 			// Cancel the resolve now
 			[sender stop];
 
+			NSString *addressString = createStringWithAddressData(address);
 			NSString *urlString =
 				[[NSString alloc] initWithFormat:@"%@://%@",
 					[[[serviceManager getProtocolNames] objectForKey:[sender type]] objectForKey:@"protocol"],
-					[NSString stringWithAddressData:address]];
+					addressString];
+			[addressString release];
 			//NSLog(@"Opening: %@",urlString);
 			NSURL *myURL = [[NSURL alloc] initWithString:urlString];
 			[urlString release];

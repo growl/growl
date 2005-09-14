@@ -152,7 +152,7 @@
 		socketAddress = (struct sockaddr *)[address bytes];
 		
 		if (socketAddress->sa_len == sizeof(struct sockaddr_in) || socketAddress->sa_len == sizeof(struct sockaddr_in6))
-			return [NSString stringWithAddressData:address];
+			return [(NSString *) createStringWithAddressData(address) autorelease];
 	}
 
 	return nil;
