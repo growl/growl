@@ -494,8 +494,13 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		if (!display)
 			display = [ticket displayPlugin];
 
-		if (!display)
+		if (!display) {
+			if (!displayController) {
+				NSString *displayPluginName = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
+				displayController = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
+			}
 			display = displayController;
+		}
 
 		[display displayNotificationWithInfo:aDict];
 	}
@@ -668,10 +673,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	}
 	if (!note || !object)
 		[ticketController loadAllSavedTickets];
-	if (!note || (object && [object isEqualTo:GrowlDisplayPluginKey])) {
-		NSString *displayPlugin = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
-		displayController = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPlugin];
-	}
+	if (!note || (object && [object isEqualTo:GrowlDisplayPluginKey]))
+		// force reload
+		displayController = nil;
 	if (object) {
 		if ([object isEqualTo:@"GrowlTicketDeleted"]) {
 			NSString *ticketName = [[note userInfo] objectForKey:@"TicketName"];

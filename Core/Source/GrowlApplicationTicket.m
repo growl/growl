@@ -125,11 +125,7 @@
 		else
 			ticketEnabled = YES;
 
-		value = [ticketDict objectForKey:GrowlDisplayPluginKey];
-		if (value) {
-			displayPluginName = [value copy];
-			displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
-		}
+		displayPluginName = [[ticketDict objectForKey:GrowlDisplayPluginKey] copy];
 
 		value = [ticketDict objectForKey:ClickHandlersEnabledKey];
 		if (value)

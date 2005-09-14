@@ -67,11 +67,11 @@
 						 displayPluginName:(NSString *)display
 {
 	if ((self = [super init])) {
-		name     = [inName retain];
-		priority = inPriority;
-		enabled  = inEnabled;
-		sticky   = inSticky;
-		[self setDisplayPluginName:display];
+		name              = [inName retain];
+		priority          = inPriority;
+		enabled           = inEnabled;
+		sticky            = inSticky;
+		displayPluginName = [display copy];
 	}
 	return self;
 }
@@ -160,7 +160,7 @@
 - (NSString *) displayPluginName {
 	return displayPluginName;
 }
-- (void) setDisplayPluginName: (NSString *)pluginName {
+- (void) setDisplayPluginName:(NSString *)pluginName {
 	[displayPluginName release];
 	displayPluginName = [pluginName copy];
 	displayPlugin = nil;
