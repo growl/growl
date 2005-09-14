@@ -134,6 +134,7 @@
 	[appName              release];
 	[appPath              release];
 	[icon                 release];
+	[iconData             release];
 	[allNotifications     release];
 	[defaultNotifications release];
 	[allNotificationNames release];
