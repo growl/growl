@@ -262,7 +262,7 @@
 	if (!icon && appPath)
 		icon = [[[NSWorkspace sharedWorkspace] iconForFile:appPath] retain];
 	if (!icon) {
-		icon = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericApplicationIcon)];
+		icon = [[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericApplicationIcon)] retain];
 		[icon setSize:NSMakeSize(128.0f, 128.0f)];
 	}
 	return icon;
@@ -410,16 +410,7 @@
 - (void) reregisterWithDictionary:(NSDictionary *)dict {
 	NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
 
-	NSImage *theIcon;
-	id appIcon = [dict objectForKey:GROWL_APP_ICON];
-	if (appIcon) {
-		if ([appIcon isKindOfClass:[NSImage class]])
-			theIcon = [[appIcon copy] autorelease];
-		else
-			theIcon = [[[NSImage alloc] initWithData:appIcon] autorelease];
-	} else {
-		theIcon = [workspace iconForApplication:[dict objectForKey:GROWL_APP_NAME]];
-	}
+	NSImage *appIcon = [dict objectForKey:GROWL_APP_ICON];
 
 	//XXX - should assimilate reregisterWithAllNotifications:defaults:icon: here
 	NSArray *all      = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
@@ -427,7 +418,7 @@
 	if (!defaults) defaults = all;
 	[self reregisterWithAllNotifications:all
 								defaults:defaults
-									icon:theIcon];
+									icon:appIcon];
 
 	NSString *fullPath = nil;
 	id location = [dict objectForKey:GROWL_APP_LOCATION];
