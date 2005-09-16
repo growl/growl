@@ -18,10 +18,6 @@
 #import "GrowlUDPPathway.h"
 #import "GrowlApplicationBridgePathway.h"
 #import "NSStringAdditions.h"
-#include "CFGrowlAdditions.h"
-#include "CFURLAdditions.h"
-#import "NSDictionaryAdditions.h"
-#import "NSMutableDictionaryAdditions.h"
 #import "GrowlDisplayProtocol.h"
 #import "GrowlPluginController.h"
 #import "GrowlApplicationBridge.h"
@@ -32,6 +28,10 @@
 #import "GrowlLog.h"
 #import "GrowlNotificationCenter.h"
 #import "MD5Authenticator.h"
+#include "CFGrowlAdditions.h"
+#include "CFURLAdditions.h"
+#include "CFDictionaryAdditions.h"
+#include "CFMutableDictionaryAdditions.h"
 #include "cdsa.h"
 #include <SystemConfiguration/SystemConfiguration.h>
 #include <sys/socket.h>
@@ -346,9 +346,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	NSEnumerator *enumerator = [destinations objectEnumerator];
 	NSDictionary *entry;
 	while ((entry = [enumerator nextObject])) {
-		if ([entry boolForKey:@"use"]) {
-			NSData *destAddress = [entry objectForKey:@"address"];
-			NSString *password = [entry objectForKey:@"password"];
+		if (getBooleanForKey(entry, @"use")) {
+			NSData *destAddress = getObjectForKey(entry, @"address");
+			NSString *password = getObjectForKey(entry, @"password");
 			NSSocketPort *serverPort = [[NSSocketPort alloc]
 				initRemoteWithProtocolFamily:AF_INET
 								  socketType:SOCK_STREAM
@@ -405,9 +405,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	GrowlLog_logNotificationDictionary(dict);
 
 	// Make sure this notification is actually registered
-	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
+	NSString *appName = getObjectForKey(dict, GROWL_APP_NAME);
 	GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName];
-	NSString *notificationName = [dict objectForKey:GROWL_NOTIFICATION_NAME];
+	NSString *notificationName = getObjectForKey(dict, GROWL_NOTIFICATION_NAME);
 	if (!ticket || ![ticket isNotificationAllowed:notificationName])
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
@@ -419,7 +419,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	Class NSImageClass = [NSImage class];
 	Class NSDataClass  = [NSData  class];
 	NSImage *icon = nil;
-	id image = [aDict objectForKey:GROWL_NOTIFICATION_ICON];
+	id image = getObjectForKey(aDict, GROWL_NOTIFICATION_ICON);
 	if (image) {
 		if ([image isKindOfClass:NSImageClass])
 			icon = [image copy];
@@ -430,7 +430,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		icon = [[ticket icon] copy];
 
 	if (icon) {
-		[aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
+		setObjectForKey(aDict, GROWL_NOTIFICATION_ICON, icon);
 		[icon release];
 	} else {
 		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON]; // remove any invalid NSDatas
@@ -438,7 +438,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 	// If app icon present, convert to NSImage
 	icon = nil;
-	image = [aDict objectForKey:GROWL_NOTIFICATION_APP_ICON];
+	image = getObjectForKey(aDict, GROWL_NOTIFICATION_APP_ICON);
 	if (image) {
 		if ([image isKindOfClass:NSImageClass])
 			icon = [image copy];
@@ -446,47 +446,47 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			icon = [[NSImage alloc] initWithData:image];
 	}
 	if (icon) {
-		[aDict setObject:icon forKey:GROWL_NOTIFICATION_APP_ICON];
+		setObjectForKey(aDict, GROWL_NOTIFICATION_APP_ICON, icon);
 		[icon release];
 	} else
 		[aDict removeObjectForKey:GROWL_NOTIFICATION_APP_ICON];
 
 	// To avoid potential exceptions, make sure we have both text and title
-	if (![aDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION])
-		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_DESCRIPTION];
-	if (![aDict objectForKey:GROWL_NOTIFICATION_TITLE])
-		[aDict setObject:@"" forKey:GROWL_NOTIFICATION_TITLE];
+	if (!getObjectForKey(aDict, GROWL_NOTIFICATION_DESCRIPTION))
+		setObjectForKey(aDict, GROWL_NOTIFICATION_DESCRIPTION, @"");
+	if (!getObjectForKey(aDict, GROWL_NOTIFICATION_TITLE))
+		setObjectForKey(aDict, GROWL_NOTIFICATION_TITLE, @"");
 
 	//Retrieve and set the the priority of the notification
 	GrowlNotificationTicket *notification = [ticket notificationTicketForName:notificationName];
 	int priority = [notification priority];
 	NSNumber *value;
 	if (priority == GrowlPriorityUnset) {
-		value = [dict objectForKey:GROWL_NOTIFICATION_PRIORITY];
+		value = getObjectForKey(dict, GROWL_NOTIFICATION_PRIORITY);
 		if (!value)
 			value = [NSNumber numberWithInt:0];
 	} else
 		value = [NSNumber numberWithInt:priority];
-	[aDict setObject:value forKey:GROWL_NOTIFICATION_PRIORITY];
+	setObjectForKey(aDict, GROWL_NOTIFICATION_PRIORITY, value);
 
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
 
 	// Retrieve and set the sticky bit of the notification
 	int sticky = [notification sticky];
 	if (sticky >= 0)
-		[aDict setBool:(sticky ? YES : NO) forKey:GROWL_NOTIFICATION_STICKY];
-	else if ([preferences stickyWhenAway] && ![aDict boolForKey:GROWL_NOTIFICATION_STICKY])
-		[aDict setBool:GrowlStatusController_isIdle() forKey:GROWL_NOTIFICATION_STICKY];
+		setBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY, sticky);
+	else if ([preferences stickyWhenAway] && !getBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY))
+		setBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY, GrowlStatusController_isIdle());
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
-	[aDict setBool:saveScreenshot forKey:GROWL_SCREENSHOT_MODE];
-	[aDict setBool:[ticket clickHandlersEnabled] forKey:@"ClickHandlerEnabled"];
+	setBooleanForKey(aDict, GROWL_SCREENSHOT_MODE, saveScreenshot);
+	setBooleanForKey(aDict, @"ClickHandlerEnabled", [ticket clickHandlersEnabled]);
 
 	if (![preferences squelchMode]) {
 		id <GrowlDisplayPlugin> display = [notification displayPlugin];
 
 		if (!display) {
-			NSString *displayPluginName = [aDict objectForKey:GROWL_DISPLAY_PLUGIN];
+			NSString *displayPluginName = getObjectForKey(aDict, GROWL_DISPLAY_PLUGIN);
 			if (displayPluginName)
 				display = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
 		}
@@ -630,19 +630,18 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 	//0.6
 	NSMutableString *result = [NSMutableString stringWithFormat:@"%@.%@",
-		[d objectForKey:@"Major version"],
-		[d objectForKey:@"Minor version"]];
+		getObjectForKey(d, @"Major version"),
+		getObjectForKey(d, @"Minor version")];
 
 	//the .1 in 0.6.1
-	NSNumber *incremental = [d objectForKey:@"Incremental version"];
-	if ([incremental unsignedShortValue]) {
+	NSNumber *incremental = getObjectForKey(d, @"Incremental version");
+	if ([incremental unsignedShortValue])
 		[result appendFormat:@"%@", incremental];
-	}
 
-	NSString *releaseTypeName = [d objectForKey:@"Release type name"];
+	NSString *releaseTypeName = getObjectForKey(d, @"Release type name");
 	if ([releaseTypeName length]) {
 		//"" (release), "b4", " SVN 900"
-		[result appendFormat:@"%@%@", releaseTypeName, [d objectForKey:@"Development version"]];
+		[result appendFormat:@"%@%@", releaseTypeName, getObjectForKey(d, @"Development version")];
 	}
 
 	return result;
@@ -816,8 +815,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (void) applicationLaunched:(NSNotification *)notification {
 	NSDictionary *userInfo = [notification userInfo];
 
-	NSString *appName = [userInfo objectForKey:@"NSApplicationName"];
-	NSString *appPath = [userInfo objectForKey:@"NSApplicationPath"];
+	if (!userInfo)
+		return;
+
+	NSString *appName = getObjectForKey(userInfo, @"NSApplicationName");
+	NSString *appPath = getObjectForKey(userInfo, @"NSApplicationPath");
 
 	if (appPath) {
 		NSString *ticketPath = [NSBundle pathForResource:@"Growl Registration Ticket" ofType:GROWL_REG_DICT_EXTENSION inDirectory:appPath];
@@ -935,7 +937,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 	//Build the application-specific notification name
 	appName = [notification object];
-	if ([userInfo boolForKey:@"ClickHandlerEnabled"]) {
+	if (getBooleanForKey(userInfo, @"ClickHandlerEnabled")) {
 		suffix = GROWL_NOTIFICATION_CLICKED;
 	} else {
 		/*
@@ -944,7 +946,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		 */
 		suffix = GROWL_NOTIFICATION_TIMED_OUT;
 	}
-	NSNumber *pid = [userInfo objectForKey:GROWL_APP_PID];
+	NSNumber *pid = getObjectForKey(userInfo, GROWL_APP_PID);
 	if (pid) {
 		growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%@-%@",
 			appName, pid, suffix];
@@ -953,7 +955,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			appName, suffix];
 	}
 	clickInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-		[userInfo objectForKey:GROWL_KEY_CLICKED_CONTEXT], GROWL_KEY_CLICKED_CONTEXT,
+		getObjectForKey(userInfo, GROWL_KEY_CLICKED_CONTEXT), GROWL_KEY_CLICKED_CONTEXT,
 		nil];
 
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName

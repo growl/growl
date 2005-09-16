@@ -7,7 +7,8 @@
 //
 
 #import "GrowlAbstractSingletonObject.h"
-
+#include "CFDictionaryAdditions.h"
+#include "CFMutableDictionaryAdditions.h"
 
 @interface GrowlAbstractSingletonObject (_private)
 - (void) setIsInitialized:(BOOL)flag;
@@ -28,12 +29,12 @@ static NSMutableDictionary	*singletonObjects = nil;
 
 //Returns the shared instance of this class
 + (id) sharedInstance {
-	id	returnedObject = nil;
+	id returnedObject = nil;
 
 	if (singletonObjects) {
 		@synchronized(singletonObjects) {
 			//Look of we already have an instance
-			returnedObject = [singletonObjects objectForKey:[self class]];
+			returnedObject = getObjectForKey(singletonObjects, [self class]);
 
 			//We don't have any instance so lets create it
 			if (!returnedObject)
@@ -65,7 +66,7 @@ static NSMutableDictionary	*singletonObjects = nil;
 //Implemented by subclasses
 - (id) initSingleton {
 	Class class = [self class];
-	id	object = [singletonObjects objectForKey:class];
+	id	object = getObjectForKey(singletonObjects, class);
 
 	if (object || _isInitialized) {
 		[self release];
@@ -90,7 +91,7 @@ static NSMutableDictionary	*singletonObjects = nil;
 	id	object = nil;
 
 	if (singletonObjects) {
-		object = [singletonObjects objectForKey:[self class]];
+		object = getObjectForKey(singletonObjects, [self class]);
 
 		if (object) {
 			NSLog(@"An attempt to allocate a new %@ singleton object has been made. "
@@ -116,7 +117,7 @@ static NSMutableDictionary	*singletonObjects = nil;
 
 //Release anything but our shared class
 - (void) release {
-	id	object = [singletonObjects objectForKey:[self class]];
+	id	object = getObjectForKey(singletonObjects, [self class]);
 
 	if (self != object)
 		[super release];

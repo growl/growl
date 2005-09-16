@@ -11,7 +11,7 @@
 #import "GrowlSmokePrefsController.h"
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "NSDictionaryAdditions.h"
+#import "CFDictionaryAdditions.h"
 
 static unsigned smokeDepth = 0U;
 
@@ -63,12 +63,12 @@ static void smokeGone(CFNotificationCenterRef center, void *observer, CFStringRe
 					 depth:smokeDepth];
 
 	[controller setTarget:self];
-	[controller setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
-	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
-	[controller setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
-	[controller setProgress:[noteDict objectForKey:GROWL_NOTIFICATION_PROGRESS]];
+	[controller setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+	[controller setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
+	[controller setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
+	[controller setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
+	[controller setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
+	[controller setProgress:getObjectForKey(noteDict, GROWL_NOTIFICATION_PROGRESS)];
 
 	// update the depth for the next notification with the depth given by this new one
 	// which will take into account the new notification's height

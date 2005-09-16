@@ -8,6 +8,8 @@
 
 #import "GrowlTicketController.h"
 #import "GrowlPathUtilities.h"
+#include "CFDictionaryAdditions.h"
+#include "CFMutableDictionaryAdditions.h"
 
 @implementation GrowlTicketController
 
@@ -88,14 +90,14 @@
 }
 
 - (GrowlApplicationTicket *) ticketForApplicationName:(NSString *)appName {
-	return [ticketsByApplicationName objectForKey:appName];
+	return getObjectForKey(ticketsByApplicationName, appName);
 }
 - (void) addTicket:(GrowlApplicationTicket *) newTicket {
 	NSString *appName = [newTicket applicationName];
 	if (!appName)
 		NSLog(@"GrowlTicketController: cannot add ticket because it has no application name (description follows)\n%@", newTicket);
 	else {
-		[ticketsByApplicationName setObject:newTicket forKey:appName];
+		setObjectForKey(ticketsByApplicationName, appName, newTicket);
 		//XXX this here is pretty barftastic. what about tickets that already have a path? should we clobber the existing path? create a copy? leave it alone, as now? --boredzo
 		//if (![newTicket path])
 		//	[newTicket setPath:GrowlPathUtilities_defaultSavePathForTicketWithApplicationName(appName)];

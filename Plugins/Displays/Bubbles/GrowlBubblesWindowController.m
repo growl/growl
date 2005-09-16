@@ -12,7 +12,7 @@
 #import "GrowlBubblesPrefsController.h"
 #import "GrowlBubblesDefines.h"
 #import "NSWindow+Transforms.h"
-#import "NSDictionaryAdditions.h"
+#include "CFDictionaryAdditions.h"
 
 static unsigned bubbleWindowDepth = 0U;
 static NSMutableDictionary *notificationsByIdentifier;
@@ -27,12 +27,12 @@ static NSMutableDictionary *notificationsByIdentifier;
 #pragma mark -
 
 - (id) initWithDictionary:(NSDictionary *)noteDict {
-	NSString *title = [noteDict objectForKey: GROWL_NOTIFICATION_TITLE_HTML];
-	NSString *text  = [noteDict objectForKey: GROWL_NOTIFICATION_DESCRIPTION_HTML];
-	NSImage *icon   = [noteDict objectForKey: GROWL_NOTIFICATION_ICON];
-	int priority    = [noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY];
-	BOOL sticky     = [noteDict boolForKey:   GROWL_NOTIFICATION_STICKY];
-	NSString *ident = [noteDict objectForKey: GROWL_NOTIFICATION_IDENTIFIER];
+	NSString *title = getObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE_HTML);
+	NSString *text  = getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION_HTML);
+	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
+	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
+	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
+	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
 	BOOL textHTML, titleHTML;
 
 	if (title)

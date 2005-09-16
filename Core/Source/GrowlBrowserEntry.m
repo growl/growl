@@ -8,8 +8,8 @@
 
 #import "GrowlBrowserEntry.h"
 #import "GrowlPreferencePane.h"
-#import "NSDictionaryAdditions.h"
-#import "NSMutableDictionaryAdditions.h"
+#include "CFDictionaryAdditions.h"
+#include "CFMutableDictionaryAdditions.h"
 
 @implementation GrowlBrowserEntry
 
@@ -36,45 +36,45 @@
 }
 
 - (BOOL) use {
-	return [properties boolForKey:@"use"];
+	return getBooleanForKey(properties, @"use");
 }
 
 - (void) setUse:(BOOL)flag {
-	[properties setBool:flag forKey:@"use"];
+	setBooleanForKey(properties, @"use", flag);
 	[owner writeForwardDestinations];
 }
 
 - (NSString *) computerName {
-	return [properties objectForKey:@"computer"];
+	return getObjectForKey(properties, @"computer");
 }
 
 - (void) setComputerName:(NSString *)name {
-	[properties setObject:name forKey:@"computer"];
+	setObjectForKey(properties, @"computer", name);
 	[owner writeForwardDestinations];
 }
 
 - (NSNetService *) netService {
-	return [properties objectForKey:@"netservice"];
+	return getObjectForKey(properties, @"netservice");
 }
 
 - (void) setNetService:(NSNetService *)service {
-	[properties setObject:service forKey:@"netservice"];
+	setObjectForKey(properties, @"netservice", service);
 }
 
 - (NSString *) password {
-	return [properties objectForKey:@"password"];
+	return getObjectForKey(properties, @"password");
 }
 
 - (void) setPassword:(NSString *)password {
 	if (password)
-		[properties setObject:password forKey:@"password"];
+		setObjectForKey(properties, password, @"password");
 	else
 		[properties removeObjectForKey:@"password"];
 	[owner writeForwardDestinations];
 }
 
 - (void) setAddress:(NSData *)address {
-	[properties setObject:address forKey:@"address"];
+	setObjectForKey(properties, @"address", address);
 	[properties removeObjectForKey:@"netservice"];
 	[owner writeForwardDestinations];
 }

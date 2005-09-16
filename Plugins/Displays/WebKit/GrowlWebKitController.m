@@ -10,7 +10,7 @@
 #import "GrowlWebKitWindowController.h"
 #import "GrowlWebKitPrefsController.h"
 #import "GrowlDefines.h"
-#import "NSDictionaryAdditions.h"
+#include "CFDictionaryAdditions.h"
 
 @implementation GrowlWebKitController
 
@@ -46,11 +46,11 @@
 		initWithDictionary:noteDict
 					 style:style];
 	[controller setTarget:self];
-	[controller setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
-	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
-	[controller setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
+	[controller setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+	[controller setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
+	[controller setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
+	[controller setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
+	[controller setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
 	[controller release];
 }
 @end

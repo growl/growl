@@ -8,7 +8,7 @@
 #import "GrowlMusicVideoWindowController.h"
 #import "GrowlMusicVideoPrefs.h"
 #import "GrowlDefinesInternal.h"
-#import "NSDictionaryAdditions.h"
+#include "CFDictionaryAdditions.h"
 
 @implementation GrowlMusicVideoDisplay
 
@@ -46,15 +46,15 @@
 			if ([[aNotification identifier] isEqualToString:identifier]) {
 				if (![aNotification isFadingOut]) {
 					// coalescing
-					[aNotification setPriority:[noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY]];
-					[aNotification setTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]];
-					[aNotification setText:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]];
-					[aNotification setIcon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]];
-					[aNotification setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
-					[aNotification setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
-					[aNotification setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-					[aNotification setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
-					[aNotification setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
+					[aNotification setPriority:getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY)];
+					[aNotification setTitle:getObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE)];
+					[aNotification setText:getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION)];
+					[aNotification setIcon:getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON)];
+					[aNotification setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+					[aNotification setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
+					[aNotification setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
+					[aNotification setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
+					[aNotification setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
 					if (theIndex == 0U)
 						[aNotification startFadeIn];
 					return;
@@ -66,18 +66,18 @@
 	}
 
 	GrowlMusicVideoWindowController *nuMusicVideo = [[GrowlMusicVideoWindowController alloc]
-		initWithTitle:[noteDict objectForKey:GROWL_NOTIFICATION_TITLE]
-				 text:[noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-				 icon:[noteDict objectForKey:GROWL_NOTIFICATION_ICON]
-			 priority:[noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY]
+		initWithTitle:getObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE)
+				 text:getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION)
+				 icon:getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON)
+			 priority:getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY)
 		   identifier:identifier];
 	[nuMusicVideo setDelegate:self];
 	[nuMusicVideo setTarget:self];
-	[nuMusicVideo setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[nuMusicVideo setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
-	[nuMusicVideo setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-	[nuMusicVideo setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
-	[nuMusicVideo setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
+	[nuMusicVideo setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+	[nuMusicVideo setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
+	[nuMusicVideo setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
+	[nuMusicVideo setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
+	[nuMusicVideo setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
 
 	if (count > 0U) {
 		GrowlMusicVideoWindowController *aNotification;

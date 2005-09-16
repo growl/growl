@@ -11,7 +11,7 @@
 #define HAVE_CFURLADDITIONS_H
 
 #include <CoreFoundation/CoreFoundation.h>
-#include "CFGrowlAdditions.h"
+#include "CFGrowlDefines.h"
 
 //'alias' as in the Alias Manager.
 URL_TYPE createFileURLWithAliasData(DATA_TYPE aliasData);

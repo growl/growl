@@ -13,6 +13,8 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlWebKitController.h"
+#include "CFDictionaryAdditions.h"
+#include "CFMutableDictionaryAdditions.h"
 
 @interface GrowlPluginController (PRIVATE)
 - (void) loadPlugin:(NSString *)path;
@@ -108,14 +110,14 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 #pragma mark -
 
 - (id<GrowlDisplayPlugin>) displayPluginInstanceWithName:(NSString *)name {
-	id<GrowlDisplayPlugin> plugin = [pluginInstances objectForKey:name];
+	id<GrowlDisplayPlugin> plugin = getObjectForKey(pluginInstances, name);
 	if (!plugin) {
-		NSBundle *pluginBundle = [pluginBundles objectForKey:name];
+		NSBundle *pluginBundle = getObjectForKey(pluginBundles, name);
 		NSString *filename = [[pluginBundle bundlePath] lastPathComponent];
 		NSString *pathExtension = [filename pathExtension];
 		if ([pathExtension isEqualToString:GROWL_VIEW_EXTENSION]) {
 			if (pluginBundle && (plugin = [[[pluginBundle principalClass] alloc] init])) {
-				[pluginInstances setObject:plugin forKey:name];
+				setObjectForKey(pluginInstances, name, plugin);
 				[plugin release];
 			} else {
 				NSLog(@"Could not load %@", name);
@@ -129,7 +131,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 			// have to link against it and all of its dependencies
 			Class webKitController = NSClassFromString(@"GrowlWebKitController");
 			plugin = [[webKitController alloc] initWithStyle:name];
-			[pluginInstances setObject:plugin forKey:name];
+			setObjectForKey(pluginInstances, name, plugin);
 			[plugin release];
 		} else {
 			NSLog(@"Unknown plugin filename extension '%@' (from filename '%@' of plugin named '%@')", pathExtension, filename, name);
@@ -140,18 +142,18 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 }
 
 - (NSBundle *) displayPluginBundleWithName:(NSString *)name {
-	return [pluginBundles objectForKey:name];
+	return getObjectForKey(pluginBundles, name);
 }
 
 - (id<GrowlPlugin>) pluginInstanceWithName:(NSString *)name type:(NSString *)type {
-	id<GrowlDisplayPlugin> plugin = [pluginInstances objectForKey:name];
+	id<GrowlDisplayPlugin> plugin = getObjectForKey(pluginInstances, name);
 	if (!plugin) {
-		NSBundle *pluginBundle = [pluginBundles objectForKey:name];
+		NSBundle *pluginBundle = getObjectForKey(pluginBundles, name);
 		NSString *filename = [[pluginBundle bundlePath] lastPathComponent];
 		NSString *pathExtension = [filename pathExtension];
 		if ([pathExtension isEqualToString:type]) {
 			if (pluginBundle && (plugin = [[[pluginBundle principalClass] alloc] init])) {
-				[pluginInstances setObject:plugin forKey:name];
+				setObjectForKey(pluginInstances, name, plugin);
 				[plugin release];
 			} else {
 				NSLog(@"Could not load %@", name);
@@ -164,7 +166,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 }
 
 - (NSBundle *) pluginBundleWithName:(NSString *)name type:(NSString *)type {
-	NSBundle *pluginBundle = [pluginBundles objectForKey:name];
+	NSBundle *pluginBundle = getObjectForKey(pluginBundles, name);
 	NSString *filename = [[pluginBundle bundlePath] lastPathComponent];
 	NSString *pathExtension = [filename pathExtension];
 	return [pathExtension isEqualToString:type] ? pluginBundle : nil;
@@ -189,7 +191,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 		// TODO: We should use CFBundleIdentifier as the key and display CFBundleName to the user
 		NSString *pluginName = [[pluginBundle infoDictionary] objectForKey:(NSString *)kCFBundleNameKey];
 		if (pluginName) {
-			[pluginBundles setObject:pluginBundle forKey:pluginName];
+			setObjectForKey(pluginBundles, pluginName, pluginBundle);
 			[pluginInstances removeObjectForKey:pluginName];
 		} else {
 			NSLog(@"Plugin at path '%@' has no name", path);
@@ -205,7 +207,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 	if (returnCode == NSAlertAlternateReturn) {
 		NSBundle *prefPane = GrowlPathUtilities_growlPrefPaneBundle();
 
-		if (prefPane && ![[NSWorkspace sharedWorkspace] openFile: [prefPane bundlePath]])
+		if (prefPane && ![[NSWorkspace sharedWorkspace] openFile:[prefPane bundlePath]])
 			NSLog(@"Could not open Growl PrefPane");
 	}
 }

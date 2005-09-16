@@ -9,10 +9,10 @@
 
 #import "GrowlUDPPathway.h"
 #import "NSStringAdditions.h"
-#import "NSDictionaryAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlDefines.h"
 #import "GrowlPreferencesController.h"
+#include "CFDictionaryAdditions.h"
 #include "GrowlUDPUtils.h"
 #include "sha2.h"
 #include "cdsa.h"

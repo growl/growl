@@ -14,7 +14,9 @@
 #import "GrowlDisplayProtocol.h"
 #import "NSWorkspaceAdditions.h"
 #import "GrowlPathUtilities.h"
+#include "CFGrowlAdditions.h"
 #include "CFURLAdditions.h"
+#include "CFDictionaryAdditions.h"
 
 #define UseDefaultsKey			@"useDefaults"
 #define TicketEnabledKey		@"ticketEnabled"
@@ -26,17 +28,20 @@
 
 //these are specifically for auto-discovery tickets, hence the requirement of GROWL_TICKET_VERSION.
 + (BOOL) isValidTicketDictionary:(NSDictionary *)dict {
-	NSNumber *versionNum = [dict objectForKey:GROWL_TICKET_VERSION];
+	if (!dict)
+		return NO;
+
+	NSNumber *versionNum = getObjectForKey(dict, GROWL_TICKET_VERSION);
 	if ([versionNum intValue] == 1) {
-		return [dict objectForKey:GROWL_NOTIFICATIONS_ALL]
-			&& [dict objectForKey:GROWL_APP_NAME];
+		return getObjectForKey(dict, GROWL_NOTIFICATIONS_ALL)
+			&& getObjectForKey(dict, GROWL_APP_NAME);
 	} else {
 		return NO;
 	}
 }
 
 + (BOOL) isKnownTicketVersion:(NSDictionary *)dict {
-	id version = [dict objectForKey:GROWL_TICKET_VERSION];
+	id version = getObjectForKey(dict, GROWL_TICKET_VERSION);
 	return version && ([version intValue] == 1);
 }
 
@@ -53,12 +58,12 @@
 		return nil;
 	}
 	if ((self = [super init])) {
-		appName = [[ticketDict objectForKey:GROWL_APP_NAME] retain];
+		appName = [getObjectForKey(ticketDict, GROWL_APP_NAME) retain];
 
 		//Get all the notification names and the data about them
-		allNotificationNames = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_ALL] retain];
+		allNotificationNames = [getObjectForKey(ticketDict, GROWL_NOTIFICATIONS_ALL) retain];
 		NSAssert1(allNotificationNames, @"Ticket dictionaries must contain a list of all their notifications (application name: %@)", appName);
-		NSArray *inDefaults = [ticketDict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+		NSArray *inDefaults = getObjectForKey(ticketDict, GROWL_NOTIFICATIONS_DEFAULT);
 		if (!inDefaults) inDefaults = allNotificationNames;
 
 		NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
@@ -82,10 +87,10 @@
 
 		BOOL doLookup = YES;
 		NSString *fullPath = nil;
-		id location = [ticketDict objectForKey:GROWL_APP_LOCATION];
+		id location = getObjectForKey(ticketDict, GROWL_APP_LOCATION);
 		if (location) {
 			if ([location isKindOfClass:[NSDictionary class]]) {
-				NSDictionary *file_data = [location objectForKey:@"file-data"];
+				NSDictionary *file_data = getObjectForKey((NSDictionary *)location, @"file-data");
 				NSURL *URL = createFileURLWithDockDescription(file_data);
 				fullPath = [URL path];
 				[URL release];
@@ -102,15 +107,15 @@
 		appPath = [fullPath retain];
 //		NSLog(@"got appPath: %@", appPath);
 
-		[self setIcon:[ticketDict objectForKey:GROWL_APP_ICON]];
+		[self setIcon:getObjectForKey(ticketDict, GROWL_APP_ICON)];
 
-		id value = [ticketDict objectForKey:UseDefaultsKey];
+		id value = getObjectForKey(ticketDict, UseDefaultsKey);
 		if (value)
 			useDefaults = [value boolValue];
 		else
 			useDefaults = YES;
 
-		value = [ticketDict objectForKey:TicketEnabledKey];
+		value = getObjectForKey(ticketDict, TicketEnabledKey);
 		if (value)
 			ticketEnabled = [value boolValue];
 		else
@@ -118,7 +123,7 @@
 
 		displayPluginName = [[ticketDict objectForKey:GrowlDisplayPluginKey] copy];
 
-		value = [ticketDict objectForKey:ClickHandlersEnabledKey];
+		value = getObjectForKey(ticketDict, ClickHandlersEnabledKey);
 		if (value)
 			clickHandlersEnabled = [value boolValue];
 		else

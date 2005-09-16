@@ -13,11 +13,11 @@
 #import "GrowlImageURLProtocol.h"
 #import "NSWindow+Transforms.h"
 #import "GrowlPluginController.h"
-#import "NSDictionaryAdditions.h"
 #import "NSViewAdditions.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
 #include "CFGrowlAdditions.h"
+#include "CFDictionaryAdditions.h"
 #include "CFMutableStringAdditions.h"
 
 static unsigned webkitWindowDepth = 0U;
@@ -53,12 +53,12 @@ static NSMutableDictionary *notificationsByIdentifier;
 #pragma mark -
 
 - (id) initWithDictionary:(NSDictionary *)noteDict style:(NSString *)styleName {
-	NSString *title = [noteDict  objectForKey:GROWL_NOTIFICATION_TITLE_HTML];
-	NSString *text  = [noteDict  objectForKey:GROWL_NOTIFICATION_DESCRIPTION_HTML];
-	NSImage *icon   = [noteDict  objectForKey:GROWL_NOTIFICATION_ICON];
-	int priority    = [noteDict integerForKey:GROWL_NOTIFICATION_PRIORITY];
-	BOOL sticky     = [noteDict    boolForKey:GROWL_NOTIFICATION_STICKY];
-	NSString *ident = [noteDict  objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
+	NSString *title = getObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE_HTML);
+	NSString *text  = getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION_HTML);
+	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
+	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
+	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
+	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
 	BOOL textHTML, titleHTML;
 
 	if (title)
@@ -265,11 +265,11 @@ static NSMutableDictionary *notificationsByIdentifier;
 	decisionListener:(id<WebPolicyDecisionListener>)listener
 {
 #pragma unused(sender, request, frame)
-	int actionKey = [actionInformation integerForKey: WebActionNavigationTypeKey];
+	int actionKey = getIntegerForKey(actionInformation, WebActionNavigationTypeKey);
 	if (actionKey == WebNavigationTypeOther) {
 		[listener use];
 	} else {
-		NSURL *url = [actionInformation objectForKey:WebActionOriginalURLKey];
+		NSURL *url = getObjectForKey(actionInformation, WebActionOriginalURLKey);
 
 		//Ignore file URLs, but open anything else
 		if (![url isFileURL])

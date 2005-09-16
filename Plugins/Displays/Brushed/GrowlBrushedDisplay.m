@@ -12,7 +12,7 @@
 #import "GrowlBrushedDefines.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "NSDictionaryAdditions.h"
+#include "CFDictionaryAdditions.h"
 
 static unsigned brushedDepth = 0U;
 
@@ -63,11 +63,11 @@ static void brushedGone(CFNotificationCenterRef center, void *observer, CFString
 		initWithDictionary:noteDict
 					 depth:brushedDepth];
 
-	[controller setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
-	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-	[controller setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
-	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
+	[controller setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+	[controller setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
+	[controller setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
+	[controller setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
+	[controller setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
 
 	// update the depth for the next notification with the depth given by this new one
 	// which will take into account the new notification's height

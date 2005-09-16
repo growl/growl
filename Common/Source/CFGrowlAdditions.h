@@ -10,25 +10,7 @@
 #ifndef HAVE_CFGROWLADDITIONS_H
 #define HAVE_CFGROWLADDITIONS_H
 
-#ifdef __OBJC__
-#	define DATA_TYPE NSData *
-#	define DATE_TYPE NSDate *
-#	define DICTIONARY_TYPE NSDictionary *
-#	define MUTABLE_DICTIONARY_TYPE NSMutableDictionary *
-#	define STRING_TYPE NSString *
-#	define ARRAY_TYPE NSArray *
-#	define URL_TYPE NSURL *
-#	define PLIST_TYPE NSObject *
-#else
-#	define DATA_TYPE CFDataRef
-#	define DATE_TYPE CFDateRef
-#	define DICTIONARY_TYPE CFDictionaryRef
-#	define MUTABLE_DICTIONARY_TYPE CFMutableDictionaryRef
-#	define STRING_TYPE CFStringRef
-#	define ARRAY_TYPE CFArrayRef
-#	define URL_TYPE CFURLRef
-#	define PLIST_TYPE CFPropertyListRef
-#endif
+#include "CFGrowlDefines.h"
 
 //see GrowlApplicationBridge-Carbon.c for rationale of using NSLog.
 extern void NSLog(STRING_TYPE format, ...);
@@ -50,10 +32,6 @@ STRING_TYPE copyTemporaryFolderPath(void);
 
 STRING_TYPE createStringWithAddressData(DATA_TYPE aAddressData);
 STRING_TYPE createHostNameForAddressData(DATA_TYPE aAddressData);
-
-void setIntegerForKey(MUTABLE_DICTIONARY_TYPE dict, const void *key, int value);
-
-DICTIONARY_TYPE createDockDescriptionForURL(URL_TYPE url);
 
 /*	@function	copyIconDataForPath
  *	@param	path	The POSIX path to the file or folder whose icon you want.

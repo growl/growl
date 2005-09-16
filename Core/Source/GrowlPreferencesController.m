@@ -15,6 +15,7 @@
 #import "GrowlPathUtilities.h"
 #import "NSStringAdditions.h"
 #include "CFURLAdditions.h"
+#include "CFDictionaryAdditions.h"
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
 
@@ -140,14 +141,14 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 		/*first compare by alias.
 		 *we do this by converting to URL and comparing those.
 		 */
-		NSData *thisAliasData = [item objectForKey:@"AliasData"];
+		NSData *thisAliasData = getObjectForKey(item, @"AliasData");
 		if (thisAliasData) {
 			NSURL *thisURL = createFileURLWithAliasData(thisAliasData);
 			foundIt = [thisURL isEqual:urlToGHA];
 			[thisURL release];
 		} else {
 			//nope, not the same alias. try comparing by path.
-			NSString *thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
+			NSString *thisPath = [getObjectForKey(item, @"Path") stringByExpandingTildeInPath];
 			foundIt = (thisPath && [thisPath isEqualToString:pathToGHA]);
 		}
 
@@ -200,14 +201,14 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 		/*first compare by alias.
 		*we do this by converting to URL and comparing those.
 		*/
-		NSString *thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
-		NSData *thisAliasData = [item objectForKey:@"AliasData"];
+		NSString *thisPath = [getObjectForKey(item, @"Path") stringByExpandingTildeInPath];
+		NSData *thisAliasData = getObjectForKey(item, @"AliasData");
 		if (thisAliasData) {
 			NSURL *thisURL = createFileURLWithAliasData(thisAliasData);
 			thisIsUs = [thisURL isEqual:url];
 		} else {
 			//nope, not the same alias. try comparing by path.
-			/*NSString **/thisPath = [[item objectForKey:@"Path"] stringByExpandingTildeInPath];
+			/*NSString **/thisPath = [getObjectForKey(item, @"Path") stringByExpandingTildeInPath];
 			thisIsUs = (thisPath && [thisPath isEqualToString:path]);
 		}
 

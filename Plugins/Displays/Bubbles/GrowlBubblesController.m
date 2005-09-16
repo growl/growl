@@ -10,7 +10,7 @@
 #import "GrowlBubblesController.h"
 #import "GrowlBubblesWindowController.h"
 #import "GrowlBubblesPrefsController.h"
-#import "NSDictionaryAdditions.h"
+#include "CFDictionaryAdditions.h"
 
 @implementation GrowlBubblesController
 
@@ -31,11 +31,11 @@
 	GrowlBubblesWindowController *nuBubble = [[GrowlBubblesWindowController alloc]
 		initWithDictionary:noteDict];
 	[nuBubble setTarget:self];
-	[nuBubble setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
-	[nuBubble setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
-	[nuBubble setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
-	[nuBubble setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
-	[nuBubble setScreenshotModeEnabled:[noteDict boolForKey:GROWL_SCREENSHOT_MODE]];
+	[nuBubble setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+	[nuBubble setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
+	[nuBubble setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
+	[nuBubble setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
+	[nuBubble setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
 	[nuBubble startFadeIn];	// retains nuBubble
 	[nuBubble release];
 }

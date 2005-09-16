@@ -8,6 +8,8 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #include "CFURLAdditions.h"
+#include "CFGrowlAdditions.h"
+#include "CFMutableDictionaryAdditions.h"
 #include <Carbon/Carbon.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -59,7 +61,7 @@ URL_TYPE createFileURLWithAliasData(DATA_TYPE aliasData) {
 }
 
 DATA_TYPE createAliasDataWithURL(URL_TYPE theURL) {
-	//return nil for non-file: URLs.
+	//return NULL for non-file: URLs.
 	CFStringRef scheme = CFURLCopyScheme(theURL);
 	CFComparisonResult isFileURL = CFStringCompare(scheme, CFSTR("file"), kCFCompareCaseInsensitive);
 	CFRelease(scheme);
@@ -89,15 +91,15 @@ DATA_TYPE createAliasDataWithURL(URL_TYPE theURL) {
 
 //these are the type of external representations used by Dock.app.
 URL_TYPE createFileURLWithDockDescription(DICTIONARY_TYPE dict) {
-	CFURLRef URL = NULL;
+	CFURLRef url = NULL;
 
 	CFStringRef path      = CFDictionaryGetValue(dict, _CFURLStringKey);
 	CFDataRef   aliasData = CFDictionaryGetValue(dict, _CFURLAliasDataKey);
 
 	if (aliasData)
-		URL = createFileURLWithAliasData(aliasData);
+		url = createFileURLWithAliasData(aliasData);
 
-	if (!URL) {
+	if (!url) {
 		if (path) {
 			CFNumberRef pathStyleNum = CFDictionaryGetValue(dict, _CFURLStringTypeKey);
 			CFURLPathStyle pathStyle;
@@ -113,17 +115,23 @@ URL_TYPE createFileURLWithDockDescription(DICTIONARY_TYPE dict) {
 				struct stat sb;
 				fstat(fd, &sb);
 				close(fd);
-				URL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, pathStyle, /*isDirectory*/ (sb.st_mode & S_IFDIR));
+				url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path, pathStyle, /*isDirectory*/ (sb.st_mode & S_IFDIR));
 			}
 		}
 	}
 
-	return URL;
+	return url;
 }
 
 DICTIONARY_TYPE createDockDescriptionWithURL(URL_TYPE theURL) {
 	CFMutableDictionaryRef dict;
-	CFStringRef path     = CFURLCopyPath(theURL);
+
+	if (!theURL) {
+		NSLog(CFSTR("%@"), CFSTR("in createDockDescriptionWithURL: Cannot copy Dock description for a NULL URL"));
+		return NULL;
+	}
+
+	CFStringRef path     = CFURLCopyFileSystemPath(theURL, kCFURLPOSIXPathStyle);
 	CFDataRef aliasData  = createAliasDataWithURL(theURL);
 
 	if (path || aliasData) {

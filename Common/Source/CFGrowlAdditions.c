@@ -10,16 +10,10 @@
 #include <Carbon/Carbon.h>
 #include <c.h>
 #include <unistd.h>
-#include <objc/objc.h>
-#include <objc/objc-runtime.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
 #include "CFGrowlAdditions.h"
-
-static CFStringRef _CFURLAliasDataKey  = CFSTR("_CFURLAliasData");
-static CFStringRef _CFURLStringKey     = CFSTR("_CFURLString");
-static CFStringRef _CFURLStringTypeKey = CFSTR("_CFURLStringType");
 
 char *createFileSystemRepresentationOfString(CFStringRef str) {
 	char *buffer;
@@ -28,8 +22,13 @@ char *createFileSystemRepresentationOfString(CFStringRef str) {
 		buffer = malloc(size);
 		CFStringGetFileSystemRepresentation(str, buffer, size);
 	} else {
-		objc_msgSend_stret(&buffer, (id)str, sel_getUid("fileSystemRepresentation"));
-		buffer = strdup(buffer);
+		buffer = malloc(512);
+		CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, str, kCFURLPOSIXPathStyle, false);
+		if (!CFURLGetFileSystemRepresentation(url, false, (UInt8 *)buffer, 512)) {
+			free(buffer);
+			buffer = NULL;
+		}
+		CFRelease(url);
 	}
 	return buffer;
 }
@@ -167,78 +166,6 @@ CFStringRef createHostNameForAddressData(CFDataRef aAddressData) {
 		return NULL;
 	else
 		return CFStringCreateWithCString(kCFAllocatorDefault, hostname, kCFStringEncodingASCII);
-}
-
-void setIntegerForKey(CFMutableDictionaryRef dict, const void *key, int value) {
-	CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &value);
-	CFDictionarySetValue(dict, key, num);
-	CFRelease(num);
-}
-
-CFDictionaryRef createDockDescriptionForURL(CFURLRef url) {
-	if (!url) {
-		NSLog(CFSTR("%@"), CFSTR("in copyDockDescriptionForURL in CFGrowlAdditions: Cannot copy Dock description for a NULL URL"));
-		return NULL;
-	}
-
-	//return NULL for non-file: URLs.
-	CFStringRef scheme = CFURLCopyScheme(url);
-	Boolean isFileURL = (CFStringCompare(scheme, CFSTR("file"), kCFCompareCaseInsensitive) == kCFCompareEqualTo);
-	CFRelease(scheme);
-	if (!isFileURL)
-		return NULL;
-
-	CFDictionaryRef dict = NULL;
-	CFStringRef path     = NULL;
-	CFDataRef aliasData  = NULL;
-
-	FSRef    fsref;
-	if (CFURLGetFSRef(url, &fsref)) {
-		AliasHandle alias = NULL;
-		OSStatus    err   = FSNewAlias(/*fromFile*/ NULL, &fsref, &alias);
-		if (err != noErr) {
-			NSLog(CFSTR("in copyDockDescriptionForURL in CFGrowlAdditions: FSNewAlias for %@ returned %li"), url, (long)err);
-		} else {
-			HLock((Handle)alias);
-
-			err = FSCopyAliasInfo(alias, /*targetName*/ NULL, /*volumeName*/ NULL, (CFStringRef *)&path, /*whichInfo*/ NULL, /*info*/ NULL);
-			if (err != noErr) {
-				NSLog(CFSTR("in copyDockDescriptionForURL in CFGrowlAdditions: FSCopyAliasInfo for %@ returned %li"), url, (long)err);
-			}
-
-			aliasData = CFDataCreate(kCFAllocatorDefault, (UInt8 *)*alias, GetHandleSize((Handle)alias));
-
-			HUnlock((Handle)alias);
-			DisposeHandle((Handle)alias);
-		}
-	}
-
-	if (!path) {
-		path = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
-	}
-
-	if (path || aliasData) {
-		CFMutableDictionaryRef temp = CFDictionaryCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-
-		if (path) {
-			CFDictionarySetValue(temp, _CFURLStringKey, path);
-			CFRelease(path);
-
-			int pathStyle = kCFURLPOSIXPathStyle;
-			CFNumberRef pathStyleNum = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pathStyle);
-			CFDictionarySetValue(temp, _CFURLStringTypeKey, pathStyleNum);
-			CFRelease(pathStyleNum);
-		}
-
-		if (aliasData) {
-			CFDictionarySetValue(temp, _CFURLAliasDataKey, aliasData);
-			CFRelease(aliasData);
-		}
-
-		dict = temp;
-	}
-
-	return dict;
 }
 
 CFDataRef copyIconDataForPath(CFStringRef path) {

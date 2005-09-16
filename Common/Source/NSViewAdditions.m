@@ -8,7 +8,6 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "NSViewAdditions.h"
-#import "NSMutableDictionaryAdditions.h"
 
 @implementation NSView (GrowlAdditions)
 

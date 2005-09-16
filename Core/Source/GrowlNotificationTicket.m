@@ -10,8 +10,8 @@
 #import "GrowlApplicationTicket.h"
 #import "GrowlPluginController.h"
 #import "GrowlDisplayProtocol.h"
-#import "NSDictionaryAdditions.h"
-#import "NSMutableDictionaryAdditions.h"
+#include "CFDictionaryAdditions.h"
+#include "CFMutableDictionaryAdditions.h"
 
 @implementation GrowlNotificationTicket
 
@@ -37,14 +37,14 @@
 }
 
 - (GrowlNotificationTicket *) initWithDictionary:(NSDictionary *)dict {
-	NSString *inName = [dict objectForKey:@"Name"];
+	NSString *inName = getObjectForKey(dict, @"Name");
 
-	id value = [dict objectForKey:@"Priority"];
+	id value = getObjectForKey(dict, @"Priority");
 	enum GrowlPriority inPriority = value ? [value intValue] : GrowlPriorityUnset;
 
-	BOOL inEnabled = [dict boolForKey:@"Enabled"];
+	BOOL inEnabled = getBooleanForKey(dict, @"Enabled");
 
-	int  inSticky  = [dict integerForKey:@"Sticky"];
+	int  inSticky  = getIntegerForKey(dict, @"Sticky");
 	inSticky = (inSticky >= 0 ? (inSticky > 0 ? NSOnState : NSOffState) : NSMixedState);
 
 	NSString *inDisplay = [dict objectForKey:@"Display"];
@@ -95,9 +95,9 @@
 	[enabledValue release];
 	[stickyValue  release];
 	if (priority != GrowlPriorityUnset)
-		[dict setInteger:priority forKey:@"Priority"];
+		setIntegerForKey(dict, @"Priority", priority);
 	if (displayPluginName)
-		[dict setObject:displayPluginName forKey:@"Display"];
+		setObjectForKey(dict, @"Display", displayPluginName);
 	return dict;
 }
 

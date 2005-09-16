@@ -586,7 +586,7 @@ CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestricte
 		if (!CFDictionaryContainsKey(mRegDict, GROWL_APP_LOCATION)) {
 			CFURLRef myURL = copyCurrentProcessURL();
 			if (myURL) {
-				CFDictionaryRef file_data = createDockDescriptionForURL(myURL);
+				CFDictionaryRef file_data = createDockDescriptionWithURL(myURL);
 				if (file_data) {
 					enum { numPairs = 1 };
 					const void *locationKeys[numPairs]   = { CFSTR("file-data") };

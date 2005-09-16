@@ -11,7 +11,7 @@
 #import "GrowlSpeechDefines.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlDefinesInternal.h"
-#import "NSDictionaryAdditions.h"
+#include "CFDictionaryAdditions.h"
 
 @implementation GrowlSpeechDisplay
 - (void) dealloc {
@@ -33,12 +33,12 @@
 	else
 		voice = [NSSpeechSynthesizer defaultVoice];
 
-	NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+	NSString *desc = getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION);
 
 	NSSpeechSynthesizer *syn = [[NSSpeechSynthesizer alloc] initWithVoice:voice];
 	[syn startSpeakingString:desc];
 
-	if ([noteDict boolForKey:GROWL_SCREENSHOT_MODE]) {
+	if (getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)) {
 		NSString *path = [[GrowlPathUtilities_screenshotsDirectory() stringByAppendingPathComponent:GrowlPathUtilities_nextScreenshotName()] stringByAppendingPathExtension:@"aiff"];
 		NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
 		[syn startSpeakingString:desc toURL:url];
@@ -47,12 +47,12 @@
 
 	[syn autorelease];
 
-	id clickContext = [noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+	id clickContext = getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT);
 	if (clickContext) {
 		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[noteDict objectForKey:@"ClickHandlerEnabled"], @"ClickHandlerEnabled",
-			clickContext,                                   GROWL_KEY_CLICKED_CONTEXT,
-			[noteDict objectForKey:GROWL_APP_PID],          GROWL_APP_PID,
+			getObjectForKey(noteDict, @"ClickHandlerEnabled"), @"ClickHandlerEnabled",
+			clickContext,                                      GROWL_KEY_CLICKED_CONTEXT,
+			getObjectForKey(noteDict, GROWL_APP_PID),          GROWL_APP_PID,
 			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
 															object:[noteDict objectForKey:GROWL_APP_NAME]
