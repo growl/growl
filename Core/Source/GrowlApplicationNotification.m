@@ -46,7 +46,7 @@
                                     description:(NSString *)newDesc
                                 HTMLDescription:(NSString *)newHTMLDesc
 {
-	if((self = [super init])) {
+	if ((self = [super init])) {
 		name            = [newName      copy];
 		applicationName = [newAppName   copy];
 
@@ -80,7 +80,7 @@
 + (NSSet *) standardKeys {
 	static NSSet *standardKeys = nil;
 
-	if(!standardKeys) {
+	if (!standardKeys) {
 		standardKeys = [[NSSet alloc] initWithObjects:
 			GROWL_NOTIFICATION_NAME,
 			GROWL_APP_NAME,

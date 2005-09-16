@@ -16,7 +16,7 @@
 @interface GrowlPreferencePane : NSPreferencePane {
 	int                             pid;
 
-	NSMutableArray                 *images;
+	CFMutableArrayRef               images;
 	NSMutableArray                 *tickets;
 	NSArray                        *plugins;
 
@@ -30,7 +30,7 @@
 	BOOL                            canRemoveTicket;
 	BOOL                            growlIsRunning;
 
-	NSURL                          *versionCheckURL;
+	CFURLRef                        versionCheckURL;
 
 	//cached controllers
 	/*these are cached to avoid redundant calls to
@@ -51,7 +51,7 @@
 	// Logging
 	IBOutlet NSMatrix              *logFileType;
 	IBOutlet NSPopUpButton         *customMenuButton;
-	NSMutableArray                 *customHistArray;
+	CFMutableArrayRef               customHistArray;
 
 	//"Applications" tab pane
 	IBOutlet NSTableView           *growlApplications;
@@ -81,16 +81,16 @@
 	IBOutlet NSButton              *growlWebSite;
 	IBOutlet NSButton              *growlForum;
 	IBOutlet NSButton              *growlTrac;
-	NSURL                          *growlWebSiteURL;
-	NSURL                          *growlForumURL;
-	NSURL                          *growlTracURL;
+	CFURLRef                        growlWebSiteURL;
+	CFURLRef                        growlForumURL;
+	CFURLRef                        growlTracURL;
 }
 
 - (NSString *) bundleVersion;
 - (IBAction) checkVersion:(id)sender;
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
-- (void) reloadPreferences;
+- (void) reloadPreferences:(NSString *)object;
 - (void) updateRunningStatus;
 
 #pragma mark Bindings accessors (not for programmatic use)

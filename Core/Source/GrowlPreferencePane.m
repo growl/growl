@@ -78,14 +78,14 @@
 	[pluginPrefPane  release];
 	[loadedPrefPanes release];
 	[tickets         release];
-	[images          release];
-	[versionCheckURL release];
 	[plugins         release];
 	[currentPlugin   release];
-	[customHistArray release];
-	[growlWebSiteURL release];
-	[growlForumURL   release];
-	[growlTracURL    release];
+	CFRelease(customHistArray);
+	CFRelease(versionCheckURL);
+	CFRelease(growlWebSiteURL);
+	CFRelease(growlForumURL);
+	CFRelease(growlTracURL);
+	CFRelease(images);
 	[super dealloc];
 }
 
@@ -124,12 +124,12 @@
 	if ([preferencesController isGrowlMenuEnabled] && ![GrowlPreferencePane isGrowlMenuRunning])
 		[preferencesController enableGrowlMenu];
 
-	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
-	growlForumURL   = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
-	growlTracURL    = [[NSURL alloc] initWithString:@"http://trac.growl.info/trac"];
-	NSString *growlWebSiteURLString = [growlWebSiteURL absoluteString];
-	NSString *growlForumURLString   = [growlForumURL   absoluteString];
-	NSString *growlTracURLString    = [growlTracURL    absoluteString];
+	growlWebSiteURL = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://growl.info"), NULL);
+	growlForumURL   = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://forums.cocoaforge.com/viewforum.php?f=6"), NULL);
+	growlTracURL    = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://trac.growl.info/trac"), NULL);
+	NSString *growlWebSiteURLString = (NSString *)CFURLGetString(growlWebSiteURL);
+	NSString *growlForumURLString   = (NSString *)CFURLGetString(growlForumURL);
+	NSString *growlTracURLString    = (NSString *)CFURLGetString(growlTracURL);
 
 	[growlWebSite setAttributedTitle:         [growlWebSiteURLString       hyperlink]];
 	[growlWebSite setAttributedAlternateTitle:[growlWebSiteURLString activeHyperlink]];
@@ -141,11 +141,18 @@
 	[growlTrac    setAttributedAlternateTitle:[growlTracURLString    activeHyperlink]];
 	[[growlTrac    cell] setHighlightsBy:NSContentsCellMask];
 
-	customHistArray = [[NSMutableArray alloc] initWithObjects:
-		[preferencesController objectForKey:GrowlCustomHistKey1],
-		[preferencesController objectForKey:GrowlCustomHistKey2],
-		[preferencesController objectForKey:GrowlCustomHistKey3],
-		nil];
+	customHistArray = CFArrayCreateMutable(kCFAllocatorDefault, 3, &kCFTypeArrayCallBacks);
+	id value = [preferencesController objectForKey:GrowlCustomHistKey1];
+	if (value) {
+		CFArrayAppendValue(customHistArray, value);
+		value = [preferencesController objectForKey:GrowlCustomHistKey2];
+		if (value) {
+			CFArrayAppendValue(customHistArray, value);
+			value = [preferencesController objectForKey:GrowlCustomHistKey3];
+			if (value)
+				CFArrayAppendValue(customHistArray, value);
+		}
+	}
 	[self updateLogPopupMenu];
 	int typePref = [preferencesController integerForKey:GrowlLogTypeKey];
 	[logFileType selectCellAtRow:typePref column:0];
@@ -167,7 +174,7 @@
  * @brief Returns the bundle version of the Growl.prefPane bundle.
  */
 - (NSString *) bundleVersion {
-	return [[[self bundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+	return (NSString *)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey);
 }
 
 /*!
@@ -181,12 +188,12 @@
 	[growlVersionProgress startAnimation:self];
 
 	if (!versionCheckURL)
-		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
+		versionCheckURL = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://growl.info/version.xml"), NULL);
 
 	NSBundle *bundle = [self bundle];
 	NSDictionary *infoDict = [bundle infoDictionary];
 	NSString *currVersionNumber = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
-	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
+	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:(NSURL *)versionCheckURL];
 	NSString *executableName = [infoDict objectForKey:(NSString *)kCFBundleExecutableKey];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:executableName];
 
@@ -249,7 +256,7 @@
 }
 
 - (void) didSelect {
-	[self reloadPreferences];
+	[self reloadPreferences:nil];
 }
 
 /*!
@@ -257,17 +264,17 @@
  */
 - (void) cacheImages {
 	if (images)
-		[images removeAllObjects];
+		CFArrayRemoveAllValues(images);
 	else
-		images = [[NSMutableArray alloc] initWithCapacity:[tickets count]];
+		images = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
+
 	NSEnumerator *enumerator = [tickets objectEnumerator];
 	GrowlApplicationTicket *ticket;
-
 	while ((ticket = [enumerator nextObject])) {
 		NSImage *icon = [[ticket icon] copy];
 		[icon setScalesWhenResized:YES];
 		[icon setSize:NSMakeSize(32.0f, 32.0f)];
-		[images addObject:icon];
+		CFArrayAppendValue(images, icon);
 		[icon release];
 	}
 }
@@ -328,18 +335,19 @@
 	// ignore notifications which are sent by ourselves
 	NSNumber *pidValue = [[notification userInfo] objectForKey:@"pid"];
 	if (!pidValue || [pidValue intValue] != pid)
-		[self reloadPreferences];
+		[self reloadPreferences:[notification object]];
 }
 
 /*!
  * @brief Reloads the preferences and updates the GUI accordingly.
  */
-- (void) reloadPreferences {
+- (void) reloadPreferences:(NSString *)object {
 //	NSLog(@"%s\n", __func__);
 	GrowlTicketController *ticketController = [GrowlTicketController sharedController];
 	[ticketController loadAllSavedTickets];
 	[self setDisplayPlugins:[[GrowlPluginController sharedController] displayPlugins]];
-	[self setTickets:[[ticketController allSavedTickets] allValues]];
+	if (!object || [object isEqualToString:@"GrowlTicketChanged"])
+		[self setTickets:[[ticketController allSavedTickets] allValues]];
 	[preferencesController setSquelchMode:[preferencesController squelchMode]];
 	[preferencesController setGrowlMenuEnabled:[preferencesController isGrowlMenuEnabled]];
 	[self cacheImages];
@@ -510,39 +518,38 @@
 		NSString *saveFilename = [sp filename];
 		if (runResult == NSFileHandlingPanelOKButton) {
 			unsigned saveFilenameIndex = NSNotFound;
-			unsigned                 i = [customHistArray count];
+			unsigned                 i = CFArrayGetCount(customHistArray);
 			if (i) {
 				while (--i) {
-					if ([[customHistArray objectAtIndex:i] isEqual:saveFilename]) {
+					if ([(id)CFArrayGetValueAtIndex(customHistArray, i) isEqual:saveFilename]) {
 						saveFilenameIndex = i;
 						break;
 					}
 				}
 			}
 			if (saveFilenameIndex == NSNotFound) {
-				if ([customHistArray count] == 3U)
-					[customHistArray removeLastObject];
-			} else {
-				[customHistArray removeObjectAtIndex:saveFilenameIndex];
-			}
-			[customHistArray insertObject:saveFilename atIndex:0U];
+				if (CFArrayGetCount(customHistArray) == 3U)
+					CFArrayRemoveValueAtIndex(customHistArray, 2);
+			} else
+				CFArrayRemoveValueAtIndex(customHistArray, saveFilenameIndex);
+			CFArrayInsertValueAtIndex(customHistArray, 0, saveFilename);
 		}
 	} else {
-		NSString *temp = [[customHistArray objectAtIndex:selected] retain];
-		[customHistArray removeObjectAtIndex:selected];
-		[customHistArray insertObject:temp atIndex:0U];
-		[temp release];
+		CFStringRef temp = CFRetain(CFArrayGetValueAtIndex(customHistArray, selected));
+		CFArrayRemoveValueAtIndex(customHistArray, selected);
+		CFArrayInsertValueAtIndex(customHistArray, 0, temp);
+		CFRelease(temp);
 	}
 
-	unsigned numHistItems = [customHistArray count];
+	unsigned numHistItems = CFArrayGetCount(customHistArray);
 	if (numHistItems) {
-		NSString *s = [customHistArray objectAtIndex:0U];
+		id s = (id)CFArrayGetValueAtIndex(customHistArray, 0);
 		[preferencesController setObject:s forKey:GrowlCustomHistKey1];
 
-		if ((numHistItems > 1U) && (s = [customHistArray objectAtIndex:1U]))
+		if ((numHistItems > 1U) && (s = (id)CFArrayGetValueAtIndex(customHistArray, 1)))
 			[preferencesController setObject:s forKey:GrowlCustomHistKey2];
 
-		if ((numHistItems > 2U) && (s = [customHistArray objectAtIndex:2U]))
+		if ((numHistItems > 2U) && (s = (id)CFArrayGetValueAtIndex(customHistArray, 2)))
 			[preferencesController setObject:s forKey:GrowlCustomHistKey3];
 
 		//[[logFileType cellAtRow:1 column:0] setEnabled:YES];
@@ -555,9 +562,9 @@
 - (void) updateLogPopupMenu {
 	[customMenuButton removeAllItems];
 
-	unsigned numHistItems = [customHistArray count];
-	for (unsigned i = 0U; i < numHistItems; i++) {
-		NSArray *pathComponentry = [[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] pathComponents];
+	int numHistItems = CFArrayGetCount(customHistArray);
+	for (int i = 0U; i < numHistItems; i++) {
+		NSArray *pathComponentry = [[(NSString *)CFArrayGetValueAtIndex(customHistArray, i) stringByAbbreviatingWithTildeInPath] pathComponents];
 		unsigned numPathComponents = [pathComponentry count];
 		if (numPathComponents > 2U) {
 			unichar ellipsis = 0x2026;
@@ -569,10 +576,10 @@
 			[customMenuButton insertItemWithTitle:arg atIndex:i];
 			[arg release];
 		} else
-			[customMenuButton insertItemWithTitle:[[customHistArray objectAtIndex:i] stringByAbbreviatingWithTildeInPath] atIndex:i];
+			[customMenuButton insertItemWithTitle:[(NSString *)CFArrayGetValueAtIndex(customHistArray, i) stringByAbbreviatingWithTildeInPath] atIndex:i];
 	}
 	// No separator if there's no file list yet
-	if (numHistItems > 0U)
+	if (numHistItems > 0)
 		[[customMenuButton menu] addItem:[NSMenuItem separatorItem]];
 	[customMenuButton addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Browse menu item title", /*tableName*/ nil, [self bundle], /*comment*/ nil)];
 	//select first item, if any
@@ -606,7 +613,7 @@
 																	 userInfo:userInfo];
 		[userInfo release];
 		unsigned idx = [tickets indexOfObject:ticket];
-		[images removeObjectAtIndex:idx];
+		CFArrayRemoveValueAtIndex(images, idx);
 
 		unsigned oldSelectionIndex = [ticketsArrayController selectionIndex];
 
@@ -698,29 +705,21 @@
 
 - (IBAction) openGrowlWebSite:(id)sender {
 #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:growlWebSiteURL];
+	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)growlWebSiteURL];
 }
 
 - (IBAction) openGrowlForum:(id)sender {
 #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:growlForumURL];
+	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)growlForumURL];
 }
 
 - (IBAction) openGrowlTrac:(id)sender {
 #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:growlTracURL];
+	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)growlTracURL];
 }
 
 #pragma mark TableView delegate methods
-/*
-- (void) tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)column row:(int)row {
-	if (tableView == growlApplications && [[column identifier] isEqualTo:@"application"]) {
-		NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
-		unsigned idx = [tickets indexOfObject:[arrangedTickets objectAtIndex:row]];
-		[(ACImageAndTextCell *)cell setImage:[images objectAtIndex:idx]];
-	}
-}
-*/
+
 - (void) tableViewDidClickInBody:(NSTableView *)tableView {
 	activeTableView = tableView;
 	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
