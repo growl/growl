@@ -27,11 +27,13 @@ CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key) {
 }
 
 int GrowlPreferencesController_integerForKey(CFTypeRef key) {
-	return [[GrowlPreferencesController sharedController] integerForKey:(id)key];
+	Boolean keyExistsAndHasValidFormat;
+	return CFPreferencesGetAppIntegerValue((CFStringRef)key, (CFStringRef)HelperAppBundleIdentifier, &keyExistsAndHasValidFormat);
 }
 
 Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
-	return [[GrowlPreferencesController sharedController] boolForKey:(id)key];
+	Boolean keyExistsAndHasValidFormat;
+	return CFPreferencesGetAppBooleanValue((CFStringRef)key, (CFStringRef)HelperAppBundleIdentifier, &keyExistsAndHasValidFormat);
 }
 
 @implementation GrowlPreferencesController
@@ -96,8 +98,7 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 }
 
 - (BOOL) boolForKey:(NSString *)key {
-	Boolean keyExistsAndHasValidFormat;
-	return CFPreferencesGetAppBooleanValue((CFStringRef)key, (CFStringRef)HelperAppBundleIdentifier, &keyExistsAndHasValidFormat);
+	return GrowlPreferencesController_boolForKey((CFTypeRef)key);
 }
 
 - (void) setBool:(BOOL)value forKey:(NSString *)key {
@@ -107,8 +108,7 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 }
 
 - (int) integerForKey:(NSString *)key {
-	Boolean keyExistsAndHasValidFormat;
-	return CFPreferencesGetAppIntegerValue((CFStringRef)key, (CFStringRef)HelperAppBundleIdentifier, &keyExistsAndHasValidFormat);
+	return GrowlPreferencesController_integerForKey((CFTypeRef)key);
 }
 
 - (void) setInteger:(int)value forKey:(NSString *)key {

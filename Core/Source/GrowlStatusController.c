@@ -7,6 +7,7 @@
 //
 
 #include "GrowlStatusController.h"
+#include "GrowlPreferencesController.h"
 
 //Idle monitoring code from Adium X ( http://www.adiumx.com ), used with permission
 
@@ -20,6 +21,7 @@
 //Private idle function
 extern double CGSSecondsSinceLastInputEvent(unsigned long eventType);
 
+static int					idleThreshold;
 static Boolean				isIdle;
 static double				lastSeenIdle;
 static CFRunLoopTimerRef	idleTimer;
@@ -62,7 +64,7 @@ static void setIdle(Boolean inIdle) {
  * @brief Timer that checks for machine idle
  *
  * This timer periodically checks the machine for inactivity. When the machine
- * has been inactive for at least MACHINE_IDLE_THRESHOLD seconds, a notification
+ * has been inactive for at least idleThreshold seconds, a notification
  * is broadcast.
  *
  * When the machine is active, this timer is called infrequently. It's not
@@ -83,7 +85,7 @@ static void idleTimerCallback(CFRunLoopTimerRef timer, void *info) {
 		if (currentIdle < lastSeenIdle) setIdle(false);
 	} else {
 		//If machine inactivity is over the threshold, the user has gone idle.
-		if (currentIdle > MACHINE_IDLE_THRESHOLD) setIdle(true);
+		if (currentIdle > idleThreshold) setIdle(true);
 	}
 
 	//Update our timer interval for either idle or active polling
@@ -93,6 +95,12 @@ static void idleTimerCallback(CFRunLoopTimerRef timer, void *info) {
 }
 
 void GrowlStatusController_init(void) {
+	CFNumberRef value = GrowlPreferencesController_objectForKey(CFSTR("IdleThreshold"));
+	if (value)
+		CFNumberGetValue(value, kCFNumberIntType, &idleThreshold);
+	else
+		idleThreshold = MACHINE_IDLE_THRESHOLD;
+
 	idleTimer = CFRunLoopTimerCreate(kCFAllocatorDefault,
 									 CFAbsoluteTimeGetCurrent() + MACHINE_ACTIVE_POLL_INTERVAL,
 									 MACHINE_ACTIVE_POLL_INTERVAL,
