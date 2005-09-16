@@ -511,16 +511,16 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[aDict release];
 
 	// forward to remote destinations
-	if (enableForward)
+	if (enableForward && !getObjectForKey(aDict, GROWL_REMOTE_ADDRESS))
 		[NSThread detachNewThreadSelector:@selector(forwardNotification:)
 								 toTarget:self
 							   withObject:dict];
 }
 
-- (BOOL) registerApplicationWithDictionary:(NSDictionary *) userInfo {
+- (BOOL) registerApplicationWithDictionary:(NSDictionary *)userInfo {
 	GrowlLog_logRegistrationDictionary(userInfo);
 
-	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
+	NSString *appName = getObjectForKey(userInfo, GROWL_APP_NAME);
 
 	GrowlApplicationTicket *newApp = [ticketController ticketForApplicationName:appName];
 
@@ -550,7 +550,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 								   clickContext:nil
 									 identifier:nil];
 
-		if (enableForward)
+		if (enableForward && !getObjectForKey(userInfo, GROWL_REMOTE_ADDRESS))
 			[NSThread detachNewThreadSelector:@selector(forwardRegistration:)
 									 toTarget:self
 								   withObject:userInfo];
@@ -806,7 +806,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) applicationWillTerminate:(NSNotification *)notification {
 #pragma unused(notification)
-	[[self class] destroyAllSingletons];	//Release all our controllers
+	[GrowlAbstractSingletonObject destroyAllSingletons];	//Release all our controllers
 }
 
 #pragma mark Auto-discovery
