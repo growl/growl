@@ -13,6 +13,7 @@
 #include "GrowlInstallationPrompt-Carbon.h"
 #include "GrowlDefines.h"
 #include "CFGrowlAdditions.h"
+#include "CFURLAdditions.h"
 #include "GrowlVersionUtilities.h"
 #include <unistd.h>
 
