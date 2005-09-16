@@ -12,22 +12,29 @@
 
 @implementation GrowlPathway
 
-static IMP registerApplicationWithDictionaryIMP = NULL;
-static IMP dispatchNotificationWithDictionaryIMP = NULL;
+static GrowlApplicationController *applicationController;
+static IMP registerApplicationWithDictionaryIMP;
+static IMP dispatchNotificationWithDictionaryIMP;
 
-+ (void) initialize {
-	registerApplicationWithDictionaryIMP = [GrowlApplicationController instanceMethodForSelector:@selector(registerApplicationWithDictionary:)];
-	dispatchNotificationWithDictionaryIMP = [GrowlApplicationController instanceMethodForSelector:@selector(dispatchNotificationWithDictionary:)];
+- (id) init {
+	if ((self = [super init])) {
+		if (!applicationController) {
+			applicationController = [GrowlApplicationController sharedInstance];
+			registerApplicationWithDictionaryIMP = [applicationController methodForSelector:@selector(registerApplicationWithDictionary:)];
+			dispatchNotificationWithDictionaryIMP = [applicationController methodForSelector:@selector(dispatchNotificationWithDictionary:)];
+		}
+	}
+	return self;
 }
 
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
 	//[[GrowlApplicationController sharedInstance] registerApplicationWithDictionary:dict];
-	registerApplicationWithDictionaryIMP([GrowlApplicationController sharedInstance], @selector(registerApplicationWithDictionary:), dict);
+	registerApplicationWithDictionaryIMP(applicationController, @selector(registerApplicationWithDictionary:), dict);
 }
 
 - (void) postNotificationWithDictionary:(NSDictionary *)dict {
 	//[[GrowlApplicationController sharedInstance] dispatchNotificationWithDictionary:dict];
-	dispatchNotificationWithDictionaryIMP([GrowlApplicationController sharedInstance], @selector(dispatchNotificationWithDictionary:), dict);
+	dispatchNotificationWithDictionaryIMP(applicationController, @selector(dispatchNotificationWithDictionary:), dict);
 }
 
 - (NSString *) growlVersion {
