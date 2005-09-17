@@ -44,9 +44,9 @@
 		NSString *msg = @"Mac OS X 10.3 \"Panther\" or greater is required.";
 
 		if (NSRunInformationalAlertPanel(@"Growl requires Panther...", msg, @"Quit", @"Get Panther...", nil) == NSAlertAlternateReturn) {
-			NSURL *pantherURL = [[NSURL alloc] initWithString:@"http://www.apple.com/macosx/"];
-			[[NSWorkspace sharedWorkspace] openURL:pantherURL];
-			[pantherURL release];
+			CFURLRef pantherURL = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://www.apple.com/macosx/"), NULL);
+			[[NSWorkspace sharedWorkspace] openURL:(NSURL *)pantherURL];
+			CFRelease(pantherURL);
 		}
 		[NSApp terminate:nil];
 	}
@@ -174,7 +174,7 @@
  * @brief Returns the bundle version of the Growl.prefPane bundle.
  */
 - (NSString *) bundleVersion {
-	return (NSString *)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey);
+	return [[[self bundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 }
 
 /*!
@@ -197,8 +197,8 @@
 	NSString *executableName = [infoDict objectForKey:(NSString *)kCFBundleExecutableKey];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:executableName];
 
-	NSURL *downloadURL = [[NSURL alloc] initWithString:
-		[productVersionDict objectForKey:[executableName stringByAppendingString:@"DownloadURL"]]];
+	CFURLRef downloadURL = CFURLCreateWithString(kCFAllocatorDefault,
+		(CFStringRef)[productVersionDict objectForKey:[executableName stringByAppendingString:@"DownloadURL"]], NULL);
 	/*
 	 NSLog([[[NSBundle bundleWithIdentifier:@"com.growl.prefpanel"] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey] );
 	 NSLog(currVersionNumber);
@@ -216,10 +216,10 @@
 						  /*modalDelegate*/ self,
 						  /*didEndSelector*/ NULL,
 						  /*didDismissSelector*/ @selector(downloadSelector:returnCode:contextInfo:),
-						  /*contextInfo*/ downloadURL,
+						  /*contextInfo*/ (void *)downloadURL,
 						  /*msg*/ NSLocalizedStringFromTableInBundle(@"A newer version of Growl is available online. Would you like to download it now?", nil, [self bundle], @""));
 	else
-		[downloadURL release];
+		CFRelease(downloadURL);
 
 	[productVersionDict release];
 
@@ -228,10 +228,10 @@
 
 - (void) downloadSelector:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 #pragma unused(sheet)
-	NSURL *downloadURL = (NSURL *)contextInfo;
+	CFURLRef downloadURL = (CFURLRef)contextInfo;
 	if (returnCode == NSAlertDefaultReturn)
-		[[NSWorkspace sharedWorkspace] openURL:downloadURL];
-	[downloadURL release];
+		[[NSWorkspace sharedWorkspace] openURL:(NSURL *)downloadURL];
+	CFRelease(downloadURL);
 }
 
 /*!

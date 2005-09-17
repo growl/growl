@@ -11,12 +11,11 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 
-__BEGIN_DECLS
+//30 seconds of inactivity is considered idle
+#define MACHINE_IDLE_THRESHOLD			30
 
 void GrowlStatusController_init(void);
 Boolean GrowlStatusController_isIdle(void);
 void GrowlStatusController_dealloc(void);
-
-__END_DECLS
 
 #endif

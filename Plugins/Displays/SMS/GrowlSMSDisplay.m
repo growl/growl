@@ -173,23 +173,24 @@
 
  */
 - (void) sendXMLCommand:(NSString *)commandString {
-	NSString				*dataString = [[NSString alloc] initWithFormat: @"data=%@", commandString];
-	NSData					*postData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
-	NSURL					*clickatellURL = [[NSURL alloc] initWithString:@"https://api.clickatell.com/xml/xml"];
-	NSMutableURLRequest		*post = [[NSMutableURLRequest alloc] initWithURL:clickatellURL];
-	NSString				*contentLength = [[NSString alloc] initWithFormat: @"%u" , [postData length]];
+	CFStringRef			dataString = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("data=%@"), commandString);
+	CFDataRef			postData = CFStringCreateExternalRepresentation(kCFAllocatorDefault, dataString, kCFStringEncodingUTF8, 0U);
+	CFURLRef			clickatellURL = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("https://api.clickatell.com/xml/xml"), NULL);
+	NSMutableURLRequest	*post = [[NSMutableURLRequest alloc] initWithURL:(NSURL *)clickatellURL];
+	CFStringRef			contentLength = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%u"), CFDataGetLength(postData));
 
-	[post addValue:contentLength forHTTPHeaderField: @"Content-Length"];
-	[post setHTTPMethod:@"POST"];
-	[post setHTTPBody:postData];
 	NSLog(@"Sending data: %@", postData);
 
+	[post addValue:(NSString *)contentLength forHTTPHeaderField: @"Content-Length"];
+	[post setHTTPMethod:@"POST"];
+	[post setHTTPBody:(NSData *)postData];
 	[commandQueue addObject:post];
+	[post release];
 
-	[post          release];
-	[dataString    release];
-	[clickatellURL release];
-	[contentLength release];
+	CFRelease(postData);
+	CFRelease(dataString);
+	CFRelease(clickatellURL);
+	CFRelease(contentLength);
 
 	[self processQueue];
 }

@@ -46,7 +46,7 @@
 	NSImage						*growlIcon;
 	NSData						*growlIconData;
 
-	NSURL						*versionCheckURL;
+	CFURLRef					versionCheckURL;
 	CFRunLoopTimerRef			updateTimer;
 }
 
@@ -65,7 +65,7 @@
 
 - (NSDictionary *) versionDictionary;
 - (NSString *) stringWithVersionDictionary:(NSDictionary *)d;
-- (NSURL *) versionCheckURL;
+- (CFURLRef) versionCheckURL;
 
 - (void) preferencesChanged:(NSNotification *) note;
 

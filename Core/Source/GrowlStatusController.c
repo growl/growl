@@ -11,8 +11,6 @@
 
 //Idle monitoring code from Adium X ( http://www.adiumx.com ), used with permission
 
-//30 seconds of inactivity is considered idle
-#define MACHINE_IDLE_THRESHOLD			30
 //Poll every 30 seconds when the user is active
 #define MACHINE_ACTIVE_POLL_INTERVAL	30
 //Poll every second when the user is idle

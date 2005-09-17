@@ -59,9 +59,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		return;
 
 	GrowlApplicationController *appController = (GrowlApplicationController *)context;
-	NSURL *versionCheckURL = [appController versionCheckURL];
+	CFURLRef versionCheckURL = [appController versionCheckURL];
 
-	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
+	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:(NSURL *)versionCheckURL];
 
 	NSString *currVersionNumber = [GrowlApplicationController growlVersion];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:@"Growl"];
@@ -73,21 +73,24 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	 *	is missing either of these keys.
 	 */
 	if (downloadURLString && latestVersionNumber) {
-		NSURL *downloadURL = [[NSURL alloc] initWithString:downloadURLString];
-
 		[preferences setObject:[NSDate date] forKey:LastUpdateCheckKey];
 		if (compareVersionStringsTranslating1_0To0_5(latestVersionNumber, currVersionNumber) > 0) {
-			[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Update Available", /*comment*/ nil)
-				                        description:NSLocalizedString(@"A newer version of Growl is available online. Click here to download it now.", /*comment*/ nil)
+			CFURLRef downloadURL = CFURLCreateWithString(kCFAllocatorDefault,
+														 (CFStringRef)downloadURLString,
+														 /*baseURL*/ NULL);
+			CFStringRef title = CFCopyLocalizedString(CFSTR("Update Available"), /*comment*/ NULL);
+			CFStringRef description = CFCopyLocalizedString(CFSTR("A newer version of Growl is available online. Click here to download it now."), /*comment*/ NULL);
+			[GrowlApplicationBridge notifyWithTitle:(NSString *)title
+				                        description:(NSString *)description
 				                   notificationName:@"Growl update available"
 			                               iconData:[appController applicationIconDataForGrowl]
 			                               priority:1
 			                               isSticky:YES
-			                           clickContext:downloadURL
+			                           clickContext:(id)downloadURL
 										 identifier:nil];
+			CFRelease(title);
+			CFRelease(description);
 		}
-
-		[downloadURL release];
 	}
 
 	[productVersionDict release];
@@ -196,26 +199,47 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) idleStatus:(NSNotification *)notification {
 	if ([[notification object] isEqualToString:@"Idle"]) {
-		NSString *description = [NSString stringWithFormat:NSLocalizedString(@"No activity for more than %d seconds.", /*comment*/ nil), 30];
-		if ([[GrowlPreferencesController sharedController] stickyWhenAway])
-			description = [description stringByAppendingString:NSLocalizedString(@" New notifications will be sticky.", /*comment*/ nil)];
-		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User went idle", /*comment*/ nil)
-									description:description
+		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+		int idleThreshold;
+		CFNumberRef value = (CFNumberRef)[preferences objectForKey:@"IdleThreshold"];
+		if (value)
+			CFNumberGetValue(value, kCFNumberIntType, &idleThreshold);
+		else
+			idleThreshold = MACHINE_IDLE_THRESHOLD;
+
+		CFStringRef title = CFCopyLocalizedString(CFSTR("User went idle"), /*comment*/ NULL);
+		CFStringRef descriptionFormat = CFCopyLocalizedString(CFSTR("No activity for more than %d seconds."), /*comment*/ NULL);
+		CFMutableStringRef description = CFStringCreateMutable(kCFAllocatorDefault, 0);
+		CFStringAppendFormat(description, NULL, descriptionFormat, idleThreshold);
+		CFRelease(descriptionFormat);
+		if ([preferences stickyWhenAway]) {
+			CFStringRef stickyDescription = CFCopyLocalizedString(CFSTR(" New notifications will be sticky."), /*comment*/ NULL);
+			CFStringAppend(description, stickyDescription);
+			CFRelease(stickyDescription);
+		}
+		[GrowlApplicationBridge notifyWithTitle:(NSString *)title
+									description:(NSString *)description
 							   notificationName:@"User went idle"
 									   iconData:growlIconData
 									   priority:-1
 									   isSticky:NO
 								   clickContext:nil
 									 identifier:nil];
+		CFRelease(title);
+		CFRelease(description);
 	} else {
-		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User returned", /*comment*/ nil)
-									description:NSLocalizedString(@"User activity detected. New notifications will not be sticky by default.", /*comment*/ nil)
+		CFStringRef title = CFCopyLocalizedString(CFSTR("User returned"), /*comment*/ NULL);
+		CFStringRef description = CFCopyLocalizedString(CFSTR("User activity detected. New notifications will not be sticky by default."), /*comment*/ NULL);
+		[GrowlApplicationBridge notifyWithTitle:(NSString *)title
+									description:(NSString *)description
 							   notificationName:@"User returned"
 									   iconData:growlIconData
 									   priority:-1
 									   isSticky:NO
 								   clickContext:nil
 									 identifier:nil];
+		CFRelease(title);
+		CFRelease(description);
 	}
 }
 
@@ -226,7 +250,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[dncPathway       release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
 	[destinations     release];
 	[growlIcon        release];
-	[versionCheckURL  release];
+
+	if (versionCheckURL)
+		CFRelease(versionCheckURL);
 
 	GrowlStatusController_dealloc();
 
@@ -576,9 +602,13 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 #pragma mark -
 - (void) growlNotificationWasClicked:(id)clickContext {
-	NSURL *downloadURL = (NSURL *)clickContext;
-	[[NSWorkspace sharedWorkspace] openURL:downloadURL];
-	[downloadURL release];
+	CFURLRef downloadURL = (CFURLRef)clickContext;
+	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)downloadURL];
+	CFRelease(downloadURL);
+}
+
+- (void) growlNotificationTimedOut:(id)clickContext {
+	CFRelease((CFTypeRef)clickContext);
 }
 
 + (NSString *) growlVersion {
@@ -647,9 +677,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	return result;
 }
 
-- (NSURL *) versionCheckURL {
+- (CFURLRef) versionCheckURL {
 	if (!versionCheckURL)
-		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
+		versionCheckURL = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://growl.info/version.xml"), NULL);
 	return versionCheckURL;
 }
 
