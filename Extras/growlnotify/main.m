@@ -36,7 +36,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 
-#define NOTIFICATION_NAME @"Command-Line Growl Notification"
+#define NOTIFICATION_NAME CFSTR("Command-Line Growl Notification")
 
 #define STRINGIFY(x) STRINGIFY2(x)
 #define STRINGIFY2(x) #x
@@ -82,20 +82,17 @@ static const char usage[] =
 "    -t,--title      Does nothing. Any text following will be treated as the\n"
 "                    title because that's the default argument behaviour\n";
 
-static const char *version = "growlnotify 0.6\n"
+static const char *version = "growlnotify 0.7\n"
 "Copyright (c) The Growl Project, 2004-2005";
 
-@interface GrowlNotificationObserver : NSObject
-- (void) notificationDismissed:(id)clickContext;
-@end
-
-@implementation GrowlNotificationObserver {
+static void notificationDismissed(CFNotificationCenterRef center, 
+								  void *observer, 
+								  CFStringRef name, 
+								  const void *object, 
+								  CFDictionaryRef userInfo) {
+#pragma unused(center,observer,name,object,userInfo)
+	CFRunLoopStop(CFRunLoopGetCurrent());
 }
-- (void) notificationDismissed:(id)clickContext {
-#pragma unused(clickContext)
-	[NSApp terminate:self];
-}
-@end
 
 int main(int argc, const char **argv) {
 	// options
@@ -251,48 +248,41 @@ int main(int argc, const char **argv) {
 	argc -= optind;
 	argv += optind;
 
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
 	// Deal with title
-	NSMutableString *title = [[NSMutableString alloc] init];
+	CFMutableStringRef title = CFStringCreateMutable(kCFAllocatorDefault, 0);
 	while (argc--) {
 		if (strlen(*argv)) {
-			if ([title length])
-				[title appendString:@" "];
-			NSString *temp = [[NSString alloc] initWithUTF8String:(argv++)[0]];
-			[title appendString:temp];
-			[temp release];
+			if (CFStringGetLength(title))
+				CFStringAppend(title, CFSTR(" "));
+			CFStringAppendCString(title, (argv++)[0], kCFStringEncodingUTF8);
 		}
 	}
 
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	// Deal with image
 	// --image takes precedence over -I takes precedence over -i takes precedence over --a
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
 	NSFileManager *mgr = [NSFileManager defaultManager];
-	NSString *cwd;
 	NSImage *image = nil;
 	if (imagePath) {
 		NSString *path = [[NSString stringWithUTF8String:imagePath] stringByStandardizingPath];
-		if (![path isAbsolutePath]) {
-			cwd = [mgr currentDirectoryPath];
-			path = [cwd stringByAppendingPathComponent:path];
-		}
+		if (![path isAbsolutePath])
+			path = [[mgr currentDirectoryPath] stringByAppendingPathComponent:path];
 		image = [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 	} else if (iconPath) {
 		NSString *path = [[NSString stringWithUTF8String:iconPath] stringByStandardizingPath];
-		if (![path isAbsolutePath]) {
-			cwd = [mgr currentDirectoryPath];
-			path = [cwd stringByAppendingPathComponent:path];
-		}
+		if (![path isAbsolutePath])
+			path = [[mgr currentDirectoryPath] stringByAppendingPathComponent:path];
 		image = [ws iconForFile:path];
 	} else if (iconExt) {
-		NSString *fileType = [[NSString alloc] initWithUTF8String:iconExt];
-		image = [ws iconForFileType:fileType];
-		[fileType release];
+		CFStringRef fileType = CFStringCreateWithCString(kCFAllocatorDefault, iconExt, kCFStringEncodingUTF8);
+		image = [ws iconForFileType:(NSString *)fileType];
+		CFRelease(fileType);
 	} else if (appIcon) {
-		NSString *app = [[NSString alloc] initWithUTF8String:appIcon];
-		image = [ws iconForFile:[ws fullPathForApplication:app]];
-		[app release];
+		CFStringRef app = CFStringCreateWithCString(kCFAllocatorDefault, appIcon, kCFStringEncodingUTF8);
+		image = [ws iconForFile:[ws fullPathForApplication:(NSString *)app]];
+		CFRelease(app);
 	}
 	if (!image)
 		image = [ws iconForFile:[ws fullPathForApplication:@"Terminal"]];
@@ -300,62 +290,73 @@ int main(int argc, const char **argv) {
 	NSData *icon = [image TIFFRepresentation];
 
 	// Check message
-	NSString *desc;
+	CFStringRef desc;
 	if (message && !(message[0] == '-' && message[1] == 0)) {
 		// -m was used
-		desc = [NSString stringWithUTF8String:message];
+		desc = CFStringCreateWithCString(kCFAllocatorDefault, message, kCFStringEncodingUTF8);
 	} else {
 		// Deal with stdin
-		NSData *descData = [[NSFileHandle fileHandleWithStandardInput] readDataToEndOfFile];
-		desc = [[[NSString alloc] initWithData:descData encoding:NSUTF8StringEncoding] autorelease];
-		desc = [desc stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		CFDataRef descData = (CFDataRef)[[NSFileHandle fileHandleWithStandardInput] readDataToEndOfFile];
+		CFStringRef temp = CFStringCreateWithBytes(kCFAllocatorDefault,
+												   CFDataGetBytePtr(descData),
+												   CFDataGetLength(descData),
+												   kCFStringEncodingUTF8,
+												   false);
+		desc = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, temp);
+		CFRelease(temp);
+		CFStringTrimWhitespace((CFMutableStringRef)desc);
 	}
 
 	// Application name
-	NSString *applicationName;
+	CFStringRef applicationName;
 	if (appName)
-		applicationName = [NSString stringWithUTF8String:appName];
+		applicationName = CFStringCreateWithCString(kCFAllocatorDefault, appName, kCFStringEncodingUTF8);
 	else
-		applicationName = @"growlnotify";
+		applicationName = CFSTR("growlnotify");
 
-	NSString *identifierString;
+	CFStringRef identifierString;
 	if (identifier)
-		identifierString = [[NSString alloc] initWithUTF8String:identifier];
+		identifierString = CFStringCreateWithCString(kCFAllocatorDefault, identifier, kCFStringEncodingUTF8);
 	else
-		identifierString = nil;
+		identifierString = NULL;
 
 	// Register with Growl
-	NSArray *defaultAndAllNotifications = [[NSArray alloc] initWithObjects:NOTIFICATION_NAME, nil];
+	CFStringRef name = NOTIFICATION_NAME;
+	CFArrayRef defaultAndAllNotifications = CFArrayCreate(kCFAllocatorDefault, (const void **)&name, 1, &kCFTypeArrayCallBacks);
 	NSDictionary *registerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-		applicationName,            GROWL_APP_NAME,
+		(id)applicationName,        GROWL_APP_NAME,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_ALL,
 		defaultAndAllNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		icon,                       GROWL_APP_ICON,
 		nil];
-	[defaultAndAllNotifications release];
+	CFRelease(defaultAndAllNotifications);
 
 	// Notify
 	NSString *clickContext = [[NSProcessInfo processInfo] globallyUniqueString];
-	NSNumber *priorityNumber = [[NSNumber alloc] initWithInt:priority];
-	NSNumber *stickyNumber = [[NSNumber alloc] initWithBool:isSticky];
+	CFNumberRef priorityNumber =  CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &priority);
+	CFNumberRef stickyNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &isSticky);
 	NSMutableDictionary *notificationInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		NOTIFICATION_NAME, GROWL_NOTIFICATION_NAME,
-		applicationName,   GROWL_APP_NAME,
-		title,             useHTML ? GROWL_NOTIFICATION_TITLE_HTML : GROWL_NOTIFICATION_TITLE,
-		desc,              useHTML ? GROWL_NOTIFICATION_DESCRIPTION_HTML : GROWL_NOTIFICATION_DESCRIPTION,
-		priorityNumber,    GROWL_NOTIFICATION_PRIORITY,
-		stickyNumber,      GROWL_NOTIFICATION_STICKY,
-		icon,              GROWL_NOTIFICATION_ICON,
-		clickContext,      GROWL_NOTIFICATION_CLICK_CONTEXT,
-		identifierString,  GROWL_NOTIFICATION_IDENTIFIER,
+		(id)name,         GROWL_NOTIFICATION_NAME,
+		applicationName,  GROWL_APP_NAME,
+		title,            useHTML ? GROWL_NOTIFICATION_TITLE_HTML : GROWL_NOTIFICATION_TITLE,
+		desc,             useHTML ? GROWL_NOTIFICATION_DESCRIPTION_HTML : GROWL_NOTIFICATION_DESCRIPTION,
+		priorityNumber,   GROWL_NOTIFICATION_PRIORITY,
+		stickyNumber,     GROWL_NOTIFICATION_STICKY,
+		icon,             GROWL_NOTIFICATION_ICON,
+		clickContext,     GROWL_NOTIFICATION_CLICK_CONTEXT,
+		identifierString, GROWL_NOTIFICATION_IDENTIFIER,
 		nil];
-	[priorityNumber release];
-	[stickyNumber   release];
-	[title          release];
+	CFRelease(priorityNumber);
+	CFRelease(stickyNumber);
+	CFRelease(applicationName);
+	CFRelease(title);
+	CFRelease(desc);
+	if (identifierString)
+		CFRelease(identifierString);
 	if (haveProgress) {
-		NSNumber *progressNumber = [[NSNumber alloc] initWithDouble:progress];
-		[notificationInfo setObject:progressNumber forKey:GROWL_NOTIFICATION_PROGRESS];
-		[progressNumber release];
+		CFNumberRef progressNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberDoubleType, &progress);
+		[notificationInfo setObject:(NSNumber *)progressNumber forKey:GROWL_NOTIFICATION_PROGRESS];
+		CFRelease(progressNumber);
 	}
 
 	if (host) {
@@ -423,14 +424,15 @@ int main(int argc, const char **argv) {
 			} else {
 				NSSocketPort *port = [[NSSocketPort alloc] initRemoteWithTCPPort:GROWL_TCP_PORT host:[NSString stringWithCString:host]];
 				NSConnection *connection = [[NSConnection alloc] initWithReceivePort:nil sendPort:port];
-				NSString *passwordString;
+				CFStringRef passwordString;
 				if (password)
-					passwordString = [[NSString alloc] initWithUTF8String:password];
+					passwordString = CFStringCreateWithCString(kCFAllocatorDefault, password, kCFStringEncodingUTF8);
 				else
-					passwordString = nil;
+					passwordString = NULL;
 
-				MD5Authenticator *authenticator = [[MD5Authenticator alloc] initWithPassword:passwordString];
-				[passwordString release];
+				MD5Authenticator *authenticator = [[MD5Authenticator alloc] initWithPassword:(NSString *)passwordString];
+				if (passwordString)
+					CFRelease(passwordString);
 				[connection setDelegate:authenticator];
 				@try {
 					NSDistantObject *theProxy = [connection rootProxy];
@@ -453,20 +455,26 @@ int main(int argc, const char **argv) {
 			}
 		}
 	} else {
-		NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
-		GrowlNotificationObserver *growlNotificationObserver;
+		CFNotificationCenterRef distCenter = CFNotificationCenterGetDistributedCenter();
 		if (wait) {
-			growlNotificationObserver = [[GrowlNotificationObserver alloc] init];
-			[distCenter addObserver:growlNotificationObserver
-						   selector:@selector(notificationDismissed:)
-							   name:[applicationName stringByAppendingString:GROWL_NOTIFICATION_CLICKED]
-							 object:nil];
-			[distCenter addObserver:growlNotificationObserver
-						   selector:@selector(notificationDismissed:)
-							   name:[applicationName stringByAppendingString:GROWL_NOTIFICATION_TIMED_OUT]
-							 object:nil];
-		} else {
-			growlNotificationObserver = nil;
+			CFMutableStringRef notificationName = CFStringCreateMutable(kCFAllocatorDefault, 0);
+			CFStringAppend(notificationName, applicationName);
+			CFStringAppend(notificationName, (CFStringRef)GROWL_NOTIFICATION_CLICKED);
+			CFNotificationCenterAddObserver(distCenter,
+											"growlnotify",
+											notificationDismissed,
+											notificationName,
+											/*object*/ NULL,
+											CFNotificationSuspensionBehaviorCoalesce);
+			CFStringReplaceAll(notificationName, applicationName);
+			CFStringAppend(notificationName, (CFStringRef)GROWL_NOTIFICATION_TIMED_OUT);
+			CFNotificationCenterAddObserver(distCenter,
+											"growlnotify",
+											notificationDismissed,
+											notificationName,
+											/*object*/ NULL,
+											CFNotificationSuspensionBehaviorCoalesce);
+			CFRelease(notificationName);
 		}
 
 		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
@@ -484,14 +492,12 @@ int main(int argc, const char **argv) {
 		} else {
 			//Post to Growl via NSDistributedNotificationCenter
 			NSLog(@"could not find local GrowlApplicationBridgePathway, falling back to NSDNC");
-			[distCenter postNotificationName:GROWL_APP_REGISTRATION object:nil userInfo:registerInfo options:NSNotificationPostToAllSessions];
-			[distCenter postNotificationName:GROWL_NOTIFICATION object:nil userInfo:notificationInfo options:NSNotificationPostToAllSessions];
+			CFNotificationCenterPostNotificationWithOptions(distCenter, (CFStringRef)GROWL_APP_REGISTRATION, NULL, (CFDictionaryRef)registerInfo, kCFNotificationPostToAllSessions);
+			CFNotificationCenterPostNotificationWithOptions(distCenter, (CFStringRef)GROWL_NOTIFICATION, NULL, (CFDictionaryRef)notificationInfo, kCFNotificationPostToAllSessions);
 		}
 
-		if (wait) {
-			[[NSRunLoop currentRunLoop] run];
-			[growlNotificationObserver release];
-		}
+		if (wait)
+			CFRunLoopRun();
 	}
 
 	if (port)
