@@ -10,7 +10,14 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlDefines.h"
 #import "GrowlWindowTransition.h"
+#import "GrowlPositionController.h"
 #import "NSViewAdditions.h"
+
+#define GrowlDisplayWindowControllerWillDisplayWindowNotification		@"GrowlDisplayWindowControllerWillDisplayWindowNotification"
+#define GrowlDisplayWindowControllerDidDisplayWindowNotification		@"GrowlDisplayWindowControllerDidDisplayWindowNotification"
+#define GrowlDisplayWindowControllerWillTakeDownWindowNotification		@"GrowlDisplayWindowControllerWillTakeDownWindowNotification"
+#define GrowlDisplayWindowControllerDidTakeDownWindowNotification		@"GrowlDisplayWindowControllerDidTakeDownWindowNotification"
+#define GrowlDisplayWindowControllerNotificationBlockedNotification		@"GrowlDisplayWindowControllerNotificationBlockedNotification"
 
 static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
@@ -55,14 +62,24 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Display control
 
 - (void) startDisplay {
-	[self willDisplayNotification];
-	[[self window] orderFront:nil];
-	[self  didDisplayNotification];
+	NSWindow *window = [self window];
+	
+	//Make sure we don't cover any other notification
+	if ([[GrowlPositionController sharedInstance] reserveRect:[window frame] inScreen:[window screen]]) {
+		[self willDisplayNotification];
+		[window orderFront:nil];
+		[self  didDisplayNotification];
+	} else {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerNotificationBlockedNotification object:self];
+	}
 }
 
 - (void) stopDisplay {
+	NSWindow *window = [self window];
+	
 	[self willTakeDownNotification];
-	[[self window] orderOut:nil];
+	[[GrowlPositionController sharedInstance] clearReservedRect:[window frame] inScreen:[window screen]];
+	[window orderOut:nil];
 	[self  didTakeDownNotification];
 }
 
@@ -370,6 +387,11 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerDidTakeDownWindow:)
 					   name:GrowlDisplayWindowControllerDidTakeDownWindowNotification
+					 object:self];
+		if ([observer respondsToSelector:@selector(displayWindowControllerNotificationBlocked:)])
+			[nc addObserver:observer
+				   selector:@selector(displayWindowControllerNotificationBlocked:)
+					   name:GrowlDisplayWindowControllerNotificationBlockedNotification
 					 object:self];
 	}
 }

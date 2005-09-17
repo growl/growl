@@ -8,11 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define GrowlDisplayWindowControllerWillDisplayWindowNotification  @"GrowlDisplayWindowControllerWillDisplayWindowNotification"
-#define GrowlDisplayWindowControllerDidDisplayWindowNotification   @"GrowlDisplayWindowControllerDidDisplayWindowNotification"
-#define GrowlDisplayWindowControllerWillTakeDownWindowNotification @"GrowlDisplayWindowControllerWillTakeDownWindowNotification"
-#define GrowlDisplayWindowControllerDidTakeDownWindowNotification  @"GrowlDisplayWindowControllerDidTakeDownWindowNotification"
-
 @class GrowlWindowTransition;
 
 @interface GrowlDisplayWindowController : NSWindowController
@@ -108,3 +103,48 @@
 - (void) setClickHandlerEnabled:(NSNumber *) flag;
 
 @end
+
+/*!
+ * @category NSObject (GrowlDisplayWindowControllerDelegate)
+ * Delegate methods for GrowlDisplayWindowController's delegate.
+ */
+@interface NSObject (GrowlDisplayWindowControllerDelegate)
+
+/*!
+ * @method displayWindowControllerWillDisplayWindow:
+ * @abstract Called right before the notification's window is displayed.
+ * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
+ */
+- (void)displayWindowControllerWillDisplayWindow:(NSNotification *)notification;
+
+/*!
+ * @method displayWindowControllerDidDisplayWindow:
+ * @abstract Called right after the notification's window is displayed.
+ * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
+ */
+- (void)displayWindowControllerDidDisplayWindow:(NSNotification *)notification;
+
+/*!
+ * @method displayWindowControllerWillTakeDownWindow:
+ * @abstract Called right before the notification's window is hidden.
+ * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
+ */
+- (void)displayWindowControllerWillTakeDownWindow:(NSNotification *)notification;
+
+/*!
+ * @method displayWindowControllerDidTakeDownWindow:
+ * @abstract Called right after the notification's window was hidden.
+ * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
+ */
+- (void)displayWindowControllerDidTakeDownWindow:(NSNotification *)notification;
+
+/*!
+ * @method displayWindowControllerNotificationBlocked:
+ * @abstract Called whenever a notification can not be displayed.
+ * @discussion A notification will be blocked only when it'll cover an already displayed notification.
+ * You should relocate the notification in that case.
+ * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
+ */
+- (void)displayWindowControllerNotificationBlocked:(NSNotification *)notification;
+@end
+
