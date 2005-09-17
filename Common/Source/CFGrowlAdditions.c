@@ -47,6 +47,27 @@ CFStringRef createStringWithDate(CFDateRef date) {
 	return dateString;
 }
 
+CFStringRef createStringWithContentsOfFile(CFStringRef filename, CFStringEncoding encoding) {
+	CFStringRef str = NULL;
+
+	char *path = createFileSystemRepresentationOfString(filename);
+	if (path) {
+		FILE *fp = fopen(path, "rb");
+		if (fp) {
+			fseek(fp, 0, SEEK_END);
+			unsigned long size = ftell(fp);
+			fseek(fp, 0, SEEK_SET);
+			unsigned char *buffer = malloc(size);
+			if (buffer && fread(buffer, 1, size, fp) == size)
+				str = CFStringCreateWithBytes(kCFAllocatorDefault, buffer, size, encoding, true);
+			fclose(fp);
+		}
+		free(path);
+	}
+
+	return str;
+}
+
 CFStringRef createStringWithStringAndCharacterAndString(CFStringRef str0, UniChar ch, CFStringRef str1) {
 	CFStringRef cfstr0 = (CFStringRef)str0;
 	CFStringRef cfstr1 = (CFStringRef)str1;

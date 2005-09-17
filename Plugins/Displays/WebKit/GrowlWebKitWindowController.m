@@ -39,10 +39,6 @@ static NSMutableDictionary *notificationsByIdentifier;
 }
 @end
 
-@interface NSString(TigerCompatibility)
-- (id) initWithContentsOfFile:(NSString *)path encoding:(NSStringEncoding)enc error:(NSError **)error;
-@end
-
 @implementation GrowlWebKitWindowController
 
 #define MIN_DISPLAY_TIME				4.0
@@ -209,16 +205,13 @@ static NSMutableDictionary *notificationsByIdentifier;
 		templateFile = [[NSBundle mainBundle] pathForResource:@"template" ofType:@"html"];
 
 	NSString *stylePath = [styleBundle resourcePath];
-	NSMutableString *htmlString = [NSMutableString alloc];
-	if ([htmlString respondsToSelector:@selector(initWithContentsOfFile:encoding:error:)]) {
-		NSError *error;
-		htmlString = [htmlString initWithContentsOfFile:templateFile encoding:NSUTF8StringEncoding error:&error];
-	} else {
-		// this method has been deprecated in 10.4
-		htmlString = [htmlString initWithContentsOfFile:templateFile];
-	}
-	if (!htmlString)
+	CFStringRef template = (CFStringRef)createStringWithContentsOfFile(templateFile, kCFStringEncodingUTF8);
+	if (!template) {
 		NSLog(@"WARNING: could not read template '%@'", templateFile);
+		return;
+	}
+	CFMutableStringRef htmlString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, template);
+	CFRelease(template);
 
 	NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
 	image = [icon retain];
@@ -234,12 +227,12 @@ static NSMutableDictionary *notificationsByIdentifier;
 	CFStringRef textHTML = textIsHTML ? (CFStringRef)text : createStringByEscapingForHTML((CFStringRef)text);
 	CFStringRef opacityString = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%f"), opacity);
 
-	CFStringFindAndReplace((CFMutableStringRef)htmlString, CFSTR("%baseurl%"),  CFURLGetString(baseURL), CFRangeMake(0, CFStringGetLength((CFStringRef)htmlString)), 0);
-	CFStringFindAndReplace((CFMutableStringRef)htmlString, CFSTR("%opacity%"),  opacityString,           CFRangeMake(0, CFStringGetLength((CFStringRef)htmlString)), 0);
-	CFStringFindAndReplace((CFMutableStringRef)htmlString, CFSTR("%priority%"), priorityName,            CFRangeMake(0, CFStringGetLength((CFStringRef)htmlString)), 0);
-	CFStringFindAndReplace((CFMutableStringRef)htmlString, CFSTR("%image%"),    (CFStringRef)UUID,       CFRangeMake(0, CFStringGetLength((CFStringRef)htmlString)), 0);
-	CFStringFindAndReplace((CFMutableStringRef)htmlString, CFSTR("%title%"),    titleHTML,               CFRangeMake(0, CFStringGetLength((CFStringRef)htmlString)), 0);
-	CFStringFindAndReplace((CFMutableStringRef)htmlString, CFSTR("%text%"),     textHTML,                CFRangeMake(0, CFStringGetLength((CFStringRef)htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%baseurl%"),  CFURLGetString(baseURL), CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%opacity%"),  opacityString,           CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%priority%"), priorityName,            CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%image%"),    (CFStringRef)UUID,       CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%title%"),    titleHTML,               CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%text%"),     textHTML,                CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 
 	CFRelease(opacityString);
 	CFRelease(baseURL);
@@ -250,9 +243,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 	WebFrame *webFrame = [view mainFrame];
 	[[self window] disableFlushWindow];
 	[self retain];
-	[webFrame loadHTMLString:htmlString baseURL:nil];
+	[webFrame loadHTMLString:(NSString *)htmlString baseURL:nil];
 	[[webFrame frameView] setAllowsScrolling:NO];
-	[htmlString release];
+	CFRelease(htmlString);
 }
 
 /*!

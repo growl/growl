@@ -18,6 +18,8 @@ extern void NSLog(STRING_TYPE format, ...);
 char *createFileSystemRepresentationOfString(STRING_TYPE str);
 STRING_TYPE createStringWithDate(DATE_TYPE date);
 
+STRING_TYPE createStringWithContentsOfFile(STRING_TYPE filename, CFStringEncoding encoding);
+
 //you can leave out any of these three components. to leave out the character, pass 0xffff.
 STRING_TYPE createStringWithStringAndCharacterAndString(STRING_TYPE str0, UniChar ch, STRING_TYPE str1);
 

@@ -17,6 +17,7 @@ Boolean GetMetadataForFile(void *thisInterface,
 	Boolean success;
 	CFURLRef ticketURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, pathToFile, kCFURLPOSIXPathStyle, /*isDirectory*/ false);
 	CFReadStreamRef stream = CFReadStreamCreateWithFile(kCFAllocatorDefault, ticketURL);
+	CFRelease(ticketURL);
 	CFReadStreamOpen(stream);
 	CFPropertyListFormat format;
 	CFStringRef errorString = NULL;
@@ -25,21 +26,19 @@ Boolean GetMetadataForFile(void *thisInterface,
 													 /*streamLength*/ 0,
 													 kCFPropertyListImmutable,
 													 &format,
-													 &errorString
-													 );
+													 &errorString);
 	if (errorString) {
 		//NSLog(CFSTR("GrowlImporter: Error importing ticket from URL %@: %@"), ticketURL, errorString);
+		CFRelease(errorString);
 		success = FALSE;
 	} else {
 		CFTypeRef value;
 		value = CFDictionaryGetValue(ticket, GROWL_APP_NAME);
-		if (value) {
+		if (value)
 			CFDictionarySetValue(attributes, kMDItemTitle, value);
-		}
 		value = CFDictionaryGetValue(ticket, GROWL_TICKET_VERSION);
-		if (value) {
+		if (value)
 			CFDictionarySetValue(attributes, kMDItemVersion, value);
-		}
 		CFArrayRef allNotifications = CFDictionaryGetValue(ticket, GROWL_NOTIFICATIONS_ALL);
 		if (allNotifications) {
 			CFIndex count = CFArrayGetCount(allNotifications);
@@ -49,19 +48,18 @@ Boolean GetMetadataForFile(void *thisInterface,
 			for (CFIndex i=0; i<count; ++i) {
 				CFDictionaryRef notification = CFArrayGetValueAtIndex(allNotifications, i);
 				CFStringRef name = CFDictionaryGetValue(notification, CFSTR("Name"));
-				if (name) {
+				if (name)
 					CFArrayAppendValue(keywords, name);
-				}
 			}
 			CFDictionarySetValue(attributes, kMDItemKeywords, keywords);
 			CFRelease(keywords);
 		}
 		success = TRUE;
 	}
-	CFRelease(ticket);
+	if (ticket)
+		CFRelease(ticket);
 	CFReadStreamClose(stream);
 	CFRelease(stream);
-	CFRelease(ticketURL);
 
     return success;
 }

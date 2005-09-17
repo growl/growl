@@ -151,10 +151,14 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 		[self versionDictionary];
 
-		NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithContentsOfFile:
-			[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"]];
-		[preferences registerDefaults:defaultDefaults];
-		[defaultDefaults release];
+		CFStringRef file = (CFStringRef)[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
+		CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, file, kCFURLPOSIXPathStyle, false);
+		NSDictionary *defaultDefaults = createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
+		CFRelease(fileURL);
+		if (defaultDefaults) {
+			[preferences registerDefaults:defaultDefaults];
+			[defaultDefaults release];
+		}
 
 		[self preferencesChanged:nil];
 
@@ -745,7 +749,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 //	NSLog(@"Asked to open file %@", filename);
 
 	if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
-		NSDictionary *regDict = [[NSDictionary alloc] initWithContentsOfFile:filename];
+		CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)filename, kCFURLPOSIXPathStyle, false);
+		NSDictionary *regDict = createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
+		CFRelease(fileURL);
 
 		/*GrowlApplicationBridge 0.6 communicates registration to Growl by
 		 *	writing a dictionary file to the temporary items folder, then
@@ -848,67 +854,64 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	if (!userInfo)
 		return;
 
-	NSString *appName = getObjectForKey(userInfo, @"NSApplicationName");
 	NSString *appPath = getObjectForKey(userInfo, @"NSApplicationPath");
 
 	if (appPath) {
 		NSString *ticketPath = [NSBundle pathForResource:@"Growl Registration Ticket" ofType:GROWL_REG_DICT_EXTENSION inDirectory:appPath];
-		NSDictionary *ticket = [[NSDictionary alloc] initWithContentsOfFile:ticketPath];
+		if (ticketPath) {
+			CFURLRef ticketURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)ticketPath, kCFURLPOSIXPathStyle, false);
+			NSMutableDictionary *ticket = (NSMutableDictionary *)createPropertyListFromURL((NSURL *)ticketURL, kCFPropertyListMutableContainers, NULL, NULL);
 
-		if (ticket) {
-			//set the app's name in the dictionary, if it's not present already.
-			NSMutableDictionary *mTicket = [ticket mutableCopy];
-			if (![mTicket objectForKey:GROWL_APP_NAME])
-				[mTicket setObject:appName forKey:GROWL_APP_NAME];
-			[ticket release];
-			ticket = mTicket;
+			if (ticket) {
+				NSString *appName = getObjectForKey(userInfo, @"NSApplicationName");
 
-			if ([GrowlApplicationTicket isValidTicketDictionary:ticket]) {
-				NSLog(@"Auto-discovered registration ticket in %@ (located at %@)", appName, appPath);
+				//set the app's name in the dictionary, if it's not present already.
+				if (![ticket objectForKey:GROWL_APP_NAME])
+					[ticket setObject:appName forKey:GROWL_APP_NAME];
 
-				/*set the app's location in the dictionary, avoiding costly
-				 *	lookups later.
-				 */
-				{
+				if ([GrowlApplicationTicket isValidTicketDictionary:ticket]) {
+					NSLog(@"Auto-discovered registration ticket in %@ (located at %@)", appName, appPath);
+
+					/* set the app's location in the dictionary, avoiding costly
+					 *	lookups later.
+					 */
 					NSURL *url = [[NSURL alloc] initFileURLWithPath:appPath];
 					NSDictionary *file_data = createDockDescriptionWithURL(url);
 					id location = file_data ? [NSDictionary dictionaryWithObject:file_data forKey:@"file-data"] : appPath;
 					[file_data release];
-					[mTicket setObject:location forKey:GROWL_APP_LOCATION];
+					[ticket setObject:location forKey:GROWL_APP_LOCATION];
 					[url release];
 
 					//write the new ticket to disk, and be sure to launch this ticket instead of the one in the app bundle.
 					NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
 					ticketPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:UUID] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 					[ticket writeToFile:ticketPath atomically:NO];
-				}
 
-				/*open the ticket with ourselves.
-				 *we need to use LS in order to launch it with this specific
-				 *	GHA, rather than some other.
-				 */
-				NSURL *myURL        = copyCurrentProcessURL();
-				NSURL *ticketURL    = [[NSURL alloc] initFileURLWithPath:ticketPath];
-				NSArray *URLsToOpen = [NSArray arrayWithObject:ticketURL];
-				struct LSLaunchURLSpec spec = {
-					.appURL = (CFURLRef)myURL,
-					.itemURLs = (CFArrayRef)URLsToOpen,
-					.passThruParams = NULL,
-					.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchAsync,
-					.asyncRefCon = NULL,
-				};
-				OSStatus err = LSOpenFromURLSpec(&spec, /*outLaunchedURL*/ NULL);
-				if (err != noErr) {
-					NSLog(@"The registration ticket for %@ could not be opened (LSOpenFromURLSpec returned %li). Pathname for the ticket file: %@", appName, (long)err, ticketPath);
+					/* open the ticket with ourselves.
+					 * we need to use LS in order to launch it with this specific
+					 *	GHA, rather than some other.
+					 */
+					CFURLRef myURL      = (CFURLRef)copyCurrentProcessURL();
+					NSArray *URLsToOpen = [NSArray arrayWithObject:(NSURL *)ticketURL];
+					struct LSLaunchURLSpec spec = {
+						.appURL = myURL,
+						.itemURLs = (CFArrayRef)URLsToOpen,
+						.passThruParams = NULL,
+						.launchFlags = kLSLaunchDontAddToRecents | kLSLaunchDontSwitch | kLSLaunchAsync,
+						.asyncRefCon = NULL,
+					};
+					OSStatus err = LSOpenFromURLSpec(&spec, /*outLaunchedURL*/ NULL);
+					if (err != noErr)
+						NSLog(@"The registration ticket for %@ could not be opened (LSOpenFromURLSpec returned %li). Pathname for the ticket file: %@", appName, (long)err, ticketPath);
+					CFRelease(myURL);
+				} else if ([GrowlApplicationTicket isKnownTicketVersion:ticket]) {
+					NSLog(@"%@ (located at %@) contains an invalid registration ticket - developer, please consult Growl developer documentation (http://growl.info/documentation/developer/)", appName, appPath);
+				} else {
+					NSLog(@"%@ (located at %@) contains a ticket whose version (%i) is unrecognised by this version (%@) of Growl", appName, appPath, [[ticket objectForKey:GROWL_TICKET_VERSION] intValue], [self stringWithVersionDictionary:nil]);
 				}
-				[myURL release];
-				[ticketURL release];
-			} else if ([GrowlApplicationTicket isKnownTicketVersion:ticket]) {
-				NSLog(@"%@ (located at %@) contains an invalid registration ticket - developer, please consult Growl developer documentation (http://growl.info/documentation/developer/)", appName, appPath);
-			} else {
-				NSLog(@"%@ (located at %@) contains a ticket whose version (%i) is unrecognised by this version (%@) of Growl", appName, appPath, [[ticket objectForKey:GROWL_TICKET_VERSION] intValue], [self stringWithVersionDictionary:nil]);
+				[ticket release];
 			}
-			[ticket release];
+			CFRelease(ticketURL);
 		}
 	}
 }

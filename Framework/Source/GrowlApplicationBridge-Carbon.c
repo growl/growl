@@ -472,25 +472,11 @@ CFDictionaryRef Growl_CopyRegistrationDictionaryFromBundle(CFBundleRef bundle) {
 		if (!regDictPath) regDictPath = CFRetain(regDictURL);
 
 		//read the plist.
-		CFReadStreamRef stream = CFReadStreamCreateWithFile(kCFAllocatorDefault, regDictURL);
-		if (stream) {
-			CFReadStreamOpen(stream);
-
-			CFPropertyListFormat format_noOneCares;
-			CFStringRef errorString = NULL;
-			regDict = CFPropertyListCreateFromStream(kCFAllocatorDefault,
-													 stream,
-									/*streamLength*/ 0, //read to EOF
-													 kCFPropertyListImmutable,
-													 &format_noOneCares,
-													 &errorString);
-
-			CFReadStreamClose(stream);
-			CFRelease(stream);
-			if (errorString) {
-				NSLog(CFSTR("GrowlApplicationBridge: Got error reading property list at %@: %@"), regDictPath, errorString);
-				CFRelease(errorString);
-			}
+		CFStringRef errorString = NULL;
+		regDict = createPropertyListFromURL(regDictURL, kCFPropertyListImmutable, NULL, &errorString);
+		if (errorString) {
+			NSLog(CFSTR("GrowlApplicationBridge: Got error reading property list at %@: %@"), regDictPath, errorString);
+			CFRelease(errorString);
 		}
 
 		if (!regDict) {

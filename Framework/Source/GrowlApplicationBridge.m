@@ -627,7 +627,9 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	ourGrowlPrefPaneInfoPath = [[NSBundle bundleWithIdentifier:@"com.growl.growlwithinstallerframework"] pathForResource:@"GrowlPrefPaneInfo"
 																												  ofType:@"plist"];
 
-	NSDictionary *infoDict = [[NSDictionary alloc] initWithContentsOfFile:ourGrowlPrefPaneInfoPath];
+	CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, ourGrowlPrefPaneInfoPath, kCFURLPOSIXPathStyle, false);
+	NSDictionary *infoDict = createPropertyListFromURL(url, kCFPropertyListImmutable, NULL, NULL);
+	CFRelease(url);
 	packagedVersion = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
 
 	infoDictionary = [growlPrefPaneBundle infoDictionary];

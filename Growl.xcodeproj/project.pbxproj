@@ -213,6 +213,7 @@
 		936FAB04074482BF00A7D430 /* RRTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936FAB02074482BF00A7D430 /* RRTableView.m */; };
 		937E64320817193800AEC1C6 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 937E64300817193800AEC1C6 /* About.rtf */; };
 		93FCE57E0812D93B00320D8E /* SystemUIPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FCE57D0812D93B00320D8E /* SystemUIPlugin.framework */; };
+		95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
 		950568E60812C2960096EC5C /* GrowlLog.c in Sources */ = {isa = PBXBuildFile; fileRef = 950568E40812C2960096EC5C /* GrowlLog.c */; };
 		950627A50840D34900C01CD2 /* growl-claw32.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 950627A40840D34900C01CD2 /* growl-claw32.tiff */; };
 		95075B0F0817F93D00D862A5 /* GrowlPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 959DBE4A08127BA4009BB468 /* GrowlPathUtilities.m */; };
@@ -2970,12 +2971,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
-					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
-				},
-				{
 					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
 					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
+				},
+				{
+					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
+					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
 				},
 			);
 			targets = (
@@ -3365,6 +3366,7 @@
 				0A7F5F410767C3F600E1C1E4 /* GrowlBezelWindowController.m in Sources */,
 				0A7F5F430767C3F600E1C1E4 /* GrowlBezelWindowView.m in Sources */,
 				95D8C1A708B0A07D00A75BD6 /* GrowlBezierPathAdditions.c in Sources */,
+				95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

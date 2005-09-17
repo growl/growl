@@ -21,6 +21,7 @@
 #import "TicketsArrayController.h"
 #import <ApplicationServices/ApplicationServices.h>
 #import <SystemConfiguration/SystemConfiguration.h>
+#include "CFGrowlAdditions.h"
 
 #define PING_TIMEOUT		3
 
@@ -61,11 +62,14 @@
 		[nc addObserver:self selector:@selector(growlTerminated:) name:GROWL_SHUTDOWN object:nil];
 		[nc addObserver:self selector:@selector(reloadPrefs:)     name:GrowlPreferencesChanged object:nil];
 
-		NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithContentsOfFile:
-			[bundle pathForResource:@"GrowlDefaults"
-							 ofType:@"plist"]];
-		[preferencesController registerDefaults:defaultDefaults];
-		[defaultDefaults release];
+		CFStringRef file = (CFStringRef)[bundle pathForResource:@"GrowlDefaults" ofType:@"plist"];
+		CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, file, kCFURLPOSIXPathStyle, /*isDirectory*/ false);
+		NSDictionary *defaultDefaults = createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
+		CFRelease(fileURL);
+		if (defaultDefaults) {
+			[preferencesController registerDefaults:defaultDefaults];
+			[defaultDefaults release];
+		}
 	}
 
 	return self;
