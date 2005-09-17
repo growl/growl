@@ -9,7 +9,6 @@
 //
 
 #import "GrowlAbstractSingletonObject.h"
-#import "GrowlDisplayProtocol.h"
 
 /*!
  * @typedef GrowlPosition
