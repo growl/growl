@@ -29,6 +29,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 - (id) init {
 	if ((self = [super init])) {
 		windowTransitions = [[NSMutableArray alloc] init];
+		ignoresOtherNotifications = NO;
 	}
 
 	return self;
@@ -62,10 +63,11 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Display control
 
 - (void) startDisplay {
-	NSWindow *window = [self window];
+	NSWindow	*window = [self window];
+	BOOL		didReserveRect = [[GrowlPositionController sharedInstance] reserveRect:[window frame] inScreen:[window screen]];	//Inform GPC that we're displaying
 	
-	//Make sure we don't cover any other notification
-	if ([[GrowlPositionController sharedInstance] reserveRect:[window frame] inScreen:[window screen]]) {
+	//Make sure we don't cover any other notification (or not)
+	if (ignoresOtherNotifications || didReserveRect) {
 		[self willDisplayNotification];
 		[window orderFront:nil];
 		[self  didDisplayNotification];
@@ -78,7 +80,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	NSWindow *window = [self window];
 	
 	[self willTakeDownNotification];
-	[[GrowlPositionController sharedInstance] clearReservedRect:[window frame] inScreen:[window screen]];
+	[[GrowlPositionController sharedInstance] clearReservedRect:[window frame] inScreen:[window screen]];	//Clear the rect we reserved
 	[window orderOut:nil];
 	[self  didTakeDownNotification];
 }
@@ -328,6 +330,16 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 - (void) setClickContext:(id) inClickContext {
 	[clickContext autorelease];
 	clickContext = [inClickContext retain];
+}
+
+#pragma mark -
+
+- (BOOL) ignoresOtherNotifications {
+	return ignoresOtherNotifications;
+}
+
+- (void) setIgnoresOtherNotifications:(BOOL) flag {
+	ignoresOtherNotifications = flag;
 }
 
 #pragma mark -

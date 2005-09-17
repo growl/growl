@@ -214,8 +214,6 @@
 	//Remove the rect
 	if ((value = [reservedRectsOfScreen member:[NSValue valueWithRect:inRect]]))
 		[reservedRectsOfScreen removeObject:value];
-	else
-		NSLog(@"Can't clear the reserved rect %@ since it is not reserved.", NSStringFromRect([value rectValue]));
 }
 
 @end

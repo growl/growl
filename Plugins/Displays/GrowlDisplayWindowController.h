@@ -21,6 +21,7 @@
 	id					delegate;
 	CFRunLoopTimerRef	displayTimer;
 	NSMutableArray		*windowTransitions;
+	BOOL				ignoresOtherNotifications;
 
 	NSTimeInterval		displayDuration;
 	unsigned			screenNumber;
@@ -101,6 +102,9 @@
 
 - (NSNumber *) clickHandlerEnabled;
 - (void) setClickHandlerEnabled:(NSNumber *) flag;
+
+- (BOOL) ignoresOtherNotifications;
+- (void) setIgnoresOtherNotifications:(BOOL) flag;
 
 @end
 
