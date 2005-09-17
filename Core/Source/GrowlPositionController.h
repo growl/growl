@@ -54,7 +54,7 @@ typedef enum {
  * @abstract GrowlPositionController provides a mechanism for display plugins to display without disturbing each other.
  */
 @interface GrowlPositionController : GrowlAbstractSingletonObject {
-	NSMutableDictionary	*reservedRects;
+	CFMutableDictionaryRef	reservedRects;
 }
 
 /*!
