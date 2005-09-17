@@ -9,6 +9,26 @@
 #import "GrowlAbstractSingletonObject.h"
 #import "GrowlDisplayProtocol.h"
 
+/*!
+ * @typedef GrowlPosition
+ * @abstract Represents a general position on the screen for display plugins.
+ *
+ * @constant GrowlTopLeftPosition The top left square of the screen.
+ * @constant GrowlTopMiddlePosition The top middle square of the screen.
+ * @constant GrowlTopRightPosition The top right square of the screen.
+ * @constant GrowlCenterLeftPosition The center left square of the screen.
+ * @constant GrowlCenterMiddlePosition The center middle square of the screen.
+ * @constant GrowlCenterRightPosition The center right square of the screen.
+ * @constant GrowlBottomLeftPosition The bottom left square of the screen.
+ * @constant GrowlBottomMiddlePosition The bottom left middle of the screen.
+ * @constant GrowlBottomRightPosition The bottom right square of the screen.
+ * @constant GrowlTopRowPosition The top oblong (row) of the screen.
+ * @constant GrowlCenterRowPosition The center oblong (row) of the screen.
+ * @constant GrowlBottomRowPosition The bottom oblong (row) of the screen.
+ * @constant GrowlLeftColumnPosition The bottom oblong (column) of the screen.
+ * @constant GrowlMiddleColumnPosition The middle oblong (column) of the screen.
+ * @constant GrowlRightColumnPosition The right oblong (column) of the screen.
+ */
 typedef enum {
 	GrowlTopLeftPosition,
 	GrowlTopMiddlePosition,
@@ -27,6 +47,10 @@ typedef enum {
 	GrowlRightColumnPosition
 } GrowlPosition;
 
+/*!
+ * @class GrowlPositionController
+ * @abstract GrowlPositionController provides a mechanism for display plugins to display without disturbing each other.
+ */
 @interface GrowlPositionController : GrowlAbstractSingletonObject {
 	NSMutableDictionary	*reservedRects;
 }
