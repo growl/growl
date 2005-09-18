@@ -73,7 +73,7 @@ static void smokeGone(CFNotificationCenterRef center, void *observer, CFStringRe
 	// update the depth for the next notification with the depth given by this new one
 	// which will take into account the new notification's height
 	smokeDepth = [controller depth] + GrowlSmokePadding;
-	[controller startFadeIn];
+	[controller startDisplay];
 	[controller release];
 }
 @end

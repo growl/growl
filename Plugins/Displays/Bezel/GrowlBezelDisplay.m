@@ -54,7 +54,7 @@
 					[aNotification setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
 					[aNotification setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
 					if (theIndex == 0U)
-						[aNotification startFadeIn];
+						[aNotification startDisplay];
 					return;
 				}
 				break;
@@ -88,7 +88,7 @@
 				[notificationQueue insertObject: nuBezel atIndex:theIndex];
 				if (theIndex == 0U) {
 					[aNotification stopFadeOut];
-					[nuBezel startFadeIn];
+					[nuBezel startDisplay];
 				}
 				break;
 			}
@@ -99,7 +99,7 @@
 			[notificationQueue addObject:nuBezel];
 	} else {
 		[notificationQueue addObject:nuBezel];
-		[nuBezel startFadeIn];
+		[nuBezel startDisplay];
 	}
 	[nuBezel release];
 }
@@ -119,7 +119,7 @@
 	if ([notificationQueue count] > 0U) {
 		olBezel = [notificationQueue objectAtIndex:0U];
 		[olBezel setFlipIn:YES];
-		[olBezel startFadeIn];
+		[olBezel startDisplay];
 	}
 }
 @end

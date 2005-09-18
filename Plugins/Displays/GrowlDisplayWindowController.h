@@ -31,7 +31,7 @@
 
 - (void) takeScreenshot;
 
-- (void) startDisplay;
+- (BOOL) startDisplay;
 - (void) stopDisplay;
 	
 /*call these from subclasses as various phases of display occur.
@@ -48,7 +48,7 @@
 
 #pragma mark -
 
-- (BOOL) startDisplayTimer;
+- (void) startDisplayTimer;
 - (void) stopDisplayTimer;
 
 #pragma mark -

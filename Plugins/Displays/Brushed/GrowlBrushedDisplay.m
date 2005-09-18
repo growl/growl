@@ -72,7 +72,7 @@ static void brushedGone(CFNotificationCenterRef center, void *observer, CFString
 	// update the depth for the next notification with the depth given by this new one
 	// which will take into account the new notification's height
 	brushedDepth = [controller depth] + GrowlBrushedPadding;
-	[controller startFadeIn];
+	[controller startDisplay];
 	[controller release];
 }
 @end

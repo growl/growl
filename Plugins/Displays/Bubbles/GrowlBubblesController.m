@@ -36,7 +36,7 @@
 	[nuBubble setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
 	[nuBubble setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
 	[nuBubble setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
-	[nuBubble startFadeIn];	// retains nuBubble
+	[nuBubble startDisplay];	// retains nuBubble
 	[nuBubble release];
 }
 @end

@@ -165,9 +165,15 @@ static void fadeOutTimer(CFRunLoopTimerRef timer, void *info) {
 #pragma mark -
 #pragma mark Display control
 
-- (void) startDisplay {
-	if (!isFadingIn)
-		[self startFadeIn]; //posts {will,did}DisplayNotification
+- (BOOL) startDisplay {
+	BOOL result;
+	if (!isFadingIn && !didFadeIn)
+		result = [super startDisplay];
+	else
+		result = YES;
+	[self startFadeIn]; //posts {will,did}DisplayNotification
+
+	return result;
 }
 
 - (void) stopDisplay {

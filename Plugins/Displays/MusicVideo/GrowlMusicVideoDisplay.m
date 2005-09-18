@@ -56,7 +56,7 @@
 					[aNotification setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
 					[aNotification setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
 					if (theIndex == 0U)
-						[aNotification startFadeIn];
+						[aNotification startDisplay];
 					return;
 				}
 				break;
@@ -89,7 +89,7 @@
 				[notificationQueue insertObject:nuMusicVideo atIndex:theIndex];
 				if (theIndex == 0U) {
 					[aNotification stopFadeOut];
-					[nuMusicVideo startFadeIn];
+					[nuMusicVideo startDisplay];
 				}
 				break;
 			}
@@ -100,7 +100,7 @@
 			[notificationQueue addObject:nuMusicVideo];
 	} else {
 		[notificationQueue addObject:nuMusicVideo];
-		[nuMusicVideo startFadeIn];
+		[nuMusicVideo startDisplay];
 	}
 	[nuMusicVideo release];
 }
@@ -108,7 +108,7 @@
 - (void) displayWindowControllerWillFadeOut:(GrowlDisplayFadingWindowController *)sender {
 #pragma unused(sender)
 	if ([notificationQueue count] > 1U)
-		[[notificationQueue objectAtIndex:1U] startFadeIn];
+		[[notificationQueue objectAtIndex:1U] startDisplay];
 }
 
 - (void) displayWindowControllerDidFadeOut:(GrowlDisplayFadingWindowController *)sender {
@@ -117,7 +117,7 @@
 	if ([notificationQueue count] > 0U) {
 		GrowlDisplayFadingWindowController *controller = [notificationQueue objectAtIndex:0U];
 		if (!([controller isFadingIn] || [controller didFadeIn]))
-			[controller startFadeIn];
+			[controller startDisplay];
 	}
 }
 @end

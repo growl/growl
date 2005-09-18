@@ -298,7 +298,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		positioned = YES;
 	}
 	[myWindow invalidateShadow];
-	[self startFadeIn];
+	[self startDisplay];
 	[self release];	// we retained before loadHTMLString
 }
 
