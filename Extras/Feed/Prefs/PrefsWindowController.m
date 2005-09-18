@@ -56,9 +56,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		NSString *					soundName = nil;
 		
 		soundNames = [[NSMutableArray alloc] init];
-		while( path = [pathEnumerator nextObject] ){
+		while((path = [pathEnumerator nextObject])){
 			dirEnumerator = [fileManager enumeratorAtPath: [NSString stringWithFormat:@"%@/Sounds",path]];
-			while( soundName = [dirEnumerator nextObject] ){
+			while((soundName = [dirEnumerator nextObject])){
 				if( [NSSound soundNamed: [soundName stringByDeletingPathExtension]] ){
 					[soundNames addObject: [soundName stringByDeletingPathExtension]];
 				}
@@ -86,7 +86,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	fonts = [[[NSFontManager sharedFontManager] availableFontFamilies] mutableCopy];
 	[fonts sortUsingSelector: @selector(compare:)];
 	enumerator = [fonts objectEnumerator];
-	while( font = [enumerator nextObject] ){
+	while((font = [enumerator nextObject])){
 		[articleListFontPopup addItemWithTitle: font];
 		[articleFontPopup addItemWithTitle: font];
 	}
@@ -94,7 +94,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	NSString *					soundName = nil;
 	enumerator = [soundNames objectEnumerator];
-	while( soundName = [enumerator nextObject] ){
+	while((soundName = [enumerator nextObject])){
 		[notificationSoundNamePopup addItemWithTitle: soundName];
 	}
 }
@@ -108,6 +108,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)windowDidBecomeKey:(NSNotification *)notification{
+#pragma unused(notification)
     double                  units = [PREFS updateUnits];
     double                  length = [PREFS updateLength];
 	NSTimeInterval			expireInterval = [PREFS articleExpireInterval];

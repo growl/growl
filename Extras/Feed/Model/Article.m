@@ -581,6 +581,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)invalidateCache:(NSNotification *)notification{
+#pragma unused(notification)
 	[self deleteCache];
 }
 @end

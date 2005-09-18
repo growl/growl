@@ -102,6 +102,7 @@ static void addToolbarItem(NSMutableDictionary *aDict, NSString *identifier, NSS
 }
 
 -(NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag{
+#pragma unused(toolbar,flag)
 	NSToolbarItem *			newItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
 	NSToolbarItem *			item = [toolbarItems objectForKey: itemIdentifier];
 	
@@ -121,6 +122,7 @@ static void addToolbarItem(NSMutableDictionary *aDict, NSString *identifier, NSS
 }
 
 -(NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar{
+#pragma unused(toolbar)
 	return [NSArray arrayWithObjects: 
                 ADD_FEED,
                 REMOVE_FEED,
@@ -132,6 +134,7 @@ static void addToolbarItem(NSMutableDictionary *aDict, NSString *identifier, NSS
 }
 
 -(NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar{
+#pragma unused(toolbar)
 	return [NSArray arrayWithObjects: 
                 ADD_FEED,
                 REMOVE_FEED,

@@ -49,10 +49,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 -(void)parser:(NSXMLParser *)aParser foundComment:(NSString *)comment{
+#pragma unused(aParser,comment)
 	//KNDebug(@"RSS: Found comment: %@", comment);
 }
 
 -(void)parser:(NSXMLParser *)aParser parseErrorOccurred:(NSError *)error{
+#pragma unused(aParser,error)
 	//KNDebug(@"RSS: XML error (%@) at line %d column %d", error, [aParser lineNumber], [aParser columnNumber] );
 	[self setReaderError:@"Invalid XML for source"];
 	[NSException raise: RSSParserFailed format: @"Invalid XML for source (line %d)", [aParser lineNumber]];
@@ -60,6 +62,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)parser:(NSXMLParser *)aParser didStartElement:(NSString *)element 
 	namespaceURI:(NSString *)nsURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)atts{
+#pragma unused(aParser,nsURI,qName)
 	
 	//KNDebug(@"RSS: startElement %@", element);
 	if( [element isEqualToString: @"channel"] ){
@@ -91,6 +94,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)parser:(NSXMLParser *)aParser foundCharacters:(NSString *)string{
+#pragma unused(aParser)
 	//KNDebug(@"RSS: foundCharacters: %@", string);
 	if( string != nil ){
 		if( ! currentBuffer ){ currentBuffer = [[NSMutableString alloc] init]; }
@@ -100,10 +104,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)parser:(NSXMLParser *)aParser foundIgnorableWhitespace:(NSString *)string{
+#pragma unused(aParser,string)
 	//KNDebug(@"RSS: found ignorable whitespace");
 }
 
 -(void)parser:(NSXMLParser *)aParser didEndElement:(NSString *)element namespaceURI:(NSString *)nsURI qualifiedName:(NSString *)qName{
+#pragma unused(aParser,nsURI,qName)
 	//KNDebug(@"RSS: endElement %@", element);
 	NSMutableDictionary *				dest = nil;
 	

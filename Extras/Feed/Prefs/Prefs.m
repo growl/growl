@@ -104,7 +104,7 @@ static Prefs * sharedPrefsObject = nil;
 
 -(id)init{
     if( sharedPrefsObject ){ [self release]; }
-    else if( self = [super init] ){
+    else if((self = [super init])){
         sharedPrefsObject = self;
     }
     return sharedPrefsObject;

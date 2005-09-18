@@ -16,10 +16,11 @@
 }
 
 -(NSString *)naturalStringWithDateFormat:(NSString *)dateFormat{
-	[self naturalStringWithDateFormat: dateFormat timeFormat: [[NSUserDefaults standardUserDefaults] stringForKey: NSTimeFormatString]];
+	return [self naturalStringWithDateFormat: dateFormat timeFormat: [[NSUserDefaults standardUserDefaults] stringForKey: NSTimeFormatString]];
 }
 
 -(NSString *)naturalStringWithDateFormat:(NSString *)dateFormat timeFormat:(NSString *)timeFormat{
+#pragma unused(timeFormat)
 	NSString *			dateAndTime = nil;
 	NSString *			now = [[NSDate date] descriptionWithCalendarFormat: @"%m/%d/%Y" timeZone: nil locale: nil];
 	NSString *			yesterday = [[[NSDate date] addTimeInterval: -24*60*60] descriptionWithCalendarFormat: @"%m/%d/%Y" timeZone: nil locale: nil];

@@ -63,6 +63,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 -(void)applicationDidFinishLaunching:(NSNotification *)notification{
+#pragma unused(notification)
     //KNDebug(@"appFinishedLaunch");
 	NSZombieEnabled = [PREFS debugging];
 	if( [PREFS showDebugMenu] ){
@@ -86,10 +87,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender{
+#pragma unused(sender)
 	return NO;
 }
 
 -(BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender{
+#pragma unused(sender)
 	return NO;
 }
 
@@ -107,6 +110,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)applicationWillTerminate:(NSNotification *)notification{
+#pragma unused(notification)
     NSImage *               appImage;
     
     //KNDebug(@"appWillTerminate");
@@ -121,6 +125,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(BOOL)application:(NSApplication *)application openFile:(NSString *)filename{
+#pragma unused(application,filename)
 	KNDebug(@"APP: got an openFile request");
 	return NO;
 }
@@ -140,10 +145,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)showMainWindow:(id)sender{
+#pragma unused(sender)
 	[feedWindowController showWindow: self];
 }
 
 -(IBAction)toggleDebug:(id)sender{
+#pragma unused(sender)
 	if( [PREFS debugging] ){
 		[PREFS setDebugging: NO];
 	}else{
@@ -157,6 +164,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)showPrefs:(id)sender{
+#pragma unused(sender)
     //KNDebug(@"APP: showPrefs");
 	if( ! prefsWindowController ){
 		prefsWindowController = [[PrefsWindowController alloc] init];
@@ -165,6 +173,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)updateTimer:(NSTimer *)aTimer{
+#pragma unused(aTimer)
     NSTimeInterval              delay = [PREFS retryInterval];
     
     if( [feedLibrary refreshAll] ){
@@ -175,6 +184,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)updateTickle:(NSTimer *)aTimer{
+#pragma unused(aTimer)
 	[feedLibrary refreshPending];
 }
 
@@ -227,6 +237,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)getURL:(NSAppleEventDescriptor *) event withReplyEvent:(NSAppleEventDescriptor *)replyevent{
+#pragma unused(replyevent)
 	[self openURL: [NSURL URLWithString: [[event paramDescriptorForKeyword: keyDirectObject] stringValue] ]];
 }
 
@@ -248,6 +259,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)importOPML:(id)sender{
+#pragma unused(sender)
 	OPMLReader *		opml;
 	int					openResult;
 	NSArray *			fileTypes = [NSArray arrayWithObjects:@"opml",@"xml",nil];
@@ -269,7 +281,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			opml = [[OPMLReader alloc] init];
 			if( [opml parse: [[NSFileManager defaultManager] contentsAtPath: file]] ){
 				enumerator = [[opml outlines] objectEnumerator];
-				while( source = [enumerator nextObject] ){
+				while((source = [enumerator nextObject])){
 					Feed *				feed = [[Feed alloc] initWithSource: source];
 
 					KNDebug(@"APP: Importing source %@", source);
@@ -290,6 +302,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)exportOPML:(id)sender{
+#pragma unused(sender)
 	NSSavePanel *			savePanel = [NSSavePanel savePanel];
 	int						saveResult;
 	
@@ -305,7 +318,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[buffer appendString:@"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"];
 		[buffer appendString:@"<opml version=\"1.1\">\n"];
 		[buffer appendString:@"\t<head>\n\t\t<title>Exported Feeds</title>\n\t</head>\n\t<body>\n"];
-		while( feed = [enumerator nextObject] ){
+		while((feed = [enumerator nextObject])){
 			[buffer appendFormat:@"\t\t<outline type=\"rss\" xmlUrl=\"%@\" />\n", [feed source]];
 		}
 		[buffer appendString:@"\t</body>\n</opml>"];
@@ -343,6 +356,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 */
 
 -(IBAction)cancelDialog:(id)sender{
+#pragma unused(sender)
 	[NSApp stopModal];
 }
 
@@ -351,10 +365,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)openHomePage:(id)sender{
+#pragma unused(sender)
 	[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: @"http://keeto.net/feed/"]];
 }
 
 -(IBAction)openBugPage:(id)sender{
+#pragma unused(sender)
 	[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: @"http://keeto.net/feed/index.html?section=bugs"]];
 }
 

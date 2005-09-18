@@ -131,7 +131,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			
 			if( [opml parse: [[NSFileManager defaultManager] contentsAtPath: [[NSBundle mainBundle] pathForResource:@"DefaultSources" ofType:@"opml"]]] ){
 				enumerator = [[opml outlines] objectEnumerator];
-				while( source = [enumerator nextObject] ){
+				while((source = [enumerator nextObject])){
 					feed = [[Feed alloc] initWithSource: source];
 					[self newFeed: feed inItem: nil atIndex: [self childCountOfItem: nil]];
 					[feed release];
@@ -226,6 +226,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)timedSave:(NSTimer *)timer{
+#pragma unused(timer)
 	[self save];
 }
 
@@ -298,7 +299,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSString *				feedSource = nil;
 	
 	[feedsToUpdate removeAllObjects];
-	while( feedSource = [enumerator nextObject] ){
+	while((feedSource = [enumerator nextObject])){
 		[feedsToUpdate addObject: [self feedForSource: feedSource]];
 	}
 	return [self startUpdate];
@@ -309,7 +310,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSString *				feedSource = nil;
 	
 	[feedsToUpdate removeAllObjects];
-	while( feedSource = [enumerator nextObject] ){
+	while((feedSource = [enumerator nextObject])){
 		if( [[[self feedForSource: feedSource] valueForKeyPath:@"prefs.wantsUpdate"] boolValue] ){
 			[feedsToUpdate addObject: [self feedForSource: feedSource]];
 		}
@@ -344,16 +345,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)purgeKillList:(NSTimer *)timer{
+#pragma unused(timer)
 	NSEnumerator *				feedEnumerator = [[self feedsInFolder: nil] objectEnumerator];
 	Feed *						feed;
 	NSEnumerator *				articleEnumerator;
 	Article *					article;
 	
 	//KNDebug(@"LIB: purgeKillList");
-	while( feed = [feedEnumerator nextObject] ){
+	while((feed = [feedEnumerator nextObject])){
 		//KNDebug(@"LIB: purging feed %@", feed);
 		articleEnumerator = [[feed articles] objectEnumerator];
-		while( article = [articleEnumerator nextObject] ){
+		while((article = [articleEnumerator nextObject])){
 			if( ![article isOnServer] ){
 				//KNDebug(@"LIB: purging article from kill list %@", [article title]);
 				[[feedRoot objectForKey:LibraryDeletedArticleKeys] removeObject: [article key]];
@@ -426,7 +428,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	oldActiveArticle = [self activeArticle];
 	//KNDebug(@"LIB: saving active article %@", oldActiveArticle);
 	enumerator = [[self activeFeeds] objectEnumerator];
-	while( feed = [enumerator nextObject] ){
+	while((feed = [enumerator nextObject])){
 		for(i=0;i<[feed articleCount];i++){
 			if( [newArticleList indexOfObject: [feed articleAtIndex:i]] == NSNotFound ){
 				[newArticleList addObject: [feed articleAtIndex:i]];
@@ -435,7 +437,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	enumerator = [[self activeArticles] objectEnumerator];
-	while( article = [enumerator nextObject] ){
+	while((article = [enumerator nextObject])){
 		if( [newArticleList indexOfObject: article] == NSNotFound ){
 			[newArticleList addObject: article];
 		}
@@ -465,7 +467,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSDictionary *			feedItem;
 	Feed *					feed;
 	
-	while( feedItem = [enumerator nextObject] ){
+	while((feedItem = [enumerator nextObject])){
 		if( [self isFeedItem: feedItem] ){
 			feed = [self feedForItem: feedItem];
 			if( ! oldest ){
@@ -487,7 +489,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSDictionary *			feedItem;
 	Feed *					feed;
 	
-	while( feedItem = [enumerator nextObject] ){
+	while((feedItem = [enumerator nextObject])){
 		if( [self isFeedItem: feedItem] ){
 			feed = [self feedForItem: feedItem];
 			if( ! newest ){
@@ -510,7 +512,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSEnumerator *			subEnumerator;
 	Feed *					subFeed;
 	
-	while( feedItem = [enumerator nextObject] ){
+	while((feedItem = [enumerator nextObject])){
 		if( [self isFeedItem: feedItem] ){
 			if( [feeds indexOfObject: [self feedForItem: feedItem]] == NSNotFound ){
 				[feeds addObject: [self feedForItem: feedItem]];
@@ -518,7 +520,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		}else if( [self isFolderItem: feedItem] ){
 			subFeeds = [self feedsInFolder: feedItem];
 			subEnumerator = [subFeeds objectEnumerator];
-			while( subFeed = [subEnumerator nextObject] ){
+			while((subFeed = [subEnumerator nextObject])){
 				if( [feeds indexOfObject: subFeed] == NSNotFound ){
 					[feeds addObject: subFeed];
 				}
@@ -541,7 +543,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		else{ sourceList = [feedRoot objectForKey: LibraryFeedRoot]; }
 		
 		enumerator = [sourceList objectEnumerator];
-		while( childItem = [enumerator nextObject] ){
+		while((childItem = [enumerator nextObject])){
 			if( [self isFeedItem: childItem] ){
 				if( [feeds indexOfObject: [self feedForItem: childItem]] == NSNotFound ){
 					[feeds addObject: [self feedForItem: childItem]];
@@ -566,7 +568,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSEnumerator *			subEnumerator;
 	Article *				subArticle;
 	
-	while( item = [enumerator nextObject] ){
+	while((item = [enumerator nextObject])){
 		if( [self isArticleItem: item] ){
 			if( [articles indexOfObject: [self articleForItem: item]] == NSNotFound ){
 				[articles addObject: [self articleForItem: item]];
@@ -574,7 +576,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		}else if( [self isFolderItem: item] ){
 			subArticles = [self articlesInFolder: item];
 			subEnumerator = [subArticles objectEnumerator];
-			while( subArticle = [subEnumerator nextObject] ){
+			while((subArticle = [subEnumerator nextObject])){
 				if( [articles indexOfObject: subArticle] == NSNotFound ){
 					[articles addObject: subArticle];
 				}
@@ -595,7 +597,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		else{ sourceList = [feedRoot objectForKey: LibraryFeedRoot]; }
 		
 		enumerator = [sourceList objectEnumerator];
-		while( childItem = [enumerator nextObject] ){
+		while((childItem = [enumerator nextObject])){
 			if( [self isArticleItem: childItem] ){
 				[articles addObject: [self articleForItem: childItem]];
 			}else if( [self isFolderItem: childItem] ){
@@ -606,9 +608,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return articles;
 }
 
--(Article *)activeArticleAtIndex:(int)index{
-    if( (index > -1) && (index < [self activeArticleCount]) ){
-        return [[feedRoot objectForKey: LibraryActiveArticles] objectAtIndex: index];
+-(Article *)activeArticleAtIndex:(int)idx{
+    if( (idx > -1) && (idx < [self activeArticleCount]) ){
+        return [[feedRoot objectForKey: LibraryActiveArticles] objectAtIndex: idx];
     }else{
         return nil;
     }
@@ -628,7 +630,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     NSEnumerator *      enumerator = [[self activeFeeds] objectEnumerator];
     Feed *				feed;
     
-    while( feed = [enumerator nextObject] ){
+    while((feed = [enumerator nextObject])){
 		unreadCount += [feed unreadArticleCount];
     }
     return unreadCount;
@@ -706,7 +708,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     [feed updateFeedFromDictionary: headers];
 	[feed setError: nil];
 	[feed articlesWillUpdate];
-    while( article = [enumerator nextObject] ){
+    while((article = [enumerator nextObject])){
 		if( ! [self isArticleDeleted: [article objectForKey:ArticleKey]] ){
 			[feed addArticleFromDictionary: article];
 		}
@@ -752,8 +754,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	Feed *				feed = nil;
 	FeedReader *		newReader = nil;
 	
-	if( [feedsToUpdate count] > 0 ){
-		while( ([activeReaders count] < [PREFS maxUpdateThreads]) && ([feedsToUpdate count] > 0) ){
+	if( [feedsToUpdate count] > 0U ){
+		while( ((int)[activeReaders count] < [PREFS maxUpdateThreads]) && ([feedsToUpdate count] > 0U) ){
 			
 			newReader = nil;
 			
@@ -799,7 +801,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	//if( [PREFS articleExpireInterval] != -1 ){
 		enumerator = [[self allFeeds] objectEnumerator];
-		while( feed = [enumerator nextObject] ){
+		while((feed = [enumerator nextObject])){
 			//KNDebug(@"About to purge articles in %@", [self feedForSource: key]);
 			[feed expireArticles];
 		}
@@ -834,7 +836,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     int                     totalUnread = 0;
     
     //while( itemKey = [enumerator nextObject] ){
-	while( item = [enumerator nextObject] ){
+	while((item = [enumerator nextObject])){
         //item = [[feedRoot objectForKey:LibrarySourceIndex] objectForKey: itemKey];
         //totalUnread += [[item objectForKey:TreeFeedObject] unreadArticleCount];
 		totalUnread += [self unreadCountForItem: item];
@@ -855,7 +857,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}else if( [self isFolderItem: item] ){
 		//KNDebug(@"LIB: item is a folder");
 		enumerator = [[item objectForKey: TreeChildArray] objectEnumerator];
-		while( child = [enumerator nextObject] ){
+		while((child = [enumerator nextObject])){
 			//KNDebug(@"LIB: checking unread of child item %@", child);
 			if( [self isFeedItem: child] ){
 				unreadCount += [[self feedForItem: child] unreadArticleCount];
@@ -882,7 +884,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSEnumerator *			enumerator = [[[feedRoot objectForKey:LibrarySourceIndex] allValues] objectEnumerator];
 	id						feedItem;
 	
-	while( feedItem = [enumerator nextObject] ){
+	while((feedItem = [enumerator nextObject])){
 		[feeds addObject: [self feedForItem: feedItem]];
 	}
 	return( feeds );
@@ -947,7 +949,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	//KNDebug(@"LIB: isItem %@ descendentOfItem %@", item1, item2);
 	if( [self isFolderItem: item2] ){
 		enumerator = [[item2 objectForKey: TreeChildArray] objectEnumerator];
-		while( childItem = [enumerator nextObject] ){
+		while((childItem = [enumerator nextObject])){
 			if( item1 == childItem ){ return YES; }
 			
 			if( [self isFolderItem: childItem] ){
@@ -960,7 +962,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return isDescendent;
 }
 
--(id)newFolderNamed:(NSString *)name inItem:(id)item atIndex:(int)index{
+-(id)newFolderNamed:(NSString *)name inItem:(id)item atIndex:(int)idx{
     NSMutableDictionary *           itemRecord = [NSMutableDictionary dictionary];
     NSString *						key;
 	
@@ -973,17 +975,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     
     if( item != nil ){
         if( [[item objectForKey: TreeItemType] isEqualToString: TreeItemTypeFolder] ){
-            [[item objectForKey: TreeChildArray] insertObject: itemRecord atIndex: index];
+            [[item objectForKey: TreeChildArray] insertObject: itemRecord atIndex: idx];
         }
     }else{
-        [[feedRoot objectForKey:LibraryFeedRoot] insertObject: itemRecord atIndex: index];
+        [[feedRoot objectForKey:LibraryFeedRoot] insertObject: itemRecord atIndex: idx];
     }
 	
 	[[feedRoot objectForKey: LibraryItemKeyIndex] setObject: itemRecord forKey: key];
     return itemRecord;
 }
 
--(id)newFeed:(Feed *)feed inItem:(id)item atIndex:(int)index{
+-(id)newFeed:(Feed *)feed inItem:(id)item atIndex:(int)idx{
     NSMutableDictionary *           itemRecord = [NSMutableDictionary dictionary];
     NSMutableArray *				itemStore;
 	
@@ -1004,10 +1006,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	if( [self isFolderItem: item] ){
-		if( index < 0 || index >= [itemStore count] ){
+		if( idx < 0 || idx >= (int)[itemStore count] ){
 			[itemStore addObject: itemRecord];
 		}else{
-			[itemStore insertObject: itemRecord atIndex: index];
+			[itemStore insertObject: itemRecord atIndex: idx];
 		}
 	}
     
@@ -1016,7 +1018,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     return itemRecord;
 }
 
--(id)newArticle:(Article *)article inItem:(id)item atIndex:(int)index{
+-(id)newArticle:(Article *)article inItem:(id)item atIndex:(int)idx{
 	NSMutableDictionary *			itemRecord = [NSMutableDictionary dictionary];
 	
 	[itemRecord setObject: TreeItemTypeArticle forKey: TreeItemType];
@@ -1026,17 +1028,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	if( item ){
 		if( [self isFolderItem: item] ){
-			if( index < 0 || index >= [[item objectForKey: TreeChildArray] count] ){
+			if( idx < 0 || idx >= (int)[[item objectForKey: TreeChildArray] count] ){
 				[[item objectForKey: TreeChildArray] addObject: itemRecord];
 			}else{
-				[[item objectForKey: TreeChildArray] insertObject: itemRecord atIndex: index];
+				[[item objectForKey: TreeChildArray] insertObject: itemRecord atIndex: idx];
 			}
 		}
 	}else{
-		if( index < 0 || index >= [[feedRoot objectForKey: LibraryFeedRoot] count] ){
+		if( idx < 0 || idx >= (int)[[feedRoot objectForKey: LibraryFeedRoot] count] ){
 			[[feedRoot objectForKey: LibraryFeedRoot] addObject: itemRecord];
 		}else{
-			[[feedRoot objectForKey: LibraryFeedRoot] insertObject: itemRecord atIndex: index];
+			[[feedRoot objectForKey: LibraryFeedRoot] insertObject: itemRecord atIndex: idx];
 		}
 	}
 	return itemRecord;
@@ -1074,7 +1076,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			// remove any articles from kill list
 			//KNDebug(@"LIB: about to clean kill file for feed %@", [self feedForItem: item]);
 			enumerator = [[[self feedForItem: item] articles] objectEnumerator];
-			while( article = [enumerator nextObject] ){
+			while((article = [enumerator nextObject])){
 				//KNDebug(@"LIB: removing %@ from kill file", [article key]);
 				[[feedRoot objectForKey: LibraryDeletedArticleKeys] removeObject: [article key]];
 			}
@@ -1086,7 +1088,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}else{
 		//KNDebug(@"scanning children for folders");
 		enumerator = [itemStore objectEnumerator];
-		while( currentItem = [enumerator nextObject] ){
+		while((currentItem = [enumerator nextObject])){
 			//KNDebug(@"checking %@", currentItem);
 			if( [self isFolderItem: currentItem] ){
 				[self removeItem: item fromItem: currentItem];
@@ -1095,15 +1097,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 }
 
--(void)moveItem:(id)item toParent:(id)parent index:(int)index{
-	//KNDebug(@"LIB: moveItem %@ toParent %@ index %d", item, parent, index);
+-(void)moveItem:(id)item toParent:(id)parent index:(int)idx{
+	//KNDebug(@"LIB: moveItem %@ toParent %@ index %d", item, parent, idx);
 	NSMutableArray *				itemSource;
 	
 	if( [self isFolderItem: parent] ){
 		//KNDebug(@"LIB: going to move (old parent is folder: %@)", oldParent);
-		if( (index < 0) || (index > [self childCountOfItem: parent]) ){
-			//KNDebug(@"LIB: moveItem - reset index from %d to %d", index, [self childCountOfItem: parent]);
-			index = [self childCountOfItem: parent];
+		if( (idx < 0) || (idx > [self childCountOfItem: parent]) ){
+			//KNDebug(@"LIB: moveItem - reset index from %d to %d", idx, [self childCountOfItem: parent]);
+			idx = [self childCountOfItem: parent];
 		}
 		
 		[item retain];
@@ -1119,11 +1121,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			itemSource = [feedRoot objectForKey: LibraryFeedRoot];
 		}
 		
-		//KNDebug(@"LIB: index is %d and source (%@) count is %d", index, itemSource, [itemSource count]);
-		if( index >= [itemSource count] ){
+		//KNDebug(@"LIB: index is %d and source (%@) count is %d", idx, itemSource, [itemSource count]);
+		if( idx >= (int)[itemSource count] ){
 			[itemSource addObject: item];
 		}else{
-			[itemSource insertObject: item atIndex: index];
+			[itemSource insertObject: item atIndex: idx];
 		}
 		
 		[item release];
@@ -1194,15 +1196,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return article;
 }
 
--(id)child:(int)index ofItem:(id)item{
+-(id)child:(int)idx ofItem:(id)item{
     id              childObject = nil;
     
     if( item != nil ){
         if( [[item objectForKey:TreeItemType] isEqualToString:TreeItemTypeFolder] ){
-            childObject = [[item objectForKey:TreeChildArray] objectAtIndex: index];
+            childObject = [[item objectForKey:TreeChildArray] objectAtIndex: idx];
         }
     }else{
-        childObject = [[feedRoot objectForKey:LibraryFeedRoot] objectAtIndex: index];
+        childObject = [[feedRoot objectForKey:LibraryFeedRoot] objectAtIndex: idx];
     }
     return childObject;
 }

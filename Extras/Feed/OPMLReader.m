@@ -78,12 +78,14 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)parser:(NSXMLParser *)aParser parseErrorOccurred:(NSError *)error{
+#pragma unused(aParser,error)
 	NSException *				exception = [NSException exceptionWithName: OPMLParserFailed reason: @"Invalid XML for OPML" userInfo: nil];
 	[exception raise];
 }
 
 -(void)parser:(NSXMLParser *)aParser didStartElement:(NSString *)element 
 	namespaceURI:(NSString *)nsURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)atts{
+#pragma unused(aParser,nsURI,qName)
 	
 	if( [element isEqualToString: @"outline"] ){
 		//KNDebug(@"OPML: found outline element with atts: %@",  atts);

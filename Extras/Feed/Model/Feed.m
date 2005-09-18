@@ -260,7 +260,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	if( [[self valueForKeyPath:@"prefs.expireInterval"] doubleValue] != -1 ){
 	//if( [PREFS articleExpireInterval] != -1 ){
-		while( article = [enumerator nextObject] ){
+		while((article = [enumerator nextObject])){
 			//expireDate = [[article date] addTimeInterval: [PREFS articleExpireInterval]];
 			expireDate = [[article date] addTimeInterval: [[self valueForKeyPath:@"prefs.expireInterval"] doubleValue]];
 			if( ([expireDate timeIntervalSinceNow] < 0) && (![[article status] isEqualToString: StatusUnread]) ){
@@ -276,7 +276,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	Article *					article;
 	
 	//KNDebug(@"FEED: articlesWillUpdate");
-	while( article = [enumerator nextObject] ){
+	while((article = [enumerator nextObject])){
 		[article setIsOnServer: NO];
 	}
 }
@@ -369,7 +369,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     
 	//KNDebug(@"FEED: unreadArticleCount");
     enumerator = [articles objectEnumerator];
-    while( article = [enumerator nextObject] ){
+    while((article = [enumerator nextObject])){
         if( [[article status] isEqualToString: StatusUnread] ){
             unreadCount++;
         }
@@ -385,7 +385,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     NSEnumerator *          enumerator = [articles objectEnumerator];
     Article *               article = nil;
     
-    while( article = [enumerator nextObject] ){
+    while((article = [enumerator nextObject])){
         if( [[article key] isEqualToString: key] ){
             return article;
         }
@@ -405,7 +405,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)removeArticleAtIndex:(int)anIndex{
 	//KNDebug(@"FEED: removeArticleAtIndex: %d", anIndex);
-	if( (anIndex > -1) && (anIndex < [articles count]) ){
+	if( (anIndex > -1) && (anIndex < (int)[articles count]) ){
 		//KNDebug(@"FEED: actually removing article %@", articles);
 		[[self articleAtIndex: anIndex] deleteCache];
 		//KNDebug(@"FEED: cleared article cache");
@@ -424,7 +424,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[articleTemp sortUsingSelector: @selector(compareByDate:)];
 	enumerator = [articleTemp objectEnumerator];
 	
-	while( article = [enumerator nextObject] ){
+	while((article = [enumerator nextObject])){
 		if( [[article status] isEqualToString: StatusUnread] ){
 			oldest = article;
 			break;

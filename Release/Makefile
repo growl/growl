@@ -16,6 +16,7 @@ ifeq ($(strip $(PRODUCT_DIR)),)
 	GROWLMAIL_BUILD_DIR=$(SRC_DIR)/Extras/GrowlMail/build/$(BUILDSTYLE)
 	GROWLSAFARI_BUILD_DIR=$(SRC_DIR)/Extras/GrowlSafari/build/$(BUILDSTYLE)
 	RAWRJOUR_BUILD_DIR=$(SRC_DIR)/Extras/Rawr-jour/build/$(BUILDSTYLE)
+	FEED_BUILD_DIR=$(SRC_DIR)/Extras/Feed/build/$(BUILDSTYLE)
 else
 	TARGET_BUILD_DIR=$(PRODUCT_DIR)/$(BUILDSTYLE)
 	GROWL_BUILD_DIR=$(TARGET_BUILD_DIR)
@@ -27,6 +28,7 @@ else
 	GROWLMAIL_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLSAFARI_BUILD_DIR=$(TARGET_BUILD_DIR)
 	RAWRJOUR_BUILD_DIR=$(TARGET_BUILD_DIR)
+	FEED_BUILD_DIR=$(TARGET_BUILD_DIR)
 endif
 
 # What to do before running this script:
@@ -121,6 +123,9 @@ release:
 	mkdir $(GROWL_DIR)/Extras/Rawr-jour
 	cp -R $(RAWRJOUR_BUILD_DIR)/Rawr-jour.app $(GROWL_DIR)/Extras/Rawr-jour
 	cp $(SRC_DIR)/Extras/Rawr-jour/Icon\ and\ Readme/Readme.rtf $(GROWL_DIR)/Extras/Rawr-jour
+	mkdir $(GROWL_DIR)/Extras/Feed
+	cp -R $(FEED_BUILD_DIR)/Feed.app $(GROWL_DIR)/Extras/Feed
+	cp -R $(FEED_BUILD_DIR)/Readme.rtfd $(GROWL_DIR)/Extras/Feed
 	@# build GrowlMail package
 	mkdir $(GROWL_DIR)/Extras/GrowlMail
 	mkdir $(BUILD_DIR)/GrowlMail

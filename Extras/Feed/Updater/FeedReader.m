@@ -261,7 +261,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			}
 			if( newArticles ){
 				enumerator = [newArticles objectEnumerator];
-				while( articleDict = [enumerator nextObject] ){
+				while((articleDict = [enumerator nextObject])){
 					//KNDebug(@"%@: parsing article: %@", self, articleDict);
 					[self addArticleFromDict: articleDict];
 				}
@@ -286,6 +286,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(BOOL)insulateContent{
+	return NO;
 }
 
 -(void)setReaderError:(NSString *)anError{
@@ -313,6 +314,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)setDetailsFromDict:(NSDictionary *)dict{
+#pragma unused(dict)
 	//KNDebug(@"FeedReader: setDetailsFromDict %@ (should override)",self, dict);
 	[details setObject: FeedTypeUnknown forKey: FeedType];
 }
@@ -345,36 +347,47 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(NSString *)keyOfArticle:(NSDictionary *)article{
+#pragma unused(article)
 	return [NSString string];
 }
 -(NSString *)titleOfArticle:(NSDictionary *)article{
+#pragma unused(article)
 	return [NSString string];
 }
 -(NSString *)contentOfArticle:(NSDictionary *)article{
+#pragma unused(article)
 	return [NSString string];
 }
 -(NSString *)authorOfArticle:(NSDictionary *)article{
+#pragma unused(article)
 	return [NSString string];
 }
 -(NSString *)sourceOfArticle:(NSDictionary *)article{
+#pragma unused(article)
 	return [NSString string];
 }
 -(NSString *)sourceURLOfArticle:(NSDictionary *)article{
+#pragma unused(article)
 	return [NSString string];
 }
 -(NSString *)categoryOfArticle:(NSDictionary *)article{
+#pragma unused(article)
 	return [NSString string];
 }
 -(NSDate *)dateOfArticle:(NSDictionary *)article{
+#pragma unused(article)
 	return [NSDate date];
 }
 -(NSString *)linkOfArticle:(NSDictionary *)article{
+#pragma unused(article)
 	return [NSString string];
 }
 -(NSString *)commentsOfArticle:(NSDictionary *)article{
+#pragma unused(article)
 	return [NSString string];
 }
 -(NSString *)torrentURLOfArticle:(NSDictionary *)article{
+#pragma unused(article)
 	return [NSString string];
 }
 

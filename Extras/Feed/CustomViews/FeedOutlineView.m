@@ -132,7 +132,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSRect					result = [super frameOfCellAtColumn: columnIndex row: rowIndex];
 	NSString *				key = [self regionKeyForColumn: columnIndex row: rowIndex];
 	
-	if( toolTipTag = [toolTipRegions objectForKey: key] ){
+	if((toolTipTag = [toolTipRegions objectForKey: key])){
 		[self removeToolTip: [toolTipTag intValue]];
 	}
 	
@@ -145,6 +145,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(NSString *)view:(NSView *)view stringForToolTip:(NSToolTipTag)tag point:(NSPoint)point userData:(void *)data{
+#pragma unused(view,tag,data)
 	//KNDebug(@"OUTLINE: looking for tooltip string");
 	if( [[self dataSource] respondsToSelector:@selector(outlineView:toolTipForTableColumn:row:)] ){
 		if( [self rowAtPoint: point] >= 0 ){

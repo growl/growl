@@ -159,7 +159,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     NSArray *                   visibleColumns = [PREFS visibleArticleColumns];
     NSImageCell *               imageCell;
     
-    while( columnRecord = [enumerator nextObject] ){
+    while((columnRecord = [enumerator nextObject])){
         column = [[NSTableColumn alloc] initWithIdentifier: [columnRecord objectForKey:ColumnIdentifier]];
         [columnRecord setObject: column forKey:ColumnHeaderObject];
 		[column release];
@@ -207,13 +207,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     }
     
     enumerator = [[articleTableView tableColumns] objectEnumerator];
-    while( column = [enumerator nextObject] ){
+    while((column = [enumerator nextObject])){
         [articleTableView removeTableColumn: column];
     }
     
     //KNDebug(@"About to load saved columns");
     enumerator = [visibleColumns objectEnumerator];
-    while( savedColumnRecord = [enumerator nextObject] ){
+    while((savedColumnRecord = [enumerator nextObject])){
         columnRecord = [viewColumns objectAtIndex: [[savedColumnRecord objectForKey:ColumnIndex] intValue]];
         [columnRecord setObject: ColumnStateVisible forKey: ColumnState];
         [columnRecord setObject: [savedColumnRecord objectForKey:ColumnWidth] forKey: ColumnWidth];
@@ -249,7 +249,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     NSMutableIndexSet *         selectedFeeds = [NSMutableIndexSet indexSet];
     id                          feedItem;
     enumerator = [[feedLibrary activeFeedItems] objectEnumerator];
-    while( feedItem = [enumerator nextObject] ){
+    while((feedItem = [enumerator nextObject])){
         //KNDebug(@"getting row index (%d) for item %@", [feedOutlineView rowForItem: feedItem], feedItem);
         [selectedFeeds addIndex: [feedOutlineView rowForItem: feedItem]];
     }
@@ -356,6 +356,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)windowWillClose:(NSNotification *)notification{
+#pragma unused(notification)
     KNDebug(@"Controller: windowWillClose");
     [feedLibrary save];
     //[NSApp terminate: self];
@@ -518,6 +519,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)feedUpdateStarted:(NSNotification *)notification{
+#pragma unused(notification)
 	KNDebug(@"CONT: feedUpdateStarted");
     //[refreshAllButton setEnabled: NO];
     isUpdating = YES;
@@ -535,10 +537,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)feedDidUpdate:(NSNotification *)notification{
+#pragma unused(notification)
 	[self reloadData];
 }
 
 -(void)feedUpdateFinished:(NSNotification *)notification{
+#pragma unused(notification)
 	KNDebug(@"CONT: feedUpdateFinished");
 	
 	isUpdating = NO;
@@ -571,24 +575,25 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)rememberVisibleColumns:(id)sender{
+#pragma unused(sender)
     NSEnumerator *              enumerator = [[articleTableView tableColumns] objectEnumerator];
     NSTableColumn *             column;
     NSMutableArray *            columnArray = [NSMutableArray array];
     NSDictionary *              columnData;
-    int                         i,index;
+    int                         i,idx;
     
-    while( column = [enumerator nextObject] ){
+    while((column = [enumerator nextObject])){
         //KNDebug(@"remembering column %@", [column identifier]);
-        index = -1;
-        for(i=0;i<[viewColumns count];i++){
+        idx = -1;
+        for(i=0;i<(int)[viewColumns count];i++){
             if( [[[viewColumns objectAtIndex:i] objectForKey:ColumnIdentifier] isEqualToString: [column identifier]] ){
-                index = i;
+                idx = i;
                 break;
             }
         }
-        if( index > -1 ){
+        if( idx > -1 ){
             columnData = [NSDictionary dictionaryWithObjectsAndKeys:
-                    [NSNumber numberWithInt: index], ColumnIndex,
+                    [NSNumber numberWithInt: idx], ColumnIndex,
                     [NSNumber numberWithFloat: [column width]], ColumnWidth,
             nil];
             [columnArray addObject: columnData];
@@ -643,6 +648,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma mark Preference Notifications
 
 -(void)articleListFontChanged:(NSNotification *)notification{
+#pragma unused(notification)
 	//NSEnumerator *				enumerator = [viewColumns objectEnumerator];
 	//NSDictionary *				columnRec;
 	return;
@@ -656,15 +662,18 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)articleFontChanged:(NSNotification *)notification{
+#pragma unused(notification)
 	//articleFont = [NSFont fontWithName: [PREFS articleFontName] size: [PREFS articleFontSize]];
 	[self setDisplayedArticle: [feedLibrary activeArticle]];
 }
 
 -(void)articleExpiredColorChanged:(NSNotification *)notification{
+#pragma unused(notification)
 	[articleTableView reloadData];
 }
 
 -(void)torrentSchemeChanged:(NSNotification *)notification{
+#pragma unused(notification)
 	[self setDisplayedArticle: [feedLibrary activeArticle]];
 }
 
@@ -695,6 +704,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 */
 
 -(IBAction)refresh:(id)sender{
+#pragma unused(sender)
 	if( isUpdating ){
 		[feedLibrary cancelUpdate];
 	}else{
@@ -703,6 +713,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)refreshItem:(id)sender{
+#pragma unused(sender)
 	NSEnumerator *			enumerator;
 	NSEnumerator *			folderEnumerator;
 	id						feedItem;
@@ -710,14 +721,14 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	KNDebug(@"CONT: refreshItem");
 	enumerator = [[feedLibrary activeFeedItems] objectEnumerator];
-	while( feedItem = [enumerator nextObject] ){
+	while((feedItem = [enumerator nextObject])){
 		if( [feedLibrary isFeedItem: feedItem] ){
 			[feedLibrary refreshFeed: [feedLibrary feedForItem:feedItem]];
 		}else if( [feedLibrary isArticleItem: feedItem] ){
 			[feedLibrary refreshFeed: [[feedLibrary articleForItem: feedItem] feed]];
 		}else if( [feedLibrary isFolderItem: feedItem] ){
 			folderEnumerator = [[feedLibrary feedsInFolder: feedItem] objectEnumerator];
-			while( feed = [folderEnumerator nextObject] ){
+			while((feed = [folderEnumerator nextObject])){
 				[feedLibrary refreshFeed: feed];
 			}
 		}
@@ -726,6 +737,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 - (IBAction)newFeed:(id)sender{
+#pragma unused(sender)
     [feedURLTextField setStringValue:@"http://"];
     [NSApp beginSheet: newFeedPanel modalForWindow: [self window] modalDelegate: nil didEndSelector: nil contextInfo: nil];
     [NSApp runModalForWindow: newFeedPanel];
@@ -734,6 +746,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)confirmNewFeed:(id)sender{
+#pragma unused(sender)
     Feed *              feed;
     int                 newIndex;
     
@@ -757,6 +770,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)removeArticle:(id)sender{
+#pragma unused(sender)
 	if( [PREFS warnWhenDeletingArticles] ){
 		NSBeginCriticalAlertSheet(
 			@"Delete Article(s)",
@@ -777,6 +791,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)confirmRemoveArticle:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)info{
+#pragma unused(sheet,info)
 	NSIndexSet *				selectedArticles;
 	int							currentIndex = -1;
 	
@@ -797,6 +812,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)removeFeedItem:(id)sender{
+#pragma unused(sender)
     NSBeginCriticalAlertSheet(
         @"Delete Item(s)",
         @"Delete",
@@ -813,6 +829,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)confirmRemoveFeedItem:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)info{
+#pragma unused(sheet,info)
 //-(IBAction)confirmRemoveFeedItem:(id)sender{
     NSIndexSet *                selectedFeeds;
     int                         currentIndex = -1;
@@ -832,6 +849,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)newFolder:(id)sender{
+#pragma unused(sender)
 	id					folderItem = nil;
 	
     folderItem = [feedLibrary newFolderNamed:@"Untitled Folder" inItem:nil atIndex:0];
@@ -849,6 +867,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)openArticlesExternal:(id)sender{
+#pragma unused(sender)
 	NSIndexSet *				selectedArticles = [articleTableView selectedRowIndexes];
 	int							currentIndex;
 	NSMutableArray *			articleLinks = [NSMutableArray array];
@@ -884,6 +903,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)openFeedsExternal:(id)sender{
+#pragma unused(sender)
 	NSEnumerator *				enumerator = [[feedLibrary activeFeedItems] objectEnumerator];
 	Feed *						feed;
 	Article *					article;
@@ -892,7 +912,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSString *					feedLink;
 	NSWorkspaceLaunchOptions	options = [PREFS launchExternalInBackground] ? NSWorkspaceLaunchWithoutActivation : 0;
 	
-	while( feedItem = [enumerator nextObject] ){
+	while((feedItem = [enumerator nextObject])){
 		if( [feedLibrary isFeedItem: feedItem] ){
 			feed = [feedLibrary feedForItem: feedItem];
 			feedLink = [feed link];
@@ -926,6 +946,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)columnHeaderClicked:(id)sender{
+#pragma unused(sender)
     KNDebug(@"header clicked!");
 }
 
@@ -944,6 +965,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)toggleArticleStatus:(id)sender{
+#pragma unused(sender)
 	NSString *				currentStatus = [self selectedArticleStatus];
 	NSString *				newStatus;
 	NSIndexSet *			selectedArticles = [articleTableView selectedRowIndexes];
@@ -968,7 +990,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSEnumerator *			enumerator = [[feedLibrary activeFeeds] objectEnumerator];
 	Feed *					feed;
 	
-	while( feed = [enumerator nextObject] ){
+	while((feed = [enumerator nextObject])){
 		if( [feed unreadArticleCount] > 0 ){
 			return StatusUnread;
 		}
@@ -977,14 +999,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)markAllRead:(id)sender{
+#pragma unused(sender)
 	NSEnumerator *			enumerator = nil;
 	Article *				article = nil;
 	Feed *					feed = nil;
 	
 	if( [[self activeArticleStatus] isEqualToString: StatusUnread] ){
 		enumerator = [[feedLibrary activeFeeds] objectEnumerator];
-		while( feed = [enumerator nextObject] ){
-			while( article = [feed oldestUnread] ){
+		while((feed = [enumerator nextObject])){
+			while((article = [feed oldestUnread])){
 				[article setStatus: StatusRead];
 			}
 		}
@@ -993,10 +1016,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)resetArticleKillList:(id)sender{
+#pragma unused(sender)
 	[feedLibrary resetArticleKillList];
 }
 
 -(IBAction)bookmarkArticle:(id)sender{
+#pragma unused(sender)
 	NSIndexSet *			selectedArticles = [articleTableView selectedRowIndexes];
 	int						currentIndex;
 	
@@ -1009,6 +1034,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)nextUnread:(id)sender{
+#pragma unused(sender)
 	int					currentIndex = 0;
 	int					articleCount = [feedLibrary activeArticleCount];
 	int					i;
@@ -1049,6 +1075,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)validateSource:(id)sender{
+#pragma unused(sender)
 	NSEnumerator *				enumerator = [[feedLibrary activeFeedItems] objectEnumerator];
 	Feed *						feed;
 	id							feedItem;
@@ -1056,7 +1083,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSMutableString *			feedLink;
 	NSWorkspaceLaunchOptions	options = [PREFS launchExternalInBackground] ? NSWorkspaceLaunchWithoutActivation : 0;
 	
-	while( feedItem = [enumerator nextObject] ){
+	while((feedItem = [enumerator nextObject])){
 		if( [feedLibrary isFeedItem: feedItem] ){
 			feed = [feedLibrary feedForItem: feedItem];
 			feedLink = [NSMutableString stringWithString: [feed source]];
@@ -1089,12 +1116,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)copySourceURL:(id)sender{
+#pragma unused(sender)
 	NSEnumerator *				enumerator = [[feedLibrary activeFeedItems] objectEnumerator];
 	Feed *						feed;
 	id							feedItem;
 	NSMutableArray *			feedLinks = [NSMutableArray array];
 	
-	while( feedItem = [enumerator nextObject] ){
+	while((feedItem = [enumerator nextObject])){
 		if( [feedLibrary isFeedItem: feedItem] ){
 			feed = [feedLibrary feedForItem: feedItem];
 			[feedLinks addObject: [feed source]];
@@ -1110,6 +1138,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 -(IBAction)getInfo:(id)sender{
+#pragma unused(sender)
 	id					item = nil;
 	
 	if( [[feedLibrary activeFeedItems] count] == 1 ){
@@ -1124,6 +1153,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma mark Drawer Support
 
 -(void)drawerDidOpen:(NSNotification *)notification{
+#pragma unused(notification)
     [PREFS setFeedDrawerState: YES];
 	[articleTableView setNextKeyView: displayWebView];
 	[displayWebView setNextKeyView: feedOutlineView];
@@ -1131,12 +1161,14 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)drawerDidClose:(NSNotification *)notification{
+#pragma unused(notification)
     [PREFS setFeedDrawerState: NO];
 	[articleTableView setNextKeyView: displayWebView];
 	[displayWebView setNextKeyView: articleTableView];
 }
 
 -(NSSize)drawerWillResizeContents:(NSDrawer *)drawer toSize:(NSSize)aSize{
+#pragma unused(drawer)
     [feedOutlineView sizeLastColumnToFit];
     [PREFS setFeedDrawerSize: aSize];
     return aSize;
@@ -1161,6 +1193,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)splitViewDidResizeSubviews:(NSNotification *)notification{
+#pragma unused(notification)
     NSRect              articleFrame = [[[displaySplitView subviews] objectAtIndex:0] frame];
     NSRect              displayFrame = [[[displaySplitView subviews] objectAtIndex:1] frame];
     
@@ -1176,10 +1209,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma mark Contextual Menu Support
 
 -(NSMenu *)menuForFeedRow:(int)row{
+#pragma unused(row)
 	return feedContextMenu;
 }
 
 -(NSMenu *)menuForArticleRow:(int)row{
+#pragma unused(row)
 	return articleContextMenu;
 }
 
@@ -1191,6 +1226,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			frame:(WebFrame *)frame 
 			decisionListener:(id<WebPolicyDecisionListener>)listener
 {
+#pragma unused(sender,frame)
 	//KNDebug(@"WEB: policyDecision for %@", request);
 	NSWorkspaceLaunchOptions	options = [PREFS launchExternalInBackground] ? NSWorkspaceLaunchWithoutActivation : 0;
 	
@@ -1242,7 +1278,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 */
 
--(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)index{
+-(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)idx{
+#pragma unused(tableView)
     id                          value = nil;
     Article *                   article = nil;
     //BOOL                        isRead = NO;
@@ -1250,7 +1287,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     NSFontManager *             fontManager = [NSFontManager sharedFontManager];
 	NSMutableDictionary *		attributes = [NSMutableDictionary dictionary];
     
-    article = [feedLibrary activeArticleAtIndex: index];
+    article = [feedLibrary activeArticleAtIndex: idx];
     if( article ){
 		currentCell = [column dataCell];
 		[currentCell setWraps: YES];
@@ -1304,10 +1341,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(int)numberOfRowsInTableView:(NSTableView *)tableView{
+#pragma unused(tableView)
     return [feedLibrary activeArticleCount];
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
+#pragma unused(notification)
     Article *                   article = nil;
 	NSMutableArray *			articleIndexList = [NSMutableArray array];
 	NSIndexSet *				selectedArticles;
@@ -1346,16 +1385,19 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	*/
 }
 
--(BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)column row:(int)index{
+-(BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)column row:(int)idx{
+#pragma unused(tableView,column,idx)
     return NO;
 }
 
 -(void)tableViewColumnDidMove:(NSNotification *)notification{
+#pragma unused(notification)
     //KNDebug(@"column did move");
     [self rememberVisibleColumns: self];
 }
 
 -(void)tableViewColumnDidResize:(NSNotification *)notification{
+#pragma unused(notification)
     if( ! disableResizeNotifications ){
         //KNDebug(@"column did resize");
         [self rememberVisibleColumns: self];
@@ -1363,6 +1405,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors{
+#pragma unused(oldDescriptors)
 	//KNDebug(@"CONT: sortDescriptorsDidChange to %@", [tableView sortDescriptors]);
 	[feedLibrary setSortDescriptors: [tableView sortDescriptors]];
 	[feedLibrary sortActiveArticles];
@@ -1374,11 +1417,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma mark OutlineView Support
 
 -(BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)column item:(id)item{
+#pragma unused(outlineView,column,item)
     //return( ([[outlineView selectedRowIndexes] count] == 1) && [feedLibrary isFolderItem: item] );
 	return YES;
 }
 
 -(void)outlineViewSelectionDidChange:(NSNotification *)notification{
+#pragma unused(notification)
     NSMutableArray *            feedList = [NSMutableArray array];
     NSIndexSet *                selectedFeeds;
     int                         currentIndex;
@@ -1453,19 +1498,23 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 }
 
--(id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item{
-    return [feedLibrary child:index ofItem:item];
+-(id)outlineView:(NSOutlineView *)outlineView child:(int)idx ofItem:(id)item{
+#pragma unused(outlineView)
+    return [feedLibrary child:idx ofItem:item];
 }
 
 -(BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item{
+#pragma unused(outlineView)
     return [feedLibrary hasChildren: item];
 }
 
 -(int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item{
+#pragma unused(outlineView)
     return [feedLibrary childCountOfItem:item];
 }
 
 -(void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item{
+#pragma unused(outlineView,tableColumn)
 	NSImage *				sourceImage = nil;
 	NSImage *				cellImage = nil;
 	
@@ -1491,6 +1540,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(NSString *)outlineView:(NSOutlineView *)outlineView toolTipForTableColumn:(NSTableColumn *)column row:(int)rowIndex{
+#pragma unused(outlineView,column)
 	id					item = [feedOutlineView itemAtRow: rowIndex];
 	Feed *				feed;
 	
@@ -1512,6 +1562,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)column byItem:(id)item{
+#pragma unused(outlineView)
     NSAttributedString *		value;
 	NSMutableString *			rawValue = [NSMutableString stringWithString: [feedLibrary nameForItem: item]];
 	NSCell *					currentCell = [column dataCell];
@@ -1546,14 +1597,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)column byItem:(id)item{
+#pragma unused(outlineView,column)
 	[feedLibrary setName: object forItem: item];
 }
 
 -(id)outlineView:(NSOutlineView *)outlineView persistentObjectForItem:(id)item{
+#pragma unused(outlineView)
 	return [feedLibrary keyForItem: item];
 }
 
 -(id)outlineView:(NSOutlineView *)outlineView itemForPersistentObject:(id)object{
+#pragma unused(outlineView)
 	return [feedLibrary itemForKey: object];
 }
 
@@ -1590,7 +1644,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		
 		if( [info draggingSource] == feedOutlineView ){
 			enumerator = [[self draggedFeedItems] objectEnumerator];
-			while( draggedItem = [enumerator nextObject] ){
+			while((draggedItem = [enumerator nextObject])){
 				if( [feedLibrary isItem: item descendentOfItem: draggedItem] ){
 					targetNodeIsValid = NO;
 					break;
@@ -1627,14 +1681,14 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			
 			// Actually move all the items
 			enumerator = [[self draggedFeedItems] objectEnumerator];
-			while( draggedItem = [enumerator nextObject] ){
+			while((draggedItem = [enumerator nextObject])){
 				[feedLibrary moveItem: draggedItem toParent: targetItem index: newIndex];
 			}
 			[feedOutlineView reloadData];
 			
 			// Reset our selection
 			enumerator = [[self draggedFeedItems] objectEnumerator];
-			while( draggedItem = [enumerator nextObject] ){
+			while((draggedItem = [enumerator nextObject])){
 				[feedOutlineView selectRow: [feedOutlineView rowForItem:draggedItem] byExtendingSelection: YES];
 			}
 			didAccept = YES;
@@ -1649,7 +1703,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			
 			
 			enumerator = [[self draggedArticles] objectEnumerator];
-			while( draggedArticleIndex = [enumerator nextObject] ){
+			while((draggedArticleIndex = [enumerator nextObject])){
 				Article *				article = [feedLibrary activeArticleAtIndex: [draggedArticleIndex intValue]];
 
 				draggedItem = [feedLibrary newArticle: article inItem: targetItem atIndex: newIndex];
@@ -1659,7 +1713,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			[feedOutlineView deselectAll: self];
 			
 			enumerator = [articleSelection objectEnumerator];
-			while( draggedItem = [enumerator nextObject] ){
+			while((draggedItem = [enumerator nextObject])){
 				[feedOutlineView selectRow: [feedOutlineView rowForItem: draggedItem] byExtendingSelection: YES];
 			}
 			
@@ -1675,7 +1729,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		int						feedsAdded = 0;
 		
 		enumerator = [sources objectEnumerator];
-		while( newSource = [enumerator nextObject] ){
+		while((newSource = [enumerator nextObject])){
 			NSMutableString *			cleanSource = [NSMutableString stringWithString: newSource];
 
 			[cleanSource replaceOccurrencesOfString:@"feed:" withString:@"http:" options:NSCaseInsensitiveSearch range:NSMakeRange(0,5)];
@@ -1720,7 +1774,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		
 		if( currentDragSource == articleTableView ){
 			enumerator = [[self draggedArticles] objectEnumerator];
-			while( articleIndex = [enumerator nextObject] ){
+			while((articleIndex = [enumerator nextObject])){
 				article = [feedLibrary activeArticleAtIndex: [articleIndex intValue]];
 				if( ![[article link] isEqualToString: @""] ){
 					[draggedString appendFormat: @"%@\n", [article link]];
@@ -1730,13 +1784,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			}
 		}else if( currentDragSource == feedOutlineView ){
 			enumerator = [[self draggedFeedItems] objectEnumerator];
-			while( feedItem = [enumerator nextObject] ){
+			while((feedItem = [enumerator nextObject])){
 				if( [feedLibrary isFeedItem: feedItem] ){
 					[draggedString appendFormat: @"%@\n", [[feedLibrary feedForItem: feedItem] source]];
 					
 				}else if( [feedLibrary isFolderItem: feedItem] ){
 					folderEnumerator = [[feedLibrary feedsInFolder: feedItem] objectEnumerator];
-					while( feed = [folderEnumerator nextObject] ){
+					while((feed = [folderEnumerator nextObject])){
 						[draggedString appendFormat: @"%@\n", [feed source]];
 					}
 					

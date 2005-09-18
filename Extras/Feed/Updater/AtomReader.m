@@ -43,6 +43,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 @implementation AtomReader
 
 -(void)parser:(NSXMLParser *)aParser parseErrorOccurred:(NSError *)error{
+#pragma unused(error)
 	validSource = NO;
 	[self setReaderError: @"Invalid XML for source"];
 	[NSException raise: AtomParserFailed format: @"Invalid XML for source (line %d)", [aParser lineNumber]];
@@ -50,6 +51,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)parser:(NSXMLParser *)aParser didStartElement:(NSString *)element
 	namespaceURI:(NSString *)nsURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)atts{
+#pragma unused(aParser,nsURI,qName)
 	
 	NSEnumerator *				enumerator;
 	NSString *					attKey;
@@ -59,7 +61,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		if( [currentContainer isEqualToString: @"content"] || [currentContainer isEqualToString: @"summary"]){
 			[currentBuffer appendFormat: @"<%@ ", element];
 			enumerator = [atts keyEnumerator];
-			while( attKey = [enumerator nextObject] ){
+			while((attKey = [enumerator nextObject])){
 				[currentBuffer appendFormat: @"%@=\"%@\" ", attKey, [atts objectForKey: attKey]];
 			}
 			[currentBuffer appendString: @">"];
@@ -98,6 +100,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)parser:(NSXMLParser *)aParser foundCharacters:(NSString *)string{
+#pragma unused(aParser)
 	if( string != nil ){
 		if( ! currentBuffer ){ currentBuffer = [[NSMutableString alloc] init]; }
 		//[currentBuffer appendString: [string trimWhitespace]];
@@ -106,6 +109,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)parser:(NSXMLParser *)aParser didEndElement:(NSString *)element namespaceURI:(NSString *)nsURI qualifiedName:(NSString *)qName{
+#pragma unused(aParser,nsURI,qName)
 	NSMutableDictionary *			dest;
 	
 	
