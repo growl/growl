@@ -11,6 +11,10 @@
 #import "GrowlPositionController.h"
 
 
+@interface GrowlPositionController (private)
+- (NSMutableSet *)reservedRectsForScreen:(NSScreen *)inScreen;
+@end
+
 @implementation GrowlPositionController
 
 //Initialize
@@ -170,22 +174,11 @@
 - (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen {
 	BOOL			result = YES;
 	
-	//Treat nil as the main screen
-	if (!inScreen)
-		inScreen = [NSScreen mainScreen];
-	
 	if (NSContainsRect([inScreen visibleFrame], inRect)) {	//inRect must be inside our screen
-		NSMutableSet	*reservedRectsOfScreen = (NSMutableSet *)CFDictionaryGetValue(reservedRects, inScreen);
+		NSMutableSet	*reservedRectsOfScreen = [self reservedRectsForScreen:inScreen];
 		NSValue			*newRectValue = [NSValue valueWithRect:inRect];
 		NSEnumerator	*rectValuesEnumerator;
 		NSValue			*value;
-
-		//Make sure the set exists. If not, create it.
-		if (!reservedRectsOfScreen) {
-			reservedRectsOfScreen = [[NSMutableSet alloc] init];
-			CFDictionarySetValue(reservedRects, inScreen, reservedRectsOfScreen);
-			[reservedRectsOfScreen release];
-		}
 
 		if ([reservedRectsOfScreen member:newRectValue]) {	//Make sure the rect is not already reserved
 			result = NO;
@@ -212,26 +205,33 @@
 
 //Clear a reserved rect from a specific screen.
 - (void) clearReservedRect:(NSRect)inRect inScreen:(NSScreen *)inScreen {
-	NSMutableSet *reservedRectsOfScreen;
+	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:inScreen];
 	NSValue		 *value;
-	
-	//Treat nil as the main screen
-	if (!inScreen)
-		inScreen = [NSScreen mainScreen];
-	
-	//Get the set of reserved rects for our screen
-	reservedRectsOfScreen = (NSMutableSet *)CFDictionaryGetValue(reservedRects, inScreen);
-
-	//Make sure the set exists. If not, create it.
-	if (!reservedRectsOfScreen) {
-		reservedRectsOfScreen = [[NSMutableSet alloc] init];
-		CFDictionarySetValue(reservedRects, inScreen, reservedRectsOfScreen);
-		[reservedRectsOfScreen release];
-	}
 
 	//Remove the rect
 	if ((value = [reservedRectsOfScreen member:[NSValue valueWithRect:inRect]]))
 		[reservedRectsOfScreen removeObject:value];
+}
+
+//Returns the set of reserved rect for a specific screen
+- (NSMutableSet *)reservedRectsForScreen:(NSScreen *)screen {
+	NSMutableSet *result = nil;
+	
+	//Treat nil as the main screen
+	if (!screen)
+		screen = [NSScreen mainScreen];
+	
+	//Get the set of reserved rects for our screen
+	result = (NSMutableSet *)CFDictionaryGetValue(reservedRects, screen);
+	
+	//Make sure the set exists. If not, create it.
+	if (!result) {
+		result = [[NSMutableSet alloc] init];
+		CFDictionarySetValue(reservedRects, screen, result);
+		[result release];
+	}
+	
+	return result;
 }
 
 @end
