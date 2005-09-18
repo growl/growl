@@ -1,0 +1,35 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {"" = id; refreshItem = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {feedDataChanged = id; feedSourceChanged = id; folderNameChanged = id; }; 
+            CLASS = InspectorController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                articleDetailAuthorField = id; 
+                articleDetailDateField = id; 
+                articleDetailFeedTitleField = id; 
+                articleDetailTitleField = id; 
+                articleDetailsView = id; 
+                feedDetailExpirePopup = id; 
+                feedDetailSourceField = id; 
+                feedDetailTitleField = id; 
+                feedDetailUpdateButton = id; 
+                feedDetailUpdateIntervalField = id; 
+                feedDetailUpdateUnitPopup = id; 
+                feedDetailsView = id; 
+                folderDetailNameField = id; 
+                folderDetailUpdateButton = id; 
+                folderDetailsView = id; 
+                invalidDetailsView = id; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

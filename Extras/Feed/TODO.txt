@@ -1,0 +1,39 @@
+General
+	- font preferences for lists
+		- figure out how to get the table to resize rows correctly!
+	- AppleScript? Can I get this mostly for free with KVC?
+	+ undo/redo support for deleting articles/feeds
+
+Article List
+
+Feed List
+	
+Feed Loading
+	- add authentication for sources
+
+USABILITY
+	- on initial run, show a dialog that explains what a feed is
+	- better online help
+	- title tag in embedded links of article
+	
+BUGS
+	
+FEATURE REQUESTS
+	- next unread should ALWAYS go to next unread...
+	- space bar goes to next unread, then focuses preview pane.
+	- space at end of document in preview pane selects next unread
+	- CM command to move feeds to certain folders
+	- command to collapse all folders
+	- open new window for article details
+
+ARTWORK
+	- new icons for
+		- folder
+		- generic feed
+		- article bookmark
+	- toolbar icons
+		- new mark read/unread
+		- update new feed
+		- update feeds drawer toggle
+		- update delete
+		- color match all icons - they're all over right now...

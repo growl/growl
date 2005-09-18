@@ -1,0 +1,66 @@
+{
+    IBClasses = (
+        {
+            CLASS = ArticleSummaryView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                authorLabelField = id; 
+                authorTextField = id; 
+                categoryLabelField = id; 
+                categoryTextField = id; 
+                dateLabelField = id; 
+                dateTextField = id; 
+                summaryDivider = id; 
+                titleLabelField = id; 
+                titleTextField = id; 
+            }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = ArticleTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {CLASS = FeedOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
+        {
+            ACTIONS = {
+                bookmarkArticle = id; 
+                cancelDialog = id; 
+                confirmNewFeed = id; 
+                copySourceURL = id; 
+                getInfo = id; 
+                markAllRead = id; 
+                newFeed = id; 
+                newFolder = id; 
+                refresh = id; 
+                refreshItem = id; 
+                removeArticle = id; 
+                removeFeedItem = id; 
+                showPrefs = id; 
+                toggleArticleStatus = id; 
+                validateSource = id; 
+            }; 
+            CLASS = FeedWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addFeedButton = id; 
+                articleContextMenu = id; 
+                articleTableView = id; 
+                displaySplitView = id; 
+                displayWebView = id; 
+                feedContextMenu = id; 
+                feedDrawer = id; 
+                feedOutlineView = id; 
+                feedURLTextField = id; 
+                newFeedPanel = id; 
+                removeFeedButton = id; 
+                statusProgressIndicator = id; 
+                statusTextField = id; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {cancelDialog = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

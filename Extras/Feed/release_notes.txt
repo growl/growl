@@ -1,0 +1,11 @@
+0.6.6
+
+beta 1
+-Added Mark All Read toolbar action
+-Added Bugs & Requests Help item
+-Added prefs attribute to feed object
+	- hooked into KVC for update/dirty and default values
+-Enabled Item Inspector
+	- everything but source is working
+-Lengthened auto-save delay to be less aggressive
+-Allow closing main window without quitting

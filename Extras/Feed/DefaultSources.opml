@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<opml version="1.1">
+	<head>
+		<title>Default Feeds</title>
+	</head>
+	<body>
+		<outline type="rss" xmlUrl="http://keeto.net/rss.xml?channel_id=8" />
+		<outline type="rss" xmlUrl="http://versiontracker.com/faq/rss/" />
+		<outline type="rss" xmlUrl="http://slashdot.org/index.rss" />
+		<outline type="rss" xmlUrl="http://rss.cnn.com/rss/cnn_topstories.rss" />
+		<outline type="rss" xmlUrl="http://www.jwz.org/cheesegrater/RSS/apod.rss" />
+	</body>
+</opml>

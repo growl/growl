@@ -1,0 +1,25 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {savePrefs = id; }; 
+            CLASS = PrefsWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                articleExpiredColorWell = id; 
+                articleFontPopup = id; 
+                articleFontSizeComboBox = id; 
+                deleteArticleCheckbox = id; 
+                expireIntervalPopup = id; 
+                notificationSoundNamePopup = id; 
+                openInBackgroundCheckbox = id; 
+                showUnreadCheckbox = id; 
+                updateIntervalTextField = id; 
+                updateIntervalUnitPopup = id; 
+                useTorrentSchemeCheckbox = id; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'Feed' target in the 'Feed' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+	#import "KNUtility.h"
+#endif

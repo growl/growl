@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Commands</key>
+	<dict>
+		<key>GetURL</key>
+		<dict>
+			<key>Description</key>
+			<string>Open a URL</string>
+			<key>Name</key>
+			<string>get URL</string>
+		</dict>
+		<key>OpenURL</key>
+		<dict>
+			<key>Description</key>
+			<string>Open a URL (Internet Explorer form)</string>
+			<key>Name</name>
+			<string>open URL</string>
+		</dict>
+	</dict>
+	<key>Name</key>
+	<string>Feed</string>
+	<key>Description</key>
+	<string>Classes and commands for the Feed application</string>
+</dict>
+</plist>
