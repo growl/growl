@@ -1,0 +1,40 @@
+FeedLibrary
+	
+	This is the top level object that manages the rest of the model objects (Feeds and Articles). The feedRoot
+	instance variable is an NSMutableDictionary that represents everything that will be written to disk and
+	it has the following top level keys (constants defined at top of FeedLibrary.m):
+		
+		LibraryFeedRoot
+			This is master storage for all 'items' in the library. Items are the opaque storage mechanism
+			used to store Feeds, Folders and Articles in the source NSOutlineView. More on items below.
+			
+		LibrarySourceIndex
+			This is a simple shortcut dictionary that maps from source URL directly to the Feed object in
+			the LibraryFeedRoot
+			
+		LibraryVersion
+			Version number for the library. This only changes when the on-disk archive is no longer backwards
+			compatible, and is still sitting at 1.
+			
+		LibraryActiveFeedItems
+			This is a shortcut array into LibraryFeedRoot that tracks the currently selected items.
+			
+		LibraryActiveArticles
+			This is a shortcut array that holds the currently visible articles based on the selection in
+			LibraryActiveFeedItems.
+			
+		LibraryActiveArticleIndex
+			This is the index of the currently selected article in LibraryActiveArticles. In the case
+			of multiple selection, this is set to NSNotFound (ie, there IS no active article when there
+			is a multiple selection)
+			
+		LibraryDeletedArticleKeys
+			These are articles that have been deleted, but are still visible in currently downloaded sources.
+			This is used to suppress re-adding articles that the user has deleted when updating a source.
+			
+		LibraryItemKeyIndex
+			This is a shortcut map of unique item keys to their corresponding item in the LibraryFeedRoot.
+			
+		LibrarySelectedArticles
+			This doesn't seem to be used at the moment. It was used before I started storing the currently
+			selected articles directly in the items themselves, and appears to now be a relic.
