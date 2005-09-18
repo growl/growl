@@ -742,9 +742,12 @@
 	NSString *name = [aNetService name];
 	NSEnumerator *enumerator = [services objectEnumerator];
 	GrowlBrowserEntry *entry;
-	while ((entry = [enumerator nextObject]))
-		if ([[entry computerName] isEqualToString:name])
+	while ((entry = [enumerator nextObject])) {
+		if ([[entry computerName] isEqualToString:name]) {
+			[entry setActive:YES];
 			return;
+		}
+	}
 
 	// don't add the local machine
 	CFStringRef localHostName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
@@ -767,17 +770,13 @@
 
 - (void) netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing {
 #pragma unused(aNetServiceBrowser)
-	// This case is slightly more complicated. We need to find the object in the list and remove it.
-	unsigned count = [services count];
+	NSEnumerator *serviceEnum = [services objectEnumerator];
 	GrowlBrowserEntry *currentEntry;
 	NSString *name = [aNetService name];
 
-	for (unsigned i = 0; i < count; ++i) {
-		currentEntry = [services objectAtIndex:i];
+	while ((currentEntry = [serviceEnum nextObject])) {
 		if ([[currentEntry computerName] isEqualToString:name]) {
-			[self willChangeValueForKey:@"services"];
-			[services removeObjectAtIndex:i];
-			[self didChangeValueForKey:@"services"];
+			[currentEntry setActive:NO];
 			break;
 		}
 	}
@@ -836,8 +835,15 @@
 
 - (void) setServices:(NSMutableArray *)theServices {
 	if (theServices != services) {
-		[services release];
-		services = [theServices retain];
+		if (theServices) {
+			if (services)
+				[services setArray:theServices];
+			else
+				services = [theServices retain];
+		} else {
+			[services release];
+			services = nil;
+		}
 	}
 }
 

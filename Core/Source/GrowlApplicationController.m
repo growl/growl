@@ -376,7 +376,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	NSEnumerator *enumerator = [destinations objectEnumerator];
 	NSDictionary *entry;
 	while ((entry = [enumerator nextObject])) {
-		if (getBooleanForKey(entry, @"use")) {
+		if (getBooleanForKey(entry, @"use") && getBooleanForKey(entry, @"active")) {
 			NSData *destAddress = getObjectForKey(entry, @"address");
 			NSString *password = getObjectForKey(entry, @"password");
 			NSSocketPort *serverPort = [[NSSocketPort alloc]
@@ -541,7 +541,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[aDict release];
 
 	// forward to remote destinations
-	if (enableForward && !getObjectForKey(aDict, GROWL_REMOTE_ADDRESS))
+	if (enableForward && !getObjectForKey(dict, GROWL_REMOTE_ADDRESS))
 		[NSThread detachNewThreadSelector:@selector(forwardNotification:)
 								 toTarget:self
 							   withObject:dict];

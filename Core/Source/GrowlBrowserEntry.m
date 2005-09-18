@@ -15,7 +15,7 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict {
 	if ((self = [super init])) {
-		properties = [dict mutableCopy];
+		properties = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, (CFDictionaryRef)dict);
 	}
 
 	return self;
@@ -23,59 +23,66 @@
 
 - (id) initWithComputerName:(NSString *)name netService:(NSNetService *)service {
 	if ((self = [super init])) {
-		NSNumber *useValue = [[NSNumber alloc] initWithBool:NO];
-		properties = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-			name,     @"computer",
-			service,  @"netservice",
-			useValue, @"use",
-			nil];
-		[useValue release];
+		properties = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+		CFDictionarySetValue(properties, CFSTR("computer"), name);
+		CFDictionarySetValue(properties, CFSTR("netservice"), service);
+		CFDictionarySetValue(properties, CFSTR("use"), kCFBooleanFalse);
+		CFDictionarySetValue(properties, CFSTR("active"), kCFBooleanTrue);
 	}
 
 	return self;
 }
 
 - (BOOL) use {
-	return getBooleanForKey(properties, @"use");
+	return getBooleanForKey((NSDictionary *)properties, @"use");
 }
 
 - (void) setUse:(BOOL)flag {
-	setBooleanForKey(properties, @"use", flag);
+	setBooleanForKey((NSMutableDictionary *)properties, @"use", flag);
+	[owner writeForwardDestinations];
+}
+
+- (BOOL) active {
+	return getBooleanForKey((NSDictionary *)properties, @"active");
+}
+
+- (void) setActive:(BOOL)flag {
+	setBooleanForKey((NSMutableDictionary *)properties, @"active", flag);
 	[owner writeForwardDestinations];
 }
 
 - (NSString *) computerName {
-	return getObjectForKey(properties, @"computer");
+	return (NSString *)CFDictionaryGetValue(properties, CFSTR("computer"));
 }
 
 - (void) setComputerName:(NSString *)name {
-	setObjectForKey(properties, @"computer", name);
+	CFDictionarySetValue(properties, name, CFSTR("computer"));
 	[owner writeForwardDestinations];
 }
 
 - (NSNetService *) netService {
-	return getObjectForKey(properties, @"netservice");
+	return (NSNetService *)CFDictionaryGetValue(properties, CFSTR("netservice"));
 }
 
 - (void) setNetService:(NSNetService *)service {
-	setObjectForKey(properties, @"netservice", service);
+	CFDictionarySetValue(properties, service, CFSTR("netservice"));
 }
 
 - (NSString *) password {
-	return getObjectForKey(properties, @"password");
+	return (NSString *)CFDictionaryGetValue(properties, CFSTR("password"));
 }
 
 - (void) setPassword:(NSString *)password {
 	if (password)
-		setObjectForKey(properties, password, @"password");
+		CFDictionarySetValue(properties, CFSTR("password"), password);
 	else
-		[properties removeObjectForKey:@"password"];
+		CFDictionaryRemoveValue(properties, CFSTR("password"));
 	[owner writeForwardDestinations];
 }
 
 - (void) setAddress:(NSData *)address {
-	setObjectForKey(properties, @"address", address);
-	[properties removeObjectForKey:@"netservice"];
+	CFDictionarySetValue(properties, CFSTR("address"), address);
+	CFDictionaryRemoveValue(properties, CFSTR("netservice"));
 	[owner writeForwardDestinations];
 }
 
@@ -84,11 +91,11 @@
 }
 
 - (NSDictionary *) properties {
-	return properties;
+	return (NSDictionary *)properties;
 }
 
 - (void) dealloc {
-	[properties release];
+	CFRelease(properties);
 	[super dealloc];
 }
 
