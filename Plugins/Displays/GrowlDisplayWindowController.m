@@ -64,10 +64,9 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 
 - (void) startDisplay {
 	NSWindow	*window = [self window];
-	BOOL		didReserveRect = [[GrowlPositionController sharedInstance] reserveRect:[window frame] inScreen:[window screen]];	//Inform GPC that we're displaying
 	
 	//Make sure we don't cover any other notification (or not)
-	if (ignoresOtherNotifications || didReserveRect) {
+	if ([[GrowlPositionController sharedInstance] reserveRect:[window frame] inScreen:[window screen]] || ignoresOtherNotifications) {
 		[self willDisplayNotification];
 		[window orderFront:nil];
 		[self  didDisplayNotification];
