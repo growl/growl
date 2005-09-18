@@ -48,7 +48,7 @@
 
 #pragma mark -
 
-- (void) startDisplayTimer;
+- (BOOL) startDisplayTimer;
 - (void) stopDisplayTimer;
 
 #pragma mark -

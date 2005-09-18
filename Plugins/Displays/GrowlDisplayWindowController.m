@@ -62,16 +62,18 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma mark -
 #pragma mark Display control
 
-- (void) startDisplay {
+- (BOOL) startDisplay {
 	NSWindow	*window = [self window];
 	
 	//Make sure we don't cover any other notification (or not)
 	if ([[GrowlPositionController sharedInstance] reserveRect:[window frame] inScreen:[window screen]] || ignoresOtherNotifications) {
 		[self willDisplayNotification];
 		[window orderFront:nil];
-		[self  didDisplayNotification];
+		[self didDisplayNotification];
+		return YES;
 	} else {
 		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerNotificationBlockedNotification object:self];
+		return NO;
 	}
 }
 
@@ -81,7 +83,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	[self willTakeDownNotification];
 	[[GrowlPositionController sharedInstance] clearReservedRect:[window frame] inScreen:[window screen]];	//Clear the rect we reserved
 	[window orderOut:nil];
-	[self  didTakeDownNotification];
+	[self didTakeDownNotification];
 }
 
 #pragma mark -
