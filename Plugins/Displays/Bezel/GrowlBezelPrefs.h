@@ -17,6 +17,7 @@
 #define BEZEL_SCREEN_PREF					@"Bezel - Screen"
 #define BEZEL_STYLE_PREF					@"Bezel - Style"
 #define BEZEL_SHRINK_PREF					@"Bezel - Shrink"
+#define BEZEL_FLIP_PREF						@"Bezel - Flip"
 
 #define GrowlBezelVeryLowBackgroundColor	@"Bezel-Priority-VeryLow-Color"
 #define GrowlBezelModerateBackgroundColor	@"Bezel-Priority-Moderate-Color"
@@ -57,6 +58,10 @@
 - (void) setScreen:(int)value;
 - (int) position;
 - (void) setPosition:(int)value;
+- (BOOL) shrink;
+- (void) setShrink:(BOOL)flag;
+- (BOOL) flip;
+- (void) setFlip:(BOOL)flag;
 
 - (NSColor *) textColorVeryLow;
 - (void) setTextColorVeryLow:(NSColor *)value;

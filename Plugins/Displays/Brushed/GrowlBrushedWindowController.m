@@ -28,8 +28,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 	this class is the delegate for the class
 */
 
-- (void) displayWindowControllerdidFadeOut:(GrowlDisplayFadingWindowController *)sender {
-#pragma unused(sender)
+- (void) displayWindowControllerDidFadeOut:(NSNotification *)notification {
+#pragma unused(notification)
 	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->uid);
 

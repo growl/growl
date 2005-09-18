@@ -15,6 +15,7 @@
 	BOOL					flipIn;
 	BOOL					flipOut;
 	BOOL					shrinkEnabled;
+	BOOL					flipEnabled;
 	NSString				*identifier;
 	GrowlBezelWindowView	*contentView;
 }

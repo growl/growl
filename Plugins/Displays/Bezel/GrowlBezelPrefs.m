@@ -142,6 +142,19 @@
 
 #pragma mark -
 
+- (BOOL) flip {
+	BOOL flip = YES;
+	READ_GROWL_PREF_BOOL(BEZEL_FLIP_PREF, BezelPrefDomain, &flip);
+	return flip;
+}
+
+- (void) setFlip:(BOOL)flag {
+	WRITE_GROWL_PREF_BOOL(BEZEL_FLIP_PREF, flag, BezelPrefDomain);
+	UPDATE_GROWL_PREFS();
+}
+
+#pragma mark -
+
 - (NSColor *) textColorVeryLow {
 	return [GrowlBezelPrefs loadColor:GrowlBezelVeryLowTextColor
 						 defaultColor:[NSColor whiteColor]];

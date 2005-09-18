@@ -118,8 +118,9 @@ static void fadeOutTimer(CFRunLoopTimerRef timer, void *info) {
 		if (!isFadingIn) {
 			isFadingIn = YES;
 			[self willDisplayNotification];
-			[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerWillFadeInNotification
-																object:self];
+			CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+												 (CFStringRef)GrowlDisplayFadingWindowControllerWillFadeInNotification,
+												 self, NULL, false);
 			[self startFadeInTimer];
 		}
 	} else
@@ -128,8 +129,9 @@ static void fadeOutTimer(CFRunLoopTimerRef timer, void *info) {
 
 - (void) stopFadeIn {
 	isFadingIn = NO;
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerDidFadeInNotification
-														object:self];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+										 (CFStringRef)GrowlDisplayFadingWindowControllerDidFadeInNotification,
+										 self, NULL, false);
 	didFadeIn = YES;
 	[self stopFadeTimer];
 	[self didDisplayNotification];
@@ -138,8 +140,9 @@ static void fadeOutTimer(CFRunLoopTimerRef timer, void *info) {
 }
 
 - (void) startFadeOut {
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerWillFadeOutNotification
-														object:self];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+										 (CFStringRef)GrowlDisplayFadingWindowControllerWillFadeOutNotification,
+										 self, NULL, false);
 	[self stopDisplayTimer];
 	[self stopFadeTimer];
 	if (doFadeOut) {
@@ -153,8 +156,9 @@ static void fadeOutTimer(CFRunLoopTimerRef timer, void *info) {
 
 - (void) stopFadeOut {
 	isFadingOut = NO;
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayFadingWindowControllerDidFadeOutNotification
-														object:self];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+										 (CFStringRef)GrowlDisplayFadingWindowControllerDidFadeOutNotification,
+										 self, NULL, false);
 	[self stopFadeTimer];
 
 	[self close];	// close our window

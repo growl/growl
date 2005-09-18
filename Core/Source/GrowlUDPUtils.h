@@ -26,6 +26,6 @@ enum GrowlAuthenticationMethod {
 
 unsigned char *GrowlUDPUtils_registrationToPacket(DICTIONARY_TYPE aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, unsigned *packetSize);
 unsigned char *GrowlUDPUtils_notificationToPacket(DICTIONARY_TYPE aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, unsigned *packetSize);
-void GrowlUDPUtils_cryptPacket(CSSM_DATA_PTR packet, CSSM_ALGORITHMS algorithm, CSSM_DATA_PTR password, Boolean encrypt);
+void GrowlUDPUtils_cryptPacket(CSSM_DATA_PTR packet, CSSM_ALGORITHMS algorithm, CSSM_DATA_PTR password, Boolean doEncrypt);
 
 #endif

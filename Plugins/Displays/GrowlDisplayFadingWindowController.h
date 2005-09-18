@@ -64,11 +64,3 @@
 - (BOOL) didFadeOut;
 
 @end
-
-@interface NSObject (GrowlDisplayFadingWindowControllerDelegate)
-- (void) displayWindowControllerWillFadeIn:(GrowlDisplayFadingWindowController *)controller;
-- (void) displayWindowControllerDidFadeIn:(GrowlDisplayFadingWindowController *)controller;
-
-- (void) displayWindowControllerWillFadeOut:(GrowlDisplayFadingWindowController *)controller;
-- (void) displayWindowControllerDidFadeOut:(GrowlDisplayFadingWindowController *)controller;
-@end

@@ -23,11 +23,13 @@
 	float duration = MIN_DISPLAY_TIME;
 	screenNumber = 0U;
 	shrinkEnabled = YES;
+	flipEnabled = YES;
 
 	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, BezelPrefDomain, &screenNumber);
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 	READ_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, BezelPrefDomain, &duration);
 	READ_GROWL_PREF_BOOL(BEZEL_SHRINK_PREF, BezelPrefDomain, &shrinkEnabled);
+	READ_GROWL_PREF_BOOL(BEZEL_FLIP_PREF, BezelPrefDomain, &flipEnabled);
 
 	NSRect sizeRect;
 	sizeRect.origin.x = 0.0f;
@@ -138,13 +140,11 @@
 
 - (void) setText:(NSString *)text {
 	// Sanity check to unify line endings
-	NSMutableString	*tempText = [[NSMutableString alloc] initWithString:text];
-	[tempText replaceOccurrencesOfString:@"\r"
-							  withString:@"\n"
-								 options:nil
-								   range:NSMakeRange(0U, [tempText length])];
-	[contentView setText:tempText];
-	[tempText release];
+	CFIndex length = CFStringGetLength((CFStringRef)text);
+	CFMutableStringRef tempText = CFStringCreateMutableCopy(kCFAllocatorDefault, length, (CFStringRef)text);
+	CFStringFindAndReplace(tempText, CFSTR("\r"), CFSTR("\n"), CFRangeMake(0, length), 0);
+	[contentView setText:(NSString *)tempText];
+	CFRelease(tempText);
 }
 
 - (void) setIcon:(NSImage *)icon {
@@ -163,21 +163,24 @@
 }
 
 - (void) fadeInAnimation:(double)progress {
-	if (flipIn)
+	if (flipIn && flipEnabled)
 		[[self window] setScaleX:progress Y:1.0];
 	else
 		[super fadeInAnimation:progress];
 }
 
 - (void) stopFadeIn {
-	if (flipIn)
+	if (flipIn && flipEnabled)
 		[[self window] reset];
 	[super stopFadeIn];
 }
 
 - (void) fadeOutAnimation:(double)progress {
 	if (flipOut) {
-		[[self window] setScaleX:1.0 - progress Y:1.0];
+		if (flipEnabled)
+			[[self	window] setScaleX:1.0 - progress Y:1.0];
+		else
+			[super fadeOutAnimation:progress];
 	} else {
 		if (shrinkEnabled)
 			[[self window] scaleX:0.8 Y:0.8];

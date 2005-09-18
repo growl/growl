@@ -291,7 +291,7 @@ unsigned char *GrowlUDPUtils_registrationToPacket(CFDictionaryRef aNotification,
 static uint8 iv[16] = { 0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U };
 static const CSSM_DATA ivCommon = {16U, iv};
 
-void GrowlUDPUtils_cryptPacket(CSSM_DATA_PTR packet, CSSM_ALGORITHMS algorithm, CSSM_DATA_PTR password, Boolean encrypt) {
+void GrowlUDPUtils_cryptPacket(CSSM_DATA_PTR packet, CSSM_ALGORITHMS algorithm, CSSM_DATA_PTR password, Boolean doEncrypt) {
 	CSSM_CC_HANDLE ccHandle;
 	CSSM_KEY key;
 	CSSM_DATA inData;
@@ -314,7 +314,7 @@ void GrowlUDPUtils_cryptPacket(CSSM_DATA_PTR packet, CSSM_ALGORITHMS algorithm, 
 										   &ccHandle);
 	crtn = CSSM_DeriveKey(ccHandle,
 						  (CSSM_DATA_PTR)&ivCommon,
-						  encrypt ? CSSM_KEYUSE_ENCRYPT : CSSM_KEYUSE_DECRYPT,
+						  doEncrypt ? CSSM_KEYUSE_ENCRYPT : CSSM_KEYUSE_DECRYPT,
 						  /*KeyAttr*/ 0U,
 						  /*KeyLabel*/ NULL,
 						  /*CredAndAclEntry*/ NULL,
@@ -335,7 +335,7 @@ void GrowlUDPUtils_cryptPacket(CSSM_DATA_PTR packet, CSSM_ALGORITHMS algorithm, 
 	inData.Length = packet->Length - 1;
 	remData.Data = NULL;
 	remData.Length = 0U;
-	if (encrypt) {
+	if (doEncrypt) {
 		crtn = CSSM_EncryptData(ccHandle,
 								&inData,
 								1U,

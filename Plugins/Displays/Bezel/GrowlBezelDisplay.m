@@ -104,16 +104,16 @@
 	[nuBezel release];
 }
 
-- (void) displayWindowControllerWillFadeOut:(GrowlDisplayFadingWindowController *)sender {
+- (void) displayWindowControllerWillFadeOut:(NSNotification *)notification {
 	GrowlBezelWindowController *olBezel;
 	if ([notificationQueue count] > 1U) {
-		olBezel = (GrowlBezelWindowController *)sender;
+		olBezel = (GrowlBezelWindowController *)[notification object];
 		[olBezel setFlipOut:YES];
 	}
 }
 
-- (void) displayWindowControllerDidFadeOut:(GrowlDisplayFadingWindowController *)sender {
-#pragma unused(sender)
+- (void) displayWindowControllerDidFadeOut:(NSNotification *)notification {
+#pragma unused(notification)
 	GrowlBezelWindowController *olBezel;
 	[notificationQueue removeObjectAtIndex:0U];
 	if ([notificationQueue count] > 0U) {

@@ -13,11 +13,11 @@
 #import "GrowlPositionController.h"
 #import "NSViewAdditions.h"
 
-#define GrowlDisplayWindowControllerWillDisplayWindowNotification		@"GrowlDisplayWindowControllerWillDisplayWindowNotification"
-#define GrowlDisplayWindowControllerDidDisplayWindowNotification		@"GrowlDisplayWindowControllerDidDisplayWindowNotification"
-#define GrowlDisplayWindowControllerWillTakeDownWindowNotification		@"GrowlDisplayWindowControllerWillTakeDownWindowNotification"
-#define GrowlDisplayWindowControllerDidTakeDownWindowNotification		@"GrowlDisplayWindowControllerDidTakeDownWindowNotification"
-#define GrowlDisplayWindowControllerNotificationBlockedNotification		@"GrowlDisplayWindowControllerNotificationBlockedNotification"
+#define GrowlDisplayWindowControllerWillDisplayWindowNotification	CFSTR("GrowlDisplayWindowControllerWillDisplayWindowNotification")
+#define GrowlDisplayWindowControllerDidDisplayWindowNotification	CFSTR("GrowlDisplayWindowControllerDidDisplayWindowNotification")
+#define GrowlDisplayWindowControllerWillTakeDownWindowNotification	CFSTR("GrowlDisplayWindowControllerWillTakeDownWindowNotification")
+#define GrowlDisplayWindowControllerDidTakeDownWindowNotification	CFSTR("GrowlDisplayWindowControllerDidTakeDownWindowNotification")
+#define GrowlDisplayWindowControllerNotificationBlockedNotification	CFSTR("GrowlDisplayWindowControllerNotificationBlockedNotification")
 
 static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
@@ -26,9 +26,9 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 
 @implementation GrowlDisplayWindowController
 
-- (id) init {
-	if ((self = [super init])) {
-		windowTransitions = [[NSMutableArray alloc] init];
+- (id) initWithWindow:(NSWindow *)window {
+	if ((self = [super initWithWindow:window])) {
+		windowTransitions = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
 		ignoresOtherNotifications = NO;
 	}
 
@@ -45,7 +45,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	[clickHandlerEnabled release];
 	[appName             release];
 	[appPid              release];
-	[windowTransitions	 release];
+	CFRelease(windowTransitions);
 
 	[super dealloc];
 }
@@ -63,7 +63,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Display control
 
 - (BOOL) startDisplay {
-	NSWindow	*window = [self window];
+	NSWindow *window = [self window];
 
 	//Make sure we don't cover any other notification (or not)
 	if ([[GrowlPositionController sharedInstance] reserveRect:[window frame] inScreen:[window screen]] || ignoresOtherNotifications) {
@@ -72,7 +72,9 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 		[self didDisplayNotification];
 		return YES;
 	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerNotificationBlockedNotification object:self];
+		CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+											 GrowlDisplayWindowControllerNotificationBlockedNotification,
+											 self, NULL, false);
 		return NO;
 	}
 }
@@ -90,34 +92,45 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Display stages
 
 - (void) willDisplayNotification {
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillDisplayWindowNotification object:self];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+										 GrowlDisplayWindowControllerWillDisplayWindowNotification,
+										 self, NULL, false);
 }
-- (void)  didDisplayNotification {
+
+- (void) didDisplayNotification {
 	if (screenshotMode)
 		[self takeScreenshot];
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerDidDisplayWindowNotification object:self];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+										 GrowlDisplayWindowControllerDidDisplayWindowNotification,
+										 self, NULL, false);
 }
+
 - (void) willTakeDownNotification {
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillTakeDownWindowNotification object:self];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+										 GrowlDisplayWindowControllerWillTakeDownWindowNotification,
+										 self, NULL, false);
 }
-- (void)  didTakeDownNotification {
-	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+
+- (void) didTakeDownNotification {
+	CFNotificationCenterRef center = CFNotificationCenterGetLocalCenter();
 	if (clickContext) {
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			clickContext, GROWL_KEY_CLICKED_CONTEXT,
-			appPid,       GROWL_APP_PID,
-			nil];
-		[nc postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
-						  object:appName
-						userInfo:userInfo];
-		[userInfo release];
+		CFMutableDictionaryRef userInfo = CFDictionaryCreateMutable(kCFAllocatorDefault, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+		CFDictionarySetValue(userInfo, GROWL_KEY_CLICKED_CONTEXT, clickContext);
+		if (appPid)
+			CFDictionarySetValue(userInfo, GROWL_APP_PID, appPid);
+		CFNotificationCenterPostNotification(center,
+											 (CFStringRef)GROWL_NOTIFICATION_TIMED_OUT,
+											 appName, userInfo, false);
+		CFRelease(userInfo);
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
 		clickContext = nil;
 	}
 
-	[nc postNotificationName:GrowlDisplayWindowControllerWillDisplayWindowNotification object:self];
+	CFNotificationCenterPostNotification(center,
+										 GrowlDisplayWindowControllerWillDisplayWindowNotification,
+										 self, NULL, false);
 }
 
 #pragma mark -
@@ -140,21 +153,21 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma mark -
 #pragma mark Click feedback
 
-- (void) notificationClicked:(id) sender {
+- (void) notificationClicked:(id)sender {
 #pragma unused(sender)
 	if (clickContext) {
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			clickHandlerEnabled,                          @"ClickHandlerEnabled",
-			clickContext,                                 GROWL_KEY_CLICKED_CONTEXT,
-			[self notifyingApplicationProcessIdentifier], GROWL_APP_PID,
-			nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
-															object:[self notifyingApplicationName]
-														  userInfo:userInfo];
-		[userInfo release];
+		CFMutableDictionaryRef userInfo = CFDictionaryCreateMutable(kCFAllocatorDefault, 3, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+		CFDictionarySetValue(userInfo, CFSTR("ClickHandlerEnabled"), clickHandlerEnabled);
+		CFDictionarySetValue(userInfo, GROWL_KEY_CLICKED_CONTEXT, clickContext);
+		if (appPid)
+			CFDictionarySetValue(userInfo, GROWL_APP_PID, appPid);
+		CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+											 (CFStringRef)GROWL_NOTIFICATION_CLICKED,
+											 appName, userInfo, false);
+		CFRelease(userInfo);
 
 		//Avoid duplicate click messages by immediately clearing the clickContext
-		[self setClickContext:nil];
+		clickContext = nil;
 	}
 
 	if (target && action && [target respondsToSelector:action])
@@ -167,77 +180,93 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 - (void) addTransition:(GrowlWindowTransition *)transition {
 	[transition setWindow:[self window]];
 	[transition setDelegate:self];
-	[windowTransitions addObject:transition];
+	CFArrayAppendValue(windowTransitions, transition);
 }
 
 - (void) removeTransition:(GrowlWindowTransition *)transition {
-	[windowTransitions removeObject:transition];
+	CFIndex count = CFArrayGetCount(windowTransitions);
+	for (CFIndex i=0; i<count;) {
+		if (CFEqual(transition, CFArrayGetValueAtIndex(windowTransitions, i))) {
+			CFArrayRemoveValueAtIndex(windowTransitions, i);
+			--count;
+		} else {
+			++i;
+		}
+	}
 	[transition setDelegate:nil];
 	[transition setWindow:nil];
 }
 
 - (NSArray *) allTransitions {
-	return windowTransitions;
+	return (NSArray *)windowTransitions;
 }
 
 - (NSArray *) activeTransitions {
-	NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[windowTransitions count]];
-	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
-	GrowlWindowTransition *transition;
+	CFIndex count = CFArrayGetCount(windowTransitions);
+	CFMutableArrayRef result = CFArrayCreateMutable(kCFAllocatorDefault, count, &kCFTypeArrayCallBacks);
 
-	while ((transition = [enumerator nextObject]))
+	for (CFIndex i=0; i<count; ++i) {
+		GrowlWindowTransition *transition = (GrowlWindowTransition *)CFArrayGetValueAtIndex(windowTransitions, i);
 		if ([transition isAnimating])
-			[result addObject:transition];
+			CFArrayAppendValue(result, transition);
+	}
 
-	return [result autorelease];
+	return [(NSArray *)result autorelease];
 }
 
 - (NSArray *) inactiveTransitions {
-	NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[windowTransitions count]];
-	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
-	GrowlWindowTransition *transition;
+	CFIndex count = CFArrayGetCount(windowTransitions);
+	CFMutableArrayRef result = CFArrayCreateMutable(kCFAllocatorDefault, count, &kCFTypeArrayCallBacks);
 
-	while ((transition = [enumerator nextObject]))
+	for (CFIndex i=0; i<count; ++i) {
+		GrowlWindowTransition *transition = (GrowlWindowTransition *)CFArrayGetValueAtIndex(windowTransitions, i);
 		if (![transition isAnimating])
-			[result addObject:transition];
+			CFArrayAppendValue(result, transition);
+	}
 
-	return [result autorelease];
+	return [(NSArray *)result autorelease];
 }
 
 - (void) startAllTransitions {
-	[windowTransitions makeObjectsPerformSelector:@selector(startAnimation)];
+	CFIndex count = CFArrayGetCount(windowTransitions);
+	for (CFIndex i=0; i<count; ++i)
+		[(GrowlWindowTransition *)CFArrayGetValueAtIndex(windowTransitions, i) startAnimation];
 }
 
 - (void) startAllTransitionsOfKind:(Class)transitionsClass {
-	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
-	GrowlWindowTransition *transition;
+	CFIndex count = CFArrayGetCount(windowTransitions);
 
-	while ((transition = [enumerator nextObject]))
+	for (CFIndex i=0; i<count; ++i) {
+		GrowlWindowTransition *transition = (GrowlWindowTransition *)CFArrayGetValueAtIndex(windowTransitions, i);
 		if ([transition isKindOfClass:transitionsClass])
 			[transition startAnimation];
+	}
 }
 
 - (void) stopAllTransitions {
-	[windowTransitions makeObjectsPerformSelector:@selector(stopAnimation)];
+	CFIndex count = CFArrayGetCount(windowTransitions);
+	for (CFIndex i=0; i<count; ++i)
+		[(GrowlWindowTransition *)CFArrayGetValueAtIndex(windowTransitions, i) stopAnimation];
 }
 
 - (void) stopAllTransitionsOfKind:(Class)transitionsClass {
-	NSEnumerator *enumerator = [windowTransitions objectEnumerator];
-	GrowlWindowTransition *transition;
-
-	while ((transition = [enumerator nextObject]))
+	CFIndex count = CFArrayGetCount(windowTransitions);
+	
+	for (CFIndex i=0; i<count; ++i) {
+		GrowlWindowTransition *transition = (GrowlWindowTransition *)CFArrayGetValueAtIndex(windowTransitions, i);
 		if ([transition isKindOfClass:transitionsClass])
 			[transition stopAnimation];
+	}
 }
 
 #pragma mark -
 #pragma mark Accessors
 
-- (NSTimeInterval) displayDuration {
+- (CFTimeInterval) displayDuration {
 	return displayDuration;
 }
 
-- (void) setDisplayDuration:(NSTimeInterval) newDuration {
+- (void) setDisplayDuration:(CFTimeInterval)newDuration {
 	displayDuration = newDuration;
 }
 
@@ -247,7 +276,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	return screenshotMode;
 }
 
-- (void) setScreenshotModeEnabled:(BOOL) newScreenshotMode {
+- (void) setScreenshotModeEnabled:(BOOL)newScreenshotMode {
 	screenshotMode = newScreenshotMode;
 }
 
@@ -260,7 +289,8 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	else
 		return [NSScreen mainScreen];
 }
-- (void) setScreen:(NSScreen *) newScreen {
+
+- (void) setScreen:(NSScreen *)newScreen {
 	unsigned newScreenNumber = [[NSScreen screens] indexOfObjectIdenticalTo:newScreen];
 	if (newScreenNumber == NSNotFound)
 		[NSException raise:NSInternalInconsistencyException format:@"Tried to set %@ %p to a screen %p that isn't in the screen list", [self class], self, newScreen];
@@ -269,7 +299,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	[self  didChangeValueForKey:@"screenNumber"];
 }
 
-- (void) setScreenNumber:(unsigned) newScreenNumber {
+- (void) setScreenNumber:(unsigned)newScreenNumber {
 	screenNumber = newScreenNumber;
 }
 
@@ -279,7 +309,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	return target;
 }
 
-- (void) setTarget:(id) object {
+- (void) setTarget:(id)object {
 	if (object != target) {
 		[target release];
 		target = [object retain];
@@ -302,7 +332,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	return appName;
 }
 
-- (void) setNotifyingApplicationName:(NSString *) inAppName {
+- (void) setNotifyingApplicationName:(NSString *)inAppName {
 	if (inAppName != appName) {
 		[appName release];
 		appName = [inAppName copy];
@@ -315,7 +345,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	return appPid;
 }
 
-- (void) setNotifyingApplicationProcessIdentifier:(NSNumber *) inAppPid {
+- (void) setNotifyingApplicationProcessIdentifier:(NSNumber *)inAppPid {
 	if (inAppPid != appPid) {
 		[appPid release];
 		appPid = [inAppPid retain];
@@ -328,9 +358,11 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	return clickContext;
 }
 
-- (void) setClickContext:(id) inClickContext {
-	[clickContext autorelease];
-	clickContext = [inClickContext retain];
+- (void) setClickContext:(id)inClickContext {
+	if (clickContext != inClickContext) {
+		[clickContext release];
+		clickContext = [inClickContext retain];
+	}
 }
 
 #pragma mark -
@@ -339,7 +371,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	return ignoresOtherNotifications;
 }
 
-- (void) setIgnoresOtherNotifications:(BOOL) flag {
+- (void) setIgnoresOtherNotifications:(BOOL)flag {
 	ignoresOtherNotifications = flag;
 }
 
@@ -348,7 +380,8 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 - (id) delegate {
 	return delegate;
 }
-- (void) setDelegate:(id) newDelegate {
+
+- (void) setDelegate:(id)newDelegate {
 	if (delegate)
 		[self removeNotificationObserver:delegate];
 
@@ -364,7 +397,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	return clickHandlerEnabled;
 }
 
-- (void) setClickHandlerEnabled:(NSNumber *) flag {
+- (void) setClickHandlerEnabled:(NSNumber *)flag {
 	if (flag != clickHandlerEnabled) {
 		[clickHandlerEnabled release];
 		clickHandlerEnabled = [flag retain];
@@ -373,7 +406,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 
 #pragma mark -
 
-- (void) addNotificationObserver:(id) observer {
+- (void) addNotificationObserver:(id)observer {
 	NSParameterAssert(observer != nil);
 
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -383,35 +416,36 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 		if ([observer respondsToSelector:@selector(displayWindowControllerWillDisplayWindow:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerWillDisplayWindow:)
-					   name:GrowlDisplayWindowControllerWillDisplayWindowNotification
+					   name:(NSString *)GrowlDisplayWindowControllerWillDisplayWindowNotification
 					 object:self];
 		if ([observer respondsToSelector:@selector(displayWindowControllerDidDisplayWindow:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerDidDisplayWindow:)
-					   name:GrowlDisplayWindowControllerDidDisplayWindowNotification
+					   name:(NSString *)GrowlDisplayWindowControllerDidDisplayWindowNotification
 					 object:self];
 
 		if ([observer respondsToSelector:@selector(displayWindowControllerWillTakeDownWindow:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerWillTakeDownWindow:)
-					   name:GrowlDisplayWindowControllerWillTakeDownWindowNotification
+					   name:(NSString *)GrowlDisplayWindowControllerWillTakeDownWindowNotification
 					 object:self];
 		if ([observer respondsToSelector:@selector(displayWindowControllerDidTakeDownWindow:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerDidTakeDownWindow:)
-					   name:GrowlDisplayWindowControllerDidTakeDownWindowNotification
+					   name:(NSString *)GrowlDisplayWindowControllerDidTakeDownWindowNotification
 					 object:self];
 		if ([observer respondsToSelector:@selector(displayWindowControllerNotificationBlocked:)])
 			[nc addObserver:observer
 				   selector:@selector(displayWindowControllerNotificationBlocked:)
-					   name:GrowlDisplayWindowControllerNotificationBlockedNotification
+					   name:(NSString *)GrowlDisplayWindowControllerNotificationBlockedNotification
 					 object:self];
 	}
 }
-- (void) removeNotificationObserver:(id) observer {
-	[[NSNotificationCenter defaultCenter] removeObserver:observer
-													name:nil
-												  object:self];
+- (void) removeNotificationObserver:(id)observer {
+	CFNotificationCenterRemoveObserver(CFNotificationCenterGetLocalCenter(),
+									   observer,
+									   NULL,
+									   self);
 }
 
 @end

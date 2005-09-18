@@ -20,10 +20,10 @@
 	NSNumber			*appPid;
 	id					delegate;
 	CFRunLoopTimerRef	displayTimer;
-	NSMutableArray		*windowTransitions;
+	CFMutableArrayRef	windowTransitions;
 	BOOL				ignoresOtherNotifications;
 
-	NSTimeInterval		displayDuration;
+	CFTimeInterval		displayDuration;
 	unsigned			screenNumber;
 	unsigned			WCReserved: 31;
 	unsigned			screenshotMode: 1;
@@ -68,8 +68,8 @@
 
 #pragma mark -
 
-- (NSTimeInterval) displayDuration;
-- (void) setDisplayDuration:(NSTimeInterval) newDuration;
+- (CFTimeInterval) displayDuration;
+- (void) setDisplayDuration:(CFTimeInterval) newDuration;
 
 - (BOOL) screenshotModeEnabled;
 - (void) setScreenshotModeEnabled:(BOOL) newScreenshotMode;

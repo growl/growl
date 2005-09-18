@@ -105,14 +105,14 @@
 	[nuMusicVideo release];
 }
 
-- (void) displayWindowControllerWillFadeOut:(GrowlDisplayFadingWindowController *)sender {
-#pragma unused(sender)
+- (void) displayWindowControllerWillFadeOut:(NSNotification *)notification {
+#pragma unused(notification)
 	if ([notificationQueue count] > 1U)
 		[[notificationQueue objectAtIndex:1U] startDisplay];
 }
 
-- (void) displayWindowControllerDidFadeOut:(GrowlDisplayFadingWindowController *)sender {
-#pragma unused(sender)
+- (void) displayWindowControllerDidFadeOut:(NSNotification *)notification {
+#pragma unused(notification)
 	[notificationQueue removeObjectAtIndex:0U];
 	if ([notificationQueue count] > 0U) {
 		GrowlDisplayFadingWindowController *controller = [notificationQueue objectAtIndex:0U];
