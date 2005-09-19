@@ -120,11 +120,81 @@ FeedLibrary
 			-(id)child:(int)index ofItem:(id)item;
 			-(BOOL)hasChildren:(id)item;
 			-(int)childCountOfItem:(id)item;
+	
+	Updating
+		
+		Source updates are requested by adding Feeds to the request queue with refreshFeed: and 
+		calling the refreshPending method to start the queue. Alternately, you can call refreshAll
+		to add all feeds and start the queue (by calling refreshPending for you). The refreshPending 
+		method calls updateStarted - which is reposible for sending a notification to the UI.
+		
+		When an update starts processing the queue, the runNextUpdate method is repeatedly called.
+		It simply grabs the first Feed in the queue and creates a FeedReader instance to process it.
+		Once the source is processed, the FeedReader calls back to the library with either an error
+		message (updateFeed:error:) or an update message (updateFeed:headers:articles:).
+		
+		Once the update queue is exhausted, it calls updateFinished to notify the UI that the update
+		is finished.
+	
+	Active Viewing
+		
+		These routines are mostly for passing UI actions and changes to the underlying
+		item based mechanism. Almost all of these are called by the FeedWindowController.
+		
+		-(void)setSortDescriptors:(NSArray *)descriptors;
+		-(NSArray *)sortDescriptors;
 
+		-(BOOL)isArticleDeleted:(NSString *)articleKey;
+		-(void)removeArticle:(Article *)anArticle;
 
+		-(void)sortActiveArticles;
+		-(void)refreshActiveArticles;
+		-(NSArray *)activeFeeds;
+		-(NSArray *)feedsInFolder:(id) item;
+		-(NSArray *)activeArticles;
+		-(NSArray *)articlesInFolder:(id) item;
+		-(NSArray *)activeFeedItems;
+		-(void)setActiveFeedItems:(NSArray *)activeFeedItems;
+
+		-(Article *)oldestUnreadActiveArticle;
+		-(Article *)newestActiveArticle;
+
+		-(void)setActiveArticle:(Article *)article;
+		-(void)setActiveArticleIndex:(int)activeArticleIndex;
+		-(int)activeArticleCount;
+		-(int)activeUnreadCount;
+		-(int)activeArticleIndex;
+		-(Article *)activeArticle;
+		-(Article *)activeArticleAtIndex:(int)index;
+		-(int)indexOfActiveArticle:(Article *)article;
+		
 FeedReader
 	
 	The FeedReader class is an abstract superclass that encapsulates most of the URL fetching and parsing work
-	for downloading feeds.
+	for downloading feeds. Currently, unknown sources are tried first as RSS and if they fail parsing, are tried
+	again as Atom. Once a source is parsed with no errors, the type is stored with the Feed.
 	
+	Probably the first attempt should be based on something more intelligent than simple law
+	of averages, but since this only happens the first time a source is added, the overhead is minimal.
+	Also, this mechanism will likely have to change if the RSS parser needs to be broken down into more than
+	one subclass due to spec insanity.
 	
+	The FeedReader is created with a source URL and a reference to the library. The base class initiates
+	an asynchronous NSURLConnection for the source as well as one for a favicon at the site root. The favicon
+	connection can fail with no effect on the request. If the source load completes sucessfully, the NSXMLParser
+	class is called with the result by the parseXMLData: method.
+	
+	NSXMLParser uses callbacks to notify the application on tag start and stop as well as content. The AtomReader
+	and RSSReader subclasses implement these callbacks to do useful things with the data. Since NSXMLParser is
+	insanely strict about what it will parse, it throws errors constantly. In order to make this work with the
+	tag soup that is RSS, I try to 'fix' a couple common mistakes people make on failure and retry:
+	
+		First, I force the encoding to UTF-8.
+		
+		Then, I insulete all content elements with <![CDATA[...]]> since most errors come from 
+		HTML shoved into the content area.
+	
+	While elements are encountered during parsing, the subclasses add found properties to a dictionary
+	for the Feed itself and to an array for found articles (each article being a dictionary).
+	
+	Once parsing is complete, the FeedReader calls back into the library with updates.

@@ -94,7 +94,6 @@
 		32CA4F630368D1EE00C91783 /* Feed_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed_Prefix.pch; sourceTree = "<group>"; };
 		5302A87A06E672C900C753F8 /* Feed.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Feed.scriptSuite; sourceTree = "<group>"; };
 		5302A8DF06E6758300C753F8 /* Feed.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Feed.scriptTerminology; sourceTree = "<group>"; };
-		531E423106D66E02007FB45E /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		531E429E06D67780007FB45E /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		531E42C306D68DD3007FB45E /* LICENSE.TXT */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = LICENSE.TXT; sourceTree = "<group>"; };
 		53249256088AFEEC00CC8430 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
@@ -285,7 +284,6 @@
 			isa = PBXGroup;
 			children = (
 				53AA940E08DDFE1D00DBD86D /* hacking.txt */,
-				531E423106D66E02007FB45E /* TODO.txt */,
 				53A764E306DD46F800BDD9CE /* testfeeds.txt */,
 				531E429E06D67780007FB45E /* Credits.html */,
 				531E42C306D68DD3007FB45E /* LICENSE.TXT */,
