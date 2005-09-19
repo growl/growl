@@ -61,7 +61,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)refreshPending;
 -(BOOL)startUpdate;
 
-// Debuggin support
+// Debugging support
 -(void)resetArticleKillList;
 
 // Active Viewing Support
