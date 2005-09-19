@@ -88,13 +88,17 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 	SYNCHRONIZE_GROWL_PREFS();
 
-	NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
-	NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:pid, @"pid", nil];
-	[pid release];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
-																   object:key
-																 userInfo:userInfo];
-	[userInfo release];
+	int pid = getpid();
+	CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
+	CFStringRef pidKey = CFSTR("pid");
+	CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)&pidKey, (const void **)&pidValue, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+	CFRelease(pidValue);
+	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+										 (CFStringRef)GrowlPreferencesChanged,
+										 /*object*/ key,
+										 /*userInfo*/ userInfo,
+										 /*deliverImmediately*/ false);
+	CFRelease(userInfo);
 }
 
 - (BOOL) boolForKey:(NSString *)key {
@@ -268,7 +272,11 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 - (void) disableGrowlMenu {
 	// Ask GrowlMenu to shutdown via the DNC
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GrowlMenuShutdown" object:nil];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+										 CFSTR("GrowlMenuShutdown"),
+										 /*object*/ NULL,
+										 /*userInfo*/ NULL,
+										 /*deliverImmediately*/ false);
 }
 
 #pragma mark -
@@ -322,7 +330,11 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 - (void) terminateGrowl {
 	// Ask the Growl Helper App to shutdown via the DNC
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+										 (CFStringRef)GROWL_SHUTDOWN,
+										 /*object*/ NULL,
+										 /*userInfo*/ NULL,
+										 /*deliverImmediately*/ false);
 }
 
 #pragma mark -
@@ -482,8 +494,37 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
  * Synchronize our NSUserDefaults to immediately get any changes from the disk
  */
 - (void) growlPreferencesChanged:(NSNotification *)notification {
-#pragma unused(notification)
-	[self synchronize];
+	NSString *object = [notification object];
+//	NSLog(@"%s: %@\n", __func__, object);
+	SYNCHRONIZE_GROWL_PREFS();
+	if (!object || [object isEqualToString:GrowlDisplayPluginKey]) {
+		[self willChangeValueForKey:@"defaultDisplayPluginName"];
+		[self didChangeValueForKey:@"defaultDisplayPluginName"];
+	}
+	if (!object || [object isEqualToString:GrowlSquelchModeKey]) {
+		[self willChangeValueForKey:@"squelchMode"];
+		[self didChangeValueForKey:@"squelchMode"];
+	}
+	if (!object || [object isEqualToString:GrowlMenuExtraKey]) {
+		[self willChangeValueForKey:@"growlMenuEnabled"];
+		[self didChangeValueForKey:@"growlMenuEnabled"];
+	}
+	if (!object || [object isEqualToString:GrowlEnableForwardKey]) {
+		[self willChangeValueForKey:@"forwardingEnabled"];
+		[self didChangeValueForKey:@"forwardingEnabled"];
+	}
+	if (!object || [object isEqualToString:GrowlUpdateCheckKey]) {
+		[self willChangeValueForKey:@"backgroundUpdateCheckEnabled"];
+		[self didChangeValueForKey:@"backgroundUpdateCheckEnabled"];
+	}
+	if (!object || [object isEqualToString:GrowlStickyWhenAwayKey]) {
+		[self willChangeValueForKey:@"stickyWhenAway"];
+		[self didChangeValueForKey:@"stickyWhenAway"];
+	}
+	if (!object || [object isEqualToString:GrowlRemoteRegistrationKey]) {
+		[self willChangeValueForKey:@"remoteRegistrationAllowed"];
+		[self didChangeValueForKey:@"remoteRegistrationAllowed"];
+	}
 }
 
 @end

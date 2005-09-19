@@ -568,9 +568,12 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	if (appName && newApp) {
 		[ticketController addTicket:newApp];
 		[newApp saveTicket];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF
-																	   object:appName];
-
+		CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+											 (CFStringRef)GROWL_APP_REGISTRATION_CONF,
+											 /*object*/ appName,
+											 /*userInfo*/ NULL,
+											 /*deliverImmediately*/ false);
+		
 		[GrowlApplicationBridge notifyWithTitle:notificationName
 									description:[appName stringByAppendingString:@" registered"]
 							   notificationName:notificationName
@@ -734,9 +737,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) replyToPing:(NSNotification *) note {
 #pragma unused(note)
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_PONG
-																   object:nil
-																 userInfo:versionInfo];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+										 (CFStringRef)GROWL_PONG,
+										 /*object*/ NULL,
+										 /*userInfo*/ NULL,
+										 /*deliverImmediately*/ false);
 }
 
 #pragma mark NSApplication Delegate Methods
@@ -822,10 +827,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 //Post a notification when we are done launching so the application bridge can inform participating applications
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
 #pragma unused(aNotification)
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
-																   object:nil
-																 userInfo:nil
-													   deliverImmediately:YES];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+										 (CFStringRef)GROWL_IS_READY,
+										 /*object*/ NULL,
+										 /*userInfo*/ NULL,
+										 /*deliverImmediately*/ true);
 	growlFinishedLaunching = YES;
 }
 
@@ -980,21 +986,21 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		suffix = GROWL_NOTIFICATION_TIMED_OUT;
 	}
 	NSNumber *pid = getObjectForKey(userInfo, GROWL_APP_PID);
-	if (pid) {
+	if (pid)
 		growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%@-%@",
 			appName, pid, suffix];
-	} else {
+	else
 		growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@%@",
 			appName, suffix];
-	}
 	clickInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 		getObjectForKey(userInfo, GROWL_KEY_CLICKED_CONTEXT), GROWL_KEY_CLICKED_CONTEXT,
 		nil];
 
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationClickedName
-																   object:nil
-																 userInfo:clickInfo
-													   deliverImmediately:YES];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+										 (CFStringRef)growlNotificationClickedName,
+										 /*object*/ NULL,
+										 /*userInfo*/ (CFDictionaryRef)clickInfo,
+										 /*deliverImmediately*/ true);
 
 	[clickInfo release];
 	[growlNotificationClickedName release];
@@ -1010,22 +1016,22 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	//Build the application-specific notification name
 	appName = [notification object];
 	NSNumber *pid = [userInfo objectForKey:GROWL_APP_PID];
-	if (pid) {
+	if (pid)
 		growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@-%@-%@",
 			appName, pid, GROWL_NOTIFICATION_TIMED_OUT];
-	} else {
+	else
 		growlNotificationTimedOutName = [[NSString alloc] initWithFormat:@"%@%@",
 			appName, GROWL_NOTIFICATION_TIMED_OUT];
-	}
 	clickInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 		[userInfo objectForKey:GROWL_KEY_CLICKED_CONTEXT], GROWL_KEY_CLICKED_CONTEXT,
 		nil];
 
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:growlNotificationTimedOutName
-																   object:nil
-																 userInfo:clickInfo
-													   deliverImmediately:YES];
-
+	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+										 (CFStringRef)growlNotificationTimedOutName,
+										 /*object*/ NULL,
+										 /*userInfo*/ (CFDictionaryRef)clickInfo,
+										 /*deliverImmediately*/ true);
+	
 	[clickInfo release];
 	[growlNotificationTimedOutName release];
 }

@@ -53,7 +53,7 @@
 	}
 
 	if ((self = [super initWithBundle:bundle])) {
-		pid = [[NSProcessInfo processInfo] processIdentifier];
+		pid = getpid();
 		loadedPrefPanes = [[NSMutableArray alloc] init];
 		preferencesController = [GrowlPreferencesController sharedController];
 
@@ -346,30 +346,22 @@
  * @brief Reloads the preferences and updates the GUI accordingly.
  */
 - (void) reloadPreferences:(NSString *)object {
-//	NSLog(@"%s\n", __func__);
-	GrowlTicketController *ticketController = [GrowlTicketController sharedController];
-	[ticketController loadAllSavedTickets];
-	[self setDisplayPlugins:[[GrowlPluginController sharedController] displayPlugins]];
-	if (!object || [object isEqualToString:@"GrowlTicketChanged"])
+	if (!object || [object isEqualToString:@"GrowlTicketChanged"]) {
+		GrowlTicketController *ticketController = [GrowlTicketController sharedController];
+		[ticketController loadAllSavedTickets];
 		[self setTickets:[[ticketController allSavedTickets] allValues]];
-	[preferencesController setSquelchMode:[preferencesController squelchMode]];
-	[preferencesController setGrowlMenuEnabled:[preferencesController isGrowlMenuEnabled]];
-	[self cacheImages];
+		[self cacheImages];
+	}
+	[self setDisplayPlugins:[[GrowlPluginController sharedController] displayPlugins]];
 
 	// If Growl is enabled, ensure the helper app is launched
 	if ([preferencesController boolForKey:GrowlEnabledKey])
 		[preferencesController launchGrowl:NO];
 
-	if ([plugins count] > 0U) {
-		NSString *defaultPlugin = [preferencesController objectForKey:GrowlDisplayPluginKey];
-		unsigned defaultIndex = [[displayPluginsArrayController arrangedObjects] indexOfObject:defaultPlugin];
-		if (defaultIndex == NSNotFound)
-			defaultIndex = 0U;
-		[displayPluginsArrayController setSelectionIndex:defaultIndex];
+	if ([plugins count] > 0U)
 		[self reloadDisplayPluginView];
-	} else {
+	else
 		[self loadViewForDisplay:nil];
-	}
 }
 
 - (BOOL) growlIsRunning {
@@ -606,16 +598,16 @@
 	NSString *path = [ticket path];
 
 	if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
-		NSNumber *pidValue = [[NSNumber alloc] initWithInt:pid];
-		NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[ticket applicationName], @"TicketName",
-			pidValue,                 @"pid",
-			nil];
-		[pidValue release];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
-																	   object:@"GrowlTicketDeleted"
-																	 userInfo:userInfo];
-		[userInfo release];
+		CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
+		CFStringRef keys[2] = { CFSTR("TicketName"), CFSTR("pid") };
+		CFTypeRef   values[2] = { [ticket applicationName], pidValue };
+		CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+		CFRelease(pidValue);
+		CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+											 (CFStringRef)GrowlPreferencesChanged,
+											 CFSTR("GrowlTicketDeleted"),
+											 userInfo, false);
+		CFRelease(userInfo);
 		unsigned idx = [tickets indexOfObject:ticket];
 		CFArrayRemoveValueAtIndex(images, idx);
 
@@ -640,9 +632,11 @@
 
 #pragma mark "Network" tab pane
 
-- (IBAction) showPreview:(id) sender {
+- (IBAction) showPreview:(id)sender {
 #pragma unused(sender)
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreview object:currentPlugin];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+										 (CFStringRef)GrowlPreview,
+										 currentPlugin, NULL, false);
 }
 
 - (void) loadViewForDisplay:(NSString *)displayName {

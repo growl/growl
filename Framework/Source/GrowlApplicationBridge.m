@@ -315,10 +315,10 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			}
 
 			//Post to Growl via NSDistributedNotificationCenter
-			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
-																		   object:nil
-																		 userInfo:userInfo
-															   deliverImmediately:NO];
+			CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+												 (CFStringRef)GROWL_NOTIFICATION,
+												 NULL, (CFDictionaryRef)userInfo,
+												 false);
 		}
 	} else {
 #ifdef GROWL_WITH_INSTALLER
@@ -559,14 +559,13 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		[delegate growlIsReady];
 
 	//Post a notification locally
-	[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_IS_READY
-														object:nil];
-
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+										 (CFStringRef)GROWL_IS_READY,
+										 NULL, NULL, false);
+	
 	//Stop observing for GROWL_IS_READY
-	NSDistributedNotificationCenter *distCenter = [NSDistributedNotificationCenter defaultCenter];
-	[distCenter removeObserver:self
-						  name:GROWL_IS_READY
-						object:nil];
+	CFNotificationCenterRef distCenter = CFNotificationCenterGetDistributedCenter();
+	CFNotificationCenterRemoveObserver(distCenter, self, (CFStringRef)GROWL_IS_READY, NULL);
 
 	//register (fixes #102: this is necessary if we got here by Growl having just been installed)
 	if (registerWhenGrowlIsReady) {
@@ -594,10 +593,9 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		} else {
 			//Post to Growl via NSDistributedNotificationCenter
 			NSLog(@"GrowlApplicationBridge: could not find local GrowlApplicationBridgePathway, falling back to NSDistributedNotificationCenter");
-			[distCenter postNotificationName:GROWL_NOTIFICATION
-									  object:nil
-									userInfo:noteDict
-						  deliverImmediately:NO];
+			CFNotificationCenterPostNotification(distCenter,
+												 (CFStringRef)GROWL_NOTIFICATION,
+												 NULL, noteDict, false);
 		}
 	}
 

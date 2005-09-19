@@ -68,14 +68,17 @@ static NSMutableDictionary *notificationsByIdentifier;
 		theFrame.origin.y = space.origin.y - space.size.height - GrowlSmokePadding;
 		//NSLog(@"New origin: (%f, %f)\n", theFrame.origin.x, theFrame.origin.y);
 		[window setFrame:theFrame display:NO animate:YES];
-		NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:uid];
-		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
-			idValue, @"ID",
-			[NSValue valueWithRect:theFrame], @"Space",
-			nil];
-		[idValue release];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"Clear Space" object:nil userInfo:dict];
-		[dict release];
+		CFNumberRef idValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &uid);
+		CFStringRef keys[2] = { CFSTR("ID"), CFSTR("Space") };
+		CFTypeRef   values[2] = { idValue, [NSValue valueWithRect:theFrame] };
+		CFDictionaryRef dict = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+		CFRelease(idValue);
+		CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+											 CFSTR("Clear Space"),
+											 /*object*/ NULL,
+											 /*userInfo*/ dict,
+											 /*deliverImmediately*/ false);
+		CFRelease(dict);
 	}
 }
 
@@ -182,19 +185,21 @@ static NSMutableDictionary *notificationsByIdentifier;
 			displayDuration = gMinDisplayTime;
 		}*/
 
-		NSNumber *idValue = [[NSNumber alloc] initWithUnsignedInt:uid];
-		NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:
-			idValue, @"ID",
-			[NSValue valueWithRect:[[self window] frame]], @"Space",
-			nil];
-		[idValue release];
-		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-		[nc postNotificationName:@"Clear Space" object:nil userInfo:dict];
-		[dict release];
-		[nc addObserver:self
-			   selector:@selector(clearSpace:)
-				   name:@"Clear Space"
-				 object:nil];
+		CFNumberRef idValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &uid);
+		CFStringRef keys[2] = { CFSTR("ID"), CFSTR("Space") };
+		CFTypeRef   values[2] = { idValue, [NSValue valueWithRect:[[self window] frame]] };
+		CFDictionaryRef dict = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+		CFRelease(idValue);
+		CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+											 CFSTR("Clear Space"),
+											 /*object*/ NULL,
+											 /*userInfo*/ dict,
+											 /*deliverImmediately*/ false);
+		CFRelease(dict);
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(clearSpace:)
+													 name:@"Clear Space"
+												   object:nil];
 
 		if (identifier) {
 			if (!notificationsByIdentifier)

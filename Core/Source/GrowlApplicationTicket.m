@@ -246,16 +246,18 @@
 
 - (void) synchronize {
 	[self saveTicket];
-	NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
-	NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-		appName, @"TicketName",
-		pid,     @"pid",
-		nil];
-	[pid release];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GrowlPreferencesChanged
-																   object:@"GrowlTicketChanged"
-																 userInfo:userInfo];
-	[userInfo release];
+	int pid = getpid();
+	CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
+	CFStringRef keys[2] = { CFSTR("TicketName"), CFSTR("pid") };
+	CFTypeRef   values[2] = { appName, pidValue };
+	CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+	CFRelease(pidValue);
+	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+										 (CFStringRef)GrowlPreferencesChanged,
+										 /*object*/ CFSTR("GrowlTicketChanged"),
+										 /*userInfo*/ userInfo,
+										 /*deliverImmediately*/ false);
+	CFRelease(userInfo);
 }
 
 #pragma mark -

@@ -57,6 +57,9 @@ compile:
 clean:
 	rm -rf $(BUILD_DIR)
 
+realclean: clean
+	../build.sh clean
+
 source:
 	rm -rf $(BUILD_DIR)/source
 	mkdir $(BUILD_DIR)/source

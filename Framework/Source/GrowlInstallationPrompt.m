@@ -333,7 +333,11 @@ static BOOL checkOSXVersion(void) {
 				/*Kill the running GrowlHelperApp if necessary by asking it via
 				 *	DNC to shutdown.
 				 */
-				[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_SHUTDOWN object:nil];
+				CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+													 GROWL_SHUTDOWN,
+													 /*object*/ NULL,
+													 /*userInfo*/ NULL,
+													 /*deliverImmediately*/ false);
 
 				//tell GAB to register when GHA next launches.
 				[GrowlApplicationBridge setWillRegisterWhenGrowlIsReady:YES];

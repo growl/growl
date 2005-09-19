@@ -54,15 +54,21 @@
 
 
 - (void) startFadeIn {
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlFadeInWindowTransitionWillStart
-														object:self];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+										 (CFStringRef)GrowlFadeInWindowTransitionWillStart,
+										 /*object*/ self,
+										 /*userInfo*/ NULL,
+										 /*deliverImmediately*/ false);
 	fadeAction = GrowlFadeIn;
 	[super startAnimation];
 }
 
 - (void) startFadeOut {
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlFadeOutWindowTransitionWillStart
-														object:self];
+	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+										 (CFStringRef)GrowlFadeOutWindowTransitionWillStart,
+										 /*object*/ self,
+										 /*userInfo*/ NULL,
+										 /*deliverImmediately*/ false);
 	fadeAction = GrowlFadeOut;
 	[super startAnimation];
 }
@@ -74,12 +80,18 @@
 	if (FLOAT_EQ([self currentProgress], 1.0f)) {
 		switch (fadeAction) {
 			case GrowlFadeIn:
-				[[NSNotificationCenter defaultCenter] postNotificationName:GrowlFadeInWindowTransitionDidEnd
-																	object:self];
+				CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+													 (CFStringRef)GrowlFadeInWindowTransitionDidEnd,
+													 /*object*/ self,
+													 /*userInfo*/ NULL,
+													 /*deliverImmediately*/ false);
 				break;
 			case GrowlFadeOut:
-				[[NSNotificationCenter defaultCenter] postNotificationName:GrowlFadeOutWindowTransitionDidEnd
-																	object:self];
+				CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
+													 (CFStringRef)GrowlFadeOutWindowTransitionDidEnd,
+													 /*object*/ self,
+													 /*userInfo*/ NULL,
+													 /*deliverImmediately*/ false);
 				break;
 			default:
 				break;
