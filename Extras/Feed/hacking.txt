@@ -1,40 +1,130 @@
 FeedLibrary
 	
-	This is the top level object that manages the rest of the model objects (Feeds and Articles). The feedRoot
-	instance variable is an NSMutableDictionary that represents everything that will be written to disk and
-	it has the following top level keys (constants defined at top of FeedLibrary.m):
+	Data Storage
+		This is the top level object that manages the rest of the model objects (Feeds and Articles). The feedRoot
+		instance variable is an NSMutableDictionary that represents everything that will be written to disk and
+		it has the following top level keys (constants defined at top of FeedLibrary.m):
+			
+			LibraryFeedRoot
+				This is master storage for all 'items' in the library. Items are the opaque storage mechanism
+				used to store Feeds, Folders and Articles in the source NSOutlineView. More on items below.
+				
+			LibrarySourceIndex
+				This is a simple shortcut dictionary that maps from source URL directly to the Feed object in
+				the LibraryFeedRoot
+				
+			LibraryVersion
+				Version number for the library. This only changes when the on-disk archive is no longer backwards
+				compatible, and is still sitting at 1.
+				
+			LibraryActiveFeedItems
+				This is a shortcut array into LibraryFeedRoot that tracks the currently selected items.
+				
+			LibraryActiveArticles
+				This is a shortcut array that holds the currently visible articles based on the selection in
+				LibraryActiveFeedItems.
+				
+			LibraryActiveArticleIndex
+				This is the index of the currently selected article in LibraryActiveArticles. In the case
+				of multiple selection, this is set to NSNotFound (ie, there IS no active article when there
+				is a multiple selection)
+				
+			LibraryDeletedArticleKeys
+				These are articles that have been deleted, but are still visible in currently downloaded sources.
+				This is used to suppress re-adding articles that the user has deleted when updating a source.
+				
+			LibraryItemKeyIndex
+				This is a shortcut map of unique item keys to their corresponding item in the LibraryFeedRoot.
+				
+			LibrarySelectedArticles
+				This doesn't seem to be used at the moment. It was used before I started storing the currently
+				selected articles directly in the items themselves, and appears to now be a relic.
+	
+	Items
+		An item is used to encapsulate something that can be stored in the Library. This is currently limited
+		to a Feed, an Article or a Folder. Feed and Article items are pointers to the underlying model objects
+		while Folders are implemented entirely as items.
 		
-		LibraryFeedRoot
-			This is master storage for all 'items' in the library. Items are the opaque storage mechanism
-			used to store Feeds, Folders and Articles in the source NSOutlineView. More on items below.
+		Items are designed to be opaque, but are currently NSMutableDictionaries with different keys for the
+		different types of objects they can represent.
 			
-		LibrarySourceIndex
-			This is a simple shortcut dictionary that maps from source URL directly to the Feed object in
-			the LibraryFeedRoot
+			Common Keys
+				TreeItemType
+					This must be one of TreeItemTypeFolder, TreeItemTypeFeed or TreeItemTypeArticle and
+					determines which of the other properties are available.
+				
+				TreeItemActiveArticle
+					Indicates which article is currently selected for the current item. In the case of
+					Article Items, this is the article itself. In the case of multiple selection, this is
+					set to NSNotFound. This is used to remember the current article for each sub-tree
+					in the source drawer.
+					
+				TreeItemParent
+					Reverse link to the items parent. This may actually be causing problems with deleting
+					items by keeping circular references. I don't like it anyway as an item shouldn't
+					require knowing it's parent...
+					
+				TreeItemKey
+					Every item has a unique key. In the case of Feed and Article items, it's the unique
+					ID generated from the model objects themselves. For a folder, it's a random string
+					generated at creationtime.
+				
+			Folder Items
+				TreeItemName
+					This is the name of the folder. For the other item types, the nameForItem: method
+					asks the represented object for the name.
+				
+				TreeChildArray
+					Array of child items.
+					
+			Feed Items
 			
-		LibraryVersion
-			Version number for the library. This only changes when the on-disk archive is no longer backwards
-			compatible, and is still sitting at 1.
+				TreeFeedObject
+					The Feed object that this item represents. Most of the item API calls through to
+					this object for Feed items.
 			
-		LibraryActiveFeedItems
-			This is a shortcut array into LibraryFeedRoot that tracks the currently selected items.
+			Article Items
 			
-		LibraryActiveArticles
-			This is a shortcut array that holds the currently visible articles based on the selection in
-			LibraryActiveFeedItems.
-			
-		LibraryActiveArticleIndex
-			This is the index of the currently selected article in LibraryActiveArticles. In the case
-			of multiple selection, this is set to NSNotFound (ie, there IS no active article when there
-			is a multiple selection)
-			
-		LibraryDeletedArticleKeys
-			These are articles that have been deleted, but are still visible in currently downloaded sources.
-			This is used to suppress re-adding articles that the user has deleted when updating a source.
-			
-		LibraryItemKeyIndex
-			This is a shortcut map of unique item keys to their corresponding item in the LibraryFeedRoot.
-			
-		LibrarySelectedArticles
-			This doesn't seem to be used at the moment. It was used before I started storing the currently
-			selected articles directly in the items themselves, and appears to now be a relic.
+				TreeArticleObject
+					The Article object that this item represents. Most of the item API calls through to
+					this object for Article items.
+		
+		Now that you know how items are structured, you must never use them directly. The following calls
+		are provided in the FeedLibrary object for managing items in an opaque manner:
+		
+			-(Article *)activeArticleForItem:(id)item;
+			-(void)setActiveArticle:(Article *)article forItem:(id)item;
+
+			-(NSString *)typeForItem:(id)item;
+			-(BOOL)isFolderItem:(id)item;
+			-(BOOL)isFeedItem:(id)item;
+			-(BOOL)isArticleItem:(id)item;
+
+			-(BOOL)isItem:(id)item1 descendentOfItem:(id)item2;
+
+			-(id)newFolderNamed:(NSString *)name inItem:(id)item atIndex:(int)index;
+			-(id)newFeed:(Feed *)feed inItem:(id)item atIndex:(int)index;
+			-(id)newArticle:(Article *)article inItem:(id)item atIndex:(int)index;
+
+			-(void)removeItem:(id)item;
+			-(void)removeItem:(id)item fromItem:(id)parentItem;
+			-(void)moveItem:(id)item toParent:(id)parent index:(int)index;
+
+			-(NSString *)nameForItem:(id)item;
+			-(NSString *)keyForItem:(id)item;
+			-(id)itemForKey:(NSString *)key;
+			-(void)setName:(NSString *)name forItem:(id)item;
+			-(Feed *)feedForItem:(id)item;
+			-(Article *)articleForItem:(id)item;
+
+			-(id)child:(int)index ofItem:(id)item;
+			-(BOOL)hasChildren:(id)item;
+			-(int)childCountOfItem:(id)item;
+
+
+FeedReader
+	
+	The FeedReader class is an abstract superclass that encapsulates most of the URL fetching and parsing work
+	for downloading feeds.
+	
+	
