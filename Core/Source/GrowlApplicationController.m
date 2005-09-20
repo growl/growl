@@ -20,7 +20,6 @@
 #import "NSStringAdditions.h"
 #import "GrowlDisplayProtocol.h"
 #import "GrowlPluginController.h"
-#import "GrowlApplicationBridge.h"
 #import "GrowlStatusController.h"
 #import "GrowlDefines.h"
 #import "GrowlVersionUtilities.h"
@@ -153,7 +152,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 		CFStringRef file = (CFStringRef)[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
 		CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, file, kCFURLPOSIXPathStyle, false);
-		NSDictionary *defaultDefaults = createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
+		NSDictionary *defaultDefaults = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
 		CFRelease(fileURL);
 		if (defaultDefaults) {
 			[preferences registerDefaults:defaultDefaults];
@@ -398,7 +397,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			@try {
 				NSDistantObject *theProxy = [connection rootProxy];
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-				NSProxy <GrowlNotificationProtocol> *growlProxy = (id<GrowlNotificationProtocol>)theProxy;
+				NSProxy <GrowlNotificationProtocol> *growlProxy = (NSProxy <GrowlNotificationProtocol> *)theProxy;
 				[growlProxy performSelector:forwardMethod withObject:dict];
 			} @catch (NSException *e) {
 				if ([[e name] isEqualToString:@"NSFailedAuthenticationException"]) {
@@ -755,7 +754,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 	if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
 		CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)filename, kCFURLPOSIXPathStyle, false);
-		NSDictionary *regDict = createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
+		NSDictionary *regDict = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
 		CFRelease(fileURL);
 
 		/*GrowlApplicationBridge 0.6 communicates registration to Growl by

@@ -6,10 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GrowlApplicationBridge.h"
 
 @class GrowlPreferencesController, NSStatusItem;
 
-@interface GrowlMenu : NSObject {
+@interface GrowlMenu : NSObject <GrowlApplicationBridgeDelegate> {
 	int							pid;
 	GrowlPreferencesController	*preferences;
 	NSStatusItem				*statusItem;

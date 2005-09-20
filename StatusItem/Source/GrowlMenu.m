@@ -10,7 +10,7 @@
 #import "GrowlPreferencesController.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlPluginController.h"
-#import "GrowlApplicationBridge.h"
+#include <unistd.h>
 
 #define kRestartGrowl                NSLocalizedString(@"Restart Growl", @"")
 #define kRestartGrowlTooltip         NSLocalizedString(@"Restart Growl", @"")
@@ -46,7 +46,7 @@ int main(void) {
 
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification {
 #pragma unused(aNotification)
-	pid = [[NSProcessInfo processInfo] processIdentifier];
+	pid = getpid();
 	preferences = [GrowlPreferencesController sharedController];
 
 	NSMenu *m = [self createMenu];
@@ -90,13 +90,13 @@ int main(void) {
 }
 
 - (NSDictionary *) registrationDictionaryForGrowl {
-	NSArray *notifications = [[NSArray alloc] initWithObjects:
-		@"Display changed", nil];
+	CFStringRef notificationName = CFSTR("Display changed");
+	CFArrayRef notifications = CFArrayCreate(kCFAllocatorDefault, (const void **)&notificationName, 1, &kCFTypeArrayCallBacks);
 	NSDictionary *registrationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-		notifications, GROWL_NOTIFICATIONS_ALL,
-		notifications, GROWL_NOTIFICATIONS_DEFAULT,
+		(id)notifications, GROWL_NOTIFICATIONS_ALL,
+		(id)notifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
-	[notifications release];
+	CFRelease(notifications);
 
 	return registrationDictionary;
 }
@@ -146,17 +146,13 @@ int main(void) {
 	NSString *pluginName = [sender title];
 	[preferences setDefaultDisplayPluginName:pluginName];
 
-	NSString *description = [[NSString alloc] initWithFormat:kDefaultDisplayChanged, pluginName];
-	NSDictionary *feedbackDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-		@"GrowlMenu",       GROWL_APP_NAME,
-		@"Display changed", GROWL_NOTIFICATION_NAME,
-		@"Display changed", GROWL_NOTIFICATION_TITLE,
-		description,        GROWL_NOTIFICATION_DESCRIPTION,
-		pluginName,         GROWL_DISPLAY_PLUGIN,
-		nil];
-	[description release];
-	[GrowlApplicationBridge notifyWithDictionary:feedbackDictionary];
-	[feedbackDictionary release];
+	CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, (CFStringRef)kDefaultDisplayChanged, pluginName);
+	const NSString *keys[5] = { GROWL_APP_NAME, GROWL_NOTIFICATION_NAME, GROWL_NOTIFICATION_TITLE, GROWL_NOTIFICATION_DESCRIPTION, GROWL_DISPLAY_PLUGIN };
+	const CFStringRef values[5] = { CFSTR("GrowlMenu"), CFSTR("Display changed"), CFSTR("Display changed"), description, (CFStringRef)pluginName };
+	CFDictionaryRef feedbackDictionary = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 5, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+	CFRelease(description);
+	[GrowlApplicationBridge notifyWithDictionary:(NSDictionary *)feedbackDictionary];
+	CFRelease(feedbackDictionary);
 }
 
 - (void) stopGrowl:(id)sender {

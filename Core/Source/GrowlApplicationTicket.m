@@ -152,7 +152,7 @@
 
 - (id) initTicketFromPath:(NSString *) ticketPath {
 	CFURLRef ticketURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)ticketPath, kCFURLPOSIXPathStyle, false);
-	NSDictionary *ticketDict = createPropertyListFromURL((NSURL *)ticketURL, kCFPropertyListImmutable, NULL, NULL);
+	NSDictionary *ticketDict = (NSDictionary *)createPropertyListFromURL((NSURL *)ticketURL, kCFPropertyListImmutable, NULL, NULL);
 	CFRelease(ticketURL);
 	if (!ticketDict) {
 		NSLog(@"Tried to init a ticket from this file, but it isn't a ticket file: %@", ticketPath);
