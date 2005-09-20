@@ -7,10 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Growl/Growl.h>
 
 @class JKPreferencesController, JKServiceManager;
 
-@interface JKMenuController : NSObject {
+@interface JKMenuController : NSObject <GrowlApplicationBridgeDelegate> {
 	IBOutlet JKPreferencesController *prefs;
 	JKServiceManager *serviceManager;
 

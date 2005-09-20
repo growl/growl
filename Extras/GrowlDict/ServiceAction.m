@@ -29,25 +29,23 @@
 //
 
 #import "ServiceAction.h"
-#import <Growl/Growl.h>
 
 static NSString *definitionNotificationName = @"GrowlDict-Definition";
 
 @implementation ServiceAction
 
-- (id)init {
-	self = [super init];
-	if(self){
+- (id) init {
+	if((self = [super init])){
 		[GrowlApplicationBridge setGrowlDelegate:self];
 	}
 	return self;
 }
 
-- (NSString*)applicationNameForGrowl {
+- (NSString *) applicationNameForGrowl {
 	return @"GrowlDict";
 }
 
-- (NSDictionary*)registrationDictionaryForGrowl {
+- (NSDictionary *) registrationDictionaryForGrowl {
 	NSArray *objects = [NSArray arrayWithObject:definitionNotificationName];
 	NSDictionary *growlReg = [NSDictionary dictionaryWithObjectsAndKeys:
 		@"GrowlDict", GROWL_APP_NAME,

@@ -9,7 +9,6 @@
 #import "JKMenuController.h"
 #import "JKPreferencesController.h"
 #import "JKServiceManager.h"
-#import <Growl/Growl.h>
 #include "CFGrowlAdditions.h"
 #include <sys/socket.h>
 #include <netinet/in.h>

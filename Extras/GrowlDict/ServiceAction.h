@@ -28,5 +28,7 @@
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
-@interface ServiceAction : NSObject
+#import <Growl/Growl.h>
+
+@interface ServiceAction : NSObject <GrowlApplicationBridgeDelegate>
 @end

@@ -69,7 +69,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 95AE26FB085C443700271F5F /* Growl.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 9560BF4D086DC4F800A173B1 /* Growl.framework */;
+			remoteGlobalIDString = 9560BF4D086DC4F800A173B1;
 			remoteInfo = Growl.framework;
 		};
 		95AE270D085C443700271F5F /* PBXContainerItemProxy */ = {
