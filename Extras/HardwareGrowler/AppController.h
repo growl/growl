@@ -25,8 +25,9 @@ void AppController_syncFinished(void);
 #ifdef __OBJC__
 
 #import <Foundation/Foundation.h>
+#import <Growl/Growl.h>
 
-@interface AppController : NSObject {
+@interface AppController : NSObject <GrowlApplicationBridgeDelegate> {
 }
 
 - (IBAction) doSimpleHelp:(id)sender;

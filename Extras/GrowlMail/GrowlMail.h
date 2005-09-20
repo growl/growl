@@ -27,9 +27,10 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import <Growl/Growl.h>
 #import "MailHeaders.h"
 
-@interface GrowlMail : MVMailBundle
+@interface GrowlMail : MVMailBundle <GrowlApplicationBridgeDelegate>
 {
 	NSLock              *queueLock;
 	NSLock              *messagesLock;

@@ -140,19 +140,19 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	BOOL foundIt = NO;
 
 	NSEnumerator *e = [loginItems objectEnumerator];
-	NSDictionary *item;
-	while ((item = [e nextObject])) {
+	CFDictionaryRef item;
+	while ((item = (CFDictionaryRef)[e nextObject])) {
 		/*first compare by alias.
 		 *we do this by converting to URL and comparing those.
 		 */
-		NSData *thisAliasData = getObjectForKey(item, @"AliasData");
+		NSData *thisAliasData = (NSData *)CFDictionaryGetValue(item, CFSTR("AliasData"));
 		if (thisAliasData) {
 			NSURL *thisURL = createFileURLWithAliasData(thisAliasData);
 			foundIt = [thisURL isEqual:urlToGHA];
 			[thisURL release];
 		} else {
 			//nope, not the same alias. try comparing by path.
-			NSString *thisPath = [getObjectForKey(item, @"Path") stringByExpandingTildeInPath];
+			NSString *thisPath = [(NSString *)CFDictionaryGetValue(item, CFSTR("Path")) stringByExpandingTildeInPath];
 			foundIt = (thisPath && [thisPath isEqualToString:pathToGHA]);
 		}
 
@@ -199,20 +199,20 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	BOOL			foundOne = NO;
 
 	for (unsigned i = 0U; i < [loginItems count];) {
-		NSDictionary	*item = [loginItems objectAtIndex:i];
+		CFDictionaryRef	item = (CFDictionaryRef)[loginItems objectAtIndex:i];
 		BOOL			thisIsUs = NO;
 
 		/*first compare by alias.
 		*we do this by converting to URL and comparing those.
 		*/
-		NSString *thisPath = [getObjectForKey(item, @"Path") stringByExpandingTildeInPath];
-		NSData *thisAliasData = getObjectForKey(item, @"AliasData");
+		NSString *thisPath = [(NSString *)CFDictionaryGetValue(item, CFSTR("Path")) stringByExpandingTildeInPath];
+		NSData *thisAliasData = (NSData *)CFDictionaryGetValue(item, CFSTR("AliasData"));
 		if (thisAliasData) {
 			NSURL *thisURL = createFileURLWithAliasData(thisAliasData);
 			thisIsUs = [thisURL isEqual:url];
 		} else {
 			//nope, not the same alias. try comparing by path.
-			/*NSString **/thisPath = [getObjectForKey(item, @"Path") stringByExpandingTildeInPath];
+			/*NSString **/thisPath = [(NSString *)CFDictionaryGetValue(item, CFSTR("Path")) stringByExpandingTildeInPath];
 			thisIsUs = (thisPath && [thisPath isEqualToString:path]);
 		}
 

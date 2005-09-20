@@ -131,7 +131,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 9560BF4D086DC4F800A173B1 /* Growl.framework */;
+			remoteGlobalIDString = 9560BF4D086DC4F800A173B1;
 			remoteInfo = Growl.framework;
 		};
 		95AC231808563965006241FD /* PBXContainerItemProxy */ = {
@@ -643,12 +643,12 @@
 					ProjectRef = 0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */;
 				},
 				{
-					ProductGroup = 95E4A3030855C13D006B3F45 /* Products */;
-					ProjectRef = 0A8B5F08070B140300593A33 /* GrowlTunes-Amazon.xcodeproj */;
-				},
-				{
 					ProductGroup = 95AC230808563965006241FD /* Products */;
 					ProjectRef = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
+				},
+				{
+					ProductGroup = 95E4A3030855C13D006B3F45 /* Products */;
+					ProjectRef = 0A8B5F08070B140300593A33 /* GrowlTunes-Amazon.xcodeproj */;
 				},
 				{
 					ProductGroup = 95E4A31B0855C14E006B3F45 /* Products */;

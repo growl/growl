@@ -34,7 +34,6 @@
 //
 
 #import "GrowlMail.h"
-#import <Growl/Growl.h>
 
 #define MODE_AUTO		0
 #define MODE_SINGLE		1

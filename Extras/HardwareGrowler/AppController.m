@@ -1,4 +1,3 @@
-#import <Growl/Growl.h>
 #import "AppController.h"
 #include <IOKit/IOKitLib.h>
 #include <IOKit/IOMessage.h>

@@ -28,6 +28,8 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
+#import <Growl/Growl.h>
+
 @protocol GrowlTunesPluginArchive;
 
 typedef enum {
@@ -37,7 +39,7 @@ typedef enum {
 	itUNKNOWN
 } iTunesState;
 
-@interface GrowlTunesController : NSObject {
+@interface GrowlTunesController : NSObject <GrowlApplicationBridgeDelegate> {
 	NSTimer				*pollTimer;
 	NSAppleScript		*pollScript;
 	NSAppleScript		*getInfoScript;

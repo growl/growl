@@ -30,7 +30,6 @@
 
 #import "GrowlTunesController.h"
 #import "GrowlTunesPlugin.h"
-#import <Growl/Growl.h>
 #import "NSWorkspaceAdditions.h"
 
 @interface NSString (GrowlTunesMultiplicationAdditions)
