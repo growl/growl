@@ -642,6 +642,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[self setWindowTitle];
 	if( ! isUpdating ){ [[NSApp delegate] updateDockIcon]; }
 	[articleTableView selectRow: [feedLibrary activeArticleIndex] byExtendingSelection: NO];
+	
+	// send growl notification
 }
 
 #pragma mark-

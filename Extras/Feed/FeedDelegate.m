@@ -39,6 +39,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #import "Prefs.h"
 #import "OPMLReader.h"
 #import "Feed.h"
+#import <Growl/GrowlApplicationBridge.h>
 
 #import <Foundation/NSDebug.h>
 
@@ -84,6 +85,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     ];
 	*/
 	updateTimer = [NSTimer scheduledTimerWithTimeInterval: 60.0 target: self selector:@selector(updateTickle:) userInfo: nil repeats: YES];
+	
+	
+	[[NSNotificationCenter defaultCenter] addObserver: self
+		selector: @selector(feedUpdateFinished:)
+		name:FeedUpdateFinishedNotification object: nil
+	];
+	
+	[GrowlApplicationBridge setGrowlDelegate: self];
+	
 }
 
 -(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender{
@@ -372,6 +382,41 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(IBAction)openBugPage:(id)sender{
 #pragma unused(sender)
 	[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: @"http://keeto.net/feed/index.html?section=bugs"]];
+}
+
+#pragma mark -
+#pragma mark Growl Support
+- (NSDictionary *) registrationDictionaryForGrowl{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+		[NSArray arrayWithObjects:
+			@"FeedNewArticles",
+		nil], GROWL_NOTIFICATIONS_ALL,
+		
+		[NSArray arrayWithObjects:
+			@"FeedNewArticles",
+		nil], GROWL_NOTIFICATIONS_DEFAULT,
+	nil];
+}
+
+-(NSString *)applicationNameForGrowl{
+	return @"Feed";
+}
+
+-(void)feedUpdateFinished:(NSNotification *)notification{
+	NSDictionary *					userInfo = [notification userInfo];
+	
+	if( [userInfo objectForKey:@"NewArticleCount"] && [[userInfo objectForKey:@"NewArticleCount"] intValue]){
+		[GrowlApplicationBridge notifyWithTitle: @"New Articles"
+			description: [NSString stringWithFormat: @"You have %@ new articles", 
+				[userInfo objectForKey:@"NewArticleCount"]
+			]
+			notificationName: @"FeedNewArticles"
+			iconData: nil
+			priority: 0.0
+			isSticky: NO
+			clickContext: nil
+		];
+	}
 }
 
 @end

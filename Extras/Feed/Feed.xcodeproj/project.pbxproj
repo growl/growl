@@ -51,6 +51,8 @@
 		53D5FDFD06D7A144008F1DFB /* RSSReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FDFB06D7A144008F1DFB /* RSSReader.m */; };
 		53D5FE0506D7A165008F1DFB /* AtomReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FE0306D7A165008F1DFB /* AtomReader.m */; };
 		53D5FE0F06D7A1ED008F1DFB /* FeedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FE0D06D7A1ED008F1DFB /* FeedReader.m */; };
+		53E6226A08E27A7800519CE7 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E6226908E27A7800519CE7 /* Growl.framework */; };
+		53E6227408E27A9B00519CE7 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 53E6226908E27A7800519CE7 /* Growl.framework */; };
 		53E7263006D564E3001555CB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E7262F06D564E3001555CB /* WebKit.framework */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -83,6 +85,19 @@
 			name = Deployment;
 		};
 /* End PBXBuildStyle section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		53E6227208E27A8D00519CE7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				53E6227408E27A9B00519CE7 /* Growl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -161,6 +176,7 @@
 		53D5FE0306D7A165008F1DFB /* AtomReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AtomReader.m; path = Updater/AtomReader.m; sourceTree = SOURCE_ROOT; };
 		53D5FE0C06D7A1ED008F1DFB /* FeedReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedReader.h; path = Updater/FeedReader.h; sourceTree = SOURCE_ROOT; };
 		53D5FE0D06D7A1ED008F1DFB /* FeedReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedReader.m; path = Updater/FeedReader.m; sourceTree = SOURCE_ROOT; };
+		53E6226908E27A7800519CE7 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../../../../Library/Frameworks/Growl.framework; sourceTree = SOURCE_ROOT; };
 		53E7262F06D564E3001555CB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Feed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Feed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +191,7 @@
 				53E7263006D564E3001555CB /* WebKit.framework in Frameworks */,
 				535F3FE106EF74C7001D629D /* libcrypto.dylib in Frameworks */,
 				53249257088AFEEC00CC8430 /* SystemConfiguration.framework in Frameworks */,
+				53E6226A08E27A7800519CE7 /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +288,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				53E6226908E27A7800519CE7 /* Growl.framework */,
 				53249256088AFEEC00CC8430 /* SystemConfiguration.framework */,
 				535F3FE006EF74C7001D629D /* libcrypto.dylib */,
 				53E7262F06D564E3001555CB /* WebKit.framework */,
@@ -387,6 +405,7 @@
 			buildConfigurationList = 53A1B6A508DDEC8100A8519C /* Build configuration list for PBXNativeTarget "Feed" */;
 			buildPhases = (
 				8D1107290486CEB800E47090 /* Resources */,
+				53E6227208E27A8D00519CE7 /* CopyFiles */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 			);
@@ -527,6 +546,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../Build/Deployment",
+					"$(SRCROOT)/../../../../../Library/Frameworks",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -547,6 +570,10 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../Build/Deployment",
+					"$(SRCROOT)/../../../../../Library/Frameworks",
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -563,6 +590,10 @@
 		53A1B6A808DDEC8100A8519C /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../Build/Deployment",
+					"$(SRCROOT)/../../../../../Library/Frameworks",
+				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Feed_Prefix.pch;

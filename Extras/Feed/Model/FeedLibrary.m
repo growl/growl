@@ -810,9 +810,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	//[feedsToUpdate removeAllObjects];
 	isUpdating = NO;
     [self save];
-    [[NSNotificationCenter defaultCenter] postNotificationName:FeedUpdateFinishedNotification object: nil];
-	if( unreadFeedCount < [self unreadCount] ){
-		unreadFeedCount = [self unreadCount];
+	int newUnreadCount = [self unreadCount];
+	
+    [[NSNotificationCenter defaultCenter] postNotificationName:FeedUpdateFinishedNotification object: nil 
+		userInfo: [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithInt: (newUnreadCount - unreadFeedCount)], @"NewArticleCount",
+		nil]
+	];
+	if( unreadFeedCount < newUnreadCount ){
+		unreadFeedCount = newUnreadCount;
 		if(! [[PREFS notificationSoundName] isEqualToString: @""] ){
 			NSSound *			notificationSound = [NSSound soundNamed: [PREFS notificationSoundName]];
 			if( notificationSound ){
