@@ -8,6 +8,7 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #import "GrowlPathUtilities.h"
+#import "GrowlApplicationBridge.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlTicketController.h"
 #import "GrowlDefinesInternal.h"
@@ -19,9 +20,11 @@ static NSBundle *prefPaneBundle;
 #define NAME_OF_TICKETS_DIRECTORY               @"Tickets"
 #define NAME_OF_PLUGINS_DIRECTORY               @"Plugins"
 
+@implementation GrowlPathUtilities
+
 #pragma mark Bundles
 
-NSBundle *GrowlPathUtilities_growlPrefPaneBundle(void) {
++ (NSBundle *) growlPrefPaneBundle {
 	NSArray			*librarySearchPaths;
 	NSString		*path;
 	NSString		*bundleIdentifier;
@@ -103,12 +106,12 @@ NSBundle *GrowlPathUtilities_growlPrefPaneBundle(void) {
 	return nil;
 }
 
-NSBundle *GrowlPathUtilities_helperAppBundle(void) {
++ (NSBundle *) helperAppBundle {
 	if (!helperAppBundle) {
 		helperAppBundle = [NSBundle bundleWithIdentifier:HelperAppBundleIdentifier];
 		if (!helperAppBundle) {
 			//look in the prefpane bundle.
-			NSBundle *bundle = GrowlPathUtilities_growlPrefPaneBundle();
+			NSBundle *bundle = [GrowlPathUtilities growlPrefPaneBundle];
 			NSString *helperAppPath = [bundle pathForResource:@"GrowlHelperApp" ofType:@"app"];
 			helperAppBundle = [NSBundle bundleWithPath:helperAppPath];
 		}
@@ -119,10 +122,10 @@ NSBundle *GrowlPathUtilities_helperAppBundle(void) {
 #pragma mark -
 #pragma mark Directories
 
-NSArray *GrowlPathUtilities_searchPathForDirectoryWritable(GrowlSearchPathDirectory directory, GrowlSearchPathDomainMask domainMask, BOOL mustBeWritable) {
++ (NSArray *) searchPathForDirectory:(GrowlSearchPathDirectory) directory inDomains:(GrowlSearchPathDomainMask) domainMask mustBeWritable:(BOOL)flag {
 	if (directory < GrowlSupportDirectory) {
 		NSArray *searchPath = NSSearchPathForDirectoriesInDomains(directory, domainMask, /*expandTilde*/ YES);
-		if (!mustBeWritable)
+		if (!flag)
 			return searchPath;
 		else {
 			//flag is not NO: exclude non-writable directories.
@@ -131,9 +134,10 @@ NSArray *GrowlPathUtilities_searchPathForDirectoryWritable(GrowlSearchPathDirect
 
 			NSEnumerator *searchPathEnum = [searchPath objectEnumerator];
 			NSString *dir;
-			while ((dir = [searchPathEnum nextObject]))
+			while ((dir = [searchPathEnum nextObject])) {
 				if ([mgr isWritableFileAtPath:dir])
 					[result addObject:dir];
+			}
 
 			return result;
 		}
@@ -186,20 +190,20 @@ NSArray *GrowlPathUtilities_searchPathForDirectoryWritable(GrowlSearchPathDirect
 	}
 }
 
-NSArray *GrowlPathUtilities_searchPathForDirectory(GrowlSearchPathDirectory directory, GrowlSearchPathDomainMask domainMask) {
++ (NSArray *) searchPathForDirectory:(GrowlSearchPathDirectory) directory inDomains:(GrowlSearchPathDomainMask) domainMask {
 	//NO to emulate the default NSSearchPathForDirectoriesInDomains behaviour.
-	return GrowlPathUtilities_searchPathForDirectoryWritable(directory, domainMask, NO);
+	return [self searchPathForDirectory:directory inDomains:domainMask mustBeWritable:NO];
 }
 
-NSString *GrowlPathUtilities_growlSupportDirectory(void) {
-	NSArray *searchPath = GrowlPathUtilities_searchPathForDirectoryWritable(GrowlSupportDirectory, NSUserDomainMask, YES);
++ (NSString *) growlSupportDirectory {
+	NSArray *searchPath = [self searchPathForDirectory:GrowlSupportDirectory inDomains:NSUserDomainMask mustBeWritable:YES];
 	if ([searchPath count])
 		return [searchPath objectAtIndex:0U];
 	else {
 		NSString *path = nil;
 
 		//if this doesn't return any writable directories, path will still be nil.
-		searchPath = GrowlPathUtilities_searchPathForDirectoryWritable(NSLibraryDirectory, NSAllDomainsMask, YES);
+		searchPath = [self searchPathForDirectory:NSLibraryDirectory inDomains:NSAllDomainsMask mustBeWritable:YES];
 		if ([searchPath count]) {
 			path = [[searchPath objectAtIndex:0U] stringByAppendingPathComponent:@"Application Support/Growl"];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
@@ -211,15 +215,15 @@ NSString *GrowlPathUtilities_growlSupportDirectory(void) {
 	}
 }
 
-NSString *GrowlPathUtilities_screenshotsDirectory(void) {
-	NSArray *searchPath = GrowlPathUtilities_searchPathForDirectoryWritable(GrowlScreenshotsDirectory, NSAllDomainsMask, YES);
++ (NSString *) screenshotsDirectory {
+	NSArray *searchPath = [self searchPathForDirectory:GrowlScreenshotsDirectory inDomains:NSAllDomainsMask mustBeWritable:YES];
 	if ([searchPath count])
 		return [searchPath objectAtIndex:0U];
 	else {
 		NSString *path = nil;
 
 		//if this doesn't return any writable directories, path will still be nil.
-		path = GrowlPathUtilities_growlSupportDirectory();
+		path = [self growlSupportDirectory];
 		if (path) {
 			path = [path stringByAppendingPathComponent:NAME_OF_SCREENSHOTS_DIRECTORY];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
@@ -231,15 +235,15 @@ NSString *GrowlPathUtilities_screenshotsDirectory(void) {
 	}
 }
 
-NSString *GrowlPathUtilities_ticketsDirectory(void) {
-	NSArray *searchPath = GrowlPathUtilities_searchPathForDirectoryWritable(GrowlTicketsDirectory, NSAllDomainsMask, YES);
++ (NSString *) ticketsDirectory {
+	NSArray *searchPath = [self searchPathForDirectory:GrowlTicketsDirectory inDomains:NSAllDomainsMask mustBeWritable:YES];
 	if ([searchPath count])
 		return [searchPath objectAtIndex:0U];
 	else {
 		NSString *path = nil;
 
 		//if this doesn't return any writable directories, path will still be nil.
-		path = GrowlPathUtilities_growlSupportDirectory();
+		path = [self growlSupportDirectory];
 		if (path) {
 			path = [path stringByAppendingPathComponent:NAME_OF_TICKETS_DIRECTORY];
 			//try to create it. if that doesn't work, don't return it. return nil instead.
@@ -254,15 +258,15 @@ NSString *GrowlPathUtilities_ticketsDirectory(void) {
 #pragma mark -
 #pragma mark Screenshot names
 
-NSString *GrowlPathUtilities_nextScreenshotName(void) {
-	return GrowlPathUtilities_nextScreenshotNameInDirectory(nil);
++ (NSString *) nextScreenshotName {
+	return [self nextScreenshotNameInDirectory:nil];
 }
 
-NSString *GrowlPathUtilities_nextScreenshotNameInDirectory(NSString *directory) {
++ (NSString *) nextScreenshotNameInDirectory:(NSString *) directory {
 	NSFileManager *mgr = [NSFileManager defaultManager];
 
 	if (!directory)
-		directory = GrowlPathUtilities_screenshotsDirectory();
+		directory = [GrowlPathUtilities screenshotsDirectory];
 
 	//build a set of all the files in the directory, without their filename extensions.
 	NSArray *origContents = [mgr directoryContentsAtPath:directory];
@@ -289,6 +293,8 @@ NSString *GrowlPathUtilities_nextScreenshotNameInDirectory(NSString *directory) 
 #pragma mark -
 #pragma mark Tickets
 
-NSString *GrowlPathUtilities_defaultSavePathForTicketWithApplicationName(NSString *appName) {
-	return [GrowlPathUtilities_ticketsDirectory() stringByAppendingPathComponent:[appName stringByAppendingPathExtension:GROWL_PATHEXTENSION_TICKET]];
++ (NSString *) defaultSavePathForTicketWithApplicationName:(NSString *) appName {
+	return [[self ticketsDirectory] stringByAppendingPathComponent:[appName stringByAppendingPathExtension:GROWL_PATHEXTENSION_TICKET]];
 }
+
+@end

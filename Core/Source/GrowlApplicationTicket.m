@@ -165,24 +165,21 @@
 }
 
 - (id) initTicketForApplication: (NSString *) inApp {
-	return [self initTicketFromPath:[[[GrowlPathUtilities_growlSupportDirectory()
+	return [self initTicketFromPath:[[[[GrowlPathUtilities growlSupportDirectory]
 										stringByAppendingPathComponent:@"Tickets"]
 										stringByAppendingPathComponent:inApp]
 										stringByAppendingPathExtension:@"growlTicket"]];
 }
 
 - (NSString *) path {
-	NSString *destDir;
-	destDir = GrowlPathUtilities_growlSupportDirectory();
+	NSString *destDir = [GrowlPathUtilities growlSupportDirectory];
 	destDir = [destDir stringByAppendingPathComponent:@"Tickets"];
 	destDir = [destDir stringByAppendingPathComponent:[appName stringByAppendingPathExtension:@"growlTicket"]];
 	return destDir;
 }
 
 - (void) saveTicket {
-	NSString *destDir;
-
-	destDir = GrowlPathUtilities_growlSupportDirectory();
+	NSString *destDir = [GrowlPathUtilities growlSupportDirectory];
 	destDir = [destDir stringByAppendingPathComponent:@"Tickets"];
 
 	[self saveTicketToPath:destDir];

@@ -23,6 +23,10 @@ enum {
 };
 typedef NSSearchPathDomainMask GrowlSearchPathDomainMask; //consistency
 
+@interface GrowlPathUtilities : NSObject {
+
+}
+
 #pragma mark Bundles
 
 /*!	@method	growlPrefPaneBundle
@@ -32,7 +36,7 @@ typedef NSSearchPathDomainMask GrowlSearchPathDomainMask; //consistency
  *	@result	The <code>NSBundle</code> for the Growl preference pane if it is
  *	 installed; <code>nil</code> otherwise.
  */
-NSBundle *GrowlPathUtilities_growlPrefPaneBundle(void);
++ (NSBundle *) growlPrefPaneBundle;
 /*!	@method	helperAppBundle
  *	@abstract	Returns the GrowlHelperApp bundle.
  *	@discussion	Searches inside the Growl preference pane, if it is installed,
@@ -40,7 +44,7 @@ NSBundle *GrowlPathUtilities_growlPrefPaneBundle(void);
  *	@result	The <code>NSBundle</code> for GrowlHelperApp if it is present;
  *	 <code>nil</code> otherwise.
  */
-NSBundle *GrowlPathUtilities_helperAppBundle(void);
++ (NSBundle *) helperAppBundle;
 
 #pragma mark Directories
 
@@ -56,7 +60,7 @@ NSBundle *GrowlPathUtilities_helperAppBundle(void);
  *	 expanded: they will always be expanded.
  *	@result	An array of zero or more absolute paths.
  */
-NSArray *GrowlPathUtilities_searchPathForDirectoryWritable(GrowlSearchPathDirectory directory, GrowlSearchPathDomainMask domainMask, BOOL mustBeWritable);
++ (NSArray *) searchPathForDirectory:(GrowlSearchPathDirectory) directory inDomains:(GrowlSearchPathDomainMask) domainMask mustBeWritable:(BOOL)flag;
 /*!	@method	searchPathForDirectory:inDomains:
  *	@abstract	Returns an array of absolute paths to a given directory.
  *	@discussion	This method returns an array of all the directories of a given
@@ -67,14 +71,14 @@ NSArray *GrowlPathUtilities_searchPathForDirectoryWritable(GrowlSearchPathDirect
  *	 expanded: they will always be expanded.
  *	@result	An array of zero or more absolute paths.
  */
-NSArray *GrowlPathUtilities_searchPathForDirectory(GrowlSearchPathDirectory directory, GrowlSearchPathDomainMask domainMask);
++ (NSArray *) searchPathForDirectory:(GrowlSearchPathDirectory) directory inDomains:(GrowlSearchPathDomainMask) domainMask;
 
 /*! @method	growlSupportDirectory
  *	@abstract	Returns the path for Growl's folder inside Application Support.
  *	@discussion	This method creates the folder if it does not already exist.
  *	@result	The path to Growl's support directory.
  */
-NSString *GrowlPathUtilities_growlSupportDirectory(void);
++ (NSString *) growlSupportDirectory;
 
 /*!	@method	screenshotsDirectory
  *	@abstract	Returns the directory where screenshots are to be stored.
@@ -83,7 +87,7 @@ NSString *GrowlPathUtilities_growlSupportDirectory(void);
  *	 the folder if it does not already exist.
  *	@result	The absolute path to the screenshot directory.
  */
-NSString *GrowlPathUtilities_screenshotsDirectory(void);
++ (NSString *) screenshotsDirectory;
 
 /*!	@method	ticketsDirectory
  *	@abstract	Returns the directory where tickets are to be saved.
@@ -92,7 +96,7 @@ NSString *GrowlPathUtilities_screenshotsDirectory(void);
  *	 the folder if it does not already exist.
  *	@result	The absolute path to the ticket directory.
  */
-NSString *GrowlPathUtilities_ticketsDirectory(void);
++ (NSString *) ticketsDirectory;
 
 #pragma mark Screenshot names
 
@@ -112,7 +116,7 @@ NSString *GrowlPathUtilities_ticketsDirectory(void);
  *	 <code>nil</code>.
  *	@result	A valid, non-existing, serial filename for a screenshot.
  */
-NSString *GrowlPathUtilities_nextScreenshotName(void);
++ (NSString *) nextScreenshotName;
 /*!	@method	nextScreenshotNameInDirectory:
  *	@abstract	Returns the name you should use for the next screenshot in a directory.
  *	@discussion	Names returned by this method are currently in the format
@@ -127,7 +131,7 @@ NSString *GrowlPathUtilities_nextScreenshotName(void);
  *	 different filename extension.
  *	@result	A valid, non-existing, serial filename for a screenshot.
  */
-NSString *GrowlPathUtilities_nextScreenshotNameInDirectory(NSString *dirName);
++ (NSString *) nextScreenshotNameInDirectory:(NSString *) dirName;
 
 #pragma mark Tickets
 
@@ -146,4 +150,6 @@ NSString *GrowlPathUtilities_nextScreenshotNameInDirectory(NSString *dirName);
  *	@result	The absolute path to a ticket file, or the ticket directory where a
  *	 ticket file can be saved.
  */
-NSString *GrowlPathUtilities_defaultSavePathForTicketWithApplicationName(NSString *appName);
++ (NSString *) defaultSavePathForTicketWithApplicationName:(NSString *) appName;
+
+@end

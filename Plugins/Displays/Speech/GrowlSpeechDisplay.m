@@ -39,7 +39,7 @@
 	[syn startSpeakingString:desc];
 
 	if (getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)) {
-		NSString *path = [[GrowlPathUtilities_screenshotsDirectory() stringByAppendingPathComponent:GrowlPathUtilities_nextScreenshotName()] stringByAppendingPathExtension:@"aiff"];
+		NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
 		NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
 		[syn startSpeakingString:desc toURL:url];
 		[url release];

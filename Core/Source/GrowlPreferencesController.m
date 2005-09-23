@@ -315,7 +315,7 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 }
 
 - (void) launchGrowl:(BOOL)noMatterWhat {
-	NSString *helperPath = [GrowlPathUtilities_helperAppBundle() bundlePath];
+	NSString *helperPath = [[GrowlPathUtilities helperAppBundle] bundlePath];
 	NSURL *helperURL = [NSURL fileURLWithPath:helperPath];
 
 	unsigned options = NSWorkspaceLaunchWithoutAddingToRecents | NSWorkspaceLaunchWithoutActivation | NSWorkspaceLaunchAsync;

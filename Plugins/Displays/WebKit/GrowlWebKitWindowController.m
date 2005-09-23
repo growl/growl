@@ -323,7 +323,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 - (void) takeScreenshot {
 	NSView *view = [[[[self window] contentView] mainFrame] frameView];
-	NSString *path = [[GrowlPathUtilities_screenshotsDirectory() stringByAppendingPathComponent:GrowlPathUtilities_nextScreenshotName()] stringByAppendingPathExtension:@"pdf"];
+	NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"pdf"];
 	[[view dataWithPDFInsideRect:[view frame]] writeToFile:path atomically:NO];
 }
 
