@@ -9,5 +9,8 @@
 		<outline type="rss" xmlUrl="http://slashdot.org/index.rss" />
 		<outline type="rss" xmlUrl="http://rss.cnn.com/rss/cnn_topstories.rss" />
 		<outline type="rss" xmlUrl="http://www.jwz.org/cheesegrater/RSS/apod.rss" />
+		<outline type="rss" xmlUrl="http://www.drunkenblog.com/index.rdf" />
+		<outline type="rss" xmlUrl="http://daringfireball.net/index.xml" />
+		<outline type="rss" xmlUrl="http://rss.slashdot.org/Slashdot/slashdotApple" />
 	</body>
 </opml>
