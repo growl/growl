@@ -14,5 +14,6 @@
 		<outline type="rss" xmlUrl="http://rss.slashdot.org/Slashdot/slashdotApple" />
 		<outline type="rss" xmlUrl="http://www.pbs.org/cringely/pulpit/rss2.xml" />
 		<outline type="rss" xmlUrl="http://planet-im.com/rss20.xml" />
+		<outline type="rss" xmlUrl="http://www.slickdeals.net/rss.php" />
 	</body>
 </opml>
