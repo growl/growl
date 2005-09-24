@@ -53,6 +53,7 @@ compile:
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlWidget
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlTunes
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/Rawr-jour
+	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/Feed
 
 clean:
 	rm -rf $(BUILD_DIR)
