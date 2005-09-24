@@ -55,7 +55,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 
 - (void) takeScreenshot {
 	NSView *view = [[self window] contentView];
-	NSString *path = [[GrowlPathUtilities_screenshotsDirectory() stringByAppendingPathComponent:GrowlPathUtilities_nextScreenshotName()] stringByAppendingPathExtension:@"png"];
+	NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"png"];
 	[[view dataWithPNGInsideRect:[view frame]] writeToFile:path atomically:NO];
 }
 
