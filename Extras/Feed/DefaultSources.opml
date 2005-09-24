@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<outline type="rss" xmlUrl="http://keeto.net/rss.xml?channel_id=8" />
-		<outline type="rss" xmlUrl="http://versiontracker.com/faq/rss/" />
+		<outline type="rss" xmlUrl="http://www.versiontracker.com/macosx/recent.rss" />
 		<outline type="rss" xmlUrl="http://slashdot.org/index.rss" />
 		<outline type="rss" xmlUrl="http://rss.cnn.com/rss/cnn_topstories.rss" />
 		<outline type="rss" xmlUrl="http://www.jwz.org/cheesegrater/RSS/apod.rss" />
