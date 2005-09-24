@@ -615,8 +615,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[self reloadData];
     }
     
-	//KNDebug(@"CONT: generated HTML for display: %@", displayedHTML);
-    //KNDebug(@"baseURL: %@", base);
+    KNDebug(@"baseURL: %@", base);
 	isLoadingDisplay = YES;
 	if( previewCachePath ){
 		[[displayWebView mainFrame] loadRequest: [NSURLRequest requestWithURL: [NSURL fileURLWithPath: previewCachePath]]];
@@ -845,8 +844,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
             currentIndex = [selectedFeeds indexGreaterThanIndex: currentIndex];
         }
         [feedLibrary save];
-		[feedOutlineView deselectAll: self];
 		[self reloadData];
+		[feedOutlineView deselectAll: self];
     }
 }
 
@@ -1494,7 +1493,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	// Set our item in our inspector
 	if( [selectedFeeds count] == 1 ){
-		[inspector setItem: [feedOutlineView itemAtRow: [selectedFeeds firstIndex]]];
+		unsigned int	firstIndex = [selectedFeeds firstIndex];
+		id				item = [feedOutlineView itemAtRow: firstIndex];
+		
+		[inspector setItem: item];
 	}else{
 		[inspector setItem: nil];
 	}

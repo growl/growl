@@ -64,8 +64,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)setItem:(id)anItem;
 
 -(IBAction)feedDataChanged:(id)sender;
-/*
 - (IBAction)feedSourceChanged:(id)sender;
 - (IBAction)folderNameChanged:(id)sender;
-*/
 @end

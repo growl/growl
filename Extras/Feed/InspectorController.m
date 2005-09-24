@@ -198,12 +198,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 }
 
-/*
+
 - (IBAction)feedSourceChanged:(id)sender{
+	#pragma unused(sender)
 }
 
-- (IBAction)folderNameChanged:(id)sender
-{
+- (IBAction)folderNameChanged:(id)sender{
+	#pragma unused(sender)
 }
-*/
+
 @end
