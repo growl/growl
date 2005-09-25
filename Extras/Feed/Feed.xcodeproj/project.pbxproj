@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		531B9BFF08E6282E00F10DE0 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 53AA979A08E6233900DBD86D /* Growl.framework */; };
 		531E429F06D67780007FB45E /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 531E429E06D67780007FB45E /* Credits.html */; };
 		53249257088AFEEC00CC8430 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53249256088AFEEC00CC8430 /* SystemConfiguration.framework */; };
 		53342E3B0864AA9800CA2551 /* Feed.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 5302A8DF06E6758300C753F8 /* Feed.scriptTerminology */; };
@@ -31,6 +32,7 @@
 		53769767082E9C1400B92C57 /* Status.tif in Resources */ = {isa = PBXBuildFile; fileRef = 53769766082E9C1400B92C57 /* Status.tif */; };
 		53A76EA006DEA99700BDD9CE /* NSDictionary+KNExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A76E9E06DEA99700BDD9CE /* NSDictionary+KNExtras.m */; };
 		53AA940F08DDFE1D00DBD86D /* hacking.txt in Resources */ = {isa = PBXBuildFile; fileRef = 53AA940E08DDFE1D00DBD86D /* hacking.txt */; };
+		53AA979B08E6233900DBD86D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AA979A08E6233900DBD86D /* Growl.framework */; };
 		53C8B22506D5541B00B86C7D /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C8B20B06D5541B00B86C7D /* Article.m */; };
 		53C8B22806D5541B00B86C7D /* FeedDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C8B20E06D5541B00B86C7D /* FeedDelegate.m */; };
 		53C8B22906D5541B00B86C7D /* LibraryToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C8B20F06D5541B00B86C7D /* LibraryToolbar.m */; };
@@ -51,8 +53,6 @@
 		53D5FDFD06D7A144008F1DFB /* RSSReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FDFB06D7A144008F1DFB /* RSSReader.m */; };
 		53D5FE0506D7A165008F1DFB /* AtomReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FE0306D7A165008F1DFB /* AtomReader.m */; };
 		53D5FE0F06D7A1ED008F1DFB /* FeedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FE0D06D7A1ED008F1DFB /* FeedReader.m */; };
-		53E6226A08E27A7800519CE7 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E6226908E27A7800519CE7 /* Growl.framework */; };
-		53E6227408E27A9B00519CE7 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 53E6226908E27A7800519CE7 /* Growl.framework */; };
 		53E7263006D564E3001555CB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E7262F06D564E3001555CB /* WebKit.framework */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -93,7 +93,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				53E6227408E27A9B00519CE7 /* Growl.framework in CopyFiles */,
+				531B9BFF08E6282E00F10DE0 /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +142,7 @@
 		53A76E9D06DEA99700BDD9CE /* NSDictionary+KNExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+KNExtras.h"; path = "Extensions/NSDictionary+KNExtras.h"; sourceTree = "<group>"; };
 		53A76E9E06DEA99700BDD9CE /* NSDictionary+KNExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+KNExtras.m"; path = "Extensions/NSDictionary+KNExtras.m"; sourceTree = "<group>"; };
 		53AA940E08DDFE1D00DBD86D /* hacking.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = hacking.txt; sourceTree = "<group>"; };
+		53AA979A08E6233900DBD86D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		53C8B20906D5541B00B86C7D /* FeedOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FeedOutlineView.h; path = CustomViews/FeedOutlineView.h; sourceTree = SOURCE_ROOT; };
 		53C8B20B06D5541B00B86C7D /* Article.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Article.m; path = Model/Article.m; sourceTree = SOURCE_ROOT; };
 		53C8B20C06D5541B00B86C7D /* FeedLibrary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FeedLibrary.h; path = Model/FeedLibrary.h; sourceTree = SOURCE_ROOT; };
@@ -176,7 +177,6 @@
 		53D5FE0306D7A165008F1DFB /* AtomReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AtomReader.m; path = Updater/AtomReader.m; sourceTree = SOURCE_ROOT; };
 		53D5FE0C06D7A1ED008F1DFB /* FeedReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedReader.h; path = Updater/FeedReader.h; sourceTree = SOURCE_ROOT; };
 		53D5FE0D06D7A1ED008F1DFB /* FeedReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedReader.m; path = Updater/FeedReader.m; sourceTree = SOURCE_ROOT; };
-		53E6226908E27A7800519CE7 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../../../../Library/Frameworks/Growl.framework; sourceTree = SOURCE_ROOT; };
 		53E7262F06D564E3001555CB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Feed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Feed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,7 +191,7 @@
 				53E7263006D564E3001555CB /* WebKit.framework in Frameworks */,
 				535F3FE106EF74C7001D629D /* libcrypto.dylib in Frameworks */,
 				53249257088AFEEC00CC8430 /* SystemConfiguration.framework in Frameworks */,
-				53E6226A08E27A7800519CE7 /* Growl.framework in Frameworks */,
+				53AA979B08E6233900DBD86D /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,7 +288,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				53E6226908E27A7800519CE7 /* Growl.framework */,
+				53AA979A08E6233900DBD86D /* Growl.framework */,
 				53249256088AFEEC00CC8430 /* SystemConfiguration.framework */,
 				535F3FE006EF74C7001D629D /* libcrypto.dylib */,
 				53E7262F06D564E3001555CB /* WebKit.framework */,

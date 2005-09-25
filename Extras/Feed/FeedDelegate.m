@@ -299,6 +299,23 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 					[feedLibrary refreshFeed: feed];
 					[feed release];
 				}
+			}else{
+				NSAlert *			alert = [[NSAlert alloc] init];
+				NSButton *			okButton = nil;
+				
+				[alert setMessageText: @"OPML Import Failed"];
+				[alert setInformativeText: [NSString stringWithFormat: 
+					@"Unable to import the OPML file %@: %@", 
+					[file lastPathComponent], 
+					[opml error]]
+				];
+				[alert setAlertStyle: NSInformationalAlertStyle];
+				okButton = [alert addButtonWithTitle:@"OK"];
+				[okButton setTarget: self];
+				[okButton setAction:@selector(cancelDialog:)];
+				
+				[alert runModal];
+				[alert release];
 			}
 			[opml release];
 		}
@@ -329,7 +346,14 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[buffer appendString:@"<opml version=\"1.1\">\n"];
 		[buffer appendString:@"\t<head>\n\t\t<title>Exported Feeds</title>\n\t</head>\n\t<body>\n"];
 		while((feed = [enumerator nextObject])){
-			[buffer appendFormat:@"\t\t<outline type=\"rss\" xmlUrl=\"%@\" />\n", [feed source]];
+			NSMutableString *			escapedString = [NSMutableString stringWithString: [feed source]];
+			
+			// encode any 'illegal' XML characters that could (nay, WILL) end up in our URLs
+			[escapedString replaceOccurrencesOfString:@"&" withString:@"&amp;" options:NSLiteralSearch range:NSMakeRange(0,[escapedString length])];
+			[escapedString replaceOccurrencesOfString:@"<" withString:@"&lt;" options:NSLiteralSearch range:NSMakeRange(0,[escapedString length])];
+			
+			KNDebug(@"APP: encoded source: %@", escapedString);
+			[buffer appendFormat:@"\t\t<outline type=\"rss\" xmlUrl=\"%@\" />\n", escapedString];
 		}
 		[buffer appendString:@"\t</body>\n</opml>"];
 		

@@ -37,9 +37,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 @interface OPMLReader : NSObject {
 	NSXMLParser *			parser;
 	NSMutableArray *		outlines;
+	NSMutableArray *		currentContainer;
+	NSString *				error;
 }
 
 -(BOOL)parse:(NSData *)data;
 -(NSArray *)outlines;
+-(NSString *)error;
 
 @end

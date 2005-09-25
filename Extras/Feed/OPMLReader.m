@@ -32,6 +32,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 */
 #import "OPMLReader.h"
 
+#define OPML_OUTLINE_TYPE @"OPMLOutlineType"
+#define OPML_OUTLINE_TYPE_FOLDER @"OPMLOutlineTypeFolder"
+#define OPML_OUTLINE_TYPE_SOURCE @"OPMLOutlineTypeSource"
+
+#define OPML_OUTLINE_CHILDREN @"OPMLOutlineChildren"
+#define OPML_OUTLINE_NAME @"OPMLOutlineName"
+
 #define OPMLParserFailed @"OPMLParserFailed"
 @implementation OPMLReader
 
@@ -40,6 +47,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	if( self ){
 		parser = nil;
 		outlines = nil;
+		currentContainer = nil;
+		error = nil;
 	}
 	return self;
 }
@@ -47,6 +56,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)dealloc{
 	if( parser ){ [parser release]; }
 	if( outlines ){ [outlines release]; }
+	if( error ){ [error release]; }
 	[super dealloc];
 }
 
@@ -55,6 +65,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NS_DURING
 		if( outlines ){ [outlines release]; }
 		outlines = [[NSMutableArray alloc] init];
+		currentContainer = outlines;
 		if( parser ){ [parser release]; }
 
 		parser = [[NSXMLParser alloc] initWithData: data];
@@ -67,6 +78,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		
 	NS_HANDLER
 		KNDebug(@"OPML: %@", [localException reason]);
+		if( error ){ [error release]; }
+		error = [[localException reason] retain];
 		return NO;
 	NS_ENDHANDLER
 	
@@ -77,9 +90,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return outlines;
 }
 
--(void)parser:(NSXMLParser *)aParser parseErrorOccurred:(NSError *)error{
-#pragma unused(aParser,error)
-	NSException *				exception = [NSException exceptionWithName: OPMLParserFailed reason: @"Invalid XML for OPML" userInfo: nil];
+-(NSString *)error{
+	return error;
+}
+
+-(void)parser:(NSXMLParser *)aParser parseErrorOccurred:(NSError *)anError{
+#pragma unused(aParser,anError)
+	NSException *				exception = [NSException 
+												exceptionWithName: OPMLParserFailed 
+												reason: [NSString stringWithFormat:@"Invalid XML"]
+												userInfo: nil
+											];
 	[exception raise];
 }
 
@@ -88,11 +109,25 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma unused(aParser,nsURI,qName)
 	
 	if( [element isEqualToString: @"outline"] ){
+		NSMutableDictionary *				outlineRec = [NSMutableDictionary dictionary];
+		
 		//KNDebug(@"OPML: found outline element with atts: %@",  atts);
 		if( [atts objectForKey:@"xmlUrl"] != NULL ){
-			//KNDebug(@"OPML: found source %@", [atts objectForKey:@"xmlUrl"]);
+			[outlineRec setObject: OPML_OUTLINE_TYPE_SOURCE forKey: OPML_OUTLINE_TYPE];
+			[outlineRec setObject: [atts objectForKey:@"xmlUrl"] forKey: OPML_OUTLINE_NAME];
+			
+			KNDebug(@"OPML: found source %@", [atts objectForKey:@"xmlUrl"]);
 			[outlines addObject: [NSString stringWithString:[atts objectForKey:@"xmlUrl"]]];
 		}
+	}
+}
+
+-(void)parser:(NSXMLParser *)aParser didEndElement:(NSString *)element
+	namespaceURL:(NSString *)nsURI qualifiedName:(NSString *)qName{
+#pragma unused(aParser,nsURI,qName)
+
+	if( [element isEqualToString:@"outline"] ){
+		
 	}
 }
 
