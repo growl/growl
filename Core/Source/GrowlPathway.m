@@ -12,29 +12,23 @@
 
 @implementation GrowlPathway
 
-static GrowlApplicationController *applicationController;
-static IMP registerApplicationWithDictionaryIMP;
-static IMP dispatchNotificationWithDictionaryIMP;
+static GrowlApplicationController *applicationController = nil;
 
 - (id) init {
 	if ((self = [super init])) {
 		if (!applicationController) {
 			applicationController = [GrowlApplicationController sharedInstance];
-			registerApplicationWithDictionaryIMP = [applicationController methodForSelector:@selector(registerApplicationWithDictionary:)];
-			dispatchNotificationWithDictionaryIMP = [applicationController methodForSelector:@selector(dispatchNotificationWithDictionary:)];
 		}
 	}
 	return self;
 }
 
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
-	//[[GrowlApplicationController sharedInstance] registerApplicationWithDictionary:dict];
-	registerApplicationWithDictionaryIMP(applicationController, @selector(registerApplicationWithDictionary:), dict);
+	[applicationController registerApplicationWithDictionary:dict];
 }
 
 - (void) postNotificationWithDictionary:(NSDictionary *)dict {
-	//[[GrowlApplicationController sharedInstance] dispatchNotificationWithDictionary:dict];
-	dispatchNotificationWithDictionaryIMP(applicationController, @selector(dispatchNotificationWithDictionary:), dict);
+	[applicationController dispatchNotificationWithDictionary:dict];
 }
 
 - (NSString *) growlVersion {
