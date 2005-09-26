@@ -10,7 +10,10 @@
  *	 plug-ins, each with its own protocol: display plug-ins, which display
  *	 Growl notifications to the user; and functional plug-ins, which add
  *	 features to the Growl core.
+ *	@deprecated since 2005-09-26.
  */
+
+#warning everything in GrowlDisplayProtocol.h is deprecated! change to the GrowlPlugin and GrowlDisplayPlugin classes instead.
 
 @class NSPreferencePane;
 
@@ -18,6 +21,7 @@
  *	@abstract	The base plug-in protocol.
  *	@discussion	The methods declared in this protocol are supported by all
  *	 Growl plug-ins.
+ *	@deprecated since 2005-09-26.
  */
 @protocol GrowlPlugin <NSObject>
 
@@ -36,11 +40,17 @@
  */
 - (NSPreferencePane *) preferencePane;
 
+//XXX DOCUMENTME
+- (NSString *)name;
+- (NSString *)author;
+- (NSString *)version;
+
 @end
 
 /*!	@protocol	GrowlDisplayPlugin
  *	@abstract	The display plugin protocol.
  *	@discussion	This protocol declares all methods supported by Growl display plugins.
+ *	@deprecated since 2005-09-26.
  */
 @protocol GrowlDisplayPlugin <GrowlPlugin>
 
