@@ -10,44 +10,24 @@
 #import "GrowlBrushedWindowController.h"
 #import "GrowlBrushedPrefsController.h"
 #import "GrowlBrushedDefines.h"
-#import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
-#include "CFDictionaryAdditions.h"
+#import "CFDictionaryAdditions.h"
 
 static unsigned brushedDepth = 0U;
-
-static void brushedGone(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
-#pragma unused(center,observer,name,object)
-	CFNumberRef depth = CFDictionaryGetValue(userInfo, CFSTR("Depth"));
-	if (depth) {
-		unsigned notifiedDepth;
-		CFNumberGetValue(depth, kCFNumberIntType, &notifiedDepth);
-		//NSLog(@"Received notification of departure with depth %u, my depth is %u\n", notifiedDepth, brushedDepth);
-		if (brushedDepth > notifiedDepth)
-			brushedDepth = notifiedDepth;
-		//NSLog(@"My depth is now %u\n", brushedDepth);
-	}
-}
 
 @implementation GrowlBrushedDisplay
 
 - (id) init {
 	if ((self = [super init])) {
-		CFNotificationCenterAddObserver(CFNotificationCenterGetLocalCenter(),
-										/*observer*/ NULL,
-										brushedGone,
-										CFSTR("BrushedGone"),
-										/*object*/ NULL,
-										CFNotificationSuspensionBehaviorCoalesce);
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(brushedGone:)
+													 name:@"BrushedGone"
+												   object:nil];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	CFNotificationCenterRemoveObserver(CFNotificationCenterGetLocalCenter(),
-									   /*observer*/ NULL,
-									   CFSTR("BrushedGone"),
-									   /*object*/ NULL);
 	[preferencePane release];
 	[super dealloc];
 }
@@ -63,16 +43,24 @@ static void brushedGone(CFNotificationCenterRef center, void *observer, CFString
 		initWithDictionary:noteDict
 					 depth:brushedDepth];
 
-	[controller setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
-	[controller setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
-	[controller setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
+	[controller setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
+	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
+	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[controller setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
-	[controller setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
+	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
 
 	// update the depth for the next notification with the depth given by this new one
 	// which will take into account the new notification's height
 	brushedDepth = [controller depth] + GrowlBrushedPadding;
 	[controller startDisplay];
 	[controller release];
+}
+
+- (void) brushedGone:(NSNotification *)note {
+	unsigned notifiedDepth = [[[note userInfo] objectForKey:@"Depth"] unsignedIntValue];
+	//NSLog(@"Received notification of departure with depth %u, my depth is %u\n", notifiedDepth, brushedDepth);
+	if (brushedDepth > notifiedDepth)
+		brushedDepth = notifiedDepth;
+	//NSLog(@"My depth is now %u\n", brushedDepth);
 }
 @end
