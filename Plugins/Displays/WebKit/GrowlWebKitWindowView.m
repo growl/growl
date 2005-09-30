@@ -93,6 +93,7 @@
 - (void) mouseEntered:(NSEvent *)theEvent {
 #pragma unused(theEvent)
 	// TODO: find a way to receive NSMouseMoved events without activating the app
+	activeApplication = [[[NSWorkspace sharedWorkspace] activeApplication] retain];
 	if (![NSApp isActive])
 		[NSApp activateIgnoringOtherApps:YES];
 	[[self window] setAcceptsMouseMovedEvents:YES];
@@ -106,6 +107,13 @@
 	[[self window] setAcceptsMouseMovedEvents:NO];
 	mouseOver = NO;
 	[self setNeedsDisplay:YES];
+	
+	//Since we activated ourself, we should also deactivate
+	if (activeApplication && [[[NSWorkspace sharedWorkspace] launchedApplications] containsObject:activeApplication]) {
+		[[NSWorkspace sharedWorkspace] launchApplication:[activeApplication objectForKey:@"NSApplicationPath"]];
+		[activeApplication release];
+		activeApplication = nil;
+	}
 
 	// abuse the target object
 	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)])

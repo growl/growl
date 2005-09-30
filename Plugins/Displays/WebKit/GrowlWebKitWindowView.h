@@ -20,6 +20,7 @@
 	SEL					action;
 	id					target;
 	NSTrackingRectTag	trackingRectTag;
+	NSDictionary		*activeApplication;
 }
 
 - (void) sizeToFit;
