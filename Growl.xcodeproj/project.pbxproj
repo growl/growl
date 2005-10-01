@@ -401,6 +401,8 @@
 		EE1AF8D50897DA9400F486FD /* GrowlAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8CE0897DA9400F486FD /* GrowlAnimation.m */; };
 		EE1AF8D70897DA9400F486FD /* GrowlWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8D00897DA9400F486FD /* GrowlWindowTransition.m */; };
 		EE1AF8D90897DA9400F486FD /* GrowlFadingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8D30897DA9400F486FD /* GrowlFadingWindowTransition.m */; };
+		EE88147C08EE836E005D5380 /* GrowlSlidingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE88147A08EE836E005D5380 /* GrowlSlidingWindowTransition.m */; };
+		EE88147D08EE836E005D5380 /* GrowlSlidingWindowTransition.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EE88147B08EE836E005D5380 /* GrowlSlidingWindowTransition.h */; };
 		EED7068B08C743D9004651D0 /* GrowlAbstractSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EED7068908C743D9004651D0 /* GrowlAbstractSingletonObject.m */; };
 		EED7077708C74DCE004651D0 /* GrowlAbstractSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EED7068908C743D9004651D0 /* GrowlAbstractSingletonObject.m */; };
 		EED707A608C74E7F004651D0 /* GrowlAbstractSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EED7068908C743D9004651D0 /* GrowlAbstractSingletonObject.m */; };
@@ -685,6 +687,7 @@
 				343345880790E3D600C84B15 /* Smoke.growlView in CopyFiles */,
 				DDFADA6C084D1C770055DBC8 /* GrowlSMS.growlView in CopyFiles */,
 				3433458A0790E3D600C84B15 /* Speech.growlView in CopyFiles */,
+				EE88147D08EE836E005D5380 /* GrowlSlidingWindowTransition.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1040,6 +1043,8 @@
 		EE1AF8D00897DA9400F486FD /* GrowlWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlWindowTransition.m; sourceTree = "<group>"; };
 		EE1AF8D20897DA9400F486FD /* GrowlFadingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlFadingWindowTransition.h; sourceTree = "<group>"; };
 		EE1AF8D30897DA9400F486FD /* GrowlFadingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlFadingWindowTransition.m; sourceTree = "<group>"; };
+		EE88147A08EE836E005D5380 /* GrowlSlidingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlSlidingWindowTransition.m; sourceTree = "<group>"; };
+		EE88147B08EE836E005D5380 /* GrowlSlidingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlSlidingWindowTransition.h; sourceTree = "<group>"; };
 		EED7068908C743D9004651D0 /* GrowlAbstractSingletonObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlAbstractSingletonObject.m; path = Core/Source/GrowlAbstractSingletonObject.m; sourceTree = "<group>"; };
 		EED7068A08C743D9004651D0 /* GrowlAbstractSingletonObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlAbstractSingletonObject.h; path = Core/Source/GrowlAbstractSingletonObject.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1797,6 +1802,8 @@
 			children = (
 				EE1AF8D20897DA9400F486FD /* GrowlFadingWindowTransition.h */,
 				EE1AF8D30897DA9400F486FD /* GrowlFadingWindowTransition.m */,
+				EE88147B08EE836E005D5380 /* GrowlSlidingWindowTransition.h */,
+				EE88147A08EE836E005D5380 /* GrowlSlidingWindowTransition.m */,
 			);
 			path = "Window Transitions";
 			sourceTree = "<group>";
@@ -2980,12 +2987,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
-					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
-				},
-				{
 					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
 					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
+				},
+				{
+					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
+					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
 				},
 			);
 			targets = (
@@ -3592,6 +3599,7 @@
 				07F9B7A508A49F6D00DF7F42 /* GrowlApplicationNotification.m in Sources */,
 				EED7068B08C743D9004651D0 /* GrowlAbstractSingletonObject.m in Sources */,
 				95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */,
+				EE88147C08EE836E005D5380 /* GrowlSlidingWindowTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
