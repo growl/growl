@@ -9,7 +9,7 @@
 #import "GrowlNotificationTicket.h"
 #import "GrowlApplicationTicket.h"
 #import "GrowlPluginController.h"
-#import "GrowlDisplayProtocol.h"
+#import "GrowlDisplayPlugin.h"
 #include "CFDictionaryAdditions.h"
 #include "CFMutableDictionaryAdditions.h"
 
@@ -167,7 +167,7 @@
 	[ticket synchronize];
 }
 
-- (id <GrowlDisplayPlugin>) displayPlugin {
+- (GrowlDisplayPlugin *) displayPlugin {
 	if (!displayPlugin && displayPluginName)
 		displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
 	return displayPlugin;

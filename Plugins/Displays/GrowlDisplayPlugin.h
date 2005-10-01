@@ -9,14 +9,14 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlPlugin.h"
 
-@class GrowlApplicationNotification;
+@class GrowlApplicationNotification, GrowlNotificationDisplayBridge;
 
 @interface GrowlDisplayPlugin : GrowlPlugin {
 	//for non-queueing displays
 	NSMutableArray *activeBridges; //GrowlNotificationDisplayBridges currently being displayed
 
 	//for queueing displays
-	GrowlNotificationDisplayBridge *currentBridge;
+	GrowlNotificationDisplayBridge *bridge;
 	NSMutableArray *queue;           //GrowlNotificationDisplayBridges yet to be displayed
 }
 

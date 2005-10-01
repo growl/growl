@@ -57,7 +57,8 @@ static void smokeGone(CFNotificationCenterRef center, void *observer, CFStringRe
 	return preferencePane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
+- (void) displayNotification:(GrowlApplicationNotification *)notification {
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	GrowlSmokeWindowController *controller = [[GrowlSmokeWindowController alloc]
 		initWithDictionary:noteDict
 					 depth:smokeDepth];

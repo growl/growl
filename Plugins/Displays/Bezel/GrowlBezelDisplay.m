@@ -31,7 +31,8 @@
 	return preferencePane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
+- (void) displayNotification:(GrowlApplicationNotification *)notification {
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *identifier = [noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
 	unsigned count = [notificationQueue count];
 

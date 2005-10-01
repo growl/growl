@@ -7,12 +7,14 @@
 //  Copyright (c) 2004 Nelson Elhage. All rights reserved.
 //
 
+#import "GrowlDisplayPlugin.h"
+
 @class NSPreferencePane;
 
-@interface GrowlBubblesController : NSObject <GrowlDisplayPlugin> {
+@interface GrowlBubblesController : GrowlDisplayPlugin {
 	NSPreferencePane	*preferencePane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
+- (void) displayNotification:(GrowlApplicationNotification *)notification;
 
 @end

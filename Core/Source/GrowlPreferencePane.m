@@ -13,14 +13,14 @@
 #import "GrowlDefines.h"
 #import "GrowlTicketController.h"
 #import "GrowlApplicationTicket.h"
-#import "GrowlDisplayProtocol.h"
+#import "GrowlPlugin.h"
 #import "GrowlPluginController.h"
 #import "GrowlVersionUtilities.h"
 #import "GrowlBrowserEntry.h"
 #import "NSStringAdditions.h"
 #import "TicketsArrayController.h"
 #import <ApplicationServices/ApplicationServices.h>
-#import <SystemConfiguration/SystemConfiguration.h>
+#include <SystemConfiguration/SystemConfiguration.h>
 #include "CFGrowlAdditions.h"
 
 #define PING_TIMEOUT		3
@@ -325,7 +325,7 @@
 		currentPlugin = nil;
 
 	GrowlPluginController *growlPluginController = [GrowlPluginController sharedController];
-	currentPluginController = [growlPluginController displayPluginInstanceWithName:currentPlugin];
+	currentPluginController = (GrowlPlugin *)[growlPluginController displayPluginInstanceWithName:currentPlugin];
 	[self loadViewForDisplay:currentPlugin];
 	NSDictionary *info = [[growlPluginController displayPluginBundleWithName:currentPlugin] infoDictionary];
 	[displayAuthor setStringValue:[info objectForKey:@"GrowlPluginAuthor"]];

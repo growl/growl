@@ -9,9 +9,7 @@
 
 #import <PreferencePanes/PreferencePanes.h>
 
-@protocol GrowlPlugin;
-
-@class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController;
+@class GrowlApplicationTicket, TicketsArrayController, GrowlPluginController, GrowlPreferencesController, GrowlPlugin;
 
 @interface GrowlPreferencePane : NSPreferencePane {
 	int                             pid;
@@ -25,7 +23,7 @@
 
 	//Properties of the plugin being configured
 	NSString                       *currentPlugin;
-	id <GrowlPlugin>                currentPluginController;
+	GrowlPlugin                    *currentPluginController;
 
 	BOOL                            canRemoveTicket;
 	BOOL                            growlIsRunning;

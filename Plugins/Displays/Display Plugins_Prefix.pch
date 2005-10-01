@@ -3,8 +3,7 @@
 //
 
 #ifdef __OBJC__
-	#import <Cocoa/Cocoa.h>
-	#import "GrowlDefines.h"
-	#import "GrowlDefinesInternal.h"
-	#import "GrowlDisplayProtocol.h"
+# import <Cocoa/Cocoa.h>
+# import "GrowlDefines.h"
+# import "GrowlDefinesInternal.h"
 #endif

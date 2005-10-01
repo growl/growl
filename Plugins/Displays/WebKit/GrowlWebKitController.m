@@ -38,7 +38,8 @@
 	return preferencePane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
+- (void) displayNotification:(GrowlApplicationNotification *)notification {
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	// load GrowlWebKitWindowController dynamically so that the prefpane does not
 	// have to link against it and all of its dependencies
 	Class webKitWindowController = NSClassFromString(@"GrowlWebKitWindowController");

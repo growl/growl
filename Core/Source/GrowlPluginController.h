@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "GrowlAbstractSingletonObject.h"
 
-@protocol GrowlPlugin, GrowlDisplayPlugin;
+@class GrowlPlugin, GrowlDisplayPlugin;
 
 @interface GrowlPluginController : GrowlAbstractSingletonObject {
 	//keys: plug-in names; values: GrowlPlugins.
@@ -40,10 +40,10 @@
 //returns an array of display plug-ins (WebKit and Obj-C both).
 - (NSArray *) displayPlugins;
 
-- (id<GrowlDisplayPlugin>) displayPluginInstanceWithName:(NSString *)name;
+- (GrowlDisplayPlugin *) displayPluginInstanceWithName:(NSString *)name;
 -           (NSBundle *)   displayPluginBundleWithName:(NSString *)name;
 
-- (id<GrowlPlugin>) pluginInstanceWithName:(NSString *)name type:(NSString *)type;
+- (GrowlPlugin *) pluginInstanceWithName:(NSString *)name type:(NSString *)type;
 -    (NSBundle *)   pluginBundleWithName:(NSString *)name type:(NSString *)type;
 
 - (void) installPlugin:(NSString *)filename;

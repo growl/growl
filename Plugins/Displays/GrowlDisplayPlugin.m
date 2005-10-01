@@ -7,7 +7,9 @@
 //
 
 #import "GrowlDisplayPlugin.h"
+#import "GrowlNotificationDisplayBridge.h"
 #import "GrowlLog.h"
+#import "NSStringAdditions.h"
 
 @implementation GrowlDisplayPlugin
 
@@ -20,14 +22,14 @@
 
 		NSBundle *bundle = [NSBundle bundleForClass:[self class]];
 		NSString *queuesNotificationsObject = [bundle objectForInfoDictionaryKey:@"GrowlDisplayUsesQueue"];
-		if(queuesNotificationsObject) {
+		if (queuesNotificationsObject) {
 			NSAssert3([queuesNotificationsObject respondsToSelector:@selector(boolValue)],
 					  @"object for GrowlDisplayUsesQueue in Info.plist of %@ is a %@ and therefore has no Boolean value (description follows)\n%@",
-					  bundle, [windowNibName class], windowNibName);
+					  bundle, [queuesNotificationsObject class], queuesNotificationsObject);
 			queuesNotifications = [queuesNotificationsObject boolValue];
 		}
 
-		if(queuesNotifications)
+		if (queuesNotifications)
 			queue = [[NSMutableArray alloc] init];
 	}
 	return self;
@@ -70,7 +72,7 @@
 	NSBundle *bundle = [NSBundle bundleForClass:[self class]];
 
 	NSString *windowNibName = [bundle objectForInfoDictionaryKey:@"GrowlDisplayWindowNibName"];
-	if(windowNibName) {
+	if (windowNibName) {
 		NSAssert3([windowNibName isKindOfClass:[NSString class]],
 				  @"object for GrowlDisplayWindowNibName in Info.plist of %@ is a %@, not a string (description follows)\n%@",
 				  bundle, [windowNibName class], windowNibName);

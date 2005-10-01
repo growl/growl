@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GrowlDisplayPlugin.h"
 
 @class NSPreferencePane;
 
-@interface GrowlSMSDisplay: NSObject <GrowlDisplayPlugin>
+@interface GrowlSMSDisplay: GrowlDisplayPlugin
 {
 	NSPreferencePane	*prefPane;
 
@@ -26,7 +27,7 @@
 	BOOL				inMessageSendResponseElement;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
+- (void) displayNotification:(GrowlApplicationNotification *)notification;
 
 - (NSData *)responseData;
 - (void)setResponseData:(NSData *)newResponseData;

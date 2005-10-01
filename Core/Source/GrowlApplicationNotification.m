@@ -107,10 +107,10 @@
 
 		//no joy - create it.
 		dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-			name, GROWL_NOTIFICATION_NAME,
+			name,            GROWL_NOTIFICATION_NAME,
 			applicationName, GROWL_APP_NAME,
-			title, GROWL_NOTIFICATION_TITLE,
-			description, GROWL_NOTIFICATION_DESCRIPTION,
+			title,           GROWL_NOTIFICATION_TITLE,
+			description,     GROWL_NOTIFICATION_DESCRIPTION,
 			nil];
 
 		if (HTMLTitle)

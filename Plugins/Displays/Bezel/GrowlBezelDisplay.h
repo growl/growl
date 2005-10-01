@@ -6,15 +6,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GrowlDisplayProtocol.h"
+#import "GrowlDisplayPlugin.h"
 
 @class NSPreferencePane;
 
-@interface GrowlBezelDisplay : NSObject <GrowlDisplayPlugin> {
+@interface GrowlBezelDisplay : GrowlDisplayPlugin {
 	NSMutableArray		*notificationQueue;
 	NSPreferencePane	*preferencePane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
+- (void) displayNotification:(GrowlApplicationNotification *)notification;
 
 @end

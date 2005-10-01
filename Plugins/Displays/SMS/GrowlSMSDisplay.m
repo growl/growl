@@ -9,9 +9,8 @@
 #import "GrowlSMSPrefs.h"
 #import "NSStringAdditions.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlDisplayProtocol.h"
-#import <Security/SecKeychain.h>
-#import <Security/SecKeychainItem.h>
+#include <Security/SecKeychain.h>
+#include <Security/SecKeychainItem.h>
 
 #define keychainServiceName "GrowlSMS"
 #define keychainAccountName "SMSWebServicePassword"
@@ -47,7 +46,7 @@
 	return prefPane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
+- (void) displayNotification:(GrowlApplicationNotification *)notification {
 	NSString	*accountNameValue = nil;
 	NSString	*apiIDValue = nil;
 	NSString	*destinationNumberValue = nil;
@@ -61,6 +60,7 @@
 		return;
 	}
 
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
 	NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
 

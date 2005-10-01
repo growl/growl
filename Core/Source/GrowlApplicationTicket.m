@@ -11,7 +11,7 @@
 #import "GrowlApplicationTicket.h"
 #import "GrowlNotificationTicket.h"
 #import "GrowlDefines.h"
-#import "GrowlDisplayProtocol.h"
+#import "GrowlDisplayPlugin.h"
 #import "NSWorkspaceAdditions.h"
 #import "GrowlPathUtilities.h"
 #include "CFGrowlAdditions.h"
@@ -329,7 +329,7 @@
 	return displayPluginName;
 }
 
-- (id<GrowlDisplayPlugin>) displayPlugin {
+- (GrowlDisplayPlugin *) displayPlugin {
 	if (!displayPlugin && displayPluginName)
 		displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
 	return displayPlugin;

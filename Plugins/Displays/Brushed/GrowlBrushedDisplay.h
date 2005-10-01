@@ -7,15 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlDisplayProtocol.h"
+#import "GrowlDisplayPlugin.h"
 
 @class NSPreferencePane;
 
-@interface GrowlBrushedDisplay : NSObject <GrowlDisplayPlugin> {
-	NSPreferencePane	*preferencePane;
+@interface GrowlBrushedDisplay : GrowlDisplayPlugin {
+	NSPreferencePane *preferencePane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *)noteDict;
+- (void) displayNotification:(GrowlApplicationNotification *)notification;
 - (void) brushedGone:(NSNotification *)note;
 
 @end

@@ -27,7 +27,8 @@
 	return preferencePane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *) noteDict {
+- (void) displayNotification:(GrowlApplicationNotification *)notification {
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	GrowlBubblesWindowController *nuBubble = [[GrowlBubblesWindowController alloc]
 		initWithDictionary:noteDict];
 	[nuBubble setTarget:self];

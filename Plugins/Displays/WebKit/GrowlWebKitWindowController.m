@@ -107,15 +107,22 @@ static NSMutableDictionary *notificationsByIdentifier;
 	//[panel setDelegate:self];
 
 	NSBundle *styleBundle = [[GrowlPluginController sharedController] pluginBundleWithName:style type:GROWL_STYLE_EXTENSION];
-	NSDictionary *styleInfo = [styleBundle infoDictionary];
-	NSNumber *hasShadow = [styleInfo objectForKey:@"GrowlHasShadow"];
-	[panel setHasShadow:(hasShadow && [hasShadow boolValue])];
+	CFDictionaryRef styleInfo = (CFDictionaryRef)[styleBundle infoDictionary];
+	CFBooleanRef hasShadow = CFDictionaryGetValue(styleInfo, CFSTR("GrowlHasShadow"));
+	[panel setHasShadow:(hasShadow && CFBooleanGetValue(hasShadow))];
 
-	NSNumber *paddingValue = [styleInfo objectForKey:@"GrowlPaddingX"];
-	paddingX = paddingValue ? [paddingValue floatValue] : GrowlWebKitPadding;
-	paddingValue = [styleInfo objectForKey:@"GrowlPaddingY"];
-	paddingY = paddingValue ? [paddingValue floatValue] : GrowlWebKitPadding;
+	CFNumberRef paddingValue = CFDictionaryGetValue(styleInfo, CFSTR("GrowlPaddingX"));
+	if (paddingValue)
+		CFNumberGetValue(paddingValue, kCFNumberFloatType, &paddingX);
+	else
+		paddingX = GrowlWebKitPadding;
 
+	paddingValue = CFDictionaryGetValue(styleInfo, CFSTR("GrowlPaddingY"));
+	if (paddingValue)
+		CFNumberGetValue(paddingValue, kCFNumberFloatType, &paddingY);
+	else
+		paddingY = GrowlWebKitPadding;
+	
 	GrowlWebKitWindowView *view = [[GrowlWebKitWindowView alloc] initWithFrame:panelFrame
 																	 frameName:nil
 																	 groupName:nil];

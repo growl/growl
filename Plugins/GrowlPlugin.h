@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class NSPreferencePane;
+
 /*!	@class	GrowlPlugin
  *	@abstract	The base plug-in class.
  *	@discussion	All Growl plug-in instances are a kind of this class, including

@@ -18,7 +18,7 @@
 #import "GrowlUDPPathway.h"
 #import "GrowlApplicationBridgePathway.h"
 #import "NSStringAdditions.h"
-#import "GrowlDisplayProtocol.h"
+#import "GrowlDisplayPlugin.h"
 #import "GrowlPluginController.h"
 #import "GrowlStatusController.h"
 #import "GrowlDefines.h"
@@ -346,12 +346,14 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) showPreview:(NSNotification *) note {
 	NSString *displayName = [note object];
-	id <GrowlDisplayPlugin> displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayName];
+	GrowlDisplayPlugin *displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayName];
 
 	NSString *desc = [[NSString alloc] initWithFormat:@"This is a preview of the %@ display", displayName];
 	NSNumber *priority = [[NSNumber alloc] initWithInt:0];
 	NSNumber *sticky = [[NSNumber alloc] initWithBool:NO];
 	NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:
+		@"Growl",   GROWL_APP_NAME,
+		@"Preview", GROWL_NOTIFICATION_NAME,
 		@"Preview", GROWL_NOTIFICATION_TITLE,
 		desc,       GROWL_NOTIFICATION_DESCRIPTION,
 		priority,   GROWL_NOTIFICATION_PRIORITY,
@@ -361,8 +363,10 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[desc     release];
 	[priority release];
 	[sticky   release];
-	[displayPlugin displayNotificationWithInfo:info];
+	GrowlApplicationNotification *notification = [[GrowlApplicationNotification alloc] initWithDictionary:info];
 	[info release];
+	[displayPlugin displayNotification:notification];
+	[notification release];
 }
 
 - (void) forwardDictionary:(NSDictionary *)dict withSelector:(SEL)forwardMethod {
@@ -512,7 +516,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	setBooleanForKey(aDict, @"ClickHandlerEnabled", [ticket clickHandlersEnabled]);
 
 	if (![preferences squelchMode]) {
-		id <GrowlDisplayPlugin> display = [notification displayPlugin];
+		GrowlDisplayPlugin *display = [notification displayPlugin];
 
 		if (!display) {
 			NSString *displayPluginName = getObjectForKey(aDict, GROWL_DISPLAY_PLUGIN);
@@ -531,7 +535,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			display = displayController;
 		}
 
-		[display displayNotificationWithInfo:aDict];
+		GrowlApplicationNotification *appNotification = [[GrowlApplicationNotification alloc] initWithDictionary:aDict];
+		[display displayNotification:appNotification];
+		[appNotification release];
 	}
 
 	// send to DO observers

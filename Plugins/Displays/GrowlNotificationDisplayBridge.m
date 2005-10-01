@@ -7,10 +7,11 @@
 //
 
 #import "GrowlNotificationDisplayBridge.h"
+#import "GrowlDisplayWindowController.h"
 
 @implementation GrowlNotificationDisplayBridge
 
-+ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowNibName:(NSString *)windowNibName {
++ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowNibName:(NSString *)newWindowNibName {
 	return [[[self alloc] initWithDisplay:newDisplay notification:newNotification windowNibName:newWindowNibName] autorelease];
 }
 
@@ -65,16 +66,15 @@
 	[newWindowController addNotificationObserver:self];
 }
 - (void) removeWindowController:(GrowlDisplayWindowController *)windowControllerToRemove {
+	[windowControllerToRemove removeNotificationObserver:self];
 	[windowControllers removeObjectIdenticalTo:windowControllerToRemove];
-
-	[newWindowController removeNotificationObserver:self];
 }
 - (BOOL) containsWindowController:(GrowlDisplayWindowController *)windowController {
 	return ([windowControllers indexOfObjectIdenticalTo:windowController] != NSNotFound);
 }
 
 - (NSArray *) windowControllers {
-#pragma warning should this call -makeWindowControllers? discuss. --boredzo
+#warning should this call -makeWindowControllers? discuss. --boredzo
 	return [[windowControllers copy] autorelease];
 }
 
@@ -86,10 +86,9 @@
 	NSEnumerator *bridgesEnum = [self objectEnumerator];
 	GrowlNotificationDisplayBridge *bridge;
 
-	while ((bridge = [bridgesEnum nextObject])) {
+	while ((bridge = [bridgesEnum nextObject]))
 		if ([bridge containsWindowController:windowController])
 			break;
-	}
 
 	return bridge;
 }

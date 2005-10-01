@@ -20,7 +20,7 @@
 	SEL					action;
 	id					target;
 	NSTrackingRectTag	trackingRectTag;
-	NSDictionary		*activeApplication;
+	CFRunLoopTimerRef	mouseMovedTimer;
 }
 
 - (void) sizeToFit;
@@ -33,5 +33,8 @@
 
 - (BOOL) mouseOver;
 - (void) setCloseOnMouseExit:(BOOL)flag;
+
+- (void) startTrackingMouse;
+- (void) stopTrackingMouse;
 @end
 

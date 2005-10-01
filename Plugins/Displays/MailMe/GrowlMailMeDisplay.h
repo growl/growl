@@ -6,14 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GrowlDisplayPlugin.h"
 
 @class NSPreferencePane;
 
-@interface GrowlMailMeDisplay: NSObject <GrowlDisplayPlugin>
+@interface GrowlMailMeDisplay: GrowlDisplayPlugin
 {
 	NSPreferencePane	*prefPane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
+- (void) displayNotification:(GrowlApplicationNotification *)notification;
 
 @end

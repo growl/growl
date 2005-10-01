@@ -7,8 +7,6 @@
 //
 
 #import "GrowlSlidingWindowTransition.h"
-#import "NSWindowAdditions.h"
-
 
 @implementation GrowlSlidingWindowTransition
 
@@ -22,7 +20,7 @@
 }
 
 - (void) slideToOrigin:(NSPoint)endingOrigin {
-	[self slideFromOrigin:[[self window] frameOrigin] toOrigin:endingOrigin];
+	[self slideFromOrigin:[[self window] frame].origin toOrigin:endingOrigin];
 }
 
 - (void) startAnimation {

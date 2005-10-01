@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlDisplayProtocol.h"
+#import "GrowlDisplayPlugin.h"
 
 @class NSPreferencePane;
 
-@interface GrowlSmokeDisplay : NSObject <GrowlDisplayPlugin> {
+@interface GrowlSmokeDisplay : GrowlDisplayPlugin {
 	NSPreferencePane	*preferencePane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *)noteDict;
+- (void) displayNotification:(GrowlApplicationNotification *)notification;
 
 @end

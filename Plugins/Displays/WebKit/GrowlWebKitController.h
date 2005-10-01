@@ -6,14 +6,14 @@
 //  Copyright 2005 The Growl Project. All rights reserved.
 //
 
-@class NSPreferencePane;
+#import "GrowlDisplayPlugin.h"
 
-@interface GrowlWebKitController : NSObject <GrowlDisplayPlugin> {
+@interface GrowlWebKitController : GrowlDisplayPlugin {
 	NSPreferencePane	*preferencePane;
 	NSString			*style;
 }
 
 - (id) initWithStyle:(NSString *)styleName;
-- (void) displayNotificationWithInfo:(NSDictionary *) noteDict;
+- (void) displayNotification:(GrowlApplicationNotification *)notification;
 
 @end

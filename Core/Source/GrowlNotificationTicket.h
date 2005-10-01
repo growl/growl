@@ -8,8 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class GrowlApplicationTicket;
-@protocol GrowlDisplayPlugin;
+@class GrowlApplicationTicket, GrowlDisplayPlugin;
 
 enum GrowlPriority {
 	GrowlPriorityUnset     = -1000,
@@ -24,7 +23,7 @@ enum GrowlPriority {
 	NSString                *name;
 	GrowlApplicationTicket  *ticket;        // Our owner
 	NSString				*displayPluginName;
-	id <GrowlDisplayPlugin>	 displayPlugin;
+	GrowlDisplayPlugin      *displayPlugin;
 	int                      sticky;
 	enum GrowlPriority       priority;
 	unsigned                 GANReserved: 31;
@@ -71,6 +70,6 @@ enum GrowlPriority {
 
 - (NSString *) displayPluginName;
 - (void) setDisplayPluginName: (NSString *)pluginName;
-- (id <GrowlDisplayPlugin>) displayPlugin;
+- (GrowlDisplayPlugin *) displayPlugin;
 
 @end

@@ -11,6 +11,7 @@
 #import "GrowlSpeechDefines.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlDefinesInternal.h"
+#import "GrowlApplicationNotification.h"
 #include "CFDictionaryAdditions.h"
 
 @implementation GrowlSpeechDisplay
@@ -25,7 +26,7 @@
 	return prefPane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
+- (void) displayNotification:(GrowlApplicationNotification *)notification {
 	NSString *voice = nil;
 	READ_GROWL_PREF_VALUE(GrowlSpeechVoicePref, GrowlSpeechPrefDomain, NSString *, &voice);
 	if (voice)
@@ -33,6 +34,7 @@
 	else
 		voice = [NSSpeechSynthesizer defaultVoice];
 
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *desc = getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION);
 
 	NSSpeechSynthesizer *syn = [[NSSpeechSynthesizer alloc] initWithVoice:voice];

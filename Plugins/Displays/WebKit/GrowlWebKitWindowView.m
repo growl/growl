@@ -19,6 +19,7 @@
 }
 
 - (void) dealloc {
+	[self stopTrackingMouse];
 	[self setUIDelegate:nil];
 	[super dealloc];
 }
@@ -54,6 +55,36 @@
 	action = selector;
 }
 
+#pragma mark -
+static void mouseMovedCallback(CFRunLoopTimerRef timer, void *info) {
+#pragma unused(timer)
+	NSView   *view = (NSView *)info;
+	NSPoint  mouseLocation = [NSEvent mouseLocation];
+	NSWindow *window = [view window];
+
+	if ([window isVisible] && NSPointInRect([window convertScreenToBase:mouseLocation], [[window contentView] convertRect:[view frame] fromView:[view superview]])) {
+		NSEvent *mouseMovedEvent = [NSEvent mouseEventWithType:NSMouseMoved location:mouseLocation modifierFlags:0U timestamp:CFAbsoluteTimeGetCurrent() windowNumber:[window windowNumber] context:[NSGraphicsContext currentContext] eventNumber:0 clickCount:0 pressure:0.0f];
+//		[NSApp postEvent:mouseMovedEvent atStart:YES];
+		[NSApp sendEvent:mouseMovedEvent];
+	}
+}
+
+- (void) startTrackingMouse {
+	if (!mouseMovedTimer) {
+		CFRunLoopTimerContext context = { 0, self, NULL, NULL, NULL };
+		mouseMovedTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent(), 0.05, 0, 0, mouseMovedCallback, &context);
+		CFRunLoopAddTimer(CFRunLoopGetCurrent(), mouseMovedTimer, kCFRunLoopDefaultMode);
+	}
+}
+
+- (void) stopTrackingMouse {
+	if (mouseMovedTimer) {
+		CFRunLoopTimerInvalidate(mouseMovedTimer);
+		CFRelease(mouseMovedTimer);
+		mouseMovedTimer = NULL;
+	}
+}
+
 - (void) sizeToFit {
 	NSRect rect = [[[[self mainFrame] frameView] documentView] frame];
 
@@ -66,7 +97,11 @@
 
 	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
-	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
+	BOOL mouseInside = NSPointInRect([self convertPoint:[window convertScreenToBase:[NSEvent mouseLocation]] fromView:self],
+									 rect);
+	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:mouseInside];
+	if (mouseInside)
+		[self startTrackingMouse];
 }
 
 #pragma mark -
@@ -92,29 +127,17 @@
 
 - (void) mouseEntered:(NSEvent *)theEvent {
 #pragma unused(theEvent)
-	// TODO: find a way to receive NSMouseMoved events without activating the app
-	activeApplication = [[[NSWorkspace sharedWorkspace] activeApplication] retain];
-	if (![NSApp isActive])
-		[NSApp activateIgnoringOtherApps:YES];
-	[[self window] setAcceptsMouseMovedEvents:YES];
-	[[self window] makeKeyWindow];
+	[self startTrackingMouse];
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
 #pragma unused(theEvent)
-	[[self window] setAcceptsMouseMovedEvents:NO];
+	[self stopTrackingMouse];
 	mouseOver = NO;
 	[self setNeedsDisplay:YES];
 	
-	//Since we activated ourself, we should also deactivate
-	if (activeApplication && [[[NSWorkspace sharedWorkspace] launchedApplications] containsObject:activeApplication]) {
-		[[NSWorkspace sharedWorkspace] launchApplication:[activeApplication objectForKey:@"NSApplicationPath"]];
-		[activeApplication release];
-		activeApplication = nil;
-	}
-
 	// abuse the target object
 	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)])
 		[target performSelector:@selector(startFadeOut)];

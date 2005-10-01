@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlDisplayProtocol.h"
+#import "GrowlDisplayPlugin.h"
 
 @class NSPreferencePane;
 
-@interface GrowlSpeechDisplay : NSObject <GrowlDisplayPlugin>
+@interface GrowlSpeechDisplay : GrowlDisplayPlugin
 {
 	NSPreferencePane	*prefPane;
 }

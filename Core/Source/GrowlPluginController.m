@@ -9,7 +9,7 @@
 
 #import "GrowlPluginController.h"
 #import "GrowlPreferencesController.h"
-#import "GrowlDisplayProtocol.h"
+#import "GrowlDisplayPlugin.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathUtilities.h"
 #import "GrowlWebKitController.h"
@@ -108,8 +108,8 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 
 #pragma mark -
 
-- (id<GrowlDisplayPlugin>) displayPluginInstanceWithName:(NSString *)name {
-	id<GrowlDisplayPlugin> plugin = getObjectForKey(pluginInstances, name);
+- (GrowlDisplayPlugin *) displayPluginInstanceWithName:(NSString *)name {
+	GrowlDisplayPlugin *plugin = getObjectForKey(pluginInstances, name);
 	if (!plugin) {
 		NSBundle *pluginBundle = getObjectForKey(pluginBundles, name);
 		NSString *filename = [[pluginBundle bundlePath] lastPathComponent];
@@ -144,8 +144,8 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 	return getObjectForKey(pluginBundles, name);
 }
 
-- (id<GrowlPlugin>) pluginInstanceWithName:(NSString *)name type:(NSString *)type {
-	id<GrowlDisplayPlugin> plugin = getObjectForKey(pluginInstances, name);
+- (GrowlPlugin *) pluginInstanceWithName:(NSString *)name type:(NSString *)type {
+	GrowlDisplayPlugin *plugin = getObjectForKey(pluginInstances, name);
 	if (!plugin) {
 		NSBundle *pluginBundle = getObjectForKey(pluginBundles, name);
 		NSString *filename = [[pluginBundle bundlePath] lastPathComponent];

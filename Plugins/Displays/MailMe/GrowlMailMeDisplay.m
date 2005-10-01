@@ -8,7 +8,6 @@
 #import "GrowlMailMePrefs.h"
 #import <Message/NSMailDelivery.h>
 #import "GrowlDefinesInternal.h"
-#import "GrowlDisplayProtocol.h"
 
 #define destAddressKey @"MailMe - Recipient address"
 
@@ -31,9 +30,10 @@
 	return prefPane;
 }
 
-- (void) displayNotificationWithInfo:(NSDictionary *)noteDict {
+- (void) displayNotification:(GrowlApplicationNotification *)notification {
 	NSString *destAddress = nil;
 	READ_GROWL_PREF_VALUE(destAddressKey, @"com.Growl.MailMe", NSString *, &destAddress);
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
 
 	if (destAddress && [destAddress length]) {
 		NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
