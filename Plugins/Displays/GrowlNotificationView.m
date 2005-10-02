@@ -11,7 +11,7 @@
 
 
 @interface GrowlNotificationView (private)
-- (void)drawRectWithRectValue:(NSValue *)aRect;
+- (void) drawRectWithRectValue:(NSValue *)aRect;
 @end
 
 
@@ -20,7 +20,7 @@
 static NSThread *mainThread = nil;
 
 //init and store the main thread
-- (id)initWithFrame:(NSRect)frameRect {
+- (id) initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect]))
 		mainThread = [[GrowlApplicationController sharedInstance] mainThread];
 	
@@ -28,19 +28,17 @@ static NSThread *mainThread = nil;
 }
 
 //All drawings are done in a secondary thread
-- (void)drawRect:(NSRect)aRect {
+- (void) drawRect:(NSRect)aRect {
 	if ([NSThread currentThread] == mainThread) {
 		[NSApplication detachDrawingThread:@selector(drawRect:)
 								  toTarget:self
 								withObject:[NSValue valueWithRect:aRect]];
 		return;
 	}
-	
-	[super drawRect:aRect];
 }
 
 //Convert the value back to a rect
-- (void)drawRectWithRectValue:(NSValue *)aRect {
+- (void) drawRectWithRectValue:(NSValue *)aRect {
 	[self lockFocus];
 	[self drawRect:[aRect rectValue]];
 	[self unlockFocus];
