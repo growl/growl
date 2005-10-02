@@ -7,8 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GrowlNotificationView.h"
 
-@interface GrowlBrushedWindowView : NSView {
+@interface GrowlBrushedWindowView : GrowlNotificationView {
 	BOOL				mouseOver;
 	BOOL				haveTitle;
 	BOOL				haveText;

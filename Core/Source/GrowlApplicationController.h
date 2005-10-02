@@ -49,6 +49,8 @@
 
 	CFURLRef					versionCheckURL;
 	CFRunLoopTimerRef			updateTimer;
+	
+	NSThread					*mainThread;
 }
 
 + (GrowlApplicationController *) sharedController;
@@ -73,5 +75,7 @@
 - (void) shutdown:(NSNotification *)note;
 
 - (void) replyToPing:(NSNotification *)note;
+
+- (NSThread *)mainThread;
 
 @end

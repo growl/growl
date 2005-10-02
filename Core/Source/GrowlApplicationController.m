@@ -248,6 +248,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) destroy {
 	//free your world
+	[mainThread release];
 	[self stopServer];
 	[authenticator    release];
 	[dncPathway       release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
@@ -695,6 +696,10 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	return versionCheckURL;
 }
 
+- (NSThread *)mainThread {
+	return mainThread;
+}
+
 #pragma mark -
 
 - (void) preferencesChanged:(NSNotification *) note {
@@ -802,6 +807,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) applicationWillFinishLaunching:(NSNotification *)aNotification {
 #pragma unused(aNotification)
+	mainThread = [[NSThread currentThread] retain];
+	
 	BOOL printVersionAndExit = [[NSUserDefaults standardUserDefaults] boolForKey:@"PrintVersionAndExit"];
 	if (printVersionAndExit) {
 		printf("This is GrowlHelperApp version %s.\n"

@@ -7,8 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GrowlNotificationView.h"
 
-@interface GrowlBezelWindowView : NSView {
+@interface GrowlBezelWindowView : GrowlNotificationView {
 	NSImage			*icon;
 	NSString		*title;
 	NSString		*text;

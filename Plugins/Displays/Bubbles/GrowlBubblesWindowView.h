@@ -8,8 +8,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GrowlNotificationView.h"
 
-@interface GrowlBubblesWindowView : NSView {
+@interface GrowlBubblesWindowView : GrowlNotificationView {
 	BOOL				mouseOver;
 	BOOL				haveText;
 	BOOL				haveTitle;
