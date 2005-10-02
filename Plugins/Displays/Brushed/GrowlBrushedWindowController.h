@@ -8,6 +8,8 @@
 
 #import "GrowlDisplayFadingWindowController.h"
 
+@class GrowlApplicationNotification;
+
 @interface GrowlBrushedWindowController : GrowlDisplayFadingWindowController {
 	unsigned	depth;
 	NSString	*identifier;
@@ -15,6 +17,6 @@
 	id			plugin; // the GrowlBrushedDisplay object which created us
 }
 
-- (id) initWithDictionary:(NSDictionary *)noteDict depth:(unsigned)depth;
+- (id) initWithNotification:(GrowlApplicationNotification *)noteDict depth:(unsigned)depth;
 - (unsigned) depth;
 @end

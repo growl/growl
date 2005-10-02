@@ -11,7 +11,8 @@
 #import "GrowlSmokePrefsController.h"
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "CFDictionaryAdditions.h"
+#import "GrowlApplicationNotification.h"
+#include "CFDictionaryAdditions.h"
 
 static unsigned smokeDepth = 0U;
 
@@ -58,13 +59,13 @@ static void smokeGone(CFNotificationCenterRef center, void *observer, CFStringRe
 }
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification {
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	GrowlSmokeWindowController *controller = [[GrowlSmokeWindowController alloc]
-		initWithDictionary:noteDict
-					 depth:smokeDepth];
+		initWithNotification:notification
+					   depth:smokeDepth];
 
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	[controller setTarget:self];
-	[controller setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+	[controller setNotifyingApplicationName:[notification applicationName]];
 	[controller setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
 	[controller setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
 	[controller setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];

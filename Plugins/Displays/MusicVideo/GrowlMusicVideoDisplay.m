@@ -8,6 +8,7 @@
 #import "GrowlMusicVideoWindowController.h"
 #import "GrowlMusicVideoPrefs.h"
 #import "GrowlDefinesInternal.h"
+#import "GrowlApplicationNotification.h"
 #include "CFDictionaryAdditions.h"
 
 @implementation GrowlMusicVideoDisplay
@@ -48,10 +49,10 @@
 				if (![aNotification isFadingOut]) {
 					// coalescing
 					[aNotification setPriority:getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY)];
-					[aNotification setTitle:getObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE)];
-					[aNotification setText:getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION)];
+					[aNotification setTitle:[notification title]];
+					[aNotification setText:[notification description]];
 					[aNotification setIcon:getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON)];
-					[aNotification setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+					[aNotification setNotifyingApplicationName:[notification applicationName]];
 					[aNotification setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
 					[aNotification setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
 					[aNotification setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
@@ -67,14 +68,14 @@
 	}
 
 	GrowlMusicVideoWindowController *nuMusicVideo = [[GrowlMusicVideoWindowController alloc]
-		initWithTitle:getObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE)
-				 text:getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION)
+		initWithTitle:[notification title]
+				 text:[notification description]
 				 icon:getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON)
 			 priority:getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY)
 		   identifier:identifier];
 	[nuMusicVideo setDelegate:self];
 	[nuMusicVideo setTarget:self];
-	[nuMusicVideo setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+	[nuMusicVideo setNotifyingApplicationName:[notification applicationName]];
 	[nuMusicVideo setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
 	[nuMusicVideo setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
 	[nuMusicVideo setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];

@@ -9,6 +9,7 @@
 #import "GrowlSMSPrefs.h"
 #import "NSStringAdditions.h"
 #import "GrowlDefinesInternal.h"
+#import "GrowlApplicationNotification.h"
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
 
@@ -64,7 +65,7 @@
 	NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
 	NSString *desc = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
 
-	//	Fetch the SMS password from the keychain:
+	//	Fetch the SMS password from the keychain
 	unsigned char *password;
 	UInt32 passwordLength;
 	OSStatus status;
@@ -123,7 +124,7 @@
 			[noteDict objectForKey:GROWL_APP_PID],          GROWL_APP_PID,
 			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
-															object:[noteDict objectForKey:GROWL_APP_NAME]
+															object:[notification applicationName]
 														  userInfo:userInfo];
 		[userInfo release];
 	}

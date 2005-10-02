@@ -6,8 +6,9 @@
 //
 #import "GrowlMailMeDisplay.h"
 #import "GrowlMailMePrefs.h"
-#import <Message/NSMailDelivery.h>
 #import "GrowlDefinesInternal.h"
+#import "GrowlApplicationNotification.h"
+#import <Message/NSMailDelivery.h>
 
 #define destAddressKey @"MailMe - Recipient address"
 
@@ -65,7 +66,7 @@
 			[noteDict objectForKey:GROWL_APP_PID],          GROWL_APP_PID,
 			nil];
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_TIMED_OUT
-															object:[noteDict objectForKey:GROWL_APP_NAME]
+															object:[notification applicationName]
 														  userInfo:userInfo];
 		[userInfo release];
 	}

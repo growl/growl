@@ -39,15 +39,15 @@
 }
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification {
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	// load GrowlWebKitWindowController dynamically so that the prefpane does not
 	// have to link against it and all of its dependencies
 	Class webKitWindowController = NSClassFromString(@"GrowlWebKitWindowController");
 	GrowlWebKitWindowController *controller = [[webKitWindowController alloc]
-		initWithDictionary:noteDict
-					 style:style];
+		initWithNotification:notification
+					   style:style];
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	[controller setTarget:self];
-	[controller setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+	[controller setNotifyingApplicationName:[notification applicationName]];
 	[controller setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
 	[controller setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
 	[controller setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];

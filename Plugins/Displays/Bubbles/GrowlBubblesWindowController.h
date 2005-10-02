@@ -9,11 +9,13 @@
 
 #import "GrowlDisplayFadingWindowController.h"
 
+@class GrowlApplicationNotification;
+
 @interface GrowlBubblesWindowController : GrowlDisplayFadingWindowController {
 	unsigned	depth;
 	NSString	*identifier;
 }
 
-- (id) initWithDictionary:(NSDictionary *)noteDict;
+- (id) initWithNotification:(GrowlApplicationNotification *)noteDict;
 
 @end

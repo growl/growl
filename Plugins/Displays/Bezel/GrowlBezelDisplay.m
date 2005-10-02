@@ -8,6 +8,7 @@
 #import "GrowlBezelWindowController.h"
 #import "GrowlBezelPrefs.h"
 #import "GrowlDefinesInternal.h"
+#import "GrowlApplicationNotification.h"
 #include "CFDictionaryAdditions.h"
 
 @implementation GrowlBezelDisplay
@@ -46,10 +47,10 @@
 				if (![aNotification isFadingOut]) {
 					// coalescing
 					[aNotification setPriority:getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY)];
-					[aNotification setTitle:getObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE)];
-					[aNotification setText:getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION)];
+					[aNotification setTitle:[notification title]];
+					[aNotification setText:[notification description]];
 					[aNotification setIcon:getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON)];
-					[aNotification setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+					[aNotification setNotifyingApplicationName:[notification applicationName]];
 					[aNotification setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
 					[aNotification setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
 					[aNotification setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];
@@ -73,7 +74,7 @@
 
 	[nuBezel setDelegate:self];
 	[nuBezel setTarget:self];
-	[nuBezel setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+	[nuBezel setNotifyingApplicationName:[notification applicationName]];
 	[nuBezel setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
 	[nuBezel setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
 	[nuBezel setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];

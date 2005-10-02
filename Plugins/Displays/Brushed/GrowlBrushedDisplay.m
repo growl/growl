@@ -11,7 +11,8 @@
 #import "GrowlBrushedPrefsController.h"
 #import "GrowlBrushedDefines.h"
 #import "GrowlDefinesInternal.h"
-#import "CFDictionaryAdditions.h"
+#import "GrowlApplicationNotification.h"
+#include "CFDictionaryAdditions.h"
 
 static unsigned brushedDepth = 0U;
 
@@ -39,12 +40,12 @@ static unsigned brushedDepth = 0U;
 }
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification {
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	GrowlBrushedWindowController *controller = [[GrowlBrushedWindowController alloc]
-		initWithDictionary:noteDict
-					 depth:brushedDepth];
+		initWithNotification:notification
+					   depth:brushedDepth];
 
-	[controller setNotifyingApplicationName:[noteDict objectForKey:GROWL_APP_NAME]];
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
+	[controller setNotifyingApplicationName:[notification applicationName]];
 	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[controller setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];

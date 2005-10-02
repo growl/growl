@@ -11,6 +11,7 @@
 #import "GrowlBubblesWindowView.h"
 #import "GrowlBubblesPrefsController.h"
 #import "GrowlBubblesDefines.h"
+#import "GrowlApplicationNotification.h"
 #import "NSWindow+Transforms.h"
 #include "CFDictionaryAdditions.h"
 
@@ -26,9 +27,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 #pragma mark -
 
-- (id) initWithDictionary:(NSDictionary *)noteDict {
-	NSString *title = getObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE_HTML);
-	NSString *text  = getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION_HTML);
+- (id) initWithNotification:(GrowlApplicationNotification *)notification {
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
+	NSString *title = [notification HTMLTitle];
+	NSString *text  = [notification HTMLDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
@@ -39,13 +41,13 @@ static NSMutableDictionary *notificationsByIdentifier;
 		titleHTML = YES;
 	else {
 		titleHTML = NO;
-		title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
+		title = [notification title];
 	}
 	if (text)
 		textHTML = YES;
 	else {
 		textHTML = NO;
-		text = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+		text = [notification description];
 	}
 
 	GrowlBubblesWindowController *oldController = [notificationsByIdentifier objectForKey:ident];

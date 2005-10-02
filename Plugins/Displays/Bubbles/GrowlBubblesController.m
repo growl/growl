@@ -10,6 +10,7 @@
 #import "GrowlBubblesController.h"
 #import "GrowlBubblesWindowController.h"
 #import "GrowlBubblesPrefsController.h"
+#import "GrowlApplicationNotification.h"
 #include "CFDictionaryAdditions.h"
 
 @implementation GrowlBubblesController
@@ -28,11 +29,11 @@
 }
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification {
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	GrowlBubblesWindowController *nuBubble = [[GrowlBubblesWindowController alloc]
-		initWithDictionary:noteDict];
+		initWithNotification:notification];
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	[nuBubble setTarget:self];
-	[nuBubble setNotifyingApplicationName:getObjectForKey(noteDict, GROWL_APP_NAME)];
+	[nuBubble setNotifyingApplicationName:[notification applicationName]];
 	[nuBubble setNotifyingApplicationProcessIdentifier:getObjectForKey(noteDict, GROWL_APP_PID)];
 	[nuBubble setClickContext:getObjectForKey(noteDict, GROWL_NOTIFICATION_CLICK_CONTEXT)];
 	[nuBubble setClickHandlerEnabled:getObjectForKey(noteDict, @"ClickHandlerEnabled")];

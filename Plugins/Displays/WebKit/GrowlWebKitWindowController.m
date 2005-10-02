@@ -16,6 +16,7 @@
 #import "NSViewAdditions.h"
 #import "GrowlDefines.h"
 #import "GrowlPathUtilities.h"
+#import "GrowlApplicationNotification.h"
 #include "CFGrowlAdditions.h"
 #include "CFDictionaryAdditions.h"
 #include "CFMutableStringAdditions.h"
@@ -48,9 +49,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 #pragma mark -
 
-- (id) initWithDictionary:(NSDictionary *)noteDict style:(NSString *)styleName {
-	NSString *title = getObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE_HTML);
-	NSString *text  = getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION_HTML);
+- (id) initWithNotification:(GrowlApplicationNotification *)notification style:(NSString *)styleName {
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
+	NSString *title = [notification HTMLTitle];
+	NSString *text  = [notification HTMLDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
@@ -61,13 +63,13 @@ static NSMutableDictionary *notificationsByIdentifier;
 		titleHTML = YES;
 	else {
 		titleHTML = NO;
-		title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
+		title = [notification title];
 	}
 	if (text)
 		textHTML = YES;
 	else {
 		textHTML = NO;
-		text = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+		text = [notification description];
 	}
 
 	GrowlWebKitWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
@@ -88,9 +90,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, prefDomain, &screenNumber);
 
 	NSPanel *panel = [[TrackingPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 1.0f)
-												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
-												  backing:NSBackingStoreBuffered
-													defer:NO];
+													  styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
+														backing:NSBackingStoreBuffered
+														  defer:NO];
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];

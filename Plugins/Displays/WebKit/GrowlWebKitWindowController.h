@@ -8,7 +8,7 @@
 
 #import "GrowlDisplayFadingWindowController.h"
 
-@class WebView;
+@class WebView, GrowlApplicationNotification;
 
 @interface GrowlWebKitWindowController : GrowlDisplayFadingWindowController {
 	unsigned	depth;
@@ -21,7 +21,7 @@
 	float		paddingY;
 }
 
-- (id) initWithDictionary:(NSDictionary *)noteDict style:(NSString *)styleName;
+- (id) initWithNotification:(GrowlApplicationNotification *)notification style:(NSString *)styleName;
 - (void) setTitle:(NSString *)title titleHTML:(BOOL)titleIsHTML text:(NSString *)text textHTML:(BOOL)textIsHTML icon:(NSImage *)icon priority:(int)priority forView:(WebView *)view;
 
 @end
