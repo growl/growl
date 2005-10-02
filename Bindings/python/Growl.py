@@ -173,14 +173,19 @@ class GrowlNotifier(object):
     _notifyMethod = _growl
 
     def __init__(self, applicationName=None, notifications=None, defaultNotifications=None, applicationIcon=None, hostname=None, password=None):
-        if applicationName is not None:
-            self.applicationName = applicationName
-        if notifications is not None:
-            self.notifications = notifications
+        assert(applicationName is not None, 'an application name is required')
+		self.applicationName = applicationName
+
+        assert(notifications, 'a sequence of one or more notification names is required')
+		self.notifications = list(notifications)
         if defaultNotifications is not None:
-            self.defaultNotifications = defaultNotifications
+            self.defaultNotifications = list(defaultNotifications)
+		else:
+			self.defaultNotifications = list(self.notifications)
+
         if applicationIcon is not None:
             self.applicationIcon = self._checkIcon(applicationIcon)
+
         if hostname is not None and password is not None:
             self._notifyMethod = netgrowl(hostname, password)
         elif hostname is not None or password is not None:
@@ -211,7 +216,7 @@ class GrowlNotifier(object):
                       GROWL_NOTIFICATION_DESCRIPTION: description,
                      }
         if sticky:
-            notifyInfo[GROWL_NOTIFICATION_STICKY] = int(1)
+            notifyInfo[GROWL_NOTIFICATION_STICKY] = 1
 
         if priority is not None:
             notifyInfo[GROWL_NOTIFICATION_PRIORITY] = priority
