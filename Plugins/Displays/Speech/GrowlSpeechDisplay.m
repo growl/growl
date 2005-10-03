@@ -34,12 +34,12 @@
 	else
 		voice = [NSSpeechSynthesizer defaultVoice];
 
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
-	NSString *desc = getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION);
+	NSString *desc = [notification description];
 
 	NSSpeechSynthesizer *syn = [[NSSpeechSynthesizer alloc] initWithVoice:voice];
 	[syn startSpeakingString:desc];
 
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	if (getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)) {
 		NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
 		NSURL *url = [[NSURL alloc] initFileURLWithPath:path];

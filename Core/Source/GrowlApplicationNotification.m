@@ -16,12 +16,18 @@
 }
 
 - (GrowlApplicationNotification *) initWithDictionary:(NSDictionary *)dict {
-	return [self initWithName:[dict objectForKey:GROWL_NOTIFICATION_NAME]
-	          applicationName:[dict objectForKey:GROWL_APP_NAME]
-	                    title:[dict objectForKey:GROWL_NOTIFICATION_TITLE]
-	                HTMLTitle:[dict objectForKey:GROWL_NOTIFICATION_TITLE_HTML]
-	              description:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-	          HTMLDescription:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION_HTML]];
+	if ((self = [self initWithName:[dict objectForKey:GROWL_NOTIFICATION_NAME]
+				   applicationName:[dict objectForKey:GROWL_APP_NAME]
+							 title:[dict objectForKey:GROWL_NOTIFICATION_TITLE]
+						 HTMLTitle:[dict objectForKey:GROWL_NOTIFICATION_TITLE_HTML]
+					   description:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+				   HTMLDescription:[dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION_HTML]])) {
+		NSMutableDictionary *mutableDict = [dict mutableCopy];
+		[mutableDict removeObjectsForKeys:[[GrowlApplicationNotification standardKeys] allObjects]];
+		if ([mutableDict count])
+			[self setAuxiliaryDictionary:mutableDict];
+	}
+	return self;
 }
 
 //you can pass nil for description.
@@ -94,10 +100,10 @@
 	return standardKeys;
 }
 
-- (NSDictionary *)dictionaryRepresentation {
+- (NSDictionary *) dictionaryRepresentation {
 	return [self dictionaryRepresentationWithKeys:nil];
 }
-- (NSDictionary *)dictionaryRepresentationWithKeys:(NSSet *)keys {
+- (NSDictionary *) dictionaryRepresentationWithKeys:(NSSet *)keys {
 	NSMutableDictionary *dict = nil;
 
 	if (!keys) {
@@ -163,36 +169,36 @@
 
 #pragma mark -
 
-- (NSString *)name {
+- (NSString *) name {
 	return name;
 }
-- (NSString *)applicationName {
+- (NSString *) applicationName {
 	return applicationName;
 }
 
-- (NSString *)title {
+- (NSString *) title {
 	return title;
 }
-- (NSAttributedString *)attributedTitle {
+- (NSAttributedString *) attributedTitle {
 	if (HTMLTitle)
 		return [[[NSAttributedString alloc] initWithHTML:[HTMLTitle dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL] autorelease];
 	else
 		return [[[NSAttributedString alloc] initWithString:title] autorelease];
 }
-- (NSString *)HTMLTitle {
+- (NSString *) HTMLTitle {
 	return HTMLTitle;
 }
 
-- (NSString *)description {
+- (NSString *) description {
 	return description;
 }
-- (NSAttributedString *)attributedDescription {
+- (NSAttributedString *) attributedDescription {
 	if (HTMLDescription)
 		return [[[NSAttributedString alloc] initWithHTML:[HTMLDescription dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL] autorelease];
 	else
 		return [[[NSAttributedString alloc] initWithString:description] autorelease];
 }
-- (NSString *)HTMLDescription {
+- (NSString *) HTMLDescription {
 	return HTMLDescription;
 }
 

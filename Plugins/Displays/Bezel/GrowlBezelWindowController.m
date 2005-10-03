@@ -67,7 +67,7 @@
 	//[view setAction:@selector(notificationClicked:)];
 	[panel setContentView:contentView];
 
-	[contentView setPriority:priority];
+	[contentView setPriority:prio];
 	[contentView setTitle:title];
 	[self setText:text];
 	[contentView setIcon:icon];

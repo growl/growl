@@ -66,8 +66,8 @@
 	}
 
 	GrowlBezelWindowController *nuBezel = [[GrowlBezelWindowController alloc]
-		initWithTitle:getObjectForKey(noteDict, GROWL_NOTIFICATION_TITLE)
-				 text:getObjectForKey(noteDict, GROWL_NOTIFICATION_DESCRIPTION)
+		initWithTitle:[notification title]
+				 text:[notification description]
 				 icon:getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON)
 			 priority:getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY)
 		   identifier:identifier];
