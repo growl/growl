@@ -26,6 +26,7 @@
 		[mutableDict removeObjectsForKeys:[[GrowlApplicationNotification standardKeys] allObjects]];
 		if ([mutableDict count])
 			[self setAuxiliaryDictionary:mutableDict];
+		[mutableDict release];
 	}
 	return self;
 }
