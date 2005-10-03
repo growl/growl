@@ -9,6 +9,8 @@
 #import "GrowlNotificationDisplayBridge.h"
 #import "GrowlDisplayWindowController.h"
 
+#import "GrowlDisplayWindowController.h"
+
 @implementation GrowlNotificationDisplayBridge
 
 + (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowNibName:(NSString *)newWindowNibName {
@@ -66,8 +68,8 @@
 	[newWindowController addNotificationObserver:self];
 }
 - (void) removeWindowController:(GrowlDisplayWindowController *)windowControllerToRemove {
-	[windowControllerToRemove removeNotificationObserver:self];
 	[windowControllers removeObjectIdenticalTo:windowControllerToRemove];
+	[windowControllerToRemove removeNotificationObserver:self];
 }
 - (BOOL) containsWindowController:(GrowlDisplayWindowController *)windowController {
 	return ([windowControllers indexOfObjectIdenticalTo:windowController] != NSNotFound);
