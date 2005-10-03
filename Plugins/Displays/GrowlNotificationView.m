@@ -30,7 +30,7 @@ static NSThread *mainThread = nil;
 //All drawings are done in a secondary thread
 - (void) drawRect:(NSRect)aRect {
 	if ([NSThread currentThread] == mainThread) {
-		[NSApplication detachDrawingThread:@selector(drawRect:)
+		[NSApplication detachDrawingThread:@selector(drawRectWithRectValue:)
 								  toTarget:self
 								withObject:[NSValue valueWithRect:aRect]];
 		return;
