@@ -14,7 +14,7 @@
  * @abstract GrowlNotificationView is a subclass of NSView that performs all drawing on a secondary thread.
  */
 @interface GrowlNotificationView : NSView {
-
+	NSThread *mainThread;
 }
 
 @end

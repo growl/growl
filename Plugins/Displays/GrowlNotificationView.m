@@ -17,15 +17,19 @@
 
 @implementation GrowlNotificationView
 
-static NSThread *mainThread = nil;
-
 //init and store the main thread
 - (id) initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect]))
-		mainThread = [[GrowlApplicationController sharedInstance] mainThread];
+		mainThread = [[[GrowlApplicationController sharedInstance] mainThread] retain];
 	
 	return self;
 }
+
+- (void) dealloc {
+	[mainThread release];
+	[super dealloc];
+}
+
 
 //All drawings are done in a secondary thread
 - (void) drawRect:(NSRect)aRect {
