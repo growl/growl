@@ -24,11 +24,15 @@ static GrowlApplicationController *applicationController = nil;
 }
 
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
-	[applicationController registerApplicationWithDictionary:dict];
+	[NSApplication detachDrawingThread:@selector(registerApplicationWithDictionary:)
+							  toTarget:applicationController
+							withObject:dict];
 }
 
 - (void) postNotificationWithDictionary:(NSDictionary *)dict {
-	[applicationController dispatchNotificationWithDictionary:dict];
+	[NSApplication detachDrawingThread:@selector(dispatchNotificationWithDictionary:)
+							  toTarget:applicationController
+							withObject:dict];
 }
 
 - (NSString *) growlVersion {

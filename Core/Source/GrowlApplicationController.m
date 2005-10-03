@@ -547,10 +547,13 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[aDict release];
 
 	// forward to remote destinations
-	if (enableForward && !getObjectForKey(dict, GROWL_REMOTE_ADDRESS))
-		[NSThread detachNewThreadSelector:@selector(forwardNotification:)
-								 toTarget:self
-							   withObject:dict];
+	if (enableForward && !getObjectForKey(dict, GROWL_REMOTE_ADDRESS)) {
+		if ([NSThread currentThread] == mainThread)
+			[NSThread detachNewThreadSelector:@selector(forwardNotification:)
+									 toTarget:self
+								   withObject:dict];
+		else
+			[self forwardNotification:dict];
 }
 
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *)userInfo {
@@ -589,10 +592,14 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 								   clickContext:nil
 									 identifier:nil];
 
-		if (enableForward && !getObjectForKey(userInfo, GROWL_REMOTE_ADDRESS))
-			[NSThread detachNewThreadSelector:@selector(forwardRegistration:)
-									 toTarget:self
-								   withObject:userInfo];
+		if (enableForward && !getObjectForKey(userInfo, GROWL_REMOTE_ADDRESS)) {
+			if ([NSThread currentThread] == mainThread)
+				[NSThread detachNewThreadSelector:@selector(forwardRegistration:)
+										 toTarget:self
+									   withObject:userInfo];
+			else
+				[self forwardRegistration:userInfo];
+		}
 	} else { //!newApp
 		NSString *filename = [(appName ? appName : @"unknown-application") stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 		NSString *path = [@"/var/log" stringByAppendingPathComponent:filename];
