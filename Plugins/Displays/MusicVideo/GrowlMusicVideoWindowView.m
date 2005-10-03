@@ -37,6 +37,7 @@
 }
 
 - (void) drawRect:(NSRect)rect {
+	[super drawRect:rect];
 	NSGraphicsContext *context = [NSGraphicsContext currentContext];
 	CGContextRef cgContext = [context graphicsPort];
 	NSRect bounds = [self bounds];
