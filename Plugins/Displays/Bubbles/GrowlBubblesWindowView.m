@@ -94,90 +94,92 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 }
 
 - (void) drawRect:(NSRect) rect {
-	[super drawRect:rect];
-	NSRect b = [self bounds];
-	CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
-	CGRect shape = CGRectInset(bounds, BORDER_WIDTH_PX*0.5f, BORDER_WIDTH_PX*0.5f);
-
-	CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-
-	// Create a path with enough room to strike the border and remain inside our frame.
-	// Since the path is in the middle of the line, this means we must inset it by half the border width.
-	addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
-	CGContextSetLineWidth(context, BORDER_WIDTH_PX);
-
-	CGContextSaveGState(context);
-	CGContextClip(context);
-
-	// Create a callback function to generate the
-	// fill clipped graphics context with our gradient
-	struct CGFunctionCallbacks callbacks = { 0U, GrowlBubblesShadeInterpolate, NULL };
-	float colors[8];
-
-	[lightColor getRed:&colors[0]
-				 green:&colors[1]
-				  blue:&colors[2]
-				 alpha:&colors[3]];
-
-	[bgColor getRed:&colors[4]
-			  green:&colors[5]
-			   blue:&colors[6]
-			  alpha:&colors[7]];
-
-	CGFunctionRef function = CGFunctionCreate( (void *) colors,
-											   1U,
-											   /*domain*/ NULL,
-											   4U,
-											   /*range*/ NULL,
-											   &callbacks );
-	CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
-
-	CGPoint src, dst;
-	src.x = CGRectGetMinX(bounds);
-	src.y = CGRectGetMaxY(bounds);
-	dst.x = src.x;
-	dst.y = CGRectGetMinY(bounds);
-	CGShadingRef shading = CGShadingCreateAxial(cspace, src, dst,
-												function, false, false);
-
-	CGContextDrawShading(context, shading);
-
-	CGShadingRelease(shading);
-	CGColorSpaceRelease(cspace);
-	CGFunctionRelease(function);
-
-	CGContextRestoreGState(context);
-
-	addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
-	CGContextSetLineWidth(context, BORDER_WIDTH_PX);
-	if (mouseOver)
-		[highlightColor set];
-	else
-		[borderColor set];
-	CGContextStrokePath(context);
-
-	NSRect drawRect;
-	drawRect.origin.x = PANEL_HSPACE_PX;
-	drawRect.origin.y = PANEL_VSPACE_PX;
-	drawRect.size.width = iconSize;
-	drawRect.size.height = iconSize;
-
-	[icon setFlipped:YES];
-	[icon drawScaledInRect:drawRect
-				 operation:NSCompositeSourceOver
-				  fraction:1.0f];
-
-	drawRect.origin.x += iconSize + ICON_HSPACE_PX;
-
-	if (haveTitle) {
-		[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
-		drawRect.origin.y += titleHeight + TITLE_VSPACE_PX;
+	//Make sure that we don't draw in the main thread
+	if ([super dispatchDrawingToThread:rect]) {
+		NSRect b = [self bounds];
+		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
+		CGRect shape = CGRectInset(bounds, BORDER_WIDTH_PX*0.5f, BORDER_WIDTH_PX*0.5f);
+		
+		CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+		
+		// Create a path with enough room to strike the border and remain inside our frame.
+		// Since the path is in the middle of the line, this means we must inset it by half the border width.
+		addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
+		CGContextSetLineWidth(context, BORDER_WIDTH_PX);
+		
+		CGContextSaveGState(context);
+		CGContextClip(context);
+		
+		// Create a callback function to generate the
+		// fill clipped graphics context with our gradient
+		struct CGFunctionCallbacks callbacks = { 0U, GrowlBubblesShadeInterpolate, NULL };
+		float colors[8];
+		
+		[lightColor getRed:&colors[0]
+					 green:&colors[1]
+					  blue:&colors[2]
+					 alpha:&colors[3]];
+		
+		[bgColor getRed:&colors[4]
+				  green:&colors[5]
+				   blue:&colors[6]
+				  alpha:&colors[7]];
+		
+		CGFunctionRef function = CGFunctionCreate( (void *) colors,
+												   1U,
+												   /*domain*/ NULL,
+												   4U,
+												   /*range*/ NULL,
+												   &callbacks );
+		CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
+		
+		CGPoint src, dst;
+		src.x = CGRectGetMinX(bounds);
+		src.y = CGRectGetMaxY(bounds);
+		dst.x = src.x;
+		dst.y = CGRectGetMinY(bounds);
+		CGShadingRef shading = CGShadingCreateAxial(cspace, src, dst,
+													function, false, false);
+		
+		CGContextDrawShading(context, shading);
+		
+		CGShadingRelease(shading);
+		CGColorSpaceRelease(cspace);
+		CGFunctionRelease(function);
+		
+		CGContextRestoreGState(context);
+		
+		addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
+		CGContextSetLineWidth(context, BORDER_WIDTH_PX);
+		if (mouseOver)
+			[highlightColor set];
+		else
+			[borderColor set];
+		CGContextStrokePath(context);
+		
+		NSRect drawRect;
+		drawRect.origin.x = PANEL_HSPACE_PX;
+		drawRect.origin.y = PANEL_VSPACE_PX;
+		drawRect.size.width = iconSize;
+		drawRect.size.height = iconSize;
+		
+		[icon setFlipped:YES];
+		[icon drawScaledInRect:drawRect
+					 operation:NSCompositeSourceOver
+					  fraction:1.0f];
+		
+		drawRect.origin.x += iconSize + ICON_HSPACE_PX;
+		
+		if (haveTitle) {
+			[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
+			drawRect.origin.y += titleHeight + TITLE_VSPACE_PX;
+		}
+		
+		if (haveText)
+			[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
+		
+		[[self window] invalidateShadow];
 	}
-
-	if (haveText)
-		[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
-
-	[[self window] invalidateShadow];
 }
 
 #pragma mark -

@@ -10,7 +10,7 @@
 #import "GrowlApplicationController.h"
 
 @interface GrowlNotificationView (private)
-- (void) drawRectWithRectValue:(NSValue *)aRect;
+- (void) threadedDrawRectWithRectValue:(NSValue *)aRect;
 @end
 
 @implementation GrowlNotificationView
@@ -41,7 +41,7 @@
 	[super dealloc];
 }
 
-- (BOOL) dispatchToThread {
+- (BOOL) dispatchDrawingToThread:(NSRect)aRect {
 	BOOL isMain = [NSThread currentThread] == mainThread;
 	if (isMain) {
 		++numberOfThreads;
