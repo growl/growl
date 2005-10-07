@@ -554,6 +554,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 								   withObject:dict];
 		else
 			[self forwardNotification:dict];
+	}
 }
 
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *)userInfo {
