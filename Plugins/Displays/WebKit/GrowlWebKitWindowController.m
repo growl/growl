@@ -24,19 +24,16 @@
 static unsigned webkitWindowDepth = 0U;
 static NSMutableDictionary *notificationsByIdentifier;
 
-@interface TrackingPanel : NSPanel {
+/*
+ * A panel that always pretends to be the key window.
+ */
+@interface KeyPanel : NSPanel {
 }
 @end
 
-@implementation TrackingPanel
-- (BOOL) canBecomeKeyWindow {
+@implementation KeyPanel
+- (BOOL) isKeyWindow {
 	return YES;
-}
-
-- (void) sendEvent:(NSEvent *)theEvent {
-	if ([theEvent type] == NSMouseMoved)
-		[[[self contentView] hitTest:[theEvent locationInWindow]] mouseMoved:theEvent];
-	[super sendEvent:theEvent];
 }
 @end
 
@@ -89,10 +86,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, prefDomain, &screenNumber);
 
-	NSPanel *panel = [[TrackingPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 1.0f)
-													  styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
-														backing:NSBackingStoreBuffered
-														  defer:NO];
+	NSPanel *panel = [[KeyPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 1.0f)
+												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
+												   backing:NSBackingStoreBuffered
+													 defer:NO];
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
@@ -136,6 +133,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	if ([view respondsToSelector:@selector(setDrawsBackground:)])
 		[view setDrawsBackground:NO];
 	[panel setContentView:view];
+	[panel makeFirstResponder:[[[view mainFrame] frameView] documentView]];
 
 	[self setTitle:title titleHTML:titleHTML text:text textHTML:textHTML icon:icon priority:priority forView:view];
 

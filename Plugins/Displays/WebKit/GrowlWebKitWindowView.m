@@ -10,6 +10,10 @@
 #import "GrowlDefinesInternal.h"
 #import "GrowlWebKitDefines.h"
 
+@interface NSView (MouseOver)
+- (void) _updateMouseoverWithFakeEvent;
+@end
+
 @implementation GrowlWebKitWindowView
 - (id) initWithFrame:(NSRect)frameRect frameName:(NSString *)frameName groupName:(NSString *)groupName {
 	if ((self = [super initWithFrame:frameRect frameName:frameName groupName:groupName])) {
@@ -19,14 +23,12 @@
 }
 
 - (void) dealloc {
-	[self stopTrackingMouse];
 	[self setUIDelegate:nil];
 	[super dealloc];
 }
 
-// forward mouseMoved events to subviews but catch all other events here
 - (NSView *) hitTest:(NSPoint)aPoint {
-	if ([[[self window] currentEvent] type] == NSMouseMoved)
+	if (realHitTest)
 		return [super hitTest:aPoint];
 
 	if ([[self superview] mouse:aPoint inRect:[self frame]])
@@ -56,33 +58,10 @@
 }
 
 #pragma mark -
-static void mouseMovedCallback(CFRunLoopTimerRef timer, void *info) {
-#pragma unused(timer)
-	NSView   *view = (NSView *)info;
-	NSPoint  mouseLocation = [NSEvent mouseLocation];
-	NSWindow *window = [view window];
-
-	if ([window isVisible] && NSPointInRect([window convertScreenToBase:mouseLocation], [[window contentView] convertRect:[view frame] fromView:[view superview]])) {
-		NSEvent *mouseMovedEvent = [NSEvent mouseEventWithType:NSMouseMoved location:mouseLocation modifierFlags:0U timestamp:CFAbsoluteTimeGetCurrent() windowNumber:[window windowNumber] context:[NSGraphicsContext currentContext] eventNumber:0 clickCount:0 pressure:0.0f];
-//		[NSApp postEvent:mouseMovedEvent atStart:YES];
-		[NSApp sendEvent:mouseMovedEvent];
-	}
-}
-
-- (void) startTrackingMouse {
-	if (!mouseMovedTimer) {
-		CFRunLoopTimerContext context = { 0, self, NULL, NULL, NULL };
-		mouseMovedTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent(), 0.05, 0, 0, mouseMovedCallback, &context);
-		CFRunLoopAddTimer(CFRunLoopGetCurrent(), mouseMovedTimer, kCFRunLoopDefaultMode);
-	}
-}
-
-- (void) stopTrackingMouse {
-	if (mouseMovedTimer) {
-		CFRunLoopTimerInvalidate(mouseMovedTimer);
-		CFRelease(mouseMovedTimer);
-		mouseMovedTimer = NULL;
-	}
+- (void) updateFocusState {
+	realHitTest = YES;
+	[[[[self mainFrame] frameView] documentView] _updateMouseoverWithFakeEvent];
+	realHitTest = NO;
 }
 
 - (void) sizeToFit {
@@ -101,7 +80,7 @@ static void mouseMovedCallback(CFRunLoopTimerRef timer, void *info) {
 									 rect);
 	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:mouseInside];
 	if (mouseInside)
-		[self startTrackingMouse];
+		[self updateFocusState];
 }
 
 #pragma mark -
@@ -127,14 +106,14 @@ static void mouseMovedCallback(CFRunLoopTimerRef timer, void *info) {
 
 - (void) mouseEntered:(NSEvent *)theEvent {
 #pragma unused(theEvent)
-	[self startTrackingMouse];
+	[self updateFocusState];
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
 #pragma unused(theEvent)
-	[self stopTrackingMouse];
+	[self updateFocusState];
 	mouseOver = NO;
 	[self setNeedsDisplay:YES];
 	

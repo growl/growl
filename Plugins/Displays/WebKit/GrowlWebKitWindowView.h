@@ -16,11 +16,11 @@
 
 @interface GrowlWebKitWindowView : WebView {
 	BOOL				mouseOver;
+	BOOL				realHitTest;
 	BOOL				closeOnMouseExit;
 	SEL					action;
 	id					target;
 	NSTrackingRectTag	trackingRectTag;
-	CFRunLoopTimerRef	mouseMovedTimer;
 }
 
 - (void) sizeToFit;
@@ -33,8 +33,4 @@
 
 - (BOOL) mouseOver;
 - (void) setCloseOnMouseExit:(BOOL)flag;
-
-- (void) startTrackingMouse;
-- (void) stopTrackingMouse;
 @end
-
