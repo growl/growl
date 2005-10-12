@@ -33,16 +33,25 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 #import <Cocoa/Cocoa.h>
 
+#define OPML_OUTLINE_TYPE @"OPMLOutlineType"
+#define OPML_OUTLINE_CHILDREN @"OPMLOutlineChildren"
+#define OPML_OUTLINE_NAME @"OPMLOutlineName"
+#define OPML_OUTLINE_SOURCE @"OPMLOutlineSource"
+
+#define OPML_OUTLINE_TYPE_FOLDER @"OPMLOutlineTypeFolder"
+#define OPML_OUTLINE_TYPE_SOURCE @"OPMLOutlineTypeSource"
 
 @interface OPMLReader : NSObject {
 	NSXMLParser *			parser;
-	NSMutableArray *		outlines;
-	NSMutableArray *		currentContainer;
 	NSString *				error;
+	
+	NSMutableDictionary *	rootOutline;
+	NSMutableArray *		containerStack;
+	BOOL					readingSource;
 }
 
 -(BOOL)parse:(NSData *)data;
--(NSArray *)outlines;
+-(NSDictionary *)rootItem;
 -(NSString *)error;
 
 @end

@@ -13,17 +13,17 @@
 		<key>6</key>
 		<string>416 597 405 141 0 0 1280 1002 </string>
 		<key>7</key>
-		<string>421 446 405 192 0 0 1280 1002 </string>
+		<string>416 572 405 192 0 0 1280 1002 </string>
 	</dict>
 	<key>IBFramework Version</key>
 	<string>439.0</string>
 	<key>IBOpenObjects</key>
 	<array>
 		<integer>7</integer>
-		<integer>20</integer>
 		<integer>6</integer>
 		<integer>5</integer>
 		<integer>52</integer>
+		<integer>20</integer>
 	</array>
 	<key>IBSystem Version</key>
 	<string>8C46</string>

@@ -35,8 +35,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #import "InspectorController.h"
 #import "FeedDelegate.h"
 #import "FeedLibrary.h"
-#import "Feed.h"
-#import "Article.h"
+#import "KNFeed.h"
+#import "KNArticle.h"
 #import "Prefs.h"
 
 #define EXPIRE_NEVER_TAG 1024
@@ -51,7 +51,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	self = [super initWithWindowNibName:@"Inspector"];
 	if( self ){
 		item = nil;
-		library = [[NSApp delegate] feedLibrary];
 	}
 	return self;
 }
@@ -67,7 +66,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[[self window] setFrameUsingName: @"feedInspectorWindow"];
 }
 
--(void)setItem:(id)anItem{
+-(void)setItem:(KNItem *)anItem{
 	NSMutableString *			windowTitle = [NSMutableString string];
 	NSRect						oldWindowFrame = [[self window] frame];
 	NSRect						newWindowFrame = oldWindowFrame;
@@ -76,20 +75,26 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	float						verticalChange = 0;
 	float						horizontalChange = 0;
 	
+	//KNDebug(@"setItem called in inspector");
 	if( anItem ){
-		if( [library isFeedItem: anItem] ){
-			targetView = feedDetailsView;		
-			[feedDetailTitleField setStringValue: [[library feedForItem: anItem] title]];
-			[feedDetailSourceField setStringValue: [[library feedForItem: anItem] source]];
+		if( [[anItem type] isEqualToString: FeedItemTypeFeed] ){
+			targetView = feedDetailsView;
+			//KNDebug(@"Checking item for userSetName: %@", [anItem valueForKeyPath:@"prefs.userSetName"]);
+			if( [anItem valueForKeyPath:@"prefs.userSetName"] && ![[anItem valueForKeyPath:@"prefs.userSetName"] isEqualToString:@""] ){
+				[feedDetailTitleField setStringValue: [anItem valueForKeyPath:@"prefs.userSetName"]];
+			}else{
+				[feedDetailTitleField setStringValue: [anItem name]];
+			}
+			[feedDetailSourceField setStringValue: [(KNFeed *)anItem sourceURL]];
 			
-			[feedDetailUpdateIntervalField setObjectValue: [[library feedForItem: anItem] valueForKeyPath:@"prefs.updateLength"]];
+			[feedDetailUpdateIntervalField setObjectValue: [anItem valueForKeyPath:@"prefs.updateLength"]];
 			[feedDetailUpdateUnitPopup selectItemAtIndex: 
 				[feedDetailUpdateUnitPopup indexOfItemWithTag: 
-					[[[library feedForItem: anItem] valueForKeyPath:@"prefs.updateUnits"] intValue]
+					[[anItem valueForKeyPath:@"prefs.updateUnits"] intValue]
 				]
 			];
 			
-			NSTimeInterval				expireInterval = [[[library feedForItem: anItem] valueForKeyPath:@"prefs.expireInterval"] doubleValue];
+			NSTimeInterval				expireInterval = [[anItem valueForKeyPath:@"prefs.expireInterval"] doubleValue];
 			int							expireTag;
 			if( expireInterval == UNIT_NEVER ){
 				expireTag = EXPIRE_NEVER_TAG;
@@ -104,20 +109,20 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			}
 			[feedDetailExpirePopup selectItemAtIndex: [feedDetailExpirePopup indexOfItemWithTag: expireTag]];
 			
-			[windowTitle appendFormat: @"Feed Details: %@", [library nameForItem: anItem]];
+			[windowTitle appendFormat: @"Feed Details: %@", [anItem name]];
 			
-		}else if( [library isFolderItem: anItem] ){
+		}else if( [[anItem type] isEqualToString: FeedItemTypeItem] ){
 			targetView = folderDetailsView;
-			[folderDetailNameField setStringValue: [library nameForItem: anItem]];
-			[windowTitle appendFormat: @"Folder Details: %@", [library nameForItem: anItem]];
+			[folderDetailNameField setStringValue: [anItem name]];
+			[windowTitle appendFormat: @"Folder Details: %@", [anItem name]];
 			
-		}else if( [library isArticleItem: anItem] ){
+		}else if( [[anItem type] isEqualToString: FeedItemTypeArticle] ){
 			targetView = articleDetailsView;
-			[articleDetailFeedTitleField setStringValue: [[library articleForItem: anItem] feedName]];
-			[articleDetailDateField setObjectValue: [[library articleForItem: anItem] date]];
-			[articleDetailAuthorField setStringValue: [[library articleForItem: anItem] author]];
-			[articleDetailTitleField setStringValue: [[library articleForItem: anItem] title]];
-			[windowTitle appendFormat: @"Article Details: %@", [library nameForItem: anItem]];
+			[articleDetailFeedTitleField setStringValue: [anItem name]];
+			[articleDetailDateField setObjectValue: [(KNArticle *)anItem date]];
+			[articleDetailAuthorField setStringValue: [(KNArticle *)anItem author]];
+			[articleDetailTitleField setStringValue: [(KNArticle *)anItem sourceURL]];
+			[windowTitle appendFormat: @"Article Details: %@", [anItem name]];
 		}else{
 			targetView = invalidDetailsView;
 			[windowTitle appendFormat: @"No Details Available"];
@@ -129,11 +134,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	if( item ){
-		if( [library isFeedItem: item] ){
+		if( [[item type] isEqualToString: FeedItemTypeFeed] ){
 			oldView = feedDetailsView;
-		}else if( [library isFolderItem: item] ){
+		}else if( [[item type] isEqualToString: FeedItemTypeItem] ){
 			oldView = folderDetailsView;
-		}else if( [library isArticleItem: item] ){
+		}else if( [[item type] isEqualToString: FeedItemTypeArticle] ){
 			oldView = articleDetailsView;
 		}else{
 			oldView = invalidDetailsView;
@@ -150,7 +155,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			oldWindowFrame.origin.x,
 			oldWindowFrame.origin.y - verticalChange,
 			[targetView frame].size.width + horizontalChange,
-			//(oldWindowFrame.size.height - [oldView frame].size.height) + [targetView frame].size.height
 			[targetView frame].size.height + 11
 		);
 		
@@ -165,16 +169,19 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)feedDataChanged:(id)sender;{
-	if( ! item ){ return; }
+	if( ! item ){
+		KNDebug(@"feedDataChanged in inspector with nil item");
+		return;
+	}
 	
 	if( sender == feedDetailSourceField ){
-		// Unable to set source yet. How should we deal with this?
+		[(KNFeed *)item setSourceURL: [sender objectValue]];
 	}else if( sender == feedDetailTitleField ){
-		[[library feedForItem: item] setUserTitle: [sender stringValue]];
+		[item setValue: [sender objectValue] forKeyPath:@"prefs.userSetName"];
 	}else if( sender == feedDetailUpdateIntervalField ){
-		[[library feedForItem: item] setValue:[sender objectValue] forKeyPath:@"prefs.updateLength"];
+		[item setValue:[sender objectValue] forKeyPath:@"prefs.updateLength"];
 	}else if( sender == feedDetailUpdateUnitPopup ){
-		[[library feedForItem: item] setValue:[NSNumber numberWithInt:[[sender selectedItem] tag]] forKeyPath:@"prefs.updateUnits"];
+		[item setValue:[NSNumber numberWithInt:[[sender selectedItem] tag]] forKeyPath:@"prefs.updateUnits"];
 	}else if( sender == feedDetailExpirePopup ){
 		int						expireTag = [[sender selectedItem] tag];
 		NSTimeInterval			expireInterval;
@@ -191,20 +198,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			expireInterval = UNIT_WEEKS;
 		}
 
-		[[library feedForItem: item] setValue:[NSNumber numberWithDouble:expireInterval] forKeyPath:@"prefs.expireInterval"];
+		[item setValue:[NSNumber numberWithDouble:expireInterval] forKeyPath:@"prefs.expireInterval"];
 		
 	}else if( sender == folderDetailNameField ){
-		[library setName: [sender stringValue] forItem: item];
+		[item setName: [sender stringValue]];
 	}
 }
 
-
-- (IBAction)feedSourceChanged:(id)sender{
-	#pragma unused(sender)
-}
-
-- (IBAction)folderNameChanged:(id)sender{
-	#pragma unused(sender)
+-(void)textDidChange:(NSNotification *)aNotification{
+#pragma unused( aControl, aNotification )
+	
+	KNDebug(@"textChanged");
 }
 
 @end

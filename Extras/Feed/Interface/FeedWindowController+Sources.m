@@ -1,0 +1,193 @@
+/*
+
+BSD License
+
+Copyright (c) 2005, Keith Anderson
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+*	Redistributions of source code must retain the above copyright notice,
+	this list of conditions and the following disclaimer.
+*	Redistributions in binary form must reproduce the above copyright notice,
+	this list of conditions and the following disclaimer in the documentation
+	and/or other materials provided with the distribution.
+*	Neither the name of keeto.net or Keith Anderson nor the names of its
+	contributors may be used to endorse or promote products derived
+	from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+*/
+
+
+#import "FeedWindowController+Sources.h"
+#import "Library+Active.h"
+#import "KNFeed.h"
+#import "KNArticle.h"
+
+
+@implementation FeedWindowController (Sources)
+
+-(BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)column item:(id)item{
+#pragma unused(outlineView,column,item)
+    //return( ([[outlineView selectedRowIndexes] count] == 1) && [LIB isFolderItem: item] );
+	return YES;
+}
+
+-(void)outlineViewSelectionDidChange:(NSNotification *)notification{
+#pragma unused(notification)
+	NSIndexSet *				selectedItems = [feedOutlineView selectedRowIndexes];
+	unsigned					currentIndex = NSNotFound;
+	KNItem *						item = nil;
+	
+	[LIB clearActiveItems];
+	currentIndex = [selectedItems firstIndex];
+	while( currentIndex != NSNotFound ){
+		item = [feedOutlineView itemAtRow: currentIndex];
+		[[item parent] addChildToCurrent: item];
+		currentIndex = [selectedItems indexGreaterThanIndex: currentIndex];
+	}
+	
+	[LIB generateCurrentArticleCache];
+	[self reloadData];
+}
+
+-(id)outlineView:(NSOutlineView *)outlineView child:(int)anIndex ofItem:(id)item{
+#pragma unused(outlineView)
+	if( ! item ){
+		item = [LIB rootItem];
+	}
+	return [item childAtIndex: ((anIndex >= 0) ? anIndex : NSNotFound)];
+}
+
+-(BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item{
+#pragma unused(outlineView)
+	if( ! item ){
+		item = [LIB rootItem];
+	}
+    return [[item type] isEqualToString:FeedItemTypeItem];
+}
+
+-(int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item{
+#pragma unused(outlineView)
+	if( ! item ){
+		item = [LIB rootItem];
+	}
+    return [item childCount];
+}
+
+-(void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item{
+#pragma unused(outlineView,tableColumn)
+	NSImage *				sourceImage = nil;
+	NSImage *				cellImage = nil;
+	
+	if( ! item ){
+		item = [LIB rootItem];
+	}
+	
+	if( [[item type] isEqualToString: FeedItemTypeItem] ){
+		sourceImage = folderImage;
+	}else if( [[item type] isEqualToString: FeedItemTypeFeed] ){
+		if( ![[(KNFeed *)item lastError] isEqualToString:@""] ){
+			sourceImage = [NSImage imageNamed:FeedErrorImage];
+		}else{
+			sourceImage = [(KNFeed *)item faviconImage];
+		}
+	}else if( [[item type] isEqualToString: FeedItemTypeArticle] ){
+		sourceImage = [NSImage imageNamed:BookmarkImage];
+	}
+	
+	if( sourceImage ){
+		cellImage = [sourceImage copy];
+		[cellImage setScalesWhenResized: YES];
+		[cellImage setSize: NSMakeSize( 16, 16 )];
+		[cell setImage: cellImage];
+		[cellImage release];
+	}
+}
+
+-(id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)column byItem:(id)item{
+#pragma unused(outlineView)
+	if( ! item ){ item = [LIB rootItem]; }
+	
+    NSAttributedString *		value;
+	NSCell *					currentCell = [column dataCell];
+    NSFontManager *				fontManager = [NSFontManager sharedFontManager];
+	NSMutableDictionary *		attributes = [NSMutableDictionary dictionary];
+    
+	[attributes setObject: tableWrapStyle forKey: NSParagraphStyleAttributeName];
+	
+	NSMutableString *			rawValue = nil;
+	
+	if( [item valueForKeyPath:@"prefs.userSetName"] && ![[item valueForKeyPath:@"prefs.userSetName"] isEqualToString:@""]){
+		rawValue = [NSMutableString stringWithString: [item valueForKeyPath:@"prefs.userSetName"]];
+	}else{
+		rawValue = [NSMutableString stringWithString: [(KNItem *)item name]];
+	}
+	
+	if( ([item unreadCount] > 0) && ([feedOutlineView editedRow] != [feedOutlineView rowForItem: item]) ){
+		[attributes setObject: [fontManager convertFont: [currentCell font] toHaveTrait:NSBoldFontMask] forKey: NSFontAttributeName];
+		[rawValue appendFormat: @" (%d)", [item unreadCount]];
+	}else{
+		[attributes setObject: [fontManager convertFont: [currentCell font] toNotHaveTrait:NSBoldFontMask] forKey: NSFontAttributeName];
+	}
+	
+	if( [[item type] isEqualToString:FeedItemTypeFeed] && ![[item lastError] isEqualToString:@""] ){
+		[attributes setObject:[NSColor redColor] forKey: NSForegroundColorAttributeName];
+	}
+	
+	value = [[[NSAttributedString alloc] initWithString: rawValue attributes: attributes] autorelease];
+
+	return value;
+}
+
+-(NSString *)outlineView:(NSOutlineView *)outlineView toolTipForTableColumn:(NSTableColumn *)column row:(int)rowIndex{
+#pragma unused(outlineView,column)
+	KNItem *				item = [feedOutlineView itemAtRow: rowIndex];
+	
+	if( item ){
+		if( [[item type] isEqualToString:FeedItemTypeFeed] ){
+			if( ![[(KNFeed *)item lastError] isEqualToString:@""] ){
+				return [(KNFeed *)item lastError];
+			}else{
+				return [(KNFeed *)item sourceURL];
+			}
+		}else if( [[item type] isEqualToString:FeedItemTypeItem] ){
+			return [NSString stringWithFormat: @"Contains %d feeds", [[LIB feedsInFolder: item] count]];
+		}else if( [[item type] isEqualToString:FeedItemTypeArticle] ){
+			return [NSString stringWithFormat: @"Feed: %@", [(KNArticle *)item feedName]];
+		}
+	}
+	return nil;
+}
+
+-(void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)column byItem:(id)item{
+#pragma unused(outlineView,column)
+	[(KNItem *)item setName: object];
+}
+
+-(id)outlineView:(NSOutlineView *)outlineView persistentObjectForItem:(id)item{
+#pragma unused(outlineView)
+	if( ! item ){ item = [LIB rootItem]; }
+	return [item key];
+}
+
+-(id)outlineView:(NSOutlineView *)outlineView itemForPersistentObject:(id)object{
+#pragma unused(outlineView)
+	return [LIB itemForKey: object];
+}
+
+
+@end

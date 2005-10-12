@@ -2,7 +2,7 @@
 
 BSD License
 
-Copyright (c) 2004, Keith Anderson
+Copyright (c) 2005, Keith Anderson
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -30,46 +30,37 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 */
-
 #import <Cocoa/Cocoa.h>
+#import "Library.h"
 
-@class Library,PrefsWindowController,FeedWindowController;
-@interface FeedDelegate : NSObject
-{
-	IBOutlet id					registerProtocolPanel;
-	
-    FeedWindowController *      feedWindowController;
-    PrefsWindowController *     prefsWindowController;
-    NSTimer *                   updateTimer;
-	NSBundle *					atomBundle;
-	NSMenu *					debugMenu;
-}
+@interface Library (Items)
 
--(NSString *)appName;
+-(NSString *)typeForItem:(id)item;
+-(BOOL)isFolderItem:(id)item;
+-(BOOL)isFeedItem:(id)item;
+-(BOOL)isArticleItem:(id)item;
 
--(IBAction)showPrefs:(id)sender;
--(IBAction)showMainWindow:(id)sender;
--(IBAction)toggleDebug:(id)sender;
--(void)addDebugMenu;
+-(BOOL)isItem:(id)item1 descendentOfItem:(id)item2;
 
--(void)updateDockIcon;
--(void)updateDockIcon:(int)unreadCount;
+-(id)newFolderNamed:(NSString *)name inItem:(id)item atIndex:(int)index;
+-(id)newFeed:(KNFeed *)feed inItem:(id)item atIndex:(int)index;
+-(id)newArticle:(KNArticle *)article inItem:(id)item atIndex:(int)index;
 
--(void)openURL:(NSURL *)url;
-//-(void)openURLs:(NSArray *)openList;
+-(void)removeItem:(id)item;
+-(void)removeItem:(id)item fromItem:(id)parentItem;
+-(void)moveItem:(id)item toParent:(id)parent index:(int)index;
 
--(void)importOPML:(id)sender;
--(void)importOPMLRecord:(NSDictionary *)itemRecord intoItem:(id)anItem;
--(void)exportOPML:(id)sender;
--(void)writeItem:(id)anItem toOPML:(NSMutableString *)aBuffer;
+-(NSString *)nameForItem:(id)item;
+-(NSString *)keyForItem:(id)item;
+-(id)itemForKey:(NSString *)key;
+-(void)setName:(NSString *)name forItem:(id)item;
+-(KNFeed *)feedForItem:(id)item;
+-(KNArticle *)articleForItem:(id)item;
 
-/*
--(void)checkProtocolRegistration;
--(IBAction)setFeedAsProtocolHandler:(id)sender;
-*/
--(IBAction)cancelDialog:(id)sender;
--(IBAction)toggleShouldCheckProtocol:(id)sender;
--(IBAction)openHomePage:(id)sender;
--(IBAction)openBugPage:(id)sender;
+-(id)child:(int)index ofItem:(id)item;
+-(BOOL)hasChildren:(id)item;
+-(int)childCountOfItem:(id)item;
+
+-(unsigned)unreadCountForItem:(id)item;
 
 @end

@@ -130,6 +130,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			Feed *						feed;
 			
 			if( [opml parse: [[NSFileManager defaultManager] contentsAtPath: [[NSBundle mainBundle] pathForResource:@"DefaultSources" ofType:@"opml"]]] ){
+				
+				
+				
 				enumerator = [[opml outlines] objectEnumerator];
 				while((source = [enumerator nextObject])){
 					feed = [[Feed alloc] initWithSource: source];
@@ -809,7 +812,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	//[feedsToUpdate removeAllObjects];
 	isUpdating = NO;
-    [self save];
+    //[self save];
 	int newUnreadCount = [self unreadCount];
 	
     [[NSNotificationCenter defaultCenter] postNotificationName:FeedUpdateFinishedNotification object: nil 

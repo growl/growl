@@ -34,9 +34,14 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #import "FeedWindowController.h"
 
 #import "FeedDelegate.h"
-#import "FeedLibrary.h"
-#import "Feed.h"
-#import "Article.h"
+#import "Library.h"
+#import "Library+Update.h"
+#import "Library+Items.h"
+#import "Library+Active.h"
+#import "Library+Utility.h"
+
+#import "KNFeed.h"
+#import "KNArticle.h"
 #import "Prefs.h"
 #import "LibraryToolbar.h"
 #import "ImageTextCell.h"
@@ -46,15 +51,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #import "InspectorController.h"
 
 #define FeedLibraryNibName @"FeedLibrary"
-#define ColumnStatusImageName @"Status"
-#define ColumnOnServerImageName @"Status"
-#define ArticleOnServerImage @"Updated"
-#define BookmarkImage @"Bookmark"
-#define FeedErrorImage @"FeedError"
+
 
 #define TOGGLE_FEED_DRAWER_MENU 1024
-#define DragDropFeedItemPboardType @"FeedItemPboardType"
-#define DragDropFeedArticlePboardType @"FeedArticlePboardType"
 
 #define SOURCE_VALIDATION_URL @"http://feedvalidator.org/check.cgi?url="
 
@@ -104,13 +103,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
                             nil],
 							[NSMutableDictionary dictionaryWithObjectsAndKeys:
 								[NSString stringWithString:@"Server Status"], ColumnName,
-								[NSString stringWithString:ArticleOnServer], ColumnIdentifier,
+								[NSString stringWithString:ArticleIsOnServer], ColumnIdentifier,
 								[NSNumber numberWithBool: YES], ColumnCanDisable,
 								[NSNumber numberWithInt: 20], ColumnWidth,
 							nil],
 							[NSMutableDictionary dictionaryWithObjectsAndKeys:
 								[NSString stringWithString:@"Source"], ColumnName,
-								[NSString stringWithString:ArticleSource], ColumnIdentifier,
+								[NSString stringWithString:ArticleSourceURL], ColumnIdentifier,
 								[NSNumber numberWithBool: YES], ColumnCanDisable,
 								[NSNumber numberWithInt: 60], ColumnWidth,
 							nil],
@@ -136,7 +135,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 -(void)awakeFromNib{
-    feedLibrary = [[NSApp delegate] feedLibrary];
+    //[anItem name] = [[NSApp delegate] [anItem name]];
     
     //KNDebug(@"awakeFromNib");
     
@@ -145,7 +144,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[removeFeedButton setToolTip:@"Remove selected Feed(s) from the library"];
 	[addFeedButton setToolTip:@"Add a new feed to the library"];
 	
-	[self setDisplayedArticle: nil];
+	//[self setDisplayedArticle: nil];
 	[displayWebView setMaintainsBackForwardList:NO];
 	[displayWebView setPolicyDelegate: self];
     
@@ -179,14 +178,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
             [column setDataCell: imageCell];
             [imageCell release];
             [[column headerCell] setImage: [NSImage imageNamed: ColumnStatusImageName]];
-		}else if( [[columnRecord objectForKey: ColumnIdentifier] isEqualToString: ArticleOnServer] ){
-			[column setResizable:NO];
-			imageCell = [[NSImageCell alloc] init];
-			[column setDataCell: imageCell];
-			[imageCell release];
-			[[column headerCell] setImage: [NSImage imageNamed: ColumnOnServerImageName]];
-        //}else if( [[columnRecord objectForKey: ColumnIdentifier] isEqualToString: ArticleDate] ){
-        //    [[column dataCell] setFormatter: [[[NSDateFormatter alloc] initWithDateFormat:@"%m/%d/%y" allowNaturalLanguage:NO] autorelease]];
         }
 		//[[column dataCell] setFont: articleListFont];
 		
@@ -224,12 +215,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
         }
         column = [columnRecord objectForKey: ColumnHeaderObject];
         
-		if( [[column identifier] isEqualToString: [[[feedLibrary sortDescriptors] objectAtIndex:0] key] ] ){
+		if( [[column identifier] isEqualToString: [[[LIB sortDescriptors] objectAtIndex:0] key] ] ){
             [articleTableView setHighlightedTableColumn: column];
         }
     }
     [articleTableView sizeLastColumnToFit];
-	[articleTableView setSortDescriptors: [feedLibrary sortDescriptors]];
+	[articleTableView setSortDescriptors: [LIB sortDescriptors]];
 
 	folderImage = [[[NSWorkspace sharedWorkspace] iconForFile: @"/System/Library"] retain];
 	[folderImage setScalesWhenResized:YES];
@@ -248,7 +239,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
     NSMutableIndexSet *         selectedFeeds = [NSMutableIndexSet indexSet];
     id                          feedItem;
-    enumerator = [[feedLibrary activeFeedItems] objectEnumerator];
+    enumerator = [[LIB activeItems] objectEnumerator];
     while((feedItem = [enumerator nextObject])){
         //KNDebug(@"getting row index (%d) for item %@", [feedOutlineView rowForItem: feedItem], feedItem);
         [selectedFeeds addIndex: [feedOutlineView rowForItem: feedItem]];
@@ -261,10 +252,16 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	//[self articleListFontChanged: nil];
     //[articleTableView reloadData];
 	//[articleTableView tile];
-    [articleTableView selectRow: [feedLibrary activeArticleIndex] byExtendingSelection: NO];
+	
+	KNArticle *					article = nil;
+	
+	enumerator = [[LIB activeArticles] objectEnumerator];
+	while( (article = [enumerator nextObject]) ){
+		[articleTableView selectRow: [LIB indexOfActiveArticle: article] byExtendingSelection: YES];
+	}
     
     // Set our 'remove feed' button state
-    if( [[feedLibrary activeFeedItems] count] > 0 ){
+    if( [[LIB activeItems] count] > 0 ){
         [removeFeedButton setEnabled: YES];
     }else{
         [removeFeedButton setEnabled: NO];
@@ -357,19 +354,19 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)windowWillClose:(NSNotification *)notification{
 #pragma unused(notification)
-    KNDebug(@"Controller: windowWillClose");
-    [feedLibrary save];
+    //KNDebug(@"Controller: windowWillClose");
+    //[[anItem name] save];
     //[NSApp terminate: self];
 }
 
 -(void)setWindowTitle{
     NSString *              title = @"Feed";
-    int                     feedCount = [[feedLibrary activeFeedItems] count];
-    int                     unreadCount = [feedLibrary activeUnreadCount];
+    int                     feedCount = [[LIB activeItems] count];
+    int                     unreadCount = [LIB activeUnreadCount];
 	
     //KNDebug(@"CONT: setWindowtitle. ActiveFeedItems count: %d", feedCount);
     if( feedCount == 1 ){
-        title = [NSString stringWithFormat:@"%@ : %@", title, [feedLibrary nameForItem: [[feedLibrary activeFeedItems] objectAtIndex:0]] ];
+        title = [NSString stringWithFormat:@"%@ : %@", title, [LIB nameForItem: [[LIB activeItems] objectAtIndex:0]] ];
     }else if( feedCount > 1){
         title = [NSString stringWithFormat:@"%@ : %d Sources Selected", title, feedCount];
     }
@@ -382,15 +379,16 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(BOOL)validateMenuItem:(NSMenuItem *)menuItem{
-	//KNDebug(@"CONT: validateMenuItem %@", menuItem);
     if( [menuItem action] == @selector(removeFeedItem:) ){
-		if( [[feedLibrary activeFeedItems] count] == 0 ){ return NO; }
-		if( [[feedLibrary activeFeedItems] count] == 1 ){
-			id				item = [[feedLibrary activeFeedItems] objectAtIndex:0];
+		
+		if( [[LIB activeItems] count] == 0 ){ return NO;}
+		
+		if( [[LIB activeItems] count] == 1 ){
+			id				item = [[LIB activeItems] objectAtIndex:0];
 			
-			if( [feedLibrary isFolderItem: item] ){
+			if( [LIB isFolderItem: item] ){
 				[menuItem setTitle: @"Delete Folder"];
-			}else if( [feedLibrary isFeedItem: item] ){
+			}else if( [LIB isFeedItem: item] ){
 				[menuItem setTitle: @"Delete Feed"];
 			}
 		}else{
@@ -407,31 +405,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			return NO;
 		}
 	
-	}else if( [menuItem action] == @selector(removeFeedItem:) ){
-		[menuItem setTitle: @"Delete Feed"];
-		if( ( [[self window] firstResponder] != feedOutlineView ) || ( [[feedLibrary activeFeedItems] count] == 0 ) ){
-			return NO;
-		}
-		
-		if( [[feedLibrary activeFeedItems] count] == 1 ){
-			if( [feedLibrary isFolderItem: [[feedLibrary activeFeedItems] objectAtIndex:0]] ){
-				[menuItem setTitle: @"Delete Folder"];
-			}
-		}else{
-			[menuItem setTitle: @"Delete Selected"];
-		}
-
 	}else if( [menuItem action] == @selector(refreshItem:) ){
-		if( [[feedLibrary activeFeedItems] count] == 0 ){
+		if( [[LIB activeItems] count] == 0 ){
 			[menuItem setTitle: @"Update"];
 			return NO;
 		}else{
-			if( [[feedLibrary activeFeedItems] count] == 1 ){
-				if( [feedLibrary isFolderItem: [[feedLibrary activeFeedItems] objectAtIndex:0]] ){
+			if( [[LIB activeItems] count] == 1 ){
+				if( [LIB isFolderItem: [[LIB activeItems] objectAtIndex:0]] ){
 					[menuItem setTitle: @"Update Folder"];
-				}else if( [feedLibrary isFeedItem: [[feedLibrary activeFeedItems] objectAtIndex:0]] ){
+				}else if( [LIB isFeedItem: [[LIB activeItems] objectAtIndex:0]] ){
 					[menuItem setTitle: @"Update Feed"];
-				}else if( [feedLibrary isArticleItem: [[feedLibrary activeFeedItems] objectAtIndex:0]] ){
+				}else if( [LIB isArticleItem: [[LIB activeItems] objectAtIndex:0]] ){
 					[menuItem setTitle: @"Update"];
 					return NO;
 				}
@@ -473,11 +457,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		}
 		
 	}else if( [menuItem action] == @selector(nextUnread:) ){
-		if( [feedLibrary activeUnreadCount] <= 0 ){
+		if( [LIB activeUnreadCount] <= 0 ){
 			return NO;
 		}
 	}else if( [menuItem action] == @selector(getInfo:) ){
-		if( [[feedLibrary activeFeedItems] count] == 1 ){
+		if( [[LIB activeItems] count] == 1 ){
 			return YES;
 		}
 		return NO;
@@ -495,7 +479,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			return([[articleTableView selectedRowIndexes] count] > 0);
 		}
 		if( [[self window] firstResponder] == feedOutlineView ){
-			return( [[feedLibrary activeFeedItems] count] > 0 );
+			return( [[LIB activeItems] count] > 0 );
 		}
 		return NO;
     }
@@ -512,7 +496,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	if( [[toolbarItem itemIdentifier] isEqualToString: MARK_ALL_READ] ){
-		return( [feedLibrary activeUnreadCount] > 0 );
+		return( [LIB activeUnreadCount] > 0 );
 	}
     
     return YES;
@@ -529,10 +513,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)feedWillUpdate:(NSNotification *)notification{
-	NSString *					feedURL = [notification object];
+	KNFeed *					feed = [notification object];
 	//KNDebug(@"CONT: Got a feed update notification for %@", feedURL);
 	[currentUpdatingFeedTitle autorelease];
-	currentUpdatingFeedTitle = [[[feedLibrary feedForSource: feedURL] title] retain];
+	currentUpdatingFeedTitle = [[feed name] retain];
 	[self updateStatus];
 }
 
@@ -547,11 +531,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	isUpdating = NO;
 	[statusProgressIndicator stopAnimation:self];
-    [feedLibrary refreshActiveArticles];
+    //[LIB refreshActiveArticles];
 	[self reloadData];
 	
-    //[articleTableView scrollRowToVisible: [feedLibrary activeArticleCount]-1];
-	//[self setDisplayedArticle: [feedLibrary activeArticle]];
+    //[articleTableView scrollRowToVisible: [LIB activeArticleCount]-1];
+	//[self setDisplayedArticle: [LIB activeArticle]];
 }
 
 #pragma mark -
@@ -602,7 +586,43 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     [PREFS setVisibleArticleColumns: columnArray];
 }
 
--(void)setDisplayedArticle:(Article *)anArticle{
+
+-(void)updateStatus{
+	NSMutableString *			status = [NSMutableString stringWithFormat:@"%d articles", [LIB activeArticleCount]];
+	
+	//KNDebug(@"updateStatus - %@", status);
+	if( isUpdating ){
+		[status appendFormat:@" - Updating %@", currentUpdatingFeedTitle];
+	}
+	[statusTextField setStringValue: status];
+}
+
+-(IBAction)reloadData{
+	
+	[feedOutlineView reloadData];
+	[articleTableView reloadData];
+	
+	[self updateStatus];
+	[self setWindowTitle];
+	[[NSApp delegate] updateDockIcon];
+	
+	NSEnumerator *				enumerator = [[LIB activeArticles] objectEnumerator];
+	KNArticle *					article = nil;
+	
+	[articleTableView deselectAll: self];
+	while( (article = [enumerator nextObject]) ){
+		[articleTableView selectRowIndexes: [[article parent] currentChildIndexes] byExtendingSelection: YES];
+	}
+	
+	// Set our item in our inspector
+	if( [[LIB activeItems] count] == 1 ){
+		[inspector setItem: [[LIB activeItems] objectAtIndex:0]];
+	}else{
+		[inspector setItem: nil];
+	}
+}
+
+-(void)setDisplayedArticle:(KNArticle *)anArticle{
 	NSString *					previewCachePath = nil;
     NSURL *                     base = nil;
     
@@ -612,7 +632,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[anArticle setStatus: StatusRead];
 		previewCachePath = [anArticle previewCachePath];
         base = [NSURL URLWithString: [anArticle link]];
-		[self reloadData];
+		[[NSApp delegate] updateDockIcon];
+		[feedOutlineView reloadData];
     }
     
     KNDebug(@"baseURL: %@", base);
@@ -624,26 +645,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 }
 
--(void)updateStatus{
-	NSMutableString *			status = [NSMutableString stringWithFormat:@"%d articles", [feedLibrary activeArticleCount]];
-	
-	//KNDebug(@"updateStatus - %@", status);
-	if( isUpdating ){
-		[status appendFormat:@" - Updating %@", currentUpdatingFeedTitle];
-	}
-	[statusTextField setStringValue: status];
-}
-
--(IBAction)reloadData{
-	[feedOutlineView reloadData];
-	[articleTableView reloadData];
-	[self updateStatus];
-	[self setWindowTitle];
-	if( ! isUpdating ){ [[NSApp delegate] updateDockIcon]; }
-	[articleTableView selectRow: [feedLibrary activeArticleIndex] byExtendingSelection: NO];
-	
-	// send growl notification
-}
 
 #pragma mark-
 #pragma mark Preference Notifications
@@ -665,7 +666,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)articleFontChanged:(NSNotification *)notification{
 #pragma unused(notification)
 	//articleFont = [NSFont fontWithName: [PREFS articleFontName] size: [PREFS articleFontSize]];
-	[self setDisplayedArticle: [feedLibrary activeArticle]];
+	if( [[articleTableView selectedRowIndexes] count] == 1 ){
+		[self setDisplayedArticle: [LIB activeArticleAtIndex: [[articleTableView selectedRowIndexes] firstIndex]]];
+	}else{
+		[self setDisplayedArticle: nil];
+	}
 }
 
 -(void)articleExpiredColorChanged:(NSNotification *)notification{
@@ -675,7 +680,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)torrentSchemeChanged:(NSNotification *)notification{
 #pragma unused(notification)
-	[self setDisplayedArticle: [feedLibrary activeArticle]];
+	#warning Disabled TorrentURL
+	//[self setDisplayedArticle: [LIB activeArticle]];
 }
 
 #pragma mark -
@@ -707,9 +713,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(IBAction)refresh:(id)sender{
 #pragma unused(sender)
 	if( isUpdating ){
-		[feedLibrary cancelUpdate];
+		[LIB cancelUpdate];
 	}else{
-		[feedLibrary refreshAll];
+		[LIB refreshAll];
 	}
 }
 
@@ -718,23 +724,21 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSEnumerator *			enumerator;
 	NSEnumerator *			folderEnumerator;
 	id						feedItem;
-	Feed *					feed;
+	KNFeed *					feed;
 	
 	KNDebug(@"CONT: refreshItem");
-	enumerator = [[feedLibrary activeFeedItems] objectEnumerator];
+	enumerator = [[LIB activeItems] objectEnumerator];
 	while((feedItem = [enumerator nextObject])){
-		if( [feedLibrary isFeedItem: feedItem] ){
-			[feedLibrary refreshFeed: [feedLibrary feedForItem:feedItem]];
-		}else if( [feedLibrary isArticleItem: feedItem] ){
-			[feedLibrary refreshFeed: [[feedLibrary articleForItem: feedItem] feed]];
-		}else if( [feedLibrary isFolderItem: feedItem] ){
-			folderEnumerator = [[feedLibrary feedsInFolder: feedItem] objectEnumerator];
+		if( [LIB isFeedItem: feedItem] ){
+			[LIB refreshFeed: [LIB feedForItem:feedItem]];
+		}else if( [LIB isFolderItem: feedItem] ){
+			folderEnumerator = [[LIB feedsInFolder: feedItem] objectEnumerator];
 			while((feed = [folderEnumerator nextObject])){
-				[feedLibrary refreshFeed: feed];
+				[LIB refreshFeed: feed];
 			}
 		}
 	}
-	[feedLibrary startUpdate];
+	[LIB startUpdate];
 }
 
 - (IBAction)newFeed:(id)sender{
@@ -748,21 +752,26 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(IBAction)confirmNewFeed:(id)sender{
 #pragma unused(sender)
-    Feed *              feed;
+    KNFeed *              feed;
     int                 newIndex;
     
-    newIndex = [feedLibrary childCountOfItem: nil];
+    newIndex = [LIB childCountOfItem: nil];
     if(! [[feedURLTextField stringValue] isEqualToString: @""] ){
 		NSMutableString *			cleanSource = [NSMutableString stringWithString: [feedURLTextField stringValue]];
 
 		[cleanSource replaceOccurrencesOfString:@"feed:" withString:@"http:" options:NSCaseInsensitiveSearch range:NSMakeRange(0,5)];
-        feed = [[Feed alloc] initWithSource: cleanSource ];
+        feed = [[KNFeed alloc] init];
+		
 		KNDebug(@"CONT: created Feed: %@", feed);
-        [feedLibrary newFeed: feed inItem: nil atIndex:newIndex];
+		[feed setSourceURL: cleanSource];
+		[feed setName: cleanSource];
+        [LIB newFeed: feed inItem: nil atIndex:newIndex];
+		KNDebug(@"CONT: added feed to lib %@", LIB);
 		[feed release];
-        //[feedOutlineView reloadData];
-		[feedLibrary refreshFeed: feed];
-        [feedLibrary startUpdate];
+        [self reloadData];
+		
+		[LIB refreshFeed: feed];
+        [LIB startUpdate];
     
         [NSApp stopModal];
     }else{
@@ -800,13 +809,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		selectedArticles = [articleTableView selectedRowIndexes];
 		currentIndex = [selectedArticles firstIndex];
 		while( currentIndex != NSNotFound ){
-			[feedLibrary removeArticle: [feedLibrary activeArticleAtIndex: currentIndex]];
-			//KNDebug(@"CONT: Will remove article %@", [[feedLibrary activeArticleAtIndex: currentIndex] title]);
+			[LIB removeItem: [LIB activeArticleAtIndex: currentIndex]];
 			currentIndex = [selectedArticles indexGreaterThanIndex: currentIndex];
 		}
-		[feedLibrary refreshActiveArticles];
 		
-		[feedLibrary save];
 		[articleTableView deselectAll: self];
 		[self reloadData];
 	}
@@ -831,19 +837,21 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)confirmRemoveFeedItem:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)info{
 #pragma unused(sheet,info)
-//-(IBAction)confirmRemoveFeedItem:(id)sender{
     NSIndexSet *                selectedFeeds;
-    int                         currentIndex = -1;
+    int                         currentIndex = NSNotFound;
     
     if( returnCode == NSAlertDefaultReturn ){
-        //KNDebug(@"CONT: removeFeedItem");
+        KNDebug(@"CONT: removeFeedItem");
+		[inspector setItem: nil];
+			
         selectedFeeds = [feedOutlineView selectedRowIndexes];
         currentIndex = [selectedFeeds firstIndex];
         while( currentIndex != NSNotFound ){
-            [feedLibrary removeItem: [feedOutlineView itemAtRow: currentIndex]];
+			KNDebug(@"CONT: will remove item %@ at %u", [feedOutlineView itemAtRow: currentIndex], currentIndex);
+            [LIB removeItem: [feedOutlineView itemAtRow: currentIndex]];
+			KNDebug(@"CONT: removedItem at %u", currentIndex);
             currentIndex = [selectedFeeds indexGreaterThanIndex: currentIndex];
         }
-        [feedLibrary save];
 		[self reloadData];
 		[feedOutlineView deselectAll: self];
     }
@@ -853,17 +861,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma unused(sender)
 	id					folderItem = nil;
 	
-    folderItem = [feedLibrary newFolderNamed:@"Untitled Folder" inItem:nil atIndex:0];
-    [feedLibrary makeDirty];
+    folderItem = [LIB newFolderNamed:@"Untitled Folder" inItem:nil atIndex:0];
+	[self reloadData];
+	
 	[feedOutlineView selectRow:0 byExtendingSelection: NO];
-	
-	
-	[feedLibrary setActiveFeedItems: [NSArray arrayWithObject: folderItem]];
-	
-	[self setDisplayedArticle: [feedLibrary activeArticle]];
-    [feedOutlineView reloadData];
-	[articleTableView reloadData];
-	
 	[feedOutlineView editColumn:[feedOutlineView columnWithIdentifier: @"feedName"] row:0 withEvent:nil select:YES];
 }
 
@@ -878,7 +879,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	if( [selectedArticles count] == 0 ){ return; }
 	currentIndex = [selectedArticles firstIndex];
 	while( currentIndex != NSNotFound ){
-		articleLink = [[feedLibrary activeArticleAtIndex: currentIndex] link];
+		articleLink = [[LIB activeArticleAtIndex: currentIndex] link];
 		if( ! [articleLink isEqualToString: @""] ){
 			[articleLinks addObject: [NSURL URLWithString: articleLink]];
 		}
@@ -905,23 +906,23 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(IBAction)openFeedsExternal:(id)sender{
 #pragma unused(sender)
-	NSEnumerator *				enumerator = [[feedLibrary activeFeedItems] objectEnumerator];
-	Feed *						feed;
-	Article *					article;
+	NSEnumerator *				enumerator = [[LIB activeItems] objectEnumerator];
+	KNFeed *						feed;
+	KNArticle *					article;
 	id							feedItem;
 	NSMutableArray *			feedLinks = [NSMutableArray array];
 	NSString *					feedLink;
 	NSWorkspaceLaunchOptions	options = [PREFS launchExternalInBackground] ? NSWorkspaceLaunchWithoutActivation : 0;
 	
 	while((feedItem = [enumerator nextObject])){
-		if( [feedLibrary isFeedItem: feedItem] ){
-			feed = [feedLibrary feedForItem: feedItem];
+		if( [LIB isFeedItem: feedItem] ){
+			feed = [LIB feedForItem: feedItem];
 			feedLink = [feed link];
 			if( ! [feedLink isEqualToString: @""] ){
 				[feedLinks addObject: [NSURL URLWithString: feedLink]];
 			}
-		}else if( [feedLibrary isArticleItem: feedItem] ){
-			article = [feedLibrary articleForItem: feedItem];
+		}else if( [LIB isArticleItem: feedItem] ){
+			article = [LIB articleForItem: feedItem];
 			feedLink = [article link];
 			if( ! [feedLink isEqualToString: @""] ){
 				[feedLinks addObject: [NSURL URLWithString: feedLink]];
@@ -957,7 +958,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	currentIndex = [selectedArticles firstIndex];
 	while( currentIndex != NSNotFound ){
-		if( ! [[[feedLibrary activeArticleAtIndex: currentIndex] status] isEqualToString: StatusRead] ){
+		if( ! [[[LIB activeArticleAtIndex: currentIndex] status] isEqualToString: StatusRead] ){
 			return( StatusUnread );
 		}
 		currentIndex = [selectedArticles indexGreaterThanIndex: currentIndex];
@@ -980,7 +981,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	currentIndex = [selectedArticles firstIndex];
 	while( currentIndex != NSNotFound ){
-		[[feedLibrary activeArticleAtIndex: currentIndex] setStatus: newStatus];
+		[[LIB activeArticleAtIndex: currentIndex] setStatus: newStatus];
 		currentIndex = [selectedArticles indexGreaterThanIndex: currentIndex];
 	}
 	
@@ -988,11 +989,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(NSString *)activeArticleStatus{
-	NSEnumerator *			enumerator = [[feedLibrary activeFeeds] objectEnumerator];
-	Feed *					feed;
+	NSEnumerator *			enumerator = [[LIB activeFeeds] objectEnumerator];
+	KNFeed *					feed;
 	
 	while((feed = [enumerator nextObject])){
-		if( [feed unreadArticleCount] > 0 ){
+		if( [feed unreadCount] > 0 ){
 			return StatusUnread;
 		}
 	}
@@ -1002,11 +1003,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(IBAction)markAllRead:(id)sender{
 #pragma unused(sender)
 	NSEnumerator *			enumerator = nil;
-	Article *				article = nil;
-	Feed *					feed = nil;
+	KNArticle *				article = nil;
+	KNFeed *					feed = nil;
 	
 	if( [[self activeArticleStatus] isEqualToString: StatusUnread] ){
-		enumerator = [[feedLibrary activeFeeds] objectEnumerator];
+		enumerator = [[LIB activeFeeds] objectEnumerator];
 		while((feed = [enumerator nextObject])){
 			while((article = [feed oldestUnread])){
 				[article setStatus: StatusRead];
@@ -1018,7 +1019,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(IBAction)resetArticleKillList:(id)sender{
 #pragma unused(sender)
-	[feedLibrary resetArticleKillList];
+	[LIB resetArticleKillList];
 }
 
 -(IBAction)bookmarkArticle:(id)sender{
@@ -1028,7 +1029,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	currentIndex = [selectedArticles firstIndex];
 	while( currentIndex != NSNotFound ){
-		[feedLibrary newArticle: [feedLibrary activeArticleAtIndex: currentIndex] inItem: nil atIndex: [feedLibrary childCountOfItem: nil]];
+		[LIB newArticle: [LIB activeArticleAtIndex: currentIndex] inItem: nil atIndex: [LIB childCountOfItem: nil]];
 		currentIndex = [selectedArticles indexGreaterThanIndex: currentIndex];
 	}
 	[feedOutlineView reloadData];
@@ -1037,18 +1038,18 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(IBAction)nextUnread:(id)sender{
 #pragma unused(sender)
 	int					currentIndex = 0;
-	int					articleCount = [feedLibrary activeArticleCount];
+	int					articleCount = [LIB activeArticleCount];
 	int					i;
-	Article *			article;
+	KNArticle *			article;
 	int					nextIndex = -1;
 	
 	KNDebug(@"CONT: nextUnread");
 	/*
-	article = [feedLibrary oldestUnreadActiveArticle];
+	article = [LIB oldestUnreadActiveArticle];
 	if( article ){
-		[feedLibrary setActiveArticle: article];
-		[articleTableView selectRow: [feedLibrary indexOfActiveArticle: article] byExtendingSelection: NO];
-		[articleTableView scrollRowToVisible: [feedLibrary indexOfActiveArticle: article]];
+		[LIB setActiveArticle: article];
+		[articleTableView selectRow: [LIB indexOfActiveArticle: article] byExtendingSelection: NO];
+		[articleTableView scrollRowToVisible: [LIB indexOfActiveArticle: article]];
 	}else{
 		KNDebug(@"CONT: no oldestUnreadActiveArticle found in current sources");
 	}
@@ -1060,7 +1061,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	for(i=currentIndex+1;i<articleCount;i++){
-		article = [feedLibrary activeArticleAtIndex: i];
+		article = [LIB activeArticleAtIndex: i];
 		if(! [[article status] isEqualToString: StatusRead] ){
 			nextIndex = i;
 			KNDebug(@"CONT: found an unread at index %d", nextIndex);
@@ -1077,17 +1078,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(IBAction)validateSource:(id)sender{
 #pragma unused(sender)
-	NSEnumerator *				enumerator = [[feedLibrary activeFeedItems] objectEnumerator];
-	Feed *						feed;
+	NSEnumerator *				enumerator = [[LIB activeFeeds] objectEnumerator];
+	KNFeed *						feed;
 	id							feedItem;
 	NSMutableArray *			feedLinks = [NSMutableArray array];
 	NSMutableString *			feedLink;
 	NSWorkspaceLaunchOptions	options = [PREFS launchExternalInBackground] ? NSWorkspaceLaunchWithoutActivation : 0;
 	
 	while((feedItem = [enumerator nextObject])){
-		if( [feedLibrary isFeedItem: feedItem] ){
-			feed = [feedLibrary feedForItem: feedItem];
-			feedLink = [NSMutableString stringWithString: [feed source]];
+		if( [LIB isFeedItem: feedItem] ){
+			feed = [LIB feedForItem: feedItem];
+			feedLink = [NSMutableString stringWithString: [feed sourceURL]];
 			if( ! [feedLink isEqualToString: @""] ){
 				[feedLink replaceOccurrencesOfString:@"&" withString:@"%26" options: NSLiteralSearch range: NSMakeRange(0,[feedLink length])];
 				[feedLink replaceOccurrencesOfString:@"?" withString:@"%3F" options: NSLiteralSearch range: NSMakeRange(0,[feedLink length])];
@@ -1118,15 +1119,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(IBAction)copySourceURL:(id)sender{
 #pragma unused(sender)
-	NSEnumerator *				enumerator = [[feedLibrary activeFeedItems] objectEnumerator];
-	Feed *						feed;
+	NSEnumerator *				enumerator = [[LIB activeItems] objectEnumerator];
+	KNFeed *						feed;
 	id							feedItem;
 	NSMutableArray *			feedLinks = [NSMutableArray array];
 	
 	while((feedItem = [enumerator nextObject])){
-		if( [feedLibrary isFeedItem: feedItem] ){
-			feed = [feedLibrary feedForItem: feedItem];
-			[feedLinks addObject: [feed source]];
+		if( [LIB isFeedItem: feedItem] ){
+			feed = [LIB feedForItem: feedItem];
+			[feedLinks addObject: [feed sourceURL]];
 		}
 	}
 	
@@ -1142,9 +1143,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma unused(sender)
 	id					item = nil;
 	
-	if( [[feedLibrary activeFeedItems] count] == 1 ){
-		item = [[feedLibrary activeFeedItems] objectAtIndex: 0];
-		
+	if( [[LIB activeItems] count] == 1 ){
+		item = [[LIB activeItems] objectAtIndex: 0];
 	}
 	[inspector setItem: item];
 	[[inspector window] makeKeyAndOrderFront: self];
@@ -1202,7 +1202,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     [PREFS setArticleListHeight: articleFrame.size.height+1];
     [PREFS setDisplayHeight: displayFrame.size.height-1];
     
-    [articleTableView scrollRowToVisible: [feedLibrary activeArticleCount]-1];
+    [articleTableView scrollRowToVisible: [LIB activeArticleCount]-1];
 }
 
 
@@ -1253,564 +1253,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[[NSWorkspace sharedWorkspace] openURL: [request URL]];
 	}
 	return;
-}
-			
-#pragma mark -
-#pragma mark TableView Support
-
-/*
--(void)tableView:(NSTableView *)tableView willDisplayCell:(NSCell *)cell forTableColumn:(NSTableColumn *)column row:(int)index{
-	Article *			article = [feedLibrary activeArticleAtIndex: index];
-	NSFontManager *		fontManager = [NSFontManager sharedFontManager];
-	
-	if( article ){
-		if( [[article status] isEqualToString: StatusRead] ){
-			[cell setFont: [fontManager convertFont: [cell font] toNotHaveTrait: NSBoldFontMask]];
-		}else{
-			[cell setFont: [fontManager convertFont: [cell font] toHaveTrait: NSBoldFontMask]];
-		}
-		
-		if( [article isOnServer] ){
-			[cell setFont: [fontManager convertFont: [cell font] toNotHaveTrait: NSItalicFontMask]];
-		}else{
-			[cell setFont: [fontManager convertFont: [cell font] toHaveTrait: NSItalicFontMask]];
-		}
-	}
-}
-*/
-
--(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)idx{
-#pragma unused(tableView)
-    id                          value = nil;
-    Article *                   article = nil;
-    //BOOL                        isRead = NO;
-    NSCell *                    currentCell = nil;
-    NSFontManager *             fontManager = [NSFontManager sharedFontManager];
-	NSMutableDictionary *		attributes = [NSMutableDictionary dictionary];
-    
-    article = [feedLibrary activeArticleAtIndex: idx];
-    if( article ){
-		currentCell = [column dataCell];
-		[currentCell setWraps: YES];
-		[attributes setObject: tableWrapStyle forKey: NSParagraphStyleAttributeName];
-		
-		//KNDebug(@"CONT: setting attributes. Cell is %@", currentCell);
-		//[attributes setObject: [NSNumber numberWithFloat: 10.0] forKey: NSBaselineOffsetAttributeName];
-		if( [[article status] isEqualToString: StatusUnread] ){
-			[attributes setObject: [fontManager convertFont: [NSFont systemFontOfSize:[NSFont smallSystemFontSize]] toHaveTrait: NSBoldFontMask] forKey: NSFontAttributeName];
-		}else{
-			[attributes setObject: [fontManager convertFont: [NSFont systemFontOfSize:[NSFont smallSystemFontSize]] toNotHaveTrait: NSBoldFontMask] forKey: NSFontAttributeName];
-		}
-		if( ![article isOnServer] ){
-			[attributes setObject: [PREFS expiredArticleColor] forKey: NSForegroundColorAttributeName];
-		}
-		//KNDebug(@"CONT: attributes are %@", attributes);
-		
-        if( [[column identifier] isEqualToString: ArticleTitle] ){
-            value = [[[NSAttributedString alloc] 
-				initWithString: [article title]
-				attributes: attributes] autorelease];
-        }else if( [[column identifier] isEqualToString: ArticleAuthor] ){
-            value = [[[NSAttributedString alloc]
-				initWithString: [article author]
-				attributes: attributes] autorelease];
-        }else if( [[column identifier] isEqualToString: ArticleCategory] ){
-            value = [[[NSAttributedString alloc]
-				initWithString: [article category]
-				attributes: attributes] autorelease];
-        }else if( [[column identifier] isEqualToString: ArticleFeedName] ){
-            value = [[[NSAttributedString alloc]
-				initWithString: [[article feed] title]
-				attributes: attributes] autorelease];
-        }else if( [[column identifier] isEqualToString: ArticleDate] ){
-			value = [[[NSAttributedString alloc]
-				initWithString:[[article date] naturalStringForWidth: [column width] withAttributes: attributes]
-				attributes: attributes] autorelease];
-				
-		}else if( [[column identifier] isEqualToString: ArticleSource] ){
-			value = [[[NSAttributedString alloc]
-				initWithString: [article source]
-				attributes: attributes] autorelease];
-			
-		}else if( [[column identifier] isEqualToString: ArticleStatus] ){
-			value = [[article status] isEqualToString: StatusRead] ? nil : [NSImage imageNamed: [article status]];
-        }else if( [[column identifier] isEqualToString: ArticleOnServer] ){
-			value = [article isOnServer] ? [NSImage imageNamed: ArticleOnServerImage] : nil;
-		}
-    }
-    return value;
-}
-
--(int)numberOfRowsInTableView:(NSTableView *)tableView{
-#pragma unused(tableView)
-    return [feedLibrary activeArticleCount];
-}
-
--(void)tableViewSelectionDidChange:(NSNotification *)notification{
-#pragma unused(notification)
-    Article *                   article = nil;
-	NSMutableArray *			articleIndexList = [NSMutableArray array];
-	NSIndexSet *				selectedArticles;
-	int							currentIndex;
-    
-	currentIndex = -1;
-	selectedArticles = [articleTableView selectedRowIndexes];
-	currentIndex = [selectedArticles firstIndex];
-	while( currentIndex != NSNotFound ){
-		[articleIndexList addObject: [NSNumber numberWithInt: currentIndex]];
-		currentIndex = [selectedArticles indexGreaterThanIndex: currentIndex];
-	}
-	KNDebug(@"CONT: there are %d selected articles", [articleIndexList count]);
-	
-	if( [articleIndexList count] == 1 ){
-		[feedLibrary setActiveArticleIndex: [[articleIndexList objectAtIndex:0] intValue]];
-		
-		id						item = [feedOutlineView itemAtRow: [[feedOutlineView selectedRowIndexes] firstIndex]];
-		[feedLibrary setActiveArticle:[feedLibrary activeArticle] forItem: item];
-	}else{
-		[feedLibrary setActiveArticleIndex: NSNotFound];
-	}
-	article = [feedLibrary activeArticle];
-	[self setDisplayedArticle: article];
-	[articleTableView scrollRowToVisible: [feedLibrary activeArticleIndex]];
-}
-
-
--(void)tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)column{
-    [tableView setHighlightedTableColumn: column];
-	/*
-    [feedLibrary setSortKey: [column identifier]];
-	//[[column headerCell] drawSortIndicatorWithFrame: [[column headerCell] cellFrame] inView: tableView ascending: YES priority: 0];
-    [articleTableView selectRow: [feedLibrary activeArticleIndex] byExtendingSelection: NO];
-    [articleTableView reloadData];
-	*/
-}
-
--(BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)column row:(int)idx{
-#pragma unused(tableView,column,idx)
-    return NO;
-}
-
--(void)tableViewColumnDidMove:(NSNotification *)notification{
-#pragma unused(notification)
-    //KNDebug(@"column did move");
-    [self rememberVisibleColumns: self];
-}
-
--(void)tableViewColumnDidResize:(NSNotification *)notification{
-#pragma unused(notification)
-    if( ! disableResizeNotifications ){
-        //KNDebug(@"column did resize");
-        [self rememberVisibleColumns: self];
-    }
-}
-
--(void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors{
-#pragma unused(oldDescriptors)
-	//KNDebug(@"CONT: sortDescriptorsDidChange to %@", [tableView sortDescriptors]);
-	[feedLibrary setSortDescriptors: [tableView sortDescriptors]];
-	[feedLibrary sortActiveArticles];
-	[articleTableView reloadData];
-	[articleTableView selectRow: [feedLibrary activeArticleIndex] byExtendingSelection:NO ];
-}
-
-#pragma mark -
-#pragma mark OutlineView Support
-
--(BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)column item:(id)item{
-#pragma unused(outlineView,column,item)
-    //return( ([[outlineView selectedRowIndexes] count] == 1) && [feedLibrary isFolderItem: item] );
-	return YES;
-}
-
--(void)outlineViewSelectionDidChange:(NSNotification *)notification{
-#pragma unused(notification)
-    NSMutableArray *            feedList = [NSMutableArray array];
-    NSIndexSet *                selectedFeeds;
-    int                         currentIndex;
-    
-    
-    //KNDebug(@"CONT: outlineViewSelectionDidChange");
-    [removeFeedButton setEnabled: ([feedOutlineView selectedRow] != -1)];
-    
-    selectedFeeds = [feedOutlineView selectedRowIndexes];
-    currentIndex = [selectedFeeds firstIndex];
-    
-    while( currentIndex != NSNotFound ){
-        //KNDebug(@"CONT: Adding feed at index %d", currentIndex);
-        [feedList addObject: [feedOutlineView itemAtRow: currentIndex]];
-        currentIndex = [selectedFeeds indexGreaterThanIndex: currentIndex];
-    }
-    [feedLibrary setActiveFeedItems: feedList];
-	
-	currentIndex = [feedLibrary activeArticleIndex];
-    [articleTableView reloadData];
-	[feedLibrary setActiveArticleIndex: currentIndex];
-	
-    if( [feedLibrary activeArticleIndex] != NSNotFound ){
-        //KNDebug(@"CONT: found an active article index %d", [feedLibrary activeArticleIndex]);
-        [articleTableView selectRow: [feedLibrary activeArticleIndex] byExtendingSelection: NO];
-    }else{
-		//KNDebug(@"CONT: no saved active article for %d", [feedLibrary activeArticleIndex]);
-		
-		Article *			article = nil;
-		id					item = nil;
-		
-		[articleTableView deselectAll: self];
-		
-		currentIndex = [selectedFeeds firstIndex];
-		while( currentIndex != NSNotFound ){
-			item = [feedOutlineView itemAtRow: currentIndex];
-			//KNDebug(@"CONT: Checking for saved selection in item %@", item);
-			article = [feedLibrary activeArticleForItem: item];
-			if( article ){
-				//KNDebug(@"CONT: found saved selection %@", article);
-				break;
-			}
-			currentIndex = [selectedFeeds indexGreaterThanIndex: currentIndex];
-		}
-		
-		if( article ){
-			KNDebug(@"CONT: found saved active article %@ for item", article);
-			[feedLibrary setActiveArticle: article];
-			[articleTableView selectRow: [feedLibrary activeArticleIndex] byExtendingSelection: NO];
-		}else if( [feedLibrary oldestUnreadActiveArticle] ){
-			KNDebug(@"CONT: found unread article to select (%d)", [feedLibrary indexOfActiveArticle: [feedLibrary oldestUnreadActiveArticle]]);
-			[feedLibrary setActiveArticle: [feedLibrary oldestUnreadActiveArticle]];
-			[articleTableView selectRow: [feedLibrary activeArticleIndex] byExtendingSelection: NO];
-		}else if( [feedLibrary newestActiveArticle] ){
-			KNDebug(@"CONT: no saved article - using newestActive");
-			[feedLibrary setActiveArticle: [feedLibrary newestActiveArticle]];
-			[articleTableView selectRow: [feedLibrary activeArticleIndex] byExtendingSelection: NO];
-		}
-    }
-    
-    //KNDebug(@"CONT: feed selection changed: Selected Article is %d", [articleTableView selectedRow]);
-    [self setWindowTitle];
-    
-    //[articleTableView scrollRowToVisible: [feedLibrary activeArticleCount]-1];
-	[self updateStatus];
-	
-	// Set our item in our inspector
-	if( [selectedFeeds count] == 1 ){
-		unsigned int	firstIndex = [selectedFeeds firstIndex];
-		id				item = [feedOutlineView itemAtRow: firstIndex];
-		
-		[inspector setItem: item];
-	}else{
-		[inspector setItem: nil];
-	}
-}
-
--(id)outlineView:(NSOutlineView *)outlineView child:(int)idx ofItem:(id)item{
-#pragma unused(outlineView)
-    return [feedLibrary child:idx ofItem:item];
-}
-
--(BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item{
-#pragma unused(outlineView)
-    return [feedLibrary hasChildren: item];
-}
-
--(int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item{
-#pragma unused(outlineView)
-    return [feedLibrary childCountOfItem:item];
-}
-
--(void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item{
-#pragma unused(outlineView,tableColumn)
-	NSImage *				sourceImage = nil;
-	NSImage *				cellImage = nil;
-	
-	if( [feedLibrary isFolderItem:item] ){
-		sourceImage = folderImage;
-	}else if( [feedLibrary isFeedItem: item] ){
-		if( [[feedLibrary feedForItem: item] error] ){
-			sourceImage = [NSImage imageNamed:FeedErrorImage];
-		}else{
-			sourceImage = [[feedLibrary feedForItem: item] icon];
-		}
-	}else if( [feedLibrary isArticleItem: item] ){
-		sourceImage = [NSImage imageNamed:BookmarkImage];
-	}
-	
-	if( sourceImage ){
-		cellImage = [sourceImage copy];
-		[cellImage setScalesWhenResized: YES];
-		[cellImage setSize: NSMakeSize( 16, 16 )];
-		[cell setImage: cellImage];
-		[cellImage release];
-	}
-}
-
--(NSString *)outlineView:(NSOutlineView *)outlineView toolTipForTableColumn:(NSTableColumn *)column row:(int)rowIndex{
-#pragma unused(outlineView,column)
-	id					item = [feedOutlineView itemAtRow: rowIndex];
-	Feed *				feed;
-	
-	if( item ){
-		if( [feedLibrary isFeedItem: item] ){
-			feed = [feedLibrary feedForItem: item];
-			if( [feed error] ){
-				return [feed error];
-			}else{
-				return [feed source];
-			}
-		}else if( [feedLibrary isFolderItem: item] ){
-			return [NSString stringWithFormat: @"Contains %d feeds", [[feedLibrary feedsInFolder: item] count]];
-		}else if( [feedLibrary isArticleItem: item] ){
-			return [NSString stringWithFormat: @"Feed: %@", [[feedLibrary articleForItem: item] feedName]];
-		}
-	}
-	return nil;
-}
-
--(id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)column byItem:(id)item{
-#pragma unused(outlineView)
-    NSAttributedString *		value;
-	NSMutableString *			rawValue = [NSMutableString stringWithString: [feedLibrary nameForItem: item]];
-	NSCell *					currentCell = [column dataCell];
-    NSFontManager *				fontManager = [NSFontManager sharedFontManager];
-	NSMutableDictionary *		attributes = [NSMutableDictionary dictionary];
-    
-	[attributes setObject: tableWrapStyle forKey: NSParagraphStyleAttributeName];
-	
-	if( ([feedLibrary unreadCountForItem: item] > 0) && ([feedOutlineView editedRow] != [feedOutlineView rowForItem: item]) ){
-		[attributes setObject: [fontManager convertFont: [currentCell font] toHaveTrait:NSBoldFontMask] forKey: NSFontAttributeName];
-		[rawValue appendFormat: @" (%d)", [feedLibrary unreadCountForItem: item]];
-	}else{
-		[attributes setObject: [fontManager convertFont: [currentCell font] toNotHaveTrait:NSBoldFontMask] forKey: NSFontAttributeName];
-	}
-	
-	if( [feedLibrary isFeedItem: item] && [[feedLibrary feedForItem: item] error] ){
-		[attributes setObject:[NSColor redColor] forKey: NSForegroundColorAttributeName];
-	}
-	
-	/*
-	if( [feedLibrary isArticleItem: item] ){
-		[attributes setObject: [NSNumber numberWithInt:NSSingleUnderlineStyle] forKey:NSUnderlineStyleAttributeName ];
-	}
-	*/
-
-	value = [[[NSAttributedString alloc] 
-				//initWithString: [rawValue ellipsizeToWidth: [column width] withAttributes: attributes]
-				initWithString: rawValue
-				attributes: attributes] autorelease];
-
-	return value;
-}
-
--(void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)column byItem:(id)item{
-#pragma unused(outlineView,column)
-	[feedLibrary setName: object forItem: item];
-}
-
--(id)outlineView:(NSOutlineView *)outlineView persistentObjectForItem:(id)item{
-#pragma unused(outlineView)
-	return [feedLibrary keyForItem: item];
-}
-
--(id)outlineView:(NSOutlineView *)outlineView itemForPersistentObject:(id)object{
-#pragma unused(outlineView)
-	return [feedLibrary itemForKey: object];
-}
-
-#pragma mark -
-#pragma mark Drag & Drop Support
-
--(NSArray *)draggedFeedItems{ return draggedFeedItems; }
--(NSArray *)draggedArticles{ return draggedArticles; }
-
--(BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard{
-	if( draggedFeedItems ){ [draggedFeedItems release]; }
-	draggedFeedItems = items;
-	[draggedFeedItems retain];
-	currentDragSource = outlineView;
-	[pboard declareTypes:[NSArray arrayWithObjects: DragDropFeedItemPboardType, NSStringPboardType, nil] owner: self];
-	[pboard setData: [NSData data] forType: DragDropFeedItemPboardType];
-	return YES;
-}
-
--(unsigned int)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)childIndex{
-	BOOL					targetNodeIsValid = YES;
-	NSEnumerator *			enumerator;
-	id						draggedItem;
-	
-	if( (item != nil) && (childIndex==NSOutlineViewDropOnItemIndex) && (![feedLibrary isFolderItem: item]) ){
-		targetNodeIsValid = NO;
-	}
-	
-	
-	if( targetNodeIsValid &&
-		(([info draggingSource]==outlineView) || ([info draggingSource]==articleTableView)) &&
-		[[info draggingPasteboard] availableTypeFromArray:
-			[NSArray arrayWithObjects: DragDropFeedItemPboardType, DragDropFeedArticlePboardType, nil]] != nil ){
-		
-		if( [info draggingSource] == feedOutlineView ){
-			enumerator = [[self draggedFeedItems] objectEnumerator];
-			while((draggedItem = [enumerator nextObject])){
-				if( [feedLibrary isItem: item descendentOfItem: draggedItem] ){
-					targetNodeIsValid = NO;
-					break;
-				}
-			}
-		}
-	}
-	
-	return targetNodeIsValid ? NSDragOperationGeneric : NSDragOperationNone;
-}
-
--(BOOL)outlineView:(NSOutlineView*)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)targetItem childIndex:(int)childIndex{
-	NSPasteboard *				pboard = [info draggingPasteboard];
-	BOOL						dropOn = (childIndex == NSOutlineViewDropOnItemIndex);
-	NSEnumerator *				enumerator;
-	id							draggedItem;
-	BOOL						didAccept = NO;
-	int							newIndex = childIndex;
-	
-	
-	// These types are internally handled
-	if( [pboard availableTypeFromArray: [NSArray arrayWithObjects: DragDropFeedItemPboardType,DragDropFeedArticlePboardType,nil]] ){
-		
-		// set our index in case of general drop
-		if( [feedLibrary isFolderItem: targetItem] && dropOn ){
-			//KNDebug(@"CONT: dropOn and folder");
-			//newIndex = [feedLibrary childCountOfItem: targetItem];
-		}
-			
-		
-		//KNDebug(@"CONT: we reset our childIndex from %d to %d", childIndex, newIndex);
-		if( [info draggingSource] == outlineView ){
-			[feedOutlineView deselectAll: self];
-			
-			// Actually move all the items
-			enumerator = [[self draggedFeedItems] objectEnumerator];
-			while((draggedItem = [enumerator nextObject])){
-				[feedLibrary moveItem: draggedItem toParent: targetItem index: newIndex];
-			}
-			[feedOutlineView reloadData];
-			
-			// Reset our selection
-			enumerator = [[self draggedFeedItems] objectEnumerator];
-			while((draggedItem = [enumerator nextObject])){
-				[feedOutlineView selectRow: [feedOutlineView rowForItem:draggedItem] byExtendingSelection: YES];
-			}
-			didAccept = YES;
-			[draggedFeedItems release];
-			draggedFeedItems = nil;
-		}
-		
-		if( [info draggingSource] == articleTableView ){
-			KNDebug(@"CONT: drag from article table");
-			NSMutableArray *			articleSelection = [NSMutableArray array];
-			NSNumber *					draggedArticleIndex;
-			
-			
-			enumerator = [[self draggedArticles] objectEnumerator];
-			while((draggedArticleIndex = [enumerator nextObject])){
-				Article *				article = [feedLibrary activeArticleAtIndex: [draggedArticleIndex intValue]];
-
-				draggedItem = [feedLibrary newArticle: article inItem: targetItem atIndex: newIndex];
-				[articleSelection addObject: draggedItem];
-			}
-			[feedOutlineView reloadData];
-			[feedOutlineView deselectAll: self];
-			
-			enumerator = [articleSelection objectEnumerator];
-			while((draggedItem = [enumerator nextObject])){
-				[feedOutlineView selectRow: [feedOutlineView rowForItem: draggedItem] byExtendingSelection: YES];
-			}
-			
-			didAccept = YES;
-			[draggedArticles release];
-			draggedArticles = nil;
-		}
-	}else if( [pboard availableTypeFromArray: [NSArray arrayWithObjects: NSStringPboardType,nil]] ){
-		NSString *				draggedString = [pboard stringForType: NSStringPboardType];
-		NSArray *				sources = [draggedString componentsSeparatedByString:@"\n"];
-		NSString *				newSource;
-		Feed *					newFeed;
-		int						feedsAdded = 0;
-		
-		enumerator = [sources objectEnumerator];
-		while((newSource = [enumerator nextObject])){
-			NSMutableString *			cleanSource = [NSMutableString stringWithString: newSource];
-
-			[cleanSource replaceOccurrencesOfString:@"feed:" withString:@"http:" options:NSCaseInsensitiveSearch range:NSMakeRange(0,5)];
-			newFeed = [[Feed alloc] initWithSource: cleanSource];
-			if( [feedLibrary newFeed: newFeed inItem: targetItem atIndex: newIndex ] ){
-				[feedLibrary refreshFeed: newFeed];
-				feedsAdded++;
-			}
-			[newFeed release];
-		}
-		
-		if( feedsAdded > 0 ){
-			[feedLibrary startUpdate];
-			didAccept = YES;
-		}
-	}
-	
-	return didAccept;
-}
-
--(BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard{
-	if( draggedArticles ){ [draggedArticles release]; }
-	draggedArticles = rows;
-	[draggedArticles retain];
-	currentDragSource = tableView;
-	[pboard declareTypes:[NSArray arrayWithObjects: DragDropFeedArticlePboardType, NSStringPboardType, nil] owner: self];
-	[pboard setData: [NSData data] forType: DragDropFeedArticlePboardType];
-	
-	return YES;
-}
-
--(void)pasteboard:(NSPasteboard *)pboard provideDataForType:(NSString *)type{
-	NSEnumerator *				enumerator;
-	Article *					article;
-	Feed *						feed;
-	id							feedItem;
-	NSNumber *					articleIndex;
-	NSMutableString *			draggedString = [NSMutableString string];
-	NSEnumerator *				folderEnumerator;
-	
-	if( [type isEqualToString: NSStringPboardType] ){
-		
-		if( currentDragSource == articleTableView ){
-			enumerator = [[self draggedArticles] objectEnumerator];
-			while((articleIndex = [enumerator nextObject])){
-				article = [feedLibrary activeArticleAtIndex: [articleIndex intValue]];
-				if( ![[article link] isEqualToString: @""] ){
-					[draggedString appendFormat: @"%@\n", [article link]];
-				}else{
-					[draggedString appendFormat: @"%@\n", [[article feed] source]];
-				}
-			}
-		}else if( currentDragSource == feedOutlineView ){
-			enumerator = [[self draggedFeedItems] objectEnumerator];
-			while((feedItem = [enumerator nextObject])){
-				if( [feedLibrary isFeedItem: feedItem] ){
-					[draggedString appendFormat: @"%@\n", [[feedLibrary feedForItem: feedItem] source]];
-					
-				}else if( [feedLibrary isFolderItem: feedItem] ){
-					folderEnumerator = [[feedLibrary feedsInFolder: feedItem] objectEnumerator];
-					while((feed = [folderEnumerator nextObject])){
-						[draggedString appendFormat: @"%@\n", [feed source]];
-					}
-					
-				}else if( [feedLibrary isArticleItem: feedItem] ){
-					article = [feedLibrary articleForItem: feedItem];
-					if( [[article link] isEqualToString: @""] ){
-						[draggedString appendFormat: @"%@\n", [[article feed] source]];
-					}else{
-						[draggedString appendFormat: @"%@\n", [article link]];
-					}
-					
-				}
-			}
-		}
-		[pboard setString: [draggedString trimWhitespace] forType: type];
-	}
 }
 
 @end

@@ -1,0 +1,23 @@
+Item
+	+ can create and delete
+	+ unique ID created for every item
+	+ can add, remove and count children
+	+ can rearrange children
+	+ can set and return name
+	+ can set and return current children
+	+ current children remain valid while adding and deleting children
+	+ can write and read to data
+	+ ensure isEqual works correctly
+	+ ensure archiving preserves children
+	+ ensure archiving preserves current
+	+ ensure itemForKey returns correct item
+	+ ensure currentChildren returns correct children
+	
+Source
+	+ set and return properties
+	+ can write and read to data
+
+Article
+	- does not allow adding children
+	+ set and return properties
+	+ can write and read to data

@@ -35,10 +35,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 #import "FeedWindowController.h"
 #import "PrefsWindowController.h"
-#import "FeedLibrary.h"
+#import "Library.h"
+#import "Library+Update.h"
+#import "Library+Items.h"
 #import "Prefs.h"
 #import "OPMLReader.h"
-#import "Feed.h"
+#import "KNFeed.h"
 #import <Growl/GrowlApplicationBridge.h>
 
 #import <Foundation/NSDebug.h>
@@ -55,7 +57,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
         updateTimer = nil;
 		feedWindowController = nil;
 		prefsWindowController = nil;
-		feedLibrary = [[FeedLibrary alloc] init];
 		[[NSAppleEventManager sharedAppleEventManager] setEventHandler: self andSelector: @selector(getURL:withReplyEvent:)
 			forEventClass: kInternetEventClass andEventID: kAEGetURL];
     }
@@ -71,29 +72,23 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[self addDebugMenu];
 	}
 	
-	[self updateDockIcon];
-	
-    feedWindowController = [[FeedWindowController alloc] init];
-    [feedWindowController showWindow: self];
-	[feedLibrary refreshPending];
-    
-    // set our timer
-	/*
-    updateTimer = [NSTimer scheduledTimerWithTimeInterval: [PREFS updateInterval]
-            target: self selector:@selector(updateTimer:) 
-            userInfo: nil repeats: NO
-    ];
-	*/
-	updateTimer = [NSTimer scheduledTimerWithTimeInterval: 60.0 target: self selector:@selector(updateTickle:) userInfo: nil repeats: YES];
-	
-	
+	if( ! [LIB load] ){
+		KNDebug(@"APP: Will load default feeds here");
+	}
+
 	[[NSNotificationCenter defaultCenter] addObserver: self
 		selector: @selector(feedUpdateFinished:)
 		name:FeedUpdateFinishedNotification object: nil
 	];
-	
 	[GrowlApplicationBridge setGrowlDelegate: self];
 	
+	
+	[self updateDockIcon];
+    feedWindowController = [[FeedWindowController alloc] init];
+    [feedWindowController showWindow: self];
+	
+	[LIB refreshPending];
+	updateTimer = [NSTimer scheduledTimerWithTimeInterval: 60.0 target: self selector:@selector(updateTickle:) userInfo: nil repeats: YES];
 }
 
 -(BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender{
@@ -124,14 +119,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     NSImage *               appImage;
     
     //KNDebug(@"appWillTerminate");
-    //[feedLibrary shutdown];
-    [feedLibrary save];
-    [updateTimer invalidate];
+	[updateTimer invalidate];
+    [LIB save];
 	
     appImage = [[NSWorkspace sharedWorkspace] iconForFile:[[NSBundle mainBundle] bundlePath]];
     [NSApp setApplicationIconImage: appImage];
-	//[appImage release];
-    //KNDebug(@"appWillTerminate Done");
 }
 
 -(BOOL)application:(NSApplication *)application openFile:(NSString *)filename{
@@ -169,9 +161,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSZombieEnabled = [PREFS debugging];
 }
 
+/*
 -(FeedLibrary *)feedLibrary{
     return feedLibrary;
 }
+*/
 
 -(IBAction)showPrefs:(id)sender{
 #pragma unused(sender)
@@ -186,7 +180,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma unused(aTimer)
     NSTimeInterval              delay = [PREFS retryInterval];
     
-    if( [feedLibrary refreshAll] ){
+    if( [LIB refreshAll] ){
         delay = [PREFS updateInterval];
     }
     
@@ -195,11 +189,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)updateTickle:(NSTimer *)aTimer{
 #pragma unused(aTimer)
-	[feedLibrary refreshPending];
+	[LIB refreshPending];
 }
 
 -(void)updateDockIcon{
-	[self updateDockIcon: [feedLibrary unreadCount]];
+	[self updateDockIcon: [LIB unreadCountForItem:nil]];
 }
 
 -(void)updateDockIcon:(int)unreadCount{
@@ -253,17 +247,19 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)openURL:(NSURL *)url{
 	KNDebug(@"APP: openURL %@", url);
-	Feed *			feed = nil;
+	KNFeed *			feed = nil;
 	
 	if( url ){
 		NSMutableString *			cleanSource = [NSMutableString stringWithString: [url absoluteString]];
 
 		[cleanSource replaceOccurrencesOfString:@"feed:" withString:@"http:" options:NSCaseInsensitiveSearch range:NSMakeRange(0,5)];
-		feed = [[Feed alloc] initWithSource: cleanSource];
-		[feedLibrary newFeed: feed inItem: nil atIndex: [feedLibrary childCountOfItem: nil]];
+		feed = [[KNFeed alloc] init];
+		[feed setSourceURL: cleanSource];
+		[feed setName: cleanSource];
+		[LIB newFeed: feed inItem: nil atIndex: [LIB childCountOfItem: nil]];
 		[feedWindowController reloadData];
-		[feedLibrary refreshFeed: feed];
-		[feedLibrary startUpdate];
+		[LIB refreshFeed: feed];
+		[LIB startUpdate];
 		[feed release];
 	}
 }
@@ -284,21 +280,19 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		int					i, count = [filesToOpen count];
 		for( i=0; i<count; i++ ){
 			NSString *			file = [filesToOpen objectAtIndex:i];
-			NSEnumerator *		enumerator;
-			//NSDictionary *		subscription;
-			NSString *			source;
 			
 			opml = [[OPMLReader alloc] init];
+			
+			KNDebug(@"OPML: %@", opml);
+			
 			if( [opml parse: [[NSFileManager defaultManager] contentsAtPath: file]] ){
-				enumerator = [[opml outlines] objectEnumerator];
-				while((source = [enumerator nextObject])){
-					Feed *				feed = [[Feed alloc] initWithSource: source];
-
-					KNDebug(@"APP: Importing source %@", source);
-					[feedLibrary newFeed: feed inItem: nil atIndex: [feedLibrary childCountOfItem: nil]];
-					[feedLibrary refreshFeed: feed];
-					[feed release];
+				//[self importOPMLRecord: [opml rootItem] intoItem: [LIB rootItem]];
+				unsigned						childCount;
+				
+				for(childCount=0;childCount<[[[opml rootItem] objectForKey:OPML_OUTLINE_CHILDREN] count];childCount++){
+					[self importOPMLRecord: [[[opml rootItem] objectForKey:OPML_OUTLINE_CHILDREN] objectAtIndex:childCount] intoItem: [LIB rootItem]];
 				}
+
 			}else{
 				NSAlert *			alert = [[NSAlert alloc] init];
 				NSButton *			okButton = nil;
@@ -320,12 +314,45 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			[opml release];
 		}
 		[feedWindowController reloadData];
-		[feedLibrary startUpdate];
+		[LIB startUpdate];
 		if( ! [[feedWindowController window] isVisible] ){
 			[feedWindowController showWindow: self];
 		}
 		//KNDebug(@"APP: Started update");
 	}
+}
+
+-(void)importOPMLRecord:(NSDictionary *)itemRecord intoItem:(id)anItem{
+	
+	//KNDebug(@"importOPMLRecord: %@ intoItem: %@", itemRecord, anItem);
+	if( [[itemRecord objectForKey: OPML_OUTLINE_TYPE] isEqualToString: OPML_OUTLINE_TYPE_FOLDER] ){
+		id						newItem;
+		unsigned				i;
+		
+		//KNDebug(@"Importing Folder %@ into %@", [itemRecord objectForKey: OPML_OUTLINE_NAME], anItem);
+		newItem = [LIB newFolderNamed: [itemRecord objectForKey: OPML_OUTLINE_NAME]
+									inItem: anItem 
+									atIndex: [LIB childCountOfItem: anItem]
+								];
+								
+		for(i=0;i<[[itemRecord objectForKey:OPML_OUTLINE_CHILDREN] count];i++){
+			[self importOPMLRecord: [[itemRecord objectForKey:OPML_OUTLINE_CHILDREN] objectAtIndex:i] intoItem: newItem];
+		}
+
+	}else if( [[itemRecord objectForKey: OPML_OUTLINE_TYPE] isEqualToString: OPML_OUTLINE_TYPE_SOURCE] ){
+		NSString *				source = [itemRecord objectForKey: OPML_OUTLINE_SOURCE];
+		KNFeed *				feed = [[KNFeed alloc] init];
+		
+		//KNDebug(@"Importing Feed %@ into %@", source, anItem);
+		if( feed ){
+			[feed setSourceURL: source];
+			[feed setName: source];
+			[LIB newFeed: feed inItem: anItem atIndex: [LIB childCountOfItem: anItem]];
+			[LIB refreshFeed: feed];
+			[feed release];
+		}
+	}
+	
 }
 
 -(void)exportOPML:(id)sender{
@@ -339,22 +366,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	saveResult = [savePanel runModalForDirectory: nil file: nil];
 	if( saveResult == NSOKButton ){
 		NSMutableString *			buffer = [NSMutableString string];
-		NSEnumerator *				enumerator = [[feedLibrary allFeeds] objectEnumerator];
-		Feed *						feed;
 		
 		[buffer appendString:@"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"];
 		[buffer appendString:@"<opml version=\"1.1\">\n"];
 		[buffer appendString:@"\t<head>\n\t\t<title>Exported Feeds</title>\n\t</head>\n\t<body>\n"];
-		while((feed = [enumerator nextObject])){
-			NSMutableString *			escapedString = [NSMutableString stringWithString: [feed source]];
-			
-			// encode any 'illegal' XML characters that could (nay, WILL) end up in our URLs
-			[escapedString replaceOccurrencesOfString:@"&" withString:@"&amp;" options:NSLiteralSearch range:NSMakeRange(0,[escapedString length])];
-			[escapedString replaceOccurrencesOfString:@"<" withString:@"&lt;" options:NSLiteralSearch range:NSMakeRange(0,[escapedString length])];
-			
-			KNDebug(@"APP: encoded source: %@", escapedString);
-			[buffer appendFormat:@"\t\t<outline type=\"rss\" xmlUrl=\"%@\" />\n", escapedString];
+		
+		unsigned					i;
+		
+		for(i=0; i<[[LIB rootItem] childCount]; i++){
+			[self writeItem: [[LIB rootItem] childAtIndex: i] toOPML: buffer];
 		}
+
 		[buffer appendString:@"\t</body>\n</opml>"];
 		
 		if( ! [buffer writeToFile:[savePanel filename] atomically:YES] ){
@@ -363,31 +385,40 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 }
 
-/*
--(void)checkProtocolRegistration{
-	NSString *				currentHandlerPath = [PREFS registeredProtocolHandlerAppPath];
+-(void)writeItem:(id)anItem toOPML:(NSMutableString *)aBuffer{
+	unsigned				i = 0;
+	NSMutableString *		escapedString = nil;
 	
-	if( [PREFS shouldCheckProtocolRegistration] && ![currentHandlerPath isEqualToString: [[NSBundle mainBundle] bundlePath]] ){
-		KNDebug(@"APP: current registered app is %@", currentHandlerPath);
-		// Throw dialog asking to register as default
-		[NSApp beginSheet: registerProtocolPanel modalForWindow: nil modalDelegate: nil didEndSelector: nil contextInfo: nil];
-		[NSApp runModalForWindow: registerProtocolPanel];
-		[NSApp endSheet: registerProtocolPanel];
-		[registerProtocolPanel orderOut: self];
+	if( [[anItem type] isEqualToString: FeedItemTypeItem] ){
+	
+		// encode any 'illegal' XML characters that could (nay, WILL) end up in our URLs
+		escapedString = [NSMutableString stringWithString: [anItem name]];
+		[escapedString replaceOccurrencesOfString:@"&" withString:@"&amp;" options:NSLiteralSearch range:NSMakeRange(0,[escapedString length])];
+		[escapedString replaceOccurrencesOfString:@"<" withString:@"&lt;" options:NSLiteralSearch range:NSMakeRange(0,[escapedString length])];
+		
+		[aBuffer appendFormat:@"\t<outline text=\"%@\" title=\"%@\">\n", escapedString, escapedString];
+		
+		for(i=0;i<[anItem childCount];i++){
+			[self writeItem: [anItem childAtIndex: i] toOPML: aBuffer];
+		}
+		
+		[aBuffer appendFormat:@"\t</outline>\n"];
+		
+	}else if( [[anItem type] isEqualToString: FeedItemTypeFeed] ){
+			
+		// encode any 'illegal' XML characters that could (nay, WILL) end up in our URLs
+		escapedString = [NSMutableString stringWithString: [anItem sourceURL]];
+		[escapedString replaceOccurrencesOfString:@"&" withString:@"&amp;" options:NSLiteralSearch range:NSMakeRange(0,[escapedString length])];
+		[escapedString replaceOccurrencesOfString:@"<" withString:@"&lt;" options:NSLiteralSearch range:NSMakeRange(0,[escapedString length])];
+		
+		[aBuffer appendFormat:@"\t\t<outline type=\"rss\" xmlUrl=\"%@\" />\n", escapedString];
 	}
 }
-*/
+
 
 -(NSString *)appName{
 	return [[NSFileManager defaultManager] displayNameAtPath: [[NSBundle mainBundle] bundlePath]];
 }
-
-/*
--(IBAction)setFeedAsProtocolHandler:(id)sender{	
-	[PREFS setRegisteredProtocolHandlerAppPath: [[NSBundle mainBundle] bundlePath]];
-	[NSApp stopModal];
-}
-*/
 
 -(IBAction)cancelDialog:(id)sender{
 #pragma unused(sender)
@@ -423,7 +454,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(NSString *)applicationNameForGrowl{
-	return @"Feed";
+	return [self appName];
 }
 
 -(void)feedUpdateFinished:(NSNotification *)notification{

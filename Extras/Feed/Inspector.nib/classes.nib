@@ -7,7 +7,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {feedDataChanged = id; feedSourceChanged = id; folderNameChanged = id; }; 
+            ACTIONS = {feedDataChanged = id; }; 
             CLASS = InspectorController; 
             LANGUAGE = ObjC; 
             OUTLETS = {

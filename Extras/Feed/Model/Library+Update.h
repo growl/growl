@@ -2,7 +2,7 @@
 
 BSD License
 
-Copyright (c) 2004, Keith Anderson
+Copyright (c) 2005, Keith Anderson
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -32,44 +32,29 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 */
 
 #import <Cocoa/Cocoa.h>
+#import "Library.h"
 
-@class Library,PrefsWindowController,FeedWindowController;
-@interface FeedDelegate : NSObject
-{
-	IBOutlet id					registerProtocolPanel;
-	
-    FeedWindowController *      feedWindowController;
-    PrefsWindowController *     prefsWindowController;
-    NSTimer *                   updateTimer;
-	NSBundle *					atomBundle;
-	NSMenu *					debugMenu;
-}
 
--(NSString *)appName;
+#define FeedUpdateFinishedNotification @"FeedUpdateFinished"
+#define FeedUpdateStartedNotification @"FeedUpdateStarted"
+#define FeedUpdateWillUpdateFeedNotification @"FeedUpdateWillUpdate"
+#define FeedUpdateDidUpdateFeedNotification @"FeedUpdateDidUpdate"
 
--(IBAction)showPrefs:(id)sender;
--(IBAction)showMainWindow:(id)sender;
--(IBAction)toggleDebug:(id)sender;
--(void)addDebugMenu;
 
--(void)updateDockIcon;
--(void)updateDockIcon:(int)unreadCount;
+@interface Library (Update)
 
--(void)openURL:(NSURL *)url;
-//-(void)openURLs:(NSArray *)openList;
+-(void)refreshFeed:(KNFeed *)aFeed;
+-(BOOL)refreshAll;
+-(void)refreshPending;
+-(BOOL)startUpdate;
 
--(void)importOPML:(id)sender;
--(void)importOPMLRecord:(NSDictionary *)itemRecord intoItem:(id)anItem;
--(void)exportOPML:(id)sender;
--(void)writeItem:(id)anItem toOPML:(NSMutableString *)aBuffer;
+-(void)cancelUpdate;
+-(void)updateStarted;
+-(void)willUpdateFeed:(KNFeed *)source;
+-(void)updateFeed:(KNFeed *)aFeed headers:(NSDictionary *)headers articles:(NSArray *)articles;
+-(void)updateFeed:(KNFeed *)source error:(NSString *)reason;
+-(void)runNextUpdate;
+-(void)updateFinished;
 
-/*
--(void)checkProtocolRegistration;
--(IBAction)setFeedAsProtocolHandler:(id)sender;
-*/
--(IBAction)cancelDialog:(id)sender;
--(IBAction)toggleShouldCheckProtocol:(id)sender;
--(IBAction)openHomePage:(id)sender;
--(IBAction)openBugPage:(id)sender;
 
 @end

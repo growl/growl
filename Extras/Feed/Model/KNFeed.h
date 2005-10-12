@@ -2,7 +2,7 @@
 
 BSD License
 
-Copyright (c) 2004, Keith Anderson
+Copyright (c) 2005, Keith Anderson
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -31,45 +31,61 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 */
 
-#import <Cocoa/Cocoa.h>
 
-@class Library,PrefsWindowController,FeedWindowController;
-@interface FeedDelegate : NSObject
-{
-	IBOutlet id					registerProtocolPanel;
+#import <Cocoa/Cocoa.h>
+#import "KNItem.h"
+
+#define FeedItemTypeFeed @"Feed"
+
+#define FeedSourceTypeRSS @"RSS"
+#define FeedSourceTypeAtom @"Atom"
+#define FeedSourceTypeUnknown @"Unknown"
+
+
+#define FeedSourceURL @"sourceURL"
+#define FeedSourceType @"sourceType"
+#define FeedFaviconURL @"faviconURL"
+#define FeedFaviconImage @"faviconImage"
+#define FeedSummary @"summary"
+#define FeedLink @"link"
+#define FeedLastError @"lastError"
+#define FeedImageURL @"imageURL"
+
+@class KNArticle;
+@interface KNFeed : KNItem <NSCoding>{
+	NSString *				sourceURL;
+	NSString *				sourceType;
+	NSString *				faviconURL;
+	NSImage *				faviconImage;
 	
-    FeedWindowController *      feedWindowController;
-    PrefsWindowController *     prefsWindowController;
-    NSTimer *                   updateTimer;
-	NSBundle *					atomBundle;
-	NSMenu *					debugMenu;
+	NSString *				summary;
+	NSString *				link;
+	NSString *				lastError;
+	NSString *				imageURL;
 }
 
--(NSString *)appName;
+-(void)setSourceURL:(NSString *)aSourceURL;
+-(NSString *)sourceURL;
+-(void)setSourceType:(NSString *)aSourceType;
+-(NSString *)sourceType;
+-(void)setFaviconURL:(NSString *)aFaviconURL;
+-(NSString *)faviconURL;
+-(void)setFaviconImage:(NSImage *)aFaviconImage;
+-(NSImage *)faviconImage;
+-(void)setSummary:(NSString *)aSummary;
+-(NSString *)summary;
+-(void)setLink:(NSString *)aLink;
+-(NSString *)link;
+-(void)setLastError:(NSString *)anError;
+-(NSString *)lastError;
+-(void)setImageURL:(NSString *)anImageURL;
+-(NSString *)imageURL;
 
--(IBAction)showPrefs:(id)sender;
--(IBAction)showMainWindow:(id)sender;
--(IBAction)toggleDebug:(id)sender;
--(void)addDebugMenu;
-
--(void)updateDockIcon;
--(void)updateDockIcon:(int)unreadCount;
-
--(void)openURL:(NSURL *)url;
-//-(void)openURLs:(NSArray *)openList;
-
--(void)importOPML:(id)sender;
--(void)importOPMLRecord:(NSDictionary *)itemRecord intoItem:(id)anItem;
--(void)exportOPML:(id)sender;
--(void)writeItem:(id)anItem toOPML:(NSMutableString *)aBuffer;
-
-/*
--(void)checkProtocolRegistration;
--(IBAction)setFeedAsProtocolHandler:(id)sender;
-*/
--(IBAction)cancelDialog:(id)sender;
--(IBAction)toggleShouldCheckProtocol:(id)sender;
--(IBAction)openHomePage:(id)sender;
--(IBAction)openBugPage:(id)sender;
+-(void)willUpdateArticles;
+-(void)refreshArticleWithDictionary:(NSDictionary *)articleDict;
+-(void)expireArticles;
+-(void)didUpdateArticles;
+-(KNArticle *)newestArticle;
+-(KNArticle *)oldestUnread;
 
 @end

@@ -35,10 +35,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 #define FeedLoadFailed @"FeedLoadFailed"
 
-@class FeedLibrary;
+@class Library, KNFeed;
 @interface FeedReader : NSObject {
-	FeedLibrary *					library;
-	NSString *						currentSource;
+	Library *						library;
+	KNFeed *							currentFeed;
 	NSMutableDictionary *			details;
 	NSMutableArray *				articles;
 	NSMutableData *					incomingData;
@@ -61,7 +61,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	BOOL							contentWasModified;
 }
 
--(id)initWithLibrary:(FeedLibrary *)aLibrary source:(NSString *)aSource;
+-(id)initWithLibrary:(Library *)aLibrary feed:(KNFeed *)feed;
 
 -(void)cancel;
 //-(BOOL)readFromSource:(NSString *)sourceURL;
@@ -74,7 +74,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)addArticleFromDict:(NSDictionary *)dict;
 
 -(NSString *)keyOfArticle:(NSDictionary *)article;
--(NSString *)titleOfArticle:(NSDictionary *)article;
+-(NSAttributedString *)titleOfArticle:(NSDictionary *)article;
 -(NSString *)contentOfArticle:(NSDictionary *)article;
 -(NSString *)authorOfArticle:(NSDictionary *)article;
 -(NSString *)sourceOfArticle:(NSDictionary *)article;

@@ -36,3 +36,4 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 void KNDebug(NSString *format,...);
 NSString *KNUniqueKeyWithLength(int keyLength);
 BOOL KNNetworkReachablePolitely(NSString * hostName);
+

@@ -32,12 +32,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 */
 #import "OPMLReader.h"
 
-#define OPML_OUTLINE_TYPE @"OPMLOutlineType"
-#define OPML_OUTLINE_TYPE_FOLDER @"OPMLOutlineTypeFolder"
-#define OPML_OUTLINE_TYPE_SOURCE @"OPMLOutlineTypeSource"
-
-#define OPML_OUTLINE_CHILDREN @"OPMLOutlineChildren"
-#define OPML_OUTLINE_NAME @"OPMLOutlineName"
 
 #define OPMLParserFailed @"OPMLParserFailed"
 @implementation OPMLReader
@@ -46,26 +40,36 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	self = [super init];
 	if( self ){
 		parser = nil;
-		outlines = nil;
-		currentContainer = nil;
 		error = nil;
+		readingSource = NO;
+		
+		rootOutline = [[NSMutableDictionary dictionary] retain];
+		[rootOutline setObject: OPML_OUTLINE_TYPE_FOLDER forKey: OPML_OUTLINE_TYPE];
+		[rootOutline setObject: @"" forKey: OPML_OUTLINE_NAME];
+		[rootOutline setObject: [NSMutableArray array] forKey: OPML_OUTLINE_CHILDREN];
+		
+		containerStack = [[NSMutableArray array] retain];
 	}
 	return self;
 }
 
 -(void)dealloc{
 	if( parser ){ [parser release]; }
-	if( outlines ){ [outlines release]; }
 	if( error ){ [error release]; }
+	
+	[rootOutline release];
+	[containerStack release];
+	
 	[super dealloc];
 }
 
 -(BOOL)parse:(NSData *)data{
 	KNDebug(@"OPML: parse");
 	NS_DURING
-		if( outlines ){ [outlines release]; }
-		outlines = [[NSMutableArray alloc] init];
-		currentContainer = outlines;
+		[[rootOutline objectForKey: OPML_OUTLINE_CHILDREN] removeAllObjects];
+		[containerStack removeAllObjects];
+		[containerStack addObject: rootOutline];
+		
 		if( parser ){ [parser release]; }
 
 		parser = [[NSXMLParser alloc] initWithData: data];
@@ -75,6 +79,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		
 		[parser release];
 		parser = nil;
+		KNDebug(@"OPML: parse finished");
 		
 	NS_HANDLER
 		KNDebug(@"OPML: %@", [localException reason]);
@@ -86,8 +91,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return YES;
 }
 
--(NSArray *)outlines{
-	return outlines;
+-(NSDictionary *)rootItem{
+	return rootOutline;
 }
 
 -(NSString *)error{
@@ -104,6 +109,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[exception raise];
 }
 
+
 -(void)parser:(NSXMLParser *)aParser didStartElement:(NSString *)element 
 	namespaceURI:(NSString *)nsURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)atts{
 #pragma unused(aParser,nsURI,qName)
@@ -112,22 +118,45 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		NSMutableDictionary *				outlineRec = [NSMutableDictionary dictionary];
 		
 		//KNDebug(@"OPML: found outline element with atts: %@",  atts);
-		if( [atts objectForKey:@"xmlUrl"] != NULL ){
+		if( [atts objectForKey:@"xmlUrl"] != nil ){
 			[outlineRec setObject: OPML_OUTLINE_TYPE_SOURCE forKey: OPML_OUTLINE_TYPE];
-			[outlineRec setObject: [atts objectForKey:@"xmlUrl"] forKey: OPML_OUTLINE_NAME];
+			[outlineRec setObject: [atts objectForKey:@"xmlUrl"] forKey: OPML_OUTLINE_SOURCE];
 			
-			KNDebug(@"OPML: found source %@", [atts objectForKey:@"xmlUrl"]);
-			[outlines addObject: [NSString stringWithString:[atts objectForKey:@"xmlUrl"]]];
+			[[[containerStack lastObject] objectForKey: OPML_OUTLINE_CHILDREN] addObject: outlineRec];
+			readingSource = YES;
+			//KNDebug(@"OPML: added source %@ to container %@", outlineRec, [[containerStack lastObject] objectForKey: OPML_OUTLINE_CHILDREN]);
+			
+		}else{
+			[outlineRec setObject: OPML_OUTLINE_TYPE_FOLDER forKey: OPML_OUTLINE_TYPE];
+			[outlineRec setObject: [NSMutableArray array] forKey: OPML_OUTLINE_CHILDREN];
+			
+			if( [atts objectForKey:@"title"] ){
+				[outlineRec setObject: [atts objectForKey:@"title"] forKey: OPML_OUTLINE_NAME];
+			}
+			
+			[[[containerStack lastObject] objectForKey: OPML_OUTLINE_CHILDREN] addObject: outlineRec];
+			//KNDebug(@"OPML: added folder: %@", [atts objectForKey:@"title"] );
+			[containerStack addObject: outlineRec];
+			readingSource = NO;
 		}
 	}
 }
 
 -(void)parser:(NSXMLParser *)aParser didEndElement:(NSString *)element
-	namespaceURL:(NSString *)nsURI qualifiedName:(NSString *)qName{
+	namespaceURI:(NSString *)nsURI qualifiedName:(NSString *)qName{
 #pragma unused(aParser,nsURI,qName)
-
+	
 	if( [element isEqualToString:@"outline"] ){
-		
+		if( readingSource ){
+			readingSource =  NO;
+		}else{
+			if( ([containerStack count] > 1) && 
+				[[[containerStack lastObject] objectForKey: OPML_OUTLINE_TYPE] isEqualToString: OPML_OUTLINE_TYPE_FOLDER] 
+			){
+				//KNDebug(@"Popping container %@", [[containerStack lastObject] objectForKey: OPML_OUTLINE_NAME]);
+				[containerStack removeLastObject];
+			}
+		}
 	}
 }
 

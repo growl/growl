@@ -32,8 +32,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 */
 
 #import "RSSReader.h"
-#import "Feed.h"
-#import "Article.h"
+#import "KNFeed.h"
+#import "KNArticle.h"
 #import "NSString+KNTruncate.h"
 #import "NSDictionary+KNExtras.h"
 
@@ -79,14 +79,16 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		}
 	}else if( [element isEqualToString: @"bitTorrent:torrent"] && [atts objectForKey: @"bitTorrent:url"] ){
 		if( currentArticle ){
-			[currentArticle setObject: [atts objectForKey:@"bitTorrent:url"] forKey: ArticleTorrentURL];
+			#warning Disabled TorrentURL
+			//[currentArticle setObject: [atts objectForKey:@"bitTorrent:url"] forKey: ArticleTorrentURL];
 		}
 	}else if( currentArticle && [element isEqualToString:@"enclosure"] &&
 		[[atts objectForKey:@"type"] isEqualToString: @"application/x-bittorrent"] && 
 		[atts objectForKey:@"url"]
 	){
 		//KNDebug(@"RSS: found torrent in enclosure tag");
-		[currentArticle setObject: [atts objectForKey:@"url"] forKey: ArticleTorrentURL];
+		#warning Disabled TorrentURL
+		//[currentArticle setObject: [atts objectForKey:@"url"] forKey: ArticleTorrentURL];
 	}
 	
 	if( currentBuffer ){ [currentBuffer release]; }
@@ -204,10 +206,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)setDetailsFromDict:(NSDictionary *)dict{
 	//KNDebug(@"RSS: setDetailsFromDict %@", dict);
-	[details setObject: FeedTypeRSS forKey: FeedType];
+	[details setObject: FeedSourceTypeRSS forKey: FeedSourceType];
 	
 	if( [dict objectForKey:@"title"] ){
-		[details setObject: [dict objectForKey:@"title"] forKey: FeedTitle];
+		[details setObject: [dict objectForKey:@"title"] forKey: ItemName];
 	}
 	if( [dict objectForKey:@"description"] ){
 		[details setObject: [dict objectForKey:@"description"] forKey: FeedSummary];
@@ -235,11 +237,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return key;
 }
 
--(NSString *)titleOfArticle:(NSDictionary *)article{
+-(NSAttributedString *)titleOfArticle:(NSDictionary *)article{
 	if( [article objectForKey: @"title"] ){
-		return [NSString stringWithString: [[article objectForKey: @"title"] collapseHTML]];
+		return [[[NSAttributedString alloc] initWithString: [[article objectForKey: @"title"] collapseHTML]] autorelease];
 	}else{
-		return [NSString string];
+		return [[[NSAttributedString alloc] init] autorelease];
 	}
 }
 
@@ -348,10 +350,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(NSString *)torrentURLOfArticle:(NSDictionary *)article{
 	NSString *					torrent = [NSString string];
 	
+	#warning Disabled TorrentURL
+	/*
 	if( [article objectForKey: ArticleTorrentURL] ){
 		//KNDebug(@"RSS: returning torrent %@", [article objectForKey:ArticleTorrentURL]);
 		torrent = [NSString stringWithString: [article objectForKey: ArticleTorrentURL]];
 	}
+	*/
 	return torrent;
 }
 

@@ -32,8 +32,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 */
 
 #import "AtomReader.h"
-#import "Feed.h"
-#import "Article.h"
+#import "KNFeed.h"
+#import "KNArticle.h"
 #import "NSString+KNTruncate.h"
 #import "NSDictionary+KNExtras.h"
 
@@ -219,12 +219,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 -(void)setDetailsFromDict:(NSDictionary *)dict{
-	[details setObject: FeedTypeAtom forKey: FeedType];
+	[details setObject: FeedSourceTypeAtom forKey: FeedSourceType];
 	
 	//KNDebug(@"ATOM: setDetailsFromDict");
 	
 	if( [dict objectForKey:@"title"] ){
-		[details setObject: [dict objectForKey:@"title"] forKey: FeedTitle];
+		[details setObject: [dict objectForKey:@"title"] forKey: ItemName];
 	}
 	if( [dict objectForKey:@"tagline"] ){
 		[details setObject: [dict objectForKey:@"tagline"] forKey: FeedSummary];
@@ -254,16 +254,16 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return key;
 }
 
--(NSString *)titleOfArticle:(NSDictionary *)article{
+-(NSAttributedString *)titleOfArticle:(NSDictionary *)article{
 	//KNDebug(@"UPDATE: atom title parse %@ (%@)", article, [article objectForKey: @"title"]);
 	if( [article objectForKey: @"title"] ){
 		//NSString * title = [article objectForKey:@"title"];
 		//KNDebug(@"UPDATE: title is %@", title);
 		//NSString * collapsedString = [[article objectForKey: @"title"] collapseHTML];
 		//KNDebug(@"UPDATE: collapsed title: %@", collapsedString);
-		return [NSString stringWithString: [[article objectForKey: @"title"] collapseHTML]];
+		return [[[NSAttributedString alloc] initWithString: [[article objectForKey: @"title"] collapseHTML]] autorelease];
 	}else{
-		return [NSString string];
+		return [[[NSAttributedString alloc] init] autorelease];
 	}
 }
 

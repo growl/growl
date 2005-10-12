@@ -32,19 +32,21 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 */
 
 #import "FeedReader.h"
-#import "FeedLibrary.h"
+#import "Library.h"
+#import "Library+Update.h"
 #import "Prefs.h"
-#import "Feed.h"
-#import "Article.h"
+#import "KNFeed.h"
+#import "KNArticle.h"
 
 @implementation FeedReader
 
--(id)initWithLibrary:(FeedLibrary *)aLibrary source:(NSString *)aSource{
+-(id)initWithLibrary:(Library *)aLibrary feed:(KNFeed *)feed{
 	self = [super init];
 	if( self ){
 		//KNDebug(@"%@: initWithLibrary", self);
 		library = aLibrary;
-		currentSource = [aSource retain];
+		currentFeed = feed;
+		
 		details = [[NSMutableDictionary alloc] init];
 		articles = [[NSMutableArray alloc] init];
 		incomingData = [[NSMutableData alloc] init];
@@ -67,9 +69,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		NSMutableURLRequest *		request = nil;
 		
 		dataFinished = NO;
-		[library willUpdateFeed: currentSource];
+		[library willUpdateFeed: currentFeed];
 		
-		request = [NSMutableURLRequest requestWithURL: [NSURL URLWithString:currentSource] cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval: [PREFS requestTimeoutInterval]];
+		request = [NSMutableURLRequest requestWithURL: [NSURL URLWithString:[currentFeed sourceURL]] cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval: [PREFS requestTimeoutInterval]];
 		[request setValue:[PREFS userAgentString] forHTTPHeaderField:@"User-Agent"];
 		
 		dataConnection = [[NSURLConnection alloc] initWithRequest: request delegate: self];
@@ -82,7 +84,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		
 		
 		
-		NSURL *				url = [NSURL URLWithString: currentSource];
+		NSURL *				url = [NSURL URLWithString: [currentFeed sourceURL]];
 		NSURL *				imageURL = [[[NSURL alloc] initWithScheme: [url scheme] host: [url host] path:@"/favicon.ico"] autorelease];
 		
 		iconResponseCode = 400;
@@ -102,7 +104,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 -(void)dealloc{	
-	[currentSource release];
 	[details release];
 	[articles release];
 	[incomingData release];
@@ -166,46 +167,46 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			iconFinished = YES;
 		}
 		
-		KNDebug(@"%@: Connection Error for: %@",self, currentSource, [error localizedDescription]);
+		//KNDebug(@"%@: Connection Error for: %@",self, currentFeed, [error localizedDescription]);
 		dataFinished = YES;
-		[library updateFeed: currentSource error: [error localizedDescription]];
+		[library updateFeed: currentFeed error: [error localizedDescription]];
 		
 	}else if( connection == iconConnection ){
 		iconFinished = YES;
 		if( dataFinished ){
-			[library updateFeed: currentSource headers: details  articles: articles];
+			[library updateFeed: currentFeed headers: details  articles: articles];
 		}
 	}
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
 	if( connection == dataConnection ){
-		//KNDebug(@"%@: connectionDidFinishLoading for %@ '%d' (%d)", self, currentSource, [incomingData length], dataResponseCode);
+		//KNDebug(@"%@: connectionDidFinishLoading for %@ '%d' (%d)", self, [currentFeed sourceURL], [incomingData length], dataResponseCode);
 		dataFinished = YES;
 		
 		if( dataResponseCode == 200 ){
 			//KNDebug(@"%@: About to parse XML response", self);
 			if( [self parseXMLData: incomingData] ){
-				if( iconFinished ){ [library updateFeed: currentSource headers: details  articles: articles]; }
+				if( iconFinished ){ [library updateFeed: currentFeed headers: details  articles: articles]; }
 			}else{
 				[self forceEncoding];
-				KNDebug(@"%@: Forced encoding", self);
+				//KNDebug(@"%@: Forced encoding", self);
 				if( [self parseXMLData: incomingData] ){
-					if( iconFinished ){ [library updateFeed: currentSource headers: details articles: articles]; }
+					if( iconFinished ){ [library updateFeed: currentFeed headers: details articles: articles]; }
 				}else{
 					if( [self insulateContent] ){
 						contentWasModified = YES;
-						KNDebug(@"%@: Insulated content", self);
+						//KNDebug(@"%@: Insulated content", self);
 					}
 					if( [self parseXMLData: incomingData] ){
-						if( iconFinished ){ [library updateFeed: currentSource headers: details articles: articles]; }
+						if( iconFinished ){ [library updateFeed: currentFeed headers: details articles: articles]; }
 					}else{
 						if( ! iconFinished ){
 							[iconConnection cancel];
 							iconFinished = YES;
 						}
-						KNDebug(@"%@: Parse error in %@: %@", self, currentSource, readerError);
-						[library updateFeed: currentSource error: readerError];
+						//KNDebug(@"%@: Parse error in %@: %@", self, currentFeed, readerError);
+						[library updateFeed: currentFeed error: readerError];
 					}
 				}
 			}
@@ -215,7 +216,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 				iconFinished = YES;
 			}
 			[self setReaderError: [NSString stringWithFormat: @"Error loading URL: %d", dataResponseCode]];
-			[library updateFeed: currentSource error: readerError];
+			[library updateFeed: currentFeed error: readerError];
 		}
 				
 	}else if( connection == iconConnection ){
@@ -227,7 +228,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		}
 		
 		if( dataFinished ){
-			[library updateFeed: currentSource headers: details  articles: articles];
+			[library updateFeed: currentFeed headers: details  articles: articles];
 		}
 	}
 }
@@ -298,17 +299,19 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSMutableDictionary *			article = [NSMutableDictionary dictionary];
 	
 	//KNDebug(@"%@: addArticleFromDict: %@",self, dict);
-	[article setObject: [self keyOfArticle: dict] forKey: ArticleKey];
+	[article setObject: [self keyOfArticle: dict] forKey: ArticleGuid];
 	[article setObject: [self titleOfArticle: dict] forKey: ArticleTitle];
 	[article setObject: [self authorOfArticle: dict] forKey: ArticleAuthor];
 	[article setObject: [self linkOfArticle: dict] forKey: ArticleLink];//KNDebug(@"%@: next", self);
 	[article setObject: [self dateOfArticle: dict] forKey: ArticleDate];
-	[article setObject: [self sourceOfArticle: dict] forKey: ArticleSource];
+	[article setObject: [self sourceOfArticle: dict] forKey: ArticleSourceURL];
 	[article setObject: [self categoryOfArticle: dict] forKey: ArticleCategory];
-	[article setObject: [self commentsOfArticle: dict] forKey: ArticleComments];
+	[article setObject: [self commentsOfArticle: dict] forKey: ArticleCommentsURL];
 	[article setObject: [self contentOfArticle: dict] forKey: ArticleContent];
 	[article setObject: [self sourceURLOfArticle: dict] forKey: ArticleSourceURL];
-	[article setObject: [self torrentURLOfArticle: dict] forKey: ArticleTorrentURL];
+	
+	#warning Disabled TorrentURL
+	//[article setObject: [self torrentURLOfArticle: dict] forKey: ArticleTorrentURL];
 	
 	[articles addObject: article];
 }
@@ -316,19 +319,16 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)setDetailsFromDict:(NSDictionary *)dict{
 #pragma unused(dict)
 	//KNDebug(@"FeedReader: setDetailsFromDict %@ (should override)",self, dict);
-	[details setObject: FeedTypeUnknown forKey: FeedType];
+	[details setObject: FeedSourceTypeUnknown forKey: FeedSourceType];
 }
 
 
 -(void)loadFavicon{
 	NSImage *			iconImage;
-	NSData *			iconData;
 	NSImage *			sizedImage;
 	
-	//KNDebug(@"%@: loadFavicon"self,);
 	iconImage = [[NSImage alloc] initWithData: incomingIcon];
 	if( iconImage ){
-		//KNDebug(@"%@: fetched image %@",self, [iconImage class], iconImage);
 		sizedImage = [[NSImage alloc] initWithSize: NSMakeSize(16,16)];
 		[sizedImage lockFocus];
 		[iconImage drawInRect:  NSMakeRect(0,0,16,16 )
@@ -337,8 +337,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 					fraction: 1.0
 		];
 		[sizedImage unlockFocus];
-		iconData = [sizedImage TIFFRepresentation];
-		[details setObject: [[iconData copy] autorelease] forKey: FeedIcon];
+		[details setObject: sizedImage forKey: FeedFaviconImage];
 		
 		[sizedImage release];
 		[iconImage release];
@@ -350,9 +349,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma unused(article)
 	return [NSString string];
 }
--(NSString *)titleOfArticle:(NSDictionary *)article{
+-(NSAttributedString *)titleOfArticle:(NSDictionary *)article{
 #pragma unused(article)
-	return [NSString string];
+	return [[[NSAttributedString alloc] init] autorelease];
 }
 -(NSString *)contentOfArticle:(NSDictionary *)article{
 #pragma unused(article)

@@ -33,7 +33,16 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 #import <Cocoa/Cocoa.h>
 
-@class FeedLibrary,Article,LibraryToolbar,InspectorController;
+#define ColumnStatusImageName @"Status"
+#define ColumnOnServerImageName @"Status"
+#define ArticleOnServerImage @"Updated"
+#define BookmarkImage @"Bookmark"
+#define FeedErrorImage @"FeedError"
+
+#define DragDropFeedItemPboardType @"FeedItemPboardType"
+#define DragDropFeedArticlePboardType @"FeedArticlePboardType"
+
+@class FeedLibrary,KNArticle,LibraryToolbar,InspectorController;
 
 @interface FeedWindowController : NSWindowController
 {
@@ -51,7 +60,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	IBOutlet id articleContextMenu;
 	IBOutlet id feedContextMenu;
     
-    FeedLibrary *				feedLibrary;    
     NSArray *					viewColumns;
     BOOL						disableResizeNotifications;
     LibraryToolbar *			feedLibraryToolbar;
@@ -71,6 +79,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)registerForNotifications;
 
 -(IBAction)reloadData;
+-(void)setDisplayedArticle:(KNArticle *)anArticle;
 
 //-(IBAction)cancelDialog:(id)sender;
 -(IBAction)refresh:(id)sender;
@@ -98,7 +107,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)updateStatus;
 -(void)rememberVisibleColumns:(id)sender;
--(void)setDisplayedArticle:(Article *)anArticle;
+
 
 -(void)setWindowTitle;
 -(void)restoreSplitSize;

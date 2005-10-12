@@ -34,7 +34,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 #import <Cocoa/Cocoa.h>
 
-@class FeedLibrary;
+@class Library, KNItem;
 @interface InspectorController : NSWindowController
 {
     IBOutlet id articleDetailAuthorField;
@@ -57,13 +57,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	IBOutlet id invalidDetailsView;
 	
-	id					item;
-	FeedLibrary *		library;
+	KNItem *				item;
 }
 
--(void)setItem:(id)anItem;
+-(void)setItem:(KNItem *)anItem;
 
 -(IBAction)feedDataChanged:(id)sender;
-- (IBAction)feedSourceChanged:(id)sender;
-- (IBAction)folderNameChanged:(id)sender;
 @end
