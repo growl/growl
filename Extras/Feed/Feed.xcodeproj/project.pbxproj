@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		531B9BFF08E6282E00F10DE0 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 53AA979A08E6233900DBD86D /* Growl.framework */; };
-		531E429F06D67780007FB45E /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 531E429E06D67780007FB45E /* Credits.html */; };
+		531DE37B08FDBD7D00E7746C /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 531E429E06D67780007FB45E /* Credits.html */; };
+		531DE39B08FDBDB000E7746C /* DefaultSources.opml in Resources */ = {isa = PBXBuildFile; fileRef = 531DE39A08FDBDB000E7746C /* DefaultSources.opml */; };
 		53249257088AFEEC00CC8430 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53249256088AFEEC00CC8430 /* SystemConfiguration.framework */; };
 		53342E3B0864AA9800CA2551 /* Feed.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 5302A8DF06E6758300C753F8 /* Feed.scriptTerminology */; };
 		53342E3C0864AA9900CA2551 /* Feed.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 5302A87A06E672C900C753F8 /* Feed.scriptSuite */; };
@@ -39,7 +40,6 @@
 		534F17B806E2C62A00B3E46D /* NewFeed.tif in Resources */ = {isa = PBXBuildFile; fileRef = 534F17B706E2C62A00B3E46D /* NewFeed.tif */; };
 		534F17CF06E2C63100B3E46D /* DeleteItem.tif in Resources */ = {isa = PBXBuildFile; fileRef = 534F17CE06E2C63100B3E46D /* DeleteItem.tif */; };
 		5353115508528C970071E296 /* NSNumber+KNRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = 5353115408528C970071E296 /* NSNumber+KNRandom.m */; };
-		5353140D0853930B0071E296 /* DefaultSources.opml in Resources */ = {isa = PBXBuildFile; fileRef = 535313FE085390A90071E296 /* DefaultSources.opml */; };
 		535314430853ED940071E296 /* FeedError.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 535314420853ED940071E296 /* FeedError.tiff */; };
 		535F3FE106EF74C7001D629D /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 535F3FE006EF74C7001D629D /* libcrypto.dylib */; };
 		5367241C07DE426D004DD4CC /* NSDate+KNExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 5367241A07DE426D004DD4CC /* NSDate+KNExtras.m */; };
@@ -52,7 +52,6 @@
 		53A5E76008EFA5F7001DCE7A /* KNFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E75D08EFA5F7001DCE7A /* KNFeed.m */; };
 		53A76EA006DEA99700BDD9CE /* NSDictionary+KNExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A76E9E06DEA99700BDD9CE /* NSDictionary+KNExtras.m */; };
 		53A795BA08F6D1F500CAC915 /* Library+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A795B808F6D1F500CAC915 /* Library+Utility.m */; };
-		53AA940F08DDFE1D00DBD86D /* hacking.txt in Resources */ = {isa = PBXBuildFile; fileRef = 53AA940E08DDFE1D00DBD86D /* hacking.txt */; };
 		53AA979B08E6233900DBD86D /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53AA979A08E6233900DBD86D /* Growl.framework */; };
 		53BE77B108FC397D0078FC54 /* FeedWindowController+Articles.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BE77AF08FC397D0078FC54 /* FeedWindowController+Articles.m */; };
 		53BE77DE08FC3C220078FC54 /* FeedWindowController+Sources.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BE77DC08FC3C220078FC54 /* FeedWindowController+Sources.m */; };
@@ -131,10 +130,11 @@
 		32CA4F630368D1EE00C91783 /* Feed_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed_Prefix.pch; sourceTree = "<group>"; };
 		5302A87A06E672C900C753F8 /* Feed.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Feed.scriptSuite; sourceTree = "<group>"; };
 		5302A8DF06E6758300C753F8 /* Feed.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Feed.scriptTerminology; sourceTree = "<group>"; };
-		531E429E06D67780007FB45E /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
+		531DE39A08FDBDB000E7746C /* DefaultSources.opml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = DefaultSources.opml; path = "Supporting Files/DefaultSources.opml"; sourceTree = "<group>"; };
+		531E429E06D67780007FB45E /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Credits.html; path = "Supporting Files/Credits.html"; sourceTree = "<group>"; };
 		531E42C306D68DD3007FB45E /* LICENSE.TXT */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = LICENSE.TXT; sourceTree = "<group>"; };
 		53249256088AFEEC00CC8430 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
-		532492870894249200CC8430 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
+		532492870894249200CC8430 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = release_notes.txt; path = "Supporting Files/release_notes.txt"; sourceTree = "<group>"; };
 		53252A820825BB4400C3E04B /* KNDynamicDateTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KNDynamicDateTimeCell.h; path = CustomViews/KNDynamicDateTimeCell.h; sourceTree = "<group>"; };
 		53252A830825BB4400C3E04B /* KNDynamicDateTimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KNDynamicDateTimeCell.m; path = CustomViews/KNDynamicDateTimeCell.m; sourceTree = "<group>"; };
 		5336E42308E76B0E0002A035 /* KNItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KNItem.h; path = Model/KNItem.h; sourceTree = "<group>"; };
@@ -166,7 +166,6 @@
 		534F17CE06E2C63100B3E46D /* DeleteItem.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = DeleteItem.tif; path = Images/DeleteItem.tif; sourceTree = "<group>"; };
 		5353115308528C970071E296 /* NSNumber+KNRandom.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSNumber+KNRandom.h"; path = "Extensions/NSNumber+KNRandom.h"; sourceTree = "<group>"; };
 		5353115408528C970071E296 /* NSNumber+KNRandom.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSNumber+KNRandom.m"; path = "Extensions/NSNumber+KNRandom.m"; sourceTree = "<group>"; };
-		535313FE085390A90071E296 /* DefaultSources.opml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DefaultSources.opml; sourceTree = "<group>"; };
 		535314420853ED940071E296 /* FeedError.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FeedError.tiff; path = Images/FeedError.tiff; sourceTree = "<group>"; };
 		535F3FE006EF74C7001D629D /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		5367241907DE426D004DD4CC /* NSDate+KNExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+KNExtras.h"; path = "Extensions/NSDate+KNExtras.h"; sourceTree = "<group>"; };
@@ -176,14 +175,14 @@
 		536F410208942CBC008FC3EB /* MarkAllRead.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MarkAllRead.icns; path = Images/MarkAllRead.icns; sourceTree = "<group>"; };
 		53769766082E9C1400B92C57 /* Status.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Status.tif; path = Images/Status.tif; sourceTree = "<group>"; };
 		5386511E07448579008EBB34 /* Inspector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Inspector.nib; sourceTree = "<group>"; };
-		5386515807448646008EBB34 /* InspectorController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = InspectorController.m; sourceTree = "<group>"; };
-		5386515907448646008EBB34 /* InspectorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = InspectorController.h; sourceTree = "<group>"; };
-		53A5E61408EBA0AA001DCE7A /* FeedTests.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = FeedTests.txt; sourceTree = "<group>"; };
+		5386515807448646008EBB34 /* InspectorController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = InspectorController.m; path = Interface/InspectorController.m; sourceTree = "<group>"; };
+		5386515907448646008EBB34 /* InspectorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = InspectorController.h; path = Interface/InspectorController.h; sourceTree = "<group>"; };
+		53A5E61408EBA0AA001DCE7A /* FeedTests.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = FeedTests.txt; path = "Supporting Files/FeedTests.txt"; sourceTree = "<group>"; };
 		53A5E75C08EFA5F7001DCE7A /* KNFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KNFeed.h; path = Model/KNFeed.h; sourceTree = "<group>"; };
 		53A5E75D08EFA5F7001DCE7A /* KNFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KNFeed.m; path = Model/KNFeed.m; sourceTree = "<group>"; };
 		53A5E79208EFAD31001DCE7A /* TestFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestFeed.h; path = Tests/TestFeed.h; sourceTree = "<group>"; };
 		53A5E79308EFAD31001DCE7A /* TestFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestFeed.m; path = Tests/TestFeed.m; sourceTree = "<group>"; };
-		53A764E306DD46F800BDD9CE /* testfeeds.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testfeeds.txt; sourceTree = "<group>"; };
+		53A764E306DD46F800BDD9CE /* testfeeds.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = testfeeds.txt; path = "Supporting Files/testfeeds.txt"; sourceTree = "<group>"; };
 		53A76E9D06DEA99700BDD9CE /* NSDictionary+KNExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+KNExtras.h"; path = "Extensions/NSDictionary+KNExtras.h"; sourceTree = "<group>"; };
 		53A76E9E06DEA99700BDD9CE /* NSDictionary+KNExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+KNExtras.m"; path = "Extensions/NSDictionary+KNExtras.m"; sourceTree = "<group>"; };
 		53A795B708F6D1F500CAC915 /* Library+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Library+Utility.h"; path = "Model/Library+Utility.h"; sourceTree = "<group>"; };
@@ -201,17 +200,17 @@
 		53C8B20906D5541B00B86C7D /* FeedOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FeedOutlineView.h; path = CustomViews/FeedOutlineView.h; sourceTree = SOURCE_ROOT; };
 		53C8B20B06D5541B00B86C7D /* Article.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Article.m; path = Model/Article.m; sourceTree = "<group>"; };
 		53C8B20C06D5541B00B86C7D /* FeedLibrary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FeedLibrary.h; path = Model/FeedLibrary.h; sourceTree = SOURCE_ROOT; };
-		53C8B20D06D5541B00B86C7D /* FeedWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FeedWindowController.h; sourceTree = "<group>"; };
+		53C8B20D06D5541B00B86C7D /* FeedWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FeedWindowController.h; path = Interface/FeedWindowController.h; sourceTree = "<group>"; };
 		53C8B20E06D5541B00B86C7D /* FeedDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FeedDelegate.m; sourceTree = "<group>"; };
-		53C8B20F06D5541B00B86C7D /* LibraryToolbar.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LibraryToolbar.m; sourceTree = "<group>"; };
+		53C8B20F06D5541B00B86C7D /* LibraryToolbar.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = LibraryToolbar.m; path = Interface/LibraryToolbar.m; sourceTree = "<group>"; };
 		53C8B21006D5541B00B86C7D /* ImageTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ImageTextCell.h; path = CustomViews/ImageTextCell.h; sourceTree = SOURCE_ROOT; };
 		53C8B21106D5541B00B86C7D /* ImageTextCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ImageTextCell.m; path = CustomViews/ImageTextCell.m; sourceTree = SOURCE_ROOT; };
 		53C8B21206D5541B00B86C7D /* PrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefsWindowController.h; path = Prefs/PrefsWindowController.h; sourceTree = SOURCE_ROOT; };
 		53C8B21306D5541B00B86C7D /* FeedDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FeedDelegate.h; sourceTree = "<group>"; };
 		53C8B21406D5541B00B86C7D /* Prefs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Prefs.h; path = Prefs/Prefs.h; sourceTree = SOURCE_ROOT; };
 		53C8B21506D5541B00B86C7D /* FeedLibrary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FeedLibrary.m; path = Model/FeedLibrary.m; sourceTree = SOURCE_ROOT; };
-		53C8B21606D5541B00B86C7D /* LibraryToolbar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LibraryToolbar.h; sourceTree = "<group>"; };
-		53C8B21706D5541B00B86C7D /* FeedWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FeedWindowController.m; sourceTree = "<group>"; };
+		53C8B21606D5541B00B86C7D /* LibraryToolbar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LibraryToolbar.h; path = Interface/LibraryToolbar.h; sourceTree = "<group>"; };
+		53C8B21706D5541B00B86C7D /* FeedWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FeedWindowController.m; path = Interface/FeedWindowController.m; sourceTree = "<group>"; };
 		53C8B21806D5541B00B86C7D /* ArticleTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ArticleTableView.m; path = CustomViews/ArticleTableView.m; sourceTree = SOURCE_ROOT; };
 		53C8B21906D5541B00B86C7D /* Article.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Article.h; path = Model/Article.h; sourceTree = "<group>"; };
 		53C8B21C06D5541B00B86C7D /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Feed.h; path = Model/Feed.h; sourceTree = "<group>"; };
@@ -334,6 +333,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				531DE39A08FDBDB000E7746C /* DefaultSources.opml */,
 				5302A87A06E672C900C753F8 /* Feed.scriptSuite */,
 				5302A8DF06E6758300C753F8 /* Feed.scriptTerminology */,
 				53C8B25206D5547B00B86C7D /* FeedLibrary.nib */,
@@ -341,7 +341,6 @@
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
-				535313FE085390A90071E296 /* DefaultSources.opml */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -654,7 +653,6 @@
 				53C8B25406D5547B00B86C7D /* FeedLibrary.nib in Resources */,
 				53C8B25506D5547B00B86C7D /* Prefs.nib in Resources */,
 				53C8B30F06D5589000B86C7D /* FeedIcon.icns in Resources */,
-				531E429F06D67780007FB45E /* Credits.html in Resources */,
 				536BA96C06D6DFA1004C1A5C /* Updated.tif in Resources */,
 				536BA98906D6E05F004C1A5C /* Unread.tif in Resources */,
 				534F17A106E2C62500B3E46D /* ToggleFeedDrawer.tif in Resources */,
@@ -664,13 +662,13 @@
 				53D1A42607B00B8A00699B82 /* Bookmark.tif in Resources */,
 				53D1B9E707B1CF4200699B82 /* Update2.tif in Resources */,
 				53769767082E9C1400B92C57 /* Status.tif in Resources */,
-				5353140D0853930B0071E296 /* DefaultSources.opml in Resources */,
 				535314430853ED940071E296 /* FeedError.tiff in Resources */,
 				53342E3B0864AA9800CA2551 /* Feed.scriptTerminology in Resources */,
 				53342E3C0864AA9900CA2551 /* Feed.scriptSuite in Resources */,
 				536F410308942CBC008FC3EB /* MarkAllRead.icns in Resources */,
 				536F42950894314E008FC3EB /* Inspector.nib in Resources */,
-				53AA940F08DDFE1D00DBD86D /* hacking.txt in Resources */,
+				531DE37B08FDBD7D00E7746C /* Credits.html in Resources */,
+				531DE39B08FDBDB000E7746C /* DefaultSources.opml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
