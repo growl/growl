@@ -11,6 +11,10 @@
 
 @class GrowlApplicationNotification, GrowlNotificationDisplayBridge;
 
+/*!
+ * @class GrowlDisplayPlugin
+ * @abstract Base class for all display plugins.
+ */
 @interface GrowlDisplayPlugin : GrowlPlugin {
 	//for non-queueing displays
 	NSMutableArray *activeBridges; //GrowlNotificationDisplayBridges currently being displayed
