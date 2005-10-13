@@ -125,8 +125,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 	uid = globalId++;
 	depth = theDepth;
 
-	screenNumber = 0U;
+	unsigned screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlSmokeScreenPref, GrowlSmokePrefDomain, &screenNumber);
+	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
 
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, GrowlSmokeNotificationWidth, 65.0f)
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
@@ -181,8 +182,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 		/*BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(GrowlSmokeLimitPref, GrowlSmokePrefDomain, &limitPref);
 		if (!limitPref) {*/
-			displayDuration = MIN (duration + rowCount * gAdditionalLinesDisplayTime,
-								gMaxDisplayTime);
+			[self setDisplayDuration:MIN(duration + rowCount * gAdditionalLinesDisplayTime,
+										 gMaxDisplayTime)];
 		/*} else {
 			displayDuration = gMinDisplayTime;
 		}*/

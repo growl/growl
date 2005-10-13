@@ -248,10 +248,6 @@ static void fadeOutTimer(CFRunLoopTimerRef timer, void *info) {
 
 #pragma mark -
 
-- (id) delegate {
-	return delegate;
-}
-
 - (void) setDelegate:(id)newDelegate {
 	[super setDelegate:newDelegate];
 

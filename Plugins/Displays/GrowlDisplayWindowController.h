@@ -10,8 +10,8 @@
 
 @class GrowlWindowTransition;
 
-@interface GrowlDisplayWindowController : NSWindowController
-{
+@interface GrowlDisplayWindowController : NSWindowController {
+	@private
 	SEL					action;
 	id					target;
 	id					clickContext;
@@ -25,8 +25,10 @@
 
 	CFTimeInterval		displayDuration;
 	unsigned			screenNumber;
-	unsigned			WCReserved: 31;
 	unsigned			screenshotMode: 1;
+	
+	@protected
+	unsigned			WCReserved: 31;
 }
 
 - (void) takeScreenshot;
@@ -133,14 +135,14 @@
  * @abstract Called right before the notification's window is hidden.
  * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
  */
-- (void)displayWindowControllerWillTakeDownWindow:(NSNotification *)notification;
+- (void)displayWindowControllerWillTakeWindowDown:(NSNotification *)notification;
 
 /*!
  * @method displayWindowControllerDidTakeDownWindow:
  * @abstract Called right after the notification's window was hidden.
  * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
  */
-- (void)displayWindowControllerDidTakeDownWindow:(NSNotification *)notification;
+- (void)displayWindowControllerDidTakeWindowDown:(NSNotification *)notification;
 
 /*!
  * @method displayWindowControllerNotificationBlocked:
@@ -150,5 +152,6 @@
  * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
  */
 - (void)displayWindowControllerNotificationBlocked:(NSNotification *)notification;
+
 @end
 

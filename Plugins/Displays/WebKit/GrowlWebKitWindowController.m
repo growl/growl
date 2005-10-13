@@ -83,8 +83,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 	style = [styleName retain];
 	prefDomain = createStringWithStringAndCharacterAndString(GrowlWebKitPrefDomain, '.', style);
 
-	screenNumber = 0U;
+	unsigned screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, prefDomain, &screenNumber);
+	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
 
 	NSPanel *panel = [[KeyPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 1.0f)
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
@@ -152,10 +153,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 		float duration = MIN_DISPLAY_TIME;
 		READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, prefDomain, &duration);
 		if (limitPref)
-			displayDuration = duration;
+			[self setDisplayDuration:duration];
 		else
-			displayDuration = MIN(duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
-							   MAX_DISPLAY_TIME);
+			[self setDisplayDuration:MIN(duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
+										 MAX_DISPLAY_TIME)];
 
 		if (identifier) {
 			if (!notificationsByIdentifier)

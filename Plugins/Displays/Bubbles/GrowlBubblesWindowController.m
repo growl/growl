@@ -65,8 +65,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 	}
 	identifier = [ident retain];
 
-	screenNumber = 0U;
+	unsigned screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &screenNumber);
+	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
 
 	// I tried setting the width/height to zero, since the view resizes itself later.
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
@@ -128,10 +129,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 		float duration = MIN_DISPLAY_TIME;
 		READ_GROWL_PREF_FLOAT(GrowlBubblesDuration, GrowlBubblesPrefDomain, &duration);
 		if (!limitPref)
-			displayDuration = MIN (duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
-							   MAX_DISPLAY_TIME);
+			[self setDisplayDuration:MIN(duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
+										  MAX_DISPLAY_TIME)];
 		else
-			displayDuration = duration;
+			[self setDisplayDuration:duration];
 
 		if (identifier) {
 			if (!notificationsByIdentifier)

@@ -15,8 +15,8 @@
 
 #define GrowlDisplayWindowControllerWillDisplayWindowNotification	CFSTR("GrowlDisplayWindowControllerWillDisplayWindowNotification")
 #define GrowlDisplayWindowControllerDidDisplayWindowNotification	CFSTR("GrowlDisplayWindowControllerDidDisplayWindowNotification")
-#define GrowlDisplayWindowControllerWillTakeDownWindowNotification	CFSTR("GrowlDisplayWindowControllerWillTakeDownWindowNotification")
-#define GrowlDisplayWindowControllerDidTakeDownWindowNotification	CFSTR("GrowlDisplayWindowControllerDidTakeDownWindowNotification")
+#define GrowlDisplayWindowControllerWillTakeWindowDownNotification	CFSTR("GrowlDisplayWindowControllerWillTakeWindowDownNotification")
+#define GrowlDisplayWindowControllerDidTakeWindowDownNotification	CFSTR("GrowlDisplayWindowControllerDidTakeWindowDownNotification")
 #define GrowlDisplayWindowControllerNotificationBlockedNotification	CFSTR("GrowlDisplayWindowControllerNotificationBlockedNotification")
 
 static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
@@ -108,7 +108,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 
 - (void) willTakeDownNotification {
 	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
-										 GrowlDisplayWindowControllerWillTakeDownWindowNotification,
+										 GrowlDisplayWindowControllerWillTakeWindowDownNotification,
 										 self, NULL, false);
 }
 
@@ -426,13 +426,13 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 
 		if ([observer respondsToSelector:@selector(displayWindowControllerWillTakeDownWindow:)])
 			[nc addObserver:observer
-				   selector:@selector(displayWindowControllerWillTakeDownWindow:)
-					   name:(NSString *)GrowlDisplayWindowControllerWillTakeDownWindowNotification
+				   selector:@selector(displayWindowControllerWillTakeWindowDown:)
+					   name:(NSString *)GrowlDisplayWindowControllerWillTakeWindowDownNotification
 					 object:self];
-		if ([observer respondsToSelector:@selector(displayWindowControllerDidTakeDownWindow:)])
+		if ([observer respondsToSelector:@selector(displayWindowControllerDidTakeWindowDown:)])
 			[nc addObserver:observer
-				   selector:@selector(displayWindowControllerDidTakeDownWindow:)
-					   name:(NSString *)GrowlDisplayWindowControllerDidTakeDownWindowNotification
+				   selector:@selector(displayWindowControllerDidTakeWindowDown:)
+					   name:(NSString *)GrowlDisplayWindowControllerDidTakeWindowDownNotification
 					 object:self];
 		if ([observer respondsToSelector:@selector(displayWindowControllerNotificationBlocked:)])
 			[nc addObserver:observer

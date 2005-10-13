@@ -132,9 +132,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &aquaPref);
 	if (!aquaPref)
 		styleMask |= NSTexturedBackgroundWindowMask;
-
-	screenNumber = 0U;
+	
+	unsigned screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
+	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
 
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f)
 												styleMask:styleMask
@@ -189,8 +190,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 		/*BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
 		if (!limitPref) {*/
-			displayDuration = MIN (duration + rowCount * gAdditionalLinesDisplayTime,
-							   gMaxDisplayTime);
+			[self setDisplayDuration:MIN(duration + rowCount * gAdditionalLinesDisplayTime,
+										 gMaxDisplayTime)];
 		/*} else {
 			displayDuration = gMinDisplayTime;
 		}*/

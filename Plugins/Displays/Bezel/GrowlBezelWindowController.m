@@ -21,11 +21,13 @@
 
 	int sizePref = 0;
 	float duration = MIN_DISPLAY_TIME;
-	screenNumber = 0U;
+	unsigned screenNumber = 0U;
 	shrinkEnabled = YES;
 	flipEnabled = YES;
 
 	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, BezelPrefDomain, &screenNumber);
+	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
+	
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
 	READ_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, BezelPrefDomain, &duration);
 	READ_GROWL_PREF_BOOL(BEZEL_SHRINK_PREF, BezelPrefDomain, &shrinkEnabled);
@@ -111,7 +113,7 @@
 	if ((self = [super initWithWindow:panel])) {
 		autoFadeOut = YES;	//!sticky
 		doFadeIn = NO;
-		displayDuration = duration;
+		[self setDisplayDuration:duration];
 		priority = prio;
 		animationDuration = 0.25;
 	}

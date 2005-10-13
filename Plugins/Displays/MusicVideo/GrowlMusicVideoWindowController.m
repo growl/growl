@@ -19,8 +19,9 @@
 	int sizePref = MUSICVIDEO_SIZE_NORMAL;
 	float duration = MUSICVIDEO_DEFAULT_DURATION;
 
-	screenNumber = 0U;
+	unsigned screenNumber = 0U;
 	READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, MusicVideoPrefDomain, &screenNumber);
+	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
 
 	NSRect sizeRect;
 	NSRect screen = [[self screen] frame];
@@ -71,7 +72,7 @@
 
 	if ((self = [super initWithWindow:panel])) {
 		autoFadeOut = YES;
-		displayDuration = duration;
+		[self setDisplayDuration:duration];
 		priority = prio;
 		animationDuration = 0.25;
 	}
