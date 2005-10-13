@@ -9,12 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GrowlDisplayPlugin.h"
 
-@class NSPreferencePane;
-
-@interface GrowlSMSDisplay: GrowlDisplayPlugin
-{
-	NSPreferencePane	*prefPane;
-
+@interface GrowlSMSDisplay: GrowlDisplayPlugin {
 	NSMutableArray		*commandQueue;
 	NSData				*responseData;
 	NSXMLParser			*responseParser;

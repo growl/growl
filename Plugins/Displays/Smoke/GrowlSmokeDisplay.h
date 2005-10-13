@@ -9,10 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GrowlDisplayPlugin.h"
 
-@class NSPreferencePane;
-
 @interface GrowlSmokeDisplay : GrowlDisplayPlugin {
-	NSPreferencePane	*preferencePane;
 }
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification;

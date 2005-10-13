@@ -37,14 +37,14 @@
 - (void) dealloc {
 	[commandQueue release];
 
-	[prefPane release];
+	[preferencePane release];
 	[super dealloc];
 }
 
 - (NSPreferencePane *) preferencePane {
-	if (!prefPane)
-		prefPane = [[GrowlSMSPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.SMS"]];
-	return prefPane;
+	if (!preferencePane)
+		preferencePane = [[GrowlSMSPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.SMS"]];
+	return preferencePane;
 }
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification {

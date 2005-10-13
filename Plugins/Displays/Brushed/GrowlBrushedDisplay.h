@@ -12,7 +12,6 @@
 @class NSPreferencePane;
 
 @interface GrowlBrushedDisplay : GrowlDisplayPlugin {
-	NSPreferencePane *preferencePane;
 }
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification;

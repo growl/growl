@@ -12,7 +12,6 @@
 @class NSPreferencePane;
 
 @interface GrowlBubblesController : GrowlDisplayPlugin {
-	NSPreferencePane	*preferencePane;
 }
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification;

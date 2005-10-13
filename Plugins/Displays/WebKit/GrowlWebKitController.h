@@ -9,7 +9,6 @@
 #import "GrowlDisplayPlugin.h"
 
 @interface GrowlWebKitController : GrowlDisplayPlugin {
-	NSPreferencePane	*preferencePane;
 	NSString			*style;
 }
 

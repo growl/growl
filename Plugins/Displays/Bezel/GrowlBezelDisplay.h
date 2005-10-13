@@ -8,11 +8,8 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlDisplayPlugin.h"
 
-@class NSPreferencePane;
-
 @interface GrowlBezelDisplay : GrowlDisplayPlugin {
 	NSMutableArray		*notificationQueue;
-	NSPreferencePane	*preferencePane;
 }
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification;

@@ -8,11 +8,10 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlDisplayPlugin.h"
 
-@class NSPreferencePane, GrowlApplicationNotification;
+@class GrowlApplicationNotification;
 
 @interface GrowlMusicVideoDisplay : GrowlDisplayPlugin {
 	NSMutableArray		*notificationQueue;
-	NSPreferencePane	*preferencePane;
 }
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification;

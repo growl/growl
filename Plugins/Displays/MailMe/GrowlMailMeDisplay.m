@@ -21,14 +21,14 @@
 @implementation GrowlMailMeDisplay
 
 - (void) dealloc {
-	[prefPane release];
+	[preferencePane release];
 	[super dealloc];
 }
 
 - (NSPreferencePane *) preferencePane {
-	if (!prefPane)
-		prefPane = [[GrowlMailMePrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.MailMe"]];
-	return prefPane;
+	if (!preferencePane)
+		preferencePane = [[GrowlMailMePrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.MailMe"]];
+	return preferencePane;
 }
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification {

@@ -16,14 +16,14 @@
 
 @implementation GrowlSpeechDisplay
 - (void) dealloc {
-	[prefPane release];
+	[preferencePane release];
 	[super dealloc];
 }
 
 - (NSPreferencePane *) preferencePane {
-	if (!prefPane)
-		prefPane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.growl.Speech"]];
-	return prefPane;
+	if (!preferencePane)
+		preferencePane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.growl.Speech"]];
+	return preferencePane;
 }
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification {
