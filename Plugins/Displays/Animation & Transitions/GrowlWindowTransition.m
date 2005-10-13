@@ -18,6 +18,14 @@
 	return self;
 }
 
+//Only start if we have a window
+- (void) startAnimation {
+	if (window)
+		[super startAnimation];
+	else
+		NSLog(@"Trying to start window transition with no window. Transition: %@", self);
+}
+
 - (NSWindow *) window {
 	return window;
 }

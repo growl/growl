@@ -64,6 +64,7 @@ typedef enum {
 	GrowlAnimationCurve			animationCurve;		//Default to GrowlAnimationEaseInOut
 	id							delegate;
 	BOOL						repeats;
+	BOOL						passedMiddleOfAnimation;
 
 	/* Linked Animations */
 	GrowlAnimation				*startAnimation;
@@ -202,6 +203,12 @@ typedef enum {
  */
 - (void) setDelegate:(id)newDelegate;
 
+/*!
+ * @method framesPassed
+ * @abstract Returns the number of frames passed since the beginning of the animation.
+ */
+- (unsigned) framesPassed;
+
 @end
 
 
@@ -218,6 +225,12 @@ typedef enum {
  * @result YES is the animation may start, and NO if it may not.
  */
 - (BOOL) growlAnimationShouldStart:(GrowlAnimation *)animation;
+
+/*!
+ * @method growlAnimationIsInMiddle:
+ * @abstract Called when the animation completed its first half.
+ */
+- (void) growlAnimationIsInMiddle:(GrowlAnimation *)animation;
 
 /*!
  * @method growlAnimationDidStop:

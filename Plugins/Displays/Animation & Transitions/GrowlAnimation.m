@@ -30,6 +30,7 @@
 		startAnimationProgress = -1.0f;
 		stopAnimationProgress = -1.0f;
 		repeats = NO;
+		passedMiddleOfAnimation = NO;
 	}
 
 	return self;
@@ -65,6 +66,7 @@
 		//Reset our progress
 		progress = 0.0f;
 		framesPassed = 0U;
+		passedMiddleOfAnimation = NO;
 
 		//Create a new timer
 		animationTimer = [NSTimer scheduledTimerWithTimeInterval:(1.0f/frameRate)
@@ -180,6 +182,12 @@
 	repeats = value;
 }
 
+#pragma mark -
+
+- (unsigned) framesPassed {
+	return framesPassed;
+}
+
 //===============================================================================//
 //===============================================================================//
 //===============================================================================//
@@ -207,6 +215,7 @@
 #pragma mark -
 
 - (void) doAnimationStep {
+	NSLog(@"framespassed = %u", framesPassed);
 	//The delegate may want to change our progress
 	if (delegate)
 		progress = [delegate growlAnimation:self valueForProgress:progress];
@@ -252,6 +261,12 @@
 			default:
 				break;
 		}
+		
+		//If we're in the middle we should notify our delegate about it
+		if (!passedMiddleOfAnimation && (progress >= 0.5) && delegate) {
+			[delegate growlAnimationIsInMiddle:self];
+			passedMiddleOfAnimation = YES;
+		}
 	}
 }
 
@@ -264,6 +279,10 @@
 - (BOOL) growlAnimationShouldStart:(GrowlAnimation *)animation {
 #pragma unused(animation)
 	return YES;
+}
+
+- (void) growlAnimationIsInMiddle:(GrowlAnimation *)animation {
+#pragma unused(animation)
 }
 
 - (void) growlAnimationDidStop:(GrowlAnimation *)animation {
