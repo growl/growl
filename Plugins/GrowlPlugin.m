@@ -9,6 +9,11 @@
 #import "GrowlPlugin.h"
 
 
+@interface GrowlPlugin (private)
+- (void) setDescription:(NSString *)newDesc;
+@end
+
+
 @implementation GrowlPlugin
 
 //designated initialiser.
