@@ -23,23 +23,55 @@
 	NSPreferencePane *preferencePane;
 }
 
-//designated initialiser.
+/*!
+ * @method initWithName:author:version:pathname:
+ * @abstract Designated initializer.
+ * @param name The name of the plugin.
+ * @param author The author of the plugin.
+ * @param version The version of the plugin.
+ * @param pathname The pathname of the plugin.
+ * @result An initialized GrowlPlugin object.
+ */
 - (id) initWithName:(NSString *)name author:(NSString *)author version:(NSString *)version pathname:(NSString *)pathname;
-/*use this initialiser for plug-ins in bundles. the name, author, version, and
- *	pathname will be obtained from the bundle.
+
+/*!
+ * @method initWithBundle:
+ * @abstract Initializer for plug-ins in bundles. The name, author, version, and pathname will be obtained from the bundle.
+ * @result An initialized GrowlPlugin object.
  */
 - (id) initWithBundle:(NSBundle *)bundle;
 
-#pragma mark -
 
+/*!
+ * @method name
+ * @abstract Retuns the name of the receiver.
+ */
 - (NSString *) name;
+
+/*!
+ * @method author
+ * @abstract Retuns the author of the receiver.
+ */
 - (NSString *) author;
+
+/*!
+ * @method version
+ * @abstract Retuns the version of the receiver.
+ */
 - (NSString *) version;
 
+/*!
+ * @method bundle
+ * @abstract Retuns the bundle of the receiver.
+ */
 - (NSBundle *) bundle;
+
+/*!
+ * @method pathname
+ * @abstract Retuns the pathname of the receiver.
+ */
 - (NSString *) pathname;
 
-#pragma mark -
 
 /*!	@method	preferencePane
  *	@abstract	Return an <code>NSPreferencePane</code> instance that manages
