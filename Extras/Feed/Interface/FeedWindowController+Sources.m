@@ -61,7 +61,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	[LIB generateCurrentArticleCache];
-	[self reloadData];
+	//[self reloadData];
+	[articleTableView reloadData];
 }
 
 -(id)outlineView:(NSOutlineView *)outlineView child:(int)anIndex ofItem:(id)item{

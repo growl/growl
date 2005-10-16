@@ -359,6 +359,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[displayedHTML appendFormat:@"<style>.feed_header{font-size:9pt; padding-left:5px;}</style>"];
 	[displayedHTML appendFormat:@"<style>body,td{font-size:%dpt; font-family:%@;}</style>", (int)[PREFS articleFontSize], [PREFS articleFontName]];
 	[displayedHTML appendFormat:@"<table cellpadding=\"0\" cellspacing=\"0\">"];
+	[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Feed:</td>"];
+	[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a title=\"Open feed in default browser\" href=\"%@\">%@</a></td></tr>", [(KNFeed *)[self parent] link], [[self parent] name]];
 	[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Title:</td>"];
 	[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a title=\"Open article in default browser\" href=\"%@\">%@</a></td></tr>", [self link], [self title]];
 	

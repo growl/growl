@@ -113,6 +113,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[feedData release];
 	[newArticles release];
 	
+	[iconConnection release];
+	[dataConnection release];
+	
 	[super dealloc];
 }
 

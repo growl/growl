@@ -257,7 +257,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	enumerator = [[LIB activeArticles] objectEnumerator];
 	while( (article = [enumerator nextObject]) ){
-		[articleTableView selectRow: [LIB indexOfActiveArticle: article] byExtendingSelection: YES];
+		#warning Disabled initial selection in article table
+		//[articleTableView selectRow: [LIB indexOfActiveArticle: article] byExtendingSelection: YES];
 	}
     
     // Set our 'remove feed' button state
@@ -852,8 +853,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			KNDebug(@"CONT: removedItem at %u", currentIndex);
             currentIndex = [selectedFeeds indexGreaterThanIndex: currentIndex];
         }
-		[self reloadData];
 		[feedOutlineView deselectAll: self];
+		[self reloadData];
     }
 }
 
