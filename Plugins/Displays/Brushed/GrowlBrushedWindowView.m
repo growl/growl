@@ -66,19 +66,19 @@
 	if ([super dispatchDrawingToThread:rect]) {
 		NSRect b = [self bounds];
 		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
-		
+
 		CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-		
+
 		// clear the window
 		CGContextClearRect(context, bounds);
-		
+
 		// calculate bounds based on icon-float pref on or off
 		CGRect shadedBounds;
 		BOOL floatIcon = GrowlBrushedFloatIconPrefDefault;
 		READ_GROWL_PREF_BOOL(GrowlBrushedFloatIconPref, GrowlBrushedPrefDomain, &floatIcon);
 		if (floatIcon) {
 			float sizeReduction = GrowlBrushedPadding + iconSize + (GrowlBrushedIconTextPadding * 0.5f);
-			
+
 			shadedBounds = CGRectMake(bounds.origin.x + sizeReduction + 1.0f,
 									  bounds.origin.y + 1.0f,
 									  bounds.size.width - sizeReduction - 2.0f,
@@ -86,11 +86,11 @@
 		} else {
 			shadedBounds = CGRectInset(bounds, 1.0f, 1.0f);
 		}
-		
+
 		// set up path for rounded corners
 		addRoundedRectToPath(context, shadedBounds, GrowlBrushedBorderRadius);
 		CGContextSetLineWidth(context, 2.0f);
-		
+
 		// draw background
 		NSWindow *window = [self window];
 		NSColor *bgColor = [window backgroundColor];
@@ -104,29 +104,29 @@
 			[bgColor set];
 		}
 		CGContextDrawPath(context, drawingMode);
-		
+
 		// draw the title and the text
 		NSRect drawRect;
 		drawRect.origin.x = GrowlBrushedPadding;
 		drawRect.origin.y = GrowlBrushedPadding;
 		drawRect.size.width = iconSize;
 		drawRect.size.height = iconSize;
-		
+
 		[icon setFlipped:YES];
 		[icon drawScaledInRect:drawRect
 					 operation:NSCompositeSourceOver
 					  fraction:1.0f];
-		
+
 		drawRect.origin.x += iconSize + GrowlBrushedIconTextPadding;
-		
+
 		if (haveTitle) {
 			[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
 			drawRect.origin.y += titleHeight + GrowlBrushedTitleTextPadding;
 		}
-		
+
 		if (haveText)
 			[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
-		
+
 		[window invalidateShadow];
 	}
 }

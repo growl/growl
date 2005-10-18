@@ -29,12 +29,13 @@
 #import <Cocoa/Cocoa.h>
 #import <Growl/Growl.h>
 #import "MailHeaders.h"
+#include <pthread.h>
 
 @interface GrowlMail : MVMailBundle <GrowlApplicationBridgeDelegate>
 {
-	NSLock              *queueLock;
-	NSLock              *messagesLock;
-	NSMutableDictionary *messagesMap;
+	pthread_mutex_t        queueLock;
+	pthread_mutex_t        messagesLock;
+	CFMutableDictionaryRef messagesMap;
 }
 + (void) initialize;
 + (NSBundle *) bundle;
@@ -42,15 +43,10 @@
 + (BOOL) hasPreferencesPanel;
 + (NSString *) preferencesOwnerClassName;
 + (NSString *) preferencesPanelName;
-+ (BOOL) isEnabled;
-+ (int) summaryMode;
-
-+ (NSString *) titleFormatString;
-+ (NSString *) descriptionFormatString;
-
-- (id) init;
 - (BOOL) isAccountEnabled:(NSString *)path;
 - (void) setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path;
+
+- (id) init;
 
 - (NSString *) applicationNameForGrowl;
 - (NSImage *) applicationIconForGrowl;
@@ -63,3 +59,8 @@
 - (void) showSummary;
 
 @end
+
+BOOL GMIsEnabled(void);
+int  GMSummaryMode(void);
+NSString *copyTitleFormatString(void);
+NSString *copyDescriptionFormatString(void);

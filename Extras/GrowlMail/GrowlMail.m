@@ -34,6 +34,7 @@
 //
 
 #import "GrowlMail.h"
+#import "Message+GrowlMail.h"
 
 #define MODE_AUTO		0
 #define MODE_SINGLE		1
@@ -41,7 +42,7 @@
 
 #define AUTO_THRESHOLD	10
 
-static NSMutableArray *collectedMessages;
+static CFMutableArrayRef collectedMessages;
 
 @implementation GrowlMail
 
@@ -62,18 +63,17 @@ static NSMutableArray *collectedMessages;
 
 	[GrowlMail registerBundle];
 
-	NSNumber *enabled = [[NSNumber alloc] initWithBool:YES];
-	NSNumber *automatic = [[NSNumber alloc] initWithInt:0];
+	int value = 0;
+	CFNumberRef automatic = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &value);
 	NSDictionary *defaultsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-		enabled,               @"GMEnableGrowlMailBundle",
-		automatic,             @"GMSummaryMode",
 		@"(%account) %sender", @"GMTitleFormat",
 		@"%subject\n%body",    @"GMDescriptionFormat",
+		automatic,             @"GMSummaryMode",
+		kCFBooleanTrue,        @"GMEnableGrowlMailBundle",
 		nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDictionary];
 	[defaultsDictionary release];
-	[automatic release];
-	[enabled release];
+	CFRelease(automatic);
 
 	NSLog(@"Loaded GrowlMail %@", [GrowlMail bundleVersion]);
 }
@@ -92,18 +92,25 @@ static NSMutableArray *collectedMessages;
 
 - (id) init {
 	if ((self = [super init])) {
-		NSString *growlPath = [[[GrowlMail bundle] privateFrameworksPath] stringByAppendingPathComponent:@"Growl.framework"];
-		NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
-		if (growlBundle && [growlBundle load]) {
-			// Register ourselves as a Growl delegate
-			[GrowlApplicationBridge setGrowlDelegate:self];
-			queueLock = [[NSLock alloc] init];
-			messagesLock = [[NSLock alloc] init];
-			messagesMap = [[NSMutableDictionary alloc] init];
-			NSDictionary *infoDictionary = [GrowlApplicationBridge frameworkInfoDictionary];
-			NSLog(@"Using Growl.framework %@ (%@)",
-				  [infoDictionary objectForKey:@"CFBundleShortVersionString"],
-				  [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]);
+		CFBundleRef growlMailBundle = CFBundleGetBundleWithIdentifier(CFSTR("com.growl.GrowlMail"));
+		CFURLRef privateFrameworksURL = CFBundleCopyPrivateFrameworksURL(growlMailBundle);
+		CFURLRef growlBundleURL = CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, privateFrameworksURL, CFSTR("Growl.framework"), true);
+		CFRelease(privateFrameworksURL);
+		CFBundleRef growlBundle = CFBundleCreate(kCFAllocatorDefault, growlBundleURL);
+		CFRelease(growlBundleURL);
+		if (growlBundle) {
+			if (CFBundleLoadExecutable(growlBundle)) {
+				// Register ourselves as a Growl delegate
+				[GrowlApplicationBridge setGrowlDelegate:self];
+				pthread_mutex_init(&queueLock, /*attr*/ NULL);
+				pthread_mutex_init(&messagesLock, /*attr*/ NULL);
+				messagesMap = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+				NSDictionary *infoDictionary = [GrowlApplicationBridge frameworkInfoDictionary];
+				NSLog(@"Using Growl.framework %@ (%@)",
+					  [infoDictionary objectForKey:@"CFBundleShortVersionString"],
+					  [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]);
+			}
+			CFRelease(growlBundle);
 		} else {
 			NSLog(@"Could not load Growl.framework, GrowlMail disabled");
 		}
@@ -113,9 +120,11 @@ static NSMutableArray *collectedMessages;
 }
 
 - (void) dealloc {
-	[queueLock    release];
-	[messagesLock release];
-	[messagesMap  release];
+	if (messagesMap) {
+		pthread_mutex_destroy(&queueLock);
+		pthread_mutex_destroy(&messagesLock);
+		CFRelease(messagesMap);
+	}
 	[super dealloc];
 }
 
@@ -130,17 +139,18 @@ static NSMutableArray *collectedMessages;
 }
 
 - (void) setMessage:(Message *)message forId:(NSString *)messageId {
-	[messagesLock lock];
-	[messagesMap setObject:message forKey:messageId];
-	[messagesLock unlock];
+	pthread_mutex_lock(&messagesLock);
+	CFDictionarySetValue(messagesMap, messageId, message);
+	pthread_mutex_unlock(&messagesLock);
 }
 
 - (void) growlNotificationWasClicked:(NSString *)clickContext {
 	if ([clickContext length]) {
-		[messagesLock lock];
-		Message *message = [[messagesMap objectForKey:clickContext] retain];
-		[messagesMap removeObjectForKey:clickContext];
-		[messagesLock unlock];
+		pthread_mutex_lock(&messagesLock);
+		Message *message = (Message *)CFDictionaryGetValue(messagesMap, clickContext);
+		[message retain];
+		CFDictionaryRemoveValue(messagesMap, clickContext);
+		pthread_mutex_unlock(&messagesLock);
 		MessageViewingState *viewingState = [[MessageViewingState alloc] init];
 		SingleMessageViewer *messageViewer = [[SingleMessageViewer alloc] initForViewingMessage:message showAllHeaders:NO viewingState:viewingState];
 		[viewingState release];
@@ -153,9 +163,9 @@ static NSMutableArray *collectedMessages;
 
 - (void) growlNotificationTimedOut:(NSString *)clickContext {
 	if ([clickContext length]) {
-		[messagesLock lock];
-		[messagesMap removeObjectForKey:clickContext];
-		[messagesLock unlock];
+		pthread_mutex_lock(&messagesLock);
+		CFDictionaryRemoveValue(messagesMap, clickContext);
+		pthread_mutex_unlock(&messagesLock);
 	}
 }
 
@@ -184,102 +194,121 @@ static NSMutableArray *collectedMessages;
 #pragma mark -
 
 - (void) queueMessage:(Message *)message {
-	[queueLock lock];
+	pthread_mutex_lock(&queueLock);
 	if (!collectedMessages) {
-		collectedMessages = [[NSMutableArray alloc] init];
+		collectedMessages = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
 		[self performSelectorOnMainThread:@selector(showSummary)
 							   withObject:nil
 							waitUntilDone:NO];
 	}
-	[collectedMessages addObject:message];
-	[queueLock unlock];
+	CFArrayAppendValue(collectedMessages, message);
+	pthread_mutex_unlock(&queueLock);
 }
 
 - (void) showSummary {
-	[queueLock lock];
+	if (!collectedMessages)
+		return;
 
-	int summaryMode = [GrowlMail summaryMode];
+	pthread_mutex_lock(&queueLock);
+
+	int summaryMode = GMSummaryMode();
 	if (summaryMode == MODE_AUTO) {
-		if ([collectedMessages count] >= AUTO_THRESHOLD)
+		if (CFArrayGetCount(collectedMessages) >= AUTO_THRESHOLD)
 			summaryMode = MODE_SUMMARY;
 		else
 			summaryMode = MODE_SINGLE;
 	}
 
+	CFIndex count = CFArrayGetCount(collectedMessages);
 	switch (summaryMode) {
 		default:
 		case MODE_SINGLE:
-			[collectedMessages makeObjectsPerformSelector:@selector(showNotification)];
+			for (CFIndex i=0; i<count; ++i) {
+				Message *message = (Message *)CFArrayGetValueAtIndex(collectedMessages, i);
+				[message showNotification];
+			}
 			break;
 		case MODE_SUMMARY: {
-			NSCountedSet *accountSummary = [[NSCountedSet alloc] initWithCapacity:[[MailAccount mailAccounts] count]];
-			NSEnumerator *enumerator = [collectedMessages objectEnumerator];
-			Message *message;
-			while ((message = [enumerator nextObject]))
-				[accountSummary addObject:[[[message messageStore] account] displayName]];
+			CFArrayRef accounts = (CFArrayRef)[MailAccount mailAccounts];
+			CFIndex accountsCount = CFArrayGetCount(accounts);
+			CFMutableBagRef accountSummary = CFBagCreateMutable(kCFAllocatorDefault, accountsCount, &kCFTypeBagCallBacks);
+			for (CFIndex i=0; i<count; ++i) {
+				Message *message = (Message *)CFArrayGetValueAtIndex(collectedMessages, i);
+				CFBagAddValue(accountSummary, [[message messageStore] account]);
+			}
 			NSBundle *bundle = [GrowlMail bundle];
 			NSString *title = NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"");
 			id icon = [NSImage imageNamed:@"NSApplicationIcon"];
-			NSString *account;
-			enumerator = [accountSummary objectEnumerator];
-			while ((account = [enumerator nextObject])) {
-				unsigned count = [accountSummary countForObject:account];
-				NSString *description = [[NSString alloc] initWithFormat:NSLocalizedStringFromTableInBundle(@"%@ \n%u new mail(s)", nil, bundle, @""), account, count];
-				[GrowlApplicationBridge notifyWithTitle:title
-											description:description
-									   notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"")
-											   iconData:icon
-											   priority:0
-											   isSticky:NO
-										   clickContext:@""];	// non-nil click context
-				[description release];
+			for (CFIndex i=0; i<accountsCount; ++i) {
+				MailAccount *account = (MailAccount *)CFArrayGetValueAtIndex(accounts, i);
+				CFIndex summaryCount = CFBagGetCountOfValue(accountSummary, account);
+				if (summaryCount) {
+					CFStringRef format = (CFStringRef)NSLocalizedStringFromTableInBundle(@"%@ \n%u new mail(s)", nil, bundle, @"");
+					CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault, /*formatOptions*/ NULL, format, [account displayName], count);
+					[GrowlApplicationBridge notifyWithTitle:title
+												description:(NSString *)description
+										   notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"")
+												   iconData:icon
+												   priority:0
+												   isSticky:NO
+											   clickContext:@""];	// non-nil click context
+					CFRelease(description);
+				}
 			}
-			[accountSummary release];
+			CFRelease(accountSummary);
 			break;
 		}
 	}
 
-	[collectedMessages release];
-	collectedMessages = nil;
-	[queueLock unlock];
+	CFRelease(collectedMessages);
+	collectedMessages = NULL;
+	pthread_mutex_unlock(&queueLock);
 }
 
 #pragma mark Preferences
 
-+ (BOOL) isEnabled {
-	NSNumber *value = [[NSUserDefaults standardUserDefaults] objectForKey:@"GMEnableGrowlMailBundle"];
-	return value ? [value boolValue] : NO;
-}
-
 - (BOOL) isAccountEnabled:(NSString *)path {
-	NSDictionary *accountSettings = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"GMAccounts"];
-	NSNumber *isEnabled = [accountSettings objectForKey:path];
-	return isEnabled ? [isEnabled boolValue] : YES;
+	BOOL isEnabled = YES;
+	CFDictionaryRef accountSettings = CFPreferencesCopyAppValue(CFSTR("GMAccounts"), kCFPreferencesCurrentApplication);
+	if (accountSettings) {
+		CFBooleanRef value = CFDictionaryGetValue(accountSettings, path);
+		if (value)
+			isEnabled = CFBooleanGetValue(value);
+	}
+	return isEnabled;
 }
 
 - (void) setAccountEnabled:(BOOL)yesOrNo path:(NSString *)path {
-	NSDictionary *accountSettings = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"GMAccounts"];
-	NSMutableDictionary *newSettings;
-	if (accountSettings)
-		newSettings = [accountSettings mutableCopy];
-	else
-		newSettings = [[NSMutableDictionary alloc] initWithCapacity:1U];
-	NSNumber *value = [[NSNumber alloc] initWithBool:yesOrNo];
-	[newSettings setObject:value forKey:path];
-	[value release];
-	[[NSUserDefaults standardUserDefaults] setObject:newSettings forKey:@"GMAccounts"];
-	[newSettings release];
+	CFDictionaryRef accountSettings = CFPreferencesCopyAppValue(CFSTR("GMAccounts"), kCFPreferencesCurrentApplication);
+	CFMutableDictionaryRef newSettings;
+	if (accountSettings) {
+		newSettings = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, accountSettings);
+		CFRelease(accountSettings);
+	} else
+		newSettings = CFDictionaryCreateMutable(kCFAllocatorDefault, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+	CFDictionarySetValue(newSettings, path, yesOrNo ? kCFBooleanTrue : kCFBooleanFalse);
+	CFPreferencesSetAppValue(CFSTR("GMAccounts"), newSettings, kCFPreferencesCurrentApplication);
+	CFRelease(newSettings);
 }
 
-+ (int) summaryMode {
-	return [[NSUserDefaults standardUserDefaults] integerForKey:@"GMSummaryMode"];
-}
-
-+ (NSString *) titleFormatString {
-	return [[NSUserDefaults standardUserDefaults] objectForKey:@"GMTitleFormat"];
-}
-
-+ (NSString *) descriptionFormatString {
-	return [[NSUserDefaults standardUserDefaults] objectForKey:@"GMDescriptionFormat"];
-}
 @end
+
+BOOL GMIsEnabled(void) {
+	Boolean keyExistsAndHasValidFormat;
+	Boolean isEnabled = CFPreferencesGetAppBooleanValue(CFSTR("GMEnableGrowlMailBundle"), kCFPreferencesCurrentApplication, &keyExistsAndHasValidFormat);
+	return keyExistsAndHasValidFormat ? isEnabled : NO;
+}
+
+int GMSummaryMode(void) {
+	Boolean keyExistsAndHasValidFormat;
+	CFIndex value = CFPreferencesGetAppIntegerValue(CFSTR("GMSummaryMode"), kCFPreferencesCurrentApplication, &keyExistsAndHasValidFormat);
+	return keyExistsAndHasValidFormat ? value : 0;
+}
+
+NSString *copyTitleFormatString(void) {
+	return (NSString *)CFPreferencesCopyAppValue(CFSTR("GMTitleFormat"), kCFPreferencesCurrentApplication);
+}
+
+NSString *copyDescriptionFormatString(void) {
+	return (NSString *)CFPreferencesCopyAppValue(CFSTR("GMDescriptionFormat"), kCFPreferencesCurrentApplication);
+}

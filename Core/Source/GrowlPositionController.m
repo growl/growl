@@ -36,11 +36,11 @@
 	NSRect screenFrame;
 	NSSize areaSize;
 	NSRect result = NSZeroRect;
-	
+
 	//Treat nil as the main screen
 	if (!screen)
 		screen = [NSScreen mainScreen];
-	
+
 	screenFrame = [screen visibleFrame];
 	areaSize = NSMakeSize(screenFrame.size.width / 3.0f, screenFrame.size.height / 3.0f);	//We have 9 identical areas on each screen
 
@@ -173,7 +173,7 @@
 //Reserve a rect in a specific screen.
 - (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen {
 	BOOL			result = YES;
-	
+
 	if (NSContainsRect([inScreen visibleFrame], inRect)) {	//inRect must be inside our screen
 		NSMutableSet	*reservedRectsOfScreen = [self reservedRectsForScreen:inScreen];
 		NSValue			*newRectValue = [NSValue valueWithRect:inRect];
@@ -216,21 +216,21 @@
 //Returns the set of reserved rect for a specific screen
 - (NSMutableSet *)reservedRectsForScreen:(NSScreen *)screen {
 	NSMutableSet *result = nil;
-	
+
 	//Treat nil as the main screen
 	if (!screen)
 		screen = [NSScreen mainScreen];
-	
+
 	//Get the set of reserved rects for our screen
 	result = (NSMutableSet *)CFDictionaryGetValue(reservedRects, screen);
-	
+
 	//Make sure the set exists. If not, create it.
 	if (!result) {
 		result = [[NSMutableSet alloc] init];
 		CFDictionarySetValue(reservedRects, screen, result);
 		[result release];
 	}
-	
+
 	return result;
 }
 

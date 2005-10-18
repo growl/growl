@@ -41,7 +41,7 @@
 }
 
 - (id) finishRoutingMessages:(NSArray *)messages routed:(NSArray *)routed {
-	if ([GrowlMail isEnabled]) {
+	if (GMIsEnabled()) {
 		Message *message;
 		Class tocMessageClass = [TOCMessage class];
 		GrowlMail *growlMail = [GrowlMail sharedInstance];

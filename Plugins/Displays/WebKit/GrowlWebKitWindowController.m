@@ -122,7 +122,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		CFNumberGetValue(paddingValue, kCFNumberFloatType, &paddingY);
 	else
 		paddingY = GrowlWebKitPadding;
-	
+
 	GrowlWebKitWindowView *view = [[GrowlWebKitWindowView alloc] initWithFrame:panelFrame
 																	 frameName:nil
 																	 groupName:nil];

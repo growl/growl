@@ -81,7 +81,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 
 - (void) stopDisplay {
 	NSWindow *window = [self window];
-	
+
 	[self willTakeDownNotification];
 	[[GrowlPositionController sharedInstance] clearReservedRect:[window frame] inScreen:[window screen]];	//Clear the rect we reserved
 	[window orderOut:nil];
@@ -251,7 +251,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 
 - (void) stopAllTransitionsOfKind:(Class)transitionsClass {
 	CFIndex count = CFArrayGetCount(windowTransitions);
-	
+
 	for (CFIndex i=0; i<count; ++i) {
 		GrowlWindowTransition *transition = (GrowlWindowTransition *)CFArrayGetValueAtIndex(windowTransitions, i);
 		if ([transition isKindOfClass:transitionsClass])

@@ -19,7 +19,7 @@
 - (id) initWithFrame:(NSRect)frameRect {
 	if ((self = [super initWithFrame:frameRect]))
 		mainThread = [[[GrowlApplicationController sharedInstance] mainThread] retain];
-	
+
 	return self;
 }
 

@@ -14,7 +14,7 @@
 	startingPoint = startingOrigin;
 	xDistance = (endingOrigin.x - startingOrigin.x);
 	yDistance = (endingOrigin.y - startingOrigin.y);
-	
+
 	//Since we override -startAnimation to do nothing, we need to call super's implementation.
 	[super startAnimation];
 }
@@ -29,10 +29,10 @@
 
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
 	NSPoint newOrigion;
-	
+
 	newOrigion.x = startingPoint.x + (progress * xDistance);
 	newOrigion.y = startingPoint.y + (progress * yDistance);
-	
+
 	[aWindow setFrameOrigin:newOrigion];
 }
 

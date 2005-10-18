@@ -108,8 +108,12 @@
 		body,    @"%body",
 		account, @"%account",
 		nil];
-	NSString *title = [[GrowlMail titleFormatString] stringByReplacingKeywords:keywords];
-	NSString *description = [[GrowlMail descriptionFormatString] stringByReplacingKeywords:keywords];
+	NSString *titleFormat = copyTitleFormatString();
+	NSString *title = [titleFormat stringByReplacingKeywords:keywords];
+	[titleFormat release];
+	NSString *descriptionFormat = copyDescriptionFormatString();
+	NSString *description = [descriptionFormat stringByReplacingKeywords:keywords];
+	[descriptionFormat release];
 	[keywords release];
 
 	/*

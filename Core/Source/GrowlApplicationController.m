@@ -189,6 +189,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		// create and register GrowlNotificationCenter
 		growlNotificationCenter = [[GrowlNotificationCenter alloc] init];
 		growlNotificationCenterConnection = [[NSConnection alloc] initWithReceivePort:[NSPort port] sendPort:nil];
+		//[growlNotificationCenterConnection enableMultipleThreads];
 		[growlNotificationCenterConnection setRootObject:growlNotificationCenter];
 		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
 			NSLog(@"WARNING: could not register GrowlNotificationCenter");
@@ -583,7 +584,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 											 /*object*/ appName,
 											 /*userInfo*/ NULL,
 											 /*deliverImmediately*/ false);
-		
+
 		[GrowlApplicationBridge notifyWithTitle:notificationName
 									description:[appName stringByAppendingString:@" registered"]
 							   notificationName:notificationName
@@ -816,7 +817,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (void) applicationWillFinishLaunching:(NSNotification *)aNotification {
 #pragma unused(aNotification)
 	mainThread = [[NSThread currentThread] retain];
-	
+
 	BOOL printVersionAndExit = [[NSUserDefaults standardUserDefaults] boolForKey:@"PrintVersionAndExit"];
 	if (printVersionAndExit) {
 		printf("This is GrowlHelperApp version %s.\n"
@@ -1051,7 +1052,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 										 /*object*/ NULL,
 										 /*userInfo*/ (CFDictionaryRef)clickInfo,
 										 /*deliverImmediately*/ true);
-	
+
 	[clickInfo release];
 	[growlNotificationTimedOutName release];
 }

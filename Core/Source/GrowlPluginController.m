@@ -61,7 +61,7 @@ static Boolean caseInsensitiveStringComparator(const void *value1, const void *v
 			dir = [dir stringByAppendingPathComponent:@"Application Support/Growl/Plugins"];
 			[self findPluginsInDirectory:dir];
 		}
-		
+
 		[self findPluginsInDirectory:[[GrowlPathUtilities helperAppBundle] builtInPlugInsPath]];
 	}
 

@@ -16,6 +16,7 @@
 #import "NSStringAdditions.h"
 #include "CFURLAdditions.h"
 #include "CFDictionaryAdditions.h"
+#include "LoginItemsAE.h"
 #include <Security/SecKeychain.h>
 #include <Security/SecKeychainItem.h>
 
@@ -129,37 +130,22 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 #pragma mark Start-at-login control
 
 - (BOOL) shouldStartGrowlAtLogin {
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-	NSArray        *loginItems = [[defs persistentDomainForName:@"loginwindow"] objectForKey:@"AutoLaunchedApplicationDictionary"];
+	OSStatus   status;
+	Boolean    foundIt;
+	CFArrayRef loginItems = NULL;
 
 	//get the prefpane bundle and find GHA within it.
 	NSString *pathToGHA      = [[NSBundle bundleWithIdentifier:@"com.growl.prefpanel"] pathForResource:@"GrowlHelperApp" ofType:@"app"];
-	//get an Alias (as in Alias Manager) representation of same.
-	NSURL    *urlToGHA       = [[NSURL alloc] initFileURLWithPath:pathToGHA];
+	//get the file url to GHA.
+	CFURLRef urlToGHA = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)pathToGHA, kCFURLPOSIXPathStyle, true);
 
-	BOOL foundIt = NO;
+	status = LIAECopyLoginItems(&loginItems);
+	if (status == noErr)
+		foundIt = CFArrayContainsValue(loginItems, CFRangeMake(0, CFArrayGetCount(loginItems)), urlToGHA);
+	else
+		foundIt = false;
 
-	NSEnumerator *e = [loginItems objectEnumerator];
-	CFDictionaryRef item;
-	while ((item = (CFDictionaryRef)[e nextObject])) {
-		/*first compare by alias.
-		 *we do this by converting to URL and comparing those.
-		 */
-		NSData *thisAliasData = (NSData *)CFDictionaryGetValue(item, CFSTR("AliasData"));
-		if (thisAliasData) {
-			NSURL *thisURL = createFileURLWithAliasData(thisAliasData);
-			foundIt = [thisURL isEqual:urlToGHA];
-			[thisURL release];
-		} else {
-			//nope, not the same alias. try comparing by path.
-			NSString *thisPath = [(NSString *)CFDictionaryGetValue(item, CFSTR("Path")) stringByExpandingTildeInPath];
-			foundIt = (thisPath && [thisPath isEqualToString:pathToGHA]);
-		}
-
-		if (foundIt)
-			break;
-	}
-	[urlToGHA release];
+	CFRelease(urlToGHA);
 
 	return foundIt;
 }
@@ -171,89 +157,19 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 }
 
 - (void) setStartAtLogin:(NSString *)path enabled:(BOOL)flag {
-	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-
-	//get an Alias (as in Alias Manager) representation of same.
-	NSURL    *url       = [[NSURL alloc] initFileURLWithPath:path];
-	NSData   *aliasData = createAliasDataWithURL(url);
-
-	/*the start-at-login pref is an array of dictionaries, like so:
-	 *	{
-	 *		AliasData = <...>
-	 *		Hide = Boolean (maps to kLSLaunchAndHide)
-	 *		Path = POSIX path to the bundle, file, or folder (in that order of
-	 *			preference)
-	 *	}
-	 */
-	NSMutableDictionary *loginWindowPrefs = [[defs persistentDomainForName:@"loginwindow"] mutableCopy];
-	if (!loginWindowPrefs)
-		loginWindowPrefs = [[NSMutableDictionary alloc] initWithCapacity:1U];
-
-	NSMutableArray      *loginItems = [[loginWindowPrefs objectForKey:@"AutoLaunchedApplicationDictionary"] mutableCopy];
-	if (!loginItems)
-		loginItems = [[NSMutableArray alloc] initWithCapacity:1U];
-
-	/*remove any previous mentions of this GHA in the start-at-login array.
-	 *note that other GHAs are ignored.
-	 */
-	BOOL			foundOne = NO;
-
-	for (unsigned i = 0U; i < [loginItems count];) {
-		CFDictionaryRef	item = (CFDictionaryRef)[loginItems objectAtIndex:i];
-		BOOL			thisIsUs = NO;
-
-		/*first compare by alias.
-		*we do this by converting to URL and comparing those.
-		*/
-		NSString *thisPath = [(NSString *)CFDictionaryGetValue(item, CFSTR("Path")) stringByExpandingTildeInPath];
-		NSData *thisAliasData = (NSData *)CFDictionaryGetValue(item, CFSTR("AliasData"));
-		if (thisAliasData) {
-			NSURL *thisURL = createFileURLWithAliasData(thisAliasData);
-			thisIsUs = [thisURL isEqual:url];
-		} else {
-			//nope, not the same alias. try comparing by path.
-			/*NSString **/thisPath = [(NSString *)CFDictionaryGetValue(item, CFSTR("Path")) stringByExpandingTildeInPath];
-			thisIsUs = (thisPath && [thisPath isEqualToString:path]);
-		}
-
-		if (thisIsUs) {
-			if ((!flag) || (foundOne))
-				[loginItems removeObjectAtIndex:i];
-			else {
-				foundOne = YES;
-				++i;
-			}
-		} else {
-			++i;
-		}
+	OSStatus status;
+	CFArrayRef loginItems = NULL;
+	CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)path, kCFURLPOSIXPathStyle, true);
+	status = LIAECopyLoginItems(&loginItems);
+	if (status == noErr) {
+		CFIndex idx = CFArrayGetFirstIndexOfValue(loginItems, CFRangeMake(0, CFArrayGetCount(loginItems)), url);
+		if (idx != -1)
+			LIAERemove(idx);
+		CFRelease(loginItems);
 	}
-	[url release];
-
-	if (flag && !foundOne) {
-		/*we were called with YES, and we weren't already in the start-at-login
-		*      array, so add ourselves at the beginning.
-		*/
-
-		NSNumber *hide = [[NSNumber alloc] initWithBool:NO];
-		NSDictionary *launchDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-			hide,      @"Hide",
-			path,      @"Path",
-			aliasData, @"AliasData",
-			nil];
-		[hide release];
-		[loginItems insertObject:launchDict atIndex:0U];
-		[launchDict release];
-	}
-
-	[aliasData release];
-
-	//save to disk.
-	[loginWindowPrefs setObject:loginItems
-						 forKey:@"AutoLaunchedApplicationDictionary"];
-	[loginItems release];
-	[defs setPersistentDomain:loginWindowPrefs forName:@"loginwindow"];
-	[loginWindowPrefs release];
-	[defs synchronize];
+	if (flag)
+		LIAEAddURLAtEnd(url, false);
+	CFRelease(url);
 }
 
 #pragma mark -

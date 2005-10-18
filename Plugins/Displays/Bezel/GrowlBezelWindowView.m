@@ -72,15 +72,15 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	if ([super dispatchDrawingToThread:rect]) {
 		NSRect b = [self bounds];
 		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
-		
+
 		CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-		
+
 		addRoundedRectToPath(context, bounds, BORDER_RADIUS);
-		
+
 		float opacityPref = BEZEL_OPACITY_DEFAULT;
 		READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
 		float alpha = opacityPref * 0.01f;
-		
+
 		int style = 0;
 		READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, BezelPrefDomain, &style);
 		switch (style) {
@@ -94,7 +94,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 				// charcoal
 				CGContextSaveGState(context);
 				CGContextClip(context);
-				
+
 				struct CGFunctionCallbacks callbacks = { 0U, CharcoalShadeInterpolate, NULL };
 				CGFunctionRef function = CGFunctionCreate( &alpha,
 														   1U,
@@ -110,13 +110,13 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 				dst.y = src.y;
 				CGShadingRef shading = CGShadingCreateAxial(cspace, src, dst,
 															function, false, false);
-				
+
 				CGContextDrawShading(context, shading);
-				
+
 				CGShadingRelease(shading);
 				CGColorSpaceRelease(cspace);
 				CGFunctionRelease(function);
-				
+
 				CGContextRestoreGState(context);
 				break;
 			case 2:
@@ -138,12 +138,12 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 				shading = CGShadingCreateRadial(cspace, src, 200.0f,
 												src, 400.0f, function,
 												false, false);
-				
+
 				CGContextDrawShading(context, shading);
-				
+
 				CGShadingRelease(shading);
 				CGFunctionRelease(function);
-				
+
 				struct CGFunctionCallbacks shine_callbacks = { 0U, GlassShineInterpolate, NULL };
 				function = CGFunctionCreate( /*info*/ NULL,
 											 1U,
@@ -156,9 +156,9 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 				shading = CGShadingCreateRadial(cspace, src, 100.0f,
 												src, 0.0f, function,
 												false, false);
-				
+
 				CGContextDrawShading(context, shading);
-				
+
 				CGColorSpaceRelease(cspace);
 				CGShadingRelease(shading);
 				CGFunctionRelease(function);
@@ -168,10 +168,10 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 				CGContextStrokePath(context);
 				break;
 		}
-		
+
 		int sizePref = BEZEL_SIZE_NORMAL;
 		READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
-		
+
 		// rects
 		NSRect titleRect, textRect;
 		NSPoint iconPoint;
@@ -206,13 +206,13 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 			iconPoint.x = 57.0f;
 			iconPoint.y = 83.0f;
 		}
-		
+
 		NSShadow *textShadow = [[NSShadow alloc] init];
 		NSSize shadowSize = {0.0f, -2.0f};
 		[textShadow setShadowOffset:shadowSize];
 		[textShadow setShadowBlurRadius:3.0f];
 		[textShadow setShadowColor:[NSColor blackColor]];
-		
+
 		// Draw the title, resize if text too big
 		float titleFontSize = 20.0f;
 		NSMutableParagraphStyle *parrafo = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -226,7 +226,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 		float accumulator = 0.0f;
 		BOOL minFontSize = NO;
 		NSSize titleSize = [title sizeWithAttributes:titleAttributes];
-		
+
 		while (titleSize.width > (NSWidth(titleRect) - (titleSize.height * 0.5f))) {
 			minFontSize = ( titleFontSize < 12.9f );
 			if (minFontSize)
@@ -236,15 +236,15 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 			[titleAttributes setObject:[NSFont boldSystemFontOfSize:titleFontSize] forKey:NSFontAttributeName];
 			titleSize = [title sizeWithAttributes:titleAttributes];
 		}
-		
+
 		titleRect.origin.y += ceilf(accumulator);
 		titleRect.size.height = titleSize.height;
-		
+
 		if (minFontSize)
 			[parrafo setLineBreakMode:NSLineBreakByTruncatingTail];
 		[title drawInRect:titleRect withAttributes:titleAttributes];
 		[titleAttributes release];
-		
+
 		NSFont *textFont = [NSFont systemFontOfSize:14.0f];
 		NSMutableDictionary *textAttributes = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 			textColor,  NSForegroundColorAttributeName,
@@ -254,16 +254,16 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 			nil];
 		[textShadow release];
 		[parrafo release];
-		
+
 		float height = [self descriptionHeight:text attributes:textAttributes width:textRect.size.width];
 		float lineHeight = [layoutManager defaultLineHeightForFont:textFont];
 		int rowCount = height / lineHeight;
-		
+
 		if (rowCount > maxRows)
 			[textAttributes setObject:[NSFont systemFontOfSize:12.0f] forKey:NSFontAttributeName];
 		[text drawInRect:textRect withAttributes:textAttributes];
 		[textAttributes release];
-		
+
 		NSRect iconRect;
 		iconRect.origin = iconPoint;
 		iconRect.size = maxIconSize;

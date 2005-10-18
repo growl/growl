@@ -48,7 +48,7 @@
 			READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
 			NSRect titleRect, textRect;
 			NSRect iconRect;
-			
+
 			if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 				titleRect.origin.x = 192.0f;
 				titleRect.origin.y = NSHeight(bounds) - 72.0f;
@@ -74,7 +74,7 @@
 			}
 			textRect.origin.x = titleRect.origin.x;
 			textRect.size.width = titleRect.size.width;
-			
+
 			//draw to cache
 			if (CGLayerCreateWithContext) {
 				if (!layer)
@@ -84,30 +84,30 @@
 			} else {
 				[cache lockFocus];
 			}
-			
+
 			[backgroundColor set];
 			bounds.origin = NSZeroPoint;
 			NSRectFill(bounds);
-			
+
 			[title drawInRect:titleRect withAttributes:titleAttributes];
-			
+
 			[text drawInRect:textRect withAttributes:textAttributes];
-			
+
 			[icon setFlipped:NO];
 			[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
-			
+
 			if (CGLayerCreateWithContext)
 				[NSGraphicsContext setCurrentContext:context];
 			else
 				[cache unlockFocus];
-			
+
 			needsDisplay = NO;
 		}
-		
+
 		// draw background
 		[[NSColor clearColor] set];
 		NSRectFill(rect);
-		
+
 		// draw cache to screen
 		NSRect imageRect = rect;
 		int effect = MUSICVIDEO_EFFECT_SLIDE;
@@ -121,7 +121,7 @@
 			if (!CGLayerCreateWithContext)
 				imageRect.origin.y = 0.0f;
 		}
-		
+
 		if (CGLayerCreateWithContext) {
 			CGRect cgRect;
 			cgRect.origin.x = imageRect.origin.x;

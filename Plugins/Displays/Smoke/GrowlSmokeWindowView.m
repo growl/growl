@@ -99,16 +99,16 @@
 	if ([super dispatchDrawingToThread:rect]) {
 		NSRect b = [self bounds];
 		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
-		
+
 		CGContextRef context = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-		
+
 		// calculate bounds based on icon-float pref on or off
 		CGRect shadedBounds;
 		BOOL floatIcon = GrowlSmokeFloatIconPrefDefault;
 		READ_GROWL_PREF_BOOL(GrowlSmokeFloatIconPref, GrowlSmokePrefDomain, &floatIcon);
 		if (floatIcon) {
 			float sizeReduction = GrowlSmokePadding + iconSize + (GrowlSmokeIconTextPadding * 0.5f);
-			
+
 			shadedBounds = CGRectMake(bounds.origin.x + sizeReduction + 1.0f,
 									  bounds.origin.y + 1.0f,
 									  bounds.size.width - sizeReduction - 2.0f,
@@ -116,11 +116,11 @@
 		} else {
 			shadedBounds = CGRectInset(bounds, 1.0f, 1.0f);
 		}
-		
+
 		// set up bezier path for rounded corners
 		addRoundedRectToPath(context, shadedBounds, GrowlSmokeBorderRadius);
 		CGContextSetLineWidth(context, 2.0f);
-		
+
 		// draw background
 		CGPathDrawingMode drawingMode;
 		if (mouseOver) {
@@ -132,29 +132,29 @@
 			[bgColor set];
 		}
 		CGContextDrawPath(context, drawingMode);
-		
+
 		// draw the title and the text
 		NSRect drawRect;
 		drawRect.origin.x = GrowlSmokePadding;
 		drawRect.origin.y = GrowlSmokePadding;
 		drawRect.size.width = iconSize;
 		drawRect.size.height = iconSize;
-		
+
 		[icon setFlipped:YES];
 		[icon drawScaledInRect:drawRect
 					 operation:NSCompositeSourceOver
 					  fraction:1.0f];
-		
+
 		drawRect.origin.x += iconSize + GrowlSmokeIconTextPadding;
-		
+
 		if (haveTitle) {
 			[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
 			drawRect.origin.y += titleHeight + GrowlSmokeTitleTextPadding;
 		}
-		
+
 		if (haveText)
 			[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
-		
+
 		[[self window] invalidateShadow];
 	}
 }

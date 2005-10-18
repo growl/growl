@@ -562,7 +562,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
 										 (CFStringRef)GROWL_IS_READY,
 										 NULL, NULL, false);
-	
+
 	//Stop observing for GROWL_IS_READY
 	CFNotificationCenterRef distCenter = CFNotificationCenterGetDistributedCenter();
 	CFNotificationCenterRemoveObserver(distCenter, self, (CFStringRef)GROWL_IS_READY, NULL);
