@@ -74,9 +74,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSView *					currentDragSource;
 	NSMutableParagraphStyle *	tableWrapStyle;
 	InspectorController *		inspector;
+	NSMutableArray *			articleCache;
 }
 
--(void)registerForNotifications;
+
 
 -(IBAction)reloadData;
 -(void)setDisplayedArticle:(KNArticle *)anArticle;
@@ -110,7 +111,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 -(void)setWindowTitle;
--(void)restoreSplitSize;
 
 
 -(NSMenu *)menuForFeedRow:(int)row;

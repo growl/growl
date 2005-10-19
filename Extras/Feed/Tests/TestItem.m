@@ -137,7 +137,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	KNItem *					child1 = [[KNItem alloc] init];
 	[anItem1 setName: @"Testing"];
 	[anItem1 addChild: child1];
-	[anItem1 addChildToCurrent: child1];
 	
 	[archiver1 encodeObject: anItem1 forKey:@"root"];
 	[archiver1 finishEncoding];
@@ -147,7 +146,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	STAssertEqualObjects( anItem1, anItem2, @"Item did not survive encoding");
 	STAssertEqualObjects( [anItem1 name], [anItem2 name], @"Name did not survive encoding" );
-	STAssertEqualObjects( [anItem1 currentChildIndexes], [anItem2 currentChildIndexes], @"Current indexes didn't survive encoding");
 	STAssertEqualObjects( child1, child2, @"Child objects did not survive encoding");
 	
 	[anItem1 release];
@@ -199,85 +197,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	STAssertTrue( [anItem isEqual: anItem], @"isEqual against self didn't return true");
 	STAssertFalse( [anItem isEqual: anotherItem], @"isEqual against different object returned true");
-}
-
-/* testCurrentIndexing
-	Make sure setting and manipulating current children works
-*/
--(void)testCurrentIndexing{
-	KNItem *					anItem = [[KNItem alloc] init];
-	KNItem  *					newItem = nil;
-	unsigned				i;
-	
-	// Set up some children
-	for( i=0;i<5;i++ ){
-		newItem = [[KNItem alloc] init];
-		[anItem addChild: newItem];
-	}
-	
-	// Basic current child manipulation
-	NSMutableIndexSet *		expectedIndexes = [NSMutableIndexSet indexSet];
-	
-	[anItem addChildToCurrent: [anItem childAtIndex: 3]];
-	[anItem addChildToCurrent: [anItem childAtIndex: 0]];
-	[expectedIndexes addIndex: 0];
-	[expectedIndexes addIndex: 3];
-	STAssertEqualObjects( [anItem currentChildIndexes], expectedIndexes, @"Indexes of current children didn't match after adding");
-	
-	[expectedIndexes removeAllIndexes];
-	
-	[anItem removeChildFromCurrent: [anItem childAtIndex:3]];
-	[expectedIndexes addIndex: 0];
-	STAssertEqualObjects( [anItem currentChildIndexes], expectedIndexes, @"Indexes of current children didn't match after removal");
-	
-	[anItem clearCurrentChildren];
-	[expectedIndexes removeAllIndexes];
-	STAssertEqualObjects( [anItem currentChildIndexes], expectedIndexes, @"Clearing all current didn't work");
-	
-	[expectedIndexes addIndex: 4];
-	[expectedIndexes addIndex: 2];
-	[anItem setCurrentWithIndexes: expectedIndexes];
-	STAssertEqualObjects( [anItem currentChildIndexes], expectedIndexes, @"Setting by index set didn't work");
-	
-	// Check exceptions
-	newItem = [[KNItem alloc] init];
-	STAssertThrows([anItem addChildToCurrent: newItem], @"Setting current to foreign child didn't throw exception");
-	STAssertThrows([anItem removeChildFromCurrent: newItem], @"Removing current for foreign child didn't throw exception");
-	[expectedIndexes removeAllIndexes];
-	[expectedIndexes addIndex: 9];
-	STAssertThrows([anItem setCurrentWithIndexes: expectedIndexes], @"Setting current indexes out of range didn't throw exception");
-	
-	// Check consistency when adding/deleting children
-	[expectedIndexes removeAllIndexes];
-	[anItem clearCurrentChildren];
-	
-	[anItem addChildToCurrent: [anItem childAtIndex: 0]];
-	[anItem addChildToCurrent: [anItem childAtIndex: 2]];
-	[anItem addChildToCurrent: [anItem childAtIndex: 4]];
-	[anItem removeChildAtIndex: 3];
-	[expectedIndexes addIndex: 0];
-	[expectedIndexes addIndex: 2];
-	[expectedIndexes addIndex: 3];
-	STAssertEqualObjects([anItem currentChildIndexes],  expectedIndexes, @"Removing child misalligned current indexes");
-	
-	newItem = [[KNItem alloc] init];
-	[expectedIndexes removeAllIndexes];
-	[anItem clearCurrentChildren];
-	[anItem addChildToCurrent: [anItem childAtIndex: 0]];
-	[anItem addChildToCurrent: [anItem childAtIndex: 2]];
-	[anItem addChildToCurrent: [anItem childAtIndex: 3]];
-	[anItem insertChild: newItem atIndex: 0];
-	[expectedIndexes addIndex: 1];
-	[expectedIndexes addIndex: 3];
-	[expectedIndexes addIndex: 4];
-	STAssertEqualObjects([anItem currentChildIndexes], expectedIndexes, @"Insert child misalligned current indexes");
-	
-	NSMutableArray *		expectedChildren = [NSMutableArray array];
-	[expectedChildren addObject: [anItem childAtIndex: 1]];
-	[expectedChildren addObject: [anItem childAtIndex:3]];
-	[expectedChildren addObject: [anItem childAtIndex:4]];
-	
-	STAssertEqualObjects( [anItem currentChildren], expectedChildren, @"Requesting current child items didn't match");
 }
 
 -(void)testItemKeyLookup{

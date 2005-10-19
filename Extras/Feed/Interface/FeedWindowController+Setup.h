@@ -2,7 +2,7 @@
 
 BSD License
 
-Copyright (c) 2005, Keith Anderson
+Copyright (c) 2004, Keith Anderson
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -31,14 +31,18 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 */
 
-
 #import <Cocoa/Cocoa.h>
 #import "FeedWindowController.h"
 
-@interface FeedWindowController (Sources)
 
--(unsigned)unreadCountForSelection;
--(unsigned)unreadCountWithIndexes:(NSIndexSet *)anIndexSet;
--(void)refreshArticleCache;
--(NSSet *)selectedFeeds;
+@interface FeedWindowController (Setup)
+
+-(void)registerForNotifications;
+
+-(void)awakeFromNib;
+-(void)windowDidLoad;
+-(void)windowWillClose:(NSNotification *)aNotification;
+
+-(void)restoreSplitSize;
+
 @end

@@ -51,7 +51,6 @@ void ItemThrow(NSString *aString){
 		key = [KNUniqueKeyWithLength(UNIQUEKEYLENGTH) retain];
 		children = [[NSMutableArray array] retain];
 		name = [[NSString stringWithString: key] retain];
-		currentIndexes = [[NSMutableIndexSet alloc] init];
 		prefs = [[NSMutableDictionary alloc] init];
 	}
 	return self;
@@ -63,7 +62,6 @@ void ItemThrow(NSString *aString){
 		children = [[aCoder decodeObjectForKey: ItemChildren] retain];
 		key = [[aCoder decodeObjectForKey: ItemKey] retain];
 		name = [[aCoder decodeObjectForKey: ItemName] retain];
-		currentIndexes = [[NSMutableIndexSet alloc] initWithIndexSet: [aCoder decodeObjectForKey: ItemCurrentIndexes]];
 		prefs = [[aCoder decodeObjectForKey: ItemPrefs] retain];
 	}
 	return self;
@@ -74,7 +72,6 @@ void ItemThrow(NSString *aString){
 	[aCoder encodeObject: children forKey: ItemChildren];
 	[aCoder encodeObject: key forKey: ItemKey];
 	[aCoder encodeObject: name forKey: ItemName];
-	[aCoder encodeObject: currentIndexes forKey: ItemCurrentIndexes];
 	[aCoder encodeObject: prefs forKey: ItemPrefs];
 }
 
@@ -83,7 +80,6 @@ void ItemThrow(NSString *aString){
 	[key release];
 	[children release];
 	[name release];
-	[currentIndexes release];
 	[prefs release];
 	
 	[super dealloc];
@@ -150,20 +146,6 @@ void ItemThrow(NSString *aString){
 	return results;
 }
 
--(NSArray *)currentItemsOfType:(NSString *)aType{
-	NSMutableArray *				results = [NSMutableArray array];
-	NSEnumerator *					enumerator = [children objectEnumerator];
-	KNItem *						child = nil;
-	
-	while( (child = [enumerator nextObject]) ){
-		if( [[child type] isEqualToString: aType] && [currentIndexes containsIndex: [self indexOfChild: child]] ){
-			[results addObject: child];
-		}
-		[results addObjectsFromArray: [child currentItemsOfType: aType]];
-	}
-	return results;
-}
-
 -(NSArray *)itemsWithProperty:(NSString *)keyPath equalTo:(id)otherObject{
 	NSMutableArray *				results = [NSMutableArray array];
 	unsigned						i;
@@ -178,30 +160,6 @@ void ItemThrow(NSString *aString){
 		}
 	}
 	return results;
-}
-
--(NSArray *)currentItemsWithProperty:(NSString *)keyPath equalTo:(id)otherObject{
-	NSMutableArray *				results = [NSMutableArray array];
-	NSEnumerator *					enumerator = [[self currentChildren] objectEnumerator];
-	KNItem *							child = nil;
-	
-	while( (child = [enumerator nextObject]) ){
-		if( [[child valueForKeyPath:keyPath] isEqual: otherObject] ){
-			[results addObject: child];
-		}
-	}
-	
-	return results;
-}
-
--(NSArray *)currentItems{
-	NSMutableArray *			items = [NSMutableArray arrayWithArray: [self currentChildren]];
-	unsigned					i;
-	
-	for(i=0;i<[children count];i++){
-		[items addObjectsFromArray: [[self childAtIndex:i] currentItems]];
-	}
-	return items;
 }
 
 -(unsigned)unreadCount{
@@ -281,7 +239,6 @@ void ItemThrow(NSString *aString){
 			if( anIndex == [children count] ){
 				[self addChild: aChild];
 			}else{
-				[currentIndexes shiftIndexesStartingAtIndex:anIndex by:1];
 				[children insertObject: aChild atIndex: anIndex];
 			}
 			[LIB makeDirty];
@@ -304,17 +261,6 @@ void ItemThrow(NSString *aString){
 	if(anIndex < [children count]){
 		[[children objectAtIndex:anIndex] setParent: nil];
 		[children removeObjectAtIndex: anIndex];
-		
-		if( [currentIndexes containsIndex: anIndex] ){
-			[currentIndexes removeIndex: anIndex];
-		}
-
-		unsigned				shiftedIndex = [currentIndexes indexGreaterThanIndex: anIndex];
-		while( shiftedIndex != NSNotFound ){
-			[currentIndexes removeIndex: shiftedIndex];
-			[currentIndexes addIndex: (shiftedIndex - 1)];
-			shiftedIndex = [currentIndexes indexGreaterThanIndex: shiftedIndex];
-		}
 		[LIB makeDirty];
 	}else{
 		ItemThrow(@"Attempt to remove child out of range");
@@ -355,96 +301,6 @@ void ItemThrow(NSString *aString){
 
 -(KNItem *)lastChild{
 	return [children lastObject];
-}
-
-#pragma mark -
-#pragma mark Current Child
-
--(void)didBecomeCurrent{
-	[currentIndexes addIndexesInRange: NSMakeRange(0,[children count])];
-}
-
--(void)didResignCurrent{
-	
-}
-
--(NSIndexSet *)currentChildIndexes{
-	return [[[NSIndexSet alloc] initWithIndexSet: currentIndexes] autorelease];
-}
-
--(NSArray *)currentChildren{
-	unsigned				currentIndex = [currentIndexes firstIndex];
-	NSMutableArray *		result = [NSMutableArray array];
-	
-	while( currentIndex != NSNotFound ){
-		[result addObject: [children objectAtIndex: currentIndex]];
-		currentIndex = [currentIndexes indexGreaterThanIndex: currentIndex];
-	}
-	return [NSArray arrayWithArray:result];
-}
-
--(void)clearCurrentChildren{
-	unsigned				currentIndex = [currentIndexes firstIndex];
-	
-	while( currentIndex != NSNotFound ){
-		[[self childAtIndex: currentIndex] didResignCurrent];
-		currentIndex = [currentIndexes indexGreaterThanIndex: currentIndex];
-	}
-	[currentIndexes removeAllIndexes];
-	[LIB makeDirty];
-}
-
--(void)clearAllCurrentChildren{
-	NSEnumerator *				enumerator = [children objectEnumerator];
-	KNItem *						child = nil;
-	
-	[self clearCurrentChildren];
-	while( (child = [enumerator nextObject]) ){
-		[child clearAllCurrentChildren];
-	}
-}
-
--(void)addChildToCurrent:(KNItem *)aChild{
-	unsigned			childIndex = [self indexOfChild: aChild];
-	
-	if( childIndex != NSNotFound ){
-		[currentIndexes addIndex: childIndex];
-		[aChild didBecomeCurrent];
-		
-		[LIB makeDirty];
-	}else{
-		ItemThrow(@"Attempt to make unknown child current");
-	}
-}
-
--(void)removeChildFromCurrent:(KNItem *)aChild{
-	unsigned			childIndex = [self indexOfChild: aChild];
-	
-	if( childIndex != NSNotFound ){
-		[currentIndexes removeIndex: childIndex];
-		[aChild didResignCurrent];
-		[LIB makeDirty];
-	}else{
-		ItemThrow(@"Attempt to remove unknown child from current");
-	}
-}
-
--(void)setCurrentWithIndexes:(NSIndexSet *)newIndexes{
-	if( ([newIndexes indexGreaterThanOrEqualToIndex: [self childCount]] != NSNotFound) ){
-		ItemThrow(@"Attempt to set current with indexes out of range");
-	}
-	[self clearCurrentChildren];
-	
-	unsigned					currentIndex = [newIndexes firstIndex];
-	while( currentIndex != NSNotFound ){
-		[[self childAtIndex: currentIndex] didBecomeCurrent];
-		[currentIndexes addIndex: currentIndex];
-		currentIndex = [newIndexes indexGreaterThanIndex: currentIndex];
-	}
-}
-
--(BOOL)isChildCurrent:(KNItem *)anItem{
-	return [currentIndexes containsIndex: [self indexOfChild: anItem]];
 }
 
 @end

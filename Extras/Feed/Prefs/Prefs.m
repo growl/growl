@@ -33,7 +33,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #import "Prefs.h"
 #import "KNUtility.h"
 #import "FeedDelegate.h"
-
+#import "KNArticle.h"
 #define FEED_DRAWER_STATE @"DrawerState"
 #define FEED_DRAWER_STATE_DEFAULT YES
 #define FEED_CURRENT_SELECTION @"CurrentFeedSelection"
@@ -88,6 +88,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #define USER_AGENT_STRING_DEFAULT @"Feed (0.6.5)"
 #define USE_TORRENT_SCHEME @"UseTorrentScheme"
 #define USE_TORRENT_SCHEME_DEFAULT NO
+#define ARTICLE_SELECTION_INDEXES @"ArticleSelectionIndexes"
+#define SOURCE_SELECTION_INDEXES @"SourceSelectionIndexes"
+#define SORT_DESCRIPTORS @"SortDescriptors"
 
 
 #define DEFAULTS [NSUserDefaults standardUserDefaults]
@@ -449,84 +452,40 @@ static Prefs * sharedPrefsObject = nil;
 	[[NSNotificationCenter  defaultCenter] postNotificationName: NotifyArticleTorrentSchemeChanged object: nil];
 }
 
-
-
-
-/*
--(NSString *)registeredProtocolHandlerAppPath{
-	ICAppSpec				appSpec;
-	long					size = sizeof(ICAppSpec);
-	ICAttr					atts;
-	OSStatus				status;
-	char					originalKeyC[256];
-	char					newKeyC[256];
-	Str255					newKeyP;
-	ICInstance				ic;
-	NSString *				appName = nil;
-	char					appNameC[256];
-	NSString *				appPath = nil;
-	
-	CopyPascalStringToC(kICHelper, originalKeyC);
-	snprintf(newKeyC, 256, "%sfeed", originalKeyC);
-	CopyCStringToPascal(newKeyC, newKeyP);
-	
-	if( (status = ICStart( &ic, 'KETO')) == noErr ){
-		if( (status = ICBegin(ic, icReadOnlyPerm)) == noErr ){
-			if( (status = ICGetPref(ic, newKeyP, &atts, &appSpec, &size)) == noErr ){
-				CopyPascalStringToC(appSpec.name, appNameC);
-				appName = [NSString stringWithCString: appNameC];
-			}
-			ICEnd(ic);
-		}
-		ICStop(ic);
-	}
-	
-	if( appName ){
-		KNDebug(@"PREF: got an appName %@", appName);
-		appPath = [[NSWorkspace sharedWorkspace] fullPathForApplication: appName]; 
-	}
-	return appPath;
-}
-
--(void)setRegisteredProtocolHandlerAppPath:(NSString *)appPath{
-	ICAppSpec				appSpec;
-	OSStatus				status;
-	char					originalKeyC[256];
-	char					newKeyC[256];
-	Str255					newKeyP;
-	ICInstance				ic;
-	LSItemInfoRecord		info;
-	NSURL *					appURL;
-	LSRequestedInfo			infoFlags = kLSRequestTypeCreator;
-	
-	KNDebug(@"PREF: setting handler to %@", appPath);
-	// Fetch the creator code for the requested appName
-	appURL = [NSURL fileURLWithPath: appPath];
-	if( LSCopyItemInfoForURL( (CFURLRef) appURL, infoFlags, &info ) == noErr ){
-		appSpec.fCreator = info.creator;
-	}
-	
-	CopyCStringToPascal([[[NSApp delegate] appName] cString], appSpec.name);
-	
-	CopyPascalStringToC(kICHelper, originalKeyC);
-	snprintf(newKeyC, 256, "%sfeed", originalKeyC);
-	CopyCStringToPascal(newKeyC, newKeyP);
-	
-	if( (status = ICStart(&ic, 'KETO')) == noErr ){
-		KNDebug(@"PREF: ICStart");
-		if( (status = ICBegin(ic, icReadWritePerm)) == noErr ){
-			KNDebug(@"PREF: ICBegin");
-			//if( (status = ICDeletePref( ic, newKeyP )) == noErr ){
-				//KNDebug(@"PREF: ICDeletePref");
-				status = ICSetPref(ic, newKeyP, kICAttrNoChange, &appSpec, sizeof(ICAppSpec));
-				KNDebug(@"PREF: set IC pref returned %d", status);
-			//}
-			ICEnd(ic);
-		}
-		ICStop(ic);
+-(NSIndexSet *)articleSelectionIndexes{
+	if( [DEFAULTS objectForKey: ARTICLE_SELECTION_INDEXES] ){
+		return (NSIndexSet *) [NSUnarchiver unarchiveObjectWithData: [DEFAULTS objectForKey: ARTICLE_SELECTION_INDEXES]];
+	}else{
+		return [NSIndexSet indexSet];
 	}
 }
-*/
 
+-(void)setArticleSelectionIndexes:(NSIndexSet *)anIndexSet{
+	[DEFAULTS setObject: [NSArchiver archivedDataWithRootObject: anIndexSet] forKey: ARTICLE_SELECTION_INDEXES];
+}
+
+-(NSIndexSet *)sourceSelectionIndexes{
+	if( [DEFAULTS objectForKey: SOURCE_SELECTION_INDEXES] ){
+		return (NSIndexSet *) [NSUnarchiver unarchiveObjectWithData: [DEFAULTS objectForKey: SOURCE_SELECTION_INDEXES]];
+	}else{
+		return [NSIndexSet indexSet];
+	}
+}
+
+-(void)setSourceSelectionIndexes:(NSIndexSet *)anIndexSet{
+	[DEFAULTS setObject: [NSArchiver archivedDataWithRootObject: anIndexSet] forKey: SOURCE_SELECTION_INDEXES];
+}
+
+-(NSArray *)sortDescriptors{
+	if( [DEFAULTS objectForKey: SORT_DESCRIPTORS] ){
+		return (NSArray *) [NSUnarchiver unarchiveObjectWithData: [DEFAULTS objectForKey: SORT_DESCRIPTORS]];
+	}else{
+		return [NSArray arrayWithObject: [[[NSSortDescriptor alloc] initWithKey: ArticleDate ascending: YES] autorelease]];
+	}
+}
+
+-(void)setSortDescriptors:(NSArray *)descriptors{
+	[DEFAULTS setObject: [NSArchiver archivedDataWithRootObject:descriptors] forKey: SORT_DESCRIPTORS];
+}
 
 @end

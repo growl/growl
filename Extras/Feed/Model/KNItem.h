@@ -43,7 +43,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #define ItemKey @"key"
 #define ItemName @"name"
 #define ItemPrefs @"prefs"
-#define ItemCurrentIndexes @"currentChildIndexes"
 
 /*!
 	@class Item
@@ -56,7 +55,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSMutableArray *			children;
 	NSString *					key;
 	NSString *					name;
-	NSMutableIndexSet *			currentIndexes;
 	NSMutableDictionary *		prefs;
 	
 	KNItem *						parent;
@@ -132,16 +130,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	@abstract Finds all children of the desired type recursively (including self)
 */
 -(NSArray *)itemsOfType:(NSString *)aType;
-
-/*!
-	@method currentItemsOfType
-	@abstract Finds all current children of the desired type recursively
-*/
--(NSArray *)currentItemsOfType:(NSString *)aType;
-
 -(NSArray *)itemsWithProperty:(NSString *)keyPath equalTo:(id)otherObject;
--(NSArray *)currentItemsWithProperty:(NSString *)keyPath equalTo:(id)otherObject;
--(NSArray *)currentItems;
 
 /*!
 	@method unreadCount
@@ -216,54 +205,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	@abstract Returns the last child in the list of children or nil if there are no children.
 */
 -(KNItem *)lastChild;
-
-
-/*! 
-	@functiongroup Current Children
-*/
-
-/*!
-	@method currentChildIndexes
-	@abstract Returns an index set representing the currently selected items.
-*/
--(NSIndexSet *)currentChildIndexes;
-
-/*!
-	@method currentChildren
-	@abstract Returns the current child items in an array.
-*/
--(NSArray *)currentChildren;
-
-/*!
-	@method clearCurrentChildren
-	@abstract Clears all current children.
-*/
--(void)clearCurrentChildren;
--(void)clearAllCurrentChildren;
-
-/*!
-	@method addChildToCurrent:
-	@abstract Adds the child to the list of current children.
-	@param aChild The child to make current. Throws FeedItemException if aChild is not a child of item.
-*/
--(void)addChildToCurrent:(KNItem *)aChild;
-
-/*!
-	@method removeChildFromCurrent:
-	@abstract Removes the child from the list of current children.
-	@param aChild The child to remove from current. Throws FeedItemException if aChild is not a child of item.
-*/
--(void)removeChildFromCurrent:(KNItem *)aChild;
-
-/*!
-	@method setCurrentWithIndexes:
-	@abstract Replaces the set of current children with the children specified by index.
-	@param newIndexes The indexes of children to set as current. Throws FeedItemException if any indexes specified
-					are out of range.
-*/
--(void)setCurrentWithIndexes:(NSIndexSet *)newIndexes;
-
--(BOOL)isChildCurrent:(KNItem *)anItem;
 
 @end
 

@@ -10,6 +10,12 @@
 		531B9BFF08E6282E00F10DE0 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 53AA979A08E6233900DBD86D /* Growl.framework */; };
 		531DE37B08FDBD7D00E7746C /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 531E429E06D67780007FB45E /* Credits.html */; };
 		531DE39B08FDBDB000E7746C /* DefaultSources.opml in Resources */ = {isa = PBXBuildFile; fileRef = 531DE39A08FDBDB000E7746C /* DefaultSources.opml */; };
+		531DE4BD09035C2200E7746C /* RSSReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FDFB06D7A144008F1DFB /* RSSReader.m */; };
+		531DE4BE09035C2200E7746C /* AtomReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FE0306D7A165008F1DFB /* AtomReader.m */; };
+		531DE4BF09035C2300E7746C /* FeedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FE0D06D7A1ED008F1DFB /* FeedReader.m */; };
+		531DE4C009035C3200E7746C /* NSDate+KNExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 5367241A07DE426D004DD4CC /* NSDate+KNExtras.m */; };
+		531DE4DA0903655900E7746C /* FeedWindowController+Setup.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 531DE4D80903655900E7746C /* FeedWindowController+Setup.h */; };
+		531DE4DB0903655900E7746C /* FeedWindowController+Setup.m in Sources */ = {isa = PBXBuildFile; fileRef = 531DE4D90903655900E7746C /* FeedWindowController+Setup.m */; };
 		53249257088AFEEC00CC8430 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53249256088AFEEC00CC8430 /* SystemConfiguration.framework */; };
 		53342E3B0864AA9800CA2551 /* Feed.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 5302A8DF06E6758300C753F8 /* Feed.scriptTerminology */; };
 		53342E3C0864AA9900CA2551 /* Feed.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 5302A87A06E672C900C753F8 /* Feed.scriptSuite */; };
@@ -29,8 +35,6 @@
 		533AB43608F0B6D0007AC83D /* Library.m in Sources */ = {isa = PBXBuildFile; fileRef = 533AB43308F0B6D0007AC83D /* Library.m */; };
 		533AB49508F0D3B9007AC83D /* Library+Items.m in Sources */ = {isa = PBXBuildFile; fileRef = 533AB49308F0D3B9007AC83D /* Library+Items.m */; };
 		533AB49608F0D3B9007AC83D /* Library+Items.m in Sources */ = {isa = PBXBuildFile; fileRef = 533AB49308F0D3B9007AC83D /* Library+Items.m */; };
-		533AB4B308F0D4A0007AC83D /* Library+Active.m in Sources */ = {isa = PBXBuildFile; fileRef = 533AB4B108F0D4A0007AC83D /* Library+Active.m */; };
-		533AB4B408F0D4A0007AC83D /* Library+Active.m in Sources */ = {isa = PBXBuildFile; fileRef = 533AB4B108F0D4A0007AC83D /* Library+Active.m */; };
 		533AB4FC08F0DF01007AC83D /* Library+Update.m in Sources */ = {isa = PBXBuildFile; fileRef = 533AB4FA08F0DF01007AC83D /* Library+Update.m */; };
 		533AB4FD08F0DF01007AC83D /* Library+Update.m in Sources */ = {isa = PBXBuildFile; fileRef = 533AB4FA08F0DF01007AC83D /* Library+Update.m */; };
 		5344BD2A06DEB112004B3108 /* OPMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5344BD2806DEB112004B3108 /* OPMLReader.m */; };
@@ -115,6 +119,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				531B9BFF08E6282E00F10DE0 /* Growl.framework in CopyFiles */,
+				531DE4DA0903655900E7746C /* FeedWindowController+Setup.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +136,8 @@
 		5302A87A06E672C900C753F8 /* Feed.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Feed.scriptSuite; sourceTree = "<group>"; };
 		5302A8DF06E6758300C753F8 /* Feed.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Feed.scriptTerminology; sourceTree = "<group>"; };
 		531DE39A08FDBDB000E7746C /* DefaultSources.opml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = DefaultSources.opml; path = "Supporting Files/DefaultSources.opml"; sourceTree = "<group>"; };
+		531DE4D80903655900E7746C /* FeedWindowController+Setup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FeedWindowController+Setup.h"; path = "Interface/FeedWindowController+Setup.h"; sourceTree = "<group>"; };
+		531DE4D90903655900E7746C /* FeedWindowController+Setup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FeedWindowController+Setup.m"; path = "Interface/FeedWindowController+Setup.m"; sourceTree = "<group>"; };
 		531E429E06D67780007FB45E /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Credits.html; path = "Supporting Files/Credits.html"; sourceTree = "<group>"; };
 		531E42C306D68DD3007FB45E /* LICENSE.TXT */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = LICENSE.TXT; sourceTree = "<group>"; };
 		53249256088AFEEC00CC8430 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
@@ -479,6 +486,8 @@
 				53C8B20F06D5541B00B86C7D /* LibraryToolbar.m */,
 				53C8B20D06D5541B00B86C7D /* FeedWindowController.h */,
 				53C8B21706D5541B00B86C7D /* FeedWindowController.m */,
+				531DE4D80903655900E7746C /* FeedWindowController+Setup.h */,
+				531DE4D90903655900E7746C /* FeedWindowController+Setup.m */,
 				53BE77AE08FC397D0078FC54 /* FeedWindowController+Articles.h */,
 				53BE77AF08FC397D0078FC54 /* FeedWindowController+Articles.m */,
 				53BE77DB08FC3C220078FC54 /* FeedWindowController+Sources.h */,
@@ -706,8 +715,11 @@
 				533AB41208F0A930007AC83D /* TestArticle.m in Sources */,
 				533AB43608F0B6D0007AC83D /* Library.m in Sources */,
 				533AB49608F0D3B9007AC83D /* Library+Items.m in Sources */,
-				533AB4B408F0D4A0007AC83D /* Library+Active.m in Sources */,
 				533AB4FD08F0DF01007AC83D /* Library+Update.m in Sources */,
+				531DE4BD09035C2200E7746C /* RSSReader.m in Sources */,
+				531DE4BE09035C2200E7746C /* AtomReader.m in Sources */,
+				531DE4BF09035C2300E7746C /* FeedReader.m in Sources */,
+				531DE4C009035C3200E7746C /* NSDate+KNExtras.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -739,13 +751,13 @@
 				533AB39308F07725007AC83D /* KNArticle.m in Sources */,
 				533AB43508F0B6D0007AC83D /* Library.m in Sources */,
 				533AB49508F0D3B9007AC83D /* Library+Items.m in Sources */,
-				533AB4B308F0D4A0007AC83D /* Library+Active.m in Sources */,
 				533AB4FC08F0DF01007AC83D /* Library+Update.m in Sources */,
 				53A795BA08F6D1F500CAC915 /* Library+Utility.m in Sources */,
 				53BE77B108FC397D0078FC54 /* FeedWindowController+Articles.m in Sources */,
 				53BE77DE08FC3C220078FC54 /* FeedWindowController+Sources.m in Sources */,
 				53BE77F008FC3CA70078FC54 /* FeedWindowController+DragDrop.m in Sources */,
 				53BE7D3908FCCD440078FC54 /* NSAttributedString+KNExtras.m in Sources */,
+				531DE4DB0903655900E7746C /* FeedWindowController+Setup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

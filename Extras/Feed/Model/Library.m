@@ -230,5 +230,4 @@ static Library *				_sharedLibrary = nil;
 -(KNItem *)rootItem{
 	return rootItem;
 }
-
 @end

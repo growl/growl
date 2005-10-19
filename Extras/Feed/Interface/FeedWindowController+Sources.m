@@ -33,36 +33,113 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 #import "FeedWindowController+Sources.h"
-#import "Library+Active.h"
+#import "InspectorController.h"
+#import "Library.h"
 #import "KNFeed.h"
 #import "KNArticle.h"
+#import "Prefs.h"
 
 
 @implementation FeedWindowController (Sources)
 
+#pragma mark -
+#pragma mark Source Introspection
+
+-(unsigned)unreadCountForSelection{
+	KNDebug(@"unreadCountForSelection");
+	return [self unreadCountWithIndexes: [feedOutlineView selectedRowIndexes]];
+}
+
+-(unsigned)unreadCountWithIndexes:(NSIndexSet *)anIndexSet{
+	unsigned			unreadCount = 0;
+	unsigned			currentIndex = [anIndexSet firstIndex];
+	
+	while( currentIndex != NSNotFound ){
+		unreadCount += [[feedOutlineView itemAtRow: currentIndex] unreadCount];
+		currentIndex = [anIndexSet indexGreaterThanIndex: currentIndex];
+	}
+	
+	return unreadCount;
+}
+
+-(void)refreshArticleCache{
+	
+	KNDebug(@"refreshArticleCache");
+	/* First, save off our selected article objects based on the current selection */
+	NSIndexSet *				selectedArticleIndexes = [articleTableView selectedRowIndexes];
+	unsigned					currentArticle = [selectedArticleIndexes firstIndex];
+	NSMutableArray *			selectedArticles = [NSMutableArray array];
+	while( currentArticle != NSNotFound ){
+		[selectedArticles addObject: [articleCache objectAtIndex: currentArticle]];
+		currentArticle = [selectedArticleIndexes indexGreaterThanIndex: currentArticle];
+	}
+	
+	/* clear the current cache and generate the new cache based on the feed selection */
+	NSIndexSet *				selectedSourceIndexes = [feedOutlineView selectedRowIndexes];
+	unsigned					currentSource = [selectedSourceIndexes firstIndex];
+	[articleCache removeAllObjects];
+	while( currentSource != NSNotFound ){
+		[articleCache addObjectsFromArray: [[feedOutlineView itemAtRow: currentSource] itemsOfType:FeedItemTypeArticle]];
+		currentSource = [selectedSourceIndexes indexGreaterThanIndex: currentSource];
+	}
+	
+	/* sort the resulting cache based on the sort descriptors */
+	[articleCache sortUsingDescriptors: [PREFS sortDescriptors]];
+	
+	/* Finally, flip through the resulting cache and re-select any remaining articles from before */
+	NSEnumerator *				enumerator = [selectedArticles objectEnumerator];
+	KNArticle *					article = nil;
+	NSMutableIndexSet *			newSelection = [NSMutableIndexSet indexSet];
+	while( (article = [enumerator nextObject]) ){
+		if( [articleCache indexOfObject: article] != NSNotFound ){
+			[newSelection addIndex: [articleCache indexOfObject: article]];
+		}
+	}
+	[articleTableView selectRowIndexes: newSelection byExtendingSelection: NO];
+}
+
+-(NSSet *)selectedFeeds{
+	NSIndexSet *					selectedItems = [feedOutlineView selectedRowIndexes];
+	unsigned						currentIndex = [selectedItems firstIndex];
+	NSMutableSet *					feedSet = [NSMutableSet set];
+	
+	while( currentIndex != NSNotFound ){
+		NSEnumerator *				enumerator = [[[feedOutlineView itemAtRow: currentIndex] itemsOfType: FeedItemTypeFeed] objectEnumerator];
+		KNFeed *					feed;
+		while( (feed = [enumerator nextObject]) ){
+			[feedSet addObject: feed];
+		}
+		currentIndex = [selectedItems indexGreaterThanIndex: currentIndex];
+	}
+	
+	return feedSet;
+}
+
+#pragma mark -
+#pragma mark NSOutlineView Delegate Methods
 -(BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)column item:(id)item{
 #pragma unused(outlineView,column,item)
+	KNDebug(@"shouldEditTAbleColumn");
     //return( ([[outlineView selectedRowIndexes] count] == 1) && [LIB isFolderItem: item] );
 	return YES;
 }
 
 -(void)outlineViewSelectionDidChange:(NSNotification *)notification{
 #pragma unused(notification)
-	NSIndexSet *				selectedItems = [feedOutlineView selectedRowIndexes];
-	unsigned					currentIndex = NSNotFound;
-	KNItem *						item = nil;
 	
-	[LIB clearActiveItems];
-	currentIndex = [selectedItems firstIndex];
-	while( currentIndex != NSNotFound ){
-		item = [feedOutlineView itemAtRow: currentIndex];
-		[[item parent] addChildToCurrent: item];
-		currentIndex = [selectedItems indexGreaterThanIndex: currentIndex];
-	}
-	
-	[LIB generateCurrentArticleCache];
-	//[self reloadData];
+	KNDebug(@"source selection changed");
+	[PREFS setSourceSelectionIndexes: [feedOutlineView selectedRowIndexes]];
+	[self refreshArticleCache];
 	[articleTableView reloadData];
+	[self updateStatus];
+	[self setWindowTitle];
+	
+	// Set our item in our inspector
+	if( [[feedOutlineView selectedRowIndexes] count] == 1 ){
+		[inspector setItem: [feedOutlineView itemAtRow: [[feedOutlineView selectedRowIndexes] firstIndex]]];
+	}else{
+		[inspector setItem: nil];
+	}
 }
 
 -(id)outlineView:(NSOutlineView *)outlineView child:(int)anIndex ofItem:(id)item{
@@ -166,7 +243,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 				return [(KNFeed *)item sourceURL];
 			}
 		}else if( [[item type] isEqualToString:FeedItemTypeItem] ){
-			return [NSString stringWithFormat: @"Contains %d feeds", [[LIB feedsInFolder: item] count]];
+			return [NSString stringWithFormat: @"Contains %d feeds", [[item itemsOfType: FeedItemTypeFeed] count]];
 		}else if( [[item type] isEqualToString:FeedItemTypeArticle] ){
 			return [NSString stringWithFormat: @"Feed: %@", [(KNArticle *)item feedName]];
 		}

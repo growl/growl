@@ -123,8 +123,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(BOOL)canHaveChildren{ return NO; }
--(void)didBecomeCurrent{}
--(void)didResignCurrent{}
 
 #pragma mark -
 #pragma mark Properties

@@ -34,7 +34,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 #import "FeedWindowController+DragDrop.h"
 #import "Library+Items.h"
-#import "Library+Active.h"
+//#import "Library+Active.h"
 #import "Library+Update.h"
 #import "KNFeed.h"
 #import "KNArticle.h"
@@ -134,7 +134,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			
 			enumerator = [[self draggedArticles] objectEnumerator];
 			while((draggedArticleIndex = [enumerator nextObject])){
-				KNArticle *				article = [LIB activeArticleAtIndex: [draggedArticleIndex intValue]];
+				KNArticle *				article = [articleCache objectAtIndex: [draggedArticleIndex intValue]];
 
 				draggedItem = [LIB newArticle: article inItem: targetItem atIndex: newIndex];
 				[articleSelection addObject: draggedItem];
@@ -207,7 +207,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		if( currentDragSource == articleTableView ){
 			enumerator = [[self draggedArticles] objectEnumerator];
 			while((articleIndex = [enumerator nextObject])){
-				article = [LIB activeArticleAtIndex: [articleIndex intValue]];
+				article = [articleCache objectAtIndex: [articleIndex intValue]];
 				if( ![[article link] isEqualToString: @""] ){
 					[draggedString appendFormat: @"%@\n", [article link]];
 				}
@@ -219,7 +219,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 					[draggedString appendFormat: @"%@\n", [[LIB feedForItem: feedItem] sourceURL]];
 					
 				}else if( [LIB isFolderItem: feedItem] ){
-					folderEnumerator = [[LIB feedsInFolder: feedItem] objectEnumerator];
+					folderEnumerator = [[feedItem itemsOfType: FeedItemTypeFeed] objectEnumerator];
 					while((feed = [folderEnumerator nextObject])){
 						[draggedString appendFormat: @"%@\n", [feed sourceURL]];
 					}

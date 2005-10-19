@@ -105,9 +105,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[super dealloc];
 }
 
--(void)didBecomeCurrent{}
--(void)didResignCurrent{}
-
 #pragma mark -
 #pragma mark Properties
 

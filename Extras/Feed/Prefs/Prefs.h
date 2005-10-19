@@ -139,4 +139,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(BOOL)useTorrentScheme;
 -(void)setUseTorrentScheme:(BOOL)shouldUseTorrent;
+
+-(NSIndexSet *)articleSelectionIndexes;
+-(void)setArticleSelectionIndexes:(NSIndexSet *)anIndexSet;
+-(NSIndexSet *)sourceSelectionIndexes;
+-(void)setSourceSelectionIndexes:(NSIndexSet *)anIndexSet;
+-(NSArray *)sortDescriptors;
+-(void)setSortDescriptors:(NSArray *)descriptors;
 @end

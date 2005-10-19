@@ -33,7 +33,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 #import "FeedWindowController+Articles.h"
-#import "Library+Active.h"
+#import "FeedWindowController+Sources.h"
+#import "Library.h"
 #import "Prefs.h"
 #import "KNArticle.h"
 #import "NSDate+KNExtras.h"
@@ -46,14 +47,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)idx{
 #pragma unused(tableView)
-    id                          value = nil;
-    KNArticle *                   article = nil;
-    //BOOL                        isRead = NO;
-    NSCell *                    currentCell = nil;
-    NSFontManager *             fontManager = [NSFontManager sharedFontManager];
+    id							value = nil;
+    KNArticle *					article = nil;
+    NSCell *					currentCell = nil;
+    NSFontManager *				fontManager = [NSFontManager sharedFontManager];
 	NSMutableDictionary *		attributes = [NSMutableDictionary dictionary];
     
-    article = [LIB activeArticleAtIndex: idx];
+    article = [articleCache objectAtIndex: idx];
     if( article ){
 		currentCell = [column dataCell];
 		[currentCell setWraps: YES];
@@ -109,27 +109,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(int)numberOfRowsInTableView:(NSTableView *)tableView{
 #pragma unused(tableView)
-    return [LIB activeArticleCount];
+    return [articleCache count];
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification{
 #pragma unused(notification)
-    KNArticle *                   article = nil;
-	NSIndexSet *				selectedArticles;
-	int							currentIndex;
-    
-	[LIB clearActiveArticles];
+	NSIndexSet *				selection = [articleTableView selectedRowIndexes];
 	
-	selectedArticles = [articleTableView selectedRowIndexes];
-	currentIndex = [selectedArticles firstIndex];
-	while( currentIndex != NSNotFound ){
-		article = [LIB activeArticleAtIndex: currentIndex];
-		[[article parent] addChildToCurrent: article];
-		currentIndex = [selectedArticles indexGreaterThanIndex: currentIndex];
-	}
-	
-	if( [selectedArticles count] == 1 ){
-		[self setDisplayedArticle: [LIB activeArticleAtIndex: [selectedArticles firstIndex]]];
+	KNDebug(@"article selection changed");
+	[PREFS setArticleSelectionIndexes: selection];
+	if( [selection count] == 1 ){
+		[self setDisplayedArticle: [articleCache objectAtIndex: [selection firstIndex]]];
 	}else{
 		[self setDisplayedArticle: nil];
 	}
@@ -163,27 +153,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors{
 #pragma unused(oldDescriptors)
-	NSIndexSet *				indexes = [tableView selectedRowIndexes];
-	unsigned					anIndex = [indexes firstIndex];
-	NSMutableArray *			selectedArticles = [NSMutableArray array];
+	KNDebug(@"sortDiscriptorsChanged");
 	
-	while( anIndex != NSNotFound ){
-		[selectedArticles addObject: [LIB activeArticleAtIndex: anIndex]];
-		anIndex = [indexes indexGreaterThanIndex: anIndex];
-	}
-	
-	[LIB setSortDescriptors: [tableView sortDescriptors]];
+	[PREFS setSortDescriptors: [tableView sortDescriptors]];
+	[self refreshArticleCache];
 	[articleTableView reloadData];
-	
-	NSMutableIndexSet *			newIndexes = [NSMutableIndexSet indexSet];
-	NSEnumerator *				enumerator = [selectedArticles objectEnumerator];
-	KNArticle *					article = nil;
-	
-	while( (article = [enumerator nextObject]) ){
-		[newIndexes addIndex: [LIB indexOfActiveArticle: article]];
-	}
-	
-	[articleTableView selectRowIndexes: newIndexes byExtendingSelection:NO ];
 }
 
 
