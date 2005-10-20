@@ -75,11 +75,14 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	/* clear the current cache and generate the new cache based on the feed selection */
+	[articleCache removeAllObjects];
+	
+	NSMutableSet *				activeFeeds = [NSMutableSet set];
 	NSIndexSet *				selectedSourceIndexes = [feedOutlineView selectedRowIndexes];
 	unsigned					currentSource = [selectedSourceIndexes firstIndex];
-	[articleCache removeAllObjects];
+	
 	while( currentSource != NSNotFound ){
-		[articleCache addObjectsFromArray: [[feedOutlineView itemAtRow: currentSource] itemsOfType:FeedItemTypeArticle]];
+		[activeFeeds addObjectsFromArray: [[[feedOutlineView itemAtRow: currentSource] uniqueItemsOfType:FeedItemTypeArticle] allObjects]];
 		currentSource = [selectedSourceIndexes indexGreaterThanIndex: currentSource];
 	}
 	

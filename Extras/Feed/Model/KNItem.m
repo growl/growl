@@ -146,6 +146,21 @@ void ItemThrow(NSString *aString){
 	return results;
 }
 
+-(NSSet *)uniqueItemsOfType:(NSString *)aType{
+	NSMutableSet *					results = [NSMutableSet set];
+	unsigned						i;
+	
+	if( [[self type] isEqualToString: aType] ){
+		[results addObject: self];
+	}
+	
+	for(i=0;i<[self childCount];i++){
+		[results unionSet: [[self childAtIndex:i] uniqueItemsOfType: aType]];
+	}
+	
+	return results;
+}
+
 -(NSArray *)itemsWithProperty:(NSString *)keyPath equalTo:(id)otherObject{
 	NSMutableArray *				results = [NSMutableArray array];
 	unsigned						i;

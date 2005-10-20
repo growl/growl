@@ -379,8 +379,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)reloadData{
-	
+	KNDebug(@"WIN reloadData");
 	[feedOutlineView reloadData];
+	[self refreshArticleCache];
 	[articleTableView reloadData];
 	
 	[self updateStatus];

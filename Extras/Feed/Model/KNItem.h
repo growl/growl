@@ -130,6 +130,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	@abstract Finds all children of the desired type recursively (including self)
 */
 -(NSArray *)itemsOfType:(NSString *)aType;
+-(NSSet *)uniqueItemsOfType:(NSString *)aType;
 -(NSArray *)itemsWithProperty:(NSString *)keyPath equalTo:(id)otherObject;
 
 /*!
