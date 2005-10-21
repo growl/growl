@@ -76,15 +76,14 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	/* clear the current cache and generate the new cache based on the feed selection */
 	[articleCache removeAllObjects];
+	NSMutableSet *				currentArticles = [NSMutableSet set];
+	NSEnumerator *				sourceEnumerator = [[self selectedFeeds] objectEnumerator];
+	KNFeed *					feed = nil;
 	
-	NSMutableSet *				activeFeeds = [NSMutableSet set];
-	NSIndexSet *				selectedSourceIndexes = [feedOutlineView selectedRowIndexes];
-	unsigned					currentSource = [selectedSourceIndexes firstIndex];
-	
-	while( currentSource != NSNotFound ){
-		[activeFeeds addObjectsFromArray: [[[feedOutlineView itemAtRow: currentSource] uniqueItemsOfType:FeedItemTypeArticle] allObjects]];
-		currentSource = [selectedSourceIndexes indexGreaterThanIndex: currentSource];
+	while( (feed = [sourceEnumerator nextObject]) ){
+		[currentArticles addObjectsFromArray: [feed itemsOfType: FeedItemTypeArticle]];
 	}
+	[articleCache addObjectsFromArray: [currentArticles allObjects]];
 	
 	/* sort the resulting cache based on the sort descriptors */
 	[articleCache sortUsingDescriptors: [PREFS sortDescriptors]];
