@@ -397,7 +397,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     
     if( anArticle ){
 		[anArticle setStatus: StatusRead];
-		previewCachePath = [anArticle previewCachePath];
+		//previewCachePath = [anArticle previewCachePath];
+		previewCachePath = [LIB previewCacheForArticle: anArticle];
         base = [NSURL URLWithString: [anArticle link]];
 		[[NSApp delegate] updateDockIcon];
 		[feedOutlineView reloadData];
@@ -608,6 +609,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     if( returnCode == NSAlertDefaultReturn ){
         KNDebug(@"CONT: removeFeedItem");
 		[inspector setItem: nil];
+		[self setDisplayedArticle: nil];
 			
         selectedFeeds = [feedOutlineView selectedRowIndexes];
         currentIndex = [selectedFeeds firstIndex];
@@ -618,7 +620,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
             currentIndex = [selectedFeeds indexGreaterThanIndex: currentIndex];
         }
 		[feedOutlineView deselectAll: self];
-		[self refreshArticleCache];
 		[self reloadData];
     }
 }

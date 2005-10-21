@@ -75,16 +75,20 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	BOOL						isOnServer;
 	BOOL						isSuppressed;
+	BOOL						isCacheValid;
 }
 
--(void)_updatedIfOld:(id)oldValue changed:(id)newValue;
+-(void)willUpdate;
+-(void)didUpdate;
+
 
 -(NSComparisonResult)compareByDate:(KNArticle *)article;
 
 -(NSString *)previewCachePath;
 
--(NSString *)feedName;
+-(void)_updatedIfOld:(id)oldValue changed:(id)newValue;
 
+-(NSString *)feedName;
 -(void)setGuid:(NSString *)aGuid;
 -(NSString *)guid;
 -(void)setTitle:(NSAttributedString *)aString;

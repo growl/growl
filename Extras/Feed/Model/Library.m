@@ -82,13 +82,6 @@ static Library *				_sharedLibrary = nil;
 			return nil;
 		}
 	}
-	
-	currentPath = [currentPath stringByAppendingPathComponent:@"Library"];
-	if( ! [fileManager fileExistsAtPath: currentPath] ){
-		if( ! [fileManager createDirectoryAtPath: currentPath attributes: [NSDictionary dictionary]] ){
-			return nil;
-		}
-	}
 		
 	return currentPath;
 }
@@ -230,4 +223,16 @@ static Library *				_sharedLibrary = nil;
 -(KNItem *)rootItem{
 	return rootItem;
 }
+
+-(void)articleIsStale:(KNArticle *)anArticle{
+	[anArticle generateCache];
+}
+
+-(NSString *)previewCacheForArticle:(KNArticle *)anArticle{
+	if( ! [[NSFileManager defaultManager] fileExistsAtPath: [anArticle previewCachePath]] ){
+		[anArticle generateCache];
+	}
+	return [anArticle previewCachePath];
+}
+
 @end

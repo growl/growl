@@ -99,9 +99,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[aCoder encodeObject: [NSNumber numberWithBool: isSuppressed] forKey: ArticleIsSuppressed];
 }
 
--(void)dealloc{
-	[self deleteCache];
-	
+-(void)dealloc{	
 	[guid release];
 	[feedName release];
 	[status release];
@@ -125,12 +123,26 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(BOOL)canHaveChildren{ return NO; }
 
 #pragma mark -
+#pragma mark Update Support
+
+-(void)willUpdate{
+	isCacheValid = YES;
+}
+
+-(void)didUpdate{
+	if( ! isCacheValid ){
+		[LIB articleIsStale: self];
+	}
+}
+
+#pragma mark -
 #pragma mark Properties
 
 -(void)_updatedIfOld:(id)oldValue changed:(id)newValue{
 	if( ! [oldValue isEqual: newValue] ){
 		[self setStatus: StatusUpdated];
 		[LIB makeDirty];
+		isCacheValid = NO;
 	}
 }
 
@@ -144,7 +156,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(NSString *)previewCachePath{
-	return [[[Library cacheLocation] stringByAppendingPathComponent: [self key]] stringByAppendingPathExtension:@".html"];
+	return [[[(KNFeed *)parent previewCachePath] stringByAppendingPathComponent: [self key]] stringByAppendingPathExtension:@".html"];
 }
 
 -(void)setGuid:(NSString *)aGuid{

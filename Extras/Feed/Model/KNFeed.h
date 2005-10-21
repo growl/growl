@@ -65,6 +65,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSString *				imageURL;
 }
 
+-(NSString *)previewCachePath;
+
+
 -(void)setSourceURL:(NSString *)aSourceURL;
 -(NSString *)sourceURL;
 -(void)setSourceType:(NSString *)aSourceType;

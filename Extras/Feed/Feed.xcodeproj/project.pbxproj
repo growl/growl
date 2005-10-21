@@ -158,8 +158,6 @@
 		533AB43308F0B6D0007AC83D /* Library.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Library.m; path = Model/Library.m; sourceTree = "<group>"; };
 		533AB49208F0D3B9007AC83D /* Library+Items.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Library+Items.h"; path = "Model/Library+Items.h"; sourceTree = "<group>"; };
 		533AB49308F0D3B9007AC83D /* Library+Items.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Library+Items.m"; path = "Model/Library+Items.m"; sourceTree = "<group>"; };
-		533AB4B008F0D4A0007AC83D /* Library+Active.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Library+Active.h"; path = "Model/Library+Active.h"; sourceTree = "<group>"; };
-		533AB4B108F0D4A0007AC83D /* Library+Active.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Library+Active.m"; path = "Model/Library+Active.m"; sourceTree = "<group>"; };
 		533AB4F908F0DF01007AC83D /* Library+Update.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Library+Update.h"; path = "Model/Library+Update.h"; sourceTree = "<group>"; };
 		533AB4FA08F0DF01007AC83D /* Library+Update.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Library+Update.m"; path = "Model/Library+Update.m"; sourceTree = "<group>"; };
 		5344BD2706DEB112004B3108 /* OPMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPMLReader.h; sourceTree = "<group>"; };
@@ -398,8 +396,6 @@
 				533AB43308F0B6D0007AC83D /* Library.m */,
 				53A795B708F6D1F500CAC915 /* Library+Utility.h */,
 				53A795B808F6D1F500CAC915 /* Library+Utility.m */,
-				533AB4B008F0D4A0007AC83D /* Library+Active.h */,
-				533AB4B108F0D4A0007AC83D /* Library+Active.m */,
 				533AB49208F0D3B9007AC83D /* Library+Items.h */,
 				533AB49308F0D3B9007AC83D /* Library+Items.m */,
 				533AB4F908F0DF01007AC83D /* Library+Update.h */,

@@ -93,6 +93,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)dealloc{
 	[[NSNotificationCenter defaultCenter] postNotificationName: FeedItemReleaseNotification object: self];
 	
+	if( [[NSFileManager defaultManager] isDeletableFileAtPath: [self previewCachePath]] ){
+		if( ! [[NSFileManager defaultManager] removeFileAtPath: [self previewCachePath] handler: nil] ){
+			KNDebug(@"FEED unable to delete cache folder");
+		}
+	}
+	
 	[sourceURL release];
 	[sourceType release];
 	[faviconURL release];
@@ -107,6 +113,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 #pragma mark -
 #pragma mark Properties
+
+-(NSString *)previewCachePath{
+	NSString *				path = [[Library cacheLocation] stringByAppendingPathComponent: [self key]];
+	
+	if( ! [[NSFileManager defaultManager] fileExistsAtPath: path] ){
+		[[NSFileManager defaultManager] createDirectoryAtPath: path attributes: nil];
+	}
+	return path;
+}
 
 -(NSString *)type{
 	return FeedItemTypeFeed;
@@ -252,6 +267,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)removeChildAtIndex:(unsigned)anIndex{
 	KNArticle *					article = [self childAtIndex: anIndex];
 	
+	[article deleteCache];
 	if( [article isOnServer] ){
 		[article setIsSuppressed: YES];
 	}else{
@@ -309,11 +325,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		didCreate = YES;
 	}
 	
+	[article willUpdate];
 	while( (property = [propertyEnumerator nextObject]) ){
 		[article setValue: [articleDict objectForKey: property] forKey: property];
 	}
 	
 	[article setIsOnServer: YES];
+	[article didUpdate];
 	
 	if( didCreate ){
 		[[NSNotificationCenter defaultCenter] postNotificationName:FeedDidCreateArticleNotification object: self];
