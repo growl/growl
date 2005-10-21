@@ -57,6 +57,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
         updateTimer = nil;
 		feedWindowController = nil;
 		prefsWindowController = nil;
+		growlNewArticles = [[NSMutableDictionary alloc] init];
+		
 		[[NSAppleEventManager sharedAppleEventManager] setEventHandler: self andSelector: @selector(getURL:withReplyEvent:)
 			forEventClass: kInternetEventClass andEventID: kAEGetURL];
     }
@@ -80,6 +82,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		selector: @selector(feedUpdateFinished:)
 		name:FeedUpdateFinishedNotification object: nil
 	];
+	[[NSNotificationCenter defaultCenter] addObserver: self
+		selector: @selector(feedUpdateStarted:)
+		name:FeedUpdateStartedNotification object: nil
+	];
+	[[NSNotificationCenter defaultCenter] addObserver: self
+		selector: @selector(feedCreatedArticle:)
+		name:FeedDidCreateArticleNotification object: nil
+	];
+	
 	[GrowlApplicationBridge setGrowlDelegate: self];
 	
 	
@@ -441,14 +452,64 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 #pragma mark -
 #pragma mark Growl Support
+
+-(void)feedUpdateStarted:(NSNotification *)notification{
+#pragma unused( notification )
+	[growlNewArticles removeAllObjects];
+}
+
+-(void)feedCreatedArticle:(NSNotification *)notification{
+	KNFeed *					feed = [notification object];
+	NSNumber *					count = [growlNewArticles objectForKey: [feed name]];
+	
+	if( ! count ){
+		[growlNewArticles setObject: [NSNumber numberWithUnsignedInt: 1] forKey: [feed name]];
+	}else{
+		[growlNewArticles setObject: [NSNumber numberWithUnsignedInt: [count unsignedIntValue] + 1] forKey: [feed name]];
+	}
+}
+
+-(void)feedUpdateFinished:(NSNotification *)notification{
+#pragma unused( notification )
+	KNDebug(@"APP feedUpdateFinished");
+	NSMutableString *				updateData  = [NSMutableString string];
+	NSMutableArray *				sortedNames = [NSMutableArray arrayWithArray: [growlNewArticles allKeys]];
+	unsigned						totalNew = 0;
+	BOOL							detailedView = NO;
+	
+	if( [sortedNames count] < 5 ){
+		detailedView = YES;
+	}
+	
+	NSEnumerator *					enumerator = [sortedNames objectEnumerator];
+	NSString *						feedName = nil;
+	while( (feedName = [enumerator nextObject]) ){
+		if( detailedView ){
+			[updateData appendFormat:@"%@ in %@\n", [growlNewArticles objectForKey: feedName], feedName];
+		}
+		totalNew += [[growlNewArticles objectForKey: feedName] unsignedIntValue];
+	}
+		
+	if( totalNew ){
+		[GrowlApplicationBridge notifyWithTitle: [NSString stringWithFormat:@"%u New Articles", totalNew]
+			description: (detailedView ? updateData : [NSString stringWithFormat: @"%u new articles in %d sources", totalNew, [growlNewArticles count]])
+			notificationName: @"New Articles"
+			iconData: nil
+			priority: 0.0
+			isSticky: NO
+			clickContext: nil
+		];
+	}
+}
+
 - (NSDictionary *) registrationDictionaryForGrowl{
 	return [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSArray arrayWithObjects:
-			@"FeedNewArticles",
+			@"New Articles",
 		nil], GROWL_NOTIFICATIONS_ALL,
 		
 		[NSArray arrayWithObjects:
-			@"FeedNewArticles",
+			@"New Articles",
 		nil], GROWL_NOTIFICATIONS_DEFAULT,
 	nil];
 }
@@ -457,21 +518,5 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return [self appName];
 }
 
--(void)feedUpdateFinished:(NSNotification *)notification{
-	NSDictionary *					userInfo = [notification userInfo];
-	
-	if( [userInfo objectForKey:@"NewArticleCount"] && [[userInfo objectForKey:@"NewArticleCount"] intValue]){
-		[GrowlApplicationBridge notifyWithTitle: @"New Articles"
-			description: [NSString stringWithFormat: @"You have %@ new articles", 
-				[userInfo objectForKey:@"NewArticleCount"]
-			]
-			notificationName: @"FeedNewArticles"
-			iconData: nil
-			priority: 0.0
-			isSticky: NO
-			clickContext: nil
-		];
-	}
-}
 
 @end

@@ -43,6 +43,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     NSTimer *                   updateTimer;
 	NSBundle *					atomBundle;
 	NSMenu *					debugMenu;
+	
+	NSMutableDictionary *		growlNewArticles;
 }
 
 -(NSString *)appName;

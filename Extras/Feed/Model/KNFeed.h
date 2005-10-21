@@ -41,6 +41,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #define FeedSourceTypeAtom @"Atom"
 #define FeedSourceTypeUnknown @"Unknown"
 
+#define FeedDidCreateArticleNotification @"FeedDidCreateArticleNotification"
 
 #define FeedSourceURL @"sourceURL"
 #define FeedSourceType @"sourceType"

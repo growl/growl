@@ -298,7 +298,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	if( [article objectForKey:@"created"] ){
 		date = [NSDate dateWithNaturalLanguageString: [article objectForKey:@"created"]];
 	}
-	if( date == nil ){ date = [NSDate date]; }
+	//if( date == nil ){ date = [NSDate date]; }
 	return date;
 }
 

@@ -294,6 +294,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSString *						property = nil;
 	NSEnumerator *					articleEnumerator = [[self itemsOfType:FeedItemTypeArticle] objectEnumerator];
 	KNArticle *						article = nil;
+	BOOL							didCreate = NO;
 	
 	while( (article = [articleEnumerator nextObject]) ){
 		if( [[article guid] isEqualToString: [articleDict objectForKey:ArticleGuid]] ){
@@ -303,9 +304,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	if( ! article ){
 		article = [[KNArticle alloc] init];
-		//KNDebug(@"KNArticle type is %@", [article type]);
 		[self addChild: article];
 		[article release];
+		didCreate = YES;
 	}
 	
 	while( (property = [propertyEnumerator nextObject]) ){
@@ -313,7 +314,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	[article setIsOnServer: YES];
-	//KNDebug(@"Finished updating article...");
+	
+	if( didCreate ){
+		[[NSNotificationCenter defaultCenter] postNotificationName:FeedDidCreateArticleNotification object: self];
+	}
 }
 
 -(void)expireArticles{

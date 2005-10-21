@@ -306,12 +306,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[article setObject: [self titleOfArticle: dict] forKey: ArticleTitle];
 	[article setObject: [self authorOfArticle: dict] forKey: ArticleAuthor];
 	[article setObject: [self linkOfArticle: dict] forKey: ArticleLink];//KNDebug(@"%@: next", self);
-	[article setObject: [self dateOfArticle: dict] forKey: ArticleDate];
 	[article setObject: [self sourceOfArticle: dict] forKey: ArticleSourceURL];
 	[article setObject: [self categoryOfArticle: dict] forKey: ArticleCategory];
 	[article setObject: [self commentsOfArticle: dict] forKey: ArticleCommentsURL];
 	[article setObject: [self contentOfArticle: dict] forKey: ArticleContent];
 	[article setObject: [self sourceURLOfArticle: dict] forKey: ArticleSourceURL];
+	
+	if( [self dateOfArticle: dict] ){
+		[article setObject: [self dateOfArticle: dict] forKey: ArticleDate];
+	}
 	
 	#warning Disabled TorrentURL
 	//[article setObject: [self torrentURLOfArticle: dict] forKey: ArticleTorrentURL];

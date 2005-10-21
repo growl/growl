@@ -325,7 +325,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		date = [NSDate dateWithNaturalLanguageString: dateString];
 	}
 	//KNDebug(@"RSS: found a date %@", date);
-	if( date == nil ){ date = [NSDate date]; }
+	//if( date == nil ){ date = [NSDate date]; }
     return date;
 }
 
