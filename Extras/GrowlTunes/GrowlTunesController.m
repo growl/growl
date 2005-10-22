@@ -399,6 +399,8 @@ static GrowlTunesController *sharedController;
 		album       = [userInfo objectForKey:@"Album"];
 		track       = [userInfo objectForKey:@"Name"];
 		streamTitle = [userInfo objectForKey:@"Stream Title"];
+		if(!streamTitle)
+			streamTitle = @"";
 
 		length  = [userInfo objectForKey:@"Total Time"];
 		// need to format a bit the length as it is returned in ms
@@ -457,6 +459,7 @@ static GrowlTunesController *sharedController;
 		}
 		if ([newTrackURL hasPrefix:@"http://"]) {
 			//If we're streaming music, display only the name of the station and genre
+			NSLog(@"new track URL: %@", newTrackURL);
 			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format for streams", /*comment*/ nil), streamTitle, [userInfo objectForKey:@"Genre"]];
 		} else {
 			if (!artist) artist = @"";
