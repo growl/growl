@@ -16,6 +16,9 @@
 		531DE4C009035C3200E7746C /* NSDate+KNExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 5367241A07DE426D004DD4CC /* NSDate+KNExtras.m */; };
 		531DE4DA0903655900E7746C /* FeedWindowController+Setup.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 531DE4D80903655900E7746C /* FeedWindowController+Setup.h */; };
 		531DE4DB0903655900E7746C /* FeedWindowController+Setup.m in Sources */ = {isa = PBXBuildFile; fileRef = 531DE4D90903655900E7746C /* FeedWindowController+Setup.m */; };
+		531DE8C5090AB43600E7746C /* Library+UpgradeFrom0_6.m in Sources */ = {isa = PBXBuildFile; fileRef = 531DE8C3090AB43600E7746C /* Library+UpgradeFrom0_6.m */; };
+		531DE92E090AB8DC00E7746C /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C8B22006D5541B00B86C7D /* Feed.m */; };
+		531DE92F090AB8DD00E7746C /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C8B20B06D5541B00B86C7D /* Article.m */; };
 		53249257088AFEEC00CC8430 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53249256088AFEEC00CC8430 /* SystemConfiguration.framework */; };
 		53342E3B0864AA9800CA2551 /* Feed.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 5302A8DF06E6758300C753F8 /* Feed.scriptTerminology */; };
 		53342E3C0864AA9900CA2551 /* Feed.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 5302A87A06E672C900C753F8 /* Feed.scriptSuite */; };
@@ -138,6 +141,8 @@
 		531DE39A08FDBDB000E7746C /* DefaultSources.opml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = DefaultSources.opml; path = "Supporting Files/DefaultSources.opml"; sourceTree = "<group>"; };
 		531DE4D80903655900E7746C /* FeedWindowController+Setup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FeedWindowController+Setup.h"; path = "Interface/FeedWindowController+Setup.h"; sourceTree = "<group>"; };
 		531DE4D90903655900E7746C /* FeedWindowController+Setup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FeedWindowController+Setup.m"; path = "Interface/FeedWindowController+Setup.m"; sourceTree = "<group>"; };
+		531DE8C2090AB43600E7746C /* Library+UpgradeFrom0_6.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Library+UpgradeFrom0_6.h"; path = "Model/Library+UpgradeFrom0_6.h"; sourceTree = "<group>"; };
+		531DE8C3090AB43600E7746C /* Library+UpgradeFrom0_6.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Library+UpgradeFrom0_6.m"; path = "Model/Library+UpgradeFrom0_6.m"; sourceTree = "<group>"; };
 		531E429E06D67780007FB45E /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Credits.html; path = "Supporting Files/Credits.html"; sourceTree = "<group>"; };
 		531E42C306D68DD3007FB45E /* LICENSE.TXT */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = LICENSE.TXT; sourceTree = "<group>"; };
 		53249256088AFEEC00CC8430 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
@@ -204,7 +209,6 @@
 		53BE7D3708FCCD440078FC54 /* NSAttributedString+KNExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+KNExtras.m"; path = "Extensions/NSAttributedString+KNExtras.m"; sourceTree = "<group>"; };
 		53C8B20906D5541B00B86C7D /* FeedOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FeedOutlineView.h; path = CustomViews/FeedOutlineView.h; sourceTree = SOURCE_ROOT; };
 		53C8B20B06D5541B00B86C7D /* Article.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Article.m; path = Model/Article.m; sourceTree = "<group>"; };
-		53C8B20C06D5541B00B86C7D /* FeedLibrary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FeedLibrary.h; path = Model/FeedLibrary.h; sourceTree = SOURCE_ROOT; };
 		53C8B20D06D5541B00B86C7D /* FeedWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FeedWindowController.h; path = Interface/FeedWindowController.h; sourceTree = "<group>"; };
 		53C8B20E06D5541B00B86C7D /* FeedDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FeedDelegate.m; sourceTree = "<group>"; };
 		53C8B20F06D5541B00B86C7D /* LibraryToolbar.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = LibraryToolbar.m; path = Interface/LibraryToolbar.m; sourceTree = "<group>"; };
@@ -213,7 +217,6 @@
 		53C8B21206D5541B00B86C7D /* PrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefsWindowController.h; path = Prefs/PrefsWindowController.h; sourceTree = SOURCE_ROOT; };
 		53C8B21306D5541B00B86C7D /* FeedDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FeedDelegate.h; sourceTree = "<group>"; };
 		53C8B21406D5541B00B86C7D /* Prefs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Prefs.h; path = Prefs/Prefs.h; sourceTree = SOURCE_ROOT; };
-		53C8B21506D5541B00B86C7D /* FeedLibrary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FeedLibrary.m; path = Model/FeedLibrary.m; sourceTree = SOURCE_ROOT; };
 		53C8B21606D5541B00B86C7D /* LibraryToolbar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LibraryToolbar.h; path = Interface/LibraryToolbar.h; sourceTree = "<group>"; };
 		53C8B21706D5541B00B86C7D /* FeedWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = FeedWindowController.m; path = Interface/FeedWindowController.m; sourceTree = "<group>"; };
 		53C8B21806D5541B00B86C7D /* ArticleTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ArticleTableView.m; path = CustomViews/ArticleTableView.m; sourceTree = SOURCE_ROOT; };
@@ -392,6 +395,7 @@
 		536BAA4E06D79375004C1A5C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				53F2ED77090ACFE30044CA28 /* Upgrading */,
 				533AB43208F0B6D0007AC83D /* Library.h */,
 				533AB43308F0B6D0007AC83D /* Library.m */,
 				53A795B708F6D1F500CAC915 /* Library+Utility.h */,
@@ -406,12 +410,6 @@
 				53A5E75D08EFA5F7001DCE7A /* KNFeed.m */,
 				533AB38F08F07725007AC83D /* KNArticle.h */,
 				533AB39008F07725007AC83D /* KNArticle.m */,
-				53C8B21906D5541B00B86C7D /* Article.h */,
-				53C8B20B06D5541B00B86C7D /* Article.m */,
-				53C8B21C06D5541B00B86C7D /* Feed.h */,
-				53C8B22006D5541B00B86C7D /* Feed.m */,
-				53C8B20C06D5541B00B86C7D /* FeedLibrary.h */,
-				53C8B21506D5541B00B86C7D /* FeedLibrary.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -511,6 +509,19 @@
 				53769766082E9C1400B92C57 /* Status.tif */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		53F2ED77090ACFE30044CA28 /* Upgrading */ = {
+			isa = PBXGroup;
+			children = (
+				531DE8C2090AB43600E7746C /* Library+UpgradeFrom0_6.h */,
+				531DE8C3090AB43600E7746C /* Library+UpgradeFrom0_6.m */,
+				53C8B21906D5541B00B86C7D /* Article.h */,
+				53C8B20B06D5541B00B86C7D /* Article.m */,
+				53C8B21C06D5541B00B86C7D /* Feed.h */,
+				53C8B22006D5541B00B86C7D /* Feed.m */,
+			);
+			name = Upgrading;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -754,6 +765,9 @@
 				53BE77F008FC3CA70078FC54 /* FeedWindowController+DragDrop.m in Sources */,
 				53BE7D3908FCCD440078FC54 /* NSAttributedString+KNExtras.m in Sources */,
 				531DE4DB0903655900E7746C /* FeedWindowController+Setup.m in Sources */,
+				531DE8C5090AB43600E7746C /* Library+UpgradeFrom0_6.m in Sources */,
+				531DE92E090AB8DC00E7746C /* Feed.m in Sources */,
+				531DE92F090AB8DD00E7746C /* Article.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

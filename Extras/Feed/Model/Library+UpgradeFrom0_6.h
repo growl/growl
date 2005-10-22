@@ -2,7 +2,7 @@
 
 BSD License
 
-Copyright (c) 2004, Keith Anderson
+Copyright (c) 2005, Keith Anderson
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -30,55 +30,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 */
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
+#import "Library.h"
 
-
-#define FeedStatusDisabled @"Disabled"
-#define FeedStatusChecking @"Checking"
-#define FeedStatusIdle @"Idle"
-
-#define FeedTypeRSS @"RSS"
-#define FeedTypeAtom @"Atom"
-#define FeedTypeUnknown @"Unknown"
-
-#define FeedSource @"source"
-#define FeedTitle @"title"
-#define FeedUserTitle @"userTitle"
-#define FeedSummary @"summary"
-#define FeedLink @"link"
-#define FeedType @"type"
-#define FeedImage @"image"
-#define FeedIcon @"icon"
-#define FeedArticles @"articles"
-#define FeedUniqueKey @"uniqueKey"
-#define FeedPrefsKey @"prefs"
-
-
-@class Article;
-@interface Feed : NSObject <NSCoding> {
-    NSString *          	source;
-    NSString *          	title;
-	NSString *				userTitle;
-    NSString *				summary;
-    NSString *				link;
-    NSString *				type;
-	NSString *				image;
-	NSImage *				icon;
-    NSMutableArray *    	articles;
-	NSString *				error;
-	NSString *				uniqueKey;
-	NSMutableDictionary *	prefs;
-}
-
--(NSString *)source;
--(NSString *)title;
--(NSString *)userTitle;
--(NSString *)summary;
--(NSString *)link;
--(NSString *)type;
--(NSString *)image;
--(NSImage *)icon;
--(NSArray *)articles;
--(NSString *)error;
+@interface Library (UpgradeFrom0_6)
+-(BOOL)version0_6Exists;
+-(BOOL)upgrade0_6;
+-(void)import0_6Item:(NSDictionary *)oldChild intoItem:(KNItem *)newParent ignoringArticles:(NSArray *)ignoredArticles;
 
 @end

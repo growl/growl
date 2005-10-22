@@ -331,7 +331,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[self setStatus: StatusUpdated];
 		[content autorelease];
 		content = [aContent retain];
-		[self generateCache];
+		//[self generateCache];
 	}
 }
 
@@ -421,14 +421,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	BOOL					written = NO;
 	NSError *				error;
+	NSString *				dest = [self previewCachePath];
 	
-	if( [displayedHTML respondsToSelector: @selector(writeToFile:atomically:encoding:error:)] ){
-		written = [displayedHTML writeToFile: [self previewCachePath] atomically: YES encoding: NSUTF8StringEncoding error:&error];
-	}else{
-		written = [displayedHTML writeToURL: [NSURL fileURLWithPath: [self previewCachePath]] atomically: YES];
+	if( [self previewCachePath] ){
+		if( [displayedHTML respondsToSelector: @selector(writeToFile:atomically:encoding:error:)] ){
+			written = [displayedHTML writeToFile: dest atomically: YES encoding: NSUTF8StringEncoding error:&error];
+		}else{
+			written = [displayedHTML writeToURL: [NSURL fileURLWithPath: dest] atomically: YES];
+		}
+		
+		[self setValue: ArticlePreviewCacheVersion forKeyPath:@"prefs.articlePreviewVersion"];
 	}
-	
-	[self setValue: ArticlePreviewCacheVersion forKeyPath:@"prefs.articlePreviewVersion"];
 }
 
 -(void)deleteCache{

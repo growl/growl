@@ -79,15 +79,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	BOOL					isOnServer;
 }
 
--(id)initWithFeed:(Feed *)aFeed dictionary:(NSDictionary *)aDict;
--(void)registerForNotifications;
-
 -(Feed *)feed;
 -(NSString *)key;
 -(NSString *)status;
 -(void)setStatus:(NSString *)aStatus;
 
--(NSString *)feedName;
 -(NSString *)title;
 -(void)setTitle:(NSString *)aTitle;
 -(NSString *)userTitle;
@@ -110,14 +106,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)setContent:(NSString *)aContent;
 -(NSString *)torrent;
 -(void)setTorrent:(NSString *)aTorrentURL;
-
--(void)generateCache;
--(void)setPreviewCachePath:(NSString *)path;
--(NSString *)previewCachePath;
--(void)deleteCache;
-
 -(BOOL)isOnServer;
 -(void)setIsOnServer:(BOOL)serverFlag;
--(NSComparisonResult)compareByDate:(Article *)article;
 
 @end

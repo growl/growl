@@ -36,6 +36,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #import "FeedWindowController.h"
 #import "PrefsWindowController.h"
 #import "Library.h"
+#import "Library+UpgradeFrom0_6.h"
 #import "Library+Update.h"
 #import "Library+Items.h"
 #import "Prefs.h"
@@ -76,6 +77,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	if( ! [LIB load] ){
 		KNDebug(@"APP: Will load default feeds here");
+		if( [LIB version0_6Exists] ){
+			if( ! [LIB upgrade0_6] ){
+				// Throw error
+				KNDebug(@"APP: Unable to import old library");
+			}
+		}
 	}
 
 	[[NSNotificationCenter defaultCenter] addObserver: self

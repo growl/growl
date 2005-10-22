@@ -48,93 +48,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 @implementation Article
 
--(id)initWithFeed:(Feed *)aFeed dictionary:(NSDictionary *)aDict{
-    self = [super init];
-    if( self ){
-        feed = aFeed;
-        
-        if( [aDict objectForKey: ArticleTitle] ){
-            title = [[aDict objectForKey: ArticleTitle] copy];
-        }else{
-            title = [[NSString stringWithString:@"Untitled Article"] retain];
-        }
-        
-        if( [aDict objectForKey: ArticleContent] ){
-            content = [[aDict objectForKey: ArticleContent] copy];
-        }else{
-            content = [[NSString alloc] init];
-        }
-        
-        if( [aDict objectForKey: ArticleAuthor] ){
-            author = [[aDict objectForKey: ArticleAuthor] copy];
-        }else{
-            author = [[NSString alloc] init];
-        }
-        
-        if( [aDict objectForKey: ArticleKey] ){ 
-            key = [[aDict objectForKey: ArticleKey] copy];
-        }else{
-            KNDebug(@"No KEY for article!!!");
-            key = [[[NSDate date] description] copy];
-        }
-        
-        if( [aDict objectForKey: ArticleSource] ){
-            source = [[aDict objectForKey: ArticleSource] copy];
-        }else{
-            source = [[NSString alloc] init];
-        }
-        
-        if( [aDict objectForKey: ArticleCategory] ){
-            category = [[aDict objectForKey: ArticleCategory] copy];
-        }else{
-            category = [[NSString alloc] init];
-        }
-        
-        if( [aDict objectForKey: ArticleDate] ){
-            //pubDate = [[NSDate alloc] initWithString: [aDict objectForKey: ArticlePubDate]];
-            date = [[aDict objectForKey: ArticleDate] copy];
-        }else{
-            date = [[NSDate alloc] init];
-        }
-        
-        if( [aDict objectForKey: ArticleLink] ){
-            link = [[aDict objectForKey: ArticleLink] copy];
-        }else{
-            link = [[NSString alloc] init];
-        }
-        
-        if( [aDict objectForKey: ArticleComments] ){
-            comments = [[aDict objectForKey: ArticleComments] copy];
-        }else{
-            comments = [[NSString alloc] init];
-        }
-		
-		if( [aDict objectForKey: ArticleSourceURL] ){
-			sourceURL = [[aDict objectForKey: ArticleSourceURL] copy];
-		}else{
-			sourceURL = [[NSString alloc] init];
-		}
-		
-		if( [aDict objectForKey: ArticleTorrentURL] ){
-			torrent = [[aDict objectForKey: ArticleTorrentURL] copy];
-		}else{
-			torrent = [[NSString alloc] init];
-		}
-		
-		uniqueKey = [KNUniqueKeyWithLength(UNIQUEKEYLENGTH) retain];
-		previewCachePath = nil;
-        
-        status = [[NSString stringWithString:StatusUnread] retain];
-		userTitle = [[NSString stringWithString: @""] retain];
-		isOnServer = YES;
-		
-		[self registerForNotifications];
-    }
-    return self;
-}
 
 -(void)dealloc{
-	[[NSNotificationCenter defaultCenter] removeObserver: self];
     [title release];
 	[userTitle release];
     [content release];
@@ -150,21 +65,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[torrent release];
 	if( previewCachePath ){ [previewCachePath release]; }
     [super dealloc];
-}
-
--(void)registerForNotifications{
-	[[NSNotificationCenter defaultCenter] addObserver: self
-		selector: @selector(invalidateCache:)
-		name:NotifyArticleFontNameChanged object: nil
-	];
-	[[NSNotificationCenter defaultCenter] addObserver: self
-		selector: @selector(invalidateCache:)
-		name:NotifyArticleFontSizeChanged object: nil
-	];
-	[[NSNotificationCenter defaultCenter] addObserver: self
-		selector: @selector(invalidateCache:)
-		name:NotifyArticleTorrentSchemeChanged object: nil
-	];
 }
 
 -(id)initWithCoder:(NSCoder *)coder{
@@ -185,6 +85,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		
 		content = [coder decodeObjectForKey: ArticleContent];
 		if( ! content ){ content = [coder decodeObjectForKey: ArticleDescriptionArchiveKey]; }
+		if( ! content ){ content = [NSString string]; }
 		[content retain];
 		
 		date = [coder decodeObjectForKey: ArticleDate];
@@ -231,7 +132,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[torrent retain];
 		
 		isOnServer = NO;
-		[self registerForNotifications];
     }
     return self;
 }
@@ -261,10 +161,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     return [NSString stringWithFormat: @"%@ <%@>", title, link];
 }
 
--(NSString *)feedName{
-	return [feed title];
-}
-
 -(Feed *)feed{
     return feed;
 }
@@ -272,38 +168,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(NSString *)key{
     return key;
 }
-
--(NSComparisonResult)compareByDate:(Article *)article{
-	return [[self date] compare: [article date]];
-}
-
-/*
--(NSComparisonResult)compare:(Article *)article{
-    NSString *              sortKey = [[[NSApp delegate] feedLibrary] sortKey];
-    NSDictionary *          statusRankKeys = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithInt: 3], StatusUnread,
-                                    [NSNumber numberWithInt: 2], StatusUpdated,
-                                    [NSNumber numberWithInt: 1], StatusRead,
-                            nil];
-    
-    if( [sortKey isEqualToString: ArticleTitle] ){
-        return [[self title] caseInsensitiveCompare: [article title]];
-    }else if( [sortKey isEqualToString: ArticleAuthor] ){
-        return [[self author] caseInsensitiveCompare: [article author]];
-    }else if( [sortKey isEqualToString: ArticleDate] ){
-        return [[self date] compare: [article date]];
-    }else if( [sortKey isEqualToString: ArticleStatus] ){
-        return( [(NSNumber *)[statusRankKeys objectForKey: [self status]] compare: (NSNumber *)[statusRankKeys objectForKey:[article status]]] );
-    }else if( [sortKey isEqualToString: ArticleCategory] ){
-        return [[self category] caseInsensitiveCompare: [article category]];
-    }else if( [sortKey isEqualToString: ArticleFeed] ){
-        return [[[self feed] title] caseInsensitiveCompare: [[article feed] title]];
-    }else{
-        return [[self key] caseInsensitiveCompare: [article key]];
-    }
-}
-*/
-
 
 -(NSString *)title{
     return title;
@@ -453,9 +317,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
         if( !([aStatus isEqualToString: StatusUpdated] && [status isEqualToString:StatusUnread]) ){
             [status autorelease];
             status = [[NSString stringWithString: aStatus] retain];
-            [[[NSApp delegate] feedLibrary] makeDirty];
-            //KNDebug(@"SetStatus to %@", status);
-			[self setPreviewCachePath: nil];
         }
     }
 }
@@ -468,120 +329,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	isOnServer = serverFlag;
 }
 
--(void)setPreviewCachePath:(NSString *)path{
-	if( previewCachePath != nil ){
-		[previewCachePath autorelease];
-		previewCachePath = nil;
-	}
-	if( path ){
-		previewCachePath = [path retain];
-	}
-}
 
--(NSString *)previewCachePath{
-	NSFileManager *				fileManager = [NSFileManager defaultManager];
-	
-	//KNDebug(@"ARTICLE: previewCachePath %@", previewCachePath);
-	if( ! previewCachePath ){
-		//KNDebug(@"generating for new path");
-		[self generateCache];
-	}else if( ! [fileManager fileExistsAtPath: previewCachePath] ){
-		//KNDebug(@"generating for existing path %@", previewCachePath);
-		[self generateCache];
-	}
-	
-	return previewCachePath;
-}
 
--(void)generateCache{
-	NSMutableString *			displayedHTML = [NSMutableString string];
-	NSString *                  dateOutput = [NSString string];
-	
-	KNDebug(@"ARTICLE: Generating article cache. font size is %d", (int) [PREFS articleFontSize]);
-	
-	[displayedHTML appendFormat:@"<html><head><base href=\"%@\"/><body>", [self link]];
-	[displayedHTML appendFormat:@"<style>.feed_label{font-size:9pt;font-weight:bold;}</style>"];
-	[displayedHTML appendFormat:@"<style>.feed_header{font-size:9pt; padding-left:5px;}</style>"];
-	[displayedHTML appendFormat:@"<style>body,td{font-size:%dpt; font-family:%@;}</style>", (int)[PREFS articleFontSize], [PREFS articleFontName]];
-	[displayedHTML appendFormat:@"<table cellpadding=\"0\" cellspacing=\"0\">"];
-	[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Title:</td>"];
-	[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a title=\"Open article in default browser\" href=\"%@\">%@</a></td></tr>", [self link], [self title]];
-	
-	if( ! [[self author] isEqualToString: @""] ){
-		[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Author:</td>"];
-		[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a title=\"Send email to %@\" href=\"mailto:%@\">%@</a></td></tr>", [self author], [self author], [self author]];
-	}
-	
-	if( ! [[self category] isEqualToString: @""] ){
-		[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Category:</td>"];
-		[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\">%@</td></tr>", [self category]];
-	}
-	
-	if( ! [[self torrent] isEqualToString: @""] ){
-		NSMutableString *			torrentURL = [NSMutableString stringWithString: [self torrent]];
-		
-		if( [PREFS useTorrentScheme] ){
-			[torrentURL replaceOccurrencesOfString:@"http://" withString:@"torrent://" options: NSCaseInsensitiveSearch range:NSMakeRange(0,[torrentURL length])];
-		}
-		[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Torrent:</td>"];
-		[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a title=\"Download torrent file\" href=\"%@\">%@</a></td></tr>", torrentURL, torrentURL];
-	}
-	
-	if( [self date] ){
-		dateOutput = [[self date] naturalString];
-	}
-	if( ! [[self source] isEqualToString:@""] ){
-		[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Source:</td>"];
-		if( [[self sourceURL] isEqualToString:@""] ){
-			[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\">%@</td></tr>", [self source]];
-		}else{
-			[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a href=\"%@\" title=\"Open source %@ in default browser\">%@</a></td></tr>",[self sourceURL], [self sourceURL], [self sourceURL], [self source]];
-		}
-	}
-	[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Date:</td>"];
-	[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\">%@</td></tr>", dateOutput];
-	
-	
-	[displayedHTML appendFormat:@"</table>"];
-	[displayedHTML appendFormat:@"<hr>"];
-	[displayedHTML appendString: [self content]];
-	[displayedHTML appendFormat:@"</body></html>"];
-	
-	//KNDebug(@"ARTICLE: finding cache location");
-	//KNDebug(@"ARTICLE: cache for our feed is in: %@", [feed cacheLocation]);
-	NSString *					cacheLocation = [[[feed cacheLocation] stringByAppendingPathComponent: uniqueKey] stringByAppendingPathExtension:@"html"];
-	//KNDebug(@"ARTICLE: About to cache to %@", cacheLocation);
-	if( cacheLocation ){
-		BOOL					written = NO;
-		NSError *				error;
-		
-		if( [displayedHTML respondsToSelector: @selector(writeToFile:atomically:encoding:error:)] ){
-			written = [displayedHTML writeToFile: cacheLocation atomically: YES encoding: NSUTF8StringEncoding error:&error];
-		}else{
-			written = [displayedHTML writeToURL: [NSURL fileURLWithPath: cacheLocation] atomically: YES];
-		}
-		
-		if( written ){
-			[self setPreviewCachePath: cacheLocation];
-		}else{
-			KNDebug(@"ARTICLE: Unable to write preview cache to %@", cacheLocation);
-		}
-	}
-}
-
--(void)deleteCache{
-	NSFileManager *				fileManager = [NSFileManager defaultManager];
-	
-	KNDebug(@"ARTICLE: about to clear cache file");// %@", previewCachePath);
-	if( previewCachePath ){
-		//KNDebug(@"ARTICLE: attempting to delete file %@", previewCachePath);
-		[fileManager removeFileAtPath: previewCachePath handler: nil];
-	}
-	[self setPreviewCachePath: nil];
-}
-
--(void)invalidateCache:(NSNotification *)notification{
-#pragma unused(notification)
-	[self deleteCache];
-}
 @end
