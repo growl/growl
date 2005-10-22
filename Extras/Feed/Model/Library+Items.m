@@ -93,7 +93,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)removeItem:(id)item fromItem:(id)parentItem{
 	if( ! parentItem ){ parentItem = rootItem; }
-	[parentItem removeChildAtIndex: [parentItem indexOfChild:item]];
+	KNDebug(@"LIB removeItem from %@", parentItem);
+	[parentItem removeChild: item];
 }
 
 -(void)moveItem:(id)item toParent:(id)newParent index:(int)anIndex{

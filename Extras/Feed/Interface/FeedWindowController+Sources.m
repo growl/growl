@@ -46,7 +46,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma mark Source Introspection
 
 -(unsigned)unreadCountForSelection{
-	KNDebug(@"unreadCountForSelection");
+	//KNDebug(@"unreadCountForSelection");
 	return [self unreadCountWithIndexes: [feedOutlineView selectedRowIndexes]];
 }
 
@@ -81,7 +81,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	KNFeed *					feed = nil;
 	
 	while( (feed = [sourceEnumerator nextObject]) ){
-		[currentArticles addObjectsFromArray: [feed itemsOfType: FeedItemTypeArticle]];
+		//[currentArticles addObjectsFromArray: [feed itemsOfType: FeedItemTypeArticle]];
+		[currentArticles addObjectsFromArray: [feed itemsWithProperty:@"isSuppressed" equalTo:[NSNumber numberWithBool: NO]]];
 	}
 	[articleCache addObjectsFromArray: [currentArticles allObjects]];
 	
@@ -129,7 +130,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)outlineViewSelectionDidChange:(NSNotification *)notification{
 #pragma unused(notification)
 	
-	KNDebug(@"source selection changed");
+	//KNDebug(@"source selection changed");
 	[PREFS setSourceSelectionIndexes: [feedOutlineView selectedRowIndexes]];
 	[self refreshArticleCache];
 	[articleTableView reloadData];

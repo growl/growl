@@ -274,6 +274,7 @@ void ItemThrow(NSString *aString){
 
 -(void)removeChildAtIndex:(unsigned)anIndex{
 	if(anIndex < [children count]){
+		KNDebug(@"removeChildAtIndex %u", anIndex);
 		[[children objectAtIndex:anIndex] setParent: nil];
 		[children removeObjectAtIndex: anIndex];
 		[LIB makeDirty];

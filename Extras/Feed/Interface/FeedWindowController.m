@@ -137,7 +137,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 -(void)setWindowTitle{
-	KNDebug(@"setWindowTitle");
+	//KNDebug(@"setWindowTitle");
 	
     NSString *              title = @"Feed";
     unsigned				unreadCount = 0U;
@@ -379,7 +379,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)reloadData{
-	KNDebug(@"WIN reloadData");
+	//KNDebug(@"WIN reloadData");
 	[feedOutlineView reloadData];
 	[self refreshArticleCache];
 	[articleTableView reloadData];
@@ -393,7 +393,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSString *					previewCachePath = nil;
     NSURL *                     base = nil;
     
-    KNDebug(@"CONT: setDisplayedArticle");
+    //KNDebug(@"CONT: setDisplayedArticle");
     
     if( anArticle ){
 		[anArticle setStatus: StatusRead];
@@ -404,7 +404,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[feedOutlineView reloadData];
     }
     
-    KNDebug(@"baseURL: %@", base);
+    //KNDebug(@"baseURL: %@", base);
 	isLoadingDisplay = YES;
 	if( previewCachePath ){
 		[[displayWebView mainFrame] loadRequest: [NSURLRequest requestWithURL: [NSURL fileURLWithPath: previewCachePath]]];
@@ -573,7 +573,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	if( returnCode == NSAlertDefaultReturn ){
 		selectedArticles = [articleTableView selectedRowIndexes];
 		currentIndex = [selectedArticles firstIndex];
+		KNDebug(@"About to clear articles from selection");
 		while( currentIndex != NSNotFound ){
+			KNDebug(@"About to delete item (%u) %@", currentIndex, [articleCache objectAtIndex: currentIndex]);
 			[LIB removeItem: [articleCache objectAtIndex: currentIndex]];
 			currentIndex = [selectedArticles indexGreaterThanIndex: currentIndex];
 		}

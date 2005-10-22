@@ -116,7 +116,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma unused(notification)
 	NSIndexSet *				selection = [articleTableView selectedRowIndexes];
 	
-	KNDebug(@"article selection changed");
+	//KNDebug(@"article selection changed");
 	[PREFS setArticleSelectionIndexes: selection];
 	if( [selection count] == 1 ){
 		[self setDisplayedArticle: [articleCache objectAtIndex: [selection firstIndex]]];
