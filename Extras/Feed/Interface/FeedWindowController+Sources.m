@@ -81,7 +81,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	KNFeed *					feed = nil;
 	
 	while( (feed = [sourceEnumerator nextObject]) ){
-		//[currentArticles addObjectsFromArray: [feed itemsOfType: FeedItemTypeArticle]];
 		[currentArticles addObjectsFromArray: [feed itemsWithProperty:@"isSuppressed" equalTo:[NSNumber numberWithBool: NO]]];
 	}
 	[articleCache addObjectsFromArray: [currentArticles allObjects]];

@@ -372,7 +372,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Feed:</td>"];
 	[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a title=\"Open feed in default browser\" href=\"%@\">%@</a></td></tr>", [(KNFeed *)[self parent] link], [[self parent] name]];
 	[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Title:</td>"];
-	[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a title=\"Open article in default browser\" href=\"%@\">%@</a></td></tr>", [self link], [self title]];
+	[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a title=\"Open article in default browser\" href=\"%@\">%@</a></td></tr>", [self link], [[self title] string]];
 	
 	if( ! [[self author] isEqualToString: @""] ){
 		[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Author:</td>"];
@@ -427,6 +427,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}else{
 		written = [displayedHTML writeToURL: [NSURL fileURLWithPath: [self previewCachePath]] atomically: YES];
 	}
+	
+	[self setValue: ArticlePreviewCacheVersion forKeyPath:@"prefs.articlePreviewVersion"];
 }
 
 -(void)deleteCache{

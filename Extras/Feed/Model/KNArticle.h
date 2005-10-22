@@ -56,6 +56,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #define ArticleIsOnServer @"isOnServer"
 #define ArticleIsSuppressed @"isSuppressed"
 
+#define ArticlePreviewCacheVersion [NSNumber numberWithUnsignedInt: 1]
+
 @class KNFeed;
 @interface KNArticle : KNItem <NSCoding>{
 	NSString *					status;

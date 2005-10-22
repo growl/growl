@@ -231,6 +231,12 @@ static Library *				_sharedLibrary = nil;
 -(NSString *)previewCacheForArticle:(KNArticle *)anArticle{
 	if( ! [[NSFileManager defaultManager] fileExistsAtPath: [anArticle previewCachePath]] ){
 		[anArticle generateCache];
+	}else{
+		if( ![anArticle valueForKeyPath:@"prefs.articlePrefsVersion"] || 
+			![[anArticle valueForKeyPath:@"prefs.articlePrefsVersion"] isEqual: ArticlePreviewCacheVersion]
+		){
+			[anArticle generateCache];
+		}
 	}
 	return [anArticle previewCachePath];
 }
