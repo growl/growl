@@ -18,7 +18,7 @@
 	NSNumber			*clickHandlerEnabled;
 	NSString			*appName;
 	NSNumber			*appPid;
-	NSMutableArray  	*windowTransitions;
+	NSMutableDictionary *windowTransitions;
 	id					delegate;
 	CFRunLoopTimerRef	displayTimer;
 	BOOL				ignoresOtherNotifications;
@@ -55,7 +55,7 @@
 
 #pragma mark -
 
-- (void) addTransition:(GrowlWindowTransition *)transition;
+- (BOOL) addTransition:(GrowlWindowTransition *)transition;
 - (void) removeTransition:(GrowlWindowTransition *)transition;
 
 - (NSArray *) allTransitions;
@@ -63,10 +63,10 @@
 - (NSArray *) inactiveTransitions;
 
 - (void) startAllTransitions;
-- (void) startAllTransitionsOfKind:(Class)transitionsClass;
+- (void) startTransitionOfKind:(Class)transitionsClass;
 
 - (void) stopAllTransitions;
-- (void) stopAllTransitionsOfKind:(Class)transitionsClass;
+- (void) stopTransitionOfKind:(Class)transitionsClass;
 
 #pragma mark -
 

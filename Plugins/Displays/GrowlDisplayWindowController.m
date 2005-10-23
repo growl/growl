@@ -28,7 +28,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 
 - (id) initWithWindow:(NSWindow *)window {
 	if ((self = [super initWithWindow:window])) {
-		windowTransitions = [[NSMutableArray alloc] init];
+		windowTransitions = [[NSMutableDictionary alloc] init];
 		ignoresOtherNotifications = NO;
 	}
 
@@ -168,24 +168,19 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma mark -
 #pragma mark Window Transitions
 
-- (void) addTransition:(GrowlWindowTransition *)transition {
+- (BOOL) addTransition:(GrowlWindowTransition *)transition {
 	[transition setWindow:[self window]];
 	[transition setDelegate:self];
-	[windowTransitions addObject:transition];
+	if (![windowTransitions objectForKey:[transition class]])
+	{
+		[windowTransitions setObject:transition forKey:[transition class]];
+		return TRUE;
+	}
+	return FALSE;
 }
 
 - (void) removeTransition:(GrowlWindowTransition *)transition {
-	int count = [windowTransitions count];
-	int i;
-	for (i=0; i<count;) {
-		if ([transition isEqual:[windowTransitions objectAtIndex:i]])
-		{
-			[windowTransitions removeObject:transition];
-			--count;
-		} else {
-			++i;
-		}
-	}
+	[windowTransitions removeObjectForKey:[transition class]];
 	[transition setDelegate:nil];
 	[transition setWindow:nil];
 }
@@ -197,10 +192,11 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 - (NSArray *) activeTransitions {
 	int count = [windowTransitions count];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:count];
+	NSArray *transitionArray = [windowTransitions allValues];
 
 	int i;
 	for (i=0; i<count; ++i) {
-		GrowlWindowTransition *transition = [windowTransitions objectAtIndex:i];
+		GrowlWindowTransition *transition = [transitionArray objectAtIndex:i];
 		if ([transition isAnimating])
 			[result addObject:transition];
 	}
@@ -211,10 +207,11 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 - (NSArray *) inactiveTransitions {
 	int count = [windowTransitions count];
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:count];
+	NSArray *transitionArray = [windowTransitions allValues];
 
 	int i;
 	for (i=0; i<count; ++i) {
-		GrowlWindowTransition *transition = [windowTransitions objectAtIndex:i];
+		GrowlWindowTransition *transition = [transitionArray objectAtIndex:i];
 		if (![transition isAnimating])
 			[result addObject:transition];	
 	}
@@ -223,33 +220,23 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) startAllTransitions {
-	[windowTransitions makeObjectsPerformSelector:@selector(startAnimation)];
+	[[windowTransitions allValues] makeObjectsPerformSelector:@selector(startAnimation)];
 }
 
-- (void) startAllTransitionsOfKind:(Class)transitionsClass {
-	int count = [windowTransitions count];
-
-	int i;
-	for (i=0; i<count; ++i) {
-		GrowlWindowTransition *transition = [windowTransitions objectAtIndex:i];
-		if ([transition isKindOfClass:transitionsClass])
-			[transition startAnimation];
-	}
+- (void) startTransitionOfKind:(Class)transitionClass {
+	GrowlWindowTransition *transition = [windowTransitions objectForKey:transitionClass];
+	if (transition)
+		[transition startAnimation];
 }
 
 - (void) stopAllTransitions {
-	[windowTransitions makeObjectsPerformSelector:@selector(stopAnimation)];
+	[[windowTransitions allValues] makeObjectsPerformSelector:@selector(stopAnimation)];
 }
 
-- (void) stopAllTransitionsOfKind:(Class)transitionsClass {
-	int count = [windowTransitions count];
-	
-	int i;
-	for (i=0; i<count; ++i) {
-		GrowlWindowTransition *transition = [windowTransitions objectAtIndex:i];
-		if ([transition isKindOfClass:transitionsClass])
-			[transition stopAnimation];
-	}
+- (void) stopTransitionOfKind:(Class)transitionClass {
+	GrowlWindowTransition *transition = [windowTransitions objectForKey:transitionClass];
+	if (transition)
+		[transition stopAnimation];
 }
 
 #pragma mark -
