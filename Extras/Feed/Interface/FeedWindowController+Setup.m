@@ -141,6 +141,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[folderImage setScalesWhenResized:YES];
 	[folderImage setSize: NSMakeSize(16,16)];
 	
+	NSImage *		errorImage = [NSImage imageNamed:FeedErrorImage];
+	float			badgeSize = 16;
+	[errorImage setScalesWhenResized: YES];
+	[errorImage setSize: NSMakeSize(badgeSize,badgeSize)];
+	
+	folderErrorImage = [[NSImage alloc] initWithSize: NSMakeSize(16,16)];
+	[folderErrorImage lockFocus];
+	[folderImage drawInRect: NSMakeRect(0,0,16,16) fromRect: NSMakeRect(0,0,16,16) operation: NSCompositeCopy fraction: 1.0];
+	[errorImage drawInRect: NSMakeRect(0,0,badgeSize,badgeSize) fromRect: NSMakeRect(0,0,badgeSize,badgeSize) operation: NSCompositeSourceOver fraction: 1.0];
+	[folderErrorImage unlockFocus];
+	
 	tableWrapStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[tableWrapStyle setLineBreakMode: NSLineBreakByTruncatingTail];
 	

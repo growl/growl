@@ -178,7 +178,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	if( [[item type] isEqualToString: FeedItemTypeItem] ){
-		sourceImage = folderImage;
+		if( [[item itemsWithProperty:@"lastError" equalTo:@""] count] == [[item itemsOfType:FeedItemTypeFeed] count] ){
+			sourceImage = folderImage;
+		}else{
+			sourceImage = folderErrorImage;
+		}
 	}else if( [[item type] isEqualToString: FeedItemTypeFeed] ){
 		if( ![[(KNFeed *)item lastError] isEqualToString:@""] ){
 			sourceImage = [NSImage imageNamed:FeedErrorImage];

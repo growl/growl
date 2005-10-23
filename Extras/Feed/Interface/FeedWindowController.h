@@ -68,6 +68,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSArray *					draggedFeedItems;
 	NSArray *					draggedArticles;
 	NSImage *					folderImage;
+	NSImage *					folderErrorImage;
 	BOOL						isLoadingDisplay;
 	NSFont *					articleListFont;
 	NSFont *					articleFont;
