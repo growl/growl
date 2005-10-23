@@ -888,7 +888,7 @@ enum {
 }
 
 - (BOOL) quitiTunes {
-	NSDictionary *iTunes = [self iTunesProcess];
+	NSDictionary *iTunes = [[NSWorkspace sharedWorkspace] launchedApplicationWithIdentifier:ITUNES_BUNDLE_ID];
 	BOOL success = (iTunes != nil);
 	if (success) {
 		//first disarm the timer. we don't want to launch iTunes right after we quit it if the timer fires.
@@ -996,18 +996,7 @@ enum {
 }
 
 - (BOOL) iTunesIsRunning {
-	return [self iTunesProcess] != nil;
-}
-
-- (NSDictionary *) iTunesProcess {
-	NSEnumerator *processesEnum = [[[NSWorkspace sharedWorkspace] launchedApplications] objectEnumerator];
-	NSDictionary *process;
-
-	while ((process = [processesEnum nextObject]))
-		if ([ITUNES_BUNDLE_ID caseInsensitiveCompare:[process objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
-			break; //this is iTunes!
-
-	return process;
+	return [[NSWorkspace sharedWorkspace] launchedApplicationWithIdentifier:ITUNES_BUNDLE_ID] != nil;
 }
 
 - (void) jumpToTune:(id) sender {

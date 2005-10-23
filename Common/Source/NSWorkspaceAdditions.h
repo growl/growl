@@ -11,4 +11,5 @@
 
 @interface NSWorkspace (GrowlAdditions)
 - (NSImage *) iconForApplication:(NSString *) inName;
+- (NSDictionary *) launchedApplicationWithIdentifier:(NSString *) identifier;
 @end

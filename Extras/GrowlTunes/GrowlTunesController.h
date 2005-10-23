@@ -64,7 +64,6 @@ typedef enum {
 - (void) showCurrentTrack;
 
 - (BOOL) iTunesIsRunning;
-- (NSDictionary *) iTunesProcess;
 - (BOOL) quitiTunes;
 
 - (void) setPolling:(BOOL)flag;
