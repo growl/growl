@@ -51,6 +51,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #define VISIBLE_ARTICLE_COLUMNS @"VisibleArticleColumns"
 #define FEED_DRAWER_SIZE @"FeedDrawerSize"
 #define FEED_DRAWER_SIZE_DEFAULT NSMakeSize(200,0)
+#define SOURCE_LIST_WIDTH @"SourceListWidth"
+#define SOURCE_LIST_WIDTH_DEFAULT 200
 #define ARTICLE_LIST_HEIGHT @"ArticleListHeight"
 #define ARTICLE_LIST_HEIGHT_DEFAULT 300
 #define DISPLAY_HEIGHT @"DisplayHeight"
@@ -170,6 +172,18 @@ static Prefs * sharedPrefsObject = nil;
 
 -(void)setUpdateLength:(double)length{
     [DEFAULTS setObject: [NSNumber numberWithDouble:length] forKey: FEED_UPDATE_LENGTH];
+}
+
+-(void)setSourceListWidth:(float)aWidth{
+	[DEFAULTS setObject: [NSNumber numberWithFloat: aWidth] forKey: SOURCE_LIST_WIDTH];
+}
+
+-(float)sourceListWidth{
+	if( [DEFAULTS objectForKey: SOURCE_LIST_WIDTH] ){
+		return [[DEFAULTS objectForKey: SOURCE_LIST_WIDTH] floatValue];
+	}else{
+		return SOURCE_LIST_WIDTH_DEFAULT;
+	}
 }
 
 -(void)setArticleListHeight:(float)aHeight{

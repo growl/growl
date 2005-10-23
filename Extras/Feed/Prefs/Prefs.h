@@ -73,6 +73,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(NSSize)feedDrawerSize;
 -(void)setFeedDrawerSize:(NSSize)aSize;
 
+-(void)setSourceListWidth:(float)aWidth;
+-(float)sourceListWidth;
 -(void)setArticleListHeight:(float)aHeight;
 -(float)articleListHeight;
 -(void)setDisplayHeight:(float)aHeight;

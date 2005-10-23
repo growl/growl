@@ -37,7 +37,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #define ADD_FEED_ICON @"NewFeed"
 #define REMOVE_FEED_ICON @"DeleteItem"
 #define UPDATE_ALL_ICON @"Update2"
-#define TOGGLE_DRAWER_ICON @"ToggleFeedDrawer"
 #define MARK_ALL_READ_ICON @"MarkAllRead"
 
 
@@ -80,10 +79,7 @@ static void addToolbarItem(NSMutableDictionary *aDict, NSString *identifier, NSS
             
         addToolbarItem(toolbarItems, UPDATE_ALL, @"Update", @"Update Now", @"Update selected Feeds immediately",
             [window delegate],@selector(setImage:), [NSImage imageNamed:UPDATE_ALL_ICON],@selector(refresh:), nil);
-            
-        addToolbarItem(toolbarItems, TOGGLE_DRAWER, @"Feeds", @"Toggle Feeds", @"Show or Hide the Feed drawer",
-            [window delegate],@selector(setImage:), [NSImage imageNamed:TOGGLE_DRAWER_ICON],@selector(toggleFeedDrawer:), nil);
-        
+                    
 		addToolbarItem(toolbarItems, MARK_ALL_READ, @"Mark All Read", @"Mark All Read", @"Mark all currently selected sources as read",
             [window delegate],@selector(setImage:), [NSImage imageNamed:MARK_ALL_READ_ICON],@selector(markAllRead:), nil);
 		
@@ -126,7 +122,6 @@ static void addToolbarItem(NSMutableDictionary *aDict, NSString *identifier, NSS
 	return [NSArray arrayWithObjects: 
                 ADD_FEED,
                 REMOVE_FEED,
-                TOGGLE_DRAWER,
                 NSToolbarFlexibleSpaceItemIdentifier,
 				MARK_ALL_READ,
                 UPDATE_ALL,
@@ -138,7 +133,6 @@ static void addToolbarItem(NSMutableDictionary *aDict, NSString *identifier, NSS
 	return [NSArray arrayWithObjects: 
                 ADD_FEED,
                 REMOVE_FEED,
-                TOGGLE_DRAWER,
                 NSToolbarFlexibleSpaceItemIdentifier,
 				MARK_ALL_READ,
                 UPDATE_ALL,

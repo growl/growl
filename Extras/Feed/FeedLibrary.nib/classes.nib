@@ -45,9 +45,9 @@
                 displaySplitView = id; 
                 displayWebView = id; 
                 feedContextMenu = id; 
-                feedDrawer = id; 
                 feedOutlineView = id; 
                 feedURLTextField = id; 
+                mainSplitView = id; 
                 newFeedPanel = id; 
                 removeFeedButton = id; 
                 statusProgressIndicator = id; 

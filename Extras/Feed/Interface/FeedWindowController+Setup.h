@@ -37,12 +37,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 @interface FeedWindowController (Setup)
 
--(void)registerForNotifications;
-
 -(void)awakeFromNib;
 -(void)windowDidLoad;
--(void)windowWillClose:(NSNotification *)aNotification;
+-(void)registerForNotifications;
 
+-(void)updateKeyViewLoop;
 -(void)restoreSplitSize;
 
 @end

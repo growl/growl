@@ -10,20 +10,19 @@
 		<string>244 294 144 99 0 0 1280 1002 </string>
 		<key>144</key>
 		<string>129 294 151 206 0 0 1280 1002 </string>
-		<key>43</key>
-		<string>518 470 200 395 0 0 1280 1002 </string>
 	</dict>
 	<key>IBFramework Version</key>
 	<string>439.0</string>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>26</integer>
+		<integer>7</integer>
+		<integer>184</integer>
 	</array>
 	<key>IBSystem Version</key>
 	<string>8C46</string>
 	<key>IBUserGuides</key>
 	<dict>
-		<key>26</key>
+		<key>0</key>
 		<dict>
 			<key>guideLocations</key>
 			<array>

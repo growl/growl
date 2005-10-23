@@ -42,6 +42,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #import "ImageTextCell.h"
 #import <WebKit/WebKit.h>
 
+#define DISPLAY_VIEW_MIN_HEIGHT 100
+#define ARTICLE_VIEW_MIN_WIDTH 200
+#define SOURCE_VIEW_MIN_WIDTH 100
+
 
 @implementation FeedWindowController (Setup)
 
@@ -164,20 +168,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	[feedOutlineView registerForDraggedTypes: [NSArray arrayWithObjects:DragDropFeedItemPboardType,DragDropFeedArticlePboardType, NSStringPboardType, nil]];
     
-    [feedDrawer setContentSize: NSMakeSize( [PREFS feedDrawerSize].width, [feedDrawer contentSize].height )];
 	[feedOutlineView sizeLastColumnToFit];
     [self restoreSplitSize];
-	
 	[self updateStatus];
-	
-	[articleTableView setNextKeyView: displayWebView];
-	if( ([feedDrawer state] == NSDrawerClosedState) || ([feedDrawer state] == NSDrawerClosingState) ){
-		[displayWebView setNextKeyView: articleTableView];
-	}else{
-		[displayWebView setNextKeyView: feedOutlineView];
-		[feedOutlineView setNextKeyView: articleTableView];
-	}
-
 }
 
 -(void)registerForNotifications{
@@ -228,63 +221,52 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
         KNDebug(@"Unable to set autosave!");
     }
     [[self window] setFrameUsingName: @"feedMainWindow"];
-    
-    if( [PREFS feedDrawerState] ){
-        [feedDrawer open];
-        //[feedDrawerButton setTitle:@"Hide Feeds"];
-    }else{
-        [feedDrawer close];
-        //[feedDrawerButton setTitle:@"Show Feeds"];
-    }
-    
+        
     [self setWindowTitle];
     disableResizeNotifications = NO;
 }
 
--(void)windowWillClose:(NSNotification *)notification{
-#pragma unused(notification)
-    //KNDebug(@"Controller: windowWillClose");
-    //[[anItem name] save];
-    //[NSApp terminate: self];
-}
-
-#pragma mark -
-#pragma mark Drawer Support
-
--(void)drawerDidOpen:(NSNotification *)notification{
-#pragma unused(notification)
-    [PREFS setFeedDrawerState: YES];
-	[articleTableView setNextKeyView: displayWebView];
-	[displayWebView setNextKeyView: feedOutlineView];
-	[feedOutlineView setNextKeyView: articleTableView];
-}
-
--(void)drawerDidClose:(NSNotification *)notification{
-#pragma unused(notification)
-    [PREFS setFeedDrawerState: NO];
-	[articleTableView setNextKeyView: displayWebView];
-	[displayWebView setNextKeyView: articleTableView];
-}
-
--(NSSize)drawerWillResizeContents:(NSDrawer *)drawer toSize:(NSSize)aSize{
-#pragma unused(drawer)
-    [feedOutlineView sizeLastColumnToFit];
-    [PREFS setFeedDrawerSize: aSize];
-    return aSize;
+-(void)updateKeyViewLoop{
+	BOOL			sourceVisible = ! [mainSplitView isSubviewCollapsed: [[mainSplitView subviews] objectAtIndex:0]];
+	BOOL			previewVisible = ! [displaySplitView isSubviewCollapsed: [[displaySplitView subviews] objectAtIndex:1]];
+	
+	if( previewVisible ){
+		[articleTableView setNextKeyView: displayWebView];
+		if( sourceVisible ){
+			[displayWebView setNextKeyView: feedOutlineView];
+			[feedOutlineView setNextKeyView: articleTableView];
+		}else{
+			[displayWebView setNextKeyView: articleTableView];
+		}
+	}else{
+		if( sourceVisible ){
+			[articleTableView setNextKeyView: feedOutlineView];
+			[feedOutlineView setNextKeyView: articleTableView];
+		}else{
+			[articleTableView setNextKeyView: articleTableView];
+		}
+	}
 }
 
 #pragma mark -
 #pragma mark Split View support
 
 -(void)restoreSplitSize{
+	NSView *			mainClip = [[mainSplitView subviews] objectAtIndex:0];
     NSView *            articleClip = [[displaySplitView subviews] objectAtIndex:0];
     NSView *            displayClip = [[displaySplitView subviews] objectAtIndex:1];
+	NSRect				mainFrame = [mainClip frame];
     NSRect              articleFrame = [articleClip frame];
     NSRect              displayFrame = [displayClip frame];
     
     //KNDebug(@"CONT: Restoring split sizes");
     
-    articleFrame.size.height = [PREFS articleListHeight];
+	mainFrame.size.width = [PREFS sourceListWidth];
+	[mainClip setFrame: mainFrame];
+	
+	[mainSplitView adjustSubviews];
+	
+	articleFrame.size.height = [PREFS articleListHeight];
     displayFrame.size.height = [PREFS displayHeight];
     [articleClip setFrame: articleFrame];
     [displayClip setFrame: displayFrame];
@@ -292,16 +274,59 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)splitViewDidResizeSubviews:(NSNotification *)notification{
-#pragma unused(notification)
-    NSRect              articleFrame = [[[displaySplitView subviews] objectAtIndex:0] frame];
-    NSRect              displayFrame = [[[displaySplitView subviews] objectAtIndex:1] frame];
-    
-    //KNDebug(@"CONT: Saving split sizes");
-    [PREFS setArticleListHeight: articleFrame.size.height+1];
-    [PREFS setDisplayHeight: displayFrame.size.height-1];
-    
-	#warning Disabled auto-scroll to current when resizing
-    //[articleTableView scrollRowToVisible: [LIB activeArticleCount]-1];
+	NSSplitView *			splitView = [notification object];
+	
+	if( splitView == mainSplitView ){
+		NSRect				sourceFrame = [[[mainSplitView subviews] objectAtIndex:0] frame];
+		[PREFS setSourceListWidth: sourceFrame.size.width];
+		
+		// Make sure our status inidicator follows along
+		NSRect				oldFrame = [statusTextField frame];
+		float				newX = sourceFrame.origin.x + sourceFrame.size.width + [mainSplitView dividerThickness];
+		[statusTextField setFrameOrigin: NSMakePoint( newX , oldFrame.origin.y)];
+		[statusTextField setFrameSize: NSMakeSize( [statusProgressIndicator frame].origin.x - newX , oldFrame.size.height)];
+		
+		[statusTextField setNeedsDisplay: YES];
+		[[statusTextField superview] setNeedsDisplay: YES];
+		
+	}else if( splitView == displaySplitView ){
+		NSRect              articleFrame = [[[displaySplitView subviews] objectAtIndex:0] frame];
+		NSRect              displayFrame = [[[displaySplitView subviews] objectAtIndex:1] frame];
+		[PREFS setArticleListHeight: articleFrame.size.height];
+		[PREFS setDisplayHeight: displayFrame.size.height];
+
+	}
+
+	[self updateKeyViewLoop];
+}
+
+-(BOOL)splitView:(NSSplitView *)aSplitView canCollapseSubview:(NSView *)aSubview{
+	if( aSplitView == mainSplitView ){
+		return( aSubview == [[mainSplitView subviews] objectAtIndex:0] );
+	}
+	if( aSplitView == displaySplitView ){
+		return( aSubview == [[displaySplitView subviews] objectAtIndex:1] );
+	}
+	return NO;
+}
+
+-(float)splitView:(NSSplitView *)aSplitView constrainMaxCoordinate:(float)proposedMax ofSubviewAt:(int)offset{
+#pragma unused( offset )
+	if( aSplitView == displaySplitView ){
+		proposedMax = [aSplitView frame].size.height - DISPLAY_VIEW_MIN_HEIGHT;
+	}else if( aSplitView == mainSplitView ){
+		proposedMax = [mainSplitView frame].size.width - ARTICLE_VIEW_MIN_WIDTH;
+	}
+	
+	return proposedMax;
+}
+
+-(float)splitView:(NSSplitView *)aSplitView constrainMinCoordinate:(float)proposedMin ofSubviewAt:(int)offset{
+#pragma unused( offset )
+	if( aSplitView == mainSplitView ){
+		proposedMin = SOURCE_VIEW_MIN_WIDTH;
+	}
+	return proposedMin;
 }
 
 #pragma mark -

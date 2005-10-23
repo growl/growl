@@ -222,13 +222,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			[menuItem setTitle: @"Mark As Read"];
 		}
 		
-	}else if( [menuItem action] == @selector(toggleFeedDrawer:) ){
-		if( ([feedDrawer state] == NSDrawerClosedState) || ([feedDrawer state] == NSDrawerClosingState) ){
-			[menuItem setTitle: @"Show Feeds..."];
-		}else{
-			[menuItem setTitle: @"Hide Feeds..."];
-		}
-		
 	}else if( [menuItem action] == @selector(bookmarkArticle:) ){
 		[menuItem setTitle: @"Bookmark Article"];
 		if( [[articleTableView selectedRowIndexes] count] == 0 ){ return NO; }
@@ -467,16 +460,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[self removeFeedItem: sender];
 	}
 }
-
--(IBAction)toggleFeedDrawer:(id)sender{
-    [feedDrawer toggle:sender];
-}
-
-/*
--(IBAction)cancelDialog:(id)sender{
-    [NSApp stopModal];
-}
-*/
 
 -(IBAction)refresh:(id)sender{
 #pragma unused(sender)

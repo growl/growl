@@ -46,6 +46,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 @interface FeedWindowController : NSWindowController
 {
+	IBOutlet id mainSplitView;
     IBOutlet id articleTableView;
     IBOutlet id displaySplitView;
     IBOutlet id displayWebView;
@@ -54,7 +55,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     IBOutlet id feedURLTextField;
 	IBOutlet id addFeedButton;
     IBOutlet id removeFeedButton;
-    IBOutlet id feedDrawer;
 	IBOutlet id statusTextField;
 	IBOutlet id statusProgressIndicator;
 	IBOutlet id articleContextMenu;
@@ -82,7 +82,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(IBAction)reloadData;
 -(void)setDisplayedArticle:(KNArticle *)anArticle;
 
-//-(IBAction)cancelDialog:(id)sender;
 -(IBAction)refresh:(id)sender;
 -(IBAction)refreshItem:(id)sender;
 -(IBAction)newFeed:(id)sender;
@@ -95,7 +94,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(IBAction)articleDoubleClicked:(id)sender;
 -(IBAction)openFeedsExternal:(id)sender;
 -(IBAction)feedDoubleClicked:(id)sender;
--(IBAction)toggleFeedDrawer:(id)sender;
 -(IBAction)toggleArticleStatus:(id)sender;
 -(IBAction)markAllRead:(id)sender;
 -(IBAction)bookmarkArticle:(id)sender;

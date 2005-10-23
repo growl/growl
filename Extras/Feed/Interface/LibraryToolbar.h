@@ -39,7 +39,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #define ADD_FEED @"AddFeed"
 #define REMOVE_FEED @"RemoveFeed"
 #define UPDATE_ALL @"UpdateAll"
-#define TOGGLE_DRAWER @"ToggleDrawer"
 #define MARK_ALL_READ @"MarkAllRead"
 
 @interface LibraryToolbar : NSObject {
