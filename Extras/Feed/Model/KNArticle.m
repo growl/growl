@@ -34,6 +34,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #import "KNArticle.h"
 
 #import "Library.h"
+#import "Library+Utility.h"
 #import "Prefs.h"
 #import "NSDate+KNExtras.h"
 
@@ -383,20 +384,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Category:</td>"];
 		[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\">%@</td></tr>", [self category]];
 	}
-	
-	#warning Disabled TorrentURL
-	/*
-	if( ! [[self torrent] isEqualToString: @""] ){
-		NSMutableString *			torrentURL = [NSMutableString stringWithString: [self torrent]];
 		
-		if( [PREFS useTorrentScheme] ){
-			[torrentURL replaceOccurrencesOfString:@"http://" withString:@"torrent://" options: NSCaseInsensitiveSearch range:NSMakeRange(0,[torrentURL length])];
-		}
-		[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Torrent:</td>"];
-		[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a title=\"Download torrent file\" href=\"%@\">%@</a></td></tr>", torrentURL, torrentURL];
-	}
-	*/
-	
 	if( [self date] ){
 		dateOutput = [[self date] naturalString];
 	}

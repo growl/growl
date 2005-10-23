@@ -77,18 +77,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		if( currentArticle ){
 			[currentArticle setObject: [atts objectForKey:@"url"]  forKey: @"sourceURL"];
 		}
-	}else if( [element isEqualToString: @"bitTorrent:torrent"] && [atts objectForKey: @"bitTorrent:url"] ){
-		if( currentArticle ){
-			#warning Disabled TorrentURL
-			//[currentArticle setObject: [atts objectForKey:@"bitTorrent:url"] forKey: ArticleTorrentURL];
-		}
-	}else if( currentArticle && [element isEqualToString:@"enclosure"] &&
-		[[atts objectForKey:@"type"] isEqualToString: @"application/x-bittorrent"] && 
-		[atts objectForKey:@"url"]
-	){
-		//KNDebug(@"RSS: found torrent in enclosure tag");
-		#warning Disabled TorrentURL
-		//[currentArticle setObject: [atts objectForKey:@"url"] forKey: ArticleTorrentURL];
 	}
 	
 	if( currentBuffer ){ [currentBuffer release]; }
@@ -345,20 +333,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		link = [NSString stringWithString: [article objectForKey: @"comments"]];
 	}
     return link;
-}
-
--(NSString *)torrentURLOfArticle:(NSDictionary *)article{
-#pragma unused(article)
-	NSString *					torrent = [NSString string];
-	
-	#warning Disabled TorrentURL
-	/*
-	if( [article objectForKey: ArticleTorrentURL] ){
-		//KNDebug(@"RSS: returning torrent %@", [article objectForKey:ArticleTorrentURL]);
-		torrent = [NSString stringWithString: [article objectForKey: ArticleTorrentURL]];
-	}
-	*/
-	return torrent;
 }
 
 

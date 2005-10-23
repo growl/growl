@@ -76,7 +76,7 @@ void ItemThrow(NSString *aString){
 }
 
 -(void)dealloc{
-	KNDebug(@"%@ dealloc", [self class]);
+	//KNDebug(@"%@ dealloc", [self class]);
 	[key release];
 	[children release];
 	[name release];
@@ -274,7 +274,6 @@ void ItemThrow(NSString *aString){
 
 -(void)removeChildAtIndex:(unsigned)anIndex{
 	if(anIndex < [children count]){
-		KNDebug(@"removeChildAtIndex %u", anIndex);
 		[[children objectAtIndex:anIndex] setParent: nil];
 		[children removeObjectAtIndex: anIndex];
 		[LIB makeDirty];

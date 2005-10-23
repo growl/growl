@@ -93,7 +93,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)removeItem:(id)item fromItem:(id)parentItem{
 	if( ! parentItem ){ parentItem = rootItem; }
-	KNDebug(@"LIB removeItem from %@", parentItem);
 	[parentItem removeChild: item];
 }
 
@@ -102,7 +101,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	if( ! oldParent ){ oldParent = rootItem; KNDebug(@"Using root as old parent");}
 	if( ! newParent ){ newParent = rootItem; KNDebug(@"Using root as new parent");}
-	KNDebug(@"About to move item %@ from %@ to %@ (%d)", item, oldParent, newParent, anIndex);
 	
 	[item retain];
 	[oldParent removeChild: item];

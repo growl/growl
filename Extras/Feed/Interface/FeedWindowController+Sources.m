@@ -46,7 +46,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma mark Source Introspection
 
 -(unsigned)unreadCountForSelection{
-	//KNDebug(@"unreadCountForSelection");
 	return [self unreadCountWithIndexes: [feedOutlineView selectedRowIndexes]];
 }
 
@@ -63,8 +62,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)refreshArticleCache{
-	
-	KNDebug(@"refreshArticleCache");
 	/* First, save off our selected article objects based on the current selection */
 	NSIndexSet *				selectedArticleIndexes = [articleTableView selectedRowIndexes];
 	unsigned					currentArticle = [selectedArticleIndexes firstIndex];

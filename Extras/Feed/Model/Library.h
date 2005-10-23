@@ -40,13 +40,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 @interface Library : NSObject {
-	KNItem *						rootItem;
 	NSString *						storagePath;
-	NSString *						storagePrefsPath;
+	KNItem *						rootItem;
+	
 	BOOL							isDirty;
 	unsigned						unreadFeedCount;
-	NSMutableDictionary *			prefs;
-	NSMutableDictionary *			cache;
 	
 	NSMutableDictionary *			activeReaders;
 	NSMutableArray *				feedsToUpdate;
@@ -68,8 +66,4 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)makeDirty;
 
 -(KNItem *)rootItem;
-
--(void)articleIsStale:(KNArticle *)anArticle;
--(NSString *)previewCacheForArticle:(KNArticle *)anArticle;
-
 @end

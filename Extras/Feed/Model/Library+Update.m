@@ -47,7 +47,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(BOOL)refreshAll{
-	KNDebug(@"LIB: refreshAll");
 	NSEnumerator *			enumerator = [[rootItem itemsOfType: FeedItemTypeFeed] objectEnumerator];
 	KNFeed *					feed = nil;
 	
@@ -63,11 +62,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	KNFeed *					feed = nil;
 	
 	//KNDebug(@"refreshPending called");
-	[feedsToUpdate removeAllObjects];
 	while((feed = [enumerator nextObject])){
 		if( [[feed valueForKeyPath:@"prefs.wantsUpdate"] boolValue] ){
-			KNDebug(@"Will update source %@", feed);
-			[feedsToUpdate addObject: feed];
+			if( [feedsToUpdate indexOfObject: feed] == NSNotFound ){
+				KNDebug(@"Will update source %@", feed);
+				[feedsToUpdate addObject: feed];
+			}
 		}
 	}
 	if( [feedsToUpdate count] > 0 ){
@@ -76,7 +76,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(BOOL)startUpdate{
-	if( KNNetworkReachablePolitely( @"keeto.net" ) ){
+	if( KNNetworkReachablePolitely( @"apple.com" ) ){
 		if( ([feedsToUpdate count] > 0) && ! isUpdating){
 			[self updateStarted];
 			[self runNextUpdate];
@@ -108,9 +108,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)updateStarted{
-    KNDebug(@"LIB: Update Started. %d items to update", [feedsToUpdate count]);
+    //KNDebug(@"LIB: Update Started. %d items to update", [feedsToUpdate count]);
     isUpdating = YES;
 	unreadFeedCount = [rootItem unreadCount];
+	
     [[NSNotificationCenter defaultCenter] postNotificationName:FeedUpdateStartedNotification object: nil];
 }
 
@@ -119,6 +120,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)updateFeed:(KNFeed *)aFeed headers:(NSDictionary *)headers articles:(NSArray *)articles{
+	//KNDebug(@"Got updateFeed for %@", aFeed);
     NSEnumerator *          enumerator = nil;
     NSDictionary *          articleDict = nil;
     NSString *				propName = nil;
@@ -140,16 +142,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	//KNDebug(@"LIB: feed %@ updated", [feed title]);
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:FeedUpdateDidUpdateFeedNotification object: aFeed];
-	
-	FeedReader *			oldReader = [[activeReaders objectForKey: [aFeed sourceURL]] retain];
 	[activeReaders removeObjectForKey: [aFeed sourceURL]];
-	[oldReader autorelease];
 	
 	[self runNextUpdate];
 }
 
 -(void)updateFeed:(KNFeed *)aFeed error:(NSString *)reason{
-	
 	if( [[aFeed sourceType] isEqualToString: FeedSourceTypeUnknown] && [[activeReaders objectForKey: [aFeed sourceURL]] isKindOfClass:[RSSReader class]] ){
 		AtomReader *			newReader = [[AtomReader alloc] initWithLibrary: self feed: aFeed];
 		
@@ -164,10 +162,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		//KNDebug(@"feed %@ error %@", [aFeed name], reason);
 		[[NSNotificationCenter defaultCenter] postNotificationName: FeedUpdateDidUpdateFeedNotification object: aFeed];
 		
-		FeedReader *		oldReader = [[activeReaders objectForKey: [aFeed sourceURL]] retain];
-
 		[activeReaders removeObjectForKey: [aFeed sourceURL]];
-		[oldReader autorelease];
 		[self runNextUpdate];
 	}
 }
@@ -176,14 +171,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	KNFeed *				feed = nil;
 	FeedReader *		newReader = nil;
 	
+	//KNDebug(@"runNextUpdate: %u left (%u:%u)", [feedsToUpdate count], [activeReaders count], [PREFS maxUpdateThreads]);
+	//KNDebug(@"runNextUpdate: %u left (%@)", [feedsToUpdate count], activeReaders);
 	if( [feedsToUpdate count] > 0U ){
 		while( ((int)[activeReaders count] < [PREFS maxUpdateThreads]) && ([feedsToUpdate count] > 0U) ){
 			
 			newReader = nil;
 			
 			feed = [feedsToUpdate objectAtIndex:0];
-			[feedsToUpdate removeObject: feed];
-			//KNDebug(@"LIB: Starting updater for %@", [feed source]);
+			[feedsToUpdate removeObjectAtIndex: 0];
 			
 			if( [[feed sourceType] isEqualToString: FeedSourceTypeRSS] ||
 				[[feed sourceType] isEqualToString: FeedSourceTypeUnknown]
@@ -206,8 +202,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)updateFinished{
-	KNDebug(@"LIB: Update Finished");
-	
 	isUpdating = NO;
 	unsigned newUnreadCount = [rootItem unreadCount];
 	

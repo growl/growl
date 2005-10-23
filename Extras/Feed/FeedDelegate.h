@@ -61,6 +61,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 //-(void)openURLs:(NSArray *)openList;
 
 -(void)importOPML:(id)sender;
+-(void)importOPMLFromPath:(NSString *)file;
 -(void)importOPMLRecord:(NSDictionary *)itemRecord intoItem:(id)anItem;
 -(void)exportOPML:(id)sender;
 -(void)writeItem:(id)anItem toOPML:(NSMutableString *)aBuffer;

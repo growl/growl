@@ -1,19 +1,56 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <opml version="1.1">
 	<head>
-		<title>Default Feeds</title>
+		<title>Exported Feeds</title>
 	</head>
 	<body>
 		<outline type="rss" xmlUrl="http://keeto.net/rss.xml?channel_id=8" />
-		<outline type="rss" xmlUrl="http://www.versiontracker.com/macosx/recent.rss" />
-		<outline type="rss" xmlUrl="http://slashdot.org/index.rss" />
+	<outline text="General" title="General">
+		<outline type="rss" xmlUrl="http://www.pbs.org/cringely/pulpit/rss2.xml" />
+		<outline type="rss" xmlUrl="http://www.slickdeals.net/rss.php" />
 		<outline type="rss" xmlUrl="http://rss.cnn.com/rss/cnn_topstories.rss" />
 		<outline type="rss" xmlUrl="http://www.jwz.org/cheesegrater/RSS/apod.rss" />
-		<outline type="rss" xmlUrl="http://www.drunkenblog.com/index.rdf" />
+		<outline type="rss" xmlUrl="http://www.boingboing.net/atom.xml" />
+		<outline type="rss" xmlUrl="http://www.googlesightseeing.com/feed/atom/" />
+		<outline type="rss" xmlUrl="http://www.kuro5hin.org/backend.rdf" />
+		<outline type="rss" xmlUrl="http://www.lifehack.org/feed/" />
+		<outline type="rss" xmlUrl="http://www.lifehut.org/feed/atom/" />
+	</outline>
+	<outline text="Humor" title="Humor">
+		<outline type="rss" xmlUrl="http://www.vgcats.com/vgcats.rdf.xml" />
+	</outline>
+	<outline text="Apple" title="Apple">
 		<outline type="rss" xmlUrl="http://daringfireball.net/index.xml" />
+		<outline type="rss" xmlUrl="http://www.versiontracker.com/macosx/recent.rss" />
 		<outline type="rss" xmlUrl="http://rss.slashdot.org/Slashdot/slashdotApple" />
-		<outline type="rss" xmlUrl="http://www.pbs.org/cringely/pulpit/rss2.xml" />
+		<outline type="rss" xmlUrl="http://www.mactips.org/feed/" />
+		<outline type="rss" xmlUrl="http://www.macosxhints.com/backend/geeklog.rdf" />
+		<outline type="rss" xmlUrl="http://www.dashboardwidgets.com/feeds/showcase.php" />
+		<outline type="rss" xmlUrl="http://www.freemacware.com/feed/" />
+		<outline type="rss" xmlUrl="http://www.applematters.com/index.xml" />
+		<outline type="rss" xmlUrl="http://www.crazyapplerumors.com/cars_index.rdf" />
+		<outline type="rss" xmlUrl="http://www.macobserver.com/rss/macobserver.rdf" />
+		<outline type="rss" xmlUrl="http://www.thinksecret.com/rss.xml" />
+		<outline type="rss" xmlUrl="http://www.powerpage.org/rss.xml" />
+		<outline type="rss" xmlUrl="http://www.downloadsquad.com/category/macintosh/rss.xml" />
+	</outline>
+	<outline text="Tech" title="Tech">
 		<outline type="rss" xmlUrl="http://planet-im.com/rss20.xml" />
-		<outline type="rss" xmlUrl="http://www.slickdeals.net/rss.php" />
+		<outline type="rss" xmlUrl="http://slashdot.org/index.rss" />
+		<outline type="rss" xmlUrl="http://www.drunkenblog.com/index.rdf" />
+		<outline type="rss" xmlUrl="http://feeds.feedburner.com/FutureFeeder" />
+		<outline type="rss" xmlUrl="http://www.hackaday.com/rss.xml" />
+		<outline type="rss" xmlUrl="http://www.wired.com/news_drop/netcenter/netcenter.rdf" />
+		<outline type="rss" xmlUrl="http://gizmodo.com/atom.xml" />
+		<outline type="rss" xmlUrl="http://www.engadget.com/rss.xml" />
+		<outline type="rss" xmlUrl="http://www.makezine.com/blog/atom.xml" />
+	</outline>
+	<outline text="Web Design" title="Web Design">
+		<outline type="rss" xmlUrl="http://www.nv30.com/mt/blogomania/indexmania.xml" />
+		<outline type="rss" xmlUrl="http://cssvault.com/gallery.xml" />
+		<outline type="rss" xmlUrl="http://creativebits.org/taxonomy/term/39/0/feed" />
+		<outline type="rss" xmlUrl="http://fontleech.com/feed/atom/" />
+		<outline type="rss" xmlUrl="http://creativebits.org/node/feed" />
+	</outline>
 	</body>
 </opml>

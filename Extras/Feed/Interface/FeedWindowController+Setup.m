@@ -214,10 +214,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		name:NotifyArticleFontSizeChanged object: nil
 	];
 	[[NSNotificationCenter defaultCenter] addObserver: self
-		selector: @selector(torrentSchemeChanged:)
-		name:NotifyArticleTorrentSchemeChanged object: nil
-	];
-	[[NSNotificationCenter defaultCenter] addObserver: self
 		selector: @selector(articleExpiredColorChanged:)
 		name:NotifyArticleExpiredColorChanged object: nil
 	];

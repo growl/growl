@@ -64,10 +64,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		validSource = NO;
 		contentWasModified = NO;
 		
-		
 		dataResponseCode = 400;
 		NSMutableURLRequest *		request = nil;
-		
 		dataFinished = NO;
 		[library willUpdateFeed: currentFeed];
 		
@@ -91,6 +89,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		iconFinished = NO;
 		request = [NSMutableURLRequest requestWithURL: imageURL cachePolicy: NSURLRequestUseProtocolCachePolicy timeoutInterval: [PREFS requestTimeoutInterval]];
 		[request setValue:[PREFS userAgentString] forHTTPHeaderField:@"User-Agent"];
+		
 		iconConnection = [[NSURLConnection alloc] initWithRequest: request delegate: self];
 		if( ! iconConnection ){
 			KNDebug(@"%@: unable to start icon connection", self);
@@ -305,7 +304,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[article setObject: [self keyOfArticle: dict] forKey: ArticleGuid];
 	[article setObject: [self titleOfArticle: dict] forKey: ArticleTitle];
 	[article setObject: [self authorOfArticle: dict] forKey: ArticleAuthor];
-	[article setObject: [self linkOfArticle: dict] forKey: ArticleLink];//KNDebug(@"%@: next", self);
+	[article setObject: [self linkOfArticle: dict] forKey: ArticleLink];
 	[article setObject: [self sourceOfArticle: dict] forKey: ArticleSourceURL];
 	[article setObject: [self categoryOfArticle: dict] forKey: ArticleCategory];
 	[article setObject: [self commentsOfArticle: dict] forKey: ArticleCommentsURL];
@@ -315,10 +314,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	if( [self dateOfArticle: dict] ){
 		[article setObject: [self dateOfArticle: dict] forKey: ArticleDate];
 	}
-	
-	#warning Disabled TorrentURL
-	//[article setObject: [self torrentURLOfArticle: dict] forKey: ArticleTorrentURL];
-	
+		
 	[articles addObject: article];
 }
 

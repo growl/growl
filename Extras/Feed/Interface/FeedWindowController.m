@@ -278,8 +278,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)feedUpdateStarted:(NSNotification *)notification{
 #pragma unused(notification)
-	KNDebug(@"CONT: feedUpdateStarted");
-    //[refreshAllButton setEnabled: NO];
     isUpdating = YES;
 	[statusProgressIndicator startAnimation:self];
 	[currentUpdatingFeedTitle autorelease];
@@ -301,15 +299,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)feedUpdateFinished:(NSNotification *)notification{
 #pragma unused(notification)
-	KNDebug(@"CONT: feedUpdateFinished");
-	
 	isUpdating = NO;
 	[statusProgressIndicator stopAnimation:self];
-    //[LIB refreshActiveArticles];
 	[self reloadData];
-	
-    //[articleTableView scrollRowToVisible: [LIB activeArticleCount]-1];
-	//[self setDisplayedArticle: [LIB activeArticle]];
 }
 
 #pragma mark -
@@ -439,27 +431,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[articleTableView reloadData];
 }
 
--(void)torrentSchemeChanged:(NSNotification *)notification{
-#pragma unused(notification)
-	#warning Disabled TorrentURL
-	//[self setDisplayedArticle: [LIB activeArticle]];
-}
-
 #pragma mark -
 #pragma mark Action Methods
-
--(IBAction)delete:(id)sender{
-	id				activeView = [[self window] firstResponder];
-	
-	KNDebug(@"CONT: delete. STOP THIS!!!");
-	if( activeView == articleTableView ){
-		//KNDebug(@"CONT: article is active");
-		[self removeArticle: sender];
-	}else if( activeView == feedOutlineView ){
-		//KNDebug(@"CONT: feed is active");
-		[self removeFeedItem: sender];
-	}
-}
 
 -(IBAction)refresh:(id)sender{
 #pragma unused(sender)
@@ -556,15 +529,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	if( returnCode == NSAlertDefaultReturn ){
 		selectedArticles = [articleTableView selectedRowIndexes];
 		currentIndex = [selectedArticles firstIndex];
-		KNDebug(@"About to clear articles from selection");
 		while( currentIndex != NSNotFound ){
-			KNDebug(@"About to delete item (%u) %@", currentIndex, [articleCache objectAtIndex: currentIndex]);
 			[LIB removeItem: [articleCache objectAtIndex: currentIndex]];
 			currentIndex = [selectedArticles indexGreaterThanIndex: currentIndex];
 		}
 		
 		[articleTableView deselectAll: self];
-		[self refreshArticleCache];
 		[self reloadData];
 	}
 }
@@ -592,16 +562,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     int                         currentIndex = NSNotFound;
     
     if( returnCode == NSAlertDefaultReturn ){
-        KNDebug(@"CONT: removeFeedItem");
 		[inspector setItem: nil];
 		[self setDisplayedArticle: nil];
 			
         selectedFeeds = [feedOutlineView selectedRowIndexes];
         currentIndex = [selectedFeeds firstIndex];
         while( currentIndex != NSNotFound ){
-			KNDebug(@"CONT: will remove item %@ at %u", [feedOutlineView itemAtRow: currentIndex], currentIndex);
             [LIB removeItem: [feedOutlineView itemAtRow: currentIndex]];
-			KNDebug(@"CONT: removedItem at %u", currentIndex);
             currentIndex = [selectedFeeds indexGreaterThanIndex: currentIndex];
         }
 		[feedOutlineView deselectAll: self];

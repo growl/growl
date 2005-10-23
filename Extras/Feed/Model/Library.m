@@ -94,8 +94,6 @@ static Library *				_sharedLibrary = nil;
 			storagePath = [[Library defaultStoragePath] retain];
 			isDirty = NO;
 			unreadFeedCount = 0;
-			prefs = [[NSMutableDictionary alloc] init];
-			cache = [[NSMutableDictionary alloc] init];
 			
 			activeReaders = [[NSMutableDictionary alloc] init];
 			feedsToUpdate = [[NSMutableArray alloc] init];
@@ -114,8 +112,6 @@ static Library *				_sharedLibrary = nil;
 	
 	[rootItem release];
 	[storagePath release];
-	[prefs release];
-	[cache release];
 	[activeReaders release];
 	[feedsToUpdate release];
 	
@@ -222,23 +218,6 @@ static Library *				_sharedLibrary = nil;
 
 -(KNItem *)rootItem{
 	return rootItem;
-}
-
--(void)articleIsStale:(KNArticle *)anArticle{
-	[anArticle generateCache];
-}
-
--(NSString *)previewCacheForArticle:(KNArticle *)anArticle{
-	if( ! [[NSFileManager defaultManager] fileExistsAtPath: [anArticle previewCachePath]] ){
-		[anArticle generateCache];
-	}else{
-		if( ![anArticle valueForKeyPath:@"prefs.articlePrefsVersion"] || 
-			![[anArticle valueForKeyPath:@"prefs.articlePrefsVersion"] isEqual: ArticlePreviewCacheVersion]
-		){
-			[anArticle generateCache];
-		}
-	}
-	return [anArticle previewCachePath];
 }
 
 @end

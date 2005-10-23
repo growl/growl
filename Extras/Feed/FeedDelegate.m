@@ -82,6 +82,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 				// Throw error
 				KNDebug(@"APP: Unable to import old library");
 			}
+		}else{
+			[self importOPMLFromPath: [[NSBundle mainBundle] pathForResource:@"DefaultSources" ofType:@"opml"] ];
+			[LIB startUpdate];
 		}
 	}
 
@@ -292,7 +295,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)importOPML:(id)sender{
 #pragma unused(sender)
-	OPMLReader *		opml;
 	int					openResult;
 	NSArray *			fileTypes = [NSArray arrayWithObjects:@"opml",@"xml",nil];
 	NSOpenPanel *		openPanel = [NSOpenPanel openPanel];
@@ -305,47 +307,42 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		NSArray *			filesToOpen = [openPanel filenames];
 		int					i, count = [filesToOpen count];
 		for( i=0; i<count; i++ ){
-			NSString *			file = [filesToOpen objectAtIndex:i];
-			
-			opml = [[OPMLReader alloc] init];
-			
-			KNDebug(@"OPML: %@", opml);
-			
-			if( [opml parse: [[NSFileManager defaultManager] contentsAtPath: file]] ){
-				//[self importOPMLRecord: [opml rootItem] intoItem: [LIB rootItem]];
-				unsigned						childCount;
-				
-				for(childCount=0;childCount<[[[opml rootItem] objectForKey:OPML_OUTLINE_CHILDREN] count];childCount++){
-					[self importOPMLRecord: [[[opml rootItem] objectForKey:OPML_OUTLINE_CHILDREN] objectAtIndex:childCount] intoItem: [LIB rootItem]];
-				}
-
-			}else{
-				NSAlert *			alert = [[NSAlert alloc] init];
-				NSButton *			okButton = nil;
-				
-				[alert setMessageText: @"OPML Import Failed"];
-				[alert setInformativeText: [NSString stringWithFormat: 
-					@"Unable to import the OPML file %@: %@", 
-					[file lastPathComponent], 
-					[opml error]]
-				];
-				[alert setAlertStyle: NSInformationalAlertStyle];
-				okButton = [alert addButtonWithTitle:@"OK"];
-				[okButton setTarget: self];
-				[okButton setAction:@selector(cancelDialog:)];
-				
-				[alert runModal];
-				[alert release];
-			}
-			[opml release];
+			[self importOPMLFromPath: [filesToOpen objectAtIndex:i]];
 		}
-		[feedWindowController reloadData];
 		[LIB startUpdate];
-		if( ! [[feedWindowController window] isVisible] ){
-			[feedWindowController showWindow: self];
-		}
-		//KNDebug(@"APP: Started update");
 	}
+}
+
+-(void)importOPMLFromPath:(NSString *)file{
+	OPMLReader *				opml = [[OPMLReader alloc] init];
+	
+	if( [opml parse: [[NSFileManager defaultManager] contentsAtPath: file]] ){
+		//[self importOPMLRecord: [opml rootItem] intoItem: [LIB rootItem]];
+		unsigned						childCount;
+		
+		for(childCount=0;childCount<[[[opml rootItem] objectForKey:OPML_OUTLINE_CHILDREN] count];childCount++){
+			[self importOPMLRecord: [[[opml rootItem] objectForKey:OPML_OUTLINE_CHILDREN] objectAtIndex:childCount] intoItem: [LIB rootItem]];
+		}
+
+	}else{
+		NSAlert *			alert = [[NSAlert alloc] init];
+		NSButton *			okButton = nil;
+		
+		[alert setMessageText: @"OPML Import Failed"];
+		[alert setInformativeText: [NSString stringWithFormat: 
+			@"Unable to import the OPML file %@: %@", 
+			[file lastPathComponent], 
+			[opml error]]
+		];
+		[alert setAlertStyle: NSInformationalAlertStyle];
+		okButton = [alert addButtonWithTitle:@"OK"];
+		[okButton setTarget: self];
+		[okButton setAction:@selector(cancelDialog:)];
+		
+		[alert runModal];
+		[alert release];
+	}
+	[opml release];
 }
 
 -(void)importOPMLRecord:(NSDictionary *)itemRecord intoItem:(id)anItem{
@@ -486,7 +483,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)feedUpdateFinished:(NSNotification *)notification{
 #pragma unused( notification )
-	KNDebug(@"APP feedUpdateFinished");
 	NSMutableString *				updateData  = [NSMutableString string];
 	NSMutableArray *				sortedNames = [NSMutableArray arrayWithArray: [growlNewArticles allKeys]];
 	unsigned						totalNew = 0;

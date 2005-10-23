@@ -292,7 +292,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)didUpdateArticles{
 	[self setValue:[NSDate date] forKeyPath:@"prefs.lastUpdate"];
 	
-	KNDebug(@"update finished for %@", self);
 	// Purge any suppressed articles that are no longer on server
 	NSEnumerator *				enumerator = [[self itemsWithProperty:ArticleIsSuppressed equalTo:[NSNumber numberWithBool: YES]] objectEnumerator];
 	KNArticle *					article = nil;
