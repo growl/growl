@@ -29,6 +29,7 @@
 //
 
 #import <Growl/Growl.h>
+#import "GrowlAbstractSingletonObject.h"
 
 @protocol GrowlTunesPluginArchive;
 
@@ -39,7 +40,7 @@ typedef enum {
 	itUNKNOWN
 } iTunesState;
 
-@interface GrowlTunesController : NSObject <GrowlApplicationBridgeDelegate> {
+@interface GrowlTunesController : GrowlAbstractSingletonObject <GrowlApplicationBridgeDelegate> {
 	NSTimer				*pollTimer;
 	NSAppleScript		*pollScript;
 	NSAppleScript		*getInfoScript;
@@ -59,8 +60,6 @@ typedef enum {
 	NSString			*trackURL;		//The file location of the last-known track in iTunes, @"" for none
 	int					trackRating;
 }
-
-+ (GrowlTunesController *) sharedController;
 
 - (void) showCurrentTrack;
 

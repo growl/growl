@@ -12,7 +12,7 @@
 @implementation ShowTrackScriptCommand
 
 - (id) performDefaultImplementation {
-	[[GrowlTunesController sharedController] showCurrentTrack];
+	[[GrowlTunesController sharedInstance] showCurrentTrack];
 
 	return nil;
 }

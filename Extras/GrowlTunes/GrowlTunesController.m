@@ -74,41 +74,40 @@ enum {
 	togglePollingTag,
 };
 
-static GrowlTunesController *sharedController;
-
 @implementation GrowlTunesController
 
-+ (GrowlTunesController *) sharedController {
-	if (!sharedController)
-		sharedController = [[GrowlTunesController alloc] init];
-	return sharedController;
+- (id) init;
+{
+	/* NOTE: The class currently gets instatiated from within a nib file, therefore init will get called 
+	 regardless. Would be cleaner if the app didnt use a nib file, but I didnt have the energy to work out
+	 how to get a decent return value from NSApplication when setting things up manaully ala GHA.  For now
+	 I've just overridden init to return the sharedInstance */
+	return [[self class] sharedInstance];
 }
 
-- (id) init {
-	if (sharedController) {
-		[self release];
-		self = sharedController;
-	} else if ((self = [super init])) {
-		[GrowlApplicationBridge setGrowlDelegate:self];
+- (id) initSingleton {
+	self = [super initSingleton];
+	if (!self)
+		return nil;
 
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithObjectsAndKeys:
-			[NSNumber numberWithDouble:DEFAULT_POLL_INTERVAL], POLL_INTERVAL_KEY,
-			[NSNumber numberWithInt:20],                       RECENT_TRACK_COUNT_KEY,
-			nil];
-		[defaults registerDefaults:defaultDefaults];
-		[defaultDefaults release];
+	[GrowlApplicationBridge setGrowlDelegate:self];
 
-		state = itUNKNOWN;
-		NSNumber *recentTrackCountNum = [defaults objectForKey:RECENT_TRACK_COUNT_KEY];
-		recentTracks = [[NSMutableArray alloc] initWithCapacity:(recentTrackCountNum ? [recentTrackCountNum unsignedIntValue] : DEFAULT_RECENT_TRACKS_LIMIT)];
-		archivePlugin = nil;
-		plugins = [[self loadPlugins] retain];
-		trackID = 0;
-		trackURL = @"";
-		trackRating = -1;
-		sharedController = self;
-	}
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSDictionary *defaultDefaults = [[NSDictionary alloc] initWithObjectsAndKeys:
+		[NSNumber numberWithDouble:DEFAULT_POLL_INTERVAL], POLL_INTERVAL_KEY,
+		[NSNumber numberWithInt:20],                       RECENT_TRACK_COUNT_KEY,
+		nil];
+	[defaults registerDefaults:defaultDefaults];
+	[defaultDefaults release];
+
+	state = itUNKNOWN;
+	NSNumber *recentTrackCountNum = [defaults objectForKey:RECENT_TRACK_COUNT_KEY];
+	recentTracks = [[NSMutableArray alloc] initWithCapacity:(recentTrackCountNum ? [recentTrackCountNum unsignedIntValue] : DEFAULT_RECENT_TRACKS_LIMIT)];
+	archivePlugin = nil;
+	plugins = [[self loadPlugins] retain];
+	trackID = 0;
+	trackURL = @"";
+	trackRating = -1;
 
 	return self;
 }
