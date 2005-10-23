@@ -639,20 +639,20 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95E4A30A0855C145006B3F45 /* Products */;
-					ProjectRef = 0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */;
-				},
-				{
-					ProductGroup = 95AC230808563965006241FD /* Products */;
-					ProjectRef = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
+					ProductGroup = 95E4A31B0855C14E006B3F45 /* Products */;
+					ProjectRef = 0A8B5F0F070B140C00593A33 /* GrowlTunes-Synergy.xcodeproj */;
 				},
 				{
 					ProductGroup = 95E4A3030855C13D006B3F45 /* Products */;
 					ProjectRef = 0A8B5F08070B140300593A33 /* GrowlTunes-Amazon.xcodeproj */;
 				},
 				{
-					ProductGroup = 95E4A31B0855C14E006B3F45 /* Products */;
-					ProjectRef = 0A8B5F0F070B140C00593A33 /* GrowlTunes-Synergy.xcodeproj */;
+					ProductGroup = 95AC230808563965006241FD /* Products */;
+					ProjectRef = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
+				},
+				{
+					ProductGroup = 95E4A30A0855C145006B3F45 /* Products */;
+					ProjectRef = 0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */;
 				},
 			);
 			targets = (
@@ -987,6 +987,7 @@
 		95E4A2DA0855C125006B3F45 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = ppc;
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
