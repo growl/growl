@@ -119,6 +119,14 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return NO;
 }
 
+-(BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag{
+#pragma unused( theApplication )
+	if( ! flag ){
+		[feedWindowController showWindow: self];
+	}
+	return NO;
+}
+
 -(void)addDebugMenu{
 	NSMenu *			mainMenu = [NSApp mainMenu];
 	NSMenuItem *		debugItem = [[NSMenuItem alloc] initWithTitle:@"Debug" action:nil keyEquivalent:@""];
