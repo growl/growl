@@ -18,9 +18,9 @@
 	NSNumber			*clickHandlerEnabled;
 	NSString			*appName;
 	NSNumber			*appPid;
+	NSMutableArray  	*windowTransitions;
 	id					delegate;
 	CFRunLoopTimerRef	displayTimer;
-	CFMutableArrayRef	windowTransitions;
 	BOOL				ignoresOtherNotifications;
 
 	CFTimeInterval		displayDuration;
