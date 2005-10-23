@@ -16,7 +16,3 @@ The following Tcl commands will post a basic Growl notification. Try it out! ::
 	package require growl
 	growl register appName "list of notification types" iconFilename
 	growl post type title desc "optional icon" 
-
-Author
-------
-Toby Peterson <toby@opendarwin.org>
