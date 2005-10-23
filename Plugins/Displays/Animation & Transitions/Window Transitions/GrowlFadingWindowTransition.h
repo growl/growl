@@ -8,8 +8,6 @@
 
 #import "GrowlWindowTransition.h"
 
-// Warning: Don't try to use more then one fade transition on one window at once!
-
 typedef enum {
 	GrowlNoFadeAction = -1,
 	GrowlFadeIn = 0,
@@ -18,31 +16,12 @@ typedef enum {
 
 @interface GrowlFadingWindowTransition : GrowlWindowTransition {
 	GrowlFadeAction fadeAction;
-	GrowlFadeAction defaultAction;
 }
 
-- (id) initWithWindow:(NSWindow *)inWindow defaultAction:(GrowlFadeAction)action;
-
-- (void) startFadeIn;
-- (void) startFadeOut;
+- (id) initWithWindow:(NSWindow *)inWindow action:(GrowlFadeAction)action;
 - (void) reset;
 
-- (GrowlFadeAction) defaultAction;
-- (void) setDefaultAction:(GrowlFadeAction)action;
+- (GrowlFadeAction) fadeAction;
+- (void) setFadeAction: (GrowlFadeAction) theFadeAction;
 
 @end
-
-//Delegate Methods
-@interface NSObject (GrowlFadingWindowTransitionDelegate)
-- (void) fadeInWindowTransitionWillStart:(GrowlFadingWindowTransition *)fadingWindowTransition;
-- (void) fadeInWindowTransitionDidEnd:(GrowlFadingWindowTransition *)fadingWindowTransition;
-
-- (void) fadeOutWindowTransitionWillStart:(GrowlFadingWindowTransition *)fadingWindowTransition;
-- (void) fadeOutWindowTransitionDidEnd:(GrowlFadingWindowTransition *)fadingWindowTransition;
-@end
-
-//Notifications
-#define GrowlFadeInWindowTransitionWillStart	@"GrowlFadeInWindowTransitionWillStart"
-#define GrowlFadeInWindowTransitionDidEnd		@"GrowlFadeInWindowTransitionDidEnd"
-#define GrowlFadeOutWindowTransitionWillStart	@"GrowlFadeOutWindowTransitionWillStart"
-#define GrowlFadeOutWindowTransitionDidEnd		@"GrowlFadeOutWindowTransitionDidEnd"

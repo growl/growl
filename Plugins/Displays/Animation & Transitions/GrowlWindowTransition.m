@@ -20,10 +20,23 @@
 
 //Only start if we have a window
 - (void) startAnimation {
-	if (window)
-		[super startAnimation];
-	else
+	if (!window)
 		NSLog(@"Trying to start window transition with no window. Transition: %@", self);
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlWindowTransitionWillStart
+															object:self];
+	[super startAnimation];
+}
+
+- (void) stopAnimation {
+	if (!window)
+		NSLog(@"Trying to stop window transition with no window. Transition: %@", self);
+	
+	[super stopAnimation];
+	
+	if (!FLOAT_EQ([self currentProgress], 1.0f))
+		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlWindowTransitionDidEnd
+															object:self];
 }
 
 - (NSWindow *) window {
@@ -38,6 +51,7 @@
 }
 
 - (void) dealloc {
+	[self setDelegate:nil];	//Remove the delegate from the notification center
 	[window release];
 	[super dealloc];
 }
@@ -51,4 +65,42 @@
 	//
 }
 
+- (void) setDelegate:(id)newDelegate {
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	id oldDelegate = [self delegate];
+	
+	if (oldDelegate) {
+		[nc removeObserver:oldDelegate
+					  name:GrowlWindowTransitionWillStart
+					object:self];
+		[nc removeObserver:oldDelegate
+					  name:GrowlWindowTransitionDidEnd
+					object:self];
+	}
+	
+	if (newDelegate) {
+		[nc addObserver:newDelegate
+			   selector:@selector(windowTransitionWillStart:)
+				   name:GrowlWindowTransitionWillStart
+				 object:self];
+		[nc addObserver:newDelegate
+			   selector:@selector(windowTransitionDidEnd:)
+				   name:GrowlWindowTransitionDidEnd
+				 object:self];
+	}
+	
+	[super setDelegate:newDelegate];
+}
+
+@end
+
+#pragma mark -
+@implementation NSObject (GrowlWindowTransitionDelegate)
+- (void) windowTransitionWillStart:(GrowlWindowTransition *)windowTransition {
+#pragma unused(windowTransition)
+}
+
+- (void) windowTransitionDidEnd:(GrowlWindowTransition *)windowTransition {
+#pragma unused(windowTransition)
+}
 @end

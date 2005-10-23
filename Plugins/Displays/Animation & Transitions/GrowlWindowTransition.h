@@ -47,3 +47,13 @@
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress;
 
 @end
+
+//Delegate Methods
+@interface NSObject (GrowlWindowTransitionDelegate)
+- (void) windowTransitionWillStart:(GrowlWindowTransition *)windowTransition;
+- (void) windowTransitionDidEnd:(GrowlWindowTransition *)windowTransition;
+@end
+
+//Notifications
+#define GrowlWindowTransitionWillStart	@"GrowlWindowTransitionWillStart"
+#define GrowlWindowTransitionDidEnd		@"GrowlWindowTransitionDidEnd"

@@ -15,88 +15,35 @@
 
 	if (self) {
 		fadeAction = GrowlNoFadeAction;	//We don't animate if someone simply sends us -startAnimation
-		defaultAction = GrowlNoFadeAction;
 	}
 
 	return self;
 }
 
-- (id) initWithWindow:(NSWindow *)inWindow defaultAction:(GrowlFadeAction)action {
+- (id) initWithWindow:(NSWindow *)inWindow action:(GrowlFadeAction)action {
 	self = [super initWithWindow:inWindow];
 
 	if (self) {
-		fadeAction = GrowlNoFadeAction;
-		defaultAction = action;
+		fadeAction = action;
 	}
 
 	return self;
-}
-
-- (void) dealloc {
-	[self setDelegate:nil];	//Remove the delegate from the notification center
-	[super dealloc];
 }
 
 #pragma mark -
 
 - (void) startAnimation {
-	switch (defaultAction) {
-		case GrowlFadeIn:
-			[self startFadeIn];
-			break;
-		case GrowlFadeOut:
-			[self startFadeOut];
-			break;
-		default:
-			break;
-	}
-}
+	if (fadeAction == GrowlNoFadeAction)
+		return;
 
-
-- (void) startFadeIn {
-	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
-										 (CFStringRef)GrowlFadeInWindowTransitionWillStart,
-										 /*object*/ self,
-										 /*userInfo*/ NULL,
-										 /*deliverImmediately*/ false);
-	fadeAction = GrowlFadeIn;
-	[super startAnimation];
-}
-
-- (void) startFadeOut {
-	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
-										 (CFStringRef)GrowlFadeOutWindowTransitionWillStart,
-										 /*object*/ self,
-										 /*userInfo*/ NULL,
-										 /*deliverImmediately*/ false);
-	fadeAction = GrowlFadeOut;
 	[super startAnimation];
 }
 
 - (void) stopAnimation {
+	if (fadeAction == GrowlNoFadeAction)
+		return;
+	
 	[super stopAnimation];
-
-	//Notify our delegate
-	if (FLOAT_EQ([self currentProgress], 1.0f)) {
-		switch (fadeAction) {
-			case GrowlFadeIn:
-				CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
-													 (CFStringRef)GrowlFadeInWindowTransitionDidEnd,
-													 /*object*/ self,
-													 /*userInfo*/ NULL,
-													 /*deliverImmediately*/ false);
-				break;
-			case GrowlFadeOut:
-				CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
-													 (CFStringRef)GrowlFadeOutWindowTransitionDidEnd,
-													 /*object*/ self,
-													 /*userInfo*/ NULL,
-													 /*deliverImmediately*/ false);
-				break;
-			default:
-				break;
-		}
-	}
 }
 
 - (void) reset {
@@ -120,74 +67,16 @@
 	}
 }
 
-- (void) setDelegate:(id)newDelegate {
-	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	id oldDelegate = [self delegate];
-
-	if (oldDelegate) {
-		[nc removeObserver:oldDelegate
-					  name:GrowlFadeInWindowTransitionWillStart
-					object:self];
-		[nc removeObserver:oldDelegate
-					  name:GrowlFadeInWindowTransitionDidEnd
-					object:self];
-		[nc removeObserver:oldDelegate
-					  name:GrowlFadeOutWindowTransitionWillStart
-					object:self];
-		[nc removeObserver:oldDelegate
-					  name:GrowlFadeOutWindowTransitionDidEnd
-					object:self];
-	}
-
-	if (newDelegate) {
-		[nc addObserver:newDelegate
-			   selector:@selector(fadeInWindowTransitionWillStart:)
-				   name:GrowlFadeInWindowTransitionWillStart
-				 object:self];
-		[nc addObserver:newDelegate
-			   selector:@selector(fadeInWindowTransitionDidEnd:)
-				   name:GrowlFadeInWindowTransitionDidEnd
-				 object:self];
-		[nc addObserver:newDelegate
-			   selector:@selector(fadeOutWindowTransitionWillStart:)
-				   name:GrowlFadeOutWindowTransitionWillStart
-				 object:self];
-		[nc addObserver:newDelegate
-			   selector:@selector(fadeOutWindowTransitionDidEnd:)
-				   name:GrowlFadeOutWindowTransitionDidEnd
-				 object:self];
-	}
-
-	[super setDelegate:newDelegate];
-}
-
 #pragma mark -
 
-- (GrowlFadeAction) defaultAction {
-	return defaultAction;
+- (GrowlFadeAction) fadeAction
+{
+    return fadeAction;
 }
 
-- (void) setDefaultAction:(GrowlFadeAction)action {
-	defaultAction = action;
+- (void) setFadeAction: (GrowlFadeAction) theFadeAction
+{
+	fadeAction = theFadeAction;
 }
 
-@end
-
-#pragma mark -
-@implementation NSObject (GrowlFadingWindowTransitionDelegate)
-- (void) fadeInWindowTransitionWillStart:(GrowlFadingWindowTransition *)fadingWindowTransition {
-#pragma unused(fadingWindowTransition)
-}
-
-- (void) fadeInWindowTransitionDidEnd:(GrowlFadingWindowTransition *)fadingWindowTransition {
-#pragma unused(fadingWindowTransition)
-}
-
-- (void) fadeOutWindowTransitionWillStart:(GrowlFadingWindowTransition *)fadingWindowTransition {
-#pragma unused(fadingWindowTransition)
-}
-
-- (void) fadeOutWindowTransitionDidEnd:(GrowlFadingWindowTransition *)fadingWindowTransition {
-#pragma unused(fadingWindowTransition)
-}
 @end
