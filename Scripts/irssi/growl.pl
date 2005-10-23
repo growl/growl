@@ -13,8 +13,8 @@ use Mac::Growl;
 
 $VERSION = '0.05';
 %IRSSI = (
-	authors		=>	'Nelson Elhage, Toby Peterson',
-	contact		=>	'Hanji@users.sourceforge.net, toby@opendarwin.org',
+	authors		=>	'Nelson Elhage',
+	contact		=>	'Hanji@users.sourceforge.net',
 	name		=>	'growl',
 	description	=>	'Sends out Growl notifications for Irssi',
 	license		=>	'BSD',
