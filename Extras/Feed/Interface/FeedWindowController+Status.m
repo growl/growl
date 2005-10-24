@@ -84,7 +84,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)webKitStartLoading:(NSString *)resourceKey{
 	NSMutableArray *				sources = [statusMessages objectForKey: STATUS_WEBKIT_RESOURCES];
 	
-	KNDebug(@"starting webkit load");
 	if( ! sources ){
 		sources = [NSMutableArray array];
 		[statusMessages setObject: sources forKey: STATUS_WEBKIT_RESOURCES];
@@ -96,7 +95,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)webKitEndLoading:(NSString *)resourceKey{
 	NSMutableArray *				sources = [statusMessages objectForKey: STATUS_WEBKIT_RESOURCES];
 	
-	KNDebug(@"ending webkit load");
 	if( ! sources ){
 		sources = [NSMutableArray array];
 		[statusMessages setObject: sources forKey: STATUS_WEBKIT_RESOURCES];

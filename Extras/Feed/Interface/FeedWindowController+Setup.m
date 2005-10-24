@@ -247,7 +247,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 #pragma mark -
-#pragma mark Split View support
+#pragma mark SplitView support
 
 -(void)restoreSplitSize{
 	NSView *			mainClip = [[mainSplitView subviews] objectAtIndex:0];
@@ -318,6 +318,16 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return proposedMin;
 }
 
+-(float)splitView:(NSSplitView *)aSplitView constrainSplitPosition:(float)proposedPosition ofSubviewAt:(int)offset{
+#pragma unused( offset )
+	if( aSplitView == mainSplitView ){
+		if( ((preferredSourceWidth - 10) < proposedPosition) && ((preferredSourceWidth + 10) > proposedPosition) ){
+			proposedPosition = preferredSourceWidth;
+		}
+	}
+	return proposedPosition;
+}
+
 #pragma mark -
 #pragma mark WebView Support
 -(void)webView:(WebView *)sender 
@@ -356,13 +366,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)webView:(WebView *)sender resource:(id)resourceKey didFinishLoadingFromDataSource:(WebDataSource *)dataSource{
 #pragma unused( sender, dataSource )
-	KNDebug(@"ending load");
 	[self webKitEndLoading: resourceKey];
 }
 
 -(void)webView:(WebView *)sender resource:(id)resourceKey didFailLoadingWithError:(NSError *)error fromDataSource:(WebDataSource *)dataSource{
 #pragma unused( sender, error, dataSource )
-	KNDebug(@"ending load in error");
 	[self webKitEndLoading: resourceKey];
 }
 

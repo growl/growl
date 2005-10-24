@@ -75,6 +75,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	InspectorController *		inspector;
 	NSMutableArray *			articleCache;
 	NSMutableDictionary *		statusMessages;
+	
+	float						preferredSourceWidth;
 }
 
 

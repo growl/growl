@@ -119,8 +119,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
         disableResizeNotifications = YES;
 		inspector = [[InspectorController alloc] init];
         feedLibraryToolbar = [[LibraryToolbar alloc] initWithWindow: [self window]];
-		//currentUpdatingFeedTitle = [[NSString string] retain];
 		statusMessages = [[NSMutableDictionary dictionary] retain];
+		preferredSourceWidth = 0;
     }
     return self;
 }
@@ -359,6 +359,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(IBAction)reloadData{
 	//KNDebug(@"WIN reloadData");
+	preferredSourceWidth = 0;
+	
 	[feedOutlineView reloadData];
 	[self refreshArticleCache];
 	[articleTableView reloadData];

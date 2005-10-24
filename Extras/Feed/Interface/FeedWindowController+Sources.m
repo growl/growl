@@ -198,6 +198,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[cell setImage: cellImage];
 		[cellImage release];
 	}
+	
+	float				totalWidth = ([cell cellSize].width + 25) + ([outlineView levelForItem: item] * [outlineView indentationPerLevel]);
+	if( preferredSourceWidth < totalWidth){
+		preferredSourceWidth = totalWidth;
+	}
 }
 
 -(id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)column byItem:(id)item{
@@ -231,7 +236,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	value = [[[NSAttributedString alloc] initWithString: rawValue attributes: attributes] autorelease];
-
+	
 	return value;
 }
 
