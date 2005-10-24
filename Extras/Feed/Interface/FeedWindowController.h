@@ -53,8 +53,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     IBOutlet id feedOutlineView;
     IBOutlet id newFeedPanel;
     IBOutlet id feedURLTextField;
-	IBOutlet id addFeedButton;
-    IBOutlet id removeFeedButton;
 	IBOutlet id statusTextField;
 	IBOutlet id statusProgressIndicator;
 	IBOutlet id articleContextMenu;
@@ -64,7 +62,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     BOOL						disableResizeNotifications;
     LibraryToolbar *			feedLibraryToolbar;
     BOOL						isUpdating;
-	NSString *					currentUpdatingFeedTitle;
+	//NSString *					currentUpdatingFeedTitle;
 	NSArray *					draggedFeedItems;
 	NSArray *					draggedArticles;
 	NSImage *					folderImage;
@@ -76,6 +74,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSMutableParagraphStyle *	tableWrapStyle;
 	InspectorController *		inspector;
 	NSMutableArray *			articleCache;
+	NSMutableDictionary *		statusMessages;
 }
 
 
@@ -105,7 +104,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(NSString *)selectedArticleStatus;
 -(NSString *)activeArticleStatus;
 
--(void)updateStatus;
 -(void)rememberVisibleColumns:(id)sender;
 
 

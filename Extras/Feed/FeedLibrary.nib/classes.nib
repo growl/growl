@@ -39,7 +39,6 @@
             CLASS = FeedWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                addFeedButton = id; 
                 articleContextMenu = id; 
                 articleTableView = id; 
                 displaySplitView = id; 
@@ -49,7 +48,6 @@
                 feedURLTextField = id; 
                 mainSplitView = id; 
                 newFeedPanel = id; 
-                removeFeedButton = id; 
                 statusProgressIndicator = id; 
                 statusTextField = id; 
             }; 

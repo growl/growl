@@ -14,7 +14,6 @@
 		531DE4BE09035C2200E7746C /* AtomReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FE0306D7A165008F1DFB /* AtomReader.m */; };
 		531DE4BF09035C2300E7746C /* FeedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FE0D06D7A1ED008F1DFB /* FeedReader.m */; };
 		531DE4C009035C3200E7746C /* NSDate+KNExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 5367241A07DE426D004DD4CC /* NSDate+KNExtras.m */; };
-		531DE4DA0903655900E7746C /* FeedWindowController+Setup.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 531DE4D80903655900E7746C /* FeedWindowController+Setup.h */; };
 		531DE4DB0903655900E7746C /* FeedWindowController+Setup.m in Sources */ = {isa = PBXBuildFile; fileRef = 531DE4D90903655900E7746C /* FeedWindowController+Setup.m */; };
 		531DE8C5090AB43600E7746C /* Library+UpgradeFrom0_6.m in Sources */ = {isa = PBXBuildFile; fileRef = 531DE8C3090AB43600E7746C /* Library+UpgradeFrom0_6.m */; };
 		531DE92E090AB8DC00E7746C /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C8B22006D5541B00B86C7D /* Feed.m */; };
@@ -82,6 +81,8 @@
 		53D5FE0506D7A165008F1DFB /* AtomReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FE0306D7A165008F1DFB /* AtomReader.m */; };
 		53D5FE0F06D7A1ED008F1DFB /* FeedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FE0D06D7A1ED008F1DFB /* FeedReader.m */; };
 		53E7263006D564E3001555CB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E7262F06D564E3001555CB /* WebKit.framework */; };
+		53F2F04A090C919E0044CA28 /* FeedWindowController+Status.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 53F2F048090C919E0044CA28 /* FeedWindowController+Status.h */; };
+		53F2F04B090C919E0044CA28 /* FeedWindowController+Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F2F049090C919E0044CA28 /* FeedWindowController+Status.m */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -122,7 +123,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				531B9BFF08E6282E00F10DE0 /* Growl.framework in CopyFiles */,
-				531DE4DA0903655900E7746C /* FeedWindowController+Setup.h in CopyFiles */,
+				53F2F04A090C919E0044CA28 /* FeedWindowController+Status.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +241,8 @@
 		53D5FE0C06D7A1ED008F1DFB /* FeedReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedReader.h; path = Updater/FeedReader.h; sourceTree = SOURCE_ROOT; };
 		53D5FE0D06D7A1ED008F1DFB /* FeedReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedReader.m; path = Updater/FeedReader.m; sourceTree = SOURCE_ROOT; };
 		53E7262F06D564E3001555CB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		53F2F048090C919E0044CA28 /* FeedWindowController+Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FeedWindowController+Status.h"; path = "Interface/FeedWindowController+Status.h"; sourceTree = "<group>"; };
+		53F2F049090C919E0044CA28 /* FeedWindowController+Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FeedWindowController+Status.m"; path = "Interface/FeedWindowController+Status.m"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Feed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Feed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -480,6 +483,8 @@
 				53C8B20F06D5541B00B86C7D /* LibraryToolbar.m */,
 				53C8B20D06D5541B00B86C7D /* FeedWindowController.h */,
 				53C8B21706D5541B00B86C7D /* FeedWindowController.m */,
+				53F2F048090C919E0044CA28 /* FeedWindowController+Status.h */,
+				53F2F049090C919E0044CA28 /* FeedWindowController+Status.m */,
 				531DE4D80903655900E7746C /* FeedWindowController+Setup.h */,
 				531DE4D90903655900E7746C /* FeedWindowController+Setup.m */,
 				53BE77AE08FC397D0078FC54 /* FeedWindowController+Articles.h */,
@@ -768,6 +773,7 @@
 				531DE8C5090AB43600E7746C /* Library+UpgradeFrom0_6.m in Sources */,
 				531DE92E090AB8DC00E7746C /* Feed.m in Sources */,
 				531DE92F090AB8DD00E7746C /* Article.m in Sources */,
+				53F2F04B090C919E0044CA28 /* FeedWindowController+Status.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

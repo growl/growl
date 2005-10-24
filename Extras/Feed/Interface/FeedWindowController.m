@@ -33,6 +33,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 #import "FeedWindowController.h"
 #import "FeedWindowController+Sources.h"
+#import "FeedWindowController+Status.h"
 
 #import "FeedDelegate.h"
 #import "Library.h"
@@ -118,7 +119,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
         disableResizeNotifications = YES;
 		inspector = [[InspectorController alloc] init];
         feedLibraryToolbar = [[LibraryToolbar alloc] initWithWindow: [self window]];
-		currentUpdatingFeedTitle = [[NSString string] retain];
+		//currentUpdatingFeedTitle = [[NSString string] retain];
+		statusMessages = [[NSMutableDictionary dictionary] retain];
     }
     return self;
 }
@@ -128,7 +130,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[articleCache release];
 	[inspector release];
     [feedLibraryToolbar release];
-	[currentUpdatingFeedTitle release];
+	//[currentUpdatingFeedTitle release];
+	[statusMessages release];
 	
     [super dealloc];
 }
@@ -280,20 +283,22 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma unused(notification)
     isUpdating = YES;
 	[statusProgressIndicator startAnimation:self];
-	[currentUpdatingFeedTitle autorelease];
-	currentUpdatingFeedTitle = [[NSString string] retain];
+	//[currentUpdatingFeedTitle autorelease];
+	//currentUpdatingFeedTitle = [[NSString string] retain];
 }
 
 -(void)feedWillUpdate:(NSNotification *)notification{
 	KNFeed *					feed = [notification object];
 	//KNDebug(@"CONT: Got a feed update notification for %@", feedURL);
-	[currentUpdatingFeedTitle autorelease];
-	currentUpdatingFeedTitle = [[feed name] retain];
-	[self updateStatus];
+	//[currentUpdatingFeedTitle autorelease];
+	//currentUpdatingFeedTitle = [[feed name] retain];
+	[self addSourceUpdateStatus: [feed name]];
 }
 
 -(void)feedDidUpdate:(NSNotification *)notification{
 #pragma unused(notification)
+	KNFeed *					feed = [notification object];
+	[self sourceUpdateStatusFinished: [feed name]];
 	[self reloadData];
 }
 
@@ -350,17 +355,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
         }
     }
     [PREFS setVisibleArticleColumns: columnArray];
-}
-
-
--(void)updateStatus{
-	NSMutableString *			status = [NSMutableString stringWithFormat:@"%d articles", [articleCache count]];
-	
-	//KNDebug(@"updateStatus - %@", status);
-	if( isUpdating ){
-		[status appendFormat:@" - Updating %@", currentUpdatingFeedTitle];
-	}
-	[statusTextField setStringValue: status];
 }
 
 -(IBAction)reloadData{

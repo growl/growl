@@ -65,7 +65,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	while((feed = [enumerator nextObject])){
 		if( [[feed valueForKeyPath:@"prefs.wantsUpdate"] boolValue] ){
 			if( [feedsToUpdate indexOfObject: feed] == NSNotFound ){
-				KNDebug(@"Will update source %@", feed);
+				//KNDebug(@"Will update source %@", feed);
 				[feedsToUpdate addObject: feed];
 			}
 		}

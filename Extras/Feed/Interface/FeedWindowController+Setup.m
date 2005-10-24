@@ -33,6 +33,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 #import "FeedWindowController+Setup.h"
 #import "FeedWindowController+Sources.h"
+#import "FeedWindowController+Status.h"
+
 #import "Prefs.h"
 #import "Library.h"
 #import "Library+Update.h"
@@ -49,19 +51,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 @implementation FeedWindowController (Setup)
 
--(void)awakeFromNib{
-    //[anItem name] = [[NSApp delegate] [anItem name]];
-    
+-(void)awakeFromNib{    
     //KNDebug(@"awakeFromNib");
     
 	[feedOutlineView setAutosaveExpandedItems: YES];
     
-	[removeFeedButton setToolTip:@"Remove selected Feed(s) from the library"];
-	[addFeedButton setToolTip:@"Add a new feed to the library"];
-	
-	//[self setDisplayedArticle: nil];
 	[displayWebView setMaintainsBackForwardList:NO];
 	[displayWebView setPolicyDelegate: self];
+	[displayWebView setUIDelegate: self];
+	[displayWebView setResourceLoadDelegate: self];
     
     // Set up our View->Columns menu
     NSEnumerator *              enumerator = [viewColumns objectEnumerator];
@@ -163,14 +161,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[feedOutlineView selectRowIndexes: [PREFS sourceSelectionIndexes] byExtendingSelection: NO];
 	[self refreshArticleCache];
 	[articleTableView selectRowIndexes: [PREFS articleSelectionIndexes] byExtendingSelection: NO];
-    
-    // Set our 'remove feed' button state
-	if( [[feedOutlineView selectedRowIndexes] count] > 0 ){
-        [removeFeedButton setEnabled: YES];
-    }else{
-        [removeFeedButton setEnabled: NO];
-    }
-    
+        
     // Register for notifications of updates
 	[self registerForNotifications];
 	
@@ -286,16 +277,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	if( splitView == mainSplitView ){
 		NSRect				sourceFrame = [[[mainSplitView subviews] objectAtIndex:0] frame];
 		[PREFS setSourceListWidth: sourceFrame.size.width];
-		
-		// Make sure our status inidicator follows along
-		NSRect				oldFrame = [statusTextField frame];
-		float				newX = sourceFrame.origin.x + sourceFrame.size.width + [mainSplitView dividerThickness];
-		[statusTextField setFrameOrigin: NSMakePoint( newX , oldFrame.origin.y)];
-		[statusTextField setFrameSize: NSMakeSize( [statusProgressIndicator frame].origin.x - newX , oldFrame.size.height)];
-		
-		[statusTextField setNeedsDisplay: YES];
-		[[statusTextField superview] setNeedsDisplay: YES];
-		
+				
 	}else if( splitView == displaySplitView ){
 		NSRect              articleFrame = [[[displaySplitView subviews] objectAtIndex:0] frame];
 		NSRect              displayFrame = [[[displaySplitView subviews] objectAtIndex:1] frame];
@@ -345,32 +327,43 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			decisionListener:(id<WebPolicyDecisionListener>)listener
 {
 #pragma unused(sender,frame)
-	//KNDebug(@"WEB: policyDecision for %@", request);
 	NSWorkspaceLaunchOptions	options = [PREFS launchExternalInBackground] ? NSWorkspaceLaunchWithoutActivation : 0;
-	
-	//KNDebug(@"WEB: policyDecision for %@ (%d)", actionInformation, WebNavigationTypeLinkClicked);
+
 	if( [[actionInformation objectForKey: WebActionNavigationTypeKey] intValue] == WebNavigationTypeLinkClicked ){
-		//KNDebug(@"WEB: Will open URL %@ external", [request URL]);
 		[listener ignore];
 		[[NSWorkspace sharedWorkspace] openURLs: [NSArray arrayWithObject:[request URL]] withAppBundleIdentifier:NULL options: options additionalEventParamDescriptor: NULL launchIdentifiers:NULL];
 	}else{
-		//KNDebug(@"WEB: Will open URL %@ internal", [request URL]);
 		[listener use];
 	}
 	
-	return;
-	
-	if( isLoadingDisplay ){
-		KNDebug(@"WEB: Will open URL %@ internal", [request URL]);
-		[listener use];
-		isLoadingDisplay = NO;
-	}else{
-		KNDebug(@"WEB: Will open URL %@ external", [request URL]);
-		[listener ignore];
-		[[NSWorkspace sharedWorkspace] openURL: [request URL]];
-	}
 	return;
 }
 
+-(void)webView:(WebView *)sender mouseDidMoveOverElement:(NSDictionary *)elementInfo modifierFlags:(unsigned int)modifierFlags{
+#pragma unused( sender, modifierFlags )
+	if( elementInfo ){
+		[self webKitMouseover: [elementInfo objectForKey:WebElementLinkURLKey]];
+	}else{
+		[self webKitMouseover: nil];
+	}
+}
+
+-(id)webView:(WebView *)sender identifierForInitialRequest:(NSURLRequest *)request fromDataSource:(WebDataSource *)dataSource{
+#pragma unused( sender, dataSource )
+	[self webKitStartLoading: [[request URL] absoluteString]];
+	return [[request URL] absoluteString];
+}
+
+-(void)webView:(WebView *)sender resource:(id)resourceKey didFinishLoadingFromDataSource:(WebDataSource *)dataSource{
+#pragma unused( sender, dataSource )
+	KNDebug(@"ending load");
+	[self webKitEndLoading: resourceKey];
+}
+
+-(void)webView:(WebView *)sender resource:(id)resourceKey didFailLoadingWithError:(NSError *)error fromDataSource:(WebDataSource *)dataSource{
+#pragma unused( sender, error, dataSource )
+	KNDebug(@"ending load in error");
+	[self webKitEndLoading: resourceKey];
+}
 
 @end
