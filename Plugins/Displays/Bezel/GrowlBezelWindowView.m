@@ -51,24 +51,6 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 	outData[3] = *(float *)info;
 }
 
-/*
-static void GlassShadeInterpolate( void *info, const float *inData, float *outData ) {
-#pragma unused(inData)
-	outData[0] = 1.0f;
-	outData[1] = 1.0f;
-	outData[2] = 1.0f;
-	outData[3] = *(float *)info;
-}
-
-static void GlassShineInterpolate( void *info, const float *inData, float *outData ) {
-#pragma unused(info)
-	outData[0] = 1.0f;
-	outData[1] = 1.0f;
-	outData[2] = 1.0f;
-	outData[3] = inData[0] * 0.25f;
-}
-
-*/
 - (void) drawRect:(NSRect)rect {
 	//Make sure that we don't draw in the main thread
 	if ([super dispatchDrawingToThread:rect]) {
@@ -121,54 +103,6 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 
 				CGContextRestoreGState(context);
 				break;
-/*			case 2:
-				// glass
-				[[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:0.03f] set];
-				CGContextFillPath(context);
-				CGContextSaveGState(context);
-				CGContextClip(context);
-				struct CGFunctionCallbacks glass_callbacks = { 0U, GlassShadeInterpolate, NULL };
-				function = CGFunctionCreate( &alpha,
-											 1U,
-											 NULL, //domain
-											 4U,
-											 NULL, //range
-											 &glass_callbacks );
-				cspace = CGColorSpaceCreateDeviceRGB();
-				src.x = bounds.origin.x + bounds.size.width * 0.75f;
-				src.y = CGRectGetMinY(bounds) - 80.0f;
-				shading = CGShadingCreateRadial(cspace, src, 200.0f,
-												src, 400.0f, function,
-												false, false);
-
-				CGContextDrawShading(context, shading);
-
-				CGShadingRelease(shading);
-				CGFunctionRelease(function);
-
-				struct CGFunctionCallbacks shine_callbacks = { 0U, GlassShineInterpolate, NULL };
-				function = CGFunctionCreate( NULL, //info
-											 1U,
-											 NULL, //domain
-											 4U,
-											 NULL, //domain
-											 &shine_callbacks );
-				src.x = CGRectGetMidX(bounds);
-				src.y = CGRectGetMidY(bounds);
-				shading = CGShadingCreateRadial(cspace, src, 100.0f,
-												src, 0.0f, function,
-												false, false);
-
-				CGContextDrawShading(context, shading);
-
-				CGColorSpaceRelease(cspace);
-				CGShadingRelease(shading);
-				CGFunctionRelease(function);
-				CGContextRestoreGState(context);
-				[[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:0.75f] set];
-				addRoundedRectToPath(context, bounds, BORDER_RADIUS);
-				CGContextStrokePath(context);
-				break; */
 		}
 
 		int sizePref = BEZEL_SIZE_NORMAL;
