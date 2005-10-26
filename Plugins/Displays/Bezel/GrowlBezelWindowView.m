@@ -51,6 +51,7 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 	outData[3] = *(float *)info;
 }
 
+/*
 static void GlassShadeInterpolate( void *info, const float *inData, float *outData ) {
 #pragma unused(inData)
 	outData[0] = 1.0f;
@@ -67,6 +68,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 	outData[3] = inData[0] * 0.25f;
 }
 
+*/
 - (void) drawRect:(NSRect)rect {
 	//Make sure that we don't draw in the main thread
 	if ([super dispatchDrawingToThread:rect]) {
@@ -119,7 +121,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 
 				CGContextRestoreGState(context);
 				break;
-			case 2:
+/*			case 2:
 				// glass
 				[[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:0.03f] set];
 				CGContextFillPath(context);
@@ -128,9 +130,9 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 				struct CGFunctionCallbacks glass_callbacks = { 0U, GlassShadeInterpolate, NULL };
 				function = CGFunctionCreate( &alpha,
 											 1U,
-											 /*domain*/ NULL,
+											 NULL, //domain
 											 4U,
-											 /*range*/ NULL,
+											 NULL, //range
 											 &glass_callbacks );
 				cspace = CGColorSpaceCreateDeviceRGB();
 				src.x = bounds.origin.x + bounds.size.width * 0.75f;
@@ -145,11 +147,11 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 				CGFunctionRelease(function);
 
 				struct CGFunctionCallbacks shine_callbacks = { 0U, GlassShineInterpolate, NULL };
-				function = CGFunctionCreate( /*info*/ NULL,
+				function = CGFunctionCreate( NULL, //info
 											 1U,
-											 /*domain*/ NULL,
+											 NULL, //domain
 											 4U,
-											 /*range*/ NULL,
+											 NULL, //domain
 											 &shine_callbacks );
 				src.x = CGRectGetMidX(bounds);
 				src.y = CGRectGetMidY(bounds);
@@ -166,7 +168,7 @@ static void GlassShineInterpolate( void *info, const float *inData, float *outDa
 				[[NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:0.75f] set];
 				addRoundedRectToPath(context, bounds, BORDER_RADIUS);
 				CGContextStrokePath(context);
-				break;
+				break; */
 		}
 
 		int sizePref = BEZEL_SIZE_NORMAL;
