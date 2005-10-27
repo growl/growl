@@ -44,31 +44,31 @@
 
 /*!
  * @method name
- * @abstract Retuns the name of the receiver.
+ * @abstract Returns the name of the receiver.
  */
 - (NSString *) name;
 
 /*!
  * @method author
- * @abstract Retuns the author of the receiver.
+ * @abstract Returns the author of the receiver.
  */
 - (NSString *) author;
 
 /*!
  * @method version
- * @abstract Retuns the version of the receiver.
+ * @abstract Returns the version of the receiver.
  */
 - (NSString *) version;
 
 /*!
  * @method bundle
- * @abstract Retuns the bundle of the receiver.
+ * @abstract Returns the bundle of the receiver.
  */
 - (NSBundle *) bundle;
 
 /*!
  * @method pathname
- * @abstract Retuns the pathname of the receiver.
+ * @abstract Returns the pathname of the receiver.
  */
 - (NSString *) pathname;
 
