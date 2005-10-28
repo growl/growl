@@ -9,7 +9,7 @@
 
 #import "NSSetAdditions.h"
 
-@implementation NSSetAdditions
+@implementation NSSet (NSSetAdditions)
 
 + (id) setWithUnionOfSetsInArray:(NSArray *)array {
 	NSMutableSet *unionSet = [[NSMutableSet alloc] init];
