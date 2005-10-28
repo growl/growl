@@ -9,6 +9,7 @@
 #import "GrowlDisplayPlugin.h"
 #import "GrowlNotificationDisplayBridge.h"
 #import "GrowlLog.h"
+#import "GrowlDisplayWindowController.h"
 #import "NSStringAdditions.h"
 
 @implementation GrowlDisplayPlugin
@@ -58,7 +59,7 @@
 			} else {
 				//nothing up at the moment; just display it
 				[[newBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
-				bridge = newBridge;
+				bridge = [newBridge retain];
 			}
 		} else {
 			//no queue; just display it
