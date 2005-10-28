@@ -78,6 +78,7 @@
 
 - (void) dealloc {
 	[name release];
+	[displayPluginName release];
 
 	[super dealloc];
 }
