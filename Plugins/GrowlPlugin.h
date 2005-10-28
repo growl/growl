@@ -55,6 +55,12 @@
 - (NSString *) author;
 
 /*!
+ * @method description
+ * @abstract Returns the description of the receiver.
+ */
+- (NSString *) description;
+
+/*!
  * @method version
  * @abstract Returns the version of the receiver.
  */
