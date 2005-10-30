@@ -9,8 +9,6 @@
 
 #import "GrowlDisplayPlugin.h"
 
-@class NSPreferencePane;
-
 @interface GrowlBubblesController : GrowlDisplayPlugin {
 }
 
