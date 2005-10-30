@@ -15,6 +15,7 @@
 #include "CFDictionaryAdditions.h"
 
 @implementation GrowlSpeechDisplay
+
 - (void) dealloc {
 	[preferencePane release];
 	[super dealloc];
