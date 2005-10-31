@@ -13,11 +13,7 @@
 #import "GrowlPositionController.h"
 #import "NSViewAdditions.h"
 
-#define GrowlDisplayWindowControllerWillDisplayWindowNotification	@"GrowlDisplayWindowControllerWillDisplayWindowNotification"
-#define GrowlDisplayWindowControllerDidDisplayWindowNotification	@"GrowlDisplayWindowControllerDidDisplayWindowNotification"
-#define GrowlDisplayWindowControllerWillTakeWindowDownNotification	@"GrowlDisplayWindowControllerWillTakeWindowDownNotification"
-#define GrowlDisplayWindowControllerDidTakeWindowDownNotification	@"GrowlDisplayWindowControllerDidTakeWindowDownNotification"
-#define GrowlDisplayWindowControllerNotificationBlockedNotification	@"GrowlDisplayWindowControllerNotificationBlockedNotification"
+static NSMutableDictionary *existingInstances;
 
 static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
@@ -25,6 +21,39 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 }
 
 @implementation GrowlDisplayWindowController
+
+#pragma mark -
+#pragma mark cacheing
+
++ (void) registerInstance:(id)instance withIdentifier:(NSString *)ident {
+	if (!existingInstances)
+		existingInstances = [[NSMutableDictionary alloc] init];
+	
+	NSDictionary *classInstances = nil;
+	if (![existingInstances objectForKey:self]) {
+		classInstances = [[NSMutableDictionary alloc] init];
+		[existingInstances setObject:classInstances forKey:self];
+	} else {
+		classInstances = [existingInstances objectForKey:self];
+	}
+	[classInstances setValue:instance forKey:ident];
+}
+
++ (id) instanceWithIdentifier:(NSString *)identifier {
+	NSMutableDictionary *classInstances = [existingInstances objectForKey:self];
+	if (classInstances)
+		return [classInstances objectForKey:ident];
+	else
+		return nil;
+}
+
++ (void) unregisterInstanceWithIdentifier:(NSString *)ident {
+	NSMutableDictionary *classInstances = [existingInstances objectForKey:self];
+	if (classInstances)
+		[classInstances removeObjectForKey:ident];
+}
+
+#pragma mark -
 
 - (id) initWithWindow:(NSWindow *)window {
 	if ((self = [super initWithWindow:window])) {

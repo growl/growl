@@ -8,6 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define GrowlDisplayWindowControllerWillDisplayWindowNotification	@"GrowlDisplayWindowControllerWillDisplayWindowNotification"
+#define GrowlDisplayWindowControllerDidDisplayWindowNotification	@"GrowlDisplayWindowControllerDidDisplayWindowNotification"
+#define GrowlDisplayWindowControllerWillTakeWindowDownNotification	@"GrowlDisplayWindowControllerWillTakeWindowDownNotification"
+#define GrowlDisplayWindowControllerDidTakeWindowDownNotification	@"GrowlDisplayWindowControllerDidTakeWindowDownNotification"
+#define GrowlDisplayWindowControllerNotificationBlockedNotification	@"GrowlDisplayWindowControllerNotificationBlockedNotification"
+
 @class GrowlWindowTransition;
 
 @interface GrowlDisplayWindowController : NSWindowController {
@@ -30,6 +36,10 @@
 	@protected
 	unsigned			WCReserved: 31;
 }
+
++ (void) registerInstance:(id)instance withIdentifier:(NSString *)ident;
++ (void) unregisterInstanceWithIdentifier:(NSString *)ident {
++ (id) instanceWithIdentifier:(NSString *)identifier;
 
 - (void) takeScreenshot;
 
