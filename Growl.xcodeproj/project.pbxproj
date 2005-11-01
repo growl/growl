@@ -574,13 +574,6 @@
 			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
 			remoteInfo = GrowlImporter;
 		};
-		955285B6085C3C4E00D21D10 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 955285AF085C3C3000D21D10;
-			remoteInfo = "External Targets";
-		};
 		955430E707E04683005534FA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -2826,7 +2819,6 @@
 				3433459A0790E40800C84B15 /* PBXTargetDependency */,
 				3433459C0790E40B00C84B15 /* PBXTargetDependency */,
 				DD493C93084BE7FB00D1CCCB /* PBXTargetDependency */,
-				955285B7085C3C4E00D21D10 /* PBXTargetDependency */,
 				95E17BEF085E24B500990AB3 /* PBXTargetDependency */,
 			);
 			name = GrowlHelperApp;
@@ -3737,11 +3729,6 @@
 			isa = PBXTargetDependency;
 			name = GrowlImporter;
 			targetProxy = 955285B2085C3C3800D21D10 /* PBXContainerItemProxy */;
-		};
-		955285B7085C3C4E00D21D10 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 955285AF085C3C3000D21D10 /* External Targets */;
-			targetProxy = 955285B6085C3C4E00D21D10 /* PBXContainerItemProxy */;
 		};
 		955430E807E04683005534FA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
