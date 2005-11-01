@@ -202,6 +202,8 @@
 		34F60EBA078E1D3E00CECA86 /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
 		34F60EBC078E1D3E00CECA86 /* GrowlApplicationBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34F60EC3078E1D5600CECA86 /* Growl.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F60EC2078E1D5600CECA86 /* Growl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4AA425310918231C00F13693 /* GrowlImporter.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95D1662E0834EBEF00D996B2 /* GrowlImporter.mdimporter */; };
+		4AA425340918232100F13693 /* Show Growl Notification.action in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95D166650834EC0200D996B2 /* Show Growl Notification.action */; };
 		525277AB06D95BED007BC87D /* GrowlApplicationTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CB1C5D1C063E432F007052EE /* GrowlApplicationTicket.m */; };
 		52861FF006DC463E00D3A356 /* GrowlDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52861FEF06DC463E00D3A356 /* GrowlDefaults.plist */; };
 		5286205806DC4C2F00D3A356 /* GrowlPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5286205606DC4C2F00D3A356 /* GrowlPluginController.m */; };
@@ -551,6 +553,13 @@
 			remoteGlobalIDString = 8D202CE80486D31800D8A456;
 			remoteInfo = Growl;
 		};
+		4AA4251F091822BF00F13693 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 955285AF085C3C3000D21D10;
+			remoteInfo = "External Targets";
+		};
 		95075B4C0817FDA200D862A5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -702,6 +711,26 @@
 				95E2457908EEAC630092EAAC /* GrowlDisplayPlugin.h in CopyFiles */,
 				95E2458308EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.h in CopyFiles */,
 				EE17E56C08EFFCDB0086F0C3 /* GrowlNotificationView.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4AA4252C091822F800F13693 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = GrowlHelperApp.app/Contents/Library/Spotlight;
+			dstSubfolderSpec = 7;
+			files = (
+				4AA425310918231C00F13693 /* GrowlImporter.mdimporter in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4AA4253E0918236300F13693 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = GrowlHelperApp.app/Contents/Library/Automator;
+			dstSubfolderSpec = 7;
+			files = (
+				4AA425340918232100F13693 /* Show Growl Notification.action in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2404,6 +2433,8 @@
 				8D202CF00486D31800D8A456 /* Sources */,
 				8D202CF20486D31800D8A456 /* Frameworks */,
 				CB5F92070638C89800EADD7A /* CopyFiles */,
+				4AA4252C091822F800F13693 /* CopyFiles */,
+				4AA4253E0918236300F13693 /* CopyFiles */,
 				340832FE075C2C0A00703011 /* ShellScript */,
 			);
 			buildRules = (
@@ -2445,6 +2476,7 @@
 			dependencies = (
 				3433455E0790E25300C84B15 /* PBXTargetDependency */,
 				95075B4D0817FDA200D862A5 /* PBXTargetDependency */,
+				4AA42520091822BF00F13693 /* PBXTargetDependency */,
 			);
 			name = Growl;
 			productInstallPath = "$(HOME)/Library/PreferencePanes";
@@ -3690,6 +3722,11 @@
 			isa = PBXTargetDependency;
 			target = 8D202CE80486D31800D8A456 /* Growl */;
 			targetProxy = 34E9EE6A0790871D00662E8E /* PBXContainerItemProxy */;
+		};
+		4AA42520091822BF00F13693 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 955285AF085C3C3000D21D10 /* External Targets */;
+			targetProxy = 4AA4251F091822BF00F13693 /* PBXContainerItemProxy */;
 		};
 		95075B4D0817FDA200D862A5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
