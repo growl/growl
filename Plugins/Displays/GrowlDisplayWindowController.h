@@ -39,7 +39,7 @@
 
 + (void) registerInstance:(id)instance withIdentifier:(NSString *)ident;
 + (void) unregisterInstanceWithIdentifier:(NSString *)ident;
-+ (id) instanceWithIdentifier:(NSString *)identifier;
++ (id) instanceWithIdentifier:(NSString *)ident;
 
 - (void) takeScreenshot;
 

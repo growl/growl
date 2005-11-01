@@ -39,7 +39,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	[classInstances setValue:instance forKey:ident];
 }
 
-+ (id) instanceWithIdentifier:(NSString *)identifier {
++ (id) instanceWithIdentifier:(NSString *)ident {
 	NSMutableDictionary *classInstances = [existingInstances objectForKey:self];
 	if (classInstances)
 		return [classInstances objectForKey:ident];
