@@ -38,7 +38,7 @@
 }
 
 + (void) registerInstance:(id)instance withIdentifier:(NSString *)ident;
-+ (void) unregisterInstanceWithIdentifier:(NSString *)ident {
++ (void) unregisterInstanceWithIdentifier:(NSString *)ident;
 + (id) instanceWithIdentifier:(NSString *)identifier;
 
 - (void) takeScreenshot;

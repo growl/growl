@@ -1065,7 +1065,7 @@
 		DD493A04084BAD7700D1CCCB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/SMS/English.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		DD493B7C084BB07900D1CCCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = Plugins/Displays/SMS/Info.plist; sourceTree = "<group>"; };
 		DDB6462607DE034800807F8D /* generateSVNRevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = generateSVNRevision.sh; sourceTree = "<group>"; };
-		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF09B19080AC97A006F4172 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Prefpane TestHarness/main.m"; sourceTree = "<group>"; };
 		DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = "PrefPaneTesting-Info.plist"; path = "Prefpane TestHarness/PrefPaneTesting-Info.plist"; sourceTree = "<group>"; };
 		DDF09B1B080AC97A006F4172 /* PrefpaneTester.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefpaneTester.h; path = "Prefpane TestHarness/PrefpaneTester.h"; sourceTree = "<group>"; };
@@ -4042,23 +4042,6 @@
 			};
 			name = Deployment;
 		};
-		955285BC085C3C7900D21D10 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "External Targets";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = "Deployment - Tiger - G4";
-		};
 		9560BECF086DC45100A173B1 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4076,6 +4059,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
 					"-lobjc",
@@ -4113,6 +4097,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
 					"-lobjc",
@@ -4128,44 +4113,6 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Deployment;
-		};
-		9560BED1086DC45100A173B1 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = i386;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_FAST_OBJC_DISPATCH = YES;
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
-				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
-				INFOPLIST_PREPROCESS = YES;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_STYLE = DYNAMIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_LDFLAGS = (
-					"-lobjc",
-					"-sub_library",
-					libobjc,
-					"-seg1addr",
-					0xC0000000,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "Growl i386";
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				SKIP_INSTALL = YES;
-			};
-			name = "Deployment - Tiger - G4";
 		};
 		9560BF0B086DC46700A173B1 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -4184,6 +4131,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-DGROWL_WITH_INSTALLER",
@@ -4225,6 +4173,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
 					"-DGROWL_WITH_INSTALLER",
@@ -4244,48 +4193,6 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Deployment;
-		};
-		9560BF0D086DC46700A173B1 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = i386;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_FAST_OBJC_DISPATCH = YES;
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
-				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
-				INFOPLIST_PREPROCESS = YES;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_STYLE = DYNAMIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = (
-					"-DGROWL_WITH_INSTALLER",
-					"-fconstant-cfstrings",
-				);
-				OTHER_LDFLAGS = (
-					"-lobjc",
-					"-sub_library",
-					libobjc,
-					"-seg1addr",
-					0xC0000000,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "Growl-WithInstaller i386";
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				SKIP_INSTALL = YES;
-			};
-			name = "Deployment - Tiger - G4";
 		};
 		9560BF65086DC54800A173B1 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -4325,23 +4232,6 @@
 			};
 			name = Deployment;
 		};
-		9560BF67086DC54800A173B1 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Growl.framework;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = "Deployment - Tiger - G4";
-		};
 		9560BF69086DC54800A173B1 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4380,23 +4270,6 @@
 			};
 			name = Deployment;
 		};
-		9560BF6B086DC54800A173B1 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Growl-WithInstaller";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = "Deployment - Tiger - G4";
-		};
 		95E17B9A085E21C400990AB3 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4434,23 +4307,6 @@
 				);
 			};
 			name = Deployment;
-		};
-		95E17B9C085E21C400990AB3 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = SVNRevision;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = "Deployment - Tiger - G4";
 		};
 		95EE274C0855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -4506,36 +4362,6 @@
 			};
 			name = Deployment;
 		};
-		95EE274E0855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = Plugins/Displays/Brushed/Info.plist;
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				PRODUCT_NAME = Brushed;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				WRAPPER_EXTENSION = growlView;
-			};
-			name = "Deployment - Tiger - G4";
-		};
 		95EE27510855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4589,36 +4415,6 @@
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Deployment;
-		};
-		95EE27530855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = Plugins/Displays/Bubbles/Info.plist;
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				PRODUCT_NAME = Bubbles;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				WRAPPER_EXTENSION = growlView;
-			};
-			name = "Deployment - Tiger - G4";
 		};
 		95EE27560855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -4674,36 +4470,6 @@
 			};
 			name = Deployment;
 		};
-		95EE27580855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = Plugins/Displays/Bezel/Info.plist;
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				PRODUCT_NAME = Bezel;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				WRAPPER_EXTENSION = growlView;
-			};
-			name = "Deployment - Tiger - G4";
-		};
 		95EE275B0855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4757,36 +4523,6 @@
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Deployment;
-		};
-		95EE275D0855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = Plugins/Displays/Speech/Info.plist;
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				PRODUCT_NAME = Speech;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				WRAPPER_EXTENSION = growlView;
-			};
-			name = "Deployment - Tiger - G4";
 		};
 		95EE27600855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -4842,36 +4578,6 @@
 			};
 			name = Deployment;
 		};
-		95EE27620855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = Plugins/Displays/Smoke/Info.plist;
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				PRODUCT_NAME = Smoke;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				WRAPPER_EXTENSION = growlView;
-			};
-			name = "Deployment - Tiger - G4";
-		};
 		95EE27650855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4926,36 +4632,6 @@
 			};
 			name = Deployment;
 		};
-		95EE27670855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = Plugins/Displays/MailMe/Info.plist;
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				PRODUCT_NAME = MailMe;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				WRAPPER_EXTENSION = growlView;
-			};
-			name = "Deployment - Tiger - G4";
-		};
 		95EE276A0855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5009,36 +4685,6 @@
 				WRAPPER_EXTENSION = growlView;
 			};
 			name = Deployment;
-		};
-		95EE276C0855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				HEADER_SEARCH_PATHS = Source;
-				INFOPLIST_FILE = Plugins/Displays/MusicVideo/Info.plist;
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				PRODUCT_NAME = MusicVideo;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				WRAPPER_EXTENSION = growlView;
-			};
-			name = "Deployment - Tiger - G4";
 		};
 		95EE276F0855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -5100,39 +4746,6 @@
 			};
 			name = Deployment;
 		};
-		95EE27710855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				HEADER_SEARCH_PATHS = source;
-				INFOPLIST_FILE = Plugins/Displays/SMS/Info.plist;
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = GrowlSMS;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				SECTORDER_FLAGS = "";
-				WRAPPER_EXTENSION = growlView;
-			};
-			name = "Deployment - Tiger - G4";
-		};
 		95EE27740855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5175,30 +4788,6 @@
 			};
 			name = Deployment;
 		};
-		95EE27760855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				INFOPLIST_FILE = "Core/Resources/GrowlHelperApp-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PRODUCT_NAME = GrowlHelperApp;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = "Deployment - Tiger - G4";
-		};
 		95EE27790855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5238,29 +4827,6 @@
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
-		};
-		95EE277B0855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				INFOPLIST_FILE = "StatusItem/Resources/MenuExtra-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PRODUCT_NAME = GrowlMenu;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = "Deployment - Tiger - G4";
 		};
 		95EE277E0855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -5310,33 +4876,6 @@
 			};
 			name = Deployment;
 		};
-		95EE27800855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				FRAMEWORK_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Core/Source/Growl_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				INFOPLIST_FILE = Core/Resources/Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
-				LIBRARY_STYLE = BUNDLE;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PRODUCT_NAME = Growl;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				WRAPPER_EXTENSION = prefPane;
-			};
-			name = "Deployment - Tiger - G4";
-		};
 		95EE27830855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5377,29 +4916,6 @@
 			};
 			name = Deployment;
 		};
-		95EE27850855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				INFOPLIST_FILE = "Prefpane TestHarness/PrefPaneTesting-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PRODUCT_NAME = PrefpaneTesting;
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = "Deployment - Tiger - G4";
-		};
 		95EE27880855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5415,6 +4931,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_LDFLAGS = (
 					"-lobjc",
@@ -5448,6 +4965,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_LDFLAGS = (
 					"-lobjc",
@@ -5461,40 +4979,6 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Deployment;
-		};
-		95EE278A0855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = ppc;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = "Framework/Resources/Growl.framework-Info.plist";
-				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
-				INFOPLIST_PREPROCESS = YES;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_STYLE = DYNAMIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_LDFLAGS = (
-					"-lobjc",
-					"-sub_library",
-					libobjc,
-					"-seg1addr",
-					0xC0000000,
-				);
-				PRODUCT_NAME = "Growl ppc";
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SKIP_INSTALL = YES;
-			};
-			name = "Deployment - Tiger - G4";
 		};
 		95EE278D0855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -5511,6 +4995,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = (
 					"-DGROWL_WITH_INSTALLER",
@@ -5548,6 +5033,7 @@
 				INFOPLIST_PREPROCESS = YES;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_CFLAGS = (
 					"-DGROWL_WITH_INSTALLER",
@@ -5565,44 +5051,6 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Deployment;
-		};
-		95EE278F0855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = ppc;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_MODEL_CPU = G4;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Framework/Source/GrowlFramework_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					NDEBUG,
-					NS_BLOCK_ASSERTIONS,
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = "Framework/Resources/Growl-WithInstaller.framework-Info.plist";
-				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/SVNRevision.h";
-				INFOPLIST_PREPROCESS = YES;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_STYLE = DYNAMIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OTHER_CFLAGS = (
-					"-DGROWL_WITH_INSTALLER",
-					"-fconstant-cfstrings",
-				);
-				OTHER_LDFLAGS = (
-					"-lobjc",
-					"-sub_library",
-					libobjc,
-					"-seg1addr",
-					0xC0000000,
-				);
-				PRODUCT_NAME = "Growl-WithInstaller ppc";
-				REZ_RESOURCE_MAP_READ_ONLY = YES;
-				SKIP_INSTALL = YES;
-			};
-			name = "Deployment - Tiger - G4";
 		};
 		95EE27920855AA6C0045DB39 /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -5682,46 +5130,6 @@
 			};
 			name = Deployment;
 		};
-		95EE27940855AA6C0045DB39 /* Deployment - Tiger - G4 */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DEBUGGING_SYMBOLS = full;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_FAST_OBJC_DISPATCH = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = NO;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SHADOW = YES;
-				GCC_WARN_SIGN_COMPARE = YES;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_PARAMETER = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
-				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
-				WARNING_CFLAGS = (
-					"-W",
-					"-Wall",
-					"-Wpointer-arith",
-					"-Wformat=2",
-					"-Wfloat-equal",
-				);
-				ZERO_LINK = NO;
-			};
-			name = "Deployment - Tiger - G4";
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -5730,16 +5138,15 @@
 			buildConfigurations = (
 				955285BA085C3C7900D21D10 /* Development */,
 				955285BB085C3C7900D21D10 /* Deployment */,
-				955285BC085C3C7900D21D10 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		9560BECE086DC45100A173B1 /* Build configuration list for PBXNativeTarget "Growl.framework i386" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9560BECF086DC45100A173B1 /* Development */,
 				9560BED0086DC45100A173B1 /* Deployment */,
-				9560BED1086DC45100A173B1 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5749,7 +5156,6 @@
 			buildConfigurations = (
 				9560BF0B086DC46700A173B1 /* Development */,
 				9560BF0C086DC46700A173B1 /* Deployment */,
-				9560BF0D086DC46700A173B1 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5759,34 +5165,33 @@
 			buildConfigurations = (
 				9560BF65086DC54800A173B1 /* Development */,
 				9560BF66086DC54800A173B1 /* Deployment */,
-				9560BF67086DC54800A173B1 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		9560BF68086DC54800A173B1 /* Build configuration list for PBXAggregateTarget "Growl-WithInstaller.framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9560BF69086DC54800A173B1 /* Development */,
 				9560BF6A086DC54800A173B1 /* Deployment */,
-				9560BF6B086DC54800A173B1 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		95E17B99085E21C400990AB3 /* Build configuration list for PBXAggregateTarget "SVNRevision" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95E17B9A085E21C400990AB3 /* Development */,
 				95E17B9B085E21C400990AB3 /* Deployment */,
-				95E17B9C085E21C400990AB3 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		95EE274B0855AA6C0045DB39 /* Build configuration list for PBXNativeTarget "Brushed" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95EE274C0855AA6C0045DB39 /* Development */,
 				95EE274D0855AA6C0045DB39 /* Deployment */,
-				95EE274E0855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5796,7 +5201,6 @@
 			buildConfigurations = (
 				95EE27510855AA6C0045DB39 /* Development */,
 				95EE27520855AA6C0045DB39 /* Deployment */,
-				95EE27530855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5806,7 +5210,6 @@
 			buildConfigurations = (
 				95EE27560855AA6C0045DB39 /* Development */,
 				95EE27570855AA6C0045DB39 /* Deployment */,
-				95EE27580855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5816,7 +5219,6 @@
 			buildConfigurations = (
 				95EE275B0855AA6C0045DB39 /* Development */,
 				95EE275C0855AA6C0045DB39 /* Deployment */,
-				95EE275D0855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5826,7 +5228,6 @@
 			buildConfigurations = (
 				95EE27600855AA6C0045DB39 /* Development */,
 				95EE27610855AA6C0045DB39 /* Deployment */,
-				95EE27620855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5836,7 +5237,6 @@
 			buildConfigurations = (
 				95EE27650855AA6C0045DB39 /* Development */,
 				95EE27660855AA6C0045DB39 /* Deployment */,
-				95EE27670855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5846,7 +5246,6 @@
 			buildConfigurations = (
 				95EE276A0855AA6C0045DB39 /* Development */,
 				95EE276B0855AA6C0045DB39 /* Deployment */,
-				95EE276C0855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5856,7 +5255,6 @@
 			buildConfigurations = (
 				95EE276F0855AA6C0045DB39 /* Development */,
 				95EE27700855AA6C0045DB39 /* Deployment */,
-				95EE27710855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5866,7 +5264,6 @@
 			buildConfigurations = (
 				95EE27740855AA6C0045DB39 /* Development */,
 				95EE27750855AA6C0045DB39 /* Deployment */,
-				95EE27760855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5876,7 +5273,6 @@
 			buildConfigurations = (
 				95EE27790855AA6C0045DB39 /* Development */,
 				95EE277A0855AA6C0045DB39 /* Deployment */,
-				95EE277B0855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5886,7 +5282,6 @@
 			buildConfigurations = (
 				95EE277E0855AA6C0045DB39 /* Development */,
 				95EE277F0855AA6C0045DB39 /* Deployment */,
-				95EE27800855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5896,7 +5291,6 @@
 			buildConfigurations = (
 				95EE27830855AA6C0045DB39 /* Development */,
 				95EE27840855AA6C0045DB39 /* Deployment */,
-				95EE27850855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5906,7 +5300,6 @@
 			buildConfigurations = (
 				95EE27880855AA6C0045DB39 /* Development */,
 				95EE27890855AA6C0045DB39 /* Deployment */,
-				95EE278A0855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5916,7 +5309,6 @@
 			buildConfigurations = (
 				95EE278D0855AA6C0045DB39 /* Development */,
 				95EE278E0855AA6C0045DB39 /* Deployment */,
-				95EE278F0855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -5926,7 +5318,6 @@
 			buildConfigurations = (
 				95EE27920855AA6C0045DB39 /* Development */,
 				95EE27930855AA6C0045DB39 /* Deployment */,
-				95EE27940855AA6C0045DB39 /* Deployment - Tiger - G4 */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
