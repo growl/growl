@@ -339,8 +339,6 @@
 		95C8783407D9DFC000C69DEE /* NSWindow+Transforms.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C877C207D9DFC000C69DEE /* NSWindow+Transforms.m */; };
 		95CF9929082A5EBE001A409D /* cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 95CF98A1082A5B8E001A409D /* cdsa.c */; };
 		95CF9B47082AE3B7001A409D /* GrowlUDPUtils.c in Sources */ = {isa = PBXBuildFile; fileRef = 95CF9B46082AE3B7001A409D /* GrowlUDPUtils.c */; };
-		95D166880834EC0900D996B2 /* Show Growl Notification.action in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95D166650834EC0200D996B2 /* Show Growl Notification.action */; };
-		95D166890834EC1700D996B2 /* GrowlImporter.mdimporter in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95D1662E0834EBEF00D996B2 /* GrowlImporter.mdimporter */; };
 		95D74011084B68C5000D67BC /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
 		95D74012084B68C8000D67BC /* GrowlImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 956ADADF07551C4500AF9545 /* GrowlImageAdditions.m */; };
 		95D89A95082418DA0068A4BD /* GrowlWebKitPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950F7978080EED5C00CC5F62 /* GrowlWebKitPrefsController.m */; };
@@ -704,26 +702,6 @@
 				95E2457908EEAC630092EAAC /* GrowlDisplayPlugin.h in CopyFiles */,
 				95E2458308EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.h in CopyFiles */,
 				EE17E56C08EFFCDB0086F0C3 /* GrowlNotificationView.h in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		95D165CF0834DBC300D996B2 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/Library/Spotlight;
-			dstSubfolderSpec = 1;
-			files = (
-				95D166890834EC1700D996B2 /* GrowlImporter.mdimporter in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		95D165D50834E55B00D996B2 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/Library/Automator;
-			dstSubfolderSpec = 1;
-			files = (
-				95D166880834EC0900D996B2 /* Show Growl Notification.action in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2774,8 +2752,6 @@
 				CB61E5160637763C00E0DDC7 /* Frameworks */,
 				63C060F406C8946E00B0B7D4 /* Rez */,
 				3433456D0790E38B00C84B15 /* CopyFiles */,
-				95D165CF0834DBC300D996B2 /* CopyFiles */,
-				95D165D50834E55B00D996B2 /* CopyFiles */,
 			);
 			buildRules = (
 			);
