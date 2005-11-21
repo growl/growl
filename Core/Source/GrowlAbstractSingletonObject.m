@@ -35,11 +35,12 @@ static NSLock *singletonLock;
 		//Look of we already have an instance
 		[singletonLock lock];
 		returnedObject = (id)CFDictionaryGetValue(singletonObjects, [self class]);
-		[singletonLock unlock];
 
 		//We don't have any instance so lets create it
 		if (!returnedObject)
 			returnedObject = [[self alloc] initSingleton];
+			
+		[singletonLock unlock];
 	}
 
 	return returnedObject;
