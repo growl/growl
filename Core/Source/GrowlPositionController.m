@@ -180,24 +180,26 @@
 		NSEnumerator	*rectValuesEnumerator;
 		NSValue			*value;
 
-		if ([reservedRectsOfScreen member:newRectValue]) {	//Make sure the rect is not already reserved
-			result = NO;
-		} else {
-			rectValuesEnumerator = [reservedRectsOfScreen objectEnumerator];
-
+		@synchronized(reservedRectsOfScreen) {
+			if ([reservedRectsOfScreen member:newRectValue]) {	//Make sure the rect is not already reserved
+				result = NO;
+			} else {
+				rectValuesEnumerator = [reservedRectsOfScreen objectEnumerator];
+				
 			//Loop through all the values in reservedRects and make sure that the new rect does not
 			//intersect with any of the already reserved rects.
-			while ((value = [rectValuesEnumerator nextObject])) {
-				if (NSIntersectsRect(inRect, [value rectValue])) {
-					result = NO;
-					break;
+				while ((value = [rectValuesEnumerator nextObject])) {
+					if (NSIntersectsRect(inRect, [value rectValue])) {
+						result = NO;
+						break;
+					}
 				}
 			}
-		}
-
+			
 		//Add the new rect if it passed the intersection test
-		if (result)
-			[reservedRectsOfScreen addObject:newRectValue];
+			if (result)
+				[reservedRectsOfScreen addObject:newRectValue];
+		}
 	}
 
 	return result;
@@ -208,9 +210,11 @@
 	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:inScreen];
 	NSValue		 *value;
 
-	//Remove the rect
-	if ((value = [reservedRectsOfScreen member:[NSValue valueWithRect:inRect]]))
-		[reservedRectsOfScreen removeObject:value];
+	@synchronized(reservedRectsOfScreen) {
+		//Remove the rect
+		if ((value = [reservedRectsOfScreen member:[NSValue valueWithRect:inRect]]))
+			[reservedRectsOfScreen removeObject:value];
+	}
 }
 
 //Returns the set of reserved rect for a specific screen
@@ -223,12 +227,14 @@
 
 	//Get the set of reserved rects for our screen
 	result = (NSMutableSet *)CFDictionaryGetValue(reservedRects, screen);
-
+		
 	//Make sure the set exists. If not, create it.
 	if (!result) {
-		result = [[NSMutableSet alloc] init];
-		CFDictionarySetValue(reservedRects, screen, result);
-		[result release];
+		@synchronized(reservedRects) {
+			result = [[NSMutableSet alloc] init];
+			CFDictionarySetValue(reservedRects, screen, result);
+			[result release];
+		}
 	}
 
 	return result;
