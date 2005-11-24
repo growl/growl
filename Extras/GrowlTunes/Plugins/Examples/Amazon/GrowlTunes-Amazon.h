@@ -18,6 +18,7 @@
 - (NSImage *)artworkForTitle:(NSString *)newSong
 					byArtist:(NSString *)newArtist
 					 onAlbum:(NSString *)newAlbum
+				  composedBy:(NSString *)newComposer
 			   isCompilation:(BOOL)newCompilation;
 
 #pragma mark -

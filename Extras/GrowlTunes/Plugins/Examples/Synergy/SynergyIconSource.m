@@ -45,18 +45,24 @@ static NSString *empty = @"";
 //  artwork from iTunes, it calls - artworkForTitle:byArtist:onAlbum: on your
 //  plug-in.
 
-- (NSImage *) artworkForTitle:(NSString *)song byArtist:(NSString *)artist onAlbum:(NSString *)album isCompilation:(BOOL)compilation {
+- (NSImage *) artworkForTitle:(NSString *)song byArtist:(NSString *)artist onAlbum:(NSString *)album composedBy:(NSString *)composer isCompilation:(BOOL)compilation {
 #pragma unused(compilation)
 	NSMutableString *synergyFile;
 
 	/*construct the filename that Synergy would use to save album art.*/
 	{
 		//albums are preferred over songs.
-		if ([album length])
-			synergyFile = [NSMutableString stringWithFormat:@"Artist-%@,Album-%@.tiff", artist, album];
-		else
-			synergyFile = [NSMutableString stringWithFormat:@"Artist-%@,Song-%@.tiff",  artist, song];
-
+		if ([artist length]) {
+			if ([album length])
+				synergyFile = [NSMutableString stringWithFormat:@"Artist-%@,Album-%@.tiff", artist, album];
+			else
+				synergyFile = [NSMutableString stringWithFormat:@"Artist-%@,Song-%@.tiff",  artist, song];
+		} else {
+			if ([album length])
+				synergyFile = [NSMutableString stringWithFormat:@"Composer-%@,Album-%@.tiff",  composer, album];
+			else
+				synergyFile = [NSMutableString stringWithFormat:@"Composer-%@,Song-%@.tiff",  composer, song];				
+		}
 		//weed out characters that are unsafe for HFS+ and the file-system in general.
 		NSRange span = { 0U, [synergyFile length] };
 		span.length -= [synergyFile replaceOccurrencesOfString:@" " withString:empty options:0U range:span];

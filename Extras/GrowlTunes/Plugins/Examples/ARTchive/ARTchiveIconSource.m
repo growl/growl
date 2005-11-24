@@ -36,8 +36,8 @@
 	[super dealloc];
 }
 
-- (NSImage *)artworkForTitle:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album isCompilation:(BOOL)compilation {
-	NSString *artworkDir = [self pathForTrack:track artist:artist album:album compilation:compilation];
+- (NSImage *)artworkForTitle:(NSString *)track byArtist:(NSString *)artist onAlbum:(NSString *)album composedBy:(NSString *)composer isCompilation:(BOOL)compilation {
+	NSString *artworkDir = [self pathForTrack:track artist:artist album:album composer:composer compilation:compilation];
 
 	NSFileManager *manager = [NSFileManager defaultManager];
 	BOOL isDir;
@@ -91,7 +91,7 @@
 	return nil;
 }
 
-- (NSString *)pathForTrack:(NSString *)track artist:(NSString *)artist album:(NSString *)album compilation:(BOOL)compilation {
+- (NSString *)pathForTrack:(NSString *)track artist:(NSString *)artist album:(NSString *)album composer:composer compilation:(BOOL)compilation {
 	// Protect string from itself
 	if ([track length])
 		track = [track stringByMakingPathSafe];
@@ -109,6 +109,8 @@
 	} else {
 		if ([artist length]) {
 			path = [path stringByAppendingPathComponent:artist];
+		} else if ([composer length]) {
+			path = [path stringByAppendingPathComponent:composer];
 		} else {
 			path = [path stringByAppendingPathComponent:@"Unknown Artist"];
 		}
@@ -157,9 +159,9 @@
 }
 
 
-- (BOOL) archiveImage:(NSImage *)image track:(NSString *)track artist:(NSString *)artist album:(NSString *)album compilation:(BOOL)compilation {
+- (BOOL) archiveImage:(NSImage *)image track:(NSString *)track artist:(NSString *)artist album:(NSString *)album composer:(NSString *)composer compilation:(BOOL)compilation {
 	NSFileManager *manager = [NSFileManager defaultManager];
-	NSString *artworkDir = [self pathForTrack:track artist:artist album:album compilation:compilation];
+	NSString *artworkDir = [self pathForTrack:track artist:artist album:album composer:composer compilation:compilation];
 
 	NSString *fullPath = nil;
 	if ([album length]) {

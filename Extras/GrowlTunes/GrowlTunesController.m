@@ -385,6 +385,7 @@ enum {
 		NSString		*track         = nil;
 		NSString		*length        = nil;
 		NSString		*artist        = @"";
+		NSString		*composer	   = @"";
 		NSString		*album         = @"";
 		BOOL			compilation    = NO;
 		NSNumber		*rating        = nil;
@@ -396,6 +397,7 @@ enum {
 
 		artist      = [userInfo objectForKey:@"Artist"];
 		album       = [userInfo objectForKey:@"Album"];
+		composer	= [userInfo objectForKey:@"Composer"];
 		track       = [userInfo objectForKey:@"Name"];
 		streamTitle = [userInfo objectForKey:@"Stream Title"];
 		if(!streamTitle)
@@ -428,7 +430,7 @@ enum {
 			curDescriptor = [theDescriptor descriptorAtIndex:1L];
 			const OSType type = [curDescriptor typeCodeValue];
 
-			if (type != 'null')
+			if (type != nil)
 				artwork = [[[NSImage alloc] initWithData:[curDescriptor data]] autorelease];
 		}
 
@@ -442,7 +444,7 @@ enum {
 										  onAlbum:album
 									isCompilation:(compilation ? compilation : NO)];
 				if (artwork && [plugin usesNetwork])
-					[archivePlugin archiveImage:artwork	track:track artist:artist album:album compilation:compilation];
+					[archivePlugin archiveImage:artwork	track:track artist:artist composer:composer album:album compilation:compilation];
 			}
 		}
 
@@ -461,9 +463,10 @@ enum {
 			NSLog(@"new track URL: %@", newTrackURL);
 			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format for streams", /*comment*/ nil), streamTitle, [userInfo objectForKey:@"Genre"]];
 		} else {
-			if (!artist) artist = @"";
-			if (!album)  album  = @"";
-			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format", /*comment*/ nil), length, ratingString, artist, album];
+			if (!artist)	artist		= @"";
+			if (!album)		album		= @"";
+			if (!composer)	composer	= @"";
+			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format", /*comment*/ nil), length, ratingString, artist, composer, album];
 		}
 
 		[noteDict release];
@@ -529,12 +532,13 @@ enum {
 		NSString		*length = nil;
 		NSString		*artist = nil;
 		NSString		*album = nil;
+		NSString		*composer = nil;
 		BOOL			 compilation = NO;
 		NSNumber		*rating = nil;
 		NSString		*ratingString = nil;
 		NSImage			*artwork = nil;
 
-		curDescriptor = [theDescriptor descriptorAtIndex:9L];
+		curDescriptor = [theDescriptor descriptorAtIndex:10L];
 		playlistName = [curDescriptor stringValue];
 
 		if ((curDescriptor = [theDescriptor descriptorAtIndex:2L]))
@@ -550,18 +554,21 @@ enum {
 			album = [curDescriptor stringValue];
 
 		if ((curDescriptor = [theDescriptor descriptorAtIndex:6L]))
+			composer = [curDescriptor stringValue];
+
+		if ((curDescriptor = [theDescriptor descriptorAtIndex:7L]))
 			compilation = (BOOL)[curDescriptor booleanValue];
 
-		if ((curDescriptor = [theDescriptor descriptorAtIndex:7L])) {
+		if ((curDescriptor = [theDescriptor descriptorAtIndex:8L])) {
 			trackRating = [[curDescriptor stringValue] intValue];
 			rating = [NSNumber numberWithInt:trackRating < 0 ? 0 : trackRating];
 			ratingString = [self starsForRating:rating];
 		}
 
-		curDescriptor = [theDescriptor descriptorAtIndex:8L];
+		curDescriptor = [theDescriptor descriptorAtIndex:9L];
 		const OSType type = [curDescriptor typeCodeValue];
 
-		if (type != 'null') {
+		if (type != nil) {
 			artwork = [[[NSImage alloc] initWithData:[curDescriptor data]] autorelease];
 		} else {
 			NSEnumerator *pluginEnum = [plugins objectEnumerator];
@@ -570,9 +577,10 @@ enum {
 				artwork = [plugin artworkForTitle:track
 										 byArtist:artist
 										  onAlbum:album
+									   composedBy:composer
 									isCompilation:compilation];
 				if (artwork && [plugin usesNetwork])
-					[archivePlugin archiveImage:artwork	track:track artist:artist album:album compilation:compilation];
+					[archivePlugin archiveImage:artwork	track:track artist:artist album:album composer:composer compilation:compilation];
 			}
 		}
 

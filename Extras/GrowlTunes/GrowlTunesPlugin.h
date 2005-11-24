@@ -35,6 +35,7 @@
 - (NSImage *) artworkForTitle:(NSString *)track
 					 byArtist:(NSString *)artist
 					  onAlbum:(NSString *)album
+				   composedBy:(NSString *)composer
 				isCompilation:(BOOL)compilation;
 
 - (BOOL) usesNetwork;
@@ -45,5 +46,6 @@
 				track:(NSString *)track
 			   artist:(NSString *)artist
 				album:(NSString *)album
+			 composer:(NSString *)composer
 		  compilation:(BOOL)compilation;
 @end

@@ -14,5 +14,5 @@
 	NSString *preferredImage;
 	NSString *artworkSubdirectory;
 }
-- (NSString *)pathForTrack:(NSString *)track artist:(NSString *)artist album:(NSString *)album compilation:(BOOL)compilation;
+- (NSString *)pathForTrack:(NSString *)track artist:(NSString *)artist album:(NSString *)album composer:composer compilation:(BOOL)compilation;
 @end

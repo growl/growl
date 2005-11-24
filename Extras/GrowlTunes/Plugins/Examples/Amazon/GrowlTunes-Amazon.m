@@ -36,6 +36,7 @@
 - (NSImage *)artworkForTitle:(NSString *)song
 					byArtist:(NSString *)artist
 					 onAlbum:(NSString *)album
+				  composedBy:(NSString *)composer
 			   isCompilation:(BOOL)compilation;
 {
 #pragma unused(song)
@@ -44,9 +45,10 @@
 	/*If the album is a compilation, we don't look for the artist;
 	 *	instead we look for all compilations.
 	 */
+	if (!artist)
+		artist = composer;
 	if (compilation)
 		artist = @"compilation";
-
 //	NSLog(@"Go go interweb (%@ by %@ from %@)", song, artist, album);
 	NSDictionary *albumInfo = [self getAlbum:album byArtist:artist];
 
