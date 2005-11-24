@@ -442,9 +442,10 @@ enum {
 				artwork = [plugin artworkForTitle:track
 										 byArtist:artist
 										  onAlbum:album
+									   composedBy:composer
 									isCompilation:(compilation ? compilation : NO)];
 				if (artwork && [plugin usesNetwork])
-					[archivePlugin archiveImage:artwork	track:track artist:artist composer:composer album:album compilation:compilation];
+					[archivePlugin archiveImage:artwork	track:track artist:artist album:album composer:composer compilation:compilation];
 			}
 		}
 
