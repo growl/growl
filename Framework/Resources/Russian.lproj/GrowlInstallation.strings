@@ -2,28 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Growl Installation Recommended</key>
-	<string>Рекомендуется установить Growl</string>
-
-	<key>Growl Update Available</key>
-	<string>Доступна новая версия Growl</string>
-
-	<key>This program displays information via Growl, a centralized notification system.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.</key>
-	<string>Данная программа поддерживает сервис Growl - централизованную и унифицированную систему вывода предупреждений. Подтвердите установку Growl, если хотите воспользоваться её возможностями. Подключение к сети Интернет не требуется.</string>
-
-	<key>This program displays information via Growl, a centralized notification system.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.</key>
-	<string>Данная программа поддерживает сервис Growl - централизованную и унифицированную систему вывода предупреждений. В данную поставку включена версия Growl более новая, чем установленная на Вашем компьютере. Рекомендуется установить это обновление. Подключение к сети Интернет не требуется.</string>
-
-	<key>Install</key>
-	<string>Установить</string>
-
-	<key>Update</key>
-	<string>Обновить</string>
-
 	<key>Cancel</key>
-	<string>Отмена</string>
-
+	<string>РћС‚РјРµРЅР°</string>
 	<key>Don't Ask Again</key>
-	<string>Больше не выводить данное предупреждение</string>
+	<string>Р‘РѕР»СЊС€Рµ РЅРµ РїРѕРєР°Р·С‹РІР°С‚СЊ</string>
+	<key>Growl Installation Recommended</key>
+	<string>Р РµРєРѕРјРµРЅРґСѓРµС‚СЃСЏ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ Growl</string>
+	<key>Growl Update Available</key>
+	<string>Р”РѕСЃС‚СѓРїРЅР° РЅРѕРІР°СЏ РІРµСЂСЃРёСЏ Growl</string>
+	<key>Install</key>
+	<string>РЈСЃС‚Р°РЅРѕРІРёС‚СЊ</string>
+	<key>This program displays information via Growl, a centralized notification system.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.</key>
+	<string>Р”Р°РЅРЅР°СЏ РїСЂРѕРіСЂР°РјРјР° РїРѕРґРґРµСЂР¶РёРІР°РµС‚ СЃРµСЂРІРёСЃ Growl - С†РµРЅС‚СЂР°Р»РёР·РѕРІР°РЅРЅСѓСЋ Рё СѓРЅРёС„РёС†РёСЂРѕРІР°РЅРЅСѓСЋ СЃРёСЃС‚РµРјСѓ РІС‹РІРѕРґР° РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№. Р’ РґР°РЅРЅСѓСЋ РїРѕСЃС‚Р°РІРєСѓ РІРєР»СЋС‡РµРЅР° РІРµСЂСЃРёСЏ Growl Р±РѕР»РµРµ РЅРѕРІР°СЏ, С‡РµРј СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅР°СЏ РЅР° Р’Р°С€РµРј РєРѕРјРїСЊСЋС‚РµСЂРµ. Р РµРєРѕРјРµРЅРґСѓРµС‚СЃСЏ СѓСЃС‚Р°РЅРѕРІРёС‚СЊ СЌС‚Рѕ РѕР±РЅРѕРІР»РµРЅРёРµ. РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє СЃРµС‚Рё РРЅС‚РµСЂРЅРµС‚ РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ.</string>
+	<key>This program displays information via Growl, a centralized notification system.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.</key>
+	<string>Р”Р°РЅРЅР°СЏ РїСЂРѕРіСЂР°РјРјР° РїРѕРґРґРµСЂР¶РёРІР°РµС‚ СЃРµСЂРІРёСЃ Growl - С†РµРЅС‚СЂР°Р»РёР·РѕРІР°РЅРЅСѓСЋ Рё СѓРЅРёС„РёС†РёСЂРѕРІР°РЅРЅСѓСЋ СЃРёСЃС‚РµРјСѓ РІС‹РІРѕРґР° РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№. РџРѕРґС‚РІРµСЂРґРёС‚Рµ СѓСЃС‚Р°РЅРѕРІРєСѓ Growl, РµСЃР»Рё С…РѕС‚РёС‚Рµ РІРѕСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ РµС‘ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЏРјРё. РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє СЃРµС‚Рё РРЅС‚РµСЂРЅРµС‚ РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ.</string>
+	<key>Update</key>
+	<string>РћР±РЅРѕРІРёС‚СЊ</string>
 </dict>
 </plist>
