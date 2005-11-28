@@ -12,6 +12,8 @@
 #import "GrowlWindowTransition.h"
 #import "GrowlPositionController.h"
 #import "NSViewAdditions.h"
+#import "GrowlNotificationDisplayBridge.h"
+#import "GrowlApplicationNotification.h"
 
 static NSMutableDictionary *existingInstances;
 
@@ -55,10 +57,34 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 
 #pragma mark -
 
+- (id) initWithWindowNibName:(NSString *)windowNibName bridge:(GrowlNotificationDisplayBridge *)displayBridge;
+{
+	// NOTE: for completeness we ought to offer the other nib related init methods with the plugin as a param
+	self = [self initWithWindowNibName:windowNibName owner:displayBridge];
+	if (!self)
+		return nil;
+	
+	[self setBridge:displayBridge]; // weak reference 
+	return self;
+}
+
+- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge;
+{
+	/* Subclasses using this method should call initWithWindowName: from init */
+	self = [self init];
+	if (!self)
+		return nil;
+	
+	[self setBridge:displayBridge]; // weak reference 
+	return self;
+}
+
 - (id) initWithWindow:(NSWindow *)window {
 	if ((self = [super initWithWindow:window])) {
+		[self bind:@"notification" toObject:self withKeyPath:@"bridge.notification" options:nil];
 		windowTransitions = [[NSMutableDictionary alloc] init];
 		ignoresOtherNotifications = NO;
+		bridge = nil;
 	}
 
 	return self;
@@ -66,9 +92,10 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 
 - (void) dealloc {
 	[self stopDisplayTimer];
-
 	[self setDelegate:nil];
+	[self unbind:@"notification"];
 
+	[bridge              release];
 	[target              release];
 	[clickContext        release];
 	[clickHandlerEnabled release];
@@ -98,6 +125,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	if (ignoresOtherNotifications || [[GrowlPositionController sharedInstance] reserveRect:[window frame] inScreen:[window screen]]) {
 		[self willDisplayNotification];
 		[window orderFront:nil];
+		[self startDisplayTimer];
 		[self didDisplayNotification];
 		return YES;
 	} else {
@@ -108,6 +136,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) stopDisplay {
+	[self stopDisplayTimer];
 	NSWindow *window = [self window];
 
 	[self willTakeDownNotification];
@@ -271,6 +300,37 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma mark -
 #pragma mark Accessors
 
+- (GrowlApplicationNotification *) notification
+{
+	// Only here for binding conformance 
+    return notification; 
+}
+
+- (void) setNotification: (GrowlApplicationNotification *) theNotification
+{
+    if (notification == theNotification)
+		return;
+	
+	[notification release];
+	notification = [theNotification retain]; // should this be a week ref?
+}
+
+#pragma mark -
+
+- (GrowlNotificationDisplayBridge *) bridge
+{
+    //NSLog(@"in -bridge, returned bridge = %@", bridge);
+	
+    return bridge; 
+}
+
+- (void) setBridge: (GrowlNotificationDisplayBridge *) theBridge
+{
+	bridge = theBridge;
+}
+
+#pragma mark -
+
 - (CFTimeInterval) displayDuration {
 	return displayDuration;
 }
@@ -303,13 +363,13 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	unsigned newScreenNumber = [[NSScreen screens] indexOfObjectIdenticalTo:newScreen];
 	if (newScreenNumber == NSNotFound)
 		[NSException raise:NSInternalInconsistencyException format:@"Tried to set %@ %p to a screen %p that isn't in the screen list", [self class], self, newScreen];
-	[self willChangeValueForKey:@"screenNumber"];
-	screenNumber = newScreenNumber;
-	[self  didChangeValueForKey:@"screenNumber"];
+	[self setScreenNumber:newScreenNumber];
 }
 
 - (void) setScreenNumber:(unsigned)newScreenNumber {
+	[self willChangeValueForKey:@"screenNumber"];
 	screenNumber = newScreenNumber;
+	[self  didChangeValueForKey:@"screenNumber"];
 }
 
 #pragma mark -

@@ -9,7 +9,7 @@
 #import "GrowlMenu.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlPathUtilities.h"
-#import "GrowlPluginController.h"
+//#import "GrowlPluginController.h"
 #include <unistd.h>
 
 #define kRestartGrowl                NSLocalizedString(@"Restart Growl", @"")
@@ -24,8 +24,10 @@
 #define kOpenGrowlPreferencesTooltip NSLocalizedString(@"Open the Growl preference pane", @"")
 #define kSquelchMode                 NSLocalizedString(@"Log only, don't display", @"")
 #define kSquelchModeTooltip          NSLocalizedString(@"Don't show notifications, but still log them", @"")
-#define kStopGrowlMenu               NSLocalizedString(@"Quit GrowlMenu", @"")
-#define kStopGrowlMenuTooltip        NSLocalizedString(@"Remove this status item", @"")
+#define kStopGrowlMenu               NSLocalizedString(@"Hide status item", @"")
+#define kStopGrowlMenuTooltip        NSLocalizedString(@"Hide this status item", @"")
+#define kStickyWhenAwayMenu			 NSLocalizedString(@"Sticky Notifications", @"")
+#define kStickyWhenAwayMenuTooltip   NSLocalizedString(@"Toggles the sticky notification state", @"")
 #define kDefaultDisplayChanged       NSLocalizedString(@"Default display changed to %@", @"")
 
 int main(void) {
@@ -182,6 +184,12 @@ int main(void) {
 	[self setImage];
 }
 
+- (void) stickyWhenIdle:(id)sender {
+#pragma unused(sender)
+	BOOL idleModeState = ![preferences stickyWhenAway];
+	[preferences setStickyWhenAway:idleModeState];
+}
+
 - (void) setImage {
 	if ([preferences squelchMode]) {
 		[statusItem setImage:squelchImage];
@@ -214,11 +222,6 @@ int main(void) {
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setToolTip:kStopGrowlTooltip];
 
-	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(shutdown:) keyEquivalent:@""];
-	[tempMenuItem setTag:5];
-	[tempMenuItem setTarget:self];
-	[tempMenuItem setToolTip:kStopGrowlMenuTooltip];
-
 	[m addItem:[NSMenuItem separatorItem]];
 
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kSquelchMode action:@selector(squelchMode:) keyEquivalent:@""];
@@ -226,7 +229,12 @@ int main(void) {
 	[tempMenuItem setTag:4];
 	[tempMenuItem setToolTip:kSquelchModeTooltip];
 
-	NSMenu *displays = [[NSMenu allocWithZone:menuZone] init];
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStickyWhenAwayMenu action:@selector(stickyWhenIdle:) keyEquivalent:@""];
+	[tempMenuItem setTarget:self];
+	[tempMenuItem setTag:6];
+	[tempMenuItem setToolTip:kStickyWhenAwayMenuTooltip];
+
+	/*NSMenu *displays = [[NSMenu allocWithZone:menuZone] init];
 	NSString *name;
 	NSEnumerator *displayEnumerator = [[[GrowlPluginController sharedController] displayPlugins] objectEnumerator];
 	while ((name = [displayEnumerator nextObject])) {
@@ -237,8 +245,13 @@ int main(void) {
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kDefaultDisplay action:NULL keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
 	[tempMenuItem setSubmenu:displays];
-	[displays release];
+	[displays release];*/
 	[m addItem:[NSMenuItem separatorItem]];
+
+	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kStopGrowlMenu action:@selector(shutdown:) keyEquivalent:@""];
+	[tempMenuItem setTag:5];
+	[tempMenuItem setTarget:self];
+	[tempMenuItem setToolTip:kStopGrowlMenuTooltip];
 
 	tempMenuItem = (NSMenuItem *)[m addItemWithTitle:kOpenGrowlPreferences action:@selector(openGrowlPreferences:) keyEquivalent:@""];
 	[tempMenuItem setTarget:self];
@@ -265,6 +278,9 @@ int main(void) {
 			break;
 		case 4:
 			[item setState:[preferences squelchMode]];
+			break;
+		case 6:
+			[item setState:[preferences stickyWhenAway]];
 			break;
 	}
 	return YES;

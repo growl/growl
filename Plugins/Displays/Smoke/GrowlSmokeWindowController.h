@@ -14,7 +14,6 @@
 	unsigned	depth;
 	NSString	*identifier;
 	unsigned	uid;
-	id			plugin; // the GrowlSmokeDisplay object which created us
 }
 
 - (id) initWithNotification:(GrowlApplicationNotification *)notification depth:(unsigned)depth;

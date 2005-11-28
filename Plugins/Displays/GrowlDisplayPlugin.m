@@ -20,6 +20,7 @@
 		 *	notification is already being displayed.
 		 */
 		BOOL queuesNotifications = NO;
+		windowControllerClass    = Nil;
 
 		NSBundle *bundle = [NSBundle bundleForClass:[self class]];
 		NSString *queuesNotificationsObject = [bundle objectForInfoDictionaryKey:@"GrowlDisplayUsesQueue"];
@@ -32,13 +33,17 @@
 
 		if (queuesNotifications)
 			queue = [[NSMutableArray alloc] init];
+		else
+			activeBridges = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[bridge release];
-
+    [activeBridges release];
+    [bridge release];
+    [queue release];
+	
 	[super dealloc];
 }
 
@@ -46,27 +51,39 @@
 
 - (void) displayNotification:(GrowlApplicationNotification *)notification {
 	NSString *windowNibName = [self windowNibName];
-	if (windowNibName) {
-		GrowlNotificationDisplayBridge *newBridge = [GrowlNotificationDisplayBridge bridgeWithDisplay:self
-																						 notification:notification
-																						windowNibName:windowNibName];
-		[newBridge makeWindowControllers];
-
-		if (queue) {
-			if (bridge) {
-				//a notification is already up; enqueue the new one
-				[queue addObject:newBridge];
-			} else {
-				//nothing up at the moment; just display it
-				[[newBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
-				bridge = [newBridge retain];
-			}
+	GrowlNotificationDisplayBridge *newBridge = nil;
+	if (windowNibName) 
+		newBridge = [GrowlNotificationDisplayBridge bridgeWithDisplay:self
+														 notification:notification
+														windowNibName:windowNibName
+												windowControllerClass:windowControllerClass];
+	else
+		newBridge = [GrowlNotificationDisplayBridge bridgeWithDisplay:self
+														 notification:notification
+												windowControllerClass:windowControllerClass];
+		
+	[newBridge makeWindowControllers];
+	[self configureBridge:newBridge];
+	if (queue) {
+		if (bridge) {
+			//a notification is already up; enqueue the new one
+			[queue addObject:newBridge];
 		} else {
-			//no queue; just display it
+			//nothing up at the moment; just display it
 			[[newBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
-			[activeBridges addObject:newBridge];
+			bridge = [newBridge retain];
 		}
+	} else {
+		//no queue; just display it
+		[[newBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
+		[activeBridges addObject:newBridge];
 	}
+}
+
+- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
+	// Default implementation does nothing, allows subclasses to configure before display.
+#pragma unused(theBridge)
+	return;
 }
 
 - (NSString *) windowNibName {

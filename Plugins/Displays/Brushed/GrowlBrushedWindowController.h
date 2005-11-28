@@ -6,15 +6,14 @@
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
-#import "GrowlDisplayFadingWindowController.h"
+#import "GrowlDisplayWindowController.h"
 
 @class GrowlApplicationNotification;
 
-@interface GrowlBrushedWindowController : GrowlDisplayFadingWindowController {
+@interface GrowlBrushedWindowController : GrowlDisplayWindowController {
 	unsigned	depth;
 	NSString	*identifier;
 	unsigned	uid;
-	id			plugin; // the GrowlBrushedDisplay object which created us
 }
 
 - (id) initWithNotification:(GrowlApplicationNotification *)noteDict depth:(unsigned)depth;

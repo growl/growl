@@ -87,57 +87,20 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) initWithNotification:(GrowlApplicationNotification *)notification depth:(unsigned)theDepth {
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
-	NSString *title = [notification HTMLTitle];
-	NSString *text  = [notification HTMLDescription];
-	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
-	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
-	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
-	BOOL textHTML, titleHTML;
-
-	if (title)
-		titleHTML = YES;
-	else {
-		titleHTML = NO;
-		title = [notification title];
-	}
-	if (text)
-		textHTML = YES;
-	else {
-		textHTML = NO;
-		text = [notification description];
-	}
-
-	GrowlBrushedWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
-	if (oldController) {
-		// coalescing
-		GrowlBrushedWindowView *view = (GrowlBrushedWindowView *)[[oldController window] contentView];
-		[view setPriority:priority];
-		[view setTitle:title isHTML:titleHTML];
-		[view setText:text isHTML:textHTML];
-		[view setIcon:icon];
-		[view sizeToFit];
-		[self release];
-		self = oldController;
-		return self;
-	}
-	identifier = [ident retain];
-	uid = globalId++;
-	depth = theDepth;
-	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
-
-	BOOL aquaPref = GrowlBrushedAquaPrefDefault;
-	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &aquaPref);
-	if (!aquaPref)
-		styleMask |= NSTexturedBackgroundWindowMask;
-	
-	unsigned screenNumber = 0U;
+- (id) init;
+{
+	// Read prefs...
+	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
-
-	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f)
+	NSRect screen = [[self screen] visibleFrame];
+	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
+	displayDuration = GrowlBrushedDurationPrefDefault * 10.0f; /* not sure why this is coming back like this */
+	READ_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, &displayDuration);
+	
+	// Create window...
+	NSRect windowFrame = NSMakeRect(0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f);
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:windowFrame										
 												styleMask:styleMask
 												  backing:NSBackingStoreBuffered
 													defer:NO];
@@ -146,7 +109,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[panel setHidesOnDeactivate:NO];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.0f];
+	[panel setAlphaValue:1.0f];	/// this is wrong
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
@@ -155,29 +118,26 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[panel setMovableByWindowBackground:NO];
 	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
 	//[panel setDelegate:self];
-
+	
+	// Create the content view...
 	GrowlBrushedWindowView *view = [[GrowlBrushedWindowView alloc] initWithFrame:panelFrame];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
 	[panel setContentView:view];
-
-    [view setPriority:priority];
-	[view setTitle:title isHTML:titleHTML];
-	[view setText:text isHTML:textHTML];
-	[view setIcon:icon];
-	[view sizeToFit];
-
+	
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
-
-	NSRect screen = [[self screen] visibleFrame];
-
 	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - GrowlBrushedPadding,
 											NSMaxY(screen) - GrowlBrushedPadding - depth)];
+	
+	return [super initWithWindow:panel];
+}
 
-	if ((self = [super initWithWindow:panel])) {
+- (id) initWithNotification:(GrowlApplicationNotification *)notification depth:(unsigned)theDepth {
+
+/*	if ((self = [super initWithWindow:panel])) {
 		depth += NSHeight(panelFrame);
-		autoFadeOut = !sticky;
+		//autoFadeOut = !sticky;
 		[self setDelegate:self];
 
 		// the visibility time for this notification should be the minimum display time plus
@@ -189,12 +149,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 		READ_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, &duration);
 		/*BOOL limitPref = YES;
 		READ_GROWL_PREF_BOOL(GrowlBrushedLimitPref, GrowlBrushedPrefDomain, &limitPref);
-		if (!limitPref) {*/
+		if (!limitPref) {
 			[self setDisplayDuration:MIN(duration + rowCount * gAdditionalLinesDisplayTime,
 										 gMaxDisplayTime)];
-		/*} else {
-			displayDuration = gMinDisplayTime;
-		}*/
+
 
 		CFNumberRef idValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &uid);
 		CFStringRef keys[2] = { CFSTR("ID"), CFSTR("Space") };
@@ -203,21 +161,15 @@ static NSMutableDictionary *notificationsByIdentifier;
 		CFRelease(idValue);
 		CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
 											 CFSTR("Clear Space"),
-											 /*object*/ NULL,
-											 /*userInfo*/ dict,
-											 /*deliverImmediately*/ false);
+											 /*object NULL,
+											 /*userInfo dict,
+											 /*deliverImmediately false);
 		CFRelease(dict);
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(clearSpace:)
 													 name:@"Clear Space"
 												   object:nil];
-
-		if (identifier) {
-			if (!notificationsByIdentifier)
-				notificationsByIdentifier = [[NSMutableDictionary alloc] init];
-			[notificationsByIdentifier setObject:self forKey:identifier];
-		}
-	}
+	}*/
 	return self;
 }
 
@@ -257,4 +209,47 @@ static NSMutableDictionary *notificationsByIdentifier;
 - (unsigned) depth {
 	return depth;
 }
+
+- (void) setNotification: (GrowlApplicationNotification *) theNotification {
+	[super setNotification:theNotification];
+	if (!theNotification)
+		return;
+	
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
+	NSString *title = [notification HTMLTitle];
+	NSString *text  = [notification HTMLDescription];
+	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
+	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
+	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
+	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
+	BOOL textHTML, titleHTML;
+	
+	if (title)
+	titleHTML = YES;
+	else {
+		titleHTML = NO;
+		title = [notification title];
+	}
+	if (text)
+	textHTML = YES;
+	else {
+		textHTML = NO;
+		text = [notification description];
+	}
+	
+	NSPanel *panel = (NSPanel *)[self window];
+	GrowlBrushedWindowView *view = [[self window] contentView];
+	[view setPriority:priority];
+	[view setTitle:title isHTML:titleHTML];
+	[view setText:text isHTML:textHTML];
+	[view setIcon:icon];
+	[view sizeToFit];
+	
+	NSRect viewFrame = [view frame];
+	[panel setFrame:viewFrame display:NO];
+	NSRect screen = [[self screen] visibleFrame];
+	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(viewFrame) - GrowlBrushedPadding,
+											NSMaxY(screen) - GrowlBrushedPadding - depth)];
+}
+
 @end

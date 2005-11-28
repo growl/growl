@@ -201,7 +201,7 @@ enum {
 	int rating = aRating ? [aRating intValue] : 0;
 
 	enum {
-		BLACK_STAR  = 0x2605, SPACE          = 0x0020, MIDDLE_DOT   = 0x00B7,
+		BLACK_STAR  = 0x272F, SPACE          = 0x0020, MIDDLE_DOT   = 0x00B7,
 		ONE_HALF    = 0x00BD,
 		ONE_QUARTER = 0x00BC, THREE_QUARTERS = 0x00BE,
 		ONE_THIRD   = 0x2153, TWO_THIRDS     = 0x2154,
@@ -262,7 +262,7 @@ enum {
 
 	enum {
 		BLACK_STAR  = 0x2605, PINWHEEL_STAR  = 0x272F,
-		SPACE       = 0x0020, MIDDLE_DOT     = 0x00B7,
+		SPACE       = 0x0020, MIDDLE_DOT	 = 0x00B7,
 		ONE_HALF    = 0x00BD,
 		ONE_QUARTER = 0x00BC, THREE_QUARTERS = 0x00BE,
 		ONE_THIRD   = 0x2153, TWO_THIRDS     = 0x2154,
@@ -388,6 +388,7 @@ enum {
 		NSString		*composer	   = @"";
 		NSString		*album         = @"";
 		BOOL			compilation    = NO;
+		NSString		*genre         = @"";
 		NSNumber		*rating        = nil;
 		NSString		*ratingString  = nil;
 		NSImage			*artwork       = nil;
@@ -398,7 +399,8 @@ enum {
 		artist      = [userInfo objectForKey:@"Artist"];
 		album       = [userInfo objectForKey:@"Album"];
 		composer	= [userInfo objectForKey:@"Composer"];
-		track       = [userInfo objectForKey:@"Name"];
+		track       = [[NSString alloc] initWithFormat:@"%@. %@", [userInfo objectForKey:@"Track Number"], [userInfo objectForKey:@"Name"]];
+		genre       = [userInfo objectForKey:@"Genre"];
 		streamTitle = [userInfo objectForKey:@"Stream Title"];
 		if(!streamTitle)
 			streamTitle = @"";
@@ -462,12 +464,16 @@ enum {
 		if ([newTrackURL hasPrefix:@"http://"]) {
 			//If we're streaming music, display only the name of the station and genre
 			NSLog(@"new track URL: %@", newTrackURL);
-			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format for streams", /*comment*/ nil), streamTitle, [userInfo objectForKey:@"Genre"]];
+			if (!streamTitle) streamTitle = @"";
+			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format for streams", /*comment*/ nil), streamTitle, genre];
 		} else {
-			if (!artist)	artist		= @"";
-			if (!album)		album		= @"";
-			if (!composer)	composer	= @"";
-			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format", /*comment*/ nil), length, ratingString, artist, composer, album];
+			if (!length)		length			= @"";
+			if (!ratingString)	ratingString	= @"";
+			if (!album)			album			= @"";
+			if (!genre)			genre			= @"";
+			if (!composer)		composer		= @"";
+			if (!artist)		artist			= composer;
+			displayString = [[NSString alloc] initWithFormat:NSLocalizedString(@"Display-string format", /*comment*/ nil), length, ratingString, artist, composer, album, genre];
 		}
 
 		[noteDict release];
@@ -535,6 +541,7 @@ enum {
 		NSString		*album = nil;
 		NSString		*composer = nil;
 		BOOL			 compilation = NO;
+		NSString		*genre = nil;
 		NSNumber		*rating = nil;
 		NSString		*ratingString = nil;
 		NSImage			*artwork = nil;
@@ -560,16 +567,19 @@ enum {
 		if ((curDescriptor = [theDescriptor descriptorAtIndex:7L]))
 			compilation = (BOOL)[curDescriptor booleanValue];
 
-		if ((curDescriptor = [theDescriptor descriptorAtIndex:8L])) {
+		if ((curDescriptor = [theDescriptor descriptorAtIndex:8L]))
+			genre = [curDescriptor stringValue];
+
+		if ((curDescriptor = [theDescriptor descriptorAtIndex:9L])) {
 			trackRating = [[curDescriptor stringValue] intValue];
 			rating = [NSNumber numberWithInt:trackRating < 0 ? 0 : trackRating];
 			ratingString = [self starsForRating:rating];
 		}
 
-		curDescriptor = [theDescriptor descriptorAtIndex:9L];
+		curDescriptor = [theDescriptor descriptorAtIndex:10L];
 		const OSType type = [curDescriptor typeCodeValue];
 
-		if (type != nil) {
+		if (type != 'null') {
 			artwork = [[[NSImage alloc] initWithData:[curDescriptor data]] autorelease];
 		} else {
 			NSEnumerator *pluginEnum = [plugins objectEnumerator];
@@ -596,7 +606,7 @@ enum {
 			[artwork setSize:NSMakeSize(128.0f, 128.0f)];
 		}
 
-		NSString *description = [[NSString alloc] initWithFormat:@"%@ - %@\n%@\n%@", length, ratingString, artist, album];
+		NSString *description = [[NSString alloc] initWithFormat:@"%@ - %@\n%@ (Composed by %@)\n%@\n%@", length, ratingString, artist, composer, album, genre];
 		[noteDict release];
 		noteDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 			(state == itPLAYING ? ITUNES_TRACK_CHANGED : ITUNES_PLAYING), GROWL_NOTIFICATION_NAME,

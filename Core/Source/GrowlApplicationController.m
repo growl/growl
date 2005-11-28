@@ -276,6 +276,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 }
 
 #pragma mark -
+#pragma mark this is a temp fix just to get things running so we can test GPC with the display plugins.  im pretty sure that this is intended to be in a pathway plugin now....
 
 - (void) netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
 #pragma unused(sender)
@@ -301,11 +302,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	server = [[GrowlRemotePathway alloc] init];
 	[serverConnection setRootObject:server];
 	[serverConnection setDelegate:self];
-
+	
 	// register with the default NSPortNameServer on the local host
 	if (![serverConnection registerName:@"GrowlServer"])
 		NSLog(@"WARNING: could not register Growl server.");
-
+	
 	// configure and publish the Bonjour service
 	CFStringRef serviceName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
 															 /*nameEncoding*/ NULL);
@@ -316,7 +317,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	CFRelease(serviceName);
 	[service setDelegate:self];
 	[service publish];
-
+	
 	// start UDP service
 	udpServer = [[GrowlUDPPathway alloc] init];
 }
@@ -336,7 +337,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) startStopServer {
 	BOOL enabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey];
-
+	
 	// Setup notification server
 	if (enabled && !service)
 		[self startServer];
@@ -348,7 +349,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) showPreview:(NSNotification *) note {
 	NSString *displayName = [note object];
-	GrowlDisplayPlugin *displayPlugin = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayName];
+	GrowlDisplayPlugin *displayPlugin = (GrowlDisplayPlugin *)[[GrowlPluginController sharedController] pluginInstanceWithName:displayName author:nil version:nil type:nil];
 
 	NSString *desc = [[NSString alloc] initWithFormat:@"This is a preview of the %@ display", displayName];
 	NSNumber *priority = [[NSNumber alloc] initWithInt:0];
@@ -523,7 +524,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		if (!display) {
 			NSString *displayPluginName = getObjectForKey(aDict, GROWL_DISPLAY_PLUGIN);
 			if (displayPluginName)
-				display = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
+				display = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
 		}
 
 		if (!display)
@@ -532,7 +533,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		if (!display) {
 			if (!displayController) {
 				NSString *displayPluginName = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
-				displayController = [[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName];
+				displayController = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
 			}
 			display = displayController;
 		}
@@ -796,8 +797,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	} else {
 		GrowlPluginController *controller = [GrowlPluginController sharedController];
 		//the set returned by GrowlPluginController is case-insensitive. yay!
-		if ([[controller pluginPathExtensions] containsObject:pathExtension]) {
-			[controller installPlugin:filename];
+		if ([[controller registeredPluginTypes] containsObject:pathExtension]) {
+			[controller installPluginFromPath:filename];
 
 			retVal = YES;
 		}

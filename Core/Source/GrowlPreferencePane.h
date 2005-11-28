@@ -22,7 +22,7 @@
 	NSMutableArray                 *loadedPrefPanes;
 
 	//Properties of the plugin being configured
-	NSString                       *currentPlugin;
+	NSDictionary                   *currentPlugin;
 	GrowlPlugin                    *currentPluginController;
 
 	BOOL                            canRemoveTicket;

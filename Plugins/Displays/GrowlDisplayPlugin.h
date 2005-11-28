@@ -16,6 +16,7 @@
  * @abstract Base class for all display plugins.
  */
 @interface GrowlDisplayPlugin : GrowlPlugin {
+	Class          windowControllerClass;
 	//for non-queueing displays
 	NSMutableArray *activeBridges; //GrowlNotificationDisplayBridges currently being displayed
 
@@ -27,13 +28,20 @@
 /*!	@method	displayNotification:
  *	@abstract	Display a notification to the user.
  *	@param	notification	The notification to display.
- *	@discussion	This is where the magic happens. Whatever your display does to
- *	 get a notification to the user, it does it here.
- *
- *	 Your implementation of this method should call up to <code>super</code> at
- *	 the beginning of the method.
+ *  @discussion Unless you have a specific reason to override this method you should not do so.
+ *  All the magic should happen in <code>configureBridge:</code>
  */
 - (void) displayNotification:(GrowlApplicationNotification *)notification;
+
+/*!	@method	configureBridge:
+ *	@abstract	Configures the chosen bridge before a notificaion is displayed.
+ *	@param	bridge	The bridge to configure.
+ *  @discussion This is the place where the magic happens.  Override this method and do any
+ *  specific configuration here.  This is the last port-of-call before a notification is displayed.
+ *  The default implementation does nothing so it is important that you override and provide an 
+ *  implementation.
+ */
+- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge;
 
 /*!	@method	windowNibName
  *	@abstract	Returns the name of the display's sole nib file (resulting in

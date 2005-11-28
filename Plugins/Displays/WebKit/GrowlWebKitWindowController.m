@@ -20,9 +20,8 @@
 #include "CFGrowlAdditions.h"
 #include "CFDictionaryAdditions.h"
 #include "CFMutableStringAdditions.h"
-
-static unsigned webkitWindowDepth = 0U;
-static NSMutableDictionary *notificationsByIdentifier;
+#import "GrowlNotificationDisplayBridge.h"
+#import "GrowlDisplayPlugin.h"
 
 /*
  * A panel that always pretends to be the key window.
@@ -37,6 +36,8 @@ static NSMutableDictionary *notificationsByIdentifier;
 }
 @end
 
+static unsigned webkitWindowDepth = 0U;
+
 @implementation GrowlWebKitWindowController
 
 #define MIN_DISPLAY_TIME				4.0
@@ -46,52 +47,67 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 #pragma mark -
 
-- (id) initWithNotification:(GrowlApplicationNotification *)notification style:(NSString *)styleName {
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
-	NSString *title = [notification HTMLTitle];
-	NSString *text  = [notification HTMLDescription];
-	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
-	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
-	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
-	BOOL textHTML, titleHTML;
-
-	if (title)
-		titleHTML = YES;
-	else {
-		titleHTML = NO;
-		title = [notification title];
-	}
-	if (text)
-		textHTML = YES;
-	else {
-		textHTML = NO;
-		text = [notification description];
-	}
-
-	GrowlWebKitWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
-	if (oldController) {
-		// coalescing
-		WebView *view = (WebView *)[[oldController window] contentView];
-		[oldController setTitle:title titleHTML:titleHTML text:text textHTML:textHTML icon:icon priority:priority forView:view];
-		[self release];
-		self = oldController;
-		return self;
-	}
-	identifier = [ident retain];
-
-	style = [styleName retain];
-	prefDomain = createStringWithStringAndCharacterAndString(GrowlWebKitPrefDomain, '.', style);
-
-	unsigned screenNumber = 0U;
-	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, prefDomain, &screenNumber);
-	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
-
+- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
+	// init the window used to init
 	NSPanel *panel = [[KeyPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 1.0f)
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered
 													 defer:NO];
-	NSRect panelFrame = [panel frame];
+
+	self = [super initWithWindow:panel];
+	bridge = displayBridge;
+	GrowlDisplayPlugin *plugin = [bridge display];
+	if (!self)
+		return nil;
+	
+	// Read the template file....exit on error...
+	NSError *error = nil;
+	NSString *templateFile = [[[bridge display] bundle] pathForResource:@"template" ofType:@"html"];
+	templateHTML = [[NSString alloc] initWithContentsOfFile:templateFile
+												   encoding:NSUTF8StringEncoding
+													  error:&error];
+	if (!templateHTML)
+	{
+		NSLog(@"ERROR: could not read template '%@' - %@", templateFile,error);
+		[self release];
+		return nil;
+	}
+	baseURL = [[NSURL alloc] initFileURLWithPath:templateFile];
+	
+	[self setDelegate:self]; // Needed???
+	
+	// Read the prefs for the plugin...
+	unsigned theScreenNo = 0U;
+	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, [plugin prefDomain], &theScreenNo);
+	[self setScreenNumber:theScreenNo];
+	
+	// the visibility time for this bubble should be the minimum display time plus
+	// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
+	int rowCount = 2;
+	BOOL limitPref = YES;
+	READ_GROWL_PREF_BOOL(GrowlWebKitLimitPref, [plugin prefDomain], &limitPref);
+	float duration = MIN_DISPLAY_TIME;
+	READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, [plugin prefDomain], &duration);
+	if (limitPref)
+		[self setDisplayDuration:duration];
+	else
+		[self setDisplayDuration:MIN(duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
+									 MAX_DISPLAY_TIME)];
+	
+	// Read the plugin specifics from the info.plist
+	NSDictionary *styleInfo = [[plugin bundle] infoDictionary];
+	BOOL hasShadow = NO;
+	hasShadow =	[(NSNumber *)[styleInfo valueForKey:@"GrowlHasShadow"] boolValue];
+	paddingX = GrowlWebKitPadding;
+	paddingY = GrowlWebKitPadding;
+	NSNumber *xPad = [styleInfo valueForKey:@"GrowlPaddingX"];
+	NSNumber *yPad = [styleInfo valueForKey:@"GrowlPaddingY"];
+	if (xPad)
+		paddingX = [xPad floatValue];
+	if (yPad)
+		paddingY = [yPad floatValue];
+	
+	// Configure the window
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
 	[panel setBackgroundColor:[NSColor clearColor]];
@@ -103,26 +119,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[panel setOneShot:YES];
 	[panel useOptimizedDrawing:YES];
 	[panel disableCursorRects];
-	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
-	//[panel setDelegate:self];
-
-	NSBundle *styleBundle = [[GrowlPluginController sharedController] pluginBundleWithName:style type:GROWL_STYLE_EXTENSION];
-	CFDictionaryRef styleInfo = (CFDictionaryRef)[styleBundle infoDictionary];
-	CFBooleanRef hasShadow = CFDictionaryGetValue(styleInfo, CFSTR("GrowlHasShadow"));
-	[panel setHasShadow:(hasShadow && CFBooleanGetValue(hasShadow))];
-
-	CFNumberRef paddingValue = CFDictionaryGetValue(styleInfo, CFSTR("GrowlPaddingX"));
-	if (paddingValue)
-		CFNumberGetValue(paddingValue, kCFNumberFloatType, &paddingX);
-	else
-		paddingX = GrowlWebKitPadding;
-
-	paddingValue = CFDictionaryGetValue(styleInfo, CFSTR("GrowlPaddingY"));
-	if (paddingValue)
-		CFNumberGetValue(paddingValue, kCFNumberFloatType, &paddingY);
-	else
-		paddingY = GrowlWebKitPadding;
-
+	[panel setHasShadow:hasShadow];
+	
+	// Configure the view
+	NSRect panelFrame = [panel frame];
 	GrowlWebKitWindowView *view = [[GrowlWebKitWindowView alloc] initWithFrame:panelFrame
 																	 frameName:nil
 																	 groupName:nil];
@@ -135,54 +135,20 @@ static NSMutableDictionary *notificationsByIdentifier;
 		[view setDrawsBackground:NO];
 	[panel setContentView:view];
 	[panel makeFirstResponder:[[[view mainFrame] frameView] documentView]];
-
-	[self setTitle:title titleHTML:titleHTML text:text textHTML:textHTML icon:icon priority:priority forView:view];
-
-	panelFrame = [view frame];
-	[panel setFrame:panelFrame display:NO];
-
-	if ((self = [super initWithWindow:panel])) {
-		autoFadeOut = !sticky;
-		[self setDelegate:self];
-
-		// the visibility time for this bubble should be the minimum display time plus
-		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
-		int rowCount = 2;
-		BOOL limitPref = YES;
-		READ_GROWL_PREF_BOOL(GrowlWebKitLimitPref, prefDomain, &limitPref);
-		float duration = MIN_DISPLAY_TIME;
-		READ_GROWL_PREF_FLOAT(GrowlWebKitDurationPref, prefDomain, &duration);
-		if (limitPref)
-			[self setDisplayDuration:duration];
-		else
-			[self setDisplayDuration:MIN(duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
-										 MAX_DISPLAY_TIME)];
-
-		if (identifier) {
-			if (!notificationsByIdentifier)
-				notificationsByIdentifier = [[NSMutableDictionary alloc] init];
-			[notificationsByIdentifier setObject:self forKey:identifier];
-		}
-	}
-
+	
 	return self;
 }
 
 - (void) dealloc {
 	if (depth == webkitWindowDepth)
 		webkitWindowDepth = 0U;
-
-	NSWindow *myWindow = [self window];
-	WebView *webView = [myWindow contentView];
-	[webView    setPolicyDelegate:nil];
-	[webView    setFrameLoadDelegate:nil];
-	[webView    release];
-	[myWindow   release];
-	[image      release];
-	[style      release];
-	[prefDomain release];
-	[identifier release];
-
+	
+	WebView *webView = [[self window] contentView];
+	[webView      setPolicyDelegate:nil];
+	[webView      setFrameLoadDelegate:nil];
+	[image        release];
+	[templateHTML release];
+	
 	[super dealloc];
 }
 
@@ -206,36 +172,22 @@ static NSMutableDictionary *notificationsByIdentifier;
 			priorityName = CFSTR("emergency");
 			break;
 	}
-
-	NSBundle *styleBundle = [[GrowlPluginController sharedController] pluginBundleWithName:style type:GROWL_STYLE_EXTENSION];
-	NSString *templateFile = [styleBundle pathForResource:@"template" ofType:@"html"];
-	if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile])
-		templateFile = [[NSBundle mainBundle] pathForResource:@"template" ofType:@"html"];
-
-	NSString *stylePath = [styleBundle resourcePath];
-	CFStringRef template = (CFStringRef)createStringWithContentsOfFile(templateFile, kCFStringEncodingUTF8);
-	if (!template) {
-		NSLog(@"WARNING: could not read template '%@'", templateFile);
-		return;
-	}
-	CFMutableStringRef htmlString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, template);
-	CFRelease(template);
-
+	
+	CFMutableStringRef htmlString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, (CFStringRef)templateHTML);
 	NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
 	image = [icon retain];
 	[image setName:UUID];
 	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
 
 	float opacity = 95.0f;
-	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, prefDomain, &opacity);
+	READ_GROWL_PREF_FLOAT(GrowlWebKitOpacityPref, [[bridge display] prefDomain], &opacity);
 	opacity *= 0.01f;
 
-	CFURLRef baseURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)stylePath, kCFURLPOSIXPathStyle, true);
 	CFStringRef titleHTML = titleIsHTML ? (CFStringRef)title : createStringByEscapingForHTML((CFStringRef)title);
 	CFStringRef textHTML = textIsHTML ? (CFStringRef)text : createStringByEscapingForHTML((CFStringRef)text);
 	CFStringRef opacityString = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%f"), opacity);
 
-	CFStringFindAndReplace(htmlString, CFSTR("%baseurl%"),  CFURLGetString(baseURL), CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%baseurl%"),  (CFStringRef)[baseURL absoluteString], CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%opacity%"),  opacityString,           CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%priority%"), priorityName,            CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%image%"),    (CFStringRef)UUID,       CFRangeMake(0, CFStringGetLength(htmlString)), 0);
@@ -250,7 +202,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		CFRelease(textHTML);
 	WebFrame *webFrame = [view mainFrame];
 	[[self window] disableFlushWindow];
-	[self retain];
+	[self retain];							// Needed?
 	[webFrame loadHTMLString:(NSString *)htmlString baseURL:nil];
 	[[webFrame frameView] setAllowsScrolling:NO];
 	CFRelease(htmlString);
@@ -291,13 +243,13 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	GrowlWebKitWindowView *view = (GrowlWebKitWindowView *)sender;
 	[view sizeToFit];
+#warning all this needs to be handled by super or the positioning controller, left in for now
 	if (!positioned) {
 		NSRect panelFrame = [view frame];
 		NSRect screen = [[self screen] visibleFrame];
 		[myWindow setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - paddingX,
 												   NSMaxY(screen) - paddingY - webkitWindowDepth)];
-
-#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
+		
 		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
 		if (NSMinY(panelFrame) < 0.0f)
 			depth = webkitWindowDepth = 0U;
@@ -306,33 +258,57 @@ static NSMutableDictionary *notificationsByIdentifier;
 		positioned = YES;
 	}
 	[myWindow invalidateShadow];
-	[self startDisplay];
+	[self startDisplay];			//-> Hopefuly this will handle all the transitions etc and know what state we are already in.
 	[self release];	// we retained before loadHTMLString
 }
 
-- (void) startFadeOut {
-	GrowlWebKitWindowView *view = (GrowlWebKitWindowView *)[[self window] contentView];
-	if ([view mouseOver]) {
-		[view setCloseOnMouseExit:YES];
-	} else {
-		if (identifier) {
-			[notificationsByIdentifier removeObjectForKey:identifier];
-			if (![notificationsByIdentifier count]) {
-				[notificationsByIdentifier release];
-				notificationsByIdentifier = nil;
-			}
-		}
-		[super startFadeOut];
-	}
+@end
+
+@implementation GrowlWebKitWindowController (Private)
+
+- (GrowlApplicationNotification *) notification
+{
+	// Only here for binding conformance 
+    return notification; 
 }
 
-#pragma mark -
-#pragma mark Screenshot mode
-
-- (void) takeScreenshot {
-	NSView *view = [[[[self window] contentView] mainFrame] frameView];
-	NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"pdf"];
-	[[view dataWithPDFInsideRect:[view frame]] writeToFile:path atomically:NO];
+- (void) setNotification: (GrowlApplicationNotification *) theNotification
+{
+    //NSLog(@"in -setNotification:, old value of notification: %@, changed to: %@", notification, theNotification);
+	
+    if (notification == theNotification)
+		return;
+	
+	// Extract the new details from the notification
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
+	NSString *title = [notification HTMLTitle];
+	NSString *text  = [notification HTMLDescription];
+	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
+	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
+	/*BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
+	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);*/
+	BOOL textHTML, titleHTML;
+	
+	if (title)
+		titleHTML = YES;
+	else {
+		titleHTML = NO;
+		title = [notification title];
+	}
+	if (text)
+		textHTML = YES;
+	else {
+		textHTML = NO;
+		text = [notification description];
+	}
+	
+	NSPanel *panel = (NSPanel *)[self window];
+	WebView *view = [panel contentView];
+	[self retain];
+	[self setTitle:title titleHTML:titleHTML text:text textHTML:textHTML icon:icon priority:priority forView:view];
+	
+	NSRect panelFrame = [view frame];
+	[panel setFrame:panelFrame display:NO];
 }
 
 @end

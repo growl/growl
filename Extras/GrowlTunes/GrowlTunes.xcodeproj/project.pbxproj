@@ -231,32 +231,32 @@
 			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
 			remoteInfo = "GrowlTunes-Synergy";
 		};
-		E12223D409364E03007CE8C1 /* PBXContainerItemProxy */ = {
+		E12224CE0936513B007CE8C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DD86247B080D8421001ACC9F /* Growl.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 9560BF4D086DC4F800A173B1 /* Growl.framework */;
+			remoteGlobalIDString = 9560BF4D086DC4F800A173B1;
 			remoteInfo = Growl.framework;
 		};
-		E12223D609364E08007CE8C1 /* PBXContainerItemProxy */ = {
+		E12224D009365142007CE8C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8B5F0F070B140C00593A33 /* GrowlTunes-Synergy.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D5B49AC048680CD000E48DA /* GrowlTunes-Synergy */;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = "GrowlTunes-Synergy";
 		};
-		E12223D809364E08007CE8C1 /* PBXContainerItemProxy */ = {
+		E12224D209365142007CE8C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8B5F08070B140300593A33 /* GrowlTunes-Amazon.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D5B49AC048680CD000E48DA /* GrowlTunes-Amazon */;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = "GrowlTunes-Amazon";
 		};
-		E12223DA09364E08007CE8C1 /* PBXContainerItemProxy */ = {
+		E12224D409365142007CE8C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D5B49AC048680CD000E48DA /* GrowlTunes-ARTchive */;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = "GrowlTunes-ARTchive";
 		};
 /* End PBXContainerItemProxy section */
@@ -297,10 +297,10 @@
 		0A5ECB46073444AB0032ED97 /* jackItunesArtwork.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = jackItunesArtwork.scpt; path = Scripts/jackItunesArtwork.scpt; sourceTree = "<group>"; };
 		0A8B5F08070B140300593A33 /* GrowlTunes-Amazon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "GrowlTunes-Amazon.xcodeproj"; path = "Plugins/Examples/Amazon/GrowlTunes-Amazon.xcodeproj"; sourceTree = "<group>"; };
 		0A8B5F0F070B140C00593A33 /* GrowlTunes-Synergy.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "GrowlTunes-Synergy.xcodeproj"; path = "Plugins/Examples/Synergy/GrowlTunes-Synergy.xcodeproj"; sourceTree = "<group>"; };
-		0A8B5F16070B141D00593A33 /* GrowlTunes-Synergy.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; name = "GrowlTunes-Synergy.plugin"; path = "build/Deployment/GrowlTunes-Synergy.plugin"; sourceTree = "<group>"; };
-		0A8B5F26070B142500593A33 /* GrowlTunes-Amazon.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; name = "GrowlTunes-Amazon.plugin"; path = "build/Deployment/GrowlTunes-Amazon.plugin"; sourceTree = "<group>"; };
+		0A8B5F16070B141D00593A33 /* GrowlTunes-Synergy.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "GrowlTunes-Synergy.plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A8B5F26070B142500593A33 /* GrowlTunes-Amazon.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "GrowlTunes-Amazon.plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A8B617F070B303B00593A33 /* ARTchive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ARTchive.xcodeproj; path = Plugins/Examples/ARTchive/ARTchive.xcodeproj; sourceTree = "<group>"; };
-		0A8B6185070B304600593A33 /* GrowlTunes-ARTchive.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; name = "GrowlTunes-ARTchive.plugin"; path = "build/Deployment/GrowlTunes-ARTchive.plugin"; sourceTree = "<group>"; };
+		0A8B6185070B304600593A33 /* GrowlTunes-ARTchive.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "GrowlTunes-ARTchive.plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -328,7 +328,7 @@
 		9574BAB408391F3A00106CA3 /* NSWorkspaceAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NSWorkspaceAdditions.m; path = ../../Common/Source/NSWorkspaceAdditions.m; sourceTree = SOURCE_ROOT; };
 		95B00A9908468AB7004A8623 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CB57B4CA0711E503001968B0 /* jackItunesInfo.scpt */ = {isa = PBXFileReference; explicitFileType = sourcecode.scpt; fileEncoding = 30; name = jackItunesInfo.scpt; path = Scripts/jackItunesInfo.scpt; sourceTree = "<group>"; };
-		CBB772AD07A5DD9F00D77326 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../../../build/Deployment/Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBB772AD07A5DD9F00D77326 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD5BBFF907B7D50400048F1D /* GrowlTunes.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = GrowlTunes.icns; sourceTree = "<group>"; };
 		DD86247B080D8421001ACC9F /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -526,7 +526,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95E4A2D90855C125006B3F45 /* Build configuration list for PBXNativeTarget "GrowlTunes" */;
 			buildPhases = (
-				E12223E209364E1F007CE8C1 /* ShellScript */,
+				E12224D809365155007CE8C1 /* ShellScript */,
 				9571A45A08623829008AEBB3 /* ShellScript */,
 				9561B0C608240A4500E55B5E /* AppleScript */,
 				8D1107290486CEB800E47090 /* Resources */,
@@ -576,10 +576,10 @@
 				WRAPPER_EXTENSION = app;
 			};
 			dependencies = (
-				E12223D509364E03007CE8C1 /* PBXTargetDependency */,
-				E12223D709364E08007CE8C1 /* PBXTargetDependency */,
-				E12223D909364E08007CE8C1 /* PBXTargetDependency */,
-				E12223DB09364E08007CE8C1 /* PBXTargetDependency */,
+				E12224CF0936513B007CE8C1 /* PBXTargetDependency */,
+				E12224D109365142007CE8C1 /* PBXTargetDependency */,
+				E12224D309365142007CE8C1 /* PBXTargetDependency */,
+				E12224D509365142007CE8C1 /* PBXTargetDependency */,
 			);
 			name = GrowlTunes;
 			productInstallPath = "$(HOME)/Applications";
@@ -819,7 +819,7 @@
 			shellPath = /bin/sh;
 			shellScript = "sdp -f ast -V 10.3 $SCRIPT_INPUT_FILE_0";
 		};
-		E12223E209364E1F007CE8C1 /* ShellScript */ = {
+		E12224D809365155007CE8C1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -850,25 +850,25 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		E12223D509364E03007CE8C1 /* PBXTargetDependency */ = {
+		E12224CF0936513B007CE8C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Growl.framework;
-			targetProxy = E12223D409364E03007CE8C1 /* PBXContainerItemProxy */;
+			targetProxy = E12224CE0936513B007CE8C1 /* PBXContainerItemProxy */;
 		};
-		E12223D709364E08007CE8C1 /* PBXTargetDependency */ = {
+		E12224D109365142007CE8C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "GrowlTunes-Synergy";
-			targetProxy = E12223D609364E08007CE8C1 /* PBXContainerItemProxy */;
+			targetProxy = E12224D009365142007CE8C1 /* PBXContainerItemProxy */;
 		};
-		E12223D909364E08007CE8C1 /* PBXTargetDependency */ = {
+		E12224D309365142007CE8C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "GrowlTunes-Amazon";
-			targetProxy = E12223D809364E08007CE8C1 /* PBXContainerItemProxy */;
+			targetProxy = E12224D209365142007CE8C1 /* PBXContainerItemProxy */;
 		};
-		E12223DB09364E08007CE8C1 /* PBXTargetDependency */ = {
+		E12224D509365142007CE8C1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "GrowlTunes-ARTchive";
-			targetProxy = E12223DA09364E08007CE8C1 /* PBXContainerItemProxy */;
+			targetProxy = E12224D409365142007CE8C1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

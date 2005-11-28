@@ -8,20 +8,19 @@
 
 #import "GrowlDisplayFadingWindowController.h"
 
-@class WebView, GrowlApplicationNotification;
+@class WebView, GrowlApplicationNotification, GrowlNotificationDisplayBridge;
 
-@interface GrowlWebKitWindowController : GrowlDisplayFadingWindowController {
-	unsigned	depth;
-	NSString	*identifier;
-	NSImage		*image;
-	BOOL		positioned;
-	NSString    *style;
-	NSString	*prefDomain;
-	float		paddingX;
-	float		paddingY;
+@interface GrowlWebKitWindowController : GrowlDisplayWindowController {
+	NSString                        *templateHTML;
+	NSURL                           *baseURL;
+	
+	unsigned	                    depth;
+	NSImage		                    *image;
+	BOOL		                    positioned;		// This should live in the super class
+	float		                    paddingX;
+	float		                    paddingY;
 }
 
-- (id) initWithNotification:(GrowlApplicationNotification *)notification style:(NSString *)styleName;
-- (void) setTitle:(NSString *)title titleHTML:(BOOL)titleIsHTML text:(NSString *)text textHTML:(BOOL)textIsHTML icon:(NSImage *)icon priority:(int)priority forView:(WebView *)view;
+- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge;
 
 @end

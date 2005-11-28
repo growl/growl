@@ -21,6 +21,7 @@
 	NSString *pluginPathname;
 
 	NSPreferencePane *preferencePane;
+	NSString	     *prefDomain;
 }
 
 /*!
@@ -77,6 +78,12 @@
  * @abstract Returns the pathname of the receiver.
  */
 - (NSString *) pathname;
+
+/*!
+* @method pathname
+ * @abstract Returns the string used to access the preference domain of the receiver.
+ */
+- (NSString *) prefDomain;
 
 
 /*!	@method	preferencePane

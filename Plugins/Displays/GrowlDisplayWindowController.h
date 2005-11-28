@@ -14,28 +14,33 @@
 #define GrowlDisplayWindowControllerDidTakeWindowDownNotification	@"GrowlDisplayWindowControllerDidTakeWindowDownNotification"
 #define GrowlDisplayWindowControllerNotificationBlockedNotification	@"GrowlDisplayWindowControllerNotificationBlockedNotification"
 
-@class GrowlWindowTransition;
+@class GrowlWindowTransition, GrowlNotificationDisplayBridge, GrowlApplicationNotification;
 
 @interface GrowlDisplayWindowController : NSWindowController {
-	@private
-	SEL					action;
-	id					target;
-	id					clickContext;
-	NSNumber			*clickHandlerEnabled;
-	NSString			*appName;
-	NSNumber			*appPid;
-	NSMutableDictionary *windowTransitions;
-	id					delegate;
-	CFRunLoopTimerRef	displayTimer;
-	BOOL				ignoresOtherNotifications;
-
-	CFTimeInterval		displayDuration;
-	unsigned			screenNumber;
-	unsigned			screenshotMode: 1;
+	GrowlApplicationNotification    *notification;	/* not sure if this will be needed since binding may work without */
+	GrowlNotificationDisplayBridge  *bridge;
 	
-	@protected
-	unsigned			WCReserved: 31;
+	SEL					            action;
+	id					            target;
+	id					            clickContext;
+	NSNumber			            *clickHandlerEnabled;
+	NSString			            *appName;
+	NSNumber			            *appPid;
+	NSMutableDictionary             *windowTransitions;
+	id					            delegate;
+	CFRunLoopTimerRef	            displayTimer;
+	BOOL				            ignoresOtherNotifications;
+
+	CFTimeInterval		            displayDuration;
+	unsigned			            screenNumber;
+	unsigned			            screenshotMode: 1;
+
+	unsigned			            WCReserved: 31;
 }
+
+- (id) initWithWindowNibName:(NSString *)windowNibName bridge:(GrowlNotificationDisplayBridge *)displayBridge;
+- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge;
+- (id) initWithWindow:(NSWindow *)window;
 
 + (void) registerInstance:(id)instance withIdentifier:(NSString *)ident;
 + (void) unregisterInstanceWithIdentifier:(NSString *)ident;
@@ -80,6 +85,14 @@
 
 #pragma mark -
 
+/* Not to be called directly...these are managed via bindings */
+- (GrowlApplicationNotification *) notification;
+- (void) setNotification: (GrowlApplicationNotification *) theNotification;
+
+/* Not to be called directly...for KVO compliance only */
+- (GrowlNotificationDisplayBridge *) bridge;
+- (void) setBridge: (GrowlNotificationDisplayBridge *) theBridge;
+
 - (CFTimeInterval) displayDuration;
 - (void) setDisplayDuration:(CFTimeInterval) newDuration;
 
@@ -88,6 +101,7 @@
 
 - (NSScreen *) screen;
 - (void) setScreen:(NSScreen *) newScreen;
+- (void) setScreenNumber:(unsigned)newScreenNumber;
 
 - (id) target;
 - (void) setTarget:(id) object;

@@ -15,16 +15,14 @@
 @implementation GrowlAbstractSingletonObject
 
 //This dictionary will contain all singleton objects that are inherited from GBAbstractSingletonObject.
-static CFMutableDictionaryRef singletonObjects;
-static NSLock *singletonLock;
+static NSMutableDictionary *singletonObjects;
 
 //Create our dictionary
 + (void) initialize {
-	singletonLock = [[NSLock alloc] init];
-	[singletonLock lock];
-	if (!singletonObjects)
-		singletonObjects = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-	[singletonLock unlock];
+	@synchronized(singletonObjects) {
+		if (!singletonObjects)
+			singletonObjects = [[NSMutableDictionary alloc] init];
+	}
 }
 
 //Returns the shared instance of this class
@@ -33,14 +31,13 @@ static NSLock *singletonLock;
 
 	if (singletonObjects) {
 		//Look of we already have an instance
-		[singletonLock lock];
-		returnedObject = (id)CFDictionaryGetValue(singletonObjects, [self class]);
+		@synchronized(singletonObjects) {
+			returnedObject = [singletonObjects objectForKey:[self class]];
+		}
 
 		//We don't have any instance so lets create it
 		if (!returnedObject)
 			returnedObject = [[self alloc] initSingleton];
-			
-		[singletonLock unlock];
 	}
 
 	return returnedObject;
@@ -48,17 +45,15 @@ static NSLock *singletonLock;
 
 //Release the singletonObjects dictionary and by that destroy all the objects it contains
 + (void) destroyAllSingletons {
-	CFMutableDictionaryRef dict = singletonObjects;
+	NSMutableDictionary *dict = singletonObjects;
 
-	//We first make singletonObjects to point to NULL in order to allow deallocation of our singletons
-	singletonObjects = NULL;
-	//And then release the dictionary. When the dictionary is released, it releases all its objects.
+	//We first make singletonObjects to point to nil in order to allow deallocation of our singletons,
+	singletonObjects = nil;
+	//and then release the dictionary. When the dictionary is released, it releases all its objects.
 	//When the objects were added to the dict, they received a retain message and since we override
 	//-retain to do nothing, the objects still have a retain count of 1.
 	//That's why all the objects will be released.
-	CFRelease(dict);
-
-	[singletonLock release];
+	[dict release];
 }
 
 //Used by +alloc to set the _isInitialized flag.
@@ -69,7 +64,7 @@ static NSLock *singletonLock;
 //Implemented by subclasses
 - (id) initSingleton {
 	Class class = [self class];
-	id object = (id)CFDictionaryGetValue((CFDictionaryRef)singletonObjects, class);
+	id object = [singletonObjects objectForKey:class];
 
 	if (object || _isInitialized) {
 		[self release];
@@ -77,10 +72,12 @@ static NSLock *singletonLock;
 		[self doesNotRecognizeSelector:_cmd];
 		return [[self class] sharedInstance];
 	} else {
-		[self setIsInitialized:YES];
-		[singletonLock lock];
-		CFDictionarySetValue(singletonObjects, class, self);
-		[singletonLock unlock];
+		@synchronized(singletonObjects) {
+			if (![singletonObjects objectForKey:class]) {
+				[self setIsInitialized:YES];
+				[singletonObjects setObject:self forKey:class];
+			}
+		}
 		return self;
 	}
 }
@@ -94,7 +91,7 @@ static NSLock *singletonLock;
 	id object = nil;
 
 	if (singletonObjects) {
-		object = (id)CFDictionaryGetValue((CFDictionaryRef)singletonObjects, [self class]);
+		object = [singletonObjects objectForKey:[self class]];
 
 		if (object) {
 			NSLog(@"An attempt to allocate a new %@ singleton object has been made. "
@@ -120,7 +117,7 @@ static NSLock *singletonLock;
 
 //Release anything but our shared class
 - (void) release {
-	id object = singletonObjects ? (id)CFDictionaryGetValue(singletonObjects, [self class]) : nil;
+	id object = singletonObjects ? [singletonObjects objectForKey:[self class]] : nil;
 
 	if (self != object)
 		[super release];

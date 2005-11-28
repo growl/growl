@@ -13,17 +13,38 @@
 	GrowlApplicationNotification *notification;
 	NSString                     *windowNibName;
 	NSMutableArray               *windowControllers;
+	Class                        windowControllerClass;
 }
 
-+ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowNibName:(NSString *)newWindowNibName;
++ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay 
+										  notification:(GrowlApplicationNotification *)newNotification 
+								 windowControllerClass:(Class)wcc;
 
-- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowNibName:(NSString *)newWindowNibName;
++ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay 
+										  notification:(GrowlApplicationNotification *)newNotification 
+										 windowNibName:(NSString *)newWindowNibName 
+								 windowControllerClass:(Class)wcc;
+
+- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay 
+		  notification:(GrowlApplicationNotification *)newNotification 
+ windowControllerClass:(Class)wcc;
+
+- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay 
+		  notification:(GrowlApplicationNotification *)newNotification 
+		 windowNibName:(NSString *)newWindowNibName 
+ windowControllerClass:(Class)wcc;
 
 #pragma mark -
 
 //XXX DocumentMe
 //override this if you want to create multiple WCs.
 - (void) makeWindowControllers;
+
+//XXX DocumentMe
+- (GrowlDisplayPlugin *) display;
+
+//XXX DocumentMe
+- (GrowlApplicationNotification *) notification;
 
 //XXX DocumentMe
 //if you override -makeWindowControllers, you don't (necessarily) need to override this.

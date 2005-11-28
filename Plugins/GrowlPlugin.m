@@ -23,6 +23,7 @@
 		pluginAuthor   = [author   copy];
 		pluginVersion  = [version  copy];
 		pluginPathname = [pathname copy];
+		prefDomain     = nil;
 	}
 	return self;
 }
@@ -50,6 +51,8 @@
 
 	[pluginBundle release];
 	[pluginPathname release];
+	
+	[prefDomain release];
 
 	[super dealloc];
 }
@@ -81,6 +84,10 @@
 }
 
 #pragma mark -
+
+- (NSString *) prefDomain {
+    return prefDomain; 
+}
 
 - (NSPreferencePane *) preferencePane {
 	return preferencePane;

@@ -27,15 +27,6 @@
 	NSConnection				*growlNotificationCenterConnection;
 	GrowlNotificationCenter		*growlNotificationCenter;
 
-	// remote DistributedObjects server
-	NSNetService				*service;
-	NSPort						*socketPort;
-	NSConnection				*serverConnection;
-	GrowlRemotePathway			*server;
-
-	// UDP server
-	GrowlUDPPathway				*udpServer;
-
 	GrowlDisplayPlugin			*displayController;
 
 	BOOL						growlIsEnabled;
@@ -51,13 +42,21 @@
 	CFRunLoopTimerRef			updateTimer;
 
 	NSThread					*mainThread;
+	
+	/// TEMP VARS
+	
+	// remote DistributedObjects server
+	NSNetService				*service;
+	NSPort						*socketPort;
+	NSConnection				*serverConnection;
+	GrowlRemotePathway			*server;
+	
+	// UDP server
+	GrowlUDPPathway				*udpServer;
+	
 }
 
 + (GrowlApplicationController *) sharedController;
-
-- (void) startServer;
-- (void) stopServer;
-- (void) startStopServer;
 
 - (BOOL) application:(NSApplication *)theApplication openFile:(NSString *)filename;
 

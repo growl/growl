@@ -10,7 +10,7 @@
 #import "GrowlAmazonXMLResponse.h"
 
 /*Based on code originally submitted by James Van Dyne
- *Updated for the v4 Amazon API with code from Fjölnir Ásgeirsson
+ *Updated for the v4 Amazon API with code from Fj√∂lnir √Åsgeirsson
  */
 
 @interface GrowlTunes_Amazon(PRIVATE)

@@ -323,13 +323,12 @@
 		currentPlugin = [[selectedPlugins objectAtIndex:0U] retain];
 	else
 		currentPlugin = nil;
-
-	GrowlPluginController *growlPluginController = [GrowlPluginController sharedController];
-	currentPluginController = (GrowlPlugin *)[growlPluginController displayPluginInstanceWithName:currentPlugin];
-	[self loadViewForDisplay:currentPlugin];
-	NSDictionary *info = [[growlPluginController displayPluginBundleWithName:currentPlugin] infoDictionary];
-	[displayAuthor setStringValue:[info objectForKey:@"GrowlPluginAuthor"]];
-	[displayVersion setStringValue:[info objectForKey:(NSString *)kCFBundleVersionKey]];
+	
+	NSString *currentPluginName = [currentPlugin objectForKey:(NSString *)kCFBundleNameKey];
+	currentPluginController = (GrowlPlugin *)[pluginController pluginInstanceWithName:currentPluginName];
+	[self loadViewForDisplay:currentPluginName];
+	[displayAuthor setStringValue:[currentPlugin objectForKey:@"GrowlPluginAuthor"]];
+	[displayVersion setStringValue:[currentPlugin objectForKey:(NSString *)kCFBundleNameKey]];
 }
 
 /*!
@@ -352,7 +351,18 @@
 		[self setTickets:[[ticketController allSavedTickets] allValues]];
 		[self cacheImages];
 	}
-	[self setDisplayPlugins:[[GrowlPluginController sharedController] displayPlugins]];
+	
+	[self setDisplayPlugins:[[GrowlPluginController sharedController] registeredPluginNamesArrayForType:GROWL_VIEW_EXTENSION]];
+
+#ifdef THIS_CODE_WAS_REMOVED_AND_I_DONT_KNOW_WHY
+	if (!object || [object isEqualToString:@"GrowlTicketChanged"])
+		[self setTickets:[[ticketController allSavedTickets] allValues]];
+
+	[preferencesController setSquelchMode:[preferencesController squelchMode]];
+	[preferencesController setGrowlMenuEnabled:[preferencesController isGrowlMenuEnabled]];
+
+	[self cacheImages];
+#endif
 
 	// If Growl is enabled, ensure the helper app is launched
 	if ([preferencesController boolForKey:GrowlEnabledKey])
@@ -636,7 +646,7 @@
 #pragma unused(sender)
 	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
 										 (CFStringRef)GrowlPreview,
-										 currentPlugin, NULL, false);
+										 [currentPlugin objectForKey:(NSString *)kCFBundleNameKey], NULL, false);
 }
 
 - (void) loadViewForDisplay:(NSString *)displayName {
