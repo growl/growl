@@ -214,6 +214,9 @@
 		5286205A06DC4C2F00D3A356 /* GrowlPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5286205606DC4C2F00D3A356 /* GrowlPluginController.m */; };
 		63C92DDA06D05D22007368FA /* Growl.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 63C92DD406D05D22007368FA /* Growl.sdef */; };
 		63C92DDD06D05D22007368FA /* GrowlScripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 63C92DD706D05D22007368FA /* GrowlScripting.r */; };
+		740CC03D093A4F1F00092801 /* GrowlThreadedView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 740CC038093A4F1000092801 /* GrowlThreadedView.h */; };
+		740CC071093A508100092801 /* GrowlNotificationView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 740CC06F093A508100092801 /* GrowlNotificationView.h */; };
+		740CC072093A508100092801 /* GrowlNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 740CC070093A508100092801 /* GrowlNotificationView.m */; };
 		743EDE0709273C8A002A9670 /* GrowlWebKitPluginHandler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 743EDE0509273C8A002A9670 /* GrowlWebKitPluginHandler.h */; };
 		743EDE0809273C8A002A9670 /* GrowlWebKitPluginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 743EDE0609273C8A002A9670 /* GrowlWebKitPluginHandler.m */; };
 		743EDE13092740F5002A9670 /* GrowlWebKitDisplayPlugin.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 743EDE11092740F5002A9670 /* GrowlWebKitDisplayPlugin.h */; };
@@ -424,7 +427,7 @@
 		DDF09B21080AC97A006F4172 /* PrefpaneTester.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF09B1C080AC97A006F4172 /* PrefpaneTester.m */; };
 		DDF09BC6080AC9ED006F4172 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		DDFADA6C084D1C770055DBC8 /* GrowlSMS.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */; };
-		EE17E56D08EFFCDB0086F0C3 /* GrowlNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE17E56B08EFFCDB0086F0C3 /* GrowlNotificationView.m */; };
+		EE17E56D08EFFCDB0086F0C3 /* GrowlThreadedView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE17E56B08EFFCDB0086F0C3 /* GrowlThreadedView.m */; };
 		EE1AF8D50897DA9400F486FD /* GrowlAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8CE0897DA9400F486FD /* GrowlAnimation.m */; };
 		EE1AF8D70897DA9400F486FD /* GrowlWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8D00897DA9400F486FD /* GrowlWindowTransition.m */; };
 		EE1AF8D90897DA9400F486FD /* GrowlFadingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8D30897DA9400F486FD /* GrowlFadingWindowTransition.m */; };
@@ -713,6 +716,8 @@
 				343345880790E3D600C84B15 /* Smoke.growlView in CopyFiles */,
 				DDFADA6C084D1C770055DBC8 /* GrowlSMS.growlView in CopyFiles */,
 				3433458A0790E3D600C84B15 /* Speech.growlView in CopyFiles */,
+				740CC03D093A4F1F00092801 /* GrowlThreadedView.h in CopyFiles */,
+				740CC071093A508100092801 /* GrowlNotificationView.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -882,6 +887,9 @@
 		5286205606DC4C2F00D3A356 /* GrowlPluginController.m */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GrowlPluginController.m; path = Core/Source/GrowlPluginController.m; sourceTree = "<group>"; };
 		63C92DD406D05D22007368FA /* Growl.sdef */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Growl.sdef; path = Bindings/applescript/Growl.sdef; sourceTree = "<group>"; };
 		63C92DD706D05D22007368FA /* GrowlScripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; name = GrowlScripting.r; path = Bindings/applescript/GrowlScripting.r; sourceTree = "<group>"; };
+		740CC038093A4F1000092801 /* GrowlThreadedView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlThreadedView.h; path = Plugins/Displays/GrowlThreadedView.h; sourceTree = "<group>"; };
+		740CC06F093A508100092801 /* GrowlNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationView.h; path = Plugins/Displays/GrowlNotificationView.h; sourceTree = "<group>"; };
+		740CC070093A508100092801 /* GrowlNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationView.m; path = Plugins/Displays/GrowlNotificationView.m; sourceTree = "<group>"; };
 		743EDE0509273C8A002A9670 /* GrowlWebKitPluginHandler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitPluginHandler.h; path = Plugins/Displays/WebKit/GrowlWebKitPluginHandler.h; sourceTree = "<group>"; };
 		743EDE0609273C8A002A9670 /* GrowlWebKitPluginHandler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitPluginHandler.m; path = Plugins/Displays/WebKit/GrowlWebKitPluginHandler.m; sourceTree = "<group>"; };
 		743EDE11092740F5002A9670 /* GrowlWebKitDisplayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitDisplayPlugin.h; path = Plugins/Displays/WebKit/GrowlWebKitDisplayPlugin.h; sourceTree = "<group>"; };
@@ -1089,8 +1097,7 @@
 		DDF09B1B080AC97A006F4172 /* PrefpaneTester.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefpaneTester.h; path = "Prefpane TestHarness/PrefpaneTester.h"; sourceTree = "<group>"; };
 		DDF09B1C080AC97A006F4172 /* PrefpaneTester.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PrefpaneTester.m; path = "Prefpane TestHarness/PrefpaneTester.m"; sourceTree = "<group>"; };
 		DDF09C11080AD264006F4172 /* generateBuildPath.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; name = generateBuildPath.sh; path = "Prefpane TestHarness/generateBuildPath.sh"; sourceTree = "<group>"; };
-		EE17E56A08EFFCDB0086F0C3 /* GrowlNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationView.h; path = Plugins/Displays/GrowlNotificationView.h; sourceTree = "<group>"; };
-		EE17E56B08EFFCDB0086F0C3 /* GrowlNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationView.m; path = Plugins/Displays/GrowlNotificationView.m; sourceTree = "<group>"; };
+		EE17E56B08EFFCDB0086F0C3 /* GrowlThreadedView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlThreadedView.m; path = Plugins/Displays/GrowlThreadedView.m; sourceTree = "<group>"; };
 		EE1AF8CD0897DA9400F486FD /* GrowlAnimation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlAnimation.h; sourceTree = "<group>"; };
 		EE1AF8CE0897DA9400F486FD /* GrowlAnimation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlAnimation.m; sourceTree = "<group>"; };
 		EE1AF8CF0897DA9400F486FD /* GrowlWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlWindowTransition.h; sourceTree = "<group>"; };
@@ -1836,8 +1843,10 @@
 				953F739F081FFB9E00823EFE /* GrowlNotificationCenter.m */,
 				95416E03086343180098C914 /* GrowlStatusController.h */,
 				95416E04086343180098C914 /* GrowlStatusController.c */,
-				EE17E56A08EFFCDB0086F0C3 /* GrowlNotificationView.h */,
-				EE17E56B08EFFCDB0086F0C3 /* GrowlNotificationView.m */,
+				740CC038093A4F1000092801 /* GrowlThreadedView.h */,
+				EE17E56B08EFFCDB0086F0C3 /* GrowlThreadedView.m */,
+				740CC06F093A508100092801 /* GrowlNotificationView.h */,
+				740CC070093A508100092801 /* GrowlNotificationView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -3722,12 +3731,13 @@
 				95E2457408EEAC510092EAAC /* GrowlPlugin.m in Sources */,
 				95E2457A08EEAC630092EAAC /* GrowlDisplayPlugin.m in Sources */,
 				95E2458408EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.m in Sources */,
-				EE17E56D08EFFCDB0086F0C3 /* GrowlNotificationView.m in Sources */,
+				EE17E56D08EFFCDB0086F0C3 /* GrowlThreadedView.m in Sources */,
 				95F0A2200904D7EA00BD679D /* LoginItemsAE.c in Sources */,
 				070C1AE80912D16600884E7D /* GrowlNonCopyingMutableDictionary.m in Sources */,
 				745352AF09313ABA0000B26A /* GrowlWebKitPrefsController.m in Sources */,
 				745352B009313ABB0000B26A /* GrowlWebKitPluginHandler.m in Sources */,
 				745352B109313ABD0000B26A /* GrowlWebKitDisplayPlugin.m in Sources */,
+				740CC072093A508100092801 /* GrowlNotificationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

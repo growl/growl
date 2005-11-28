@@ -96,7 +96,7 @@
 
 - (void) drawRect:(NSRect)rect {
 	//Make sure that we don't draw in the main thread
-	if ([super dispatchDrawingToThread:rect]) {
+	//if ([super dispatchDrawingToThread:rect]) {
 		NSRect b = [self bounds];
 		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
 
@@ -156,7 +156,7 @@
 			[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 
 		[[self window] invalidateShadow];
-	}
+	//}
 }
 
 - (void) setIcon:(NSImage *)anIcon {

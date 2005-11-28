@@ -2,62 +2,83 @@
 //  GrowlNotificationView.m
 //  Growl
 //
-//  Created by Ofri Wolfus on 01/10/05.
-//  Copyright 2005 Ofri Wolfus. All rights reserved.
+//  Created by Jamie Kirkpatrick on 27/11/05.
+//  Copyright 2005  Jamie Kirkpatrick. All rights reserved.
 //
 
 #import "GrowlNotificationView.h"
-#import "GrowlApplicationController.h"
 
-@interface GrowlNotificationView (private)
-- (void) threadedDrawRectWithRectValue:(NSValue *)aRect;
-@end
 
 @implementation GrowlNotificationView
 
-//init and store the main thread
-- (id) initWithFrame:(NSRect)frameRect {
-	if ((self = [super initWithFrame:frameRect]))
-		mainThread = [[[GrowlApplicationController sharedInstance] mainThread] retain];
-
-	return self;
+- (id) delegate {	
+    return delegate; 
 }
 
-- (void) release {
-	//only really release when we have no active threads. it would be Very Bad if we were released while things were happening.
-	[NSObject cancelPreviousPerformRequestsWithTarget:self
-											 selector:@selector(release)
-											   object:nil];
-	if (numberOfThreads) {
-		[self performSelector:@selector(release)
-		           withObject:nil
-		           afterDelay:0.1];
-	} else {
-		[super release];
-	}
-}
-- (void) dealloc {
-	[mainThread release];
-	[super dealloc];
+- (void) setDelegate: (id) theDelegate {
+	delegate = theDelegate;
 }
 
-- (BOOL) dispatchDrawingToThread:(NSRect)aRect {
-	BOOL isMain = [NSThread currentThread] == mainThread;
-	if (isMain) {
-		++numberOfThreads;
-		[NSApplication detachDrawingThread:@selector(threadedDrawRectWithRectValue:)
-								  toTarget:self
-								withObject:[NSValue valueWithRect:aRect]];
-	}
-	return !isMain;
+#pragma mark -
+
+- (id) target {
+	return target;
 }
 
-//Convert the value back to a rect, then lock focus (ordinarily done for us, but this is no ordinary view!) and draw. And unlock focus, of course.
-- (void) threadedDrawRectWithRectValue:(NSValue *)aRect {
-	[self lockFocus];
-	[self drawRect:[aRect rectValue]];
-	[self unlockFocus];
-	--numberOfThreads;
+- (void) setTarget:(id) object {
+	target = object;
+}
+
+#pragma mark -
+
+- (SEL) action {
+	return action;
+}
+
+- (void) setAction:(SEL) selector {
+	action = selector;
+}
+
+#pragma mark -
+
+- (BOOL) shouldDelayWindowOrderingForEvent:(NSEvent *)theEvent {
+#pragma unused(theEvent)
+	[NSApp preventWindowOrdering];
+	return YES;
+}
+
+- (BOOL) mouseOver {
+	return mouseOver;
+}
+
+- (void) setCloseOnMouseExit:(BOOL)flag {
+	closeOnMouseExit = flag;
+}
+
+- (BOOL) acceptsFirstMouse:(NSEvent *) theEvent {
+#pragma unused(theEvent)
+	return YES;
+}
+
+- (void) mouseEntered:(NSEvent *)theEvent {
+#pragma unused(theEvent)
+	mouseOver = YES;
+	[self setNeedsDisplay:YES];
+}
+
+- (void) mouseExited:(NSEvent *)theEvent {
+#pragma unused(theEvent)
+	mouseOver = NO;
+	[self setNeedsDisplay:YES];
+	if (closeOnMouseExit && [delegate respondsToSelector:@selector(mouseExitedNotificationView:)])
+		[delegate performSelector:@selector(mouseExitedNotificationView:) withObject:self];
+}
+
+- (void) mouseDown:(NSEvent *) event {
+#pragma unused(event)
+	mouseOver = NO;
+	if (target && action && [target respondsToSelector:action])
+		[target performSelector:action withObject:self];
 }
 
 @end

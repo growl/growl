@@ -29,7 +29,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	this class is the delegate for the class
 */
 
-- (void) displayWindowControllerDidFadeOut:(NSNotification *)notification {
+/*- (void) displayWindowControllerDidFadeOut:(NSNotification *)notification {
 #pragma unused(notification)
 	NSSize windowSize = [[self window] frame].size;
 //	NSLog(@"self id: [%d]", self->uid);
@@ -50,10 +50,10 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
 										 CFSTR("BrushedGone"),
-										 /*object*/ NULL,
-										 /*userInfo*/ dict,
-										 /*deliverImmediately*/ false);
-	CFRelease(dict);
+										 /*object*/ //NULL,
+										 /*userInfo*/// dict,
+										 /*deliverImmediately*/ //false);
+	/*CFRelease(dict);
 }
 
 - (void) clearSpace:(NSNotification *)note {
@@ -66,7 +66,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 		  uid, i,
 		  theFrame.origin.x, theFrame.origin.y, theFrame.size.width, theFrame.size.height,
 		  space.origin.x, space.origin.y, space.size.width, space.size.height);*/
-	if (i != uid && NSIntersectsRect(space, theFrame)) {
+	/*if (i != uid && NSIntersectsRect(space, theFrame)) {
 		//NSLog(@"I intersect with this frame\n");
 		theFrame.origin.y = space.origin.y - space.size.height - GrowlBrushedPadding;
 		//NSLog(@"New origin: (%f, %f)\n", theFrame.origin.x, theFrame.origin.y);
@@ -78,12 +78,12 @@ static NSMutableDictionary *notificationsByIdentifier;
 		CFRelease(idValue);
 		CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
 											 CFSTR("Clear Space"),
-											 /*object*/ NULL,
-											 /*userInfo*/ dict,
-											 /*deliverImmediately*/ false);
-		CFRelease(dict);
+											 /*object*/ //NULL,
+											 /*userInfo*/ //dict,
+											 /*deliverImmediately*/ //false);
+	/*	CFRelease(dict);
 	}
-}
+}*/
 
 #pragma mark Regularly Scheduled Coding
 
@@ -95,9 +95,12 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
 	NSRect screen = [[self screen] visibleFrame];
 	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
-	displayDuration = GrowlBrushedDurationPrefDefault * 10.0f; /* not sure why this is coming back like this */
-	READ_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, &displayDuration);
-	
+	displayDuration = GrowlBrushedDurationPrefDefault;
+	float prefsDuration = -1.0f;
+	READ_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, &prefsDuration);
+	if (prefsDuration > 0.0f)
+		displayDuration = prefsDuration;
+
 	// Create window...
 	NSRect windowFrame = NSMakeRect(0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f);
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:windowFrame										
@@ -116,13 +119,13 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[panel setOneShot:YES];
 	[panel useOptimizedDrawing:YES];
 	[panel setMovableByWindowBackground:NO];
-	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
-	//[panel setDelegate:self];
-	
+
 	// Create the content view...
 	GrowlBrushedWindowView *view = [[GrowlBrushedWindowView alloc] initWithFrame:panelFrame];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
+	[view setDelegate:self];
+	[view setCloseOnMouseExit:YES];
 	[panel setContentView:view];
 	
 	panelFrame = [view frame];

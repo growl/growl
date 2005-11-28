@@ -14,7 +14,7 @@
 #define GrowlDisplayWindowControllerDidTakeWindowDownNotification	@"GrowlDisplayWindowControllerDidTakeWindowDownNotification"
 #define GrowlDisplayWindowControllerNotificationBlockedNotification	@"GrowlDisplayWindowControllerNotificationBlockedNotification"
 
-@class GrowlWindowTransition, GrowlNotificationDisplayBridge, GrowlApplicationNotification;
+@class GrowlWindowTransition, GrowlNotificationDisplayBridge, GrowlApplicationNotification, GrowlNotificationView;
 
 @interface GrowlDisplayWindowController : NSWindowController {
 	GrowlApplicationNotification    *notification;	/* not sure if this will be needed since binding may work without */
@@ -179,3 +179,13 @@
 
 @end
 
+#pragma mark -
+
+@interface GrowlDisplayWindowController (GrowlNotificationViewDelegate)
+
+/*
+ * A default implementation for the view delegate method that calls stopDisplay:
+ */
+- (void) mouseExitedNotificationView:(GrowlNotificationView *)view;
+
+@end

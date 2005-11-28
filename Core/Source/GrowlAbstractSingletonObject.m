@@ -115,38 +115,12 @@ static NSMutableDictionary *singletonObjects;
 	return [[self class] sharedInstance];
 }
 
-//Release anything but our shared class
-- (void) release {
-	id object = singletonObjects ? [singletonObjects objectForKey:[self class]] : nil;
-
-	if (self != object)
-		[super release];
-}
-
 //Allow deallocation only when destroying all singletons
 - (void) dealloc {
 	if (!singletonObjects) {
 		[self destroy];
 		[super dealloc];
 	}
-}
-
-//I think it's pretty obvious what this does.
-- (id) autorelease {
-	return self;
-}
-
-//And if you didn't get it from the comment above - it does NOTHING! :D
-- (id) retain {
-	return self;
-}
-
-//I have nothing to write here but i should since i've written in all the above methods...
-- (unsigned) retainCount {
-	if (singletonObjects)
-		return UINT_MAX;
-	else
-		return [super retainCount];		//Always 1 since -retain does nothing.
 }
 
 @end

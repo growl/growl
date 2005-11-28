@@ -139,7 +139,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 }
 
 - (void) destroy {
-	[pluginsByIdentifier     release];
+	[pluginsByIdentifier     release];	
 	[pluginIdentifiersByPath release];
 	[pluginIdentifiersByBundle release];
 	[pluginIdentifiersByInstance release];

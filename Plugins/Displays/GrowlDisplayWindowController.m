@@ -515,3 +515,14 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 }
 
 @end
+
+#pragma mark -
+
+@implementation GrowlDisplayWindowController (GrowlNotificationViewDelegate)
+
+- (void) mouseExitedNotificationView:(GrowlNotificationView *)view {
+#pragma unused (view)
+	[self stopDisplay];
+}
+
+@end

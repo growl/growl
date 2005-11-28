@@ -10,10 +10,8 @@
 #import "GrowlNotificationView.h"
 
 @interface GrowlSmokeWindowView : GrowlNotificationView {
-	BOOL				mouseOver;
 	BOOL				haveTitle;
 	BOOL				haveText;
-	BOOL				closeOnMouseExit;
 	NSImage				*icon;
 	float				iconSize;
 	float				textHeight;
@@ -21,7 +19,6 @@
 	float				lineHeight;
 	SEL					action;
 	id					target;
-	NSTrackingRectTag	trackingRectTag;
 	NSProgressIndicator	*progressIndicator;
 
 	NSFont				*textFont;
@@ -51,13 +48,4 @@
 - (float) titleHeight;
 - (float) descriptionHeight;
 - (int) descriptionRowCount;
-
-- (id) target;
-- (void) setTarget:(id)object;
-
-- (SEL) action;
-- (void) setAction:(SEL)selector;
-
-- (BOOL) mouseOver;
-- (void) setCloseOnMouseExit:(BOOL)flag;
 @end
