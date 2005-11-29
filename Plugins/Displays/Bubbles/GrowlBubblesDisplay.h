@@ -9,9 +9,10 @@
 
 #import "GrowlDisplayPlugin.h"
 
+@class NSPreferencePane;
+
 @interface GrowlBubblesController : GrowlDisplayPlugin {
 }
 
-- (void) displayNotification:(GrowlApplicationNotification *)notification;
-
+- (void)bubblesGone:(NSNotification*)note;
 @end

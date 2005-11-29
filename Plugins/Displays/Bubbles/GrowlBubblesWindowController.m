@@ -15,7 +15,6 @@
 #import "NSWindow+Transforms.h"
 #include "CFDictionaryAdditions.h"
 
-static unsigned bubbleWindowDepth = 0U;
 static NSMutableDictionary *notificationsByIdentifier;
 
 @implementation GrowlBubblesWindowController
@@ -27,47 +26,12 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 #pragma mark -
 
-- (id) initWithNotification:(GrowlApplicationNotification *)notification {
-	NSDictionary *noteDict = [notification dictionaryRepresentation];
-	NSString *title = [notification HTMLTitle];
-	NSString *text  = [notification HTMLDescription];
-	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
-	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
-	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
-	BOOL textHTML, titleHTML;
-
-	if (title)
-		titleHTML = YES;
-	else {
-		titleHTML = NO;
-		title = [notification title];
-	}
-	if (text)
-		textHTML = YES;
-	else {
-		textHTML = NO;
-		text = [notification description];
-	}
-
-	GrowlBubblesWindowController *oldController = [notificationsByIdentifier objectForKey:ident];
-	if (oldController) {
-		// coalescing
-		GrowlBubblesWindowView *view = (GrowlBubblesWindowView *)[[oldController window] contentView];
-		[view setPriority:priority];
-		[view setTitle:title isHTML:titleHTML];
-		[view setText:text isHTML:textHTML];
-		[view setIcon:icon];
-		[view sizeToFit];
-		[self release];
-		self = oldController;
-		return self;
-	}
-	identifier = [ident retain];
-
-	unsigned screenNumber = 0U;
+- (id) init {
+	NSLog(@"%s\n", __FUNCTION__);
+	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &screenNumber);
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
+	NSRect screen = [[self screen] visibleFrame];
 
 	// I tried setting the width/height to zero, since the view resizes itself later.
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
@@ -83,65 +47,27 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
-	[panel setAlphaValue:0.0f];
+	[panel setAlphaValue:1.0f];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
 	[panel useOptimizedDrawing:YES];
-	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
-	//[panel setDelegate:self];
-
+	[panel setMovableByWindowBackground:NO];
+	
+	// Create the content view...
 	GrowlBubblesWindowView *view = [[GrowlBubblesWindowView alloc] initWithFrame:panelFrame];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
+	[view setDelegate:self];
+	[view setCloseOnMouseExit:YES];
 	[panel setContentView:view];
-
-	[view setPriority:priority];
-	[view setTitle:title isHTML:titleHTML];
-	[view setText:text isHTML:textHTML];
-	[view setIcon:icon];
-	[view sizeToFit];
 
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
-
-	NSRect screen = [[self screen] visibleFrame];
-
 	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - GrowlBubblesPadding,
-											NSMaxY(screen) - GrowlBubblesPadding - bubbleWindowDepth)];
-
-	if ((self = [super initWithWindow:panel])) {
-		#warning this is some temporary code to to stop notifications from spilling off the bottom of the visible screen area
-		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
-		if (NSMinY(panelFrame) < 0.0f)
-			depth = bubbleWindowDepth = 0U;
-		else
-			depth = bubbleWindowDepth += NSHeight(panelFrame) + GrowlBubblesPadding;
-		autoFadeOut = !sticky;
-		[self setDelegate:self];
-
-		// the visibility time for this bubble should be the minimum display time plus
-		// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
-		int rowCount = MIN ([view descriptionRowCount], 0) - 2;
-		BOOL limitPref = YES;
-		READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &limitPref);
-		float duration = MIN_DISPLAY_TIME;
-		READ_GROWL_PREF_FLOAT(GrowlBubblesDuration, GrowlBubblesPrefDomain, &duration);
-		if (!limitPref)
-			[self setDisplayDuration:MIN(duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
-										  MAX_DISPLAY_TIME)];
-		else
-			[self setDisplayDuration:duration];
-
-		if (identifier) {
-			if (!notificationsByIdentifier)
-				notificationsByIdentifier = [[NSMutableDictionary alloc] init];
-			[notificationsByIdentifier setObject:self forKey:identifier];
-		}
-	}
-
-	return self;
+											NSMaxY(screen) - GrowlBubblesPadding - depth)];
+	return [super initWithWindow:panel];
 }
 
 - (void) startFadeOut {
@@ -161,8 +87,6 @@ static NSMutableDictionary *notificationsByIdentifier;
 }
 
 - (void) dealloc {
-	if (depth == bubbleWindowDepth)
-		bubbleWindowDepth = 0U;
 	NSWindow *myWindow = [self window];
 	[[myWindow contentView] release];
 	[myWindow release];
@@ -170,5 +94,55 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	[super dealloc];
 }
+
+- (unsigned) depth {
+	return depth;
+}
+
+- (void) setNotification: (GrowlApplicationNotification *) theNotification {
+	NSLog(@"%s\n", __FUNCTION__);
+	[super setNotification:theNotification];
+	if (!theNotification)
+		return;
+	
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
+	NSString *title = [notification HTMLTitle];
+	NSString *text  = [notification HTMLDescription];
+	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
+	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
+	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
+	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
+	BOOL textHTML, titleHTML;
+	
+	if (title)
+	titleHTML = YES;
+	else {
+		titleHTML = NO;
+		title = [notification title];
+	}
+	if (text)
+	textHTML = YES;
+	else {
+		textHTML = NO;
+		text = [notification description];
+	}
+	
+	NSPanel *panel = (NSPanel *)[self window];
+	GrowlBubblesWindowView *view = [[self window] contentView];
+	[view setPriority:priority];
+	[view setTitle:title isHTML:titleHTML];
+	[view setText:text isHTML:textHTML];
+	[view setIcon:icon];
+	[view sizeToFit];
+	
+	NSRect viewFrame = [view frame];
+	[panel setFrame:viewFrame display:NO];
+	NSRect screen = [[self screen] visibleFrame];
+	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(viewFrame) - GrowlBubblesPadding,
+											NSMaxY(screen) - GrowlBubblesPadding - depth)];
+	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, [panel frame].origin.x, [panel frame].origin.y, [panel frame].size.height, [panel frame].size.width);
+
+}
+
 
 @end

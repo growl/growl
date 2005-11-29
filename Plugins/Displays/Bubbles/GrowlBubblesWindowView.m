@@ -51,7 +51,9 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 #pragma mark -
 
 @implementation GrowlBubblesWindowView
+
 - (id) initWithFrame:(NSRect) frame {
+	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, frame.origin.x, frame.origin.y, frame.size.height, frame.size.width);
 	if ((self = [super initWithFrame:frame])) {
 		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
@@ -93,9 +95,11 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	return haveTitle ? titleHeight : 0.0f;
 }
 
+
 - (void) drawRect:(NSRect) rect {
+	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, rect.origin.x, rect.origin.y, rect.size.height, rect.size.width);
 	//Make sure that we don't draw in the main thread
-	if ([super dispatchDrawingToThread:rect]) {
+	//if ([super dispatchDrawingToThread:rect]) {
 		NSRect b = [self bounds];
 		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
 		CGRect shape = CGRectInset(bounds, BORDER_WIDTH_PX*0.5f, BORDER_WIDTH_PX*0.5f);
@@ -179,7 +183,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 			[textLayoutManager drawGlyphsForGlyphRange:textRange atPoint:drawRect.origin];
 
 		[[self window] invalidateShadow];
-	}
+	//}
 }
 
 #pragma mark -
@@ -438,69 +442,5 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		return MIN(rowCount, MAX_TEXT_ROWS);
 	else
 		return rowCount;
-}
-
-#pragma mark -
-
-- (id) target {
-	return target;
-}
-
-- (void) setTarget:(id) object {
-	target = object;
-}
-
-#pragma mark -
-
-- (SEL) action {
-	return action;
-}
-
-- (void) setAction:(SEL) selector {
-	action = selector;
-}
-
-#pragma mark -
-
-- (BOOL) shouldDelayWindowOrderingForEvent:(NSEvent *)theEvent {
-#pragma unused(theEvent)
-	[NSApp preventWindowOrdering];
-	return YES;
-}
-
-- (BOOL) mouseOver {
-	return mouseOver;
-}
-
-- (void) setCloseOnMouseExit:(BOOL)flag {
-	closeOnMouseExit = flag;
-}
-
-- (BOOL) acceptsFirstMouse:(NSEvent *) event {
-#pragma unused(event)
-	return YES;
-}
-
-- (void) mouseEntered:(NSEvent *)theEvent {
-#pragma unused(theEvent)
-	mouseOver = YES;
-	[self setNeedsDisplay:YES];
-}
-
-- (void) mouseExited:(NSEvent *)theEvent {
-#pragma unused(theEvent)
-	mouseOver = NO;
-	[self setNeedsDisplay:YES];
-
-	// abuse the target object
-	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)])
-		[target performSelector:@selector(startFadeOut)];
-}
-
-- (void) mouseDown:(NSEvent *) event {
-#pragma unused(event)
-	mouseOver = NO;
-	if (target && action && [target respondsToSelector:action])
-		[target performSelector:action withObject:self];
 }
 @end

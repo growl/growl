@@ -11,11 +11,14 @@
 
 @class GrowlApplicationNotification;
 
-@interface GrowlBubblesWindowController : GrowlDisplayFadingWindowController {
+@interface GrowlBubblesWindowController : GrowlDisplayWindowController {
 	unsigned	depth;
 	NSString	*identifier;
+	unsigned	uid;
 }
 
 - (id) initWithNotification:(GrowlApplicationNotification *)noteDict;
+- (unsigned) depth;
+- (void) setNotification: (GrowlApplicationNotification *) theNotification;
 
 @end
