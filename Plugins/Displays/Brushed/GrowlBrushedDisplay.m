@@ -40,8 +40,7 @@ static unsigned brushedDepth = 0U;
 	return preferencePane;
 }
 
-- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge;
-{
+- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
 	// Note: currently we assume there is only one WC...
 	GrowlBrushedWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];
 	GrowlApplicationNotification *note = [theBridge notification];

@@ -87,8 +87,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 #pragma mark Regularly Scheduled Coding
 
-- (id) init;
-{
+- (id) init {
 	// Read prefs...
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBrushedScreenPref, GrowlBrushedPrefDomain, &screenNumber);
