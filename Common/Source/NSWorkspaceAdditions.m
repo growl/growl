@@ -24,7 +24,7 @@
 
 - (BOOL) getFileType:(out NSString **)outFileType creatorCode:(out NSString **)outCreatorCode forURL:(NSURL *)URL {
 	NSParameterAssert(URL != nil);
-	
+
 	struct LSItemInfoRecord rec;
 
 	OSStatus err = LSCopyItemInfoForURL((CFURLRef)URL, kLSRequestTypeCreator, &rec);
