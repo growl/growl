@@ -16,8 +16,8 @@
 |**|	typedef's, struct's, enum's, etc.
 \**/
 
-#define kTVisualPluginName                      "\pGrowlTunes"
-#define	kTVisualPluginCreator			'grwl'
+#define kTVisualPluginName              "\pGrowlTunes"
+#define	kTVisualPluginCreator           'GRWL'
 
 #define	kTVisualPluginMajorVersion		1
 #define	kTVisualPluginMinorVersion		0
@@ -31,13 +31,13 @@
 #define ITUNES_PLAYING			CFSTR("Started Playing")
 
 typedef Boolean (*GrowlSetDelegateProcPtr) (struct Growl_Delegate *newDelegate);
-GrowlSetDelegateProcPtr GrowlTunes_SetDelegate;
+static GrowlSetDelegateProcPtr GrowlTunes_SetDelegate;
 
 typedef void (*GrowlPostNotificationProcPtr)(const struct Growl_Notification *notification);
-GrowlPostNotificationProcPtr GrowlTunes_PostNotification;
+static GrowlPostNotificationProcPtr GrowlTunes_PostNotification;
 
 typedef Boolean (*GrowlIsInstalledProcPtr)(void);
-GrowlIsInstalledProcPtr GrowlTunes_GrowlIsInstalled;
+static GrowlIsInstalledProcPtr GrowlTunes_GrowlIsInstalled;
 
 
 typedef struct VisualPluginData {
@@ -45,7 +45,7 @@ typedef struct VisualPluginData {
 	ITAppProcPtr			appProc;
 
 	ITFileSpec			pluginFileSpec;
-	
+
 	CGrafPtr			destPort;
 	Rect				destRect;
 	OptionBits			destOptions;
@@ -53,7 +53,7 @@ typedef struct VisualPluginData {
 
 	RenderVisualData		renderData;
 	UInt32				renderTimeStampID;
-	
+
 	ITTrackInfo			trackInfo;
 	ITStreamInfo			streamInfo;
 
@@ -80,38 +80,27 @@ extern CFArrayCallBacks notificationCallbacks;
 extern OSStatus iTunesPluginMainMachO(OSType message,PluginMessageInfo *messageInfo,void *refCon);
 extern void CFLog(int priority, CFStringRef format, ...);
 
-//	MemClear
-static void MemClear(LogicalAddress dest,SInt32 length)
-{
-	register unsigned char	*ptr;
-
-	ptr = (unsigned char*) dest;
-	
-	while (length-- > 0)
-		*ptr++ = 0;
-}
-
 static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *messageInfo,void *refCon)
 {
-	OSStatus			status;
+	OSStatus			err = noErr;
 	VisualPluginData *	visualPluginData;
 
 	visualPluginData = (VisualPluginData*) refCon;
-	
-	status = noErr;
+
+	err = noErr;
 
 	switch (message)
 	{
 		/*
 			Sent when the visual plugin is registered.  The plugin should do minimal
 			memory allocations here.  The resource fork of the plugin is still available.
-		*/		
+		*/
 		case kVisualPluginInitMessage:
 		{
 			visualPluginData = (VisualPluginData*) NewPtrClear(sizeof(VisualPluginData));
 			if (visualPluginData == nil)
 			{
-				status = memFullErr;
+				err = memFullErr;
 				break;
 			}
 
@@ -120,21 +109,21 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 
 			/* Remember the file spec of our plugin file. We need this so we can open our resource fork during */
 			/* the configuration message */
-			
-			status = PlayerGetPluginFileSpec(visualPluginData->appCookie,visualPluginData->appProc,&visualPluginData->pluginFileSpec);
+
+			err = PlayerGetPluginFileSpec(visualPluginData->appCookie,visualPluginData->appProc,&visualPluginData->pluginFileSpec);
 
 			messageInfo->u.initMessage.refCon	= (void*) visualPluginData;
 			break;
 		}
-			
+
 		/*
 			Sent when the visual plugin is unloaded
-		*/		
+		*/
 		case kVisualPluginCleanupMessage:
 			if (visualPluginData != nil)
 				DisposePtr((Ptr)visualPluginData);
 			break;
-			
+
 		/*
 			Sent when the visual plugin is enabled.  iTunes currently enables all
 			loaded visual plugins.  The plugin should not do anything here.
@@ -149,7 +138,7 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 		*/
 		case kVisualPluginIdleMessage:
 			break;
-					
+
 		/*
 			Sent if the plugin requests the ability for the user to configure it.  Do this by setting
 			the kVisualWantsConfigure option in the RegisterVisualMessage.options field.
@@ -162,20 +151,20 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 		*/
 		case kVisualPluginShowWindowMessage:
 			break;
-			
+
 		/*
 			Sent when iTunes is no longer displayed.
 		*/
 		case kVisualPluginHideWindowMessage:
 			break;
-		
+
 		/*
 			Sent when iTunes needs to change the port or rectangle of the currently
 			displayed visual.
 		*/
 		case kVisualPluginSetWindowMessage:
 			break;
-		
+
 		/*
 			Sent for the visual plugin to render a frame.
 		*/
@@ -185,7 +174,7 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 			Sent in response to an update event.  The visual plugin should update
 			into its remembered port.  This will only be sent if the plugin has been
 			previously given a ShowWindow message.
-		*/	
+		*/
 		case kVisualPluginUpdateMessage:
 			break;
 		/*
@@ -195,13 +184,13 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 			if (messageInfo->u.playMessage.trackInfo != nil)
 				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfo;
 			else
-				MemClear(&visualPluginData->trackInfo,sizeof(visualPluginData->trackInfo));
-			
+				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
+
 			if (messageInfo->u.playMessage.streamInfo != nil)
 				visualPluginData->streamInfo = *messageInfo->u.playMessage.streamInfo;
 			else
-				MemClear(&visualPluginData->streamInfo,sizeof(visualPluginData->streamInfo));
-			
+				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
+
 			CFStringRef title = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.name, kCFStringEncodingUTF8);
 			CFStringRef desc = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.artist, kCFStringEncodingUTF8);
 
@@ -209,12 +198,12 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 			printf("name: %.*s\n", visualPluginData->trackInfo.name[0], &(visualPluginData->trackInfo.name[1]));
 			printf("artist: %.*s\n", visualPluginData->trackInfo.artist[0], &(visualPluginData->trackInfo.artist[1]));
 			printf("album: %.*s\n", visualPluginData->trackInfo.album[0], &(visualPluginData->trackInfo.album[1]));
-			
+
 			//insert growl notification here. bong.
 			Growl_Notification *notification;
-					
+
 			InitGrowlNotification(notification);
-			
+
 			//notification->size          = sizeof(struct Growl_Notification);
 			notification->name          = ITUNES_PLAYING;
 			notification->title         = title     ? CFRetain(title)     : title;
@@ -227,14 +216,11 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 			//notification->clickCallback = NULL;
 			//notification->enabledByDefault      = isDefault;
 
-			
-			
-			
 			GrowlTunes_PostNotification(notification);
-			
-			//if(title)
+
+			//if (title)
 			//	CFRelease(title);
-			//if(desc)
+			//if (desc)
 			//	CFRelease(desc);
 			visualPluginData->playing = true;
 			break;
@@ -249,12 +235,12 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 			if (messageInfo->u.changeTrackMessage.trackInfo != nil)
 				visualPluginData->trackInfo = *messageInfo->u.changeTrackMessage.trackInfo;
 			else
-				MemClear(&visualPluginData->trackInfo,sizeof(visualPluginData->trackInfo));
+				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
 
 			if (messageInfo->u.changeTrackMessage.streamInfo != nil)
 				visualPluginData->streamInfo = *messageInfo->u.changeTrackMessage.streamInfo;
 			else
-				MemClear(&visualPluginData->streamInfo,sizeof(visualPluginData->streamInfo));
+				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 			break;
 
 		/*
@@ -262,7 +248,7 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 		*/
 		case kVisualPluginStopMessage:
 			break;
-		
+
 		/*
 			Sent when the player changes position.
 		*/
@@ -275,14 +261,14 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 		*/
 		case kVisualPluginPauseMessage:
 			break;
-			
+
 		/*
 			Sent when the player unpauses.  iTunes does not currently use pause or unpause.
 			A pause in iTunes is handled by stopping and remembering the position.
 		*/
 		case kVisualPluginUnpauseMessage:
 			break;
-		
+
 		/*
 			Sent to the plugin in response to a MacOS event.  The plugin should return noErr
 			for any event it handles completely,or an error (unimpErr) if iTunes should handle it.
@@ -298,27 +284,27 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 					{
 					case	'c':
 					case	'C':
-						status = noErr;
+						err = noErr;
 						break;
 					case	'f':
 					case	'F':
-						status = noErr;
+						err = noErr;
 						break;
 					default:
-						status = unimpErr;
+						err = unimpErr;
 						break;
 					}
 				}
 				else
-					status = unimpErr;
+					err = unimpErr;
 			}
 			break;
 
 		default:
-			status = unimpErr;
+			err = unimpErr;
 			break;
 	}
-	return status;	
+	return err;
 }
 
 /*
@@ -331,10 +317,10 @@ static OSStatus RegisterVisualPlugin(PluginMessageInfo *messageInfo)
 	OSStatus			err = noErr;
 	PlayerMessageInfo	playerMessageInfo;
 	Str255				pluginName = kTVisualPluginName;
-		
-	MemClear(&playerMessageInfo.u.registerVisualPluginMessage,sizeof(playerMessageInfo.u.registerVisualPluginMessage));
-	
-	BlockMoveData((Ptr)&pluginName[0],(Ptr)&playerMessageInfo.u.registerVisualPluginMessage.name[0],pluginName[0] + 1);
+
+	memset(&playerMessageInfo.u.registerVisualPluginMessage, 0, sizeof(playerMessageInfo.u.registerVisualPluginMessage));
+
+	memcpy((Ptr)playerMessageInfo.u.registerVisualPluginMessage.name, (Ptr)pluginName, pluginName[0] + 1);
 
 	SetNumVersion(&playerMessageInfo.u.registerVisualPluginMessage.pluginVersion,kTVisualPluginMajorVersion,kTVisualPluginMinorVersion,kTVisualPluginReleaseStage,kTVisualPluginNonFinalRelease);
 
@@ -342,11 +328,11 @@ static OSStatus RegisterVisualPlugin(PluginMessageInfo *messageInfo)
 	playerMessageInfo.u.registerVisualPluginMessage.handler					= (VisualPluginProcPtr)VisualPluginHandler;
 	playerMessageInfo.u.registerVisualPluginMessage.registerRefCon			= 0;
 	playerMessageInfo.u.registerVisualPluginMessage.creator					= kTVisualPluginCreator;
-		
+
 	err = PlayerRegisterVisualPlugin(messageInfo->u.initMessage.appCookie,messageInfo->u.initMessage.appProc,&playerMessageInfo);
-		
+
 	return err;
-	
+
 }
 
 /**\
@@ -375,22 +361,22 @@ OSStatus iTunesPluginMainMachO(OSType message,PluginMessageInfo *messageInfo,voi
 					GrowlTunes_SetDelegate = CFBundleGetFunctionPointerForName(growlBundle, CFSTR("Growl_SetDelegate"));
 					GrowlTunes_PostNotification = CFBundleGetFunctionPointerForName(growlBundle, CFSTR("Growl_PostNotification"));
 					GrowlTunes_GrowlIsInstalled = CFBundleGetFunctionPointerForName(growlBundle, CFSTR("Growl_IsInstalled"));
-					
+
 					CFLog(1, CFSTR("%p %p %p\n"), GrowlTunes_SetDelegate, GrowlTunes_PostNotification, GrowlTunes_GrowlIsInstalled);
 					success = (&GrowlTunes_SetDelegate) && (&GrowlTunes_PostNotification) && (&GrowlTunes_GrowlIsInstalled);
 					CFLog(1, CFSTR("%d"), success);
-					if(success) {
-					
-						InitGrowlDelegate(&delegate);			
+					if (success) {
+
+						InitGrowlDelegate(&delegate);
 
 						CFMutableArrayRef allNotifications = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
 						CFArrayAppendValue(allNotifications, ITUNES_PLAYING);
 						CFArrayAppendValue(allNotifications, ITUNES_TRACK_CHANGED);
-					
+
 						CFMutableArrayRef defaultNotifications = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
 						CFArrayAppendValue(defaultNotifications, ITUNES_PLAYING);
 						CFArrayAppendValue(defaultNotifications, ITUNES_TRACK_CHANGED);
-					
+
 						CFTypeRef keys[] = { GROWL_APP_NAME, GROWL_NOTIFICATIONS_ALL, GROWL_NOTIFICATIONS_DEFAULT };
 						CFTypeRef values[] = {CFSTR("GrowlTunes"), allNotifications, defaultNotifications };
 						delegate.registrationDictionary = CFDictionaryCreate(
@@ -398,12 +384,12 @@ OSStatus iTunesPluginMainMachO(OSType message,PluginMessageInfo *messageInfo,voi
 														 &kCFTypeDictionaryKeyCallBacks,
 														 &kCFTypeDictionaryValueCallBacks);
 
-						if(GrowlTunes_SetDelegate(&delegate))
+						if (GrowlTunes_SetDelegate(&delegate))
 							CFLog(1, CFSTR("registered"));
 						else
 							CFLog(1, CFSTR("not registered"));
-				
-						if(!GrowlTunes_GrowlIsInstalled()) {
+
+						if (!GrowlTunes_GrowlIsInstalled()) {
 							//notify the user that growl isn't installed and as such that there won't be any notifications for this session of iTunes.
 						}
 					} else {
@@ -413,15 +399,15 @@ OSStatus iTunesPluginMainMachO(OSType message,PluginMessageInfo *messageInfo,voi
 				//CFRelease(growlBundle);
 			}
 			break;
-			
+
 		case kPluginCleanupMessage:
 			err = noErr;
 			break;
-			
+
 		default:
 			err = unimpErr;
 			break;
 	}
-	
+
 	return err;
 }
