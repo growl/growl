@@ -33,6 +33,16 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
 	NSRect screen = [[self screen] visibleFrame];
 
+	displayDuration = GrowlBubblesDurationPrefDefault;
+	
+	CFNumberRef prefsDuration = NULL;
+	CFTimeInterval value = -1.0f;
+	READ_GROWL_PREF_VALUE(GrowlBubblesDuration, GrowlBubblesPrefDomain, CFNumberRef, &prefsDuration);
+	CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
+	NSLog(@"%lf\n", value);
+	if (value > 0.0f)
+		displayDuration = value;
+
 	// I tried setting the width/height to zero, since the view resizes itself later.
 	// This made it ignore the alpha at the edges (using 1.0 instead). Why?
 	// A window with a frame of NSZeroRect is off-screen and doesn't respect opacity even

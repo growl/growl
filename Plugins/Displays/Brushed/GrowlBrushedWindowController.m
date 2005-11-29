@@ -94,11 +94,15 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
 	NSRect screen = [[self screen] visibleFrame];
 	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
+	
+	CFNumberRef prefsDuration = NULL;
+	CFTimeInterval value = -1.0f;
+
 	displayDuration = GrowlBrushedDurationPrefDefault;
-	float prefsDuration = -1.0f;
-	READ_GROWL_PREF_FLOAT(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, &prefsDuration);
-	if (prefsDuration > 0.0f)
-		displayDuration = prefsDuration;
+	READ_GROWL_PREF_VALUE(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, CFNumberRef, &prefsDuration);
+	CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
+	if (value > 0.0f)
+		displayDuration = value;
 
 	// Create window...
 	NSRect windowFrame = NSMakeRect(0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f);

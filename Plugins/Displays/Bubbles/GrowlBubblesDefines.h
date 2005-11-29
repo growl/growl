@@ -28,3 +28,6 @@
 #define GrowlBubblesSizePrefDefault		GrowlBubblesSizeNormal
 
 #define GrowlBubblesPrefDomain			@"com.growl.Bubbles"
+
+// the default value for the duration preference
+#define GrowlBubblesDurationPrefDefault		4.0f
