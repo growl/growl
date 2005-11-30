@@ -107,7 +107,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			/* Remember the file spec of our plugin file. We need this so we can open our resource fork during */
 			/* the configuration message */
 
-			err = PlayerGetPluginFileSpec(visualPluginData->appCookie,visualPluginData->appProc,&visualPluginData->pluginFileSpec);
+			err = PlayerGetPluginFileSpec(visualPluginData->appCookie, visualPluginData->appProc, &visualPluginData->pluginFileSpec);
 
 			messageInfo->u.initMessage.refCon = (void *)visualPluginData;
 			break;
@@ -176,7 +176,12 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		/*
 			Sent when the player starts.
 		*/
-		case kVisualPluginPlayMessage:
+		case kVisualPluginPlayMessage: {
+			CFStringRef title;
+			CFStringRef album;
+			CFStringRef artist;
+			CFStringRef desc;	
+
 			//printf("size %ld\n", sizeof(visualPluginData->trackInfo));
 			if (messageInfo->u.playMessage.trackInfo)
 				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfo;
@@ -187,11 +192,20 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				visualPluginData->streamInfo = *messageInfo->u.playMessage.streamInfo;
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
-			
-			CFStringRef title = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.name, kCFStringEncodingUTF8);
-			CFStringRef artist = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.artist, kCFStringEncodingUTF8);
-			CFStringRef album = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.album, kCFStringEncodingUTF8);
-			CFStringRef desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n%@"), artist, album);
+
+			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask)
+				title = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.name, kCFStringEncodingUTF8);
+			else
+				title = CFSTR("");
+			if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask)
+				artist = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.artist, kCFStringEncodingUTF8);
+			else
+				artist = CFSTR("");
+			if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask)
+				album = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.album, kCFStringEncodingUTF8);
+			else
+				album = CFSTR("");
+			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n%@"), artist, album);
 
 			CFLog(1, CFSTR("%s\n"), __FUNCTION__);
 			CFLog(1, CFSTR("title: %@\n"), title);
@@ -229,6 +243,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 
 			visualPluginData->playing = true;
 			break;
+		}
 
 		/*
 			Sent when the player changes the current track information.  This
@@ -320,22 +335,21 @@ static OSStatus RegisterVisualPlugin(PluginMessageInfo *messageInfo)
 	OSStatus			err = noErr;
 	PlayerMessageInfo	playerMessageInfo;
 	Str255				pluginName = kTVisualPluginName;
-		
+
 	memset(&playerMessageInfo.u.registerVisualPluginMessage, 0, sizeof(playerMessageInfo.u.registerVisualPluginMessage));
 
 	memcpy(playerMessageInfo.u.registerVisualPluginMessage.name, pluginName, pluginName[0] + 1);
 
-	SetNumVersion(&playerMessageInfo.u.registerVisualPluginMessage.pluginVersion,kTVisualPluginMajorVersion,kTVisualPluginMinorVersion,kTVisualPluginReleaseStage,kTVisualPluginNonFinalRelease);
+	SetNumVersion(&playerMessageInfo.u.registerVisualPluginMessage.pluginVersion, kTVisualPluginMajorVersion, kTVisualPluginMinorVersion, kTVisualPluginReleaseStage, kTVisualPluginNonFinalRelease);
 
-	playerMessageInfo.u.registerVisualPluginMessage.options			= kPluginWantsToBeLeftOpen;
-	playerMessageInfo.u.registerVisualPluginMessage.handler			= (VisualPluginProcPtr)VisualPluginHandler;
-	playerMessageInfo.u.registerVisualPluginMessage.registerRefCon	= 0;
-	playerMessageInfo.u.registerVisualPluginMessage.creator			= kTVisualPluginCreator;
+	playerMessageInfo.u.registerVisualPluginMessage.options        = kPluginWantsToBeLeftOpen;
+	playerMessageInfo.u.registerVisualPluginMessage.handler        = (VisualPluginProcPtr)VisualPluginHandler;
+	playerMessageInfo.u.registerVisualPluginMessage.registerRefCon = NULL;
+	playerMessageInfo.u.registerVisualPluginMessage.creator        = kTVisualPluginCreator;
 
 	err = PlayerRegisterVisualPlugin(messageInfo->u.initMessage.appCookie,messageInfo->u.initMessage.appProc,&playerMessageInfo);
 
 	return err;
-
 }
 
 /**\
@@ -344,6 +358,7 @@ static OSStatus RegisterVisualPlugin(PluginMessageInfo *messageInfo)
 
 OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, void *refCon)
 {
+#pragma unused(refCon)
 	OSStatus		err = noErr;
 	printf("%s\n", __FUNCTION__);
 	switch (message) {
@@ -355,17 +370,15 @@ OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, v
 			CFURLRef growlBundleURL = CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, privateFrameworksURL, CFSTR("Growl.framework"), true);
 			CFRelease(privateFrameworksURL);
 			CFBundleRef growlBundle = CFBundleCreate(kCFAllocatorDefault, growlBundleURL);
-			//CFRelease(growlBundleURL);
+			CFRelease(growlBundleURL);
 			if (growlBundle) {
 				if (CFBundleLoadExecutable(growlBundle)) {
-					Boolean success = false;
 					//manually load these buggers since just weak linking the framework doesn't cut it.
 					GrowlTunes_SetDelegate = CFBundleGetFunctionPointerForName(growlBundle, CFSTR("Growl_SetDelegate"));
 					GrowlTunes_PostNotification = CFBundleGetFunctionPointerForName(growlBundle, CFSTR("Growl_PostNotification"));
 					GrowlTunes_GrowlIsInstalled = CFBundleGetFunctionPointerForName(growlBundle, CFSTR("Growl_IsInstalled"));
 
-					success = (&GrowlTunes_SetDelegate) && (&GrowlTunes_PostNotification) && (&GrowlTunes_GrowlIsInstalled);
-					if (success) {
+					if (GrowlTunes_SetDelegate && GrowlTunes_PostNotification && GrowlTunes_GrowlIsInstalled) {
 
 						InitGrowlDelegate(&delegate);
 
