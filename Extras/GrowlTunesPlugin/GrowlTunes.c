@@ -31,18 +31,18 @@
 #define ITUNES_PLAYING			CFSTR("Started Playing")
 
 typedef Boolean (*GrowlSetDelegateProcPtr) (struct Growl_Delegate *newDelegate);
-GrowlSetDelegateProcPtr GrowlTunes_SetDelegate;
+static GrowlSetDelegateProcPtr GrowlTunes_SetDelegate;
 
 typedef void (*GrowlPostNotificationProcPtr)(const struct Growl_Notification *notification);
-GrowlPostNotificationProcPtr GrowlTunes_PostNotification;
+static GrowlPostNotificationProcPtr GrowlTunes_PostNotification;
 
 typedef Boolean (*GrowlIsInstalledProcPtr)(void);
-GrowlIsInstalledProcPtr GrowlTunes_GrowlIsInstalled;
+static GrowlIsInstalledProcPtr GrowlTunes_GrowlIsInstalled;
 
 
 typedef struct VisualPluginData {
-	void *				appCookie;
-	ITAppProcPtr			appProc;
+	void 				*appCookie;
+	ITAppProcPtr		appProc;
 
 	ITFileSpec			pluginFileSpec;
 
@@ -51,11 +51,11 @@ typedef struct VisualPluginData {
 	OptionBits			destOptions;
 	UInt32				destBitDepth;
 
-	RenderVisualData		renderData;
+	RenderVisualData	renderData;
 	UInt32				renderTimeStampID;
 
 	ITTrackInfo			trackInfo;
-	ITStreamInfo			streamInfo;
+	ITStreamInfo		streamInfo;
 
 	Boolean				playing;
 	Boolean				padding[3];
@@ -77,40 +77,26 @@ extern CFArrayCallBacks notificationCallbacks;
 |**|	exported function prototypes
 \**/
 
-extern OSStatus iTunesPluginMainMachO(OSType message,PluginMessageInfo *messageInfo,void *refCon);
+extern OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, void *refCon);
 extern void CFLog(int priority, CFStringRef format, ...);
 
-//	MemClear
-static void MemClear(LogicalAddress dest,SInt32 length)
+static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *messageInfo, void *refCon)
 {
-	register unsigned char	*ptr;
+	OSStatus         err = noErr;
+	VisualPluginData *visualPluginData;
 
-	ptr = (unsigned char*) dest;
-	
-	while (length-- > 0)
-		*ptr++ = 0;
-}
-
-static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *messageInfo,void *refCon)
-{
-	OSStatus			err = noErr;
-	VisualPluginData *	visualPluginData;
-
-	visualPluginData = (VisualPluginData*) refCon;
+	visualPluginData = (VisualPluginData *)refCon;
 
 	err = noErr;
 
-	switch (message)
-	{
+	switch (message) {
 		/*
 			Sent when the visual plugin is registered.  The plugin should do minimal
 			memory allocations here.  The resource fork of the plugin is still available.
 		*/
 		case kVisualPluginInitMessage:
-		{
-			visualPluginData = (VisualPluginData*) NewPtrClear(sizeof(VisualPluginData));
-			if (visualPluginData == nil)
-			{
+			visualPluginData = (VisualPluginData *)calloc(1, sizeof(VisualPluginData));
+			if (!visualPluginData) {
 				err = memFullErr;
 				break;
 			}
@@ -123,16 +109,15 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 
 			err = PlayerGetPluginFileSpec(visualPluginData->appCookie,visualPluginData->appProc,&visualPluginData->pluginFileSpec);
 
-			messageInfo->u.initMessage.refCon	= (void*) visualPluginData;
+			messageInfo->u.initMessage.refCon = (void *)visualPluginData;
 			break;
-		}
 
 		/*
 			Sent when the visual plugin is unloaded
 		*/
 		case kVisualPluginCleanupMessage:
-			if (visualPluginData != nil)
-				DisposePtr((Ptr)visualPluginData);
+			if (visualPluginData)
+				free(visualPluginData);
 			break;
 
 		/*
@@ -193,15 +178,15 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 		*/
 		case kVisualPluginPlayMessage:
 			//printf("size %ld\n", sizeof(visualPluginData->trackInfo));
-			if (messageInfo->u.playMessage.trackInfo != nil)
+			if (messageInfo->u.playMessage.trackInfo)
 				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfo;
 			else
-				MemClear(&visualPluginData->trackInfo,sizeof(visualPluginData->trackInfo));
+				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
 			
-			if (messageInfo->u.playMessage.streamInfo != nil)
+			if (messageInfo->u.playMessage.streamInfo)
 				visualPluginData->streamInfo = *messageInfo->u.playMessage.streamInfo;
 			else
-				MemClear(&visualPluginData->streamInfo,sizeof(visualPluginData->streamInfo));
+				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 			
 			CFStringRef title = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.name, kCFStringEncodingUTF8);
 			CFStringRef desc = CFStringCreateWithPascalString(kCFAllocatorDefault, PLstrcat(visualPluginData->trackInfo.artist, visualPluginData->trackInfo.album), kCFStringEncodingUTF8);
@@ -244,15 +229,15 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 			information about the currently playing song.
 		*/
 		case kVisualPluginChangeTrackMessage:
-			if (messageInfo->u.changeTrackMessage.trackInfo != nil)
+			if (messageInfo->u.changeTrackMessage.trackInfo)
 				visualPluginData->trackInfo = *messageInfo->u.changeTrackMessage.trackInfo;
 			else
-				MemClear(&visualPluginData->trackInfo,sizeof(visualPluginData->trackInfo));
+				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
 
-			if (messageInfo->u.changeTrackMessage.streamInfo != nil)
+			if (messageInfo->u.changeTrackMessage.streamInfo)
 				visualPluginData->streamInfo = *messageInfo->u.changeTrackMessage.streamInfo;
 			else
-				MemClear(&visualPluginData->streamInfo,sizeof(visualPluginData->streamInfo));
+				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 			break;
 
 		/*
@@ -287,27 +272,25 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 		*/
 		case kVisualPluginEventMessage:
 			{
-				EventRecord* tEventPtr = messageInfo->u.eventMessage.event;
-				if ((tEventPtr->what == keyDown) || (tEventPtr->what == autoKey))
-				{    // charCodeMask,keyCodeMask;
+				EventRecord *tEventPtr = messageInfo->u.eventMessage.event;
+				if ((tEventPtr->what == keyDown) || (tEventPtr->what == autoKey)) {
+					// charCodeMask,keyCodeMask;
 					char theChar = tEventPtr->message & charCodeMask;
 
-					switch (theChar)
-					{
-					case	'c':
-					case	'C':
-						err = noErr;
-						break;
-					case	'f':
-					case	'F':
-						err = noErr;
-						break;
-					default:
-						err = unimpErr;
-						break;
+					switch (theChar) {
+						case 'c':
+						case 'C':
+							err = noErr;
+							break;
+						case 'f':
+						case 'F':
+							err = noErr;
+							break;
+						default:
+							err = unimpErr;
+							break;
 					}
-				}
-				else
+				} else
 					err = unimpErr;
 			}
 			break;
@@ -330,16 +313,16 @@ static OSStatus RegisterVisualPlugin(PluginMessageInfo *messageInfo)
 	PlayerMessageInfo	playerMessageInfo;
 	Str255				pluginName = kTVisualPluginName;
 		
-	MemClear(&playerMessageInfo.u.registerVisualPluginMessage,sizeof(playerMessageInfo.u.registerVisualPluginMessage));
-	
-	memcpy((Ptr)&playerMessageInfo.u.registerVisualPluginMessage.name[0], (Ptr)&pluginName[0],pluginName[0] + 1);
+	memset(&playerMessageInfo.u.registerVisualPluginMessage, 0, sizeof(playerMessageInfo.u.registerVisualPluginMessage));
+
+	memcpy(playerMessageInfo.u.registerVisualPluginMessage.name, pluginName, pluginName[0] + 1);
 
 	SetNumVersion(&playerMessageInfo.u.registerVisualPluginMessage.pluginVersion,kTVisualPluginMajorVersion,kTVisualPluginMinorVersion,kTVisualPluginReleaseStage,kTVisualPluginNonFinalRelease);
 
-	playerMessageInfo.u.registerVisualPluginMessage.options					= kPluginWantsToBeLeftOpen;
-	playerMessageInfo.u.registerVisualPluginMessage.handler					= (VisualPluginProcPtr)VisualPluginHandler;
-	playerMessageInfo.u.registerVisualPluginMessage.registerRefCon			= 0;
-	playerMessageInfo.u.registerVisualPluginMessage.creator					= kTVisualPluginCreator;
+	playerMessageInfo.u.registerVisualPluginMessage.options			= kPluginWantsToBeLeftOpen;
+	playerMessageInfo.u.registerVisualPluginMessage.handler			= (VisualPluginProcPtr)VisualPluginHandler;
+	playerMessageInfo.u.registerVisualPluginMessage.registerRefCon	= 0;
+	playerMessageInfo.u.registerVisualPluginMessage.creator			= kTVisualPluginCreator;
 
 	err = PlayerRegisterVisualPlugin(messageInfo->u.initMessage.appCookie,messageInfo->u.initMessage.appProc,&playerMessageInfo);
 
@@ -351,12 +334,11 @@ static OSStatus RegisterVisualPlugin(PluginMessageInfo *messageInfo)
 |**|	main entrypoint
 \**/
 
-OSStatus iTunesPluginMainMachO(OSType message,PluginMessageInfo *messageInfo,void *refCon)
+OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, void *refCon)
 {
 	OSStatus		err = noErr;
 	printf("%s\n", __FUNCTION__);
-	switch (message)
-	{
+	switch (message) {
 		case kPluginInitMessage:
 			err = RegisterVisualPlugin(messageInfo);
 			//register with growl and setup our delegate

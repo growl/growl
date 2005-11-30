@@ -17,42 +17,6 @@
 #include "iTunesAPI.h"
 #include "iTunesVisualAPI.h"
 
-
-// MemClear
-//
-static void MemClear (LogicalAddress dest, SInt32 length)
-{
-	register unsigned char	*ptr;
-
-	ptr = (unsigned char *) dest;
-	
-	if( length > 16 )
-	{
-		register unsigned long	*longPtr;
-		
-		while( ((unsigned long) ptr & 3) != 0 )
-		{
-			*ptr++ = 0;
-			--length;
-		}
-		
-		longPtr = (unsigned long *) ptr;
-		
-		while( length >= 4 )
-		{
-			*longPtr++ 	= 0;
-			length		-= 4;
-		}
-		
-		ptr = (unsigned char *) longPtr;
-	}
-	
-	while( --length >= 0 )
-	{
-		*ptr++ = 0;
-	}
-}
-
 // SetNumVersion
 //
 void SetNumVersion (NumVersion *numVersion, UInt8 majorRev, UInt8 minorAndBugRev, UInt8 stage, UInt8 nonRelRev)
@@ -71,7 +35,7 @@ OSStatus ITCallApplication (void *appCookie, ITAppProcPtr handler, OSType messag
 	PlayerMessageInfo	localMessageInfo;
 
 	if (!messageInfo) {
-		MemClear(&localMessageInfo, sizeof(localMessageInfo));
+		memset(&localMessageInfo, 0, sizeof(localMessageInfo));
 
 		messageInfo = &localMessageInfo;
 	}
@@ -90,7 +54,7 @@ OSStatus PlayerSetFullScreen (void *appCookie, ITAppProcPtr appProc, Boolean ful
 {
 	PlayerMessageInfo	messageInfo;
 
-	MemClear(&messageInfo, sizeof(messageInfo));
+	memset(&messageInfo, 0, sizeof(messageInfo));
 
 	messageInfo.u.setFullScreenMessage.fullScreen = fullScreen;
 
@@ -104,7 +68,7 @@ OSStatus PlayerSetFullScreenOptions (void *appCookie, ITAppProcPtr appProc, SInt
 {
 	PlayerMessageInfo	messageInfo;
 
-	MemClear(&messageInfo, sizeof(messageInfo));
+	memset(&messageInfo, 0, sizeof(messageInfo));
 
 	messageInfo.u.setFullScreenOptionsMessage.minBitDepth		= minBitDepth;
 	messageInfo.u.setFullScreenOptionsMessage.maxBitDepth		= maxBitDepth;
@@ -123,7 +87,7 @@ OSStatus PlayerGetPluginData (void *appCookie, ITAppProcPtr appProc, void *dataP
 	OSStatus			status;
 	PlayerMessageInfo	messageInfo;
 
-	MemClear(&messageInfo, sizeof(messageInfo));
+	memset(&messageInfo, 0, sizeof(messageInfo));
 
 	messageInfo.u.getPluginDataMessage.dataPtr			= dataPtr;
 	messageInfo.u.getPluginDataMessage.dataBufferSize	= dataBufferSize;
@@ -143,7 +107,7 @@ OSStatus PlayerSetPluginData (void *appCookie, ITAppProcPtr appProc, void *dataP
 {
 	PlayerMessageInfo	messageInfo;
 
-	MemClear(&messageInfo, sizeof(messageInfo));
+	memset(&messageInfo, 0, sizeof(messageInfo));
 
 	messageInfo.u.setPluginDataMessage.dataPtr	= dataPtr;
 	messageInfo.u.setPluginDataMessage.dataSize	= dataSize;
@@ -159,7 +123,7 @@ OSStatus PlayerGetPluginNamedData (void *appCookie, ITAppProcPtr appProc, ConstS
 	OSStatus			status;
 	PlayerMessageInfo	messageInfo;
 
-	MemClear(&messageInfo, sizeof(messageInfo));
+	memset(&messageInfo, 0, sizeof(messageInfo));
 
 	messageInfo.u.getPluginNamedDataMessage.dataName		= dataName;
 	messageInfo.u.getPluginNamedDataMessage.dataPtr			= dataPtr;
@@ -180,7 +144,7 @@ OSStatus PlayerSetPluginNamedData (void *appCookie, ITAppProcPtr appProc, ConstS
 {
 	PlayerMessageInfo	messageInfo;
 
-	MemClear(&messageInfo, sizeof(messageInfo));
+	memset(&messageInfo, 0, sizeof(messageInfo));
 
 	messageInfo.u.setPluginNamedDataMessage.dataName	= dataName;
 	messageInfo.u.setPluginNamedDataMessage.dataPtr		= dataPtr;
@@ -212,7 +176,7 @@ void PlayerOpenURL (void *appCookie, ITAppProcPtr appProc, SInt8 *string, UInt32
 {
 	PlayerMessageInfo	messageInfo;
 
-	MemClear(&messageInfo, sizeof(messageInfo));
+	memset(&messageInfo, 0, sizeof(messageInfo));
 
 	messageInfo.u.openURLMessage.url	= string;
 	messageInfo.u.openURLMessage.length	= length;
@@ -249,7 +213,7 @@ OSStatus PlayerSetDeviceSerialNumber (void *appCookie, ITAppProcPtr appProc, Con
 {
 	PlayerMessageInfo	messageInfo;
 
-	MemClear(&messageInfo, sizeof(messageInfo));
+	memset(&messageInfo, 0, sizeof(messageInfo));
 
 	messageInfo.u.setDeviceSerialNumberMessage.serialNumber = serialNumber;
 
@@ -266,7 +230,7 @@ OSStatus PlayerHandleMacOSEvent (void *appCookie, ITAppProcPtr appProc, const Ev
 	PlayerMessageInfo	messageInfo;
 	OSStatus			status;
 
-	MemClear(&messageInfo, sizeof(messageInfo));
+	memset(&messageInfo, 0, sizeof(messageInfo));
 
 	messageInfo.u.handleMacOSEventMessage.theEvent = theEvent;
 
@@ -285,7 +249,7 @@ OSStatus PlayerGetPluginFileSpec (void *appCookie, ITAppProcPtr appProc, FSSpec 
 {
 	PlayerMessageInfo	messageInfo;
 
-	MemClear(&messageInfo, sizeof(messageInfo));
+	memset(&messageInfo, 0, sizeof(messageInfo));
 
 	messageInfo.u.getPluginFileSpecMessage.fileSpec = pluginFileSpec;
 

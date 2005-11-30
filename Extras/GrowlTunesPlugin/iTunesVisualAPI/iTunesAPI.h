@@ -192,6 +192,7 @@ enum {
 	kPlayerUnregisterPluginMessage		= 'unrg'	/* Unregister the plugin this comes from */
 };
 
+struct PlayerMessageInfo;
 typedef OSStatus (*ITAppProcPtr)(void *appCookie, OSType message,struct PlayerMessageInfo *messageInfo);
 
 
@@ -218,7 +219,8 @@ struct PluginMessageInfo {
 };
 typedef struct PluginMessageInfo PluginMessageInfo;
 
-
+struct VisualPluginMessageInfo;
+struct DevicePluginMessageInfo;
 
 /* Plugin main entry point message handler */
 typedef OSStatus (*PluginProcPtr)(OSType message, PluginMessageInfo *messageInfo, void *refCon);
