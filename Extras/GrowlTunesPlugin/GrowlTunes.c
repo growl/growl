@@ -204,7 +204,7 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 				MemClear(&visualPluginData->streamInfo,sizeof(visualPluginData->streamInfo));
 			
 			CFStringRef title = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.name, kCFStringEncodingUTF8);
-			CFStringRef desc = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.artist, kCFStringEncodingUTF8);
+			CFStringRef desc = CFStringCreateWithPascalString(kCFAllocatorDefault, PLstrcat(visualPluginData->trackInfo.artist, visualPluginData->trackInfo.album), kCFStringEncodingUTF8);
 
 			printf("%s\n", __FUNCTION__);
 			printf("name: %.*s\n", visualPluginData->trackInfo.name[0], &(visualPluginData->trackInfo.name[1]));
