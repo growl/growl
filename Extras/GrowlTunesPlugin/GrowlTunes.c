@@ -212,7 +212,20 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			CFLog(1, CFSTR("artist: %@\n"), artist);
 			CFLog(1, CFSTR("album: %@\n"), album);
 			CFLog(1, CFSTR("desc: %@\n"), desc);
-
+			
+			Handle coverArt;
+			OSType format;
+			CFDataRef coverArtDataRef = NULL;
+			err = PlayerGetCurrentTrackCoverArt (visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
+			if ((err == noErr)) {
+				//get our data ready for the notificiation.
+				coverArtDataRef = CFDataCreate(kCFAllocatorDefault, (const UInt8*)*coverArt, GetHandleSize(coverArt));
+				if (coverArt)
+					DisposeHandle(coverArt);
+			} else {
+				char * string = (char*)&format;
+				CFLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
+			}
 			//insert growl notification here. bong.
 			Growl_Notification notification;
 
@@ -223,7 +236,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			notification.title         = title;
 			notification.description   = desc;
 			//notification.priority      = priority;
-			//notification.iconData      = imageData ? CFRetain(imageData) : imageData;
+			if(coverArtDataRef)
+				notification.iconData      = coverArtDataRef;
 			//notification.reserved      = 0;
 			//notification.isSticky      = isSticky;
 			//notification.clickContext  = NULL;
@@ -240,7 +254,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				CFRelease(album);
 			if (desc)
 				CFRelease(desc);
-
+			if(coverArtDataRef)
+				CFRelease(coverArtDataRef);
 			visualPluginData->playing = true;
 			break;
 		}
@@ -375,7 +390,7 @@ OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, v
 														 kCFAllocatorDefault, keys, values, 3,
 														 &kCFTypeDictionaryKeyCallBacks,
 														 &kCFTypeDictionaryValueCallBacks);
-
+						CFLog(1, CFSTR("%@\n"), delegate.registrationDictionary);
 						if (GrowlTunes_SetDelegate(&delegate))
 							CFLog(1, CFSTR("registered"));
 						else
@@ -384,16 +399,28 @@ OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, v
 						if (!GrowlTunes_GrowlIsInstalled()) {
 							//notify the user that growl isn't installed and as such that there won't be any notifications for this session of iTunes.
 						}
+						
+						//lets nuke the menu item :)
+						//MenuBarHandle iTunesMenuBar = GetMenuBar();
+						
+						//MenuRef rootMenu = AcquireRootMenu ();
+						//CFLog(1, CFSTR("%@"), rootMenu);
+						//DisposeMenuBar(iTunesMenuBar);
+						if(growlBundle)
+							CFRelease(growlBundle);
 					} else {
 						err = unimpErr;
 					}
 				}
-				//CFRelease(growlBundle);
+
 			}
 			break;
 
 		case kPluginCleanupMessage:
 			err = noErr;
+			if(delegate.registrationDictionary)
+				CFRelease(delegate.registrationDictionary);
+
 			break;
 
 		default:
