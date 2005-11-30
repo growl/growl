@@ -180,29 +180,29 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			CFStringRef title;
 			CFStringRef album;
 			CFStringRef artist;
-			CFStringRef desc;	
+			CFStringRef desc;
 
 			//printf("size %ld\n", sizeof(visualPluginData->trackInfo));
 			if (messageInfo->u.playMessage.trackInfo)
 				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfoUnicode;
 			else
 				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
-			
+
 			if (messageInfo->u.playMessage.streamInfo)
 				visualPluginData->streamInfo = *messageInfo->u.playMessage.streamInfoUnicode;
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 
 			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask)
-				title = CFStringCreateWithCharacters(kCFAllocatorDefault, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
+				title = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0], kCFAllocatorNull);
 			else
 				title = CFSTR("");
 			if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask)
-				artist = CFStringCreateWithCharacters(kCFAllocatorDefault, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
+				artist = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0], kCFAllocatorNull);
 			else
 				artist = CFSTR("");
 			if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask)
-				album = CFStringCreateWithCharacters(kCFAllocatorDefault, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
+				album = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0], kCFAllocatorNull);
 			else
 				album = CFSTR("");
 			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n%@"), artist, album);
@@ -212,19 +212,17 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			CFLog(1, CFSTR("artist: %@\n"), artist);
 			CFLog(1, CFSTR("album: %@\n"), album);
 			CFLog(1, CFSTR("desc: %@\n"), desc);
-			
-			Handle coverArt;
+
+			Handle coverArt = NULL;
 			OSType format;
 			CFDataRef coverArtDataRef = NULL;
-			err = PlayerGetCurrentTrackCoverArt (visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
+			err = PlayerGetCurrentTrackCoverArt(visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
 			//CFLog(1, CFSTR("%d %p\n"), err, coverArt);
 			if ((err == noErr) && coverArt) {
 				//get our data ready for the notificiation.
-				coverArtDataRef = CFDataCreate(kCFAllocatorDefault, (const UInt8*)*coverArt, GetHandleSize(coverArt));
-				if (coverArt)
-					DisposeHandle(coverArt);
+				coverArtDataRef = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, (const UInt8 *)*coverArt, GetHandleSize(coverArt), kCFAllocatorNull);
 			} else {
-				char * string = (char*)&format;
+				char *string = (char *)&format;
 				CFLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
 			}
 			//insert growl notification here. bong.
@@ -237,8 +235,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			notification.title         = title;
 			notification.description   = desc;
 			//notification.priority      = priority;
-			if(coverArtDataRef)
-				notification.iconData      = coverArtDataRef;
+			if (coverArtDataRef)
+				notification.iconData  = coverArtDataRef;
 			//notification.reserved      = 0;
 			//notification.isSticky      = isSticky;
 			//notification.clickContext  = NULL;
@@ -255,8 +253,10 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				CFRelease(album);
 			if (desc)
 				CFRelease(desc);
-			if(coverArtDataRef)
+			if (coverArtDataRef)
 				CFRelease(coverArtDataRef);
+			if (coverArt)
+				DisposeHandle(coverArt);
 			visualPluginData->playing = true;
 			break;
 		}
@@ -400,14 +400,14 @@ OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, v
 						if (!GrowlTunes_GrowlIsInstalled()) {
 							//notify the user that growl isn't installed and as such that there won't be any notifications for this session of iTunes.
 						}
-						
+
 						//lets nuke the menu item :)
 						//MenuBarHandle iTunesMenuBar = GetMenuBar();
-						
+
 						//MenuRef rootMenu = AcquireRootMenu ();
 						//CFLog(1, CFSTR("%@"), rootMenu);
 						//DisposeMenuBar(iTunesMenuBar);
-						if(growlBundle)
+						if (growlBundle)
 							CFRelease(growlBundle);
 					} else {
 						err = unimpErr;
@@ -419,7 +419,7 @@ OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, v
 
 		case kPluginCleanupMessage:
 			err = noErr;
-			if(delegate.registrationDictionary)
+			if (delegate.registrationDictionary)
 				CFRelease(delegate.registrationDictionary);
 
 			break;
