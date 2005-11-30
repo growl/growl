@@ -242,6 +242,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			//notification.clickContext  = NULL;
 			//notification.clickCallback = NULL;
 			//notification.enabledByDefault      = isDefault;
+			notification.identifier    = CFSTR("GrowlTunes");
 
 			GrowlTunes_PostNotification(&notification);
 

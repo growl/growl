@@ -370,9 +370,9 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		++pairIndex;
 	}
 
-	if (notification->size == sizeof(*notification) && notification->identifier) {
+	if (notification->identifier) {
 		keys[pairIndex] = GROWL_NOTIFICATION_IDENTIFIER;
-		values[pairIndex] = notification->clickContext;
+		values[pairIndex] = notification->identifier;
 		++pairIndex;
 	}
 
