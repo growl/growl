@@ -189,36 +189,44 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 			
 			CFStringRef title = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.name, kCFStringEncodingUTF8);
-			CFStringRef desc = CFStringCreateWithPascalString(kCFAllocatorDefault, PLstrcat(visualPluginData->trackInfo.artist, visualPluginData->trackInfo.album), kCFStringEncodingUTF8);
+			CFStringRef artist = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.artist, kCFStringEncodingUTF8);
+			CFStringRef album = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.album, kCFStringEncodingUTF8);
+			CFStringRef desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n%@"), artist, album);
 
-			printf("%s\n", __FUNCTION__);
-			printf("name: %.*s\n", visualPluginData->trackInfo.name[0], &(visualPluginData->trackInfo.name[1]));
-			printf("artist: %.*s\n", visualPluginData->trackInfo.artist[0], &(visualPluginData->trackInfo.artist[1]));
-			printf("album: %.*s\n", visualPluginData->trackInfo.album[0], &(visualPluginData->trackInfo.album[1]));
+			CFLog(1, CFSTR("%s\n"), __FUNCTION__);
+			CFLog(1, CFSTR("title: %@\n"), title);
+			CFLog(1, CFSTR("artist: %@\n"), artist);
+			CFLog(1, CFSTR("album: %@\n"), album);
+			CFLog(1, CFSTR("desc: %@\n"), desc);
 
 			//insert growl notification here. bong.
-			Growl_Notification *notification;
+			Growl_Notification notification;
 
-			InitGrowlNotification(notification);
+			InitGrowlNotification(&notification);
 
-			//notification->size          = sizeof(struct Growl_Notification);
-			notification->name          = ITUNES_PLAYING;
-			notification->title         = title     ? CFRetain(title)     : title;
-			notification->description   = desc      ? CFRetain(desc)      : desc;
-			//notification->priority      = priority;
-			//notification->iconData      = imageData ? CFRetain(imageData) : imageData;
-			//notification->reserved      = 0;
-			//notification->isSticky      = isSticky;
-			//notification->clickContext  = NULL;
-			//notification->clickCallback = NULL;
-			//notification->enabledByDefault      = isDefault;
+			//notification.size          = sizeof(struct Growl_Notification);
+			notification.name          = ITUNES_PLAYING;
+			notification.title         = title;
+			notification.description   = desc;
+			//notification.priority      = priority;
+			//notification.iconData      = imageData ? CFRetain(imageData) : imageData;
+			//notification.reserved      = 0;
+			//notification.isSticky      = isSticky;
+			//notification.clickContext  = NULL;
+			//notification.clickCallback = NULL;
+			//notification.enabledByDefault      = isDefault;
 
-			GrowlTunes_PostNotification(notification);
+			GrowlTunes_PostNotification(&notification);
 
-			//if (title)
-			//	CFRelease(title);
-			//if (desc)
-			//	CFRelease(desc);
+			if (title)
+				CFRelease(title);
+			if (artist)
+				CFRelease(artist);
+			if (album)
+				CFRelease(album);
+			if (desc)
+				CFRelease(desc);
+
 			visualPluginData->playing = true;
 			break;
 
@@ -356,9 +364,7 @@ OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, v
 					GrowlTunes_PostNotification = CFBundleGetFunctionPointerForName(growlBundle, CFSTR("Growl_PostNotification"));
 					GrowlTunes_GrowlIsInstalled = CFBundleGetFunctionPointerForName(growlBundle, CFSTR("Growl_IsInstalled"));
 
-					CFLog(1, CFSTR("%p %p %p\n"), GrowlTunes_SetDelegate, GrowlTunes_PostNotification, GrowlTunes_GrowlIsInstalled);
 					success = (&GrowlTunes_SetDelegate) && (&GrowlTunes_PostNotification) && (&GrowlTunes_GrowlIsInstalled);
-					CFLog(1, CFSTR("%d"), success);
 					if (success) {
 
 						InitGrowlDelegate(&delegate);
