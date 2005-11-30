@@ -31,13 +31,13 @@
 #define ITUNES_PLAYING			CFSTR("Started Playing")
 
 typedef Boolean (*GrowlSetDelegateProcPtr) (struct Growl_Delegate *newDelegate);
-static GrowlSetDelegateProcPtr GrowlTunes_SetDelegate;
+GrowlSetDelegateProcPtr GrowlTunes_SetDelegate;
 
 typedef void (*GrowlPostNotificationProcPtr)(const struct Growl_Notification *notification);
-static GrowlPostNotificationProcPtr GrowlTunes_PostNotification;
+GrowlPostNotificationProcPtr GrowlTunes_PostNotification;
 
 typedef Boolean (*GrowlIsInstalledProcPtr)(void);
-static GrowlIsInstalledProcPtr GrowlTunes_GrowlIsInstalled;
+GrowlIsInstalledProcPtr GrowlTunes_GrowlIsInstalled;
 
 
 typedef struct VisualPluginData {
@@ -79,6 +79,17 @@ extern CFArrayCallBacks notificationCallbacks;
 
 extern OSStatus iTunesPluginMainMachO(OSType message,PluginMessageInfo *messageInfo,void *refCon);
 extern void CFLog(int priority, CFStringRef format, ...);
+
+//	MemClear
+static void MemClear(LogicalAddress dest,SInt32 length)
+{
+	register unsigned char	*ptr;
+
+	ptr = (unsigned char*) dest;
+	
+	while (length-- > 0)
+		*ptr++ = 0;
+}
 
 static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *messageInfo,void *refCon)
 {
@@ -181,16 +192,17 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 			Sent when the player starts.
 		*/
 		case kVisualPluginPlayMessage:
+			//printf("size %ld\n", sizeof(visualPluginData->trackInfo));
 			if (messageInfo->u.playMessage.trackInfo != nil)
 				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfo;
 			else
-				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
-
+				MemClear(&visualPluginData->trackInfo,sizeof(visualPluginData->trackInfo));
+			
 			if (messageInfo->u.playMessage.streamInfo != nil)
 				visualPluginData->streamInfo = *messageInfo->u.playMessage.streamInfo;
 			else
-				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
-
+				MemClear(&visualPluginData->streamInfo,sizeof(visualPluginData->streamInfo));
+			
 			CFStringRef title = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.name, kCFStringEncodingUTF8);
 			CFStringRef desc = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.artist, kCFStringEncodingUTF8);
 
@@ -235,12 +247,12 @@ static OSStatus VisualPluginHandler(OSType message,VisualPluginMessageInfo *mess
 			if (messageInfo->u.changeTrackMessage.trackInfo != nil)
 				visualPluginData->trackInfo = *messageInfo->u.changeTrackMessage.trackInfo;
 			else
-				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
+				MemClear(&visualPluginData->trackInfo,sizeof(visualPluginData->trackInfo));
 
 			if (messageInfo->u.changeTrackMessage.streamInfo != nil)
 				visualPluginData->streamInfo = *messageInfo->u.changeTrackMessage.streamInfo;
 			else
-				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
+				MemClear(&visualPluginData->streamInfo,sizeof(visualPluginData->streamInfo));
 			break;
 
 		/*
@@ -317,10 +329,10 @@ static OSStatus RegisterVisualPlugin(PluginMessageInfo *messageInfo)
 	OSStatus			err = noErr;
 	PlayerMessageInfo	playerMessageInfo;
 	Str255				pluginName = kTVisualPluginName;
-
-	memset(&playerMessageInfo.u.registerVisualPluginMessage, 0, sizeof(playerMessageInfo.u.registerVisualPluginMessage));
-
-	memcpy((Ptr)playerMessageInfo.u.registerVisualPluginMessage.name, (Ptr)pluginName, pluginName[0] + 1);
+		
+	MemClear(&playerMessageInfo.u.registerVisualPluginMessage,sizeof(playerMessageInfo.u.registerVisualPluginMessage));
+	
+	memcpy((Ptr)&playerMessageInfo.u.registerVisualPluginMessage.name[0], (Ptr)&pluginName[0],pluginName[0] + 1);
 
 	SetNumVersion(&playerMessageInfo.u.registerVisualPluginMessage.pluginVersion,kTVisualPluginMajorVersion,kTVisualPluginMinorVersion,kTVisualPluginReleaseStage,kTVisualPluginNonFinalRelease);
 
