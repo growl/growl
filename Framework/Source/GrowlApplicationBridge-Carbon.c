@@ -307,8 +307,9 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		iconIndex,
 		appIconIndex,
 		clickContextIndex,
+		identifierIndex,
 
-		highestKeyIndex = 9,
+		highestKeyIndex = 10,
 		numKeys
 	};
 	const void *keys[numKeys] = {
@@ -321,6 +322,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		GROWL_NOTIFICATION_ICON,
 		GROWL_NOTIFICATION_APP_ICON,
 		GROWL_NOTIFICATION_CLICK_CONTEXT,
+		GROWL_NOTIFICATION_IDENTIFIER
 	};
 	int pid = getpid();
 	CFNumberRef pidNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
@@ -338,6 +340,7 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 		notification->iconData, //7
 		NULL, //8
 		NULL, //9
+		NULL  //10
 	};
 
 	//make sure we have both a name and a title
@@ -363,6 +366,12 @@ void Growl_PostNotification(const struct Growl_Notification *notification) {
 
 	if (notification->clickContext) {
 		keys[pairIndex] = GROWL_NOTIFICATION_CLICK_CONTEXT;
+		values[pairIndex] = notification->clickContext;
+		++pairIndex;
+	}
+
+	if (notification->size == sizeof(*notification) && notification->identifier) {
+		keys[pairIndex] = GROWL_NOTIFICATION_IDENTIFIER;
 		values[pairIndex] = notification->clickContext;
 		++pairIndex;
 	}

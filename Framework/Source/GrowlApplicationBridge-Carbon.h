@@ -327,6 +327,8 @@ struct Growl_Notification {
 	 *	 0.7.
 	 */
 	void (*clickCallback)(CFPropertyListRef clickContext);
+
+	CFStringRef identifier;
 };
 
 #pragma mark -
@@ -378,6 +380,7 @@ struct Growl_Notification {
 			(notification)->reserved = 0U; \
 			(notification)->isSticky = false; \
 			(notification)->clickContext = NULL; \
+			(notification)->identifier = NULL; \
 		} \
 	} while(0)
 
