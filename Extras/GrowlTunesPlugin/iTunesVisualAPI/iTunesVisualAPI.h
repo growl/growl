@@ -6,7 +6,7 @@
      Version:    Technology: iTunes
                  Release:    1.1
 
-     Copyright:  © 2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  © 2003 by Apple Computer, Inc., all rights reserved.
 
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -14,8 +14,8 @@
                      http://developer.apple.com/bugreporter/
 
 */
-#ifndef __ITUNESVISUALAPI__
-#define __ITUNESVISUALAPI__
+#ifndef ITUNESVISUALAPI_H_
+#define ITUNESVISUALAPI_H_
 
 #include "iTunesAPI.h"
 
@@ -34,6 +34,66 @@ extern "C" {
 #elif PRAGMA_STRUCT_PACK
     #pragma pack(2)
 #endif
+
+struct ITTrackInfoV1 {
+	ITTIFieldMask		validFields;
+	UInt32				reserved;						/* Must be zero */
+	
+	Str255				name;	
+	Str255				fileName;
+	Str255				artist;
+	Str255				album;
+		
+	Str255				genre;
+	Str255				kind;
+	
+	UInt32				trackNumber;
+	UInt32				numTracks;
+		
+	UInt16				year;
+	SInt16				soundVolumeAdjustment;			/* Valid range is -255 to +255 */
+	
+	Str255				eqPresetName;
+	Str255				comments;
+	
+	UInt32				totalTimeInMS;
+	UInt32				startTimeInMS;
+	UInt32				stopTimeInMS;
+
+	UInt32				sizeInBytes;
+
+	UInt32				bitRate;
+	UInt32				sampleRateFixed;
+
+	OSType				fileType;
+	
+	UInt32				date;
+	UInt32				unusedReserved2;				/* Must be zero */
+	
+	ITTrackAttributes	attributes;
+	ITTrackAttributes	validAttributes;				/* Mask indicating which attributes are applicable */
+
+	OSType				fileCreator;
+};
+typedef struct ITTrackInfoV1 ITTrackInfoV1;
+
+enum {
+	kCurrentITStreamInfoVersion = 1
+};
+
+struct ITStreamInfoV1 {
+	SInt32				version;
+	Str255				streamTitle;
+	Str255				streamURL;
+	Str255				streamMessage;
+};
+typedef struct ITStreamInfoV1 ITStreamInfoV1;
+
+
+enum {
+	kITVisualPluginMajorMessageVersion = 10,
+	kITVisualPluginMinorMessageVersion = 5
+};
 
 enum {
 	/* VisualPlugin messages */
@@ -65,7 +125,9 @@ enum {
 	kVisualPluginPauseMessage			= 'vpau',	/* Pausing a track (unused - Pause is stop) */
 	kVisualPluginUnpauseMessage			= 'vunp',	/* Unpausing a track (unused - Pause is stop) */
 
-	kVisualPluginEventMessage			= 'vevt'	/* Mac-event. */
+	kVisualPluginEventMessage			= 'vevt',	/* Mac-event. */
+
+	kVisualPluginDisplayChangedMessage	= 'dchn'	/* Something about display state changed */
 };
 
 /*
@@ -82,7 +144,8 @@ enum {
 enum {
 	/* ShowWindow options */
 
-	kWindowIsFullScreen = (1L << 0)
+	kWindowIsFullScreen = (1L << 0),
+	kWindowIsStretched	= (1L << 1)
 };
 
 struct RenderVisualData {
@@ -122,19 +185,23 @@ struct VisualPluginSetWindowMessage {
 typedef struct VisualPluginSetWindowMessage VisualPluginSetWindowMessage;
 
 struct VisualPluginPlayMessage {
-	ITTrackInfo *					trackInfo;				/* Input */
-	ITStreamInfo *					streamInfo;				/* Input */
+	ITTrackInfoV1 *					trackInfo;				/* Input */
+	ITStreamInfoV1 *				streamInfo;				/* Input */
 	SInt32							volume;					/* Input */
 
 	UInt32							bitRate;				/* Input */
 
 	SoundComponentData				soundFormat;			/* Input */
+	ITTrackInfo *					trackInfoUnicode;		/* Input */
+	ITStreamInfo *					streamInfoUnicode;		/* Input */
 };
 typedef struct VisualPluginPlayMessage VisualPluginPlayMessage;
 
 struct VisualPluginChangeTrackMessage {
-	ITTrackInfo *					trackInfo;				/* Input */
-	ITStreamInfo *					streamInfo;				/* Input */
+	ITTrackInfoV1 *					trackInfo;				/* Input */
+	ITStreamInfoV1 *				streamInfo;				/* Input */
+	ITTrackInfo *					trackInfoUnicode;		/* Input */
+	ITStreamInfo *					streamInfoUnicode;		/* Input */
 };
 typedef struct VisualPluginChangeTrackMessage VisualPluginChangeTrackMessage;
 
@@ -154,6 +221,17 @@ struct VisualPluginEventMessage {
 };
 typedef struct VisualPluginEventMessage VisualPluginEventMessage;
 
+enum {
+	kVisualDisplayDepthChanged 	= 1 << 0,					/* the display's depth has changed */
+	kVisualDisplayRectChanged	= 1 << 1,					/* the display's location changed */
+	kVisualWindowMovedMoved 	= 1 << 2					/* the window has moved location */	
+};
+
+struct VisualPluginDisplayChangedMessage {
+	UInt32							flags;		/* Input */
+};
+typedef struct VisualPluginDisplayChangedMessage VisualPluginDisplayChangedMessage;
+
 struct VisualPluginMessageInfo {
 	union {
 		VisualPluginInitMessage				initMessage;
@@ -163,7 +241,7 @@ struct VisualPluginMessageInfo {
 		VisualPluginChangeTrackMessage		changeTrackMessage;
 		VisualPluginRenderMessage			renderMessage;
 		VisualPluginSetPositionMessage		setPositionMessage;
-		VisualPluginEventMessage			eventMessage;
+		VisualPluginDisplayChangedMessage	displayChangedMessage;
 	} u;
 };
 typedef struct VisualPluginMessageInfo VisualPluginMessageInfo;
@@ -180,4 +258,4 @@ typedef struct VisualPluginMessageInfo VisualPluginMessageInfo;
 }
 #endif
 
-#endif /* __ITUNESVISUALAPI__ */
+#endif /* ITUNESVISUALAPI_H_ */

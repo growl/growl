@@ -6,7 +6,7 @@
      Version:    Technology: iTunes
                  Release:    1.1
 
-     Copyright:  © 2001 by Apple Computer, Inc., all rights reserved.
+     Copyright:  © 2003 by Apple Computer, Inc., all rights reserved.
 
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -79,6 +79,24 @@ OSStatus PlayerSetFullScreenOptions (void *appCookie, ITAppProcPtr appProc, SInt
 	return ITCallApplication(appCookie, appProc, kPlayerSetFullScreenOptionsMessage, &messageInfo);
 }
 
+// PlayerGetCurrentTrackCoverArt
+//
+OSStatus PlayerGetCurrentTrackCoverArt (void *appCookie, ITAppProcPtr appProc, Handle *coverArt, OSType *coverArtFormat)
+{
+	OSStatus			status;
+	PlayerMessageInfo	messageInfo;
+
+	memset(&messageInfo, 0, sizeof(messageInfo));
+
+	messageInfo.u.getCurrentTrackCoverArtMessage.coverArt = nil;
+
+	status = ITCallApplication(appCookie, appProc, kPlayerGetCurrentTrackCoverArtMessage, &messageInfo);
+
+	*coverArt = messageInfo.u.getCurrentTrackCoverArtMessage.coverArt;
+	if (coverArtFormat)
+		*coverArtFormat = messageInfo.u.getCurrentTrackCoverArtMessage.coverArtFormat;
+	return status;
+}
 
 // PlayerGetPluginData
 //
@@ -99,7 +117,6 @@ OSStatus PlayerGetPluginData (void *appCookie, ITAppProcPtr appProc, void *dataP
 
 	return status;
 }
-
 
 // PlayerSetPluginData
 //
@@ -199,59 +216,91 @@ OSStatus PlayerRegisterVisualPlugin (void *appCookie, ITAppProcPtr appProc, Play
 	return ITCallApplication(appCookie, appProc, kPlayerRegisterVisualPluginMessage, messageInfo);
 }
 
-// PlayerRegisterDevicePlugin
+// PlayerGetPluginITFileSpec
 //
-OSStatus PlayerRegisterDevicePlugin (void *appCookie, ITAppProcPtr appProc, PlayerMessageInfo *messageInfo)
+OSStatus PlayerGetPluginITFileSpec (void *appCookie, ITAppProcPtr appProc, ITFileSpec *pluginFileSpec)
 {
-	return ITCallApplication(appCookie, appProc, kPlayerRegisterDevicePluginMessage, messageInfo);
+	PlayerMessageInfo	messageInfo;
+
+	memset(&messageInfo, 0, sizeof(messageInfo));
+	
+	messageInfo.u.getPluginITFileSpecMessage.fileSpec = pluginFileSpec;
+	
+	return ITCallApplication(appCookie, appProc, kPlayerGetPluginITFileSpecMessage, &messageInfo);
 }
 
 
-// PlayerSetDeviceSerialNumber
+// PlayerGetFileTrackInfo
 //
-OSStatus PlayerSetDeviceSerialNumber (void *appCookie, ITAppProcPtr appProc, ConstStringPtr serialNumber)
+OSStatus PlayerGetFileTrackInfo (void *appCookie, ITAppProcPtr appProc, const ITFileSpec *fileSpec, ITTrackInfo *trackInfo)
 {
 	PlayerMessageInfo	messageInfo;
 
 	memset(&messageInfo, 0, sizeof(messageInfo));
 
-	messageInfo.u.setDeviceSerialNumberMessage.serialNumber = serialNumber;
-
-	return ITCallApplication(appCookie, appProc, kPlayerSetDeviceSerialNumberMessage, &messageInfo);
+	messageInfo.u.getFileTrackInfoMessage.fileSpec 	= fileSpec;
+	messageInfo.u.getFileTrackInfoMessage.trackInfo = trackInfo;
+	
+	return ITCallApplication(appCookie, appProc, kPlayerGetFileTrackInfoMessage, &messageInfo);
 }
 
-
-
-
-// PlayerHandleMacOSEvent
+// PlayerSetFileTrackInfo
 //
-OSStatus PlayerHandleMacOSEvent (void *appCookie, ITAppProcPtr appProc, const EventRecord *theEvent, Boolean *eventHandled)
+OSStatus PlayerSetFileTrackInfo (void *appCookie, ITAppProcPtr appProc, const ITFileSpec *fileSpec, const ITTrackInfo *trackInfo)
+{
+	PlayerMessageInfo	messageInfo;
+
+	memset(&messageInfo, 0, sizeof(messageInfo));
+	
+	messageInfo.u.setFileTrackInfoMessage.fileSpec 	= fileSpec;
+	messageInfo.u.setFileTrackInfoMessage.trackInfo = trackInfo;
+	
+	return ITCallApplication(appCookie, appProc, kPlayerSetFileTrackInfoMessage, &messageInfo);
+}
+
+// PlayerGetITTrackInfoSize
+//
+OSStatus PlayerGetITTrackInfoSize (void *appCookie, ITAppProcPtr appProc, UInt32 appPluginMajorVersion, UInt32 appPluginMinorVersion, UInt32 *itTrackInfoSize)
 {
 	PlayerMessageInfo	messageInfo;
 	OSStatus			status;
+	
+	/*
+	 Note: appPluginMajorVersion and appPluginMinorVersion are the versions given to the plugin by iTunes in the plugin's init message.
+			  These versions are *not* the version of the API used when the plugin was compiled.
+	 */
+	
+	*itTrackInfoSize = 0;
 
 	memset(&messageInfo, 0, sizeof(messageInfo));
-
-	messageInfo.u.handleMacOSEventMessage.theEvent = theEvent;
-
-	status = ITCallApplication(appCookie, appProc, kPlayerHandleMacOSEventMessage, &messageInfo);
-
-	if (eventHandled)
-		*eventHandled = messageInfo.u.handleMacOSEventMessage.handled;
-
+	
+	status = ITCallApplication(appCookie, appProc, kPlayerGetITTrackInfoSizeMessage, &messageInfo);
+	if( status == noErr ) {
+		*itTrackInfoSize = messageInfo.u.getITTrackInfoSizeMessage.itTrackInfoSize;
+	} else if (appPluginMajorVersion == 10 && appPluginMinorVersion == 2) {
+		// iTunes 2.0.x
+		
+		*itTrackInfoSize = ((UInt32) &((ITTrackInfo *) 0)->composer);
+		
+		status = noErr;
+	} else if (appPluginMajorVersion == 10 && appPluginMinorVersion == 3) {
+		// iTunes 3.0.x
+		
+		*itTrackInfoSize = ((UInt32) &((ITTrackInfo *) 0)->beatsPerMinute);
+		
+		status = noErr;
+	} else {
+		// iTunes 4.0 and later implement the kPlayerGetITTrackInfoSizeMessage message. If you got here
+		// then the appPluginMajorVersion or appPluginMinorVersion are incorrect.
+		
+		status = paramErr;
+	}
+	
+	if (status == noErr && (*itTrackInfoSize) > sizeof(ITTrackInfo) ) {
+		// iTunes is using a larger ITTrackInfo than the one when this plugin was compiled. Pin *itTrackInfoSize to the plugin's known size
+		
+		*itTrackInfoSize = sizeof(ITTrackInfo);
+	}
+	
 	return status;
-}
-
-
-// PlayerGetPluginFileSpec
-//
-OSStatus PlayerGetPluginFileSpec (void *appCookie, ITAppProcPtr appProc, FSSpec *pluginFileSpec)
-{
-	PlayerMessageInfo	messageInfo;
-
-	memset(&messageInfo, 0, sizeof(messageInfo));
-
-	messageInfo.u.getPluginFileSpecMessage.fileSpec = pluginFileSpec;
-
-	return ITCallApplication(appCookie, appProc, kPlayerGetPluginFileSpecMessage, &messageInfo);
 }

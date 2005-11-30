@@ -107,7 +107,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			/* Remember the file spec of our plugin file. We need this so we can open our resource fork during */
 			/* the configuration message */
 
-			err = PlayerGetPluginFileSpec(visualPluginData->appCookie, visualPluginData->appProc, &visualPluginData->pluginFileSpec);
+			err = PlayerGetPluginITFileSpec(visualPluginData->appCookie, visualPluginData->appProc, &visualPluginData->pluginFileSpec);
 
 			messageInfo->u.initMessage.refCon = (void *)visualPluginData;
 			break;
@@ -184,25 +184,25 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 
 			//printf("size %ld\n", sizeof(visualPluginData->trackInfo));
 			if (messageInfo->u.playMessage.trackInfo)
-				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfo;
+				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfoUnicode;
 			else
 				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
 			
 			if (messageInfo->u.playMessage.streamInfo)
-				visualPluginData->streamInfo = *messageInfo->u.playMessage.streamInfo;
+				visualPluginData->streamInfo = *messageInfo->u.playMessage.streamInfoUnicode;
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 
 			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask)
-				title = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.name, kCFStringEncodingUTF8);
+				title = CFStringCreateWithCharacters(kCFAllocatorDefault, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
 			else
 				title = CFSTR("");
 			if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask)
-				artist = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.artist, kCFStringEncodingUTF8);
+				artist = CFStringCreateWithCharacters(kCFAllocatorDefault, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
 			else
 				artist = CFSTR("");
 			if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask)
-				album = CFStringCreateWithPascalString(kCFAllocatorDefault, visualPluginData->trackInfo.album, kCFStringEncodingUTF8);
+				album = CFStringCreateWithCharacters(kCFAllocatorDefault, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
 			else
 				album = CFSTR("");
 			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n%@"), artist, album);
@@ -253,12 +253,12 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		*/
 		case kVisualPluginChangeTrackMessage:
 			if (messageInfo->u.changeTrackMessage.trackInfo)
-				visualPluginData->trackInfo = *messageInfo->u.changeTrackMessage.trackInfo;
+				visualPluginData->trackInfo = *messageInfo->u.changeTrackMessage.trackInfoUnicode;
 			else
 				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
 
 			if (messageInfo->u.changeTrackMessage.streamInfo)
-				visualPluginData->streamInfo = *messageInfo->u.changeTrackMessage.streamInfo;
+				visualPluginData->streamInfo = *messageInfo->u.changeTrackMessage.streamInfoUnicode;
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 			break;
@@ -294,28 +294,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			for any event it handles completely,or an error (unimpErr) if iTunes should handle it.
 		*/
 		case kVisualPluginEventMessage:
-			{
-				EventRecord *tEventPtr = messageInfo->u.eventMessage.event;
-				if ((tEventPtr->what == keyDown) || (tEventPtr->what == autoKey)) {
-					// charCodeMask,keyCodeMask;
-					char theChar = tEventPtr->message & charCodeMask;
-
-					switch (theChar) {
-						case 'c':
-						case 'C':
-							err = noErr;
-							break;
-						case 'f':
-						case 'F':
-							err = noErr;
-							break;
-						default:
-							err = unimpErr;
-							break;
-					}
-				} else
-					err = unimpErr;
-			}
+			err = unimpErr;
 			break;
 
 		default:
