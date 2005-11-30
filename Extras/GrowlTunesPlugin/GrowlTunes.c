@@ -217,7 +217,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			OSType format;
 			CFDataRef coverArtDataRef = NULL;
 			err = PlayerGetCurrentTrackCoverArt (visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
-			if ((err == noErr)) {
+			//CFLog(1, CFSTR("%d %p\n"), err, coverArt);
+			if ((err == noErr) && coverArt) {
 				//get our data ready for the notificiation.
 				coverArtDataRef = CFDataCreate(kCFAllocatorDefault, (const UInt8*)*coverArt, GetHandleSize(coverArt));
 				if (coverArt)
