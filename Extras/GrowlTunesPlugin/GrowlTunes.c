@@ -230,7 +230,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 
 			CFLog(1, CFSTR("%s\n"), __FUNCTION__);
 			CFLog(1, CFSTR("title: %@\n"), title);
-			CFLog(1, CFSTR("time: %@\n"), time);
+			CFLog(1, CFSTR("time: %@\n"), totalTime);
 			CFLog(1, CFSTR("artist: %@\n"), artist);
 			CFLog(1, CFSTR("album: %@\n"), album);
 			CFLog(1, CFSTR("desc: %@\n"), desc);
