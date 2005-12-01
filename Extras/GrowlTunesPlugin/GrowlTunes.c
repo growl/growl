@@ -182,7 +182,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			CFStringRef artist;
 			CFStringRef desc;
 			CFStringRef	totalTime;
-			//CFStringRef	rating;
+			CFStringRef rating;
 
 			//printf("size %ld\n", sizeof(visualPluginData->trackInfo));
 			if (messageInfo->u.playMessage.trackInfo)
@@ -214,19 +214,28 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			} else {
 				totalTime = CFSTR("");
 			}
-			/*if (visualPluginData->trackInfo.userRating == 0)
-				rating = CFSTR("·····");
-			if (visualPluginData->trackInfo.userRating == 1)
-				rating = CFSTR("✯····");
-			if (visualPluginData->trackInfo.userRating == 2)
-				rating = CFSTR("✯✯···");
-			if (visualPluginData->trackInfo.userRating == 3)
-				rating = CFSTR("✯✯✯··");
-			if (visualPluginData->trackInfo.userRating == 4)
-				rating = CFSTR("✯✯✯✯·");
-			if (visualPluginData->trackInfo.userRating == 5)
-				rating = CFSTR("✯✯✯✯✯");*/
-			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n%@\n%@"), totalTime, artist, album);
+			
+			UniChar star = 0x272F;
+			UniChar dot = 0x00B7;
+			rating = CFSTR("");
+			UniChar buf[5] = {dot,dot,dot,dot,dot};
+			
+			switch (visualPluginData->trackInfo.userRating)
+			{
+				case 100:
+					buf[4] = star;
+				case 80:					
+					buf[3] = star;
+				case 60:
+					buf[2] = star;
+				case 40:
+					buf[1] = star;
+				case 20:
+					buf[0] = star;
+			}
+			rating = CFStringCreateWithCharacters (kCFAllocatorDefault, buf, 5);
+
+			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@ - %@\n%@\n%@"), totalTime, rating, artist, album);
 
 			CFLog(1, CFSTR("%s\n"), __FUNCTION__);
 			CFLog(1, CFSTR("title: %@\n"), title);
@@ -239,7 +248,6 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			OSType format;
 			CFDataRef coverArtDataRef = NULL;
 			err = PlayerGetCurrentTrackCoverArt(visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
-			//CFLog(1, CFSTR("%d %p\n"), err, coverArt);
 			if ((err == noErr) && coverArt) {
 				//get our data ready for the notificiation.
 				coverArtDataRef = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, (const UInt8 *)*coverArt, GetHandleSize(coverArt), kCFAllocatorNull);
@@ -252,7 +260,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 
 			InitGrowlNotification(&notification);
 
-			//notification.size          = sizeof(struct Growl_Notification);
+			notification.size          = sizeof(struct Growl_Notification);
 			notification.name          = ITUNES_PLAYING;
 			notification.title         = title;
 			notification.description   = desc;
@@ -280,6 +288,10 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				CFRelease(coverArtDataRef);
 			if (coverArt)
 				DisposeHandle(coverArt);
+			if (totalTime)
+				CFRelease(totalTime);
+			if (rating)
+				CFRelease(rating);
 			visualPluginData->playing = true;
 			break;
 		}
@@ -425,11 +437,8 @@ OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, v
 						}
 
 						//lets nuke the menu item :)
-						//MenuBarHandle iTunesMenuBar = GetMenuBar();
-
 						//MenuRef rootMenu = AcquireRootMenu ();
-						//CFLog(1, CFSTR("%@"), rootMenu);
-						//DisposeMenuBar(iTunesMenuBar);
+
 						if (growlBundle)
 							CFRelease(growlBundle);
 					} else {
