@@ -199,10 +199,12 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				title = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0], kCFAllocatorNull);
 			else
 				title = CFSTR("");
-			if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask)
+			if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask) {
 				artist = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0], kCFAllocatorNull);
-			else
+				artist = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n"), artist);
+			} else {
 				artist = CFSTR("");
+			}
 			if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask)
 				album = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0], kCFAllocatorNull);
 			else
@@ -210,7 +212,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			if (visualPluginData->trackInfo.validFields & kITTITotalTimeFieldMask) {
 				int minutes = visualPluginData->trackInfo.totalTimeInMS / 1000 / 60;
 				int seconds = visualPluginData->trackInfo.totalTimeInMS / 1000 - minutes * 60;
-				totalTime = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%d:%d"), minutes, seconds);
+				totalTime = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%d:%d - "), minutes, seconds);
 			} else {
 				totalTime = CFSTR("");
 			}
@@ -234,8 +236,9 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 					buf[0] = star;
 			}
 			rating = CFStringCreateWithCharacters (kCFAllocatorDefault, buf, 5);
+			rating = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n"), rating);
 
-			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@ - %@\n%@\n%@"), totalTime, rating, artist, album);
+			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@%@%@%@"), totalTime, rating, artist, album);
 
 			CFLog(1, CFSTR("%s\n"), __FUNCTION__);
 			CFLog(1, CFSTR("title: %@\n"), title);
