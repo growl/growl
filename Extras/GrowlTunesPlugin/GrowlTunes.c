@@ -180,6 +180,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			CFStringRef title;
 			CFStringRef album;
 			CFStringRef artist;
+			CFStringRef genre;
 			CFStringRef desc;
 			CFStringRef	totalTime;
 			CFStringRef rating;
@@ -195,20 +196,41 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 
-			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask)
+			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask) {
+				CFStringRef discNum;
 				title = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0], kCFAllocatorNull);
-			else
+				if (visualPluginData->trackInfo.numDiscs > 1)
+					discNum = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%d-"), visualPluginData->trackInfo.numDiscs);
+				else
+					discNum = CFSTR("");
+				title = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@%d. %@"), discNum, visualPluginData->trackInfo.trackNumber, title);
+			} else {
 				title = CFSTR("");
-			if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask) {
+			}
+			if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask & kITTIComposerFieldMask) {
+				artist = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0], kCFAllocatorNull);
+				artist = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@ (Composed by %#s)\n"), artist, visualPluginData->trackInfo.composer);
+			} else if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask) {
 				artist = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0], kCFAllocatorNull);
 				artist = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n"), artist);
 			} else {
 				artist = CFSTR("");
 			}
-			if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask)
+			if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask & kITTIYearFieldMask) {
 				album = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0], kCFAllocatorNull);
-			else
+				album = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@ (%d)\n"), album, visualPluginData->trackInfo.year);
+			} else if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask) {
+				album = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0], kCFAllocatorNull);
+				album = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n"), album);
+			} else {
 				album = CFSTR("");
+			}
+			if (visualPluginData->trackInfo.validFields & kITTIGenreFieldMask) {
+				genre = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.genre[1], visualPluginData->trackInfo.genre[0], kCFAllocatorNull);
+				genre = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n"), genre);
+			} else {
+				genre = CFSTR("");
+			}
 			if (visualPluginData->trackInfo.validFields & kITTITotalTimeFieldMask) {
 				int minutes = visualPluginData->trackInfo.totalTimeInMS / 1000 / 60;
 				int seconds = visualPluginData->trackInfo.totalTimeInMS / 1000 - minutes * 60;
@@ -238,13 +260,14 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			rating = CFStringCreateWithCharacters (kCFAllocatorDefault, buf, 5);
 			rating = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n"), rating);
 
-			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@%@%@%@"), totalTime, rating, artist, album);
+			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@%@%@%@%@"), totalTime, rating, artist, album, genre);
 
 			CFLog(1, CFSTR("%s\n"), __FUNCTION__);
 			CFLog(1, CFSTR("title: %@\n"), title);
 			CFLog(1, CFSTR("time: %@\n"), totalTime);
 			CFLog(1, CFSTR("artist: %@\n"), artist);
 			CFLog(1, CFSTR("album: %@\n"), album);
+			CFLog(1, CFSTR("genre: %@\n"), genre);
 			CFLog(1, CFSTR("desc: %@\n"), desc);
 
 			Handle coverArt = NULL;
