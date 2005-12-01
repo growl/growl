@@ -197,44 +197,58 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 
 			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask) {
-				CFStringRef discNum;
-				title = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0], kCFAllocatorNull);
+				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 				if (visualPluginData->trackInfo.numDiscs > 1)
-					discNum = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%d-"), visualPluginData->trackInfo.numDiscs);
-				else
-					discNum = CFSTR("");
-				title = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@%d. %@"), discNum, visualPluginData->trackInfo.trackNumber, title);
+					CFStringAppendFormat(tmp, NULL, CFSTR("%d-"), visualPluginData->trackInfo.numDiscs);
+				CFStringAppendFormat(tmp, NULL, CFSTR("%d. "), visualPluginData->trackInfo.trackNumber);
+				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
+				title = tmp;
 			} else {
 				title = CFSTR("");
 			}
-			if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask & kITTIComposerFieldMask) {
-				artist = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0], kCFAllocatorNull);
-				artist = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@ (Composed by %#s)\n"), artist, visualPluginData->trackInfo.composer);
+			if (visualPluginData->trackInfo.validFields & (kITTIArtistFieldMask|kITTIComposerFieldMask)) {
+				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
+				if (visualPluginData->trackInfo.composer[0]) {
+					CFStringAppend(tmp, CFSTR(" (Composed by "));
+					CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.composer[1], visualPluginData->trackInfo.composer[0]);
+					CFStringAppend(tmp, CFSTR(")"));
+				}
+				CFStringAppend(tmp, CFSTR("\n"));
+				artist = tmp;
 			} else if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask) {
-				artist = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0], kCFAllocatorNull);
-				artist = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n"), artist);
+				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
+				CFStringAppend(tmp, CFSTR("\n"));
+				artist = tmp;
 			} else {
 				artist = CFSTR("");
 			}
-			if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask & kITTIYearFieldMask) {
-				album = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0], kCFAllocatorNull);
-				album = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@ (%d)\n"), album, visualPluginData->trackInfo.year);
+			if (visualPluginData->trackInfo.validFields & (kITTIAlbumFieldMask|kITTIYearFieldMask)) {
+				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
+				CFStringAppendFormat(tmp, NULL, CFSTR(" (%d)\n"), visualPluginData->trackInfo.year);
+				album = tmp;
 			} else if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask) {
-				album = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0], kCFAllocatorNull);
-				album = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n"), album);
+				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
+				CFStringAppend(tmp, CFSTR("\n"));
+				album = tmp;
 			} else {
 				album = CFSTR("");
 			}
 			if (visualPluginData->trackInfo.validFields & kITTIGenreFieldMask) {
-				genre = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.genre[1], visualPluginData->trackInfo.genre[0], kCFAllocatorNull);
-				genre = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n"), genre);
+				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.genre[1], visualPluginData->trackInfo.genre[0]);
+				CFStringAppend(tmp, CFSTR("\n"));
+				genre = tmp;
 			} else {
 				genre = CFSTR("");
 			}
 			if (visualPluginData->trackInfo.validFields & kITTITotalTimeFieldMask) {
 				int minutes = visualPluginData->trackInfo.totalTimeInMS / 1000 / 60;
 				int seconds = visualPluginData->trackInfo.totalTimeInMS / 1000 - minutes * 60;
-				totalTime = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%d:%d - "), minutes, seconds);
+				totalTime = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%d:%02d - "), minutes, seconds);
 			} else {
 				totalTime = CFSTR("");
 			}
@@ -244,8 +258,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			rating = CFSTR("");
 			UniChar buf[5] = {dot,dot,dot,dot,dot};
 			
-			switch (visualPluginData->trackInfo.userRating)
-			{
+			switch (visualPluginData->trackInfo.userRating) {
 				case 100:
 					buf[4] = star;
 				case 80:					
@@ -257,8 +270,12 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				case 20:
 					buf[0] = star;
 			}
-			rating = CFStringCreateWithCharacters (kCFAllocatorDefault, buf, 5);
-			rating = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n"), rating);
+			{
+				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+				CFStringAppendCharacters(tmp, buf, 5);
+				CFStringAppend(tmp, CFSTR("\n"));
+				rating = tmp;
+			}
 
 			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@%@%@%@%@"), totalTime, rating, artist, album, genre);
 
