@@ -214,17 +214,17 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			} else {
 				totalTime = CFSTR("");
 			}
-			/*if (visualPluginData->trackInfo.userRating = 0)
+			/*if (visualPluginData->trackInfo.userRating == 0)
 				rating = CFSTR("·····");
-			if (visualPluginData->trackInfo.userRating = 1)
+			if (visualPluginData->trackInfo.userRating == 1)
 				rating = CFSTR("✯····");
-			if (visualPluginData->trackInfo.userRating = 2)
+			if (visualPluginData->trackInfo.userRating == 2)
 				rating = CFSTR("✯✯···");
-			if (visualPluginData->trackInfo.userRating = 3)
+			if (visualPluginData->trackInfo.userRating == 3)
 				rating = CFSTR("✯✯✯··");
-			if (visualPluginData->trackInfo.userRating = 4)
+			if (visualPluginData->trackInfo.userRating == 4)
 				rating = CFSTR("✯✯✯✯·");
-			if (visualPluginData->trackInfo.userRating = 5)
+			if (visualPluginData->trackInfo.userRating == 5)
 				rating = CFSTR("✯✯✯✯✯");*/
 			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n%@\n%@"), totalTime, artist, album);
 
