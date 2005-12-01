@@ -181,6 +181,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			CFStringRef album;
 			CFStringRef artist;
 			CFStringRef desc;
+			CFStringRef	totalTime;
+			//CFStringRef	rating;
 
 			//printf("size %ld\n", sizeof(visualPluginData->trackInfo));
 			if (messageInfo->u.playMessage.trackInfo)
@@ -205,10 +207,30 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				album = CFStringCreateWithCharactersNoCopy(kCFAllocatorDefault, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0], kCFAllocatorNull);
 			else
 				album = CFSTR("");
-			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n%@"), artist, album);
+			if (visualPluginData->trackInfo.validFields & kITTITotalTimeFieldMask) {
+				int minutes = visualPluginData->trackInfo.totalTimeInMS / 1000 / 60;
+				int seconds = visualPluginData->trackInfo.totalTimeInMS / 1000 - minutes * 60;
+				totalTime = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%d:%d"), minutes, seconds);
+			} else {
+				totalTime = CFSTR("");
+			}
+			/*if (visualPluginData->trackInfo.userRating = 0)
+				rating = CFSTR("·····");
+			if (visualPluginData->trackInfo.userRating = 1)
+				rating = CFSTR("✯····");
+			if (visualPluginData->trackInfo.userRating = 2)
+				rating = CFSTR("✯✯···");
+			if (visualPluginData->trackInfo.userRating = 3)
+				rating = CFSTR("✯✯✯··");
+			if (visualPluginData->trackInfo.userRating = 4)
+				rating = CFSTR("✯✯✯✯·");
+			if (visualPluginData->trackInfo.userRating = 5)
+				rating = CFSTR("✯✯✯✯✯");*/
+			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@\n%@\n%@"), totalTime, artist, album);
 
 			CFLog(1, CFSTR("%s\n"), __FUNCTION__);
 			CFLog(1, CFSTR("title: %@\n"), title);
+			CFLog(1, CFSTR("time: %@\n"), time);
 			CFLog(1, CFSTR("artist: %@\n"), artist);
 			CFLog(1, CFSTR("album: %@\n"), album);
 			CFLog(1, CFSTR("desc: %@\n"), desc);
