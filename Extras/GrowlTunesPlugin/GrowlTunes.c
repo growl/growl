@@ -240,7 +240,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			if (visualPluginData->trackInfo.validFields & kITTIGenreFieldMask) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.genre[1], visualPluginData->trackInfo.genre[0]);
-				CFStringAppend(tmp, CFSTR("\n"));
+				//CFStringAppend(tmp, CFSTR("\n"));
 				genre = tmp;
 			} else {
 				genre = CFSTR("");
