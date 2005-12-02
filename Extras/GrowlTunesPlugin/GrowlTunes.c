@@ -199,7 +199,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 				if (visualPluginData->trackInfo.numDiscs > 1)
-					CFStringAppendFormat(tmp, NULL, CFSTR("%d-"), visualPluginData->trackInfo.numDiscs);
+					CFStringAppendFormat(tmp, NULL, CFSTR("%d-"), visualPluginData->trackInfo.discNumber);
 				CFStringAppendFormat(tmp, NULL, CFSTR("%d. "), visualPluginData->trackInfo.trackNumber);
 				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
 				title = tmp;
