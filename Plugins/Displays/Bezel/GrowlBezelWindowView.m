@@ -16,6 +16,7 @@
 @implementation GrowlBezelWindowView
 
 - (id) initWithFrame:(NSRect) frame {
+	NSLog(@"%s\n", __FUNCTION__);
 	if ((self = [super initWithFrame:frame])) {
 		layoutManager = [[NSLayoutManager alloc] init];
 	}
@@ -53,7 +54,7 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 
 - (void) drawRect:(NSRect)rect {
 	//Make sure that we don't draw in the main thread
-	if ([super dispatchDrawingToThread:rect]) {
+	//if ([super dispatchDrawingToThread:rect]) {
 		NSRect b = [self bounds];
 		CGRect bounds = CGRectMake(b.origin.x, b.origin.y, b.size.width, b.size.height);
 
@@ -62,11 +63,11 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 		addRoundedRectToPath(context, bounds, BORDER_RADIUS);
 
 		float opacityPref = BEZEL_OPACITY_DEFAULT;
-		READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, BezelPrefDomain, &opacityPref);
+		READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, GrowlBezelPrefDomain, &opacityPref);
 		float alpha = opacityPref * 0.01f;
 
 		int style = 0;
-		READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, BezelPrefDomain, &style);
+		READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, GrowlBezelPrefDomain, &style);
 		switch (style) {
 			default:
 			case 0:
@@ -106,7 +107,7 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 		}
 
 		int sizePref = BEZEL_SIZE_NORMAL;
-		READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &sizePref);
+		READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, GrowlBezelPrefDomain, &sizePref);
 
 		// rects
 		NSRect titleRect, textRect;
@@ -205,7 +206,7 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 		iconRect.size = maxIconSize;
 		[icon setFlipped:NO];
 		[icon drawScaledInRect:iconRect operation:NSCompositeSourceOver fraction:1.0f];
-	}
+	//}
 }
 
 - (void) setIcon:(NSImage *)anIcon {
@@ -258,7 +259,7 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 	Class NSDataClass = [NSData class];
 	NSData *data = nil;
 
-	READ_GROWL_PREF_VALUE(key, BezelPrefDomain, NSData *, &data);
+	READ_GROWL_PREF_VALUE(key, GrowlBezelPrefDomain, NSData *, &data);
 	if (data && [data isKindOfClass:NSDataClass])
 		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else
@@ -268,7 +269,7 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 	data = nil;
 
 	[textColor release];
-	READ_GROWL_PREF_VALUE(textKey, BezelPrefDomain, NSData *, &data);
+	READ_GROWL_PREF_VALUE(textKey, GrowlBezelPrefDomain, NSData *, &data);
 	if (data && [data isKindOfClass:NSDataClass])
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else

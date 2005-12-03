@@ -28,7 +28,7 @@
 + (NSColor *) loadColor:(NSString *)key defaultColor:(NSColor *)defaultColor {
 	NSData *data = nil;
 	NSColor *color;
-	READ_GROWL_PREF_VALUE(key, BezelPrefDomain, NSData *, &data);
+	READ_GROWL_PREF_VALUE(key, GrowlBezelPrefDomain, NSData *, &data);
 	if (data && [data isKindOfClass:[NSData class]]) {
 		color = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
@@ -43,12 +43,12 @@
 
 - (float) opacity {
 	float value = BEZEL_OPACITY_DEFAULT;
-	READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, BezelPrefDomain, &value);
+	READ_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, GrowlBezelPrefDomain, &value);
 	return value;
 }
 
 - (void) setOpacity:(float)value {
-	WRITE_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, value, BezelPrefDomain);
+	WRITE_GROWL_PREF_FLOAT(BEZEL_OPACITY_PREF, value, GrowlBezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -56,12 +56,12 @@
 
 - (float) duration {
 	float value = 3.0f;
-	READ_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, BezelPrefDomain, &value);
+	READ_GROWL_PREF_FLOAT(GrowlBezelDuration, GrowlBezelPrefDomain, &value);
 	return value;
 }
 
 - (void) setDuration:(float)value {
-	WRITE_GROWL_PREF_FLOAT(BEZEL_DURATION_PREF, value, BezelPrefDomain);
+	WRITE_GROWL_PREF_FLOAT(GrowlBezelDuration, value, GrowlBezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -69,12 +69,12 @@
 
 - (int) size {
 	int value = 0;
-	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, BezelPrefDomain, &value);
+	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, GrowlBezelPrefDomain, &value);
 	return value;
 }
 
 - (void) setSize:(int)value {
-	WRITE_GROWL_PREF_INT(BEZEL_SIZE_PREF, value, BezelPrefDomain);
+	WRITE_GROWL_PREF_INT(BEZEL_SIZE_PREF, value, GrowlBezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -92,12 +92,12 @@
 
 - (int) screen {
 	int value = 0;
-	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, BezelPrefDomain, &value);
+	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, GrowlBezelPrefDomain, &value);
 	return value;
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(BEZEL_SCREEN_PREF, value, BezelPrefDomain);
+	WRITE_GROWL_PREF_INT(BEZEL_SCREEN_PREF, value, GrowlBezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -105,12 +105,12 @@
 
 - (int) style {
 	int value = 0;
-	READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, BezelPrefDomain, &value);
+	READ_GROWL_PREF_INT(BEZEL_STYLE_PREF, GrowlBezelPrefDomain, &value);
 	return value;
 }
 
 - (void) setStyle:(int)value {
-	WRITE_GROWL_PREF_INT(BEZEL_STYLE_PREF, value, BezelPrefDomain);
+	WRITE_GROWL_PREF_INT(BEZEL_STYLE_PREF, value, GrowlBezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -118,12 +118,12 @@
 
 - (int) position {
 	int value = BEZEL_POSITION_DEFAULT;
-	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, BezelPrefDomain, &value);
+	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, GrowlBezelPrefDomain, &value);
 	return value;
 }
 
 - (void) setPosition:(int)value {
-	WRITE_GROWL_PREF_INT(BEZEL_POSITION_PREF, value, BezelPrefDomain);
+	WRITE_GROWL_PREF_INT(BEZEL_POSITION_PREF, value, GrowlBezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -131,12 +131,12 @@
 
 - (BOOL) shrink {
 	BOOL shrink = YES;
-	READ_GROWL_PREF_BOOL(BEZEL_SHRINK_PREF, BezelPrefDomain, &shrink);
+	READ_GROWL_PREF_BOOL(BEZEL_SHRINK_PREF, GrowlBezelPrefDomain, &shrink);
 	return shrink;
 }
 
 - (void) setShrink:(BOOL)flag {
-	WRITE_GROWL_PREF_BOOL(BEZEL_SHRINK_PREF, flag, BezelPrefDomain);
+	WRITE_GROWL_PREF_BOOL(BEZEL_SHRINK_PREF, flag, GrowlBezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -144,12 +144,12 @@
 
 - (BOOL) flip {
 	BOOL flip = YES;
-	READ_GROWL_PREF_BOOL(BEZEL_FLIP_PREF, BezelPrefDomain, &flip);
+	READ_GROWL_PREF_BOOL(BEZEL_FLIP_PREF, GrowlBezelPrefDomain, &flip);
 	return flip;
 }
 
 - (void) setFlip:(BOOL)flag {
-	WRITE_GROWL_PREF_BOOL(BEZEL_FLIP_PREF, flag, BezelPrefDomain);
+	WRITE_GROWL_PREF_BOOL(BEZEL_FLIP_PREF, flag, GrowlBezelPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -162,7 +162,7 @@
 
 - (void) setTextColorVeryLow:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlBezelVeryLowTextColor, theData, BezelPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlBezelVeryLowTextColor, theData, GrowlBezelPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -173,7 +173,7 @@
 
 - (void) setTextColorModerate:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlBezelModerateTextColor, theData, BezelPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlBezelModerateTextColor, theData, GrowlBezelPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -184,7 +184,7 @@
 
 - (void) setTextColorNormal:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlBezelNormalTextColor, theData, BezelPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlBezelNormalTextColor, theData, GrowlBezelPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -195,7 +195,7 @@
 
 - (void) setTextColorHigh:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlBezelHighTextColor, theData, BezelPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlBezelHighTextColor, theData, GrowlBezelPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -206,7 +206,7 @@
 
 - (void) setTextColorEmergency:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlBezelEmergencyTextColor, theData, BezelPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlBezelEmergencyTextColor, theData, GrowlBezelPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -219,7 +219,7 @@
 
 - (void) setBackgroundColorVeryLow:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlBezelVeryLowBackgroundColor, theData, BezelPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlBezelVeryLowBackgroundColor, theData, GrowlBezelPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -230,7 +230,7 @@
 
 - (void) setBackgroundColorModerate:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlBezelModerateBackgroundColor, theData, BezelPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlBezelModerateBackgroundColor, theData, GrowlBezelPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -241,7 +241,7 @@
 
 - (void) setBackgroundColorNormal:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlBezelNormalBackgroundColor, theData, BezelPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlBezelNormalBackgroundColor, theData, GrowlBezelPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -252,7 +252,7 @@
 
 - (void) setBackgroundColorHigh:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlBezelHighBackgroundColor, theData, BezelPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlBezelHighBackgroundColor, theData, GrowlBezelPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -263,7 +263,7 @@
 
 - (void) setBackgroundColorEmergency:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlBezelEmergencyBackgroundColor, theData, BezelPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlBezelEmergencyBackgroundColor, theData, GrowlBezelPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 @end

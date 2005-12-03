@@ -12,6 +12,4 @@
 	NSMutableArray		*notificationQueue;
 }
 
-- (void) displayNotification:(GrowlApplicationNotification *)notification;
-
 @end

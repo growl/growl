@@ -14,14 +14,16 @@
 @implementation GrowlBezelDisplay
 
 - (id) init {
+	NSLog(@"%s\n", __FUNCTION__);
 	if ((self = [super init])) {
-		notificationQueue = [[NSMutableArray alloc] init];
+		//notificationQueue = [[NSMutableArray alloc] init];
+		windowControllerClass = NSClassFromString(@"GrowlBezelWindowController");
 	}
 	return self;
 }
 
 - (void) dealloc {
-	[notificationQueue release];
+	//[notificationQueue release];
 	[preferencePane    release];
 	[super dealloc];
 }
@@ -32,7 +34,21 @@
 	return preferencePane;
 }
 
-- (void) displayNotification:(GrowlApplicationNotification *)notification {
+- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
+	NSLog(@"%s\n", __FUNCTION__);
+	GrowlBezelWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];
+	GrowlApplicationNotification *note = [theBridge notification];
+	NSDictionary *noteDict = [note dictionaryRepresentation];
+	
+	[controller setNotifyingApplicationName:[note applicationName]];
+	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
+	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+	[controller setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
+	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
+
+}
+
+/*- (void) displayNotification:(GrowlApplicationNotification *)notification {
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *identifier = [noteDict objectForKey:GROWL_NOTIFICATION_IDENTIFIER];
 	unsigned count = [notificationQueue count];
@@ -123,5 +139,5 @@
 		[olBezel setFlipIn:YES];
 		[olBezel startDisplay];
 	}
-}
+}*/
 @end

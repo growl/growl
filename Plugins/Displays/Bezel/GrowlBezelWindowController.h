@@ -10,14 +10,14 @@
 
 @class GrowlBezelWindowView;
 
-@interface GrowlBezelWindowController : GrowlDisplayFadingWindowController {
+@interface GrowlBezelWindowController : GrowlDisplayWindowController {
+	unsigned	depth;
 	int						priority;
 	BOOL					flipIn;
 	BOOL					flipOut;
 	BOOL					shrinkEnabled;
 	BOOL					flipEnabled;
 	NSString				*identifier;
-	GrowlBezelWindowView	*contentView;
 }
 
 - (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority identifier:(NSString *)ident;
