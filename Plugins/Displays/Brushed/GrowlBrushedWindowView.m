@@ -62,6 +62,7 @@
 }
 
 - (void) drawRect:(NSRect)rect {
+#pragma unused(rect)
 	//Make sure that we don't draw in the main thread
 	//if ([super dispatchDrawingToThread:rect]) {
 		NSRect b = [self bounds];

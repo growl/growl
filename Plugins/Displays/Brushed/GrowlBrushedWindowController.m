@@ -100,10 +100,12 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	displayDuration = GrowlBrushedDurationPrefDefault;
 	READ_GROWL_PREF_VALUE(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, CFNumberRef, &prefsDuration);
-	CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
-	if (value > 0.0f)
-		displayDuration = value;
-
+	if(prefsDuration) {
+		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
+		if (value > 0.0f)
+			displayDuration = value;
+	}	
+	
 	// Create window...
 	NSRect windowFrame = NSMakeRect(0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f);
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:windowFrame										
@@ -226,8 +228,9 @@ static NSMutableDictionary *notificationsByIdentifier;
 	NSString *text  = [notification HTMLDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
-	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
+#warning commented out due to an indication that they're not being used
+	//BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
+	//NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
 	BOOL textHTML, titleHTML;
 	
 	if (title)
