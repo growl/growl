@@ -11,6 +11,9 @@
 #import "GrowlBezelPrefs.h"
 #import "NSWindow+Transforms.h"
 #include "CFDictionaryAdditions.h"
+#import "GrowlAnimation.h"
+#import "GrowlFadingWindowTransition.h"
+
 
 @implementation GrowlBezelWindowController
 
@@ -70,6 +73,7 @@
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
 	[panel useOptimizedDrawing:YES];
+	[panel setAlphaValue:0.0f];
 	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
 	[panel setDelegate:self];
 
@@ -117,16 +121,21 @@
 	}
 	[panel setFrameTopLeftPoint:panelTopLeft];
 
-	/*if ((self = [super initWithWindow:panel])) {
-		autoFadeOut = YES;	//!sticky
-		doFadeIn = NO;
-		[self setDisplayDuration:displayDuration];
-		//priority = prio;
-		animationDuration = 0.25;
-	}*/
-
-
-	return [super initWithWindow:panel];
+	// call super so everything else is set up...
+	self = [super initWithWindow:panel];
+	if (!self)
+		return nil;
+	
+	// set up the transitions...
+	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel
+																					  action:GrowlFadeIn];
+	[self addTransition:fader];
+	[self setStartPercentage:0 endPercentage:100 forTransition:fader];
+	[self setTransitionDuration:1.0];
+	[fader setDelegate:self];
+	[fader release];
+	
+	return self;
 }
 
 /*- (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio identifier:(NSString *)ident {
@@ -233,6 +242,22 @@
 
 	return self;
 }*/
+
+#pragma mark -
+
+- (void) growlAnimationDidEnd:(GrowlAnimation *)animation {
+	if ([animation isKindOfClass:[GrowlFadingWindowTransition class]])
+	{
+		// Reverse the direction of the transition for the next pass...
+		GrowlFadingWindowTransition *fader = (GrowlFadingWindowTransition *)animation;
+		if ([fader fadeAction] == GrowlFadeIn)
+			[fader setFadeAction:GrowlFadeOut];
+		else
+			[fader setFadeAction:GrowlFadeIn];
+	}
+}
+
+#pragma mark -
 
 - (unsigned) depth {
 	return depth;

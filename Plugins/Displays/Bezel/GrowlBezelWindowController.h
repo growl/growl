@@ -8,7 +8,7 @@
 
 #import "GrowlDisplayFadingWindowController.h"
 
-@class GrowlBezelWindowView;
+@class GrowlBezelWindowView, GrowlAnimation;
 
 @interface GrowlBezelWindowController : GrowlDisplayWindowController {
 	unsigned	depth;
@@ -20,7 +20,8 @@
 	NSString				*identifier;
 }
 
-- (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority identifier:(NSString *)ident;
+- (void) growlAnimationDidEnd:(GrowlAnimation *)animation;
+
 
 - (NSString *) identifier;
 - (int) priority;
@@ -28,9 +29,6 @@
 - (void) setTitle:(NSString *)title;
 - (void) setText:(NSString *)text;
 - (void) setIcon:(NSImage *)icon;
-
-- (void) fadeInAnimation:(double)progress;
-- (void) fadeOutAnimation:(double)progress;
 
 - (void) setFlipIn:(BOOL)flag;
 - (void) setFlipOut:(BOOL)flag;

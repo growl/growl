@@ -14,5 +14,4 @@
 @interface GrowlBubblesController : GrowlDisplayPlugin {
 }
 
-- (void)bubblesGone:(NSNotification*)note;
 @end

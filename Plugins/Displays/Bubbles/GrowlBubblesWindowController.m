@@ -14,8 +14,8 @@
 #import "GrowlApplicationNotification.h"
 #import "NSWindow+Transforms.h"
 #include "CFDictionaryAdditions.h"
-
-static NSMutableDictionary *notificationsByIdentifier;
+#import "GrowlAnimation.h"
+#import "GrowlFadingWindowTransition.h"
 
 @implementation GrowlBubblesWindowController
 
@@ -58,7 +58,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[panel setBackgroundColor:[NSColor clearColor]];
 	[panel setLevel:NSStatusWindowLevel];
 	[panel setSticky:YES];
-	[panel setAlphaValue:1.0f];
+	[panel setAlphaValue:0.0f];
 	[panel setOpaque:NO];
 	[panel setHasShadow:YES];
 	[panel setCanHide:NO];
@@ -78,23 +78,23 @@ static NSMutableDictionary *notificationsByIdentifier;
 	[panel setFrame:panelFrame display:NO];
 	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - GrowlBubblesPadding,
 											NSMaxY(screen) - GrowlBubblesPadding - depth)];
-	return [super initWithWindow:panel];
-}
-
-- (void) startFadeOut {
-	GrowlBubblesWindowView *view = (GrowlBubblesWindowView *)[[self window] contentView];
-	if ([view mouseOver]) {
-		[view setCloseOnMouseExit:YES];
-	} else {
-		if (identifier) {
-			[notificationsByIdentifier removeObjectForKey:identifier];
-			if (![notificationsByIdentifier count]) {
-				[notificationsByIdentifier release];
-				notificationsByIdentifier = nil;
-			}
-		}
-		[super startFadeOut];
-	}
+	
+	
+	// call super so everything else is set up...
+	self = [super initWithWindow:panel];
+	if (!self)
+		return nil;
+	
+	// set up the transitions...
+	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel
+																					  action:GrowlFadeIn];
+	[self addTransition:fader];
+	[self setStartPercentage:0 endPercentage:100 forTransition:fader];
+	[self setTransitionDuration:1.0];
+	[fader setDelegate:self];
+	[fader release];
+	
+	return self;
 }
 
 - (void) dealloc {
@@ -105,6 +105,22 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	[super dealloc];
 }
+
+#pragma mark -
+
+- (void) growlAnimationDidEnd:(GrowlAnimation *)animation {
+	if ([animation isKindOfClass:[GrowlFadingWindowTransition class]])
+	{
+		// Reverse the direction of the transition for the next pass...
+		GrowlFadingWindowTransition *fader = (GrowlFadingWindowTransition *)animation;
+		if ([fader fadeAction] == GrowlFadeIn)
+			[fader setFadeAction:GrowlFadeOut];
+		else
+			[fader setFadeAction:GrowlFadeIn];
+	}
+}
+
+#pragma mark -
 
 - (unsigned) depth {
 	return depth;
@@ -154,6 +170,5 @@ static NSMutableDictionary *notificationsByIdentifier;
 	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, [panel frame].origin.x, [panel frame].origin.y, [panel frame].size.height, [panel frame].size.width);
 
 }
-
 
 @end
