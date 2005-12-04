@@ -1,4 +1,4 @@
-//
+ //
 //  GrowlDisplayWindowController.h
 //  Display Plugins
 //
@@ -20,22 +20,26 @@
 	GrowlApplicationNotification    *notification;	/* not sure if this will be needed since binding may work without */
 	GrowlNotificationDisplayBridge  *bridge;
 	
-	SEL					            action;
-	id					            target;
-	id					            clickContext;
-	NSNumber			            *clickHandlerEnabled;
-	NSString			            *appName;
-	NSNumber			            *appPid;
-	NSMutableDictionary             *windowTransitions;
-	id					            delegate;
-	CFRunLoopTimerRef	            displayTimer;
-	BOOL				            ignoresOtherNotifications;
+	SEL					             action;
+	id					             target;
+	id					             clickContext;
+	NSNumber			             *clickHandlerEnabled;
+	NSString			             *appName;
+	NSNumber			             *appPid;
+	NSMutableDictionary              *windowTransitions;
+	id					             delegate;
+	CFRunLoopTimerRef	             displayTimer;
+	BOOL				             ignoresOtherNotifications;
 
-	CFTimeInterval		            displayDuration;
-	unsigned			            screenNumber;
-	unsigned			            screenshotMode: 1;
+	CFTimeInterval                   transitionDuration;
+	NSMapTable                       *startTimes;
+	NSMapTable                       *endTimes;
+	
+	CFTimeInterval		             displayDuration;
+	unsigned			             screenNumber;
+	unsigned			             screenshotMode: 1;
 
-	unsigned			            WCReserved: 31;
+	unsigned			             WCReserved: 31;
 }
 
 - (id) initWithWindowNibName:(NSString *)windowNibName bridge:(GrowlNotificationDisplayBridge *)displayBridge;
@@ -63,6 +67,10 @@
 - (void) willTakeDownNotification;
 - (void)  didTakeDownNotification;
 
+/* provate method called when all transitions finish running */
+- (void) didFinishTransitionsBeforeDisplay;
+- (void) didFinishTransitionsAfterDisplay;
+
 #pragma mark -
 
 - (void) startDisplayTimer;
@@ -73,14 +81,20 @@
 - (BOOL) addTransition:(GrowlWindowTransition *)transition;
 - (void) removeTransition:(GrowlWindowTransition *)transition;
 
+/* Sets the start and the end markers for a given transtion within the total transitionDuration.  Start and end are relative to that ammount */
+- (void) setStartPercentage:(unsigned)start endPercentage:(unsigned)end forTransition:(GrowlWindowTransition *)transition;
+
 - (NSArray *) allTransitions;
 - (NSArray *) activeTransitions;
 - (NSArray *) inactiveTransitions;
 
-- (void) startAllTransitions;
-- (void) startTransitionOfKind:(Class)transitionsClass;
+/* start transitions using these methods - they return yes if one or more transitions were started.  Will return no if transitions are present but their start and end times have not been configured appropriately */
+- (BOOL) startAllTransitions;
+- (BOOL) startTransition:(GrowlWindowTransition *)transition;
+- (BOOL) startTransitionOfKind:(Class)transitionsClass;
 
 - (void) stopAllTransitions;
+- (void) stopTransition:(GrowlWindowTransition *)transition;
 - (void) stopTransitionOfKind:(Class)transitionsClass;
 
 #pragma mark -
@@ -92,6 +106,10 @@
 /* Not to be called directly...for KVO compliance only */
 - (GrowlNotificationDisplayBridge *) bridge;
 - (void) setBridge: (GrowlNotificationDisplayBridge *) theBridge;
+
+/* Subclasses should call this to set the overall transition duration ... could offer a user perf as well */
+- (CFTimeInterval) transitionDuration;
+- (void) setTransitionDuration: (CFTimeInterval) theTransitionDuration;
 
 - (CFTimeInterval) displayDuration;
 - (void) setDisplayDuration:(CFTimeInterval) newDuration;

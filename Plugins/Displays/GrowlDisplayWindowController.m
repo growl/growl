@@ -86,6 +86,8 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 		windowTransitions = [[NSMutableDictionary alloc] init];
 		ignoresOtherNotifications = NO;
 		bridge = nil;
+		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
+		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
 	}
 
 	return self;
@@ -96,6 +98,9 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	[self setDelegate:nil];
 	[self unbind:@"notification"];
 
+	NSFreeMapTable( startTimes );
+	NSFreeMapTable( endTimes );
+	
 	[bridge              release];
 	[target              release];
 	[clickContext        release];
@@ -127,7 +132,10 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	if (ignoresOtherNotifications || [[GrowlPositionController sharedInstance] reserveRect:[window frame] inScreen:[window screen]]) {
 		[self willDisplayNotification];
 		[window orderFront:nil];
-		[self startDisplayTimer];
+		if ([self startAllTransitions])
+			[self performSelector:@selector(didFinishTransitionsBeforeDisplay) withObject:nil afterDelay:transitionDuration];
+		else
+			[self didFinishTransitionsBeforeDisplay];
 		[self didDisplayNotification];
 		return YES;
 	} else {
@@ -140,11 +148,11 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 - (void) stopDisplay {
 	NSLog(@"%s\n", __FUNCTION__);
 	[self stopDisplayTimer];
-	NSWindow *window = [self window];
-
 	[self willTakeDownNotification];
-	[[GrowlPositionController sharedInstance] clearReservedRect:[window frame] inScreen:[window screen]];	//Clear the rect we reserved
-	[window orderOut:nil];
+	if ([self startAllTransitions])
+		[self performSelector:@selector(didFinishTransitionsAfterDisplay) withObject:nil afterDelay:transitionDuration];
+	else
+		[self didFinishTransitionsAfterDisplay];
 	[self didTakeDownNotification];
 }
 
@@ -154,6 +162,17 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 - (void) willDisplayNotification {
 	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillDisplayWindowNotification 
 														object:self];
+}
+
+- (void) didFinishTransitionsBeforeDisplay {
+	[self startDisplayTimer];
+}
+
+- (void) didFinishTransitionsAfterDisplay {
+	//Clear the rect we reserved...
+	NSWindow *window = [self window];
+	[window orderOut:nil];
+	[[GrowlPositionController sharedInstance] clearReservedRect:[window frame] inScreen:[window screen]];		
 }
 
 - (void) didDisplayNotification {
@@ -248,6 +267,20 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	[transition setWindow:nil];
 }
 
+- (void) setStartPercentage:(unsigned)start endPercentage:(unsigned)end forTransition:(GrowlWindowTransition *)transition {
+	NSAssert1((start <= 100U || start < end), 
+			  @"The start parameter was invalid for the transition: %@",
+			  transition);
+	NSAssert1((end <= 100U || start < end), 
+			  @"The end parameter was invalid for the transition: %@",
+			  transition);
+	
+	NSMapInsert(startTimes, transition, (void *)start);
+	NSMapInsert(endTimes, transition, (void *)end);
+}
+
+#pragma mark-
+
 - (NSArray *) allTransitions {
 	return (NSArray *)windowTransitions;
 }
@@ -282,24 +315,60 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	return (NSArray *)result;
 }
 
-- (void) startAllTransitions {
-	[[windowTransitions allValues] makeObjectsPerformSelector:@selector(startAnimation)];
+- (BOOL) startAllTransitions {
+	BOOL result = NO;
+	GrowlWindowTransition *transition;
+	NSEnumerator *transitionEnum = [[windowTransitions allValues] objectEnumerator];
+
+	while ((transition = [transitionEnum nextObject]))
+		if ([self startTransition:transition])
+			result = YES;
+	return result;
 }
 
-- (void) startTransitionOfKind:(Class)transitionClass {
+- (BOOL) startTransition:(GrowlWindowTransition *)transition {
+	int startPercentage = (int) NSMapGet(startTimes, transition);
+	int endPercentage   = (int) NSMapGet(endTimes, transition);
+	
+	// If there were no times set up then the end time would be NULL (0)...
+	if (endPercentage == 0)
+		return NO;
+	
+	// Work out the start and the end times...
+	CFTimeInterval startTime = startPercentage * (transitionDuration / 100);
+	CFTimeInterval endTime = endPercentage * (transitionDuration / 100);
+	
+	// Set up this transition...
+	[transition setDuration: (endTime - startTime)];
+	[transition performSelector:@selector(startAnimation) withObject:nil afterDelay:startTime];
+	return YES;
+}
+
+- (BOOL) startTransitionOfKind:(Class)transitionClass {
 	GrowlWindowTransition *transition = [windowTransitions objectForKey:transitionClass];
 	if (transition)
-		[transition startAnimation];
+		return [self startTransition:transition];
+	return NO;
 }
 
 - (void) stopAllTransitions {
-	[[windowTransitions allValues] makeObjectsPerformSelector:@selector(stopAnimation)];
+	GrowlWindowTransition *transition;
+	NSEnumerator *transitionEnum = [[windowTransitions allValues] objectEnumerator];
+	while (( transition = [transitionEnum nextObject] ))
+		[self stopTransition:transition];
+}
+
+- (void) stopTransition:(GrowlWindowTransition *)transition {
+	[transition stopAnimation];
+	[[self class] cancelPreviousPerformRequestsWithTarget:transition 
+												 selector:@selector(startAnimation) 
+												   object:nil];
 }
 
 - (void) stopTransitionOfKind:(Class)transitionClass {
 	GrowlWindowTransition *transition = [windowTransitions objectForKey:transitionClass];
 	if (transition)
-		[transition stopAnimation];
+		[self stopTransition:transition];
 }
 
 #pragma mark -
@@ -332,6 +401,16 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 - (void) setBridge: (GrowlNotificationDisplayBridge *) theBridge
 {
 	bridge = theBridge;
+}
+
+#pragma mark -
+
+- (CFTimeInterval) transitionDuration {
+    return transitionDuration;
+}
+
+- (void) setTransitionDuration: (CFTimeInterval) theTransitionDuration{
+    transitionDuration = theTransitionDuration;
 }
 
 #pragma mark -
