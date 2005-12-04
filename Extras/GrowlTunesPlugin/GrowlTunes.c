@@ -114,6 +114,8 @@ pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef,EventRef inEven
     GetEventParameter(inEvent,kEventParamDirectObject,typeControlRef,NULL,sizeof(ControlRef),NULL,&control);
     wind=GetControlOwner(control);
     GetControlID(control,&controlID);
+	char *string = (char *)&controlID.signature;
+	CFLog(1, CFSTR("control: %c%c%c%c :%d"), string[0], string[1], string[2], string[3], controlID.id);
     switch(controlID.id){
         case kTrackSettingID:
                 gTrackFlag=GetControlValue(control);
@@ -226,23 +228,25 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 
 				CFBundleRef GrowlTunesPlugin;
 
-				GrowlTunesPlugin=CFBundleGetBundleWithIdentifier(CFSTR("GrowlTunes Visualizer"));
-				if (GrowlTunesPlugin == NULL) SysBeep(2);
+				GrowlTunesPlugin=CFBundleGetBundleWithIdentifier(CFSTR("com.growl.growltunes"));
+				if (GrowlTunesPlugin == NULL) {
+					CFLog(1, CFSTR("bad bundle reference"));
+				} else {
+					CreateNibReferenceWithCFBundle(GrowlTunesPlugin,CFSTR("SettingsDialog"), &nibRef);
 
-				CreateNibReferenceWithCFBundle(GrowlTunesPlugin,CFSTR("SettingsDialog"), &nibRef);
-
-				CreateWindowFromNib(nibRef, CFSTR("PluginSettings"), &settingsDialog);
-				DisposeNibReference(nibRef);
-				InstallWindowEventHandler(settingsDialog,NewEventHandlerUPP(settingsControlHandler),
-											1,&controlEvent,0,NULL);
-				GetControlByID(settingsDialog,&kTrackSettingControlID,&trackpref);
-				GetControlByID(settingsDialog,&kDiscSettingControlID,&discpref);
-				GetControlByID(settingsDialog,&kArtistSettingControlID,&artistpref);
-				GetControlByID(settingsDialog,&kComposerSettingControlID,&composerpref);
-				GetControlByID(settingsDialog,&kAlbumSettingControlID,&albumpref);
-				GetControlByID(settingsDialog,&kYearSettingControlID,&yearpref);
-				GetControlByID(settingsDialog,&kGenreSettingControlID,&genrepref);
-		}
+					CreateWindowFromNib(nibRef, CFSTR("PluginSettings"), &settingsDialog);
+					DisposeNibReference(nibRef);
+					InstallWindowEventHandler(settingsDialog,NewEventHandlerUPP(settingsControlHandler), 1,&controlEvent,0,NULL);
+					GetControlByID(settingsDialog,&kTrackSettingControlID,&trackpref);
+					GetControlByID(settingsDialog,&kDiscSettingControlID,&discpref);
+					GetControlByID(settingsDialog,&kArtistSettingControlID,&artistpref);
+					GetControlByID(settingsDialog,&kComposerSettingControlID,&composerpref);
+					GetControlByID(settingsDialog,&kAlbumSettingControlID,&albumpref);
+					GetControlByID(settingsDialog,&kYearSettingControlID,&yearpref);
+					GetControlByID(settingsDialog,&kGenreSettingControlID,&genrepref);
+		
+				}
+			}
 			SetControlValue(trackpref,gTrackFlag);
 			SetControlValue(discpref,gDiscFlag);
 			SetControlValue(artistpref,gArtistFlag);

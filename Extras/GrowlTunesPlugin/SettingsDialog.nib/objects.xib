@@ -22,38 +22,49 @@
           <object class="IBCarbonCheckBox" id="181">
             <string name="bounds">42 28 60 85 </string>
             <ostype name="controlSignature">cbox</ostype>
-            <int name="controlID">4</int>
+            <int name="controlID">5</int>
             <string name="title">Artist</string>
             <int name="initialState">1</int>
           </object>
           <object class="IBCarbonButton" id="184">
             <string name="bounds">90 104 110 174 </string>
-            <int name="controlID">5</int>
+            <ostype name="controlSignature">save</ostype>
+            <int name="controlID">10</int>
             <string name="title">OK</string>
             <ostype name="command">ok  </ostype>
           </object>
           <object class="IBCarbonCheckBox" id="185">
             <string name="bounds">67 28 85 90 </string>
+            <ostype name="controlSignature">cbox</ostype>
+            <int name="controlID">7</int>
             <string name="title">Album</string>
             <int name="initialState">1</int>
           </object>
           <object class="IBCarbonCheckBox" id="186">
             <string name="bounds">66 98 84 157 </string>
+            <ostype name="controlSignature">cbox</ostype>
+            <int name="controlID">8</int>
             <string name="title">Year</string>
             <int name="initialState">1</int>
           </object>
           <object class="IBCarbonCheckBox" id="187">
             <string name="bounds">42 98 60 183 </string>
+            <ostype name="controlSignature">cbox</ostype>
+            <int name="controlID">6</int>
             <string name="title">Composer</string>
             <int name="initialState">1</int>
           </object>
           <object class="IBCarbonCheckBox" id="188">
             <string name="bounds">91 28 109 87 </string>
+            <ostype name="controlSignature">cbox</ostype>
+            <int name="controlID">9</int>
             <string name="title">Genre</string>
             <int name="initialState">1</int>
           </object>
           <object class="IBCarbonCheckBox" id="189">
             <string name="bounds">18 98 36 157 </string>
+            <ostype name="controlSignature">cbox</ostype>
+            <int name="controlID">4</int>
             <string name="title">Disc</string>
             <int name="initialState">1</int>
           </object>
