@@ -30,6 +30,18 @@
 #define ITUNES_STOPPED			CFSTR("Stopped")
 #define ITUNES_PLAYING			CFSTR("Started Playing")
 
+enum
+{
+	kTrackSettingID		= 3,
+	kDiscSettingID		= 4,
+	kArtistSettingID	= 5,
+	kComposerSettingID	= 6,
+	kAlbumSettingID		= 7,
+	kYearSettingID		= 8,
+	kGenreSettingID		= 9,
+	kOKSettingID		= 10
+};
+
 typedef Boolean (*GrowlSetDelegateProcPtr) (struct Growl_Delegate *newDelegate);
 static GrowlSetDelegateProcPtr GrowlTunes_SetDelegate;
 
@@ -69,6 +81,14 @@ typedef struct VisualPluginData {
 	GWorldPtr			offscreen;
 } VisualPluginData;
 
+static Boolean gTrackFlag		= true;
+static Boolean gDiscFlag		= true;
+static Boolean gArtistFlag		= true;
+static Boolean gComposerFlag	= true;
+static Boolean gAlbumFlag		= true;
+static Boolean gYearFlag		= true;
+static Boolean gGenreFlag		= true;
+
 typedef struct Growl_Notification Growl_Notification;
 static struct Growl_Delegate delegate;
 extern CFArrayCallBacks notificationCallbacks;
@@ -79,6 +99,49 @@ extern CFArrayCallBacks notificationCallbacks;
 
 extern OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, void *refCon);
 extern void CFLog(int priority, CFStringRef format, ...);
+
+/* 
+	settingsControlHandler
+*/
+pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef,EventRef inEvent, void* userData)
+{
+    WindowRef wind=NULL;
+    ControlID controlID;
+    ControlRef control=NULL;
+	inRef = NULL;
+	userData = NULL;
+    //get control hit by event
+    GetEventParameter(inEvent,kEventParamDirectObject,typeControlRef,NULL,sizeof(ControlRef),NULL,&control);
+    wind=GetControlOwner(control);
+    GetControlID(control,&controlID);
+    switch(controlID.id){
+        case kTrackSettingID:
+                gTrackFlag=GetControlValue(control);
+                break;
+        case kDiscSettingID:
+                gDiscFlag=GetControlValue(control);
+                break;
+        case kArtistSettingID:
+                gArtistFlag=GetControlValue(control);
+                break;
+        case kComposerSettingID:
+                gComposerFlag=GetControlValue(control);
+                break;
+        case kAlbumSettingID:
+                gAlbumFlag=GetControlValue(control);
+                break;
+        case kYearSettingID:
+                gYearFlag=GetControlValue(control);
+                break;
+        case kGenreSettingID:
+                gGenreFlag=GetControlValue(control);
+                break;
+		case kOKSettingID:
+                HideWindow(wind);
+                break;
+    }
+    return noErr;
+}
 
 static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *messageInfo, void *refCon)
 {
@@ -139,8 +202,57 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			Sent if the plugin requests the ability for the user to configure it.  Do this by setting
 			the kVisualWantsConfigure option in the RegisterVisualMessage.options field.
 		*/
-		case kVisualPluginConfigureMessage:
+		case kVisualPluginConfigureMessage: {
+			static EventTypeSpec controlEvent={kEventClassControl,kEventControlHit};
+			static const ControlID kTrackSettingControlID	= {'cbox',kTrackSettingID};
+			static const ControlID kDiscSettingControlID	= {'cbox',kDiscSettingID};
+			static const ControlID kArtistSettingControlID	= {'cbox',kArtistSettingID};
+			static const ControlID kComposerSettingControlID= {'cbox',kComposerSettingID};
+			static const ControlID kAlbumSettingControlID	= {'cbox',kAlbumSettingID};
+			static const ControlID kYearSettingControlID	= {'cbox',kYearSettingID};
+			static const ControlID kGenreSettingControlID	= {'cbox',kGenreSettingID};
+
+			static WindowRef settingsDialog=NULL;
+			static ControlRef trackpref		=NULL;
+			static ControlRef discpref		=NULL;
+			static ControlRef artistpref	=NULL;
+			static ControlRef composerpref	=NULL;
+			static ControlRef albumpref		=NULL;
+			static ControlRef yearpref		=NULL;
+			static ControlRef genrepref		=NULL;
+
+			if(settingsDialog==NULL){
+				IBNibRef 		nibRef; //we have to find our bundle to load the nib inside of it
+
+				CFBundleRef GrowlTunesPlugin;
+
+				GrowlTunesPlugin=CFBundleGetBundleWithIdentifier(CFSTR("GrowlTunes.bundle"));
+				if (GrowlTunesPlugin == NULL) SysBeep(2);
+
+				CreateNibReferenceWithCFBundle(GrowlTunesPlugin,CFSTR("SettingsDialog"), &nibRef);
+
+				CreateWindowFromNib(nibRef, CFSTR("GrowlTunes Preferences"), &settingsDialog);
+				DisposeNibReference(nibRef);
+				InstallWindowEventHandler(settingsDialog,NewEventHandlerUPP(settingsControlHandler),
+											1,&controlEvent,0,NULL);
+				GetControlByID(settingsDialog,&kTrackSettingControlID,&trackpref);
+				GetControlByID(settingsDialog,&kDiscSettingControlID,&discpref);
+				GetControlByID(settingsDialog,&kArtistSettingControlID,&artistpref);
+				GetControlByID(settingsDialog,&kComposerSettingControlID,&composerpref);
+				GetControlByID(settingsDialog,&kAlbumSettingControlID,&albumpref);
+				GetControlByID(settingsDialog,&kYearSettingControlID,&yearpref);
+				GetControlByID(settingsDialog,&kGenreSettingControlID,&genrepref);
+		}
+			SetControlValue(trackpref,gTrackFlag);
+			SetControlValue(discpref,gDiscFlag);
+			SetControlValue(artistpref,gArtistFlag);
+			SetControlValue(composerpref,gComposerFlag);
+			SetControlValue(albumpref,gAlbumFlag);
+			SetControlValue(yearpref,gYearFlag);
+			SetControlValue(genrepref,gGenreFlag);
+			ShowWindow(settingsDialog);
 			break;
+		}
 		/*
 			Sent when iTunes is going to show the visual plugin in a port.  At
 			this point,the plugin should allocate any large buffers it needs.
@@ -196,27 +308,30 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 
-			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask) {
+			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask & gTrackFlag) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-				if (visualPluginData->trackInfo.numDiscs > 1)
-					CFStringAppendFormat(tmp, NULL, CFSTR("%d-"), visualPluginData->trackInfo.discNumber);
-				CFStringAppendFormat(tmp, NULL, CFSTR("%d. "), visualPluginData->trackInfo.trackNumber);
+				if (visualPluginData->trackInfo.trackNumber != 0) {
+					if ((visualPluginData->trackInfo.numDiscs > 1) & gDiscFlag)
+						CFStringAppendFormat(tmp, NULL, CFSTR("%d-"), visualPluginData->trackInfo.discNumber);
+					CFStringAppendFormat(tmp, NULL, CFSTR("%d. "), visualPluginData->trackInfo.trackNumber);
+				}
 				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
 				title = tmp;
 			} else {
 				title = CFSTR("");
 			}
-			if (visualPluginData->trackInfo.validFields & (kITTIArtistFieldMask|kITTIComposerFieldMask)) {
+			if (visualPluginData->trackInfo.validFields & (kITTIArtistFieldMask|kITTIComposerFieldMask) & (gArtistFlag|gComposerFlag)) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
-				if (visualPluginData->trackInfo.composer[0]) {
+				if (gArtistFlag)
+					CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
+				if (visualPluginData->trackInfo.composer[0] & gComposerFlag) {
 					CFStringAppend(tmp, CFSTR(" (Composed by "));
 					CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.composer[1], visualPluginData->trackInfo.composer[0]);
 					CFStringAppend(tmp, CFSTR(")"));
 				}
 				CFStringAppend(tmp, CFSTR("\n"));
 				artist = tmp;
-			} else if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask) {
+			} else if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask & gArtistFlag) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
 				CFStringAppend(tmp, CFSTR("\n"));
@@ -224,12 +339,16 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			} else {
 				artist = CFSTR("");
 			}
-			if (visualPluginData->trackInfo.validFields & (kITTIAlbumFieldMask|kITTIYearFieldMask)) {
+			if (visualPluginData->trackInfo.validFields & (kITTIAlbumFieldMask|kITTIYearFieldMask) & (gAlbumFlag|gYearFlag)) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
-				CFStringAppendFormat(tmp, NULL, CFSTR(" (%d)\n"), visualPluginData->trackInfo.year);
+				if (gAlbumFlag) {
+					CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
+					CFStringAppendFormat(tmp, NULL, CFSTR(" "));
+				}
+				if (gYearFlag)
+					CFStringAppendFormat(tmp, NULL, CFSTR("(%d)\n"), visualPluginData->trackInfo.year);
 				album = tmp;
-			} else if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask) {
+			} else if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask & gAlbumFlag) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
 				CFStringAppend(tmp, CFSTR("\n"));
@@ -237,7 +356,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			} else {
 				album = CFSTR("");
 			}
-			if (visualPluginData->trackInfo.validFields & kITTIGenreFieldMask) {
+			if (visualPluginData->trackInfo.validFields & kITTIGenreFieldMask & gGenreFlag) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.genre[1], visualPluginData->trackInfo.genre[0]);
 				//CFStringAppend(tmp, CFSTR("\n"));
@@ -415,7 +534,7 @@ static OSStatus RegisterVisualPlugin(PluginMessageInfo *messageInfo)
 
 	SetNumVersion(&playerMessageInfo.u.registerVisualPluginMessage.pluginVersion, kTVisualPluginMajorVersion, kTVisualPluginMinorVersion, kTVisualPluginReleaseStage, kTVisualPluginNonFinalRelease);
 
-	playerMessageInfo.u.registerVisualPluginMessage.options        = kPluginWantsToBeLeftOpen;
+	playerMessageInfo.u.registerVisualPluginMessage.options        = kPluginWantsToBeLeftOpen, kVisualWantsConfigure;
 	playerMessageInfo.u.registerVisualPluginMessage.handler        = (VisualPluginProcPtr)VisualPluginHandler;
 	playerMessageInfo.u.registerVisualPluginMessage.registerRefCon = NULL;
 	playerMessageInfo.u.registerVisualPluginMessage.creator        = kTVisualPluginCreator;

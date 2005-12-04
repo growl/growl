@@ -7,13 +7,13 @@
 	<key>CFBundleExecutable</key>
 	<string>GrowlTunes</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Sample iTunes Plug-in</string>
+	<string>GrowlTUnes Plug-in</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.growl.growltunes</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>iTunesX Visualizer</string>
+	<string>GrowlTunes Visualizer</string>
 	<key>CFBundlePackageType</key>
 	<string>hvpl</string>
 	<key>CFBundleSignature</key>
