@@ -209,6 +209,10 @@ typedef enum {
  */
 - (unsigned) framesPassed;
 
+- (void) animationIsInMiddle;
+- (void) animationDidStop;
+- (void) animationDidEnd;
+
 @end
 
 

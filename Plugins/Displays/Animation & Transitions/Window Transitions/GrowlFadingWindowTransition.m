@@ -10,42 +10,6 @@
 
 @implementation GrowlFadingWindowTransition
 
-- (id) init {
-	self = [super init];
-
-	if (self) {
-		fadeAction = GrowlNoFadeAction;	//We don't animate if someone simply sends us -startAnimation
-	}
-
-	return self;
-}
-
-- (id) initWithWindow:(NSWindow *)inWindow action:(GrowlFadeAction)action {
-	self = [super initWithWindow:inWindow];
-
-	if (self) {
-		fadeAction = action;
-	}
-
-	return self;
-}
-
-#pragma mark -
-
-- (void) startAnimation {
-	if (fadeAction == GrowlNoFadeAction)
-		return;
-
-	[super startAnimation];
-}
-
-- (void) stopAnimation {
-	if (fadeAction == GrowlNoFadeAction)
-		return;
-	
-	[super stopAnimation];
-}
-
 - (void) reset {
 	[[self window] setAlphaValue:1.0];
 }
@@ -54,29 +18,17 @@
 
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
 	if (aWindow) {
-		switch (fadeAction) {
-			case GrowlFadeIn:
+		switch (direction) {
+			case GrowlForwardTransition:
 				[aWindow setAlphaValue:progress];
 				break;
-			case GrowlFadeOut:
+			case GrowlReverseTransition:
 				[aWindow setAlphaValue:(1.0 - progress)];
 				break;
 			default:
 				break;
 		}
 	}
-}
-
-#pragma mark -
-
-- (GrowlFadeAction) fadeAction
-{
-    return fadeAction;
-}
-
-- (void) setFadeAction: (GrowlFadeAction) theFadeAction
-{
-	fadeAction = theFadeAction;
 }
 
 @end

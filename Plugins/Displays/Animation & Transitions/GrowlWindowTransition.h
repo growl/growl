@@ -8,22 +8,56 @@
 
 #import "GrowlAnimation.h"
 
+typedef enum {
+	GrowlForwardTransition = 0,
+	GrowlReverseTransition
+} GrowlTransitionDirection;
 
 /*!
  * @class GrowlWindowTransition
  * @abstract Base class for window transitions.
  */
 @interface GrowlWindowTransition : GrowlAnimation {
-	NSWindow *window;
+	NSWindow                   *window;
+	GrowlTransitionDirection   direction;
+	BOOL                       autoReverses;
 }
+
+/* calls initWithWindow:direction: passing GrowlForwardTransition */
+- (id) initWithWindow:(NSWindow *)inWindow;
 
 /*!
  * @method initWithWindow:
  * @abstract Designated initializer.
  * @param inWindow The window for this transition.
+ * @param theDirection The initial direction for the transition
  * @result An initialized GrowlWindowTransition instance.
  */
-- (id) initWithWindow:(NSWindow *)inWindow;
+- (id) initWithWindow:(NSWindow *)inWindow direction:(GrowlTransitionDirection)theDirection;
+
+/*!
+* @method window
+* @abstract Returns whether the receiver autoreverses its direction on finishing a transition.
+*/
+- (BOOL) autoReverses;
+
+/*!
+* @method window
+* @abstract Sets whether the receiver autoreverses its direction on finishing a transition.
+*/
+- (void) setAutoReverses: (BOOL) flag;
+
+/*!
+* @method window
+* @abstract Returns the direction of the receiver.
+*/
+- (GrowlTransitionDirection) direction;
+
+/*!
+* @method window
+* @abstract Sets the direction of the receiver.
+*/
+- (void) setDirection: (GrowlTransitionDirection) theDirection;
 
 /*!
  * @method window

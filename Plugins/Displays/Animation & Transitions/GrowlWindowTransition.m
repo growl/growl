@@ -11,8 +11,13 @@
 @implementation GrowlWindowTransition
 
 - (id) initWithWindow:(NSWindow *)inWindow {
+	return [self initWithWindow:inWindow direction:GrowlForwardTransition];
+}
+
+- (id) initWithWindow:(NSWindow *)inWindow direction:(GrowlTransitionDirection)theDirection {
 	if ((self = [super init])) {
 		[self setWindow:inWindow];
+		[self setDirection:theDirection];
 	}
 
 	return self;
@@ -30,6 +35,27 @@
 		NSLog(@"Trying to stop window transition with no window. Transition: %@", self);
 	
 	[super stopAnimation];
+}
+
+- (void) animationDidEnd {
+	if (autoReverses)
+		[self setDirection:![self direction]];
+}
+
+- (BOOL) autoReverses {
+	return autoReverses;
+}
+
+- (void) setAutoReverses: (BOOL) flag {
+	autoReverses = flag;
+}
+
+- (GrowlTransitionDirection) direction {
+	return direction;
+}
+
+- (void) setDirection: (GrowlTransitionDirection) theDirection {
+    direction = theDirection;
 }
 
 - (NSWindow *) window {

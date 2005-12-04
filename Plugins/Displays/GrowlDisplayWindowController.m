@@ -88,6 +88,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 		bridge = nil;
 		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
 		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntMapValueCallBacks, 0U);
+		transitionDuration = 1.0;
 	}
 
 	return self;

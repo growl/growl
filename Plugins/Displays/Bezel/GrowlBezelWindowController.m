@@ -13,6 +13,8 @@
 #include "CFDictionaryAdditions.h"
 #import "GrowlAnimation.h"
 #import "GrowlFadingWindowTransition.h"
+#import "GrowlFlippingWindowTransition.h"
+#import "GrowlWindowTransition.h"
 
 
 @implementation GrowlBezelWindowController
@@ -127,13 +129,18 @@
 		return nil;
 	
 	// set up the transitions...
-	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel
-																					  action:GrowlFadeIn];
+	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 	[self addTransition:fader];
 	[self setStartPercentage:0 endPercentage:100 forTransition:fader];
-	[self setTransitionDuration:1.0];
-	[fader setDelegate:self];
+	[fader setAutoReverses:YES];
 	[fader release];
+	
+	GrowlFlippingWindowTransition *flipper = [[GrowlFlippingWindowTransition alloc] initWithWindow:panel];
+	[self addTransition:flipper];
+	[self setStartPercentage:0 endPercentage:100 forTransition:flipper];
+	[flipper setFlipsX:YES];
+	[flipper setAutoReverses:YES];
+	[flipper release];
 	
 	return self;
 }
@@ -242,20 +249,6 @@
 
 	return self;
 }*/
-
-#pragma mark -
-
-- (void) growlAnimationDidEnd:(GrowlAnimation *)animation {
-	if ([animation isKindOfClass:[GrowlFadingWindowTransition class]])
-	{
-		// Reverse the direction of the transition for the next pass...
-		GrowlFadingWindowTransition *fader = (GrowlFadingWindowTransition *)animation;
-		if ([fader fadeAction] == GrowlFadeIn)
-			[fader setFadeAction:GrowlFadeOut];
-		else
-			[fader setFadeAction:GrowlFadeIn];
-	}
-}
 
 #pragma mark -
 

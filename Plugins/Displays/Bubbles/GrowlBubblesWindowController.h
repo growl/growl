@@ -9,7 +9,7 @@
 
 #import "GrowlDisplayWindowController.h"
 
-@class GrowlApplicationNotification, GrowlAnimation;
+@class GrowlApplicationNotification;
 
 @interface GrowlBubblesWindowController : GrowlDisplayWindowController {
 	unsigned	depth;
@@ -17,7 +17,6 @@
 	unsigned	uid;
 }
 
-- (void) growlAnimationDidEnd:(GrowlAnimation *)animation;
 - (unsigned) depth;
 - (void) setNotification: (GrowlApplicationNotification *) theNotification;
 

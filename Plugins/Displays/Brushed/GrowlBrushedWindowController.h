@@ -8,7 +8,7 @@
 
 #import "GrowlDisplayWindowController.h"
 
-@class GrowlApplicationNotification, GrowlAnimation;
+@class GrowlApplicationNotification;
 
 @interface GrowlBrushedWindowController : GrowlDisplayWindowController {
 	unsigned	depth;
@@ -17,6 +17,5 @@
 }
 
 - (id) initWithNotification:(GrowlApplicationNotification *)noteDict depth:(unsigned)depth;
-- (void) growlAnimationDidEnd:(GrowlAnimation *)animation;
 - (unsigned) depth;
 @end

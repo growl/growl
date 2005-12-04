@@ -14,7 +14,7 @@
 #import "GrowlApplicationNotification.h"
 #import "NSWindow+Transforms.h"
 #include "CFDictionaryAdditions.h"
-#import "GrowlAnimation.h"
+#import "GrowlWindowTransition.h"
 #import "GrowlFadingWindowTransition.h"
 
 @implementation GrowlBubblesWindowController
@@ -86,12 +86,10 @@
 		return nil;
 	
 	// set up the transitions...
-	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel
-																					  action:GrowlFadeIn];
+	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 	[self addTransition:fader];
 	[self setStartPercentage:0 endPercentage:100 forTransition:fader];
-	[self setTransitionDuration:1.0];
-	[fader setDelegate:self];
+	[fader setAutoReverses:YES];
 	[fader release];
 	
 	return self;
@@ -104,20 +102,6 @@
 	[identifier release];
 
 	[super dealloc];
-}
-
-#pragma mark -
-
-- (void) growlAnimationDidEnd:(GrowlAnimation *)animation {
-	if ([animation isKindOfClass:[GrowlFadingWindowTransition class]])
-	{
-		// Reverse the direction of the transition for the next pass...
-		GrowlFadingWindowTransition *fader = (GrowlFadingWindowTransition *)animation;
-		if ([fader fadeAction] == GrowlFadeIn)
-			[fader setFadeAction:GrowlFadeOut];
-		else
-			[fader setFadeAction:GrowlFadeIn];
-	}
 }
 
 #pragma mark -

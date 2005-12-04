@@ -8,20 +8,9 @@
 
 #import "GrowlWindowTransition.h"
 
-typedef enum {
-	GrowlNoFadeAction = -1,
-	GrowlFadeIn = 0,
-	GrowlFadeOut
-} GrowlFadeAction;
-
 @interface GrowlFadingWindowTransition : GrowlWindowTransition {
-	GrowlFadeAction fadeAction;
 }
 
-- (id) initWithWindow:(NSWindow *)inWindow action:(GrowlFadeAction)action;
 - (void) reset;
-
-- (GrowlFadeAction) fadeAction;
-- (void) setFadeAction: (GrowlFadeAction) theFadeAction;
 
 @end

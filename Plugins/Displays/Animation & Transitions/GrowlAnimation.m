@@ -92,9 +92,9 @@
 
 		//Let our delegate know what's going on
 		if (progress < 1.0f)
-			[delegate growlAnimationDidStop:self];
+			[self animationDidStop];
 		else {
-			[delegate growlAnimationDidEnd:self];
+			[self animationDidEnd];
 			if (repeats)
 				[self startAnimation];
 		}
@@ -264,10 +264,22 @@
 		
 		//If we're in the middle we should notify our delegate about it
 		if (!passedMiddleOfAnimation && (progress >= 0.5) && delegate) {
-			[delegate growlAnimationIsInMiddle:self];
+			[self animationIsInMiddle];
 			passedMiddleOfAnimation = YES;
 		}
 	}
+}
+
+- (void) animationIsInMiddle {
+	[delegate growlAnimationIsInMiddle:self];
+}
+
+- (void) animationDidStop {
+	[delegate growlAnimationDidStop:self];
+}
+
+- (void) animationDidEnd {
+	[delegate growlAnimationDidEnd:self];
 }
 
 @end
