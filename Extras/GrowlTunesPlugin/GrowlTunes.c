@@ -326,6 +326,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			}
 			if (visualPluginData->trackInfo.validFields & (kITTIArtistFieldMask|kITTIComposerFieldMask) && (gArtistFlag||gComposerFlag)) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+				CFStringAppend(tmp, CFSTR("\n"));
 				if (gArtistFlag)
 					CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
 				if (visualPluginData->trackInfo.composer[0] && gComposerFlag) {
@@ -333,37 +334,35 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 					CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.composer[1], visualPluginData->trackInfo.composer[0]);
 					CFStringAppend(tmp, CFSTR(")"));
 				}
-				CFStringAppend(tmp, CFSTR("\n"));
 				artist = tmp;
 			} else if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask && gArtistFlag) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
-				CFStringAppend(tmp, CFSTR("\n"));
 				artist = tmp;
 			} else {
 				artist = CFSTR("");
 			}
 			if (visualPluginData->trackInfo.validFields & (kITTIAlbumFieldMask|kITTIYearFieldMask) && (gAlbumFlag||gYearFlag)) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+				CFStringAppend(tmp, CFSTR("\n"));
 				if (gAlbumFlag) {
 					CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
 					CFStringAppendFormat(tmp, NULL, CFSTR(" "));
 				}
 				if (gYearFlag)
-					CFStringAppendFormat(tmp, NULL, CFSTR("(%d)\n"), visualPluginData->trackInfo.year);
+					CFStringAppendFormat(tmp, NULL, CFSTR("(%d)"), visualPluginData->trackInfo.year);
 				album = tmp;
 			} else if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask && gAlbumFlag) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
-				CFStringAppend(tmp, CFSTR("\n"));
 				album = tmp;
 			} else {
 				album = CFSTR("");
 			}
 			if (visualPluginData->trackInfo.validFields & kITTIGenreFieldMask && gGenreFlag) {
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+				CFStringAppend(tmp, CFSTR("\n"));
 				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.genre[1], visualPluginData->trackInfo.genre[0]);
-				//CFStringAppend(tmp, CFSTR("\n"));
 				genre = tmp;
 			} else {
 				genre = CFSTR("");
@@ -396,7 +395,6 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			{
 				CFMutableStringRef tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 				CFStringAppendCharacters(tmp, buf, 5);
-				CFStringAppend(tmp, CFSTR("\n"));
 				rating = tmp;
 			}
 
