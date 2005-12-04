@@ -7,7 +7,7 @@
 //  Copyright (c) 2004-2005 The Growl Project. All rights reserved.
 //
 
-#import "GrowlDisplayFadingWindowController.h"
+#import "GrowlDisplayWindowController.h"
 
 @class GrowlApplicationNotification;
 
