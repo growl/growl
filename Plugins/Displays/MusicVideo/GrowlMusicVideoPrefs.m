@@ -28,7 +28,7 @@
 + (NSColor *) loadColor:(NSString *)key defaultColor:(NSColor *)defaultColor {
 	NSData *data = nil;
 	NSColor *color;
-	READ_GROWL_PREF_VALUE(key, MusicVideoPrefDomain, NSData *, &data);
+	READ_GROWL_PREF_VALUE(key, GrowlMusicVideoPrefDomain, NSData *, &data);
 	if (data && [data isKindOfClass:[NSData class]]) {
 		color = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
@@ -42,18 +42,18 @@
 #pragma mark Accessors
 
 - (float) duration {
-	float value = MUSICVIDEO_DEFAULT_DURATION;
-	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, MusicVideoPrefDomain, &value);
+	float value = GrowlBubblesDurationPrefDefault;
+	READ_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, GrowlMusicVideoPrefDomain, &value);
 	return value;
 }
 - (void) setDuration:(float)value {
-	WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, value, MusicVideoPrefDomain);
+	WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_DURATION_PREF, value, GrowlMusicVideoPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
 - (unsigned) effect {
 	int effect = 0;
-	READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, MusicVideoPrefDomain, &effect);
+	READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
 	switch (effect) {
 		default:
 			effect = MUSICVIDEO_EFFECT_SLIDE;
@@ -72,28 +72,28 @@
 
 		case MUSICVIDEO_EFFECT_SLIDE:
 		case MUSICVIDEO_EFFECT_WIPE:
-			WRITE_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, newEffect, MusicVideoPrefDomain);
+			WRITE_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, newEffect, GrowlMusicVideoPrefDomain);
 			UPDATE_GROWL_PREFS();
 	}
 }
 
 - (float) opacity {
 	float value = MUSICVIDEO_DEFAULT_OPACITY;
-	READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &value);
+	READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, GrowlMusicVideoPrefDomain, &value);
 	return value;
 }
 - (void) setOpacity:(float)value {
-	WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, value, MusicVideoPrefDomain);
+	WRITE_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, value, GrowlMusicVideoPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
 - (int) size {
 	int value = 0;
-	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &value);
+	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &value);
 	return value;
 }
 - (void) setSize:(int)value {
-	WRITE_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, value, MusicVideoPrefDomain);
+	WRITE_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, value, GrowlMusicVideoPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -111,11 +111,11 @@
 
 - (int) screen {
 	int value = 0;
-	READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, MusicVideoPrefDomain, &value);
+	READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, GrowlMusicVideoPrefDomain, &value);
 	return value;
 }
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, value, MusicVideoPrefDomain);
+	WRITE_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, value, GrowlMusicVideoPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -126,7 +126,7 @@
 
 - (void) setTextColorVeryLow:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoVeryLowTextColor, theData, MusicVideoPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoVeryLowTextColor, theData, GrowlMusicVideoPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -137,7 +137,7 @@
 
 - (void) setTextColorModerate:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoModerateTextColor, theData, MusicVideoPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoModerateTextColor, theData, GrowlMusicVideoPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -148,7 +148,7 @@
 
 - (void) setTextColorNormal:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoNormalTextColor, theData, MusicVideoPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoNormalTextColor, theData, GrowlMusicVideoPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -159,7 +159,7 @@
 
 - (void) setTextColorHigh:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoHighTextColor, theData, MusicVideoPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoHighTextColor, theData, GrowlMusicVideoPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -170,7 +170,7 @@
 
 - (void) setTextColorEmergency:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoEmergencyTextColor, theData, MusicVideoPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoEmergencyTextColor, theData, GrowlMusicVideoPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -181,7 +181,7 @@
 
 - (void) setBackgroundColorVeryLow:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoVeryLowBackgroundColor, theData, MusicVideoPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoVeryLowBackgroundColor, theData, GrowlMusicVideoPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -192,7 +192,7 @@
 
 - (void) setBackgroundColorModerate:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoModerateBackgroundColor, theData, MusicVideoPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoModerateBackgroundColor, theData, GrowlMusicVideoPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -203,7 +203,7 @@
 
 - (void) setBackgroundColorNormal:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoNormalBackgroundColor, theData, MusicVideoPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoNormalBackgroundColor, theData, GrowlMusicVideoPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -214,7 +214,7 @@
 
 - (void) setBackgroundColorHigh:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoHighBackgroundColor, theData, MusicVideoPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoHighBackgroundColor, theData, GrowlMusicVideoPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 
@@ -225,7 +225,7 @@
 
 - (void) setBackgroundColorEmergency:(NSColor *)value {
 	NSData *theData = [NSArchiver archivedDataWithRootObject:value];
-    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoEmergencyBackgroundColor, theData, MusicVideoPrefDomain);
+    WRITE_GROWL_PREF_VALUE(GrowlMusicVideoEmergencyBackgroundColor, theData, GrowlMusicVideoPrefDomain);
     UPDATE_GROWL_PREFS();
 }
 @end

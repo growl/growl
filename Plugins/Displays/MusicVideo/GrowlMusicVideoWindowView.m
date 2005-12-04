@@ -13,6 +13,7 @@
 @implementation GrowlMusicVideoWindowView
 
 - (id) initWithFrame:(NSRect)frame {
+	NSLog(@"%s\n", __FUNCTION__);
 	if ((self = [super initWithFrame:frame])) {
 		cache = [[NSImage alloc] initWithSize:frame.size];
 		needsDisplay = YES;
@@ -37,15 +38,16 @@
 }
 
 - (void) drawRect:(NSRect)rect {
+	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, rect.origin.x, rect.origin.y, rect.size.height, rect.size.width);
 	//Make sure that we don't draw in the main thread
-	if ([super dispatchDrawingToThread:rect]) {
+	//if ([super dispatchDrawingToThread:rect]) {
 		NSGraphicsContext *context = [NSGraphicsContext currentContext];
 		CGContextRef cgContext = [context graphicsPort];
 		NSRect bounds = [self bounds];
 		if (needsDisplay) {
 			// rects and sizes
 			int sizePref = 0;
-			READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
+			READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);
 			NSRect titleRect, textRect;
 			NSRect iconRect;
 
@@ -111,7 +113,7 @@
 		// draw cache to screen
 		NSRect imageRect = rect;
 		int effect = MUSICVIDEO_EFFECT_SLIDE;
-		READ_GROWL_PREF_BOOL(MUSICVIDEO_EFFECT_PREF, MusicVideoPrefDomain, &effect);
+		READ_GROWL_PREF_BOOL(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
 		if (effect == MUSICVIDEO_EFFECT_SLIDE) {
 			if (CGLayerCreateWithContext)
 				imageRect.origin.y = 0.0f;
@@ -136,7 +138,7 @@
 		} else {
 			[cache drawInRect:rect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0f];
 		}
-	}
+	//}
 }
 
 - (void) setIcon:(NSImage *)anIcon {
@@ -187,13 +189,13 @@
 	[backgroundColor release];
 
 	float opacityPref = MUSICVIDEO_DEFAULT_OPACITY;
-	READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, MusicVideoPrefDomain, &opacityPref);
+	READ_GROWL_PREF_FLOAT(MUSICVIDEO_OPACITY_PREF, GrowlMusicVideoPrefDomain, &opacityPref);
 	float alpha = opacityPref * 0.01f;
 
 	Class NSDataClass = [NSData class];
 	NSData *data = nil;
 
-	READ_GROWL_PREF_VALUE(key, MusicVideoPrefDomain, NSData *, &data);
+	READ_GROWL_PREF_VALUE(key, GrowlMusicVideoPrefDomain, NSData *, &data);
 	if (data && [data isKindOfClass:NSDataClass])
 		backgroundColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else
@@ -203,7 +205,7 @@
 	data = nil;
 
 	[textColor release];
-	READ_GROWL_PREF_VALUE(textKey, MusicVideoPrefDomain, NSData *, &data);
+	READ_GROWL_PREF_VALUE(textKey, GrowlMusicVideoPrefDomain, NSData *, &data);
 	if (data && [data isKindOfClass:NSDataClass])
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	else
@@ -214,7 +216,7 @@
 	float titleFontSize;
 	float textFontSize;
 	int sizePref = 0;
-	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, MusicVideoPrefDomain, &sizePref);
+	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);
 
 	if (sizePref == MUSICVIDEO_SIZE_HUGE) {
 		titleFontSize = 32.0f;

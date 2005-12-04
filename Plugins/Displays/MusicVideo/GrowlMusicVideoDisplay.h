@@ -11,9 +11,9 @@
 @class GrowlApplicationNotification;
 
 @interface GrowlMusicVideoDisplay : GrowlDisplayPlugin {
-	NSMutableArray		*notificationQueue;
+	//NSMutableArray		*notificationQueue;
 }
 
-- (void) displayNotification:(GrowlApplicationNotification *)notification;
+- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge;
 
 @end

@@ -6,16 +6,17 @@
 //  Copyright 2004 Jorge Salvador Caffarena. All rights reserved.
 //
 
-#import "GrowlDisplayFadingWindowController.h"
+#import "GrowlDisplayWindowController.h"
 
 @class GrowlMusicVideoWindowView;
 
-@interface GrowlMusicVideoWindowController : GrowlDisplayFadingWindowController {
+@interface GrowlMusicVideoWindowController : GrowlDisplayWindowController {
 	float						frameHeight;
 	float						frameY;
 	int							priority;
-	GrowlMusicVideoWindowView	*subview;
 	NSString					*identifier;
+	bool							doFadeIn;
+	unsigned	depth;
 }
 
 - (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority identifier:(NSString *)ident;

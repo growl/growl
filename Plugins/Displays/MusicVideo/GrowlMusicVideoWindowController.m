@@ -13,6 +13,131 @@
 
 @implementation GrowlMusicVideoWindowController
 
+- (id) init {
+	NSLog(@"%s\n", __FUNCTION__);
+	int sizePref = MUSICVIDEO_SIZE_NORMAL;
+
+	displayDuration = GrowlBubblesDurationPrefDefault;
+	
+	CFNumberRef prefsDuration = NULL;
+	CFTimeInterval value = -1.0f;
+	READ_GROWL_PREF_VALUE(MUSICVIDEO_DURATION_PREF, GrowlMusicVideoPrefDomain, CFNumberRef, &prefsDuration);
+	if(prefsDuration) {
+		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
+		if (value > 0.0f)
+			displayDuration = value;
+	}
+
+	screenNumber = 0U;
+	READ_GROWL_PREF_INT(MUSICVIDEO_SCREEN_PREF, GrowlMusicVideoPrefDomain, &screenNumber);
+	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
+
+	NSRect sizeRect;
+	NSRect screen = [[self screen] frame];
+	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);
+	sizeRect.origin = screen.origin;
+	sizeRect.size.width = screen.size.width;
+	if (sizePref == MUSICVIDEO_SIZE_HUGE)
+		sizeRect.size.height = 192.0f;
+	else
+		sizeRect.size.height = 96.0f;
+	frameHeight = sizeRect.size.height;
+
+	READ_GROWL_PREF_INT(MUSICVIDEO_SIZE_PREF, GrowlMusicVideoPrefDomain, &sizePref);
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:sizeRect
+												styleMask:NSBorderlessWindowMask
+												  backing:NSBackingStoreBuffered
+													defer:NO];
+	NSRect panelFrame = [panel frame];
+	[panel setBecomesKeyOnlyIfNeeded:YES];
+	[panel setHidesOnDeactivate:NO];
+	[panel setBackgroundColor:[NSColor clearColor]];
+	[panel setLevel:NSStatusWindowLevel];
+	[panel setIgnoresMouseEvents:YES];
+	[panel setSticky:YES];
+	[panel setOpaque:NO];
+	[panel setHasShadow:NO];
+	[panel setCanHide:NO];
+	[panel setOneShot:YES];
+	[panel useOptimizedDrawing:YES];
+	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
+	[panel setDelegate:self];
+
+		GrowlMusicVideoWindowView *view = [[GrowlMusicVideoWindowView alloc] initWithFrame:panelFrame];
+
+	[view setTarget:self];
+	[view setAction:@selector(notificationClicked:)]; // Not used for now
+	[view setNeedsDisplay:YES];
+
+	[panel setContentView:view]; // retains subview
+	//[subview release];
+
+	//[subview setPriority:prio];
+	//[subview setTitle:title];
+	//[self setText:text];
+	//[subview setIcon:icon];
+	
+	NSRect viewFrame = [view frame];
+	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) + NSWidth(viewFrame),
+											NSMaxY(screen) - depth)];
+	return ([super initWithWindow:panel]);
+}
+
+- (void) setNotification: (GrowlApplicationNotification *) theNotification {
+	NSLog(@"%s\n", __FUNCTION__);
+	[super setNotification:theNotification];
+	if (!theNotification)
+		return;
+	
+	NSDictionary *noteDict = [notification dictionaryRepresentation];
+	NSString *title = [notification title];
+	NSString *text  = [notification description];
+	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
+	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
+	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
+	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
+	BOOL textHTML, titleHTML;
+	
+	if (title)
+	titleHTML = YES;
+	else {
+		titleHTML = NO;
+		title = [notification title];
+	}
+	if (text)
+	textHTML = YES;
+	else {
+		textHTML = NO;
+		text = [notification description];
+	}
+	
+	NSPanel *panel = (NSPanel *)[self window];
+	GrowlMusicVideoWindowView *view = [[self window] contentView];
+	[view setPriority:priority];
+	[view setTitle:title];//isHTML:titleHTML];
+	[view setText:text];// isHTML:textHTML];
+	[view setIcon:icon];
+	//[view sizeToFit];
+	
+	NSRect viewFrame = [view frame];
+	[panel setFrame:viewFrame display:NO];
+	NSRect screen = [[self screen] visibleFrame];
+	//frameY = -frameHeight;
+	//[subview translateOriginToPoint:NSMakePoint(0.0f, frameY)];
+	//[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(viewFrame),
+	//										NSMaxY(screen) - depth)];
+	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(viewFrame) - 0,
+											NSMaxY(screen) - 0 - depth)];
+
+	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, [panel frame].origin.x, [panel frame].origin.y, [panel frame].size.height, [panel frame].size.width);
+
+}
+
+- (unsigned) depth {
+	return depth;
+}
+
+/*
 - (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)prio identifier:(NSString *)ident {
 	identifier = [ident retain];
 
@@ -78,12 +203,12 @@
 	}
 
 	return self;
-}
+}*/
 
 #pragma mark -
 #pragma mark Fading
 
-- (void) stopFadeIn {
+/*- (void) stopFadeIn {
 	if (!doFadeIn) {
 		[subview translateOriginToPoint:NSMakePoint(0.0f, -frameY)];
 		frameY = 0.0f;
@@ -108,7 +233,7 @@
 	NSRect dirtyRect = [subview bounds];
 	dirtyRect.size.height = ceilf(dirtyRect.size.height+oldY);
 	[subview setNeedsDisplayInRect:dirtyRect];
-}
+}*/
 
 #pragma mark -
 
@@ -126,7 +251,7 @@
 
 #pragma mark -
 
-- (int) priority {
+/*- (int) priority {
 	return priority;
 }
 
@@ -152,6 +277,6 @@
 
 - (void) setIcon:(NSImage *)icon {
 	[subview setIcon:icon];
-}
+}*/
 
 @end
