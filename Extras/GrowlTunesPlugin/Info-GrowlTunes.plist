@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>GrowlTunes</string>
 	<key>CFBundleGetInfoString</key>
-	<string>GrowlTUnes Plug-in</string>
+	<string>GrowlTunes Plug-in</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.growl.growltunes</string>
 	<key>CFBundleInfoDictionaryVersion</key>

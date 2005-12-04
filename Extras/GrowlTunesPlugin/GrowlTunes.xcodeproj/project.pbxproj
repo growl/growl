@@ -33,6 +33,7 @@
 		93353EA3093A133E007C8B10 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
 		93353EA4093A133E007C8B10 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01285BF100CC2F967F000001 /* Carbon.framework */; };
 		9335490E093AA017007C8B10 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93354902093A9F7E007C8B10 /* Growl.framework */; };
+		E1A35FFC0942D12100B79E46 /* SettingsDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = E1A35FFB0942D12000B79E46 /* SettingsDialog.nib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -216,6 +217,7 @@
 		93353EF1093A1A10007C8B10 /* GrowlTunes.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlTunes.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		93354876093A9D0D007C8B10 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		93354902093A9F7E007C8B10 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1A35FFB0942D12000B79E46 /* SettingsDialog.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SettingsDialog.nib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,6 +268,7 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E1A35FFB0942D12000B79E46 /* SettingsDialog.nib */,
 				93353EAA093A133E007C8B10 /* Info-GrowlTunes.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 			);
@@ -517,6 +520,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93353E9C093A133E007C8B10 /* InfoPlist.strings in Resources */,
+				E1A35FFC0942D12100B79E46 /* SettingsDialog.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
