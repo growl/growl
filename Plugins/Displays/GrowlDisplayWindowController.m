@@ -19,6 +19,7 @@ static NSMutableDictionary *existingInstances;
 
 static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
+	NSLog(@"%s\n", __FUNCTION__);
 	[(GrowlDisplayWindowController *)context stopDisplay];
 }
 
@@ -119,6 +120,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Display control
 
 - (BOOL) startDisplay {
+	NSLog(@"%s\n", __FUNCTION__);
 	NSWindow *window = [self window];
 
 	//Make sure we don't cover any other notification (or not)
@@ -136,6 +138,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) stopDisplay {
+	NSLog(@"%s\n", __FUNCTION__);
 	[self stopDisplayTimer];
 	NSWindow *window = [self window];
 
@@ -186,12 +189,14 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Display timer
 
 - (void) startDisplayTimer {
+	NSLog(@"%s %f\n", __FUNCTION__, displayDuration);
 	CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
-	displayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+displayDuration, 0, 0, 0, stopDisplay, &context);
-	CFRunLoopAddTimer(CFRunLoopGetCurrent(), displayTimer, kCFRunLoopCommonModes);
+	displayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+displayDuration, 0, 0, 0, &stopDisplay, &context);
+	CFRunLoopAddTimer(CFRunLoopGetMain(), displayTimer, kCFRunLoopCommonModes);
 }
 
 - (void) stopDisplayTimer {
+	NSLog(@"%s\n", __FUNCTION__);
 	if (displayTimer) {
 		CFRunLoopTimerInvalidate(displayTimer);
 		CFRelease(displayTimer);
