@@ -38,24 +38,24 @@ extern "C" {
 struct ITTrackInfoV1 {
 	ITTIFieldMask		validFields;
 	UInt32				reserved;						/* Must be zero */
-	
-	Str255				name;	
+
+	Str255				name;
 	Str255				fileName;
 	Str255				artist;
 	Str255				album;
-		
+
 	Str255				genre;
 	Str255				kind;
-	
+
 	UInt32				trackNumber;
 	UInt32				numTracks;
-		
+
 	UInt16				year;
 	SInt16				soundVolumeAdjustment;			/* Valid range is -255 to +255 */
-	
+
 	Str255				eqPresetName;
 	Str255				comments;
-	
+
 	UInt32				totalTimeInMS;
 	UInt32				startTimeInMS;
 	UInt32				stopTimeInMS;
@@ -66,10 +66,10 @@ struct ITTrackInfoV1 {
 	UInt32				sampleRateFixed;
 
 	OSType				fileType;
-	
+
 	UInt32				date;
 	UInt32				unusedReserved2;				/* Must be zero */
-	
+
 	ITTrackAttributes	attributes;
 	ITTrackAttributes	validAttributes;				/* Mask indicating which attributes are applicable */
 
@@ -224,7 +224,7 @@ typedef struct VisualPluginEventMessage VisualPluginEventMessage;
 enum {
 	kVisualDisplayDepthChanged 	= 1 << 0,					/* the display's depth has changed */
 	kVisualDisplayRectChanged	= 1 << 1,					/* the display's location changed */
-	kVisualWindowMovedMoved 	= 1 << 2					/* the window has moved location */	
+	kVisualWindowMovedMoved 	= 1 << 2					/* the window has moved location */
 };
 
 struct VisualPluginDisplayChangedMessage {

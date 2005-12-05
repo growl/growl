@@ -19,7 +19,7 @@
 
 // SetNumVersion
 //
-void SetNumVersion (NumVersion *numVersion, UInt8 majorRev, UInt8 minorAndBugRev, UInt8 stage, UInt8 nonRelRev)
+void SetNumVersion(NumVersion *numVersion, UInt8 majorRev, UInt8 minorAndBugRev, UInt8 stage, UInt8 nonRelRev)
 {
 	numVersion->majorRev		= majorRev;
 	numVersion->minorAndBugRev	= minorAndBugRev;
@@ -30,7 +30,7 @@ void SetNumVersion (NumVersion *numVersion, UInt8 majorRev, UInt8 minorAndBugRev
 
 // ITCallApplication
 //
-OSStatus ITCallApplication (void *appCookie, ITAppProcPtr handler, OSType message, PlayerMessageInfo *messageInfo)
+OSStatus ITCallApplication(void *appCookie, ITAppProcPtr handler, OSType message, PlayerMessageInfo *messageInfo)
 {
 	PlayerMessageInfo	localMessageInfo;
 
@@ -50,7 +50,7 @@ OSStatus ITCallApplication (void *appCookie, ITAppProcPtr handler, OSType messag
 
 // PlayerSetFullScreen
 //
-OSStatus PlayerSetFullScreen (void *appCookie, ITAppProcPtr appProc, Boolean fullScreen)
+OSStatus PlayerSetFullScreen(void *appCookie, ITAppProcPtr appProc, Boolean fullScreen)
 {
 	PlayerMessageInfo	messageInfo;
 
@@ -64,7 +64,7 @@ OSStatus PlayerSetFullScreen (void *appCookie, ITAppProcPtr appProc, Boolean ful
 
 // PlayerSetFullScreenOptions
 //
-OSStatus PlayerSetFullScreenOptions (void *appCookie, ITAppProcPtr appProc, SInt16 minBitDepth, SInt16 maxBitDepth, SInt16 preferredBitDepth, SInt16 desiredWidth, SInt16 desiredHeight)
+OSStatus PlayerSetFullScreenOptions(void *appCookie, ITAppProcPtr appProc, SInt16 minBitDepth, SInt16 maxBitDepth, SInt16 preferredBitDepth, SInt16 desiredWidth, SInt16 desiredHeight)
 {
 	PlayerMessageInfo	messageInfo;
 
@@ -81,7 +81,7 @@ OSStatus PlayerSetFullScreenOptions (void *appCookie, ITAppProcPtr appProc, SInt
 
 // PlayerGetCurrentTrackCoverArt
 //
-OSStatus PlayerGetCurrentTrackCoverArt (void *appCookie, ITAppProcPtr appProc, Handle *coverArt, OSType *coverArtFormat)
+OSStatus PlayerGetCurrentTrackCoverArt(void *appCookie, ITAppProcPtr appProc, Handle *coverArt, OSType *coverArtFormat)
 {
 	OSStatus			status;
 	PlayerMessageInfo	messageInfo;
@@ -100,7 +100,7 @@ OSStatus PlayerGetCurrentTrackCoverArt (void *appCookie, ITAppProcPtr appProc, H
 
 // PlayerGetPluginData
 //
-OSStatus PlayerGetPluginData (void *appCookie, ITAppProcPtr appProc, void *dataPtr, UInt32 dataBufferSize, UInt32 *dataSize)
+OSStatus PlayerGetPluginData(void *appCookie, ITAppProcPtr appProc, void *dataPtr, UInt32 dataBufferSize, UInt32 *dataSize)
 {
 	OSStatus			status;
 	PlayerMessageInfo	messageInfo;
@@ -120,7 +120,7 @@ OSStatus PlayerGetPluginData (void *appCookie, ITAppProcPtr appProc, void *dataP
 
 // PlayerSetPluginData
 //
-OSStatus PlayerSetPluginData (void *appCookie, ITAppProcPtr appProc, void *dataPtr, UInt32 dataSize)
+OSStatus PlayerSetPluginData(void *appCookie, ITAppProcPtr appProc, void *dataPtr, UInt32 dataSize)
 {
 	PlayerMessageInfo	messageInfo;
 
@@ -135,7 +135,7 @@ OSStatus PlayerSetPluginData (void *appCookie, ITAppProcPtr appProc, void *dataP
 
 // PlayerGetPluginNamedData
 //
-OSStatus PlayerGetPluginNamedData (void *appCookie, ITAppProcPtr appProc, ConstStringPtr dataName, void *dataPtr, UInt32 dataBufferSize, UInt32 *dataSize)
+OSStatus PlayerGetPluginNamedData(void *appCookie, ITAppProcPtr appProc, ConstStringPtr dataName, void *dataPtr, UInt32 dataBufferSize, UInt32 *dataSize)
 {
 	OSStatus			status;
 	PlayerMessageInfo	messageInfo;
@@ -157,7 +157,7 @@ OSStatus PlayerGetPluginNamedData (void *appCookie, ITAppProcPtr appProc, ConstS
 
 // PlayerSetPluginNamedData
 //
-OSStatus PlayerSetPluginNamedData (void *appCookie, ITAppProcPtr appProc, ConstStringPtr dataName, void *dataPtr, UInt32 dataSize)
+OSStatus PlayerSetPluginNamedData(void *appCookie, ITAppProcPtr appProc, ConstStringPtr dataName, void *dataPtr, UInt32 dataSize)
 {
 	PlayerMessageInfo	messageInfo;
 
@@ -173,7 +173,7 @@ OSStatus PlayerSetPluginNamedData (void *appCookie, ITAppProcPtr appProc, ConstS
 
 // PlayerIdle
 //
-OSStatus PlayerIdle (void *appCookie, ITAppProcPtr appProc)
+OSStatus PlayerIdle(void *appCookie, ITAppProcPtr appProc)
 {
 	return ITCallApplication(appCookie, appProc, kPlayerIdleMessage, nil);
 }
@@ -181,7 +181,7 @@ OSStatus PlayerIdle (void *appCookie, ITAppProcPtr appProc)
 
 // PlayerShowAbout
 //
-void PlayerShowAbout (void *appCookie, ITAppProcPtr appProc)
+void PlayerShowAbout(void *appCookie, ITAppProcPtr appProc)
 {
 	ITCallApplication(appCookie, appProc, kPlayerShowAboutMessage, nil);
 }
@@ -189,7 +189,7 @@ void PlayerShowAbout (void *appCookie, ITAppProcPtr appProc)
 
 // PlayerOpenURL
 //
-void PlayerOpenURL (void *appCookie, ITAppProcPtr appProc, SInt8 *string, UInt32 length)
+void PlayerOpenURL(void *appCookie, ITAppProcPtr appProc, SInt8 *string, UInt32 length)
 {
 	PlayerMessageInfo	messageInfo;
 
@@ -203,7 +203,7 @@ void PlayerOpenURL (void *appCookie, ITAppProcPtr appProc, SInt8 *string, UInt32
 
 // PlayerUnregisterPlugin
 //
-OSStatus PlayerUnregisterPlugin (void *appCookie, ITAppProcPtr appProc, PlayerMessageInfo *messageInfo)
+OSStatus PlayerUnregisterPlugin(void *appCookie, ITAppProcPtr appProc, PlayerMessageInfo *messageInfo)
 {
 	return ITCallApplication(appCookie, appProc, kPlayerUnregisterPluginMessage, messageInfo);
 }
@@ -211,28 +211,28 @@ OSStatus PlayerUnregisterPlugin (void *appCookie, ITAppProcPtr appProc, PlayerMe
 
 // PlayerRegisterVisualPlugin
 //
-OSStatus PlayerRegisterVisualPlugin (void *appCookie, ITAppProcPtr appProc, PlayerMessageInfo *messageInfo)
+OSStatus PlayerRegisterVisualPlugin(void *appCookie, ITAppProcPtr appProc, PlayerMessageInfo *messageInfo)
 {
 	return ITCallApplication(appCookie, appProc, kPlayerRegisterVisualPluginMessage, messageInfo);
 }
 
 // PlayerGetPluginITFileSpec
 //
-OSStatus PlayerGetPluginITFileSpec (void *appCookie, ITAppProcPtr appProc, ITFileSpec *pluginFileSpec)
+OSStatus PlayerGetPluginITFileSpec(void *appCookie, ITAppProcPtr appProc, ITFileSpec *pluginFileSpec)
 {
-	PlayerMessageInfo	messageInfo;
+	PlayerMessageInfo messageInfo;
 
 	memset(&messageInfo, 0, sizeof(messageInfo));
-	
+
 	messageInfo.u.getPluginITFileSpecMessage.fileSpec = pluginFileSpec;
-	
+
 	return ITCallApplication(appCookie, appProc, kPlayerGetPluginITFileSpecMessage, &messageInfo);
 }
 
 
 // PlayerGetFileTrackInfo
 //
-OSStatus PlayerGetFileTrackInfo (void *appCookie, ITAppProcPtr appProc, const ITFileSpec *fileSpec, ITTrackInfo *trackInfo)
+OSStatus PlayerGetFileTrackInfo(void *appCookie, ITAppProcPtr appProc, const ITFileSpec *fileSpec, ITTrackInfo *trackInfo)
 {
 	PlayerMessageInfo	messageInfo;
 
@@ -240,67 +240,67 @@ OSStatus PlayerGetFileTrackInfo (void *appCookie, ITAppProcPtr appProc, const IT
 
 	messageInfo.u.getFileTrackInfoMessage.fileSpec 	= fileSpec;
 	messageInfo.u.getFileTrackInfoMessage.trackInfo = trackInfo;
-	
+
 	return ITCallApplication(appCookie, appProc, kPlayerGetFileTrackInfoMessage, &messageInfo);
 }
 
 // PlayerSetFileTrackInfo
 //
-OSStatus PlayerSetFileTrackInfo (void *appCookie, ITAppProcPtr appProc, const ITFileSpec *fileSpec, const ITTrackInfo *trackInfo)
+OSStatus PlayerSetFileTrackInfo(void *appCookie, ITAppProcPtr appProc, const ITFileSpec *fileSpec, const ITTrackInfo *trackInfo)
 {
 	PlayerMessageInfo	messageInfo;
 
 	memset(&messageInfo, 0, sizeof(messageInfo));
-	
+
 	messageInfo.u.setFileTrackInfoMessage.fileSpec 	= fileSpec;
 	messageInfo.u.setFileTrackInfoMessage.trackInfo = trackInfo;
-	
+
 	return ITCallApplication(appCookie, appProc, kPlayerSetFileTrackInfoMessage, &messageInfo);
 }
 
 // PlayerGetITTrackInfoSize
 //
-OSStatus PlayerGetITTrackInfoSize (void *appCookie, ITAppProcPtr appProc, UInt32 appPluginMajorVersion, UInt32 appPluginMinorVersion, UInt32 *itTrackInfoSize)
+OSStatus PlayerGetITTrackInfoSize(void *appCookie, ITAppProcPtr appProc, UInt32 appPluginMajorVersion, UInt32 appPluginMinorVersion, UInt32 *itTrackInfoSize)
 {
 	PlayerMessageInfo	messageInfo;
 	OSStatus			status;
-	
+
 	/*
 	 Note: appPluginMajorVersion and appPluginMinorVersion are the versions given to the plugin by iTunes in the plugin's init message.
 			  These versions are *not* the version of the API used when the plugin was compiled.
 	 */
-	
+
 	*itTrackInfoSize = 0;
 
 	memset(&messageInfo, 0, sizeof(messageInfo));
-	
+
 	status = ITCallApplication(appCookie, appProc, kPlayerGetITTrackInfoSizeMessage, &messageInfo);
 	if( status == noErr ) {
 		*itTrackInfoSize = messageInfo.u.getITTrackInfoSizeMessage.itTrackInfoSize;
 	} else if (appPluginMajorVersion == 10 && appPluginMinorVersion == 2) {
 		// iTunes 2.0.x
-		
+
 		*itTrackInfoSize = ((UInt32) &((ITTrackInfo *) 0)->composer);
-		
+
 		status = noErr;
 	} else if (appPluginMajorVersion == 10 && appPluginMinorVersion == 3) {
 		// iTunes 3.0.x
-		
+
 		*itTrackInfoSize = ((UInt32) &((ITTrackInfo *) 0)->beatsPerMinute);
-		
+
 		status = noErr;
 	} else {
 		// iTunes 4.0 and later implement the kPlayerGetITTrackInfoSizeMessage message. If you got here
 		// then the appPluginMajorVersion or appPluginMinorVersion are incorrect.
-		
+
 		status = paramErr;
 	}
-	
+
 	if (status == noErr && (*itTrackInfoSize) > sizeof(ITTrackInfo) ) {
 		// iTunes is using a larger ITTrackInfo than the one when this plugin was compiled. Pin *itTrackInfoSize to the plugin's known size
-		
+
 		*itTrackInfoSize = sizeof(ITTrackInfo);
 	}
-	
+
 	return status;
 }

@@ -123,7 +123,7 @@ struct ITTrackInfo {
 	ITTIFieldMask		validFields;
 	UInt32				recordLength;					/* Size of this structure in bytes */
 
-	ITUniStr255			name;	
+	ITUniStr255			name;
 	ITUniStr255			fileName;
 	ITUniStr255			artist;
 	ITUniStr255			album;
@@ -155,20 +155,20 @@ struct ITTrackInfo {
 	ITTrackAttributes	validAttributes;				/* Mask indicating which attributes are applicable */
 
 	ITUniStr255			composer;						/* Added in iTunes 3.0 */
-	
+
 	Boolean				isCompilationTrack;				/* Added in iTunes 3.0 */
 	Boolean				reservedBoolean;				/* Reserved. Must be zero. */
-	
+
 	UInt16				userRating;						/* Added in iTunes 3.0. 0 = unrated, valid values are 20, 40, 60, 80 and 100. */
-	
+
 	UInt16				discNumber;						/* Added in iTunes 3.0 */
 	UInt16				numDiscs;						/* Added in iTunes 3.0 */
-	
+
 	UInt32				playCount;						/* Added in iTunes 3.0 */
 	UInt32				lastPlayDate;					/* Added in iTunes 3.0 */
-	
+
 	UInt16				beatsPerMinute;					/* Added in iTunes 4.0 */
-	UInt16				reserved;						/* Reserved. Must be zero. */		
+	UInt16				reserved;						/* Reserved. Must be zero. */
 };
 typedef struct ITTrackInfo ITTrackInfo;
 
@@ -186,7 +186,7 @@ enum {
 	kPluginInitMessage					= 'init',
 	kPluginCleanupMessage				= 'clr ',
 	kPluginPrepareToQuitMessage			= 'prqt',
-	
+
 	kPluginIdleMessage					= 'idle',
 	kPluginVolumeMountedMessage			= 'vmnt',
 	kPluginVolumeUnmountedMessage		= 'vunm',
@@ -214,24 +214,24 @@ enum {
 
 	kPlayerUnregisterPluginMessage		= 'unrg',	/* Unregister the plugin this comes from */
 	kPlayerIdleMessage					= 'idle',	/* Give iTunes some time */
-	
+
 	kPlayerShowAboutMessage				= 'abou',	/* Show the about box. */
 	kPlayerOpenURLMessage				= 'url ',	/* Open a URL */
-	
+
 	kPlayerSetPluginDataMessage			= 'sprf',	/* Set plugin preferences */
 	kPlayerGetPluginDataMessage			= 'gprf',	/* Get plugin preferences */
-	
+
 	kPlayerSetPluginNamedDataMessage	= 'snpr',	/* Set plugin named preferenes */
 	kPlayerGetPluginNamedDataMessage	= 'gnpr',	/* Get plugin named preferenes */
-	
-	kPlayerGetFileTrackInfoMessage		= 'gfti',	/* Query iTunes for information about a file */ 
-	kPlayerSetFileTrackInfoMessage		= 'sfti',	/* Ask iTunes to set information about a file */ 
-	
+
+	kPlayerGetFileTrackInfoMessage		= 'gfti',	/* Query iTunes for information about a file */
+	kPlayerSetFileTrackInfoMessage		= 'sfti',	/* Ask iTunes to set information about a file */
+
 	kPlayerGetITTrackInfoSizeMessage	= 'itsz',	/* Query iTunes for the sizeof(ITTrackInfo). This allows newer plugins to correctly workd with older versions of iTunes. */
-	
+
 	kPlayerHandleMacOSEventMessage		= 'evnt',	/* Tell player to handle unhandled event */
 	kPlayerGetPluginITFileSpecMessage	= 'itfs',	/* Get the location of the plugin executable (iTunes 4.1 or later) */
-	
+
 	/* Available for visual plugins */
 
 	kPlayerSetFullScreenMessage			= 'sful',	/* Set full screen mode */
@@ -246,7 +246,7 @@ enum {
 };
 
 struct PlayerMessageInfo;
-typedef OSStatus (*ITAppProcPtr)(void *appCookie, OSType message,struct PlayerMessageInfo *messageInfo);
+typedef OSStatus (*ITAppProcPtr)(void *appCookie, OSType message, struct PlayerMessageInfo *messageInfo);
 
 
 /*
@@ -268,20 +268,20 @@ typedef struct PluginInitMessage PluginInitMessage;
 struct PluginVolumeMountedMessage {
 	VOLUME_REFERENCE				vRefNum;				/* Input */
 	UInt32							volumeID;				/* Input */
-	ConstITUniStringPtr				volumeName;				/* Input */			
+	ConstITUniStringPtr				volumeName;				/* Input */
 };
 typedef struct PluginVolumeMountedMessage PluginVolumeMountedMessage;
 
 struct PluginVolumeUnmountedMessage {
 	UInt32							volumeID;				/* Input */
-	ConstITUniStringPtr				volumeName;				/* Input */			
+	ConstITUniStringPtr				volumeName;				/* Input */
 };
 typedef struct PluginVolumeUnmountedMessage PluginVolumeUnmountedMessage;
 
 struct PluginVolumeRenamedMessage {
 	VOLUME_REFERENCE				vRefNum;				/* Input */
 	UInt32							volumeID;				/* Input */
-	ConstITUniStringPtr				newVolumeName;			/* Input */			
+	ConstITUniStringPtr				newVolumeName;			/* Input */
 };
 typedef struct PluginVolumeRenamedMessage PluginVolumeRenamedMessage;
 
@@ -302,10 +302,10 @@ struct DevicePluginMessageInfo;
 typedef OSStatus (*PluginProcPtr)(OSType message, PluginMessageInfo *messageInfo, void *refCon);
 
 /* Visual plugin message handler */
-typedef OSStatus (*VisualPluginProcPtr)(OSType message,struct VisualPluginMessageInfo *messageInfo, void *refCon);
+typedef OSStatus (*VisualPluginProcPtr)(OSType message, struct VisualPluginMessageInfo *messageInfo, void *refCon);
 
 /* Device plugin message handler */
-typedef OSStatus (*DevicePluginProcPtr)(OSType message,struct DevicePluginMessageInfo *messageInfo, void *refCon);
+typedef OSStatus (*DevicePluginProcPtr)(OSType message, struct DevicePluginMessageInfo *messageInfo, void *refCon);
 
 
 
@@ -477,26 +477,26 @@ struct PlayerMessageInfo {
 	union {
 		PlayerRegisterVisualPluginMessage	registerVisualPluginMessage;
 		PlayerRegisterDevicePluginMessage	registerDevicePluginMessage;
-		
+
 		PlayerOpenURLMessage				openURLMessage;
-		
+
 		PlayerSetPluginDataMessage			setPluginDataMessage;
 		PlayerGetPluginDataMessage			getPluginDataMessage;
-		
+
 		PlayerSetPluginNamedDataMessage		setPluginNamedDataMessage;
 		PlayerGetPluginNamedDataMessage		getPluginNamedDataMessage;
-		
+
 		PlayerSetFullScreenMessage				setFullScreenMessage;
 		PlayerSetFullScreenOptionsMessage		setFullScreenOptionsMessage;
 		PlayerGetCurrentTrackCoverArtMessage	getCurrentTrackCoverArtMessage;
-		
+
 		PlayerSetDeviceSerialNumberMessage	setDeviceSerialNumberMessage;
 		PlayerRefreshDeviceMediaMessage		refreshDeviceMediaMessage;
-		
+
 		PlayerGetFileTrackInfoMessage		getFileTrackInfoMessage;
 		PlayerSetFileTrackInfoMessage		setFileTrackInfoMessage;
 		PlayerGetITTrackInfoSizeMessage		getITTrackInfoSizeMessage;
-		
+
 		PlayerHandleMacOSEventMessage		handleMacOSEventMessage;
 		PlayerGetPluginITFileSpecMessage	getPluginITFileSpecMessage;
 	} u;
