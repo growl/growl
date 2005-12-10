@@ -10,6 +10,7 @@
 #import "GrowlMusicVideoWindowView.h"
 #import "GrowlMusicVideoPrefs.h"
 #import "NSWindow+Transforms.h"
+#import "GrowlSlidingWindowTransition.h"
 
 @implementation GrowlMusicVideoWindowController
 
@@ -60,27 +61,34 @@
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
 	[panel useOptimizedDrawing:YES];
-	//[panel setReleasedWhenClosed:YES]; // ignored for windows owned by window controllers.
 	[panel setDelegate:self];
 
-		GrowlMusicVideoWindowView *view = [[GrowlMusicVideoWindowView alloc] initWithFrame:panelFrame];
+	GrowlMusicVideoWindowView *view = [[GrowlMusicVideoWindowView alloc] initWithFrame:panelFrame];
 
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)]; // Not used for now
-	[view setNeedsDisplay:YES];
 
 	[panel setContentView:view]; // retains subview
-	//[subview release];
+	[view release];
 
-	//[subview setPriority:prio];
-	//[subview setTitle:title];
-	//[self setText:text];
-	//[subview setIcon:icon];
 	
 	NSRect viewFrame = [view frame];
-	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) + NSWidth(viewFrame),
-											NSMaxY(screen) - depth)];
-	return ([super initWithWindow:panel]);
+	[panel setFrameTopLeftPoint:NSMakePoint( -NSWidth(viewFrame), -depth)];
+											
+	// call super so everything else is set up...
+	self = [super initWithWindow:panel];
+	if (!self)
+		return nil;
+		
+	GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
+	[slider setFromOrigin:NSMakePoint(0,-frameHeight) toOrigin:NSMakePoint(0,0)];
+	[self setStartPercentage:0 endPercentage:100 forTransition:slider];
+	[slider setAutoReverses:YES];
+	[self addTransition:slider];
+	[slider release];
+	
+	return self;
+
 }
 
 - (void) setNotification: (GrowlApplicationNotification *) theNotification {
@@ -112,7 +120,7 @@
 	}
 	
 	NSPanel *panel = (NSPanel *)[self window];
-	GrowlMusicVideoWindowView *view = [[self window] contentView];
+	GrowlMusicVideoWindowView *view = [panel contentView];
 	[view setPriority:priority];
 	[view setTitle:title];//isHTML:titleHTML];
 	[view setText:text];// isHTML:textHTML];
@@ -122,15 +130,8 @@
 	NSRect viewFrame = [view frame];
 	[panel setFrame:viewFrame display:NO];
 	NSRect screen = [[self screen] visibleFrame];
-	//frameY = -frameHeight;
-	//[subview translateOriginToPoint:NSMakePoint(0.0f, frameY)];
-	//[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(viewFrame),
-	//										NSMaxY(screen) - depth)];
-	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(viewFrame) - 0,
-											NSMaxY(screen) - 0 - depth)];
-
+	[panel setFrameTopLeftPoint:NSMakePoint( -NSWidth(viewFrame), -depth)];
 	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, [panel frame].origin.x, [panel frame].origin.y, [panel frame].size.height, [panel frame].size.width);
-
 }
 
 - (unsigned) depth {
@@ -206,40 +207,12 @@
 }*/
 
 #pragma mark -
-#pragma mark Fading
-
-/*- (void) stopFadeIn {
-	if (!doFadeIn) {
-		[subview translateOriginToPoint:NSMakePoint(0.0f, -frameY)];
-		frameY = 0.0f;
-		[subview setNeedsDisplay:YES];
-	}
-	[super stopFadeIn];
-}
-
-- (void) fadeInAnimation:(double)progress {
-	float oldY = frameY;
-	frameY = frameHeight * (progress - 1.0f);
-	[subview translateOriginToPoint:NSMakePoint(0.0f, frameY - oldY)];
-	NSRect dirtyRect = [subview bounds];
-	dirtyRect.size.height = ceilf(dirtyRect.size.height+frameY);
-	[subview setNeedsDisplayInRect:dirtyRect];
-}
-
-- (void) fadeOutAnimation:(double)progress {
-	float oldY = frameY;
-	frameY = -frameHeight * progress;
-	[subview translateOriginToPoint:NSMakePoint(0.0f, frameY - oldY)];
-	NSRect dirtyRect = [subview bounds];
-	dirtyRect.size.height = ceilf(dirtyRect.size.height+oldY);
-	[subview setNeedsDisplayInRect:dirtyRect];
-}*/
-
-#pragma mark -
 
 - (void) dealloc {
-	[identifier    release];
-	[[self window] release];
+	NSWindow *myWindow = [self window];
+	[[myWindow contentView] release];
+	[identifier  release];
+	[myWindow    release];
 	[super dealloc];
 }
 

@@ -19,13 +19,6 @@
 	unsigned	depth;
 }
 
-- (id) initWithTitle:(NSString *)title text:(NSString *)text icon:(NSImage *)icon priority:(int)priority identifier:(NSString *)ident;
-
 - (NSString *) identifier;
-- (int) priority;
-- (void) setPriority:(int)newPriority;
-- (void) setTitle:(NSString *)title;
-- (void) setText:(NSString *)text;
-- (void) setIcon:(NSImage *)icon;
 
 @end
