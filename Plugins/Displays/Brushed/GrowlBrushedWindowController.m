@@ -87,9 +87,9 @@ static const double gAdditionalLinesDisplayTime = 0.5;
 	
 	// set up the transitions...
 	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
-	[self addTransition:fader];
 	[self setStartPercentage:0 endPercentage:100 forTransition:fader];
 	[fader setAutoReverses:YES];
+	[self addTransition:fader];
 	[fader release];
 	
 	return self;

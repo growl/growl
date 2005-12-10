@@ -16,6 +16,10 @@
 	unsigned	uid;
 }
 
-- (id) initWithNotification:(GrowlApplicationNotification *)noteDict depth:(unsigned)depth;
+- (id) init;
+- (void) dealloc;
+
 - (unsigned) depth;
+- (void) setNotification: (GrowlApplicationNotification *) theNotification;
+
 @end

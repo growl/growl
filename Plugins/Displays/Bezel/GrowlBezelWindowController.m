@@ -335,40 +335,7 @@
 
 #pragma mark -
 
-- (void) setFlipIn:(BOOL)flag {
-	flipIn = flag;
-	doFadeIn = flag;
-}
-
-- (void) setFlipOut:(BOOL)flag {
-	flipOut = flag;
-}
-
-- (void) fadeInAnimation:(double)progress {
-	if (flipIn && flipEnabled)
-		[[self window] setScaleX:progress Y:1.0];
-	else
-		[super fadeInAnimation:progress];
-}
-
-- (void) stopFadeIn {
-	if (flipIn && flipEnabled)
-		[[self window] reset];
-	[super stopFadeIn];
-}
-
-- (void) fadeOutAnimation:(double)progress {
-	if (flipOut) {
-		if (flipEnabled)
-			[[self	window] setScaleX:1.0 - progress Y:1.0];
-		else
-			[super fadeOutAnimation:progress];
-	} else {
-		if (shrinkEnabled)
-			[[self window] scaleX:0.8 Y:0.8];
-		[super fadeOutAnimation:progress];
-	}
-}*/
+*/
 
 - (void) dealloc {
 	NSWindow *myWindow = [self window];
