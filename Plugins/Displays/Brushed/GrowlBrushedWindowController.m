@@ -31,6 +31,12 @@ static const double gAdditionalLinesDisplayTime = 0.5;
 	NSRect screen = [[self screen] visibleFrame];
 	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
 	
+	BOOL aquaPref = GrowlBrushedAquaPrefDefault;
+	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &aquaPref);
+	if (!aquaPref) {
+		styleMask |= NSTexturedBackgroundWindowMask;
+	}
+
 	CFNumberRef prefsDuration = NULL;
 	CFTimeInterval value = -1.0f;
 
