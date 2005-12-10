@@ -10,7 +10,7 @@
 
 @class GrowlApplicationNotification;
 
-@interface GrowlSmokeWindowController : GrowlDisplayFadingWindowController {
+@interface GrowlSmokeWindowController : GrowlDisplayWindowController {
 	unsigned	depth;
 	NSString	*identifier;
 	unsigned	uid;

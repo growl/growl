@@ -39,6 +39,7 @@ static void smokeGone(CFNotificationCenterRef center, void *observer, CFStringRe
 										CFSTR("SmokeGone"),
 										/*object*/ NULL,
 										CFNotificationSuspensionBehaviorCoalesce);
+		windowControllerClass = NSClassFromString(@"GrowlSmokeWindowController");
 	}
 	return self;
 }
@@ -58,7 +59,20 @@ static void smokeGone(CFNotificationCenterRef center, void *observer, CFStringRe
 	return preferencePane;
 }
 
-- (void) displayNotification:(GrowlApplicationNotification *)notification {
+
+- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
+	// Note: currently we assume there is only one WC...
+	GrowlSmokeWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];
+	GrowlApplicationNotification *note = [theBridge notification];
+	NSDictionary *noteDict = [note dictionaryRepresentation];
+	[controller setNotifyingApplicationName:[note applicationName]];
+	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
+	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+	[controller setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
+	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
+}
+
+/*- (void) displayNotification:(GrowlApplicationNotification *)notification {
 	GrowlSmokeWindowController *controller = [[GrowlSmokeWindowController alloc]
 		initWithNotification:notification
 					   depth:smokeDepth];
@@ -77,5 +91,5 @@ static void smokeGone(CFNotificationCenterRef center, void *observer, CFStringRe
 	smokeDepth = [controller depth] + GrowlSmokePadding;
 	[controller startDisplay];
 	[controller release];
-}
+}*/
 @end
