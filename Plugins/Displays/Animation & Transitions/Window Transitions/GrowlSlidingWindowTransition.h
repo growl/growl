@@ -10,11 +10,12 @@
 
 @interface GrowlSlidingWindowTransition : GrowlWindowTransition {
 	NSPoint	startingPoint;
+	NSPoint endingPoint;
 	float	xDistance;
 	float	yDistance;
 }
 
-- (void) slideFromOrigin:(NSPoint)startingOrigin toOrigin:(NSPoint)endingOrigin;
-- (void) slideToOrigin:(NSPoint)endingOrigin;
+- (void) setFromOrigin:(NSPoint)startingOrigin toOrigin:(NSPoint)endingOrigin;
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress;
 
 @end

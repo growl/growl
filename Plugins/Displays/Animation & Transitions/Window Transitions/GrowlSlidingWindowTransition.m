@@ -10,30 +10,34 @@
 
 @implementation GrowlSlidingWindowTransition
 
-- (void) slideFromOrigin:(NSPoint)startingOrigin toOrigin:(NSPoint)endingOrigin {
+- (void) setFromOrigin:(NSPoint)startingOrigin toOrigin:(NSPoint)endingOrigin {
 	startingPoint = startingOrigin;
+	endingPoint = endingOrigin;
 	xDistance = (endingOrigin.x - startingOrigin.x);
 	yDistance = (endingOrigin.y - startingOrigin.y);
-
-	//Since we override -startAnimation to do nothing, we need to call super's implementation.
-	[super startAnimation];
-}
-
-- (void) slideToOrigin:(NSPoint)endingOrigin {
-	[self slideFromOrigin:[[self window] frame].origin toOrigin:endingOrigin];
-}
-
-- (void) startAnimation {
-	//Do nothing if called directly
 }
 
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
-	NSPoint newOrigion;
+	NSPoint newOrigin;
+	if (aWindow) {
+		switch (direction) {
+			case GrowlForwardTransition:
+				newOrigin.x = startingPoint.x + (progress * xDistance);
+				newOrigin.y = startingPoint.y + (progress * yDistance);
 
-	newOrigion.x = startingPoint.x + (progress * xDistance);
-	newOrigion.y = startingPoint.y + (progress * yDistance);
+				[aWindow setFrameOrigin:newOrigin];
+				break;
+				
+			case GrowlReverseTransition:
+				newOrigin.x = endingPoint.x - (progress * xDistance);
+				newOrigin.y = endingPoint.y - (progress * yDistance);
 
-	[aWindow setFrameOrigin:newOrigion];
+				[aWindow setFrameOrigin:newOrigin];
+				break;
+			default:
+				break;
+		}
+	}
 }
 
 @end
