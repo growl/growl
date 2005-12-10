@@ -18,6 +18,12 @@
 - (void) setStopAnimationProgress:(GrowlAnimationProgress)animationProgress;
 @end
 
+static void animationStep(CFRunLoopTimerRef timer, void *context) {
+#pragma unused(timer)
+	NSLog(@"%s\n", __FUNCTION__);
+	[(GrowlAnimation *)context doAnimationStep];
+}
+
 @implementation GrowlAnimation
 
 - (id) init {
@@ -69,11 +75,15 @@
 		passedMiddleOfAnimation = NO;
 
 		//Create a new timer
-		animationTimer = [NSTimer scheduledTimerWithTimeInterval:(1.0f/frameRate)
-														  target:self
-														selector:@selector(doAnimationStep)
-														userInfo:nil
-														 repeats:YES];
+		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
+		animationTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+(1.0f/frameRate), (1.0f/frameRate), 0, 0, &animationStep, &context);
+		CFRunLoopAddTimer(CFRunLoopGetMain(), animationTimer, kCFRunLoopCommonModes);
+
+		//animationTimer = CFRunLoopTimerCreate() [NSTimer scheduledTimerWithTimeInterval:(1.0f/frameRate)
+		//												  target:self
+		//												selector:@selector(doAnimationStep)
+		//												userInfo:nil
+		//												 repeats:YES];
 	}
 }
 
@@ -87,8 +97,11 @@
 
 - (void) stopAnimation {
 	if ([self isAnimating]) {
-		[animationTimer invalidate];
-		animationTimer = nil;
+		if(animationTimer) {
+			CFRunLoopTimerInvalidate(animationTimer);
+			CFRelease(animationTimer);
+			animationTimer = NULL;
+		}
 
 		//Let our delegate know what's going on
 		if (progress < 1.0f)

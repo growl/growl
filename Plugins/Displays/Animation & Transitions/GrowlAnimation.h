@@ -56,7 +56,7 @@ typedef enum {
  */
 @interface GrowlAnimation : NSObject {
 	@private
-	NSTimer						*animationTimer;
+	CFRunLoopTimerRef			animationTimer;
 	NSTimeInterval				animationDuration;	//Default to 1 second
 	float						frameRate;			//Default to 36 frames per second
 	GrowlAnimationProgress		progress;

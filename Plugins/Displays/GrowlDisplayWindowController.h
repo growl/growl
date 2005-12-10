@@ -28,7 +28,11 @@
 	NSNumber			             *appPid;
 	NSMutableDictionary              *windowTransitions;
 	id					             delegate;
+	
 	CFRunLoopTimerRef	             displayTimer;
+	CFRunLoopTimerRef				 delayTimer;
+	CFRunLoopTimerRef				 transitionTimer;
+	
 	BOOL				             ignoresOtherNotifications;
 
 	CFTimeInterval                   transitionDuration;

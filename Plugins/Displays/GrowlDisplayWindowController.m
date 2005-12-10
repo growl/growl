@@ -17,10 +17,29 @@
 
 static NSMutableDictionary *existingInstances;
 
+extern CFRunLoopRef CFRunLoopGetMain(void);
+
 static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
 	NSLog(@"%s\n", __FUNCTION__);
 	[(GrowlDisplayWindowController *)context stopDisplay];
+}
+
+static void finishedTransitionsBeforeDisplay(CFRunLoopTimerRef timer, void *context) {
+#pragma unused(timer)
+	NSLog(@"%s\n", __FUNCTION__);
+	[(GrowlDisplayWindowController *)context didFinishTransitionsBeforeDisplay];
+}
+static void finishedTransitionsAfterDisplay(CFRunLoopTimerRef timer, void *context) {
+#pragma unused(timer)
+	NSLog(@"%s\n", __FUNCTION__);
+	[(GrowlDisplayWindowController *)context didFinishTransitionsAfterDisplay];
+}
+
+static void startAnimation(CFRunLoopTimerRef timer, void *context) {
+#pragma unused(timer)
+	NSLog(@"%s\n", __FUNCTION__);
+	[(GrowlWindowTransition *)context startAnimation];
 }
 
 @implementation GrowlDisplayWindowController
@@ -133,10 +152,14 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	if (ignoresOtherNotifications || [[GrowlPositionController sharedInstance] reserveRect:[window frame] inScreen:[window screen]]) {
 		[self willDisplayNotification];
 		[window orderFront:nil];
-		if ([self startAllTransitions])
-			[self performSelector:@selector(didFinishTransitionsBeforeDisplay) withObject:nil afterDelay:transitionDuration];
-		else
+		if ([self startAllTransitions]) {
+			CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
+			delayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent(), 0, 0, 0, &finishedTransitionsBeforeDisplay, &context);
+			CFRunLoopAddTimer(CFRunLoopGetMain(), delayTimer, kCFRunLoopCommonModes);
+			//[self performSelector:@selector(didFinishTransitionsBeforeDisplay) withObject:nil afterDelay:transitionDuration];
+		} else {
 			[self didFinishTransitionsBeforeDisplay];
+		}
 		[self didDisplayNotification];
 		return YES;
 	} else {
@@ -150,10 +173,14 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	NSLog(@"%s\n", __FUNCTION__);
 	[self stopDisplayTimer];
 	[self willTakeDownNotification];
-	if ([self startAllTransitions])
-		[self performSelector:@selector(didFinishTransitionsAfterDisplay) withObject:nil afterDelay:transitionDuration];
-	else
+	if ([self startAllTransitions]) {
+		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
+		delayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+transitionDuration, 0, 0, 0, &finishedTransitionsAfterDisplay, &context);
+		CFRunLoopAddTimer(CFRunLoopGetMain(), delayTimer, kCFRunLoopCommonModes);
+		//[self performSelector:@selector(didFinishTransitionsAfterDisplay) withObject:nil afterDelay:transitionDuration];
+	} else {
 		[self didFinishTransitionsAfterDisplay];
+	}
 	[self didTakeDownNotification];
 }
 
@@ -166,10 +193,22 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) didFinishTransitionsBeforeDisplay {
+	NSLog(@"%s\n", __FUNCTION__);
+	if(delayTimer) {
+		CFRunLoopTimerInvalidate(delayTimer);
+		CFRelease(delayTimer);
+		delayTimer = NULL;
+	}
 	[self startDisplayTimer];
 }
 
 - (void) didFinishTransitionsAfterDisplay {
+	NSLog(@"%s\n", __FUNCTION__);
+	if(delayTimer) {
+		CFRunLoopTimerInvalidate(delayTimer);
+		CFRelease(delayTimer);
+		delayTimer = NULL;
+	}
 	//Clear the rect we reserved...
 	NSWindow *window = [self window];
 	[window orderOut:nil];
@@ -211,7 +250,7 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 - (void) startDisplayTimer {
 	NSLog(@"%s %f\n", __FUNCTION__, displayDuration);
 	CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
-	displayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+displayDuration, 0, 0, 0, &stopDisplay, &context);
+	displayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+displayDuration+transitionDuration, 0, 0, 0, &stopDisplay, &context);
 	CFRunLoopAddTimer(CFRunLoopGetMain(), displayTimer, kCFRunLoopCommonModes);
 }
 
@@ -341,7 +380,11 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 	
 	// Set up this transition...
 	[transition setDuration: (endTime - startTime)];
-	[transition performSelector:@selector(startAnimation) withObject:nil afterDelay:startTime];
+	CFRunLoopTimerContext context = {0, transition, NULL, NULL, NULL};
+	transitionTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+startTime, 0, 0, 0, &startAnimation, &context);
+	CFRunLoopAddTimer(CFRunLoopGetMain(), transitionTimer, kCFRunLoopCommonModes);
+	//[transition performSelector:@selector(startAnimation) withObject:nil afterDelay:startTime];
+	
 	return YES;
 }
 
@@ -361,9 +404,14 @@ static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 
 - (void) stopTransition:(GrowlWindowTransition *)transition {
 	[transition stopAnimation];
-	[[self class] cancelPreviousPerformRequestsWithTarget:transition 
-												 selector:@selector(startAnimation) 
-												   object:nil];
+	if(transitionTimer) {
+		CFRunLoopTimerInvalidate(transitionTimer);
+		CFRelease(transitionTimer);
+		transitionTimer = NULL;
+	}
+	//[[self class] cancelPreviousPerformRequestsWithTarget:transition 
+	//											 selector:@selector(startAnimation) 
+	//											   object:nil];
 }
 
 - (void) stopTransitionOfKind:(Class)transitionClass {
