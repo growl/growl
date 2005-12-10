@@ -135,13 +135,14 @@
 	[fader setAutoReverses:YES];
 	[fader release];
 	
-	GrowlFlippingWindowTransition *flipper = [[GrowlFlippingWindowTransition alloc] initWithWindow:panel];
-	[self addTransition:flipper];
-	[self setStartPercentage:0 endPercentage:100 forTransition:flipper];
-	[flipper setFlipsX:YES];
-	[flipper setAutoReverses:YES];
-	[flipper release];
-	
+	if(flipEnabled) {
+		GrowlFlippingWindowTransition *flipper = [[GrowlFlippingWindowTransition alloc] initWithWindow:panel];
+		[self addTransition:flipper];
+		[self setStartPercentage:0 endPercentage:100 forTransition:flipper];
+		[flipper setFlipsX:YES];
+		[flipper setAutoReverses:YES];
+		[flipper release];
+	}
 	return self;
 }
 
