@@ -1,14 +1,13 @@
-PREFIX?=
-DESTDIR=${PREFIX}/Library/Widgets/Growl.wdgt
+DESTDIR=$HOME/Library/Widgets/Growl.wdgt
 
 all:
 	make -C GrowlWidgetPlugin all
 
 install:
-	rm -rf $(DESTDIR)
+	rm -rfd $(DESTDIR)
 	mkdir -p $(DESTDIR)
 	cp -f *.png GrowlWidget.* *.plist $(DESTDIR)
-	cp -R GrowlWidgetPlugin/build/GrowlWidgetPlugin.widgetplugin $(DESTDIR)
+	cp -R GrowlWidgetPlugin/build/Deployment/GrowlWidgetPlugin.widgetplugin $(DESTDIR)
 	/Developer/Tools/SetFile -a E $(DESTDIR)
 
 clean:
