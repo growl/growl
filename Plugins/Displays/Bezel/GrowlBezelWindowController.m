@@ -14,6 +14,7 @@
 #import "GrowlAnimation.h"
 #import "GrowlFadingWindowTransition.h"
 #import "GrowlFlippingWindowTransition.h"
+#import "GrowlShrinkingWindowTransition.h"
 #import "GrowlWindowTransition.h"
 
 
@@ -135,6 +136,13 @@
 	[fader setAutoReverses:YES];
 	[fader release];
 	
+	if(shrinkEnabled) {
+		GrowlShrinkingWindowTransition *shrinker = [[GrowlShrinkingWindowTransition alloc] initWithWindow:panel];
+		[self addTransition:shrinker];
+		[self setStartPercentage:0 endPercentage:100 forTransition:shrinker];
+		[shrinker setAutoReverses:YES];
+		[shrinker release];
+	}
 	if(flipEnabled) {
 		GrowlFlippingWindowTransition *flipper = [[GrowlFlippingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:flipper];
