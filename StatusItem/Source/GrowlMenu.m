@@ -20,7 +20,7 @@
 #define kStopGrowlTooltip            NSLocalizedString(@"Stop Growl", @"")
 #define kDefaultDisplay              NSLocalizedString(@"Default display", @"")
 #define kDefaultDisplayTooltip       NSLocalizedString(@"Set the default display style", @"")
-#define kOpenGrowlPreferences        NSLocalizedString(@"Open Growl preferences...", @"")
+#define kOpenGrowlPreferences        NSLocalizedString(@"Open Growl Preferences...", @"")
 #define kOpenGrowlPreferencesTooltip NSLocalizedString(@"Open the Growl preference pane", @"")
 #define kSquelchMode                 NSLocalizedString(@"Log only, don't display", @"")
 #define kSquelchModeTooltip          NSLocalizedString(@"Don't show notifications, but still log them", @"")
