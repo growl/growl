@@ -24,7 +24,7 @@
 #define kOpenGrowlPreferencesTooltip NSLocalizedString(@"Open the Growl preference pane", @"")
 #define kSquelchMode                 NSLocalizedString(@"Log only, don't display", @"")
 #define kSquelchModeTooltip          NSLocalizedString(@"Don't show notifications, but still log them", @"")
-#define kStopGrowlMenu               NSLocalizedString(@"Hide status item", @"")
+#define kStopGrowlMenu               NSLocalizedString(@"Hide Status Item", @"")
 #define kStopGrowlMenuTooltip        NSLocalizedString(@"Hide this status item", @"")
 #define kStickyWhenAwayMenu			 NSLocalizedString(@"Sticky Notifications", @"")
 #define kStickyWhenAwayMenuTooltip   NSLocalizedString(@"Toggles the sticky notification state", @"")
