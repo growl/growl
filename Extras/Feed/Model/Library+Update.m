@@ -124,6 +124,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     NSEnumerator *          enumerator = nil;
     NSDictionary *          articleDict = nil;
     NSString *				propName = nil;
+	NSAutoreleasePool *		pool =  [[NSAutoreleasePool alloc] init];
+
 	
 	[aFeed setLastError: @""];
 	enumerator = [headers keyEnumerator];
@@ -144,6 +146,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[[NSNotificationCenter defaultCenter] postNotificationName:FeedUpdateDidUpdateFeedNotification object: aFeed];
 	[activeReaders removeObjectForKey: [aFeed sourceURL]];
 	
+	[pool release];
 	[self runNextUpdate];
 }
 
@@ -175,7 +178,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	//KNDebug(@"runNextUpdate: %u left (%@)", [feedsToUpdate count], activeReaders);
 	if( [feedsToUpdate count] > 0U ){
 		while( ((int)[activeReaders count] < [PREFS maxUpdateThreads]) && ([feedsToUpdate count] > 0U) ){
-			
+
 			newReader = nil;
 			
 			feed = [feedsToUpdate objectAtIndex:0];

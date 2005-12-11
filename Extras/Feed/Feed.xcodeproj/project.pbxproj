@@ -199,7 +199,7 @@
 		53A795B708F6D1F500CAC915 /* Library+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Library+Utility.h"; path = "Model/Library+Utility.h"; sourceTree = "<group>"; };
 		53A795B808F6D1F500CAC915 /* Library+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Library+Utility.m"; path = "Model/Library+Utility.m"; sourceTree = "<group>"; };
 		53AA940E08DDFE1D00DBD86D /* hacking.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = hacking.txt; sourceTree = "<group>"; };
-		53AA979A08E6233900DBD86D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		53AA979A08E6233900DBD86D /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Deployment/Growl.framework; sourceTree = SOURCE_ROOT; };
 		53BE77AE08FC397D0078FC54 /* FeedWindowController+Articles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FeedWindowController+Articles.h"; path = "Interface/FeedWindowController+Articles.h"; sourceTree = "<group>"; };
 		53BE77AF08FC397D0078FC54 /* FeedWindowController+Articles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FeedWindowController+Articles.m"; path = "Interface/FeedWindowController+Articles.m"; sourceTree = "<group>"; };
 		53BE77DB08FC3C220078FC54 /* FeedWindowController+Sources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FeedWindowController+Sources.h"; path = "Interface/FeedWindowController+Sources.h"; sourceTree = "<group>"; };
@@ -951,6 +951,7 @@
 		53A1B6AA08DDEC8100A8519C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = ../../build/Deployment/;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1037,6 +1038,7 @@
 				5336E43D08E781DA0002A035 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
 		};
 		53A1B6A508DDEC8100A8519C /* Build configuration list for PBXNativeTarget "Feed" */ = {
 			isa = XCConfigurationList;

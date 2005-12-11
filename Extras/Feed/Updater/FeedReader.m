@@ -239,10 +239,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	BOOL					result = NO;
 	NSEnumerator *			enumerator;
 	NSDictionary *			articleDict;
+	NSAutoreleasePool *		pool = [[NSAutoreleasePool alloc] init];  //add pool for this scope to prevent thrashing the main pool when we ogg it
 	
 	//KNDebug(@"%@: parseXMLData %@",self, currentSource);
 	validSource = NO;		
 	parser = [[NSXMLParser alloc] initWithData: sourceXML];
+	[parser autorelease];
+	
 	if( parser ){
 		[parser setDelegate: self];
 		[parser setShouldResolveExternalEntities: NO];
@@ -272,8 +275,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		}else{
 			result = NO;;
 		}
-		[parser release];
+		//[parser release];
+		
 	}
+	[pool release];	
 	return result;
 }
 
