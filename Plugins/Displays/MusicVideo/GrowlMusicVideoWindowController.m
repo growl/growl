@@ -11,6 +11,7 @@
 #import "GrowlMusicVideoPrefs.h"
 #import "NSWindow+Transforms.h"
 #import "GrowlSlidingWindowTransition.h"
+#import "GrowlWipeWindowTransition.h"
 
 @implementation GrowlMusicVideoWindowController
 
@@ -79,14 +80,26 @@
 	self = [super initWithWindow:panel];
 	if (!self)
 		return nil;
-		
-	GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
-	[slider setFromOrigin:NSMakePoint(NSMinX(screen),-frameHeight) toOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen))];
-	[self setStartPercentage:0 endPercentage:100 forTransition:slider];
-	[slider setAutoReverses:YES];
-	[self addTransition:slider];
-	[slider release];
 	
+	int effect = 0;
+	READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
+	if(effect == 0) {
+		//slider effect
+		GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
+		[slider setFromOrigin:NSMakePoint(NSMinX(screen),-frameHeight) toOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen))];
+		[self setStartPercentage:0 endPercentage:100 forTransition:slider];
+		[slider setAutoReverses:YES];
+		[self addTransition:slider];
+		[slider release];
+	} else {
+		//wipe effect
+		GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
+		[wiper setFromOrigin:NSMakePoint(0,0) toOrigin:NSMakePoint(NSMinX(screen), frameHeight)];
+		[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
+		[wiper setAutoReverses:YES];
+		[self addTransition:wiper];
+		[wiper release];
+	}
 	return self;
 
 }
