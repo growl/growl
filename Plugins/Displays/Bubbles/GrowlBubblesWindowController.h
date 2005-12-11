@@ -12,12 +12,9 @@
 @class GrowlApplicationNotification;
 
 @interface GrowlBubblesWindowController : GrowlDisplayWindowController {
-	unsigned	depth;
 	NSString	*identifier;
 	unsigned	uid;
 }
 
-- (unsigned) depth;
-- (void) setNotification: (GrowlApplicationNotification *) theNotification;
 
 @end

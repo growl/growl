@@ -149,7 +149,14 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 	NSWindow *window = [self window];
 
 	//Make sure we don't cover any other notification (or not)
-	if (ignoresOtherNotifications || [[GrowlPositionController sharedInstance] reserveRect:[window frame] inScreen:[window screen]]) {
+	BOOL foundSpace = NO;
+	GrowlPositionController *pc = [GrowlPositionController sharedInstance];
+	if ([self respondsToSelector:@selector(idealOriginInRect:)])
+		foundSpace = [pc positionDisplay:self];
+	else
+		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] inScreen:[window screen]]);
+	
+	if (foundSpace) {
 		[self willDisplayNotification];
 		[window orderFront:nil];
 		if ([self startAllTransitions]) {

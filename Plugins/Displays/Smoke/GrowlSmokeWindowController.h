@@ -11,12 +11,8 @@
 @class GrowlApplicationNotification;
 
 @interface GrowlSmokeWindowController : GrowlDisplayWindowController {
-	unsigned	depth;
 	NSString	*identifier;
 	unsigned	uid;
 }
 
-- (id) initWithNotification:(GrowlApplicationNotification *)notification depth:(unsigned)depth;
-- (unsigned) depth;
-- (void) setProgress:(NSNumber *)value;
 @end

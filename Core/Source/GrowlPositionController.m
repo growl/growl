@@ -169,6 +169,83 @@
 	return result;
 }
 
+- (BOOL) positionDisplay:(GrowlDisplayWindowController *)displayController {
+	NSScreen *preferredScreen = [displayController screen];
+	NSRect screenFrame = [preferredScreen visibleFrame];
+	NSSize displaySize = [[displayController window] frame].size;
+	float padding = [displayController requiredDistanceFromExistingDisplays];
+	
+	// Ask the display where it wants to be displayed in the first instance....
+	NSPoint idealOrigin = [displayController idealOriginInRect:screenFrame];
+	NSRect idealFrame = NSMakeRect(idealOrigin.x,idealOrigin.y,displaySize.width,displaySize.height);
+	
+	// Try and reserve the rect
+	NSRect displayFrame = idealFrame;
+	if ([self reserveRect:displayFrame inScreen:preferredScreen])
+	{
+		[[displayController window] setFrameOrigin:displayFrame.origin];
+		return YES;
+	}
+	
+	// Something was blocking the display...try and find the next position for the display...
+	GrowlExpansionDirection directionToTry = [displayController primaryExpansionDirection];
+	BOOL isOnScreen = YES;
+	unsigned secondaryCount = 0U;
+	BOOL usingSecondaryDirecton = NO;
+	while (directionToTry) {
+		// adjust the rect...
+		switch (directionToTry) {
+			case GrowlDownExpansionDirection:
+				displayFrame.origin.y -= (padding + displayFrame.size.height) * 
+				(usingSecondaryDirecton ? secondaryCount : 1U);
+				break;
+			case GrowlUpExpansionDirection:
+				displayFrame.origin.y += (padding + displayFrame.size.height) * 
+				(usingSecondaryDirecton ? secondaryCount : 1U);
+				break;
+			case GrowlLeftExpansionDirection:
+				displayFrame.origin.x -= (padding + displayFrame.size.width) * 
+				(usingSecondaryDirecton ? secondaryCount : 1U);
+				break;
+			case GrowlRightExpansionDirection:
+				displayFrame.origin.x += (padding + displayFrame.size.width) * 
+				(usingSecondaryDirecton ? secondaryCount : 1U);
+				break;
+			default:
+				break;
+		}
+		
+		// make sure the new rect still fits on screen...
+		BOOL lastAttemptWasOnScreen = isOnScreen;
+		isOnScreen = (NSContainsRect(screenFrame,displayFrame) ? YES : NO);
+		
+		// If the last two attempts were offscreen we've exausted all possibilities
+		if (!isOnScreen && !lastAttemptWasOnScreen)
+			break;
+		
+		// If we were using the secondary direction, switch back to the primary now...
+		if (usingSecondaryDirecton) {
+			directionToTry = [displayController primaryExpansionDirection];
+			usingSecondaryDirecton = NO;
+		}
+
+		// If we've run offscreen see if we have a secondary direction...
+		if (!isOnScreen) {
+			displayFrame = idealFrame;
+			directionToTry = [displayController secondaryExpansionDirection];
+			secondaryCount++;
+			usingSecondaryDirecton = YES;
+			continue;
+		}
+		
+		// otherwise try and reserve the rect...
+		if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
+			[[displayController window] setFrameOrigin:displayFrame.origin];
+			return YES;
+		}
+	}
+	return NO;
+}
 
 //Reserve a rect in a specific screen.
 - (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen {

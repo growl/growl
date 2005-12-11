@@ -16,6 +16,8 @@
  * @version 0.8
  */
 
+@class GrowlDisplayWindowController;
+
 #import "GrowlAbstractSingletonObject.h"
 
 /*!
@@ -56,6 +58,14 @@ typedef enum {
 	GrowlRightColumnPosition
 } GrowlPosition;
 
+typedef enum {
+	GrowlNoExpansionDirection,
+	GrowlDownExpansionDirection,
+	GrowlUpExpansionDirection,
+	GrowlLeftExpansionDirection,
+	GrowlRightExpansionDirection
+} GrowlExpansionDirection;
+
 /*!
  * @class GrowlPositionController
  * @superclass GrowlAbstractSingletonObject
@@ -77,6 +87,8 @@ typedef enum {
  * @param screen The screen which contains the rect of the position. If screen is nil, the main screen will be used.
  */
 + (NSRect) rectForPosition:(GrowlPosition)position inScreen:(NSScreen *)screen;
+
+- (BOOL) positionDisplay:(GrowlDisplayWindowController *)displayController;
 
 /*!
  * @method reserveRect:inScreen:
@@ -100,5 +112,19 @@ typedef enum {
  * @param inScreen The screen which contains inRect. If inScreen is nil, the main screen will be used.
  */
 - (void) clearReservedRect:(NSRect)inRect inScreen:(NSScreen *)inScreen;
+
+@end
+
+#pragma mark -
+
+@interface NSObject (GrowlPositionControllerProtocol)
+
+/* for the time being this is a simplified version of the protocol.  the finished iteration should take
+ * into account screen number as well as the types of adjoining displays */
+
+- (NSPoint) idealOriginInRect:(NSRect)rect;
+- (GrowlExpansionDirection) primaryExpansionDirection;
+- (GrowlExpansionDirection) secondaryExpansionDirection;
+- (float) requiredDistanceFromExistingDisplays;
 
 @end

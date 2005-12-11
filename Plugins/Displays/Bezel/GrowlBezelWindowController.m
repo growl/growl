@@ -86,43 +86,8 @@
 	[view setDelegate:self];
 	[view setCloseOnMouseExit:YES];
 	[panel setContentView:view];
-
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
-
-	NSPoint panelTopLeft;
-	int positionPref = BEZEL_POSITION_DEFAULT;
-	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, GrowlBezelPrefDomain, &positionPref);
-	NSRect screen;
-	switch (positionPref) {
-		default:
-		case BEZEL_POSITION_DEFAULT:
-			screen = [[self screen] frame];
-			panelTopLeft.x = screen.origin.x + ceilf((NSWidth(screen) - NSWidth(panelFrame)) * 0.5f);
-			panelTopLeft.y = screen.origin.y + 140.0f + NSHeight(panelFrame);
-			break;
-		case BEZEL_POSITION_TOPRIGHT:
-			screen = [[self screen] visibleFrame];
-			panelTopLeft.x = NSMaxX(screen) - NSWidth(panelFrame) - GrowlBezelPadding;
-			panelTopLeft.y = NSMaxY(screen) - GrowlBezelPadding;
-			break;
-		case BEZEL_POSITION_BOTTOMRIGHT:
-			screen = [[self screen] visibleFrame];
-			panelTopLeft.x = NSMaxX(screen) - NSWidth(panelFrame) - GrowlBezelPadding;
-			panelTopLeft.y = screen.origin.y + GrowlBezelPadding + NSHeight(panelFrame);
-			break;
-		case BEZEL_POSITION_BOTTOMLEFT:
-			screen = [[self screen] visibleFrame];
-			panelTopLeft.x = screen.origin.x + GrowlBezelPadding;
-			panelTopLeft.y = screen.origin.y + GrowlBezelPadding + NSHeight(panelFrame);
-			break;
-		case BEZEL_POSITION_TOPLEFT:
-			screen = [[self screen] visibleFrame];
-			panelTopLeft.x = screen.origin.x + GrowlBezelPadding;
-			panelTopLeft.y = NSMaxY(screen) - GrowlBezelPadding;
-			break;
-	}
-	[panel setFrameTopLeftPoint:panelTopLeft];
 
 	// call super so everything else is set up...
 	self = [super initWithWindow:panel];
@@ -139,7 +104,7 @@
 	if(shrinkEnabled) {
 		GrowlShrinkingWindowTransition *shrinker = [[GrowlShrinkingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:shrinker];
-		[self setStartPercentage:0 endPercentage:100 forTransition:shrinker];
+		[self setStartPercentage:0 endPercentage:80 forTransition:shrinker];
 		[shrinker setAutoReverses:YES];
 		[shrinker release];
 	}
@@ -351,6 +316,54 @@
 	[identifier  release];
 	[myWindow    release];
 	[super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark positioning methods
+
+- (NSPoint) idealOriginInRect:(NSRect)rect {
+	NSRect viewFrame = [[[self window] contentView] frame];
+	
+	NSPoint result;
+	int positionPref = BEZEL_POSITION_DEFAULT;
+	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, GrowlBezelPrefDomain, &positionPref);
+	switch (positionPref) {
+		default:
+		case BEZEL_POSITION_DEFAULT:
+			result.x = rect.origin.x + ceilf((NSWidth(rect) - NSWidth(viewFrame)) * 0.5f);
+			result.y = rect.origin.y + 140.0f;
+			break;
+		case BEZEL_POSITION_TOPRIGHT:
+			result.x = NSMaxX(rect) - NSWidth(viewFrame) - GrowlBezelPadding;
+			result.y = NSMaxY(rect) - GrowlBezelPadding - NSHeight(viewFrame);
+			break;
+		case BEZEL_POSITION_BOTTOMRIGHT:
+			result.x = NSMaxX(rect) - NSWidth(viewFrame) - GrowlBezelPadding;
+			result.y = rect.origin.y + GrowlBezelPadding;
+			break;
+		case BEZEL_POSITION_BOTTOMLEFT:
+			result.x = rect.origin.x + GrowlBezelPadding;
+			result.y = rect.origin.y + GrowlBezelPadding;
+			break;
+		case BEZEL_POSITION_TOPLEFT:
+			result.x = rect.origin.x + GrowlBezelPadding;
+			result.y = NSMaxY(rect) - GrowlBezelPadding - NSHeight(viewFrame);
+			break;
+	}
+	return result;
+}
+
+- (GrowlExpansionDirection) primaryExpansionDirection {
+	return GrowlNoExpansionDirection;
+}
+
+- (GrowlExpansionDirection) secondaryExpansionDirection {
+	return GrowlNoExpansionDirection;
+}
+
+- (float) requiredDistanceFromExistingDisplays {
+	return GrowlBezelPadding;
 }
 
 @end

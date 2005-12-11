@@ -159,4 +159,23 @@ static const double gAdditionalLinesDisplayTime = 0.5;
 											NSMaxY(screen) - GrowlBrushedPadding - depth)];
 }
 
+- (NSPoint) idealOriginInRect:(NSRect)rect {
+	NSRect viewFrame = [[[self window] contentView] frame];
+	return NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowlBrushedPadding,
+					   NSMaxY(rect) - GrowlBrushedPadding - NSHeight(viewFrame));
+}
+
+- (GrowlExpansionDirection) primaryExpansionDirection {
+	return GrowlDownExpansionDirection;
+}
+
+- (GrowlExpansionDirection) secondaryExpansionDirection {
+	return GrowlLeftExpansionDirection;
+}
+
+- (float) requiredDistanceFromExistingDisplays {
+	return GrowlBrushedPadding;
+}
+
+
 @end
