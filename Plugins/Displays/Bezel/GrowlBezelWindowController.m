@@ -226,10 +226,6 @@
 
 #pragma mark -
 
-- (unsigned) depth {
-	return depth;
-}
-
 - (void) setNotification: (GrowlApplicationNotification *) theNotification {
 	NSLog(@"%s\n", __FUNCTION__);
 	[super setNotification:theNotification];
@@ -264,14 +260,7 @@
 	[view setTitle:title];// isHTML:titleHTML];
 	[view setText:text];// isHTML:textHTML];
 	[view setIcon:icon];
-	
-	NSRect viewFrame = [view frame];
-	[panel setFrame:viewFrame display:NO];
-	NSRect screen = [[self screen] visibleFrame];
-	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(viewFrame) - GrowlBezelPadding,
-											NSMaxY(screen) - GrowlBezelPadding - depth)];
-	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, [panel frame].origin.x, [panel frame].origin.y, [panel frame].size.height, [panel frame].size.width);
-
+	[panel setFrame:[view frame] display:NO];
 }
 
 - (NSString *) identifier {

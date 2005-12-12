@@ -11,7 +11,7 @@
 @class GrowlBezelWindowView, GrowlAnimation;
 
 @interface GrowlBezelWindowController : GrowlDisplayWindowController {
-	unsigned	depth;
+
 	int						priority;
 	BOOL					flipIn;
 	BOOL					flipOut;
