@@ -1000,6 +1000,7 @@
 				9533C232085C3E94009F8046 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
 		};
 		95E4A2B50855C0DB006B3F45 /* Build configuration list for PBXNativeTarget "HardwareGrowler" */ = {
 			isa = XCConfigurationList;
