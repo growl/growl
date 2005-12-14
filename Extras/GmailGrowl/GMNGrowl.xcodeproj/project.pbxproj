@@ -1071,7 +1071,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = GMNGrowl;
 				WRAPPER_EXTENSION = bundle;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Development;
 		};
@@ -1133,6 +1133,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = GMNGrowl;
 				WRAPPER_EXTENSION = bundle;
+				ZERO_LINK = NO;
 			};
 			name = Default;
 		};
