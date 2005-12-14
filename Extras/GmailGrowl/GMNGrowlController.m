@@ -32,6 +32,8 @@
  Likewise, the logos of those services are owned and copyrighted to their owners.
  No ownership of any of these is assumed or implied, and no infringement is intended.
  
+ Gmail+Growl is expressively permitted to be distributed with Growl itself.
+ 
  For more info on this products or on the technologies on which it builds: 
 				Growl: <http://growl.info/>
                 Gmail: <http://gmail.com>
@@ -50,7 +52,7 @@
 //  Contact: <wootest@gmail.com>.
 //
 
-#import <Growl-WithInstaller/Growl.h>
+#import <Growl/Growl.h>
 
 #import "GGPluginProtocol.h"
 #import "GMNGrowlController.h"
@@ -128,10 +130,11 @@
 #define GMNGrowlJustNotifyOnceListUDK	@"GMNGrowlJustNotifyOnceList"
 #endif
 
+/** *yoink* As of Growlification, the Growl framework is assumed installed, which means not using the -WithInstall version, which means we can get rid of this:
 #define GrowlUpdateTitle				@"Growl can be updated to a newer version"
 #define GrowlUpdateInfo					@"Growl can automatically be updated to a newer version than the one currently installed. No download is necessary."
 #define GrowlInstallTitle				@"Growl wasn't found, but can be installed"
-#define GrowlInstallInfo				@"Gmail+Growl depends on the tool Growl to display notifications when new mails are received. Growl isn't currently installed but can automatically be installed for you. No download is necessary."
+#define GrowlInstallInfo				@"Gmail+Growl depends on the tool Growl to display notifications when new mails are received. Growl isn't currently installed but can automatically be installed for you. No download is necessary." */
 
 @interface GMNPlaceholderTool : NSObject
 + (NSString *)replaceString:(NSString *)replace withString:(NSString *)with inString:(NSString *)subject;
@@ -163,7 +166,7 @@
 }
 
 + (NSString *)replaceString:(NSString *)replace withString:(NSString *)with inString:(NSString *)subject {
-//	NSLog(@"in %@, replace %@ with %@", subject, replace, with);
+//	GMNLog(@"in %@, replace %@ with %@", subject, replace, with);
 	return [[subject componentsSeparatedByString:replace] componentsJoinedByString:with];
 }
 @end
@@ -177,14 +180,14 @@
 	self = [super init];
 	NSBundle *myBundle = [NSBundle bundleForClass:[GMNGrowlController class]];
 	NSString *growlPath = [[myBundle privateFrameworksPath]
-        stringByAppendingPathComponent:@"Growl-WithInstaller.framework"];
+        stringByAppendingPathComponent:@"Growl.framework"];
 	NSBundle *growlBundle = [NSBundle bundleWithPath:growlPath];
 	if (growlBundle && [growlBundle load]) {
         // Register ourselves as a Growl delegate
         [GrowlApplicationBridge setGrowlDelegate:self];
 	} else {
 		/**TODO** Better error handling. */
-        NSLog(@"-ERR: Could not load Growl framework.");
+        GMNLog(@"-ERR: Could not load Growl framework.");
 	}
 	return self;
 }
@@ -193,11 +196,11 @@
 #if CompileJustNotifyOnceSupport
 	[[NSUserDefaults standardUserDefaults] setObject:[NSArray array] forKey:GMNGrowlJustNotifyOnceListUDK];
 #endif
-	NSLog(@"Plugin loaded.");
+	GMNLog(@"Plugin loaded.");
 }
 
 + (void)pluginWillUnload {
-	NSLog(@"Plugin about to unload.");
+	GMNLog(@"Plugin about to unload.");
 }
 
 
@@ -206,7 +209,7 @@
 }
 
 - (void)growlIsReady {
-	NSLog(@"Growl is ready for Gmail!");
+	GMNLog(@"Growl is ready for Gmail!");
 }
 
 - (NSDictionary *) registrationDictionaryForGrowl {
@@ -216,6 +219,7 @@
 		nil];
 }
 
+/** *yoink* As of Growlification, the Growl framework is assumed installed, which means not using the -WithInstall version, which means we can get rid of this:
 #pragma mark -
 #pragma mark Installation or Update box for Growl
 
@@ -231,7 +235,7 @@
 }
 - (NSString *)growlUpdateWindowTitle {
 	return GrowlUpdateTitle;
-}
+} */
 
 #pragma mark -
 #pragma mark New messages handler
@@ -262,7 +266,7 @@
 	
 	BOOL useABicon = !([[NSUserDefaults standardUserDefaults] boolForKey:GMNGrowlDontUseABIconsUDK]);
 	
-	NSLog(@"Use Address Book icon? %@", (useABicon ? @"YES" : @"NO"));
+	GMNLog(@"Use Address Book icon? %@", (useABicon ? @"YES" : @"NO"));
 	
 	NSString *notificationTitle = [[NSUserDefaults standardUserDefaults] stringForKey:GMNGrowlNotificationFormatUDK];
 	if (!notificationTitle || [notificationTitle isEqualToString:@""])
@@ -312,7 +316,7 @@
 	[defaults setObject:messagesToIgnore forKey:GMNGrowlJustNotifyOnceListUDK];
 #endif
 	[defaults synchronize];
-	NSLog(@"new messages received: %@", messages);
+	GMNLog(@"new messages received: %@", messages);
 }
 
 - (NSDictionary *)normalizeMessageDict:(NSDictionary *)di {
@@ -334,7 +338,7 @@
 }
 
 - (NSData *)iconDataBasedOnSender:(NSString *)email {
-	NSLog(@"Looking for Address Book icon for %@.", email);
+	GMNLog(@"Looking for Address Book icon for %@.", email);
 	ABAddressBook *AB = [ABAddressBook sharedAddressBook];
 	ABSearchElement *wanted = [ABPerson searchElementForProperty:kABEmailProperty
 									 label:nil
@@ -343,25 +347,25 @@
 								comparison:kABEqualCaseInsensitive];
 	NSArray *people = [AB recordsMatchingSearchElement:wanted];
 	if (!people || [people count]<1) {
-		NSLog(@"No icon found - no corresponding people.");
+		GMNLog(@"No icon found - no corresponding people.");
 		return defIcon;
 	}
-//	NSLog(@"found people: %@", people);
+//	GMNLog(@"found people: %@", people);
 	NSEnumerator *peopleEnumerator = [people objectEnumerator];
 	ABRecord *rec;
 	while (rec = [peopleEnumerator nextObject]) {
-//		NSLog(@"guy: %@", [rec class]);
+//		GMNLog(@"guy: %@", [rec class]);
 		if (![rec respondsToSelector:@selector(imageData)])
 			continue;
 		ABPerson *guy = (ABPerson *)rec;
 //		ABMultiValue *mv = [guy valueForProperty:kABEmailProperty];
 		NSData *d = [guy imageData]; 
 		if (d != nil) {
-			NSLog(@"Found icon!");
+			GMNLog(@"Found icon!");
 			return d;
 		}
 	} 
-	NSLog(@"No icon found - no icon set for any corresponding people.");
+	GMNLog(@"No icon found - no icon set for any corresponding people.");
 	return defIcon;
 }
 

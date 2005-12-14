@@ -5,3 +5,12 @@
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
 #endif
+
+// Lets us optimize away.
+#define GMNDebugMode 0
+
+#if GMNDebugMode == 1
+#	define GMNLog(fmt, ...) NSLog(fmt, ## __VA_ARGS__)
+#else
+#	define GMNLog(fmt, ...)  
+#endif
