@@ -247,7 +247,7 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
 	[defaults synchronize]; /** Always, ALWAYS get the latest settings. */
-
+	
 #if CompileJustNotifyOnceSupport
 	
 	BOOL checkForMessagesToIgnore = NO;
@@ -271,7 +271,7 @@
 	NSString *notificationTitle = [[NSUserDefaults standardUserDefaults] stringForKey:GMNGrowlNotificationFormatUDK];
 	if (!notificationTitle || [notificationTitle isEqualToString:@""])
 		notificationTitle = GMNGrowlNotificationFormat;
-		
+	
 	NSString *notificationText = [[NSUserDefaults standardUserDefaults] stringForKey:GMNGrowlNotificationTextFormatUDK];
 	if (!notificationText || [notificationText isEqualToString:@""])
 		notificationText = GMNGrowlNotificationTextFormat;
@@ -282,6 +282,7 @@
 		notificationsCap = [(NSNumber *)maxN intValue];
 	if (notificationsCap > 20 || notificationsCap < 1)
 		notificationsCap = GMNGrowlMaxNotificationsCap;
+	
 	int i = 1;
 	NSData *iconData; 
 	iconData = [[[NSWorkspace sharedWorkspace] iconForFile:[[NSWorkspace sharedWorkspace] fullPathForApplication:@"Gmail Notifier"]] TIFFRepresentation];
@@ -290,6 +291,7 @@
 		messageDict = [self normalizeMessageDict:messageDict];
 		if (i == notificationsCap)
 			break;
+		
 #if CompileJustNotifyOnceSupport
 		if (checkForMessagesToIgnore)
 			if ([messagesToIgnore containsObject:[messageDict objectForKey:GmailMessageDictMailUUIDKey]])
@@ -301,7 +303,7 @@
 		if (useABicon)
 			iconData = [self iconDataBasedOnSender:[messageDict objectForKey:GmailMessageDictAuthorEmailKey]];
 		
-		[GrowlApplicationBridge 
+		[GrowlApplicationBridge
 		notifyWithTitle:[GMNPlaceholderTool replacePlaceholdersInString:notificationTitle withPlaceholderDict:messageDict]
 			description:[GMNPlaceholderTool replacePlaceholdersInString:notificationText withPlaceholderDict:messageDict]
 	   notificationName:GMNGrowlNewMailNotification
@@ -309,6 +311,7 @@
 			   priority:0
 			   isSticky:NO
 		   clickContext:nil];	
+		
 		i++;
 	} 
 [defIcon release];
@@ -361,7 +364,7 @@
 //		ABMultiValue *mv = [guy valueForProperty:kABEmailProperty];
 		NSData *d = [guy imageData]; 
 		if (d != nil) {
-			GMNLog(@"Found icon!");
+			GMNLog(@"XX Found icon!");
 			return d;
 		}
 	} 
