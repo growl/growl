@@ -843,13 +843,10 @@
 					i386,
 					ppc,
 				);
-				COPY_PHASE_STRIP = NO;
-				GCC_DEBUGGING_SYMBOLS = full;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_PPC = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_PPC = /Developer/SDKs/MacOSX10.3.9.sdk;
-				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release;
 		};
