@@ -23,6 +23,7 @@
 		24349F4808EB0DE0005DA0CB /* GMNSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 24349F4708EB0DE0005DA0CB /* GMNSettings.h */; };
 		24349FA108EB128C005DA0CB /* preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 24349FA008EB128C005DA0CB /* preferences.m */; };
 		24349FE208EB13BC005DA0CB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		243724C40950484C0004CDE0 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 24AF5C6E094F938B00BCFD43 /* Growl.framework */; };
 		249E88AD08EAD8AB00CA4FB2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 249E88AC08EAD8AB00CA4FB2 /* AddressBook.framework */; };
 		249E88EC08EADFAF00CA4FB2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 249E88AC08EAD8AB00CA4FB2 /* AddressBook.framework */; };
 		24AF5C75094F938B00BCFD43 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AF5C6E094F938B00BCFD43 /* Growl.framework */; };
@@ -73,6 +74,16 @@
 			dstSubfolderSpec = 10;
 			files = (
 				24173C1508C8CE220059BD10 /* GrowlDefines.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		243724BE0950482D0004CDE0 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				243724C40950484C0004CDE0 /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +422,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 24BE0A1208C7B61D00AD0D49 /* Build configuration list for PBXNativeTarget "GmailGrowl" */;
 			buildPhases = (
+				243724BE0950482D0004CDE0 /* CopyFiles */,
 				24173B8808C8C5250059BD10 /* CopyFiles */,
 				24173C1B08C8CE2A0059BD10 /* Headers */,
 				8D5B49AF048680CD000E48DA /* Resources */,
@@ -751,7 +763,6 @@
 		24BE0A1408C7B61D00AD0D49 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
 				DSTROOT = /;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -832,10 +843,13 @@
 					i386,
 					ppc,
 				);
+				COPY_PHASE_STRIP = NO;
+				GCC_DEBUGGING_SYMBOLS = full;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_PPC = 10.3;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SDKROOT_PPC = /Developer/SDKs/MacOSX10.3.9.sdk;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Release;
 		};
