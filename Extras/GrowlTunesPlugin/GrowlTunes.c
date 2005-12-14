@@ -528,8 +528,8 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 		case kPluginInitMessage:
 			err = RegisterVisualPlugin(messageInfo);
 			//register with growl and setup our delegate
-			CFBundleRef growlMailBundle = CFBundleGetBundleWithIdentifier(CFSTR("com.growl.growltunes"));
-			CFURLRef privateFrameworksURL = CFBundleCopyPrivateFrameworksURL(growlMailBundle);
+			CFBundleRef growlTunesBundle = CFBundleGetBundleWithIdentifier(CFSTR("com.growl.growltunes"));
+			CFURLRef privateFrameworksURL = CFBundleCopyPrivateFrameworksURL(growlTunesBundle);
 			CFURLRef growlBundleURL = CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, privateFrameworksURL, CFSTR("Growl.framework"), true);
 			CFRelease(privateFrameworksURL);
 			CFBundleRef growlBundle = CFBundleCreate(kCFAllocatorDefault, growlBundleURL);

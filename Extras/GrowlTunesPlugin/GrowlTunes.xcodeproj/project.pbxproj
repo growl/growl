@@ -32,7 +32,6 @@
 		93353EA1093A133E007C8B10 /* iTunesAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = 01285C0900CC3A4A7F000001 /* iTunesAPI.c */; };
 		93353EA3093A133E007C8B10 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
 		93353EA4093A133E007C8B10 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01285BF100CC2F967F000001 /* Carbon.framework */; };
-		9335490E093AA017007C8B10 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93354902093A9F7E007C8B10 /* Growl.framework */; };
 		E1A35FFC0942D12100B79E46 /* SettingsDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = E1A35FFB0942D12000B79E46 /* SettingsDialog.nib */; };
 /* End PBXBuildFile section */
 
@@ -192,19 +191,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		93354239093A50B6007C8B10 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9335490E093AA017007C8B10 /* Growl.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		01285BF100CC2F967F000001 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		01285C0200CC31B17F000001 /* iTunesAPI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = iTunesAPI.h; sourceTree = "<group>"; };
@@ -216,7 +202,6 @@
 		93353EAA093A133E007C8B10 /* Info-GrowlTunes.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-GrowlTunes.plist"; sourceTree = "<group>"; };
 		93353EF1093A1A10007C8B10 /* GrowlTunes.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlTunes.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		93354876093A9D0D007C8B10 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
-		93354902093A9F7E007C8B10 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1A35FFB0942D12000B79E46 /* SettingsDialog.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SettingsDialog.nib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -258,7 +243,6 @@
 		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				93354902093A9F7E007C8B10 /* Growl.framework */,
 				0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */,
 				01285BF100CC2F967F000001 /* Carbon.framework */,
 			);
@@ -337,9 +321,9 @@
 				93353E96093A133E007C8B10 /* Headers */,
 				93353E9A093A133E007C8B10 /* Resources */,
 				93353E9E093A133E007C8B10 /* Sources */,
-				93354239093A50B6007C8B10 /* CopyFiles */,
 				93353EA2093A133E007C8B10 /* Frameworks */,
 				93353EA5093A133E007C8B10 /* Rez */,
+				9384CDFF0950810D00CEAF00 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -549,6 +533,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "mkdir -p \"$BUILT_PRODUCTS_DIR\"\nGROWL_FRAMEWORK=\"$SRCROOT/../../build/$CONFIGURATION/Growl.framework\"\nif [ -d \"$GROWL_FRAMEWORK\" ]; then\n\trm -f \"$BUILT_PRODUCTS_DIR/Growl.framework\"\n\tln -s \"$GROWL_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/Growl.framework\"\nfi\n";
+		};
+		9384CDFF0950810D00CEAF00 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -d \"$BUILT_PRODUCTS_DIR/GrowlTunes.bundle/Contents/Frameworks/Growl.framework\" ]; then\n\trm -rf \"$BUILT_PRODUCTS_DIR/GrowlTunes.bundle/Contents/Frameworks/Growl.framework\"\nfi\nmkdir -p \"$BUILT_PRODUCTS_DIR/GrowlTunes.bundle/Contents/Frameworks/Growl.framework\"\ncp -RH \"$BUILT_PRODUCTS_DIR/Growl.framework/\" \"$BUILT_PRODUCTS_DIR/GrowlTunes.bundle/Contents/Frameworks/Growl.framework\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
