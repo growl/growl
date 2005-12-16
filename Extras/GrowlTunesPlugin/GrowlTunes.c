@@ -159,7 +159,6 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		*/
 		case kVisualPluginInitMessage:
 			visualPluginData = (VisualPluginData *)calloc(1, sizeof(VisualPluginData));
-			//notification = (Growl_Notification *)malloc(sizeof(Growl_Notification));
 			if (!visualPluginData) {
 				err = memFullErr;
 				break;
@@ -170,6 +169,21 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 
 			messageInfo->u.initMessage.options = kPluginWantsToBeLeftOpen;
 			messageInfo->u.initMessage.refCon = (void *)visualPluginData;
+
+			title = CFStringCreateMutable(kCFAllocatorDefault, 0);
+			desc = CFStringCreateMutable(kCFAllocatorDefault, 0);
+
+			InitGrowlNotification(&notification);
+
+			notification.name          = ITUNES_PLAYING;
+			notification.title         = title;
+			notification.description   = desc;
+			notification.identifier    = CFSTR("GrowlTunes");			
+			//notification.priority      = priority;
+			//notification.isSticky      = isSticky;
+			//notification.clickContext  = NULL;
+			//notification.clickCallback = NULL;
+			//notification.enabledByDefault      = isDefault;
 			break;
 
 		/*
@@ -182,8 +196,6 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				CFRelease(desc);
 			if (coverArtDataRef)
 				CFRelease(coverArtDataRef);
-			//if(notification)
-			//	free(notification);
 			if (visualPluginData)
 				free(visualPluginData);
 			break;
@@ -209,13 +221,13 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		*/
 		case kVisualPluginConfigureMessage: {
 			static EventTypeSpec controlEvent={kEventClassControl, kEventControlHit};
-			static const ControlID kTrackSettingControlID	= {'cbox',kTrackSettingID};
-			static const ControlID kDiscSettingControlID	= {'cbox',kDiscSettingID};
-			static const ControlID kArtistSettingControlID	= {'cbox',kArtistSettingID};
-			static const ControlID kComposerSettingControlID= {'cbox',kComposerSettingID};
-			static const ControlID kAlbumSettingControlID	= {'cbox',kAlbumSettingID};
-			static const ControlID kYearSettingControlID	= {'cbox',kYearSettingID};
-			static const ControlID kGenreSettingControlID	= {'cbox',kGenreSettingID};
+			static const ControlID kTrackSettingControlID	= {'cbox', kTrackSettingID};
+			static const ControlID kDiscSettingControlID	= {'cbox', kDiscSettingID};
+			static const ControlID kArtistSettingControlID	= {'cbox', kArtistSettingID};
+			static const ControlID kComposerSettingControlID= {'cbox', kComposerSettingID};
+			static const ControlID kAlbumSettingControlID	= {'cbox', kAlbumSettingID};
+			static const ControlID kYearSettingControlID	= {'cbox', kYearSettingID};
+			static const ControlID kGenreSettingControlID	= {'cbox', kGenreSettingID};
 
 			static WindowRef  settingsDialog=NULL;
 			static ControlRef trackpref		=NULL;
@@ -292,9 +304,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		case kVisualPluginShowWindowMessage:
 			//we don't break here because we want it to fall through and do the same thing as if play was hit
 			//break;
-			if(!visualPluginData->playing) {
+			if (!visualPluginData->playing)
 				break;
-			}
 		/*
 			Sent when the player starts.
 		*/
@@ -316,10 +327,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 
-			if (!title)
-				title = CFStringCreateMutable(kCFAllocatorDefault, 0);
-			else
-				CFStringDelete(title, CFRangeMake(0, CFStringGetLength(title)));
+			CFStringDelete(title, CFRangeMake(0, CFStringGetLength(title)));
 			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask && gTrackFlag) {
 				if (visualPluginData->trackInfo.trackNumber != 0) {
 					if ((visualPluginData->trackInfo.numDiscs > 1) && gDiscFlag)
@@ -401,10 +409,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			CFStringAppendCharacters(tmp, buf, 5);
 			rating = tmp;
 
-			if (!desc)
-				desc = CFStringCreateMutable(kCFAllocatorDefault, 0);
-			else
-				CFStringDelete(desc, CFRangeMake(0, CFStringGetLength(desc)));
+			CFStringDelete(desc, CFRangeMake(0, CFStringGetLength(desc)));
 			CFStringAppendFormat(desc, NULL, CFSTR("%@%@%@%@%@"), totalTime, rating, artist, album, genre);
 
 			Handle coverArt = NULL;
@@ -421,20 +426,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				CFLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
 			}
 
-			//insert growl notification here. bong.
-			InitGrowlNotification(&notification);
-
-			notification.name          = ITUNES_PLAYING;
-			notification.title         = title;
-			notification.description   = desc;
-			notification.identifier    = CFSTR("GrowlTunes");			
-			if (coverArtDataRef)
-				notification.iconData  = coverArtDataRef;
-			//notification.priority      = priority;
-			//notification.isSticky      = isSticky;
-			//notification.clickContext  = NULL;
-			//notification.clickCallback = NULL;
-			//notification.enabledByDefault      = isDefault;
+			notification.iconData = coverArtDataRef;
 
 			GrowlTunes_PostNotification(&notification);
 			EventTypeSpec eventSpec[2] = {{ kEventClassKeyboard, kEventHotKeyPressed },{ kEventClassKeyboard, kEventHotKeyReleased }};    
@@ -525,7 +517,7 @@ static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef in
 	CFLog(1, CFSTR("hot key"));
 	if (GetEventKind(inEvent) == kEventHotKeyReleased) {
 		CFLog(1, CFSTR("%p\n"), refCon);
-		if(refCon == NULL) {
+		if (!refCon) {
 			CFLog(1, CFSTR("no notification to display"));
 		} else {
 			struct Growl_Notification *notification = (struct Growl_Notification *)refCon;
