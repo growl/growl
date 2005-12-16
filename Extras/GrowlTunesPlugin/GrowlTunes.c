@@ -144,12 +144,14 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 	static CFMutableStringRef title = NULL;
 	static CFMutableStringRef desc = NULL;
 	static CFDataRef coverArtDataRef = NULL;
-
+	char *string;
 	visualPluginData = (VisualPluginData *)refCon;
 
-	char *string = (char *)&message;
-	CFLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
-
+	if(message != 'vrnd') {
+		string = (char *)&message;
+		CFLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
+	}
+	
 	err = noErr;
 
 	switch (message) {
@@ -302,10 +304,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			this point,the plugin should allocate any large buffers it needs.
 		*/
 		case kVisualPluginShowWindowMessage:
-			//we don't break here because we want it to fall through and do the same thing as if play was hit
-			//break;
-			if (!visualPluginData->playing)
-				break;
+			break;
+
 		/*
 			Sent when the player starts.
 		*/
