@@ -319,7 +319,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			if (!title)
 				title = CFStringCreateMutable(kCFAllocatorDefault, 0);
 			else
-				CFStringDelete(title, CFRangeMake(0, CFStringGetLength(title)-1));
+				CFStringDelete(title, CFRangeMake(0, CFStringGetLength(title)));
 			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask && gTrackFlag) {
 				if (visualPluginData->trackInfo.trackNumber != 0) {
 					if ((visualPluginData->trackInfo.numDiscs > 1) && gDiscFlag)
@@ -404,7 +404,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			if (!desc)
 				desc = CFStringCreateMutable(kCFAllocatorDefault, 0);
 			else
-				CFStringDelete(desc, CFRangeMake(0, CFStringGetLength(desc)-1));
+				CFStringDelete(desc, CFRangeMake(0, CFStringGetLength(desc)));
 			CFStringAppendFormat(desc, NULL, CFSTR("%@%@%@%@%@"), totalTime, rating, artist, album, genre);
 
 			Handle coverArt = NULL;
