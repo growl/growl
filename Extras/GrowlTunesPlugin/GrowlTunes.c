@@ -44,6 +44,12 @@ enum
 	kGenreSettingID		= 9,
 	kOKSettingID		= 10
 };
+#undef Growl_Delegate
+#undef Growl_Notification
+
+typedef struct Growl_Delegate Growl_Delegate;
+typedef struct Growl_Notification Growl_Notification;
+static Growl_Delegate delegate;
 
 typedef Boolean (*GrowlSetDelegateProcPtr)(struct Growl_Delegate *newDelegate);
 static GrowlSetDelegateProcPtr GrowlTunes_SetDelegate;
@@ -66,6 +72,8 @@ typedef struct VisualPluginData {
 	Boolean				padding[3];
 } VisualPluginData;
 
+extern CFArrayCallBacks notificationCallbacks;
+
 static Boolean gTrackFlag		= true;
 static Boolean gDiscFlag		= true;
 static Boolean gArtistFlag		= true;
@@ -74,9 +82,8 @@ static Boolean gAlbumFlag		= true;
 static Boolean gYearFlag		= true;
 static Boolean gGenreFlag		= true;
 
-typedef struct Growl_Notification Growl_Notification;
-static struct Growl_Delegate delegate;
-extern CFArrayCallBacks notificationCallbacks;
+static EventHotKeyRef reNotifyHotKeyRef = NULL;
+static EventHandlerRef hotKeyEventHandlerRef = NULL;
 
 /**\
 |**|	exported function prototypes
@@ -85,6 +92,7 @@ extern CFArrayCallBacks notificationCallbacks;
 extern OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, void *refCon);
 extern void CFLog(int priority, CFStringRef format, ...);
 
+static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void* refCon );
 /*
 	settingsControlHandler
 */
@@ -134,10 +142,15 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 {
 	OSStatus         err = noErr;
 	VisualPluginData *visualPluginData;
+	static Growl_Notification notification;			
+	static CFStringRef title;
+	static CFStringRef desc;
+	static CFDataRef coverArtDataRef;
 
 	visualPluginData = (VisualPluginData *)refCon;
 
-	CFLog(1, CFSTR("%s\n"), __FUNCTION__);
+	char *string = (char *)&message;
+	CFLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
 
 	err = noErr;
 
@@ -148,6 +161,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		*/
 		case kVisualPluginInitMessage:
 			visualPluginData = (VisualPluginData *)calloc(1, sizeof(VisualPluginData));
+			//notification = (Growl_Notification *)malloc(sizeof(Growl_Notification));
 			if (!visualPluginData) {
 				err = memFullErr;
 				break;
@@ -164,6 +178,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			Sent when the visual plugin is unloaded
 		*/
 		case kVisualPluginCleanupMessage:
+			//if(notification)
+			//	free(notification);
 			if (visualPluginData)
 				free(visualPluginData);
 			break;
@@ -239,12 +255,6 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			ShowWindow(settingsDialog);
 			break;
 		}
-		/*
-			Sent when iTunes is going to show the visual plugin in a port.  At
-			this point,the plugin should allocate any large buffers it needs.
-		*/
-		case kVisualPluginShowWindowMessage:
-			break;
 
 		/*
 			Sent when iTunes is no longer displayed.
@@ -272,18 +282,24 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		case kVisualPluginUpdateMessage:
 			break;
 		/*
+			Sent when iTunes is going to show the visual plugin in a port.  At
+			this point,the plugin should allocate any large buffers it needs.
+		*/
+		case kVisualPluginShowWindowMessage:
+			//we don't break here because we want it to fall through and do the same thing as if play was hit
+			//break;
+			
+		/*
 			Sent when the player starts.
 		*/
 		case kVisualPluginPlayMessage: {
-			CFStringRef title;
 			CFStringRef album;
 			CFStringRef artist;
 			CFStringRef genre;
-			CFStringRef desc;
 			CFStringRef	totalTime;
 			CFStringRef rating;
 			CFMutableStringRef tmp;
-
+				
 			if (messageInfo->u.playMessage.trackInfo)
 				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfoUnicode;
 			else
@@ -382,44 +398,41 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 
 			Handle coverArt = NULL;
 			OSType format;
-			CFDataRef coverArtDataRef = NULL;
 			err = PlayerGetCurrentTrackCoverArt(visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
 			if ((err == noErr) && coverArt) {
 				//get our data ready for the notificiation.
 				coverArtDataRef = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, (const UInt8 *)*coverArt, GetHandleSize(coverArt), kCFAllocatorNull);
 			} else {
-				char *string = (char *)&format;
+				string = (char *)&format;
 				CFLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
 			}
+			
 			//insert growl notification here. bong.
-			Growl_Notification notification;
-
 			InitGrowlNotification(&notification);
 
 			notification.name          = ITUNES_PLAYING;
 			notification.title         = title;
 			notification.description   = desc;
-			//notification.priority      = priority;
+			notification.identifier    = CFSTR("GrowlTunes");			
 			if (coverArtDataRef)
 				notification.iconData  = coverArtDataRef;
+			//notification->priority      = priority;
 			//notification.isSticky      = isSticky;
 			//notification.clickContext  = NULL;
 			//notification.clickCallback = NULL;
 			//notification.enabledByDefault      = isDefault;
-			notification.identifier    = CFSTR("GrowlTunes");
 
 			GrowlTunes_PostNotification(&notification);
-
-			if (title)
-				CFRelease(title);
+			EventTypeSpec eventSpec[2] = {{ kEventClassKeyboard, kEventHotKeyPressed },{ kEventClassKeyboard, kEventHotKeyReleased }};    
+			if(hotKeyEventHandlerRef) {
+				RemoveEventHandler(hotKeyEventHandlerRef);
+			}
+			InstallEventHandler( GetEventDispatcherTarget(), (EventHandlerProcPtr)hotKeyEventHandler, 2, eventSpec, &notification, &hotKeyEventHandlerRef);			
+			
 			if (artist)
 				CFRelease(artist);
 			if (album)
 				CFRelease(album);
-			if (desc)
-				CFRelease(desc);
-			if (coverArtDataRef)
-				CFRelease(coverArtDataRef);
 			if (coverArt)
 				DisposeHandle(coverArt);
 			if (totalTime)
@@ -452,6 +465,12 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			Sent when the player stops.
 		*/
 		case kVisualPluginStopMessage:
+			if(title)
+				CFRelease(title);
+			if(desc)
+				CFRelease(desc);
+			if(coverArtDataRef)
+				CFRelease(coverArtDataRef);
 			visualPluginData->playing = false;
 			break;
 
@@ -490,6 +509,19 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			break;
 	}
 	return err;
+}
+
+
+static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void* refCon )
+{
+	#pragma unused(inHandlerRef, inEvent, refCon)
+	CFLog(1, CFSTR("hot key"));
+	if(GetEventKind(inEvent) == kEventHotKeyReleased) {
+		struct Growl_Notification *notification = (struct Growl_Notification *)refCon;
+		//CFLog(1, CFSTR("%d %d\n"), CFGetRetainCount(notification->name), CFGetRetainCount(notification->title));
+		GrowlTunes_PostNotification(notification);
+	}
+	return noErr;
 }
 
 /*
@@ -569,6 +601,13 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 						if (!GrowlTunes_GrowlIsInstalled()) {
 							//notify the user that growl isn't installed and as such that there won't be any notifications for this session of iTunes.
 						}
+						
+						//setup our global hot key
+						EventHotKeyID hotKeyID;
+						hotKeyID.signature = 'GRTU';
+						hotKeyID.id = 0xDEADBEEF;
+						
+						RegisterEventHotKey (40, cmdKey | optionKey, hotKeyID, GetEventDispatcherTarget(), 0, &reNotifyHotKeyRef);
 
 						if (growlBundle)
 							CFRelease(growlBundle);
@@ -584,7 +623,13 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 			err = noErr;
 			if (delegate.registrationDictionary)
 				CFRelease(delegate.registrationDictionary);
-
+				
+			//unregister it at the end of the iTunes session to make sure that we don't trigger it accidentally
+			UnregisterEventHotKey(reNotifyHotKeyRef);
+			
+			//kill our event handler if it is still around
+			RemoveEventHandler(hotKeyEventHandlerRef);
+			
 			break;
 
 		default:
