@@ -44,8 +44,6 @@ enum
 	kGenreSettingID		= 9,
 	kOKSettingID		= 10
 };
-#undef Growl_Delegate
-#undef Growl_Notification
 
 typedef struct Growl_Delegate Growl_Delegate;
 typedef struct Growl_Notification Growl_Notification;
