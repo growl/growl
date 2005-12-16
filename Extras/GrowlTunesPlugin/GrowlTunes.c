@@ -143,9 +143,9 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 	OSStatus         err = noErr;
 	VisualPluginData *visualPluginData;
 	static Growl_Notification notification;			
-	static CFStringRef title;
-	static CFStringRef desc;
-	static CFDataRef coverArtDataRef;
+	static CFMutableStringRef title = NULL;
+	static CFMutableStringRef desc = NULL;
+	static CFDataRef coverArtDataRef = NULL;
 
 	visualPluginData = (VisualPluginData *)refCon;
 
@@ -178,6 +178,12 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			Sent when the visual plugin is unloaded
 		*/
 		case kVisualPluginCleanupMessage:
+			if (title)
+				CFRelease(title);
+			if (desc)
+				CFRelease(desc);
+			if (coverArtDataRef)
+				CFRelease(coverArtDataRef);
 			//if(notification)
 			//	free(notification);
 			if (visualPluginData)
@@ -310,18 +316,19 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 
+			if (!title)
+				title = CFStringCreateMutable(kCFAllocatorDefault, 0);
+			else
+				CFStringDelete(title, CFRangeMake(0, CFStringGetLength(title)-1));
 			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask && gTrackFlag) {
-				tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 				if (visualPluginData->trackInfo.trackNumber != 0) {
 					if ((visualPluginData->trackInfo.numDiscs > 1) && gDiscFlag)
-						CFStringAppendFormat(tmp, NULL, CFSTR("%d-"), visualPluginData->trackInfo.discNumber);
-					CFStringAppendFormat(tmp, NULL, CFSTR("%d. "), visualPluginData->trackInfo.trackNumber);
+						CFStringAppendFormat(title, NULL, CFSTR("%d-"), visualPluginData->trackInfo.discNumber);
+					CFStringAppendFormat(title, NULL, CFSTR("%d. "), visualPluginData->trackInfo.trackNumber);
 				}
-				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
-				title = tmp;
-			} else {
-				title = CFSTR("");
+				CFStringAppendCharacters(title, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
 			}
+
 			if (visualPluginData->trackInfo.validFields & (kITTIArtistFieldMask|kITTIComposerFieldMask) && (gArtistFlag||gComposerFlag)) {
 				tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 				CFStringAppend(tmp, CFSTR("\n"));
@@ -394,19 +401,26 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			CFStringAppendCharacters(tmp, buf, 5);
 			rating = tmp;
 
-			desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@%@%@%@%@"), totalTime, rating, artist, album, genre);
+			if (!desc)
+				desc = CFStringCreateMutable(kCFAllocatorDefault, 0);
+			else
+				CFStringDelete(desc, CFRangeMake(0, CFStringGetLength(desc)-1));
+			CFStringAppendFormat(desc, NULL, CFSTR("%@%@%@%@%@"), totalTime, rating, artist, album, genre);
 
 			Handle coverArt = NULL;
 			OSType format;
 			err = PlayerGetCurrentTrackCoverArt(visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
+			if (coverArtDataRef)
+				CFRelease(coverArtDataRef);
 			if ((err == noErr) && coverArt) {
 				//get our data ready for the notificiation.
-				coverArtDataRef = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, (const UInt8 *)*coverArt, GetHandleSize(coverArt), kCFAllocatorNull);
+				coverArtDataRef = CFDataCreate(kCFAllocatorDefault, (const UInt8 *)*coverArt, GetHandleSize(coverArt));
 			} else {
+				coverArtDataRef = NULL;
 				string = (char *)&format;
 				CFLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
 			}
-			
+
 			//insert growl notification here. bong.
 			InitGrowlNotification(&notification);
 
@@ -416,7 +430,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			notification.identifier    = CFSTR("GrowlTunes");			
 			if (coverArtDataRef)
 				notification.iconData  = coverArtDataRef;
-			//notification->priority      = priority;
+			//notification.priority      = priority;
 			//notification.isSticky      = isSticky;
 			//notification.clickContext  = NULL;
 			//notification.clickCallback = NULL;
@@ -424,11 +438,10 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 
 			GrowlTunes_PostNotification(&notification);
 			EventTypeSpec eventSpec[2] = {{ kEventClassKeyboard, kEventHotKeyPressed },{ kEventClassKeyboard, kEventHotKeyReleased }};    
-			if(hotKeyEventHandlerRef) {
+			if (hotKeyEventHandlerRef)
 				RemoveEventHandler(hotKeyEventHandlerRef);
-			}
-			InstallEventHandler( GetEventDispatcherTarget(), (EventHandlerProcPtr)hotKeyEventHandler, 2, eventSpec, &notification, &hotKeyEventHandlerRef);			
-			
+			InstallEventHandler(GetEventDispatcherTarget(), (EventHandlerProcPtr)hotKeyEventHandler, 2, eventSpec, &notification, &hotKeyEventHandlerRef);
+
 			if (artist)
 				CFRelease(artist);
 			if (album)
@@ -465,12 +478,6 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			Sent when the player stops.
 		*/
 		case kVisualPluginStopMessage:
-			if(title)
-				CFRelease(title);
-			if(desc)
-				CFRelease(desc);
-			if(coverArtDataRef)
-				CFRelease(coverArtDataRef);
 			visualPluginData->playing = false;
 			break;
 
@@ -512,11 +519,11 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 }
 
 
-static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void* refCon )
+static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void *refCon)
 {
 	#pragma unused(inHandlerRef, inEvent, refCon)
 	CFLog(1, CFSTR("hot key"));
-	if(GetEventKind(inEvent) == kEventHotKeyReleased) {
+	if (GetEventKind(inEvent) == kEventHotKeyReleased) {
 		struct Growl_Notification *notification = (struct Growl_Notification *)refCon;
 		//CFLog(1, CFSTR("%d %d\n"), CFGetRetainCount(notification->name), CFGetRetainCount(notification->title));
 		GrowlTunes_PostNotification(notification);
