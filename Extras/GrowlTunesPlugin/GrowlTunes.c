@@ -292,7 +292,9 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		case kVisualPluginShowWindowMessage:
 			//we don't break here because we want it to fall through and do the same thing as if play was hit
 			//break;
-			
+			if(!visualPluginData->playing) {
+				break;
+			}
 		/*
 			Sent when the player starts.
 		*/
