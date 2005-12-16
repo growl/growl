@@ -524,9 +524,14 @@ static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef in
 	#pragma unused(inHandlerRef, inEvent, refCon)
 	CFLog(1, CFSTR("hot key"));
 	if (GetEventKind(inEvent) == kEventHotKeyReleased) {
-		struct Growl_Notification *notification = (struct Growl_Notification *)refCon;
-		//CFLog(1, CFSTR("%d %d\n"), CFGetRetainCount(notification->name), CFGetRetainCount(notification->title));
-		GrowlTunes_PostNotification(notification);
+		CFLog(1, CFSTR("%p\n"), refCon);
+		if(refCon == NULL) {
+			CFLog(1, CFSTR("no notification to display"));
+		} else {
+			struct Growl_Notification *notification = (struct Growl_Notification *)refCon;
+			//CFLog(1, CFSTR("%d %d\n"), CFGetRetainCount(notification->name), CFGetRetainCount(notification->title));
+			GrowlTunes_PostNotification(notification);
+		}
 	}
 	return noErr;
 }
@@ -615,6 +620,11 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 						hotKeyID.id = 0xDEADBEEF;
 						
 						RegisterEventHotKey (40, cmdKey | optionKey, hotKeyID, GetEventDispatcherTarget(), 0, &reNotifyHotKeyRef);
+						
+						//this installed event handler is specifically to trap our event so we don't crash 
+						//if the user tries to trigger the notification before a real handler is installed
+						EventTypeSpec eventSpec[2] = {{ kEventClassKeyboard, kEventHotKeyPressed },{ kEventClassKeyboard, kEventHotKeyReleased }};    
+						InstallEventHandler(GetEventDispatcherTarget(), (EventHandlerProcPtr)hotKeyEventHandler, 2, eventSpec, NULL, &hotKeyEventHandlerRef);
 
 						if (growlBundle)
 							CFRelease(growlBundle);
