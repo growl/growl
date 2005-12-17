@@ -1,4 +1,5 @@
 #!/bin/sh
+mkdir -p /usr/local/bin
 cp growlnotify /usr/local/bin/growlnotify
 cp growlnotify.1 /usr/local/man/man1/growlnotify.1
 
