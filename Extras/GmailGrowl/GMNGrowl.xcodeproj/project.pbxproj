@@ -30,7 +30,7 @@
 		241294EA08DF6C7E00E63209 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 24173FB608C8EADB0059BD10 /* icon.icns */; };
 		2412954308DF6E6000E63209 /* GMNGrowlInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2412954208DF6E6000E63209 /* GMNGrowlInstaller.m */; };
 		2412954608DF6EC400E63209 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		241295F708DF78CF00E63209 /* GmailGrowl.plugin in Resources */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* GmailGrowl.plugin */; };
+		241295F708DF78CF00E63209 /* GMNGrowl.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* GMNGrowl.bundle */; };
 		24173C1508C8CE220059BD10 /* GrowlDefines.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 24173C1408C8CE220059BD10 /* GrowlDefines.h */; };
 		24173C2D08C8CE450059BD10 /* GrowlDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 24173C1408C8CE220059BD10 /* GrowlDefines.h */; };
 		24173FB708C8EADB0059BD10 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 24173FB608C8EADB0059BD10 /* icon.icns */; };
@@ -226,7 +226,7 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		2412945008DF697F00E63209 /* Gmail+Growl Installer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gmail+Growl Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2412945008DF697F00E63209 /* Installer.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Installer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2412945208DF697F00E63209 /* Installer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Installer-Info.plist"; sourceTree = "<group>"; };
 		2412948F08DF6A9900E63209 /* installer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = installer.m; sourceTree = "<group>"; };
 		241294E308DF6C6E00E63209 /* Installer.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Installer.nib; sourceTree = "<group>"; };
@@ -234,7 +234,7 @@
 		2412954208DF6E6000E63209 /* GMNGrowlInstaller.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GMNGrowlInstaller.m; sourceTree = "<group>"; };
 		24173C1408C8CE220059BD10 /* GrowlDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlDefines.h; sourceTree = "<group>"; };
 		24173FB608C8EADB0059BD10 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
-		24349EAC08EAF4DC005DA0CB /* Gmail+Growl Preferences.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gmail+Growl Preferences.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		24349EAC08EAF4DC005DA0CB /* Preferences.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Preferences.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24349EAE08EAF4DC005DA0CB /* Preferences-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Preferences-Info.plist"; sourceTree = "<group>"; };
 		24349EF108EAFDD7005DA0CB /* prefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = prefs.icns; sourceTree = "<group>"; };
 		24349F2008EAFE5E005DA0CB /* Prefs.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Prefs.nib; sourceTree = "<group>"; };
@@ -247,7 +247,7 @@
 		24BE0B5E08C7B65F00AD0D49 /* GMNGrowlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMNGrowlController.m; sourceTree = "<group>"; };
 		24BE0B6208C7B68D00AD0D49 /* GGPluginProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GGPluginProtocol.h; sourceTree = "<group>"; };
 		32DBCF630370AF2F00C91783 /* GMNGrowl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMNGrowl_Prefix.pch; sourceTree = "<group>"; };
-		8D5B49B6048680CD000E48DA /* GmailGrowl.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GmailGrowl.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B6048680CD000E48DA /* GMNGrowl.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GMNGrowl.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		9384CBCD09506B2800CEAF00 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -351,9 +351,9 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D5B49B6048680CD000E48DA /* GmailGrowl.plugin */,
-				2412945008DF697F00E63209 /* Gmail+Growl Installer.app */,
-				24349EAC08EAF4DC005DA0CB /* Gmail+Growl Preferences.app */,
+				8D5B49B6048680CD000E48DA /* GMNGrowl.bundle */,
+				2412945008DF697F00E63209 /* Installer.app */,
+				24349EAC08EAF4DC005DA0CB /* Preferences.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -481,7 +481,7 @@
 			);
 			name = Installer;
 			productName = Installer;
-			productReference = 2412945008DF697F00E63209 /* Gmail+Growl Installer.app */;
+			productReference = 2412945008DF697F00E63209 /* Installer.app */;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
 <plist version=\"1.0\">
@@ -544,7 +544,7 @@
 			);
 			name = Preferences;
 			productName = ConfigureTool;
-			productReference = 24349EAC08EAF4DC005DA0CB /* Gmail+Growl Preferences.app */;
+			productReference = 24349EAC08EAF4DC005DA0CB /* Preferences.app */;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
 <plist version=\"1.0\">
@@ -604,7 +604,7 @@
 			name = GmailGrowl;
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = GMNGrowl;
-			productReference = 8D5B49B6048680CD000E48DA /* GmailGrowl.plugin */;
+			productReference = 8D5B49B6048680CD000E48DA /* GMNGrowl.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -757,7 +757,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				241295F708DF78CF00E63209 /* GmailGrowl.plugin in Resources */,
+				241295F708DF78CF00E63209 /* GMNGrowl.bundle in Resources */,
 				241294EA08DF6C7E00E63209 /* icon.icns in Resources */,
 				241294E408DF6C6E00E63209 /* Installer.nib in Resources */,
 			);
@@ -809,7 +809,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf \"$BUILT_PRODUCTS_DIR/GmailGrowl.plugin/Contents/Frameworks/Growl.framework\"\ncp -RH \"$BUILT_PRODUCTS_DIR/Growl.framework\" \"$BUILT_PRODUCTS_DIR/GmailGrowl.plugin/Contents/Frameworks\"";
+			shellScript = "rm -rf \"$BUILT_PRODUCTS_DIR/GmailGrowl.plugin/Contents/Frameworks/Growl.framework\"\nmkdir -p \"$BUILT_PRODUCTS_DIR/GmailGrowl.plugin/Contents/Frameworks\"\ncp -RH \"$BUILT_PRODUCTS_DIR/Growl.framework\" \"$BUILT_PRODUCTS_DIR/GmailGrowl.plugin/Contents/Frameworks\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1219,7 +1219,7 @@
 				2412945A08DF698100E63209 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		24349EB708EAF4DD005DA0CB /* Build configuration list for PBXNativeTarget "Preferences" */ = {
 			isa = XCConfigurationList;
@@ -1229,7 +1229,7 @@
 				24349EBA08EAF4DD005DA0CB /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		24BE0A1208C7B61D00AD0D49 /* Build configuration list for PBXNativeTarget "GmailGrowl" */ = {
 			isa = XCConfigurationList;
@@ -1239,7 +1239,7 @@
 				24BE0A1508C7B61D00AD0D49 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		24BE0A1608C7B61D00AD0D49 /* Build configuration list for PBXProject "GMNGrowl" */ = {
 			isa = XCConfigurationList;
@@ -1249,7 +1249,7 @@
 				24BE0A1908C7B61D00AD0D49 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 		9384CCA509506E2B00CEAF00 /* Build configuration list for PBXAggregateTarget "External Frameworks" */ = {
 			isa = XCConfigurationList;
@@ -1259,7 +1259,7 @@
 				9384CCA809506E2B00CEAF00 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Development;
 		};
 /* End XCConfigurationList section */
 	};
