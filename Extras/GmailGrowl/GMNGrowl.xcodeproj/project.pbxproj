@@ -196,14 +196,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9384CBCD09506B2800CEAF00 /* Growl.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 9560BF4D086DC4F800A173B1 /* Growl.framework */;
+			remoteGlobalIDString = 9560BF4D086DC4F800A173B1;
 			remoteInfo = Growl.framework;
 		};
 		9384CCA909506E4A00CEAF00 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9384CC9509506E0500CEAF00 /* External Frameworks */;
+			remoteGlobalIDString = 9384CC9509506E0500CEAF00;
 			remoteInfo = "External Frameworks";
 		};
 /* End PBXContainerItemProxy section */
@@ -226,7 +226,7 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		2412945008DF697F00E63209 /* Gmail+Growl Installer.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Gmail+Growl Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2412945008DF697F00E63209 /* Gmail+Growl Installer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gmail+Growl Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2412945208DF697F00E63209 /* Installer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Installer-Info.plist"; sourceTree = "<group>"; };
 		2412948F08DF6A9900E63209 /* installer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = installer.m; sourceTree = "<group>"; };
 		241294E308DF6C6E00E63209 /* Installer.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Installer.nib; sourceTree = "<group>"; };
