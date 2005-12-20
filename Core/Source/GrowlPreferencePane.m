@@ -19,6 +19,7 @@
 #import "GrowlBrowserEntry.h"
 #import "NSStringAdditions.h"
 #import "TicketsArrayController.h"
+#import "ACImageAndTextCell.h"
 #import <ApplicationServices/ApplicationServices.h>
 #include <SystemConfiguration/SystemConfiguration.h>
 #include "CFGrowlAdditions.h"
@@ -98,6 +99,7 @@
 	//NSSecureTextFieldCell *secureTextCell = [[NSSecureTextFieldCell alloc] init];
 	//[servicePasswordColumn setDataCell:secureTextCell];
 	//[secureTextCell release];
+	ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
 
 	[ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
 	[displayPluginsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
@@ -163,6 +165,8 @@
 
 	[growlApplications setDoubleAction:@selector(tableViewDoubleClick:)];
 	[growlApplications setTarget:self];
+
+	[applicationNameAndIconColumn setDataCell:imageTextCell];
 }
 
 - (void) mainViewDidLoad {
@@ -731,6 +735,16 @@
 - (void) tableViewDidClickInBody:(NSTableView *)tableView {
 	activeTableView = tableView;
 	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+{
+	// we check to make sure we have the image + text column and then set it's image manually
+	if(aTableColumn == applicationNameAndIconColumn)
+	{
+		[[aTableColumn dataCellForRow:rowIndex] setImage:(NSImage *)CFArrayGetValueAtIndex(images,rowIndex)];
+		return [[[ticketsArrayController content] objectAtIndex:rowIndex] valueForKey:@"applicationName"];
+	}
 }
 
 - (IBAction) tableViewDoubleClick:(id)sender {

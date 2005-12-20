@@ -19,6 +19,7 @@
             LANGUAGE = ObjC; 
             OUTLETS = {
                 aboutBoxTextView = NSTextView; 
+                applicationNameAndIconColumn = NSTableColumn; 
                 applicationsTab = NSTabView; 
                 currentPluginController = id; 
                 customMenuButton = NSPopUpButton; 

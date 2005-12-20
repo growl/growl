@@ -53,6 +53,7 @@
 
 	//"Applications" tab pane
 	IBOutlet NSTableView           *growlApplications;
+	IBOutlet NSTableColumn		   *applicationNameAndIconColumn;
 	IBOutlet NSTabView             *applicationsTab;
 	NSTableView                    *activeTableView;
 	IBOutlet NSMenu                *notificationPriorityMenu;
