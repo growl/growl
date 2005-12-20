@@ -235,11 +235,10 @@ static OSStatus SendAppleEvent(const AEDesc *event, AEDesc *reply)
 			&junkSize
 		);
 
-		if (err == errAEDescNotFound ) {
+		if (err == errAEDescNotFound )
 			err = noErr;
-		} else {
+		else
 			err = replyErr;
-		}
 	}
 
 	return err;
@@ -267,12 +266,6 @@ static void AEDisposeDescQ(AEDesc *descPtr)
     junk = AEDisposeDesc(descPtr);
     assert(junk == noErr);
     *descPtr = kAENull;
-}
-
-static void CFQRelease(CFTypeRef cf)
-{
-    if (cf)
-        CFRelease(cf);
 }
 
 static OSStatus CreateCFArrayFromAEDescList(
@@ -421,8 +414,10 @@ static OSStatus CreateCFArrayFromAEDescList(
 				CFArrayAppendValue(result, thisItemDict);
 
 			AEDisposeDescQ(&thisItem);
-			CFQRelease(thisItemURL);
-			CFQRelease(thisItemDict);
+			if (thisItemURL)
+				CFRelease(thisItemURL);
+			if (thisItemDict)
+				CFRelease(thisItemDict);
 
 			if (err != noErr)
 				break;
@@ -431,8 +426,8 @@ static OSStatus CreateCFArrayFromAEDescList(
 
 	// Clean up.
 
-	if (err != noErr) {
-		CFQRelease(result);
+	if (err != noErr && result) {
+		CFRelease(result);
 		result = NULL;
 	}
 	*itemsPtr = result;
@@ -530,7 +525,7 @@ static OSStatus SendEventToSystemEventsWithParameters(
 
 	// Clean up.
 
-	if ((reply == NULL) || (err != noErr)) {
+	if (!reply || (err != noErr)) {
 		// *reply is already null because of our precondition
 		AEDisposeDescQ(&localReply);
 	} else {
@@ -726,7 +721,7 @@ extern OSStatus LIAEAddRefAtEnd(const FSRef *item, Boolean hideIt)
 	return err;
 }
 
-extern OSStatus LIAEAddURLAtEnd(CFURLRef item,     Boolean hideIt)
+extern OSStatus LIAEAddURLAtEnd(CFURLRef item, Boolean hideIt)
 	// See comment in header.
 	//
 	// This is implemented as a wrapper around LIAEAddRef.
@@ -741,17 +736,14 @@ extern OSStatus LIAEAddURLAtEnd(CFURLRef item,     Boolean hideIt)
 
 	assert(item != NULL);
 
-	err = noErr;
 	success = CFURLGetFSRef(item, &ref);
-	if (!success) {
+	if (success)
+		err = LIAEAddRefAtEnd(&ref, hideIt);
+	else
 		// I have no idea what went wrong (thanks CF!).  Normally I'd
 		// return coreFoundationUnknownErr here, but in this case I'm
 		// going to go out on a limb and say that we have a file not found.
 		err = fnfErr;
-	}
-
-	if (err == noErr)
-		err = LIAEAddRefAtEnd(&ref, hideIt);
 
 	return err;
 }
