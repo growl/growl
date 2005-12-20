@@ -10,6 +10,9 @@
 		074FC03F0820E41200ABE399 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 074FC03E0820E41200ABE399 /* Carbon.framework */; };
 		07A3BD8A07F01A7C00973BFB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07A3BD8907F01A7C00973BFB /* Cocoa.framework */; };
 		8DD76F9A0486AA7600D96B5E /* growlctl.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* growlctl.m */; settings = {ATTRIBUTES = (); }; };
+		9508EE5109580F5B00BDB4C2 /* LoginItemsAE.c in Sources */ = {isa = PBXBuildFile; fileRef = 9508EE4F09580F5B00BDB4C2 /* LoginItemsAE.c */; };
+		9508EE6709580FAC00BDB4C2 /* CFMutableDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 9508EE6509580FAC00BDB4C2 /* CFMutableDictionaryAdditions.c */; };
+		9508EE6B09580FCB00BDB4C2 /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 9508EE6909580FCB00BDB4C2 /* CFGrowlAdditions.c */; };
 		957F3C3D08CF73F700D037D0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 957F3C3C08CF73F700D037D0 /* Security.framework */; };
 		957F3C4208CF741200D037D0 /* GrowlAbstractSingletonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 957F3C4108CF741200D037D0 /* GrowlAbstractSingletonObject.m */; };
 		95B4A43C08D84B66009A3DDE /* CFURLAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95B4A43A08D84B66009A3DDE /* CFURLAdditions.c */; };
@@ -69,6 +72,12 @@
 		08FB7796FE84155DC02AAC07 /* growlctl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = growlctl.m; sourceTree = "<group>"; };
 		32A70AAB03705E1F00C91783 /* growlctl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = growlctl_Prefix.pch; sourceTree = "<group>"; };
 		8DD76FA10486AA7600D96B5E /* growlctl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = growlctl; sourceTree = BUILT_PRODUCTS_DIR; };
+		9508EE4F09580F5B00BDB4C2 /* LoginItemsAE.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = LoginItemsAE.c; path = Common/Source/LoginItemsAE.c; sourceTree = "<group>"; };
+		9508EE5009580F5B00BDB4C2 /* LoginItemsAE.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = LoginItemsAE.h; path = Common/Source/LoginItemsAE.h; sourceTree = "<group>"; };
+		9508EE6509580FAC00BDB4C2 /* CFMutableDictionaryAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = CFMutableDictionaryAdditions.c; path = Common/Source/CFMutableDictionaryAdditions.c; sourceTree = "<group>"; };
+		9508EE6609580FAC00BDB4C2 /* CFMutableDictionaryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CFMutableDictionaryAdditions.h; path = Common/Source/CFMutableDictionaryAdditions.h; sourceTree = "<group>"; };
+		9508EE6909580FCB00BDB4C2 /* CFGrowlAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = CFGrowlAdditions.c; path = Common/Source/CFGrowlAdditions.c; sourceTree = "<group>"; };
+		9508EE6A09580FCB00BDB4C2 /* CFGrowlAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CFGrowlAdditions.h; path = Common/Source/CFGrowlAdditions.h; sourceTree = "<group>"; };
 		957F3C3C08CF73F700D037D0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		957F3C4008CF741200D037D0 /* GrowlAbstractSingletonObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlAbstractSingletonObject.h; path = Core/Source/GrowlAbstractSingletonObject.h; sourceTree = "<group>"; };
 		957F3C4108CF741200D037D0 /* GrowlAbstractSingletonObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlAbstractSingletonObject.m; path = Core/Source/GrowlAbstractSingletonObject.m; sourceTree = "<group>"; };
@@ -98,6 +107,12 @@
 		07A3BD6907F0199A00973BFB /* Growl */ = {
 			isa = PBXGroup;
 			children = (
+				9508EE6909580FCB00BDB4C2 /* CFGrowlAdditions.c */,
+				9508EE6A09580FCB00BDB4C2 /* CFGrowlAdditions.h */,
+				9508EE6509580FAC00BDB4C2 /* CFMutableDictionaryAdditions.c */,
+				9508EE6609580FAC00BDB4C2 /* CFMutableDictionaryAdditions.h */,
+				9508EE4F09580F5B00BDB4C2 /* LoginItemsAE.c */,
+				9508EE5009580F5B00BDB4C2 /* LoginItemsAE.h */,
 				95B4A43A08D84B66009A3DDE /* CFURLAdditions.c */,
 				95B4A43B08D84B66009A3DDE /* CFURLAdditions.h */,
 				957F3C4008CF741200D037D0 /* GrowlAbstractSingletonObject.h */,
@@ -254,6 +269,9 @@
 				95D0AC8D087530F3000AAF58 /* GrowlPathUtilities.m in Sources */,
 				957F3C4208CF741200D037D0 /* GrowlAbstractSingletonObject.m in Sources */,
 				95B4A43C08D84B66009A3DDE /* CFURLAdditions.c in Sources */,
+				9508EE5109580F5B00BDB4C2 /* LoginItemsAE.c in Sources */,
+				9508EE6709580FAC00BDB4C2 /* CFMutableDictionaryAdditions.c in Sources */,
+				9508EE6B09580FCB00BDB4C2 /* CFGrowlAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +342,8 @@
 				INSTALL_PATH = /usr/local/bin;
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = growlctl;
+				SEPARATE_STRIP = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
