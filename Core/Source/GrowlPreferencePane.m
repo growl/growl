@@ -608,39 +608,55 @@
 
 - (void) deleteTicket:(id)sender {
 #pragma unused(sender)
-	GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
-	NSString *path = [ticket path];
+	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"Are you sure you want to remove %@?",
+													[[[ticketsArrayController selectedObjects] objectAtIndex:0U] applicationName]]
+									 defaultButton:@"Remove" 
+								   alternateButton:@"Cancel" 
+									   otherButton:nil 
+						 informativeTextWithFormat:@"Removing an application from this list will reset your settings and it will need to re-register when it uses Growl the next time."];
+	[alert setIcon:[[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForImageResource:@"growl-icon"]] autorelease]];
+	[alert beginSheetModalForWindow:[[NSApplication sharedApplication] keyWindow] modalDelegate:self didEndSelector:@selector(deleteCallbackDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
 
-	if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
-		CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
-		CFStringRef keys[2] = { CFSTR("TicketName"), CFSTR("pid") };
-		CFTypeRef   values[2] = { [ticket applicationName], pidValue };
-		CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-		CFRelease(pidValue);
-		CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
-											 (CFStringRef)GrowlPreferencesChanged,
-											 CFSTR("GrowlTicketDeleted"),
-											 userInfo, false);
-		CFRelease(userInfo);
-		unsigned idx = [tickets indexOfObject:ticket];
-		CFArrayRemoveValueAtIndex(images, idx);
-
-		unsigned oldSelectionIndex = [ticketsArrayController selectionIndex];
-
-		///	Hmm... This doesn't work for some reason....
-		//	Even though the same method definitely^H^H^H^H^H^H probably works in the appRegistered: method...
-
-		//	[self removeFromTicketsAtIndex:	[ticketsArrayController selectionIndex]];
-
-		NSMutableArray *newTickets = [tickets mutableCopy];
-		[newTickets removeObject:ticket];
-		[self setTickets:newTickets];
-		[newTickets release];
-
-		if (oldSelectionIndex >= [tickets count])
-			oldSelectionIndex = [tickets count] - 1;
-
-		[ticketsArrayController setSelectionIndex:oldSelectionIndex];
+// this method is used as our callback to determine whether or not to delete the ticket
+-(void)deleteCallbackDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)eventID
+{
+	if(returnCode == NSAlertDefaultReturn)
+	{
+		GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
+		NSString *path = [ticket path];
+		
+		if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
+			CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
+			CFStringRef keys[2] = { CFSTR("TicketName"), CFSTR("pid") };
+			CFTypeRef   values[2] = { [ticket applicationName], pidValue };
+			CFDictionaryRef userInfo = CFDictionaryCreate(kCFAllocatorDefault, (const void **)keys, (const void **)values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+			CFRelease(pidValue);
+			CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
+												 (CFStringRef)GrowlPreferencesChanged,
+												 CFSTR("GrowlTicketDeleted"),
+												 userInfo, false);
+			CFRelease(userInfo);
+			unsigned idx = [tickets indexOfObject:ticket];
+			CFArrayRemoveValueAtIndex(images, idx);
+			
+			unsigned oldSelectionIndex = [ticketsArrayController selectionIndex];
+			
+			///	Hmm... This doesn't work for some reason....
+			//	Even though the same method definitely^H^H^H^H^H^H probably works in the appRegistered: method...
+			
+			//	[self removeFromTicketsAtIndex:	[ticketsArrayController selectionIndex]];
+			
+			NSMutableArray *newTickets = [tickets mutableCopy];
+			[newTickets removeObject:ticket];
+			[self setTickets:newTickets];
+			[newTickets release];
+			
+			if (oldSelectionIndex >= [tickets count])
+				oldSelectionIndex = [tickets count] - 1;
+			
+			[ticketsArrayController setSelectionIndex:oldSelectionIndex];
+		}			
 	}
 }
 
