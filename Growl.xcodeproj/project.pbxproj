@@ -193,7 +193,6 @@
 		34B2755708423BE80092A5A0 /* growlmenu-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755208423BE80092A5A0 /* growlmenu-alt.png */; };
 		34B2755808423BE80092A5A0 /* growlmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755308423BE80092A5A0 /* growlmenu.png */; };
 		34B2755908423BE80092A5A0 /* MenuExtra-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755408423BE80092A5A0 /* MenuExtra-Info.plist */; };
-		34B2755A08423BE80092A5A0 /* squelch-alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755508423BE80092A5A0 /* squelch-alt.png */; };
 		34B2755B08423BE80092A5A0 /* squelch.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B2755608423BE80092A5A0 /* squelch.png */; };
 		34B2755E08423BFF0092A5A0 /* GrowlMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B2755D08423BFF0092A5A0 /* GrowlMenu.m */; };
 		34B2756C08423FA30092A5A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 34B2756B08423FA30092A5A0 /* Localizable.strings */; };
@@ -604,7 +603,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 93BC378E095A662B0002B365 /* Nano */;
+			remoteGlobalIDString = 93BC378E095A662B0002B365;
 			remoteInfo = Nano;
 		};
 		955285B0085C3C3800D21D10 /* PBXContainerItemProxy */ = {
@@ -898,7 +897,6 @@
 		34B2755208423BE80092A5A0 /* growlmenu-alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "growlmenu-alt.png"; path = "StatusItem/Resources/growlmenu-alt.png"; sourceTree = "<group>"; };
 		34B2755308423BE80092A5A0 /* growlmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = growlmenu.png; path = StatusItem/Resources/growlmenu.png; sourceTree = "<group>"; };
 		34B2755408423BE80092A5A0 /* MenuExtra-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = "MenuExtra-Info.plist"; path = "StatusItem/Resources/MenuExtra-Info.plist"; sourceTree = "<group>"; };
-		34B2755508423BE80092A5A0 /* squelch-alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "squelch-alt.png"; path = "StatusItem/Resources/squelch-alt.png"; sourceTree = "<group>"; };
 		34B2755608423BE80092A5A0 /* squelch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = squelch.png; path = StatusItem/Resources/squelch.png; sourceTree = "<group>"; };
 		34B2755C08423BFF0092A5A0 /* GrowlMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlMenu.h; path = StatusItem/Source/GrowlMenu.h; sourceTree = "<group>"; };
 		34B2755D08423BFF0092A5A0 /* GrowlMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlMenu.m; path = StatusItem/Source/GrowlMenu.m; sourceTree = "<group>"; };
@@ -1148,7 +1146,7 @@
 		DD493A04084BAD7700D1CCCB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/SMS/English.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		DD493B7C084BB07900D1CCCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = Plugins/Displays/SMS/Info.plist; sourceTree = "<group>"; };
 		DDB6462607DE034800807F8D /* generateSVNRevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = generateSVNRevision.sh; sourceTree = "<group>"; };
-		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF09B19080AC97A006F4172 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Prefpane TestHarness/main.m"; sourceTree = "<group>"; };
 		DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = "PrefPaneTesting-Info.plist"; path = "Prefpane TestHarness/PrefPaneTesting-Info.plist"; sourceTree = "<group>"; };
 		DDF09B1B080AC97A006F4172 /* PrefpaneTester.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefpaneTester.h; path = "Prefpane TestHarness/PrefpaneTester.h"; sourceTree = "<group>"; };
@@ -1775,7 +1773,6 @@
 				34B2755308423BE80092A5A0 /* growlmenu.png */,
 				34B2755208423BE80092A5A0 /* growlmenu-alt.png */,
 				34B2755608423BE80092A5A0 /* squelch.png */,
-				34B2755508423BE80092A5A0 /* squelch-alt.png */,
 				34B2755408423BE80092A5A0 /* MenuExtra-Info.plist */,
 			);
 			name = Resources;
@@ -3399,7 +3396,6 @@
 				34B2755708423BE80092A5A0 /* growlmenu-alt.png in Resources */,
 				34B2755808423BE80092A5A0 /* growlmenu.png in Resources */,
 				34B2755908423BE80092A5A0 /* MenuExtra-Info.plist in Resources */,
-				34B2755A08423BE80092A5A0 /* squelch-alt.png in Resources */,
 				34B2755B08423BE80092A5A0 /* squelch.png in Resources */,
 				34B2756C08423FA30092A5A0 /* Localizable.strings in Resources */,
 			);
