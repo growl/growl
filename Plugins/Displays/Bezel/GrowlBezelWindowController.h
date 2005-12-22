@@ -20,17 +20,14 @@
 	NSString				*identifier;
 }
 
-- (void) growlAnimationDidEnd:(GrowlAnimation *)animation;
-
-
+- (id) init;
+- (void) setNotification: (GrowlApplicationNotification *) theNotification;
 - (NSString *) identifier;
-- (int) priority;
-- (void) setPriority:(int)newPriority;
-- (void) setTitle:(NSString *)title;
-- (void) setText:(NSString *)text;
-- (void) setIcon:(NSImage *)icon;
+- (void) dealloc;
 
-- (void) setFlipIn:(BOOL)flag;
-- (void) setFlipOut:(BOOL)flag;
+- (NSPoint) idealOriginInRect:(NSRect)rect;
+- (GrowlExpansionDirection) primaryExpansionDirection;
+- (GrowlExpansionDirection) secondaryExpansionDirection;
+- (float) requiredDistanceFromExistingDisplays;
 
 @end
