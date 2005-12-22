@@ -122,7 +122,7 @@
 		NSSize	imageSize = [image size];
 		NSRect	imageFrame;
 
-		NSDivideRect(cellFrame, &imageFrame, &cellFrame, 3.0f + imageSize.width, NSMinXEdge);
+		NSDivideRect(cellFrame, &imageFrame, &cellFrame, 15.0f + imageSize.width, NSMinXEdge);
 		if ([self drawsBackground]) {
 			[[self backgroundColor] set];
 			NSRectFill(imageFrame);
@@ -138,7 +138,17 @@
 
 		[image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
 	}
-	[super drawWithFrame:cellFrame inView:controlView];
+	
+	NSAttributedString *string = [self attributedStringValue];
+	if(string) {
+		NSSize textSize = [string size];
+		if(cellFrame.size.height > textSize.height) {
+			cellFrame.origin.y += (cellFrame.size.height - textSize.height)/2;
+			[string drawAtPoint:cellFrame.origin];
+		} else {
+			[super drawWithFrame:cellFrame inView:controlView];
+		}
+	}
 }
 
 - (NSSize) cellSize {
