@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Nano</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.Growl.Nano</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Nano</string>
+	<key>CFBundlePackageType</key>
+	<string>DISP</string>
+	<key>CFBundleSignature</key>
+	<string>GRRR</string>
+	<key>CFBundleVersion</key>
+	<string>0.2</string>
+	<key>CSResourcesFileMapped</key>
+	<string>yes</string>
+	<key>GrowlPluginAuthor</key>
+	<string>Rudy Richter</string>
+	<key>GrowlPluginDescription</key>
+	<string>Nano, we're evil like that</string>
+	<key>NSPrincipalClass</key>
+	<string>GrowlNanoDisplay</string>
+</dict>
+</plist>
