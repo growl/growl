@@ -18,7 +18,6 @@
 	NSImage						*clawImage;
 	NSImage						*clawHighlightImage;
 	NSImage						*squelchImage;
-	NSImage						*squelchHighlightImage;
 }
 
 - (void) shutdown:(id)sender;

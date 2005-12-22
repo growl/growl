@@ -60,7 +60,6 @@ int main(void) {
 	clawImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu" ofType:@"png"]];
 	clawHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu-alt" ofType:@"png"]];
 	squelchImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"squelch" ofType:@"png"]];
-	squelchHighlightImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"growlmenu-alt" ofType:@"png"]];
 
 	[self setImage];
 
@@ -122,7 +121,6 @@ int main(void) {
 	[clawImage             release];
 	[clawHighlightImage    release];
 	[squelchImage          release];
-	[squelchHighlightImage release];
 	[super dealloc];
 }
 
@@ -193,7 +191,6 @@ int main(void) {
 - (void) setImage {
 	if ([preferences squelchMode]) {
 		[statusItem setImage:squelchImage];
-		[statusItem setAlternateImage:squelchHighlightImage];
 	} else {
 		[statusItem setImage:clawImage];
 		[statusItem setAlternateImage:clawHighlightImage];
