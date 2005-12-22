@@ -10,6 +10,16 @@
 #import "GrowlWindowTransition.h"
 
 @interface GrowlWipeWindowTransition : GrowlWindowTransition {
+NSPoint	startingPoint;
+NSPoint endingPoint;
+float	xDistance;
+float	yDistance;
+
+CGContextRef context;
+
 }
 
+- (id) initWithWindow:(NSWindow *)inWindow;
+- (void) setFromOrigin:(NSPoint)from toOrigin:(NSPoint)to;
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress;
 @end
