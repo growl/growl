@@ -74,7 +74,7 @@
 
 	
 	NSRect viewFrame = [view frame];
-	[panel setFrameTopLeftPoint:NSMakePoint( -NSWidth(viewFrame), -depth)];
+	[panel setFrameTopLeftPoint:NSMakePoint( 0,0)];
 											
 	// call super so everything else is set up...
 	self = [super initWithWindow:panel];
@@ -93,8 +93,10 @@
 		[slider release];
 	} else {
 		//wipe effect
+		[panel setFrameOrigin:NSMakePoint( 0, 0)];
 		GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
-		[wiper setFromOrigin:NSMakePoint(0,0) toOrigin:NSMakePoint(NSMinX(screen), frameHeight)];
+		// save for scale effect [wiper setFromOrigin:NSMakePoint(0,0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
+		[wiper setFromOrigin:NSMakePoint(NSMaxX(screen), 0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
 		[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
 		[wiper setAutoReverses:YES];
 		[self addTransition:wiper];
@@ -143,7 +145,7 @@
 	NSRect viewFrame = [view frame];
 	[panel setFrame:viewFrame display:NO];
 	NSRect screen = [[self screen] visibleFrame];
-	[panel setFrameTopLeftPoint:NSMakePoint( -NSWidth(viewFrame), -depth)];
+	[panel setFrameTopLeftPoint:NSMakePoint(0,0)];
 	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, [panel frame].origin.x, [panel frame].origin.y, [panel frame].size.height, [panel frame].size.width);
 }
 
