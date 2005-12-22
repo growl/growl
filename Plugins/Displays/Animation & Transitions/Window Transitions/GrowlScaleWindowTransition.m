@@ -1,15 +1,15 @@
 //
-//  GrowlWipeWindowTransition.m
+//  GrowlScaleWindowTransition.m
 //  Growl
 //
 //  Created by rudy on 12/10/05.
 //  Copyright 2005 The Growl Project. All rights reserved.
 //
 
-#import "GrowlWipeWindowTransition.h"
+#import "GrowlScaleWindowTransition.h"
 
 
-@implementation GrowlWipeWindowTransition
+@implementation GrowlScaleWindowTransition
 
 - (id) initWithWindow:(NSWindow *)inWindow {
 	self = [super initWithWindow:inWindow];
@@ -23,7 +23,7 @@
 	endingPoint = to;
 	xDistance = (to.x - from.x);
 	yDistance = (to.y - from.y);
-
+	
 	NSLog(@"%f %f\n", xDistance, yDistance);
 }
 
@@ -50,6 +50,7 @@
 		[aWindow setFrame:newFrame display:YES];
 		[aWindow setViewsNeedDisplay:YES];
 	}
+
 }
 
 @end

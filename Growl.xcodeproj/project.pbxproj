@@ -234,8 +234,8 @@
 		8D202CED0486D31800D8A456 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		932D6BE5094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 932D6BE3094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.h */; };
 		932D6BE6094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */; };
-		932D6CD6094BB83B00B64D0F /* GrowlWipeWindowTransition.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 932D6CD4094BB83B00B64D0F /* GrowlWipeWindowTransition.h */; };
-		932D6CD7094BB83B00B64D0F /* GrowlWipeWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6CD5094BB83B00B64D0F /* GrowlWipeWindowTransition.m */; };
+		932D6CD6094BB83B00B64D0F /* GrowlScaleWindowTransition.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 932D6CD4094BB83B00B64D0F /* GrowlScaleWindowTransition.h */; };
+		932D6CD7094BB83B00B64D0F /* GrowlScaleWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */; };
 		934EBCB80931F529002C378F /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
 		936FAB04074482BF00A7D430 /* RRTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936FAB02074482BF00A7D430 /* RRTableView.m */; };
 		937E64320817193800AEC1C6 /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 937E64300817193800AEC1C6 /* About.rtf */; };
@@ -749,7 +749,7 @@
 				740CC071093A508100092801 /* GrowlNotificationView.h in CopyFiles */,
 				74BBDE8C094399D30011CFE9 /* GrowlFlippingWindowTransition.h in CopyFiles */,
 				932D6BE5094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.h in CopyFiles */,
-				932D6CD6094BB83B00B64D0F /* GrowlWipeWindowTransition.h in CopyFiles */,
+				932D6CD6094BB83B00B64D0F /* GrowlScaleWindowTransition.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -932,8 +932,8 @@
 		8D202CF80486D31800D8A456 /* Growl.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Growl.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
 		932D6BE3094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlShrinkingWindowTransition.h; sourceTree = "<group>"; };
 		932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlShrinkingWindowTransition.m; sourceTree = "<group>"; };
-		932D6CD4094BB83B00B64D0F /* GrowlWipeWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlWipeWindowTransition.h; sourceTree = "<group>"; };
-		932D6CD5094BB83B00B64D0F /* GrowlWipeWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlWipeWindowTransition.m; sourceTree = "<group>"; };
+		932D6CD4094BB83B00B64D0F /* GrowlScaleWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlScaleWindowTransition.h; sourceTree = "<group>"; };
+		932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlScaleWindowTransition.m; sourceTree = "<group>"; };
 		936FAB01074482BF00A7D430 /* RRTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRTableView.h; path = Core/Source/RRTableView.h; sourceTree = "<group>"; };
 		936FAB02074482BF00A7D430 /* RRTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRTableView.m; path = Core/Source/RRTableView.m; sourceTree = "<group>"; };
 		937E64310817193800AEC1C6 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = Core/Resources/English.lproj/About.rtf; sourceTree = "<group>"; };
@@ -2012,8 +2012,8 @@
 				74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */,
 				932D6BE3094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.h */,
 				932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */,
-				932D6CD4094BB83B00B64D0F /* GrowlWipeWindowTransition.h */,
-				932D6CD5094BB83B00B64D0F /* GrowlWipeWindowTransition.m */,
+				932D6CD4094BB83B00B64D0F /* GrowlScaleWindowTransition.h */,
+				932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */,
 			);
 			path = "Window Transitions";
 			sourceTree = "<group>";
@@ -3912,7 +3912,7 @@
 				740CC072093A508100092801 /* GrowlNotificationView.m in Sources */,
 				74BBDE8D094399D30011CFE9 /* GrowlFlippingWindowTransition.m in Sources */,
 				932D6BE6094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m in Sources */,
-				932D6CD7094BB83B00B64D0F /* GrowlWipeWindowTransition.m in Sources */,
+				932D6CD7094BB83B00B64D0F /* GrowlScaleWindowTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

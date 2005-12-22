@@ -1,5 +1,5 @@
 //
-//  GrowlWipeWindowTransition.h
+//  GrowlScaleWindowTransition.h
 //  Growl
 //
 //  Created by rudy on 12/10/05.
@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlWindowTransition.h"
 
-@interface GrowlWipeWindowTransition : GrowlWindowTransition {
+@interface GrowlScaleWindowTransition : GrowlWindowTransition {
 NSPoint	startingPoint;
 NSPoint endingPoint;
 float	xDistance;
