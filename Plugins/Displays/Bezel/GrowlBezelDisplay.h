@@ -12,4 +12,9 @@
 	NSMutableArray		*notificationQueue;
 }
 
+- (id) init;
+- (void) dealloc;
+- (NSPreferencePane *) preferencePane;
+- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge;
+
 @end
