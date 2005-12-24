@@ -72,7 +72,7 @@
 - (void) preferencesChanged:(NSNotification *) note;
 
 - (void) shutdown:(NSNotification *)note;
-
+- (void) stopServer;
 - (void) replyToPing:(NSNotification *)note;
 
 - (NSThread *)mainThread;

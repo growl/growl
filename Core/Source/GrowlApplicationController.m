@@ -40,6 +40,8 @@
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
 
+extern CFRunLoopRef CFRunLoopGetMain(void);
+
 @interface GrowlApplicationController (private)
 - (void) notificationClicked:(NSNotification *)notification;
 - (void) notificationTimedOut:(NSNotification *)notification;

@@ -26,7 +26,7 @@ static const double gMaxDisplayTime = 10.0;
 static NSMutableDictionary *notificationsByIdentifier;
 
 - (id) init {
-	unsigned screenNumber = 0U;
+	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlSmokeScreenPref, GrowlSmokePrefDomain, &screenNumber);
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
 

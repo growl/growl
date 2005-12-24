@@ -203,6 +203,9 @@
 		93BC37C0095A66950002B365 /* GrowlNanoWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC37B5095A66950002B365 /* GrowlNanoWindowView.m */; };
 		93BC37C1095A66950002B365 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93BC37B6095A66950002B365 /* Info.plist */; };
 		93BC37C9095A66CD0002B365 /* GrowlNanoPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 93BC37C7095A66CD0002B365 /* GrowlNanoPrefs.nib */; };
+		93BC3EF3095DE6680002B365 /* GrowlWipeWindowTransition.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93BC3EF1095DE6680002B365 /* GrowlWipeWindowTransition.h */; };
+		93BC3EF4095DE6680002B365 /* GrowlWipeWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */; };
+		93BC4057095DEDFF0002B365 /* Nano.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93BC379E095A662B0002B365 /* Nano.growlView */; };
 		93FCE57E0812D93B00320D8E /* SystemUIPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FCE57D0812D93B00320D8E /* SystemUIPlugin.framework */; };
 		95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
 		95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
@@ -592,6 +595,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				93BC4057095DEDFF0002B365 /* Nano.growlView in CopyFiles */,
 				95D8C62A083D552B003601C3 /* Candybars.growlStyle in CopyFiles */,
 				95D8C62B083D552B003601C3 /* Crystal.growlStyle in CopyFiles */,
 				955497B5081125BD0062E27B /* Plain.growlStyle in CopyFiles */,
@@ -608,6 +612,7 @@
 				74BBDE8C094399D30011CFE9 /* GrowlFlippingWindowTransition.h in CopyFiles */,
 				932D6BE5094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.h in CopyFiles */,
 				932D6CD6094BB83B00B64D0F /* GrowlScaleWindowTransition.h in CopyFiles */,
+				93BC3EF3095DE6680002B365 /* GrowlWipeWindowTransition.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -798,7 +803,6 @@
 		939FEC1A0942A0D3009EB9E6 /* GrowlBubblesDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlBubblesDisplay.h; sourceTree = "<group>"; };
 		939FEC1B0942A0D3009EB9E6 /* GrowlBubblesDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlBubblesDisplay.m; sourceTree = "<group>"; };
 		93BC379E095A662B0002B365 /* Nano.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Nano.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
-		93BC379F095A662B0002B365 /* Info copy 2.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info copy 2.plist"; sourceTree = "<group>"; };
 		93BC37AE095A66950002B365 /* GrowlNanoDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlNanoDisplay.h; path = Plugins/Displays/Nano/GrowlNanoDisplay.h; sourceTree = "<group>"; };
 		93BC37AF095A66950002B365 /* GrowlNanoDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlNanoDisplay.m; path = Plugins/Displays/Nano/GrowlNanoDisplay.m; sourceTree = "<group>"; };
 		93BC37B0095A66950002B365 /* GrowlNanoPrefs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlNanoPrefs.h; path = Plugins/Displays/Nano/GrowlNanoPrefs.h; sourceTree = "<group>"; };
@@ -812,6 +816,8 @@
 		93BC37CE095A66E10002B365 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Plugins/Displays/Nano/French.lproj/GrowlNanoPrefs.nib; sourceTree = "<group>"; };
 		93BC37CF095A66E40002B365 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = Plugins/Displays/Nano/German.lproj/GrowlNanoPrefs.nib; sourceTree = "<group>"; };
 		93BC37D0095A66E60002B365 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Plugins/Displays/Nano/Japanese.lproj/GrowlNanoPrefs.nib; sourceTree = "<group>"; };
+		93BC3EF1095DE6680002B365 /* GrowlWipeWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlWipeWindowTransition.h; sourceTree = "<group>"; };
+		93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlWipeWindowTransition.m; sourceTree = "<group>"; };
 		93FCE57D0812D93B00320D8E /* SystemUIPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemUIPlugin.framework; path = /System/Library/PrivateFrameworks/SystemUIPlugin.framework; sourceTree = "<absolute>"; };
 		95026A8808DC856900FE1949 /* GrowlPositionController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPositionController.h; path = Core/Source/GrowlPositionController.h; sourceTree = "<group>"; };
 		95026A8908DC856900FE1949 /* GrowlPositionController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlPositionController.m; path = Core/Source/GrowlPositionController.m; sourceTree = "<group>"; };
@@ -1002,7 +1008,7 @@
 		DD493A04084BAD7700D1CCCB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/SMS/English.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		DD493B7C084BB07900D1CCCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = Plugins/Displays/SMS/Info.plist; sourceTree = "<group>"; };
 		DDB6462607DE034800807F8D /* generateSVNRevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = generateSVNRevision.sh; sourceTree = "<group>"; };
-		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF09B19080AC97A006F4172 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Prefpane TestHarness/main.m"; sourceTree = "<group>"; };
 		DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = "PrefPaneTesting-Info.plist"; path = "Prefpane TestHarness/PrefPaneTesting-Info.plist"; sourceTree = "<group>"; };
 		DDF09B1B080AC97A006F4172 /* PrefpaneTester.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefpaneTester.h; path = "Prefpane TestHarness/PrefpaneTester.h"; sourceTree = "<group>"; };
@@ -1469,7 +1475,6 @@
 				0A7F62550767C84E00E1C1E4 /* GrowlMusicVideoWindowController.m */,
 				0A7F62560767C84E00E1C1E4 /* GrowlMusicVideoWindowView.h */,
 				0A7F62570767C84E00E1C1E4 /* GrowlMusicVideoWindowView.m */,
-				93BC379F095A662B0002B365 /* Info copy 2.plist */,
 			);
 			name = MusicVideo;
 			path = Plugins/Displays/MusicVideo;
@@ -1846,6 +1851,8 @@
 				932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */,
 				932D6CD4094BB83B00B64D0F /* GrowlScaleWindowTransition.h */,
 				932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */,
+				93BC3EF1095DE6680002B365 /* GrowlWipeWindowTransition.h */,
+				93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */,
 			);
 			path = "Window Transitions";
 			sourceTree = "<group>";
@@ -3439,6 +3446,7 @@
 				74BBDE8D094399D30011CFE9 /* GrowlFlippingWindowTransition.m in Sources */,
 				932D6BE6094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m in Sources */,
 				932D6CD7094BB83B00B64D0F /* GrowlScaleWindowTransition.m in Sources */,
+				93BC3EF4095DE6680002B365 /* GrowlWipeWindowTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,6 +12,7 @@
 #import "NSWindow+Transforms.h"
 #import "GrowlSlidingWindowTransition.h"
 #import "GrowlWipeWindowTransition.h"
+#include "CFDictionaryAdditions.h"
 
 @implementation GrowlMusicVideoWindowController
 
@@ -72,8 +73,6 @@
 	[panel setContentView:view]; // retains subview
 	[view release];
 
-	
-	NSRect viewFrame = [view frame];
 	[panel setFrameTopLeftPoint:NSMakePoint( 0,0)];
 											
 	// call super so everything else is set up...
@@ -93,14 +92,14 @@
 		[slider release];
 	} else {
 		//wipe effect
-		[panel setFrameOrigin:NSMakePoint( 0, 0)];
-		GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
+		//[panel setFrameOrigin:NSMakePoint( 0, 0)];
+		//GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
 		// save for scale effect [wiper setFromOrigin:NSMakePoint(0,0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
-		[wiper setFromOrigin:NSMakePoint(NSMaxX(screen), 0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
-		[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
-		[wiper setAutoReverses:YES];
-		[self addTransition:wiper];
-		[wiper release];
+		//[wiper setFromOrigin:NSMakePoint(NSMaxX(screen), 0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
+		//[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
+		//[wiper setAutoReverses:YES];
+		//[self addTransition:wiper];
+		//[wiper release];
 	}
 	return self;
 

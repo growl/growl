@@ -52,13 +52,5 @@
 - (float) descriptionHeight;
 - (int) descriptionRowCount;
 
-- (id) target;
-- (void) setTarget:(id)object;
-
-- (SEL) action;
-- (void) setAction:(SEL)selector;
-
-- (BOOL) mouseOver;
-- (void) setCloseOnMouseExit:(BOOL)flag;
 @end
 

@@ -50,7 +50,6 @@
 		[aWindow setFrame:newFrame display:YES];
 		[aWindow setViewsNeedDisplay:YES];
 	}
-
 }
 
 @end

@@ -754,6 +754,7 @@
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+#pragma unused(aTableView)	
 	// we check to make sure we have the image + text column and then set it's image manually
 	if(aTableColumn == applicationNameAndIconColumn) {
 		[self cacheImages];
