@@ -17,8 +17,6 @@
 #import "GrowlFadingWindowTransition.h"
 #include "CFDictionaryAdditions.h"
 
-static unsigned globalId = 0U;
-
 @implementation GrowlBrushedWindowController
 
 static const double gAdditionalLinesDisplayTime = 0.5;
