@@ -22,14 +22,14 @@
 	return self;
 }
 
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)inProgress {
 	if (aWindow) {
 		switch (direction) {
 			case GrowlForwardTransition:
-				[aWindow setScaleX:(flipsX ? progress : 1.0) Y:(flipsY ? progress : 1.0)];
+				[aWindow setScaleX:(flipsX ? inProgress : 1.0) Y:(flipsY ? inProgress : 1.0)];
 				break;
 			case GrowlReverseTransition:
-				[aWindow setScaleX:(flipsX ? 1.0 - progress : 1.0) Y:(flipsY ? 1.0 - progress : 1.0)];
+				[aWindow setScaleX:(flipsX ? 1.0 - inProgress : 1.0) Y:(flipsY ? 1.0 - inProgress : 1.0)];
 				break;
 			default:
 				break;

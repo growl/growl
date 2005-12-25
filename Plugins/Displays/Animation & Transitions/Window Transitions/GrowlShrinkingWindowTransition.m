@@ -25,12 +25,12 @@
 	//scaleFactor = 1.0f;
 }
 
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)inProgress {
 	if (aWindow) {
 		switch (direction) {
 			case GrowlForwardTransition:
 				if(scaleFactor < 1.0f) {
-					scaleFactor += 1.0f*progress;
+					scaleFactor += (1.0f * inProgress);
 					[aWindow setScaleX:(scaleFactor < 1.0f ? scaleFactor : 1.0) Y:(scaleFactor < 1.0f ? scaleFactor : 1.0)];
 				} else {
 					scaleFactor = 1.0f;
@@ -40,7 +40,7 @@
 			case GrowlReverseTransition:
 				NSLog(@"%f\n", scaleFactor);
 				if(scaleFactor > 0.0f) {
-					scaleFactor -= 1.0f*progress;
+					scaleFactor -= (1.0f * inProgress);
 					[aWindow setScaleX:(scaleFactor > 0.0f ? scaleFactor : 0.0) Y:(scaleFactor > 0.0f ? scaleFactor : 0.0)];
 				} else {
 					scaleFactor = 0.0f;

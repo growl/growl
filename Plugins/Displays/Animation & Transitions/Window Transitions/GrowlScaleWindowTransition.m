@@ -27,12 +27,12 @@
 	NSLog(@"%f %f\n", xDistance, yDistance);
 }
 
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)inProgress {
 	if (aWindow) {
 		NSSize newSize;
 		NSRect newFrame = [aWindow frame];
-		float deltaX = progress * xDistance;
-		float deltaY = progress * yDistance;
+		float deltaX = inProgress * xDistance;
+		float deltaY = inProgress * yDistance;
 		switch (direction) {
 			default:
 			case GrowlForwardTransition:

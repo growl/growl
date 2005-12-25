@@ -16,14 +16,14 @@
 
 #pragma mark -
 
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)inProgress {
 	if (aWindow) {
 		switch (direction) {
 			case GrowlForwardTransition:
-				[aWindow setAlphaValue:progress];
+				[aWindow setAlphaValue:inProgress];
 				break;
 			case GrowlReverseTransition:
-				[aWindow setAlphaValue:(1.0 - progress)];
+				[aWindow setAlphaValue:(1.0 - inProgress)];
 				break;
 			default:
 				break;

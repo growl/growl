@@ -17,20 +17,20 @@
 	yDistance = (endingOrigin.y - startingOrigin.y);
 }
 
-- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
+- (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)inProgress {
 	NSPoint newOrigin;
 	if (aWindow) {
 		switch (direction) {
 			case GrowlForwardTransition:
-				newOrigin.x = startingPoint.x + (progress * xDistance);
-				newOrigin.y = startingPoint.y + (progress * yDistance);
+				newOrigin.x = startingPoint.x + (inProgress * xDistance);
+				newOrigin.y = startingPoint.y + (inProgress * yDistance);
 
 				[aWindow setFrameOrigin:newOrigin];
 				break;
 				
 			case GrowlReverseTransition:
-				newOrigin.x = endingPoint.x - (progress * xDistance);
-				newOrigin.y = endingPoint.y - (progress * yDistance);
+				newOrigin.x = endingPoint.x - (inProgress * xDistance);
+				newOrigin.y = endingPoint.y - (inProgress * yDistance);
 
 				[aWindow setFrameOrigin:newOrigin];
 				break;
