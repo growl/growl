@@ -35,7 +35,7 @@
 	else
 		voice = [NSSpeechSynthesizer defaultVoice];
 
-	NSString *desc = [notification description];
+	NSString *desc = [notification notificationDescription];
 
 	NSSpeechSynthesizer *syn = [[NSSpeechSynthesizer alloc] initWithVoice:voice];
 	[syn startSpeakingString:desc];

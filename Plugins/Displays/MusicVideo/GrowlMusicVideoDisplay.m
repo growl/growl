@@ -84,7 +84,7 @@
 
 	GrowlMusicVideoWindowController *nuMusicVideo = [[GrowlMusicVideoWindowController alloc]
 		initWithTitle:[notification title]
-				 text:[notification description]
+				 text:[notification notificationDescription]
 				 icon:getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON)
 			 priority:getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY)
 		   identifier:identifier];

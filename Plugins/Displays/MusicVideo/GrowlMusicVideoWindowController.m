@@ -113,7 +113,7 @@
 	
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *title = [notification title];
-	NSString *text  = [notification description];
+	NSString *text  = [notification notificationDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
@@ -130,7 +130,7 @@
 	textHTML = YES;
 	else {
 		textHTML = NO;
-		text = [notification description];
+		text = [notification notificationDescription];
 	}
 	
 	NSPanel *panel = (NSPanel *)[self window];

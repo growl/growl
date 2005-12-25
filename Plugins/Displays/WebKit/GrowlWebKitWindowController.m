@@ -299,7 +299,7 @@ static unsigned webkitWindowDepth = 0U;
 		textHTML = YES;
 	else {
 		textHTML = NO;
-		text = [notification description];
+		text = [notification notificationDescription];
 	}
 	
 	NSPanel *panel = (NSPanel *)[self window];
