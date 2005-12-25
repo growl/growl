@@ -190,14 +190,14 @@
 	return HTMLTitle;
 }
 
-- (NSString *) description {
+- (NSString *) notificationDescription {
 	return description;
 }
 - (NSAttributedString *) attributedDescription {
 	if (HTMLDescription)
 		return [[[NSAttributedString alloc] initWithHTML:[HTMLDescription dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL] autorelease];
 	else
-		return [[[NSAttributedString alloc] initWithString:description] autorelease];
+		return [[[NSAttributedString alloc] initWithString:[self notificationDescription]] autorelease];
 }
 - (NSString *) HTMLDescription {
 	return HTMLDescription;

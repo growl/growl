@@ -71,7 +71,7 @@
 - (NSAttributedString *) attributedTitle;
 - (NSString *) HTMLTitle;
 
-- (NSString *) description;
+- (NSString *) notificationDescription;
 - (NSAttributedString *) attributedDescription;
 - (NSString *) HTMLDescription;
 
