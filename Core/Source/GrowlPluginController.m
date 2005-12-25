@@ -353,16 +353,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	if (!identifier)
 		identifier = [NSString stringWithFormat:@"Name: %@ Author: %@ Path: %@", name, author, path];
 	
-	if (!plugin && bundle) {
-		if (![bundlesToLazilyInstantiateAnInstanceFrom containsObject:bundle])
-			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
-		else {
-			plugin = [[[bundle principalClass] alloc] init];
-			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
-			[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
-		}
-	}
-
 	if (!pluginDict) {
 		pluginDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 			name,                 GrowlPluginInfoKeyName,
@@ -370,7 +360,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			version,              GrowlPluginInfoKeyVersion,
 			path,                 GrowlPluginInfoKeyPath,
 			nil];
-		NSString *description = [plugin description];
+		NSString *description = [plugin pluginDescription];
 		if (description)
 			[pluginDict setObject:description forKey:GrowlPluginInfoKeyDescription];
 
@@ -378,7 +368,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		NSString *fileType = nil;
 		[[NSWorkspace sharedWorkspace] getFileType:&fileType creatorCode:NULL forFile:path];
 
-		NSSet *types;
+		NSSet *types = nil;
 		if (extension) {
 #warning problem here...
 			///XXX when there is no file type it is coming back as \'\'...im guessing this means no type, but it still tests as true so each plugin is registered against that type...wrong???
@@ -388,7 +378,9 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 				types = [NSSet setWithObject:extension];
 		} else if (fileType)
 			types = [NSSet setWithObject:fileType];
-		[pluginDict setObject:types forKey:GrowlPluginInfoKeyTypes];
+		
+		if (types)
+			[pluginDict setObject:types forKey:GrowlPluginInfoKeyTypes];
 
 		[pluginsByIdentifier setObject:pluginDict forKey:identifier];
 		[pluginIdentifiersByPath setObject:identifier forKey:path];
@@ -410,7 +402,17 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		ADD_TO_DICT(pluginsByType, fileType,  pluginDict); 
 	#undef ADD_TO_DICT
 	}
-	
+
+	if (!plugin && bundle) {
+		if (![bundlesToLazilyInstantiateAnInstanceFrom containsObject:bundle])
+			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
+		else {
+			plugin = [[[bundle principalClass] alloc] init];
+			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
+			[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
+		}
+	}
+
 	if (bundle) {
 		if (![pluginDict objectForKey:GrowlPluginInfoKeyBundle])
 			[pluginDict setObject:bundle forKey:GrowlPluginInfoKeyBundle];
