@@ -457,7 +457,7 @@
 
 	[notificationDescriptions release];
 	notificationDescriptions = [[dict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS] retain];
-	NSLog(@"Got %@",notificationDescriptions);
+
 	if (!defaults) defaults = all;
 	[self reregisterWithAllNotifications:all
 								defaults:defaults
@@ -484,7 +484,6 @@
 		fullPath = [workspace fullPathForApplication:appName];
 	[appPath release];
 	appPath = [fullPath retain];
-//	NSLog(@"(in reregisterWithDictionary:) got appPath: %@", appPath);
 }
 
 - (NSArray *) allNotifications {
