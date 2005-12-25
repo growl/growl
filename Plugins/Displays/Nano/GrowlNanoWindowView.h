@@ -18,8 +18,6 @@
 	NSDictionary		*titleAttributes;
 	NSColor				*textColor;
 	NSColor				*backgroundColor;
-	SEL					action;
-	id					target;
 
 	CGLayerRef			layer;
 	NSImage				*cache;
