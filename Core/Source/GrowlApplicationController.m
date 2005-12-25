@@ -11,6 +11,7 @@
 #import "GrowlApplicationController.h"
 #import "GrowlPreferencesController.h"
 #import "GrowlApplicationTicket.h"
+#import "GrowlApplicationNotification.h"
 #import "GrowlTicketController.h"
 #import "GrowlNotificationTicket.h"
 #import "GrowlDistributedNotificationPathway.h"
@@ -251,12 +252,13 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) destroy {
 	//free your world
-	[mainThread release];
+	[mainThread release]; mainThread = nil;
 	[self stopServer];
-	[authenticator    release];
-	[dncPathway       release]; //XXX temporary DNC pathway hack - remove when real pathway support is in
-	[destinations     release];
-	[growlIcon        release];
+	[authenticator    release]; authenticator = nil;
+	[dncPathway       release]; dncPathway = nil; //XXX temporary DNC pathway hack - remove when real pathway support is in
+	[destinations     release]; destinations = nil;
+	[growlIcon        release]; growlIcon = nil;
+	[displayController release]; displayController = nil;
 
 	if (versionCheckURL)
 		CFRelease(versionCheckURL);
@@ -269,8 +271,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	CFRelease(updateTimer);
 
 	[growlNotificationCenterConnection invalidate];
-	[growlNotificationCenterConnection release];
-	[growlNotificationCenter           release];
+	[growlNotificationCenterConnection release]; growlNotificationCenterConnection = nil;
+	[growlNotificationCenter           release]; growlNotificationCenter = nil;
 
 	cdsaShutdown();
 
@@ -446,10 +448,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	NSString *appName = getObjectForKey(dict, GROWL_APP_NAME);
 	GrowlApplicationTicket *ticket = [ticketController ticketForApplicationName:appName];
 	NSString *notificationName = getObjectForKey(dict, GROWL_NOTIFICATION_NAME);
-	if (!ticket || ![ticket isNotificationAllowed:notificationName])
+	if (!ticket || ![ticket isNotificationAllowed:notificationName]) {
 		// Either the app isn't registered or the notification is turned off
 		// We should do nothing
 		return;
+	}
 
 	NSMutableDictionary *aDict = [dict mutableCopy];
 
@@ -535,7 +538,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		if (!display) {
 			if (!displayController) {
 				NSString *displayPluginName = [[GrowlPreferencesController sharedController] defaultDisplayPluginName];
-				displayController = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
+				displayController = [(GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayPluginName author:nil version:nil type:nil] retain];
 			}
 			display = displayController;
 		}
@@ -733,6 +736,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		[ticketController loadAllSavedTickets];
 	if (!note || (object && [object isEqualTo:GrowlDisplayPluginKey]))
 		// force reload
+		[displayController release];
 		displayController = nil;
 	if (object) {
 		if ([object isEqualTo:@"GrowlTicketDeleted"]) {
@@ -772,8 +776,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(theApplication)
 	BOOL retVal = NO;
 	NSString *pathExtension = [filename pathExtension];
-
-//	NSLog(@"Asked to open file %@", filename);
 
 	if ([pathExtension isEqualToString:GROWL_REG_DICT_EXTENSION]) {
 		CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)filename, kCFURLPOSIXPathStyle, false);
