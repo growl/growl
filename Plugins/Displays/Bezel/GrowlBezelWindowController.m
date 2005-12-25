@@ -131,7 +131,7 @@
 	NSString *title = [notification title];
 	NSString *text  = [notification description];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
-	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
+	int myPriority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
 	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
 	BOOL textHTML, titleHTML;
@@ -151,7 +151,7 @@
 	
 	NSPanel *panel = (NSPanel *)[self window];
 	GrowlBezelWindowView *view = [[self window] contentView];
-	[view setPriority:priority];
+	[view setPriority:myPriority];
 	[view setTitle:title];// isHTML:titleHTML];
 	[view setText:text];// isHTML:textHTML];
 	[view setIcon:icon];
