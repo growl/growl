@@ -11,10 +11,8 @@
 #import "GrowlNotificationView.h"
 
 @interface GrowlBubblesWindowView : GrowlNotificationView {
-	BOOL				mouseOver;
 	BOOL				haveText;
 	BOOL				haveTitle;
-	BOOL				closeOnMouseExit;
 	NSFont				*titleFont;
 	NSFont				*textFont;
 	NSImage				*icon;
@@ -22,14 +20,11 @@
 	float				textHeight;
 	float				titleHeight;
 	float				lineHeight;
-	SEL					action;
-	id					target;
 	NSColor				*textColor;
 	NSColor				*bgColor;
 	NSColor				*lightColor;
 	NSColor				*borderColor;
 	NSColor				*highlightColor;
-	NSTrackingRectTag	trackingRectTag;
 
 	NSLayoutManager		*textLayoutManager;
 	NSTextStorage		*textStorage;
