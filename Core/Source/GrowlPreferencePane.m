@@ -761,6 +761,8 @@
 		[[aTableColumn dataCellForRow:rowIndex] setImage:(NSImage *)CFArrayGetValueAtIndex(images,rowIndex)];
 		return [[[ticketsArrayController content] objectAtIndex:rowIndex] valueForKey:@"applicationName"];
 	}
+	
+	return nil;
 }
 
 - (IBAction) tableViewDoubleClick:(id)sender {
