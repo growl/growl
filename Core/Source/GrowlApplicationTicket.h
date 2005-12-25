@@ -23,6 +23,8 @@
 
 	NSArray			*defaultNotifications;		// The default notifications
 
+	NSDictionary	*humanReadableNames;		// Dictionary of human readable names
+	
 	NSString		*displayPluginName;
 	GrowlDisplayPlugin *displayPlugin;		// Non-nil if this ticket uses a custom display plugin
 
@@ -73,6 +75,7 @@
 
 - (void) reregisterWithAllNotifications:(NSArray *) inAllNotes
 							   defaults:(id) inDefaults
+					 humanReadableNames:(NSDictionary *) inHumanReadableNames
 								   icon:(NSImage *) inIcon;
 - (void) reregisterWithDictionary:(NSDictionary *) dict;
 

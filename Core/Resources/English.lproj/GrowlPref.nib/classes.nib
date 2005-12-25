@@ -1,6 +1,7 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = GrowlNotificationTicket; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {
                 checkVersion = id; 
@@ -57,6 +58,11 @@
                 "_window" = id; 
             }; 
             SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = NotificationsArrayController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
         }, 
         {CLASS = RRTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
         {

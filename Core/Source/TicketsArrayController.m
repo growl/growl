@@ -22,6 +22,7 @@
 
 - (NSArray *) arrangeObjects:(NSArray *)objects {
 	NSArray *sorted = [objects sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+
 	if (!searchString || [searchString isEqualToString:@""]) {
 		return [super arrangeObjects:sorted];
 	} else {
@@ -37,7 +38,7 @@
 				NSEnumerator *notificationsEnum = [[ticket notifications] objectEnumerator];
 				GrowlNotificationTicket *notification;
 				while ((notification = [notificationsEnum nextObject])) {
-					if ([[notification name] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
+					if ([[notification humanReadableName] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
 						[matchedObjects addObject:ticket];
 						break;
 					}

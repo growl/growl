@@ -24,12 +24,14 @@
 }
 
 + (GrowlNotificationTicket *) notificationWithName:(NSString *)name
+								 humanReadableName:(NSString *)inHumanReadableName
 										  priority:(enum GrowlPriority)priority
 										   enabled:(BOOL)enabled
 											sticky:(int)sticky
 								 displayPluginName:(NSString *)display
 {
 	return [[[self alloc] initWithName:name
+					 humanReadableName:inHumanReadableName
 							  priority:priority
 							   enabled:enabled
 								sticky:sticky
@@ -38,6 +40,8 @@
 
 - (GrowlNotificationTicket *) initWithDictionary:(NSDictionary *)dict {
 	NSString *inName = getObjectForKey(dict, @"Name");
+
+	NSString *inHumanReadableName = getObjectForKey(dict, @"HumanReadableName");
 
 	id value = getObjectForKey(dict, @"Priority");
 	enum GrowlPriority inPriority = value ? [value intValue] : GrowlPriorityUnset;
@@ -50,6 +54,7 @@
 	NSString *inDisplay = [dict objectForKey:@"Display"];
 
 	return [self initWithName:inName
+			humanReadableName:inHumanReadableName
 					 priority:inPriority
 					  enabled:inEnabled
 					   sticky:inSticky
@@ -57,10 +62,16 @@
 }
 
 - (GrowlNotificationTicket *) initWithName:(NSString *)theName {
-	return [self initWithName:theName priority:GrowlPriorityUnset enabled:YES sticky:NSMixedState displayPluginName:nil];
+	return [self initWithName:theName
+			humanReadableName:nil
+					 priority:GrowlPriorityUnset 
+					  enabled:YES
+					   sticky:NSMixedState
+			displayPluginName:nil];
 }
 
 - (GrowlNotificationTicket *) initWithName:(NSString *)inName
+						 humanReadableName:(NSString *)inHumanReadableName
 								  priority:(enum GrowlPriority)inPriority
 								   enabled:(BOOL)inEnabled
 									sticky:(int)inSticky
@@ -68,6 +79,7 @@
 {
 	if ((self = [super init])) {
 		name              = [inName retain];
+		humanReadableName = [inHumanReadableName retain];
 		priority          = inPriority;
 		enabled           = inEnabled;
 		sticky            = inSticky;
@@ -78,6 +90,7 @@
 
 - (void) dealloc {
 	[name release];
+	[humanReadableName release];
 	[displayPluginName release];
 
 	[super dealloc];
@@ -122,6 +135,17 @@
 
 - (NSString *) name {
 	return [[name retain] autorelease];
+}
+
+- (NSString *) humanReadableName {
+	return (humanReadableName ? [[humanReadableName retain] autorelease] : [self name]);
+}
+
+- (void) setHumanReadableName:(NSString *)inHumanReadableName {
+	if (humanReadableName != inHumanReadableName) {
+		[humanReadableName release];
+		humanReadableName = [inHumanReadableName retain];
+	}
 }
 
 - (enum GrowlPriority) priority {
@@ -172,6 +196,11 @@
 	if (!displayPlugin && displayPluginName)
 		displayPlugin = (GrowlDisplayPlugin *)[[[GrowlPluginController sharedController] displayPluginDictionaryWithName:displayPluginName author:nil version:nil type:nil] pluginInstance];
 	return displayPlugin;
+}
+
+- (NSComparisonResult)humanReadableNameCompare:(GrowlNotificationTicket *)inTicket
+{
+	return [[self humanReadableName] caseInsensitiveCompare:[inTicket humanReadableName]];
 }
 
 @end

@@ -364,6 +364,16 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	return growlIsRunning;
 }
 
++ (void) displayInstallationPromptIfNeeded {
+#ifdef GROWL_WITH_INSTALLER
+    //if we have not already asked the user to install Growl, do it now
+    if (!promptedToInstallGrowl) {
+        [GrowlInstallationPrompt showInstallationPrompt];
+        promptedToInstallGrowl = YES;
+    }
+#endif
+}
+
 #pragma mark -
 
 + (BOOL) registerWithDictionary:(NSDictionary *)regDict {

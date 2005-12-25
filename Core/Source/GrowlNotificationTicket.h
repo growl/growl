@@ -21,6 +21,7 @@ enum GrowlPriority {
 
 @interface GrowlNotificationTicket : NSObject {
 	NSString                *name;
+	NSString				*humanReadableName;
 	GrowlApplicationTicket  *ticket;        // Our owner
 	NSString				*displayPluginName;
 	GrowlDisplayPlugin      *displayPlugin;
@@ -33,6 +34,7 @@ enum GrowlPriority {
 + (GrowlNotificationTicket *) notificationWithName:(NSString *)name;
 + (GrowlNotificationTicket *) notificationWithDictionary:(NSDictionary *)dict;
 + (GrowlNotificationTicket *) notificationWithName:(NSString *)name
+								 humanReadableName:(NSString *)inHumanReadableName
 										  priority:(enum GrowlPriority)priority
 										   enabled:(BOOL)enabled
 											sticky:(int)sticky
@@ -40,10 +42,11 @@ enum GrowlPriority {
 
 - (GrowlNotificationTicket *) initWithName:(NSString *)name;
 - (GrowlNotificationTicket *) initWithDictionary:(NSDictionary *)dict;
-- (GrowlNotificationTicket *) initWithName:(NSString *)name
-								  priority:(enum GrowlPriority)priority
-								   enabled:(BOOL)enabled
-									sticky:(int)sticky
+- (GrowlNotificationTicket *) initWithName:(NSString *)inName
+						 humanReadableName:(NSString *)inHumanReadableName
+								  priority:(enum GrowlPriority)inPriority
+								   enabled:(BOOL)inEnabled
+									sticky:(int)inSticky
 						 displayPluginName:(NSString *)display;
 
 #pragma mark -
@@ -55,6 +58,9 @@ enum GrowlPriority {
 #pragma mark -
 
 - (NSString *) name;
+
+- (NSString *) humanReadableName;
+- (void) setHumanReadableName:(NSString *)inHumanReadableName;
 
 - (enum GrowlPriority) priority;
 - (void) setPriority:(enum GrowlPriority)newPriority;

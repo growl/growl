@@ -74,6 +74,17 @@
  *	 notification names.
  */
 #define GROWL_NOTIFICATIONS_ALL			XSTR("AllNotifications")
+/*! @defined GROWL_NOTIFICATIONS_HUMAN_READABLE_DESCRIPTIONS
+ *  @abstract A dictionary of human-readable names for your notifications.
+ *  @discussion By default, the Growl UI will display notifications by the names given in GROWL_NOTIFICATIONS_ALL
+ *  which correspond to the GROWL_NOTIFICATION_NAME. This dictionary specifies the human-readable name to display.
+ *  The keys of the dictionary are GROWL_NOTIFICATION_NAME strings; the objects are the human-readable versions.
+ *  For any GROWL_NOTIFICATION_NAME not specific in this dictionary, the GROWL_NOTIFICATION_NAME will be displayed.
+ *
+ *  This key is optional.
+ */
+#define GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES		XSTR("HumanReadableNames")
+
 /*!	@defined	GROWL_TICKET_VERSION
  *	@abstract	The version of your registration ticket.
  *	@discussion	Include this key in a ticket plist file that you put in your
@@ -97,9 +108,10 @@
 
 /*!	@defined GROWL_NOTIFICATION_NAME
  *	@abstract The name of the notification.
- *	@discussion The name of the notification. This should be human-readable, as
- *	 it's shown in the prefpane, in the list of notifications your application
- *	 supports. */
+ *	@discussion The name of the notification. Note that if you do not define
+ *  GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES when registering your ticket originally this name
+ *  will the one displayed within the Growl preference pane and should be human-readable.
+ */
 #define GROWL_NOTIFICATION_NAME			XSTR("NotificationName")
 /*!	@defined GROWL_NOTIFICATION_TITLE
  *	@abstract The title to display in the notification.

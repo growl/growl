@@ -444,9 +444,12 @@
  *	 <code>+[GrowlApplicationBridge
  *	 notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:]</code> calls.
  *
- *	 The dictionary should have 2 key object pairs:
+ *	 The dictionary should have the required key object pairs:
  *	 key: GROWL_NOTIFICATIONS_ALL		object: <code>NSArray</code> of <code>NSString</code> objects
  *	 key: GROWL_NOTIFICATIONS_DEFAULT	object: <code>NSArray</code> of <code>NSString</code> objects
+ *
+ *   The dictionary may have the following key object pairs:
+ *   key: GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES	object: <code>NSDictionary</code> of key: notification name		object: human-readable notification name
  *
  *	 You do not need to implement this method if you have an auto-discoverable
  *	 plist file in your app bundle. (XXX refer to more information on that)
