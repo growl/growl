@@ -60,12 +60,14 @@
 	if ((self = [super init])) {
 		appName = [getObjectForKey(ticketDict, GROWL_APP_NAME) retain];
 
-		humanReadableNames = [getObjectForKey(ticketDict, GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES) retain];
-		
+		humanReadableNames = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES] retain];
+		notificationDescriptions = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS] retain];
+			
 		//Get all the notification names and the data about them
-		allNotificationNames = [getObjectForKey(ticketDict, GROWL_NOTIFICATIONS_ALL) retain];
+		allNotificationNames = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_ALL] retain];
 		NSAssert1(allNotificationNames, @"Ticket dictionaries must contain a list of all their notifications (application name: %@)", appName);
-		NSArray *inDefaults = getObjectForKey(ticketDict, GROWL_NOTIFICATIONS_DEFAULT);
+
+		NSArray *inDefaults = [ticketDict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
 		if (!inDefaults) inDefaults = allNotificationNames;
 
 		NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
@@ -85,6 +87,7 @@
 			
 			//Set the human readable name if we were supplied one
 			[notification setHumanReadableName:[humanReadableNames objectForKey:name]];
+			[notification setNotificationDescription:[notificationDescriptions objectForKey:name]];
 
 			[allNotificationsTemp setObject:notification forKey:name];
 			[notification release];
@@ -149,6 +152,7 @@
 	[allNotifications     release];
 	[defaultNotifications release];
 	[humanReadableNames   release];
+	[notificationDescriptions release];
 	[allNotificationNames release];
 	[displayPluginName    release];
 
@@ -238,6 +242,9 @@
 
 	if (humanReadableNames)
 		[saveDict setObject:humanReadableNames forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
+	
+	if (notificationDescriptions)
+		[saveDict setObject:notificationDescriptions forKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
 	
 	NSData *plistData;
 	NSString *error;
@@ -361,7 +368,7 @@
 
 #pragma mark -
 
-- (void) reregisterWithAllNotifications:(NSArray *)inAllNotes defaults:(id)inDefaults humanReadableNames:(NSDictionary *) inHumanReadableNames icon:(NSImage *)inIcon {
+- (void) reregisterWithAllNotifications:(NSArray *)inAllNotes defaults:(id)inDefaults icon:(NSImage *)inIcon {
 	if (!useDefaults) {
 		/*We want to respect the user's preferences, but if the application has
 		 *	added new notifications since it last registered, we want to enable those
@@ -393,7 +400,8 @@
 				
 				if (note && ![allNotesCopy objectForKey:note]) {
 					GrowlNotificationTicket *ticket = [GrowlNotificationTicket notificationWithName:note];
-					[ticket setHumanReadableName:[inHumanReadableNames objectForKey:note]];
+					[ticket setHumanReadableName:[humanReadableNames objectForKey:note]];
+					[ticket setNotificationDescription:[notificationDescriptions objectForKey:note]];
 					[allNotesCopy setObject:ticket forKey:note];
 				}
 			}
@@ -411,7 +419,8 @@
 					NSString *note = [inAllNotes objectAtIndex:notificationIndex];
 					if (![allNotesCopy objectForKey:note]) {
 						GrowlNotificationTicket *ticket = [GrowlNotificationTicket notificationWithName:note];
-						[ticket setHumanReadableName:[inHumanReadableNames objectForKey:note]];
+						[ticket setHumanReadableName:[humanReadableNames objectForKey:note]];
+						[ticket setNotificationDescription:[notificationDescriptions objectForKey:note]];
 						[allNotesCopy setObject:ticket forKey:note];
 					}						
 				}
@@ -442,11 +451,16 @@
 	//XXX - should assimilate reregisterWithAllNotifications:defaults:icon: here
 	NSArray		 *all      = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
 	NSArray		 *defaults = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
-	NSDictionary *humanReadableNames = [dict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
+	
+	[humanReadableNames release];
+	humanReadableNames = [[dict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES] retain];
+
+	[notificationDescriptions release];
+	notificationDescriptions = [[dict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS] retain];
+	NSLog(@"Got %@",notificationDescriptions);
 	if (!defaults) defaults = all;
 	[self reregisterWithAllNotifications:all
 								defaults:defaults
-					  humanReadableNames:humanReadableNames
 									icon:appIcon];
 
 	NSString *fullPath = nil;
@@ -493,6 +507,7 @@
 			} else {
 				GrowlNotificationTicket *notification = [[GrowlNotificationTicket alloc] initWithName:key];
 				[notification setHumanReadableName:[humanReadableNames objectForKey:key]];
+				[notification setNotificationDescription:[notificationDescriptions objectForKey:key]];
 				[tmp setObject:notification forKey:key];
 				[notification release];
 			}

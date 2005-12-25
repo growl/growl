@@ -84,6 +84,15 @@
  *  This key is optional.
  */
 #define GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES		XSTR("HumanReadableNames")
+/*! @defined GROWL_NOTIFICATIONS_DESCRIPTIONS
+*  @abstract A dictionary of descriptions of _when_ each notification occurs
+*  @discussion This is an NSDictionary whose keys are GROWL_NOTIFICATION_NAME strings and whose objects are
+*  descriptions of _when_ each notification occurs, such as "You received a new mail message" or
+*  "A file finished downloading".
+*
+*  This key is optional.
+*/
+#define GROWL_NOTIFICATIONS_DESCRIPTIONS		XSTR("NotificationDescriptions")
 
 /*!	@defined	GROWL_TICKET_VERSION
  *	@abstract	The version of your registration ticket.

@@ -23,19 +23,21 @@
 	return [[[GrowlNotificationTicket alloc] initWithDictionary:dict] autorelease];
 }
 
-+ (GrowlNotificationTicket *) notificationWithName:(NSString *)name
++ (GrowlNotificationTicket *) notificationWithName:(NSString *)inName
 								 humanReadableName:(NSString *)inHumanReadableName
-										  priority:(enum GrowlPriority)priority
-										   enabled:(BOOL)enabled
-											sticky:(int)sticky
-								 displayPluginName:(NSString *)display
+						   notificationDescription:(NSString *)inNotificationDescription
+										  priority:(enum GrowlPriority)inPriority
+										   enabled:(BOOL)inEnabled
+											sticky:(int)inSticky
+								 displayPluginName:(NSString *)inDisplay
 {
-	return [[[self alloc] initWithName:name
+	return [[[self alloc] initWithName:inName
 					 humanReadableName:inHumanReadableName
-							  priority:priority
-							   enabled:enabled
-								sticky:sticky
-					 displayPluginName:display] autorelease];
+			   notificationDescription:inNotificationDescription
+							  priority:inPriority
+							   enabled:inEnabled
+								sticky:inSticky
+					 displayPluginName:inDisplay] autorelease];
 }
 
 - (GrowlNotificationTicket *) initWithDictionary:(NSDictionary *)dict {
@@ -43,6 +45,8 @@
 
 	NSString *inHumanReadableName = getObjectForKey(dict, @"HumanReadableName");
 
+	NSString *inNotificationDescription = getObjectForKey(dict, @"NotificationDescription");
+	
 	id value = getObjectForKey(dict, @"Priority");
 	enum GrowlPriority inPriority = value ? [value intValue] : GrowlPriorityUnset;
 
@@ -55,6 +59,7 @@
 
 	return [self initWithName:inName
 			humanReadableName:inHumanReadableName
+	  notificationDescription:inNotificationDescription
 					 priority:inPriority
 					  enabled:inEnabled
 					   sticky:inSticky
@@ -64,6 +69,7 @@
 - (GrowlNotificationTicket *) initWithName:(NSString *)theName {
 	return [self initWithName:theName
 			humanReadableName:nil
+	  notificationDescription:nil
 					 priority:GrowlPriorityUnset 
 					  enabled:YES
 					   sticky:NSMixedState
@@ -72,18 +78,20 @@
 
 - (GrowlNotificationTicket *) initWithName:(NSString *)inName
 						 humanReadableName:(NSString *)inHumanReadableName
+				   notificationDescription:(NSString *)inNotificationDescription
 								  priority:(enum GrowlPriority)inPriority
 								   enabled:(BOOL)inEnabled
 									sticky:(int)inSticky
 						 displayPluginName:(NSString *)display
 {
 	if ((self = [super init])) {
-		name              = [inName retain];
-		humanReadableName = [inHumanReadableName retain];
-		priority          = inPriority;
-		enabled           = inEnabled;
-		sticky            = inSticky;
-		displayPluginName = [display copy];
+		name					= [inName retain];
+		humanReadableName		= [inHumanReadableName retain];
+		notificationDescription = [inNotificationDescription retain];
+		priority				= inPriority;
+		enabled					= inEnabled;
+		sticky					= inSticky;
+		displayPluginName		= [display copy];
 	}
 	return self;
 }
@@ -92,6 +100,7 @@
 	[name release];
 	[humanReadableName release];
 	[displayPluginName release];
+	[notificationDescription release];
 
 	[super dealloc];
 }
@@ -112,6 +121,11 @@
 		setIntegerForKey(dict, @"Priority", priority);
 	if (displayPluginName)
 		setObjectForKey(dict, @"Display", displayPluginName);
+	if (notificationDescription)
+		setObjectForKey(dict, @"NotificationDescription", notificationDescription);
+	if (humanReadableName)
+		setObjectForKey(dict, @"HumanReadableName", humanReadableName);		
+	
 	return dict;
 }
 
@@ -145,6 +159,17 @@
 	if (humanReadableName != inHumanReadableName) {
 		[humanReadableName release];
 		humanReadableName = [inHumanReadableName retain];
+	}
+}
+
+- (NSString *) notificationDescription {
+	return notificationDescription;
+}
+
+- (void) setNotificationDescription:(NSString *)inNotificationDescription {
+	if (notificationDescription != inNotificationDescription) {
+		[notificationDescription release];
+		notificationDescription = [inNotificationDescription retain];
 	}
 }
 
