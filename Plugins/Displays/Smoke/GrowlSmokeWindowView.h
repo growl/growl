@@ -17,8 +17,6 @@
 	float				textHeight;
 	float				titleHeight;
 	float				lineHeight;
-	SEL					action;
-	id					target;
 	NSProgressIndicator	*progressIndicator;
 
 	NSFont				*textFont;
