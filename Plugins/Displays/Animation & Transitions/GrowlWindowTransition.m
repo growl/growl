@@ -75,8 +75,8 @@
 	[super dealloc];
 }
 
-- (void) drawFrame:(GrowlAnimationProgress)progress {
-	[self drawTransitionWithWindow:window progress:progress];
+- (void) drawFrame:(GrowlAnimationProgress)inProgress {
+	[self drawTransitionWithWindow:window progress:inProgress];
 }
 
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)progress {
