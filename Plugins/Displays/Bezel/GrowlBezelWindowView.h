@@ -13,8 +13,6 @@
 	NSImage			*icon;
 	NSString		*title;
 	NSString		*text;
-	SEL				action;
-	id				target;
 
 	NSColor			*textColor;
 	NSColor			*backgroundColor;
