@@ -205,48 +205,36 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) idleStatus:(NSNotification *)notification {
-	if ([[notification object] isEqualToString:@"Idle"]) {
-		GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
-		int idleThreshold;
-		CFNumberRef value = (CFNumberRef)[preferences objectForKey:@"IdleThreshold"];
-		if (value)
-			CFNumberGetValue(value, kCFNumberIntType, &idleThreshold);
-		else
-			idleThreshold = MACHINE_IDLE_THRESHOLD;
+		if ([[notification object] isEqualToString:@"Idle"]) {
+			GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+			int idleThreshold;
+			NSNumber *value = [preferences objectForKey:@"IdleThreshold"];
+			NSString *description;
+			
+			idleThreshold = (value ? [value intValue] : MACHINE_IDLE_THRESHOLD);
+			description = [NSString stringWithFormat:NSLocalizedString(@"No activity for more than %d seconds.", nil), idleThreshold];
+			if ([preferences stickyWhenAway]) {
+				description = [description stringByAppendingString:NSLocalizedString(@" New notifications will be sticky.", nil)];
+			}
 
-		CFStringRef title = CFCopyLocalizedString(CFSTR("User went idle"), /*comment*/ NULL);
-		CFStringRef descriptionFormat = CFCopyLocalizedString(CFSTR("No activity for more than %d seconds."), /*comment*/ NULL);
-		CFMutableStringRef description = CFStringCreateMutable(kCFAllocatorDefault, 0);
-		CFStringAppendFormat(description, NULL, descriptionFormat, idleThreshold);
-		CFRelease(descriptionFormat);
-		if ([preferences stickyWhenAway]) {
-			CFStringRef stickyDescription = CFCopyLocalizedString(CFSTR(" New notifications will be sticky."), /*comment*/ NULL);
-			CFStringAppend(description, stickyDescription);
-			CFRelease(stickyDescription);
+			[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User went idle", nil)
+										description:description
+								   notificationName:@"User went idle"
+										   iconData:growlIconData
+										   priority:-1
+										   isSticky:NO
+									   clickContext:nil
+										 identifier:nil];
+		} else {
+			[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User returned", nil)
+										description:NSLocalizedString(@"User activity detected. New notifications will not be sticky by default.", nil)
+								   notificationName:@"User returned"
+										   iconData:growlIconData
+										   priority:-1
+										   isSticky:NO
+									   clickContext:nil
+										 identifier:nil];
 		}
-		[GrowlApplicationBridge notifyWithTitle:(NSString *)title
-									description:(NSString *)description
-							   notificationName:@"User went idle"
-									   iconData:growlIconData
-									   priority:-1
-									   isSticky:NO
-								   clickContext:nil
-									 identifier:nil];
-		CFRelease(title);
-		CFRelease(description);
-	} else {
-		CFStringRef title = CFCopyLocalizedString(CFSTR("User returned"), /*comment*/ NULL);
-		CFStringRef description = CFCopyLocalizedString(CFSTR("User activity detected. New notifications will not be sticky by default."), /*comment*/ NULL);
-		[GrowlApplicationBridge notifyWithTitle:(NSString *)title
-									description:(NSString *)description
-							   notificationName:@"User returned"
-									   iconData:growlIconData
-									   priority:-1
-									   isSticky:NO
-								   clickContext:nil
-									 identifier:nil];
-		CFRelease(title);
-		CFRelease(description);
 	}
 }
 
