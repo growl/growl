@@ -594,7 +594,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 }
 
 #pragma mark -
-#warning XXX all of this could potentially go bye-bye if it isn't needed
+#warning XXX all of this could potentially go bye-bye if it is not needed
 
 - (NSArray *) displayPlugins {
 	if (!cache_displayPlugins)
