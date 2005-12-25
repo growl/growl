@@ -380,7 +380,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 		NSSet *types;
 		if (extension) {
-#warning when there is no file type it is coming back as \'\'...im guessing this means no type, but it still tests as true so each plugin is registered against that type...wrong???
+#warning problem here...
+			///XXX when there is no file type it is coming back as \'\'...im guessing this means no type, but it still tests as true so each plugin is registered against that type...wrong???
 			if (fileType)
 				types = [NSSet setWithObjects:extension, fileType, nil];
 			else
