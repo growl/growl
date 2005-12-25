@@ -56,10 +56,10 @@
 - (NSString *) author;
 
 /*!
- * @method description
+ * @method pluginDescription
  * @abstract Returns the description of the receiver.
  */
-- (NSString *) description;
+- (NSString *) pluginDescription;
 
 /*!
  * @method version

@@ -68,7 +68,7 @@
 - (NSString *) version {
 	return pluginVersion;
 }
-- (NSString *) description {
+- (NSString *) pluginDescription {
 	return pluginDesc;
 }
 - (void) setDescription:(NSString *)newDesc {
