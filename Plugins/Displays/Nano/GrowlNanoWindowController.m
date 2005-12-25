@@ -12,7 +12,7 @@
 #import "GrowlNanoPrefs.h"
 #import "NSWindow+Transforms.h"
 #import "GrowlSlidingWindowTransition.h"
-//#import "GrowlWipeWindowTransition.h"
+#import "GrowlWipeWindowTransition.h"
 
 @implementation GrowlNanoWindowController
 
@@ -94,7 +94,6 @@
 		[self addTransition:slider];
 		[slider release];
 	} else {
-		/*
 		//wipe effect
 		[panel setFrameOrigin:NSMakePoint(NSMaxX(screen)-600, NSMaxY(screen))];
 		GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
@@ -103,7 +102,6 @@
 		[wiper setAutoReverses:YES];
 		[self addTransition:wiper];
 		[wiper release];
-		 */
 	}
 	return self;
 
