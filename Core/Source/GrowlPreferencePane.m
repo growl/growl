@@ -86,11 +86,11 @@
 	[plugins         release];
 	[currentPlugin   release];
 	CFRelease(customHistArray);
-	CFRelease(versionCheckURL);
-	CFRelease(growlWebSiteURL);
-	CFRelease(growlForumURL);
-	CFRelease(growlTracURL);
-	CFRelease(growlDonateURL);
+	[versionCheckURL release];
+	[growlWebSiteURL release];
+	[growlForumURL release];
+	[growlTracURL release];
+	[growlDonateURL release];
 	CFRelease(images);
 	[super dealloc];
 }
@@ -131,14 +131,14 @@
 	if ([preferencesController isGrowlMenuEnabled] && ![GrowlPreferencePane isGrowlMenuRunning])
 		[preferencesController enableGrowlMenu];
 
-	growlWebSiteURL = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://growl.info"), NULL);
-	growlForumURL   = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://forums.cocoaforge.com/viewforum.php?f=6"), NULL);
-	growlTracURL    = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://trac.growl.info/trac"), NULL);
-	growlDonateURL	= CFURLCreateWithString(kCFAllocatorDefault, CFSTR("https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=chris%40growl%2einfo&item_name=The%20Growl%20Project&no_shipping=0&no_note=1&tax=0&currency_code=USD&bn=PP%2dDonationsBF&charset=UTF%2d8"), NULL);
-	NSString *growlWebSiteURLString = (NSString *)CFURLGetString(growlWebSiteURL);
-	NSString *growlForumURLString   = (NSString *)CFURLGetString(growlForumURL);
-	NSString *growlTracURLString    = (NSString *)CFURLGetString(growlTracURL);
-	NSString *growlDonateURLString	= (NSString *)CFURLGetString(growlTracURL);
+	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
+	growlForumURL = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
+	growlTracURL = [[NSURL alloc] initWithString:@"http://trac.growl.info/trac"];
+	growlDonateURL = [[NSURL alloc] initWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=chris%40growl%2einfo&item_name=The%20Growl%20Project&no_shipping=0&no_note=1&tax=0&currency_code=USD&bn=PP%2dDonationsBF&charset=UTF%2d8"];
+	NSString *growlWebSiteURLString = [growlWebSiteURL absoluteString];
+	NSString *growlForumURLString   = [growlForumURL absoluteString];
+	NSString *growlTracURLString    = [growlTracURL absoluteString];
+	NSString *growlDonateURLString	= [growlDonateURL absoluteString];
 
 	[growlWebSite setAttributedTitle:         [growlWebSiteURLString       hyperlink]];
 	[growlWebSite setAttributedAlternateTitle:[growlWebSiteURLString activeHyperlink]];
@@ -203,12 +203,12 @@
 	[growlVersionProgress startAnimation:self];
 
 	if (!versionCheckURL)
-		versionCheckURL = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://growl.info/version.xml"), NULL);
+		versionCheckURL = [[NSURL alloc] initWithString:@"http://growl.info/version.xml"];
 
 	NSBundle *bundle = [self bundle];
 	NSDictionary *infoDict = [bundle infoDictionary];
 	NSString *currVersionNumber = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
-	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:(NSURL *)versionCheckURL];
+	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
 	NSString *executableName = [infoDict objectForKey:(NSString *)kCFBundleExecutableKey];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:executableName];
 
@@ -628,6 +628,8 @@
 // this method is used as our callback to determine whether or not to delete the ticket
 -(void)deleteCallbackDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)eventID
 {
+#pragma unused(alert)
+#pragma unused(eventID)
 	if(returnCode == NSAlertDefaultReturn)
 	{
 		GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
@@ -740,22 +742,22 @@
 
 - (IBAction) openGrowlWebSite:(id)sender {
 #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)growlWebSiteURL];
+	[[NSWorkspace sharedWorkspace] openURL:growlWebSiteURL];
 }
 
 - (IBAction) openGrowlForum:(id)sender {
 #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)growlForumURL];
+	[[NSWorkspace sharedWorkspace] openURL:growlForumURL];
 }
 
 - (IBAction) openGrowlTrac:(id)sender {
 #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)growlTracURL];
+	[[NSWorkspace sharedWorkspace] openURL:growlTracURL];
 }
 
 - (IBAction) openGrowlDonate:(id)sender {
  #pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)growlDonateURL];
+	[[NSWorkspace sharedWorkspace] openURL:growlDonateURL];
 }
 #pragma mark TableView delegate methods
 

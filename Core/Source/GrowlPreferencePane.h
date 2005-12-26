@@ -15,20 +15,20 @@
 	int                             pid;
 
 	CFMutableArrayRef               images;
-	NSMutableArray                 *tickets;
-	NSArray                        *plugins;
+	NSMutableArray					*tickets;
+	NSArray							*plugins;
 
-	NSPreferencePane               *pluginPrefPane;
-	NSMutableArray                 *loadedPrefPanes;
+	NSPreferencePane				*pluginPrefPane;
+	NSMutableArray					*loadedPrefPanes;
 
 	//Properties of the plugin being configured
-	NSDictionary                   *currentPlugin;
-	GrowlPlugin                    *currentPluginController;
+	NSDictionary					*currentPlugin;
+	GrowlPlugin						*currentPluginController;
 
 	BOOL                            canRemoveTicket;
 	BOOL                            growlIsRunning;
 
-	CFURLRef                        versionCheckURL;
+	NSURL							*versionCheckURL;
 
 	//cached controllers
 	/*these are cached to avoid redundant calls to
@@ -36,55 +36,55 @@
 	 *though that method also caches its return value, we're dealing with
 	 *	Bindings here, so we want to pick up all the speed boosts that we can.
 	 */
-	GrowlPluginController          *pluginController;
-	GrowlPreferencesController     *preferencesController;
+	GrowlPluginController			*pluginController;
+	GrowlPreferencesController		*preferencesController;
 
 	//"General" tab pane
-	IBOutlet NSButton              *startStopGrowl;
-	IBOutlet NSTextField           *growlRunningStatus;
-	IBOutlet NSProgressIndicator   *growlRunningProgress;
-	IBOutlet NSProgressIndicator   *growlVersionProgress;
-	IBOutlet NSArrayController     *notificationsArrayController;
+	IBOutlet NSButton				*startStopGrowl;
+	IBOutlet NSTextField			*growlRunningStatus;
+	IBOutlet NSProgressIndicator	*growlRunningProgress;
+	IBOutlet NSProgressIndicator	*growlVersionProgress;
+	IBOutlet NSArrayController		*notificationsArrayController;
 
 	// Logging
-	IBOutlet NSMatrix              *logFileType;
-	IBOutlet NSPopUpButton         *customMenuButton;
+	IBOutlet NSMatrix				*logFileType;
+	IBOutlet NSPopUpButton			*customMenuButton;
 	CFMutableArrayRef               customHistArray;
 
 	//"Applications" tab pane
-	IBOutlet NSTableView           *growlApplications;
-	IBOutlet NSTableColumn		   *applicationNameAndIconColumn;
-	IBOutlet NSTabView             *applicationsTab;
-	NSTableView                    *activeTableView;
-	IBOutlet NSMenu                *notificationPriorityMenu;
+	IBOutlet NSTableView			*growlApplications;
+	IBOutlet NSTableColumn			*applicationNameAndIconColumn;
+	IBOutlet NSTabView				*applicationsTab;
+	NSTableView						*activeTableView;
+	IBOutlet NSMenu					*notificationPriorityMenu;
 	IBOutlet TicketsArrayController	*ticketsArrayController;
 
 	//"Display Options" tab pane
-	IBOutlet NSTableView           *displayPluginsTable;
-	IBOutlet NSView                *displayPrefView;
-	IBOutlet NSView                *displayDefaultPrefView;
-	IBOutlet NSTextField           *displayAuthor;
-	IBOutlet NSTextField           *displayVersion;
-	IBOutlet NSButton              *previewButton;
-	IBOutlet NSArrayController     *displayPluginsArrayController;
+	IBOutlet NSTableView			*displayPluginsTable;
+	IBOutlet NSView					*displayPrefView;
+	IBOutlet NSView					*displayDefaultPrefView;
+	IBOutlet NSTextField			*displayAuthor;
+	IBOutlet NSTextField			*displayVersion;
+	IBOutlet NSButton				*previewButton;
+	IBOutlet NSArrayController		*displayPluginsArrayController;
 
 	//"Network" tab pane
-	NSMutableArray                 *services;
-	NSNetServiceBrowser            *browser;
-	NSNetService                   *serviceBeingResolved;
-	int                             currentServiceIndex;
-	IBOutlet NSTableColumn         *servicePasswordColumn;
+	NSMutableArray					*services;
+	NSNetServiceBrowser				*browser;
+	NSNetService					*serviceBeingResolved;
+	int								currentServiceIndex;
+	IBOutlet NSTableColumn			*servicePasswordColumn;
 
 	//About box tab pane
-	IBOutlet NSTextView            *aboutBoxTextView;
-	IBOutlet NSButton              *growlWebSite;
-	IBOutlet NSButton              *growlForum;
-	IBOutlet NSButton              *growlTrac;
-	IBOutlet NSButton			   *growlDonate;
-	CFURLRef                        growlWebSiteURL;
-	CFURLRef                        growlForumURL;
-	CFURLRef                        growlTracURL;
-	CFURLRef						growlDonateURL;
+	IBOutlet NSTextView				*aboutBoxTextView;
+	IBOutlet NSButton				*growlWebSite;
+	IBOutlet NSButton				*growlForum;
+	IBOutlet NSButton				*growlTrac;
+	IBOutlet NSButton				*growlDonate;
+	NSURL							*growlWebSiteURL;
+	NSURL							*growlForumURL;
+	NSURL							*growlTracURL;
+	NSURL							*growlDonateURL;
 }
 
 - (NSString *) bundleVersion;
