@@ -615,12 +615,12 @@
 
 - (void) deleteTicket:(id)sender {
 #pragma unused(sender)
-	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"Are you sure you want to remove %@?",
-													[[[ticketsArrayController selectedObjects] objectAtIndex:0U] applicationName]]
+	NSString *appName = [[[ticketsArrayController selectedObjects] objectAtIndex:0U] applicationName];
+	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"Are you sure you want to remove %@?", appName]
 									 defaultButton:@"Remove" 
 								   alternateButton:@"Cancel" 
 									   otherButton:nil 
-						 informativeTextWithFormat:@"Removing an application from this list will reset your settings and it will need to re-register when it uses Growl the next time."];
+						 informativeTextWithFormat:[NSString stringWithFormat:@"Removing %@ from this list will reset your settings and %@ will need to re-register when it uses Growl the next time.", appName, appName];
 	[alert setIcon:[[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForImageResource:@"growl-icon"]] autorelease]];
 	[alert beginSheetModalForWindow:[[NSApplication sharedApplication] keyWindow] modalDelegate:self didEndSelector:@selector(deleteCallbackDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
