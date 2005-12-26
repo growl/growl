@@ -80,9 +80,11 @@
 	IBOutlet NSButton              *growlWebSite;
 	IBOutlet NSButton              *growlForum;
 	IBOutlet NSButton              *growlTrac;
+	IBOutlet NSButton			   *growlDonate;
 	CFURLRef                        growlWebSiteURL;
 	CFURLRef                        growlForumURL;
 	CFURLRef                        growlTracURL;
+	CFURLRef						growlDonateURL;
 }
 
 - (NSString *) bundleVersion;
@@ -140,5 +142,6 @@
 - (IBAction) openGrowlWebSite:(id)sender;
 - (IBAction) openGrowlForum:(id)sender;
 - (IBAction) openGrowlTrac:(id)sender;
+- (IBAction) openGrowlDonate:(id)sender;
 
 @end

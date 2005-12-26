@@ -90,6 +90,7 @@
 	CFRelease(growlWebSiteURL);
 	CFRelease(growlForumURL);
 	CFRelease(growlTracURL);
+	CFRelease(growlDonateURL);
 	CFRelease(images);
 	[super dealloc];
 }
@@ -133,9 +134,11 @@
 	growlWebSiteURL = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://growl.info"), NULL);
 	growlForumURL   = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://forums.cocoaforge.com/viewforum.php?f=6"), NULL);
 	growlTracURL    = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://trac.growl.info/trac"), NULL);
+	growlDonateURL	= CFURLCreateWithString(kCFAllocatorDefault, CFSTR("https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=chris%40growl%2einfo&item_name=The%20Growl%20Project&no_shipping=0&no_note=1&tax=0&currency_code=USD&bn=PP%2dDonationsBF&charset=UTF%2d8"), NULL);
 	NSString *growlWebSiteURLString = (NSString *)CFURLGetString(growlWebSiteURL);
 	NSString *growlForumURLString   = (NSString *)CFURLGetString(growlForumURL);
 	NSString *growlTracURLString    = (NSString *)CFURLGetString(growlTracURL);
+	NSString *growlDonateURLString	= (NSString *)CFURLGetString(growlTracURL);
 
 	[growlWebSite setAttributedTitle:         [growlWebSiteURLString       hyperlink]];
 	[growlWebSite setAttributedAlternateTitle:[growlWebSiteURLString activeHyperlink]];
@@ -146,6 +149,10 @@
 	[growlTrac    setAttributedTitle:         [growlTracURLString          hyperlink]];
 	[growlTrac    setAttributedAlternateTitle:[growlTracURLString    activeHyperlink]];
 	[[growlTrac    cell] setHighlightsBy:NSContentsCellMask];
+	[growlDonate    setAttributedTitle:         [growlDonateURLString          hyperlink]];
+	[growlDonate    setAttributedAlternateTitle:[growlDonateURLString    activeHyperlink]];
+	[[growlDonate    cell] setHighlightsBy:NSContentsCellMask];
+
 
 	customHistArray = CFArrayCreateMutable(kCFAllocatorDefault, 3, &kCFTypeArrayCallBacks);
 	id value = [preferencesController objectForKey:GrowlCustomHistKey1];
@@ -746,6 +753,10 @@
 	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)growlTracURL];
 }
 
+- (IBAction) openGrowlDonate:(id)sender {
+ #pragma unused(sender)
+	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)growlDonateURL];
+}
 #pragma mark TableView delegate methods
 
 - (void) tableViewDidClickInBody:(NSTableView *)tableView {

@@ -9,6 +9,7 @@
                 deleteTicket = id; 
                 logTypeChanged = id; 
                 openConsoleApp = id; 
+                openGrowlDonate = id; 
                 openGrowlForum = id; 
                 openGrowlTrac = id; 
                 openGrowlWebSite = id; 
@@ -22,7 +23,6 @@
                 aboutBoxTextView = NSTextView; 
                 applicationNameAndIconColumn = NSTableColumn; 
                 applicationsTab = NSTabView; 
-                currentPluginController = id; 
                 customMenuButton = NSPopUpButton; 
                 displayAuthor = NSTextField; 
                 displayDefaultPrefView = NSView; 
