@@ -13,6 +13,10 @@
 	</dict>
 	<key>IBFramework Version</key>
 	<string>443.0</string>
+	<key>IBLockedTabItems</key>
+	<array>
+		<integer>602</integer>
+	</array>
 	<key>IBOldestOS</key>
 	<integer>3</integer>
 	<key>IBOpenObjects</key>
