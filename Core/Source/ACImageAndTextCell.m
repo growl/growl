@@ -138,7 +138,7 @@
 
 		[image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
 	}
-	
+
 	NSAttributedString *string = [self attributedStringValue];
 	if (string) {
 		NSSize textSize = [string size];

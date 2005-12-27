@@ -13,11 +13,9 @@
 @implementation GrowlShrinkingWindowTransition
 
 - (id) initWithWindow:(NSWindow *)inWindow {
-	self = [super initWithWindow:inWindow];
-	if (!self)
-		return nil;
-	
-	scaleFactor = 0.0f;	
+	if ((self = [super initWithWindow:inWindow])) {
+		scaleFactor = 0.0f;
+	}
 	return self;
 }
 

@@ -31,7 +31,7 @@
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &screenNumber);
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
-	
+
 	displayDuration = GrowlBubblesDurationPrefDefault;
 	CFNumberRef prefsDuration = NULL;
 	CFTimeInterval value = -1.0f;
@@ -63,7 +63,7 @@
 	[panel setOneShot:YES];
 	[panel useOptimizedDrawing:YES];
 	[panel setMovableByWindowBackground:NO];
-	
+
 	// Create the content view...
 	GrowlBubblesWindowView *view = [[GrowlBubblesWindowView alloc] initWithFrame:panelFrame];
 	[view setTarget:self];
@@ -71,19 +71,17 @@
 	[view setDelegate:self];
 	[view setCloseOnMouseExit:YES];
 	[panel setContentView:view];
-	
+
 	// call super so everything else is set up...
-	self = [super initWithWindow:panel];
-	if (!self)
-		return nil;
-	
-	// set up the transitions...
-	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
-	[self addTransition:fader];
-	[self setStartPercentage:0 endPercentage:100 forTransition:fader];
-	[fader setAutoReverses:YES];
-	[fader release];
-	
+	if ((self = [super initWithWindow:panel])) {
+		// set up the transitions...
+		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
+		[self addTransition:fader];
+		[self setStartPercentage:0 endPercentage:100 forTransition:fader];
+		[fader setAutoReverses:YES];
+		[fader release];
+	}
+
 	return self;
 }
 
@@ -103,7 +101,7 @@
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;
-	
+
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *title = [notification HTMLTitle];
 	NSString *text  = [notification HTMLDescription];
@@ -123,7 +121,7 @@
 		textHTML = NO;
 		text = [notification notificationDescription];
 	}
-	
+
 	NSPanel *panel = (NSPanel *)[self window];
 	GrowlBubblesWindowView *view = [[self window] contentView];
 	[view setPriority:priority];

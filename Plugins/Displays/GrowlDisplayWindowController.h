@@ -20,7 +20,7 @@
 @interface GrowlDisplayWindowController : NSWindowController {
 	GrowlApplicationNotification    *notification;	/* not sure if this will be needed since binding may work without */
 	GrowlNotificationDisplayBridge  *bridge;
-	
+
 	SEL					             action;
 	id					             target;
 	id					             clickContext;
@@ -29,17 +29,17 @@
 	NSNumber			             *appPid;
 	NSMutableDictionary              *windowTransitions;
 	id					             delegate;
-	
+
 	CFRunLoopTimerRef	             displayTimer;
 	CFRunLoopTimerRef				 delayTimer;
 	CFRunLoopTimerRef				 transitionTimer;
-	
+
 	BOOL				             ignoresOtherNotifications;
 
 	CFTimeInterval                   transitionDuration;
 	NSMapTable                       *startTimes;
 	NSMapTable                       *endTimes;
-	
+
 	CFTimeInterval		             displayDuration;
 	unsigned			             screenNumber;
 	unsigned			             screenshotMode: 1;

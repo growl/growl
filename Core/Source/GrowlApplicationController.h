@@ -42,18 +42,18 @@
 	CFRunLoopTimerRef			updateTimer;
 
 	NSThread					*mainThread;
-	
+
 	/// TEMP VARS
-	
+
 	// remote DistributedObjects server
 	NSNetService				*service;
 	NSPort						*socketPort;
 	NSConnection				*serverConnection;
 	GrowlRemotePathway			*server;
-	
+
 	// UDP server
 	GrowlUDPPathway				*udpServer;
-	
+
 }
 
 + (GrowlApplicationController *) sharedController;

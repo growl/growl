@@ -37,6 +37,7 @@
 #include <sys/socket.h>
 #include <sys/fcntl.h>
 #include <netinet/in.h>
+#include "CPS.h"
 
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
@@ -47,6 +48,28 @@ extern CFRunLoopRef CFRunLoopGetMain(void);
 - (void) notificationClicked:(NSNotification *)notification;
 - (void) notificationTimedOut:(NSNotification *)notification;
 @end
+
+static BOOL isFullscreenProcessInFront(void) {
+	OSErr             result;
+	CPSProcessSerNum  frontProcess;
+	CPSProcessInfoRec info;
+
+	result = CPSGetFrontProcess(&frontProcess);
+	if (result != noErr)
+		return NO;
+
+	result = CPSGetProcessInfo(&frontProcess, &info,
+							   /*path*/ NULL,
+							   /*maxPathLen*/ 0,
+							   /*len*/ NULL,
+							   /*name*/ NULL,
+							   /*maxNameLen*/ 0);
+	if (result != noErr)
+		return NO;
+
+	NSLog(@"Foreground process: %d fullscreen: %s\n", info.UnixPID, (info.Attributes & kCPSFullScreenAttr) ? "YES" : "NO");
+	return (info.Attributes & kCPSFullScreenAttr) != 0;
+}
 
 static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
 //XXX - update these constants whenever the version changes
@@ -210,13 +233,12 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		int idleThreshold;
 		NSNumber *value = [preferences objectForKey:@"IdleThreshold"];
 		NSString *description;
-		
+
 		idleThreshold = (value ? [value intValue] : MACHINE_IDLE_THRESHOLD);
 		description = [NSString stringWithFormat:NSLocalizedString(@"No activity for more than %d seconds.", nil), idleThreshold];
-		if ([preferences stickyWhenAway]) {
+		if ([preferences stickyWhenAway])
 			description = [description stringByAppendingString:NSLocalizedString(@" New notifications will be sticky.", nil)];
-		}
-		
+
 		[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"User went idle", nil)
 									description:description
 							   notificationName:@"User went idle"
@@ -293,11 +315,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	server = [[GrowlRemotePathway alloc] init];
 	[serverConnection setRootObject:server];
 	[serverConnection setDelegate:self];
-	
+
 	// register with the default NSPortNameServer on the local host
 	if (![serverConnection registerName:@"GrowlServer"])
 		NSLog(@"WARNING: could not register Growl server.");
-	
+
 	// configure and publish the Bonjour service
 	CFStringRef serviceName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
 															 /*nameEncoding*/ NULL);
@@ -308,7 +330,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	CFRelease(serviceName);
 	[service setDelegate:self];
 	[service publish];
-	
+
 	// start UDP service
 	udpServer = [[GrowlUDPPathway alloc] init];
 }
@@ -328,7 +350,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) startStopServer {
 	BOOL enabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey];
-	
+
 	// Setup notification server
 	if (enabled && !service)
 		[self startServer];
@@ -509,6 +531,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
 	setBooleanForKey(aDict, GROWL_SCREENSHOT_MODE, saveScreenshot);
 	setBooleanForKey(aDict, @"ClickHandlerEnabled", [ticket clickHandlersEnabled]);
+
+	isFullscreenProcessInFront();
 
 	if (![preferences squelchMode]) {
 		GrowlDisplayPlugin *display = [notification displayPlugin];

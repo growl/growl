@@ -13,12 +13,9 @@
 @implementation GrowlWebKitPluginHandler
 
 - (id) initSingleton {
-	self = [super initSingleton];
-	if (!self)
-		return nil;
-	
-	[[GrowlPluginController sharedController] addPluginHandler:self forPluginTypes:[NSSet setWithObject:GROWL_STYLE_EXTENSION]];
-	
+	if ((self = [super initSingleton]))
+		[[GrowlPluginController sharedController] addPluginHandler:self forPluginTypes:[NSSet setWithObject:GROWL_STYLE_EXTENSION]];
+
 	return self;
 }
 
@@ -28,7 +25,7 @@
 		NSLog(@"%@ Failed to load: %@",NSStringFromClass([self class]),path);
 		return NO;
 	}
-	
+
 	GrowlWebKitDisplayPlugin *instance = [[GrowlWebKitDisplayPlugin alloc] initWithStyleBundle:pluginBundle];
 	if (!instance) {
 		NSLog(@"%@ Failed to load: %@ - the bundle did not contain a valid WebKit plugin",
@@ -36,7 +33,7 @@
 			  path);
 		return NO;
 	}
-	
+
 	[[GrowlPluginController sharedController] addPluginInstance:instance fromBundle:pluginBundle];
 	return YES;
 }

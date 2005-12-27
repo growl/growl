@@ -13,7 +13,7 @@
 @interface GrowlWebKitWindowController : GrowlDisplayWindowController {
 	NSString                        *templateHTML;
 	NSURL                           *baseURL;
-	
+
 	unsigned	                    depth;
 	NSImage		                    *image;
 	BOOL		                    positioned;		// This should live in the super class

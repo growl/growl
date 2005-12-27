@@ -22,7 +22,7 @@
 	int sizePref = MUSICVIDEO_SIZE_NORMAL;
 
 	displayDuration = GrowlBubblesDurationPrefDefault;
-	
+
 	CFNumberRef prefsDuration = NULL;
 	CFTimeInterval value = -1.0f;
 	READ_GROWL_PREF_VALUE(MUSICVIDEO_DURATION_PREF, GrowlMusicVideoPrefDomain, CFNumberRef, &prefsDuration);
@@ -75,32 +75,30 @@
 	[view release];
 
 	[panel setFrameTopLeftPoint:NSMakePoint( 0,0)];
-											
+
 	// call super so everything else is set up...
-	self = [super initWithWindow:panel];
-	if (!self)
-		return nil;
-	
-	int effect = 0;
-	READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
-	if (effect == 0) {
-		//slider effect
-		GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
-		[slider setFromOrigin:NSMakePoint(NSMinX(screen),-frameHeight) toOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen))];
-		[self setStartPercentage:0 endPercentage:100 forTransition:slider];
-		[slider setAutoReverses:YES];
-		[self addTransition:slider];
-		[slider release];
-	} else {
-		//wipe effect
-		//[panel setFrameOrigin:NSMakePoint( 0, 0)];
-		//GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
-		// save for scale effect [wiper setFromOrigin:NSMakePoint(0,0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
-		//[wiper setFromOrigin:NSMakePoint(NSMaxX(screen), 0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
-		//[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
-		//[wiper setAutoReverses:YES];
-		//[self addTransition:wiper];
-		//[wiper release];
+	if ((self = [super initWithWindow:panel])) {
+		int effect = 0;
+		READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
+		if (effect == 0) {
+			//slider effect
+			GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
+			[slider setFromOrigin:NSMakePoint(NSMinX(screen),-frameHeight) toOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen))];
+			[self setStartPercentage:0 endPercentage:100 forTransition:slider];
+			[slider setAutoReverses:YES];
+			[self addTransition:slider];
+			[slider release];
+		} else {
+			//wipe effect
+			//[panel setFrameOrigin:NSMakePoint( 0, 0)];
+			//GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
+			// save for scale effect [wiper setFromOrigin:NSMakePoint(0,0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
+			//[wiper setFromOrigin:NSMakePoint(NSMaxX(screen), 0) toOrigin:NSMakePoint(NSMaxX(screen), frameHeight)];
+			//[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
+			//[wiper setAutoReverses:YES];
+			//[self addTransition:wiper];
+			//[wiper release];
+		}
 	}
 	return self;
 
@@ -111,14 +109,14 @@
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;
-	
+
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *title = [notification title];
 	NSString *text  = [notification notificationDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int prio        = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 	BOOL textHTML, titleHTML;
-	
+
 	if (title)
 		titleHTML = YES;
 	else {
@@ -131,7 +129,7 @@
 		textHTML = NO;
 		text = [notification notificationDescription];
 	}
-	
+
 	NSPanel *panel = (NSPanel *)[self window];
 	GrowlMusicVideoWindowView *view = [panel contentView];
 	[view setPriority:prio];
@@ -139,7 +137,7 @@
 	[view setText:text];// isHTML:textHTML];
 	[view setIcon:icon];
 	//[view sizeToFit];
-	
+
 	NSRect viewFrame = [view frame];
 	[panel setFrame:viewFrame display:NO];
 	[panel setFrameTopLeftPoint:NSMakePoint(0,0)];

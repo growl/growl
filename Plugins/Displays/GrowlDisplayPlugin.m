@@ -43,7 +43,7 @@
     [activeBridges release];
     [bridge release];
     [queue release];
-	
+
 	[super dealloc];
 }
 
@@ -52,7 +52,7 @@
 - (void) displayNotification:(GrowlApplicationNotification *)notification {
 	NSString *windowNibName = [self windowNibName];
 	GrowlNotificationDisplayBridge *newBridge = nil;
-	if (windowNibName) 
+	if (windowNibName)
 		newBridge = [GrowlNotificationDisplayBridge bridgeWithDisplay:self
 														 notification:notification
 														windowNibName:windowNibName
@@ -61,7 +61,7 @@
 		newBridge = [GrowlNotificationDisplayBridge bridgeWithDisplay:self
 														 notification:notification
 												windowControllerClass:windowControllerClass];
-		
+
 	[newBridge makeWindowControllers];
 	[self configureBridge:newBridge];
 	if (queue) {

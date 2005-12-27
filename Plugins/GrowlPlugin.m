@@ -51,7 +51,7 @@
 
 	[pluginBundle release];
 	[pluginPathname release];
-	
+
 	[prefDomain release];
 
 	[super dealloc];
@@ -86,7 +86,7 @@
 #pragma mark -
 
 - (NSString *) prefDomain {
-    return prefDomain; 
+    return prefDomain;
 }
 
 - (NSPreferencePane *) preferencePane {

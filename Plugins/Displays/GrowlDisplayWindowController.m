@@ -50,7 +50,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 + (void) registerInstance:(id)instance withIdentifier:(NSString *)ident {
 	if (!existingInstances)
 		existingInstances = [[NSMutableDictionary alloc] init];
-	
+
 	NSDictionary *classInstances = nil;
 	if (![existingInstances objectForKey:self]) {
 		classInstances = [[NSMutableDictionary alloc] init];
@@ -77,25 +77,19 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 
 #pragma mark -
 
-- (id) initWithWindowNibName:(NSString *)windowNibName bridge:(GrowlNotificationDisplayBridge *)displayBridge;
-{
+- (id) initWithWindowNibName:(NSString *)windowNibName bridge:(GrowlNotificationDisplayBridge *)displayBridge {
 	// NOTE: for completeness we ought to offer the other nib related init methods with the plugin as a param
-	self = [self initWithWindowNibName:windowNibName owner:displayBridge];
-	if (!self)
-		return nil;
-	
-	[self setBridge:displayBridge]; // weak reference 
+	if ((self = [self initWithWindowNibName:windowNibName owner:displayBridge])) {
+		[self setBridge:displayBridge]; // weak reference
+	}
 	return self;
 }
 
-- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge;
-{
+- (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
 	/* Subclasses using this method should call initWithWindowName: from init */
-	self = [self init];
-	if (!self)
-		return nil;
-	
-	[self setBridge:displayBridge]; // weak reference 
+	if ((self = [self init])) {
+		[self setBridge:displayBridge]; // weak reference
+	}
 	return self;
 }
 
@@ -118,9 +112,9 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 	[self setDelegate:nil];
 	[self unbind:@"notification"];
 
-	NSFreeMapTable( startTimes );
-	NSFreeMapTable( endTimes );
-	
+	NSFreeMapTable(startTimes);
+	NSFreeMapTable(endTimes);
+
 	[bridge              release];
 	[target              release];
 	[clickContext        release];
@@ -155,7 +149,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 		foundSpace = [pc positionDisplay:self];
 	else
 		foundSpace = (ignoresOtherNotifications || [pc reserveRect:[window frame] inScreen:[window screen]]);
-	
+
 	if (foundSpace) {
 		[self willDisplayNotification];
 		[window orderFront:nil];
@@ -170,7 +164,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 		[self didDisplayNotification];
 		return YES;
 	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerNotificationBlockedNotification 
+		[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerNotificationBlockedNotification
 															object:self];
 		return NO;
 	}
@@ -195,7 +189,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Display stages
 
 - (void) willDisplayNotification {
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillDisplayWindowNotification 
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillDisplayWindowNotification
 														object:self];
 }
 
@@ -219,19 +213,19 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 	//Clear the rect we reserved...
 	NSWindow *window = [self window];
 	[window orderOut:nil];
-	[[GrowlPositionController sharedInstance] clearReservedRect:[window frame] inScreen:[window screen]];		
+	[[GrowlPositionController sharedInstance] clearReservedRect:[window frame] inScreen:[window screen]];
 }
 
 - (void) didDisplayNotification {
 	if (screenshotMode)
 		[self takeScreenshot];
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerDidDisplayWindowNotification 
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerDidDisplayWindowNotification
 														object:self];
 }
 
 - (void) willTakeDownNotification {
-	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillTakeWindowDownNotification 
+	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerWillTakeWindowDownNotification
 														object:self];
 }
 
@@ -281,7 +275,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 		[userInfo setValue:clickContext forKey:GROWL_KEY_CLICKED_CONTEXT];
 		if (appPid)
 			[userInfo setValue:appPid forKey:GROWL_APP_PID];
-		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED 
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION_CLICKED
 															object:appName
 														  userInfo:userInfo];
 		[userInfo release];
@@ -315,13 +309,13 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) setStartPercentage:(unsigned)start endPercentage:(unsigned)end forTransition:(GrowlWindowTransition *)transition {
-	NSAssert1((start <= 100U || start < end), 
+	NSAssert1((start <= 100U || start < end),
 			  @"The start parameter was invalid for the transition: %@",
 			  transition);
-	NSAssert1((end <= 100U || start < end), 
+	NSAssert1((end <= 100U || start < end),
 			  @"The end parameter was invalid for the transition: %@",
 			  transition);
-	
+
 	NSMapInsert(startTimes, transition, (void *)start);
 	NSMapInsert(endTimes, transition, (void *)end);
 }
@@ -356,7 +350,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 	for (i=0; i<count; ++i) {
 		GrowlWindowTransition *transition = [transitionArray objectAtIndex:i];
 		if (![transition isAnimating])
-			[result addObject:transition];	
+			[result addObject:transition];
 	}
 
 	return (NSArray *)result;
@@ -376,22 +370,22 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 - (BOOL) startTransition:(GrowlWindowTransition *)transition {
 	int startPercentage = (int) NSMapGet(startTimes, transition);
 	int endPercentage   = (int) NSMapGet(endTimes, transition);
-	
+
 	// If there were no times set up then the end time would be NULL (0)...
 	if (endPercentage == 0)
 		return NO;
-	
+
 	// Work out the start and the end times...
-	CFTimeInterval startTime = startPercentage * (transitionDuration / 100);
-	CFTimeInterval endTime = endPercentage * (transitionDuration / 100);
-	
+	CFTimeInterval startTime = startPercentage * (transitionDuration * 0.01);
+	CFTimeInterval endTime = endPercentage * (transitionDuration * 0.01);
+
 	// Set up this transition...
 	[transition setDuration: (endTime - startTime)];
 	CFRunLoopTimerContext context = {0, transition, NULL, NULL, NULL};
 	transitionTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+startTime, 0, 0, 0, &startAnimation, &context);
 	CFRunLoopAddTimer(CFRunLoopGetMain(), transitionTimer, kCFRunLoopCommonModes);
 	//[transition performSelector:@selector(startAnimation) withObject:nil afterDelay:startTime];
-	
+
 	return YES;
 }
 
@@ -416,8 +410,8 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 		CFRelease(transitionTimer);
 		transitionTimer = NULL;
 	}
-	//[[self class] cancelPreviousPerformRequestsWithTarget:transition 
-	//											 selector:@selector(startAnimation) 
+	//[[self class] cancelPreviousPerformRequestsWithTarget:transition
+	//											 selector:@selector(startAnimation)
 	//											   object:nil];
 }
 
@@ -430,32 +424,28 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 #pragma mark -
 #pragma mark Accessors
 
-- (GrowlApplicationNotification *) notification
-{
-	// Only here for binding conformance 
-    return notification; 
+- (GrowlApplicationNotification *) notification {
+	// Only here for binding conformance
+    return notification;
 }
 
-- (void) setNotification: (GrowlApplicationNotification *) theNotification
-{
+- (void) setNotification:(GrowlApplicationNotification *)theNotification {
     if (notification == theNotification)
 		return;
-	
+
 	[notification release];
 	notification = [theNotification retain]; // should this be a week ref?
 }
 
 #pragma mark -
 
-- (GrowlNotificationDisplayBridge *) bridge
-{
+- (GrowlNotificationDisplayBridge *) bridge {
     //NSLog(@"in -bridge, returned bridge = %@", bridge);
-	
-    return bridge; 
+
+    return bridge;
 }
 
-- (void) setBridge: (GrowlNotificationDisplayBridge *) theBridge
-{
+- (void) setBridge: (GrowlNotificationDisplayBridge *) theBridge {
 	bridge = theBridge;
 }
 

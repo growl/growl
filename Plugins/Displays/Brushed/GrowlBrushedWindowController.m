@@ -28,7 +28,7 @@ static const double gAdditionalLinesDisplayTime = 0.5;
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
 	NSRect screen = [[self screen] visibleFrame];
 	unsigned styleMask = NSBorderlessWindowMask | NSNonactivatingPanelMask;
-	
+
 	BOOL aquaPref = GrowlBrushedAquaPrefDefault;
 	READ_GROWL_PREF_BOOL(GrowlBrushedAquaPref, GrowlBrushedPrefDomain, &aquaPref);
 	if (!aquaPref) {
@@ -44,11 +44,11 @@ static const double gAdditionalLinesDisplayTime = 0.5;
 		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
 		if (value > 0.0f)
 			displayDuration = value;
-	}	
-	
+	}
+
 	// Create window...
 	NSRect windowFrame = NSMakeRect(0.0f, 0.0f, GrowlBrushedNotificationWidth, 65.0f);
-	NSPanel *panel = [[NSPanel alloc] initWithContentRect:windowFrame										
+	NSPanel *panel = [[NSPanel alloc] initWithContentRect:windowFrame
 												styleMask:styleMask
 												  backing:NSBackingStoreBuffered
 													defer:NO];
@@ -72,24 +72,22 @@ static const double gAdditionalLinesDisplayTime = 0.5;
 	[view setDelegate:self];
 	[view setCloseOnMouseExit:YES];
 	[panel setContentView:view];
-	
+
 	panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - GrowlBrushedPadding,
 											NSMaxY(screen) - GrowlBrushedPadding - depth)];
-	
+
 	// call super so everything else is set up...
-	self = [super initWithWindow:panel];
-	if (!self)
-		return nil;
-	
-	// set up the transitions...
-	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
-	[self setStartPercentage:0 endPercentage:100 forTransition:fader];
-	[fader setAutoReverses:YES];
-	[self addTransition:fader];
-	[fader release];
-	
+	if ((self = [super initWithWindow:panel])) {
+		// set up the transitions...
+		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
+		[self setStartPercentage:0 endPercentage:100 forTransition:fader];
+		[fader setAutoReverses:YES];
+		[self addTransition:fader];
+		[fader release];
+	}
+
 	return self;
 }
 
@@ -118,17 +116,14 @@ static const double gAdditionalLinesDisplayTime = 0.5;
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;
-	
+
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *title = [notification HTMLTitle];
 	NSString *text  = [notification HTMLDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-#warning commented out due to an indication that they are not being used
-	//BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
-	//NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
 	BOOL textHTML, titleHTML;
-	
+
 	if (title)
 		titleHTML = YES;
 	else {
@@ -141,7 +136,7 @@ static const double gAdditionalLinesDisplayTime = 0.5;
 		textHTML = NO;
 		text = [notification notificationDescription];
 	}
-	
+
 	NSPanel *panel = (NSPanel *)[self window];
 	GrowlBrushedWindowView *view = [[self window] contentView];
 	[view setPriority:priority];
@@ -149,7 +144,7 @@ static const double gAdditionalLinesDisplayTime = 0.5;
 	[view setText:text isHTML:textHTML];
 	[view setIcon:icon];
 	[view sizeToFit];
-	
+
 	NSRect viewFrame = [view frame];
 	[panel setFrame:viewFrame display:NO];
 	NSRect screen = [[self screen] visibleFrame];

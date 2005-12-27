@@ -62,7 +62,7 @@
 
 		humanReadableNames = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES] retain];
 		notificationDescriptions = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS] retain];
-			
+
 		//Get all the notification names and the data about them
 		allNotificationNames = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_ALL] retain];
 		NSAssert1(allNotificationNames, @"Ticket dictionaries must contain a list of all their notifications (application name: %@)", appName);
@@ -84,7 +84,7 @@
 				notification = [[GrowlNotificationTicket alloc] initWithDictionary:obj];
 			}
 			[notification setTicket:self];
-			
+
 			//Set the human readable name if we were supplied one
 			[notification setHumanReadableName:[humanReadableNames objectForKey:name]];
 			[notification setNotificationDescription:[notificationDescriptions objectForKey:name]];
@@ -242,10 +242,10 @@
 
 	if (humanReadableNames)
 		[saveDict setObject:humanReadableNames forKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
-	
+
 	if (notificationDescriptions)
 		[saveDict setObject:notificationDescriptions forKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
-	
+
 	NSData *plistData;
 	NSString *error;
 	plistData = [NSPropertyListSerialization dataFromPropertyList:saveDict
@@ -397,7 +397,7 @@
 					//it's probably a notification name
 					note = obj;
 				}
-				
+
 				if (note && ![allNotesCopy objectForKey:note]) {
 					GrowlNotificationTicket *ticket = [GrowlNotificationTicket notificationWithName:note];
 					[ticket setHumanReadableName:[humanReadableNames objectForKey:note]];
@@ -422,7 +422,7 @@
 						[ticket setHumanReadableName:[humanReadableNames objectForKey:note]];
 						[ticket setNotificationDescription:[notificationDescriptions objectForKey:note]];
 						[allNotesCopy setObject:ticket forKey:note];
-					}						
+					}
 				}
 			}
 
@@ -451,7 +451,7 @@
 	//XXX - should assimilate reregisterWithAllNotifications:defaults:icon: here
 	NSArray		 *all      = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
 	NSArray		 *defaults = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
-	
+
 	[humanReadableNames release];
 	humanReadableNames = [[dict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES] retain];
 

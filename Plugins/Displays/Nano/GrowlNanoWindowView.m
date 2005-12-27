@@ -98,7 +98,6 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 			}
 			textRect.origin.x = titleRect.origin.x;
 			textRect.size.width = titleRect.size.width;*/
-			
 
 			//draw to cache
 			/*if (CGLayerCreateWithContext) {
@@ -113,7 +112,7 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 			NSRect c = [self bounds];
 			CGRect b = CGRectMake(c.origin.x, c.origin.y, c.size.width, c.size.height);
 			addRoundedBottomToPath(cgContext, b, 10.0f);
-			
+
 			float opacityPref = Nano_DEFAULT_OPACITY;
 			READ_GROWL_PREF_FLOAT(Nano_OPACITY_PREF, GrowlNanoPrefDomain, &opacityPref);
 			float alpha = opacityPref * 0.01f;
@@ -155,7 +154,7 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 			if (!CGLayerCreateWithContext)
 				imageRect.origin.y = 0.0f;
 		}
-		
+
 		if (CGLayerCreateWithContext) {
 			CGRect cgRect;
 			cgRect.origin.x = imageRect.origin.x;

@@ -31,7 +31,7 @@
 	flipEnabled = NO;
 
 	displayDuration = MIN_DISPLAY_TIME;
-	
+
 	CFNumberRef prefsDuration = NULL;
 	CFTimeInterval value = -1.0f;
 	READ_GROWL_PREF_VALUE(GrowlBezelDuration, GrowlBezelPrefDomain, CFNumberRef, &prefsDuration);
@@ -44,7 +44,7 @@
 
 	READ_GROWL_PREF_INT(BEZEL_SCREEN_PREF, GrowlBezelPrefDomain, &screenNumber);
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
-	
+
 	READ_GROWL_PREF_INT(BEZEL_SIZE_PREF, GrowlBezelPrefDomain, &sizePref);
 	READ_GROWL_PREF_BOOL(BEZEL_SHRINK_PREF, GrowlBezelPrefDomain, &shrinkEnabled);
 	READ_GROWL_PREF_BOOL(BEZEL_FLIP_PREF, GrowlBezelPrefDomain, &flipEnabled);
@@ -90,31 +90,29 @@
 	[panel setFrame:panelFrame display:NO];
 
 	// call super so everything else is set up...
-	self = [super initWithWindow:panel];
-	if (!self)
-		return nil;
-	
-	// set up the transitions...
-	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
-	[self addTransition:fader];
-	[self setStartPercentage:0 endPercentage:100 forTransition:fader];
-	[fader setAutoReverses:YES];
-	[fader release];
-	
-	if (shrinkEnabled) {
-		GrowlShrinkingWindowTransition *shrinker = [[GrowlShrinkingWindowTransition alloc] initWithWindow:panel];
-		[self addTransition:shrinker];
-		[self setStartPercentage:0 endPercentage:80 forTransition:shrinker];
-		[shrinker setAutoReverses:YES];
-		[shrinker release];
-	}
-	if (flipEnabled) {
-		GrowlFlippingWindowTransition *flipper = [[GrowlFlippingWindowTransition alloc] initWithWindow:panel];
-		[self addTransition:flipper];
-		[self setStartPercentage:0 endPercentage:100 forTransition:flipper];
-		[flipper setFlipsX:YES];
-		[flipper setAutoReverses:YES];
-		[flipper release];
+	if ((self = [super initWithWindow:panel])) {
+		// set up the transitions...
+		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
+		[self addTransition:fader];
+		[self setStartPercentage:0 endPercentage:100 forTransition:fader];
+		[fader setAutoReverses:YES];
+		[fader release];
+
+		if (shrinkEnabled) {
+			GrowlShrinkingWindowTransition *shrinker = [[GrowlShrinkingWindowTransition alloc] initWithWindow:panel];
+			[self addTransition:shrinker];
+			[self setStartPercentage:0 endPercentage:80 forTransition:shrinker];
+			[shrinker setAutoReverses:YES];
+			[shrinker release];
+		}
+		if (flipEnabled) {
+			GrowlFlippingWindowTransition *flipper = [[GrowlFlippingWindowTransition alloc] initWithWindow:panel];
+			[self addTransition:flipper];
+			[self setStartPercentage:0 endPercentage:100 forTransition:flipper];
+			[flipper setFlipsX:YES];
+			[flipper setAutoReverses:YES];
+			[flipper release];
+		}
 	}
 	return self;
 }
@@ -146,7 +144,7 @@
 		textHTML = NO;
 		text = [notification notificationDescription];
 	}
-	
+
 	NSPanel *panel = (NSPanel *)[self window];
 	GrowlBezelWindowView *view = [[self window] contentView];
 	[view setPriority:myPriority];
@@ -176,7 +174,7 @@
 
 - (NSPoint) idealOriginInRect:(NSRect)rect {
 	NSRect viewFrame = [[[self window] contentView] frame];
-	
+
 	NSPoint result;
 	int positionPref = BEZEL_POSITION_DEFAULT;
 	READ_GROWL_PREF_INT(BEZEL_POSITION_PREF, GrowlBezelPrefDomain, &positionPref);

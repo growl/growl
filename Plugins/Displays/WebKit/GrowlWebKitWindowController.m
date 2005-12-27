@@ -59,28 +59,27 @@ static unsigned webkitWindowDepth = 0U;
 	GrowlDisplayPlugin *plugin = [bridge display];
 	if (!self)
 		return nil;
-	
+
 	// Read the template file....exit on error...
 	NSError *error = nil;
 	NSString *templateFile = [[[bridge display] bundle] pathForResource:@"template" ofType:@"html"];
 	templateHTML = [[NSString alloc] initWithContentsOfFile:templateFile
 												   encoding:NSUTF8StringEncoding
 													  error:&error];
-	if (!templateHTML)
-	{
+	if (!templateHTML) {
 		NSLog(@"ERROR: could not read template '%@' - %@", templateFile,error);
 		[self release];
 		return nil;
 	}
 	baseURL = [[NSURL alloc] initFileURLWithPath:templateFile];
-	
+
 	[self setDelegate:self]; // Needed???
-	
+
 	// Read the prefs for the plugin...
 	unsigned theScreenNo = 0U;
 	READ_GROWL_PREF_INT(GrowlWebKitScreenPref, [plugin prefDomain], &theScreenNo);
 	[self setScreenNumber:theScreenNo];
-	
+
 	// the visibility time for this bubble should be the minimum display time plus
 	// some multiple of ADDITIONAL_LINES_DISPLAY_TIME, not to exceed MAX_DISPLAY_TIME
 	int rowCount = 2;
@@ -93,7 +92,7 @@ static unsigned webkitWindowDepth = 0U;
 	else
 		[self setDisplayDuration:MIN(duration + rowCount * ADDITIONAL_LINES_DISPLAY_TIME,
 									 MAX_DISPLAY_TIME)];
-	
+
 	// Read the plugin specifics from the info.plist
 	NSDictionary *styleInfo = [[plugin bundle] infoDictionary];
 	BOOL hasShadow = NO;
@@ -106,7 +105,7 @@ static unsigned webkitWindowDepth = 0U;
 		paddingX = [xPad floatValue];
 	if (yPad)
 		paddingY = [yPad floatValue];
-	
+
 	// Configure the window
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
@@ -120,7 +119,7 @@ static unsigned webkitWindowDepth = 0U;
 	[panel useOptimizedDrawing:YES];
 	[panel disableCursorRects];
 	[panel setHasShadow:hasShadow];
-	
+
 	// Configure the view
 	NSRect panelFrame = [panel frame];
 	GrowlWebKitWindowView *view = [[GrowlWebKitWindowView alloc] initWithFrame:panelFrame
@@ -135,20 +134,20 @@ static unsigned webkitWindowDepth = 0U;
 		[view setDrawsBackground:NO];
 	[panel setContentView:view];
 	[panel makeFirstResponder:[[[view mainFrame] frameView] documentView]];
-	
+
 	return self;
 }
 
 - (void) dealloc {
 	if (depth == webkitWindowDepth)
 		webkitWindowDepth = 0U;
-	
+
 	WebView *webView = [[self window] contentView];
 	[webView      setPolicyDelegate:nil];
 	[webView      setFrameLoadDelegate:nil];
 	[image        release];
 	[templateHTML release];
-	
+
 	[super dealloc];
 }
 
@@ -172,7 +171,7 @@ static unsigned webkitWindowDepth = 0U;
 			priorityName = CFSTR("emergency");
 			break;
 	}
-	
+
 	CFMutableStringRef htmlString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, (CFStringRef)templateHTML);
 	NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
 	image = [icon retain];
@@ -249,7 +248,7 @@ static unsigned webkitWindowDepth = 0U;
 		NSRect screen = [[self screen] visibleFrame];
 		[myWindow setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(panelFrame) - paddingX,
 												   NSMaxY(screen) - paddingY - webkitWindowDepth)];
-		
+
 		// It actually doesn't even stop _this_ notification from spilling off the bottom; just the next one.
 		if (NSMinY(panelFrame) < 0.0f)
 			depth = webkitWindowDepth = 0U;
@@ -266,19 +265,17 @@ static unsigned webkitWindowDepth = 0U;
 
 @implementation GrowlWebKitWindowController (Private)
 
-- (GrowlApplicationNotification *) notification
-{
-	// Only here for binding conformance 
-    return notification; 
+- (GrowlApplicationNotification *) notification {
+	// Only here for binding conformance
+    return notification;
 }
 
-- (void) setNotification: (GrowlApplicationNotification *) theNotification
-{
+- (void) setNotification:(GrowlApplicationNotification *)theNotification {
     //NSLog(@"in -setNotification:, old value of notification: %@, changed to: %@", notification, theNotification);
-	
+
     if (notification == theNotification)
 		return;
-	
+
 	// Extract the new details from the notification
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *title = [notification HTMLTitle];
@@ -288,7 +285,7 @@ static unsigned webkitWindowDepth = 0U;
 	/*BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
 	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);*/
 	BOOL textHTML, titleHTML;
-	
+
 	if (title)
 		titleHTML = YES;
 	else {
@@ -301,12 +298,12 @@ static unsigned webkitWindowDepth = 0U;
 		textHTML = NO;
 		text = [notification notificationDescription];
 	}
-	
+
 	NSPanel *panel = (NSPanel *)[self window];
 	WebView *view = [panel contentView];
 	[self retain];
 	[self setTitle:title titleHTML:titleHTML text:text textHTML:textHTML icon:icon priority:priority forView:view];
-	
+
 	NSRect panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
 }

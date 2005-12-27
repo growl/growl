@@ -33,7 +33,7 @@
 - (void) stopAnimation {
 	if (!window)
 		NSLog(@"Trying to stop window transition with no window. Transition: %@", self);
-	
+
 	[super stopAnimation];
 }
 

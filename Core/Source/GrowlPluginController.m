@@ -86,7 +86,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 - (id) initSingleton {
 	if ((self = [super initSingleton])) {
 		bundlesToLazilyInstantiateAnInstanceFrom = [[NSMutableSet alloc] init];
-		
+
 		pluginsByIdentifier         = [[NSMutableDictionary alloc] init];
 		pluginIdentifiersByPath     = [[NSMutableDictionary alloc] init];
 		pluginIdentifiersByBundle   = [[GrowlNonCopyingMutableDictionary alloc] init];
@@ -139,9 +139,9 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 }
 
 - (void) destroy {
-	[pluginsByIdentifier     release];	
-	[pluginIdentifiersByPath release];
-	[pluginIdentifiersByBundle release];
+	[pluginsByIdentifier         release];
+	[pluginIdentifiersByPath     release];
+	[pluginIdentifiersByBundle   release];
 	[pluginIdentifiersByInstance release];
 
 	[pluginsByName     release];
@@ -352,7 +352,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	if (!identifier)
 		identifier = [NSString stringWithFormat:@"Name: %@ Author: %@ Path: %@", name, author, path];
-	
+
 	if (!pluginDict) {
 		pluginDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 			name,                 GrowlPluginInfoKeyName,
@@ -378,13 +378,13 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 				types = [NSSet setWithObject:extension];
 		} else if (fileType)
 			types = [NSSet setWithObject:fileType];
-		
+
 		if (types)
 			[pluginDict setObject:types forKey:GrowlPluginInfoKeyTypes];
 
 		[pluginsByIdentifier setObject:pluginDict forKey:identifier];
 		[pluginIdentifiersByPath setObject:identifier forKey:path];
-			
+
 	#define ADD_TO_DICT(dictName, key, value)                                          \
 			do {                                                                        \
 				NSMutableSet *plugins = [dictName objectForKey:key];                     \
@@ -397,9 +397,9 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		ADD_TO_DICT(pluginsByAuthor,   author,                   pluginDict);
 		ADD_TO_DICT(pluginsByVersion,  version,                  pluginDict);
 		ADD_TO_DICT(pluginsByFilename, [path lastPathComponent], pluginDict);
-		
+
 		ADD_TO_DICT(pluginsByType, extension, pluginDict);
-		ADD_TO_DICT(pluginsByType, fileType,  pluginDict); 
+		ADD_TO_DICT(pluginsByType, fileType,  pluginDict);
 	#undef ADD_TO_DICT
 	}
 

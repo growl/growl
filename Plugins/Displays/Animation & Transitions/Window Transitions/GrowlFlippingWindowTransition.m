@@ -12,13 +12,11 @@
 @implementation GrowlFlippingWindowTransition
 
 - (id) initWithWindow:(NSWindow *)inWindow {
-	self = [super initWithWindow:inWindow];
-	if (!self)
-		return nil;
-	
-	flipsX = NO;
-	flipsY = NO;
-	
+	if ((self = [super initWithWindow:inWindow])) {
+		flipsX = NO;
+		flipsY = NO;
+	}
+
 	return self;
 }
 
@@ -42,14 +40,14 @@
 - (void) startAnimation {
 	if (!flipsX && !flipsY )
 		return;
-	
+
 	[super startAnimation];
 }
 
 - (void) stopAnimation {
 	if (!flipsX && !flipsY )
 		return;
-	
+
 	[super stopAnimation];
 }
 
@@ -64,7 +62,7 @@
     flipsX = flag;
 }
 
-- (BOOL) flipsY {	
+- (BOOL) flipsY {
     return flipsY;
 }
 

@@ -23,7 +23,7 @@
 	endingPoint = to;
 	xDistance = (to.x - from.x);
 	yDistance = (to.y - from.y);
-	
+
 	NSLog(@"%f %f\n", xDistance, yDistance);
 }
 

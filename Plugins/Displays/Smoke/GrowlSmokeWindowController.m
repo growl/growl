@@ -36,7 +36,7 @@ static const double gMaxDisplayTime = 10.0;
 		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
 		if (value > 0.0f)
 			displayDuration = value;
-	}	
+	}
 
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, GrowlSmokeNotificationWidth, 65.0f)
 												styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
@@ -54,7 +54,7 @@ static const double gMaxDisplayTime = 10.0;
 	[panel setCanHide:NO];
 	[panel setOneShot:YES];
 	[panel useOptimizedDrawing:YES];
-	
+
 	GrowlSmokeWindowView *view = [[GrowlSmokeWindowView alloc] initWithFrame:panelFrame];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
@@ -63,17 +63,15 @@ static const double gMaxDisplayTime = 10.0;
 	[panel setContentView:view];
 
 	// call super so everything else is set up...
-	self = [super initWithWindow:panel];
-	if (!self)
-		return nil;
-	
-	// set up the transitions...
-	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
-	[self addTransition:fader];
-	[self setStartPercentage:0 endPercentage:100 forTransition:fader];
-	[fader setAutoReverses:YES];
-	[fader release];
-	
+	if ((self = [super initWithWindow:panel])) {
+		// set up the transitions...
+		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
+		[self addTransition:fader];
+		[self setStartPercentage:0 endPercentage:100 forTransition:fader];
+		[fader setAutoReverses:YES];
+		[fader release];
+	}
+
 	return self;
 }
 
@@ -99,17 +97,14 @@ static const double gMaxDisplayTime = 10.0;
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;
-	
+
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *title = [notification HTMLTitle];
 	NSString *text  = [notification HTMLDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-#warning commented out due to an indication that they are not being used
-	//BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
-	//NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
 	BOOL textHTML, titleHTML;
-	
+
 	if (title)
 		titleHTML = YES;
 	else {
@@ -122,7 +117,7 @@ static const double gMaxDisplayTime = 10.0;
 		textHTML = NO;
 		text = [notification notificationDescription];
 	}
-	
+
 	NSPanel *panel = (NSPanel *)[self window];
 	GrowlSmokeWindowView *view = [[self window] contentView];
 	[view setPriority:priority];

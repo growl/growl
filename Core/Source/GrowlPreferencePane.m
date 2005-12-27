@@ -334,7 +334,7 @@
 		currentPlugin = [[selectedPlugins objectAtIndex:0U] retain];
 	else
 		currentPlugin = nil;
-	
+
 	NSString *currentPluginName = [currentPlugin objectForKey:(NSString *)kCFBundleNameKey];
 	currentPluginController = (GrowlPlugin *)[pluginController pluginInstanceWithName:currentPluginName];
 	[self loadViewForDisplay:currentPluginName];
@@ -362,7 +362,7 @@
 		[self setTickets:[[ticketController allSavedTickets] allValues]];
 		[self cacheImages];
 	}
-	
+
 	[self setDisplayPlugins:[[GrowlPluginController sharedController] registeredPluginNamesArrayForType:GROWL_VIEW_EXTENSION]];
 
 #ifdef THIS_CODE_WAS_REMOVED_AND_I_DONT_KNOW_WHY
@@ -617,23 +617,22 @@
 #pragma unused(sender)
 	NSString *appName = [[[ticketsArrayController selectedObjects] objectAtIndex:0U] applicationName];
 	NSAlert *alert = [NSAlert alertWithMessageText:[NSString stringWithFormat:@"Are you sure you want to remove %@?", appName]
-									 defaultButton:@"Remove" 
-								   alternateButton:@"Cancel" 
-									   otherButton:nil 
+									 defaultButton:@"Remove"
+								   alternateButton:@"Cancel"
+									   otherButton:nil
 						 informativeTextWithFormat:[NSString stringWithFormat:@"Removing %@ from this list will reset your settings and %@ will need to re-register when it uses Growl the next time.", appName, appName]];
 	[alert setIcon:[[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForImageResource:@"growl-icon"]] autorelease]];
 	[alert beginSheetModalForWindow:[[NSApplication sharedApplication] keyWindow] modalDelegate:self didEndSelector:@selector(deleteCallbackDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 // this method is used as our callback to determine whether or not to delete the ticket
--(void)deleteCallbackDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)eventID
-{
+-(void) deleteCallbackDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)eventID {
 #pragma unused(alert)
 #pragma unused(eventID)
 	if (returnCode == NSAlertDefaultReturn) {
 		GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
 		NSString *path = [ticket path];
-		
+
 		if ([[NSFileManager defaultManager] removeFileAtPath:path handler:nil]) {
 			CFNumberRef pidValue = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &pid);
 			CFStringRef keys[2] = { CFSTR("TicketName"), CFSTR("pid") };
@@ -647,24 +646,24 @@
 			CFRelease(userInfo);
 			unsigned idx = [tickets indexOfObject:ticket];
 			CFArrayRemoveValueAtIndex(images, idx);
-			
+
 			unsigned oldSelectionIndex = [ticketsArrayController selectionIndex];
-			
+
 			///	Hmm... This doesn't work for some reason....
 			//	Even though the same method definitely^H^H^H^H^H^H probably works in the appRegistered: method...
-			
+
 			//	[self removeFromTicketsAtIndex:	[ticketsArrayController selectionIndex]];
-			
+
 			NSMutableArray *newTickets = [tickets mutableCopy];
 			[newTickets removeObject:ticket];
 			[self setTickets:newTickets];
 			[newTickets release];
-			
+
 			if (oldSelectionIndex >= [tickets count])
 				oldSelectionIndex = [tickets count] - 1;
 			[self cacheImages];
 			[ticketsArrayController setSelectionIndex:oldSelectionIndex];
-		}			
+		}
 	}
 }
 
@@ -766,14 +765,14 @@
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
-#pragma unused(aTableView)	
+#pragma unused(aTableView)
 	// we check to make sure we have the image + text column and then set it's image manually
 	if (aTableColumn == applicationNameAndIconColumn) {
 		[self cacheImages];
 		[[aTableColumn dataCellForRow:rowIndex] setImage:(NSImage *)CFArrayGetValueAtIndex(images,rowIndex)];
 		return [[[ticketsArrayController content] objectAtIndex:rowIndex] valueForKey:@"applicationName"];
 	}
-	
+
 	return nil;
 }
 

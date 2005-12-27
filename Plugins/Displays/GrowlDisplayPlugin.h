@@ -38,7 +38,7 @@
  *	@param	bridge	The bridge to configure.
  *  @discussion This is the place where the magic happens.  Override this method and do any
  *  specific configuration here.  This is the last port-of-call before a notification is displayed.
- *  The default implementation does nothing so it is important that you override and provide an 
+ *  The default implementation does nothing so it is important that you override and provide an
  *  implementation.
  */
 - (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge;

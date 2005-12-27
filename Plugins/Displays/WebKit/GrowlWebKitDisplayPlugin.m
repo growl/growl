@@ -13,28 +13,25 @@
 
 @implementation GrowlWebKitDisplayPlugin
 
-- (id) initWithStyleBundle:(NSBundle *)styleBundle;
-{
-	self = [super initWithBundle:styleBundle];
-	if (!self)
-		return nil;
-	
-	NSDictionary *styleInfo = [styleBundle infoDictionary];
-	style = [[styleInfo valueForKey:@"CFBundleName"] retain];
-	prefDomain = [[NSString alloc] initWithFormat:@"%@.%@",GrowlWebKitPrefDomain,style];
+- (id) initWithStyleBundle:(NSBundle *)styleBundle; {
+	if ((self = [super initWithBundle:styleBundle])) {
+		NSDictionary *styleInfo = [styleBundle infoDictionary];
+		style = [[styleInfo valueForKey:@"CFBundleName"] retain];
+		prefDomain = [[NSString alloc] initWithFormat:@"%@.%@", GrowlWebKitPrefDomain, style];
 
-	BOOL validBundle = YES;
-	NSString *templateFile = [styleBundle pathForResource:@"template" ofType:@"html"];
-	if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile])
-		validBundle = NO;
-	/* NOTE other verification here....does the plist contain all the relevant keys? does the 
-		bundle contain all the files we need? */
-	
-	if (!validBundle) {
-		[self release];
-		return nil;
+		BOOL validBundle = YES;
+		NSString *templateFile = [styleBundle pathForResource:@"template" ofType:@"html"];
+		if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile])
+			validBundle = NO;
+		/* NOTE other verification here....does the plist contain all the relevant keys? does the
+			bundle contain all the files we need? */
+
+		if (!validBundle) {
+			[self release];
+			return nil;
+		}
 	}
-	
+
 	return self;
 }
 

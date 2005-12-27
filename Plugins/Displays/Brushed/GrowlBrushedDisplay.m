@@ -50,7 +50,7 @@ static unsigned brushedDepth = 0U;
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[controller setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
 	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
-	
+
 	#warning depth was passed to the WC here....pass some other way?...this should really be handled by the positioning controller
 	/*
 	 // update the depth for the next notification with the depth given by this new one

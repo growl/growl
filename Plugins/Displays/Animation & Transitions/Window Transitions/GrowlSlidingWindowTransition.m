@@ -27,7 +27,7 @@
 
 				[aWindow setFrameOrigin:newOrigin];
 				break;
-				
+
 			case GrowlReverseTransition:
 				newOrigin.x = endingPoint.x - (inProgress * xDistance);
 				newOrigin.y = endingPoint.y - (inProgress * yDistance);

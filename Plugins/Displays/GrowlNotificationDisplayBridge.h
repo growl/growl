@@ -16,22 +16,22 @@
 	Class                        windowControllerClass;
 }
 
-+ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay 
-										  notification:(GrowlApplicationNotification *)newNotification 
++ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay
+										  notification:(GrowlApplicationNotification *)newNotification
 								 windowControllerClass:(Class)wcc;
 
-+ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay 
-										  notification:(GrowlApplicationNotification *)newNotification 
-										 windowNibName:(NSString *)newWindowNibName 
++ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay
+										  notification:(GrowlApplicationNotification *)newNotification
+										 windowNibName:(NSString *)newWindowNibName
 								 windowControllerClass:(Class)wcc;
 
-- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay 
-		  notification:(GrowlApplicationNotification *)newNotification 
+- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay
+		  notification:(GrowlApplicationNotification *)newNotification
  windowControllerClass:(Class)wcc;
 
-- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay 
-		  notification:(GrowlApplicationNotification *)newNotification 
-		 windowNibName:(NSString *)newWindowNibName 
+- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay
+		  notification:(GrowlApplicationNotification *)newNotification
+		 windowNibName:(NSString *)newWindowNibName
  windowControllerClass:(Class)wcc;
 
 #pragma mark -

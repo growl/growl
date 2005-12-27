@@ -174,19 +174,18 @@
 	NSRect screenFrame = [preferredScreen visibleFrame];
 	NSSize displaySize = [[displayController window] frame].size;
 	float padding = [displayController requiredDistanceFromExistingDisplays];
-	
+
 	// Ask the display where it wants to be displayed in the first instance....
 	NSPoint idealOrigin = [displayController idealOriginInRect:screenFrame];
 	NSRect idealFrame = NSMakeRect(idealOrigin.x,idealOrigin.y,displaySize.width,displaySize.height);
-	
+
 	// Try and reserve the rect
 	NSRect displayFrame = idealFrame;
-	if ([self reserveRect:displayFrame inScreen:preferredScreen])
-	{
+	if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
 		[[displayController window] setFrameOrigin:displayFrame.origin];
 		return YES;
 	}
-	
+
 	// Something was blocking the display...try and find the next position for the display...
 	GrowlExpansionDirection directionToTry = [displayController primaryExpansionDirection];
 	BOOL isOnScreen = YES;
@@ -196,33 +195,33 @@
 		// adjust the rect...
 		switch (directionToTry) {
 			case GrowlDownExpansionDirection:
-				displayFrame.origin.y -= (padding + displayFrame.size.height) * 
-				(usingSecondaryDirecton ? secondaryCount : 1U);
+				displayFrame.origin.y -= (padding + displayFrame.size.height) *
+					(usingSecondaryDirecton ? secondaryCount : 1U);
 				break;
 			case GrowlUpExpansionDirection:
-				displayFrame.origin.y += (padding + displayFrame.size.height) * 
-				(usingSecondaryDirecton ? secondaryCount : 1U);
+				displayFrame.origin.y += (padding + displayFrame.size.height) *
+					(usingSecondaryDirecton ? secondaryCount : 1U);
 				break;
 			case GrowlLeftExpansionDirection:
-				displayFrame.origin.x -= (padding + displayFrame.size.width) * 
-				(usingSecondaryDirecton ? secondaryCount : 1U);
+				displayFrame.origin.x -= (padding + displayFrame.size.width) *
+					(usingSecondaryDirecton ? secondaryCount : 1U);
 				break;
 			case GrowlRightExpansionDirection:
-				displayFrame.origin.x += (padding + displayFrame.size.width) * 
-				(usingSecondaryDirecton ? secondaryCount : 1U);
+				displayFrame.origin.x += (padding + displayFrame.size.width) *
+					(usingSecondaryDirecton ? secondaryCount : 1U);
 				break;
 			default:
 				break;
 		}
-		
+
 		// make sure the new rect still fits on screen...
 		BOOL lastAttemptWasOnScreen = isOnScreen;
 		isOnScreen = (NSContainsRect(screenFrame,displayFrame) ? YES : NO);
-		
+
 		// If the last two attempts were offscreen we've exausted all possibilities
 		if (!isOnScreen && !lastAttemptWasOnScreen)
 			break;
-		
+
 		// If we were using the secondary direction, switch back to the primary now...
 		if (usingSecondaryDirecton) {
 			directionToTry = [displayController primaryExpansionDirection];
@@ -237,7 +236,7 @@
 			usingSecondaryDirecton = YES;
 			continue;
 		}
-		
+
 		// otherwise try and reserve the rect...
 		if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
 			[[displayController window] setFrameOrigin:displayFrame.origin];
@@ -258,13 +257,15 @@
 		NSValue			*value;
 
 		@synchronized(reservedRectsOfScreen) {
-			if ([reservedRectsOfScreen member:newRectValue]) {	//Make sure the rect is not already reserved
+			//Make sure the rect is not already reserved
+			if ([reservedRectsOfScreen member:newRectValue]) {
 				result = NO;
 			} else {
 				rectValuesEnumerator = [reservedRectsOfScreen objectEnumerator];
-				
-			//Loop through all the values in reservedRects and make sure that the new rect does not
-			//intersect with any of the already reserved rects.
+
+				// Loop through all the values in reservedRects and make sure
+				// that the new rect does not intersect with any of the already
+				// reserved rects.
 				while ((value = [rectValuesEnumerator nextObject])) {
 					if (NSIntersectsRect(inRect, [value rectValue])) {
 						result = NO;
@@ -272,8 +273,8 @@
 					}
 				}
 			}
-			
-		//Add the new rect if it passed the intersection test
+
+			// Add the new rect if it passed the intersection test
 			if (result)
 				[reservedRectsOfScreen addObject:newRectValue];
 		}
@@ -304,7 +305,7 @@
 
 	//Get the set of reserved rects for our screen
 	result = (NSMutableSet *)CFDictionaryGetValue(reservedRects, screen);
-		
+
 	//Make sure the set exists. If not, create it.
 	if (!result) {
 		@synchronized((NSMutableDictionary *)reservedRects) {

@@ -46,7 +46,7 @@
 	NSString *inHumanReadableName = getObjectForKey(dict, @"HumanReadableName");
 
 	NSString *inNotificationDescription = getObjectForKey(dict, @"NotificationDescription");
-	
+
 	id value = getObjectForKey(dict, @"Priority");
 	enum GrowlPriority inPriority = value ? [value intValue] : GrowlPriorityUnset;
 
@@ -70,7 +70,7 @@
 	return [self initWithName:theName
 			humanReadableName:nil
 	  notificationDescription:nil
-					 priority:GrowlPriorityUnset 
+					 priority:GrowlPriorityUnset
 					  enabled:YES
 					   sticky:NSMixedState
 			displayPluginName:nil];
@@ -124,8 +124,8 @@
 	if (notificationDescription)
 		setObjectForKey(dict, @"NotificationDescription", notificationDescription);
 	if (humanReadableName)
-		setObjectForKey(dict, @"HumanReadableName", humanReadableName);		
-	
+		setObjectForKey(dict, @"HumanReadableName", humanReadableName);
+
 	return dict;
 }
 
@@ -223,8 +223,7 @@
 	return displayPlugin;
 }
 
-- (NSComparisonResult)humanReadableNameCompare:(GrowlNotificationTicket *)inTicket
-{
+- (NSComparisonResult) humanReadableNameCompare:(GrowlNotificationTicket *)inTicket {
 	return [[self humanReadableName] caseInsensitiveCompare:[inTicket humanReadableName]];
 }
 

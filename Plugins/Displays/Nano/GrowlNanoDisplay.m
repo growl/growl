@@ -40,7 +40,7 @@
 	GrowlNanoWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];
 	GrowlApplicationNotification *note = [theBridge notification];
 	NSDictionary *noteDict = [note dictionaryRepresentation];
-	
+
 	[controller setNotifyingApplicationName:[note applicationName]];
 	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];

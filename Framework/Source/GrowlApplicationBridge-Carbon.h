@@ -380,6 +380,7 @@ struct Growl_Notification {
 			(notification)->reserved = 0U; \
 			(notification)->isSticky = false; \
 			(notification)->clickContext = NULL; \
+			(notification)->clickCallback = NULL; \
 			(notification)->identifier = NULL; \
 		} \
 	} while(0)

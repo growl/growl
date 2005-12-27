@@ -13,31 +13,29 @@
 
 @implementation GrowlNotificationDisplayBridge
 
-+ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowControllerClass:(Class)wcc;
-{
-	return [[[self alloc] initWithDisplay:newDisplay 
-							 notification:newNotification 
++ (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowControllerClass:(Class)wcc {
+	return [[[self alloc] initWithDisplay:newDisplay
+							 notification:newNotification
 					windowControllerClass:wcc] autorelease];
 }
 
 + (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowNibName:(NSString *)newWindowNibName windowControllerClass:(Class)wcc {
-	return [[[self alloc] initWithDisplay:newDisplay 
-							 notification:newNotification 
-							windowNibName:newWindowNibName 
+	return [[[self alloc] initWithDisplay:newDisplay
+							 notification:newNotification
+							windowNibName:newWindowNibName
 					windowControllerClass:wcc] autorelease];
 }
 
-- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowControllerClass:(Class)wcc;
-{
-	return [self initWithDisplay:newDisplay 
-					notification:newNotification 
+- (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowControllerClass:(Class)wcc {
+	return [self initWithDisplay:newDisplay
+					notification:newNotification
 				   windowNibName:nil
 		   windowControllerClass:wcc];
 }
 
 - (id) initWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowNibName:(NSString *)newWindowNibName windowControllerClass:(Class)wcc  {
 	if ((self = [super init])) {
-		windowControllerClass = (wcc != Nil ? wcc : NSClassFromString(@"GrowlDisplayWindowController"));
+		windowControllerClass = (wcc ? wcc : NSClassFromString(@"GrowlDisplayWindowController"));
 		display               =  newDisplay;
 		notification          = [newNotification retain];
 		windowControllers     = [[NSMutableArray alloc] initWithCapacity:1U];
@@ -47,7 +45,7 @@
 	return self;
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[windowControllers release];
 
 	[notification release];
@@ -61,22 +59,21 @@
 - (void) makeWindowControllers {
 	id wc = nil;
 	if (windowNibName)
-		wc = [[windowControllerClass alloc] initWithWindowNibName:windowNibName 
-															owner:self
-														   plugin:display];
+		wc = [[windowControllerClass alloc] initWithWindowNibName:windowNibName
+														   bridge:self];
 	else
 		wc = [[windowControllerClass alloc] initWithBridge:self];
-	
+
 	[self addWindowController:wc];
 	[wc release];
 }
 
 - (GrowlDisplayPlugin *) display {
-    return display; 
+    return display;
 }
 
 - (GrowlApplicationNotification *) notification{
-    return notification; 
+    return notification;
 }
 
 - (NSString *) windowNibName {

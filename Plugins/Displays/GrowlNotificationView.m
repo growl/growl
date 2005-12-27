@@ -11,8 +11,8 @@
 
 @implementation GrowlNotificationView
 
-- (id) delegate {	
-    return delegate; 
+- (id) delegate {
+    return delegate;
 }
 
 - (void) setDelegate: (id) theDelegate {

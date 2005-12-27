@@ -42,15 +42,14 @@
 	return success;
 }
 
-- (NSDictionary *) launchedApplicationWithIdentifier:(NSString *) identifier;
-{
+- (NSDictionary *) launchedApplicationWithIdentifier:(NSString *) identifier {
 	NSEnumerator *processesEnum = [[[NSWorkspace sharedWorkspace] launchedApplications] objectEnumerator];
 	NSDictionary *process;
-	
+
 	while ((process = [processesEnum nextObject]))
 		if ([identifier caseInsensitiveCompare:[process objectForKey:@"NSApplicationBundleIdentifier"]] == NSOrderedSame)
 			return process;
-	
+
 	return nil;
 }
 

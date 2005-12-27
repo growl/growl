@@ -75,34 +75,31 @@
 	[panel setContentView:view]; // retains subview
 	[view release];
 
-	
 	[panel setFrameOrigin:NSMakePoint(NSMaxX(screen)-600, NSMaxY(screen))];
-											
+
 	// call super so everything else is set up...
-	self = [super initWithWindow:panel];
-	if (!self)
-		return nil;
-	
-	int effect = 0;
-	READ_GROWL_PREF_INT(Nano_EFFECT_PREF, GrowlNanoPrefDomain, &effect);
-	if (effect == 0) {
-		//slider effect
-		GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
-		[slider setFromOrigin:NSMakePoint(NSMaxX(screen)-600,NSMaxY(screen)-([NSMenuView menuBarHeight] -2)) toOrigin:NSMakePoint(NSMaxX(screen)-600,NSMaxY(screen)-frameHeight-([NSMenuView menuBarHeight] -2))];
-		//[slider setFromOrigin:NSMakePoint(NSMaxX(screen),NSMaxY(screen)) toOrigin:NSMakePoint(200,300)];
-		[self setStartPercentage:0 endPercentage:100 forTransition:slider];
-		[slider setAutoReverses:YES];
-		[self addTransition:slider];
-		[slider release];
-	} else {
-		//wipe effect
-		[panel setFrameOrigin:NSMakePoint(NSMaxX(screen)-600, NSMaxY(screen))];
-		GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
-		[wiper setFromOrigin:NSMakePoint(NSMaxX(screen)-600,NSMaxY(screen)-([NSMenuView menuBarHeight])) toOrigin:NSMakePoint(NSMaxX(screen)-600+25,NSMaxY(screen)-([NSMenuView menuBarHeight])+25)];
-		[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
-		[wiper setAutoReverses:YES];
-		[self addTransition:wiper];
-		[wiper release];
+	if ((self = [super initWithWindow:panel])) {
+		int effect = 0;
+		READ_GROWL_PREF_INT(Nano_EFFECT_PREF, GrowlNanoPrefDomain, &effect);
+		if (effect == 0) {
+			//slider effect
+			GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
+			[slider setFromOrigin:NSMakePoint(NSMaxX(screen)-600,NSMaxY(screen)-([NSMenuView menuBarHeight] -2)) toOrigin:NSMakePoint(NSMaxX(screen)-600,NSMaxY(screen)-frameHeight-([NSMenuView menuBarHeight] -2))];
+			//[slider setFromOrigin:NSMakePoint(NSMaxX(screen),NSMaxY(screen)) toOrigin:NSMakePoint(200,300)];
+			[self setStartPercentage:0 endPercentage:100 forTransition:slider];
+			[slider setAutoReverses:YES];
+			[self addTransition:slider];
+			[slider release];
+		} else {
+			//wipe effect
+			[panel setFrameOrigin:NSMakePoint(NSMaxX(screen)-600, NSMaxY(screen))];
+			GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
+			[wiper setFromOrigin:NSMakePoint(NSMaxX(screen)-600,NSMaxY(screen)-([NSMenuView menuBarHeight])) toOrigin:NSMakePoint(NSMaxX(screen)-600+25,NSMaxY(screen)-([NSMenuView menuBarHeight])+25)];
+			[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
+			[wiper setAutoReverses:YES];
+			[self addTransition:wiper];
+			[wiper release];
+		}
 	}
 	return self;
 
@@ -113,14 +110,14 @@
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;
-	
+
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *title = [notification title];
 	NSString *text  = [notification notificationDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int prio        = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 	BOOL textHTML, titleHTML;
-	
+
 	if (title)
 		titleHTML = YES;
 	else {
@@ -133,7 +130,7 @@
 		textHTML = NO;
 		text = [notification notificationDescription];
 	}
-	
+
 	NSPanel *panel = (NSPanel *)[self window];
 	GrowlNanoWindowView *view = [panel contentView];
 	[view setPriority:prio];
@@ -141,7 +138,7 @@
 	[view setText:text];// isHTML:textHTML];
 	[view setIcon:icon];
 	//[view sizeToFit];
-	
+
 	NSRect viewFrame = [view frame];
 	[panel setFrame:viewFrame display:NO];
 	NSRect screen = [[self screen] visibleFrame];

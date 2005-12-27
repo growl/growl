@@ -367,7 +367,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 		if (native == -1) {
 			NSLog(@"GrowlUDPPathway: could not create socket.");
-			
+
 			//notification to the user that it couldn't create the socket
 			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 			NSBeginAlertSheet( NSLocalizedString( @"Growl could not create a socket", @"" ),
@@ -376,7 +376,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 						   NULL, NULL,
 						   NULL,
 						   NSLocalizedString( @"Growl was unable to create the socket for Network notifications.", @""));
-			
+
 			[self release];
 			return nil;
 		}
@@ -384,7 +384,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 		if (bind(native, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
 			NSLog(@"GrowlUDPPathway: could not bind socket.");
 			close(native);
-			
+
 			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
 			NSBeginAlertSheet( NSLocalizedString( @"Growl could not bind the socket", @"" ),
 						   nil,
@@ -393,7 +393,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 						   NULL,
 						   NSLocalizedString( @"Growl was unable to bind the socket for Network notifications, check to make sure that there aren't any other applications already using the port.", @""));
 
-			
+
 			[self release];
 			return nil;
 		}

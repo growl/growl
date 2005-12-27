@@ -276,7 +276,7 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 			default:
 				break;
 		}
-		
+
 		//If we're in the middle we should notify our delegate about it
 		if (!passedMiddleOfAnimation && (progress >= 0.5) && delegate) {
 			[self animationIsInMiddle];
