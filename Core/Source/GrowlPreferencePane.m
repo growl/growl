@@ -620,7 +620,7 @@
 									 defaultButton:@"Remove" 
 								   alternateButton:@"Cancel" 
 									   otherButton:nil 
-						 informativeTextWithFormat:[NSString stringWithFormat:@"Removing %@ from this list will reset your settings and %@ will need to re-register when it uses Growl the next time.", appName, appName];
+						 informativeTextWithFormat:[NSString stringWithFormat:@"Removing %@ from this list will reset your settings and %@ will need to re-register when it uses Growl the next time.", appName, appName]];
 	[alert setIcon:[[[NSImage alloc] initWithContentsOfFile:[[self bundle] pathForImageResource:@"growl-icon"]] autorelease]];
 	[alert beginSheetModalForWindow:[[NSApplication sharedApplication] keyWindow] modalDelegate:self didEndSelector:@selector(deleteCallbackDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
