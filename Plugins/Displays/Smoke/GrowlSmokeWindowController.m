@@ -111,13 +111,13 @@ static const double gMaxDisplayTime = 10.0;
 	BOOL textHTML, titleHTML;
 	
 	if (title)
-	titleHTML = YES;
+		titleHTML = YES;
 	else {
 		titleHTML = NO;
 		title = [notification title];
 	}
 	if (text)
-	textHTML = YES;
+		textHTML = YES;
 	else {
 		textHTML = NO;
 		text = [notification notificationDescription];
