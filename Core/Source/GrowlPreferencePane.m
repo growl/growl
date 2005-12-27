@@ -134,7 +134,7 @@
 	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
 	growlForumURL = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
 	growlTracURL = [[NSURL alloc] initWithString:@"http://trac.growl.info/trac"];
-	growlDonateURL = [[NSURL alloc] initWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=chris%40growl%2einfo&item_name=The%20Growl%20Project&no_shipping=0&no_note=1&tax=0&currency_code=USD&bn=PP%2dDonationsBF&charset=UTF%2d8"];
+	growlDonateURL = [[NSURL alloc] initWithString:@"http://growl.info/donate.php"];
 	NSString *growlWebSiteURLString = [growlWebSiteURL absoluteString];
 	NSString *growlForumURLString   = [growlForumURL absoluteString];
 	NSString *growlTracURLString    = [growlTracURL absoluteString];
