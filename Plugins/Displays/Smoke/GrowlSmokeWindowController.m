@@ -17,13 +17,10 @@
 #import "GrowlFadingWindowTransition.h"
 #include "CFDictionaryAdditions.h"
 
-static unsigned globalId = 0U;
-
 @implementation GrowlSmokeWindowController
 
 static const double gAdditionalLinesDisplayTime = 0.5;
 static const double gMaxDisplayTime = 10.0;
-static NSMutableDictionary *notificationsByIdentifier;
 
 - (id) init {
 	screenNumber = 0U;
@@ -35,7 +32,7 @@ static NSMutableDictionary *notificationsByIdentifier;
 
 	displayDuration = GrowlSmokeDurationPrefDefault;
 	READ_GROWL_PREF_VALUE(GrowlSmokeDurationPref, GrowlSmokePrefDomain, CFNumberRef, &prefsDuration);
-	if(prefsDuration) {
+	if (prefsDuration) {
 		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
 		if (value > 0.0f)
 			displayDuration = value;

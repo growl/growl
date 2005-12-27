@@ -8,6 +8,8 @@
 
 #import "GrowlAnimation.h"
 
+extern CFRunLoopRef CFRunLoopGetMain(void);
+
 @interface GrowlAnimation (private)
 - (void) doAnimationStep;
 
@@ -97,7 +99,7 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 
 - (void) stopAnimation {
 	if ([self isAnimating]) {
-		if(animationTimer) {
+		if (animationTimer) {
 			CFRunLoopTimerInvalidate(animationTimer);
 			CFRelease(animationTimer);
 			animationTimer = NULL;
@@ -123,7 +125,7 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 #pragma mark -
 
 - (BOOL) isAnimating {
-	return (animationTimer && [animationTimer isValid]);
+	return (animationTimer && CFRunLoopTimerIsValid(animationTimer));
 }
 
 //===============================================================================//

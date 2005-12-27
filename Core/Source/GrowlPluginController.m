@@ -523,7 +523,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 }
 - (NSDictionary *) pluginDictionaryWithName:(NSString *)name author:(NSString *)author version:(NSString *)version type:(NSString *)type {
 	NSSet *matches = [self pluginDictionariesWithName:name author:author version:version type:type];
-	if([matches count] == 1U)
+	if ([matches count] == 1U)
 		return [matches anyObject];
 	else
 		return nil;
@@ -836,9 +836,9 @@ int comparePluginHandlerRegistrationOrder(id a, id b, void *context) {
 	ASSERT_IN_FUNCTION(aIndex != NSNotFound, @"Attempted to compare two plug-in handlers, but the first object was not a (registered) plug-in handler! Description of object: %@", a);
 	ASSERT_IN_FUNCTION(bIndex != NSNotFound, @"Attempted to compare two plug-in handlers, but the second object was not a (registered) plug-in handler! Description of object: %@", b);
 
-	if(aIndex < bIndex)
+	if (aIndex < bIndex)
 		return NSOrderedAscending;
-	else if(aIndex > bIndex)
+	else if (aIndex > bIndex)
 		return NSOrderedDescending;
 	else
 		return NSOrderedSame;

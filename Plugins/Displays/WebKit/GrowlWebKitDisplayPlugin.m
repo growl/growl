@@ -9,6 +9,7 @@
 #import "GrowlNotificationDisplayBridge.h"
 #import "GrowlWebKitDisplayPlugin.h"
 #import "GrowlWebKitDefines.h"
+#import "GrowlWebKitPrefsController.h"
 
 @implementation GrowlWebKitDisplayPlugin
 
@@ -21,7 +22,7 @@
 	NSDictionary *styleInfo = [styleBundle infoDictionary];
 	style = [[styleInfo valueForKey:@"CFBundleName"] retain];
 	prefDomain = [[NSString alloc] initWithFormat:@"%@.%@",GrowlWebKitPrefDomain,style];
-	
+
 	BOOL validBundle = YES;
 	NSString *templateFile = [styleBundle pathForResource:@"template" ofType:@"html"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile])
@@ -29,8 +30,7 @@
 	/* NOTE other verification here....does the plist contain all the relevant keys? does the 
 		bundle contain all the files we need? */
 	
-	if (!validBundle)
-	{
+	if (!validBundle) {
 		[self release];
 		return nil;
 	}

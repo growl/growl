@@ -13,6 +13,7 @@
 #import "GrowlSlidingWindowTransition.h"
 #import "GrowlWipeWindowTransition.h"
 #include "CFDictionaryAdditions.h"
+#import "GrowlApplicationNotification.h"
 
 @implementation GrowlMusicVideoWindowController
 
@@ -25,7 +26,7 @@
 	CFNumberRef prefsDuration = NULL;
 	CFTimeInterval value = -1.0f;
 	READ_GROWL_PREF_VALUE(MUSICVIDEO_DURATION_PREF, GrowlMusicVideoPrefDomain, CFNumberRef, &prefsDuration);
-	if(prefsDuration) {
+	if (prefsDuration) {
 		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
 		if (value > 0.0f)
 			displayDuration = value;
@@ -82,7 +83,7 @@
 	
 	int effect = 0;
 	READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
-	if(effect == 0) {
+	if (effect == 0) {
 		//slider effect
 		GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
 		[slider setFromOrigin:NSMakePoint(NSMinX(screen),-frameHeight) toOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen))];
@@ -115,19 +116,17 @@
 	NSString *title = [notification title];
 	NSString *text  = [notification notificationDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
-	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
-	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
+	int prio        = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 	BOOL textHTML, titleHTML;
 	
 	if (title)
-	titleHTML = YES;
+		titleHTML = YES;
 	else {
 		titleHTML = NO;
 		title = [notification title];
 	}
 	if (text)
-	textHTML = YES;
+		textHTML = YES;
 	else {
 		textHTML = NO;
 		text = [notification notificationDescription];
@@ -135,7 +134,7 @@
 	
 	NSPanel *panel = (NSPanel *)[self window];
 	GrowlMusicVideoWindowView *view = [panel contentView];
-	[view setPriority:priority];
+	[view setPriority:prio];
 	[view setTitle:title];//isHTML:titleHTML];
 	[view setText:text];// isHTML:textHTML];
 	[view setIcon:icon];
@@ -143,7 +142,6 @@
 	
 	NSRect viewFrame = [view frame];
 	[panel setFrame:viewFrame display:NO];
-	NSRect screen = [[self screen] visibleFrame];
 	[panel setFrameTopLeftPoint:NSMakePoint(0,0)];
 	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, [panel frame].origin.x, [panel frame].origin.y, [panel frame].size.height, [panel frame].size.width);
 }

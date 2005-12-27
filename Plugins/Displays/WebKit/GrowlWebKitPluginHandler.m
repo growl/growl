@@ -22,7 +22,7 @@
 	return self;
 }
 
-- (BOOL)loadPluginAtPath:(NSString *)path {
+- (BOOL) loadPluginAtPath:(NSString *)path {
 	NSBundle *pluginBundle = [[NSBundle alloc] initWithPath:path];
 	if (!pluginBundle) {
 		NSLog(@"%@ Failed to load: %@",NSStringFromClass([self class]),path);

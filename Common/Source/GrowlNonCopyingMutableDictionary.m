@@ -201,7 +201,7 @@
 }
 
 - (void) dealloc {
-	if(!hasFreed)
+	if (!hasFreed)
 		NSEndMapTableEnumeration(&mapEnum);
 
 	[super dealloc];

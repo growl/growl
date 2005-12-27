@@ -70,7 +70,7 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 			// rects and sizes
 			int sizePref = 0;
 			READ_GROWL_PREF_INT(Nano_SIZE_PREF, GrowlNanoPrefDomain, &sizePref);
-			NSRect titleRect, textRect;
+			//NSRect titleRect, textRect;
 			////NSRect iconRect;
 
 			/*if (sizePref == Nano_SIZE_HUGE) {

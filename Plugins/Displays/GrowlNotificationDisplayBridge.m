@@ -62,8 +62,8 @@
 	id wc = nil;
 	if (windowNibName)
 		wc = [[windowControllerClass alloc] initWithWindowNibName:windowNibName 
-															   owner:self
-															  plugin:display];
+															owner:self
+														   plugin:display];
 	else
 		wc = [[windowControllerClass alloc] initWithBridge:self];
 	

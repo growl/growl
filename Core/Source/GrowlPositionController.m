@@ -307,7 +307,7 @@
 		
 	//Make sure the set exists. If not, create it.
 	if (!result) {
-		@synchronized(reservedRects) {
+		@synchronized((NSMutableDictionary *)reservedRects) {
 			result = [[NSMutableSet alloc] init];
 			CFDictionarySetValue(reservedRects, screen, result);
 			[result release];

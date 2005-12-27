@@ -14,6 +14,6 @@
 }
 
 - (id) initSingleton;
-- (BOOL)loadPluginAtPath:(NSString *)path;
+- (BOOL) loadPluginAtPath:(NSString *)path;
 
 @end

@@ -36,7 +36,7 @@
 	CFNumberRef prefsDuration = NULL;
 	CFTimeInterval value = -1.0f;
 	READ_GROWL_PREF_VALUE(GrowlBubblesDuration, GrowlBubblesPrefDomain, CFNumberRef, &prefsDuration);
-	if(prefsDuration) {
+	if (prefsDuration) {
 		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
 		//NSLog(@"%lf\n", value);
 		if (value > 0.0f)
@@ -109,8 +109,6 @@
 	NSString *text  = [notification HTMLDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
 	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
-	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
 	BOOL textHTML, titleHTML;
 	
 	if (title)

@@ -630,8 +630,7 @@
 {
 #pragma unused(alert)
 #pragma unused(eventID)
-	if(returnCode == NSAlertDefaultReturn)
-	{
+	if (returnCode == NSAlertDefaultReturn) {
 		GrowlApplicationTicket *ticket = [[ticketsArrayController selectedObjects] objectAtIndex:0U];
 		NSString *path = [ticket path];
 		
@@ -769,7 +768,7 @@
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
 #pragma unused(aTableView)	
 	// we check to make sure we have the image + text column and then set it's image manually
-	if(aTableColumn == applicationNameAndIconColumn) {
+	if (aTableColumn == applicationNameAndIconColumn) {
 		[self cacheImages];
 		[[aTableColumn dataCellForRow:rowIndex] setImage:(NSImage *)CFArrayGetValueAtIndex(images,rowIndex)];
 		return [[[ticketsArrayController content] objectAtIndex:rowIndex] valueForKey:@"applicationName"];

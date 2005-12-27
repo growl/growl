@@ -16,7 +16,7 @@
 #import "GrowlFlippingWindowTransition.h"
 #import "GrowlShrinkingWindowTransition.h"
 #import "GrowlWindowTransition.h"
-
+#import "GrowlApplicationNotification.h"
 
 @implementation GrowlBezelWindowController
 
@@ -35,7 +35,7 @@
 	CFNumberRef prefsDuration = NULL;
 	CFTimeInterval value = -1.0f;
 	READ_GROWL_PREF_VALUE(GrowlBezelDuration, GrowlBezelPrefDomain, CFNumberRef, &prefsDuration);
-	if(prefsDuration) {
+	if (prefsDuration) {
 		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
 		//NSLog(@"%lf\n", value);
 		if (value > 0.0f)
@@ -101,14 +101,14 @@
 	[fader setAutoReverses:YES];
 	[fader release];
 	
-	if(shrinkEnabled) {
+	if (shrinkEnabled) {
 		GrowlShrinkingWindowTransition *shrinker = [[GrowlShrinkingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:shrinker];
 		[self setStartPercentage:0 endPercentage:80 forTransition:shrinker];
 		[shrinker setAutoReverses:YES];
 		[shrinker release];
 	}
-	if(flipEnabled) {
+	if (flipEnabled) {
 		GrowlFlippingWindowTransition *flipper = [[GrowlFlippingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:flipper];
 		[self setStartPercentage:0 endPercentage:100 forTransition:flipper];
@@ -126,24 +126,22 @@
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;
-	
+
 	NSDictionary *noteDict = [notification dictionaryRepresentation];
 	NSString *title = [notification title];
 	NSString *text  = [notification notificationDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
-	int myPriority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
-	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
+	int myPriority  = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 	BOOL textHTML, titleHTML;
-	
+
 	if (title)
-	titleHTML = YES;
+		titleHTML = YES;
 	else {
 		titleHTML = NO;
 		title = [notification title];
 	}
 	if (text)
-	textHTML = YES;
+		textHTML = YES;
 	else {
 		textHTML = NO;
 		text = [notification notificationDescription];

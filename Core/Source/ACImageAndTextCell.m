@@ -140,9 +140,9 @@
 	}
 	
 	NSAttributedString *string = [self attributedStringValue];
-	if(string) {
+	if (string) {
 		NSSize textSize = [string size];
-		if(cellFrame.size.height > textSize.height) {
+		if (cellFrame.size.height > textSize.height) {
 			cellFrame.origin.y += (cellFrame.size.height - textSize.height)/2;
 			[string drawAtPoint:cellFrame.origin];
 		} else {

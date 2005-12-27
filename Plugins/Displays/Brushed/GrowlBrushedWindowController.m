@@ -40,7 +40,7 @@ static const double gAdditionalLinesDisplayTime = 0.5;
 
 	displayDuration = GrowlBrushedDurationPrefDefault;
 	READ_GROWL_PREF_VALUE(GrowlBrushedDurationPref, GrowlBrushedPrefDomain, CFNumberRef, &prefsDuration);
-	if(prefsDuration) {
+	if (prefsDuration) {
 		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
 		if (value > 0.0f)
 			displayDuration = value;

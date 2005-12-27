@@ -201,7 +201,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 
 - (void) didFinishTransitionsBeforeDisplay {
 	NSLog(@"%s\n", __FUNCTION__);
-	if(delayTimer) {
+	if (delayTimer) {
 		CFRunLoopTimerInvalidate(delayTimer);
 		CFRelease(delayTimer);
 		delayTimer = NULL;
@@ -211,7 +211,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 
 - (void) didFinishTransitionsAfterDisplay {
 	NSLog(@"%s\n", __FUNCTION__);
-	if(delayTimer) {
+	if (delayTimer) {
 		CFRunLoopTimerInvalidate(delayTimer);
 		CFRelease(delayTimer);
 		delayTimer = NULL;
@@ -411,7 +411,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 
 - (void) stopTransition:(GrowlWindowTransition *)transition {
 	[transition stopAnimation];
-	if(transitionTimer) {
+	if (transitionTimer) {
 		CFRunLoopTimerInvalidate(transitionTimer);
 		CFRelease(transitionTimer);
 		transitionTimer = NULL;

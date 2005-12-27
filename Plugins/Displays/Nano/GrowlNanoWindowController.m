@@ -13,6 +13,8 @@
 #import "NSWindow+Transforms.h"
 #import "GrowlSlidingWindowTransition.h"
 #import "GrowlWipeWindowTransition.h"
+#import "GrowlApplicationNotification.h"
+#include "CFDictionaryAdditions.h"
 
 @implementation GrowlNanoWindowController
 
@@ -25,7 +27,7 @@
 	CFNumberRef prefsDuration = NULL;
 	CFTimeInterval value = -1.0f;
 	READ_GROWL_PREF_VALUE(Nano_DURATION_PREF, GrowlNanoPrefDomain, CFNumberRef, &prefsDuration);
-	if(prefsDuration) {
+	if (prefsDuration) {
 		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
 		if (value > 0.0f)
 			displayDuration = value;
@@ -74,8 +76,7 @@
 	[view release];
 
 	
-	NSRect viewFrame = [view frame];
-	[panel setFrameOrigin:NSMakePoint( NSMaxX(screen)-600, NSMaxY(screen))];
+	[panel setFrameOrigin:NSMakePoint(NSMaxX(screen)-600, NSMaxY(screen))];
 											
 	// call super so everything else is set up...
 	self = [super initWithWindow:panel];
@@ -84,7 +85,7 @@
 	
 	int effect = 0;
 	READ_GROWL_PREF_INT(Nano_EFFECT_PREF, GrowlNanoPrefDomain, &effect);
-	if(effect == 0) {
+	if (effect == 0) {
 		//slider effect
 		GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
 		[slider setFromOrigin:NSMakePoint(NSMaxX(screen)-600,NSMaxY(screen)-([NSMenuView menuBarHeight] -2)) toOrigin:NSMakePoint(NSMaxX(screen)-600,NSMaxY(screen)-frameHeight-([NSMenuView menuBarHeight] -2))];
@@ -117,19 +118,17 @@
 	NSString *title = [notification title];
 	NSString *text  = [notification notificationDescription];
 	NSImage *icon   = getObjectForKey(noteDict, GROWL_NOTIFICATION_ICON);
-	int priority    = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
-	BOOL sticky     = getBooleanForKey(noteDict, GROWL_NOTIFICATION_STICKY);
-	NSString *ident = getObjectForKey(noteDict, GROWL_NOTIFICATION_IDENTIFIER);
+	int prio        = getIntegerForKey(noteDict, GROWL_NOTIFICATION_PRIORITY);
 	BOOL textHTML, titleHTML;
 	
 	if (title)
-	titleHTML = YES;
+		titleHTML = YES;
 	else {
 		titleHTML = NO;
 		title = [notification title];
 	}
 	if (text)
-	textHTML = YES;
+		textHTML = YES;
 	else {
 		textHTML = NO;
 		text = [notification notificationDescription];
@@ -137,7 +136,7 @@
 	
 	NSPanel *panel = (NSPanel *)[self window];
 	GrowlNanoWindowView *view = [panel contentView];
-	[view setPriority:priority];
+	[view setPriority:prio];
 	[view setTitle:title];//isHTML:titleHTML];
 	[view setText:text];// isHTML:textHTML];
 	[view setIcon:icon];

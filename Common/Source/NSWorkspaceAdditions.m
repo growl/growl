@@ -29,8 +29,8 @@
 
 	OSStatus err = LSCopyItemInfoForURL((CFURLRef)URL, kLSRequestTypeCreator, &rec);
 	if (err == noErr) {
-		if(outFileType)    *outFileType    = NSFileTypeForHFSTypeCode(rec.filetype);
-		if(outCreatorCode) *outCreatorCode = NSFileTypeForHFSTypeCode(rec.creator);
+		if (outFileType)    *outFileType    = NSFileTypeForHFSTypeCode(rec.filetype);
+		if (outCreatorCode) *outCreatorCode = NSFileTypeForHFSTypeCode(rec.creator);
 	}
 
 	return (err == noErr);
