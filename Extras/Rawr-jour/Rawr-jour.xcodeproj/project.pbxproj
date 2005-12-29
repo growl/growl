@@ -49,6 +49,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		931CD29E09634E430045060E /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 931CD29D09634E430045060E /* CFGrowlAdditions.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -77,6 +78,13 @@
 /* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
+		931CCE0809633B2F0045060E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95A17A9C08B7C9DD007FBE87 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93BC379E095A662B0002B365 /* Nano.growlView */;
+			remoteInfo = Nano;
+		};
 		95A17A9608B7C9BD007FBE87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -119,26 +127,12 @@
 			remoteGlobalIDString = 34F60EAB078E1CD500CECA86;
 			remoteInfo = "Growl.framework ppc";
 		};
-		95A17ABD08B7C9DD007FBE87 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95A17A9C08B7C9DD007FBE87 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9560BED2086DC45100A173B1;
-			remoteInfo = "Growl.framework i386";
-		};
 		95A17ABF08B7C9DD007FBE87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 95A17A9C08B7C9DD007FBE87 /* Growl.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 34F60EF9078E226300CECA86;
 			remoteInfo = "Growl-WithInstaller.framework ppc";
-		};
-		95A17AC108B7C9DD007FBE87 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95A17A9C08B7C9DD007FBE87 /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9560BF0E086DC46700A173B1;
-			remoteInfo = "Growl-WithInstaller.framework i386";
 		};
 		95A17AC308B7C9DD007FBE87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -200,7 +194,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 95A17A9C08B7C9DD007FBE87 /* Growl.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 9560BF4D086DC4F800A173B1;
+			remoteGlobalIDString = 34F60EAA078E1CD500CECA86 /* Growl.framework */;
 			remoteInfo = Growl.framework;
 		};
 /* End PBXContainerItemProxy section */
@@ -241,6 +235,7 @@
 		32CA4F630368D1EE00C91783 /* Rawr-jour_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Rawr-jour_Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Rawr-jour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rawr-jour.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		931CD29D09634E430045060E /* CFGrowlAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = CFGrowlAdditions.c; path = ../../Common/Source/CFGrowlAdditions.c; sourceTree = SOURCE_ROOT; };
 		95A17A9C08B7C9DD007FBE87 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		95B4A49808D84E1D009A3DDE /* CFGrowlAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CFGrowlAdditions.h; path = ../../Common/Source/CFGrowlAdditions.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -261,6 +256,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				931CD29D09634E430045060E /* CFGrowlAdditions.c */,
 				95B4A49808D84E1D009A3DDE /* CFGrowlAdditions.h */,
 				021101290705F3C5004AA0F2 /* JKServiceBrowserDelegate.h */,
 				0211012A0705F3C5004AA0F2 /* JKServiceBrowserDelegate.m */,
@@ -352,10 +348,8 @@
 				95A17AB608B7C9DD007FBE87 /* PrefpaneTesting.app */,
 				95A17AB808B7C9DD007FBE87 /* GrowlHelperApp.app */,
 				95A17ABA08B7C9DD007FBE87 /* GrowlMenu.app */,
-				95A17ABC08B7C9DD007FBE87 /* Growl ppc.framework */,
-				95A17ABE08B7C9DD007FBE87 /* Growl i386.framework */,
-				95A17AC008B7C9DD007FBE87 /* Growl-WithInstaller ppc.framework */,
-				95A17AC208B7C9DD007FBE87 /* Growl-WithInstaller i386.framework */,
+				95A17ABC08B7C9DD007FBE87 /* Growl.framework */,
+				95A17AC008B7C9DD007FBE87 /* Growl-WithInstaller.framework */,
 				95A17AC408B7C9DD007FBE87 /* Speech.growlView */,
 				95A17AC608B7C9DD007FBE87 /* Brushed.growlView */,
 				95A17AC808B7C9DD007FBE87 /* Bubbles.growlView */,
@@ -364,6 +358,7 @@
 				95A17ACE08B7C9DD007FBE87 /* MailMe.growlView */,
 				95A17AD008B7C9DD007FBE87 /* MusicVideo.growlView */,
 				95A17AD208B7C9DD007FBE87 /* GrowlSMS.growlView */,
+				931CCE0909633B2F0045060E /* Nano.growlView */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -434,6 +429,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		931CCE0909633B2F0045060E /* Nano.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Nano.growlView;
+			remoteRef = 931CCE0809633B2F0045060E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		95A17AB408B7C9DD007FBE87 /* Growl.prefPane */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -462,32 +464,18 @@
 			remoteRef = 95A17AB908B7C9DD007FBE87 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		95A17ABC08B7C9DD007FBE87 /* Growl ppc.framework */ = {
+		95A17ABC08B7C9DD007FBE87 /* Growl.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = "Growl ppc.framework";
+			path = Growl.framework;
 			remoteRef = 95A17ABB08B7C9DD007FBE87 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		95A17ABE08B7C9DD007FBE87 /* Growl i386.framework */ = {
+		95A17AC008B7C9DD007FBE87 /* Growl-WithInstaller.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = "Growl i386.framework";
-			remoteRef = 95A17ABD08B7C9DD007FBE87 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95A17AC008B7C9DD007FBE87 /* Growl-WithInstaller ppc.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = "Growl-WithInstaller ppc.framework";
+			path = "Growl-WithInstaller.framework";
 			remoteRef = 95A17ABF08B7C9DD007FBE87 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95A17AC208B7C9DD007FBE87 /* Growl-WithInstaller i386.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = "Growl-WithInstaller i386.framework";
-			remoteRef = 95A17AC108B7C9DD007FBE87 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		95A17AC408B7C9DD007FBE87 /* Speech.growlView */ = {
@@ -590,6 +578,7 @@
 				0220D2B106FBD3EA00DEB979 /* JKMenuController.m in Sources */,
 				0220D3B406FBE1AC00DEB979 /* JKServiceManager.m in Sources */,
 				0211012C0705F3C5004AA0F2 /* JKServiceBrowserDelegate.m in Sources */,
+				931CD29E09634E430045060E /* CFGrowlAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,6 +655,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_CFLAGS = "-fobjc-exceptions";
 				PRODUCT_NAME = "Rawr-jour";
 				WARNING_CFLAGS = (
 					"-W",
@@ -680,7 +670,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				DEAD_CODE_STRIPPING = YES;
+				DEAD_CODE_STRIPPING = NO;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -743,7 +733,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = "Rawr-endezvous";
+				PRODUCT_NAME = "Rawr-jour";
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
@@ -761,6 +751,10 @@
 					i386,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fobjc-exceptions",
+				);
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
@@ -875,6 +869,7 @@
 				95A17AD608B7C9DD007FBE87 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
 		};
 /* End XCConfigurationList section */
 	};

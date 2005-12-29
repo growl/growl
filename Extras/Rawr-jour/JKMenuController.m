@@ -42,7 +42,7 @@
 }
 
 - (NSString *) applicationNameForGrowl {
-	return @"Rawr-endezvous";
+	return @"Rawr-jour";
 }
 
 - (NSData *) applicationIconDataForGrowl {
