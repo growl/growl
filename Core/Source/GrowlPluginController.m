@@ -249,6 +249,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			[handlers addObject:handler];
 		}
 
+		[allPluginHandlers addObject:handler];
+
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 		NSDictionary *notificationUserInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 			handler, @"GrowlPluginHandler",
@@ -353,6 +355,16 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	if (!identifier)
 		identifier = [NSString stringWithFormat:@"Name: %@ Author: %@ Path: %@", name, author, path];
+	
+	if (!plugin && bundle) {
+		if (![bundlesToLazilyInstantiateAnInstanceFrom containsObject:bundle])
+			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
+		else {
+			plugin = [[[bundle principalClass] alloc] init];
+			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
+			[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
+		}
+	}
 
 	if (!pluginDict) {
 		pluginDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -511,13 +523,13 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 #warning this is an extremely strange problem. objectForKey returns a set but if you use it directly intersetSet returns an empty set.  the only way i could make this work was to wrap it in another set and use that.  I spent 2 hours trying to work this out so for now Ill just move on.  jkp.
 	if ([matches count]) {
 		if (name)
-			[matches intersectSet:[NSSet setWithSet:[pluginsByName objectForKey:name]]];
+			[matches intersectSet:[pluginsByName objectForKey:name]];
 		if (author)
-			[matches intersectSet:[NSSet setWithSet:[pluginsByAuthor objectForKey:author]]];
+			[matches intersectSet:[pluginsByAuthor objectForKey:author]];
 		if (version)
-			[matches intersectSet:[NSSet setWithSet:[pluginsByVersion objectForKey:version]]];
+			[matches intersectSet:[pluginsByVersion objectForKey:version]];
 		if (type)
-			[matches intersectSet:[NSSet setWithSet:[pluginsByType objectForKey:type]]];
+			[matches intersectSet:[pluginsByType objectForKey:type]];
 	}
 
 	return matches;
