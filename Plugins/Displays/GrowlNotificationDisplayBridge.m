@@ -13,6 +13,14 @@
 
 #import "GrowlDisplayWindowController.h"
 
+//used to silence a warning when forwarding one of these messages to the display or notification.
+@protocol WindowControllerListener <NSObject>
+
+- (void) windowControllerWillLoadNib:(GrowlDisplayWindowController *)windowController;
+- (void) windowControllerDidLoadNib:(GrowlDisplayWindowController *)windowController;
+
+@end
+
 @implementation GrowlNotificationDisplayBridge
 
 + (GrowlNotificationDisplayBridge *) bridgeWithDisplay:(GrowlDisplayPlugin *)newDisplay notification:(GrowlApplicationNotification *)newNotification windowControllerClass:(Class)wcc {
@@ -84,16 +92,16 @@
 
 - (void) windowControllerWillLoadNib:(GrowlDisplayWindowController *)windowController {
 	if (display && [display respondsToSelector:@selector(windowControllerWillLoadNib:)])
-		[display windowControllerWillLoadNib:windowController];
+		[(id <WindowControllerListener>)display windowControllerWillLoadNib:windowController];
 	if (notification && [notification respondsToSelector:@selector(windowControllerWillLoadNib:)])
-		[notification windowControllerWillLoadNib:windowController];
+		[(id <WindowControllerListener>)notification windowControllerWillLoadNib:windowController];
 }
 
 - (void) windowControllerDidLoadNib:(GrowlDisplayWindowController *)windowController {
 	if (display && [display respondsToSelector:@selector(windowControllerDidLoadNib:)])
-		[display windowControllerDidLoadNib:windowController];
+		[(id <WindowControllerListener>)display windowControllerDidLoadNib:windowController];
 	if (notification && [notification respondsToSelector:@selector(windowControllerDidLoadNib:)])
-		[notification windowControllerDidLoadNib:windowController];
+		[(id <WindowControllerListener>)notification windowControllerDidLoadNib:windowController];
 }
 
 - (void) addWindowController:(GrowlDisplayWindowController *)newWindowController {
