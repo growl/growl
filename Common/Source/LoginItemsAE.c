@@ -66,6 +66,8 @@ First checked in.
 
 #include <string.h>
 
+extern OSStatus LSOpenApplication() __attribute__((weak_import));
+
 /////////////////////////////////////////////////////////////////
 #pragma mark ***** Apple event utilities
 

@@ -15,6 +15,8 @@
 #include <netdb.h>
 #include "CFGrowlAdditions.h"
 
+extern Boolean CFStringGetFileSystemRepresentation() __attribute__((weak_import));
+
 char *createFileSystemRepresentationOfString(CFStringRef str) {
 	char *buffer;
 	if (CFStringGetFileSystemRepresentation) {
