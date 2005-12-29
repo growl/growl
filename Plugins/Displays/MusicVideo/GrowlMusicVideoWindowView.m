@@ -10,6 +10,8 @@
 #import "GrowlMusicVideoPrefs.h"
 #import "GrowlImageAdditions.h"
 
+extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
+
 @implementation GrowlMusicVideoWindowView
 
 - (id) initWithFrame:(NSRect)frame {

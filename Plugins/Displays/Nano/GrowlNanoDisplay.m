@@ -11,6 +11,8 @@
 #import "GrowlNanoPrefs.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlApplicationNotification.h"
+#import "GrowlNotificationDisplayBridge.h"
+
 #include "CFDictionaryAdditions.h"
 
 @implementation GrowlNanoDisplay

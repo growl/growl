@@ -9,6 +9,8 @@
 #import "GrowlBezelPrefs.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlApplicationNotification.h"
+#import "GrowlNotificationDisplayBridge.h"
+
 #include "CFDictionaryAdditions.h"
 
 @implementation GrowlBezelDisplay

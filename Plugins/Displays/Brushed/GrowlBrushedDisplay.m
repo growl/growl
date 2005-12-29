@@ -6,6 +6,7 @@
 //  Copyright 2004-2005 The Growl Project. All rights reserved.
 //
 
+#import "GrowlNotificationDisplayBridge.h"
 #import "GrowlBrushedDisplay.h"
 #import "GrowlBrushedWindowController.h"
 #import "GrowlBrushedPrefsController.h"

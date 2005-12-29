@@ -19,8 +19,8 @@
 
 @implementation GrowlSmokeWindowController
 
-static const double gAdditionalLinesDisplayTime = 0.5;
-static const double gMaxDisplayTime = 10.0;
+//static const double gAdditionalLinesDisplayTime = 0.5;
+//static const double gMaxDisplayTime = 10.0;
 
 - (id) init {
 	screenNumber = 0U;

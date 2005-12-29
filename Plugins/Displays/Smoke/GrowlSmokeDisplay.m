@@ -12,6 +12,8 @@
 #import "GrowlSmokeDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlApplicationNotification.h"
+#import "GrowlNotificationDisplayBridge.h"
+
 #include "CFDictionaryAdditions.h"
 
 static unsigned smokeDepth = 0U;

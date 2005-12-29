@@ -19,7 +19,7 @@
 
 @implementation GrowlBrushedWindowController
 
-static const double gAdditionalLinesDisplayTime = 0.5;
+//static const double gAdditionalLinesDisplayTime = 0.5;
 
 - (id) init {
 	// Read prefs...

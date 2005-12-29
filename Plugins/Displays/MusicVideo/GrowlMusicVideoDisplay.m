@@ -9,6 +9,8 @@
 #import "GrowlMusicVideoPrefs.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlApplicationNotification.h"
+#import "GrowlNotificationDisplayBridge.h"
+
 #include "CFDictionaryAdditions.h"
 
 @implementation GrowlMusicVideoDisplay
