@@ -11,7 +11,7 @@
 #import "GrowlAbstractSingletonObject.h"
 
 @class GrowlPlugin, GrowlDisplayPlugin;
-@class GrowlNonCopyingDictionary;
+@class GrowlNonCopyingMutableDictionary;
 
 /*GrowlPluginController handles three types of plug-ins by itself:
  *	*	.growlPlugin (a so-called 'functional plug-in', which adds features to Growl)
@@ -133,8 +133,8 @@ extern NSString *GrowlPluginInfoKeyInstance;        //description dicts only
 	NSMutableDictionary       *pluginsByIdentifier;
 	//keys: plug-in paths/bundles/instances; values: plug-in identifiers.
 	NSMutableDictionary       *pluginIdentifiersByPath;
-	GrowlNonCopyingDictionary *pluginIdentifiersByBundle;
-	GrowlNonCopyingDictionary *pluginIdentifiersByInstance;
+	GrowlNonCopyingMutableDictionary *pluginIdentifiersByBundle;
+	GrowlNonCopyingMutableDictionary *pluginIdentifiersByInstance;
 	//keys: plug-in IDs/names/authors/versions/types/instances; values: NSSets of plug-in description dictionaries.
 	NSMutableDictionary *pluginsByName;
 	NSMutableDictionary *pluginsByAuthor;
@@ -160,7 +160,7 @@ extern NSString *GrowlPluginInfoKeyInstance;        //description dicts only
 	 *	can be called upon to do that.
 	 */
 	//keys: GrowlPlugins; values: GrowlPluginHandlers
-	GrowlNonCopyingDictionary *handlersForPlugins;
+	GrowlNonCopyingMutableDictionary *handlersForPlugins;
 
 	/*these are types for which it is illegal to try and register a plug-in
 	 *	handler, because they are reserved for built-in handlers.
@@ -279,5 +279,8 @@ extern NSString *GrowlPluginInfoKeyInstance;        //description dicts only
 
 //installs plug-in to a plug-ins folder
 - (void) installPluginFromPath:(NSString *)path;
+
+
+- (NSArray *) allPluginHandlers;
 
 @end

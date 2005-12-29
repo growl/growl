@@ -9,7 +9,7 @@
 //
 
 #import "GrowlPositionController.h"
-
+#import "GrowlDisplayWindowController.h"
 
 @interface GrowlPositionController (private)
 - (NSMutableSet *)reservedRectsForScreen:(NSScreen *)inScreen;

@@ -16,6 +16,7 @@
 
 #import "GrowlPathUtilities.h"
 #import "GrowlNonCopyingMutableDictionary.h"
+
 #import "NSSetAdditions.h"
 #import "NSWorkspaceAdditions.h"
 #import "GrowlWebKitPluginHandler.h"

@@ -60,6 +60,8 @@
 - (void) addWindowController:(GrowlDisplayWindowController *)newWindowController;
 - (void) removeWindowController:(GrowlDisplayWindowController *)windowControllerToRemove;
 
+- (BOOL) containsWindowController:(GrowlDisplayWindowController *)windowController;
+
 /*!	@method	windowControllers
  *	@abstract	Returns all of the window controllers associated with this display.
  *	@discussion	Returns all of the window controllers that have been added with <code>addWindowController:</code>, that haven't been removed with <code>removeWindowController:</code>.

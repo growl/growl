@@ -6,8 +6,10 @@
 //  Copyright 2005 The Growl Project. All rights reserved.
 //
 
+#import "GrowlApplicationNotification.h"
 #import "GrowlNotificationDisplayBridge.h"
 #import "GrowlDisplayWindowController.h"
+#import "GrowlDisplayPlugin.h"
 
 #import "GrowlDisplayWindowController.h"
 
@@ -86,6 +88,7 @@
 	if (notification && [notification respondsToSelector:@selector(windowControllerWillLoadNib:)])
 		[notification windowControllerWillLoadNib:windowController];
 }
+
 - (void) windowControllerDidLoadNib:(GrowlDisplayWindowController *)windowController {
 	if (display && [display respondsToSelector:@selector(windowControllerDidLoadNib:)])
 		[display windowControllerDidLoadNib:windowController];
