@@ -340,6 +340,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	NSString *version = plugin ? [plugin version] : [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
 	if (!path)
 		path = [bundle bundlePath];
+	NSString *extension = [path pathExtension];
+	NSString *fileType = nil;
 
 	NSAssert5((name != nil) && (author != nil) && (version != nil),
 			  @"Cannot load plug-in at path %@ (plug-in instance's class: %@). One of these is (null), but they must all not be:\n"
@@ -366,19 +368,28 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		}
 	}
 
+	if (!plugin && bundle) {
+		if (![bundlesToLazilyInstantiateAnInstanceFrom containsObject:bundle])
+			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
+		else {
+			plugin = [[[bundle principalClass] alloc] init];
+			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
+		}
+	}
+
+	BOOL pluginDictIsNew = !pluginDict;
 	if (!pluginDict) {
 		pluginDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 			name,                 GrowlPluginInfoKeyName,
 			author,               GrowlPluginInfoKeyAuthor,
 			version,              GrowlPluginInfoKeyVersion,
 			path,                 GrowlPluginInfoKeyPath,
+			identifier,           GrowlPluginInfoKeyIdentifier,
 			nil];
 		NSString *description = [plugin pluginDescription];
 		if (description)
 			[pluginDict setObject:description forKey:GrowlPluginInfoKeyDescription];
 
-		NSString *extension = [path pathExtension];
-		NSString *fileType = nil;
 		[[NSWorkspace sharedWorkspace] getFileType:&fileType creatorCode:NULL forFile:path];
 
 		NSSet *types = nil;
@@ -394,7 +405,21 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 		if (types)
 			[pluginDict setObject:types forKey:GrowlPluginInfoKeyTypes];
+	}
 
+	if (bundle) {
+		if (![pluginDict objectForKey:GrowlPluginInfoKeyBundle])
+			[pluginDict setObject:bundle forKey:GrowlPluginInfoKeyBundle];
+		[pluginIdentifiersByBundle setObject:identifier forKey:bundle];
+	}
+	if (plugin) {
+		if (![pluginDict objectForKey:GrowlPluginInfoKeyInstance])
+			[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
+		[pluginIdentifiersByInstance setObject:identifier forKey:plugin];
+	}
+
+	//if we just created it (and got done filling it out), start storing it in places.
+	if (pluginDictIsNew) {
 		[pluginsByIdentifier setObject:pluginDict forKey:identifier];
 		[pluginIdentifiersByPath setObject:identifier forKey:path];
 
@@ -414,27 +439,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		ADD_TO_DICT(pluginsByType, extension, pluginDict);
 		ADD_TO_DICT(pluginsByType, fileType,  pluginDict);
 	#undef ADD_TO_DICT
-	}
-
-	if (!plugin && bundle) {
-		if (![bundlesToLazilyInstantiateAnInstanceFrom containsObject:bundle])
-			[bundlesToLazilyInstantiateAnInstanceFrom addObject:bundle];
-		else {
-			plugin = [[[bundle principalClass] alloc] init];
-			[bundlesToLazilyInstantiateAnInstanceFrom removeObject:bundle];
-			[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
-		}
-	}
-
-	if (bundle) {
-		if (![pluginDict objectForKey:GrowlPluginInfoKeyBundle])
-			[pluginDict setObject:bundle forKey:GrowlPluginInfoKeyBundle];
-		[pluginIdentifiersByBundle setObject:identifier forKey:bundle];
-	}
-	if (plugin) {
-		if (![pluginDict objectForKey:GrowlPluginInfoKeyInstance])
-			[pluginDict setObject:plugin forKey:GrowlPluginInfoKeyInstance];
-		[pluginIdentifiersByInstance setObject:identifier forKey:plugin];
 	}
 
 	//release our copies.
@@ -520,7 +524,6 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 - (NSSet *) pluginDictionariesWithName:(NSString *)name author:(NSString *)author version:(NSString *)version type:(NSString *)type {
 	NSMutableSet *matches = [[[self allPluginDictionaries] mutableCopy] autorelease];
 
-#warning this is an extremely strange problem. objectForKey returns a set but if you use it directly intersetSet returns an empty set.  the only way i could make this work was to wrap it in another set and use that.  I spent 2 hours trying to work this out so for now Ill just move on.  jkp.
 	if ([matches count]) {
 		if (name)
 			[matches intersectSet:[pluginsByName objectForKey:name]];
