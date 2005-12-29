@@ -851,8 +851,6 @@
 		952EFCA507C2869700952C6B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Framework/Resources/English.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		952EFD0F07C286A700952C6B /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = Framework/Resources/German.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		9532B0CE07CE651F0028B2F1 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Core/Resources/English.lproj/GrowlPref.nib; sourceTree = "<group>"; };
-		9532B10307CE65310028B2F1 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = Core/Resources/German.lproj/GrowlPref.nib; sourceTree = "<group>"; };
-		953A3FFB08468818001AC823 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = Core/Resources/cs.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		953F5CEB07403B67008E2AEB /* GrowlNotifyScriptCommand.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlNotifyScriptCommand.m; path = Bindings/applescript/GrowlNotifyScriptCommand.m; sourceTree = SOURCE_ROOT; };
 		953F5D2207403BC7008E2AEB /* GrowlNotifyScriptCommand.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlNotifyScriptCommand.h; path = Bindings/applescript/GrowlNotifyScriptCommand.h; sourceTree = SOURCE_ROOT; };
 		953F5D2707403BC7008E2AEB /* GrowlRegisterScriptCommand.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlRegisterScriptCommand.h; path = Bindings/applescript/GrowlRegisterScriptCommand.h; sourceTree = SOURCE_ROOT; };
@@ -876,7 +874,6 @@
 		955A4E580861762A009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/GrowlMusicVideoPrefs.nib; sourceTree = "<group>"; };
 		955A4E5908617637009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Plugins/Displays/WebKit/French.lproj/WebKitPrefs.nib; sourceTree = "<group>"; };
 		955A4E5A08617653009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = French; path = Core/Resources/French.lproj/About.rtf; sourceTree = "<group>"; };
-		955A4E5B0861765F009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Core/Resources/French.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		955A4E5C0861766D009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Core/Resources/French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		955A4E5D0861767F009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = Core/Resources/French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		955A4EDC08617747009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = StatusItem/Resources/French.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -895,7 +892,6 @@
 		9574B7580838CA1E00106CA3 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSStringAdditions.m; path = Common/Source/NSStringAdditions.m; sourceTree = "<group>"; };
 		9574B7AB0838CB5500106CA3 /* CFGrowlAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CFGrowlAdditions.h; path = Common/Source/CFGrowlAdditions.h; sourceTree = "<group>"; };
 		9574B7AC0838CB5500106CA3 /* CFURLAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = CFURLAdditions.c; path = Common/Source/CFURLAdditions.c; sourceTree = "<group>"; };
-		9574B9800838FADA00106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Core/Resources/Japanese.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		9574B9990838FBEE00106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Framework/Resources/Japanese.lproj/GrowlInstallationPrompt.nib; sourceTree = "<group>"; };
 		9574B99A0838FC1E00106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = "Framework/Resources/Japanese.lproj/GrowlInstallationPrompt-Carbon.nib"; sourceTree = "<group>"; };
 		9574B99B0838FC2E00106CA3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Japanese; path = Framework/Resources/Japanese.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
@@ -921,7 +917,6 @@
 		95A9E432080B2CAB006A2F29 /* TicketsArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TicketsArrayController.h; path = Core/Source/TicketsArrayController.h; sourceTree = "<group>"; };
 		95A9E433080B2CAB006A2F29 /* TicketsArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TicketsArrayController.m; path = Core/Source/TicketsArrayController.m; sourceTree = "<group>"; };
 		95AA8653080065DE0045589D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
-		95B009D008468840004A8623 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = Core/Resources/zh_CN.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		95B00A18084688F6004A8623 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = StatusItem/Resources/zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95B00A3008468932004A8623 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = Core/Resources/cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95B00A3108468941004A8623 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = Core/Resources/zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -3706,11 +3701,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				9532B0CE07CE651F0028B2F1 /* English */,
-				9532B10307CE65310028B2F1 /* German */,
-				9574B9800838FADA00106CA3 /* Japanese */,
-				953A3FFB08468818001AC823 /* cs */,
-				95B009D008468840004A8623 /* zh_CN */,
-				955A4E5B0861765F009B6EA5 /* French */,
 			);
 			name = GrowlPref.nib;
 			sourceTree = "<group>";
