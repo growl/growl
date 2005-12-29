@@ -12,9 +12,9 @@
 	<string>Доступна новая версия Growl</string>
 	<key>Install</key>
 	<string>Установить</string>
-	<key>This program displays information via Growl, a centralized notification system.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.</key>
+	<key>This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.</key>
 	<string>Данная программа поддерживает сервис Growl - централизованную и унифицированную систему вывода предупреждений. В данную поставку включена версия Growl более новая, чем установленная на Вашем компьютере. Рекомендуется установить это обновление. Подключение к сети Интернет не требуется.</string>
-	<key>This program displays information via Growl, a centralized notification system.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.</key>
+	<key>This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.</key>
 	<string>Данная программа поддерживает сервис Growl - централизованную и унифицированную систему вывода предупреждений. Подтвердите установку Growl, если хотите воспользоваться её возможностями. Подключение к сети Интернет не требуется.</string>
 	<key>Update</key>
 	<string>Обновить</string>

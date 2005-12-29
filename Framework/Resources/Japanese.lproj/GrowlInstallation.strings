@@ -8,10 +8,10 @@
 	<key>Growl Update Available</key>
 	<string>Growl の最新版があります</string>
 
-	<key>This program displays information via Growl, a centralized notification system.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.</key>
+	<key>This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.</key>
 	<string>このプログラムは集中情報システム Growl を使って情報を表示しますが、現在 Growl がインストールされていません。Growlを利用してこのプログラムからの情報を表示するには、Growl をインストールする必要があります。ダウンロードの必要はありません。</string>
 
-	<key>This program displays information via Growl, a centralized notification system.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.</key>
+	<key>This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.</key>
 	<string>このプログラムは集中情報システム Growl を使って情報を表示しますが現在インストールされている Growl は最新のものではありません。このプログラムに含まれている新しいバージョンの Growl にアップデートすることを強くお勧めします。ダウンロードの必要はありません。</string>
 
 	<key>Install</key>

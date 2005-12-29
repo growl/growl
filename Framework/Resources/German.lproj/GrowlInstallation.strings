@@ -8,10 +8,10 @@
 	<key>Growl Update Available</key>
 	<string>Growl Update Verfügbar</string>
 
-	<key>This program displays information via Growl, a centralized notification system.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.</key>
+	<key>This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.</key>
 	<string>Dieses Programm benutzt Growl, ein zentrales Benachrichtigungssystem, um Informationen anzuzeigen.  Growl ist momentan nicht installiert; um Growl Benachrichtigungen von dieser und anderen Anwendungen zu erhalten, muss Growl installiert werden.  Kein Download wird benötigt.</string>
 
-	<key>This program displays information via Growl, a centralized notification system.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.</key>
+	<key>This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.</key>
 	<string>Dieses Programm benutzt Growl, ein zentrales Benachrichtigungssystem, um Informationen anzuzeigen.  Eine Version von Growl ist momentan installiert, aber dieses Programm enthält eine neuere Version von Growl.  Es wird dringend empfohlen, die neuere Version zu installieren.  Kein Download wird benötigt.</string>
 
 	<key>Install</key>
