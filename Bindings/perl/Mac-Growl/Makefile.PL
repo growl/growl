@@ -13,8 +13,10 @@ my $GHA;
 
 if ($opt->{growlhelperapp}) {
 	$GHA = $opt->{growlhelperapp};
-} else {
+} else if (-e '/Library/PreferencePanes/Growl.prefPane/Contents/Resources/GrowlHelperApp.app/') {
 	$GHA = '/Library/PreferencePanes/Growl.prefPane/Contents/Resources/GrowlHelperApp.app/';
+} else {
+	$GHA = '~/Library/PreferencePanes/Growl.prefPane/Contents/Resources/GrowlHelperApp.app/';
 }
 
 my $goodversion = checkversion();
