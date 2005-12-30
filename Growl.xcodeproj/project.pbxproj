@@ -226,7 +226,7 @@
 		953F5CF107403B67008E2AEB /* GrowlNotifyScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F5CEB07403B67008E2AEB /* GrowlNotifyScriptCommand.m */; };
 		953F5D3807403BC7008E2AEB /* GrowlRegisterScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F5D2C07403BC7008E2AEB /* GrowlRegisterScriptCommand.m */; };
 		953F73A1081FFB9E00823EFE /* GrowlNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 953F739F081FFB9E00823EFE /* GrowlNotificationCenter.m */; };
-		95416E06086343180098C914 /* GrowlStatusController.c in Sources */ = {isa = PBXBuildFile; fileRef = 95416E04086343180098C914 /* GrowlStatusController.c */; };
+		95416E06086343180098C914 /* GrowlIdleStatusController.c in Sources */ = {isa = PBXBuildFile; fileRef = 95416E04086343180098C914 /* GrowlIdleStatusController.c */; };
 		9542E55B07C28C3A0056BAC9 /* GrowlInstallation.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9542E51C07C28C3A0056BAC9 /* GrowlInstallation.strings */; };
 		954F013D074135D400EA8AB5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 954F013B074135D400EA8AB5 /* Localizable.strings */; };
 		9550518107DE4B4A002F5315 /* GrowlApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */; };
@@ -857,8 +857,8 @@
 		953F5D2C07403BC7008E2AEB /* GrowlRegisterScriptCommand.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlRegisterScriptCommand.m; path = Bindings/applescript/GrowlRegisterScriptCommand.m; sourceTree = SOURCE_ROOT; };
 		953F739E081FFB9E00823EFE /* GrowlNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationCenter.h; path = Core/Source/GrowlNotificationCenter.h; sourceTree = "<group>"; };
 		953F739F081FFB9E00823EFE /* GrowlNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationCenter.m; path = Core/Source/GrowlNotificationCenter.m; sourceTree = "<group>"; };
-		95416E03086343180098C914 /* GrowlStatusController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlStatusController.h; path = Core/Source/GrowlStatusController.h; sourceTree = "<group>"; };
-		95416E04086343180098C914 /* GrowlStatusController.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = GrowlStatusController.c; path = Core/Source/GrowlStatusController.c; sourceTree = "<group>"; };
+		95416E03086343180098C914 /* GrowlIdleStatusController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlIdleStatusController.h; path = Core/Source/GrowlIdleStatusController.h; sourceTree = "<group>"; };
+		95416E04086343180098C914 /* GrowlIdleStatusController.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = GrowlIdleStatusController.c; path = Core/Source/GrowlIdleStatusController.c; sourceTree = "<group>"; };
 		9542E53107C28C3A0056BAC9 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = Framework/Resources/English.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
 		9542E65907C28D230056BAC9 /* German */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 4; name = German; path = Framework/Resources/German.lproj/GrowlInstallation.strings; sourceTree = "<group>"; };
 		954F012F074135CC00EA8AB5 /* English */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = English; path = Core/Resources/English.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
@@ -1004,7 +1004,7 @@
 		DD493A04084BAD7700D1CCCB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/SMS/English.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		DD493B7C084BB07900D1CCCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = Plugins/Displays/SMS/Info.plist; sourceTree = "<group>"; };
 		DDB6462607DE034800807F8D /* generateSVNRevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = generateSVNRevision.sh; sourceTree = "<group>"; };
-		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF09B19080AC97A006F4172 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Prefpane TestHarness/main.m"; sourceTree = "<group>"; };
 		DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = "PrefPaneTesting-Info.plist"; path = "Prefpane TestHarness/PrefPaneTesting-Info.plist"; sourceTree = "<group>"; };
 		DDF09B1B080AC97A006F4172 /* PrefpaneTester.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefpaneTester.h; path = "Prefpane TestHarness/PrefpaneTester.h"; sourceTree = "<group>"; };
@@ -1763,8 +1763,8 @@
 				950568E40812C2960096EC5C /* GrowlLog.c */,
 				953F739E081FFB9E00823EFE /* GrowlNotificationCenter.h */,
 				953F739F081FFB9E00823EFE /* GrowlNotificationCenter.m */,
-				95416E03086343180098C914 /* GrowlStatusController.h */,
-				95416E04086343180098C914 /* GrowlStatusController.c */,
+				95416E03086343180098C914 /* GrowlIdleStatusController.h */,
+				95416E04086343180098C914 /* GrowlIdleStatusController.c */,
 				740CC038093A4F1000092801 /* GrowlThreadedView.h */,
 				EE17E56B08EFFCDB0086F0C3 /* GrowlThreadedView.m */,
 				740CC06F093A508100092801 /* GrowlNotificationView.h */,
@@ -3416,7 +3416,7 @@
 				9574B7AE0838CB5500106CA3 /* CFURLAdditions.c in Sources */,
 				95F97733084A2CA000915BFE /* CFMutableDictionaryAdditions.c in Sources */,
 				95F97734084A2CA300915BFE /* CFDictionaryAdditions.c in Sources */,
-				95416E06086343180098C914 /* GrowlStatusController.c in Sources */,
+				95416E06086343180098C914 /* GrowlIdleStatusController.c in Sources */,
 				95B92F470865BA5D00DA02F0 /* NSMutableAttributedStringAdditions.m in Sources */,
 				95D93724086EFA7C00A1AD50 /* NSViewAdditions.m in Sources */,
 				95B2B27C08745BAF00EA34BF /* GrowlApplicationController.m in Sources */,
@@ -4332,6 +4332,7 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = PrefpaneTesting;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = (
 					"-W",
 					"-Wall",
@@ -4355,6 +4356,7 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				PRODUCT_NAME = PrefpaneTesting;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Deployment;
 		};

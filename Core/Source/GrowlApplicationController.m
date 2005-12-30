@@ -21,7 +21,7 @@
 #import "NSStringAdditions.h"
 #import "GrowlDisplayPlugin.h"
 #import "GrowlPluginController.h"
-#import "GrowlStatusController.h"
+#import "GrowlIdleStatusController.h"
 #import "GrowlDefines.h"
 #import "GrowlVersionUtilities.h"
 #import "SVNRevision.h"
@@ -196,7 +196,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 		[GrowlApplicationBridge setGrowlDelegate:self];
 
-		GrowlStatusController_init();
+		GrowlIdleStatusController_init();
 		[nc addObserver:self
 			   selector:@selector(idleStatus:)
 				   name:@"GrowlIdleStatus"
@@ -272,7 +272,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	if (versionCheckURL)
 		CFRelease(versionCheckURL);
 
-	GrowlStatusController_dealloc();
+	GrowlIdleStatusController_dealloc();
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
 
@@ -526,7 +526,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	if (sticky >= 0)
 		setBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY, sticky);
 	else if ([preferences stickyWhenAway] && !getBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY))
-		setBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY, GrowlStatusController_isIdle());
+		setBooleanForKey(aDict, GROWL_NOTIFICATION_STICKY, GrowlIdleStatusController_isIdle());
 
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
 	setBooleanForKey(aDict, GROWL_SCREENSHOT_MODE, saveScreenshot);

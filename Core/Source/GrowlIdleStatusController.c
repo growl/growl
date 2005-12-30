@@ -1,12 +1,12 @@
 //
-//  GrowlStatusController.c
+//  GrowlIdleStatusController.c
 //  Growl
 //
 //  Created by Ingmar Stein on 17.06.05.
 //  Copyright 2005 The Growl Project. All rights reserved.
 //
 
-#include "GrowlStatusController.h"
+#include "GrowlIdleStatusController.h"
 #include "GrowlPreferencesController.h"
 
 //Idle monitoring code from Adium X ( http://www.adiumx.com ), used with permission
@@ -92,7 +92,7 @@ static void idleTimerCallback(CFRunLoopTimerRef timer, void *info) {
 	lastSeenIdle = currentIdle;
 }
 
-void GrowlStatusController_init(void) {
+void GrowlIdleStatusController_init(void) {
 	CFNumberRef value = GrowlPreferencesController_objectForKey(CFSTR("IdleThreshold"));
 	if (value)
 		CFNumberGetValue(value, kCFNumberIntType, &idleThreshold);
@@ -108,7 +108,7 @@ void GrowlStatusController_init(void) {
 	CFRunLoopAddTimer(CFRunLoopGetCurrent(), idleTimer, kCFRunLoopCommonModes);
 }
 
-void GrowlStatusController_dealloc(void) {
+void GrowlIdleStatusController_dealloc(void) {
 	CFRunLoopTimerInvalidate(idleTimer);
 	CFRelease(idleTimer);
 }
@@ -116,6 +116,6 @@ void GrowlStatusController_dealloc(void) {
 /*!
  * @brief Returns if the machine is currently considered idle or not.
  */
-Boolean GrowlStatusController_isIdle(void) {
+Boolean GrowlIdleStatusController_isIdle(void) {
 	return isIdle;
 }
