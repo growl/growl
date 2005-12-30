@@ -55,7 +55,7 @@
 
 @protocol GGPluginProtocol;
 
-@interface GMNGrowlController : NSObject <GGPluginProtocol> {
+@interface GMNGrowlController : NSObject <GGPluginProtocol, GrowlApplicationBridgeDelegate> {
 	NSData *defIcon;
 }
 - (NSDictionary *)normalizeMessageDict:(NSDictionary *)di;
