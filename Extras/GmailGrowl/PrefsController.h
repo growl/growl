@@ -2,7 +2,7 @@
  
  BSD License
  
- Copyright (c) 2005, Jesper <wootest@gmail.com>
+ Copyright (c) 2005-2006, Jesper <wootest@gmail.com>
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
@@ -46,7 +46,7 @@
 //  GMNGrowl
 //
 //  Created by Jesper on 2005-09-28.
-//  Copyright 2005 Jesper. All rights reserved.
+//  Copyright 2005-2006 Jesper. All rights reserved.
 //  Contact: <wootest@gmail.com>.
 //
 
