@@ -13,7 +13,7 @@ my $GHA;
 
 if ($opt->{growlhelperapp}) {
 	$GHA = $opt->{growlhelperapp};
-} else if (-e '/Library/PreferencePanes/Growl.prefPane/Contents/Resources/GrowlHelperApp.app/') {
+} elsif (-e '/Library/PreferencePanes/Growl.prefPane/Contents/Resources/GrowlHelperApp.app/') {
 	$GHA = '/Library/PreferencePanes/Growl.prefPane/Contents/Resources/GrowlHelperApp.app/';
 } else {
 	$GHA = '~/Library/PreferencePanes/Growl.prefPane/Contents/Resources/GrowlHelperApp.app/';
