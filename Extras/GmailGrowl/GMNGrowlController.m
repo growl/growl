@@ -2,7 +2,7 @@
  
  BSD License
  
- Copyright (c) 2005, Jesper <wootest@gmail.com>
+ Copyright (c) 2005-2006, Jesper <wootest@gmail.com>
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification,
@@ -48,7 +48,7 @@
 //  GMNGrowl
 //
 //  Created by Jesper on 2005-09-02.
-//  Copyright 2005 Jesper. All rights reserved.
+//  Copyright 2005-2006 Jesper. All rights reserved.
 //  Contact: <wootest@gmail.com>.
 //
 
@@ -310,7 +310,7 @@
 			   iconData:iconData
 			   priority:0
 			   isSticky:NO
-		   clickContext:nil];	
+		   clickContext:[[messageDict copy] autorelease]];	
 		
 		i++;
 	} 
@@ -338,6 +338,45 @@
 		[d setObject:GMNGrowlMissingSummary forKey:GmailMessageDictSummaryKey];
 	
 	return d;
+}
+
+- (void) growlNotificationWasClicked:(id)clickContext {
+	NSDictionary *dict = (NSDictionary *)clickContext;
+	[[NSWorkspace sharedWorkspace] openURL:[self urlForMessageDict:dict]];
+}
+
+- (NSURL *)urlForMessageDict:(NSDictionary *)di {
+	
+	/** How to construct a URL to open a message. Start by getting the UUID in Hex. */
+	
+	NSString *ident = [di objectForKey:GmailMessageDictMailUUIDKey];
+	/** ident now contains "tag:gmail.google.com,2004:number". */
+	
+	/** Find the range of the second colon. (The first is a part of 'tag:'.) */
+	NSRange cor = [ident rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@":"]
+										 options:NSBackwardsSearch];
+	ident = [ident substringFromIndex:cor.location];
+	/** ident now contains ":number". */
+	
+	NSScanner *sc = [NSScanner scannerWithString:ident];
+	[sc scanUpToCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:NULL];
+	long long hexid;
+	[sc scanLongLong:&hexid];
+	
+	ident = [NSString stringWithFormat:@"%qX", hexid];
+	/** ident now contains our number in hex. */
+	
+	/** The second part is getting the account. 
+		*** The only way we can do this is by fishing it straight out of Gmail Notifier's preferences.
+		*** Heinous, I know. */
+	
+	NSString *acc = (NSString *)((CFStringRef)CFPreferencesCopyAppValue((CFStringRef)@"Username",(CFStringRef)@"com.google.GmailNotifier"));
+	
+	/** URL escape the @ in the username, if needed. */
+	acc = [acc stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	
+	/** Now, assemble the URL and return it. */
+	return [NSURL URLWithString:[NSString stringWithFormat:@"https://mail.google.com/mail?account_id=%@&message_id=%@&view=gds_conv", acc, ident]];
 }
 
 - (NSData *)iconDataBasedOnSender:(NSString *)email {
