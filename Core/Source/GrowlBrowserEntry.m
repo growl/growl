@@ -56,7 +56,7 @@
 }
 
 - (void) setComputerName:(NSString *)name {
-	CFDictionarySetValue(properties, name, CFSTR("computer"));
+	CFDictionarySetValue(properties, CFSTR("computer"), name);
 	[owner writeForwardDestinations];
 }
 
