@@ -65,7 +65,7 @@
 }
 
 - (void) setNetService:(NSNetService *)service {
-	CFDictionarySetValue(properties, service, CFSTR("netservice"));
+	CFDictionarySetValue(properties, CFSTR("netservice"), service);
 }
 
 - (NSString *) password {
