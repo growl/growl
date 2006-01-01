@@ -109,7 +109,6 @@
 - (IBAction) startStopGrowl:(id)sender;
 - (BOOL) growlIsRunning;
 - (void) setGrowlIsRunning:(BOOL)flag;
-- (IBAction) customFileChosen:(id)sender;
 - (void) updateLogPopupMenu;
 
 #pragma mark GrowlMenu methods

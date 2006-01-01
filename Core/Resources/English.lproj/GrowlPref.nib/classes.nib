@@ -5,7 +5,6 @@
         {
             ACTIONS = {
                 checkVersion = id; 
-                customFileChosen = id; 
                 deleteTicket = id; 
                 openGrowlDonate = id; 
                 openGrowlForum = id; 
