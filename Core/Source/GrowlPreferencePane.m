@@ -503,15 +503,6 @@
 		[self launchGrowl];
 }
 
-- (IBAction) logTypeChanged:(id)sender {
-	int typePref = [sender selectedRow];
-	BOOL hasSelection = (typePref != 0);
-	int numberOfItems = [customMenuButton numberOfItems];
-	if (hasSelection && (numberOfItems == 1))
-		[self customFileChosen:customMenuButton];
-	[preferencesController setInteger:typePref forKey:GrowlLogTypeKey];
-	[customMenuButton setEnabled:(hasSelection && (numberOfItems > 1))];
-}
 
 
 - (IBAction) customFileChosen:(id)sender {

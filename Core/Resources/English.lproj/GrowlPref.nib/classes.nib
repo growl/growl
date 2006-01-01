@@ -7,7 +7,6 @@
                 checkVersion = id; 
                 customFileChosen = id; 
                 deleteTicket = id; 
-                logTypeChanged = id; 
                 openGrowlDonate = id; 
                 openGrowlForum = id; 
                 openGrowlTrac = id; 
