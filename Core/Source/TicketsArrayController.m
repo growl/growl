@@ -33,16 +33,6 @@
 			// Filter application's name
 			if ([[ticket applicationName] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
 				[matchedObjects addObject:ticket];
-			} else {
-				// Filter notifications
-				NSEnumerator *notificationsEnum = [[ticket notifications] objectEnumerator];
-				GrowlNotificationTicket *notification;
-				while ((notification = [notificationsEnum nextObject])) {
-					if ([[notification humanReadableName] rangeOfString:searchString options:NSLiteralSearch|NSCaseInsensitiveSearch].location != NSNotFound) {
-						[matchedObjects addObject:ticket];
-						break;
-					}
-				}
 			}
 		}
 		return [super arrangeObjects:matchedObjects];
