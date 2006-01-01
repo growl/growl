@@ -111,7 +111,6 @@
 - (void) setGrowlIsRunning:(BOOL)flag;
 
 - (IBAction) logTypeChanged:(id)sender;
-- (IBAction) openConsoleApp:(id)sender;
 - (IBAction) customFileChosen:(id)sender;
 - (void) updateLogPopupMenu;
 

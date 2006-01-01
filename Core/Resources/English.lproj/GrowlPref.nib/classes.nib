@@ -8,7 +8,6 @@
                 customFileChosen = id; 
                 deleteTicket = id; 
                 logTypeChanged = id; 
-                openConsoleApp = id; 
                 openGrowlDonate = id; 
                 openGrowlForum = id; 
                 openGrowlTrac = id; 
@@ -31,6 +30,7 @@
                 displayPrefView = NSView; 
                 displayVersion = NSTextField; 
                 growlApplications = NSTableView; 
+                growlDonate = NSButton; 
                 growlForum = NSButton; 
                 growlRunningProgress = NSProgressIndicator; 
                 growlRunningStatus = NSTextField; 
@@ -42,6 +42,7 @@
                 notificationsArrayController = NSArrayController; 
                 previewButton = NSButton; 
                 servicePasswordColumn = NSTableColumn; 
+                servicesArrayController = NSArrayController; 
                 startStopGrowl = NSButton; 
                 ticketsArrayController = TicketsArrayController; 
             }; 

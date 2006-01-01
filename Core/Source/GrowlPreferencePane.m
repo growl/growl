@@ -513,16 +513,6 @@
 	[customMenuButton setEnabled:(hasSelection && (numberOfItems > 1))];
 }
 
-/*!
- * @brief Opens Console.app.
- */
-- (IBAction) openConsoleApp:(id)sender {
-#pragma unused(sender)
-	[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:@"com.apple.Console"
-														 options:NSWorkspaceLaunchAsync
-								  additionalEventParamDescriptor:nil
-												launchIdentifier:nil];
-}
 
 - (IBAction) customFileChosen:(id)sender {
 	int selected = [sender indexOfSelectedItem];
