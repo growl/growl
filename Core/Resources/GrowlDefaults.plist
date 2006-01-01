@@ -26,5 +26,7 @@
 	<false/>
 	<key>StickyWhenAway</key>
 	<false/>
+	<key>IdleThreshold</key>
+	<integer>30</integer>
 </dict>
 </plist>

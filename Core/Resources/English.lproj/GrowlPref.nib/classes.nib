@@ -47,6 +47,7 @@
             }; 
             SUPERCLASS = NSPreferencePane; 
         }, 
+        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
         {
             CLASS = NSPreferencePane; 

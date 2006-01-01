@@ -39,6 +39,7 @@
 #define GrowlSquelchModeKey			XSTR("GrowlSquelchMode")
 #define LastKnownVersionKey			XSTR("LastKnownVersion")
 #define GrowlStickyWhenAwayKey		XSTR("StickyWhenAway")
+#define GrowlStickyIdleThresholdKey	XSTR("IdleThreshold")
 
 CFTypeRef GrowlPreferencesController_objectForKey(CFTypeRef key);
 int       GrowlPreferencesController_integerForKey(CFTypeRef key);
@@ -93,6 +94,9 @@ Boolean   GrowlPreferencesController_boolForKey(CFTypeRef key);
 
 - (BOOL) stickyWhenAway;
 - (void) setStickyWhenAway:(BOOL)flag;
+
+- (NSNumber*) idleThreshold;
+- (void) setIdleThreshold:(NSNumber*)value;
 
 #pragma mark GrowlMenu methods
 

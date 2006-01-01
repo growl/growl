@@ -286,6 +286,13 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	[self setBool:flag forKey:GrowlStickyWhenAwayKey];
 }
 
+- (NSNumber*) idleThreshold {
+	return [NSNumber numberWithInt:[self integerForKey:GrowlStickyIdleThresholdKey]];
+}
+
+- (void) setIdleThreshold:(NSNumber*)value {
+	[self setInteger:[value intValue] forKey:GrowlStickyIdleThresholdKey];
+}
 #pragma mark Status Item
 
 - (BOOL) isGrowlMenuEnabled {
@@ -436,6 +443,10 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	if (!object || [object isEqualToString:GrowlStickyWhenAwayKey]) {
 		[self willChangeValueForKey:@"stickyWhenAway"];
 		[self didChangeValueForKey:@"stickyWhenAway"];
+	}
+	if (!object || [object isEqualToString:GrowlStickyIdleThresholdKey]) {
+		[self willChangeValueForKey:@"idleThreshold"];
+		[self didChangeValueForKey:@"idleThreshold"];
 	}
 	if (!object || [object isEqualToString:GrowlRemoteRegistrationKey]) {
 		[self willChangeValueForKey:@"remoteRegistrationAllowed"];
