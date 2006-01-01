@@ -22,7 +22,6 @@ extern CFRunLoopRef CFRunLoopGetMain(void);
 
 static void animationStep(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
-	NSLog(@"%s\n", __FUNCTION__);
 	[(GrowlAnimation *)context doAnimationStep];
 }
 
@@ -230,7 +229,6 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 #pragma mark -
 
 - (void) doAnimationStep {
-	NSLog(@"framespassed = %u", framesPassed);
 	//The delegate may want to change our progress
 	if (delegate)
 		progress = [delegate growlAnimation:self valueForProgress:progress];

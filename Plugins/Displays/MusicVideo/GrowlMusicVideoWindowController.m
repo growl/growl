@@ -18,7 +18,6 @@
 @implementation GrowlMusicVideoWindowController
 
 - (id) init {
-	NSLog(@"%s\n", __FUNCTION__);
 	int sizePref = MUSICVIDEO_SIZE_NORMAL;
 
 	displayDuration = GrowlBubblesDurationPrefDefault;
@@ -105,7 +104,6 @@
 }
 
 - (void) setNotification: (GrowlApplicationNotification *) theNotification {
-	NSLog(@"%s\n", __FUNCTION__);
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;
@@ -141,7 +139,6 @@
 	NSRect viewFrame = [view frame];
 	[panel setFrame:viewFrame display:NO];
 	[panel setFrameTopLeftPoint:NSMakePoint(0,0)];
-	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, [panel frame].origin.x, [panel frame].origin.y, [panel frame].size.height, [panel frame].size.width);
 }
 
 - (unsigned) depth {

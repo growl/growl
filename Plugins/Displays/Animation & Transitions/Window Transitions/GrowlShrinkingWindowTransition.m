@@ -36,7 +36,6 @@
 				}
 				break;
 			case GrowlReverseTransition:
-				NSLog(@"%f\n", scaleFactor);
 				if (scaleFactor > 0.0f) {
 					scaleFactor -= (1.0f * inProgress);
 					[aWindow setScaleX:(scaleFactor > 0.0f ? scaleFactor : 0.0) Y:(scaleFactor > 0.0f ? scaleFactor : 0.0)];

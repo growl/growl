@@ -73,6 +73,7 @@
 	NSNetServiceBrowser				*browser;
 	NSNetService					*serviceBeingResolved;
 	int								currentServiceIndex;
+	IBOutlet NSArrayController		*servicesArrayController;
 	IBOutlet NSTableColumn			*servicePasswordColumn;
 
 	//About box tab pane

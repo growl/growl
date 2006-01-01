@@ -15,7 +15,6 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 @implementation GrowlMusicVideoWindowView
 
 - (id) initWithFrame:(NSRect)frame {
-	NSLog(@"%s\n", __FUNCTION__);
 	if ((self = [super initWithFrame:frame])) {
 		cache = [[NSImage alloc] initWithSize:frame.size];
 		needsDisplay = YES;
@@ -40,7 +39,6 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 }
 
 - (void) drawRect:(NSRect)rect {
-	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, rect.origin.x, rect.origin.y, rect.size.height, rect.size.width);
 	//Make sure that we don't draw in the main thread
 	//if ([super dispatchDrawingToThread:rect]) {
 		NSGraphicsContext *context = [NSGraphicsContext currentContext];

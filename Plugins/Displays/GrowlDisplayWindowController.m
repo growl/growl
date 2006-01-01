@@ -21,24 +21,20 @@ extern CFRunLoopRef CFRunLoopGetMain(void);
 
 static void stopDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
-	NSLog(@"%s\n", __FUNCTION__);
 	[(GrowlDisplayWindowController *)context stopDisplay];
 }
 
 static void finishedTransitionsBeforeDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
-	NSLog(@"%s\n", __FUNCTION__);
 	[(GrowlDisplayWindowController *)context didFinishTransitionsBeforeDisplay];
 }
 static void finishedTransitionsAfterDisplay(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
-	NSLog(@"%s\n", __FUNCTION__);
 	[(GrowlDisplayWindowController *)context didFinishTransitionsAfterDisplay];
 }
 
 static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
-	NSLog(@"%s\n", __FUNCTION__);
 	[(GrowlWindowTransition *)context startAnimation];
 }
 
@@ -139,7 +135,6 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Display control
 
 - (BOOL) startDisplay {
-	NSLog(@"%s\n", __FUNCTION__);
 	NSWindow *window = [self window];
 
 	//Make sure we don't cover any other notification (or not)
@@ -171,7 +166,6 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) stopDisplay {
-	NSLog(@"%s\n", __FUNCTION__);
 	[self stopDisplayTimer];
 	[self willTakeDownNotification];
 	if ([self startAllTransitions]) {
@@ -194,7 +188,6 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) didFinishTransitionsBeforeDisplay {
-	NSLog(@"%s\n", __FUNCTION__);
 	if (delayTimer) {
 		CFRunLoopTimerInvalidate(delayTimer);
 		CFRelease(delayTimer);
@@ -204,7 +197,6 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) didFinishTransitionsAfterDisplay {
-	NSLog(@"%s\n", __FUNCTION__);
 	if (delayTimer) {
 		CFRunLoopTimerInvalidate(delayTimer);
 		CFRelease(delayTimer);
@@ -249,14 +241,12 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 #pragma mark Display timer
 
 - (void) startDisplayTimer {
-	NSLog(@"%s %f\n", __FUNCTION__, displayDuration);
 	CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
 	displayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+displayDuration+transitionDuration, 0, 0, 0, &stopDisplay, &context);
 	CFRunLoopAddTimer(CFRunLoopGetMain(), displayTimer, kCFRunLoopCommonModes);
 }
 
 - (void) stopDisplayTimer {
-	NSLog(@"%s\n", __FUNCTION__);
 	if (displayTimer) {
 		CFRunLoopTimerInvalidate(displayTimer);
 		CFRelease(displayTimer);

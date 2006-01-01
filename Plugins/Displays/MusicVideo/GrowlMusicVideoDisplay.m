@@ -38,7 +38,6 @@
 
 #pragma mark -
 - (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
-	NSLog(@"%s\n", __FUNCTION__);
 	GrowlMusicVideoWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];
 	GrowlApplicationNotification *note = [theBridge notification];
 	NSDictionary *noteDict = [note dictionaryRepresentation];
