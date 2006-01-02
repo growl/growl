@@ -32,9 +32,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 */
 
 #import <Cocoa/Cocoa.h>
+#import "Growl/Growl.h"
 
 @class Library,PrefsWindowController,FeedWindowController;
-@interface FeedDelegate : NSObject
+@interface FeedDelegate : NSObject <GrowlApplicationBridgeDelegate>
 {
 	IBOutlet id					registerProtocolPanel;
 	
