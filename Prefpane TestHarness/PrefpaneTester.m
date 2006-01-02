@@ -14,34 +14,38 @@
 	[NSApp terminate:self];
 }
 
-- (void) init {
+- (id) init {
 	NSRect aRect;
 	NSBundle *prefBundle;
 	Class prefPaneClass;
 	NSView *prefView;
 
-	prefBundle = [NSBundle bundleWithPath: GROWL_OBJROOT @"/Growl.prefPane"];
+	if ((self = [super init])) {
+		prefBundle = [NSBundle bundleWithPath: GROWL_OBJROOT @"/Growl.prefPane"];
 
-	prefPaneClass = [prefBundle principalClass];
-	prefPaneObject = [[prefPaneClass alloc] initWithBundle:prefBundle];
+		prefPaneClass = [prefBundle principalClass];
+		prefPaneObject = [[prefPaneClass alloc] initWithBundle:prefBundle];
 
-	if ([prefPaneObject loadMainView]) {
-		[prefPaneObject willSelect];
-		prefView = [prefPaneObject mainView];
+		if ([prefPaneObject loadMainView]) {
+			[prefPaneObject willSelect];
+			prefView = [prefPaneObject mainView];
 
-		aRect = [prefView frame];
-		aRect.origin = NSZeroPoint;
-		theWindow = [[NSWindow alloc] initWithContentRect:aRect
-												styleMask:NSTitledWindowMask|NSClosableWindowMask|NSMiniaturizableWindowMask|NSResizableWindowMask
-												  backing:NSBackingStoreBuffered
-													defer:YES];
-		[theWindow setDelegate:self];
-		[theWindow setContentView:prefView];
-		[prefPaneObject didSelect];
-		[theWindow makeKeyAndOrderFront:self];
-	} else {
-		/* loadMainView failed -- handle error */
-		NSLog(@"PrefpaneTester -  Error in loadMainView:");
+			aRect = [prefView frame];
+			aRect.origin = NSZeroPoint;
+			theWindow = [[NSWindow alloc] initWithContentRect:aRect
+													styleMask:NSTitledWindowMask|NSClosableWindowMask|NSMiniaturizableWindowMask|NSResizableWindowMask
+													  backing:NSBackingStoreBuffered
+														defer:YES];
+			[theWindow setDelegate:self];
+			[theWindow setContentView:prefView];
+			[prefPaneObject didSelect];
+			[theWindow makeKeyAndOrderFront:self];
+		} else {
+			/* loadMainView failed -- handle error */
+			NSLog(@"PrefpaneTester -  Error in loadMainView:");
+		}
 	}
+
+	return self;
 }
 @end
