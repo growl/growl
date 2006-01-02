@@ -53,7 +53,7 @@ static Library *				_sharedLibrary = nil;
 	NSArray *					paths;
 	NSFileManager *				fileManager = [NSFileManager defaultManager];
 	
-	paths = NSSearchPathForDirectoriesInDomains( NSLibraryDirectory, NSUserDomainMask, YES );
+	paths = NSSearchPathForDirectoriesInDomains( NSApplicationSupportDirectory, NSUserDomainMask, YES );
 	if( [paths count] == 0 ){
 		KNDebug(@"Unable to locate users Library directory!");
 		return nil;
