@@ -403,6 +403,9 @@ int main(int argc, const char **argv) {
 						size = (registrationPacket.Length > notificationPacket.Length) ? registrationPacket.Length : notificationPacket.Length;
 						if (setsockopt(sock, SOL_SOCKET, SO_SNDBUF, (char *)&size, sizeof(size)) < 0)
 							perror("setsockopt: SO_SNDBUF");
+						size = 1;
+						if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (char *)&size, sizeof(size)) < 0)
+							perror("setsockopt: SO_BROADCAST");
 
 						//printf( "sendbuf: %d\n", size );
 						//printf( "registration packet length: %d\n", registrationPacket.Length );
