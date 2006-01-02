@@ -555,7 +555,7 @@
 	}
 
 	[self updateLogPopupMenu];
-}
+}*/
 
 - (void) updateLogPopupMenu {
 	[customMenuButton removeAllItems];
@@ -579,11 +579,11 @@
 	// No separator if there's no file list yet
 	if (numHistItems > 0)
 		[[customMenuButton menu] addItem:[NSMenuItem separatorItem]];
-	[customMenuButton addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Browse menu item title", tableName nil, [self bundle], comment nil)];
+	[customMenuButton addItemWithTitle:NSLocalizedStringFromTableInBundle(@"Browse menu item title", nil, [self bundle], nil)];
 	//select first item, if any
 	[customMenuButton selectItemAtIndex:numHistItems ? 0 : -1];
 }
-*/
+
 #pragma mark "Applications" tab pane
 
 - (BOOL) canRemoveTicket {
