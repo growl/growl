@@ -210,8 +210,6 @@ CFComparisonResult compareVersionStrings(CFStringRef a, CFStringRef b) {
 	else if (!a) return kCFCompareGreaterThan;
 	else if (!b) return kCFCompareLessThan;
 
-	NSLog(CFSTR("GrowlVersionUtilities: comparing version strings %@ and %@"), a, b);
-
 	struct Version v_a, v_b;
 	bool parsed_a, parsed_b;
 
@@ -219,7 +217,6 @@ CFComparisonResult compareVersionStrings(CFStringRef a, CFStringRef b) {
 	parsed_b = parseVersionString(b, &v_b);
 
 	CFStringRef aDesc = createVersionDescription(v_a), bDesc = createVersionDescription(v_b);
-	NSLog(CFSTR("GrowlVersionUtilites: comparing versions %@ and %@"), aDesc, bDesc);	//TEMP: for debugging version parsing and comparison.
 
 	if (aDesc) CFRelease(aDesc);
 	if (bDesc) CFRelease(bDesc);
@@ -241,14 +238,10 @@ CFComparisonResult compareVersionStringsTranslating1_0To0_5(CFStringRef a, CFStr
 	else if (!a) return kCFCompareGreaterThan;
 	else if (!b) return kCFCompareLessThan;
 
-	NSLog(CFSTR("GrowlVersionUtilities: comparing version strings %@ and %@ (replacing 1.0 with 0.5 first)"), a, b);	//TEMP: for debugging version parsing and comparison.
 	CFStringRef  one_zero = CFSTR("1.0");
 	CFStringRef zero_five = CFSTR("0.5");
 	if (CFEqual(a, one_zero)) a = zero_five;
 	if (CFEqual(b, one_zero)) b = zero_five;
-//	return compareVersionStrings(a, b);
-	//TEMP: for debugging version parsing and comparison.
-	CFComparisonResult result = compareVersionStrings(a, b);
-	NSLog(CFSTR("GrowlVersionUtilities: result: %i"), result);
-	return result;
+
+	return compareVersionStrings(a, b);
 }
