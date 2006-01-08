@@ -26,7 +26,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-@class MailboxUid, MFError;
+@class MailboxUid, MFError, MessageBody, Message;
 
 @interface MVMailBundle : NSObject
 {
@@ -150,25 +150,25 @@
 + (BOOL)haveAccountsBeenConfigured;
 + (void)_addAccountToSortedPaths:(id)fp8;
 + (NSArray *)mailAccounts;
-+ (void)setMailAccounts:(id)fp8;
++ (void)setMailAccounts:(NSArray *)fp8;
 + (void)_removeAccountFromSortedPaths:(id)fp8;
 + (NSArray *)activeAccounts;
 + (void)saveAccountInfoToDefaults;
 + (id)allEmailAddressesIncludingFullUserName:(BOOL)fp8;
-+ (id)_accountContainingEmailAddress:(id)fp8 matchingAddress:(id *)fp12 fullUserName:(id *)fp16;
-+ (id)accountContainingEmailAddress:(id)fp8;
-+ (id)accountThatMessageIsFrom:(id)fp8;
-+ (id)accountThatReceivedMessage:(id)fp8 matchingEmailAddress:(id *)fp12 fullUserName:(id *)fp16;
++ (MailAccount *)_accountContainingEmailAddress:(id)fp8 matchingAddress:(id *)fp12 fullUserName:(id *)fp16;
++ (MailAccount *)accountContainingEmailAddress:(id)fp8;
++ (MailAccount *)accountThatMessageIsFrom:(Message *)fp8;
++ (MailAccount *)accountThatReceivedMessage:(Message *)fp8 matchingEmailAddress:(id *)fp12 fullUserName:(id *)fp16;
 + (id)outboxMessageStore:(BOOL)fp8;
-+ (id)specialMailboxUids;
-+ (id)_specialMailboxUidsUsingSelector:(SEL)fp8;
-+ (id)inboxMailboxUids;
-+ (id)trashMailboxUids;
-+ (id)outboxMailboxUids;
-+ (id)sentMessagesMailboxUids;
-+ (id)draftMailboxUids;
-+ (id)junkMailboxUids;
-+ (id)allMailboxUids;
++ (NSArray *)specialMailboxUids;
++ (NSArray *)_specialMailboxUidsUsingSelector:(SEL)fp8;
++ (NSArray *)inboxMailboxUids;
++ (NSArray *)trashMailboxUids;
++ (NSArray *)outboxMailboxUids;
++ (NSArray *)sentMessagesMailboxUids;
++ (NSArray *)draftMailboxUids;
++ (NSArray *)junkMailboxUids;
++ (NSArray *)allMailboxUids;
 + (id)accountWithPath:(id)fp8;
 + (id)newAccountWithPath:(id)fp8;
 + (id)createAccountWithDictionary:(id)fp8;
@@ -186,7 +186,7 @@
 + (BOOL)allAccountsDeleteInPlace;
 + (void)synchronouslyEmptyMailboxUidType:(int)fp8 inAccounts:(id)fp12;
 + (void)resetAllSpecialMailboxes;
-+ (id)mailboxUidForFileSystemPath:(id)fp8 create:(BOOL)fp12;
++ (MailboxUid *)mailboxUidForFileSystemPath:(id)fp8 create:(BOOL)fp12;
 + (void)deleteMailboxUidIfEmpty:(id)fp8;
 - (void)synchronizeMailboxListAfterImport;
 - (BOOL)isValidAccountWithError:(id)fp8 accountBeingEdited:(id)fp12 userCanOverride:(char *)fp16;
@@ -229,18 +229,18 @@
 - (void)fetchSynchronously;
 - (BOOL)isFetching;
 - (void)newMailHasBeenReceived;
-- (id)primaryMailboxUid;
-- (id)rootMailboxUid;
-- (id)draftsMailboxUidCreateIfNeeded:(BOOL)fp8;
-- (id)junkMailboxUidCreateIfNeeded:(BOOL)fp8;
-- (id)sentMessagesMailboxUidCreateIfNeeded:(BOOL)fp8;
-- (id)trashMailboxUidCreateIfNeeded:(BOOL)fp8;
-- (id)allMailboxUids;
-- (void)setDraftsMailboxUid:(id)fp8;
-- (void)setTrashMailboxUid:(id)fp8;
-- (void)setJunkMailboxUid:(id)fp8;
-- (void)setSentMessagesMailboxUid:(id)fp8;
-- (void)deleteMessagesFromMailboxUid:(id)fp8 olderThanNumberOfDays:(unsigned int)fp12 compact:(BOOL)fp16;
+- (MailboxUid *)primaryMailboxUid;
+- (MailboxUid *)rootMailboxUid;
+- (MailboxUid *)draftsMailboxUidCreateIfNeeded:(BOOL)fp8;
+- (MailboxUid *)junkMailboxUidCreateIfNeeded:(BOOL)fp8;
+- (MailboxUid *)sentMessagesMailboxUidCreateIfNeeded:(BOOL)fp8;
+- (MailboxUid *)trashMailboxUidCreateIfNeeded:(BOOL)fp8;
+- (NSArray *)allMailboxUids;
+- (void)setDraftsMailboxUid:(MailboxUid *)fp8;
+- (void)setTrashMailboxUid:(MailboxUid *)fp8;
+- (void)setJunkMailboxUid:(MailboxUid *)fp8;
+- (void)setSentMessagesMailboxUid:(MailboxUid *)fp8;
+- (void)deleteMessagesFromMailboxUid:(MailboxUid *)fp8 olderThanNumberOfDays:(unsigned int)fp12 compact:(BOOL)fp16;
 - (void)_setEmptyFrequency:(int)fp8 forKey:(id)fp12;
 - (int)_emptyFrequencyForKey:(id)fp8 defaultValue:(id)fp12;
 - (int)emptySentMessagesFrequency;
@@ -252,8 +252,8 @@
 - (BOOL)shouldMoveDeletedMessagesToTrash;
 - (void)setShouldMoveDeletedMessagesToTrash:(BOOL)fp8;
 - (void)emptySpecialMailboxesThatNeedToBeEmptiedAtQuit;
-- (id)displayName;
-- (id)displayNameForMailboxUid:(id)fp8;
+- (NSString *)displayName;
+- (NSString *)displayNameForMailboxUid:(MailboxUid *)fp8;
 - (BOOL)containsMailboxes;
 - (void)resetSpecialMailboxes;
 - (id)mailboxPathExtension;
@@ -265,17 +265,17 @@
 - (BOOL)renameMailbox:(id)fp8 newName:(id)fp12 parent:(id)fp16;
 - (BOOL)deleteMailbox:(id)fp8;
 - (void)accountInfoDidChange;
-- (void)postUserInfoHasChangedForMailboxUid:(id)fp8 userInfo:(id)fp12;
+- (void)postUserInfoHasChangedForMailboxUid:(MailboxUid *)fp8 userInfo:(id)fp12;
 - (void)setConnectionError:(id)fp8;
 - (id)connectionError;
-- (id)storeForMailboxUid:(id)fp8;
+- (id)storeForMailboxUid:(MailboxUid *)fp8;
 - (Class)storeClass;
 - (void)setUnreadCount:(unsigned int)fp8 forMailbox:(id)fp12;
 - (BOOL)hasUnreadMail;
 - (id)mailboxUidForRelativePath:(id)fp8 create:(BOOL)fp12;
 - (id)valueInMailboxesWithName:(id)fp8;
 - (id)objectSpecifierForMessageStore:(id)fp8;
-- (id)objectSpecifierForMailboxUid:(id)fp8;
+- (id)objectSpecifierForMailboxUid:(MailboxUid *)fp8;
 - (id)objectSpecifier;
 
 @end
@@ -288,10 +288,10 @@
 + (id)localAccount;
 + (id)accountTypeString;
 - (id)initWithPath:(id)fp8;
-- (id)rootMailboxUid;
+- (MailboxUid *)rootMailboxUid;
 - (Class)storeClass;
 - (id)mailboxPathExtension;
-- (id)primaryMailboxUid;
+- (MailboxUid *)primaryMailboxUid;
 - (void)setPath:(id)fp8;
 - (id)displayName;
 - (void)setHostname:(id)fp8;
@@ -309,45 +309,156 @@
 - (id)createMailboxWithParent:(id)fp8 name:(id)fp12;
 - (BOOL)renameMailbox:(id)fp8 newName:(id)fp12 parent:(id)fp16;
 - (void)insertInMailboxes:(id)fp8 atIndex:(unsigned int)fp12;
-- (id)mailboxUidForFileSystemPath:(id)fp8;
+- (MailboxUid *)mailboxUidForFileSystemPath:(NSString *)fp8;
 
 @end
 
-@interface MessageStore : NSObject
+@interface SafeObserver : NSObject
 {
-	struct {
-		unsigned int isReadOnly:1;
-		unsigned int hasUnsavedChangesToMessageData:1;
-		unsigned int hasUnsavedChangesToIndex:1;
-		unsigned int indexIsValid:1;
-		unsigned int haveOpenLockFile:1;
-		unsigned int rebuildingTOC:1;
-		unsigned int compacting:1;
-		unsigned int cancelInvalidation:1;
-		unsigned int forceInvalidation:1;
-		unsigned int isWritingChangesToDisk:1;
-		unsigned int isTryingToClose:1;
-		unsigned int reserved:21;
-	} _flags;
+    unsigned int _retainCount;
+}
+
++ (void)initialize;
++ (void)lockSafeObservers;
++ (void)unlockSafeObservers;
+- (id)init;
+- (id)copyWithZone:(struct _NSZone *)fp8;
+- (id)retain;
+- (id)willBeReleased;
+- (void)release;
+- (unsigned int)retainCount;
+
+@end
+
+@interface ObjectCache : NSObject
+{
+    unsigned int _arrayCapacity;
+    CFArrayRef _keysAndValues;
+    BOOL _useIsEqual;
+}
+
+- (id)initWithCapacity:(unsigned int)fp8;
+- (void)dealloc;
+- (void)finalize;
+- (void)setCapacity:(unsigned int)fp8;
+- (void)setUsesIsEqualForComparison:(BOOL)fp8;
+- (void)setObject:(id)fp8 forKey:(id)fp12;
+- (id)objectForKey:(id)fp8;
+- (void)removeObjectForKey:(id)fp8;
+- (void)removeAllObjects;
+- (BOOL)isObjectInCache:(id)fp8;
+
+@end
+
+@interface ActivityMonitor : NSObject
+{
+    NSMachPort *_cancelPort;
+    NSString *_taskName;
+    NSString *_statusMessage;
+    NSString *_descriptionString;
+    double _percentDone;
+    unsigned int _key:13;
+    unsigned int _canCancel:1;
+    unsigned int _shouldCancel:1;
+    unsigned int _isActive:1;
+    unsigned int _priority:8;
+    unsigned int _changeCount:8;
+    id _delegate;
+    id _target;
+    MFError *_error;
+    int shouldUnifyDoneness;
+    float previousDoneness;
+    int currentProgressStage;
+    int numberOfProgressStages;
+    double _startTime;
+}
+
++ (id)currentMonitor;
+- (id)init;
+- (void)dealloc;
+- (void)finalize;
+- (BOOL)isActive;
+- (void)setDelegate:(id)fp8;
+- (void)postActivityStarting;
+- (void)handlePortMessage:(id)fp8;
+- (void)postActivityFinished;
+- (void)_didChange;
+- (int)changeCount;
+- (void)setStatusMessage:(id)fp8;
+- (void)setStatusMessage:(id)fp8 percentDone:(double)fp12;
+- (id)statusMessage;
+- (void)setPercentDone:(double)fp8;
+- (double)percentDone;
+- (float)unifiedFractionDone;
+- (void)beginProgressFor:(int)fp8;
+- (unsigned char)priority;
+- (void)setPriority:(unsigned char)fp8;
+- (id)description;
+- (id)taskName;
+- (void)setTaskName:(id)fp8;
+- (void)setActivityTarget:(id)fp8;
+- (id)activityTarget;
+- (void)addActivityTarget:(id)fp8;
+- (void)removeActivityTarget:(id)fp8;
+- (void)setPrimaryTarget:(id)fp8;
+- (id)activityTargets;
+- (BOOL)canBeCancelled;
+- (void)setCanBeCancelled:(BOOL)fp8;
+- (BOOL)shouldCancel;
+- (void)setShouldCancel:(BOOL)fp8;
+- (void)cancel;
+- (int)acquireExclusiveAccessKey;
+- (void)relinquishExclusiveAccessKey:(int)fp8;
+- (void)setStatusMessage:(id)fp8 percentDone:(double)fp12 withKey:(int)fp20;
+- (void)setStatusMessage:(id)fp8 withKey:(int)fp12;
+- (void)setPercentDone:(double)fp8 withKey:(int)fp16;
+- (id)error;
+- (void)setError:(id)fp8;
+- (id)cancelPort;
+
+@end
+
+@interface MessageStore : SafeObserver
+{
+    struct {
+        unsigned int isReadOnly:1;
+        unsigned int hasUnsavedChangesToMessageData:1;
+        unsigned int haveOpenLockFile:1;
+        unsigned int rebuildingTOC:1;
+        unsigned int compacting:1;
+        unsigned int cancelInvalidation:1;
+        unsigned int forceInvalidation:1;
+        unsigned int isWritingChangesToDisk:1;
+        unsigned int isTryingToClose:1;
+        unsigned int compactOnClose:1;
+        unsigned int reserved:22;
+    } _flags;
 	MailboxUid *_mailboxUid;
 	MailAccount *_account;
-	id _index;
 	NSMutableArray *_allMessages;
-	NSMutableArray *_messagesToBeAddedToIndex;
-	NSMutableArray *_messagesToBeRemovedFromIndex;
 	unsigned int _allMessagesSize;
 	unsigned int _deletedMessagesSize;
 	unsigned int _deletedMessageCount;
 	unsigned int _unreadMessageCount;
-	id _updateIndexMonitor;
 	int _state;
-	id _headerDataCache;
-	id _headerCache;
-	id _bodyDataCache;
-	id _bodyCache;
+    union {
+        struct {
+            ObjectCache *_headerDataCache;
+            ObjectCache *_headerCache;
+            ObjectCache *_bodyDataCache;
+            ObjectCache *_bodyCache;
+        } objectCaches;
+        struct {
+            CFDictionaryRef _headerDataCache;
+            CFDictionaryRef _headerCache;
+            CFDictionaryRef _bodyDataCache;
+            CFDictionaryRef _bodyCache;
+        } intKeyCaches;
+    } _caches;
 	NSTimer *_timer;
 	NSMutableSet *_uniqueStrings;
 	double timeOfLastAutosaveOperation;
+    ActivityMonitor *_openMonitor;
 }
 
 + (void)initialize;
@@ -361,9 +472,9 @@
 + (BOOL)createEmptyStoreForPath:(id)fp8;
 + (BOOL)storeAtPathIsWritable:(id)fp8;
 + (BOOL)cheapStoreAtPathIsEmpty:(id)fp8;
-+ (int)copyMessages:(id)fp8 toMailboxUid:(id)fp12 shouldDelete:(BOOL)fp16;
++ (int)copyMessages:(NSArray *)fp8 toMailboxUid:(MailboxUid *)fp12 shouldDelete:(BOOL)fp16;
 - (void)release;
-- (id)initWithMailboxUid:(id)fp8 readOnly:(BOOL)fp12;
+- (id)initWithMailboxUid:(MailboxUid *)fp8 readOnly:(BOOL)fp12;
 - (id)copyWithZone:(NSZone *)fp8;
 - (void)dealloc;
 - (void)openAsynchronouslyUpdatingIndex:(BOOL)fp8 andOtherMetadata:(BOOL)fp12;
@@ -375,8 +486,8 @@
 - (void)didOpen;
 - (void)writeUpdatedMessageDataToDisk;
 - (void)invalidateSavingChanges:(BOOL)fp8;
-- (id)account;
-- (id)mailboxUid;
+- (MailAccount *)account;
+- (MailboxUid *)mailboxUid;
 - (BOOL)isOpened;
 - (id)storePathRelativeToAccount;
 - (id)displayName;
@@ -401,7 +512,7 @@
 - (void)addMessageToAllMessages:(id)fp8;
 - (void)insertMessageToAllMessages:(id)fp8 atIndex:(unsigned int)fp12;
 - (id)_defaultRouterDestination;
-- (id)routeMessages:(id)fp8;
+- (id)routeMessages:(NSArray *)messages;
 - (id)finishRoutingMessages: (NSArray *)messages routed: (NSArray *)routed;
 - (BOOL)canRebuild;
 - (void)rebuildTableOfContentsAsynchronously;
@@ -413,8 +524,8 @@
 - (void)deleteLastMessageWithHeader:(id)fp8 forHeaderKey:(id)fp12 compactWhenDone:(BOOL)fp16;
 - (BOOL)allowsAppend;
 - (int)undoAppendOfMessageIDs:(id)fp8;
-- (int)appendMessages:(id)fp8 unsuccessfulOnes:(id)fp12 newMessageIDs:(id)fp16;
-- (int)appendMessages:(id)fp8 unsuccessfulOnes:(id)fp12;
+- (int)appendMessages:(NSArray *)messages unsuccessfulOnes:(NSArray *)fp12 newMessageIDs:(NSArray *)fp16;
+- (int)appendMessages:(NSArray *)messages unsuccessfulOnes:(NSArray *)fp12;
 - (id)messageWithValue:(id)fp8 forHeader:(id)fp12 options:(unsigned int)fp16;
 - (id)messageForMessageID:(id)fp8;
 - (void)_setHeaderDataInCache:(id)fp8 forMessage:(id)fp12;
@@ -495,15 +606,15 @@ typedef struct {
 - (id)copyWithZone:(NSZone *)fp8;
 - (MessageStore *)messageStore;
 - (void)setMessageStore:(MessageStore *)fp8;
-- (id)mailbox;
+- (MailboxUid *)mailbox;
 - (id)headers;
 - (id)headersIfAvailable;
 - (unsigned long)messageFlags;
 - (void)setMessageFlags:(unsigned long)fp8;
-- (id)messageBody;
-- (id)messageBodyIfAvailable;
-- (id)messageBodyUpdatingFlags:(BOOL)fp8;
-- (id)messageBodyIfAvailableUpdatingFlags:(BOOL)fp8;
+- (MessageBody *)messageBody;
+- (MessageBody *)messageBodyIfAvailable;
+- (MessageBody *)messageBodyUpdatingFlags:(BOOL)fp8;
+- (MessageBody *)messageBodyIfAvailableUpdatingFlags:(BOOL)fp8;
 - (id)messageDataIncludingFromSpace:(BOOL)fp8;
 - (BOOL)colorHasBeenEvaluated;
 - (id)color;
@@ -662,6 +773,26 @@ typedef struct {
 - (id)description;
 @end
 
+@interface POPMessage : Message
+{
+    int _messageNumber;
+    NSString *_messageID;
+    NSData *_messageData;
+}
+
+- (id)initWithPOP3FetchStore:(id)fp8;
+- (void)dealloc;
+- (void)finalize;
+- (int)messageNumber;
+- (void)setMessageNumber:(int)fp8;
+- (id)messageData;
+- (void)setMessageData:(id)fp8;
+- (unsigned int)messageSize;
+- (id)messageDataIncludingFromSpace:(BOOL)fp8;
+- (id)messageID;
+- (void)setMessageID:(id)fp8;
+@end
+
 @interface NSString (NSEmailAddressString)
 + (id)nameExtensions;
 + (id)nameExtensionsThatDoNotNeedCommas;
@@ -793,18 +924,18 @@ typedef struct {
 
 + (id)allMessageViewers;
 + (id)allSingleMessageViewers;
-+ (id)existingViewerForStore:(id)fp8;
-+ (id)existingViewerForMailboxUid:(id)fp8;
-+ (id)existingViewerForMessage:(id)fp8;
-+ (id)newViewerForMailboxWithTag:(unsigned int)fp8;
-+ (id)existingViewerShowingMessage:(id)fp8;
-+ (void)registerNewViewer:(id)fp8;
-+ (void)deregisterViewer:(id)fp8;
++ (MessageViewer *)existingViewerForStore:(id)fp8;
++ (MessageViewer *)existingViewerForMailboxUid:(MailboxUid *)fp8;
++ (MessageViewer *)existingViewerForMessage:(Message *)fp8;
++ (MessageViewer *)newViewerForMailboxWithTag:(unsigned int)fp8;
++ (MessageViewer *)existingViewerShowingMessage:(Message *)fp8;
++ (void)registerNewViewer:(MessageViewer *)fp8;
++ (void)deregisterViewer:(MessageViewer *)fp8;
 + (void)showAllViewers;
-+ (id)mailboxUidsBeingViewed;
-+ (id)frontmostMessageViewer;
++ (NSArray *)mailboxUidsBeingViewed;
++ (MessageViewer *)frontmostMessageViewer;
 + (void)searchForString:(id)fp8;
-+ (id)_mailboxUidsForPaths:(id)fp8;
++ (NSArray *)_mailboxUidsForPaths:(id)fp8;
 + (void)saveDefaultsWithDelay;
 + (void)saveDefaults;
 + (void)restoreFromDefaults;
@@ -813,11 +944,11 @@ typedef struct {
 - (void)_displayFollowup:(id)fp8;
 - (void)_cantFindFollowupToMessage:(id)fp8;
 - (void)showFollowupsToMessage:(id)fp8;
-- (id)_mailboxUidsFromDefaults:(id)fp8;
+- (NSArray *)_mailboxUidsFromDefaults:(id)fp8;
 - (id)initWithSavedDefaults:(id)fp8;
 - (id)init;
 - (id)plainInit;
-- (id)initWithMailboxUids:(id)fp8;
+- (id)initWithMailboxUids:(NSArray *)fp8;
 - (void)dealloc;
 - (void)_registerForApplicationNotifications;
 - (void)_unregisterForApplicationNotifications;
@@ -826,9 +957,9 @@ typedef struct {
 - (void)storeBeingInvalidated:(id)fp8;
 - (void)preferencesChanged:(id)fp8;
 - (void)_setStore:(id)fp8;
-- (BOOL)_isViewingMailboxUid:(id)fp8;
-- (BOOL)_isViewingMessage:(id)fp8;
-- (BOOL)_isShowingMessage:(id)fp8;
+- (BOOL)_isViewingMailboxUid:(MailboxUid *)fp8;
+- (BOOL)_isViewingMessage:(Message *)fp8;
+- (BOOL)_isShowingMessage:(Message *)fp8;
 - (id)window;
 - (void)show;
 - (void)showAndMakeKey:(BOOL)fp8;
@@ -1011,7 +1142,7 @@ typedef struct {
 - (void)searchWillStart;
 - (void)searchDidFinish;
 - (void)searchDidUpdate;
-- (id)selectedMailboxUids;
+- (NSArray *)selectedMailboxUids;
 - (void)performSearch:(id)fp8;
 - (void)saveSearch:(id)fp8;
 - (void)reapplySortingRules:(id)fp8;

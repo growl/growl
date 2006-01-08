@@ -39,7 +39,6 @@
 }
 + (void) initialize;
 + (NSBundle *) bundle;
-+ (NSString *) bundleVersion;
 + (BOOL) hasPreferencesPanel;
 + (NSString *) preferencesOwnerClassName;
 + (NSString *) preferencesPanelName;
@@ -60,7 +59,9 @@
 
 @end
 
+CFBundleRef GetGrowlMailBundle(void);
 BOOL GMIsEnabled(void);
 int  GMSummaryMode(void);
 NSString *copyTitleFormatString(void);
 NSString *copyDescriptionFormatString(void);
+BOOL GMInboxOnly(void);

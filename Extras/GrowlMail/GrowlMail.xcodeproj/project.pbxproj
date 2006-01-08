@@ -100,8 +100,15 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 9560BF4D086DC4F800A173B1;
+			remoteGlobalIDString = 34F60EAA078E1CD500CECA86 /* Growl.framework */;
 			remoteInfo = Growl.framework;
+		};
+		95AD1E5B0970955A00D6E4BA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93BC379E095A662B0002B365 /* Nano.growlView */;
+			remoteInfo = Nano;
 		};
 		95AE2752085C44A600271F5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -207,20 +214,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 95AE2770085C44B600271F5F;
 			remoteInfo = "External Frameworks";
-		};
-		95B305BA086DD0E400CA108B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9560BED2086DC45100A173B1;
-			remoteInfo = "Growl.framework i386";
-		};
-		95B305BC086DD0E400CA108B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9560BF0E086DC46700A173B1;
-			remoteInfo = "Growl-WithInstaller.framework i386";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -388,15 +381,14 @@
 				95AE2755085C44A600271F5F /* PrefpaneTesting.app */,
 				95AE2757085C44A600271F5F /* GrowlHelperApp.app */,
 				95AE2759085C44A600271F5F /* GrowlMenu.app */,
-				95AE275B085C44A600271F5F /* Growl ppc.framework */,
-				95B305BB086DD0E400CA108B /* Growl i386.framework */,
-				95AE275D085C44A600271F5F /* Growl-WithInstaller ppc.framework */,
-				95B305BD086DD0E400CA108B /* Growl-WithInstaller i386.framework */,
+				95AE275B085C44A600271F5F /* Growl.framework */,
+				95AE275D085C44A600271F5F /* Growl-WithInstaller.framework */,
 				95AE275F085C44A600271F5F /* Speech.growlView */,
 				95AE2761085C44A600271F5F /* Brushed.growlView */,
 				95AE2763085C44A600271F5F /* Bubbles.growlView */,
 				95AE2765085C44A600271F5F /* Bezel.growlView */,
 				95AE2767085C44A600271F5F /* Smoke.growlView */,
+				95AD1E5C0970955A00D6E4BA /* Nano.growlView */,
 				95AE2769085C44A600271F5F /* MailMe.growlView */,
 				95AE276B085C44A600271F5F /* MusicVideo.growlView */,
 				95AE276D085C44A600271F5F /* GrowlSMS.growlView */,
@@ -501,6 +493,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		95AD1E5C0970955A00D6E4BA /* Nano.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Nano.growlView;
+			remoteRef = 95AD1E5B0970955A00D6E4BA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		95AE2753085C44A600271F5F /* Growl.prefPane */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -529,17 +528,17 @@
 			remoteRef = 95AE2758085C44A600271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		95AE275B085C44A600271F5F /* Growl ppc.framework */ = {
+		95AE275B085C44A600271F5F /* Growl.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = "Growl ppc.framework";
+			path = Growl.framework;
 			remoteRef = 95AE275A085C44A600271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		95AE275D085C44A600271F5F /* Growl-WithInstaller ppc.framework */ = {
+		95AE275D085C44A600271F5F /* Growl-WithInstaller.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = "Growl-WithInstaller ppc.framework";
+			path = "Growl-WithInstaller.framework";
 			remoteRef = 95AE275C085C44A600271F5F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -597,20 +596,6 @@
 			fileType = wrapper.cfbundle;
 			path = GrowlSMS.growlView;
 			remoteRef = 95AE276C085C44A600271F5F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95B305BB086DD0E400CA108B /* Growl i386.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = "Growl i386.framework";
-			remoteRef = 95B305BA086DD0E400CA108B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95B305BD086DD0E400CA108B /* Growl-WithInstaller i386.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = "Growl-WithInstaller i386.framework";
-			remoteRef = 95B305BC086DD0E400CA108B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

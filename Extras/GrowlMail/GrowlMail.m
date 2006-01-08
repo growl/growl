@@ -44,14 +44,18 @@
 
 static CFMutableArrayRef collectedMessages;
 
+CFBundleRef GetGrowlMailBundle(void) {
+	return CFBundleGetBundleWithIdentifier(CFSTR("com.growl.GrowlMail"));
+}
+
+static CFStringRef GetGrowlMailBundleVersion(void) {
+	return CFBundleGetValueForInfoDictionaryKey(GetGrowlMailBundle(), kCFBundleVersionKey);
+}
+
 @implementation GrowlMail
 
 + (NSBundle *) bundle {
 	return [NSBundle bundleWithIdentifier:@"com.growl.GrowlMail"];
-}
-
-+ (NSString *) bundleVersion {
-	return [[[GrowlMail bundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 }
 
 + (void) initialize {
@@ -70,12 +74,13 @@ static CFMutableArrayRef collectedMessages;
 		@"%subject\n%body",    @"GMDescriptionFormat",
 		automatic,             @"GMSummaryMode",
 		kCFBooleanTrue,        @"GMEnableGrowlMailBundle",
+		kCFBooleanFalse,       @"GMInboxOnly",
 		nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultsDictionary];
 	[defaultsDictionary release];
 	CFRelease(automatic);
 
-	NSLog(@"Loaded GrowlMail %@", [GrowlMail bundleVersion]);
+	NSLog(@"Loaded GrowlMail %@", GetGrowlMailBundleVersion());
 }
 
 + (BOOL) hasPreferencesPanel {
@@ -171,22 +176,32 @@ static CFMutableArrayRef collectedMessages;
 
 - (NSDictionary *) registrationDictionaryForGrowl {
 	// Register our ticket with Growl
-	NSBundle *bundle = [GrowlMail bundle];
-	NSArray *allowedNotifications = [[NSArray alloc] initWithObjects:
-		NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @""),
-		NSLocalizedStringFromTableInBundle(@"New junk mail", nil, bundle, @""),
-		nil];
-	NSNumber *default0 = [[NSNumber alloc] initWithInt:0];
-	NSArray *defaultNotifications = [[NSArray alloc] initWithObjects:
-		default0,
-		nil];
-	[default0 release];
+	CFBundleRef bundle = GetGrowlMailBundle();
+	CFStringRef newMailNotification = CFCopyLocalizedStringFromTableInBundle(CFSTR("New mail"), NULL, bundle, "");
+	CFStringRef newJunkMailNotification = CFCopyLocalizedStringFromTableInBundle(CFSTR("New junk mail"), NULL, bundle, "");
+	CFTypeRef allowedNotificationsValues[2] = {
+		newMailNotification,
+		newJunkMailNotification
+	};
+	CFArrayRef allowedNotifications = CFArrayCreate(kCFAllocatorDefault,
+													allowedNotificationsValues,
+													2,
+													&kCFTypeArrayCallBacks);
+	CFRelease(newMailNotification);
+	CFRelease(newJunkMailNotification);
+	int zero = 0;
+	CFNumberRef default0 = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &zero);
+	CFArrayRef defaultNotifications = CFArrayCreate(kCFAllocatorDefault,
+												   (const void **)&default0,
+												   1,
+												   &kCFTypeArrayCallBacks);
+	CFRelease(default0);
 	NSDictionary *ticket = [NSDictionary dictionaryWithObjectsAndKeys:
-		allowedNotifications, GROWL_NOTIFICATIONS_ALL,
-		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
+		(NSArray *)allowedNotifications, GROWL_NOTIFICATIONS_ALL,
+		(NSArray *)defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
 		nil];
-	[allowedNotifications release];
-	[defaultNotifications release];
+	CFRelease(allowedNotifications);
+	CFRelease(defaultNotifications);
 
 	return ticket;
 }
@@ -232,22 +247,37 @@ static CFMutableArrayRef collectedMessages;
 			CFArrayRef accounts = (CFArrayRef)[MailAccount mailAccounts];
 			CFIndex accountsCount = CFArrayGetCount(accounts);
 			CFMutableBagRef accountSummary = CFBagCreateMutable(kCFAllocatorDefault, accountsCount, &kCFTypeBagCallBacks);
+			CFMutableBagRef accountJunkSummary = CFBagCreateMutable(kCFAllocatorDefault, accountsCount, &kCFTypeBagCallBacks);
 			for (CFIndex i=0; i<count; ++i) {
 				Message *message = (Message *)CFArrayGetValueAtIndex(collectedMessages, i);
-				CFBagAddValue(accountSummary, [[message messageStore] account]);
+				MailAccount *account = [[message messageStore] account];
+				CFBagAddValue([message isJunk] ? accountJunkSummary : accountSummary, account);
 			}
-			NSBundle *bundle = [GrowlMail bundle];
-			NSString *title = NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"");
+			CFBundleRef bundle = GetGrowlMailBundle();
+			CFStringRef title = CFCopyLocalizedStringFromTableInBundle(CFSTR("New mail"), NULL, bundle, "");
+			CFStringRef titleJunk = CFCopyLocalizedStringFromTableInBundle(CFSTR("New junk mail"), NULL, bundle, "");
+			CFStringRef format = CFCopyLocalizedStringFromTableInBundle(CFSTR("%@ \n%u new mail(s)"), NULL, bundle, "");
 			id icon = [NSImage imageNamed:@"NSApplicationIcon"];
 			for (CFIndex i=0; i<accountsCount; ++i) {
 				MailAccount *account = (MailAccount *)CFArrayGetValueAtIndex(accounts, i);
 				CFIndex summaryCount = CFBagGetCountOfValue(accountSummary, account);
 				if (summaryCount) {
-					CFStringRef format = (CFStringRef)NSLocalizedStringFromTableInBundle(@"%@ \n%u new mail(s)", nil, bundle, @"");
-					CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault, /*formatOptions*/ NULL, format, [account displayName], count);
-					[GrowlApplicationBridge notifyWithTitle:title
+					CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault, /*formatOptions*/ NULL, format, [account displayName], summaryCount);
+					[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 												description:(NSString *)description
-										   notificationName:NSLocalizedStringFromTableInBundle(@"New mail", nil, bundle, @"")
+										   notificationName:(NSString *)title
+												   iconData:icon
+												   priority:0
+												   isSticky:NO
+											   clickContext:@""];	// non-nil click context
+					CFRelease(description);
+				}
+				summaryCount = CFBagGetCountOfValue(accountJunkSummary, account);
+				if (summaryCount) {
+					CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault, /*formatOptions*/ NULL, format, [account displayName], summaryCount);
+					[GrowlApplicationBridge notifyWithTitle:(NSString *)titleJunk
+												description:(NSString *)description
+										   notificationName:(NSString *)titleJunk
 												   iconData:icon
 												   priority:0
 												   isSticky:NO
@@ -255,6 +285,9 @@ static CFMutableArrayRef collectedMessages;
 					CFRelease(description);
 				}
 			}
+			CFRelease(title);
+			CFRelease(titleJunk);
+			CFRelease(format);
 			CFRelease(accountSummary);
 			break;
 		}
@@ -302,6 +335,12 @@ BOOL GMIsEnabled(void) {
 int GMSummaryMode(void) {
 	Boolean keyExistsAndHasValidFormat;
 	CFIndex value = CFPreferencesGetAppIntegerValue(CFSTR("GMSummaryMode"), kCFPreferencesCurrentApplication, &keyExistsAndHasValidFormat);
+	return keyExistsAndHasValidFormat ? value : 0;
+}
+
+BOOL GMInboxOnly(void) {
+	Boolean keyExistsAndHasValidFormat;
+	CFIndex value = CFPreferencesGetAppIntegerValue(CFSTR("GMInboxOnly"), kCFPreferencesCurrentApplication, &keyExistsAndHasValidFormat);
 	return keyExistsAndHasValidFormat ? value : 0;
 }
 

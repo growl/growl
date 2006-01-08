@@ -40,16 +40,41 @@
 	[GrowlMessageStore poseAsClass:[MessageStore class]];
 }
 
+/*
+ * POPMessages are handled in appendMessages which is called on the LibraryStore
+ * and has a correct mailboxUid. For those messages, finishRoutingMessages is
+ * called on the POP3FetchStore where we don't know the mailbox.
+ */
+- (int) appendMessages:(NSArray *)messages unsuccessfulOnes:(NSArray *)fp12
+{
+	GrowlMail *growlMail = [GrowlMail sharedInstance];
+	if (GMIsEnabled()
+		&& [growlMail isAccountEnabled:[[self account] path]]
+		&& (!GMInboxOnly() || [[MailAccount inboxMailboxUids] containsObject:[self mailboxUid]])) {
+
+		Message *message;
+		Class popMessageClass = [POPMessage class];
+		NSEnumerator *enumerator = [messages objectEnumerator];
+		while ((message = [enumerator nextObject]))
+			if ([message isKindOfClass:popMessageClass])
+				[growlMail queueMessage:message];
+	}
+	return [super appendMessages:messages unsuccessfulOnes:fp12];
+}
+
 - (id) finishRoutingMessages:(NSArray *)messages routed:(NSArray *)routed {
-	if (GMIsEnabled()) {
+	GrowlMail *growlMail = [GrowlMail sharedInstance];
+	if (GMIsEnabled()
+		&& [growlMail isAccountEnabled:[[self account] path]]
+		&& (!GMInboxOnly() || [[MailAccount inboxMailboxUids] containsObject:[self mailboxUid]])) {
+		
 		Message *message;
 		Class tocMessageClass = [TOCMessage class];
-		GrowlMail *growlMail = [GrowlMail sharedInstance];
+		Class popMessageClass = [POPMessage class];
 		NSEnumerator *enumerator = [messages objectEnumerator];
 		while ((message = [enumerator nextObject])) {
 //			NSLog(@"Message class: %@", [message className]);
-			if (![message isKindOfClass:tocMessageClass]
-				&& [growlMail isAccountEnabled:[[[message messageStore] account] path]])
+			if (!([message isKindOfClass:tocMessageClass] || [message isKindOfClass:popMessageClass]))
 				[growlMail queueMessage:message];
 		}
 	}

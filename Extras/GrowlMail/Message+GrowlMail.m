@@ -147,21 +147,23 @@
 	if (!image)
 		image = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
 
-	NSString *notificationName;
+	CFStringRef notificationName;
+	CFBundleRef bundle = GetGrowlMailBundle();
 	if ([self isJunk])
-		notificationName = NSLocalizedStringFromTableInBundle(@"New junk mail", nil, [GrowlMail bundle], @"");
+		notificationName = CFCopyLocalizedStringFromTableInBundle(CFSTR("New junk mail"), NULL, bundle, "");
 	else
-		notificationName = NSLocalizedStringFromTableInBundle(@"New mail", nil, [GrowlMail bundle], @"");
+		notificationName = CFCopyLocalizedStringFromTableInBundle(CFSTR("New mail"), NULL, bundle, "");
 
 	NSString *clickContext = [self messageID];
 	[[GrowlMail sharedInstance] setMessage:self forId:clickContext];
 
 	[GrowlApplicationBridge notifyWithTitle:title
 								description:description
-						   notificationName:notificationName
+						   notificationName:(NSString *)notificationName
 								   iconData:image
 								   priority:0
 								   isSticky:NO
 							   clickContext:clickContext];	// non-nil click context
+	CFRelease(notificationName);
 }
 @end
