@@ -26,7 +26,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 //
-//  GrowlMessageStore.h
+//  GrowlLibrary.h
 //  GrowlMail
 //
 //  Created by Ingmar Stein on 27.10.04.
@@ -34,9 +34,7 @@
 
 #import "MailHeaders.h"
 
-@interface GrowlMessageStore : MessageStore {
-}
+@interface Library(GrowlMail)
 + (void) load;
-- (id) finishRoutingMessages:(NSArray *)messages routed:(NSArray *)routed;
-
++ (id) gm_addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fetchBodies isInitialImport:(BOOL)isInitialImport oldMessagesByNewMessage:(id)oldMessagesByNewMessage;
 @end

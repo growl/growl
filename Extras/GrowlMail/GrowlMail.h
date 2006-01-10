@@ -34,8 +34,7 @@
 @interface GrowlMail : MVMailBundle <GrowlApplicationBridgeDelegate>
 {
 	pthread_mutex_t        queueLock;
-	pthread_mutex_t        messagesLock;
-	CFMutableDictionaryRef messagesMap;
+	CFMutableArrayRef      collectedMessages;
 }
 + (void) initialize;
 + (NSBundle *) bundle;
@@ -49,9 +48,7 @@
 
 - (NSString *) applicationNameForGrowl;
 - (NSImage *) applicationIconForGrowl;
-- (void) setMessage:(Message *)message forId:(NSString *)messageId;
 - (void) growlNotificationWasClicked:(NSString *)clickContext;
-- (void) growlNotificationTimedOut:(NSString *)clickContext;
 - (NSDictionary *) registrationDictionaryForGrowl;
 
 - (void) queueMessage:(Message *)message;

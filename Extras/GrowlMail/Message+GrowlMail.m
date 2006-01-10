@@ -71,7 +71,7 @@
 
 @implementation Message(GrowlMail)
 - (void) showNotification {
-	NSString *account = [[[self messageStore] account] displayName];
+	NSString *account = [[[self mailbox] account] displayName];
 	NSString *sender = [self sender];
 	NSString *senderAddress = [sender uncommentedAddress];
 	NSString *subject = [self subject];
@@ -155,7 +155,6 @@
 		notificationName = CFCopyLocalizedStringFromTableInBundle(CFSTR("New mail"), NULL, bundle, "");
 
 	NSString *clickContext = [self messageID];
-	[[GrowlMail sharedInstance] setMessage:self forId:clickContext];
 
 	[GrowlApplicationBridge notifyWithTitle:title
 								description:description

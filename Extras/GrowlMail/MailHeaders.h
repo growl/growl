@@ -26,7 +26,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-@class MailboxUid, MFError, MessageBody, Message;
+@class MailboxUid, MFError, MessageBody, Message, MessageStore;
 
 @interface MVMailBundle : NSObject
 {
@@ -313,253 +313,267 @@
 
 @end
 
-@interface SafeObserver : NSObject
+@interface MailboxUid : NSObject
 {
-    unsigned int _retainCount;
+    NSString *uniqueId;
+    id _accountOrPathComponent;
+    unsigned int _attributes;
+    void *_tree;
+    NSString *pendingNameChange;
+    BOOL isSmartMailbox;
+    NSMutableArray *criteria;
+    BOOL allCriteriaMustBeSatisfied;
+    NSString *_realFullPath;
+    unsigned int _numberOfGenericChildren;
+    BOOL failedToOpen;
+    NSString *openFailureMessage;
 }
 
-+ (void)initialize;
-+ (void)lockSafeObservers;
-+ (void)unlockSafeObservers;
-- (id)init;
-- (id)copyWithZone:(struct _NSZone *)fp8;
-- (id)retain;
-- (id)willBeReleased;
-- (void)release;
-- (unsigned int)retainCount;
-
-@end
-
-@interface ObjectCache : NSObject
-{
-    unsigned int _arrayCapacity;
-    CFArrayRef _keysAndValues;
-    BOOL _useIsEqual;
-}
-
-- (id)initWithCapacity:(unsigned int)fp8;
++ (NSArray *)smartMailboxUids;
++ (void)setSmartMailboxUids:(NSArray *)fp8;
++ (id)_smartMailboxWithIdentifier:(id)fp8 inArray:(id)fp12;
++ (id)smartMailboxWithIdentifier:(id)fp8;
++ (id)smartMailboxesEnumerator;
++ (NSArray *)specialMailboxUids;
++ (void)setShouldIndexTrash:(BOOL)fp8;
++ (void)reimportJunk;
++ (void)setShouldIndexJunk:(BOOL)fp8;
+- (BOOL)isSmartMailbox;
+- (void)setIsSmartMailbox:(BOOL)fp8;
+- (BOOL)isFlaggedSmartMailbox;
 - (void)dealloc;
 - (void)finalize;
-- (void)setCapacity:(unsigned int)fp8;
-- (void)setUsesIsEqualForComparison:(BOOL)fp8;
-- (void)setObject:(id)fp8 forKey:(id)fp12;
-- (id)objectForKey:(id)fp8;
-- (void)removeObjectForKey:(id)fp8;
-- (void)removeAllObjects;
-- (BOOL)isObjectInCache:(id)fp8;
-
-@end
-
-@interface ActivityMonitor : NSObject
-{
-    NSMachPort *_cancelPort;
-    NSString *_taskName;
-    NSString *_statusMessage;
-    NSString *_descriptionString;
-    double _percentDone;
-    unsigned int _key:13;
-    unsigned int _canCancel:1;
-    unsigned int _shouldCancel:1;
-    unsigned int _isActive:1;
-    unsigned int _priority:8;
-    unsigned int _changeCount:8;
-    id _delegate;
-    id _target;
-    MFError *_error;
-    int shouldUnifyDoneness;
-    float previousDoneness;
-    int currentProgressStage;
-    int numberOfProgressStages;
-    double _startTime;
-}
-
-+ (id)currentMonitor;
 - (id)init;
-- (void)dealloc;
-- (void)finalize;
-- (BOOL)isActive;
-- (void)setDelegate:(id)fp8;
-- (void)postActivityStarting;
-- (void)handlePortMessage:(id)fp8;
-- (void)postActivityFinished;
-- (void)_didChange;
-- (int)changeCount;
-- (void)setStatusMessage:(id)fp8;
-- (void)setStatusMessage:(id)fp8 percentDone:(double)fp12;
-- (id)statusMessage;
-- (void)setPercentDone:(double)fp8;
-- (double)percentDone;
-- (float)unifiedFractionDone;
-- (void)beginProgressFor:(int)fp8;
-- (unsigned char)priority;
-- (void)setPriority:(unsigned char)fp8;
-- (id)description;
-- (id)taskName;
-- (void)setTaskName:(id)fp8;
-- (void)setActivityTarget:(id)fp8;
-- (id)activityTarget;
-- (void)addActivityTarget:(id)fp8;
-- (void)removeActivityTarget:(id)fp8;
-- (void)setPrimaryTarget:(id)fp8;
-- (id)activityTargets;
-- (BOOL)canBeCancelled;
-- (void)setCanBeCancelled:(BOOL)fp8;
-- (BOOL)shouldCancel;
-- (void)setShouldCancel:(BOOL)fp8;
-- (void)cancel;
-- (int)acquireExclusiveAccessKey;
-- (void)relinquishExclusiveAccessKey:(int)fp8;
-- (void)setStatusMessage:(id)fp8 percentDone:(double)fp12 withKey:(int)fp20;
-- (void)setStatusMessage:(id)fp8 withKey:(int)fp12;
-- (void)setPercentDone:(double)fp8 withKey:(int)fp16;
-- (id)error;
-- (void)setError:(id)fp8;
-- (id)cancelPort;
-
-@end
-
-@interface MessageStore : SafeObserver
-{
-    struct {
-        unsigned int isReadOnly:1;
-        unsigned int hasUnsavedChangesToMessageData:1;
-        unsigned int haveOpenLockFile:1;
-        unsigned int rebuildingTOC:1;
-        unsigned int compacting:1;
-        unsigned int cancelInvalidation:1;
-        unsigned int forceInvalidation:1;
-        unsigned int isWritingChangesToDisk:1;
-        unsigned int isTryingToClose:1;
-        unsigned int compactOnClose:1;
-        unsigned int reserved:22;
-    } _flags;
-	MailboxUid *_mailboxUid;
-	MailAccount *_account;
-	NSMutableArray *_allMessages;
-	unsigned int _allMessagesSize;
-	unsigned int _deletedMessagesSize;
-	unsigned int _deletedMessageCount;
-	unsigned int _unreadMessageCount;
-	int _state;
-    union {
-        struct {
-            ObjectCache *_headerDataCache;
-            ObjectCache *_headerCache;
-            ObjectCache *_bodyDataCache;
-            ObjectCache *_bodyCache;
-        } objectCaches;
-        struct {
-            CFDictionaryRef _headerDataCache;
-            CFDictionaryRef _headerCache;
-            CFDictionaryRef _bodyDataCache;
-            CFDictionaryRef _bodyCache;
-        } intKeyCaches;
-    } _caches;
-	NSTimer *_timer;
-	NSMutableSet *_uniqueStrings;
-	double timeOfLastAutosaveOperation;
-    ActivityMonitor *_openMonitor;
-}
-
-+ (void)initialize;
-+ (unsigned int)numberOfCurrentlyOpenStores;
-+ (id)descriptionOfOpenStores;
-+ (id)currentlyAvailableStoreForUid:(id)fp8;
-+ (id)currentlyAvailableStoresForAccount:(id)fp8;
-+ (id)registerAvailableStore:(id)fp8;
-+ (void)removeStoreFromCache:(id)fp8;
-+ (BOOL)createEmptyStoreIfNeededForPath:(id)fp8;
-+ (BOOL)createEmptyStoreForPath:(id)fp8;
-+ (BOOL)storeAtPathIsWritable:(id)fp8;
-+ (BOOL)cheapStoreAtPathIsEmpty:(id)fp8;
-+ (int)copyMessages:(NSArray *)fp8 toMailboxUid:(MailboxUid *)fp12 shouldDelete:(BOOL)fp16;
-- (void)release;
-- (id)initWithMailboxUid:(MailboxUid *)fp8 readOnly:(BOOL)fp12;
-- (id)copyWithZone:(NSZone *)fp8;
-- (void)dealloc;
-- (void)openAsynchronouslyUpdatingIndex:(BOOL)fp8 andOtherMetadata:(BOOL)fp12;
-- (void)openAsynchronously;
-- (void)openSynchronously;
-- (void)openSynchronouslyUpdatingIndex:(BOOL)fp8 andOtherMetadata:(BOOL)fp12;
-- (void)updateMetadataAsynchronously;
-- (void)updateMetadata;
-- (void)didOpen;
-- (void)writeUpdatedMessageDataToDisk;
-- (void)invalidateSavingChanges:(BOOL)fp8;
-- (MailAccount *)account;
-- (MailboxUid *)mailboxUid;
-- (BOOL)isOpened;
-- (id)storePathRelativeToAccount;
-- (id)displayName;
-- (const char *)displayNameForLogging;
-- (BOOL)isReadOnly;
-- (id)description;
-- (BOOL)isTrash;
-- (BOOL)isDrafts;
-- (void)messageFlagsDidChange:(id)fp8 flags:(id)fp12;
-- (void)structureDidChange;
-- (void)messagesWereAdded:(id)fp8;
-- (void)messagesWereCompacted:(id)fp8;
-- (void)updateUserInfoToLatestValues;
-- (unsigned int)totalMessageSize;
-- (void)deletedCount:(unsigned int *)fp8 andSize:(unsigned int *)fp12;
-- (unsigned int)totalCount;
+- (id)initWithAccount:(id)fp8;
+- (id)initWithName:(id)fp8 attributes:(unsigned int)fp12 forAccount:(id)fp16;
+- (id)initWithMailboxUid:(id)fp8;
+- (id)initWithDictionaryRepresentation:(id)fp8;
+- (id)dictionaryRepresentation;
+- (id)uniqueId;
+- (NSString *)displayName;
+- (void)setPendingNameChange:(id)fp8;
+- (NSString *)name;
+- (void)setName:(NSString *)fp8;
+- (unsigned int)attributes;
+- (void)setAttributes:(unsigned int)fp8;
 - (unsigned int)unreadCount;
-- (unsigned int)indexOfMessage:(id)fp8;
-- (id)copyOfAllMessages;
-- (id)mutableCopyOfAllMessages;
-- (void)addMessagesToAllMessages:(id)fp8;
-- (void)addMessageToAllMessages:(id)fp8;
-- (void)insertMessageToAllMessages:(id)fp8 atIndex:(unsigned int)fp12;
-- (id)_defaultRouterDestination;
-- (id)routeMessages:(NSArray *)messages;
-- (id)finishRoutingMessages: (NSArray *)messages routed: (NSArray *)routed;
-- (BOOL)canRebuild;
-- (void)rebuildTableOfContentsAsynchronously;
-- (BOOL)canCompact;
-- (void)doCompact;
-- (void)deleteMessagesOlderThanNumberOfDays:(int)fp8 compact:(BOOL)fp12;
-- (void)deleteMessages:(id)fp8 moveToTrash:(BOOL)fp12;
-- (void)undeleteMessages:(id)fp8;
-- (void)deleteLastMessageWithHeader:(id)fp8 forHeaderKey:(id)fp12 compactWhenDone:(BOOL)fp16;
-- (BOOL)allowsAppend;
-- (int)undoAppendOfMessageIDs:(id)fp8;
-- (int)appendMessages:(NSArray *)messages unsuccessfulOnes:(NSArray *)fp12 newMessageIDs:(NSArray *)fp16;
-- (int)appendMessages:(NSArray *)messages unsuccessfulOnes:(NSArray *)fp12;
-- (id)messageWithValue:(id)fp8 forHeader:(id)fp12 options:(unsigned int)fp16;
-- (id)messageForMessageID:(id)fp8;
-- (void)_setHeaderDataInCache:(id)fp8 forMessage:(id)fp12;
-- (id)headerDataForMessage:(id)fp8;
-- (id)bodyDataForMessage:(id)fp8;
-- (id)fullBodyDataForMessage:(id)fp8;
-- (id)bodyForMessage:(id)fp8 fetchIfNotAvailable:(BOOL)fp12;
-- (id)headersForMessage:(id)fp8;
-- (id)dataForMimePart:(id)fp8;
-- (BOOL)hasCachedDataForMimePart:(id)fp8;
-- (id)uniquedString:(id)fp8;
-- (id)colorForMessage:(id)fp8;
-- (BOOL)_shouldChangeComponentMessageFlags;
-- (id)setFlagsFromDictionary:(id)fp8 forMessages:(id)fp12;
-- (id)setFlagsFromDictionary:(id)fp8 forMessage:(id)fp12;
-- (void)setFlag:(id)fp8 state:(BOOL)fp12 forMessages:(id)fp16;
-- (void)setColor:(id)fp8 highlightTextOnly:(BOOL)fp12 forMessages:(id)fp16;
-- (void)messageColorsNeedToBeReevaluated;
-- (void)startSynchronization;
-- (id)performBruteForceSearchWithString:(id)fp8 options:(int)fp12;
-- (char *)createSerialNumberStringFrom:(char *)fp8 colorCode:(unsigned short)fp12;
-- (id)_getSerialNumberString;
-- (void)setNumberOfAttachments:(unsigned int)fp8 isSigned:(BOOL)fp12 isEncrypted:(BOOL)fp16 forMessage:(id)fp20;
-- (void)updateNumberOfAttachmentsForMessages:(id)fp8;
-- (void)updateMessageColorsSynchronouslyForMessages:(id)fp8;
-- (void)updateMessageColorsAsynchronouslyForMessages:(id)fp8;
-- (void)setJunkMailLevel:(int)fp8 forMessages:(id)fp12;
-- (void)setJunkMailLevel:(int)fp8 forMessages:(id)fp12 trainJunkMailDatabase:(BOOL)fp16;
-- (id)status;
-- (void)fetchSynchronously;
-- (BOOL)setPreferredEncoding:(unsigned long)fp8 forMessage:(id)fp12;
-- (void)suggestSortOrder:(id)fp8 ascending:(BOOL)fp12;
-- (id)sortOrder;
-- (BOOL)isSortedAscending;
+- (void)setUnreadCount:(unsigned int)fp8;
+- (BOOL)hasChildren;
+- (void)invalidateCachedNumberOfGenericChildren;
+- (unsigned int)numberOfGenericChildren;
+- (unsigned int)numberOfChildren;
+- (id)childAtIndex:(unsigned int)fp8;
+- (unsigned int)indexOfChild:(id)fp8;
+- (id)childWithName:(id)fp8;
+- (id)mutableCopyOfChildren;
+- (void)_deleteChildrenWithURLsIfInvalid:(id)fp8 fullPaths:(id)fp12;
+- (BOOL)setChildren:(id)fp8;
+- (void)sortChildren;
+- (id)parent;
+- (void)setParent:(id)fp8;
+- (void)flushCriteria;
+- (id)deepCopy;
+- (void)setRepresentedAccount:(id)fp8;
+- (id)representedAccount;
+- (id)account;
+- (id)applescriptAccount;
+- (BOOL)isValid;
+- (void)invalidate;
+- (BOOL)isContainer;
+- (BOOL)isStore;
+- (BOOL)isSpecialMailboxUid;
+- (NSString *)accountRelativePath;
+- (NSString *)fullPathNonNil;
+- (NSString *)fullPath;
+- (NSString *)realFullPath;
+- (NSString *)tildeAbbreviatedPath;
+- (NSString *)pathRelativeToMailbox:(id)fp8;
+- (NSURL *)URL;
+- (NSString *)URLStringWithAccount:(id)fp8;
+- (NSString *)oldURLString;
+- (NSString *)URLString;
+- (int)compareWithMailboxUid:(MailboxUid *)fp8;
+- (int)indexToInsertChildMailboxUid:(MailboxUid *)fp8;
+- (BOOL)isDescendantOfMailbox:(MailboxUid *)fp8;
+- (id)depthFirstEnumerator;
+- (id)description;
+- (int)type;
+- (void)setType:(int)fp8;
+- (BOOL)isIndexable;
+- (void)writeIndexFlagFileIfNeeded;
+- (void)removeIndexFlagFileIfNeeded;
+- (id)_loadUserInfo;
+- (id)userInfoObjectForKey:(id)fp8;
+- (void)setUserInfoObject:(id)fp8 forKey:(id)fp12;
+- (BOOL)userInfoBoolForKey:(id)fp8;
+- (void)setUserInfoBool:(BOOL)fp8 forKey:(id)fp12;
+- (void)saveUserInfo;
+- (id)userInfoDictionary;
+- (void)setUserInfoWithDictionary:(id)fp8;
+- (NSDictionary *)userInfo;
+- (id)ancestralAccount;
+- (id)criteria;
+- (id)criterion;
+- (void)setCriteria:(id)fp8;
+- (id)abGroupsUsedInCriteria;
+- (BOOL)criteriaAreValid:(id *)fp8;
+- (BOOL)allCriteriaMustBeSatisfied;
+- (void)setAllCriteriaMustBeSatisfied:(BOOL)fp8;
+- (void)addressBookDidChange:(id)fp8;
+- (id)store;
+- (BOOL)failedToOpen;
+- (id)openFailureMessage;
+- (void)setFailedToOpen:(BOOL)fp8 message:(id)fp12;
+- (id)copyWithZone:(id)fp8;
+
+@end
+
+typedef struct {
+    unsigned int _field1;
+    unsigned int _field2;
+    char _field3;
+    char _field4;
+} CDAnonymousStruct6;
+
+@interface Library : NSObject
+{
+}
+
++ (void)commitMessage:(Message *)fp8;
++ (void)flagsChangedForMessages:(NSArray *)fp8 flags:(id)fp12 oldFlagsByMessage:(id)fp16;
++ (void)coalesceMessageFileUpdate;
++ (void)coalesceCommitTransaction;
++ (void)cancelCoalescedTransaction;
++ (void)synchronouslyCommitTransaction;
++ (void)commitTransaction;
++ (void)commit;
++ (void)setFlagsFromDictionary:(id)fp8 forMessages:(NSArray *)fp12;
++ (void)setFlagsFromDictionary:(id)fp8 forMessages:(NSArray *)fp12 pushChanges:(BOOL)fp16;
++ (void)setFlags:(unsigned long)fp8 forMessage:(Message *)fp12;
++ (void)setFlagsForMessages:(NSArray *)fp8 mask:(unsigned long)fp12;
++ (void)setFlagsForMessages:(NSArray *)fp8;
++ (void)setBackgroundColorForMessages:(id)fp8 textColorForMessages:(id)fp12;
++ (void)setFlagsAndColorForMessages:(NSArray *)fp8;
++ (void)updateEncodingForMessage:(Message *)fp8;
++ (BOOL)initializeDatabase:(struct sqlite3 *)fp8;
++ (void)initialize;
++ (BOOL)setupLibrary;
++ (void)mailboxWillBeInvalidated:(id)fp8;
++ (id)plistDataForMessage:(id)fp8 subject:(id)fp12 sender:(id)fp16 to:(id)fp20 dateSent:(id)fp24 remoteID:(id)fp28 originalMailbox:(id)fp32 flags:(unsigned long long)fp36 mergeWithDictionary:(id)fp44;
++ (id)duplicateMessages:(id)fp8 newRemoteIDs:(id)fp12 forMailbox:(id)fp16 setFlags:(unsigned long long)fp20 clearFlags:(unsigned long long)fp28 createNewCacheFiles:(BOOL)fp36;
++ (BOOL)_writeEmlxFile:(id)fp8 forMessage:(id)fp12 withBodyData:(id)fp16 plistData:(id)fp20;
++ (void)touchDirectoryForMailbox:(id)fp8;
++ (id)addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fetchBodies isInitialImport:(BOOL)isInitialImport oldMessagesByNewMessage:(id)oldMessagesByNewMessage;
++ (id)addMessages:(NSArray *)messages;
++ (id)addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox;
++ (id)addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fp16 oldMessagesByNewMessage:(id)fp20;
++ (void)setAttachmentNames:(id)fp8 forMessage:(id)fp12;
++ (void)setThreadPriority:(int)fp8;
++ (int)threadPriority;
++ (unsigned int)updateSequenceNumber;
++ (unsigned int)accessSequenceNumber;
++ (void)_rebuildActiveAccountsClause;
++ (void)sendMessagesMatchingQuery:(const char *)fp8 to:(id)fp12 options:(unsigned int)fp16;
++ (NSArray *)messagesMatchingQuery:(const char *)fp8 options:(unsigned int)fp12;
++ (NSArray *)messagesWhere:(id)fp8 sortedBy:(id)fp12 options:(unsigned int)fp16;
++ (void)sendMessagesForMailbox:(id)fp8 where:(id)fp12 sortedBy:(id)fp16 ascending:(BOOL)fp20 to:(id)fp24 options:(unsigned int)fp28;
++ (id)messagesForMailbox:(id)fp8 where:(id)fp12 sortedBy:(id)fp16 ascending:(BOOL)fp20 options:(unsigned int)fp24;
++ (id)messagesForMailbox:(id)fp8 olderThanNumberOfDays:(int)fp12;
++ (id)unreadMessagesForMailbox:(id)fp8;
++ (void)gatherCountsForMailbox:(id)fp8 totalCount:(unsigned long *)fp12 unreadCount:(unsigned long *)fp16 deletedCount:(unsigned long *)fp20 totalSize:(unsigned long long *)fp24;
++ (unsigned int)unreadCountForMailbox:(id)fp8;
++ (unsigned int)deletedCountForMailbox:(id)fp8;
++ (unsigned int)totalCountForMailbox:(id)fp8;
++ (Message *)messageWithRemoteID:(id)fp8 inRemoteMailbox:(id)fp12;
++ (unsigned int)maximumRemoteIDForMailbox:(id)fp8;
++ (id)getDetailsForMessagesWithRemoteIDInRange:(struct _NSRange)fp8 fromMailbox:(id)fp16;
++ (Message *)messageWithMessageID:(id)fp8;
++ (NSArray *)messagesWithMessageIDHeader:(id)fp8;
++ (Message *)messageWithLibraryID:(unsigned int)fp8 options:(unsigned int)fp12;
++ (Message *)messageWithLibraryID:(unsigned int)fp8;
++ (NSArray *)messagesInSameThreadAsMessages:(id)fp8 seenMessageIDs:(id)fp12 options:(unsigned int)fp16 db:(struct sqlite3 *)fp20;
++ (NSArray *)messagesInSameThreadAsMessages:(id)fp8 options:(unsigned int)fp12;
++ (id)firstReplyToMessage:(id)fp8;
++ (BOOL)messageHasRelatedNonJunkMessages:(id)fp8;
++ (id)stringForQuery:(id)fp8 monitor:(id)fp12;
++ (id)stringForQuery:(id)fp8;
++ (char *)bytesForQuery:(id)fp8;
++ (void)performQuery:(id)fp8;
++ (id)referencesForLibraryID:(unsigned int)fp8;
++ (id)urlForMailboxID:(unsigned int)fp8;
++ (id)mailboxUidForMessage:(Message *)fp8 lock:(BOOL)fp12;
++ (id)mailboxUidForMessage:(Message *)fp8;
++ (id)remoteStoreForMessage:(Message *)fp8;
++ (id)accountForMessage:(Message *)fp8;
++ (id)mailboxNameForMessage:(Message *)fp8;
++ (BOOL)loadSecondaryMetadataForMessage:(Message *)fp8;
++ (void)reloadMessage:(Message *)fp8;
++ (void)updateFileForMessage:(Message *)fp8;
++ (BOOL)shouldCancel;
++ (void)updateMessageFiles;
++ (void)messagesWereCompacted:(id)fp8 mailboxes:(id)fp12;
++ (void)compactMessages:(id)fp8;
++ (void)compactMailbox:(id)fp8;
++ (MailboxUid *)mailboxUidForURL:(NSString *)mailboxURL;
++ (BOOL)renameMailboxes:(id)fp8 to:(id)fp12;
++ (void)deleteMailboxes:(id)fp8;
++ (Message *)lastMessageWithMessageID:(id)fp8 inMailbox:(id)fp12;
++ (id)dataPathForMessage:(id)fp8 type:(int)fp12;
++ (id)dataPathForMessage:(id)fp8;
++ (id)realDataPathForMessage:(id)fp8;
++ (Message *)messageWithDataPath:(id)fp8;
++ (id)dataConsumerForMessage:(id)fp8 part:(id)fp12;
++ (id)dataConsumerForMessage:(id)fp8 isPartial:(BOOL)fp12;
++ (id)dataConsumerForMessage:(id)fp8;
++ (void)setData:(id)fp8 forMessage:(id)fp12 isPartial:(BOOL)fp16;
++ (id)bodyDataAtPath:(id)fp8 headerData:(id *)fp12;
++ (id)bodyDataForMessage:(id)fp8 andHeaderDataIfReadilyAvailable:(id *)fp12;
++ (id)bodyDataForMessage:(id)fp8;
++ (id)fullBodyDataForMessage:(id)fp8 andHeaderDataIfReadilyAvailable:(id *)fp12;
++ (id)fullBodyDataForMessage:(id)fp8;
++ (id)dataForMimePart:(id)fp8;
++ (BOOL)isMessageContentsLocallyAvailable:(id)fp8;
++ (BOOL)hasCacheFileForMessage:(id)fp8 directoryContents:(id)fp12;
++ (BOOL)hasCacheFileForMessage:(id)fp8 part:(id)fp12 directoryContents:(id)fp16;
++ (void)_markMessageAsViewed:(id)fp8 viewedDate:(id)fp12;
++ (void)markMessageAsViewed:(id)fp8;
++ (id)fixCriterionOnce:(id)fp8 expandedSmartMailboxes:(id)fp12;
++ (id)fixCriterionOnce:(id)fp8;
++ (id)fixCriterion:(id)fp8 expandedSmartMailboxes:(id)fp12;
++ (id)fixCriterion:(id)fp8;
++ (id)emailAddressesForGroupCriterion:(id)fp8;
++ (id)compoundCriterionToReplaceGroupCriterion:(id)fp8;
++ (id)compoundCriterionToReplaceCriterionOfType:(id)fp8 specialMailboxType:(int)fp12 forAccountURL:(id)fp16;
++ (id)expressionForCriterion:(id)fp8 context:(CDAnonymousStruct6 *)fp12 depth:(unsigned int)fp16 enclosingSmartMailboxes:(id)fp20;
++ (id)expressionForCriterion:(id)fp8 tables:(unsigned int *)fp12 baseTable:(unsigned int)fp16;
++ (id)queryForCriterion:(id)fp8 options:(unsigned int)fp12 baseTable:(unsigned int)fp16 isSubquery:(BOOL)fp20;
++ (id)queryForCriterion:(id)fp8 options:(unsigned int)fp12 baseTable:(unsigned int)fp16;
++ (id)queryForCriterion:(id)fp8 options:(unsigned int)fp12;
++ (void)shouldCancelMDQuery:(struct __MDQuery *)fp8;
++ (void)sendMessagesMatchingCriterion:(id)fp8 to:(id)fp12 options:(unsigned int)fp16;
++ (id)messagesMatchingCriterion:(id)fp8 options:(unsigned int)fp12;
++ (unsigned int)countForCriterion:(id)fp8 monitor:(id)fp12;
++ (unsigned int)countForCriterion:(id)fp8;
++ (id)filterContiguousMessages:(id)fp8 forCriterion:(id)fp12 options:(unsigned int)fp16;
++ (BOOL)rebuildMailbox:(id)fp8;
++ (BOOL)importMailbox:(id)fp8;
++ (BOOL)importing;
++ (BOOL)importEverythingIncludingDisabledAccounts:(BOOL)fp8;
++ (void)_upgradeMessageDirectoriesSynchronously;
++ (void)upgradeMessageDirectoriesIfNeeded;
++ (void)takeAccountsOnlineAllAccounts:(BOOL)fp8;
++ (BOOL)libraryExists;
++ (int)libraryStatus;
++ (BOOL)importableDataExists;
++ (id)currentMailbox;
++ (unsigned int)indexOfCurrentMailbox;
++ (unsigned int)totalNumberOfMailboxes;
++ (unsigned int)indexOfCurrentMessage;
++ (unsigned int)runningIndexOfCurrentMessage;
++ (unsigned int)messagesInMailbox;
++ (unsigned int)totalNumberOfMessages;
++ (BOOL)isBusy;
++ (void)cleanOldDatabases;
 
 @end
 
@@ -752,27 +766,6 @@ typedef struct {
 - (id)appleScriptHeaders;
 @end
 
-@interface TOCMessage : Message
-{
-	NSRange _mboxRange;
-	NSString *_attachments;
-	NSString *_messageID;
-}
-
-+ (id)messageIDForSender:(id)fp8 subject:(id)fp12 dateAsTimeInterval:(double)fp16;
-- (id)initWithMessage:(id)fp8;
-- (void)dealloc;
-- (unsigned int)loadCachedInfoFromBytes:(const char *)fp8 length:(unsigned int)fp12 isDirty:(char *)fp16 usingUniqueStrings:(id)fp20;
-- (id)cachedData;
-- (NSRange)mboxRange;
-- (void)setMboxRange:(NSRange)fp8;
-- (id)attachment;
-- (id)messageID;
-- (int)compareByNumberWithMessage:(id)fp8;
-- (unsigned int)messageSize;
-- (id)description;
-@end
-
 @interface POPMessage : Message
 {
     int _messageNumber;
@@ -789,8 +782,49 @@ typedef struct {
 - (void)setMessageData:(id)fp8;
 - (unsigned int)messageSize;
 - (id)messageDataIncludingFromSpace:(BOOL)fp8;
+- (NSString *)messageID;
+- (void)setMessageID:(NSString *)fp8;
+@end
+
+typedef struct {
+    unsigned int isRich:1;
+    unsigned int isHTML:1;
+    unsigned int hasTemporaryUid:1;
+    unsigned int partsHaveBeenCached:1;
+    unsigned int isPartial:1;
+    unsigned int hasCustomEncoding:1;
+    unsigned int reserved:26;
+} CDAnonymousStruct4;
+
+@interface IMAPMessage : Message <NSCoding>
+{
+    unsigned int _size;
+    CDAnonymousStruct4 _imapFlags;
+    unsigned int _uid;
+}
+
++ (void)initialize;
+- (id)initWithFlags:(unsigned long)fp8 size:(unsigned int)fp12 uid:(unsigned long)fp16;
+- (id)initWithCoder:(id)fp8;
+- (void)encodeWithCoder:(id)fp8;
+- (NSString *)description;
+- (unsigned int)messageSize;
 - (id)messageID;
-- (void)setMessageID:(id)fp8;
+- (int)compareByNumberWithMessage:(Message *)fp8;
+- (unsigned long)uid;
+- (void)setUid:(unsigned long)fp8;
+- (BOOL)isPartial;
+- (void)setIsPartial:(BOOL)fp8;
+- (BOOL)isMessageContentsLocallyAvailable;
+- (BOOL)partsHaveBeenCached;
+- (void)setPartsHaveBeenCached:(BOOL)fp8;
+- (void)setPreferredEncoding:(unsigned long)fp8;
+- (BOOL)hasTemporaryUid;
+- (void)setHasTemporaryUid:(BOOL)fp8;
+- (CDAnonymousStruct4)imapFlags;
+- (id)mailboxName;
+- (id)remoteID;
+
 @end
 
 @interface NSString (NSEmailAddressString)
@@ -1167,9 +1201,9 @@ typedef struct {
 
 @protocol MVSelectionOwner
 - (id)selection;
-- (void)selectMessages:(id)fp8;
+- (void)selectMessages:(NSArray *)fp8;
 - (id)currentDisplayedMessage;
-- (id)messageStore;
+- (MessageStore *)messageStore;
 - (BOOL)transferSelectionToMailbox:(id)fp8 deleteOriginals:(BOOL)fp12;
 @end
 
@@ -1217,9 +1251,9 @@ typedef struct {
 - (void)_changeFlag:(id)fp8 state:(BOOL)fp12 forMessages:(id)fp16 undoActionName:(id)fp20;
 - (void)keyDown:(id)fp8;
 - (id)selection;
-- (void)selectMessages:(id)fp8;
-- (id)currentDisplayedMessage;
-- (id)messageStore;
+- (void)selectMessages:(NSArray *)messages;
+- (Message *)currentDisplayedMessage;
+- (MessageStore *)messageStore;
 - (BOOL)transferSelectionToMailbox:(id)fp8 deleteOriginals:(BOOL)fp12;
 - (void)_showSpotlightBarWithSearchString:(id)fp8;
 - (void)_hideSpotlightBar;

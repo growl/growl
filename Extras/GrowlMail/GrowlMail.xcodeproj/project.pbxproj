@@ -100,14 +100,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 34F60EAA078E1CD500CECA86 /* Growl.framework */;
+			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
 			remoteInfo = Growl.framework;
 		};
 		95AD1E5B0970955A00D6E4BA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 93BC379E095A662B0002B365 /* Nano.growlView */;
+			remoteGlobalIDString = 93BC379E095A662B0002B365;
 			remoteInfo = Nano;
 		};
 		95AE2752085C44A600271F5F /* PBXContainerItemProxy */ = {
@@ -904,8 +904,8 @@
 					ppc,
 					i386,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
@@ -916,8 +916,8 @@
 					ppc,
 					i386,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
 		};
@@ -928,8 +928,8 @@
 					ppc,
 					i386,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
+				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = "Deployment - Tiger - G4";
 		};

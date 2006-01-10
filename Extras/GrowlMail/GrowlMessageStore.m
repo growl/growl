@@ -26,7 +26,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 //
-//  GrowlMessageStore.m
+//  GrowlLibrary.m
 //  GrowlMail
 //
 //  Created by Ingmar Stein on 27.10.04.
@@ -34,52 +34,55 @@
 
 #import "GrowlMessageStore.h"
 #import "GrowlMail.h"
+#import <objc/objc-runtime.h>
 
-@implementation GrowlMessageStore
-+ (void) load {
-	[GrowlMessageStore poseAsClass:[MessageStore class]];
-}
+static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel) {
+	Method orig_method = nil, alt_method = nil;
 
-/*
- * POPMessages are handled in appendMessages which is called on the LibraryStore
- * and has a correct mailboxUid. For those messages, finishRoutingMessages is
- * called on the POP3FetchStore where we don't know the mailbox.
- */
-- (int) appendMessages:(NSArray *)messages unsuccessfulOnes:(NSArray *)fp12
-{
-	GrowlMail *growlMail = [GrowlMail sharedInstance];
-	if (GMIsEnabled()
-		&& [growlMail isAccountEnabled:[[self account] path]]
-		&& (!GMInboxOnly() || [[MailAccount inboxMailboxUids] containsObject:[self mailboxUid]])) {
+	// Look for the methods
+	orig_method = class_getClassMethod(aClass, orig_sel);
+	alt_method = class_getClassMethod(aClass, alt_sel);
 
-		Message *message;
-		Class popMessageClass = [POPMessage class];
-		NSEnumerator *enumerator = [messages objectEnumerator];
-		while ((message = [enumerator nextObject]))
-			if ([message isKindOfClass:popMessageClass])
-				[growlMail queueMessage:message];
+	// If both are found, swizzle them
+	if (orig_method && alt_method) {
+		IMP temp;
+
+		temp = orig_method->method_imp;
+		orig_method->method_imp = alt_method->method_imp;
+		alt_method->method_imp = temp;
+
+		return YES;
 	}
-	return [super appendMessages:messages unsuccessfulOnes:fp12];
+
+	return NO;
 }
 
-- (id) finishRoutingMessages:(NSArray *)messages routed:(NSArray *)routed {
+@implementation Library(GrowlMail)
++ (void) load {
+	if (!PerformSwizzle([Library class],
+						@selector(addMessages:withMailbox:fetchBodies:isInitialImport:oldMessagesByNewMessage:),
+						@selector(gm_addMessages:withMailbox:fetchBodies:isInitialImport:oldMessagesByNewMessage:)))
+		NSLog(@"GrowlMail: could not swizzle addMessages:withMailbox:fetchBodies:isInitialImport:oldMessagesByNewMessage:");
+}
+
++ (id) gm_addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fetchBodies isInitialImport:(BOOL)isInitialImport oldMessagesByNewMessage:(id)oldMessagesByNewMessage {
+	NSArray *libraryMessages = [self gm_addMessages:messages withMailbox:mailbox fetchBodies:fetchBodies isInitialImport:isInitialImport oldMessagesByNewMessage:oldMessagesByNewMessage];
 	GrowlMail *growlMail = [GrowlMail sharedInstance];
-	if (GMIsEnabled()
-		&& [growlMail isAccountEnabled:[[self account] path]]
-		&& (!GMInboxOnly() || [[MailAccount inboxMailboxUids] containsObject:[self mailboxUid]])) {
-		
-		Message *message;
-		Class tocMessageClass = [TOCMessage class];
-		Class popMessageClass = [POPMessage class];
-		NSEnumerator *enumerator = [messages objectEnumerator];
-		while ((message = [enumerator nextObject])) {
-//			NSLog(@"Message class: %@", [message className]);
-			if (!([message isKindOfClass:tocMessageClass] || [message isKindOfClass:popMessageClass]))
-				[growlMail queueMessage:message];
+	if (GMIsEnabled()) {
+		MailboxUid *mailboxUid = [self mailboxUidForURL:mailbox];
+		if ([growlMail isAccountEnabled:[[mailboxUid account] path]] && (!GMInboxOnly() || [[MailAccount inboxMailboxUids] containsObject:mailboxUid])) {
+			int mailboxType = [mailboxUid type];
+			if (mailboxType == 0 || mailboxType == 6) {
+				Class popMessageClass = [POPMessage class];
+				Class imapMessageClass = [IMAPMessage class];
+				for (unsigned i=0U, count=[messages count]; i<count; ++i) {
+					Message *message = [messages objectAtIndex:i];
+					if (([message isKindOfClass:popMessageClass] || [message isKindOfClass:imapMessageClass]))
+						[growlMail queueMessage:[libraryMessages objectAtIndex:i]];
+				}
+			}
 		}
 	}
-
-	return [super finishRoutingMessages:messages routed:routed];
+	return libraryMessages;
 }
-
 @end

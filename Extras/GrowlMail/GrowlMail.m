@@ -42,8 +42,6 @@
 
 #define AUTO_THRESHOLD	10
 
-static CFMutableArrayRef collectedMessages;
-
 CFBundleRef GetGrowlMailBundle(void) {
 	return CFBundleGetBundleWithIdentifier(CFSTR("com.growl.GrowlMail"));
 }
@@ -97,8 +95,8 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 
 - (id) init {
 	if ((self = [super init])) {
-		CFBundleRef growlMailBundle = CFBundleGetBundleWithIdentifier(CFSTR("com.growl.GrowlMail"));
-		CFURLRef privateFrameworksURL = CFBundleCopyPrivateFrameworksURL(growlMailBundle);
+		CFBundleRef bundle = GetGrowlMailBundle();
+		CFURLRef privateFrameworksURL = CFBundleCopyPrivateFrameworksURL(bundle);
 		CFURLRef growlBundleURL = CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, privateFrameworksURL, CFSTR("Growl.framework"), true);
 		CFRelease(privateFrameworksURL);
 		CFBundleRef growlBundle = CFBundleCreate(kCFAllocatorDefault, growlBundleURL);
@@ -108,8 +106,6 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 				// Register ourselves as a Growl delegate
 				[GrowlApplicationBridge setGrowlDelegate:self];
 				pthread_mutex_init(&queueLock, /*attr*/ NULL);
-				pthread_mutex_init(&messagesLock, /*attr*/ NULL);
-				messagesMap = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 				NSDictionary *infoDictionary = [GrowlApplicationBridge frameworkInfoDictionary];
 				NSLog(@"Using Growl.framework %@ (%@)",
 					  [infoDictionary objectForKey:@"CFBundleShortVersionString"],
@@ -125,11 +121,7 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 }
 
 - (void) dealloc {
-	if (messagesMap) {
-		pthread_mutex_destroy(&queueLock);
-		pthread_mutex_destroy(&messagesLock);
-		CFRelease(messagesMap);
-	}
+	pthread_mutex_destroy(&queueLock);
 	[super dealloc];
 }
 
@@ -143,35 +135,16 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 	return [NSImage imageNamed:@"NSApplicationIcon"];
 }
 
-- (void) setMessage:(Message *)message forId:(NSString *)messageId {
-	pthread_mutex_lock(&messagesLock);
-	CFDictionarySetValue(messagesMap, messageId, message);
-	pthread_mutex_unlock(&messagesLock);
-}
-
 - (void) growlNotificationWasClicked:(NSString *)clickContext {
 	if ([clickContext length]) {
-		pthread_mutex_lock(&messagesLock);
-		Message *message = (Message *)CFDictionaryGetValue(messagesMap, clickContext);
-		[message retain];
-		CFDictionaryRemoveValue(messagesMap, clickContext);
-		pthread_mutex_unlock(&messagesLock);
+		Message *message = [Library messageWithMessageID:clickContext];
 		MessageViewingState *viewingState = [[MessageViewingState alloc] init];
 		SingleMessageViewer *messageViewer = [[SingleMessageViewer alloc] initForViewingMessage:message showAllHeaders:NO viewingState:viewingState];
 		[viewingState release];
-		[message release];
 		[messageViewer showAndMakeKey:YES];
 		[messageViewer release];
 	}
 	[NSApp activateIgnoringOtherApps:YES];
-}
-
-- (void) growlNotificationTimedOut:(NSString *)clickContext {
-	if ([clickContext length]) {
-		pthread_mutex_lock(&messagesLock);
-		CFDictionaryRemoveValue(messagesMap, clickContext);
-		pthread_mutex_unlock(&messagesLock);
-	}
 }
 
 - (NSDictionary *) registrationDictionaryForGrowl {
@@ -216,7 +189,7 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 							   withObject:nil
 							waitUntilDone:NO];
 	}
-	CFArrayAppendValue(collectedMessages, message);
+	CFArrayAppendValue(collectedMessages, [message messageID]);
 	pthread_mutex_unlock(&queueLock);
 }
 
@@ -226,20 +199,22 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 
 	pthread_mutex_lock(&queueLock);
 
+	CFIndex count = CFArrayGetCount(collectedMessages);
+
 	int summaryMode = GMSummaryMode();
 	if (summaryMode == MODE_AUTO) {
-		if (CFArrayGetCount(collectedMessages) >= AUTO_THRESHOLD)
+		if (count >= AUTO_THRESHOLD)
 			summaryMode = MODE_SUMMARY;
 		else
 			summaryMode = MODE_SINGLE;
 	}
 
-	CFIndex count = CFArrayGetCount(collectedMessages);
 	switch (summaryMode) {
 		default:
 		case MODE_SINGLE:
 			for (CFIndex i=0; i<count; ++i) {
-				Message *message = (Message *)CFArrayGetValueAtIndex(collectedMessages, i);
+				id messageID = (id)CFArrayGetValueAtIndex(collectedMessages, i);
+				Message *message = [Library messageWithMessageID:messageID];
 				[message showNotification];
 			}
 			break;
@@ -249,8 +224,9 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 			CFMutableBagRef accountSummary = CFBagCreateMutable(kCFAllocatorDefault, accountsCount, &kCFTypeBagCallBacks);
 			CFMutableBagRef accountJunkSummary = CFBagCreateMutable(kCFAllocatorDefault, accountsCount, &kCFTypeBagCallBacks);
 			for (CFIndex i=0; i<count; ++i) {
-				Message *message = (Message *)CFArrayGetValueAtIndex(collectedMessages, i);
-				MailAccount *account = [[message messageStore] account];
+				id messageID = (id)CFArrayGetValueAtIndex(collectedMessages, i);
+				Message *message = [Library messageWithMessageID:messageID];
+				MailAccount *account = [[message mailbox] account];
 				CFBagAddValue([message isJunk] ? accountJunkSummary : accountSummary, account);
 			}
 			CFBundleRef bundle = GetGrowlMailBundle();
