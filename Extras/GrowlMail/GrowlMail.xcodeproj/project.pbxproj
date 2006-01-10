@@ -46,7 +46,8 @@
 		9553469F0732BD4800D12875 /* GrowlMailPreferencesModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553469D0732BD4800D12875 /* GrowlMailPreferencesModule.m */; };
 		955347EC0732C14400D12875 /* GrowlMailPreferencesPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 955347EA0732C14400D12875 /* GrowlMailPreferencesPanel.nib */; };
 		955348600732F93600D12875 /* GrowlMailPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553485E0732F93600D12875 /* GrowlMailPreferences.m */; };
-		95BF545B072F9D6300834811 /* GrowlMessageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BF5459072F9D6300834811 /* GrowlMessageStore.m */; };
+		95A35CEE0973B9210003C754 /* Library+GrowlMail.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95A35CEC0973B9210003C754 /* Library+GrowlMail.h */; };
+		95A35CEF0973B9210003C754 /* Library+GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A35CED0973B9210003C754 /* Library+GrowlMail.m */; };
 		95BF5483072FB08000834811 /* Message+GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BF5481072FB08000834811 /* Message+GrowlMail.m */; };
 /* End PBXBuildFile section */
 
@@ -225,6 +226,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				950743AA085E2A5A0067AD2B /* Growl.framework in CopyFiles */,
+				95A35CEE0973B9210003C754 /* Library+GrowlMail.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,12 +262,12 @@
 		955A4E24086175B6009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		955A4E25086175BE009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
 		9594E8DF07A18C5600EC79BF /* GrowlMail_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlMail_Prefix.pch; sourceTree = "<group>"; };
+		95A35CEC0973B9210003C754 /* Library+GrowlMail.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "Library+GrowlMail.h"; sourceTree = "<group>"; };
+		95A35CED0973B9210003C754 /* Library+GrowlMail.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "Library+GrowlMail.m"; sourceTree = "<group>"; };
 		95AC1E9B08562FFB006241FD /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		95AE2740085C44A600271F5F /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
 		95B00A55084689C4004A8623 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/GrowlMailPreferencesPanel.nib; sourceTree = "<group>"; };
 		95B00A56084689D0004A8623 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
-		95BF5458072F9D6300834811 /* GrowlMessageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlMessageStore.h; sourceTree = "<group>"; };
-		95BF5459072F9D6300834811 /* GrowlMessageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlMessageStore.m; sourceTree = "<group>"; };
 		95BF5480072FB08000834811 /* Message+GrowlMail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Message+GrowlMail.h"; sourceTree = "<group>"; };
 		95BF5481072FB08000834811 /* Message+GrowlMail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Message+GrowlMail.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -328,8 +330,8 @@
 				9553469D0732BD4800D12875 /* GrowlMailPreferencesModule.m */,
 				95BF5480072FB08000834811 /* Message+GrowlMail.h */,
 				95BF5481072FB08000834811 /* Message+GrowlMail.m */,
-				95BF5458072F9D6300834811 /* GrowlMessageStore.h */,
-				95BF5459072F9D6300834811 /* GrowlMessageStore.m */,
+				95A35CEC0973B9210003C754 /* Library+GrowlMail.h */,
+				95A35CED0973B9210003C754 /* Library+GrowlMail.m */,
 				4B7E5EA206B6AC1700137892 /* GrowlMail.h */,
 				4B7E5EA306B6AC1700137892 /* GrowlMail.m */,
 			);
@@ -636,10 +638,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B7E5EA806B6AC1700137892 /* GrowlMail.m in Sources */,
-				95BF545B072F9D6300834811 /* GrowlMessageStore.m in Sources */,
 				95BF5483072FB08000834811 /* Message+GrowlMail.m in Sources */,
 				9553469F0732BD4800D12875 /* GrowlMailPreferencesModule.m in Sources */,
 				955348600732F93600D12875 /* GrowlMailPreferences.m in Sources */,
+				95A35CEF0973B9210003C754 /* Library+GrowlMail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

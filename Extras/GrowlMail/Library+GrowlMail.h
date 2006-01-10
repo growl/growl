@@ -26,7 +26,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 //
-//  GrowlLibrary.h
+//  Library+GrowlMail.h
 //  GrowlMail
 //
 //  Created by Ingmar Stein on 27.10.04.

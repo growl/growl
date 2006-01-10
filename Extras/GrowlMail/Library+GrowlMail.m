@@ -26,13 +26,13 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 //
-//  GrowlLibrary.m
+//  Library+GrowlMail.m
 //  GrowlMail
 //
 //  Created by Ingmar Stein on 27.10.04.
 //
 
-#import "GrowlMessageStore.h"
+#import "Library+GrowlMail.h"
 #import "GrowlMail.h"
 #import <objc/objc-runtime.h>
 
