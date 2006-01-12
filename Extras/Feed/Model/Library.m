@@ -64,6 +64,15 @@ static Library *				_sharedLibrary = nil;
 		return nil;
 	}
 	
+	// create Application Support/Feed directory if it's not there
+	if( ! [fileManager fileExistsAtPath: [[paths objectAtIndex:0] stringByAppendingPathComponent: FeedLibDirectory]] ){
+		KNDebug(@"LIB: No feed directory found at %@. Creating", [[paths objectAtIndex:0] stringByAppendingPathComponent: FeedLibDirectory]);
+		if( ! [fileManager createDirectoryAtPath: [[paths objectAtIndex:0] stringByAppendingPathComponent: FeedLibDirectory] attributes: [NSDictionary dictionary]] ){
+			KNDebug(@"LIB: Unable to create Feed directory");
+			return nil;
+		}
+	}
+	
 	return [[paths objectAtIndex:0] stringByAppendingPathComponent: FeedLibDirectory];
 }
 
