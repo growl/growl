@@ -227,6 +227,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(NSAttributedString *)titleOfArticle:(NSDictionary *)article{
 	if( [article objectForKey: @"title"] ){
+		/*
+		return [[[NSAttributedString alloc] initWithHTML: 
+			[NSData dataWithBytes: [[article objectForKey: @"title"] bytes] length: [[article objectForKey: @"title"] length]]
+			documentAttributes:nil] 
+		autorelease];
+		*/
 		return [[[NSAttributedString alloc] initWithString: [[article objectForKey: @"title"] collapseHTML]] autorelease];
 	}else{
 		return [[[NSAttributedString alloc] init] autorelease];
