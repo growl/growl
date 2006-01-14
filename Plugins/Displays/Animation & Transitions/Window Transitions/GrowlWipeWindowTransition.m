@@ -11,13 +11,6 @@
 
 @implementation GrowlWipeWindowTransition
 
-- (id) initWithWindow:(NSWindow *)inWindow {
-	self = [super initWithWindow:inWindow];
-	if (!self)
-		return nil;
-	return self;
-}
-
 - (void) setFromOrigin:(NSPoint)from toOrigin:(NSPoint)to {
 #pragma unused(from,to)
 }

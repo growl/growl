@@ -21,7 +21,6 @@
 #pragma mark -
 
 - (id) init {
-	NSLog(@"%s\n", __FUNCTION__);
 	if ((self = [super init])) {
 		windowControllerClass = NSClassFromString(@"GrowlBubblesWindowController");
 	}
@@ -40,7 +39,6 @@
 }
 
 - (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
-	NSLog(@"%s\n", __FUNCTION__);
 	GrowlBubblesWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];
 	GrowlApplicationNotification *note = [theBridge notification];
 	NSDictionary *noteDict = [note dictionaryRepresentation];

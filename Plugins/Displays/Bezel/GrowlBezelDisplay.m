@@ -16,7 +16,6 @@
 @implementation GrowlBezelDisplay
 
 - (id) init {
-	NSLog(@"%s\n", __FUNCTION__);
 	if ((self = [super init])) {
 		//notificationQueue = [[NSMutableArray alloc] init];
 		windowControllerClass = NSClassFromString(@"GrowlBezelWindowController");
@@ -37,7 +36,6 @@
 }
 
 - (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
-	NSLog(@"%s\n", __FUNCTION__);
 	GrowlBezelWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];
 	GrowlApplicationNotification *note = [theBridge notification];
 	NSDictionary *noteDict = [note dictionaryRepresentation];

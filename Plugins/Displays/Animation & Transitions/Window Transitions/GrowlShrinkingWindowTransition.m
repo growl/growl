@@ -12,13 +12,6 @@
 
 @implementation GrowlShrinkingWindowTransition
 
-- (id) initWithWindow:(NSWindow *)inWindow {
-	if ((self = [super initWithWindow:inWindow])) {
-		scaleFactor = 0.0f;
-	}
-	return self;
-}
-
 - (void) reset {
 	//scaleFactor = 1.0f;
 }
@@ -27,22 +20,20 @@
 	if (aWindow) {
 		switch (direction) {
 			case GrowlForwardTransition:
-				if (scaleFactor < 1.0f) {
+#warning 1.0f * inProgress? WTF?
+				if (scaleFactor < 1.0f)
 					scaleFactor += (1.0f * inProgress);
-					[aWindow setScaleX:(scaleFactor < 1.0f ? scaleFactor : 1.0) Y:(scaleFactor < 1.0f ? scaleFactor : 1.0)];
-				} else {
+				if (scaleFactor > 1.0f)
 					scaleFactor = 1.0f;
-					[aWindow setScaleX:scaleFactor Y:scaleFactor];
-				}
+				[aWindow setScaleX:scaleFactor Y:scaleFactor];
 				break;
 			case GrowlReverseTransition:
-				if (scaleFactor > 0.0f) {
+#warning 1.0f * inProgress? WTF?
+				if (scaleFactor > 0.0f)
 					scaleFactor -= (1.0f * inProgress);
-					[aWindow setScaleX:(scaleFactor > 0.0f ? scaleFactor : 0.0) Y:(scaleFactor > 0.0f ? scaleFactor : 0.0)];
-				} else {
+				if (scaleFactor < 0.0f)
 					scaleFactor = 0.0f;
-					[aWindow setScaleX:scaleFactor Y:scaleFactor];
-				}
+				[aWindow setScaleX:scaleFactor Y:scaleFactor];
 				break;
 			default:
 				break;

@@ -27,7 +27,6 @@
 #pragma mark -
 
 - (id) init {
-	NSLog(@"%s\n", __FUNCTION__);
 	screenNumber = 0U;
 	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &screenNumber);
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
@@ -97,7 +96,6 @@
 #pragma mark -
 
 - (void) setNotification: (GrowlApplicationNotification *) theNotification {
-	NSLog(@"%s\n", __FUNCTION__);
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;

@@ -24,7 +24,6 @@
 #define GrowlBezelPadding 10.0f
 
 - (id) init {
-	NSLog(@"%s\n", __FUNCTION__);
 	int sizePref = 0;
 	screenNumber = 0U;
 	shrinkEnabled = NO;
@@ -120,7 +119,6 @@
 #pragma mark -
 
 - (void) setNotification: (GrowlApplicationNotification *) theNotification {
-	NSLog(@"%s\n", __FUNCTION__);
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;
