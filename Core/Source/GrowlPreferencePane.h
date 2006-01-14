@@ -78,10 +78,6 @@
 
 	//About box tab pane
 	IBOutlet NSTextView				*aboutBoxTextView;
-	IBOutlet NSButton				*growlWebSite;
-	IBOutlet NSButton				*growlForum;
-	IBOutlet NSButton				*growlTrac;
-	IBOutlet NSButton				*growlDonate;
 	NSURL							*growlWebSiteURL;
 	NSURL							*growlForumURL;
 	NSURL							*growlTracURL;

@@ -17,8 +17,4 @@
 
 - (BOOL) isSubpathOf:(NSString *)superpath;
 
-- (NSAttributedString *) hyperlinkWithColor:(NSColor *)color;
-- (NSAttributedString *) hyperlink;
-- (NSAttributedString *) activeHyperlink;
-
 @end

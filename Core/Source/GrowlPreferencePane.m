@@ -135,24 +135,6 @@
 	growlForumURL = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
 	growlTracURL = [[NSURL alloc] initWithString:@"http://trac.growl.info/trac"];
 	growlDonateURL = [[NSURL alloc] initWithString:@"http://growl.info/donate.php"];
-	NSString *growlWebSiteURLString = [growlWebSiteURL absoluteString];
-	NSString *growlForumURLString   = [growlForumURL absoluteString];
-	NSString *growlTracURLString    = [growlTracURL absoluteString];
-	NSString *growlDonateURLString	= [growlDonateURL absoluteString];
-
-	[growlWebSite setAttributedTitle:         [growlWebSiteURLString       hyperlink]];
-	[growlWebSite setAttributedAlternateTitle:[growlWebSiteURLString activeHyperlink]];
-	[[growlWebSite cell] setHighlightsBy:NSContentsCellMask];
-	[growlForum   setAttributedTitle:         [growlForumURLString         hyperlink]];
-	[growlForum   setAttributedAlternateTitle:[growlForumURLString   activeHyperlink]];
-	[[growlForum   cell] setHighlightsBy:NSContentsCellMask];
-	[growlTrac    setAttributedTitle:         [growlTracURLString          hyperlink]];
-	[growlTrac    setAttributedAlternateTitle:[growlTracURLString    activeHyperlink]];
-	[[growlTrac    cell] setHighlightsBy:NSContentsCellMask];
-	[growlDonate    setAttributedTitle:         [growlDonateURLString          hyperlink]];
-	[growlDonate    setAttributedAlternateTitle:[growlDonateURLString    activeHyperlink]];
-	[[growlDonate    cell] setHighlightsBy:NSContentsCellMask];
-
 
 	customHistArray = CFArrayCreateMutable(kCFAllocatorDefault, 3, &kCFTypeArrayCallBacks);
 	id value = [preferencesController objectForKey:GrowlCustomHistKey1];

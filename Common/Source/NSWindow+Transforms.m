@@ -92,7 +92,7 @@
 
 	connection = _CGSDefaultConnection();
 
-	if ( concat ) {
+	if (concat) {
 		CGSGetWindowTransform(connection, _windowNum, &original);
 	} else {
 		// Get the screen position of the top left corner, by which our window is positioned
@@ -135,11 +135,7 @@
 	int tags[2] = { 0, 0 };
 
 	if (!CGSGetWindowTags(cid, wid, tags, 32)) {
-		if (flag) {
-			tags[0] = tags[0] | 0x00000800;
-		} else {
-			tags[0] = tags[0] & ~0x00000800;
-		}
+		tags[0] = flag ? (tags[0] | 0x00000800) : (tags[0] & ~0x00000800);
 		CGSSetWindowTags(cid, wid, tags, 32);
 	}
 }
