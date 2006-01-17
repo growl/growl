@@ -150,7 +150,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 		[window orderFront:nil];
 		if ([self startAllTransitions]) {
 			CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
-			delayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent(), 0, 0, 0, &finishedTransitionsBeforeDisplay, &context);
+			delayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent(), 0, 0, 0, finishedTransitionsBeforeDisplay, &context);
 			CFRunLoopAddTimer(CFRunLoopGetMain(), delayTimer, kCFRunLoopCommonModes);
 			//[self performSelector:@selector(didFinishTransitionsBeforeDisplay) withObject:nil afterDelay:transitionDuration];
 		} else {
@@ -170,7 +170,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 	[self willTakeDownNotification];
 	if ([self startAllTransitions]) {
 		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
-		delayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+transitionDuration, 0, 0, 0, &finishedTransitionsAfterDisplay, &context);
+		delayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+transitionDuration, 0, 0, 0, finishedTransitionsAfterDisplay, &context);
 		CFRunLoopAddTimer(CFRunLoopGetMain(), delayTimer, kCFRunLoopCommonModes);
 		//[self performSelector:@selector(didFinishTransitionsAfterDisplay) withObject:nil afterDelay:transitionDuration];
 	} else {
@@ -242,7 +242,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 
 - (void) startDisplayTimer {
 	CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
-	displayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+displayDuration+transitionDuration, 0, 0, 0, &stopDisplay, &context);
+	displayTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+displayDuration+transitionDuration, 0, 0, 0, stopDisplay, &context);
 	CFRunLoopAddTimer(CFRunLoopGetMain(), displayTimer, kCFRunLoopCommonModes);
 }
 
@@ -372,7 +372,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 	// Set up this transition...
 	[transition setDuration: (endTime - startTime)];
 	CFRunLoopTimerContext context = {0, transition, NULL, NULL, NULL};
-	transitionTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+startTime, 0, 0, 0, &startAnimation, &context);
+	transitionTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+startTime, 0, 0, 0, startAnimation, &context);
 	CFRunLoopAddTimer(CFRunLoopGetMain(), transitionTimer, kCFRunLoopCommonModes);
 	//[transition performSelector:@selector(startAnimation) withObject:nil afterDelay:startTime];
 

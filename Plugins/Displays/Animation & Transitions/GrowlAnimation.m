@@ -78,7 +78,7 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 		//Create a new timer
 		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
 		float interval = 1.0f / frameRate;
-		animationTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+interval, interval, 0, 0, &animationStep, &context);
+		animationTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+interval, interval, 0, 0, animationStep, &context);
 		CFRunLoopAddTimer(CFRunLoopGetMain(), animationTimer, kCFRunLoopCommonModes);
 
 		//animationTimer = CFRunLoopTimerCreate() [NSTimer scheduledTimerWithTimeInterval:(1.0f/frameRate)
