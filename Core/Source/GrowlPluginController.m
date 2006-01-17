@@ -526,13 +526,13 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	if ([matches count]) {
 		if (name)
-			[matches intersectSet:[NSSet setWithSet:[pluginsByName objectForKey:name]]];
+			[matches intersectSet:[pluginsByName objectForKey:name]];
 		if (author)
-			[matches intersectSet:[NSSet setWithSet:[pluginsByAuthor objectForKey:author]]];
+			[matches intersectSet:[pluginsByAuthor objectForKey:author]];
 		if (version)
-			[matches intersectSet:[NSSet setWithSet:[pluginsByVersion objectForKey:version]]];
+			[matches intersectSet:[pluginsByVersion objectForKey:version]];
 		if (type)
-			[matches intersectSet:[NSSet setWithSet:[pluginsByType objectForKey:type]]];
+			[matches intersectSet:[pluginsByType objectForKey:type]];
 	}
 
 	return matches;
