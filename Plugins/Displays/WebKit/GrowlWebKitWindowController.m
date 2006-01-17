@@ -52,7 +52,7 @@ static unsigned webkitWindowDepth = 0U;
 	NSPanel *panel = [[KeyPanel alloc] initWithContentRect:NSMakeRect(0.0f, 0.0f, 270.0f, 1.0f)
 												 styleMask:NSBorderlessWindowMask | NSNonactivatingPanelMask
 												   backing:NSBackingStoreBuffered
-													 defer:NO];
+													 defer:YES];
 
 	self = [super initWithWindow:panel];
 	bridge = displayBridge;

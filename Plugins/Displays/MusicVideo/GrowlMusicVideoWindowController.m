@@ -50,7 +50,7 @@
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:sizeRect
 												styleMask:NSBorderlessWindowMask
 												  backing:NSBackingStoreBuffered
-													defer:NO];
+													defer:YES];
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];

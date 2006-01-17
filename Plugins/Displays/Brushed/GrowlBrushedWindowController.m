@@ -51,7 +51,7 @@
 	NSPanel *panel = [[NSPanel alloc] initWithContentRect:windowFrame
 												styleMask:styleMask
 												  backing:NSBackingStoreBuffered
-													defer:NO];
+													defer:YES];
 	NSRect panelFrame = [panel frame];
 	[panel setBecomesKeyOnlyIfNeeded:YES];
 	[panel setHidesOnDeactivate:NO];
