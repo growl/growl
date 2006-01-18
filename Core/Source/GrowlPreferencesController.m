@@ -131,7 +131,7 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 
 - (BOOL) shouldStartGrowlAtLogin {
 	OSStatus   status;
-	Boolean    foundIt;
+	Boolean    foundIt = false;
 	CFArrayRef loginItems = NULL;
 
 	//get the prefpane bundle and find GHA within it.
@@ -140,10 +140,15 @@ Boolean GrowlPreferencesController_boolForKey(CFTypeRef key) {
 	CFURLRef urlToGHA = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)pathToGHA, kCFURLPOSIXPathStyle, true);
 
 	status = LIAECopyLoginItems(&loginItems);
-	if (status == noErr)
-		foundIt = CFArrayContainsValue(loginItems, CFRangeMake(0, CFArrayGetCount(loginItems)), urlToGHA);
-	else
-		foundIt = false;
+	if (status == noErr) {
+		for (CFIndex i=0, count=CFArrayGetCount(loginItems); i<count; ++i) {
+			CFDictionaryRef loginItem = CFArrayGetValueAtIndex(loginItems, i);
+			foundIt = CFEqual(CFDictionaryGetValue(loginItem, kLIAEURL), urlToGHA);
+			if (foundIt)
+				break;
+		}
+		CFRelease(loginItems);
+	}
 
 	CFRelease(urlToGHA);
 
