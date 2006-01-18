@@ -21,36 +21,60 @@ static void addChecksumToPacket(CSSM_DATA_PTR packet, enum GrowlAuthenticationMe
 	CSSM_DATA      digestData;
 	CSSM_CC_HANDLE ccHandle;
 	CSSM_DATA      inData;
+	CSSM_RETURN    crtn;
+
 	switch (authMethod) {
 		default:
 		case GROWL_AUTH_MD5:
-			CSSM_CSP_CreateDigestContext(cspHandle, CSSM_ALGID_MD5, &ccHandle);
-			CSSM_DigestDataInit(ccHandle);
+			crtn = CSSM_CSP_CreateDigestContext(cspHandle, CSSM_ALGID_MD5, &ccHandle);
+			if (crtn)
+				cssmPerror("CSSM_CSP_CreateDigestContext", crtn);
+			crtn = CSSM_DigestDataInit(ccHandle);
+			if (crtn)
+				cssmPerror("CSSM_DigestDataInit", crtn);
 			messageLength = packet->Length - MD5_DIGEST_LENGTH;
 			inData.Data = packet->Data;
 			inData.Length = messageLength;
-			CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
-			if (password && password->Length)
-				CSSM_DigestDataUpdate(ccHandle, password, 1U);
+			crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
+			if (crtn)
+				cssmPerror("CSSM_DigestDataUpdate", crtn);
+			if (password && password->Length) {
+				crtn = CSSM_DigestDataUpdate(ccHandle, password, 1U);
+				if (crtn)
+					cssmPerror("CSSM_DigestDataUpdate", crtn);
+			}
 			digestData.Data = packet->Data + messageLength;
 			digestData.Length = MD5_DIGEST_LENGTH;
-			CSSM_DigestDataFinal(ccHandle, &digestData);
+			crtn = CSSM_DigestDataFinal(ccHandle, &digestData);
 			CSSM_DeleteContext(ccHandle);
+			if (crtn)
+				cssmPerror("CSSM_DigestDataFinal", crtn);
 			break;
 		case GROWL_AUTH_SHA256: {
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
-			CSSM_CSP_CreateDigestContext(cspHandle, CSSM_ALGID_SHA256, &ccHandle);
-			CSSM_DigestDataInit(ccHandle);
+			crtn = CSSM_CSP_CreateDigestContext(cspHandle, CSSM_ALGID_SHA256, &ccHandle);
+			if (crtn)
+				cssmPerror("CSSM_CSP_CreateDigestContext", crtn);
+			crtn = CSSM_DigestDataInit(ccHandle);
+			if (crtn)
+				cssmPerror("CSSM_DigestDataInit", crtn);
 			messageLength = packet->Length - SHA256_DIGEST_LENGTH;
 			inData.Data = packet->Data;
 			inData.Length = messageLength;
-			CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
-			if (password && password->Length)
-				CSSM_DigestDataUpdate(ccHandle, password, 1U);
+			crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
+			if (crtn)
+				cssmPerror("CSSM_DigestDataUpdate", crtn);
+			if (password && password->Length) {
+				crtn = CSSM_DigestDataUpdate(ccHandle, password, 1U);
+				if (crtn)
+					cssmPerror("CSSM_DigestDataUpdate", crtn);
+			}
 			digestData.Data = packet->Data + messageLength;
 			digestData.Length = SHA256_DIGEST_LENGTH;
-			CSSM_DigestDataFinal(ccHandle, &digestData);
+			crtn = CSSM_DigestDataFinal(ccHandle, &digestData);
 			CSSM_DeleteContext(ccHandle);
+			if (crtn)
+				cssmPerror("CSSM_DigestDataFinal", crtn);
 #else
 			SHA_CTX sha_ctx;
 			messageLength = packet->Length-SHA256_DIGEST_LENGTH;

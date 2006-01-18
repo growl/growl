@@ -129,8 +129,10 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (id) initSingleton {
 	if ((self = [super initSingleton])) {
-		if (cdsaInit()) {
+		CSSM_RETURN crtn = cdsaInit();
+		if (crtn) {
 			NSLog(@"ERROR: Could not initialize CDSA.");
+			cssmPerror("cdsaInit", crtn);
 			[self release];
 			return nil;
 		}

@@ -32,11 +32,14 @@ static Boolean authenticateWithCSSM(const CSSM_DATA_PTR packet, CSSM_ALGORITHMS 
 	CSSM_DATA      inData;
 
 	crtn = CSSM_CSP_CreateDigestContext(cspHandle, digestAlg, &ccHandle);
-	if (crtn)
+	if (crtn) {
+		cssmPerror("CSSM_CSP_CreateDigestContext", crtn);
 		return false;
+	}
 
 	crtn = CSSM_DigestDataInit(ccHandle);
 	if (crtn) {
+		cssmPerror("CSSM_DigestDataInit", crtn);
 		CSSM_DeleteContext(ccHandle);
 		return false;
 	}
@@ -46,6 +49,7 @@ static Boolean authenticateWithCSSM(const CSSM_DATA_PTR packet, CSSM_ALGORITHMS 
 	inData.Length = messageLength;
 	crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
 	if (crtn) {
+		cssmPerror("CSSM_DigestDataUpdate", crtn);
 		CSSM_DeleteContext(ccHandle);
 		return false;
 	}
@@ -53,6 +57,7 @@ static Boolean authenticateWithCSSM(const CSSM_DATA_PTR packet, CSSM_ALGORITHMS 
 	if (password && password->Length) {
 		crtn = CSSM_DigestDataUpdate(ccHandle, password, 1U);
 		if (crtn) {
+			cssmPerror("CSSM_DigestDataUpdate", crtn);
 			CSSM_DeleteContext(ccHandle);
 			return false;
 		}
@@ -62,8 +67,10 @@ static Boolean authenticateWithCSSM(const CSSM_DATA_PTR packet, CSSM_ALGORITHMS 
 	digestData.Length = 0U;
 	crtn = CSSM_DigestDataFinal(ccHandle, &digestData);
 	CSSM_DeleteContext(ccHandle);
-	if (crtn)
+	if (crtn) {
+		cssmPerror("CSSM_DigestDataFinal", crtn);
 		return false;
+	}
 
 	Boolean authenticated;
 	if (digestData.Length != digestLength) {
