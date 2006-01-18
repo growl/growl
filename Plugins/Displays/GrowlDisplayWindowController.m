@@ -191,7 +191,8 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 		CFRelease(delayTimer);
 		delayTimer = NULL;
 	}
-	[self startDisplayTimer];
+	if (![[[notification auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_STICKY] boolValue])
+		[self startDisplayTimer];
 }
 
 - (void) didFinishTransitionsAfterDisplay {
@@ -274,6 +275,8 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 
 	if (target && action && [target respondsToSelector:action])
 		[target performSelector:action withObject:self];
+
+	[self stopDisplay];
 }
 
 #pragma mark -
@@ -282,8 +285,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 - (BOOL) addTransition:(GrowlWindowTransition *)transition {
 	[transition setWindow:[self window]];
 	[transition setDelegate:self];
-	if (![windowTransitions objectForKey:[transition class]])
-	{
+	if (![windowTransitions objectForKey:[transition class]]) {
 		[windowTransitions setObject:transition forKey:[transition class]];
 		return TRUE;
 	}
@@ -418,11 +420,10 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) setNotification:(GrowlApplicationNotification *)theNotification {
-    if (notification == theNotification)
-		return;
-
-	[notification release];
-	notification = [theNotification retain]; // should this be a week ref?
+    if (notification != theNotification) {
+		[notification release];
+		notification = [theNotification retain]; // should this be a weak ref?
+	}
 }
 
 #pragma mark -
@@ -443,7 +444,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
     return transitionDuration;
 }
 
-- (void) setTransitionDuration: (CFTimeInterval) theTransitionDuration{
+- (void) setTransitionDuration: (CFTimeInterval)theTransitionDuration{
     transitionDuration = theTransitionDuration;
 }
 

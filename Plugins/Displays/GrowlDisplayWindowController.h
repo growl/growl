@@ -106,37 +106,37 @@
 
 /* Not to be called directly...these are managed via bindings */
 - (GrowlApplicationNotification *) notification;
-- (void) setNotification: (GrowlApplicationNotification *) theNotification;
+- (void) setNotification:(GrowlApplicationNotification *)theNotification;
 
 /* Not to be called directly...for KVO compliance only */
-- (GrowlNotificationDisplayBridge *) bridge;
-- (void) setBridge: (GrowlNotificationDisplayBridge *) theBridge;
+- (GrowlNotificationDisplayBridge *)bridge;
+- (void) setBridge:(GrowlNotificationDisplayBridge *)theBridge;
 
 /* Subclasses should call this to set the overall transition duration ... could offer a user perf as well */
 - (CFTimeInterval) transitionDuration;
-- (void) setTransitionDuration: (CFTimeInterval) theTransitionDuration;
+- (void) setTransitionDuration:(CFTimeInterval)theTransitionDuration;
 
 - (CFTimeInterval) displayDuration;
-- (void) setDisplayDuration:(CFTimeInterval) newDuration;
+- (void) setDisplayDuration:(CFTimeInterval)newDuration;
 
 - (BOOL) screenshotModeEnabled;
 - (void) setScreenshotModeEnabled:(BOOL) newScreenshotMode;
 
 - (NSScreen *) screen;
-- (void) setScreen:(NSScreen *) newScreen;
+- (void) setScreen:(NSScreen *)newScreen;
 - (void) setScreenNumber:(unsigned)newScreenNumber;
 
 - (id) target;
-- (void) setTarget:(id) object;
+- (void) setTarget:(id)object;
 
 - (SEL) action;
-- (void) setAction:(SEL) selector;
+- (void) setAction:(SEL)selector;
 
 - (NSString *) notifyingApplicationName;
-- (void) setNotifyingApplicationName:(NSString *) inAppName;
+- (void) setNotifyingApplicationName:(NSString *)inAppName;
 
 - (NSNumber *) notifyingApplicationProcessIdentifier;
-- (void) setNotifyingApplicationProcessIdentifier:(NSNumber *) inAppPid;
+- (void) setNotifyingApplicationProcessIdentifier:(NSNumber *)inAppPid;
 
 - (id) clickContext;
 - (void) setClickContext:(id) clickContext;
@@ -147,13 +147,13 @@
 - (void) removeNotificationObserver:(id) observer;
 
 - (id) delegate;
-- (void) setDelegate:(id) newDelegate;
+- (void) setDelegate:(id)newDelegate;
 
 - (NSNumber *) clickHandlerEnabled;
-- (void) setClickHandlerEnabled:(NSNumber *) flag;
+- (void) setClickHandlerEnabled:(NSNumber *)flag;
 
 - (BOOL) ignoresOtherNotifications;
-- (void) setIgnoresOtherNotifications:(BOOL) flag;
+- (void) setIgnoresOtherNotifications:(BOOL)flag;
 
 @end
 
@@ -168,28 +168,28 @@
  * @abstract Called right before the notification's window is displayed.
  * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
  */
-- (void)displayWindowControllerWillDisplayWindow:(NSNotification *)notification;
+- (void) displayWindowControllerWillDisplayWindow:(NSNotification *)notification;
 
 /*!
  * @method displayWindowControllerDidDisplayWindow:
  * @abstract Called right after the notification's window is displayed.
  * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
  */
-- (void)displayWindowControllerDidDisplayWindow:(NSNotification *)notification;
+- (void) displayWindowControllerDidDisplayWindow:(NSNotification *)notification;
 
 /*!
  * @method displayWindowControllerWillTakeDownWindow:
  * @abstract Called right before the notification's window is hidden.
  * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
  */
-- (void)displayWindowControllerWillTakeWindowDown:(NSNotification *)notification;
+- (void) displayWindowControllerWillTakeWindowDown:(NSNotification *)notification;
 
 /*!
  * @method displayWindowControllerDidTakeDownWindow:
  * @abstract Called right after the notification's window was hidden.
  * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
  */
-- (void)displayWindowControllerDidTakeWindowDown:(NSNotification *)notification;
+- (void) displayWindowControllerDidTakeWindowDown:(NSNotification *)notification;
 
 /*!
  * @method displayWindowControllerNotificationBlocked:
@@ -198,7 +198,7 @@
  * You should relocate the notification in that case.
  * @param notification A notification containing the GrowlDisplayWindowController which sent the notification.
  */
-- (void)displayWindowControllerNotificationBlocked:(NSNotification *)notification;
+- (void) displayWindowControllerNotificationBlocked:(NSNotification *)notification;
 
 @end
 
