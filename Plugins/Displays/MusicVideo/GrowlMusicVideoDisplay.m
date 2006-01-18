@@ -16,7 +16,6 @@
 @implementation GrowlMusicVideoDisplay
 
 - (id) init {
-	NSLog(@"%s\n", __FUNCTION__);
 	if ((self = [super init])) {
 		windowControllerClass = NSClassFromString(@"GrowlMusicVideoWindowController");
 		//notificationQueue = [[NSMutableArray alloc] init];

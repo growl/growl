@@ -18,7 +18,6 @@
 @implementation GrowlNanoDisplay
 
 - (id) init {
-	NSLog(@"%s\n", __FUNCTION__);
 	if ((self = [super init])) {
 		windowControllerClass = NSClassFromString(@"GrowlNanoWindowController");
 	}
@@ -38,7 +37,6 @@
 
 #pragma mark -
 - (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
-	NSLog(@"%s\n", __FUNCTION__);
 	GrowlNanoWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];
 	GrowlApplicationNotification *note = [theBridge notification];
 	NSDictionary *noteDict = [note dictionaryRepresentation];

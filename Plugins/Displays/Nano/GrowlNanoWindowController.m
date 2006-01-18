@@ -19,7 +19,6 @@
 @implementation GrowlNanoWindowController
 
 - (id) init {
-	NSLog(@"%s\n", __FUNCTION__);
 	int sizePref = Nano_SIZE_NORMAL;
 
 	//define our duration
@@ -106,7 +105,6 @@
 }
 
 - (void) setNotification: (GrowlApplicationNotification *) theNotification {
-	NSLog(@"%s\n", __FUNCTION__);
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;

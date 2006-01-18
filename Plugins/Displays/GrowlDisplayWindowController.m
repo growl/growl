@@ -47,12 +47,10 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 	if (!existingInstances)
 		existingInstances = [[NSMutableDictionary alloc] init];
 
-	NSDictionary *classInstances = nil;
-	if (![existingInstances objectForKey:self]) {
+	NSDictionary *classInstances = [existingInstances objectForKey:self];
+	if (!classInstances) {
 		classInstances = [[NSMutableDictionary alloc] init];
 		[existingInstances setObject:classInstances forKey:self];
-	} else {
-		classInstances = [existingInstances objectForKey:self];
 	}
 	[classInstances setValue:instance forKey:ident];
 }

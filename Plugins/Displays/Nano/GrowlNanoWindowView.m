@@ -36,7 +36,6 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 @implementation GrowlNanoWindowView
 
 - (id) initWithFrame:(NSRect)frame {
-	NSLog(@"%s\n", __FUNCTION__);
 	if ((self = [super initWithFrame:frame])) {
 		cache = [[NSImage alloc] initWithSize:frame.size];
 		needsDisplay = YES;

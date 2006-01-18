@@ -16,7 +16,6 @@
 @implementation GrowlBezelWindowView
 
 - (id) initWithFrame:(NSRect) frame {
-	NSLog(@"%s\n", __FUNCTION__);
 	if ((self = [super initWithFrame:frame])) {
 		layoutManager = [[NSLayoutManager alloc] init];
 	}
