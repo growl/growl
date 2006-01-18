@@ -265,7 +265,7 @@
 	else
 		images = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
 
-	NSEnumerator *enumerator = [[ticketsArrayController arrangedObjects] objectEnumerator];
+	NSEnumerator *enumerator = [[ticketsArrayController content] objectEnumerator];
 	GrowlApplicationTicket *ticket;
 	while ((ticket = [enumerator nextObject])) {
 		NSImage *icon = [[ticket icon] copy];
@@ -727,13 +727,13 @@
 	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+- (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
 #pragma unused(aTableView)
-	// we check to make sure we have the image + text column and then set it's image manually
+	// we check to make sure we have the image + text column and then set its image manually
 	if (aTableColumn == applicationNameAndIconColumn) {
-		[self cacheImages];
-		[[aTableColumn dataCellForRow:rowIndex] setImage:(NSImage *)CFArrayGetValueAtIndex(images,rowIndex)];
-		return [[[ticketsArrayController content] objectAtIndex:rowIndex] valueForKey:@"applicationName"];
+		NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
+		unsigned idx = [tickets indexOfObject:[arrangedTickets objectAtIndex:rowIndex]];
+		[[aTableColumn dataCellForRow:rowIndex] setImage:(NSImage *)CFArrayGetValueAtIndex(images,idx)];
 	}
 
 	return nil;
