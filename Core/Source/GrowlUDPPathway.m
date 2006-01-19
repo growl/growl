@@ -54,7 +54,7 @@ static Boolean authenticateWithCSSM(const CSSM_DATA_PTR packet, CSSM_ALGORITHMS 
 		return false;
 	}
 
-	if (password && password->Length) {
+	if (password->Data && password->Length) {
 		crtn = CSSM_DigestDataUpdate(ccHandle, password, 1U);
 		if (crtn) {
 			cssmPerror("CSSM_DigestDataUpdate", crtn);
@@ -107,7 +107,7 @@ static Boolean authenticatePacket(const CSSM_DATA_PTR packet, const CSSM_DATA_PT
 			messageLength = packet->Length-sizeof(digest);
 			SHA256_Init(&ctx);
 			SHA256_Update(&ctx, packet->Data, messageLength);
-			if (password && password->Length)
+			if (password->Data && password->Length)
 				SHA256_Update(&ctx, password->Data, password->Length);
 			SHA256_Final(digest, &ctx);
 
@@ -156,8 +156,9 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 			if (status == noErr) {
 				passwordData.Data = password;
 				passwordData.Length = passwordLength;
-			} else if (status != errSecItemNotFound) {
-				NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
+			} else {
+				if (status != errSecItemNotFound)
+					NSLog(@"Failed to retrieve password from keychain. Error: %d", status);
 				passwordData.Data = NULL;
 				passwordData.Length = 0U;
 			}

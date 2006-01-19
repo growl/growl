@@ -38,7 +38,7 @@ static void addChecksumToPacket(CSSM_DATA_PTR packet, enum GrowlAuthenticationMe
 			crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
 			if (crtn)
 				cssmPerror("CSSM_DigestDataUpdate", crtn);
-			if (password && password->Length) {
+			if (password->Data && password->Length) {
 				crtn = CSSM_DigestDataUpdate(ccHandle, password, 1U);
 				if (crtn)
 					cssmPerror("CSSM_DigestDataUpdate", crtn);
@@ -64,7 +64,7 @@ static void addChecksumToPacket(CSSM_DATA_PTR packet, enum GrowlAuthenticationMe
 			crtn = CSSM_DigestDataUpdate(ccHandle, &inData, 1U);
 			if (crtn)
 				cssmPerror("CSSM_DigestDataUpdate", crtn);
-			if (password && password->Length) {
+			if (password->Data && password->Length) {
 				crtn = CSSM_DigestDataUpdate(ccHandle, password, 1U);
 				if (crtn)
 					cssmPerror("CSSM_DigestDataUpdate", crtn);
@@ -80,7 +80,7 @@ static void addChecksumToPacket(CSSM_DATA_PTR packet, enum GrowlAuthenticationMe
 			messageLength = packet->Length-SHA256_DIGEST_LENGTH;
 			SHA256_Init(&sha_ctx);
 			SHA256_Update(&sha_ctx, packet->Data, messageLength);
-			if (password && password->Length)
+			if (password->Data && password->Length)
 				SHA256_Update(&sha_ctx, password->Data, password->Length);
 			SHA256_Final(packet->Data + messageLength, &sha_ctx);
 #endif
@@ -93,13 +93,21 @@ static void addChecksumToPacket(CSSM_DATA_PTR packet, enum GrowlAuthenticationMe
 
 unsigned char *GrowlUDPUtils_notificationToPacket(CFDictionaryRef aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, unsigned *packetSize) {
 	struct GrowlNetworkNotification *nn;
-	unsigned char *data;
-	size_t length;
-	unsigned short notificationNameLen, applicationNameLen, titleLen, descriptionLen;
-	char *notificationName, *applicationName, *title, *description;
-	unsigned digestLength;
-	CSSM_DATA packetData, passwordData;
-	CFNumberRef priority, isSticky;
+	unsigned char  *data;
+	size_t         length;
+	unsigned short notificationNameLen;
+	unsigned short applicationNameLen;
+	unsigned short titleLen;
+	unsigned short descriptionLen;
+	char           *notificationName;
+	char           *applicationName;
+	char           *title;
+	char           *description;
+	unsigned       digestLength;
+	CSSM_DATA      packetData;
+	CSSM_DATA      passwordData;
+	CFNumberRef    priority;
+	CFNumberRef    isSticky;
 
 	notificationName    = copyCString(CFDictionaryGetValue(aNotification, GROWL_NOTIFICATION_NAME), kCFStringEncodingUTF8);
 	applicationName     = copyCString(CFDictionaryGetValue(aNotification, GROWL_APP_NAME), kCFStringEncodingUTF8);
@@ -190,16 +198,22 @@ unsigned char *GrowlUDPUtils_notificationToPacket(CFDictionaryRef aNotification,
 
 unsigned char *GrowlUDPUtils_registrationToPacket(CFDictionaryRef aNotification, enum GrowlAuthenticationMethod authMethod, const char *password, unsigned *packetSize) {
 	struct GrowlNetworkRegistration *nr;
-	unsigned char *data;
-	char *notification;
-	unsigned i, size, digestLength, notificationIndex;
-	size_t length;
+	unsigned char  *data;
+	char           *notification;
+	unsigned       i;
+	unsigned       size;
+	unsigned       digestLength;
+	unsigned       notificationIndex;
+	size_t         length;
 	unsigned short applicationNameLen;
-	char *applicationName;
-	unsigned numAllNotifications, numDefaultNotifications;
-	CFTypeID CFNumberID = CFNumberGetTypeID();
-	CSSM_DATA packetData, passwordData;
-	CFArrayRef allNotifications, defaultNotifications;
+	char           *applicationName;
+	unsigned       numAllNotifications;
+	unsigned       numDefaultNotifications;
+	CFTypeID       CFNumberID = CFNumberGetTypeID();
+	CSSM_DATA      packetData;
+	CSSM_DATA      passwordData;
+	CFArrayRef     allNotifications;
+	CFArrayRef     defaultNotifications;
 
 	applicationName         = copyCString(CFDictionaryGetValue(aNotification, GROWL_APP_NAME), kCFStringEncodingUTF8);
 	allNotifications        = CFDictionaryGetValue(aNotification, GROWL_NOTIFICATIONS_ALL);
@@ -316,13 +330,13 @@ static uint8 iv[16] = { 0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U };
 static const CSSM_DATA ivCommon = {16U, iv};
 
 void GrowlUDPUtils_cryptPacket(CSSM_DATA_PTR packet, CSSM_ALGORITHMS algorithm, CSSM_DATA_PTR password, Boolean doEncrypt) {
-	CSSM_CC_HANDLE ccHandle;
-	CSSM_KEY key;
-	CSSM_DATA inData;
-	CSSM_DATA remData;
+	CSSM_CC_HANDLE   ccHandle;
+	CSSM_KEY         key;
+	CSSM_DATA        inData;
+	CSSM_DATA        remData;
 	CSSM_CRYPTO_DATA seed;
-	CSSM_RETURN crtn;
-	uint32 bytesCrypted;
+	CSSM_RETURN      crtn;
+	uint32           bytesCrypted;
 
 	seed.Param = *password;
 	seed.Callback = NULL;
