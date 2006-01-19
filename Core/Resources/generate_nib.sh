@@ -1,15 +1,23 @@
 #!/bin/bash
 
 primary=English
-for language in German; do
+primarydir=$primary.lproj
+for language in French German Japanese Russian cs zh_CN; do
+	langdir=$language.lproj
 	for f in `find $primary.lproj -name \*.nib -not -name \*~.nib -type d`; do
 		nibfile=`basename $f`
 		nibname=`basename $f .nib`
-		translated="$language.lproj/$nibname-new.nib"
-		mkdir -p $language.lproj/$nibfile
-		nibtool -d $language.lproj/$nibname.strings $primary.lproj/$nibfile -W $translated
-		cp $translated/*.nib $language.lproj/$nibfile
-		rm -rf $translated $language.lproj/*~.nib
-		echo Updated $language.lproj/$nibfile
+		stringsfile=$langdir/$nibname.strings
+		mkdir -p $langdir/$nibfile
+		if [ -e $stringsfile ]; then
+			translated="$langdir/$nibname-new.nib"
+			nibtool -d $langdir/$nibname.strings $primarydir/$nibfile -W $translated
+			cp $translated/*.nib $langdir/$nibfile
+			rm -rf $translated $langdir/*~.nib
+			echo Updated $langdir/$nibfile
+		else
+			cp $primarydir/$nibfile/*.nib $langdir/$nibfile
+			echo $stringsfile not present, using English $nibfile
+		fi
 	done;
 done
