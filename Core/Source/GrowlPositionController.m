@@ -191,24 +191,85 @@
 	BOOL isOnScreen = YES;
 	unsigned secondaryCount = 0U;
 	BOOL usingSecondaryDirecton = NO;
+	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:preferredScreen];
+	GrowlExpansionDirection secondaryDirection = [displayController secondaryExpansionDirection];
+	NSValue *rectValue;
 	while (directionToTry) {
 		// adjust the rect...
+		NSEnumerator *rectEnum = [reservedRectsOfScreen objectEnumerator];
+		NSRect unionRect = NSZeroRect;
 		switch (directionToTry) {
 			case GrowlDownExpansionDirection:
-				displayFrame.origin.y -= (padding + displayFrame.size.height) *
-					(usingSecondaryDirecton ? secondaryCount : 1U);
+				if (secondaryDirection == GrowlLeftExpansionDirection) {
+					while ((rectValue = [rectEnum nextObject])) {
+						NSRect rect = [rectValue rectValue];
+						if (NSMaxX(rect) <= NSMaxX(displayFrame))
+							unionRect = NSUnionRect(unionRect, rect);
+					}
+				} else if (secondaryDirection == GrowlRightExpansionDirection) {
+					while ((rectValue = [rectEnum nextObject])) {
+						NSRect rect = [rectValue rectValue];
+						if (NSMinX(rect) >= NSMinX(displayFrame))
+							unionRect = NSUnionRect(unionRect, rect);
+					}
+				} else {
+					unionRect = displayFrame;
+				}
+				displayFrame.origin.y = NSMinY(unionRect) - padding - displayFrame.size.height;
 				break;
 			case GrowlUpExpansionDirection:
-				displayFrame.origin.y += (padding + displayFrame.size.height) *
-					(usingSecondaryDirecton ? secondaryCount : 1U);
+				if (secondaryDirection == GrowlLeftExpansionDirection) {
+					while ((rectValue = [rectEnum nextObject])) {
+						NSRect rect = [rectValue rectValue];
+						if (NSMaxX(rect) <= NSMaxX(displayFrame))
+							unionRect = NSUnionRect(unionRect, rect);
+					}
+				} else if (secondaryDirection == GrowlRightExpansionDirection) {
+					while ((rectValue = [rectEnum nextObject])) {
+						NSRect rect = [rectValue rectValue];
+						if (NSMinX(rect) >= NSMinX(displayFrame))
+							unionRect = NSUnionRect(unionRect, rect);
+					}
+				} else {
+					unionRect = displayFrame;
+				}
+				displayFrame.origin.y = NSMaxY(unionRect) + padding;
 				break;
 			case GrowlLeftExpansionDirection:
-				displayFrame.origin.x -= (padding + displayFrame.size.width) *
-					(usingSecondaryDirecton ? secondaryCount : 1U);
+				if (secondaryDirection == GrowlUpExpansionDirection) {
+					while ((rectValue = [rectEnum nextObject])) {
+						NSRect rect = [rectValue rectValue];
+						if (NSMinY(rect) >= NSMinY(displayFrame))
+							unionRect = NSUnionRect(unionRect, rect);
+					}
+				} else if (secondaryDirection == GrowlDownExpansionDirection) {
+					while ((rectValue = [rectEnum nextObject])) {
+						NSRect rect = [rectValue rectValue];
+						if (NSMaxY(rect) <= NSMaxY(displayFrame))
+							unionRect = NSUnionRect(unionRect, rect);
+					}
+				} else {
+					unionRect = displayFrame;
+				}
+				displayFrame.origin.x = NSMinX(unionRect) - padding - displayFrame.size.width;
 				break;
 			case GrowlRightExpansionDirection:
-				displayFrame.origin.x += (padding + displayFrame.size.width) *
-					(usingSecondaryDirecton ? secondaryCount : 1U);
+				if (secondaryDirection == GrowlUpExpansionDirection) {
+					while ((rectValue = [rectEnum nextObject])) {
+						NSRect rect = [rectValue rectValue];
+						if (NSMinY(rect) >= NSMinY(displayFrame))
+							unionRect = NSUnionRect(unionRect, rect);
+					}
+				} else if (secondaryDirection == GrowlDownExpansionDirection) {
+					while ((rectValue = [rectEnum nextObject])) {
+						NSRect rect = [rectValue rectValue];
+						if (NSMaxY(rect) <= NSMaxY(displayFrame))
+							unionRect = NSUnionRect(unionRect, rect);
+					}
+				} else {
+					unionRect = displayFrame;
+				}
+				displayFrame.origin.x = NSMaxX(unionRect) + padding;
 				break;
 			default:
 				break;
@@ -230,8 +291,19 @@
 
 		// If we've run offscreen see if we have a secondary direction...
 		if (!isOnScreen) {
-			displayFrame = idealFrame;
-			directionToTry = [displayController secondaryExpansionDirection];
+			switch (directionToTry) {
+				case GrowlDownExpansionDirection:
+				case GrowlUpExpansionDirection:
+					displayFrame.origin.y = idealFrame.origin.y;
+					break;
+				case GrowlLeftExpansionDirection:
+				case GrowlRightExpansionDirection:
+					displayFrame.origin.x = idealFrame.origin.x;
+					break;
+				default:
+					break;
+			}
+			directionToTry = secondaryDirection;
 			secondaryCount++;
 			usingSecondaryDirecton = YES;
 			continue;
@@ -248,7 +320,7 @@
 
 //Reserve a rect in a specific screen.
 - (BOOL) reserveRect:(NSRect)inRect inScreen:(NSScreen *)inScreen {
-	BOOL			result = YES;
+	BOOL result = YES;
 
 	if (NSContainsRect([inScreen visibleFrame], inRect)) {	//inRect must be inside our screen
 		NSMutableSet	*reservedRectsOfScreen = [self reservedRectsForScreen:inScreen];
