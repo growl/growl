@@ -831,6 +831,8 @@
 		95125DED0802D428007FF92A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = ../MusicVideo/Info.plist; sourceTree = "<group>"; };
 		951BD0B5081049C700D803CD /* GrowlImageURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlImageURLProtocol.h; path = Plugins/Displays/WebKit/GrowlImageURLProtocol.h; sourceTree = "<group>"; };
 		951BD0B6081049C700D803CD /* GrowlImageURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlImageURLProtocol.m; path = Plugins/Displays/WebKit/GrowlImageURLProtocol.m; sourceTree = "<group>"; };
+		9523426C0980E461003CEE6E /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = Core/Resources/German.lproj/GrowlPref.nib; sourceTree = "<group>"; };
+		9523426D0980E471003CEE6E /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = Core/Resources/French.lproj/GrowlPref.nib; sourceTree = "<group>"; };
 		9526BD51081BCC9100B9D0D0 /* MD5Authenticator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MD5Authenticator.h; path = Common/Source/MD5Authenticator.h; sourceTree = "<group>"; };
 		9526BD52081BCC9100B9D0D0 /* MD5Authenticator.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MD5Authenticator.m; path = Common/Source/MD5Authenticator.m; sourceTree = "<group>"; };
 		9528EF7907F5A27300061D90 /* Japanese */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = Japanese; path = Core/Resources/Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -3687,6 +3689,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				9532B0CE07CE651F0028B2F1 /* English */,
+				9523426C0980E461003CEE6E /* German */,
+				9523426D0980E471003CEE6E /* French */,
 			);
 			name = GrowlPref.nib;
 			sourceTree = "<group>";
