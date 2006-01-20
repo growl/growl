@@ -216,9 +216,8 @@ void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
 		if (err != noErr)
 			NSLog(CFSTR("GrowlApplicationBridge: AEDisposeDesc returned %li"), (long)err);
 
-		Boolean sticky;
 		int priority;
-		CFNumberGetValue(CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_STICKY), kCFNumberCharType, &sticky);
+		Boolean sticky = CFBooleanGetValue(CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_STICKY));
 		CFNumberGetValue(CFDictionaryGetValue(userInfo, GROWL_NOTIFICATION_PRIORITY), kCFNumberIntType, &priority);
 		err = AEPutParamString(&postNotificationEvent, 'appl', CFDictionaryGetValue(userInfo, GROWL_APP_NAME));
 		if (err != noErr)

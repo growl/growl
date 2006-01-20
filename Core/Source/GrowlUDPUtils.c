@@ -107,7 +107,7 @@ unsigned char *GrowlUDPUtils_notificationToPacket(CFDictionaryRef aNotification,
 	CSSM_DATA      packetData;
 	CSSM_DATA      passwordData;
 	CFNumberRef    priority;
-	CFNumberRef    isSticky;
+	CFBooleanRef   isSticky;
 
 	notificationName    = copyCString(CFDictionaryGetValue(aNotification, GROWL_NOTIFICATION_NAME), kCFStringEncodingUTF8);
 	applicationName     = copyCString(CFDictionaryGetValue(aNotification, GROWL_APP_NAME), kCFStringEncodingUTF8);
@@ -157,13 +157,7 @@ unsigned char *GrowlUDPUtils_notificationToPacket(CFDictionaryRef aNotification,
 	} else {
 		nn->flags.priority = 0;
 	}
-	if (isSticky) {
-		int value;
-		CFNumberGetValue(priority, kCFNumberIntType, &value);
-		nn->flags.sticky = value;
-	} else {
-		nn->flags.sticky = 0;
-	}
+	nn->flags.sticky   = isSticky ? CFBooleanGetValue(isSticky) : 0;
 	nn->nameLen        = htons(notificationNameLen);
 	nn->titleLen       = htons(titleLen);
 	nn->descriptionLen = htons(descriptionLen);

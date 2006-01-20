@@ -702,7 +702,7 @@ extern OSStatus LIAEAddRefAtEnd(const FSRef *item, Boolean hideIt)
 
 	// Send the event.
 
-	if (err == noErr) {
+	if (err == noErr)
 		err = SendEventToSystemEventsWithParameters(
 			kAECoreSuite,
 			kAECreateElement,
@@ -712,7 +712,6 @@ extern OSStatus LIAEAddRefAtEnd(const FSRef *item, Boolean hideIt)
 			keyAEInsertHere, 	&endLoc,
 			0
 		);
-	}
 
 	// Clean up.
 

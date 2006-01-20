@@ -144,7 +144,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 		packetData.Length = length;
 
 		if (packet->version == GROWL_PROTOCOL_VERSION || packet->version == GROWL_PROTOCOL_VERSION_AES128) {
-			unsigned char *password;
+			unsigned char *password = NULL;
 			OSStatus status;
 			UInt32 passwordLength = 0U;
 
@@ -313,7 +313,7 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 								CFStringRef growlNotificationTitle = CFStringCreateWithBytes(kCFAllocatorDefault, title, titleLen, kCFStringEncodingUTF8, false);
 								CFStringRef growlNotificationDesc = CFStringCreateWithBytes(kCFAllocatorDefault, description, descriptionLen, kCFStringEncodingUTF8, false);
 								CFNumberRef growlNotificationPriority = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &priority);
-								CFNumberRef growlNotificationSticky = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &isSticky);
+								CFBooleanRef growlNotificationSticky = isSticky ? kCFBooleanTrue : kCFBooleanFalse;
 								NSImage *growlNotificationIcon = [(GrowlUDPPathway *)info notificationIcon];
 								NSDictionary *notificationInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
 									(id)growlNotificationName, GROWL_NOTIFICATION_NAME,
@@ -330,7 +330,6 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 								CFRelease(growlNotificationTitle);
 								CFRelease(growlNotificationDesc);
 								CFRelease(growlNotificationPriority);
-								CFRelease(growlNotificationSticky);
 								[(GrowlUDPPathway *)info postNotificationWithDictionary:notificationInfo];
 								[notificationInfo release];
 							} else

@@ -334,20 +334,19 @@ int main(int argc, const char **argv) {
 	// Notify
 	NSString *clickContext = [[NSProcessInfo processInfo] globallyUniqueString];
 	CFNumberRef priorityNumber =  CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &priority);
-	CFNumberRef stickyNumber = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &isSticky);
+	CFBooleanRef stickyValue = isSticky ? kCFBooleanTrue : kCFBooleanFalse;
 	NSMutableDictionary *notificationInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		(id)name,         GROWL_NOTIFICATION_NAME,
 		applicationName,  GROWL_APP_NAME,
 		title,            useHTML ? GROWL_NOTIFICATION_TITLE_HTML : GROWL_NOTIFICATION_TITLE,
 		desc,             useHTML ? GROWL_NOTIFICATION_DESCRIPTION_HTML : GROWL_NOTIFICATION_DESCRIPTION,
 		priorityNumber,   GROWL_NOTIFICATION_PRIORITY,
-		stickyNumber,     GROWL_NOTIFICATION_STICKY,
+		stickyValue,      GROWL_NOTIFICATION_STICKY,
 		icon,             GROWL_NOTIFICATION_ICON,
 		clickContext,     GROWL_NOTIFICATION_CLICK_CONTEXT,
 		identifierString, GROWL_NOTIFICATION_IDENTIFIER,
 		nil];
 	CFRelease(priorityNumber);
-	CFRelease(stickyNumber);
 	CFRelease(applicationName);
 	CFRelease(title);
 	CFRelease(desc);
