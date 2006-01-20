@@ -372,6 +372,10 @@
 	if (height < GrowlSmokeMinTextHeight)
 		height = GrowlSmokeMinTextHeight;
 
+	NSRect rect = [self frame];
+	rect.size.height = height;
+	[self setFrame:rect];
+
 	// resize the window so that it contains the tracking rect
 	NSWindow *window = [self window];
 	NSRect windowRect = [window frame];
@@ -381,7 +385,7 @@
 
 	if (trackingRectTag)
 		[self removeTrackingRect:trackingRectTag];
-	trackingRectTag = [self addTrackingRect:[self frame] owner:self userData:NULL assumeInside:NO];
+	trackingRectTag = [self addTrackingRect:rect owner:self userData:NULL assumeInside:NO];
 }
 
 - (float) titleHeight {
@@ -438,7 +442,7 @@
 	closeOnMouseExit = flag;
 }
 
-- (BOOL) acceptsFirstMouse:(NSEvent *) theEvent {
+- (BOOL) acceptsFirstMouse:(NSEvent *)theEvent {
 #pragma unused(theEvent)
 	return YES;
 }
@@ -455,11 +459,11 @@
 	[self setNeedsDisplay:YES];
 
 	// abuse the target object
-	if (closeOnMouseExit && [target respondsToSelector:@selector(startFadeOut)])
-		[target performSelector:@selector(startFadeOut)];
+	if (closeOnMouseExit && [target respondsToSelector:@selector(stopDisplay)])
+		[target performSelector:@selector(stopDisplay)];
 }
 
-- (void) mouseDown:(NSEvent *) event {
+- (void) mouseDown:(NSEvent *)event {
 #pragma unused(event)
 	mouseOver = NO;
 	if (target && action && [target respondsToSelector:action])

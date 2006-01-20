@@ -59,7 +59,6 @@
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
 	[view setDelegate:self];
-	[view setCloseOnMouseExit:YES];
 	[panel setContentView:view];
 
 	// call super so everything else is set up...
@@ -118,14 +117,20 @@
 		text = [notification notificationDescription];
 	}
 
-	NSPanel *panel = (NSPanel *)[self window];
 	GrowlSmokeWindowView *view = [[self window] contentView];
 	[view setPriority:priority];
 	[view setTitle:title isHTML:titleHTML];
 	[view setText:text isHTML:textHTML];
 	[view setIcon:icon];
 	[view sizeToFit];
-	[panel setFrame:[view frame] display:NO];
+}
+
+- (void) stopDisplay {
+	GrowlSmokeWindowView *view = (GrowlSmokeWindowView *)[[self window] contentView];
+	if ([view mouseOver])
+		[view setCloseOnMouseExit:YES];
+	else
+		[super stopDisplay];
 }
 
 #pragma mark -
