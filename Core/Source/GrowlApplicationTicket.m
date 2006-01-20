@@ -64,7 +64,7 @@
 		notificationDescriptions = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS] retain];
 
 		//Get all the notification names and the data about them
-		allNotificationNames = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_ALL] retain];
+		allNotificationNames = [ticketDict objectForKey:GROWL_NOTIFICATIONS_ALL];
 		NSAssert1(allNotificationNames, @"Ticket dictionaries must contain a list of all their notifications (application name: %@)", appName);
 
 		NSArray *inDefaults = [ticketDict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
@@ -72,6 +72,7 @@
 
 		NSEnumerator *notificationsEnum = [allNotificationNames objectEnumerator];
 		NSMutableDictionary *allNotificationsTemp = [[NSMutableDictionary alloc] initWithCapacity:[allNotificationNames count]];
+		NSMutableArray *allNamesTemp = [[NSMutableArray alloc] initWithCapacity:[allNotificationNames count]];
 		id obj;
 		while ((obj = [notificationsEnum nextObject])) {
 			NSString *name;
@@ -83,6 +84,7 @@
 				name = [obj objectForKey:@"Name"];
 				notification = [[GrowlNotificationTicket alloc] initWithDictionary:obj];
 			}
+			[allNamesTemp addObject:name];
 			[notification setTicket:self];
 
 			//Set the human readable name if we were supplied one
@@ -93,6 +95,7 @@
 			[notification release];
 		}
 		allNotifications = allNotificationsTemp;
+		allNotificationNames = allNamesTemp;
 
 		BOOL doLookup = YES;
 		NSString *fullPath = nil;
@@ -139,22 +142,23 @@
 			clickHandlersEnabled = YES;
 
 		[self setDefaultNotifications:inDefaults];
+		changed = YES;
 	}
 
 	return self;
 }
 
 - (void) dealloc {
-	[appName              release];
-	[appPath              release];
-	[icon                 release];
-	[iconData             release];
-	[allNotifications     release];
-	[defaultNotifications release];
-	[humanReadableNames   release];
+	[appName                  release];
+	[appPath                  release];
+	[icon                     release];
+	[iconData                 release];
+	[allNotifications         release];
+	[defaultNotifications     release];
+	[humanReadableNames       release];
 	[notificationDescriptions release];
-	[allNotificationNames release];
-	[displayPluginName    release];
+	[allNotificationNames     release];
+	[displayPluginName        release];
 
 	[super dealloc];
 }
@@ -221,8 +225,11 @@
 	NSNumber *useDefaultsValue = [[NSNumber alloc] initWithBool:useDefaults];
 	NSNumber *ticketEnabledValue = [[NSNumber alloc] initWithBool:ticketEnabled];
 	NSNumber *clickHandlersEnabledValue = [[NSNumber alloc] initWithBool:clickHandlersEnabled];
-	NSImage *theIcon = [self icon];
-	NSData *theIconData = theIcon ? [theIcon TIFFRepresentation] : [NSData data];
+	NSData *theIconData = iconData;
+	if (!theIconData) {
+		NSImage *theIcon = [self icon];
+		theIconData = theIcon ? [theIcon TIFFRepresentation] : [NSData data];
+	}
 	NSMutableDictionary *saveDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		appName,                   GROWL_APP_NAME,
 		saveNotifications,         GROWL_NOTIFICATIONS_ALL,
@@ -256,6 +263,8 @@
 	else
 		NSLog(@"Error writing ticket for application %@: %@", appName, error);
 	[saveDict release];
+
+	changed = NO;
 }
 
 - (void) synchronize {
@@ -295,6 +304,9 @@
 
 - (void) setIcon:(NSImage *)inIcon {
 	if (icon != inIcon) {
+		if ([inIcon isEqualTo:icon] || [inIcon isEqualTo:iconData])
+			return;
+		changed = YES;
 		[icon     release];
 		[iconData release];
 		if (inIcon) {
@@ -340,6 +352,14 @@
 
 - (void) setUseDefaults:(BOOL)flag {
 	useDefaults = flag;
+}
+
+- (BOOL) hasChanged {
+	return changed;
+}
+
+- (void) setHasChanged:(BOOL)flag {
+	changed = flag;
 }
 
 - (NSString *) displayPluginName {
@@ -431,9 +451,13 @@
 				NSLog(@"WARNING: application %@ passed an invalid object for the default notifications: %@.", appName, inDefaults);
 		}
 
-		[allNotifications release];
-		allNotifications = [[NSDictionary alloc] initWithDictionary:allNotesCopy];
-		[allNotesCopy release];
+		if (![allNotifications isEqualTo:allNotesCopy]) {
+			[allNotifications release];
+			allNotifications = allNotesCopy;
+			changed = YES;
+		} else {
+			[allNotesCopy release];
+		}
 	}
 
 	//ALWAYS set all notifications list first, to enable handling of numeric indices in the default notifications list!
@@ -449,14 +473,22 @@
 	NSImage *appIcon = [dict objectForKey:GROWL_APP_ICON];
 
 	//XXX - should assimilate reregisterWithAllNotifications:defaults:icon: here
-	NSArray		 *all      = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
-	NSArray		 *defaults = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
+	NSArray	*all      = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
+	NSArray	*defaults = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
 
-	[humanReadableNames release];
-	humanReadableNames = [[dict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES] retain];
+	NSDictionary *newNames = [dict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
+	if (newNames != humanReadableNames && ![newNames isEqualTo:humanReadableNames]) {
+		[humanReadableNames release];
+		humanReadableNames = [newNames retain];
+		changed = YES;
+	}
 
-	[notificationDescriptions release];
-	notificationDescriptions = [[dict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS] retain];
+	NSDictionary *newDescriptions = [dict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
+	if (newDescriptions != notificationDescriptions && ![newDescriptions isEqualTo:notificationDescriptions]) {
+		[notificationDescriptions release];
+		notificationDescriptions = [newDescriptions retain];
+		changed = YES;
+	}
 
 	if (!defaults) defaults = all;
 	[self reregisterWithAllNotifications:all
@@ -482,16 +514,22 @@
 	}
 	if (!fullPath)
 		fullPath = [workspace fullPathForApplication:appName];
-	[appPath release];
-	appPath = [fullPath retain];
+	if (fullPath != appPath && ![fullPath isEqualToString:appPath]) {
+		[appPath release];
+		appPath = [fullPath retain];
+		changed = YES;
+	}
 }
 
 - (NSArray *) allNotifications {
 	return [[[allNotifications allKeys] retain] autorelease];
 }
 
-- (void) setAllNotifications:(NSArray *) inArray {
+- (void) setAllNotifications:(NSArray *)inArray {
 	if (allNotificationNames != inArray) {
+		if ([inArray isEqualToArray:allNotificationNames])
+			return;
+		changed = YES;
 		[allNotificationNames release];
 		allNotificationNames = [inArray retain];
 
@@ -529,24 +567,26 @@
 	return [[defaultNotifications retain] autorelease];
 }
 
-- (void) setDefaultNotifications:(id) inObject {
-	[defaultNotifications release];
+- (void) setDefaultNotifications:(id)inObject {
 	if (!allNotifications) {
 		/*WARNING: if you try to pass an array containing numeric indices, and
 		 *	the all-notifications list has not been supplied yet, the indices
 		 *	WILL NOT be dereferenced. ALWAYS set the all-notifications list FIRST.
 		 */
-		defaultNotifications = [inObject retain];
+		if (![defaultNotifications isEqualTo:inObject]) {
+			[defaultNotifications release];
+			defaultNotifications = [inObject retain];
+			changed = YES;
+		}
 	} else if ([inObject respondsToSelector:@selector(objectEnumerator)] ) {
 		NSEnumerator *mightBeIndicesEnum = [inObject objectEnumerator];
 		NSNumber *num;
 		unsigned numDefaultNotifications;
 		unsigned numAllNotifications = [allNotificationNames count];
-		if ([inObject respondsToSelector:@selector(count)]) {
+		if ([inObject respondsToSelector:@selector(count)])
 			numDefaultNotifications = [inObject count];
-		} else {
+		else
 			numDefaultNotifications = numAllNotifications;
-		}
 		NSMutableArray *mDefaultNotifications = [[NSMutableArray alloc] initWithCapacity:numDefaultNotifications];
 		Class NSNumberClass = [NSNumber class];
 		while ((num = [mightBeIndicesEnum nextObject])) {
@@ -562,7 +602,13 @@
 				[mDefaultNotifications addObject:num];
 			}
 		}
-		defaultNotifications = mDefaultNotifications;
+		if (![defaultNotifications isEqualToArray:mDefaultNotifications]) {
+			[defaultNotifications release];
+			defaultNotifications = mDefaultNotifications;
+			changed = YES;
+		} else {
+			[mDefaultNotifications release];
+		}
 	} else if ([inObject isKindOfClass:[NSIndexSet class]]) {
 		unsigned notificationIndex;
 		unsigned numAllNotifications = [allNotificationNames count];
@@ -577,11 +623,21 @@
 				[mDefaultNotifications addObject:[allNotificationNames objectAtIndex:notificationIndex]];
 			}
 		}
-		defaultNotifications = mDefaultNotifications;
+		if (![defaultNotifications isEqualToArray:mDefaultNotifications]) {
+			[defaultNotifications release];
+			defaultNotifications = mDefaultNotifications;
+			changed = YES;
+		} else {
+			[mDefaultNotifications release];
+		}
 	} else {
 		if (inObject)
 			NSLog(@"WARNING: application %@ passed an invalid object for the default notifications: %@.", appName, inObject);
-		defaultNotifications = [allNotifications retain];
+		if (![defaultNotifications isEqualToArray:allNotificationNames]) {
+			[defaultNotifications release];
+			defaultNotifications = [allNotificationNames retain];
+			changed = YES;
+		}
 	}
 
 	if (useDefaults)

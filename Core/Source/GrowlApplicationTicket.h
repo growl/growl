@@ -27,8 +27,9 @@
 	NSDictionary	*notificationDescriptions;	// Dictionary of notification descriptions
 
 	NSString		*displayPluginName;
-	GrowlDisplayPlugin *displayPlugin;		// Non-nil if this ticket uses a custom display plugin
+	GrowlDisplayPlugin *displayPlugin;		    // Non-nil if this ticket uses a custom display plugin
 
+	BOOL            changed;
 	BOOL			useDefaults;				// Flag for whether this ticket just uses default
 	BOOL			ticketEnabled;
 	BOOL			clickHandlersEnabled;		// Flag whether click handlers are enabled
@@ -53,6 +54,9 @@
 - (void) synchronize;
 
 #pragma mark -
+
+- (BOOL) hasChanged;
+- (void) setHasChanged:(BOOL)flag;
 
 - (NSImage *) icon;
 - (void) setIcon:(NSImage *) inIcon;

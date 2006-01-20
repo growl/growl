@@ -596,8 +596,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	BOOL success = YES;
 
 	if (appName && newApp) {
+		if ([newApp hasChanged])
+			[newApp saveTicket];
 		[ticketController addTicket:newApp];
-		[newApp saveTicket];
 		CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),
 											 (CFStringRef)GROWL_APP_REGISTRATION_CONF,
 											 /*object*/ appName,
