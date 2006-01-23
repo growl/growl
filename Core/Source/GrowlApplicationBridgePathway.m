@@ -8,21 +8,21 @@
 
 #import "GrowlApplicationBridgePathway.h"
 
-static GrowlApplicationBridgePathway *_theOneTrueGrowlApplicationBridgePathway;
+static GrowlApplicationBridgePathway *theOneTrueGrowlApplicationBridgePathway;
 
 @implementation GrowlApplicationBridgePathway
 
 + (GrowlApplicationBridgePathway *) standardPathway {
-	if (!_theOneTrueGrowlApplicationBridgePathway)
-		_theOneTrueGrowlApplicationBridgePathway = [[GrowlApplicationBridgePathway alloc] init];
+	if (!theOneTrueGrowlApplicationBridgePathway)
+		theOneTrueGrowlApplicationBridgePathway = [[GrowlApplicationBridgePathway alloc] init];
 
-	return _theOneTrueGrowlApplicationBridgePathway;
+	return theOneTrueGrowlApplicationBridgePathway;
 }
 
 - (id) init {
-	if (_theOneTrueGrowlApplicationBridgePathway) {
+	if (theOneTrueGrowlApplicationBridgePathway) {
 		[self release];
-		return _theOneTrueGrowlApplicationBridgePathway;
+		return theOneTrueGrowlApplicationBridgePathway;
 	}
 
 	if ((self = [super init])) {
@@ -42,7 +42,7 @@ static GrowlApplicationBridgePathway *_theOneTrueGrowlApplicationBridgePathway;
 			[NSApp terminate:self];
 		}
 
-		_theOneTrueGrowlApplicationBridgePathway = self;
+		theOneTrueGrowlApplicationBridgePathway = self;
 	}
 
 	return self;
