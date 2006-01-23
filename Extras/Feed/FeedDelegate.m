@@ -69,7 +69,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)applicationDidFinishLaunching:(NSNotification *)notification{
 #pragma unused(notification)
-    //KNDebug(@"appFinishedLaunch");
+    KNDebug(@"appFinishedLaunch");
 	NSZombieEnabled = [PREFS debugging];
 	if( [PREFS showDebugMenu] ){
 		[self addDebugMenu];

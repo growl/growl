@@ -41,4 +41,16 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return [[self string] compare: [aString string]];
 }
 
+-(NSComparisonResult)caseInsensitiveCompare:(NSAttributedString *)aString{
+	return [[self string] caseInsensitiveCompare: [aString string]];
+}
+
+-(NSComparisonResult)localizedCompare:(NSAttributedString *)aString{
+	return [[self string] localizedCompare: [aString string]];
+}
+
+-(NSComparisonResult)localizedCaseInsensitiveCompare:(NSAttributedString *)aString{
+	return [[self string] localizedCaseInsensitiveCompare: [aString string]];
+}
+
 @end

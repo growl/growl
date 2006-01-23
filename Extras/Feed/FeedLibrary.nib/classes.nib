@@ -45,8 +45,9 @@
                 displayWebView = id; 
                 feedContextMenu = id; 
                 feedOutlineView = id; 
+                feedSourceScrollView = id; 
                 feedURLTextField = id; 
-                mainSplitView = id; 
+                mainShelfView = id; 
                 newFeedPanel = id; 
                 statusProgressIndicator = id; 
                 statusTextField = id; 
@@ -58,7 +59,14 @@
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
-        }
+        }, 
+        {
+            CLASS = KNShelfSplitView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {contentView = NSView; shelfView = NSView; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
     ); 
     IBVersion = 1; 
 }

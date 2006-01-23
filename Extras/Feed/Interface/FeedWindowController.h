@@ -46,7 +46,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 @interface FeedWindowController : NSWindowController
 {
-	IBOutlet id mainSplitView;
+	//IBOutlet id mainSplitView;
+	IBOutlet id mainShelfView;
     IBOutlet id articleTableView;
     IBOutlet id displaySplitView;
     IBOutlet id displayWebView;
@@ -57,6 +58,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	IBOutlet id statusProgressIndicator;
 	IBOutlet id articleContextMenu;
 	IBOutlet id feedContextMenu;
+	IBOutlet id feedSourceScrollView;
     
     NSArray *					viewColumns;
     BOOL						disableResizeNotifications;

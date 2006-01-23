@@ -61,10 +61,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 @implementation FeedWindowController
 
 -(id)init{
-	//KNDebug(@"CONT: init before super");
     self = [super initWithWindowNibName:FeedLibraryNibName];
     if( self ){
-		KNDebug(@"CONT: init");
         viewColumns = [[NSArray arrayWithObjects:
                             [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                 [NSString stringWithString:@""], ColumnName,

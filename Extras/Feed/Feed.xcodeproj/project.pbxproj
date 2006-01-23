@@ -36,6 +36,8 @@
 		531DE8C5090AB43600E7746C /* Library+UpgradeFrom0_6.m in Sources */ = {isa = PBXBuildFile; fileRef = 531DE8C3090AB43600E7746C /* Library+UpgradeFrom0_6.m */; };
 		531DE92E090AB8DC00E7746C /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C8B22006D5541B00B86C7D /* Feed.m */; };
 		531DE92F090AB8DD00E7746C /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C8B20B06D5541B00B86C7D /* Article.m */; };
+		5322F02C0984A69B0047BC3D /* ContextActionButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5322F02A0984A69B0047BC3D /* ContextActionButton.tif */; };
+		5322F02D0984A69B0047BC3D /* AddButton.tif in Resources */ = {isa = PBXBuildFile; fileRef = 5322F02B0984A69B0047BC3D /* AddButton.tif */; };
 		53249257088AFEEC00CC8430 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53249256088AFEEC00CC8430 /* SystemConfiguration.framework */; };
 		53342E3B0864AA9800CA2551 /* Feed.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 5302A8DF06E6758300C753F8 /* Feed.scriptTerminology */; };
 		53342E3C0864AA9900CA2551 /* Feed.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 5302A87A06E672C900C753F8 /* Feed.scriptSuite */; };
@@ -73,6 +75,8 @@
 		536F42940894314A008FC3EB /* InspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5386515807448646008EBB34 /* InspectorController.m */; };
 		536F42950894314E008FC3EB /* Inspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5386511E07448579008EBB34 /* Inspector.nib */; };
 		53769767082E9C1400B92C57 /* Status.tif in Resources */ = {isa = PBXBuildFile; fileRef = 53769766082E9C1400B92C57 /* Status.tif */; };
+		537998C40982FE5900DBA666 /* KNShelfSplitView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 537998C20982FE5800DBA666 /* KNShelfSplitView.h */; };
+		537998C50982FE5900DBA666 /* KNShelfSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 537998C30982FE5900DBA666 /* KNShelfSplitView.m */; };
 		53A5E76008EFA5F7001DCE7A /* KNFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A5E75D08EFA5F7001DCE7A /* KNFeed.m */; };
 		53A76EA006DEA99700BDD9CE /* NSDictionary+KNExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A76E9E06DEA99700BDD9CE /* NSDictionary+KNExtras.m */; };
 		53A795BA08F6D1F500CAC915 /* Library+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A795B808F6D1F500CAC915 /* Library+Utility.m */; };
@@ -262,6 +266,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				53F2F04A090C919E0044CA28 /* FeedWindowController+Status.h in CopyFiles */,
+				537998C40982FE5900DBA666 /* KNShelfSplitView.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +289,8 @@
 		531DE8C3090AB43600E7746C /* Library+UpgradeFrom0_6.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Library+UpgradeFrom0_6.m"; path = "Model/Library+UpgradeFrom0_6.m"; sourceTree = "<group>"; };
 		531E429E06D67780007FB45E /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Credits.html; path = "Supporting Files/Credits.html"; sourceTree = "<group>"; };
 		531E42C306D68DD3007FB45E /* LICENSE.TXT */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = LICENSE.TXT; sourceTree = "<group>"; };
+		5322F02A0984A69B0047BC3D /* ContextActionButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ContextActionButton.tif; path = Images/ContextActionButton.tif; sourceTree = "<group>"; };
+		5322F02B0984A69B0047BC3D /* AddButton.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AddButton.tif; path = Images/AddButton.tif; sourceTree = "<group>"; };
 		53249256088AFEEC00CC8430 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		532492870894249200CC8430 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = release_notes.txt; path = "Supporting Files/release_notes.txt"; sourceTree = "<group>"; };
 		53252A820825BB4400C3E04B /* KNDynamicDateTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KNDynamicDateTimeCell.h; path = CustomViews/KNDynamicDateTimeCell.h; sourceTree = "<group>"; };
@@ -323,6 +330,8 @@
 		536BA98806D6E05F004C1A5C /* Unread.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Unread.tif; path = Images/Unread.tif; sourceTree = "<group>"; };
 		536F410208942CBC008FC3EB /* MarkAllRead.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MarkAllRead.icns; path = Images/MarkAllRead.icns; sourceTree = "<group>"; };
 		53769766082E9C1400B92C57 /* Status.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Status.tif; path = Images/Status.tif; sourceTree = "<group>"; };
+		537998C20982FE5800DBA666 /* KNShelfSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KNShelfSplitView.h; path = CustomViews/KNShelfSplitView.h; sourceTree = "<group>"; };
+		537998C30982FE5900DBA666 /* KNShelfSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KNShelfSplitView.m; path = CustomViews/KNShelfSplitView.m; sourceTree = "<group>"; };
 		5386511E07448579008EBB34 /* Inspector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Inspector.nib; sourceTree = "<group>"; };
 		5386515807448646008EBB34 /* InspectorController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = InspectorController.m; path = Interface/InspectorController.m; sourceTree = "<group>"; };
 		5386515907448646008EBB34 /* InspectorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = InspectorController.h; path = Interface/InspectorController.h; sourceTree = "<group>"; };
@@ -560,6 +569,8 @@
 			children = (
 				53252A820825BB4400C3E04B /* KNDynamicDateTimeCell.h */,
 				53252A830825BB4400C3E04B /* KNDynamicDateTimeCell.m */,
+				537998C20982FE5800DBA666 /* KNShelfSplitView.h */,
+				537998C30982FE5900DBA666 /* KNShelfSplitView.m */,
 				53C8B20906D5541B00B86C7D /* FeedOutlineView.h */,
 				53C8B22106D5541B00B86C7D /* FeedOutlineView.m */,
 				53C8B21006D5541B00B86C7D /* ImageTextCell.h */,
@@ -638,6 +649,8 @@
 		53C8B2F906D5587000B86C7D /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5322F02A0984A69B0047BC3D /* ContextActionButton.tif */,
+				5322F02B0984A69B0047BC3D /* AddButton.tif */,
 				536F410208942CBC008FC3EB /* MarkAllRead.icns */,
 				535314420853ED940071E296 /* FeedError.tiff */,
 				53D1A42507B00B8A00699B82 /* Bookmark.tif */,
@@ -967,6 +980,8 @@
 				536F42950894314E008FC3EB /* Inspector.nib in Resources */,
 				531DE37B08FDBD7D00E7746C /* Credits.html in Resources */,
 				531DE39B08FDBDB000E7746C /* DefaultSources.opml in Resources */,
+				5322F02C0984A69B0047BC3D /* ContextActionButton.tif in Resources */,
+				5322F02D0984A69B0047BC3D /* AddButton.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1077,6 +1092,7 @@
 				531DE92E090AB8DC00E7746C /* Feed.m in Sources */,
 				531DE92F090AB8DD00E7746C /* Article.m in Sources */,
 				53F2F04B090C919E0044CA28 /* FeedWindowController+Status.m in Sources */,
+				537998C50982FE5900DBA666 /* KNShelfSplitView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
