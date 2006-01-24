@@ -20,14 +20,13 @@
 
 */
 #import <Foundation/Foundation.h>
-#import <AppKit/NSImage.h>
-#import <AppKit/NSWorkspace.h>
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathway.h"
-#import "GrowlUDPUtils.h"
 #import "MD5Authenticator.h"
-#import "cdsa.h"
+#include "GrowlUDPUtils.h"
+#include "cdsa.h"
+#include "CFGrowlAdditions.h"
 
 #include <unistd.h>
 #include <getopt.h>
@@ -52,7 +51,7 @@ static const char usage[] =
 "    -n,--name       Set the name of the application that sends the notification\n"
 "                    [Default: growlnotify]\n"
 "    -s,--sticky     Make the notification sticky\n"
-"    -a,--appIcon    Specify an application name  to take the icon from\n"
+"    -a,--appIcon    Specify an application name to take the icon from\n"
 "    -i,--icon       Specify a file type or extension to look up for the\n"
 "                    notification icon\n"
 "    -I,--iconpath   Specify a file whose icon will be the notification icon\n"
@@ -92,6 +91,42 @@ static void notificationDismissed(CFNotificationCenterRef center,
 								  CFDictionaryRef userInfo) {
 #pragma unused(center,observer,name,object,userInfo)
 	CFRunLoopStop(CFRunLoopGetCurrent());
+}
+
+static CFDataRef copyIconDataForTypeInfo(CFStringRef typeInfo)
+{
+	IconRef icon;
+	CFDataRef data = NULL;
+	OSStatus err = GetIconRefFromTypeInfo(/*inCreator*/   0,
+										  /*inType*/      0,
+										  /*inExtension*/ typeInfo,
+										  /*inMIMEType*/  NULL,
+										  /*inUsageFlags*/kIconServicesNormalUsageFlag,
+										  /*outIconRef*/  &icon);
+	if (err == noErr) {
+		IconFamilyHandle fam = NULL;
+		err = IconRefToIconFamily(icon, kSelectorAllAvailableData, &fam);
+		if (err == noErr) {
+			HLock((Handle)fam);
+			data = CFDataCreate(kCFAllocatorDefault, (const UInt8 *)*(Handle)fam, GetHandleSize((Handle)fam));
+			HUnlock((Handle)fam);
+			DisposeHandle((Handle)fam);
+		}
+		ReleaseIconRef(icon);
+	}
+
+	return data;
+}
+
+static CFURLRef copyURLForApplication(CFStringRef appName)
+{
+	CFURLRef appURL = NULL;
+	OSStatus err = LSFindApplicationForInfo(/*inCreator*/  kLSUnknownCreator,
+											/*inBundleID*/ NULL,
+											/*inName*/     appName,
+											/*outAppRef*/  NULL,
+											/*outAppURL*/  &appURL);
+	return (err == noErr) ? appURL : NULL;
 }
 
 int main(int argc, const char **argv) {
@@ -256,11 +291,10 @@ int main(int argc, const char **argv) {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	// Deal with image
-	// --image takes precedence over -I takes precedence over -i takes precedence over --a
-	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-	NSImage *image = nil;
+	// --image takes precedence over -I takes precedence over -i takes precedence over -a
 	CFDataRef icon = NULL;
 	if (imagePath) {
+		// read the image file into a CFDataRef
 		FILE *fp = fopen(imagePath, "r");
 		if (fp) {
 			fseek(fp, 0, SEEK_END);
@@ -272,24 +306,33 @@ int main(int argc, const char **argv) {
 			icon = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, iconData, iconDataLength, kCFAllocatorMalloc);
 		}
 	} else if (iconPath) {
+		// get icon data for path
 		NSString *path = [[NSString stringWithUTF8String:iconPath] stringByStandardizingPath];
 		if (![path isAbsolutePath])
 			path = [[[NSFileManager defaultManager] currentDirectoryPath] stringByAppendingPathComponent:path];
-		image = [ws iconForFile:path];
+		icon = (CFDataRef)copyIconDataForPath(path);
 	} else if (iconExt) {
+		// get icon data for file extension or type
 		CFStringRef fileType = CFStringCreateWithCString(kCFAllocatorDefault, iconExt, kCFStringEncodingUTF8);
-		image = [ws iconForFileType:(NSString *)fileType];
+		icon = copyIconDataForTypeInfo(fileType);
 		CFRelease(fileType);
 	} else if (appIcon) {
+		// get icon data for application name
 		CFStringRef app = CFStringCreateWithCString(kCFAllocatorDefault, appIcon, kCFStringEncodingUTF8);
-		image = [ws iconForFile:[ws fullPathForApplication:(NSString *)app]];
+		CFURLRef appURL = copyURLForApplication(app);
+		if (appURL) {
+			icon = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
+			CFRelease(appURL);
+		}
 		CFRelease(app);
 	}
-	if (!(image || icon))
-		image = [ws iconForFile:[ws fullPathForApplication:@"Terminal"]];
-
-	if (image)
-		icon = (CFDataRef)[[image TIFFRepresentation] retain];
+	if (!icon) {
+		CFURLRef appURL = copyURLForApplication(CFSTR("Terminal.app"));
+		if (appURL) {
+			icon = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
+			CFRelease(appURL);
+		}
+	}
 
 	// Check message
 	CFStringRef desc;
