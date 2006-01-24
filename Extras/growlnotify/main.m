@@ -259,29 +259,37 @@ int main(int argc, const char **argv) {
 	// --image takes precedence over -I takes precedence over -i takes precedence over --a
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
 	NSImage *image = nil;
+	CFDataRef icon = NULL;
 	if (imagePath) {
-		CFStringRef path = CFStringCreateWithCString(kCFAllocatorDefault, imagePath, kCFStringEncodingUTF8);
-		image = [[NSImage alloc] initWithContentsOfFile:(NSString *)path];
-		CFRelease(path);
+		FILE *fp = fopen(imagePath, "r");
+		if (fp) {
+			fseek(fp, 0, SEEK_END);
+			long iconDataLength = ftell(fp);
+			fseek(fp, 0, SEEK_SET);
+			unsigned char *iconData = malloc(iconDataLength);
+			fread(iconData, 1, iconDataLength, fp);
+			fclose(fp);
+			icon = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, iconData, iconDataLength, kCFAllocatorMalloc);
+		}
 	} else if (iconPath) {
 		NSString *path = [[NSString stringWithUTF8String:iconPath] stringByStandardizingPath];
 		if (![path isAbsolutePath])
 			path = [[[NSFileManager defaultManager] currentDirectoryPath] stringByAppendingPathComponent:path];
-		image = [[ws iconForFile:path] retain];
+		image = [ws iconForFile:path];
 	} else if (iconExt) {
 		CFStringRef fileType = CFStringCreateWithCString(kCFAllocatorDefault, iconExt, kCFStringEncodingUTF8);
-		image = [[ws iconForFileType:(NSString *)fileType] retain];
+		image = [ws iconForFileType:(NSString *)fileType];
 		CFRelease(fileType);
 	} else if (appIcon) {
 		CFStringRef app = CFStringCreateWithCString(kCFAllocatorDefault, appIcon, kCFStringEncodingUTF8);
-		image = [[ws iconForFile:[ws fullPathForApplication:(NSString *)app]] retain];
+		image = [ws iconForFile:[ws fullPathForApplication:(NSString *)app]];
 		CFRelease(app);
 	}
-	if (!image)
-		image = [[ws iconForFile:[ws fullPathForApplication:@"Terminal"]] retain];
+	if (!(image || icon))
+		image = [ws iconForFile:[ws fullPathForApplication:@"Terminal"]];
 
-	NSData *icon = [image TIFFRepresentation];
-	[image release];
+	if (image)
+		icon = (CFDataRef)[[image TIFFRepresentation] retain];
 
 	// Check message
 	CFStringRef desc;
@@ -333,6 +341,7 @@ int main(int argc, const char **argv) {
 	};
 	CFDictionaryRef registerInfo = CFDictionaryCreate(kCFAllocatorDefault, registerKeys, registerValues, 4, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 	CFRelease(defaultAndAllNotifications);
+	CFRelease(icon);
 
 	// Notify
 	CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
