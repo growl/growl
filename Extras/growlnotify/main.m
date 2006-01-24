@@ -85,10 +85,10 @@ static const char usage[] =
 static const char *version = "growlnotify 0.7\n"
 "Copyright (c) The Growl Project, 2004-2005";
 
-static void notificationDismissed(CFNotificationCenterRef center, 
-								  void *observer, 
-								  CFStringRef name, 
-								  const void *object, 
+static void notificationDismissed(CFNotificationCenterRef center,
+								  void *observer,
+								  CFStringRef name,
+								  const void *object,
 								  CFDictionaryRef userInfo) {
 #pragma unused(center,observer,name,object,userInfo)
 	CFRunLoopStop(CFRunLoopGetCurrent());
@@ -97,33 +97,29 @@ static void notificationDismissed(CFNotificationCenterRef center,
 int main(int argc, const char **argv) {
 	// options
 	extern char *optarg;
-	extern int optind;
-	int ch;
-	BOOL isSticky = NO;
-	BOOL wait = NO;
-	char *appName = NULL;
-	char *appIcon = NULL;
-	char *iconExt = NULL;
-	char *iconPath = NULL;
-	char *imagePath = NULL;
-	char *message = NULL;
-	char *host = NULL;
-	int priority = 0;
-	double progress;
-	BOOL haveProgress = NO;
-	BOOL useUDP = NO;
-	BOOL crypt = NO;
-	BOOL useHTML = NO;
-	int flag;
-	char *port = NULL;
+	extern int   optind;
+	int          ch;
+	BOOL         isSticky = NO;
+	BOOL         wait = NO;
+	char        *appName = NULL;
+	char        *appIcon = NULL;
+	char        *iconExt = NULL;
+	char        *iconPath = NULL;
+	char        *imagePath = NULL;
+	char        *message = NULL;
+	char        *host = NULL;
+	int          priority = 0;
+	double       progress;
+	BOOL         haveProgress = NO;
+	BOOL         useUDP = NO;
+	BOOL         crypt = NO;
+	BOOL         useHTML = NO;
+	int          flag;
+	char        *port = NULL;
+	int          code = EXIT_SUCCESS;
+	char        *password = NULL;
+	char        *identifier = NULL;
 	enum GrowlAuthenticationMethod authMethod = GROWL_AUTH_MD5;
-
-	int code = EXIT_SUCCESS;
-	int sock;
-	unsigned size;
-	CSSM_DATA registrationPacket, notificationPacket;
-	char *password = NULL;
-	char *identifier = NULL;
 
 	struct option longopts[] = {
 		{ "help",		no_argument,		NULL,	'h' },
@@ -258,7 +254,7 @@ int main(int argc, const char **argv) {
 	}
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
+
 	// Deal with image
 	// --image takes precedence over -I takes precedence over -i takes precedence over --a
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
@@ -372,9 +368,13 @@ int main(int argc, const char **argv) {
 			NSLog(@"ERROR: Could not initialize CDSA.");
 		} else {
 			if (useUDP) {
+				int              sock;
+				unsigned         size;
+				CSSM_DATA        registrationPacket;
+				CSSM_DATA        notificationPacket;
 				struct addrinfo *ai;
-				struct addrinfo hints;
-				int error;
+				struct addrinfo  hints;
+				int              error;
 
 				memset(&hints, 0, sizeof(hints));
 				hints.ai_family = PF_UNSPEC;
@@ -516,7 +516,7 @@ int main(int argc, const char **argv) {
 
 	CFRelease(registerInfo);
 	CFRelease(notificationInfo);
-	[pool             release];
+	[pool release];
 
 	return code;
 }
