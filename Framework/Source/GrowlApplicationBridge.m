@@ -351,14 +351,15 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	ProcessSerialNumber PSN = { kNoProcess, kNoProcess };
 
 	while (GetNextProcess(&PSN) == noErr) {
-		NSDictionary *infoDict = (NSDictionary *)ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
+		CFDictionaryRef infoDict = ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
+		CFStringRef bundleId = CFDictionaryGetValue(infoDict, kCFBundleIdentifierKey);
 
-		if ([[infoDict objectForKey:(NSString *)kCFBundleIdentifierKey] isEqualToString:@"com.Growl.GrowlHelperApp"]) {
+		if (bundleId && CFStringCompare(bundleId, CFSTR("com.Growl.GrowlHelperApp"), 0) == kCFCompareEqualTo) {
 			growlIsRunning = YES;
-			[infoDict release];
+			CFRelease(infoDict);
 			break;
 		}
-		[infoDict release];
+		CFRelease(infoDict);
 	}
 
 	return growlIsRunning;
@@ -488,16 +489,18 @@ static BOOL		registerWhenGrowlIsReady = NO;
 		}
 	}
 
-	NSDictionary *result = [NSDictionary dictionaryWithDictionary:mRegDict];
-	[mRegDict release];
-	return result;
+	if ((!keys) || [keys containsObject:GROWL_APP_ID])
+		if (![mRegDict objectForKey:GROWL_APP_ID])
+			[mRegDict setObject:(NSString *)CFBundleGetIdentifier(CFBundleGetMainBundle()) forKey:GROWL_APP_ID];
+
+	return mRegDict;
 }
 
 + (NSDictionary *) frameworkInfoDictionary {
 #ifdef GROWL_WITH_INSTALLER
-	return [[NSBundle bundleWithIdentifier:@"com.growl.growlwithinstallerframework"] infoDictionary];
+	return (NSDictionary *)CFBundleGetInfoDictionary(CFBundleGetBundleWithIdentifier(CFSTR("com.growl.growlwithinstallerframework")));
 #else
-	return [[NSBundle bundleWithIdentifier:@"com.growl.growlframework"] infoDictionary];
+	return (NSDictionary *)CFBundleGetInfoDictionary(CFBundleGetBundleWithIdentifier(CFSTR("com.growl.growlframework")));
 #endif
 }
 
@@ -507,14 +510,16 @@ static BOOL		registerWhenGrowlIsReady = NO;
 + (NSString *) _applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary *)regDict {
 	NSString *applicationNameForGrowl = nil;
 
-	if (delegate && [delegate respondsToSelector:@selector(applicationNameForGrowl)])
+	if (delegate && [delegate respondsToSelector:@selector(applicationNameForGrowl)]) {
 		applicationNameForGrowl = [delegate applicationNameForGrowl];
 
-	if (!applicationNameForGrowl)
-		applicationNameForGrowl = [regDict objectForKey:GROWL_APP_NAME];
+		if (!applicationNameForGrowl) {
+			applicationNameForGrowl = [regDict objectForKey:GROWL_APP_NAME];
 
-	if (!applicationNameForGrowl)
-		applicationNameForGrowl = [[NSProcessInfo processInfo] processName];
+			if (!applicationNameForGrowl)
+				applicationNameForGrowl = [[NSProcessInfo processInfo] processName];
+		}
+	}
 
 	return applicationNameForGrowl;
 }
@@ -691,7 +696,11 @@ static BOOL		registerWhenGrowlIsReady = NO;
 					NSString *regDictPath;
 
 					//Obtain a truly unique file name
-					regDictFileName = [[[[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] stringByAppendingString:@"-"] stringByAppendingString:[[NSProcessInfo processInfo] globallyUniqueString]] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+					CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+					CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
+					CFRelease(uuid);
+					regDictFileName = [[[[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] stringByAppendingString:@"-"] stringByAppendingString:(NSString *)uuidString] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+					CFRelease(uuidString);
 					if ([regDictFileName length] > NAME_MAX)
 						regDictFileName = [[regDictFileName substringToIndex:(NAME_MAX - [GROWL_REG_DICT_EXTENSION length])] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 

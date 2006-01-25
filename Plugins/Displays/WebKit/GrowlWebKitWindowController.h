@@ -12,7 +12,7 @@
 
 @interface GrowlWebKitWindowController : GrowlDisplayWindowController {
 	NSString                        *templateHTML;
-	NSURL                           *baseURL;
+	CFURLRef                        baseURL;
 
 	unsigned	                    depth;
 	NSImage		                    *image;

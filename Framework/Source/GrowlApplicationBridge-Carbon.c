@@ -609,9 +609,11 @@ CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestricte
 		}
 	}
 
-	CFDictionaryRef result = CFDictionaryCreateCopy(kCFAllocatorDefault, mRegDict);
-	CFRelease(mRegDict);
-	return result;
+	if ((!keys) || CFSetContainsValue(keys, GROWL_APP_ID))
+		if (!CFDictionaryContainsKey(mRegDict, GROWL_APP_ID))
+			CFDictionarySetValue(mRegDict, GROWL_APP_ID, CFBundleGetIdentifier(CFBundleGetMainBundle()));
+
+	return mRegDict;
 }
 
 #pragma mark -

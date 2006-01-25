@@ -929,8 +929,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 					[url release];
 
 					//write the new ticket to disk, and be sure to launch this ticket instead of the one in the app bundle.
-					NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
-					ticketPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:UUID] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+					CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+					CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
+					CFRelease(uuid);
+					ticketPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:(NSString *)uuidString] stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
+					CFRelease(uuidString);
 					[ticket writeToFile:ticketPath atomically:NO];
 
 					/* open the ticket with ourselves.

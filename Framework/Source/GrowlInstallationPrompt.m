@@ -277,7 +277,11 @@ static BOOL checkOSXVersion(void) {
 	if (tmpDir) {
 		[[NSFileManager defaultManager] createDirectoryAtPath:tmpDir attributes:nil];
 
-		tmpDir = [tmpDir stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
+		CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+		CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
+		CFRelease(uuid);
+		tmpDir = [tmpDir stringByAppendingPathComponent:(NSString *)uuidString];
+		CFRelease(uuidString);
 		if (tmpDir) {
 			[mgr createDirectoryAtPath:tmpDir attributes:nil];
 			BOOL hasUnzip = YES;

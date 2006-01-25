@@ -59,6 +59,7 @@
 	}
 	if ((self = [super init])) {
 		appName = [getObjectForKey(ticketDict, GROWL_APP_NAME) retain];
+		appId = [getObjectForKey(ticketDict, GROWL_APP_ID) retain];
 
 		humanReadableNames = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES] retain];
 		notificationDescriptions = [[ticketDict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS] retain];
@@ -103,9 +104,11 @@
 		if (location) {
 			if ([location isKindOfClass:[NSDictionary class]]) {
 				NSDictionary *file_data = getObjectForKey((NSDictionary *)location, @"file-data");
-				NSURL *URL = createFileURLWithDockDescription(file_data);
-				fullPath = [URL path];
-				[URL release];
+				CFURLRef url = (CFURLRef)createFileURLWithDockDescription(file_data);
+				if (url) {
+					fullPath = [(NSString *)CFURLCopyPath(url) autorelease];
+					CFRelease(url);
+				}
 			} else if ([location isKindOfClass:[NSString class]]) {
 				fullPath = location;
 				if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath])
@@ -114,8 +117,22 @@
 				doLookup = [location boolValue];
 			}
 		}
-		if (!fullPath && doLookup)
-			fullPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:appName];
+		if (!fullPath && doLookup) {
+			if (appId) {
+				CFURLRef appURL = NULL;
+				OSStatus err = LSFindApplicationForInfo(kLSUnknownCreator,
+														(CFStringRef)appId,
+														/*inName*/ NULL,
+														/*outAppRef*/ NULL,
+														&appURL);
+				if (err == noErr) {
+					fullPath = [(NSString *)CFURLCopyPath(appURL) autorelease];
+					CFRelease(appURL);
+				}
+			}
+			if (!fullPath)
+				fullPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:appName];
+		}
 		appPath = [fullPath retain];
 //		NSLog(@"got appPath: %@", appPath);
 
@@ -150,6 +167,7 @@
 
 - (void) dealloc {
 	[appName                  release];
+	[appId                    release];
 	[appPath                  release];
 	[icon                     release];
 	[iconData                 release];
@@ -252,6 +270,9 @@
 
 	if (notificationDescriptions)
 		[saveDict setObject:notificationDescriptions forKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
+
+	if (appId)
+		[saveDict setObject:appId forKey:GROWL_APP_ID];
 
 	NSData *plistData;
 	NSString *error;
@@ -471,6 +492,13 @@
 	NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
 
 	NSImage *appIcon = [dict objectForKey:GROWL_APP_ICON];
+	NSString *bundleId = [dict objectForKey:GROWL_APP_ID];
+
+	if (bundleId != appId && ![bundleId isEqualToString:appId]) {
+		[appId release];
+		appId = [bundleId retain];
+		changed = YES;
+	}
 
 	//XXX - should assimilate reregisterWithAllNotifications:defaults:icon: here
 	NSArray	*all      = [dict objectForKey:GROWL_NOTIFICATIONS_ALL];
@@ -500,9 +528,11 @@
 	if (location) {
 		if ([location isKindOfClass:[NSDictionary class]]) {
 			NSDictionary *file_data = [location objectForKey:@"file-data"];
-			NSURL *URL = createFileURLWithDockDescription(file_data);
-			fullPath = [URL path];
-			[URL release];
+			CFURLRef url = (CFURLRef)createFileURLWithDockDescription(file_data);
+			if (url) {
+				fullPath = [(NSString *)CFURLCopyPath(url) autorelease];
+				CFRelease(url);
+			}
 		} else if ([location isKindOfClass:[NSString class]]) {
 			fullPath = location;
 			if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath])
@@ -512,8 +542,22 @@
 		 * use the re-registration to update our stored appPath.
 		*/
 	}
-	if (!fullPath)
-		fullPath = [workspace fullPathForApplication:appName];
+	if (!fullPath) {
+		if (appId) {
+			CFURLRef appURL = NULL;
+			OSStatus err = LSFindApplicationForInfo(kLSUnknownCreator,
+													(CFStringRef)appId,
+													/*inName*/ NULL,
+													/*outAppRef*/ NULL,
+													&appURL);
+			if (err == noErr) {
+				fullPath = [(NSString *)CFURLCopyPath(appURL) autorelease];
+				CFRelease(appURL);
+			}
+		}
+		if (!fullPath)
+			fullPath = [workspace fullPathForApplication:appName];
+	}
 	if (fullPath != appPath && ![fullPath isEqualToString:appPath]) {
 		[appPath release];
 		appPath = [fullPath retain];

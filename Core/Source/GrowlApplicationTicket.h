@@ -14,6 +14,7 @@
 
 @interface GrowlApplicationTicket : NSObject {
 	NSString		*appName;					// This app's name for display by notifications that want it
+	NSString		*appId;						// This app's bundle identifier
 	NSString		*appPath;					// This app's location on disk (cached here and in saved tickets)
 	NSImage			*icon;						// This app's icon for notifications and display methods that want it
 	NSData			*iconData;					// This app's icon data

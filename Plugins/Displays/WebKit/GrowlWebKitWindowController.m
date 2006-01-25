@@ -62,7 +62,8 @@ static unsigned webkitWindowDepth = 0U;
 
 	// Read the template file....exit on error...
 	NSError *error = nil;
-	NSString *templateFile = [[[bridge display] bundle] pathForResource:@"template" ofType:@"html"];
+	NSBundle *displayBundle = [[bridge display] bundle];
+	NSString *templateFile = [displayBundle pathForResource:@"template" ofType:@"html"];
 	templateHTML = [[NSString alloc] initWithContentsOfFile:templateFile
 												   encoding:NSUTF8StringEncoding
 													  error:&error];
@@ -71,7 +72,7 @@ static unsigned webkitWindowDepth = 0U;
 		[self release];
 		return nil;
 	}
-	baseURL = [[NSURL alloc] initFileURLWithPath:templateFile];
+	baseURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)[displayBundle resourcePath], kCFURLPOSIXPathStyle, true);
 
 	[self setDelegate:self]; // Needed???
 
@@ -173,9 +174,11 @@ static unsigned webkitWindowDepth = 0U;
 	}
 
 	CFMutableStringRef htmlString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, (CFStringRef)templateHTML);
-	NSString *UUID = [[NSProcessInfo processInfo] globallyUniqueString];
+	CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+	CFStringRef uuidString = CFUUIDCreateString(kCFAllocatorDefault, uuid);
+	CFRelease(uuid);
 	image = [icon retain];
-	[image setName:UUID];
+	[image setName:(NSString *)uuidString];
 	[GrowlImageURLProtocol class];	// make sure GrowlImageURLProtocol is +initialized
 
 	float opacity = 95.0f;
@@ -186,13 +189,14 @@ static unsigned webkitWindowDepth = 0U;
 	CFStringRef textHTML = textIsHTML ? (CFStringRef)text : createStringByEscapingForHTML((CFStringRef)text);
 	CFStringRef opacityString = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%f"), opacity);
 
-	CFStringFindAndReplace(htmlString, CFSTR("%baseurl%"),  (CFStringRef)[baseURL absoluteString], CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%baseurl%"),  CFURLGetString(baseURL), CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%opacity%"),  opacityString,           CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%priority%"), priorityName,            CFRangeMake(0, CFStringGetLength(htmlString)), 0);
-	CFStringFindAndReplace(htmlString, CFSTR("%image%"),    (CFStringRef)UUID,       CFRangeMake(0, CFStringGetLength(htmlString)), 0);
+	CFStringFindAndReplace(htmlString, CFSTR("%image%"),    uuidString,              CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%title%"),    titleHTML,               CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 	CFStringFindAndReplace(htmlString, CFSTR("%text%"),     textHTML,                CFRangeMake(0, CFStringGetLength(htmlString)), 0);
 
+	CFRelease(uuidString);
 	CFRelease(opacityString);
 	CFRelease(baseURL);
 	if (!titleIsHTML)
