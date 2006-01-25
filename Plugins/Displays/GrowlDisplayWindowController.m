@@ -80,7 +80,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (id) initWithBridge:(GrowlNotificationDisplayBridge *)displayBridge {
-	/* Subclasses using this method should call initWithWindowName: from init */
+	/* Subclasses using this method should call initWithWindowNibName: from init */
 	if ((self = [self init])) {
 		[self setBridge:displayBridge]; // weak reference
 	}
@@ -434,7 +434,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
     return bridge;
 }
 
-- (void) setBridge: (GrowlNotificationDisplayBridge *) theBridge {
+- (void) setBridge:(GrowlNotificationDisplayBridge *)theBridge {
 	bridge = theBridge;
 }
 
@@ -444,7 +444,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
     return transitionDuration;
 }
 
-- (void) setTransitionDuration: (CFTimeInterval)theTransitionDuration{
+- (void) setTransitionDuration:(CFTimeInterval)theTransitionDuration{
     transitionDuration = theTransitionDuration;
 }
 

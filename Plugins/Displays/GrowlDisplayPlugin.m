@@ -20,7 +20,7 @@
 		 *	notification is already being displayed.
 		 */
 		BOOL queuesNotifications = NO;
-		windowControllerClass    = Nil;
+		windowControllerClass    = nil;
 
 		NSBundle *bundle = [NSBundle bundleForClass:[self class]];
 		NSString *queuesNotificationsObject = [bundle objectForInfoDictionaryKey:@"GrowlDisplayUsesQueue"];

@@ -18,12 +18,10 @@
 		NSDictionary *styleInfo = [styleBundle infoDictionary];
 		style = [[styleInfo valueForKey:@"CFBundleName"] retain];
 		prefDomain = [[NSString alloc] initWithFormat:@"%@.%@", GrowlWebKitPrefDomain, style];
+		windowControllerClass = NSClassFromString(@"GrowlWebKitWindowController");
 
 		BOOL validBundle = YES;
-		NSString *templateFile = [styleBundle pathForResource:@"template" ofType:@"html"];
-		if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile])
-			validBundle = NO;
-		/* NOTE other verification here....does the plist contain all the relevant keys? does the
+		/* NOTE verification here....does the plist contain all the relevant keys? does the
 			bundle contain all the files we need? */
 
 		if (!validBundle) {
@@ -33,27 +31,6 @@
 	}
 
 	return self;
-}
-
-- (void) displayNotification:(GrowlApplicationNotification *)notification {
-	Class wcc = NSClassFromString(@"GrowlWebKitWindowController");
-	GrowlNotificationDisplayBridge *newBridge = [GrowlNotificationDisplayBridge bridgeWithDisplay:self
-																					 notification:notification
-																			windowControllerClass:wcc];
-	if (queue) {
-		if (bridge) {
-			//a notification is already up; enqueue the new one
-			[queue addObject:newBridge];
-		} else {
-			//nothing up at the moment; just display it
-			[[newBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
-			bridge = [newBridge retain];
-		}
-	} else {
-		//no queue; just display it
-		[[newBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
-		[activeBridges addObject:newBridge];
-	}
 }
 
 - (NSPreferencePane *) preferencePane {

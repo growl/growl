@@ -54,16 +54,17 @@ static unsigned webkitWindowDepth = 0U;
 												   backing:NSBackingStoreBuffered
 													 defer:YES];
 
-	self = [super initWithWindow:panel];
-	bridge = displayBridge;
-	GrowlDisplayPlugin *plugin = [bridge display];
-	if (!self)
+	if (!(self = [super initWithWindow:panel]))
 		return nil;
+
+	GrowlDisplayPlugin *plugin = [displayBridge display];
 
 	// Read the template file....exit on error...
 	NSError *error = nil;
-	NSBundle *displayBundle = [[bridge display] bundle];
+	NSBundle *displayBundle = [plugin bundle];
 	NSString *templateFile = [displayBundle pathForResource:@"template" ofType:@"html"];
+	if (![[NSFileManager defaultManager] fileExistsAtPath:templateFile])
+		templateFile = [[NSBundle mainBundle] pathForResource:@"template" ofType:@"html"];
 	templateHTML = [[NSString alloc] initWithContentsOfFile:templateFile
 												   encoding:NSUTF8StringEncoding
 													  error:&error];
@@ -135,6 +136,7 @@ static unsigned webkitWindowDepth = 0U;
 		[view setDrawsBackground:NO];
 	[panel setContentView:view];
 	[panel makeFirstResponder:[[[view mainFrame] frameView] documentView]];
+	[self setBridge:displayBridge];
 
 	return self;
 }
@@ -269,16 +271,13 @@ static unsigned webkitWindowDepth = 0U;
 
 @implementation GrowlWebKitWindowController (Private)
 
-- (GrowlApplicationNotification *) notification {
-	// Only here for binding conformance
-    return notification;
-}
-
 - (void) setNotification:(GrowlApplicationNotification *)theNotification {
     //NSLog(@"in -setNotification:, old value of notification: %@, changed to: %@", notification, theNotification);
 
     if (notification == theNotification)
 		return;
+
+	[super setNotification:theNotification];
 
 	// Extract the new details from the notification
 	NSDictionary *noteDict = [notification dictionaryRepresentation];

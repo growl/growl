@@ -48,6 +48,14 @@
  *	 "SurfWriter Lite" are not.
  */
 #define GROWL_APP_NAME					XSTR("ApplicationName")
+/*!	@defined GROWL_APP_ID
+ *	@abstract The bundle identifier of your application.
+ *	@discussion The bundle identifier of your application. This key should
+ *   be unique for your application while there may be several applications
+ *   with the same GROWL_APP_NAME.
+ *   This key is optional.
+ */
+#define GROWL_APP_ID					XSTR("ApplicationId")
 /*!	@defined GROWL_APP_ICON
  *	@abstract The image data for your application's icon.
  *	@discussion Image data representing your application's icon. This may be

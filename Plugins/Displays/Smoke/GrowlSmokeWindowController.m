@@ -92,7 +92,7 @@
 }
 
 #pragma mark -
-- (void) setNotification: (GrowlApplicationNotification *) theNotification {
+- (void) setNotification:(GrowlApplicationNotification *)theNotification {
 	[super setNotification:theNotification];
 	if (!theNotification)
 		return;
