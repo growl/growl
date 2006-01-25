@@ -26,6 +26,7 @@
 
 /* Begin PBXBuildFile section */
 		074BA9BD0977C6DE009624AE /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C2F8320968D72A00167884 /* Growl.framework */; };
+		5307A18409872FC100572C5C /* KNUnifiedSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5307A18209872FC100572C5C /* KNUnifiedSplitView.m */; };
 		531DE37B08FDBD7D00E7746C /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 531E429E06D67780007FB45E /* Credits.html */; };
 		531DE39B08FDBDB000E7746C /* DefaultSources.opml in Resources */ = {isa = PBXBuildFile; fileRef = 531DE39A08FDBDB000E7746C /* DefaultSources.opml */; };
 		531DE4BD09035C2200E7746C /* RSSReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FDFB06D7A144008F1DFB /* RSSReader.m */; };
@@ -282,6 +283,8 @@
 		32CA4F630368D1EE00C91783 /* Feed_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed_Prefix.pch; sourceTree = "<group>"; };
 		5302A87A06E672C900C753F8 /* Feed.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Feed.scriptSuite; sourceTree = "<group>"; };
 		5302A8DF06E6758300C753F8 /* Feed.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Feed.scriptTerminology; sourceTree = "<group>"; };
+		5307A18109872FC100572C5C /* KNUnifiedSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KNUnifiedSplitView.h; path = CustomViews/KNUnifiedSplitView.h; sourceTree = "<group>"; };
+		5307A18209872FC100572C5C /* KNUnifiedSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KNUnifiedSplitView.m; path = CustomViews/KNUnifiedSplitView.m; sourceTree = "<group>"; };
 		531DE39A08FDBDB000E7746C /* DefaultSources.opml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = DefaultSources.opml; path = "Supporting Files/DefaultSources.opml"; sourceTree = "<group>"; };
 		531DE4D80903655900E7746C /* FeedWindowController+Setup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FeedWindowController+Setup.h"; path = "Interface/FeedWindowController+Setup.h"; sourceTree = "<group>"; };
 		531DE4D90903655900E7746C /* FeedWindowController+Setup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FeedWindowController+Setup.m"; path = "Interface/FeedWindowController+Setup.m"; sourceTree = "<group>"; };
@@ -577,6 +580,8 @@
 				53C8B21106D5541B00B86C7D /* ImageTextCell.m */,
 				53C8B21F06D5541B00B86C7D /* ArticleTableView.h */,
 				53C8B21806D5541B00B86C7D /* ArticleTableView.m */,
+				5307A18109872FC100572C5C /* KNUnifiedSplitView.h */,
+				5307A18209872FC100572C5C /* KNUnifiedSplitView.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -1093,6 +1098,7 @@
 				531DE92F090AB8DD00E7746C /* Article.m in Sources */,
 				53F2F04B090C919E0044CA28 /* FeedWindowController+Status.m in Sources */,
 				537998C50982FE5900DBA666 /* KNShelfSplitView.m in Sources */,
+				5307A18409872FC100572C5C /* KNUnifiedSplitView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

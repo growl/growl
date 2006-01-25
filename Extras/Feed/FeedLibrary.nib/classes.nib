@@ -66,6 +66,7 @@
             OUTLETS = {contentView = NSView; shelfView = NSView; }; 
             SUPERCLASS = NSView; 
         }, 
+        {CLASS = KNUnifiedSplitView; LANGUAGE = ObjC; SUPERCLASS = NSSplitView; }, 
         {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
     ); 
     IBVersion = 1; 

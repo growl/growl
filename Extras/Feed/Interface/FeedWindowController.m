@@ -244,6 +244,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		if( ![[self activeArticleStatus] isEqualToString: StatusUnread] ){
 			return NO;
 		}
+	}else if( [menuItem action] == @selector(validateSource:) ){
+		if( [[feedOutlineView selectedRowIndexes] count] == 0 ){ return NO; }
+	}else if( [menuItem action] == @selector(copySourceURL:) ){
+		if( [[feedOutlineView selectedRowIndexes] count] == 0 ){ return NO; }
 	}
     return YES;
 }
