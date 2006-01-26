@@ -22,6 +22,7 @@
 #include "CFMutableStringAdditions.h"
 #import "GrowlNotificationDisplayBridge.h"
 #import "GrowlDisplayPlugin.h"
+#import "GrowlFadingWindowTransition.h"
 
 /*
  * A panel that always pretends to be the key window.
@@ -138,6 +139,13 @@ static unsigned webkitWindowDepth = 0U;
 	[panel makeFirstResponder:[[[view mainFrame] frameView] documentView]];
 	[self setBridge:displayBridge];
 
+	// set up the transitions...
+	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
+	[self addTransition:fader];
+	[self setStartPercentage:0 endPercentage:100 forTransition:fader];
+	[fader setAutoReverses:YES];
+	[fader release];
+	
 	return self;
 }
 
@@ -267,10 +275,6 @@ static unsigned webkitWindowDepth = 0U;
 	[self release];	// we retained before loadHTMLString
 }
 
-@end
-
-@implementation GrowlWebKitWindowController (Private)
-
 - (void) setNotification:(GrowlApplicationNotification *)theNotification {
     //NSLog(@"in -setNotification:, old value of notification: %@, changed to: %@", notification, theNotification);
 
@@ -309,6 +313,27 @@ static unsigned webkitWindowDepth = 0U;
 
 	NSRect panelFrame = [view frame];
 	[panel setFrame:panelFrame display:NO];
+}
+
+#pragma mark -
+#pragma mark positioning methods
+
+- (NSPoint) idealOriginInRect:(NSRect)rect {
+	NSRect viewFrame = [[[self window] contentView] frame];
+	return NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - paddingX,
+					   NSMaxY(rect) - paddingY - NSHeight(viewFrame));
+}
+
+- (GrowlExpansionDirection) primaryExpansionDirection {
+	return GrowlDownExpansionDirection;
+}
+
+- (GrowlExpansionDirection) secondaryExpansionDirection {
+	return GrowlLeftExpansionDirection;
+}
+
+- (float) requiredDistanceFromExistingDisplays {
+	return paddingY;
 }
 
 @end

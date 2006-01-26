@@ -105,7 +105,7 @@
 
 #pragma mark -
 
-- (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *) wc {
+- (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc {
 	if (bridge)
 		[bridge removeWindowController:wc];
 	else

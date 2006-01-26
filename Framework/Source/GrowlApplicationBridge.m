@@ -287,7 +287,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			TRY
 				NSDistantObject *theProxy = [connection rootProxy];
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-				id<GrowlNotificationProtocol> growlProxy = (id<GrowlNotificationProtocol>)theProxy;
+				NSProxy<GrowlNotificationProtocol> *growlProxy = (NSProxy<GrowlNotificationProtocol> *)theProxy;
 				[growlProxy postNotificationWithDictionary:userInfo];
 			ENDTRY
 			CATCH
@@ -600,7 +600,7 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			NS_DURING
 				NSDistantObject *theProxy = [connection rootProxy];
 				[theProxy setProtocolForProxy:@protocol(GrowlNotificationProtocol)];
-				id<GrowlNotificationProtocol> growlProxy = (id<GrowlNotificationProtocol>)theProxy;
+				NSProxy <GrowlNotificationProtocol> *growlProxy = (NSProxy<GrowlNotificationProtocol> *)theProxy;
 				[growlProxy postNotificationWithDictionary:noteDict];
 			NS_HANDLER
 				NSLog(@"GrowlApplicationBridge: exception while sending notification: %@", localException);
