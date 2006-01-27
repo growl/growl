@@ -178,6 +178,7 @@
 		745352D509313B3B0000B26A /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		74BBDE8D094399D30011CFE9 /* GrowlFlippingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */; };
 		83282747073A6C110044A959 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
+		8363F463098A1B5C000AAC48 /* AboveTheNight.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */; };
 		8D202CED0486D31800D8A456 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		932D6BE6094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6BE4094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m */; };
 		932D6CD7094BB83B00B64D0F /* GrowlScaleWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */; };
@@ -586,6 +587,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				8363F463098A1B5C000AAC48 /* AboveTheNight.growlStyle in CopyFiles */,
 				93BC4057095DEDFF0002B365 /* Nano.growlView in CopyFiles */,
 				95D8C62A083D552B003601C3 /* Candybars.growlStyle in CopyFiles */,
 				95D8C62B083D552B003601C3 /* Crystal.growlStyle in CopyFiles */,
@@ -777,6 +779,7 @@
 		74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlFlippingWindowTransition.m; sourceTree = "<group>"; };
 		83282741073A6BD70044A959 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		83282746073A6C110044A959 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
+		8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AboveTheNight.growlStyle; path = Core/Resources/AboveTheNight.growlStyle; sourceTree = "<group>"; };
 		8D202CF70486D31800D8A456 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Info.plist; path = Core/Resources/Info.plist; sourceTree = "<group>"; };
 		8D202CF80486D31800D8A456 /* Growl.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Growl.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
 		932D6BE3094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlShrinkingWindowTransition.h; sourceTree = "<group>"; };
@@ -992,7 +995,7 @@
 		DD493A04084BAD7700D1CCCB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/SMS/English.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		DD493B7C084BB07900D1CCCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = Plugins/Displays/SMS/Info.plist; sourceTree = "<group>"; };
 		DDB6462607DE034800807F8D /* generateSVNRevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = generateSVNRevision.sh; sourceTree = "<group>"; };
-		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF09B19080AC97A006F4172 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Prefpane TestHarness/main.m"; sourceTree = "<group>"; };
 		DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = "PrefPaneTesting-Info.plist"; path = "Prefpane TestHarness/PrefPaneTesting-Info.plist"; sourceTree = "<group>"; };
 		DDF09B1B080AC97A006F4172 /* PrefpaneTester.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefpaneTester.h; path = "Prefpane TestHarness/PrefpaneTester.h"; sourceTree = "<group>"; };
@@ -1717,6 +1720,7 @@
 		CB5F84730638BD4D00EADD7A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */,
 				95D8C60E083D552B003601C3 /* Candybars.growlStyle */,
 				95D8C61A083D552B003601C3 /* Crystal.growlStyle */,
 				9554979A081125A60062E27B /* Plain.growlStyle */,
