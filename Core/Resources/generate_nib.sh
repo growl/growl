@@ -14,6 +14,7 @@ for language in French German Japanese Russian cs zh_CN; do
 			nibtool -d $langdir/$nibname.strings $primarydir/$nibfile -W $translated
 			cp $translated/*.nib $langdir/$nibfile
 			rm -rf $translated $langdir/*~.nib
+			touch $langdir/$nibfile
 			echo Updated $langdir/$nibfile
 		else
 			cp $primarydir/$nibfile/*.nib $langdir/$nibfile
