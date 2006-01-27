@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>GrowlMenu</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Growl Menu, Copyright 2005, The Growl Project.</string>
+	<string>Growl Menu, Copyright 2005-2006, The Growl Project.</string>
 	<key>CFBundleIconFile</key>
 	<string>growl-icon</string>
 	<key>CFBundleIdentifier</key>

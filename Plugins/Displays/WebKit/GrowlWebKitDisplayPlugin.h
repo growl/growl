@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by JKP on 13/11/2005.
-//	Copyright 2005 The Growl Project. All rights reserved.
+//	Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

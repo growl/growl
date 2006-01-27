@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on 1/8/05.
-//  Copyright 2005 The Growl Project. All rights reserved.
+//  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
 #import "GrowlInstallationPrompt.h"

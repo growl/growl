@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Jamie Kirkpatrick on 27/11/05.
-//  Copyright 2005  Jamie Kirkpatrick. All rights reserved.
+//  Copyright 2005-2006  Jamie Kirkpatrick. All rights reserved.
 //
 
 #import "GrowlThreadedView.h"

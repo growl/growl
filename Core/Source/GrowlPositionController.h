@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Ofri Wolfus on 31/08/05.
-//  Copyright 2004-2005 The Growl Project. All rights reserved.
+//  Copyright 2004-2006 The Growl Project. All rights reserved.
 //
 // This file is under the BSD License, refer to License.txt for details
 //
@@ -11,7 +11,7 @@
 /*!
  * @header GrowlPositionController
  * GrowlPositionController provides a mechanism for display plugins to display without disturbing each other.
- * @copyright Created by Ofri Wolfus on 31/08/05. Copyright 2004-2005 The Growl Project. All rights reserved.
+ * @copyright Created by Ofri Wolfus on 31/08/05. Copyright 2004-2006 The Growl Project. All rights reserved.
  * @updated 2005-09-18
  * @version 0.8
  */

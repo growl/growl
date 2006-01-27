@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Ingmar Stein on 17.06.05.
-//  Copyright 2005 The Growl Project. All rights reserved.
+//  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
 #ifndef GROWL_STATUS_CONTROLLER_H

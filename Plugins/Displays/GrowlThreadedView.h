@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Ofri Wolfus on 01/10/05.
-//  Copyright 2005 Ofri Wolfus. All rights reserved.
+//  Copyright 2005-2006 Ofri Wolfus. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

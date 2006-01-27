@@ -3,7 +3,7 @@
 //  Display Plugins
 //
 //  Created by Mac-arena the Bored Zo on 2005-06-03.
-//  Copyright 2004-2005 The Growl Project. All rights reserved.
+//  Copyright 2004-2006 The Growl Project. All rights reserved.
 //
 
 #import "GrowlDisplayWindowController.h"

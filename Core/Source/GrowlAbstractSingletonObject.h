@@ -4,7 +4,7 @@
 //
 //	Renamed from GBAbstractSingletonObject to GrowlAbstractSingletonObject.
 //  Created by Ofri Wolfus on 15/08/05.
-//  Copyright 2005 The Growl Project. All rights reserved.
+//  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

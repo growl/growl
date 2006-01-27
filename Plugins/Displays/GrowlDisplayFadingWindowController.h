@@ -4,7 +4,7 @@
 //
 //  Created by Ingmar Stein on 16.11.04.
 //  Renamed from FadingWindowController by Mac-arena the Bored Zo on 2005-06-03.
-//  Copyright 2004-2005 The Growl Project. All rights reserved.
+//  Copyright 2004-2006 The Growl Project. All rights reserved.
 //
 
 #import "GrowlDisplayWindowController.h"

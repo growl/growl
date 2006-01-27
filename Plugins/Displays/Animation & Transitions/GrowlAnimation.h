@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Ofri Wolfus on 25/07/05.
-//  Copyright 2005 The Growl Project. All rights reserved.
+//  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -11,7 +11,7 @@
 /*!
  * @header GrowlAnimation
  * GrowlAnimation manages the timing and progress of animations.
- * @copyright Created by Ofri Wolfus on 31/08/05. Copyright 2004-2005 The Growl Project. All rights reserved.
+ * @copyright Created by Ofri Wolfus on 31/08/05. Copyright 2004-2006 The Growl Project. All rights reserved.
  * @updated 2005-10-1
  * @version 0.8
  */

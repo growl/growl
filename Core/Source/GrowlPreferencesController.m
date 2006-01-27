@@ -4,7 +4,7 @@
 //
 //  Created by Nelson Elhage on 8/24/04.
 //  Renamed from GrowlPreferences.m by Mac-arena the Bored Zo on 2005-06-27.
-//  Copyright 2004-2005 The Growl Project. All rights reserved.
+//  Copyright 2004-2006 The Growl Project. All rights reserved.
 //
 // This file is under the BSD License, refer to License.txt for details
 

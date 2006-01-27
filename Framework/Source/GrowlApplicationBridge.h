@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Evan Schoenberg on Wed Jun 16 2004.
-//  Copyright 2004-2005 The Growl Project. All rights reserved.
+//  Copyright 2004-2006 The Growl Project. All rights reserved.
 //
 
 /*!

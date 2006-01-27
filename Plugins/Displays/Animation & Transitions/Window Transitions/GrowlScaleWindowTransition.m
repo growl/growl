@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by rudy on 12/10/05.
-//  Copyright 2005 The Growl Project. All rights reserved.
+//  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
 #import "GrowlScaleWindowTransition.h"

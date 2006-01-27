@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Karl Adam on 01.10.05.
-//  Copyright 2005 matrixPointer. All rights reserved.
+//  Copyright 2005-2006 matrixPointer. All rights reserved.
 //
 
 #import "GrowlNotificationTicket.h"

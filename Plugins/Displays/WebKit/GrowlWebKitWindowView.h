@@ -3,7 +3,7 @@
 //  Growl
 //
 //  Created by Ingmar Stein on Thu Apr 14 2005.
-//  Copyright 2005 The Growl Project. All rights reserved.
+//  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
