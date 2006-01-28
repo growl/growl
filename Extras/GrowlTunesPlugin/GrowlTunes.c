@@ -58,7 +58,6 @@ static GrowlPostNotificationProcPtr GrowlTunes_PostNotification;
 typedef Boolean (*GrowlIsInstalledProcPtr)(void);
 static GrowlIsInstalledProcPtr GrowlTunes_GrowlIsInstalled;
 
-
 typedef struct VisualPluginData {
 	void				*appCookie;
 	ITAppProcPtr		appProc;
@@ -90,19 +89,19 @@ static EventHandlerRef hotKeyEventHandlerRef = NULL;
 extern OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, void *refCon);
 extern void CFLog(int priority, CFStringRef format, ...);
 
-static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void* refCon );
-static void setupDescString(VisualPluginData *visualPluginData, CFMutableStringRef *desc);
+static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void *refCon);
 static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRef inEvent, void *userData);
-static void setupTitleString(VisualPluginData *visualPluginData, CFMutableStringRef *title);
+static void setupDescString(const VisualPluginData *visualPluginData, CFMutableStringRef desc);
+static void setupTitleString(const VisualPluginData *visualPluginData, CFMutableStringRef title);
 
 /*
 	settingsControlHandler
 */
 static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRef inEvent, void *userData)
 {
-    WindowRef wind=NULL;
+    WindowRef wind = NULL;
     ControlID controlID;
-    ControlRef control=NULL;
+    ControlRef control = NULL;
 	inRef = NULL;
 	userData = NULL;
     //get control hit by event
@@ -111,27 +110,27 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
     GetControlID(control,&controlID);
 	char *string = (char *)&controlID.signature;
 	CFLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
-    switch(controlID.id){
+    switch (controlID.id){
         case kTrackSettingID:
-                gTrackFlag=GetControlValue(control);
+                gTrackFlag = GetControlValue(control);
                 break;
         case kDiscSettingID:
-                gDiscFlag=GetControlValue(control);
+                gDiscFlag = GetControlValue(control);
                 break;
         case kArtistSettingID:
-                gArtistFlag=GetControlValue(control);
+                gArtistFlag = GetControlValue(control);
                 break;
         case kComposerSettingID:
-                gComposerFlag=GetControlValue(control);
+                gComposerFlag = GetControlValue(control);
                 break;
         case kAlbumSettingID:
-                gAlbumFlag=GetControlValue(control);
+                gAlbumFlag = GetControlValue(control);
                 break;
         case kYearSettingID:
-                gYearFlag=GetControlValue(control);
+                gYearFlag = GetControlValue(control);
                 break;
         case kGenreSettingID:
-                gGenreFlag=GetControlValue(control);
+                gGenreFlag = GetControlValue(control);
                 break;
 		case kOKSettingID:
                 HideWindow(wind);
@@ -140,20 +139,20 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
     return noErr;
 }
 
-static void setupTitleString(VisualPluginData *visualPluginData, CFMutableStringRef *title)
+static void setupTitleString(const VisualPluginData *visualPluginData, CFMutableStringRef title)
 {
-	CFStringDelete((*title), CFRangeMake(0, CFStringGetLength((*title))));
+	CFStringDelete(title, CFRangeMake(0, CFStringGetLength(title)));
 	if (visualPluginData->trackInfo.validFields & kITTINameFieldMask && gTrackFlag) {
 		if (visualPluginData->trackInfo.trackNumber > 0) {
 			if ((visualPluginData->trackInfo.numDiscs > 1) && gDiscFlag)
-				CFStringAppendFormat((*title), NULL, CFSTR("%d-"), visualPluginData->trackInfo.discNumber);
-			CFStringAppendFormat((*title), NULL, CFSTR("%d. "), visualPluginData->trackInfo.trackNumber);
+				CFStringAppendFormat(title, NULL, CFSTR("%d-"), visualPluginData->trackInfo.discNumber);
+			CFStringAppendFormat(title, NULL, CFSTR("%d. "), visualPluginData->trackInfo.trackNumber);
 		}
-		CFStringAppendCharacters((*title), &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
+		CFStringAppendCharacters(title, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
 	}
 }
 
-static void setupDescString(VisualPluginData *visualPluginData, CFMutableStringRef *desc)
+static void setupDescString(const VisualPluginData *visualPluginData, CFMutableStringRef desc)
 {
 	CFStringRef album;
 	CFStringRef artist;
@@ -161,15 +160,13 @@ static void setupDescString(VisualPluginData *visualPluginData, CFMutableStringR
 	CFStringRef	totalTime;
 	CFStringRef rating;
 	CFMutableStringRef tmp;
-				
-				
+
 	CFMutableStringRef test = CFStringCreateMutable(kCFAllocatorDefault, 0);
 	CFStringAppendCharacters(test, &visualPluginData->streamInfo.streamTitle[1], visualPluginData->streamInfo.streamTitle[0]);
 	CFStringAppendCharacters(test, &visualPluginData->streamInfo.streamURL[1], visualPluginData->streamInfo.streamURL[0]);
 	CFStringAppendCharacters(test, &visualPluginData->streamInfo.streamMessage[1], visualPluginData->streamInfo.streamMessage[0]);
-			
-	if(CFStringGetLength(test) == 0)
-	{
+
+	if (!CFStringGetLength(test)) {
 		if (visualPluginData->trackInfo.validFields & (kITTIArtistFieldMask|kITTIComposerFieldMask) && (gArtistFlag||gComposerFlag)) {
 			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 			CFStringAppend(tmp, CFSTR("\n"));
@@ -242,9 +239,9 @@ static void setupDescString(VisualPluginData *visualPluginData, CFMutableStringR
 		CFStringAppendCharacters(tmp, buf, 5);
 		rating = tmp;
 
-		CFStringDelete((*desc), CFRangeMake(0, CFStringGetLength((*desc))));
-		CFStringAppendFormat((*desc), NULL, CFSTR("%@%@%@%@%@"), totalTime, rating, artist, album, genre);
-	
+		CFStringDelete(desc, CFRangeMake(0, CFStringGetLength(desc)));
+		CFStringAppendFormat(desc, NULL, CFSTR("%@%@%@%@%@"), totalTime, rating, artist, album, genre);
+
 		if (artist)
 			CFRelease(artist);
 		if (album)
@@ -253,18 +250,16 @@ static void setupDescString(VisualPluginData *visualPluginData, CFMutableStringR
 			CFRelease(totalTime);
 		if (rating)
 			CFRelease(rating);
+	} else {
+		CFStringDelete(desc, CFRangeMake(0, CFStringGetLength(desc)));
+		CFStringAppendCharacters(desc, &visualPluginData->streamInfo.streamTitle[1], visualPluginData->streamInfo.streamTitle[0]);
+		CFStringAppendFormat(desc, NULL, CFSTR("\n"));
+		CFStringAppendCharacters(desc, &visualPluginData->streamInfo.streamURL[1], visualPluginData->streamInfo.streamURL[0]);
+		CFStringAppendFormat(desc, NULL, CFSTR("\n"));
+		CFStringAppendCharacters(desc, &visualPluginData->streamInfo.streamMessage[1], visualPluginData->streamInfo.streamMessage[0]);
+		CFStringAppendFormat(desc, NULL, CFSTR("\n"));
 	}
-	else
-	{
-		CFStringDelete((*desc), CFRangeMake(0, CFStringGetLength((*desc))));
-		CFStringAppendCharacters((*desc), &visualPluginData->streamInfo.streamTitle[1], visualPluginData->streamInfo.streamTitle[0]);
-		CFStringAppendFormat((*desc), NULL, CFSTR("\n"));
-		CFStringAppendCharacters((*desc), &visualPluginData->streamInfo.streamURL[1], visualPluginData->streamInfo.streamURL[0]);
-		CFStringAppendFormat((*desc), NULL, CFSTR("\n"));
-		CFStringAppendCharacters((*desc), &visualPluginData->streamInfo.streamMessage[1], visualPluginData->streamInfo.streamMessage[0]);
-		CFStringAppendFormat((*desc), NULL, CFSTR("\n"));
-	}
-	if(test)
+	if (test)
 		CFRelease(test);
 }
 
@@ -272,18 +267,18 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 {
 	OSStatus         err = noErr;
 	VisualPluginData *visualPluginData;
-	static Growl_Notification notification;			
+	static Growl_Notification notification;
 	static CFMutableStringRef title = NULL;
 	static CFMutableStringRef desc = NULL;
 	static CFDataRef coverArtDataRef = NULL;
 	char *string;
 	visualPluginData = (VisualPluginData *)refCon;
 
-	if(message != 'vrnd') {
+	if (message != 'vrnd') {
 		string = (char *)&message;
 		CFLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
 	}
-	
+
 	err = noErr;
 
 	switch (message) {
@@ -312,7 +307,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			notification.name          = ITUNES_PLAYING;
 			notification.title         = title;
 			notification.description   = desc;
-			notification.identifier    = CFSTR("GrowlTunes");			
+			notification.identifier    = CFSTR("GrowlTunes");
 			//notification.priority      = priority;
 			//notification.isSticky      = isSticky;
 			//notification.clickContext  = NULL;
@@ -363,14 +358,14 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			static const ControlID kYearSettingControlID	= {'cbox', kYearSettingID};
 			static const ControlID kGenreSettingControlID	= {'cbox', kGenreSettingID};
 
-			static WindowRef  settingsDialog=NULL;
-			static ControlRef trackpref		=NULL;
-			static ControlRef discpref		=NULL;
-			static ControlRef artistpref	=NULL;
-			static ControlRef composerpref	=NULL;
-			static ControlRef albumpref		=NULL;
-			static ControlRef yearpref		=NULL;
-			static ControlRef genrepref		=NULL;
+			static WindowRef  settingsDialog = NULL;
+			static ControlRef trackpref		 = NULL;
+			static ControlRef discpref		 = NULL;
+			static ControlRef artistpref	 = NULL;
+			static ControlRef composerpref	 = NULL;
+			static ControlRef albumpref		 = NULL;
+			static ControlRef yearpref		 = NULL;
+			static ControlRef genrepref		 = NULL;
 
 			if (!settingsDialog) {
 				IBNibRef		nibRef; //we have to find our bundle to load the nib inside of it
@@ -446,14 +441,14 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfoUnicode;
 			else
 				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
-		
+
 			if (messageInfo->u.playMessage.streamInfo)
 				visualPluginData->streamInfo = *messageInfo->u.playMessage.streamInfoUnicode;
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 
-			setupTitleString(visualPluginData, &title);		
-			setupDescString(visualPluginData, &desc);
+			setupTitleString(visualPluginData, title);
+			setupDescString(visualPluginData, desc);
 
 			Handle coverArt = NULL;
 			OSType format;
@@ -472,7 +467,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			notification.iconData = coverArtDataRef;
 
 			GrowlTunes_PostNotification(&notification);
-			EventTypeSpec eventSpec[2] = {{ kEventClassKeyboard, kEventHotKeyPressed },{ kEventClassKeyboard, kEventHotKeyReleased }};    
+			EventTypeSpec eventSpec[2] = {{ kEventClassKeyboard, kEventHotKeyPressed },{ kEventClassKeyboard, kEventHotKeyReleased }};
 			if (hotKeyEventHandlerRef)
 				RemoveEventHandler(hotKeyEventHandlerRef);
 			InstallEventHandler(GetEventDispatcherTarget(), (EventHandlerProcPtr)hotKeyEventHandler, 2, eventSpec, &notification, &hotKeyEventHandlerRef);
@@ -490,15 +485,13 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			information about the currently playing song.
 		*/
 		case kVisualPluginChangeTrackMessage:
-			
-			
 			if (messageInfo->u.changeTrackMessage.streamInfo)
 				visualPluginData->streamInfo = *messageInfo->u.changeTrackMessage.streamInfoUnicode;
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 
-			setupTitleString(visualPluginData, &title);		
-			setupDescString(visualPluginData, &desc);
+			setupTitleString(visualPluginData, title);
+			setupDescString(visualPluginData, desc);
 
 			GrowlTunes_PostNotification(&notification);
 			break;
@@ -642,17 +635,17 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 						if (!GrowlTunes_GrowlIsInstalled()) {
 							//notify the user that growl isn't installed and as such that there won't be any notifications for this session of iTunes.
 						}
-						
+
 						//setup our global hot key
 						EventHotKeyID hotKeyID;
 						hotKeyID.signature = 'GRTU';
 						hotKeyID.id = 0xDEADBEEF;
-						
+
 						RegisterEventHotKey (40, cmdKey | optionKey, hotKeyID, GetEventDispatcherTarget(), 0, &reNotifyHotKeyRef);
-						
-						//this installed event handler is specifically to trap our event so we don't crash 
+
+						//this installed event handler is specifically to trap our event so we don't crash
 						//if the user tries to trigger the notification before a real handler is installed
-						EventTypeSpec eventSpec[2] = {{ kEventClassKeyboard, kEventHotKeyPressed },{ kEventClassKeyboard, kEventHotKeyReleased }};    
+						EventTypeSpec eventSpec[2] = {{ kEventClassKeyboard, kEventHotKeyPressed },{ kEventClassKeyboard, kEventHotKeyReleased }};
 						InstallEventHandler(GetEventDispatcherTarget(), (EventHandlerProcPtr)hotKeyEventHandler, 2, eventSpec, NULL, &hotKeyEventHandlerRef);
 
 						if (growlBundle)
@@ -669,13 +662,13 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 			err = noErr;
 			if (delegate.registrationDictionary)
 				CFRelease(delegate.registrationDictionary);
-				
+
 			//unregister it at the end of the iTunes session to make sure that we don't trigger it accidentally
 			UnregisterEventHotKey(reNotifyHotKeyRef);
-			
+
 			//kill our event handler if it is still around
 			RemoveEventHandler(hotKeyEventHandlerRef);
-			
+
 			break;
 
 		default:
