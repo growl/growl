@@ -117,8 +117,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			CFRelease(description);
 		}
 	}
-	CFRunLoopTimerInvalidate(timer);
-	CFRelease(timer);
 
 	[productVersionDict release];
 }
@@ -213,7 +211,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			lastCheck = now;
 		}
 		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
-		CFRunLoopTimerRef updateTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, [[lastCheck addTimeInterval:UPDATE_CHECK_INTERVAL] timeIntervalSinceReferenceDate], UPDATE_CHECK_INTERVAL, 0, 0, checkVersion, &context);
+		updateTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, [[lastCheck addTimeInterval:UPDATE_CHECK_INTERVAL] timeIntervalSinceReferenceDate], UPDATE_CHECK_INTERVAL, 0, 0, checkVersion, &context);
 		CFRunLoopAddTimer(CFRunLoopGetMain(), updateTimer, kCFRunLoopCommonModes);
 
 		// create and register GrowlNotificationCenter
@@ -277,6 +275,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		CFRelease(versionCheckURL);
 
 	GrowlIdleStatusController_dealloc();
+	
+	CFRunLoopTimerInvalidate(updateTimer);
+	CFRelease(updateTimer);
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
 

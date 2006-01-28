@@ -39,6 +39,7 @@
 	NSData						*growlIconData;
 
 	CFURLRef					versionCheckURL;
+	CFRunLoopTimerRef			updateTimer;
 
 	NSThread					*mainThread;
 
