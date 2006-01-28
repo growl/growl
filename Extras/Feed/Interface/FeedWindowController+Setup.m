@@ -280,20 +280,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma mark SplitView support
 
 -(void)restoreSplitSize{
-//	NSView *			mainClip = [[mainSplitView subviews] objectAtIndex:0];
     NSView *            articleClip = [[displaySplitView subviews] objectAtIndex:0];
     NSView *            displayClip = [[displaySplitView subviews] objectAtIndex:1];
-//	NSRect				mainFrame = [mainClip frame];
     NSRect              articleFrame = [articleClip frame];
     NSRect              displayFrame = [displayClip frame];
     
-    //KNDebug(@"CONT: Restoring split sizes");
-    
-//	mainFrame.size.width = [PREFS sourceListWidth];
-//	[mainClip setFrame: mainFrame];
-	
-//	[mainSplitView adjustSubviews];
-	
 	articleFrame.size.height = [PREFS articleListHeight];
     displayFrame.size.height = [PREFS displayHeight];
     [articleClip setFrame: articleFrame];
@@ -304,21 +295,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)splitViewDidResizeSubviews:(NSNotification *)notification{
 	NSSplitView *			splitView = [notification object];
 	
-	if( splitView == displaySplitView ){
+	if( (splitView == displaySplitView) && [displaySplitView inLiveResize] ){
 		NSRect              articleFrame = [[[displaySplitView subviews] objectAtIndex:0] frame];
 		NSRect              displayFrame = [[[displaySplitView subviews] objectAtIndex:1] frame];
 		[PREFS setArticleListHeight: articleFrame.size.height];
 		[PREFS setDisplayHeight: displayFrame.size.height];
-
 	}
 
 	[self updateKeyViewLoop];
 }
 
 -(BOOL)splitView:(NSSplitView *)aSplitView canCollapseSubview:(NSView *)aSubview{
-//	if( aSplitView == mainSplitView ){
-//		return( aSubview == [[mainSplitView subviews] objectAtIndex:0] );
-//	}
 	if( aSplitView == displaySplitView ){
 		return( aSubview == [[displaySplitView subviews] objectAtIndex:1] );
 	}
@@ -329,29 +316,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma unused( offset )
 	if( aSplitView == displaySplitView ){
 		proposedMax = [aSplitView frame].size.height - DISPLAY_VIEW_MIN_HEIGHT;
-//	}else if( aSplitView == mainSplitView ){
-//		proposedMax = [mainSplitView frame].size.width - ARTICLE_VIEW_MIN_WIDTH;
 	}
 	
 	return proposedMax;
-}
-
--(float)splitView:(NSSplitView *)aSplitView constrainMinCoordinate:(float)proposedMin ofSubviewAt:(int)offset{
-#pragma unused( offset, aSplitView )
-//	if( aSplitView == mainSplitView ){
-//		proposedMin = SOURCE_VIEW_MIN_WIDTH;
-//	}
-	return proposedMin;
-}
-
--(float)splitView:(NSSplitView *)aSplitView constrainSplitPosition:(float)proposedPosition ofSubviewAt:(int)offset{
-#pragma unused( offset, aSplitView )
-//	if( aSplitView == mainSplitView ){
-//		if( ((preferredSourceWidth - 10) < proposedPosition) && ((preferredSourceWidth + 10) > proposedPosition) ){
-//			proposedPosition = preferredSourceWidth;
-//		}
-//	}
-	return proposedPosition;
 }
 
 #pragma mark -
