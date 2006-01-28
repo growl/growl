@@ -91,6 +91,10 @@ extern OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *message
 extern void CFLog(int priority, CFStringRef format, ...);
 
 static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void* refCon );
+static void setupDescString(VisualPluginData *visualPluginData, CFMutableStringRef *desc);
+static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRef inEvent, void *userData);
+static void setupTitleString(VisualPluginData *visualPluginData, CFMutableStringRef *title);
+
 /*
 	settingsControlHandler
 */
@@ -106,7 +110,6 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
     wind=GetControlOwner(control);
     GetControlID(control,&controlID);
 	char *string = (char *)&controlID.signature;
-	CFLog(1, CFSTR("control: %c%c%c%c :%d"), string[0], string[1], string[2], string[3], controlID.id);
     switch(controlID.id){
         case kTrackSettingID:
                 gTrackFlag=GetControlValue(control);
@@ -134,6 +137,134 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
                 break;
     }
     return noErr;
+}
+
+static void setupTitleString(VisualPluginData *visualPluginData, CFMutableStringRef *title)
+{
+	CFStringDelete((*title), CFRangeMake(0, CFStringGetLength((*title))));
+	if (visualPluginData->trackInfo.validFields & kITTINameFieldMask && gTrackFlag) {
+		if (visualPluginData->trackInfo.trackNumber > 0) {
+			if ((visualPluginData->trackInfo.numDiscs > 1) && gDiscFlag)
+				CFStringAppendFormat((*title), NULL, CFSTR("%d-"), visualPluginData->trackInfo.discNumber);
+			CFStringAppendFormat((*title), NULL, CFSTR("%d. "), visualPluginData->trackInfo.trackNumber);
+		}
+		CFStringAppendCharacters((*title), &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
+	}
+}
+
+static void setupDescString(VisualPluginData *visualPluginData, CFMutableStringRef *desc)
+{
+	CFStringRef album;
+	CFStringRef artist;
+	CFStringRef genre;
+	CFStringRef	totalTime;
+	CFStringRef rating;
+	CFMutableStringRef tmp;
+				
+				
+	CFMutableStringRef test = CFStringCreateMutable(kCFAllocatorDefault, 0);
+	CFStringAppendCharacters(test, &visualPluginData->streamInfo.streamTitle[1], visualPluginData->streamInfo.streamTitle[0]);
+	CFStringAppendCharacters(test, &visualPluginData->streamInfo.streamURL[1], visualPluginData->streamInfo.streamURL[0]);
+	CFStringAppendCharacters(test, &visualPluginData->streamInfo.streamMessage[1], visualPluginData->streamInfo.streamMessage[0]);
+			
+	if(CFStringGetLength(test) == 0)
+	{
+		if (visualPluginData->trackInfo.validFields & (kITTIArtistFieldMask|kITTIComposerFieldMask) && (gArtistFlag||gComposerFlag)) {
+			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+			CFStringAppend(tmp, CFSTR("\n"));
+			if (gArtistFlag)
+				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
+			if (visualPluginData->trackInfo.composer[0] && gComposerFlag) {
+				CFStringAppend(tmp, CFSTR(" (Composed by "));
+				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.composer[1], visualPluginData->trackInfo.composer[0]);
+				CFStringAppend(tmp, CFSTR(")"));
+			}
+			artist = tmp;
+		} else if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask && gArtistFlag) {
+			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+			CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
+			artist = tmp;
+		} else {
+			artist = CFSTR("");
+		}
+		if (visualPluginData->trackInfo.validFields & (kITTIAlbumFieldMask|kITTIYearFieldMask) && (gAlbumFlag||gYearFlag)) {
+			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+			CFStringAppend(tmp, CFSTR("\n"));
+			if (gAlbumFlag) {
+				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
+				CFStringAppendFormat(tmp, NULL, CFSTR(" "));
+			}
+			if (gYearFlag)
+				CFStringAppendFormat(tmp, NULL, CFSTR("(%d)"), visualPluginData->trackInfo.year);
+			album = tmp;
+		} else if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask && gAlbumFlag) {
+			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+			CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
+			album = tmp;
+		} else {
+			album = CFSTR("");
+		}
+		if (visualPluginData->trackInfo.validFields & kITTIGenreFieldMask && gGenreFlag) {
+			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+			CFStringAppend(tmp, CFSTR("\n"));
+			CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.genre[1], visualPluginData->trackInfo.genre[0]);
+			genre = tmp;
+		} else {
+			genre = CFSTR("");
+		}
+		if (visualPluginData->trackInfo.validFields & kITTITotalTimeFieldMask) {
+			int minutes = visualPluginData->trackInfo.totalTimeInMS / 1000 / 60;
+			int seconds = visualPluginData->trackInfo.totalTimeInMS / 1000 - minutes * 60;
+			totalTime = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%d:%02d - "), minutes, seconds);
+		} else {
+			totalTime = CFSTR("");
+		}
+
+		UniChar star = 0x272F;
+		UniChar dot = 0x00B7;
+		rating = CFSTR("");
+		UniChar buf[5] = {dot,dot,dot,dot,dot};
+
+		switch (visualPluginData->trackInfo.userRating) {
+			case 100:
+				buf[4] = star;
+			case 80:
+				buf[3] = star;
+			case 60:
+				buf[2] = star;
+			case 40:
+				buf[1] = star;
+			case 20:
+				buf[0] = star;
+		}
+		tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
+		CFStringAppendCharacters(tmp, buf, 5);
+		rating = tmp;
+
+		CFStringDelete((*desc), CFRangeMake(0, CFStringGetLength((*desc))));
+		CFStringAppendFormat((*desc), NULL, CFSTR("%@%@%@%@%@"), totalTime, rating, artist, album, genre);
+	
+		if (artist)
+			CFRelease(artist);
+		if (album)
+			CFRelease(album);
+		if (totalTime)
+			CFRelease(totalTime);
+		if (rating)
+			CFRelease(rating);
+	}
+	else
+	{
+		CFStringDelete((*desc), CFRangeMake(0, CFStringGetLength((*desc))));
+		CFStringAppendCharacters((*desc), &visualPluginData->streamInfo.streamTitle[1], visualPluginData->streamInfo.streamTitle[0]);
+		CFStringAppendFormat((*desc), NULL, CFSTR("\n"));
+		CFStringAppendCharacters((*desc), &visualPluginData->streamInfo.streamURL[1], visualPluginData->streamInfo.streamURL[0]);
+		CFStringAppendFormat((*desc), NULL, CFSTR("\n"));
+		CFStringAppendCharacters((*desc), &visualPluginData->streamInfo.streamMessage[1], visualPluginData->streamInfo.streamMessage[0]);
+		CFStringAppendFormat((*desc), NULL, CFSTR("\n"));
+	}
+	if(test)
+		CFRelease(test);
 }
 
 static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *messageInfo, void *refCon)
@@ -310,107 +441,18 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			Sent when the player starts.
 		*/
 		case kVisualPluginPlayMessage: {
-			CFStringRef album;
-			CFStringRef artist;
-			CFStringRef genre;
-			CFStringRef	totalTime;
-			CFStringRef rating;
-			CFMutableStringRef tmp;
-				
 			if (messageInfo->u.playMessage.trackInfo)
 				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfoUnicode;
 			else
 				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
-
+		
 			if (messageInfo->u.playMessage.streamInfo)
 				visualPluginData->streamInfo = *messageInfo->u.playMessage.streamInfoUnicode;
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
 
-			CFStringDelete(title, CFRangeMake(0, CFStringGetLength(title)));
-			if (visualPluginData->trackInfo.validFields & kITTINameFieldMask && gTrackFlag) {
-				if (visualPluginData->trackInfo.trackNumber != 0) {
-					if ((visualPluginData->trackInfo.numDiscs > 1) && gDiscFlag)
-						CFStringAppendFormat(title, NULL, CFSTR("%d-"), visualPluginData->trackInfo.discNumber);
-					CFStringAppendFormat(title, NULL, CFSTR("%d. "), visualPluginData->trackInfo.trackNumber);
-				}
-				CFStringAppendCharacters(title, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
-			}
-
-			if (visualPluginData->trackInfo.validFields & (kITTIArtistFieldMask|kITTIComposerFieldMask) && (gArtistFlag||gComposerFlag)) {
-				tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-				CFStringAppend(tmp, CFSTR("\n"));
-				if (gArtistFlag)
-					CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
-				if (visualPluginData->trackInfo.composer[0] && gComposerFlag) {
-					CFStringAppend(tmp, CFSTR(" (Composed by "));
-					CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.composer[1], visualPluginData->trackInfo.composer[0]);
-					CFStringAppend(tmp, CFSTR(")"));
-				}
-				artist = tmp;
-			} else if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask && gArtistFlag) {
-				tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
-				artist = tmp;
-			} else {
-				artist = CFSTR("");
-			}
-			if (visualPluginData->trackInfo.validFields & (kITTIAlbumFieldMask|kITTIYearFieldMask) && (gAlbumFlag||gYearFlag)) {
-				tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-				CFStringAppend(tmp, CFSTR("\n"));
-				if (gAlbumFlag) {
-					CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
-					CFStringAppendFormat(tmp, NULL, CFSTR(" "));
-				}
-				if (gYearFlag)
-					CFStringAppendFormat(tmp, NULL, CFSTR("(%d)"), visualPluginData->trackInfo.year);
-				album = tmp;
-			} else if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask && gAlbumFlag) {
-				tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
-				album = tmp;
-			} else {
-				album = CFSTR("");
-			}
-			if (visualPluginData->trackInfo.validFields & kITTIGenreFieldMask && gGenreFlag) {
-				tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-				CFStringAppend(tmp, CFSTR("\n"));
-				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.genre[1], visualPluginData->trackInfo.genre[0]);
-				genre = tmp;
-			} else {
-				genre = CFSTR("");
-			}
-			if (visualPluginData->trackInfo.validFields & kITTITotalTimeFieldMask) {
-				int minutes = visualPluginData->trackInfo.totalTimeInMS / 1000 / 60;
-				int seconds = visualPluginData->trackInfo.totalTimeInMS / 1000 - minutes * 60;
-				totalTime = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%d:%02d - "), minutes, seconds);
-			} else {
-				totalTime = CFSTR("");
-			}
-
-			UniChar star = 0x272F;
-			UniChar dot = 0x00B7;
-			rating = CFSTR("");
-			UniChar buf[5] = {dot,dot,dot,dot,dot};
-
-			switch (visualPluginData->trackInfo.userRating) {
-				case 100:
-					buf[4] = star;
-				case 80:
-					buf[3] = star;
-				case 60:
-					buf[2] = star;
-				case 40:
-					buf[1] = star;
-				case 20:
-					buf[0] = star;
-			}
-			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
-			CFStringAppendCharacters(tmp, buf, 5);
-			rating = tmp;
-
-			CFStringDelete(desc, CFRangeMake(0, CFStringGetLength(desc)));
-			CFStringAppendFormat(desc, NULL, CFSTR("%@%@%@%@%@"), totalTime, rating, artist, album, genre);
+			setupTitleString(visualPluginData, &title);		
+			setupDescString(visualPluginData, &desc);
 
 			Handle coverArt = NULL;
 			OSType format;
@@ -434,16 +476,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				RemoveEventHandler(hotKeyEventHandlerRef);
 			InstallEventHandler(GetEventDispatcherTarget(), (EventHandlerProcPtr)hotKeyEventHandler, 2, eventSpec, &notification, &hotKeyEventHandlerRef);
 
-			if (artist)
-				CFRelease(artist);
-			if (album)
-				CFRelease(album);
 			if (coverArt)
 				DisposeHandle(coverArt);
-			if (totalTime)
-				CFRelease(totalTime);
-			if (rating)
-				CFRelease(rating);
 			visualPluginData->playing = true;
 			break;
 		}
@@ -455,15 +489,17 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			information about the currently playing song.
 		*/
 		case kVisualPluginChangeTrackMessage:
-			if (messageInfo->u.changeTrackMessage.trackInfo)
-				visualPluginData->trackInfo = *messageInfo->u.changeTrackMessage.trackInfoUnicode;
-			else
-				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
-
+			
+			
 			if (messageInfo->u.changeTrackMessage.streamInfo)
 				visualPluginData->streamInfo = *messageInfo->u.changeTrackMessage.streamInfoUnicode;
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
+
+			setupTitleString(visualPluginData, &title);		
+			setupDescString(visualPluginData, &desc);
+
+			GrowlTunes_PostNotification(&notification);
 			break;
 
 		/*

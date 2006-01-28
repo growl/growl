@@ -174,9 +174,9 @@ typedef struct ITTrackInfo ITTrackInfo;
 
 struct ITStreamInfo {
 	SInt32				version;
-	Str255				streamTitle;
-	Str255				streamURL;
-	Str255				streamMessage;
+	ITUniStr255				streamTitle;
+	ITUniStr255				streamURL;
+	ITUniStr255				streamMessage;
 };
 typedef struct ITStreamInfo ITStreamInfo;
 
