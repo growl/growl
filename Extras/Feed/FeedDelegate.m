@@ -225,14 +225,28 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[self updateDockIcon: [LIB unreadCountForItem:nil]];
 }
 
+static void linearGradientBackgroundShadingValues(void *info, const float *in, float *out);
+static void linearGradientBackgroundShadingValues(void *info, const float *in, float *out){
+	float *colors = (float *)info;
+	
+	register float a = in[0];
+	register float a_coeff = 1.0f - a;
+	
+	out[0] = a_coeff * colors[4] + a * colors[0];
+	out[1] = a_coeff * colors[5] + a * colors[1];
+	out[2] = a_coeff * colors[6] + a * colors[2];
+	out[3] = a_coeff * colors[7] + a * colors[3];
+}
+
+
+#define ICON_BADGE_MARGIN 15.0
+#define ICON_BADGE_PADDING 3.0
+#define ICON_BADGE_STROKE_WIDTH 3.0
 -(void)updateDockIcon:(int)unreadCount{
     NSImage *               appImage;
     NSImage *               newImage;
     NSSize                  newImageSize;
-    NSRect                  badgeRect;
-    NSString *              unreadString = [NSString stringWithFormat: @" %d ", unreadCount];
-    NSDictionary *          unreadAtts = nil;
-	NSSize					countSize;
+    
     
     //KNDebug(@"APP: updateDockIcon with %d (%@)", unreadCount, unreadString);	
 	appImage = [NSImage imageNamed: @"NSApplicationIcon"];
@@ -247,19 +261,87 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
     ];
     
     if( [PREFS showUnreadInDock] && (unreadCount > 0) ){
-        unreadAtts = [NSDictionary dictionaryWithObjectsAndKeys:
-                            [NSFont boldSystemFontOfSize:32], NSFontAttributeName, 
-                            [NSColor whiteColor], NSForegroundColorAttributeName,
-                            [NSColor redColor], NSBackgroundColorAttributeName,
-                    nil];
-        
-		countSize = [unreadString sizeWithAttributes: unreadAtts];
+	
+		// Set up our unread count size
+		NSString * unreadString = [NSString stringWithFormat: @"%d", unreadCount];
+        NSDictionary * unreadAtts = [NSDictionary dictionaryWithObjectsAndKeys:
+											[NSFont boldSystemFontOfSize:32], NSFontAttributeName, 
+											[NSColor whiteColor], NSForegroundColorAttributeName,
+									nil];
+		NSSize countSize = [unreadString sizeWithAttributes: unreadAtts];
 		
-        //badgeRect.size = NSMakeSize(countSize.width + 10, countSize.height + 10);		
-		badgeRect.origin = NSMakePoint(newImageSize.width - (countSize.width + 16), newImageSize.height - (countSize.height + 6));
+		// If we're past the width threshold, change strings to '...' (Up to 2/3 of the icon width)
+		if( countSize.width > ( 2.0 * newImageSize.width / 3.0 ) ){
+			unreadString = [NSString stringWithString:@"..."];
+			countSize = [unreadString sizeWithAttributes: unreadAtts];
+		}
 		
+		// Calculate the badge size
+		NSRect						badgeRect;
+		badgeRect = NSMakeRect( 
+				newImageSize.width - (countSize.width + ICON_BADGE_MARGIN + (ICON_BADGE_PADDING * 2.0) + (countSize.height / 2.0)),
+				newImageSize.height - (countSize.height + ICON_BADGE_MARGIN + (ICON_BADGE_PADDING * 2.0)),
+				countSize.width + (ICON_BADGE_PADDING * 2.0) + (countSize.height / 2.0),
+				countSize.height + (ICON_BADGE_PADDING * 2.0)
+		);
 		
+		// Set up for CG goodness
+		CGRect badgeBounds = CGRectMake( badgeRect.origin.x, badgeRect.origin.y, badgeRect.size.width, badgeRect.size.height );
+		CGContextRef context = (CGContextRef) [[NSGraphicsContext currentContext] graphicsPort];
+		CGContextSaveGState( context );
 		
+		// Build the CG path for the badge
+		float radius = (badgeBounds.size.height / 2.0);
+		CGMutablePathRef path = CGPathCreateMutable();
+		
+		CGPathMoveToPoint( path, NULL, CGRectGetMinX(badgeBounds) + radius, CGRectGetMinY(badgeBounds) );
+		CGPathAddLineToPoint( path, NULL, CGRectGetMaxX(badgeBounds) - radius, CGRectGetMinY(badgeBounds) );
+		CGPathAddArcToPoint( path, NULL, CGRectGetMaxX(badgeBounds), CGRectGetMinY(badgeBounds), CGRectGetMaxX(badgeBounds), CGRectGetMinY(badgeBounds) + radius, radius );
+		CGPathAddArcToPoint( path, NULL, CGRectGetMaxX(badgeBounds), CGRectGetMaxY(badgeBounds), CGRectGetMaxX(badgeBounds) - radius, CGRectGetMaxY(badgeBounds), radius );
+		CGPathAddLineToPoint( path, NULL, CGRectGetMinX(badgeBounds) + radius, CGRectGetMaxY(badgeBounds) );
+		CGPathAddArcToPoint( path, NULL, CGRectGetMinX(badgeBounds), CGRectGetMaxY(badgeBounds), CGRectGetMinX(badgeBounds), CGRectGetMaxY(badgeBounds) - radius, radius );
+		CGPathAddArcToPoint( path, NULL, CGRectGetMinX(badgeBounds), CGRectGetMinY(badgeBounds), CGRectGetMinX(badgeBounds) + radius, CGRectGetMinY(badgeBounds), radius );
+		
+		CGContextAddPath( context, path );
+		
+		// Draw the fill
+		CGContextClip( context );
+		CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+		CGPoint startPoint = CGPointMake( CGRectGetMinX(badgeBounds), CGRectGetMaxY(badgeBounds) );
+		CGPoint endPoint = CGPointMake( CGRectGetMinX(badgeBounds), CGRectGetMinY(badgeBounds) );
+		
+		static float colors[8];
+		
+		NSColor *			red = [[NSColor redColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+		
+		[red
+			getRed:&colors[0] green: &colors[1] blue: &colors[2] alpha: &colors[3]
+		];
+		[[red highlightWithLevel: 0.5]
+			getRed:&colors[4] green: &colors[5] blue: &colors[6] alpha: &colors[7]
+		];
+		
+		static const CGFunctionCallbacks callbacks = { 0U, linearGradientBackgroundShadingValues, NULL };
+		CGFunctionRef function = CGFunctionCreate( (void *)colors, 1U, NULL, 4U, NULL, &callbacks );		
+		CGShadingRef shading = CGShadingCreateAxial( colorspace, startPoint, endPoint, function, false, false );
+		CGContextDrawShading( context, shading );
+		
+		// Set the stroke for the path and draw
+		CGContextAddPath( context, path );
+		CGContextSetLineWidth( context, ICON_BADGE_STROKE_WIDTH );
+		static float strokeColor[4] = { 1.0,1.0,1.0,1.0 };
+		CGColorRef stroke = CGColorCreate( colorspace, strokeColor );
+		CGContextSetStrokeColorWithColor( context, stroke );
+		CGContextStrokePath( context );
+				
+		// Clean up CG goodness
+		CGShadingRelease( shading );
+		CGColorSpaceRelease( colorspace );
+		CGFunctionRelease( function );
+		CGContextRestoreGState( context );
+		
+		// Draw the text
+		badgeRect = NSInsetRect( badgeRect, ICON_BADGE_PADDING + (countSize.height / 4.0), ICON_BADGE_PADDING );
         [unreadString drawAtPoint: badgeRect.origin withAttributes: unreadAtts];
     }
     
