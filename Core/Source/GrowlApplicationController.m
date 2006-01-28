@@ -117,6 +117,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			CFRelease(description);
 		}
 	}
+	CFRunLoopTimerInvalidate(timer);
+	CFRelease(timer);
 
 	[productVersionDict release];
 }
@@ -211,7 +213,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			lastCheck = now;
 		}
 		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
-		updateTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, [[lastCheck addTimeInterval:UPDATE_CHECK_INTERVAL] timeIntervalSinceReferenceDate], UPDATE_CHECK_INTERVAL, 0, 0, checkVersion, &context);
+		CFRunLoopTimerRef updateTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, [[lastCheck addTimeInterval:UPDATE_CHECK_INTERVAL] timeIntervalSinceReferenceDate], UPDATE_CHECK_INTERVAL, 0, 0, checkVersion, &context);
 		CFRunLoopAddTimer(CFRunLoopGetMain(), updateTimer, kCFRunLoopCommonModes);
 
 		// create and register GrowlNotificationCenter
