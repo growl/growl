@@ -110,6 +110,7 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
     wind=GetControlOwner(control);
     GetControlID(control,&controlID);
 	char *string = (char *)&controlID.signature;
+	CFLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
     switch(controlID.id){
         case kTrackSettingID:
                 gTrackFlag=GetControlValue(control);
