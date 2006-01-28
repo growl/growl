@@ -280,9 +280,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
 
-	CFRunLoopTimerInvalidate(updateTimer);
-	CFRelease(updateTimer);
-
 	[growlNotificationCenterConnection invalidate];
 	[growlNotificationCenterConnection release]; growlNotificationCenterConnection = nil;
 	[growlNotificationCenter           release]; growlNotificationCenter = nil;
