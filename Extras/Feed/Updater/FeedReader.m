@@ -307,7 +307,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	//KNDebug(@"%@: addArticleFromDict: %@",self, dict);
 	[article setObject: [self keyOfArticle: dict] forKey: ArticleGuid];
-	[article setObject: [self titleOfArticle: dict] forKey: ArticleTitle];
+	[article setObject: [self titleHTMLOfArticle: dict] forKey: ArticleTitleHTML];
 	[article setObject: [self authorOfArticle: dict] forKey: ArticleAuthor];
 	[article setObject: [self linkOfArticle: dict] forKey: ArticleLink];
 	[article setObject: [self sourceOfArticle: dict] forKey: ArticleSourceURL];
@@ -356,7 +356,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma unused(article)
 	return [NSString string];
 }
--(NSAttributedString *)titleOfArticle:(NSDictionary *)article{
+-(NSString *)titleHTMLOfArticle:(NSDictionary *)article{
 #pragma unused(article)
 	return [[[NSAttributedString alloc] init] autorelease];
 }

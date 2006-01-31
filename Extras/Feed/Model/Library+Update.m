@@ -151,9 +151,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)updateFeed:(KNFeed *)aFeed error:(NSString *)reason{
-	if( [[aFeed sourceType] isEqualToString: FeedSourceTypeUnknown] && [[activeReaders objectForKey: [aFeed sourceURL]] isKindOfClass:[RSSReader class]] ){
+	[self updateFeed: aFeed error: reason connected: YES];
+}
+
+-(void)updateFeed:(KNFeed *)aFeed error:(NSString *)reason connected:(BOOL)didConnect{
+	if( [[aFeed sourceType] isEqualToString: FeedSourceTypeUnknown] && 
+		[[activeReaders objectForKey: [aFeed sourceURL]] isKindOfClass:[RSSReader class]] &&
+		didConnect
+	){
 		AtomReader *			newReader = [[AtomReader alloc] initWithLibrary: self feed: aFeed];
-		
 		//KNDebug(@"LIB: retrying unknown feed as Atom");
 		if( newReader ){
 			[activeReaders setObject: newReader forKey: [aFeed sourceURL]];

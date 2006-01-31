@@ -167,7 +167,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 					);
 					didInsulate = YES;
 				}
-								
+				
 				remainingRange = NSMakeRange(
 					closeRange.location + closeRange.length,
 					[sourceXML length] - (closeRange.location + closeRange.length)
@@ -215,7 +215,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		key = [article objectForKey: @"guid"];
 	}else{
 		hashDict = [NSDictionary dictionaryWithObjectsAndKeys:
-						[self titleOfArticle: article], @"title",
+						[self titleHTMLOfArticle: article], @"title",
 						/* [self contentOfArticle: article], @"description", */
 						[self linkOfArticle: article], @"link",
 					nil];
@@ -225,18 +225,14 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return key;
 }
 
--(NSAttributedString *)titleOfArticle:(NSDictionary *)article{
+-(NSString *)titleHTMLOfArticle:(NSDictionary *)article{
+	NSString *				titleHTML = [NSString string];
+	
 	if( [article objectForKey: @"title"] ){
-		/*
-		return [[[NSAttributedString alloc] initWithHTML: 
-			[NSData dataWithBytes: [[article objectForKey: @"title"] bytes] length: [[article objectForKey: @"title"] length]]
-			documentAttributes:nil] 
-		autorelease];
-		*/
-		return [[[NSAttributedString alloc] initWithString: [[article objectForKey: @"title"] collapseHTML]] autorelease];
-	}else{
-		return [[[NSAttributedString alloc] init] autorelease];
+		titleHTML = [NSString stringWithString: [article objectForKey: @"title"]];
 	}
+	
+	return titleHTML;
 }
 
 -(NSString *)contentOfArticle:(NSDictionary *)article{

@@ -54,12 +54,14 @@ static void linearGradientBackgroundShadingValues(void *info, const float *in, f
 	out[2] = a_coeff * colors[6] + a * colors[2];
 	out[3] = a_coeff * colors[7] + a * colors[3];
 }
+
 -(void)drawDividerInRect:(NSRect)aRect{
 	CGContextRef						context = (CGContextRef) [[NSGraphicsContext currentContext] graphicsPort];
 	CGRect								bounds = CGRectMake( aRect.origin.x, aRect.origin.y, aRect.size.width, aRect.size.height );
+		
+	CGContextSaveGState( context );
 	
 	CGContextAddRect( context, bounds );
-	CGContextSaveGState( context );
 	CGContextClip( context );
 	
 	CGColorSpaceRef						colorspace = CGColorSpaceCreateDeviceRGB();
@@ -85,6 +87,7 @@ static void linearGradientBackgroundShadingValues(void *info, const float *in, f
 	CGShadingRelease( shader );
 	CGColorSpaceRelease( colorspace );
 	CGFunctionRelease( function );
+	
 	CGContextRestoreGState( context );
 	
 	// Draw the borders
@@ -109,6 +112,7 @@ static void linearGradientBackgroundShadingValues(void *info, const float *in, f
 		)
 	);
 }
+
 
 
 @end

@@ -54,6 +54,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		category = [[NSString string] retain];
 		summary = [[NSString string] retain];
 		content = [[NSString string] retain];
+		titleHTML = [[NSString string] retain];
 		title = [[NSAttributedString alloc] init];
 		isOnServer = NO;
 		isSuppressed = NO;
@@ -63,20 +64,92 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(id)initWithCoder:(NSCoder *)aCoder{
 	if( (self = [super initWithCoder: aCoder]) ){
-		guid = [[aCoder decodeObjectForKey: ArticleGuid] retain];
-		feedName = [[aCoder decodeObjectForKey: ArticleFeedName] retain];
-		status = [[aCoder decodeObjectForKey: ArticleStatus] retain];
-		link = [[aCoder decodeObjectForKey: ArticleLink] retain];
-		sourceURL = [[aCoder decodeObjectForKey: ArticleSourceURL] retain];
-		commentsURL = [[aCoder decodeObjectForKey: ArticleCommentsURL] retain];
-		author = [[aCoder decodeObjectForKey: ArticleAuthor] retain];
-		date = [[aCoder decodeObjectForKey: ArticleDate] retain];
-		category = [[aCoder decodeObjectForKey: ArticleCategory] retain];
-		summary = [[aCoder decodeObjectForKey: ArticleSummary] retain];
-		content = [[aCoder decodeObjectForKey: ArticleContent] retain];
-		title = [[aCoder decodeObjectForKey: ArticleTitle] retain];
-		isOnServer = [[aCoder decodeObjectForKey: ArticleIsOnServer] boolValue];
-		isSuppressed = [[aCoder decodeObjectForKey: ArticleIsSuppressed] boolValue];
+	
+		guid = [aCoder decodeObjectForKey: ArticleGuid];
+		if( !guid ){ 
+			guid = [NSString stringWithString: [super key]];
+		}
+		[guid retain];
+		
+		feedName = [aCoder decodeObjectForKey: ArticleFeedName];
+		if( ! feedName ){
+			feedName = [NSString stringWithString: guid];
+		}
+		[feedName retain];
+		
+		status = [aCoder decodeObjectForKey: ArticleStatus];
+		if( ! status ){
+			status = [NSString stringWithString: StatusUnread];
+		}
+		[status retain];
+		
+		link = [aCoder decodeObjectForKey: ArticleLink];
+		if( ! link ){
+			link = [NSString string];
+		}
+		[link retain];
+		
+		sourceURL = [aCoder decodeObjectForKey: ArticleSourceURL];
+		if( ! sourceURL ){
+			sourceURL = [NSString string];
+		}
+		[sourceURL retain];
+		
+		commentsURL = [aCoder decodeObjectForKey: ArticleCommentsURL];
+		if( ! commentsURL ){
+			commentsURL = [NSString string];
+		}
+		[commentsURL retain];
+		
+		author = [aCoder decodeObjectForKey: ArticleAuthor];
+		if( ! author ){
+			author = [NSString string];
+		}
+		[author retain];
+		
+		date = [aCoder decodeObjectForKey: ArticleDate];
+		if( ! date ){
+			date = [NSDate date];
+		}
+		[date retain];
+		
+		category = [aCoder decodeObjectForKey: ArticleCategory];
+		if( ! category ){
+			category = [NSString string];
+		}
+		[category retain];
+		
+		summary = [aCoder decodeObjectForKey: ArticleSummary];
+		if( ! summary ){
+			summary = [NSString string];
+		}
+		[summary retain];
+		
+		content = [aCoder decodeObjectForKey: ArticleContent];
+		if( ! content ){
+			content = [NSString string];
+		}
+		[content retain];
+		
+		title = [aCoder decodeObjectForKey: ArticleTitle];
+		if( ! title ){
+			title = [NSString string];
+		}
+		[title retain];
+		
+		titleHTML = [aCoder decodeObjectForKey: ArticleTitleHTML];
+		if( ! titleHTML ){
+			titleHTML = [NSString string];
+		}
+		[titleHTML retain];
+		
+		NSNumber * storedNumber;
+		
+		storedNumber = [aCoder decodeObjectForKey: ArticleIsOnServer];
+		isOnServer = storedNumber ? [storedNumber boolValue] : TRUE;
+		
+		storedNumber = [aCoder decodeObjectForKey: ArticleIsSuppressed];
+		isSuppressed = storedNumber ? [storedNumber boolValue] : FALSE;
 	}
 	return self;
 }
@@ -95,6 +168,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[aCoder encodeObject: category forKey: ArticleCategory];
 	[aCoder encodeObject: summary forKey: ArticleSummary];
 	[aCoder encodeObject: content forKey: ArticleContent];
+	[aCoder encodeObject: titleHTML forKey: ArticleTitleHTML];
 	[aCoder encodeObject: title forKey: ArticleTitle];
 	[aCoder encodeObject: [NSNumber numberWithBool: isOnServer] forKey: ArticleIsOnServer];
 	[aCoder encodeObject: [NSNumber numberWithBool: isSuppressed] forKey: ArticleIsSuppressed];
@@ -112,6 +186,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[category release];
 	[summary release];
 	[content release];
+	[titleHTML release];
 	[title release];
 	
 	[super dealloc];
@@ -188,15 +263,27 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)setName:(NSString *)aName{
-	NSAttributedString *			attString = [[[NSAttributedString alloc] initWithString: aName] autorelease];
-	[self setTitle: attString];
+	[self setTitle: aName];
 }
 
 -(NSString *)name{
-	return [NSString stringWithString: [[self title] string] ];
+	return [self title];
 }
 
--(void)setTitle:(NSAttributedString *)aTitle{
+-(void)setTitleHTML:(NSString *)aTitleHTML{
+	if( ! aTitleHTML ){ ItemThrow(@"Attempt to set nil titleHTML in Article"); }
+	
+	[titleHTML autorelease];
+	titleHTML = [aTitleHTML retain];
+	
+	[self setTitle: titleHTML];
+}
+
+-(NSString *)titleHTML{
+	return titleHTML;
+}
+
+-(void)setTitle:(NSString *)aTitle{
 	if( ! aTitle ){ ItemThrow(@"Attempt to set nil title in Article"); }
 	
 	[self _updatedIfOld: title changed: aTitle];
@@ -205,8 +292,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	title = [aTitle retain];
 }
 
--(NSAttributedString *)title{
-	return title;
+-(NSString *)title{
+	NSAttributedString *	renderedString = [[[NSAttributedString alloc] initWithHTML: [title  dataUsingEncoding:[title fastestEncoding]] documentAttributes: nil] autorelease];
+	NSString *				collapsedTitle = [NSString stringWithString: [renderedString string]];
+	
+	return collapsedTitle;
 }
 
 -(void)setStatus:(NSString *)aStatus{
@@ -332,7 +422,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[self setStatus: StatusUpdated];
 		[content autorelease];
 		content = [aContent retain];
-		//[self generateCache];
 	}
 }
 
@@ -360,7 +449,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma mark -
 #pragma mark Preview Support
 
--(void)generateCache{
+-(void)generateCache:(id)sender{
+#pragma unused( sender )
 	NSMutableString *			displayedHTML = [NSMutableString string];
 	NSString *                  dateOutput = [NSString string];
 	
@@ -374,7 +464,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Feed:</td>"];
 	[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a title=\"Open feed in default browser\" href=\"%@\">%@</a></td></tr>", [(KNFeed *)[self parent] link], [[self parent] name]];
 	[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Title:</td>"];
-	[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a title=\"Open article in default browser\" href=\"%@\">%@</a></td></tr>", [self link], [[self title] string]];
+	[displayedHTML appendFormat:@"<td valign=\"top\" class=\"feed_header\"><a title=\"Open article in default browser\" href=\"%@\">%@</a></td></tr>", [self link], [self titleHTML]];
 	
 	if( ! [[self author] isEqualToString: @""] ){
 		[displayedHTML appendFormat:@"<tr><td align=\"right\" valign=\"top\" class=\"feed_label\">Author:</td>"];

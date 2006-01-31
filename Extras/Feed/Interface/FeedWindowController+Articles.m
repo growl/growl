@@ -44,19 +44,34 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 @implementation FeedWindowController (Articles)
 
 
+-(void)tableView:(NSTableView *)tableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aColumn row:(int)rowIndex{
+#pragma unused( tableView, aColumn )
+	KNArticle *					article = [articleCache objectAtIndex: rowIndex];
+	NSFont *					oldFont = [aCell font];
+	
+	[aCell setWraps: YES];
+	
+	if( article && [[article status] isEqualToString: StatusUnread] ){
+		//KNDebug(@"Returning bold cell");
+		[aCell setFont:[[NSFontManager sharedFontManager] convertFont: oldFont toHaveTrait: NSBoldFontMask]];
+	}else{
+		[aCell setFont:[[NSFontManager sharedFontManager] convertFont: oldFont toNotHaveTrait: NSBoldFontMask]];
+	}
+//	KNDebug(@"Cell %@, %d", [aColumn identifier],  rowIndex);
+}
 
 -(id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)idx{
 #pragma unused(tableView)
     id							value = nil;
     KNArticle *					article = nil;
-    NSCell *					currentCell = nil;
+   // NSCell *					currentCell = nil;
     NSFontManager *				fontManager = [NSFontManager sharedFontManager];
 	NSMutableDictionary *		attributes = [NSMutableDictionary dictionary];
     
     article = [articleCache objectAtIndex: idx];
     if( article ){
-		currentCell = [column dataCell];
-		[currentCell setWraps: YES];
+		//currentCell = [column dataCell];
+		//[currentCell setWraps: YES];
 		[attributes setObject: tableWrapStyle forKey: NSParagraphStyleAttributeName];
 		
 		//KNDebug(@"CONT: setting attributes. Cell is %@", currentCell);
@@ -73,29 +88,37 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		//KNDebug(@"CONT: attributes are %@", attributes);
 		
         if( [[column identifier] isEqualToString: ArticleTitle] ){
-			value = [[[NSMutableAttributedString alloc] initWithAttributedString: [article title]] autorelease];
-			[value setAttributes: attributes range: NSMakeRange(0,[value length])];
+			/* value = [[[NSAttributedString alloc] 
+				initWithString: [article title] 
+				attributes: attributes] autorelease]; */
+			value = [article title];
         }else if( [[column identifier] isEqualToString: ArticleAuthor] ){
-            value = [[[NSAttributedString alloc]
+            /*value = [[[NSAttributedString alloc]
 				initWithString: [article author]
-				attributes: attributes] autorelease];
+				attributes: attributes] autorelease]; */
+			value = [article author];
         }else if( [[column identifier] isEqualToString: ArticleCategory] ){
-            value = [[[NSAttributedString alloc]
+            /* value = [[[NSAttributedString alloc]
 				initWithString: [article category]
-				attributes: attributes] autorelease];
+				attributes: attributes] autorelease]; */
+			value = [article category];
         }else if( [[column identifier] isEqualToString: ArticleFeedName] ){
-            value = [[[NSAttributedString alloc]
+            /* value = [[[NSAttributedString alloc]
 				initWithString: [article feedName]
-				attributes: attributes] autorelease];
+				attributes: attributes] autorelease]; */
+			value = [article feedName];
         }else if( [[column identifier] isEqualToString: ArticleDate] ){
-			value = [[[NSAttributedString alloc]
+			/* value = [[[NSAttributedString alloc]
 				initWithString:[[article date] naturalStringForWidth: [column width] withAttributes: attributes]
 				attributes: attributes] autorelease];
+			*/
+			value = [[article date] naturalStringForWidth: [column width] withAttributes: attributes];
 				
 		}else if( [[column identifier] isEqualToString: ArticleSourceURL] ){
-			value = [[[NSAttributedString alloc]
+			/*value = [[[NSAttributedString alloc]
 				initWithString: [article sourceURL]
-				attributes: attributes] autorelease];
+				attributes: attributes] autorelease];*/
+			value = [article sourceURL];
 			
 		}else if( [[column identifier] isEqualToString: ArticleStatus] ){
 			value = [[article status] isEqualToString: StatusRead] ? nil : [NSImage imageNamed: [article status]];
@@ -104,6 +127,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			value = [article isOnServer] ? [NSImage imageNamed: ArticleOnServerImage] : nil;
 		}
     }
+	//KNDebug(@"returning %@ (%d)", [column identifier], idx);
     return value;
 }
 

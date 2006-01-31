@@ -254,6 +254,7 @@ static void linearGradientBackgroundShadingValues(void *info, const float *in, f
     newImage = [[NSImage alloc] initWithSize: newImageSize];
 
     [newImage lockFocus];
+	
     [appImage drawInRect: NSMakeRect(0,0,newImageSize.width,newImageSize.height)
         fromRect: NSMakeRect(0,0,[appImage size].width,[appImage size].height)
         operation: NSCompositeCopy
@@ -270,8 +271,8 @@ static void linearGradientBackgroundShadingValues(void *info, const float *in, f
 									nil];
 		NSSize countSize = [unreadString sizeWithAttributes: unreadAtts];
 		
-		// If we're past the width threshold, change strings to '...' (Up to 2/3 of the icon width)
-		if( countSize.width > ( 2.0 * newImageSize.width / 3.0 ) ){
+		// If we're past the width threshold, change strings to '...' (Up to 1/2 of the icon width)
+		if( countSize.width > ( 1.0 * newImageSize.width / 2.0 ) ){
 			unreadString = [NSString stringWithString:@"..."];
 			countSize = [unreadString sizeWithAttributes: unreadAtts];
 		}
@@ -338,6 +339,7 @@ static void linearGradientBackgroundShadingValues(void *info, const float *in, f
 		CGShadingRelease( shading );
 		CGColorSpaceRelease( colorspace );
 		CGFunctionRelease( function );
+		
 		CGContextRestoreGState( context );
 		
 		// Draw the text

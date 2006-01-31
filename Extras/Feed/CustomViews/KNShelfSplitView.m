@@ -264,7 +264,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	if( contentView ){
 		float contentViewX = (isShelfVisible ? currentShelfWidth : 0);
-		[contentView setFrame: NSMakeRect( contentViewX + 1, 0, [self bounds].size.width - contentViewX, [self bounds].size.height)];
+		NSRect newRect = NSMakeRect( contentViewX + 1, 0, [self bounds].size.width - (contentViewX + 1), [self bounds].size.height);
+		if( ! NSEqualRects(newRect, [contentView frame]) ){
+			[contentView setFrame: newRect];
+		}
 	}
 	
 	[self setNeedsDisplay: YES];
@@ -424,7 +427,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 - (void)drawRect:(NSRect)rect {
 #pragma unused( rect )
-	
+		
 	if( isShelfVisible ){
 		//NSLog(@"Drawing Control( %f, %f) (%f, %f)", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 		

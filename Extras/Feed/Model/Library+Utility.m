@@ -47,17 +47,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)articleIsStale:(KNArticle *)anArticle{
-	[anArticle generateCache];
+	[anArticle performSelector:@selector(generateCache:) withObject:self afterDelay:0.0];
 }
 
 -(NSString *)previewCacheForArticle:(KNArticle *)anArticle{
 	if( ! [[NSFileManager defaultManager] fileExistsAtPath: [anArticle previewCachePath]] ){
-		[anArticle generateCache];
+		[anArticle generateCache: self];
 	}else{
 		if( ![anArticle valueForKeyPath:@"prefs.articlePrefsVersion"] || 
 			![[anArticle valueForKeyPath:@"prefs.articlePrefsVersion"] isEqual: ArticlePreviewCacheVersion]
 		){
-			[anArticle generateCache];
+			[anArticle generateCache: self];
 		}
 	}
 	return [anArticle previewCachePath];

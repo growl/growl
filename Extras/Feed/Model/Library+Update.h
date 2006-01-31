@@ -52,7 +52,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)updateStarted;
 -(void)willUpdateFeed:(KNFeed *)source;
 -(void)updateFeed:(KNFeed *)aFeed headers:(NSDictionary *)headers articles:(NSArray *)articles;
--(void)updateFeed:(KNFeed *)source error:(NSString *)reason;
+-(void)updateFeed:(KNFeed *)aFeed error:(NSString *)reason;
+-(void)updateFeed:(KNFeed *)aFeed error:(NSString *)reason connected:(BOOL)didConnect;
 -(void)runNextUpdate;
 -(void)updateFinished;
 

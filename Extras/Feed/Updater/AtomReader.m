@@ -244,7 +244,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		key = [NSString stringWithString: [article objectForKey: @"id"]];
 	}else{
 		hashDict = [NSDictionary dictionaryWithObjectsAndKeys:
-						[self titleOfArticle: article], @"title",
+						[self titleHTMLOfArticle: article], @"title",
 						/* [self contentOfArticle: article], @"content", */
 						[self linkOfArticle: article], @"link",
 					nil];
@@ -254,17 +254,14 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return key;
 }
 
--(NSAttributedString *)titleOfArticle:(NSDictionary *)article{
-	//KNDebug(@"UPDATE: atom title parse %@ (%@)", article, [article objectForKey: @"title"]);
+-(NSString *)titleHTMLOfArticle:(NSDictionary *)article{
+	NSString *				titleHTML = [NSString string];
+	
 	if( [article objectForKey: @"title"] ){
-		//NSString * title = [article objectForKey:@"title"];
-		//KNDebug(@"UPDATE: title is %@", title);
-		//NSString * collapsedString = [[article objectForKey: @"title"] collapseHTML];
-		//KNDebug(@"UPDATE: collapsed title: %@", collapsedString);
-		return [[[NSAttributedString alloc] initWithString: [[article objectForKey: @"title"] collapseHTML]] autorelease];
-	}else{
-		return [[[NSAttributedString alloc] init] autorelease];
+		return [NSString stringWithString: [article objectForKey: @"title"]];
 	}
+	
+	return titleHTML;
 }
 
 -(NSString *)contentOfArticle:(NSDictionary *)article{

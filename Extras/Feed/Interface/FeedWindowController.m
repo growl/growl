@@ -360,9 +360,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(IBAction)reloadData{
-	//KNDebug(@"WIN reloadData");
+	KNDebug(@"WIN reloadData");
 	preferredSourceWidth = 0;
 	
+	[mainShelfView setNeedsDisplay: YES];
 	[feedOutlineView reloadData];
 	[self refreshArticleCache];
 	[articleTableView reloadData];

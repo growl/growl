@@ -75,7 +75,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)addArticleFromDict:(NSDictionary *)dict;
 
 -(NSString *)keyOfArticle:(NSDictionary *)article;
--(NSAttributedString *)titleOfArticle:(NSDictionary *)article;
+-(NSString *)titleHTMLOfArticle:(NSDictionary *)article;
 -(NSString *)contentOfArticle:(NSDictionary *)article;
 -(NSString *)authorOfArticle:(NSDictionary *)article;
 -(NSString *)sourceOfArticle:(NSDictionary *)article;

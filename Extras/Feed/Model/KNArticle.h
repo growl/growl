@@ -44,6 +44,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #define ArticleGuid @"guid"
 #define ArticleFeedName @"feedName"
 #define ArticleStatus @"status"
+#define ArticleTitleHTML @"titleHTML"
 #define ArticleTitle @"title"
 #define ArticleLink @"link"
 #define ArticleSourceURL @"sourceURL"
@@ -64,7 +65,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	NSString *					feedName;
 	NSString *					guid;
-	NSAttributedString *		title;
+	NSString *					titleHTML;
+	NSString *					title;
 	NSString *					link;
 	NSString *					sourceURL;
 	NSString *					commentsURL;
@@ -93,8 +95,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(NSString *)feedName;
 -(void)setGuid:(NSString *)aGuid;
 -(NSString *)guid;
--(void)setTitle:(NSAttributedString *)aString;
--(NSAttributedString *)title;
+-(void)setTitleHTML:(NSString *)aTitleHTML;
+-(NSString *)titleHTML;
+-(void)setTitle:(NSString *)aTitle;
+-(NSString *)title;
 -(void)setStatus:(NSString *)aStatus;
 -(NSString *)status;
 -(void)setLink:(NSString *)aLink;
@@ -120,6 +124,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 
 
--(void)generateCache;
+-(void)generateCache:(id)sender;
 -(void)deleteCache;
 @end

@@ -56,8 +56,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)awakeFromNib{
 	KNDebug(@"awakeFromNib");
 	
-	[mainShelfView setFrame: [[[self window] contentView] frame]];
-	
 	[displaySplitView retain];
 	[displaySplitView removeFromSuperview];
 	[mainShelfView setContentView: displaySplitView];
@@ -80,6 +78,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[displayWebView setPolicyDelegate: self];
 	[displayWebView setUIDelegate: self];
 	[displayWebView setResourceLoadDelegate: self];
+	
+	[mainShelfView setFrame: [[[self window] contentView] frame]];
     
     // Set up our View->Columns menu
     NSEnumerator *              enumerator = [viewColumns objectEnumerator];
@@ -99,7 +99,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
         
         [column setTableView: articleTableView];
         [column setEditable: NO];
-        [column setResizable: YES];
+		
+		if( [column respondsToSelector: @selector(setResizingMask:)] ){
+			[column setResizingMask: NSTableColumnAutoresizingMask | NSTableColumnUserResizingMask];
+		}else{
+			KNDebug(@"Using old resizing stuff");
+			[column setResizable: YES];
+		}
         [column setWidth: [[columnRecord objectForKey:ColumnWidth] floatValue]];
 		
 		if( ! [[columnRecord objectForKey: ColumnIdentifier] isEqualToString: ArticleDate] ){
@@ -116,13 +122,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
         [[column headerCell] setTitle: [columnRecord objectForKey:ColumnName]];
         
         if( [[columnRecord objectForKey: ColumnIdentifier] isEqualToString: ArticleStatus] ){
-            [column setResizable:NO];
+			if( [column respondsToSelector:@selector(setResizingMask:)] ){
+				[column setResizingMask: NSTableColumnNoResizing];
+			}else{
+				[column setResizable:NO];
+			}
             imageCell = [[NSImageCell alloc] init];
             [column setDataCell: imageCell];
             [imageCell release];
             [[column headerCell] setImage: [NSImage imageNamed: ColumnStatusImageName]];
         }
-		//[[column dataCell] setFont: articleListFont];
+		[[column dataCell] setFont: [NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
 		
 		if( [[column dataCell] respondsToSelector: @selector(setDrawsBackground:)] ){
 			[[column dataCell] setDrawsBackground: NO];
@@ -255,7 +265,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)updateKeyViewLoop{
-	BOOL			sourceVisible = ! [mainShelfView isShelfVisible];
+	BOOL			sourceVisible = [mainShelfView isShelfVisible];
 	BOOL			previewVisible = ! [displaySplitView isSubviewCollapsed: [[displaySplitView subviews] objectAtIndex:1]];
 	
 	if( previewVisible ){

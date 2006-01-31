@@ -57,13 +57,47 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(id)initWithCoder:(NSCoder *)aCoder{
 	if( (self = [super initWithCoder: aCoder]) ){
-		sourceURL = [[aCoder decodeObjectForKey: FeedSourceURL] retain];
-		sourceType = [[aCoder decodeObjectForKey: FeedSourceType] retain];
-		faviconURL = [[aCoder decodeObjectForKey: FeedFaviconURL] retain];
-		summary = [[aCoder decodeObjectForKey: FeedSummary] retain];
-		link = [[aCoder decodeObjectForKey: FeedLink] retain];
-		lastError = [[aCoder decodeObjectForKey: FeedLastError] retain];
-		imageURL = [[aCoder decodeObjectForKey: FeedImageURL] retain];
+		sourceURL = [aCoder decodeObjectForKey: FeedSourceURL];
+		if( ! sourceURL ){
+			sourceURL = [NSString string];
+		}
+		[sourceURL retain];
+		
+		sourceType = [aCoder decodeObjectForKey: FeedSourceType];
+		if( ! sourceType ){
+			sourceType = [NSString stringWithString: FeedSourceTypeUnknown];
+		}
+		[sourceType retain];
+		
+		faviconURL = [aCoder decodeObjectForKey: FeedFaviconURL];
+		if( ! faviconURL ){
+			faviconURL = [NSString string];
+		}
+		[faviconURL retain];
+		
+		summary = [aCoder decodeObjectForKey: FeedSummary];
+		if( ! summary ){
+			summary = [NSString string];
+		}
+		[summary retain];
+		
+		link = [aCoder decodeObjectForKey: FeedLink];
+		if( ! link ){
+			link = [NSString string];
+		}
+		[link retain];
+		
+		lastError = [aCoder decodeObjectForKey: FeedLastError];
+		if( ! lastError ){
+			lastError = [NSString string];
+		}
+		[lastError retain];
+		
+		imageURL = [aCoder decodeObjectForKey: FeedImageURL];
+		if( ! imageURL ){
+			imageURL = [NSString string];
+		}
+		[imageURL retain];
 		
 		faviconImage = [aCoder decodeObjectForKey: FeedFaviconImage];
 		if(! faviconImage ){
@@ -265,7 +299,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(void)removeChildAtIndex:(unsigned)anIndex{
-	KNArticle *					article = [self childAtIndex: anIndex];
+	KNArticle *					article = (KNArticle *)[self childAtIndex: anIndex];
 	
 	[article deleteCache];
 	if( [article isOnServer] ){
@@ -359,7 +393,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(KNArticle *)newestArticle{
-	NSMutableArray *			articles = [self itemsOfType:FeedItemTypeArticle];
+	NSMutableArray *			articles = [NSMutableArray arrayWithArray:[self itemsOfType:FeedItemTypeArticle]];
 	KNArticle *					article = nil;
 	
 	if( [articles count] > 0 ){
@@ -370,7 +404,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 }
 
 -(KNArticle *)oldestUnread{
-	NSMutableArray *			articles = [self itemsOfType:FeedItemTypeArticle];
+	NSMutableArray *			articles = [NSMutableArray arrayWithArray:[self itemsOfType:FeedItemTypeArticle]];
 	
 	[articles sortUsingSelector:@selector(compareByDate:)];
 	
