@@ -148,4 +148,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)setSourceSelectionIndexes:(NSIndexSet *)anIndexSet;
 -(NSArray *)sortDescriptors;
 -(void)setSortDescriptors:(NSArray *)descriptors;
+
+-(BOOL)showStatusBar;
+-(void)setShowStatusBar:(BOOL)shouldShowStatusBar;
 @end

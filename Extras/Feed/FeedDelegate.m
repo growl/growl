@@ -239,7 +239,8 @@ static void linearGradientBackgroundShadingValues(void *info, const float *in, f
 }
 
 
-#define ICON_BADGE_MARGIN 15.0
+#define ICON_BADGE_MARGIN_TOP 3.0
+#define ICON_BADGE_MARGIN_RIGHT 3.0
 #define ICON_BADGE_PADDING 3.0
 #define ICON_BADGE_STROKE_WIDTH 3.0
 -(void)updateDockIcon:(int)unreadCount{
@@ -280,8 +281,8 @@ static void linearGradientBackgroundShadingValues(void *info, const float *in, f
 		// Calculate the badge size
 		NSRect						badgeRect;
 		badgeRect = NSMakeRect( 
-				newImageSize.width - (countSize.width + ICON_BADGE_MARGIN + (ICON_BADGE_PADDING * 2.0) + (countSize.height / 2.0)),
-				newImageSize.height - (countSize.height + ICON_BADGE_MARGIN + (ICON_BADGE_PADDING * 2.0)),
+				newImageSize.width - (countSize.width + ICON_BADGE_MARGIN_RIGHT + (ICON_BADGE_PADDING * 2.0) + (countSize.height / 2.0)),
+				newImageSize.height - (countSize.height + ICON_BADGE_MARGIN_TOP + (ICON_BADGE_PADDING * 2.0)),
 				countSize.width + (ICON_BADGE_PADDING * 2.0) + (countSize.height / 2.0),
 				countSize.height + (ICON_BADGE_PADDING * 2.0)
 		);

@@ -47,4 +47,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)webKitMouseover:(NSString *)statusString;
 
+-(IBAction)toggleShowStatus:(id)sender;
+
 @end

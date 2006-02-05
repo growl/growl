@@ -259,7 +259,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	if( shelfView ){
-		[shelfView setFrame: NSMakeRect( 0, CONTROL_HEIGHT + 1, currentShelfWidth, [self bounds].size.height - (CONTROL_HEIGHT + 1) )];
+		[shelfView setFrame: NSMakeRect( 0, CONTROL_HEIGHT + 1, currentShelfWidth, [self bounds].size.height - (CONTROL_HEIGHT + 3) )];
 	}
 	
 	if( contentView ){

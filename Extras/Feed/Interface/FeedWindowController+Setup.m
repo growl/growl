@@ -56,15 +56,19 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)awakeFromNib{
 	KNDebug(@"awakeFromNib");
 	
+	// Pull our main article/display split view out of the nib and position it in the shelf view
 	[displaySplitView retain];
 	[displaySplitView removeFromSuperview];
 	[mainShelfView setContentView: displaySplitView];
+	[displaySplitView release];
 	
+	// Pull our source view out of the nib and position it in the shelf view
 	[feedSourceScrollView retain];
 	[feedSourceScrollView removeFromSuperview];
 	[mainShelfView setShelfView: feedSourceScrollView];
 	[feedSourceScrollView release];
 	
+	// Set up our shelf view
 	[mainShelfView setDelegate: self];
 	[mainShelfView setTarget: self];
 	[mainShelfView setAction: @selector(newFeed:)];
@@ -72,6 +76,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[mainShelfView setContextButtonImage: [NSImage imageNamed: @"ContextActionButton"]];
 	[mainShelfView setActionButtonImage: [NSImage imageNamed: @"AddButton"]];
 	
+	// Position the shelf view depending on status bar presence
+	NSRect					shelfFrame = [[[self window] contentView] frame];
+	if( [PREFS showStatusBar] ){
+		shelfFrame.size.height = shelfFrame.size.height - ([statusBarView frame].size.height - 1.0f);
+	}else{
+		[statusBarView retain];
+		[statusBarView removeFromSuperview];
+	}
+	[mainShelfView setFrame: shelfFrame];
+	
+	// Set up various options on our standard subviews
 	[feedOutlineView setAutosaveExpandedItems: YES];
 	
 	[displayWebView setMaintainsBackForwardList:NO];
@@ -79,7 +94,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[displayWebView setUIDelegate: self];
 	[displayWebView setResourceLoadDelegate: self];
 	
-	[mainShelfView setFrame: [[[self window] contentView] frame]];
+	
     
     // Set up our View->Columns menu
     NSEnumerator *              enumerator = [viewColumns objectEnumerator];

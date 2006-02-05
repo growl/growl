@@ -49,6 +49,7 @@
                 feedURLTextField = id; 
                 mainShelfView = id; 
                 newFeedPanel = id; 
+                statusBarView = id; 
                 statusProgressIndicator = id; 
                 statusTextField = id; 
             }; 
@@ -66,6 +67,7 @@
             OUTLETS = {contentView = NSView; shelfView = NSView; }; 
             SUPERCLASS = NSView; 
         }, 
+        {CLASS = KNStatusBar; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = KNUnifiedSplitView; LANGUAGE = ObjC; SUPERCLASS = NSSplitView; }, 
         {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
     ); 

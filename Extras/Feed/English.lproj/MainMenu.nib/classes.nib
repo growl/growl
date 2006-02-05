@@ -59,6 +59,8 @@
                 toggleArticleStatus = id; 
                 toggleDebug = id; 
                 toggleFeedDrawer = id; 
+                toggleShelf = id; 
+                toggleShowStatus = id; 
                 validateSource = id; 
             }; 
             CLASS = FirstResponder; 

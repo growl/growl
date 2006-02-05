@@ -93,6 +93,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #define ARTICLE_SELECTION_INDEXES @"ArticleSelectionIndexes"
 #define SOURCE_SELECTION_INDEXES @"SourceSelectionIndexes"
 #define SORT_DESCRIPTORS @"SortDescriptors"
+#define SHOW_STATUS_BAR @"ShowStatusBar"
+#define SHOW_STATUS_BAR_DEFAULT YES
 
 
 #define DEFAULTS [NSUserDefaults standardUserDefaults]
@@ -500,6 +502,18 @@ static Prefs * sharedPrefsObject = nil;
 
 -(void)setSortDescriptors:(NSArray *)descriptors{
 	[DEFAULTS setObject: [NSArchiver archivedDataWithRootObject:descriptors] forKey: SORT_DESCRIPTORS];
+}
+
+-(BOOL)showStatusBar{
+	if( [DEFAULTS objectForKey: SHOW_STATUS_BAR] ){
+		return [[DEFAULTS objectForKey: SHOW_STATUS_BAR] boolValue];
+	}else{
+		return SHOW_STATUS_BAR_DEFAULT;
+	}
+}
+
+-(void)setShowStatusBar:(BOOL)shouldShowStatusBar{
+	[DEFAULTS setObject: [NSNumber numberWithBool: shouldShowStatusBar] forKey: SHOW_STATUS_BAR];
 }
 
 @end

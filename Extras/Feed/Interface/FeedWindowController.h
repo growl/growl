@@ -58,6 +58,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	IBOutlet id articleContextMenu;
 	IBOutlet id feedContextMenu;
 	IBOutlet id feedSourceScrollView;
+	IBOutlet id statusBarView;
     
     NSArray *					viewColumns;
     BOOL						disableResizeNotifications;

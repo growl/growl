@@ -33,6 +33,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 #import "FeedWindowController+Status.h"
 #import "FeedWindowController+Sources.h"
+#import "Prefs.h"
 
 #define STATUS_CURRENT_SOURCES @"StatusCurrentSources"
 #define STATUS_WEBKIT_MESSAGE @"StatusWebKitMessage"
@@ -54,7 +55,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}else if( [statusMessages objectForKey:STATUS_CURRENT_SOURCES] && [[statusMessages objectForKey:STATUS_CURRENT_SOURCES] count] ){
 		status = [NSString stringWithFormat: @"Updating %@", [[statusMessages objectForKey:STATUS_CURRENT_SOURCES] lastObject]];
 	}else{
-		status = [NSMutableString stringWithFormat:@"Displaying %u articles in %u feeds", [articleCache count], [[self selectedFeeds] count] ];
+		unsigned sourceCount = [[self selectedFeeds] count];
+		status = [NSMutableString stringWithFormat:@"Displaying %u articles in %u %@", [articleCache count], sourceCount, (sourceCount == 1) ? @"source" : @"sources" ];
 	}
 	return status;
 }
@@ -114,5 +116,34 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	[self updateStatus];
 }
+
+-(IBAction)toggleShowStatus:(id)sender{
+#pragma unused( sender )
+	NSRect					mainContentRect = [[[self window] contentView] frame];
+	
+	if( [statusBarView superview] ){
+		[statusBarView retain];
+		[statusBarView removeFromSuperview];
+		
+		[mainShelfView setFrame: mainContentRect];
+		
+		[PREFS setShowStatusBar: NO];
+	}else{
+		NSRect					statusRect = mainContentRect;
+		
+		mainContentRect.size.height = mainContentRect.size.height - ([statusBarView frame].size.height - 1.0f);		
+		statusRect.origin.y = mainContentRect.origin.y + mainContentRect.size.height;
+		statusRect.size.height = [statusBarView frame].size.height;
+		[statusBarView setFrame: statusRect];
+		
+		[[[self window] contentView] addSubview: statusBarView];
+		[statusBarView release];
+		
+		
+		[mainShelfView setFrame: mainContentRect];
+		[PREFS setShowStatusBar: YES];
+	}
+}
+
 
 @end
