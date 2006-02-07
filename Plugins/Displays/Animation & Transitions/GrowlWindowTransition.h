@@ -74,7 +74,7 @@ typedef enum {
 	//Override this in your subclass in order to draw your animation.
 /*!
  * @method drawTransitionWithWindow:
- * @abstract Overridden by subclasses to draw the receiverÕs transition.
+ * @abstract Overridden by subclasses to draw the receiverâ€™s transition.
  * @discussion This method is called for each frame update.
  * You should override it in your subclass to draw your transition.
  */
