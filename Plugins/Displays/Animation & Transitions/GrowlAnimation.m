@@ -176,7 +176,7 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 - (void) setFrameRate:(float)newFrameRate {
 	if(animationTimer) {
 		CFRunLoopRef mainLoop = CFRunLoopGetMain();
-		CFAbsoluteTime nextFireDate = CFRunLoopGetNextTimerFireDate(animationTimer);
+		CFAbsoluteTime nextFireDate = CFRunLoopTimerGetNextFireDate(animationTimer);
 
 		//Destroy the old timer
 		CFRunLoopRemoveTimer(mainLoop, animationTimer, kCFRunLoopCommonModes);
