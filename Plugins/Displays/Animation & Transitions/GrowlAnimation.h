@@ -16,13 +16,6 @@
  * @version 0.8
  */
 
-
-/*!
- * @definded FLOAT_EQ(x,y)
- * @abstract Compares two floats.
- */
-#define FLOAT_EQ(x,y) (((y - FLT_EPSILON) < x) && (x < (y + FLT_EPSILON)))
-
 /*!
  * @typedef GrowlAnimationProgress
  * @abstract GrowlAnimationProgress represents the progress of GrowlAnimation.

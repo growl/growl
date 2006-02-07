@@ -405,4 +405,12 @@ struct GrowlNetworkNotification {
 	WRITE_GROWL_PREF_VALUE(key, floatValue, domain); \
 	CFRelease(floatValue); } while(0)
 
+#pragma mark Small utilities
+
+/*!
+ * @defined FLOAT_EQ(x,y)
+ * @abstract Compares two floats.
+ */
+#define FLOAT_EQ(x,y) (((y - FLT_EPSILON) < x) && (x < (y + FLT_EPSILON)))
+
 #endif //ndef _GROWL_GROWLDEFINESINTERNAL_H
