@@ -8,37 +8,42 @@
 
 #import "GrowlScaleWindowTransition.h"
 
+#include <float.h>
 
 @implementation GrowlScaleWindowTransition
 
+- (id) initWithDuration:(NSTimeInterval)duration animationCurve:(GrowlAnimationCurve)curve {
+	if((self = [self initWithDuration:duration animationCurve:curve])) {
+		[self setFrameRate:(1.0 / duration)];
+	}
+	return self;
+}
+
 - (void) setFromOrigin:(NSPoint)from toOrigin:(NSPoint)to {
 	startingPoint = from;
-	endingPoint = to;
-	xDistance = (to.x - from.x);
-	yDistance = (to.y - from.y);
+	endingPoint   = to;
 }
 
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)inProgress {
-	if (aWindow) {
-		NSSize newSize;
+	if (aWindow && (inProgress < FLT_EPSILON)) {
 		NSRect newFrame = [aWindow frame];
-		float deltaX = inProgress * xDistance;
-		float deltaY = inProgress * yDistance;
+
+		float deltaX = inProgress * (endingPoint.x - startingPoint.x);
+		float deltaY = inProgress * (endingPoint.y - startingPoint.y);
+
 		switch (direction) {
 			default:
 			case GrowlForwardTransition:
-				newSize.width = startingPoint.x + deltaX;
-				newSize.height = startingPoint.y + deltaY;
+				newFrame.size.width  = startingPoint.x + deltaX;
+				newFrame.size.height = startingPoint.y + deltaY;
 				break;
 			case GrowlReverseTransition:
-				newSize.width = endingPoint.x - deltaX;
-				newSize.height = endingPoint.y - deltaY;
+				newFrame.size.width  = endingPoint.x - deltaX;
+				newFrame.size.height = endingPoint.y - deltaY;
 				break;
 		}
-		newFrame.size.height = newSize.height;
-		newFrame.size.width = newSize.width;
 
-		[aWindow setFrame:newFrame display:YES];
+		[aWindow setFrame:newFrame display:YES animate:YES];
 		[aWindow setViewsNeedDisplay:YES];
 	}
 }

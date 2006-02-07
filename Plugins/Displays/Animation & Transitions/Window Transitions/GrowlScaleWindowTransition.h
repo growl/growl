@@ -12,8 +12,6 @@
 @interface GrowlScaleWindowTransition : GrowlWindowTransition {
 	NSPoint	startingPoint;
 	NSPoint endingPoint;
-	float	xDistance;
-	float	yDistance;
 }
 
 - (void) setFromOrigin:(NSPoint)from toOrigin:(NSPoint)to;
