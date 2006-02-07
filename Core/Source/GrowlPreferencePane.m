@@ -280,7 +280,9 @@
 	return tickets;
 }
 
-- (void) setTickets:(NSArray *)theTickets {
+//using setTickets: will tip off the controller (KVO).
+//use this to set the tickets secretly.
+- (void) setTicketsWithoutTellingAnybody:(NSArray *)theTickets {
 	if (theTickets != tickets) {
 		if (tickets)
 			[tickets setArray:theTickets];
@@ -289,23 +291,27 @@
 	}
 }
 
+//we don't need to do any special extra magic here - just being setTickets: is enough to tip off the controller.
+- (void) setTickets:(NSArray *)theTickets {
+	[self setTicketsWithoutTellingAnybody:theTickets];
+}
+
 - (void) removeFromTicketsAtIndex:(int)indexToRemove {
-	NSMutableArray *ticketsCopy = [tickets mutableCopy];
-	[ticketsCopy removeObjectAtIndex:indexToRemove];
+	NSIndexSet *indices = [NSIndexSet indexSetWithIndex:indexToRemove];
+	[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indices forKey:@"tickets"];
 
-	//	We're not using the setTickets accessor here.
-	//	If we did, the controller would know we had switched out the entire array.
-	//	And UI quirks would happen. (selection jumps back to 0)
+	[tickets removeObjectAtIndex:indexToRemove];
 
-	[tickets release];
-	tickets = ticketsCopy;
+	[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indices forKey:@"tickets"];
 }
 
 - (void) insertInTickets:(GrowlApplicationTicket *)newTicket {
-	NSMutableArray *ticketsCopy = [tickets mutableCopy];
-	[ticketsCopy addObject:newTicket];
-	[self setTickets:ticketsCopy];
-	[ticketsCopy release];
+	NSIndexSet *indices = [NSIndexSet indexSetWithIndex:[tickets count]];
+	[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indices forKey:@"tickets"];
+
+	[tickets addObject:newTicket];
+
+	[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indices forKey:@"tickets"];
 }
 
 - (void) reloadDisplayPluginView {
