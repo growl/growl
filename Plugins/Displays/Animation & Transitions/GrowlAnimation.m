@@ -173,8 +173,26 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 	return frameRate;
 }
 
-- (void) setFrameRate:(float)value {
-	frameRate = value;
+- (void) setFrameRate:(float)newFrameRate {
+	if(animationTimer) {
+		CFRunLoopRef mainLoop = CFRunLoopGetMain();
+		CFAbsoluteTime nextFireDate = CFRunLoopGetNextTimerFireDate(animationTimer);
+
+		//Destroy the old timer
+		CFRunLoopRemoveTimer(mainLoop, animationTimer, kCFRunLoopCommonModes);
+		CFRelease(animationTimer);
+
+		//Go back in time by the old interval, then forward by the new interval
+		float interval = 1.0f / newFrameRate;
+		nextFireDate = (nextFireDate - (1.0f / frameRate)) + interval;
+
+		//Create a new timer
+		CFRunLoopTimerContext context = {0, self, NULL, NULL, NULL};
+		animationTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, nextFireDate, interval, 0, 0, animationStep, &context);
+		CFRunLoopAddTimer(mainLoop, animationTimer, kCFRunLoopCommonModes);
+	}
+
+	frameRate = newFrameRate;
 }
 
 #pragma mark -
