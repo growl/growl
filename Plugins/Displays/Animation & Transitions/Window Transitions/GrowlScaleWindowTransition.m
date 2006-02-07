@@ -25,8 +25,10 @@
 }
 
 - (void) drawTransitionWithWindow:(NSWindow *)aWindow progress:(GrowlAnimationProgress)inProgress {
-	if (aWindow && (inProgress < FLT_EPSILON)) {
+	if (aWindow) {
 		NSRect newFrame = [aWindow frame];
+		if (inProgress < FLT_EPSILON) 
+			[self setFrameRate:(1.0 / [aWindow animationResizeTime:newFrame])];
 
 		float deltaX = inProgress * (endingPoint.x - startingPoint.x);
 		float deltaY = inProgress * (endingPoint.y - startingPoint.y);
