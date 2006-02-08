@@ -485,7 +485,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		[aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
 		[icon release];
 	} else {
-		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON]; // remove any invalid NSDatas
+		//we get here when no image existed, and if an NSData existed, an image could not be created from it.
+		//in the latter case, we don't need to keep that non-image NSData around.
+		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON];
 	}
 
 	// If app icon present, convert to NSImage
