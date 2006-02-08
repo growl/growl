@@ -622,7 +622,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			else
 				[self forwardRegistration:userInfo];
 		}
-	} else { //!newApp
+	} else { //!(appName && newApp)
 		NSString *filename = [(appName ? appName : @"unknown-application") stringByAppendingPathExtension:GROWL_REG_DICT_EXTENSION];
 		NSString *path = [@"/var/log" stringByAppendingPathComponent:filename];
 
