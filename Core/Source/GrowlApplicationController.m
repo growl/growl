@@ -74,8 +74,6 @@ static BOOL isFullscreenProcessInFront(void) {
 static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
 //XXX - update these constants whenever the version changes
 
-#pragma mark -
-
 static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 #pragma unused(timer)
 	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
@@ -291,7 +289,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 }
 
 #pragma mark -
-#pragma mark this is a temp fix just to get things running so we can test GPC with the display plugins.  im pretty sure that this is intended to be in a pathway plugin now....
+#pragma mark Network support (XXX move to pathway)
 
 - (void) netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
 #pragma unused(sender)
@@ -360,7 +358,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		[self stopServer];
 }
 
-#pragma mark -
+#pragma mark Guts
 
 - (void) showPreview:(NSNotification *) note {
 	NSString *displayName = [note object];
@@ -643,7 +641,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	return success;
 }
 
-#pragma mark -
+#pragma mark Click feedback from GAB
+
 - (void) growlNotificationWasClicked:(id)clickContext {
 	CFURLRef downloadURL = (CFURLRef)clickContext;
 	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)downloadURL];
@@ -653,6 +652,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (void) growlNotificationTimedOut:(id)clickContext {
 	CFRelease((CFTypeRef)clickContext);
 }
+
+#pragma mark Version of Growl
 
 + (NSString *) growlVersion {
 	return [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
@@ -726,11 +727,13 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	return versionCheckURL;
 }
 
+#pragma mark What NSThread should implement as a class method
+
 - (NSThread *)mainThread {
 	return mainThread;
 }
 
-#pragma mark -
+#pragma mark Notifications (not the Growl kind)
 
 - (void) preferencesChanged:(NSNotification *) note {
 	//[note object] is the changed key. A nil key means reload our tickets.
@@ -1005,6 +1008,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 #pragma mark -
 
 @implementation GrowlApplicationController (private)
+
+#pragma mark Even more click feedback
 
 - (void) notificationClicked:(NSNotification *)notification {
 	NSString *appName, *growlNotificationClickedName;
