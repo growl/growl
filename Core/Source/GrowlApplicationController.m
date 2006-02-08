@@ -364,7 +364,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 - (void) showPreview:(NSNotification *) note {
 	NSString *displayName = [note object];
-	GrowlDisplayPlugin *displayPlugin = (GrowlDisplayPlugin *)[[GrowlPluginController sharedController] pluginInstanceWithName:displayName author:nil version:nil type:nil];
+	GrowlDisplayPlugin *displayPlugin = (GrowlDisplayPlugin *)[[GrowlPluginController sharedController] displayPluginInstanceWithName:displayName author:nil version:nil type:nil];
 
 	NSString *desc = [[NSString alloc] initWithFormat:@"This is a preview of the %@ display", displayName];
 	NSNumber *priority = [[NSNumber alloc] initWithInt:0];
