@@ -51,8 +51,8 @@ extern CFRunLoopRef CFRunLoopGetMain(void);
 
 static BOOL isFullscreenProcessInFront(void) {
 	OSErr             result;
-	CPSProcessSerNum  frontProcess;
-	CPSProcessInfoRec info;
+	struct CPSProcessSerNum  frontProcess;
+	struct CPSProcessInfoRec info;
 
 	result = CPSGetFrontProcess(&frontProcess);
 	if (result != noErr)
