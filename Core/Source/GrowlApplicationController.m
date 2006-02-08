@@ -1004,8 +1004,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 @implementation GrowlApplicationController (private)
 
-#pragma mark -
-
 - (void) notificationClicked:(NSNotification *)notification {
 	NSString *appName, *growlNotificationClickedName;
 	NSString *suffix;
