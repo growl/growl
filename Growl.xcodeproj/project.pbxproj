@@ -202,7 +202,7 @@
 		93FCE57E0812D93B00320D8E /* SystemUIPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FCE57D0812D93B00320D8E /* SystemUIPlugin.framework */; };
 		95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
 		95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
-		950568E60812C2960096EC5C /* GrowlLog.c in Sources */ = {isa = PBXBuildFile; fileRef = 950568E40812C2960096EC5C /* GrowlLog.c */; };
+		950568E60812C2960096EC5C /* GrowlLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 950568E40812C2960096EC5C /* GrowlLog.m */; };
 		950627A50840D34900C01CD2 /* growl-claw32.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 950627A40840D34900C01CD2 /* growl-claw32.tiff */; };
 		95075B0F0817F93D00D862A5 /* GrowlPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 959DBE4A08127BA4009BB468 /* GrowlPathUtilities.m */; };
 		95075B740817FE1E00D862A5 /* GrowlMenu.app in Resources */ = {isa = PBXBuildFile; fileRef = 95075AB00817F5DB00D862A5 /* GrowlMenu.app */; };
@@ -811,7 +811,7 @@
 		95026A8808DC856900FE1949 /* GrowlPositionController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPositionController.h; path = Core/Source/GrowlPositionController.h; sourceTree = "<group>"; };
 		95026A8908DC856900FE1949 /* GrowlPositionController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlPositionController.m; path = Core/Source/GrowlPositionController.m; sourceTree = "<group>"; };
 		950568E30812C2960096EC5C /* GrowlLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlLog.h; path = Core/Source/GrowlLog.h; sourceTree = "<group>"; };
-		950568E40812C2960096EC5C /* GrowlLog.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = GrowlLog.c; path = Core/Source/GrowlLog.c; sourceTree = "<group>"; };
+		950568E40812C2960096EC5C /* GrowlLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlLog.m; path = Core/Source/GrowlLog.m; sourceTree = "<group>"; };
 		950627A40840D34900C01CD2 /* growl-claw32.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "growl-claw32.tiff"; path = "Core/Resources/growl-claw32.tiff"; sourceTree = "<group>"; };
 		95075AB00817F5DB00D862A5 /* GrowlMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		950F7976080EED5C00CC5F62 /* GrowlWebKitDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitDefines.h; path = Plugins/Displays/WebKit/GrowlWebKitDefines.h; sourceTree = "<group>"; };
@@ -1752,7 +1752,7 @@
 				CB34BEC507E09557001D7D7C /* GrowlNotification */,
 				CB0EBFBA0790941300CA2157 /* Pathways */,
 				950568E30812C2960096EC5C /* GrowlLog.h */,
-				950568E40812C2960096EC5C /* GrowlLog.c */,
+				950568E40812C2960096EC5C /* GrowlLog.m */,
 				953F739E081FFB9E00823EFE /* GrowlNotificationCenter.h */,
 				953F739F081FFB9E00823EFE /* GrowlNotificationCenter.m */,
 				95416E03086343180098C914 /* GrowlIdleStatusController.h */,
@@ -3393,7 +3393,7 @@
 				07FCFFC407E2F90C00F0A1CF /* GrowlRemotePathway.m in Sources */,
 				074062AD07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.m in Sources */,
 				959DBE4C08127BA4009BB468 /* GrowlPathUtilities.m in Sources */,
-				950568E60812C2960096EC5C /* GrowlLog.c in Sources */,
+				950568E60812C2960096EC5C /* GrowlLog.m in Sources */,
 				955C236E081537280013C3CF /* CFMutableStringAdditions.c in Sources */,
 				9526BD54081BCC9100B9D0D0 /* MD5Authenticator.m in Sources */,
 				953F73A1081FFB9E00823EFE /* GrowlNotificationCenter.m in Sources */,
