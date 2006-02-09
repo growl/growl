@@ -41,7 +41,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 @implementation GrowlDisplayWindowController
 
 #pragma mark -
-#pragma mark cacheing
+#pragma mark Caching
 
 + (void) registerInstance:(id)instance withIdentifier:(NSString *)ident {
 	if (!existingInstances)
