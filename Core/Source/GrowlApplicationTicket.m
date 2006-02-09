@@ -325,7 +325,7 @@
 
 - (void) setIcon:(NSImage *)inIcon {
 	if (icon != inIcon) {
-		if ([inIcon isEqualTo:icon] || [inIcon isEqualTo:iconData])
+		if ([inIcon isEqual:icon] || [inIcon isEqual:iconData])
 			return;
 		changed = YES;
 		[icon     release];
@@ -472,7 +472,7 @@
 				NSLog(@"WARNING: application %@ passed an invalid object for the default notifications: %@.", appName, inDefaults);
 		}
 
-		if (![allNotifications isEqualTo:allNotesCopy]) {
+		if (![allNotifications isEqual:allNotesCopy]) {
 			[allNotifications release];
 			allNotifications = allNotesCopy;
 			changed = YES;
@@ -505,14 +505,14 @@
 	NSArray	*defaults = [dict objectForKey:GROWL_NOTIFICATIONS_DEFAULT];
 
 	NSDictionary *newNames = [dict objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
-	if (newNames != humanReadableNames && ![newNames isEqualTo:humanReadableNames]) {
+	if (newNames != humanReadableNames && ![newNames isEqual:humanReadableNames]) {
 		[humanReadableNames release];
 		humanReadableNames = [newNames retain];
 		changed = YES;
 	}
 
 	NSDictionary *newDescriptions = [dict objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
-	if (newDescriptions != notificationDescriptions && ![newDescriptions isEqualTo:notificationDescriptions]) {
+	if (newDescriptions != notificationDescriptions && ![newDescriptions isEqual:notificationDescriptions]) {
 		[notificationDescriptions release];
 		notificationDescriptions = [newDescriptions retain];
 		changed = YES;
@@ -617,7 +617,7 @@
 		 *	the all-notifications list has not been supplied yet, the indices
 		 *	WILL NOT be dereferenced. ALWAYS set the all-notifications list FIRST.
 		 */
-		if (![defaultNotifications isEqualTo:inObject]) {
+		if (![defaultNotifications isEqual:inObject]) {
 			[defaultNotifications release];
 			defaultNotifications = [inObject retain];
 			changed = YES;

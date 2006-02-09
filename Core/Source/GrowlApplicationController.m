@@ -726,36 +726,36 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (void) preferencesChanged:(NSNotification *) note {
 	//[note object] is the changed key. A nil key means reload our tickets.
 	id object = [note object];
-	if (!note || (object && [object isEqualTo:GrowlStartServerKey]))
+	if (!note || (object && [object isEqual:GrowlStartServerKey]))
 		[self startStopServer];
-	if (!note || (object && [object isEqualTo:GrowlUserDefaultsKey]))
+	if (!note || (object && [object isEqual:GrowlUserDefaultsKey]))
 		[[GrowlPreferencesController sharedController] synchronize];
-	if (!note || (object && [object isEqualTo:GrowlEnabledKey]))
+	if (!note || (object && [object isEqual:GrowlEnabledKey]))
 		growlIsEnabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlEnabledKey];
-	if (!note || (object && [object isEqualTo:GrowlEnableForwardKey]))
+	if (!note || (object && [object isEqual:GrowlEnableForwardKey]))
 		enableForward = [[GrowlPreferencesController sharedController] isForwardingEnabled];
-	if (!note || (object && [object isEqualTo:GrowlForwardDestinationsKey])) {
+	if (!note || (object && [object isEqual:GrowlForwardDestinationsKey])) {
 		[destinations release];
 		destinations = [[[GrowlPreferencesController sharedController] objectForKey:GrowlForwardDestinationsKey] retain];
 	}
 	if (!note || !object)
 		[ticketController loadAllSavedTickets];
-	if (!note || (object && [object isEqualTo:GrowlDisplayPluginKey]))
+	if (!note || (object && [object isEqual:GrowlDisplayPluginKey]))
 		// force reload
 		[displayController release];
 		displayController = nil;
 	if (object) {
-		if ([object isEqualTo:@"GrowlTicketDeleted"]) {
+		if ([object isEqual:@"GrowlTicketDeleted"]) {
 			NSString *ticketName = [[note userInfo] objectForKey:@"TicketName"];
 			[ticketController removeTicketForApplicationName:ticketName];
-		} else if ([object isEqualTo:@"GrowlTicketChanged"]) {
+		} else if ([object isEqual:@"GrowlTicketChanged"]) {
 			NSString *ticketName = [[note userInfo] objectForKey:@"TicketName"];
 			GrowlApplicationTicket *newTicket = [[GrowlApplicationTicket alloc] initTicketForApplication:ticketName];
 			if (newTicket) {
 				[ticketController addTicket:newTicket];
 				[newTicket release];
 			}
-		} else if ([object isEqualTo:GrowlUDPPortKey]) {
+		} else if ([object isEqual:GrowlUDPPortKey]) {
 			[self stopServer];
 			[self startServer];
 		}
