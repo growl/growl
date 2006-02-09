@@ -686,9 +686,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 //this method could be moved to Growl.framework, I think.
 //pass nil to get GrowlHelperApp's version as a string.
 - (NSString *)stringWithVersionDictionary:(NSDictionary *)d {
-	if (!d) {
+	if (!d)
 		d = [self versionDictionary];
-	}
 
 	//0.6
 	NSMutableString *result = [NSMutableString stringWithFormat:@"%@.%@",
