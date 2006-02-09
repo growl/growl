@@ -643,6 +643,10 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 #pragma mark Click feedback from GAB
 
+/*see the (private) category for differentiation between this and the
+ *	notification handlers there.
+ */
+
 - (void) growlNotificationWasClicked:(id)clickContext {
 	CFURLRef downloadURL = (CFURLRef)clickContext;
 	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)downloadURL];
@@ -1009,7 +1013,12 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 @implementation GrowlApplicationController (private)
 
-#pragma mark Even more click feedback
+#pragma mark Click feedback from displays
+
+/*click feedback comes here first. GAB picks up the DN and calls our 
+ *	-growlNotificationWasClicked:/-growlNotificationTimedOut: with it if it's a 
+ *	GHA notification.
+ */
 
 - (void) notificationClicked:(NSNotification *)notification {
 	NSString *appName, *growlNotificationClickedName;
