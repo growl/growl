@@ -698,7 +698,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	//the .1 in 0.6.1
 	NSNumber *incremental = [d objectForKey:@"Incremental version"];
 	if ([incremental unsignedShortValue])
-		[result appendFormat:@"%@", incremental];
+		[result appendFormat:@".%@", incremental];
 
 	NSString *releaseTypeName = [d objectForKey:@"Release type name"];
 	if ([releaseTypeName length]) {
