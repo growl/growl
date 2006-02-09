@@ -641,22 +641,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	return success;
 }
 
-#pragma mark Click feedback from GAB
-
-/*see the (private) category for differentiation between this and the
- *	notification handlers there.
- */
-
-- (void) growlNotificationWasClicked:(id)clickContext {
-	CFURLRef downloadURL = (CFURLRef)clickContext;
-	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)downloadURL];
-	CFRelease(downloadURL);
-}
-
-- (void) growlNotificationTimedOut:(id)clickContext {
-	CFRelease((CFTypeRef)clickContext);
-}
-
 #pragma mark Version of Growl
 
 + (NSString *) growlVersion {
@@ -1005,6 +989,20 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[defaultNotifications release];
 
 	return registrationDictionary;
+}
+
+/*see the (private) category for differentiation between these methods and the
+ *	notification handlers there.
+ */
+
+- (void) growlNotificationWasClicked:(id)clickContext {
+	CFURLRef downloadURL = (CFURLRef)clickContext;
+	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)downloadURL];
+	CFRelease(downloadURL);
+}
+
+- (void) growlNotificationTimedOut:(id)clickContext {
+	CFRelease((CFTypeRef)clickContext);
 }
 
 @end
