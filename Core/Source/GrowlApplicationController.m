@@ -94,9 +94,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		return;
 
 	GrowlApplicationController *appController = (GrowlApplicationController *)context;
-	CFURLRef versionCheckURL = [appController versionCheckURL];
+	NSURL *versionCheckURL = [appController versionCheckURL];
 
-	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:(NSURL *)versionCheckURL];
+	NSDictionary *productVersionDict = [[NSDictionary alloc] initWithContentsOfURL:versionCheckURL];
 
 	NSString *currVersionNumber = [GrowlApplicationController growlVersion];
 	NSString *latestVersionNumber = [productVersionDict objectForKey:@"Growl"];
@@ -281,8 +281,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[growlIcon        release]; growlIcon = nil;
 	[displayController release]; displayController = nil;
 
-	if (versionCheckURL)
-		CFRelease(versionCheckURL);
+	[versionCheckURL release];
 
 	GrowlIdleStatusController_dealloc();
 	
@@ -718,9 +717,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	return result;
 }
 
-- (CFURLRef) versionCheckURL {
+- (NSURL *) versionCheckURL {
 	if (!versionCheckURL)
-		versionCheckURL = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://growl.info/version.xml"), NULL);
+		versionCheckURL = [NSURL URLWithString:@"http://growl.info/version.xml"];
 	return versionCheckURL;
 }
 
