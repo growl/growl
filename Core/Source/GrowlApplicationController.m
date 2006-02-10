@@ -39,7 +39,6 @@
 #include <sys/socket.h>
 #include <sys/fcntl.h>
 #include <netinet/in.h>
-#include "CPS.h"
 
 // check every 24 hours
 #define UPDATE_CHECK_INTERVAL	24.0*3600.0
