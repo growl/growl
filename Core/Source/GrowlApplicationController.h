@@ -67,7 +67,7 @@
 
 - (NSDictionary *) versionDictionary;
 - (NSString *) stringWithVersionDictionary:(NSDictionary *)d;
-- (CFURLRef) versionCheckURL;
+- (NSURL *) versionCheckURL;
 
 - (void) preferencesChanged:(NSNotification *) note;
 
