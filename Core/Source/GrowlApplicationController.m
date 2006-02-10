@@ -67,7 +67,10 @@ static BOOL isFullscreenProcessInFront(void) {
 	if (result != noErr)
 		return NO;
 
-	NSLog(@"Foreground process: %d fullscreen: %s\n", info.UnixPID, (info.Attributes & kCPSFullScreenAttr) ? "YES" : "NO");
+	[[GrowlLog sharedController] writeToLog:@"Foreground process: %d; is full-screen: %s\n",
+											info.UnixPID,
+											(info.Attributes & kCPSFullScreenAttr) ? "YES" : "NO"
+	 ];
 	return (info.Attributes & kCPSFullScreenAttr) != 0;
 }
 
@@ -451,7 +454,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
-	GrowlLog_logNotificationDictionary(dict);
+	[[GrowlLog sharedController] writeNotificationDictionaryToLog:dict];
 
 	// Make sure this notification is actually registered
 	NSString *appName = [dict objectForKey:GROWL_APP_NAME];
@@ -578,7 +581,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *)userInfo {
-	GrowlLog_logRegistrationDictionary(userInfo);
+	[[GrowlLog sharedController] writeRegistrationDictionaryToLog:userInfo];
 
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
 
