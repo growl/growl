@@ -49,27 +49,6 @@ extern CFRunLoopRef CFRunLoopGetMain(void);
 - (void) notificationTimedOut:(NSNotification *)notification;
 @end
 
-static BOOL isFullscreenProcessInFront(void) {
-	OSErr             result;
-	struct CPSProcessSerNum  frontProcess = { 0U, kCPSCurrentProcess };
-	struct CPSProcessInfoRec info;
-
-	result = CPSGetProcessInfo(&frontProcess, &info,
-							   /*path*/ NULL,
-							   /*maxPathLen*/ 0,
-							   /*len*/ NULL,
-							   /*name*/ NULL,
-							   /*maxNameLen*/ 0);
-	if (result != noErr)
-		return NO;
-
-	[[GrowlLog sharedController] writeToLog:@"Foreground process: %d; is full-screen: %s\n",
-											info.UnixPID,
-											(info.Attributes & kCPSFullScreenAttr) ? "YES" : "NO"
-	 ];
-	return (info.Attributes & kCPSFullScreenAttr) != 0;
-}
-
 static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
 //XXX - update these constants whenever the version changes
 
@@ -532,8 +511,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
 	setBooleanForKey(aDict, GROWL_SCREENSHOT_MODE, saveScreenshot);
 	setBooleanForKey(aDict, @"ClickHandlerEnabled", [ticket clickHandlersEnabled]);
-
-	isFullscreenProcessInFront();
 
 	if (![preferences squelchMode]) {
 		GrowlDisplayPlugin *display = [notification displayPlugin];
