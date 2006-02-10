@@ -188,10 +188,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 		[self versionDictionary];
 
-		CFStringRef file = (CFStringRef)[[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
-		CFURLRef fileURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, file, kCFURLPOSIXPathStyle, false);
+		NSString *file = [[NSBundle mainBundle] pathForResource:@"GrowlDefaults" ofType:@"plist"];
+		NSURL *fileURL = [NSURL fileURLWithPath:file];
 		NSDictionary *defaultDefaults = (NSDictionary *)createPropertyListFromURL((NSURL *)fileURL, kCFPropertyListImmutable, NULL, NULL);
-		CFRelease(fileURL);
 		if (defaultDefaults) {
 			[preferences registerDefaults:defaultDefaults];
 			[defaultDefaults release];
