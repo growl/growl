@@ -34,6 +34,8 @@
 #include "CFMutableDictionaryAdditions.h"
 #include "cdsa.h"
 #include <SystemConfiguration/SystemConfiguration.h>
+#include <sys/errno.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <sys/fcntl.h>
 #include <netinet/in.h>
@@ -48,6 +50,34 @@ extern CFRunLoopRef CFRunLoopGetMain(void);
 - (void) notificationClicked:(NSNotification *)notification;
 - (void) notificationTimedOut:(NSNotification *)notification;
 @end
+
+static BOOL isAnyDisplayCaptured(void) {
+	BOOL result = NO;
+
+	CGDisplayCount numDisplays;
+	CGDisplayErr err = CGGetActiveDisplayList(/*maxDisplays*/ 0U, /*activeDisplays*/ NULL, &numDisplays);
+	if (err != noErr)
+		[[GrowlLog sharedController] writeToLog:@"Checking for captured displays: Could not count displays: %li", (long)err];
+	else{
+		CGDirectDisplayID *displays = malloc(numDisplays * sizeof(CGDirectDisplayID));
+		CGGetActiveDisplayList(numDisplays, displays, /*numDisplays*/ NULL);
+
+		if (!displays)
+			[[GrowlLog sharedController] writeToLog:@"Checking for captured displays: Could not allocate list of displays: %s", strerror(errno)];
+		else {
+			for (CGDisplayCount i = 0U; i < numDisplays; ++i) {
+				if (CGDisplayIsCaptured(displays[i])) {
+					result = YES;
+					break;
+				}
+			}
+
+			free(displays);
+		}
+	}
+
+	return result;
+}
 
 static struct Version version = { 0U, 8U, 0U, releaseType_svn, 0U, };
 //XXX - update these constants whenever the version changes
