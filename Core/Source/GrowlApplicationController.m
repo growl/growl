@@ -51,6 +51,11 @@ extern CFRunLoopRef CFRunLoopGetMain(void);
 - (void) notificationTimedOut:(NSNotification *)notification;
 @end
 
+/*applications that go full-screen (games in particular) are expected to capture
+ *	whatever display(s) they're using.
+ *we [will] use this to notice, and turn on auto-sticky or something (perhaps
+ *	to be decided by the user), when this happens.
+ */
 static BOOL isAnyDisplayCaptured(void) {
 	BOOL result = NO;
 
