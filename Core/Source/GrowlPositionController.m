@@ -32,7 +32,7 @@
 }
 
 //Return a rect suitable for the position and screen.
-+ (NSRect) rectForPosition:(GrowlPosition)position inScreen:(NSScreen *)screen {
++ (NSRect) rectForPosition:(enum GrowlPosition)position inScreen:(NSScreen *)screen {
 	NSRect screenFrame;
 	NSSize areaSize;
 	NSRect result = NSZeroRect;
@@ -187,12 +187,12 @@
 	}
 
 	// Something was blocking the display...try and find the next position for the display...
-	GrowlExpansionDirection directionToTry = [displayController primaryExpansionDirection];
+	enum GrowlExpansionDirection directionToTry = [displayController primaryExpansionDirection];
 	BOOL isOnScreen = YES;
 	unsigned secondaryCount = 0U;
 	BOOL usingSecondaryDirecton = NO;
 	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:preferredScreen];
-	GrowlExpansionDirection secondaryDirection = [displayController secondaryExpansionDirection];
+	enum GrowlExpansionDirection secondaryDirection = [displayController secondaryExpansionDirection];
 	NSValue *rectValue;
 	while (directionToTry) {
 		// adjust the rect...

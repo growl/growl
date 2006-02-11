@@ -40,7 +40,7 @@
  * @constant GrowlMiddleColumnPosition The middle oblong (column) of the screen.
  * @constant GrowlRightColumnPosition The right oblong (column) of the screen.
  */
-typedef enum {
+enum GrowlPosition {
 	GrowlTopLeftPosition,
 	GrowlTopMiddlePosition,
 	GrowlTopRightPosition,
@@ -56,15 +56,15 @@ typedef enum {
 	GrowlLeftColumnPosition,
 	GrowlMiddleColumnPosition,
 	GrowlRightColumnPosition
-} GrowlPosition;
+};
 
-typedef enum {
+enum GrowlExpansionDirection {
 	GrowlNoExpansionDirection,
 	GrowlDownExpansionDirection,
 	GrowlUpExpansionDirection,
 	GrowlLeftExpansionDirection,
 	GrowlRightExpansionDirection
-} GrowlExpansionDirection;
+};
 
 /*!
  * @class GrowlPositionController
@@ -86,7 +86,7 @@ typedef enum {
  * @param position The position in the specific screen.
  * @param screen The screen which contains the rect of the position. If screen is nil, the main screen will be used.
  */
-+ (NSRect) rectForPosition:(GrowlPosition)position inScreen:(NSScreen *)screen;
++ (NSRect) rectForPosition:(enum GrowlPosition)position inScreen:(NSScreen *)screen;
 
 - (BOOL) positionDisplay:(GrowlDisplayWindowController *)displayController;
 
@@ -123,8 +123,8 @@ typedef enum {
  * into account screen number as well as the types of adjoining displays */
 
 - (NSPoint) idealOriginInRect:(NSRect)rect;
-- (GrowlExpansionDirection) primaryExpansionDirection;
-- (GrowlExpansionDirection) secondaryExpansionDirection;
+- (enum GrowlExpansionDirection) primaryExpansionDirection;
+- (enum GrowlExpansionDirection) secondaryExpansionDirection;
 - (float) requiredDistanceFromExistingDisplays;
 
 @end
