@@ -188,12 +188,14 @@
 	}
 
 	// Something was blocking the display...try and find the next position for the display...
-	enum GrowlExpansionDirection directionToTry = [displayController primaryExpansionDirection];
-	BOOL isOnScreen = YES;
-	unsigned secondaryCount = 0U;
-	BOOL usingSecondaryDirection = NO;
-	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:preferredScreen];
+	enum GrowlExpansionDirection   primaryDirection = [displayController   primaryExpansionDirection];
 	enum GrowlExpansionDirection secondaryDirection = [displayController secondaryExpansionDirection];
+
+	enum GrowlExpansionDirection directionToTry = primaryDirection;
+	BOOL usingSecondaryDirection = NO;
+	unsigned secondaryCount = 0U;
+	BOOL isOnScreen = YES;
+	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:preferredScreen];
 	NSValue *rectValue;
 	while (directionToTry) {
 		// adjust the rect...
@@ -286,7 +288,7 @@
 
 		// If we were using the secondary direction, switch back to the primary now...
 		if (usingSecondaryDirection) {
-			directionToTry = [displayController primaryExpansionDirection];
+			directionToTry = primaryDirection;
 			usingSecondaryDirection = NO;
 		}
 
