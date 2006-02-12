@@ -12,6 +12,8 @@
 #import "GrowlDisplayWindowController.h"
 #import "NSMutableStringAdditions.h"
 
+#import "GrowlLog.h"
+
 @interface GrowlPositionController (private)
 - (NSMutableSet *)reservedRectsForScreen:(NSScreen *)inScreen;
 @end
@@ -188,8 +190,13 @@
 	}
 
 	// Something was blocking the display...try and find the next position for the display...
+	GrowlLog *log = [GrowlLog sharedController];
+	[log writeToLog:@"---"];
+	[log writeToLog:@"positionDisplay: could not reserve initial rect; looking for another one"];
 	enum GrowlExpansionDirection   primaryDirection = [displayController   primaryExpansionDirection];
+	[log writeToLog:@"primaryDirection: %@", NSStringFromGrowlExpansionDirection(primaryDirection)];
 	enum GrowlExpansionDirection secondaryDirection = [displayController secondaryExpansionDirection];
+	[log writeToLog:@"secondaryDirection: %@", NSStringFromGrowlExpansionDirection(secondaryDirection)];
 
 	enum GrowlExpansionDirection directionToTry = primaryDirection;
 	BOOL usingSecondaryDirection = NO;
@@ -198,6 +205,10 @@
 	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:preferredScreen];
 	NSValue *rectValue;
 	while (directionToTry) {
+		[log writeToLog:@"*** top of loop"];
+		[log writeToLog:@"directionToTry: %@", NSStringFromGrowlExpansionDirection(directionToTry)];
+		[log writeToLog:@"usingSecondaryDirection: %@", NSStringFromGrowlExpansionDirection(usingSecondaryDirection)];
+
 		// adjust the rect...
 		NSEnumerator *rectEnum = [reservedRectsOfScreen objectEnumerator];
 		NSRect unionRect = NSZeroRect;
@@ -288,6 +299,8 @@
 
 		// If we were using the secondary direction, switch back to the primary now...
 		if (usingSecondaryDirection) {
+			[log writeToLog:@"switching from secondary direction %@ to primary direction %@", NSStringFromGrowlExpansionDirection(secondaryDirection), NSStringFromGrowlExpansionDirection(primaryDirection)];
+			
 			directionToTry = primaryDirection;
 			usingSecondaryDirection = NO;
 		}
@@ -309,6 +322,7 @@
 			directionToTry = secondaryDirection;
 			secondaryCount++;
 			usingSecondaryDirection = YES;
+			[log writeToLog:@"now using secondary direction for the %uth time", secondaryCount];
 			continue;
 		}
 
