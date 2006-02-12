@@ -75,6 +75,8 @@
 		0790135607D9321B0023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		0790135707D9321B0023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		0790135807D932270023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
+		07B7CD23099EB19200744461 /* NSMutableStringAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B7CD21099EB19200744461 /* NSMutableStringAdditions.h */; };
+		07B7CD24099EB19200744461 /* NSMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B7CD22099EB19200744461 /* NSMutableStringAdditions.m */; };
 		07F9B7A508A49F6D00DF7F42 /* GrowlApplicationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */; };
 		07FCFFC407E2F90C00F0A1CF /* GrowlRemotePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FCFFC207E2F90C00F0A1CF /* GrowlRemotePathway.m */; };
 		0A7F5DA30767C13200E1C1E4 /* GrowlSpeechPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0A7F5D9B0767C13100E1C1E4 /* GrowlSpeechPrefs.nib */; };
@@ -600,6 +602,7 @@
 				343345880790E3D600C84B15 /* Smoke.growlView in CopyFiles */,
 				DDFADA6C084D1C770055DBC8 /* GrowlSMS.growlView in CopyFiles */,
 				3433458A0790E3D600C84B15 /* Speech.growlView in CopyFiles */,
+				07B7CD23099EB19200744461 /* NSMutableStringAdditions.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -667,6 +670,8 @@
 		07803B9108E7E75600299E08 /* GrowlNotificationDisplayBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationDisplayBridge.m; path = Plugins/Displays/GrowlNotificationDisplayBridge.m; sourceTree = "<group>"; };
 		0790135207D932140023B640 /* GrowlVersionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlVersionUtilities.h; path = Common/Source/GrowlVersionUtilities.h; sourceTree = "<group>"; };
 		0790135507D9321B0023B640 /* GrowlVersionUtilities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = GrowlVersionUtilities.c; path = Common/Source/GrowlVersionUtilities.c; sourceTree = "<group>"; };
+		07B7CD21099EB19200744461 /* NSMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableStringAdditions.h; path = Common/Source/NSMutableStringAdditions.h; sourceTree = "<group>"; };
+		07B7CD22099EB19200744461 /* NSMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableStringAdditions.m; path = Common/Source/NSMutableStringAdditions.m; sourceTree = "<group>"; };
 		07C2F34707D6F54E00B18524 /* SVNRevision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVNRevision.h; path = include/SVNRevision.h; sourceTree = BUILT_PRODUCTS_DIR; };
 		07F9B7A208A49F6D00DF7F42 /* GrowlApplicationNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationNotification.h; path = Core/Source/GrowlApplicationNotification.h; sourceTree = "<group>"; };
 		07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationNotification.m; path = Core/Source/GrowlApplicationNotification.m; sourceTree = "<group>"; };
@@ -870,7 +875,6 @@
 		955A4EDC08617747009B6EA5 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = StatusItem/Resources/French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		955C236B081537280013C3CF /* CFMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CFMutableStringAdditions.h; path = Common/Source/CFMutableStringAdditions.h; sourceTree = "<group>"; };
 		955C236C081537280013C3CF /* CFMutableStringAdditions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CFMutableStringAdditions.c; path = Common/Source/CFMutableStringAdditions.c; sourceTree = "<group>"; };
-		955EEB38095809BF00637E15 /* CPS.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CPS.h; path = Common/Source/CPS.h; sourceTree = "<group>"; };
 		956ADAD007551C4500AF9545 /* GrowlBezierPathAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlBezierPathAdditions.h; path = Core/Source/GrowlBezierPathAdditions.h; sourceTree = "<group>"; };
 		956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GrowlBezierPathAdditions.c; path = Core/Source/GrowlBezierPathAdditions.c; sourceTree = "<group>"; };
 		956ADADA07551C4500AF9545 /* GrowlImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlImageAdditions.h; path = Core/Source/GrowlImageAdditions.h; sourceTree = "<group>"; };
@@ -1238,6 +1242,8 @@
 				95C877C207D9DFC000C69DEE /* NSWindow+Transforms.m */,
 				9574B6F90838C7A100106CA3 /* NSWorkspaceAdditions.h */,
 				9574B6FA0838C7A100106CA3 /* NSWorkspaceAdditions.m */,
+				07B7CD21099EB19200744461 /* NSMutableStringAdditions.h */,
+				07B7CD22099EB19200744461 /* NSMutableStringAdditions.m */,
 			);
 			name = Cocoa;
 			sourceTree = "<group>";
@@ -3436,6 +3442,7 @@
 				932D6BE6094BA0FD00B64D0F /* GrowlShrinkingWindowTransition.m in Sources */,
 				932D6CD7094BB83B00B64D0F /* GrowlScaleWindowTransition.m in Sources */,
 				93BC3EF4095DE6680002B365 /* GrowlWipeWindowTransition.m in Sources */,
+				07B7CD24099EB19200744461 /* NSMutableStringAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
