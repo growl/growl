@@ -190,7 +190,7 @@
 	enum GrowlExpansionDirection directionToTry = [displayController primaryExpansionDirection];
 	BOOL isOnScreen = YES;
 	unsigned secondaryCount = 0U;
-	BOOL usingSecondaryDirecton = NO;
+	BOOL usingSecondaryDirection = NO;
 	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:preferredScreen];
 	enum GrowlExpansionDirection secondaryDirection = [displayController secondaryExpansionDirection];
 	NSValue *rectValue;
@@ -284,9 +284,9 @@
 			break;
 
 		// If we were using the secondary direction, switch back to the primary now...
-		if (usingSecondaryDirecton) {
+		if (usingSecondaryDirection) {
 			directionToTry = [displayController primaryExpansionDirection];
-			usingSecondaryDirecton = NO;
+			usingSecondaryDirection = NO;
 		}
 
 		// If we've run offscreen see if we have a secondary direction...
@@ -305,7 +305,7 @@
 			}
 			directionToTry = secondaryDirection;
 			secondaryCount++;
-			usingSecondaryDirecton = YES;
+			usingSecondaryDirection = YES;
 			continue;
 		}
 
