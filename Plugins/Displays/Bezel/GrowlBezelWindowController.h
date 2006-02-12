@@ -25,9 +25,4 @@
 - (NSString *) identifier;
 - (void) dealloc;
 
-- (NSPoint) idealOriginInRect:(NSRect)rect;
-- (GrowlExpansionDirection) primaryExpansionDirection;
-- (GrowlExpansionDirection) secondaryExpansionDirection;
-- (float) requiredDistanceFromExistingDisplays;
-
 @end
