@@ -77,6 +77,7 @@
 		0790135807D932270023B640 /* GrowlVersionUtilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 0790135507D9321B0023B640 /* GrowlVersionUtilities.c */; };
 		07B7CD23099EB19200744461 /* NSMutableStringAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B7CD21099EB19200744461 /* NSMutableStringAdditions.h */; };
 		07B7CD24099EB19200744461 /* NSMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B7CD22099EB19200744461 /* NSMutableStringAdditions.m */; };
+		07B7CDE2099EBB1700744461 /* GrowlLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 950568E40812C2960096EC5C /* GrowlLog.m */; };
 		07F9B7A508A49F6D00DF7F42 /* GrowlApplicationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */; };
 		07FCFFC407E2F90C00F0A1CF /* GrowlRemotePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FCFFC207E2F90C00F0A1CF /* GrowlRemotePathway.m */; };
 		0A7F5DA30767C13200E1C1E4 /* GrowlSpeechPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0A7F5D9B0767C13100E1C1E4 /* GrowlSpeechPrefs.nib */; };
@@ -3330,6 +3331,7 @@
 				743EE30C0927B9C9002A9670 /* NSWorkspaceAdditions.m in Sources */,
 				C4B868E50957D8C00056FC54 /* ACImageAndTextCell.m in Sources */,
 				34F427A6095E69D30044B280 /* NotificationsArrayController.m in Sources */,
+				07B7CDE2099EBB1700744461 /* GrowlLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
