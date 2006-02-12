@@ -10,6 +10,7 @@
 
 #import "GrowlPositionController.h"
 #import "GrowlDisplayWindowController.h"
+#import "NSMutableStringAdditions.h"
 
 @interface GrowlPositionController (private)
 - (NSMutableSet *)reservedRectsForScreen:(NSScreen *)inScreen;
@@ -391,3 +392,121 @@
 }
 
 @end
+
+NSString *NSStringFromGrowlPosition(enum GrowlPosition pos) {
+	NSString *str = nil;
+
+	NSString *first;
+	switch (pos) {
+		case GrowlTopLeftPosition:
+		case GrowlTopMiddlePosition:
+		case GrowlTopRightPosition:
+		case GrowlTopRowPosition:
+			first = @"top";
+			break;
+
+		case GrowlCenterLeftPosition:
+		case GrowlCenterMiddlePosition:
+		case GrowlCenterRightPosition:
+		case GrowlCenterRowPosition:
+			first = @"center";
+			break;
+
+		case GrowlBottomLeftPosition:
+		case GrowlBottomMiddlePosition:
+		case GrowlBottomRightPosition:
+		case GrowlBottomRowPosition:
+			first = @"bottom";
+			break;
+
+		case GrowlLeftColumnPosition:
+			first = @"left";
+			break;
+
+		case GrowlMiddleColumnPosition:
+			first = @"middle";
+			break;
+
+		case GrowlRightColumnPosition:
+			first = @"right";
+			break;
+
+		default:
+			first = nil;
+	};
+
+	NSString *second;
+	switch (pos) {
+		case GrowlTopLeftPosition:
+		case GrowlCenterLeftPosition:
+		case GrowlBottomLeftPosition:
+			second = @"left";
+			break;
+
+		case GrowlTopMiddlePosition:
+		case GrowlBottomMiddlePosition:
+			second = @"center";
+			break;
+
+		case GrowlCenterMiddlePosition:
+			//just say 'center'
+			second = @"";
+			break;
+
+		case GrowlTopRightPosition:
+		case GrowlCenterRightPosition:
+		case GrowlBottomRightPosition:
+			second = @"right";
+			break;
+
+		case GrowlTopRowPosition:
+		case GrowlCenterRowPosition:
+		case GrowlBottomRowPosition:
+			second = @"row";
+			break;
+
+		case GrowlLeftColumnPosition:
+		case GrowlMiddleColumnPosition:
+		case GrowlRightColumnPosition:
+			second = @"column";
+
+		default:
+			second = nil;
+	};
+
+	if (first && second) {
+		unsigned  firstLength = [first  length];
+		unsigned secondLength = [second length];
+
+		if (firstLength && secondLength) {
+			unsigned capacity = firstLength + secondLength + 1U;
+			NSMutableString *mutable = [[NSMutableString alloc] initWithCapacity:capacity];
+
+			[mutable appendString:first];
+			[mutable appendCharacter:'-'];
+			[mutable appendString:second];
+
+			str = [mutable autorelease];
+		} else if (firstLength || secondLength) {
+			str = firstLength ? first : second;
+		}
+	}
+
+	return str;
+}	
+NSString *NSStringFromGrowlExpansionDirection(enum GrowlExpansionDirection dir) {
+	switch (dir) {
+		case GrowlNoExpansionDirection:
+			return @"nowhere";
+		case GrowlDownExpansionDirection:
+			return @"down";
+		case GrowlUpExpansionDirection:
+			return @"up";
+		case GrowlLeftExpansionDirection:
+			return @"left";
+		case GrowlRightExpansionDirection:
+			return @"right";
+		default:
+			return nil;
+	};
+}
