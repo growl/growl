@@ -158,11 +158,11 @@
 					   NSMaxY(rect) - GrowlBrushedPadding - NSHeight(viewFrame));
 }
 
-- (GrowlExpansionDirection) primaryExpansionDirection {
+- (enum GrowlExpansionDirection) primaryExpansionDirection {
 	return GrowlDownExpansionDirection;
 }
 
-- (GrowlExpansionDirection) secondaryExpansionDirection {
+- (enum GrowlExpansionDirection) secondaryExpansionDirection {
 	return GrowlLeftExpansionDirection;
 }
 

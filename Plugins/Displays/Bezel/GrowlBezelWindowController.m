@@ -202,11 +202,11 @@
 	return result;
 }
 
-- (GrowlExpansionDirection) primaryExpansionDirection {
+- (enum GrowlExpansionDirection) primaryExpansionDirection {
 	return GrowlNoExpansionDirection;
 }
 
-- (GrowlExpansionDirection) secondaryExpansionDirection {
+- (enum GrowlExpansionDirection) secondaryExpansionDirection {
 	return GrowlNoExpansionDirection;
 }
 
