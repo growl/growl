@@ -1679,14 +1679,14 @@
 		CB0EBFBA0790941300CA2157 /* Pathways */ = {
 			isa = PBXGroup;
 			children = (
-				074062AA07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.h */,
-				074062AB07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.m */,
 				95DD14D30748B04700CC05A4 /* GrowlPathway.h */,
 				95DD14D80748B04700CC05A4 /* GrowlPathway.m */,
 				07FCFFC107E2F90C00F0A1CF /* GrowlRemotePathway.h */,
 				07FCFFC207E2F90C00F0A1CF /* GrowlRemotePathway.m */,
 				CB34BED107E09657001D7D7C /* GrowlApplicationBridgePathway.h */,
 				CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */,
+				074062AA07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.h */,
+				074062AB07E2FBE300FA27FA /* GrowlDistributedNotificationPathway.m */,
 				958294EF074CDE3100EC7AF2 /* GrowlUDPPathway.h */,
 				958294F0074CDE3100EC7AF2 /* GrowlUDPPathway.m */,
 			);
