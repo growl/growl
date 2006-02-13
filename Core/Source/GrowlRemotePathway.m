@@ -12,18 +12,22 @@
 
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
 	if ([[GrowlPreferencesController sharedController] boolForKey:GrowlRemoteRegistrationKey]) {
-		CFMutableDictionaryRef modifiedDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, (CFDictionaryRef)dict);
-		CFDictionarySetValue(modifiedDict, GROWL_REMOTE_ADDRESS, @"DO");
-		[super registerApplicationWithDictionary:(NSDictionary *)modifiedDict];
-		CFRelease(modifiedDict);
+		NSMutableDictionary *modifiedDict = [dict mutableCopy];
+		[modifiedDict setObject:@"DO" forKey:GROWL_REMOTE_ADDRESS];
+
+		[super registerApplicationWithDictionary:modifiedDict];
+
+		[modifiedDict release];
 	}
 }
 
-- (void) postNotificationWithDictionary:(NSDictionary *)notification {
-	CFMutableDictionaryRef modifiedDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, 0, (CFDictionaryRef)notification);
-	CFDictionarySetValue(modifiedDict, GROWL_REMOTE_ADDRESS, @"DO");
-	[super postNotificationWithDictionary:(NSDictionary *)modifiedDict];
-	CFRelease(modifiedDict);
+- (void) postNotificationWithDictionary:(NSDictionary *)dict {
+	NSMutableDictionary *modifiedDict = [dict mutableCopy];
+	[modifiedDict setObject:@"DO" forKey:GROWL_REMOTE_ADDRESS];
+
+	[super postNotificationWithDictionary:modifiedDict];
+
+	[modifiedDict release];
 }
 
 @end
