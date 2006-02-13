@@ -12,7 +12,7 @@
 #import "GrowlApplicationBridge.h"
 #import "GrowlAbstractSingletonObject.h"
 
-@class GrowlDistributedNotificationPathway, GrowlUDPPathway, GrowlRemotePathway,
+@class GrowlDistributedNotificationPathway, GrowlUDPPathway, GrowlTCPPathway,
 	MD5Authenticator, GrowlNotificationCenter, GrowlTicketController;
 
 @interface GrowlApplicationController : GrowlAbstractSingletonObject <GrowlApplicationBridgeDelegate> {
@@ -43,13 +43,8 @@
 
 	NSThread					*mainThread;
 
-	/// TEMP VARS
-
 	// remote DistributedObjects server
-	NSNetService				*service;
-	NSPort						*socketPort;
-	NSConnection				*serverConnection;
-	GrowlRemotePathway			*server;
+	GrowlTCPPathway				*tcpServer;
 
 	// UDP server
 	GrowlUDPPathway				*udpServer;
