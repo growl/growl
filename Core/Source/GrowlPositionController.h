@@ -57,6 +57,7 @@ enum GrowlPosition {
 	GrowlMiddleColumnPosition,
 	GrowlRightColumnPosition
 };
+extern NSString *NSStringFromGrowlPosition(enum GrowlPosition pos);
 
 enum GrowlExpansionDirection {
 	GrowlNoExpansionDirection,
@@ -65,6 +66,7 @@ enum GrowlExpansionDirection {
 	GrowlLeftExpansionDirection,
 	GrowlRightExpansionDirection
 };
+extern NSString *NSStringFromGrowlExpansionDirection(enum GrowlExpansionDirection dir);
 
 /*!
  * @class GrowlPositionController
