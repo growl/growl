@@ -8,7 +8,7 @@
 
 #include "cdsa.h"
 
-static int cdsaInitialized;
+static int cdsaInitialized = 0;
 
 static const CSSM_VERSION cspversion = {2, 0};
 static const CSSM_GUID guid = { 0xB057, 0x78, 0xF8, { 0x2,0xD,0x5,0x4,0x4,0xB,0xC,0x7 }};
