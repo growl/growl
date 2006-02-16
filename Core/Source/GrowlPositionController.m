@@ -173,6 +173,8 @@
 }
 
 - (BOOL) positionDisplay:(GrowlDisplayWindowController *)displayController {
+	GrowlLog *log = [GrowlLog sharedController];
+
 	NSScreen *preferredScreen = [displayController screen];
 	NSRect screenFrame = [preferredScreen visibleFrame];
 	NSSize displaySize = [[displayController window] frame].size;
@@ -185,12 +187,12 @@
 	// Try and reserve the rect
 	NSRect displayFrame = idealFrame;
 	if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
+		[log writeToLog:@"got a position the first time"];
 		[[displayController window] setFrameOrigin:displayFrame.origin];
 		return YES;
 	}
 
 	// Something was blocking the display...try and find the next position for the display...
-	GrowlLog *log = [GrowlLog sharedController];
 	[log writeToLog:@"---"];
 	[log writeToLog:@"positionDisplay: could not reserve initial rect; looking for another one"];
 	enum GrowlExpansionDirection   primaryDirection = [displayController   primaryExpansionDirection];
@@ -207,7 +209,7 @@
 	while (directionToTry) {
 		[log writeToLog:@"*** top of loop"];
 		[log writeToLog:@"directionToTry: %@", NSStringFromGrowlExpansionDirection(directionToTry)];
-		[log writeToLog:@"usingSecondaryDirection: %@", NSStringFromGrowlExpansionDirection(usingSecondaryDirection)];
+		[log writeToLog:@"usingSecondaryDirection: %hhi (secondaryDirection: %@)", usingSecondaryDirection, NSStringFromGrowlExpansionDirection(secondaryDirection)];
 
 		// adjust the rect...
 		NSEnumerator *rectEnum = [reservedRectsOfScreen objectEnumerator];
