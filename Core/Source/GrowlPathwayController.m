@@ -13,6 +13,14 @@
 
 static GrowlPathwayController *sharedController;
 
+NSString *GrowlPathwayControllerWillInstallPathwayNotification = @"GrowlPathwayControllerWillInstallPathwayNotification";
+NSString *GrowlPathwayControllerDidInstallPathwayNotification  = @"GrowlPathwayControllerDidInstallPathwayNotification";
+NSString *GrowlPathwayControllerWillRemovePathwayNotification  = @"GrowlPathwayControllerWillRemovePathwayNotification";
+NSString *GrowlPathwayControllerDidRemovePathwayNotification   = @"GrowlPathwayControllerDidRemovePathwayNotification";
+
+NSString *GrowlPathwayControllerNotificationKey = @"GrowlPathwayController";
+NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
+
 @implementation GrowlPathwayController
 
 + (GrowlPathwayController *) sharedController {
@@ -32,7 +40,7 @@ static GrowlPathwayController *sharedController;
 
 		[self installPathway:[GrowlApplicationBridgePathway standardPathway]];
 
-		if (isGrowlServerEnabled)
+		if ([[GrowlPreferencesController sharedController] isGrowlServerEnabled])
 			[self startServer];
 	}
 
@@ -55,11 +63,35 @@ static GrowlPathwayController *sharedController;
 #pragma mark Adding and removing pathways
 
 - (void) installPathway:(GrowlPathway *)newPathway {
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+		self, GrowlPathwayControllerNotificationKey,
+		pathway, GrowlPathwayNotificationKey,
+		nil];
+		
+	[nc postNotificationName:GrowlPathwayControllerWillInstallPathwayNotification
+	                  object:self
+	                userInfo:userInfo];
 	[pathways addObject:newPathway];
+	[nc postNotificationName:GrowlPathwayControllerDidInstallPathwayNotification
+	                  object:self
+	                userInfo:userInfo];
 }
 
-- (void) uninstallPathway:(GrowlPathway *)newPathway {
+- (void) removePathway:(GrowlPathway *)newPathway {
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+		self, GrowlPathwayControllerNotificationKey,
+		pathway, GrowlPathwayNotificationKey,
+		nil];
+		
+	[nc postNotificationName:GrowlPathwayControllerWillRemovePathwayNotification
+	                  object:self
+	                userInfo:userInfo];
 	[pathways removeObject:newPathway];
+	[nc postNotificationName:GrowlPathwayControllerDidRemovePathwayNotification
+	                  object:self
+	                userInfo:userInfo];
 }
 
 #pragma mark -
