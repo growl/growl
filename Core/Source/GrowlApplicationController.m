@@ -14,10 +14,8 @@
 #import "GrowlApplicationNotification.h"
 #import "GrowlTicketController.h"
 #import "GrowlNotificationTicket.h"
-#import "GrowlDistributedNotificationPathway.h"
-#import "GrowlRemotePathway.h"
-#import "GrowlUDPPathway.h"
-#import "GrowlApplicationBridgePathway.h"
+#import "GrowlPathway.h"
+#import "GrowlPathwayController.h"
 #import "NSStringAdditions.h"
 #import "GrowlDisplayPlugin.h"
 #import "GrowlPluginController.h"
@@ -179,9 +177,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 				   name:GROWL_NOTIFICATION_TIMED_OUT
 				 object:nil];
 
-		//XXX temporary DNC pathway hack - remove when real pathway support is in
-		dncPathway = [[GrowlDistributedNotificationPathway alloc] init];
-
 		ticketController = [GrowlTicketController sharedController];
 
 		[self versionDictionary];
@@ -229,8 +224,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
 			NSLog(@"WARNING: could not register GrowlNotificationCenter");
 
-		// initialize GrowlApplicationBridgePathway
-		[GrowlApplicationBridgePathway standardPathway];
+		[GrowlPathwayController sharedController];
 	}
 
 	return self;
@@ -271,8 +265,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (void) destroy {
 	//free your world
 	[mainThread release]; mainThread = nil;
-	[self stopServer];
-	[dncPathway       release]; dncPathway = nil; //XXX temporary DNC pathway hack - remove when real pathway support is in
+	[[GrowlPathwayController sharedController] setServerEnabled:NO];
 	[destinations     release]; destinations = nil;
 	[growlIcon        release]; growlIcon = nil;
 	[displayController release]; displayController = nil;
@@ -293,36 +286,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	cdsaShutdown();
 
 	[super destroy];
-}
-
-#pragma mark -
-#pragma mark Network support
-
-- (void) startServer {
-	if(!tcpServer) {
-		// start TCP service
-		tcpServer = [[GrowlTCPPathway alloc] init];
-	}
-
-	if(!udpServer) {
-		// start UDP service
-		udpServer = [[GrowlUDPPathway alloc] init];
-	}
-}
-
-- (void) stopServer {
-	[tcpServer release]; tcpServer = nil;
-	[udpServer release]; udpServer = nil;
-}
-
-- (void) startStopServer {
-	BOOL enabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey];
-
-	// Setup notification server
-	if (enabled)
-		[self startServer];
-	else if (!enabled)
-		[self stopServer];
 }
 
 #pragma mark Guts
@@ -691,7 +654,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	//[note object] is the changed key. A nil key means reload our tickets.
 	id object = [note object];
 	if (!note || (object && [object isEqual:GrowlStartServerKey]))
-		[self startStopServer];
+		[[GrowlPathwayController sharedController] setServerEnabledFromPreferences];
 	if (!note || (object && [object isEqual:GrowlUserDefaultsKey]))
 		[[GrowlPreferencesController sharedController] synchronize];
 	if (!note || (object && [object isEqual:GrowlEnabledKey]))
@@ -720,8 +683,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 				[newTicket release];
 			}
 		} else if ([object isEqual:GrowlUDPPortKey]) {
-			[self stopServer];
-			[self startServer];
+			GrowlPathwayController *pathwayController = [GrowlPathwayController sharedController];
+			[pathwayController setServerEnabled:NO];
+			[pathwayController setServerEnabled:YES];
 		}
 	}
 }

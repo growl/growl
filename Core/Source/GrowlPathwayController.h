@@ -10,10 +10,12 @@
 @class GrowlPlugin;
 
 @protocol GrowlPathwayPlugin <NSObject>
-//XXX figure out if there needs to be anything here.
+
+- (NSArray *) pathways;
+
 @end
 
-@class GrowlUDPPathway, GrowlTCPPathway;
+@class GrowlPathway, GrowlUDPPathway, GrowlTCPPathway;
 
 extern NSString *GrowlPathwayControllerWillInstallPathwayNotification;
 extern NSString *GrowlPathwayControllerDidInstallPathwayNotification;
@@ -25,13 +27,11 @@ extern NSString *GrowlPathwayControllerNotificationKey;
 extern NSString *GrowlPathwayNotificationKey;
 
 @interface GrowlPathwayController : NSObject {
-	NSMutableSet   *pathways;
+	NSMutableSet *pathways;
+	NSMutableSet *remotePathways;
 
-	// TCP server
-	GrowlTCPPathway			*TCPPathway;
-
-	// UDP server
-	GrowlUDPPathway			*UDPPathway;
+	unsigned reserved: 31;
+	unsigned serverEnabled: 1;
 }
 
 + (GrowlPathwayController *) sharedController;
@@ -41,7 +41,14 @@ extern NSString *GrowlPathwayNotificationKey;
 - (void) installPathway:(GrowlPathway *)newPathway;
 - (void) removePathway:(GrowlPathway *)newPathway;
 
-#pragma mark Batch operation
+#pragma mark Network control
+
+- (BOOL) isServerEnabled;
+- (void) setServerEnabled:(BOOL)enabled;
+
+#pragma mark Eating plug-ins
+
+//XXX make GrowlPathwayController a plug-in handler
 
 - (BOOL) loadPathwaysFromPlugin:(GrowlPlugin <GrowlPathwayPlugin> *)plugin;
 

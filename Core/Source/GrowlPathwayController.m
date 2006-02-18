@@ -9,9 +9,15 @@
 
 #import "GrowlPathwayController.h"
 #import "GrowlDefinesInternal.h"
+#import "GrowlLog.h"
 #import "GrowlPluginController.h"
 
-static GrowlPathwayController *sharedController;
+#import "GrowlDistributedNotificationPathway.h"
+#import "GrowlTCPPathway.h"
+#import "GrowlUDPPathway.h"
+#import "GrowlApplicationBridgePathway.h"
+
+static GrowlPathwayController *sharedController = nil;
 
 NSString *GrowlPathwayControllerWillInstallPathwayNotification = @"GrowlPathwayControllerWillInstallPathwayNotification";
 NSString *GrowlPathwayControllerDidInstallPathwayNotification  = @"GrowlPathwayControllerDidInstallPathwayNotification";
@@ -20,6 +26,12 @@ NSString *GrowlPathwayControllerDidRemovePathwayNotification   = @"GrowlPathwayC
 
 NSString *GrowlPathwayControllerNotificationKey = @"GrowlPathwayController";
 NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
+
+@interface GrowlPathwayController (PRIVATE)
+
+- (void) setServerEnabledFromPreferences;
+
+@end
 
 @implementation GrowlPathwayController
 
@@ -33,6 +45,7 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 - (id) init {
 	if ((self = [super init])) {
 		pathways = [[NSMutableSet alloc] initWithCapacity:4U];
+		remotePathways = [[NSMutableSet alloc] initWithCapacity:2U];
 
 		GrowlPathway *pw = [[GrowlDistributedNotificationPathway alloc] init];
 		[self installPathway:pw];
@@ -40,8 +53,16 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 
 		[self installPathway:[GrowlApplicationBridgePathway standardPathway]];
 
-		if ([[GrowlPreferencesController sharedController] isGrowlServerEnabled])
-			[self startServer];
+		GrowlRemotePathway *rpw = [[GrowlTCPPathway alloc] init];
+		[self installPathway:rpw];
+		[rpw release];
+		rpw = [[GrowlUDPPathway alloc] init];
+		[self installPathway:rpw];
+		[rpw release];
+
+		//set it to the contrary value, so that -setServerEnabledFromPreferences (which compares the values) will turn the server on if necessary.
+		serverEnabled = ![[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey];
+		[self setServerEnabledFromPreferences];
 	}
 
 	return self;
@@ -53,8 +74,10 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 	 */
 	[pathways release];
 	 pathways = nil;
+	[remotePathways release];
+	 remotePathways = nil;
 
-	[self stopServer];
+	[self setServerEnabled:NO];
 
 	[super dealloc];
 }
@@ -66,13 +89,15 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 		self, GrowlPathwayControllerNotificationKey,
-		pathway, GrowlPathwayNotificationKey,
+		newPathway, GrowlPathwayNotificationKey,
 		nil];
 		
 	[nc postNotificationName:GrowlPathwayControllerWillInstallPathwayNotification
 	                  object:self
 	                userInfo:userInfo];
 	[pathways addObject:newPathway];
+	if ([newPathway isKindOfClass:[GrowlRemotePathway class]])
+		[remotePathways addObject:newPathway];
 	[nc postNotificationName:GrowlPathwayControllerDidInstallPathwayNotification
 	                  object:self
 	                userInfo:userInfo];
@@ -82,13 +107,15 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 		self, GrowlPathwayControllerNotificationKey,
-		pathway, GrowlPathwayNotificationKey,
+		newPathway, GrowlPathwayNotificationKey,
 		nil];
 		
 	[nc postNotificationName:GrowlPathwayControllerWillRemovePathwayNotification
 	                  object:self
 	                userInfo:userInfo];
 	[pathways removeObject:newPathway];
+	if ([newPathway isKindOfClass:[GrowlRemotePathway class]])
+		[remotePathways removeObject:newPathway];
 	[nc postNotificationName:GrowlPathwayControllerDidRemovePathwayNotification
 	                  object:self
 	                userInfo:userInfo];
@@ -97,40 +124,45 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 #pragma mark -
 #pragma mark Remote pathways
 
-- (void) startServer {
-	if (TCPPathway) {
-		TCPPathway = [[GrowlTCPPathway alloc] init];
-		[self installPathway:TCPPathway];
-	}
+- (BOOL) isServerEnabled {
+	return serverEnabled;
+}
+- (void) setServerEnabled:(BOOL)flag {
+	if (serverEnabled != flag) {
+		NSEnumerator *remotePathwaysEnum = [remotePathways objectEnumerator];
+		GrowlRemotePathway *remotePathway;
+		while ((remotePathway = [remotePathwaysEnum nextObject])) {
+			BOOL success = [remotePathway setEnabled:flag];
+			if(!success)
+				[[GrowlLog sharedController] writeToLog:@"Could not set enabled state to %hhi on pathway %@", flag, remotePathway];
+		}
 
-	if (UDPPathway) {
-		UDPPathway = [[GrowlUDPPathway alloc] init];
-		[self installPathway:UDPPathway];
+		serverEnabled = flag;
 	}
 }
 
-- (void) stopServer {
-	if (TCPPathway) {
-		[pathways removeObject:TCPPathway];
-		[TCPPathway release];
-		 TCPPathway = nil;
-	}
+#pragma mark -
+#pragma mark Eating plug-ins
 
-	if (UDPPathway) {
-	  	[pathways removeObject:UDPPathway];
-		[UDPPathway        release];
-		 UDPPathway = nil;
-	}
+- (BOOL) loadPathwaysFromPlugin:(GrowlPlugin <GrowlPathwayPlugin> *)plugin {
+	NSArray *pathwaysFromPlugin = [plugin pathways];
+	if (pathwaysFromPlugin) {
+		NSEnumerator *pathwaysEnum = [pathwaysFromPlugin objectEnumerator];
+		GrowlPathway *pw;
+		while ((pw = [pathwaysEnum nextObject]))
+			[self installPathway:pw];
+
+		return YES;
+	} else
+		return NO;
 }
 
-- (void) startStopServer {
-	BOOL enabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey];
+@end
 
-	// Setup notification server
-	if (enabled)
-		[self startServer];
-	else if (!enabled)
-		[self stopServer];
+@implementation GrowlPathwayController (PRIVATE)
+
+- (void) setServerEnabledFromPreferences {
+	[self setServerEnabled:[[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey]];
 }
 
 @end

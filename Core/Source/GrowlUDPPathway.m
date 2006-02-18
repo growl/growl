@@ -353,90 +353,16 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 #pragma mark -
 
+@interface GrowlUDPPathway (PRIVATE)
+
+- (BOOL) enable;
+
+@end
+
 @implementation GrowlUDPPathway
 
 - (id) init {
 	if ((self = [super init])) {
-		struct sockaddr_in6 addr;
-		short port;
-		int native;
-
-		port = [[GrowlPreferencesController sharedController] integerForKey:GrowlUDPPortKey];
-
-		addr.sin6_len = sizeof(addr);
-		addr.sin6_family = AF_INET6;
-		addr.sin6_port = htons(port);
-		addr.sin6_flowinfo = 0U;
-		addr.sin6_addr = in6addr_any;
-		addr.sin6_scope_id = 0U;
-
-		native = socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDP);
-
-		if (native == -1) {
-			NSLog(@"GrowlUDPPathway: could not create socket.");
-
-			//notification to the user that it couldn't create the socket
-			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-			NSBeginAlertSheet(/*title*/ NSLocalizedString(@"Growl could not create a socket", @"" ),
-							  /*defaultbutton*/ nil,
-							  /*alternateButton*/ nil,
-							  /*otherButton*/ nil,
-							  /*docWindow*/ nil,
-							  /*modalDelegate*/ self,
-							  /*didEndSelector*/ NULL,
-							  /*didDismissSelector*/ NULL,
-							  /*contextInfo*/ NULL,
-							  /*msg*/ NSLocalizedString(@"Growl was unable to create the socket for Network notifications.", @""));
-
-			[self release];
-			return nil;
-		}
-
-		if (bind(native, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
-			NSLog(@"GrowlUDPPathway: could not bind socket.");
-			close(native);
-
-			[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
-			NSBeginAlertSheet(/*title*/ NSLocalizedString(@"Growl could not bind the socket", @""),
-							  /*defaultbutton*/ nil,
-							  /*alternateButton*/ nil,
-							  /*otherButton*/ nil,
-							  /*docWindow*/ nil,
-							  /*modalDelegate*/ self,
-							  /*didEndSelector*/ NULL,
-							  /*didDismissSelector*/ NULL,
-							  /*contextInfo*/ NULL,
-							  /*msg*/ NSLocalizedString(@"Growl was unable to bind the socket for Network notifications, check to make sure that there aren't any other applications already using the port.", @""));
-
-
-			[self release];
-			return nil;
-		}
-
-		// create CFSocket
-		CFSocketContext context = { 0, self, NULL, NULL, NULL };
-		cfSocket = CFSocketCreateWithNative(kCFAllocatorDefault,
-											native,
-											kCFSocketDataCallBack,
-											socketCallBack,
-											&context);
-		if (!cfSocket) {
-			close(native);
-			[self release];
-			return nil;
-		}
-
-		// add to run loop
-		CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault,
-																cfSocket,
-																0);
-		if (!source) {
-			[self release];
-			return nil;
-		}
-		CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopDefaultMode);
-		CFRelease(source);
-
 		notificationIcon = [[NSImage alloc] initWithContentsOfFile:
 			@"/System/Library/CoreServices/SystemIcons.bundle/Contents/Resources/GenericNetworkIcon.icns"];
 		// the icon has moved on 10.4
@@ -449,17 +375,113 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 }
 
 - (void) dealloc {
-	if (cfSocket) {
-		CFSocketInvalidate(cfSocket);	// also invalidates the runloop source
-		CFRelease(cfSocket);
-	}
+	[self setEnabled:NO];
 	[notificationIcon release];
 
 	[super dealloc];
 }
 
+- (BOOL) setEnabled:(BOOL)flag {
+	if (enabled != flag) {
+		if (flag) {
+			return [self enable];
+		} else {
+			if (cfSocket) {
+				CFSocketInvalidate(cfSocket);	// also invalidates the runloop source
+				CFRelease(cfSocket);
+			}
+		}
+	}
+	return YES;
+}
+
+#pragma mark -
+
 - (NSImage *) notificationIcon {
 	return notificationIcon;
+}
+
+@end
+
+@implementation GrowlUDPPathway (PRIVATE)
+
+- (BOOL) enable {
+	struct sockaddr_in6 addr;
+	short port;
+	int native;
+
+	port = [[GrowlPreferencesController sharedController] integerForKey:GrowlUDPPortKey];
+
+	addr.sin6_len = sizeof(addr);
+	addr.sin6_family = AF_INET6;
+	addr.sin6_port = htons(port);
+	addr.sin6_flowinfo = 0U;
+	addr.sin6_addr = in6addr_any;
+	addr.sin6_scope_id = 0U;
+
+	native = socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDP);
+
+	if (native == -1) {
+		NSLog(@"GrowlUDPPathway: could not create socket.");
+
+		//notification to the user that it couldn't create the socket
+		[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+		NSBeginAlertSheet(/*title*/ NSLocalizedString(@"Growl could not create a socket", @"" ),
+						  /*defaultbutton*/ nil,
+						  /*alternateButton*/ nil,
+						  /*otherButton*/ nil,
+						  /*docWindow*/ nil,
+						  /*modalDelegate*/ self,
+						  /*didEndSelector*/ NULL,
+						  /*didDismissSelector*/ NULL,
+						  /*contextInfo*/ NULL,
+						  /*msg*/ NSLocalizedString(@"Growl was unable to create the socket for Network notifications.", @""));
+
+		return NO;
+	}
+
+	if (bind(native, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
+		NSLog(@"GrowlUDPPathway: could not bind socket.");
+		close(native);
+
+		[[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+		NSBeginAlertSheet(/*title*/ NSLocalizedString(@"Growl could not bind the socket", @""),
+						  /*defaultbutton*/ nil,
+						  /*alternateButton*/ nil,
+						  /*otherButton*/ nil,
+						  /*docWindow*/ nil,
+						  /*modalDelegate*/ self,
+						  /*didEndSelector*/ NULL,
+						  /*didDismissSelector*/ NULL,
+						  /*contextInfo*/ NULL,
+						  /*msg*/ NSLocalizedString(@"Growl was unable to bind the socket for Network notifications, check to make sure that there aren't any other applications already using the port.", @""));
+
+
+		return NO;
+	}
+
+	// create CFSocket
+	CFSocketContext context = { 0, self, NULL, NULL, NULL };
+	cfSocket = CFSocketCreateWithNative(kCFAllocatorDefault,
+										native,
+										kCFSocketDataCallBack,
+										socketCallBack,
+										&context);
+	if (!cfSocket) {
+		close(native);
+		return NO;
+	}
+
+	// add to run loop
+	CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault,
+															cfSocket,
+															0);
+	if (!source)
+		return NO;
+	CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopDefaultMode);
+	CFRelease(source);
+
+	return YES;
 }
 
 @end

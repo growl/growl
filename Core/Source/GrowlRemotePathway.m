@@ -11,7 +11,7 @@
 @implementation GrowlRemotePathway
 
 - (void) registerApplicationWithDictionary:(NSDictionary *)dict {
-	if ([[GrowlPreferencesController sharedController] boolForKey:GrowlRemoteRegistrationKey]) {
+	if (enabled && [[GrowlPreferencesController sharedController] boolForKey:GrowlRemoteRegistrationKey]) {
 		NSMutableDictionary *modifiedDict = [dict mutableCopy];
 		[modifiedDict setObject:@"DO" forKey:GROWL_REMOTE_ADDRESS];
 
@@ -22,12 +22,24 @@
 }
 
 - (void) postNotificationWithDictionary:(NSDictionary *)dict {
-	NSMutableDictionary *modifiedDict = [dict mutableCopy];
-	[modifiedDict setObject:@"DO" forKey:GROWL_REMOTE_ADDRESS];
+	if (enabled) {
+		NSMutableDictionary *modifiedDict = [dict mutableCopy];
+		[modifiedDict setObject:@"DO" forKey:GROWL_REMOTE_ADDRESS];
 
-	[super postNotificationWithDictionary:modifiedDict];
+		[super postNotificationWithDictionary:modifiedDict];
 
-	[modifiedDict release];
+		[modifiedDict release];
+	}
+}
+
+#pragma mark -
+
+- (BOOL) setEnabled:(BOOL)flag {
+	enabled = (flag != NO);
+	return YES;
+}
+- (BOOL) isEnabled {
+	return enabled;
 }
 
 @end

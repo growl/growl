@@ -14,46 +14,46 @@
 
 @implementation GrowlTCPPathway
 
-- (id) init {
-	if((self = [super init])) {
-		authenticator = [[MD5Authenticator alloc] init];
+- (BOOL) setEnabled:(BOOL)flag {
+	if (enabled != flag) {
+		if (flag) {
+			authenticator = [[MD5Authenticator alloc] init];
 
-		socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
-		serverConnection = [[NSConnection alloc] initWithReceivePort:socketPort sendPort:nil];
-		[serverConnection setRootObject:self];
-		[serverConnection setDelegate:self];
+			socketPort = [[NSSocketPort alloc] initWithTCPPort:GROWL_TCP_PORT];
+			serverConnection = [[NSConnection alloc] initWithReceivePort:socketPort sendPort:nil];
+			[serverConnection setRootObject:self];
+			[serverConnection setDelegate:self];
 
-		// register with the default NSPortNameServer on the local host
-		if (![serverConnection registerName:@"GrowlServer"])
-			NSLog(@"WARNING: could not register Growl server.");
+			// register with the default NSPortNameServer on the local host
+			if (![serverConnection registerName:@"GrowlServer"])
+				NSLog(@"WARNING: could not register Growl server.");
 
-		// configure and publish the Bonjour service
-		CFStringRef serviceName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
-																 /*nameEncoding*/ NULL);
-		service = [[NSNetService alloc] initWithDomain:@""	// use local registration domain
-												  type:@"_growl._tcp."
-												  name:(NSString *)serviceName
-												  port:GROWL_TCP_PORT];
-		CFRelease(serviceName);
-		[service setDelegate:self];
-		[service publish];
+			// configure and publish the Bonjour service
+			CFStringRef serviceName = SCDynamicStoreCopyComputerName(/*store*/ NULL,
+																	 /*nameEncoding*/ NULL);
+			service = [[NSNetService alloc] initWithDomain:@""	// use local registration domain
+													  type:@"_growl._tcp."
+													  name:(NSString *)serviceName
+													  port:GROWL_TCP_PORT];
+			CFRelease(serviceName);
+			[service setDelegate:self];
+			[service publish];
+		} else {
+			[serverConnection registerName:nil];	// unregister
+			[serverConnection invalidate];
+			[serverConnection release];
+			[socketPort       invalidate];
+			[socketPort       release];
+
+			[service          stop];
+			[service          release];
+			
+			[authenticator release];
+		}
+
+		return [super setEnabled:flag];
 	}
-	return self;
-}
-
-- (void) dealloc {
-	[serverConnection registerName:nil];	// unregister
-	[serverConnection invalidate];
-	[serverConnection release];
-	[socketPort       invalidate];
-	[socketPort       release];
-
-	[service          stop];
-	[service          release];
-	
-	[authenticator release];
-
-	[super dealloc];
+	return YES;
 }
 
 #pragma mark -

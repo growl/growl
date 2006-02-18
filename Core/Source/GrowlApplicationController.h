@@ -12,16 +12,11 @@
 #import "GrowlApplicationBridge.h"
 #import "GrowlAbstractSingletonObject.h"
 
-@class GrowlDistributedNotificationPathway, GrowlUDPPathway, GrowlTCPPathway,
-	MD5Authenticator, GrowlNotificationCenter, GrowlTicketController;
+@class MD5Authenticator, GrowlNotificationCenter, GrowlTicketController;
 
 @interface GrowlApplicationController : GrowlAbstractSingletonObject <GrowlApplicationBridgeDelegate> {
 	MD5Authenticator			*authenticator;
 	GrowlTicketController		*ticketController;
-
-	//XXX temporary DNC pathway hack - remove when real pathway support is in
-	// DNC server
-	GrowlDistributedNotificationPathway *dncPathway;
 
 	// local GrowlNotificationCenter
 	NSConnection				*growlNotificationCenterConnection;
@@ -42,13 +37,6 @@
 	CFRunLoopTimerRef			updateTimer;
 
 	NSThread					*mainThread;
-
-	// remote DistributedObjects server
-	GrowlTCPPathway				*tcpServer;
-
-	// UDP server
-	GrowlUDPPathway				*udpServer;
-
 }
 
 + (GrowlApplicationController *) sharedController;
@@ -67,7 +55,6 @@
 - (void) preferencesChanged:(NSNotification *) note;
 
 - (void) shutdown:(NSNotification *)note;
-- (void) stopServer;
 - (void) replyToPing:(NSNotification *)note;
 
 - (NSThread *)mainThread;
