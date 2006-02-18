@@ -51,7 +51,7 @@ static GrowlLog *singleton = nil;
 			NSLogv(format, args);
 		} else {
 			NSString *logFile = [gpc objectForKey:GrowlCustomHistKey1];
-			const char *logFilePath = [logFile fileSystemRepresentation];;
+			const char *logFilePath = [logFile fileSystemRepresentation];
 			FILE *fp = fopen(logFilePath, "ab");
 
 			if (fp) {
