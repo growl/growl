@@ -795,7 +795,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	BOOL printVersionAndExit = [[NSUserDefaults standardUserDefaults] boolForKey:@"PrintVersionAndExit"];
 	if (printVersionAndExit) {
 		printf("This is GrowlHelperApp version %s.\n"
-			   "PrintVersionAndExit was set to %u, so GrowlHelperApp will now exit.\n",
+			   "PrintVersionAndExit was set to %hhi, so GrowlHelperApp will now exit.\n",
 			   [[self stringWithVersionDictionary:nil] UTF8String],
 			   printVersionAndExit);
 		[NSApp terminate:nil];
