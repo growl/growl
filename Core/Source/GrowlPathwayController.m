@@ -62,4 +62,43 @@ static GrowlPathwayController *sharedController;
 	[pathways removeObject:newPathway];
 }
 
+#pragma mark -
+#pragma mark Remote pathways
+
+- (void) startServer {
+	if (TCPPathway) {
+		TCPPathway = [[GrowlTCPPathway alloc] init];
+		[self installPathway:TCPPathway];
+	}
+
+	if (UDPPathway) {
+		UDPPathway = [[GrowlUDPPathway alloc] init];
+		[self installPathway:UDPPathway];
+	}
+}
+
+- (void) stopServer {
+	if (TCPPathway) {
+		[pathways removeObject:TCPPathway];
+		[TCPPathway release];
+		 TCPPathway = nil;
+	}
+
+	if (UDPPathway) {
+	  	[pathways removeObject:UDPPathway];
+		[UDPPathway        release];
+		 UDPPathway = nil;
+	}
+}
+
+- (void) startStopServer {
+	BOOL enabled = [[GrowlPreferencesController sharedController] boolForKey:GrowlStartServerKey];
+
+	// Setup notification server
+	if (enabled)
+		[self startServer];
+	else if (!enabled)
+		[self stopServer];
+}
+
 @end
