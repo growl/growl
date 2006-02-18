@@ -920,6 +920,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 }
 
 #pragma mark Growl Delegate Methods
+
 - (NSData *) applicationIconDataForGrowl {
 	return (id)growlIcon;
 }
