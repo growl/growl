@@ -15,7 +15,8 @@
 #import "GrowlTicketController.h"
 #import "GrowlNotificationTicket.h"
 #import "GrowlPathway.h"
-#import "GrowlPathwayController.h"
+//including this borks the prefpane.
+//#import "GrowlPathwayController.h"
 #import "NSStringAdditions.h"
 #import "GrowlDisplayPlugin.h"
 #import "GrowlPluginController.h"
@@ -224,7 +225,10 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
 			NSLog(@"WARNING: could not register GrowlNotificationCenter");
 
-		[GrowlPathwayController sharedController];
+		//this doesn't exist in the prefpane.
+		Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
+		if (pathwayControllerClass)
+			[pathwayControllerClass sharedController];
 	}
 
 	return self;
@@ -265,7 +269,9 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (void) destroy {
 	//free your world
 	[mainThread release]; mainThread = nil;
-	[[GrowlPathwayController sharedController] setServerEnabled:NO];
+	Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
+	if (pathwayControllerClass)
+		[(id)[pathwayControllerClass sharedController] setServerEnabled:NO];
 	[destinations     release]; destinations = nil;
 	[growlIcon        release]; growlIcon = nil;
 	[displayController release]; displayController = nil;
@@ -653,8 +659,11 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 - (void) preferencesChanged:(NSNotification *) note {
 	//[note object] is the changed key. A nil key means reload our tickets.
 	id object = [note object];
-	if (!note || (object && [object isEqual:GrowlStartServerKey]))
-		[[GrowlPathwayController sharedController] setServerEnabledFromPreferences];
+	if (!note || (object && [object isEqual:GrowlStartServerKey])) {
+		Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
+		if (pathwayControllerClass)
+			[(id)[pathwayControllerClass sharedController] setServerEnabledFromPreferences];
+	}
 	if (!note || (object && [object isEqual:GrowlUserDefaultsKey]))
 		[[GrowlPreferencesController sharedController] synchronize];
 	if (!note || (object && [object isEqual:GrowlEnabledKey]))
@@ -683,9 +692,12 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 				[newTicket release];
 			}
 		} else if ([object isEqual:GrowlUDPPortKey]) {
-			GrowlPathwayController *pathwayController = [GrowlPathwayController sharedController];
-			[pathwayController setServerEnabled:NO];
-			[pathwayController setServerEnabled:YES];
+			Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
+			if (pathwayControllerClass) {
+				id pathwayController = [pathwayControllerClass sharedController];
+				[pathwayController setServerEnabled:NO];
+				[pathwayController setServerEnabled:YES];
+			}
 		}
 	}
 }
