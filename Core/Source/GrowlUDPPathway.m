@@ -383,6 +383,8 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 - (BOOL) setEnabled:(BOOL)flag {
 	if (enabled != flag) {
+		enabled = flag;
+
 		if (flag) {
 			return [self enable];
 		} else {
