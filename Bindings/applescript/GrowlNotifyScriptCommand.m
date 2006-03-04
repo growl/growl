@@ -70,6 +70,9 @@ static const NSSize iconSize = { 128.0f, 128.0f };
 	NSString *notifName         = [args objectForKey:KEY_NOTIFICATION_NAME];
 	NSString *notifIdentifier   = [args objectForKey:KEY_NOTIFICATION_IDENTIFIER];
 
+	if (!title || ![title isKindOfClass:[NSString class]]) title = @"";
+	if (!desc || ![desc isKindOfClass:[NSString class]]) desc = @"";
+
 	NSMutableDictionary *noteDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 		appName,   GROWL_APP_NAME,
 		notifName, GROWL_NOTIFICATION_NAME,
