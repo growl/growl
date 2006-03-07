@@ -12,9 +12,10 @@
 
 extern void NSLog(CFStringRef format, ...);
 
-static DASessionRef session;
+static DASessionRef appearSession;
+static DASessionRef disappearSession;
 
-static void diskDescriptionChanged(DADiskRef disk, CFArrayRef keys, void *userInfo) {
+static void diskMounted(DADiskRef disk, CFArrayRef keys, void *userInfo) {
 #pragma(userInfo)
 	CFDictionaryRef description = DADiskCopyDescription(disk);
 	CFStringRef name = CFDictionaryGetValue(description, kDADiskDescriptionVolumeNameKey);
@@ -28,21 +29,32 @@ static void diskDescriptionChanged(DADiskRef disk, CFArrayRef keys, void *userIn
 	CFRelease(description);
 }
 
-void VolumeNotifier_init(void) {
-	session = DASessionCreate(kCFAllocatorDefault);
-	DASessionScheduleWithRunLoop(session, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+static void diskUnMounted(DADiskRef disk, CFArrayRef keys, void *userInfo) {
+#pragma(userInfo)
+	CFDictionaryRef description = DADiskCopyDescription(disk);
+	CFStringRef name = CFDictionaryGetValue(description, kDADiskDescriptionVolumeNameKey);
+	AppController_volumeDidUnmount(name);
+	CFRelease(description);
+}
 
-	/* We use the disk description changed callback and not the disk
-	 * appeared callback because we need volume path to find the icon.
-	 * The volume path is not available at the time the disk appears, it
-	 * is set at a later point in time and the disk description changed
-	 * callback is fired.
-	 */
-	DARegisterDiskDescriptionChangedCallback(session, kDADiskDescriptionMatchVolumeMountable, kDADiskDescriptionWatchVolumePath, diskDescriptionChanged, NULL);
+
+void VolumeNotifier_init(void) {
+	
+	appearSession = DASessionCreate(kCFAllocatorDefault);
+	disappearSession = DASessionCreate(kCFAllocatorDefault);
+	
+	DASessionScheduleWithRunLoop(appearSession, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+	DASessionScheduleWithRunLoop(disappearSession, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+	
+	DARegisterDiskAppearedCallback(appearSession, kDADiskDescriptionMatchVolumeMountable, diskMounted, NULL);
+	DARegisterDiskDisappearedCallback(disappearSession, kDADiskDescriptionMatchVolumeMountable, diskUnMounted, NULL);
 }
 
 void VolumeNotifier_dealloc(void) {
-	DAUnregisterCallback(session, diskDescriptionChanged, NULL);
-	DASessionUnscheduleFromRunLoop(session, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
-	CFRelease(session);
+	DAUnregisterCallback(appearSession, diskMounted, NULL);
+	DAUnregisterCallback(disappearSession, diskUnMounted, NULL);
+	DASessionUnscheduleFromRunLoop(appearSession, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+	DASessionUnscheduleFromRunLoop(disappearSession, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+	CFRelease(appearSession);
+	CFRelease(disappearSession);
 }
