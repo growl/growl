@@ -61,7 +61,7 @@ static BOOL isAnyDisplayCaptured(void) {
 	CGDisplayErr err = CGGetActiveDisplayList(/*maxDisplays*/ 0U, /*activeDisplays*/ NULL, &numDisplays);
 	if (err != noErr)
 		[[GrowlLog sharedController] writeToLog:@"Checking for captured displays: Could not count displays: %li", (long)err];
-	else{
+	else {
 		CGDirectDisplayID *displays = malloc(numDisplays * sizeof(CGDirectDisplayID));
 		CGGetActiveDisplayList(numDisplays, displays, /*numDisplays*/ NULL);
 

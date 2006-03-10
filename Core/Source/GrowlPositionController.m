@@ -173,7 +173,7 @@
 }
 
 - (BOOL) positionDisplay:(GrowlDisplayWindowController *)displayController {
-	GrowlLog *log = [GrowlLog sharedController];
+	GrowlLog *growlLog = [GrowlLog sharedController];
 
 	NSScreen *preferredScreen = [displayController screen];
 	NSRect screenFrame = [preferredScreen visibleFrame];
@@ -187,18 +187,18 @@
 	// Try and reserve the rect
 	NSRect displayFrame = idealFrame;
 	if ([self reserveRect:displayFrame inScreen:preferredScreen]) {
-		[log writeToLog:@"got a position the first time"];
+		[growlLog writeToLog:@"got a position the first time"];
 		[[displayController window] setFrameOrigin:displayFrame.origin];
 		return YES;
 	}
 
 	// Something was blocking the display...try and find the next position for the display...
-	[log writeToLog:@"---"];
-	[log writeToLog:@"positionDisplay: could not reserve initial rect; looking for another one"];
+	[growlLog writeToLog:@"---"];
+	[growlLog writeToLog:@"positionDisplay: could not reserve initial rect; looking for another one"];
 	enum GrowlExpansionDirection   primaryDirection = [displayController   primaryExpansionDirection];
-	[log writeToLog:@"primaryDirection: %@", NSStringFromGrowlExpansionDirection(primaryDirection)];
+	[growlLog writeToLog:@"primaryDirection: %@", NSStringFromGrowlExpansionDirection(primaryDirection)];
 	enum GrowlExpansionDirection secondaryDirection = [displayController secondaryExpansionDirection];
-	[log writeToLog:@"secondaryDirection: %@", NSStringFromGrowlExpansionDirection(secondaryDirection)];
+	[growlLog writeToLog:@"secondaryDirection: %@", NSStringFromGrowlExpansionDirection(secondaryDirection)];
 
 	enum GrowlExpansionDirection directionToTry = primaryDirection;
 	BOOL usingSecondaryDirection = NO;
@@ -207,9 +207,9 @@
 	NSMutableSet *reservedRectsOfScreen = [self reservedRectsForScreen:preferredScreen];
 	NSValue *rectValue;
 	while (directionToTry) {
-		[log writeToLog:@"*** top of loop"];
-		[log writeToLog:@"directionToTry: %@", NSStringFromGrowlExpansionDirection(directionToTry)];
-		[log writeToLog:@"usingSecondaryDirection: %hhi (secondaryDirection: %@)", usingSecondaryDirection, NSStringFromGrowlExpansionDirection(secondaryDirection)];
+		[growlLog writeToLog:@"*** top of loop"];
+		[growlLog writeToLog:@"directionToTry: %@", NSStringFromGrowlExpansionDirection(directionToTry)];
+		[growlLog writeToLog:@"usingSecondaryDirection: %hhi (secondaryDirection: %@)", usingSecondaryDirection, NSStringFromGrowlExpansionDirection(secondaryDirection)];
 
 		// adjust the rect...
 		NSEnumerator *rectEnum = [reservedRectsOfScreen objectEnumerator];
@@ -301,7 +301,7 @@
 
 		// If we were using the secondary direction, switch back to the primary now...
 		if (usingSecondaryDirection) {
-			[log writeToLog:@"switching from secondary direction %@ to primary direction %@", NSStringFromGrowlExpansionDirection(secondaryDirection), NSStringFromGrowlExpansionDirection(primaryDirection)];
+			[growlLog writeToLog:@"switching from secondary direction %@ to primary direction %@", NSStringFromGrowlExpansionDirection(secondaryDirection), NSStringFromGrowlExpansionDirection(primaryDirection)];
 			
 			directionToTry = primaryDirection;
 			usingSecondaryDirection = NO;
@@ -324,7 +324,7 @@
 			directionToTry = secondaryDirection;
 			secondaryCount++;
 			usingSecondaryDirection = YES;
-			[log writeToLog:@"now using secondary direction for the %uth time", secondaryCount];
+			[growlLog writeToLog:@"now using secondary direction for the %uth time", secondaryCount];
 			continue;
 		}
 
