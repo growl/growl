@@ -145,6 +145,12 @@
 	return depth;
 }
 
+- (void) didFinishTransitionsBeforeDisplay {
+	[super didFinishTransitionsBeforeDisplay];
+	if ([[[notification auxiliaryDictionary] objectForKey:GROWL_NOTIFICATION_STICKY] boolValue])
+		[self startDisplayTimer];
+}
+
 #pragma mark -
 
 - (void) dealloc {
