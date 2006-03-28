@@ -15,7 +15,7 @@ extern void NSLog(CFStringRef format, ...);
 static DASessionRef appearSession;
 static DASessionRef disappearSession;
 
-static void diskMounted(DADiskRef disk, CFArrayRef keys, void *userInfo) {
+static void diskMounted(DADiskRef disk, void *userInfo) {
 #pragma(userInfo)
 	CFDictionaryRef description = DADiskCopyDescription(disk);
 	CFStringRef name = CFDictionaryGetValue(description, kDADiskDescriptionVolumeNameKey);
@@ -29,7 +29,7 @@ static void diskMounted(DADiskRef disk, CFArrayRef keys, void *userInfo) {
 	CFRelease(description);
 }
 
-static void diskUnMounted(DADiskRef disk, CFArrayRef keys, void *userInfo) {
+static void diskUnMounted(DADiskRef disk, void *userInfo) {
 #pragma(userInfo)
 	CFDictionaryRef description = DADiskCopyDescription(disk);
 	CFStringRef name = CFDictionaryGetValue(description, kDADiskDescriptionVolumeNameKey);
@@ -39,15 +39,18 @@ static void diskUnMounted(DADiskRef disk, CFArrayRef keys, void *userInfo) {
 
 
 void VolumeNotifier_init(void) {
-	
 	appearSession = DASessionCreate(kCFAllocatorDefault);
 	disappearSession = DASessionCreate(kCFAllocatorDefault);
 	
 	DASessionScheduleWithRunLoop(appearSession, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 	DASessionScheduleWithRunLoop(disappearSession, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 	
-	DARegisterDiskAppearedCallback(appearSession, kDADiskDescriptionMatchVolumeMountable, diskMounted, NULL);
-	DARegisterDiskDisappearedCallback(disappearSession, kDADiskDescriptionMatchVolumeMountable, diskUnMounted, NULL);
+	//Trigger the callbacks immediately if we should show existing devices on startup
+	Boolean keyExistsAndHasValidFormat;
+	if (CFPreferencesGetAppBooleanValue(CFSTR("ShowExisting"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat)) {
+		DARegisterDiskAppearedCallback(appearSession, kDADiskDescriptionMatchVolumeMountable, diskMounted, NULL);
+		DARegisterDiskDisappearedCallback(disappearSession, kDADiskDescriptionMatchVolumeMountable, diskUnMounted, NULL);
+	}
 }
 
 void VolumeNotifier_dealloc(void) {
@@ -58,3 +61,4 @@ void VolumeNotifier_dealloc(void) {
 	CFRelease(appearSession);
 	CFRelease(disappearSession);
 }
+
