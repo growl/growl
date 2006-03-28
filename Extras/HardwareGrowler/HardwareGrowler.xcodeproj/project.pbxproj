@@ -35,6 +35,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		3423607109D8888A009FF634 /* PowerNotifier.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3423606F09D8888A009FF634 /* PowerNotifier.h */; };
+		3423607209D8888A009FF634 /* PowerNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = 3423607009D8888A009FF634 /* PowerNotifier.c */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.c */; settings = {ATTRIBUTES = (); }; };
@@ -113,7 +115,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 93BC379E095A662B0002B365 /* Nano.growlView */;
+			remoteGlobalIDString = 93BC379E095A662B0002B365;
 			remoteInfo = Nano;
 		};
 		9533C299085C3ED6009F8046 /* PBXContainerItemProxy */ = {
@@ -225,7 +227,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9533C287085C3ED6009F8046 /* Growl.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 34F60EAA078E1CD500CECA86 /* Growl.framework */;
+			remoteGlobalIDString = 34F60EAA078E1CD500CECA86;
 			remoteInfo = Growl.framework;
 		};
 /* End PBXContainerItemProxy section */
@@ -239,6 +241,7 @@
 			files = (
 				9324AE8807BD781B001CB55C /* Growl.framework in CopyFiles */,
 				9586EF0308C9C3A40039789E /* SyncNotifier.h in CopyFiles */,
+				3423607109D8888A009FF634 /* PowerNotifier.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,8 +255,10 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* HardwareNotifier_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HardwareNotifier_Prefix.pch; sourceTree = "<group>"; };
+		3423606F09D8888A009FF634 /* PowerNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PowerNotifier.h; sourceTree = "<group>"; };
+		3423607009D8888A009FF634 /* PowerNotifier.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PowerNotifier.c; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* HardwareGrowler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HardwareGrowler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9324AE7807BD77DB001CB55C /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		950445A309B57BED000EAB59 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		950626460840CB8200C01CD2 /* BluetoothLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BluetoothLogo.png; sourceTree = "<group>"; };
@@ -323,6 +328,8 @@
 				958AB93607C69DE000F56B45 /* NetworkNotifier.c */,
 				9586EF0108C9C3A40039789E /* SyncNotifier.h */,
 				9586EF0208C9C3A40039789E /* SyncNotifier.c */,
+				3423606F09D8888A009FF634 /* PowerNotifier.h */,
+				3423607009D8888A009FF634 /* PowerNotifier.c */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -671,6 +678,7 @@
 				DDF9B63A07BC07B30007B5B7 /* VolumeNotifier.c in Sources */,
 				958AB93807C69DE000F56B45 /* NetworkNotifier.c in Sources */,
 				9586EF0408C9C3A40039789E /* SyncNotifier.c in Sources */,
+				3423607209D8888A009FF634 /* PowerNotifier.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -930,12 +938,6 @@
 		95E4A2BB0855C0DB006B3F45 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};

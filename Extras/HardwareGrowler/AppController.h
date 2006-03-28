@@ -5,6 +5,8 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 
+#include "PowerNotifier.h"
+
 void AppController_fwDidConnect(CFStringRef deviceName);
 void AppController_fwDidDisconnect(CFStringRef deviceName);
 void AppController_usbDidConnect(CFStringRef deviceName);
@@ -21,6 +23,8 @@ void AppController_ipAcquired(CFStringRef ip);
 void AppController_ipReleased(void);
 void AppController_syncStarted(void);
 void AppController_syncFinished(void);
+void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharging,
+								 int batteryTime, int batteryPercentage);
 
 #ifdef __OBJC__
 
