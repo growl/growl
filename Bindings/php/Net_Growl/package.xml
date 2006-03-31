@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0" packagerversion="1.4.8">
+ <name>Net_Growl</name>
+ <summary>Send notifications to Growl from PHP on MACOSX</summary>
+ <description>Growl is a MACOSX application that listen to notifications sent by 
+applications and displays them on the desktop using different display 
+styles. Net_Growl offers the possibility to send notifications to Growl 
+from your PHP application through network communication using UDP.
+ </description>
+ <maintainers>
+  <maintainer>
+   <user>mansion</user>
+   <name>Bertrand Mansion</name>
+   <email>golgote@mamasam.com</email>
+   <role>lead</role>
+  </maintainer>
+  </maintainers>
+ <release>
+  <version>0.7.0</version>
+  <date>2006-03-31</date>
+  <license>BSD</license>
+  <state>beta</state>
+  <notes>Initial release
+  </notes>
+  <deps>
+   <dep type="pkg" rel="ge" version="1.3.3" optional="no">PEAR</dep>
+  </deps>
+  <filelist>
+   <dir name="/" baseinstalldir="Net">
+    <dir name="Growl">
+     <file role="php" name="Application.php"/>
+    </dir> <!-- /Growl -->
+    <file role="php" name="Growl.php"/>
+   </dir> <!-- / -->
+  </filelist>
+ </release>
+ <changelog>
+   <release>
+    <version>0.7.0</version>
+    <date>2006-03-31</date>
+    <license>BSD</license>
+    <state>beta</state>
+    <notes>Initial release
+    </notes>
+   </release>
+   <release>
+    <version>0.1</version>
+    <date>2006-03-31</date>
+    <license>BSD</license>
+    <state>beta</state>
+    <notes>Initial release
+    </notes>
+   </release>
+ </changelog>
+</package>
