@@ -44,13 +44,5 @@ from your PHP application through network communication using UDP.
     <notes>Initial release
     </notes>
    </release>
-   <release>
-    <version>0.1</version>
-    <date>2006-03-31</date>
-    <license>BSD</license>
-    <state>beta</state>
-    <notes>Initial release
-    </notes>
-   </release>
  </changelog>
 </package>
