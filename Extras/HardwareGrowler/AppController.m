@@ -230,7 +230,7 @@ void AppController_airportDisconnect(CFStringRef networkName) {
 													   format,
 													   networkName);
 	CFRelease(format);
-		
+
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
 						   notificationName:(NSString *)NotifierNetworkAirportDisconnectNotification
@@ -361,7 +361,7 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 
 	BOOL		haveBatteryTime = (batteryTime != -1);
 	BOOL		haveBatterPercentage = (batteryPercentage != -1);
-	
+
 	if (powerSource == HGACPower) {
 		title = NSLocalizedString(@"On A/C power", nil);
 
@@ -377,20 +377,20 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 
 	} else if (powerSource == HGBatteryPower) {
 		title = NSLocalizedString(@"On battery power", nil);
-		
+
 		if (haveBatteryTime) [description appendFormat:NSLocalizedString(@"Time remaining: %i minutes", nil), batteryTime];
 		if (haveBatteryTime && haveBatterPercentage) [description appendString:@"\n"];
 		if (haveBatterPercentage) [description appendFormat:NSLocalizedString(@"Current charge: %d%%", nil), batteryPercentage];
-		
+
 		notificationName = (NSString *)NotifierPowerOnBatteryNotification;
 
 	} else if (powerSource == HGUPSPower) {
 		title = NSLocalizedString(@"On UPS power", nil);
-		
+
 		notificationName = (NSString *)NotifierPowerOnUPSNotification;
 	}
 
-	if (notificationName) {
+	if (notificationName)
 		[GrowlApplicationBridge notifyWithTitle:title
 									description:description
 							   notificationName:notificationName
@@ -398,7 +398,6 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 									   priority:0
 									   isSticky:NO
 								   clickContext:nil];
-	}
 }
 
 static void powerCallback(void *refcon, io_service_t service, natural_t messageType, void *messageArgument) {
@@ -432,54 +431,53 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 NSData *firewireLogo(void)
 {
 	static NSData	*firewireLogoData = nil;
-	if (!firewireLogoData) {
+
+	if (!firewireLogoData)
 		firewireLogoData = [[[NSImage imageNamed: @"FireWireLogo.png"] TIFFRepresentation] retain];
-	}
+
 	return firewireLogoData;
 }
 
 NSData *usbLogo(void)
 {
 	static NSData	*usbLogoData = nil;
-	
-	if (!usbLogoData) {
+
+	if (!usbLogoData)
 		usbLogoData = [[[NSImage imageNamed: @"usbLogoWhite.png"] TIFFRepresentation] retain];
-	}
-	
+
 	return usbLogoData;
 }
 
 NSData *bluetoothLogo(void)
 {
 	static NSData	*bluetoothLogoData = nil;
-	if (!bluetoothLogoData) {
+
+	if (!bluetoothLogoData)
 		bluetoothLogoData = [[[NSImage imageNamed: @"BluetoothLogo.png"] TIFFRepresentation] retain];
-	}
-	
+
 	return bluetoothLogoData;
 }
 
 NSData *ejectLogo(void)
-{	
+{
 	static NSData	*ejectLogoData = nil;
-	if (!ejectLogoData) {
+	if (!ejectLogoData)
 		ejectLogoData = [[[NSImage imageNamed: @"eject.icns"] TIFFRepresentation] retain];
-	}
-	
+
 	return ejectLogoData;
 }
 
 
-NSData *airportIcon()
+NSData *airportIcon(void)
 {
 	static NSData	*airportIconData = nil;
-	
+
 	if (!airportIconData) {
 		NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-		
+
 		airportIconData = [[[ws iconForFile:[ws fullPathForApplication:@"Airport Admin Utility.app"]] TIFFRepresentation] retain];
 	}
-	
+
 	return airportIconData;
 }
 
@@ -488,23 +486,23 @@ NSData *ipIcon(void)
 	static NSData	*ipIconData = nil;
 	if (!ipIconData) {
 		NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-		
+
 		ipIconData = [[[ws iconForFile:[ws fullPathForApplication:@"Internet Connect.app"]] TIFFRepresentation] retain];
 	}
-	
+
 	return ipIconData;
 }
 
-NSData *iSyncIcon()
+NSData *iSyncIcon(void)
 {
 	static NSData	*iSyncIconData = nil;
-	
+
 	if (!iSyncIconData) {
 		NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-		
+
 		iSyncIconData = [[[ws iconForFile:[ws fullPathForApplication:@"iSync.app"]] TIFFRepresentation] retain];
 	}
-	
+
 	return iSyncIconData;
 }
 

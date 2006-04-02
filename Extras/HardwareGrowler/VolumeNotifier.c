@@ -41,10 +41,10 @@ static void diskUnMounted(DADiskRef disk, void *userInfo) {
 void VolumeNotifier_init(void) {
 	appearSession = DASessionCreate(kCFAllocatorDefault);
 	disappearSession = DASessionCreate(kCFAllocatorDefault);
-	
+
 	DASessionScheduleWithRunLoop(appearSession, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 	DASessionScheduleWithRunLoop(disappearSession, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
-	
+
 	//Trigger the callbacks immediately if we should show existing devices on startup
 	Boolean keyExistsAndHasValidFormat;
 	if (CFPreferencesGetAppBooleanValue(CFSTR("ShowExisting"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat)) {

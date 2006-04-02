@@ -241,7 +241,7 @@ void NetworkNotifier_init(void) {
 
 void NetworkNotifier_dealloc(void) {
 	if (rlSrc)
-		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);	
+		CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rlSrc, kCFRunLoopDefaultMode);
 	if (dynStore)
 		CFRelease(dynStore);
 	if (airportStatus)

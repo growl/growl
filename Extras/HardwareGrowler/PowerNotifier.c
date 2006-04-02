@@ -21,18 +21,18 @@ static HGPowerSource lastPowerSource;
 static int stringsAreEqual(CFStringRef a, CFStringRef b)
 {
 	if (!a || !b) return 0;
-	
+
 	return (CFStringCompare(a, b, 0) == kCFCompareEqualTo);
 }
 
 static void powerSourceChanged(void *context)
 {
 #pragma unused(context)
-	CFTypeRef		powerBlob = IOPSCopyPowerSourcesInfo();
-	CFArrayRef		powerSourcesList = IOPSCopyPowerSourcesList(powerBlob);
+	CFTypeRef	powerBlob = IOPSCopyPowerSourcesInfo();
+	CFArrayRef	powerSourcesList = IOPSCopyPowerSourcesList(powerBlob);
 
-	unsigned int	count = CFArrayGetCount(powerSourcesList);
-	for (unsigned int i = 0; i < count; i++) {
+	unsigned	count = CFArrayGetCount(powerSourcesList);
+	for (unsigned i = 0U; i < count; ++i) {
 		CFTypeRef		powerSource;
 		CFDictionaryRef description;
 
@@ -40,7 +40,7 @@ static void powerSourceChanged(void *context)
 		CFBooleanRef	charging = kCFBooleanFalse;
 		int				batteryTime = -1;
 		int				percentageCapacity = -1;
-		
+
 		powerSource = CFArrayGetValueAtIndex(powerSourcesList, i);
 		description = IOPSGetPowerSourceDescription(powerBlob, powerSource);
 
@@ -52,63 +52,55 @@ static void powerSourceChanged(void *context)
 		if (stringsAreEqual(CFDictionaryGetValue(description, CFSTR(kIOPSTransportTypeKey)),
 							CFSTR(kIOPSInternalType))) {
 			CFStringRef currentState = CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey));
-			if (stringsAreEqual(currentState, CFSTR(kIOPSACPowerValue))) {
+			if (stringsAreEqual(currentState, CFSTR(kIOPSACPowerValue)))
 				hgPowerSource = HGACPower;
-
-			} else if (stringsAreEqual(currentState, CFSTR(kIOPSBatteryPowerValue))) {
+			else if (stringsAreEqual(currentState, CFSTR(kIOPSBatteryPowerValue)))
 				hgPowerSource = HGBatteryPower;
-
-			} else {
+			else
 				hgPowerSource = HGUnknownPower;
-			}
 
 			//Battery power
 			if (CFDictionaryGetValue(description, CFSTR(kIOPSIsChargingKey)) == kCFBooleanTrue) {
 				//Charging
 				charging = kCFBooleanTrue;
-				
+
 				CFNumberRef timeToChargeNum = CFDictionaryGetValue(description, CFSTR(kIOPSTimeToFullChargeKey));
 				int timeToCharge;
-				
-				if (CFNumberGetValue(timeToChargeNum, kCFNumberIntType, &timeToCharge)) {
+
+				if (CFNumberGetValue(timeToChargeNum, kCFNumberIntType, &timeToCharge))
 					batteryTime = timeToCharge;
-				}
-				
 			} else {
 				//Not charging
 				charging = kCFBooleanFalse;
-				
+
 				CFNumberRef timeToEmptyNum = CFDictionaryGetValue(description, CFSTR(kIOPSTimeToEmptyKey));
 				int timeToEmpty;
-				
-				if (CFNumberGetValue(timeToEmptyNum, kCFNumberIntType, &timeToEmpty)) {
+
+				if (CFNumberGetValue(timeToEmptyNum, kCFNumberIntType, &timeToEmpty))
 					batteryTime = timeToEmpty;
-				}
 			}
-			
+
 			/* Capacity */
 			CFNumberRef currentCapacityNum = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
 			CFNumberRef maxCapacityNum = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
-			
+
 			int currentCapacity, maxCapacity;
-			
+
 			if (CFNumberGetValue(currentCapacityNum, kCFNumberIntType, &currentCapacity) &&
-				CFNumberGetValue(maxCapacityNum, kCFNumberIntType, &maxCapacity)) {
-				percentageCapacity = round((currentCapacity / (float)maxCapacity) * 100.0);
-			}
-			
+					CFNumberGetValue(maxCapacityNum, kCFNumberIntType, &maxCapacity))
+				percentageCapacity = roundf((currentCapacity / (float)maxCapacity) * 100.0f);
+
 		} else {
 			//UPS power
 			hgPowerSource = HGUPSPower;
 		}
-		
+
 		//Avoid sending notifications on the same power source multiple times
 		if (lastPowerSource != hgPowerSource) {
 			lastPowerSource = hgPowerSource;
 			AppController_powerSwitched(hgPowerSource, charging, batteryTime, percentageCapacity);
 		}
 	}
-	
 
 	CFRelease(powerSourcesList);
 	CFRelease(powerBlob);
@@ -118,15 +110,14 @@ void PowerNotifier_init(void)
 {
 	powerNotifierRunLoopSource = IOPSNotificationCreateRunLoopSource(powerSourceChanged,
 																	 NULL);
-	if (powerNotifierRunLoopSource) {
+	if (powerNotifierRunLoopSource)
 		CFRunLoopAddSource(CFRunLoopGetCurrent(), powerNotifierRunLoopSource, kCFRunLoopDefaultMode);
-	}
-	
+
 	lastPowerSource = HGUnknownPower;
 }
 
 void PowerNotifier_dealloc(void)
 {
-	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), powerNotifierRunLoopSource, kCFRunLoopDefaultMode); 
+	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), powerNotifierRunLoopSource, kCFRunLoopDefaultMode);
 	CFRelease(powerNotifierRunLoopSource);
 }

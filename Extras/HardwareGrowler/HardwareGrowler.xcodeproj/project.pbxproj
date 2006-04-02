@@ -35,7 +35,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		3423607109D8888A009FF634 /* PowerNotifier.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3423606F09D8888A009FF634 /* PowerNotifier.h */; };
 		3423607209D8888A009FF634 /* PowerNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = 3423607009D8888A009FF634 /* PowerNotifier.c */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
@@ -45,7 +44,6 @@
 		9324AE8807BD781B001CB55C /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9324AE7807BD77DB001CB55C /* Growl.framework */; };
 		950626470840CB8200C01CD2 /* BluetoothLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 950626460840CB8200C01CD2 /* BluetoothLogo.png */; };
 		9522B89208BC57F20000DC20 /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9522B89108BC57F20000DC20 /* DiskArbitration.framework */; };
-		9586EF0308C9C3A40039789E /* SyncNotifier.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9586EF0108C9C3A40039789E /* SyncNotifier.h */; };
 		9586EF0408C9C3A40039789E /* SyncNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = 9586EF0208C9C3A40039789E /* SyncNotifier.c */; };
 		958AB93807C69DE000F56B45 /* NetworkNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = 958AB93607C69DE000F56B45 /* NetworkNotifier.c */; };
 		958AB9DE07C6A7FD00F56B45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */; };
@@ -240,8 +238,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9324AE8807BD781B001CB55C /* Growl.framework in CopyFiles */,
-				9586EF0308C9C3A40039789E /* SyncNotifier.h in CopyFiles */,
-				3423607109D8888A009FF634 /* PowerNotifier.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

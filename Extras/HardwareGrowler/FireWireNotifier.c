@@ -69,7 +69,7 @@ static void fwDeviceRemoved(void *refCon, io_iterator_t iterator) {
 		// NSLog(@"FireWire Device Removed: %@" , deviceName);
 		AppController_fwDidDisconnect(deviceName);
 		CFRelease(deviceName);
-		
+
 		IOObjectRelease(thisObject);
 	}
 }

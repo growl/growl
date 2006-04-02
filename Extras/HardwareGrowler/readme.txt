@@ -1,4 +1,4 @@
-HardwareGrowler	
+HardwareGrowler
 ***************
 
 Initially by Diggory Laycock (http://www.monkeyfood.com)
@@ -16,10 +16,9 @@ Supported 'Devices':
 	¥ Network Interfaces
 
 Bugs:
-	I can't get the name of many FireWire devices 
+	I can't get the name of many FireWire devices
 		- it may be that they don't even have them.
 
 	It should probably have the option to run without appearing in the dock.
 
 	The icon isn't the greatest.
-	

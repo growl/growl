@@ -11,19 +11,19 @@
 
 extern void NSLog(CFStringRef format, ...);
 
-static void syncStarted(CFNotificationCenterRef center, 
-						void *observer, 
-						CFStringRef name, 
-						const void *object, 
+static void syncStarted(CFNotificationCenterRef center,
+						void *observer,
+						CFStringRef name,
+						const void *object,
 						CFDictionaryRef userInfo) {
 #pragma unused(center,observer,name,object,userInfo)
 	AppController_syncStarted();
 }
 
-static void syncFinished(CFNotificationCenterRef center, 
-						 void *observer, 
-						 CFStringRef name, 
-						 const void *object, 
+static void syncFinished(CFNotificationCenterRef center,
+						 void *observer,
+						 CFStringRef name,
+						 const void *object,
 						 CFDictionaryRef userInfo) {
 #pragma unused(center,observer,name,object)
 	CFStringRef status = CFDictionaryGetValue(userInfo, CFSTR("ISyncPlanStatus"));
