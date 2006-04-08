@@ -29,6 +29,10 @@
 - (BOOL) mouseOver;
 - (void) setCloseOnMouseExit:(BOOL)flag;
 
++ (NSButton*) closeButton;
+- (BOOL) showsCloseBox;
+- (void) closeBox:(id)sender;
+- (void) setCloseBoxVisible:(BOOL)yorn;
 @end
 
 @interface NSObject (GrowlNotificationViewDelegate)

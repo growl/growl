@@ -276,6 +276,10 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 	action = selector;
 }
 
+
+- (BOOL) showsCloseBox {
+    return NO;
+}
 #pragma mark -
 
 - (BOOL) needsDisplay {

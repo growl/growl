@@ -107,6 +107,7 @@
 - (void) mouseEntered:(NSEvent *)theEvent {
 #pragma unused(theEvent)
 	[self updateFocusState];
+    [self setCloseBoxVisible:YES];
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
 }
@@ -114,6 +115,7 @@
 - (void) mouseExited:(NSEvent *)theEvent {
 #pragma unused(theEvent)
 	[self updateFocusState];
+    [self setCloseBoxVisible:NO];
 	mouseOver = NO;
 	[self setNeedsDisplay:YES];
 

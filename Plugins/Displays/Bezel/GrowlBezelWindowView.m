@@ -319,6 +319,10 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 
 #pragma mark -
 
+- (BOOL) showsCloseBox {
+    return NO;
+}
+
 - (void) mouseUp:(NSEvent *) event {
 #pragma unused(event)
 	if (target && action && [target respondsToSelector:action])

@@ -449,6 +449,7 @@
 
 - (void) mouseEntered:(NSEvent *)theEvent {
 #pragma unused(theEvent)
+    [self setCloseBoxVisible:YES];
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
 }
@@ -456,6 +457,7 @@
 - (void) mouseExited:(NSEvent *)theEvent {
 #pragma unused(theEvent)
 	mouseOver = NO;
+    [self setCloseBoxVisible:NO];
 	[self setNeedsDisplay:YES];
 
 	// abuse the target object

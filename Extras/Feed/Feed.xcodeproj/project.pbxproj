@@ -27,8 +27,6 @@
 /* Begin PBXBuildFile section */
 		074BA9BD0977C6DE009624AE /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C2F8320968D72A00167884 /* Growl.framework */; };
 		5307A18409872FC100572C5C /* KNUnifiedSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5307A18209872FC100572C5C /* KNUnifiedSplitView.m */; };
-		531750180995B69700AD2B33 /* KNStatusBar.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 531750160995B69700AD2B33 /* KNStatusBar.h */; };
-		531750190995B69700AD2B33 /* KNStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 531750170995B69700AD2B33 /* KNStatusBar.m */; };
 		531DE37B08FDBD7D00E7746C /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 531E429E06D67780007FB45E /* Credits.html */; };
 		531DE39B08FDBDB000E7746C /* DefaultSources.opml in Resources */ = {isa = PBXBuildFile; fileRef = 531DE39A08FDBDB000E7746C /* DefaultSources.opml */; };
 		531DE4BD09035C2200E7746C /* RSSReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D5FDFB06D7A144008F1DFB /* RSSReader.m */; };
@@ -111,6 +109,8 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		A151CB8C09A4E0AF00A09B53 /* KNStatusBar.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 531750160995B69700AD2B33 /* KNStatusBar.h */; };
+		A151CB8D09A4E0AF00A09B53 /* KNStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 531750170995B69700AD2B33 /* KNStatusBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -270,7 +270,7 @@
 			files = (
 				53F2F04A090C919E0044CA28 /* FeedWindowController+Status.h in CopyFiles */,
 				537998C40982FE5900DBA666 /* KNShelfSplitView.h in CopyFiles */,
-				531750180995B69700AD2B33 /* KNStatusBar.h in CopyFiles */,
+				A151CB8C09A4E0AF00A09B53 /* KNStatusBar.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1106,7 +1106,7 @@
 				53F2F04B090C919E0044CA28 /* FeedWindowController+Status.m in Sources */,
 				537998C50982FE5900DBA666 /* KNShelfSplitView.m in Sources */,
 				5307A18409872FC100572C5C /* KNUnifiedSplitView.m in Sources */,
-				531750190995B69700AD2B33 /* KNStatusBar.m in Sources */,
+				A151CB8D09A4E0AF00A09B53 /* KNStatusBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

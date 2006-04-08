@@ -12,7 +12,7 @@
 @implementation GrowlNotificationView
 
 - (id) delegate {
-    return delegate;
+	return delegate;
 }
 
 - (void) setDelegate: (id) theDelegate {
@@ -64,6 +64,7 @@
 #pragma unused(theEvent)
 	mouseOver = YES;
 	[self setNeedsDisplay:YES];
+	[self setCloseBoxVisible:YES];
 }
 
 - (void) mouseExited:(NSEvent *)theEvent {
@@ -81,4 +82,40 @@
 		[target performSelector:action withObject:self];
 }
 
+static NSButton* gCloseButton;
++ (NSButton*) closeButton {
+	if (!gCloseButton) {
+	    gCloseButton = [[NSButton alloc] initWithFrame:NSMakeRect(0,0,30,30)];
+	    [gCloseButton setBezelStyle:NSRegularSquareBezelStyle];
+	    [gCloseButton setBordered:NO];
+	    [gCloseButton setButtonType:NSMomentaryChangeButton];
+	    [gCloseButton setImagePosition:NSImageOnly];
+	    [gCloseButton setImage:[NSImage imageNamed:@"closebox.png"]];
+	    [gCloseButton setAlternateImage:[NSImage imageNamed:@"closebox_pressed.png"]];
+	}
+	return gCloseButton;
+}
+
+- (BOOL) showsCloseBox {
+	return YES;
+}
+
+- (void) closeBox:(id)sender {
+#pragma unused(sender)
+	if ([delegate respondsToSelector:@selector(stopDisplay)])
+		[delegate performSelector:@selector(stopDisplay)];
+}
+
+- (void) setCloseBoxVisible:(BOOL)yorn {
+	if ([self showsCloseBox]) {
+	    [GrowlNotificationView closeButton];
+	    [gCloseButton setFrame:[gCloseButton frame]];
+	    [gCloseButton setTarget:self];
+	    [gCloseButton setAction:@selector(closeBox:)];
+        if (yorn)
+            [self addSubview:gCloseButton];
+        else
+            [gCloseButton removeFromSuperview];
+	}
+}
 @end
