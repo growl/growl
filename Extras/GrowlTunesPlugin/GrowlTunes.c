@@ -33,6 +33,7 @@
 #define ITUNES_STOPPED			CFSTR("Stopped")
 #define ITUNES_PLAYING			CFSTR("Started Playing")
 
+#define GTP CFSTR("info.growl.growltunes")
 enum
 {
 	kTrackSettingID		= 3,
@@ -93,6 +94,64 @@ static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef in
 static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRef inEvent, void *userData);
 static void setupDescString(const VisualPluginData *visualPluginData, CFMutableStringRef desc);
 static void setupTitleString(const VisualPluginData *visualPluginData, CFMutableStringRef title);
+static pascal void readPreferences (void);
+static pascal void writePreferences (void);
+
+/*
+	readPreferences
+*/
+static void readPreferences (void)
+{	
+	Boolean success;
+	Boolean temp;
+	
+	temp = CFPreferencesGetAppBooleanValue(CFSTR("Track"), GTP, &success);
+	if (success)
+		gTrackFlag = temp;
+		
+	temp = CFPreferencesGetAppBooleanValue(CFSTR("Disc"), GTP, &success);
+	if (success)
+		gDiscFlag = temp;
+	
+	temp = CFPreferencesGetAppBooleanValue(CFSTR("Artist"), GTP, &success);
+	if (success)
+		gArtistFlag = temp;
+	
+	temp = CFPreferencesGetAppBooleanValue(CFSTR("Composer"), GTP, &success);
+	if (success)
+		gComposerFlag = temp;
+	
+	temp = CFPreferencesGetAppBooleanValue(CFSTR("Album"), GTP, &success);
+	if (success)
+		gAlbumFlag = temp;
+	
+	temp = CFPreferencesGetAppBooleanValue(CFSTR("Year"), GTP, &success);
+	if (success)
+		gYearFlag = temp;
+		
+	temp = CFPreferencesGetAppBooleanValue(CFSTR("Genre"), GTP, &success);
+	if (success)
+		gGenreFlag = temp;
+			
+	if (!success)
+		writePreferences();
+}
+
+/*
+	writePreferences
+*/
+static void writePreferences (void)
+{	
+	CFPreferencesSetAppValue( CFSTR("Track"), (gTrackFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
+	CFPreferencesSetAppValue( CFSTR("Disc"), (gDiscFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
+	CFPreferencesSetAppValue( CFSTR("Artist"), (gArtistFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
+	CFPreferencesSetAppValue( CFSTR("Composer"), (gComposerFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
+	CFPreferencesSetAppValue( CFSTR("Album"), (gAlbumFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
+	CFPreferencesSetAppValue( CFSTR("Year"), (gYearFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
+	CFPreferencesSetAppValue( CFSTR("Genre"), (gGenreFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
+
+	CFPreferencesAppSynchronize(GTP);
+}
 
 /*
 	settingsControlHandler
@@ -133,6 +192,7 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
                 gGenreFlag = GetControlValue(control);
                 break;
 		case kOKSettingID:
+				writePreferences();
                 HideWindow(wind);
                 break;
     }
@@ -593,6 +653,7 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 	switch (message) {
 		case kPluginInitMessage:
 			err = RegisterVisualPlugin(messageInfo);
+			
 			//register with growl and setup our delegate
 			CFBundleRef growlTunesBundle = CFBundleGetBundleWithIdentifier(CFSTR("com.growl.growltunes"));
 			CFURLRef privateFrameworksURL = CFBundleCopyPrivateFrameworksURL(growlTunesBundle);
@@ -635,6 +696,9 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 						if (!GrowlTunes_GrowlIsInstalled()) {
 							//notify the user that growl isn't installed and as such that there won't be any notifications for this session of iTunes.
 						}
+						
+						//read our settings
+						readPreferences();
 
 						//setup our global hot key
 						EventHotKeyID hotKeyID;
