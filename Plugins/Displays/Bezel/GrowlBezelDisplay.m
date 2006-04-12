@@ -38,6 +38,7 @@
 	GrowlApplicationNotification *note = [theBridge notification];
 	NSDictionary *noteDict = [note dictionaryRepresentation];
 
+	[controller setIgnoresOtherNotifications:YES];
 	[controller setNotifyingApplicationName:[note applicationName]];
 	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
