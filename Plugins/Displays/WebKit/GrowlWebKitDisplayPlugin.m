@@ -10,6 +10,9 @@
 #import "GrowlWebKitDisplayPlugin.h"
 #import "GrowlWebKitDefines.h"
 #import "GrowlWebKitPrefsController.h"
+#import "GrowlWebKitWindowController.h"
+#import "GrowlDefines.h"
+#import "CFDictionaryAdditions.h"
 
 @implementation GrowlWebKitDisplayPlugin
 
@@ -41,6 +44,19 @@
 		preferencePane = [[prefsController alloc] initWithStyle:style];
 	}
 	return preferencePane;
+}
+
+- (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {	
+	GrowlWebKitWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];
+	GrowlApplicationNotification *note = [theBridge notification];
+	NSDictionary *noteDict = [note dictionaryRepresentation];
+
+	[controller setNotifyingApplicationName:[note applicationName]];
+	[controller setNotifyingApplicationProcessIdentifier:[noteDict objectForKey:GROWL_APP_PID]];
+	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
+	[controller setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
+	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
+
 }
 
 @end

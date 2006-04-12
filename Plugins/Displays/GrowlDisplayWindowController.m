@@ -205,7 +205,9 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 	NSWindow *window = [self window];
 	[window orderOut:nil];
 	[[GrowlPositionController sharedInstance] clearReservedRect:[window frame] inScreen:[window screen]];
-	[[bridge display] displayWindowControllerDidTakeDownWindow:self];
+
+	if ((bridge) && ([bridge respondsToSelector:@selector(display)]))
+		[[bridge display] displayWindowControllerDidTakeDownWindow:self];
 }
 
 - (void) didDisplayNotification {
@@ -436,7 +438,8 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) setBridge:(GrowlNotificationDisplayBridge *)theBridge {
-	bridge = theBridge;
+	[bridge release];
+	bridge = [theBridge retain];
 }
 
 #pragma mark -
