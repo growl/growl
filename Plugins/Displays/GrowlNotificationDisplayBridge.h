@@ -6,7 +6,9 @@
 //  Copyright 2005-2006 The Growl Project. All rights reserved.
 //
 
-@class GrowlApplicationNotification, GrowlDisplayPlugin, GrowlDisplayWindowController;
+#import "GrowlDisplayPlugin.h"
+
+@class GrowlApplicationNotification, GrowlDisplayWindowController;
 
 @interface GrowlNotificationDisplayBridge : NSObject {
 	GrowlDisplayPlugin           *display;
