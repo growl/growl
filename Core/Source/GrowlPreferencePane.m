@@ -96,10 +96,6 @@
 }
 
 - (void) awakeFromNib {
-	// TODO: this does not work
-	//NSSecureTextFieldCell *secureTextCell = [[NSSecureTextFieldCell alloc] init];
-	//[servicePasswordColumn setDataCell:secureTextCell];
-	//[secureTextCell release];
 	ACImageAndTextCell *imageTextCell = [[[ACImageAndTextCell alloc] init] autorelease];
 
 	[ticketsArrayController addObserver:self forKeyPath:@"selection" options:0 context:nil];
@@ -111,6 +107,7 @@
 
 	// create a deep mutable copy of the forward destinations
 	NSArray *destinations = [preferencesController objectForKey:GrowlForwardDestinationsKey];
+	NSLog(@"%@\n", destinations);
 	NSEnumerator *destEnum = [destinations objectEnumerator];
 	NSMutableArray *theServices = [[NSMutableArray alloc] initWithCapacity:[destinations count]];
 	NSDictionary *destination;
@@ -156,6 +153,7 @@
 	[growlApplications setTarget:self];
 
 	[applicationNameAndIconColumn setDataCell:imageTextCell];
+	[networkTableView reloadData];
 }
 
 - (void) mainViewDidLoad {
@@ -636,7 +634,7 @@
 	}
 }
 
-#pragma mark "Network" tab pane
+#pragma mark "Display" tab pane
 
 - (IBAction) showPreview:(id)sender {
 #pragma unused(sender)
@@ -728,9 +726,24 @@
 }
 #pragma mark TableView delegate methods
 
+- (int) numberOfRowsInTableView:(NSTableView*)tableView {
+	if(tableView == networkTableView) {
+		return [[self services] count];
+	}
+	return 0;
+}
 - (void) tableViewDidClickInBody:(NSTableView *)tableView {
 	activeTableView = tableView;
 	[self setCanRemoveTicket:(activeTableView == growlApplications) && [ticketsArrayController canRemove]];
+}
+
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
+#pragma unused(aTableView)
+	if(aTableColumn == servicePasswordColumn) {
+		[[services objectAtIndex:rowIndex] setPassword:anObject];
+		NSLog(@"%@\n", [[services objectAtIndex:rowIndex] password]);
+	}
+
 }
 
 - (id) tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex {
@@ -740,6 +753,8 @@
 		NSArray *arrangedTickets = [ticketsArrayController arrangedObjects];
 		unsigned idx = [tickets indexOfObject:[arrangedTickets objectAtIndex:rowIndex]];
 		[[aTableColumn dataCellForRow:rowIndex] setImage:(NSImage *)CFArrayGetValueAtIndex(images,idx)];
+	} else if (aTableColumn == servicePasswordColumn) {
+		return [[services objectAtIndex:rowIndex] password];
 	}
 
 	return nil;

@@ -75,7 +75,8 @@
 	int								currentServiceIndex;
 	IBOutlet NSArrayController		*servicesArrayController;
 	IBOutlet NSTableColumn			*servicePasswordColumn;
-
+	IBOutlet NSTableView			*networkTableView;
+	
 	//About box tab pane
 	IBOutlet NSTextView				*aboutBoxTextView;
 	NSURL							*growlWebSiteURL;
