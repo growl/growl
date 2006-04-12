@@ -26,5 +26,7 @@
 	<string>Jorge Salvador Caffarena</string>
 	<key>GrowlPluginDescription</key>
 	<string>Music Video notifications, for your tunes</string>
+	<key>GrowlDisplayUsesQueue</key>
+	<true/>
 </dict>
 </plist>

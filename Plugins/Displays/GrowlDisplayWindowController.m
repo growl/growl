@@ -234,6 +234,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 		clickContext = nil;
 	}
 	[nc postNotificationName:GrowlDisplayWindowControllerWillDisplayWindowNotification object:self];
+	[[bridge display] displayWindowControllerDidTakeDownWindow:self];
 }
 
 #pragma mark -

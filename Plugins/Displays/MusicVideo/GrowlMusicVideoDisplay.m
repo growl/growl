@@ -18,13 +18,11 @@
 - (id) init {
 	if ((self = [super init])) {
 		windowControllerClass = NSClassFromString(@"GrowlMusicVideoWindowController");
-		//notificationQueue = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
 - (void) dealloc {
-	//[notificationQueue release];
 	[preferencePane release];
 	[super dealloc];
 }

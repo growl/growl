@@ -26,5 +26,7 @@
 	<string>Nano, we're evil like that</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlNanoDisplay</string>
+	<key>GrowlDisplayUsesQueue</key>
+	<true/>
 </dict>
 </plist>

@@ -10,6 +10,7 @@
 #import "GrowlPlugin.h"
 
 @class GrowlApplicationNotification, GrowlNotificationDisplayBridge;
+@class GrowlDisplayWindowController;
 
 /*!
  * @class GrowlDisplayPlugin
@@ -59,5 +60,8 @@
  *	@result	The name of the window nib.
  */
 - (NSString *) windowNibName;
+
+/* */
+- (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc;
 
 @end

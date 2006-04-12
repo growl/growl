@@ -26,5 +26,7 @@
 	<string>Jorge Salvador Caffarena</string>
 	<key>GrowlPluginDescription</key>
 	<string>Bezel like notifications, with a twist</string>
+	<key>GrowlDisplayUsesQueue</key>
+	<true/>
 </dict>
 </plist>

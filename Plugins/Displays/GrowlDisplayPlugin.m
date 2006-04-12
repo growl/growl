@@ -106,10 +106,23 @@
 #pragma mark -
 
 - (void) displayWindowControllerDidTakeDownWindow:(GrowlDisplayWindowController *)wc {
+	if ([queue count] > 0U) {
+		GrowlNotificationDisplayBridge *theBridge = [queue objectAtIndex:0U];
+		[[theBridge windowControllers] makeObjectsPerformSelector:@selector(startDisplay)];
+		if ([queue count] > 0U)
+			bridge = [theBridge retain];
+		else
+			bridge = NULL;
+		[queue removeObjectAtIndex:0U];		
+	}
+	else
+		bridge = NULL;
+	
 	if (bridge)
 		[bridge removeWindowController:wc];
 	else
 		[[activeBridges bridgeForWindowController:wc] removeWindowController:wc];
+
 }
 
 @end

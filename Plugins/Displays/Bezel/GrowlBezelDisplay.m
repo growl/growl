@@ -17,14 +17,12 @@
 
 - (id) init {
 	if ((self = [super init])) {
-		//notificationQueue = [[NSMutableArray alloc] init];
 		windowControllerClass = NSClassFromString(@"GrowlBezelWindowController");
 	}
 	return self;
 }
 
 - (void) dealloc {
-	//[notificationQueue release];
 	[preferencePane    release];
 	[super dealloc];
 }

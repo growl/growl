@@ -9,7 +9,6 @@
 #import "GrowlDisplayPlugin.h"
 
 @interface GrowlBezelDisplay : GrowlDisplayPlugin {
-	NSMutableArray		*notificationQueue;
 }
 
 - (id) init;
