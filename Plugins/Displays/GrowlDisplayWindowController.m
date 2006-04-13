@@ -15,6 +15,8 @@
 #import "GrowlNotificationDisplayBridge.h"
 #import "GrowlApplicationNotification.h"
 
+#include "GrowlLog.h"
+
 static NSMutableDictionary *existingInstances;
 
 extern CFRunLoopRef CFRunLoopGetMain(void);
@@ -104,12 +106,18 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 - (void) dealloc {
 	[self stopDisplayTimer];
 	[self setDelegate:nil];
+	NSLog(@"Telling %@ to not notify me", [self bridge]);
+	[[self bridge] removeObserver:self forKeyPath:@"notification"];
 	[self unbind:@"notification"];
 
 	NSFreeMapTable(startTimes);
 	NSFreeMapTable(endTimes);
 
+	GrowlLog *log = [GrowlLog sharedController];
+
+	[log writeToLog:@"releasing bridge %@", bridge];
 	[bridge              release];
+	[log writeToLog:@"released"];
 	[target              release];
 	[clickContext        release];
 	[clickHandlerEnabled release];
@@ -438,8 +446,8 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 }
 
 - (void) setBridge:(GrowlNotificationDisplayBridge *)theBridge {
-	[bridge release];
-	bridge = [theBridge retain];
+	//This must not retain the bridge, because the bridge retains us.
+	bridge = theBridge;
 }
 
 #pragma mark -
