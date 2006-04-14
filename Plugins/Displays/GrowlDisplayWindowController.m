@@ -113,11 +113,11 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 	NSFreeMapTable(startTimes);
 	NSFreeMapTable(endTimes);
 
-	GrowlLog *log = [GrowlLog sharedController];
+	GrowlLog *growlLog = [GrowlLog sharedController];
 
-	[log writeToLog:@"releasing bridge %@", bridge];
+	[growlLog writeToLog:@"releasing bridge %@", bridge];
 	[bridge              release];
-	[log writeToLog:@"released"];
+	[growlLog writeToLog:@"released"];
 	[target              release];
 	[clickContext        release];
 	[clickHandlerEnabled release];
