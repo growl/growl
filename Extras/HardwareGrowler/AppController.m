@@ -49,7 +49,7 @@
 
 #define NotifierNetworkAirportConnectDescription()		CFCopyLocalizedString(CFSTR("Joined network.\nSSID:\t\t%@\nBSSID:\t%02X:%02X:%02X:%02X:%02X:%02X"), "")
 #define NotifierNetworkAirportDisconnectDescription()	CFCopyLocalizedString(CFSTR("Left network %@."), "")
-#define NotifierNetworkIpAcquiredDescription()			CFCopyLocalizedString(CFSTR("New primary IP: %@"), "")
+#define NotifierNetworkIpAcquiredDescription()			CFCopyLocalizedString(CFSTR("New primary IP: %@ (%@)"), "")
 #define NotifierNetworkIpReleasedDescription()			CFCopyLocalizedString(CFSTR("No IP address now"), "")
 
 NSData *firewireLogo(void);
@@ -277,7 +277,7 @@ void AppController_linkDown(CFStringRef description) {
 	CFRelease(title);
 }
 
-void AppController_ipAcquired(CFStringRef ip) {
+void AppController_ipAcquired(CFStringRef ip, CFStringRef type) {
 	//NSLog(@"IP acquired: %@", ip);
 
 	if (sleeping)
@@ -285,11 +285,14 @@ void AppController_ipAcquired(CFStringRef ip) {
 
 	CFStringRef title = NotifierNetworkIpAcquiredTitle();
 	CFStringRef format = NotifierNetworkIpAcquiredDescription();
+	CFStringRef localizedType = CFCopyLocalizedString(type, "");
 	CFStringRef description = CFStringCreateWithFormat(kCFAllocatorDefault,
 													   NULL,
 													   format,
-													   ip);
+													   ip,
+													   localizedType);
 	CFRelease(format);
+	CFRelease(localizedType);
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
 						   notificationName:(NSString *)NotifierNetworkIpAcquiredNotification

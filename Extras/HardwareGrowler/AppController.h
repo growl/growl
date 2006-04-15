@@ -19,7 +19,7 @@ void AppController_airportConnect(CFStringRef networkName, const unsigned char *
 void AppController_airportDisconnect(CFStringRef networkName);
 void AppController_linkUp(CFStringRef description);
 void AppController_linkDown(CFStringRef description);
-void AppController_ipAcquired(CFStringRef ip);
+void AppController_ipAcquired(CFStringRef ip, CFStringRef type);
 void AppController_ipReleased(void);
 void AppController_syncStarted(void);
 void AppController_syncFinished(void);

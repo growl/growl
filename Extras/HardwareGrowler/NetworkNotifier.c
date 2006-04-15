@@ -17,6 +17,8 @@
 #include <sys/ioctl.h>
 #include <net/if.h>
 #include <net/if_media.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <unistd.h>
 
 extern void NSLog(CFStringRef format, ...);
@@ -130,6 +132,34 @@ static void linkStatusChange(CFDictionaryRef newValue) {
 		AppController_linkDown(CFSTR("Interface:\ten0"));
 }
 
+static CFStringRef typeOfIP(CFStringRef ipString) {
+	static struct {
+		in_addr_t network;
+		in_addr_t netmask;
+		CFStringRef type;
+	} const types[9] = {
+		// RFC 1918 addresses
+		{ 0x0A000000, 0xFF000000, CFSTR("Private") }, 		// 10.0.0.0/8
+		{ 0xAC100000, 0xFFF00000, CFSTR("Private") }, 		// 172.16.0.0/12
+		{ 0xC0A80000, 0xFFFF0000, CFSTR("Private") }, 		// 192.168.0.0/16
+		// Other RFC 3330 addresses
+		{ 0x7F000000, 0xFF000000, CFSTR("Loopback") },		// 127.0.0.0/8
+		{ 0xA9FE0000, 0xFFFF0000, CFSTR("Link-local") },	// 169.254.0.0/16
+		{ 0xC0000200, 0xFFFFFF00, CFSTR("Test") },			// 192.0.2.0/24
+		{ 0xC0586200, 0xFFFFFF00, CFSTR("6to4 relay") },	// 192.88.99.0/24
+		{ 0xC6120000, 0xFFFE0000, CFSTR("Benchmark") },		// 198.18.0.0/15
+		{ 0xF0000000, 0xF0000000, CFSTR("Reserved") }		// 240.0.0.0/4
+	};
+	struct in_addr addr;
+	char ip[16];
+	CFStringGetCString(ipString, ip, sizeof(ip), kCFStringEncodingASCII);
+	if (inet_pton(AF_INET, ip, &addr) > 0)
+		for (unsigned i=0U; i<9; ++i)
+			if ((addr.s_addr & types[i].netmask) == types[i].network)
+				return types[i].type;
+	return CFSTR("Public");
+}
+
 static void ipAddressChange(CFDictionaryRef newValue) {
 	if (newValue) {
 //		NSLog(CFSTR("IP address acquired"));
@@ -141,11 +171,9 @@ static void ipAddressChange(CFDictionaryRef newValue) {
 		CFRelease(ipv4Key);
 		if (ipv4Info) {
 			CFArrayRef addrs = CFDictionaryGetValue(ipv4Info, CFSTR("Addresses"));
-			if (addrs) {
-				if (CFArrayGetCount(addrs))
-					AppController_ipAcquired(CFArrayGetValueAtIndex(addrs, 0));
-				else
-					NSLog(CFSTR("Empty address array"));
+			if (addrs && CFArrayGetCount(addrs)) {
+				CFStringRef ip = CFArrayGetValueAtIndex(addrs, 0);
+				AppController_ipAcquired(ip, typeOfIP(ip));
 			}
 			CFRelease(ipv4Info);
 		}
