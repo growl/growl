@@ -29,7 +29,7 @@
 - (BOOL) mouseOver;
 - (void) setCloseOnMouseExit:(BOOL)flag;
 
-+ (NSButton*) closeButton;
++ (NSButton *) closeButton;
 - (BOOL) showsCloseBox;
 - (void) closeBox:(id)sender;
 - (void) setCloseBoxVisible:(BOOL)yorn;

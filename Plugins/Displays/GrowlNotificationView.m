@@ -82,8 +82,8 @@
 		[target performSelector:action withObject:self];
 }
 
-static NSButton* gCloseButton;
-+ (NSButton*) closeButton {
+static NSButton *gCloseButton;
++ (NSButton *) closeButton {
 	if (!gCloseButton) {
 	    gCloseButton = [[NSButton alloc] initWithFrame:NSMakeRect(0,0,30,30)];
 	    [gCloseButton setBezelStyle:NSRegularSquareBezelStyle];
@@ -102,6 +102,7 @@ static NSButton* gCloseButton;
 
 - (void) closeBox:(id)sender {
 #pragma unused(sender)
+	mouseOver = NO;
 	if ([delegate respondsToSelector:@selector(stopDisplay)])
 		[delegate performSelector:@selector(stopDisplay)];
 }
