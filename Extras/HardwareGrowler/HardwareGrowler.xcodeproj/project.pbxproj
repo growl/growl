@@ -48,6 +48,7 @@
 		958AB93807C69DE000F56B45 /* NetworkNotifier.c in Sources */ = {isa = PBXBuildFile; fileRef = 958AB93607C69DE000F56B45 /* NetworkNotifier.c */; };
 		958AB9DE07C6A7FD00F56B45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 958AB9DD07C6A7FD00F56B45 /* SystemConfiguration.framework */; };
 		95AC163C0858A3BF008213B8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 95AC163A0858A3BF008213B8 /* Localizable.strings */; };
+		95F4FC5809F16BA300666FA8 /* CFGrowlAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F4FC5709F16BA300666FA8 /* CFGrowlAdditions.c */; };
 		DD1E113F07C7558B005BD5FC /* hwGrowlerIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */; };
 		DD1E135C07C923FD005BD5FC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DD1E135B07C923FD005BD5FC /* Credits.rtf */; };
 		DD54997107BA5E420010BE54 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD54996F07BA5E420010BE54 /* AppController.m */; };
@@ -268,6 +269,8 @@
 		95AC163B0858A3BF008213B8 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95AC16450858A3ED008213B8 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		95B00A8C08468A62004A8623 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		95F4FC0C09F16A1100666FA8 /* CFGrowlAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CFGrowlAdditions.h; path = ../../Common/Source/CFGrowlAdditions.h; sourceTree = SOURCE_ROOT; };
+		95F4FC5709F16BA300666FA8 /* CFGrowlAdditions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = CFGrowlAdditions.c; path = ../../Common/Source/CFGrowlAdditions.c; sourceTree = SOURCE_ROOT; };
 		DD1E113E07C7558B005BD5FC /* hwGrowlerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hwGrowlerIcon.icns; sourceTree = "<group>"; };
 		DD1E135B07C923FD005BD5FC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		DD43C6EF0840C0100022A0D1 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/MainMenu.nib; sourceTree = "<group>"; };
@@ -310,6 +313,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				95F4FC5709F16BA300666FA8 /* CFGrowlAdditions.c */,
+				95F4FC0C09F16A1100666FA8 /* CFGrowlAdditions.h */,
 				DD54996E07BA5E420010BE54 /* AppController.h */,
 				DD54996F07BA5E420010BE54 /* AppController.m */,
 				DDE55D2507BAEDE2000631AC /* FireWireNotifier.h */,
@@ -675,6 +680,7 @@
 				958AB93807C69DE000F56B45 /* NetworkNotifier.c in Sources */,
 				9586EF0408C9C3A40039789E /* SyncNotifier.c in Sources */,
 				3423607209D8888A009FF634 /* PowerNotifier.c in Sources */,
+				95F4FC5809F16BA300666FA8 /* CFGrowlAdditions.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

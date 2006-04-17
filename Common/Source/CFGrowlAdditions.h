@@ -35,6 +35,9 @@ STRING_TYPE copyTemporaryFolderPath(void);
 STRING_TYPE createStringWithAddressData(DATA_TYPE aAddressData);
 STRING_TYPE createHostNameForAddressData(DATA_TYPE aAddressData);
 
+DATA_TYPE readFile(const char *filename);
+URL_TYPE  copyURLForApplication(STRING_TYPE appName);
+
 /*	@function	copyIconDataForPath
  *	@param	path	The POSIX path to the file or folder whose icon you want.
  *	@result	The icon data, in IconFamily format (same as used in the 'icns' resource and in .icns files). You are responsible for releasing this object.

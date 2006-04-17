@@ -2,6 +2,7 @@
 #include <IOKit/IOKitLib.h>
 #include <IOKit/IOMessage.h>
 #include <IOKit/pwr_mgt/IOPMLib.h>
+#include <CFGrowlAdditions.h>
 #include "FireWireNotifier.h"
 #include "USBNotifier.h"
 #include "BluetoothNotifier.h"
@@ -52,18 +53,130 @@
 #define NotifierNetworkIpAcquiredDescription()			CFCopyLocalizedString(CFSTR("New primary IP: %@ (%@)"), "")
 #define NotifierNetworkIpReleasedDescription()			CFCopyLocalizedString(CFSTR("No IP address now"), "")
 
-NSData *firewireLogo(void);
-NSData *usbLogo(void);
-NSData *ejectLogo(void);
-NSData *airportIcon(void);
-NSData *ipIcon(void);
-NSData *iSyncIcon(void);
-NSData *bluetoothLogo(void);
-
 static io_connect_t			powerConnection;
 static io_object_t			powerNotifier;
 static CFRunLoopSourceRef	powerRunLoopSource;
 static BOOL					sleeping;
+
+#pragma mark Icons
+
+static CFDataRef firewireLogo(void)
+{
+	static CFDataRef firewireLogoData = NULL;
+	char imagePath[PATH_MAX];
+
+	if (!firewireLogoData) {
+		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
+												 CFSTR("FireWireLogo"),
+												 CFSTR("png"),
+												 /*subDirName*/ NULL);
+		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
+			firewireLogoData = (CFDataRef)readFile(imagePath);
+		CFRelease(imageURL);
+	}
+
+	return firewireLogoData;
+}
+
+static CFDataRef usbLogo(void)
+{
+	static CFDataRef usbLogoData = NULL;
+	char imagePath[PATH_MAX];
+
+	if (!usbLogoData) {
+		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
+													CFSTR("usbLogoWhite"),
+													CFSTR("png"),
+													/*subDirName*/ NULL);
+		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
+			usbLogoData = (CFDataRef)readFile(imagePath);
+		CFRelease(imageURL);
+	}
+
+	return usbLogoData;
+}
+
+static CFDataRef bluetoothLogo(void)
+{
+	static CFDataRef bluetoothLogoData = NULL;
+	char imagePath[PATH_MAX];
+
+	if (!bluetoothLogoData) {
+		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
+													CFSTR("BluetoothLogo"),
+													CFSTR("png"),
+													/*subDirName*/ NULL);
+		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
+			bluetoothLogoData = (CFDataRef)readFile(imagePath);
+		CFRelease(imageURL);
+	}
+
+	return bluetoothLogoData;
+}
+
+static CFDataRef ejectLogo(void)
+{
+	static CFDataRef ejectLogoData = NULL;
+	char imagePath[PATH_MAX];
+
+	if (!ejectLogoData) {
+		CFURLRef imageURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(),
+													CFSTR("eject"),
+													CFSTR("icns"),
+													/*subDirName*/ NULL);
+		if (CFURLGetFileSystemRepresentation(imageURL, false, (UInt8 *)imagePath, sizeof(imagePath)))
+			ejectLogoData = (CFDataRef)readFile(imagePath);
+		CFRelease(imageURL);
+	}
+
+	return ejectLogoData;
+}
+
+
+static CFDataRef airportIcon(void)
+{
+	static CFDataRef airportIconData = NULL;
+
+	if (!airportIconData) {
+		CFURLRef appURL = (CFURLRef)copyURLForApplication(@"Airport Admin Utility.app");
+		if (appURL) {
+			airportIconData = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
+			CFRelease(appURL);
+		}
+	}
+
+	return airportIconData;
+}
+
+static CFDataRef ipIcon(void)
+{
+	static CFDataRef ipIconData = NULL;
+
+	if (!ipIconData) {
+		CFURLRef appURL = (CFURLRef)copyURLForApplication(@"Internet Connect.app");
+		if (appURL) {
+			ipIconData = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
+			CFRelease(appURL);
+		}
+	}
+
+	return ipIconData;
+}
+
+static CFDataRef iSyncIcon(void)
+{
+	static CFDataRef iSyncIconData = NULL;
+
+	if (!iSyncIconData) {
+		CFURLRef appURL = (CFURLRef)copyURLForApplication(@"iSync.app");
+		if (appURL) {
+			iSyncIconData = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
+			CFRelease(appURL);
+		}
+	}
+
+	return iSyncIconData;
+}
 
 #pragma mark Firewire
 
@@ -74,7 +187,7 @@ void AppController_fwDidConnect(CFStringRef deviceName) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)deviceName
 							notificationName:(NSString *)NotifierFireWireConnectionNotification
-							iconData:firewireLogo()
+							iconData:(NSData *)firewireLogo()
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -88,7 +201,7 @@ void AppController_fwDidDisconnect(CFStringRef deviceName) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)deviceName
 							notificationName:(NSString *)NotifierFireWireDisconnectionNotification
-							iconData:firewireLogo()
+							iconData:(NSData *)firewireLogo()
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -103,7 +216,7 @@ void AppController_usbDidConnect(CFStringRef deviceName) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)deviceName
 							notificationName:(NSString *)NotifierUSBConnectionNotification
-							iconData:usbLogo()
+							iconData:(NSData *)usbLogo()
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -116,7 +229,7 @@ void AppController_usbDidDisconnect(CFStringRef deviceName) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)deviceName
 							notificationName:(NSString *)NotifierUSBDisconnectionNotification
-							iconData:usbLogo()
+							iconData:(NSData *)usbLogo()
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -131,7 +244,7 @@ void AppController_bluetoothDidConnect(CFStringRef device) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)device
 							notificationName:(NSString *)NotifierBluetoothConnectionNotification
-							iconData:bluetoothLogo()
+							iconData:(NSData *)bluetoothLogo()
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -144,7 +257,7 @@ void AppController_bluetoothDidDisconnect(CFStringRef device) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)device
 							notificationName:(NSString *)NotifierBluetoothDisconnectionNotification
-							iconData:bluetoothLogo()
+							iconData:(NSData *)bluetoothLogo()
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -176,7 +289,7 @@ void AppController_volumeDidUnmount(CFStringRef name) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 							description:(NSString *)name
 							notificationName:(NSString *)NotifierVolumeUnmountedNotification
-							iconData:ejectLogo()
+							iconData:(NSData *)ejectLogo()
 							priority:0
 							isSticky:NO
 							clickContext:nil];
@@ -208,7 +321,7 @@ void AppController_airportConnect(CFStringRef networkName, const unsigned char *
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
 						   notificationName:(NSString *)NotifierNetworkAirportConnectNotification
-								   iconData:airportIcon()
+								   iconData:(NSData *)airportIcon()
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
@@ -234,7 +347,7 @@ void AppController_airportDisconnect(CFStringRef networkName) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
 						   notificationName:(NSString *)NotifierNetworkAirportDisconnectNotification
-								   iconData:airportIcon()
+								   iconData:(NSData *)airportIcon()
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
@@ -253,7 +366,7 @@ void AppController_linkUp(CFStringRef description) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
 						   notificationName:(NSString *)NotifierNetworkLinkUpNotification
-								   iconData:ipIcon()
+								   iconData:(NSData *)ipIcon()
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
@@ -270,7 +383,7 @@ void AppController_linkDown(CFStringRef description) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
 						   notificationName:(NSString *)NotifierNetworkLinkDownNotification
-								   iconData:ipIcon()
+								   iconData:(NSData *)ipIcon()
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
@@ -296,7 +409,7 @@ void AppController_ipAcquired(CFStringRef ip, CFStringRef type) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
 						   notificationName:(NSString *)NotifierNetworkIpAcquiredNotification
-								   iconData:ipIcon()
+								   iconData:(NSData *)ipIcon()
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
@@ -315,7 +428,7 @@ void AppController_ipReleased(void) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)description
 						   notificationName:(NSString *)NotifierNetworkIpReleasedNotification
-								   iconData:ipIcon()
+								   iconData:(NSData *)ipIcon()
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
@@ -332,7 +445,7 @@ void AppController_syncStarted(void) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)title
 						   notificationName:(NSString *)NotifierSyncStartedNotification
-								   iconData:iSyncIcon()
+								   iconData:(NSData *)iSyncIcon()
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
@@ -346,7 +459,7 @@ void AppController_syncFinished(void) {
 	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
 								description:(NSString *)title
 						   notificationName:(NSString *)NotifierSyncFinishedNotification
-								   iconData:iSyncIcon()
+								   iconData:(NSData *)iSyncIcon()
 								   priority:0
 								   isSticky:NO
 							   clickContext:nil];
@@ -360,7 +473,7 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 	NSString		*title = nil;
 	NSMutableString *description = [NSMutableString string];
 	NSString		*notificationName = nil;
-	NSData			*imageData = iSyncIcon();
+	CFDataRef		imageData = iSyncIcon();
 
 	BOOL		haveBatteryTime = (batteryTime != -1);
 	BOOL		haveBatterPercentage = (batteryPercentage != -1);
@@ -397,7 +510,7 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 		[GrowlApplicationBridge notifyWithTitle:title
 									description:description
 							   notificationName:notificationName
-									   iconData:imageData
+									   iconData:(NSData *)imageData
 									   priority:0
 									   isSticky:NO
 								   clickContext:nil];
@@ -427,86 +540,6 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 		default:
 			break;
 	}
-}
-
-#pragma mark Icons
-
-NSData *firewireLogo(void)
-{
-	static NSData	*firewireLogoData = nil;
-
-	if (!firewireLogoData)
-		firewireLogoData = [[[NSImage imageNamed: @"FireWireLogo.png"] TIFFRepresentation] retain];
-
-	return firewireLogoData;
-}
-
-NSData *usbLogo(void)
-{
-	static NSData	*usbLogoData = nil;
-
-	if (!usbLogoData)
-		usbLogoData = [[[NSImage imageNamed: @"usbLogoWhite.png"] TIFFRepresentation] retain];
-
-	return usbLogoData;
-}
-
-NSData *bluetoothLogo(void)
-{
-	static NSData	*bluetoothLogoData = nil;
-
-	if (!bluetoothLogoData)
-		bluetoothLogoData = [[[NSImage imageNamed: @"BluetoothLogo.png"] TIFFRepresentation] retain];
-
-	return bluetoothLogoData;
-}
-
-NSData *ejectLogo(void)
-{
-	static NSData	*ejectLogoData = nil;
-	if (!ejectLogoData)
-		ejectLogoData = [[[NSImage imageNamed: @"eject.icns"] TIFFRepresentation] retain];
-
-	return ejectLogoData;
-}
-
-
-NSData *airportIcon(void)
-{
-	static NSData	*airportIconData = nil;
-
-	if (!airportIconData) {
-		NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-
-		airportIconData = [[[ws iconForFile:[ws fullPathForApplication:@"Airport Admin Utility.app"]] TIFFRepresentation] retain];
-	}
-
-	return airportIconData;
-}
-
-NSData *ipIcon(void)
-{
-	static NSData	*ipIconData = nil;
-	if (!ipIconData) {
-		NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-
-		ipIconData = [[[ws iconForFile:[ws fullPathForApplication:@"Internet Connect.app"]] TIFFRepresentation] retain];
-	}
-
-	return ipIconData;
-}
-
-NSData *iSyncIcon(void)
-{
-	static NSData	*iSyncIconData = nil;
-
-	if (!iSyncIconData) {
-		NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-
-		iSyncIconData = [[[ws iconForFile:[ws fullPathForApplication:@"iSync.app"]] TIFFRepresentation] retain];
-	}
-
-	return iSyncIconData;
 }
 
 @implementation AppController

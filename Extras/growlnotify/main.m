@@ -119,17 +119,6 @@ static CFDataRef copyIconDataForTypeInfo(CFStringRef typeInfo)
 	return data;
 }
 
-static CFURLRef copyURLForApplication(CFStringRef appName)
-{
-	CFURLRef appURL = NULL;
-	OSStatus err = LSFindApplicationForInfo(/*inCreator*/  kLSUnknownCreator,
-											/*inBundleID*/ NULL,
-											/*inName*/     appName,
-											/*outAppRef*/  NULL,
-											/*outAppURL*/  &appURL);
-	return (err == noErr) ? appURL : NULL;
-}
-
 int main(int argc, const char **argv) {
 	// options
 	extern char *optarg;
@@ -296,16 +285,7 @@ int main(int argc, const char **argv) {
 	CFDataRef icon = NULL;
 	if (imagePath) {
 		// read the image file into a CFDataRef
-		FILE *fp = fopen(imagePath, "r");
-		if (fp) {
-			fseek(fp, 0, SEEK_END);
-			long iconDataLength = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			unsigned char *iconData = malloc(iconDataLength);
-			fread(iconData, 1, iconDataLength, fp);
-			fclose(fp);
-			icon = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, iconData, iconDataLength, kCFAllocatorMalloc);
-		}
+		icon = (CFDataRef)readFile(imagePath);
 	} else if (iconPath) {
 		// get icon data for path
 		NSString *path = [[NSString stringWithUTF8String:iconPath] stringByStandardizingPath];
@@ -320,7 +300,7 @@ int main(int argc, const char **argv) {
 	} else if (appIcon) {
 		// get icon data for application name
 		CFStringRef app = CFStringCreateWithCString(kCFAllocatorDefault, appIcon, kCFStringEncodingUTF8);
-		CFURLRef appURL = copyURLForApplication(app);
+		CFURLRef appURL = (CFURLRef)copyURLForApplication((NSString *)app);
 		if (appURL) {
 			icon = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
 			CFRelease(appURL);
@@ -328,7 +308,7 @@ int main(int argc, const char **argv) {
 		CFRelease(app);
 	}
 	if (!icon) {
-		CFURLRef appURL = copyURLForApplication(CFSTR("Terminal.app"));
+		CFURLRef appURL = (CFURLRef)copyURLForApplication(@"Terminal.app");
 		if (appURL) {
 			icon = (CFDataRef)copyIconDataForURL((NSURL *)appURL);
 			CFRelease(appURL);

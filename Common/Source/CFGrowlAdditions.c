@@ -153,6 +153,36 @@ CFStringRef copyTemporaryFolderPath(void) {
 	return path;
 }
 
+CFDataRef readFile(const char *filename)
+{
+	CFDataRef data;
+	// read the file into a CFDataRef
+	FILE *fp = fopen(filename, "r");
+	if (fp) {
+		fseek(fp, 0, SEEK_END);
+		long dataLength = ftell(fp);
+		fseek(fp, 0, SEEK_SET);
+		unsigned char *fileData = malloc(dataLength);
+		fread(fileData, 1, dataLength, fp);
+		fclose(fp);
+		data = CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, fileData, dataLength, kCFAllocatorMalloc);
+	} else
+		data = NULL;
+
+	return data;
+}
+
+CFURLRef copyURLForApplication(CFStringRef appName)
+{
+	CFURLRef appURL = NULL;
+	OSStatus err = LSFindApplicationForInfo(/*inCreator*/  kLSUnknownCreator,
+											/*inBundleID*/ NULL,
+											/*inName*/     appName,
+											/*outAppRef*/  NULL,
+											/*outAppURL*/  &appURL);
+	return (err == noErr) ? appURL : NULL;
+}
+
 CFStringRef createStringWithAddressData(CFDataRef aAddressData) {
 	struct sockaddr *socketAddress = (struct sockaddr *)CFDataGetBytePtr(aAddressData);
 	// IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF"

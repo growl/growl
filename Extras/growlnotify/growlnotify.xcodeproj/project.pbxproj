@@ -75,7 +75,7 @@
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0A95FC900739AAC800E585F8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		32A70AAB03705E1F00C91783 /* growlnotify_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = growlnotify_Prefix.pch; sourceTree = "<group>"; };
-		8DD76FA10486AA7600D96B5E /* growlnotify */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = growlnotify; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DD76FA10486AA7600D96B5E /* growlnotify */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = growlnotify; sourceTree = BUILT_PRODUCTS_DIR; };
 		9526247C074F92F600C5F344 /* GrowlUDPUtils.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlUDPUtils.h; path = ../../Core/Source/GrowlUDPUtils.h; sourceTree = SOURCE_ROOT; };
 		9526247D074F92F600C5F344 /* GrowlUDPUtils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GrowlUDPUtils.c; path = ../../Core/Source/GrowlUDPUtils.c; sourceTree = SOURCE_ROOT; };
 		9526BD9B081BCFD500B9D0D0 /* MD5Authenticator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MD5Authenticator.h; path = ../../Common/Source/MD5Authenticator.h; sourceTree = SOURCE_ROOT; };
