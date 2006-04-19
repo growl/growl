@@ -1,4 +1,4 @@
-- Drag-and-drop
+- Drag-and-drop DONE
 - Ability to open .growlTicket and .growlRegDict files
 - Menu item: Import existing Growl ticket…
 	Scans Growl tickets folder, builds table view, asks you to pick one
