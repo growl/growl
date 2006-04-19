@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {
+            CLASS = AXCArrayControllerWithDragAndDrop; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {dragValidator = id; }; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {insertNewNotification = id; }; 
+            CLASS = GRDEDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {arrayController = NSArrayController; tableView = NSTableView; }; 
+            SUPERCLASS = NSDocument; 
+        }
+    ); 
+    IBVersion = 1; 
+}
