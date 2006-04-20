@@ -156,7 +156,6 @@
 	}
 }
 - (void)insertObject:(GRDENotification *)notification inNotificationDictionariesAtIndex:(unsigned)idx {
-	NSLog(@"in insertObject: notificationNames is %@ (%u items)", notificationNames, [notificationNames count]);
 	if([notificationNames containsObject:[notification name]]) {
 		//We already have one of these. Pass.
 
@@ -383,6 +382,65 @@
 		return NSDragOperationMove;
 	}
 }
+- (void) undoMoveDrop:(NSDictionary *)dict {
+	//Anybody who can come up with a better way to do this, please do.
+	NSArray *notifications = [dict objectForKey:DRAG_TYPE];
+	NSArray *indicesArray  = [dict objectForKey:DRAG_INDICES_TYPE];
+	NSMutableArray *indicesArrayForRedo = [NSMutableArray arrayWithCapacity:[indicesArray count]];
+
+	NSEnumerator *notificationsEnum = [notifications objectEnumerator];
+	GRDENotification *notification;
+	NSNumber *num;
+	while((notification = [notificationsEnum nextObject])) {
+		num = [[NSNumber alloc] initWithUnsignedInt:[notificationDictionaries indexOfObject:notification]];
+		[indicesArrayForRedo addObject:num];
+		[num release];
+	}
+
+	NSMutableDictionary *redoDict = [dict mutableCopy];
+	[redoDict setObject:indicesArrayForRedo forKey:DRAG_INDICES_TYPE];
+	NSUndoManager *undoManager = [self undoManager];
+	[undoManager registerUndoWithTarget:self selector:@selector(undoMoveDrop:) object:redoDict];
+	[undoManager setActionName:NSLocalizedString(@"Relocate Notifications", /*comment*/ nil)];
+
+	notificationsEnum = [indicesArrayForRedo objectEnumerator];
+	while((num = [notificationsEnum nextObject])) {
+		unsigned idx = [num unsignedIntValue];
+		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:idx];
+		[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+		[notificationDictionaries removeObjectAtIndex:idx];
+		[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+		[indexSet release];
+	}
+
+	for(unsigned i = 0U, count = [notifications count]; i < count; ++i) {
+		unsigned idx = [[indicesArray objectAtIndex:i] unsignedIntValue];
+		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:idx];
+		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+		[notificationDictionaries insertObject:[notifications objectAtIndex:i] atIndex:idx];
+		[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+		[indexSet release];
+	}
+}
+- (void) undoCopyDropAtIndices:(NSIndexSet *)indexSet {
+	NSArray *objects = [notificationDictionaries objectsAtIndexes:indexSet];
+	NSUndoManager *undoManager = [self undoManager];
+	[[undoManager prepareWithInvocationTarget:self] redoCopyDropObjects:objects atIndices:indexSet];
+	[undoManager setActionName:NSLocalizedString(@"Add Notifications", /*comment*/ nil)];
+
+	[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+	[notificationDictionaries removeObjectsAtIndexes:indexSet];
+	[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+}
+- (void) redoCopyDropObjects:(NSArray *)objects atIndices:(NSIndexSet *)indexSet {
+	NSUndoManager *undoManager = [self undoManager];
+	[[undoManager prepareWithInvocationTarget:self] undoCopyDropAtIndices:indexSet];
+	[undoManager setActionName:NSLocalizedString(@"Add Notifications", /*comment*/ nil)];
+
+	[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+	[notificationDictionaries insertObjects:objects atIndexes:indexSet];
+	[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+}
 - (BOOL) tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
 	[arrayController commitEditing];
 
@@ -392,26 +450,36 @@
 	NSURL *URL = [NSURL URLWithString:[pboard stringForType:DRAG_SRCDOCUMENTURL_TYPE]];
 	BOOL isMove = [URL isEqual:[self fileURL]];
 	if(isMove) {
+		NSArray *indicesArray = [pboard propertyListForType:DRAG_INDICES_TYPE];
+
 		//If the user is dragging within the same document, this is a move, and we should remove the old ones and adjust the destination index accordingly.
 		//Otherwise, it's a copy, so we leave our contents and the destination index alone.
-		row -= [self removeRows:[pboard propertyListForType:DRAG_INDICES_TYPE] computingDeltaBeforeRow:row];
-	} else if(row < 0)
-		row = [notificationDictionaries count];
+		row -= [self removeRows:indicesArray computingDeltaBeforeRow:row];
+
+		NSDictionary *undoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+			notifications, DRAG_TYPE,
+			indicesArray, DRAG_INDICES_TYPE,
+			nil];
+		[[self undoManager] registerUndoWithTarget:self selector:@selector(undoMoveDrop:) object:undoDict];
+	} else {
+		if(row < 0)
+			row = [notificationDictionaries count];
+		NSUndoManager *undoManager = [self undoManager];
+		[[undoManager prepareWithInvocationTarget:self] undoCopyDropAtIndices:[NSIndexSet indexSetWithIndexesInRange:(NSRange){ row, [notifications count] }]];
+		[undoManager setActionName:NSLocalizedString(@"Add Notifications", /*comment*/ nil)];
+	}
 
 	for(unsigned srcIdx = 0U, count = [notifications count]; srcIdx < count; ++srcIdx) {
 		GRDENotification *notification = [[GRDENotification alloc] initWithDictionaryRepresentation:[notifications objectAtIndex:srcIdx]];
 
 		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:srcIdx];
 		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
-			[self insertObject:notification inNotificationDictionariesAtIndex:row++];
+			[notificationDictionaries insertObject:notification atIndex:row++];
 		[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
 		[indexSet release];
 
 		[notification release];
 	}
-
-	//if(isMove) register undo as move
-	//else register undo as add
 
 	return YES;
 }
