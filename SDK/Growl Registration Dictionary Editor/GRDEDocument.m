@@ -15,6 +15,18 @@
 #define DRAG_TYPE @"org.boredzo.GrowlRegistrationDictionaryEditor.notification"
 #define DRAG_INDICES_TYPE @"org.boredzo.GrowlRegistrationDictionaryEditor.notificationIndices"
 
+//Methods used as a callback to perform or revert undo.
+@interface GRDEDocument (UndoMethods)
+
+- (void) undoMoveDrop:(NSDictionary *)dict;
+- (void) undoCopyDropAtIndices:(NSIndexSet *)indexSet;
+- (void) redoCopyDropObjects:(NSArray *)objects atIndices:(NSIndexSet *)indexSet;
+
+- (void)delayedRevertValueForKeyPath:(NSDictionary *)dict;
+- (void)scheduleReversionOfValueForKeyPath:(NSString *)keyPath ofObject:(NSObject *)obj change:(NSDictionary *)change;
+
+@end
+
 @implementation GRDEDocument
 
 - init {
@@ -366,65 +378,6 @@
 		return NSDragOperationMove;
 	}
 }
-- (void) undoMoveDrop:(NSDictionary *)dict {
-	//Anybody who can come up with a better way to do this, please do.
-	NSArray *draggedNotifications = [dict objectForKey:DRAG_TYPE];
-	NSArray *indicesArray         = [dict objectForKey:DRAG_INDICES_TYPE];
-	NSMutableArray *indicesArrayForRedo = [NSMutableArray arrayWithCapacity:[indicesArray count]];
-
-	NSEnumerator *notificationsEnum = [draggedNotifications objectEnumerator];
-	GRDENotification *notification;
-	NSNumber *num;
-	while((notification = [notificationsEnum nextObject])) {
-		num = [[NSNumber alloc] initWithUnsignedInt:[notifications indexOfObject:notification]];
-		[indicesArrayForRedo addObject:num];
-		[num release];
-	}
-
-	NSMutableDictionary *redoDict = [dict mutableCopy];
-	[redoDict setObject:indicesArrayForRedo forKey:DRAG_INDICES_TYPE];
-	NSUndoManager *undoManager = [self undoManager];
-	[undoManager registerUndoWithTarget:self selector:@selector(undoMoveDrop:) object:redoDict];
-	[undoManager setActionName:NSLocalizedString(@"Relocate Notifications", /*comment*/ nil)];
-
-	notificationsEnum = [indicesArrayForRedo objectEnumerator];
-	while((num = [notificationsEnum nextObject])) {
-		unsigned idx = [num unsignedIntValue];
-		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:idx];
-		[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
-		[notifications removeObjectAtIndex:idx];
-		[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
-		[indexSet release];
-	}
-
-	for(unsigned i = 0U, count = [draggedNotifications count]; i < count; ++i) {
-		unsigned idx = [[indicesArray objectAtIndex:i] unsignedIntValue];
-		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:idx];
-		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
-		[notifications insertObject:[draggedNotifications objectAtIndex:i] atIndex:idx];
-		[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
-		[indexSet release];
-	}
-}
-- (void) undoCopyDropAtIndices:(NSIndexSet *)indexSet {
-	NSArray *objects = [notifications objectsAtIndexes:indexSet];
-	NSUndoManager *undoManager = [self undoManager];
-	[[undoManager prepareWithInvocationTarget:self] redoCopyDropObjects:objects atIndices:indexSet];
-	[undoManager setActionName:NSLocalizedString(@"Add Notifications", /*comment*/ nil)];
-
-	[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
-	[notifications removeObjectsAtIndexes:indexSet];
-	[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
-}
-- (void) redoCopyDropObjects:(NSArray *)objects atIndices:(NSIndexSet *)indexSet {
-	NSUndoManager *undoManager = [self undoManager];
-	[[undoManager prepareWithInvocationTarget:self] undoCopyDropAtIndices:indexSet];
-	[undoManager setActionName:NSLocalizedString(@"Add Notifications", /*comment*/ nil)];
-
-	[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
-	[notifications insertObjects:objects atIndexes:indexSet];
-	[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
-}
 - (BOOL) tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
 	[arrayController commitEditing];
 
@@ -489,25 +442,6 @@
 
 #pragma mark KVO
 
-//These two methods are used to revert an invalid new value.
-- (void)delayedRevertValueForKeyPath:(NSDictionary *)dict {
-	NSObject *obj = [dict objectForKey:@"GRDEObject"];
-	NSString *keyPath = [dict objectForKey:@"GRDEKeyPath"];
-	NSObject *oldValue = [dict objectForKey:NSKeyValueChangeOldKey];
-	if(!oldValue)
-		oldValue = nil;
-	[obj setValue:oldValue forKeyPath:keyPath];
-}
-- (void)scheduleReversionOfValueForKeyPath:(NSString *)keyPath ofObject:(NSObject *)obj change:(NSDictionary *)change {
-	NSMutableDictionary *dict = [change mutableCopy];
-	[dict setObject:obj     forKey:@"GRDEObject"];
-	[dict setObject:keyPath forKey:@"GRDEKeyPath"];
-	[self performSelector:@selector(delayedRevertValueForKeyPath:)
-			   withObject:dict
-			   afterDelay:0.01];
-	[dict release];
-}
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(NSObject *)obj change:(NSDictionary *)change context:(void *)context {
 	NSNull *null = [NSNull null];
 	NSString *old = [change objectForKey:NSKeyValueChangeOldKey];
@@ -532,6 +466,88 @@
 			[notificationNames addObject:new];
 		}
 	}
+}
+
+@end
+
+@implementation GRDEDocument (UndoMethods)
+
+- (void) undoMoveDrop:(NSDictionary *)dict {
+	//Anybody who can come up with a better way to do this, please do.
+	NSArray *draggedNotifications = [dict objectForKey:DRAG_TYPE];
+	NSArray *indicesArray         = [dict objectForKey:DRAG_INDICES_TYPE];
+	NSMutableArray *indicesArrayForRedo = [NSMutableArray arrayWithCapacity:[indicesArray count]];
+
+	NSEnumerator *notificationsEnum = [draggedNotifications objectEnumerator];
+	GRDENotification *notification;
+	NSNumber *num;
+	while((notification = [notificationsEnum nextObject])) {
+		num = [[NSNumber alloc] initWithUnsignedInt:[notifications indexOfObject:notification]];
+		[indicesArrayForRedo addObject:num];
+		[num release];
+	}
+
+	NSMutableDictionary *redoDict = [dict mutableCopy];
+	[redoDict setObject:indicesArrayForRedo forKey:DRAG_INDICES_TYPE];
+	NSUndoManager *undoManager = [self undoManager];
+	[undoManager registerUndoWithTarget:self selector:@selector(undoMoveDrop:) object:redoDict];
+	[undoManager setActionName:NSLocalizedString(@"Relocate Notifications", /*comment*/ nil)];
+
+	notificationsEnum = [indicesArrayForRedo objectEnumerator];
+	while((num = [notificationsEnum nextObject])) {
+		unsigned idx = [num unsignedIntValue];
+		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:idx];
+		[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
+		[notifications removeObjectAtIndex:idx];
+		[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
+		[indexSet release];
+	}
+
+	for(unsigned i = 0U, count = [draggedNotifications count]; i < count; ++i) {
+		unsigned idx = [[indicesArray objectAtIndex:i] unsignedIntValue];
+		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:idx];
+		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
+		[notifications insertObject:[draggedNotifications objectAtIndex:i] atIndex:idx];
+		[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
+		[indexSet release];
+	}
+}
+- (void) undoCopyDropAtIndices:(NSIndexSet *)indexSet {
+	NSArray *objects = [notifications objectsAtIndexes:indexSet];
+	NSUndoManager *undoManager = [self undoManager];
+	[[undoManager prepareWithInvocationTarget:self] redoCopyDropObjects:objects atIndices:indexSet];
+	[undoManager setActionName:NSLocalizedString(@"Add Notifications", /*comment*/ nil)];
+
+	[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
+	[notifications removeObjectsAtIndexes:indexSet];
+	[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
+}
+- (void) redoCopyDropObjects:(NSArray *)objects atIndices:(NSIndexSet *)indexSet {
+	NSUndoManager *undoManager = [self undoManager];
+	[[undoManager prepareWithInvocationTarget:self] undoCopyDropAtIndices:indexSet];
+	[undoManager setActionName:NSLocalizedString(@"Add Notifications", /*comment*/ nil)];
+
+	[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
+	[notifications insertObjects:objects atIndexes:indexSet];
+	[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
+}
+
+- (void)delayedRevertValueForKeyPath:(NSDictionary *)dict {
+	NSObject *obj = [dict objectForKey:@"GRDEObject"];
+	NSString *keyPath = [dict objectForKey:@"GRDEKeyPath"];
+	NSObject *oldValue = [dict objectForKey:NSKeyValueChangeOldKey];
+	if(!oldValue)
+		oldValue = nil;
+	[obj setValue:oldValue forKeyPath:keyPath];
+}
+- (void)scheduleReversionOfValueForKeyPath:(NSString *)keyPath ofObject:(NSObject *)obj change:(NSDictionary *)change {
+	NSMutableDictionary *dict = [change mutableCopy];
+	[dict setObject:obj     forKey:@"GRDEObject"];
+	[dict setObject:keyPath forKey:@"GRDEKeyPath"];
+	[self performSelector:@selector(delayedRevertValueForKeyPath:)
+			   withObject:dict
+			   afterDelay:0.01];
+	[dict release];
 }
 
 @end
