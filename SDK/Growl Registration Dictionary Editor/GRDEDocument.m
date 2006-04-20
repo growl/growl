@@ -378,7 +378,7 @@
 		return NSDragOperationMove;
 	}
 }
-- (BOOL) tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
+- (BOOL) tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
 	[arrayController commitEditing];
 
 	NSPasteboard *pboard = [info draggingPasteboard];
