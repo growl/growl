@@ -64,7 +64,6 @@
 	[arrayController insertObject:obj atArrangedObjectIndex:idx];
 	[obj release];
 
-	[tableView reloadData];
 	[tableView editColumn:0 row:idx withEvent:nil select:YES];
 }
 
