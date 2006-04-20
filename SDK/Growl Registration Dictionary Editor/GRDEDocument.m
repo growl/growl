@@ -255,23 +255,6 @@
 	NSMutableDictionary *notificationDescriptions = [NSMutableDictionary dictionaryWithCapacity:numDicts];
 
 	NSEnumerator *dictsEnum = [dicts objectEnumerator];
-#ifdef NOTIFICATION_DICTIONARIES
-	NSDictionary *dict;
-	while((dict = [dictsEnum nextObject])) {
-#warning XXX need consistency checks
-		NSString *name = [dict objectForKey:@"NotificationName"];
-		[allNotificationNames addObject:name];
-		NSNumber *enabledNum = [dict objectForKey:@"Enabled"];
-		if([enabledNum boolValue])
-			[enabledNotificationNames addObject:name];
-
-		NSString *hrName = [dict objectForKey:@"HumanReadableName"];
-		if(hrName)
-			[humanReadableNotificationNames setObject:hrName forKey:name];
-		NSString *desc = [dict objectForKey:@"Description"];
-		if(desc)
-			[notificationDescriptions setObject:desc forKey:name];
-#else
 	GRDENotification *notification;
 	while((notification = [dictsEnum nextObject])) {
 #warning XXX need consistency checks
@@ -286,7 +269,6 @@
 		NSString *desc = [notification humanReadableDescription];
 		if(desc)
 			[notificationDescriptions setObject:desc forKey:name];
-#endif
 	}
 
 	if(!dictionaryRepresentation)
