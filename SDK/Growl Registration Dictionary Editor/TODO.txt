@@ -3,3 +3,4 @@
 - Menu item: Import existing Growl ticket…
 	Scans Growl tickets folder, builds table view, asks you to pick one
 - Automatic notify code generator
+- Rename "notificationDictionaries" ivar (GRDEDocument), since the notifications are no longer dictionaries.
