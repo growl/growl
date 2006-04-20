@@ -20,8 +20,8 @@
 
 - init {
 	if((self = [super init])) {
-		notificationDictionaries = [[NSMutableArray alloc] init];
-		notificationNames        = [[NSMutableSet   alloc] init];
+		notifications     = [[NSMutableArray alloc] init];
+		notificationNames = [[NSMutableSet   alloc] init];
 		plistFormat = NSPropertyListBinaryFormat_v1_0;
 	}
 	return self;
@@ -29,7 +29,7 @@
 - (void)dealloc {
 	[applicationName release];
 	[bundleIdentifier release];
-	[notificationDictionaries release];
+	[notifications release];
 	[notificationNames        release];
 	[dictionaryRepresentation release];
 
@@ -86,11 +86,11 @@
 	bundleIdentifier = [newID copy];
 }
 
-- (NSMutableArray *)notificationDictionaries {
-	return notificationDictionaries;
+- (NSMutableArray *)notifications {
+	return notifications;
 }
-- (BOOL)validateNotificationDictionaries:(inout NSArray **)newValue error:(NSError **)outError {
-	NSLog(@"validating notification dictionaries");
+- (BOOL)validateNotifications:(inout NSArray **)newValue error:(NSError **)outError {
+	NSLog(@"validating notifications");
 	NSCountedSet *set = [NSCountedSet set];
 
 	NSEnumerator *newValueEnum = [*newValue objectEnumerator];
@@ -106,36 +106,36 @@
 
 	return YES;
 }
-- (void)setNotificationDictionaries:(NSArray *)array {
+- (void)setNotifications:(NSArray *)array {
 	NSUndoManager *mgr = [self undoManager];
 	[mgr registerUndoWithTarget:self
-					   selector:@selector(setNotificationDictionaries:)
-						 object:[[notificationDictionaries copy] autorelease]];
+					   selector:@selector(setNotifications:)
+						 object:[[notifications copy] autorelease]];
 	[mgr setActionName:NSLocalizedString(@"Replace All Notifications", /*comment*/ nil)];
 
-	[notificationDictionaries setArray:array];
+	[notifications setArray:array];
 }
 
-- (unsigned)countOfNotificationDictionaries {
-	return [notificationDictionaries count];
+- (unsigned)countOfNotifications {
+	return [notifications count];
 }
-- (GRDENotification *)objectInNotificationDictionariesAtIndex:(unsigned)idx {
-	return [notificationDictionaries objectAtIndex:idx];
+- (GRDENotification *)objectInNotificationsAtIndex:(unsigned)idx {
+	return [notifications objectAtIndex:idx];
 }
-- (void)getNotificationDictionaries:(out GRDENotification **)outDicts range:(NSRange)range {
-	[notificationDictionaries getObjects:outDicts range:range];
+- (void)getNotifications:(out GRDENotification **)outDicts range:(NSRange)range {
+	[notifications getObjects:outDicts range:range];
 }
 
-- (void)replaceObjectInNotificationDictionariesAtIndex:(unsigned)idx withObject:(GRDENotification *)notification {
+- (void)replaceObjectInNotificationsAtIndex:(unsigned)idx withObject:(GRDENotification *)notification {
 	if([notificationNames containsObject:[notification name]]) {
 		NSLog(@"Can't replace notification %u with %@", idx, notification);
 		NSBeep(); //Assume that we got here by user interaction.
 
 		NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:idx];
-		[self willChange:NSKeyValueChangeReplacement valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
-		[self didChange:NSKeyValueChangeReplacement valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+		[self willChange:NSKeyValueChangeReplacement valuesAtIndexes:indexSet forKey:@"notifications"];
+		[self didChange:NSKeyValueChangeReplacement valuesAtIndexes:indexSet forKey:@"notifications"];
 	} else {
-		GRDENotification *oldNotification = [notificationDictionaries objectAtIndex:idx];
+		GRDENotification *oldNotification = [notifications objectAtIndex:idx];
 		[oldNotification removeObserver:self forKeyPath:@"name"];
 		NSString *oldName = [oldNotification name];
 		NSString *newName = [notification name];
@@ -145,9 +145,9 @@
 		}
 
 		NSUndoManager *mgr = [self undoManager];
-		[[mgr prepareWithInvocationTarget:self] replaceObjectInNotificationDictionariesAtIndex:idx withObject:oldNotification];
+		[[mgr prepareWithInvocationTarget:self] replaceObjectInNotificationsAtIndex:idx withObject:oldNotification];
 		[mgr setActionName:NSLocalizedString(@"Replace Notification", /*comment*/ nil)];
-		[notificationDictionaries replaceObjectAtIndex:idx withObject:notification];
+		[notifications replaceObjectAtIndex:idx withObject:notification];
 
 		[notification addObserver:self
 			   forKeyPath:@"name"
@@ -155,7 +155,7 @@
 				  context:NULL];
 	}
 }
-- (void)insertObject:(GRDENotification *)notification inNotificationDictionariesAtIndex:(unsigned)idx {
+- (void)insertObject:(GRDENotification *)notification inNotificationsAtIndex:(unsigned)idx {
 	if([notificationNames containsObject:[notification name]]) {
 		//We already have one of these. Pass.
 
@@ -163,18 +163,18 @@
 
 		NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:idx];
 		//Insert.
-		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
-		[notificationDictionaries insertObject:notification atIndex:idx];
-		[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
+		[notifications insertObject:notification atIndex:idx];
+		[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
 		//And now pull it back out.
-		[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
-		[notificationDictionaries removeObjectAtIndex:idx];
-		[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+		[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
+		[notifications removeObjectAtIndex:idx];
+		[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
 	} else {
 		NSUndoManager *mgr = [self undoManager];
-		[[mgr prepareWithInvocationTarget:self] removeObjectFromNotificationDictionariesAtIndex:idx];
+		[[mgr prepareWithInvocationTarget:self] removeObjectFromNotificationsAtIndex:idx];
 		[mgr setActionName:NSLocalizedString(@"Add Notification", /*comment*/ nil)];
-		[notificationDictionaries insertObject:notification atIndex:idx];
+		[notifications insertObject:notification atIndex:idx];
 
 		[notification addObserver:self
 			   forKeyPath:@"name"
@@ -185,15 +185,15 @@
 			[notificationNames addObject:newName];
 	}
 }
-- (void)removeObjectFromNotificationDictionariesAtIndex:(unsigned)idx {
-	GRDENotification *oldNotification = [notificationDictionaries objectAtIndex:idx];
+- (void)removeObjectFromNotificationsAtIndex:(unsigned)idx {
+	GRDENotification *oldNotification = [notifications objectAtIndex:idx];
 	[oldNotification removeObserver:self forKeyPath:@"name"];
 	[notificationNames removeObject:[oldNotification name]];
 
 	NSUndoManager *mgr = [self undoManager];
-	[[mgr prepareWithInvocationTarget:self] insertObject:oldNotification inNotificationDictionariesAtIndex:idx];
+	[[mgr prepareWithInvocationTarget:self] insertObject:oldNotification inNotificationsAtIndex:idx];
 	[mgr setActionName:NSLocalizedString(@"Delete Notification", /*comment*/ nil)];
-	[notificationDictionaries removeObjectAtIndex:idx];
+	[notifications removeObjectAtIndex:idx];
 }
 
 #pragma mark NSDocument subclass conformance
@@ -222,8 +222,8 @@
 	NSDictionary *humanReadableNotificationNames = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
 	NSDictionary *notificationDescriptions = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
 
-	[self willChangeValueForKey:@"notificationDictionaries"];
-	[notificationDictionaries removeAllObjects];
+	[self willChangeValueForKey:@"notifications"];
+	[notifications removeAllObjects];
 
 	NSEnumerator *namesEnum = [allNotificationNames objectEnumerator];
 	NSString *name;
@@ -237,10 +237,10 @@
 		//We don't want to register an undo group for filling in the file's data.
 		[notification setDocument:self];
 
-		[notificationDictionaries addObject:notification];
+		[notifications addObject:notification];
 		[notification release];
 	}
-	[self didChangeValueForKey:@"notificationDictionaries"];
+	[self didChangeValueForKey:@"notifications"];
 
 	[tableView registerForDraggedTypes:[NSArray arrayWithObjects:DRAG_TYPE, DRAG_INDICES_TYPE, DRAG_SRCDOCUMENTURL_TYPE, nil]];
 }
@@ -329,9 +329,9 @@
 			++delta;
 
 		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:i];
-		[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
-			[notificationDictionaries removeObjectAtIndex:i];
-		[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+		[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
+			[notifications removeObjectAtIndex:i];
+		[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
 		[indexSet release];
 	}
 	return delta;
@@ -339,15 +339,15 @@
 
 - (NSDragOperation) tableView:(NSTableView *)aTableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation {
 	NSPasteboard *pboard = [info draggingPasteboard];
-
+	
 	NSArray *notifications = [pboard propertyListForType:DRAG_TYPE];
 	if(!notifications) return NSDragOperationNone;
 	NSString *URLString = [pboard stringForType:DRAG_SRCDOCUMENTURL_TYPE];
-
+	
 	NSURL *URL;
 	if(URLString) URL = [NSURL URLWithString:URLString];
 	BOOL isMove = URLString && [URL isEqual:[self fileURL]];
-
+	
 	if(!isMove) {
 		//Copying from one document to another.
 		NSEnumerator *notificationsEnum = [notifications objectEnumerator];
@@ -366,15 +366,15 @@
 }
 - (void) undoMoveDrop:(NSDictionary *)dict {
 	//Anybody who can come up with a better way to do this, please do.
-	NSArray *notifications = [dict objectForKey:DRAG_TYPE];
-	NSArray *indicesArray  = [dict objectForKey:DRAG_INDICES_TYPE];
+	NSArray *draggedNotifications = [dict objectForKey:DRAG_TYPE];
+	NSArray *indicesArray         = [dict objectForKey:DRAG_INDICES_TYPE];
 	NSMutableArray *indicesArrayForRedo = [NSMutableArray arrayWithCapacity:[indicesArray count]];
 
-	NSEnumerator *notificationsEnum = [notifications objectEnumerator];
+	NSEnumerator *notificationsEnum = [draggedNotifications objectEnumerator];
 	GRDENotification *notification;
 	NSNumber *num;
 	while((notification = [notificationsEnum nextObject])) {
-		num = [[NSNumber alloc] initWithUnsignedInt:[notificationDictionaries indexOfObject:notification]];
+		num = [[NSNumber alloc] initWithUnsignedInt:[notifications indexOfObject:notification]];
 		[indicesArrayForRedo addObject:num];
 		[num release];
 	}
@@ -389,45 +389,45 @@
 	while((num = [notificationsEnum nextObject])) {
 		unsigned idx = [num unsignedIntValue];
 		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:idx];
-		[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
-		[notificationDictionaries removeObjectAtIndex:idx];
-		[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+		[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
+		[notifications removeObjectAtIndex:idx];
+		[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
 		[indexSet release];
 	}
 
-	for(unsigned i = 0U, count = [notifications count]; i < count; ++i) {
+	for(unsigned i = 0U, count = [draggedNotifications count]; i < count; ++i) {
 		unsigned idx = [[indicesArray objectAtIndex:i] unsignedIntValue];
 		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:idx];
-		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
-		[notificationDictionaries insertObject:[notifications objectAtIndex:i] atIndex:idx];
-		[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
+		[notifications insertObject:[draggedNotifications objectAtIndex:i] atIndex:idx];
+		[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
 		[indexSet release];
 	}
 }
 - (void) undoCopyDropAtIndices:(NSIndexSet *)indexSet {
-	NSArray *objects = [notificationDictionaries objectsAtIndexes:indexSet];
+	NSArray *objects = [notifications objectsAtIndexes:indexSet];
 	NSUndoManager *undoManager = [self undoManager];
 	[[undoManager prepareWithInvocationTarget:self] redoCopyDropObjects:objects atIndices:indexSet];
 	[undoManager setActionName:NSLocalizedString(@"Add Notifications", /*comment*/ nil)];
 
-	[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
-	[notificationDictionaries removeObjectsAtIndexes:indexSet];
-	[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+	[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
+	[notifications removeObjectsAtIndexes:indexSet];
+	[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
 }
 - (void) redoCopyDropObjects:(NSArray *)objects atIndices:(NSIndexSet *)indexSet {
 	NSUndoManager *undoManager = [self undoManager];
 	[[undoManager prepareWithInvocationTarget:self] undoCopyDropAtIndices:indexSet];
 	[undoManager setActionName:NSLocalizedString(@"Add Notifications", /*comment*/ nil)];
 
-	[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
-	[notificationDictionaries insertObjects:objects atIndexes:indexSet];
-	[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+	[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
+	[notifications insertObjects:objects atIndexes:indexSet];
+	[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
 }
 - (BOOL) tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation {
 	[arrayController commitEditing];
 
 	NSPasteboard *pboard = [info draggingPasteboard];
-	NSArray *notifications = [pboard propertyListForType:DRAG_TYPE];
+	NSArray *draggedNotifications = [pboard propertyListForType:DRAG_TYPE];
 
 	NSURL *URL = [NSURL URLWithString:[pboard stringForType:DRAG_SRCDOCUMENTURL_TYPE]];
 	BOOL isMove = [URL isEqual:[self fileURL]];
@@ -439,25 +439,25 @@
 		row -= [self removeRows:indicesArray computingDeltaBeforeRow:row];
 
 		NSDictionary *undoDict = [NSDictionary dictionaryWithObjectsAndKeys:
-			notifications, DRAG_TYPE,
+			draggedNotifications, DRAG_TYPE,
 			indicesArray, DRAG_INDICES_TYPE,
 			nil];
 		[[self undoManager] registerUndoWithTarget:self selector:@selector(undoMoveDrop:) object:undoDict];
 	} else {
 		if(row < 0)
-			row = [notificationDictionaries count];
+			row = [notifications count];
 		NSUndoManager *undoManager = [self undoManager];
-		[[undoManager prepareWithInvocationTarget:self] undoCopyDropAtIndices:[NSIndexSet indexSetWithIndexesInRange:(NSRange){ row, [notifications count] }]];
+		[[undoManager prepareWithInvocationTarget:self] undoCopyDropAtIndices:[NSIndexSet indexSetWithIndexesInRange:(NSRange){ row, [draggedNotifications count] }]];
 		[undoManager setActionName:NSLocalizedString(@"Add Notifications", /*comment*/ nil)];
 	}
 
-	for(unsigned srcIdx = 0U, count = [notifications count]; srcIdx < count; ++srcIdx) {
-		GRDENotification *notification = [[GRDENotification alloc] initWithDictionaryRepresentation:[notifications objectAtIndex:srcIdx]];
+	for(unsigned srcIdx = 0U, count = [draggedNotifications count]; srcIdx < count; ++srcIdx) {
+		GRDENotification *notification = [[GRDENotification alloc] initWithDictionaryRepresentation:[draggedNotifications objectAtIndex:srcIdx]];
 
 		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:srcIdx];
-		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
-			[notificationDictionaries insertObject:notification atIndex:row++];
-		[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notificationDictionaries"];
+		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
+			[notifications insertObject:notification atIndex:row++];
+		[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
 		[indexSet release];
 
 		[notification release];
@@ -467,7 +467,7 @@
 }
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndices toPasteboard:(NSPasteboard*)pboard {
 	unsigned firstIdx = [rowIndices firstIndex], numIndices = [rowIndices count];
-	NSMutableArray *notifications = [NSMutableArray arrayWithCapacity:numIndices];
+	NSMutableArray *notificationsToCopy = [NSMutableArray arrayWithCapacity:numIndices];
 	NSMutableArray *indicesArray = [NSMutableArray arrayWithCapacity:numIndices];
 	
 	for(unsigned i = firstIdx; i != NSNotFound; i = [rowIndices indexGreaterThanIndex:i]) {
@@ -475,11 +475,11 @@
 		[indicesArray addObject:num];
 		[num release];
 
-		[notifications addObject:[[notificationDictionaries objectAtIndex:i] dictionaryRepresentation]];
+		[notificationsToCopy addObject:[[notifications objectAtIndex:i] dictionaryRepresentation]];
 	}
 
 	[pboard declareTypes:[NSArray arrayWithObjects:DRAG_TYPE, DRAG_INDICES_TYPE, nil] owner:self];
-	[pboard setPropertyList:notifications forType:DRAG_TYPE];
+	[pboard setPropertyList:notificationsToCopy forType:DRAG_TYPE];
 	[pboard setPropertyList:indicesArray forType:DRAG_INDICES_TYPE];
 	[pboard setString:[[self fileURL] absoluteString] forType:DRAG_SRCDOCUMENTURL_TYPE];
 	return YES;
