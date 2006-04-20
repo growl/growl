@@ -56,6 +56,10 @@
 	return [[result copy] autorelease];
 }
 
+- (BOOL)isEqual:(id)other {
+	return (self == other) || [[self name] isEqualToString:[other name]];
+}
+
 #pragma mark Accessors
 
 - (GRDEDocument *)document {
