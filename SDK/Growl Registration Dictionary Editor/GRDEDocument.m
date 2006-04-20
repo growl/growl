@@ -14,7 +14,6 @@
 
 #define DRAG_TYPE @"org.boredzo.GrowlRegistrationDictionaryEditor.notification"
 #define DRAG_INDICES_TYPE @"org.boredzo.GrowlRegistrationDictionaryEditor.notificationIndices"
-#define DRAG_SRCDOCUMENTURL_TYPE @"org.boredzo.GrowlRegistrationDictionaryEditor.sourceDocumentURL"
 
 @implementation GRDEDocument
 
@@ -242,7 +241,7 @@
 	}
 	[self didChangeValueForKey:@"notifications"];
 
-	[tableView registerForDraggedTypes:[NSArray arrayWithObjects:DRAG_TYPE, DRAG_INDICES_TYPE, DRAG_SRCDOCUMENTURL_TYPE, nil]];
+	[tableView registerForDraggedTypes:[NSArray arrayWithObjects:DRAG_TYPE, DRAG_INDICES_TYPE, nil]];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
@@ -321,36 +320,39 @@
 - (unsigned)removeRows:(NSArray *)indicesArray computingDeltaBeforeRow:(int)row {
 	unsigned delta = 0U;
 
+	NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
 	NSEnumerator *indicesEnum = [indicesArray objectEnumerator];
 	NSNumber *indexNum;
+	while((indexNum = [indicesEnum nextObject]))
+		[indexSet addIndex:[indexNum unsignedIntValue]];
+
+	[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
+
+	//We have to do this to compute the delta.
+	indicesEnum = [indicesArray objectEnumerator];
 	while((indexNum = [indicesEnum nextObject])) {
 		unsigned i = [indexNum unsignedIntValue];
 		if(i < row)
 			++delta;
 
-		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:i];
-		[self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
-			[notifications removeObjectAtIndex:i];
-		[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
-		[indexSet release];
+		[notifications removeObjectAtIndex:i];
 	}
+
+	[self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexSet forKey:@"notifications"];
 	return delta;
 }
 
 - (NSDragOperation) tableView:(NSTableView *)aTableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation {
 	NSPasteboard *pboard = [info draggingPasteboard];
 	
-	NSArray *notifications = [pboard propertyListForType:DRAG_TYPE];
-	if(!notifications) return NSDragOperationNone;
-	NSString *URLString = [pboard stringForType:DRAG_SRCDOCUMENTURL_TYPE];
-	
-	NSURL *URL;
-	if(URLString) URL = [NSURL URLWithString:URLString];
-	BOOL isMove = URLString && [URL isEqual:[self fileURL]];
-	
+	NSArray *draggedNotifications = [pboard propertyListForType:DRAG_TYPE];
+	if(!draggedNotifications) return NSDragOperationNone;
+
+	BOOL isMove = ([tableView window] == [[info draggingSource] window]);
+
 	if(!isMove) {
 		//Copying from one document to another.
-		NSEnumerator *notificationsEnum = [notifications objectEnumerator];
+		NSEnumerator *notificationsEnum = [draggedNotifications objectEnumerator];
 		NSDictionary *dict;
 		while((dict = [notificationsEnum nextObject])) {
 			if([notificationNames containsObject:[GRDENotification notificationNameFromDictionaryRepresentation:dict]]) {
@@ -429,8 +431,7 @@
 	NSPasteboard *pboard = [info draggingPasteboard];
 	NSArray *draggedNotifications = [pboard propertyListForType:DRAG_TYPE];
 
-	NSURL *URL = [NSURL URLWithString:[pboard stringForType:DRAG_SRCDOCUMENTURL_TYPE]];
-	BOOL isMove = [URL isEqual:[self fileURL]];
+	BOOL isMove = ([tableView window] == [[info draggingSource] window]);
 	if(isMove) {
 		NSArray *indicesArray = [pboard propertyListForType:DRAG_INDICES_TYPE];
 
@@ -451,18 +452,20 @@
 		[undoManager setActionName:NSLocalizedString(@"Add Notifications", /*comment*/ nil)];
 	}
 
-	for(unsigned srcIdx = 0U, count = [draggedNotifications count]; srcIdx < count; ++srcIdx) {
+	unsigned numNotifications = [draggedNotifications count];
+	NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:(NSRange){ row, numNotifications }];
+	[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
+
+	for(unsigned srcIdx = 0U; srcIdx < numNotifications; ++srcIdx) {
 		GRDENotification *notification = [[GRDENotification alloc] initWithDictionaryRepresentation:[draggedNotifications objectAtIndex:srcIdx]];
 
-		NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:srcIdx];
-		[self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
-			[notifications insertObject:notification atIndex:row++];
-		[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
-		[indexSet release];
+		[notifications insertObject:notification atIndex:row++];
+		[notificationNames addObject:[notification name]];
 
 		[notification release];
 	}
 
+	[self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"notifications"];
 	return YES;
 }
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndices toPasteboard:(NSPasteboard*)pboard {
@@ -481,7 +484,6 @@
 	[pboard declareTypes:[NSArray arrayWithObjects:DRAG_TYPE, DRAG_INDICES_TYPE, nil] owner:self];
 	[pboard setPropertyList:notificationsToCopy forType:DRAG_TYPE];
 	[pboard setPropertyList:indicesArray forType:DRAG_INDICES_TYPE];
-	[pboard setString:[[self fileURL] absoluteString] forType:DRAG_SRCDOCUMENTURL_TYPE];
 	return YES;
 }
 
@@ -512,11 +514,6 @@
 	if(old == (NSString *)null) old = @"";
 	NSString *new = [change objectForKey:NSKeyValueChangeNewKey];
 	if(new == (NSString *)null) new = @"";
-	NSLog(@"\n"
-		  @"old: %@\n"
-		  @"new: %@\n"
-		  @"notificationNames: %@ (%u items)",
-		  old, new, notificationNames, [notificationNames count]);
 
 	if(![old length]) {
 		//Adding a value.
@@ -532,7 +529,6 @@
 		if([notificationNames containsObject:new])
 			[self scheduleReversionOfValueForKeyPath:keyPath ofObject:obj change:change];
 		else {
-			NSLog(@"value changed: %@ %C %@", old, 0x2192, new);
 			[notificationNames addObject:new];
 		}
 	}

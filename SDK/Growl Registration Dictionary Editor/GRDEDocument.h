@@ -14,9 +14,9 @@
 @interface GRDEDocument : NSDocument
 {
 	NSString *applicationName, *bundleIdentifier;
-	NSMutableArray *notificationDictionaries;
+	NSMutableArray *notifications;
 	NSMutableSet *notificationNames;
-	IBOutlet NSArrayController *arrayController; //Bound to notificationDictionaries
+	IBOutlet NSArrayController *arrayController; //Bound to notifications
 	IBOutlet NSTableView *tableView; //Fed by arrayController
 
 	NSMutableDictionary *dictionaryRepresentation;
@@ -34,15 +34,15 @@
 - (NSString *)bundleIdentifier;
 - (void)setBundleIdentifier:(NSString *)newID;
 
-- (NSMutableArray *)notificationDictionaries;
-- (void)setNotificationDictionaries:(NSArray *)array;
+- (NSMutableArray *)notifications;
+- (void)setNotifications:(NSArray *)array;
 
-- (unsigned)countOfNotificationDictionaries;
-- (GRDENotification *)objectInNotificationDictionariesAtIndex:(unsigned)idx;
-- (void)getNotificationDictionaries:(out GRDENotification **)outDicts range:(NSRange)range;
+- (unsigned)countOfNotifications;
+- (GRDENotification *)objectInNotificationsAtIndex:(unsigned)idx;
+- (void)getNotifications:(out GRDENotification **)outDicts range:(NSRange)range;
 
-- (void)replaceObjectInNotificationDictionariesAtIndex:(unsigned)idx withObject:(GRDENotification *)dict;
-- (void)insertObject:(GRDENotification *)dict inNotificationDictionariesAtIndex:(unsigned)idx;
-- (void)removeObjectFromNotificationDictionariesAtIndex:(unsigned)idx;
+- (void)replaceObjectInNotificationsAtIndex:(unsigned)idx withObject:(GRDENotification *)dict;
+- (void)insertObject:(GRDENotification *)dict inNotificationsAtIndex:(unsigned)idx;
+- (void)removeObjectFromNotificationsAtIndex:(unsigned)idx;
 
 @end
