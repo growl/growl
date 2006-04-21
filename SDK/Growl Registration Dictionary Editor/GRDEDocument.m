@@ -12,8 +12,14 @@
 
 #import "GrowlDefines.h"
 
+#import "NSMutableDictionary+Intersection.h"
+
 #define DRAG_TYPE @"org.boredzo.GrowlRegistrationDictionaryEditor.notification"
 #define DRAG_INDICES_TYPE @"org.boredzo.GrowlRegistrationDictionaryEditor.notificationIndices"
+
+#define NATIVE_DOCUMENT_TYPE @"Growl auto-registration property list"
+#define NATIVE_DOCUMENT_EXTENSION @"plist"
+#define GROWL_TICKET_TYPE @"Growl saved ticket"
 
 //Methods used as a callback to perform or revert undo.
 @interface GRDEDocument (UndoMethods)
@@ -227,28 +233,47 @@
 		[bundleIdentifier release];
 	[self  didChangeValueForKey:@"bundleIdentifier"];
 
-	NSArray *allNotificationNames = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_ALL];
-	NSSet *enabledNotificationNames = [NSSet setWithArray:[dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
-	NSDictionary *humanReadableNotificationNames = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
-	NSDictionary *notificationDescriptions = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
-
 	[self willChangeValueForKey:@"notifications"];
 	[notifications removeAllObjects];
 
-	NSEnumerator *namesEnum = [allNotificationNames objectEnumerator];
-	NSString *name;
-	while((name = [namesEnum nextObject])) {
-		GRDENotification *notification = [[GRDENotification alloc] init];
-		[notification setName:name];
-		[notification setEnabled:[enabledNotificationNames containsObject:name]];
-		[notification setHumanReadableName:[humanReadableNotificationNames objectForKey:name]];
-		[notification setHumanReadableDescription:[notificationDescriptions objectForKey:name]];
-		//Setting the document must come last, so that the notification's undo registrations go to nil.
-		//We don't want to register an undo group for filling in the file's data.
-		[notification setDocument:self];
+	if(!wasReadFromGrowlTicket) {
+		//Reading a .plist or .growlRegDict.
+		NSArray *allNotificationNames = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_ALL];
+		NSSet *enabledNotificationNames = [NSSet setWithArray:[dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_DEFAULT]];
+		NSDictionary *humanReadableNotificationNames = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES];
+		NSDictionary *notificationDescriptions = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_DESCRIPTIONS];
 
-		[notifications addObject:notification];
-		[notification release];
+		NSEnumerator *namesEnum = [allNotificationNames objectEnumerator];
+		NSString *name;
+		while((name = [namesEnum nextObject])) {
+			GRDENotification *notification = [[GRDENotification alloc] init];
+			[notification setName:name];
+			[notification setEnabled:[enabledNotificationNames containsObject:name]];
+			[notification setHumanReadableName:[humanReadableNotificationNames objectForKey:name]];
+			[notification setHumanReadableDescription:[notificationDescriptions objectForKey:name]];
+			//Setting the document must come last, so that the notification's undo registrations go to nil.
+			//We don't want to register an undo group for filling in the file's data.
+			[notification setDocument:self];
+			
+			[notifications addObject:notification];
+			[notification release];
+		}
+	} else {
+		//Reading a .growlTicket.
+		NSArray *dictionaries = [dictionaryRepresentation objectForKey:GROWL_NOTIFICATIONS_ALL];
+		NSEnumerator *dictEnum = [dictionaries objectEnumerator];
+		NSDictionary *dict;
+		while((dict = [dictEnum nextObject])) {
+			GRDENotification *notification = [[GRDENotification alloc] init];
+
+			[notification setName:[dict objectForKey:@"Name"]];
+			[notification setEnabled:[[dict objectForKey:@"Enabled"] boolValue]];
+			[notification setHumanReadableName:[dict objectForKey:@"HumanReadableName"]];
+			[notification setHumanReadableDescription:[dict objectForKey:@"NotificationDescription"]];
+
+			[notifications addObject:notification];
+			[notification release];
+		}
 	}
 	[self didChangeValueForKey:@"notifications"];
 
@@ -321,6 +346,29 @@
 			dictionaryRepresentation = [dict mutableCopy];
 		else
 			[dictionaryRepresentation setDictionary:dict];
+
+		if([typeName isEqualToString:NATIVE_DOCUMENT_TYPE])
+			wasReadFromGrowlTicket = NO;
+		else {
+			NSSet *ourKeys = [NSSet setWithObjects:
+				GROWL_APP_NAME,
+				GROWL_APP_ID,
+				GROWL_NOTIFICATIONS_ALL,
+				GROWL_NOTIFICATIONS_DEFAULT,
+				GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
+				GROWL_NOTIFICATIONS_DESCRIPTIONS,
+				nil];
+			[dictionaryRepresentation intersectWithSetOfKeys:ourKeys];
+
+			[self setFileType:NATIVE_DOCUMENT_TYPE];
+			[self updateChangeCount:NSChangeDone];
+
+			NSString *path = [self fileName];
+			if(path)
+				[self setFileName:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:NATIVE_DOCUMENT_EXTENSION]];
+
+			wasReadFromGrowlTicket = [typeName isEqualToString:GROWL_TICKET_TYPE];
+		}
 	}
 
 	return (dict != nil);

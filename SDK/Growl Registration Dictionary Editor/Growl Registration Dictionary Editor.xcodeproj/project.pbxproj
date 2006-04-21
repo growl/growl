@@ -15,6 +15,7 @@
 		072DC32A09F21DD900B8D4EC /* GRDENotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 072DC32909F21DD800B8D4EC /* GRDENotification.m */; };
 		072DC3B709F2383600B8D4EC /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 072DC3B609F2383600B8D4EC /* Carbon.framework */; };
 		072DC3D509F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 072DC3D409F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m */; };
+		0752F6BA09F878A400032AAC /* NSMutableDictionary+Intersection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0752F6B909F878A400032AAC /* NSMutableDictionary+Intersection.m */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2E0486D014006FF6A4 /* GRDEDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* GRDEDocument.nib */; };
@@ -55,6 +56,8 @@
 		072DC3B609F2383600B8D4EC /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		072DC3D309F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AXCArrayControllerWithDragAndDrop.h; sourceTree = "<group>"; };
 		072DC3D409F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AXCArrayControllerWithDragAndDrop.m; sourceTree = "<group>"; };
+		0752F6B809F878A400032AAC /* NSMutableDictionary+Intersection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Intersection.h"; sourceTree = "<group>"; };
+		0752F6B909F878A400032AAC /* NSMutableDictionary+Intersection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Intersection.m"; sourceTree = "<group>"; };
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FBA07B3F13500E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -68,7 +71,7 @@
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* Growl Registration Dictionary Editor_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Growl Registration Dictionary Editor_Prefix.pch"; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D15AC370486D014006FF6A4 /* Growl Registration Dictionary Editor.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Growl Registration Dictionary Editor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D15AC370486D014006FF6A4 /* Growl Registration Dictionary Editor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Growl Registration Dictionary Editor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +98,15 @@
 				070373FA09F1B22B00C5F35C /* BZIsNotOneValueTransformer.m */,
 			);
 			name = "Value transformers";
+			sourceTree = "<group>";
+		};
+		0752F6C109F8792A00032AAC /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				0752F6B809F878A400032AAC /* NSMutableDictionary+Intersection.h */,
+				0752F6B909F878A400032AAC /* NSMutableDictionary+Intersection.m */,
+			);
+			name = Additions;
 			sourceTree = "<group>";
 		};
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
@@ -128,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				0752F6C109F8792A00032AAC /* Additions */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
@@ -256,6 +269,7 @@
 				070373FB09F1B22B00C5F35C /* BZIsNotOneValueTransformer.m in Sources */,
 				072DC32A09F21DD900B8D4EC /* GRDENotification.m in Sources */,
 				072DC3D509F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m in Sources */,
+				0752F6BA09F878A400032AAC /* NSMutableDictionary+Intersection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

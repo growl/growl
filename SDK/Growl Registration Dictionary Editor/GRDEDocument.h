@@ -21,6 +21,8 @@
 
 	NSMutableDictionary *dictionaryRepresentation;
 	NSPropertyListFormat plistFormat;
+
+	BOOL wasReadFromGrowlTicket;
 }
 
 #pragma mark Actions
