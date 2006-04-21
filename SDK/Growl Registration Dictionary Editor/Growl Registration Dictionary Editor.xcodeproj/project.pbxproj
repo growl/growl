@@ -12,6 +12,7 @@
 		070373FB09F1B22B00C5F35C /* BZIsNotOneValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 070373FA09F1B22B00C5F35C /* BZIsNotOneValueTransformer.m */; };
 		0703744509F1BB5500C5F35C /* BZIsLessThanOrEqualToOneValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0703744409F1BB5500C5F35C /* BZIsLessThanOrEqualToOneValueTransformer.m */; };
 		0703744C09F1BBCC00C5F35C /* BZIsNotZeroValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 070373B909F1AC4300C5F35C /* BZIsNotZeroValueTransformer.m */; };
+		071A885009F8C3B10061AFE5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 071A884E09F8C3B10061AFE5 /* Localizable.strings */; };
 		072DC32A09F21DD900B8D4EC /* GRDENotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 072DC32909F21DD800B8D4EC /* GRDENotification.m */; };
 		072DC3B709F2383600B8D4EC /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 072DC3B609F2383600B8D4EC /* Carbon.framework */; };
 		072DC3D509F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m in Sources */ = {isa = PBXBuildFile; fileRef = 072DC3D409F25F2000B8D4EC /* AXCArrayControllerWithDragAndDrop.m */; };
@@ -51,6 +52,7 @@
 		0703744309F1BB5500C5F35C /* BZIsLessThanOrEqualToOneValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BZIsLessThanOrEqualToOneValueTransformer.h; sourceTree = "<group>"; };
 		0703744409F1BB5500C5F35C /* BZIsLessThanOrEqualToOneValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BZIsLessThanOrEqualToOneValueTransformer.m; sourceTree = "<group>"; };
 		0717C16C09F4FB6800BDE637 /* GRDENotificationDictionaryKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRDENotificationDictionaryKeys.h; sourceTree = "<group>"; };
+		071A884F09F8C3B10061AFE5 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		072DC32809F21DD800B8D4EC /* GRDENotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRDENotification.h; sourceTree = "<group>"; };
 		072DC32909F21DD800B8D4EC /* GRDENotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRDENotification.m; sourceTree = "<group>"; };
 		072DC3B609F2383600B8D4EC /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -184,6 +186,7 @@
 				2A37F4B4FDCFA73011CA2CEA /* GRDEDocument.nib */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
+				071A884E09F8C3B10061AFE5 /* Localizable.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				0703737309F191B800C5F35C /* minus-8.png in Resources */,
 				0703737409F191B900C5F35C /* plus-8.png in Resources */,
+				071A885009F8C3B10061AFE5 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +280,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		071A884E09F8C3B10061AFE5 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				071A884F09F8C3B10061AFE5 /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

@@ -53,6 +53,31 @@
 	[super dealloc];
 }
 
+- (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
+	BOOL success = [super prepareSavePanel:savePanel];
+	if(success) {
+		if(![savePanel accessoryView]) {
+			//Messages don't wrap unless you use explicit newlines. This is the next best thing.
+			NSTextField *textField = [[NSTextField alloc] initWithFrame:(NSRect){ { 20.0f, 100.0f }, { 384.0f, 42.0f } }];
+			[textField setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+
+			[textField setEditable:NO];
+			[textField setSelectable:YES]; //Why would this ever be NO?
+
+			[textField setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
+			[textField setAlignment:NSCenterTextAlignment];
+
+			[textField setDrawsBackground:NO];
+			[textField setBezeled:NO];
+
+			[textField setStringValue:NSLocalizedString(@"Note: You must name your file \"Growl Registration Ticket.plist\" for Growl to notice it on launch.  You can do this automatically with a shell script phase in Xcode.", /*comment*/ nil)];
+			[savePanel setAccessoryView:textField];
+			[textField release];
+		}
+	}
+	return success;
+}
+
 #pragma mark Actions
 
 - (IBAction)insertNewNotification:sender {
