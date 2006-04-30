@@ -315,10 +315,10 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			}
 
 			//Post to Growl via NSDistributedNotificationCenter
-			CFNotificationCenterPostNotification(CFNotificationCenterGetLocalCenter(),
-												 (CFStringRef)GROWL_NOTIFICATION,
-												 NULL, (CFDictionaryRef)userInfo,
-												 false);
+			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_NOTIFICATION
+																		   object:nil
+																		 userInfo:userInfo
+															   deliverImmediately:NO];
 		}
 	} else {
 #ifdef GROWL_WITH_INSTALLER
