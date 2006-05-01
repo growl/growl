@@ -182,6 +182,9 @@
 		745352B009313ABB0000B26A /* GrowlWebKitPluginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 743EDE0609273C8A002A9670 /* GrowlWebKitPluginHandler.m */; };
 		745352B109313ABD0000B26A /* GrowlWebKitDisplayPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 743EDE12092740F5002A9670 /* GrowlWebKitDisplayPlugin.m */; };
 		745352D509313B3B0000B26A /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
+		7471F9B80A066E2B000D13BF /* GrowlPositionPicker.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7471F9B60A066E2A000D13BF /* GrowlPositionPicker.h */; };
+		7471F9B90A066E2B000D13BF /* GrowlPositionPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7471F9B70A066E2B000D13BF /* GrowlPositionPicker.m */; };
+		7471F9BB0A066E8F000D13BF /* PositionPickerBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7471F9BA0A066E8F000D13BF /* PositionPickerBackground.jpg */; };
 		74BBDE8D094399D30011CFE9 /* GrowlFlippingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */; };
 		83282747073A6C110044A959 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		8363F463098A1B5C000AAC48 /* AboveTheNight.growlStyle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */; };
@@ -649,6 +652,7 @@
 				743EE1910927A866002A9670 /* GrowlDisplayWindowController.h in CopyFiles */,
 				C4B868E40957D8C00056FC54 /* ACImageAndTextCell.h in CopyFiles */,
 				34F427A5095E69D30044B280 /* NotificationsArrayController.h in CopyFiles */,
+				7471F9B80A066E2B000D13BF /* GrowlPositionPicker.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,6 +794,9 @@
 		743EDE0609273C8A002A9670 /* GrowlWebKitPluginHandler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitPluginHandler.m; path = Plugins/Displays/WebKit/GrowlWebKitPluginHandler.m; sourceTree = "<group>"; };
 		743EDE11092740F5002A9670 /* GrowlWebKitDisplayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitDisplayPlugin.h; path = Plugins/Displays/WebKit/GrowlWebKitDisplayPlugin.h; sourceTree = "<group>"; };
 		743EDE12092740F5002A9670 /* GrowlWebKitDisplayPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitDisplayPlugin.m; path = Plugins/Displays/WebKit/GrowlWebKitDisplayPlugin.m; sourceTree = "<group>"; };
+		7471F9B60A066E2A000D13BF /* GrowlPositionPicker.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlPositionPicker.h; sourceTree = "<group>"; };
+		7471F9B70A066E2B000D13BF /* GrowlPositionPicker.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlPositionPicker.m; sourceTree = "<group>"; };
+		7471F9BA0A066E8F000D13BF /* PositionPickerBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PositionPickerBackground.jpg; sourceTree = "<group>"; };
 		74BBDE8A094399D30011CFE9 /* GrowlFlippingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlFlippingWindowTransition.h; sourceTree = "<group>"; };
 		74BBDE8B094399D30011CFE9 /* GrowlFlippingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlFlippingWindowTransition.m; sourceTree = "<group>"; };
 		83282741073A6BD70044A959 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -1327,6 +1334,7 @@
 				8D202CF70486D31800D8A456 /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				950627A40840D34900C01CD2 /* growl-claw32.tiff */,
+				7471F9BA0A066E8F000D13BF /* PositionPickerBackground.jpg */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1342,6 +1350,8 @@
 				95E243E3087E9053008151E6 /* GrowlPreferencePane.m */,
 				34F427A3095E69D30044B280 /* NotificationsArrayController.h */,
 				34F427A4095E69D30044B280 /* NotificationsArrayController.m */,
+				7471F9B60A066E2A000D13BF /* GrowlPositionPicker.h */,
+				7471F9B70A066E2B000D13BF /* GrowlPositionPicker.m */,
 				936FAB01074482BF00A7D430 /* RRTableView.h */,
 				936FAB02074482BF00A7D430 /* RRTableView.m */,
 				95A9E432080B2CAB006A2F29 /* TicketsArrayController.h */,
@@ -3031,6 +3041,7 @@
 				937E64320817193800AEC1C6 /* About.rtf in Resources */,
 				950627A50840D34900C01CD2 /* growl-claw32.tiff in Resources */,
 				95BF38FE0851F82200873BE1 /* WebKitPrefs.nib in Resources */,
+				7471F9BB0A066E8F000D13BF /* PositionPickerBackground.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3349,6 +3360,7 @@
 				C4B868E50957D8C00056FC54 /* ACImageAndTextCell.m in Sources */,
 				34F427A6095E69D30044B280 /* NotificationsArrayController.m in Sources */,
 				07B7CDE2099EBB1700744461 /* GrowlLog.m in Sources */,
+				7471F9B90A066E2B000D13BF /* GrowlPositionPicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
