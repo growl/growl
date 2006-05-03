@@ -1018,7 +1018,7 @@
 		DD493A04084BAD7700D1CCCB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/SMS/English.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		DD493B7C084BB07900D1CCCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = Plugins/Displays/SMS/Info.plist; sourceTree = "<group>"; };
 		DDB6462607DE034800807F8D /* generateSVNRevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = generateSVNRevision.sh; sourceTree = "<group>"; };
-		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF09B19080AC97A006F4172 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Prefpane TestHarness/main.m"; sourceTree = "<group>"; };
 		DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = "PrefPaneTesting-Info.plist"; path = "Prefpane TestHarness/PrefPaneTesting-Info.plist"; sourceTree = "<group>"; };
 		DDF09B1B080AC97A006F4172 /* PrefpaneTester.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefpaneTester.h; path = "Prefpane TestHarness/PrefpaneTester.h"; sourceTree = "<group>"; };
@@ -1202,6 +1202,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		070B862D0A087FC50093150E /* Tickets */ = {
+			isa = PBXGroup;
+			children = (
+				CB1C5D1B063E432F007052EE /* GrowlApplicationTicket.h */,
+				CB1C5D1C063E432F007052EE /* GrowlApplicationTicket.m */,
+				CB5C30FF07925B53007CC0D0 /* GrowlNotificationTicket.h */,
+				CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */,
+			);
+			name = Tickets;
+			sourceTree = "<group>";
+		};
+		070B86340A08814D0093150E /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				950568E30812C2960096EC5C /* GrowlLog.h */,
+				950568E40812C2960096EC5C /* GrowlLog.m */,
+				95B2B27B08745BA100EA34BF /* GrowlUDPUtils.h */,
+				95CF9B46082AE3B7001A409D /* GrowlUDPUtils.c */,
+				9526BD51081BCC9100B9D0D0 /* MD5Authenticator.h */,
+				9526BD52081BCC9100B9D0D0 /* MD5Authenticator.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		070B86350A08816F0093150E /* Plug-ins */ = {
+			isa = PBXGroup;
+			children = (
+				95E2456F08EEAC510092EAAC /* GrowlPlugin.h */,
+				95E2457008EEAC510092EAAC /* GrowlPlugin.m */,
+				95E2457508EEAC630092EAAC /* GrowlDisplayPlugin.h */,
+				95E2457608EEAC630092EAAC /* GrowlDisplayPlugin.m */,
+			);
+			name = "Plug-ins";
+			sourceTree = "<group>";
+		};
+		070B86360A0881CF0093150E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				740CC038093A4F1000092801 /* GrowlThreadedView.h */,
+				EE17E56B08EFFCDB0086F0C3 /* GrowlThreadedView.m */,
+				740CC06F093A508100092801 /* GrowlNotificationView.h */,
+				740CC070093A508100092801 /* GrowlNotificationView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		070C1AC00912D0EA00884E7D /* Global Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1714,13 +1760,13 @@
 			name = Pathways;
 			sourceTree = "<group>";
 		};
-		CB34BEC507E09557001D7D7C /* GrowlNotification */ = {
+		CB34BEC507E09557001D7D7C /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
 				07F9B7A208A49F6D00DF7F42 /* GrowlApplicationNotification.h */,
 				07F9B7A308A49F6D00DF7F42 /* GrowlApplicationNotification.m */,
 			);
-			name = GrowlNotification;
+			name = Notifications;
 			sourceTree = "<group>";
 		};
 		CB5F835E0638B67C00EADD7A /* Prefpane */ = {
@@ -1762,34 +1808,16 @@
 		CB5F847F0638BD6200EADD7A /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				EED7068E08C743EB004651D0 /* Controllers */,
+				070B862D0A087FC50093150E /* Tickets */,
+				CB0EBFBA0790941300CA2157 /* Pathways */,
+				CB34BEC507E09557001D7D7C /* Notifications */,
+				070B86350A08816F0093150E /* Plug-ins */,
 				95E2457F08EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.h */,
 				95E2458008EEAC8F0092EAAC /* GrowlNotificationDisplayBridge.m */,
-				95E2457508EEAC630092EAAC /* GrowlDisplayPlugin.h */,
-				95E2457608EEAC630092EAAC /* GrowlDisplayPlugin.m */,
-				95E2456F08EEAC510092EAAC /* GrowlPlugin.h */,
-				95E2457008EEAC510092EAAC /* GrowlPlugin.m */,
-				EED7068E08C743EB004651D0 /* Controllers */,
-				95B2B27B08745BA100EA34BF /* GrowlUDPUtils.h */,
-				95CF9B46082AE3B7001A409D /* GrowlUDPUtils.c */,
-				9526BD51081BCC9100B9D0D0 /* MD5Authenticator.h */,
-				9526BD52081BCC9100B9D0D0 /* MD5Authenticator.m */,
-				CB1C5D1B063E432F007052EE /* GrowlApplicationTicket.h */,
-				CB1C5D1C063E432F007052EE /* GrowlApplicationTicket.m */,
-				CB5C30FF07925B53007CC0D0 /* GrowlNotificationTicket.h */,
-				CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */,
-				EE1AF8CC0897DA9400F486FD /* Animation & Transitions */,
-				CB34BEC507E09557001D7D7C /* GrowlNotification */,
-				CB0EBFBA0790941300CA2157 /* Pathways */,
-				950568E30812C2960096EC5C /* GrowlLog.h */,
-				950568E40812C2960096EC5C /* GrowlLog.m */,
-				953F739E081FFB9E00823EFE /* GrowlNotificationCenter.h */,
-				953F739F081FFB9E00823EFE /* GrowlNotificationCenter.m */,
-				95416E03086343180098C914 /* GrowlIdleStatusController.h */,
-				95416E04086343180098C914 /* GrowlIdleStatusController.c */,
-				740CC038093A4F1000092801 /* GrowlThreadedView.h */,
-				EE17E56B08EFFCDB0086F0C3 /* GrowlThreadedView.m */,
-				740CC06F093A508100092801 /* GrowlNotificationView.h */,
-				740CC070093A508100092801 /* GrowlNotificationView.m */,
+				EE1AF8CC0897DA9400F486FD /* Animations & Transitions */,
+				070B86360A0881CF0093150E /* Views */,
+				070B86340A08814D0093150E /* Utilities */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1845,7 +1873,7 @@
 			name = "Prefpane Testing";
 			sourceTree = "<group>";
 		};
-		EE1AF8CC0897DA9400F486FD /* Animation & Transitions */ = {
+		EE1AF8CC0897DA9400F486FD /* Animations & Transitions */ = {
 			isa = PBXGroup;
 			children = (
 				EE1AF8CD0897DA9400F486FD /* GrowlAnimation.h */,
@@ -1854,7 +1882,7 @@
 				EE1AF8D00897DA9400F486FD /* GrowlWindowTransition.m */,
 				EE1AF8D10897DA9400F486FD /* Window Transitions */,
 			);
-			name = "Animation & Transitions";
+			name = "Animations & Transitions";
 			path = "Plugins/Displays/Animation & Transitions";
 			sourceTree = "<group>";
 		};
@@ -1882,18 +1910,22 @@
 			children = (
 				EED7068A08C743D9004651D0 /* GrowlAbstractSingletonObject.h */,
 				EED7068908C743D9004651D0 /* GrowlAbstractSingletonObject.m */,
-				95026A8808DC856900FE1949 /* GrowlPositionController.h */,
-				95026A8908DC856900FE1949 /* GrowlPositionController.m */,
 				95B2B27508745B9000EA34BF /* GrowlApplicationController.h */,
 				95B2B27608745B9000EA34BF /* GrowlApplicationController.m */,
+				95416E03086343180098C914 /* GrowlIdleStatusController.h */,
+				95416E04086343180098C914 /* GrowlIdleStatusController.c */,
+				953F739E081FFB9E00823EFE /* GrowlNotificationCenter.h */,
+				953F739F081FFB9E00823EFE /* GrowlNotificationCenter.m */,
 				070C5DAD09A7978F004F1E8C /* GrowlPathwayController.h */,
 				070C5DAE09A7978F004F1E8C /* GrowlPathwayController.m */,
+				5286205506DC4C2F00D3A356 /* GrowlPluginController.h */,
+				5286205606DC4C2F00D3A356 /* GrowlPluginController.m */,
+				95026A8808DC856900FE1949 /* GrowlPositionController.h */,
+				95026A8908DC856900FE1949 /* GrowlPositionController.m */,
 				95B2B27708745B9000EA34BF /* GrowlPreferencesController.h */,
 				95B2B27808745B9000EA34BF /* GrowlPreferencesController.m */,
 				95B2B27908745B9000EA34BF /* GrowlTicketController.h */,
 				95B2B27A08745B9000EA34BF /* GrowlTicketController.m */,
-				5286205506DC4C2F00D3A356 /* GrowlPluginController.h */,
-				5286205606DC4C2F00D3A356 /* GrowlPluginController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
