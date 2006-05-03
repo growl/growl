@@ -114,11 +114,11 @@
 			if ([queue count] > 0U)
 				bridge = [theBridge retain];
 			else
-				bridge = NULL;
+				bridge = nil;
 			[queue removeObjectAtIndex:0U];		
 		}
 		else
-			bridge = NULL;
+			bridge = nil;
 	}
 	
 	if (bridge)
