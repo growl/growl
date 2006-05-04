@@ -2,6 +2,7 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = GrowlNotificationTicket; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = GrowlPositionPicker; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
             ACTIONS = {
                 checkVersion = id; 
