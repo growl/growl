@@ -130,7 +130,7 @@
 
 	growlWebSiteURL = [[NSURL alloc] initWithString:@"http://growl.info"];
 	growlForumURL = [[NSURL alloc] initWithString:@"http://forums.cocoaforge.com/viewforum.php?f=6"];
-	growlTracURL = [[NSURL alloc] initWithString:@"http://trac.growl.info/trac"];
+	growlTracURL = [[NSURL alloc] initWithString:@"http://trac.growl.info"];
 	growlDonateURL = [[NSURL alloc] initWithString:@"http://growl.info/donate.php"];
 
 	customHistArray = CFArrayCreateMutable(kCFAllocatorDefault, 3, &kCFTypeArrayCallBacks);
