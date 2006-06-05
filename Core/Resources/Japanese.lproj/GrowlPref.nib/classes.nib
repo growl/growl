@@ -2,6 +2,7 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = GrowlNotificationTicket; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = GrowlPositionPicker; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
             ACTIONS = {
                 checkVersion = id; 
@@ -28,14 +29,11 @@
                 displayPrefView = NSView; 
                 displayVersion = NSTextField; 
                 growlApplications = NSTableView; 
-                growlDonate = NSButton; 
-                growlForum = NSButton; 
                 growlRunningProgress = NSProgressIndicator; 
                 growlRunningStatus = NSTextField; 
-                growlTrac = NSButton; 
                 growlVersionProgress = NSProgressIndicator; 
-                growlWebSite = NSButton; 
                 logFileType = NSMatrix; 
+                networkTableView = NSTableView; 
                 notificationPriorityMenu = NSMenu; 
                 notificationsArrayController = NSArrayController; 
                 previewButton = NSButton; 

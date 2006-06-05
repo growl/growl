@@ -23,6 +23,7 @@ enum GrowlPriority {
 	NSString                *name;
 	NSString				*humanReadableName;
 	NSString				*notificationDescription;
+	NSString                *sound;
 
 	GrowlApplicationTicket  *ticket;        // Our owner
 	NSString				*displayPluginName;
@@ -35,13 +36,6 @@ enum GrowlPriority {
 
 + (GrowlNotificationTicket *) notificationWithName:(NSString *)name;
 + (GrowlNotificationTicket *) notificationWithDictionary:(NSDictionary *)dict;
-+ (GrowlNotificationTicket *) notificationWithName:(NSString *)name
-								 humanReadableName:(NSString *)inHumanReadableName
-						   notificationDescription:(NSString *)inNotificationDescription
-										  priority:(enum GrowlPriority)priority
-										   enabled:(BOOL)enabled
-											sticky:(int)sticky
-								 displayPluginName:(NSString *)display;
 
 - (GrowlNotificationTicket *) initWithName:(NSString *)name;
 - (GrowlNotificationTicket *) initWithDictionary:(NSDictionary *)dict;
@@ -51,7 +45,8 @@ enum GrowlPriority {
 								  priority:(enum GrowlPriority)inPriority
 								   enabled:(BOOL)inEnabled
 									sticky:(int)inSticky
-						 displayPluginName:(NSString *)display;
+						 displayPluginName:(NSString *)display
+									 sound:(NSString *)sound;
 
 #pragma mark -
 
@@ -84,5 +79,8 @@ enum GrowlPriority {
 - (NSString *) displayPluginName;
 - (void) setDisplayPluginName: (NSString *)pluginName;
 - (GrowlDisplayPlugin *) displayPlugin;
+
+- (NSString *) sound;
+- (void) setSound:(NSString *)value;
 
 @end

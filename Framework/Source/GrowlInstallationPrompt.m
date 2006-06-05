@@ -84,9 +84,8 @@ static BOOL checkOSXVersion(void) {
 // closes this window
 - (IBAction) closeWindow:(id)sender {
 #pragma unused(sender)
-	if ([self windowShouldClose:nil]) {
+	if ([self windowShouldClose:nil])
 		[[self window] close];
-	}
 }
 
 // called after the about window loads, so we can set up the window before it's displayed

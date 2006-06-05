@@ -23,23 +23,6 @@
 	return [[[GrowlNotificationTicket alloc] initWithDictionary:dict] autorelease];
 }
 
-+ (GrowlNotificationTicket *) notificationWithName:(NSString *)inName
-								 humanReadableName:(NSString *)inHumanReadableName
-						   notificationDescription:(NSString *)inNotificationDescription
-										  priority:(enum GrowlPriority)inPriority
-										   enabled:(BOOL)inEnabled
-											sticky:(int)inSticky
-								 displayPluginName:(NSString *)inDisplay
-{
-	return [[[self alloc] initWithName:inName
-					 humanReadableName:inHumanReadableName
-			   notificationDescription:inNotificationDescription
-							  priority:inPriority
-							   enabled:inEnabled
-								sticky:inSticky
-					 displayPluginName:inDisplay] autorelease];
-}
-
 - (GrowlNotificationTicket *) initWithDictionary:(NSDictionary *)dict {
 	NSString *inName = getObjectForKey(dict, @"Name");
 
@@ -56,6 +39,7 @@
 	inSticky = (inSticky >= 0 ? (inSticky > 0 ? NSOnState : NSOffState) : NSMixedState);
 
 	NSString *inDisplay = [dict objectForKey:@"Display"];
+	NSString *inSound = [dict objectForKey:@"Sound"];
 
 	return [self initWithName:inName
 			humanReadableName:inHumanReadableName
@@ -63,7 +47,8 @@
 					 priority:inPriority
 					  enabled:inEnabled
 					   sticky:inSticky
-			displayPluginName:inDisplay];
+			displayPluginName:inDisplay
+						sound:inSound];
 }
 
 - (GrowlNotificationTicket *) initWithName:(NSString *)theName {
@@ -73,7 +58,8 @@
 					 priority:GrowlPriorityUnset
 					  enabled:YES
 					   sticky:NSMixedState
-			displayPluginName:nil];
+			displayPluginName:nil
+						sound:nil];
 }
 
 - (GrowlNotificationTicket *) initWithName:(NSString *)inName
@@ -83,6 +69,7 @@
 								   enabled:(BOOL)inEnabled
 									sticky:(int)inSticky
 						 displayPluginName:(NSString *)display
+									 sound:(NSString *)inSound
 {
 	if ((self = [super init])) {
 		name					= [inName retain];
@@ -92,6 +79,7 @@
 		enabled					= inEnabled;
 		sticky					= inSticky;
 		displayPluginName		= [display copy];
+		sound					= [inSound retain];
 	}
 	return self;
 }
@@ -125,6 +113,8 @@
 		setObjectForKey(dict, @"NotificationDescription", notificationDescription);
 	if (humanReadableName)
 		setObjectForKey(dict, @"HumanReadableName", humanReadableName);
+	if (sound)
+		setObjectForKey(dict, @"Sound", sound);
 
 	return dict;
 }
@@ -225,6 +215,17 @@
 
 - (NSComparisonResult) humanReadableNameCompare:(GrowlNotificationTicket *)inTicket {
 	return [[self humanReadableName] caseInsensitiveCompare:[inTicket humanReadableName]];
+}
+
+- (NSString *) sound {
+	return sound;
+}
+- (void) setSound:(NSString *)value {
+	if (value != sound) {
+		[sound release];
+		sound = [value retain];
+		[ticket synchronize];
+	}
 }
 
 @end

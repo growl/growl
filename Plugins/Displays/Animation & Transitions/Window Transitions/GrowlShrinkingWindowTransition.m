@@ -20,17 +20,15 @@
 	if (aWindow) {
 		switch (direction) {
 			case GrowlForwardTransition:
-#warning 1.0f * inProgress? WTF?
 				if (scaleFactor < 1.0f)
-					scaleFactor += (1.0f * inProgress);
+					scaleFactor += inProgress;
 				if (scaleFactor > 1.0f)
 					scaleFactor = 1.0f;
 				[aWindow setScaleX:scaleFactor Y:scaleFactor];
 				break;
 			case GrowlReverseTransition:
-#warning 1.0f * inProgress? WTF?
 				if (scaleFactor > 0.0f)
-					scaleFactor -= (1.0f * inProgress);
+					scaleFactor -= inProgress;
 				if (scaleFactor < 0.0f)
 					scaleFactor = 0.0f;
 				[aWindow setScaleX:scaleFactor Y:scaleFactor];

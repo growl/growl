@@ -429,6 +429,16 @@
 	return preferencesController;
 }
 
+- (NSArray *) sounds {
+	NSArray *systemSounds = [[NSFileManager defaultManager] directoryContentsAtPath:@"/System/Library/Sounds"];
+	NSMutableArray *soundNames = [[NSMutableArray alloc] initWithCapacity:[systemSounds count]];
+	NSEnumerator *e = [systemSounds objectEnumerator];
+	NSString *filename;
+	while ((filename = [e nextObject]))
+		[soundNames addObject:[filename stringByDeletingPathExtension]];
+	return [soundNames autorelease];
+}
+
 #pragma mark Growl running state
 
 /*!
