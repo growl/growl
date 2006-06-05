@@ -15,8 +15,7 @@
 #import "GrowlTicketController.h"
 #import "GrowlNotificationTicket.h"
 #import "GrowlPathway.h"
-//including this borks the prefpane.
-//#import "GrowlPathwayController.h"
+#import "GrowlPathwayController.h"
 #import "NSStringAdditions.h"
 #import "GrowlDisplayPlugin.h"
 #import "GrowlPluginController.h"
@@ -279,7 +278,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[versionCheckURL release];
 
 	GrowlIdleStatusController_dealloc();
-	
+
 	CFRunLoopTimerInvalidate(updateTimer);
 	CFRelease(updateTimer);
 
@@ -493,6 +492,10 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		GrowlApplicationNotification *appNotification = [[GrowlApplicationNotification alloc] initWithDictionary:aDict];
 		[display displayNotification:appNotification];
 		[appNotification release];
+
+		NSString *sound = [notification sound];
+		if (sound)
+			[[NSSound soundNamed:sound] play];
 	}
 
 	// send to DO observers
@@ -954,8 +957,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 #pragma mark Click feedback from displays
 
-/*click feedback comes here first. GAB picks up the DN and calls our 
- *	-growlNotificationWasClicked:/-growlNotificationTimedOut: with it if it's a 
+/*click feedback comes here first. GAB picks up the DN and calls our
+ *	-growlNotificationWasClicked:/-growlNotificationTimedOut: with it if it's a
  *	GHA notification.
  */
 
