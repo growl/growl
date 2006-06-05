@@ -476,17 +476,17 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 	CFDataRef		imageData = iSyncIcon();
 
 	BOOL		haveBatteryTime = (batteryTime != -1);
-	BOOL		haveBatterPercentage = (batteryPercentage != -1);
+	BOOL		haveBatteryPercentage = (batteryPercentage != -1);
 
 	if (powerSource == HGACPower) {
 		title = NSLocalizedString(@"On A/C power", nil);
 
 		if (isCharging == kCFBooleanTrue) {
 			[description appendString:NSLocalizedString(@"Battery charging...", nil)];
-			if (haveBatteryTime || haveBatterPercentage) [description appendString:@"\n"];
+			if (haveBatteryTime || haveBatteryPercentage) [description appendString:@"\n"];
 			if (haveBatteryTime) [description appendFormat:NSLocalizedString(@"Time to charge: %i", nil), batteryTime];
-			if (haveBatteryTime && haveBatterPercentage) [description appendString:@"\n"];
-			if (haveBatterPercentage) [description appendFormat:NSLocalizedString(@"Current charge: %d%%", nil), batteryPercentage];
+			if (haveBatteryTime && haveBatteryPercentage) [description appendString:@"\n"];
+			if (haveBatteryPercentage) [description appendFormat:NSLocalizedString(@"Current charge: %d%%", nil), batteryPercentage];
 		}
 
 		notificationName = (NSString *)NotifierPowerOnACNotification;
@@ -495,8 +495,8 @@ void AppController_powerSwitched(HGPowerSource powerSource, CFBooleanRef isCharg
 		title = NSLocalizedString(@"On battery power", nil);
 
 		if (haveBatteryTime) [description appendFormat:NSLocalizedString(@"Time remaining: %i minutes", nil), batteryTime];
-		if (haveBatteryTime && haveBatterPercentage) [description appendString:@"\n"];
-		if (haveBatterPercentage) [description appendFormat:NSLocalizedString(@"Current charge: %d%%", nil), batteryPercentage];
+		if (haveBatteryTime && haveBatteryPercentage) [description appendString:@"\n"];
+		if (haveBatteryPercentage) [description appendFormat:NSLocalizedString(@"Current charge: %d%%", nil), batteryPercentage];
 
 		notificationName = (NSString *)NotifierPowerOnBatteryNotification;
 
