@@ -167,8 +167,8 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
     GetEventParameter(inEvent, kEventParamDirectObject, typeControlRef, NULL, sizeof(ControlRef), NULL, &control);
     wind=GetControlOwner(control);
     GetControlID(control,&controlID);
-	char *string = (char *)&controlID.signature;
-	CFLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
+	//char *string = (char *)&controlID.signature;
+	//CFLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
     switch (controlID.id){
         case kTrackSettingID:
                 gTrackFlag = GetControlValue(control);
@@ -331,13 +331,14 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 	static CFMutableStringRef title = NULL;
 	static CFMutableStringRef desc = NULL;
 	static CFDataRef coverArtDataRef = NULL;
-	char *string;
 	visualPluginData = (VisualPluginData *)refCon;
 
+	/*
 	if (message != 'vrnd') {
-		string = (char *)&message;
+		char *string = (char *)&message;
 		CFLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
 	}
+	*/
 
 	err = noErr;
 
@@ -432,10 +433,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 
 				CFBundleRef GrowlTunesPlugin;
 
-				GrowlTunesPlugin=CFBundleGetBundleWithIdentifier(CFSTR("com.growl.growltunes"));
-				if (!GrowlTunesPlugin) {
-					CFLog(1, CFSTR("bad bundle reference"));
-				} else {
+				GrowlTunesPlugin = CFBundleGetBundleWithIdentifier(CFSTR("com.growl.growltunes"));
+				if (GrowlTunesPlugin) {
 					CreateNibReferenceWithCFBundle(GrowlTunesPlugin, CFSTR("SettingsDialog"), &nibRef);
 
 					CreateWindowFromNib(nibRef, CFSTR("PluginSettings"), &settingsDialog);
@@ -448,6 +447,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 					GetControlByID(settingsDialog, &kAlbumSettingControlID, &albumpref);
 					GetControlByID(settingsDialog, &kYearSettingControlID, &yearpref);
 					GetControlByID(settingsDialog, &kGenreSettingControlID, &genrepref);
+				} else {
+					CFLog(1, CFSTR("bad bundle reference"));
 				}
 			}
 			SetControlValue(trackpref, gTrackFlag);
@@ -520,8 +521,10 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				coverArtDataRef = CFDataCreate(kCFAllocatorDefault, (const UInt8 *)*coverArt, GetHandleSize(coverArt));
 			} else {
 				coverArtDataRef = NULL;
-				string = (char *)&format;
+				/*
+				char *string = (char *)&format;
 				CFLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
+				*/
 			}
 
 			notification.iconData = coverArtDataRef;
@@ -604,16 +607,13 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void *refCon)
 {
 	#pragma unused(inHandlerRef, inEvent, refCon)
-	CFLog(1, CFSTR("hot key"));
+	//CFLog(1, CFSTR("hot key"));
 	if (GetEventKind(inEvent) == kEventHotKeyReleased) {
-		CFLog(1, CFSTR("%p\n"), refCon);
-		if (!refCon) {
+		//CFLog(1, CFSTR("%p\n"), refCon);
+		if (refCon)
+			GrowlTunes_PostNotification((struct Growl_Notification *)refCon);
+		else
 			CFLog(1, CFSTR("no notification to display"));
-		} else {
-			struct Growl_Notification *notification = (struct Growl_Notification *)refCon;
-			//CFLog(1, CFSTR("%d %d\n"), CFGetRetainCount(notification->name), CFGetRetainCount(notification->title));
-			GrowlTunes_PostNotification(notification);
-		}
 	}
 	return noErr;
 }
@@ -623,7 +623,7 @@ static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef in
 */
 static OSStatus RegisterVisualPlugin(PluginMessageInfo *messageInfo)
 {
-	CFLog(1, CFSTR("%s"), __FUNCTION__);
+	//CFLog(1, CFSTR("%s"), __FUNCTION__);
 
 	PlayerMessageInfo playerMessageInfo;
 
@@ -649,7 +649,7 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 {
 #pragma unused(refCon)
 	OSStatus		err = noErr;
-	CFLog(1, CFSTR("%s"), __FUNCTION__);
+	//CFLog(1, CFSTR("%s"), __FUNCTION__);
 	switch (message) {
 		case kPluginInitMessage:
 			err = RegisterVisualPlugin(messageInfo);

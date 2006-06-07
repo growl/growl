@@ -13,9 +13,6 @@
 			buildPhases = (
 				933548E5093A9F0A007C8B10 /* ShellScript */,
 			);
-			buildSettings = {
-				PRODUCT_NAME = "External Frameworks";
-			};
 			dependencies = (
 				933548E4093A9F04007C8B10 /* PBXTargetDependency */,
 			);
@@ -34,33 +31,6 @@
 		93353EA4093A133E007C8B10 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01285BF100CC2F967F000001 /* Carbon.framework */; };
 		E1A35FFC0942D12100B79E46 /* SettingsDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = E1A35FFB0942D12000B79E46 /* SettingsDialog.nib */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildStyle section */
-		014CEA3F0018CDD111CA2923 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GENERATE_PKGINFO_FILE = YES;
-				OPTIMIZATION_CFLAGS = "-O0";
-				ZERO_LINK = YES;
-			};
-			name = Development;
-		};
-		014CEA400018CDD111CA2923 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GENERATE_PKGINFO_FILE = YES;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
 		9335488D093A9D0D007C8B10 /* PBXContainerItemProxy */ = {
@@ -319,25 +289,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				DEBUGGING_SYMBOLS = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS = "";
-				OPTIMIZATION_CFLAGS = "-O3";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "iTunesX Visualizer";
-				REZ_EXECUTABLE = YES;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = bundle;
-			};
 			dependencies = (
 				933548EC093A9F22007C8B10 /* PBXTargetDependency */,
 			);
@@ -353,12 +304,6 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 93353E4C093A1103007C8B10 /* Build configuration list for PBXProject "GrowlTunes" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				014CEA3F0018CDD111CA2923 /* Development */,
-				014CEA400018CDD111CA2923 /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* iTunesXPlugIn */;
 			projectDirPath = "";
@@ -593,6 +538,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS)",
 					"$(SRCROOT)/build/$(BUILD_STYLE)",
@@ -600,7 +546,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
