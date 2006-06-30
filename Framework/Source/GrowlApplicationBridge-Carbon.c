@@ -636,15 +636,15 @@ Boolean Growl_IsRunning(void) {
 	Boolean growlIsRunning = false;
 	ProcessSerialNumber PSN = { 0, kNoProcess };
 
-	while (GetNextProcess(&PSN) == noErr) {
+	while (!growlIsRunning && (GetNextProcess(&PSN) == noErr)) {
 		CFDictionaryRef infoDict = ProcessInformationCopyDictionary(&PSN, kProcessDictionaryIncludeAllInformationMask);
-
-		if (CFEqual(CFDictionaryGetValue(infoDict, kCFBundleIdentifierKey), CFSTR("com.Growl.GrowlHelperApp"))) {
-			growlIsRunning = true;
+		if (infoDict != NULL) {
+			CFTypeRef identifier = CFDictionaryGetValue(infoDict, kCFBundleIdentifierKey);
+			if ((identifier != NULL) && CFEqual(identifier, CFSTR("com.Growl.GrowlHelperApp"))) {
+				growlIsRunning = true;
+			}
 			CFRelease(infoDict);
-			break;
 		}
-		CFRelease(infoDict);
 	}
 
 	return growlIsRunning;
