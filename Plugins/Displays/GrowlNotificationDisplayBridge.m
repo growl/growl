@@ -13,7 +13,7 @@
 
 #import "GrowlDisplayWindowController.h"
 
-//used to silence a warning when forwarding one of these messages to the display or notification.
+//Used to silence a warning when forwarding one of these messages to the display or notification.
 @protocol WindowControllerListener <NSObject>
 
 - (void) windowControllerWillLoadNib:(GrowlDisplayWindowController *)windowController;
