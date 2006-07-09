@@ -40,11 +40,13 @@
 	NSRect screen = [[self screen] frame];
 	READ_GROWL_PREF_INT(Nano_SIZE_PREF, GrowlNanoPrefDomain, &sizePref);
 	sizeRect.origin = screen.origin;
-	sizeRect.size.width = 250;
-	if (sizePref == Nano_SIZE_HUGE)
-		sizeRect.size.height = 50.0f;
-	else
+	if (sizePref == Nano_SIZE_HUGE) {
+		sizeRect.size.height = 50.0f;	
+		sizeRect.size.width = 270.0f;
+	} else {
 		sizeRect.size.height = 25.0f;
+		sizeRect.size.width = 185.0f;
+	}
 	frameHeight = sizeRect.size.height;
 
 	READ_GROWL_PREF_INT(Nano_SIZE_PREF, GrowlNanoPrefDomain, &sizePref);
@@ -146,6 +148,10 @@
 
 - (unsigned) depth {
 	return depth;
+}
+
+- (void) setDisplayMode:(BOOL)mode {
+
 }
 
 #pragma mark -

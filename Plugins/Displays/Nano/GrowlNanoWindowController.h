@@ -21,5 +21,5 @@
 }
 
 - (NSString *) identifier;
-
+- (void) setDisplayMode:(BOOL)mode;
 @end

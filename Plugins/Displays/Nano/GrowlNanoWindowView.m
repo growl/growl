@@ -82,22 +82,24 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 			textRect.origin.y = NSHeight(bounds) - 41.0f;
 			textRect.size.height = 15.0f;
 			
-			iconRect.origin.x = 200.0f;
+			iconRect.origin.x = 230.0f;
 			iconRect.origin.y = NSHeight(bounds) - 40.0f;
 			iconRect.size.width = 32.0f;
 			iconRect.size.height = 32.0f;
-		} /*else {
-			titleRect.origin.x = 96.0f;
-			titleRect.origin.y = NSHeight(bounds) - 36.0f;
-			titleRect.size.width = NSWidth(bounds) - 96.0f - 16.0f;
-			titleRect.size.height = 25.0f;
-			textRect.origin.y = NSHeight(bounds) - 88.0f,
-				textRect.size.height = 48.0f;
-			//iconRect.origin.x = 8.0f;
-			//iconRect.origin.y = NSHeight(bounds) - 88.0f;
-			//iconRect.size.width = 80.0f;
-			//iconRect.size.height = 80.0f;
-		}*/
+		} else {
+			titleRect.origin.x = 10.0f;
+			titleRect.origin.y = NSHeight(bounds) - 14.0f;
+			titleRect.size.width = NSWidth(bounds) - 16.0f;
+			titleRect.size.height = 12.0f;
+			
+			textRect.origin.y = NSHeight(bounds) - 22.0f;
+			textRect.size.height = 10.0f;
+			
+			iconRect.origin.x = 160.0f;
+			iconRect.origin.y = NSHeight(bounds) - 20.0f;
+			iconRect.size.width = 16.0f;
+			iconRect.size.height = 16.0f;
+		}
 		textRect.origin.x = titleRect.origin.x;
 		textRect.size.width = titleRect.size.width;
 
@@ -253,8 +255,8 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 		titleFontSize = 14.0f;
 		textFontSize = 12.0f;
 	} else {
-		titleFontSize = 12.0f;
-		textFontSize = 10.0f;
+		titleFontSize = 10.0f;
+		textFontSize = 8.0f;
 	}
 
 	NSShadow *textShadow = [[NSShadow alloc] init];
