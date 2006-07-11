@@ -517,7 +517,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			if (coverArtDataRef)
 				CFRelease(coverArtDataRef);
 			if ((err == noErr) && coverArt) {
-				//get our data ready for the notificiation.
+				//get our data ready for the notification.
 				coverArtDataRef = CFDataCreate(kCFAllocatorDefault, (const UInt8 *)*coverArt, GetHandleSize(coverArt));
 			} else {
 				coverArtDataRef = NULL;
