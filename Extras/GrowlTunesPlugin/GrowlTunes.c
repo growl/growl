@@ -606,7 +606,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 
 static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void *refCon)
 {
-	#pragma unused(inHandlerRef, inEvent, refCon)
+#pragma unused(inHandlerRef)
 	//CFLog(1, CFSTR("hot key"));
 	if (GetEventKind(inEvent) == kEventHotKeyReleased) {
 		//CFLog(1, CFSTR("%p\n"), refCon);
