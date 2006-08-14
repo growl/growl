@@ -8,12 +8,15 @@
 // This file is under the BSD License, refer to License.txt for details
 
 #include <Carbon/Carbon.h>
-#include <c.h>
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
 #include "CFGrowlAdditions.h"
+
+#ifndef MIN
+# define MIN(a,b) ((a) < (b) ? (a) : (b))
+#endif
 
 extern Boolean CFStringGetFileSystemRepresentation() __attribute__((weak_import));
 
