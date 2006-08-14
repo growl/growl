@@ -46,10 +46,19 @@ static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel) {
 	// If both are found, swizzle them
 	if (orig_method && alt_method) {
 		IMP temp;
-
-		temp = orig_method->method_imp;
-		orig_method->method_imp = alt_method->method_imp;
-		alt_method->method_imp = temp;
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
+		if (class_getMethodImplementation) {
+			temp = method_getImplementation(orig_method);
+			method_setImplementation(orig_method, method_getImplementation(alt_method));
+			method_setImplementation(alt_method, temp);
+		} else {
+#endif
+			temp = orig_method->method_imp;
+			orig_method->method_imp = alt_method->method_imp;
+			alt_method->method_imp = temp;
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_4
+		}
+#endif
 
 		return YES;
 	}

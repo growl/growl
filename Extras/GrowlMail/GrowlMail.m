@@ -139,7 +139,7 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 	if ([clickContext length]) {
 		Message *message = [Library messageWithMessageID:clickContext];
 		MessageViewingState *viewingState = [[MessageViewingState alloc] init];
-		SingleMessageViewer *messageViewer = [[SingleMessageViewer alloc] initForViewingMessage:message showAllHeaders:NO viewingState:viewingState];
+		SingleMessageViewer *messageViewer = [[SingleMessageViewer alloc] initForViewingMessage:message showAllHeaders:NO viewingState:viewingState fromDefaults:NO];
 		[viewingState release];
 		[messageViewer showAndMakeKey:YES];
 		[messageViewer release];
