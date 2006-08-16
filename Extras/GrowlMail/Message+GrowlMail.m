@@ -76,7 +76,8 @@
 	NSString *senderAddress = [sender uncommentedAddress];
 	NSString *subject = [self subject];
 	NSString *body;
-	MessageBody *messageBody = [self messageBodyIfAvailable];
+	MessageBody *messageBody = [self messageBody];
+
 	if (messageBody) {
 		NSString *originalBody;
 		/* The stringForIndexing selector is not available in Mail.app 2.0. */
