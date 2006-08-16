@@ -48,7 +48,7 @@ static void powerSourceChanged(void *context)
 		if (CFDictionaryGetValue(description, CFSTR(kIOPSIsPresentKey)) == kCFBooleanFalse)
 			continue;
 
-		//We only know how to handle internal (batter, a/c power) transport types. The other values indicate UPS usage.
+		//We only know how to handle internal (battery, a/c power) transport types. The other values indicate UPS usage.
 		if (stringsAreEqual(CFDictionaryGetValue(description, CFSTR(kIOPSTransportTypeKey)),
 							CFSTR(kIOPSInternalType))) {
 			CFStringRef currentState = CFDictionaryGetValue(description, CFSTR(kIOPSPowerSourceStateKey));

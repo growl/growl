@@ -10,6 +10,7 @@ static IOBluetoothUserNotificationRef	connectionNotification;
 static Boolean							initializing;
 
 static void bluetoothDisconnection(void *userRefCon, IOBluetoothUserNotificationRef inRef, IOBluetoothObjectRef objectRef) {
+#pragma unused(userRefCon)
 	// NSLog(@"BT Device Disconnection: %@" , [device name]);
 	AppController_bluetoothDidDisconnect(IOBluetoothDeviceGetName(objectRef));
 
@@ -17,7 +18,7 @@ static void bluetoothDisconnection(void *userRefCon, IOBluetoothUserNotification
 }
 
 static void bluetoothConnection(void *userRefCon, IOBluetoothUserNotificationRef inRef, IOBluetoothObjectRef objectRef) {
-#pragma unused(userRefCon,status)
+#pragma unused(userRefCon,status,inRef)
 	// NSLog(@"BT Device connection: %@" , [device name]);
 	Boolean keyExistsAndHasValidFormat;
 	if (!initializing || CFPreferencesGetAppBooleanValue(CFSTR("ShowExisting"), CFSTR("com.growl.hardwaregrowler"), &keyExistsAndHasValidFormat))

@@ -626,6 +626,7 @@ static void powerCallback(void *refcon, io_service_t service, natural_t messageT
 }
 
 - (IBAction) doSimpleHelp:(id)sender {
+#pragma unused(sender)
 	[[NSWorkspace sharedWorkspace] openFile:[[NSBundle mainBundle] pathForResource:@"readme" ofType:@"txt"]];
 }
 

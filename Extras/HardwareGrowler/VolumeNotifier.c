@@ -16,7 +16,7 @@ static DASessionRef appearSession;
 static DASessionRef disappearSession;
 
 static void diskMounted(DADiskRef disk, void *userInfo) {
-#pragma(userInfo)
+#pragma unused(userInfo)
 	CFDictionaryRef description = DADiskCopyDescription(disk);
 	CFStringRef name = CFDictionaryGetValue(description, kDADiskDescriptionVolumeNameKey);
 	CFURLRef pathURL = CFDictionaryGetValue(description, kDADiskDescriptionVolumePathKey);
@@ -30,7 +30,7 @@ static void diskMounted(DADiskRef disk, void *userInfo) {
 }
 
 static void diskUnMounted(DADiskRef disk, void *userInfo) {
-#pragma(userInfo)
+#pragma unused(userInfo)
 	CFDictionaryRef description = DADiskCopyDescription(disk);
 	CFStringRef name = CFDictionaryGetValue(description, kDADiskDescriptionVolumeNameKey);
 	AppController_volumeDidUnmount(name);
