@@ -1,40 +1,41 @@
 //
-//  GrowlBubblesWindowController.m
+//  GrowliCalWindowController.m
 //  Growl
 //
 //  Created by Nelson Elhage on Wed Jun 09 2004.
 //  Name changed from KABubbleWindowController.m by Justin Burns on Fri Nov 05 2004.
+//	Adapted for iCal by Takumi Murayama on Thu Aug 17 2006.
 //  Copyright (c) 2004-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlBubblesWindowController.h"
-#import "GrowlBubblesWindowView.h"
-#import "GrowlBubblesPrefsController.h"
-#import "GrowlBubblesDefines.h"
+#import "GrowliCalWindowController.h"
+#import "GrowliCalWindowView.h"
+#import "GrowliCalPrefsController.h"
+#import "GrowliCalDefines.h"
 #import "GrowlApplicationNotification.h"
 #import "NSWindow+Transforms.h"
 #include "CFDictionaryAdditions.h"
 #import "GrowlWindowTransition.h"
 #import "GrowlFadingWindowTransition.h"
 
-@implementation GrowlBubblesWindowController
+@implementation GrowliCalWindowController
 
 #define MIN_DISPLAY_TIME				4.0
 #define ADDITIONAL_LINES_DISPLAY_TIME	0.5
 #define MAX_DISPLAY_TIME				10.0
-#define GrowlBubblesPadding				5.0f
+#define GrowliCalPadding				5.0f
 
 #pragma mark -
 
 - (id) init {
 	screenNumber = 0U;
-	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &screenNumber);
+	READ_GROWL_PREF_INT(GrowliCalScreen, GrowliCalPrefDomain, &screenNumber);
 	[self setScreen:[[NSScreen screens] objectAtIndex:screenNumber]];
 
-	displayDuration = GrowlBubblesDurationPrefDefault;
+	displayDuration = GrowliCalDurationPrefDefault;
 	CFNumberRef prefsDuration = NULL;
 	CFTimeInterval value = -1.0f;
-	READ_GROWL_PREF_VALUE(GrowlBubblesDuration, GrowlBubblesPrefDomain, CFNumberRef, &prefsDuration);
+	READ_GROWL_PREF_VALUE(GrowliCalDuration, GrowliCalPrefDomain, CFNumberRef, &prefsDuration);
 	if (prefsDuration) {
 		CFNumberGetValue(prefsDuration, kCFNumberDoubleType, &value);
 		//NSLog(@"%lf\n", value);
@@ -64,7 +65,7 @@
 	[panel setMovableByWindowBackground:NO];
 
 	// Create the content view...
-	GrowlBubblesWindowView *view = [[GrowlBubblesWindowView alloc] initWithFrame:panelFrame];
+	GrowliCalWindowView *view = [[GrowliCalWindowView alloc] initWithFrame:panelFrame];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
 	[view setDelegate:self];
@@ -121,7 +122,7 @@
 	}
 
 	NSPanel *panel = (NSPanel *)[self window];
-	GrowlBubblesWindowView *view = [[self window] contentView];
+	GrowliCalWindowView *view = [[self window] contentView];
 	[view setPriority:priority];
 	[view setTitle:title isHTML:titleHTML];
 	[view setText:text isHTML:textHTML];
@@ -135,8 +136,8 @@
 
 - (NSPoint) idealOriginInRect:(NSRect)rect {
 	NSRect viewFrame = [[[self window] contentView] frame];
-	return NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowlBubblesPadding,
-					   NSMaxY(rect) - GrowlBubblesPadding - NSHeight(viewFrame));
+	return NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowliCalPadding,
+					   NSMaxY(rect) - GrowliCalPadding - NSHeight(viewFrame));
 }
 
 - (enum GrowlExpansionDirection) primaryExpansionDirection {
@@ -148,7 +149,7 @@
 }
 
 - (float) requiredDistanceFromExistingDisplays {
-	return GrowlBubblesPadding;
+	return GrowliCalPadding;
 }
 
 @end

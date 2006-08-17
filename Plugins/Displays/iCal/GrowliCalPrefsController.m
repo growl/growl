@@ -1,24 +1,25 @@
 //
-//  GrowlBubblesPrefsController.m
+//  GrowliCalPrefsController.m
 //  Growl
 //
 //  Created by Kevin Ballard on 9/7/04.
+//	Adapted for iCal by Takumi Murayama on Thu Aug 17 2006.
 //  Copyright 2004 TildeSoft. All rights reserved.
 //
 
-#import "GrowlBubblesPrefsController.h"
-#import "GrowlBubblesDefines.h"
+#import "GrowliCalPrefsController.h"
+#import "GrowliCalDefines.h"
 #import "GrowlDefinesInternal.h"
 
-@implementation GrowlBubblesPrefsController
+@implementation GrowliCalPrefsController
 - (NSString *) mainNibName {
-	return @"BubblesPrefs";
+	return @"iCalPrefs";
 }
 
 + (void) loadColorWell:(NSColorWell *)colorWell fromKey:(NSString *)key defaultColor:(NSColor *)defaultColor {
 	NSData *data = nil;
 	NSColor *color;
-	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSData *, &data);
+	READ_GROWL_PREF_VALUE(key, GrowliCalPrefDomain, NSData *, &data);
 	if (data && [data isKindOfClass:[NSData class]]) {
 		color = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
@@ -34,39 +35,39 @@
 	// priority colour settings
 	NSColor *defaultColor = [NSColor colorWithCalibratedRed:0.69412f green:0.83147f blue:0.96078f alpha:1.0f];
 
-	[GrowlBubblesPrefsController loadColorWell:color_veryLow fromKey:GrowlBubblesVeryLowColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:color_moderate fromKey:GrowlBubblesModerateColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:color_normal fromKey:GrowlBubblesNormalColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:color_high fromKey:GrowlBubblesHighColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:color_emergency fromKey:GrowlBubblesEmergencyColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:color_veryLow fromKey:GrowliCalVeryLowColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:color_moderate fromKey:GrowliCalModerateColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:color_normal fromKey:GrowliCalNormalColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:color_high fromKey:GrowliCalHighColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:color_emergency fromKey:GrowliCalEmergencyColor defaultColor:defaultColor];
 
 	defaultColor = [[NSColor controlTextColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 
-	[GrowlBubblesPrefsController loadColorWell:text_veryLow fromKey:GrowlBubblesVeryLowTextColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:text_moderate fromKey:GrowlBubblesModerateTextColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:text_normal fromKey:GrowlBubblesNormalTextColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:text_high fromKey:GrowlBubblesHighTextColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:text_emergency fromKey:GrowlBubblesEmergencyTextColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:text_veryLow fromKey:GrowliCalVeryLowTextColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:text_moderate fromKey:GrowliCalModerateTextColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:text_normal fromKey:GrowliCalNormalTextColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:text_high fromKey:GrowliCalHighTextColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:text_emergency fromKey:GrowliCalEmergencyTextColor defaultColor:defaultColor];
 
 	defaultColor = [NSColor colorWithCalibratedRed:0.93725f green:0.96863f blue:0.99216f alpha:0.95f];
 
-	[GrowlBubblesPrefsController loadColorWell:top_veryLow fromKey:GrowlBubblesVeryLowTopColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:top_moderate fromKey:GrowlBubblesModerateTopColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:top_normal fromKey:GrowlBubblesNormalTopColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:top_high fromKey:GrowlBubblesHighTopColor defaultColor:defaultColor];
-	[GrowlBubblesPrefsController loadColorWell:top_emergency fromKey:GrowlBubblesEmergencyTopColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:top_veryLow fromKey:GrowliCalVeryLowTopColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:top_moderate fromKey:GrowliCalModerateTopColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:top_normal fromKey:GrowliCalNormalTopColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:top_high fromKey:GrowliCalHighTopColor defaultColor:defaultColor];
+	[GrowliCalPrefsController loadColorWell:top_emergency fromKey:GrowliCalEmergencyTopColor defaultColor:defaultColor];
 }
 
 #pragma mark -
 
 - (BOOL) isLimit {
 	BOOL value = YES;
-	READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &value);
+	READ_GROWL_PREF_BOOL(GrowliCalLimitPref, GrowliCalPrefDomain, &value);
 	return value;
 }
 
 - (void) setLimit:(BOOL)value {
-	WRITE_GROWL_PREF_BOOL(GrowlBubblesLimitPref, value, GrowlBubblesPrefDomain);
+	WRITE_GROWL_PREF_BOOL(GrowliCalLimitPref, value, GrowliCalPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -74,12 +75,12 @@
 
 - (float) opacity {
 	float value = 95.0f;
-	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &value);
+	READ_GROWL_PREF_FLOAT(GrowliCalOpacity, GrowliCalPrefDomain, &value);
 	return value;
 }
 
 - (void) setOpacity:(float)value {
-	WRITE_GROWL_PREF_FLOAT(GrowlBubblesOpacity, value, GrowlBubblesPrefDomain);
+	WRITE_GROWL_PREF_FLOAT(GrowliCalOpacity, value, GrowliCalPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -87,12 +88,12 @@
 
 - (float) duration {
 	float value = 4.0f;
-	READ_GROWL_PREF_FLOAT(GrowlBubblesDuration, GrowlBubblesPrefDomain, &value);
+	READ_GROWL_PREF_FLOAT(GrowliCalDuration, GrowliCalPrefDomain, &value);
 	return value;
 }
 
 - (void) setDuration:(float)value {
-	WRITE_GROWL_PREF_FLOAT(GrowlBubblesDuration, value, GrowlBubblesPrefDomain);
+	WRITE_GROWL_PREF_FLOAT(GrowliCalDuration, value, GrowliCalPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -103,26 +104,26 @@
 	NSString *key;
 	switch ([sender tag]) {
 		case -2:
-			key = GrowlBubblesVeryLowTopColor;
+			key = GrowliCalVeryLowTopColor;
 			break;
 		case -1:
-			key = GrowlBubblesModerateTopColor;
+			key = GrowliCalModerateTopColor;
 			break;
 		case 1:
-			key = GrowlBubblesHighTopColor;
+			key = GrowliCalHighTopColor;
 			break;
 		case 2:
-			key = GrowlBubblesEmergencyTopColor;
+			key = GrowliCalEmergencyTopColor;
 			break;
 		case 0:
 		default:
-			key = GrowlBubblesNormalTopColor;
+			key = GrowliCalNormalTopColor;
 			break;
 	}
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 	NSData *theData = [NSArchiver archivedDataWithRootObject:color];
-	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
+	WRITE_GROWL_PREF_VALUE(key, theData, GrowliCalPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -131,26 +132,26 @@
 	NSString *key;
 	switch ([sender tag]) {
 		case -2:
-			key = GrowlBubblesVeryLowColor;
+			key = GrowliCalVeryLowColor;
 			break;
 		case -1:
-			key = GrowlBubblesModerateColor;
+			key = GrowliCalModerateColor;
 			break;
 		case 1:
-			key = GrowlBubblesHighColor;
+			key = GrowliCalHighColor;
 			break;
 		case 2:
-			key = GrowlBubblesEmergencyColor;
+			key = GrowliCalEmergencyColor;
 			break;
 		case 0:
 		default:
-			key = GrowlBubblesNormalColor;
+			key = GrowliCalNormalColor;
 			break;
 	}
 
 	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 	NSData *theData = [NSArchiver archivedDataWithRootObject:color];
-	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
+	WRITE_GROWL_PREF_VALUE(key, theData, GrowliCalPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -158,25 +159,25 @@
 	NSString *key;
 	switch ([sender tag]) {
 		case -2:
-			key = GrowlBubblesVeryLowTextColor;
+			key = GrowliCalVeryLowTextColor;
 			break;
 		case -1:
-			key = GrowlBubblesModerateTextColor;
+			key = GrowliCalModerateTextColor;
 			break;
 		case 1:
-			key = GrowlBubblesHighTextColor;
+			key = GrowliCalHighTextColor;
 			break;
 		case 2:
-			key = GrowlBubblesEmergencyTextColor;
+			key = GrowliCalEmergencyTextColor;
 			break;
 		case 0:
 		default:
-			key = GrowlBubblesNormalTextColor;
+			key = GrowliCalNormalTextColor;
 			break;
 	}
 
 	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
-	WRITE_GROWL_PREF_VALUE(key, theData, GrowlBubblesPrefDomain);
+	WRITE_GROWL_PREF_VALUE(key, theData, GrowliCalPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
@@ -194,23 +195,23 @@
 
 - (int) screen {
 	int value = 0;
-	READ_GROWL_PREF_INT(GrowlBubblesScreen, GrowlBubblesPrefDomain, &value);
+	READ_GROWL_PREF_INT(GrowliCalScreen, GrowliCalPrefDomain, &value);
 	return value;
 }
 
 - (void) setScreen:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlBubblesScreen, value, GrowlBubblesPrefDomain);
+	WRITE_GROWL_PREF_INT(GrowliCalScreen, value, GrowliCalPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 
 - (int) size {
 	int value = 0;
-	READ_GROWL_PREF_INT(GrowlBubblesSizePref, GrowlBubblesPrefDomain, &value);
+	READ_GROWL_PREF_INT(GrowliCalSizePref, GrowliCalPrefDomain, &value);
 	return value;
 }
 
 - (void) setSize:(int)value {
-	WRITE_GROWL_PREF_INT(GrowlBubblesSizePref, value, GrowlBubblesPrefDomain);
+	WRITE_GROWL_PREF_INT(GrowliCalSizePref, value, GrowliCalPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 @end

@@ -1,16 +1,17 @@
 //
-//  GrowlBubblesWindowView.h
+//  GrowliCalWindowView.h
 //  Growl
 //
 //  Created by Nelson Elhage on Wed Jun 09 2004.
 //  Name changed from KABubbleWindowView.h by Justin Burns on Fri Nov 05 2004.
+//	Adapted for iCal by Takumi Murayama on Thu Aug 17 2006.
 //  Copyright (c) 2004-2006 The Growl Project. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "GrowlNotificationView.h"
 
-@interface GrowlBubblesWindowView : GrowlNotificationView {
+@interface GrowliCalWindowView : GrowlNotificationView {
 	BOOL				haveText;
 	BOOL				haveTitle;
 	NSFont				*titleFont;

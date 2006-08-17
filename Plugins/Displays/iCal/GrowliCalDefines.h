@@ -1,33 +1,33 @@
-#define GrowlBubblesVeryLowColor		@"Bubbles-Priority-VeryLow-Color"
-#define GrowlBubblesModerateColor		@"Bubbles-Priority-Moderate-Color"
-#define GrowlBubblesNormalColor			@"Bubbles-Priority-Normal-Color"
-#define GrowlBubblesHighColor			@"Bubbles-Priority-High-Color"
-#define GrowlBubblesEmergencyColor		@"Bubbles-Priority-Emergency-Color"
+#define GrowliCalVeryLowColor		@"iCal-Priority-VeryLow-Color"
+#define GrowliCalModerateColor		@"iCal-Priority-Moderate-Color"
+#define GrowliCalNormalColor			@"iCal-Priority-Normal-Color"
+#define GrowliCalHighColor			@"iCal-Priority-High-Color"
+#define GrowliCalEmergencyColor		@"iCal-Priority-Emergency-Color"
 
-#define GrowlBubblesVeryLowTextColor	@"Bubbles-Priority-VeryLow-Text-Color"
-#define GrowlBubblesModerateTextColor	@"Bubbles-Priority-Moderate-Text-Color"
-#define GrowlBubblesNormalTextColor		@"Bubbles-Priority-Normal-Text-Color"
-#define GrowlBubblesHighTextColor		@"Bubbles-Priority-High-Text-Color"
-#define GrowlBubblesEmergencyTextColor	@"Bubbles-Priority-Emergency-Text-Color"
+#define GrowliCalVeryLowTextColor	@"iCal-Priority-VeryLow-Text-Color"
+#define GrowliCalModerateTextColor	@"iCal-Priority-Moderate-Text-Color"
+#define GrowliCalNormalTextColor		@"iCal-Priority-Normal-Text-Color"
+#define GrowliCalHighTextColor		@"iCal-Priority-High-Text-Color"
+#define GrowliCalEmergencyTextColor	@"iCal-Priority-Emergency-Text-Color"
 
-#define GrowlBubblesVeryLowTopColor		@"Bubbles-Priority-VeryLow-Top-Color"
-#define GrowlBubblesModerateTopColor	@"Bubbles-Priority-Moderate-Top-Color"
-#define GrowlBubblesNormalTopColor		@"Bubbles-Priority-Normal-Top-Color"
-#define GrowlBubblesHighTopColor		@"Bubbles-Priority-High-Top-Color"
-#define GrowlBubblesEmergencyTopColor	@"Bubbles-Priority-Emergency-Top-Color"
+#define GrowliCalVeryLowTopColor		@"iCal-Priority-VeryLow-Top-Color"
+#define GrowliCalModerateTopColor	@"iCal-Priority-Moderate-Top-Color"
+#define GrowliCalNormalTopColor		@"iCal-Priority-Normal-Top-Color"
+#define GrowliCalHighTopColor		@"iCal-Priority-High-Top-Color"
+#define GrowliCalEmergencyTopColor	@"iCal-Priority-Emergency-Top-Color"
 
-#define GrowlBubblesOpacity				@"Bubbles-Opacity"
-#define GrowlBubblesDuration			@"Bubbles-Duration"
+#define GrowliCalOpacity				@"iCal-Opacity"
+#define GrowliCalDuration			@"iCal-Duration"
 
-#define GrowlBubblesLimitPref			@"Bubbles - Limit"
-#define GrowlBubblesScreen				@"Bubbles-Screen"
-#define GrowlBubblesSizePref			@"Bubbles-Size"
+#define GrowliCalLimitPref			@"iCal - Limit"
+#define GrowliCalScreen				@"iCal-Screen"
+#define GrowliCalSizePref			@"iCal-Size"
 
-#define GrowlBubblesSizeNormal			0
-#define GrowlBubblesSizeLarge			1
-#define GrowlBubblesSizePrefDefault		GrowlBubblesSizeNormal
+#define GrowliCalSizeNormal			0
+#define GrowliCalSizeLarge			1
+#define GrowliCalSizePrefDefault		GrowliCalSizeNormal
 
-#define GrowlBubblesPrefDomain			@"com.growl.Bubbles"
+#define GrowliCalPrefDomain			@"com.growl.iCal"
 
 // the default value for the duration preference
-#define GrowlBubblesDurationPrefDefault		4.0f
+#define GrowliCalDurationPrefDefault		4.0f

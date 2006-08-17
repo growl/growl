@@ -32,6 +32,23 @@
 		E1A35FFC0942D12100B79E46 /* SettingsDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = E1A35FFB0942D12000B79E46 /* SettingsDialog.nib */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildStyle section */
+		E10358EB0A93FEAA00E61668 /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Development;
+		};
+		E10358EC0A93FEAA00E61668 /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
+
 /* Begin PBXContainerItemProxy section */
 		9335488D093A9D0D007C8B10 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -304,6 +321,12 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 93353E4C093A1103007C8B10 /* Build configuration list for PBXProject "GrowlTunes" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				E10358EB0A93FEAA00E61668 /* Development */,
+				E10358EC0A93FEAA00E61668 /* Deployment */,
+			);
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* iTunesXPlugIn */;
 			projectDirPath = "";

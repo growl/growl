@@ -1,22 +1,23 @@
 //
-//  GrowlBubblesWindowView.m
+//  GrowliCalWindowView.m
 //  Growl
 //
 //  Created by Nelson Elhage on Wed Jun 09 2004.
 //  Name changed from KABubbleWindowView.m by Justin Burns on Fri Nov 05 2004.
+//	Adapted for iCal by Takumi Murayama on Thu Aug 17 2006.
 //  Copyright (c) 2004-2006 The Growl Project. All rights reserved.
 //
 
-#import "GrowlBubblesWindowView.h"
+#import "GrowliCalWindowView.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlBubblesDefines.h"
+#import "GrowliCalDefines.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlBezierPathAdditions.h"
 #import "NSMutableAttributedStringAdditions.h"
 #import <WebKit/WebPreferences.h>
 
 /* to get the limit pref */
-#import "GrowlBubblesPrefsController.h"
+#import "GrowliCalPrefsController.h"
 
 /* Hardcoded geometry values */
 #define PANEL_WIDTH_PX			270.0f /*!< Total width of the panel, including border */
@@ -34,7 +35,7 @@
 #define MIN_TEXT_HEIGHT			(PANEL_VSPACE_PX + PANEL_VSPACE_PX + iconSize)
 #define TEXT_AREA_WIDTH			(PANEL_WIDTH_PX - PANEL_HSPACE_PX - PANEL_HSPACE_PX - iconSize - ICON_HSPACE_PX)
 
-static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float *outData ) {
+static void GrowliCalShadeInterpolate( void *info, const float *inData, float *outData ) {
 	float *colors = (float *) info;
 
 	register float a = inData[0];
@@ -50,7 +51,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 #pragma mark -
 
-@implementation GrowlBubblesWindowView
+@implementation GrowliCalWindowView
 
 - (id) initWithFrame:(NSRect) frame {
 	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, frame.origin.x, frame.origin.y, frame.size.height, frame.size.width);
@@ -63,9 +64,9 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		titleLayoutManager = [[NSLayoutManager alloc] init];
 		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
 
-		int size = GrowlBubblesSizePrefDefault;
-		READ_GROWL_PREF_INT(GrowlBubblesSizePref, GrowlBubblesPrefDomain, &size);
-		if (size == GrowlBubblesSizeLarge) {
+		int size = GrowliCalSizePrefDefault;
+		READ_GROWL_PREF_INT(GrowliCalSizePref, GrowliCalPrefDomain, &size);
+		if (size == GrowliCalSizeLarge) {
 			iconSize = ICON_SIZE_LARGE_PX;
 		} else {
 			iconSize = ICON_SIZE_PX;
@@ -116,7 +117,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 		// Create a callback function to generate the
 		// fill clipped graphics context with our gradient
-		struct CGFunctionCallbacks callbacks = { 0U, GrowlBubblesShadeInterpolate, NULL };
+		struct CGFunctionCallbacks callbacks = { 0U, GrowliCalShadeInterpolate, NULL };
 		float colors[8];
 
 		[lightColor getRed:&colors[0]
@@ -195,41 +196,41 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 	switch (priority) {
 		case -2:
-			key = GrowlBubblesVeryLowColor;
-			textKey = GrowlBubblesVeryLowTextColor;
-			topKey = GrowlBubblesVeryLowTopColor;
+			key = GrowliCalVeryLowColor;
+			textKey = GrowliCalVeryLowTextColor;
+			topKey = GrowliCalVeryLowTopColor;
 			break;
 		case -1:
-			key = GrowlBubblesModerateColor;
-			textKey = GrowlBubblesModerateTextColor;
-			topKey = GrowlBubblesModerateTopColor;
+			key = GrowliCalModerateColor;
+			textKey = GrowliCalModerateTextColor;
+			topKey = GrowliCalModerateTopColor;
 			break;
 		case 1:
-			key = GrowlBubblesHighColor;
-			textKey = GrowlBubblesHighTextColor;
-			topKey = GrowlBubblesHighTopColor;
+			key = GrowliCalHighColor;
+			textKey = GrowliCalHighTextColor;
+			topKey = GrowliCalHighTopColor;
 			break;
 		case 2:
-			key = GrowlBubblesEmergencyColor;
-			textKey = GrowlBubblesEmergencyTextColor;
-			topKey = GrowlBubblesEmergencyTopColor;
+			key = GrowliCalEmergencyColor;
+			textKey = GrowliCalEmergencyTextColor;
+			topKey = GrowliCalEmergencyTopColor;
 			break;
 		case 0:
 		default:
-			key = GrowlBubblesNormalColor;
-			textKey = GrowlBubblesNormalTextColor;
-			topKey = GrowlBubblesNormalTopColor;
+			key = GrowliCalNormalColor;
+			textKey = GrowliCalNormalTextColor;
+			topKey = GrowliCalNormalTopColor;
 			break;
 	}
 
 	NSData *data = nil;
 
 	float backgroundAlpha = 95.0f;
-	READ_GROWL_PREF_FLOAT(GrowlBubblesOpacity, GrowlBubblesPrefDomain, &backgroundAlpha);
+	READ_GROWL_PREF_FLOAT(GrowliCalOpacity, GrowliCalPrefDomain, &backgroundAlpha);
 	backgroundAlpha *= 0.01f;
 
 	Class NSDataClass = [NSData class];
-	READ_GROWL_PREF_VALUE(key, GrowlBubblesPrefDomain, NSData *, &data);
+	READ_GROWL_PREF_VALUE(key, GrowliCalPrefDomain, NSData *, &data);
 	if (data && [data isKindOfClass:NSDataClass]) {
 		bgColor = [NSUnarchiver unarchiveObjectWithData:data];
 		bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
@@ -243,7 +244,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	[data release];
 
 	data = nil;
-	READ_GROWL_PREF_VALUE(textKey, GrowlBubblesPrefDomain, NSData *, &data);
+	READ_GROWL_PREF_VALUE(textKey, GrowliCalPrefDomain, NSData *, &data);
 	if (data && [data isKindOfClass:NSDataClass]) {
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
@@ -253,7 +254,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	[data release];
 
 	data = nil;
-	READ_GROWL_PREF_VALUE(topKey, GrowlBubblesPrefDomain, NSData *, &data);
+	READ_GROWL_PREF_VALUE(topKey, GrowliCalPrefDomain, NSData *, &data);
 	if (data && [data isKindOfClass:NSDataClass]) {
 		lightColor = [NSUnarchiver unarchiveObjectWithData:data];
 		lightColor = [lightColor colorWithAlphaComponent:backgroundAlpha];
@@ -303,7 +304,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	[paragraphStyle release];
 
 	if (isHTML) {
-		WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlBubblesTitle"];
+		WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowliCalTitle"];
 		[webPreferences setJavaEnabled:NO];
 		[webPreferences setJavaScriptEnabled:NO];
 		[webPreferences setPlugInsEnabled:NO];
@@ -351,7 +352,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 	if (!textStorage) {
 		NSSize containerSize;
 		BOOL limitPref = YES;
-		READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &limitPref);
+		READ_GROWL_PREF_BOOL(GrowliCalLimitPref, GrowliCalPrefDomain, &limitPref);
 		containerSize.width = TEXT_AREA_WIDTH;
 		if (limitPref)
 			containerSize.height = lineHeight * MAX_TEXT_ROWS;
@@ -371,7 +372,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 		nil];
 
 	if (isHTML) {
-		WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowlBubblesText"];
+		WebPreferences *webPreferences = [[WebPreferences alloc] initWithIdentifier:@"GrowliCalText"];
 		[webPreferences setJavaEnabled:NO];
 		[webPreferences setJavaScriptEnabled:NO];
 		[webPreferences setPlugInsEnabled:NO];
@@ -437,7 +438,7 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 - (int) descriptionRowCount {
 	int rowCount = textHeight / lineHeight;
 	BOOL limitPref = YES;
-	READ_GROWL_PREF_BOOL(GrowlBubblesLimitPref, GrowlBubblesPrefDomain, &limitPref);
+	READ_GROWL_PREF_BOOL(GrowliCalLimitPref, GrowliCalPrefDomain, &limitPref);
 	if (limitPref)
 		return MIN(rowCount, MAX_TEXT_ROWS);
 	else

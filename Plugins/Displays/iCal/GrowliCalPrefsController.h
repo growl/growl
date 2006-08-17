@@ -1,15 +1,16 @@
 //
-//  GrowlBubblesPrefsController.h
+//  GrowliCalPrefsController.h
 //  Growl
 //
 //  Created by Kevin Ballard on 9/7/04.
 //  Name changed from KABubblePrefsController.h by Justin Burns on Fri Nov 05 2004.
+//	Adapted for iCal by Takumi Murayama on Thu Aug 17 2006.
 //  Copyright 2004 TildeSoft. All rights reserved.
 //
 
 #import <PreferencePanes/PreferencePanes.h>
 
-@interface GrowlBubblesPrefsController : NSPreferencePane {
+@interface GrowliCalPrefsController : NSPreferencePane {
 	IBOutlet NSColorWell	*top_veryLow;
 	IBOutlet NSColorWell	*top_moderate;
 	IBOutlet NSColorWell	*top_normal;

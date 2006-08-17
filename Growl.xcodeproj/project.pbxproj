@@ -336,6 +336,17 @@
 		DDF09B21080AC97A006F4172 /* PrefpaneTester.m in Sources */ = {isa = PBXBuildFile; fileRef = DDF09B1C080AC97A006F4172 /* PrefpaneTester.m */; };
 		DDF09BC6080AC9ED006F4172 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
 		DDFADA6C084D1C770055DBC8 /* GrowlSMS.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */; };
+		E14410E50A94072E0063C4DC /* GrowlBezierPathAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 956ADAD507551C4500AF9545 /* GrowlBezierPathAdditions.c */; };
+		E14410E60A94072E0063C4DC /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
+		E14410E90A94072E0063C4DC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
+		E14410EA0A94072E0063C4DC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
+		E14410EB0A94072E0063C4DC /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
+		E14411080A9407EA0063C4DC /* Bubbles.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = E14410EF0A94072E0063C4DC /* Bubbles.growlView */; };
+		E144111B0A9408840063C4DC /* iCalPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = E144110F0A9408840063C4DC /* iCalPrefs.nib */; };
+		E144111C0A9408840063C4DC /* GrowliCalDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = E14411130A9408840063C4DC /* GrowliCalDisplay.m */; };
+		E144111D0A9408840063C4DC /* GrowliCalPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14411150A9408840063C4DC /* GrowliCalPrefsController.m */; };
+		E144111E0A9408840063C4DC /* GrowliCalWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E14411170A9408840063C4DC /* GrowliCalWindowController.m */; };
+		E144111F0A9408840063C4DC /* GrowliCalWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = E14411190A9408840063C4DC /* GrowliCalWindowView.m */; };
 		EE17E56D08EFFCDB0086F0C3 /* GrowlThreadedView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE17E56B08EFFCDB0086F0C3 /* GrowlThreadedView.m */; };
 		EE1AF8D50897DA9400F486FD /* GrowlAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8CE0897DA9400F486FD /* GrowlAnimation.m */; };
 		EE1AF8D70897DA9400F486FD /* GrowlWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1AF8D00897DA9400F486FD /* GrowlWindowTransition.m */; };
@@ -364,6 +375,23 @@
 			);
 		};
 /* End PBXBuildRule section */
+
+/* Begin PBXBuildStyle section */
+		E144107C0A9406770063C4DC /* Development */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Development;
+		};
+		E144107D0A9406770063C4DC /* Deployment */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Deployment;
+		};
+/* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
 		3433455D0790E25300C84B15 /* PBXContainerItemProxy */ = {
@@ -513,6 +541,13 @@
 			remoteGlobalIDString = 8D202CE80486D31800D8A456;
 			remoteInfo = Growl;
 		};
+		E14410F10A9407680063C4DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E14410DE0A94072E0063C4DC;
+			remoteInfo = iCal;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -530,6 +565,7 @@
 				3433458D0790E3D600C84B15 /* Bezel.growlView in CopyFiles */,
 				95543EE107E04BA9005534FA /* Brushed.growlView in CopyFiles */,
 				3433456E0790E39200C84B15 /* Bubbles.growlView in CopyFiles */,
+				E14411080A9407EA0063C4DC /* Bubbles.growlView in CopyFiles */,
 				343345890790E3D600C84B15 /* MailMe.growlView in CopyFiles */,
 				3433458C0790E3D600C84B15 /* MusicVideo.growlView in CopyFiles */,
 				343345880790E3D600C84B15 /* Smoke.growlView in CopyFiles */,
@@ -933,7 +969,7 @@
 		CB5C30FF07925B53007CC0D0 /* GrowlNotificationTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationTicket.h; path = Core/Source/GrowlNotificationTicket.h; sourceTree = "<group>"; };
 		CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNotificationTicket.m; path = Core/Source/GrowlNotificationTicket.m; sourceTree = "<group>"; };
 		CB5F83A60638B8C800EADD7A /* HelperMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HelperMain.m; path = Core/Source/HelperMain.m; sourceTree = "<group>"; };
-		CB61E5180637763C00E0DDC7 /* GrowlHelperApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = GrowlHelperApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB61E5180637763C00E0DDC7 /* GrowlHelperApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlHelperApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB61E51A0637763C00E0DDC7 /* GrowlHelperApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "GrowlHelperApp-Info.plist"; path = "Core/Resources/GrowlHelperApp-Info.plist"; sourceTree = SOURCE_ROOT; };
 		CB910DA6074E0A3A00278FC5 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlSMS.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -944,12 +980,24 @@
 		DD493A04084BAD7700D1CCCB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Plugins/Displays/SMS/English.lproj/GrowlSMSPrefs.nib; sourceTree = "<group>"; };
 		DD493B7C084BB07900D1CCCB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = Plugins/Displays/SMS/Info.plist; sourceTree = "<group>"; };
 		DDB6462607DE034800807F8D /* generateSVNRevision.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = generateSVNRevision.sh; sourceTree = "<group>"; };
-		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PrefpaneTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF09B19080AC97A006F4172 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Prefpane TestHarness/main.m"; sourceTree = "<group>"; };
 		DDF09B1A080AC97A006F4172 /* PrefPaneTesting-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = "PrefPaneTesting-Info.plist"; path = "Prefpane TestHarness/PrefPaneTesting-Info.plist"; sourceTree = "<group>"; };
 		DDF09B1B080AC97A006F4172 /* PrefpaneTester.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PrefpaneTester.h; path = "Prefpane TestHarness/PrefpaneTester.h"; sourceTree = "<group>"; };
 		DDF09B1C080AC97A006F4172 /* PrefpaneTester.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PrefpaneTester.m; path = "Prefpane TestHarness/PrefpaneTester.m"; sourceTree = "<group>"; };
 		DDF09C11080AD264006F4172 /* generateBuildPath.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; name = generateBuildPath.sh; path = "Prefpane TestHarness/generateBuildPath.sh"; sourceTree = "<group>"; };
+		E14410EF0A94072E0063C4DC /* Bubbles.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Bubbles.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
+		E14411100A9408840063C4DC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = iCalPrefs.nib; sourceTree = "<group>"; };
+		E14411110A9408840063C4DC /* GrowliCalDefines.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowliCalDefines.h; path = Plugins/Displays/iCal/GrowliCalDefines.h; sourceTree = "<group>"; };
+		E14411120A9408840063C4DC /* GrowliCalDisplay.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowliCalDisplay.h; path = Plugins/Displays/iCal/GrowliCalDisplay.h; sourceTree = "<group>"; };
+		E14411130A9408840063C4DC /* GrowliCalDisplay.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowliCalDisplay.m; path = Plugins/Displays/iCal/GrowliCalDisplay.m; sourceTree = "<group>"; };
+		E14411140A9408840063C4DC /* GrowliCalPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowliCalPrefsController.h; path = Plugins/Displays/iCal/GrowliCalPrefsController.h; sourceTree = "<group>"; };
+		E14411150A9408840063C4DC /* GrowliCalPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowliCalPrefsController.m; path = Plugins/Displays/iCal/GrowliCalPrefsController.m; sourceTree = "<group>"; };
+		E14411160A9408840063C4DC /* GrowliCalWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowliCalWindowController.h; path = Plugins/Displays/iCal/GrowliCalWindowController.h; sourceTree = "<group>"; };
+		E14411170A9408840063C4DC /* GrowliCalWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowliCalWindowController.m; path = Plugins/Displays/iCal/GrowliCalWindowController.m; sourceTree = "<group>"; };
+		E14411180A9408840063C4DC /* GrowliCalWindowView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowliCalWindowView.h; path = Plugins/Displays/iCal/GrowliCalWindowView.h; sourceTree = "<group>"; };
+		E14411190A9408840063C4DC /* GrowliCalWindowView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowliCalWindowView.m; path = Plugins/Displays/iCal/GrowliCalWindowView.m; sourceTree = "<group>"; };
+		E144111A0A9408840063C4DC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = Plugins/Displays/iCal/Info.plist; sourceTree = "<group>"; };
 		EE17E56B08EFFCDB0086F0C3 /* GrowlThreadedView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlThreadedView.m; path = Plugins/Displays/GrowlThreadedView.m; sourceTree = "<group>"; };
 		EE1AF8CD0897DA9400F486FD /* GrowlAnimation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlAnimation.h; sourceTree = "<group>"; };
 		EE1AF8CE0897DA9400F486FD /* GrowlAnimation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlAnimation.m; sourceTree = "<group>"; };
@@ -1122,6 +1170,16 @@
 				DDF09BC6080AC9ED006F4172 /* PreferencePanes.framework in Frameworks */,
 				957B4F6A083D147200F562B8 /* AppKit.framework in Frameworks */,
 				957B4F6B083D147400F562B8 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E14410E80A94072E0063C4DC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E14410E90A94072E0063C4DC /* Foundation.framework in Frameworks */,
+				E14410EA0A94072E0063C4DC /* AppKit.framework in Frameworks */,
+				E14410EB0A94072E0063C4DC /* PreferencePanes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1339,6 +1397,7 @@
 				07803B6408E7E6BC00299E08 /* GrowlDisplayPlugin.m */,
 				95FC305007E03B0700BD8674 /* Brushed */,
 				0A7F5EDA0767C30800E1C1E4 /* Bubbles */,
+				E14411090A9408190063C4DC /* iCal */,
 				0A7F5F2D0767C3F600E1C1E4 /* Bezel */,
 				0A7F5D9A0767C13100E1C1E4 /* Speech */,
 				0A7F5F890767C6C500E1C1E4 /* Smoke */,
@@ -1512,6 +1571,7 @@
 				95075AB00817F5DB00D862A5 /* GrowlMenu.app */,
 				DD4939CC084BACA700D1CCCB /* GrowlSMS.growlView */,
 				93BC379E095A662B0002B365 /* Nano.growlView */,
+				E14410EF0A94072E0063C4DC /* Bubbles.growlView */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1797,6 +1857,24 @@
 				DDF09B1C080AC97A006F4172 /* PrefpaneTester.m */,
 			);
 			name = "Prefpane Testing";
+			sourceTree = "<group>";
+		};
+		E14411090A9408190063C4DC /* iCal */ = {
+			isa = PBXGroup;
+			children = (
+				E144110F0A9408840063C4DC /* iCalPrefs.nib */,
+				E14411110A9408840063C4DC /* GrowliCalDefines.h */,
+				E14411120A9408840063C4DC /* GrowliCalDisplay.h */,
+				E14411130A9408840063C4DC /* GrowliCalDisplay.m */,
+				E14411140A9408840063C4DC /* GrowliCalPrefsController.h */,
+				E14411150A9408840063C4DC /* GrowliCalPrefsController.m */,
+				E14411160A9408840063C4DC /* GrowliCalWindowController.h */,
+				E14411170A9408840063C4DC /* GrowliCalWindowController.m */,
+				E14411180A9408840063C4DC /* GrowliCalWindowView.h */,
+				E14411190A9408840063C4DC /* GrowliCalWindowView.m */,
+				E144111A0A9408840063C4DC /* Info.plist */,
+			);
+			name = iCal;
 			sourceTree = "<group>";
 		};
 		EE1AF8CC0897DA9400F486FD /* Animations & Transitions */ = {
@@ -2122,6 +2200,7 @@
 			dependencies = (
 				955430E807E04683005534FA /* PBXTargetDependency */,
 				343345640790E25B00C84B15 /* PBXTargetDependency */,
+				E14410F20A9407680063C4DC /* PBXTargetDependency */,
 				3433458F0790E3DD00C84B15 /* PBXTargetDependency */,
 				343345910790E3E100C84B15 /* PBXTargetDependency */,
 				343345950790E3EF00C84B15 /* PBXTargetDependency */,
@@ -2173,12 +2252,35 @@
 			productReference = DDF09B0A080AC8F3006F4172 /* PrefpaneTesting.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E14410DE0A94072E0063C4DC /* iCal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E14410EC0A94072E0063C4DC /* Build configuration list for PBXNativeTarget "iCal" */;
+			buildPhases = (
+				E14410DF0A94072E0063C4DC /* Resources */,
+				E14410E10A94072E0063C4DC /* Sources */,
+				E14410E80A94072E0063C4DC /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iCal;
+			productName = Speech;
+			productReference = E14410EF0A94072E0063C4DC /* Bubbles.growlView */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 95EE27910855AA6C0045DB39 /* Build configuration list for PBXProject "Growl" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				E144107C0A9406770063C4DC /* Development */,
+				E144107D0A9406770063C4DC /* Deployment */,
+			);
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -2194,12 +2296,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
-					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
-				},
-				{
 					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
 					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
+				},
+				{
+					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
+					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
 				},
 			);
 			targets = (
@@ -2212,6 +2314,7 @@
 				0A7F5CCC0767BFD000E1C1E4 /* Speech */,
 				95FC346D07E0458E00BD8674 /* Brushed */,
 				0A7F5EC40767C2A600E1C1E4 /* Bubbles */,
+				E14410DE0A94072E0063C4DC /* iCal */,
 				0A7F5F110767C38200E1C1E4 /* Bezel */,
 				0A7F5F6F0767C68000E1C1E4 /* Smoke */,
 				93BC378E095A662B0002B365 /* Nano */,
@@ -2380,6 +2483,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDF09B1F080AC97A006F4172 /* PrefPaneTesting-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E14410DF0A94072E0063C4DC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E144111B0A9408840063C4DC /* iCalPrefs.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2770,6 +2881,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E14410E10A94072E0063C4DC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E14410E50A94072E0063C4DC /* GrowlBezierPathAdditions.c in Sources */,
+				E14410E60A94072E0063C4DC /* CFDictionaryAdditions.c in Sources */,
+				E144111C0A9408840063C4DC /* GrowliCalDisplay.m in Sources */,
+				E144111D0A9408840063C4DC /* GrowliCalPrefsController.m in Sources */,
+				E144111E0A9408840063C4DC /* GrowliCalWindowController.m in Sources */,
+				E144111F0A9408840063C4DC /* GrowliCalWindowView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2867,6 +2991,11 @@
 			isa = PBXTargetDependency;
 			target = 8D202CE80486D31800D8A456 /* Growl */;
 			targetProxy = DDF09BC8080ACA0A006F4172 /* PBXContainerItemProxy */;
+		};
+		E14410F20A9407680063C4DC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E14410DE0A94072E0063C4DC /* iCal */;
+			targetProxy = E14410F10A9407680063C4DC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3069,6 +3198,15 @@
 				957E5910084D07D80090ACC4 /* German */,
 			);
 			name = GrowlSMSPrefs.nib;
+			sourceTree = "<group>";
+		};
+		E144110F0A9408840063C4DC /* iCalPrefs.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E14411100A9408840063C4DC /* English */,
+			);
+			name = iCalPrefs.nib;
+			path = Plugins/Displays/iCal/English.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -3892,6 +4030,48 @@
 			};
 			name = Deployment;
 		};
+		E14410ED0A94072E0063C4DC /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
+				HEADER_SEARCH_PATHS = Source;
+				INFOPLIST_FILE = Plugins/Displays/iCal/Info.plist;
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = iCal;
+				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				WRAPPER_EXTENSION = growlView;
+			};
+			name = Development;
+		};
+		E14410EE0A94072E0063C4DC /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Plugins/Displays/Display Plugins_Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+					NS_BLOCK_ASSERTIONS,
+				);
+				HEADER_SEARCH_PATHS = Source;
+				INFOPLIST_FILE = "/Users/takumi/growl/Plugins/Displays/Bubbles/Info copy.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Application Support/Growl/Plugins";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = Bubbles;
+				REZ_RESOURCE_MAP_READ_ONLY = YES;
+				WRAPPER_EXTENSION = growlView;
+			};
+			name = Deployment;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4053,6 +4233,15 @@
 			buildConfigurations = (
 				95EE27920855AA6C0045DB39 /* Development */,
 				95EE27930855AA6C0045DB39 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		E14410EC0A94072E0063C4DC /* Build configuration list for PBXNativeTarget "iCal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E14410ED0A94072E0063C4DC /* Development */,
+				E14410EE0A94072E0063C4DC /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
