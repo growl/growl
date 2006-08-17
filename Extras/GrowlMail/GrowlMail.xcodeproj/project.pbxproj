@@ -369,6 +369,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 95E4A3630855C16F006B3F45 /* Build configuration list for PBXProject "GrowlMail" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -385,6 +386,8 @@
 					ProjectRef = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
 				},
 			);
+			projectRoot = "";
+			shouldCheckCompatibility = 1;
 			targets = (
 				8D5B49AC048680CD000E48DA /* GrowlMail */,
 				95AE2770085C44B600271F5F /* External Frameworks */,
@@ -805,7 +808,7 @@
 					i386,
 				);
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT_i386 = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Development;
 		};

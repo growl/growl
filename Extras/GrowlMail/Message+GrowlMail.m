@@ -66,27 +66,36 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 	NSString *senderAddress = [sender uncommentedAddress];
 	CFStringRef subject = (CFStringRef)[self subject];
 	CFStringRef body;
-	MessageBody *messageBody = [self messageBody];
+	CFStringRef titleFormat = copyTitleFormatString();
+	CFStringRef descriptionFormat = copyDescriptionFormatString();
 
-	if (messageBody) {
-		NSString *originalBody;
-		/* The stringForIndexing selector is not available in Mail.app 2.0. */
-		if ([messageBody respondsToSelector:@selector(stringForIndexing)])
-			originalBody = [messageBody stringForIndexing];
-		else
-			originalBody = [messageBody stringValueForJunkEvaluation:NO];
-		CFMutableStringRef transformedBody = CFStringCreateMutableCopy(kCFAllocatorDefault, CFStringGetLength((CFStringRef)originalBody), (CFStringRef)originalBody);
-		CFStringTrimWhitespace(transformedBody);
-		CFIndex lengthWithoutWhitespace = CFStringGetLength(transformedBody);
-		trimStringToFirstNLines(transformedBody, 4);
-		CFIndex length = CFStringGetLength(transformedBody);
-		if (length > 200) {
-			CFStringDelete(transformedBody, CFRangeMake(200, length-200));
-			length = 200;
+	if (CFStringFind(titleFormat, CFSTR("%body"), 0).location != kCFNotFound ||
+			CFStringFind(descriptionFormat, CFSTR("%body"), 0).location != kCFNotFound) {
+		/* We will need the body */
+		MessageBody *messageBody = [self messageBody];
+	
+		if (messageBody) {
+			NSString *originalBody;
+			/* The stringForIndexing selector is not available in Mail.app 2.0. */
+			if ([messageBody respondsToSelector:@selector(stringForIndexing)])
+				originalBody = [messageBody stringForIndexing];
+			else
+				originalBody = [messageBody stringValueForJunkEvaluation:NO];
+			CFMutableStringRef transformedBody = CFStringCreateMutableCopy(kCFAllocatorDefault, CFStringGetLength((CFStringRef)originalBody), (CFStringRef)originalBody);
+			CFStringTrimWhitespace(transformedBody);
+			CFIndex lengthWithoutWhitespace = CFStringGetLength(transformedBody);
+			trimStringToFirstNLines(transformedBody, 4);
+			CFIndex length = CFStringGetLength(transformedBody);
+			if (length > 200) {
+				CFStringDelete(transformedBody, CFRangeMake(200, length-200));
+				length = 200;
+			}
+			if (length != lengthWithoutWhitespace)
+				CFStringAppendCString(transformedBody, "\xE2\x80\xA6", kCFStringEncodingUTF8);
+			body = (CFStringRef)transformedBody;
+		} else {
+			body = CFSTR("");
 		}
-		if (length != lengthWithoutWhitespace)
-			CFStringAppendCString(transformedBody, "\xE2\x80\xA6", kCFStringEncodingUTF8);
-		body = (CFStringRef)transformedBody;
 	} else
 		body = CFSTR("");
 
@@ -108,10 +117,8 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 		body,
 		account
 	};
-	CFStringRef titleFormat = copyTitleFormatString();
 	CFStringRef title = createStringByReplacingKeywords(titleFormat, keywords, values, 4);
 	CFRelease(titleFormat);
-	CFStringRef descriptionFormat = copyDescriptionFormatString();
 	CFStringRef description = createStringByReplacingKeywords(descriptionFormat, keywords, values, 4);
 	CFRelease(descriptionFormat);
 
