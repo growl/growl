@@ -60,7 +60,7 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 }
 
 @implementation Message(GrowlMail)
-- (void) showNotification {
+- (void) showNotification:(NSNumber *)attempt {
 	CFStringRef account = (CFStringRef)[[[self mailbox] account] displayName];
 	NSString *sender = [self sender];
 	NSString *senderAddress = [sender uncommentedAddress];
@@ -72,8 +72,21 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 	if (CFStringFind(titleFormat, CFSTR("%body"), 0).location != kCFNotFound ||
 			CFStringFind(descriptionFormat, CFSTR("%body"), 0).location != kCFNotFound) {
 		/* We will need the body */
-		MessageBody *messageBody = [self messageBody];
-	
+		MessageBody *messageBody = [self messageBodyIfAvailable];
+
+		if (!messageBody) {
+			/* No message body available yet, but we need one */
+			if ([attempt intValue] < 3) {
+				/* Try again in 0.5 seconds so as not to block */
+				[self performSelector:@selector(showNotification:)
+					withObject:[NSNumber numberWithInt:[attempt intValue]+1]
+					afterDelay:0.5];
+				return;
+			}
+			/* Already tried three times (1.5 seconds); this time, block to get it. */ 
+			messageBody = [self messageBody];
+		}
+
 		if (messageBody) {
 			NSString *originalBody;
 			/* The stringForIndexing selector is not available in Mail.app 2.0. */
@@ -171,4 +184,9 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 							   clickContext:clickContext];	// non-nil click context
 	CFRelease(notificationName);
 }
+
+- (void) showNotification {
+	[self showNotification:[NSNumber numberWithInt:0]];
+}
+
 @end
