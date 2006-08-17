@@ -81,6 +81,8 @@ static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
 				[self performSelector:@selector(showNotification:)
 					withObject:[NSNumber numberWithInt:[attempt intValue]+1]
 					afterDelay:0.5];
+				CFRelease(titleFormat);
+				CFRelease(descriptionFormat);
 				return;
 			}
 			/* Already tried three times (1.5 seconds); this time, block to get it. */ 
