@@ -26,6 +26,10 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#define MESSAGE_TYPE_MAIL	0
+//#define MESSAGE_TYPE_???	1
+#define MESSAGE_TYPE_NOTE	2
+
 @class MailboxUid, MFError, MessageBody, Message, MessageStore;
 
 @interface MVMailBundle : NSObject
@@ -623,6 +627,7 @@ typedef struct {
 - (MailboxUid *)mailbox;
 - (id)headers;
 - (id)headersIfAvailable;
+- (int)type;
 - (unsigned long)messageFlags;
 - (void)setMessageFlags:(unsigned long)fp8;
 - (MessageBody *)messageBody;

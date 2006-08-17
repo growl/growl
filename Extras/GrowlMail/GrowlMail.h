@@ -59,6 +59,6 @@
 CFBundleRef GetGrowlMailBundle(void);
 BOOL GMIsEnabled(void);
 int  GMSummaryMode(void);
-NSString *copyTitleFormatString(void);
-NSString *copyDescriptionFormatString(void);
+CFStringRef copyTitleFormatString(void);
+CFStringRef copyDescriptionFormatString(void);
 BOOL GMInboxOnly(void);

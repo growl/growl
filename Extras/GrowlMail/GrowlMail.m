@@ -152,16 +152,19 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 	CFBundleRef bundle = GetGrowlMailBundle();
 	CFStringRef newMailNotification = CFCopyLocalizedStringFromTableInBundle(CFSTR("New mail"), NULL, bundle, "");
 	CFStringRef newJunkMailNotification = CFCopyLocalizedStringFromTableInBundle(CFSTR("New junk mail"), NULL, bundle, "");
-	CFTypeRef allowedNotificationsValues[2] = {
+	CFStringRef newNoteNotification = CFCopyLocalizedStringFromTableInBundle(CFSTR("New note"), NULL, bundle, "");
+	CFTypeRef allowedNotificationsValues[3] = {
 		newMailNotification,
-		newJunkMailNotification
+		newJunkMailNotification,
+		newNoteNotification
 	};
 	CFArrayRef allowedNotifications = CFArrayCreate(kCFAllocatorDefault,
 													allowedNotificationsValues,
-													2,
+													3,
 													&kCFTypeArrayCallBacks);
 	CFRelease(newMailNotification);
 	CFRelease(newJunkMailNotification);
+	CFRelease(newNoteNotification);
 	int zero = 0;
 	CFNumberRef default0 = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &zero);
 	CFArrayRef defaultNotifications = CFArrayCreate(kCFAllocatorDefault,
@@ -320,10 +323,10 @@ BOOL GMInboxOnly(void) {
 	return keyExistsAndHasValidFormat ? value : 0;
 }
 
-NSString *copyTitleFormatString(void) {
-	return (NSString *)CFPreferencesCopyAppValue(CFSTR("GMTitleFormat"), kCFPreferencesCurrentApplication);
+CFStringRef copyTitleFormatString(void) {
+	return CFPreferencesCopyAppValue(CFSTR("GMTitleFormat"), kCFPreferencesCurrentApplication);
 }
 
-NSString *copyDescriptionFormatString(void) {
-	return (NSString *)CFPreferencesCopyAppValue(CFSTR("GMDescriptionFormat"), kCFPreferencesCurrentApplication);
+CFStringRef copyDescriptionFormatString(void) {
+	return CFPreferencesCopyAppValue(CFSTR("GMDescriptionFormat"), kCFPreferencesCurrentApplication);
 }

@@ -37,45 +37,35 @@
 #import <AddressBook/AddressBook.h>
 #import <Growl/Growl.h>
 
-@interface NSString(GrowlMail)
-- (NSString *) firstNLines:(unsigned)n;
-- (NSString *) stringByReplacingKeywords:(NSDictionary *)keywords;
-@end
+static CFStringRef createStringByReplacingKeywords(CFStringRef format, CFStringRef *keywords, CFStringRef *values, CFIndex count) {
+	CFMutableStringRef text = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, format);
+	for (CFIndex i=0; i<count; ++i)
+		CFStringFindAndReplace(text, keywords[i], values[i], CFRangeMake(0, CFStringGetLength(text)), 0);
+	return text;
+}
 
-@implementation NSString(GrowlMail)
-- (NSString *) firstNLines:(unsigned)n {
-	NSRange range;
-	unsigned end;
+static void trimStringToFirstNLines(CFMutableStringRef str, unsigned n) {
+	CFRange range;
+	CFIndex end;
+	CFIndex length;
 
-	range.location = 0U;
-	range.length = 0U;
+	range.location = 0;
+	range.length = 0;
 	for (unsigned i=0U; i<n; ++i)
-		[self getLineStart:NULL end:&range.location contentsEnd:&end forRange:range];
+		CFStringGetLineBounds(str, range, NULL, &range.location, &end);
 
-	return [self substringToIndex:end];
+	length = CFStringGetLength(str);
+	if (length > end)
+		CFStringDelete(str, CFRangeMake(end, length-end));
 }
-
-- (NSString *) stringByReplacingKeywords:(NSDictionary *)keywords {
-	NSString *keyword;
-	NSEnumerator *keyEnum = [keywords keyEnumerator];
-	NSMutableString *text = [self mutableCopy];
-	while ((keyword = [keyEnum nextObject])) {
-		[text replaceOccurrencesOfString:keyword
-							  withString:[keywords objectForKey:keyword]
-								 options:NSLiteralSearch
-								   range:NSMakeRange(0U, [text length])];
-	}
-	return [text autorelease];
-}
-@end
 
 @implementation Message(GrowlMail)
 - (void) showNotification {
-	NSString *account = [[[self mailbox] account] displayName];
+	CFStringRef account = (CFStringRef)[[[self mailbox] account] displayName];
 	NSString *sender = [self sender];
 	NSString *senderAddress = [sender uncommentedAddress];
-	NSString *subject = [self subject];
-	NSString *body;
+	CFStringRef subject = (CFStringRef)[self subject];
+	CFStringRef body;
 	MessageBody *messageBody = [self messageBody];
 
 	if (messageBody) {
@@ -85,17 +75,20 @@
 			originalBody = [messageBody stringForIndexing];
 		else
 			originalBody = [messageBody stringValueForJunkEvaluation:NO];
-		originalBody = [originalBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		body = [originalBody firstNLines:4U];
-		if ([body length] > 200U)
-			body = [body substringToIndex:200U];
-		if ([body length] != [originalBody length]) {
-			NSString *ellipsis = [[NSString alloc] initWithUTF8String:"\xE2\x80\xA6"];
-			body = [body stringByAppendingString:ellipsis];
-			[ellipsis release];
+		CFMutableStringRef transformedBody = CFStringCreateMutableCopy(kCFAllocatorDefault, CFStringGetLength((CFStringRef)originalBody), (CFStringRef)originalBody);
+		CFStringTrimWhitespace(transformedBody);
+		CFIndex lengthWithoutWhitespace = CFStringGetLength(transformedBody);
+		trimStringToFirstNLines(transformedBody, 4);
+		CFIndex length = CFStringGetLength(transformedBody);
+		if (length > 200) {
+			CFStringDelete(transformedBody, CFRangeMake(200, length-200));
+			length = 200;
 		}
+		if (length != lengthWithoutWhitespace)
+			CFStringAppendCString(transformedBody, "\xE2\x80\xA6", kCFStringEncodingUTF8);
+		body = (CFStringRef)transformedBody;
 	} else
-		body = @"";
+		body = CFSTR("");
 
 	/* The fullName selector is not available in Mail.app 2.0. */
 	if ([sender respondsToSelector:@selector(fullName)])
@@ -103,26 +96,34 @@
 	else if ([sender addressComment])
 		sender = [sender addressComment];
 
-	NSDictionary *keywords = [[NSDictionary alloc] initWithObjectsAndKeys:
-		sender,  @"%sender",
-		subject, @"%subject",
-		body,    @"%body",
-		account, @"%account",
-		nil];
-	NSString *titleFormat = copyTitleFormatString();
-	NSString *title = [titleFormat stringByReplacingKeywords:keywords];
-	[titleFormat release];
-	NSString *descriptionFormat = copyDescriptionFormatString();
-	NSString *description = [descriptionFormat stringByReplacingKeywords:keywords];
-	[descriptionFormat release];
-	[keywords release];
+	CFStringRef keywords[4] = {
+		CFSTR("%sender"),
+		CFSTR("%subject"),
+		CFSTR("%body"),
+		CFSTR("%account")
+	};
+	CFStringRef values[4] = {
+		(CFStringRef)sender,
+		subject,
+		body,
+		account
+	};
+	CFStringRef titleFormat = copyTitleFormatString();
+	CFStringRef title = createStringByReplacingKeywords(titleFormat, keywords, values, 4);
+	CFRelease(titleFormat);
+	CFStringRef descriptionFormat = copyDescriptionFormatString();
+	CFStringRef description = createStringByReplacingKeywords(descriptionFormat, keywords, values, 4);
+	CFRelease(descriptionFormat);
 
 	/*
 	NSLog(@"Subject: '%@'", subject);
 	NSLog(@"Sender: '%@'", sender);
 	NSLog(@"Account: '%@'", account);
 	NSLog(@"Body: '%@'", body);
-*/
+	*/
+
+	CFRelease(body);
+
 	/*
 	 * MailAddressManager fetches images asynchronously so they might arrive
 	 * after we have sent our notification.
@@ -148,17 +149,14 @@
 	if (!image)
 		image = [[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation];
 
-	CFStringRef notificationName;
-	CFBundleRef bundle = GetGrowlMailBundle();
-	if ([self isJunk])
-		notificationName = CFCopyLocalizedStringFromTableInBundle(CFSTR("New junk mail"), NULL, bundle, "");
-	else
-		notificationName = CFCopyLocalizedStringFromTableInBundle(CFSTR("New mail"), NULL, bundle, "");
+	CFStringRef notificationName = CFCopyLocalizedStringFromTableInBundle(
+		[self isJunk] ? CFSTR("New junk mail") : ([self respondsToSelector:@selector(type)] && [self type] == MESSAGE_TYPE_NOTE) ? CFSTR("New note") : CFSTR("New mail"),
+		NULL, GetGrowlMailBundle(), "");
 
 	NSString *clickContext = [self messageID];
 
-	[GrowlApplicationBridge notifyWithTitle:title
-								description:description
+	[GrowlApplicationBridge notifyWithTitle:(NSString *)title
+								description:(NSString *)description
 						   notificationName:(NSString *)notificationName
 								   iconData:image
 								   priority:0
