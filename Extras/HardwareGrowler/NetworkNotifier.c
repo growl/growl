@@ -112,10 +112,13 @@ static CFStringRef getMediaForInterface(const char *interface) {
 
 static void linkStatusChange(CFDictionaryRef newValue) {
 	int active;
-	CFNumberRef num = CFDictionaryGetValue(newValue, CFSTR("Active"));
-	if (num)
-		CFNumberGetValue(num, kCFNumberIntType, &active);
-	else
+	if (newValue) {
+		CFNumberRef num = CFDictionaryGetValue(newValue, CFSTR("Active"));
+		if (num)
+			CFNumberGetValue(num, kCFNumberIntType, &active);
+		else
+			active = 0;
+	} else
 		active = 0;
 
 	if (active) {
