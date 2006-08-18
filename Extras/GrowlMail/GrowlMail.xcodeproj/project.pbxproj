@@ -808,7 +808,7 @@
 					i386,
 				);
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
-				SDKROOT_i386 = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT_i386 = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
