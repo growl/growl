@@ -21,15 +21,15 @@
 
 /* Hardcoded geometry values */
 #define PANEL_WIDTH_PX			270.0f /*!< Total width of the panel, including border */
-#define BORDER_WIDTH_PX			  4.0f
-#define BORDER_RADIUS_PX		  9.0f
-#define PANEL_VSPACE_PX			 10.0f /*!< Vertical padding from bounds to content area */
-#define PANEL_HSPACE_PX			 15.0f /*!< Horizontal padding from bounds to content area */
+#define BORDER_WIDTH_PX			  2.0f
+#define BORDER_RADIUS_PX		  6.0f
+#define PANEL_VSPACE_PX			  3.0f /*!< Vertical padding from bounds to content area */
+#define PANEL_HSPACE_PX			  6.0f /*!< Horizontal padding from bounds to content area */
 #define ICON_SIZE_PX			 32.0f /*!< The width and height of the (square) icon */
 #define ICON_SIZE_LARGE_PX		 48.0f /*!< The width and height of the (square) icon */
 #define ICON_HSPACE_PX			  8.0f /*!< Horizontal space between icon and title/description */
 #define TITLE_VSPACE_PX			  5.0f /*!< Vertical space between title and description */
-#define TITLE_FONT_SIZE_PTS		 13.0f
+#define TITLE_FONT_SIZE_PTS		 11.0f
 #define DESCR_FONT_SIZE_PTS		 11.0f
 #define MAX_TEXT_ROWS				5  /*!< The maximum number of rows of text, used only if the limit preference is set. */
 #define MIN_TEXT_HEIGHT			(PANEL_VSPACE_PX + PANEL_VSPACE_PX + iconSize)
@@ -58,8 +58,8 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 	if ((self = [super initWithFrame:frame])) {
 		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
-		borderColor = [[NSColor colorWithCalibratedWhite:0.0f alpha:0.5f] retain];
-		highlightColor = [[NSColor colorWithCalibratedWhite:0.0f alpha:0.75f] retain];
+		borderColor = [[NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:0.5f] retain];
+		highlightColor = [[NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:0.75f] retain];
 		textLayoutManager = [[NSLayoutManager alloc] init];
 		titleLayoutManager = [[NSLayoutManager alloc] init];
 		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
@@ -139,12 +139,18 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 		CGColorSpaceRef cspace = CGColorSpaceCreateDeviceRGB();
 
 		CGPoint src, dst;
-		src.x = CGRectGetMinX(bounds);
+		src.x = CGRectGetMaxX(bounds);
 		src.y = CGRectGetMaxY(bounds);
-		dst.x = src.x;
-		dst.y = CGRectGetMinY(bounds);
+		dst.x = CGRectGetMinX(bounds);
+		dst.y = src.y;
 		CGShadingRef shading = CGShadingCreateAxial(cspace, src, dst,
 													function, false, false);
+		
+		CGContextBeginPath(context);
+		CGContextAddArc (context, .5, .5, .3, 0, 
+						 my_convert_to_radians (180), 0);
+		CGContextClosePath(context);
+		CGContextClip(context);
 
 		CGContextDrawShading(context, shading);
 
@@ -235,9 +241,9 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 		bgColor = [NSUnarchiver unarchiveObjectWithData:data];
 		bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
-		bgColor = [NSColor colorWithCalibratedRed:0.69412f
-											green:0.83147f
-											 blue:0.96078f
+		bgColor = [NSColor colorWithCalibratedRed:0.3529f
+											green:0.5647f
+											 blue:1.0f
 											alpha:backgroundAlpha];
 	}
 	[bgColor retain];
@@ -248,7 +254,7 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 	if (data && [data isKindOfClass:NSDataClass]) {
 		textColor = [NSUnarchiver unarchiveObjectWithData:data];
 	} else {
-		textColor = [NSColor controlTextColor];
+		textColor = [NSColor whiteColor];
 	}
 	[textColor retain];
 	[data release];
@@ -259,9 +265,9 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 		lightColor = [NSUnarchiver unarchiveObjectWithData:data];
 		lightColor = [lightColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
-		lightColor = [NSColor colorWithCalibratedRed:0.93725f
-											   green:0.96863f
-												blue:0.99216f
+		lightColor = [NSColor colorWithCalibratedRed:0.1255f
+											   green:0.3765f
+												blue:0.9529f
 											   alpha:backgroundAlpha];
 	}
 	[lightColor retain];

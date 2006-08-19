@@ -33,7 +33,7 @@
 	[slider_opacity setAltIncrementValue:0.05];
 
 	// priority colour settings
-	NSColor *defaultColor = [NSColor colorWithCalibratedRed:0.69412f green:0.83147f blue:0.96078f alpha:1.0f];
+	NSColor *defaultColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0f alpha:1.0f];
 
 	[GrowliCalPrefsController loadColorWell:color_veryLow fromKey:GrowliCalVeryLowColor defaultColor:defaultColor];
 	[GrowliCalPrefsController loadColorWell:color_moderate fromKey:GrowliCalModerateColor defaultColor:defaultColor];
@@ -41,7 +41,7 @@
 	[GrowliCalPrefsController loadColorWell:color_high fromKey:GrowliCalHighColor defaultColor:defaultColor];
 	[GrowliCalPrefsController loadColorWell:color_emergency fromKey:GrowliCalEmergencyColor defaultColor:defaultColor];
 
-	defaultColor = [[NSColor controlTextColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	defaultColor = [[NSColor whiteColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 
 	[GrowliCalPrefsController loadColorWell:text_veryLow fromKey:GrowliCalVeryLowTextColor defaultColor:defaultColor];
 	[GrowliCalPrefsController loadColorWell:text_moderate fromKey:GrowliCalModerateTextColor defaultColor:defaultColor];
@@ -49,7 +49,7 @@
 	[GrowliCalPrefsController loadColorWell:text_high fromKey:GrowliCalHighTextColor defaultColor:defaultColor];
 	[GrowliCalPrefsController loadColorWell:text_emergency fromKey:GrowliCalEmergencyTextColor defaultColor:defaultColor];
 
-	defaultColor = [NSColor colorWithCalibratedRed:0.93725f green:0.96863f blue:0.99216f alpha:0.95f];
+	defaultColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:1.0f];
 
 	[GrowliCalPrefsController loadColorWell:top_veryLow fromKey:GrowliCalVeryLowTopColor defaultColor:defaultColor];
 	[GrowliCalPrefsController loadColorWell:top_moderate fromKey:GrowliCalModerateTopColor defaultColor:defaultColor];
