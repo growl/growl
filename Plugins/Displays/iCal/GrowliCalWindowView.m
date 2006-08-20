@@ -145,12 +145,18 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 		dst.y = src.y;
 		CGShadingRef shading = CGShadingCreateAxial(cspace, src, dst,
 													function, false, false);
+		/*CGPoint points[2];
+		src.x = CGRectGetMinX(bounds);
+		src.y = CGRectGetMaxY(bounds)-15.0;
+		dst.x = CGRectGetMaxX(bounds);
+		dst.y = CGRectGetMaxY(bounds)-15.0;		
+		points[0] = src;
+		points[1] = dst;
 		
 		CGContextBeginPath(context);
-		CGContextAddArc (context, .5, .5, .3, 0, 
-						 my_convert_to_radians (180), 0);
+		CGContextAddLines(context, points, 2);
 		CGContextClosePath(context);
-		CGContextClip(context);
+		CGContextClip(context);*/
 
 		CGContextDrawShading(context, shading);
 
