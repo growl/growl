@@ -467,6 +467,7 @@ typedef struct {
 + (id)duplicateMessages:(id)fp8 newRemoteIDs:(id)fp12 forMailbox:(id)fp16 setFlags:(unsigned long long)fp20 clearFlags:(unsigned long long)fp28 createNewCacheFiles:(BOOL)fp36;
 + (BOOL)_writeEmlxFile:(id)fp8 forMessage:(id)fp12 withBodyData:(id)fp16 plistData:(id)fp20;
 + (void)touchDirectoryForMailbox:(id)fp8;
++ (id)insertOrUpdateMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fetchBodies isInitialImport:(BOOL)isInitialImport oldMessagesByNewMessage:(id)oldMessagesByNewMessage remoteIDs:(id)remoteIDs newDocumentIDs:(id)newDocumentIDs setFlags:(unsigned long long)setFlags clearFlags:(unsigned long long)clearFlags messageFlagsForMessages:(id)messageFlagsForMessages copyFiles:(BOOL)copyFiles progressDelegate:(id)progressDelegate updateRowIDs:(id)updateRowIDs; // introduced in Mail 3.0
 + (id)addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fetchBodies isInitialImport:(BOOL)isInitialImport oldMessagesByNewMessage:(id)oldMessagesByNewMessage;
 + (id)addMessages:(NSArray *)messages;
 + (id)addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox;
