@@ -29,6 +29,12 @@
 	IBOutlet NSColorWell	*text_high;
 	IBOutlet NSColorWell	*text_emergency;
 
+	IBOutlet NSColorWell	*border_veryLow;
+	IBOutlet NSColorWell	*border_moderate;
+	IBOutlet NSColorWell	*border_normal;
+	IBOutlet NSColorWell	*border_high;
+	IBOutlet NSColorWell	*border_emergency;
+
 	IBOutlet NSSlider		*slider_opacity;
 }
 - (float) duration;
@@ -44,5 +50,6 @@
 - (IBAction) colorChanged:(id)sender;
 - (IBAction) textColorChanged:(id)sender;
 - (IBAction) topColorChanged:(id)sender;
+- (IBAction) borderColorChanged:(id)sender;
 
 @end

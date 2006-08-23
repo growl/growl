@@ -30,32 +30,49 @@
 }
 
 - (void) mainViewDidLoad {
+	float backgroundAlpha = 0.95f;
 	[slider_opacity setAltIncrementValue:0.05];
 
 	// priority colour settings
-	NSColor *defaultColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0f alpha:1.0f];
-
+	NSColor *defaultColor = [NSColor colorWithCalibratedRed:0.7804f green:0.1098f blue:0.7725f alpha:backgroundAlpha];
 	[GrowliCalPrefsController loadColorWell:color_veryLow fromKey:GrowliCalVeryLowColor defaultColor:defaultColor];
+	defaultColor = [NSColor colorWithCalibratedRed:0.1490f green:0.7333f blue:0.0000f alpha:backgroundAlpha];
 	[GrowliCalPrefsController loadColorWell:color_moderate fromKey:GrowliCalModerateColor defaultColor:defaultColor];
+	defaultColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:backgroundAlpha];
 	[GrowliCalPrefsController loadColorWell:color_normal fromKey:GrowliCalNormalColor defaultColor:defaultColor];
+	defaultColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4510f blue:0.0000f alpha:backgroundAlpha];
 	[GrowliCalPrefsController loadColorWell:color_high fromKey:GrowliCalHighColor defaultColor:defaultColor];
+	defaultColor = [NSColor colorWithCalibratedRed:1.0000f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
 	[GrowliCalPrefsController loadColorWell:color_emergency fromKey:GrowliCalEmergencyColor defaultColor:defaultColor];
 
 	defaultColor = [[NSColor whiteColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-
 	[GrowliCalPrefsController loadColorWell:text_veryLow fromKey:GrowliCalVeryLowTextColor defaultColor:defaultColor];
 	[GrowliCalPrefsController loadColorWell:text_moderate fromKey:GrowliCalModerateTextColor defaultColor:defaultColor];
 	[GrowliCalPrefsController loadColorWell:text_normal fromKey:GrowliCalNormalTextColor defaultColor:defaultColor];
 	[GrowliCalPrefsController loadColorWell:text_high fromKey:GrowliCalHighTextColor defaultColor:defaultColor];
 	[GrowliCalPrefsController loadColorWell:text_emergency fromKey:GrowliCalEmergencyTextColor defaultColor:defaultColor];
 
-	defaultColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:1.0f];
-
+	defaultColor = [NSColor colorWithCalibratedRed:0.8157f green:0.2471f blue:0.8078f alpha:backgroundAlpha];
 	[GrowliCalPrefsController loadColorWell:top_veryLow fromKey:GrowliCalVeryLowTopColor defaultColor:defaultColor];
+	defaultColor = [NSColor colorWithCalibratedRed:0.3765f green:0.8039f blue:0.2549f alpha:backgroundAlpha];
 	[GrowliCalPrefsController loadColorWell:top_moderate fromKey:GrowliCalModerateTopColor defaultColor:defaultColor];
+	defaultColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0000f alpha:backgroundAlpha];
 	[GrowliCalPrefsController loadColorWell:top_normal fromKey:GrowliCalNormalTopColor defaultColor:defaultColor];
+	defaultColor = [NSColor colorWithCalibratedRed:1.0000f green:0.6235f blue:0.0941f alpha:backgroundAlpha];
 	[GrowliCalPrefsController loadColorWell:top_high fromKey:GrowliCalHighTopColor defaultColor:defaultColor];
+	defaultColor = [NSColor colorWithCalibratedRed:1.0000f green:0.2902f blue:0.3098f alpha:backgroundAlpha];
 	[GrowliCalPrefsController loadColorWell:top_emergency fromKey:GrowliCalEmergencyTopColor defaultColor:defaultColor];
+
+	defaultColor = [NSColor colorWithCalibratedRed:0.8157f green:0.2471f blue:0.8078f alpha:backgroundAlpha];
+	[GrowliCalPrefsController loadColorWell:border_veryLow fromKey:GrowliCalVeryLowBorderColor defaultColor:defaultColor];
+	defaultColor = [NSColor colorWithCalibratedRed:0.3765f green:0.8039f blue:0.2549f alpha:backgroundAlpha];
+	[GrowliCalPrefsController loadColorWell:border_moderate fromKey:GrowliCalModerateBorderColor defaultColor:defaultColor];
+	defaultColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:backgroundAlpha];
+	[GrowliCalPrefsController loadColorWell:border_normal fromKey:GrowliCalNormalBorderColor defaultColor:defaultColor];
+	defaultColor = [NSColor colorWithCalibratedRed:1.0000f green:0.6235f blue:0.0941f alpha:backgroundAlpha];
+	[GrowliCalPrefsController loadColorWell:border_high fromKey:GrowliCalHighBorderColor defaultColor:defaultColor];
+	defaultColor = [NSColor colorWithCalibratedRed:1.0000f green:0.2902f blue:0.3098f alpha:backgroundAlpha];
+	[GrowliCalPrefsController loadColorWell:border_emergency fromKey:GrowliCalEmergencyBorderColor defaultColor:defaultColor];
 }
 
 #pragma mark -
@@ -177,6 +194,34 @@
 	}
 
 	NSData *theData = [NSArchiver archivedDataWithRootObject:[sender color]];
+	WRITE_GROWL_PREF_VALUE(key, theData, GrowliCalPrefDomain);
+	UPDATE_GROWL_PREFS();
+}
+
+- (IBAction) borderColorChanged:(id)sender {
+	NSColor *color;
+	NSString *key;
+	switch ([sender tag]) {
+		case -2:
+			key = GrowliCalVeryLowBorderColor;
+			break;
+		case -1:
+			key = GrowliCalModerateBorderColor;
+			break;
+		case 1:
+			key = GrowliCalHighBorderColor;
+			break;
+		case 2:
+			key = GrowliCalEmergencyBorderColor;
+			break;
+		case 0:
+		default:
+			key = GrowliCalNormalBorderColor;
+			break;
+	}
+	
+	color = [[sender color] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	NSData *theData = [NSArchiver archivedDataWithRootObject:color];
 	WRITE_GROWL_PREF_VALUE(key, theData, GrowliCalPrefDomain);
 	UPDATE_GROWL_PREFS();
 }

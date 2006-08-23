@@ -16,6 +16,12 @@
 #define GrowliCalHighTopColor		@"iCal-Priority-High-Top-Color"
 #define GrowliCalEmergencyTopColor	@"iCal-Priority-Emergency-Top-Color"
 
+#define GrowliCalVeryLowBorderColor		@"iCal-Priority-VeryLow-Border-Color"
+#define GrowliCalModerateBorderColor	@"iCal-Priority-Moderate-Border-Color"
+#define GrowliCalNormalBorderColor		@"iCal-Priority-Normal-Border-Color"
+#define GrowliCalHighBorderColor		@"iCal-Priority-High-Border-Color"
+#define GrowliCalEmergencyBorderColor	@"iCal-Priority-Emergency-Border-Color"
+
 #define GrowliCalOpacity				@"iCal-Opacity"
 #define GrowliCalDuration			@"iCal-Duration"
 

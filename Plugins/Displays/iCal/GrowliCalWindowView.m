@@ -21,18 +21,18 @@
 
 /* Hardcoded geometry values */
 #define PANEL_WIDTH_PX			270.0f /*!< Total width of the panel, including border */
-#define BORDER_WIDTH_PX			  2.0f
+#define BORDER_WIDTH_PX			  1.0f
 #define BORDER_RADIUS_PX		  6.0f
-#define PANEL_VSPACE_PX			  3.0f /*!< Vertical padding from bounds to content area */
+#define PANEL_VSPACE_PX			  1.0f /*!< Vertical padding from bounds to content area */
 #define PANEL_HSPACE_PX			  6.0f /*!< Horizontal padding from bounds to content area */
 #define ICON_SIZE_PX			 32.0f /*!< The width and height of the (square) icon */
 #define ICON_SIZE_LARGE_PX		 48.0f /*!< The width and height of the (square) icon */
-#define ICON_HSPACE_PX			  8.0f /*!< Horizontal space between icon and title/description */
+#define ICON_HSPACE_PX			  3.0f /*!< Horizontal space between icon and title/description */
 #define TITLE_VSPACE_PX			  5.0f /*!< Vertical space between title and description */
-#define TITLE_FONT_SIZE_PTS		 11.0f
-#define DESCR_FONT_SIZE_PTS		 11.0f
+#define TITLE_FONT_SIZE_PTS		 10.0f
+#define DESCR_FONT_SIZE_PTS		 10.0f
 #define MAX_TEXT_ROWS				5  /*!< The maximum number of rows of text, used only if the limit preference is set. */
-#define MIN_TEXT_HEIGHT			(PANEL_VSPACE_PX + PANEL_VSPACE_PX + iconSize)
+#define MIN_TEXT_HEIGHT			(PANEL_VSPACE_PX + PANEL_VSPACE_PX + iconSize + 1)
 #define TEXT_AREA_WIDTH			(PANEL_WIDTH_PX - PANEL_HSPACE_PX - PANEL_HSPACE_PX - iconSize - ICON_HSPACE_PX)
 
 static void GrowliCalShadeInterpolate( void *info, const float *inData, float *outData ) {
@@ -49,6 +49,23 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 	outData[3] = a_coeff * colors[7] + a * colors[3];
 }
 
+static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float radius) {
+	float minX = CGRectGetMinX(rect);
+	float minY = CGRectGetMinY(rect);
+	float maxX = CGRectGetMaxX(rect);
+	float maxY = CGRectGetMaxY(rect);
+	float midX = CGRectGetMidX(rect);
+	float midY = CGRectGetMidY(rect);
+	
+	CGContextBeginPath(context);
+	CGContextMoveToPoint(context, maxX, midY);
+	CGContextAddArcToPoint(context, maxX, maxY, midX, maxY, 0);		// Bottom Right
+	CGContextAddArcToPoint(context, minX, maxY, minX, midY, 0);		// Bottom Left
+	CGContextAddArcToPoint(context, minX, minY, midX, minY, radius);// Top Left
+	CGContextAddArcToPoint(context, maxX, minY, maxX, midY, radius);// Top Right
+	CGContextClosePath(context);
+}
+
 #pragma mark -
 
 @implementation GrowliCalWindowView
@@ -58,8 +75,6 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 	if ((self = [super initWithFrame:frame])) {
 		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
-		borderColor = [[NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:0.5f] retain];
-		highlightColor = [[NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:0.75f] retain];
 		textLayoutManager = [[NSLayoutManager alloc] init];
 		titleLayoutManager = [[NSLayoutManager alloc] init];
 		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
@@ -83,7 +98,6 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 	[bgColor            release];
 	[lightColor         release];
 	[borderColor        release];
-	[highlightColor     release];
 	[textStorage        release];
 	[titleStorage       release];
 	[textLayoutManager  release];
@@ -143,27 +157,35 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 		src.y = CGRectGetMaxY(bounds);
 		dst.x = CGRectGetMinX(bounds);
 		dst.y = src.y;
-		CGShadingRef shading = CGShadingCreateAxial(cspace, src, dst,
+		CGShadingRef shading = CGShadingCreateAxial(cspace, dst, src,
 													function, false, false);
 
 		CGContextDrawShading(context, shading);
 
 		CGShadingRelease(shading);
-		CGColorSpaceRelease(cspace);
 		CGFunctionRelease(function);
 
 		CGContextRestoreGState(context);
 
+		float tbcolor[4]; 
+		tbcolor[0] = [borderColor redComponent];
+		tbcolor[1] = [borderColor greenComponent];
+		tbcolor[2] = [borderColor blueComponent];
+		tbcolor[3] = [borderColor alphaComponent];
+		CGColorRef barcolor = CGColorCreate(cspace,tbcolor);
+		CGContextSetFillColorWithColor(context,barcolor);
+		CGRect titlebar = CGRectMake(0,CGRectGetMinY(shape),CGRectGetWidth(shape),15);
+		addTopRoundedRectToPath(context,titlebar,BORDER_RADIUS_PX);
+		CGContextFillPath(context);
+		CGColorSpaceRelease(cspace);
+
 		addRoundedRectToPath(context, shape, BORDER_RADIUS_PX);
 		CGContextSetLineWidth(context, BORDER_WIDTH_PX);
-		if (mouseOver)
-			[highlightColor set];
-		else
-			[borderColor set];
+		[borderColor set];
 		CGContextStrokePath(context);
 
 		NSRect drawRect;
-		drawRect.origin.x = PANEL_HSPACE_PX;
+		drawRect.origin.x = CGRectGetMaxX(shape) - iconSize - ICON_HSPACE_PX;
 		drawRect.origin.y = PANEL_VSPACE_PX;
 		drawRect.size.width = iconSize;
 		drawRect.size.height = iconSize;
@@ -173,7 +195,7 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 					 operation:NSCompositeSourceOver
 					  fraction:1.0f];
 
-		drawRect.origin.x += iconSize + ICON_HSPACE_PX;
+		drawRect.origin.x = PANEL_HSPACE_PX;
 
 		if (haveTitle) {
 			[titleLayoutManager drawGlyphsForGlyphRange:titleRange atPoint:drawRect.origin];
@@ -193,33 +215,39 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 	NSString *key;
 	NSString *textKey;
 	NSString *topKey;
+	NSString *borderKey;
 
 	switch (priority) {
 		case -2:
 			key = GrowliCalVeryLowColor;
 			textKey = GrowliCalVeryLowTextColor;
 			topKey = GrowliCalVeryLowTopColor;
+			borderKey = GrowliCalVeryLowBorderColor;
 			break;
 		case -1:
 			key = GrowliCalModerateColor;
 			textKey = GrowliCalModerateTextColor;
 			topKey = GrowliCalModerateTopColor;
+			borderKey = GrowliCalModerateBorderColor;
 			break;
 		case 1:
 			key = GrowliCalHighColor;
 			textKey = GrowliCalHighTextColor;
 			topKey = GrowliCalHighTopColor;
+			borderKey = GrowliCalHighBorderColor;
 			break;
 		case 2:
 			key = GrowliCalEmergencyColor;
 			textKey = GrowliCalEmergencyTextColor;
 			topKey = GrowliCalEmergencyTopColor;
+			borderKey = GrowliCalEmergencyBorderColor;
 			break;
 		case 0:
 		default:
 			key = GrowliCalNormalColor;
 			textKey = GrowliCalNormalTextColor;
 			topKey = GrowliCalNormalTopColor;
+			borderKey = GrowliCalNormalBorderColor;
 			break;
 	}
 
@@ -235,10 +263,16 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 		bgColor = [NSUnarchiver unarchiveObjectWithData:data];
 		bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
-		bgColor = [NSColor colorWithCalibratedRed:0.3529f
-											green:0.5647f
-											 blue:1.0f
-											alpha:backgroundAlpha];
+		if (priority == -2)			// Purple
+			bgColor = [NSColor colorWithCalibratedRed:0.7804f green:0.1098f blue:0.7725f alpha:backgroundAlpha];
+		else if (priority == -1)	// Green
+			bgColor = [NSColor colorWithCalibratedRed:0.1490f green:0.7333f blue:0.0000f alpha:backgroundAlpha];
+		else if (priority == 1)		// Orange
+			bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4510f blue:0.0000f alpha:backgroundAlpha];
+		else if (priority == 2)		// Red
+			bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
+		else						// Blue
+			bgColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:backgroundAlpha];
 	}
 	[bgColor retain];
 	[data release];
@@ -259,12 +293,38 @@ static void GrowliCalShadeInterpolate( void *info, const float *inData, float *o
 		lightColor = [NSUnarchiver unarchiveObjectWithData:data];
 		lightColor = [lightColor colorWithAlphaComponent:backgroundAlpha];
 	} else {
-		lightColor = [NSColor colorWithCalibratedRed:0.1255f
-											   green:0.3765f
-												blue:0.9529f
-											   alpha:backgroundAlpha];
+		if (priority == -2)			// Purple
+			lightColor = [NSColor colorWithCalibratedRed:0.8157f green:0.2471f blue:0.8078f alpha:backgroundAlpha];
+		else if (priority == -1)	// Green
+			lightColor = [NSColor colorWithCalibratedRed:0.3765f green:0.8039f blue:0.2549f alpha:backgroundAlpha];
+		else if (priority == 1)		// Orange
+			lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.6235f blue:0.0941f alpha:backgroundAlpha];
+		else if (priority == 2)		// Red
+			lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.2941f blue:0.3137f alpha:backgroundAlpha];
+		else						// Blue
+			lightColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0000f alpha:backgroundAlpha];
 	}
 	[lightColor retain];
+	[data release];
+
+	data = nil;
+	READ_GROWL_PREF_VALUE(borderKey, GrowliCalPrefDomain, NSData *, &data);
+	if (data && [data isKindOfClass:NSDataClass]) {
+		borderColor = [NSUnarchiver unarchiveObjectWithData:data];
+		borderColor = [borderColor colorWithAlphaComponent:backgroundAlpha];
+	} else {
+		if (priority == -2)			// Purple
+			borderColor = [NSColor colorWithCalibratedRed:0.7412f green:0.0000f blue:0.7294f alpha:backgroundAlpha];
+		else if (priority == -1)	// Green
+			borderColor = [NSColor colorWithCalibratedRed:0.0000f green:0.6824f blue:0.0000f alpha:backgroundAlpha];
+		else if (priority == 1)		// Orange
+			borderColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4314f blue:0.0000f alpha:backgroundAlpha];
+		else if (priority == 2)		// Red
+			borderColor = [NSColor colorWithCalibratedRed:0.9529f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
+		else						// Blue
+			borderColor = [NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:backgroundAlpha];
+	}
+	[borderColor retain];
 	[data release];
 }
 
