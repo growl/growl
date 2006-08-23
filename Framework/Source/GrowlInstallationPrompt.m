@@ -14,16 +14,16 @@
 #define GROWL_INSTALLATION_NIB     @"GrowlInstallationPrompt"
 #define GROWL_INSTALLATION_STRINGS @"GrowlInstallation.strings"
 
-#define DEFAULT_INSTALLATION_WINDOW_TITLE NSLocalizedStringFromTable(@"Growl Installation Recommended", GROWL_INSTALLATION_STRINGS, @"Growl installation window title")
-#define DEFAULT_UPDATE_WINDOW_TITLE       NSLocalizedStringFromTable(@"Growl Update Available", GROWL_INSTALLATION_STRINGS, @"Growl update window title")
+#define DEFAULT_INSTALLATION_WINDOW_TITLE NSLocalizedStringFromTable(@"Growl Installation Recommended", GROWL_INSTALLATION_STRINGS, [NSBundle bundleForClass:[self class]], @"Growl installation window title")
+#define DEFAULT_UPDATE_WINDOW_TITLE       NSLocalizedStringFromTable(@"Growl Update Available", GROWL_INSTALLATION_STRINGS, [NSBundle bundleForClass:[self class]], @"Growl update window title")
 
-#define DEFAULT_INSTALLATION_EXPLANATION NSLocalizedStringFromTable(@"This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.", GROWL_INSTALLATION_STRINGS, @"Default Growl installation explanation")
-#define DEFAULT_UPDATE_EXPLANATION       NSLocalizedStringFromTable(@"This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.", GROWL_INSTALLATION_STRINGS, @"Default Growl update explanation")
+#define DEFAULT_INSTALLATION_EXPLANATION NSLocalizedStringFromTable(@"This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.", GROWL_INSTALLATION_STRINGS, [NSBundle bundleForClass:[self class]], @"Default Growl installation explanation")
+#define DEFAULT_UPDATE_EXPLANATION       NSLocalizedStringFromTable(@"This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required.", GROWL_INSTALLATION_STRINGS, [NSBundle bundleForClass:[self class]], @"Default Growl update explanation")
 
-#define INSTALL_BUTTON_TITLE          NSLocalizedStringFromTable(@"Install", GROWL_INSTALLATION_STRINGS, @"Button title for installing Growl")
-#define UPDATE_BUTTON_TITLE           NSLocalizedStringFromTable(@"Update", GROWL_INSTALLATION_STRINGS, @"Button title for updating Growl")
-#define CANCEL_BUTTON_TITLE           NSLocalizedStringFromTable(@"Cancel", GROWL_INSTALLATION_STRINGS, @"Button title for canceling installation of Growl")
-#define DONT_ASK_AGAIN_CHECKBOX_TITLE NSLocalizedStringFromTable(@"Don't Ask Again", GROWL_INSTALLATION_STRINGS, @"Don't ask again checkbox title for installation of Growl")
+#define INSTALL_BUTTON_TITLE			NSLocalizedStringFromTableInBundle(@"Install", GROWL_INSTALLATION_STRINGS, [NSBundle bundleForClass:[self class]], @"Button title for installing Growl")
+#define UPDATE_BUTTON_TITLE				NSLocalizedStringFromTableInBundle(@"Update", GROWL_INSTALLATION_STRINGS, [NSBundle bundleForClass:[self class]], @"Button title for updating Growl")
+#define CANCEL_BUTTON_TITLE				NSLocalizedStringFromTableInBundle(@"Cancel", GROWL_INSTALLATION_STRINGS, [NSBundle bundleForClass:[self class]], @"Button title for canceling installation of Growl")
+#define DONT_ASK_AGAIN_CHECKBOX_TITLE	NSLocalizedStringFromTableInBundle(@"Don't Ask Again", GROWL_INSTALLATION_STRINGS, [NSBundle bundleForClass:[self class]], @"Don't ask again checkbox title for installation of Growl")
 
 #define GROWL_TEXT_SIZE 11
 
