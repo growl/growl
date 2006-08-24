@@ -3,7 +3,7 @@ package Mac::Growl;
 use strict;
 use warnings;
 
-our $VERSION = '0.65';
+our $VERSION = '0.67';
 
 use base 'Exporter';
 our @EXPORT = qw();
@@ -155,7 +155,7 @@ sub Foundation_RegisterNotifications($$$;$)
 		my $path = NSWorkspace->sharedWorkspace->fullPathForApplication_(
 			NSString->stringWithCString_($iconOfApp)
 		);
-		if ($path) {
+		if ($path && ref($path) eq 'NSCFString') {
 			my $icon = NSWorkspace->sharedWorkspace->iconForFile_($path);
 			if ($icon && $icon->isValid) {
 				$regDict->setObject_forKey_($icon->TIFFRepresentation, GROWL_APP_ICON);
@@ -231,7 +231,7 @@ sub Glue_RegisterNotifications($$$;$)
 	for ($appName) {
 		_Fix_Encode($_);
 		_Fix_Glue_String($_);
-    }
+	}
 
 	for my $notes ($allNotes, $defaultNotes) {
 		$notes = [ map {
@@ -253,7 +253,7 @@ sub Glue_PostNotification($$$$;$$$)
 	for ($appName, $noteName, $noteTitle, $noteDescription) {
 		_Fix_Encode($_);
 		_Fix_Glue_String($_);
-    }
+	}
 	$sticky = $sticky ? 1 : 0;
 
 	my %params = (
@@ -578,7 +578,7 @@ Chris Nandor E<lt>projects@pudge.netE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2004-2005 The Growl Project.  All rights reserved.
+Copyright (C) 2004-2006 The Growl Project.  All rights reserved.
 
 
 Redistribution and use in source and binary forms, with or without

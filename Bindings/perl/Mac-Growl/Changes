@@ -1,3 +1,6 @@
+0.67  Thu Aug 24 15:54:50 2006
+	- Add a path sanity check (Ben H Kram)
+
 0.65  Fri May 27 22:12:20 2005
 	- Fix some logic problems in $base stuff, make sure we catch errors
 	  in loading Mac::Glue, so we don't use it for base even if set
