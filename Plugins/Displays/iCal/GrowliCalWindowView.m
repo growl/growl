@@ -212,120 +212,76 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 #pragma mark -
 
 - (void) setPriority:(int)priority {
-	NSString *key;
-	NSString *textKey;
-	NSString *topKey;
-	NSString *borderKey;
-
-	switch (priority) {
-		case -2:
-			key = GrowliCalVeryLowColor;
-			textKey = GrowliCalVeryLowTextColor;
-			topKey = GrowliCalVeryLowTopColor;
-			borderKey = GrowliCalVeryLowBorderColor;
-			break;
-		case -1:
-			key = GrowliCalModerateColor;
-			textKey = GrowliCalModerateTextColor;
-			topKey = GrowliCalModerateTopColor;
-			borderKey = GrowliCalModerateBorderColor;
-			break;
-		case 1:
-			key = GrowliCalHighColor;
-			textKey = GrowliCalHighTextColor;
-			topKey = GrowliCalHighTopColor;
-			borderKey = GrowliCalHighBorderColor;
-			break;
-		case 2:
-			key = GrowliCalEmergencyColor;
-			textKey = GrowliCalEmergencyTextColor;
-			topKey = GrowliCalEmergencyTopColor;
-			borderKey = GrowliCalEmergencyBorderColor;
-			break;
-		case 0:
-		default:
-			key = GrowliCalNormalColor;
-			textKey = GrowliCalNormalTextColor;
-			topKey = GrowliCalNormalTopColor;
-			borderKey = GrowliCalNormalBorderColor;
-			break;
-	}
-
-	NSData *data = nil;
-
 	float backgroundAlpha = 95.0f;
 	READ_GROWL_PREF_FLOAT(GrowliCalOpacity, GrowliCalPrefDomain, &backgroundAlpha);
 	backgroundAlpha *= 0.01f;
+	textColor = [NSColor whiteColor];
 
-	Class NSDataClass = [NSData class];
-	READ_GROWL_PREF_VALUE(key, GrowliCalPrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass]) {
-		bgColor = [NSUnarchiver unarchiveObjectWithData:data];
-		bgColor = [bgColor colorWithAlphaComponent:backgroundAlpha];
+	NSData *data = nil;
+	READ_GROWL_PREF_VALUE(GrowliCalOverallColor, GrowliCalPrefDomain, NSData *, &data);
+	NSString *color = [NSUnarchiver unarchiveObjectWithData:data];
+	[data release];
+	if ([color isEqualToString:@"Purple"]) {
+		bgColor = [NSColor colorWithCalibratedRed:0.7804f green:0.1098f blue:0.7725f alpha:backgroundAlpha];		
+		lightColor = [NSColor colorWithCalibratedRed:0.8157f green:0.2471f blue:0.8078f alpha:backgroundAlpha];
+		borderColor = [NSColor colorWithCalibratedRed:0.7412f green:0.0000f blue:0.7294f alpha:backgroundAlpha];
+		[bgColor retain];
+		[lightColor retain];
+		[borderColor retain];
+	} else if ([color isEqualToString:@"Green"]) {
+		bgColor = [NSColor colorWithCalibratedRed:0.1490f green:0.7333f blue:0.0000f alpha:backgroundAlpha];		
+		lightColor = [NSColor colorWithCalibratedRed:0.3765f green:0.8039f blue:0.2549f alpha:backgroundAlpha];
+		borderColor = [NSColor colorWithCalibratedRed:0.0000f green:0.6824f blue:0.0000f alpha:backgroundAlpha];
+		[bgColor retain];
+		[lightColor retain];
+		[borderColor retain];
+	} else if ([color isEqualToString:@"Blue"]) {
+		bgColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:backgroundAlpha];		
+		lightColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0000f alpha:backgroundAlpha];
+		borderColor = [NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:backgroundAlpha];
+		[bgColor retain];
+		[lightColor retain];
+		[borderColor retain];
+	} else if ([color isEqualToString:@"Orange"]) {
+		bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4510f blue:0.0000f alpha:backgroundAlpha];
+		lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.6235f blue:0.0941f alpha:backgroundAlpha];
+		borderColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4314f blue:0.0000f alpha:backgroundAlpha];
+		[bgColor retain];
+		[lightColor retain];
+		[borderColor retain];
+	} else if ([color isEqualToString:@"Red"]) {
+		bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
+		lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.2941f blue:0.3137f alpha:backgroundAlpha];
+		borderColor = [NSColor colorWithCalibratedRed:0.9529f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
+		[bgColor retain];
+		[lightColor retain];
+		[borderColor retain];
 	} else {
-		if (priority == -2)			// Purple
+		if (priority == -2) {
 			bgColor = [NSColor colorWithCalibratedRed:0.7804f green:0.1098f blue:0.7725f alpha:backgroundAlpha];
-		else if (priority == -1)	// Green
-			bgColor = [NSColor colorWithCalibratedRed:0.1490f green:0.7333f blue:0.0000f alpha:backgroundAlpha];
-		else if (priority == 1)		// Orange
-			bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4510f blue:0.0000f alpha:backgroundAlpha];
-		else if (priority == 2)		// Red
-			bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
-		else						// Blue
-			bgColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:backgroundAlpha];
-	}
-	[bgColor retain];
-	[data release];
-
-	data = nil;
-	READ_GROWL_PREF_VALUE(textKey, GrowliCalPrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass]) {
-		textColor = [NSUnarchiver unarchiveObjectWithData:data];
-	} else {
-		textColor = [NSColor whiteColor];
-	}
-	[textColor retain];
-	[data release];
-
-	data = nil;
-	READ_GROWL_PREF_VALUE(topKey, GrowliCalPrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass]) {
-		lightColor = [NSUnarchiver unarchiveObjectWithData:data];
-		lightColor = [lightColor colorWithAlphaComponent:backgroundAlpha];
-	} else {
-		if (priority == -2)			// Purple
 			lightColor = [NSColor colorWithCalibratedRed:0.8157f green:0.2471f blue:0.8078f alpha:backgroundAlpha];
-		else if (priority == -1)	// Green
-			lightColor = [NSColor colorWithCalibratedRed:0.3765f green:0.8039f blue:0.2549f alpha:backgroundAlpha];
-		else if (priority == 1)		// Orange
-			lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.6235f blue:0.0941f alpha:backgroundAlpha];
-		else if (priority == 2)		// Red
-			lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.2941f blue:0.3137f alpha:backgroundAlpha];
-		else						// Blue
-			lightColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0000f alpha:backgroundAlpha];
-	}
-	[lightColor retain];
-	[data release];
-
-	data = nil;
-	READ_GROWL_PREF_VALUE(borderKey, GrowliCalPrefDomain, NSData *, &data);
-	if (data && [data isKindOfClass:NSDataClass]) {
-		borderColor = [NSUnarchiver unarchiveObjectWithData:data];
-		borderColor = [borderColor colorWithAlphaComponent:backgroundAlpha];
-	} else {
-		if (priority == -2)			// Purple
 			borderColor = [NSColor colorWithCalibratedRed:0.7412f green:0.0000f blue:0.7294f alpha:backgroundAlpha];
-		else if (priority == -1)	// Green
+		} else if (priority == -1) {
+			bgColor = [NSColor colorWithCalibratedRed:0.1490f green:0.7333f blue:0.0000f alpha:backgroundAlpha];
+			lightColor = [NSColor colorWithCalibratedRed:0.3765f green:0.8039f blue:0.2549f alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:0.0000f green:0.6824f blue:0.0000f alpha:backgroundAlpha];
-		else if (priority == 1)		// Orange
+		} else if (priority == 1) {
+			bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4510f blue:0.0000f alpha:backgroundAlpha];
+			lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.6235f blue:0.0941f alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:1.0000f green:0.4314f blue:0.0000f alpha:backgroundAlpha];
-		else if (priority == 2)		// Red
+		} else if (priority == 2) {
+			bgColor = [NSColor colorWithCalibratedRed:1.0000f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
+			lightColor = [NSColor colorWithCalibratedRed:1.0000f green:0.2941f blue:0.3137f alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:0.9529f green:0.0000f blue:0.0000f alpha:backgroundAlpha];
-		else						// Blue
+		} else {
+			bgColor = [NSColor colorWithCalibratedRed:0.1255f green:0.3765f blue:0.9529f alpha:backgroundAlpha];
+			lightColor = [NSColor colorWithCalibratedRed:0.3529f green:0.5647f blue:1.0000f alpha:backgroundAlpha];
 			borderColor = [NSColor colorWithCalibratedRed:0.0588f green:0.2784f blue:0.9137f alpha:backgroundAlpha];
+		}
+		[bgColor retain];
+		[lightColor retain];
+		[borderColor retain];
 	}
-	[borderColor retain];
-	[data release];
 }
 
 - (void) setIcon:(NSImage *) anIcon {

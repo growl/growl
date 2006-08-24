@@ -11,29 +11,7 @@
 #import <PreferencePanes/PreferencePanes.h>
 
 @interface GrowliCalPrefsController : NSPreferencePane {
-	IBOutlet NSColorWell	*top_veryLow;
-	IBOutlet NSColorWell	*top_moderate;
-	IBOutlet NSColorWell	*top_normal;
-	IBOutlet NSColorWell	*top_high;
-	IBOutlet NSColorWell	*top_emergency;
-
-	IBOutlet NSColorWell	*color_veryLow;
-	IBOutlet NSColorWell	*color_moderate;
-	IBOutlet NSColorWell	*color_normal;
-	IBOutlet NSColorWell	*color_high;
-	IBOutlet NSColorWell	*color_emergency;
-
-	IBOutlet NSColorWell	*text_veryLow;
-	IBOutlet NSColorWell	*text_moderate;
-	IBOutlet NSColorWell	*text_normal;
-	IBOutlet NSColorWell	*text_high;
-	IBOutlet NSColorWell	*text_emergency;
-
-	IBOutlet NSColorWell	*border_veryLow;
-	IBOutlet NSColorWell	*border_moderate;
-	IBOutlet NSColorWell	*border_normal;
-	IBOutlet NSColorWell	*border_high;
-	IBOutlet NSColorWell	*border_emergency;
+	IBOutlet NSPopUpButton	*overall_color;
 
 	IBOutlet NSSlider		*slider_opacity;
 }
@@ -48,8 +26,5 @@
 - (int) size;
 - (void) setSize:(int)value;
 - (IBAction) colorChanged:(id)sender;
-- (IBAction) textColorChanged:(id)sender;
-- (IBAction) topColorChanged:(id)sender;
-- (IBAction) borderColorChanged:(id)sender;
 
 @end
