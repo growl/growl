@@ -222,6 +222,13 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 	NSString *color = [NSUnarchiver unarchiveObjectWithData:data];
 	[data release];
 	if ([color isEqualToString:@"Purple"]) {
+		bgColor = [NSColor colorWithCalibratedRed:0.4000f green:0.1804f blue:0.7569f alpha:backgroundAlpha];		
+		lightColor = [NSColor colorWithCalibratedRed:0.6863f green:0.5294f blue:0.9765f alpha:backgroundAlpha];
+		borderColor = [NSColor colorWithCalibratedRed:0.3216f green:0.0588f blue:0.6902f alpha:backgroundAlpha];
+		[bgColor retain];
+		[lightColor retain];
+		[borderColor retain];		
+	} else if ([color isEqualToString:@"Pink"]) {
 		bgColor = [NSColor colorWithCalibratedRed:0.7804f green:0.1098f blue:0.7725f alpha:backgroundAlpha];		
 		lightColor = [NSColor colorWithCalibratedRed:0.8157f green:0.2471f blue:0.8078f alpha:backgroundAlpha];
 		borderColor = [NSColor colorWithCalibratedRed:0.7412f green:0.0000f blue:0.7294f alpha:backgroundAlpha];
@@ -258,9 +265,9 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 		[borderColor retain];
 	} else {
 		if (priority == -2) {
-			bgColor = [NSColor colorWithCalibratedRed:0.7804f green:0.1098f blue:0.7725f alpha:backgroundAlpha];
-			lightColor = [NSColor colorWithCalibratedRed:0.8157f green:0.2471f blue:0.8078f alpha:backgroundAlpha];
-			borderColor = [NSColor colorWithCalibratedRed:0.7412f green:0.0000f blue:0.7294f alpha:backgroundAlpha];
+			bgColor = [NSColor colorWithCalibratedRed:0.4000f green:0.1804f blue:0.7569f alpha:backgroundAlpha];		
+			lightColor = [NSColor colorWithCalibratedRed:0.6863f green:0.5294f blue:0.9765f alpha:backgroundAlpha];
+			borderColor = [NSColor colorWithCalibratedRed:0.3216f green:0.0588f blue:0.6902f alpha:backgroundAlpha];
 		} else if (priority == -1) {
 			bgColor = [NSColor colorWithCalibratedRed:0.1490f green:0.7333f blue:0.0000f alpha:backgroundAlpha];
 			lightColor = [NSColor colorWithCalibratedRed:0.3765f green:0.8039f blue:0.2549f alpha:backgroundAlpha];
