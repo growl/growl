@@ -380,12 +380,12 @@ static OSStatus _fillOutTextInWindow(WindowRef window, Boolean isUpdate) {
 		if (message) message = CFRetain(message);
 		else {
 			if (isUpdate) {
-				message = CFCopyLocalizedStringFromTableInBundle(CFSTR("This program displays information via Growl, a centralized notification system.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required."),
+				message = CFCopyLocalizedStringFromTableInBundle(CFSTR("This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required."),
 																 CFSTR("GrowlInstallation"),
 																 bundle,
 																 /*comment*/ NULL);
 			} else {
-				message = CFCopyLocalizedStringFromTableInBundle(CFSTR("This program displays information via Growl, a centralized notification system.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required."),
+				message = CFCopyLocalizedStringFromTableInBundle(CFSTR("This program displays information via Growl, a centralized notification system that enables applications to unobtrusively inform the user about potentially important information.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required."),
 																 CFSTR("GrowlInstallation"),
 																 bundle,
 																 /*comment*/ NULL);
