@@ -355,10 +355,18 @@ static OSStatus _fillOutTextInWindow(WindowRef window, Boolean isUpdate) {
 		if (delegate) title = isUpdate ? delegate->growlUpdateWindowTitle : delegate->growlInstallationWindowTitle;
 		if (title) title = CFRetain(title);
 		else {
-			title = CFCopyLocalizedStringFromTableInBundle(isUpdate ? CFSTR("Growl Update Available") : CFSTR("Growl Installation Recommended"),
-														   CFSTR("GrowlInstallation"),
-														   bundle,
-														   /*comment*/ NULL);
+			if (isUpdate) {
+				title = CFCopyLocalizedStringFromTableInBundle(CFSTR("Growl Update Available"),
+															   CFSTR("GrowlInstallation"),
+															   bundle,
+															   /*comment*/ NULL);
+				
+			} else {
+				title = CFCopyLocalizedStringFromTableInBundle(CFSTR("Growl Installation Recommended"),
+															   CFSTR("GrowlInstallation"),
+															   bundle,
+															   /*comment*/ NULL);
+			}
 		}
 
 		if (title) {
@@ -371,12 +379,17 @@ static OSStatus _fillOutTextInWindow(WindowRef window, Boolean isUpdate) {
 		if (delegate) message = isUpdate ? delegate->growlUpdateInformation : delegate->growlInstallationInformation;
 		if (message) message = CFRetain(message);
 		else {
-			message = CFCopyLocalizedStringFromTableInBundle(isUpdate
-															 ? CFSTR("This program displays information via Growl, a centralized notification system.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required.")
-															 : CFSTR("This program displays information via Growl, a centralized notification system.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required."),
-															 CFSTR("GrowlInstallation"),
-															 bundle,
-															 /*comment*/ NULL);
+			if (isUpdate) {
+				message = CFCopyLocalizedStringFromTableInBundle(CFSTR("This program displays information via Growl, a centralized notification system.  A version of Growl is currently installed, but this program includes an updated version of Growl.  It is strongly recommended that you update now.  No download is required."),
+																 CFSTR("GrowlInstallation"),
+																 bundle,
+																 /*comment*/ NULL);
+			} else {
+				message = CFCopyLocalizedStringFromTableInBundle(CFSTR("This program displays information via Growl, a centralized notification system.  Growl is not currently installed; to see Growl notifications from this and other applications, you must install it.  No download is required."),
+																 CFSTR("GrowlInstallation"),
+																 bundle,
+																 /*comment*/ NULL);
+			}
 		}
 
 		if (!title)   title   = CFSTR("");
