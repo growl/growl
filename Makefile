@@ -52,7 +52,7 @@ install-growl: growl
 
 headerdoc:
 	rm -rf $(HEADERDOC_DIR)
-	headerdoc2html -C -o $(HEADERDOC_DIR) Common/Source/GrowlDefines.h Common/Source/GrowlDefinesInternal.h Framework/Source/*.h Common/Source/GrowlPathUtil.h Display\ Plugins/GrowlDisplayProtocol.h Framework/Source/Growl.hdoc
+	headerdoc2html -C -o $(HEADERDOC_DIR) Common/Source/GrowlDefines.h Common/Source/GrowlDefinesInternal.h Framework/Source/*.h Common/Source/GrowlPathUtil.h Plugins/Displays/GrowlDisplayProtocol.h Framework/Source/Growl.hdoc
 	gatherheaderdoc $(HEADERDOC_DIR)
 
 uninstall:
@@ -72,3 +72,18 @@ uninstall:
 		echo mv "$(HOME)/Library/Frameworks/GrowlAppBridge.framework" "$(HOME)/.Trash"; \
 		mv "$(HOME)/Library/Frameworks/GrowlAppBridge.framework" "$(HOME)/.Trash"; \
 	fi
+
+localizable-strings:
+	genstrings -o Core/Resources/English.lproj Core/Source/*.h Core/Source/*.m
+	genstrings -o Plugins/Displays/Bezel/English.lproj Plugins/Displays/Bezel/*.h Plugins/Displays/Bezel/*.m
+	genstrings -o Plugins/Displays/Brushed/English.lproj Plugins/Displays/Brushed/*.h Plugins/Displays/Brushed/*.m
+	genstrings -o Plugins/Displays/Bubbles/English.lproj Plugins/Displays/Bubbles/*.h Plugins/Displays/Bubbles/*.m
+	genstrings -o Plugins/Displays/Log/English.lproj Plugins/Displays/Log/*.h Plugins/Displays/Log/*.m
+	genstrings -o Plugins/Displays/MailMe/English.lproj Plugins/Displays/MailMe/*.h Plugins/Displays/MailMe/*.m
+	genstrings -o Plugins/Displays/MusicVideo/English.lproj Plugins/Displays/MusicVideo/*.h Plugins/Displays/MusicVideo/*.m
+	genstrings -o Plugins/Displays/Nano/English.lproj Plugins/Displays/Nano/*.h Plugins/Displays/Nano/*.m
+	genstrings -o Plugins/Displays/Smoke/English.lproj Plugins/Displays/Smoke/*.h Plugins/Displays/Smoke/*.m
+		genstrings -o Plugins/Displays/SMS/English.lproj Plugins/Displays/SMS/*.h Plugins/Displays/SMS/*.m
+	genstrings -o Plugins/Displays/Speech/English.lproj Plugins/Displays/Speech/*.h Plugins/Displays/Speech/*.m
+	genstrings -o Plugins/Displays/WebKit/English.lproj Plugins/Displays/WebKit/*.h Plugins/Displays/WebKit/*.m
+	genstrings -o Framework/Resources/English.lproj Framework/Source/*.h Framework/Source/*.m Framework/Source/*.c
