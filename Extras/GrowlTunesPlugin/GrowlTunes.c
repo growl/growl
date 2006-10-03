@@ -561,7 +561,28 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			setupTitleString(visualPluginData, title);
 			setupDescString(visualPluginData, desc);
 			
+			Handle coverArt = NULL;
+			OSType format;
+			err = PlayerGetCurrentTrackCoverArt(visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
+			if (coverArtDataRef)
+				CFRelease(coverArtDataRef);
+			if ((err == noErr) && coverArt) {
+				//get our data ready for the notification.
+				coverArtDataRef = CFDataCreate(kCFAllocatorDefault, (const UInt8 *)*coverArt, GetHandleSize(coverArt));
+			} else {
+				coverArtDataRef = NULL;
+				/*
+				char *string = (char *)&format;
+				CFLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
+				*/
+			}
+
+			notification.iconData = coverArtDataRef;
+			
 			GrowlTunes_PostNotification(&notification);
+			
+			if (coverArt)
+				DisposeHandle(coverArt);
 			break;
 
 		/*
