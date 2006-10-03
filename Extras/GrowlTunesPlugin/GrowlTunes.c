@@ -548,6 +548,11 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			information about the currently playing song.
 		*/
 		case kVisualPluginChangeTrackMessage:
+			if (messageInfo->u.changeTrackMessage.trackInfo)
+				visualPluginData->trackInfo = *messageInfo->u.changeTrackMessage.trackInfoUnicode;
+			else
+				memset(&visualPluginData->trackInfo, 0, sizeof(visualPluginData->trackInfo));
+
 			if (messageInfo->u.changeTrackMessage.streamInfo)
 				visualPluginData->streamInfo = *messageInfo->u.changeTrackMessage.streamInfoUnicode;
 			else
@@ -555,7 +560,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 
 			setupTitleString(visualPluginData, title);
 			setupDescString(visualPluginData, desc);
-
+			
 			GrowlTunes_PostNotification(&notification);
 			break;
 
@@ -650,6 +655,7 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 #pragma unused(refCon)
 	OSStatus		err = noErr;
 	//CFLog(1, CFSTR("%s"), __FUNCTION__);
+
 	switch (message) {
 		case kPluginInitMessage:
 			err = RegisterVisualPlugin(messageInfo);

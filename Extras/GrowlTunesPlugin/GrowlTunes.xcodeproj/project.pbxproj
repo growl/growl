@@ -32,23 +32,6 @@
 		E1A35FFC0942D12100B79E46 /* SettingsDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = E1A35FFB0942D12000B79E46 /* SettingsDialog.nib */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildStyle section */
-		E10358EB0A93FEAA00E61668 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-			};
-			name = Development;
-		};
-		E10358EC0A93FEAA00E61668 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
-
 /* Begin PBXContainerItemProxy section */
 		9335488D093A9D0D007C8B10 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -162,6 +145,13 @@
 			remoteGlobalIDString = 933548E2093A9EF2007C8B10;
 			remoteInfo = "External Frameworks";
 		};
+		93CBFDCB0AD1DD840014133F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93354876093A9D0D007C8B10 /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E14410EF0A94072E0063C4DC /* iCal.growlView */;
+			remoteInfo = iCal;
+		};
 		E1B3D1710967235D00021266 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 93354876093A9D0D007C8B10 /* Growl.xcodeproj */;
@@ -268,6 +258,7 @@
 				9335489E093A9D0D007C8B10 /* Speech.growlView */,
 				933548A0093A9D0D007C8B10 /* Brushed.growlView */,
 				933548A2093A9D0D007C8B10 /* Bubbles.growlView */,
+				93CBFDCC0AD1DD840014133F /* iCal.growlView */,
 				933548A4093A9D0D007C8B10 /* Bezel.growlView */,
 				933548A6093A9D0D007C8B10 /* Smoke.growlView */,
 				E1B3D1720967235D00021266 /* Nano.growlView */,
@@ -321,12 +312,6 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 93353E4C093A1103007C8B10 /* Build configuration list for PBXProject "GrowlTunes" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				E10358EB0A93FEAA00E61668 /* Development */,
-				E10358EC0A93FEAA00E61668 /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* iTunesXPlugIn */;
 			projectDirPath = "";
@@ -440,6 +425,13 @@
 			fileType = wrapper.cfbundle;
 			path = GrowlSMS.growlView;
 			remoteRef = 933548AB093A9D0D007C8B10 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		93CBFDCC0AD1DD840014133F /* iCal.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = iCal.growlView;
+			remoteRef = 93CBFDCB0AD1DD840014133F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		E1B3D1720967235D00021266 /* Nano.growlView */ = {
