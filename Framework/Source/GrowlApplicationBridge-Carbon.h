@@ -593,7 +593,7 @@ GROWL_EXPORT Boolean Growl_WillRegisterWhenGrowlIsReady(void);
  *	 This function does not attempt to clean up the dictionary in any way - for
  *	 example, if it is missing the <code>GROWL_APP_NAME</code> key, the result
  *	 will be missing it too. Use
- *	 <code>Growl_CreateRegistrationDictionaryByFillingInDictionary:</code> or
+ *	 <code>Growl_CreateRegistrationDictionaryByFillingInDictionary</code> or
  *	 <code>Growl_CreateRegistrationDictionaryByFillingInDictionaryRestrictedToKeys</code>
  *	 to try to fill in missing keys.
  *
