@@ -95,7 +95,7 @@ void convertBytesToFormat(const void *inBytes, const Size inLength, OSType destT
 			HLock(outHandle);
 			Handle *hptr = (Handle *)*outHandle;
 			*hptr = NewHandle(0);
-			DEBUG_printf1("Handle in outHandle: %p\n", *hptr);
+			DEBUG_printf1("Handle in outHandle: %p\n", (void *)*hptr);
 			HUnlock(outHandle);
 		}
 
@@ -108,14 +108,14 @@ void convertBytesToFormat(const void *inBytes, const Size inLength, OSType destT
 			PointerDataRefRecord *pdrrptr;
 			HLock(inHandle);
 			pdrrptr = (PointerDataRefRecord *)*inHandle;
-			DEBUG_printf2("PDRR in inHandle: data %p; dataLength %u\n", pdrrptr->data, pdrrptr->dataLength);
+			DEBUG_printf2("PDRR in inHandle: data %p; dataLength %u\n", pdrrptr->data, (unsigned)pdrrptr->dataLength);
 			HUnlock(inHandle);
 		}
 
 		//okay, our I/O Handles should be all set up now. do the job.
 
 		if(inHandle && outHandle) {
-			DEBUG_printf6("inHandle %p %p %p; outHandle %p %p %p\n", inHandle, *inHandle, *(Handle *)*inHandle, outHandle, *outHandle, *(Handle *)*outHandle);
+			DEBUG_printf6("inHandle %p %p %p; outHandle %p %p %p\n", (void *)inHandle, (void *)*inHandle, (void *)*(Handle *)*inHandle, (void *)outHandle, (void *)*outHandle, (void *)*(Handle *)*outHandle);
 			err = GetGraphicsImporterForDataRef(inHandle, PointerDataHandlerSubType, &importer);
 			DEBUG_printf1("GetGraphicsImporterForDataRef: %i\n", (int)err);
 //			if(err != noErr) break;
