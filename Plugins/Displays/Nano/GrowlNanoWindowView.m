@@ -60,7 +60,6 @@ void addRoundedBottomToPath(CGContextRef context, CGRect rect, float radius) {
 }
 
 - (void) drawRect:(NSRect)rect {
-	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, rect.origin.x, rect.origin.y, rect.size.height, rect.size.width);
 		
 	NSGraphicsContext *context = [NSGraphicsContext currentContext];
 	CGContextRef cgContext = [context graphicsPort];

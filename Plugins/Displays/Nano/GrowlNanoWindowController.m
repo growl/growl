@@ -143,7 +143,6 @@
 	[panel setFrame:viewFrame display:NO];
 	NSRect screen = [[self screen] visibleFrame];
 	[panel setFrameOrigin:NSMakePoint( NSMinX(screen), NSMaxY(screen))];
-	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, [panel frame].origin.x, [panel frame].origin.y, [panel frame].size.height, [panel frame].size.width);
 }
 
 - (unsigned) depth {

@@ -53,7 +53,6 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 @implementation GrowlBubblesWindowView
 
 - (id) initWithFrame:(NSRect) frame {
-	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, frame.origin.x, frame.origin.y, frame.size.height, frame.size.width);
 	if ((self = [super initWithFrame:frame])) {
 		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
 		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
@@ -97,7 +96,6 @@ static void GrowlBubblesShadeInterpolate( void *info, const float *inData, float
 
 
 - (void) drawRect:(NSRect) rect {
-	NSLog(@"%s %f %f %f %f\n", __FUNCTION__, rect.origin.x, rect.origin.y, rect.size.height, rect.size.width);
 	//Make sure that we don't draw in the main thread
 	//if ([super dispatchDrawingToThread:rect]) {
 		NSRect b = [self bounds];
