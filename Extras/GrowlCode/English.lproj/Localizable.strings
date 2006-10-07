@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Xcode</key>
+	<string>Xcode</string>
+	<key>Build Succeeded</key>
+	<string>Build Succeeded</string>
+	<key>Build Failed</key>
+	<string>Build Failed</string>
+	<key>Clean Complete</key>
+	<string>Clean Complete</string>
+	<key>Disassembly Complete</key>
+	<string>Disassembly Complete</string>
+	<key>Compilation Succeeded</key>
+	<string>Compilation Succeeded</string>
+	<key>Compilation Failed</key>
+	<string>Compilation Failed</string>
+	<key>Preprocessing Complete</key>
+	<string>Preprocessing Complete</string>
+</dict>
+</plist>
