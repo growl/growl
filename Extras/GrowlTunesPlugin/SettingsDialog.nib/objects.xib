@@ -4,23 +4,23 @@
   <object name="rootObject" class="NSCustomObject" id="1">
     <string name="customClass">NSApplication</string>
   </object>
-  <array count="14" name="allObjects">
+  <array count="24" name="allObjects">
     <object class="IBCarbonWindow" id="166">
-      <string name="windowRect">201 164 505 391 </string>
+      <string name="windowRect">75 200 374 619 </string>
       <string name="title">PluginSettings</string>
       <object name="rootControl" class="IBCarbonRootControl" id="167">
-        <string name="bounds">0 0 304 227 </string>
-        <array count="3" name="subviews">
+        <string name="bounds">0 0 299 419 </string>
+        <array count="4" name="subviews">
           <object class="IBCarbonButton" id="184">
-            <string name="bounds">264 137 284 207 </string>
+            <string name="bounds">264 179 284 249 </string>
             <ostype name="controlSignature">save</ostype>
-            <int name="controlID">10</int>
+            <int name="controlID">1</int>
             <string name="title">OK</string>
             <ostype name="command">ok  </ostype>
           </object>
           <object class="IBCarbonGroupBox" id="190">
             <string name="bounds">6 20 143 207 </string>
-            <array count="7" name="subviews">
+            <array count="8" name="subviews">
               <object class="IBCarbonCheckBox" id="191">
                 <string name="bounds">36 36 54 93 </string>
                 <ostype name="controlSignature">cbox</ostype>
@@ -71,6 +71,13 @@
                 <string name="title">Disc</string>
                 <int name="initialState">1</int>
               </object>
+              <object class="IBCarbonCheckBox" id="208">
+                <string name="bounds">108 106 126 167 </string>
+                <ostype name="controlSignature">cbox</ostype>
+                <int name="controlID">10</int>
+                <string name="title">Rating</string>
+                <int name="initialState">1</int>
+              </object>
             </array>
             <string name="title">Notification Data</string>
           </object>
@@ -78,15 +85,57 @@
             <string name="bounds">149 20 244 207 </string>
             <array count="2" name="subviews">
               <object class="IBCarbonButton" id="199">
-                <string name="bounds">208 73 228 143 </string>
+                <string name="bounds">208 78 228 148 </string>
+                <ostype name="controlSignature">set </ostype>
+                <int name="controlID">12</int>
                 <string name="title">Set</string>
               </object>
-              <object class="IBCarbonEditText" id="200">
+              <object class="IBCarbonEditText" id="207">
                 <string name="bounds">181 39 197 188 </string>
+                <ostype name="controlSignature">text</ostype>
+                <int name="controlID">11</int>
+                <boolean name="enabled">FALSE</boolean>
+                <int name="justification">1</int>
                 <boolean name="isUnicode">TRUE</boolean>
               </object>
             </array>
-            <string name="title">Global HotKey</string>
+            <string name="title">Display Track HotKey</string>
+          </object>
+          <object class="IBCarbonGroupBox" id="209">
+            <string name="bounds">20 227 244 399 </string>
+            <array count="2" name="subviews">
+              <object class="IBCarbonDBListView" id="210">
+                <string name="bounds">45 247 229 379 </string>
+                <int name="controlID">45</int>
+                <boolean name="enabled">FALSE</boolean>
+                <boolean name="horzScrollBar">FALSE</boolean>
+                <array count="2" name="listViewColumns">
+                  <object class="IBCarbonDBListViewColumn">
+                    <ostype name="propertyID">enbl</ostype>
+                    <ostype name="propertyType">chbx</ostype>
+                    <int name="propertyFlags">262144</int>
+                    <int name="sortOrder">1</int>
+                    <int name="maxWidth">20</int>
+                  </object>
+                  <object class="IBCarbonDBListViewColumn">
+                    <ostype name="propertyID">name</ostype>
+                    <int name="propertyFlags">0</int>
+                    <int name="sortOrder">1</int>
+                    <int name="maxWidth">160</int>
+                    <string name="titleString">Name</string>
+                  </object>
+                </array>
+              </object>
+              <object class="IBCarbonCheckBox" id="215">
+                <string name="bounds">24 247 42 331 </string>
+                <ostype name="controlSignature">cbox</ostype>
+                <int name="controlID">13</int>
+                <boolean name="small">TRUE</boolean>
+                <int name="controlSize">1</int>
+                <string name="title">Album Art</string>
+              </object>
+            </array>
+            <int name="controlID">44</int>
           </object>
         </array>
       </object>
@@ -110,9 +159,66 @@
     <reference idRef="197"/>
     <reference idRef="198"/>
     <reference idRef="199"/>
-    <reference idRef="200"/>
+    <object class="IBCarbonWindow" id="201">
+      <string name="windowRect">592 558 694 826 </string>
+      <string name="title">HotKeySheet</string>
+      <object name="rootControl" class="IBCarbonRootControl" id="202">
+        <string name="bounds">0 0 102 268 </string>
+        <string name="viewFrame">0 0 268 102 </string>
+        <array count="4" name="subviews">
+          <object class="IBCarbonEditText" id="203">
+            <string name="bounds">23 23 39 245 </string>
+            <string name="viewFrame">23 23 222 16 </string>
+            <ostype name="controlSignature">text</ostype>
+            <int name="controlID">6</int>
+            <boolean name="enabled">FALSE</boolean>
+            <int name="justification">1</int>
+            <boolean name="isUnicode">TRUE</boolean>
+            <boolean name="isSingleLine">TRUE</boolean>
+          </object>
+          <object class="IBCarbonButton" id="204">
+            <string name="bounds">62 178 82 248 </string>
+            <string name="viewFrame">178 62 70 20 </string>
+            <ostype name="controlSignature">butn</ostype>
+            <int name="controlID">5</int>
+            <string name="title">OK</string>
+          </object>
+          <object class="IBCarbonButton" id="205">
+            <string name="bounds">62 96 82 166 </string>
+            <string name="viewFrame">96 62 70 20 </string>
+            <ostype name="controlSignature">butn</ostype>
+            <int name="controlID">4</int>
+            <string name="title">Cancel</string>
+          </object>
+          <object class="IBCarbonButton" id="206">
+            <string name="bounds">62 15 82 85 </string>
+            <string name="viewFrame">15 62 70 20 </string>
+            <ostype name="controlSignature">butn</ostype>
+            <int name="controlID">3</int>
+            <string name="title">None</string>
+          </object>
+        </array>
+      </object>
+      <boolean name="receiveUpdates">FALSE</boolean>
+      <boolean name="isResizable">FALSE</boolean>
+      <boolean name="compositing">TRUE</boolean>
+      <int name="carbonWindowClass">11</int>
+      <int name="themeBrush">53</int>
+      <boolean name="isConstrained">FALSE</boolean>
+      <boolean name="doesNotCycle">TRUE</boolean>
+    </object>
+    <reference idRef="202"/>
+    <reference idRef="203"/>
+    <reference idRef="204"/>
+    <reference idRef="205"/>
+    <reference idRef="206"/>
+    <reference idRef="207"/>
+    <reference idRef="208"/>
+    <reference idRef="209"/>
+    <reference idRef="210"/>
+    <reference idRef="215"/>
   </array>
-  <array count="14" name="allParents">
+  <array count="24" name="allParents">
     <reference idRef="1"/>
     <reference idRef="166"/>
     <reference idRef="167"/>
@@ -126,19 +232,33 @@
     <reference idRef="190"/>
     <reference idRef="167"/>
     <reference idRef="198"/>
+    <reference idRef="1"/>
+    <reference idRef="201"/>
+    <reference idRef="202"/>
+    <reference idRef="202"/>
+    <reference idRef="202"/>
+    <reference idRef="202"/>
     <reference idRef="198"/>
+    <reference idRef="190"/>
+    <reference idRef="167"/>
+    <reference idRef="209"/>
+    <reference idRef="209"/>
   </array>
-  <dictionary count="5" name="nameTable">
+  <dictionary count="7" name="nameTable">
     <string>File&apos;s Owner</string>
     <reference idRef="1"/>
+    <string>HotKeySheet</string>
+    <reference idRef="201"/>
     <string>IBCarbonButton</string>
     <reference idRef="184"/>
     <string>IBCarbonCheckBox</string>
     <reference idRef="191"/>
     <string>IBCarbonCheckBox1</string>
     <reference idRef="192"/>
+    <string>ListView</string>
+    <reference idRef="210"/>
     <string>PluginSettings</string>
     <reference idRef="166"/>
   </dictionary>
-  <unsigned_int name="nextObjectID">201</unsigned_int>
+  <unsigned_int name="nextObjectID">216</unsigned_int>
 </object>
