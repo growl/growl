@@ -688,6 +688,7 @@ static void setupDescString(const VisualPluginData *visualPluginData, CFMutableS
 		CFRelease(test);
 }
 
+
 /*
 	Name: VisualPluginHandler
 	Function: handles the event loop that iTunes provides through the iTunes visual plugin api
@@ -906,11 +907,13 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 					CFRelease(coverArtDataRef);
 				if ((err == noErr) && coverArt) 
 				{
-					//get our data ready for the notificiation.
+					//get our data ready for the notification.
 					coverArtDataRef = CFDataCreate(kCFAllocatorDefault, (const UInt8 *)*coverArt, GetHandleSize(coverArt));
 				} 
 				else 
 				{
+					if(coverArtDataRef)
+						CFRelease(coverArtDataRef);
 					coverArtDataRef = NULL;
 					/*
 					char *string = (char *)&format;
@@ -918,6 +921,12 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 					*/
 				}
 				notification.iconData = coverArtDataRef;
+			}
+			else
+			{
+				if(notification.iconData)
+					CFRelease(notification.iconData);
+				notification.iconData = NULL;
 			}
 
 			GrowlTunes_PostNotification(&notification);
@@ -966,6 +975,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				} 
 				else 
 				{
+					if(coverArtDataRef)
+						CFRelease(coverArtDataRef);
 					coverArtDataRef = NULL;
 					/*
 					char *string = (char *)&format;
@@ -974,6 +985,13 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				}
 				notification.iconData = coverArtDataRef;
 			}
+			else
+			{
+				if(notification.iconData)
+					CFRelease(notification.iconData);
+				notification.iconData = NULL;
+			}
+
 			GrowlTunes_PostNotification(&notification);
 			
 			if (coverArt)
