@@ -53,6 +53,7 @@ enum
 	kHotKeySettingID	= 11,
 	kHotKeySetID		= 12,
 	kArtWorkSetID		= 13,
+	kGTPSetID			= 14,
 	kArtWorkDBID		= 45,
 	kArtworkGBID		= 44,
 	kOKSettingID		= 1
@@ -93,6 +94,7 @@ typedef struct VisualPluginData {
 
 extern CFArrayCallBacks notificationCallbacks;
 
+static Boolean gGTPFlag			= true;
 static Boolean gTrackFlag		= true;
 static Boolean gDiscFlag		= true;
 static Boolean gArtistFlag		= true;
@@ -102,6 +104,8 @@ static Boolean gYearFlag		= true;
 static Boolean gGenreFlag		= true;
 static Boolean gRatingFlag		= true;
 static Boolean gArtWorkFlag		= true;
+static CFIndex gKey;
+static CFIndex gModifier;
 
 static pascal OSStatus sheetControlHandler(EventHandlerCallRef inRef, EventRef inEvent, void *userData);
 static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void* refCon );
@@ -160,6 +164,10 @@ static void readPreferences (void)
 	Boolean temp;
 		
 	//read in the settings for display
+	temp = CFPreferencesGetAppBooleanValue(CFSTR("GTP"), GTP, &success);
+	if (success)
+		gGTPFlag = temp;
+		
 	temp = CFPreferencesGetAppBooleanValue(CFSTR("Track"), GTP, &success);
 	if (success)
 		gTrackFlag = temp;
@@ -196,21 +204,22 @@ static void readPreferences (void)
 	if(success)
 		gArtWorkFlag = temp;
 	
-	CFIndex key = CFPreferencesGetAppIntegerValue(CFSTR("Key"), GTP, &success);
+	gKey = CFPreferencesGetAppIntegerValue(CFSTR("Key"), GTP, &success);
 	if(success)	{	
-		CFLog(1, CFSTR("%ld\n"), key);
+		CFLog(1, CFSTR("%ld\n"), gKey);
 	} else {
-		key = 40;
+		gKey = 40;
 	}
 	
-	CFIndex modifier = CFPreferencesGetAppIntegerValue(CFSTR("Modifiers"), GTP, &success);
+	gModifier = CFPreferencesGetAppIntegerValue(CFSTR("Modifiers"), GTP, &success);
 	if(success) {
-		CFLog(1, CFSTR("%ld\n"), modifier);
+		CFLog(1, CFSTR("%ld\n"), gModifier);
 	} else { 
-		modifier = (cmdKey | optionKey);
+		gModifier = (cmdKey | optionKey);
 	}
 
-	notificationHotKey = new HotKey('GRTU', 0xDEADBEEF, key, modifier, NewEventHandlerUPP(&hotKeyEventHandler));
+	if(gKey && gModifier)
+		notificationHotKey = new HotKey('GRTU', 0xDEADBEEF, gKey, gModifier, NewEventHandlerUPP(&hotKeyEventHandler));
 
 	//if we were unsuccessful in reading in all our settings then it means either we're creating a new plist file
 	//or that the user has manually edited the plist and has deleted one or more of the keys from the file and we should
@@ -226,6 +235,7 @@ static void readPreferences (void)
 static void writePreferences (void)
 {		 
 	//store the display settings for the notifications
+	CFPreferencesSetAppValue( CFSTR("GTP"), (gGTPFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
 	CFPreferencesSetAppValue( CFSTR("Track"), (gTrackFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
 	CFPreferencesSetAppValue( CFSTR("Disc"), (gDiscFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
 	CFPreferencesSetAppValue( CFSTR("Artist"), (gArtistFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
@@ -286,6 +296,20 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
 	//char *string = (char *)&controlID.signature;
 	//CFLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
     switch (controlID.id){
+		case kGTPSetID: 
+				gGTPFlag = GetControlValue(control);
+				if(gGTPFlag)
+				{
+					notificationHotKey->setKeyCodeAndModifiers(gKey, gModifier);
+					notificationHotKey->swapHotKeys();
+				}
+				else
+				{
+					//we need to kill the hotkey so that it doesn't trigger when GTP is off
+					notificationHotKey->setKeyCodeAndModifiers(kNoHotKeyKeyCode, kNoHotKeyModifierCode);
+					notificationHotKey->swapHotKeys();
+				}
+				break;
         case kTrackSettingID:
                 gTrackFlag = GetControlValue(control);
                 break;
@@ -710,7 +734,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 	*/
 
 	err = noErr;
-
+	
 	switch (message) {
 		/*
 			Sent when the visual plugin is registered.  The plugin should do minimal
@@ -722,13 +746,13 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				err = memFullErr;
 				break;
 			}
-
+			
 			visualPluginData->appCookie	= messageInfo->u.initMessage.appCookie;
 			visualPluginData->appProc	= messageInfo->u.initMessage.appProc;
-
+	
 			messageInfo->u.initMessage.options = kPluginWantsToBeLeftOpen;
 			messageInfo->u.initMessage.refCon = (void *)visualPluginData;
-
+				
 			title = CFStringCreateMutable(kCFAllocatorDefault, 0);
 			desc = CFStringCreateMutable(kCFAllocatorDefault, 0);
 
@@ -758,7 +782,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			if (visualPluginData)
 				free(visualPluginData);
 			break;
-
+	
 		/*
 			Sent when the visual plugin is enabled.  iTunes currently enables all
 			loaded visual plugins.  The plugin should not do anything here.
@@ -773,13 +797,14 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		*/
 		case kVisualPluginIdleMessage:
 			break;
-
+			
 		/*
 			Sent if the plugin requests the ability for the user to configure it.  Do this by setting
 			the kVisualWantsConfigure option in the RegisterVisualMessage.options field.
 		*/
 		case kVisualPluginConfigureMessage: {
 			static EventTypeSpec controlEvent={kEventClassControl, kEventControlHit};
+			static const ControlID kGTPSettingControlID     = {'cbox', kGTPSetID};
 			static const ControlID kTrackSettingControlID	= {'cbox', kTrackSettingID};
 			static const ControlID kDiscSettingControlID	= {'cbox', kDiscSettingID};
 			static const ControlID kArtistSettingControlID	= {'cbox', kArtistSettingID};
@@ -793,6 +818,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			//static const ControlID kArtWorkDBSettingID		= {'text', kArtWorkDBID};
 
 			static WindowRef  settingsDialog = NULL;
+			static ControlRef gtppref		 = NULL;
 			static ControlRef trackpref		 = NULL;
 			static ControlRef discpref		 = NULL;
 			static ControlRef artistpref	 = NULL;
@@ -803,18 +829,21 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			static ControlRef ratingpref     = NULL;
 			static ControlRef artworkpref	 = NULL;
 			
-			if (!settingsDialog) {
+			if (!settingsDialog) 
+			{
 				IBNibRef		nibRef; //we have to find our bundle to load the nib inside of it
 
 				CFBundleRef GrowlTunesPlugin;
 
 				GrowlTunesPlugin = CFBundleGetBundleWithIdentifier(kBundleID);
-				if (GrowlTunesPlugin) {
+				if (GrowlTunesPlugin) 
+				{
 					CreateNibReferenceWithCFBundle(GrowlTunesPlugin, CFSTR("SettingsDialog"), &nibRef);
 
 					CreateWindowFromNib(nibRef, CFSTR("PluginSettings"), &settingsDialog);
 					DisposeNibReference(nibRef);
 					InstallWindowEventHandler(settingsDialog, NewEventHandlerUPP(settingsControlHandler), 1, &controlEvent, 0, NULL);
+					GetControlByID(settingsDialog, &kGTPSettingControlID, &gtppref);
 					GetControlByID(settingsDialog, &kTrackSettingControlID, &trackpref);
 					GetControlByID(settingsDialog, &kDiscSettingControlID, &discpref);
 					GetControlByID(settingsDialog, &kArtistSettingControlID, &artistpref);
@@ -826,10 +855,14 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 					GetControlByID(settingsDialog, &kHotKeyTextControlID, &hotkeypref);
 					GetControlByID(settingsDialog, &kArtWorkSettingID, &artworkpref);
 					
-				} else {
+				} 
+				else 
+				{
 					CFLog(1, CFSTR("bad bundle reference"));
 				}
 			}
+				
+			SetControlValue(gtppref, gGTPFlag);
 			SetControlValue(trackpref, gTrackFlag);
 			SetControlValue(discpref, gDiscFlag);
 			SetControlValue(artistpref, gArtistFlag);
@@ -839,7 +872,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			SetControlValue(genrepref, gGenreFlag);
 			SetControlValue(ratingpref, gRatingFlag);
 			SetControlValue(artworkpref, gArtWorkFlag);
-			
+				
 			CFStringRef hotKeyString = getHotKeyString();
 			SetControlData(hotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef),&hotKeyString);
 			if(hotKeyString)
@@ -849,7 +882,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			break;
 		}
 
-		/*
+		/*	
 			Sent when iTunes is no longer displayed.
 		*/
 		case kVisualPluginHideWindowMessage:
@@ -861,7 +894,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		*/
 		case kVisualPluginSetWindowMessage:
 			break;
-
+	
 		/*
 			Sent for the visual plugin to render a frame.
 		*/
@@ -884,7 +917,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		/*
 			Sent when the player starts.
 		*/
-		case kVisualPluginPlayMessage: {
+		case kVisualPluginPlayMessage: 
+		{
 			if (messageInfo->u.playMessage.trackInfo)
 				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfoUnicode;
 			else
@@ -929,7 +963,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				notification.iconData = NULL;
 			}
 
-			GrowlTunes_PostNotification(&notification);
+			if(gGTPFlag)
+				GrowlTunes_PostNotification(&notification);
 			
 			notificationHotKey->setData(&notification);
 			//CFLog(1, notificationHotKey->hotKeyString());
@@ -957,10 +992,10 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				visualPluginData->streamInfo = *messageInfo->u.changeTrackMessage.streamInfoUnicode;
 			else
 				memset(&visualPluginData->streamInfo, 0, sizeof(visualPluginData->streamInfo));
-
+	
 			setupTitleString(visualPluginData, title);
 			setupDescString(visualPluginData, desc);
-			
+				
 			Handle coverArt = NULL;
 			if(gArtWorkFlag)
 			{
@@ -992,25 +1027,27 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				notification.iconData = NULL;
 			}
 
-			GrowlTunes_PostNotification(&notification);
-			
+			if(gGTPFlag)
+				GrowlTunes_PostNotification(&notification);
+		
 			if (coverArt)
 				DisposeHandle(coverArt);
 			break;
 		}
+			
 		/*
 			Sent when the player stops.
 		*/
 		case kVisualPluginStopMessage:
 			visualPluginData->playing = false;
 			break;
-
+			
 		/*
 			Sent when the player changes position.
 		*/
 		case kVisualPluginSetPositionMessage:
 			break;
-
+			
 		/*
 			Sent when the player pauses.  iTunes does not currently use pause or unpause.
 			A pause in iTunes is handled by stopping and remembering the position.
@@ -1018,7 +1055,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		case kVisualPluginPauseMessage:
 			visualPluginData->playing = false;
 			break;
-
+			
 		/*
 			Sent when the player unpauses.  iTunes does not currently use pause or unpause.
 			A pause in iTunes is handled by stopping and remembering the position.
