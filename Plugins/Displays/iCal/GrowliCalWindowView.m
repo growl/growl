@@ -72,8 +72,8 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 
 - (id) initWithFrame:(NSRect) frame {
 	if ((self = [super initWithFrame:frame])) {
-		titleFont = [[NSFont boldSystemFontOfSize:TITLE_FONT_SIZE_PTS] retain];
-		textFont = [[NSFont messageFontOfSize:DESCR_FONT_SIZE_PTS] retain];
+		titleFont = [[NSFont fontWithName:@"Helvetica Neue" size:TITLE_FONT_SIZE_PTS] retain];
+		textFont = [[NSFont fontWithName:@"Helvetica Neue" size:DESCR_FONT_SIZE_PTS] retain];
 		textLayoutManager = [[NSLayoutManager alloc] init];
 		titleLayoutManager = [[NSLayoutManager alloc] init];
 		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
