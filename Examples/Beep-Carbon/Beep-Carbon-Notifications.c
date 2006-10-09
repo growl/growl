@@ -24,16 +24,13 @@ static CFStringRef _CopyNameOfNotification(const void *notification); //copy des
 struct Beep_Notification *CreateGrowlNotification(CFStringRef name, CFStringRef title, CFStringRef desc, int priority, CFDataRef imageData, Boolean isSticky, Boolean isDefault) {
 	struct Beep_Notification *notification = malloc(sizeof(struct Beep_Notification));
 	if(notification) {
-		notification->growlNotification.size          = sizeof(struct Growl_Notification);
+		InitGrowlNotification(&(notification->growlNotification));
 		notification->growlNotification.name          = name      ? CFRetain(name)      : name;
 		notification->growlNotification.title         = title     ? CFRetain(title)     : title;
 		notification->growlNotification.description   = desc      ? CFRetain(desc)      : desc;
 		notification->growlNotification.priority      = priority;
 		notification->growlNotification.iconData      = imageData ? CFRetain(imageData) : imageData;
-		notification->growlNotification.reserved      = 0;
 		notification->growlNotification.isSticky      = isSticky;
-		notification->growlNotification.clickContext  = NULL;
-		notification->growlNotification.clickCallback = NULL;
 		notification->beepFlags.enabledByDefault      = isDefault;
 	}
 	return notification;
