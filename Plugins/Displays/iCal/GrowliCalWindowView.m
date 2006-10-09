@@ -29,8 +29,8 @@
 #define ICON_SIZE_LARGE_PX		 48.0f /*!< The width and height of the (square) icon */
 #define ICON_HSPACE_PX			  3.0f /*!< Horizontal space between icon and title/description */
 #define TITLE_VSPACE_PX			  5.0f /*!< Vertical space between title and description */
-#define TITLE_FONT_SIZE_PTS		 10.0f
-#define DESCR_FONT_SIZE_PTS		 10.0f
+#define TITLE_FONT_SIZE_PTS		 11.0f
+#define DESCR_FONT_SIZE_PTS		 11.0f
 #define MAX_TEXT_ROWS				5  /*!< The maximum number of rows of text, used only if the limit preference is set. */
 #define MIN_TEXT_HEIGHT			(PANEL_VSPACE_PX + PANEL_VSPACE_PX + iconSize + 1)
 #define TEXT_AREA_WIDTH			(PANEL_WIDTH_PX - PANEL_HSPACE_PX - PANEL_HSPACE_PX - iconSize - ICON_HSPACE_PX)
@@ -72,8 +72,8 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 
 - (id) initWithFrame:(NSRect) frame {
 	if ((self = [super initWithFrame:frame])) {
-		titleFont = [[NSFont fontWithName:@"Helvetica Neue" size:TITLE_FONT_SIZE_PTS] retain];
-		textFont = [[NSFont fontWithName:@"Helvetica Neue" size:DESCR_FONT_SIZE_PTS] retain];
+		titleFont = [[NSFont fontWithName:@"Lucida Grande" size:TITLE_FONT_SIZE_PTS] retain];
+		textFont = [[NSFont fontWithName:@"Lucida Grande" size:DESCR_FONT_SIZE_PTS] retain];
 		textLayoutManager = [[NSLayoutManager alloc] init];
 		titleLayoutManager = [[NSLayoutManager alloc] init];
 		lineHeight = [textLayoutManager defaultLineHeightForFont:textFont];
