@@ -16,12 +16,18 @@
 	return @"iCalPrefs";
 }
 
-- (void) mainViewDidLoad {
-	NSData *data = nil;
-	READ_GROWL_PREF_VALUE(GrowliCalOverallColor, GrowliCalPrefDomain, NSData *, &data);
-	[overall_color selectItemWithTitle:[NSUnarchiver unarchiveObjectWithData:data]];
+//make sure we set up our settings prior to the PrefPane view actually loading, or we risk not having our controls display correctly
+- (void) willSelect {
+	NSString *color = nil;
+	READ_GROWL_PREF_VALUE(GrowliCalOverallColor, GrowliCalPrefDomain, NSString *, &color);
+	if(color)
+		[overall_color selectItemWithTitle:color];
+	else
+	{
+		[overall_color selectItemWithTitle:@"Purple"];
+		WRITE_GROWL_PREF_VALUE(GrowliCalOverallColor, @"Purple", GrowliCalPrefDomain);
+	}
 	[slider_opacity setAltIncrementValue:0.05];
-	[data release];
 }
 
 #pragma mark -
@@ -67,8 +73,7 @@
 
 - (IBAction) colorChanged:(id)sender {
 	NSString *color = [sender titleOfSelectedItem];
-	NSData *theData = [NSArchiver archivedDataWithRootObject:color];
-	WRITE_GROWL_PREF_VALUE(GrowliCalOverallColor, theData, GrowliCalPrefDomain);
+	WRITE_GROWL_PREF_VALUE(GrowliCalOverallColor, color, GrowliCalPrefDomain);
 	UPDATE_GROWL_PREFS();
 }
 

@@ -111,6 +111,7 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 
 
 - (void) drawRect:(NSRect) rect {
+#pragma unused(rect)
 	//Make sure that we don't draw in the main thread
 	//if ([super dispatchDrawingToThread:rect]) {
 		NSRect b = [self bounds];
@@ -215,10 +216,8 @@ static void addTopRoundedRectToPath(CGContextRef context, CGRect rect, float rad
 	backgroundAlpha *= 0.01f;
 	textColor = [NSColor whiteColor];
 
-	NSData *data = nil;
-	READ_GROWL_PREF_VALUE(GrowliCalOverallColor, GrowliCalPrefDomain, NSData *, &data);
-	NSString *color = [NSUnarchiver unarchiveObjectWithData:data];
-	[data release];
+	NSString *color = nil;
+	READ_GROWL_PREF_VALUE(GrowliCalOverallColor, GrowliCalPrefDomain, NSString *, &color);
 	if ([color isEqualToString:@"Purple"]) {
 		bgColor = [NSColor colorWithCalibratedRed:0.4000f green:0.1804f blue:0.7569f alpha:backgroundAlpha];		
 		lightColor = [NSColor colorWithCalibratedRed:0.6863f green:0.5294f blue:0.9765f alpha:backgroundAlpha];

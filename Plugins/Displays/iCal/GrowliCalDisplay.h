@@ -1,5 +1,5 @@
 //
-//  GrowliCalController.h
+//  GrowliCalDisplay.h
 //  Growl
 //
 //  Created by Nelson Elhage on Wed Jun 09 2004.
@@ -12,7 +12,7 @@
 
 @class NSPreferencePane;
 
-@interface GrowliCalController : GrowlDisplayPlugin {
+@interface GrowliCalDisplay : GrowlDisplayPlugin {
 }
 
 @end

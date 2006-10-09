@@ -31,6 +31,6 @@
 	<key>GrowlPluginDescription</key>
 	<string>iCal Scheduled Event Look</string>
 	<key>NSPrincipalClass</key>
-	<string>GrowliCalController</string>
+	<string>GrowliCalDisplay</string>
 </dict>
 </plist>

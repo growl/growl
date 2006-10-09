@@ -35,7 +35,7 @@
 #define GrowliCalSizeLarge			1
 #define GrowliCalSizePrefDefault		GrowliCalSizeNormal
 
-#define GrowliCalPrefDomain			@"com.growl.iCal"
+#define GrowliCalPrefDomain			@"com.Growl.iCal"
 
 // the default value for the duration preference
 #define GrowliCalDurationPrefDefault		4.0f

@@ -12,7 +12,6 @@
 
 @interface GrowliCalPrefsController : NSPreferencePane {
 	IBOutlet NSPopUpButton	*overall_color;
-
 	IBOutlet NSSlider		*slider_opacity;
 }
 - (float) duration;

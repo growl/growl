@@ -17,7 +17,7 @@
 
 #include "CFDictionaryAdditions.h"
 
-@implementation GrowliCalController
+@implementation GrowliCalDisplay
 
 #pragma mark -
 
