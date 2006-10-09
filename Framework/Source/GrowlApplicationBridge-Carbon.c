@@ -24,6 +24,9 @@
 #pragma mark -
 #pragma mark Private API (declarations)
 
+static CFStringRef _copyApplicationNameForGrowlSearchingRegistrationDictionary(CFDictionaryRef regDict);
+static CFDataRef _copyApplicationIconDataForGrowlSearchingRegistrationDictionary(CFDictionaryRef regDict);
+
 static CFArrayRef _copyAllPreferencePaneBundles(void);
 //this one copies only the first bundle found in the User, Local, Network
 //	search-path.
@@ -190,6 +193,9 @@ static OSErr AEPutParamString(AppleEvent *event, AEKeyword keyword, CFStringRef 
 
 void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
 	if (growlLaunched) {
+		//Make sure we have everything that we need (that we can retrieve from the registration dictionary).
+		userInfo = Growl_CreateNotificationDictionaryByFillingInDictionary(userInfo);
+
 #ifdef GAB_USES_AE
 		OSErr err;
 		AppleEvent postNotificationEvent;
@@ -254,6 +260,7 @@ void Growl_PostNotificationWithDictionary(CFDictionaryRef userInfo) {
 		                                     /*deliverImmediately*/ false);
 #endif
 #ifdef GROWL_WITH_INSTALLER
+		CFRelease(userInfo);
 	} else {
 		/*if Growl launches, and the user hasn't already said NO to installing
 		 *	it, store this notification for posting
@@ -616,6 +623,42 @@ CFDictionaryRef Growl_CreateRegistrationDictionaryByFillingInDictionaryRestricte
 	return mRegDict;
 }
 
+CFDictionaryRef Growl_CreateNotificationDictionaryByFillingInDictionary(CFDictionaryRef notifDict) {
+	CFMutableDictionaryRef mNotifDict = CFDictionaryCreateMutableCopy(kCFAllocatorDefault, /*capacity*/ CFDictionaryGetCount(notifDict) + 1, notifDict);
+
+	if (mNotifDict) {
+		CFDictionaryRef regDict = Growl_CreateBestRegistrationDictionary();
+
+		if (regDict) {
+			if (!CFDictionaryContainsKey(mNotifDict, GROWL_APP_NAME)) {
+				CFStringRef appName = _copyApplicationNameForGrowlSearchingRegistrationDictionary(regDict);
+
+				if (appName) {
+					CFDictionarySetValue(mNotifDict, GROWL_APP_NAME, appName);
+
+					CFRelease(appName);
+				}
+			}
+
+			if (!CFDictionaryContainsKey(mNotifDict, GROWL_APP_ICON)) {
+				CFDataRef appIconData = _copyApplicationIconDataForGrowlSearchingRegistrationDictionary(regDict);
+
+				if (appIconData) {
+					CFDictionarySetValue(mNotifDict, GROWL_APP_ICON, appIconData);
+
+					CFRelease(appIconData);
+				}
+			}
+
+			CFRelease(regDict);
+		}
+
+		//Don't release mNotifDict, since we plan on returning it.
+	}
+
+	return mNotifDict;
+}
+
 #pragma mark -
 
 /*Growl_IsInstalled
@@ -661,6 +704,42 @@ Boolean Growl_LaunchIfInstalled(GrowlLaunchCallback callback, void *context) {
 
 #pragma mark -
 #pragma mark Private API
+
+static CFStringRef _copyApplicationNameForGrowlSearchingRegistrationDictionary(CFDictionaryRef regDict) {
+	CFStringRef applicationNameForGrowl = NULL;
+
+	if (delegate && delegate->applicationName) {
+		applicationNameForGrowl = CFStringCreateCopy(kCFAllocatorDefault, delegate->applicationName);
+
+		if (!applicationNameForGrowl) {
+			applicationNameForGrowl = CFStringCreateCopy(kCFAllocatorDefault, (CFStringRef)CFDictionaryGetValue(regDict, GROWL_APP_NAME));
+
+			if (!applicationNameForGrowl)
+				applicationNameForGrowl = copyCurrentProcessName();
+		}
+	}
+
+	return applicationNameForGrowl;
+}
+static CFDataRef _copyApplicationIconDataForGrowlSearchingRegistrationDictionary(CFDictionaryRef regDict) {
+	CFDataRef iconData = NULL;
+
+	if (delegate && delegate->applicationIconData)
+		iconData = CFDataCreateCopy(kCFAllocatorDefault, delegate->applicationIconData);
+
+	if (!iconData)
+		iconData = CFDataCreateCopy(kCFAllocatorDefault, CFDictionaryGetValue(regDict, GROWL_APP_ICON));
+
+	if (!iconData) {
+		CFURLRef URL = copyCurrentProcessURL();
+		if (URL) {
+			iconData = copyIconDataForURL(URL);
+			CFRelease(URL);
+		}
+	}
+
+	return iconData;
+}
 
 static Boolean _launchGrowlIfInstalledWithRegistrationDictionary(CFDictionaryRef regDict, GrowlLaunchCallback callback, void *context) {
 	CFArrayRef		prefPanes;

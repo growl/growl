@@ -236,22 +236,12 @@ static BOOL		registerWhenGrowlIsReady = NO;
 	NSParameterAssert(notifName);	//Notification name is required.
 	NSParameterAssert(title || description);	//At least one of title or description is required.
 
-	if (!(appName && appIconData)) {
-		NSDictionary *regDict = [self bestRegistrationDictionary];
-		if (!appName)
-			appName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] retain];
-		if (!appIconData)
-			appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
-	}
-
 	NSNumber *pid = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
 
 	// Build our noteDict from all passed parameters
 	NSMutableDictionary *noteDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		appName,	 GROWL_APP_NAME,
 		pid,         GROWL_APP_PID,
 		notifName,	 GROWL_NOTIFICATION_NAME,
-		appIconData, GROWL_NOTIFICATION_APP_ICON,
 		nil];
 
 	[pid release];
@@ -281,6 +271,9 @@ static BOOL		registerWhenGrowlIsReady = NO;
 + (void) notifyWithDictionary:(NSDictionary *)userInfo {
 	//post it.
 	if (growlLaunched) {
+		//Make sure we have everything that we need (that we can retrieve from the registration dictionary).
+		userInfo = [self notificationDictionaryByFillingInDictionary:userInfo];
+
 		NSConnection *connection = [NSConnection connectionWithRegisteredName:@"GrowlApplicationBridgePathway" host:nil];
 		if (connection) {
 			//Post to Growl via GrowlApplicationBridgePathway
@@ -494,6 +487,34 @@ static BOOL		registerWhenGrowlIsReady = NO;
 			[mRegDict setObject:(NSString *)CFBundleGetIdentifier(CFBundleGetMainBundle()) forKey:GROWL_APP_ID];
 
 	return mRegDict;
+}
+
++ (NSDictionary *) notificationDictionaryByFillingInDictionary:(NSDictionary *)notifDict {
+	NSDictionary *regDict = [self bestRegistrationDictionary];
+
+	NSMutableDictionary *mNotifDict = [notifDict mutableCopy];
+
+	if (![mNotifDict objectForKey:GROWL_APP_NAME]) {
+		if (!appName)
+			appName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] retain];
+
+		if (appName) {
+			[mNotifDict setObject:appName
+			               forKey:GROWL_APP_NAME];
+		}
+	}
+
+	if (![mNotifDict objectForKey:GROWL_APP_ICON]) {
+		if (!appIconData)
+			appIconData = [[self _applicationIconDataForGrowlSearchingRegistrationDictionary:regDict] retain];
+
+		if (appIconData) {
+			[mNotifDict setObject:appIconData
+			               forKey:GROWL_APP_ICON];
+		}
+	}
+
+	return [mNotifDict autorelease];
 }
 
 + (NSDictionary *) frameworkInfoDictionary {
