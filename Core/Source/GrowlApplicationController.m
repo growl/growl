@@ -198,8 +198,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 		growlIcon = [[NSImage imageNamed:@"NSApplicationIcon"] retain];
 
-		[GrowlApplicationBridge setGrowlDelegate:self];
-
 		GrowlIdleStatusController_init();
 		[nc addObserver:self
 			   selector:@selector(idleStatus:)
@@ -521,13 +519,10 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 
 	GrowlApplicationTicket *newApp = [ticketController ticketForApplicationName:appName];
 
-	NSString *notificationName;
 	if (newApp) {
 		[newApp reregisterWithDictionary:userInfo];
-		notificationName = @"Application re-registered";
 	} else {
 		newApp = [[[GrowlApplicationTicket alloc] initWithDictionary:userInfo] autorelease];
-		notificationName = @"Application registered";
 	}
 
 	BOOL success = YES;
@@ -536,19 +531,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		if ([newApp hasChanged])
 			[newApp saveTicket];
 		[ticketController addTicket:newApp];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL_APP_REGISTRATION_CONF
-		                                                               object:appName
-		                                                             userInfo:nil
-		                                                   deliverImmediately:NO];
-
-		[GrowlApplicationBridge notifyWithTitle:notificationName
-									description:[appName stringByAppendingString:@" registered"]
-							   notificationName:notificationName
-									   iconData:(id)growlIcon
-									   priority:0
-									   isSticky:NO
-								   clickContext:nil
-									 identifier:nil];
 
 		if (enableForward && ![userInfo objectForKey:GROWL_REMOTE_ADDRESS]) {
 			if ([NSThread currentThread] == mainThread)
@@ -896,57 +878,6 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 			CFRelease(ticketURL);
 		}
 	}
-}
-
-#pragma mark Growl Delegate Methods
-
-- (NSData *) applicationIconDataForGrowl {
-	return (id)growlIcon;
-}
-
-- (NSString *) applicationNameForGrowl {
-	return @"Growl";
-}
-
-- (NSDictionary *) registrationDictionaryForGrowl {
-	NSArray *allNotifications = [[NSArray alloc] initWithObjects:
-		@"Growl update available",
-		@"Application registered",
-		@"Application re-registered",
-		@"User went idle",
-		@"User returned",
-		nil];
-
-	NSNumber *default0 = [[NSNumber alloc] initWithUnsignedInt:0U];
-	NSNumber *default1 = [[NSNumber alloc] initWithUnsignedInt:1U];
-	NSArray *defaultNotifications = [[NSArray alloc] initWithObjects:
-		default0, default1, nil];
-	[default0 release];
-	[default1 release];
-
-	NSDictionary *registrationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-		allNotifications,     GROWL_NOTIFICATIONS_ALL,
-		defaultNotifications, GROWL_NOTIFICATIONS_DEFAULT,
-		nil];
-
-	[allNotifications     release];
-	[defaultNotifications release];
-
-	return registrationDictionary;
-}
-
-/*see the (private) category for differentiation between these methods and the
- *	notification handlers there.
- */
-
-- (void) growlNotificationWasClicked:(id)clickContext {
-	CFURLRef downloadURL = (CFURLRef)clickContext;
-	[[NSWorkspace sharedWorkspace] openURL:(NSURL *)downloadURL];
-	CFRelease(downloadURL);
-}
-
-- (void) growlNotificationTimedOut:(id)clickContext {
-	CFRelease((CFTypeRef)clickContext);
 }
 
 @end
