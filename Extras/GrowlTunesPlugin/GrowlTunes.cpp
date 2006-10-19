@@ -938,7 +938,11 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				OSType format;
 				err = PlayerGetCurrentTrackCoverArt(visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
 				if (coverArtDataRef)
+				{
 					CFRelease(coverArtDataRef);
+					coverArtDataRef = NULL;
+				}
+				
 				if ((err == noErr) && coverArt) 
 				{
 					//get our data ready for the notification.
@@ -947,8 +951,10 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				else 
 				{
 					if(coverArtDataRef)
+					{
 						CFRelease(coverArtDataRef);
-					coverArtDataRef = NULL;
+						coverArtDataRef = NULL;
+					}
 					/*
 					char *string = (char *)&format;
 					CFLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
@@ -1002,7 +1008,10 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				OSType format;
 				err = PlayerGetCurrentTrackCoverArt(visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
 				if (coverArtDataRef)
+				{
 					CFRelease(coverArtDataRef);
+					coverArtDataRef = NULL;
+				}
 				if ((err == noErr) && coverArt) 
 				{
 					//get our data ready for the notification.
@@ -1011,8 +1020,11 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				else 
 				{
 					if(coverArtDataRef)
+					{
 						CFRelease(coverArtDataRef);
-					coverArtDataRef = NULL;
+						coverArtDataRef = NULL;
+					}	
+					//coverArtDataRef = NULL;
 					/*
 					char *string = (char *)&format;
 					CFLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
