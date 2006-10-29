@@ -36,19 +36,19 @@ void hotkey_init(hotkey_t *hotkey, OSType inSignature, UInt32 inIdentifier, UInt
 void hotkey_release(hotkey_t *hotkey);
 
 void hotkey_setKeyCode(hotkey_t *hotkey, UInt32 inCode);
-UInt32 hotkey_keyCode(hotkey_t *hotkey);
+UInt32 hotkey_keyCode(const hotkey_t *hotkey);
 void hotkey_setModifierCode(hotkey_t *hotkey, UInt32 inModifiers);
-UInt32 hotkey_modifierCode(hotkey_t *hotkey);
+UInt32 hotkey_modifierCode(const hotkey_t *hotkey);
 
 CFStringRef hotkey_hotKeyString(hotkey_t *hotkey);
 	
 void hotkey_setData(hotkey_t *hotkey, struct Growl_Notification *inData);
 void hotkey_setEventHandler(hotkey_t *hotkey, EventHandlerUPP inEventHandler);
-EventHandlerUPP hotkey_eventHandler(hotkey_t *hotkey);
+EventHandlerUPP hotkey_eventHandler(const hotkey_t *hotkey);
 		
 void hotkey_setKeyCodeAndModifiers(hotkey_t *hotkey, UInt32 inCode, UInt32 inModifiers);
-CFStringRef hotkey_stringFromModifiers(hotkey_t *hotkey);
-CFStringRef hotkey_stringFromKeyCode(hotkey_t *hotkey);
+CFStringRef hotkey_stringFromModifiers(const hotkey_t *hotkey);
+CFStringRef hotkey_stringFromKeyCode(const hotkey_t *hotkey);
 
 void hotkey_unregisterHotKeyAndHandler(hotkey_t *hotkey);
 void hotkey_swapHotKeys(hotkey_t *hotkey);

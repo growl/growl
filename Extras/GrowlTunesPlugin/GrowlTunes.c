@@ -130,7 +130,7 @@ static void setupTitleString(const VisualPluginData *visualPluginData, CFMutable
 static pascal void readPreferences (void);
 static pascal void writePreferences (void);
 static pascal void newNibSheetWindow(WindowRef parent);
-static pascal OSStatus MyGetSetItemData(ControlRef browser, DataBrowserItemID itemID, DataBrowserPropertyID property, DataBrowserItemDataRef itemData, Boolean changeValue);
+//static pascal OSStatus MyGetSetItemData(ControlRef browser, DataBrowserItemID itemID, DataBrowserPropertyID property, DataBrowserItemDataRef itemData, Boolean changeValue);
 
 
 /*
@@ -139,7 +139,7 @@ static pascal OSStatus MyGetSetItemData(ControlRef browser, DataBrowserItemID it
 			  display field
 */
 static CFStringRef getHotKeyString(void) {
-	CFMutableStringRef hotkeyString = CFStringCreateMutable(kCFAllocatorDefault, 0);
+	CFMutableStringRef hotkeyString;
 	CFLog(1, CFSTR("%d %d\n"), hotkey_keyCode(&notificationHotKey), hotkey_modifierCode(&notificationHotKey));
 
 	if ((hotkey_keyCode(&notificationHotKey) == kNoHotKeyKeyCode) && (hotkey_modifierCode(&notificationHotKey) == kNoHotKeyModifierCode)) {
@@ -285,7 +285,7 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
 	//get control hit by event
 	GetEventParameter(inEvent, kEventParamDirectObject, typeControlRef, NULL, sizeof(ControlRef), NULL, &control);
 	wind=GetControlOwner(control);
-	GetControlID(control,&controlID);
+	GetControlID(control, &controlID);
 	GetControlByID(wind, &artwork, &artworkDB);
 	GetControlByID(wind, &groupbox, &artworkGB);
 
@@ -352,9 +352,7 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
 			CFLog(1, CFSTR("run the capture sheet"));
 			newNibSheetWindow(wind);
 			CFStringRef hotKeyString = getHotKeyString();
-			SetControlData(hotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef),&hotKeyString);
-			if (hotKeyString)
-				CFRelease(hotKeyString);
+			SetControlData(hotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef), &hotKeyString);
 			break;
 	}
 	return noErr;
@@ -363,12 +361,14 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
 static pascal void newNibSheetWindow(WindowRef parent)
 {
 	static EventTypeSpec controlEvent[3] = {{kEventClassControl,kEventControlHit}, {kEventClassKeyboard, kEventRawKeyDown}, {kEventClassKeyboard, kEventRawKeyRepeat}};
-	static const ControlID kHotKeyTextControlID		= {'text', kHotKeySheetSettingID};
+	static const ControlID kHotKeyTextControlID = {'text', kHotKeySheetSettingID};
 	static ControlRef sheethotkeypref	= NULL;
 
 	IBNibRef 		nibRef;
 	WindowRef		wind = NULL;
 
+	newHotKeyValue = hotkey_keyCode(&notificationHotKey);
+	newHotKeyModifiersValue = hotkey_modifierCode(&notificationHotKey);
 	CreateNibReferenceWithCFBundle(growlTunesBundle, CFSTR("SettingsDialog"), &nibRef);
 	CreateWindowFromNib(nibRef, CFSTR("HotKeySheet"), &wind);
 	DisposeNibReference(nibRef);
@@ -376,9 +376,7 @@ static pascal void newNibSheetWindow(WindowRef parent)
 
 	InstallWindowEventHandler(wind, NewEventHandlerUPP(sheetControlHandler), 3, controlEvent, &sheethotkeypref, NULL);
 	CFStringRef hotKeyString = getHotKeyString();
-	SetControlData(sheethotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef),&hotKeyString);
-	if (hotKeyString)
-		CFRelease(hotKeyString);
+	SetControlData(sheethotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef), &hotKeyString);
 	mode = PushSymbolicHotKeyMode(kHIHotKeyModeAllDisabled);
 	ShowSheetWindow(wind,parent);
 }
@@ -387,7 +385,7 @@ static pascal OSStatus sheetControlHandler(EventHandlerCallRef inRef, EventRef i
 #pragma unused(inRef, userData)
 	WindowRef wind = NULL;
 	ControlRef control = NULL;
-	ControlRef *sheethotkeypref = (ControlRef*)userData;
+	ControlRef *sheethotkeypref = (ControlRef *)userData;
 	ControlID controlID;
 	UInt32 eventClass = GetEventClass(inEvent);
 	UInt32 eventKind = GetEventKind(inEvent);
@@ -400,23 +398,17 @@ static pascal OSStatus sheetControlHandler(EventHandlerCallRef inRef, EventRef i
 		hotkey_t tempKey;
 		hotkey_init(&tempKey, 'tmp ', 'test', newHotKeyValue, newHotKeyModifiersValue, NULL);
 		hotKeyString = hotkey_hotKeyString(&tempKey);
-		hotkey_release(&tempKey);
-
-		SetControlData(*sheethotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef),&hotKeyString);
+		SetControlData(*sheethotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef), &hotKeyString);
 		Draw1Control(*sheethotkeypref);
-		if (hotKeyString)
-			CFRelease(hotKeyString);
-		return noErr;
-	}
-
-	if ((eventClass == kEventClassControl) && (eventKind == kEventControlHit)) {
+		hotkey_release(&tempKey);
+	} else if ((eventClass == kEventClassControl) && (eventKind == kEventControlHit)) {
 		GetEventParameter(inEvent, kEventParamDirectObject, typeControlRef, NULL, sizeof(ControlRef), NULL, &control);
-		wind=GetControlOwner(control);
+		wind = GetControlOwner(control);
 		GetControlID(control, &controlID);
 
 		//char *string = (char *)&controlID.signature;
 
-		switch(controlID.id) {
+		switch (controlID.id) {
 			case kHotKeySheetNoneID:
 				hotkey_setKeyCodeAndModifiers(&notificationHotKey, kNoHotKeyKeyCode, kNoHotKeyModifierCode);
 				hotkey_swapHotKeys(&notificationHotKey);
@@ -435,20 +427,19 @@ static pascal OSStatus sheetControlHandler(EventHandlerCallRef inRef, EventRef i
 				//do nothing, they didn't click on anything meaningful
 				return noErr;
 		}
-		hotkey_t tempKey;
-		hotkey_init(&tempKey, 'tmp ', 'test', newHotKeyValue, newHotKeyModifiersValue, NULL);
-		hotKeyString = hotkey_hotKeyString(&tempKey);
+		hotKeyString = getHotKeyString();
 		CFLog(1, CFSTR("hotkeySTRINg: %@\n"), hotKeyString);
-		SetControlData(hotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef),&hotKeyString);
+		SetControlData(hotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef), &hotKeyString);
 		Draw1Control(hotkeypref);
 		PopSymbolicHotKeyMode(mode);
-		hotkey_release(&tempKey);
 		HideSheetWindow(wind);
 		DisposeWindow(wind);
 	}
+
 	return noErr;
 }
 
+/*
 static void InstallDataBrowserCallbacks(ControlRef browser)
 {
 	DataBrowserCallbacks myCallbacks;
@@ -468,7 +459,7 @@ static pascal OSStatus MyGetSetItemData(ControlRef browser, DataBrowserItemID it
 #pragma unused (browser, itemID, property, itemData, changeValue)
 	//Str255 pascalString;
 	OSStatus err = noErr;
-/*
+
 	if (!changeValue)
 		switch (property) {
 			case kCheckboxColumn:
@@ -565,9 +556,9 @@ static pascal OSStatus MyGetSetItemData(ControlRef browser, DataBrowserItemID it
 			break;
 	}
 	else err = errDataBrowserPropertyNotSupported;
-	*/
 	return err;
 }
+*/
 
 /*
 	Name: setupTitleString
@@ -863,9 +854,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			SetControlValue(artworkpref, gArtWorkFlag);
 
 			CFStringRef hotKeyString = getHotKeyString();
-			SetControlData(hotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef),&hotKeyString);
-			if (hotKeyString)
-				CFRelease(hotKeyString);
+			SetControlData(hotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef), &hotKeyString);
 
 			ShowWindow(settingsDialog);
 			break;

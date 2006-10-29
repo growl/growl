@@ -21,21 +21,13 @@ static void _updateModifiersString(hotkey_t *hotkey) {
 		{ shiftKey,		0x21e70000 }
 	};
 
+	if (hotkey->mModifierString)
+		CFRelease(hotkey->mModifierString);
 	hotkey->mModifierString = CFStringCreateMutable(kCFAllocatorDefault, 0);
-	CFStringRef charString;
-	long i;
 
-	for (i=0; i < 4; i++) {
-		if (hotkey->mModifierCode & modToChar[i][0]) {
-			charString = CFStringCreateWithCharacters(kCFAllocatorDefault, ((const UniChar*)&modToChar[i][1]), 1);
-			CFStringAppend(hotkey->mModifierString, charString);
-			if (charString)
-				CFRelease(charString);
-		}
-	}
-
-	if (!hotkey->mModifierString)
-		CFStringAppend(hotkey->mModifierString, CFSTR(""));
+	for (int i=0; i < 4; ++i)
+		if (hotkey->mModifierCode & modToChar[i][0])
+			CFStringAppendCharacters(hotkey->mModifierString, ((const UniChar *)&modToChar[i][1]), 1);
 }
 
 void hotkey_unregisterHotKeyAndHandler(hotkey_t *hotkey) {
@@ -85,42 +77,33 @@ static void _updateKeyCodeString(hotkey_t *hotkey) {
 			return;
 	} else {
 		err = KLGetKeyboardLayoutProperty(currentLayout, kKLuchrData, (const void **)&uchrData);
-		if (err !=  noErr)
+		if (err != noErr)
 			return;
 	}
+
+	if (hotkey->mKeyString)
+		CFRelease(hotkey->mKeyString);
 
 	if (keyLayoutKind == kKLKCHRKind) {
 		UInt32 charCode = KeyTranslate(KCHRData, hotkey->mKeyCode, &keyTranslateState);
 		char theChar = ((char *)&charCode)[3];
-		CFStringRef temp = CFStringCreateWithCharacters(kCFAllocatorDefault, (UniChar *)&theChar, 1);
-		hotkey->mKeyString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, temp);
+		hotkey->mKeyString = CFStringCreateMutable(kCFAllocatorDefault, 0);
+		CFStringAppendCharacters(hotkey->mKeyString, (UniChar *)&theChar, 1);
 		CFStringCapitalize(hotkey->mKeyString, locale);
-		if (temp)
-			CFRelease(temp);
-		return;
 	} else {
 		UniCharCount maxStringLength = 4, actualStringLength;
 		UniChar unicodeString[4];
 		err = UCKeyTranslate(uchrData, hotkey->mKeyCode, kUCKeyActionDisplay, 0, LMGetKbdType(), kUCKeyTranslateNoDeadKeysBit, &deadKeyState, maxStringLength, &actualStringLength, unicodeString);
-		CFStringRef temp = CFStringCreateWithCharacters(kCFAllocatorDefault, unicodeString, 1);
-		hotkey->mKeyString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, temp);
+		hotkey->mKeyString = CFStringCreateMutable(kCFAllocatorDefault, 0);
+		CFStringAppendCharacters(hotkey->mKeyString, unicodeString, actualStringLength);
 	 	CFStringCapitalize(hotkey->mKeyString, locale);
-		if (temp)
-			CFRelease(temp);
-		return;
 	}
-	return;
+
+	CFRelease(locale);
 }
 
 void hotkey_init(hotkey_t *hotkey, OSType inSignature, UInt32 inIdentifier, UInt32 inKeyCode, UInt32 inModifierCode, EventHandlerUPP inEventHandler) {
 	printf("%s\n", __FUNCTION__);
-
-	hotkey->mHotKeyEventReference = NULL;
-	hotkey->mHotKeyEventHandler = NULL;
-	hotkey->mHotKeyEventHandlerProcPtr = NULL;
-	hotkey->mData = NULL;
-	hotkey->mKeyCode = 0;
-	hotkey->mModifierCode = 0;
 
 	//setup our event specifier
 	hotkey->mEventSpec[0].eventClass = kEventClassKeyboard;
@@ -129,11 +112,20 @@ void hotkey_init(hotkey_t *hotkey, OSType inSignature, UInt32 inIdentifier, UInt
 	hotkey->mEventSpec[1].eventClass = kEventClassKeyboard;
 	hotkey->mEventSpec[1].eventKind = kEventHotKeyReleased;
 
+	hotkey->mKeyCode = 0;
+	hotkey->mKeyString = NULL;
+	hotkey->mModifierCode = 0;
+	hotkey->mModifierString = NULL;
+	hotkey->mHotKeyString = NULL;
+
 	//setup our global hot key
 	hotkey->mHotKeyID.signature = inSignature;
 	hotkey->mHotKeyID.id = inIdentifier;
 
+	hotkey->mHotKeyEventReference = NULL;
+	hotkey->mHotKeyEventHandler = NULL;
 	hotkey->mHotKeyEventHandlerProcPtr = inEventHandler;
+	hotkey->mData = NULL;
 
 	hotkey_setKeyCode(hotkey, inKeyCode);
 	hotkey_setModifierCode(hotkey, inModifierCode);
@@ -158,6 +150,8 @@ void hotkey_release(hotkey_t *hotkey) {
 		CFRelease(hotkey->mKeyString);
 	if (hotkey->mModifierString)
 		CFRelease(hotkey->mModifierString);
+	if (hotkey->mHotKeyString)
+		CFRelease(hotkey->mHotKeyString);
 }
 
 void hotkey_setKeyCodeAndModifiers(hotkey_t *hotkey, UInt32 inCode, UInt32 inModifiers) {
@@ -175,7 +169,7 @@ void hotkey_setKeyCode(hotkey_t *hotkey, UInt32 inCode) {
 	_updateKeyCodeString(hotkey);
 }
 
-UInt32 hotkey_keyCode(hotkey_t *hotkey) {
+UInt32 hotkey_keyCode(const hotkey_t *hotkey) {
 	printf("%s\n", __FUNCTION__);
 	return hotkey->mKeyCode;
 }
@@ -186,7 +180,7 @@ void hotkey_setModifierCode(hotkey_t *hotkey, UInt32 inModifiers) {
 	_updateModifiersString(hotkey);
 }
 
-UInt32 hotkey_modifierCode(hotkey_t *hotkey) {
+UInt32 hotkey_modifierCode(const hotkey_t *hotkey) {
 	printf("%s\n", __FUNCTION__);
 	return hotkey->mModifierCode;
 }
@@ -204,10 +198,12 @@ void hotkey_setData(hotkey_t *hotkey, struct Growl_Notification *inData) {
 
 CFStringRef hotkey_hotKeyString(hotkey_t *hotkey) {
 	printf("%s\n", __FUNCTION__);
-	hotkey->mHotKeyString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, hotkey->mModifierString);
-	CFStringAppend(hotkey->mHotKeyString, CFSTR(" "));
 	CFShow(hotkey->mKeyString);
 	CFShow(hotkey->mModifierString);
+	if (hotkey->mHotKeyString)
+		CFRelease(hotkey->mHotKeyString);
+	hotkey->mHotKeyString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, hotkey->mModifierString);
+	CFStringAppend(hotkey->mHotKeyString, CFSTR(" "));
 	CFStringAppend(hotkey->mHotKeyString, hotkey->mKeyString);
 	return hotkey->mHotKeyString;
 }
@@ -221,17 +217,17 @@ void hotkey_setEventHandler(hotkey_t *hotkey, EventHandlerUPP inEventHandler) {
 		InstallEventHandler(GetEventDispatcherTarget(), hotkey->mHotKeyEventHandlerProcPtr, 2, hotkey->mEventSpec, hotkey->mData, &hotkey->mHotKeyEventHandler);
 }
 
-EventHandlerUPP hotkey_eventHandler(hotkey_t *hotkey) {
+EventHandlerUPP hotkey_eventHandler(const hotkey_t *hotkey) {
 	printf("%s\n", __FUNCTION__);
 	return hotkey->mHotKeyEventHandlerProcPtr;
 }
 
-CFStringRef hotkey_stringFromModifiers(hotkey_t *hotkey) {
+CFStringRef hotkey_stringFromModifiers(const hotkey_t *hotkey) {
 	printf("%s\n", __FUNCTION__);
 	return hotkey->mModifierString;
 }
 
-CFStringRef hotkey_stringFromKeyCode(hotkey_t *hotkey) {
+CFStringRef hotkey_stringFromKeyCode(const hotkey_t *hotkey) {
 	printf("%s\n", __FUNCTION__);
 	return hotkey->mKeyString;
 }
