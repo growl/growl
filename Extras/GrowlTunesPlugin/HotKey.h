@@ -7,63 +7,50 @@
  *
  */
 
+#ifndef HOTKEY_H_INCLUDED
+#define HOTKEY_H_INCLUDED
+
 #include <Carbon/Carbon.h>
 #include "Growl/Growl.h"
 
 #define kNoHotKeyModifierCode (UInt32)-1
 #define kNoHotKeyKeyCode (UInt32)-1
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-extern void CFLog(int priority, CFStringRef format, ...);
-
-#ifdef __cplusplus
-}
-#endif
-
-class HotKey {
-
-public:
-	HotKey(OSType inSignature, UInt32 inIdentifier, UInt32 inKeyCode, UInt32 inModifierCode, EventHandlerUPP inEventHandler);
-	~HotKey();
-	
-	void setKeyCode (UInt32 inCode);
-	UInt32 keyCode (void);
-	void setModifierCode (UInt32 inModifiers);
-	UInt32 modifierCode (void);
-	
-	CFStringRef hotKeyString (void);
-	
-	void setData (Growl_Notification *inData);
-	void setEventHandler( EventHandlerUPP inEventHandler );	
-	EventHandlerUPP eventHandler (void);
-		
-	void setKeyCodeAndModifiers(UInt32 inCode, UInt32 inModifiers);
-	CFStringRef stringFromModifiers (void);
-	CFStringRef stringFromKeyCode (void);
-	
-	void unregisterHotKeyAndHandler();
-	void swapHotKeys(void);
-
-private:
-	void _updateModifiersString (void);
-	void _updateKeyCodeString (void);
-	
-	void _registerHotKeyAndHandler (void);
-	
+typedef struct hotkey_s {
 	EventTypeSpec				mEventSpec[2]; 
 	UInt32						mKeyCode;
 	CFMutableStringRef			mKeyString;
 	UInt32						mModifierCode;
 	CFMutableStringRef			mModifierString;
-	
+		
 	CFMutableStringRef			mHotKeyString;
-	
+		
 	EventHotKeyID				mHotKeyID;
 	EventHotKeyRef				mHotKeyEventReference;
 	EventHandlerRef				mHotKeyEventHandler;
 	EventHandlerUPP				mHotKeyEventHandlerProcPtr;
-	Growl_Notification			*mData;
-};
+	struct Growl_Notification	*mData;
+} hotkey_t;
+
+void hotkey_init(hotkey_t *hotkey, OSType inSignature, UInt32 inIdentifier, UInt32 inKeyCode, UInt32 inModifierCode, EventHandlerUPP inEventHandler);
+void hotkey_release(hotkey_t *hotkey);
+
+void hotkey_setKeyCode(hotkey_t *hotkey, UInt32 inCode);
+UInt32 hotkey_keyCode(hotkey_t *hotkey);
+void hotkey_setModifierCode(hotkey_t *hotkey, UInt32 inModifiers);
+UInt32 hotkey_modifierCode(hotkey_t *hotkey);
+
+CFStringRef hotkey_hotKeyString(hotkey_t *hotkey);
+	
+void hotkey_setData(hotkey_t *hotkey, struct Growl_Notification *inData);
+void hotkey_setEventHandler(hotkey_t *hotkey, EventHandlerUPP inEventHandler);
+EventHandlerUPP hotkey_eventHandler(hotkey_t *hotkey);
+		
+void hotkey_setKeyCodeAndModifiers(hotkey_t *hotkey, UInt32 inCode, UInt32 inModifiers);
+CFStringRef hotkey_stringFromModifiers(hotkey_t *hotkey);
+CFStringRef hotkey_stringFromKeyCode(hotkey_t *hotkey);
+
+void hotkey_unregisterHotKeyAndHandler(hotkey_t *hotkey);
+void hotkey_swapHotKeys(hotkey_t *hotkey);
+
+#endif

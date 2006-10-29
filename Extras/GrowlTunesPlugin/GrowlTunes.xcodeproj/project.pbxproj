@@ -25,15 +25,15 @@
 		93353E98093A133E007C8B10 /* iTunesAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 01285C0200CC31B17F000001 /* iTunesAPI.h */; };
 		93353E99093A133E007C8B10 /* iTunesVisualAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 01285C0300CC31B17F000001 /* iTunesVisualAPI.h */; };
 		93353E9C093A133E007C8B10 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
-		93353EA0093A133E007C8B10 /* GrowlTunes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01285C0700CC38597F000001 /* GrowlTunes.cpp */; };
 		93353EA1093A133E007C8B10 /* iTunesAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = 01285C0900CC3A4A7F000001 /* iTunesAPI.c */; };
 		93353EA3093A133E007C8B10 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
 		93353EA4093A133E007C8B10 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01285BF100CC2F967F000001 /* Carbon.framework */; };
-		939DA34F0AD96E0C00DEBBDA /* HotKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 939DA34D0AD96E0C00DEBBDA /* HotKey.cpp */; };
 		939DA3500AD96E0D00DEBBDA /* HotKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 939DA34E0AD96E0C00DEBBDA /* HotKey.h */; };
 		939DA4AF0AD9799C00DEBBDA /* Amazon.c in Sources */ = {isa = PBXBuildFile; fileRef = 939DA48E0AD9785500DEBBDA /* Amazon.c */; };
 		939DA4B60AD979CA00DEBBDA /* GTPPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 939DA4B50AD979CA00DEBBDA /* GTPPlugin.h */; };
 		939DA4E90AD979FE00DEBBDA /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */; };
+		95EB40540AF4449200035504 /* GrowlTunes.c in Sources */ = {isa = PBXBuildFile; fileRef = 95EB40520AF4449200035504 /* GrowlTunes.c */; };
+		95EB40550AF4449200035504 /* HotKey.c in Sources */ = {isa = PBXBuildFile; fileRef = 95EB40530AF4449200035504 /* HotKey.c */; };
 		E1A35FFC0942D12100B79E46 /* SettingsDialog.nib in Resources */ = {isa = PBXBuildFile; fileRef = E1A35FFB0942D12000B79E46 /* SettingsDialog.nib */; };
 /* End PBXBuildFile section */
 
@@ -170,20 +170,20 @@
 		01285BF100CC2F967F000001 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		01285C0200CC31B17F000001 /* iTunesAPI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = iTunesAPI.h; sourceTree = "<group>"; };
 		01285C0300CC31B17F000001 /* iTunesVisualAPI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = iTunesVisualAPI.h; sourceTree = "<group>"; };
-		01285C0700CC38597F000001 /* GrowlTunes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GrowlTunes.cpp; sourceTree = "<group>"; };
 		01285C0900CC3A4A7F000001 /* iTunesAPI.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = iTunesAPI.c; sourceTree = "<group>"; };
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		93353EAA093A133E007C8B10 /* Info-GrowlTunes.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-GrowlTunes.plist"; sourceTree = "<group>"; };
 		93353EF1093A1A10007C8B10 /* GrowlTunes.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrowlTunes.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		93354876093A9D0D007C8B10 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = SOURCE_ROOT; };
-		939DA34D0AD96E0C00DEBBDA /* HotKey.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = HotKey.cpp; sourceTree = "<group>"; };
 		939DA34E0AD96E0C00DEBBDA /* HotKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HotKey.h; sourceTree = "<group>"; };
 		939DA48D0AD9785500DEBBDA /* Amazon.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Amazon.h; path = Amazon/Amazon.h; sourceTree = "<group>"; };
 		939DA48E0AD9785500DEBBDA /* Amazon.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = Amazon.c; path = Amazon/Amazon.c; sourceTree = "<group>"; };
 		939DA4A90AD9794900DEBBDA /* Amazon.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Amazon.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		939DA4AA0AD9794900DEBBDA /* Amazon-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Amazon-Info.plist"; sourceTree = "<group>"; };
 		939DA4B50AD979CA00DEBBDA /* GTPPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GTPPlugin.h; sourceTree = "<group>"; };
+		95EB40520AF4449200035504 /* GrowlTunes.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = GrowlTunes.c; sourceTree = "<group>"; };
+		95EB40530AF4449200035504 /* HotKey.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = HotKey.c; sourceTree = "<group>"; };
 		E1A35FFB0942D12000B79E46 /* SettingsDialog.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SettingsDialog.nib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -253,9 +253,9 @@
 		08FB77AFFE84173DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				95EB40520AF4449200035504 /* GrowlTunes.c */,
+				95EB40530AF4449200035504 /* HotKey.c */,
 				939DA47F0AD9782C00DEBBDA /* Plugins */,
-				01285C0700CC38597F000001 /* GrowlTunes.cpp */,
-				939DA34D0AD96E0C00DEBBDA /* HotKey.cpp */,
 				939DA34E0AD96E0C00DEBBDA /* HotKey.h */,
 				01285C0000CC31B17F000001 /* iTunesVisualAPI */,
 			);
@@ -390,6 +390,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 93353E4C093A1103007C8B10 /* Build configuration list for PBXProject "GrowlTunes" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* iTunesXPlugIn */;
 			projectDirPath = "";
@@ -399,6 +400,8 @@
 					ProjectRef = 93354876093A9D0D007C8B10 /* Growl.xcodeproj */;
 				},
 			);
+			projectRoot = "";
+			shouldCheckCompatibility = 1;
 			targets = (
 				93353E95093A133E007C8B10 /* GrowlTunes */,
 				933548E2093A9EF2007C8B10 /* External Frameworks */,
@@ -585,9 +588,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93353EA0093A133E007C8B10 /* GrowlTunes.cpp in Sources */,
 				93353EA1093A133E007C8B10 /* iTunesAPI.c in Sources */,
-				939DA34F0AD96E0C00DEBBDA /* HotKey.cpp in Sources */,
+				95EB40540AF4449200035504 /* GrowlTunes.c in Sources */,
+				95EB40550AF4449200035504 /* HotKey.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
