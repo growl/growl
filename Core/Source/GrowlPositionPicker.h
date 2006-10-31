@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GrowlPreferencePane.h"
 
 /* Size should be 150 * 100 */
 
@@ -25,6 +26,8 @@ enum GrowlPositionOrigin {
 extern NSString *NSStringFromGrowlPositionOrigin(enum GrowlPositionOrigin pos);
 
 @interface GrowlPositionPicker : NSView {
+	IBOutlet	GrowlPreferencePane		*preferencePane;
+	
     enum GrowlPositionOrigin    selectedPosition;
     enum GrowlPositionOrigin    rolloverPosition;
     unsigned                    trackingRectTag;

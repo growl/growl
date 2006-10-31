@@ -11,6 +11,8 @@
 #define GrowlPositionPickerHotCornerInset       3.0f
 #define GrowlPositionPickerHotCornerDiameter    15.f
 
+#define GROWL_POSITION_PREFERENCE_KEY			@"GrowlSelectedPosition"
+
 static NSImage *backgroundImage = nil;
 static NSColor *unselectedColor = nil;
 static NSColor *selectedColor = nil;
@@ -74,6 +76,9 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
     
     // draw the background image...
     [backgroundImage drawInRect:bounds fromRect:imageBounds operation:NSCompositeSourceOver fraction:1.0f];
+	
+	// select the appropriate hotcorner before drawing
+	[self setSelectedPosition:[[preferencePane preferencesController] integerForKey:GROWL_POSITION_PREFERENCE_KEY]];
     
     // draw the hotcorners...
     [self drawHotCorner:topLeftHotCorner position:GrowlTopLeftCorner];
@@ -176,6 +181,8 @@ NSString *GrowlPositionPickerChangedSelectionNotification = @"GrowlPositionPicke
     if (selectedPosition != lastValue) {
         [[NSNotificationCenter defaultCenter] postNotificationName:GrowlPositionPickerChangedSelectionNotification
                                                             object:self];
+		// save selected position as an int into the preferences
+		[[preferencePane preferencesController] setInteger:selectedPosition forKey:GROWL_POSITION_PREFERENCE_KEY];
     }
 }
 
