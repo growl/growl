@@ -65,7 +65,7 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 
 	[GrowlMail registerBundle];
 
-	int value = 0;
+	int value = MODE_AUTO;
 	CFNumberRef automatic = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &value);
 	NSDictionary *defaultsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
 		@"(%account) %sender", @"GMTitleFormat",
@@ -308,25 +308,27 @@ static CFStringRef GetGrowlMailBundleVersion(void) {
 BOOL GMIsEnabled(void) {
 	Boolean keyExistsAndHasValidFormat;
 	Boolean isEnabled = CFPreferencesGetAppBooleanValue(CFSTR("GMEnableGrowlMailBundle"), kCFPreferencesCurrentApplication, &keyExistsAndHasValidFormat);
-	return keyExistsAndHasValidFormat ? isEnabled : NO;
+	return keyExistsAndHasValidFormat ? isEnabled : YES;
 }
 
 int GMSummaryMode(void) {
 	Boolean keyExistsAndHasValidFormat;
 	CFIndex value = CFPreferencesGetAppIntegerValue(CFSTR("GMSummaryMode"), kCFPreferencesCurrentApplication, &keyExistsAndHasValidFormat);
-	return keyExistsAndHasValidFormat ? value : 0;
+	return keyExistsAndHasValidFormat ? value : MODE_AUTO;
 }
 
 BOOL GMInboxOnly(void) {
 	Boolean keyExistsAndHasValidFormat;
 	CFIndex value = CFPreferencesGetAppIntegerValue(CFSTR("GMInboxOnly"), kCFPreferencesCurrentApplication, &keyExistsAndHasValidFormat);
-	return keyExistsAndHasValidFormat ? value : 0;
+	return keyExistsAndHasValidFormat ? value : FALSE;
 }
 
 CFStringRef copyTitleFormatString(void) {
-	return CFPreferencesCopyAppValue(CFSTR("GMTitleFormat"), kCFPreferencesCurrentApplication);
+	CFStringRef titleFormat = CFPreferencesCopyAppValue(CFSTR("GMTitleFormat"), kCFPreferencesCurrentApplication);
+	return titleFormat ? titleFormat : CFSTR("(%account) %sender");
 }
 
 CFStringRef copyDescriptionFormatString(void) {
-	return CFPreferencesCopyAppValue(CFSTR("GMDescriptionFormat"), kCFPreferencesCurrentApplication);
+	CFStringRef descriptionFormat = CFPreferencesCopyAppValue(CFSTR("GMDescriptionFormat"), kCFPreferencesCurrentApplication);
+	return descriptionFormat ? descriptionFormat : CFSTR("%subject\n%body");
 }
