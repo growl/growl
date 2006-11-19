@@ -320,7 +320,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C43641450B10303C00E4FC4B</string>
+										<string>C436414F0B1035EC00E4FC4B</string>
 										<key>history</key>
 										<array>
 											<string>C436409B0B0FF36700E4FC4B</string>
@@ -576,9 +576,9 @@
 		<string>C43640640B0FC83D00E4FC4B</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>C43641030B10277F00E4FC4B</string>
-		<string>1C0AD2B3069F1EA900FABCE6</string>
 		<string>C4363F320B0FBB5A00E4FC4B</string>
 		<string>/Users/bgannin/Projects/growl/Developer Tools/BeepHammer/BeepHammer.xcodeproj</string>
+		<string>1C0AD2B3069F1EA900FABCE6</string>
 	</array>
 	<key>WindowString</key>
 	<string>68 221 1351 734 0 0 1680 1028 </string>
@@ -1033,7 +1033,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C0AD2B3069F1EA900FABCE6</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Identifier</key>
