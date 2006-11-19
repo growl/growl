@@ -72,7 +72,7 @@ extern NSString *NSStringFromGrowlExpansionDirection(enum GrowlExpansionDirectio
  * @class GrowlPositionController
  * @superclass GrowlAbstractSingletonObject
  * @abstract GrowlPositionController provides a mechanism for display plugins to display without disturbing each other.
- * @discussion GrowlPositionController prevents notifications form covering each other by reserving a rect on the screen which contains the notification.
+ * @discussion GrowlPositionController prevents notifications from covering each other by reserving a rect on the screen which contains the notification.
  * When a rect is reserved, no other notification should be displayed inside this rect (although plugins may ignore this rule).
  * Before a notification is displayed, the display plugin should reserve the rect it's going to use, and clear it when it is done with it.
  * Plugins that uses GrowlDisplayWindowController don't need to worry about contacting GrowlPositionController and reserving rects.
