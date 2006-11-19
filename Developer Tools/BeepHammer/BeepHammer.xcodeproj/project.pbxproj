@@ -19,6 +19,7 @@
 		349D11AB079DDD5F00911D48 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D0C5B6068A470F0076D89A /* Growl.framework */; };
 		C4363FE70B0FBDBA00E4FC4B /* BeepHammer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */; };
 		C4363FF40B0FBE0F00E4FC4B /* BeepHammer.nib in Resources */ = {isa = PBXBuildFile; fileRef = 073B927D06855F050068C763 /* BeepHammer.nib */; };
+		C43640D10B10094C00E4FC4B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C43640CF0B10094C00E4FC4B /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -47,6 +48,7 @@
 		073B92C4068563AC0068C763 /* whistle-cocoa.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "whistle-cocoa.icns"; sourceTree = "<group>"; };
 		07D0C5B6068A470F0076D89A /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Deployment/Growl.framework; sourceTree = "<group>"; };
 		C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "BeepHammer-Info.plist"; sourceTree = "<group>"; };
+		C43640D00B10094C00E4FC4B /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				0717FC420765892F0083E17E /* Localizable.strings */,
 				073B927D06855F050068C763 /* BeepHammer.nib */,
 				073B92C4068563AC0068C763 /* whistle-cocoa.icns */,
+				C43640CF0B10094C00E4FC4B /* InfoPlist.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 				073B92C5068563AC0068C763 /* whistle-cocoa.icns in Resources */,
 				0717FC430765892F0083E17E /* Localizable.strings in Resources */,
 				C4363FE70B0FBDBA00E4FC4B /* BeepHammer-Info.plist in Resources */,
+				C43640D10B10094C00E4FC4B /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +200,14 @@
 				0717FC40076589230083E17E /* English */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		C43640CF0B10094C00E4FC4B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C43640D00B10094C00E4FC4B /* English */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

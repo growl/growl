@@ -17,6 +17,8 @@
             OUTLETS = {
                 addEditButton = NSButton; 
                 addNotification = NSButton; 
+                batchCountField = NSTextField; 
+                groupingType = NSMatrix; 
                 growlLoggingButton = NSButton; 
                 mainWindow = NSWindow; 
                 notificationDefault = NSButton; 

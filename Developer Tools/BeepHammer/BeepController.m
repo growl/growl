@@ -59,6 +59,7 @@
 
 - (IBAction)toggleGrowlLogging:(id)sender
 {
+#pragma mark This is a cheap hack to work with the preference
 	NSMutableDictionary *prefsDict = [[NSMutableDictionary alloc] initWithContentsOfFile:GROWL_PREFS_PATH];
 	[prefsDict setObject:[NSNumber numberWithInt:[sender state]] forKey:@"GrowlLoggingEnabled"];
 	[prefsDict writeToFile:GROWL_PREFS_PATH atomically:NO];
@@ -132,17 +133,28 @@
 	int selectedRow = [notificationsTable selectedRow];
 
 	if (selectedRow != -1){
-		//send a notification for the selected table cell
-		NSDictionary *note = [notifications objectAtIndex:selectedRow];
-
-		//NSLog(@"note - %@", note);
-		[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
-							description: [note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-					   notificationName: [note objectForKey:GROWL_NOTIFICATION_NAME]
-							   iconData: [note objectForKey:GROWL_NOTIFICATION_ICON]
-							   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
-							   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
-						   clickContext:nil];
+		int batchCount = ([batchCountField intValue] > 0 ? [batchCountField intValue] : 1); // always 1
+		
+		if([groupingType selectedRow] == 0)
+		{
+			// loop through and send the appropriate number of notifications
+			while(batchCount > 0)
+			{
+				//send a notification for the selected table cell
+				NSDictionary *note = [notifications objectAtIndex:selectedRow];
+				
+				//NSLog(@"note - %@", note);
+				[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
+											description: [note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+									   notificationName: [note objectForKey:GROWL_NOTIFICATION_NAME]
+											   iconData: [note objectForKey:GROWL_NOTIFICATION_ICON]
+											   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+											   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
+										   clickContext:nil];							
+				
+				batchCount--;
+			}
+		}
 	}
 }
 
@@ -233,6 +245,8 @@
 	BOOL rowIsSelected = ([notificationsTable selectedRow] != -1);
 
 	[sendButton setEnabled:rowIsSelected];
+	[batchCountField setEnabled:rowIsSelected];
+	[groupingType setEnabled:rowIsSelected];
 }
 
 #pragma mark NSApplication Delegate Methods
