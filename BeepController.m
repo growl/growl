@@ -154,12 +154,34 @@
 				
 				//NSLog(@"note - %@", note);
 				[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
-											description: [note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
-									   notificationName: [note objectForKey:GROWL_NOTIFICATION_NAME]
-											   iconData: [note objectForKey:GROWL_NOTIFICATION_ICON]
+											description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+									   notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
+											   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON]
 											   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
 											   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
 										   clickContext:nil];							
+				
+				batchCount--;
+			}
+		}
+		else if([groupingType selectedRow] == 1)
+		{
+			// loop through and send the appropriate number of notifications
+			while(batchCount > 0)
+			{
+				for(int currentRow = 0; currentRow < [notifications count]; currentRow++)
+				{
+					//send a notification for the row
+					NSDictionary *note = [notifications objectAtIndex:currentRow];
+					
+					[GrowlApplicationBridge notifyWithTitle:[note objectForKey:GROWL_NOTIFICATION_TITLE]
+												description:[note objectForKey:GROWL_NOTIFICATION_DESCRIPTION]
+										   notificationName:[note objectForKey:GROWL_NOTIFICATION_NAME]
+												   iconData:[note objectForKey:GROWL_NOTIFICATION_ICON]
+												   priority:[[note objectForKey:GROWL_NOTIFICATION_PRIORITY] intValue]
+												   isSticky:[[note objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]
+											   clickContext:nil];					
+				}
 				
 				batchCount--;
 			}
