@@ -220,6 +220,39 @@
 			C43640EA0B100D8D00E4FC4B /* PBXTextBookmark */ = C43640EA0B100D8D00E4FC4B /* PBXTextBookmark */;
 			C43640EB0B100D8D00E4FC4B /* PBXTextBookmark */ = C43640EB0B100D8D00E4FC4B /* PBXTextBookmark */;
 			C43640F00B100DAE00E4FC4B /* PBXTextBookmark */ = C43640F00B100DAE00E4FC4B /* PBXTextBookmark */;
+			C43640FC0B10277F00E4FC4B /* PBXTextBookmark */ = C43640FC0B10277F00E4FC4B /* PBXTextBookmark */;
+			C436410C0B1028EF00E4FC4B /* PBXTextBookmark */ = C436410C0B1028EF00E4FC4B /* PBXTextBookmark */;
+			C436410D0B1028EF00E4FC4B /* PBXTextBookmark */ = C436410D0B1028EF00E4FC4B /* PBXTextBookmark */;
+			C43641130B1028FD00E4FC4B /* PBXTextBookmark */ = C43641130B1028FD00E4FC4B /* PBXTextBookmark */;
+			C43641140B10290900E4FC4B /* PBXTextBookmark */ = C43641140B10290900E4FC4B /* PBXTextBookmark */;
+			C43641150B10291200E4FC4B /* PBXTextBookmark */ = C43641150B10291200E4FC4B /* PBXTextBookmark */;
+			C43641210B102FB600E4FC4B /* PBXTextBookmark */ = C43641210B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641220B102FB600E4FC4B /* PBXTextBookmark */ = C43641220B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641230B102FB600E4FC4B /* PBXTextBookmark */ = C43641230B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641240B102FB600E4FC4B /* PBXTextBookmark */ = C43641240B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641250B102FB600E4FC4B /* PBXTextBookmark */ = C43641250B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641260B102FB600E4FC4B /* PBXTextBookmark */ = C43641260B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641270B102FB600E4FC4B /* PBXTextBookmark */ = C43641270B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641280B102FB600E4FC4B /* PBXTextBookmark */ = C43641280B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641290B102FB600E4FC4B /* PBXTextBookmark */ = C43641290B102FB600E4FC4B /* PBXTextBookmark */;
+			C436412A0B102FB600E4FC4B /* PBXTextBookmark */ = C436412A0B102FB600E4FC4B /* PBXTextBookmark */;
+			C436412B0B102FB600E4FC4B /* PBXTextBookmark */ = C436412B0B102FB600E4FC4B /* PBXTextBookmark */;
+			C436412C0B102FB600E4FC4B /* PBXTextBookmark */ = C436412C0B102FB600E4FC4B /* PBXTextBookmark */;
+			C436412D0B102FB600E4FC4B /* PBXTextBookmark */ = C436412D0B102FB600E4FC4B /* PBXTextBookmark */;
+			C436412E0B102FB600E4FC4B /* PBXTextBookmark */ = C436412E0B102FB600E4FC4B /* PBXTextBookmark */;
+			C436412F0B102FB600E4FC4B /* PBXTextBookmark */ = C436412F0B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641300B102FB600E4FC4B /* PBXTextBookmark */ = C43641300B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641310B102FB600E4FC4B /* PBXTextBookmark */ = C43641310B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641320B102FB600E4FC4B /* PBXTextBookmark */ = C43641320B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641330B102FB600E4FC4B /* PBXTextBookmark */ = C43641330B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641340B102FB600E4FC4B /* PBXTextBookmark */ = C43641340B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641350B102FB600E4FC4B /* PBXTextBookmark */ = C43641350B102FB600E4FC4B /* PBXTextBookmark */;
+			C43641390B102FCF00E4FC4B /* PBXTextBookmark */ = C43641390B102FCF00E4FC4B /* PBXTextBookmark */;
+			C436413B0B102FFA00E4FC4B /* PBXTextBookmark */ = C436413B0B102FFA00E4FC4B /* PBXTextBookmark */;
+			C436413E0B10300200E4FC4B /* PBXTextBookmark */ = C436413E0B10300200E4FC4B /* PBXTextBookmark */;
+			C43641400B10300400E4FC4B /* PBXTextBookmark */ = C43641400B10300400E4FC4B /* PBXTextBookmark */;
+			C43641440B10302D00E4FC4B /* PBXTextBookmark */ = C43641440B10302D00E4FC4B /* PBXTextBookmark */;
+			C43641450B10303C00E4FC4B /* PBXTextBookmark */ = C43641450B10303C00E4FC4B /* PBXTextBookmark */;
 		};
 		sourceControlManager = C4363F2A0B0FBB2F00E4FC4B /* Source Control */;
 		userBuildSettings = {
@@ -227,16 +260,16 @@
 	};
 	073B927206855EB30068C763 /* BeepController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1030, 728}}";
-			sepNavSelRange = "{344, 0}";
-			sepNavVisRect = "{{0, 0}, {1030, 469}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1030, 756}}";
+			sepNavSelRange = "{1129, 18}";
+			sepNavVisRect = "{{0, 125}, {1030, 469}}";
 		};
 	};
 	073B927306855EB30068C763 /* BeepController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1030, 4158}}";
-			sepNavSelRange = "{4710, 0}";
-			sepNavVisRect = "{{0, 1736}, {1030, 469}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1030, 4312}}";
+			sepNavSelRange = "{386, 0}";
+			sepNavVisRect = "{{0, 0}, {1030, 469}}";
 			sepNavWindowFrame = "{{130, 106}, {970, 812}}";
 		};
 	};
@@ -341,7 +374,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "BeepController.m: 51";
 		rLen = 0;
-		rLoc = 1370;
+		rLoc = 1402;
 		rType = 0;
 		vrLen = 919;
 		vrLoc = 1034;
@@ -371,7 +404,7 @@
 		fRef = 073B927206855EB30068C763 /* BeepController.h */;
 		name = "BeepController.h: toggleGrowlLogging:";
 		rLen = 0;
-		rLoc = 1511;
+		rLoc = 1659;
 		rType = 0;
 		vrLen = 916;
 		vrLoc = 772;
@@ -421,7 +454,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "BeepController.m: 62";
 		rLen = 0;
-		rLoc = 1815;
+		rLoc = 1975;
 		rType = 0;
 		vrLen = 1041;
 		vrLoc = 1462;
@@ -471,7 +504,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "NSMutableDictionary *prefsDict = [[NSMutableDictionary alloc] initWithContentsOfFile:GROWL_PREFS_PATH];";
 		rLen = 105;
-		rLoc = 1816;
+		rLoc = 1976;
 		rType = 0;
 		vrLen = 1041;
 		vrLoc = 1462;
@@ -481,7 +514,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "NSMutableDictionary *prefsDict = [[NSMutableDictionary alloc] initWithContentsOfFile:GROWL_PREFS_PATH];";
 		rLen = 105;
-		rLoc = 1816;
+		rLoc = 1976;
 		rType = 0;
 		vrLen = 1041;
 		vrLoc = 1462;
@@ -541,7 +574,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "BeepController.m: 238";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8510;
 		rType = 0;
 		vrLen = 746;
 		vrLoc = 7382;
@@ -561,7 +594,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "BeepController.m: 238";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8510;
 		rType = 0;
 		vrLen = 849;
 		vrLoc = 7279;
@@ -581,7 +614,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "BeepController.m: 238";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8510;
 		rType = 0;
 		vrLen = 746;
 		vrLoc = 7382;
@@ -591,7 +624,7 @@
 		fRef = 073B927206855EB30068C763 /* BeepController.h */;
 		name = notification;
 		rLen = 12;
-		rLoc = 1377;
+		rLoc = 1484;
 		rType = 0;
 		vrLen = 922;
 		vrLoc = 725;
@@ -611,7 +644,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "BeepController.m: 238";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8510;
 		rType = 0;
 		vrLen = 746;
 		vrLoc = 7382;
@@ -631,7 +664,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "BeepController.m: 236";
 		rLen = 0;
-		rLoc = 8203;
+		rLoc = 8437;
 		rType = 0;
 		vrLen = 746;
 		vrLoc = 7382;
@@ -641,7 +674,7 @@
 		fRef = 0717FC40076589230083E17E /* English */;
 		name = "English: 2";
 		rLen = 0;
-		rLoc = 75;
+		rLoc = 92;
 		rType = 0;
 		vrLen = 75;
 		vrLoc = 0;
@@ -691,7 +724,7 @@
 		fRef = 0717FC40076589230083E17E /* English */;
 		name = "English: 2";
 		rLen = 0;
-		rLoc = 75;
+		rLoc = 92;
 		rType = 0;
 		vrLen = 75;
 		vrLoc = 0;
@@ -721,7 +754,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "BeepController.m: 140";
 		rLen = 0;
-		rLoc = 4710;
+		rLoc = 4944;
 		rType = 0;
 		vrLen = 1162;
 		vrLoc = 4282;
@@ -731,10 +764,337 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "";
 		rLen = 5;
-		rLoc = 5409;
+		rLoc = 5643;
 		rType = 0;
 		vrLen = 1137;
 		vrLoc = 4421;
+	};
+	C43640FC0B10277F00E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 154";
+		rLen = 0;
+		rLoc = 5647;
+		rType = 0;
+		vrLen = 1164;
+		vrLoc = 4598;
+	};
+	C436410C0B1028EF00E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		rLen = 0;
+		rLoc = 9920;
+		rType = 0;
+	};
+	C436410D0B1028EF00E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 292";
+		rLen = 0;
+		rLoc = 9886;
+		rType = 0;
+		vrLen = 257;
+		vrLoc = 9347;
+	};
+	C43641130B1028FD00E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 282";
+		rLen = 0;
+		rLoc = 9611;
+		rType = 0;
+		vrLen = 910;
+		vrLoc = 0;
+	};
+	C43641140B10290900E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 292";
+		rLen = 0;
+		rLoc = 9886;
+		rType = 0;
+		vrLen = 257;
+		vrLoc = 9347;
+	};
+	C43641150B10291200E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 23";
+		rLen = 0;
+		rLoc = 599;
+		rType = 0;
+		vrLen = 910;
+		vrLoc = 0;
+	};
+	C43641210B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0717FC40076589230083E17E /* English */;
+		name = "English: 2";
+		rLen = 0;
+		rLoc = 75;
+		rType = 0;
+		vrLen = 92;
+		vrLoc = 0;
+	};
+	C43641220B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */;
+		name = "<key>NSMainNibFile</key>";
+		rLen = 26;
+		rLoc = 776;
+		rType = 0;
+		vrLen = 909;
+		vrLoc = 0;
+	};
+	C43641230B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927206855EB30068C763 /* BeepController.h */;
+		name = notificationsTable;
+		rLen = 18;
+		rLoc = 1129;
+		rType = 0;
+		vrLen = 1719;
+		vrLoc = 119;
+	};
+	C43641240B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 67";
+		rLen = 0;
+		rLoc = 2080;
+		rType = 0;
+		vrLen = 1201;
+		vrLoc = 1522;
+	};
+	C43641250B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 6";
+		rLen = 0;
+		rLoc = 242;
+		rType = 0;
+		vrLen = 910;
+		vrLoc = 0;
+	};
+	C43641260B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927206855EB30068C763 /* BeepController.h */;
+		name = "BeepController.h: notificationSticky";
+		rLen = 0;
+		rLoc = 322;
+		rType = 0;
+		vrLen = 1512;
+		vrLoc = 0;
+	};
+	C43641270B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 6";
+		rLen = 0;
+		rLoc = 242;
+		rType = 0;
+		vrLen = 910;
+		vrLoc = 0;
+	};
+	C43641280B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927206855EB30068C763 /* BeepController.h */;
+		name = "BeepController.h: notificationSticky";
+		rLen = 0;
+		rLoc = 322;
+		rType = 0;
+		vrLen = 1512;
+		vrLoc = 0;
+	};
+	C43641290B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 6";
+		rLen = 0;
+		rLoc = 242;
+		rType = 0;
+		vrLen = 910;
+		vrLoc = 0;
+	};
+	C436412A0B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 0717FC40076589230083E17E /* English */;
+		name = "English: 2";
+		rLen = 0;
+		rLoc = 75;
+		rType = 0;
+		vrLen = 92;
+		vrLoc = 0;
+	};
+	C436412B0B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */;
+		name = "<key>NSMainNibFile</key>";
+		rLen = 26;
+		rLoc = 776;
+		rType = 0;
+		vrLen = 909;
+		vrLoc = 0;
+	};
+	C436412C0B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927206855EB30068C763 /* BeepController.h */;
+		name = "BeepController.h: notificationSticky";
+		rLen = 0;
+		rLoc = 322;
+		rType = 0;
+		vrLen = 1512;
+		vrLoc = 0;
+	};
+	C436412D0B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "#pragma mark This is a cheap hack to work with the preference";
+		rLen = 62;
+		rLoc = 1624;
+		rType = 0;
+		vrLen = 1183;
+		vrLoc = 816;
+	};
+	C436412E0B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927206855EB30068C763 /* BeepController.h */;
+		name = "BeepController.h: notificationDescription";
+		rLen = 0;
+		rLoc = 508;
+		rType = 0;
+		vrLen = 1534;
+		vrLoc = 0;
+	};
+	C436412F0B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 36";
+		rLen = 0;
+		rLoc = 972;
+		rType = 0;
+		vrLen = 1292;
+		vrLoc = 942;
+	};
+	C43641300B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927206855EB30068C763 /* BeepController.h */;
+		name = "BeepController.h: 36";
+		rLen = 0;
+		rLoc = 1659;
+		rType = 0;
+		vrLen = 1317;
+		vrLoc = 792;
+	};
+	C43641310B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: showAddSheet:";
+		rLen = 0;
+		rLoc = 2305;
+		rType = 0;
+		vrLen = 1188;
+		vrLoc = 1522;
+	};
+	C43641320B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927206855EB30068C763 /* BeepController.h */;
+		name = "BeepController.h: 36";
+		rLen = 0;
+		rLoc = 1659;
+		rType = 0;
+		vrLen = 1462;
+		vrLoc = 437;
+	};
+	C43641330B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 67";
+		rLen = 0;
+		rLoc = 2080;
+		rType = 0;
+		vrLen = 1201;
+		vrLoc = 1522;
+	};
+	C43641340B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927206855EB30068C763 /* BeepController.h */;
+		name = notificationsTable;
+		rLen = 18;
+		rLoc = 1129;
+		rType = 0;
+		vrLen = 1719;
+		vrLoc = 119;
+	};
+	C43641350B102FB600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: showAddSheet:";
+		rLen = 0;
+		rLoc = 2305;
+		rType = 0;
+		vrLen = 1215;
+		vrLoc = 1522;
+	};
+	C43641390B102FCF00E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 301";
+		rLen = 0;
+		rLoc = 9886;
+		rType = 0;
+		vrLen = 576;
+		vrLoc = 9171;
+	};
+	C436413B0B102FFA00E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 260";
+		rLen = 0;
+		rLoc = 8629;
+		rType = 0;
+		vrLen = 1101;
+		vrLoc = 7708;
+	};
+	C436413E0B10300200E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 303";
+		rLen = 0;
+		rLoc = 9886;
+		rType = 0;
+		vrLen = 673;
+		vrLoc = 9157;
+	};
+	C43641400B10300400E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 260";
+		rLen = 0;
+		rLoc = 8629;
+		rType = 0;
+		vrLen = 1101;
+		vrLoc = 7708;
+	};
+	C43641440B10302D00E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 303";
+		rLen = 0;
+		rLoc = 9886;
+		rType = 0;
+		vrLen = 673;
+		vrLoc = 9157;
+	};
+	C43641450B10303C00E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 12";
+		rLen = 0;
+		rLoc = 386;
+		rType = 0;
+		vrLen = 941;
+		vrLoc = 0;
 	};
 	CBBC7DE20659313D00684B79 /* BeepHammer */ = {
 		activeExec = 0;

@@ -14,7 +14,7 @@
 	IBOutlet NSImageView	*notificationImage;			// The associated image
 	IBOutlet NSTextField	*notificationTitle;			// The title of this notification
 	IBOutlet NSButton		*addEditButton;				// The OK button for the panel
-	NSString *addButtonTitle, *editButtonTitle;
+	NSString *addButtonTitle, *editButtonTitle, *mainEditButtonTitle;
 	
 	IBOutlet NSButton		*growlLoggingButton;		// The checkbox to toggle logging, removed from main pane
 	
@@ -25,6 +25,7 @@
 	IBOutlet NSTableView	*notificationsTable;		// The table of notifications
 	IBOutlet NSButton		*addNotification;			// The button button that opens the add note pane
 	IBOutlet NSButton		*removeNotification;		// The remove button (TBR)
+	IBOutlet NSButton		*mainEditButton;			// The button on the UI to invoke a dbl-click
 	IBOutlet NSButton		*sendButton;				// The button to send a notification
 
 	//data
@@ -32,6 +33,7 @@
 }
 
 - (IBAction)toggleGrowlLogging:(id)sender;
+- (IBAction)editNotification:(id)sender;
 
 - (IBAction)showAddSheet:(id)sender;
 - (IBAction)showEditSheet:(id)sender;

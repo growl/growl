@@ -5,6 +5,7 @@
                 OKNotification = id; 
                 cancelNotification = id; 
                 clearImage = id; 
+                editNotification = id; 
                 registerBeep = id; 
                 removeNotification = id; 
                 sendNotification = id; 
@@ -20,6 +21,7 @@
                 batchCountField = NSTextField; 
                 groupingType = NSMatrix; 
                 growlLoggingButton = NSButton; 
+                mainEditButton = NSButton; 
                 mainWindow = NSWindow; 
                 notificationDefault = NSButton; 
                 notificationDescription = NSTextField; 
