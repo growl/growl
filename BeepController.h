@@ -17,6 +17,9 @@
 	NSString *addButtonTitle, *editButtonTitle;
 	
 	IBOutlet NSButton		*growlLoggingButton;		// The checkbox to toggle logging, removed from main pane
+	
+	IBOutlet NSMatrix		*groupingType;				// The choices for batch grouping type [selection | all]
+	IBOutlet NSTextField	*batchCountField;			// The number of notifications to post
 
 	IBOutlet NSWindow		*mainWindow;
 	IBOutlet NSTableView	*notificationsTable;		// The table of notifications
