@@ -31,6 +31,7 @@
 
 	[addButtonTitle  release];
 	[editButtonTitle release];
+	[mainEditButtonTitle release];
 
 	[mainWindow         release];
 	[notificationsTable release];
@@ -48,7 +49,10 @@
 	[self tableViewSelectionDidChange:nil];
 
 	addButtonTitle  = [[addEditButton title] retain]; //this is the default title in the nib
-	editButtonTitle = [NSLocalizedString(@"Edit", /*comment*/ NULL) retain];
+	editButtonTitle = [NSLocalizedString(@"Save", /*comment*/ NULL) retain];
+	mainEditButtonTitle = [NSLocalizedString(@"Edit", /*comment*/ NULL) retain];
+	
+	[mainEditButton setTitle:mainEditButtonTitle];
 
 	[GrowlApplicationBridge setGrowlDelegate:self];
 	
@@ -63,6 +67,11 @@
 	NSMutableDictionary *prefsDict = [[NSMutableDictionary alloc] initWithContentsOfFile:GROWL_PREFS_PATH];
 	[prefsDict setObject:[NSNumber numberWithInt:[sender state]] forKey:@"GrowlLoggingEnabled"];
 	[prefsDict writeToFile:GROWL_PREFS_PATH atomically:NO];
+}
+
+- (IBAction)editNotification:(id)sender
+{
+	[self  showEditSheet:self];
 }
 
 #pragma mark Main window actions
@@ -247,6 +256,8 @@
 	[sendButton setEnabled:rowIsSelected];
 	[batchCountField setEnabled:rowIsSelected];
 	[groupingType setEnabled:rowIsSelected];
+	[removeNotification setEnabled:rowIsSelected];
+	[mainEditButton setEnabled:rowIsSelected];
 }
 
 #pragma mark NSApplication Delegate Methods
@@ -289,7 +300,7 @@
 }
 
 - (void)growlIsReady {
-	NSLog(@"Growl engaged, Captain!");
+	// NSLog(@"Growl engaged, Captain!");
 }
 
 @end
