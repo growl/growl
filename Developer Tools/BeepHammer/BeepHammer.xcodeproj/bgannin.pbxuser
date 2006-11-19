@@ -253,6 +253,10 @@
 			C43641400B10300400E4FC4B /* PBXTextBookmark */ = C43641400B10300400E4FC4B /* PBXTextBookmark */;
 			C43641440B10302D00E4FC4B /* PBXTextBookmark */ = C43641440B10302D00E4FC4B /* PBXTextBookmark */;
 			C43641450B10303C00E4FC4B /* PBXTextBookmark */ = C43641450B10303C00E4FC4B /* PBXTextBookmark */;
+			C43641490B10314600E4FC4B /* PBXTextBookmark */ = C43641490B10314600E4FC4B /* PBXTextBookmark */;
+			C436414A0B10314B00E4FC4B /* PBXTextBookmark */ = C436414A0B10314B00E4FC4B /* PBXTextBookmark */;
+			C436414D0B1035EB00E4FC4B /* PBXTextBookmark */ = C436414D0B1035EB00E4FC4B /* PBXTextBookmark */;
+			C436414F0B1035EC00E4FC4B /* PBXTextBookmark */ = C436414F0B1035EC00E4FC4B /* PBXTextBookmark */;
 		};
 		sourceControlManager = C4363F2A0B0FBB2F00E4FC4B /* Source Control */;
 		userBuildSettings = {
@@ -268,8 +272,8 @@
 	073B927306855EB30068C763 /* BeepController.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1030, 4312}}";
-			sepNavSelRange = "{386, 0}";
-			sepNavVisRect = "{{0, 0}, {1030, 469}}";
+			sepNavSelRange = "{661, 0}";
+			sepNavVisRect = "{{0, 137}, {1030, 469}}";
 			sepNavWindowFrame = "{{130, 106}, {970, 812}}";
 		};
 	};
@@ -1095,6 +1099,46 @@
 		rType = 0;
 		vrLen = 941;
 		vrLoc = 0;
+	};
+	C43641490B10314600E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 303";
+		rLen = 0;
+		rLoc = 9886;
+		rType = 0;
+		vrLen = 673;
+		vrLoc = 9157;
+	};
+	C436414A0B10314B00E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 30";
+		rLen = 0;
+		rLoc = 840;
+		rType = 0;
+		vrLen = 786;
+		vrLoc = 387;
+	};
+	C436414D0B1035EB00E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 303";
+		rLen = 0;
+		rLoc = 9886;
+		rType = 0;
+		vrLen = 673;
+		vrLoc = 9157;
+	};
+	C436414F0B1035EC00E4FC4B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 25";
+		rLen = 0;
+		rLoc = 661;
+		rType = 0;
+		vrLen = 797;
+		vrLoc = 349;
 	};
 	CBBC7DE20659313D00684B79 /* BeepHammer */ = {
 		activeExec = 0;
