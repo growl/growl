@@ -7,6 +7,7 @@
                 clearImage = id; 
                 editNotification = id; 
                 registerBeep = id; 
+                removeAllNotifications = id; 
                 removeNotification = id; 
                 sendNotification = id; 
                 showAddSheet = id; 

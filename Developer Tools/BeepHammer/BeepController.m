@@ -137,6 +137,13 @@
 	[self notificationsDidChange];
 }
 
+- (IBAction)removeAllNotifications:(id)sender
+{
+	[notifications removeAllObjects];
+	[notificationsTable reloadData];
+	[self notificationsDidChange];
+}
+
 - (IBAction)sendNotification:(id)sender {
 #pragma unused(sender)
 	int selectedRow = [notificationsTable selectedRow];
@@ -198,17 +205,10 @@
 - (IBAction)OKNotification:(id)sender {
 	[NSApp endSheet:[sender window] returnCode:NSOKButton];
 }
+
 - (IBAction)cancelNotification:(id)sender {
 	[NSApp endSheet:[sender window] returnCode:NSCancelButton];
 }
-
-/*
-- (IBAction) endPanel:(id)sender {
-	NSWindow *sheet = [sender window];
-    [NSApp endSheet:sheet];
-	[sheet orderOut:sender];
-}
-*/
 
 - (void) sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	if (returnCode == NSOKButton) {
