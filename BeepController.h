@@ -32,6 +32,8 @@
 	NSMutableArray			*notifications;				// The Array of notifications
 }
 
+- (IBAction)removeAllNotifications:(id)sender;
+
 - (IBAction)toggleGrowlLogging:(id)sender;
 - (IBAction)editNotification:(id)sender;
 

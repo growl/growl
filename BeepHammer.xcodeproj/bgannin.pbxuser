@@ -223,6 +223,20 @@
 			C4F7EBC20B111022001F5B48 /* PBXTextBookmark */ = C4F7EBC20B111022001F5B48 /* PBXTextBookmark */;
 			C4F7EBD50B111202001F5B48 /* PBXTextBookmark */ = C4F7EBD50B111202001F5B48 /* PBXTextBookmark */;
 			C4F7EBDC0B11127A001F5B48 /* PBXTextBookmark */ = C4F7EBDC0B11127A001F5B48 /* PBXTextBookmark */;
+			C4F7EBE30B11213E001F5B48 /* PBXTextBookmark */ = C4F7EBE30B11213E001F5B48 /* PBXTextBookmark */;
+			C4F7EBE40B11213E001F5B48 /* PBXTextBookmark */ = C4F7EBE40B11213E001F5B48 /* PBXTextBookmark */;
+			C4F7EBE50B11213E001F5B48 /* PBXTextBookmark */ = C4F7EBE50B11213E001F5B48 /* PBXTextBookmark */;
+			C4F7EBE90B112194001F5B48 /* PBXTextBookmark */ = C4F7EBE90B112194001F5B48 /* PBXTextBookmark */;
+			C4F7EBEA0B112194001F5B48 /* PBXTextBookmark */ = C4F7EBEA0B112194001F5B48 /* PBXTextBookmark */;
+			C4F7EBEC0B1121A2001F5B48 /* PBXTextBookmark */ = C4F7EBEC0B1121A2001F5B48 /* PBXTextBookmark */;
+			C4F7EBED0B1121A2001F5B48 /* PBXTextBookmark */ = C4F7EBED0B1121A2001F5B48 /* PBXTextBookmark */;
+			C4F7EBEE0B1121A2001F5B48 /* PBXTextBookmark */ = C4F7EBEE0B1121A2001F5B48 /* PBXTextBookmark */;
+			C4F7EBF10B1121AA001F5B48 /* PBXTextBookmark */ = C4F7EBF10B1121AA001F5B48 /* PBXTextBookmark */;
+			C4F7EBF50B1121B9001F5B48 /* PBXTextBookmark */ = C4F7EBF50B1121B9001F5B48 /* PBXTextBookmark */;
+			C4F7EBF60B1121B9001F5B48 /* PBXTextBookmark */ = C4F7EBF60B1121B9001F5B48 /* PBXTextBookmark */;
+			C4F7EBF80B1121BC001F5B48 /* PBXTextBookmark */ = C4F7EBF80B1121BC001F5B48 /* PBXTextBookmark */;
+			C4F7EBFB0B1121D1001F5B48 /* PBXTextBookmark */ = C4F7EBFB0B1121D1001F5B48 /* PBXTextBookmark */;
+			C4F7EBFC0B1121D2001F5B48 /* PBXTextBookmark */ = C4F7EBFC0B1121D2001F5B48 /* PBXTextBookmark */;
 		};
 		sourceControlManager = C4363F2A0B0FBB2F00E4FC4B /* Source Control */;
 		userBuildSettings = {
@@ -230,16 +244,16 @@
 	};
 	073B927206855EB30068C763 /* BeepController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1030, 756}}";
-			sepNavSelRange = "{1129, 18}";
-			sepNavVisRect = "{{0, 125}, {1030, 469}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1030, 784}}";
+			sepNavSelRange = "{1359, 0}";
+			sepNavVisRect = "{{0, 112}, {1030, 469}}";
 		};
 	};
 	073B927306855EB30068C763 /* BeepController.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1030, 4620}}";
-			sepNavSelRange = "{5939, 0}";
-			sepNavVisRect = "{{0, 2518}, {1030, 469}}";
+			sepNavSelRange = "{9443, 0}";
+			sepNavVisRect = "{{0, 3721}, {1030, 469}}";
 			sepNavWindowFrame = "{{130, 106}, {970, 812}}";
 		};
 	};
@@ -334,7 +348,7 @@
 		fRef = 073B927206855EB30068C763 /* BeepController.h */;
 		name = "BeepController.h: toggleGrowlLogging:";
 		rLen = 0;
-		rLoc = 1659;
+		rLoc = 1707;
 		rType = 0;
 		vrLen = 916;
 		vrLoc = 772;
@@ -424,7 +438,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "BeepController.m: 238";
 		rLen = 0;
-		rLoc = 9397;
+		rLoc = 9444;
 		rType = 0;
 		vrLen = 849;
 		vrLoc = 7279;
@@ -444,7 +458,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "BeepController.m: 238";
 		rLen = 0;
-		rLoc = 9397;
+		rLoc = 9444;
 		rType = 0;
 		vrLen = 746;
 		vrLoc = 7382;
@@ -664,7 +678,7 @@
 		fRef = 073B927206855EB30068C763 /* BeepController.h */;
 		name = "BeepController.h: 36";
 		rLen = 0;
-		rLoc = 1659;
+		rLoc = 1707;
 		rType = 0;
 		vrLen = 1317;
 		vrLoc = 792;
@@ -684,7 +698,7 @@
 		fRef = 073B927206855EB30068C763 /* BeepController.h */;
 		name = "BeepController.h: 36";
 		rLen = 0;
-		rLoc = 1659;
+		rLoc = 1707;
 		rType = 0;
 		vrLen = 1462;
 		vrLoc = 437;
@@ -734,7 +748,7 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "BeepController.m: 172";
 		rLen = 0;
-		rLoc = 5855;
+		rLoc = 6007;
 		rType = 0;
 		vrLen = 1216;
 		vrLoc = 5438;
@@ -744,10 +758,146 @@
 		fRef = 073B927306855EB30068C763 /* BeepController.m */;
 		name = "BeepController.m: 174";
 		rLen = 0;
-		rLoc = 5939;
+		rLoc = 6091;
 		rType = 0;
 		vrLen = 900;
 		vrLoc = 6253;
+	};
+	C4F7EBE30B11213E001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "- (IBAction)removeAllNotifications:(id)sender";
+		rLen = 45;
+		rLoc = 4590;
+		rType = 0;
+		vrLen = 773;
+		vrLoc = 4121;
+	};
+	C4F7EBE40B11213E001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "- (IBAction)removeAllNotifications:(id)sender";
+		rLen = 45;
+		rLoc = 4590;
+		rType = 0;
+		vrLen = 773;
+		vrLoc = 4121;
+	};
+	C4F7EBE50B11213E001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927206855EB30068C763 /* BeepController.h */;
+		name = "BeepController.h: removeAllNotifications:";
+		rLen = 0;
+		rLoc = 1622;
+		rType = 0;
+		vrLen = 1666;
+		vrLoc = 119;
+	};
+	C4F7EBE90B112194001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: parse error before '[' token";
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		rLen = 0;
+		rLoc = 146;
+		rType = 1;
+	};
+	C4F7EBEA0B112194001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "[self notificationsDidChange];";
+		rLen = 0;
+		rLoc = 4742;
+		rType = 0;
+		vrLen = 408;
+		vrLoc = 4433;
+	};
+	C4F7EBEC0B1121A2001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927206855EB30068C763 /* BeepController.h */;
+		name = "BeepController.h: NSButton";
+		rLen = 0;
+		rLoc = 1359;
+		rType = 0;
+		vrLen = 1666;
+		vrLoc = 119;
+	};
+	C4F7EBED0B1121A2001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927206855EB30068C763 /* BeepController.h */;
+		name = "BeepController.h: NSButton";
+		rLen = 0;
+		rLoc = 1359;
+		rType = 0;
+		vrLen = 1666;
+		vrLoc = 119;
+	};
+	C4F7EBEE0B1121A2001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 146";
+		rLen = 0;
+		rLoc = 4742;
+		rType = 0;
+		vrLen = 1017;
+		vrLoc = 4433;
+	};
+	C4F7EBF10B1121AA001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 146";
+		rLen = 0;
+		rLoc = 4742;
+		rType = 0;
+		vrLen = 453;
+		vrLoc = 4433;
+	};
+	C4F7EBF50B1121B9001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: parse error before '[' token";
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		rLen = 1;
+		rLoc = 146;
+		rType = 1;
+	};
+	C4F7EBF60B1121B9001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: removeAllNotifications:";
+		rLen = 0;
+		rLoc = 4742;
+		rType = 0;
+		vrLen = 453;
+		vrLoc = 4433;
+	};
+	C4F7EBF80B1121BC001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 280";
+		rLen = 0;
+		rLoc = 9443;
+		rType = 0;
+		vrLen = 967;
+		vrLoc = 8961;
+	};
+	C4F7EBFB0B1121D1001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: removeAllNotifications:";
+		rLen = 0;
+		rLoc = 4742;
+		rType = 0;
+		vrLen = 453;
+		vrLoc = 4433;
+	};
+	C4F7EBFC0B1121D2001F5B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 073B927306855EB30068C763 /* BeepController.m */;
+		name = "BeepController.m: 280";
+		rLen = 0;
+		rLoc = 9443;
+		rType = 0;
+		vrLen = 967;
+		vrLoc = 8961;
 	};
 	CBBC7DE20659313D00684B79 /* BeepHammer */ = {
 		activeExec = 0;
