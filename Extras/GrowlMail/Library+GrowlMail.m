@@ -70,8 +70,8 @@ static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel) {
 + (void) load {
 	// Mail.app 3.0
 	if (PerformSwizzle([Library class],
-		@selector(insertOrUpdateMessages:withMailbox:fetchBodies:isInitialImport:oldMessagesByNewMessage:remoteIDs:newDocumentIDs:setFlags:clearFlags:messageFlagsForMessages:copyFiles:progressDelegate:updateRowIDs:),
-		@selector(gm_insertOrUpdateMessages:withMailbox:fetchBodies:isInitialImport:oldMessagesByNewMessage:remoteIDs:newDocumentIDs:setFlags:clearFlags:messageFlagsForMessages:copyFiles:progressDelegate:updateRowIDs:)))
+		@selector(addMessages:withMailbox:fetchBodies:isInitialImport:oldMessagesByNewMessage:remoteIDs:setFlags:clearFlags:messageFlagsForMessages:copyFiles:),
+		@selector(gm_addMessages:withMailbox:fetchBodies:isInitialImport:oldMessagesByNewMessage:remoteIDs:setFlags:clearFlags:messageFlagsForMessages:copyFiles:)))
 		return;
 
 	// Mail.app < 3.0
@@ -102,9 +102,9 @@ static BOOL PerformSwizzle(Class aClass, SEL orig_sel, SEL alt_sel) {
 	return libraryMessages;
 }
 
-+ (id) gm_insertOrUpdateMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fetchBodies isInitialImport:(BOOL)isInitialImport oldMessagesByNewMessage:(id)oldMessagesByNewMessage remoteIDs:(id)remoteIDs newDocumentIDs:(id)newDocumentIDs setFlags:(unsigned long long)setFlags clearFlags:(unsigned long long)clearFlags messageFlagsForMessages:(id)messageFlagsForMessages copyFiles:(BOOL)copyFiles progressDelegate:(id)progressDelegate updateRowIDs:(id)updateRowIDs {
++ (id) gm_addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fetchBodies isInitialImport:(BOOL)isInitialImport oldMessagesByNewMessage:(id)oldMessagesByNewMessage remoteIDs:(id)remoteIDs setFlags:(unsigned long long)setFlags clearFlags:(unsigned long long)clearFlags messageFlagsForMessages:(id)messageFlagsForMessages copyFiles:(BOOL)copyFiles {
 	return [Library process:messages
-			libraryMessages:[self gm_insertOrUpdateMessages:messages withMailbox:mailbox fetchBodies:fetchBodies isInitialImport:isInitialImport oldMessagesByNewMessage:oldMessagesByNewMessage remoteIDs:remoteIDs newDocumentIDs:newDocumentIDs setFlags:setFlags clearFlags:clearFlags messageFlagsForMessages:messageFlagsForMessages copyFiles:copyFiles progressDelegate:progressDelegate updateRowIDs:updateRowIDs]
+			libraryMessages:[self gm_addMessages:messages withMailbox:mailbox fetchBodies:fetchBodies isInitialImport:isInitialImport oldMessagesByNewMessage:oldMessagesByNewMessage remoteIDs:remoteIDs setFlags:setFlags clearFlags:clearFlags messageFlagsForMessages:messageFlagsForMessages copyFiles:copyFiles]
 				  inMailbox:mailbox];
 }
 

@@ -468,6 +468,7 @@ typedef struct {
 + (BOOL)_writeEmlxFile:(id)fp8 forMessage:(id)fp12 withBodyData:(id)fp16 plistData:(id)fp20;
 + (void)touchDirectoryForMailbox:(id)fp8;
 + (id)insertOrUpdateMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fetchBodies isInitialImport:(BOOL)isInitialImport oldMessagesByNewMessage:(id)oldMessagesByNewMessage remoteIDs:(id)remoteIDs newDocumentIDs:(id)newDocumentIDs setFlags:(unsigned long long)setFlags clearFlags:(unsigned long long)clearFlags messageFlagsForMessages:(id)messageFlagsForMessages copyFiles:(BOOL)copyFiles progressDelegate:(id)progressDelegate updateRowIDs:(id)updateRowIDs; // introduced in Mail 3.0
++ (id)addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fetchBodies isInitialImport:(BOOL)isInitialImport oldMessagesByNewMessage:(id)oldMessagesByNewMessage remoteIDs:(id)remoteIDs setFlags:(unsigned long long)setFlags clearFlags:(unsigned long long)clearFlags messageFlagsForMessages:(id)messageFlagsForMessages copyFiles:(BOOL)copyFiles;
 + (id)addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox fetchBodies:(BOOL)fetchBodies isInitialImport:(BOOL)isInitialImport oldMessagesByNewMessage:(id)oldMessagesByNewMessage;
 + (id)addMessages:(NSArray *)messages;
 + (id)addMessages:(NSArray *)messages withMailbox:(NSString *)mailbox;

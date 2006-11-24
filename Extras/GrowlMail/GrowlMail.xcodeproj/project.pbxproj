@@ -33,7 +33,6 @@
 		9553469F0732BD4800D12875 /* GrowlMailPreferencesModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553469D0732BD4800D12875 /* GrowlMailPreferencesModule.m */; };
 		955347EC0732C14400D12875 /* GrowlMailPreferencesPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 955347EA0732C14400D12875 /* GrowlMailPreferencesPanel.nib */; };
 		955348600732F93600D12875 /* GrowlMailPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9553485E0732F93600D12875 /* GrowlMailPreferences.m */; };
-		95A35CEE0973B9210003C754 /* Library+GrowlMail.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 95A35CEC0973B9210003C754 /* Library+GrowlMail.h */; };
 		95A35CEF0973B9210003C754 /* Library+GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 95A35CED0973B9210003C754 /* Library+GrowlMail.m */; };
 		95BF5483072FB08000834811 /* Message+GrowlMail.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BF5481072FB08000834811 /* Message+GrowlMail.m */; };
 /* End PBXBuildFile section */
@@ -158,6 +157,13 @@
 			remoteGlobalIDString = 95AE2770085C44B600271F5F;
 			remoteInfo = "External Frameworks";
 		};
+		95EB3FF50AF37EAC00035504 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95AE2740085C44A600271F5F /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E14410EF0A94072E0063C4DC;
+			remoteInfo = iCal;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -168,7 +174,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				950743AA085E2A5A0067AD2B /* Growl.framework in CopyFiles */,
-				95A35CEE0973B9210003C754 /* Library+GrowlMail.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +335,7 @@
 				95AE275F085C44A600271F5F /* Speech.growlView */,
 				95AE2761085C44A600271F5F /* Brushed.growlView */,
 				95AE2763085C44A600271F5F /* Bubbles.growlView */,
+				95EB3FF60AF37EAC00035504 /* iCal.growlView */,
 				95AE2765085C44A600271F5F /* Bezel.growlView */,
 				95AE2767085C44A600271F5F /* Smoke.growlView */,
 				95AD1E5C0970955A00D6E4BA /* Nano.growlView */,
@@ -499,6 +505,13 @@
 			fileType = wrapper.cfbundle;
 			path = GrowlSMS.growlView;
 			remoteRef = 95AE276C085C44A600271F5F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95EB3FF60AF37EAC00035504 /* iCal.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = iCal.growlView;
+			remoteRef = 95EB3FF50AF37EAC00035504 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
