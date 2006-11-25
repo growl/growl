@@ -10,6 +10,7 @@
 
 #import "GrowlPositionController.h"
 #import "GrowlDisplayWindowController.h"
+#import "GrowlPreferencesController.h"
 #import "NSMutableStringAdditions.h"
 
 #import "GrowlLog.h"
@@ -32,6 +33,35 @@
 //Deallocate
 - (void) destroy {
 	CFRelease(reservedRects);
+}
+
+//Read in the stored selection from picker and translate to a properly returned GrowlPosition.
++ (enum GrowlPosition)selectedOriginPosition
+{
+	GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+	enum GrowlPositionOrigin selectedPosition = (enum GrowlPositionOrigin)[preferences integerForKey:@"GrowlSelectedPosition"];
+	enum GrowlPosition translatedPosition;
+		
+	switch(selectedPosition){
+		case GrowlNoOrigin:
+			//Default to middle of the screen if no origin is set, though this case shouldn't be hit.
+			translatedPosition = GrowlMiddleColumnPosition;
+			break;
+		case GrowlTopLeftCorner:
+			translatedPosition = GrowlTopLeftPosition;
+			break;
+		case GrowlBottomRightCorner:
+			translatedPosition = GrowlBottomRightPosition;
+			break;
+		case GrowlTopRightCorner:
+			translatedPosition = GrowlTopRightPosition;
+			break;
+		case GrowlBottomLeftCorner:
+			translatedPosition = GrowlBottomLeftPosition;
+			break;
+	}
+	
+	return translatedPosition;
 }
 
 //Return a rect suitable for the position and screen.

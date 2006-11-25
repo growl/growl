@@ -47,6 +47,13 @@ extern NSString *NSStringFromGrowlExpansionDirection(enum GrowlExpansionDirectio
  */
 + (NSRect) rectForPosition:(enum GrowlPosition)position inScreen:(NSScreen *)screen;
 
+/*!
+ * @method selectedOriginPosition
+ * @abstract Reads in the stored selection from picker and translate to a properly returned GrowlPosition.
+ * @result GrowlPosition enum. Contains the selected position of one of the enumerated options as translated from the position picker's selection.
+ */
++ (enum GrowlPosition)selectedOriginPosition;
+
 - (BOOL) positionDisplay:(GrowlDisplayWindowController *)displayController;
 
 /*!
