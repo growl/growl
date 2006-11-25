@@ -305,7 +305,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>BeepController.m</string>
+								<string>GrowlApplicationBridge.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -313,11 +313,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>BeepController.m</string>
+										<string>GrowlApplicationBridge.h</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C4F7EBFC0B1121D2001F5B48</string>
+										<string>C4B2DAFC0B1240EA00A95C7F</string>
 										<key>history</key>
 										<array>
 											<string>C436409B0B0FF36700E4FC4B</string>
@@ -327,7 +327,13 @@
 											<string>C43641210B102FB600E4FC4B</string>
 											<string>C43641220B102FB600E4FC4B</string>
 											<string>C4F7EBEC0B1121A2001F5B48</string>
-											<string>C4F7EBE90B112194001F5B48</string>
+											<string>C4F7EC040B1126CA001F5B48</string>
+											<string>C4B2DAF70B1240EA00A95C7F</string>
+											<string>C4B2DAF90B1240EA00A95C7F</string>
+										</array>
+										<key>nextStack</key>
+										<array>
+											<string>C4B2DAFA0B1240EA00A95C7F</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -339,8 +345,6 @@
 											<string>C43640E80B100D8D00E4FC4B</string>
 											<string>C43640E90B100D8D00E4FC4B</string>
 											<string>C436412B0B102FB600E4FC4B</string>
-											<string>C4F7EBE40B11213E001F5B48</string>
-											<string>C4F7EBED0B1121A2001F5B48</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -352,14 +356,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1077, 486}}</string>
+								<string>{{0, 0}, {1077, 482}}</string>
 								<key>RubberWindowFrame</key>
 								<string>68 221 1351 734 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>486pt</string>
+							<string>482pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -372,14 +376,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 491}, {1077, 202}}</string>
+								<string>{{0, 487}, {1077, 206}}</string>
 								<key>RubberWindowFrame</key>
 								<string>68 221 1351 734 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>202pt</string>
+							<string>206pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -398,9 +402,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>C4F7EBC30B111022001F5B48</string>
+				<string>C4B2DAF50B12404800A95C7F</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>C4F7EBC40B111022001F5B48</string>
+				<string>C4B2DAF60B12404800A95C7F</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -545,8 +549,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>C4363F320B0FBB5A00E4FC4B</string>
-		<string>1C0AD2B3069F1EA900FABCE6</string>
 		<string>/Users/bgannin/Projects/growl/Developer Tools/BeepHammer/BeepHammer.xcodeproj</string>
 	</array>
 	<key>WindowString</key>

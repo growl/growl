@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "GrowlPreferencePane.h"
+#import "GrowlPositioningDefines.h"
 
 /* Size should be 150 * 100 */
 
@@ -16,13 +17,6 @@
 
 extern NSString *GrowlPositionPickerChangedSelectionNotification;
 
-enum GrowlPositionOrigin {
-    GrowlNoOrigin,
-    GrowlTopLeftCorner,
-    GrowlBottomRightCorner,
-    GrowlTopRightCorner,
-    GrowlBottomLeftCorner
-};
 extern NSString *NSStringFromGrowlPositionOrigin(enum GrowlPositionOrigin pos);
 
 @interface GrowlPositionPicker : NSView {

@@ -316,6 +316,8 @@
 		A1CC412809E37A65009EF9BD /* closebox.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CC412609E37A65009EF9BD /* closebox.png */; };
 		C4B868E40957D8C00056FC54 /* ACImageAndTextCell.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4B868E20957D8C00056FC54 /* ACImageAndTextCell.h */; };
 		C4B868E50957D8C00056FC54 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */; };
+		C4FB57250B17FC43004474C8 /* GrowlPositioningDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */; };
+		C4FB57260B17FC43004474C8 /* GrowlPositioningDefines.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */; };
 		CB34BED407E09657001D7D7C /* GrowlApplicationBridgePathway.m in Sources */ = {isa = PBXBuildFile; fileRef = CB34BED207E09657001D7D7C /* GrowlApplicationBridgePathway.m */; };
 		CB5C315C07925B53007CC0D0 /* GrowlNotificationTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */; };
 		CB5F83A80638B8C800EADD7A /* HelperMain.m in Sources */ = {isa = PBXBuildFile; fileRef = CB5F83A60638B8C800EADD7A /* HelperMain.m */; };
@@ -596,6 +598,7 @@
 				C4B868E40957D8C00056FC54 /* ACImageAndTextCell.h in CopyFiles */,
 				34F427A5095E69D30044B280 /* NotificationsArrayController.h in CopyFiles */,
 				7471F9B80A066E2B000D13BF /* GrowlPositionPicker.h in CopyFiles */,
+				C4FB57260B17FC43004474C8 /* GrowlPositioningDefines.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -944,6 +947,7 @@
 		A1CC412609E37A65009EF9BD /* closebox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = closebox.png; path = Core/Resources/closebox.png; sourceTree = "<group>"; };
 		C4B868E20957D8C00056FC54 /* ACImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ACImageAndTextCell.h; path = Core/Source/ACImageAndTextCell.h; sourceTree = "<group>"; };
 		C4B868E30957D8C00056FC54 /* ACImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ACImageAndTextCell.m; path = Core/Source/ACImageAndTextCell.m; sourceTree = "<group>"; };
+		C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPositioningDefines.h; path = Framework/Source/GrowlPositioningDefines.h; sourceTree = "<group>"; };
 		CB1C5D1B063E432F007052EE /* GrowlApplicationTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationTicket.h; path = Core/Source/GrowlApplicationTicket.h; sourceTree = "<group>"; };
 		CB1C5D1C063E432F007052EE /* GrowlApplicationTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplicationTicket.m; path = Core/Source/GrowlApplicationTicket.m; sourceTree = "<group>"; };
 		CB1C5D95063E523F007052EE /* README.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = README.rtf; sourceTree = "<group>"; };
@@ -1247,6 +1251,7 @@
 		070C1AF80912D1F500884E7D /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				C4FB57240B17FC43004474C8 /* GrowlPositioningDefines.h */,
 				34E9AA79074BC98A00D59950 /* GrowlDefinesInternal.h */,
 				34E9DC16078FBF1B00662E8E /* GrowlDefines.h */,
 				A14BBE0E06EE1D5600530EED /* GrowlDisplayProtocol.h */,
@@ -1929,6 +1934,7 @@
 				34E9DC1A078FBFA800662E8E /* GrowlDefines.h in Headers */,
 				343353EB0792F7CF00C84B15 /* GrowlApplicationBridge-Carbon.h in Headers */,
 				070C1AE90912D16600884E7D /* GrowlNonCopyingMutableDictionary.h in Headers */,
+				C4FB57250B17FC43004474C8 /* GrowlPositioningDefines.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

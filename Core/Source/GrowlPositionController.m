@@ -512,6 +512,7 @@ NSString *NSStringFromGrowlPosition(enum GrowlPosition pos) {
 
 	return str;
 }	
+
 NSString *NSStringFromGrowlExpansionDirection(enum GrowlExpansionDirection dir) {
 	switch (dir) {
 		case GrowlNoExpansionDirection:
