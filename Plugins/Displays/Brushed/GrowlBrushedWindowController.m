@@ -148,22 +148,90 @@
 	NSRect viewFrame = [view frame];
 	[panel setFrame:viewFrame display:NO];
 	NSRect screen = [[self screen] visibleFrame];
+		
 	[panel setFrameTopLeftPoint:NSMakePoint(NSMaxX(screen) - NSWidth(viewFrame) - GrowlBrushedPadding,
 											NSMaxY(screen) - GrowlBrushedPadding - depth)];
 }
 
 - (NSPoint) idealOriginInRect:(NSRect)rect {
 	NSRect viewFrame = [[[self window] contentView] frame];
-	return NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowlBrushedPadding,
-					   NSMaxY(rect) - GrowlBrushedPadding - NSHeight(viewFrame));
+	enum GrowlPosition originatingPosition = [GrowlPositionController selectedOriginPosition];
+	NSPoint idealOrigin;
+	
+	switch(originatingPosition){
+		case GrowlTopRightPosition:
+			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowlBrushedPadding,
+									  NSMaxY(rect) - GrowlBrushedPadding - NSHeight(viewFrame));
+			break;
+		case GrowlTopLeftPosition:
+			idealOrigin = NSMakePoint(NSMinX(rect) + GrowlBrushedPadding,
+									  NSMaxY(rect) - GrowlBrushedPadding - NSHeight(viewFrame));
+			break;
+		case GrowlBottomLeftPosition:
+			idealOrigin = NSMakePoint(NSMinX(rect) + GrowlBrushedPadding,
+									  NSMinY(rect) + GrowlBrushedPadding);
+			break;
+		case GrowlBottomRightPosition:
+			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowlBrushedPadding,
+									  NSMinY(rect) + GrowlBrushedPadding);
+			break;
+		default:
+			idealOrigin = NSMakePoint(NSMaxX(rect) - NSWidth(viewFrame) - GrowlBrushedPadding,
+									  NSMaxY(rect) - GrowlBrushedPadding - NSHeight(viewFrame));
+			break;			
+	}
+	
+	return idealOrigin;	
 }
 
 - (enum GrowlExpansionDirection) primaryExpansionDirection {
-	return GrowlDownExpansionDirection;
+	enum GrowlPosition originatingPosition = [GrowlPositionController selectedOriginPosition];
+	enum GrowlExpansionDirection directionToExpand;
+	
+	switch(originatingPosition){
+		case GrowlTopLeftPosition:
+			directionToExpand = GrowlDownExpansionDirection;
+			break;
+		case GrowlTopRightPosition:
+			directionToExpand = GrowlDownExpansionDirection;
+			break;
+		case GrowlBottomLeftPosition:
+			directionToExpand = GrowlUpExpansionDirection;
+			break;
+		case GrowlBottomRightPosition:
+			directionToExpand = GrowlUpExpansionDirection;
+			break;
+		default:
+			directionToExpand = GrowlDownExpansionDirection;
+			break;			
+	}
+	
+	return directionToExpand;
 }
 
 - (enum GrowlExpansionDirection) secondaryExpansionDirection {
-	return GrowlLeftExpansionDirection;
+	enum GrowlPosition originatingPosition = [GrowlPositionController selectedOriginPosition];
+	enum GrowlExpansionDirection directionToExpand;
+	
+	switch(originatingPosition){
+		case GrowlTopLeftPosition:
+			directionToExpand = GrowlRightExpansionDirection;
+			break;
+		case GrowlTopRightPosition:
+			directionToExpand = GrowlLeftExpansionDirection;
+			break;
+		case GrowlBottomLeftPosition:
+			directionToExpand = GrowlRightExpansionDirection;
+			break;
+		case GrowlBottomRightPosition:
+			directionToExpand = GrowlLeftExpansionDirection;
+			break;
+		default:
+			directionToExpand = GrowlRightExpansionDirection;
+			break;
+	}
+	
+	return directionToExpand;
 }
 
 - (float) requiredDistanceFromExistingDisplays {
