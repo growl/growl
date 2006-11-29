@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>GrowlDisplayPluginName</key>
-	<string>Bubbles</string>
+	<string>Smoke</string>
 	<key>GrowlStartServer</key>
 	<false/>
 	<key>GrowlRemoteRegistration</key>
