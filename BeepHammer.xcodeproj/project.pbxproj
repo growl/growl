@@ -14,7 +14,7 @@
 		073B927506855EB30068C763 /* BeepController.m in Sources */ = {isa = PBXBuildFile; fileRef = 073B927306855EB30068C763 /* BeepController.m */; };
 		073B927706855EBF0068C763 /* BeepMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 073B927606855EBF0068C763 /* BeepMain.m */; };
 		073B92C10685626C0068C763 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 073B92C00685626C0068C763 /* Cocoa.framework */; };
-		073B92C5068563AC0068C763 /* whistle-cocoa.icns in Resources */ = {isa = PBXBuildFile; fileRef = 073B92C4068563AC0068C763 /* whistle-cocoa.icns */; };
+		31DF208F0B1F85320096DEBB /* whistle-red.icns in Resources */ = {isa = PBXBuildFile; fileRef = 31DF208E0B1F85320096DEBB /* whistle-red.icns */; };
 		3447EAE1079DC6020055F264 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07D0C5B6068A470F0076D89A /* Growl.framework */; };
 		349D11AB079DDD5F00911D48 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D0C5B6068A470F0076D89A /* Growl.framework */; };
 		C4363FE70B0FBDBA00E4FC4B /* BeepHammer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */; };
@@ -45,8 +45,8 @@
 		073B927606855EBF0068C763 /* BeepMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeepMain.m; sourceTree = "<group>"; };
 		073B927D06855F050068C763 /* BeepHammer.nib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.nib; name = BeepHammer.nib; path = English.lproj/BeepHammer.nib; sourceTree = "<group>"; };
 		073B92C00685626C0068C763 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		073B92C4068563AC0068C763 /* whistle-cocoa.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "whistle-cocoa.icns"; sourceTree = "<group>"; };
 		07D0C5B6068A470F0076D89A /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Deployment/Growl.framework; sourceTree = "<group>"; };
+		31DF208E0B1F85320096DEBB /* whistle-red.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "whistle-red.icns"; sourceTree = "<group>"; };
 		C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "BeepHammer-Info.plist"; sourceTree = "<group>"; };
 		C43640D00B10094C00E4FC4B /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -100,7 +100,7 @@
 				C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */,
 				0717FC420765892F0083E17E /* Localizable.strings */,
 				073B927D06855F050068C763 /* BeepHammer.nib */,
-				073B92C4068563AC0068C763 /* whistle-cocoa.icns */,
+				31DF208E0B1F85320096DEBB /* whistle-red.icns */,
 				C43640CF0B10094C00E4FC4B /* InfoPlist.strings */,
 			);
 			name = Resources;
@@ -171,10 +171,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4363FF40B0FBE0F00E4FC4B /* BeepHammer.nib in Resources */,
-				073B92C5068563AC0068C763 /* whistle-cocoa.icns in Resources */,
 				0717FC430765892F0083E17E /* Localizable.strings in Resources */,
 				C4363FE70B0FBDBA00E4FC4B /* BeepHammer-Info.plist in Resources */,
 				C43640D10B10094C00E4FC4B /* InfoPlist.strings in Resources */,
+				31DF208F0B1F85320096DEBB /* whistle-red.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,7 +219,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
-					../../build,
+					../../build/Deployment,
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -249,7 +249,7 @@
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
-					../../build,
+					../../build/Deployment,
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -278,7 +278,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
-					../../build,
+					../../build/Deployment,
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
