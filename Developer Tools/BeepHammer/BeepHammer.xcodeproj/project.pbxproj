@@ -15,6 +15,8 @@
 		073B927706855EBF0068C763 /* BeepMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 073B927606855EBF0068C763 /* BeepMain.m */; };
 		073B92C10685626C0068C763 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 073B92C00685626C0068C763 /* Cocoa.framework */; };
 		31DF208F0B1F85320096DEBB /* whistle-red.icns in Resources */ = {isa = PBXBuildFile; fileRef = 31DF208E0B1F85320096DEBB /* whistle-red.icns */; };
+		31DF20A70B1F86170096DEBB /* minus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 31DF20A50B1F86170096DEBB /* minus-8.png */; };
+		31DF20A80B1F86170096DEBB /* plus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 31DF20A60B1F86170096DEBB /* plus-8.png */; };
 		3447EAE1079DC6020055F264 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07D0C5B6068A470F0076D89A /* Growl.framework */; };
 		349D11AB079DDD5F00911D48 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D0C5B6068A470F0076D89A /* Growl.framework */; };
 		C4363FE70B0FBDBA00E4FC4B /* BeepHammer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */; };
@@ -47,6 +49,8 @@
 		073B92C00685626C0068C763 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		07D0C5B6068A470F0076D89A /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Deployment/Growl.framework; sourceTree = "<group>"; };
 		31DF208E0B1F85320096DEBB /* whistle-red.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "whistle-red.icns"; sourceTree = "<group>"; };
+		31DF20A50B1F86170096DEBB /* minus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus-8.png"; path = "../../images/plusminus/minus-8.png"; sourceTree = SOURCE_ROOT; };
+		31DF20A60B1F86170096DEBB /* plus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-8.png"; path = "../../images/plusminus/plus-8.png"; sourceTree = SOURCE_ROOT; };
 		C4363FE60B0FBDBA00E4FC4B /* BeepHammer-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "BeepHammer-Info.plist"; sourceTree = "<group>"; };
 		C43640D00B10094C00E4FC4B /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,6 +105,8 @@
 				0717FC420765892F0083E17E /* Localizable.strings */,
 				073B927D06855F050068C763 /* BeepHammer.nib */,
 				31DF208E0B1F85320096DEBB /* whistle-red.icns */,
+				31DF20A60B1F86170096DEBB /* plus-8.png */,
+				31DF20A50B1F86170096DEBB /* minus-8.png */,
 				C43640CF0B10094C00E4FC4B /* InfoPlist.strings */,
 			);
 			name = Resources;
@@ -175,6 +181,8 @@
 				C4363FE70B0FBDBA00E4FC4B /* BeepHammer-Info.plist in Resources */,
 				C43640D10B10094C00E4FC4B /* InfoPlist.strings in Resources */,
 				31DF208F0B1F85320096DEBB /* whistle-red.icns in Resources */,
+				31DF20A70B1F86170096DEBB /* minus-8.png in Resources */,
+				31DF20A80B1F86170096DEBB /* plus-8.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

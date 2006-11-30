@@ -16,26 +16,11 @@
 		073B927706855EBF0068C763 /* BeepMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 073B927606855EBF0068C763 /* BeepMain.m */; };
 		073B92C10685626C0068C763 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 073B92C00685626C0068C763 /* Cocoa.framework */; };
 		073B92C5068563AC0068C763 /* whistle-cocoa.icns in Resources */ = {isa = PBXBuildFile; fileRef = 073B92C4068563AC0068C763 /* whistle-cocoa.icns */; };
+		31DF20D00B1F8E5A0096DEBB /* minus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 31DF20CE0B1F8E5A0096DEBB /* minus-8.png */; };
+		31DF20D10B1F8E5A0096DEBB /* plus-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 31DF20CF0B1F8E5A0096DEBB /* plus-8.png */; };
 		3447EAE1079DC6020055F264 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07D0C5B6068A470F0076D89A /* Growl.framework */; };
 		349D11AB079DDD5F00911D48 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D0C5B6068A470F0076D89A /* Growl.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildStyle section */
-		073B924F06855E0F0068C763 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-			};
-			name = Development;
-		};
-		073B925006855E0F0068C763 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		3447EAE0079DC5FB0055F264 /* CopyFiles */ = {
@@ -63,6 +48,8 @@
 		073B92C00685626C0068C763 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		073B92C4068563AC0068C763 /* whistle-cocoa.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "whistle-cocoa.icns"; sourceTree = "<group>"; };
 		07D0C5B6068A470F0076D89A /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Deployment/Growl.framework; sourceTree = "<group>"; };
+		31DF20CE0B1F8E5A0096DEBB /* minus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "minus-8.png"; path = "../../images/plusminus/minus-8.png"; sourceTree = SOURCE_ROOT; };
+		31DF20CF0B1F8E5A0096DEBB /* plus-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "plus-8.png"; path = "../../images/plusminus/plus-8.png"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +102,8 @@
 				073B927D06855F050068C763 /* Beep-Cocoa-Info.plist */,
 				0717FC44076589340083E17E /* Beep-Cocoa.nib */,
 				073B92C4068563AC0068C763 /* whistle-cocoa.icns */,
+				31DF20CF0B1F8E5A0096DEBB /* plus-8.png */,
+				31DF20CE0B1F8E5A0096DEBB /* minus-8.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -155,66 +144,11 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					/Library/Frameworks,
-					../../build,
-				);
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				INFOPLIST_FILE = "Beep-Cocoa-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "Beep-Cocoa";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = "-Wmost";
-			};
 			dependencies = (
 			);
 			name = "Beep-Cocoa";
 			productName = Beep;
 			productReference = 073B925B06855E200068C763 /* Beep-Cocoa.app */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>Beep</string>
-	<key>CFBundleGetInfoString</key>
-	<string></string>
-	<key>CFBundleIconFile</key>
-	<string></string>
-	<key>CFBundleIdentifier</key>
-	<string>com.MySoftwareCompany.Beep</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string></string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0.0d1</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -223,12 +157,6 @@
 		073B925106855E0F0068C763 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 95E4A3920855C1A3006B3F45 /* Build configuration list for PBXProject "Beep-Cocoa" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				073B924F06855E0F0068C763 /* Development */,
-				073B925006855E0F0068C763 /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 073B924D06855E0F0068C763;
 			productRefGroup = 073B925C06855E200068C763 /* Products */;
@@ -247,6 +175,8 @@
 				0717FC45076589340083E17E /* Beep-Cocoa.nib in Resources */,
 				073B92C5068563AC0068C763 /* whistle-cocoa.icns in Resources */,
 				0717FC430765892F0083E17E /* Localizable.strings in Resources */,
+				31DF20D00B1F8E5A0096DEBB /* minus-8.png in Resources */,
+				31DF20D10B1F8E5A0096DEBB /* plus-8.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
