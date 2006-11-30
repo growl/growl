@@ -9,7 +9,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string></string>
 	<key>CFBundleIconFile</key>
-	<string>whistle-cocoa.icns</string>
+	<string>whistle-red</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.Growl.BeepHammer</string>
 	<key>CFBundleInfoDictionaryVersion</key>
