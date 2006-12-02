@@ -214,4 +214,8 @@
 	return GrowlBezelPadding;
 }
 
+- (BOOL) requiresPositioning {
+	return NO;
+}
+
 @end

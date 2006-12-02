@@ -32,6 +32,10 @@
 	[super dealloc];
 }
 
+- (BOOL)requiresPositioning {
+	return YES;
+}
+
 - (NSPreferencePane *) preferencePane {
 	if (!preferencePane)
 		preferencePane = [[GrowlBubblesPrefsController alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Bubbles"]];

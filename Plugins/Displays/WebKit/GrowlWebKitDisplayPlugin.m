@@ -56,7 +56,10 @@
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[controller setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
 	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
+}
 
+- (BOOL)requiresPositioning {
+	return YES;
 }
 
 @end

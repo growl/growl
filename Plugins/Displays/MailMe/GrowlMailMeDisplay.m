@@ -72,4 +72,8 @@
 	}
 }
 
+- (BOOL) requiresPositioning {
+	return NO;
+}
+
 @end

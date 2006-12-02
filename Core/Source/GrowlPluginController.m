@@ -105,6 +105,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		handlersForPlugins = [[GrowlNonCopyingMutableDictionary alloc] init];
 
 		displayPlugins = [[NSMutableArray alloc] init];
+		disabledPlugins = [[NSMutableArray alloc] init];
 
 		[self registerDefaultPluginHandlers];
 
@@ -154,6 +155,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	[bundlesToLazilyInstantiateAnInstanceFrom release];
 	[displayPlugins release];
+	[disabledPlugins release];
 
 	[allPluginHandlers release];
 	[pluginHandlers  release];
@@ -293,6 +295,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 						userInfo:notificationUserInfo];
 	}
 }
+
 - (void) removePluginHandler:(id <GrowlPluginHandler>)handler forPluginTypes:(NSSet *)extensions {
 	NSParameterAssert(handler != nil);
 
@@ -335,9 +338,13 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	NSAssert1(plugin || bundle, @"Cannot load plug-ins lazily without a bundle (path: %@)", path);
 
-	NSString *name    = plugin ? [plugin name]    : [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey];
-	NSString *author  = plugin ? [plugin author]  : [bundle objectForInfoDictionaryKey:GrowlPluginInfoKeyAuthor];
-	NSString *version = plugin ? [plugin version] : [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
+	NSString *name    = plugin ? ([plugin respondsToSelector:@selector(name)] ? [plugin name] : [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey]) 
+								: [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey];
+	NSString *author  = plugin ? ([plugin respondsToSelector:@selector(author)] ? [plugin author] : [bundle objectForInfoDictionaryKey:GrowlPluginInfoKeyAuthor])
+							    : [bundle objectForInfoDictionaryKey:GrowlPluginInfoKeyAuthor];
+	NSString *version = plugin ? ([plugin respondsToSelector:@selector(version)] ? [plugin version] : [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey])
+							    : [bundle objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
+	
 	if (!path)
 		path = [bundle bundlePath];
 	NSString *extension = [path pathExtension];
@@ -386,7 +393,8 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 			path,                 GrowlPluginInfoKeyPath,
 			identifier,           GrowlPluginInfoKeyIdentifier,
 			nil];
-		NSString *description = [plugin pluginDescription];
+		NSString *description = ([plugin respondsToSelector:@selector(pluginDescription)] ? [plugin pluginDescription] : nil);
+		
 		if (description)
 			[pluginDict setObject:description forKey:GrowlPluginInfoKeyDescription];
 
@@ -459,14 +467,27 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	 cache_registeredPluginNamesArray = nil;
 
 	if ([self pluginWithDictionaryIsDisplayPlugin:pluginDict]) {
-		[displayPlugins addObject:pluginDict];
-
+		if(![[pluginDict valueForKey:GrowlPluginInfoKeyInstance] respondsToSelector:@selector(requiresPositioning)]) {
+			[disabledPlugins addObject:[pluginDict valueForKey:GrowlPluginInfoKeyName]];
+		} 
+		else {
+			[displayPlugins addObject:pluginDict];
+		}
+		
 		//invalidate display plug-in cache.
 		[cache_displayPlugins release];
 		 cache_displayPlugins = nil;
 	}
 
 	return pluginDict;
+}
+
+- (NSArray *) disabledPlugins {
+	return disabledPlugins;
+}
+
+- (BOOL) disabledPluginsPresent {
+	return ([disabledPlugins count] > 0);
 }
 
 - (NSDictionary *) addPluginInstance:(GrowlPlugin *)plugin fromBundle:(NSBundle *)bundle {
@@ -490,6 +511,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		cache_registeredPluginNames = [[NSSet alloc] initWithArray:[self registeredPluginNamesArray]];
 	return cache_registeredPluginNames;
 }
+
 - (NSArray *) registeredPluginNamesArray {
 	if (!cache_registeredPluginNamesArray) {
 		cache_registeredPluginNamesArray = [[[pluginsByIdentifier allValues] valueForKey:GrowlPluginInfoKeyName] retain];
@@ -639,6 +661,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 
 	return matches;
 }
+
 - (NSDictionary *) displayPluginDictionaryWithName:(NSString *)name author:(NSString *)author version:(NSString *)version type:(NSString *)type {
 	NSSet *matches = [self displayPluginDictionariesWithName:name
 													  author:author
@@ -649,6 +672,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	else
 		return nil;
 }
+
 - (GrowlDisplayPlugin *) displayPluginInstanceWithName:(NSString *)name author:(NSString *)author version:(NSString *)version type:(NSString *)type {
 	GrowlPlugin *plugin = [self pluginInstanceWithName:name author:author version:version type:type];
 	if (plugin && [plugin isKindOfClass:[GrowlDisplayPlugin class]])

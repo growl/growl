@@ -148,6 +148,9 @@ extern NSString *GrowlPluginInfoKeyInstance;        //description dicts only
 	//GrowlDisplayPlugin instances that have been added as display plugins.
 	//these two arrays are parallel.
 	NSMutableArray *displayPlugins;
+	
+	//these string names are used for the user-visible list
+	NSMutableArray *disabledPlugins;
 
 	//keys: file types (extensions and HFS types); values: NSArrays of GrowlPluginHandlers.
 	NSMutableDictionary        *pluginHandlers;
@@ -166,7 +169,7 @@ extern NSString *GrowlPluginInfoKeyInstance;        //description dicts only
 	 *	handler, because they are reserved for built-in handlers.
 	 */
 	NSSet *builtInTypes;
-
+		
 	//cached attributes.
 	//key: PH: plug-in handler; P: plug-in; DP: display plug-in
 	//meaning for each of these: invalidated whenever a X is removed
@@ -182,6 +185,11 @@ extern NSString *GrowlPluginInfoKeyInstance;        //description dicts only
 }
 
 + (GrowlPluginController *) sharedController;
+
+#pragma mark - 
+
+- (NSArray *) disabledPlugins;
+- (BOOL) disabledPluginsPresent;
 
 #pragma mark -
 

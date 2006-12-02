@@ -12,11 +12,13 @@
             ACTIONS = {
                 checkVersion = id; 
                 deleteTicket = id; 
+                endDisabledDisplays = id; 
                 openGrowlDonate = id; 
                 openGrowlForum = id; 
                 openGrowlTrac = id; 
                 openGrowlWebSite = id; 
                 resolveService = id; 
+                showDisabledDisplays = id; 
                 showPreview = id; 
                 startStopGrowl = id; 
             }; 
@@ -27,6 +29,8 @@
                 applicationNameAndIconColumn = NSTableColumn; 
                 applicationsTab = NSTabView; 
                 customMenuButton = NSPopUpButton; 
+                disabledDisplaysList = NSTextView; 
+                disabledDisplaysSheet = NSWindow; 
                 displayAuthor = NSTextField; 
                 displayDefaultPrefView = NSView; 
                 displayPluginsArrayController = NSArrayController; 

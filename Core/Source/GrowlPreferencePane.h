@@ -67,6 +67,9 @@
 	IBOutlet NSTextField			*displayVersion;
 	IBOutlet NSButton				*previewButton;
 	IBOutlet NSArrayController		*displayPluginsArrayController;
+	
+	IBOutlet NSWindow				*disabledDisplaysSheet;
+	IBOutlet NSTextView				*disabledDisplaysList;
 
 	//"Network" tab pane
 	NSMutableArray					*services;
@@ -122,6 +125,10 @@
 - (void) replaceObjectInServicesAtIndex:(unsigned)index withObject:(id)anObject;
 
 #pragma mark "Display Options" tab pane
+- (IBAction) showDisabledDisplays:(id)sender;
+- (IBAction) endDisabledDisplays:(id)sender;
+- (BOOL)hasDisabledDisplays;
+
 - (IBAction) showPreview:(id)sender;
 - (void) loadViewForDisplay:(NSString*)displayName;
 

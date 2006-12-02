@@ -646,6 +646,28 @@
 
 #pragma mark "Display" tab pane
 
+- (IBAction) showDisabledDisplays:(id)sender {
+#pragma unused(sender)
+	[disabledDisplaysList setString:[[pluginController disabledPlugins] componentsJoinedByString:@"\n"]];
+	
+	[NSApp beginSheet:disabledDisplaysSheet 
+	   modalForWindow:[[self mainView] window]
+		modalDelegate:nil
+	   didEndSelector:nil
+		  contextInfo:nil];
+}
+
+- (IBAction) endDisabledDisplays:(id)sender {
+#pragma unused(sender)
+	[NSApp endSheet:disabledDisplaysSheet];
+	[disabledDisplaysSheet orderOut:disabledDisplaysSheet];
+}
+
+// Returns a boolean based on whether any disabled displays are present, used for the 'hidden' binding of the button on the tab
+- (BOOL)hasDisabledDisplays {
+	return [pluginController disabledPluginsPresent];
+}
+
 - (IBAction) showPreview:(id)sender {
 #pragma unused(sender)
 	CFNotificationCenterPostNotification(CFNotificationCenterGetDistributedCenter(),

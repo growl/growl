@@ -426,4 +426,9 @@
 	[self connectionDidRespond];
 }
 
+
+- (BOOL) requiresPositioning {
+	return NO;
+}
+
 @end

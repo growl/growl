@@ -39,6 +39,10 @@
 	return preferencePane;
 }
 
+- (BOOL)requiresPositioning {
+	return YES;
+}
+
 - (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
 	GrowliCalWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];
 	GrowlApplicationNotification *note = [theBridge notification];

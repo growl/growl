@@ -61,6 +61,10 @@ static void smokeGone(CFNotificationCenterRef center, void *observer, CFStringRe
 	return preferencePane;
 }
 
+- (BOOL)requiresPositioning {
+	return YES;
+}
+
 
 - (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
 	// Note: currently we assume there is only one WC...

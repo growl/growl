@@ -63,4 +63,9 @@
 		[userInfo release];
 	}
 }
+
+- (BOOL)requiresPositioning {
+	return NO;
+}
+
 @end

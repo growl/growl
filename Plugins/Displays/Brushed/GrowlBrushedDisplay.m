@@ -41,6 +41,10 @@ static unsigned brushedDepth = 0U;
 	return preferencePane;
 }
 
+- (BOOL)requiresPositioning {
+	return YES;
+}
+
 - (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
 	// Note: currently we assume there is only one WC...
 	GrowlBrushedWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];
