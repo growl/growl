@@ -255,8 +255,8 @@
 			children = (
 				95EB40520AF4449200035504 /* GrowlTunes.c */,
 				95EB40530AF4449200035504 /* HotKey.c */,
-				939DA47F0AD9782C00DEBBDA /* Plugins */,
 				939DA34E0AD96E0C00DEBBDA /* HotKey.h */,
+				939DA47F0AD9782C00DEBBDA /* Plugins */,
 				01285C0000CC31B17F000001 /* iTunesVisualAPI */,
 			);
 			name = Source;
@@ -390,7 +390,6 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 93353E4C093A1103007C8B10 /* Build configuration list for PBXProject "GrowlTunes" */;
-			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* iTunesXPlugIn */;
 			projectDirPath = "";
@@ -401,7 +400,6 @@
 				},
 			);
 			projectRoot = "";
-			shouldCheckCompatibility = 1;
 			targets = (
 				93353E95093A133E007C8B10 /* GrowlTunes */,
 				933548E2093A9EF2007C8B10 /* External Frameworks */,
@@ -650,6 +648,10 @@
 		93353EA7093A133E007C8B10 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -658,6 +660,8 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -697,6 +701,10 @@
 		93353EA8093A133E007C8B10 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -705,7 +713,9 @@
 					"$(SRCROOT)/build/$(BUILD_STYLE)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_DEBUGGING_SYMBOLS = default;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = 3;
@@ -727,8 +737,12 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_MASTER_OBJECT_FILE = YES;
+				GENERATE_MASTER_OBJECT_FILE = NO;
 				GENERATE_PKGINFO_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SRCROOT)/build/$(BUILD_STYLE)",
+				);
 				INFOPLIST_FILE = "Info-GrowlTunes.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				ONLY_LINK_ESSENTIAL_SYMBOLS = YES;
@@ -752,6 +766,8 @@
 					"$(SRCROOT)/build/$(BUILD_STYLE)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
