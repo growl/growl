@@ -156,10 +156,12 @@ static CFStringRef typeOfIP(CFStringRef ipString) {
 	struct in_addr addr;
 	char ip[16];
 	CFStringGetCString(ipString, ip, sizeof(ip), kCFStringEncodingASCII);
-	if (inet_pton(AF_INET, ip, &addr) > 0)
+	if (inet_pton(AF_INET, ip, &addr) > 0) {
+		uint32_t a = ntohl(addr.s_addr);
 		for (unsigned i=0U; i<9; ++i)
-			if ((addr.s_addr & types[i].netmask) == types[i].network)
+			if ((a & types[i].netmask) == types[i].network)
 				return types[i].type;
+	}
 	return CFSTR("Public");
 }
 
@@ -260,6 +262,8 @@ void NetworkNotifier_init(void) {
 		NSLog(CFSTR("SCDynamicStoreSetNotificationKeys() failed: %s"),
 			  SCErrorString(SCError()));
 		CFRelease(dynStore);
+		dynStore = NULL;
+		return;
 	}
 	CFRelease(watchedKeys);
 
