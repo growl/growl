@@ -113,7 +113,7 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 		// draw cache to screen
 		NSRect imageRect = rect;
 		int effect = MUSICVIDEO_EFFECT_SLIDE;
-		READ_GROWL_PREF_BOOL(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
+		READ_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, GrowlMusicVideoPrefDomain, &effect);
 		if (effect == MUSICVIDEO_EFFECT_SLIDE) {
 			if (CGLayerCreateWithContext)
 				imageRect.origin.y = 0.0f;
@@ -122,6 +122,9 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 			imageRect.size.height -= imageRect.origin.y;
 			if (!CGLayerCreateWithContext)
 				imageRect.origin.y = 0.0f;
+		} else if (effect == MUSICVIDEO_EFFECT_FADING) {
+			if (CGLayerCreateWithContext)
+				imageRect.origin.y = 0.0f;		
 		}
 
 		if (CGLayerCreateWithContext) {

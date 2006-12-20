@@ -25,6 +25,8 @@
 #define MUSICVIDEO_EFFECT_PREF			@"Transition effect"
 #define MUSICVIDEO_EFFECT_SLIDE			0
 #define MUSICVIDEO_EFFECT_WIPE			1
+#define MUSICVIDEO_EFFECT_FADING		2
+
 
 #define GrowlMusicVideoVeryLowBackgroundColor	@"MusicVideo-Priority-VeryLow-Color"
 #define GrowlMusicVideoModerateBackgroundColor	@"MusicVideo-Priority-Moderate-Color"

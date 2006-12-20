@@ -7,6 +7,7 @@
 //
 
 #import "GrowlMusicVideoWindowController.h"
+#import "GrowlFadingWindowTransition.h"
 #import "GrowlMusicVideoWindowView.h"
 #import "GrowlMusicVideoPrefs.h"
 #import "NSWindow+Transforms.h"
@@ -87,6 +88,21 @@
 			[slider setAutoReverses:YES];
 			[self addTransition:slider];
 			[slider release];
+			
+		} else if (effect == MUSICVIDEO_EFFECT_FADING) {
+			GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
+			[self addTransition:fader];
+			[self setStartPercentage:0 endPercentage:100 forTransition:fader];
+			[fader setAutoReverses:YES];
+			[fader release];
+
+			// I am adding in a sliding transition from screen,screen to screen,screen to make sure the window is properly positioned during the animation - swr
+			GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
+				[slider setFromOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen)) toOrigin:NSMakePoint(NSMinX(screen),NSMinY(screen))];
+				[self setStartPercentage:0 endPercentage:100 forTransition:slider];
+				[slider setAutoReverses:YES];
+				[self addTransition:slider];
+				[slider release];
 		} else {
 			//wipe effect
 			//[panel setFrameOrigin:NSMakePoint( 0, 0)];
@@ -166,5 +182,6 @@
 - (NSString *) identifier {
 	return identifier;
 }
+
 
 @end

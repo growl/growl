@@ -46,4 +46,9 @@
 	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
 
 }
+
+- (BOOL) requiresPositioning {
+	return YES;
+}
+
 @end

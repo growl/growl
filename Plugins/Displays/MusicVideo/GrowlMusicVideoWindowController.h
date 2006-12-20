@@ -20,5 +20,4 @@
 }
 
 - (NSString *) identifier;
-
 @end

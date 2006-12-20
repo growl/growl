@@ -57,10 +57,12 @@
 	switch (effect) {
 		default:
 			effect = MUSICVIDEO_EFFECT_SLIDE;
-
+			
 		case MUSICVIDEO_EFFECT_SLIDE:
 		case MUSICVIDEO_EFFECT_WIPE:
+		case MUSICVIDEO_EFFECT_FADING:
 			;
+		
 	}
 	return (unsigned)effect;
 }
@@ -72,6 +74,7 @@
 
 		case MUSICVIDEO_EFFECT_SLIDE:
 		case MUSICVIDEO_EFFECT_WIPE:
+		case MUSICVIDEO_EFFECT_FADING:
 			WRITE_GROWL_PREF_INT(MUSICVIDEO_EFFECT_PREF, newEffect, GrowlMusicVideoPrefDomain);
 			UPDATE_GROWL_PREFS();
 	}
