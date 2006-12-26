@@ -283,7 +283,7 @@ static BOOL checkOSXVersion(void) {
 		if (tmpDir) {
 			[mgr createDirectoryAtPath:tmpDir attributes:nil];
 			BOOL hasUnzip = YES;
-
+			BOOL usingBomArchiveHelper = YES;
 			NSString *launchPath = @"/System/Library/CoreServices/BOMArchiveHelper.app/Contents/MacOS/BOMArchiveHelper";
 			NSArray *arguments = nil;
 			if ([mgr fileExistsAtPath:launchPath]) {
@@ -301,6 +301,7 @@ static BOOL checkOSXVersion(void) {
 				//no BOMArchiveHelper - fall back on unzip.
 				launchPath = @"/usr/bin/unzip";
 				hasUnzip = [mgr fileExistsAtPath:launchPath];
+				usingBomArchiveHelper = NO;
 
 				if (hasUnzip) {
 					arguments = [NSArray arrayWithObjects:
@@ -321,12 +322,20 @@ static BOOL checkOSXVersion(void) {
 				TRY
 					[unzip launch];
 					[unzip waitUntilExit];
-					success = ([unzip terminationStatus] == 0);
+					/* The BOMArchiveHelper, as of 10.4.8, appears to return a termination status of -1 even with success. Weird. */
+					success = (([unzip terminationStatus] == 0) || (usingBomArchiveHelper && ([unzip terminationStatus] == -1)));
+					if (!success) {
+						NSLog(@"GrowlInstallationPrompt: unzip task %@ (launchPath %@, arguments %@, currentDir %@) returned termination status of %i",
+							  unzip, launchPath, arguments, tmpDir, [unzip terminationStatus]);
+					}
 				ENDTRY
 				CATCH
-					/* No exception handler needed */
+					NSLog(@"GrowlInstallationPrompt: unzip task %@ failed.",unzip);
+					success = NO;
 				ENDCATCH
 				[unzip release];
+			} else {
+				NSLog(@"GrowlInstallationPrompt: Could not find /System/Library/CoreServices/BOMArchiveHelper.app/Contents/MacOS/BOMArchiveHelper or /usr/bin/unzip");
 			}
 
 			if (success) {
@@ -349,25 +358,43 @@ static BOOL checkOSXVersion(void) {
 				 *Growl.prefPane will relaunch the GHA if appropriate.
 				 */
 				tempGrowlPrefPane = [tmpDir stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
-				success = [[NSWorkspace sharedWorkspace] openFile:tempGrowlPrefPane
-												  withApplication:@"System Preferences"
-													andDeactivate:YES];
+				if ([[NSWorkspace sharedWorkspace] respondsToSelector:@selector(openURLs:withAppBundleIdentifier:options:additionalEventParamDescriptor:launchIdentifiers:)]) {
+					/* Available in 10.3 and above only; preferred since it doesn't matter if System Preferences.app has been renamed */
+					success = [[NSWorkspace sharedWorkspace] openURLs:[NSArray arrayWithObject:[NSURL fileURLWithPath:tempGrowlPrefPane]]
+											  withAppBundleIdentifier:@"com.apple.systempreferences"
+															  options:NSWorkspaceLaunchDefault
+									   additionalEventParamDescriptor:nil
+													launchIdentifiers:NULL];
+
+				} else {
+					success = [[NSWorkspace sharedWorkspace] openFile:tempGrowlPrefPane
+													  withApplication:@"System Preferences"
+														andDeactivate:YES];
+				}
 				if (!success) {
+					NSLog(@"GrowlInstallationPrompt: Warning: Could not find the System Preferences via NSWorksapce");
+
 					/*If the System Preferences app could not be found for
 					 *	whatever reason, try opening Growl.prefPane with
 					 *	-openTempFile: so the associated app will launch. This
-					 *	could be the case if "System Preferences.app" were
-					 *	renamed or if an alternative program were being used.
+					 *	could be the case if an alternative program were being used.
 					 */
 					success = [[NSWorkspace sharedWorkspace] openTempFile:tempGrowlPrefPane];
+					if (!success) {
+						NSLog(@"GrowlInstallationPrompt: Could not open %@",tempGrowlPrefPane);
+					}
 				}
+			} else {
+				NSLog(@"GrowlInstallationPrompt: unzip with %@ failed", launchPath);
 			}
 		}
+	} else {
+		NSLog(@"GrowlInstallationPrompt: Could not get a temporary directory");	
 	}
 
 	if (!success) {
 #warning XXX - show this to the user; do not just log it.
-		NSLog(@"%@", @"GrowlInstallationPrompt: Growl was not successfully installed");
+		NSLog(@"GrowlInstallationPrompt: Growl was not successfully installed");
 	}
 }
 
