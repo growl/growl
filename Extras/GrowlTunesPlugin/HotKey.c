@@ -1,9 +1,9 @@
 /*
- *  HotKey.cpp
+ *  HotKey.c
  *  GrowlTunes
  *
  *  Created by rudy on 12/20/05.
- *  Copyright 2005 __MyCompanyName__. All rights reserved.
+ *  Copyright 2005-2007, The Growl Project. All rights reserved.
  *
  */
 
@@ -12,7 +12,7 @@
 extern void CFLog(int priority, CFStringRef format, ...);
 
 static void _updateModifiersString(hotkey_t *hotkey) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	static long modToChar[4][2] =
 	{
 		{ cmdKey, 		0x23180000 },
@@ -31,19 +31,19 @@ static void _updateModifiersString(hotkey_t *hotkey) {
 }
 
 void hotkey_unregisterHotKeyAndHandler(hotkey_t *hotkey) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	if (hotkey->mHotKeyEventHandler) {
 		RemoveEventHandler(hotkey->mHotKeyEventHandler);
-		printf("%p ", hotkey->mHotKeyEventHandler);
+		//printf("%p ", hotkey->mHotKeyEventHandler);
 	}
 	if (hotkey->mHotKeyEventReference) {
 		UnregisterEventHotKey(hotkey->mHotKeyEventReference);
-		printf("%p\n", hotkey->mHotKeyEventReference);
+		//printf("%p\n", hotkey->mHotKeyEventReference);
 	}
 }
 
 static void _registerHotKeyAndHandler(hotkey_t *hotkey) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	CFLog(1, CFSTR("a %p %p\n"), hotkey->mHotKeyEventHandler, hotkey->mHotKeyEventReference);
 	hotkey_unregisterHotKeyAndHandler(hotkey);
 	if ((!hotkey->mHotKeyEventHandler) && (!hotkey->mHotKeyEventReference)) {
@@ -53,7 +53,7 @@ static void _registerHotKeyAndHandler(hotkey_t *hotkey) {
 }
 
 static void _updateKeyCodeString(hotkey_t *hotkey) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	UCKeyboardLayout  *uchrData;
 	void              *KCHRData;
 	SInt32            keyLayoutKind;
@@ -103,7 +103,7 @@ static void _updateKeyCodeString(hotkey_t *hotkey) {
 }
 
 void hotkey_init(hotkey_t *hotkey, OSType inSignature, UInt32 inIdentifier, UInt32 inKeyCode, UInt32 inModifierCode, EventHandlerUPP inEventHandler) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 
 	//setup our event specifier
 	hotkey->mEventSpec[0].eventClass = kEventClassKeyboard;
@@ -134,12 +134,12 @@ void hotkey_init(hotkey_t *hotkey, OSType inSignature, UInt32 inIdentifier, UInt
 	if (inEventHandler) {
 		_registerHotKeyAndHandler(hotkey);
 	} else {
-		printf("%s\n", "failed on event handler");
+		//printf("%s\n", "failed on event handler");
 	}
 }
 
 void hotkey_release(hotkey_t *hotkey) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	//unregister it at the end to make sure that we don't trigger it accidentally
 	UnregisterEventHotKey(hotkey->mHotKeyEventReference);
 
@@ -155,7 +155,7 @@ void hotkey_release(hotkey_t *hotkey) {
 }
 
 void hotkey_setKeyCodeAndModifiers(hotkey_t *hotkey, UInt32 inCode, UInt32 inModifiers) {
-	printf("%s %ld %ld\n", __FUNCTION__, inCode, inModifiers);
+	//printf("%s %ld %ld\n", __FUNCTION__, inCode, inModifiers);
 	if ((inCode == 0) && (inModifiers == 0))
 		hotkey_unregisterHotKeyAndHandler(hotkey);
 	hotkey_setKeyCode(hotkey, inCode);
@@ -164,40 +164,40 @@ void hotkey_setKeyCodeAndModifiers(hotkey_t *hotkey, UInt32 inCode, UInt32 inMod
 }
 
 void hotkey_setKeyCode(hotkey_t *hotkey, UInt32 inCode) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	hotkey->mKeyCode = inCode;
 	_updateKeyCodeString(hotkey);
 }
 
 UInt32 hotkey_keyCode(const hotkey_t *hotkey) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	return hotkey->mKeyCode;
 }
 
 void hotkey_setModifierCode(hotkey_t *hotkey, UInt32 inModifiers) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	hotkey->mModifierCode = inModifiers;
 	_updateModifiersString(hotkey);
 }
 
 UInt32 hotkey_modifierCode(const hotkey_t *hotkey) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	return hotkey->mModifierCode;
 }
 
 void hotkey_setData(hotkey_t *hotkey, struct Growl_Notification *inData) {
-	printf("%s %p %p\n", __FUNCTION__, hotkey->mData, inData);
+	//printf("%s %p %p\n", __FUNCTION__, hotkey->mData, inData);
 	hotkey->mData = inData;
 	if (hotkey->mHotKeyEventHandler) {
 		RemoveEventHandler(hotkey->mHotKeyEventHandler);
-		printf("%p ", hotkey->mHotKeyEventHandler);
+		//printf("%p ", hotkey->mHotKeyEventHandler);
 	}
 	if (hotkey->mData)
 		InstallEventHandler(GetEventDispatcherTarget(), hotkey->mHotKeyEventHandlerProcPtr, 2, hotkey->mEventSpec, &hotkey->mData, &hotkey->mHotKeyEventHandler);
 }
 
 CFStringRef hotkey_hotKeyString(hotkey_t *hotkey) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	CFShow(hotkey->mKeyString);
 	CFShow(hotkey->mModifierString);
 	if (hotkey->mHotKeyString)
@@ -209,7 +209,7 @@ CFStringRef hotkey_hotKeyString(hotkey_t *hotkey) {
 }
 
 void hotkey_setEventHandler(hotkey_t *hotkey, EventHandlerUPP inEventHandler) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	if (hotkey->mHotKeyEventHandlerProcPtr)
 		RemoveEventHandler(hotkey->mHotKeyEventHandler);
 	hotkey->mHotKeyEventHandlerProcPtr = inEventHandler;
@@ -218,17 +218,17 @@ void hotkey_setEventHandler(hotkey_t *hotkey, EventHandlerUPP inEventHandler) {
 }
 
 EventHandlerUPP hotkey_eventHandler(const hotkey_t *hotkey) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	return hotkey->mHotKeyEventHandlerProcPtr;
 }
 
 CFStringRef hotkey_stringFromModifiers(const hotkey_t *hotkey) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	return hotkey->mModifierString;
 }
 
 CFStringRef hotkey_stringFromKeyCode(const hotkey_t *hotkey) {
-	printf("%s\n", __FUNCTION__);
+	//printf("%s\n", __FUNCTION__);
 	return hotkey->mKeyString;
 }
 

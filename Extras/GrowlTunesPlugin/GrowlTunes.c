@@ -2,7 +2,7 @@
 //  GrowlTunesPlugin
 //
 //  Created by rudy on 11/27/05.
-//  Copyright 2005-2006 The Growl Project. All rights reserved.
+//  Copyright 2005-2007, The Growl Project. All rights reserved.
 
 
 /**\
@@ -616,6 +616,7 @@ static void setupDescString(const VisualPluginData *visualPluginData, CFMutableS
 		} else {
 			artist = CFSTR("");
 		}
+		
 		if (visualPluginData->trackInfo.validFields & (kITTIAlbumFieldMask|kITTIYearFieldMask) && (gAlbumFlag||gYearFlag)) {
 			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 			CFStringAppend(tmp, CFSTR("\n"));
@@ -624,7 +625,8 @@ static void setupDescString(const VisualPluginData *visualPluginData, CFMutableS
 				CFStringAppendFormat(tmp, NULL, CFSTR(" "));
 			}
 			if (gYearFlag)
-				CFStringAppendFormat(tmp, NULL, CFSTR("(%d)"), visualPluginData->trackInfo.year);
+				if(visualPluginData->trackInfo.year)
+					CFStringAppendFormat(tmp, NULL, CFSTR("(%d)"), visualPluginData->trackInfo.year);
 			album = tmp;
 		} else if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask && gAlbumFlag) {
 			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
