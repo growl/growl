@@ -12,6 +12,7 @@
 
 #include <Carbon/Carbon.h>
 #include "Growl/Growl.h"
+#include "GrowlLog.h"
 
 #define kNoHotKeyModifierCode (UInt32)-1
 #define kNoHotKeyKeyCode (UInt32)-1

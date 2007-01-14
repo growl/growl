@@ -9,51 +9,61 @@
 
 #include "HotKey.h"
 
-extern void CFLog(int priority, CFStringRef format, ...);
-
-static void _updateModifiersString(hotkey_t *hotkey) {
-	//printf("%s\n", __FUNCTION__);
+static void _updateModifiersString(hotkey_t *hotkey) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
 	static long modToChar[4][2] =
 	{
-		{ cmdKey, 		0x23180000 },
-		{ optionKey,	0x23250000 },
-		{ controlKey,	0x005E0000 },
-		{ shiftKey,		0x21e70000 }
+		{ cmdKey, 		0x2318 },
+		{ optionKey,	0x2325 },
+		{ controlKey,	0x005E },
+		{ shiftKey,		0x21e7 }
 	};
 
 	if (hotkey->mModifierString)
 		CFRelease(hotkey->mModifierString);
 	hotkey->mModifierString = CFStringCreateMutable(kCFAllocatorDefault, 0);
-
+	
+	
 	for (int i=0; i < 4; ++i)
 		if (hotkey->mModifierCode & modToChar[i][0])
-			CFStringAppendCharacters(hotkey->mModifierString, ((const UniChar *)&modToChar[i][1]), 1);
+			CFStringAppendCharacters(hotkey->mModifierString, ((const UniChar *)(&(modToChar[i][1]))), 1);
+
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
-void hotkey_unregisterHotKeyAndHandler(hotkey_t *hotkey) {
-	//printf("%s\n", __FUNCTION__);
-	if (hotkey->mHotKeyEventHandler) {
+void hotkey_unregisterHotKeyAndHandler(hotkey_t *hotkey) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
+	if (hotkey->mHotKeyEventHandler) 
+	{
 		RemoveEventHandler(hotkey->mHotKeyEventHandler);
 		//printf("%p ", hotkey->mHotKeyEventHandler);
 	}
-	if (hotkey->mHotKeyEventReference) {
+	if (hotkey->mHotKeyEventReference) 
+	{
 		UnregisterEventHotKey(hotkey->mHotKeyEventReference);
 		//printf("%p\n", hotkey->mHotKeyEventReference);
 	}
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
-static void _registerHotKeyAndHandler(hotkey_t *hotkey) {
-	//printf("%s\n", __FUNCTION__);
-	CFLog(1, CFSTR("a %p %p\n"), hotkey->mHotKeyEventHandler, hotkey->mHotKeyEventReference);
+static void _registerHotKeyAndHandler(hotkey_t *hotkey) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
+	//GrowlLog(1, CFSTR("a %p %p\n"), hotkey->mHotKeyEventHandler, hotkey->mHotKeyEventReference);
 	hotkey_unregisterHotKeyAndHandler(hotkey);
-	if ((!hotkey->mHotKeyEventHandler) && (!hotkey->mHotKeyEventReference)) {
+	if ((!hotkey->mHotKeyEventHandler) && (!hotkey->mHotKeyEventReference)) 
+	{
 		RegisterEventHotKey(hotkey->mKeyCode, hotkey->mModifierCode, hotkey->mHotKeyID, GetEventDispatcherTarget(), 0, &hotkey->mHotKeyEventReference);
 		InstallEventHandler(GetEventDispatcherTarget(), hotkey->mHotKeyEventHandlerProcPtr, 2, hotkey->mEventSpec, hotkey->mData, &hotkey->mHotKeyEventHandler);
 	}
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
-static void _updateKeyCodeString(hotkey_t *hotkey) {
-	//printf("%s\n", __FUNCTION__);
+static void _updateKeyCodeString(hotkey_t *hotkey) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
 	UCKeyboardLayout  *uchrData;
 	void              *KCHRData;
 	SInt32            keyLayoutKind;
@@ -65,32 +75,50 @@ static void _updateKeyCodeString(hotkey_t *hotkey) {
 
 	err = KLGetCurrentKeyboardLayout(&currentLayout);
 	if (err != noErr)
+	{
+		GrowlLog("%s exited", __FUNCTION__);
 		return;
-
+	}
+	
 	err = KLGetKeyboardLayoutProperty(currentLayout, kKLKind, (const void **)&keyLayoutKind);
 	if (err != noErr)
+	{
+		GrowlLog("%s exited", __FUNCTION__);
 		return;
-
-	if (keyLayoutKind == kKLKCHRKind) {
+	}
+	
+	if (keyLayoutKind == kKLKCHRKind) 
+	{
 		err = KLGetKeyboardLayoutProperty(currentLayout, kKLKCHRData, (const void **)&KCHRData);
 		if (err != noErr)
+		{
+			GrowlLog("%s exited", __FUNCTION__);
 			return;
-	} else {
+		}
+	} 
+	else 
+	{
 		err = KLGetKeyboardLayoutProperty(currentLayout, kKLuchrData, (const void **)&uchrData);
 		if (err != noErr)
+		{
+			GrowlLog("%s exited", __FUNCTION__);
 			return;
+		}
 	}
 
 	if (hotkey->mKeyString)
 		CFRelease(hotkey->mKeyString);
 
-	if (keyLayoutKind == kKLKCHRKind) {
+	if (keyLayoutKind == kKLKCHRKind) 
+	{
 		UInt32 charCode = KeyTranslate(KCHRData, hotkey->mKeyCode, &keyTranslateState);
 		char theChar = ((char *)&charCode)[3];
 		hotkey->mKeyString = CFStringCreateMutable(kCFAllocatorDefault, 0);
 		CFStringAppendCharacters(hotkey->mKeyString, (UniChar *)&theChar, 1);
 		CFStringCapitalize(hotkey->mKeyString, locale);
-	} else {
+	}
+	else 
+	{
 		UniCharCount maxStringLength = 4, actualStringLength;
 		UniChar unicodeString[4];
 		err = UCKeyTranslate(uchrData, hotkey->mKeyCode, kUCKeyActionDisplay, 0, LMGetKbdType(), kUCKeyTranslateNoDeadKeysBit, &deadKeyState, maxStringLength, &actualStringLength, unicodeString);
@@ -100,10 +128,12 @@ static void _updateKeyCodeString(hotkey_t *hotkey) {
 	}
 
 	CFRelease(locale);
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
-void hotkey_init(hotkey_t *hotkey, OSType inSignature, UInt32 inIdentifier, UInt32 inKeyCode, UInt32 inModifierCode, EventHandlerUPP inEventHandler) {
-	//printf("%s\n", __FUNCTION__);
+void hotkey_init(hotkey_t *hotkey, OSType inSignature, UInt32 inIdentifier, UInt32 inKeyCode, UInt32 inModifierCode, EventHandlerUPP inEventHandler) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
 
 	//setup our event specifier
 	hotkey->mEventSpec[0].eventClass = kEventClassKeyboard;
@@ -131,15 +161,20 @@ void hotkey_init(hotkey_t *hotkey, OSType inSignature, UInt32 inIdentifier, UInt
 	hotkey_setModifierCode(hotkey, inModifierCode);
 
 	//setKeyCodeAndModifiers(inKeyCode, inModifierCode);
-	if (inEventHandler) {
+	if (inEventHandler) 
+	{
 		_registerHotKeyAndHandler(hotkey);
-	} else {
-		//printf("%s\n", "failed on event handler");
+	} 
+	else 
+	{
+		printf("%s\n", "failed on event handler");
 	}
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
-void hotkey_release(hotkey_t *hotkey) {
-	//printf("%s\n", __FUNCTION__);
+void hotkey_release(hotkey_t *hotkey)
+{
+	GrowlLog("%s entered", __FUNCTION__);
 	//unregister it at the end to make sure that we don't trigger it accidentally
 	UnregisterEventHotKey(hotkey->mHotKeyEventReference);
 
@@ -152,89 +187,117 @@ void hotkey_release(hotkey_t *hotkey) {
 		CFRelease(hotkey->mModifierString);
 	if (hotkey->mHotKeyString)
 		CFRelease(hotkey->mHotKeyString);
+
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
-void hotkey_setKeyCodeAndModifiers(hotkey_t *hotkey, UInt32 inCode, UInt32 inModifiers) {
-	//printf("%s %ld %ld\n", __FUNCTION__, inCode, inModifiers);
+void hotkey_setKeyCodeAndModifiers(hotkey_t *hotkey, UInt32 inCode, UInt32 inModifiers) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
 	if ((inCode == 0) && (inModifiers == 0))
 		hotkey_unregisterHotKeyAndHandler(hotkey);
 	hotkey_setKeyCode(hotkey, inCode);
 	hotkey_setModifierCode(hotkey, inModifiers);
 	_registerHotKeyAndHandler(hotkey);
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
-void hotkey_setKeyCode(hotkey_t *hotkey, UInt32 inCode) {
-	//printf("%s\n", __FUNCTION__);
+void hotkey_setKeyCode(hotkey_t *hotkey, UInt32 inCode) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
 	hotkey->mKeyCode = inCode;
 	_updateKeyCodeString(hotkey);
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
-UInt32 hotkey_keyCode(const hotkey_t *hotkey) {
-	//printf("%s\n", __FUNCTION__);
+UInt32 hotkey_keyCode(const hotkey_t *hotkey) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
+	GrowlLog("%s exited", __FUNCTION__);
 	return hotkey->mKeyCode;
 }
 
-void hotkey_setModifierCode(hotkey_t *hotkey, UInt32 inModifiers) {
-	//printf("%s\n", __FUNCTION__);
+void hotkey_setModifierCode(hotkey_t *hotkey, UInt32 inModifiers) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
 	hotkey->mModifierCode = inModifiers;
 	_updateModifiersString(hotkey);
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
-UInt32 hotkey_modifierCode(const hotkey_t *hotkey) {
-	//printf("%s\n", __FUNCTION__);
+UInt32 hotkey_modifierCode(const hotkey_t *hotkey) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
+	GrowlLog("%s exited", __FUNCTION__);
 	return hotkey->mModifierCode;
 }
 
-void hotkey_setData(hotkey_t *hotkey, struct Growl_Notification *inData) {
-	//printf("%s %p %p\n", __FUNCTION__, hotkey->mData, inData);
+void hotkey_setData(hotkey_t *hotkey, struct Growl_Notification *inData) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
 	hotkey->mData = inData;
-	if (hotkey->mHotKeyEventHandler) {
+	if (hotkey->mHotKeyEventHandler) 
+	{
 		RemoveEventHandler(hotkey->mHotKeyEventHandler);
 		//printf("%p ", hotkey->mHotKeyEventHandler);
 	}
 	if (hotkey->mData)
 		InstallEventHandler(GetEventDispatcherTarget(), hotkey->mHotKeyEventHandlerProcPtr, 2, hotkey->mEventSpec, &hotkey->mData, &hotkey->mHotKeyEventHandler);
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
-CFStringRef hotkey_hotKeyString(hotkey_t *hotkey) {
-	//printf("%s\n", __FUNCTION__);
-	CFShow(hotkey->mKeyString);
-	CFShow(hotkey->mModifierString);
+CFStringRef hotkey_hotKeyString(hotkey_t *hotkey) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
+	GrowlShow(hotkey->mKeyString);
+	GrowlShow(hotkey->mModifierString);
 	if (hotkey->mHotKeyString)
 		CFRelease(hotkey->mHotKeyString);
 	hotkey->mHotKeyString = CFStringCreateMutableCopy(kCFAllocatorDefault, 0, hotkey->mModifierString);
 	CFStringAppend(hotkey->mHotKeyString, CFSTR(" "));
 	CFStringAppend(hotkey->mHotKeyString, hotkey->mKeyString);
+	GrowlLog("%s exited", __FUNCTION__);
 	return hotkey->mHotKeyString;
 }
 
-void hotkey_setEventHandler(hotkey_t *hotkey, EventHandlerUPP inEventHandler) {
-	//printf("%s\n", __FUNCTION__);
+void hotkey_setEventHandler(hotkey_t *hotkey, EventHandlerUPP inEventHandler) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
 	if (hotkey->mHotKeyEventHandlerProcPtr)
 		RemoveEventHandler(hotkey->mHotKeyEventHandler);
 	hotkey->mHotKeyEventHandlerProcPtr = inEventHandler;
 	if (hotkey->mData)
 		InstallEventHandler(GetEventDispatcherTarget(), hotkey->mHotKeyEventHandlerProcPtr, 2, hotkey->mEventSpec, hotkey->mData, &hotkey->mHotKeyEventHandler);
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
-EventHandlerUPP hotkey_eventHandler(const hotkey_t *hotkey) {
-	//printf("%s\n", __FUNCTION__);
+EventHandlerUPP hotkey_eventHandler(const hotkey_t *hotkey) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
+	GrowlLog("%s exited", __FUNCTION__);
 	return hotkey->mHotKeyEventHandlerProcPtr;
 }
 
-CFStringRef hotkey_stringFromModifiers(const hotkey_t *hotkey) {
-	//printf("%s\n", __FUNCTION__);
+CFStringRef hotkey_stringFromModifiers(const hotkey_t *hotkey) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
+	GrowlLog("%s exited", __FUNCTION__);
 	return hotkey->mModifierString;
 }
 
-CFStringRef hotkey_stringFromKeyCode(const hotkey_t *hotkey) {
-	//printf("%s\n", __FUNCTION__);
+CFStringRef hotkey_stringFromKeyCode(const hotkey_t *hotkey) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
+	GrowlLog("%s exited", __FUNCTION__);
 	return hotkey->mKeyString;
 }
 
-void hotkey_swapHotKeys(hotkey_t *hotkey) {
+void hotkey_swapHotKeys(hotkey_t *hotkey) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
 	UnregisterEventHotKey(hotkey->mHotKeyEventReference);
 	RemoveEventHandler(hotkey->mHotKeyEventHandler);
 	RegisterEventHotKey(hotkey->mKeyCode, hotkey->mModifierCode, hotkey->mHotKeyID, GetEventDispatcherTarget(), 0, &hotkey->mHotKeyEventReference);
 	InstallEventHandler(GetEventDispatcherTarget(), hotkey->mHotKeyEventHandlerProcPtr, 2, hotkey->mEventSpec, hotkey->mData, &hotkey->mHotKeyEventHandler);
+	GrowlLog("%s exited", __FUNCTION__);
 }

@@ -9,6 +9,7 @@
 |**|	includes
 \**/
 
+#include "GrowlLog.h"
 #include "HotKey.h"
 #include "iTunesVisualAPI.h"
 #include "Growl/Growl.h"
@@ -103,6 +104,8 @@ static Boolean gArtWorkFlag		= true;
 static CFIndex gKey;
 static CFIndex gModifier;
 
+static CFRunLoopSourceRef		alertRunLoopSource = NULL;
+
 static pascal OSStatus sheetControlHandler(EventHandlerCallRef inRef, EventRef inEvent, void *userData);
 static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void *refCon);
 
@@ -121,7 +124,8 @@ struct Growl_Notification notification;
 \**/
 
 extern OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, void *refCon);
-extern void CFLog(int priority, CFStringRef format, ...);
+
+static void handleClick(CFUserNotificationRef userNotification, CFOptionFlags responseFlags);
 
 static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void *refCon);
 static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRef inEvent, void *userData);
@@ -138,16 +142,22 @@ static pascal void newNibSheetWindow(WindowRef parent);
 	Function: convert the modifier and key codes into a string that can be displayed to the user in the hotkey
 			  display field
 */
-static CFStringRef getHotKeyString(void) {
+static CFStringRef getHotKeyString(void) 
+{
+	GrowlLog("%s entered", __FUNCTION__);
 	CFMutableStringRef hotkeyString;
-	CFLog(1, CFSTR("%d %d\n"), hotkey_keyCode(&notificationHotKey), hotkey_modifierCode(&notificationHotKey));
+	GrowlLog("%d %d\n", hotkey_keyCode(&notificationHotKey), hotkey_modifierCode(&notificationHotKey));
 
-	if ((hotkey_keyCode(&notificationHotKey) == kNoHotKeyKeyCode) && (hotkey_modifierCode(&notificationHotKey) == kNoHotKeyModifierCode)) {
+	if ((hotkey_keyCode(&notificationHotKey) == kNoHotKeyKeyCode) && (hotkey_modifierCode(&notificationHotKey) == kNoHotKeyModifierCode)) 
+	{
 		hotkeyString = (CFMutableStringRef)CFSTR("(none)");
-	} else {
+	} 
+	else 
+	{
 		hotkeyString = (CFMutableStringRef)hotkey_hotKeyString(&notificationHotKey);
 	}
-	CFShow(hotkeyString);
+	GrowlShow(hotkeyString);
+	GrowlLog("%s exited", __FUNCTION__);
 	return hotkeyString;
 }
 
@@ -157,6 +167,7 @@ static CFStringRef getHotKeyString(void) {
 */
 static void readPreferences (void)
 {
+	GrowlLog("%s entered", __FUNCTION__);
 	Boolean success;
 	Boolean temp;
 
@@ -202,16 +213,22 @@ static void readPreferences (void)
 		gArtWorkFlag = temp;
 
 	gKey = CFPreferencesGetAppIntegerValue(CFSTR("Key"), GTP, &success);
-	if (success) {
-		CFLog(1, CFSTR("%ld\n"), gKey);
-	} else {
+	if (success) 
+	{
+		//GrowlLog(1, CFSTR("%ld\n"), gKey);
+	} 
+	else 
+	{
 		gKey = 40;
 	}
 
 	gModifier = CFPreferencesGetAppIntegerValue(CFSTR("Modifiers"), GTP, &success);
-	if (success) {
-		CFLog(1, CFSTR("%ld\n"), gModifier);
-	} else {
+	if (success) 
+	{
+		//GrowlLog(1, CFSTR("%ld\n"), gModifier);
+	} 
+	else 
+	{
 		gModifier = (cmdKey | optionKey);
 	}
 
@@ -223,6 +240,8 @@ static void readPreferences (void)
 	//force recreation to ensure proper interface display
 	if (!success)
 		writePreferences();
+	
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
 /*
@@ -231,6 +250,8 @@ static void readPreferences (void)
 */
 static void writePreferences (void)
 {
+	GrowlLog("%s entered", __FUNCTION__);
+	
 	//store the display settings for the notifications
 	CFPreferencesSetAppValue(CFSTR("GTP"), (gGTPFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
 	CFPreferencesSetAppValue(CFSTR("Track"), (gTrackFlag ? kCFBooleanTrue : kCFBooleanFalse), GTP);
@@ -246,16 +267,18 @@ static void writePreferences (void)
 	CFIndex key = hotkey_keyCode(&notificationHotKey);
 	CFIndex modifiers = hotkey_modifierCode(&notificationHotKey);
 
-	CFLog(1, CFSTR("%ld %ld\n"), key, modifiers);
+	//GrowlLog(1, CFSTR("%ld %ld\n"), key, modifiers);
 	//if the key is zero then the selection is defaulted, use key code for k
-	if (key == 0) {
+	if (key == 0) 
+	{
 		key = 40;
 		hotkey_setKeyCode(&notificationHotKey, key);
 	}
 	CFNumberRef hk = CFNumberCreate( kCFAllocatorDefault, kCFNumberSInt32Type, &key);
 	CFPreferencesSetAppValue( CFSTR("Key"), hk, GTP);
 
-	if (modifiers == 0) {
+	if (modifiers == 0) 
+	{
 		modifiers = (cmdKey | optionKey);
 		hotkey_setModifierCode(&notificationHotKey, modifiers);
 	}
@@ -263,6 +286,7 @@ static void writePreferences (void)
 	CFPreferencesSetAppValue(CFSTR("Modifiers"), mod, GTP);
 
 	CFPreferencesAppSynchronize(GTP);
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
 /*
@@ -271,6 +295,8 @@ static void writePreferences (void)
 */
 static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRef inEvent, void *userData)
 {
+	GrowlLog("%s entered", __FUNCTION__);
+
 	WindowRef wind = NULL;
 	ControlID controlID;
 	ControlRef control = NULL;
@@ -290,14 +316,18 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
 	GetControlByID(wind, &groupbox, &artworkGB);
 
 	//char *string = (char *)&controlID.signature;
-	//CFLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
-	switch (controlID.id){
+	//GrowlLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
+	switch (controlID.id)
+	{
 		case kGTPSetID:
 			gGTPFlag = GetControlValue(control);
-			if (gGTPFlag) {
+			if (gGTPFlag) 
+			{
 				hotkey_setKeyCodeAndModifiers(&notificationHotKey, gKey, gModifier);
 				hotkey_swapHotKeys(&notificationHotKey);
-			} else {
+			} 
+			else 
+			{
 				//we need to kill the hotkey so that it doesn't trigger when GTP is off
 				hotkey_setKeyCodeAndModifiers(&notificationHotKey, kNoHotKeyKeyCode, kNoHotKeyModifierCode);
 				hotkey_swapHotKeys(&notificationHotKey);
@@ -330,12 +360,15 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
 		case kArtWorkSetID:
 			gArtWorkFlag = GetControlValue(control);
 
-			if (gArtWorkFlag) {
-				CFLog(1, CFSTR("artwork enabled\n"));
+			if (gArtWorkFlag) 
+			{
+				//GrowlLog(1, CFSTR("artwork enabled\n"));
 				//enable the Artwork controls since we've enabled artwork gathering
 				EnableControl(artworkDB);
-			} else {
-				CFLog(1, CFSTR("artwork disabled\n"));
+			} 
+			else 
+			{
+				//GrowlLog(1, CFSTR("artwork disabled\n"));
 				//disable the artwork controls since we've turned off artwork gathering
 				DisableControl(artworkDB);
 			}
@@ -349,17 +382,21 @@ static pascal OSStatus settingsControlHandler(EventHandlerCallRef inRef, EventRe
 			break;
 		case kHotKeySetID:
 			//run the hot key capture sheet
-			CFLog(1, CFSTR("run the capture sheet"));
+			//GrowlLog(1, CFSTR("run the capture sheet"));
 			newNibSheetWindow(wind);
 			CFStringRef hotKeyString = getHotKeyString();
 			SetControlData(hotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef), &hotKeyString);
 			break;
 	}
+	
+	GrowlLog("%s exited", __FUNCTION__);
 	return noErr;
 }
 
 static pascal void newNibSheetWindow(WindowRef parent)
 {
+	GrowlLog("%s entered", __FUNCTION__);
+	
 	static EventTypeSpec controlEvent[3] = {{kEventClassControl,kEventControlHit}, {kEventClassKeyboard, kEventRawKeyDown}, {kEventClassKeyboard, kEventRawKeyRepeat}};
 	static const ControlID kHotKeyTextControlID = {'text', kHotKeySheetSettingID};
 	static ControlRef sheethotkeypref	= NULL;
@@ -379,10 +416,13 @@ static pascal void newNibSheetWindow(WindowRef parent)
 	SetControlData(sheethotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef), &hotKeyString);
 	mode = PushSymbolicHotKeyMode(kHIHotKeyModeAllDisabled);
 	ShowSheetWindow(wind,parent);
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
 static pascal OSStatus sheetControlHandler(EventHandlerCallRef inRef, EventRef inEvent, void *userData) {
 #pragma unused(inRef, userData)
+	GrowlLog("%s entered", __FUNCTION__);
+
 	WindowRef wind = NULL;
 	ControlRef control = NULL;
 	ControlRef *sheethotkeypref = (ControlRef *)userData;
@@ -391,7 +431,8 @@ static pascal OSStatus sheetControlHandler(EventHandlerCallRef inRef, EventRef i
 	UInt32 eventKind = GetEventKind(inEvent);
 	CFStringRef hotKeyString;
 
-	if ((eventClass == kEventClassKeyboard) && ((eventKind == kEventRawKeyDown) || (eventKind == kEventRawKeyRepeat))) {
+	if ((eventClass == kEventClassKeyboard) && ((eventKind == kEventRawKeyDown) || (eventKind == kEventRawKeyRepeat))) 
+	{
 		GetEventParameter(inEvent, kEventParamKeyModifiers, typeUInt32, NULL, sizeof(UInt32), NULL, &newHotKeyModifiersValue);
 		GetEventParameter(inEvent, kEventParamKeyCode, typeUInt32, NULL, sizeof(UInt32), NULL, &newHotKeyValue);
 
@@ -401,21 +442,25 @@ static pascal OSStatus sheetControlHandler(EventHandlerCallRef inRef, EventRef i
 		SetControlData(*sheethotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef), &hotKeyString);
 		Draw1Control(*sheethotkeypref);
 		hotkey_release(&tempKey);
-	} else if ((eventClass == kEventClassControl) && (eventKind == kEventControlHit)) {
+	} 
+	else if ((eventClass == kEventClassControl) && (eventKind == kEventControlHit)) 
+	{
 		GetEventParameter(inEvent, kEventParamDirectObject, typeControlRef, NULL, sizeof(ControlRef), NULL, &control);
 		wind = GetControlOwner(control);
 		GetControlID(control, &controlID);
 
 		//char *string = (char *)&controlID.signature;
 
-		switch (controlID.id) {
+		switch (controlID.id) 
+		{
 			case kHotKeySheetNoneID:
 				hotkey_setKeyCodeAndModifiers(&notificationHotKey, kNoHotKeyKeyCode, kNoHotKeyModifierCode);
 				hotkey_swapHotKeys(&notificationHotKey);
 				break;
 			case kHotKeySheetOKID:
-				CFLog(1, CFSTR("%d  %d\n"), newHotKeyValue, newHotKeyModifiersValue);
-				if ((newHotKeyValue != hotkey_keyCode(&notificationHotKey)) || (newHotKeyModifiersValue != hotkey_modifierCode(&notificationHotKey))) {
+				//GrowlLog(1, CFSTR("%d  %d\n"), newHotKeyValue, newHotKeyModifiersValue);
+				if ((newHotKeyValue != hotkey_keyCode(&notificationHotKey)) || (newHotKeyModifiersValue != hotkey_modifierCode(&notificationHotKey))) 
+				{
 					hotkey_setKeyCodeAndModifiers(&notificationHotKey, newHotKeyValue, newHotKeyModifiersValue);
 					hotkey_swapHotKeys(&notificationHotKey);
 				}
@@ -425,17 +470,19 @@ static pascal OSStatus sheetControlHandler(EventHandlerCallRef inRef, EventRef i
 				break;
 			default:
 				//do nothing, they didn't click on anything meaningful
+				GrowlLog("%s exited", __FUNCTION__);
 				return noErr;
 		}
 		hotKeyString = getHotKeyString();
-		CFLog(1, CFSTR("hotkeySTRINg: %@\n"), hotKeyString);
+		//GrowlLog(1, CFSTR("hotkeySTRINg: %@\n"), hotKeyString);
 		SetControlData(hotkeypref, 0, kControlStaticTextCFStringTag, sizeof(CFStringRef), &hotKeyString);
 		Draw1Control(hotkeypref);
 		PopSymbolicHotKeyMode(mode);
 		HideSheetWindow(wind);
 		DisposeWindow(wind);
 	}
-
+	
+	GrowlLog("%s exited", __FUNCTION__);
 	return noErr;
 }
 
@@ -567,15 +614,19 @@ static pascal OSStatus MyGetSetItemData(ControlRef browser, DataBrowserItemID it
 */
 static void setupTitleString(const VisualPluginData *visualPluginData, CFMutableStringRef title)
 {
+	GrowlLog("%s entered", __FUNCTION__);
 	CFStringDelete(title, CFRangeMake(0, CFStringGetLength(title)));
-	if (visualPluginData->trackInfo.validFields & kITTINameFieldMask && gTrackFlag) {
-		if (visualPluginData->trackInfo.trackNumber > 0) {
+	if (visualPluginData->trackInfo.validFields & kITTINameFieldMask && gTrackFlag) 
+	{
+		if (visualPluginData->trackInfo.trackNumber > 0) 
+		{
 			if ((visualPluginData->trackInfo.numDiscs > 1) && gDiscFlag)
 				CFStringAppendFormat(title, NULL, CFSTR("%d-"), visualPluginData->trackInfo.discNumber);
 			CFStringAppendFormat(title, NULL, CFSTR("%d. "), visualPluginData->trackInfo.trackNumber);
 		}
 		CFStringAppendCharacters(title, &visualPluginData->trackInfo.name[1], visualPluginData->trackInfo.name[0]);
 	}
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
 /*
@@ -585,6 +636,7 @@ static void setupTitleString(const VisualPluginData *visualPluginData, CFMutable
 */
 static void setupDescString(const VisualPluginData *visualPluginData, CFMutableStringRef desc)
 {
+	GrowlLog("%s entered", __FUNCTION__);
 	CFStringRef album;
 	CFStringRef artist;
 	CFStringRef genre;
@@ -597,30 +649,39 @@ static void setupDescString(const VisualPluginData *visualPluginData, CFMutableS
 	CFStringAppendCharacters(test, &visualPluginData->streamInfo.streamURL[1], visualPluginData->streamInfo.streamURL[0]);
 	CFStringAppendCharacters(test, &visualPluginData->streamInfo.streamMessage[1], visualPluginData->streamInfo.streamMessage[0]);
 
-	if (!CFStringGetLength(test)) {
-		if (visualPluginData->trackInfo.validFields & (kITTIArtistFieldMask|kITTIComposerFieldMask) && (gArtistFlag||gComposerFlag)) {
+	if (!CFStringGetLength(test)) 
+	{
+		if (visualPluginData->trackInfo.validFields & (kITTIArtistFieldMask|kITTIComposerFieldMask) && (gArtistFlag||gComposerFlag)) 
+		{
 			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 			CFStringAppend(tmp, CFSTR("\n"));
 			if (gArtistFlag)
 				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
-			if (visualPluginData->trackInfo.composer[0] && gComposerFlag) {
+			if (visualPluginData->trackInfo.composer[0] && gComposerFlag) 
+			{
 				CFStringAppend(tmp, CFSTR(" (Composed by "));
 				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.composer[1], visualPluginData->trackInfo.composer[0]);
 				CFStringAppend(tmp, CFSTR(")"));
 			}
 			artist = tmp;
-		} else if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask && gArtistFlag) {
+		} 
+		else if (visualPluginData->trackInfo.validFields & kITTIArtistFieldMask && gArtistFlag) 
+		{
 			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 			CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.artist[1], visualPluginData->trackInfo.artist[0]);
 			artist = tmp;
-		} else {
+		} 
+		else 
+		{
 			artist = CFSTR("");
 		}
 		
-		if (visualPluginData->trackInfo.validFields & (kITTIAlbumFieldMask|kITTIYearFieldMask) && (gAlbumFlag||gYearFlag)) {
+		if (visualPluginData->trackInfo.validFields & (kITTIAlbumFieldMask|kITTIYearFieldMask) && (gAlbumFlag||gYearFlag)) 
+		{
 			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 			CFStringAppend(tmp, CFSTR("\n"));
-			if (gAlbumFlag) {
+			if (gAlbumFlag) 
+			{
 				CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
 				CFStringAppendFormat(tmp, NULL, CFSTR(" "));
 			}
@@ -628,36 +689,48 @@ static void setupDescString(const VisualPluginData *visualPluginData, CFMutableS
 				if(visualPluginData->trackInfo.year)
 					CFStringAppendFormat(tmp, NULL, CFSTR("(%d)"), visualPluginData->trackInfo.year);
 			album = tmp;
-		} else if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask && gAlbumFlag) {
+		} 
+		else if (visualPluginData->trackInfo.validFields & kITTIAlbumFieldMask && gAlbumFlag) 
+		{
 			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 			CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.album[1], visualPluginData->trackInfo.album[0]);
 			album = tmp;
-		} else {
+		} 
+		else 
+		{
 			album = CFSTR("");
 		}
-		if (visualPluginData->trackInfo.validFields & kITTIGenreFieldMask && gGenreFlag) {
+		if (visualPluginData->trackInfo.validFields & kITTIGenreFieldMask && gGenreFlag) 
+		{
 			tmp = CFStringCreateMutable(kCFAllocatorDefault, 0);
 			CFStringAppend(tmp, CFSTR("\n"));
 			CFStringAppendCharacters(tmp, &visualPluginData->trackInfo.genre[1], visualPluginData->trackInfo.genre[0]);
 			genre = tmp;
-		} else {
+		} 
+		else 
+		{
 			genre = CFSTR("");
 		}
-		if (visualPluginData->trackInfo.validFields & kITTITotalTimeFieldMask) {
+		if (visualPluginData->trackInfo.validFields & kITTITotalTimeFieldMask) 
+		{
 			int minutes = visualPluginData->trackInfo.totalTimeInMS / 1000 / 60;
 			int seconds = visualPluginData->trackInfo.totalTimeInMS / 1000 - minutes * 60;
 			totalTime = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%d:%02d"), minutes, seconds);
-		} else {
+		} 
+		else 
+		{
 			totalTime = CFSTR("");
 		}
 
 		rating = CFSTR("");
-		if (gRatingFlag) {
+		if (gRatingFlag) 
+		{
 			UniChar star = 0x272F;
 			UniChar dot = 0x00B7;
 			UniChar buf[5] = {dot,dot,dot,dot,dot};
 
-			switch (visualPluginData->trackInfo.userRating) {
+			switch (visualPluginData->trackInfo.userRating) 
+			{
 				case 100:
 					buf[4] = star;
 				case 80:
@@ -686,7 +759,9 @@ static void setupDescString(const VisualPluginData *visualPluginData, CFMutableS
 			CFRelease(totalTime);
 		if (rating)
 			CFRelease(rating);
-	} else {
+	} 
+	else 
+	{
 		CFStringDelete(desc, CFRangeMake(0, CFStringGetLength(desc)));
 		CFStringAppendCharacters(desc, &visualPluginData->streamInfo.streamTitle[1], visualPluginData->streamInfo.streamTitle[0]);
 		CFStringAppendFormat(desc, NULL, CFSTR("\n"));
@@ -697,6 +772,7 @@ static void setupDescString(const VisualPluginData *visualPluginData, CFMutableS
 	}
 	if (test)
 		CFRelease(test);
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
 
@@ -706,6 +782,8 @@ static void setupDescString(const VisualPluginData *visualPluginData, CFMutableS
 */
 static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *messageInfo, void *refCon)
 {
+	GrowlLog("%s entered", __FUNCTION__);
+
 	OSStatus         err = noErr;
 	VisualPluginData *visualPluginData;
 	static CFMutableStringRef title = NULL;
@@ -714,22 +792,25 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 	visualPluginData = (VisualPluginData *)refCon;
 
 	/*
-	if (message != 'vrnd') {
+	if (message != 'vrnd') 
+	{
 		char *string = (char *)&message;
-		CFLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
+		GrowlLog(1, CFSTR("%s %c%c%c%c\n"), __FUNCTION__, string[0], string[1], string[2], string[3]);
 	}
 	*/
 
 	err = noErr;
 
-	switch (message) {
+	switch (message) 
+	{
 		/*
 			Sent when the visual plugin is registered.  The plugin should do minimal
 			memory allocations here.  The resource fork of the plugin is still available.
 		*/
 		case kVisualPluginInitMessage:
 			visualPluginData = (VisualPluginData *)calloc(1, sizeof(VisualPluginData));
-			if (!visualPluginData) {
+			if (!visualPluginData) 
+			{
 				err = memFullErr;
 				break;
 			}
@@ -789,7 +870,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			Sent if the plugin requests the ability for the user to configure it.  Do this by setting
 			the kVisualWantsConfigure option in the RegisterVisualMessage.options field.
 		*/
-		case kVisualPluginConfigureMessage: {
+		case kVisualPluginConfigureMessage: 
+		{
 			static EventTypeSpec controlEvent={kEventClassControl, kEventControlHit};
 			static const ControlID kGTPSettingControlID     = {'cbox', kGTPSetID};
 			static const ControlID kTrackSettingControlID	= {'cbox', kTrackSettingID};
@@ -816,13 +898,15 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			static ControlRef ratingpref     = NULL;
 			static ControlRef artworkpref	 = NULL;
 
-			if (!settingsDialog) {
+			if (!settingsDialog) 
+			{
 				IBNibRef		nibRef; //we have to find our bundle to load the nib inside of it
 
 				CFBundleRef GrowlTunesPlugin;
 
 				GrowlTunesPlugin = CFBundleGetBundleWithIdentifier(kBundleID);
-				if (GrowlTunesPlugin) {
+				if (GrowlTunesPlugin) 
+				{
 					CreateNibReferenceWithCFBundle(GrowlTunesPlugin, CFSTR("SettingsDialog"), &nibRef);
 
 					CreateWindowFromNib(nibRef, CFSTR("PluginSettings"), &settingsDialog);
@@ -839,8 +923,10 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 					GetControlByID(settingsDialog, &kRatingSettingControlID, &ratingpref);
 					GetControlByID(settingsDialog, &kHotKeyTextControlID, &hotkeypref);
 					GetControlByID(settingsDialog, &kArtWorkSettingID, &artworkpref);
-				} else  {
-					CFLog(1, CFSTR("bad bundle reference"));
+				} 
+				else  
+				{
+					//GrowlLog(1, CFSTR("bad bundle reference"));
 				}
 			}
 
@@ -897,7 +983,8 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 		/*
 			Sent when the player starts.
 		*/
-		case kVisualPluginPlayMessage: {
+		case kVisualPluginPlayMessage: 
+		{
 			if (messageInfo->u.playMessage.trackInfo)
 				visualPluginData->trackInfo = *messageInfo->u.playMessage.trackInfoUnicode;
 			else
@@ -912,29 +999,37 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			setupDescString(visualPluginData, desc);
 
 			Handle coverArt = NULL;
-			if (gArtWorkFlag) {
+			if (gArtWorkFlag) 
+			{
 				OSType format;
 				err = PlayerGetCurrentTrackCoverArt(visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
-				if (coverArtDataRef) {
+				if (coverArtDataRef) 
+				{
 					CFRelease(coverArtDataRef);
 					coverArtDataRef = NULL;
 				}
 
-				if ((err == noErr) && coverArt) {
+				if ((err == noErr) && coverArt) 
+				{
 					//get our data ready for the notification.
 					coverArtDataRef = CFDataCreate(kCFAllocatorDefault, (const UInt8 *)*coverArt, GetHandleSize(coverArt));
-				} else  {
-					if (coverArtDataRef) {
+				} 
+				else  
+				{
+					if (coverArtDataRef) 
+					{
 						CFRelease(coverArtDataRef);
 						coverArtDataRef = NULL;
 					}
 					/*
 					char *string = (char *)&format;
-					CFLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
+					GrowlLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
 					*/
 				}
 				notification.iconData = coverArtDataRef;
-			} else {
+			} 
+			else 
+			{
 				if (notification.iconData)
 					CFRelease(notification.iconData);
 				notification.iconData = NULL;
@@ -944,7 +1039,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 				GrowlTunes_PostNotification(&notification);
 
 			hotkey_setData(&notificationHotKey, &notification);
-			//CFLog(1, notificationHotKey->hotKeyString());
+			//GrowlLog(1, notificationHotKey->hotKeyString());
 
 			if (coverArt)
 				DisposeHandle(coverArt);
@@ -974,29 +1069,38 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			setupDescString(visualPluginData, desc);
 
 			Handle coverArt = NULL;
-			if (gArtWorkFlag) {
+			if (gArtWorkFlag) 
+			{
 				OSType format;
 				err = PlayerGetCurrentTrackCoverArt(visualPluginData->appCookie, visualPluginData->appProc, &coverArt, &format);
-				if (coverArtDataRef) {
+				if (coverArtDataRef) 
+				{
 					CFRelease(coverArtDataRef);
 					coverArtDataRef = NULL;
 				}
-				if ((err == noErr) && coverArt) {
+				
+				if ((err == noErr) && coverArt) 
+				{
 					//get our data ready for the notification.
 					coverArtDataRef = CFDataCreate(kCFAllocatorDefault, (const UInt8 *)*coverArt, GetHandleSize(coverArt));
-				} else  {
-					if (coverArtDataRef) {
+				} 
+				else  
+				{
+					if (coverArtDataRef) 
+					{
 						CFRelease(coverArtDataRef);
 						coverArtDataRef = NULL;
 					}
 					//coverArtDataRef = NULL;
 					/*
 					char *string = (char *)&format;
-					CFLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
+					GrowlLog(1, CFSTR("%d: %c%c%c%c"), err, string[0], string[1], string[2], string[3]);
 					*/
 				}
 				notification.iconData = coverArtDataRef;
-			} else {
+			} 
+			else 
+			{
 				if (notification.iconData)
 					CFRelease(notification.iconData);
 				notification.iconData = NULL;
@@ -1051,6 +1155,7 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 			err = unimpErr;
 			break;
 	}
+	GrowlLog("%s exited", __FUNCTION__);
 	return err;
 }
 
@@ -1061,18 +1166,81 @@ static OSStatus VisualPluginHandler(OSType message, VisualPluginMessageInfo *mes
 static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void *refCon)
 {
 	#pragma unused(inHandlerRef)
-	CFLog(1, CFSTR("hot key"));
-	if (GetEventKind(inEvent) == kEventHotKeyReleased) {
-		CFLog(1, CFSTR("%p\n"), refCon);
-		if (!refCon) {
-			CFLog(1, CFSTR("no notification to display"));
-		} else {
+	GrowlLog("%s entered", __FUNCTION__);
+	//GrowlLog(1, CFSTR("hot key"));
+	if (GetEventKind(inEvent) == kEventHotKeyReleased) 
+	{
+		//GrowlLog(1, CFSTR("%p\n"), refCon);
+		if (!refCon) 
+		{
+			GrowlLog("no notification to display");
+		} 
+		else 
+		{
 			//struct Growl_Notification * notif = (struct Growl_Notification *)refCon;
-			CFLog(1, CFSTR("%p\n"), refCon);
+			//GrowlLog(1, CFSTR("%p\n"), refCon);
 			GrowlTunes_PostNotification(&notification);
 		}
 	}
 	return noErr;
+}
+
+/*
+	Name: doNotificationWithKeysAndValues
+	Function: does a modal dialog that gives the user an opportunity to go get growl in the event of one of the failures
+*/
+static OSStatus doNotificationWithKeysAndValues (CFStringRef *keys, CFStringRef *values, int numberOfValues)
+{
+	GrowlLog("%s entered", __FUNCTION__);
+	SInt32 error = noErr;
+	CFDictionaryRef dialogProperties = CFDictionaryCreate(kCFAllocatorDefault,(const void**)keys, (const void**)values, numberOfValues, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks  );
+	CFUserNotificationRef alert = CFUserNotificationCreate ( kCFAllocatorDefault, 0, kCFUserNotificationCautionAlertLevel, &error, (CFDictionaryRef)dialogProperties);
+	alertRunLoopSource = CFUserNotificationCreateRunLoopSource( kCFAllocatorDefault, alert, &handleClick, 0);
+	CFRunLoopAddSource( CFRunLoopGetCurrent(), alertRunLoopSource, kCFRunLoopDefaultMode);
+	GrowlLog("%s exited", __FUNCTION__);
+	return error;
+}
+
+
+static void handleClick(CFUserNotificationRef userNotification, CFOptionFlags responseFlags)
+{		
+	#pragma unused(userNotification)
+	GrowlLog("%s entered", __FUNCTION__);
+	CFURLRef url;
+	OSStatus err = noErr;
+	
+	switch(responseFlags)
+	{
+		case kCFUserNotificationAlternateResponse:
+				url = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("http://www.growl.info/"), NULL);
+				LSOpenCFURLRef(url, NULL);
+				if(url)
+					CFRelease(url);
+				break;
+		case kCFUserNotificationDefaultResponse:
+				break;
+		case kCFUserNotificationOtherResponse:
+				url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, CFSTR("/Library/PreferencePanes/Growl.prefPane"), kCFURLPOSIXPathStyle, false);
+				err = LSOpenCFURLRef(url, NULL);
+				if(err != noErr)
+				{
+					FSRef homeDir;
+					FSFindFolder(kUserDomain, kCurrentUserFolderType, kDontCreateFolder, &homeDir);
+					
+					url = CFURLCreateFromFSRef(kCFAllocatorDefault, &homeDir);
+					url = CFURLCreateCopyAppendingPathComponent(kCFAllocatorDefault, url, CFSTR("Library/PreferencePanes/Growl.prefPane"), false);
+					
+					err = LSOpenCFURLRef(url, NULL);
+				}
+				
+				if(url)
+					CFRelease(url);
+				break;
+		default:
+				break;
+	}
+	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), alertRunLoopSource, kCFRunLoopCommonModes);
+	GrowlLog("%s exited", __FUNCTION__);
 }
 
 /*
@@ -1081,7 +1249,7 @@ static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef in
 */
 static OSStatus RegisterVisualPlugin(PluginMessageInfo *messageInfo)
 {
-	//CFLog(1, CFSTR("%s"), __FUNCTION__);
+	GrowlLog("%s entered", __FUNCTION__);
 
 	PlayerMessageInfo playerMessageInfo;
 
@@ -1096,6 +1264,7 @@ static OSStatus RegisterVisualPlugin(PluginMessageInfo *messageInfo)
 	playerMessageInfo.u.registerVisualPluginMessage.registerRefCon = NULL;
 	playerMessageInfo.u.registerVisualPluginMessage.creator        = kTVisualPluginCreator;
 
+	GrowlLog("%s exited", __FUNCTION__);
 	return PlayerRegisterVisualPlugin(messageInfo->u.initMessage.appCookie, messageInfo->u.initMessage.appProc, &playerMessageInfo);
 }
 
@@ -1106,9 +1275,10 @@ static OSStatus RegisterVisualPlugin(PluginMessageInfo *messageInfo)
 GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageInfo *messageInfo, void *refCon)
 {
 #pragma unused(refCon)
+	GrowlLog("%s entered", __FUNCTION__);
 	OSStatus		err = noErr;
-	//CFLog(1, CFSTR("%s"), __FUNCTION__);
-	switch (message) {
+	switch (message) 
+	{
 		case kPluginInitMessage:
 			err = RegisterVisualPlugin(messageInfo);
 
@@ -1119,15 +1289,17 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 			CFRelease(privateFrameworksURL);
 			CFBundleRef growlBundle = CFBundleCreate(kCFAllocatorDefault, growlBundleURL);
 			CFRelease(growlBundleURL);
-			if (growlBundle) {
-				if (CFBundleLoadExecutable(growlBundle)) {
+			if (growlBundle) 
+			{
+				if (CFBundleLoadExecutable(growlBundle)) 
+				{
 					//manually load these buggers since just weak linking the framework doesn't cut it.
 					GrowlTunes_SetDelegate = (GrowlSetDelegateProcPtr)CFBundleGetFunctionPointerForName(growlBundle, CFSTR("Growl_SetDelegate"));
 					GrowlTunes_PostNotification = (GrowlPostNotificationProcPtr)CFBundleGetFunctionPointerForName(growlBundle, CFSTR("Growl_PostNotification"));
 					GrowlTunes_GrowlIsInstalled = (GrowlIsInstalledProcPtr)CFBundleGetFunctionPointerForName(growlBundle, CFSTR("Growl_IsInstalled"));
 
-					if (GrowlTunes_SetDelegate && GrowlTunes_PostNotification && GrowlTunes_GrowlIsInstalled) {
-
+					if (GrowlTunes_SetDelegate && GrowlTunes_PostNotification && GrowlTunes_GrowlIsInstalled) 
+					{
 						InitGrowlDelegate(&delegate);
 
 						CFMutableArrayRef allNotifications = CFArrayCreateMutable(kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks);
@@ -1140,21 +1312,54 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 
 						CFTypeRef keys[3] = { GROWL_APP_NAME, GROWL_NOTIFICATIONS_ALL, GROWL_NOTIFICATIONS_DEFAULT };
 						CFTypeRef values[3] = { CFSTR("GrowlTunes"), allNotifications, defaultNotifications };
-						delegate.registrationDictionary = CFDictionaryCreate(
-														 kCFAllocatorDefault, keys, values, 3,
-														 &kCFTypeDictionaryKeyCallBacks,
-														 &kCFTypeDictionaryValueCallBacks);
+						delegate.registrationDictionary = CFDictionaryCreate( kCFAllocatorDefault, keys, values, 3, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 						CFRelease(allNotifications);
 						CFRelease(defaultNotifications);
-						if (GrowlTunes_SetDelegate(&delegate))
-							CFLog(1, CFSTR("registered"));
-						else
-							CFLog(1, CFSTR("not registered"));
+						
+						CFIndex num = 6;
+						CFStringRef alert_keys[num];
+						CFStringRef alert_values[num];
+						
+						alert_keys[0] = kCFUserNotificationAlertHeaderKey;
+						alert_keys[1] = kCFUserNotificationAlertMessageKey;
+						alert_keys[2] = kCFUserNotificationDefaultButtonTitleKey;
+						alert_keys[3] = kCFUserNotificationAlternateButtonTitleKey;
+						alert_keys[4] = kCFUserNotificationOtherButtonTitleKey;
+						alert_keys[5] = kCFUserNotificationIconURLKey;
 
-						if (!GrowlTunes_GrowlIsInstalled()) {
-							//notify the user that growl isn't installed and as such that there won't be any notifications for this session of iTunes.
-							SInt16 outHit = -1;
-							StandardAlert (kAlertCautionAlert, "\pGrowl isn't installed", "\pGrowl notifications aren't available, you need to install Growl http://www.growl.info", NULL, &outHit);
+						if (!GrowlTunes_SetDelegate(&delegate))
+						{							
+							CFURLRef growlTunesBundleURL = CFBundleCopyBundleURL(growlTunesBundle);
+							alert_values[0] = CFSTR("Growl Registration Error");
+							alert_values[1] = CFSTR("Growl notifications aren't available, your install of Growl is either broken or you need to update your Growl install.");
+							alert_values[2] = CFSTR("OK");
+							alert_values[3] = CFSTR("Get Growl");
+							alert_values[4] = CFSTR("Open Growl");
+							alert_values[5] = (CFStringRef)CFBundleCopyResourceURLInDirectory (growlTunesBundleURL, CFSTR("growl"), CFSTR("png"), NULL);
+
+							doNotificationWithKeysAndValues(alert_keys,alert_values,num);
+							if(alert_values[4])
+								CFRelease(alert_values[4]);
+							if(growlTunesBundleURL)
+								CFRelease(growlTunesBundleURL);
+						}
+						
+						if (!GrowlTunes_GrowlIsInstalled()) 
+						{
+							//notify the user that growl isn't installed and as such that there won't be any notifications for this session of iTunes.														
+							CFURLRef growlTunesBundleURL = CFBundleCopyBundleURL(growlTunesBundle);
+							alert_values[0] = CFSTR("Growl is not installed.");
+							alert_values[1] = CFSTR("Growl notifications aren't available, you need to install Growl.");
+							alert_values[2] = CFSTR("OK");
+							alert_values[3] = CFSTR("Get Growl");
+							alert_values[4] = CFSTR("Open Growl");
+							alert_values[5] = (CFStringRef)CFBundleCopyResourceURLInDirectory (growlTunesBundleURL, CFSTR("growl"), CFSTR("png"), NULL);
+							
+							doNotificationWithKeysAndValues(alert_keys,alert_values,num);
+							if(alert_values[4])
+								CFRelease(alert_values[4]);
+							if(growlTunesBundleURL)
+								CFRelease(growlTunesBundleURL);
 						}
 
 						//read our settings
@@ -1162,7 +1367,9 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 
 						if (growlBundle)
 							CFRelease(growlBundle);
-					} else {
+					} 
+					else 
+					{
 						err = unimpErr;
 					}
 				}
@@ -1184,6 +1391,7 @@ GROWLTUNES_EXPORT OSStatus iTunesPluginMainMachO(OSType message, PluginMessageIn
 			err = unimpErr;
 			break;
 	}
-
+	
+	GrowlLog("%s exited", __FUNCTION__);
 	return err;
 }
