@@ -220,7 +220,7 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		//[growlNotificationCenterConnection enableMultipleThreads];
 		[growlNotificationCenterConnection setRootObject:growlNotificationCenter];
 		if (![growlNotificationCenterConnection registerName:@"GrowlNotificationCenter"])
-			NSLog(@"WARNING: could not register GrowlNotificationCenter");
+			NSLog(@"WARNING: could not register GrowlNotificationCenter for interprocess access");
 
 		//this doesn't exist in the prefpane.
 		Class pathwayControllerClass = NSClassFromString(@"GrowlPathwayController");
@@ -383,6 +383,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 	[self forwardDictionary:dict withSelector:@selector(registerApplicationWithDictionary:)];
 }
 
+#pragma mark Dispatching notifications
+
 - (void) dispatchNotificationWithDictionary:(NSDictionary *) dict {
 	[[GrowlLog sharedController] writeNotificationDictionaryToLog:dict];
 
@@ -416,8 +418,8 @@ static void checkVersion(CFRunLoopTimerRef timer, void *context) {
 		[aDict setObject:icon forKey:GROWL_NOTIFICATION_ICON];
 		[icon release];
 	} else {
-		//we get here when no image existed, and if an NSData existed, an image could not be created from it.
-		//in the latter case, we don't need to keep that non-image NSData around.
+		//We get here when no image existed, and if an NSData existed, an image could not be created from it.
+		//In the latter case, we don't need to keep that non-image NSData around.
 		[aDict removeObjectForKey:GROWL_NOTIFICATION_ICON];
 	}
 
