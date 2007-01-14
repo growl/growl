@@ -35,6 +35,12 @@
 	return preferencePane;
 }
 
+//we implement requiresPositioning entirely because it was added as a requirement for doing 1.1 plugins, however
+//we don't really care if positioning is required or not, because we are only ever in the menubar.
+- (BOOL)requiresPositioning {
+	return NO;
+}
+
 #pragma mark -
 - (void) configureBridge:(GrowlNotificationDisplayBridge *)theBridge {
 	GrowlNanoWindowController *controller = [[theBridge windowControllers] objectAtIndex:0U];

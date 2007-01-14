@@ -75,8 +75,13 @@
 
 	[panel setContentView:view]; // retains subview
 	[view release];
-
-	[panel setFrameOrigin:NSMakePoint(NSMaxX(screen)-600, NSMaxY(screen))];
+	
+	float xPosition = NSMaxX(screen) - (NSMaxX(screen) / 4);
+	float yPosition = NSMaxY(screen);
+	if([NSMenu menuBarVisible])
+		yPosition-=[NSMenuView menuBarHeight];
+	
+	[panel setFrameOrigin:NSMakePoint(xPosition, yPosition)];
 
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
@@ -85,17 +90,16 @@
 		if (effect == 0) {
 			//slider effect
 			GrowlSlidingWindowTransition *slider = [[GrowlSlidingWindowTransition alloc] initWithWindow:panel];
-			[slider setFromOrigin:NSMakePoint(NSMaxX(screen)-600,NSMaxY(screen)-([NSMenuView menuBarHeight] -2)) toOrigin:NSMakePoint(NSMaxX(screen)-600,NSMaxY(screen)-frameHeight-([NSMenuView menuBarHeight] -2))];
-			//[slider setFromOrigin:NSMakePoint(NSMaxX(screen),NSMaxY(screen)) toOrigin:NSMakePoint(200,300)];
+			[slider setFromOrigin:NSMakePoint(xPosition, yPosition) toOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
 			[self setStartPercentage:0 endPercentage:100 forTransition:slider];
 			[slider setAutoReverses:YES];
 			[self addTransition:slider];
 			[slider release];
 		} else {
 			//wipe effect
-			[panel setFrameOrigin:NSMakePoint(NSMaxX(screen)-600, NSMaxY(screen))];
+			[panel setFrameOrigin:NSMakePoint(xPosition, NSMaxY(screen))];
 			GrowlWipeWindowTransition *wiper = [[GrowlWipeWindowTransition alloc] initWithWindow:panel];
-			[wiper setFromOrigin:NSMakePoint(NSMaxX(screen)-600,NSMaxY(screen)-([NSMenuView menuBarHeight])) toOrigin:NSMakePoint(NSMaxX(screen)-600+25,NSMaxY(screen)-([NSMenuView menuBarHeight])+25)];
+			[wiper setFromOrigin:NSMakePoint(xPosition, yPosition) toOrigin:NSMakePoint(xPosition, yPosition - frameHeight)];
 			[self setStartPercentage:0 endPercentage:100 forTransition:wiper];
 			[wiper setAutoReverses:YES];
 			[self addTransition:wiper];
