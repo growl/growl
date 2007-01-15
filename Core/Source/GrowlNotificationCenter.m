@@ -15,6 +15,11 @@
 	}
 	return self;
 }
+- (void) dealloc {
+	[observers release];
+
+	[super dealloc];
+}
 
 - (void) addObserver:(id<GrowlNotificationObserver>)observer {
 	[observers addObject:observer];
@@ -36,8 +41,4 @@
 	}
 }
 
-- (void) dealloc {
-	[observers release];
-	[super dealloc];
-}
 @end
