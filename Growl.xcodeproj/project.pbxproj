@@ -7,19 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		955285AF085C3C3000D21D10 /* External Targets */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 955285B9085C3C7900D21D10 /* Build configuration list for PBXAggregateTarget "External Targets" */;
-			buildPhases = (
-				955285B8085C3C5A00D21D10 /* ShellScript */,
-			);
-			dependencies = (
-				955285B1085C3C3800D21D10 /* PBXTargetDependency */,
-				955285B3085C3C3800D21D10 /* PBXTargetDependency */,
-			);
-			name = "External Targets";
-			productName = "External Targets";
-		};
 		95E17B8F085E216A00990AB3 /* SVNRevision */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 95E17B99085E21C400990AB3 /* Build configuration list for PBXAggregateTarget "SVNRevision" */;
@@ -440,13 +427,6 @@
 			remoteGlobalIDString = 8D202CE80486D31800D8A456;
 			remoteInfo = Growl;
 		};
-		4AA4251F091822BF00F13693 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 955285AF085C3C3000D21D10;
-			remoteInfo = "External Targets";
-		};
 		933532A1093643DA007C8B10 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -460,20 +440,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 93BC378E095A662B0002B365;
 			remoteInfo = Nano;
-		};
-		955285B0085C3C3800D21D10 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 65942E070711D4310089E4F1;
-			remoteInfo = GrowlAction;
-		};
-		955285B2085C3C3800D21D10 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
-			remoteInfo = GrowlImporter;
 		};
 		955430E707E04683005534FA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -502,20 +468,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 95E17B8F085E216A00990AB3;
 			remoteInfo = SVNRevision;
-		};
-		95EE27B50855AA7B0045DB39 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D576316048677EA00EA77CD;
-			remoteInfo = GrowlImporter;
-		};
-		95EE27BD0855AA830045DB39 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 65942E150711D4310089E4F1;
-			remoteInfo = GrowlAction;
 		};
 		DD493C92084BE7FB00D1CCCB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -913,8 +865,6 @@
 		95CF98A0082A5B8E001A409D /* cdsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdsa.h; path = Common/Source/cdsa.h; sourceTree = "<group>"; };
 		95CF98A1082A5B8E001A409D /* cdsa.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cdsa.c; path = Common/Source/cdsa.c; sourceTree = "<group>"; };
 		95CF9B46082AE3B7001A409D /* GrowlUDPUtils.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GrowlUDPUtils.c; path = Core/Source/GrowlUDPUtils.c; sourceTree = "<group>"; };
-		95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GrowlAction.xcodeproj; path = Extras/GrowlAction/GrowlAction.xcodeproj; sourceTree = "<group>"; };
-		95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GrowlImporter.xcodeproj; path = Extras/GrowlImporter/GrowlImporter.xcodeproj; sourceTree = "<group>"; };
 		95D1662E0834EBEF00D996B2 /* GrowlImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = GrowlImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		95D166650834EC0200D996B2 /* Show Growl Notification.action */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "Show Growl Notification.action"; sourceTree = BUILT_PRODUCTS_DIR; };
 		95D8C60E083D552B003601C3 /* Candybars.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Candybars.growlStyle; path = Core/Resources/Candybars.growlStyle; sourceTree = "<group>"; };
@@ -1330,8 +1280,6 @@
 		089C166AFE841209C02AAC07 /* Growl */ = {
 			isa = PBXGroup;
 			children = (
-				95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */,
-				95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */,
 				DDB6463707DE04A700807F8D /* ShellScripts */,
 				953C3EFE0747970800F2A737 /* Documentation */,
 				070C1AC00912D0EA00884E7D /* Global Sources */,
@@ -1693,22 +1641,6 @@
 				CB1C5D95063E523F007052EE /* README.rtf */,
 			);
 			name = Documentation;
-			sourceTree = "<group>";
-		};
-		95EE27B20855AA7B0045DB39 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				95EE27B60855AA7B0045DB39 /* GrowlImporter.mdimporter */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		95EE27BA0855AA830045DB39 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				95EE27BE0855AA830045DB39 /* Show Growl Notification.action */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		95FC305007E03B0700BD8674 /* Brushed */ = {
@@ -2133,7 +2065,6 @@
 			dependencies = (
 				933532A2093643DA007C8B10 /* PBXTargetDependency */,
 				3433455E0790E25300C84B15 /* PBXTargetDependency */,
-				4AA42520091822BF00F13693 /* PBXTargetDependency */,
 			);
 			name = Growl;
 			productInstallPath = "$(HOME)/Library/PreferencePanes";
@@ -2295,16 +2226,6 @@
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Growl */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 95EE27BA0855AA830045DB39 /* Products */;
-					ProjectRef = 95D1659D0834DB5200D996B2 /* GrowlAction.xcodeproj */;
-				},
-				{
-					ProductGroup = 95EE27B20855AA7B0045DB39 /* Products */;
-					ProjectRef = 95D165B60834DB7500D996B2 /* GrowlImporter.xcodeproj */;
-				},
-			);
 			targets = (
 				8D202CE80486D31800D8A456 /* Growl */,
 				DDF09B09080AC8F3006F4172 /* PrefpaneTesting */,
@@ -2322,28 +2243,10 @@
 				0A7F5FB70767C70600E1C1E4 /* MailMe */,
 				0A7F5FE80767C7B300E1C1E4 /* MusicVideo */,
 				DD4939CB084BACA700D1CCCB /* SMS */,
-				955285AF085C3C3000D21D10 /* External Targets */,
 				95E17B8F085E216A00990AB3 /* SVNRevision */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		95EE27B60855AA7B0045DB39 /* GrowlImporter.mdimporter */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = GrowlImporter.mdimporter;
-			remoteRef = 95EE27B50855AA7B0045DB39 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		95EE27BE0855AA830045DB39 /* Show Growl Notification.action */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Show Growl Notification.action";
-			remoteRef = 95EE27BD0855AA830045DB39 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0A7F5CC90767BFD000E1C1E4 /* Resources */ = {
@@ -2560,19 +2463,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "find \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" '(' -name '.svn' -or -name '.DS_Store' ')' -prune -print0 | xargs -0 rm -rf\n";
-		};
-		955285B8085C3C5A00D21D10 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$BUILT_PRODUCTS_DIR\"\nGROWLACTION=\"$SRCROOT/Extras/GrowlAction/build/$CONFIGURATION/Show Growl Notification.action\"\nif [ -d \"$GROWLACTION\" ]; then\n\trm -f \"$BUILT_PRODUCTS_DIR/Show Growl Notification.action\"\n\tln -s \"$GROWLACTION\" \"$BUILT_PRODUCTS_DIR/Show Growl Notification.action\"\nfi\n\nGROWLIMPORTER=\"$SRCROOT/Extras/GrowlImporter/build/$CONFIGURATION/GrowlImporter.mdimporter\"\nif [ -d \"$GROWLIMPORTER\" ]; then\n\trm -f \"$BUILT_PRODUCTS_DIR/GrowlImporter.mdimporter\"\n\tln -s \"$GROWLIMPORTER\" \"$BUILT_PRODUCTS_DIR/GrowlImporter.mdimporter\"\nfi\n";
 		};
 		95E17B8E085E216A00990AB3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2940,11 +2830,6 @@
 			target = 8D202CE80486D31800D8A456 /* Growl */;
 			targetProxy = 34E9EE6A0790871D00662E8E /* PBXContainerItemProxy */;
 		};
-		4AA42520091822BF00F13693 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 955285AF085C3C3000D21D10 /* External Targets */;
-			targetProxy = 4AA4251F091822BF00F13693 /* PBXContainerItemProxy */;
-		};
 		933532A2093643DA007C8B10 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 95075AAF0817F5DB00D862A5 /* GrowlMenu */;
@@ -2954,16 +2839,6 @@
 			isa = PBXTargetDependency;
 			target = 93BC378E095A662B0002B365 /* Nano */;
 			targetProxy = 93BC37D5095A67340002B365 /* PBXContainerItemProxy */;
-		};
-		955285B1085C3C3800D21D10 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GrowlAction;
-			targetProxy = 955285B0085C3C3800D21D10 /* PBXContainerItemProxy */;
-		};
-		955285B3085C3C3800D21D10 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GrowlImporter;
-			targetProxy = 955285B2085C3C3800D21D10 /* PBXContainerItemProxy */;
 		};
 		955430E807E04683005534FA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3254,44 +3129,6 @@
 				PRODUCT_NAME = Nano;
 				REZ_RESOURCE_MAP_READ_ONLY = YES;
 				WRAPPER_EXTENSION = growlView;
-			};
-			name = Deployment;
-		};
-		955285BA085C3C7900D21D10 /* Development */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "External Targets";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Development;
-		};
-		955285BB085C3C7900D21D10 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = "External Targets";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
 			};
 			name = Deployment;
 		};
@@ -4087,15 +3924,6 @@
 			buildConfigurations = (
 				93BC379C095A662B0002B365 /* Development */,
 				93BC379D095A662B0002B365 /* Deployment */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
-		};
-		955285B9085C3C7900D21D10 /* Build configuration list for PBXAggregateTarget "External Targets" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				955285BA085C3C7900D21D10 /* Development */,
-				955285BB085C3C7900D21D10 /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
