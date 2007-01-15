@@ -47,6 +47,7 @@
         CGAffineTransform original;
         NSPoint scalePoint;
         NSRect screenFrame;
+		//NSLog(@"%@", NSStringFromRect(_frame));
         NSPoint point = NSMakePoint(_frame.size.width / 2.0, _frame.size.height / 2.0);
         
         screenFrame = [[[NSScreen screens] objectAtIndex:0] frame];
@@ -229,7 +230,7 @@ extern CGSConnection _CGSDefaultConnection(void);
     {
         if (time - startTime < 1.5) {
             scale = 1.0 - exp(-2.4 * (time - startTime)) * sin(40.0/M_PI * (time - startTime)) * 0.15;
-            [ripplingWindow scaleX:scale Y:scale];
+            //[ripplingWindow scaleX:scale Y:scale];
         }
         else
         {
