@@ -21,10 +21,6 @@ static unsigned brushedDepth = 0U;
 
 - (id) init {
 	if ((self = [super init])) {
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(brushedGone:)
-													 name:@"BrushedGone"
-												   object:nil];
 		windowControllerClass = NSClassFromString(@"GrowlBrushedWindowController");
 	}
 	return self;
@@ -55,23 +51,6 @@ static unsigned brushedDepth = 0U;
 	[controller setClickContext:[noteDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT]];
 	[controller setScreenshotModeEnabled:getBooleanForKey(noteDict, GROWL_SCREENSHOT_MODE)];
 	[controller setClickHandlerEnabled:[noteDict objectForKey:@"ClickHandlerEnabled"]];
-
-	#warning depth was passed to the WC here....pass some other way?...this should really be handled by the positioning controller
-	/*
-	 // update the depth for the next notification with the depth given by this new one
-	 // which will take into account the new notification's height
-	 brushedDepth = [controller depth] + GrowlBrushedPadding;
-	 [controller startDisplay];
-	 [controller release];
-	 */
 }
 
-/* Note this method took care of maintinaing the depthc param used to position the display, not needed */
-- (void) brushedGone:(NSNotification *)note {
-	unsigned notifiedDepth = [[[note userInfo] objectForKey:@"Depth"] unsignedIntValue];
-	//NSLog(@"Received notification of departure with depth %u, my depth is %u\n", notifiedDepth, brushedDepth);
-	if (brushedDepth > notifiedDepth)
-		brushedDepth = notifiedDepth;
-	//NSLog(@"My depth is now %u\n", brushedDepth);
-}
 @end
