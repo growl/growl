@@ -653,7 +653,7 @@ static void startAnimation(CFRunLoopTimerRef timer, void *context) {
 
 - (void) mouseExitedNotificationView:(GrowlNotificationView *)view {
 #pragma unused (view)
-	[self stopDisplay];
+
 }
 
 @end
