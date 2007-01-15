@@ -182,6 +182,11 @@
 		93BC37C9095A66CD0002B365 /* GrowlNanoPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 93BC37C7095A66CD0002B365 /* GrowlNanoPrefs.nib */; };
 		93BC3EF4095DE6680002B365 /* GrowlWipeWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */; };
 		93BC4057095DEDFF0002B365 /* Nano.growlView in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93BC379E095A662B0002B365 /* Nano.growlView */; };
+		93CD92990B5AF8A1000C39CD /* GrowlRipplingWindowTransition.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93CD92970B5AF8A1000C39CD /* GrowlRipplingWindowTransition.h */; };
+		93CD929D0B5AF8A8000C39CD /* GrowlRipplingWindowTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CD92980B5AF8A1000C39CD /* GrowlRipplingWindowTransition.m */; };
+		93CD92BB0B5AF8CA000C39CD /* AWRippler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CD92B90B5AF8CA000C39CD /* AWRippler.m */; };
+		93CD92BC0B5AF8CA000C39CD /* AWRippler.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 93CD92BA0B5AF8CA000C39CD /* AWRippler.h */; };
+		93CD92E80B5AFAAE000C39CD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */; };
 		93FCE57E0812D93B00320D8E /* SystemUIPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93FCE57D0812D93B00320D8E /* SystemUIPlugin.framework */; };
 		95026A9E08DC875700FE1949 /* GrowlPositionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95026A8908DC856900FE1949 /* GrowlPositionController.m */; };
 		95044BCB08DC7F7900DF5E22 /* CFDictionaryAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 95F9767A084A297400915BFE /* CFDictionaryAdditions.c */; };
@@ -559,6 +564,7 @@
 				07B7CD23099EB19200744461 /* NSMutableStringAdditions.h in CopyFiles */,
 				072DE9BA09A10DEB006516DD /* GrowlTCPPathway.h in CopyFiles */,
 				070C5DAF09A7978F004F1E8C /* GrowlPathwayController.h in CopyFiles */,
+				93CD92BC0B5AF8CA000C39CD /* AWRippler.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,6 +605,7 @@
 				34F427A5095E69D30044B280 /* NotificationsArrayController.h in CopyFiles */,
 				7471F9B80A066E2B000D13BF /* GrowlPositionPicker.h in CopyFiles */,
 				C4FB57260B17FC43004474C8 /* GrowlPositioningDefines.h in CopyFiles */,
+				93CD92990B5AF8A1000C39CD /* GrowlRipplingWindowTransition.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,6 +784,11 @@
 		93BC37D0095A66E60002B365 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Plugins/Displays/Nano/Japanese.lproj/GrowlNanoPrefs.nib; sourceTree = "<group>"; };
 		93BC3EF1095DE6680002B365 /* GrowlWipeWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlWipeWindowTransition.h; sourceTree = "<group>"; };
 		93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlWipeWindowTransition.m; sourceTree = "<group>"; };
+		93CD92970B5AF8A1000C39CD /* GrowlRipplingWindowTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlRipplingWindowTransition.h; sourceTree = "<group>"; };
+		93CD92980B5AF8A1000C39CD /* GrowlRipplingWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlRipplingWindowTransition.m; sourceTree = "<group>"; };
+		93CD92B90B5AF8CA000C39CD /* AWRippler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AWRippler.m; sourceTree = "<group>"; };
+		93CD92BA0B5AF8CA000C39CD /* AWRippler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AWRippler.h; sourceTree = "<group>"; };
+		93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		93FCE57D0812D93B00320D8E /* SystemUIPlugin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemUIPlugin.framework; path = /System/Library/PrivateFrameworks/SystemUIPlugin.framework; sourceTree = "<absolute>"; };
 		95026A8808DC856900FE1949 /* GrowlPositionController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GrowlPositionController.h; path = Core/Source/GrowlPositionController.h; sourceTree = "<group>"; };
 		95026A8908DC856900FE1949 /* GrowlPositionController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GrowlPositionController.m; path = Core/Source/GrowlPositionController.m; sourceTree = "<group>"; };
@@ -1136,6 +1148,7 @@
 				95C36A630753299E009FAEA2 /* Foundation.framework in Frameworks */,
 				95C36A640753299E009FAEA2 /* AppKit.framework in Frameworks */,
 				95AA8654080065DE0045589D /* SystemConfiguration.framework in Frameworks */,
+				93CD92E80B5AFAAE000C39CD /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1517,6 +1530,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93CD92E70B5AFAAE000C39CD /* QuartzCore.framework */,
 				950F79C5080EEE2B00CC5F62 /* WebKit.framework */,
 				95AA8653080065DE0045589D /* SystemConfiguration.framework */,
 				0AEE179C0702C4960024B1A0 /* ApplicationServices.framework */,
@@ -1893,6 +1907,10 @@
 				932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */,
 				93BC3EF1095DE6680002B365 /* GrowlWipeWindowTransition.h */,
 				93BC3EF2095DE6680002B365 /* GrowlWipeWindowTransition.m */,
+				93CD92970B5AF8A1000C39CD /* GrowlRipplingWindowTransition.h */,
+				93CD92980B5AF8A1000C39CD /* GrowlRipplingWindowTransition.m */,
+				93CD92BA0B5AF8CA000C39CD /* AWRippler.h */,
+				93CD92B90B5AF8CA000C39CD /* AWRippler.m */,
 			);
 			path = "Window Transitions";
 			sourceTree = "<group>";
@@ -2842,6 +2860,8 @@
 				07B7CD24099EB19200744461 /* NSMutableStringAdditions.m in Sources */,
 				072DE9BB09A10DEB006516DD /* GrowlTCPPathway.m in Sources */,
 				070C5DB009A7978F004F1E8C /* GrowlPathwayController.m in Sources */,
+				93CD929D0B5AF8A8000C39CD /* GrowlRipplingWindowTransition.m in Sources */,
+				93CD92BB0B5AF8CA000C39CD /* AWRippler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
