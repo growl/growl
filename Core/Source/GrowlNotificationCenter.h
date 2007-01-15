@@ -43,8 +43,9 @@
 /*!
  *	@method notifyObservers
  *	@abstract Notify all registered observers.
- *	@discussion Send -notifyWithDictionary to all registered observers.
+ *	@discussion Send -notifyWithDictionary: to all registered observers.
  *      dict should be the dictionary representation of a Growl notification.
  */
 - (void) notifyObservers:(NSDictionary *)dict;
+
 @end
