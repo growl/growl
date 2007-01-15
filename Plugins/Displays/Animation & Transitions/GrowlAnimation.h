@@ -58,7 +58,7 @@ typedef enum {
 	id							delegate;
 	BOOL						repeats;
 	BOOL						passedMiddleOfAnimation;
-
+	
 	/* Linked Animations */
 	GrowlAnimation				*startAnimation;
 	GrowlAnimationProgress		startAnimationProgress;
@@ -202,6 +202,7 @@ typedef enum {
  */
 - (unsigned) framesPassed;
 
+- (void) animationDidStart;
 - (void) animationIsInMiddle;
 - (void) animationDidStop;
 - (void) animationDidEnd;
@@ -222,6 +223,13 @@ typedef enum {
  * @result YES is the animation may start, and NO if it may not.
  */
 - (BOOL) growlAnimationShouldStart:(GrowlAnimation *)animation;
+
+/*!
+ * @method growlAnimationDidStart:
+ * @abstract Called when the animation starts to tell the delegate.
+ * @param animation The animation that started.
+ */
+- (void) growlAnimationDidStart:(GrowlAnimation*)animation;
 
 /*!
  * @method growlAnimationIsInMiddle:

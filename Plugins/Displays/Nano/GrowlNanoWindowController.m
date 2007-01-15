@@ -154,7 +154,7 @@
 }
 
 - (void) setDisplayMode:(BOOL)mode {
-
+#pragma unused(mode)
 }
 
 #pragma mark -

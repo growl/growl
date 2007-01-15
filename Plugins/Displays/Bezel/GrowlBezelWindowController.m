@@ -15,6 +15,7 @@
 #import "GrowlFadingWindowTransition.h"
 #import "GrowlFlippingWindowTransition.h"
 #import "GrowlShrinkingWindowTransition.h"
+#import "GrowlRipplingWindowTransition.h"
 #import "GrowlWindowTransition.h"
 #import "GrowlApplicationNotification.h"
 
@@ -91,6 +92,13 @@
 	// call super so everything else is set up...
 	if ((self = [super initWithWindow:panel])) {
 		// set up the transitions...
+		/*GrowlRipplingWindowTransition *ripple = [[GrowlRipplingWindowTransition alloc] initWithWindow:panel];
+		[self addTransition:ripple];
+		[self setStartPercentage:0 endPercentage:100 forTransition:ripple];
+		[ripple setAutoReverses:NO];
+		[ripple release];
+		[panel setAlphaValue:1.0f];
+		*/
 		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
 		[self addTransition:fader];
 		[self setStartPercentage:0 endPercentage:100 forTransition:fader];

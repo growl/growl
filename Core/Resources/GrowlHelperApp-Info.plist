@@ -72,7 +72,9 @@
 	<key>CFBundleSignature</key>
 	<string>GRRR</string>
 	<key>CFBundleVersion</key>
-	<string>0.8</string>
+	<string>1.1</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.3.0</string>
 	<key>LSUIElement</key>
 	<integer>1</integer>
 	<key>NSAppleScriptEnabled</key>
@@ -81,21 +83,19 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.3.0</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
-			<key>UTTypeIdentifier</key>
-			<string>com.growl.ticket</string>
-			<key>UTTypeReferenceURL</key>
-			<string>http://growl.info</string>
-			<key>UTTypeDescription</key>
-			<string>Growl Application Ticket</string>
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.data</string>
 			</array>
+			<key>UTTypeDescription</key>
+			<string>Growl Application Ticket</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.growl.ticket</string>
+			<key>UTTypeReferenceURL</key>
+			<string>http://growl.info</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

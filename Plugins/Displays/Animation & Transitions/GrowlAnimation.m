@@ -70,6 +70,9 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 		//Clear any running timers
 		[self stopAnimation];
 
+		//tell the delegate that we started
+		[self animationDidStart];
+		
 		//Reset our progress
 		progress = 0.0f;
 		framesPassed = 0U;
@@ -81,11 +84,6 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 		animationTimer = CFRunLoopTimerCreate(kCFAllocatorDefault, CFAbsoluteTimeGetCurrent()+interval, interval, 0, 0, animationStep, &context);
 		CFRunLoopAddTimer(CFRunLoopGetMain(), animationTimer, kCFRunLoopCommonModes);
 
-		//animationTimer = CFRunLoopTimerCreate() [NSTimer scheduledTimerWithTimeInterval:(1.0f/frameRate)
-		//												  target:self
-		//												selector:@selector(doAnimationStep)
-		//												userInfo:nil
-		//												 repeats:YES];
 	}
 }
 
@@ -247,6 +245,11 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 
 #pragma mark -
 
+- (void) animationDidStart {
+	if([delegate respondsToSelector:@selector(growlAnimationDidStart:)])
+		[delegate growlAnimationDidStart:self];
+}
+
 - (void) doAnimationStep {
 	//The delegate may want to change our progress
 	if (delegate)
@@ -323,6 +326,10 @@ static void animationStep(CFRunLoopTimerRef timer, void *context) {
 - (BOOL) growlAnimationShouldStart:(GrowlAnimation *)animation {
 #pragma unused(animation)
 	return YES;
+}
+
+- (void) growlAnimationDidStart:(GrowlAnimation*)animation {
+#pragma unused(animation)
 }
 
 - (void) growlAnimationIsInMiddle:(GrowlAnimation *)animation {
