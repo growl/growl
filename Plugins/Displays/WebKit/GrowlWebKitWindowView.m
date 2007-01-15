@@ -9,6 +9,7 @@
 #import "GrowlWebKitWindowView.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlWebKitDefines.h"
+#import "GrowlNotificationView.h"
 
 @interface NSView (MouseOver)
 - (void) _updateMouseoverWithFakeEvent;
@@ -145,6 +146,12 @@
 #pragma unused(sender, element, defaultMenuItems)
 	// disable context menu
 	return nil;
+}
+
+- (void) mouseExitedNotificationView:(GrowlNotificationView *)view {
+#pragma unused (view)
+	//do nothing, this gets called when a user mouses in and back out of our view
+	//we could choose to end the notification, or do something else
 }
 
 @end

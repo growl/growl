@@ -298,4 +298,10 @@ extern CGLayerRef CGLayerCreateWithContext() __attribute__((weak_import));
 	}
 }
 
+- (void) mouseExitedNotificationView:(GrowlNotificationView *)view {
+#pragma unused (view)
+	//do nothing, this gets called when a user mouses in and back out of our view
+	//we could choose to end the notification, or do something else
+}
+
 @end

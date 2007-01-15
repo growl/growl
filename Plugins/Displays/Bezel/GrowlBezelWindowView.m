@@ -329,4 +329,10 @@ static void CharcoalShadeInterpolate( void *info, const float *inData, float *ou
 		[target performSelector:action withObject:self];
 }
 
+- (void) mouseExitedNotificationView:(GrowlNotificationView *)view {
+#pragma unused (view)
+	//do nothing, this gets called when a user mouses in and back out of our view
+	//we could choose to end the notification, or do something else
+}
+
 @end
