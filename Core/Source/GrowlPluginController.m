@@ -254,9 +254,9 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 		[allPluginHandlers addObject:handler];
 
 		NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-		NSDictionary *notificationUserInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+		NSDictionary *notificationUserInfo = [[[NSDictionary alloc] initWithObjectsAndKeys:
 			handler, @"GrowlPluginHandler",
-			nil];
+			nil] autorelease];
 
 		[nc postNotificationName:GrowlPluginControllerWillAddPluginHandlerNotification
 						  object:self
@@ -712,7 +712,7 @@ NSString *GrowlPluginInfoKeyInstance          = @"GrowlPluginInstance";
 	if (handlersByType)
 		[allMatchingHandlersSet unionSet:[NSSet setWithArray:handlersByType]];
 
-	NSMutableArray *allMatchingHandlers = [[allMatchingHandlersSet allObjects] mutableCopy];
+	NSMutableArray *allMatchingHandlers = [[[allMatchingHandlersSet allObjects] mutableCopy] autorelease];
 	[allMatchingHandlers sortUsingFunction:comparePluginHandlerRegistrationOrder context:self];
 
 	NSBundle *pluginBundle = [[NSBundle alloc] initWithPath:path];
