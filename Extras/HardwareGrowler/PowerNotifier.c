@@ -18,7 +18,7 @@ extern void NSLog(CFStringRef format, ...);
 static CFRunLoopSourceRef powerNotifierRunLoopSource = NULL;
 static HGPowerSource lastPowerSource;
 
-static int stringsAreEqual(CFStringRef a, CFStringRef b)
+static bool stringsAreEqual(CFStringRef a, CFStringRef b)
 {
 	if (!a || !b) return 0;
 
