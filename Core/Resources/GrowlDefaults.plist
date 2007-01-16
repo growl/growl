@@ -28,5 +28,7 @@
 	<false/>
 	<key>IdleThreshold</key>
 	<integer>30</integer>
+	<key>GrowlSelectedPosition</key>
+	<integer>3</integer>
 </dict>
 </plist>
