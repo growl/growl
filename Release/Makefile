@@ -67,7 +67,7 @@ source:
 	cp -R $(SRC_DIR)/Extras $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/Framework $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/Growl\ Readme.rtfd $(BUILD_DIR)/source
-	cp -R $(SRC_DIR)/Growl.xcode $(BUILD_DIR)/source
+	cp -R $(SRC_DIR)/Growl.xcodeproj $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/Prefpane\ TestHarness $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/Scripts $(BUILD_DIR)/source
 	cp -R $(SRC_DIR)/images $(BUILD_DIR)/source
