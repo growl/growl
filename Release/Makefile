@@ -161,7 +161,6 @@ release:
 	@# remove the AppleScript binding
 	rm -rf $(SDK_DIR)/Bindings/applescript
 	@# remove some symlinks
-	rm $(SDK_DIR)/Bindings/realbasic/GrowlDefines.h
 	rm $(SDK_DIR)/Bindings/tcl/GrowlDefines.h
 	rm $(SDK_DIR)/Bindings/tcl/GrowlApplicationBridge.h
 	rm $(SDK_DIR)/Bindings/tcl/GrowlApplicationBridge.m
