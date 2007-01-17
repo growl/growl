@@ -9,7 +9,6 @@ PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXProductDirectory 2> /dev/nu
 ifeq ($(strip $(PRODUCT_DIR)),)
 	GROWL_BUILD_DIR=$(SRC_DIR)/build/$(BUILDSTYLE)
 	GROWLCTL_BUILD_DIR=$(SRC_DIR)/Extras/growlctl/build/$(BUILDSTYLE)
-	GROWLDICT_BUILD_DIR=$(SRC_DIR)/Extras/GrowlDict/build/$(BUILDSTYLE)
 	GROWLNOTIFY_BUILD_DIR=$(SRC_DIR)/Extras/growlnotify/build/$(BUILDSTYLE)
 	GROWLTUNES_BUILD_DIR=$(SRC_DIR)/Extras/GrowlTunes/build/$(BUILDSTYLE)
 	HARDWAREGROWLER_BUILD_DIR=$(SRC_DIR)/Extras/HardwareGrowler/build/$(BUILDSTYLE)
@@ -21,7 +20,6 @@ else
 	TARGET_BUILD_DIR=$(PRODUCT_DIR)/$(BUILDSTYLE)
 	GROWL_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLCTL_BUILD_DIR=$(TARGET_BUILD_DIR)
-	GROWLDICT_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLNOTIFY_BUILD_DIR=$(TARGET_BUILD_DIR)
 	GROWLTUNES_BUILD_DIR=$(TARGET_BUILD_DIR)
 	HARDWAREGROWLER_BUILD_DIR=$(TARGET_BUILD_DIR)
@@ -46,7 +44,6 @@ compile:
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlMail
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlSafari
-	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/GrowlDict
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlnotify
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/HardwareGrowler
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR)/Extras/growlctl
@@ -110,9 +107,6 @@ release:
 	cp $(GROWLCTL_BUILD_DIR)/growlctl $(GROWL_DIR)/Extras/growlctl
 	cp $(SRC_DIR)/Extras/growlctl/growlctl.1 $(GROWL_DIR)/Extras/growlctl
 	cp $(SRC_DIR)/Extras/growlctl/install.sh $(GROWL_DIR)/Extras/growlctl
-	mkdir $(GROWL_DIR)/Extras/GrowlDict
-	cp -R $(GROWLDICT_BUILD_DIR)/GrowlDict.app $(GROWL_DIR)/Extras/GrowlDict
-	cp $(SRC_DIR)/Extras/GrowlDict/README.txt $(GROWL_DIR)/Extras/GrowlDict
 	mkdir $(GROWL_DIR)/Extras/growlnotify
 	cp $(GROWLNOTIFY_BUILD_DIR)/growlnotify $(GROWL_DIR)/Extras/growlnotify
 	cp $(SRC_DIR)/Extras/growlnotify/growlnotify.1 $(GROWL_DIR)/Extras/growlnotify
